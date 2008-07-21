@@ -35,9 +35,11 @@ import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
@@ -68,7 +70,11 @@ public abstract class AbstractChartBaseQueryGenerator
 	/** The set stores created binding names. */
 	protected Set<String> fNameSet = new HashSet<String>( );
 	
-	private final boolean bCreateBindingForExpression;
+	/**
+	 * This attribute indicates whether new binding will be created for complex
+	 * expression or subquery
+	 */
+	protected final boolean bCreateBindingForExpression;
 
 	/**
 	 * Constructor of the class.
@@ -89,8 +95,10 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * @param cm
 	 * @param bCreateBindingForExpression
 	 *            indicates if query definition should create a new binding for
-	 *            the complex expression. If the expression is simply a binding
-	 *            name, always do not add the new binding.
+	 *            the complex expression or subquery. If current query
+	 *            definition is subquery, true then always create a new binding.
+	 *            If not subquery and the expression is simply a binding name,
+	 *            always do not add the new binding.
 	 */
 	public AbstractChartBaseQueryGenerator( ReportItemHandle handle, Chart cm,
 			boolean bCreateBindingForExpression )
@@ -327,30 +335,72 @@ public abstract class AbstractChartBaseQueryGenerator
 				categorySD,
 				orthAxisArray );
 		
-		// If category expression is complex, to create a new binding to
-		// evaluate when required
+		// If category expression is complex or for subquery, to create a new
+		// binding to evaluate when required
 		if ( bCreateBindingForExpression )
 		{
 			String exprCategory = ( (Query) categorySD.getDesignTimeSeries( )
 					.getDataDefinition( )
 					.get( 0 ) ).getDefinition( );
-			if ( !ChartReportItemUtil.isRowBinding( exprCategory, false ) )
+			try
 			{
-				String bindingName = ChartReportItemUtil.createBindingNameForRowExpression( exprCategory );
-				IBinding colBinding = new Binding( bindingName );
-				try
+				if ( !ChartReportItemUtil.isRowBinding( exprCategory, false ) )
 				{
+					String bindingName = ChartReportItemUtil.createBindingNameForRowExpression( exprCategory );
+					IBinding colBinding = new Binding( bindingName );
 					colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
 					colBinding.setExportable( false );
 					colBinding.setExpression( new ScriptExpression( exprCategory ) );
 					query.addBinding( colBinding );
 				}
-				catch ( DataException e )
+				if ( query instanceof ISubqueryDefinition )
 				{
-					throw new ChartException( ChartReportItemPlugin.ID,
-							ChartException.DATA_BINDING,
-							e );
+					// If it's subquery, create a new binding to
+					// reference to parent query if it's binding name
+					String expr = exprCategory;
+					if ( ChartReportItemUtil.isRowBinding( expr, false ) )
+					{
+						String bindingName = ChartReportItemUtil.createBindingNameForRowExpression( expr );
+						IBaseExpression dbExpr = ( expr == null ) ? null
+								: new ScriptExpression( "row._outer[\"" //$NON-NLS-1$
+										+ bindingName
+										+ "\"]" ); //$NON-NLS-1$
+						IBinding binding = new Binding( bindingName, dbExpr );
+						// Exportable is true for subquery bindings
+						query.addBinding( binding );
+					}
+					
+					if ( !categorySD.getGrouping( ).isEnabled( ) )
+					{
+						for ( SeriesDefinition sd : ChartUtil.getAllOrthogonalSeriesDefinitions( fChartModel ) )
+						{
+							List<Query> queries = sd.getDesignTimeSeries( )
+									.getDataDefinition( );
+							for ( Query queryExpr : queries )
+							{
+								expr = queryExpr.getDefinition( );
+								if ( ChartReportItemUtil.isRowBinding( expr,
+										false ) )
+								{
+									String bindingName = ChartReportItemUtil.createBindingNameForRowExpression( expr );
+									IBaseExpression dbExpr = ( expr == null ) ? null
+											: new ScriptExpression( "row._outer[\"" //$NON-NLS-1$
+													+ bindingName
+													+ "\"]" ); //$NON-NLS-1$
+									IBinding binding = new Binding( bindingName, dbExpr );
+									// Exportable is true for subquery bindings
+									query.addBinding( binding );
+								}
+							}
+						}
+					}
 				}
+			}
+			catch ( DataException e )
+			{
+				throw new ChartException( ChartReportItemPlugin.ID,
+						ChartException.DATA_BINDING,
+						e );
 			}
 		}
 
