@@ -103,7 +103,7 @@ public class DataExtractionTaskV1 extends EngineTask
 	 * simple filter expression
 	 */
 	protected IFilterDefinition[] filterExpressions = null;
-	
+
 	/**
 	 * simple sort expression
 	 */
@@ -118,7 +118,7 @@ public class DataExtractionTaskV1 extends EngineTask
 	 * Start row.
 	 */
 	protected int startRow = 0;
-	
+
 	/**
 	 * have the metadata be prepared. meta data means rsetName2IdMapping and
 	 * queryId2NameMapping
@@ -134,7 +134,6 @@ public class DataExtractionTaskV1 extends EngineTask
 	 * mapping, map the rest name to rset id.
 	 */
 	protected HashMap rsetId2queryIdMapping = new HashMap( );
-	
 
 	/**
 	 * mapping, map the query Id to query name.
@@ -142,11 +141,11 @@ public class DataExtractionTaskV1 extends EngineTask
 	protected HashMap queryId2NameMapping = new HashMap( );
 
 	protected HashMap queryId2QueryMapping = new HashMap( );
-	
-	protected HashMap query2QueryIdMapping = new HashMap();
-	
-	protected HashMap rssetIdMapping = new HashMap();
-	
+
+	protected HashMap query2QueryIdMapping = new HashMap( );
+
+	protected HashMap rssetIdMapping = new HashMap( );
+
 	/**
 	 * list contains all the resultsets each entry is a
 	 */
@@ -163,8 +162,9 @@ public class DataExtractionTaskV1 extends EngineTask
 		super( engine, IEngineTask.TASK_DATAEXTRACTION );
 		IReportRunnable runnable = getOnPreparedRunnable( reader );
 		setReportRunnable( runnable );
-		IInternalReportDocument internalDoc = (IInternalReportDocument)reader;
-		Report reportIR = internalDoc.getReportIR( executionContext.getDesign( ) );
+		IInternalReportDocument internalDoc = (IInternalReportDocument) reader;
+		Report reportIR = internalDoc
+				.getReportIR( executionContext.getDesign( ) );
 		executionContext.setReport( reportIR );
 		this.report = executionContext.getReport( );
 		// load the report
@@ -255,7 +255,7 @@ public class DataExtractionTaskV1 extends EngineTask
 	/**
 	 * load map from query id to result set id from report document.
 	 */
-	private void loadResultSetMetaData( ) //throws EngineException
+	private void loadResultSetMetaData( ) // throws EngineException
 	{
 		try
 		{
@@ -268,12 +268,14 @@ public class DataExtractionTaskV1 extends EngineTask
 
 			if ( result != null )
 			{
-				Set dteMetaInfoSet = new HashSet();
+				Set dteMetaInfoSet = new HashSet( );
 				for ( int i = 0; i < result.size( ); i++ )
 				{
 					String[] rsetRelation = (String[]) result.get( i );
-					
-					rssetIdMapping.put( this.getDteMetaInfoString( rsetRelation ), rsetRelation[3] );
+
+					rssetIdMapping.put( this
+							.getDteMetaInfoString( rsetRelation ),
+							rsetRelation[3] );
 					// if the rset has been loaded, skip it.
 					String dteMetaInfoString = getDteMetaInfoString( rsetRelation );
 					if ( dteMetaInfoSet.contains( dteMetaInfoString ) )
@@ -281,7 +283,7 @@ public class DataExtractionTaskV1 extends EngineTask
 						continue;
 					}
 					dteMetaInfoSet.add( dteMetaInfoString );
-					
+
 					// this is the query id
 					String queryId = rsetRelation[2];
 					// this is the rest id
@@ -325,9 +327,10 @@ public class DataExtractionTaskV1 extends EngineTask
 			logger.log( Level.SEVERE, ioe.getMessage( ), ioe );
 		}
 	}
-	
+
 	/**
 	 * Transfer the rset relation array to a string.
+	 * 
 	 * @param rsetRelation
 	 * @return
 	 */
@@ -339,7 +342,7 @@ public class DataExtractionTaskV1 extends EngineTask
 		String rowId = rsetRelation[1];
 		String queryId = rsetRelation[2];
 		buffer.setLength( 0 );
-		if(pRsetId==null)
+		if ( pRsetId == null )
 		{
 			buffer.append( "null" );
 		}
@@ -579,6 +582,25 @@ public class DataExtractionTaskV1 extends EngineTask
 
 	public IExtractionResults extract( ) throws EngineException
 	{
+		// test if we is a PLS enabled document
+		String[] extensions = executionContext.getEngineExtensions( );
+		if ( extensions != null )
+		{
+			StringBuilder sb = new StringBuilder( );
+			for ( String extName : extensions )
+			{
+				sb.append( extName );
+				sb.append( "," );
+			}
+			if ( sb.length( ) != 0 )
+			{
+				sb.setLength( sb.length( ) - 1 );
+			}
+			throw new EngineException(
+					"can''t extract data from document with extension(s): {0}",
+					new Object[]{sb} );
+		}
+		
 		try
 		{
 			if ( resultSetName != null )
@@ -608,7 +630,8 @@ public class DataExtractionTaskV1 extends EngineTask
 
 		prepareMetaData( );
 
-		DataRequestSession dataSession = executionContext.getDataEngine( ).getDTESession( );
+		DataRequestSession dataSession = executionContext.getDataEngine( )
+				.getDTESession( );
 		String rsetId = rsetName2Id( rsetName );
 		if ( rsetId != null )
 		{
@@ -657,8 +680,8 @@ public class DataExtractionTaskV1 extends EngineTask
 			ReportItemDesign design = (ReportItemDesign) report
 					.getReportItemByID( id );
 			IDataQueryDefinition dataQuery = design.getQuery( );
-			
-			if ( dataQuery != null  )
+
+			if ( dataQuery != null )
 			{
 				if ( !( dataQuery instanceof IBaseQueryDefinition ) )
 				{
@@ -666,9 +689,9 @@ public class DataExtractionTaskV1 extends EngineTask
 					return null;
 				}
 				IBaseQueryDefinition query = (IBaseQueryDefinition) dataQuery;
-				String queryId = (String)query2QueryIdMapping.get( query );
+				String queryId = (String) query2QueryIdMapping.get( query );
 
-				if(query instanceof IQueryDefinition)
+				if ( query instanceof IQueryDefinition )
 				{
 					while ( iid != null )
 					{
@@ -677,12 +700,13 @@ public class DataExtractionTaskV1 extends EngineTask
 						{
 							DataSetID dataSetId = dataId.getDataSetID( );
 							long rowId = dataId.getRowID( );
-							
+
 							query = makeQuery( query, dataSetId );
 							setupQueryWithFilterAndSort( query );
-							
-							IResultIterator dataIter = executeQuery( dataSetId.toString( ),
-									rowId, queryId, (IQueryDefinition) query );
+
+							IResultIterator dataIter = executeQuery( dataSetId
+									.toString( ), rowId, queryId,
+									(IQueryDefinition) query );
 							IResultMetaData metaData = getMetaDateByInstanceID( instanceId );
 							if ( dataIter != null && metaData != null )
 							{
@@ -694,15 +718,17 @@ public class DataExtractionTaskV1 extends EngineTask
 						}
 						iid = iid.getParentID( );
 					}
-					//this is the topmost level, we must find the result set of the query
-					
+					// this is the topmost level, we must find the result set of
+					// the query
+
 					QueryDefinition oldQuery = (QueryDefinition) query;
 					oldQuery = makeQuery( oldQuery );
 					QueryDefinition newQuery = new QueryDefinition( );
 					newQuery.setSourceQuery( oldQuery );
 					setupQueryWithFilterAndSort( newQuery );
-					
-					IResultIterator dataIter = executeQuery( null, -1, queryId, newQuery );
+
+					IResultIterator dataIter = executeQuery( null, -1, queryId,
+							newQuery );
 					IResultMetaData metaData = getMetaDateByInstanceID( instanceId );
 					if ( dataIter != null && metaData != null )
 					{
@@ -720,23 +746,28 @@ public class DataExtractionTaskV1 extends EngineTask
 						{
 							DataSetID dataSetId = dataId.getDataSetID( );
 							long rowId = dataId.getRowID( );
-							
+
 							query = makeQuery( query, dataSetId );
 							QueryDefinition newQuery = new QueryDefinition( );
 							newQuery.setSourceQuery( query );
 							setupQueryWithFilterAndSort( newQuery );
-							
-							DataRequestSession dataSession = executionContext.getDataEngine( ).getDTESession( );
-							Scriptable scope = executionContext.getSharedScope( );
-							IPreparedQuery preparedQuery = dataSession.prepare( newQuery );
-							IQueryResults results = preparedQuery.execute( scope );
+
+							DataRequestSession dataSession = executionContext
+									.getDataEngine( ).getDTESession( );
+							Scriptable scope = executionContext
+									.getSharedScope( );
+							IPreparedQuery preparedQuery = dataSession
+									.prepare( newQuery );
+							IQueryResults results = preparedQuery
+									.execute( scope );
 							if ( null != results )
 							{
 								IResultMetaData metaData = getMetaDateByInstanceID( instanceId );
 								if ( metaData != null )
 								{
-									return new ExtractionResults( results, metaData,
-											this.selectedColumns, startRow, maxRows );
+									return new ExtractionResults( results,
+											metaData, this.selectedColumns,
+											startRow, maxRows );
 								}
 							}
 							/*
@@ -756,16 +787,15 @@ public class DataExtractionTaskV1 extends EngineTask
 						}
 						iid = iid.getParentID( );
 					}
-					
+
 				}
 
-				
 			}
 			iid = iid.getParentID( );
 		}
 		return null;
 	}
-	
+
 	private void setupQueryWithFilterAndSort( IBaseQueryDefinition query )
 	{
 		// add filter
@@ -788,21 +818,21 @@ public class DataExtractionTaskV1 extends EngineTask
 			sortExpressions = null;
 		}
 	}
-	
-	private IResultIterator executeQuery(String prset, long rowId, String queryId, IQueryDefinition query) throws BirtException
+
+	private IResultIterator executeQuery( String prset, long rowId,
+			String queryId, IQueryDefinition query ) throws BirtException
 	{
-		String parentRSet = (prset == null) ? "null" : prset ;
+		String parentRSet = ( prset == null ) ? "null" : prset;
 		String rsmeta = parentRSet + "." + rowId + "." + queryId;
-		String rsId = (String)rssetIdMapping.get( rsmeta );
-		if(rsId!=null)
+		String rsId = (String) rssetIdMapping.get( rsmeta );
+		if ( rsId != null )
 		{
-			return executeQuery( rsId, (QueryDefinition)query );
+			return executeQuery( rsId, (QueryDefinition) query );
 		}
 		return null;
-		
+
 	}
-	
-	
+
 	private IResultMetaData getMetaDateByInstanceID( InstanceID iid )
 	{
 		while ( iid != null )
@@ -834,6 +864,9 @@ public class DataExtractionTaskV1 extends EngineTask
 				.getDTESession( );
 		Scriptable scope = executionContext.getSharedScope( );
 		Map appContext = executionContext.getAppContext( );
+		// prepare the query
+		//processQueryExtensions( query );
+
 		IPreparedQuery pQuery = dataSession.prepare( query, appContext );
 		IQueryResults results = pQuery.execute( scope );
 		return results.getResultIterator( );
@@ -859,8 +892,9 @@ public class DataExtractionTaskV1 extends EngineTask
 		Scriptable scope = executionContext.getSharedScope( );
 		return rsetIter.getSecondaryIterator( queryName, scope );
 	}
-	
-	private BaseQueryDefinition makeQuery( IBaseQueryDefinition query, DataSetID dsID )
+
+	private BaseQueryDefinition makeQuery( IBaseQueryDefinition query,
+			DataSetID dsID )
 	{
 		if ( query instanceof SubqueryDefinition )
 		{
@@ -872,8 +906,9 @@ public class DataExtractionTaskV1 extends EngineTask
 		}
 		return null;
 	}
-	
-	private SubqueryDefinition makeQuery( SubqueryDefinition query, DataSetID dsID )
+
+	private SubqueryDefinition makeQuery( SubqueryDefinition query,
+			DataSetID dsID )
 	{
 		BaseQueryDefinition parent = makeQuery( query.getParentQuery( ),
 				dsID != null ? dsID.getParentID( ) : null );
@@ -893,7 +928,7 @@ public class DataExtractionTaskV1 extends EngineTask
 			String rsetName = (String) rsetName2IdMapping.get( elementName );
 			query.setQueryResultsID( rsetName );
 		}
-		
+
 		return query;
 	}
 
@@ -931,7 +966,7 @@ public class DataExtractionTaskV1 extends EngineTask
 		newQuery.setUsesDetails( query.usesDetails( ) );
 
 		parent.getSubqueries( ).add( newQuery );
-		
+
 		return newQuery;
 	}
 
@@ -1043,4 +1078,25 @@ public class DataExtractionTaskV1 extends EngineTask
 	{
 		this.startRow = startRow;
 	}
+/*
+	protected void processQueryExtensions( IDataQueryDefinition query )
+			throws EngineException
+	{
+		String[] extensions = executionContext.getEngineExtensions( );
+		if ( extensions != null )
+		{
+			EngineExtensionManager manager = executionContext
+					.getEngineExtensionManager( );
+			for ( String extensionName : extensions )
+			{
+				IDataExtension extension = manager
+						.getDataExtension( extensionName );
+				if ( extension != null )
+				{
+					extension.prepareQuery( query );
+				}
+			}
+		}
+	}
+*/
 }
