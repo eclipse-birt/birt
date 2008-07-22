@@ -23,6 +23,7 @@ ChartPreferencePage.Error.MaxRowInvalid=Die maximale Zeilenzahl muss eine ganze 
 ChartPreferencePage.Label.EnableLivePreview=&Live-Vorschau im Chart Builder aktivieren
 
 ChartReportItemUIImpl.log.ReceivedNotification=Auftrag zur Entfernung einer erweiterten Diagrammabbildung erhalten.
+ChartReportItemViewProvider.BarChart.Text.Title=Bar Chart Title
 
 ChartExpressionProvider.Category.ChartVariables=Variablen
 ChartExpressionProvider.ChartVariables.DataPoints=Diagramm-Datenpunkt
@@ -42,6 +43,7 @@ FlipAxisAction.Text.FlipAxis=&Achse umkehren
 GeneralPage.Library.Included=Bibliothek:
 ChartEventHandlerPage.dialog.Browse=&Durchsuchen...
 ReportDataServiceProvider.Option.None=<keine>
+ReportDataServiceProvider.Option.Inherits=<Container's:{0}>
 ReportDataServiceProvider.Tooltip.Aggregate=Aggregat: 
 ReportDataServiceProvider.Tooltip.GroupExpression=Gruppenausdruck: 
 ReportDataServiceProvider.Tooltip.OnGroup=Bei Gruppe: 

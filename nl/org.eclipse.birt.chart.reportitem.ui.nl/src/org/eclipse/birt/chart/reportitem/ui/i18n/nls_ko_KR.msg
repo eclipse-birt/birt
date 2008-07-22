@@ -23,6 +23,7 @@ ChartPreferencePage.Error.MaxRowInvalid=최대 행 번호는 {0} 이상의 정수이어야 합�
 ChartPreferencePage.Label.EnableLivePreview=차트 빌더에서 실시간 미리 보기 사용(&E)
 
 ChartReportItemUIImpl.log.ReceivedNotification=확장 차트 그림을 삭제하기 위한 통지가 수신되었습니다.
+ChartReportItemViewProvider.BarChart.Text.Title=Bar Chart Title
 
 ChartExpressionProvider.Category.ChartVariables=변수
 ChartExpressionProvider.ChartVariables.DataPoints=차트 데이터 요소
@@ -42,6 +43,7 @@ FlipAxisAction.Text.FlipAxis=축 반전(&P)
 GeneralPage.Library.Included=라이브러리:
 ChartEventHandlerPage.dialog.Browse=찾아보기(&B)...
 ReportDataServiceProvider.Option.None=<없음>
+ReportDataServiceProvider.Option.Inherits=<Container's:{0}>
 ReportDataServiceProvider.Tooltip.Aggregate=집계: 
 ReportDataServiceProvider.Tooltip.GroupExpression=그룹 식: 
 ReportDataServiceProvider.Tooltip.OnGroup=그룹 위치: 

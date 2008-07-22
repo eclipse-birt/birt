@@ -23,6 +23,7 @@ ChartPreferencePage.Error.MaxRowInvalid=Le nombre max. de lignes doit être un no
 ChartPreferencePage.Label.EnableLivePreview=Activer l'aperçu direct dans le générateur de graphiques(&E)
 
 ChartReportItemUIImpl.log.ReceivedNotification=Réception d'une notification de rejet des données du graphique étendu.
+ChartReportItemViewProvider.BarChart.Text.Title=Bar Chart Title
 
 ChartExpressionProvider.Category.ChartVariables=Variables
 ChartExpressionProvider.ChartVariables.DataPoints=Point de données du graphique
@@ -42,6 +43,7 @@ FlipAxisAction.Text.FlipAxis=In&verser l'axe
 GeneralPage.Library.Included=Bibliothèque :
 ChartEventHandlerPage.dialog.Browse=& Parcourir...
 ReportDataServiceProvider.Option.None=<Aucun>
+ReportDataServiceProvider.Option.Inherits=<Container's:{0}>
 ReportDataServiceProvider.Tooltip.Aggregate=Agrégat : 
 ReportDataServiceProvider.Tooltip.GroupExpression=Expression de groupe : 
 ReportDataServiceProvider.Tooltip.OnGroup=Dans le groupe : 

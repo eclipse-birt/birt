@@ -23,6 +23,7 @@ ChartPreferencePage.Error.MaxRowInvalid=El número de fila máximo debe ser entero
 ChartPreferencePage.Label.EnableLivePreview=&Activar la vista previa en tiempo real en el compilador de diagramas
 
 ChartReportItemUIImpl.log.ReceivedNotification=Se ha recibido la notificación para disponer de la figura de diagrama extendida.
+ChartReportItemViewProvider.BarChart.Text.Title=Bar Chart Title
 
 ChartExpressionProvider.Category.ChartVariables=Variables
 ChartExpressionProvider.ChartVariables.DataPoints=Punto de datos de diagrama
@@ -42,6 +43,7 @@ FlipAxisAction.Text.FlipAxis=I&nvertir eje
 GeneralPage.Library.Included=Librería:
 ChartEventHandlerPage.dialog.Browse=&Examinar...
 ReportDataServiceProvider.Option.None=<Ninguno>
+ReportDataServiceProvider.Option.Inherits=<Container's:{0}>
 ReportDataServiceProvider.Tooltip.Aggregate=Total 
 ReportDataServiceProvider.Tooltip.GroupExpression=Expresión de grupo: 
 ReportDataServiceProvider.Tooltip.OnGroup=En grupo: 
