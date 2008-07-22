@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
+import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -55,7 +56,7 @@ public class ChartReportItemViewProvider extends ReportItemViewAdapter
 		cm.setSubType( "Side-by-side" );//$NON-NLS-1$
 		cm.setUnits( "Points" ); //$NON-NLS-1$
 		cm.setUnitSpacing( 50 );
-		cm.getTitle( ).getLabel( ).getCaption( ).setValue( "Bar Chart Title" ); //$NON-NLS-1$
+		cm.getTitle( ).getLabel( ).getCaption( ).setValue( Messages.getString("ChartReportItemViewProvider.BarChart.Text.Title") ); //$NON-NLS-1$
 		
 		// Add base series
 		SeriesDefinition sdBase = SeriesDefinitionImpl.create( );
