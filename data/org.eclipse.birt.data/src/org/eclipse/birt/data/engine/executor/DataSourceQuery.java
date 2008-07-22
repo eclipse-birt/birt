@@ -269,7 +269,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     	
         if ( design != null )
 		{
-			if ( design.getPrimaryResultSetName( ) != null )
+			if ( supportNameResults( design ) )
 			{
 				// Ordering is important for the following operations. Column hints
 				// should be defined
@@ -319,6 +319,12 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
         return this;
     }
 
+	private boolean supportNameResults( IOdaDataSetDesign design )
+			throws DataException
+	{
+		return odaStatement.supportsNamedResults( ) && design.getPrimaryResultSetName( ) != null;
+	}
+
 	private void prepareColumns( ) throws DataException
 	{
 		addCustomFields( odaStatement );
@@ -340,7 +346,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     	IResultClass result = null;
     	if ( design != null )
 		{
-			if ( design.getPrimaryResultSetName( ) != null )
+			if ( odaStatement.supportsNamedResults( ) && design.getPrimaryResultSetName( ) != null )
 			{
 				result = odaStatement.getMetaData( design.getPrimaryResultSetName( ) );
 			}
@@ -644,7 +650,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		
 		if ( design != null )
 		{
-			if ( design.getPrimaryResultSetName( ) != null )
+			if ( supportNameResults( design ) )
 			{
 				rs = odaStatement.getResultSet( design.getPrimaryResultSetName( ) );
 			}
