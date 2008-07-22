@@ -12,6 +12,8 @@
 package org.eclipse.birt.chart.engine.i18n;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -33,6 +35,8 @@ public final class Messages
 	private static final ResourceBundle RESOURCE_BUNDLE = UResourceBundle.getBundleInstance( ENGINE,
 			ULocale.getDefault( ),
 			Messages.class.getClassLoader( ) );
+	
+	private static Map<ULocale, ResourceBundle> hmLocalToBundle = new HashMap<ULocale, ResourceBundle>( 2 );
 
 	private Messages( )
 	{
@@ -45,9 +49,17 @@ public final class Messages
 
 	public static ResourceBundle getResourceBundle( ULocale locale )
 	{
-		return UResourceBundle.getBundleInstance( ENGINE,
+		ResourceBundle bundle = hmLocalToBundle.get( locale );
+
+		if ( bundle == null )
+		{
+			bundle = UResourceBundle.getBundleInstance( ENGINE,
 				locale,
 				Messages.class.getClassLoader( ) );
+			hmLocalToBundle.put( locale, bundle );
+		}
+
+		return bundle;
 	}
 
 	/**
