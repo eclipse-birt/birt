@@ -46,6 +46,7 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.api.IShutdownListener;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
@@ -157,6 +158,19 @@ public class ResultIterator implements IResultIterator
 				throw new DataException( ResourceConstants.CREATE_CACHE_TEMPFILE_ERROR );
 			}
 		}
+		this.resultService.getSession( ).getEngine( ).addShutdownListener( new IShutdownListener(){
+
+			public void dataEngineShutdown( )
+			{
+				try
+				{
+					ResultIterator.this.close( );
+				}
+				catch ( BirtException e )
+				{
+				
+				}				
+			}} );
 		this.start( );
 		logger.exiting( ResultIterator.class.getName( ), "ResultIterator" );
 	}
@@ -861,19 +875,6 @@ public class ResultIterator implements IResultIterator
 				"close",
 				"a ResultIterator is closed" );
 	}
-	
-	@Override
-	public void finalize( )
-	{
-		try {
-			this.close();
-		} catch (BirtException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-
 
 	/**
 	 * @return
