@@ -201,7 +201,7 @@ public class TextPage extends GeneralPage
 				new FontStylePropertyDescriptorProvider( StyleHandle.TEXT_LINE_THROUGH_PROP,
 						ReportDesignConstants.STYLE_ELEMENT ),
 
-				new PropertyDescriptorProvider( StyleHandle.TEXT_DIRECTION_PROP,
+				new PropertyDescriptorProvider( StyleHandle.TEXT_ALIGN_PROP,
 						ReportDesignConstants.STYLE_ELEMENT )
 		// bidi_hcg
 		};
