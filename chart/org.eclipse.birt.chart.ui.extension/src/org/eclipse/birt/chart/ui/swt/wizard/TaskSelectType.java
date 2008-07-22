@@ -86,8 +86,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
-import sun.nio.cs.AbstractCharsetProvider;
-
 /**
  * TaskSelectType
  */
@@ -1518,7 +1516,7 @@ public class TaskSelectType extends SimpleTask implements
 		}
 
 		Collection<ISeriesUIProvider> cRegisteredEntries = ChartUIExtensionsImpl.instance( )
-				.getSeriesUIComponents( );
+				.getSeriesUIComponents( getContext( ).getClass( ).getSimpleName( ) );
 		Iterator<ISeriesUIProvider> iterEntries = cRegisteredEntries.iterator( );
 
 		String sSeries = null;

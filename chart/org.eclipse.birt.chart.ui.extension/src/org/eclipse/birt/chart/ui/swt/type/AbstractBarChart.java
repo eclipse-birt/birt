@@ -79,53 +79,9 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 
 	protected static final String SIDE_SUBTYPE_LITERAL = "Side-by-side"; //$NON-NLS-1$
 
-	protected transient Image foImgIcon = null;
-
-	private transient Image foImgStacked = null;
-
-	private transient Image foImgStackedWithDepth = null;
-
-	private transient Image foImgPercentStacked = null;
-
-	private transient Image foImgPercentStackedWithDepth = null;
-
-	private transient Image foImgSideBySide = null;
-
-	private transient Image foImgSideBySideWithDepth = null;
-
-	private transient Image foImgSideBySide3D = null;
-
 	private final String fsChartTypePrefix;
 
 	private final RiserType foRiserType;
-
-	// Defines icons full path.
-
-	private final String fsPath2DSbS;
-
-	private final String fsPath2DStacked;
-
-	private final String fsPath2DPercent;
-
-	private final String fsPath2DHorizontalSbS;
-
-	private final String fsPath2DHorizontalStacked;
-
-	private final String fsPath2DHorizontalPercent;
-
-	private final String fsPath2DDepthSbS;
-
-	private final String fsPath2DDepthStacked;
-
-	private final String fsPath2DDepthPercent;
-
-	private final String fsPath2DDepthHorizontalSbs;
-
-	private final String fsPath2DDepthHorizontalStacked;
-
-	private final String fsPath2DDepthHorizontalPercent;
-
-	private final String fsPath3DSbS;
 
 	/**
 	 * Constructor of the class.
@@ -145,25 +101,6 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		fsTypeLiteral = typeLiteral;
 
 		foRiserType = riserType;
-
-		String lowerChartPrefix = fsChartTypePrefix.toLowerCase( );
-
-		foImgIcon = UIHelper.getImage( "icons/obj16/" + lowerChartPrefix + "charticon.gif" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-		// Initialize icons full path.
-		fsPath2DStacked = "icons/wizban/stacked" + lowerChartPrefix + "chartimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
-		fsPath2DSbS = "icons/wizban/sidebyside" + lowerChartPrefix + "chartimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
-		fsPath2DPercent = "icons/wizban/percentstacked" + lowerChartPrefix + "chartimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
-		fsPath2DHorizontalSbS = "icons/wizban/horizontalsidebyside" + lowerChartPrefix + "chartimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
-		fsPath2DHorizontalStacked = "icons/wizban/horizontalstacked" + lowerChartPrefix + "chartimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
-		fsPath2DHorizontalPercent = "icons/wizban/horizontalpercentstacked" + lowerChartPrefix + "chartimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
-		fsPath2DDepthSbS = "icons/wizban/sidebyside" + lowerChartPrefix + "chartwithdepthimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
-		fsPath2DDepthStacked = "icons/wizban/stacked" + lowerChartPrefix + "chartwithdepthimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
-		fsPath2DDepthPercent = "icons/wizban/percentstacked" + lowerChartPrefix + "chartwithdepthimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
-		fsPath2DDepthHorizontalSbs = "icons/wizban/horizontalsidebyside" + lowerChartPrefix + "chartwithdepthimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
-		fsPath2DDepthHorizontalStacked = "icons/wizban/horizontalstacked" + lowerChartPrefix + "chartwithdepthimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
-		fsPath2DDepthHorizontalPercent = "icons/wizban/horizontalpercentstacked" + lowerChartPrefix + "chartwithdepthimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
-		fsPath3DSbS = "icons/wizban/sidebyside" + lowerChartPrefix + "chart3dimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/*
@@ -183,7 +120,106 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	 */
 	public Image getImage( )
 	{
-		return foImgIcon;
+		return UIHelper.getImage( "icons/obj16/" + fsChartTypePrefix.toLowerCase( ) + "charticon.gif" ); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	/**
+	 * Returns the icons for subtypes.
+	 * 
+	 * @param sDimension
+	 * @param orientation
+	 * @param subtype
+	 * @return
+	 */
+	protected Image getImageForSubtype( String sDimension,
+			Orientation orientation, String subtype )
+	{
+		String imagePath = null;
+		String lowerChartPrefix = fsChartTypePrefix.toLowerCase( );
+		if ( sDimension.equals( TWO_DIMENSION_TYPE )
+				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_LITERAL.getName( ) ) )
+		{
+			if ( subtype.equals( SIDE_SUBTYPE_LITERAL ) )
+			{
+				if ( orientation == Orientation.VERTICAL_LITERAL )
+				{
+					imagePath = "icons/wizban/sidebyside" + lowerChartPrefix + "chartimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$;
+				}
+				else
+				{
+					imagePath = "icons/wizban/horizontalsidebyside" + lowerChartPrefix + "chartimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
+				}
+			}
+			else if ( subtype.equals( STACKED_SUBTYPE_LITERAL ) )
+			{
+				if ( orientation == Orientation.VERTICAL_LITERAL )
+				{
+					imagePath = "icons/wizban/stacked" + lowerChartPrefix + "chartimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
+				}
+				else
+				{
+					imagePath = "icons/wizban/horizontalstacked" + lowerChartPrefix + "chartimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
+				}
+			}
+			else if ( subtype.equals( PERCENTSTACKED_SUBTYPE_LITERAL ) )
+			{
+				if ( orientation == Orientation.VERTICAL_LITERAL )
+				{
+					imagePath = "icons/wizban/percentstacked" + lowerChartPrefix + "chartimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
+				}
+				else
+				{
+					imagePath = "icons/wizban/horizontalpercentstacked" + lowerChartPrefix + "chartimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
+				}
+			}
+		}
+		else if ( sDimension.equals( TWO_DIMENSION_WITH_DEPTH_TYPE )
+				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
+		{
+			if ( subtype.equals( SIDE_SUBTYPE_LITERAL ) )
+			{
+				if ( orientation == Orientation.VERTICAL_LITERAL )
+				{
+					imagePath = "icons/wizban/sidebyside" + lowerChartPrefix + "chartwithdepthimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$;
+				}
+				else
+				{
+					imagePath = "icons/wizban/horizontalsidebyside" + lowerChartPrefix + "chartwithdepthimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
+				}
+			}
+			else if ( subtype.equals( STACKED_SUBTYPE_LITERAL ) )
+			{
+				if ( orientation == Orientation.VERTICAL_LITERAL )
+				{
+					imagePath = "icons/wizban/stacked" + lowerChartPrefix + "chartwithdepthimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
+				}
+				else
+				{
+					imagePath = "icons/wizban/horizontalstacked" + lowerChartPrefix + "chartwithdepthimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
+				}
+			}
+			else if ( subtype.equals( PERCENTSTACKED_SUBTYPE_LITERAL ) )
+			{
+				if ( orientation == Orientation.VERTICAL_LITERAL )
+				{
+					imagePath = "icons/wizban/percentstacked" + lowerChartPrefix + "chartwithdepthimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
+				}
+				else
+				{
+					imagePath = "icons/wizban/horizontalpercentstacked" + lowerChartPrefix + "chartwithdepthimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
+				}
+			}
+		}
+		else if ( sDimension.equals( THREE_DIMENSION_TYPE )
+				|| sDimension.equals( ChartDimension.THREE_DIMENSIONAL_LITERAL.getName( ) ) )
+		{
+			imagePath = "icons/wizban/sidebyside" + lowerChartPrefix + "chart3dimage.gif"; //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		if ( imagePath != null )
+		{
+			return UIHelper.getImage( imagePath );
+		}
+		return null;
 	}
 
 	/*
@@ -211,29 +247,19 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		if ( sDimension.equals( TWO_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_LITERAL.getName( ) ) )
 		{
-			if ( orientation.equals( Orientation.VERTICAL_LITERAL ) )
-			{
-				foImgSideBySide = UIHelper.getImage( fsPath2DSbS );
-				foImgStacked = UIHelper.getImage( fsPath2DStacked );
-				foImgPercentStacked = UIHelper.getImage( fsPath2DPercent );
-
-			}
-			else
-			{
-				foImgSideBySide = UIHelper.getImage( fsPath2DHorizontalSbS );
-				foImgStacked = UIHelper.getImage( fsPath2DHorizontalStacked );
-				foImgPercentStacked = UIHelper.getImage( fsPath2DHorizontalPercent );
-			}
-
 			vSubTypes.add( new DefaultChartSubTypeImpl( SIDE_SUBTYPE_LITERAL,
-					foImgSideBySide,
+					getImageForSubtype( sDimension,
+							orientation,
+							SIDE_SUBTYPE_LITERAL ),
 					getDescriptionForSubtype( SIDE_SUBTYPE_LITERAL ),
 					Messages.getString( fsChartTypePrefix
 							+ "Chart.SubType.Side" ) ) ); //$NON-NLS-1$
 			if ( isStackedSupported( ) )
 			{
 				vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
-						foImgStacked,
+						getImageForSubtype( sDimension,
+								orientation,
+								STACKED_SUBTYPE_LITERAL ),
 						getDescriptionForSubtype( STACKED_SUBTYPE_LITERAL ),
 						Messages.getString( fsChartTypePrefix
 								+ "Chart.SubType.Stacked" ) ) ); //$NON-NLS-1$
@@ -241,7 +267,9 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 			if ( isPercentStackedSupported( ) )
 			{
 				vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
-						foImgPercentStacked,
+						getImageForSubtype( sDimension,
+								orientation,
+								PERCENTSTACKED_SUBTYPE_LITERAL ),
 						getDescriptionForSubtype( PERCENTSTACKED_SUBTYPE_LITERAL ),
 						Messages.getString( fsChartTypePrefix
 								+ "Chart.SubType.PercentStacked" ) ) ); //$NON-NLS-1$
@@ -250,27 +278,19 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		else if ( sDimension.equals( TWO_DIMENSION_WITH_DEPTH_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
 		{
-			if ( orientation.equals( Orientation.VERTICAL_LITERAL ) )
-			{
-				foImgSideBySideWithDepth = UIHelper.getImage( fsPath2DDepthSbS );
-				foImgStackedWithDepth = UIHelper.getImage( fsPath2DDepthStacked );
-				foImgPercentStackedWithDepth = UIHelper.getImage( fsPath2DDepthPercent );
-			}
-			else
-			{
-				foImgSideBySideWithDepth = UIHelper.getImage( fsPath2DDepthHorizontalSbs );
-				foImgStackedWithDepth = UIHelper.getImage( fsPath2DDepthHorizontalStacked );
-				foImgPercentStackedWithDepth = UIHelper.getImage( fsPath2DDepthHorizontalPercent );
-			}
 			vSubTypes.add( new DefaultChartSubTypeImpl( SIDE_SUBTYPE_LITERAL,
-					foImgSideBySideWithDepth,
+					getImageForSubtype( sDimension,
+							orientation,
+							SIDE_SUBTYPE_LITERAL ),
 					getDescriptionForSubtype( SIDE_SUBTYPE_LITERAL ),
 					Messages.getString( fsChartTypePrefix
 							+ "Chart.SubType.Side" ) ) ); //$NON-NLS-1$
 			if ( isStackedSupported( ) )
 			{
 				vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
-						foImgStackedWithDepth,
+						getImageForSubtype( sDimension,
+								orientation,
+								STACKED_SUBTYPE_LITERAL ),
 						getDescriptionForSubtype( STACKED_SUBTYPE_LITERAL ),
 						Messages.getString( fsChartTypePrefix
 								+ "Chart.SubType.Stacked" ) ) ); //$NON-NLS-1$
@@ -278,7 +298,9 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 			if ( isPercentStackedSupported( ) )
 			{
 				vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
-						foImgPercentStackedWithDepth,
+						getImageForSubtype( sDimension,
+								orientation,
+								PERCENTSTACKED_SUBTYPE_LITERAL ),
 						getDescriptionForSubtype( PERCENTSTACKED_SUBTYPE_LITERAL ),
 						Messages.getString( fsChartTypePrefix
 								+ "Chart.SubType.PercentStacked" ) ) ); //$NON-NLS-1$
@@ -287,10 +309,10 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		else if ( sDimension.equals( THREE_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.THREE_DIMENSIONAL_LITERAL.getName( ) ) )
 		{
-			foImgSideBySide3D = UIHelper.getImage( fsPath3DSbS );
-
 			vSubTypes.add( new DefaultChartSubTypeImpl( SIDE_SUBTYPE_LITERAL,
-					foImgSideBySide3D,
+					getImageForSubtype( sDimension,
+							orientation,
+							SIDE_SUBTYPE_LITERAL ),
 					getDescriptionForSubtype( SIDE_SUBTYPE_LITERAL ),
 					Messages.getString( fsChartTypePrefix
 							+ "Chart.SubType.Side" ) ) ); //$NON-NLS-1$

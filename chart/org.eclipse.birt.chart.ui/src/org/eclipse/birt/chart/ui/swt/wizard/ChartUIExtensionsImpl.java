@@ -50,7 +50,7 @@ public class ChartUIExtensionsImpl
 
 	private Collection<IChangeListener> cListeners = null;
 
-	private Collection<ISeriesUIProvider> cSeriesUI = null;
+	private Map<String, Collection<ISeriesUIProvider>> mSeriesUIs = null;
 
 	private static final String[] saSheets = new String[]{
 			"10/Series/ /org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesSheetImpl", //$NON-NLS-1$
@@ -66,8 +66,6 @@ public class ChartUIExtensionsImpl
 			"25/Chart.Title/ /org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartTitleSheetImpl", //$NON-NLS-1$
 			"26/Chart.Plot/ /org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartPlotSheetImpl", //$NON-NLS-1$
 			"27/Chart.Legend/ /org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartLegendSheetImpl", //$NON-NLS-1$	
-			"1/Type/Select Type/org.eclipse.birt.chart.examples.builder.SubtaskSelectType", //$NON-NLS-1$	
-			"2/Data/Select Data/org.eclipse.birt.chart.examples.builder.SubtaskSelectData", //$NON-NLS-1$	
 	};
 
 	private static final String[] saTypes = new String[]{
@@ -205,7 +203,9 @@ public class ChartUIExtensionsImpl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIExtensions#getUISheetExtensions()
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIExtensions#getUISheetExtensions
+	 * ()
 	 */
 	public Collection<IRegisteredSubtaskEntry> getUISheetExtensions(
 			String extensionId )
@@ -219,7 +219,7 @@ public class ChartUIExtensionsImpl
 		{
 			return cSheets;
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList( );
 	}
 
 	private void initUIChartTypeExtensions( String defaultExtensionId )
@@ -236,6 +236,10 @@ public class ChartUIExtensionsImpl
 				IExtension extension = extensions[iC];
 				IConfigurationElement[] configElements = extension.getConfigurationElements( );
 				String id = extension.getSimpleIdentifier( );
+				if ( id == null )
+				{
+					id = defaultExtensionId;
+				}
 				Vector<IChartType> cChartTypes = new Vector<IChartType>( );
 				for ( int i = 0; i < configElements.length; i++ )
 				{
@@ -293,7 +297,7 @@ public class ChartUIExtensionsImpl
 		{
 			return cTypes;
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList( );
 	}
 
 	public Collection<IChangeListener> getUIListeners( )
@@ -355,63 +359,82 @@ public class ChartUIExtensionsImpl
 		return cListeners;
 	}
 
-	public Collection<ISeriesUIProvider> getSeriesUIComponents( )
+	public Collection<ISeriesUIProvider> getSeriesUIComponents(
+			String extensionId )
 	{
-		if ( cSeriesUI == null )
+		if ( mSeriesUIs == null )
 		{
-			cSeriesUI = new Vector<ISeriesUIProvider>( );
-			if ( UIHelper.isEclipseMode( ) )
-			{
-				IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry( );
-				IExtensionPoint extensionPoint = pluginRegistry.getExtensionPoint( "org.eclipse.birt.chart.ui", //$NON-NLS-1$
-						"seriescomposites" ); //$NON-NLS-1$
-				IExtension[] extensions = extensionPoint.getExtensions( );
+			initSeriesUIComponents( extensionId );
+		}
+		Collection<ISeriesUIProvider> cSeriesUI = mSeriesUIs.get( extensionId );
+		if ( cSeriesUI != null )
+		{
+			return cSeriesUI;
+		}
+		return Collections.emptyList( );
+	}
 
-				for ( int iC = 0; iC < extensions.length; iC++ )
+	private void initSeriesUIComponents( String defaultExtensionId )
+	{
+		mSeriesUIs = new HashMap<String, Collection<ISeriesUIProvider>>( );
+		if ( UIHelper.isEclipseMode( ) )
+		{
+			IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry( );
+			IExtensionPoint extensionPoint = pluginRegistry.getExtensionPoint( "org.eclipse.birt.chart.ui", //$NON-NLS-1$
+					"seriescomposites" ); //$NON-NLS-1$
+			IExtension[] extensions = extensionPoint.getExtensions( );
+			for ( int iC = 0; iC < extensions.length; iC++ )
+			{
+				IExtension extension = extensions[iC];
+				IConfigurationElement[] configElements = extension.getConfigurationElements( );
+				String id = extension.getSimpleIdentifier( );
+				if ( id == null )
 				{
-					IExtension extension = extensions[iC];
-					IConfigurationElement[] configElements = extension.getConfigurationElements( );
-					for ( int i = 0; i < configElements.length; i++ )
+					id = defaultExtensionId;
+				}
+				Vector<ISeriesUIProvider> cSeriesUI = new Vector<ISeriesUIProvider>( );
+				for ( int i = 0; i < configElements.length; i++ )
+				{
+					IConfigurationElement currentTag = configElements[i];
+					if ( currentTag.getName( ).equals( "seriescomposite" ) ) //$NON-NLS-1$
 					{
-						IConfigurationElement currentTag = configElements[i];
-						if ( currentTag.getName( ).equals( "seriescomposite" ) ) //$NON-NLS-1$
+						try
 						{
-							try
-							{
-								cSeriesUI.add( (ISeriesUIProvider) currentTag.createExecutableExtension( "seriesUIProvider" ) ); //$NON-NLS-1$
-							}
-							catch ( FrameworkException e1 )
-							{
-								e1.printStackTrace( );
-							}
+							cSeriesUI.add( (ISeriesUIProvider) currentTag.createExecutableExtension( "seriesUIProvider" ) ); //$NON-NLS-1$
+						}
+						catch ( FrameworkException e1 )
+						{
+							e1.printStackTrace( );
 						}
 					}
 				}
-			}
-			else
-			{
-				for ( int iC = 0; iC < saSeriesUI.length; iC++ )
-				{
-					try
-					{
-						cSeriesUI.add( (ISeriesUIProvider) Class.forName( saSeriesUI[iC] )
-								.newInstance( ) );
-					}
-					catch ( InstantiationException e )
-					{
-						e.printStackTrace( );
-					}
-					catch ( IllegalAccessException e )
-					{
-						e.printStackTrace( );
-					}
-					catch ( ClassNotFoundException e )
-					{
-						e.printStackTrace( );
-					}
-				}
+				mSeriesUIs.put( id, cSeriesUI );
 			}
 		}
-		return cSeriesUI;
+		else
+		{
+			Vector<ISeriesUIProvider> cSeriesUI = new Vector<ISeriesUIProvider>( );
+			for ( int iC = 0; iC < saSeriesUI.length; iC++ )
+			{
+				try
+				{
+					cSeriesUI.add( (ISeriesUIProvider) Class.forName( saSeriesUI[iC] )
+							.newInstance( ) );
+				}
+				catch ( InstantiationException e )
+				{
+					e.printStackTrace( );
+				}
+				catch ( IllegalAccessException e )
+				{
+					e.printStackTrace( );
+				}
+				catch ( ClassNotFoundException e )
+				{
+					e.printStackTrace( );
+				}
+			}
+			mSeriesUIs.put( defaultExtensionId, cSeriesUI );
+		}
 	}
 }

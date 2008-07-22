@@ -78,29 +78,6 @@ public class LineChart extends DefaultChartTypeImpl
 
 	protected static final String OVERLAY_SUBTYPE_LITERAL = "Overlay"; //$NON-NLS-1$
 
-	private static final String CHART_TITLE = Messages.getString( "LineChart.Txt.DefaultLineChartTitle" ); //$NON-NLS-1$
-
-	private static final String sStackedDescription = Messages.getString( "LineChart.Txt.StackedDescription" ); //$NON-NLS-1$
-
-	private static final String sPercentStackedDescription = Messages.getString( "LineChart.Txt.PercentStackedDescription" ); //$NON-NLS-1$
-
-	private static final String sOverlayDescription = Messages.getString( "LineChart.Txt.OverlayDescription" ); //$NON-NLS-1$
-
-	private transient Image imgIcon = null;
-
-	private transient Image imgStacked = null;
-
-	private transient Image imgPercentStacked = null;
-
-	private transient Image imgSideBySide = null;
-
-	private transient Image imgSideBySide3D = null;
-
-	public LineChart( )
-	{
-		imgIcon = UIHelper.getImage( "icons/obj16/linecharticon.gif" ); //$NON-NLS-1$
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -118,7 +95,90 @@ public class LineChart extends DefaultChartTypeImpl
 	 */
 	public Image getImage( )
 	{
-		return imgIcon;
+		return UIHelper.getImage( "icons/obj16/linecharticon.gif" ); //$NON-NLS-1$;
+	}
+
+	/**
+	 * Returns the icons for subtypes.
+	 * 
+	 * @param sDimension
+	 * @param orientation
+	 * @param subtype
+	 * @return
+	 */
+	protected Image getImageForSubtype( String sDimension,
+			Orientation orientation, String subtype )
+	{
+		String imagePath = null;
+		if ( sDimension.equals( TWO_DIMENSION_TYPE )
+				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_LITERAL.getName( ) ) )
+		{
+			if ( subtype.equals( OVERLAY_SUBTYPE_LITERAL ) )
+			{
+				if ( orientation == Orientation.VERTICAL_LITERAL )
+				{
+					imagePath = "icons/wizban/sidebysidelinechartimage.gif"; //$NON-NLS-1$
+				}
+				else
+				{
+					imagePath = "icons/wizban/horizontalsidebysidelinechartimage.gif"; //$NON-NLS-1$
+				}
+			}
+			else if ( subtype.equals( STACKED_SUBTYPE_LITERAL ) )
+			{
+				if ( orientation == Orientation.VERTICAL_LITERAL )
+				{
+					imagePath = "icons/wizban/stackedlinechartimage.gif"; //$NON-NLS-1$
+				}
+				else
+				{
+					imagePath = "icons/wizban/horizontalstackedlinechartimage.gif"; //$NON-NLS-1$
+				}
+			}
+			else if ( subtype.equals( PERCENTSTACKED_SUBTYPE_LITERAL ) )
+			{
+				if ( orientation == Orientation.VERTICAL_LITERAL )
+				{
+					imagePath = "icons/wizban/percentstackedlinechartimage.gif"; //$NON-NLS-1$
+				}
+				else
+				{
+					imagePath = "icons/wizban/horizontalpercentstackedlinechartimage.gif"; //$NON-NLS-1$
+				}
+			}
+		}
+		else if ( sDimension.equals( THREE_DIMENSION_TYPE )
+				|| sDimension.equals( ChartDimension.THREE_DIMENSIONAL_LITERAL.getName( ) ) )
+		{
+			imagePath = "icons/wizban/sidebysidelinechart3dimage.gif"; //$NON-NLS-1$
+		}
+		if ( imagePath != null )
+		{
+			return UIHelper.getImage( imagePath );
+		}
+		return null;
+	}
+
+	protected String getDescriptionForSubtype( String subtypeLiteral )
+	{
+		if ( OVERLAY_SUBTYPE_LITERAL.equals( subtypeLiteral ) )
+		{
+			return Messages.getString( "LineChart.Txt.OverlayDescription" ); //$NON-NLS-1$
+		}
+		if ( STACKED_SUBTYPE_LITERAL.equals( subtypeLiteral ) )
+		{
+			return Messages.getString( "LineChart.Txt.StackedDescription" ); //$NON-NLS-1$
+		}
+		if ( PERCENTSTACKED_SUBTYPE_LITERAL.equals( subtypeLiteral ) )
+		{
+			return Messages.getString( "LineChart.Txt.PercentStackedDescription" ); //$NON-NLS-1$
+		}
+		return null;
+	}
+
+	protected String getDefaultTitle( )
+	{
+		return Messages.getString( "LineChart.Txt.DefaultLineChartTitle" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -135,7 +195,9 @@ public class LineChart extends DefaultChartTypeImpl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(
+	 * java.lang.String)
 	 */
 	public Collection<IChartSubType> getChartSubtypes( String sDimension,
 			Orientation orientation )
@@ -144,46 +206,39 @@ public class LineChart extends DefaultChartTypeImpl
 		if ( sDimension.equals( TWO_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_LITERAL.getName( ) ) )
 		{
-			if ( orientation.equals( Orientation.VERTICAL_LITERAL ) )
-			{
-				imgStacked = UIHelper.getImage( "icons/wizban/stackedlinechartimage.gif" ); //$NON-NLS-1$
-				imgPercentStacked = UIHelper.getImage( "icons/wizban/percentstackedlinechartimage.gif" ); //$NON-NLS-1$
-				imgSideBySide = UIHelper.getImage( "icons/wizban/sidebysidelinechartimage.gif" ); //$NON-NLS-1$
-			}
-			else
-			{
-				imgStacked = UIHelper.getImage( "icons/wizban/horizontalstackedlinechartimage.gif" ); //$NON-NLS-1$
-				imgPercentStacked = UIHelper.getImage( "icons/wizban/horizontalpercentstackedlinechartimage.gif" ); //$NON-NLS-1$
-				imgSideBySide = UIHelper.getImage( "icons/wizban/horizontalsidebysidelinechartimage.gif" ); //$NON-NLS-1$
-			}
-
 			vSubTypes.add( new DefaultChartSubTypeImpl( OVERLAY_SUBTYPE_LITERAL,
-					imgSideBySide,
-					sOverlayDescription,
+					getImageForSubtype( sDimension,
+							orientation,
+							OVERLAY_SUBTYPE_LITERAL ),
+					getDescriptionForSubtype( OVERLAY_SUBTYPE_LITERAL ),
 					Messages.getString( "LineChart.SubType.Overlay" ) ) ); //$NON-NLS-1$
 			if ( isStackedSupported( ) )
 			{
 				vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
-						imgStacked,
-						sStackedDescription,
+						getImageForSubtype( sDimension,
+								orientation,
+								STACKED_SUBTYPE_LITERAL ),
+						getDescriptionForSubtype( STACKED_SUBTYPE_LITERAL ),
 						Messages.getString( "LineChart.SubType.Stacked" ) ) ); //$NON-NLS-1$
 			}
 			if ( isPercentStackedSupported( ) )
 			{
 				vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
-						imgPercentStacked,
-						sPercentStackedDescription,
+						getImageForSubtype( sDimension,
+								orientation,
+								PERCENTSTACKED_SUBTYPE_LITERAL ),
+						getDescriptionForSubtype( PERCENTSTACKED_SUBTYPE_LITERAL ),
 						Messages.getString( "LineChart.SubType.PercentStacked" ) ) ); //$NON-NLS-1$
 			}
 		}
 		else if ( sDimension.equals( THREE_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.THREE_DIMENSIONAL_LITERAL.getName( ) ) )
 		{
-			imgSideBySide3D = UIHelper.getImage( "icons/wizban/sidebysidelinechart3dimage.gif" ); //$NON-NLS-1$
-
 			vSubTypes.add( new DefaultChartSubTypeImpl( OVERLAY_SUBTYPE_LITERAL,
-					imgSideBySide3D,
-					sOverlayDescription,
+					getImageForSubtype( sDimension,
+							orientation,
+							OVERLAY_SUBTYPE_LITERAL ),
+					getDescriptionForSubtype( OVERLAY_SUBTYPE_LITERAL ),
 					Messages.getString( "LineChart.SubType.Overlay" ) ) ); //$NON-NLS-1$
 		}
 		return vSubTypes;
@@ -192,8 +247,9 @@ public class LineChart extends DefaultChartTypeImpl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang.String,
-	 *      java.lang.String, java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang
+	 * .String, java.lang.String, java.lang.String)
 	 */
 	public Chart getModel( String sSubType, Orientation orientation,
 			String sDimension, Chart currentChart )
@@ -228,7 +284,10 @@ public class LineChart extends DefaultChartTypeImpl
 		( (Axis) newChart.getAxes( ).get( 0 ) ).getSeriesDefinitions( )
 				.add( sdX );
 
-		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
+		newChart.getTitle( )
+				.getLabel( )
+				.getCaption( )
+				.setValue( getDefaultTitle( ) );
 
 		if ( sSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) )
 		{
@@ -420,7 +479,7 @@ public class LineChart extends DefaultChartTypeImpl
 				currentChart.getTitle( )
 						.getLabel( )
 						.getCaption( )
-						.setValue( CHART_TITLE );
+						.setValue( getDefaultTitle( ) );
 
 				ArrayList axisTypes = new ArrayList( );
 				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
@@ -498,7 +557,6 @@ public class LineChart extends DefaultChartTypeImpl
 								.getLegendBehavior( ) );
 			}
 
-
 			{
 				// Clear existing series definitions
 				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).getSeriesDefinitions( )
@@ -566,7 +624,7 @@ public class LineChart extends DefaultChartTypeImpl
 			currentChart.getTitle( )
 					.getLabel( )
 					.getCaption( )
-					.setValue( CHART_TITLE );
+					.setValue( getDefaultTitle( ) );
 		}
 		if ( currentChart instanceof ChartWithAxes
 				&& !( (ChartWithAxes) currentChart ).getOrientation( )
@@ -718,7 +776,9 @@ public class LineChart extends DefaultChartTypeImpl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSupportedDimensions()
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSupportedDimensions
+	 * ()
 	 */
 	public String[] getSupportedDimensions( )
 	{
@@ -730,7 +790,8 @@ public class LineChart extends DefaultChartTypeImpl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getDefaultDimension()
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getDefaultDimension()
 	 */
 	public String getDefaultDimension( )
 	{
@@ -740,7 +801,9 @@ public class LineChart extends DefaultChartTypeImpl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition()
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition
+	 * ()
 	 */
 	public boolean supportsTransposition( )
 	{
@@ -750,7 +813,9 @@ public class LineChart extends DefaultChartTypeImpl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition
+	 * (java.lang.String)
 	 */
 	public boolean supportsTransposition( String dimension )
 	{

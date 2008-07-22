@@ -156,7 +156,6 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		subtasksRegistry.put( DIAL_SERIES_SHEET_COLLECTION, new String[]{
 			"Series.Value Series.Needle" //$NON-NLS-1$
 			} );
-
 	}
 
 	private Collection<IRegisteredSubtaskEntry> getRegisteredSubtasks( )
@@ -270,6 +269,13 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		{
 			IRegisteredSubtaskEntry entry = vSortedEntries.get( i );
 			ISubtaskSheet sheet = entry.getSheet( );
+
+			// Provide customization for subtask visibility
+			if ( !checkSubtaskVisibility( sheet ) )
+			{
+				continue;
+			}
+
 			String sNodePath = entry.getNodePath( );
 			sheet.setParentTask( this );
 			sheet.setNodePath( sNodePath );
@@ -287,15 +293,39 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		}
 	}
 
+	/**
+	 * Checks if current subtask is visible.
+	 * 
+	 * @param subtask
+	 *            subtask
+	 * @return visible or not
+	 */
+	protected boolean checkSubtaskVisibility( ISubtaskSheet subtask )
+	{
+		// Always visible in OS chart builder.
+		return true;
+	}
+
+	/**
+	 * Returns if tree view can support multiple value series
+	 * 
+	 * @return
+	 */
+	protected boolean isMultipleValueSeriesAllowed( )
+	{
+		// OS chart builder supports UI for multiple value series.
+		return true;
+	}
+
 	public void updateTreeItem( )
 	{
 		super.updateTreeItem( );
 
 		getNavigatorTree( ).removeAll( );
-		Iterator itKeys = htVisibleSheets.keySet( ).iterator( );
+		Iterator<String> itKeys = htVisibleSheets.keySet( ).iterator( );
 		while ( itKeys.hasNext( ) )
 		{
-			String sKey = (String) itKeys.next( );
+			String sKey = itKeys.next( );
 			Object oVal = htVisibleSheets.get( sKey );
 			if ( oVal instanceof Vector )
 			{
@@ -895,11 +925,18 @@ public class TaskFormatChart extends TreeCompoundTask implements
 					iAncillaryAxisCount += ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
 							.get( i ) ).getAncillaryAxes( ).size( );
 				}
-				for ( int iS = 0; iS < iOrthogonalAxisCount; iS++ )
+				if ( isMultipleValueSeriesAllowed( ) )
 				{
-					iOrthogonalSeriesCount += ( (Axis) ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
-							.get( i ) ).getAssociatedAxes( ).get( iS ) ).getSeriesDefinitions( )
-							.size( );
+					for ( int iS = 0; iS < iOrthogonalAxisCount; iS++ )
+					{
+						iOrthogonalSeriesCount += ( (Axis) ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
+								.get( i ) ).getAssociatedAxes( ).get( iS ) ).getSeriesDefinitions( )
+								.size( );
+					}
+				}
+				else
+				{
+					iOrthogonalSeriesCount = 1;
 				}
 			}
 			// Start from 1 because there will always be at least 1 entry for
@@ -938,11 +975,19 @@ public class TaskFormatChart extends TreeCompoundTask implements
 			iOrthogonalAxisCount = 0;
 			iBaseSeriesCount = ( (ChartWithoutAxes) chartModel ).getSeriesDefinitions( )
 					.size( );
-			iOrthogonalSeriesCount = 0;
-			for ( int iS = 0; iS < iBaseSeriesCount; iS++ )
+			
+			if ( isMultipleValueSeriesAllowed( ) )
 			{
-				iOrthogonalSeriesCount += ( (SeriesDefinition) ( (ChartWithoutAxes) chartModel ).getSeriesDefinitions( )
-						.get( iS ) ).getSeriesDefinitions( ).size( );
+				iOrthogonalSeriesCount = 0;
+				for ( int iS = 0; iS < iBaseSeriesCount; iS++ )
+				{
+					iOrthogonalSeriesCount += ( (SeriesDefinition) ( (ChartWithoutAxes) chartModel ).getSeriesDefinitions( )
+							.get( iS ) ).getSeriesDefinitions( ).size( );
+				}
+			}
+			else
+			{
+				iOrthogonalSeriesCount = 1;
 			}
 
 			// Remove axis sheets since they are not needed for Charts Without

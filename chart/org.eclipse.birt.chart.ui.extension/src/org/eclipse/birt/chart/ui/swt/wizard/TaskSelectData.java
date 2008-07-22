@@ -525,14 +525,15 @@ public class TaskSelectData extends SimpleTask implements
 			}
 		}
 
-		Collection cRegisteredEntries = ChartUIExtensionsImpl.instance( )
-				.getSeriesUIComponents( );
-		Iterator iterEntries = cRegisteredEntries.iterator( );
+		Collection<ISeriesUIProvider> cRegisteredEntries = ChartUIExtensionsImpl.instance( )
+				.getSeriesUIComponents( getContext( ).getClass( )
+						.getSimpleName( ) );
+		Iterator<ISeriesUIProvider> iterEntries = cRegisteredEntries.iterator( );
 
 		String sSeries = null;
 		while ( iterEntries.hasNext( ) )
 		{
-			ISeriesUIProvider provider = (ISeriesUIProvider) iterEntries.next( );
+			ISeriesUIProvider provider = iterEntries.next( );
 			sSeries = provider.getSeriesClass( );
 
 			if ( sSeries.equals( series.getClass( ).getName( ) ) )

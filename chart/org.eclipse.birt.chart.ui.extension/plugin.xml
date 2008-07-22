@@ -119,6 +119,8 @@
 
    </extension>
    <extension
+         id="ChartWizardContext"
+         name="Chart series composites"
          point="org.eclipse.birt.chart.ui.seriescomposites">
       <seriescomposite
             seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.SeriesUIProvider"

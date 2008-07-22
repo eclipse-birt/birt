@@ -129,7 +129,7 @@ public class ChartUIUtil
 
 		// Get collection of registered UI Providers
 		Collection<ISeriesUIProvider> cRegisteredEntries = ChartUIExtensionsImpl.instance( )
-				.getSeriesUIComponents( );
+				.getSeriesUIComponents( ChartWizardContext.class.getSimpleName( ) );
 		Iterator<ISeriesUIProvider> iterEntries = cRegisteredEntries.iterator( );
 		while ( iterEntries.hasNext( ) )
 		{
@@ -262,7 +262,8 @@ public class ChartUIUtil
 	 *            chart
 	 * @return specified axis definitions or all series definitions
 	 */
-	public static List getAllOrthogonalSeriesDefinitions( Chart chart )
+	public static List<SeriesDefinition> getAllOrthogonalSeriesDefinitions(
+			Chart chart )
 	{
 		return ChartUtil.getAllOrthogonalSeriesDefinitions( chart );
 	}
@@ -1402,7 +1403,9 @@ public class ChartUIUtil
 	}
 
 	/**
-	 * Gets the specific series UI provider
+	 * Gets the specific series UI provider. Do not use this method to get
+	 * series composite since current instance is always basic chart UI
+	 * implementation.
 	 * 
 	 * @param series
 	 *            series in chart model
