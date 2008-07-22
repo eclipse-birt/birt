@@ -129,6 +129,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private String formerQueryTxt = "";
 	private String cachedDbType = "";
 	private int cachedSchemaComboIndex = -1;
+	private boolean cachedShowSystemTable = false;
+	private boolean cachedUseQuoteString = false;
 	private DataSourceDesign prevDataSourceDesign;
 	private DataSetDesign dataSetDesign;
 	private boolean shouldUpdateDataSetDesign;
@@ -502,7 +504,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 							public void run( )
 							{
-								populateAvailableDbObjects( );
+								populateAvailableDbObjects( true );
 
 							}
 
@@ -678,7 +680,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	 * This method is invoked when the find button is clicked It populates the
 	 * Available Data Base obecets ( in the Tree control )
 	 */
-	protected void populateAvailableDbObjects( )
+	protected void populateAvailableDbObjects( boolean applyFilter )
 	{
 		DataSetDesign dataSetDesign = getDataSetDesign( );
 
@@ -687,7 +689,9 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		if ( curDataSourceDesign == prevDataSourceDesign )
 		{
 			if ( ( cachedSearchTxt == searchTxt.getText( ) || ( cachedSearchTxt != null && cachedSearchTxt.equals( searchTxt.getText( ) ) ) )
-					&& ( cachedDbType == getSelectedDbType( ) || ( cachedDbType != null && cachedDbType.equals( getSelectedDbType( ) ) ) ) )
+					&& ( cachedDbType == getSelectedDbType( ) || ( cachedDbType != null && cachedDbType.equals( getSelectedDbType( ) ) ) )
+					&& cachedShowSystemTable == ( showSystemTableCheckBox.getEnabled( ) && showSystemTableCheckBox.getSelection( ) )
+					&& cachedUseQuoteString == ( identifierQuoteStringCheckBox.getEnabled( ) && identifierQuoteStringCheckBox.getSelection( ) ) )
 			{
 				if ( schemaList != null && schemaList.size( ) > 0 )
 				{
@@ -705,11 +709,19 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		// in the tree
 		removeAllAvailableDbObjects( );
 
+		cachedDbType = this.getSelectedDbType( );
+		
+		cachedShowSystemTable = showSystemTableCheckBox.getEnabled( )
+				&& showSystemTableCheckBox.getSelection( );
+		
+		cachedUseQuoteString = identifierQuoteStringCheckBox.getEnabled( )
+				&& identifierQuoteStringCheckBox.getSelection( );
+		
 		setRootElement( );
 		setRefreshInfo( );
 		if ( isSchemaSupported )
 		{
-			populateSchemaList( );
+			populateSchemaList( applyFilter );
 		}
 		else
 		{
@@ -739,7 +751,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	 * populate shema list if the schema is supported
 	 * 
 	 */
-	protected void populateSchemaList( )
+	protected void populateSchemaList( boolean checkEmptySchema )
 	{
 		if ( rootNode != null )
 		{
@@ -754,7 +766,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		}
 		else
 		{
-			getSpecificSchema( schemaCombo.getText( ).trim( ) );
+			getSpecificSchema( schemaCombo.getText( ).trim( ), checkEmptySchema  );
 		}
 		
 		// If the schemaCombo have not be initialized yet.
@@ -811,10 +823,19 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 						&& count < numberOfSchema; i++ )
 				{
 					String schemaName = (String) schemaList.get( i );
-
-					if ( showSystemTableCheckBox.isEnabled( ) && showSystemTableCheckBox.getSelection( ) )
+					if (  !checkEmptySchema )
 					{
-						if ( containsTableInSchema( schemaName, true ) )
+						DbObject schemaObj = new DbObject( schemaName,
+								schemaName,
+								DbObject.SCHEMA_TYPE,
+								schemaImage );
+						schemaObjectList.add( schemaObj );
+						count++;
+					}
+					else
+					{
+						boolean showSystemTable = showSystemTableCheckBox.isEnabled( ) && showSystemTableCheckBox.getSelection( );
+						if ( containsTableInSchema( schemaName, showSystemTable ) )
 						{
 							DbObject schemaObj = new DbObject( schemaName,
 									schemaName,
@@ -823,15 +844,6 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 							schemaObjectList.add( schemaObj );
 							count++;
 						}
-					}
-					else if ( containsTableInSchema( schemaName, false ) )
-					{
-						DbObject schemaObj = new DbObject( schemaName,
-								schemaName,
-								DbObject.SCHEMA_TYPE,
-								schemaImage );
-						schemaObjectList.add( schemaObj );
-						count++;
 					}
 				}
 			}
@@ -861,7 +873,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	 * 
 	 * @param schemaName
 	 */
-	private void getSpecificSchema( String schemaName )
+	private void getSpecificSchema( String schemaName, boolean checkEmptySchema )
 	{
 		if ( !isPageInitialization )
 		{
@@ -875,7 +887,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 				return;
 			}
 
-			if ( containsTableInSchema( schemaName, false ) )
+			boolean showSystemTable = showSystemTableCheckBox.isEnabled( ) && showSystemTableCheckBox.getSelection( );
+			if ( !checkEmptySchema || containsTableInSchema( schemaName, showSystemTable ) )
 			{
 				schemaList = new ArrayList( );
 				schemaList.add( schemaName );
@@ -1081,21 +1094,30 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		namePattern = SQLUtility.getTailoredSearchText( searchTxt.getText( ) );
 
 		String dbtype = getSelectedDbType( );
-		cachedDbType = dbtype;
 		if ( dbtype != null )
 		{
-			if ( showSystemTableCheckBox.isEnabled( )
-					&& showSystemTableCheckBox.getSelection( ) )
+			boolean showSystemTable = showSystemTableCheckBox.isEnabled( )
+					&& showSystemTableCheckBox.getSelection( );
+			if ( DbType.ALL_STRING.equalsIgnoreCase( dbtype ) )
 			{
-				tableType = new String[]{
-						"SYSTEM TABLE", "TABLE"
+				tableType = showSystemTable ? new String[]{
+						"SYSTEM TABLE", "TABLE", "VIEW"
+				} : new String[]{
+						"TABLE", "VIEW"
 				};
 			}
-			else if ( DbType.TABLE_STRING.equalsIgnoreCase( dbtype )
-					|| DbType.VIEW_STRING.equalsIgnoreCase( dbtype ) )
+			else if ( DbType.TABLE_STRING.equalsIgnoreCase( dbtype ) )
+			{
+				tableType = showSystemTable ? new String[]{
+						"SYSTEM TABLE", "TABLE"
+				} : new String[]{
+					"TABLE"
+				};
+			}
+			else
 			{
 				tableType = new String[]{
-					dbtype
+					"VIEW"
 				};
 			}
 		}
@@ -1605,7 +1627,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		sourceViewerConfiguration.getContentAssistProcessor( )
 				.setDataSourceHandle( this.getDataSetDesign( ).getDataSourceDesign( ) );
  
-		populateAvailableDbObjects( );
+		populateAvailableDbObjects( false );
 		try 
 		{
 			if ( metaDataProvider.getConnection( ) == null
