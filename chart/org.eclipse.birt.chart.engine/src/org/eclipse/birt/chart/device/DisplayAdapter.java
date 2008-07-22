@@ -15,6 +15,7 @@ import java.net.URL;
 import java.util.Locale;
 
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.factory.IResourceFinder;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Size;
@@ -33,6 +34,8 @@ public class DisplayAdapter implements IDisplayServer
 	 * An internal instance of the locale being used for processing
 	 */
 	private transient ULocale lcl = null;
+	
+	protected transient IResourceFinder resourceFinder = null;
 
 	/*
 	 * (non-Javadoc)
@@ -176,4 +179,30 @@ public class DisplayAdapter implements IDisplayServer
 	{
 		// NO-OP ADAPTER DEFAULT IMPLEMENTATION
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.device.IDisplayServer#setResourceFinder(org.eclipse
+	 * .birt.chart.util.IResourceFinder)
+	 */
+	public void setResourceFinder( IResourceFinder resourceFinder )
+	{
+		this.resourceFinder = resourceFinder;
+	}
+
+	protected URL findResource( URL urlOriginal )
+	{
+		if ( resourceFinder != null )
+		{
+			URL urlFound = resourceFinder.findResource( urlOriginal.getPath( ) );
+			if ( urlFound != null )
+			{
+				return urlFound;
+			}
+		}
+		return urlOriginal;
+	}
+
 }

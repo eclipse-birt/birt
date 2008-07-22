@@ -230,7 +230,8 @@ public class SwingDisplayServer extends DisplayAdapter
 	 */
 	public Object loadImage( URL url ) throws ChartException
 	{
-		return _imageCache.loadImage( url );
+		URL urlFound = findResource( url );
+		return _imageCache.loadImage( urlFound );
 	}
 
 	/*

@@ -13,7 +13,10 @@ package org.eclipse.birt.chart.reportitem;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -26,6 +29,8 @@ import java.util.Map;
 import org.eclipse.birt.chart.computation.withaxes.ScaleContext;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.Generator;
+import org.eclipse.birt.chart.factory.IExternalizer;
+import org.eclipse.birt.chart.factory.IResourceFinder;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
@@ -48,6 +53,7 @@ import org.eclipse.birt.chart.script.internal.ChartWithoutAxesImpl;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IChoiceDefinition;
@@ -63,11 +69,15 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.RhinoException;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * ChartReportItemImpl
  */
 public final class ChartReportItemImpl extends ReportItem implements
-		ICompatibleReportItem
+		ICompatibleReportItem,
+		IResourceFinder,
+		IExternalizer
 {
 
 	private Chart cm = null;
@@ -263,6 +273,15 @@ public final class ChartReportItemImpl extends ReportItem implements
 		{
 			try
 			{
+				byte[] buf = new byte[40000];
+				int size = data.read( buf, 0, 40000 );
+				data.reset( );
+
+				File f = new File( "c:/aaa.txt" );
+				FileOutputStream o = new FileOutputStream( f );
+				o.write( buf, 0, size );
+				o.flush( );
+				
 				cm = SerializerImpl.instance( ).fromXml( data, true );
 
 				// This fix is only for SCR 95978, for the version 3.2.10 of
@@ -843,5 +862,23 @@ public final class ChartReportItemImpl extends ReportItem implements
 	public boolean isCopied( )
 	{
 		return this.bCopied;
+	}
+
+	public URL findResource( String fileName )
+	{
+		if ( handle != null )
+		{
+			return handle.getModule( ).findResource( fileName, 0 );
+		}
+		return null;
+	}
+
+	public String externalizedMessage( String sKey, String sDefaultValue,
+			ULocale locale )
+	{
+		return ModuleUtil.getExternalizedValue( handle,
+				sKey,
+				sDefaultValue,
+				locale );
 	}
 }

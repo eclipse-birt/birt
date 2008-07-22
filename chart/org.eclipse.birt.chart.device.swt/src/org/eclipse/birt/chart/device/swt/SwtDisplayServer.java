@@ -143,7 +143,8 @@ public final class SwtDisplayServer extends DisplayAdapter
 	{
 		try
 		{
-			final InputStream is = url.openStream( );
+			URL urlFound = findResource( url );
+			final InputStream is = urlFound.openStream( );
 			final Image img = new Image( _d, is );
 			is.close( );
 			return img;

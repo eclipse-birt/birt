@@ -210,6 +210,9 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			context.setTextRtL( DesignChoiceConstants.BIDI_DIRECTION_RTL.equals( extendedHandle.getPrivateStyle( )
 					.getTextDirection( ) ) );
 			
+			context.setResourceFinder( crii );
+			context.setExternalizer( crii );
+			
 			Object of = extendedHandle.getProperty( ChartReportItemUtil.PROPERTY_OUTPUT );
 			if ( of instanceof String )
 			{

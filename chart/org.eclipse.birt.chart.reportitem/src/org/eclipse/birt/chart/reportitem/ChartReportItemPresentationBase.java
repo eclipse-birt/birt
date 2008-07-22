@@ -983,7 +983,9 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		// Set text direction from StyleHandle to chart runtime context
 		rtc.setRightToLeftText( DesignChoiceConstants.BIDI_DIRECTION_RTL.equals( handle.getPrivateStyle( )
 				.getTextDirection( ) ) );
-
+		
+		rtc.setResourceFinder( (ChartReportItemImpl) getReportItem( handle ) );
+		rtc.setExternalizer( (ChartReportItemImpl) getReportItem( handle ) );
 	}
 
 	protected void prepareDeviceRenderer( ) throws ChartException

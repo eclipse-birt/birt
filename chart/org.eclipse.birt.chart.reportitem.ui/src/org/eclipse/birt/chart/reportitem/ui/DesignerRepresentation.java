@@ -447,6 +447,8 @@ public final class DesignerRepresentation extends Figure
 						.getPrivateStyle( )
 						.getTextDirection( ) ) );
 
+				rtc.setResourceFinder( crii );
+				rtc.setExternalizer( crii );
 				
 				// Create shared scale if needed
 				boolean bPlotChart = ChartXTabUtil.isPlotChart( crii.getHandle( ) );

@@ -166,6 +166,8 @@ public class ChartPreviewPainter extends ChartPreviewPainterBase implements
 			rtc.setMessageLookup( new ChartBuilderMessageLookup( this.wizardContext.getUIServiceProvider( ) ) );
 			rtc.setRightToLeft( wizardContext.isRtL( ) );
 			rtc.setRightToLeftText( wizardContext.isTextRtL( ) );
+			rtc.setResourceFinder( wizardContext.getResourceFinder( ) );
+			rtc.setExternalizer( wizardContext.getExternalizer( ) );
 
 			gcs = gr.build( deviceRenderer.getDisplayServer( ),
 					chart,

@@ -15,6 +15,7 @@ import java.net.URL;
 import java.util.Locale;
 
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.factory.IResourceFinder;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Size;
@@ -166,5 +167,15 @@ public interface IDisplayServer
 	 * @since 2.3
 	 */
 	void setGraphicsContext( Object graphicsContext );
+
+	/**
+	 * Set the resource finder, which will be used by loading image. If the
+	 * chart is not running in stand alone mode, the ChartReportItemImpl will be
+	 * set, which will resuse the find resource of the report engine, and
+	 * feature like resource folder will be supported.
+	 * 
+	 * @param resourceFinder
+	 */
+	void setResourceFinder( IResourceFinder resourceFinder );
 
 }

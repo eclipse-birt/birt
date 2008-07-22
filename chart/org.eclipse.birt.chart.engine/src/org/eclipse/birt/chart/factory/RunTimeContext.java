@@ -119,6 +119,11 @@ public final class RunTimeContext implements Serializable
      */
 	private boolean isSharingQuery = false;
 	
+	
+	private IResourceFinder resourceFinder = null;
+	
+	private IExternalizer externalizer = null;
+	
 	/**
 	 * A default zero-arg public constructor used for object creation.
 	 */
@@ -508,7 +513,7 @@ public final class RunTimeContext implements Serializable
 		 */
 		String sKey = sChartKey;
 		String sDefaultValue = sChartKey;
-		final int iKeySeparator = sChartKey.indexOf( IMessageLookup.KEY_SEPARATOR );
+		final int iKeySeparator = sChartKey.indexOf( IExternalizer.KEY_SEPARATOR );
 
 		if ( iKeySeparator != -1 )
 		{
@@ -517,7 +522,7 @@ public final class RunTimeContext implements Serializable
 
 		}
 
-		if ( iml == null )
+		if ( externalizer == null )
 		{
 			// no lookup cases
 			return sDefaultValue;
@@ -540,15 +545,10 @@ public final class RunTimeContext implements Serializable
 				// b case
 				sKey = sDefaultValue;
 			}
-			String localizedValue = iml.getMessageValue( sKey, getULocale( ) );
-			if ( localizedValue == null || localizedValue.equals( "" ) ) //$NON-NLS-1$
-			{
-				return sDefaultValue;
-			}
-			else
-			{
-				return localizedValue;
-			}
+			
+			return externalizer.externalizedMessage( sKey,
+					sDefaultValue,
+					this.getULocale( ) );
 		}
 
 	}
@@ -608,5 +608,41 @@ public final class RunTimeContext implements Serializable
 		iRightToLeftText = value ? 1 : 0;
 	}
 	// bidi_acgc added end
+
+	
+	/**
+	 * @return Returns the resourceFinder.
+	 */
+	public IResourceFinder getResourceFinder( )
+	{
+		return resourceFinder;
+	}
+
+	/**
+	 * @param resourceFinder
+	 *            The resourceFinder to set.
+	 */
+	public void setResourceFinder( IResourceFinder resourceFinder )
+	{
+		this.resourceFinder = resourceFinder;
+	}
+
+	
+	/**
+	 * @return Returns the externalizer.
+	 */
+	public IExternalizer getExternalizer( )
+	{
+		return externalizer;
+	}
+
+	/**
+	 * @param externalizer
+	 *            The externalizer to set.
+	 */
+	public void setExternalizer( IExternalizer externalizer )
+	{
+		this.externalizer = externalizer;
+	}
 
 }

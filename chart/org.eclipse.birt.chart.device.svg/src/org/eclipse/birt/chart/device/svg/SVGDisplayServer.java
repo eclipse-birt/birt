@@ -33,8 +33,9 @@ public class SVGDisplayServer extends SwingDisplayServer
 	 */
 	public Object loadImage( URL url ) throws ChartException
 	{
-		Image image = (Image) super.loadImage( url );
-		return new SVGImage( image, url );
+		URL urlFound = findResource( url );
+		Image image = (Image) super.loadImage( urlFound );
+		return new SVGImage( image, urlFound );
 	}
 	
 	public ITextMetrics getTextMetrics( Label la )

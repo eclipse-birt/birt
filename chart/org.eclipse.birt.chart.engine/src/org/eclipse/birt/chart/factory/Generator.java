@@ -1272,6 +1272,9 @@ public final class Generator implements IGenerator
 			throws ChartException
 	{
 		final Chart cm = gcs.getChartModel( );
+		
+		idr.getDisplayServer( ).setResourceFinder( gcs.getRunTimeContext( )
+				.getResourceFinder( ) );
 
 		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.START_RENDERING,

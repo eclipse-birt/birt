@@ -17,6 +17,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.eclipse.birt.chart.factory.IExternalizer;
+import org.eclipse.birt.chart.factory.IResourceFinder;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
@@ -46,6 +48,8 @@ public class ChartWizardContext implements IWizardContext
 	private boolean isTextRtL;
 	private Map<String, Boolean> mSheetEnabled;
 	private Map<String, Object[]> mQueries;
+	private IResourceFinder resourceFinder = null;
+	private IExternalizer externalizer = null;
 
 	public ChartWizardContext( Chart chartModel, IUIServiceProvider uiProvider,
 			IDataServiceProvider dataProvider, IChartDataSheet dataSheet )
@@ -297,5 +301,41 @@ public class ChartWizardContext implements IWizardContext
 	public IChartDataSheet getDataSheet( )
 	{
 		return dataSheet;
+	}
+
+	
+	/**
+	 * @return Returns the resourceFinder.
+	 */
+	public IResourceFinder getResourceFinder( )
+	{
+		return resourceFinder;
+	}
+
+	/**
+	 * @param resourceFinder
+	 *            The resourceFinder to set.
+	 */
+	public void setResourceFinder( IResourceFinder resourceFinder )
+	{
+		this.resourceFinder = resourceFinder;
+	}
+
+	
+	/**
+	 * @return Returns the externalizer.
+	 */
+	public IExternalizer getExternalizer( )
+	{
+		return externalizer;
+	}
+
+	/**
+	 * @param externalizer
+	 *            The externalizer to set.
+	 */
+	public void setExternalizer( IExternalizer externalizer )
+	{
+		this.externalizer = externalizer;
 	}
 }
