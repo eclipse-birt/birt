@@ -143,7 +143,7 @@ public class ImageFigure extends ReportElementFigure
 			}
 		}
 
-		if ( getImage( ) == null )
+		if ( getImage( ) == null || getImage( ).isDisposed( ) )
 		{
 			return;
 		}

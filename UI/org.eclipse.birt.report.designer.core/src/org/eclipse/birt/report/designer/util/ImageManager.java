@@ -227,6 +227,7 @@ public class ImageManager
 		}
 		if ( image != null )
 		{
+			getImageRegistry( ).remove( key );
 			getImageRegistry( ).put( key, image );
 			if ( DesignerConstants.TRACING_IMAGE_MANAGER_IMAGE_ADD )
 			{
