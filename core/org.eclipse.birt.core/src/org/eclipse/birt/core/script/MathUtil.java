@@ -109,7 +109,7 @@ public class MathUtil
 			if ( ret instanceof Double )
 			{
 				Double d = (Double) ret;
-				return Double.isInfinite( d ) ? ifZero : ret;
+				return Double.isNaN( d ) || Double.isInfinite( d ) ? ifZero : ret;
 			}
 			return ret;
 		}

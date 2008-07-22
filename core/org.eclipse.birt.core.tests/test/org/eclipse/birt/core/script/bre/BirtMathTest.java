@@ -306,10 +306,11 @@ public class BirtMathTest extends TestCase
 				"BirtMath.safeDivide( 10.5, -10,-1 )",
 				"BirtMath.safeDivide( 100.5,10,-1 )",
 				"BirtMath.safeDivide( 100.5,0,-1 )",
+				"BirtMath.safeDivide( 0, 0, -2 )",
 		};
 
 		double values[] = new double[]{
-				0, -1.05, 10.05, -1
+				0, -1.05, 10.05, -1, -2
 		};
 
 		for ( int i = 0; i < values.length; i++ )
