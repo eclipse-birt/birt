@@ -126,6 +126,14 @@ public class UseCssInReportDialog extends TitleAreaDialog
 			fileNameField.setText( fileName );
 		}
 		
+		if(viewTimeBtn.isEnabled() && viewTimeBtn.getSelection())
+		{
+			uriText.setEnabled( true );
+		}else
+		{
+			uriText.setEnabled( false );
+		}
+		
 		if ( includedCssHandle == null )
 		{
 			return;
