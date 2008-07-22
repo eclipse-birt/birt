@@ -267,11 +267,17 @@ class AdvancedPropertyValueLabelProvider extends ColumnLabelProvider implements
 					}
 					else
 					{
+//						GroupPropertyHandleProvider handle = GroupPropertyHandleProvider.getInstance( );
+//						if(handle.isDimensionProperty(propertyHandle))
+//						{
+//							
+//						}
 						value = propertyHandle.getDisplayValue( );
 					}
 				}
 			}
 		}
+
 		if ( value == null )
 		{
 			if ( showAuto( propertyHandle ) )

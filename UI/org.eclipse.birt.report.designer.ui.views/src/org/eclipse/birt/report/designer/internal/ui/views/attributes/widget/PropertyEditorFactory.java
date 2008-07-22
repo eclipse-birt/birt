@@ -130,8 +130,7 @@ public class PropertyEditorFactory
 		{
 			editor = new ComboBoxDimensionCellEditor( parent,
 					displayNames,
-					values );
-			editor.setValue( value );
+					values );			
 
 			IChoiceSet choiceSet = DesignEngine.getMetaDataDictionary( )
 					.getChoiceSet( DesignChoiceConstants.CHOICE_UNITS );
@@ -144,7 +143,8 @@ public class PropertyEditorFactory
 				dimensionValue = DimensionValue.parse( value );
 				if ( dimensionValue != null )
 				{
-					( (ComboBoxDimensionCellEditor) editor ).setUnits( dimensionValue.getUnits( ) );
+					editor.setValue( dimensionValue.toDisplayString() );
+					( (ComboBoxDimensionCellEditor) editor ).setUnits( dimensionValue.getUnits( ) );					
 				}
 			}
 			catch ( PropertyValueException e )
@@ -176,11 +176,11 @@ public class PropertyEditorFactory
 			{
 				editor = new DimensionCellEditor( parent, values, SWT.NONE );
 			}
-
-			editor.setValue( value );
+			
 			if ( dimensionValue != null )
 			{
 				( (DimensionCellEditor) editor ).setUnits( dimensionValue.getUnits( ) );
+				editor.setValue( dimensionValue.toDisplayString() );
 			}
 		}
 		else if ( handle.isElementRefValue( o ) )

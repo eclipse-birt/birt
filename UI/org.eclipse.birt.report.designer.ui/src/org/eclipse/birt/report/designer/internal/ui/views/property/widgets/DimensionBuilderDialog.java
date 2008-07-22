@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.util.NumberUtil;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -24,6 +25,8 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -36,21 +39,20 @@ import org.eclipse.ui.dialogs.SelectionStatusDialog;
 
 /**
  * A dialog for dimension builder in the property view.
- *  
+ * 
  */
-public class DimensionBuilderDialog extends SelectionStatusDialog
-{
+public class DimensionBuilderDialog extends SelectionStatusDialog {
 
 	private static String TITLE = Messages
-			.getString( "DimensionBuilderDialog.Title" ); //$NON-NLS-1$
+			.getString("DimensionBuilderDialog.Title"); //$NON-NLS-1$
 
 	private static String LABEL_MEASURE = Messages
-			.getString( "DimensionBuilderDialog.LabelMeasure" ); //$NON-NLS-1$
+			.getString("DimensionBuilderDialog.LabelMeasure"); //$NON-NLS-1$
 
 	private static String LABEL_UNIT = Messages
-			.getString( "DimensionBuilderDialog.LabelUnit" ); //$NON-NLS-1$
+			.getString("DimensionBuilderDialog.LabelUnit"); //$NON-NLS-1$
 
-	private Button[] units = new Button[]{};
+	private Button[] units = new Button[] {};
 
 	private String[] unitNames;
 
@@ -63,10 +65,9 @@ public class DimensionBuilderDialog extends SelectionStatusDialog
 	/**
 	 * @param parent
 	 */
-	public DimensionBuilderDialog( Shell parent )
-	{
-		super( parent );
-		this.setTitle( TITLE );
+	public DimensionBuilderDialog(Shell parent) {
+		super(parent);
+		this.setTitle(TITLE);
 	}
 
 	/*
@@ -74,35 +75,34 @@ public class DimensionBuilderDialog extends SelectionStatusDialog
 	 * 
 	 * @see org.eclipse.ui.dialogs.SelectionStatusDialog#computeResult()
 	 */
-	protected void computeResult( )
-	{
-		try
-		{
-			measureData = StringUtil.parseInput( measure.getText( ),
-					ThreadResources.getLocale( ) );
-		}
-		catch ( PropertyValueException e )
-		{
+	protected void computeResult() {
+		try {
+			measureData = StringUtil.parseInput(measure.getText(),
+					ThreadResources.getLocale());
+		} catch (PropertyValueException e) {
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
-	protected Control createDialogArea( Composite parent )
-	{
-		UIUtil.bindHelp( parent,IHelpContextIds.DIMENSION_BUILDER_DIALOG_DIALOG );  
-		Composite composite = (Composite) super.createDialogArea( parent );
+	protected Control createDialogArea(Composite parent) {
+		UIUtil
+				.bindHelp(parent,
+						IHelpContextIds.DIMENSION_BUILDER_DIALOG_DIALOG);
+		Composite composite = (Composite) super.createDialogArea(parent);
 
-		GridLayout gridLayout = new GridLayout( );
+		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
-		composite.setLayout( gridLayout );
+		composite.setLayout(gridLayout);
 
-		createMeasureField( composite );
+		createMeasureField(composite);
 
-		createUnitGroup( composite );
+		createUnitGroup(composite);
 
 		return composite;
 	}
@@ -110,70 +110,73 @@ public class DimensionBuilderDialog extends SelectionStatusDialog
 	/**
 	 * @param composite
 	 */
-	private void createMeasureField( Composite composite )
-	{
-		new Label( composite, SWT.NONE ).setText( LABEL_MEASURE );
+	private void createMeasureField(Composite composite) {
+		new Label(composite, SWT.NONE).setText(LABEL_MEASURE);
 
-		measure = new Text( composite, SWT.SINGLE | SWT.BORDER );
-		GridData gridData = new GridData( GridData.HORIZONTAL_ALIGN_FILL );
+		measure = new Text(composite, SWT.SINGLE | SWT.BORDER);
+		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		gridData.horizontalSpan = 2;
-		measure.setLayoutData( gridData );
-		measure.setFont( composite.getFont( ) );
-		if ( measureData != null && measureData != "" )
-		{
-			measure.setText( StringUtil.doubleToString( ( (Double) measureData ).doubleValue( ),
-					3,
-					ThreadResources.getLocale( ) ) );
+		measure.setLayoutData(gridData);
+		measure.setFont(composite.getFont());
+		if (measureData != null && measureData != "") {
+			measure.setText(NumberUtil.double2LocaleNum(((Double) measureData)
+					.doubleValue()));
 		}
+		measure.addVerifyListener(new VerifyListener(){
+
+			public void verifyText(VerifyEvent e) {
+				// TODO Auto-generated method stub
+				boolean doit = false;
+				
+				char eChar = e.character;System.out.print(eChar + 0);
+				String validChars = "0123456789,.\b";
+				if(e.keyCode == SWT.DEL || validChars.indexOf(eChar) >= 0)
+				{					
+					doit = true;
+				}
+				e.doit = doit;
+			}});
 	}
 
 	/**
 	 * @param composite
 	 */
-	private void createUnitGroup( Composite composite )
-	{
-		Label unitLabel = new Label( composite, SWT.NONE );
-		unitLabel.setText( LABEL_UNIT );
-		GridData gridData = new GridData( GridData.HORIZONTAL_ALIGN_FILL );
+	private void createUnitGroup(Composite composite) {
+		Label unitLabel = new Label(composite, SWT.NONE);
+		unitLabel.setText(LABEL_UNIT);
+		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		gridData.horizontalSpan = 2;
-		unitLabel.setLayoutData( gridData );
+		unitLabel.setLayoutData(gridData);
 
-		IChoiceSet choiceSet = DesignEngine.getMetaDataDictionary( )
-				.getChoiceSet( DesignChoiceConstants.CHOICE_UNITS );
+		IChoiceSet choiceSet = DesignEngine.getMetaDataDictionary()
+				.getChoiceSet(DesignChoiceConstants.CHOICE_UNITS);
 
 		units = new Button[unitNames.length];
-		for ( int i = 0; i < units.length; i++ )
-		{
-			units[i] = new Button( composite, SWT.RADIO );
-			IChoice choice = choiceSet.findChoice( unitNames[i] );
-			if ( choice != null )
-			{
-				units[i].setData( choice.getName( ) );
-				units[i].setText( choice.getDisplayName( ) );
-			}
-			else
-			{
-				units[i].setData( unitNames[i] );
-				units[i].setText( unitNames[i] );
+		for (int i = 0; i < units.length; i++) {
+			units[i] = new Button(composite, SWT.RADIO);
+			IChoice choice = choiceSet.findChoice(unitNames[i]);
+			if (choice != null) {
+				units[i].setData(choice.getName());
+				units[i].setText(choice.getDisplayName());
+			} else {
+				units[i].setData(unitNames[i]);
+				units[i].setText(unitNames[i]);
 			}
 
-			if ( units[i].getData( ).equals( getUnitName( ) ) )
-			{
-				units[i].setSelection( true );
+			if (units[i].getData().equals(getUnitName())) {
+				units[i].setSelection(true);
 			}
-			
+
 			final int currentUnitData = i;
-			units[i].addSelectionListener( new SelectionListener( ) {
+			units[i].addSelectionListener(new SelectionListener() {
 
-				public void widgetSelected( SelectionEvent e )
-				{
-					setUnitName( units[currentUnitData].getData( ).toString( ) );
+				public void widgetSelected(SelectionEvent e) {
+					setUnitName(units[currentUnitData].getData().toString());
 				}
 
-				public void widgetDefaultSelected( SelectionEvent e )
-				{
+				public void widgetDefaultSelected(SelectionEvent e) {
 				}
-			} );
+			});
 		}
 	}
 
@@ -181,10 +184,8 @@ public class DimensionBuilderDialog extends SelectionStatusDialog
 	 * @param measureData
 	 *            The measureData to set.
 	 */
-	public void setMeasureData( Object measureData )
-	{
-		if ( measureData != null )
-		{
+	public void setMeasureData(Object measureData) {
+		if (measureData != null) {
 			this.measureData = measureData;
 		}
 	}
@@ -193,16 +194,14 @@ public class DimensionBuilderDialog extends SelectionStatusDialog
 	 * @param unitNames
 	 *            The unitNames to set.
 	 */
-	public void setUnitNames( String[] unitNames )
-	{
+	public void setUnitNames(String[] unitNames) {
 		this.unitNames = unitNames;
 	}
 
 	/**
 	 * @return Returns the measureData.
 	 */
-	public Object getMeasureData( )
-	{
+	public Object getMeasureData() {
 		return measureData;
 	}
 
@@ -210,16 +209,14 @@ public class DimensionBuilderDialog extends SelectionStatusDialog
 	 * @param the
 	 *            unit name
 	 */
-	public void setUnitName( String unitName )
-	{
+	public void setUnitName(String unitName) {
 		this.unitName = unitName;
 	}
-	
+
 	/**
 	 * @return the selected unit name
 	 */
-	public String getUnitName( )
-	{
+	public String getUnitName() {
 		return unitName;
 	}
 }

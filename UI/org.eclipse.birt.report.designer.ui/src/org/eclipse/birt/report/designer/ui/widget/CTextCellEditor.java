@@ -300,7 +300,15 @@ public class CTextCellEditor extends CellEditor
 	 */
 	protected Object doGetValue( )
 	{
-		return text.getText( );
+		if ( text.getText( ).length( ) > 0 )
+		{
+			return text.getText( );
+		}
+		else
+		{
+			return null;
+		}
+
 	}
 
 	/*
@@ -328,9 +336,16 @@ public class CTextCellEditor extends CellEditor
 	 */
 	protected void doSetValue( Object value )
 	{
-		Assert.isTrue( text != null && ( value instanceof String ) );
+		Assert.isTrue( text != null && (value == null || value instanceof String ) );
 		text.removeModifyListener( getModifyListener( ) );
-		text.setText( (String) value );
+		if(value == null)
+		{
+			text.setText( "" );
+		}else
+		{
+			text.setText( (String) value );
+		}
+		
 		text.addModifyListener( getModifyListener( ) );
 	}
 
@@ -338,8 +353,8 @@ public class CTextCellEditor extends CellEditor
 	 * Processes a modify event that occurred in this text cell editor. This
 	 * framework method performs validation and sets the error message
 	 * accordingly, and then reports a change via
-	 * <code>fireEditorValueChanged</code>. Subclasses should call this
-	 * method at appropriate times. Subclasses may extend or reimplement.
+	 * <code>fireEditorValueChanged</code>. Subclasses should call this method
+	 * at appropriate times. Subclasses may extend or reimplement.
 	 * 
 	 * @param e
 	 *            the SWT modify event
@@ -347,18 +362,14 @@ public class CTextCellEditor extends CellEditor
 	protected void editOccured( ModifyEvent e )
 	{
 		String value = text.getText( );
-		if ( value == null )
+		if ( value.equals( "" ) )
 		{
-			value = "";//$NON-NLS-1$
+			value = null;//$NON-NLS-1$
 		}
 		Object typedValue = value;
 		boolean oldValidState = isValueValid( );
 		boolean newValidState = isCorrect( typedValue );
-		if ( typedValue == null && newValidState )
-		{
-			Assert.isTrue( false,
-					"Validator isn't limiting the cell editor's type range" );//$NON-NLS-1$
-		}
+
 		if ( !newValidState )
 		{
 			// try to insert the current value into the error message.
@@ -414,8 +425,8 @@ public class CTextCellEditor extends CellEditor
 
 	/**
 	 * The <code>TextCellEditor</code> implementation of this
-	 * <code>CellEditor</code> method returns <code>true</code> if the
-	 * current selection is not empty.
+	 * <code>CellEditor</code> method returns <code>true</code> if the current
+	 * selection is not empty.
 	 */
 	public boolean isCopyEnabled( )
 	{
@@ -428,8 +439,8 @@ public class CTextCellEditor extends CellEditor
 
 	/**
 	 * The <code>TextCellEditor</code> implementation of this
-	 * <code>CellEditor</code> method returns <code>true</code> if the
-	 * current selection is not empty.
+	 * <code>CellEditor</code> method returns <code>true</code> if the current
+	 * selection is not empty.
 	 */
 	public boolean isCutEnabled( )
 	{
@@ -442,8 +453,8 @@ public class CTextCellEditor extends CellEditor
 
 	/**
 	 * The <code>TextCellEditor</code> implementation of this
-	 * <code>CellEditor</code> method returns <code>true</code> if there is
-	 * a selection or if the caret is not positioned at the end of the text.
+	 * <code>CellEditor</code> method returns <code>true</code> if there is a
+	 * selection or if the caret is not positioned at the end of the text.
 	 */
 	public boolean isDeleteEnabled( )
 	{
@@ -509,9 +520,9 @@ public class CTextCellEditor extends CellEditor
 	 * <p>
 	 * The <code>TextCellEditor</code> implementation of this framework method
 	 * ignores when the RETURN key is pressed since this is handled in
-	 * <code>handleDefaultSelection</code>. An exception is made for
-	 * Ctrl+Enter for multi-line texts, since a default selection event is not
-	 * sent in this case.
+	 * <code>handleDefaultSelection</code>. An exception is made for Ctrl+Enter
+	 * for multi-line texts, since a default selection event is not sent in this
+	 * case.
 	 * </p>
 	 * 
 	 * @param keyEvent
@@ -569,9 +580,8 @@ public class CTextCellEditor extends CellEditor
 
 	/**
 	 * The <code>TextCellEditor</code> implementation of this
-	 * <code>CellEditor</code> method deletes the current selection or, if
-	 * there is no selection, the character next character from the current
-	 * position.
+	 * <code>CellEditor</code> method deletes the current selection or, if there
+	 * is no selection, the character next character from the current position.
 	 */
 	public void performDelete( )
 	{
@@ -597,8 +607,8 @@ public class CTextCellEditor extends CellEditor
 
 	/**
 	 * The <code>TextCellEditor</code> implementation of this
-	 * <code>CellEditor</code> method pastes the the clipboard contents over
-	 * the current selection.
+	 * <code>CellEditor</code> method pastes the the clipboard contents over the
+	 * current selection.
 	 */
 	public void performPaste( )
 	{
