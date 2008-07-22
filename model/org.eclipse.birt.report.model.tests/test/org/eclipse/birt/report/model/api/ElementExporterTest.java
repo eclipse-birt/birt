@@ -885,18 +885,21 @@ public class ElementExporterTest extends BaseTestCase
 		openDesign( "DropDuplicatedElementTest.xml" ); //$NON-NLS-1$
 		openLibrary( "DropDuplicatedElementTestLibrary.xml" ); //$NON-NLS-1$
 
-		DesignElementHandle libElement_a = libraryHandle.findElement( "a" );//$NON-NLS-1$
-		DesignElementHandle libElement_b = libraryHandle.findElement( "b" );//$NON-NLS-1$
-		assertNotNull(libElement_a.getRoot( ));
-		assertNotNull(libElement_b.getRoot( ));
-		
+		DesignElementHandle rptElement_a = designHandle.findElement( "a" );//$NON-NLS-1$
+		DesignElementHandle rptElement_b = designHandle.findElement( "b" );//$NON-NLS-1$
+		assertNotNull( rptElement_a.getRoot( ) );
+		assertNotNull( rptElement_b.getRoot( ) );
+
 		// get tableHandle in design
 		DesignElementHandle tableHandle = designHandle.getElementByID( 7 );
 
 		// gets the elements (libElement_a, libElement_b)in library with the
 		// same name a and b
-		libElement_a = libraryHandle.findElement( "a" );//$NON-NLS-1$
-		libElement_b = libraryHandle.findElement( "b" );//$NON-NLS-1$
+		DesignElementHandle libElement_a = libraryHandle.findElement( "a" );//$NON-NLS-1$
+		DesignElementHandle libElement_b = libraryHandle.findElement( "b" );//$NON-NLS-1$
+		
+		assertNotNull( libElement_a.getRoot( ) );
+		assertNotNull( libElement_b.getRoot( ) );
 
 		// export table
 		ElementExportUtil.exportElement( tableHandle, libraryHandle, true );
