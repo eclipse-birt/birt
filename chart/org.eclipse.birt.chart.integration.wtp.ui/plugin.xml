@@ -111,7 +111,7 @@
 			<constraint>
 				<and>
 					<requires facet="jst.web" version="[2.3"/>
-					<requires facet="jst.java" version="[1.4"/>
+					<requires facet="jst.java" version="[5.0"/>
 					<conflicts group="group.birt.runtime"/>
 				</and>
 			</constraint>
@@ -142,12 +142,9 @@
 	</extension>
 	
 	<extension point="org.eclipse.wst.common.project.facet.core.presets">
-		<static-preset id="preset.birt.chart.runtime">
-				<label>%BIRT_FACET_TEMPLATE_LABEL</label>
-				<facet id="birt.chart.runtime" version="%runtime.version"/>
-				<facet id="jst.java" version="1.4"/>
-				<facet id="jst.web" version="2.3"/>
-		</static-preset>
+		<dynamic-preset id="preset.birt.chart.runtime">
+			<factory class="org.eclipse.birt.chart.integration.wtp.ui.project.facet.BirtFacetPresetFactory" />			
+		</dynamic-preset>
 	</extension>
 	
 	<extension point="org.eclipse.wst.common.project.facet.core.runtimes">
