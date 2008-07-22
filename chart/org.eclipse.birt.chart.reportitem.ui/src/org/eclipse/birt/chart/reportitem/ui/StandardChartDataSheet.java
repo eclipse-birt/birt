@@ -738,6 +738,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 					bIsInheritSelected = false;
 
 					getDataServiceProvider( ).setReportItemReference( null );
+					getDataServiceProvider( ).setDataSet( null );
 					selectDataSet( );
 					cmbDataItems.setEnabled( true );
 					setEnabledForButtons( );

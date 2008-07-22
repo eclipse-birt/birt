@@ -547,7 +547,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			if ( datasetName == null )
 			{
 
-				clearBindings( );
+				if ( getBoundDataSet( ) != null )
+				{
+					// Clean old bindings and use container's binding
+					clearBindings( );
+				}
 
 				itemHandle.setDataSet( null );
 			}
@@ -1089,9 +1093,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	{
 		try
 		{
-			itemHandle.setDataSet( null );
-			itemHandle.setCube( null );
-
+			
 			if ( referenceName == null )
 			{
 				itemHandle.setDataBindingReference( null );
@@ -1099,6 +1101,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 			else
 			{
+				itemHandle.setDataSet( null );
+				itemHandle.setCube( null );
+				
 				if ( !referenceName.equals( getReportItemReference( ) ) )
 				{
 					// Change reference and reset all bindings
