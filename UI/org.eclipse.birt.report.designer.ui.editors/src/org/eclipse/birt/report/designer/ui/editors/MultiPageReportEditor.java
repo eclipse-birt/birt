@@ -955,6 +955,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		if ( part == this )
 		{
 			confirmSava( );
+			final ModuleHandle oldHandle = getModel();
 			if (needReset)
 			{
 				if ( MessageDialog.openConfirm( UIUtil.getDefaultShell( ),
@@ -1017,6 +1018,11 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 							//doSave( null );
 							curPage.markPageStale( IPageStaleType.NONE );
 							
+						}
+						if (needReset)
+						{
+							SessionHandleAdapter.getInstance( ).resetReportDesign( oldHandle, getModel( ) );
+							oldHandle.close( );
 						}
 						needReload = false;
 						needReset = false;

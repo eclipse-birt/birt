@@ -314,6 +314,10 @@ public abstract class DataViewPage extends Page implements
 		{
 			return;
 		}
+		if (getTreeViewer( ) == null)
+		{
+			return;
+		}
 		final List list = request.getSelectionModelList( );
 
 		if ( canSetSelection( list ) )

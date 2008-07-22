@@ -191,11 +191,14 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 		
 		//the three classes has the logic to rebuild the model, should be refactor. 
 		ModuleHandle model = getProvider( ).getReportModuleHandle( getEditorInput( ) );
+		boolean reload = false;
 		if (getStaleType( ) == IPageStaleType.MODEL_RELOAD)
 		{
+			setModel( null );
 			doSave( null );
+			reload = true;
 		}
-		if ( model != null && getModel( ) != model )
+		if ( (model != null && getModel( ) != model) || reload )
 		{
 			Object oldModel = getModel( );
 

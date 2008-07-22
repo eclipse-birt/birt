@@ -150,7 +150,10 @@ abstract public class ReportEditorWithRuler extends ReportEditorWithPalette
 	{
 		super.setModel( model );
 
-		rulerComp.resetReportDesignHandle( model );
+		if (model != null)
+		{
+			rulerComp.resetReportDesignHandle( model );
+		}
 	}
 
 	/*

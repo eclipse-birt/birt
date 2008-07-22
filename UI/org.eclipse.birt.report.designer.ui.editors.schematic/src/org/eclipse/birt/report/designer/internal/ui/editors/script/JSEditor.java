@@ -1396,7 +1396,7 @@ public class JSEditor extends EditorPart implements IColleague
 	 */
 	public void resetText()
 	{
-		if (editObject instanceof DesignElementHandle)
+		if (editObject instanceof DesignElementHandle && cmbItemLastSelected != null )
 		{
 			DesignElementHandle desHdl = (DesignElementHandle)editObject;
 			String name = cmbItemLastSelected.getName( );
