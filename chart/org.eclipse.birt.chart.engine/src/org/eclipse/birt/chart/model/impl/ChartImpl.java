@@ -1472,8 +1472,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 					seriesZRuntime.setDataSet( null );
 
-					String ancillaryDataSetRepresentation = ChartUtil.getNewSampleData( ( (Axis) ( sdZ.eContainer( ) ) ).getType( ),
-							0 );
+					String ancillaryDataSetRepresentation = ChartUtil.getNewAncillarySampleData( vOSD );
 					seriesZRuntime.setDataSet( ( PluginSettings.instance( ).getDataSetProcessor( sdZ.getDesignTimeSeries( )
 							.getClass( ) ) ).fromString( ancillaryDataSetRepresentation,
 							seriesZRuntime.getDataSet( ) ) );

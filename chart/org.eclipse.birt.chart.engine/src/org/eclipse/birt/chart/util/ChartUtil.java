@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.computation.Polygon;
@@ -1427,6 +1428,27 @@ public class ChartUtil
 		{
 			return sb.toString( );
 		}
+	}
+	
+	/**
+	 * Creates new sample data for Ancillary Series.
+	 * 
+	 * @param vOSD: vector of all orthogonal SeriesDefinitions
+	 */
+	public static String getNewAncillarySampleData( Vector vOSD )
+	{
+		StringBuffer sb = new StringBuffer( );
+
+		for ( int i = 0; i < vOSD.size( ); i++ )
+		{
+			sb.append( ( (SeriesDefinition) vOSD.get( i ) ).getDesignTimeSeries( )
+					.getSeriesIdentifier( ) );
+			if ( i < vOSD.size( ) - 1 )
+			{
+				sb.append( "," ); //$NON-NLS-1$
+			}
+		}
+		return sb.toString( );
 	}
 	
 	
