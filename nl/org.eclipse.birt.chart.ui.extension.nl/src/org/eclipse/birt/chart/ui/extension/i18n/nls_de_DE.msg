@@ -224,7 +224,7 @@ MeterSeriesAttributeComposite.Lbl.DialTicks=&Unterteilungsstriche
 MeterSeriesAttributeComposite.Lbl.DialScale=S&kalierung
 BarSeriesAttributeComposite.Exception.IllegalArgument=Datenreihe vom Typ {0} ist ein ungültiges Argument für BarSeriesAttributeComposite.
 BarSeriesUIProvider.Lbl.SeriesDefinition=Datenreihendefinition
-BarSeriesAttributeComposite.Lbl.SeriesOutline=Datenreihenumriss:
+BarSeriesAttributeComposite.Lbl.SeriesOutline=Series &Outline:
 BarBottomAreaComponent.Label.CategoryXSeries=Kategorien-Datenreihe (X-Achse):
 
 StockSeriesAttributeComposite.Exception.IllegalArgument=Datenreihe vom Typ {0} ist ein ungültiges Argument für StockSeriesAttributeComposite.

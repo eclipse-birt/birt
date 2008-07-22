@@ -224,7 +224,7 @@ MeterSeriesAttributeComposite.Lbl.DialTicks=&Repères
 MeterSeriesAttributeComposite.Lbl.DialScale=E&chelle
 BarSeriesAttributeComposite.Exception.IllegalArgument=La série de type {0} est un argument non valide pour BarSeriesAttributeComposite.
 BarSeriesUIProvider.Lbl.SeriesDefinition=Définition de la série
-BarSeriesAttributeComposite.Lbl.SeriesOutline=Contour de la série :
+BarSeriesAttributeComposite.Lbl.SeriesOutline=Series &Outline:
 BarBottomAreaComponent.Label.CategoryXSeries=Série horizontale de catégories :
 
 StockSeriesAttributeComposite.Exception.IllegalArgument=La série de type {0} est un argument non valide pour StockSeriesAttributeComposite.

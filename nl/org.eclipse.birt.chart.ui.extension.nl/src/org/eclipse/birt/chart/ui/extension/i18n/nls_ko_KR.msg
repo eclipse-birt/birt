@@ -224,7 +224,7 @@ MeterSeriesAttributeComposite.Lbl.DialTicks=틱(&T)
 MeterSeriesAttributeComposite.Lbl.DialScale=배율(&C)
 BarSeriesAttributeComposite.Exception.IllegalArgument=형식 {0}의 계열은 BarSeriesAttributeComposite에 대한 잘못된 인수입니다.
 BarSeriesUIProvider.Lbl.SeriesDefinition=계열 정의
-BarSeriesAttributeComposite.Lbl.SeriesOutline=계열 윤곽선:
+BarSeriesAttributeComposite.Lbl.SeriesOutline=Series &Outline:
 BarBottomAreaComponent.Label.CategoryXSeries=범주 (X) 계열:
 
 StockSeriesAttributeComposite.Exception.IllegalArgument=형식 {0}의 계열은 StockSeriesAttributeComposite에 대한 잘못된 인수입니다.

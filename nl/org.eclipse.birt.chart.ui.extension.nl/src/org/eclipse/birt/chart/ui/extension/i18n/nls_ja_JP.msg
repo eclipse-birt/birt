@@ -224,7 +224,7 @@ MeterSeriesAttributeComposite.Lbl.DialTicks=目盛り(&T)
 MeterSeriesAttributeComposite.Lbl.DialScale=スケール(&C)
 BarSeriesAttributeComposite.Exception.IllegalArgument={0} 型の系列は、BarSeriesAttributeComposite の引数としては使用できません。
 BarSeriesUIProvider.Lbl.SeriesDefinition=系列の定義
-BarSeriesAttributeComposite.Lbl.SeriesOutline=系列のアウトライン :
+BarSeriesAttributeComposite.Lbl.SeriesOutline=Series &Outline:
 BarBottomAreaComponent.Label.CategoryXSeries=カテゴリ系列 (X) :
 
 StockSeriesAttributeComposite.Exception.IllegalArgument={0} 型の系列は、StockSeriesAttributeComposite の引数としては使用できません。

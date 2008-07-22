@@ -224,7 +224,7 @@ MeterSeriesAttributeComposite.Lbl.DialTicks=刻度线(&T)
 MeterSeriesAttributeComposite.Lbl.DialScale=刻度(&C)
 BarSeriesAttributeComposite.Exception.IllegalArgument=对于 BarSeriesAttributeComposite，类型系列 {0} 是无效参数。
 BarSeriesUIProvider.Lbl.SeriesDefinition=系列定义
-BarSeriesAttributeComposite.Lbl.SeriesOutline=系列边框:
+BarSeriesAttributeComposite.Lbl.SeriesOutline=Series &Outline:
 BarBottomAreaComponent.Label.CategoryXSeries=类别 (X) 系列:
 
 StockSeriesAttributeComposite.Exception.IllegalArgument=对于 StockSeriesAttributeComposite，类型系列 {0} 是无效参数。
