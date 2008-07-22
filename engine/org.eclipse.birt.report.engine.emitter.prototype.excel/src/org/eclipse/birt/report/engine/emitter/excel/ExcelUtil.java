@@ -4,6 +4,7 @@ package org.eclipse.birt.report.engine.emitter.excel;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -715,17 +716,26 @@ public class ExcelUtil
 
 	public static String formatNumberPattern(String givenValue)
 	{
+		return formatNumberPattern( givenValue, Locale.getDefault( ) );
+	}
+	
+	public static String formatNumberPattern(String givenValue,Locale locale)
+	{
 		String returnStr ="";
+		if(givenValue == null )
+		{
+			return "";
+		}
 		if ( givenValue.length( ) == 1 )
 		{
 			char ch = givenValue.charAt( 0 );
 			if ( ch == 'G' || ch == 'g' || ch == 'd' || ch == 'D' )
 			{
-				returnStr = givenValue + "###";
+				return "###,##0.###";
 			}
 			if ( ch == 'C' || ch == 'c' )
 			{
-				return "###,##0.00";
+				return getCurrencySymbol(locale)+"###,##0.00";
 			}
 			if ( ch == 'f' || ch == 'F' )
 			{
@@ -745,9 +755,8 @@ public class ExcelUtil
 			}
 			if ( ch == 'x' || ch == 'X' )
 			{
-				returnStr = "####";
+				return "####";
 			}
-			returnStr = returnStr + givenValue + "###";
 		}
 		else
 		{
@@ -763,7 +772,7 @@ public class ExcelUtil
 				return "General";
 			
 			if(validType(givenValue)){
-				return givenValue + "###";
+				return givenValue;
 			}
 			int count = givenValue.length( );
 			boolean flag=false;
@@ -804,6 +813,11 @@ public class ExcelUtil
 						{
 							returnStr=returnStr+"\\"+temp;
 						}
+						else if ( temp == '¤' )
+						{
+							String symbol = getCurrencySymbol( locale );
+							returnStr = returnStr + symbol;
+						}
 						else
 						{
 							returnStr=returnStr+temp;
@@ -811,9 +825,28 @@ public class ExcelUtil
 					}
 				}
 			}
-		returnStr = returnStr + "###";
 		}
 		return returnStr;
+	}
+
+	private static String getCurrencySymbol( Locale locale )
+	{
+		NumberFormat format = NumberFormat
+				.getCurrencyInstance( locale );
+		String symbol = format.getCurrency( ).getSymbol( );
+		if ( symbol.equals( "EUR" ) )
+		{
+			symbol = "€";
+		}
+		if ( symbol.equals( "GBP" ) )
+		{
+			symbol = "£";
+		}
+		if ( symbol.equals( "XXX" ) )
+		{
+			symbol = "¤";
+		}
+		return symbol;
 	}
 	
 	protected static boolean validType( String str )

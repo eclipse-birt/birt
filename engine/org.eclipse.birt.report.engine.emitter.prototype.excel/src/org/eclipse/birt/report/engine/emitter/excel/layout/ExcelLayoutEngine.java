@@ -397,12 +397,13 @@ public class ExcelLayoutEngine
 	public Data createData( Object txt, StyleEntry entry )
 	{
 		String type = Data.STRING;
-		
-		if ( Data.NUMBER.equals( ExcelUtil.getType( txt )))
+		Locale locale = emitter.getLocale( );
+		if ( Data.NUMBER.equals( ExcelUtil.getType( txt ) ) )
 		{
-			String format = ExcelUtil.getPattern( txt, 
-					entry.getProperty( StyleConstant.NUMBER_FORMAT_PROP ));
-			entry.setProperty( StyleConstant.NUMBER_FORMAT_PROP, format );			
+			String format = ExcelUtil.getPattern( txt, entry
+					.getProperty( StyleConstant.NUMBER_FORMAT_PROP ) );
+			format = ExcelUtil.formatNumberPattern( format, locale );
+			entry.setProperty( StyleConstant.NUMBER_FORMAT_PROP, format );
 			type = Data.NUMBER;
 
 		}

@@ -532,7 +532,6 @@ public class ExcelWriter
 
 			String numberStyle = style
 					.getProperty( StyleConstant.NUMBER_FORMAT_PROP );
-			numberStyle = ExcelUtil.formatNumberPattern( numberStyle );
 			writer.attribute( "ss:Format", numberStyle );
 			writer.closeTag( "NumberFormat" );
 		}
