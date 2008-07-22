@@ -99,7 +99,7 @@ public class QueryExecutor
 		
 		IAggregationResultSet[] rs = null;
 		cubeQueryExcutorHelper.setBreakHierarchy( executor.getCubeQueryDefinition( )
-				.getFilterOption( ) != 0 );
+				.getFilterOption( ) == 0 );
 		
 		if ( executor.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION )
 		{
