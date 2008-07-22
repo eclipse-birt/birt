@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿﻿<?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.3.0.v20080627-0952 Build &lt;2.3.1.v20080627-0952></property>
     <property name="units">in</property>
@@ -63,7 +63,7 @@
                     <property name="dataSetName">Data Set</property>
                     <expression name="valueExpr">row["COUNTRY"]</expression>
                     <property name="fixedOrder">false</property>
-                    <expression name="sortByColumn">CUSTOMERNUMBER</expression>
+                    <expression name="sortByColumn">dataSetRow["CUSTOMERNUMBER"]</expression>
                     <property name="sortDirection">asc</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
@@ -77,7 +77,7 @@
                     <property name="dataSetName">Data Set</property>
                     <expression name="valueExpr">row["STATE"]</expression>
                     <property name="fixedOrder">false</property>
-                    <expression name="sortByColumn">CUSTOMERNUMBER</expression>
+                    <expression name="sortByColumn">dataSetRow["CUSTOMERNUMBER"]</expression>
                     <property name="sortDirection">desc</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
