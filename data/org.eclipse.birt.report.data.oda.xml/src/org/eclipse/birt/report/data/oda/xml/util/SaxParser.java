@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.data.oda.xml.util;
 
+import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.enablement.oda.xml.util.ISaxParserConsumer;
+import org.eclipse.datatools.enablement.oda.xml.util.IXMLSource;
+
 /**
  * This instance interacts with a SaxParserConsumer instance to populate the
  * ResultSet data.
@@ -26,8 +30,8 @@ public class SaxParser
 	 * @param stream
 	 * @param consumer
 	 */
-	public SaxParser( XMLDataInputStream stream, ISaxParserConsumer consumer, boolean useNameSpace )
+	public SaxParser( IXMLSource xmlSource, ISaxParserConsumer consumer, boolean useNamespace ) throws OdaException
 	{
-		super( stream, consumer, useNameSpace );
+		super( xmlSource, consumer, useNamespace );
 	}
 }

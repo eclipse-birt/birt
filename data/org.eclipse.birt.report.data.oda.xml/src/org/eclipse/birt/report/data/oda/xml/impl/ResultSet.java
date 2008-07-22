@@ -13,7 +13,7 @@ package org.eclipse.birt.report.data.oda.xml.impl;
 
 import org.eclipse.birt.report.data.oda.xml.util.RelationInformation;
 import org.eclipse.datatools.connectivity.oda.OdaException;
-import org.eclipse.datatools.enablement.oda.xml.util.XMLCreatorContent;
+import org.eclipse.datatools.enablement.oda.xml.util.IXMLSource;
 
 /**
  * This class implement IResultSet class
@@ -31,9 +31,8 @@ public class ResultSet
 	 * @param maxRows
 	 * @throws OdaException
 	 */
-	public ResultSet( XMLCreatorContent is, RelationInformation ri,
-			String tableName, int maxRows ) throws OdaException
+	public ResultSet( IXMLSource xmlSource, RelationInformation ri, String tableName, int maxRows ) throws OdaException
 	{
-		super( is, ri, tableName, maxRows );
+		super( xmlSource, ri, tableName, maxRows );
 	}
 }

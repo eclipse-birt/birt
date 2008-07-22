@@ -10,9 +10,10 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.xml.util;
 
+import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.enablement.oda.xml.util.IXMLSource;
 import org.eclipse.datatools.enablement.oda.xml.util.RelationInformation;
 import org.eclipse.datatools.enablement.oda.xml.util.SaxParserConsumer;
-import org.eclipse.datatools.enablement.oda.xml.util.XMLDataInputStream;
 
 
 /**
@@ -30,9 +31,9 @@ public class SaxParserComplexNestedQueryHelper extends org.eclipse.datatools.ena
 	 * @param xdis
 	 * @param tName
 	 */
-	SaxParserComplexNestedQueryHelper( SaxParserConsumer consumer, RelationInformation rinfo, XMLDataInputStream xdis, String tName )
+	SaxParserComplexNestedQueryHelper( SaxParserConsumer consumer, RelationInformation rinfo, IXMLSource xmlSource, String tName ) throws OdaException
 	{
-		super( consumer, rinfo, xdis, tName );
+		super( consumer, rinfo, xmlSource, tName );
 	}
 }
 
