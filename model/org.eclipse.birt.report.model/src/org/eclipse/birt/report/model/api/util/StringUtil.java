@@ -271,6 +271,8 @@ public class StringUtil
 	 * 
 	 * @param value
 	 *            the string to parse
+	 * @param locale
+	 *            the locale where the input string resides
 	 * @return a dimension object
 	 * @throws PropertyValueException
 	 *             if the string is not valid
@@ -278,8 +280,7 @@ public class StringUtil
 	public static DimensionValue parseInput( String value, ULocale locale )
 			throws PropertyValueException
 	{
-		return DimensionValueUtil.doParse( value, true, ThreadResources
-				.getLocale( ) );
+		return DimensionValueUtil.doParse( value, true, locale );
 	}
 
 	/**
