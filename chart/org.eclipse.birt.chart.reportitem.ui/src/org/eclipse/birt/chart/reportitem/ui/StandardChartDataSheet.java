@@ -57,8 +57,10 @@ import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.action.NewCubeAction;
 import org.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -98,6 +100,8 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.PlatformUI;
+
+import com.ibm.icu.text.MessageFormat;
 
 /**
  * Data sheet implementation for Standard Chart
@@ -1560,7 +1564,19 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 
 		if ( isDataItemSupported( SELECT_NONE ) )
 		{
-			items.add( ReportDataServiceProvider.OPTION_NONE );
+			if ( DEUtil.getDataSetList( itemHandle.getContainer( ) )
+							.size( ) > 0 )
+			{
+				items.add( MessageFormat.format( ReportDataServiceProvider.OPTION_INHERITS,
+						new Object[]{
+							( (DataSetHandle) DEUtil.getDataSetList( itemHandle.getContainer( ) )
+									.get( 0 ) ).getName( )
+						} ) );
+			}
+			else
+			{
+				items.add( ReportDataServiceProvider.OPTION_NONE );
+			}
 			selectDataTypes.add( new Integer( SELECT_NONE ) );
 		}
 
