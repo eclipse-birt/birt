@@ -361,6 +361,16 @@ public class ElementExportUtil
 
 		exportDesign( designToExport, libraryHandle, canOverride,
 				genDefaultName );
+
+		// provides backward compatibility of bound columns during writing the
+		// design file.
+		String designVersion = designToExport.getVersion( );
+		String libVersion = libraryHandle.getVersion( );
+		if ( StringUtil.isBlank( libVersion ) )
+		{
+			libraryHandle.getModule( ).getVersionManager( ).setVersion(
+					designVersion );
+		}
 		libraryHandle.save( );
 		libraryHandle.close( );
 	}
