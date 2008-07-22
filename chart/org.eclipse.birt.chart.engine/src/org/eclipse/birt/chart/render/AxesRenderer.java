@@ -77,6 +77,7 @@ import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
+import org.eclipse.birt.chart.model.attribute.impl.MarkerImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.CurveFitting;
@@ -2321,6 +2322,8 @@ public abstract class AxesRenderer extends BaseRenderer
 			DataPointHints dph, Integer markerSize, boolean bDeferred,
 			boolean bConsiderTranspostion ) throws ChartException
 	{
+		m = (Marker) EcoreUtil.copy( m );
+
 		// Convert Fill for negative value
 		if ( dph != null && dph.getOrthogonalValue( ) instanceof Double )
 		{
