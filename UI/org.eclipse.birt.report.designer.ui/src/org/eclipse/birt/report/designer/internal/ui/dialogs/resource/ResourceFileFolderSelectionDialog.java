@@ -77,16 +77,28 @@ public class ResourceFileFolderSelectionDialog extends
 		 */
 		public int category( Object element )
 		{
-			if ( element instanceof File && !( (File) element ).isDirectory( ) )
+			if ( element instanceof File) 
 			{
-				return 1;
+				if(( (File) element ).isDirectory( ) )
+				{
+					return 0;
+				}else
+				{
+					return 1;
+				}				
 			}
-			else if ( element instanceof ResourceEntry
-					&& ( (ResourceEntry) element ).isFile( ) )
+			else if ( element instanceof ResourceEntry)
 			{
-				return 1;
+				if (( (ResourceEntry) element ).isFile( ) ) // file, return 1;
+				{
+					return 1;
+				}else // directory, return 0;
+				{
+					return 0;
+				}
 			}
-			return 0;
+
+			return 1;
 		}
 
 		/**

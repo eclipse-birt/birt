@@ -13,7 +13,12 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Comparator;
 
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.FragmentResourceEntry;
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.core.resources.IResource;
@@ -25,6 +30,8 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -69,6 +76,7 @@ public class NewResourceFileDialog extends ElementTreeSelectionDialog
 		super( parent, labelProvider, contentProvider );
 
 		setDoubleClickSelects( false );
+		setSorter( new FileViewerSorter( ) );
 	}
 
 	/*
@@ -211,5 +219,96 @@ public class NewResourceFileDialog extends ElementTreeSelectionDialog
 	public void setParentPath( String path )
 	{
 		this.parentPath = path;
+	}
+	
+	protected static class FileViewerSorter extends ViewerSorter
+	{
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.jface.viewers.ViewerSorter#category(java.lang.Object)
+		 */
+		public int category( Object element )
+		{
+			if ( element instanceof File) 
+			{
+				if(( (File) element ).isDirectory( ) )
+				{
+					return 0;
+				}else
+				{
+					return 1;
+				}				
+			}
+			else if ( element instanceof ResourceEntry)
+			{
+				if (( (ResourceEntry) element ).isFile( ) ) // file, return 1;
+				{
+					return 1;
+				}else // directory, return 0;
+				{
+					return 0;
+				}
+			}
+
+			return 1;
+		}
+
+		/**
+		 * Sorts the given elements in-place, modifying the given array.
+		 * <p>
+		 * The default implementation of this method uses the
+		 * java.util.Arrays#sort algorithm on the given array, calling
+		 * <code>compare</code> to compare elements.
+		 * </p>
+		 * <p>
+		 * Subclasses may reimplement this method to provide a more optimized
+		 * implementation.
+		 * </p>
+		 * 
+		 * @param viewer
+		 *            the viewer
+		 * @param elements
+		 *            the elements to sort
+		 */
+		public void sort( final Viewer viewer, Object[] elements )
+		{
+			Arrays.sort( elements, new Comparator<Object>( ) {
+
+				public int compare( Object a, Object b )
+				{
+					if(a instanceof FragmentResourceEntry)
+					{
+						if(b instanceof FragmentResourceEntry)
+						{
+							return FileViewerSorter.this.compare( viewer, a, b );
+						}else
+						{
+							return -1;
+						}
+					}else
+					if(a instanceof PathResourceEntry)
+					{
+						if(b instanceof FragmentResourceEntry)
+						{
+							return 1;
+						}else
+						if( b instanceof PathResourceEntry )
+						{
+							return FileViewerSorter.this.compare( viewer, a, b );
+						}else
+						{
+							return -1;
+						}
+					}else
+					{
+						return FileViewerSorter.this.compare( viewer, a, b );
+					}
+					
+
+				}
+			} );
+		}
 	}
 }
