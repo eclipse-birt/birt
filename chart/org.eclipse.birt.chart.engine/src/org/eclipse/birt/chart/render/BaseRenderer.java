@@ -816,7 +816,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					.getValue( ) == LegendItemType.CATEGORIES );
 			
 			// COMPUTATIONS HERE MUST BE IN SYNC WITH THE ACTUAL RENDERER
-			String strNeedInvert = (String)rtc.getState( "[Legend]bNeedInvert" );
+			String strNeedInvert = (String) rtc.getState( "[Legend]bNeedInvert" ); //$NON-NLS-1$
 			boolean bNeedInvert = Boolean.valueOf(strNeedInvert).booleanValue( );
 			
 			if ( o.getValue( ) == Orientation.VERTICAL )
@@ -947,7 +947,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 						for ( int i = 0; i < al.size( ); i++ )
 						{
-							seBase = (Series) al.get( i );
+							int iSeId = bNeedInvert ? al.size( ) - 1 - i : i;
+							seBase = (Series) al.get( iSeId );
 
 							if ( !seBase.isVisible( ) )
 							{
@@ -991,14 +992,14 @@ public abstract class BaseRenderer implements ISeriesRenderer
 												insCA.getLeft( );
 									}
 
-									renderLegendItem( ipr,
+									 renderLegendItem( ipr,
 											lg,
 											la,
 											valueLa,
 											dBaseX + lih.getLeft( ),
-											dBaseY +
-													lih.getTop( ) +
-													insCA.getTop( ),
+											dBaseY
+													+ lih.getTop( )
+													+ insCA.getTop( ),
 											lih.getWidth( ),
 											dItemHeight,
 											lih.getHeight( ),
@@ -1060,7 +1061,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 						for ( int i = 0; i < al.size( ); i++ )
 						{
-							seBase = (Series) al.get( i );
+							int iSeId = bNeedInvert ? al.size( ) - 1 - i : i;
+							seBase = (Series) al.get( iSeId );
 
 							if ( !seBase.isVisible( ) )
 							{
@@ -1273,7 +1275,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 						for ( int i = 0; i < al.size( ); i++ )
 						{
-							seBase = (Series) al.get( i );
+							int iSeId = bNeedInvert ? al.size( ) - 1 - i : i;
+							seBase = (Series) al.get( iSeId );
 
 							if ( !seBase.isVisible( ) )
 							{
@@ -1376,7 +1379,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 						for ( int i = 0; i < al.size( ); i++ )
 						{
-							seBase = (Series) al.get( i );
+							int iSeId = bNeedInvert ? al.size( ) - 1 - i : i;
+							seBase = (Series) al.get( iSeId );
 
 							if ( !seBase.isVisible( ) )
 							{
