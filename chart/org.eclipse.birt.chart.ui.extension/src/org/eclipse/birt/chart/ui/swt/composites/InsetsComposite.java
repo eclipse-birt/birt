@@ -136,7 +136,8 @@ public class InsetsComposite extends Composite implements ModifyListener
 		grpInsets = new Group( this, SWT.NONE );
 		grpInsets.setLayout( glGroup );
 		grpInsets.setText( Messages.getFormattedString( "InsetsComposite.Lbl.Insets", //$NON-NLS-1$
-				LiteralHelper.unitsOfMeasurementSet.getDisplayNameByName( sUnits ) ) );
+				LiteralHelper.unitsOfMeasurementSet.getDisplayNameByName( sUnits,
+						sUnits ) ) );
 
 		lblTop = new Label( grpInsets, SWT.NONE );
 		GridData gdLTop = new GridData( GridData.VERTICAL_ALIGN_CENTER );

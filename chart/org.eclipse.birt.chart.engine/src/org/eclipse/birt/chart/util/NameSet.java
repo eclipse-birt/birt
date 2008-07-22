@@ -112,6 +112,26 @@ public class NameSet
 	}
 
 	/**
+	 * Returns the display name by the original name.
+	 * 
+	 * @param displayName
+	 * @return
+	 * @since 2.3.1
+	 */
+	public String getDisplayNameByName( String name, String defaultValue )
+	{
+		for ( int i = 0; i < nameArray.length; i++ )
+		{
+			if ( name != null && name.equals( nameArray[i] ) )
+			{
+				return displayNameArray[i];
+			}
+		}
+
+		return defaultValue;
+	}
+
+	/**
 	 * Returns an index by given name, if name not found, returns 0.
 	 * 
 	 * @param name

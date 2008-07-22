@@ -47,11 +47,11 @@ public class BlockPropertiesSheet extends AbstractPopupSheet
 
 	private transient Button cbVisible;
 
-	private transient Group grpOutline;
+	protected transient Group grpOutline;
 
-	private transient LineAttributesComposite liacOutline;
+	protected transient LineAttributesComposite liacOutline;
 
-	private transient InsetsComposite ic;
+	protected transient InsetsComposite ic;
 
 	public BlockPropertiesSheet( String title, ChartWizardContext context )
 	{
@@ -151,7 +151,7 @@ public class BlockPropertiesSheet extends AbstractPopupSheet
 	{
 	}
 
-	private Block getBlockForProcessing( )
+	protected Block getBlockForProcessing( )
 	{
 		return getChart( ).getBlock( );
 	}
