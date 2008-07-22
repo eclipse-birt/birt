@@ -1991,11 +1991,11 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					for ( int j = 0; j < da.size( ); j++ )
 					{
-						if ( j == 0 && insCA.getBottom( ) < lia.getThickness( ) )
+						if ( j == 0 && insCA.getLeft( ) < lia.getThickness( ) )
 							continue;
-						if ( j == da.size( ) - 1
-								&& insCA.getTop( ) < lia.getThickness( ) )
-							continue;
+						// if ( j == da.size( ) - 1
+						// && insCA.getTop( ) < lia.getThickness( ) )
+						// continue;
 
 						x = da.getCoordinate( j );
 						lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
@@ -2010,15 +2010,11 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 				for ( int j = 0; j < da.size( ); j++ )
 				{
-
-					if ( !sc.isTickLabelVisible( j ) )
+					 if ( j == 0 && insCA.getLeft( ) < lia.getThickness( ) )
 						continue;
-					
-					if ( j == 0 && insCA.getBottom( ) < lia.getThickness( ) )
-						continue;
-					if ( j == da.size( ) - 1
-							&& insCA.getTop( ) < lia.getThickness( ) )
-						continue;
+					// if ( j == da.size( ) - 1
+					// && insCA.getTop( ) < lia.getThickness( ) )
+					// continue;
 
 					x = da.getCoordinate( j );
 					if ( pwa.getDimension( ) == IConstants.TWO_5_D )
@@ -2042,11 +2038,11 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					for ( int j = 0; j < da.size( ); j++ )
 					{
-						if ( j == 0 && insCA.getLeft( ) < lia.getThickness( ) )
+						if ( j == 0 && insCA.getBottom( ) < lia.getThickness( ) )
 							continue;
-						if ( j == da.size( ) - 1
-								&& insCA.getRight( ) < lia.getThickness( ) )
-							continue;
+						// if ( j == da.size( ) - 1
+						// && insCA.getRight( ) < lia.getThickness( ) )
+						// continue;
 
 						y = ( da.getCoordinate( j ) - pwa.getSeriesThickness( ) );
 						lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
@@ -2061,11 +2057,11 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 				for ( int j = 0; j < da.size( ); j++ )
 				{
-					if ( j == 0 && insCA.getLeft( ) < lia.getThickness( ) )
+					if ( j == 0 && insCA.getBottom( ) < lia.getThickness( ) )
 						continue;
-					if ( j == da.size( ) - 1
-							&& insCA.getRight( ) < lia.getThickness( ) )
-						continue;
+					// if ( j == da.size( ) - 1
+					// && insCA.getRight( ) < lia.getThickness( ) )
+					// continue;
 
 					y = da.getCoordinate( j );
 					if ( pwa.getDimension( ) == IConstants.TWO_5_D )
