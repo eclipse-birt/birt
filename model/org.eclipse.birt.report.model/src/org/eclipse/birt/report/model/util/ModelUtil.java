@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.util;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -1397,88 +1396,6 @@ public class ModelUtil
 	}
 
 	/**
-	 * Creates a design element specified by the element type name. Element type
-	 * names are defined in rom.def or extension elements. They are managed by
-	 * the meta-data system.
-	 * 
-	 * @param module
-	 *            the module to create an element
-	 * @param elementTypeName
-	 *            the element type name
-	 * @param name
-	 *            the optional element name
-	 * 
-	 * @return design element, <code>null</code> returned if the element
-	 *         definition name is not a valid element type name.
-	 */
-
-	public static DesignElement newElement( Module module,
-			String elementTypeName, String name )
-	{
-
-		DesignElement element = newElement( elementTypeName, name );
-		if ( element != null && module != null )
-			module.makeUniqueName( element );
-		return element;
-	}
-
-	/**
-	 * Creates a design element specified by the element type name. Element type
-	 * names are defined in rom.def or extension elements. They are managed by
-	 * the meta-data system.
-	 * 
-	 * @param module
-	 *            the module to create an element
-	 * @param elementTypeName
-	 *            the element type name
-	 * @param name
-	 *            the optional element name
-	 * 
-	 * @return design element, <code>null</code> returned if the element
-	 *         definition name is not a valid element type name.
-	 */
-
-	public static DesignElement newElement( String elementTypeName, String name )
-	{
-
-		ElementDefn elemDefn = (ElementDefn) MetaDataDictionary.getInstance( )
-				.getElement( elementTypeName );
-
-		String javaClass = elemDefn.getJavaClass( );
-		if ( javaClass == null )
-			return null;
-
-		try
-		{
-			Class c = Class.forName( javaClass );
-			DesignElement element = null;
-
-			try
-			{
-				Constructor constructor = c
-						.getConstructor( new Class[]{String.class} );
-				element = (DesignElement) constructor
-						.newInstance( new String[]{name} );
-				return element;
-			}
-			catch ( NoSuchMethodException e1 )
-			{
-				element = (DesignElement) c.newInstance( );
-				return element;
-			}
-
-		}
-		catch ( Exception e )
-		{
-			// Impossible.
-
-			assert false;
-		}
-
-		return null;
-	}
-
-	/**
 	 * Adds an element to the name space. If the module is null, or element is
 	 * null, or element is not in the tree of module, then do nothing.
 	 * 
@@ -1577,7 +1494,7 @@ public class ModelUtil
 		}
 		catch ( IllegalArgumentException e )
 		{
-			
+
 		}
 		try
 		{
@@ -1832,4 +1749,5 @@ public class ModelUtil
 			targetDimension.setDefaultHierarchy( index );
 		}
 	}
+
 }

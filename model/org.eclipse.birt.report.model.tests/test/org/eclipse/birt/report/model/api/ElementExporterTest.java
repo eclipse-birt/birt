@@ -761,7 +761,7 @@ public class ElementExporterTest extends BaseTestCase
 
 		assertTrue( ElementExportUtil.canExport( ds, libraryHandle, false ) );
 		assertTrue( ElementExportUtil.canExport( ds ) );
-		
+
 		// if add a dataset1 to the library, cannot export
 		DataSetHandle tmpDs = libraryHandle.getElementFactory( )
 				.newScriptDataSet( "dataSet1" ); //$NON-NLS-1$
@@ -770,7 +770,7 @@ public class ElementExporterTest extends BaseTestCase
 		assertFalse( ElementExportUtil.canExport( ds, libraryHandle, false ) );
 		assertTrue( ElementExportUtil.canExport( ds, libraryHandle, true ) );
 		assertTrue( ElementExportUtil.canExport( ds ) );
-		
+
 		StyleHandle style1 = designHandle.findStyle( "style1" ); //$NON-NLS-1$
 		assertFalse( ElementExportUtil.canExport( style1, libraryHandle, false ) );
 		assertFalse( ElementExportUtil.canExport( style1 ) );
@@ -787,7 +787,7 @@ public class ElementExporterTest extends BaseTestCase
 
 		assertTrue( ElementExportUtil.canExport( color1, libraryHandle, false ) );
 		assertTrue( ElementExportUtil.canExport( color1 ) );
-		
+
 		// if add a custom color with "customColor1" into library, cannot export
 		CustomColor tmpColor1 = StructureFactory.createCustomColor( );
 		tmpColor1.setName( "customColor1" ); //$NON-NLS-1$
@@ -799,4 +799,118 @@ public class ElementExporterTest extends BaseTestCase
 		assertTrue( ElementExportUtil.canExport( color1 ) );
 
 	}
+
+	/**
+	 * Tests export design successful and the element in top level in design
+	 * file should not be modified.
+	 * 
+	 * @throws Exception
+	 */
+	public void testExportLabelWithoutNameToLib( ) throws Exception
+	{
+		openDesign( "ExportLabelToLibTest.xml" ); //$NON-NLS-1$
+		openLibrary( "ExportLabelToLibTestLibrary.xml" ); //$NON-NLS-1$
+
+		// tests export label without name to library
+
+		LabelHandle labelHandle = (LabelHandle) designHandle.getElementByID( 6 );
+
+		assertNull( labelHandle.getName( ) );
+		ElementExportUtil.exportElement( labelHandle, libraryHandle, false );
+		assertNull( labelHandle.getName( ) );
+
+		// tests export label in grid to library, the name of exported elements
+		// in report are not modified.
+
+		GridHandle gridHandle = (GridHandle) designHandle.getElementByID( 25 );
+		LabelHandle labelWithoutName = (LabelHandle) designHandle
+				.getElementByID( 41 );
+		LabelHandle labelWithName = (LabelHandle) designHandle
+				.getElementByID( 43 );
+
+		assertNull( gridHandle.getName( ) );
+		assertNull( labelWithoutName.getName( ) );
+		assertNotNull( labelWithName.getName( ) );
+
+		ElementExportUtil.exportElement( gridHandle, libraryHandle, false );
+
+		assertNull( gridHandle.getName( ) );
+		assertNull( labelWithoutName.getName( ) );
+		assertNotNull( labelWithName.getName( ) );
+
+		// tests library has some element with the same name as one or more
+		// content elements in grid
+		gridHandle = (GridHandle) designHandle.getElementByID( 50 );
+		try
+		{
+			ElementExportUtil.exportElement( gridHandle, libraryHandle, false );
+			fail( );
+
+		}
+		catch ( NameException e )
+		{
+			assertEquals( NameException.DESIGN_EXCEPTION_DUPLICATE, e
+					.getErrorCode( ) );
+		}
+
+		// tests library has some element with the same name as that of the grid
+		// itself
+		gridHandle = (GridHandle) designHandle.getElementByID( 60 );
+		try
+		{
+			ElementExportUtil.exportElement( gridHandle, libraryHandle, false );
+			fail( );
+
+		}
+		catch ( NameException e )
+		{
+			assertEquals( NameException.DESIGN_EXCEPTION_DUPLICATE, e
+					.getErrorCode( ) );
+		}
+
+		save( libraryHandle );
+
+		assertTrue( compareFile( "ExportLableToLibTest_golden.xml" ) ); //$NON-NLS-1$
+
+	}
+
+	/**
+	 * Tests export design successful and the element in library with the same
+	 * name should be drop.
+	 * 
+	 * @throws Exception
+	 */
+	public void testDropDuplicatedElement( ) throws Exception
+	{
+		openDesign( "DropDuplicatedElementTest.xml" ); //$NON-NLS-1$
+		openLibrary( "DropDuplicatedElementTestLibrary.xml" ); //$NON-NLS-1$
+
+		DesignElementHandle libElement_a = libraryHandle.findElement( "a" );//$NON-NLS-1$
+		DesignElementHandle libElement_b = libraryHandle.findElement( "b" );//$NON-NLS-1$
+		assertNotNull(libElement_a.getRoot( ));
+		assertNotNull(libElement_b.getRoot( ));
+		
+		// get tableHandle in design
+		DesignElementHandle tableHandle = designHandle.getElementByID( 7 );
+
+		// gets the elements (libElement_a, libElement_b)in library with the
+		// same name a and b
+		libElement_a = libraryHandle.findElement( "a" );//$NON-NLS-1$
+		libElement_b = libraryHandle.findElement( "b" );//$NON-NLS-1$
+
+		// export table
+		ElementExportUtil.exportElement( tableHandle, libraryHandle, true );
+
+		// test the old elements are dropped and the new elements are added.
+		assertNull( libElement_a.getRoot( ) );
+		assertNull( libElement_b.getRoot( ) );
+
+		libElement_a = libraryHandle.findElement( "a" );//$NON-NLS-1$
+		libElement_b = libraryHandle.findElement( "b" );//$NON-NLS-1$
+
+		assertNotNull( libElement_a.getRoot( ) );
+		assertNotNull( libElement_b.getRoot( ) );
+
+	}
+
 }

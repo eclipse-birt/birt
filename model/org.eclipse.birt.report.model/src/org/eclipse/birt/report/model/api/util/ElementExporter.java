@@ -48,6 +48,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.ContentIterator;
+import org.eclipse.birt.report.model.util.ElementFactoryUtil;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
@@ -294,6 +296,54 @@ class ElementExporter
 	}
 
 	/**
+	 * Finds and Drops the duplicated element in library.
+	 * 
+	 * @param handle
+	 *            the element handle.
+	 * @throws SemanticException
+	 */
+	private void findAndDropDuplicatedElement( DesignElementHandle handle )
+			throws SemanticException
+	{
+		ContentIterator iter = new ContentIterator( handle.getModule( ), handle
+				.getElement( ) );
+
+		while ( iter.hasNext( ) )
+		{
+			DesignElement element = (DesignElement) iter.next( );
+			if ( element.getName( ) == null )
+				continue;
+			dropDuplicatedElement( element );
+		}
+
+		if ( handle.getName( ) == null )
+			return;
+		dropDuplicatedElement( handle.getElement( ) );
+	}
+
+	/**
+	 * Drops the duplicated element in library.
+	 * 
+	 * @param handle
+	 *            the design element
+	 * @throws SemanticException
+	 */
+	private void dropDuplicatedElement( DesignElement element )
+			throws SemanticException
+	{
+
+		int nameSpaceID = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
+		NameSpace nameSpace = targetLibraryHandle.getModule( ).getNameHelper( )
+				.getNameSpace( nameSpaceID );
+
+		DesignElement duplicateElement = nameSpace.getElement( element
+				.getName( ) );
+		if ( duplicateElement != null )
+			duplicateElement.getHandle( targetLibraryHandle.getModule( ) )
+					.drop( );
+	}
+
+	/**
 	 * Exports the given element.
 	 * 
 	 * @param elementToExport
@@ -318,16 +368,7 @@ class ElementExporter
 
 		if ( canOverride )
 		{
-			int nameSpaceID = ( (ElementDefn) elementToExport.getDefn( ) )
-					.getNameSpaceID( );
-			NameSpace nameSpace = targetLibraryHandle.getModule( )
-					.getNameHelper( ).getNameSpace( nameSpaceID );
-
-			DesignElement duplicateElement = nameSpace
-					.getElement( elementToExport.getName( ) );
-			if ( duplicateElement != null )
-				duplicateElement.getHandle( targetLibraryHandle.getModule( ) )
-						.drop( );
+			findAndDropDuplicatedElement( elementToExport );
 		}
 
 		int slotID = getTopContainerSlot( elementToExport.getElement( ) );
@@ -560,9 +601,6 @@ class ElementExporter
 									+ "location=\"" + location + "\"] must have name defined." ); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 
-				targetLibraryHandle.getModule( ).makeUniqueName(
-						contentHandle.getElement( ) );
-
 				exportElement( contentHandle, canOverride );
 			}
 		}
@@ -608,10 +646,8 @@ class ElementExporter
 		String elementName = elementHandle.getDefn( ).getName( );
 		String name = elementHandle.getName( );
 
-		// Create one element which has the same name as the one to export.
-
-		DesignElementHandle newElementHandle = targetLibraryHandle
-				.getElementFactory( ).newElement( elementName, name );
+		DesignElementHandle newElementHandle = ElementFactoryUtil.newElement(
+				targetLibraryHandle.getModule( ), elementName, name, false );
 
 		// Copy all properties from the original one to new element.
 
@@ -622,6 +658,11 @@ class ElementExporter
 
 		duplicateSlots( elementHandle, newElementHandle );
 
+		if ( !onlyFactoryProperty && newElementHandle.getName( ) == null )
+		{
+			targetLibraryHandle.getModule( ).makeUniqueName(
+					newElementHandle.getElement( ) );
+		}
 		return newElementHandle;
 	}
 
@@ -682,7 +723,7 @@ class ElementExporter
 							.get( j );
 
 					DesignElementHandle newContentHandle = duplicateElement(
-							contentHandle, false );
+							contentHandle, true );
 
 					destination.add( propName, newContentHandle );
 				}
@@ -690,7 +731,7 @@ class ElementExporter
 			else
 			{
 				DesignElementHandle newContentHandle = duplicateElement(
-						( (DesignElementHandle) value ), false );
+						( (DesignElementHandle) value ), true );
 				destination.add( propName, newContentHandle );
 			}
 		}

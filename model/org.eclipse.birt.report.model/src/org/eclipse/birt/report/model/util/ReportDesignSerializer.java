@@ -195,7 +195,9 @@ public class ReportDesignSerializer extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitDesignElement(org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitDesignElement
+	 * (org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
 	public void visitReportDesign( ReportDesign obj )
@@ -674,7 +676,9 @@ public class ReportDesignSerializer extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitStyle(org.eclipse.birt.report.model.elements.Style)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitStyle(org.
+	 * eclipse.birt.report.model.elements.Style)
 	 */
 
 	public void visitStyle( Style obj )
@@ -685,7 +689,9 @@ public class ReportDesignSerializer extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTheme(org.eclipse.birt.report.model.elements.Theme)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitTheme(org.
+	 * eclipse.birt.report.model.elements.Theme)
 	 */
 
 	public void visitTheme( Theme obj )
@@ -696,7 +702,9 @@ public class ReportDesignSerializer extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitReportItem(org.eclipse.birt.report.model.elements.ReportItem)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitReportItem
+	 * (org.eclipse.birt.report.model.elements.ReportItem)
 	 */
 
 	public void visitReportItem( ReportItem obj )
@@ -707,7 +715,9 @@ public class ReportDesignSerializer extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitScalarParameter(org.eclipse.birt.report.model.elements.ScalarParameter)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitScalarParameter
+	 * (org.eclipse.birt.report.model.elements.ScalarParameter)
 	 */
 
 	public void visitScalarParameter( ScalarParameter obj )
@@ -718,7 +728,9 @@ public class ReportDesignSerializer extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitStyledElement(org.eclipse.birt.report.model.core.StyledElement)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitStyledElement
+	 * (org.eclipse.birt.report.model.core.StyledElement)
 	 */
 
 	public void visitStyledElement( StyledElement obj )
@@ -917,7 +929,9 @@ public class ReportDesignSerializer extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitMasterPage(org.eclipse.birt.report.model.elements.MasterPage)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitMasterPage
+	 * (org.eclipse.birt.report.model.elements.MasterPage)
 	 */
 
 	public void visitMasterPage( MasterPage obj )
@@ -928,7 +942,9 @@ public class ReportDesignSerializer extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitGroup(org.eclipse.birt.report.model.elements.GroupElement)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitGroup(org.
+	 * eclipse.birt.report.model.elements.GroupElement)
 	 */
 
 	public void visitGroup( GroupElement obj )
@@ -939,7 +955,9 @@ public class ReportDesignSerializer extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitRow(org.eclipse.birt.report.model.elements.TableRow)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitRow(org.eclipse
+	 * .birt.report.model.elements.TableRow)
 	 */
 
 	public void visitRow( TableRow obj )
@@ -950,7 +968,9 @@ public class ReportDesignSerializer extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitCell(org.eclipse.birt.report.model.elements.Cell)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitCell(org.eclipse
+	 * .birt.report.model.elements.Cell)
 	 */
 
 	public void visitCell( Cell obj )
@@ -961,7 +981,9 @@ public class ReportDesignSerializer extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitColumn(org.eclipse.birt.report.model.elements.TableColumn)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitColumn(org
+	 * .eclipse.birt.report.model.elements.TableColumn)
 	 */
 
 	public void visitColumn( TableColumn obj )
@@ -972,7 +994,9 @@ public class ReportDesignSerializer extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitDataSet(org.eclipse.birt.report.model.elements.DataSet)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitDataSet(org
+	 * .eclipse.birt.report.model.elements.DataSet)
 	 */
 
 	public void visitDataSet( DataSet obj )
@@ -983,7 +1007,9 @@ public class ReportDesignSerializer extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitDataSource(org.eclipse.birt.report.model.elements.DataSource)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitDataSource
+	 * (org.eclipse.birt.report.model.elements.DataSource)
 	 */
 
 	public void visitDataSource( DataSource obj )
@@ -994,7 +1020,9 @@ public class ReportDesignSerializer extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTemplateParameterDefinition(org.eclipse.birt.report.model.elements.TemplateParameterDefinition)
+	 * @seeorg.eclipse.birt.report.model.elements.ElementVisitor#
+	 * visitTemplateParameterDefinition
+	 * (org.eclipse.birt.report.model.elements.TemplateParameterDefinition)
 	 */
 
 	public void visitTemplateParameterDefinition(
@@ -1465,8 +1493,8 @@ public class ReportDesignSerializer extends ElementVisitor
 		// element.getDefn( ).getName( ), element.getName( ) )
 		// .getElement( );
 
-		DesignElement newElement = ModelUtil.newElement( element.getDefn( )
-				.getName( ), element.getName( ) );
+		DesignElement newElement = ElementFactoryUtil.newElement( element
+				.getDefn( ).getName( ), element.getName( ) );
 
 		IElementDefn elementDefn = newElement.getDefn( );
 		if ( elementDefn.isContainer( ) )
@@ -2634,7 +2662,7 @@ public class ReportDesignSerializer extends ElementVisitor
 				elementTypeName );
 		if ( elemDefn != null )
 		{
-			DesignElement element = ModelUtil.newElement( targetDesign,
+			DesignElement element = ElementFactoryUtil.newElementExceptExtendedItem( targetDesign,
 					elementTypeName, name );
 			if ( element == null )
 				return null;
@@ -2710,7 +2738,8 @@ public class ReportDesignSerializer extends ElementVisitor
 			String name )
 	{
 
-		DesignElement element = ModelUtil.newElement( elementTypeName, name );
+		DesignElement element = ElementFactoryUtil.newElement( elementTypeName,
+				name );
 		if ( targetContainment.isManagedByNameSpace( ) )
 			module.rename( targetContainment.getElement( ), element );
 		return element;
@@ -2724,8 +2753,8 @@ public class ReportDesignSerializer extends ElementVisitor
 	 * @param name
 	 *            the optional element name
 	 * 
-	 * @return design element, <code>null</code> returned if the extension
-	 *         with the given type name is not found
+	 * @return design element, <code>null</code> returned if the extension with
+	 *         the given type name is not found
 	 */
 
 	private DesignElementHandle newExtensionElement( String elementTypeName,
@@ -2829,7 +2858,9 @@ public class ReportDesignSerializer extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitAccessControl(org.eclipse.birt.report.model.elements.AccessControl)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitAccessControl
+	 * (org.eclipse.birt.report.model.elements.AccessControl)
 	 */
 
 	public void visitAccessControl( AccessControl obj )
@@ -2840,7 +2871,9 @@ public class ReportDesignSerializer extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitValueAccessControl(org.eclipse.birt.report.model.elements.ValueAccessControl)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitValueAccessControl
+	 * (org.eclipse.birt.report.model.elements.ValueAccessControl)
 	 */
 
 	public void visitValueAccessControl( ValueAccessControl obj )

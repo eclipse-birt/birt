@@ -90,13 +90,11 @@ import org.eclipse.birt.report.model.elements.olap.TabularLevel;
 import org.eclipse.birt.report.model.elements.olap.TabularMeasure;
 import org.eclipse.birt.report.model.elements.olap.TabularMeasureGroup;
 import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
-import org.eclipse.birt.report.model.metadata.PeerExtensionLoader;
+import org.eclipse.birt.report.model.util.ElementFactoryUtil;
 import org.eclipse.birt.report.model.util.ElementStructureUtil;
-import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Creates a new report elements and returns handles to it. Use this to create
@@ -146,55 +144,8 @@ public class ElementFactory
 	public DesignElementHandle newElement( String elementTypeName, String name )
 	{
 
-		ElementDefn elemDefn = (ElementDefn) MetaDataDictionary.getInstance( )
-				.getExtension( elementTypeName );
-
-		// try extension first
-		if ( elemDefn != null )
-		{
-			return newExtensionElement( elementTypeName, name );
-		}
-
-		// try other system definitions
-		elemDefn = (ElementDefn) MetaDataDictionary.getInstance( ).getElement(
-				elementTypeName );
-		if ( elemDefn != null )
-		{
-			DesignElement element = ModelUtil.newElement( module,
-					elementTypeName, name );
-			if ( element == null )
-				return null;
-			return element.getHandle( module );
-		}
-		return null;
-	}
-
-	/**
-	 * Creates an extension element specified by the extension type name.
-	 * 
-	 * @param elementTypeName
-	 *            the element type name
-	 * @param name
-	 *            the optional element name
-	 * 
-	 * @return design element, <code>null</code> returned if the extension with
-	 *         the given type name is not found
-	 */
-
-	private DesignElementHandle newExtensionElement( String elementTypeName,
-			String name )
-	{
-		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd
-				.getExtension( elementTypeName );
-		if ( extDefn == null )
-			return null;
-		String extensionPoint = extDefn.getExtensionPoint( );
-		if ( PeerExtensionLoader.EXTENSION_POINT
-				.equalsIgnoreCase( extensionPoint ) )
-			return newExtendedItem( name, elementTypeName );
-
-		return null;
+		return ElementFactoryUtil.newElement( module, elementTypeName, name,
+				true );
 	}
 
 	/**
