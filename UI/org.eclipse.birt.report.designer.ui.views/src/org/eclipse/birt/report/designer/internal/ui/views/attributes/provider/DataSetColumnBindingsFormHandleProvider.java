@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
@@ -280,6 +281,20 @@ public class DataSetColumnBindingsFormHandleProvider extends
 			case 3 :
 				return DataUtil.getAggregationExpression( (ComputedColumnHandle) element );
 			case 4 :
+				try
+				{
+					String function = ( (ComputedColumnHandle) element ).getAggregateFunction( );
+					if ( function != null )
+						return DataUtil.getAggregationManager( )
+								.getAggregation( function )
+								.getDisplayName( );
+				}
+				catch ( BirtException e )
+				{
+					ExceptionHandler.handle( e );
+					return null;
+				}
+			case 5 :
 				String ExpValue = ( (ComputedColumnHandle) element ).getFilterExpression( );
 				if ( ExpValue != null && ExpValue.length( ) > 0 )
 				{
@@ -289,7 +304,7 @@ public class DataSetColumnBindingsFormHandleProvider extends
 				{
 					return null;
 				}
-			case 5 :
+			case 6 :
 				String value = DEUtil.getAggregateOn( (ComputedColumnHandle) element );
 				String text;
 				if ( value == null )
@@ -646,11 +661,12 @@ public class DataSetColumnBindingsFormHandleProvider extends
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DisplayName" ), //$NON-NLS-1$
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DataType" ), //$NON-NLS-1$
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Expression" ), //$NON-NLS-1$
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Function" ), //$NON-NLS-1$
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Filter" ), //$NON-NLS-1$
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.AggregateOn" )//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			};
 			columnWidth = new int[]{
-					120, 120, 80, 120, 120, 120
+					120, 120, 80, 100, 120, 120, 120
 			};
 		}
 	}

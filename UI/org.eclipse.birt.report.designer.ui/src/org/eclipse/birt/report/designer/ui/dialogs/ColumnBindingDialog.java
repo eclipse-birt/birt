@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
@@ -138,6 +139,8 @@ public class ColumnBindingDialog extends BaseDialog
 	private static final String COLUMN_AGGREGATEON = Messages.getString( "ColumnBindingDialog.Column.AggregateOn" ); //$NON-NLS-1$
 
 	private static final String COLUMN_FILTER = Messages.getString( "ColumnBindingDialog.Column.Filter" ); //$NON-NLS-1$
+
+	private static final String COLUMN_FUNCTION = Messages.getString( "ColumnBindingDialog.Column.Function" ); //$NON-NLS-1$
 
 	private static final String COLUMN_DATATYPE = Messages.getString( "ColumnBindingDialog.Column.DataType" ); //$NON-NLS-1$
 
@@ -272,9 +275,24 @@ public class ColumnBindingDialog extends BaseDialog
 					text = org.eclipse.birt.report.designer.data.ui.util.DataUtil.getAggregationExpression( handle );
 					break;
 				case 5 :
-					text = handle.getFilterExpression( );
+					try
+					{
+						String function = handle.getAggregateFunction( );
+						if ( function != null )
+							text = org.eclipse.birt.report.designer.data.ui.util.DataUtil.getAggregationManager( )
+									.getAggregation( function )
+									.getDisplayName( );
+					}
+					catch ( BirtException e )
+					{
+						ExceptionHandler.handle( e );
+						text = null;
+					}
 					break;
 				case 6 :
+					text = handle.getFilterExpression( );
+					break;
+				case 7 :
 					String value = DEUtil.getAggregateOn( handle );
 					if ( value == null )
 					{
@@ -664,6 +682,7 @@ public class ColumnBindingDialog extends BaseDialog
 					COLUMN_DISPLAYNAME,
 					COLUMN_DATATYPE,
 					COLUMN_EXPRESSION,
+					COLUMN_FUNCTION,
 					COLUMN_FILTER,
 					COLUMN_AGGREGATEON
 			};

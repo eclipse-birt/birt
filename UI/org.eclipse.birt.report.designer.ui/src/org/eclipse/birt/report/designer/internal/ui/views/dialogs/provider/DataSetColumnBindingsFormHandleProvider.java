@@ -19,8 +19,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
+import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -117,6 +119,7 @@ public class DataSetColumnBindingsFormHandleProvider implements
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DisplayName" ),//$NON-NLS-1$
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DataType" ), //$NON-NLS-1$
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Expression" ),
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Function" ),//$NON-NLS-1$
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Filter" ),//$NON-NLS-1$
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.AggregateOn" )//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			};
@@ -134,7 +137,7 @@ public class DataSetColumnBindingsFormHandleProvider implements
 	{
 		if ( canAggregation )
 			return new int[]{
-					130, 130, 70, 130, 130, 130
+					130, 130, 70, 130, 100, 130, 130
 			};
 		else
 			return new int[]{
@@ -359,9 +362,24 @@ public class DataSetColumnBindingsFormHandleProvider implements
 				text = org.eclipse.birt.report.designer.data.ui.util.DataUtil.getAggregationExpression( handle );
 				break;
 			case 4 :
-				text = handle.getFilterExpression( );
+				try
+				{
+					String function = handle.getAggregateFunction( );
+					if ( function != null )
+						text = DataUtil.getAggregationManager( )
+								.getAggregation( function )
+								.getDisplayName( );
+				}
+				catch ( BirtException e )
+				{
+					ExceptionHandler.handle( e );
+					text = null;
+				}
 				break;
 			case 5 :
+				text = handle.getFilterExpression( );
+				break;
+			case 6 :
 				String value = DEUtil.getAggregateOn( handle );
 				if ( value == null )
 				{
