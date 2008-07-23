@@ -573,6 +573,11 @@ public class ChartUIUtil
 		context.setULocale( ULocale.getDefault( ) );
 		context.setSharingQuery( isSharingQuery );
 		Generator.instance( ).bindData( evaluator, chart, context );
+		
+		if ( evaluator != null )
+		{
+			evaluator.close( );
+		}
 
 		// Original live preview code: use sample data. See TaskSelectData
 		// oldSample = (SampleData) EcoreUtil.copy( getChartModel(

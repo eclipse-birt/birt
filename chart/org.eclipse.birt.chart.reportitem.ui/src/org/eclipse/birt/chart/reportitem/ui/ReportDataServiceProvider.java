@@ -1180,8 +1180,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 							session );
 				}
 			}
-			session.shutdown( );
-			session = null;
 			return evaluator;
 		}
 		catch ( BirtException e )
@@ -1200,10 +1198,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			// Restore old thread context class loader
 			Thread.currentThread( ).setContextClassLoader( oldContextLoader );
-			if ( session != null )
-			{
-				session.shutdown( );
-			}
 		}
 	}
 
@@ -1219,7 +1213,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 */
 	private IDataRowExpressionEvaluator createBaseEvaluator(
 			ExtendedItemHandle handle, Chart cm, List columnExpression,
-			DataRequestSession session ) throws ChartException
+			final DataRequestSession session ) throws ChartException
 	{
 		IQueryResults actualResultSet;
 		BaseQueryHelper cbqh = new BaseQueryHelper( handle, cm );
@@ -1243,7 +1237,23 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			if ( actualResultSet != null )
 			{
 				return new BaseGroupedQueryResultSetEvaluator( actualResultSet.getResultIterator( ),
-						ChartReportItemUtil.hasAggregation( cm ), cm );
+						ChartReportItemUtil.hasAggregation( cm ),
+						cm ) {
+
+					/*
+					 * (non-Javadoc)
+					 * 
+					 * @seeorg.eclipse.birt.chart.reportitem.
+					 * BaseGroupedQueryResultSetEvaluator#close()
+					 */
+					@Override
+					public void close( )
+					{
+						super.close( );
+						session.shutdown( );
+					}
+
+				};
 			}
 		}
 		catch ( BirtException e )
@@ -1268,7 +1278,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @since 2.3
 	 */
 	private IDataRowExpressionEvaluator createCubeEvaluatorForSharingQuery(
-			DataRequestSession session, CubeHandle cube )
+			final DataRequestSession session, CubeHandle cube )
 			throws ExtendedElementException, BirtException, DataException
 	{
 		CrosstabReportItemHandle crosstabItem = null;
@@ -1304,7 +1314,23 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		session.defineCube( cube );
 
 		IPreparedCubeQuery ipcq = session.prepare( qd );
-		return new BIRTCubeResultSetEvaluator( ipcq.execute( null, null ) );
+		return new BIRTCubeResultSetEvaluator( ipcq.execute( null, null ) ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator#
+			 * close()
+			 */
+			@Override
+			public void close( )
+			{
+				super.close( );
+				session.shutdown( );
+			}
+
+		};
 	}
 
 	/**
@@ -1316,7 +1342,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @throws BirtException
 	 */
 	private IDataRowExpressionEvaluator createCubeEvaluator( CubeHandle cube,
-			DataRequestSession session ) throws BirtException
+			final DataRequestSession session ) throws BirtException
 	{
 		// Use the chart model in context, because this model will be updated
 		// once UI changes it. On the contrary, the model in handle may be old.
@@ -1327,7 +1353,23 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		// Always cube query returned
 		IPreparedCubeQuery ipcq = session.prepare( (ICubeQueryDefinition) qd );
-		return new BIRTCubeResultSetEvaluator( ipcq.execute( null, null ) );
+		return new BIRTCubeResultSetEvaluator( ipcq.execute( null, null ) ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator#
+			 * close()
+			 */
+			@Override
+			public void close( )
+			{
+				super.close( );
+				session.shutdown( );
+			}
+
+		};
 	}
 
 	/**
@@ -1805,7 +1847,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		 * @throws ChartException
 		 */
 		private IDataRowExpressionEvaluator createShareBindingEvaluator(
-				Chart cm, DataRequestSession session ) throws BirtException,
+				Chart cm, final DataRequestSession session )
+				throws BirtException,
 				AdapterException, DataException, ChartException
 		{
 			IQueryResults actualResultSet;
@@ -1868,6 +1911,19 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 							sLogger.log( e );
 						}
 						return null;
+					}
+
+					/*
+					 * (non-Javadoc)
+					 * 
+					 * @seeorg.eclipse.birt.chart.reportitem.
+					 * BaseGroupedQueryResultSetEvaluator#close()
+					 */
+					@Override
+					public void close( )
+					{
+						super.close( );
+						session.shutdown( );
 					}
 				};
 			}
