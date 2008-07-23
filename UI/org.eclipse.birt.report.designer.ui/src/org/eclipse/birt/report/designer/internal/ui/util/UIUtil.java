@@ -25,6 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.runtime.GUIException;
 import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
@@ -61,6 +62,7 @@ import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -72,13 +74,16 @@ import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -109,6 +114,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -1889,5 +1895,53 @@ public class UIUtil
 		{
 			return null;
 		}
+	}
+	
+	/**
+	 * Get the current font family.
+	 * 
+	 * @return The current font family
+	 */
+	public static Font getFont( ReportItemHandle handle )
+	{
+		StyleHandle styleHandle = handle.getPrivateStyle( );
+
+		String family = (String) ( styleHandle.getFontFamilyHandle( ).getValue( ) );
+		// some font not defined in model is encolsed with quote.
+		family = DEUtil.RemoveQuote( family );
+		String FontFamily = (String) DesignerConstants.familyMap.get( family );
+
+		if ( FontFamily == null )
+		{
+			FontFamily = family;
+		}
+
+		// fix bugzilla 210899, set minimum font size as 1.
+		int fontSize = Math.max( DEUtil.getFontSizeIntValue( handle ), 1 );
+
+		int fontStyle = 0;
+		String fontWeight = styleHandle.getFontWeight( );
+		String style = styleHandle.getFontStyle( );
+
+		// Eclipse does not distinct ITALIC and OBLIQUE, so we treat OBLIQUE as
+		// ITATIC. And if font weight >= 700, deal with BOLD.
+		if ( fontWeight.equals( DesignChoiceConstants.FONT_WEIGHT_BOLD )
+				|| fontWeight.equals( DesignChoiceConstants.FONT_WEIGHT_BOLDER )
+				|| fontWeight.equals( DesignChoiceConstants.FONT_WEIGHT_700 )
+				|| fontWeight.equals( DesignChoiceConstants.FONT_WEIGHT_800 )
+				|| fontWeight.equals( DesignChoiceConstants.FONT_WEIGHT_900 ) )
+		{
+			fontStyle = fontStyle | SWT.BOLD;
+		}
+
+		if ( style.equals( DesignChoiceConstants.FONT_STYLE_ITALIC )
+				|| style.equals( DesignChoiceConstants.FONT_STYLE_OBLIQUE ) )
+		{
+			fontStyle = fontStyle | SWT.ITALIC;
+		}
+
+		Font font = FontManager.getFont( FontFamily, fontSize, fontStyle );
+
+		return font;
 	}
 }

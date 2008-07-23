@@ -32,6 +32,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.Re
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
@@ -487,45 +488,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	 */
 	protected Font getFont( ReportItemHandle handle )
 	{
-		StyleHandle styleHandle = handle.getPrivateStyle( );
-
-		String family = (String) ( styleHandle.getFontFamilyHandle( ).getValue( ) );
-		// some font not defined in model is encolsed with quote.
-		family = DEUtil.RemoveQuote( family );
-		String FontFamily = (String) DesignerConstants.familyMap.get( family );
-
-		if ( FontFamily == null )
-		{
-			FontFamily = family;
-		}
-
-		// fix bugzilla 210899, set minimum font size as 1.
-		int fontSize = Math.max( DEUtil.getFontSizeIntValue( handle ), 1 );
-
-		int fontStyle = 0;
-		String fontWeight = styleHandle.getFontWeight( );
-		String style = styleHandle.getFontStyle( );
-
-		// Eclipse does not distinct ITALIC and OBLIQUE, so we treat OBLIQUE as
-		// ITATIC. And if font weight >= 700, deal with BOLD.
-		if ( fontWeight.equals( DesignChoiceConstants.FONT_WEIGHT_BOLD )
-				|| fontWeight.equals( DesignChoiceConstants.FONT_WEIGHT_BOLDER )
-				|| fontWeight.equals( DesignChoiceConstants.FONT_WEIGHT_700 )
-				|| fontWeight.equals( DesignChoiceConstants.FONT_WEIGHT_800 )
-				|| fontWeight.equals( DesignChoiceConstants.FONT_WEIGHT_900 ) )
-		{
-			fontStyle = fontStyle | SWT.BOLD;
-		}
-
-		if ( style.equals( DesignChoiceConstants.FONT_STYLE_ITALIC )
-				|| style.equals( DesignChoiceConstants.FONT_STYLE_OBLIQUE ) )
-		{
-			fontStyle = fontStyle | SWT.ITALIC;
-		}
-
-		Font font = FontManager.getFont( FontFamily, fontSize, fontStyle );
-
-		return font;
+		return UIUtil.getFont( handle );
 	}
 
 	protected Font getFont( )
