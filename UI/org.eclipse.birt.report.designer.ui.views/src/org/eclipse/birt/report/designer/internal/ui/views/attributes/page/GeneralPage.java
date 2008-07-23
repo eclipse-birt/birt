@@ -61,9 +61,10 @@ public abstract class GeneralPage extends GeneralFontPage
 			librarySection.setHidden( true );
 			seperatorSection.setHidden( true );
 		}
+		super.refresh( );
 		container.layout( true );
 		container.redraw( );
-		super.refresh( );
+
 	}
 
 	/**

@@ -14,7 +14,6 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 import java.util.HashMap;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IFastConsumerProcessor;
-import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.util.SortMap;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section;
@@ -188,6 +187,8 @@ public abstract class AttributePage extends TabPage implements
 			Section section = (Section) sectionArray[i];
 			section.layout( );
 		}
+		container.layout( true );
+		container.redraw( );
 	}
 
 	public Section[] getSections( )
