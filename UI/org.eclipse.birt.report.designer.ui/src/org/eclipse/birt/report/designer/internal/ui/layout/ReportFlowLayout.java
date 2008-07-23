@@ -217,8 +217,8 @@ public class ReportFlowLayout extends AbstractHintLayout
 		initVariables( parent );
 		initRow( );
 		int i = 0;
-		int display = ReportItemConstraint.NONE;
-		int lastDisplay = ReportItemConstraint.NONE;
+		int display = ReportItemConstraint.BLOCK;
+		int lastDisplay = ReportItemConstraint.BLOCK;
 
 		while ( iterator.hasNext( ) )
 		{

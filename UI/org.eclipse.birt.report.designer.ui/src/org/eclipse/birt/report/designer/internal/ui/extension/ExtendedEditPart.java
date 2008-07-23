@@ -98,10 +98,9 @@ public class ExtendedEditPart extends ReportElementEditPart
 	 */
 	public void refreshFigure( )
 	{
+		refreshBorder( (DesignElementHandle) getModel( ), new LineBorder( ) );
 		getExtendedElementUI( ).updateFigure( getExtendedItemHandle( ),
 				getFigure( ) );
-
-		refreshBorder( (DesignElementHandle) getModel( ), new LineBorder( ) );
 
 		( (AbstractGraphicalEditPart) getParent( ) ).setLayoutConstraint( this,
 				getFigure( ),
@@ -117,7 +116,7 @@ public class ExtendedEditPart extends ReportElementEditPart
 		ReportItemConstraint constraint = new ReportItemConstraint( );
 
 		String type = handle.getPrivateStyle( ).getDisplay( );
-		if ( type == null )
+		if ( type == null || DesignChoiceConstants.DISPLAY_NONE.equals( type ))
 		{
 			type = DesignChoiceConstants.DISPLAY_BLOCK;
 		}

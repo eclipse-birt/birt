@@ -333,6 +333,11 @@ public class LabelFigure extends ReportElementFigure
 	 */
 	public void setDisplay( String display )
 	{
+		//if the display equals none, as the block
+		if (DesignChoiceConstants.DISPLAY_NONE.equals( display ))
+		{
+			setDisplay( DesignChoiceConstants.DISPLAY_BLOCK );
+		}
 		this.display = display;
 	}
 

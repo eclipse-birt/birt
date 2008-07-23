@@ -28,7 +28,8 @@ public class ReportItemConstraint extends Rectangle
 
 	public static final int BLOCK = 2;
 
-	private int m_display = NONE;
+	//private int m_display = NONE;
+	private int m_display = BLOCK;
 
     private Insets m_margins = null;
     
@@ -84,7 +85,9 @@ public class ReportItemConstraint extends Rectangle
 	{
 		if ( display.equals( DesignChoiceConstants.DISPLAY_INLINE ) )
 			m_display = INLINE;
-		if ( display.equals( DesignChoiceConstants.DISPLAY_BLOCK ) )
+		else if ( display.equals( DesignChoiceConstants.DISPLAY_BLOCK ) )
+			m_display = BLOCK;
+		else 
 			m_display = BLOCK;
 	}
 
