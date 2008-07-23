@@ -13,13 +13,13 @@ package org.eclipse.birt.report.item.crosstab.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PageSectionId;
 
-
 /**
  * 
  */
 
 public class CrosstabSectionPageId extends PageSectionId
 {
-	public final static String CROSSTAB_SECTION_REPEAT_COLUMN_HEADER = "CROSSTAB_SECTION_REPEAT_COLUMN_HEADER"; //$NON-NLS-1$
 
+	public static final String COLUMNPAGEBREAK_REPEAT_ROW_HEADER = "COLUMNPAGEBREAK_REPEAT_ROW_HEADER";//$NON-NLS-1$
+	public static final String ROWPAGEBREAK_REPEAT_COLUMN_HEADER = "ROWPAGEBREAK_REPEAT_COLUMN_HEADER";//$NON-NLS-1$
 }

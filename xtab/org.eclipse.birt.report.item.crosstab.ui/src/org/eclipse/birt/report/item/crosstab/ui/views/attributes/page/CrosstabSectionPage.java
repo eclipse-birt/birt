@@ -17,13 +17,10 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Widget
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SimpleComboPropertyDescriptorProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.CheckSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SimpleComboSection;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
-import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.RepeatColumnHeaderProvider;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -45,7 +42,6 @@ public class CrosstabSectionPage extends AttributePage
 	private ComboSection insideSection;
 	private ComboSection afterSection;
 //	private PageLayoutComboSection pageLayoutComboSection;
-	private CheckSection repeatColumnHeaderSection;
 
 	public void buildUI( Composite parent )
 	{
@@ -66,8 +62,6 @@ public class CrosstabSectionPage extends AttributePage
 		IDescriptorProvider insideProvider = new ComboPropertyDescriptorProvider( StyleHandle.PAGE_BREAK_INSIDE_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
 
-		RepeatColumnHeaderProvider repeatHeaderProvider = new RepeatColumnHeaderProvider( ICrosstabReportItemConstants.REPEAT_COLUMN_HEADER_PROP,
-				ReportDesignConstants.EXTENDED_ITEM );
 
 		// Defines sections.
 
@@ -85,13 +79,11 @@ public class CrosstabSectionPage extends AttributePage
 				true );
 		sepSection = new SeperatorSection( container, SWT.HORIZONTAL );
 
-		repeatColumnHeaderSection = new CheckSection( container, true );
 
 		beforeSection.setProvider( beforeProvider );
 		masterSection.setProvider( masterProvider );
 		afterSection.setProvider( afterProvider );
 		insideSection.setProvider( insideProvider );
-		repeatColumnHeaderSection.setProvider( repeatHeaderProvider );
 
 		// Sets widths.
 
@@ -107,12 +99,10 @@ public class CrosstabSectionPage extends AttributePage
 		afterSection.setLayoutNum( 3 );
 		insideSection.setLayoutNum( 5 );
 		masterSection.setLayoutNum( 2 );
-		repeatColumnHeaderSection.setLayoutNum( 3 );
 		
 		// Sets fill grid num.		
 		afterSection.setGridPlaceholder( 1, true );
 		insideSection.setGridPlaceholder( 3, true );
-		repeatColumnHeaderSection.setGridPlaceholder( 1, true );
 
 		// Adds sections into container page.
 
@@ -131,8 +121,6 @@ public class CrosstabSectionPage extends AttributePage
 		addSection( PageSectionId.SECION_SEPERATOR, sepSection ); 
 		addSection( PageSectionId.SECION_MASTER_PAGE, masterSection ); 
 //		addSection( CrosstabPageSectionId.PAGE_LAYOUT, pageLayoutComboSection );
-		addSection( CrosstabSectionPageId.CROSSTAB_SECTION_REPEAT_COLUMN_HEADER,
-				repeatColumnHeaderSection );
 
 		createSections( );
 		layoutSections( );
@@ -160,7 +148,6 @@ public class CrosstabSectionPage extends AttributePage
 			afterSection.getComboControl( ).getControl( ).setEnabled( false );
 			insideSection.getLabelControl( ).setEnabled( false );
 			insideSection.getComboControl( ).getControl( ).setEnabled( false );
-			repeatColumnHeaderSection.getCheckControl( ).getControl( ).setEnabled( false );
 		}
 		else
 		{
@@ -172,7 +159,6 @@ public class CrosstabSectionPage extends AttributePage
 			afterSection.getComboControl( ).getControl( ).setEnabled( true );
 			insideSection.getLabelControl( ).setEnabled( true );
 			insideSection.getComboControl( ).getControl( ).setEnabled( true );
-			repeatColumnHeaderSection.getCheckControl( ).getControl( ).setEnabled( true );
 		}
 	}
 
