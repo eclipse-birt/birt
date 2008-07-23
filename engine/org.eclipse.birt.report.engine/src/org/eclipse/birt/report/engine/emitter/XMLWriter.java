@@ -548,4 +548,21 @@ public class XMLWriter
 	{
 		this.bIndent = indent;
 	}
+	
+	/**
+	 * @return Returns the bImplicitCloseTag.
+	 */
+	public boolean isImplicitCloseTag( )
+	{
+		return bImplicitCloseTag;
+	}
+	
+	/**
+	 * @param bImplicitCloseTag
+	 *            The bImplicitCloseTag to set.
+	 */
+	public void setImplicitCloseTag( boolean bImplicitCloseTag )
+	{
+		this.bImplicitCloseTag = bImplicitCloseTag;
+	}
 }

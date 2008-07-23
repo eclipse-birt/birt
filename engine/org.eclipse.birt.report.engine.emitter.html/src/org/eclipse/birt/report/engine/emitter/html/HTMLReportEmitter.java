@@ -2125,9 +2125,23 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 			else if ( nodeType == Node.ELEMENT_NODE )
 			{
-				startNode( node, cssStyles );
-				processNodes( (Element) node, cssStyles );
-				endNode( node );
+				if ( "br".equalsIgnoreCase( node.getNodeName( ) ) )
+				{
+					// <br/> is correct. <br></br> is not correct. The brower
+					// will treat the <br></br> as <br><br>
+					boolean bImplicitCloseTag = writer.isImplicitCloseTag( );
+					writer.setImplicitCloseTag( true );
+					startNode( node, cssStyles );
+					processNodes( (Element) node, cssStyles );
+					endNode( node );
+					writer.setImplicitCloseTag( bImplicitCloseTag );
+				}
+				else
+				{
+					startNode( node, cssStyles );
+					processNodes( (Element) node, cssStyles );
+					endNode( node );
+				}
 			}
 		}
 	}
