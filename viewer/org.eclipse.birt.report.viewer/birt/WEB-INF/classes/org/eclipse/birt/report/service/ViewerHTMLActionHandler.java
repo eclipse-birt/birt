@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.service;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Iterator;
@@ -824,12 +826,24 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			if ( url != null )
 			{
 				if ( "file".equals( url.getProtocol( ) ) ) //$NON-NLS-1$
-					reportName = url.getFile( );
+				{
+					File reportFile;
+					try
+					{
+						reportFile = new File( url.toURI( ) );
+						reportName = reportFile.getPath();
+					}
+					catch ( URISyntaxException e )
+					{
+					}
+				}
 				else
+				{
 					reportName = url.toExternalForm( );
+				}
 			}
 		}
-		return reportName;
+ 		return reportName;
 	}
 
 	/**
