@@ -133,7 +133,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	private final ShareBindingQueryHelper fShareBindingQueryHelper = new ShareBindingQueryHelper( );
 
 	static final String OPTION_NONE = Messages.getString( "ReportDataServiceProvider.Option.None" ); //$NON-NLS-1$
-	static final String OPTION_INHERITS = Messages.getString( "ReportDataServiceProvider.Option.Inherits" ); //$NON-NLS-1$
 
 	/**
 	 * This flag indicates whether the error is found when fetching data. This

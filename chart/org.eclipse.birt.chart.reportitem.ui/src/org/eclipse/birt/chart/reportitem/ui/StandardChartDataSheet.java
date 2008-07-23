@@ -101,8 +101,6 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.PlatformUI;
 
-import com.ibm.icu.text.MessageFormat;
-
 /**
  * Data sheet implementation for Standard Chart
  */
@@ -1568,11 +1566,9 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 			if ( DEUtil.getDataSetList( itemHandle.getContainer( ) )
 							.size( ) > 0 )
 			{
-				items.add( MessageFormat.format( ReportDataServiceProvider.OPTION_INHERITS,
-						new Object[]{
-							( (DataSetHandle) DEUtil.getDataSetList( itemHandle.getContainer( ) )
-									.get( 0 ) ).getName( )
-						} ) );
+				items.add( Messages.getString( "ReportDataServiceProvider.Option.Inherits", //$NON-NLS-1$
+						( (DataSetHandle) DEUtil.getDataSetList( itemHandle.getContainer( ) )
+								.get( 0 ) ).getName( ) ) );
 			}
 			else
 			{
