@@ -39,6 +39,7 @@ import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
+import org.eclipse.birt.report.model.elements.strategy.ExtendedItemPropSearchStrategy;
 import org.eclipse.birt.report.model.elements.strategy.GroupPropSearchStrategy;
 import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -136,8 +137,8 @@ public class PropertyHandle extends SimpleValueHandle
 	 * the element's private style property. It is considered unset if it is set
 	 * on a shared style.
 	 * 
-	 * @return <code>true</code> if the value is set, <code>false</code> if
-	 *         it is not set
+	 * @return <code>true</code> if the value is set, <code>false</code> if it
+	 *         is not set
 	 */
 
 	public boolean isSet( )
@@ -337,7 +338,9 @@ public class PropertyHandle extends SimpleValueHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#addItem(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.api.SimpleValueHandle#addItem(java.lang
+	 * .Object)
 	 */
 	public void addItem( Object item ) throws SemanticException
 	{
@@ -398,6 +401,11 @@ public class PropertyHandle extends SimpleValueHandle
 
 			if ( retValue )
 				return true;
+
+			if ( !containsProp )
+				containsProp = ExtendedItemPropSearchStrategy
+						.getHostViewProperties( element.getElement( ) )
+						.contains( propDefn.getName( ) );
 
 			if ( element instanceof ExtendedItemHandle )
 				return ( containsProp && ( element.getContainer( ) instanceof MultiViewsHandle ) );
@@ -487,7 +495,8 @@ public class PropertyHandle extends SimpleValueHandle
 			return Collections.EMPTY_LIST;
 		add( content.getHandle( getModule( ) ) );
 
-		return getElementHandle( ).checkPostPasteErrors( (DesignElement) content  );
+		return getElementHandle( ).checkPostPasteErrors(
+				(DesignElement) content );
 	}
 
 	/**
@@ -534,7 +543,8 @@ public class PropertyHandle extends SimpleValueHandle
 			return Collections.EMPTY_LIST;
 		add( content.getHandle( getModule( ) ), newPos );
 
-		return getElementHandle( ).checkPostPasteErrors( (DesignElement) content  );
+		return getElementHandle( ).checkPostPasteErrors(
+				(DesignElement) content );
 
 	}
 
@@ -780,9 +790,9 @@ public class PropertyHandle extends SimpleValueHandle
 	 * @param content
 	 *            the design element handle to check
 	 * 
-	 * @return <code>true</code> if the slot with the given
-	 *         <code>slotId</code> can contain the <code>content</code>,
-	 *         otherwise <code>false</code>.
+	 * @return <code>true</code> if the slot with the given <code>slotId</code>
+	 *         can contain the <code>content</code>, otherwise
+	 *         <code>false</code>.
 	 */
 
 	public boolean canContain( DesignElementHandle content )

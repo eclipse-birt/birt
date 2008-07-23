@@ -122,10 +122,7 @@ public class ElementUtil
 						.getReportItem( );
 
 				if ( extensionItem != null )
-				{
-					extensionItem.setHandle( (ExtendedItemHandle) element );
 					item = extensionItem.getSimpleElement( );
-				}
 			}
 			catch ( ExtendedElementException e )
 			{

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -24,7 +25,8 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * Tests case for multiple view.
  */
 
-public class MultiViewHandleTest extends BaseTestCase {
+public class MultiViewHandleTest extends BaseTestCase
+{
 
 	/**
 	 * Tests cases about parser and API related.
@@ -32,91 +34,124 @@ public class MultiViewHandleTest extends BaseTestCase {
 	 * @throws Exception
 	 */
 
-	public void testAPIs() throws Exception {
-		createDesign();
+	public void testAPIs( ) throws Exception
+	{
+		createDesign( );
 
-		TableHandle table1 = designHandle.getElementFactory().newTableItem(
-				"table1"); //$NON-NLS-1$
-		designHandle.getBody().add(table1);
-		table1.setName("HostTable");
+		TableHandle table1 = designHandle.getElementFactory( ).newTableItem(
+				"table1" ); //$NON-NLS-1$
+		designHandle.getBody( ).add( table1 );
+		table1.setName( "HostTable" ); //$NON-NLS-1$
 
-		MyListener tmpListener = new MyListener();
-		table1.addListener(tmpListener);
+		MyListener tmpListener = new MyListener( );
+		table1.addListener( tmpListener );
 
-		ExtendedItemHandle box1 = designHandle.getElementFactory()
-				.newExtendedItem("box1", "TestingBox"); //$NON-NLS-1$//$NON-NLS-2$
-		table1.addView(box1);
-
-		// make sure table receives the event
-		assertTrue(tmpListener.isChanged());
-		tmpListener.resetFlag();
-
-		table1.setCurrentView(box1);
+		ExtendedItemHandle box1 = designHandle.getElementFactory( )
+				.newExtendedItem( "box1", "TestingBox" ); //$NON-NLS-1$//$NON-NLS-2$
+		table1.addView( box1 );
 
 		// make sure table receives the event
-		assertTrue(tmpListener.isChanged());
-		tmpListener.resetFlag();
-		assertTrue(box1.getContainer().getContainer() == table1);
-		assertTrue(box1.getHostViewHandle() == table1);
-		assertNull(table1.getHostViewHandle());
+		assertTrue( tmpListener.isChanged( ) );
+		tmpListener.resetFlag( );
 
-		List views = table1.getViews();
-		assertEquals(1, views.size());
-		assertTrue(box1 == views.get(0));
-
-		assertTrue(box1 == table1.getCurrentView());
-
-		table1.dropView(box1);
+		table1.setCurrentView( box1 );
 
 		// make sure table receives the event
-		assertTrue(tmpListener.isChanged());
-		tmpListener.resetFlag();
+		assertTrue( tmpListener.isChanged( ) );
+		tmpListener.resetFlag( );
+		assertTrue( box1.getContainer( ).getContainer( ) == table1 );
+		assertTrue( box1.getHostViewHandle( ) == table1 );
+		assertNull( table1.getHostViewHandle( ) );
 
-		assertNull(table1.getCurrentView());
-		views = table1.getViews();
-		assertEquals(0, views.size());
+		List<ReportItemHandle> views = table1.getViews( );
+		assertEquals( 1, views.size( ) );
+		assertTrue( box1 == views.get( 0 ) );
 
-		table1.setCurrentView(box1);
+		assertTrue( box1 == table1.getCurrentView( ) );
+
+		table1.dropView( box1 );
 
 		// make sure table receives the event
-		assertTrue(tmpListener.isChanged());
-		tmpListener.resetFlag();
+		assertTrue( tmpListener.isChanged( ) );
+		tmpListener.resetFlag( );
 
-		assertTrue(box1 == table1.getCurrentView());
-		table1.setCurrentView(null);
+		assertNull( table1.getCurrentView( ) );
+		views = table1.getViews( );
+		assertEquals( 0, views.size( ) );
 
-		views = table1.getViews();
-		assertEquals(1, views.size());
-		assertNull(table1.getCurrentView());
+		table1.setCurrentView( box1 );
+
+		// make sure table receives the event
+		assertTrue( tmpListener.isChanged( ) );
+		tmpListener.resetFlag( );
+
+		assertTrue( box1 == table1.getCurrentView( ) );
+		table1.setCurrentView( null );
+
+		views = table1.getViews( );
+		assertEquals( 1, views.size( ) );
+		assertNull( table1.getCurrentView( ) );
 	}
 
-	private static class MyListener implements Listener {
+	/**
+	 * Tests property search algorithm on bookmark, toc, visibility values for
+	 * sub view elements.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testHostRelatedPropertySearch( ) throws Exception
+	{
+		openDesign( "MultiViewHandleTest.xml" ); //$NON-NLS-1$
+
+		ExtendedItemHandle box1 = (ExtendedItemHandle) designHandle
+				.findElement( "box1" ); //$NON-NLS-1$
+		assertEquals( "\"a\"", box1.getBookmark( ) ); //$NON-NLS-1$
+		assertEquals( "1+1", box1.getTOC( ).getExpression( ) ); //$NON-NLS-1$
+
+		Iterator<HideRuleHandle> rules = box1.visibilityRulesIterator( );
+		assertTrue( rules.hasNext( ) );
+
+		PropertyHandle propHandle = box1
+				.getPropertyHandle( ExtendedItemHandle.VISIBILITY_PROP );
+		assertTrue( propHandle.isReadOnly( ) );
+
+	}
+
+	private static class MyListener implements Listener
+	{
 
 		private boolean propertyChanged = false;
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
-		 *      .report.model.core.DesignElement,
-		 *      org.eclipse.birt.report.model.activity.NotificationEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
+		 * .report.model.core.DesignElement,
+		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
-		public void elementChanged(DesignElementHandle focus,
-				NotificationEvent ev) {
-			if (ev instanceof PropertyEvent) {
-				if (((PropertyEvent) ev).getPropertyName() == IReportItemModel.MULTI_VIEWS_PROP)
+		public void elementChanged( DesignElementHandle focus,
+				NotificationEvent ev )
+		{
+			if ( ev instanceof PropertyEvent )
+			{
+				if ( ( (PropertyEvent) ev ).getPropertyName( ) == IReportItemModel.MULTI_VIEWS_PROP )
 					propertyChanged = true;
 			}
-			if (ev instanceof ViewsContentEvent) {
+			if ( ev instanceof ViewsContentEvent )
+			{
 				propertyChanged = true;
 			}
 		}
 
-		boolean isChanged() {
+		boolean isChanged( )
+		{
 			return propertyChanged;
 		}
 
-		void resetFlag() {
+		void resetFlag( )
+		{
 			propertyChanged = false;
 		}
 	}

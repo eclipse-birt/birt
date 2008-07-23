@@ -11,7 +11,10 @@
 
 package org.eclipse.birt.report.model.elements.strategy;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.IStyleDeclaration;
@@ -22,6 +25,8 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.MultiViews;
+import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.SystemPropertyDefn;
@@ -35,6 +40,21 @@ public class ExtendedItemPropSearchStrategy
 			ReportItemPropSearchStrategy
 {
 
+	/**
+	 * Data binding properties for the report items.
+	 */
+
+	protected final static Set<String> hostViewRelatedProps;
+
+	static
+	{
+		Set<String> tmpSet = new HashSet<String>( );
+		tmpSet.add( IReportItemModel.TOC_PROP );
+		tmpSet.add( IReportItemModel.VISIBILITY_PROP );
+		tmpSet.add( IReportItemModel.BOOKMARK_PROP );
+		hostViewRelatedProps = Collections.unmodifiableSet( tmpSet );
+	}
+
 	private final static ExtendedItemPropSearchStrategy instance = new ExtendedItemPropSearchStrategy( );
 
 	/**
@@ -46,8 +66,8 @@ public class ExtendedItemPropSearchStrategy
 	}
 
 	/**
-	 * Returns the instance of <code>ExtendedItemPropSearchStrategy</code>
-	 * which provide the specific property searching route for
+	 * Returns the instance of <code>ExtendedItemPropSearchStrategy</code> which
+	 * provide the specific property searching route for
 	 * <code>ExtendedItem</code>.
 	 * 
 	 * @return the instance of <code>ExtendedItemPropSearchStrategy</code>
@@ -61,9 +81,10 @@ public class ExtendedItemPropSearchStrategy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.PropertySearchStrategy#getPropertyFromSelfSelector(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.core.DesignElement,
-	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 * @seeorg.eclipse.birt.report.model.core.PropertySearchStrategy#
+	 * getPropertyFromSelfSelector(org.eclipse.birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.core.DesignElement,
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
 
 	protected Object getPropertyFromSelfSelector( Module module,
@@ -158,9 +179,11 @@ public class ExtendedItemPropSearchStrategy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy#getPropertyFromSelf(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.core.DesignElement,
-	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy
+	 * #getPropertyFromSelf(org.eclipse.birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.core.DesignElement,
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
 
 	protected Object getPropertyFromSelf( Module module, DesignElement element,
@@ -169,7 +192,9 @@ public class ExtendedItemPropSearchStrategy
 		if ( !( element.getContainer( ) instanceof MultiViews ) )
 			return super.getPropertyFromSelf( module, element, prop );
 
-		if ( !getDataBindingProperties( element ).contains( prop.getName( ) ) )
+		String propName = prop.getName( );
+		if ( !getDataBindingProperties( element ).contains( propName )
+				&& !hostViewRelatedProps.contains( propName ) )
 			return super.getPropertyFromSelf( module, element, prop );
 
 		DesignElement grandContainer = element.getContainer( ).getContainer( );
@@ -179,12 +204,31 @@ public class ExtendedItemPropSearchStrategy
 		return grandContainer.getProperty( module, prop );
 	}
 
+	/**
+	 * Returns properties that are bound to data related values.
+	 * 
+	 * @param tmpElement
+	 *            the design element
+	 * @return a set containing property names in string
+	 */
+
+	public static Set<String> getHostViewProperties( DesignElement tmpElement )
+	{
+		if ( tmpElement instanceof ReportItem )
+			return hostViewRelatedProps;
+		else
+			return Collections.EMPTY_SET;
+
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.PropertySearchStrategy#getNonIntrinsicPropertyFromElement(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.core.DesignElement,
-	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 * @seeorg.eclipse.birt.report.model.core.PropertySearchStrategy#
+	 * getNonIntrinsicPropertyFromElement
+	 * (org.eclipse.birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.core.DesignElement,
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
 
 	protected Object getNonIntrinsicPropertyFromElement( Module module,
@@ -234,7 +278,9 @@ public class ExtendedItemPropSearchStrategy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.PropertySearchStrategy#getStyleContainer(org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.core.PropertySearchStrategy#getStyleContainer
+	 * (org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
 	protected DesignElement getStyleContainer( DesignElement designElement )
