@@ -230,6 +230,7 @@ ColumnBindingDialog.Column.Expression=Expression
 ColumnBindingDialog.DialogTitle=Sélectionner la liaison de données
 ColumnBindingDialog.Column.Name=Nom
 ColumnBindingDialog.Column.Filter=Filtre
+ColumnBindingDialog.Column.Function=Function
 ColumnBindingDialog.Column.DisplayName=Nom d'affichage
 ColumnBindingDialog.InputPrompt=<Entrer la nouvelle valeur ici...>
 ColumnBindingDialog.Button.Generate=Générer des liaisons de colonne
@@ -3900,6 +3901,7 @@ DataSetColumnBindingsFormHandleProvider.Column.DataType=Type de données
 DataSetColumnBindingsFormHandleProvider.Column.Expression=Expression
 DataSetColumnBindingsFormHandleProvider.Column.AggregateOn=Regrouper par
 DataSetColumnBindingsFormHandleProvider.Column.Filter=Filtre
+DataSetColumnBindingsFormHandleProvider.Column.Function=Function
 DataSetColumnBindingsFormHandleProvider.ALL=Tous
 DataSetColumnBindingsFormHandleProvider.NONE=N/A
 

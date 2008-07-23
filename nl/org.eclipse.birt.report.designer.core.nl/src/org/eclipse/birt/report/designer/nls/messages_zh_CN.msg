@@ -230,6 +230,7 @@ ColumnBindingDialog.Column.Expression=表达式
 ColumnBindingDialog.DialogTitle=选择数据绑定
 ColumnBindingDialog.Column.Name=名称
 ColumnBindingDialog.Column.Filter=筛选
+ColumnBindingDialog.Column.Function=Function
 ColumnBindingDialog.Column.DisplayName=显示名称
 ColumnBindingDialog.InputPrompt=<在此处输入新值...>
 ColumnBindingDialog.Button.Generate=生成列绑定
@@ -3900,6 +3901,7 @@ DataSetColumnBindingsFormHandleProvider.Column.DataType=数据类型
 DataSetColumnBindingsFormHandleProvider.Column.Expression=表达式
 DataSetColumnBindingsFormHandleProvider.Column.AggregateOn=聚合条件
 DataSetColumnBindingsFormHandleProvider.Column.Filter=筛选器
+DataSetColumnBindingsFormHandleProvider.Column.Function=Function
 DataSetColumnBindingsFormHandleProvider.ALL=全部
 DataSetColumnBindingsFormHandleProvider.NONE=不适用
 

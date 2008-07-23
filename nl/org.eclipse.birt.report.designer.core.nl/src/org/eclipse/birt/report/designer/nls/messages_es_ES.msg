@@ -230,6 +230,7 @@ ColumnBindingDialog.Column.Expression=Expresión
 ColumnBindingDialog.DialogTitle=Seleccionar enlace de datos
 ColumnBindingDialog.Column.Name=Nombre
 ColumnBindingDialog.Column.Filter=Filtrar
+ColumnBindingDialog.Column.Function=Function
 ColumnBindingDialog.Column.DisplayName=Nombre en pantalla
 ColumnBindingDialog.InputPrompt=<Introduzca el nuevo valor aquí...>
 ColumnBindingDialog.Button.Generate=Generar enlaces de columna
@@ -3900,6 +3901,7 @@ DataSetColumnBindingsFormHandleProvider.Column.DataType=Tipo de datos
 DataSetColumnBindingsFormHandleProvider.Column.Expression=Expresión
 DataSetColumnBindingsFormHandleProvider.Column.AggregateOn=Agregar en
 DataSetColumnBindingsFormHandleProvider.Column.Filter=Filtrar
+DataSetColumnBindingsFormHandleProvider.Column.Function=Function
 DataSetColumnBindingsFormHandleProvider.ALL=Todos
 DataSetColumnBindingsFormHandleProvider.NONE=N/A
 

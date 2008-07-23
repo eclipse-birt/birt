@@ -230,6 +230,7 @@ ColumnBindingDialog.Column.Expression=Ausdruck
 ColumnBindingDialog.DialogTitle=Datenbindung auswählen
 ColumnBindingDialog.Column.Name=Name
 ColumnBindingDialog.Column.Filter=Filter
+ColumnBindingDialog.Column.Function=Function
 ColumnBindingDialog.Column.DisplayName=Name anzeigen
 ColumnBindingDialog.InputPrompt=<Hier den neuen Wert eingeben...>
 ColumnBindingDialog.Button.Generate=Spaltenbindungen generieren
@@ -3900,6 +3901,7 @@ DataSetColumnBindingsFormHandleProvider.Column.DataType=Datentyp
 DataSetColumnBindingsFormHandleProvider.Column.Expression=Ausdruck
 DataSetColumnBindingsFormHandleProvider.Column.AggregateOn=Aggregat in
 DataSetColumnBindingsFormHandleProvider.Column.Filter=Filter
+DataSetColumnBindingsFormHandleProvider.Column.Function=Function
 DataSetColumnBindingsFormHandleProvider.ALL=Alles
 DataSetColumnBindingsFormHandleProvider.NONE=n.a.
 

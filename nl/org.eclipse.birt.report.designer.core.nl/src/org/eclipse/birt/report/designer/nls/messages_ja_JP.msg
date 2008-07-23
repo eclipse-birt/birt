@@ -230,6 +230,7 @@ ColumnBindingDialog.Column.Expression=式
 ColumnBindingDialog.DialogTitle=データバインドの選択
 ColumnBindingDialog.Column.Name=名前
 ColumnBindingDialog.Column.Filter=フィルタ
+ColumnBindingDialog.Column.Function=Function
 ColumnBindingDialog.Column.DisplayName=表示名
 ColumnBindingDialog.InputPrompt=<ここに新しい値を入力してください...>
 ColumnBindingDialog.Button.Generate=カラムバインドの生成
@@ -3900,6 +3901,7 @@ DataSetColumnBindingsFormHandleProvider.Column.DataType=データ型
 DataSetColumnBindingsFormHandleProvider.Column.Expression=式
 DataSetColumnBindingsFormHandleProvider.Column.AggregateOn=集計条件
 DataSetColumnBindingsFormHandleProvider.Column.Filter=フィルタ
+DataSetColumnBindingsFormHandleProvider.Column.Function=Function
 DataSetColumnBindingsFormHandleProvider.ALL=すべて
 DataSetColumnBindingsFormHandleProvider.NONE=N/A
 

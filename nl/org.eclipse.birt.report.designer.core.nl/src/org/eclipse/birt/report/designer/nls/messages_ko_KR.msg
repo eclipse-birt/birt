@@ -230,6 +230,7 @@ ColumnBindingDialog.Column.Expression=식
 ColumnBindingDialog.DialogTitle=데이터 바인딩 선택
 ColumnBindingDialog.Column.Name=이름
 ColumnBindingDialog.Column.Filter=필터
+ColumnBindingDialog.Column.Function=Function
 ColumnBindingDialog.Column.DisplayName=표시 이름
 ColumnBindingDialog.InputPrompt=<여기에 새 값 입력...>
 ColumnBindingDialog.Button.Generate=열 바인딩 생성
@@ -3900,6 +3901,7 @@ DataSetColumnBindingsFormHandleProvider.Column.DataType=데이터 형식
 DataSetColumnBindingsFormHandleProvider.Column.Expression=식
 DataSetColumnBindingsFormHandleProvider.Column.AggregateOn=집계 대상
 DataSetColumnBindingsFormHandleProvider.Column.Filter=필터
+DataSetColumnBindingsFormHandleProvider.Column.Function=Function
 DataSetColumnBindingsFormHandleProvider.ALL=모두
 DataSetColumnBindingsFormHandleProvider.NONE=해당 없음
 
