@@ -27,10 +27,23 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
  * <!-- begin-user-doc --> The <b>Resource Factory </b> associated with the
  * package. <!-- end-user-doc -->
  * @see org.eclipse.birt.chart.model.util.ModelResourceImpl
- * @generated
  */
 public class ModelResourceFactoryImpl extends ResourceFactoryImpl
 {
+	static
+	{
+		ExtendedMetaData extendedMetaData = ExtendedMetaData.INSTANCE;
+		extendedMetaData.putPackage( ModelPackage.eNS_URI,
+				ModelPackage.eINSTANCE );
+		extendedMetaData.putPackage( AttributePackage.eNS_URI,
+				AttributePackage.eINSTANCE );
+		extendedMetaData.putPackage( ComponentPackage.eNS_URI,
+				ComponentPackage.eINSTANCE );
+		extendedMetaData.putPackage( DataPackage.eNS_URI, DataPackage.eINSTANCE );
+		extendedMetaData.putPackage( LayoutPackage.eNS_URI,
+				LayoutPackage.eINSTANCE );
+		extendedMetaData.putPackage( TypePackage.eNS_URI, TypePackage.eINSTANCE );
+	}
 
 	/**
 	 * Creates an instance of the resource factory. <!-- begin-user-doc --> <!--
@@ -39,25 +52,12 @@ public class ModelResourceFactoryImpl extends ResourceFactoryImpl
 	public ModelResourceFactoryImpl( )
 	{
 		super( );
-		ExtendedMetaData extendedMetaData = ExtendedMetaData.INSTANCE;
-		extendedMetaData.putPackage( "http://www.birt.eclipse.org/ChartModel", //$NON-NLS-1$
-				ModelPackage.eINSTANCE );
-		extendedMetaData.putPackage( "http://www.birt.eclipse.org/ChartModelAttribute", //$NON-NLS-1$
-				AttributePackage.eINSTANCE );
-		extendedMetaData.putPackage( "http://www.birt.eclipse.org/ChartModelComponent", //$NON-NLS-1$
-				ComponentPackage.eINSTANCE );
-		extendedMetaData.putPackage( "http://www.birt.eclipse.org/ChartModelData", //$NON-NLS-1$
-				DataPackage.eINSTANCE );
-		extendedMetaData.putPackage( "http://www.birt.eclipse.org/ChartModelLayout", //$NON-NLS-1$
-				LayoutPackage.eINSTANCE );
-		extendedMetaData.putPackage( "http://www.birt.eclipse.org/ChartModelType", //$NON-NLS-1$
-				TypePackage.eINSTANCE );
 	}
 
 	/**
-	 * Creates an instance of the resource.
-	 * <!-- begin-user-doc --> <!--
+	 * Creates an instance of the resource. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Resource createResource( URI uri )
