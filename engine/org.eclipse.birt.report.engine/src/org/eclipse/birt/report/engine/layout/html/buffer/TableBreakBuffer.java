@@ -281,6 +281,18 @@ public class TableBreakBuffer implements IPageBuffer
 					{
 						currentBuffer.endContainer( content, false, emitter,
 								visible );
+						for ( int i = currentIndex + 1; i < pageIndex; i++ )
+						{
+							currentBuffer = buffers[i];
+							repeatCells( emitter );
+							currentBuffer.startContainer( content, false,
+									emitter, visible );
+							currentBuffer.endContainer( content, finished,
+									emitter, visible );
+						}
+						pageIndex = ( pageIndex == pageBreakIndexs.length
+								? pageIndex - 1
+								: pageIndex );
 						currentBuffer = buffers[pageIndex];
 					}
 					else
@@ -487,7 +499,7 @@ public class TableBreakBuffer implements IPageBuffer
 				current++;
 				if ( current == pageBreakIndexs.length )
 				{
-					current = 0;
+					current = pageBreakIndexs.length ;
 					break;
 				}
 			}
