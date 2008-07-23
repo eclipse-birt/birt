@@ -1125,7 +1125,7 @@ Have a nice day!
 	
     <target name="checkCompileError" depends="checkErrorExist" if="has.compile.error" >
        <exec executable="${ant.dir}/ant" failifexecutionfails="false">
-         <arg line="-f ${eclipse.build.configs}/../helper.xml checkcompileerror"/>
+         <arg line="-f ${eclipse.build.configs}/../helper.xml -propertyfile ${eclipse.build.configs}/../../build.properties checkcompileerror"/>
        </exec>
     </target>
 		
