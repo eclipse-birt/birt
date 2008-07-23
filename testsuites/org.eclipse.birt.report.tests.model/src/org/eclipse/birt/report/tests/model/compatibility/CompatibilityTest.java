@@ -6,8 +6,12 @@ import junit.framework.TestSuite;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
-
-public class CompatibilityTest extends BaseTestCase{
+/**
+ * Test Case for Report Compatibility.
+ * 
+ * 
+ */
+public class CompatibilityTest extends BaseTestCase {
 
 	String fileName = "DynamicTextExampleAfter_2.0.1.xml";
 	String fileName1 = "DynamicTextExampleBefore_2.0.1.xml";
@@ -22,33 +26,38 @@ public class CompatibilityTest extends BaseTestCase{
 	String fileName10 = "MappingExampleAfter_2.0.1.xml";
 	String fileName11 = "MappingExampleBefore_2.0.1.xml";
 	String fileName12 = "ParallelReportExampleAfter_2.0.1.xml";
-	String fileName13= "ParametersExampleAfter_2.0.1.xml";
-	String fileName14= "ParametersExampleBefore_2.0.1.xml";
-	String fileName15= "ProductCatalog_2.0.1.xml";
-	String fileName16= "SalesInvoice_2.0.1.xml";
-	String fileName17= "SalesOfAproduct_2.0.1.xml";
-	String fileName18= "SubReportsExampleMainAfter_2.0.1.xml";
-	String fileName19= "SubReportsExampleMainBefore_2.0.1.xml";
-	String fileName20= "TopNPercent_2.0.1.xml";
-	String fileName21= "TopSellingProducts_2.0.1.xml";
-	
+	String fileName13 = "ParametersExampleAfter_2.0.1.xml";
+	String fileName14 = "ParametersExampleBefore_2.0.1.xml";
+	String fileName15 = "ProductCatalog_2.0.1.xml";
+	String fileName16 = "SalesInvoice_2.0.1.xml";
+	String fileName17 = "SalesOfAproduct_2.0.1.xml";
+	String fileName18 = "SubReportsExampleMainAfter_2.0.1.xml";
+	String fileName19 = "SubReportsExampleMainBefore_2.0.1.xml";
+	String fileName20 = "TopNPercent_2.0.1.xml";
+	String fileName21 = "TopSellingProducts_2.0.1.xml";
+
 	public CompatibilityTest(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
 	}
-    public static Test suite(){
-		
+
+	public static Test suite() {
+
 		return new TestSuite(CompatibilityTest.class);
 	}
-	
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		
+
+	protected void setUp() throws Exception {
+		super.setUp();
+
 	}
-	
-	public void testOpenFile( ) throws DesignFileException
-	{
+
+	/**
+	 * Test compatibility by openning reports that contain variant features and
+	 * designed in variant release versions
+	 * 
+	 * @throws DesignFileException
+	 */
+	public void testOpenFile() throws DesignFileException {
 		openDesign(fileName);
 		openDesign(fileName1);
 		openDesign(fileName2);

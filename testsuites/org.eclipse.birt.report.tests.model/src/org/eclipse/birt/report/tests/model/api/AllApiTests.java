@@ -36,17 +36,12 @@ public class AllApiTests
 		test.addTestSuite( MoveLibraryTest.class );
 		test.addTestSuite( OpenDesignTest.class );
 		test.addTestSuite( ReportDesignHandleTest.class );
-		test.addTestSuite( ReportElementHandleTest.class );
 		test.addTestSuite( ReportItemHandleTest.class );
-		test.addTestSuite( ScalarParameterHandleTest.class );
-		test.addTestSuite( SimpleMasterPageHandleTest.class );
 		test.addTestSuite( SlotHandleTest.class );
 		test.addTestSuite( TableItemHandleTest.class );
 		test.addTestSuite( TemplateElementHandleTest.class );
 		test.addTestSuite( ThemeTest.class );
 		test.addTestSuite( TocSupportTest.class );
-		test.addTestSuite( TranslationHandleTest.class );
-		test.addTestSuite( UserPropertyHandleTest.class );
 		test.addTestSuite( DimensionValueUtilTest.class );
 	
 		/*Removed api case
@@ -69,6 +64,11 @@ public class AllApiTests
 		test.addTestSuite( OpenLibraryTest.class );
 		test.addTestSuite( PropertyHandleTest.class );
 		test.addTestSuite( PropertySortingTest.class );
+		test.addTestSuite( ReportElementHandleTest.class );
+		test.addTestSuite( ScalarParameterHandleTest.class );
+		test.addTestSuite( SimpleMasterPageHandleTest.class );
+		test.addTestSuite( TranslationHandleTest.class );
+		test.addTestSuite( UserPropertyHandleTest.class );
 		 */
 
 		return test;

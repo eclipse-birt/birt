@@ -15,6 +15,19 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
+/**
+ * Test Cases for TemplateElementHandle.
+ * <p>
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
+ * collapse" bordercolor="#111111">
+ * <th width="20%">Method</th>
+ * 
+ * <tr>
+ * <td>{@link #testTemplate()}</td>
+ * </tr>
+ * </table>
+ * 
+ */
 public class TemplateElementHandleTest extends BaseTestCase
 {
 	private ElementFactory factory = null;
@@ -25,7 +38,6 @@ public class TemplateElementHandleTest extends BaseTestCase
 	
 	public TemplateElementHandleTest(String name) {
 		super(name);
-		// TODO Auto-generated constructor stub
 	}
 
 	public static Test suite()
@@ -43,6 +55,10 @@ public class TemplateElementHandleTest extends BaseTestCase
 		
 	}
 		
+	/**
+	 * Test create template item and revert to template
+	 * @throws Exception
+	 */
 	public void testTemplate() throws Exception
 	{
 		//datasource can't be converted into template report item

@@ -20,6 +20,40 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
+/**
+ * TestCases for Library Theme.
+ * <p>
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
+ * collapse" bordercolor="#111111">
+ * <th width="20%">Method</th>
+ * 
+ * <tr>
+ * <td>{@link #testDefineThemes()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testUsingTheme()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testThemeSearchAlgorithm()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testLibraryUseTheme()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testExportStyleToDefaultTheme()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testCopyPasteTheme()}</td>
+ * </tr>
+ * </table>
+ * 
+ */
+
 public class ThemeTest extends BaseTestCase
 {
 
@@ -70,6 +104,10 @@ public class ThemeTest extends BaseTestCase
 		// System.out.println("ThemeTest1.xml");
 	}
 
+	/**
+	 * Test create theme
+	 * @throws Exception
+	 */
 	public void testDefineThemes( ) throws Exception
 	{
 		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
@@ -96,6 +134,10 @@ public class ThemeTest extends BaseTestCase
 
 	}
 
+	/**
+	 * Test use theme
+	 * @throws Exception
+	 */
 	public void testUsingTheme( ) throws Exception
 	{
 		System.out.println( "ThemeTest1.xml" );
@@ -122,6 +164,10 @@ public class ThemeTest extends BaseTestCase
 		assertEquals( "10mm", label.getStringProperty( Style.MARGIN_TOP_PROP ) );
 	}
 
+	/**
+	 * Test hierachy in theme styles and report styles
+	 * @throws Exception
+	 */
 	public void testThemeSearchAlgorithm( ) throws Exception
 	{
 		// report design has four styles:
@@ -208,6 +254,10 @@ public class ThemeTest extends BaseTestCase
 
 	}
 
+	/**
+	 * Test use theme in library
+	 * @throws Exception
+	 */
 	public void testLibraryUseTheme( ) throws Exception
 	{
 
@@ -236,42 +286,10 @@ public class ThemeTest extends BaseTestCase
 				Style.MARGIN_TOP_PROP ) );
 	}
 
-	public void testThemeinIncludeLibrary( ) throws Exception
-	{
-
-		openLibrary( LibA, true );
-		library = (Library) libraryHandle.getModule( );
-		factory = new ElementFactory( library );
-		table = factory.newTableItem( "mytable" );
-		label = factory.newLabel( "mylabel" );
-		libraryHandle.getComponents( ).add( table );
-		libraryHandle.getComponents( ).add( label );
-
-		libraryHandle.includeLibrary( LibB, "LibB" );
-		libraryHandle.setThemeName( "theme1" );
-		assertEquals( "\"Arial\"", libraryHandle.findElement( "mytable" ).getStringProperty(
-				Style.FONT_FAMILY_PROP ) );
-		assertEquals( "#FF0000", libraryHandle.findElement( "mytable" ).getStringProperty(
-				Style.COLOR_PROP ) );
-
-		// drop theme1
-		libraryHandle.getTheme( ).drop( );
-		libraryHandle.setThemeName( "LibB.theme1" );
-		assertEquals( "dashed", libraryHandle.findElement( "mytable" ).getStringProperty(
-				Style.BORDER_LEFT_STYLE_PROP ) );
-		assertEquals( "green", libraryHandle.findElement( "mylabel" ).getStringProperty(
-				Style.COLOR_PROP ) );
-
-		libraryHandle.setThemeName( "theme2" );
-		assertEquals( "10pt", libraryHandle.findElement( "mytable" ).getStringProperty(
-				Style.FONT_SIZE_PROP ) );
-		assertEquals( "#808080", libraryHandle.findElement( "mytable" ).getStringProperty(
-				Style.COLOR_PROP ) );
-		assertEquals( "10mm", libraryHandle.findElement( "mylabel" ).getStringProperty(
-				Style.MARGIN_TOP_PROP ) );
-
-	}
-
+	/**
+	 * Test export style to theme
+	 * @throws Exception
+	 */
 	public void testExportStyleToDefaultTheme( ) throws Exception
 	{
 		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
@@ -298,6 +316,10 @@ public class ThemeTest extends BaseTestCase
 		assertEquals( "label", libraryHandle.getTheme( ).getStyles( ).get( 3 ).getName( ) );
 	}
 
+	/**
+	 * Test copy/paste theme
+	 * @throws Exception
+	 */
 	public void testCopyPasteTheme( ) throws Exception
 	{
 		openLibrary( LibC, true );

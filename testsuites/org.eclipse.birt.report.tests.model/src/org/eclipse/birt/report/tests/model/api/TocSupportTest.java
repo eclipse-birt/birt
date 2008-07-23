@@ -8,6 +8,23 @@ import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
+/**
+ * TestCases for Table of Content.
+ * <p>
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
+ * collapse" bordercolor="#111111">
+ * <th width="20%">Method</th>
+ * 
+ * <tr>
+ * <td>{@link #testTocProperty()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testGetAllToc()}</td>
+ * </tr>
+ * </table>
+ * 
+ */
 public class TocSupportTest extends BaseTestCase
 {
 	String fileName = "TocSupportTest.xml";
@@ -34,6 +51,13 @@ public class TocSupportTest extends BaseTestCase
 		{
 			removeResource( );
 		}
+		
+		/**
+		 * Test set/getTocExpression
+		 * @throws Exception
+		 * @SuppressWarnings("deprecation")
+		 */
+		
 		public void testTocProperty( ) throws Exception
 		{
 			openDesign( fileName );
@@ -45,6 +69,11 @@ public class TocSupportTest extends BaseTestCase
 			table.setTocExpression("This Section");
 			assertEquals("This Section",table.getTocExpression());
 		}
+		
+		/**
+		 * Test getAllTocs
+		 * @throws Exception
+		 */
 		public void testGetAllToc( ) throws Exception
 		{
 			openDesign( fileName1 );

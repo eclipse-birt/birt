@@ -11,35 +11,21 @@
 
 package org.eclipse.birt.report.tests.model.api;
 
-import java.util.Iterator;
-import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ElementFactory;
-import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.GridHandle;
-import org.eclipse.birt.report.model.api.OdaDataSetHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
-import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
-import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.StyleException;
-import org.eclipse.birt.report.model.api.elements.SemanticError;
-import org.eclipse.birt.report.model.api.metadata.IColorConstants;
-import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableItem;
-import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
@@ -116,96 +102,6 @@ public class SlotHandleTest extends BaseTestCase
 	public void tearDown( )
 	{
 		removeResource( );
-	}
-	/**
-	 * Tests paste methods with element references.
-	 * 
-	 * @throws SemanticException
-	 *  
-	 */
-
-	public void testPaste( ) throws SemanticException
-	{
-		ElementFactory factory = new ElementFactory( design );
-		SharedStyleHandle style = factory.newStyle( "style" ); //$NON-NLS-1$
-		style.getColor( ).setValue( IColorConstants.AQUA );
-		designHandle.getStyles( ).add( style );
-
-		designHandle.getDataSources( ).add(
-				factory.newOdaDataSource( "DataSource1" ) ); //$NON-NLS-1$
-
-		DataSetHandle dataset = factory.newOdaDataSet( "DataSet1" ); //$NON-NLS-1$
-		designHandle.getDataSets( ).add( dataset );
-		dataset.setDataSource( "DataSource1" ); //$NON-NLS-1$
-
-		TextItemHandle text = factory.newTextItem( "text" ); //$NON-NLS-1$
-		text.setStyle( style );
-
-		// test on copy/paste for a datasource and a dataset
-
-		SessionHandle sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
-		ReportDesignHandle newDesignHandle = sessionHandle.createDesign( );
-		ReportDesign newDesign = (ReportDesign) newDesignHandle.getModule( );
-
-		OdaDataSetHandle newDataSet = (OdaDataSetHandle) dataset.copy( )
-				.getHandle( newDesign );
-		List errors = newDesignHandle.getDataSets( ).paste( newDataSet );
-		assertEquals( 1, errors.size( ) );
-		assertEquals( SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF,
-				( (ErrorDetail) errors.get( 0 ) ).getErrorCode( ) );
-
-		assertNull( newDataSet.getDataSource( ) );
-
-		// if copy/paste to the same report, no errors.
-
-		newDataSet = (OdaDataSetHandle) dataset.copy( ).getHandle( design );
-		designHandle.rename( newDataSet );
-		errors = designHandle.getDataSets( ).paste(
-				newDataSet );
-
-		assertEquals( 0, errors.size( ) );
-		assertNotNull( newDataSet.getDataSource( ) );
-
-		Iterator iter = designHandle.findDataSource( "DataSource1" ) //$NON-NLS-1$
-				.clientsIterator( );
-		int count = 0;
-		while ( iter.hasNext( ) )
-		{
-			count++;
-			iter.next( );
-		}
-		assertEquals( 2, count );
-
-		// test on copy/paste for a styledElement and Style
-
-		TextItemHandle newText = (TextItemHandle) text.copy( ).getHandle(
-				newDesign );
-		errors = newDesignHandle.getBody( ).paste( newText );
-		assertEquals( 1, errors.size( ) );
-		assertEquals( StyleException.DESIGN_EXCEPTION_NOT_FOUND,
-				( (ErrorDetail) errors.get( 0 ) ).getErrorCode( ) );
-		assertEquals( IColorConstants.BLACK, newText
-				.getProperty( Style.COLOR_PROP ) );
-
-		//if copy/paste to the same report, no errors.
-
-		newText = (TextItemHandle) text.copy( ).getHandle( design );
-		designHandle.rename( newText );
-		errors = designHandle.getBody( ).paste( newText );
-		assertEquals( 0, errors.size( ) );
-
-		assertEquals( IColorConstants.AQUA, newText
-				.getProperty( Style.COLOR_PROP ) );
-
-		iter = style.clientsIterator( );
-		count = 0;
-		while ( iter.hasNext( ) )
-		{
-			count++;
-			iter.next( );
-		}
-		assertEquals( 2, count );
-
 	}
 	
 	public void testcanContainGroupName( ) throws SemanticException
