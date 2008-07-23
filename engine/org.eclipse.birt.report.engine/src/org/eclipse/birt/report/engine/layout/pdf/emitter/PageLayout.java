@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.layout.pdf.emitter;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
+import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -64,7 +65,7 @@ public class PageLayout extends BlockStackingLayout
 		PageContext pageContext = new PageContext();
 		if(context.autoPageBreak)
 		{
-			pageContext.pageContent = createPageContent();
+			pageContext.pageContent = createPageContent( pageContent );
 		}
 		else
 		{
@@ -472,12 +473,62 @@ public class PageLayout extends BlockStackingLayout
 		}
 	}
 	
-	protected IPageContent createPageContent( )
+	protected IPageContent createPageContent( IPageContent htmlPageContent )
 	{
-		MasterPageDesign pageDesign = getMasterPage( report );
-		return ReportExecutorUtil.executeMasterPage( reportExecutor,
-				context.pageNumber++, pageDesign );
+		if ( context.pageNumber == htmlPageContent.getPageNumber( ) )
+		{
+			context.pageNumber++;
+			return htmlPageContent;
+		}
+		else
+		{
+			return createPageContent( htmlPageContent, context.pageNumber++,
+					context.totalPage );
+
+		}
 	}
+
+	protected IPageContent createPageContent( IPageContent pageContent,
+			long pageNumber, long totalPageNumber )
+	{
+		return (IPageContent) cloneContent( pageContent, pageNumber,
+				totalPageNumber );
+	}
+
+	protected IContent cloneContent( IContent content, long pageNumber,
+			long totalPageNumber )
+	{
+		IContent newContent = content.cloneContent( false );
+		if ( newContent.getContentType( ) == IContent.AUTOTEXT_CONTENT )
+		{
+			IAutoTextContent autoText = (IAutoTextContent) content;
+			switch ( autoText.getType( ) )
+			{
+				case IAutoTextContent.TOTAL_PAGE :
+					( (IAutoTextContent) newContent ).setText( new Long(
+							totalPageNumber ).toString( ) );
+					break;
+				case IAutoTextContent.PAGE_NUMBER :
+					( (IAutoTextContent) newContent ).setText( new Long(
+							pageNumber ).toString( ) );
+					break;
+
+			}
+		}
+		Iterator iter = content.getChildren( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			IContent child = (IContent) iter.next( );
+			IContent newChild = cloneContent( child, pageNumber,
+					totalPageNumber );
+			newChild.setParent( newContent );
+			newContent.getChildren( ).add( newChild );
+		}
+		return newContent;
+	}
+	
+	
+	
 	
 	protected MasterPageDesign getMasterPage( IReportContent report )
 	{
