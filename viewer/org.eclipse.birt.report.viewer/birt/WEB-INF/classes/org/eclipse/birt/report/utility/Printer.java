@@ -25,7 +25,7 @@ public class Printer
 {
 
 	private String name;
-	private String status;
+	private int status;
 	private String model;
 	private String info;
 
@@ -65,6 +65,9 @@ public class Printer
 	public static final int DUPLEX_HORIZONTAL = 1;
 	public static final int DUPLEX_VERTICAL = 2;
 
+	public static final int STATUS_ACCEPTING_JOBS = 0;
+	public static final int STATUS_NOT_ACCEPTING_JOBS = 0;
+	
 	/**
 	 * @return the name
 	 */
@@ -85,7 +88,7 @@ public class Printer
 	/**
 	 * @return the status
 	 */
-	public String getStatus( )
+	public int getStatus( )
 	{
 		return status;
 	}
@@ -94,7 +97,7 @@ public class Printer
 	 * @param status
 	 *            the status to set
 	 */
-	public void setStatus( String status )
+	public void setStatus( int status )
 	{
 		this.status = status;
 	}

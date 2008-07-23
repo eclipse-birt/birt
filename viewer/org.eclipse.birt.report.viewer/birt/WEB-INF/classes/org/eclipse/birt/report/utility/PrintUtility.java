@@ -281,8 +281,14 @@ public class PrintUtility
 
 		// Status attribute
 		attr = service.getAttribute( PrinterIsAcceptingJobs.class );
-		if ( attr != null )
-			printer.setStatus( attr.toString( ) );
+		if ( attr == PrinterIsAcceptingJobs.ACCEPTING_JOBS )
+		{
+			printer.setStatus( Printer.STATUS_ACCEPTING_JOBS );
+		}
+		else
+		{
+			printer.setStatus( Printer.STATUS_NOT_ACCEPTING_JOBS );
+		}
 
 		// Info attribute
 		attr = service.getAttribute( PrinterInfo.class );

@@ -48,7 +48,18 @@
 		{
 			Printer bean = (Printer)printers.get( i );
 			String name = PrintUtility.handleSlash( bean.getName( ) );
-			String status = DataUtil.trimString( BirtResources.getMessage( bean.getStatus( ) ) );
+			String status = null; 
+				
+			if ( bean.getStatus() == Printer.STATUS_ACCEPTING_JOBS )
+			{
+				status = BirtResources.getMessage( "birt.viewer.dialog.printserver.status.acceptingjobs" ); // TODO: localized key
+			}
+			else 
+			{
+				status = BirtResources.getMessage( "birt.viewer.dialog.printserver.status.notacceptingjobs" ); // TODO: localized key
+			}
+			status = DataUtil.trimString( status );
+			
 			String model = DataUtil.trimString( bean.getModel( ) );
 			String info = DataUtil.trimString( bean.getInfo( ) );
 			String copies = "" + bean.getCopies( );
