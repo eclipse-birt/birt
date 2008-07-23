@@ -232,7 +232,8 @@ CrosstabPageGenerator.List.GrandTotals=総計
 CrosstabPageGenerator.List.PageBreak=ページ区切り
 
 PageLayoutPropertyDescriptorProvider.PageLayout=ページ配置 :
-CrosstabSectionPage.RepeatColumnHeader=列のヘッダの繰り返し
+RowPageBreak.RepeatColumnHeader=列のヘッダの繰り返し
+ColumnPageBreak.RepeatRowHeader=Repeat Row Header
 
 ###########################################################
 #ExpressionValueCellEditor properties

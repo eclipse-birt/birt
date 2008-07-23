@@ -232,7 +232,8 @@ CrosstabPageGenerator.List.GrandTotals=总计
 CrosstabPageGenerator.List.PageBreak=分页符
 
 PageLayoutPropertyDescriptorProvider.PageLayout=页面布局:
-CrosstabSectionPage.RepeatColumnHeader=重复列标题
+RowPageBreak.RepeatColumnHeader=重复列标题
+ColumnPageBreak.RepeatRowHeader=Repeat Row Header
 
 ###########################################################
 #ExpressionValueCellEditor properties

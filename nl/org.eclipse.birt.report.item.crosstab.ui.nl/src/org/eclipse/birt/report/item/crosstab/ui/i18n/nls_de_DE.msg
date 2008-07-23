@@ -232,7 +232,8 @@ CrosstabPageGenerator.List.GrandTotals=Gesamtsummen
 CrosstabPageGenerator.List.PageBreak=Seitenumbruch
 
 PageLayoutPropertyDescriptorProvider.PageLayout=Seitenlayout:
-CrosstabSectionPage.RepeatColumnHeader=Spaltenüberschrift wiederholen
+RowPageBreak.RepeatColumnHeader=Spaltenüberschrift wiederholen
+ColumnPageBreak.RepeatRowHeader=Repeat Row Header
 
 ###########################################################
 #ExpressionValueCellEditor properties
