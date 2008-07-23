@@ -122,7 +122,8 @@ birt.viewer.dialog.printserver.printer=프린터:
 birt.viewer.dialog.printserver.status=상태:
 birt.viewer.dialog.printserver.model=모델:
 birt.viewer.dialog.printserver.description=설명:
-accepting-jobs=작업을 받아들이는 중
+birt.viewer.dialog.printserver.status.acceptingjobs=작업을 받아들이는 중
+birt.viewer.dialog.printserver.status.notacceptingjobs=Not accepting Jobs
 
 birt.viewer.dialog.printserver.settings=인쇄 설정을 지정하십시오.
 birt.viewer.dialog.printserver.settings.copies=복사본 수:

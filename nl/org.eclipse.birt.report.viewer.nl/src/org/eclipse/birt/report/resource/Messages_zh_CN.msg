@@ -122,7 +122,8 @@ birt.viewer.dialog.printserver.printer=打印机:
 birt.viewer.dialog.printserver.status=状态:
 birt.viewer.dialog.printserver.model=型号:
 birt.viewer.dialog.printserver.description=描述:
-accepting-jobs=正在接受作业
+birt.viewer.dialog.printserver.status.acceptingjobs=正在接受作业
+birt.viewer.dialog.printserver.status.notacceptingjobs=Not accepting Jobs
 
 birt.viewer.dialog.printserver.settings=请指定打印设置
 birt.viewer.dialog.printserver.settings.copies=份数:

@@ -122,7 +122,8 @@ birt.viewer.dialog.printserver.printer=プリンタ :
 birt.viewer.dialog.printserver.status=状態 :
 birt.viewer.dialog.printserver.model=モデル :
 birt.viewer.dialog.printserver.description=説明 :
-accepting-jobs=ジョブの受信中
+birt.viewer.dialog.printserver.status.acceptingjobs=ジョブの受信中
+birt.viewer.dialog.printserver.status.notacceptingjobs=Not accepting Jobs
 
 birt.viewer.dialog.printserver.settings=印刷設定を指定してください。
 birt.viewer.dialog.printserver.settings.copies=部数 :

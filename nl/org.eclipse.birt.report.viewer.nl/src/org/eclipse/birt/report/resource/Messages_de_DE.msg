@@ -122,7 +122,8 @@ birt.viewer.dialog.printserver.printer=Drucker:
 birt.viewer.dialog.printserver.status=Status:
 birt.viewer.dialog.printserver.model=Modell:
 birt.viewer.dialog.printserver.description=Beschreibung:
-accepting-jobs=Aufträge werden angenommen
+birt.viewer.dialog.printserver.status.acceptingjobs=Aufträge werden angenommen
+birt.viewer.dialog.printserver.status.notacceptingjobs=Not accepting Jobs
 
 birt.viewer.dialog.printserver.settings=Druckeinstellungen festlegen
 birt.viewer.dialog.printserver.settings.copies=Anzahl der Exemplare:

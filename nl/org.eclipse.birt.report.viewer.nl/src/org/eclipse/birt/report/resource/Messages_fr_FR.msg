@@ -122,7 +122,8 @@ birt.viewer.dialog.printserver.printer=Imprimante :
 birt.viewer.dialog.printserver.status=Etat :
 birt.viewer.dialog.printserver.model=Modèle :
 birt.viewer.dialog.printserver.description=Description :
-accepting-jobs=Acceptation des tâches
+birt.viewer.dialog.printserver.status.acceptingjobs=Acceptation des tâches
+birt.viewer.dialog.printserver.status.notacceptingjobs=Not accepting Jobs
 
 birt.viewer.dialog.printserver.settings=Spécifiez les paramètres d'impression
 birt.viewer.dialog.printserver.settings.copies=Nombre de copies :
