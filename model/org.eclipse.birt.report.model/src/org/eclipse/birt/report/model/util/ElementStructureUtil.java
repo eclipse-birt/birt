@@ -137,7 +137,7 @@ public class ElementStructureUtil
 		while ( contentIterator.hasNext( ) )
 		{
 			DesignElement content = (DesignElement) contentIterator.next( );
-			Long baseId = new Long( content.getID( ) );
+			Long baseId = new Long( content.getBaseId( ) );
 
 			if ( overriddenValues == null || overriddenValues.isEmpty( ) )
 				continue;
@@ -455,8 +455,7 @@ public class ElementStructureUtil
 				continue;
 
 			module.makeUniqueName( virtualElement );
-			NameSpace ns = new NameExecutor( virtualElement )
-					.getNameSpace( module );
+			NameSpace ns = new NameExecutor( virtualElement ).getNameSpace( module );
 			if ( ns != null )
 				ns.insert( virtualElement );
 		}
@@ -548,8 +547,9 @@ public class ElementStructureUtil
 	 * properties values of the given element on the element locally. The
 	 * following properties will be set:
 	 * <ul>
-	 * <li>Properties set on element itself <li>Inherited from style or 
-	 * element's selector style <li>Inherited from parent
+	 * <li>Properties set on element itself
+	 * <li>Inherited from style or element's selector style
+	 * <li>Inherited from parent
 	 * </ul>
 	 * 
 	 * @param module
