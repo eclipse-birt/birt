@@ -58,8 +58,9 @@ public class SampleDbFactory implements IExecutableExtension
             String propertyName, Object data ) throws CoreException
     {
         Bundle sampledbBundle = Platform.getBundle( SAMPLEDB_PLUGIN_ID);
-        String stateLocation = Platform.getStateLocation(Platform.getBundle( 
+        String stateLocation = Platform.getStateLocation( Platform.getBundle( 
                 config.getDeclaringExtension().getNamespaceIdentifier())).toOSString();
+
         try
         {
             initSampleDb( sampledbBundle, stateLocation );
@@ -80,6 +81,11 @@ public class SampleDbFactory implements IExecutableExtension
     
     private void initSampleDb( Bundle sampledbBundle, String rootPath ) throws IOException, IllegalArgumentException
     {
+        if( sampledbBundle == null )
+            throw new IllegalArgumentException( "null sampledbBundle" ); //$NON-NLS-1$
+        if( rootPath == null || rootPath.length() == 0 )
+            throw new IllegalArgumentException( Messages.bind( Messages.sampleDbFactory_invalidDirectory, rootPath ));
+            
         File dbDir = new File( rootPath + PATH_SEPARATOR + SAMPLE_DB_HOME_SUBDIR );
         if( dbDir.exists() )
         {
