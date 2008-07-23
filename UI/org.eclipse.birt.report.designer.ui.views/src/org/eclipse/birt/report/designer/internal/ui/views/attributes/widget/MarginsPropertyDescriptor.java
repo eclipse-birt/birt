@@ -126,20 +126,19 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor
 					.createCSpinner( container );
 		else
 			spinner = new CSpinner( container, SWT.BORDER );
-		spinner.setMaximum( 100.00 );
-		spinner.setMinimum( -100.00 );
+		spinner.setMaximum( Short.MAX_VALUE );
+		spinner.setMinimum( -Short.MAX_VALUE );
 		spinner.setStep( 0.25 );
 		spinner.setSelection( 0.00 );
 		spinner.setFormatPattern( "0.00" ); //$NON-NLS-1$
-		spinner.addValueChangeListener( new IValueChangedListener(){
+		spinner.addValueChangeListener( new IValueChangedListener( ) {
 
 			public void valueChanged( double newValue )
 			{
 				handleSelectedEvent( );
 			}
-			
-		} );
 
+		} );
 
 		if ( !isFormStyle( ) )
 			combo = new CCombo( container, SWT.BORDER | SWT.READ_ONLY );

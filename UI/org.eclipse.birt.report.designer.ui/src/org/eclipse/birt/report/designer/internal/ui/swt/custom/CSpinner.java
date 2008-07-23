@@ -9,6 +9,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.swt.custom;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -605,6 +606,8 @@ public class CSpinner extends Composite
 		{
 			return 0;
 		}
-		return formatter.parse( value ).doubleValue( );
+		return NumberFormat.getInstance( SessionHandleAdapter.getInstance( )
+				.getSessionHandle( )
+				.getLocale( ) ).parse( value ).doubleValue( );
 	}
 }
