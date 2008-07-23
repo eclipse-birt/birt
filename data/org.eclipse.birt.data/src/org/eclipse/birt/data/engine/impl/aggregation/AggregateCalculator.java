@@ -286,27 +286,11 @@ class AggregateCalculator
 			assert argDefs.length == aggrArgs[aggrIndex].length;
 			try
 			{
-				for ( int i = 0; i < argDefs.length; i++ )
-				{
-					// Note that static arguments only need to be calculated
-					// once at
-					// the
-					// start of the iteration
-					if ( !argDefs[i].isOptional( ) || newGroup )
-					{
-						CompiledExpression argExpr = (aggrInfo.args == null | aggrInfo.args.length == 0)? null: aggrInfo.args[i];
-						if ( argExpr != null )
-						{
-							aggrArgs[aggrIndex][i] = ExprEvaluateUtil.evaluateCompiledExpression( argExpr,
-									odiResult,
-									scope );
-						}
-						else
-						{
-							aggrArgs[aggrIndex] = null;
-						}
-					}
-				}
+				calculateArguments( aggrIndex,
+						scope,
+						aggrInfo,
+						newGroup,
+						argDefs );
 
 				acc.onRow( aggrArgs[aggrIndex] );
 			}
@@ -347,6 +331,30 @@ class AggregateCalculator
 			}
 		}
 		return true;
+	}
+
+	private void calculateArguments( int aggrIndex, Scriptable scope,
+			AggrExprInfo aggrInfo, boolean newGroup, IParameterDefn[] argDefs )
+			throws DataException
+	{
+		if ( aggrInfo.args == null || aggrInfo.args.length == 0 )
+		{
+			aggrArgs[aggrIndex] = null;
+		}
+		else
+		{
+			for ( int i = 0; i < argDefs.length; i++ )
+			{
+				// Note that static arguments only need to be calculated
+				// once at the start of the iteration
+				if ( !argDefs[i].isOptional( ) || newGroup )
+				{
+					aggrArgs[aggrIndex][i] = ExprEvaluateUtil.evaluateCompiledExpression( aggrInfo.args[i],
+							odiResult,
+							scope );
+				}
+			}
+		}
 	}
 	
 	/**

@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
@@ -1032,6 +1033,28 @@ public class MultiplePassTest extends APITestCase
 				bindingNameRow, bindingExprRow, expressions, groupDefn, null, filters);
 
 		
+	}
+	
+	public void testTotalCount() throws Exception
+	{
+		String[] bindingNameRow = new String[2];
+		bindingNameRow[0] = "amount";
+		bindingNameRow[1] = "amountTOTAL";
+		
+		QueryDefinition qd = newReportQuery();
+		
+		
+		qd.addBinding( new Binding( bindingNameRow[0],  new ScriptExpression( "dataSetRow.AMOUNT" )) );
+		qd.addBinding( new Binding( bindingNameRow[1],  new ScriptExpression( "Total.count(row[\"amount\"]<=500)" )));
+		
+		IResultIterator itr = this.executeQuery( qd );
+		int count = 0;
+		while ( itr.next( ) )
+		{
+			assertTrue( itr.getInteger( bindingNameRow[1] ) == 6 );
+			count++;
+		}
+		assertTrue( count > 0 );
 	}
 	
 	/**
