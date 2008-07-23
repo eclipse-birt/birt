@@ -48,49 +48,76 @@ public class TemplateLayout extends Layout
 
 	public void layout( )
 	{
-		IAutoTextContent autoText = (IAutoTextContent) content;
-
-		FontHandler handler = new FontHandler( context.getFontManager( ),
-				autoText, false );
-		FontInfo fontInfo = handler.getFontInfo( );
-
-		ContainerArea templateContainer = (ContainerArea) AreaFactory
-				.createInlineContainer( autoText, true, true );
-		IStyle areaStyle = templateContainer.getStyle( );
-		int maxWidth = parent.getCurrentMaxContentWidth( );
-
-		int width = getDimensionValue( autoText.getWidth( ), maxWidth );
-		templateContainer.setAllocatedWidth( maxWidth - parent.currentContext.currentIP );
-		int minContentWidth = getDimensionValue( areaStyle.getFontSize( ) ) * 4;
-		int maxContentWidth = templateContainer.getWidth( );
-		int preWidth = 0;
-		if ( width >= maxContentWidth )
+		boolean isInline = parent instanceof IInlineStackingLayout;
+		if ( isInline )
 		{
-			preWidth = Math.max( maxContentWidth, minContentWidth );
+			if ( parent instanceof LineLayout )
+			{
+				ContainerLayout inlineContainer = new InlineContainerLayout(
+						context, parent, content );
+				inlineContainer.initialize( );
+				addTemplateArea( inlineContainer, true );
+				inlineContainer.closeLayout( );
+			}
+			else
+			{
+				addTemplateArea( parent, true );
+			}
 		}
 		else
 		{
-			preWidth = Math.max( minContentWidth, width );
+			assert ( parent instanceof BlockStackingLayout );
+			if ( content != null )
+			{
+				IStyle contentStyle = content.getComputedStyle( );
+				String align = contentStyle.getTextAlign( );
+				parent.content.getComputedStyle( ).setTextAlign( align );
+			}
+
+			LineLayout line = new LineLayout( context, parent );
+			line.initialize( );
+			addTemplateArea( line, false );
+			line.closeLayout( );
 		}
 
-		templateContainer.setWidth( preWidth );
-		templateContainer.setBaseLine( handler.getFontInfo( ).getBaseline( ) );
+	}
+	
+	protected void addTemplateArea( ContainerLayout parent, boolean isInline )
+	{
+		IAutoTextContent autoText = (IAutoTextContent) content;	
+		TemplateArea templateArea = (TemplateArea) AreaFactory
+				.createTemplateArea( autoText );
 		
-		int height = getDimensionValue( autoText.getHeight( ), maxWidth );
-		templateContainer.setContentHeight( Math.max( 
+		// get max available width
+		int maxWidth = parent.getCurrentMaxContentWidth( );
+		templateArea.setAllocatedWidth( maxWidth - parent.currentContext.currentIP );
+		int maxAvaWidth = templateArea.getWidth( );
+		// get user defined width
+		int width = getDimensionValue( autoText.getWidth( ), maxWidth );
+		
+		if ( width == 0 )
+		{
+			// the default content width
+			int defaultWidth = getDimensionValue( templateArea.getStyle( ).getFontSize( ) ) * 4;
+			width = Math.min( maxAvaWidth, defaultWidth );
+		}
+		else if ( width > maxAvaWidth )
+		{
+			width = maxAvaWidth;
+		}
+		templateArea.setWidth( width );
+		context.setTotalPageTemplateWidth( templateArea.getContentWidth( ) );
+		
+		FontHandler handler = new FontHandler( context.getFontManager( ),
+				autoText, false );
+		FontInfo fontInfo = handler.getFontInfo( );
+		
+		int height = getDimensionValue( autoText.getHeight( ), 0 );
+		templateArea.setContentHeight( Math.max( 
 				( int )( fontInfo.getWordHeight( )* PDFConstants.LAYOUT_TO_PDF_RATIO ), height ) );
-
-		Dimension templateDimension = new Dimension( );
-		templateDimension.setDimension( templateContainer.getContentWidth( ),
-				templateContainer.getContentHeight( ) );
-		AbstractArea templateArea = createTemplateArea( autoText,
-				templateDimension );
-		templateContainer.addChild( templateArea );
-		templateArea.setBaseLine( handler.getFontInfo( ).getBaseline( ) );
-
-		templateArea.setPosition( templateContainer.getContentX( ),
-				templateContainer.getContentY( ) );
-		parent.addArea( templateContainer );
+		
+		templateArea.setBaseLine( fontInfo.getBaseline( ) + templateArea.getContentY( ) );	
+		parent.addToRoot( templateArea );
 	}
 
 	protected void handleAutoText( IAutoTextContent autoText )
@@ -109,25 +136,6 @@ public class TemplateLayout extends Layout
 			autoText.setText( nf
 					.format( Integer.parseInt( originalPageNumber ) ) );
 		}
-	}
-
-	/**
-	 * create template area by autoText content
-	 * 
-	 * @param autoText
-	 *            the autoText content
-	 * @param contentDimension
-	 *            content dimension
-	 * @return
-	 */
-	private TemplateArea createTemplateArea( IAutoTextContent autoText,
-			Dimension contentDimension )
-	{
-		TemplateArea templateArea = (TemplateArea) AreaFactory
-				.createTemplateArea( autoText );
-		templateArea.setWidth( contentDimension.getWidth( ) );
-		templateArea.setHeight( contentDimension.getHeight( ) );
-		return templateArea;
 	}
 
 }

@@ -26,7 +26,6 @@ import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
-import org.eclipse.birt.report.engine.layout.area.impl.InlineContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TextArea;
 import org.w3c.dom.css.CSSPrimitiveValue;
 
@@ -196,7 +195,6 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 				{
 					parent.addToRoot( currentContext.root, i );
 				}
-				
 			}
 			if(parent.isInBlockStacking)
 			{

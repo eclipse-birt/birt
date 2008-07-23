@@ -30,6 +30,7 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
@@ -140,6 +141,31 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 				totalPageArea.setWidth( Math.min( context.getMaxWidth( ), d.getWidth()) );
 				totalPageArea.setHeight( Math.min( context.getMaxHeight( ), d.getHeight()) );
 			}
+			
+			String align = totalPageContent.getComputedStyle( ).getTextAlign( );
+			if ( ( CSSConstants.CSS_RIGHT_VALUE.equalsIgnoreCase( align ) || CSSConstants.CSS_CENTER_VALUE
+					.equalsIgnoreCase( align ) ) )
+			{
+				int spacing = context.getTotalPageTemplateWidth( )
+						- totalPageArea.getWidth( );
+				if ( spacing > 0 )
+				{
+					if ( CSSConstants.CSS_RIGHT_VALUE.equalsIgnoreCase( align ) )
+					{
+						totalPageArea.setAllocatedPosition( spacing
+								+ totalPageArea.getAllocatedX( ), totalPageArea
+								.getAllocatedY( ) );
+					}
+					else if ( CSSConstants.CSS_CENTER_VALUE
+							.equalsIgnoreCase( align ) )
+					{
+						totalPageArea.setAllocatedPosition( spacing / 2
+								+ totalPageArea.getAllocatedX( ), totalPageArea
+								.getAllocatedY( ) );
+					}
+				}
+			}
+
 			totalPageContent.setExtension( IContent.LAYOUT_EXTENSION,
 					totalPageArea );
 			emitter.startAutoText( totalPageContent );

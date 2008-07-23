@@ -242,6 +242,18 @@ public class LayoutEngineContext
 		this.dpi = dpi;
 	}
 	
+	private int totalPageTemplateWidth;
+	
+	public void setTotalPageTemplateWidth( int totalPageTemplateWidth )
+	{
+		this.totalPageTemplateWidth = totalPageTemplateWidth;
+	}
+	
+	public int getTotalPageTemplateWidth()
+	{
+		return this.totalPageTemplateWidth;
+	}
+	
 	private HashMap cachedTableHeaders = null;
 	private HashMap cachedGroupHeaders = null;
 	
