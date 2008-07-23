@@ -526,7 +526,16 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 		// build the none value of display
 		setDisplayProperty( display, 0, styleBuffer );
 		
-		IStyle style = getElementStyle( image );
+		IStyle style = image.getStyle( );
+		String verticalAlign = style.getVerticalAlign( );
+		if ( verticalAlign != null )
+		{
+			styleBuffer.append( " vertical-align:" );
+			styleBuffer.append( verticalAlign );
+			styleBuffer.append( ";" );
+		}
+		
+		style = getElementStyle( image );
 		if ( style == null )
 		{
 			return;
@@ -539,8 +548,8 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 		AttributeBuilder.buildVisual( styleBuffer, style );
 		AttributeBuilder.buildTextDecoration( styleBuffer, style );
 		
-		// Image doesn��t support vertical-align and text-align.
+		// Image doesn't text-align.
 		// Text-align has been build in the style class. But the text-align
-		// doesn��t work with the image.
+		// doesn't work with the image.
 	}
 }

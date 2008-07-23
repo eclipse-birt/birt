@@ -574,7 +574,16 @@ public class HTMLVisionOptimize extends HTMLEmitter
 			AttributeBuilder.buildTextDecoration( styleBuffer, imageComputedStyle );
 		}
 		
-		IStyle style = getElementStyle( image );
+		IStyle style = image.getStyle( );
+		String verticalAlign = style.getVerticalAlign( );
+		if ( verticalAlign != null )
+		{
+			styleBuffer.append( " vertical-align:" );
+			styleBuffer.append( verticalAlign );
+			styleBuffer.append( ";" );
+		}
+		
+		style = getElementStyle( image );
 		if ( style == null )
 		{
 			return;
@@ -586,9 +595,9 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		AttributeBuilder.buildText( styleBuffer, style );
 		AttributeBuilder.buildVisual( styleBuffer, style );
 		
-		// Image doesn��t support vertical-align and text-align.
+		// Image doesn't support text-align.
 		// Text-align has been build in the style class. But the text-align
-		// doesn��t work with the image.
+		// doesn't work with the image.
 	}
 
 	/**
