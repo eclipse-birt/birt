@@ -21,14 +21,22 @@
 	Report content fragment
 -----------------------------------------------------------------------------%>
 <TR VALIGN='top'>
-	<TD>
-		<%
-			if ( fragment != null )
-			{
-				fragment.callBack( request, response );
-			}
-		%>
-		<DIV ID="Document" CLASS="birtviewer_document_fragment">
-		</DIV>
+	<TD id="documentView">
+		<TABLE cellpadding="0" cellspacing="0" border="0">
+		<TR>
+			<TD style="vertical-align: top;">
+				<%
+					if ( fragment != null )
+					{
+						fragment.callBack( request, response );
+					}
+				%>
+			</TD>
+			<TD style="vertical-align: top;">
+				<DIV ID="Document" CLASS="birtviewer_document_fragment">
+				</DIV>
+			</TD>
+		</TR>
+		</TABLE>
 	</TD>
 </TR>

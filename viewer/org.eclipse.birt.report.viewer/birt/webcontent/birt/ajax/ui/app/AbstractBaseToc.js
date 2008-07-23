@@ -29,7 +29,7 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 	__neh_item_click : null,
 	
 	__clickcount : 0,
-		
+	
 	/**
 	 *	Install native/birt event handlers.
 	 *
@@ -387,11 +387,27 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 	 *	@return, void
 	 */
 	__neh_resize : function( event )
-	{
+	{		
 		//var width = BirtPosition.viewportWidth( ) -  ( this.__instance.offsetLeft >= 250 ? 250 : 0 ) - 3;
 		//this.__instance.style.width = width + "px";
 		var height = BirtPosition.viewportHeight( ) - this.__instance.offsetTop - 2;
 		this.__instance.style.height = height + "px";
+		if ( rtl && 
+				( BrowserUtility.isIE6 || BrowserUtility.isIE7 || 
+						BrowserUtility.isOpera || BrowserUtility.isKHTML ||
+						BrowserUtility.isSafari
+				) )
+		{
+			this.__instance.style.position = "absolute";
+			if ( birtReportDocument && birtReportDocument.__rtl )
+			{
+				this.__instance.style.left = BirtPosition.viewportWidth( ) - this.getWidth();
+			}
+			else
+			{
+				this.__instance.style.left = "0px";
+			}
+		}
 	},
 
 	/**

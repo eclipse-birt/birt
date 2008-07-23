@@ -18,14 +18,19 @@ import java.util.Locale;
 import java.util.Map;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
+import org.eclipse.birt.report.soapengine.api.Data;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
+import org.eclipse.birt.report.soapengine.api.Page;
 import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateContent;
+import org.eclipse.birt.report.soapengine.api.UpdateData;
 import org.eclipse.birt.report.utility.BirtUtility;
 import org.eclipse.birt.report.utility.DataUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
@@ -58,6 +63,8 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler
 	 */
 	protected void __execute( ) throws Exception
 	{
+		boolean isDocumentRtl = false;
+		
 		// get attribute bean
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
 		assert attrBean != null;
@@ -101,6 +108,8 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler
 			getReportService( ).renderReport( docName,
 					attrBean.getReportPage( ), attrBean.getReportPageRange( ),
 					options, out );
+			
+			isDocumentRtl = getReportService( ).isDocumentRtl( docName, options );
 		}
 		else
 		{
@@ -123,8 +132,23 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler
 			getReportService( ).runAndRenderReport( reportDesignHandle,
 					docName, options, parameterMap, out, new ArrayList( ),
 					displayTexts );
+			
+			IReportRunnable r = (IReportRunnable)reportDesignHandle.getDesignObject( );
+			if ( r.getDesignHandle( ) instanceof ReportDesignHandle )
+			{
+				ReportDesignHandle handle = (ReportDesignHandle)r.getDesignHandle( );
+				isDocumentRtl = "RTL".equalsIgnoreCase( handle.getBidiOrientation( ) ); //$NON-NLS-1$
+			}
 		}
 
+		Page pageObj = new Page( );
+		pageObj.setPageNumber( "1" ); //$NON-NLS-1$
+		pageObj.setTotalPage( "1" ); //$NON-NLS-1$
+		pageObj.setRtl( Boolean.valueOf( isDocumentRtl ) );
+		Data pageData = new Data( );
+		pageData.setPage( pageObj );
+		
+		
 		// Update response.
 		UpdateContent content = new UpdateContent( );
 		content.setContent( DataUtil.toUTF8( out.toByteArray( ) ) );
@@ -132,8 +156,13 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler
 		if ( bookmark != null )
 			content.setBookmark( bookmark );
 
+		UpdateData updateDocumentData = new UpdateData();
+		updateDocumentData.setTarget( "birtReportDocument" ); //$NON-NLS-1$
+		updateDocumentData.setData( pageData );		
+		
 		Update updateDocument = new Update( );
 		updateDocument.setUpdateContent( content );
+		updateDocument.setUpdateData( updateDocumentData );
 
 		response.setUpdate( new Update[]{updateDocument} );
 	}

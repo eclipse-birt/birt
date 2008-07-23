@@ -29,6 +29,8 @@ import org.eclipse.birt.report.viewer.browsers.BrowserAccessor;
 import org.eclipse.birt.report.viewer.browsers.BrowserManager;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.window.Window;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 
 /**
@@ -80,6 +82,11 @@ public class WebViewer
 	 * Preference key for SVG chart flag.
 	 */
 	public final static String SVG_FLAG = "svg_flag"; //$NON-NLS-1$
+	
+	public final static String BIDI_ORIENTATION = "bidi_orientation"; //$NON-NLS-1$
+	public final static String BIDI_ORIENTATION_AUTO = "auto"; //$NON-NLS-1$
+	public final static String BIDI_ORIENTATION_LTR = "ltr"; //$NON-NLS-1$
+	public final static String BIDI_ORIENTATION_RTL = "rtl"; //$NON-NLS-1$
 
 	/**
 	 * Preference key for master page content flag.
@@ -451,25 +458,29 @@ public class WebViewer
 				.getPluginPreferences( )
 				.getString( PREVIEW_MAXINMEMORYCUBESIZE );
 
-		// get -dir rtl option
+		// read rtl value from the preferences
 		boolean rtl = false;
-		String eclipseCommands = System.getProperty( "eclipse.commands" ); //$NON-NLS-1$
-		if ( eclipseCommands != null )
+		String bidiOrientation = ViewerPlugin.getDefault( )
+			.getPluginPreferences( )
+			.getString( BIDI_ORIENTATION );
+		if ( bidiOrientation == null )
 		{
-			String[] options = eclipseCommands.split( "-" ); //$NON-NLS-1$
-			String regex = "[\\s]*[dD][iI][rR][\\s]*[rR][tT][lL][\\s]*"; //$NON-NLS-1$
-			Pattern pattern = Pattern.compile( regex );
-			for ( int i = 0; i < options.length; i++ )
-			{
-				String option = options[i];
-				if ( pattern.matcher( option ).matches( ) )
-				{
-					rtl = true;
-					break;
-				}
-			}
+			bidiOrientation = BIDI_ORIENTATION_AUTO;
 		}
-
+		if ( BIDI_ORIENTATION_LTR.equals(bidiOrientation) )
+		{
+			rtl = false;
+		}
+		else if ( BIDI_ORIENTATION_RTL.equals(bidiOrientation) )
+		{
+			rtl = true;
+		}
+		else
+		{
+			// detect rtl from eclipse
+			rtl = ( Window.getDefaultOrientation( ) == SWT.RIGHT_TO_LEFT );
+		}
+		
 		if ( "true".equalsIgnoreCase( svgFlag ) ) //$NON-NLS-1$
 		{
 			bSVGFlag = true;

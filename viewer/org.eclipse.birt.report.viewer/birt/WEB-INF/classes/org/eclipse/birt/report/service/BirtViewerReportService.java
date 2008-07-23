@@ -168,10 +168,7 @@ public class BirtViewerReportService implements IViewerReportService
 
 		try
 		{
-			doc = ReportEngineService.getInstance( ).openReportDocument(
-					getReportDesignName( renderOptions ), docName,
-					getModuleOptions( renderOptions ) );
-
+			doc = openReportDocument( docName, renderOptions );
 			Long pageNum = Long.valueOf( pageID );
 
 			ByteArrayOutputStream os = new ByteArrayOutputStream( );
@@ -190,6 +187,51 @@ public class BirtViewerReportService implements IViewerReportService
 			if ( doc != null )
 				doc.close( );
 		}
+	}
+	
+	/**
+	 * Returns whether a given report document has right-to-left orientation.
+	 * @param docName document file name
+	 * @param renderOptions render options
+	 * @return true if the report document is right-to-left, false otherwise
+	 * @throws ReportServiceException
+	 */
+	public boolean isDocumentRtl( String docName, InputOptions renderOptions )
+		throws ReportServiceException
+	{
+		IReportDocument doc = null;
+		try
+		{
+			doc = openReportDocument( docName, renderOptions );
+			String bidiOrientation = doc.getReportDesign( ).getBidiOrientation( );			
+			return ( DesignChoiceConstants.BIDI_DIRECTION_RTL.equalsIgnoreCase(bidiOrientation) ); //$NON-NLS-1$
+		}
+		catch ( RemoteException e )
+		{
+			throw new ReportServiceException( e.getLocalizedMessage( ), e
+					.getCause( ) );
+		}
+		finally
+		{
+			if ( doc != null )
+				doc.close( );
+		}		
+	}
+
+	/**
+	 * Opens the given report document name and returns the document instance.
+	 * The document must be closed after it has been used.
+	 * @param docName document file name
+	 * @param renderOptions render options
+	 * @return document instance
+	 * @throws RemoteException
+	 */
+	private IReportDocument openReportDocument( String docName,
+			InputOptions renderOptions ) throws RemoteException
+	{
+		return ReportEngineService.getInstance( ).openReportDocument(
+				getReportDesignName( renderOptions ), docName,
+				getModuleOptions( renderOptions ) );
 	}
 
 	/**
@@ -245,9 +287,7 @@ public class BirtViewerReportService implements IViewerReportService
 		IReportDocument doc = null;
 		try
 		{
-			doc = ReportEngineService.getInstance( ).openReportDocument(
-					getReportDesignName( renderOptions ), docName,
-					getModuleOptions( renderOptions ) );
+			doc = openReportDocument( docName, renderOptions );
 
 			ReportEngineService.getInstance( ).renderReportlet( out, doc,
 					renderOptions, objectId, null );
@@ -277,10 +317,7 @@ public class BirtViewerReportService implements IViewerReportService
 		IReportDocument doc = null;
 		try
 		{
-
-			doc = ReportEngineService.getInstance( ).openReportDocument(
-					getReportDesignName( renderOptions ), docName,
-					getModuleOptions( renderOptions ) );
+			doc = openReportDocument( docName, renderOptions );
 
 			ReportEngineService.getInstance( ).renderReport( out, doc, pageNum,
 					pageRange, renderOptions, null );
@@ -321,9 +358,7 @@ public class BirtViewerReportService implements IViewerReportService
 		IReportDocument doc = null;
 		try
 		{
-			doc = ReportEngineService.getInstance( ).openReportDocument(
-					getReportDesignName( options ), docName,
-					getModuleOptions( options ) );
+			doc = openReportDocument( docName, options );
 
 			Locale locale = (Locale) options
 					.getOption( InputOptions.OPT_LOCALE );
@@ -386,9 +421,7 @@ public class BirtViewerReportService implements IViewerReportService
 		IReportDocument doc = null;
 		try
 		{
-			doc = ReportEngineService.getInstance( ).openReportDocument(
-					getReportDesignName( options ), docName,
-					getModuleOptions( options ) );
+			doc = openReportDocument( docName, options );
 			Locale locale = (Locale) options
 					.getOption( InputOptions.OPT_LOCALE );
 			HttpServletRequest request = (HttpServletRequest) options
@@ -423,9 +456,7 @@ public class BirtViewerReportService implements IViewerReportService
 		ResultSet[] resultSetArray;
 		try
 		{
-			doc = ReportEngineService.getInstance( ).openReportDocument(
-					getReportDesignName( options ), docName,
-					getModuleOptions( options ) );
+			doc = openReportDocument( docName, options );
 
 			resultSetArray = ReportEngineService.getInstance( ).getResultSets(
 					doc );
@@ -496,9 +527,7 @@ public class BirtViewerReportService implements IViewerReportService
 		IReportDocument doc = null;
 		try
 		{
-			doc = ReportEngineService.getInstance( ).openReportDocument(
-					getReportDesignName( options ), docName,
-					getModuleOptions( options ) );
+			doc = openReportDocument( docName, options );
 		}
 		catch ( RemoteException e )
 		{
@@ -556,9 +585,7 @@ public class BirtViewerReportService implements IViewerReportService
 		IReportDocument doc = null;
 		try
 		{
-			doc = ReportEngineService.getInstance( ).openReportDocument(
-					getReportDesignName( options ), docName,
-					getModuleOptions( options ) );
+			doc = openReportDocument( docName, options );
 
 			return BirtUtility.findTocByName( doc, name, options );
 		}
@@ -587,9 +614,7 @@ public class BirtViewerReportService implements IViewerReportService
 
 		try
 		{
-			doc = ReportEngineService.getInstance( ).openReportDocument(
-					getReportDesignName( options ), docName,
-					getModuleOptions( options ) );
+			doc = openReportDocument( docName, options );
 			if ( doc != null )
 				count = doc.getPageCount( );
 		}
@@ -779,9 +804,7 @@ public class BirtViewerReportService implements IViewerReportService
 		long pageNumber = -1L;
 		try
 		{
-			doc = ReportEngineService.getInstance( ).openReportDocument(
-					getReportDesignName( options ), docName,
-					getModuleOptions( options ) );
+			doc = openReportDocument( docName, options );
 			if ( doc != null )
 				pageNumber = doc.getPageNumber( bookmark );
 		}
@@ -809,9 +832,7 @@ public class BirtViewerReportService implements IViewerReportService
 		long pageNumber = -1L;
 		try
 		{
-			doc = ReportEngineService.getInstance( ).openReportDocument(
-					getReportDesignName( options ), docName,
-					getModuleOptions( options ) );
+			doc = openReportDocument( docName, options );
 			pageNumber = doc.getPageNumber( objectId );
 		}
 		catch ( RemoteException e )

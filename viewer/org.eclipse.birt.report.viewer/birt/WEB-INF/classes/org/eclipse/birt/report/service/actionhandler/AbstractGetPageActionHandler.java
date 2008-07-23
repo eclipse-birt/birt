@@ -62,6 +62,8 @@ public abstract class AbstractGetPageActionHandler
 	protected String __bookmark;
 
 	protected boolean __svgFlag;
+	
+	protected boolean __isDocumentRtl = false;
 
 	protected ByteArrayOutputStream __page = null;
 
@@ -129,8 +131,6 @@ public abstract class AbstractGetPageActionHandler
 			InputOptions getPageCountOptions = new InputOptions( );
 			getPageCountOptions.setOption( InputOptions.OPT_LOCALE, __bean
 					.getLocale( ) );
-			getPageCountOptions.setOption( InputOptions.OPT_RTL, new Boolean(
-					__bean.isRtl( ) ) );
 			getPageCountOptions.setOption( InputOptions.OPT_REQUEST, context
 					.getRequest( ) );
 			OutputOptions outputOptions = new OutputOptions( );
@@ -216,7 +216,8 @@ public abstract class AbstractGetPageActionHandler
 			RemoteException
 	{	
 		InputOptions options = createInputOptions( __bean, __svgFlag );
-
+		String docName = null;
+		
 		__activeIds = new ArrayList( );
 		if ( ParameterAccessor.isGetReportlet( context.getRequest( ) ) )
 		{
@@ -225,17 +226,19 @@ public abstract class AbstractGetPageActionHandler
 					.getBean( );
 			assert attrBean != null;
 
+			docName = attrBean.getReportDocumentName( );
 			// render reportlet
-			String docName = attrBean.getReportDocumentName( );
 			String __reportletId = attrBean.getReportletId( );
 			__page = getReportService( ).getReportlet( docName, __reportletId,
 					options, __activeIds );
 		}
 		else
 		{
-			__page = getReportService( ).getPage( __docName, __pageNumber + "", //$NON-NLS-1$
+			docName = __docName;
+			__page = getReportService( ).getPage( docName, __pageNumber + "", //$NON-NLS-1$
 					options, __activeIds );
 		}
+		__isDocumentRtl = getReportService().isDocumentRtl( docName, options );		
 	}
 
 	/**
@@ -250,6 +253,7 @@ public abstract class AbstractGetPageActionHandler
 		// Update instruction for document part.
 		UpdateContent content = new UpdateContent( );
 
+		
 		content.setContent( DataUtil.toUTF8( __page.toByteArray( ) ) );
 
 		content.setTarget( "Document" ); //$NON-NLS-1$
@@ -268,11 +272,17 @@ public abstract class AbstractGetPageActionHandler
 		Page pageObj = new Page( );
 		pageObj.setPageNumber( String.valueOf( __pageNumber ) );
 		pageObj.setTotalPage( String.valueOf( __totalPageNumber ) );
-		Data data = new Data( );
-		data.setPage( pageObj );
-		updateData.setData( data );
+		pageObj.setRtl( Boolean.valueOf( __isDocumentRtl ) );
+		Data pageData = new Data( );
+		pageData.setPage( pageObj );
+		updateData.setData( pageData );
 		Update updateNavbar = new Update( );
 		updateNavbar.setUpdateData( updateData );
+		
+		UpdateData updateDocumentData = new UpdateData();
+		updateDocumentData.setTarget( "birtReportDocument" );
+		updateDocumentData.setData( pageData );
+		updateDocument.setUpdateData( updateDocumentData );
 
 		response.setUpdate( new Update[]{updateDocument, updateNavbar} );
 	}

@@ -50,7 +50,6 @@ public class BirtExtractDataActionHandler extends AbstractBaseActionHandler
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
 		options.setOption( InputOptions.OPT_LOCALE, locale );
-		options.setOption( InputOptions.OPT_RTL, new Boolean( attrBean.isRtl( ) ) );
 		
 		ServletOutputStream out = context.getResponse( ).getOutputStream( );
 		getReportService( ).extractResultSet( docName, resultSetName,

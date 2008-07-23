@@ -9,5 +9,6 @@
 		Constants.request = {};
 	}
 	Constants.request.format = '<%= ParameterAccessor.getFormat(request) %>';
+	Constants.request.rtl = <%= ParameterAccessor.isRtl( request ) %>;
 // ]]>
 </script>

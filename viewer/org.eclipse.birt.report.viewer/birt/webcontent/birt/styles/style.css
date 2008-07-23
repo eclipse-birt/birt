@@ -385,10 +385,13 @@
 .birtviewer_document_fragment
 {
 	overflow:auto;
-	position:absolute;
-	width:100%;
-	border-style:inset;
-	border-width:1px;	
+	position:relative;
+	border-style: solid;
+	border-width: 2px;
+	border-top-color: #404040;
+	border-left-color: #404040;
+	border-right-color: #D0D0D0;
+	border-bottom-color: #D0D0D0;
 }
 
 /******************************************************************************

@@ -11,6 +11,7 @@ public class Page  implements java.io.Serializable {
     private java.lang.String pageNumber;
     private java.lang.String totalPage;
     private java.lang.Boolean completed;
+    private java.lang.Boolean rtl;
 
     public Page() {
     }
@@ -18,10 +19,13 @@ public class Page  implements java.io.Serializable {
     public Page(
            java.lang.String pageNumber,
            java.lang.String totalPage,
-           java.lang.Boolean completed) {
+           java.lang.Boolean completed,
+           java.lang.Boolean rtl
+    		) {
            this.pageNumber = pageNumber;
            this.totalPage = totalPage;
            this.completed = completed;
+           this.rtl = rtl;
     }
 
 
@@ -84,6 +88,25 @@ public class Page  implements java.io.Serializable {
         this.completed = completed;
     }
 
+    /**
+     * Gets the right-to-left value for this Page.
+     * 
+     * @return rtl
+     */
+    public java.lang.Boolean getRtl() {
+        return rtl;
+    }
+
+
+    /**
+     * Sets the right-to-left value for this Page.
+     * 
+     * @param rtl rtl
+     */
+    public void setRtl(java.lang.Boolean rtl) {
+        this.rtl = rtl;
+    }
+    
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof Page)) return false;
@@ -104,7 +127,10 @@ public class Page  implements java.io.Serializable {
               this.totalPage.equals(other.getTotalPage()))) &&
             ((this.completed==null && other.getCompleted()==null) || 
              (this.completed!=null &&
-              this.completed.equals(other.getCompleted())));
+              this.completed.equals(other.getCompleted()))) &&
+	          ((this.rtl==null && other.getRtl()==null) || 
+                 (this.rtl!=null &&
+                  this.rtl.equals(other.getRtl())));              
         __equalsCalc = null;
         return _equals;
     }
@@ -125,6 +151,10 @@ public class Page  implements java.io.Serializable {
         if (getCompleted() != null) {
             _hashCode += getCompleted().hashCode();
         }
+        if (getRtl() != null) {
+            _hashCode += getRtl().hashCode();
+        }
+        
         __hashCodeCalc = false;
         return _hashCode;
     }
@@ -150,6 +180,13 @@ public class Page  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("completed");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Completed"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("completed");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Rtl"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);

@@ -29,7 +29,26 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 	__beh_toc_closure : null,
 	__beh_getPage_closure : null,
 	__beh_changeParameter_closure : null,
-		 		
+	__rtl : false,
+		
+	__cb_bind : function( data )
+	{
+		this.__rtl = false;
+		var oRtlElement = data.getElementsByTagName( 'rtl' );
+		if ( oRtlElement && oRtlElement[0] )
+		{
+			this.__rtl = ( "true" == oRtlElement[0].firstChild.data );
+		}
+		
+		var documentViewElement = $("documentView");
+		documentViewElement.style.direction = this.__rtl?"rtl":"ltr";
+		var docObj = document.getElementById( "Document" );
+		if ( docObj && BrowserUtility.isMozilla && !BrowserUtility.isFirefox3 )
+		{
+			docObj.scrollLeft = this.__rtl?(docObj.offsetWidth + "px"):"0px";
+		}
+	},
+	
 	/**
 	 *	Local version of __cb_installEventHandlers.
 	 */
@@ -64,19 +83,76 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 	 */
 	__neh_resize : function( event )
 	{
+		if ( !this.__updateContainerSize_closure )
+		{
+			this.__updateContainerSize_closure = this.__updateContainerSize.bind( this );
+		}
+		
+		if ( BrowserUtility.isIE6 || BrowserUtility.isIE7 )
+		{
+			// delay resizing operation to the event queue
+			// else IE might override our changes with its calculated ones
+			setTimeout( this.__updateContainerSize_closure, 0);
+		}
+		else
+		{
+			this.__updateContainerSize();
+		}
+	},
+	
+	/**
+	 * Updates the container size according to the window size.
+	 */
+	__updateContainerSize : function()
+	{
 		var tocWidth = 0;
 		if ( this.__tocElement && this.__tocElement.__instance )
 		{
 			tocWidth = this.__tocElement.getWidth();
 		}
 		
-		var width = BirtPosition.viewportWidth( ) -  tocWidth - 3;		
+		var width = BirtPosition.viewportWidth( ) - tocWidth - (BrowserUtility.isFirefox?6:4);
+
+		// in IE, the width contains the border, unlike in other browsers
+		if ( BrowserUtility.isIE6 || BrowserUtility.isIE7 || 
+				BrowserUtility.isOpera || BrowserUtility.isKHTML || BrowserUtility.isSafari )
+		{
+			var containerLeft = 0;
+			// if viewer in rtl mode
+			if ( Constants.request.rtl )
+			{
+				// if report in rtl mode
+				if ( birtReportDocument && birtReportDocument.__rtl )
+				{
+					if ( BrowserUtility.isKHTML || BrowserUtility.isSafari )
+					{
+						containerLeft = 0;
+					}
+					else
+					{
+						containerLeft = -tocWidth;
+					}
+				}
+				else
+				{
+					containerLeft = tocWidth;
+				}
+				
+				this.__instance.style.left = containerLeft + "px";
+			}
+			else
+			{
+				this.__instance.style.left = "0px";
+			}
+		}
 		if( width > 0 )
 			this.__instance.style.width = width + "px";
 			
 		var height = BirtPosition.viewportHeight( ) - this.__instance.offsetTop - 2;
 		if( height > 0 )
-			this.__instance.style.height = height + "px";
+			this.__instance.style.height = height + "px";		
+		
+		this.__instance.style.left = containerLeft + "px";
 	},
 	
 	/**

@@ -380,4 +380,13 @@ public interface IViewerReportService
 	public String findTocByName( String docName, String name,
 			InputOptions options );
 
+	/**
+	 * Returns whether a given report document has right-to-left orientation.
+	 * @param docName document file name
+	 * @param renderOptions render options
+	 * @return true if the report document is right-to-left, false otherwise
+	 * @throws ReportServiceException
+	 */	
+	public boolean isDocumentRtl( String docName, InputOptions renderOptions )
+		throws ReportServiceException;	
 }

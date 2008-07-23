@@ -81,6 +81,7 @@ public class BirtChangeParameterActionHandler
 			page = getReportService( ).getPage( docName,
 					pageNumber + "", options, activeIds ); //$NON-NLS-1$
 		}
+		boolean isDocumentRtl = getReportService().isDocumentRtl( docName, options );		
 
 		// Update instruction for document.
 		UpdateContent content = new UpdateContent( );
@@ -102,12 +103,18 @@ public class BirtChangeParameterActionHandler
 		pageObj.setPageNumber( String.valueOf( pageNumber ) );
 		pageObj.setTotalPage( String.valueOf( getReportService( ).getPageCount(
 				docName, options, new OutputOptions( ) ) ) );
-		Data data = new Data( );
-		data.setPage( pageObj );
-		updateData.setData( data );
+		pageObj.setRtl( Boolean.valueOf( isDocumentRtl ) );		
+		Data pageData = new Data( );
+		pageData.setPage( pageObj );
+		updateData.setData( pageData );
 		Update updateNavbar = new Update( );
 		updateNavbar.setUpdateData( updateData );
 
+		UpdateData updateDocumentData = new UpdateData();
+		updateDocumentData.setTarget( "birtReportDocument" );
+		updateDocumentData.setData( pageData );
+		updateDocument.setUpdateData( updateDocumentData );
+		
 		response.setUpdate( new Update[]{updateDocument, updateNavbar} );
 	}
 

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.presentation.aggregation.layout;
 
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.presentation.aggregation.control.ProgressBarFragment;
+import org.eclipse.birt.report.presentation.aggregation.control.TocFragment;
 
 /**
  * Fragment for report tool bar.
@@ -27,5 +28,6 @@ public class DocumentFragment extends BirtBaseFragment
 	protected void build( )
 	{
 		addChild( new ProgressBarFragment( ) );
+		addChild( new TocFragment( ) );		
 	}
 }

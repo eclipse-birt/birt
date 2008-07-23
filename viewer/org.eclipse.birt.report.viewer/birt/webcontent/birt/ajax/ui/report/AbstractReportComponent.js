@@ -45,15 +45,11 @@ AbstractReportComponent.prototype =
 		{
 			content = '<span style="display: none">&nbsp;</span>' + content;
 			content = content.replace(/<script(.*)defer([^\s|^>]*)([^>]*)>/gi,'<script$1$3>');
-		}		
+		}
 				
 		var container = document.createElement( "div" );
-		// For Bugzilla Bug 179472, change "relative" to "absolute"
-		container.style.position = "absolute";
-		container.style.padding = "0px";
-		container.style.width = "100%";
-		container.innerHTML = content;
 		
+		container.innerHTML = content;
 		
 		// FIXME: Mozilla 1.7.12 produces an exception on the following line
 		// because the "content" variable contains some unrecognized parts
