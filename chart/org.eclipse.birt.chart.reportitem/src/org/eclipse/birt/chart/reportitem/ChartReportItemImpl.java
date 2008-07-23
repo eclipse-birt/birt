@@ -273,15 +273,6 @@ public final class ChartReportItemImpl extends ReportItem implements
 		{
 			try
 			{
-				byte[] buf = new byte[40000];
-				int size = data.read( buf, 0, 40000 );
-				data.reset( );
-
-				File f = new File( "c:/aaa.txt" );
-				FileOutputStream o = new FileOutputStream( f );
-				o.write( buf, 0, size );
-				o.flush( );
-				
 				cm = SerializerImpl.instance( ).fromXml( data, true );
 
 				// This fix is only for SCR 95978, for the version 3.2.10 of
