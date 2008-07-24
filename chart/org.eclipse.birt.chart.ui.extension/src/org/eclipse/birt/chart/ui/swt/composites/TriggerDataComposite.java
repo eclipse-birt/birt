@@ -596,7 +596,9 @@ public class TriggerDataComposite extends Composite
 		cmbActionType.setItems( this.triggerMatrix.getSupportedActionsDisplayName( condition ) );
 
 		// Add extra item for NONE
-		cmbActionType.add( Messages.getString( "TriggerDataComposite.Lbl.None" ), 0 ); //$NON-NLS-1$
+		// #234902
+		cmbActionType.add( Messages.getString( "TriggerDataComposite.Lbl.None." + condition.getName( ) ), 0 ); //$NON-NLS-1$
+
 	}
 
 	/**
