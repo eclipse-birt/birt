@@ -265,4 +265,9 @@ public class Data implements Serializable, Cloneable
 	{
 		return container;
 	}
+
+	public void clearContainer( )
+	{
+		container = null;
+	}
 }

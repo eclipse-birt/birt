@@ -117,6 +117,14 @@ public class DataCache
 		}
 		
 		List<Data> column = columns.get( col );
+		
+		// Container info is used to check if some data is in a special row.
+		// This info only useful for last data item in the column.
+		int size = column.size();
+		if ( size > 0 )
+		{
+			column.get( size - 1 ).clearContainer( );
+		}
 		column.add( data );
 		if ( data instanceof Data )
 		{
