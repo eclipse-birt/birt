@@ -115,7 +115,7 @@ public class ReportItemParseTest extends BaseTestCase
 	 * Test to read hide rules.
 	 * 
 	 * @throws Exception
-	 * 		if open the design file with errors.
+	 *             if open the design file with errors.
 	 */
 
 	public void testParseProperties( ) throws Exception
@@ -197,13 +197,15 @@ public class ReportItemParseTest extends BaseTestCase
 		assertEquals( null, dataHandle.getOnCreate( ) );
 
 		assertEquals( "acl expression test", dataHandle.getACLExpression( ) ); //$NON-NLS-1$
+		assertTrue( ( (Boolean) dataHandle.getElement( ).getLocalProperty(
+				design, IReportItemModel.CASCADE_ACL_PROP ) ).booleanValue( ) );
 		assertFalse( dataHandle.cascadeACL( ) );
+		assertFalse( dataHandle.canCascadeACL( ) );
 		assertFalse( ( (Boolean) dataHandle
 				.getProperty( IReportItemModel.CASCADE_ACL_PROP ) )
 				.booleanValue( ) );
 		assertFalse( dataHandle
-				.getBooleanProperty( IReportItemModel.CASCADE_ACL_PROP )
-				 );
+				.getBooleanProperty( IReportItemModel.CASCADE_ACL_PROP ) );
 
 		rules = dataHandle.visibilityRulesIterator( );
 		structHandle = (StructureHandle) rules.next( );
@@ -272,7 +274,7 @@ public class ReportItemParseTest extends BaseTestCase
 	 * Test to write hide rules to the design file.
 	 * 
 	 * @throws Exception
-	 * 		if open/write the design file with IO errors.
+	 *             if open/write the design file with IO errors.
 	 */
 
 	public void testWriteProperties( ) throws Exception

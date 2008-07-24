@@ -667,7 +667,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 			return bindings.iterator( );
 
 		// recursively gets column bindings from the container.
-		
+
 		Iterator iter1 = ( (ReportItemHandle) container )
 				.getAvailableBindings( );
 		while ( iter1.hasNext( ) )
@@ -1355,5 +1355,20 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	{
 		setProperty( IReportItemModel.CASCADE_ACL_PROP, Boolean
 				.valueOf( cascadeACL ) );
+	}
+
+	/**
+	 * Determines whether this report item can cascade ACL or not. True if and
+	 * only if this item has define
+	 * <code>IReportItemModel.CASCADE_ACL_PROP</code> property and it is a
+	 * container.
+	 * 
+	 * @return true if this item has define
+	 *         <code>IReportItemModel.CASCADE_ACL_PROP</code> property and it is
+	 *         a container, otherwise false
+	 */
+	public boolean canCascadeACL( )
+	{
+		return ( (ReportItem) getElement( ) ).canCascadeACL( );
 	}
 }

@@ -47,7 +47,7 @@ public abstract class ReportItem extends ReferencableStyledElement
 	 * Constructs the report item with an optional name.
 	 * 
 	 * @param theName
-	 * 		the optional name
+	 *            the optional name
 	 */
 
 	public ReportItem( String theName )
@@ -59,7 +59,7 @@ public abstract class ReportItem extends ReferencableStyledElement
 	 * Returns the data set element, if any, for this element.
 	 * 
 	 * @param module
-	 * 		the report design of the report item
+	 *            the report design of the report item
 	 * 
 	 * @return the data set element defined on this specific element
 	 */
@@ -77,7 +77,7 @@ public abstract class ReportItem extends ReferencableStyledElement
 	 * Returns the cube element, if any, for this element.
 	 * 
 	 * @param module
-	 * 		the report design of the report item
+	 *            the report design of the report item
 	 * 
 	 * @return the cube element defined on this specific element
 	 */
@@ -128,9 +128,9 @@ public abstract class ReportItem extends ReferencableStyledElement
 	 * Checks whether the listing element refers to another listing element.
 	 * 
 	 * @param module
-	 * 		the root of the listing element
+	 *            the root of the listing element
 	 * @return <code>true</code> if the listing element shares data with other
-	 * 	listing element. Otherwise <code>false</code>.
+	 *         listing element. Otherwise <code>false</code>.
 	 */
 
 	public boolean isDataBindingReferring( Module module )
@@ -161,6 +161,24 @@ public abstract class ReportItem extends ReferencableStyledElement
 			return false;
 		}
 		return super.getProperty( module, prop );
+	}
+
+	/**
+	 * Determines whether this report item can cascade ACL or not. True if and
+	 * only if this item has define
+	 * <code>IReportItemModel.CASCADE_ACL_PROP</code> property and it is a
+	 * container.
+	 * 
+	 * @return true if this item has define
+	 *         <code>IReportItemModel.CASCADE_ACL_PROP</code> property and it is
+	 *         a container, otherwise false
+	 */
+	public boolean canCascadeACL( )
+	{
+		if ( getPropertyDefn( IReportItemModel.CASCADE_ACL_PROP ) != null
+				&& getDefn( ).isContainer( ) )
+			return true;
+		return false;
 	}
 
 }
