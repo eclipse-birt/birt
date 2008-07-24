@@ -79,7 +79,7 @@ public class SortElement extends DesignElement implements ISortElement
 
 	public void setKey( String key ) throws SemanticException
 	{
-		setProperty( ISortElementModel.DIRECTION_PROP, key );
+		setProperty( ISortElementModel.KEY_PROP, key );
 	}
 
 }
