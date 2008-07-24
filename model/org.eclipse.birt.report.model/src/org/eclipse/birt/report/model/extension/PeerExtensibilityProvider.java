@@ -21,7 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModelException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -43,7 +42,6 @@ import org.eclipse.birt.report.model.metadata.ExtensionModelPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
-import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 import org.eclipse.birt.report.model.parser.treebuild.IContentHandler;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
@@ -555,8 +553,15 @@ public abstract class PeerExtensibilityProvider
 				byte[] raw = null;
 				try
 				{
-					raw = value.toString( ).getBytes(
-							UnicodeUtil.SIGNATURE_UTF_8 );
+					// if value is ByteArrayOutputStream : the value is
+					// serialized by Model property calling method
+					// IReportItem.serialize(String), since value.toString may
+					// change UTF-8 bytes into unicode 16 bytes
+					if ( value instanceof ByteArrayOutputStream )
+						raw = ( (ByteArrayOutputStream) value ).toByteArray( );
+					else
+						raw = value.toString( ).getBytes(
+								UnicodeUtil.SIGNATURE_UTF_8 );
 				}
 				catch ( UnsupportedEncodingException e )
 				{
