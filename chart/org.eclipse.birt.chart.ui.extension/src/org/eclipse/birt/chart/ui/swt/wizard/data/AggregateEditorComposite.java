@@ -73,11 +73,11 @@ import org.eclipse.swt.widgets.ToolBar;
 public class AggregateEditorComposite extends Composite implements
 		MouseListener
 {
-	private static final String AGG_DISPLAY_NONE = Messages.getString("AggregateEditorComposite.AggregateDisplayName.None"); //$NON-NLS-1$
+	protected static final String AGG_DISPLAY_NONE = Messages.getString("AggregateEditorComposite.AggregateDisplayName.None"); //$NON-NLS-1$
 	
-	private static final String AGG_DISPLAY_DEFAULT = Messages.getString("AggregateEditorComposite.AggregateDisplayName.Default"); //$NON-NLS-1$
+	protected static final String AGG_DISPLAY_DEFAULT = Messages.getString( "AggregateEditorComposite.AggregateDisplayName.Default" ); //$NON-NLS-1$
 	
-	private static final String AGG_FUNC_NONE = "None"; //$NON-NLS-1$
+	protected static final String AGG_FUNC_NONE = "None"; //$NON-NLS-1$
 	
 	private ToolBar fBtnDropDown;
 	
@@ -394,70 +394,7 @@ public class AggregateEditorComposite extends Composite implements
 			String aggFuncName = null;
 			fCmbAggregate.removeAll( );
 
-			String[] aggDisplayNames = null;
-			String[] aggFunctions = null;
-			if ( isBaseGroupingDefined( ) )
-			{
-				try
-				{
-					String[] names = aggDisplayNames = PluginSettings.instance( )
-							.getRegisteredAggregateFunctionDisplayNames( );
-					String[] funcs = PluginSettings.instance( )
-							.getRegisteredAggregateFunctions( );
-					aggDisplayNames = new String[names.length + 1];
-					aggFunctions = new String[names.length + 1];
-					
-					SeriesDefinition baseSD = (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( fChartContext.getModel( ) ).get( 0 );
-					String aggFunc = baseSD.getGrouping( ).getAggregateExpression( );
-					int index = 0;
-					for ( int i = 0;i < funcs.length; i++)
-					{
-						if ( funcs[i].equals( aggFunc ))
-						{
-							index = i;
-							break;
-						}
-					}
-					String noneItem = AGG_DISPLAY_DEFAULT + "(" + names[index] + ")"; //$NON-NLS-1$ //$NON-NLS-2$
-					aggDisplayNames[0] = noneItem;
-					aggFunctions[0] = AGG_FUNC_NONE;
-					for (int i = 1; i < aggDisplayNames.length; i ++)
-					{
-						aggDisplayNames[i] = names[i - 1];
-						aggFunctions[i] = funcs[i - 1];
-					}
-				}
-				catch ( ChartException e )
-				{
-					WizardBase.displayException( e );
-				}
-			}
-			else
-			{
-				try
-				{
-					String[] names = PluginSettings.instance( )
-							.getRegisteredAggregateFunctionDisplayNames( IAggregateFunction.RUNNING_AGGR );
-					String[] funcs = PluginSettings.instance( )
-							.getRegisteredAggregateFunctions( IAggregateFunction.RUNNING_AGGR );
-					aggDisplayNames = new String[names.length + 1];
-					aggFunctions = new String[names.length + 1];
-					aggDisplayNames[0] = AGG_DISPLAY_NONE;
-					aggFunctions[0] = AGG_FUNC_NONE;
-					for (int i = 1; i < aggDisplayNames.length; i ++)
-					{
-						aggDisplayNames[i] = names[i - 1];
-						aggFunctions[i] = funcs[i - 1];
-					}
-				}
-				catch ( ChartException e )
-				{
-					WizardBase.displayException( e );
-				}
-			}
-
-			fCmbAggregate.setItems( aggDisplayNames );
-			fCmbAggregate.setData( aggFunctions );
+			populateAggregationCombo( fCmbAggregate );
 			
 			if ( fGrouping.isEnabled( ) && fGrouping.getAggregateExpression( ) != null )
 			{
@@ -783,7 +720,18 @@ public class AggregateEditorComposite extends Composite implements
 			shell.close( );
 		}
 	}
-	
+
+	/**
+	 * Check if all aggregations should be enabled.
+	 * 
+	 * @return
+     * @since 2.3.1
+	 */
+	protected boolean shouldEnableAllAggregations( )
+	{
+		return isBaseGroupingDefined( );
+	}
+
 	/**
 	 * @return
 	 */
@@ -797,6 +745,83 @@ public class AggregateEditorComposite extends Composite implements
 		}
 
 		return false;
+	}
+	
+	/**
+	 * Populates aggregations item to combo.
+	 * 
+	 * @param aggregationCombo
+     * @since 2.3.1
+	 */
+	protected void populateAggregationCombo( Combo aggregationCombo )
+	{
+
+		String[] aggDisplayNames = null;
+		String[] aggFunctions = null;
+		if ( shouldEnableAllAggregations( ) )
+		{
+			try
+			{
+				String[] names = aggDisplayNames = PluginSettings.instance( )
+						.getRegisteredAggregateFunctionDisplayNames( );
+				String[] funcs = PluginSettings.instance( )
+						.getRegisteredAggregateFunctions( );
+				aggDisplayNames = new String[names.length + 1];
+				aggFunctions = new String[names.length + 1];
+
+				SeriesDefinition baseSD = (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( fChartContext.getModel( ) )
+						.get( 0 );
+				String aggFunc = baseSD.getGrouping( ).getAggregateExpression( );
+				int index = 0;
+				for ( int i = 0; i < funcs.length; i++ )
+				{
+					if ( funcs[i].equals( aggFunc ) )
+					{
+						index = i;
+						break;
+					}
+				}
+				String noneItem = AGG_DISPLAY_DEFAULT
+						+ "(" + names[index] + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+				aggDisplayNames[0] = noneItem;
+				aggFunctions[0] = AGG_FUNC_NONE;
+				for ( int i = 1; i < aggDisplayNames.length; i++ )
+				{
+					aggDisplayNames[i] = names[i - 1];
+					aggFunctions[i] = funcs[i - 1];
+				}
+			}
+			catch ( ChartException e )
+			{
+				WizardBase.displayException( e );
+			}
+		}
+		else
+		{
+			try
+			{
+				String[] names = PluginSettings.instance( )
+						.getRegisteredAggregateFunctionDisplayNames( IAggregateFunction.RUNNING_AGGR );
+				String[] funcs = PluginSettings.instance( )
+						.getRegisteredAggregateFunctions( IAggregateFunction.RUNNING_AGGR );
+				aggDisplayNames = new String[names.length + 1];
+				aggFunctions = new String[names.length + 1];
+				aggDisplayNames[0] = AGG_DISPLAY_NONE;
+				aggFunctions[0] = AGG_FUNC_NONE;
+				for ( int i = 1; i < aggDisplayNames.length; i++ )
+				{
+					aggDisplayNames[i] = names[i - 1];
+					aggFunctions[i] = funcs[i - 1];
+				}
+			}
+			catch ( ChartException e )
+			{
+				WizardBase.displayException( e );
+			}
+		}
+
+		aggregationCombo.setItems( aggDisplayNames );
+		aggregationCombo.setData( aggFunctions );
 	}
 	
 	class AggregationAction extends Action implements IMenuCreator
