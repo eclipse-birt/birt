@@ -47,15 +47,14 @@ public class CrosstabGeneralPage extends AttributePage
 
 	public void buildContent( )
 	{
-		container.setLayout( WidgetUtil.createGridLayout( 4, 15 ) );
+		container.setLayout( WidgetUtil.createGridLayout( 6, 15 ) );
 
 		LibraryDescriptorProvider provider = new LibraryDescriptorProvider( );
 		librarySection = new TextSection( provider.getDisplayName( ),
 				container,
 				true );
 		librarySection.setProvider( provider );
-		librarySection.setGridPlaceholder( 1, true );
-		librarySection.setWidth( 200 );
+		librarySection.setGridPlaceholder( 2, true );
 		addSection( CrosstabPageSectionId.CROSSTAB_LIBRARY, librarySection );
 
 		seperatorSection = new SeperatorSection( container, SWT.HORIZONTAL );
@@ -67,7 +66,7 @@ public class CrosstabGeneralPage extends AttributePage
 				container,
 				true );
 		nameSection.setProvider( nameProvider );
-		nameSection.setGridPlaceholder( 2, true );
+		nameSection.setLayoutNum( 2 );
 		nameSection.setWidth( 200 );
 		addSection( CrosstabPageSectionId.CROSSTAB_NAME, nameSection );
 
@@ -77,6 +76,7 @@ public class CrosstabGeneralPage extends AttributePage
 				true );
 		elementIdSection.setProvider( elementIdProvider );
 		elementIdSection.setWidth( 200 );
+		elementIdSection.setLayoutNum( 4 );
 		elementIdSection.setGridPlaceholder( 2, true );
 		addSection( CrosstabPageSectionId.CROSSTAB_ELEMENT_ID, elementIdSection );
 
@@ -127,13 +127,15 @@ public class CrosstabGeneralPage extends AttributePage
 				true );
 		layoutMeasureSection.setProvider( layoutMeasuresProvider );
 		layoutMeasureSection.setWidth( 200 );
-		layoutMeasureSection.setGridPlaceholder( 2, true );
+		layoutMeasureSection.setLayoutNum( 2 );
 		addSection( CrosstabPageSectionId.LAYOUT_MEASURES, layoutMeasureSection );
 		
 		HideMeasureHeaderProvider hideMeasureProvider = new HideMeasureHeaderProvider( ICrosstabReportItemConstants.HIDE_MEASURE_HEADER_PROP,
 				ReportDesignConstants.EXTENDED_ITEM );
 		CheckSection hideMeasureSection = new CheckSection( container, true );
 		hideMeasureSection.setProvider( hideMeasureProvider );
+		hideMeasureSection.setLayoutNum( 4 );
+		hideMeasureSection.setGridPlaceholder( 2, true );
 		addSection( CrosstabPageSectionId.HIDE_MEASURE_HEADER, hideMeasureSection );		
 
 		createSections( );
