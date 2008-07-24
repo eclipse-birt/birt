@@ -142,7 +142,7 @@ public class DateTimeDataElementComposite extends Composite
 		pickerDate.setMonth( calendar.get( Calendar.MONTH ) );
 		pickerDate.setDay( calendar.get( Calendar.DATE ) );
 
-		pickerTime.setHours( calendar.get( Calendar.HOUR ) );
+		pickerTime.setHours( calendar.get( Calendar.HOUR_OF_DAY ) );
 		pickerTime.setMinutes( calendar.get( Calendar.MINUTE ) );
 		pickerTime.setSeconds( calendar.get( Calendar.SECOND ) );
 		setEnabled( data != null );
