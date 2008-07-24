@@ -687,7 +687,7 @@ public class ColumnBindingDialog extends BaseDialog
 					COLUMN_AGGREGATEON
 			};
 			columnWidth = new int[]{
-					canSelect ? 25 : 20, 130, 130, 70, 130, 130, 130,
+					canSelect ? 25 : 20, 100, 100, 70, 100, 100, 100, 100
 			};
 		}
 		else
