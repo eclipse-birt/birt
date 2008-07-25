@@ -96,7 +96,6 @@ import org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.StockSeriesImpl;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.report.tests.chart.ChartTestCase;
-import org.eclipse.birt.report.tests.chart.smoke.MarkerShape_1;
 
 import com.ibm.icu.util.Calendar;
 

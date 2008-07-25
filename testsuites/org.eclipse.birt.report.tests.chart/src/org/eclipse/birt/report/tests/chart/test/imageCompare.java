@@ -33,6 +33,11 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
 
 import com.ibm.icu.util.ULocale;
 
+/*
+ * Compare images 
+ */
+
+
 public class imageCompare extends ChartTestCase
 {
 
