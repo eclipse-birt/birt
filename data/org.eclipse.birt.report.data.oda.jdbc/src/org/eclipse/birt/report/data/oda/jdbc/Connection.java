@@ -57,6 +57,19 @@ public class Connection implements IConnection
 	 */
 	public void open( Properties connProperties ) throws OdaException
 	{
+		if ( this.appContext != null )
+		{
+			Object value = this.appContext.get( IConnectionFactory.PASS_IN_CONNECTION );
+			if ( value != null && ( value instanceof java.sql.Connection ) )
+			{
+				jdbcConn = (java.sql.Connection) value;
+				logger.logp( Level.FINE,
+						Connection.class.getName( ),
+						"open",
+						jdbcConn.toString( ) );
+				return;
+			}
+		}
 		if ( connProperties == null )
 		{
 			IllegalArgumentException e = new IllegalArgumentException( "connProperties cannot be null" );

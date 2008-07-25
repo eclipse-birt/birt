@@ -25,7 +25,10 @@ import java.util.Properties;
 public interface IConnectionFactory
 {
 	public static final String DRIVER_CLASSPATH = "OdaJDBCDriverClassPath";
-    /**
+
+	public static final String PASS_IN_CONNECTION = "OdaJDBCDriverPassInConnection";
+
+	/**
      * Establishes a connection to the given database URL. 
      *
      * @param driverClass driverClass defined in the extension 
