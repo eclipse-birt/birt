@@ -20,7 +20,7 @@ import org.w3c.dom.Node;
 /**
  * Test case for DOM parser.
  * 
- * @version $Revision: 1.2 $ $Date: 2007/01/07 15:15:33 $
+ * @version $Revision: 1.3 $ $Date: 2007/02/06 09:51:36 $
  */
 public class TextParserTest extends TestCase
 {
@@ -144,9 +144,10 @@ public class TextParserTest extends TestCase
 		Element root = (Element) doc.getFirstChild( );
 		assertEquals( root.getChildNodes( ).getLength( ), 0 );
 
+		// TextParser supports HTML comments now
 		html = " <!--html><body></body>-->";
 		doc = new TextParser( ).parse( html, "html" );
 		root = (Element) doc.getFirstChild( );
-		assertEquals( root.getChildNodes( ).getLength( ), 0 );
+		assertEquals( root.getChildNodes( ).getLength( ), 1 );
 	}
 }
