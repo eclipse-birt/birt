@@ -15,7 +15,6 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ExportElementDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.RenameInputDialog;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -32,6 +31,7 @@ import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.MessageBox;
@@ -101,11 +101,7 @@ public class ExportElementToLibraryAction extends AbstractViewAction
 		// wDialog.setPageSize( 500, 250 );
 		// wDialog.open( );
 
-		boolean hasName = chcekSelectionName( );
-		if ( !hasName )
-		{
-			return;
-		}
+		chcekSelectionName( );
 		ExportElementDialog dialog = new ExportElementDialog( getSelection( ) );
 		dialog.open( );
 	}
@@ -259,7 +255,7 @@ public class ExportElementToLibraryAction extends AbstractViewAction
 					|| selectedObj instanceof EmbeddedImageHandle )
 			{
 				initOriginalName( );
-				RenameInputDialog inputDialog = new RenameInputDialog( UIUtil.getDefaultShell( ),
+				InputDialog inputDialog = new InputDialog( UIUtil.getDefaultShell( ),
 						Messages.getString( "ExportElementToLibraryAction.DialogTitle" ), //$NON-NLS-1$
 						Messages.getString( "ExportElementToLibraryAction.DialogMessage" ), //$NON-NLS-1$
 						originalName,
@@ -361,5 +357,6 @@ public class ExportElementToLibraryAction extends AbstractViewAction
 			return true;
 		}
 	}
+
 
 }
