@@ -168,6 +168,7 @@
       <plugin id="org.eclipse.datatools.help"/>
       <plugin id="org.eclipse.datatools.modelbase.dbdefinition"/>
       <plugin id="org.eclipse.datatools.modelbase.sql"/>
+      <plugin id="org.eclipse.datatools.connectivity.db.generic"/>
       <plugin id="org.eclipse.draw2d"/>
       <plugin id="org.eclipse.emf.common"/>
       <plugin id="org.eclipse.emf.ecore"/>
