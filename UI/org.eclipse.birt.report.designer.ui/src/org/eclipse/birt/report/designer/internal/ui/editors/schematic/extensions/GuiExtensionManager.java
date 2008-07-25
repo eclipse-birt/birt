@@ -11,8 +11,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions;
 
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedEditPart;
@@ -35,6 +40,8 @@ import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.jface.resource.ImageDescriptor;
 
+import com.ibm.icu.text.Collator;
+
 /**
  * Deal with the extension element
  * 
@@ -56,13 +63,13 @@ public class GuiExtensionManager
 	 */
 	public static Object doExtension( IExtension extension, Object object )
 	{
-		//Bug 183605
-//		List list = ExtensionPointManager.getInstance( )
-//				.getExtendedElementPoints( );
-//		if ( list == null || list.size( ) == 0 )
-//		{
-//			return null;
-//		}
+		// Bug 183605
+		// List list = ExtensionPointManager.getInstance( )
+		// .getExtendedElementPoints( );
+		// if ( list == null || list.size( ) == 0 )
+		// {
+		// return null;
+		// }
 		Object retValue = null;
 		if ( PALETTE_DESIGNER.equals( extension.getExtendsionIdentify( ) )
 				|| PALETTE_MASTERPAGE.equals( extension.getExtendsionIdentify( ) ) )
@@ -147,10 +154,23 @@ public class GuiExtensionManager
 		List exts = ExtensionPointManager.getInstance( )
 				.getExtendedElementPoints( );
 
+		Comparator<CombinedTemplateCreationEntry> entryComparator = new Comparator<CombinedTemplateCreationEntry>( ) {
+
+			public int compare( CombinedTemplateCreationEntry o1,
+					CombinedTemplateCreationEntry o2 )
+			{
+				return Collator.getInstance( ).compare( o1.getLabel( ),
+						o2.getLabel( ) );
+			}
+		};
+
 		if ( exts == null )
 		{
 			return root;
 		}
+
+		// sort containers and entries
+		Map<String, SortedSet<CombinedTemplateCreationEntry>> containerEntriesMap = new HashMap<String, SortedSet<CombinedTemplateCreationEntry>>( );
 
 		for ( Iterator itor = exts.iterator( ); itor.hasNext( ); )
 		{
@@ -180,7 +200,7 @@ public class GuiExtensionManager
 			else if ( PALETTE_MASTERPAGE.equals( type ) )
 			{
 				Boolean bool = (Boolean) point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_MASTERPAGE );
-				//if ( !bool.booleanValue( ) )
+				// if ( !bool.booleanValue( ) )
 				{
 					continue;
 				}
@@ -207,11 +227,16 @@ public class GuiExtensionManager
 				entry = new PaletteCategory( category, categoryLabel, null );
 				root.add( entry );
 			}
-			entry.add( combined );
-
+			// entry.add( combined );
+			if ( !containerEntriesMap.containsKey( category ) )
+			{
+				containerEntriesMap.put( category,
+						new TreeSet<CombinedTemplateCreationEntry>( entryComparator ) );
+			}
+			containerEntriesMap.get( category ).add( combined );
 		}
 
-		//experimental
+		// experimental
 		PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
 		for ( int i = 0; i < entries.length; i++ )
 		{
@@ -233,8 +258,24 @@ public class GuiExtensionManager
 			}
 
 			CombinedTemplateCreationEntry combined = new CommandCombinedTemplateCreationEntry( entries[i] );
-			entry.add( combined );
+			// entry.add( combined );
+			if ( !containerEntriesMap.containsKey( category ) )
+			{
+				containerEntriesMap.put( category,
+						new TreeSet<CombinedTemplateCreationEntry>( entryComparator ) );
+			}
+			containerEntriesMap.get( category ).add( combined );
 		}
+
+		for ( String category : containerEntriesMap.keySet( ) )
+		{
+			PaletteContainer entry = findCategory( list, category );
+			for ( CombinedTemplateCreationEntry combined : containerEntriesMap.get( category ) )
+			{
+				entry.add( combined );
+			}
+		}
+
 		return root;
 	}
 

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.providers
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -120,6 +121,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.actions.ActionFactory;
+
+import com.ibm.icu.text.Collator;
 
 /**
  * Schematic context menu provider
@@ -726,6 +729,13 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		}
 
 		List<IAction> actions = elementSorter.getSortedElements( );
+		
+		Collections.sort( actions, new Comparator<IAction>(){
+
+			public int compare( IAction o1, IAction o2 )
+			{
+				return Collator.getInstance( ).compare( o1.getText( ), o2.getText( ) );
+			}} );
 
 		for ( Iterator<IAction> itr = actions.iterator( ); itr.hasNext( ); )
 		{

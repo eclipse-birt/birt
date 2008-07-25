@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddGroupAction;
@@ -71,6 +73,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.RetargetAction;
 import org.eclipse.ui.menus.IMenuService;
+
+import com.ibm.icu.text.Collator;
 
 /**
  * Toolbar and menu contributor for designer
@@ -295,6 +299,13 @@ public class DesignerActionBarContributor extends
 			}
 
 			List<RegisterAction> actions = elementSorter.getSortedElements( );
+			
+			Collections.sort( actions, new Comparator<RegisterAction>(){
+
+				public int compare( RegisterAction o1, RegisterAction o2 )
+				{
+					return Collator.getInstance( ).compare( o1.displayName, o2.displayName );
+				}} );
 
 			insertElementActions = new RegisterAction[insertActions.length
 					+ actions.size( )];
