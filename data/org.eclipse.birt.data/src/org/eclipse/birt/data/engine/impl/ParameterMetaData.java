@@ -65,6 +65,16 @@ public class ParameterMetaData implements IParameterMetaData
     {
         return m_odiMetaData.getName();
     }
+   
+    /**
+     * Returns the parameter's native name
+     * 
+     * @return
+     */
+    public String getNativeName( )
+    {
+    	return m_odiMetaData.getNativeName();
+    }
 
     /* (non-Javadoc)
      * @see org.eclipse.birt.data.engine.api.IParameterMetaData#getPosition()

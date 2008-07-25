@@ -52,6 +52,12 @@ public interface IParameterMetaData
 	public String getName();
 	
 	/**
+	 * Returns the native name of this parameter.
+	 * @return	the parameter native name of this parameter.
+	 */
+	public String getNativeName();
+	
+	/**
 	 * Returns the 1-based parameter position of this parameter,
 	 * as defined by the underlying data provider.
 	 * Not all data source parameters are defined with a position value.
