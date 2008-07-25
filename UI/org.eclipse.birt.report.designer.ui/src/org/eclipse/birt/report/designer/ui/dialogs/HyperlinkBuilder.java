@@ -68,7 +68,6 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
@@ -77,7 +76,6 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -111,10 +109,7 @@ public class HyperlinkBuilder extends BaseDialog
 	private static final String LABEL_TOOLTIP = Messages.getString( "HyperlinkBuilder.Label.Tooltip" ); //$NON-NLS-1$
 	private static final String LABEL_BOOKMARK = Messages.getString( "HyperlinkBuilder.Label.Bookmark" ); //$NON-NLS-1$
 	private static final String LABEL_LINKED_EXPRESSION = Messages.getString( "HyperlinkBuilder.Label.LinkedExpression" ); //$NON-NLS-1$
-	private static final String LABEL_REPORT = Messages.getString( "HyperlinkBuilder.Label.Report" ); //$NON-NLS-1$
 	private static final String LABEL_REPORT_PARAMETER = Messages.getString( "HyperlinkBuilder.Label.Parameters" ); //$NON-NLS-1$
-	private static final String LABEL_FORMAT = Messages.getString( "HyperlinkBuilder.Label.Format" ); //$NON-NLS-1$
-
 	private static final String RADIO_NONE = Messages.getString( "HyperlinkBuilder.Radio.None" ); //$NON-NLS-1$
 	private static final String RADIO_URI = Messages.getString( "HyperlinkBuilder.Radio.Uri" ); //$NON-NLS-1$
 	private static final String RADIO_BOOKMARK = Messages.getString( "HyperlinkBuilder.Radio.Bookmark" ); //$NON-NLS-1$
@@ -140,9 +135,6 @@ public class HyperlinkBuilder extends BaseDialog
 	private static final IChoiceSet CHOICESET_TARGET = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_TARGET_NAMES_TYPE );
 
-	private static final IChoiceSet CHOICESET_FORMAT = DEUtil.getMetaDataDictionary( )
-			.getChoiceSet( DesignChoiceConstants.CHOICE_ACTION_FORMAT_TYPE );
-
 	private static final ParamBinding dummyParameterBinding = StructureFactory.createParamBinding( );
 
 	private ActionHandle inputHandle;
@@ -154,7 +146,7 @@ public class HyperlinkBuilder extends BaseDialog
 	// Radios
 	private Button noneRadio, uriRadio, bookmarkRadio, drillRadio;
 
-	private Combo bookmarkChooser, targetChooser, formatChooser;
+	private Combo bookmarkChooser, targetChooser;
 
 	private Text bookmarkEditor;
 
@@ -557,13 +549,14 @@ public class HyperlinkBuilder extends BaseDialog
 		// createFormatBar( );
 
 		displayArea.setLayout( new GridLayout( ) );
-//		final ScrolledComposite scrolledContainer = new ScrolledComposite( displayArea,
-//				SWT.NONE );
+		// final ScrolledComposite scrolledContainer = new ScrolledComposite(
+		// displayArea,
+		// SWT.NONE );
 
 		final Composite container = new Composite( displayArea, SWT.NONE );
 		container.setLayout( new GridLayout( ) );
-//		scrolledContainer.setContent( container );
-		container.setLayoutData( new GridData(GridData.FILL_HORIZONTAL) );
+		// scrolledContainer.setContent( container );
+		container.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		messageLine = new CLabel( container, SWT.NONE );
 		messageLine.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -850,9 +843,8 @@ public class HyperlinkBuilder extends BaseDialog
 		table.addKeyListener( new KeyAdapter( ) {
 
 			/**
-			 * @see
-			 * 	org.eclipse.swt.events.KeyAdapter#keyReleased(org.eclipse.swt
-			 * 	.events.KeyEvent)
+			 * @see org.eclipse.swt.events.KeyAdapter#keyReleased(org.eclipse.swt
+			 *      .events.KeyEvent)
 			 */
 			public void keyReleased( KeyEvent e )
 			{
@@ -921,7 +913,7 @@ public class HyperlinkBuilder extends BaseDialog
 	 * builder
 	 * 
 	 * @param builder
-	 * 		Expression builder
+	 *            Expression builder
 	 */
 	protected void configureExpressionBuilder( ExpressionBuilder builder )
 	{
@@ -1076,23 +1068,17 @@ public class HyperlinkBuilder extends BaseDialog
 		createExpressionButton( displayArea, bookmarkEditor );
 	}
 
-	private void createFormatBar( )
-	{
-		new Label( displayArea, SWT.NONE ).setText( LABEL_FORMAT );
-		formatChooser = new Combo( displayArea, SWT.READ_ONLY | SWT.BORDER );
-		formatChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		formatChooser.setItems( ChoiceSetFactory.getDisplayNamefromChoiceSet( CHOICESET_FORMAT ) );
-		UIUtil.createBlankLabel( displayArea );
-	}
-
 	protected void okPressed( )
 	{
 		try
 		{
 			// Remove original settings
+			inputHandle.setToolTip( null );
 			inputHandle.setURI( null );
 			inputHandle.setTargetBookmark( null );
+			inputHandle.setTargetBookmarkType( null );
 			inputHandle.setTargetWindow( null );
+			inputHandle.setTargetFileType( null );
 			inputHandle.setReportName( null );
 			inputHandle.setFormatType( null );
 			inputHandle.getMember( Action.PARAM_BINDINGS_MEMBER )
@@ -1211,7 +1197,7 @@ public class HyperlinkBuilder extends BaseDialog
 	 * Set the action to edit.
 	 * 
 	 * @param input
-	 * 		the action to edit.
+	 *            the action to edit.
 	 */
 	public void setInput( ActionHandle input )
 	{
@@ -1247,7 +1233,8 @@ public class HyperlinkBuilder extends BaseDialog
 			{
 				// TODO Auto-generated method stub
 				GridData gd = (GridData) displayArea.getLayoutData( );
-				if(gd.horizontalAlignment != SWT.FILL || gd.verticalAlignment != SWT.FILL)
+				if ( gd.horizontalAlignment != SWT.FILL
+						|| gd.verticalAlignment != SWT.FILL )
 				{
 					displayArea.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 					displayArea.layout( false, true );
@@ -1793,9 +1780,9 @@ public class HyperlinkBuilder extends BaseDialog
 	 * Set the action to edit with a serialized string
 	 * 
 	 * @param input
-	 * 		the serialized string
+	 *            the serialized string
 	 * @param handle
-	 * 		DesignElementHandle
+	 *            DesignElementHandle
 	 * @throws DesignFileException
 	 */
 	public void setInputString( String input, DesignElementHandle handle )
