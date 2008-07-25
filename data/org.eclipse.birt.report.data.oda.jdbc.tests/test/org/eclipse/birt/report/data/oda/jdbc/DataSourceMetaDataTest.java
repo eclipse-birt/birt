@@ -194,14 +194,14 @@ public class DataSourceMetaDataTest extends TestCase
 
 	public void testSupportsMultipleResultSets( ) throws Exception
 	{
-	    assertFalse( dbMeta1.supportsMultipleResultSets( ) );
-	    assertFalse( dbMeta2.supportsMultipleResultSets( ) );
+	    assertTrue( dbMeta1.supportsMultipleResultSets( ) );
+	    assertTrue( dbMeta2.supportsMultipleResultSets( ) );
 	}
 
 	public void testSupportsNamedResultSets( ) throws Exception
 	{
-		assertFalse( dbMeta1.supportsNamedResultSets( ) );
-		assertFalse( dbMeta2.supportsNamedResultSets( ) );
+		assertTrue( dbMeta1.supportsNamedResultSets( ) );
+		assertTrue( dbMeta2.supportsNamedResultSets( ) );
 
 	}
 
