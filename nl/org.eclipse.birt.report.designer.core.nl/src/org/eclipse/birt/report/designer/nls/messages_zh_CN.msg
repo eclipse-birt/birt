@@ -845,6 +845,11 @@ designer.preview.preference.server.hostDescription=±¾µØ¼ÆËã»úµÄÖ÷»úÃû»ò IP µØÖ·¡
 designer.preview.preference.server.note=×¢£º
 designer.preview.preference.server.portDescription=Òª¼àÌıµÄ·şÎñÆ÷¶Ë¿Ú¡£ÉèÖÃÎª 0 ÒÔ¶¯Ì¬·ÖÅä(&P)¡£
 designer.preview.preference.server.requireRestart=Èç¹û¸Ã·şÎñÆ÷ÒÑÔÚÔËĞĞ£¬ÕâĞ©Ê×Ñ¡ÏîÖ»ÓĞÔÚ\nÖØĞÂÆô¶¯ºó²ÅÉúĞ§¡£
+designer.preview.preference.bidiOrientation.label=Bidi Orientation:
+designer.preview.preference.bidiOrientation.auto=×Ô¶¯
+designer.preview.preference.bidiOrientation.ltr=Left to right
+designer.preview.preference.bidiOrientation.rtl=Right to left
+
 designer.preview.previewaction.label.webviewer=ÔÚ Web ²é¿´Æ÷ÖĞ²é¿´±¨±í
 designer.preview.previewaction.label=ÒÔ {0} ¸ñÊ½²é¿´±¨±í
 designer.preview.previewaction.ErrorMessage=ÓÉÓÚÎ´°²×°»òÎ´ÕÒµ½ iText£¬²»Ö§³Ö PDF Éú³É¡£
@@ -2994,7 +2999,7 @@ ExportElementToLibraryAction.SetNameAction.text=ÉèÖÃÃû³Æ
 ExportElementToLibraryAction.DialogTitle.setNameFailed=ÉèÖÃÃû³ÆÊ§°Ü
 ExportElementToLibraryAction.TransLabel.Setname=ÉèÖÃÃû³Æ
 ExportElementToLibraryAction.DialogTitle=ÉèÖÃÃû³Æ
-ExportElementToLibraryAction.DialogMessage=ÔÚµ¼³öÑ¡ÔñµÄÔªËØÖ®Ç°ÇëÎªÆäÉèÖÃÒ»¸öÃû³Æ¡£
+ExportElementToLibraryAction.DialogMessage=You can set a name for selected element before exporting it, or a default name will be used.
 
 
 ###########################################################

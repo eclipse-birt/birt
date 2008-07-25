@@ -845,6 +845,11 @@ designer.preview.preference.server.hostDescription=로컬 컴퓨터의 호스트 이름 또�
 designer.preview.preference.server.note=참고:
 designer.preview.preference.server.portDescription=수신 대기할 서버의 포트(&P)입니다. 동적으로 할당하려면 0으로 설정하십시오.
 designer.preview.preference.server.requireRestart=서버가 이미 실행 중인 경우 이러한 기본 설정은\n다시 시작한 후부터 적용됩니다.
+designer.preview.preference.bidiOrientation.label=Bidi Orientation:
+designer.preview.preference.bidiOrientation.auto=자동
+designer.preview.preference.bidiOrientation.ltr=Left to right
+designer.preview.preference.bidiOrientation.rtl=Right to left
+
 designer.preview.previewaction.label.webviewer=웹 뷰어에서 보고서 보기
 designer.preview.previewaction.label={0}(으)로 보고서 보기
 designer.preview.previewaction.ErrorMessage=iText가 설치되지 않았거나 찾을 수 없어서 PDF 생성 기능을 사용할 수 없습니다.
@@ -2994,7 +2999,7 @@ ExportElementToLibraryAction.SetNameAction.text=이름 설정
 ExportElementToLibraryAction.DialogTitle.setNameFailed=이름 설정 실패
 ExportElementToLibraryAction.TransLabel.Setname=이름 설정
 ExportElementToLibraryAction.DialogTitle=이름 설정
-ExportElementToLibraryAction.DialogMessage=선택한 요소를 내보내기 전에 해당 요소의 이름을 설정하십시오.
+ExportElementToLibraryAction.DialogMessage=You can set a name for selected element before exporting it, or a default name will be used.
 
 
 ###########################################################

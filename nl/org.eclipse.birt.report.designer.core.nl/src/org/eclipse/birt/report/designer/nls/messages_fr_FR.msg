@@ -845,6 +845,11 @@ designer.preview.preference.server.hostDescription=Nom d'&hôte ou adresse IP de 
 designer.preview.preference.server.note=Remarque :
 designer.preview.preference.server.portDescription=&Port pour l'écoute par le serveur. Réglé sur 0 pour une attribution dynamique.
 designer.preview.preference.server.requireRestart=Si le serveur est déjà en cours d'exécution, ces préférences ne prendront effet\nqu'après redémarrage.
+designer.preview.preference.bidiOrientation.label=Bidi Orientation:
+designer.preview.preference.bidiOrientation.auto=Auto
+designer.preview.preference.bidiOrientation.ltr=Left to right
+designer.preview.preference.bidiOrientation.rtl=Right to left
+
 designer.preview.previewaction.label.webviewer=Afficher l'état dans le visualiseur Web
 designer.preview.previewaction.label=Afficher l''état au format {0}
 designer.preview.previewaction.ErrorMessage=La fonction de génération de PDF n'est pas activée car iText n'est pas installé ou est introuvable.
@@ -2994,7 +2999,7 @@ ExportElementToLibraryAction.SetNameAction.text=Définir le nom
 ExportElementToLibraryAction.DialogTitle.setNameFailed=Echec de la définition du nom
 ExportElementToLibraryAction.TransLabel.Setname=Définir le nom
 ExportElementToLibraryAction.DialogTitle=Définir le Nom
-ExportElementToLibraryAction.DialogMessage=Définissez le nom de l'élément sélectionné avant de l'exporter.
+ExportElementToLibraryAction.DialogMessage=You can set a name for selected element before exporting it, or a default name will be used.
 
 
 ###########################################################

@@ -845,6 +845,11 @@ designer.preview.preference.server.hostDescription=&Nombre del anfitrión o direc
 designer.preview.preference.server.note=Nota:
 designer.preview.preference.server.portDescription=&Puerto de comunicación del servidor. Establezca en 0 para asignación dinámica.
 designer.preview.preference.server.requireRestart=Si el servidor ya está en ejecución, estas preferencias sólo serán efectivas\ndespués de reiniciar.
+designer.preview.preference.bidiOrientation.label=Bidi Orientation:
+designer.preview.preference.bidiOrientation.auto=Automático
+designer.preview.preference.bidiOrientation.ltr=Left to right
+designer.preview.preference.bidiOrientation.rtl=Right to left
+
 designer.preview.previewaction.label.webviewer=Ver informe en Web Viewer
 designer.preview.previewaction.label=Ver informe como {0}
 designer.preview.previewaction.ErrorMessage=La generación de PDF no está activada ya que no se encuentra iText o no está instalado.
@@ -2994,7 +2999,7 @@ ExportElementToLibraryAction.SetNameAction.text=Establecer nombre
 ExportElementToLibraryAction.DialogTitle.setNameFailed=Error al establecer nombre
 ExportElementToLibraryAction.TransLabel.Setname=Establecer nombre
 ExportElementToLibraryAction.DialogTitle=Establecer nombre
-ExportElementToLibraryAction.DialogMessage=Establezca un nombre para el elemento seleccionado antes de exportarlo.
+ExportElementToLibraryAction.DialogMessage=You can set a name for selected element before exporting it, or a default name will be used.
 
 
 ###########################################################

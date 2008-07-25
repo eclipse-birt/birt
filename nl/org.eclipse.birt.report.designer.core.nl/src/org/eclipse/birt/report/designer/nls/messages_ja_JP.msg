@@ -845,6 +845,11 @@ designer.preview.preference.server.hostDescription=ƒ[ƒJƒ‹ƒ}ƒVƒ“‚ÌƒzƒXƒg–¼‚Ü‚½‚
 designer.preview.preference.server.note=’ :
 designer.preview.preference.server.portDescription=ƒT[ƒo‚ªƒŠƒXƒ“‚·‚éƒ|[ƒg(&P)\n“®“I‚ÉŠ„‚è“–‚Ä‚é‚É‚Í 0 ‚Éİ’è‚µ‚Ü‚·B
 designer.preview.preference.server.requireRestart=ƒT[ƒo‚ª‚·‚Å‚ÉÀs‚µ‚Ä‚¢‚éê‡‚ÍAƒT[ƒo‚ğÄ‹N“®‚·‚é‚Ü‚Å‚±‚ê‚ç‚Ìİ’è‚Í\n—LŒø‚É‚È‚è‚Ü‚¹‚ñB
+designer.preview.preference.bidiOrientation.label=Bidi Orientation:
+designer.preview.preference.bidiOrientation.auto=©“®
+designer.preview.preference.bidiOrientation.ltr=Left to right
+designer.preview.preference.bidiOrientation.rtl=Right to left
+
 designer.preview.previewaction.label.webviewer=Web ƒrƒ…[ƒA‚ÅƒŒƒ|[ƒg‚ğ•\¦‚·‚é
 designer.preview.previewaction.label=ƒŒƒ|[ƒg‚ğ {0} ‚Æ‚µ‚Ä•\¦‚·‚é
 designer.preview.previewaction.ErrorMessage=iText ‚ªƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚È‚¢‚©Œ©‚Â‚©‚ç‚È‚¢‚½‚ßAPDF ‚Ì¶¬‚Í—LŒø‚É‚È‚Á‚Ä‚¢‚Ü‚¹‚ñB
@@ -2994,7 +2999,7 @@ ExportElementToLibraryAction.SetNameAction.text=–¼‘O‚ğİ’è‚µ‚Ä‚­‚¾‚³‚¢B
 ExportElementToLibraryAction.DialogTitle.setNameFailed=–¼‘O‚ğİ’è‚Å‚«‚Ü‚¹‚ñB
 ExportElementToLibraryAction.TransLabel.Setname=–¼‘O‚ğİ’è‚µ‚Ä‚­‚¾‚³‚¢B
 ExportElementToLibraryAction.DialogTitle=–¼‘O‚Ìİ’è
-ExportElementToLibraryAction.DialogMessage=‘I‘ğ‚µ‚½—v‘f‚ğƒGƒNƒXƒ|[ƒg‚·‚é‘O‚É–¼‘O‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
+ExportElementToLibraryAction.DialogMessage=You can set a name for selected element before exporting it, or a default name will be used.
 
 
 ###########################################################
