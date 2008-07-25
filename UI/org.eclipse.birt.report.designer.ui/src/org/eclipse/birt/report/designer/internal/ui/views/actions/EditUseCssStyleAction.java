@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.UseCssInReportDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.UseCssInThemeDialog;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -97,18 +99,24 @@ public class EditUseCssStyleAction extends AbstractViewAction
 		dialog.setTheme( theme );
 		if ( dialog.open( ) == Dialog.OK )
 		{
+			CommandStack stack = SessionHandleAdapter.getInstance( )
+					.getCommandStack( );
+			stack.startTrans( ACTION_TEXT );
+
 			ThemeHandle themeHandle = dialog.getTheme( );
 			if ( themeHandle == theme )
 			{
 				try
 				{
-//					includedCss.setFileName( dialog.getFileName( ) );
+					// includedCss.setFileName( dialog.getFileName( ) );
 					includedCss.setExternalCssURI( dialog.getURI( ) );
 					themeHandle.renameCss( includedCss, dialog.getFileName( ) );
 				}
 				catch ( SemanticException e )
 				{
 					ExceptionHandler.handle( e );
+					stack.rollback( );
+					return;
 				}
 			}
 			else
@@ -125,8 +133,12 @@ public class EditUseCssStyleAction extends AbstractViewAction
 				{
 					// TODO Auto-generated catch block
 					e.printStackTrace( );
+					stack.rollback( );
+					return;
 				}
 			}
+
+			stack.commit( );
 
 		}
 	}
@@ -142,6 +154,10 @@ public class EditUseCssStyleAction extends AbstractViewAction
 		dialog.setIncludedCssStyleSheetHandle( includedCss );
 		if ( dialog.open( ) == Dialog.OK )
 		{
+			CommandStack stack = SessionHandleAdapter.getInstance( )
+					.getCommandStack( );
+			stack.startTrans( ACTION_TEXT );
+
 			try
 			{
 				includedCss.setExternalCssURI( dialog.getURI( ) );
@@ -152,11 +168,12 @@ public class EditUseCssStyleAction extends AbstractViewAction
 			{
 				// TODO Auto-generated catch block
 				ExceptionHandler.handle( e );
+				stack.rollback( );
+				return;
 			}
+			stack.commit( );
 
 		}
 	}
-	
-
 
 }

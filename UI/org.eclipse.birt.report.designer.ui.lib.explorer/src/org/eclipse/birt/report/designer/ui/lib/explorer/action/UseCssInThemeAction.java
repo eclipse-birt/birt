@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.UseCssInThemeDialog;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportResourceEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -83,7 +84,7 @@ public class UseCssInThemeAction extends Action
 	private CssStyleSheetHandle getSelectedCssStyleHandle( )
 	{
 		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection( );
-		if ( selection != null && selection.size( ) == 1)
+		if ( selection != null && selection.size( ) == 1 )
 		{
 			Object selected = selection.getFirstElement( );
 			if ( selected instanceof CssStyleSheetHandle )
@@ -118,6 +119,10 @@ public class UseCssInThemeAction extends Action
 
 		if ( dialog.open( ) == Dialog.OK )
 		{
+			CommandStack stack = SessionHandleAdapter.getInstance( )
+					.getCommandStack( );
+			stack.startTrans( ACTION_TEXT );
+
 			ThemeHandle themeHandle = dialog.getTheme( );
 			try
 			{
@@ -129,7 +134,10 @@ public class UseCssInThemeAction extends Action
 			catch ( SemanticException e )
 			{
 				ExceptionHandler.handle( e );
+				stack.rollback( );
+				return;
 			}
+			stack.commit( );
 		}
 	}
 

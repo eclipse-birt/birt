@@ -16,6 +16,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.UseCssInReportDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.UseCssInThemeDialog;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -87,6 +88,10 @@ public class UseCssStyleAction extends AbstractViewAction
 		dialog.setFileName( relativeFileName );
 		if ( dialog.open( ) == Dialog.OK )
 		{
+			CommandStack stack = SessionHandleAdapter.getInstance( )
+					.getCommandStack( );
+			stack.startTrans( ACTION_TEXT );
+
 			try
 			{
 				ReportDesignHandle moduleHandle = (ReportDesignHandle) SessionHandleAdapter.getInstance( )
@@ -100,9 +105,11 @@ public class UseCssStyleAction extends AbstractViewAction
 			catch ( SemanticException e )
 			{
 				// TODO Auto-generated catch block
-				ExceptionHandler.handle(e);
+				ExceptionHandler.handle( e );
+				stack.rollback( );
+				return;
 			}
-
+			stack.commit( );
 		}
 	}
 
@@ -114,6 +121,9 @@ public class UseCssStyleAction extends AbstractViewAction
 		dialog.setTheme( oldTheme );
 		if ( dialog.open( ) == Dialog.OK )
 		{
+			CommandStack stack = SessionHandleAdapter.getInstance( )
+					.getCommandStack( );
+			stack.startTrans( ACTION_TEXT );
 			ThemeHandle themeHandle = dialog.getTheme( );
 			try
 			{
@@ -125,7 +135,10 @@ public class UseCssStyleAction extends AbstractViewAction
 			catch ( SemanticException e )
 			{
 				ExceptionHandler.handle( e );
+				stack.rollback( );
+				return;
 			}
+			stack.commit( );
 		}
 	}
 

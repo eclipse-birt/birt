@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.UseCssInReportDialog;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportResourceEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -97,15 +98,20 @@ public class UseCssInReportDesignAction extends Action
 	 */
 	public void run( )
 	{
+
 		CssStyleSheetHandle cssHandle = getSelectedCssStyleHandle( );
 		UseCssInReportDialog dialog = new UseCssInReportDialog( );
 		String relativeFileName = cssHandle.getFileName( );
 		dialog.setFileName( relativeFileName );
 		if ( dialog.open( ) == Dialog.OK )
 		{
+			CommandStack stack = SessionHandleAdapter.getInstance( )
+					.getCommandStack( );
+			stack.startTrans( ACTION_TEXT );
+
 			ReportDesignHandle moduleHandle = (ReportDesignHandle) SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( );
-			
+
 			try
 			{
 				// // Test code, Remove later === begin ===
@@ -130,10 +136,13 @@ public class UseCssInReportDesignAction extends Action
 			catch ( SemanticException e )
 			{
 				// TODO Auto-generated catch block
-				ExceptionHandler.handle(e);
+				ExceptionHandler.handle( e );
+				stack.rollback( );
+				return;
 			}
-
+			stack.commit( );
 		}
+
 	}
 
 }
