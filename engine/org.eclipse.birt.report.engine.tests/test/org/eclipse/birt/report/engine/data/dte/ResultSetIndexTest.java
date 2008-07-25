@@ -33,6 +33,7 @@ public class ResultSetIndexTest extends TestCase
 		assertEquals( "master-page", index.getResultSet( "master-page", null,
 				"-1" ) );
 		assertEquals( "query", index.getResultSet( "query", null, "-1" ) );
+		assertEquals( "nest1", index.getResultSet( "nest", "query", "-1" ) );
 		assertEquals( "nest1", index.getResultSet( "nest", "query", "0" ) );
 		assertEquals( "nest1", index.getResultSet( "nest", "query", "9" ) );
 		assertEquals( "nest2", index.getResultSet( "nest", "query", "10" ) );

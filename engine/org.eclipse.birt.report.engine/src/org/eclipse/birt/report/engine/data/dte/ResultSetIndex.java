@@ -133,6 +133,10 @@ public class ResultSetIndex
 			{
 				index = -( index + 1 ) - 1;
 			}
+			if ( index < 0 )
+			{
+				index = 0;
+			}
 			if ( index >= 0 && index < entries.length )
 			{
 				return entries[index].rset;
