@@ -570,7 +570,7 @@ class PropertyState extends AbstractPropertyState
 		if ( struct instanceof ComputedColumn
 				&& "aggregrateOn".toLowerCase( ).hashCode( ) == nameValue //$NON-NLS-1$
 				&& ( element instanceof ScalarParameter || element instanceof ReportItem )
-				& handler.versionNumber <= VersionUtil.VERSION_3_2_2 )
+				&& handler.versionNumber <= VersionUtil.VERSION_3_2_2 )
 		{
 			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
 					handler, element, propDefn, struct, "aggregrateOn" ); //$NON-NLS-1$

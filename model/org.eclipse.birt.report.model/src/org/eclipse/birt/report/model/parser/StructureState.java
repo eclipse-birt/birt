@@ -64,10 +64,14 @@ import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.Label;
+import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -226,7 +230,9 @@ public class StructureState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * xml.sax.Attributes)
 	 */
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -279,7 +285,9 @@ public class StructureState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * .lang.String)
 	 */
 
 	public AbstractParseState startElement( String tagName )
@@ -374,7 +382,9 @@ public class StructureState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo()
+	 * @see
+	 * org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo
+	 * ()
 	 */
 
 	protected AbstractParseState generalJumpTo( )
@@ -394,17 +404,19 @@ public class StructureState extends AbstractPropertyState
 
 		String propName = propDefn == null ? null : propDefn.getName( );
 
-		if ( ( element instanceof DataSet ) )
+		if ( ( ( element instanceof DataSet ) && IDataSetModel.COMPUTED_COLUMNS_PROP
+				.equalsIgnoreCase( propName ) )
+				|| ( ( element instanceof ReportItem ) && IReportItemModel.BOUND_DATA_COLUMNS_PROP
+						.equals( propName ) )
+				|| ( ( element instanceof ScalarParameter ) && IScalarParameterModel.BOUND_DATA_COLUMNS_PROP
+						.equals( propName ) ) )
 		{
-			if ( IDataSetModel.COMPUTED_COLUMNS_PROP
-					.equalsIgnoreCase( propName ) )
-			{
-				CompatibleComputedColumnStructureState state = new CompatibleComputedColumnStructureState(
-						handler, element, propDefn );
-				state.setName( propName );
 
-				return state;
-			}
+			CompatibleComputedColumnStructureState state = new CompatibleComputedColumnStructureState(
+					handler, element, propDefn );
+			state.setName( propName );
+
+			return state;
 		}
 		return super.generalJumpTo( );
 	}

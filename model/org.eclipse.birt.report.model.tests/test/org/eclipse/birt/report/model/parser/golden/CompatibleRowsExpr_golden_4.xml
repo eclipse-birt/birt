@@ -121,7 +121,7 @@
                                 <structure>
                                     <property name="name">position</property>
                                     <expression name="expression">dataSetRow["position"]</expression>
-                                    <property name="dataType">any</property>
+                                    <property name="dataType">string</property>
                                 </structure>
                                 <structure>
                                     <property name="name">tu_position_uid</property>
@@ -130,7 +130,7 @@
                                 <structure>
                                     <property name="name">rows[0]["transportUnitsLabel"]</property>
                                     <expression name="expression">row._outer["transportUnitsLabel"]</expression>
-                                    <property name="dataType">any</property>
+                                    <property name="dataType">string</property>
                                 </structure>
                                 <structure>
                                     <property name="name">rows[0]["transportPositionLabel"]</property>
