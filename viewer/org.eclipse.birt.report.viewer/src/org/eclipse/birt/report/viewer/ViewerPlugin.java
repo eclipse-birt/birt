@@ -134,6 +134,9 @@ public class ViewerPlugin extends Plugin
 		plugin.getPluginPreferences( ).setDefault( WebViewer.USER_LOCALE,
 				ULocale.getDefault( ).getDisplayName( ) );
 
+		plugin.getPluginPreferences( ).setDefault( WebViewer.BIDI_ORIENTATION,
+				WebViewer.BIDI_ORIENTATION_AUTO );
+
 		// set viewer plugin working path
 		if ( plugin.getStateLocation( ) != null )
 			System.setProperty( BIRT_VIEWER_WORKING_PATH,

@@ -11,13 +11,13 @@
 
 package org.eclipse.birt.report.designer.ui.preferences;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
-import org.eclipse.birt.report.viewer.browsers.BrowserDescriptor;
 import org.eclipse.birt.report.viewer.browsers.BrowserManager;
 import org.eclipse.birt.report.viewer.browsers.custom.CustomBrowser;
 import org.eclipse.birt.report.viewer.utilities.AppContextUtil;
@@ -29,11 +29,9 @@ import org.eclipse.jface.preference.IPreferencePage;
 import org.eclipse.jface.preference.PreferenceManager;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -77,8 +75,21 @@ public class PreviewPreferencePage extends PreferencePage implements
 	private Combo localeCombo;
 	private Button appContextExt;
 	private Combo appContextExtCombo;
+	private Combo bidiCombo;
 
 	private static final String WBROWSER_PAGE_ID = "org.eclipse.ui.browser.preferencePage";//$NON-NLS-1$
+
+	private static final String BIDI_CHOICE_NAMES[] = new String[]{
+			WebViewer.BIDI_ORIENTATION_AUTO,
+			WebViewer.BIDI_ORIENTATION_LTR,
+			WebViewer.BIDI_ORIENTATION_RTL
+	};
+
+	private static final String BIDI_CHOICE_DISPLAYNAMES[] = new String[]{
+			Messages.getString( "designer.preview.preference.bidiOrientation.auto" ),
+			Messages.getString( "designer.preview.preference.bidiOrientation.ltr" ),
+			Messages.getString( "designer.preview.preference.bidiOrientation.rtl" ),
+	};
 
 	/**
 	 * Creates preference page controls on demand.
@@ -125,6 +136,8 @@ public class PreviewPreferencePage extends PreferencePage implements
 		localeCombo.setText( defaultLocale );
 
 		createSpacer( mainComposite );
+
+		createBIDIChoice( mainComposite );
 
 		// Enable svg or not.
 		svgFlag = new Button( mainComposite, SWT.CHECK );
@@ -433,25 +446,39 @@ public class PreviewPreferencePage extends PreferencePage implements
 	 */
 	protected void performDefaults( )
 	{
-		String defaultBrowserID = BrowserManager.getInstance( )
-				.getDefaultBrowserID( );
-
-		for ( int i = 0; i < externalBrowsers.length; i++ )
-		{
-			BrowserDescriptor descriptor = (BrowserDescriptor) externalBrowsers[i].getData( );
-			externalBrowsers[i].setSelection( descriptor.getID( ) == defaultBrowserID );
-		}
-
-		customBrowserPath.setText( ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getDefaultString( CustomBrowser.CUSTOM_BROWSER_PATH_KEY ) );
-		setCustomBrowserPathEnabled( );
+//		String defaultBrowserID = BrowserManager.getInstance( )
+//				.getDefaultBrowserID( );
+//
+//		for ( int i = 0; i < externalBrowsers.length; i++ )
+//		{
+//			BrowserDescriptor descriptor = (BrowserDescriptor) externalBrowsers[i].getData( );
+//			externalBrowsers[i].setSelection( descriptor.getID( ) == defaultBrowserID );
+//		}
+//
+//		customBrowserPath.setText( ViewerPlugin.getDefault( )
+//				.getPluginPreferences( )
+//				.getDefaultString( CustomBrowser.CUSTOM_BROWSER_PATH_KEY ) );
+//		setCustomBrowserPathEnabled( );
 
 		if ( svgFlag != null )
 		{
 			svgFlag.setSelection( ViewerPlugin.getDefault( )
 					.getPluginPreferences( )
 					.getDefaultBoolean( WebViewer.SVG_FLAG ) );
+		}
+
+		if ( bidiCombo != null )
+		{
+			String defualtBidi = ViewerPlugin.getDefault( )
+					.getPluginPreferences( )
+					.getDefaultString( WebViewer.BIDI_ORIENTATION );
+			int index = Arrays.asList( BIDI_CHOICE_NAMES )
+					.indexOf( defualtBidi );
+			if ( index < 0 )
+			{
+				index = 0;
+			}
+			bidiCombo.select( index );
 		}
 
 		if ( masterPageContent != null )
@@ -527,6 +554,13 @@ public class PreviewPreferencePage extends PreferencePage implements
 			pref.setValue( WebViewer.USER_LOCALE, localeCombo.getText( ) );
 		}
 
+		if ( bidiCombo != null )
+		{
+			int selection = bidiCombo.getSelectionIndex( );
+			selection = selection < 0 ? 0 : selection;
+			pref.setValue( WebViewer.BIDI_ORIENTATION,
+					BIDI_CHOICE_NAMES[selection] );
+		}
 		ViewerPlugin.getDefault( ).savePluginPreferences( );
 
 		return true;
@@ -556,6 +590,33 @@ public class PreviewPreferencePage extends PreferencePage implements
 		data.horizontalAlignment = GridData.FILL;
 		data.verticalAlignment = GridData.BEGINNING;
 		spacer.setLayoutData( data );
+	}
+
+	protected Composite createBIDIChoice( Composite parent )
+	{
+		// Composite composite = new Composite( parent, SWT.NONE );
+		// composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		// GridLayout layout = new GridLayout( );
+		// layout.numColumns = 2;
+		// layout.marginWidth = 0;
+		// layout.marginHeight = 0;
+		// composite.setLayout( layout );
+
+		Label lb = new Label( parent, SWT.NONE );
+		lb.setText( Messages.getString( "designer.preview.preference.bidiOrientation.label" ) );
+		bidiCombo = new Combo( parent, SWT.READ_ONLY );
+		GridData gd = new GridData( GridData.GRAB_HORIZONTAL );
+		gd.minimumWidth = 100;
+		bidiCombo.setLayoutData( gd );
+		bidiCombo.setItems( BIDI_CHOICE_DISPLAYNAMES );
+
+		String bidiValue = ViewerPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getString( WebViewer.BIDI_ORIENTATION );
+		int index = Arrays.asList( BIDI_CHOICE_NAMES ).indexOf( bidiValue );
+		index = index < 0 ? 0 : index;
+		bidiCombo.select( index );
+		return parent;
 	}
 
 	public void init( IWorkbench workbench )
