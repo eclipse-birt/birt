@@ -15,9 +15,13 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.Vector;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -60,6 +64,9 @@ public class FragmentResourceEntry extends BaseResourceEntity
 
 	private boolean isFile;
 
+	/** The entries been parsed, saves them to avoid to parsed repeatly. */
+	private final Collection<URL> parsedEntries = new HashSet<URL>( );
+
 	public FragmentResourceEntry( )
 	{
 		this( null );
@@ -79,9 +86,8 @@ public class FragmentResourceEntry extends BaseResourceEntity
 					String[] patterns = filePattern[i].split( ";" ); //$NON-NLS-1$
 					for ( int j = 0; j < patterns.length; j++ )
 					{
-						Enumeration<URL> enumeration = bundle.findEntries( path,
-								patterns[j],
-								false );
+						Enumeration<URL> enumeration = findEntries( path,
+								patterns[j] );
 
 						parseResourceEntry( this, enumeration, patterns[j] );
 					}
@@ -90,12 +96,11 @@ public class FragmentResourceEntry extends BaseResourceEntity
 			else
 			{
 				String pattern = "*"; //$NON-NLS-1$
-				Enumeration<URL> enumeration = bundle.findEntries( path,
-						pattern,
-						false );
+				Enumeration<URL> enumeration = findEntries( path, pattern );
 
 				parseResourceEntry( this, enumeration, pattern );
 			}
+			parsedEntries.clear( );
 		}
 	}
 
@@ -128,9 +133,11 @@ public class FragmentResourceEntry extends BaseResourceEntity
 					parent,
 					file.isFile( ) );
 
-			Enumeration<URL> children = bundle.findEntries( path,
-					patterns,
-					false );
+			// Saves the element, avoid to it is parsed repeatedly. 
+			parsedEntries.add( element );
+
+			Enumeration<URL> children = findEntries( path,
+					patterns );
 
 			if ( children != null )
 			{
@@ -322,5 +329,69 @@ public class FragmentResourceEntry extends BaseResourceEntity
 	public int hashCode( )
 	{
 		return this.path.hashCode( );
+	}
+
+	/**
+	 * Returns an enumeration of URL objects for each matching entry.
+	 * 
+	 * @param path
+	 *            The path name in which to look.
+	 * @param patterns
+	 *            The file name pattern for selecting entries in the specified
+	 *            path.
+	 * @return an enumeration of URL objects for each matching entry.
+	 */
+	private Enumeration<URL> findEntries( String path, String patterns )
+	{
+		Set<URL> entries = new HashSet<URL>( );
+		Enumeration<URL> children = bundle.findEntries( path, patterns, false );
+
+		while ( children != null && children.hasMoreElements( ) )
+		{
+			entries.add( children.nextElement( ) );
+		}
+
+		children = bundle.findEntries( path, null, false );
+		while ( children != null && children.hasMoreElements( ) )
+		{
+			URL child = children.nextElement( );
+
+			if ( !isParsed( child ) && hasChildren( child ) )
+			{
+				entries.add( child );
+			}
+		}
+
+		return new Vector<URL>( entries ).elements( );
+	}
+
+	/**
+	 * Tests whether the specified URL contains children.
+	 * 
+	 * @param url
+	 *            the URL to test.
+	 * @return <code>true</code> if the specified URL contains children,
+	 *         <code>false</code> otherwise.
+	 */
+	private boolean hasChildren( URL url )
+	{
+		Enumeration<URL> children = bundle.findEntries( url.getPath( ),
+				null,
+				false );
+
+		return children != null && children.hasMoreElements( );
+	}
+
+	/**
+	 * Tests whether the specified URL has been parsed.
+	 * 
+	 * @param url
+	 *            the URL to test.
+	 * @return <code>true</code> if the specified URL has been parsed,
+	 *         <code>false</code> otherwise.
+	 */
+	private boolean isParsed( URL url )
+	{
+		return parsedEntries.contains( url );
 	}
 }
