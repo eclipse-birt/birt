@@ -206,11 +206,13 @@ public class PreviewPreferencePage extends PreferencePage implements
 		appContextExtCombo.setItems( appExtNames );
 		if ( appContextExt.getSelection( ) )
 		{
-			appContextExtCombo.setEnabled( true );
+			appContextExtCombo.setEnabled( appContextExt.isEnabled( ) );
 			appContextExtCombo.setText( appKey );
 		}
 		else
+		{
 			appContextExtCombo.setEnabled( false );
+		}
 		GridData extGd = new GridData( );
 		int width = appContextExtCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
 		extGd.widthHint = width < 200 ? 200 : width;

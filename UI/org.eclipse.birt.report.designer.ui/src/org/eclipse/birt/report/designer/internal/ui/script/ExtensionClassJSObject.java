@@ -128,29 +128,34 @@ public class ExtensionClassJSObject implements JSObjectMetaData
 
 		public JSObjectMetaData getReturn( )
 		{
-			return new ExtensionClassJSObject( method.getClassReturnType( ) );
+			IClassInfo rtInfo = method.getClassReturnType( );
+			if ( rtInfo != null )
+			{
+				return new ExtensionClassJSObject( method.getClassReturnType( ) );
+			}
+			return null;
 		}
-		
+
 		public JSObjectMetaData[] getArguments( )
 		{
-			//TODO impl real argument info, currently simply use argument type
-			
+			// TODO impl real argument info, currently simply use argument type
+
 			Iterator itr = method.argumentListIterator( );
-			
-			if (itr != null && itr.hasNext( ))
+
+			if ( itr != null && itr.hasNext( ) )
 			{
 				// only process first arguemnt list
-				IArgumentInfoList ail = (IArgumentInfoList)itr.next( );
-				
-				List<JSObjectMetaData> args = new ArrayList<JSObjectMetaData>();
-				
-				for (Iterator aitr = ail.argumentsIterator( ); aitr.hasNext( ); )
+				IArgumentInfoList ail = (IArgumentInfoList) itr.next( );
+
+				List<JSObjectMetaData> args = new ArrayList<JSObjectMetaData>( );
+
+				for ( Iterator aitr = ail.argumentsIterator( ); aitr.hasNext( ); )
 				{
-					IArgumentInfo aif = (IArgumentInfo)aitr.next( );
-					
-					args.add( new ExtensionClassJSObject(aif.getClassType( )) );
+					IArgumentInfo aif = (IArgumentInfo) aitr.next( );
+
+					args.add( new ExtensionClassJSObject( aif.getClassType( ) ) );
 				}
-				
+
 				return args.toArray( new JSObjectMetaData[args.size( )] );
 			}
 			return null;
