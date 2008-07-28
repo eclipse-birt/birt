@@ -319,11 +319,14 @@ public class TableLayout extends RepeatableLayout
 				if ( percentageList.isEmpty( ) )
 				{
 					int left = tableWidth - fixedLength;
-					int delta = left / preFixedList.size( );
-					for ( int i = 0; i < preFixedList.size( ); i++ )
+					if ( !preFixedList.isEmpty( ) )
 					{
-						Integer index = (Integer) preFixedList.get( i );
-						resolvedColumnWidth[index.intValue( )] += delta;
+						int delta = left / preFixedList.size( );
+						for ( int i = 0; i < preFixedList.size( ); i++ )
+						{
+							Integer index = (Integer) preFixedList.get( i );
+							resolvedColumnWidth[index.intValue( )] += delta;
+						}
 					}
 				}
 				else
