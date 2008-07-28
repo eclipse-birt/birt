@@ -433,13 +433,11 @@
 		    <include name="org.eclipse.datatools.modelbase.dbdefinition_*.jar" />
 		    <include name="org.eclipse.datatools.modelbase.sql_*.jar"/>
 		    <include name="org.eclipse.datatools.connectivity.apache.derby_*.jar" />
-		    
 		    <include name="org.eclipse.datatools.connectivity.apache.derby.dbdefinition_*.jar" />
 		    <include name="org.eclipse.datatools.modelbase.derby_*.jar" />
 		    <include name="org.eclipse.datatools.connectivity.db.generic_*.jar" />
 		    <include name="org.eclipse.datatools.connectivity.dbdefinition.genericJDBC_*.jar" />
 		    <include name="org.eclipse.datatools.enablement.ibm.db2.luw_*.jar" />
-			
 		    <include name="org.eclipse.datatools.enablement.ibm.db2.luw.dbdefinition_*.jar" />
 		    <include name="org.eclipse.datatools.enablement.ibm.informix_*.jar" />
 		    <include name="org.eclipse.datatools.enablement.ibm.informix.dbdefinition_*.jar"/>
@@ -465,6 +463,7 @@
 			<include name="org.eclipse.datatools.connectivity.oda.profile_*.jar" />
 			<include name="org.eclipse.datatools.connectivity.oda.design_*.jar" />
 			<include name="org.eclipse.datatools.connectivity.oda_*.jar" />
+			<include name="org.eclipse.datatools.connectivity.console.profile"/>
 			<include name="org.eclipse.datatools.enablement.oda.xml_*.jar" />
 			<include name="org.eclipse.datatools.enablement.oda.ws_*.jar" />
 			<include name="javax.wsdl_1.4.0*.jar" />
