@@ -133,11 +133,10 @@ public class FragmentResourceEntry extends BaseResourceEntity
 					parent,
 					file.isFile( ) );
 
-			// Saves the element, avoid to it is parsed repeatedly. 
+			// Saves the element, avoid to be parsed repeatedly.
 			parsedEntries.add( element );
 
-			Enumeration<URL> children = findEntries( path,
-					patterns );
+			Enumeration<URL> children = findEntries( path, patterns );
 
 			if ( children != null )
 			{
