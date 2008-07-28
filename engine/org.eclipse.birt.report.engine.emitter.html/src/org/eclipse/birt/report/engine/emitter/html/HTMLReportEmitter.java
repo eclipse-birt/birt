@@ -1350,7 +1350,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				writer.openTag( HTMLTags.TAG_DIV );
 				DIVWrap = true;
 			}
-			writer.attribute( HTMLTags.ATTR_STYLE, " display:-moz-inline-box !important; display:inline;" );
+			// For the IE the display value will be "inline", because the IE
+			// can't
+			// identify the "!important". For the Firefox 1.5 and 2 the display
+			// value will be "-moz-inline-box", because only the Firefox 3
+			// implement
+			// the "inline-block". For the Firefox 3 the display value will be
+			// "inline-block".
+			writer.attribute( HTMLTags.ATTR_STYLE,
+					" display:-moz-inline-box !important; display:inline-block !important; display:inline;" );
 		}
 		
 		tableDIVWrapedFlagStack.push( new Boolean( DIVWrap ) );
