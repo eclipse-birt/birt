@@ -18,9 +18,15 @@ import java.net.URL;
 import java.text.Bidi;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
 import java.util.Stack;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -105,6 +111,9 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
+import org.eclipse.gef.palette.PaletteContainer;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ISelection;
@@ -144,6 +153,8 @@ import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.ILayoutExtension;
 import org.osgi.framework.Bundle;
+
+import com.ibm.icu.text.Collator;
 
 /**
  * Utility class for UI related routines.
@@ -1767,6 +1778,17 @@ public class UIUtil
 	{
 		CategorizedElementSorter<IElementDefn> elementSorter = new CategorizedElementSorter<IElementDefn>( );
 
+		Map<String, SortedSet<IElementDefn>> extendedEntriesMap = new HashMap<String, SortedSet<IElementDefn>>( );
+
+		Comparator<IElementDefn> entryComparator = new Comparator<IElementDefn>( ) {
+
+			public int compare( IElementDefn o1, IElementDefn o2 )
+			{
+				return Collator.getInstance( ).compare( o1.getDisplayName( ),
+						o2.getDisplayName( ) );
+			}
+		};
+
 		for ( Iterator<IElementDefn> itr = elements.iterator( ); itr.hasNext( ); )
 		{
 			IElementDefn def = itr.next( );
@@ -1777,8 +1799,13 @@ public class UIUtil
 
 			if ( point != null )
 			{
-				elementSorter.addElement( (String) point.getAttribute( IExtensionConstants.ATTRIBUTE_PALETTE_CATEGORY ),
-						def );
+				String category = (String) point.getAttribute( IExtensionConstants.ATTRIBUTE_PALETTE_CATEGORY );
+				if ( !extendedEntriesMap.containsKey( category ) )
+				{
+					extendedEntriesMap.put( category,
+							new TreeSet<IElementDefn>( entryComparator ) );
+				}
+				extendedEntriesMap.get( category ).add( def );
 				continue;
 			}
 
@@ -1793,7 +1820,15 @@ public class UIUtil
 			elementSorter.addElement( IPreferenceConstants.PALETTE_CONTENT, def );
 		}
 
-		return elementSorter.getSortedElements( );
+		for ( String category : extendedEntriesMap.keySet( ) )
+		{
+			for ( IElementDefn def : extendedEntriesMap.get( category ) )
+				elementSorter.addElement( category, def );
+		}
+
+		List<IElementDefn> sortedElements = elementSorter.getSortedElements( );
+
+		return sortedElements;
 	}
 
 	/**
@@ -1896,7 +1931,7 @@ public class UIUtil
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Get the current font family.
 	 * 

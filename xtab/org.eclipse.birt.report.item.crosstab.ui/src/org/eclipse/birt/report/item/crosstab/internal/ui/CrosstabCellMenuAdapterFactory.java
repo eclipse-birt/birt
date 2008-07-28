@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -51,6 +53,8 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+
+import com.ibm.icu.text.Collator;
 
 /**
  * 
@@ -264,6 +268,13 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 					}
 
 					List<IAction> actions = elementSorter.getSortedElements( );
+					
+					Collections.sort( actions, new Comparator<IAction>(){
+
+						public int compare( IAction o1, IAction o2 )
+						{
+							return Collator.getInstance( ).compare( o1.getText( ), o2.getText( ) );
+						}} );
 
 					for ( Iterator<IAction> itr = actions.iterator( ); itr.hasNext( ); )
 					{
