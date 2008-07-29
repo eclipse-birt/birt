@@ -133,7 +133,8 @@ public class FillCanvas extends Canvas implements PaintListener
 							0,
 							this.getSize( ).x,
 							this.getSize( ).y );
-					Color cText = new Color( this.getDisplay( ), 0, 0, 0 );
+					Color cText = Display.getDefault( )
+							.getSystemColor( SWT.COLOR_LIST_FOREGROUND );
 					gc.setForeground( cText );
 					if ( !isAutoEnabled || fCurrent != null )
 					{

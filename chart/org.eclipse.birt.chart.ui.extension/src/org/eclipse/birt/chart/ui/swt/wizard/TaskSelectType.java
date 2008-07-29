@@ -272,7 +272,7 @@ public class TaskSelectType extends SimpleTask implements
 		previewCanvas = new Canvas( cmpPreview, SWT.BORDER );
 		previewCanvas.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		previewCanvas.setBackground( Display.getDefault( )
-				.getSystemColor( SWT.COLOR_WHITE ) );
+				.getSystemColor( SWT.COLOR_WIDGET_BACKGROUND ) );
 
 		previewPainter = createPreviewPainter( );
 	}

@@ -329,7 +329,7 @@ public class TaskSelectData extends SimpleTask implements
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			previewCanvas.setLayoutData( gd );
 			previewCanvas.setBackground( Display.getDefault( )
-					.getSystemColor( SWT.COLOR_WHITE ) );
+					.getSystemColor( SWT.COLOR_WIDGET_BACKGROUND ) );
 		}
 	}
 

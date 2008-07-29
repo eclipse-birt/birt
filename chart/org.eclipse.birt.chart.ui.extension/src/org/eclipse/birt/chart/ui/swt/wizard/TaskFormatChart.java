@@ -825,7 +825,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 			gd.horizontalSpan = 2;
 			previewCanvas.setLayoutData( gd );
 			previewCanvas.setBackground( Display.getDefault( )
-					.getSystemColor( SWT.COLOR_WHITE ) );
+					.getSystemColor( SWT.COLOR_WIDGET_BACKGROUND ) );
 		}
 		return cmpTitle;
 	}

@@ -415,7 +415,7 @@ public final class DesignerRepresentation extends Figure
 
 			final Color clrPreviousBG = gc.getBackground( );
 			gc.setBackground( Display.getDefault( )
-					.getSystemColor( SWT.COLOR_WHITE ) );
+					.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
 			gc.fillRectangle( 0,
 					0,
 					imgChart.getImageData( ).width,

@@ -133,8 +133,8 @@ public class ChartPreviewPainter extends ChartPreviewPainterBase implements
 		GC gc = new GC( buffer );
 
 		// fill default backgournd as white.
-		gc.setForeground( Display.getDefault( )
-				.getSystemColor( SWT.COLOR_WHITE ) );
+		gc.setBackground( Display.getDefault( )
+				.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
 		gc.fillRectangle( buffer.getBounds( ) );
 
 		final Bounds bo = BoundsImpl.create( X_OFFSET,
@@ -319,8 +319,8 @@ public class ChartPreviewPainter extends ChartPreviewPainterBase implements
 		GC gc = new GC( buffer );
 
 		// fill default backgournd as white.
-		gc.setForeground( Display.getDefault( )
-				.getSystemColor( SWT.COLOR_WHITE ) );
+		gc.setBackground( Display.getDefault( )
+				.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
 		gc.fillRectangle( buffer.getBounds( ) );
 
 		gc.dispose( );

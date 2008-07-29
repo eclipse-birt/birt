@@ -222,7 +222,13 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 				clrCurrent = axis.getLineAttributes( ).getColor( );
 			}
 			cmbColor = new FillChooserComposite( parent, SWT.DROP_DOWN
-					| SWT.READ_ONLY, getContext( ), clrCurrent, false, false );
+					| SWT.READ_ONLY,
+					getContext( ),
+					clrCurrent,
+					false,
+					false,
+					true,
+					true );
 			{
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				cmbColor.setLayoutData( gd );
