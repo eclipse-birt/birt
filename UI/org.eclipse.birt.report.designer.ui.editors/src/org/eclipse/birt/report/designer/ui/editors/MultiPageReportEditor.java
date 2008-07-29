@@ -997,10 +997,24 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 					//&& 
 					getActivePageInstance( ) instanceof IReportEditorPage )
 			{
+				boolean isDispatch = false;
+				if (getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette)
+				{
+					isDispatch = true;
+				}
+				else if (needReload || needReset)
+				{
+					isDispatch = true;
+				}
+				final boolean tempDispatch = isDispatch;
 				Display.getCurrent( ).asyncExec( new Runnable( ) {
 
 					public void run( )
 					{
+						if (!tempDispatch)
+						{
+							return;
+						}
 						IReportEditorPage curPage = (IReportEditorPage) getActivePageInstance( );
 						if (needReload || needReset)
 						{
