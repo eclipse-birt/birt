@@ -563,7 +563,8 @@ public class CssCommand extends AbstractElementCommand
 
 		int posn = findIncludedCssStyleSheetPosition( fileName );
 		ActivityStack stack = module.getActivityStack( );
-		stack.startSilentTrans( true );
+		// TODO: add label for this api command
+		stack.startTrans( null );
 
 		CssStyleSheet newStyleSheet = null;
 
@@ -609,11 +610,7 @@ public class CssCommand extends AbstractElementCommand
 			throw e;
 		}
 
-		CssRenamedEvent event = new CssRenamedEvent( module, newStyleSheet );
-		module.broadcast( event );
-
-		ActivityStack activityStack = module.getActivityStack( );
-		activityStack.commit( );
+		stack.commit( );
 	}
 
 }

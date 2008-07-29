@@ -189,6 +189,8 @@ public abstract class NotificationEvent
 
 	/**
 	 * The event type of css rename event.
+	 * 
+	 * @deprecated Model will not send this type of event
 	 */
 	public static final int CSS_RENAME_EVENT = 25;
 
@@ -202,7 +204,7 @@ public abstract class NotificationEvent
 	public static final int DIRECT = 0;
 
 	/**
-	 * Event is being sent to the descendents of the object. Descendents are
+	 * Event is being sent to the descendants of the object. descendants are
 	 * those that extend the target, directly or indirectly.
 	 */
 
