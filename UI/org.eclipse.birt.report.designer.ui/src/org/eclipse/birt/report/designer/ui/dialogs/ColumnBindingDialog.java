@@ -662,6 +662,7 @@ public class ColumnBindingDialog extends BaseDialog
 			public void mouseDoubleClick( MouseEvent e )
 			{
 				editSelectedBinding( table.getSelectionIndex( ) );
+				refreshBindingTable( );
 			}
 		} );
 		String[] columns = null;
