@@ -2332,7 +2332,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 		setLabel( LabelImpl.create( ) );
 
 		// AXIS LINE
-		LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
+		LineAttributes lia = LineAttributesImpl.create( null,
 				LineStyle.SOLID_LITERAL,
 				1 );
 		setLineAttributes( lia );

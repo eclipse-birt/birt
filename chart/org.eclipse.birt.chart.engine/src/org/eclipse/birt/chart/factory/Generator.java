@@ -334,6 +334,19 @@ public final class Generator implements IGenerator
 				text.setColor( style.getColor( ) );
 			}
 		}
+		else if ( component instanceof LineAttributes )
+		{
+			IStyle style = getMingledStyle( model, type, externalProcessor );
+			LineAttributes lia = (LineAttributes) component;
+			// check for axis
+			if ( lia.eContainer( ) instanceof Axis )
+			{
+				if ( lia.getColor( ) == null )
+				{
+					lia.setColor( style.getColor( ) );
+				}
+			}
+		}
 	}
 
 	private IStyle getMingledStyle( Chart model, StyledComponent type,
