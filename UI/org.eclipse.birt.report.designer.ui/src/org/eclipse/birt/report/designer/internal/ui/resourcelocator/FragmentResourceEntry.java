@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.resourcelocator;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -66,40 +67,24 @@ public class FragmentResourceEntry extends BaseResourceEntity
 
 	/** The entries been parsed, saves them to avoid to parsed repeatly. */
 	private final Collection<URL> parsedEntries = new HashSet<URL>( );
+	private FileFilter filter;
 
 	public FragmentResourceEntry( )
 	{
 		this( null );
 	}
 
-	public FragmentResourceEntry( String[] filePattern, String name,
+	public FragmentResourceEntry( final String[] filePattern, String name,
 			String displayName, String path )
 	{
 		this( name, displayName, path, null, false, true ); //$NON-NLS-1$//$NON-NLS-2$
+		if ( filePattern != null )
+			filter = new FileFilter( filePattern );
 		bundle = Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST );
 		if ( bundle != null )
 		{
-			if ( filePattern != null && filePattern.length > 0 )
-			{
-				for ( int i = 0; i < filePattern.length; i++ )
-				{
-					String[] patterns = filePattern[i].split( ";" ); //$NON-NLS-1$
-					for ( int j = 0; j < patterns.length; j++ )
-					{
-						Enumeration<URL> enumeration = findEntries( path,
-								patterns[j] );
-
-						parseResourceEntry( this, enumeration, patterns[j] );
-					}
-				}
-			}
-			else
-			{
-				String pattern = "*"; //$NON-NLS-1$
-				Enumeration<URL> enumeration = findEntries( path, pattern );
-
-				parseResourceEntry( this, enumeration, pattern );
-			}
+			Enumeration<URL> enumeration = findEntries( path );
+			parseResourceEntry( this, enumeration );
 			parsedEntries.clear( );
 		}
 	}
@@ -111,7 +96,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 	}
 
 	private void parseResourceEntry( FragmentResourceEntry parent,
-			Enumeration<URL> enumeration, String patterns )
+			Enumeration<URL> enumeration )
 	{
 		while ( enumeration != null && enumeration.hasMoreElements( ) )
 		{
@@ -136,11 +121,11 @@ public class FragmentResourceEntry extends BaseResourceEntity
 			// Saves the element, avoid to be parsed repeatedly.
 			parsedEntries.add( element );
 
-			Enumeration<URL> children = findEntries( path, patterns );
+			Enumeration<URL> children = findEntries( path );
 
 			if ( children != null )
 			{
-				parseResourceEntry( entry, children, patterns );
+				parseResourceEntry( entry, children );
 			}
 		}
 	}
@@ -340,14 +325,18 @@ public class FragmentResourceEntry extends BaseResourceEntity
 	 *            path.
 	 * @return an enumeration of URL objects for each matching entry.
 	 */
-	private Enumeration<URL> findEntries( String path, String patterns )
+	private Enumeration<URL> findEntries( String path )
 	{
 		Set<URL> entries = new HashSet<URL>( );
-		Enumeration<URL> children = bundle.findEntries( path, patterns, false );
+		Enumeration<URL> children = bundle.findEntries( path,
+				null,
+				false );
 
 		while ( children != null && children.hasMoreElements( ) )
 		{
-			entries.add( children.nextElement( ) );
+			URL url = children.nextElement( );
+			if ( filter == null || ( filter != null && filter.accept( url ) ) )
+				entries.add( url );
 		}
 
 		children = bundle.findEntries( path, null, false );
@@ -393,4 +382,33 @@ public class FragmentResourceEntry extends BaseResourceEntity
 	{
 		return parsedEntries.contains( url );
 	}
+
+	class FileFilter
+	{
+
+		private String[] filePattern;
+
+		public FileFilter( String[] filePattern )
+		{
+			this.filePattern = filePattern;
+		}
+
+		public boolean accept( URL path )
+		{
+			for ( int i = 0; i < filePattern.length; i++ )
+			{
+				String[] regs = filePattern[i].split( ";" ); //$NON-NLS-1$
+				for ( int j = 0; j < regs.length; j++ )
+				{
+					// need use decoded String ???
+					if ( URLDecoder.decode( path.toString( ) )
+							.toLowerCase( )
+							.endsWith( regs[j].toLowerCase( ).substring( 1 ) ) )
+						return true;
+				}
+			}
+			return false;
+		}
+
+	};
 }
