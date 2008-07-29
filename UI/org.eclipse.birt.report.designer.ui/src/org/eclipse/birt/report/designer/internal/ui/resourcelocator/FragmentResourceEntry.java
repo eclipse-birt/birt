@@ -250,7 +250,8 @@ public class FragmentResourceEntry extends BaseResourceEntity
 				{
 					this.library = SessionHandleAdapter.getInstance( )
 							.getSessionHandle( )
-							.openLibrary( getURL( ).toString( ) );
+							.openLibrary( FileLocator.toFileURL( getURL( ) )
+									.toString( ) );
 				}
 				catch ( Exception e )
 				{
@@ -267,7 +268,8 @@ public class FragmentResourceEntry extends BaseResourceEntity
 				{
 					cssStyleHandle = SessionHandleAdapter.getInstance( )
 							.getReportDesignHandle( )
-							.openCssStyleSheet( getURL( ).toString( ) );
+							.openCssStyleSheet( FileLocator.toFileURL( getURL( ) )
+									.toString( ) );
 				}
 				catch ( Exception e )
 				{
@@ -328,9 +330,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 	private Enumeration<URL> findEntries( String path )
 	{
 		Set<URL> entries = new HashSet<URL>( );
-		Enumeration<URL> children = bundle.findEntries( path,
-				null,
-				false );
+		Enumeration<URL> children = bundle.findEntries( path, null, false );
 
 		while ( children != null && children.hasMoreElements( ) )
 		{
