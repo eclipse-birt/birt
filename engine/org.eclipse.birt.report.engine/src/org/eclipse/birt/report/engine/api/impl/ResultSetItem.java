@@ -10,8 +10,14 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.util.Locale;
+
 import org.eclipse.birt.report.engine.api.IResultMetaData;
 import org.eclipse.birt.report.engine.api.IResultSetItem;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ModuleUtil;
+
+import com.ibm.icu.util.ULocale;
 
 public class ResultSetItem implements IResultSetItem {
 	/*
@@ -22,7 +28,11 @@ public class ResultSetItem implements IResultSetItem {
 	 * the result set meta data, which contains only column name and column count.
 	 */
 	private IResultMetaData resultSetMetaData;
-	
+	/*
+	 * handle is used for localization
+	 */
+	private DesignElementHandle handle;
+	private Locale locale;
 	/*
 	 * prevent default construction.
 	 */
@@ -42,11 +52,25 @@ public class ResultSetItem implements IResultSetItem {
 		resultSetMetaData = metaData;
 	}
 	
+	public ResultSetItem( String resultSetName, IResultMetaData metaData,
+			DesignElementHandle handle, Locale loc )
+	{
+		this.resultSetName = resultSetName;
+		resultSetMetaData = metaData;
+		this.handle = handle;
+		this.locale = loc;
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.api.impl.IResultSetItem#getResultSetName()
 	 */
 	public String getResultSetName( )
 	{
+		if ( handle != null )
+		{
+			return ModuleUtil.getExternalizedValue( handle, handle.getName( ),
+					resultSetName, ULocale.forLocale( locale ) );
+		}
 		return resultSetName;
 	}
 	

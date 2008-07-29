@@ -314,8 +314,11 @@ public class DataExtractionTaskV1 extends EngineTask
 								.get( query );
 						if ( metaData != null && metaData.getColumnCount( ) > 0 )
 						{
+							ReportItemDesign design = (ReportItemDesign) report
+									.getReportItemToQueryMap( ).get( query );
 							IResultSetItem resultItem = new ResultSetItem(
-									rsetName, metaData );
+									rsetName, metaData, design.getHandle( ),
+									executionContext.getLocale( ) );
 							resultMetaList.add( resultItem );
 						}
 					}
