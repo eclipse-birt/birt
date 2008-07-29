@@ -42,7 +42,6 @@ import org.eclipse.swt.widgets.MessageBox;
 
 public class ExportElementToLibraryAction extends AbstractViewAction
 {
-
 	private static final String DISPLAY_TEXT = Messages.getString( "ExportToLibraryAction.action.text" ); //$NON-NLS-1$
 
 	public ExportElementToLibraryAction( Object selectedObject )
@@ -101,9 +100,13 @@ public class ExportElementToLibraryAction extends AbstractViewAction
 		// wDialog.setPageSize( 500, 250 );
 		// wDialog.open( );
 
-		chcekSelectionName( );
-		ExportElementDialog dialog = new ExportElementDialog( getSelection( ) );
-		dialog.open( );
+		boolean check = chcekSelectionName( );
+		if(check)
+		{
+			ExportElementDialog dialog = new ExportElementDialog( getSelection( ) );
+			dialog.open( );
+		}
+
 	}
 
 	/**
@@ -150,7 +153,7 @@ public class ExportElementToLibraryAction extends AbstractViewAction
 		}
 
 		renameAction.run( );
-		if ( renameAction.reNameSucceed( ) )
+		if ( renameAction.isOkClicked( ))
 		{
 			return true;
 		}
@@ -181,7 +184,9 @@ public class ExportElementToLibraryAction extends AbstractViewAction
 
 		private static final String TRANS_LABEL = Messages.getString( "ExportElementToLibraryAction.TransLabel.Setname" ); //$NON-NLS-1$
 
-		private boolean reNameSucceed = false;
+		private boolean reNameSucceed = false;		
+		
+		private boolean clickOK = false;
 
 		/**
 		 * Create a new rename action under the specific viewer
@@ -261,9 +266,11 @@ public class ExportElementToLibraryAction extends AbstractViewAction
 						originalName,
 						null );
 				inputDialog.create( );
+				clickOK = false;
 				if ( inputDialog.open( ) == Window.OK )
 				{
 					saveChanges( inputDialog.getValue( ).trim( ) );
+					clickOK = true;
 				}
 			}
 		}
@@ -305,6 +312,10 @@ public class ExportElementToLibraryAction extends AbstractViewAction
 			return reNameSucceed;
 		}
 
+		public boolean isOkClicked()
+		{
+			return clickOK;
+		}
 		/**
 		 * Perform renaming
 		 * 
