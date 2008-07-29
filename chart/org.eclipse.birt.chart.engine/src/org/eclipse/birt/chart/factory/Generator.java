@@ -149,7 +149,7 @@ public final class Generator implements IGenerator
 	 * @param model
 	 * @param externalProcessor
 	 */
-	protected final void prepareStyles( Chart model,
+	public final void prepareStyles( Chart model,
 			IStyleProcessor externalProcessor )
 	{
 		Stack token = new Stack( );
