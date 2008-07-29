@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -55,12 +55,12 @@ import org.mozilla.javascript.Scriptable;
  * When query is applied with a different group from the original group, this
  * instance will be used to regenerate the query result.
  */
-class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
+abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 {
 
-	private DataEngineImpl engine;
-	private IQueryDefinition queryDefn;
-	private IQueryResults queryResults;
+	protected DataEngineImpl engine;
+	protected IQueryDefinition queryDefn;
+	protected IQueryResults queryResults;
 
 	/**
 	 * @param dataEngine
@@ -80,38 +80,7 @@ class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 
 		this.queryDefn = queryDefn;
 		this.engine = dataEngine;
-		IBinding[] bindings = null;
-		if ( this.queryDefn.getSourceQuery( ) instanceof SubqueryLocator )
-		{
-			this.queryResults = engine.getQueryResults( getParentQueryResultsID( (SubqueryLocator) ( queryDefn.getSourceQuery( ) ) ) );
-			IQueryDefinition queryDefinition = queryResults.getPreparedQuery( )
-					.getReportQueryDefn( );
-			bindings = getSubQueryBindings( queryDefinition,
-					( (SubqueryLocator) queryDefn.getSourceQuery( ) ).getName( ) );
-		}
-		else
-		{
-			this.queryResults = engine.getQueryResults( ( (IQueryDefinition) queryDefn.getSourceQuery( ) ).getQueryResultsID( ) );
-			if ( queryResults != null && queryResults.getPreparedQuery( ) != null )
-			{
-				IQueryDefinition queryDefinition = queryResults.getPreparedQuery( )
-						.getReportQueryDefn( );
-				bindings = (IBinding[]) queryDefinition.getBindings( )
-						.values( )
-						.toArray( new IBinding[0] );
-			}
-			else
-			{
-				bindings = new IBinding[0];
-			}
-		}
-		for ( int i = 0; i < bindings.length; i++ )
-		{
-			IBinding binding = bindings[i];
-			this.queryDefn.addBinding( new Binding( binding.getBindingName( ),
-					new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( binding.getBindingName( ) ),
-							binding.getDataType( ) ) ) );
-		}
+		prepareQuery( );
 		preparedQuery = new PreparedQuery( dataEngine.getSession( ),
 				dataEngine.getContext( ),
 				this.queryDefn,
@@ -122,12 +91,21 @@ class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 	}
 
 	/**
+	 * Prepare the column bindings.
+	 * 
+	 * @param queryDefn
+	 * @throws DataException
+	 */
+	protected abstract void prepareQuery( )
+			throws DataException;
+
+	/**
 	 * 
 	 * @param queryDefinition
 	 * @param subQueryName
 	 * @return
 	 */
-	private static IBinding[] getSubQueryBindings(
+	protected static IBinding[] getSubQueryBindings(
 			IBaseQueryDefinition queryDefinition, String subQueryName )
 	{
 		List groups = queryDefinition.getGroups( );
@@ -186,20 +164,7 @@ class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 		return null;
 	}
 
-	/**
-	 * 
-	 * @param subqueryLocator
-	 * @return
-	 */
-	private String getParentQueryResultsID( SubqueryLocator subqueryLocator )
-	{
-		IBaseQueryDefinition baseQueryDefinition = subqueryLocator.getParentQuery( );
-		while ( !( baseQueryDefinition instanceof QueryDefinition ) )
-		{
-			baseQueryDefinition = baseQueryDefinition.getParentQuery( );
-		}
-		return ( (QueryDefinition) baseQueryDefinition ).getQueryResultsID( );
-	}
+	
 
 	/*
 	 * (non-Javadoc)

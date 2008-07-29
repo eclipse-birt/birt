@@ -29,7 +29,7 @@ import org.mozilla.javascript.Scriptable;
 /**
  * Used in presentation
  */
-class ResultIterator implements IResultIterator
+public class ResultIterator implements IResultIterator
 {
 	// data engine context
 	private DataEngineContext context;
@@ -57,7 +57,7 @@ class ResultIterator implements IResultIterator
 	 * @param queryResultID
 	 * @throws DataException 
 	 */
-	ResultIterator( String tempDir, DataEngineContext context, IQueryResults queryResults,
+	public ResultIterator( String tempDir, DataEngineContext context, IQueryResults queryResults,
 			String queryResultID ) throws DataException
 	{
 		this( tempDir, context, queryResults, queryResultID, null, -1 );

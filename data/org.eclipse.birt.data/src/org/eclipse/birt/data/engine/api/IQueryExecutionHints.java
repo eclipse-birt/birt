@@ -38,5 +38,15 @@ public interface IQueryExecutionHints
      */
     public List<IGroupInstanceInfo> getTargetGroupInstances( );
 
-
+    /**
+     * Set whether to sort before grouping.
+     * @param doSortBeforeGrouping
+     */
+    public void setSortBeforeGrouping( boolean doSortBeforeGrouping );
+    
+    /**
+     * Add a target group instance.
+     * @param info
+     */
+    public void addTargetGroupInstance( IGroupInstanceInfo info );
 }

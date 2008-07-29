@@ -163,6 +163,7 @@ class ExprDataReader1 implements IExprDataReader
 		else if ( index == currRowIndex )
 			return;
 		this.currRowIndex = index;
+		this.getRowValue( );
 	}
 	
 	/*

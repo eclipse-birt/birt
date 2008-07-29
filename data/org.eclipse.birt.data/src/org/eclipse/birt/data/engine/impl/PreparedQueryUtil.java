@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -53,6 +53,7 @@ import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
@@ -60,6 +61,7 @@ import org.eclipse.birt.data.engine.expression.NamedExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.FilterDefnUtil;
 import org.eclipse.birt.data.engine.impl.document.GroupDefnUtil;
+import org.eclipse.birt.data.engine.impl.document.PLSEnabledDataSetPopulator;
 import org.eclipse.birt.data.engine.impl.document.QueryCompUtil;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
@@ -99,8 +101,9 @@ class PreparedQueryUtil
 		
 		if ( queryDefn.getSourceQuery( ) != null )
 		{
-			return new PreparedIVQuerySourceQuery( dataEngine, queryDefn );
+			return new PreparedIVDataExtractionQuery( dataEngine, queryDefn );
 		}
+		
 		if ( queryDefn.getQueryResultsID( ) != null )
 		{
 			if ( dataEngine.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION
@@ -338,8 +341,7 @@ class PreparedQueryUtil
 				return new DummyPreparedQuery( queryDefn,
 						dataEngine.getSession( ),
 						dataEngine.getContext( ),
-						queryDefn.getQueryExecutionHints( ) != null
-								? queryDefn.getQueryExecutionHints( )
+						PLSUtil.isPLSEnabled( queryDefn )? queryDefn.getQueryExecutionHints( )
 										.getTargetGroupInstances( ) : null );
 		}
 	}
@@ -356,6 +358,11 @@ class PreparedQueryUtil
 	private static int runQueryOnRS( DataEngineImpl dataEngine,
 			IQueryDefinition queryDefn ) throws DataException
 	{
+		if( PLSUtil.isPLSEnabled( queryDefn ))
+		{
+			return BASED_ON_DATASET;
+		}
+		
 		String queryResultID = queryDefn.getQueryResultsID( );
 
 		String rootQueryResultID = QueryResultIDUtil.get1PartID( queryResultID );

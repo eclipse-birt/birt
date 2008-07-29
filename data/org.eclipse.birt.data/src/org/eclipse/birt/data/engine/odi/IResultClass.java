@@ -14,6 +14,7 @@
 package org.eclipse.birt.data.engine.odi;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 
 /**
  *	A generic result class that defines the metadata 
@@ -190,4 +191,12 @@ public interface IResultClass
 	 */
 	public int[] getBlobFieldIndexes( ) throws DataException;
 	
+	/**
+	 * Get the FieldMetaData according to the given index.
+	 * 
+	 * @param index
+	 * @return
+	 * @throws DataException
+	 */
+	public ResultFieldMetadata getFieldMetaData( int index ) throws DataException;
 }

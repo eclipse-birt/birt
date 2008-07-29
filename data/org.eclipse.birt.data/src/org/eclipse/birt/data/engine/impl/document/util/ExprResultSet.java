@@ -69,6 +69,15 @@ public class ExprResultSet implements IExprResultSet
 		this.rdGroupUtil.setCacheProvider( new CacheProviderImpl( this ) );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.document.util.IExprResultSet#getDataSetResultSet()
+	 */
+	public DataSetResultSet getDataSetResultSet()
+	{
+		return this.dataSetResultSet;
+	}
+	
 	/**
 	 * @throws DataException
 	 */

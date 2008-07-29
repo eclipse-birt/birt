@@ -210,7 +210,7 @@ public class QueryResults implements IQueryResults, IQueryService
 				{
 					if ( this.targetGroups != null
 							&& this.targetGroups.size( ) > 0 )
-						resultIterator = new GroupInstanceFilterResultIterator( this.targetGroups,
+						resultIterator = new PLSEnabledResultIterator( this.targetGroups,
 								new ResultIterator( tempDir,
 										context,
 										this,
@@ -225,7 +225,7 @@ public class QueryResults implements IQueryResults, IQueryService
 				{
 					if ( this.targetGroups != null
 							&& this.targetGroups.size( ) > 0 )
-						resultIterator = new GroupInstanceFilterResultIterator( this.targetGroups,
+						resultIterator = new PLSEnabledResultIterator( this.targetGroups,
 								new ResultIterator2( tempDir,
 										context,
 										this,

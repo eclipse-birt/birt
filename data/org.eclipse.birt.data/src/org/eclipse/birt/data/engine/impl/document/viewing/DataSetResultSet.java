@@ -46,8 +46,9 @@ public class DataSetResultSet implements IDataSetPopulator
 
 	/**
 	 * @param inputStream
+	 * @throws DataException 
 	 */
-	public DataSetResultSet( RAInputStream inputStream, RAInputStream lensStream, IResultClass rsMetaData, int version )
+	public DataSetResultSet( RAInputStream inputStream, RAInputStream lensStream, IResultClass rsMetaData, int version ) throws DataException
 	{
 		assert inputStream != null;
 		assert rsMetaData != null;
@@ -70,6 +71,16 @@ public class DataSetResultSet implements IDataSetPopulator
 
 		this.rsMetaData = rsMetaData;
 		this.colCount = rsMetaData.getFieldCount( );
+		this.initLoad( );
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int getRowCount()
+	{
+		return this.rowCount;
 	}
 	
 	/*
@@ -77,8 +88,6 @@ public class DataSetResultSet implements IDataSetPopulator
 	 */
 	public IResultObject next( ) throws DataException
 	{
-		initLoad( );
-
 		if ( this.rowIndex < this.rowCount - 1 )
 		{
 			try
@@ -87,7 +96,6 @@ public class DataSetResultSet implements IDataSetPopulator
 				this.currentObject = ResultSetUtil.readResultObject( dis,
 						rsMetaData,
 						colCount );
-				return this.currentObject;
 			}
 			catch ( IOException e )
 			{
@@ -97,7 +105,10 @@ public class DataSetResultSet implements IDataSetPopulator
 			}
 		}
 		else
-			return null;
+		{
+			this.currentObject = null;
+		}
+		return this.currentObject;
 	}
 	
 	public IResultObject getResultObject()
@@ -114,7 +125,6 @@ public class DataSetResultSet implements IDataSetPopulator
 	{
 		if( this.rowIndex == index )
 			return;
-		this.initLoad( );
 		
 		if ( this.rowIndex < this.rowCount )
 		{

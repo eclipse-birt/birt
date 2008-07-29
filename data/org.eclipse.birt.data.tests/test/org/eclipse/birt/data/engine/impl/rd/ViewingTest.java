@@ -17,10 +17,12 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
@@ -31,6 +33,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryLocator;
+import org.eclipse.birt.data.engine.core.DataException;
 
 import testutil.ConfigText;
 
@@ -48,7 +51,7 @@ public class ViewingTest extends RDTestCase
 	private String[] subRowExprName;
 
 	private IBaseExpression[] rowBeArray;
-	private IBaseExpression[] totalBeArray;
+	private IBinding[] totalBeArray;
 	
 	private boolean GEN_add_filter;
 	private boolean GEN_add_group;
@@ -61,7 +64,7 @@ public class ViewingTest extends RDTestCase
 	private boolean PRE_add_group;
 	private boolean PRE_change_oldbinding;
 	private boolean PRE_printGroupInfo;
-	
+	private boolean PRE_printExtraAggr;
 	private FilterDefinition GEN_filterDefn;
 
 	/*
@@ -94,7 +97,7 @@ public class ViewingTest extends RDTestCase
 		this.PRE_change_oldbinding = false;
 		this.PRE_add_group = false;
 		this.PRE_printGroupInfo = false;
-		
+		this.PRE_printExtraAggr = false;
 	}
 
 	/*
@@ -446,6 +449,37 @@ public class ViewingTest extends RDTestCase
 	 * Test filter by group instance 
 	 * @throws BirtException
 	 */
+	public void testFilterByGroupInstanceIV_testAggr1( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.GEN_add_secondGroup = true;
+		QueryDefinition genquery = this.newGenIVReportQuery( );
+		addExtraAggregation( genquery );
+		this.genBasicIV( genquery );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.PRE_add_group = true;
+		this.PRE_printGroupInfo = true;
+		this.PRE_printExtraAggr = true;
+		this.PRE_add_filter = true;
+		QueryDefinition query = newPreIVReportQuery( );
+		addExtraAggregation( query );
+		QueryExecutionHints hints = new QueryExecutionHints();
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 1, 5) );
+		query.setQueryExecutionHints( hints );
+		this._preBasicIV( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	/**
+	 * Test filter by group instance 
+	 * @throws BirtException
+	 */
 	public void testFilterByGroupInstanceIV2( ) throws Exception
 	{
 		this.GEN_add_group = true;
@@ -470,6 +504,37 @@ public class ViewingTest extends RDTestCase
 		this.checkOutputFile( );
 	}
 	
+	/**
+	 * Test filter by group instance 
+	 * @throws BirtException
+	 */
+	public void testFilterByGroupInstanceIV_testAggr2( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.GEN_add_secondGroup = true;
+		QueryDefinition genquery = this.newGenIVReportQuery( );
+		addExtraAggregation( genquery );
+		this.genBasicIV( genquery );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.PRE_add_group = true;
+		this.PRE_printGroupInfo = true;
+		this.PRE_printExtraAggr = true;
+		this.PRE_add_sort = true;
+		QueryDefinition query = newPreIVReportQuery( );
+		addExtraAggregation( query );
+		QueryExecutionHints hints = new QueryExecutionHints();
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 2, 5) );
+		query.setQueryExecutionHints( hints );
+		this._preBasicIV( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
 	/**
 	 * Test filter by group instance 
 	 * @throws BirtException
@@ -503,6 +568,38 @@ public class ViewingTest extends RDTestCase
 	 * Test filter by group instance 
 	 * @throws BirtException
 	 */
+	public void testFilterByGroupInstanceIV_testAggr3( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.GEN_add_secondGroup = true;
+		QueryDefinition genquery = this.newGenIVReportQuery( );
+		addExtraAggregation( genquery );
+		this.genBasicIV( genquery );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.PRE_add_group = true;
+		this.PRE_printGroupInfo = true;
+		this.PRE_printExtraAggr = true;
+		this.PRE_add_sort = true;
+		QueryDefinition query = newPreIVReportQuery( );
+		addExtraAggregation( query );
+		QueryExecutionHints hints = new QueryExecutionHints();
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 2, 5) );
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 1, 4) );
+		query.setQueryExecutionHints( hints );
+		this._preBasicIV( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	/**
+	 * Test filter by group instance 
+	 * @throws BirtException
+	 */
 	public void testFilterByGroupInstanceIV4( ) throws Exception
 	{
 		this.GEN_add_group = true;
@@ -528,6 +625,35 @@ public class ViewingTest extends RDTestCase
 		this.checkOutputFile( );
 	}
 	
+	public void testFilterByGroupInstanceIV_testAggr4( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.GEN_add_secondGroup = true;
+		QueryDefinition genquery = this.newGenIVReportQuery( );
+		addExtraAggregation( genquery );
+		this.genBasicIV( genquery );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.PRE_add_group = true;
+		this.PRE_printGroupInfo = true;
+		this.PRE_printExtraAggr = true;
+		this.PRE_add_sort = true;
+		this.PRE_add_filter = true;
+		QueryDefinition query = newPreIVReportQuery( );
+		addExtraAggregation( query );
+		QueryExecutionHints hints = new QueryExecutionHints();
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 2, 5) );
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 1, 2) );
+		query.setQueryExecutionHints( hints );
+		this._preBasicIV( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
 	/**
 	 * Test filter by group instance 
 	 * @throws BirtException
@@ -547,6 +673,35 @@ public class ViewingTest extends RDTestCase
 		this.PRE_printGroupInfo = true;
 		QueryDefinition query = newPreIVReportQuery( );
 
+		QueryExecutionHints hints = new QueryExecutionHints();
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 2, 5) );
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 2, 1) );
+		query.setQueryExecutionHints( hints );
+		this._preBasicIV( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	
+	public void testFilterByGroupInstanceIV_testAggr5( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.GEN_add_secondGroup = true;
+		QueryDefinition genquery = this.newGenIVReportQuery( );
+		addExtraAggregation( genquery );
+		this.genBasicIV( genquery );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.PRE_add_group = true;
+		this.PRE_printGroupInfo = true;
+		this.PRE_printExtraAggr = true;
+
+		QueryDefinition query = newPreIVReportQuery( );
+		addExtraAggregation( query );
 		QueryExecutionHints hints = new QueryExecutionHints();
 		hints.addTargetGroupInstance( new GroupInstanceInfo( 2, 5) );
 		hints.addTargetGroupInstance( new GroupInstanceInfo( 2, 1) );
@@ -585,6 +740,34 @@ public class ViewingTest extends RDTestCase
 		this.checkOutputFile( );
 	}
 	
+	public void testFilterByGroupInstanceIV_testAggr6( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.GEN_add_secondGroup = true;
+		this.GEN_useDetail = false;
+		QueryDefinition genquery = this.newGenIVReportQuery( );
+		addExtraAggregation( genquery );
+		this.genBasicIV( genquery );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.PRE_add_group = true;
+		this.PRE_printGroupInfo = true;
+		this.PRE_printExtraAggr = true;
+
+		QueryDefinition query = newPreIVReportQuery( );
+		addExtraAggregation( query );
+		QueryExecutionHints hints = new QueryExecutionHints();
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 1, 1) );
+		query.setQueryExecutionHints( hints );
+		this._preBasicIV( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
 	/**
 	 * Test filter by group instance 
 	 * @throws BirtException
@@ -605,6 +788,37 @@ public class ViewingTest extends RDTestCase
 		this.PRE_printGroupInfo = true;
 		QueryDefinition query = newPreIVReportQuery( );
 		query.setUsesDetails(  false  );
+		QueryExecutionHints hints = new QueryExecutionHints();
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 1, 1) );
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 2, 4) );
+		query.setQueryExecutionHints( hints );
+		this._preBasicIV( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	
+	
+	public void testFilterByGroupInstanceIV_testAggr7( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.GEN_add_secondGroup = true;
+		this.GEN_useDetail = false;
+		QueryDefinition genquery = this.newGenIVReportQuery( );
+		addExtraAggregation( genquery );
+		this.genBasicIV( genquery );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.PRE_add_group = true;
+		this.PRE_printGroupInfo = true;
+		this.PRE_printExtraAggr = true;
+
+		QueryDefinition query = newPreIVReportQuery( );
+		addExtraAggregation( query );
 		QueryExecutionHints hints = new QueryExecutionHints();
 		hints.addTargetGroupInstance( new GroupInstanceInfo( 1, 1) );
 		hints.addTargetGroupInstance( new GroupInstanceInfo( 2, 4) );
@@ -667,6 +881,86 @@ public class ViewingTest extends RDTestCase
 		this._preBasicIV( query );
 		this.closeArchiveReader( );
 	}
+	
+	public void testFilterByGroupInstanceIV_testAggr( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.GEN_add_secondGroup = true;
+		QueryDefinition genquery = this.newGenIVReportQuery( );
+		addExtraAggregation( genquery );
+		this.genBasicIV( genquery );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.PRE_add_group = true;
+		this.PRE_printGroupInfo = true;
+		this.PRE_printExtraAggr = true;
+		this.PRE_add_sort = true;
+		QueryDefinition query = newPreIVReportQuery( );
+		addExtraAggregation( query );
+		QueryExecutionHints hints = new QueryExecutionHints();
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 2, 5) );
+		query.setQueryExecutionHints( hints );
+		this._preBasicIV( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+
+	/**
+	 * Test filter by group instance 
+	 * @throws BirtException
+	 */
+	public void testFilterByGroupInstanceIV10( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.GEN_add_secondGroup = true;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.PRE_add_group = true;
+		this.PRE_printGroupInfo = true;
+		QueryDefinition query = newPreIVReportQuery( );
+
+		QueryExecutionHints hints = new QueryExecutionHints();
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 2, 5) );
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 2, 3) );
+		query.setQueryExecutionHints( hints );
+		this._preBasicIV( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	private void addExtraAggregation( QueryDefinition genquery )
+			throws DataException
+	{
+		IBinding binding1 = new Binding( "Count_on_1st_group");
+		binding1.setAggrFunction( "COUNT" );
+		binding1.addAggregateOn( "COUNTRY" );
+		IBinding binding2 = new Binding( "Count_on_2nd_group");
+		binding2.setAggrFunction( "COUNT" );
+		binding2.addAggregateOn( "CITY" );
+		IBinding binding3 = new Binding( "Count_on_2nd_group_1");
+		binding3.setExpression( new ScriptExpression( "row.Count_on_2nd_group + 1") );
+		IBinding binding4 = new Binding( "Count_on_2nd_group_1_2");
+		binding4.setExpression( new ScriptExpression( "row.Count_on_2nd_group_1+2") );
+		IBinding binding5 = new Binding( "Count_on_1st_group_10");
+		binding5.setExpression( new ScriptExpression( "row.Count_on_1st_group + 10") );
+		
+		genquery.addBinding( binding1 );
+		genquery.addBinding(  binding2 );
+		genquery.addBinding( binding3);
+		genquery.addBinding(  binding4 );
+		genquery.addBinding( binding5);
+		
+	}
 	/**
 	 * @throws Exception
 	 */
@@ -696,17 +990,11 @@ public class ViewingTest extends RDTestCase
 
 	}
 
-	/**
-	 * @throws BirtException
-	 */
-	private void genBasicIV( )
-			throws BirtException
+	private void genBasicIV( QueryDefinition qd ) throws BirtException
 	{
-		QueryDefinition qd = newGenIVReportQuery( );
-
 		// prepare
 		IBaseExpression[] rowBeArray = getRowExpr( );
-		IBaseExpression[] totalBeArray = getAggrExpr( );
+		IBinding[] totalBeArray = getAggrExpr( );
 		prepareExprNameAndQuery( rowBeArray, totalBeArray, qd );
 
 		// generation
@@ -728,6 +1016,16 @@ public class ViewingTest extends RDTestCase
 		ri.close( );
 		qr.close( );
 		myGenDataEngine.shutdown( );
+	}
+	/**
+	 * @throws BirtException
+	 */
+	private void genBasicIV( )
+			throws BirtException
+	{
+		QueryDefinition qd = newGenIVReportQuery( );
+		genBasicIV( qd );
+		
 	}
 	
 	/**
@@ -773,7 +1071,7 @@ public class ViewingTest extends RDTestCase
 			// add grouping on column1
 			String columnBindingNameGroup = "COUNTRY2";
 			IBaseExpression columnBindingExprGroup = new ScriptExpression( "dataSetRow.COUNTRY" );
-			GroupDefinition gd = new GroupDefinition( );
+			GroupDefinition gd = new GroupDefinition( "COUNTRY");
 			gd.setKeyColumn( "COUNTRY2" );
 			qd.addResultSetExpression( columnBindingNameGroup,
 					columnBindingExprGroup );
@@ -785,7 +1083,7 @@ public class ViewingTest extends RDTestCase
 			// add grouping on column1
 			String columnBindingNameGroup = "CITY2";
 			IBaseExpression columnBindingExprGroup = new ScriptExpression( "dataSetRow.CITY" );
-			GroupDefinition gd = new GroupDefinition( );
+			GroupDefinition gd = new GroupDefinition( "CITY");
 			gd.setKeyColumn( "CITY2" );
 			qd.addResultSetExpression( columnBindingNameGroup,
 					columnBindingExprGroup );
@@ -812,8 +1110,9 @@ public class ViewingTest extends RDTestCase
 	 * @param PRE_add_sort
 	 * @param PRE_use_oldbinding
 	 * @return
+	 * @throws DataException 
 	 */
-	private QueryDefinition newPreIVReportQuery( )
+	private QueryDefinition newPreIVReportQuery( ) throws DataException
 	{
 		QueryDefinition qd = new QueryDefinition( );
 
@@ -844,8 +1143,20 @@ public class ViewingTest extends RDTestCase
 			// add grouping on column1
 			String columnBindingNameGroup = "COUNTRY2";
 			IBaseExpression columnBindingExprGroup = new ScriptExpression( "dataSetRow.COUNTRY" );
-			GroupDefinition gd = new GroupDefinition( );
+			GroupDefinition gd = new GroupDefinition( "COUNTRY");
 			gd.setKeyColumn( "COUNTRY2" );
+			qd.addResultSetExpression( columnBindingNameGroup,
+					columnBindingExprGroup );
+			qd.addGroup( gd );
+		}
+		
+		if ( GEN_add_secondGroup == true )
+		{
+			// add grouping on column1
+			String columnBindingNameGroup = "CITY2";
+			IBaseExpression columnBindingExprGroup = new ScriptExpression( "dataSetRow.CITY" );
+			GroupDefinition gd = new GroupDefinition( "CITY");
+			gd.setKeyColumn( "CITY2" );
 			qd.addResultSetExpression( columnBindingNameGroup,
 					columnBindingExprGroup );
 			qd.addGroup( gd );
@@ -866,7 +1177,7 @@ public class ViewingTest extends RDTestCase
 
 		for ( int i = 0; i < totalExprName.length; i++ )
 		{
-			qd.addResultSetExpression( this.totalExprName[i],
+			qd.addBinding( //binding )( this.totalExprName[i],
 					this.totalBeArray[i] );
 		}
 		return qd;
@@ -891,10 +1202,15 @@ public class ViewingTest extends RDTestCase
 			do
 			{
 				String abc = "";
+		
 				for ( int i = 0; i < rowExprName.length; i++ )
 					abc += ri.getValue( rowExprName[i] ) + "  ";
 				for ( int i = 0; i < totalExprName.length; i++ )
 					abc += ri.getValue( totalExprName[i] ) + "  ";
+				if( this.PRE_printExtraAggr )
+					abc += ri.getValue( "Count_on_1st_group" ) + "  " + ri.getValue( "Count_on_2nd_group" ) + "  "
+					      +ri.getValue( "Count_on_2nd_group_1" ) + "  " + ri.getValue( "Count_on_2nd_group_1_2" ) + "  "
+					      + ri.getValue( "Count_on_1st_group_10" ) + "  ";
 				if ( this.PRE_printGroupInfo )
 					this.testPrintln( abc
 							+ ri.getRowId( ) + " " + ri.getRowIndex( ) + " "
@@ -998,7 +1314,7 @@ public class ViewingTest extends RDTestCase
 
 		// prepare
 		IBaseExpression[] rowBeArray = getRowExpr( );
-		IBaseExpression[] totalBeArray = getAggrExpr( );
+		IBinding[] totalBeArray = getAggrExpr( );
 		prepareExprNameAndQuery( rowBeArray, totalBeArray, qd );
 
 		//		 ---------- begin sub query ----------
@@ -1135,17 +1451,23 @@ public class ViewingTest extends RDTestCase
 
 	/**
 	 * @return aggregation expression array
+	 * @throws DataException 
 	 */
-	private IBaseExpression[] getAggrExpr( )
+	private IBinding[] getAggrExpr( ) throws DataException
 	{
 		int num2 = 2;
-		totalBeArray = new IBaseExpression[num2];
-		totalBeArray[0] = new ScriptExpression( "Total.Count( )" );
-		totalBeArray[1] = new ScriptExpression( "Total.Sum( dataSetRow.AMOUNT )" );
-
-		totalExprName = new String[totalBeArray.length];
+		totalExprName = new String[num2];
 		this.totalExprName[0] = "TOTAL_COUNT_1";
 		this.totalExprName[1] = "TOTAL_AMOUNT_1";
+		
+		totalBeArray = new IBinding[num2];
+		totalBeArray[0] = new Binding( this.totalExprName[0]);
+		totalBeArray[0].setAggrFunction( "COUNT" );
+		
+		totalBeArray[1] = new Binding( this.totalExprName[1], new ScriptExpression( "dataSetRow.AMOUNT" ));
+		totalBeArray[1].setAggrFunction( "SUM" );
+
+	
 
 		return totalBeArray;
 	}
@@ -1155,9 +1477,10 @@ public class ViewingTest extends RDTestCase
 	 * @param rowBeArray
 	 * @param totalBeArray
 	 * @param qd
+	 * @throws DataException 
 	 */
 	private void prepareExprNameAndQuery( IBaseExpression[] rowBeArray,
-			IBaseExpression[] totalBeArray, BaseQueryDefinition qd )
+			IBinding[] totalBeArray, BaseQueryDefinition qd ) throws DataException
 	{
 		int num = rowBeArray.length;
 		int num2 = totalBeArray.length;
@@ -1166,7 +1489,7 @@ public class ViewingTest extends RDTestCase
 			qd.addResultSetExpression( this.rowExprName[i], rowBeArray[i] );
 
 		for ( int i = 0; i < num2; i++ )
-			qd.addResultSetExpression( this.totalExprName[i], totalBeArray[i] );
+			qd.addBinding( totalBeArray[i] );
 	}
 
 	/*

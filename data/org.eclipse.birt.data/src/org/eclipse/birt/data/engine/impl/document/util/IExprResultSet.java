@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.impl.document.util;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
 
 /**
  * Read the expression value from report document.
@@ -82,4 +83,10 @@ public interface IExprResultSet
 	 * @return
 	 */
 	public int[] getGroupStartAndEndIndex( int groupIndex );
+	
+	/**
+	 * Get the data set result set enclosed in the IExprResultSet instance.
+	 * @return
+	 */
+	public DataSetResultSet getDataSetResultSet( );
 }
