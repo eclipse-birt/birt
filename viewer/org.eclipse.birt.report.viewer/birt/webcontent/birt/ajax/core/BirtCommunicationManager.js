@@ -40,7 +40,7 @@ BirtCommunicationManager.prototype =
 		if( xmlDoc )
 		{
 			debug( birtSoapRequest.prettyPrintXML(xmlDoc), true);
-			if ( BrowserUtility.isSafari )
+			if ( BrowserUtility.isSafari || BrowserUtility.isFirefox3 )
 			{
 				// WORKAROUND: sending the XML DOM doesn't replace the
 				// ampersands properly but the XMLSerializer does.
@@ -57,7 +57,7 @@ BirtCommunicationManager.prototype =
 		//workaround for Bugzilla Bug 144598. Add request header "Connection" as "keep-alive"
 		var myAjax = new Ajax.Request( birtSoapRequest.getURL( ), { method: 'post', postBody: xmlDoc,
 			onSuccess: this.responseHandler, onFailure: this.invalidResponseHandler,
-			requestHeaders: ['Content-type', 'text/xml; charset=utf-8', 'SOAPAction', '""', 'request-type', 'SOAP', 'Connection', 'keep-alive' ] } );
+			requestHeaders: ['Content-Type', 'text/xml; charset=UTF-8', 'SOAPAction', '""', 'request-type', 'SOAP', 'Connection', 'keep-alive' ] } );
 
 		birtSoapRequest.reset( );
 	},

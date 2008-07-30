@@ -21,13 +21,6 @@
 <jsp:useBean id="fragment" type="org.eclipse.birt.report.presentation.aggregation.IFragment" scope="request" />
 <jsp:useBean id="attributeBean" type="org.eclipse.birt.report.context.BaseAttributeBean" scope="request" />
 
-<%
-	String pdfUrl = request.getContextPath( ) + "/run?"
-		+ ParameterAccessor.getEncodedQueryString( request, ParameterAccessor.PARAM_FORMAT,	ParameterAccessor.PARAM_FORMAT_PDF );
-	String ivUrl = request.getContextPath( ) + "/iv?"
-		+ ParameterAccessor.getEncodedQueryString( request, null, null );
-%>
-
 <%-----------------------------------------------------------------------------
 	Toolbar fragment
 -----------------------------------------------------------------------------%>
@@ -96,18 +89,6 @@
 					}
 					%>										
 					<TD ALIGN='right'>
-					<%
-					if ( !ViewerServlet.isOpenSource( ) )
-					{
-					%>
-						<A HREF="<%= ivUrl %>">
-							<IMG SRC='birt/images/Interactive_viewer.gif'
-								CLASS='birtviewer_clickable'
-								TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.toolbar.enableiv" )%>" />
-						</A>
-					<%
-					}
-					%>
 					</TD>
 					<TD WIDTH="6px"/>
 				</TR>

@@ -558,7 +558,7 @@ public class ParameterAccessor {
 	 * Application Context Attribute value
 	 */
 	public static final String ATTR_APPCONTEXT_VALUE = "AppContextValue"; //$NON-NLS-1$
-
+	
 	/**
 	 * The initialized properties map
 	 */
@@ -646,80 +646,6 @@ public class ParameterAccessor {
 		}
 
 		return flag;
-	}
-
-	/**
-	 * Get query string with new parameter value.
-	 * 
-	 * @param request
-	 *            http request
-	 * @param name
-	 *            parameter name
-	 * @param value
-	 *            default parameter value
-	 * @return new query string with new parameter value
-	 */
-
-	public static String getEncodedQueryString(HttpServletRequest request,
-			String name, String value) {
-		String queryString = ""; //$NON-NLS-1$
-		Enumeration e = request.getParameterNames();
-		Set nullParams = getParameterValues(request, PARAM_ISNULL);
-		boolean isFirst = true;
-
-		while (e.hasMoreElements()) {
-			String paramName = (String) e.nextElement();
-
-			if (paramName != null && !paramName.equalsIgnoreCase(PARAM_ISNULL)) {
-				String paramValue = getParameter(request, paramName, false);
-
-				if (nullParams != null
-						&& nullParams.remove(toUTFString(paramName))
-						&& !paramName.equalsIgnoreCase(name)) // Parameter
-				// value is
-				// null.
-				{
-					paramName = urlEncode(paramName, ISO_8859_1_ENCODE);
-					queryString += (isFirst ? "" : PARAMETER_SEPARATOR) + PARAM_ISNULL + EQUALS_OPERATOR + paramName; //$NON-NLS-1$
-					isFirst = false;
-					continue;
-				}
-
-				if (paramName.equalsIgnoreCase(name)) {
-					paramValue = value;
-				}
-
-				paramName = urlEncode(paramName, ISO_8859_1_ENCODE);
-				paramValue = urlEncode(paramValue, UTF_8_ENCODE);
-				queryString += (isFirst ? "" : PARAMETER_SEPARATOR) + paramName + EQUALS_OPERATOR + paramValue; //$NON-NLS-1$
-				isFirst = false;
-			}
-		}
-
-		if (nullParams != null && nullParams.size() > 0) {
-			Iterator i = nullParams.iterator();
-
-			while (i.hasNext()) {
-				String paramName = (String) i.next();
-
-				if (paramName != null && !paramName.equalsIgnoreCase(name)) {
-					paramName = urlEncode(paramName, UTF_8_ENCODE);
-					queryString += (isFirst ? "" : PARAMETER_SEPARATOR) + PARAM_ISNULL + EQUALS_OPERATOR + paramName; //$NON-NLS-1$ 
-					isFirst = false;
-				}
-			}
-		}
-
-		if (name != null && name.length() > 0) // Only handle valid name.
-		{
-			if (getParameter(request, name) == null) {
-				String paramValue = value;
-				paramValue = urlEncode(paramValue, UTF_8_ENCODE);
-				queryString += (isFirst ? "" : PARAMETER_SEPARATOR) + name + EQUALS_OPERATOR + paramValue; //$NON-NLS-1$
-				isFirst = false;
-			}
-		}
-		return queryString;
 	}
 
 	/**
@@ -1025,22 +951,6 @@ public class ParameterAccessor {
 	}
 
 	/**
-	 * Get named parameters from http request. parameter names and values are
-	 * all in iso-8859-1 format in request.
-	 * 
-	 * @param request
-	 *            incoming http request
-	 * @param parameterName
-	 *            parameter name in UTF-8 format
-	 * @return named parameters from http request
-	 */
-
-	public static Set getParameterValues(HttpServletRequest request,
-			String parameterName) {
-		return getParameterValues(request, parameterName, true);
-	}
-
-	/**
 	 * Get report file name. If passed file path is null, get report file from
 	 * request.
 	 * 
@@ -1245,7 +1155,6 @@ public class ParameterAccessor {
 		assert request != null && name != null;
 
 		String value = getParameter(request, name);
-
 		if (value == null || value.length() <= 0) // Treat
 		// it as blank value.
 		{
@@ -1253,9 +1162,7 @@ public class ParameterAccessor {
 		}
 
 		Map paramMap = request.getParameterMap();
-		String ISOName = toISOString(name);
-
-		if (paramMap == null || !paramMap.containsKey(ISOName)) {
+		if (paramMap == null || !paramMap.containsKey(name) ) {
 			value = defaultValue;
 		}
 
@@ -1821,14 +1728,11 @@ public class ParameterAccessor {
 		boolean isExist = false;
 
 		Map paramMap = request.getParameterMap();
-		String ISOName = toISOString(name);
-
-		if (paramMap != null && paramMap.containsKey(ISOName)) {
-			isExist = true;
+		if (paramMap != null)
+		{
+			isExist = ( paramMap.containsKey(name) );
 		}
-
 		Set nullParams = getParameterValues(request, PARAM_ISNULL);
-
 		if (nullParams != null && nullParams.contains(name)) {
 			isExist = true;
 		}
@@ -1932,41 +1836,30 @@ public class ParameterAccessor {
 	}
 
 	/**
-	 * Get named parameter from http request. parameter names and values are all
-	 * in iso-8859-1 format in request.
-	 * 
-	 * @param request
-	 *            incoming http request
-	 * @param parameterName
-	 *            parameter name in UTF-8 format
-	 * @return
-	 */
-
-	public static String getParameter(HttpServletRequest request,
-			String parameterName) {
-		return getParameter(request, parameterName, true);
-	}
-
-	/**
-	 * Get named parameter from http request. parameter names and values are all
-	 * in iso-8859-1 format in request.
+	 * Gets a named parameter from the http request.
+	 * The given parameter name must be in UTF-8.
 	 * 
 	 * @param request
 	 *            incoming http request
 	 * @param parameterName
 	 *            parameter name
-	 * @param isUTF
-	 *            is parameter in UTF-8 formator not
 	 * @return
 	 */
 
-	protected static String getParameter(HttpServletRequest request,
-			String parameterName, boolean isUTF) {
-		String ISOParameterName = (isUTF) ? toISOString(parameterName)
-				: parameterName;
-		String value = request.getParameter(ISOParameterName);
-		String encoding = request.getCharacterEncoding();
-		return toUTFString(value, encoding);
+	public static String getParameter(HttpServletRequest request,
+			String parameterName) {
+
+		if ( request.getCharacterEncoding() == null )
+		{
+			try
+			{
+				request.setCharacterEncoding( UTF_8_ENCODE );				
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+			}
+		}
+		return request.getParameter(parameterName);
 	}
 
 	/**
@@ -2001,102 +1894,24 @@ public class ParameterAccessor {
 	 *            incoming http request
 	 * @param parameterName
 	 *            parameter name
-	 * @param isUTF
-	 *            is parameter in UTF-8 formator not
 	 * @return
 	 */
 
-	protected static Set getParameterValues(HttpServletRequest request,
-			String parameterName, boolean isUTF) {
-		HashSet parameterValues = null;
-		String ISOParameterName = (isUTF) ? toISOString(parameterName)
-				: parameterName;
-		String[] ISOParameterValues = request
-				.getParameterValues(ISOParameterName);
+	public static Set getParameterValues(HttpServletRequest request,
+			String parameterName) {
+		HashSet parameterValues = null;		
+		String[] parameterValuesArray = request
+				.getParameterValues(parameterName);
 
-		if (ISOParameterValues != null) {
+		if (parameterValuesArray != null) {
 			parameterValues = new HashSet();
 
-			for (int i = 0; i < ISOParameterValues.length; i++) {
-				parameterValues.add(toUTFString(ISOParameterValues[i]));
+			for (int i = 0; i < parameterValuesArray.length; i++) {
+				parameterValues.add(parameterValuesArray[i]);
 			}
 		}
 
 		return parameterValues;
-	}
-
-	/**
-	 * Convert UTF-8 string into ISO-8895-1
-	 * 
-	 * @param s
-	 *            UTF-8 string
-	 * @return
-	 */
-
-	protected static String toISOString(String s) {
-		String ISOString = s;
-
-		if (s != null) {
-			try {
-				ISOString = new String(s.getBytes(UTF_8_ENCODE),
-						ISO_8859_1_ENCODE);
-			} catch (UnsupportedEncodingException e) {
-				ISOString = s;
-			}
-		}
-
-		return ISOString;
-	}
-
-	/**
-	 * Convert ISO-8895-1 string into UTF-8.
-	 * 
-	 * @param s
-	 *            ISO-8895-1 string
-	 * @return
-	 */
-
-	protected static String toUTFString(String s) {
-		String UTFString = s;
-
-		if (s != null) {
-			try {
-				UTFString = new String(s.getBytes(ISO_8859_1_ENCODE),
-						UTF_8_ENCODE);
-			} catch (UnsupportedEncodingException e) {
-				UTFString = s;
-			}
-		}
-
-		return UTFString;
-	}
-
-	/**
-	 * Convert the string with the given encoding into UTF-8.
-	 * 
-	 * @param s
-	 *            ISO-8895-1 string
-	 * @param encoding
-	 *            the current encoding of the string
-	 * @return the converted UTF-8 string
-	 */
-
-	protected static String toUTFString(String s, String encoding) {
-		String UTFString = s;
-		String sourceEncoding = encoding;
-
-		if (s != null) {
-			if (sourceEncoding == null) {
-				sourceEncoding = ISO_8859_1_ENCODE;
-			}
-			try {
-				UTFString = new String(s.getBytes(sourceEncoding), UTF_8_ENCODE);
-			} catch (UnsupportedEncodingException e) {
-				UTFString = s;
-			}
-		}
-
-		return UTFString;
 	}
 
 	/**
