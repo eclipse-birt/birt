@@ -11,17 +11,10 @@
 
 package org.eclipse.birt.report.engine.extension.engine;
 
-import org.eclipse.birt.report.engine.api.IReportDocument;
-import org.eclipse.birt.report.engine.api.script.IReportContext;
-import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.api.EngineException;
 
-public interface IEngineContext extends IReportContext
+public interface IReportDocumentExtension
 {
 
-	ClassLoader getApplicationClassLoader( );
-
-	IReportContent getReportContent( );
-	
-	IReportDocument getReportDocument( );
-
+	public void close( ) throws EngineException;
 }

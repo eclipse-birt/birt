@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ITOCTree;
@@ -24,6 +25,7 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.api.impl.IInternalReportDocument;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.extension.engine.IReportDocumentExtension;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
@@ -68,7 +70,7 @@ public class TransientReportDocument implements IInternalReportDocument
 	{
 		return document.getVersion( );
 	}
-	
+
 	public String getProperty( String key )
 	{
 		return document.getProperty( key );
@@ -93,8 +95,8 @@ public class TransientReportDocument implements IInternalReportDocument
 	{
 		return parameters;
 	}
-	
-	public Map getParameterDisplayTexts()
+
+	public Map getParameterDisplayTexts( )
 	{
 		return parameterDisplayTexts;
 	}
@@ -158,7 +160,7 @@ public class TransientReportDocument implements IInternalReportDocument
 	{
 		return isComplete;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -173,7 +175,7 @@ public class TransientReportDocument implements IInternalReportDocument
 	{
 		return null;
 	}
-	
+
 	public ITOCTree getTOCTree( String format, ULocale locale, TimeZone timeZone )
 	{
 		return null;
@@ -203,5 +205,12 @@ public class TransientReportDocument implements IInternalReportDocument
 	public InstanceID getBookmarkInstance( String bookmark )
 	{
 		return null;
-	} 
+	}
+
+	public IReportDocumentExtension getDocumentExtension( String name )
+			throws EngineException
+	{
+		return ( (IInternalReportDocument) document )
+				.getDocumentExtension( name );
+	}
 }

@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.extension.internal;
 
-import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -26,14 +25,9 @@ public class RenderContext extends ReportContextImpl implements IRenderContext
 		super( context );
 	}
 
-	public IDocArchiveReader getReader( )
+	public IReportDocument getReportDocument( )
 	{
-		IReportDocument document = context.getReportDocument( );
-		if ( document != null )
-		{
-			return document.getArchive( );
-		}
-		return null;
+		return context.getReportDocument( );
 	}
 
 	public ClassLoader getApplicationClassLoader( )

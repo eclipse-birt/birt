@@ -36,6 +36,7 @@ import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.executor.ApplicationClassLoader;
+import org.eclipse.birt.report.engine.extension.engine.IReportDocumentExtension;
 import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtension;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.IPageHintReader;
@@ -607,6 +608,32 @@ public class ReportDocumentReader
 		catch ( IOException e )
 		{
 			logger.log( Level.SEVERE, "Failed to close the archive", e ); //$NON-NLS-1$
+		}
+		
+		if ( extensions != null )
+		{
+			for ( Map.Entry<String, IReportDocumentExtension> entry : extensions
+					.entrySet( ) )
+			{
+				String name = entry.getKey( );
+				IReportDocumentExtension extension = entry.getValue( );
+				if ( extension != null )
+				{
+					try
+					{
+						extension.close( );
+					}
+					catch ( EngineException ex )
+					{
+						logger.log( Level.SEVERE,
+								"Failed to close the extension {0}",
+								new Object[]{name} );
+					}
+				}
+			}
+
+			extensions.clear( );
+			extensions = null;
 		}
 	}
 	
@@ -1416,5 +1443,24 @@ public class ReportDocumentReader
 			}
 		}
 		return isReportlet.booleanValue( );
+	}
+	
+	HashMap<String, IReportDocumentExtension> extensions = new HashMap<String, IReportDocumentExtension>( );
+
+	synchronized public IReportDocumentExtension getDocumentExtension(
+			String name ) throws EngineException
+	{
+		IReportDocumentExtension extension = extensions.get( name );
+		if ( extension == null )
+		{
+			IReportEngineExtension engineExtension = this.engine
+					.getEngineExtension( name );
+			if ( engineExtension != null )
+			{
+				extension = engineExtension.createDocumentExtension( this );
+				extensions.put( name, extension );
+			}
+		}
+		return extension;
 	}
 }

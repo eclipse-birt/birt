@@ -55,10 +55,12 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.data.dte.DteDataEngine;
 import org.eclipse.birt.report.engine.data.dte.DteMetaInfoIOUtil;
+import org.eclipse.birt.report.engine.executor.EngineExtensionManager;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IDataExtractionExtension;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
+import org.eclipse.birt.report.engine.extension.engine.IDataExtension;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -868,7 +870,7 @@ public class DataExtractionTaskV1 extends EngineTask
 		Scriptable scope = executionContext.getSharedScope( );
 		Map appContext = executionContext.getAppContext( );
 		// prepare the query
-		//processQueryExtensions( query );
+		processQueryExtensions( query );
 
 		IPreparedQuery pQuery = dataSession.prepare( query, appContext );
 		IQueryResults results = pQuery.execute( scope );
@@ -1087,7 +1089,7 @@ public class DataExtractionTaskV1 extends EngineTask
 	{
 		this.startRow = startRow;
 	}
-/*
+
 	protected void processQueryExtensions( IDataQueryDefinition query )
 			throws EngineException
 	{
@@ -1107,5 +1109,4 @@ public class DataExtractionTaskV1 extends EngineTask
 			}
 		}
 	}
-*/
 }

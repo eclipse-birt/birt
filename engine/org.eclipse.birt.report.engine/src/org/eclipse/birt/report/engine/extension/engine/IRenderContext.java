@@ -11,10 +11,8 @@
 
 package org.eclipse.birt.report.engine.extension.engine;
 
-import org.eclipse.birt.core.archive.IDocArchiveReader;
 
 public interface IRenderContext extends IEngineContext
 {
 
-	IDocArchiveReader getReader( );
 }

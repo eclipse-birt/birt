@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.extension.engine;
 
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 
 /**
@@ -36,6 +37,19 @@ public interface IReportEngineExtension
 	String getExtensionName( );
 
 	/**
+	 * create a extension to load the data saved in the report document.
+	 * 
+	 * the extension will be closed by the report document's close().
+	 * 
+	 * @param document
+	 *            the report document.
+	 * @return the extension of the document
+	 * @throws EngineException
+	 */
+	IReportDocumentExtension createDocumentExtension( IReportDocument document )
+			throws EngineException;
+
+	/**
 	 * create the generate extension.
 	 * 
 	 * @param context
@@ -44,6 +58,9 @@ public interface IReportEngineExtension
 	 * @throws EngineException
 	 */
 	IGenerateExtension createGenerateExtension( IRunContext context )
+			throws EngineException;
+
+	IDataExtension createDataExtension( IRunContext context )
 			throws EngineException;
 
 	/**

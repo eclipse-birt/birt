@@ -11,9 +11,12 @@
 
 package org.eclipse.birt.report.engine.extension.internal;
 
+import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.data.dte.DocumentDataSource;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.engine.IRunContext;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
@@ -24,6 +27,11 @@ public class RunContext extends ReportContextImpl implements IRunContext
 	public RunContext( ExecutionContext context )
 	{
 		super( context );
+	}
+	
+	public IReportDocument getReportDocument( )
+	{
+		return context.getReportDocument( );
 	}
 
 	public IDocArchiveWriter getWriter( )
@@ -44,5 +52,20 @@ public class RunContext extends ReportContextImpl implements IRunContext
 	public IReportContent getReportContent( )
 	{
 		return context.getReportContent( );
+	}
+
+	public IDocArchiveReader getDataSource( )
+	{
+		DocumentDataSource dataSource = context.getDataSource( );
+		if ( dataSource != null )
+		{
+			return dataSource.getDataSource( );
+		}
+		IReportDocument document = context.getReportDocument( );
+		if ( document != null )
+		{
+			return document.getArchive( );
+		}
+		return null;
 	}
 }

@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
+import org.eclipse.birt.report.engine.extension.engine.IDataExtension;
 import org.eclipse.birt.report.engine.extension.engine.IDocumentExtension;
 import org.eclipse.birt.report.engine.extension.engine.IGenerateExtension;
 import org.eclipse.birt.report.engine.extension.engine.IRenderExtension;
@@ -29,6 +30,7 @@ public class EngineExtensionManager
 	HashMap<String, IRenderExtension> renderExtensions = new HashMap<String, IRenderExtension>( );
 	HashMap<String, IGenerateExtension> generateExtensions = new HashMap<String, IGenerateExtension>( );
 	HashMap<String, IDocumentExtension> documentExtensions = new HashMap<String, IDocumentExtension>( );
+	HashMap<String, IDataExtension> dataExtensions = new HashMap<String, IDataExtension>( );
 
 	public EngineExtensionManager( ExecutionContext context )
 	{
@@ -107,6 +109,24 @@ public class EngineExtensionManager
 
 	}
 
+	public IDataExtension getDataExtension( String name )
+			throws EngineException
+	{
+		if ( dataExtensions.containsKey( name ) )
+		{
+			return dataExtensions.get( name );
+		}
+		IReportEngineExtension extension = getEngineExtension( name );
+		if ( extension != null )
+		{
+			IDataExtension dataExtension = extension
+					.createDataExtension( new RunContext( context ) );
+			dataExtensions.put( name, dataExtension );
+			return dataExtension;
+		}
+		return null;
+	}
+
 	public void close( )
 	{
 		for ( IGenerateExtension generateExt : generateExtensions.values( ) )
@@ -128,6 +148,14 @@ public class EngineExtensionManager
 			if ( documentExt != null )
 			{
 				documentExt.close( );
+			}
+		}
+
+		for ( IDataExtension dataExt : dataExtensions.values( ) )
+		{
+			if ( dataExt != null )
+			{
+				dataExt.close( );
 			}
 		}
 		generateExtensions.clear( );

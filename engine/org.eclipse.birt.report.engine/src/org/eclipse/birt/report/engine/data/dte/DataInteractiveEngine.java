@@ -23,6 +23,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
@@ -30,12 +31,12 @@ import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
-import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
+import org.eclipse.birt.report.engine.executor.EngineExtensionManager;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.engine.IDataExtension;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.mozilla.javascript.Scriptable;
@@ -186,6 +187,9 @@ public class DataInteractiveEngine extends AbstractDataEngine
 
 		// Interactive do not support CUBE?
 		((QueryDefinition)query).setQueryResultsID( resultSetID );
+		// invoke the engine extension to process the queries
+		//processQueryExtensions( query );
+		
 		IBasePreparedQuery pQuery = dteSession.prepare( query, null );
 
 		Scriptable scope = context.getSharedScope( );
@@ -248,6 +252,26 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		return resultSet;
 	}
 	
+	protected void processQueryExtensions( IDataQueryDefinition query )
+		throws EngineException
+	{
+		String[] extensions = context.getEngineExtensions( );
+		if ( extensions != null )
+		{
+			EngineExtensionManager manager = context
+					.getEngineExtensionManager( );
+			for ( String extensionName : extensions )
+			{
+				IDataExtension extension = manager
+						.getDataExtension( extensionName );
+				if ( extension != null )
+				{
+					extension.prepareQuery( query );
+				}
+			}
+		}
+	}
+
 	protected IBaseResultSet doExecuteCube( IBaseResultSet parentResult,
 			ICubeQueryDefinition query, boolean useCache ) throws BirtException
 	{

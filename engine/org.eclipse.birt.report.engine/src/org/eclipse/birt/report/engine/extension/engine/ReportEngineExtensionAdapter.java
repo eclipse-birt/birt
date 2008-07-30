@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.extension.engine;
 
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 
 abstract public class ReportEngineExtensionAdapter
@@ -35,7 +36,14 @@ abstract public class ReportEngineExtensionAdapter
 	{
 	}
 
+	public IReportDocumentExtension createDocumentExtension(
+			IReportDocument document ) throws EngineException
+	{
+		return null;
+	}
+
 	public IDataExtension createDataExtension( IRunContext context )
+			throws EngineException
 	{
 		return null;
 	}
