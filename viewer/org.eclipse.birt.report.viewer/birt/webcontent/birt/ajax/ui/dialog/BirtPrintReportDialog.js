@@ -206,7 +206,7 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 
 			var previewExists = false;
 			// retrieve previous window instance
-			var previousPrintWindow = window.open( '', Constants.WINDOW_PRINT_PREVIEW );
+			var previousPrintWindow = window.open( '', Constants.WINDOW_PRINT_PREVIEW, 'location=no' );
 			try
 			{
 				// if the window didn't exist, then window.open() has opened an empty window
@@ -223,7 +223,7 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			}
 
 			if ( previewExists )
-			{	
+			{
 				// workaround for Bugzilla Bug 227937
 				window.setTimeout( function () { alert( Constants.error.printPreviewAlreadyOpen ) }, 0 );
 				return false;
