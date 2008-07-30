@@ -44,6 +44,20 @@ public class Finance
 	{
 
 	}
+	
+	private static double getDouble( Object o ) throws BirtException
+	{
+		if( o == null )
+			return 0;
+		return DataTypeUtil.toDouble( o );
+	}
+	
+	private static int getInteger( Object o ) throws BirtException
+	{
+		if( o == null )
+			return 0;
+		return DataTypeUtil.toInteger( o );
+	}
 
 	/**
 	 * @param Cost
@@ -105,10 +119,10 @@ public class Finance
 		{
 			if( arguments == null || arguments.length!= 4)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.ddb()");
-			return ddb( DataTypeUtil.toDouble( arguments[0] ),
-					DataTypeUtil.toDouble( arguments[1] ),
-					DataTypeUtil.toDouble(  arguments[2] ),
-					DataTypeUtil.toInteger( arguments[3] ));
+			return ddb( getDouble( arguments[0] ),
+					getDouble( arguments[1] ),
+					getDouble(  arguments[2] ),
+					getInteger( arguments[3] ));
 		}
 	}
 	
@@ -136,9 +150,9 @@ public class Finance
 		{
 			if( arguments == null || arguments.length!= 3)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.sln()");
-			return sln( DataTypeUtil.toDouble( arguments[0] ),
-					DataTypeUtil.toDouble( arguments[1] ),
-					DataTypeUtil.toDouble(  arguments[2] ));
+			return sln( getDouble( arguments[0] ),
+					getDouble( arguments[1] ),
+					getDouble(  arguments[2] ));
 		}
 	}
 	/**
@@ -172,10 +186,10 @@ public class Finance
 		{
 			if( arguments == null || arguments.length!= 4)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.syd()");
-			return syd( DataTypeUtil.toDouble( arguments[0] ),
-					DataTypeUtil.toDouble( arguments[1] ),
-					DataTypeUtil.toDouble(  arguments[2] ),
-					DataTypeUtil.toInteger( arguments[3] ));
+			return syd( getDouble( arguments[0] ),
+					getDouble( arguments[1] ),
+					getDouble(  arguments[2] ),
+					getInteger( arguments[3] ));
 		}
 	}
 	/**
@@ -259,11 +273,11 @@ public class Finance
 		{
 			if( arguments == null || arguments.length!= 5)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.fv()");
-			return fv( DataTypeUtil.toDouble( arguments[0] ),
-					DataTypeUtil.toInteger( arguments[1] ),
-					DataTypeUtil.toDouble(  arguments[2] ),
-					DataTypeUtil.toDouble( arguments[3] ),
-					DataTypeUtil.toInteger( arguments[4] ));
+			return fv( getDouble( arguments[0] ),
+					getInteger( arguments[1] ),
+					getDouble(  arguments[2] ),
+					getDouble( arguments[3] ),
+					getInteger( arguments[4] ));
 		}
 	}
 	/**
@@ -326,11 +340,11 @@ public class Finance
 		{
 			if( arguments == null || arguments.length!= 5)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.pmt()");
-			return pmt( DataTypeUtil.toDouble( arguments[0] ),
-					DataTypeUtil.toInteger( arguments[1] ),
-					DataTypeUtil.toDouble(  arguments[2] ),
-					DataTypeUtil.toDouble( arguments[3] ),
-					DataTypeUtil.toInteger( arguments[4] ));
+			return pmt( getDouble( arguments[0] ),
+					getInteger( arguments[1] ),
+					getDouble(  arguments[2] ),
+					getDouble( arguments[3] ),
+					getInteger( arguments[4] ));
 		}
 	}
 	/**
@@ -397,12 +411,12 @@ public class Finance
 		{
 			if( arguments == null || arguments.length!= 6)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.ipmt()");
-			return ipmt( DataTypeUtil.toDouble( arguments[0] ),
-					DataTypeUtil.toInteger( arguments[1] ),
-					DataTypeUtil.toInteger( arguments[2] ),
-					DataTypeUtil.toDouble(  arguments[3] ),
-					DataTypeUtil.toDouble( arguments[4] ),
-					DataTypeUtil.toInteger( arguments[5] ));
+			return ipmt( getDouble( arguments[0] ),
+					getInteger( arguments[1] ),
+					getInteger( arguments[2] ),
+					getDouble(  arguments[3] ),
+					getDouble( arguments[4] ),
+					getInteger( arguments[5] ));
 		}
 	}
 
@@ -467,12 +481,12 @@ public class Finance
 		{
 			if( arguments == null || arguments.length!= 6)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.ppmt()");
-			return ppmt( DataTypeUtil.toDouble( arguments[0] ),
-					DataTypeUtil.toInteger( arguments[1] ),
-					DataTypeUtil.toInteger( arguments[2] ),
-					DataTypeUtil.toDouble(  arguments[3] ),
-					DataTypeUtil.toDouble( arguments[4] ),
-					DataTypeUtil.toInteger( arguments[5] ));
+			return ppmt( getDouble( arguments[0] ),
+					getInteger( arguments[1] ),
+					getInteger( arguments[2] ),
+					getDouble(  arguments[3] ),
+					getDouble( arguments[4] ),
+					getInteger( arguments[5] ));
 		}
 	}
 	/**
@@ -527,11 +541,11 @@ public class Finance
 		{
 			if( arguments == null || arguments.length!= 5)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.nper()");
-			return nper( DataTypeUtil.toDouble( arguments[0] ),
-					DataTypeUtil.toDouble( arguments[1] ),
-					DataTypeUtil.toDouble( arguments[2] ),
-					DataTypeUtil.toDouble(  arguments[3] ),
-					DataTypeUtil.toInteger( arguments[4] ));
+			return nper( getDouble( arguments[0] ),
+					getDouble( arguments[1] ),
+					getDouble( arguments[2] ),
+					getDouble(  arguments[3] ),
+					getInteger( arguments[4] ));
 		}
 	}
 	
@@ -598,11 +612,11 @@ public class Finance
 		{
 			if( arguments == null || arguments.length!= 5)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.pv()");
-			return pv( DataTypeUtil.toDouble( arguments[0] ),
-					DataTypeUtil.toInteger( arguments[1] ),
-					DataTypeUtil.toDouble(  arguments[2] ),
-					DataTypeUtil.toDouble( arguments[3] ),
-					DataTypeUtil.toInteger( arguments[4] ));
+			return pv( getDouble( arguments[0] ),
+					getInteger( arguments[1] ),
+					getDouble(  arguments[2] ),
+					getDouble( arguments[3] ),
+					getInteger( arguments[4] ));
 		}
 	}
 	/**
@@ -800,12 +814,12 @@ public class Finance
 		{
 			if( arguments == null || arguments.length!= 6)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.rate()");
-			return rate( DataTypeUtil.toInteger( arguments[0] ),
-					DataTypeUtil.toDouble( arguments[1] ),
-					DataTypeUtil.toDouble(  arguments[2] ),
-					DataTypeUtil.toDouble( arguments[3] ),
-					DataTypeUtil.toInteger( arguments[4] ),
-					DataTypeUtil.toDouble( arguments[5] ));
+			return rate( getInteger( arguments[0] ),
+					getDouble( arguments[1] ),
+					getDouble(  arguments[2] ),
+					getDouble( arguments[3] ),
+					getInteger( arguments[4] ),
+					getDouble( arguments[5] ));
 		}
 	}
 	/**
@@ -839,9 +853,9 @@ public class Finance
 		{
 			if( arguments == null || (arguments.length!= 2 && arguments.length!= 3))
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.percent()");
-			return percent( DataTypeUtil.toDouble( arguments[0] ),
-					DataTypeUtil.toDouble( arguments[1] ),
-					arguments.length == 3?DataTypeUtil.toDouble(  arguments[2] ):0);
+			return percent( getDouble( arguments[0] ),
+					getDouble( arguments[1] ),
+					arguments.length == 3?getDouble(  arguments[2] ):0);
 		}
 	}
 	/**
@@ -907,10 +921,10 @@ public class Finance
 				double[] arg = new double[array.length];
 				for( int i = 0; i < arg.length; i++ )
 				{
-					arg[i] = DataTypeUtil.toDouble( array[i] );
+					arg[i] = getDouble( array[i] );
 				}
 				
-				return npv( DataTypeUtil.toDouble( arguments[0] ),
+				return npv( getDouble( arguments[0] ),
 						arg );
 				
 			}
@@ -1101,15 +1115,15 @@ public class Finance
 				double[] arg = new double[array.length];
 				for( int i = 0; i < arg.length; i++ )
 				{
-					arg[i] = DataTypeUtil.toDouble( array[i] );
+					arg[i] = getDouble( array[i] );
 				}
 				
-				return irr( arg, DataTypeUtil.toDouble( arguments[1] ));
+				return irr( arg, getDouble( arguments[1] ));
 				
 			}
 			else if( arguments[0].getClass( ).isAssignableFrom( double[].class ) )
 			{
-				return irr( (double[])arguments[0], DataTypeUtil.toDouble( arguments[1] ));
+				return irr( (double[])arguments[0], getDouble( arguments[1] ));
 				
 			}
 			throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.type.of.argument" )+ "Finance.irr()");
@@ -1225,22 +1239,22 @@ public class Finance
 				double[] arg = new double[array.length];
 				for ( int i = 0; i < arg.length; i++ )
 				{
-					arg[i] = DataTypeUtil.toDouble( array[i] );
+					arg[i] = getDouble( array[i] );
 				}
 
 				return mirr( arg,
-						DataTypeUtil.toDouble( arguments[1] ),
+						getDouble( arguments[1] ),
 						arguments.length == 3
-								? DataTypeUtil.toDouble( arguments[2] ) : 0 );
+								? getDouble( arguments[2] ) : 0 );
 
 			}
 			else if ( arguments[0].getClass( )
 					.isAssignableFrom( double[].class ) )
 			{
 				return mirr( (double[]) arguments[0],
-						DataTypeUtil.toDouble( arguments[1] ),
+						getDouble( arguments[1] ),
 						arguments.length == 3
-								? DataTypeUtil.toDouble( arguments[2] ) : 0 );
+								? getDouble( arguments[2] ) : 0 );
 
 			}
 			throw new BirtException( "org.eclipse.birt.core.script.general",
