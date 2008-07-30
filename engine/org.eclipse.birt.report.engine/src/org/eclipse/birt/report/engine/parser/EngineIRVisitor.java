@@ -893,6 +893,7 @@ public class EngineIRVisitor extends DesignVisitor
 			return;
 		}
 		
+		CellDesign firstStuffedCell = null;
 		String columnBindingExpression = getColumnBinding( tableHandle,
 				keyExpression );
 		for ( int i = 0; i < groupHeader.getContentCount( ); i++ )
@@ -911,16 +912,31 @@ public class EngineIRVisitor extends DesignVisitor
 						return;
 					}
 				}
+				if ( cell.getContentCount( ) > 0 && null == firstStuffedCell )
+				{
+					firstStuffedCell = cell;
+				}
 			}
 		}
-		// if the group icon hasn't been set, set the icon to the default cell.
-		RowDesign row = (RowDesign) groupHeader.getContent( 0 );
-		if( null != row )
+		 
+		if ( null != firstStuffedCell )
 		{
-			CellDesign cell = row.getCell( 0 );
-			if( null != cell )
+			// if the group icon hasn't been set, set the icon to the first
+			// stuffed cell.
+			firstStuffedCell.setDisplayGroupIcon( true );
+		}
+		else
+		{
+			// if the group icon hasn't been set and all the cells are empty,
+			// set the icon to the first cell.
+			RowDesign row = (RowDesign) groupHeader.getContent( 0 );
+			if ( null != row )
 			{
-				cell.setDisplayGroupIcon( true );
+				CellDesign cell = row.getCell( 0 );
+				if ( null != cell )
+				{
+					cell.setDisplayGroupIcon( true );
+				}
 			}
 		}
 	}
