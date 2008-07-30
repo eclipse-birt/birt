@@ -12,6 +12,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.commands.PasteCommand;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
@@ -19,15 +20,17 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.Rep
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.layout.AbstractPageFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.MasterPageLayout;
-import org.eclipse.birt.report.designer.util.ColorManager;
+import org.eclipse.birt.report.designer.internal.ui.util.bidi.BidiUIUtils;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
-import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -43,6 +46,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractEditPart;
 import org.eclipse.gef.editpolicies.GraphicalEditPolicy;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * Master Page editor
@@ -107,6 +111,15 @@ public class MasterPageEditPart extends AbstractReportEditPart
 	{
 		super.activate( );
 		getFigure( ).setFocusTraversable( false );
+		if (getModel() instanceof ReportDesignHandle)
+		{			
+			/* 
+			 * if BiDi support is enabled, set valid value for BiDi orientation property
+			 */
+			getViewer( ).setProperty( IReportGraphicConstants.REPORT_BIDIORIENTATION_PROPERTY,
+					( (ReportDesignHandle) getModel()).getBidiOrientation( ) );
+			
+		}
 	}
 
 	/*
@@ -299,6 +312,42 @@ public class MasterPageEditPart extends AbstractReportEditPart
 	public boolean isinterest( Object model )
 	{
 		return super.isinterest( model ) || model instanceof ModuleHandle;
+	}
+	
+	@Override
+	protected void propertyChange( Map info )
+	{
+		boolean invalidate = false;
+		if ( info.get( ReportDesignHandle.BIDI_ORIENTATION_PROP ) instanceof ReportDesignHandle )
+		{
+			String newOrientation = ( (ReportDesignHandle) info.get(
+					ReportDesignHandle.BIDI_ORIENTATION_PROP ) ).getBidiOrientation( );
+					
+			boolean mirrored = DesignChoiceConstants
+					.BIDI_DIRECTION_RTL.equals( newOrientation );
+
+			this.getViewer( ).flush( );
+				
+			// Apply new orientation to the view.
+			Composite parent = getViewer( ).getControl( ).getParent( );
+			BidiUIUtils.INSTANCE.applyOrientation( parent, mirrored );
+
+			parent.layout( true );
+
+			getViewer( ).setProperty( IReportGraphicConstants
+					.REPORT_BIDIORIENTATION_PROPERTY, newOrientation );
+
+			invalidate = true;
+		}
+		
+		super.propertyChange(info);
+		
+		if ( invalidate )
+		{
+			getFigure( ).invalidateTree( );
+			//getFigure( ).getUpdateManager( ).addInvalidFigure( getFigure( ) );
+			getFigure( ).revalidate( );
+		}
 	}
 }
 
