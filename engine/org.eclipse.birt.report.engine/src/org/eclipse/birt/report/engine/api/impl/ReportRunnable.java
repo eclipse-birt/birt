@@ -9,20 +9,21 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.birt.report.engine.api.IImage;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.script.element.IReportDesign;
-import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.script.internal.element.ReportDesign;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.mozilla.javascript.Script;
 
 /**
  * Engine implementation of IReportRunnable interface
@@ -44,6 +45,23 @@ public class ReportRunnable implements IReportRunnable
 	 * reference to report engine
 	 */
 	protected IReportEngine engine = null;
+	
+	protected Hashtable<String, Script> cachedScripts = new Hashtable<String, Script>();
+
+	public Map<String, Script> getScriptCache()
+	{
+		return cachedScripts;
+	}
+	
+	public Script getScript(String source)
+	{
+		return cachedScripts.get( source );
+	}
+	
+	public void putScript(String source, Script script)
+	{
+		cachedScripts.put( source, script );
+	}
 
 	/**
 	 * constructor

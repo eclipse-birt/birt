@@ -343,6 +343,10 @@ public class ExecutionContext
 		{
 			scriptContext = new ScriptContext( );
 		}
+		if (runnable != null && runnable instanceof ReportRunnable)
+		{
+			scriptContext.setCompiledScripts( ((ReportRunnable)runnable).getScriptCache() );
+		}
 		
 		Context context = scriptContext.getContext( );
 		try
@@ -1213,6 +1217,7 @@ public class ExecutionContext
 		this.runnable = (ReportRunnable)runnable;
 		if (scriptContext != null)
 		{
+			scriptContext.setCompiledScripts( ((ReportRunnable)runnable).getScriptCache( ) );
 			registerDesign( runnable );
 		}
 	}
@@ -1224,6 +1229,11 @@ public class ExecutionContext
 			this.originalRunnable = this.runnable;
 		}
 		this.runnable = (ReportRunnable) newRunnable;
+		if (scriptContext != null)
+		{
+			scriptContext.setCompiledScripts( ((ReportRunnable)runnable).getScriptCache( ) );
+			registerDesign(runnable);
+		}
 		reportIR = null;
 	}
 	

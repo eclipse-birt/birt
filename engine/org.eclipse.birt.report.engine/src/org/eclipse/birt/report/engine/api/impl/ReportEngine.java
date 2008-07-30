@@ -191,7 +191,7 @@ public class ReportEngine implements IReportEngine
 			}
 			try
 			{
-				rootScope = new ImporterTopLevel(cx);//cx.initStandardObjects( null, true );
+				rootScope = cx.initStandardObjects( );
 				registerBeans( rootScope, config.getConfigMap( ) );
 				registerBeans( rootScope, config.getScriptObjects( ) );
 				IStatusHandler handler = config.getStatusHandler( );

@@ -12,6 +12,7 @@
 package org.eclipse.birt.core.script;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,9 +50,14 @@ public class ScriptContext
 	protected Scriptable scope;
 	
 	/**
+	 * a cache storing compiled script
+	 */
+	protected Map<String, Script> compiledScripts = new HashMap<String, Script>( );
+	
+	/**
 	 * a cache storing ScriptExpression
 	 */
-	protected HashMap compiledScripts = new HashMap( );
+	protected HashMap<String, ScriptExpression> scriptExpressionCache = new HashMap<String, ScriptExpression>( );
 
 	/**
 	 * for BIRT globel varible "params"
@@ -74,12 +80,18 @@ public class ScriptContext
 			global = new ImporterTopLevel( );
 			if ( root != null )
 			{
+				global.exportAsJSClass( 3, global, false );
+				global.delete( "constructor" );
 				global.setPrototype( root );
 			}
-			global.initStandardObjects( context, true );
+			else
+			{
+				global.initStandardObjects( context, true );
+			}
 			this.scope = global;
 			sharedScope = context.newObject( scope );
-
+			sharedScope.setParentScope( scope );
+			
 		}
 		catch ( Exception ex )
 		{
@@ -93,6 +105,11 @@ public class ScriptContext
 		}
 	}
 
+	public void setCompiledScripts(Map<String, Script> compiledScripts)
+	{
+		this.compiledScripts = compiledScripts;
+	}
+	
 	/**
 	 * @param name
 	 *            the name of a property
@@ -115,7 +132,8 @@ public class ScriptContext
 		{
 			Context.exit( );
 			context = null;
-			compiledScripts.clear( );
+			compiledScripts = null;
+			scriptExpressionCache.clear();
 		}
 	}
 
@@ -143,7 +161,7 @@ public class ScriptContext
 		{
 			newScope = context.newObject( scope );
 		}
-		newScope.setPrototype( scope );
+		newScope.setParentScope( scope );
 		scope = newScope;
 		sharedScope.setPrototype( scope );
 		return newScope;
@@ -154,7 +172,7 @@ public class ScriptContext
 	 */
 	public void exitScope( )
 	{
-		Scriptable protoScope = scope.getPrototype( );
+		Scriptable protoScope = scope.getParentScope( );
 		if ( protoScope != null )
 			scope = protoScope;
 		sharedScope.setPrototype( scope );
@@ -206,12 +224,12 @@ public class ScriptContext
 	{
 		if ( null != source && source.length( ) > 0 )
 		{
-			ScriptExpression scriptExpression = (ScriptExpression) compiledScripts
+			ScriptExpression scriptExpression = scriptExpressionCache
 					.get( source );
 			if ( scriptExpression == null )
 			{
 				scriptExpression = new ScriptExpression( source );
-				compiledScripts.put( source, scriptExpression );
+				scriptExpressionCache.put( source, scriptExpression );
 			}
 			return eval( scriptExpression );
 		}
@@ -232,10 +250,18 @@ public class ScriptContext
 		Script script = expr.getCompiledScript( );
 		if ( script == null )
 		{
-			script = context.compileString( expr.getScriptText( ),
-					expr.getId( ),
-					expr.getLineNumber( ),
-					null );
+			String source = expr.getScriptText( );
+			if ( context.getDebugger( ) != null )
+			{
+				source = source + expr.getLineNumber( );
+			}
+			script = compiledScripts.get( source );
+			if ( script == null )
+			{
+				script = context.compileString( expr.getScriptText( ), expr
+						.getId( ), expr.getLineNumber( ), null );
+				compiledScripts.put( source, script );
+			}
 			expr.setCompiledScript( script );
 		}
 		Object value = script.exec( context, scope );
