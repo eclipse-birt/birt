@@ -3289,7 +3289,7 @@ Style.Image=이미지
 
 ###########################################################
 # Messages.
-Message.NamePrefixNew=새로 만들기
+Message.NamePrefixNew=새
 Message.ChangeProperty=속성 변경:{0}
 Message.ChangePropertyDefinition=속성 정의 변경
 Message.MoveItem=항목 이동
