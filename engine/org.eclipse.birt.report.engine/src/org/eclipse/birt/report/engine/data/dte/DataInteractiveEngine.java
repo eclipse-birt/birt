@@ -188,7 +188,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		// Interactive do not support CUBE?
 		((QueryDefinition)query).setQueryResultsID( resultSetID );
 		// invoke the engine extension to process the queries
-		//processQueryExtensions( query );
+		processQueryExtensions( query );
 		
 		IBasePreparedQuery pQuery = dteSession.prepare( query, null );
 
