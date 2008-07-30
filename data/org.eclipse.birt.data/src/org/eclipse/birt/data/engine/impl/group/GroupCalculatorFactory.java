@@ -138,7 +138,7 @@ public class GroupCalculatorFactory
 									DataType.getName( dataType )
 							} );
 			default :
-				if ( isDate( dataType ) )
+				if ( canBeConvertToDate( dataType ) )
 					return;
 				else
 					throw new DataException( ResourceConstants.BAD_GROUP_INTERVAL_TYPE,
@@ -180,10 +180,13 @@ public class GroupCalculatorFactory
 	 * @param dataType
 	 * @return
 	 */
-	private static boolean isDate( int dataType )
+	private static boolean canBeConvertToDate( int dataType )
 	{
 		return (dataType == DataType.DATE_TYPE
-				|| dataType == DataType.SQL_DATE_TYPE || dataType == DataType.SQL_TIME_TYPE);
+				|| dataType == DataType.SQL_DATE_TYPE 
+				|| dataType == DataType.SQL_TIME_TYPE
+				|| dataType == DataType.STRING_TYPE
+				|| dataType == DataType.INTEGER_TYPE );
 	}
 
 	/**

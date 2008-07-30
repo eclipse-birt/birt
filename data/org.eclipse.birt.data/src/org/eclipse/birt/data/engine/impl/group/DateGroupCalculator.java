@@ -60,4 +60,9 @@ abstract class DateGroupCalculator extends GroupCalculator
 	{
 		return range;
 	}
+	
+	protected Date getDate( Object value ) throws BirtException
+	{
+		return DataTypeUtil.toDate( value );
+	}
 }

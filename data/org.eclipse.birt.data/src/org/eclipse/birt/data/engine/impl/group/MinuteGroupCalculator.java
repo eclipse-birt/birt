@@ -39,29 +39,31 @@ class MinuteGroupCalculator extends DateGroupCalculator
 	 * 
 	 * @see org.eclipse.birt.data.engine.impl.group.DateGroupCalculator#calculate(java.lang.Object)
 	 */
-	public Object calculate( Object value )
+	public Object calculate( Object value ) throws BirtException
 	{
 		if ( value == null )
 		{
 			return new Double( -1 );
 		}
 
+		Date target = getDate( value );
+		
 		if ( intervalStart == null )
 		{
 			return new Double( Math.floor( DateTimeUtil.diffMinute( defaultStart,
-					(Date) value )
+					target )
 					/ getDateIntervalRange( ) ) );
 		}
 		else
 		{
-			if ( DateTimeUtil.diffMinute( (Date) intervalStart, (Date) value ) < 0 )
+			if ( DateTimeUtil.diffMinute( (Date) intervalStart, target ) < 0 )
 			{
 				return new Double( -1 );
 			}
 			else
 			{
 				return new Double( Math.floor( DateTimeUtil.diffMinute( (Date) intervalStart,
-						(Date) value )
+						target )
 						/ getDateIntervalRange( ) ) );
 			}
 		}
