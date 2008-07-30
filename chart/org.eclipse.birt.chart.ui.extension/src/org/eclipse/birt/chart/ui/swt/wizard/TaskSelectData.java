@@ -80,7 +80,7 @@ public class TaskSelectData extends SimpleTask implements
 {
 
 	private final static int CENTER_WIDTH_HINT = 400;
-	private IChartPreviewPainter previewPainter = null;
+	protected IChartPreviewPainter previewPainter = null;
 	private Canvas previewCanvas = null;
 
 	private ISelectDataCustomizeUI dynamicArea;
@@ -342,7 +342,7 @@ public class TaskSelectData extends SimpleTask implements
 		return painter;
 	}
 
-	private Chart getChartModel( )
+	protected Chart getChartModel( )
 	{
 		if ( getContext( ) == null )
 		{

@@ -21,6 +21,7 @@ import java.util.List;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.Generator;
+import org.eclipse.birt.chart.factory.IActionEvaluator;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.ILogger;
@@ -206,7 +207,7 @@ public class ChartUIUtil
 		return numberFormat;
 	}
 
-	public static EList getBaseSeriesDefinitions( Chart chart )
+	public static EList<SeriesDefinition> getBaseSeriesDefinitions( Chart chart )
 	{
 		return ChartUtil.getBaseSeriesDefinitions( chart );
 	}
@@ -215,7 +216,7 @@ public class ChartUIUtil
 	{
 		if ( chart instanceof ChartWithAxes )
 		{
-			EList axisList = ( (Axis) ( (ChartWithAxes) chart ).getAxes( )
+			EList<Axis> axisList = ( (Axis) ( (ChartWithAxes) chart ).getAxes( )
 					.get( 0 ) ).getAssociatedAxes( );
 			return axisList.size( );
 		}
@@ -236,14 +237,14 @@ public class ChartUIUtil
 	 *            series definition.
 	 * @return specified axis definitions or all series definitions
 	 */
-	public static EList getOrthogonalSeriesDefinitions( Chart chart,
+	public static EList<SeriesDefinition> getOrthogonalSeriesDefinitions( Chart chart,
 			int axisIndex )
 	{
 		if ( chart instanceof ChartWithAxes )
 		{
-			EList axisList = ( (Axis) ( (ChartWithAxes) chart ).getAxes( )
+			EList<Axis> axisList = ( (Axis) ( (ChartWithAxes) chart ).getAxes( )
 					.get( 0 ) ).getAssociatedAxes( );
-			return ( (Axis) axisList.get( axisIndex ) ).getSeriesDefinitions( );
+			return axisList.get( axisIndex ).getSeriesDefinitions( );
 		}
 		else if ( chart instanceof ChartWithoutAxes )
 		{
@@ -373,7 +374,7 @@ public class ChartUIUtil
 	 */
 	public static boolean checkDataBinding( Chart chart )
 	{
-		List sdList = ChartUIUtil.getBaseSeriesDefinitions( chart );
+		List<SeriesDefinition> sdList = ChartUIUtil.getBaseSeriesDefinitions( chart );
 		if ( !checkDataDefinition( sdList ) )
 		{
 			return false;
@@ -389,11 +390,11 @@ public class ChartUIUtil
 		return true;
 	}
 
-	private static boolean checkDataDefinition( List sdList )
+	private static boolean checkDataDefinition( List<SeriesDefinition> sdList )
 	{
 		for ( int i = 0; i < sdList.size( ); i++ )
 		{
-			Series series = ( (SeriesDefinition) sdList.get( i ) ).getDesignTimeSeries( );
+			Series series = sdList.get( i ).getDesignTimeSeries( );
 			EList ddList = series.getDataDefinition( );
 			if ( ddList.size( ) == 0 )
 			{
@@ -558,11 +559,12 @@ public class ChartUIUtil
 	 * @throws ChartException
 	 */
 	public static void doLivePreview( Chart chart,
-			IDataServiceProvider dataProvider ) throws ChartException
+			IDataServiceProvider dataProvider, IActionEvaluator iae )
+			throws ChartException
 	{
 		boolean isSharingQuery = dataProvider.checkState( IDataServiceProvider.SHARE_QUERY );
 		final List expressions = Generator.instance( )
-				.getRowExpressions( chart, null, !isSharingQuery );
+				.getRowExpressions( chart, iae, !isSharingQuery );
 
 		IDataRowExpressionEvaluator evaluator = dataProvider.prepareRowExpressionEvaluator( chart,
 				expressions,
@@ -572,8 +574,8 @@ public class ChartUIUtil
 		RunTimeContext context = new RunTimeContext( );
 		context.setULocale( ULocale.getDefault( ) );
 		context.setSharingQuery( isSharingQuery );
-		Generator.instance( ).bindData( evaluator, chart, context );
-		
+		Generator.instance( ).bindData( evaluator, iae, chart, context );
+
 		if ( evaluator != null )
 		{
 			evaluator.close( );
@@ -1704,22 +1706,32 @@ public class ChartUIUtil
 
 		return new NameSet( prefix, suffix, names );
 	}
+	
+	/**
+	 * Create runtime chart model and bind preview data.
+	 * 
+	 * @param cm
+	 * @param dataServiceProvider
+	 * @since BIRT 2.3
+	 */
+	public static void prepareLivePreview( Chart cm,
+			IDataServiceProvider dataServiceProvider )
+	{
+		prepareLivePreview( cm, dataServiceProvider, null );
+	}
 
 	/**
 	 * Create runtime chart model and bind preview data.
 	 * 
 	 * @param cm
 	 * @param dataServiceProvider
-	 * @return do not copy model, simple return original model
 	 * @since BIRT 2.3
 	 */
-	public static Chart prepareLivePreview( Chart cm,
-			IDataServiceProvider dataServiceProvider )
+	public static void prepareLivePreview( Chart cm,
+			IDataServiceProvider dataServiceProvider, IActionEvaluator iae )
 	{
-		final Chart cmRunTime = cm;
-
 		if ( dataServiceProvider.isLivePreviewEnabled( )
-				&& ChartUIUtil.checkDataBinding( cmRunTime ) )
+				&& ChartUIUtil.checkDataBinding( cm ) )
 		{
 			// Enable live preview
 			ChartPreviewPainter.activateLivePreview( true );
@@ -1729,7 +1741,7 @@ public class ChartUIUtil
 
 			try
 			{
-				ChartUIUtil.doLivePreview( cmRunTime, dataServiceProvider );
+				ChartUIUtil.doLivePreview( cm, dataServiceProvider, iae );
 			}
 			// Includes RuntimeException
 			catch ( Exception e )
@@ -1764,8 +1776,6 @@ public class ChartUIUtil
 			// Disable live preview
 			ChartPreviewPainter.activateLivePreview( false );
 		}
-
-		return cmRunTime;
 	}
 
 	public static String getText( Control control )

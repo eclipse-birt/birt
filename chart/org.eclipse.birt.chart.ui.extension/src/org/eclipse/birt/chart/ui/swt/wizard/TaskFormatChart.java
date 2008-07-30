@@ -78,7 +78,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		ITaskPreviewable
 {
 
-	private IChartPreviewPainter previewPainter = null;
+	protected IChartPreviewPainter previewPainter = null;
 
 	private Canvas previewCanvas;
 

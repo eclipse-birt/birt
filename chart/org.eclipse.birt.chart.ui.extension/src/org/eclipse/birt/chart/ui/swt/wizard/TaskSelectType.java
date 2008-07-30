@@ -137,7 +137,7 @@ public class TaskSelectType extends SimpleTask implements
 
 	private Composite cmpSubTypes = null;
 
-	private IChartPreviewPainter previewPainter = null;
+	protected IChartPreviewPainter previewPainter = null;
 	private Canvas previewCanvas = null;
 
 	private LinkedHashMap<String, IChartType> htTypes = null;
@@ -523,6 +523,11 @@ public class TaskSelectType extends SimpleTask implements
 			tItem.setData( ( htTypes.get( sTypeTmp ) ).getName( ) );
 			tItem.setImage( ( htTypes.get( sTypeTmp ) ).getImage( ) );
 		}
+	}
+	
+	protected Chart getChartModel( )
+	{
+		return chartModel;
 	}
 
 	/**
