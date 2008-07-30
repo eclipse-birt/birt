@@ -48,7 +48,7 @@ public final class ExpressionUtil
 	
 	private static String PREFIX = "COLUMN_";
 	
-	private static String EXPRESSION_VALUE_SUFFIX = ".value";
+	public static String EXPRESSION_VALUE_SUFFIX = ".value";
 	
 	private static int suffix = 0;
 
