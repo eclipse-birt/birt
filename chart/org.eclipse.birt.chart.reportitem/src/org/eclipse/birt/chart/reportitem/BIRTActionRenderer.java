@@ -423,7 +423,8 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 		{
 			return null;
 		}
-		return script.substring( iStart, iEnd + 1 );
+		return script.substring( iStart, iEnd
+				+ 1 + ExpressionUtil.EXPRESSION_VALUE_SUFFIX.length( ) );
 	}
 
 }
