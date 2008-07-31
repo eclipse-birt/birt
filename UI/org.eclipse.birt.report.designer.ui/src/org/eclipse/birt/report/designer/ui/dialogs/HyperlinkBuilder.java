@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -49,8 +50,10 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
@@ -118,6 +121,7 @@ public class HyperlinkBuilder extends BaseDialog
 	private static final String COLUMN_PARAMETER = Messages.getString( "HyperlinkBuilder.Column.Parameters" ); //$NON-NLS-1$
 	private static final String COLUMN_VALUE = Messages.getString( "HyperlinkBuilder.Column.Values" ); //$NON-NLS-1$
 	private static final String COLUMN_REQUIRED = Messages.getString( "HyperlinkBuilder.ParameterRequired" ); //$NON-NLS-1$
+	private static final String COLUMN_DATA_TYPE = Messages.getString( "HyperlinkBuilder.Column.DataType" ); //$NON-NLS-1$
 
 	private static final Image IMAGE_OPEN_FILE = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_OPEN_FILE );
 
@@ -163,10 +167,12 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private ArrayList<ParamBinding> bindingList = new ArrayList<ParamBinding>( );
 	private ArrayList<ParameterHandle> parameterList = new ArrayList<ParameterHandle>( );
-	
+
 	private List<String> typeFilterList = new ArrayList<String>( 2 );
 
 	private Object targetReportHandle;
+
+	private HashMap paramTypes = new HashMap( );
 
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
 
@@ -220,6 +226,16 @@ public class HyperlinkBuilder extends BaseDialog
 
 				}
 				else if ( columnIndex == 2 )
+				{
+					String name = parameterBinding.getParamName( );
+					String dataType = (String) paramTypes.get( name );
+					if ( dataType == null )
+					{
+						return "";
+					}
+					return getDisplayDataType( dataType );
+				}
+				else if ( columnIndex == 3 )
 				{
 					text = parameterBinding.getExpression( );
 				}
@@ -468,7 +484,7 @@ public class HyperlinkBuilder extends BaseDialog
 		}
 
 	}
-	
+
 	/**
 	 * Adds hyperlink type filter to disable one type
 	 * 
@@ -863,10 +879,15 @@ public class HyperlinkBuilder extends BaseDialog
 		parameterColumn.setResizable( true );
 		parameterColumn.setWidth( 55 );
 
+		TableColumn dataTypeColumn = new TableColumn( table, SWT.LEFT );
+		dataTypeColumn.setText( COLUMN_DATA_TYPE );
+		dataTypeColumn.setResizable( true );
+		dataTypeColumn.setWidth( 65 );
+
 		TableColumn valueColumn = new TableColumn( table, SWT.LEFT );
 		valueColumn.setText( COLUMN_VALUE );
 		valueColumn.setResizable( true );
-		valueColumn.setWidth( 180 );
+		valueColumn.setWidth( 115 );
 
 		table.addKeyListener( new KeyAdapter( ) {
 
@@ -886,16 +907,20 @@ public class HyperlinkBuilder extends BaseDialog
 		} );
 
 		paramBindingTable.setColumnProperties( new String[]{
-				COLUMN_PARAMETER, COLUMN_REQUIRED, COLUMN_VALUE
+				COLUMN_PARAMETER,
+				COLUMN_REQUIRED,
+				COLUMN_DATA_TYPE,
+				COLUMN_VALUE
 		} );
 
 		parameterChooser = new ComboBoxCellEditor( table,
 				new String[0],
 				SWT.NONE );
+
 		ExpressionCellEditor valueEditor = new ExpressionCellEditor( table );
 		valueEditor.setExpressionProvider( new ExpressionProvider( inputHandle.getElementHandle( ) ) );
 		paramBindingTable.setCellEditors( new CellEditor[]{
-				parameterChooser, null, valueEditor
+				parameterChooser, null, null, valueEditor
 		} );
 		paramBindingTable.setContentProvider( contentProvider );
 		paramBindingTable.setLabelProvider( labelProvider );
@@ -1467,13 +1492,21 @@ public class HyperlinkBuilder extends BaseDialog
 				{
 					if ( targetReportHandle instanceof ReportDesignHandle )
 					{
+						paramTypes.clear( );
 						for ( Iterator iter = ( (ReportDesignHandle) tmpReportDesign ).getAllParameters( )
 								.iterator( ); iter.hasNext( ); )
 						{
 							Object obj = iter.next( );
 							if ( obj instanceof ParameterHandle )
 							{
-								parameterList.add( (ParameterHandle) obj );
+								ParameterHandle param = (ParameterHandle) obj;
+								parameterList.add( param );
+								if ( param instanceof ScalarParameterHandle )
+								{
+									paramTypes.put( param.getName( ),
+											( (ScalarParameterHandle) param ).getDataType( ) );
+								}
+
 							}
 							// bug 147604
 							// else if ( obj instanceof ParameterGroupHandle )
@@ -1919,6 +1952,23 @@ public class HyperlinkBuilder extends BaseDialog
 	protected String getProjectFolder( )
 	{
 		return UIUtil.getProjectFolder( );
+	}
+
+	private String getDisplayDataType( String dataType )
+	{
+		final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
+				.getElement( ReportDesignConstants.SCALAR_PARAMETER_ELEMENT )
+				.getProperty( ScalarParameterHandle.DATA_TYPE_PROP )
+				.getAllowedChoices( );
+
+		IChoice choice = DATA_TYPE_CHOICE_SET.findChoice( dataType );
+		if ( choice == null )
+		{
+			return "";
+		}
+
+		return choice.getDisplayName( );
+
 	}
 
 }
