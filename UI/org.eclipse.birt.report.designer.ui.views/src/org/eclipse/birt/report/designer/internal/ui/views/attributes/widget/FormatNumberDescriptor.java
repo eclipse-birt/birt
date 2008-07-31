@@ -155,7 +155,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 			pSymPosChoice, pPlacesChoice, sPlacesChoice;
 
 	private Button cUseSep, pUseSep, fUseSep, cUseSpace; // fUseZero,
-															// pUseZero;
+	// pUseZero;
 	private List cNegNumChoice, fNegNumChoice, pNegNumChoice;
 	private Table table;
 
@@ -270,7 +270,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		FormWidgetFactory.getInstance( ).createLabel( topContainer,
 				isFormStyle( ) ).setText( LABEL_FORMAT_NUMBER_PAGE );
 		if ( !isFormStyle( ) )
-			typeChoicer = new CCombo( topContainer, SWT.READ_ONLY );
+			typeChoicer = new CCombo( topContainer, SWT.READ_ONLY | SWT.BORDER );
 		else
 			typeChoicer = FormWidgetFactory.getInstance( )
 					.createCCombo( topContainer, true );
@@ -532,7 +532,8 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.IFormatPage#setPreviewText(java.lang.String)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.dialogs.IFormatPage#
+	 * setPreviewText(java.lang.String)
 	 */
 
 	public void setPreviewText( String preText )

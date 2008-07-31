@@ -194,7 +194,7 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 		FormWidgetFactory.getInstance( ).createLabel( topContainer,
 				isFormStyle( ) ).setText( LABEL_FORMAT_DATE_TIME_PAGE );
 		if ( !isFormStyle( ) )
-			typeChoicer = new CCombo( topContainer, SWT.READ_ONLY );
+			typeChoicer = new CCombo( topContainer, SWT.READ_ONLY | SWT.BORDER );
 		else
 			typeChoicer = FormWidgetFactory.getInstance( )
 					.createCCombo( topContainer, true );

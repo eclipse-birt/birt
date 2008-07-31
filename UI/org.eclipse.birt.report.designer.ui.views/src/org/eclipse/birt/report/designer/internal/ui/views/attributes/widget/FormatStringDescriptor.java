@@ -182,7 +182,7 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 		FormWidgetFactory.getInstance( ).createLabel( topContainer,
 				isFormStyle( ) ).setText( LABEL_FORMAT_STRING_PAGE );
 		if ( !isFormStyle( ) )
-			typeChoicer = new CCombo( topContainer, SWT.READ_ONLY );
+			typeChoicer = new CCombo( topContainer, SWT.READ_ONLY | SWT.BORDER );
 		else
 			typeChoicer = FormWidgetFactory.getInstance( )
 					.createCCombo( topContainer, true );
