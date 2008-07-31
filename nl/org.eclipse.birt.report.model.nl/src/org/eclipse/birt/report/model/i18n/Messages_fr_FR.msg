@@ -3318,6 +3318,7 @@ Message.ReplaceElement=Remplacer l'élément
 Message.TransformTemplate=Transformer le modèle
 Message.SetTheme=Définir le thème
 Message.ChangePropertyEncryption=Modifier le chiffrement pour la propriété : {0}
+Message.RenameCSSFile=Rename CSS File
 
 ###########################################################
 #Element new names.
