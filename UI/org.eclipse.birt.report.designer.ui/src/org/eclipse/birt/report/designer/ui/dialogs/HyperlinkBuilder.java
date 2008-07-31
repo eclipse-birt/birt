@@ -163,6 +163,8 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private ArrayList<ParamBinding> bindingList = new ArrayList<ParamBinding>( );
 	private ArrayList<ParameterHandle> parameterList = new ArrayList<ParameterHandle>( );
+	
+	private List<String> typeFilterList = new ArrayList<String>( 2 );
 
 	private Object targetReportHandle;
 
@@ -425,19 +427,26 @@ public class HyperlinkBuilder extends BaseDialog
 
 		new Label( composite, SWT.NONE ).setText( LABEL_SELECT_TYPE );
 
-		noneRadio = new Button( composite, SWT.RADIO );
-		noneRadio.setText( RADIO_NONE );
-		addRadioListener( noneRadio,
-				DesignChoiceConstants.ACTION_LINK_TYPE_NONE );
+		if ( !typeFilterList.contains( DesignChoiceConstants.ACTION_LINK_TYPE_NONE ) )
+		{
+			noneRadio = new Button( composite, SWT.RADIO );
+			noneRadio.setText( RADIO_NONE );
+			addRadioListener( noneRadio,
+					DesignChoiceConstants.ACTION_LINK_TYPE_NONE );
+		}
 
-		UIUtil.createBlankLabel( composite );
+		if ( !typeFilterList.contains( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK ) )
+		{
+			UIUtil.createBlankLabel( composite );
 
-		uriRadio = new Button( composite, SWT.RADIO );
-		uriRadio.setText( RADIO_URI );
-		addRadioListener( uriRadio,
-				DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK );
+			uriRadio = new Button( composite, SWT.RADIO );
+			uriRadio.setText( RADIO_URI );
+			addRadioListener( uriRadio,
+					DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK );
+		}
 
-		if ( !( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof LibraryHandle ) )
+		if ( !( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof LibraryHandle )
+				&& !typeFilterList.contains( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK ) )
 		{
 
 			UIUtil.createBlankLabel( composite );
@@ -447,13 +456,32 @@ public class HyperlinkBuilder extends BaseDialog
 			addRadioListener( bookmarkRadio,
 					DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK );
 		}
-		UIUtil.createBlankLabel( composite );
 
-		drillRadio = new Button( composite, SWT.RADIO );
-		drillRadio.setText( RADIO_DRILLTHROUGH );
-		addRadioListener( drillRadio,
-				DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH );
+		if ( !typeFilterList.contains( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH ) )
+		{
+			UIUtil.createBlankLabel( composite );
 
+			drillRadio = new Button( composite, SWT.RADIO );
+			drillRadio.setText( RADIO_DRILLTHROUGH );
+			addRadioListener( drillRadio,
+					DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH );
+		}
+
+	}
+	
+	/**
+	 * Adds hyperlink type filter to disable one type
+	 * 
+	 * @param disabledType
+	 *            hyperlink type string
+	 * @see DesignChoiceConstants#ACTION_LINK_TYPE_NONE
+	 * @see DesignChoiceConstants#ACTION_LINK_TYPE_HYPERLINK
+	 * @see DesignChoiceConstants#ACTION_LINK_TYPE_BOOKMARK_LINK
+	 * @see DesignChoiceConstants#ACTION_LINK_TYPE_DRILL_THROUGH
+	 */
+	public void addHyperlinkTypeFilter( String disabledType )
+	{
+		typeFilterList.add( disabledType );
 	}
 
 	private void switchTo( String type )
