@@ -60,8 +60,7 @@ public class GraphicsViewModelEventProcessor extends AbstractModelEventProcessor
 				| type == NotificationEvent.LIBRARY_RELOADED_EVENT
 				| type == NotificationEvent.CSS_EVENT
 				| type == NotificationEvent.VIEWS_CONTENT_EVENT
-				| type == NotificationEvent.CSS_RELOADED_EVENT
-				| type == NotificationEvent.CSS_RENAME_EVENT;
+				| type == NotificationEvent.CSS_RELOADED_EVENT;
 	}
 	/**Process the content model event
 	 * ContentModelEventInfo
