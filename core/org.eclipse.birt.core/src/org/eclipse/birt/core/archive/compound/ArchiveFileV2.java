@@ -12,6 +12,7 @@
 package org.eclipse.birt.core.archive.compound;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileLock;
@@ -304,6 +305,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 				}
 				else
 				{
+					ensureParentFolderCreated( );
 					rf = new RandomAccessFile( archiveName, "rw" );
 				}
 			}
@@ -358,17 +360,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		{
 			if ( !isTransient )
 			{
-				if ( rf == null )
-				{
-					// try to create the parent folder
-					File parentFile = new File( archiveName ).getParentFile( );
-					if ( parentFile != null && !parentFile.exists( ) )
-					{
-						parentFile.mkdirs( );
-					}
-
-					rf = new RandomAccessFile( archiveName, "rw" );
-				}
+				ensureFileCreated( );
 				rf.setLength( 0 );
 			}
 
@@ -686,9 +678,35 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		}
 		else
 		{
+			ensureFileCreated( );
 			long pos = blockId * BLOCK_SIZE + blockOff;
 			rf.seek( pos );
 			rf.write( b, off, len );
+		}
+	}
+	
+	private void ensureFileCreated( ) throws IOException
+	{
+		if ( rf != null )
+		{
+			return;
+		}
+		ensureParentFolderCreated( );
+
+		if ( isWritable )
+		{
+			rf = new RandomAccessFile( archiveName, "rw" );
+			rf.setLength( 0 );
+		}
+	}
+
+	private void ensureParentFolderCreated( )
+	{
+		// try to create the parent folder
+		File parentFile = new File( archiveName ).getParentFile( );
+		if ( parentFile != null && !parentFile.exists( ) )
+		{
+			parentFile.mkdirs( );
 		}
 	}
 
@@ -699,18 +717,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		{
 			if ( isWritable )
 			{
-				if ( rf == null )
-				{
-					// try to create the parent folder
-					File parentFile = new File( archiveName ).getParentFile( );
-					if ( parentFile != null && !parentFile.exists( ) )
-					{
-						parentFile.mkdirs( );
-					}
-
-					rf = new RandomAccessFile( archiveName, "rw" );
-					rf.setLength( 0 );
-				}
+				ensureFileCreated( );
 				block.flush( rf );
 				if ( block.id >= totalDiskBlocks )
 				{
