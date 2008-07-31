@@ -1872,6 +1872,7 @@ HyperlinkBuilder.DrillThroughStep4=Paso 4: mostrar informe de destino en
 HyperlinkBuilder.DrillThroughStep5=Paso 5: seleccionar un formato para el informe de destino
 HyperlinkBuilder.DrillThroughStep6=Paso 6: Información sobre herramienta
 HyperlinkBuilder.ParameterRequired=Requerido
+HyperlinkBuilder.Column.DataType=Tipo de datos
 HyperlinkBuilder.Column.Values=Valores
 HyperlinkBuilder.DialogTitle=Opciones de hiperlink
 HyperlinkBuilder.ErrorMessage.InvalidReport=Diseño de informe no válido.

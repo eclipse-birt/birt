@@ -1872,6 +1872,7 @@ HyperlinkBuilder.DrillThroughStep4=4단계: 대상 보고서 표시
 HyperlinkBuilder.DrillThroughStep5=5단계: 대상 보고서 서식 선택
 HyperlinkBuilder.DrillThroughStep6=6단계: 도구 설명
 HyperlinkBuilder.ParameterRequired=필수
+HyperlinkBuilder.Column.DataType=데이터 형식
 HyperlinkBuilder.Column.Values=값
 HyperlinkBuilder.DialogTitle=하이퍼링크 옵션
 HyperlinkBuilder.ErrorMessage.InvalidReport=잘못된 보고서 디자인입니다.

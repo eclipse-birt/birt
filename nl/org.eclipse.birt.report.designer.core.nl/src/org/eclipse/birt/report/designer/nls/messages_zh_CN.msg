@@ -1872,6 +1872,7 @@ HyperlinkBuilder.DrillThroughStep4=第 4 步: 显示目标报表
 HyperlinkBuilder.DrillThroughStep5=第 5 步:为目标报表选择格式
 HyperlinkBuilder.DrillThroughStep6=步骤 6: 工具提示
 HyperlinkBuilder.ParameterRequired=必需
+HyperlinkBuilder.Column.DataType=数据类型
 HyperlinkBuilder.Column.Values=值
 HyperlinkBuilder.DialogTitle=超级链接选项
 HyperlinkBuilder.ErrorMessage.InvalidReport=无效的报表设计。

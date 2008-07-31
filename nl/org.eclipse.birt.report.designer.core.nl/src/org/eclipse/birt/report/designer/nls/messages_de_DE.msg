@@ -1872,6 +1872,7 @@ HyperlinkBuilder.DrillThroughStep4=Schritt 4: Zielbericht anzeigen in
 HyperlinkBuilder.DrillThroughStep5=Schritt 5: Format für Zielbericht auswählen
 HyperlinkBuilder.DrillThroughStep6=Schritt 6: Kontexthilfe
 HyperlinkBuilder.ParameterRequired=Erforderlich
+HyperlinkBuilder.Column.DataType=Datentyp
 HyperlinkBuilder.Column.Values=Werte
 HyperlinkBuilder.DialogTitle=Optionen für Hyperlink
 HyperlinkBuilder.ErrorMessage.InvalidReport=Berichtdesign ungültig.

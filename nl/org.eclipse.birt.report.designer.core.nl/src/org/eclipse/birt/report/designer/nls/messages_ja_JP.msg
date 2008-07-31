@@ -1872,6 +1872,7 @@ HyperlinkBuilder.DrillThroughStep4=手順 4 : ターゲットのレポートの表示
 HyperlinkBuilder.DrillThroughStep5=手順 5 : ターゲットレポートの形式設定
 HyperlinkBuilder.DrillThroughStep6=手順 6 : ツールヒント
 HyperlinkBuilder.ParameterRequired=必須
+HyperlinkBuilder.Column.DataType=データ型
 HyperlinkBuilder.Column.Values=値
 HyperlinkBuilder.DialogTitle=ハイパーリンクのオプション
 HyperlinkBuilder.ErrorMessage.InvalidReport=レポートデザインが無効です。

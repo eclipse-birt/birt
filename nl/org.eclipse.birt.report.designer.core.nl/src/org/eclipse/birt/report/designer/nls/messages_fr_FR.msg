@@ -1872,6 +1872,7 @@ HyperlinkBuilder.DrillThroughStep4=Etape 4 : affichage de l'état cible dans
 HyperlinkBuilder.DrillThroughStep5=Etape 5 : choix du format de l'état cible
 HyperlinkBuilder.DrillThroughStep6=Etape 6 : info-bulle
 HyperlinkBuilder.ParameterRequired=Obligatoire
+HyperlinkBuilder.Column.DataType=Type de données
 HyperlinkBuilder.Column.Values=Valeurs
 HyperlinkBuilder.DialogTitle=Options de lien hypertexte
 HyperlinkBuilder.ErrorMessage.InvalidReport=Modèle d'état non valide.
