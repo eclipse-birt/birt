@@ -187,13 +187,6 @@ public abstract class NotificationEvent
 
 	public static final int VIEWS_CONTENT_EVENT = 24;
 
-	/**
-	 * The event type of css rename event.
-	 * 
-	 * @deprecated Model will not send this type of event
-	 */
-	public static final int CSS_RENAME_EVENT = 25;
-
 	// List of delivery modes. The modes tell the listener the route
 	// by which the event reached that listener.
 

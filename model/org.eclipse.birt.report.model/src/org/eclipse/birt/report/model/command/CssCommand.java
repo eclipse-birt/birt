@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CssException;
 import org.eclipse.birt.report.model.api.command.CssReloadedEvent;
-import org.eclipse.birt.report.model.api.command.CssRenamedEvent;
 import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
