@@ -33,6 +33,8 @@ import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.css.CssStyleSheetAdapter;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
@@ -563,8 +565,9 @@ public class CssCommand extends AbstractElementCommand
 
 		int posn = findIncludedCssStyleSheetPosition( fileName );
 		ActivityStack stack = module.getActivityStack( );
-		// TODO: add label for this api command
-		stack.startTrans( null );
+
+		stack.startTrans( ModelMessages
+				.getMessage( MessageConstants.RENAME_CSS_FILE_MESSAGE ) );
 
 		CssStyleSheet newStyleSheet = null;
 
@@ -612,5 +615,4 @@ public class CssCommand extends AbstractElementCommand
 
 		stack.commit( );
 	}
-
 }

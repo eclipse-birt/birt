@@ -58,6 +58,8 @@ public interface MessageConstants
 	public static final String REMOVE_ITEM_MESSAGE = "Message.RemoveItem"; //$NON-NLS-1$
 	
 	public static final String CHANGE_PROPERTY_ENCRYPTION_MESSAGE = "Message.ChangePropertyEncryption"; //$NON-NLS-1$
+	
+	public static final String RENAME_CSS_FILE_MESSAGE = "Message.RenameCSSFile"; //$NON-NLS-1$
 
 	// Errors
 
