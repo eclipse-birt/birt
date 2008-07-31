@@ -16,6 +16,15 @@ import java.io.OutputStream;
 import org.eclipse.birt.report.model.api.util.DocumentUtil;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
+/**
+ * <b>Bug Description:</b><p>
+ * Can not preview the attached report in Web Viewer.
+ * <p>
+ * <b>Test Description:</b>
+ * <p>
+ * Check the design is ok after flattern it.
+ *
+ */
 public class Regression_215762 extends BaseTestCase
 {
 
@@ -34,20 +43,18 @@ public class Regression_215762 extends BaseTestCase
 
 	public void tearDown( )
 	{
-		// removeResource( );
+		 removeResource( );
 	}
 
 	public void test_regression_215762( ) throws Exception
 	{
 		openDesign( REPORT );
 		os = new ByteArrayOutputStream( );
-		DocumentUtil.serialize( designHandle, os );
+		designHandle=DocumentUtil.serialize( designHandle, os );
 
-		File f=new File(getTempFolder( )+"/"+OUTPUT_FOLDER+"/");
-		if(!f.exists()) f.mkdirs();
-		OutputStream out=new FileOutputStream(new File(getTempFolder( )+"/"+OUTPUT_FOLDER+"/"+REPORT));
-		out.write( os.toByteArray( ));
+		String output=this.genOutputFile(REPORT);
+		designHandle.saveAs(output);
 		
-		compareFile( GOLDEN, REPORT );
+		assertTrue(compareTextFile(GOLDEN, REPORT));
 	}
 }
