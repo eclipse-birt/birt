@@ -180,9 +180,9 @@ public class ScriptContextTest extends TestCase
 		result = context.eval("A");
 		assertEquals("ABCDE", result);
 		
-		//it an use this to access the member of parent also.
+		//it can not use this to access the member of parent.
 		result = context.eval("this.A");
-		assertEquals("ABCDE", result);
+		assertEquals(null, result);
 		
 		context.exit();
 	}

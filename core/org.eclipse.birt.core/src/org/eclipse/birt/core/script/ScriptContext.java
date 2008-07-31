@@ -118,10 +118,10 @@ public class ScriptContext
 	 */
 	public void registerBean( String name, Object value )
 	{
-		assert ( this.context != null );
-		Object sObj = Context.javaToJS( value, scope );
-		scope.put( name, scope, sObj );
+		Object sObj = Context.javaToJS( value, global );
+		global.put( name, global, sObj );
 	}
+	
 
 	/**
 	 * exit the scripting context

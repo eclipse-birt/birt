@@ -50,7 +50,7 @@ import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ImporterTopLevel;
+import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.ScriptableObject;
 
 /**
@@ -71,6 +71,8 @@ public class ReportEngine implements IReportEngine
 {
 
 	public static final String PROPERTYSEPARATOR = File.pathSeparator;
+	
+	public static final boolean USE_DYNAMIC_SCOPE = true;
 
 	static protected Logger logger = Logger.getLogger( ReportEngine.class
 			.getName( ) );
@@ -171,6 +173,24 @@ public class ReportEngine implements IReportEngine
 		}
 		EngineLogger.startEngineLogging( logger, dest, file, level );
 	}
+	
+	static class MyFactory extends ContextFactory
+	{
+
+		protected boolean hasFeature( Context cx, int featureIndex )
+		{
+			if ( featureIndex == Context.FEATURE_DYNAMIC_SCOPE )
+			{
+				return USE_DYNAMIC_SCOPE;
+			}
+			return super.hasFeature( cx, featureIndex );
+		}
+	}
+
+	static
+	{
+		ContextFactory.initGlobal( new MyFactory( ) );
+	}
 
 	/**
 	 * register globally available script functions
@@ -192,6 +212,16 @@ public class ReportEngine implements IReportEngine
 			try
 			{
 				rootScope = cx.initStandardObjects( );
+				cx
+				.evaluateString(
+						rootScope,
+						"function registerGlobal( name, value) { _jsContext.registerGlobalBean(name, value); }",
+						"<inline>", 0, null );
+				cx
+				.evaluateString(
+						rootScope,
+						"function unregisterGlobal(name) { _jsContext.unregisterGlobalBean(name); }",
+						"<inline>", 0, null );
 				registerBeans( rootScope, config.getConfigMap( ) );
 				registerBeans( rootScope, config.getScriptObjects( ) );
 				IStatusHandler handler = config.getStatusHandler( );

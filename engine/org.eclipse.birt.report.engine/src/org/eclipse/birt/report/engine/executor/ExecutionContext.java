@@ -372,10 +372,6 @@ public class ExecutionContext
 		scriptContext.registerBean( "currentPage", new Long( pageNumber ) );
 		scriptContext.registerBean( "totalPage", new Long( totalPage ) );
 		scriptContext.registerBean( "_jsContext", this );
-		scriptContext
-				.eval( "function registerGlobal( name, value) { _jsContext.registerGlobalBean(name, value); }" );
-		scriptContext
-				.eval( "function unregisterGlobal(name) { _jsContext.unregisterGlobalBean(name); }" );
 		if ( runnable != null )
 		{
 			registerDesign( runnable );
