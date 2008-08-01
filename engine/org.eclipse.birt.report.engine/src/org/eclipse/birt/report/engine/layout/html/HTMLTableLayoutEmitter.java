@@ -300,13 +300,14 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 	protected void flushRow( int rowId, int colId, boolean withStart )
 	{
 		int colCount = layout.getColCount( );
+		int columnId = layout.getColumnId( colId );
 		Row row = layout.getRow( rowId );
 		IRowContent rowContent = (IRowContent) row.getContent( );
 		if ( withStart )
 		{
 			emitter.startRow( rowContent );
 		}
-		for ( int j = colId; j < colCount; j++ )
+		for ( int j = columnId; j < colCount; j++ )
 		{
 			Cell cell = row.getCell( j );
 			if ( cell.getStatus( ) == Cell.CELL_USED )

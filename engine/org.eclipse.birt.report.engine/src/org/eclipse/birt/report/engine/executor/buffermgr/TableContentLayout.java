@@ -765,6 +765,24 @@ public class TableContentLayout
 		return false;
 	}
 	
+	public int getColumnId (int columnId )
+	{
+		if(this.wrappedTable!=null)
+		{
+			return getAdjustedColumnId(columnId);
+		}
+		return columnId;
+	}
+	
+	public int getColunmSpan( int columnId, int columnSpan )
+	{
+		if ( this.wrappedTable != null )
+		{
+			return getAdjustedColumnSpan( columnId, columnSpan );
+		}
+		return columnSpan;
+	}
+	
 	private int getAdjustedColumnSpan( int columnId, int columnSpan )
 	{
 		if ( columnSpan == 1 )
