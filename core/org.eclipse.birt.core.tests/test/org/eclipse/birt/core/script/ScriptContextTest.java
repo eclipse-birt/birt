@@ -52,7 +52,7 @@ public class ScriptContextTest extends TestCase
 		assertEquals( ( (Number) result ).doubleValue( ), 30.0,
 				Double.MIN_VALUE );
 		context.exitScope( );
-		//B is invalid now
+		//B is valid now
 		boolean hasException = false;
 		try
 		{
@@ -62,7 +62,7 @@ public class ScriptContextTest extends TestCase
 		{
 			hasException = true;
 		}
-		assertTrue( hasException );
+		assertTrue( !hasException );
 		//A is still valid
 		result = context.eval( "A" );
 		assertEquals( ( (Number) result ).doubleValue( ), 10.0,
