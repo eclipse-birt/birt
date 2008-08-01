@@ -87,44 +87,59 @@ public class IDEResourceSynchronizer extends ReportResourceSynchronizer
 
 			if ( data instanceof IPath )
 			{
-				IResource[] res = ResourcesPlugin.getWorkspace( )
-						.getRoot( )
-						.findFilesForLocation( (IPath) data );
+				refreshResource( (IPath) data );
+			}
+			else if ( data instanceof IPath[] )
+			{
+				// TODO smart detect path overlapping?
 
-				if ( res.length == 0 )
+				for ( IPath path : (IPath[]) data )
 				{
-					res = ResourcesPlugin.getWorkspace( )
-							.getRoot( )
-							.findContainersForLocation( (IPath) data );
-
-					if ( res.length == 0 )
-					{
-						// not resources within the workspace
-						return;
-					}
-				}
-
-				try
-				{
-					final IResource[] targes = res;
-
-					new WorkspaceModifyOperation( ) {
-
-						protected void execute( IProgressMonitor monitor )
-								throws CoreException
-						{
-							for ( IResource rc : targes )
-							{
-								rc.refreshLocal( IResource.DEPTH_INFINITE, null );
-							}
-						}
-					}.run( null );
-				}
-				catch ( Exception e )
-				{
-					ExceptionHandler.handle( e );
+					refreshResource( path );
 				}
 			}
 		}
+	}
+
+	private void refreshResource( IPath resPath )
+	{
+		IResource[] res = ResourcesPlugin.getWorkspace( )
+				.getRoot( )
+				.findFilesForLocation( resPath );
+
+		if ( res.length == 0 )
+		{
+			res = ResourcesPlugin.getWorkspace( )
+					.getRoot( )
+					.findContainersForLocation( resPath );
+
+			if ( res.length == 0 )
+			{
+				// not resources within the workspace
+				return;
+			}
+		}
+
+		try
+		{
+			final IResource[] targes = res;
+
+			new WorkspaceModifyOperation( ) {
+
+				protected void execute( IProgressMonitor monitor )
+						throws CoreException
+				{
+					for ( IResource rc : targes )
+					{
+						rc.refreshLocal( IResource.DEPTH_INFINITE, null );
+					}
+				}
+			}.run( null );
+		}
+		catch ( Exception e )
+		{
+			ExceptionHandler.handle( e );
+		}
+
 	}
 }

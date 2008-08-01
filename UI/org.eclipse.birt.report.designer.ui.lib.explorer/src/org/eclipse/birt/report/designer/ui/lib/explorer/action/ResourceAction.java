@@ -736,19 +736,44 @@ public abstract class ResourceAction extends Action
 	/**
 	 * Notifies model for the reource chang.
 	 * 
-	 * @param fileName
+	 * @param fileNames
 	 *            the resource's file name.
 	 */
-	protected void fireResourceChanged( String fileName )
+	protected void fireResourceChanged( String... fileNames )
 	{
+		if ( fileNames == null || fileNames.length == 0 )
+		{
+			return;
+		}
+
+		// refersh resource view first
+		refreshAll( );
+
+		// notify resource change
 		IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
 				.getResourceSynchronizerService( );
 
 		if ( synchronizer != null )
 		{
-			synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( viewerPage,
-					Path.fromOSString( fileName ),
-					IReportResourceChangeEvent.NewResource ) );
+			if ( fileNames.length == 1 )
+			{
+				synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( viewerPage,
+						Path.fromOSString( fileNames[0] ),
+						IReportResourceChangeEvent.NewResource ) );
+			}
+			else
+			{
+				IPath[] paths = new IPath[fileNames.length];
+
+				for ( int i = 0; i < fileNames.length; i++ )
+				{
+					paths[i] = Path.fromOSString( fileNames[i] );
+				}
+
+				synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( viewerPage,
+						paths,
+						IReportResourceChangeEvent.NewResource ) );
+			}
 		}
 	}
 
@@ -840,12 +865,10 @@ public abstract class ResourceAction extends Action
 					{
 						if ( renameFile( srcFile, targetFile ) )
 						{
-							fireResourceChanged( targetFile.getAbsolutePath( ) );
-
-							// Refreshes source file in workspace tree. The
-							// target file is refreshed in the
-							// fireResourceChanged(...) method of last line.
-							fireResourceChanged( srcFile.getAbsolutePath( ) );
+							// Refreshes both target and source file in
+							// workspace tree.
+							fireResourceChanged( targetFile.getAbsolutePath( ),
+									srcFile.getAbsolutePath( ) );
 						}
 					}
 				}
