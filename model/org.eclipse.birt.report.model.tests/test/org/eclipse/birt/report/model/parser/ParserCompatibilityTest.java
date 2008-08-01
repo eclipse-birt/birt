@@ -24,19 +24,14 @@ import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.PrivateStyleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.elements.DataItem;
-import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
-import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
-import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
@@ -547,8 +542,8 @@ public class ParserCompatibilityTest extends BaseTestCase
 	 * new OdaDataSet.resultSet.
 	 * <p>
 	 * The rule is by taking 1) the current ResultSet�s column name as the
-	 * �nativeName�, and 2) the ResultSetHints�s column name as the �name�, in
-	 * the merged OdaResultSetColumn structure.
+	 * �nativeName�, and 2) the ResultSetHints�s column name as the
+	 * �name�, in the merged OdaResultSetColumn structure.
 	 * 
 	 * 
 	 * @throws Exception
@@ -793,58 +788,5 @@ public class ParserCompatibilityTest extends BaseTestCase
 
 		save( );
 		assertTrue( compareFile( "CompatibleSortByParseTest_golden.xml" ) ); //$NON-NLS-1$
-	}
-
-	public void testComputedColumnCompatible( ) throws Exception
-	{
-		openDesign( "ComputedColumnCompatible.xml" ); //$NON-NLS-1$
-
-		OdaDataSetHandle dataSet = (OdaDataSetHandle) designHandle
-				.findDataSet( "Data Set" ); //$NON-NLS-1$
-
-		List columns = (List) dataSet
-				.getProperty( SimpleDataSet.COMPUTED_COLUMNS_PROP );
-
-		// tests convert dataType of column binding from any to string.
-		ComputedColumn computedColumn = (ComputedColumn) columns.get( 0 );
-		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING,
-				computedColumn.getDataType( ) );
-
-		// tests the default value of dataType in column binding.
-		computedColumn = (ComputedColumn) columns.get( 1 );
-		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING,
-				computedColumn.getDataType( ) );
-
-		TableHandle table = (TableHandle) designHandle.findElement( "table" ); //$NON-NLS-1$
-
-		columns = (List) table
-				.getProperty( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
-
-		// tests convert dataType of column binding from any to string.
-		computedColumn = (ComputedColumn) columns.get( 0 );
-		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING,
-				computedColumn.getDataType( ) );
-
-		// tests the default value of dataType in column binding.
-		computedColumn = (ComputedColumn) columns.get( 1 );
-		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING,
-				computedColumn.getDataType( ) );
-
-		ScalarParameterHandle param1 = (ScalarParameterHandle) designHandle
-				.findParameter( "NewParameter" ); //$NON-NLS-1$
-
-		columns = (List) param1
-				.getProperty( IScalarParameterModel.BOUND_DATA_COLUMNS_PROP );
-
-		// tests convert dataType of column binding from any to string.
-		computedColumn = (ComputedColumn) columns.get( 0 );
-		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING,
-				computedColumn.getDataType( ) );
-
-		// tests the default value of dataType in column binding.
-		computedColumn = (ComputedColumn) columns.get( 1 );
-		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING,
-				computedColumn.getDataType( ) );
-
 	}
 }

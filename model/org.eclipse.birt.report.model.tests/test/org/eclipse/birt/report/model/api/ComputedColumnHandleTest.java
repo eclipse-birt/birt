@@ -14,9 +14,13 @@ package org.eclipse.birt.report.model.api;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.elements.SimpleDataSet;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -156,7 +160,7 @@ public class ComputedColumnHandleTest extends BaseTestCase
 		openDesign( "ReportItemHandle_ComputedColumn.xml" );//$NON-NLS-1$
 		ScalarParameterHandle paramHandle = (ScalarParameterHandle) designHandle
 				.findParameter( "MyParam1" );//$NON-NLS-1$
-		
+
 		ComputedColumnHandle columnHandle = (ComputedColumnHandle) paramHandle
 				.getColumnBindings( ).get( 0 );
 		assertEquals( "sum 2", columnHandle.getAggregateFunction( ) );//$NON-NLS-1$
@@ -176,9 +180,67 @@ public class ComputedColumnHandleTest extends BaseTestCase
 		ComputedColumnHandle columnHandle3 = (ComputedColumnHandle) propHandle
 				.get( 2 );
 		assertEquals( "count 2", columnHandle3.getAggregateFunction( ) );//$NON-NLS-1$
-		
-		save();
+
+		save( );
 		assertTrue( compareFile( "ReportItemHandle_ComputedColumn_golden.xml" ) );//$NON-NLS-1$
+	}
+
+	/**
+	 * Tests dataType property for column binding
+	 * 
+	 * @throws Exception
+	 */
+	public void testDataTypeInComputedColumn( ) throws Exception
+	{
+		openDesign( "DataTypeInComputedColumnTest.xml" ); //$NON-NLS-1$
+
+		OdaDataSetHandle dataSet = (OdaDataSetHandle) designHandle
+				.findDataSet( "Data Set" ); //$NON-NLS-1$
+
+		List columns = (List) dataSet
+				.getProperty( SimpleDataSet.COMPUTED_COLUMNS_PROP );
+
+		// tests convert dataType of column binding from any to string.
+		ComputedColumn computedColumn = (ComputedColumn) columns.get( 0 );
+		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY,
+				computedColumn.getDataType( ) );
+
+		// tests the default value of dataType in column binding.
+		computedColumn = (ComputedColumn) columns.get( 1 );
+		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING,
+				computedColumn.getDataType( ) );
+
+		TableHandle table = (TableHandle) designHandle.findElement( "table" ); //$NON-NLS-1$
+
+		columns = (List) table
+				.getProperty( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+
+		// tests convert dataType of column binding from any to string.
+		computedColumn = (ComputedColumn) columns.get( 0 );
+		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY,
+				computedColumn.getDataType( ) );
+
+		// tests the default value of dataType in column binding.
+		computedColumn = (ComputedColumn) columns.get( 1 );
+		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING,
+				computedColumn.getDataType( ) );
+
+		ScalarParameterHandle param1 = (ScalarParameterHandle) designHandle
+				.findParameter( "NewParameter" ); //$NON-NLS-1$
+
+		columns = (List) param1
+				.getProperty( IScalarParameterModel.BOUND_DATA_COLUMNS_PROP );
+
+		// tests convert dataType of column binding from any to string.
+		computedColumn = (ComputedColumn) columns.get( 0 );
+		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY,
+				computedColumn.getDataType( ) );
+
+		// tests the default value of dataType in column binding.
+		computedColumn = (ComputedColumn) columns.get( 1 );
+		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING,
+				computedColumn.getDataType( ) );
+
 	}
 
 }

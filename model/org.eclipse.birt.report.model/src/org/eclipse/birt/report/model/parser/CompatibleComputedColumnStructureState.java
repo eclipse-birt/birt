@@ -12,17 +12,10 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IStructure;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.DataSet;
-import org.eclipse.birt.report.model.elements.ReportItem;
-import org.eclipse.birt.report.model.elements.ScalarParameter;
-import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
-import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
-import org.eclipse.birt.report.model.util.VersionUtil;
 import org.xml.sax.SAXException;
 
 /**
@@ -34,7 +27,7 @@ import org.xml.sax.SAXException;
  * The compatible version is 0 and 1.
  * 
  * <pre>
- * 
+ *  
  *   Old design file:
  *   
  *   &lt;list-property name=&quot;computedColumns&quot;&gt;
@@ -53,9 +46,7 @@ import org.xml.sax.SAXException;
  * </pre>
  */
 
-public class CompatibleComputedColumnStructureState
-		extends
-			CompatibleStructureState
+public class CompatibleComputedColumnStructureState extends CompatibleStructureState
 {
 
 	CompatibleComputedColumnStructureState( ModuleParserHandler theHandler,
@@ -67,9 +58,7 @@ public class CompatibleComputedColumnStructureState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
-	 * .lang.String)
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
 	 */
 
 	public AbstractParseState startElement( String tagName )
@@ -97,7 +86,7 @@ public class CompatibleComputedColumnStructureState
 
 		public void end( ) throws SAXException
 		{
-			if ( element instanceof DataSet && "columnName".equals( name ) ) //$NON-NLS-1$
+			if ( "columnName".equals( name ) ) //$NON-NLS-1$
 			{
 				String value = text.toString( );
 
@@ -106,20 +95,6 @@ public class CompatibleComputedColumnStructureState
 
 				setMember( struct, propDefn.getName( ),
 						ComputedColumn.NAME_MEMBER, value );
-				return;
-			}
-			else if ( ComputedColumn.DATA_TYPE_MEMBER.equals( name )
-					&& handler.versionNumber <= VersionUtil.VERSION_3_2_17 )
-			{
-				String value = text.toString( );
-				if ( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( value ) )
-				{
-					value = DesignChoiceConstants.COLUMN_DATA_TYPE_STRING;
-				}
-
-				setMember( struct, propDefn.getName( ),
-						ComputedColumn.DATA_TYPE_MEMBER, value );
-
 				return;
 			}
 
