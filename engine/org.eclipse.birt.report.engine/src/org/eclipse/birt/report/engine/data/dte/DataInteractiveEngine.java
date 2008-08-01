@@ -72,13 +72,14 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		super( context );
 		// create the DteData session.
 		DataSessionContext dteSessionContext = new DataSessionContext(
-				DataSessionContext.MODE_UPDATE, null, context.getSharedScope( ) );
+				DataSessionContext.MODE_UPDATE, null, context
+						.getScriptContext( ), context
+						.getApplicationClassLoader( ) );
 		dteSessionContext.setDocumentReader( reader );
 		dteSessionContext.setDocumentWriter( writer );
 		DataEngineContext dteEngineContext = dteSessionContext
 				.getDataEngineContext( );
 		dteEngineContext.setLocale( context.getLocale( ) );
-		dteEngineContext.setClassLoader( context.getApplicationClassLoader( ) );
 
 		String tempDir = getTempDir( context );
 		if ( tempDir != null )

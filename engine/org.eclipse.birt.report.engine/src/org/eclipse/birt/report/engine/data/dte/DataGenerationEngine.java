@@ -44,12 +44,12 @@ public class DataGenerationEngine extends DteDataEngine
 		// create the DteData session.
 		DataSessionContext dteSessionContext = new DataSessionContext(
 				DataSessionContext.MODE_GENERATION, null, context
-						.getSharedScope( ) );
+						.getScriptContext( ), context
+						.getApplicationClassLoader( ) );
 		dteSessionContext.setDocumentWriter( writer );
 		DataEngineContext dteEngineContext = dteSessionContext
 				.getDataEngineContext( );
 		dteEngineContext.setLocale( context.getLocale( ) );
-		dteEngineContext.setClassLoader( context.getApplicationClassLoader( ) );
 
 		String tempDir = getTempDir( context );
 		if ( tempDir != null )

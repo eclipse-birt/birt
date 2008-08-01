@@ -81,6 +81,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.simpleapi.IDesignElement;
 import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.WrapFactory;
@@ -500,7 +501,9 @@ public class ExecutionContext
 		Object jsObject = scriptContext.javaToJs( object );
 		if ( jsObject instanceof Scriptable )
 		{
-			scriptContext.enterScope( (Scriptable) jsObject );
+			NativeObject nativeObj = new NativeObject();
+			nativeObj.setPrototype(  (Scriptable)jsObject );
+			scriptContext.enterScope( nativeObj );
 		}
 		else
 		{
@@ -690,7 +693,7 @@ public class ExecutionContext
 		try
 		{
 			return ScriptEvalUtil.evalExpr( expr,
-					scriptContext.getContext( ),
+					scriptContext,
 					scriptContext.getScope( ),
 					ScriptExpression.defaultID,
 					0 );
@@ -995,7 +998,7 @@ public class ExecutionContext
 		return getScriptContext( ).getSharedScope( );
 	}
 
-	ScriptContext getScriptContext( )
+	public ScriptContext getScriptContext( )
 	{
 		if ( scriptContext == null )
 		{

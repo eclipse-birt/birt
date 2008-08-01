@@ -163,7 +163,7 @@ public class ScriptContext
 		}
 		newScope.setParentScope( scope );
 		scope = newScope;
-		sharedScope.setPrototype( scope );
+		sharedScope.setParentScope( scope );
 		return newScope;
 	}
 
@@ -175,7 +175,7 @@ public class ScriptContext
 		Scriptable protoScope = scope.getParentScope( );
 		if ( protoScope != null )
 			scope = protoScope;
-		sharedScope.setPrototype( scope );
+		sharedScope.setParentScope( scope );
 	}
 
 	/**

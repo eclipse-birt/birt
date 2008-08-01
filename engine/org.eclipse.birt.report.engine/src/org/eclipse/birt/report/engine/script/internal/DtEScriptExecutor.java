@@ -53,7 +53,7 @@ public abstract class DtEScriptExecutor extends ScriptExecutor
 			String name )
 	{
 		String scopeName = type + "[" + name + "]";
-		runner = new JSMethodRunner( scope, scopeName );
+		runner = new JSMethodRunner(context.getScriptContext( ), scope, scopeName );
 		return runner;
 	}
 
