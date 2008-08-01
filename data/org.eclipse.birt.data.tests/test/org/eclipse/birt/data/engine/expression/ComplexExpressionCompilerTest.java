@@ -16,6 +16,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
 import org.mozilla.javascript.Context;
@@ -27,11 +28,11 @@ public class ComplexExpressionCompilerTest extends TestCase
 	private ScriptableObject m_scope;
 	private ExpressionCompiler m_compiler;
 	private AggregateRegistry m_registry;
-	
+	private ScriptContext context;
 	protected void setUp() throws Exception
 	{
-		Context.enter();
-		m_scope = Context.getCurrentContext().initStandardObjects();
+		context = new ScriptContext();
+		m_scope = context.getContext( ).initStandardObjects();
 		ScriptableObject.defineClass( m_scope, ComplexExpressionCompilerTest.Row.class );
 		ScriptableObject.defineClass( m_scope, ComplexExpressionCompilerTest.AggrValue.class );
 		Scriptable row = Context.getCurrentContext().newObject( m_scope, "Row" );
@@ -53,7 +54,7 @@ public class ComplexExpressionCompilerTest extends TestCase
 	
 	protected void tearDown() throws Exception
 	{
-		Context.exit();
+		context.exit( );
 	}
 	
 	public void testDirectReference1() throws Exception
@@ -126,7 +127,7 @@ public class ComplexExpressionCompilerTest extends TestCase
 		checkComplexExpr1( expr );
 		checkSubConstantsSize( expr, 0 );
 		
-		Object o = expr.evaluate( Context.getCurrentContext(), m_scope );
+		Object o = expr.evaluate( context, m_scope );
 		assertTrue( o instanceof Double );
 		assertEquals( new Double( 100 ), o );
 	}
@@ -135,7 +136,7 @@ public class ComplexExpressionCompilerTest extends TestCase
 	{
 		ComplexExpression expr = isComplexExpression( "row[1] * row[\"col2\"]" );
 		checkSubConstantsSize( expr, 0 );
-		Object o = expr.evaluate( Context.getCurrentContext(), m_scope );
+		Object o = expr.evaluate( context, m_scope );
 		assertTrue( o instanceof Double );
 		assertEquals( new Double( 0 ), o );
 		
@@ -189,7 +190,7 @@ public class ComplexExpressionCompilerTest extends TestCase
 	private ComplexExpression isComplexExpression( String exprStr ) throws DataException
 	{
 		CompiledExpression expr = 
-			m_compiler.compile( exprStr, m_registry, Context.getCurrentContext() );
+			m_compiler.compile( exprStr, m_registry, context.getContext( ) );
 		assertTrue( expr instanceof ComplexExpression );
 		return (ComplexExpression) expr;
 	}
@@ -375,9 +376,9 @@ public class ComplexExpressionCompilerTest extends TestCase
 		throws DataException
 	{
 		CompiledExpression expr = 
-			m_compiler.compile( exprStr, m_registry, Context.getCurrentContext() );
+			m_compiler.compile( exprStr, m_registry, context.getContext( ) );
 		assertTrue( expr instanceof AggregateExpression );
-		Object o = ( (AggregateExpression) expr ).evaluate( Context.getCurrentContext(), 
+		Object o = ( (AggregateExpression) expr ).evaluate( context, 
 															m_scope );
 		assertTrue( o instanceof Integer );
 		assertEquals( 21, ((Integer) o).intValue() );
@@ -401,7 +402,7 @@ public class ComplexExpressionCompilerTest extends TestCase
 		}
 		
 		// tests the execution of the subtree for the aggregate's argument
-		Object o = arg1.evaluate( Context.getCurrentContext(), m_scope );
+		Object o = arg1.evaluate( context, m_scope );
 		assertTrue( o instanceof Double );
 		assertEquals( 100, ((Double) o).intValue() );
 	}
@@ -412,7 +413,7 @@ public class ComplexExpressionCompilerTest extends TestCase
 		hasOneSubExprAsDirectRef1( arg2 );
 		
 		// tests the execution of the subtree for the aggregate's argument
-		Object o = arg2.evaluate( Context.getCurrentContext(), m_scope );
+		Object o = arg2.evaluate( context, m_scope );
 		assertEquals( Boolean.TRUE, o );
 	}
 
@@ -420,9 +421,9 @@ public class ComplexExpressionCompilerTest extends TestCase
 	{
 		CompiledExpression expr = 
 			m_compiler.compile( "Total.sum( Total.sum( row.col1 ) )", 
-								m_registry, Context.getCurrentContext() );
+								m_registry, context.getContext( ) );
 		assertTrue( expr instanceof AggregateExpression );
-		Object o = ( (AggregateExpression) expr ).evaluate( Context.getCurrentContext(), 
+		Object o = ( (AggregateExpression) expr ).evaluate( context, 
 															m_scope );
 		assertTrue( o instanceof Integer );
 		assertEquals( 42, ((Integer) o).intValue() );
@@ -437,9 +438,9 @@ public class ComplexExpressionCompilerTest extends TestCase
 	{
 		CompiledExpression expr = 
 			m_compiler.compile( "Total.sum( Total.sum( row.col1 ), Total.sum( row[\"col1\"] ) )", 
-								m_registry, Context.getCurrentContext() );
+								m_registry, context.getContext( ) );
 		assertTrue( expr instanceof AggregateExpression );
-		Object o = ( (AggregateExpression) expr ).evaluate( Context.getCurrentContext(), 
+		Object o = ( (AggregateExpression) expr ).evaluate( context, 
 															m_scope );
 		assertTrue( o instanceof Integer );
 		assertEquals( 63, ((Integer) o).intValue() );
@@ -460,7 +461,7 @@ public class ComplexExpressionCompilerTest extends TestCase
 	{
 		ComplexExpression expr = 
 			isComplexExpression( "Total.sum( row[\"col1\"] ) + Total.sum( row[2] )" );
-		Object o = expr.evaluate( Context.getCurrentContext(), m_scope );
+		Object o = expr.evaluate( context, m_scope );
 		assertTrue( o instanceof Double );
 		assertEquals( 63, ( (Double) o ).intValue() );
 		
@@ -503,7 +504,7 @@ public class ComplexExpressionCompilerTest extends TestCase
 		assertTrue( subExpr2 instanceof ColumnReferenceExpression );
 		checkDirectRef1( subExpr2 );
 		
-		Object o = expr.evaluate( Context.getCurrentContext(), m_scope );
+		Object o = expr.evaluate( context, m_scope );
 		assertEquals( new Double( 421 ), o );
 	}
 	
@@ -546,7 +547,7 @@ public class ComplexExpressionCompilerTest extends TestCase
 		assertTrue( subExpr instanceof AggregateExpression );
 		checkAggregate1( (AggregateExpression) subExpr );
 		
-		Object o = expr.evaluate( Context.getCurrentContext(), 
+		Object o = expr.evaluate( context, 
 														  m_scope );
 		assertEquals( 321, ( (Double) o ).intValue() );
 	}
@@ -567,7 +568,7 @@ public class ComplexExpressionCompilerTest extends TestCase
 		assertTrue( subExpr2 instanceof AggregateExpression );
 		checkAggregate2( (AggregateExpression) subExpr2 );
 		
-		Object o = expr.evaluate( Context.getCurrentContext(), m_scope );
+		Object o = expr.evaluate( context, m_scope );
 		assertEquals( 363, ( (Double) o ).intValue() );
 	}
 
@@ -623,7 +624,7 @@ public class ComplexExpressionCompilerTest extends TestCase
 	{
 		CompiledExpression expr = 
 			m_compiler.compile( exprStr,
-								m_registry, Context.getCurrentContext() );
+								m_registry, context.getContext( ) );
 		assertTrue( expr instanceof ConstantExpression );
 		return ( (ConstantExpression) expr ).getValue();
 	}
@@ -646,7 +647,7 @@ public class ComplexExpressionCompilerTest extends TestCase
 	public void testBlock() throws Exception
 	{
 		ComplexExpression expr = isComplexExpression( "if( row.col1 == 100 ) row.col1 + row[\"col2\"]; else 100;" );
-		Object o = expr.evaluate( Context.getCurrentContext(), m_scope );
+		Object o = expr.evaluate( context, m_scope );
 		assertTrue( o instanceof Double );
 		assertEquals( new Double( 100 ), o );
 	}

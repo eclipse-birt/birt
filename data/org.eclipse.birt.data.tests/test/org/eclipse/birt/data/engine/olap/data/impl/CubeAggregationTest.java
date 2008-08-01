@@ -23,6 +23,7 @@ import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -91,7 +92,7 @@ public class CubeAggregationTest extends BaseTestCase
 	private DimLevel dimLevel12 = new DimLevel("dimension1","level12");
 	
 	CubeMaterializer materializer;
-	
+	ScriptContext cx = null;
 	public CubeAggregationTest( )
 	{
 		pathName = System.getProperty( "java.io.tmpdir" );
@@ -112,7 +113,7 @@ public class CubeAggregationTest extends BaseTestCase
 		materializer = new CubeMaterializer( engine );
 		documentManager = materializer.getDocumentManager( );
 		createCube1( documentManager );
-		Context.enter( );
+		cx = new ScriptContext();
 		createCube1QueryDefn( );
 		super.setUp( );
 	}
@@ -122,7 +123,7 @@ public class CubeAggregationTest extends BaseTestCase
 	 */
 	protected void tearDown( ) throws Exception
 	{		
-		Context.exit();
+		cx.exit( );
 		documentManager.close( );
 		
 		super.tearDown( );
@@ -635,7 +636,7 @@ public class CubeAggregationTest extends BaseTestCase
 		CubeFilterDefinition cubeFilter = new CubeFilterDefinition( expr );
 		cubeFilter.setTargetLevel( level21 );
 		//
-		DimensionFilterEvalHelper filterHelper = new DimensionFilterEvalHelper(null, baseScope, cubeQuery, cubeFilter);
+		DimensionFilterEvalHelper filterHelper = new DimensionFilterEvalHelper(null, baseScope, cx, cubeQuery, cubeFilter);
 		cubeQueryExcutorHelper.addJSFilter( filterHelper );
 		
 		AggregationDefinition[] aggregations = new AggregationDefinition[1];
@@ -696,7 +697,7 @@ public class CubeAggregationTest extends BaseTestCase
 		cubeFilter.setTargetLevel( level21 );		
 		
 		//
-		DimensionFilterEvalHelper dimfilter = new DimensionFilterEvalHelper(null, baseScope, cubeQuery, cubeFilter);
+		DimensionFilterEvalHelper dimfilter = new DimensionFilterEvalHelper(null, baseScope, cx, cubeQuery, cubeFilter);
 		cubeQueryExcutorHelper.addJSFilter( dimfilter );
 		AggregationDefinition[] aggregations = new AggregationDefinition[1];
 		int[] sortType = new int[]{
@@ -773,7 +774,7 @@ public class CubeAggregationTest extends BaseTestCase
 		CubeFilterDefinition cubeFilter = new CubeFilterDefinition( expr );
 		cubeFilter.setTargetLevel( level21 );	
 		//
-		DimensionFilterEvalHelper dimfilter = new DimensionFilterEvalHelper(null, baseScope, cubeQuery, cubeFilter);
+		DimensionFilterEvalHelper dimfilter = new DimensionFilterEvalHelper(null, baseScope, cx, cubeQuery, cubeFilter);
 		cubeQueryExcutorHelper.addJSFilter( dimfilter );
 		AggregationDefinition[] aggregations = new AggregationDefinition[1];
 		int[] sortType = new int[]{
@@ -824,7 +825,7 @@ public class CubeAggregationTest extends BaseTestCase
 			"1"
 		} );
 		//
-		DimensionFilterEvalHelper dimfilter = new DimensionFilterEvalHelper(null, baseScope, cubeQuery, cubeFilter);
+		DimensionFilterEvalHelper dimfilter = new DimensionFilterEvalHelper(null, baseScope, cx, cubeQuery, cubeFilter);
 		cubeQueryExcutorHelper.addJSFilter( dimfilter );
 		AggregationDefinition[] aggregations = new AggregationDefinition[1];
 		int[] sortType = new int[]{
@@ -884,7 +885,7 @@ public class CubeAggregationTest extends BaseTestCase
 			new Integer( 4 )
 		} );
 		//
-		DimensionFilterEvalHelper dimfilter = new DimensionFilterEvalHelper(null, baseScope, cubeQuery, cubeFilter);
+		DimensionFilterEvalHelper dimfilter = new DimensionFilterEvalHelper(null, baseScope, cx, cubeQuery, cubeFilter);
 		cubeQueryExcutorHelper.addJSFilter( dimfilter );
 		AggregationDefinition[] aggregations = new AggregationDefinition[1];
 		int[] sortType = new int[]{
@@ -951,7 +952,8 @@ public class CubeAggregationTest extends BaseTestCase
 		cubeFilter.setTargetLevel( level21 );
 		IJSFilterHelper filterHelper = BaseDimensionFilterEvalHelper.createFilterHelper( null, baseScope,
 				cubeQuery,
-				cubeFilter );
+				cubeFilter,
+				cx);
 		cubeQueryExcutorHelper.addJSFilter( filterHelper );
 
 		IConditionalExpression expr2 = new ConditionalExpression( "data[\"level21_sum\"]",
@@ -962,7 +964,8 @@ public class CubeAggregationTest extends BaseTestCase
 		// bottom 2 filter
 		IJSFilterHelper filterHelper2 = BaseDimensionFilterEvalHelper.createFilterHelper( null, baseScope,
 				cubeQuery,
-				cubeFilter2 );
+				cubeFilter2,
+				cx);
 		cubeQueryExcutorHelper.addJSFilter( filterHelper2 );
 		// top 3 filter
 		IConditionalExpression expr3 = new ConditionalExpression( "data[\"level21_sum\"]",
@@ -972,7 +975,8 @@ public class CubeAggregationTest extends BaseTestCase
 		cubeFilter3.setTargetLevel( level21 );
 		IJSFilterHelper filterHelper3 = BaseDimensionFilterEvalHelper.createFilterHelper( null, baseScope,
 				cubeQuery,
-				cubeFilter3 );
+				cubeFilter3,
+				cx);
 		cubeQueryExcutorHelper.addJSFilter( filterHelper3 );
 		
 		
@@ -1030,7 +1034,8 @@ public class CubeAggregationTest extends BaseTestCase
 		cubeFilter.setTargetLevel( level21 );
 		IJSFilterHelper filterHelper = BaseDimensionFilterEvalHelper.createFilterHelper( null, baseScope,
 				cubeQuery,
-				cubeFilter );
+				cubeFilter,
+				cx);
 		cubeQueryExcutorHelper.addJSFilter( filterHelper );
 
 		IConditionalExpression expr2 = new ConditionalExpression( "data[\"level21_sum\"]",
@@ -1041,7 +1046,8 @@ public class CubeAggregationTest extends BaseTestCase
 		// bottom 2 filter
 		IJSFilterHelper filterHelper2 = BaseDimensionFilterEvalHelper.createFilterHelper( null, baseScope,
 				cubeQuery,
-				cubeFilter2 );
+				cubeFilter2,
+				cx);
 		cubeQueryExcutorHelper.addJSFilter( filterHelper2 );
 		// top 3 filter
 		IConditionalExpression expr3 = new ConditionalExpression( "data[\"level21_sum\"]",
@@ -1051,7 +1057,8 @@ public class CubeAggregationTest extends BaseTestCase
 		cubeFilter3.setTargetLevel( level21 );
 		IJSFilterHelper filterHelper3 = BaseDimensionFilterEvalHelper.createFilterHelper( null, baseScope,
 				cubeQuery,
-				cubeFilter3 );
+				cubeFilter3,
+				cx);
 		cubeQueryExcutorHelper.addJSFilter( filterHelper3 );
 		
 		
@@ -1108,7 +1115,7 @@ public class CubeAggregationTest extends BaseTestCase
 		CubeFilterDefinition cubeFilter = new CubeFilterDefinition( expr1 );
 		IJSFilterHelper filterHelper = BaseDimensionFilterEvalHelper.createFilterHelper( null, baseScope,
 				cubeQuery,
-				cubeFilter );
+				cubeFilter,cx );
 		cubeQueryExcutorHelper.addJSFilter( filterHelper );
 		
 		
@@ -1166,7 +1173,7 @@ public class CubeAggregationTest extends BaseTestCase
 		CubeFilterDefinition cubeFilter = new CubeFilterDefinition( expr1 );
 		IJSFilterHelper filterHelper = BaseDimensionFilterEvalHelper.createFilterHelper( null, baseScope,
 				cubeQuery,
-				cubeFilter );
+				cubeFilter,cx );
 		cubeQueryExcutorHelper.addJSFilter( filterHelper );
 		
 		

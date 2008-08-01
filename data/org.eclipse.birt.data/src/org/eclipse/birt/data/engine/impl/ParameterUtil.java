@@ -25,6 +25,7 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.DataType.AnyType;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
@@ -50,7 +51,7 @@ public class ParameterUtil
 	private Scriptable scope;
 
 	private Logger logger = Logger.getLogger( ParameterUtil.class.getName( ) );
-
+	private ScriptContext context;
 	/**
 	 * @param outerResults
 	 * @param dsRT
@@ -58,7 +59,7 @@ public class ParameterUtil
 	 * @param scope
 	 */
 	public ParameterUtil( Scriptable outerScope, DataSetRuntime dsRT,
-			IQueryDefinition queryDefn, Scriptable scope )
+			IQueryDefinition queryDefn, Scriptable scope, ScriptContext context )
 	{
 		Object[] params = {
 				outerScope, dsRT, queryDefn, scope
@@ -70,6 +71,7 @@ public class ParameterUtil
 		this.dsRT = dsRT;
 		this.queryDefn = queryDefn;
 		this.scope = scope;
+		this.context = context;
 		logger.exiting( ParameterUtil.class.getName( ), "ParameterUtil" ); //$NON-NLS-1$
 	}
 	
@@ -138,11 +140,7 @@ public class ParameterUtil
 		
 		if ( evaluateValue ) 
 		{
-			Context cx = null;
-			cx = Context.enter( );
-			try
-			{
-				// Resolve parameter bindings
+			// Resolve parameter bindings
 	
 				// Parameter values are determined in the following order of priority
 				// (1) Input param values set by scripts (already resolved above)
@@ -152,18 +150,12 @@ public class ParameterUtil
 				resolveParameterBindings( this.queryDefn.getInputParamBindings( ),
 						paramHints,
 						bindingResolved,
-						cx );
+						context.getContext( ) );
 	
 				resolveParameterBindings( this.dsRT.getInputParamBindings( ),
 						paramHints,
 						bindingResolved,
-						cx );
-			}
-			finally
-			{
-				if ( cx != null )
-					Context.exit( );
-			}
+						context.getContext( ) );
 		}
 		
 		return Arrays.asList( paramHints );
@@ -308,7 +300,7 @@ public class ParameterUtil
 		{
 			evaluateResult = ExprEvaluateUtil.evaluateRawExpression2( iParamBind.getExpr( ),
 					this.outerScope == null ? evaluateScope
-							: this.outerScope );
+							: this.outerScope, context );
 		}
 		catch ( BirtException e )
 		{

@@ -41,9 +41,9 @@ public class ScriptDataSetRuntime extends DataSetRuntime
 	private List describedColumns;
 	private static Logger logger = Logger.getLogger( ScriptDataSetRuntime.class.getName( ) );
 		
-    ScriptDataSetRuntime( IScriptDataSetDesign dataSet, IQueryExecutor executor )
+    ScriptDataSetRuntime( IScriptDataSetDesign dataSet, IQueryExecutor executor, DataEngineSession session )
     {
-        super( dataSet, executor);
+        super( dataSet, executor, session );
 		Object[] params = {
 				dataSet, executor
 		};

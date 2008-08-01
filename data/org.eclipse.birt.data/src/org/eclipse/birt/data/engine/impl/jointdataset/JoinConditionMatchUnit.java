@@ -10,11 +10,11 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl.jointdataset;
 
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -24,7 +24,7 @@ public class JoinConditionMatchUnit
 {
 	private IScriptExpression expr = null;
 	private Scriptable scope = null;
-
+	private ScriptContext context;
 	
 	/**
 	 * Constructor
@@ -32,10 +32,11 @@ public class JoinConditionMatchUnit
 	 * @param expr
 	 * @param scope
 	 */
-	public JoinConditionMatchUnit( IScriptExpression expr, Scriptable scope )
+	public JoinConditionMatchUnit( IScriptExpression expr, Scriptable scope, ScriptContext context )
 	{
 		this.expr = expr;
 		this.scope = scope;
+		this.context = context;
 	}
 	
 	/**
@@ -46,20 +47,12 @@ public class JoinConditionMatchUnit
 	 */
 	public Object getColumnValue() throws DataException
 	{
-		Context cx = Context.enter( );
-		try
-		{
-			Object leftValue = ScriptEvalUtil.evalExpr( this.expr,
-					cx,
+		Object leftValue = ScriptEvalUtil.evalExpr( this.expr,
+					context,
 					this.scope,
 					ScriptExpression.defaultID,
 					0 );
 				
 			return leftValue;
-		}	
-		finally
-		{
-			Context.exit( );
-		}
 	}
 }

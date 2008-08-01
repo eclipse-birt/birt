@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -34,7 +35,6 @@ import org.eclipse.birt.data.engine.olap.util.DimensionJSEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -59,7 +59,7 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 	 * @throws DataException
 	 */
 	public static IJSFilterHelper createFilterHelper( IBaseQueryResults outResults, Scriptable parentScope,
-			ICubeQueryDefinition queryDefn, IFilterDefinition cubeFilter ) throws DataException
+			ICubeQueryDefinition queryDefn, IFilterDefinition cubeFilter, ScriptContext cx ) throws DataException
 	{
 		if( cubeFilter.getExpression( ) instanceof IConditionalExpression )
 		{
@@ -68,10 +68,10 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 				|| expr.getOperator( )== IConditionalExpression.OP_BOTTOM_N
 				|| expr.getOperator( )== IConditionalExpression.OP_TOP_PERCENT
 				|| expr.getOperator( ) == IConditionalExpression.OP_BOTTOM_PERCENT )
-				return new TopBottomDimensionFilterEvalHelper( outResults, parentScope, queryDefn,cubeFilter );
+				return new TopBottomDimensionFilterEvalHelper( outResults, parentScope, queryDefn,cubeFilter, cx );
 		}
 		
-		return new DimensionFilterEvalHelper( outResults, parentScope, queryDefn,cubeFilter );
+		return new DimensionFilterEvalHelper( outResults, parentScope, cx, queryDefn,cubeFilter);
 	}
 	
 	/**
@@ -84,7 +84,7 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 	 */
 	protected void initialize( IBaseQueryResults outResults, Scriptable parentScope,
 			ICubeQueryDefinition queryDefn, IFilterDefinition cubeFilter,
-			Context cx ) throws DataException
+			ScriptContext cx ) throws DataException
 	{
 		populaterFilterDefinition( cubeFilter );
 		super.init( outResults, parentScope, queryDefn, cx, cubeFilter.getExpression( ) );
@@ -132,7 +132,7 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 		this.aggrLevels = populateAggrLevels( );
 		register( new DataJSObjectPopulator( this.outResults, scope,
 				queryDefn.getBindings( ),
-				this.aggrLevels != null && this.aggrLevels.length > 0 ) );
+				this.aggrLevels != null && this.aggrLevels.length > 0, cx ) );
 	}
 
 	/**

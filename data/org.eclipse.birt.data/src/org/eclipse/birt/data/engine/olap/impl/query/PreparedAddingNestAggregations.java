@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
@@ -30,7 +31,7 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation
 	private Scriptable scope;
 	private CalculatedMember[] newMembers;
 	
-	public PreparedAddingNestAggregations( AddingNestAggregations cubeOperation, Scriptable scope, int startRsId ) throws DataException
+	public PreparedAddingNestAggregations( AddingNestAggregations cubeOperation, Scriptable scope, int startRsId, ScriptContext cx ) throws DataException
 	{
 		assert cubeOperation != null;
 		this.cubeOperation = cubeOperation;
@@ -39,7 +40,8 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation
 		ICubeAggrDefn[] aggrDefns = OlapExpressionUtil.getAggrDefnsByNestBinding( Arrays.asList( cubeOperation.getNewBindings( ) ) );
 		newMembers = CubeQueryDefinitionUtil.createCalculatedMembersByAggrOnListAndMeasureName( startRsId,
 				aggrDefns,
-				this.scope );
+				this.scope,
+				cx);
 	}
 
 	public IAggregationResultSet[] execute( ICubeQueryDefinition cubeQueryDefn,

@@ -14,9 +14,10 @@
 package org.eclipse.birt.data.engine.script;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
-import org.eclipse.birt.data.engine.api.script.IDataRow;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
+import org.eclipse.birt.data.engine.api.script.IDataRow;
 import org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle;
 import org.mozilla.javascript.Scriptable;
 
@@ -30,10 +31,12 @@ public class DataSetJSEventHandler implements IBaseDataSetEventHandler
 {
 	protected IBaseDataSetDesign design;
 	protected JSMethodRunner runner;
+	private ScriptContext cx;
 	
-	public DataSetJSEventHandler( IBaseDataSetDesign dataSetDesign )
+	public DataSetJSEventHandler( ScriptContext cx, IBaseDataSetDesign dataSetDesign )
 	{
 		this.design = dataSetDesign;
+		this.cx = cx;
 	}
 
 	protected IBaseDataSetDesign getBaseDesign()
@@ -46,7 +49,7 @@ public class DataSetJSEventHandler implements IBaseDataSetEventHandler
 		if ( runner == null )
 		{
 			String scopeName = "DataSet[" + design.getName() + "]";
-			runner = new JSMethodRunner( scope, scopeName );
+			runner = new JSMethodRunner( cx, scope, scopeName );
 		}
 		return runner;
 	}

@@ -14,6 +14,7 @@
 package org.eclipse.birt.data.engine.script;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSourceEventHandler;
@@ -28,9 +29,9 @@ public class ScriptDataSourceJSEventHandler extends DataSourceJSEventHandler
 	implements IScriptDataSourceEventHandler
 {
 
-	public ScriptDataSourceJSEventHandler( IScriptDataSourceDesign design )
+	public ScriptDataSourceJSEventHandler( ScriptContext cx, IScriptDataSourceDesign design )
 	{
-		super(design);
+		super(cx, design);
 	}
 	
 	protected IScriptDataSourceDesign getScriptDataSourceDesign()

@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
@@ -31,7 +32,6 @@ import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.script.FilterPassController;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.mozilla.javascript.Context;
 
 /**
  * The class which is used to do group instance filterings.
@@ -60,7 +60,7 @@ class GroupInstanceFilter
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	public void doGroupFiltering( Context cx,StopSign stopSign )
+	public void doGroupFiltering( ScriptContext cx,StopSign stopSign )
 			throws DataException
 	{
 		List groupLevels = new ArrayList( );
@@ -123,7 +123,7 @@ class GroupInstanceFilter
 	 * @param groupBoundaryInfos
 	 * @throws DataException
 	 */
-	private void populateFiltersInGroupBoundaryInfoSets( Context cx,
+	private void populateFiltersInGroupBoundaryInfoSets( ScriptContext cx,
 			List[] groupBoundaryInfos ) throws DataException
 	{
 		for ( int i = 1; i <= this.populator.getQuery( ).getGrouping( ).length; i++ )
@@ -173,7 +173,7 @@ class GroupInstanceFilter
 	 * @param j
 	 * @throws DataException
 	 */
-	private void populateGroupBoundaryInfoFilterValues( Context cx,
+	private void populateGroupBoundaryInfoFilterValues( ScriptContext cx,
 			List[] groupBoundaryInfos, int i, List groupedFilters )
 			throws DataException
 	{
@@ -215,7 +215,7 @@ class GroupInstanceFilter
 	 * @param startingGroupInstanceIndex
 	 * @throws DataException
 	 */
-	private void makeAGroupFilteringMultiPass( Context cx, int groupLevel,
+	private void makeAGroupFilteringMultiPass( ScriptContext cx, int groupLevel,
 			List filters, List currentGroupArray, int startingGroupInstanceIndex ) throws DataException
 	{
 		advanceResultIteratorCursor( groupLevel, startingGroupInstanceIndex );
@@ -271,7 +271,7 @@ class GroupInstanceFilter
 	 *            if true then set the value to GroupBoundaryInfos, else not.
 	 * @throws DataException
 	 */
-	private void populateGroupBoundaryInfoFilters( Context cx,
+	private void populateGroupBoundaryInfoFilters( ScriptContext cx,
 			List currentGroupArray, List filters, int groupLevel,
 			boolean setUpValue ) throws DataException
 	{
@@ -294,7 +294,7 @@ class GroupInstanceFilter
 	 * @return
 	 * @throws DataException
 	 */
-	private boolean evaluateFilters( Context cx, List groupFilters )
+	private boolean evaluateFilters( ScriptContext cx, List groupFilters )
 			throws DataException
 	{
 		for ( int j = 0; j < groupFilters.size( ); j++ )
@@ -328,7 +328,7 @@ class GroupInstanceFilter
 	 * @return
 	 * @throws DataException
 	 */
-	private Object evaluteFilterExpression( Context cx, IFilterDefinition filter )
+	private Object evaluteFilterExpression( ScriptContext cx, IFilterDefinition filter )
 			throws DataException
 	{
 		IBaseExpression expr = filter.getExpression( );

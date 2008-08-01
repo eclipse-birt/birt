@@ -271,7 +271,9 @@ public class QueryExecutor
 				targetSort = new DimensionSortEvalHelper( executor.getOuterResults( ),
 						scope,
 						queryDefn,
-						cubeSort );
+						cubeSort,
+						executor.getSession( ).getEngineContext( ).getScriptContext( )
+						);
 			}
 			else
 			{

@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSourceEventHandler;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -36,9 +37,9 @@ public class ScriptDataSourceRuntime extends DataSourceRuntime
 	 * @param sharedScope
 	 */
     ScriptDataSourceRuntime( IScriptDataSourceDesign dataSource,
-			Scriptable sharedScope )
+			Scriptable sharedScope, ScriptContext cx )
 	{
-		super( dataSource, sharedScope );
+		super( dataSource, sharedScope, cx );
 		Object[] params = {
 				dataSource, sharedScope
 		};

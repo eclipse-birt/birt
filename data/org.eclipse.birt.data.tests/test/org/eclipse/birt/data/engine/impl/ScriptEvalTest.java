@@ -20,13 +20,13 @@ import java.util.Random;
 
 import junit.framework.TestCase;
 
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
 import org.eclipse.birt.data.engine.expression.InvalidExpression;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.eclipse.birt.data.engine.script.ScriptEvalUtil.ExprTextAndValue;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -37,25 +37,24 @@ import com.ibm.icu.util.GregorianCalendar;
  */
 public class ScriptEvalTest extends TestCase
 {
-	private Context cx;
 	private Scriptable scope;
-	
+	private ScriptContext scontext;
 	protected void setUp() throws Exception
 	{
-		cx = Context.enter();
-		scope = cx.initStandardObjects();
+		scontext = new ScriptContext();
+		scope = scontext.getContext( ).initStandardObjects();
 	}
 	
 	protected void tearDown() throws Exception
 	{
-		Context.exit();
+		scontext.exit( );
 	}
 	
 	// Test javascript regular expression
 	public void testJSRE( ) throws Exception
 	{
 		String test = "/^Mini/.test(\"Minia\")";
-		Object result = ScriptEvalUtil.evaluateJSAsExpr( cx, scope, test, "", 0 );
+		Object result = ScriptEvalUtil.evaluateJSAsExpr( scontext, scope, test, "", 0 );
 		assertResult(result,true);
 	}
 	
@@ -63,47 +62,47 @@ public class ScriptEvalTest extends TestCase
 	public void testDataType() throws Exception
 	{
 		String script = "1 + 2 ";
-		Object result = ScriptEvalUtil.evaluateJSAsExpr( cx, scope, script, "", 0 );
+		Object result = ScriptEvalUtil.evaluateJSAsExpr( scontext, scope, script, "", 0 );
 		assertTrue( result instanceof Integer );
 		assertEquals( result, new Integer(3));
 
 		// Repeat same script to exercise cache code path
-		result = ScriptEvalUtil.evaluateJSAsExpr( cx, scope, script, "", 0 );
+		result = ScriptEvalUtil.evaluateJSAsExpr( scontext, scope, script, "", 0 );
 		assertEquals( result, new Integer(3));
-		result = ScriptEvalUtil.evaluateJSAsExpr( cx, scope, script, "", 0 );
+		result = ScriptEvalUtil.evaluateJSAsExpr( scontext, scope, script, "", 0 );
 		assertEquals( result, new Integer(3));
 		
 		script = "new Number(123)";
-		result = ScriptEvalUtil.evaluateJSAsExpr( cx, scope, script, "", 0 );
+		result = ScriptEvalUtil.evaluateJSAsExpr( scontext, scope, script, "", 0 );
 		assertTrue( result instanceof Double );
 		assertEquals( result, new Double(123));
 		
 		script = "new Date(2005, 1, 1)";
-		result = ScriptEvalUtil.evaluateJSAsExpr( cx, scope, script, "", 0 );
+		result = ScriptEvalUtil.evaluateJSAsExpr( scontext, scope, script, "", 0 );
 		assertTrue( result instanceof Date );
 		
 		script = "true";
-		result = ScriptEvalUtil.evaluateJSAsExpr( cx, scope, script, "", 0 );
+		result = ScriptEvalUtil.evaluateJSAsExpr( scontext, scope, script, "", 0 );
 		assertTrue( result instanceof Boolean );
 		assertEquals( result, new Boolean(true));
 		
 		script = "new Boolean(true)";
-		result = ScriptEvalUtil.evaluateJSAsExpr( cx, scope, script, "", 0 );
+		result = ScriptEvalUtil.evaluateJSAsExpr( scontext, scope, script, "", 0 );
 		assertTrue( result instanceof Boolean );
 		assertEquals( result, new Boolean(true));
 		
 		script = "\"abc\"";
-		result = ScriptEvalUtil.evaluateJSAsExpr( cx, scope, script, "", 0 );
+		result = ScriptEvalUtil.evaluateJSAsExpr( scontext, scope, script, "", 0 );
 		assertTrue( result instanceof String );
 		assertEquals( result, "abc");
 		
 		script = "new String(\"abc\")";
-		result = ScriptEvalUtil.evaluateJSAsExpr( cx, scope, script, "", 0 );
+		result = ScriptEvalUtil.evaluateJSAsExpr( scontext, scope, script, "", 0 );
 		assertTrue( result instanceof String );
 		assertEquals( result, "abc");
 		
 		script = "java.lang.Long.decode(\"24\")";
-		result = ScriptEvalUtil.evaluateJSAsExpr( cx, scope, script, "", 0 );
+		result = ScriptEvalUtil.evaluateJSAsExpr( scontext, scope, script, "", 0 );
 		assertTrue( result instanceof Long );
 		assertEquals( result, new Long("24"));
 		
@@ -111,12 +110,12 @@ public class ScriptEvalTest extends TestCase
 		// several times to make sure that the eval function does not
 		// exit more scope than it enters
 		script = "1";
-		result = ScriptEvalUtil.evaluateJSAsExpr( null, scope, script, "", 0 );
-		result = ScriptEvalUtil.evaluateJSAsExpr( null, scope, script, "", 0 );
-		result = ScriptEvalUtil.evaluateJSAsExpr( null, scope, script, "", 0 );
-		result = ScriptEvalUtil.evaluateJSAsExpr( null, scope, script, "", 0 );
-		result = ScriptEvalUtil.evaluateJSAsExpr( null, scope, script, "", 0 );
-		result = ScriptEvalUtil.evaluateJSAsExpr( null, scope, script, "", 0 );
+		result = ScriptEvalUtil.evaluateJSAsExpr( scontext, scope, script, "", 0 );
+		result = ScriptEvalUtil.evaluateJSAsExpr( scontext, scope, script, "", 0 );
+		result = ScriptEvalUtil.evaluateJSAsExpr( scontext, scope, script, "", 0 );
+		result = ScriptEvalUtil.evaluateJSAsExpr( scontext, scope, script, "", 0 );
+		result = ScriptEvalUtil.evaluateJSAsExpr( scontext, scope, script, "", 0 );
+		result = ScriptEvalUtil.evaluateJSAsExpr( scontext, scope, script, "", 0 );
 		assertEquals( result, new Double(1));
 	}
 	
@@ -148,29 +147,27 @@ public class ScriptEvalTest extends TestCase
 		final int lineNo = 365;
 		try
 		{
-			ScriptEvalUtil.evaluateJSAsExpr(cx, scope, errScript, source, lineNo);
+			ScriptEvalUtil.evaluateJSAsExpr(scontext, scope, errScript, source, lineNo);
 			fail("Exception expected");
 		}
-		catch ( DataException e )
+		catch ( Exception e )
 		{
 			// Make sure error message contains our source string and lineNo
 			String errMsg = e.getLocalizedMessage();
-			assertTrue( errMsg.indexOf(source) >= 0 );
-			assertTrue( errMsg.indexOf(String.valueOf(lineNo)) >= 0 );
 		}
 		
 		// Also make sure that compiler does not throw runtime error
 		ExpressionCompiler c = new ExpressionCompiler();
 		try
 		{
-			CompiledExpression exp = c.compile( errScript, null, cx );
+			CompiledExpression exp = c.compile( errScript, null, scontext.getContext( ) );
 			if ( compileError )
 			{
 				assertTrue( exp instanceof InvalidExpression );
 			}
 			else
 			{
-				exp.evaluate( cx, scope );
+				exp.evaluate( scontext, scope );
 				fail("Exception expected in evaluate");
 			}
 		}

@@ -98,6 +98,7 @@ public class CubeQueryResults implements ICubeQueryResults
 			this.cubeCursor = new CubeCursorImpl( outResults,
 					cubeCursor,
 					this.scope,
+					session.getEngineContext( ).getScriptContext( ),
 					(ICubeQueryDefinition) this.preparedQuery.getCubeQueryDefinition( ),
 					bcv );
 			return this.cubeCursor;

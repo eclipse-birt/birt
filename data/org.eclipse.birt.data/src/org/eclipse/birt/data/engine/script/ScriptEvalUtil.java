@@ -24,7 +24,7 @@ import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
@@ -35,7 +35,6 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.LogUtil;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 
@@ -587,7 +586,7 @@ public class ScriptEvalUtil
 	 * @return 
 	 * @throws DataException
 	 */
-	public static Object evalExpr( IBaseExpression expr, Context cx, Scriptable scope, 
+	public static Object evalExpr( IBaseExpression expr, ScriptContext cx, Scriptable scope, 
 				String source, int lineNo )
 		throws DataException
 	{
@@ -697,7 +696,7 @@ public class ScriptEvalUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static Object evaluateJSAsExpr(Context cx, Scriptable scope,
+	public static Object evaluateJSAsExpr(ScriptContext cx, Scriptable scope,
 			String scriptText, String source, int lineNo)
 			throws DataException 
 	{
@@ -709,14 +708,7 @@ public class ScriptEvalUtil
 				+ ", lineNo=" + lineNo);
 		
 		Object result;
-		try
-		{
-			result = JavascriptEvalUtil.evaluateScript( cx, scope, scriptText, source, lineNo );
-		}
-		catch (BirtException e)
-		{
-			throw DataException.wrap(e);
-		}
+		result = cx.eval( scriptText, scope );
 		return result;
 	}
 	

@@ -11,6 +11,7 @@
 package org.eclipse.birt.data.engine.impl;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IDataEngineFactory;
@@ -31,9 +32,10 @@ public class DataEngineFactory implements IDataEngineFactory
 			try
 			{
 				context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+						new ScriptContext( null ),
 						null,
 						null,
-						null );
+						null);
 			}
 			catch ( BirtException e )
 			{

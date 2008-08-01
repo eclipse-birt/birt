@@ -257,7 +257,8 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 			jsResultSetRow = new JSResultSetRow( resultIterator,
 					exprManager,
 					queryExecutor.getQueryScope( ),
-					helper );
+					helper,
+					session.getEngineContext( ).getScriptContext( ));
 			getDataSetRuntime( ).setJSResultSetRow( jsResultSetRow );
 			getDataSetRuntime( ).setMode( Mode.Query );
 		}
@@ -449,10 +450,9 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		private List populateAggrDefinitions( )
 				throws DataException
 		{
-			try
-			{
+			
 				List result = new ArrayList();
-				Context cx = Context.enter( );
+			
 				ExpressionCompiler compiler = new ExpressionCompiler( );
 				compiler.setDataSetMode( false );
 
@@ -466,18 +466,16 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 					{
 						String name = it.next( ).toString( );
 						populateOneAggrDefinition( result,
-								cx,
-								compiler,
-								gbc,
-								name );
+							session.getEngineContext( )
+									.getScriptContext( )
+									.getContext( ),
+							compiler,
+							gbc,
+							name );
 					}
 				}
 				return result;
-			}
-			finally
-			{
-				Context.exit( );
-			}
+			
 		}
 
 		/**
@@ -975,38 +973,30 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	{
 		if ( needAutoBinding( ) == false )
 			return;
-		try
+		IResultMetaData metaData = getResultMetaData( );
+		int columnCount = metaData.getColumnCount( );
+		for ( int i = 0; i < columnCount; i++ )
 		{
-			Context cx = Context.enter( );
-
-			IResultMetaData metaData = getResultMetaData( );
-			int columnCount = metaData.getColumnCount( );
-			for ( int i = 0; i < columnCount; i++ )
+			int colIndex = i + 1;
+			try
 			{
-				int colIndex = i + 1;
-				try
-				{
-					String colName = metaData.getColumnAlias( colIndex );
-					if ( colName == null )
-						colName = metaData.getColumnName( colIndex );
+				String colName = metaData.getColumnAlias( colIndex );
+				if ( colName == null )
+					colName = metaData.getColumnName( colIndex );
 
-					ScriptExpression baseExpr = new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( colName ),
-							metaData.getColumnType( colIndex ) );
-					CompiledExpression compiledExpr = ExpressionCompilerUtil.compile( baseExpr.getText( ),
-							cx );
-					baseExpr.setHandle( compiledExpr );
-					this.exprManager.addAutoBindingExpr( colName, baseExpr );
-				}
-				catch ( BirtException e )
-				{
-					// impossible, ignore
-				}
+				ScriptExpression baseExpr = new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( colName ),
+						metaData.getColumnType( colIndex ) );
+				CompiledExpression compiledExpr = ExpressionCompilerUtil.compile( baseExpr.getText( ),
+						session.getEngineContext( ).getScriptContext( ).getContext( ) );
+				baseExpr.setHandle( compiledExpr );
+				this.exprManager.addAutoBindingExpr( colName, baseExpr );
+			}
+			catch ( BirtException e )
+			{
+				// impossible, ignore
 			}
 		}
-		finally
-		{
-			Context.exit( );
-		}
+		
 	}
 	
 	/**

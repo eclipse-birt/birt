@@ -18,6 +18,7 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
@@ -30,7 +31,6 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.script.JSRowObject;
 import org.eclipse.birt.data.engine.script.NEvaluator;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -49,7 +49,7 @@ public class ExprEvaluateUtil
 	 * @throws BirtException
 	 */
 	public static Object evaluateExpression( IBaseExpression dataExpr,
-			IResultIterator odiResult, Scriptable scope )
+			IResultIterator odiResult, Scriptable scope, ScriptContext cx )
 			throws BirtException
 	{
 		Object exprValue = null;
@@ -64,7 +64,7 @@ public class ExprEvaluateUtil
 		if ( handle instanceof CompiledExpression )
 		{
 			CompiledExpression expr = (CompiledExpression) handle;
-			Object value = evaluateCompiledExpression( expr, odiResult, scope );
+			Object value = evaluateCompiledExpression( expr, odiResult, scope, cx );
 
 			try
 			{
@@ -82,7 +82,7 @@ public class ExprEvaluateUtil
 			ConditionalExpression ce = (ConditionalExpression) handle;
 			Object resultExpr = evaluateExpression( ce.getExpression( ),
 					odiResult,
-					scope );
+					scope, cx );
 			Object[] op1Value = new Object[0], op2Value = new Object[0];
 			boolean isCombined = false;
 
@@ -93,7 +93,7 @@ public class ExprEvaluateUtil
 					op1Value = new Object[1];
 					op1Value[0] = evaluateExpression( ce.getOperand1( ),
 							odiResult,
-							scope );
+							scope, cx );
 				}
 				else if ( ce.getOperand1( ) instanceof IExpressionCollection )
 				{
@@ -105,7 +105,7 @@ public class ExprEvaluateUtil
 					{
 						result[i] = evaluateExpression( (IBaseExpression) exprs[i],
 								odiResult,
-								scope );
+								scope, cx );
 					}
 					op1Value = flatternMultipleValues( result );
 				}
@@ -117,7 +117,7 @@ public class ExprEvaluateUtil
 					op2Value = new Object[1];
 					op2Value[0] = evaluateExpression( ce.getOperand2( ),
 							odiResult,
-							scope );
+							scope, cx );
 				}
 			}
 			if ( isCombined )
@@ -139,7 +139,7 @@ public class ExprEvaluateUtil
 	}
 	
 	public static Object evaluateCompiledExpression( CompiledExpression expr,
-			IResultObject ro, int currentIndex, Scriptable scope )
+			IResultObject ro, int currentIndex, Scriptable scope, ScriptContext cx )
 			throws DataException
 	{
 		// Special case for DirectColRefExpr: it's faster to directly access
@@ -193,15 +193,7 @@ public class ExprEvaluateUtil
 		}
 		else
 		{
-			Context cx = Context.enter( );
-			try
-			{
-				return expr.evaluate( cx, scope );
-			}
-			finally
-			{
-				Context.exit( );
-			}
+			return expr.evaluate( cx, scope );
 		}
 	}
 
@@ -213,12 +205,12 @@ public class ExprEvaluateUtil
 	 * @throws DataException
 	 */
 	public static Object evaluateCompiledExpression( CompiledExpression expr,
-			IResultIterator odiResult, Scriptable scope ) throws DataException
+			IResultIterator odiResult, Scriptable scope, ScriptContext cx ) throws DataException
 	{
 		return evaluateCompiledExpression( expr,
 				odiResult.getCurrentResult( ),
 				odiResult.getCurrentResultIndex( ),
-				scope );
+				scope, cx );
 	}
 	
 	/**
@@ -230,9 +222,9 @@ public class ExprEvaluateUtil
 	 * @throws BirtException
 	 */
 	public static Object evaluateRawExpression( IBaseExpression dataExpr,
-			Scriptable scope ) throws BirtException
+			Scriptable scope, ScriptContext cx ) throws BirtException
 	{
-		return doEvaluateRawExpression( dataExpr, scope, false );
+		return doEvaluateRawExpression( dataExpr, scope, false, cx );
 	}
 	
 	/**
@@ -242,9 +234,9 @@ public class ExprEvaluateUtil
 	 * @throws BirtException
 	 */
 	public static Object evaluateRawExpression2( IBaseExpression dataExpr,
-			Scriptable scope ) throws BirtException
+			Scriptable scope, ScriptContext cx ) throws BirtException
 	{
-		return doEvaluateRawExpression( dataExpr, scope, true );
+		return doEvaluateRawExpression( dataExpr, scope, true, cx );
 	}
 	
 	/**
@@ -254,24 +246,19 @@ public class ExprEvaluateUtil
 	 * @throws BirtException
 	 */
 	private static Object doEvaluateRawExpression( IBaseExpression dataExpr,
-			Scriptable scope, boolean javaType ) throws BirtException
+			Scriptable scope, boolean javaType, ScriptContext cx ) throws BirtException
 	{
+		/*if( cx.getScope( ) != scope )
+		cx.enterScope( scope );*/
 		if ( dataExpr == null )
 			return null;
 		
-		try
-		{
-			Context cx = Context.enter( );
-			if ( dataExpr instanceof IScriptExpression )
+		if ( dataExpr instanceof IScriptExpression )
 			{
 				if ( ( (IScriptExpression) dataExpr ).getText( ) == null )
 					throw new DataException( ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK );
-				
-				Object value = JavascriptEvalUtil.evaluateRawScript( cx,
-						scope,
-						( (IScriptExpression) dataExpr ).getText( ),
-						org.eclipse.birt.core.script.ScriptExpression.defaultID,
-						0 );
+
+				Object value = cx.eval( ((IScriptExpression) dataExpr).getText( ), scope );
 				
 				if ( javaType == true )
 					value = JavascriptEvalUtil.convertJavascriptValue( value );
@@ -298,11 +285,11 @@ public class ExprEvaluateUtil
 					{
 						result[i] = doEvaluateRawExpression( (IBaseExpression)expr[i],
 								scope,
-								javaType );
+								javaType, cx );
 					}
 					return ScriptEvalUtil.evalConditionalExpr( doEvaluateRawExpression( opr,
 							scope,
-							javaType ),
+							javaType, cx ),
 							oper,
 							flatternMultipleValues( result ) );
 				}
@@ -310,10 +297,10 @@ public class ExprEvaluateUtil
 				{
 					return ScriptEvalUtil.evalConditionalExpr( doEvaluateRawExpression( opr,
 							scope,
-							javaType ),
+							javaType, cx ),
 							oper,
-							doEvaluateRawExpression( operand1, scope, javaType ),
-							doEvaluateRawExpression( operand2, scope, javaType ) );
+							doEvaluateRawExpression( operand1, scope, javaType, cx ),
+							doEvaluateRawExpression( operand2, scope, javaType, cx ) );
 				}
 			}
 			else
@@ -321,12 +308,6 @@ public class ExprEvaluateUtil
 				assert false;
 				return null;
 			}
-			
-		}
-		finally
-		{
-			Context.exit( );
-		}
 	}
 	
 	//------------------------------------------------------------------
@@ -339,7 +320,7 @@ public class ExprEvaluateUtil
 	 * @throws BirtException
 	 */
 	public static Object evaluateValue( IBaseExpression dataExpr, int index,
-			IResultObject roObject, Scriptable scope ) throws BirtException
+			IResultObject roObject, Scriptable scope, ScriptContext cx ) throws BirtException
 	{	
 		Object exprValue = null;
 
@@ -351,7 +332,7 @@ public class ExprEvaluateUtil
 			Object value = evaluateCompiledExpression( expr,
 					index,
 					roObject,
-					scope );
+					scope, cx );
 
 			try
 			{
@@ -373,7 +354,7 @@ public class ExprEvaluateUtil
 			Object resultExpr = evaluateValue( ce.getExpression( ),
 					index,
 					roObject,
-					scope );
+					scope, cx );
 			Object[] op1Value = new Object[0], op2Value = new Object[0];
 			boolean isCombined = false;
 
@@ -385,7 +366,7 @@ public class ExprEvaluateUtil
 					op1Value[0] = evaluateValue( ce.getOperand1( ),
 							index,
 							roObject,
-							scope );
+							scope, cx );
 				}
 				else if ( ce.getOperand1( ) instanceof IExpressionCollection )
 				{
@@ -398,7 +379,7 @@ public class ExprEvaluateUtil
 						result[i] = evaluateValue( (IBaseExpression)exprs[i],
 								index,
 								roObject,
-								scope );
+								scope, cx );
 					}
 					op1Value = flatternMultipleValues( result );
 				}
@@ -411,7 +392,7 @@ public class ExprEvaluateUtil
 					op2Value[0] = evaluateValue( ce.getOperand2( ),
 							index,
 							roObject,
-							scope );
+							scope, cx );
 				}
 				else if ( ce.getOperand2( ) instanceof IExpressionCollection )
 				{
@@ -423,7 +404,7 @@ public class ExprEvaluateUtil
 						result[i] = evaluateValue( (IBaseExpression)exprs[i],
 								index,
 								roObject,
-								scope );
+								scope, cx );
 					}
 					op2Value = flatternMultipleValues( result );
 				}
@@ -454,7 +435,7 @@ public class ExprEvaluateUtil
 	 * @throws DataException
 	 */
 	private static Object evaluateCompiledExpression( CompiledExpression expr,
-			int index, IResultObject roObject, Scriptable scope )
+			int index, IResultObject roObject, Scriptable scope, ScriptContext cx )
 			throws DataException
 	{
 		// Special case for DirectColRefExpr: it's faster to directly access
@@ -488,15 +469,7 @@ public class ExprEvaluateUtil
 		}
 		else
 		{
-			Context cx = Context.enter();
-			try
-			{
-				return  expr.evaluate( cx, scope );
-			}
-			finally
-			{
-				Context.exit();
-			}
+			return  expr.evaluate( cx, scope );
 		}
 
 	}

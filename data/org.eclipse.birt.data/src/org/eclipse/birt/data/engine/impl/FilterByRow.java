@@ -305,7 +305,7 @@ public class FilterByRow implements IResultObjectEvent
 						 * cx,dataSet.getScriptScope(), "Filter", 0 );
 						 */
 						result = ExprEvaluateUtil.evaluateRawExpression2( expr,
-								dataSet.getScriptScope( ) );
+								dataSet.getScriptScope( ), dataSet.getSession( ).getEngineContext( ).getScriptContext( ) );
 					}
 					catch ( BirtException e2 )
 					{

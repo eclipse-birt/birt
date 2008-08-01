@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.olap.util.filter;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
@@ -23,7 +24,6 @@ import org.eclipse.birt.data.engine.olap.util.DataJSObjectPopulator;
 import org.eclipse.birt.data.engine.olap.util.DimensionJSEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.IJSObjectPopulator;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -41,18 +41,10 @@ public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper
 	 * @param cubeFilter
 	 * @throws DataException
 	 */
-	public AggrMeasureFilterEvalHelper( IBaseQueryResults outResults, Scriptable scope,ICubeQueryDefinition queryDefn, IFilterDefinition cubeFilter) throws DataException
+	public AggrMeasureFilterEvalHelper( IBaseQueryResults outResults, Scriptable scope,ICubeQueryDefinition queryDefn, IFilterDefinition cubeFilter, ScriptContext cx) throws DataException
 	{
 		assert cubeFilter != null;
-		Context cx = Context.enter( );
-		try
-		{
-			super.init( outResults, scope, queryDefn, cx, cubeFilter.getExpression( ) );
-		}
-		finally
-		{
-			Context.exit( );
-		}
+		super.init( outResults, scope, queryDefn, cx, cubeFilter.getExpression( ) );
 	}
 
 	/*
@@ -64,7 +56,6 @@ public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper
 	{
 		super.setData( resultRow );
 
-		Context cx = Context.enter( );
 		try
 		{
 			Object result = ScriptEvalUtil.evalExpr( expr,
@@ -82,10 +73,6 @@ public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper
 		{
 			throw DataException.wrap( e );
 		}
-		finally
-		{
-			Context.exit( );
-		}
 	}
 
 	/*
@@ -98,7 +85,7 @@ public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper
 		super.registerJSObjectPopulators( );
 		register( new DataJSObjectPopulator( this.outResults, scope,
 				queryDefn.getBindings( ),
-				true ) );
+				true, cx ) );
 	}
 
 	/*

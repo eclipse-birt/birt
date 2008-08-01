@@ -15,8 +15,8 @@ import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -35,7 +35,7 @@ public class JSDummyRowObject extends ScriptableObject
 	private Scriptable parent;
 	
 	private Map valueCacheMap;
-
+	private ScriptContext cx;
 	/** */
 	private static final long serialVersionUID = -7841512175200620757L;
 
@@ -44,12 +44,12 @@ public class JSDummyRowObject extends ScriptableObject
 	 * @param scope
 	 */
 	public JSDummyRowObject( ExprManager exprManager, Scriptable scope,
-			Scriptable parent )
+			Scriptable parent, ScriptContext cx )
 	{
 		this.exprManager = exprManager;
 		this.scope = scope;
 		this.parent = parent;
-		
+		this.cx = cx;
 		this.valueCacheMap = new HashMap( );
 	}
 
@@ -87,7 +87,7 @@ public class JSDummyRowObject extends ScriptableObject
 			IBaseExpression baseExpr = exprManager.getExpr( name );
 		
 			Object value = ExprEvaluateUtil.evaluateRawExpression( baseExpr,
-					scope );
+					scope, cx );
 			Object obValue = JavascriptEvalUtil.convertToJavascriptValue( value,
 					scope );
 			valueCacheMap.put( name, obValue );

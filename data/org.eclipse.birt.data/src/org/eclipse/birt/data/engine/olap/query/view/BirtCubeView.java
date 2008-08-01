@@ -78,7 +78,8 @@ public class BirtCubeView
 		measureMapping = new HashMap( );
 		CalculatedMember[] members = CubeQueryDefinitionUtil.getCalculatedMembers( this.getCubeQueryDefinition( ),
 				queryExecutor.getSession( ).getSharedScope( ),
-				measureMapping );
+				measureMapping,
+				queryExecutor.getSession( ).getEngineContext( ).getScriptContext( ));
 		manager = new MeasureNameManager( members );
 
 		prepareCubeOperations( manager.getBasedRsIndex( ) + 1 );
@@ -92,7 +93,7 @@ public class BirtCubeView
 		int startId = startRsId;
 		for (ICubeOperation co : this.getCubeQueryDefinition( ).getCubeOperations())
 		{
-			IPreparedCubeOperation pco = CubeOperationFactory.createPreparedCubeOperation(co, scope, startId);
+			IPreparedCubeOperation pco = CubeOperationFactory.createPreparedCubeOperation(co, scope, startId, executor.getSession( ).getEngineContext( ).getScriptContext( ));
 			preparedCubeOperations[i] = pco;
 			CalculatedMember[] newMembers = pco.getNewCalculatedMembers( );
 			if (newMembers != null && newMembers.length > 0)

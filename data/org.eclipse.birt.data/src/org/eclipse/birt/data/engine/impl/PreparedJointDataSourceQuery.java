@@ -132,7 +132,8 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 				right.getOdiResult( ),
 				left.getScope( ),
 				right.getScope( ),
-				dataSet.getJoinConditions( ) );
+				dataEngine.getSession( ).getEngineContext( ).getScriptContext( ),
+				dataSet.getJoinConditions( ));
 
 	}
 

@@ -383,7 +383,7 @@ public class DataEngineImpl extends DataEngine
 	public IPreparedCubeQuery prepare( ISubCubeQueryDefinition querySpec,
 			Map appContext ) throws BirtException
 	{
-		return new PreparedSubCubeQuery( querySpec, appContext );
+		return new PreparedSubCubeQuery( querySpec, appContext, this.session );
 	}
 
 	/*

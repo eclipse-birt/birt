@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.util.sort;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -39,19 +40,11 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper
 	private DimLevel targetLevel;
 
 	public DimensionSortEvalHelper( IBaseQueryResults outResults, Scriptable parentScope,
-			ICubeQueryDefinition queryDefn, ICubeSortDefinition sortDefinition )
+			ICubeQueryDefinition queryDefn, ICubeSortDefinition sortDefinition, ScriptContext cx )
 			throws DataException
 	{
 		assert sortDefinition != null;
-		Context cx = Context.enter( );
-		try
-		{
-			initialize( outResults, parentScope, queryDefn, sortDefinition, cx );
-		}
-		finally
-		{
-			Context.exit( );
-		}
+		initialize( outResults, parentScope, queryDefn, sortDefinition, cx );
 	}
 
 	/**
@@ -64,7 +57,7 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper
 	 */
 	protected void initialize( IBaseQueryResults outResults, Scriptable parentScope,
 			ICubeQueryDefinition queryDefn, ICubeSortDefinition sortDefinition,
-			Context cx ) throws DataException
+			ScriptContext cx ) throws DataException
 	{
 		super.init( outResults, parentScope, queryDefn, cx, sortDefinition.getExpression( ) );
 		this.sortDefinition = sortDefinition;
@@ -77,7 +70,6 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper
 	{
 		super.setData( resultRow );
 
-		Context cx = Context.enter( );
 		try
 		{
 			return ScriptEvalUtil.evalExpr( expr, cx, scope, ScriptExpression.defaultID, 0 );
@@ -89,10 +81,6 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper
 		catch ( BirtException e )
 		{
 			throw DataException.wrap( e );
-		}
-		finally
-		{
-			Context.exit( );
 		}
 	}
 
@@ -131,6 +119,6 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper
 		register( new DataJSObjectPopulator( this.outResults,
 				scope,
 				queryDefn.getBindings( ),
-				false ) );
+				false, cx ) );
 	}
 }

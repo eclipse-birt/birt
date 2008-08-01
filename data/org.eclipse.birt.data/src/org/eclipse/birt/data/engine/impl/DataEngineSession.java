@@ -29,7 +29,6 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.impl.document.NamingRelation;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.Scriptable;
 
@@ -68,20 +67,17 @@ public class DataEngineSession
 		this.engine = engine;
 		this.scope = engine.getContext( ).getJavaScriptScope( );
 		
-		try
-		{
-			Context cx = Context.enter( );
+	
 			if ( this.scope == null )
-			{
-				this.scope = new ImporterTopLevel( cx );
-			}
-
-			new CoreJavaScriptInitializer( ).initialize( cx, scope );
-		}
-		finally
 		{
-			Context.exit( );
+			this.scope = new ImporterTopLevel( engine.getContext( )
+					.getScriptContext( )
+					.getContext( ) );
 		}
+
+		new CoreJavaScriptInitializer( ).initialize( engine.getContext( )
+				.getScriptContext( )
+				.getContext( ), scope );
 		tempDir = engine.getContext( ).getTmpdir( ) +
 				"DataEngine_" + engine.hashCode( ) + File.separator;
 

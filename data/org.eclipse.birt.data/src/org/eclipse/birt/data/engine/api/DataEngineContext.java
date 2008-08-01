@@ -21,6 +21,7 @@ import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.mozilla.javascript.Scriptable;
@@ -124,13 +125,15 @@ public class DataEngineContext
 	
 	private static Logger logger = Logger.getLogger( DataEngineContext.class.getName( ) );
 	
+	private ScriptContext scriptContext;
+	
 	/**
 	 * When mode is MODE_GENERATION, the writer stream of archive will be used.
 	 * When mode is MODE_PRESENTATION, the reader stream of archive will be used.
 	 * When mode is DIRECT_PRESENTATION, the archive will not be used.
 	 * When mode is PRESENTATION_AND_GENERATION, both the write stream and the read 
 	 * steram of archive will be used. 
-	 * 
+	 * @deprecated
 	 * @param mode
 	 * @param scope
 	 * @param reader
@@ -146,7 +149,7 @@ public class DataEngineContext
 	}
 	
 	/**
-	 * 
+	 * @deprecated
 	 * @param mode
 	 * @param scope
 	 * @param reader
@@ -159,7 +162,23 @@ public class DataEngineContext
 			IDocArchiveReader reader, IDocArchiveWriter writer )
 			throws BirtException
 	{
-		return new DataEngineContext( mode, scope, reader, writer, null );
+		ScriptContext context = new ScriptContext();
+		context.enterScope( scope );
+		DataEngineContext result = newInstance( mode, context, reader, writer, null );
+		return result;
+	}
+	
+	public static DataEngineContext newInstance( int mode,
+			ScriptContext context, IDocArchiveReader reader,
+			IDocArchiveWriter writer, ClassLoader classLoader ) throws BirtException
+	{
+		DataEngineContext result = new DataEngineContext( mode,
+				context.getSharedScope( ),
+				reader,
+				writer,
+				classLoader );
+		result.scriptContext = context;
+		return result;
 	}
 	
 	/**
@@ -545,4 +564,14 @@ public class DataEngineContext
 		return streamRoot + relativePath;
 	}	
 
+	/**
+	 * 
+	 * @return
+	 */
+	public ScriptContext getScriptContext( )
+	{
+		if ( this.scriptContext == null )
+			this.scriptContext = new ScriptContext( null );
+		return this.scriptContext;
+	}
 }

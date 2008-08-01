@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.util.filter;
 import java.util.Set;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -26,7 +27,6 @@ import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 import org.eclipse.birt.data.engine.olap.util.IJSObjectPopulator;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -49,23 +49,14 @@ public class TopBottomDimensionFilterEvalHelper
 	 * @throws DataException
 	 */
 	public TopBottomDimensionFilterEvalHelper( IBaseQueryResults outResults, Scriptable parentScope,
-			ICubeQueryDefinition queryDefn, IFilterDefinition cubeFilter )
+			ICubeQueryDefinition queryDefn, IFilterDefinition cubeFilter, ScriptContext cx )
 			throws DataException
 	{
 		assert cubeFilter!=null;
-		Context cx = Context.enter( );
-		
-		try
-		{
-			initialize( outResults, parentScope, queryDefn, cubeFilter, cx );
-			populateN( cx );
-			popualteFilterType( );
-			argumentCheck();
-		}
-		finally
-		{
-			Context.exit( );
-		}
+		initialize( outResults, parentScope, queryDefn, cubeFilter, cx );
+		populateN( cx );
+		popualteFilterType( );
+		argumentCheck();
 	}
 
 	/**
@@ -92,7 +83,7 @@ public class TopBottomDimensionFilterEvalHelper
 	 * @param cx
 	 * @throws DataException
 	 */
-	private void populateN( Context cx ) throws DataException
+	private void populateN( ScriptContext cx ) throws DataException
 	{
 		Object o =  ScriptEvalUtil.evalExpr( ( (IConditionalExpression) expr ).getOperand1( ),
 					cx,
@@ -142,7 +133,7 @@ public class TopBottomDimensionFilterEvalHelper
 	public Object evaluateFilterExpr( IResultRow resultRow ) throws DataException
 	{
 		super.setData( resultRow );
-		Context cx = Context.enter( );
+
 		try
 		{
 			Object result = ScriptEvalUtil.evalExpr( ( (IConditionalExpression) expr ).getExpression( ),
@@ -159,10 +150,6 @@ public class TopBottomDimensionFilterEvalHelper
 		catch ( BirtException e )
 		{
 			throw DataException.wrap( e );
-		}
-		finally
-		{
-			Context.exit( );
 		}
 	}
 

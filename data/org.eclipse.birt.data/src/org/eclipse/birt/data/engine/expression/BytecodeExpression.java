@@ -14,8 +14,8 @@ package org.eclipse.birt.data.engine.expression;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
@@ -39,13 +39,13 @@ public abstract class BytecodeExpression extends CompiledExpression
 	/**
 	 * Evaluates the compiled byte code
 	 */
-	public Object evaluate( Context context, Scriptable scope ) 
+	public Object evaluate( ScriptContext context, Scriptable scope ) 
 		throws DataException
 	{
 	    try
 	    {
 	    	Object result = JavascriptEvalUtil.convertJavascriptValue(
-	    			m_script.exec( context, scope ) );
+	    			m_script.exec( context.getContext( ), scope ) );
 	    	return result;
 	    }
 	    catch ( RhinoException e )

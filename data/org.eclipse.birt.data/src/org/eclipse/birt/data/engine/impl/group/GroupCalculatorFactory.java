@@ -185,8 +185,7 @@ public class GroupCalculatorFactory
 		return (dataType == DataType.DATE_TYPE
 				|| dataType == DataType.SQL_DATE_TYPE 
 				|| dataType == DataType.SQL_TIME_TYPE
-				|| dataType == DataType.STRING_TYPE
-				|| dataType == DataType.INTEGER_TYPE );
+				|| dataType == DataType.STRING_TYPE);
 	}
 
 	/**

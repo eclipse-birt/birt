@@ -374,7 +374,7 @@ public class MultiplePassTest extends APITestCase
 					bindingExprSort, bindingNameFilter, bindingExprFilter,
 					bindingNameRow, bindingExprRow, expressions, groupDefn, sortDefn, filters);
 			fail("Should not reach here");
-		}catch( DataException e )
+		}catch( Exception e )
 		{
 			
 		}
@@ -386,7 +386,7 @@ public class MultiplePassTest extends APITestCase
 					bindingExprSort, bindingNameFilter, bindingExprFilter,
 					bindingNameRow, bindingExprRow, expressions, groupDefn, sortDefn, filters);
 			fail("Should not reach here");
-		}catch( DataException e )
+		}catch( Exception e )
 		{
 			
 		}

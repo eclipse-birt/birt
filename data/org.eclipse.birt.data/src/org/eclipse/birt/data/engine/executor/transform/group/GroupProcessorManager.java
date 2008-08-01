@@ -19,7 +19,6 @@ import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.impl.StopSign;
-import org.mozilla.javascript.Context;
 
 /**
  * 
@@ -74,16 +73,10 @@ public class GroupProcessorManager
 		this.exprProcessor = exprProc;
 		exprProcessor.setResultIterator( this.populator.getResultIterator( ) );
 
-		Context cx = Context.enter( );
-		try
-		{
-			new GroupInstanceFilter( this ).doGroupFiltering( cx, stopSign );
-			//new GroupInstanceSorter( this ).doGroupSorting( cx );
-		}
-		finally
-		{
-			Context.exit( );
-		}
+		new GroupInstanceFilter( this ).doGroupFiltering( this.populator.getSession( )
+				.getEngineContext( )
+				.getScriptContext( ),
+				stopSign );
 	}
 	
 	/**
@@ -102,15 +95,7 @@ public class GroupProcessorManager
 		this.exprProcessor = exprProc;
 		exprProcessor.setResultIterator( this.populator.getResultIterator( ) );
 
-		Context cx = Context.enter( );
-		try
-		{
-			new GroupInstanceSorter( this ).doGroupSorting( cx, stopSign );
-		}
-		finally
-		{
-			Context.exit( );
-		}
+		new GroupInstanceSorter( this ).doGroupSorting( this.populator.getSession( ).getEngineContext( ).getScriptContext( ), stopSign );
 	}
 
 	/**

@@ -2,6 +2,7 @@ package org.eclipse.birt.data.engine.script;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
@@ -9,7 +10,6 @@ import org.eclipse.birt.data.engine.cache.BasicCachedArray;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -90,7 +90,7 @@ public abstract class NEvaluator
 	 * @return
 	 * @throws DataException
 	 */
-	public boolean evaluate( Context cx, Scriptable scope ) throws DataException
+	public boolean evaluate( ScriptContext cx, Scriptable scope ) throws DataException
 	{
 		if( filterPassController.getForceReset() )
 		{
@@ -105,7 +105,7 @@ public abstract class NEvaluator
 			Object n_object = null;
 			try
 			{
-				n_object = ExprEvaluateUtil.evaluateRawExpression2( n_expr, scope );
+				n_object = ExprEvaluateUtil.evaluateRawExpression2( n_expr, scope, cx );
 			}
 			catch ( BirtException e1 )
 			{

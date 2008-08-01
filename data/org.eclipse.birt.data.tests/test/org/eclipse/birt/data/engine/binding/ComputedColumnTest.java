@@ -147,7 +147,7 @@ public class ComputedColumnTest extends APITestCase
 			doTest( );
 			fail( "Invalid expr: dataSetRow.COL00dataSetRow.COL1" );
 		}
-		catch ( DataException e )
+		catch ( Exception e )
 		{
 		}
 	}

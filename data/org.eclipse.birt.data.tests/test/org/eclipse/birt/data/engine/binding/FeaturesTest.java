@@ -320,7 +320,7 @@ public class FeaturesTest extends APITestCase
 					bindingExprRow );
 			fail( "Should throw DteException!" );
 		}
-		catch ( DataException e )
+		catch ( Exception e )
 		{
 			// TODO: verify e has expected error code 
 		}
@@ -409,7 +409,7 @@ public class FeaturesTest extends APITestCase
 					bindingExprRow );
 			fail( "Should throw DteException!" );
 		}
-		catch ( DataException e )
+		catch ( Exception e )
 		{
 			// TODO: verify e has expected error code 
 		}

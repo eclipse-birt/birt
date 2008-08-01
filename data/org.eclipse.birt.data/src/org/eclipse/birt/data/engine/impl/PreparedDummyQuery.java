@@ -121,7 +121,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 	{
 		assert queryDefn != null;
 
-		this.exprManager = new ExprManager( queryDefn );
+		this.exprManager = new ExprManager( queryDefn, session.getEngineContext( ).getScriptContext( ).getContext( ) );
 		this.exprManager.addBindingExpr( null, queryDefn.getBindings( ),
 				0 );
 	}
@@ -239,17 +239,12 @@ public class PreparedDummyQuery implements IPreparedQuery
 			topScope = session.getSharedScope( );
 
 		Scriptable executionScope = null;
-		Context cx = Context.enter( );
-		try
-		{
-			executionScope = cx.newObject( topScope );
-			executionScope.setParentScope( topScope );
-			executionScope.setPrototype( session.getSharedScope( ) );
-		}
-		finally
-		{
-			Context.exit( );
-		}
+		executionScope = session.getEngineContext( )
+				.getScriptContext( )
+				.getContext( )
+				.newObject( topScope );
+		executionScope.setParentScope( topScope );
+		executionScope.setPrototype( session.getSharedScope( ) );
 		
 		return executionScope;
 	}
@@ -496,7 +491,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 			this.exprManager = exprManager;
 			this.queryScope = queryScope;
 			this.jsDummyRowObject = new JSDummyRowObject(exprManager,
-					queryScope, parentScope);
+					queryScope, parentScope, session.getEngineContext( ).getScriptContext( ));
 
 			queryScope.put( "row", queryScope, jsDummyRowObject );
 			this.getRdSaveUtil( ).doSaveStart( );
@@ -510,7 +505,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 				String exprName = (String) entry.getKey( );
 				IBaseExpression baseExpr = (IBaseExpression) entry.getValue( );
 				Object exprValue = ExprEvaluateUtil.evaluateRawExpression( baseExpr,
-						queryScope );
+						queryScope, session.getEngineContext( ).getScriptContext( ) );
 				exprValueMap.put( exprName, exprValue );
 			}
 

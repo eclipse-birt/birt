@@ -31,10 +31,10 @@ public class SubqueryDataSetRuntime extends DataSetRuntime
 	 * @param executor Subquery executor
 	 * @param outerDataSet DataSet runtime of the "real" data set associated with the outer query
 	 */
-	public SubqueryDataSetRuntime( IQueryExecutor executor )
+	public SubqueryDataSetRuntime( IQueryExecutor executor, DataEngineSession session )
 	{
 		// Subquery data set does not have an associated data set design
-		super( null, executor );
+		super( null, executor, session );
 		logger.entering( SubqueryDataSetRuntime.class.getName( ),
 				"SubqueryDataSetRuntime",
 				executor );

@@ -21,7 +21,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.ArrayList;
@@ -62,7 +61,6 @@ import org.eclipse.birt.data.engine.impl.document.RDUtil;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -650,6 +648,7 @@ public class ResultIterator implements IResultIterator
 			{
 				this.bindingColumnsEvalUtil = new BindingColumnsEvalUtil( this.odiResult,
 						this.scope,
+						this.resultService.getSession( ).getEngineContext( ).getScriptContext( ),
 						this.getRdSaveHelper( ),
 						this.resultService.getAllBindingExprs( ),
 						this.resultService.getAllAutoBindingExprs( ) );
@@ -983,19 +982,13 @@ public class ResultIterator implements IResultIterator
 		{
 			Object fieldValue = null;
 			
-			try
-			{
-				Context cx = Context.enter( );
+	
 				fieldValue = ScriptEvalUtil.evalExpr( new ScriptExpression( columnExprs[i] ),
-						cx,
-						ResultIterator.this.scope,
-						org.eclipse.birt.core.script.ScriptExpression.defaultID,
-						0 );
-			}
-			finally
-			{
-				Context.exit( );
-			}
+					resultService.getSession( ).getEngineContext( ).getScriptContext( ),
+					ResultIterator.this.scope,
+					org.eclipse.birt.core.script.ScriptExpression.defaultID,
+					0 );
+			
 
 			boolean retValue = false;
 			if ( fieldValue == groupKeyValues[i] )

@@ -90,4 +90,5 @@ public interface IQueryExecutor
 	 */
 	void close( );
 	
+	DataEngineSession getSession();
 }

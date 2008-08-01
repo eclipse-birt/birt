@@ -15,12 +15,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.script.OLAPExpressionCompiler;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -35,7 +35,7 @@ public abstract class BaseJSEvalHelper
 	protected IBaseExpression expr;
 	protected IBaseQueryResults outResults;
 	private List jsObjectPopulators;
-
+	protected ScriptContext cx;
 	/**
 	 * 
 	 * @param parentScope
@@ -45,17 +45,18 @@ public abstract class BaseJSEvalHelper
 	 * @throws DataException
 	 */
 	protected void init( IBaseQueryResults outResults, Scriptable parentScope,
-			ICubeQueryDefinition queryDefn, Context cx, IBaseExpression expr )
+			ICubeQueryDefinition queryDefn, ScriptContext cx, IBaseExpression expr )
 			throws DataException
 	{
-		this.scope = cx.initStandardObjects( );
+		this.scope = cx.getContext( ).initStandardObjects( );
 		this.scope.setParentScope( parentScope );
 		this.queryDefn = queryDefn;
 		this.expr = expr;
 		this.outResults = outResults;
-		jsObjectPopulators = new ArrayList( );
+		this.cx = cx;
+		this.jsObjectPopulators = new ArrayList( );
 		registerJSObjectPopulators( );
-		OLAPExpressionCompiler.compile( cx, this.expr );
+		OLAPExpressionCompiler.compile( cx.getContext( ), this.expr );
 	}
 
 	/**

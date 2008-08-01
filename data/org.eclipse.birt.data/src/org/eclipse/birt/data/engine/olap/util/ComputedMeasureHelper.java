@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -23,7 +24,6 @@ import org.eclipse.birt.data.engine.olap.data.api.MeasureInfo;
 import org.eclipse.birt.data.engine.olap.impl.query.ComputedMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 
@@ -38,17 +38,19 @@ public class ComputedMeasureHelper implements IComputedMeasureHelper
 	private FacttableMeasureJSObjectPopulator populator;
 	private MeasureInfo[] measureInfos;
 	private Map exprMap;
-	
+	private ScriptContext cx;
 	/**
 	 * 
 	 * @param scope
 	 * @param computedColumns
 	 * @throws DataException
 	 */
-	public ComputedMeasureHelper( Scriptable scope, List computedColumns ) throws DataException
+	public ComputedMeasureHelper( Scriptable scope, ScriptContext cx, List computedColumns ) throws DataException
 	{
 		this.exprMap = new HashMap();
 		this.scope = scope;
+		this.cx = cx;
+ 
 		this.measureInfos = new MeasureInfo[computedColumns.size( )];
 		for( int i = 0; i < measureInfos.length; i++ )
 		{
@@ -57,7 +59,7 @@ public class ComputedMeasureHelper implements IComputedMeasureHelper
 			this.exprMap.put( ccd.getName( ), ccd.getExpression( ) );
 		}
 
-		this.populator = new FacttableMeasureJSObjectPopulator( scope, this.exprMap );
+		this.populator = new FacttableMeasureJSObjectPopulator( scope, this.exprMap, this.cx );
 		this.populator.doInit( );
 	}
 	
@@ -70,31 +72,23 @@ public class ComputedMeasureHelper implements IComputedMeasureHelper
 	{
 		this.populator.setData( factTableRow );
 
-		try
+		Object[] result = new Object[this.measureInfos.length];
+		for ( int i = 0; i < this.measureInfos.length; i++ )
 		{
-			Context cx = Context.enter( );
-			Object[] result = new Object[this.measureInfos.length];
-			for ( int i = 0; i < this.measureInfos.length; i++ )
+			try
 			{
-				try
-				{
-					result[i] = ScriptEvalUtil.evalExpr( (IBaseExpression) this.exprMap.get( this.measureInfos[i].getMeasureName( ) ),
-							cx,
-							scope,
-							ScriptExpression.defaultID,
-							0 );
-				}
-				catch ( Exception e )
-				{
-					result[i] = null;
-				}
+				result[i] = ScriptEvalUtil.evalExpr( (IBaseExpression) this.exprMap.get( this.measureInfos[i].getMeasureName( ) ),
+						cx,
+						scope,
+						ScriptExpression.defaultID,
+						0 );
 			}
-			return result;
+			catch ( Exception e )
+			{
+				result[i] = null;
+			}
 		}
-		finally
-		{
-			Context.exit( );
-		}
+		return result;
 	}
 
 	/*

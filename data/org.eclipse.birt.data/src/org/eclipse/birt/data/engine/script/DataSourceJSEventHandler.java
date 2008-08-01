@@ -14,6 +14,7 @@
 package org.eclipse.birt.data.engine.script;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
@@ -23,11 +24,12 @@ public class DataSourceJSEventHandler implements IBaseDataSourceEventHandler
 {
 	private IBaseDataSourceDesign design;
 	private JSMethodRunner runner;
-	
-	public DataSourceJSEventHandler( IBaseDataSourceDesign dataSourceDesign )
+	private ScriptContext cx;
+	public DataSourceJSEventHandler( ScriptContext cx, IBaseDataSourceDesign dataSourceDesign )
 	{
 		assert dataSourceDesign != null;
 		this.design = dataSourceDesign;
+		this.cx = cx;
 	}
 	
 	protected IBaseDataSourceDesign getBaseDesign()
@@ -40,7 +42,7 @@ public class DataSourceJSEventHandler implements IBaseDataSourceEventHandler
 		if ( runner == null )
 		{
 			String scopeName = "DataSource[" + design.getName() + "]";
-			runner = new JSMethodRunner( scope, scopeName );
+			runner = new JSMethodRunner( cx, scope, scopeName );
 		}
 		return runner;
 	}

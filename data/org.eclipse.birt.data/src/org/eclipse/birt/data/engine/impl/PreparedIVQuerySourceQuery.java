@@ -255,7 +255,7 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 		protected DataSetRuntime newDataSetRuntime( ) throws DataException
 		{
 			dsRuntime = new DataSetRuntime( NewInstanceHelper.newIVDataSetDesign( ),
-					this );
+					this, this.getSession( ) );
 
 			return dsRuntime;
 		}

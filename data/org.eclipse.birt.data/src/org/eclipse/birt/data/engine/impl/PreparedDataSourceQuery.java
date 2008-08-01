@@ -229,11 +229,12 @@ abstract class PreparedDataSourceQuery
 		{
 			dataSourceDesign = dsRuntime.getDesign( );
 			DataSetRuntime dataSet = DataSetRuntime.newInstance( dataSetDesign,
-					null );
+					null, this.dataEngine.getSession( ) );
 			parameterHints = new ParameterUtil( outerScope,
 					dataSet,
 					this.queryDefn,
-					scope ).resolveDataSetParameters( true );
+					scope,
+					this.dataEngine.getSession( ).getEngineContext( ).getScriptContext( )).resolveDataSetParameters( true );
 		}
 
 		getDataSetCacheManager( )
@@ -298,7 +299,7 @@ abstract class PreparedDataSourceQuery
 		 */
 		protected DataSetRuntime newDataSetRuntime( ) throws DataException
 		{
-			return DataSetRuntime.newInstance( dataSetDesign, this );
+			return DataSetRuntime.newInstance( dataSetDesign, this, this.getSession( ) );
 		}
 		
 		/**
@@ -317,7 +318,8 @@ abstract class PreparedDataSourceQuery
 									: this.tabularOuterResults.getQueryScope( ),
 									this.dataSet,
 									PreparedDataSourceQuery.this.queryDefn,
-									this.getQueryScope( ) ).resolveDataSetParameters( true ),
+									this.getQueryScope( ),
+									dataEngine.getSession( ).getEngineContext( ).getScriptContext( )).resolveDataSetParameters( true ),
 							appContext );
 		}
 	}

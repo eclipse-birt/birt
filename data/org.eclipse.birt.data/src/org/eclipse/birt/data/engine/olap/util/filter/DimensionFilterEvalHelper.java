@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.olap.util.filter;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
@@ -22,7 +23,6 @@ import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 import org.eclipse.birt.data.engine.olap.util.IJSObjectPopulator;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -39,18 +39,10 @@ BaseDimensionFilterEvalHelper implements IJSDimensionFilterHelper
 	 * @param cubeFilter
 	 * @throws DataException
 	 */
-	public DimensionFilterEvalHelper( IBaseQueryResults outResults, Scriptable parentScope,ICubeQueryDefinition queryDefn, IFilterDefinition cubeFilter) throws DataException
+	public DimensionFilterEvalHelper( IBaseQueryResults outResults, Scriptable parentScope, ScriptContext cx, ICubeQueryDefinition queryDefn, IFilterDefinition cubeFilter) throws DataException
 	{
 		assert cubeFilter!=null;
-		Context cx = Context.enter( );
-		try
-		{
-			initialize( outResults, parentScope, queryDefn, cubeFilter, cx );
-		}
-		finally
-		{
-			Context.exit( );
-		}
+		initialize( outResults, parentScope, queryDefn, cubeFilter, cx );
 	}
 	
 
@@ -64,7 +56,6 @@ BaseDimensionFilterEvalHelper implements IJSDimensionFilterHelper
 
 		super.setData( resultRow );
 		
-		Context cx = Context.enter( );
 		try
 		{
 			if ( this.isAxisFilter )
@@ -89,10 +80,6 @@ BaseDimensionFilterEvalHelper implements IJSDimensionFilterHelper
 		catch ( BirtException e )
 		{
 			throw DataException.wrap( e );
-		}
-		finally
-		{
-			Context.exit( );
 		}
 	}
 }

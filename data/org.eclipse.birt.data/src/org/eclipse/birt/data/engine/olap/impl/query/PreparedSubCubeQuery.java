@@ -16,6 +16,7 @@ import java.util.Map;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
@@ -30,16 +31,17 @@ public class PreparedSubCubeQuery implements IPreparedCubeQuery
 {
 	private ISubCubeQueryDefinition query;
 	private Map appContext;
-	
+	private DataEngineSession session;
 	/**
 	 * 
 	 * @param query
 	 * @param appContext
 	 */
-	public PreparedSubCubeQuery( ISubCubeQueryDefinition query, Map appContext )
+	public PreparedSubCubeQuery( ISubCubeQueryDefinition query, Map appContext, DataEngineSession session )
 	{
 		this.query = query;
 		this.appContext = appContext;
+		this.session = session;
 	}
 	
 	/*
@@ -60,7 +62,7 @@ public class PreparedSubCubeQuery implements IPreparedCubeQuery
 		if ( outerResults instanceof ICubeQueryResults )
 		{
 			ICubeQueryResults parent = (ICubeQueryResults) outerResults;
-			return new SubCubeQueryResults( query, parent, scope );
+			return new SubCubeQueryResults( query, parent, scope, session.getEngineContext( ).getScriptContext( ) );
 		}
 		else
 		{

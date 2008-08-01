@@ -13,8 +13,8 @@ package org.eclipse.birt.data.engine.expression;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -46,7 +46,7 @@ public class InvalidExpression extends CompiledExpression
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.CompiledExpression#evaluate(org.mozilla.javascript.Context, org.mozilla.javascript.Scriptable)
 	 */
-	public Object evaluate( Context context, Scriptable scope ) throws DataException
+	public Object evaluate( ScriptContext context, Scriptable scope ) throws DataException
 	{
 		throw cause;
 	}

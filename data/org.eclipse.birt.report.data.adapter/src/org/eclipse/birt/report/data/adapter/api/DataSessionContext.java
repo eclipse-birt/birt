@@ -18,13 +18,11 @@ import java.util.Map;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
-
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
-
 import org.eclipse.birt.report.data.adapter.api.script.DataAdapterTopLevelScope;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -75,7 +73,8 @@ public class DataSessionContext
 	private int cacheCount = 0;
 	private ModuleHandle moduleHandle;
 	private Map appContext;
-	
+	private ScriptContext sContext;
+	private ClassLoader appClassLoader;
 	/**
 	 * Constructs a context in the provided mode. A context created using this
 	 * constructor has no associated report design, and no externally defined top
@@ -108,6 +107,8 @@ public class DataSessionContext
 	/**
 	 * Creates a DataEngine context in the provided mode, using the provided top level scope.
 	 * Also sets the handle of the report design being executed. 
+	 * 
+	 * @deprecated
 	 * @param mode Data Session mode. Can be MODE_GENERATION, MODE_PRESENTATION 
 	 *    or MODE_DIRECT_PRESENTATION
 	 * @param moduleHandle If not null, this report module is used to look up data set
@@ -119,6 +120,31 @@ public class DataSessionContext
 	public DataSessionContext( int mode, ModuleHandle moduleHandle, Scriptable topScope )
 		throws BirtException
 	{
+		
+		this( mode, moduleHandle, prepareScriptContext( topScope ), null );
+	}
+	
+	private static ScriptContext prepareScriptContext( Scriptable topScope )
+	{
+		ScriptContext cx = new ScriptContext();
+		cx.enterScope( topScope );
+		return cx;
+	}
+	
+	/**
+	 * Creates a DataEngine context in the provided mode, using the provided top level scope.
+	 * Also sets the handle of the report design being executed. 
+	 *
+	 * @param mode Data Session mode. Can be MODE_GENERATION, MODE_PRESENTATION 
+	 *    or MODE_DIRECT_PRESENTATION
+	 * @param moduleHandle If not null, this report module is used to look up data set
+	 *    and data source definition when executing queries.
+	 * @param scriptContext
+	 * @param classLoader
+	 * @throws AdapterException
+	 */
+	public DataSessionContext( int mode, ModuleHandle moduleHandle, ScriptContext scriptContext, ClassLoader classLoader ) throws AdapterException
+	{
 		if ( !( mode == MODE_GENERATION
 				|| mode == MODE_PRESENTATION
 				|| mode == MODE_DIRECT_PRESENTATION || mode == MODE_UPDATE ) )
@@ -126,11 +152,12 @@ public class DataSessionContext
 					new Integer( mode ) );
 		
 		this.mode = mode;
-		this.topScope = topScope;
 		this.hasExternalScope = topScope != null;
 		this.moduleHandle = moduleHandle;
+		this.appClassLoader = classLoader;
+		this.sContext = scriptContext;
+		this.topScope = scriptContext.getScope();
 	}
-	
 	
 	/**
 	 * Sets the report doc reader. A reader is required in presentation mode
@@ -182,7 +209,7 @@ public class DataSessionContext
 		if ( this.context != null )
 			return this.context;
 		this.context = DataEngineContext.newInstance(
-				mode, getTopScope(), docReader, docWriter);
+				mode, sContext, docReader, docWriter, appClassLoader );
 		
 		if ( cacheSet )
 			this.context.setCacheOption( cacheOption, cacheCount);

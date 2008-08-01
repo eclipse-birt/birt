@@ -33,9 +33,9 @@ public class OdaDataSetRuntime extends DataSetRuntime
 	
 	private static Logger logger = Logger.getLogger( OdaDataSetRuntime.class.getName( ) );
 
-	OdaDataSetRuntime( IOdaDataSetDesign dataSet, IQueryExecutor executor )
+	OdaDataSetRuntime( IOdaDataSetDesign dataSet, IQueryExecutor executor, DataEngineSession session )
     {
-        super( dataSet, executor );
+        super( dataSet, executor, session );
         
 		Object[] params = {
 				dataSet, executor

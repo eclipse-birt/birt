@@ -1579,4 +1579,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 		return query;
 	}
 
+	@Override
+	public DataSessionContext getDataSessionContext( )
+	{
+		return this.sessionContext;
+	}
+
 }

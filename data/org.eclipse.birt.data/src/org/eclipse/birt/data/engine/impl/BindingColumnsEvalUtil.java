@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -57,7 +58,7 @@ class BindingColumnsEvalUtil
 
 	private boolean isBasedOnRD;
 	private EvalHelper evalHelper;
-	
+	private ScriptContext cx;
 	private final static int MANUAL_BINDING = 1;
 	private final static int AUTO_BINDING = 2;
 
@@ -70,7 +71,7 @@ class BindingColumnsEvalUtil
 	 * @param serviceForResultSet
 	 * @throws DataException 
 	 */
-	BindingColumnsEvalUtil( IResultIterator ri, Scriptable scope,
+	BindingColumnsEvalUtil( IResultIterator ri, Scriptable scope,ScriptContext cx,
 			RDSaveHelper saveUtil, List manualBindingExprs, Map autoBindingExprs ) throws DataException
 	{
 		Object[] params = {
@@ -83,6 +84,7 @@ class BindingColumnsEvalUtil
 		this.odiResult = ri;
 		this.scope = scope;
 		this.saveHelper = saveUtil;
+		this.cx = cx;
 		
 		try
 		{
@@ -216,11 +218,13 @@ class BindingColumnsEvalUtil
 					else
 						exprValue = ExprEvaluateUtil.evaluateExpression( bindingColumn.baseExpr,
 							odiResult,
-							scope );
+							scope,
+							cx);
 				}
 				else
 					exprValue = ExprEvaluateUtil.evaluateRawExpression( bindingColumn.baseExpr,
-							scope );
+							scope,
+							cx);
 				
 				if ( exprValue!= null )
 					exprValue = DataTypeUtil.convert( JavascriptEvalUtil.convertJavascriptValue( exprValue ), bindingColumn.type );

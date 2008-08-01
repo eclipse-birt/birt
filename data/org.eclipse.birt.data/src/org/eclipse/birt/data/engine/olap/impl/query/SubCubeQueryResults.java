@@ -14,6 +14,7 @@ import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
@@ -23,7 +24,6 @@ import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.eclipse.birt.data.engine.olap.script.JSLevelAccessor;
 import org.eclipse.birt.data.engine.olap.script.JSMeasureAccessor;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -36,18 +36,18 @@ public class SubCubeQueryResults implements ICubeQueryResults
 	private BirtCubeView cubeView;
 	private Scriptable subScope;
 	private String name;
-	
+	private ScriptContext cx;
 	/**
 	 * 
 	 * @param cubeCursor
 	 * @throws DataException 
 	 */
 	public SubCubeQueryResults( ISubCubeQueryDefinition query,
-			ICubeQueryResults parent, Scriptable scope ) throws DataException
+			ICubeQueryResults parent, Scriptable scope, ScriptContext cx ) throws DataException
 	{
 		this.cubeView = ( (CubeCursorImpl) parent.getCubeCursor( ) ).getCubeView( );
 		this.subScope = scope;
-		
+		this.cx = cx;
 		this.cubeCursor = getSubCubeCursor( query.getStartingLevelOnColumn( ),
 				query.getStartingLevelOnRow( ) );
 	}
@@ -65,18 +65,10 @@ public class SubCubeQueryResults implements ICubeQueryResults
 			CubeCursor subCubeCursor = null;
 			if ( subScope == null )
 			{
-				Context cx = Context.enter( );
-				try
-				{
-					Scriptable scope = cubeView.getCubeQueryExecutor( ).getSession( ).getSharedScope( );
-					subScope = cx.newObject( scope );
-					subScope.setParentScope( scope );
-					subScope.setPrototype( scope );
-				}
-				finally
-				{
-					Context.exit( );
-				}
+				Scriptable scope = cubeView.getCubeQueryExecutor( ).getSession( ).getSharedScope( );
+				subScope = cx.getContext( ).newObject( scope );
+				subScope.setParentScope( scope );
+				subScope.setPrototype( scope );
 			}
 			try
 			{
@@ -101,6 +93,7 @@ public class SubCubeQueryResults implements ICubeQueryResults
 			cubeCursorImpl = new CubeCursorImpl( null,
 					subCubeCursor,
 					subScope,
+					cx,
 					this.cubeView.getCubeQueryExecutor( )
 							.getCubeQueryDefinition( ),
 					subCV );

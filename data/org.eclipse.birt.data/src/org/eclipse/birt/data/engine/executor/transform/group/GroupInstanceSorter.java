@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.executor.transform.group;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
@@ -23,7 +24,6 @@ import org.eclipse.birt.data.engine.executor.transform.OrderingInfo;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.mozilla.javascript.Context;
 
 /**
  * The class which is used to do group instance sortings.
@@ -48,7 +48,7 @@ class GroupInstanceSorter
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	void doGroupSorting( Context cx, StopSign stopSign ) throws DataException
+	void doGroupSorting( ScriptContext cx, StopSign stopSign ) throws DataException
 	{
 		List groupLevels = new ArrayList( );
 		List expressionList = new ArrayList( );
@@ -105,7 +105,7 @@ class GroupInstanceSorter
 	 * @param groupArray
 	 * @throws DataException
 	 */
-	void populateGroupBoundaryInfosSortings( Context cx, List[] groupArray )
+	void populateGroupBoundaryInfosSortings( ScriptContext cx, List[] groupArray )
 			throws DataException
 	{
 		for ( int i = 0; i < this.populator.getQuery( ).getGrouping( ).length; i++ )
@@ -132,7 +132,7 @@ class GroupInstanceSorter
 	 * @param groupIndex
 	 * @throws DataException
 	 */
-	private void populateGroupBoundaryInfoSortings( Context cx,
+	private void populateGroupBoundaryInfoSortings( ScriptContext cx,
 			List[] groupArray, int groupPosition, int groupIndex )
 			throws DataException
 	{

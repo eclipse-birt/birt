@@ -14,6 +14,7 @@
 package org.eclipse.birt.data.engine.script;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.script.IDataRow;
 import org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle;
@@ -32,9 +33,9 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 public class ScriptDataSetJSEventHandler extends DataSetJSEventHandler implements
 		IScriptDataSetEventHandler
 {
-	public ScriptDataSetJSEventHandler( IScriptDataSetDesign design )
+	public ScriptDataSetJSEventHandler( ScriptContext cx, IScriptDataSetDesign design )
 	{
-		super(design);
+		super(cx,design);
 	}
 	protected IScriptDataSetDesign getScriptDataSetDesign()
 	{

@@ -67,25 +67,21 @@ public class PreparedCubeQuery implements IPreparedCubeQuery
 	public ICubeQueryResults execute( IBaseQueryResults outerResults, Scriptable scope ) throws DataException
 	{
 		//Create a scope for each query execution.
-		Scriptable cubeScope;
-		Context cx = Context.enter( );
-		try
-		{
-			cubeScope = cx.newObject( scope == null
-					? this.session.getSharedScope( ) : scope );
-			cubeScope.setParentScope( scope == null
-					? this.session.getSharedScope( ) : scope );
-			cubeScope.setPrototype( scope == null
-					? this.session.getSharedScope( ) : scope );
-		}
-		finally
-		{
-			Context.exit( );
-		}
-		return new CubeQueryResults( outerResults, this,
+		 Scriptable cubeScope = session.getEngineContext( )
+				.getScriptContext( )
+				.getContext( )
+				.newObject( scope == null ? this.session.getSharedScope( )
+						: scope );
+		cubeScope.setParentScope( scope == null ? this.session.getSharedScope( )
+				: scope );
+		cubeScope.setPrototype( scope == null ? this.session.getSharedScope( )
+				: scope );
+		return new CubeQueryResults( outerResults,
+				this,
 				this.session,
 				cubeScope,
-				this.context, appContext );
+				this.context,
+				appContext );
 	}
 	
 	/*

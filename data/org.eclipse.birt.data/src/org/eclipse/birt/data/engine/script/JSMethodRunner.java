@@ -14,8 +14,8 @@
 package org.eclipse.birt.data.engine.script;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -32,7 +32,7 @@ import org.mozilla.javascript.Scriptable;
 public class JSMethodRunner
 {
 	private Scriptable scope;
-
+	private ScriptContext cx;
 	private static final String METHOD_NAME_PREFIX = "__bm_";
 	
 	/**
@@ -42,9 +42,10 @@ public class JSMethodRunner
 	 * @param scopeName A descriptive name describing the scope. This name is used
 	 * for error reporting purposes. Example, "DataSet(my_sql_dataset)".
 	 */
-	public JSMethodRunner( Scriptable scope, String scopeName )
+	public JSMethodRunner( ScriptContext cx, Scriptable scope, String scopeName )
 	{
 		this.scope = scope;
+		this.cx = cx;
 	}
 	
 	/**
@@ -60,28 +61,21 @@ public class JSMethodRunner
 	{
 		// Add a prefix to the method name so it has less chance of conflict with regular functions
 		methodName = METHOD_NAME_PREFIX + methodName;
-		Context cx = Context.enter();
-		try
+		
+		// Check if method already defined in scope
+		if ( ! scope.has( methodName, scope ) )
 		{
-			// Check if method already defined in scope
-			if ( ! scope.has( methodName, scope ) )
-			{
-				// Define the method for the first time
-				String scriptText = "function " + methodName + "() {\n"
-						+ script + "\n} ";
-				ScriptEvalUtil.evaluateJSAsExpr( cx, scope, scriptText, ScriptExpression.defaultID, 1 );
-			}
+			// Define the method for the first time
+			String scriptText = "function " + methodName + "() {\n"
+					+ script + "\n} ";
+			ScriptEvalUtil.evaluateJSAsExpr( cx, scope, scriptText, ScriptExpression.defaultID, 1 );
+		}
 			
-			// Call pre-defined method
-			String callScriptText = methodName + "()";
-			Object result = ScriptEvalUtil.evaluateJSAsExpr( cx, scope, 
-					callScriptText, ScriptExpression.defaultID, 1 );
-			return result;
-		}
-		finally
-		{
-			Context.exit();
-		}
+		// Call pre-defined method
+		String callScriptText = methodName + "()";
+		Object result = ScriptEvalUtil.evaluateJSAsExpr( cx, scope, 
+				callScriptText, ScriptExpression.defaultID, 1 );
+		return result;
 	}
 	
 }

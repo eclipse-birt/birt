@@ -278,7 +278,8 @@ public class AggregationHelper implements IAggrValueHolder
 				Object filterResult = ExprEvaluateUtil.evaluateValue( aggrInfo.getFilter( ),
 						this.populator.getCache( ).getCurrentIndex( ),
 						this.populator.getCache( ).getCurrentResult( ),
-						this.populator.getQuery( ).getExprProcessor( ).getScope( ) );
+						this.populator.getQuery( ).getExprProcessor( ).getScope( ),
+						this.populator.getSession( ).getEngineContext( ).getScriptContext( ));
 				if ( filterResult == null )
 					accepted = true;
 				else
@@ -447,7 +448,8 @@ public class AggregationHelper implements IAggrValueHolder
 			aggrArgs[aggrIndex][i] = ExprEvaluateUtil.evaluateValue( argExpr,
 					this.populator.getCache( ).getCurrentIndex( ),
 					this.populator.getCache( ).getCurrentResult( ),
-					this.populator.getQuery( ).getExprProcessor( ).getScope( ) );
+					this.populator.getQuery( ).getExprProcessor( ).getScope( ),
+					this.populator.getSession( ).getEngineContext( ).getScriptContext( ));
 		}
 		catch ( BirtException e )
 		{

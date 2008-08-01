@@ -18,10 +18,10 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -108,7 +108,7 @@ public final class ColumnReferenceExpression extends CompiledExpression
 	/**
 	 * @see org.eclipse.birt.data.engine.expression.CompiledExpression#evaluate(org.mozilla.javascript.Context, org.mozilla.javascript.Scriptable)
 	 */
-	public Object evaluate(Context context, Scriptable scope) throws DataException
+	public Object evaluate(ScriptContext context, Scriptable scope) throws DataException
 	{
 		// This method should not normally be called.
 		

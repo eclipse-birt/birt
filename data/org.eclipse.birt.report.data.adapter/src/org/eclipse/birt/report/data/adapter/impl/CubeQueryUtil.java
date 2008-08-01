@@ -342,7 +342,8 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			List result = new ArrayList();
 			DimLevel target = OlapExpressionUtil.getTargetDimLevel( targetLevel );
 			
-			String bindingName = OlapExpressionCompiler.getReferencedScriptObject( bindingExpr, "data" );
+			String bindingName = OlapExpressionCompiler.getReferencedScriptObject( bindingExpr,
+					"data");
 			if( bindingName == null )
 				return result;
 			IBinding binding = null;
@@ -399,7 +400,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			}
 			return result;
 		}
-		catch ( DataException e )
+		catch ( BirtException e )
 		{
 			throw new AdapterException( e.getLocalizedMessage( ), e );
 		}
@@ -475,8 +476,9 @@ public class CubeQueryUtil implements ICubeQueryUtil
 	 * 
 	 * @param expr
 	 * @return
+	 * @throws AdapterException 
 	 */
-	public String getReferencedMeasureName( String expr )
+	public String getReferencedMeasureName( String expr ) throws AdapterException
 	{
 		return OlapExpressionCompiler.getReferencedScriptObject( expr, "measure" );
 	}
@@ -552,13 +554,13 @@ public class CubeQueryUtil implements ICubeQueryUtil
 	 * @param bindings
 	 * @param dataBindingExpr
 	 * @return
-	 * @throws DataException
+	 * @throws BirtException 
 	 */
 	private int getTargetDataType( List bindings, String dataBindingExpr )
-			throws DataException
+			throws BirtException
 	{
 		String bindingName = OlapExpressionCompiler.getReferencedScriptObject( dataBindingExpr,
-				"data" );
+				"data");
 		if ( bindingName == null )
 		{
 			return DataType.UNKNOWN_TYPE;

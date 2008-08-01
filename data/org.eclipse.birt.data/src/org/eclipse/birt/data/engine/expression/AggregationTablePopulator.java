@@ -11,11 +11,11 @@
 
 package org.eclipse.birt.data.engine.expression;
 
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
-import org.mozilla.javascript.Context;
 
 /**
  * This class is used to populate an AggregationTable.
@@ -47,9 +47,8 @@ final class AggregationTablePopulator
 	 */
 	public static int populateAggregationTable( AggregateTable table,
 			AggregateObject aggreObj, int groupLvl, int calculationLvl,
-			boolean aftergroup, boolean isDetailedRow ) throws DataException
+			boolean aftergroup, boolean isDetailedRow, ScriptContext cx ) throws DataException
 	{
-		Context cx = Context.enter();
 		try
 		{
 			AggregateRegistry reg = table.getAggrRegistry( groupLvl,
@@ -62,10 +61,6 @@ final class AggregationTablePopulator
 		catch ( DataException e )
 		{
 			throw e;
-		}
-		finally
-		{
-			Context.exit( );
 		}
 	}
 

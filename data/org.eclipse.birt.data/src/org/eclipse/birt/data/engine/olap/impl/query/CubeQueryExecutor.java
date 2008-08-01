@@ -78,7 +78,8 @@ public class CubeQueryExecutor
 			{
 				results.add( BaseDimensionFilterEvalHelper.createFilterHelper( this.outResults, this.scope,
 						defn,
-						filter ) );
+						filter,
+						this.session.getEngineContext( ).getScriptContext( )) );
 			}
 		}
 		return results;
@@ -98,9 +99,10 @@ public class CubeQueryExecutor
 			IFilterDefinition filter = (IFilterDefinition) filters.get( i );
 			if ( isMeasureFilter( filter ) )
 			{
-				AggrMeasureFilterEvalHelper filterHelper = new AggrMeasureFilterEvalHelper( this.outResults, scope,
+				AggrMeasureFilterEvalHelper filterHelper = new AggrMeasureFilterEvalHelper( this.outResults, scope, 
 						defn,
-						filter );
+						filter,
+						session.getEngineContext( ).getScriptContext( ));
 				results.add( filterHelper );
 			}
 		}
@@ -134,7 +136,8 @@ public class CubeQueryExecutor
 		if ( this.defn.getComputedMeasures( ) != null
 				&& this.defn.getComputedMeasures( ).size( ) > 0 )
 			return new ComputedMeasureHelper( this.scope,
-					this.defn.getComputedMeasures( ) );
+					session.getEngineContext( ).getScriptContext( ),
+					this.defn.getComputedMeasures( ));
 		return null;
 	}
 	

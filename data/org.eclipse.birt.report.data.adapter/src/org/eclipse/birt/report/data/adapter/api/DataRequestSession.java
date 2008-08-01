@@ -18,6 +18,7 @@ import java.util.Map;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.framework.PlatformConfig;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
@@ -366,6 +367,12 @@ public abstract class DataRequestSession
 		//TODO implement me
 		return null;
 	}
+	
+	/**
+	 * Return the data engine context that referred by this data request session.
+	 * @return
+	 */
+	public abstract DataSessionContext getDataSessionContext();
 	
 	/**
 	 * Prepares a data query, and returns an IPreparedQuery instance which can

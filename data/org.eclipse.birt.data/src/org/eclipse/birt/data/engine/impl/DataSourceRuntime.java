@@ -17,6 +17,7 @@ package org.eclipse.birt.data.engine.impl;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
@@ -52,6 +53,8 @@ public abstract class DataSourceRuntime implements IDataSourceInstanceHandle
 	   If null, this data source is not open */
 	private IDataSource				odiDataSource;
 	
+	private Context cx;
+	
 	/** log instance */
 	protected static Logger logger = Logger.getLogger( DataSourceRuntime.class.getName( ) );
 		
@@ -69,12 +72,12 @@ public abstract class DataSourceRuntime implements IDataSourceInstanceHandle
 		if ( dataSource instanceof IOdaDataSourceDesign )
 		{
 			return new OdaDataSourceRuntime( (IOdaDataSourceDesign) dataSource,
-					dataEngine.getSession( ).getSharedScope( ) );
+					dataEngine.getSession( ).getSharedScope( ), dataEngine.getSession( ).getEngineContext( ).getScriptContext( ));
 		}
 		else if ( dataSource instanceof IScriptDataSourceDesign )
 		{
 			return new ScriptDataSourceRuntime( (IScriptDataSourceDesign) dataSource,
-					dataEngine.getSession( ).getSharedScope( ) );
+					dataEngine.getSession( ).getSharedScope( ),dataEngine.getSession( ).getEngineContext( ).getScriptContext( ) );
 		}
 		else
 		{
@@ -88,7 +91,7 @@ public abstract class DataSourceRuntime implements IDataSourceInstanceHandle
 	 * @param dataEngine
 	 */
 	protected DataSourceRuntime( IBaseDataSourceDesign dataSourceDesign,
-			Scriptable sharedScope )
+			Scriptable sharedScope, ScriptContext cx )
 	{
 		Object[] params = {
 				dataSourceDesign, sharedScope
@@ -110,9 +113,9 @@ public abstract class DataSourceRuntime implements IDataSourceInstanceHandle
 		if ( eventHandler == null )
 		{
 			if ( dataSourceDesign instanceof IScriptDataSourceDesign )
-				eventHandler = new ScriptDataSourceJSEventHandler( (IScriptDataSourceDesign) dataSourceDesign );
+				eventHandler = new ScriptDataSourceJSEventHandler( cx, (IScriptDataSourceDesign) dataSourceDesign );
 			else
-				eventHandler = new DataSourceJSEventHandler( dataSourceDesign );
+				eventHandler = new DataSourceJSEventHandler( cx, dataSourceDesign );
 		}
 		logger.exiting( DataSourceRuntime.class.getName( ), "DataSourceRuntime" );
 		/*
@@ -169,18 +172,10 @@ public abstract class DataSourceRuntime implements IDataSourceInstanceHandle
 		if ( jsDataSourceObject == null )
 		{
 			Scriptable topScope = this.sharedScope;
-			Context.enter( );
-			try
-			{
-				jsDataSourceObject = (Scriptable) Context.javaToJS( new JSDataSourceImpl( this ),
-						topScope );
-				jsDataSourceObject.setParentScope( topScope );
-				jsDataSourceObject.setPrototype( topScope );
-			}
-			finally
-			{
-				Context.exit( );
-			}
+			jsDataSourceObject = (Scriptable) Context.javaToJS( new JSDataSourceImpl( this ),
+					topScope );
+			jsDataSourceObject.setParentScope( topScope );
+			jsDataSourceObject.setPrototype( topScope );
 		}
 
 		return jsDataSourceObject;

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
@@ -283,11 +284,12 @@ public interface IJSObjectPopulator
 		private Map bindingMap;
 		private Scriptable scope;
 		private Scriptable outResultsScriptable;
-
-		public DummyJSDataAccessor( IBaseQueryResults outResults, List bindings, Scriptable scope )
+		private ScriptContext cx;
+		public DummyJSDataAccessor( IBaseQueryResults outResults, List bindings, Scriptable scope, ScriptContext cx )
 				throws DataException
 		{
 			this.bindingMap = new HashMap( );
+			this.cx = cx;
 			for ( int i = 0; i < bindings.size( ); i++ )
 			{
 				this.bindingMap.put( ( (IBinding) bindings.get( i ) ).getBindingName( ),
@@ -320,7 +322,6 @@ public interface IJSObjectPopulator
 		{
 			try
 			{
-				Context cx = Context.enter( );
 				if ( !this.bindingMap.containsKey( aggrName ) )
 				{
 					if( aggrName.equals( ScriptConstants.OUTER_RESULT_KEYWORD )  )
@@ -340,10 +341,6 @@ public interface IJSObjectPopulator
 			catch ( DataException e )
 			{
 				return null;
-			}
-			finally
-			{
-				Context.exit( );
 			}
 
 		}
@@ -423,16 +420,17 @@ public interface IJSObjectPopulator
 		private IFacttableRow resultRow;
 		private Map computedMeasures;
 		private Scriptable scope;
-		
+		private ScriptContext cx;
 		/**
 		 * 
 		 * @param computedMeasures
 		 * @param scope
 		 */
-		public DummyJSFacttableMeasureAccessor( Map computedMeasures, Scriptable scope )
+		public DummyJSFacttableMeasureAccessor( Map computedMeasures, Scriptable scope, ScriptContext cx )
 		{
 			this.computedMeasures = computedMeasures;
 			this.scope = scope;
+			this.cx = cx;
 		}
 
 		/*
@@ -449,7 +447,6 @@ public interface IJSObjectPopulator
 					{	
 						try
 						{
-							Context cx = Context.enter( );
 							return ScriptEvalUtil.evalExpr( ( (IBaseExpression) this.computedMeasures.get( aggrName ) ),
 									cx,
 									this.scope,
@@ -458,10 +455,6 @@ public interface IJSObjectPopulator
 						}catch ( Exception e )
 						{
 							return null;
-						}
-						finally
-						{
-							Context.exit( );
 						}
 					}
 					return this.resultRow.getMeasureValue( aggrName );

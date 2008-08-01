@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -102,7 +102,7 @@ public final class AggregateTable
 	 * @throws DataException 
 	 */
 	public AggregateRegistry getAggrRegistry( int groupLevel, int calculationLevel,
-			boolean isDetailedRow, Context cx ) throws DataException
+			boolean isDetailedRow, ScriptContext cx ) throws DataException
 	{
 		AggrRegistry aggrRegistry = new AggrRegistry( groupLevel,
 				calculationLevel,
@@ -121,11 +121,11 @@ public final class AggregateTable
 	 * @param scope
 	 * @throws DataException
 	 */
-	public void calculate( IResultIterator odiResult, Scriptable scope )
+	public void calculate( IResultIterator odiResult, Scriptable scope, ScriptContext cx )
 			throws DataException
 	{
 		currentCalculator = new AggregateCalculator( tempDir, aggrExprInfoList, odiResult );
-		currentCalculator.calculate( scope );
+		currentCalculator.calculate( scope, cx );
 	}
 	
 	/**
@@ -134,12 +134,12 @@ public final class AggregateTable
 	 * @param aggrValue
 	 * @throws DataException
 	 */
-	public void calculate( IResultIterator odiResult, Scriptable scope,
+	public void calculate( IResultIterator odiResult, Scriptable scope, ScriptContext cx,
 			JSAggrValueObject aggrValue )
 			throws DataException
 	{
 		currentCalculator = new AggregateCalculator( tempDir, aggrExprInfoList, odiResult );
-		currentCalculator.calculate( scope );
+		currentCalculator.calculate( scope, cx );
 	}
 	
 	/**

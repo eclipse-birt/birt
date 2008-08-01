@@ -105,7 +105,7 @@ public class DataSetRuntime implements IDataSetInstanceHandle
     private Scriptable jsTempAggrValueObject;   
     private IBaseDataSetEventHandler eventHandler;
     protected boolean isOpen;
-
+    private  DataEngineSession session;
     /**
      * Map of current named input parameter values (Name->Value), either set by scripts or by calculating
      * param binding expressions
@@ -122,7 +122,7 @@ public class DataSetRuntime implements IDataSetInstanceHandle
     public static final Object UNSET_VALUE = Scriptable.NOT_FOUND;
     
 	protected DataSetRuntime( IBaseDataSetDesign dataSetDesign,
-			IQueryExecutor queryExecutor )
+			IQueryExecutor queryExecutor, DataEngineSession session )
 	{
 		Object[] parameters = {
 				dataSetDesign, queryExecutor
@@ -133,6 +133,7 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 		
 		this.dataSetDesign = dataSetDesign;
 		this.queryExecutor = queryExecutor;
+		this.session = session;
 		isOpen = true;
 		
 		if ( dataSetDesign != null )
@@ -170,10 +171,10 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 		if ( eventHandler == null )
 		{
 			if ( dataSetDesign instanceof IScriptDataSetDesign )
-				eventHandler = new ScriptDataSetJSEventHandler( 
+				eventHandler = new ScriptDataSetJSEventHandler( this.getSession( ).getEngineContext( ).getScriptContext( ), 
 						(IScriptDataSetDesign) dataSetDesign );
 			else if ( dataSetDesign instanceof IOdaDataSetDesign)
-				eventHandler = new DataSetJSEventHandler( dataSetDesign );
+				eventHandler = new DataSetJSEventHandler( this.getSession( ).getEngineContext( ).getScriptContext( ), dataSetDesign );
 		}
 		logger.exiting( DataSetRuntime.class.getName( ), "DataSetRuntime" );
 		/*
@@ -181,11 +182,16 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 		 */
 	}
 
+	public DataEngineSession getSession()
+	{
+		return this.session;
+	}
+	/*
 	public IQueryExecutor getQueryExecutor()
 	{
 		return queryExecutor;
 	}
-	
+	*/
 	/**
 	 * Gets the instance of the Javascript 'row' object for this data set
 	 */
@@ -331,20 +337,20 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 	 * @param dataSetDefn Design-time data set definition.
 	 */
 	public static DataSetRuntime newInstance( IBaseDataSetDesign dataSetDefn,
-			IQueryExecutor queryExecutor ) throws DataException
+			IQueryExecutor queryExecutor, DataEngineSession session ) throws DataException
 	{
 		DataSetRuntime dataSet = null;
 		if ( dataSetDefn instanceof IOdaDataSetDesign )
 		{
-			dataSet = new OdaDataSetRuntime( (IOdaDataSetDesign) dataSetDefn, queryExecutor );
+			dataSet = new OdaDataSetRuntime( (IOdaDataSetDesign) dataSetDefn, queryExecutor, session );
 		}
 		else if ( dataSetDefn instanceof IScriptDataSetDesign )
 		{
-			dataSet = new ScriptDataSetRuntime( (IScriptDataSetDesign) dataSetDefn, queryExecutor );
+			dataSet = new ScriptDataSetRuntime( (IScriptDataSetDesign) dataSetDefn, queryExecutor, session );
 		}
 		else if ( dataSetDefn instanceof IJointDataSetDesign )
 		{
-			dataSet = new DataSetRuntime(dataSetDefn, queryExecutor);
+			dataSet = new DataSetRuntime(dataSetDefn, queryExecutor, session );
 		}
 		else
 		{
@@ -370,21 +376,14 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 		// JS wrapper is created on demand
 		if ( jsDataSetObject == null )
 		{
-			Scriptable topScope = queryExecutor.getSharedScope();
-			Context.enter();
-			try
-			{
-				jsDataSetObject = (Scriptable) Context.javaToJS( 
-							new JSDataSetImpl( this ), topScope );
-				jsDataSetObject.setParentScope( topScope );
-				jsDataSetObject.setPrototype( topScope );
-			}
-			finally
-			{
-				Context.exit();
-			}
+			Scriptable topScope = queryExecutor.getSharedScope( );
+			jsDataSetObject = (Scriptable) Context.javaToJS( new JSDataSetImpl( this ),
+					topScope );
+			jsDataSetObject.setParentScope( topScope );
+			jsDataSetObject.setPrototype( topScope );
+			
 		}
-		return jsDataSetObject;
+		return jsDataSetObject; 
 	}
 	
 	public Scriptable getJSDataSetRowObject( )

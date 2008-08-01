@@ -14,13 +14,14 @@
 
 package org.eclipse.birt.data.engine.impl;
 
-import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
-import org.mozilla.javascript.Scriptable;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.eclipse.birt.core.script.ScriptContext;
+import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * Encapulates the runtime definition of a generic extended data source.
@@ -33,9 +34,9 @@ public class OdaDataSourceRuntime extends DataSourceRuntime
 	private static Logger logger = Logger.getLogger( OdaDataSourceRuntime.class.getName( ) );
 
 	OdaDataSourceRuntime( IOdaDataSourceDesign dataSource,
-			Scriptable sharedScope )
+			Scriptable sharedScope, ScriptContext cx )
 	{
-		super( dataSource, sharedScope );
+		super( dataSource, sharedScope, cx );
 
 		Object[] params = {
 				dataSource, sharedScope

@@ -20,12 +20,12 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.cache.BasicCachedList;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
@@ -119,7 +119,7 @@ class AggregateCalculator
 	 * Javascript "row" object must be set up in the passed-in JS context and
 	 * bound to the passed in odiResult.
 	 */
-	void calculate( Scriptable scope ) throws DataException
+	void calculate( Scriptable scope, ScriptContext cx ) throws DataException
 	{
 		List validAggregations = new ArrayList( );
 		boolean[] populateAggrValue = new boolean[this.aggrCount];
@@ -148,7 +148,7 @@ class AggregateCalculator
 				return;
 			}
 
-			pass( scope, populateAggrValue, validAggregationArray );
+			pass( scope, cx, populateAggrValue, validAggregationArray );
 
 			// Rewind to first row
 			odiResult.first( 0 );
@@ -167,7 +167,7 @@ class AggregateCalculator
 	 * @param validAggregationArray
 	 * @throws DataException
 	 */
-	private void pass( Scriptable scope, boolean[] populateAggrValue,
+	private void pass( Scriptable scope,ScriptContext cx, boolean[] populateAggrValue,
 			int[] validAggregationArray ) throws DataException
 	{
 		do
@@ -189,6 +189,7 @@ class AggregateCalculator
 						startingGroupLevel,
 						endingGroupLevel,
 						scope,
+						cx,
 						populateAggrValue[index] ) == false )
 				{
 					addInvalidAggrMsg( index, endingGroupLevel );
@@ -226,7 +227,7 @@ class AggregateCalculator
 	 * @throws DataException
 	 */
 	private boolean onRow( int aggrIndex, int startingGroupLevel,
-			int endingGroupLevel, Scriptable scope, boolean populateValue )
+			int endingGroupLevel, Scriptable scope, ScriptContext cx, boolean populateValue )
 			throws DataException
 	{
 		AggrExprInfo aggrInfo = getAggrInfo( aggrIndex );
@@ -255,7 +256,8 @@ class AggregateCalculator
 			{
 				Object filterResult = ExprEvaluateUtil.evaluateCompiledExpression( aggrInfo.filter,
 						odiResult,
-						scope );
+						scope,
+						cx);
 				if ( filterResult == null )
 					accepted = true;
 				else
@@ -288,6 +290,7 @@ class AggregateCalculator
 			{
 				calculateArguments( aggrIndex,
 						scope,
+						cx,
 						aggrInfo,
 						newGroup,
 						argDefs );
@@ -333,7 +336,7 @@ class AggregateCalculator
 		return true;
 	}
 
-	private void calculateArguments( int aggrIndex, Scriptable scope,
+	private void calculateArguments( int aggrIndex, Scriptable scope,ScriptContext cx,
 			AggrExprInfo aggrInfo, boolean newGroup, IParameterDefn[] argDefs )
 			throws DataException
 	{
@@ -351,7 +354,8 @@ class AggregateCalculator
 				{
 					aggrArgs[aggrIndex][i] = ExprEvaluateUtil.evaluateCompiledExpression( aggrInfo.args[i],
 							odiResult,
-							scope );
+							scope,
+							cx);
 				}
 			}
 		}

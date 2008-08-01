@@ -40,18 +40,20 @@ public class ExprManager
 	private IBaseQueryDefinition baseQueryDefn;
 	
 	public final static int OVERALL_GROUP = 0;
-
+	private Context cx;
+	
 	/**
 	 * An exprManager object is to manipulate all available column bindings for
 	 * specified query definition.
 	 */
-	public ExprManager( IBaseQueryDefinition baseQueryDefn)
+	public ExprManager( IBaseQueryDefinition baseQueryDefn, Context cx )
 	{
 		bindingExprs = new ArrayList( );
 		autoBindingExprMap = new HashMap( );
 		entryLevel = OVERALL_GROUP;
 		this.baseQueryDefn = baseQueryDefn;
 		this.autoBindingMap = new HashMap( );
+		this.cx = cx;
 	}
 
 	/**
@@ -188,7 +190,7 @@ public class ExprManager
 	 */
 	public void validateColumnBinding( ) throws DataException
 	{
-		ExprManagerUtil.validateColumnBinding( this, baseQueryDefn );
+		ExprManagerUtil.validateColumnBinding( this, baseQueryDefn, cx );
 	}
 	
 }

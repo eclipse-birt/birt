@@ -12,11 +12,11 @@ package org.eclipse.birt.data.engine.impl.jointdataset;
 
 import java.util.List;
 
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IJoinCondition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 
@@ -38,34 +38,27 @@ public class JoinConditionMatcher implements IJoinConditionMatcher
 	 * @param rightScope
 	 * @param joinConditions
 	 */
-	public JoinConditionMatcher( IResultIterator leftRi, IResultIterator rightRi, Scriptable leftScope, Scriptable rightScope, List joinConditions)
+	public JoinConditionMatcher( IResultIterator leftRi, IResultIterator rightRi, Scriptable leftScope, Scriptable rightScope, ScriptContext cx, List joinConditions)
 	{
 		this.left = new JoinConditionMatchUnit[joinConditions.size( )];
 		this.right = new JoinConditionMatchUnit[joinConditions.size( )];
 		
-		Context cx = Context.enter( );
-		try
+		for ( int i = 0; i < joinConditions.size( ); i++ )
 		{
-			for ( int i = 0; i < joinConditions.size( ); i++ )
-			{
-				populateJoinUnit( ( (IJoinCondition) joinConditions.get( i ) ).getLeftExpression( ),
-						cx,
-						i,
-						this.left,
-						leftRi,
-						leftScope );
-				populateJoinUnit( ( (IJoinCondition) joinConditions.get( i ) ).getRightExpression( ),
-						cx,
-						i,
-						this.right,
-						rightRi,
-						rightScope );
-			}
+			populateJoinUnit( ( (IJoinCondition) joinConditions.get( i ) ).getLeftExpression( ),
+					cx,
+					i,
+					this.left,
+					leftRi,
+					leftScope );
+			populateJoinUnit( ( (IJoinCondition) joinConditions.get( i ) ).getRightExpression( ),
+					cx,
+					i,
+					this.right,
+					rightRi,
+					rightScope );
 		}
-		finally
-		{
-			Context.exit( );
-		}
+		
 	}
 
 	/**
@@ -73,9 +66,9 @@ public class JoinConditionMatcher implements IJoinConditionMatcher
 	 * @param cx
 	 * @param i
 	 */
-	private void populateJoinUnit( IScriptExpression expr, Context cx, int i, JoinConditionMatchUnit[] toArray, IResultIterator ri, Scriptable scope)
+	private void populateJoinUnit( IScriptExpression expr, ScriptContext cx, int i, JoinConditionMatchUnit[] toArray, IResultIterator ri, Scriptable scope)
 	{
-		toArray[i] = new JoinConditionMatchUnit( expr, scope );
+		toArray[i] = new JoinConditionMatchUnit( expr, scope, cx );
 	}
 	
 	/*

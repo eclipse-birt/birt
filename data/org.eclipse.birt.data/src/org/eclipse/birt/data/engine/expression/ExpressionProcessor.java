@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
@@ -91,73 +91,69 @@ public class ExpressionProcessor implements IExpressionProcessor
 			boolean useResultSetMeta ) throws DataException
 	{
 		assert ( iccState != null );
-		Context context = Context.enter( );
-		try
+		int exprType = COMPUTED_COLUMN_EXPR;
+		int currentGroupLevel = 0;
+
+		MultiPassExpressionCompiler helper = this.getMultiPassCompilerHelper( );
+		helper.setDataSetMode( isDataSetMode );
+
+		for ( int i = 0; i < iccState.getCount( ); i++ )
 		{
-			int exprType = COMPUTED_COLUMN_EXPR;
-			int currentGroupLevel = 0;
-
-			MultiPassExpressionCompiler helper = this.getMultiPassCompilerHelper( );
-			helper.setDataSetMode( isDataSetMode );
-
-			for ( int i = 0; i < iccState.getCount( ); i++ )
+			if ( iccState.isValueAvailable( i ) )
 			{
-				if ( iccState.isValueAvailable( i ) )
-				{
-					helper.addAvailableCmpColumn( iccState.getName( i ) );
-				}
+				helper.addAvailableCmpColumn( iccState.getName( i ) );
 			}
+		}
 
-			for ( int i = 0; i < iccState.getCount( ); i++ )
+		for ( int i = 0; i < iccState.getCount( ); i++ )
+		{
+			if ( !iccState.isValueAvailable( i ) )
 			{
-				if ( !iccState.isValueAvailable( i ) )
+				IBaseExpression baseExpression = iccState.getExpression( i );
+
+				String name = iccState.getName( i );
+				if ( useResultSetMeta
+						&& name.matches( "\\Q_{$TEMP_GROUP_\\E\\d*\\Q$}_\\E" ) )
 				{
-					IBaseExpression baseExpression = iccState.getExpression( i );
-
-					String name = iccState.getName( i );
-					if ( useResultSetMeta
-							&& name.matches( "\\Q_{$TEMP_GROUP_\\E\\d*\\Q$}_\\E" ) )
-					{
-						exprType = GROUP_COLUMN_EXPR;
-						// group level is 1-based
-						currentGroupLevel = getCurrentGroupLevel( name,
-								currentGroupLevel,
-								rsPopulator.getQuery( ) );
-
-						iccState.setValueAvailable( i );
-					}
-
-					setHandle( context,
-							exprType,
+					exprType = GROUP_COLUMN_EXPR;
+					// group level is 1-based
+					currentGroupLevel = getCurrentGroupLevel( name,
 							currentGroupLevel,
-							helper,
-							baseExpression,
-							useResultSetMeta );
+							rsPopulator.getQuery( ) );
 
-					// if the expression is group column , compile it then
-					// return, do not compile the next expression
-					if ( exprType == GROUP_COLUMN_EXPR )
-					{
-						return;
-					}
-
-					// if this computed column can be caculated, set value
-					// available.
-					if ( helper.getExpressionPassLevel( ) <= 1 )
-					{
-						iccState.setValueAvailable( i );
-					}
-					//reset the pass level flag
-					helper.reSetPassLevelFlag( );
+					iccState.setValueAvailable( i );
 				}
-			}
 
-			calculate( helper );
+				setHandle( this.rsPopulator.getSession( )
+						.getEngineContext( )
+						.getScriptContext( )
+						.getContext( ),
+						exprType,
+						currentGroupLevel,
+						helper,
+						baseExpression,
+						useResultSetMeta );
+
+				// if the expression is group column , compile it then
+				// return, do not compile the next expression
+				if ( exprType == GROUP_COLUMN_EXPR )
+				{
+					return;
+				}
+
+				// if this computed column can be caculated, set value
+				// available.
+				if ( helper.getExpressionPassLevel( ) <= 1 )
+				{
+					iccState.setValueAvailable( i );
+				}
+				// reset the pass level flag
+				helper.reSetPassLevelFlag( );
+			}
 		}
-		finally
-		{
-			Context.exit( );
-		}
+
+		calculate( helper );
+		
 	}
 
 	/**
@@ -227,30 +223,24 @@ public class ExpressionProcessor implements IExpressionProcessor
 	{
 		assert exprArray != null;
 		IBaseExpression baseExpression = null;
-		Context context = Context.enter( );
+		MultiPassExpressionCompiler helper = this.getMultiPassCompilerHelper( );
+		helper.setDataSetMode( isDataSetMode );
 
-		try
+		for ( int i = 0; i < exprArray.length; i++ )
 		{
-			MultiPassExpressionCompiler helper = this.getMultiPassCompilerHelper( );
-			helper.setDataSetMode( isDataSetMode );
-
-			for ( int i = 0; i < exprArray.length; i++ )
-			{
-				baseExpression = (IBaseExpression) exprArray[i];
-				this.setHandle( context,
-						arrayType,
-						currentGroupLevel[i],
-						helper,
-						baseExpression,
-						true );
-			}
-
-			calculate( helper );
+			baseExpression = (IBaseExpression) exprArray[i];
+			this.setHandle( this.rsPopulator.getSession( )
+					.getEngineContext( )
+					.getScriptContext( )
+					.getContext( ),
+					arrayType,
+					currentGroupLevel[i],
+					helper,
+					baseExpression,
+					true );
 		}
-		finally
-		{
-			Context.exit( );
-		}
+
+		calculate( helper );
 
 	}
 
@@ -260,31 +250,29 @@ public class ExpressionProcessor implements IExpressionProcessor
 	 * @return
 	 * @throws DataException
 	 */
-	public boolean hasAggregateExpr( List list )
-			throws DataException
+	public boolean hasAggregateExpr( List list ) throws DataException
 	{
 		boolean hasAggregate = false;
 
 		MultiPassExpressionCompiler helper = new MultiPassExpressionCompiler( rsPopulator,
 				baseQuery,
 				dataset.getScriptScope( ),
-				availableAggrList );
+				availableAggrList,
+				dataset.getSession( ).getEngineContext( ).getScriptContext( ));
 		helper.setDataSetMode( isDataSetMode );
 
 		IBaseExpression baseExpression = null;
-		Context cx = Context.enter( );
-		try
+		for ( int i = 0; i < list.size( ); i++ )
 		{
-			for ( int i = 0; i < list.size( ); i++ )
-			{
-				baseExpression = (IBaseExpression) list.get( i );
-				compileBaseExpression( baseExpression, helper, cx );
-			}
+			baseExpression = (IBaseExpression) list.get( i );
+			compileBaseExpression( baseExpression,
+					helper,
+					this.rsPopulator.getSession( )
+							.getEngineContext( )
+							.getScriptContext( )
+							.getContext( ) );
 		}
-		finally
-		{
-			Context.exit( );
-		}
+
 		hasAggregate = helper.getAggregateStatus( );
 		clear( );
 		return hasAggregate;
@@ -305,19 +293,15 @@ public class ExpressionProcessor implements IExpressionProcessor
 			MultiPassExpressionCompiler helper = new MultiPassExpressionCompiler( rsPopulator,
 					baseQuery,
 					null,
-					null );
+					null,
+					dataset.getSession( ).getEngineContext( ).getScriptContext( ));
 
 			helper.setDataSetMode( isDataSetMode );
 			IBaseExpression baseExpression = expression;
-			Context cx = Context.enter( );
-			try
-			{
-				compileBaseExpression( baseExpression, helper, cx );
-			}
-			finally
-			{
-				Context.exit( );
-			}
+			compileBaseExpression( baseExpression,
+					helper,
+					this.dataset.getSession( ).getEngineContext( ).getScriptContext( ).getContext( ));
+
 			hasAggregate = helper.getAggregateStatus( );
 			clear( );
 		}
@@ -352,11 +336,14 @@ public class ExpressionProcessor implements IExpressionProcessor
 		{
 			table.calculate( resultIterator,
 					dataset.getScriptScope( ),
-					(JSAggrValueObject) dataset.getJSTempAggrValueObject( ) );
+
+					dataset.getSession( ).getEngineContext( ).getScriptContext( ),
+					(JSAggrValueObject) dataset.getJSTempAggrValueObject( ));
 		}
 		else
 		{
-			table.calculate( resultIterator, dataset.getScriptScope( ) );
+			table.calculate( resultIterator, dataset.getScriptScope( ), 
+					dataset.getSession( ).getEngineContext( ).getScriptContext( ) );
 		}
 		Scriptable aggrObj = table.getJSAggrValueObject( );
 		dataset.setJSTempAggrValueObject( aggrObj );;
@@ -469,7 +456,8 @@ public class ExpressionProcessor implements IExpressionProcessor
 			currentHelper = new MultiPassExpressionCompiler( rsPopulator,
 					baseQuery,
 					dataset.getScriptScope( ),
-					availableAggrList );
+					availableAggrList,
+					dataset.getSession( ).getEngineContext( ).getScriptContext( ));
 		}
 		else
 		{

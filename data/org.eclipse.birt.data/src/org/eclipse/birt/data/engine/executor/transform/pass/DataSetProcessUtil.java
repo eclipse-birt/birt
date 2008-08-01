@@ -31,7 +31,6 @@ import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IAggrInfo;
-import org.mozilla.javascript.Context;
 
 /**
  * The class used to populate DataSet data.
@@ -130,84 +129,83 @@ class DataSetProcessUtil extends RowProcessUtil
 			return;
 		ExpressionCompiler compiler = new ExpressionCompiler( );
 		compiler.setDataSetMode( true );
-		try
+
+		List aggrInfos = new ArrayList( );
+		List aggrNames = new ArrayList( );
+		for ( int i = 0; i < aggrComputedColumns.size( ); i++ )
 		{
+			ComputedColumn cc = (ComputedColumn) aggrComputedColumns.get( i );
+			List args = cc.getAggregateArgument( );
 
-			Context cx = Context.enter( );
-
-			List aggrInfos = new ArrayList( );
-			List aggrNames = new ArrayList( );
-			for ( int i = 0; i < aggrComputedColumns.size( ); i++ )
+			IBaseExpression[] exprs = null;
+			int offset = 0;
+			if ( cc.getExpression( ) != null )
 			{
-				ComputedColumn cc = (ComputedColumn) aggrComputedColumns.get( i );
-				List args = cc.getAggregateArgument( );
+				exprs = new IBaseExpression[args.size( ) + 1];
+				offset = 1;
+				exprs[0] = cc.getExpression( );
+			}
+			else
+				exprs = new IBaseExpression[args.size( )];
 
-				IBaseExpression[] exprs = null;
-				int offset = 0;
-				if ( cc.getExpression( ) != null )
-				{
-					exprs = new IBaseExpression[args.size( ) + 1];
-					offset = 1;
-					exprs[0] = cc.getExpression( );
-				}
-				else
-					exprs = new IBaseExpression[args.size( )];
-
-				for ( int j = offset; j < args.size( )+offset; j++ )
-				{
-					exprs[j] = (IBaseExpression) args.get( j - offset );
-				}
-
-				for ( int j = 0; j < exprs.length; j++ )
-				{
-					if ( exprs[j] instanceof IScriptExpression )
-					{
-						IScriptExpression scriptExpr = (IScriptExpression) exprs[j];
-						if ( scriptExpr.getText( ) == null )
-							continue;
-					}
-					compiler.compile( exprs[j], cx );
-				}
-
-				if ( cc.getAggregateFilter( )!= null )
-					compiler.compile( cc.getAggregateFilter( ), cx );
-				IAggrFunction aggrFunction = AggregationManager.getInstance( )
-						.getAggregation( cc.getAggregateFunction( ) );
-				IAggrInfo aggrInfo = new AggrInfo( cc.getName( ),
-						0,
-						aggrFunction,
-						exprs,
-						cc.getAggregateFilter( ) );
-				aggrInfos.add( aggrInfo );
-				aggrNames.add( cc.getName( ) );
+			for ( int j = offset; j < args.size( ) + offset; j++ )
+			{
+				exprs[j] = (IBaseExpression) args.get( j - offset );
 			}
 
-			// All the computed column aggregations should only have one round.
+			for ( int j = 0; j < exprs.length; j++ )
+			{
+				if ( exprs[j] instanceof IScriptExpression )
+				{
+					IScriptExpression scriptExpr = (IScriptExpression) exprs[j];
+					if ( scriptExpr.getText( ) == null )
+						continue;
+				}
+				compiler.compile( exprs[j], this.populator.getSession( )
+						.getEngineContext( )
+						.getScriptContext( )
+						.getContext( ) );
+			}
 
-			if ( !psController.needDoOperation( PassStatusController.DATA_SET_FILTERING ) )
-				PassUtil.pass( populator,
-						new OdiResultSetWrapper( populator.getResultIterator( ) ),
-						false,
-						stopSign);
+			if ( cc.getAggregateFilter( ) != null )
+				compiler.compile( cc.getAggregateFilter( ),
+						this.populator.getSession( )
+								.getEngineContext( )
+								.getScriptContext( )
+								.getContext( ) );
+			IAggrFunction aggrFunction = AggregationManager.getInstance( )
+					.getAggregation( cc.getAggregateFunction( ) );
+			IAggrInfo aggrInfo = new AggrInfo( cc.getName( ),
+					0,
+					aggrFunction,
+					exprs,
+					cc.getAggregateFilter( ) );
+			aggrInfos.add( aggrInfo );
+			aggrNames.add( cc.getName( ) );
+		}
 
-			AggregationHelper helper = new AggregationHelper( new AggrDefnManager( aggrInfos ),
-					this.populator );
+		// All the computed column aggregations should only have one round.
 
-			AggrComputedColumnHelper ccHelper = new AggrComputedColumnHelper( helper,
-					aggrNames );
-			this.populator.getQuery( ).getFetchEvents( ).add( 0, ccHelper );
-
+		if ( !psController.needDoOperation( PassStatusController.DATA_SET_FILTERING ) )
 			PassUtil.pass( populator,
 					new OdiResultSetWrapper( populator.getResultIterator( ) ),
 					false,
-					stopSign);
+					stopSign );
 
-			this.populator.getQuery( ).getFetchEvents( ).remove( 0 );
-		}
-		finally
-		{
-			Context.exit( );
-		}
+		AggregationHelper helper = new AggregationHelper( new AggrDefnManager( aggrInfos ),
+				this.populator );
+
+		AggrComputedColumnHelper ccHelper = new AggrComputedColumnHelper( helper,
+				aggrNames );
+		this.populator.getQuery( ).getFetchEvents( ).add( 0, ccHelper );
+
+		PassUtil.pass( populator,
+				new OdiResultSetWrapper( populator.getResultIterator( ) ),
+				false,
+				stopSign );
+
+		this.populator.getQuery( ).getFetchEvents( ).remove( 0 );
+
 	}
 
 	/**

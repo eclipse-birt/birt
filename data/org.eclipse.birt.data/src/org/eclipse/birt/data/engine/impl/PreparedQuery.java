@@ -26,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -34,15 +35,12 @@ import org.eclipse.birt.data.engine.api.IBaseTransform;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
-import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
-import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
-import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
@@ -50,9 +48,7 @@ import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
-import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /** 
@@ -116,7 +112,7 @@ final class PreparedQuery
 		this.queryService = queryService;
 		this.appContext = appContext;
 		
-		this.exprManager = new ExprManager( baseQueryDefn );
+		this.exprManager = new ExprManager( baseQueryDefn, session.getEngineContext( ).getScriptContext( ).getContext( ) );
 		this.subQueryMap = new HashMap( );
 		this.subQueryDefnMap = new HashMap( );
 		this.aggrTable = new AggregateTable( this.session.getTempDir( ), this.session.getSharedScope( ),
@@ -134,83 +130,77 @@ final class PreparedQuery
 	{
 	    // TODO - validation of static queryDefn
 
-		Context cx = Context.enter();		
-		try
+		// Prepare all groups; note that the report query iteself
+		// is treated as a group (with group level 0 ), If there are group
+		// definitions that of invalid or duplicate group name, then throw
+		// exceptions.
+		if ( this.baseQueryDefn.getBindings( ) != null
+				&& this.baseQueryDefn.getBindings( ).size( ) > 0 )
 		{
-			// Prepare all groups; note that the report query iteself
-			// is treated as a group (with group level 0 ), If there are group
-			// definitions that of invalid or duplicate group name, then throw
-			// exceptions.			
-			if ( this.baseQueryDefn.getBindings( ) != null
-					&& this.baseQueryDefn.getBindings( ).size( ) > 0 )
-			{
-				this.expressionCompiler.setDataSetMode( false );
-			}
-			
-			List groups = baseQueryDefn.getGroups( );
-			Set groupNameSet = new HashSet( );
-			IGroupDefinition group;
-			for ( int i = 0; i < groups.size( ); i++ )
-			{
-				group = (IGroupDefinition) groups.get( i );
-				if ( group.getName( ) == null
-						|| group.getName( ).trim( ).length( ) == 0 )
-					continue;
-				for ( int j = 0; j < groups.size( ); j++ )
-				{
-					if ( group.getName( )
-							.equals( ( (IGroupDefinition) groups.get( j ) ).getName( ) == null
-									? ""
-									: ( (IGroupDefinition) groups.get( j ) ).getName( ) )
-							&& j != i )
-						throw new DataException( ResourceConstants.DUPLICATE_GROUP_NAME );
-				}
-				groupNameSet.add( group.getName( ) );
-			}
+			this.expressionCompiler.setDataSetMode( false );
+		}
 
-			// The latest column binding (AggregateOn introduced)
-			Map map = baseQueryDefn.getBindings( );
-			if ( map != null )
+		List groups = baseQueryDefn.getGroups( );
+		Set groupNameSet = new HashSet( );
+		IGroupDefinition group;
+		for ( int i = 0; i < groups.size( ); i++ )
+		{
+			group = (IGroupDefinition) groups.get( i );
+			if ( group.getName( ) == null
+					|| group.getName( ).trim( ).length( ) == 0 )
+				continue;
+			for ( int j = 0; j < groups.size( ); j++ )
 			{
-				Iterator it = map.keySet( ).iterator( );
-				while ( it.hasNext( ) )
+				if ( group.getName( )
+						.equals( ( (IGroupDefinition) groups.get( j ) ).getName( ) == null
+								? ""
+								: ( (IGroupDefinition) groups.get( j ) ).getName( ) )
+						&& j != i )
+					throw new DataException( ResourceConstants.DUPLICATE_GROUP_NAME );
+			}
+			groupNameSet.add( group.getName( ) );
+		}
+
+		// The latest column binding (AggregateOn introduced)
+		Map map = baseQueryDefn.getBindings( );
+		if ( map != null )
+		{
+			Iterator it = map.keySet( ).iterator( );
+			while ( it.hasNext( ) )
+			{
+				Object key = it.next( );
+				IBinding binding = (IBinding) map.get( key );
+				String groupName = null;
+				if ( binding.getExpression( ) != null )
+					groupName = binding.getExpression( ).getGroupName( );
+
+				if ( groupName == null )
 				{
-					Object key = it.next( );
-					IBinding binding = (IBinding)map.get( key );
-					String groupName = null;
-					if ( binding.getExpression( )!= null )
-						groupName = binding.getExpression( ).getGroupName( );
-					
-					if( groupName == null )
-					{
-						if ( binding.getAggregatOns( ).size( ) == 0 )
-							continue;
-						groupName = binding.getAggregatOns( ).get( 0 ).toString( );
-					}
-					
-					if ( ( !groupName
-							.equals( IBaseExpression.GROUP_OVERALL ) )
-							&& !groupNameSet.contains( groupName ) )
-					{
-						throw new DataException( ResourceConstants.GROUP_NOT_EXIST,
-								new Object[]{
-								groupName, key
-								} );
-					}
+					if ( binding.getAggregatOns( ).size( ) == 0 )
+						continue;
+					groupName = binding.getAggregatOns( ).get( 0 ).toString( );
+				}
+
+				if ( ( !groupName.equals( IBaseExpression.GROUP_OVERALL ) )
+						&& !groupNameSet.contains( groupName ) )
+				{
+					throw new DataException( ResourceConstants.GROUP_NOT_EXIST,
+							new Object[]{
+									groupName, key
+							} );
 				}
 			}
+		}
 
-			mappingParentColumnBinding( );
-			
-			for ( int i = 0; i <= groups.size( ); i++ )
-			{
-				prepareGroup( baseQueryDefn, i, cx );
-			}
+		mappingParentColumnBinding( );
+
+		for ( int i = 0; i <= groups.size( ); i++ )
+		{
+			prepareGroup( baseQueryDefn,
+					i,
+					dataEngineContext.getScriptContext( ) );
 		}
-		finally
-		{			
-		    Context.exit();
-		}
+		
 	}
 	
 	/**
@@ -279,7 +269,7 @@ final class PreparedQuery
 	 * @throws DataException
 	 */
 	private void prepareGroup( IBaseQueryDefinition baseQuery, int groupLevel,
-			Context cx ) throws DataException
+			ScriptContext cx ) throws DataException
 	{
 		IBaseTransform trans = baseQuery;
 		String groupName = IBaseExpression.GROUP_OVERALL;
@@ -360,7 +350,7 @@ final class PreparedQuery
 	 * @throws DataException 
 	 */
 	private void prepareExpressions( Collection expressions, int groupLevel,
-			boolean afterGroup, boolean isDetailedRow, Context cx ) throws DataException
+			boolean afterGroup, boolean isDetailedRow, ScriptContext cx ) throws DataException
 	{
 	    if ( expressions == null )
 	        return;
@@ -385,14 +375,14 @@ final class PreparedQuery
 	 * @param reg
 	 */
 	private void prepareExpression( IBaseExpression expr, int groupLevel,
-			Context cx, AggregateRegistry reg )
+			ScriptContext cx, AggregateRegistry reg )
 	{
 	    ExpressionCompiler compiler = this.expressionCompiler;
 	    
 	    if ( expr instanceof IScriptExpression )
 	    {
 	    	String exprText = ((IScriptExpression) expr).getText();
-	    	CompiledExpression handle = compiler.compile( exprText, reg, cx);
+	    	CompiledExpression handle = compiler.compile( exprText, reg, cx.getContext( ));
 	    	expr.setHandle( handle );
 	    }
 	    else if ( expr instanceof IConditionalExpression )

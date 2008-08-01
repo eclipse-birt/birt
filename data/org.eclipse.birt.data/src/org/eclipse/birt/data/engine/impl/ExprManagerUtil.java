@@ -33,6 +33,7 @@ import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.expression.NamedExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
+import org.mozilla.javascript.Context;
 
 /**
  * This is a utility class which is used to validate the colum bindings defined 
@@ -43,16 +44,17 @@ public class ExprManagerUtil
 	private ExprManager exprManager;
 	
 	private static Logger logger = Logger.getLogger( ExprManagerUtil.class.getName( ) );
-
+	private Context cx;
 	/**
 	 * No external instance
 	 */
-	private ExprManagerUtil( ExprManager em )
+	private ExprManagerUtil( ExprManager em, Context cx )
 	{
 		logger.entering( ExprManagerUtil.class.getName( ),
 				"ExprManagerUtil",
 				em );
 		this.exprManager = em;
+		this.cx = cx;
 		logger.exiting( ExprManagerUtil.class.getName( ), "ExprManagerUtil" );
 	}
 	
@@ -64,9 +66,9 @@ public class ExprManagerUtil
 	 * @throws DataException
 	 */
 	public static void validateColumnBinding( ExprManager exprManager,
-			IBaseQueryDefinition baseQueryDefn ) throws DataException
+			IBaseQueryDefinition baseQueryDefn, Context cx ) throws DataException
 	{
-		ExprManagerUtil util = new ExprManagerUtil( exprManager );
+		ExprManagerUtil util = new ExprManagerUtil( exprManager, cx );
 		
 		util.checkColumnBindingExpression( baseQueryDefn );
 		util.checkDependencyCycle( );
@@ -89,14 +91,19 @@ public class ExprManagerUtil
 			Integer level = (Integer)it.next( );
 			exprManager.setEntryGroupLevel( level.intValue( ) );
 			
-			if(!ExpressionCompilerUtil.hasColumnRow( map.get( level ).toString( ), exprManager ))
+			if ( !ExpressionCompilerUtil.hasColumnRow( map.get( level )
+					.toString( ), exprManager, cx) )
 			{
 				exprManager.setEntryGroupLevel( ExprManager.OVERALL_GROUP );
-				if( !isColumnBindingExist(map.get( level ).toString( ) ))
+				if ( !isColumnBindingExist( map.get( level ).toString( ) ) )
 				{
-					throw new DataException( ResourceConstants.COLUMN_BINDING_NOT_EXIST, map.get( level ).toString( ));
+					throw new DataException( ResourceConstants.COLUMN_BINDING_NOT_EXIST,
+							map.get( level ).toString( ) );
 				}
-				throw new DataException( ResourceConstants.INVALID_GROUP_KEY_COLUMN, new Object[]{ map.get( level ).toString( ), level});
+				throw new DataException( ResourceConstants.INVALID_GROUP_KEY_COLUMN,
+						new Object[]{
+								map.get( level ).toString( ), level
+						} );
 			}
 		}
 		exprManager.setEntryGroupLevel( ExprManager.OVERALL_GROUP );

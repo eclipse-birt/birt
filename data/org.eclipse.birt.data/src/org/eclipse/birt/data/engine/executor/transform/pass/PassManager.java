@@ -34,7 +34,6 @@ import org.eclipse.birt.data.engine.impl.FilterByRow;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.script.OnFetchScriptHelper;
-import org.mozilla.javascript.Context;
 
 /**
  * The entry point of this package.
@@ -94,38 +93,34 @@ public class PassManager
 			doMultiPass( odaResultSet, psController, stopSign );
 		}
 		
-		//TODO remove me
+		// TODO remove me
 		calculateAggregationsInColumnBinding( );
-		
-		
+
 		/************************************/
-		//TODO remove me
-		//Temp code util model makes the backward comp.
-		try
+		// TODO remove me
+		// Temp code util model makes the backward comp.
+		ExpressionCompiler compiler = new ExpressionCompiler( );
+		compiler.setDataSetMode( false );
+		for ( Iterator it = this.populator.getEventHandler( )
+				.getColumnBindings( )
+				.values( )
+				.iterator( ); it.hasNext( ); )
 		{
-			Context cx = Context.enter( );
-			ExpressionCompiler compiler = new ExpressionCompiler( );
-			compiler.setDataSetMode( false );
-			for ( Iterator it = this.populator.getEventHandler( )
-					.getColumnBindings( )
-					.values( )
-					.iterator( ); it.hasNext( ); )
+			try
 			{
-				try
-				{
-					IBinding binding = (IBinding) it.next( );
-					compiler.compile( binding.getExpression( ), cx );
-				}
-				catch ( DataException e )
-				{
-					// do nothing
-				}
+				IBinding binding = (IBinding) it.next( );
+				compiler.compile( binding.getExpression( ),
+						this.populator.getSession( )
+								.getEngineContext( )
+								.getScriptContext( )
+								.getContext( ) );
+			}
+			catch ( DataException e )
+			{
+				// do nothing
 			}
 		}
-		finally
-		{
-			Context.exit( );
-		}
+
 		/*************************************/
 		//
 		populateAggregationInBinding( );

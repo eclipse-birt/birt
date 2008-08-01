@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.olap.impl.query;
 
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
@@ -61,7 +62,7 @@ public class CubeOperationFactory implements ICubeOperationFactory
 	 * @throws DataException
 	 */
 	public static IPreparedCubeOperation createPreparedCubeOperation(
-			ICubeOperation operation, Scriptable scope, int startRsId )
+			ICubeOperation operation, Scriptable scope, int startRsId, ScriptContext cx )
 			throws DataException
 	{
 		assert operation != null;
@@ -69,7 +70,8 @@ public class CubeOperationFactory implements ICubeOperationFactory
 		{
 			return new PreparedAddingNestAggregations( (AddingNestAggregations) operation,
 					scope,
-					startRsId );
+					startRsId,
+					cx);
 		}
 		// Currently, only AddingNestAggregations is provided, program never
 		// goes here

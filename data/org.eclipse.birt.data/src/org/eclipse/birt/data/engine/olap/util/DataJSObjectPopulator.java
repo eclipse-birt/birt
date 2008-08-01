@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.olap.util;
 
 import java.util.List;
 
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
@@ -28,6 +29,7 @@ public class DataJSObjectPopulator implements IJSObjectPopulator
 	//
 	private DummyJSAggregationAccessor dataObj;
 	private Scriptable scope;
+	private ScriptContext cx;
 	private List bindings;
 	private IBaseQueryResults outResults;
 	private boolean hasAggrLevels;
@@ -39,12 +41,13 @@ public class DataJSObjectPopulator implements IJSObjectPopulator
 	 * @param hasAggrLevels
 	 */
 	public DataJSObjectPopulator( IBaseQueryResults outResults, Scriptable scope, List bindings,
-			boolean hasAggrLevels )
+			boolean hasAggrLevels, ScriptContext cx )
 	{
 		this.scope = scope;
 		this.bindings = bindings;
 		this.hasAggrLevels = hasAggrLevels;
 		this.outResults = outResults;
+		this.cx = cx;
 	}
 
 	/*
@@ -62,7 +65,7 @@ public class DataJSObjectPopulator implements IJSObjectPopulator
 		{
 			this.scope.put( ScriptConstants.DATA_BINDING_SCRIPTABLE,//$NON-NLS-1$
 					this.scope,
-					new DummyJSDataAccessor( this.outResults, bindings, this.scope ) );
+					new DummyJSDataAccessor( this.outResults, bindings, this.scope, this.cx ) );
 		}
 
 	}

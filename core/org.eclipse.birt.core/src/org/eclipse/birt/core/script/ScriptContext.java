@@ -237,23 +237,45 @@ public class ScriptContext
 	}
 
 	/**
-	 * evaluates a script
+	 * Evaluates a String with given scope.
+	 * @param source
+	 * @param scope
+	 * @return
 	 */
-	public Object eval( ScriptExpression expr )
+	public Object eval( String source, Scriptable scope )
 	{
-		assert ( this.context != null );
-		if ( null == expr )
+		if ( null != source && source.length( ) > 0 )
 		{
-			return null;
-		}
+			ScriptExpression expr = scriptExpressionCache
+					.get( source );
+			if ( expr == null )
+			{
+				expr = new ScriptExpression( source );
+				scriptExpressionCache.put( source, expr );
+			}
+			
 
+			return eval( scope, expr );
+		}
+		return null;
+	}
+
+	/**
+	 * Evaluate expr with given scope.
+	 * @param scope
+	 * @param expr
+	 * @return
+	 */
+	private Object eval( Scriptable scope, ScriptExpression expr )
+	{
+		String source = expr.getScriptText( );
 		Script script = expr.getCompiledScript( );
 		if ( script == null )
 		{
-			String source = expr.getScriptText( );
+			String text = expr.getScriptText( );
 			if ( context.getDebugger( ) != null )
 			{
-				source = source + expr.getLineNumber( );
+				source = text + expr.getLineNumber( );
 			}
 			script = compiledScripts.get( source );
 			if ( script == null )
@@ -266,6 +288,20 @@ public class ScriptContext
 		}
 		Object value = script.exec( context, scope );
 		return jsToJava( value );
+	}
+
+	/**
+	 * evaluates a script
+	 */
+	public Object eval( ScriptExpression expr )
+	{
+		assert ( this.context != null );
+		if ( null == expr )
+		{
+			return null;
+		}
+
+		return eval( this.scope, expr );
 	}
 
 	/**

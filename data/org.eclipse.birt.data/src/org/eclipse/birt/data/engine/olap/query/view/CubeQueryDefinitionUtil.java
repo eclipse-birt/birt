@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -68,14 +69,14 @@ public class CubeQueryDefinitionUtil
 	 * @throws DataException 
 	 */
 	static CalculatedMember[] getCalculatedMembers(
-			ICubeQueryDefinition queryDefn, Scriptable scope, Map measureMapping ) throws DataException
+			ICubeQueryDefinition queryDefn, Scriptable scope, Map measureMapping, ScriptContext cx ) throws DataException
 	{
 		List measureList = queryDefn.getMeasures( );
 		ICubeAggrDefn[] cubeAggrs = OlapExpressionUtil.getAggrDefns( queryDefn.getBindings( ) );
 		
-		populateMeasureFromBinding( queryDefn );
-		populateMeasureFromFilter( queryDefn );
-		populateMeasureFromSort( queryDefn );
+		populateMeasureFromBinding( queryDefn, cx );
+		populateMeasureFromFilter( queryDefn, cx );
+		populateMeasureFromSort( queryDefn, cx );
 
 		if ( measureList == null )
 			return new CalculatedMember[0];
@@ -108,14 +109,14 @@ public class CubeQueryDefinitionUtil
 		int startRsId = calculatedMembers1.length == 0 ? 0 : 1;
 		
 		CalculatedMember[] calculatedMembers2 = createCalculatedMembersByAggrOnList(startRsId,
-				cubeAggrs, scope);
+				cubeAggrs, scope, cx);
 		
 		return uniteCalculatedMember(calculatedMembers1, calculatedMembers2);
 		
 	}
 	
 	public static CalculatedMember[] createCalculatedMembersByAggrOnList (int startRsId, ICubeAggrDefn[] cubeAggrs,
-			Scriptable scope) throws DataException
+			Scriptable scope, ScriptContext cx ) throws DataException
 	{
 		if (cubeAggrs == null)
 		{
@@ -147,7 +148,7 @@ public class CubeQueryDefinitionUtil
 
 			if ( cubeAggrDefn.getFilter( ) != null )
 			{
-				IJSMeasureFilterEvalHelper filterEvalHelper = new JSMeasureFilterEvalHelper( scope,
+				IJSMeasureFilterEvalHelper filterEvalHelper = new JSMeasureFilterEvalHelper( scope, cx,
 						new FilterDefinition( cubeAggrDefn.getFilter( ) ) );
 				result[index].setFilterEvalHelper( filterEvalHelper );
 			}
@@ -157,7 +158,7 @@ public class CubeQueryDefinitionUtil
 	}
 	
 	public static CalculatedMember[] createCalculatedMembersByAggrOnListAndMeasureName (int startRsId, ICubeAggrDefn[] cubeAggrs,
-			Scriptable scope) throws DataException
+			Scriptable scope, ScriptContext cx ) throws DataException
 	{
 		if (cubeAggrs == null)
 		{
@@ -189,8 +190,8 @@ public class CubeQueryDefinitionUtil
 
 			if ( cubeAggrDefn.getFilter( ) != null )
 			{
-				IJSMeasureFilterEvalHelper filterEvalHelper = new JSMeasureFilterEvalHelper( scope,
-						new FilterDefinition( cubeAggrDefn.getFilter( ) ) );
+				IJSMeasureFilterEvalHelper filterEvalHelper = new JSMeasureFilterEvalHelper( scope, cx,
+						new FilterDefinition( cubeAggrDefn.getFilter( ) ));
 				result[index].setFilterEvalHelper( filterEvalHelper );
 			}
 			index++;
@@ -474,14 +475,14 @@ public class CubeQueryDefinitionUtil
 	 * 
 	 * @param queryDefn
 	 */
-	private static void populateMeasureFromSort( ICubeQueryDefinition queryDefn )
+	private static void populateMeasureFromSort( ICubeQueryDefinition queryDefn, ScriptContext cx )
 			throws DataException
 	{
 		for ( int i = 0; i < queryDefn.getSorts( ).size( ); i++ )
 		{
 			createRelationalMeasures( queryDefn,
 					(IBaseExpression) ( (ISortDefinition) queryDefn.getSorts( )
-							.get( i ) ).getExpression( ) );
+							.get( i ) ).getExpression( ), cx );
 		}
 	}
 
@@ -491,13 +492,13 @@ public class CubeQueryDefinitionUtil
 	 * @param queryDefn
 	 */
 	private static void populateMeasureFromFilter(
-			ICubeQueryDefinition queryDefn ) throws DataException
+			ICubeQueryDefinition queryDefn, ScriptContext cx ) throws DataException
 	{
 		for ( int i = 0; i < queryDefn.getFilters( ).size( ); i++ )
 		{
 			createRelationalMeasures( queryDefn,
 					(IBaseExpression) ( (IFilterDefinition) queryDefn.getFilters( )
-							.get( i ) ).getExpression( ) );
+							.get( i ) ).getExpression( ), cx );
 		}
 	}
 
@@ -507,13 +508,13 @@ public class CubeQueryDefinitionUtil
 	 * @param queryDefn
 	 */
 	private static void populateMeasureFromBinding(
-			ICubeQueryDefinition queryDefn ) throws DataException
+			ICubeQueryDefinition queryDefn, ScriptContext cx ) throws DataException
 	{
 		for ( int i = 0; i < queryDefn.getBindings( ).size( ); i++ )
 		{
 			createRelationalMeasures( queryDefn,
 					(IBaseExpression) ( (IBinding) queryDefn.getBindings( )
-							.get( i ) ).getExpression( ) );
+							.get( i ) ).getExpression( ), cx );
 		}
 	}
 
@@ -525,7 +526,7 @@ public class CubeQueryDefinitionUtil
 	 * @throws DataException 
 	 */
 	private static List createRelationalMeasures(
-			ICubeQueryDefinition queryDefn, IBaseExpression expression )
+			ICubeQueryDefinition queryDefn, IBaseExpression expression, ScriptContext cx )
 			throws DataException
 	{
 		List measures = new ArrayList( );
@@ -534,7 +535,7 @@ public class CubeQueryDefinitionUtil
 		{
 			String exprText = (String) exprTextList.get( i );
 			String measureName = OlapExpressionCompiler.getReferencedScriptObject( exprText,
-					ScriptConstants.MEASURE_SCRIPTABLE );
+					ScriptConstants.MEASURE_SCRIPTABLE  );
 			if ( measureName != null && measureName.trim( ).length( ) > 0 )
 			{
 				//if current measure list doesn't contain this measure, then add it to the list

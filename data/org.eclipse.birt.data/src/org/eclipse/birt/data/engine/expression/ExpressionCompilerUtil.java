@@ -63,12 +63,12 @@ public class ExpressionCompilerUtil
 	 * @return
 	 * @throws DataException 
 	 */
-	public static boolean hasColumnRow( String expression, ExprManager exprManager ) throws DataException
+	public static boolean hasColumnRow( String expression, ExprManager exprManager, Context cx ) throws DataException
 	{
 		if( expression == null )
 			return false;
 		
-		return compile( expression, exprManager );
+		return compile( expression, exprManager, cx );
 
 	}
 	
@@ -318,13 +318,12 @@ public class ExpressionCompilerUtil
 	 * @throws DataException 
 	 */
 	public static boolean isValidExpressionInQueryFilter(
-			IBaseExpression expression ) throws DataException
+			IBaseExpression expression, Context context ) throws DataException
 	{
 		if ( expression instanceof IScriptExpression )
 		{
 			String text = ( (IScriptExpression) expression ).getText( );
-			Context context = Context.enter( );
-
+			
 			// fake a registry to register the aggregation.
 			AggregateRegistry aggrReg = new AggregateRegistry( ) {
 
@@ -333,27 +332,20 @@ public class ExpressionCompilerUtil
 					return -1;
 				}
 			};
-			try
-			{
-				ExpressionCompiler expressionCompiler = new ExpressionCompiler( );
-				CompiledExpression expr = expressionCompiler.compile( text,
+			ExpressionCompiler expressionCompiler = new ExpressionCompiler( );
+			CompiledExpression expr = expressionCompiler.compile( text,
 						aggrReg,
 						context );
-				return flattenFilterExpression( expr );
-			}
-			finally
-			{
-				Context.exit( );
-			}
+			return flattenFilterExpression( expr );
 		}
 		else if ( expression instanceof IConditionalExpression )
 		{
 			IScriptExpression expr = ( (IConditionalExpression) expression ).getExpression( );
 			IBaseExpression oprand1 = ( (IConditionalExpression) expression ).getOperand1( );
 			IBaseExpression oprand2 = ( (IConditionalExpression) expression ).getOperand2( );
-			return isValidExpressionInQueryFilter( expr ) &&
-					isValidExpressionInQueryFilter( oprand1 ) &&
-					isValidExpressionInQueryFilter( oprand2 );
+			return isValidExpressionInQueryFilter( expr, context ) &&
+					isValidExpressionInQueryFilter( oprand1, context ) &&
+					isValidExpressionInQueryFilter( oprand2, context );
 		}
 		return true;
 	}
@@ -365,10 +357,8 @@ public class ExpressionCompilerUtil
 	 * @return
 	 * @throws DataException 
 	 */
-	private static boolean compile( String expression, ExprManager exprManager ) throws DataException
+	private static boolean compile( String expression, ExprManager exprManager, Context cx ) throws DataException
 	{
-		Context context = Context.enter( );
-
 		// fake a registry to register the aggregation.
 		AggregateRegistry aggrReg = new AggregateRegistry( ) {
 
@@ -377,18 +367,11 @@ public class ExpressionCompilerUtil
 				return -1;
 			}
 		};
-		try
-		{
-			ExpressionCompiler expressionCompiler = new ExpressionCompiler( );
-			CompiledExpression expr = expressionCompiler.compile( expression,
-					aggrReg,
-					context );
-			return flattenExpression( expr, exprManager );
-		}
-		finally
-		{
-			Context.exit( );
-		}
+		ExpressionCompiler expressionCompiler = new ExpressionCompiler( );
+		CompiledExpression expr = expressionCompiler.compile( expression,
+				aggrReg,
+				cx );
+		return flattenExpression( expr, exprManager, cx );
 	}
 
 	/**
@@ -397,7 +380,7 @@ public class ExpressionCompilerUtil
 	 * @throws DataException 
 	 */
 	private static boolean flattenExpression( CompiledExpression expr,
-			ExprManager exprManager ) throws DataException
+			ExprManager exprManager, Context cx ) throws DataException
 	{
 		int type = expr.getType( );
 		switch ( type )
@@ -409,7 +392,7 @@ public class ExpressionCompilerUtil
 				while ( col.hasNext( ) )
 				{
 					if ( !flattenExpression( (CompiledExpression) col.next( ),
-							exprManager ) )
+							exprManager, cx ) )
 						return false;
 				}
 				break;
@@ -422,7 +405,7 @@ public class ExpressionCompilerUtil
 				if ( exprManager.getExpr( columnName )!=null )
 				{
 					String expression = ( (IScriptExpression) exprManager.getExpr( columnName ) ).getText( );
-					return compile( expression, exprManager );
+					return compile( expression, exprManager, cx );
 				}
 				else
 				{
@@ -436,7 +419,7 @@ public class ExpressionCompilerUtil
 				while ( args.hasNext( ) )
 				{
 					if ( !flattenExpression( (CompiledExpression) args.next( ),
-							exprManager ) )
+							exprManager, cx ) )
 						return false;
 				}
 			}

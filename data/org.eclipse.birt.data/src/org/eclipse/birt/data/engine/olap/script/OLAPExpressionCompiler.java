@@ -12,8 +12,8 @@
 package org.eclipse.birt.data.engine.olap.script;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.Context;
@@ -86,23 +86,5 @@ public class OLAPExpressionCompiler
 						(IBaseExpression)exprs[i] );
 			}
 		}
-	}
-
-	/**
-	 * 
-	 * @param expression
-	 */
-	public static void compile( IBaseExpression expression )
-	{
-		try
-		{
-			Context cx = Context.enter( );
-			compile( cx, expression );
-		}
-		finally
-		{
-			Context.exit( );
-		}
-
 	}
 }

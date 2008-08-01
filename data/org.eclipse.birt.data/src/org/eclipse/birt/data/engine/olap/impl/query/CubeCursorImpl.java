@@ -34,6 +34,7 @@ import javax.olap.cursor.Timestamp;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
@@ -49,7 +50,6 @@ import org.eclipse.birt.data.engine.olap.script.OLAPExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 
@@ -66,13 +66,15 @@ public class CubeCursorImpl implements ICubeCursor
 	private Set validBindingSet;
 	private Scriptable outerResults;
 	private BirtCubeView cubeView;
+	private ScriptContext cx;
 	
-	public CubeCursorImpl ( IBaseQueryResults outerResults, CubeCursor cursor, Scriptable scope, ICubeQueryDefinition queryDefn, BirtCubeView view ) throws DataException
+	public CubeCursorImpl ( IBaseQueryResults outerResults, CubeCursor cursor, Scriptable scope, ScriptContext cx, ICubeQueryDefinition queryDefn, BirtCubeView view ) throws DataException
 	{
 		this.cursor = cursor;
 		this.scope = scope;
 		this.queryDefn = queryDefn;
 		this.cubeView = view;
+		this.cx = cx;
 		
 		this.outerResults = OlapExpressionUtil.createQueryResultsScriptable( outerResults );
 		
@@ -89,7 +91,7 @@ public class CubeCursorImpl implements ICubeCursor
 			if ( binding.getAggrFunction( ) == null )
 			{
 				this.bindingMap.put( bindingName, expr );
-				OLAPExpressionCompiler.compile( expr );
+				OLAPExpressionCompiler.compile( cx.getContext( ), expr );
 			}
 			dataTypeMap.put( bindingName, new Integer( binding.getDataType( ) ) );
 		}
@@ -329,7 +331,7 @@ public class CubeCursorImpl implements ICubeCursor
 			{
 				try
 				{
-					Context cx = Context.enter( );
+			
 					IBaseExpression expr = (IBaseExpression) this.bindingMap.get( arg0 );
 					result = ScriptEvalUtil.evalExpr( expr,
 							cx,
@@ -341,10 +343,7 @@ public class CubeCursorImpl implements ICubeCursor
 				{
 					throw new OLAPException( e.getLocalizedMessage( ) );
 				}
-				finally
-				{
-					Context.exit( );
-				}
+				
 			}
 		}
 

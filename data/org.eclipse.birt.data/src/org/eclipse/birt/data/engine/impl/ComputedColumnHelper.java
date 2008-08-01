@@ -19,6 +19,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
@@ -32,7 +33,6 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.mozilla.javascript.Context;
 
 /**
  * One of implementation of IResultObjectEvent interface. Used to calculate the
@@ -61,7 +61,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	 * @throws
 	 */
 	ComputedColumnHelper( DataSetRuntime dataSet, List dataSetCCList,
-			List resultSetCCList ) throws DataException
+			List resultSetCCList, ScriptContext cx ) throws DataException
 	{
 		Object[] params = {
 				dataSet, dataSetCCList, resultSetCCList
@@ -71,15 +71,15 @@ public class ComputedColumnHelper implements IResultObjectEvent
 				params );
 
 		this.dataSetInstance = new ComputedColumnHelperInstance( dataSet,
-				dataSetCCList, Mode.DataSet );
+				dataSetCCList, Mode.DataSet, cx );
 		this.resultSetInstance = new ComputedColumnHelperInstance( dataSet, 
-				resultSetCCList, Mode.Query );
+				resultSetCCList, Mode.Query, cx );
 		List availableCCList = new ArrayList( );
 		getAvailableComputedList( getComputedNameList( dataSetCCList ),
 				dataSetCCList,
 				availableCCList );
 		this.availableModeInstance = new ComputedColumnHelperInstance( dataSet,
-				availableCCList, Mode.DataSet );
+				availableCCList, Mode.DataSet, cx );
 		this.currentModel = this.dataSetInstance;
 		this.allCC = new ArrayList( );
 		this.allCC.addAll( dataSetCCList );
@@ -319,11 +319,11 @@ class ComputedColumnHelperInstance
 
 	// prepared flag
 	private boolean isPrepared;
-
+	private ScriptContext cx;
 	protected static Logger logger = Logger.getLogger( ComputedColumnHelper.class.getName( ) );
 
 	public ComputedColumnHelperInstance( DataSetRuntime dataSet,
-			List computedColumns, Mode mode )
+			List computedColumns, Mode mode, ScriptContext cx )
 	{
 		// Do not change the assignment of array
 		// TODO enhance.
@@ -333,6 +333,7 @@ class ComputedColumnHelperInstance
 		this.isPrepared = false;
 		this.dataSet = dataSet;
 		this.mode = mode;
+		this.cx = cx;
 	}
 
 	public List getComputedColumnList( )
@@ -368,7 +369,6 @@ class ComputedColumnHelperInstance
 		dataSet.setMode( this.mode );
 		// now assign the computed value to each of its projected computed
 		// columns
-		Context cx = Context.enter( );
 		try
 		{
 			// iterate through each projected computed column,
@@ -444,7 +444,6 @@ class ComputedColumnHelperInstance
 		finally
 		{
 			dataSet.setMode( temp );
-			Context.exit( );
 		}
 		logger.exiting( ComputedColumnHelper.class.getName( ), "process" );
 		return true;

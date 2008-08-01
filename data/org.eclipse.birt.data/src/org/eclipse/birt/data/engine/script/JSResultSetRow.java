@@ -16,6 +16,7 @@ import java.util.Map;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -39,7 +40,7 @@ public class JSResultSetRow extends ScriptableObject
 	private ExprManager exprManager;	
 	private Scriptable scope;
 	private IExecutorHelper helper;
-	
+	private ScriptContext cx;
 	private int currRowIndex;
 	private Map valueCacheMap;
 	
@@ -53,13 +54,13 @@ public class JSResultSetRow extends ScriptableObject
 	 * @param helper
 	 */
 	public JSResultSetRow( IResultIterator odiResult, ExprManager exprManager,
-			Scriptable scope, IExecutorHelper helper )
+			Scriptable scope, IExecutorHelper helper, ScriptContext cx )
 	{
 		this.odiResult = odiResult;
 		this.exprManager = exprManager;
 		this.scope = scope;
 		this.helper = helper;
-		
+		this.cx = cx;
 		this.currRowIndex = -1;
 		this.valueCacheMap = new HashMap( );
 	}
@@ -161,7 +162,8 @@ public class JSResultSetRow extends ScriptableObject
 				value = ExprEvaluateUtil.evaluateValue( dataExpr,
 						this.odiResult.getCurrentResultIndex( ),
 						this.odiResult.getCurrentResult( ),
-						this.scope );
+						this.scope,
+						this.cx);
 				value = JavascriptEvalUtil.convertToJavascriptValue( DataTypeUtil.convert( value,
 						binding.getDataType( ) ),
 						this.scope );
@@ -211,7 +213,8 @@ public class JSResultSetRow extends ScriptableObject
 				value = ExprEvaluateUtil.evaluateValue( dataExpr,
 						-1,
 						rsObject,
-						this.scope );
+						this.scope,
+						this.cx);
 				//value = JavascriptEvalUtil.convertJavascriptValue( value );
 			}
 			catch ( BirtException e )

@@ -16,6 +16,7 @@ import junit.framework.TestCase;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
@@ -42,7 +43,7 @@ public class ExpressionCompilerTest extends TestCase
 			}
 		};
 	
-	Context cx;
+	ScriptContext cx;
 	Scriptable scope;
 	
 	/*
@@ -54,8 +55,8 @@ public class ExpressionCompilerTest extends TestCase
 		compiler = new ExpressionCompiler( );
 		
 		// Test cases can share one context because they are executed on the same test thread
-		cx = Context.enter();
-		scope = cx.initStandardObjects();
+		cx = new ScriptContext();
+		scope = cx.getContext( ).initStandardObjects();
 	}
 
 	/*
@@ -63,7 +64,7 @@ public class ExpressionCompilerTest extends TestCase
 	 */
 	protected void tearDown( ) throws Exception
 	{
-		Context.exit();
+		cx.exit( );
 		super.tearDown( );
 	}
 
@@ -141,7 +142,7 @@ public class ExpressionCompilerTest extends TestCase
 		aggrExprs.clear();
 		expr = compiler.compile(
 				"Total.Sum( row.x )",
-				aggrReg, cx);
+				aggrReg, cx.getContext( ));
 		assertTrue( aggrExprs.size() == 1 );
 		assertTrue( aggrExprs.get(0) == expr);
 		assertTrue( expr.getType() == CompiledExpression.TYPE_SINGLE_AGGREGATE );
@@ -153,7 +154,7 @@ public class ExpressionCompilerTest extends TestCase
 		aggrExprs.clear();
 		expr = compiler.compile(
 				"Total.Sum( row[1], row.y > row.z, \"Group1\" )",
-				aggrReg, cx);
+				aggrReg, cx.getContext( ));
 		assertTrue( aggrExprs.size() == 1 );
 		assertTrue( aggrExprs.get(0) == expr);
 		assertTrue( expr.getType() == CompiledExpression.TYPE_SINGLE_AGGREGATE );
@@ -169,7 +170,7 @@ public class ExpressionCompilerTest extends TestCase
 		aggrExprs.clear();
 		expr = compiler.compile(
 				"Total.Sum( Total.Max(row.y), null, 1 )",
-				aggrReg, cx);
+				aggrReg, cx.getContext( ));
 		assertTrue( aggrExprs.size() == 2 );
 		assertTrue( aggrExprs.get(0) == expr || aggrExprs.get(1) == expr );
 		assertTrue( expr.getType() == CompiledExpression.TYPE_SINGLE_AGGREGATE );
@@ -186,14 +187,14 @@ public class ExpressionCompilerTest extends TestCase
 		aggrExprs.clear();
 		expr = compiler.compile(
 				" row[\"x\"] / Total.Sum( 1 )",
-				aggrReg, cx);
+				aggrReg, cx.getContext( ));
 		assertTrue( aggrExprs.size() == 1 );
 		assertTrue( expr.getType() == CompiledExpression.TYPE_COMPLEX_EXPR );
 		
 		aggrExprs.clear();
 		expr = compiler.compile(
 				"Total.MovingAve( row.x, myfunc(), null, 1 )",
-				aggrReg, cx);
+				aggrReg, cx.getContext( ));
 		assertTrue( aggrExprs.size() == 1 );
 		assertTrue( aggrExprs.get(0) == expr );
 		assertTrue( expr.getType() == CompiledExpression.TYPE_SINGLE_AGGREGATE );
@@ -211,7 +212,7 @@ public class ExpressionCompilerTest extends TestCase
 		// Test invalid agg expr
 		aggrExprs.clear();
 		
-		expr = compiler.compile( "Total.Invalid( row.x )", aggrReg, cx );
+		expr = compiler.compile( "Total.Invalid( row.x )", aggrReg, cx.getContext( ) );
 		assertTrue( expr instanceof InvalidExpression );
 		
 	}
@@ -223,7 +224,7 @@ public class ExpressionCompilerTest extends TestCase
 		CompiledExpression expr = compiler.compile(
 				"a=1; b=a+1; b+1;",
 				this.aggrReg,
-				cx);
+				cx.getContext( ));
 		assertEquals( expr.getType(), CompiledExpression.TYPE_COMPLEX_EXPR );
 		assertTrue( this.aggrExprs.size() == 0);
 		Object result = expr.evaluate( cx, scope );
@@ -233,7 +234,7 @@ public class ExpressionCompilerTest extends TestCase
 		expr = compiler.compile(
 				"a=true; if ( ! a && Total.Count() > 0 ) b=Total.Sum(row.x); else b=1 ; b",
 				this.aggrReg,
-				cx);
+				cx.getContext( ));
 		assertEquals( expr.getType(), CompiledExpression.TYPE_COMPLEX_EXPR );
 		result = expr.evaluate( cx, scope );
 		assertEquals( DataTypeUtil.convert( result, DataType.INTEGER_TYPE), new Integer(1));

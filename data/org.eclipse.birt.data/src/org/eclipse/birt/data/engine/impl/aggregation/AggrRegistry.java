@@ -13,17 +13,17 @@ package org.eclipse.birt.data.engine.impl.aggregation;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.expression.AggregateExpression;
-import org.eclipse.birt.data.engine.expression.BytecodeExpression;
 import org.eclipse.birt.data.engine.expression.AggregationConstantsUtil;
+import org.eclipse.birt.data.engine.expression.BytecodeExpression;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.expression.ConstantExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IQuery.GroupSpec;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -34,7 +34,7 @@ final class AggrRegistry implements AggregateRegistry
 	private int groupLevel; // current group level
 	private boolean isDetailedRow;
 	private int calculationLevel;
-	private Context cx;
+	private ScriptContext cx;
 	
 	private BaseQuery baseQuery;
 
@@ -58,7 +58,7 @@ final class AggrRegistry implements AggregateRegistry
 	 * @param cx
 	 * @throws DataException 
 	 */
-	AggrRegistry( int groupLevel, int calculationLevel, boolean isDetailedRow, Context cx ) throws DataException
+	AggrRegistry( int groupLevel, int calculationLevel, boolean isDetailedRow, ScriptContext cx ) throws DataException
 	{
 		Object[] params = {
 				new Integer( groupLevel ),
@@ -119,7 +119,7 @@ final class AggrRegistry implements AggregateRegistry
 	 * @throws DataException
 	 */
 	private int registerExpression( AggregateExpression expr,
-			int groupLevel, int calculationLevel, boolean isDetailedRow, Context cx )
+			int groupLevel, int calculationLevel, boolean isDetailedRow, ScriptContext cx )
 			throws DataException
 	{
 		AggrExprInfo info = newAggrExprInfo( expr,
@@ -155,7 +155,7 @@ final class AggrRegistry implements AggregateRegistry
 	 * @throws DataException
 	 */
 	private AggrExprInfo newAggrExprInfo( AggregateExpression expr,
-			int currentGroupLevel, int calculationLevel, boolean isDetailedRow, Context cx )
+			int currentGroupLevel, int calculationLevel, boolean isDetailedRow, ScriptContext cx )
 			throws DataException
 	{
 		AggrExprInfo aggr = new AggrExprInfo( );
@@ -201,7 +201,7 @@ final class AggrRegistry implements AggregateRegistry
 			// should just be a constant
 			// expression most of the case
 			Object groupLevelObj = groupExpr.evaluate( cx,
-					runStates == BASE_QUERY ? cx.initStandardObjects( )
+					runStates == BASE_QUERY ? cx.getContext( ).initStandardObjects( )
 							: scope );
 			if ( groupLevelObj == null )
 			{

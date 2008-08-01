@@ -13,9 +13,11 @@ package org.eclipse.birt.data.engine.olap.util;
 
 import java.util.Map;
 
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 
@@ -28,12 +30,14 @@ public class FacttableMeasureJSObjectPopulator implements IJSObjectPopulator
 
 	private DummyJSFacttableMeasureAccessor measureObj;
 	private Scriptable scope;
+	private ScriptContext cx;
 	private Map computedMeasures;
 
-	public FacttableMeasureJSObjectPopulator( Scriptable scope, Map computedMeasures )
+	public FacttableMeasureJSObjectPopulator( Scriptable scope, Map computedMeasures, ScriptContext cx )
 	{
 		this.scope = scope;
 		this.computedMeasures = computedMeasures;
+		this.cx = cx;
 	}
 
 	/*
@@ -42,7 +46,7 @@ public class FacttableMeasureJSObjectPopulator implements IJSObjectPopulator
 	 */
 	public void doInit( ) throws DataException
 	{
-		this.measureObj = new DummyJSFacttableMeasureAccessor( this.computedMeasures, scope );
+		this.measureObj = new DummyJSFacttableMeasureAccessor( this.computedMeasures, scope, this.cx );
 		this.scope.put( ScriptConstants.MEASURE_SCRIPTABLE,
 					this.scope,
 					this.measureObj );

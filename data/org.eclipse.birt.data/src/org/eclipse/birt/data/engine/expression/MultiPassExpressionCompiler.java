@@ -16,9 +16,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
-import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction ;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
@@ -76,7 +77,7 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 	private final static String AGGR_VALUE = "_temp_aggr_value";
 	private boolean useRsMetaData = true;
 	private BaseQuery baseQuery;
-	
+	private ScriptContext cx;
 	//Cache the visited Available Computed Column list in each aggregation parsing
 	private List visitedList;
 	
@@ -86,7 +87,7 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 	 * @param metaData
 	 */
 	public MultiPassExpressionCompiler( ResultSetPopulator rsPopulator,
-			BaseQuery query, Scriptable scope, List availableAggrObj )
+			BaseQuery query, Scriptable scope, List availableAggrObj, ScriptContext cx )
 	{
 		this.rsPopulator = rsPopulator;
 		this.baseQuery = query;
@@ -95,6 +96,7 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 		this.hasNesetedAggregate = false;
 		this.caculatedAggregateList = availableAggrObj;
 		this.aggrObjList = new ArrayList( );
+		this.cx = cx;
 	}
 	
 	/**
@@ -396,31 +398,24 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 		}
 		// evaluate group level
 		Object groupLevelObj;
-		Context cx = Context.enter( );
-		try
-		{
-			if ( groupExpr != null )
-				groupLevelObj = groupExpr.evaluate( cx, scope );
-			else
-			{
-				String currentGroupName = null;
-				if ( this.currentGroupLevelList.size( ) == 0 )
-					currentGroupName = this.getScriptExpression( )
-							.getGroupName( );
-				else
-					currentGroupName = this.currentGroupLevelList.get( this.currentGroupLevelList.size( ) - 1 )
-							.toString( );
 
-				if ( currentGroupName.equals( TOTAL_OVERALL ) )
-					groupLevelObj = new Integer( 0 );
-				else
-					groupLevelObj = currentGroupName;
-			}
-		}
-		finally
+		if ( groupExpr != null )
+			groupLevelObj = groupExpr.evaluate( cx, scope );
+		else
 		{
-			Context.exit( );
+			String currentGroupName = null;
+			if ( this.currentGroupLevelList.size( ) == 0 )
+				currentGroupName = this.getScriptExpression( ).getGroupName( );
+			else
+				currentGroupName = this.currentGroupLevelList.get( this.currentGroupLevelList.size( ) - 1 )
+						.toString( );
+
+			if ( currentGroupName.equals( TOTAL_OVERALL ) )
+				groupLevelObj = new Integer( 0 );
+			else
+				groupLevelObj = currentGroupName;
 		}
+		
 
 		if ( groupLevelObj == null )
 		{
@@ -727,7 +722,8 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 						currentGroupLevel,
 						calculationLevel,
 						false,
-						false );
+						false,
+						cx);
 				if ( aggrObjList == null )
 				{
 					aggrObjList = new ArrayList( );

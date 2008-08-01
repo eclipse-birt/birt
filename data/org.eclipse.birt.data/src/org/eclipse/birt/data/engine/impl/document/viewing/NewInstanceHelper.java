@@ -120,7 +120,7 @@ public class NewInstanceHelper
 	public static DataSourceRuntime newDataSourceRuntime(
 			Scriptable queryScope )
 	{
-		return new DataSourceRuntime( newBaseDataSourceDesign( ), queryScope ) {
+		return new DataSourceRuntime( newBaseDataSourceDesign( ), queryScope, null ) {
 
 			/*
 			 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#getExtensionID()
@@ -302,7 +302,7 @@ public class NewInstanceHelper
 	public static DataSetRuntime newDataSetRuntime(
 			IBaseDataSetDesign dataSetDesign, QueryExecutor queryExecutor )
 	{
-		return new DataSetRuntime( dataSetDesign, queryExecutor ) {
+		return new DataSetRuntime( dataSetDesign, queryExecutor, queryExecutor.getSession( ) ) {
 		};
 	}
 	

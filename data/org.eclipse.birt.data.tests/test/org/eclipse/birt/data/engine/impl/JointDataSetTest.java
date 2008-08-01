@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.APITestCase;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IJoinCondition;
@@ -51,7 +52,7 @@ public class JointDataSetTest extends APITestCase
 	private static int CARTESIAN_POPULATOR = 0;
 	private static int BINARY_TREE_POPULATOR = 1;
 	private static boolean ADD_FETCH_LIMIT = false;
-	
+	private ScriptContext cx;
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
@@ -61,7 +62,17 @@ public class JointDataSetTest extends APITestCase
 				ConfigText.getString( "Impl.TestJointDataSet.TableSQL" ),
 				ConfigText.getString( "Impl.TestJointDataSet.TestDataFileName" ) );
 	}
-
+	public void setUp() throws Exception
+	{
+		super.setUp();
+		cx = new ScriptContext();
+	}
+	
+	public void tearDown() throws Exception
+	{
+		super.tearDown( );
+		cx.exit();
+	}
 	/**
 	 * Basic test to get MD for all columns
 	 * @throws Exception
@@ -392,7 +403,7 @@ public class JointDataSetTest extends APITestCase
 		//JoinConditionMatcher matcher = new JoinConditionMatcher( qr1.getResultIterator( ).getScope( ), qr2.getResultIterator( ).getScope( ), new JoinConditionExpression(new ScriptExpression("row.ID"),new ScriptExpression("row.ID"),0));
 		List a = new ArrayList();
 		a.add( new JoinCondition(new ScriptExpression("dataSetRow.ID"),new ScriptExpression("dataSetRow.ID"),IJoinCondition.OP_EQ) );
-		JoinConditionMatcher matcher = new JoinConditionMatcher( ((ResultIterator)qr1.getResultIterator( )).getOdiResult( ),((ResultIterator)qr2.getResultIterator( )).getOdiResult( ),qr1.getQueryScope( ), qr2.getQueryScope( ), a);
+		JoinConditionMatcher matcher = new JoinConditionMatcher( ((ResultIterator)qr1.getResultIterator( )).getOdiResult( ),((ResultIterator)qr2.getResultIterator( )).getOdiResult( ),qr1.getQueryScope( ), qr2.getQueryScope( ),cx,  a);
 		IDataSetPopulator populator = null;
 		
 		int fetchRowLimit = 0;

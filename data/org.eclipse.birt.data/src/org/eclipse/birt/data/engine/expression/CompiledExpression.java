@@ -12,8 +12,8 @@
 
 package org.eclipse.birt.data.engine.expression;
 
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /** 
@@ -62,7 +62,7 @@ public abstract class CompiledExpression
 	/**
 	 * Evaluates this expression
 	 */
-	public abstract Object evaluate( Context context, Scriptable scope )
+	public abstract Object evaluate( ScriptContext context, Scriptable scope )
 		throws DataException;	
 	
 }

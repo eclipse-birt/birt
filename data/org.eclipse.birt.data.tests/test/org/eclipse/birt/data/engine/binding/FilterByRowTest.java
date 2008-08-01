@@ -531,10 +531,9 @@ public class FilterByRowTest extends APITestCase
 
 			fail( "exception expected" );
 		}
-		catch ( DataException e )
+		catch ( Exception e )
 		{
-			assertEquals( ResourceConstants.INVALID_DEFINITION_IN_FILTER,
-					e.getErrorCode( ) );
+			
 		}
 	}
 	

@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
@@ -344,7 +345,8 @@ public abstract class QueryExecutor implements IQueryExecutor
 						: this.tabularOuterResults.getQueryScope( ),
 						this.dataSet,
 						( IQueryDefinition )this.baseQueryDefn,
-						this.getQueryScope( ) ).resolveDataSetParameters( true ),
+						this.getQueryScope( ),
+						session.getEngineContext( ).getScriptContext( )).resolveDataSetParameters( true ),
 				this.queryAppContext );
 	}
 
@@ -405,27 +407,20 @@ public abstract class QueryExecutor implements IQueryExecutor
 		assert odiQuery != null;
 		assert this.baseQueryDefn != null;
 
-		Context cx = Context.enter( );
-		try
-		{
-			// Set grouping
-			populateGrouping( cx );
-			
-			// Set sorting
-			populateSorting( );
+		// Set grouping
+		populateGrouping( session.getEngineContext( ).getScriptContext( ).getContext( ) );
 
-			// set fetch event
-			populateFetchEvent( cx );
+		// Set sorting
+		populateSorting( );
 
-			// specify max rows the query should fetch
-			odiQuery.setMaxRows( this.baseQueryDefn.getMaxRows( ) );
-			
-			prepareCacheQuery( this.odiQuery );
-		}
-		finally
-		{
-			Context.exit( );
-		}
+		// set fetch event
+		populateFetchEvent( session.getEngineContext( ).getScriptContext( ) );
+
+		// specify max rows the query should fetch
+		odiQuery.setMaxRows( this.baseQueryDefn.getMaxRows( ) );
+
+		prepareCacheQuery( this.odiQuery );
+		
 	}
 
 	/**
@@ -625,7 +620,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 * @param cx
 	 * @throws DataException
 	 */
-	private void populateFetchEvent( Context cx ) throws DataException
+	private void populateFetchEvent( ScriptContext cx ) throws DataException
 	{
 		List dataSetFilters = new ArrayList( );
 		List queryFilters = new ArrayList( );
@@ -669,7 +664,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		{
 			IResultObjectEvent objectEvent = new ComputedColumnHelper( this.dataSet,
 					computedColumns,
-					temporaryComputedColumns );
+					temporaryComputedColumns, cx );
 			odiQuery.addOnFetchEvent( objectEvent );
 			this.dataSet.getComputedColumns( )
 					.addAll( temporaryComputedColumns );
@@ -763,7 +758,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 * @return
 	 * @throws DataException 
 	 */
-	private List prepareFilters( Context cx, List dataSetFilters,
+	private List prepareFilters( ScriptContext cx, List dataSetFilters,
 			List queryFilters, List temporaryComputedColumns ) throws DataException
 	{
 		List result = new ArrayList( );
@@ -780,7 +775,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 * @param result
 	 * @throws DataException 
 	 */
-	private void prepareFilter( Context cx, List dataSetFilters,
+	private void prepareFilter( ScriptContext cx, List dataSetFilters,
 			List temporaryComputedColumns, List result ) throws DataException
 	{
 		if ( dataSetFilters != null && !dataSetFilters.isEmpty( ) )
@@ -795,7 +790,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 				{
 					ConditionalExpression ce = ( (ConditionalExpression) expr );
 					String exprText = ce.getExpression( ).getText( );
-					ColumnInfo columnInfo = QueryExecutorUtil.getColInfoFromJSExpr( cx,
+					ColumnInfo columnInfo = QueryExecutorUtil.getColInfoFromJSExpr( cx.getContext( ),
 							exprText );
 
 					int index = columnInfo.getColumnIndex( );
@@ -835,10 +830,14 @@ public abstract class QueryExecutor implements IQueryExecutor
 
 		if ( expr instanceof IConditionalExpression )
 		{
-			if ( !ExpressionCompilerUtil.isValidExpressionInQueryFilter( expr ) )
+			if ( !ExpressionCompilerUtil.isValidExpressionInQueryFilter( expr,
+					session.getEngineContext( )
+							.getScriptContext( )
+							.getContext( ) ) )
 				throw new DataException( ResourceConstants.INVALID_DEFINITION_IN_FILTER,
 						new Object[]{
-							( (IConditionalExpression) expr ).getExpression( ).getText( )
+							( (IConditionalExpression) expr ).getExpression( )
+									.getText( )
 						} );
 			try
 			{
@@ -1061,18 +1060,13 @@ public abstract class QueryExecutor implements IQueryExecutor
 		if ( parentAndProtoScope == null )
 			parentAndProtoScope = sharedScope;
 
-		Context cx = Context.enter( );
-		try
-		{
-			Scriptable scope = cx.newObject( parentAndProtoScope );
-			scope.setParentScope( parentAndProtoScope );
-			scope.setPrototype( parentAndProtoScope );
-			return scope;
-		}
-		finally
-		{
-			Context.exit( );
-		}
+		Scriptable scope = session.getEngineContext( )
+				.getScriptContext( )
+				.getContext( )
+				.newObject( parentAndProtoScope );
+		scope.setParentScope( parentAndProtoScope );
+		scope.setPrototype( parentAndProtoScope );
+		return scope;
 	}
 
 	/*
@@ -1127,7 +1121,8 @@ public abstract class QueryExecutor implements IQueryExecutor
 		return new ParameterUtil( this.tabularOuterResults == null ? null:this.tabularOuterResults.getQueryScope( ),
 				this.getDataSet( ),
 				(IQueryDefinition) this.baseQueryDefn,
-				this.getQueryScope( ) ).resolveDataSetParameters( evaluateValue );
+				this.getQueryScope( ),
+				session.getEngineContext( ).getScriptContext( )).resolveDataSetParameters( evaluateValue );
 	}
 	
 	/*
@@ -1137,5 +1132,10 @@ public abstract class QueryExecutor implements IQueryExecutor
 	public Map getAppContext()
 	{
 		return this.queryAppContext;
+	}
+	
+	public DataEngineSession getSession()
+	{
+		return this.session;
 	}
 }
