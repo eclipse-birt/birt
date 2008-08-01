@@ -853,7 +853,14 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					}
 
 					// OK TO ASSUME THAT 1 BASE RUNTIME SERIES EXISTS
-					seBase = (Series) sdBase.getRunTimeSeries( ).get( 0 );
+					if ( sdBase.getRunTimeSeries( ).size( ) == 0 )
+					{
+						return;
+					}
+					else
+					{
+						seBase = (Series) sdBase.getRunTimeSeries( ).get( 0 );
+					}
 					pa = sdBase.getSeriesPalette( );
 					elPaletteEntries = pa.getEntries( );
 					iPaletteCount = elPaletteEntries.size( );

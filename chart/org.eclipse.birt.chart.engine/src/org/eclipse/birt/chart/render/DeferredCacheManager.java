@@ -78,10 +78,12 @@ public final class DeferredCacheManager
 	 */
 	public DeferredCache createDeferredCache( BaseRenderer br )
 	{
-		if ( br != null &&
-				( ChartDimension.THREE_DIMENSIONAL == fChart.getDimension( )
-						.getValue( ) || br.getSeries( ).isSingleCache( ) || 
-						fChart.getDimension( ).getValue( ) == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH ) )
+		if ( br != null
+				&& br.getSeries( ) != null
+				&& ( ChartDimension.THREE_DIMENSIONAL == fChart.getDimension( )
+						.getValue( )
+						|| br.getSeries( ).isSingleCache( ) || fChart.getDimension( )
+						.getValue( ) == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH ) )
 		{
 			return createSingleDeferredCache( );
 		}

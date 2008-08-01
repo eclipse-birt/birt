@@ -921,7 +921,17 @@ public final class LegendBuilder implements IConstants
 					.get( 0 );
 		}
 		// OK TO ASSUME THAT 1 BASE RUNTIME SERIES EXISTS
-		Series seBase = (Series) sdBase.getRunTimeSeries( ).get( 0 );
+		Series seBase;
+		if ( sdBase.getRunTimeSeries( ).size( ) == 0 )
+		{
+			return new double[]{
+					0, 0
+			};
+		}
+		else
+		{
+			seBase = (Series) sdBase.getRunTimeSeries( ).get( 0 );
+		}
 
 		DataSetIterator dsiBase = createDataSetIterator( seBase, cm );
 
