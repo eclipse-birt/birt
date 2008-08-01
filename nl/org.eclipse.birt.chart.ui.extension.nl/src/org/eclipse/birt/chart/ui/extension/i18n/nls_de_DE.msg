@@ -224,7 +224,7 @@ MeterSeriesAttributeComposite.Lbl.DialTicks=&Unterteilungsstriche
 MeterSeriesAttributeComposite.Lbl.DialScale=S&kalierung
 BarSeriesAttributeComposite.Exception.IllegalArgument=Datenreihe vom Typ {0} ist ein ungültiges Argument für BarSeriesAttributeComposite.
 BarSeriesUIProvider.Lbl.SeriesDefinition=Datenreihendefinition
-BarSeriesAttributeComposite.Lbl.SeriesOutline=Series &Outline:
+BarSeriesAttributeComposite.Lbl.SeriesOutline=Datenreihen&umriss:
 BarBottomAreaComponent.Label.CategoryXSeries=Kategorien-Datenreihe (X-Achse):
 
 StockSeriesAttributeComposite.Exception.IllegalArgument=Datenreihe vom Typ {0} ist ein ungültiges Argument für StockSeriesAttributeComposite.
@@ -345,7 +345,7 @@ PieLeftAreaComponent.Label.SliceSizeDefinition=Definition der Segmentgröße:
 PieSeriesAttributeComposite.Exception.IllegalArgument=Datenreihe vom Typ {0} ist ein ungültiges Argument für PieSeriesAttributeComposite.
 PieSeriesAttributeComposite.Lbl.Explosion=Ausrückung:
 PiesBottomAreaComponent.Label.TheRotationOfTheChart=Kreisrotation: Der Startwinkel des ersten Kreissegments
-PieBottomAreaComponent.Label.Rotation=Kreisrotation
+PieBottomAreaComponent.Label.Rotation=Pie Rotation:
 PieBottomAreaComponent.Label.MinimumSlice=&Mindestgröße für Segment:
 PieBottomAreaComponent.Label.MinSliceLabel=&Segmentbeschriftung:
 PieSeriesUIProvider.Lbl.BasePrefix=Kategorie 

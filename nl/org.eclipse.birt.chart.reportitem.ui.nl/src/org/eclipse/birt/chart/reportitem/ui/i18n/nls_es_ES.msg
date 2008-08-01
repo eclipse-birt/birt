@@ -23,7 +23,7 @@ ChartPreferencePage.Error.MaxRowInvalid=El número de fila máximo debe ser entero
 ChartPreferencePage.Label.EnableLivePreview=&Activar la vista previa en tiempo real en el compilador de diagramas
 
 ChartReportItemUIImpl.log.ReceivedNotification=Se ha recibido la notificación para disponer de la figura de diagrama extendida.
-ChartReportItemViewProvider.BarChart.Text.Title=Bar Chart Title
+ChartReportItemViewProvider.BarChart.Text.Title=Título del diagrama de barras
 
 ChartExpressionProvider.Category.ChartVariables=Variables
 ChartExpressionProvider.ChartVariables.DataPoints=Punto de datos de diagrama

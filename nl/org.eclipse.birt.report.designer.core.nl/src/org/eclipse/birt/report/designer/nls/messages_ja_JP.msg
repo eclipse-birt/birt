@@ -230,7 +230,7 @@ ColumnBindingDialog.Column.Expression=®
 ColumnBindingDialog.DialogTitle=ƒf[ƒ^ƒoƒCƒ“ƒh‚Ì‘I‘ğ
 ColumnBindingDialog.Column.Name=–¼‘O
 ColumnBindingDialog.Column.Filter=ƒtƒBƒ‹ƒ^
-ColumnBindingDialog.Column.Function=Function
+ColumnBindingDialog.Column.Function=ŠÖ”
 ColumnBindingDialog.Column.DisplayName=•\¦–¼
 ColumnBindingDialog.InputPrompt=<‚±‚±‚ÉV‚µ‚¢’l‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢...>
 ColumnBindingDialog.Button.Generate=ƒJƒ‰ƒ€ƒoƒCƒ“ƒh‚Ì¶¬
@@ -845,10 +845,10 @@ designer.preview.preference.server.hostDescription=ƒ[ƒJƒ‹ƒ}ƒVƒ“‚ÌƒzƒXƒg–¼‚Ü‚½‚
 designer.preview.preference.server.note=’ :
 designer.preview.preference.server.portDescription=ƒT[ƒo‚ªƒŠƒXƒ“‚·‚éƒ|[ƒg(&P)\n“®“I‚ÉŠ„‚è“–‚Ä‚é‚É‚Í 0 ‚Éİ’è‚µ‚Ü‚·B
 designer.preview.preference.server.requireRestart=ƒT[ƒo‚ª‚·‚Å‚ÉÀs‚µ‚Ä‚¢‚éê‡‚ÍAƒT[ƒo‚ğÄ‹N“®‚·‚é‚Ü‚Å‚±‚ê‚ç‚Ìİ’è‚Í\n—LŒø‚É‚È‚è‚Ü‚¹‚ñB
-designer.preview.preference.bidiOrientation.label=Bidi Orientation:
+designer.preview.preference.bidiOrientation.label=‘o•ûŒü‚ÌŒü‚« :
 designer.preview.preference.bidiOrientation.auto=©“®
-designer.preview.preference.bidiOrientation.ltr=Left to right
-designer.preview.preference.bidiOrientation.rtl=Right to left
+designer.preview.preference.bidiOrientation.ltr=¶‚©‚ç‰E‚Ö
+designer.preview.preference.bidiOrientation.rtl=‰E‚©‚ç¶‚Ö
 
 designer.preview.previewaction.label.webviewer=Web ƒrƒ…[ƒA‚ÅƒŒƒ|[ƒg‚ğ•\¦‚·‚é
 designer.preview.previewaction.label=ƒŒƒ|[ƒg‚ğ {0} ‚Æ‚µ‚Ä•\¦‚·‚é
@@ -3000,7 +3000,7 @@ ExportElementToLibraryAction.SetNameAction.text=–¼‘O‚ğİ’è‚µ‚Ä‚­‚¾‚³‚¢B
 ExportElementToLibraryAction.DialogTitle.setNameFailed=–¼‘O‚ğİ’è‚Å‚«‚Ü‚¹‚ñB
 ExportElementToLibraryAction.TransLabel.Setname=–¼‘O‚ğİ’è‚µ‚Ä‚­‚¾‚³‚¢B
 ExportElementToLibraryAction.DialogTitle=–¼‘O‚Ìİ’è
-ExportElementToLibraryAction.DialogMessage=You can set a name for selected element before exporting it, or a default name will be used.
+ExportElementToLibraryAction.DialogMessage=‘I‘ğ‚µ‚½—v‘f‚ğƒGƒNƒXƒ|[ƒg‚·‚é‘O‚É–¼‘O‚ğw’è‚Å‚«‚Ü‚·‚ªAƒfƒtƒHƒ‹ƒg‚Ì–¼‘O‚ğg—p‚·‚é‚±‚Æ‚à‚Å‚«‚Ü‚·B
 
 
 ###########################################################
@@ -3907,7 +3907,7 @@ DataSetColumnBindingsFormHandleProvider.Column.DataType=ƒf[ƒ^Œ^
 DataSetColumnBindingsFormHandleProvider.Column.Expression=®
 DataSetColumnBindingsFormHandleProvider.Column.AggregateOn=WŒvğŒ
 DataSetColumnBindingsFormHandleProvider.Column.Filter=ƒtƒBƒ‹ƒ^
-DataSetColumnBindingsFormHandleProvider.Column.Function=Function
+DataSetColumnBindingsFormHandleProvider.Column.Function=ŠÖ”
 DataSetColumnBindingsFormHandleProvider.ALL=‚·‚×‚Ä
 DataSetColumnBindingsFormHandleProvider.NONE=N/A
 

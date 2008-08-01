@@ -224,7 +224,7 @@ MeterSeriesAttributeComposite.Lbl.DialTicks=틱(&T)
 MeterSeriesAttributeComposite.Lbl.DialScale=배율(&C)
 BarSeriesAttributeComposite.Exception.IllegalArgument=형식 {0}의 계열은 BarSeriesAttributeComposite에 대한 잘못된 인수입니다.
 BarSeriesUIProvider.Lbl.SeriesDefinition=계열 정의
-BarSeriesAttributeComposite.Lbl.SeriesOutline=Series &Outline:
+BarSeriesAttributeComposite.Lbl.SeriesOutline=계열 윤곽선(&O):
 BarBottomAreaComponent.Label.CategoryXSeries=범주 (X) 계열:
 
 StockSeriesAttributeComposite.Exception.IllegalArgument=형식 {0}의 계열은 StockSeriesAttributeComposite에 대한 잘못된 인수입니다.
@@ -345,7 +345,7 @@ PieLeftAreaComponent.Label.SliceSizeDefinition=조각 크기 정의:
 PieSeriesAttributeComposite.Exception.IllegalArgument=형식 {0}의 계열은 PieSeriesAttributeComposite에 대한 잘못된 인수입니다.
 PieSeriesAttributeComposite.Lbl.Explosion=급증:
 PiesBottomAreaComponent.Label.TheRotationOfTheChart=파이 회전: 첫 파이 조각의 시작 각도
-PieBottomAreaComponent.Label.Rotation=파이 회전
+PieBottomAreaComponent.Label.Rotation=Pie Rotation:
 PieBottomAreaComponent.Label.MinimumSlice=최소 조각(&M):
 PieBottomAreaComponent.Label.MinSliceLabel=조각 레이블(&L):
 PieSeriesUIProvider.Lbl.BasePrefix=범주 

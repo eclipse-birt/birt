@@ -224,7 +224,7 @@ MeterSeriesAttributeComposite.Lbl.DialTicks=刻度线(&T)
 MeterSeriesAttributeComposite.Lbl.DialScale=刻度(&C)
 BarSeriesAttributeComposite.Exception.IllegalArgument=对于 BarSeriesAttributeComposite，类型系列 {0} 是无效参数。
 BarSeriesUIProvider.Lbl.SeriesDefinition=系列定义
-BarSeriesAttributeComposite.Lbl.SeriesOutline=Series &Outline:
+BarSeriesAttributeComposite.Lbl.SeriesOutline=系列边框(&O):
 BarBottomAreaComponent.Label.CategoryXSeries=类别 (X) 系列:
 
 StockSeriesAttributeComposite.Exception.IllegalArgument=对于 StockSeriesAttributeComposite，类型系列 {0} 是无效参数。
@@ -345,7 +345,7 @@ PieLeftAreaComponent.Label.SliceSizeDefinition=扇面大小定义:
 PieSeriesAttributeComposite.Exception.IllegalArgument=对于 PieSeriesAttributeComposite，类型系列 {0} 是无效参数。
 PieSeriesAttributeComposite.Lbl.Explosion=爆炸形:
 PiesBottomAreaComponent.Label.TheRotationOfTheChart=饼图旋转: 第一个饼图扇面的起始角度
-PieBottomAreaComponent.Label.Rotation=饼图旋转
+PieBottomAreaComponent.Label.Rotation=Pie Rotation:
 PieBottomAreaComponent.Label.MinimumSlice=最小扇面(&M):
 PieBottomAreaComponent.Label.MinSliceLabel=扇面标签(&L):
 PieSeriesUIProvider.Lbl.BasePrefix=类别 

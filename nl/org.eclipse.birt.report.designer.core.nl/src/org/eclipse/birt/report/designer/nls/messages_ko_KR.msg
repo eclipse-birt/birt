@@ -230,7 +230,7 @@ ColumnBindingDialog.Column.Expression=식
 ColumnBindingDialog.DialogTitle=데이터 바인딩 선택
 ColumnBindingDialog.Column.Name=이름
 ColumnBindingDialog.Column.Filter=필터
-ColumnBindingDialog.Column.Function=Function
+ColumnBindingDialog.Column.Function=함수
 ColumnBindingDialog.Column.DisplayName=표시 이름
 ColumnBindingDialog.InputPrompt=<여기에 새 값 입력...>
 ColumnBindingDialog.Button.Generate=열 바인딩 생성
@@ -845,10 +845,10 @@ designer.preview.preference.server.hostDescription=로컬 컴퓨터의 호스트 이름 또�
 designer.preview.preference.server.note=참고:
 designer.preview.preference.server.portDescription=수신 대기할 서버의 포트(&P)입니다. 동적으로 할당하려면 0으로 설정하십시오.
 designer.preview.preference.server.requireRestart=서버가 이미 실행 중인 경우 이러한 기본 설정은\n다시 시작한 후부터 적용됩니다.
-designer.preview.preference.bidiOrientation.label=Bidi Orientation:
+designer.preview.preference.bidiOrientation.label=양방향:
 designer.preview.preference.bidiOrientation.auto=자동
-designer.preview.preference.bidiOrientation.ltr=Left to right
-designer.preview.preference.bidiOrientation.rtl=Right to left
+designer.preview.preference.bidiOrientation.ltr=왼쪽에서 오른쪽
+designer.preview.preference.bidiOrientation.rtl=오른쪽에서 왼쪽
 
 designer.preview.previewaction.label.webviewer=웹 뷰어에서 보고서 보기
 designer.preview.previewaction.label={0}(으)로 보고서 보기
@@ -3000,7 +3000,7 @@ ExportElementToLibraryAction.SetNameAction.text=이름 설정
 ExportElementToLibraryAction.DialogTitle.setNameFailed=이름 설정 실패
 ExportElementToLibraryAction.TransLabel.Setname=이름 설정
 ExportElementToLibraryAction.DialogTitle=이름 설정
-ExportElementToLibraryAction.DialogMessage=You can set a name for selected element before exporting it, or a default name will be used.
+ExportElementToLibraryAction.DialogMessage=선택된 요소를 내보내기 전에 이름을 설정할 수 있고, 설정하지 않는 경우 기본 이름이 사용됩니다.
 
 
 ###########################################################
@@ -3907,7 +3907,7 @@ DataSetColumnBindingsFormHandleProvider.Column.DataType=데이터 형식
 DataSetColumnBindingsFormHandleProvider.Column.Expression=식
 DataSetColumnBindingsFormHandleProvider.Column.AggregateOn=집계 대상
 DataSetColumnBindingsFormHandleProvider.Column.Filter=필터
-DataSetColumnBindingsFormHandleProvider.Column.Function=Function
+DataSetColumnBindingsFormHandleProvider.Column.Function=함수
 DataSetColumnBindingsFormHandleProvider.ALL=모두
 DataSetColumnBindingsFormHandleProvider.NONE=해당 없음
 

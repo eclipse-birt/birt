@@ -233,7 +233,7 @@ CrosstabPageGenerator.List.PageBreak=Salto de página
 
 PageLayoutPropertyDescriptorProvider.PageLayout=Diseño de página:
 RowPageBreak.RepeatColumnHeader=Repetir encabezado de columna
-ColumnPageBreak.RepeatRowHeader=Repeat Row Header
+ColumnPageBreak.RepeatRowHeader=Repetir encabezado de fila
 
 ###########################################################
 #ExpressionValueCellEditor properties

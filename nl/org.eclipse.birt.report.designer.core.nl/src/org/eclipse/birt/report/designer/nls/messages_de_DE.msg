@@ -230,7 +230,7 @@ ColumnBindingDialog.Column.Expression=Ausdruck
 ColumnBindingDialog.DialogTitle=Datenbindung auswählen
 ColumnBindingDialog.Column.Name=Name
 ColumnBindingDialog.Column.Filter=Filter
-ColumnBindingDialog.Column.Function=Function
+ColumnBindingDialog.Column.Function=Funktion
 ColumnBindingDialog.Column.DisplayName=Name anzeigen
 ColumnBindingDialog.InputPrompt=<Hier den neuen Wert eingeben...>
 ColumnBindingDialog.Button.Generate=Spaltenbindungen generieren
@@ -845,10 +845,10 @@ designer.preview.preference.server.hostDescription=&Host-Name oder IP-Adresse de
 designer.preview.preference.server.note=Hinweis:
 designer.preview.preference.server.portDescription=&Anschluss für die Serververbindung. Auf 0 stellen, da Zuordnung dynamisch.
 designer.preview.preference.server.requireRestart=Wird der Server bereits ausgeführt, werden diese Einstellungen erst\nnach dem Neustart übernommen.
-designer.preview.preference.bidiOrientation.label=Bidi Orientation:
+designer.preview.preference.bidiOrientation.label=Bidirektionale Ausrichtung:
 designer.preview.preference.bidiOrientation.auto=Automatisch
-designer.preview.preference.bidiOrientation.ltr=Left to right
-designer.preview.preference.bidiOrientation.rtl=Right to left
+designer.preview.preference.bidiOrientation.ltr=Von links nach rechts
+designer.preview.preference.bidiOrientation.rtl=Von rechts nach links
 
 designer.preview.previewaction.label.webviewer=Bericht in Web Viewer anzeigen
 designer.preview.previewaction.label=Bericht als {0} anzeigen
@@ -3000,7 +3000,7 @@ ExportElementToLibraryAction.SetNameAction.text=Namen festlegen
 ExportElementToLibraryAction.DialogTitle.setNameFailed=Namen festlegen fehlgeschlagen
 ExportElementToLibraryAction.TransLabel.Setname=Namen festlegen
 ExportElementToLibraryAction.DialogTitle=Namen festlegen
-ExportElementToLibraryAction.DialogMessage=You can set a name for selected element before exporting it, or a default name will be used.
+ExportElementToLibraryAction.DialogMessage=Sie können vor dem Export einen Namen für das ausgewählte Element festlegen. Andernfalls wird ein Standardname verwendet.
 
 
 ###########################################################
@@ -3907,7 +3907,7 @@ DataSetColumnBindingsFormHandleProvider.Column.DataType=Datentyp
 DataSetColumnBindingsFormHandleProvider.Column.Expression=Ausdruck
 DataSetColumnBindingsFormHandleProvider.Column.AggregateOn=Aggregat in
 DataSetColumnBindingsFormHandleProvider.Column.Filter=Filter
-DataSetColumnBindingsFormHandleProvider.Column.Function=Function
+DataSetColumnBindingsFormHandleProvider.Column.Function=Funktion
 DataSetColumnBindingsFormHandleProvider.ALL=Alles
 DataSetColumnBindingsFormHandleProvider.NONE=n.a.
 

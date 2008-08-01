@@ -224,7 +224,7 @@ MeterSeriesAttributeComposite.Lbl.DialTicks=&Repères
 MeterSeriesAttributeComposite.Lbl.DialScale=E&chelle
 BarSeriesAttributeComposite.Exception.IllegalArgument=La série de type {0} est un argument non valide pour BarSeriesAttributeComposite.
 BarSeriesUIProvider.Lbl.SeriesDefinition=Définition de la série
-BarSeriesAttributeComposite.Lbl.SeriesOutline=Series &Outline:
+BarSeriesAttributeComposite.Lbl.SeriesOutline=C&ontour de la série :
 BarBottomAreaComponent.Label.CategoryXSeries=Série horizontale de catégories :
 
 StockSeriesAttributeComposite.Exception.IllegalArgument=La série de type {0} est un argument non valide pour StockSeriesAttributeComposite.
@@ -345,7 +345,7 @@ PieLeftAreaComponent.Label.SliceSizeDefinition=Définition de la taille de tranch
 PieSeriesAttributeComposite.Exception.IllegalArgument=La série de type {0} est un argument non valide pour PieSeriesAttributeComposite.
 PieSeriesAttributeComposite.Lbl.Explosion=Explosion :
 PiesBottomAreaComponent.Label.TheRotationOfTheChart=Rotation du secteur : angle de départ du premier secteur
-PieBottomAreaComponent.Label.Rotation=Rotation du secteur
+PieBottomAreaComponent.Label.Rotation=Pie Rotation:
 PieBottomAreaComponent.Label.MinimumSlice=&Tranche minimale :
 PieBottomAreaComponent.Label.MinSliceLabel=&Etiquette de tranche :
 PieSeriesUIProvider.Lbl.BasePrefix=Catégorie 

@@ -224,7 +224,7 @@ MeterSeriesAttributeComposite.Lbl.DialTicks=&Marcas
 MeterSeriesAttributeComposite.Lbl.DialScale=Es&cala
 BarSeriesAttributeComposite.Exception.IllegalArgument=La serie de tipo {0} no es un argumento válido para BarSeriesAttributeComposite.
 BarSeriesUIProvider.Lbl.SeriesDefinition=Definición de series
-BarSeriesAttributeComposite.Lbl.SeriesOutline=Series &Outline:
+BarSeriesAttributeComposite.Lbl.SeriesOutline=C&ontorno de series:
 BarBottomAreaComponent.Label.CategoryXSeries=Serie (X) de categoría:
 
 StockSeriesAttributeComposite.Exception.IllegalArgument=La serie de tipo {0} no es un argumento válido para StockSeriesAttributeComposite.
@@ -345,7 +345,7 @@ PieLeftAreaComponent.Label.SliceSizeDefinition=Definición del tamaño de corte:
 PieSeriesAttributeComposite.Exception.IllegalArgument=La serie de tipo {0} no es un argumento válido para PieSeriesAttributeComposite.
 PieSeriesAttributeComposite.Lbl.Explosion=Separación:
 PiesBottomAreaComponent.Label.TheRotationOfTheChart=Rotación circular: el ángulo de inicio del primer corte circular
-PieBottomAreaComponent.Label.Rotation=Rotación circular
+PieBottomAreaComponent.Label.Rotation=Pie Rotation:
 PieBottomAreaComponent.Label.MinimumSlice=&Corte mínimo:
 PieBottomAreaComponent.Label.MinSliceLabel=&Etiqueta de corte:
 PieSeriesUIProvider.Lbl.BasePrefix=Categoría 

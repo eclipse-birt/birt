@@ -233,7 +233,7 @@ CrosstabPageGenerator.List.PageBreak=分页符
 
 PageLayoutPropertyDescriptorProvider.PageLayout=页面布局:
 RowPageBreak.RepeatColumnHeader=重复列标题
-ColumnPageBreak.RepeatRowHeader=Repeat Row Header
+ColumnPageBreak.RepeatRowHeader=重复行标题
 
 ###########################################################
 #ExpressionValueCellEditor properties

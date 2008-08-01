@@ -230,7 +230,7 @@ ColumnBindingDialog.Column.Expression=±í´ïÊ½
 ColumnBindingDialog.DialogTitle=Ñ¡ÔñÊı¾İ°ó¶¨
 ColumnBindingDialog.Column.Name=Ãû³Æ
 ColumnBindingDialog.Column.Filter=É¸Ñ¡
-ColumnBindingDialog.Column.Function=Function
+ColumnBindingDialog.Column.Function=º¯Êı
 ColumnBindingDialog.Column.DisplayName=ÏÔÊ¾Ãû³Æ
 ColumnBindingDialog.InputPrompt=<ÔÚ´Ë´¦ÊäÈëĞÂÖµ...>
 ColumnBindingDialog.Button.Generate=Éú³ÉÁĞ°ó¶¨
@@ -845,10 +845,10 @@ designer.preview.preference.server.hostDescription=±¾µØ¼ÆËã»úµÄÖ÷»úÃû»ò IP µØÖ·¡
 designer.preview.preference.server.note=×¢£º
 designer.preview.preference.server.portDescription=Òª¼àÌıµÄ·şÎñÆ÷¶Ë¿Ú¡£ÉèÖÃÎª 0 ÒÔ¶¯Ì¬·ÖÅä(&P)¡£
 designer.preview.preference.server.requireRestart=Èç¹û¸Ã·şÎñÆ÷ÒÑÔÚÔËĞĞ£¬ÕâĞ©Ê×Ñ¡ÏîÖ»ÓĞÔÚ\nÖØĞÂÆô¶¯ºó²ÅÉúĞ§¡£
-designer.preview.preference.bidiOrientation.label=Bidi Orientation:
+designer.preview.preference.bidiOrientation.label=Ë«Ïò:
 designer.preview.preference.bidiOrientation.auto=×Ô¶¯
-designer.preview.preference.bidiOrientation.ltr=Left to right
-designer.preview.preference.bidiOrientation.rtl=Right to left
+designer.preview.preference.bidiOrientation.ltr=´Ó×óµ½ÓÒ
+designer.preview.preference.bidiOrientation.rtl=´ÓÓÒµ½×ó
 
 designer.preview.previewaction.label.webviewer=ÔÚ Web ²é¿´Æ÷ÖĞ²é¿´±¨±í
 designer.preview.previewaction.label=ÒÔ {0} ¸ñÊ½²é¿´±¨±í
@@ -3000,7 +3000,7 @@ ExportElementToLibraryAction.SetNameAction.text=ÉèÖÃÃû³Æ
 ExportElementToLibraryAction.DialogTitle.setNameFailed=ÉèÖÃÃû³ÆÊ§°Ü
 ExportElementToLibraryAction.TransLabel.Setname=ÉèÖÃÃû³Æ
 ExportElementToLibraryAction.DialogTitle=ÉèÖÃÃû³Æ
-ExportElementToLibraryAction.DialogMessage=You can set a name for selected element before exporting it, or a default name will be used.
+ExportElementToLibraryAction.DialogMessage=Äú¿ÉÒÔÔÚµ¼³öÖ®Ç°ÉèÖÃËùÑ¡ÔªËØµÄÃû³Æ£¬·ñÔò½«Ê¹ÓÃÄ¬ÈÏÃû³Æ¡£
 
 
 ###########################################################
@@ -3907,7 +3907,7 @@ DataSetColumnBindingsFormHandleProvider.Column.DataType=Êı¾İÀàĞÍ
 DataSetColumnBindingsFormHandleProvider.Column.Expression=±í´ïÊ½
 DataSetColumnBindingsFormHandleProvider.Column.AggregateOn=¾ÛºÏÌõ¼ş
 DataSetColumnBindingsFormHandleProvider.Column.Filter=É¸Ñ¡Æ÷
-DataSetColumnBindingsFormHandleProvider.Column.Function=Function
+DataSetColumnBindingsFormHandleProvider.Column.Function=º¯Êı
 DataSetColumnBindingsFormHandleProvider.ALL=È«²¿
 DataSetColumnBindingsFormHandleProvider.NONE=²»ÊÊÓÃ
 

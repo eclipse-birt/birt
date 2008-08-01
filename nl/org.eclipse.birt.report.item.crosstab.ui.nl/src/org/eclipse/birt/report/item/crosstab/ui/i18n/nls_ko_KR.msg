@@ -233,7 +233,7 @@ CrosstabPageGenerator.List.PageBreak=페이지 나누기
 
 PageLayoutPropertyDescriptorProvider.PageLayout=페이지 레이아웃:
 RowPageBreak.RepeatColumnHeader=열 머리글 반복
-ColumnPageBreak.RepeatRowHeader=Repeat Row Header
+ColumnPageBreak.RepeatRowHeader=행 머리글 반복
 
 ###########################################################
 #ExpressionValueCellEditor properties

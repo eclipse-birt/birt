@@ -23,7 +23,7 @@ ChartPreferencePage.Error.MaxRowInvalid=最大行数には、{0} より小さい整数を指定し
 ChartPreferencePage.Label.EnableLivePreview=グラフビルダでライブプレビューを有効化する(&E)
 
 ChartReportItemUIImpl.log.ReceivedNotification=拡張された図表を破棄する通知を受け取りました。
-ChartReportItemViewProvider.BarChart.Text.Title=Bar Chart Title
+ChartReportItemViewProvider.BarChart.Text.Title=棒グラフのタイトル
 
 ChartExpressionProvider.Category.ChartVariables=変数
 ChartExpressionProvider.ChartVariables.DataPoints=グラフのデータポイント
@@ -43,7 +43,7 @@ FlipAxisAction.Text.FlipAxis=軸の反転(&P)
 GeneralPage.Library.Included=ライブラリ :
 ChartEventHandlerPage.dialog.Browse=参照(&B)...
 ReportDataServiceProvider.Option.None=<なし>
-ReportDataServiceProvider.Option.Inherits=<Container''s {0}>
+ReportDataServiceProvider.Option.Inherits=<コンテナの {0}>
 ReportDataServiceProvider.Tooltip.Aggregate=総計 : 
 ReportDataServiceProvider.Tooltip.GroupExpression=グループ式 : 
 ReportDataServiceProvider.Tooltip.OnGroup=グループ : 

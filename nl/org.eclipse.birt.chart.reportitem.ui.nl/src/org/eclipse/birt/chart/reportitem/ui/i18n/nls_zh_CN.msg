@@ -23,7 +23,7 @@ ChartPreferencePage.Error.MaxRowInvalid=最大行号必须为小于 {0} 的整数
 ChartPreferencePage.Label.EnableLivePreview=在图表生成器中启用实时预览(&E)
 
 ChartReportItemUIImpl.log.ReceivedNotification=收到关于清除扩展图表的通知。
-ChartReportItemViewProvider.BarChart.Text.Title=Bar Chart Title
+ChartReportItemViewProvider.BarChart.Text.Title=条形图标题
 
 ChartExpressionProvider.Category.ChartVariables=变量
 ChartExpressionProvider.ChartVariables.DataPoints=图表数据点
@@ -43,7 +43,7 @@ FlipAxisAction.Text.FlipAxis=翻转轴(&P)
 GeneralPage.Library.Included=库:
 ChartEventHandlerPage.dialog.Browse=浏览(&B)...
 ReportDataServiceProvider.Option.None=<无>
-ReportDataServiceProvider.Option.Inherits=<Container''s {0}>
+ReportDataServiceProvider.Option.Inherits=<容器的 {0}>
 ReportDataServiceProvider.Tooltip.Aggregate=聚合: 
 ReportDataServiceProvider.Tooltip.GroupExpression=组表达式: 
 ReportDataServiceProvider.Tooltip.OnGroup=按组: 

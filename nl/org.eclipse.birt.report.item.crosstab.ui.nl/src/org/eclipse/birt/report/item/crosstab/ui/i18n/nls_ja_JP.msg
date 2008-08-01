@@ -233,7 +233,7 @@ CrosstabPageGenerator.List.PageBreak=ページ区切り
 
 PageLayoutPropertyDescriptorProvider.PageLayout=ページ配置 :
 RowPageBreak.RepeatColumnHeader=列のヘッダの繰り返し
-ColumnPageBreak.RepeatRowHeader=Repeat Row Header
+ColumnPageBreak.RepeatRowHeader=行のヘッダの繰り返し
 
 ###########################################################
 #ExpressionValueCellEditor properties

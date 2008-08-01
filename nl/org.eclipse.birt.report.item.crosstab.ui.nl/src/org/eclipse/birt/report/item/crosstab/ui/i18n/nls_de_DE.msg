@@ -233,7 +233,7 @@ CrosstabPageGenerator.List.PageBreak=Seitenumbruch
 
 PageLayoutPropertyDescriptorProvider.PageLayout=Seitenlayout:
 RowPageBreak.RepeatColumnHeader=Spaltenüberschrift wiederholen
-ColumnPageBreak.RepeatRowHeader=Repeat Row Header
+ColumnPageBreak.RepeatRowHeader=Zeilenüberschrift wiederholen
 
 ###########################################################
 #ExpressionValueCellEditor properties

@@ -224,7 +224,7 @@ MeterSeriesAttributeComposite.Lbl.DialTicks=目盛り(&T)
 MeterSeriesAttributeComposite.Lbl.DialScale=スケール(&C)
 BarSeriesAttributeComposite.Exception.IllegalArgument={0} 型の系列は、BarSeriesAttributeComposite の引数としては使用できません。
 BarSeriesUIProvider.Lbl.SeriesDefinition=系列の定義
-BarSeriesAttributeComposite.Lbl.SeriesOutline=Series &Outline:
+BarSeriesAttributeComposite.Lbl.SeriesOutline=シリーズのアウトライン(&O) :
 BarBottomAreaComponent.Label.CategoryXSeries=カテゴリ系列 (X) :
 
 StockSeriesAttributeComposite.Exception.IllegalArgument={0} 型の系列は、StockSeriesAttributeComposite の引数としては使用できません。
@@ -345,7 +345,7 @@ PieLeftAreaComponent.Label.SliceSizeDefinition=スライスのサイズ :
 PieSeriesAttributeComposite.Exception.IllegalArgument={0} 型の系列は、PieSeriesAttributeComposite の引数としては使用できません。
 PieSeriesAttributeComposite.Lbl.Explosion=切り出し :
 PiesBottomAreaComponent.Label.TheRotationOfTheChart=パイの回転 : 最初のパイスライスの開始角度
-PieBottomAreaComponent.Label.Rotation=パイの回転
+PieBottomAreaComponent.Label.Rotation=Pie Rotation:
 PieBottomAreaComponent.Label.MinimumSlice=最小スライス (&M):
 PieBottomAreaComponent.Label.MinSliceLabel=スライスラベル (&L):
 PieSeriesUIProvider.Lbl.BasePrefix=カテゴリ 

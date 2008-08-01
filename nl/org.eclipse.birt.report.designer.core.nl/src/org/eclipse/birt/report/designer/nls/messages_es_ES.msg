@@ -230,7 +230,7 @@ ColumnBindingDialog.Column.Expression=Expresión
 ColumnBindingDialog.DialogTitle=Seleccionar enlace de datos
 ColumnBindingDialog.Column.Name=Nombre
 ColumnBindingDialog.Column.Filter=Filtrar
-ColumnBindingDialog.Column.Function=Function
+ColumnBindingDialog.Column.Function=Función
 ColumnBindingDialog.Column.DisplayName=Nombre en pantalla
 ColumnBindingDialog.InputPrompt=<Introduzca el nuevo valor aquí...>
 ColumnBindingDialog.Button.Generate=Generar enlaces de columna
@@ -845,10 +845,10 @@ designer.preview.preference.server.hostDescription=&Nombre del anfitrión o direc
 designer.preview.preference.server.note=Nota:
 designer.preview.preference.server.portDescription=&Puerto de comunicación del servidor. Establezca en 0 para asignación dinámica.
 designer.preview.preference.server.requireRestart=Si el servidor ya está en ejecución, estas preferencias sólo serán efectivas\ndespués de reiniciar.
-designer.preview.preference.bidiOrientation.label=Bidi Orientation:
+designer.preview.preference.bidiOrientation.label=Orientación bidimensional:
 designer.preview.preference.bidiOrientation.auto=Automático
-designer.preview.preference.bidiOrientation.ltr=Left to right
-designer.preview.preference.bidiOrientation.rtl=Right to left
+designer.preview.preference.bidiOrientation.ltr=De izquierda a derecha
+designer.preview.preference.bidiOrientation.rtl=De derecha a izquierda
 
 designer.preview.previewaction.label.webviewer=Ver informe en Web Viewer
 designer.preview.previewaction.label=Ver informe como {0}
@@ -3000,7 +3000,7 @@ ExportElementToLibraryAction.SetNameAction.text=Establecer nombre
 ExportElementToLibraryAction.DialogTitle.setNameFailed=Error al establecer nombre
 ExportElementToLibraryAction.TransLabel.Setname=Establecer nombre
 ExportElementToLibraryAction.DialogTitle=Establecer nombre
-ExportElementToLibraryAction.DialogMessage=You can set a name for selected element before exporting it, or a default name will be used.
+ExportElementToLibraryAction.DialogMessage=Es posible establecer un nombre para un elemento seleccionado antes de exportarlo. En caso de que no se especifique, se utilizará un nombre predeterminado.
 
 
 ###########################################################
@@ -3907,7 +3907,7 @@ DataSetColumnBindingsFormHandleProvider.Column.DataType=Tipo de datos
 DataSetColumnBindingsFormHandleProvider.Column.Expression=Expresión
 DataSetColumnBindingsFormHandleProvider.Column.AggregateOn=Agregar en
 DataSetColumnBindingsFormHandleProvider.Column.Filter=Filtrar
-DataSetColumnBindingsFormHandleProvider.Column.Function=Function
+DataSetColumnBindingsFormHandleProvider.Column.Function=Función
 DataSetColumnBindingsFormHandleProvider.ALL=Todos
 DataSetColumnBindingsFormHandleProvider.NONE=N/A
 
