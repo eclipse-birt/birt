@@ -82,7 +82,10 @@
       id="org.eclipse.pde"
       version="latest">
     </feature>
-
+    <feature
+      id="org.eclipse.rse"
+      version="latest">
+    </feature>
     <feature
       id="org.eclipse.mylyn_feature"
       version="latest">
@@ -287,7 +290,10 @@
       id="org.eclipse.jpt.feature"
       version="latest">
     </feature>
-
+    <feature
+      id="org.eclipse.jpt.eclipselink.feature"
+      version="latest">
+    </feature>
   <!-- reporting specific configuration -->
 
   <feature 
