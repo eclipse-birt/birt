@@ -527,7 +527,14 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		{
 			AttributeBuilder.buildTextDecoration( styleBuffer, textComputedStyle );
 		}
-		
+		// build the text-align
+		String textAlign = style.getTextAlign( );
+		if ( textAlign != null )
+		{
+			styleBuffer.append( " text-align:" );
+			styleBuffer.append( textAlign );
+			styleBuffer.append( ";" );
+		}
 		style = getElementStyle( foreign );
 		if ( style == null )
 		{
@@ -545,14 +552,7 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		AttributeBuilder.buildBidiDirection( styleBuffer, textComputedStyle );
 		// bidi_hcg end
 
-		// build the text-align
-		String textAlign = style.getTextAlign( );
-		if ( textAlign != null )
-		{
-			styleBuffer.append( " text-align:" );
-			styleBuffer.append( textAlign );
-			styleBuffer.append( ";" );
-		}
+
 	}
 
 	/**
