@@ -34,7 +34,11 @@ import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
+import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -1102,5 +1106,43 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 			return expr.replaceAll( "\"", "" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return expr;
+	}
+	
+	/**
+	 * In some cases, if the expression in subquery is a simple binding, and
+	 * this binding is from parent query, should copy the binding from parent
+	 * and insert into subquery.
+	 * 
+	 * @param query
+	 *            subquery
+	 * @param expr
+	 *            expression
+	 * @throws DataException
+	 * @since 2.3.1 and 2.4.0
+	 */
+	public static void copyAndInsertBindingFromContainer(
+			ISubqueryDefinition query, String expr ) throws DataException
+	{
+		String bindingName = getRowBindingName( expr, false );
+		if ( bindingName != null
+				&& !query.getBindings( ).containsKey( bindingName )
+				&& query.getParentQuery( )
+						.getBindings( )
+						.containsKey( bindingName ) )
+		{
+			// Copy the binding from container and insert it into
+			// subquery
+			IBinding parentBinding = (IBinding) query.getParentQuery( )
+					.getBindings( )
+					.get( bindingName );
+			IBinding binding = new Binding( bindingName,
+					parentBinding.getExpression( ) );
+			binding.setAggrFunction( parentBinding.getAggrFunction( ) );
+			binding.setDataType( parentBinding.getDataType( ) );
+			binding.setDisplayName( parentBinding.getDisplayName( ) );
+			binding.setFilter( parentBinding.getFilter( ) );
+			// Exportable is true for new subquery bindings
+			query.addBinding( binding );
+		}
 	}
 }

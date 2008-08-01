@@ -35,7 +35,6 @@ import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
@@ -355,21 +354,11 @@ public abstract class AbstractChartBaseQueryGenerator
 				}
 				if ( query instanceof ISubqueryDefinition )
 				{
-					// If it's subquery, create a new binding to
-					// reference to parent query if it's binding name
-					String expr = exprCategory;
-					if ( ChartReportItemUtil.isRowBinding( expr, false ) )
-					{
-						String bindingName = ChartReportItemUtil.createBindingNameForRowExpression( expr );
-						IBaseExpression dbExpr = ( expr == null ) ? null
-								: new ScriptExpression( "row._outer[\"" //$NON-NLS-1$
-										+ bindingName
-										+ "\"]" ); //$NON-NLS-1$
-						IBinding binding = new Binding( bindingName, dbExpr );
-						// Exportable is true for subquery bindings
-						query.addBinding( binding );
-					}
-					
+					// If the binding expression is not in subquery, copy the
+					// binding from parent and insert into subquery
+					ChartReportItemUtil.copyAndInsertBindingFromContainer( (ISubqueryDefinition) query,
+							exprCategory );
+
 					if ( !categorySD.getGrouping( ).isEnabled( ) )
 					{
 						for ( SeriesDefinition sd : ChartUtil.getAllOrthogonalSeriesDefinitions( fChartModel ) )
@@ -378,19 +367,11 @@ public abstract class AbstractChartBaseQueryGenerator
 									.getDataDefinition( );
 							for ( Query queryExpr : queries )
 							{
-								expr = queryExpr.getDefinition( );
-								if ( ChartReportItemUtil.isRowBinding( expr,
-										false ) )
-								{
-									String bindingName = ChartReportItemUtil.createBindingNameForRowExpression( expr );
-									IBaseExpression dbExpr = ( expr == null ) ? null
-											: new ScriptExpression( "row._outer[\"" //$NON-NLS-1$
-													+ bindingName
-													+ "\"]" ); //$NON-NLS-1$
-									IBinding binding = new Binding( bindingName, dbExpr );
-									// Exportable is true for subquery bindings
-									query.addBinding( binding );
-								}
+								// If the binding expression is not in subquery,
+								// copy the binding from parent and insert into
+								// subquery
+								ChartReportItemUtil.copyAndInsertBindingFromContainer( (ISubqueryDefinition) query,
+										queryExpr.getDefinition( ) );
 							}
 						}
 					}
