@@ -27,7 +27,7 @@ import java.util.logging.Logger;
  * This is a utility class for maintaining the meta data information for a
  * particular JDBC connection.
  * 
- * @version $Revision: 1.7 $ $Date: 2007/02/01 10:58:57 $
+ * @version $Revision: 1.8 $ $Date: 2007/07/20 07:59:38 $
  */
 
 public class ConnectionMetaData implements Serializable
@@ -227,7 +227,7 @@ public class ConnectionMetaData implements Serializable
 					setPassword( "" );
 				}
 
-				connection = DriverLoader.getConnection( classname,
+				connection = DriverLoader.getConnectionWithExceptionTip( classname,
 						url,
 						username,
 						password );

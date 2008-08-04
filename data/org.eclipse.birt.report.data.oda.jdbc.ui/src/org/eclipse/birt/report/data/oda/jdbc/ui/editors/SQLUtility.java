@@ -158,62 +158,6 @@ public class SQLUtility
 		return lines;
 	}
 	
-	/**
-	 * get the tailored serch text
-	 * @param namePattern
-	 * @return
-	 */
-	public static String getTailoredSearchText( String namePattern )
-	{
-		if ( namePattern != null )
-		{
-			if ( namePattern.lastIndexOf( '%' ) == -1 )
-			{
-				namePattern = namePattern + "%";
-			}
-		}
-		else
-		{
-			namePattern = "%";
-		}
-
-		return namePattern;
-	}
-	
-	/**
-	 * Constuct the DnD string for the dragged object.
-	 * 
-	 * @param obj
-	 * @return
-	 */
-	public static Object getDnDString( Object obj, String identifierStr,
-			boolean useIdentifier )
-	{
-		if ( !useIdentifier || !( obj instanceof String ) )
-			return obj;
-
-		String identifierQuoteString = identifierStr;
-		String dndString = (String) obj;
-
-		if ( !identifierQuoteString.equals( " " ) )
-		{
-			if ( dndString.indexOf( "." ) == -1 )
-				return identifierQuoteString
-						+ dndString + identifierQuoteString;
-
-			String[] str = dndString.split( "[.]" );
-			dndString = "";
-
-			for ( int i = 0; i < str.length; i++ )
-			{
-				dndString += identifierQuoteString
-						+ str[i] + identifierQuoteString + ".";
-			}
-			return dndString.substring( 0, dndString.lastIndexOf( "." ) );
-		}
-
-		return dndString;
-	}
 	
     /**
 	 * merge paramter meta data between dataParameter and datasetDesign's

@@ -54,8 +54,8 @@ public class DateSetPreferencePage extends PreferencePage
 	
 	private static final int MAX_MAX_ROW = Integer.MAX_VALUE;
 	
-	private static final String ENABLED = "YES";
-	private static final String DISABLED = "NO";
+	public static final String ENABLED = "YES";
+	public static final String DISABLED = "NO";
 	
 	/** max Row preference name */
 	public static final String USER_MAXROW = "user_maxrow"; //$NON-NLS-1$

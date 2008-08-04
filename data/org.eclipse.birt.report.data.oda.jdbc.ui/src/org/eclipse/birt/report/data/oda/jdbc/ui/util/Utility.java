@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.ParameterMetaData;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -26,7 +25,6 @@ import java.util.Set;
 
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.TableItem;
@@ -38,7 +36,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.2 $ $Date: 2007/01/05 07:24:57 $
+ * @version $Revision: 1.24 $ $Date: 2007/02/01 10:58:57 $
  */
 public class Utility
 {
@@ -52,105 +50,6 @@ public class Utility
     private Utility()
     {
     }
-
-	/**
-	 * @param composite
-	 * @param dataSource
-	 * @param image
-	 * @return
-	 */
-	public static TreeItem[] createTreeItems( TreeItem parentItem ,ArrayList dataSource, int style, Image image) 
-	{
-		if ( dataSource == null )
-		{
-			return null;
-		}
-		
-		TreeItem item[] = new TreeItem[dataSource.size()];
-//		Tree parent = parentItem.getParent();
-//		Font dataSourceItemFont = parent.getFont();
-		boolean addDummyNode = false;
-	
-		for (int i = 0; i < dataSource.size(); i++)
-		{
-			item[i] = new TreeItem(parentItem, style);
-			Object source = dataSource.get(i);
-			String displayName = "";
-			String name = "";
-			if(source instanceof String)
-			{
-				displayName = (String)source;
-				name = displayName;
-				item[i].setData(name);
-			}
-			else if (source instanceof TableItem )
-			{
-				displayName = ((TableItem)source).getText();
-				name = (String)((TableItem)source).getData();
-				item[i].setData(name);
-			}
-			else if(source instanceof DbObject)
-			{
-				DbObject dbObject = (DbObject)source;
-				name = dbObject.getName();
-				displayName = dbObject.getDisplayName();
-				image = dbObject.getImage();
-				addDummyNode = true;
-				item[i].setData(dbObject);
-			}
-			else if ( source instanceof Column )
-			{
-				Column column = (Column)source;
-				displayName = column.getName();
-				name = column.getTableName() + "." + displayName;
-				String type = column.getDbType();
-				displayName = displayName + " (" + type + ")";
-				 
-				if ( column.getSchemaName() != null )
-				{
-					name = column.getSchemaName() + "." + name;
-				}
-				item[i].setData(name);
-			}
-			else if ( source instanceof Procedure )
-			{
-				Procedure column = (Procedure) source;
-				name = column.getProcedureName( );
-				displayName = name;
-				addDummyNode = true;
-				if ( column.getSchema( ) != null )
-					name = column.getSchema( ) + "." + displayName;
-				item[i].setData( column );
-			}
-			else if ( source instanceof ProcedureParameter )
-			{
-				ProcedureParameter column = (ProcedureParameter) source;
-				name = column.getName( );
-				displayName = name;
-				if ( column.getSchema( ) != null )
-					name = column.getSchema( ) + "." + displayName;
-				int type = column.getModeType( );
-				String mode = toModeType( type );
-				String dataType = column.getDataTypeName( );
-				displayName = displayName + " (" + dataType + ", " + mode + ")";
-				item[i].setData( column );
-			}
-	
-			item[i].setText(displayName);
-			
-			item[i].setImage(image);
-
-			//parent.setTopItem(item[i]);
-			item[i].setExpanded(false);
-			
-			if ( addDummyNode )
-			{
-				new TreeItem(item[i], style);
-			}
-	
-		}
-		return item;
-	}
 
 	/**
 	 * give the stored procedure's column type name from the type.
@@ -176,156 +75,6 @@ public class Utility
 		}
 	}
 	
-	/**
-	 * get the tree item name from the tree item's object
-	 * @param selectedItem
-	 * @return
-	 */
-	public static String getTreeItemsName( TreeItem selectedItem ) 
-	{
-		if ( selectedItem == null )
-		{
-			return null;
-		}
-		String name = "";
-		Object source = selectedItem.getData();
-		    if(source instanceof String)
-			{
-				name = (String)source;
-			}
-			else if (source instanceof TableItem )
-			{
-				name = (String)((TableItem)source).getData();
-			}
-			else if(source instanceof DbObject)
-			{
-				DbObject dbObject = (DbObject)source;
-				name = dbObject.getName();
-			}
-			else if ( source instanceof Column )
-			{
-				Column column = (Column)source;
-				String displayName = column.getName();
-				name = column.getTableName() + "." + displayName;
-				String type = column.getDbType();
-				displayName = displayName + " (" + type + ")";
-				 
-				if ( column.getSchemaName() != null )
-				{
-					name = column.getSchemaName() + "." + name;
-				}
-			}
-			else if( source instanceof Procedure )
-			{
-				Procedure column = (Procedure)source;
-				name = column.getProcedureName( );
-				 
-				if ( column.getSchema() != null )
-				{
-					name = column.getSchema() + "." + name;
-				}
-			}
-			return name;
-	}
-		
-	/**
-	 * 
-	 * @param tree The Tree whose position needs to be set 
-	 */
-	public static void setMinScrollPosition(Tree tree)
-	{
-		if ( tree == null )
-		{
-			return;
-		}
-		
-		ScrollBar horizontalScrollBar = tree.getHorizontalBar();
-		
-		if( horizontalScrollBar != null )
-		{
-			horizontalScrollBar.setThumb(0);
-		}
-		
-		
-		
-		// position the vertical and horizontal scrollbars accordingly
-		ScrollBar verticalScrollBar = tree.getVerticalBar();
-		if( verticalScrollBar != null )
-		{
-			verticalScrollBar.setThumb(0);
-		}
-		
-	}
-	
-	/**
-	 * @param Item The TableItem 
-	 * @return If the passed Item represents a Table
-	 */
-	public static boolean isTableNode( TreeItem item, boolean isSchemaSupported, TreeItem rootNode )
-	{
-		if( item != null)
-		{
-			if ( isSchemaSupported)
-			{
-				if (item.getParentItem().getParentItem().getParentItem() == null)
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-			}
-			else
-			{
-				if (item.getParentItem().getParentItem() == null)
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-			}
-		}
-		return false;
-	}
-	
-	/**
-	 * @param item A tree Item which has to be tested
-	 * @return if the TreeItem represents a Schema node
-	 */
-	public static boolean isSchemaNode( TreeItem item, boolean isSchemaSupported, TreeItem rootNode )
-	{
-		if ( item != null && isSchemaSupported )
-		{
-			if (item.getParentItem().getParentItem() == null)
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	
-	/**
-	 * 
-	 * @param item The Tree Item selected
-	 * @return  True if the selected node represents a Catalog Node ( root Node displayed
-	 *          in the Available Table List ) . If the node indicates a Table or column
-	 *          false is returned.
-	 */
-	public static  boolean isCatalogNode( TreeItem item )
-	{
-		if ( item != null )
-		{
-			if (item.getParentItem() == null )
-			{
-				return true;
-			}
-		}
-		return false;
-	}
 	
 	/**
 	 * Get Map from PreferenceStore by key
@@ -531,5 +280,18 @@ public class Utility
 		PlatformUI.getWorkbench( )
 				.getHelpSystem( )
 				.setHelp( control, contextId );
+	}
+	
+	public static String quoteString( String quoted, String quoteFlag )
+	{
+		assert quoteFlag != null;
+		if ( quoted == null )
+		{
+			return "";
+		}
+		else
+		{
+			return quoteFlag + quoted + quoteFlag;
+		}
 	}
 }

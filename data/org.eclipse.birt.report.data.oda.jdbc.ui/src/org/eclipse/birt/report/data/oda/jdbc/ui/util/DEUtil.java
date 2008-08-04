@@ -56,4 +56,5 @@ public class DEUtil
 		return ( ( rgb.red & 0xff ) << 16 ) | ( ( rgb.green & 0xff ) << 8 )
 				| ( rgb.blue & 0xff );
 	}
+	
 }

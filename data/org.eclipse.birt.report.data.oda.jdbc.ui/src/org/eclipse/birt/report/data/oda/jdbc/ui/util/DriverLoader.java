@@ -25,6 +25,16 @@ public final class DriverLoader
 	}
 
 	public static Connection getConnection( String driverClassName,
+			String connectionString, String userId, String password ) throws SQLException, OdaException
+	{
+		return JDBCDriverManager.getInstance( )
+				.getConnection( driverClassName,
+						connectionString,
+						userId,
+						password, null );
+	}
+	
+	public static Connection getConnectionWithExceptionTip( String driverClassName,
 			String connectionString, String userId, String password )
 			throws SQLException
 	{

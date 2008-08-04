@@ -10,16 +10,21 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.jdbc.ui.editors;
 
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.data.oda.jdbc.ui.provider.OdaConnectionProvider;
+import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
 import org.eclipse.datatools.connectivity.oda.IAdvancedQuery;
 import org.eclipse.datatools.connectivity.oda.IConnection;
+import org.eclipse.datatools.connectivity.oda.IDriver;
 import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
 import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
+import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
+import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 
 /**
  * 
@@ -32,50 +37,36 @@ class MetaDataRetriever
 	private IResultSetMetaData resultMeta;
 	private IParameterMetaData paramMeta;
 	private IQuery query;
+	private IConnection connection;
 	
 	private static Logger logger = Logger.getLogger( MetaDataRetriever.class.getName( ) );	
 
-	
-	/**
-	 * 
-	 * @param odaMetaDataProvider
-	 * @param queryText
-	 * @param dataSetType
-	 */
-	MetaDataRetriever( OdaConnectionProvider odaMetaDataProvider,
-			String queryText, String dataSetType )
+	MetaDataRetriever( DataSetDesign dataSetDesign )
 	{
-		if ( odaMetaDataProvider != null )
+		DataSourceDesign dataSourceDesign = dataSetDesign.getDataSourceDesign( );
+		IDriver jdbcDriver = new OdaJdbcDriver( );
+		try
 		{
-			try
+			connection = jdbcDriver.getConnection( dataSourceDesign.getOdaExtensionId( ) );
+			Properties prop = DesignSessionUtil.getEffectiveDataSourceProperties( dataSourceDesign );
+			connection.open( prop );
+			
+			query = connection.newQuery( dataSetDesign.getOdaExtensionDataSetId( ) );
+			query.prepare( dataSetDesign.getQueryText( ) );
+			paramMeta = query.getParameterMetaData( );
+			if ( query instanceof IAdvancedQuery )
 			{
-				IConnection con = odaMetaDataProvider.getConnection( );
-				if ( con != null && con.isOpen( ) )
-				{
-					query = con.newQuery( dataSetType );
-					try
-					{
-						query.prepare( queryText );
-						this.paramMeta = query.getParameterMetaData( );
-					}
-					catch ( OdaException ex )
-					{
-						this.paramMeta = null;
-					}
-					if( query instanceof IAdvancedQuery )
-						this.resultMeta = null;
-					else
-						this.resultMeta = query.getMetaData( );
-				}
+				resultMeta = query.getMetaData( );
 			}
-			catch ( OdaException e )
-			{
-				this.resultMeta = null;
-				logger.log( Level.INFO, e.getMessage( ), e );
-				return;
-			}
+			
 		}
+		catch ( OdaException e )
+		{
+			logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
+		}
+
 	}
+
 	
 	/**
 	 * Get the ParameterMetaData object
@@ -98,21 +89,24 @@ class MetaDataRetriever
 	}
 	
 	/**
-	 * Release IQuery object
+	 * Release
 	 */
 	void close( )
 	{
-		if ( query != null )
+		try
 		{
-			try
+			if ( query != null )
 			{
 				query.close( );
-				query = null;
 			}
-			catch ( OdaException e )
+			if ( connection != null )
 			{
-				logger.log( Level.WARNING, e.getMessage( ), e );
+				connection.close( );
 			}
+		}
+		catch ( OdaException e )
+		{
+			//ignore it
 		}
 	}
 }
