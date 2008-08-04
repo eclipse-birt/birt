@@ -80,7 +80,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 {
 
 	private static final int DELAY_TIME = 1600;
-	private DesignElementHandleAdapter peer;
+	protected DesignElementHandleAdapter peer;
 	private AbstractGuideHandle guideHandle = null;
 	private boolean isEdited = false;
 	protected Logger logger = Logger.getLogger( ReportElementEditPart.class.getName( ) );

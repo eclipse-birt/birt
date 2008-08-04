@@ -231,6 +231,7 @@ public class TableEditPart extends AbstractTableEditPart implements
 	 */
 	public void refreshFigure( )
 	{
+		checkHelper( );
 		refreshBorder( getTableAdapter( ).getHandle( ),
 				(BaseBorder) getFigure( ).getBorder( ) );
 
@@ -250,7 +251,15 @@ public class TableEditPart extends AbstractTableEditPart implements
 		}
 		layoutManagerLayout( );
 	}
-
+	
+	protected void checkHelper( )
+	{
+		if (HandleAdapterFactory.getInstance( ).getTableHandleAdapter( getModel( ), this ).getModelAdaptHelper( ) == null)
+		{
+			peer = creatDesignElementHandleAdapter( );
+		}
+		getTableAdapter( ).reload( );
+	}
 	/**
 	 * Gets the top, left, right, bottom of edit part.
 	 * 
