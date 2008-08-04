@@ -265,6 +265,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public IResultMetaData refreshMetaData( DataSetHandle dataSetHandle )
 			throws BirtException
 	{
+		setModuleHandleToAppContext( );
 		return new DataSetMetaDataHelper( this.dataEngine,
 				this.modelAdaptor,
 				this.sessionContext ).refreshMetaData( dataSetHandle );
@@ -278,6 +279,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public IResultMetaData refreshMetaData( DataSetHandle dataSetHandle,
 			boolean holdEvent ) throws BirtException
 	{
+		setModuleHandleToAppContext( );
 		return new DataSetMetaDataHelper( this.dataEngine,
 				this.modelAdaptor,
 				this.sessionContext ).refreshMetaData( dataSetHandle, holdEvent );
@@ -291,6 +293,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			Iterator paramBindingIt, Iterator filterIt, Iterator bindingIt )
 			throws BirtException
 	{
+		setModuleHandleToAppContext( );
 		return new QueryExecutionHelper( this.dataEngine,
 				this.modelAdaptor,
 				this.sessionContext ).executeQuery( queryDefn,
@@ -329,6 +332,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 		if ( appContext == null )
 			// Use session app context
 			appContext = sessionContext.getAppContext( );
+		if ( appContext == null )
+		{
+			appContext = new HashMap( );
+		}
+		appContext.put( CURR_MODULE, this.sessionContext.getModuleHandle( ) );
+		
 		return dataEngine.prepare( query, appContext );
 	}
 
@@ -465,6 +474,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		try
 		{
+			setModuleHandleToAppContext( );
 			if ( query instanceof IPreparedQuery )
 			{
 				return ( (IPreparedQuery) query ).execute( outerResults,
@@ -491,6 +501,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		try
 		{
+			if ( appContext == null )
+			{
+				appContext = new HashMap( );
+			}
+			appContext.put( CURR_MODULE, this.sessionContext.getModuleHandle( ) );
+
 			if ( query instanceof IQueryDefinition )
 				return prepare( (IQueryDefinition) query, appContext == null
 						? this.sessionContext.getAppContext( ) : appContext );
@@ -1030,7 +1046,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 			Map appContext ) throws BirtException
 	{
 		stopSign.start( );
-		
+		if ( appContext != null )
+			appContext.put( CURR_MODULE, this.sessionContext.getModuleHandle( ) );
+		else
+			setModuleHandleToAppContext( );
+
 		if ( this.cubeHandleMap.get( query.getName( ) ) != null )
 		{
 			this.materializeCube( (CubeHandle) this.cubeHandleMap.get( query.getName( ) ),
@@ -1125,6 +1145,18 @@ public class DataRequestSessionImpl extends DataRequestSession
 		return this.dataEngine.prepare( query, appContext );
 	}
 	
+	/**
+	 * Set the module handle instance to appContext
+	 * 
+	 */
+	private void setModuleHandleToAppContext( )
+	{
+		if ( this.sessionContext.getAppContext( ) == null )
+			this.sessionContext.setAppContext( new HashMap( ) );
+		this.sessionContext.getAppContext( ).put( CURR_MODULE,
+				this.sessionContext.getModuleHandle( ) );
+	}
+
 	private void defineDataSourceDataSet( IQueryDefinition queryDefn ) throws BirtException
 	{
 		String dataSetName = queryDefn.getDataSetName( );
