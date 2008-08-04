@@ -42,9 +42,12 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
+import org.eclipse.birt.core.archive.IDocArchiveReader;
+import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.data.Constants;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -330,10 +333,10 @@ public class WorkingWithBIRTDataEngine
 	private static DataEngine newDataEngine( ) throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null,
-				null );
+				(ScriptContext) null,
+				(IDocArchiveReader) null,
+				(IDocArchiveWriter) null,
+				(ClassLoader) null );
 		// context.setTmpdir( this.getTempDir( ) );
 		DataEngine myDataEngine = DataEngine.newDataEngine( context );
 		return myDataEngine;
