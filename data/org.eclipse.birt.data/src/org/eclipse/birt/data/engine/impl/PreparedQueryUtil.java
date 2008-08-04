@@ -389,8 +389,16 @@ class PreparedQueryUtil
 		{
 			return BASED_ON_PRESENTATION;
 		}
+		else
+		{
+			return BASED_ON_DATASET;
+		}
 		
-		if ( previousQueryDefn.getSorts( ) != null
+		// Executing a query based on history result set bring increased
+		// complexity. We would like to remove
+		// this mode. The followed code is marked as comment temporarily. If no
+		// performance problems are found by test these code will be removed.
+		/*if ( previousQueryDefn.getSorts( ) != null
 				&& previousQueryDefn.getSorts( ).size( ) > 0
 				&& ( queryDefn.getSorts( ) == null || queryDefn.getSorts( )
 						.size( ) == 0 ) )
@@ -536,7 +544,8 @@ class PreparedQueryUtil
 								.values( )
 								.iterator( ) );
 		}
-		return runningOnRS?BASED_ON_RESULTSET:BASED_ON_DATASET;
+		return runningOnRS?BASED_ON_RESULTSET:BASED_ON_DATASET;*/
+		
 	}
 	
 	private static boolean isBindingReferenceSort( List sorts )
