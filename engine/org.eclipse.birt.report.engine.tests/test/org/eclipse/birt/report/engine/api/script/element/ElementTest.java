@@ -433,8 +433,8 @@ public class ElementTest extends TestCase
 		binding.setAggregateOn( "11" ); //$NON-NLS-1$
 		assertEquals( "11", binding.getAggregateOn( ) ); //$NON-NLS-1$
 
-		binding.setDataType( "any" ); //$NON-NLS-1$
-		assertEquals( "any", binding.getDataType( ) ); //$NON-NLS-1$
+		binding.setDataType( "string" ); //$NON-NLS-1$
+		assertEquals( "string", binding.getDataType( ) ); //$NON-NLS-1$
 
 		binding.setExpression( "row[\"123\"]" ); //$NON-NLS-1$
 		assertEquals( "row[\"123\"]", binding.getExpression( ) ); //$NON-NLS-1$

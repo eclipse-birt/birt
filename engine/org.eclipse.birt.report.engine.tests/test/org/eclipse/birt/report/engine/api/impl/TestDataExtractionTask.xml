@@ -393,6 +393,7 @@ from Customers</property>
                 <structure>
                     <property name="name">CUSTOMERNUMBER</property>
                     <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                    <property name="dataType">integer</property>
                 </structure>
                 <structure>
                     <property name="name">CONTACTFIRSTNAME</property>
