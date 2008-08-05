@@ -24,6 +24,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.InputParameterHtmlDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
@@ -37,8 +38,10 @@ import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.viewer.utilities.IWebAppInfo;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
@@ -59,6 +62,8 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 	private int staleType;
 
 	private FormEditor editor;
+
+	private boolean isPreviewing;
 
 	// suffix of template file
 	public static final String SUFFIX_TEMPLATE_FILE = "rpttemplate"; //$NON-NLS-1$
@@ -111,6 +116,19 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 
 	protected boolean refresh( )
 	{
+		if ( isPreviewing )
+			return false;
+		isPreviewing = true;
+
+		ModuleHandle model = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+
+		if ( !UIUtil.canPreviewWithErrors( model ) )
+		{
+			isPreviewing = false;
+			return false;
+		}
+
 		boolean isDisplay = false;
 
 		// if miss parameter, pop up parameter dialog
@@ -154,6 +172,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		SessionHandleAdapter.getInstance( )
 				.getMediator( )
 				.notifyRequest( request );
+		isPreviewing = false;
 		return true;
 	}
 

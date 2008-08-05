@@ -115,6 +115,7 @@ import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -1978,5 +1979,18 @@ public class UIUtil
 		Font font = FontManager.getFont( FontFamily, fontSize, fontStyle );
 
 		return font;
+	}
+
+	public static boolean canPreviewWithErrors( ModuleHandle model )
+	{
+		List list = model.getErrorList( );
+		if ( list.size( ) > 0 )
+		{
+			return MessageDialog.openConfirm( Display.getCurrent( )
+					.getActiveShell( ),
+					Messages.getString( "UIUtil.previewconfirm.title" ),
+					Messages.getString( "UIUtil.previewconfirm.message" ) );
+		}
+		return true;
 	}
 }

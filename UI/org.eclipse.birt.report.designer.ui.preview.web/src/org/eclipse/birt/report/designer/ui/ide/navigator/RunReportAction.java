@@ -15,12 +15,15 @@ import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.preview.IPreviewConstants;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * The action to run a report in navigator view
@@ -56,6 +59,10 @@ public class RunReportAction extends AbstractViewAction
 				ModuleHandle handle = SessionHandleAdapter.getInstance( )
 						.getSessionHandle( )
 						.openDesign( url );
+
+				if ( !UIUtil.canPreviewWithErrors( handle ) )
+					return;
+
 				Map options = new HashMap( );
 				options.put( WebViewer.FORMAT_KEY, WebViewer.HTML );
 				options.put( WebViewer.RESOURCE_FOLDER_KEY,

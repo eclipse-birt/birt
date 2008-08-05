@@ -10,6 +10,7 @@
 package org.eclipse.birt.report.designer.ui.actions;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -26,17 +27,21 @@ import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowPulldownDelegate;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.editor.FormEditor;
 
 public class PreviewToolbarMenuAction implements
@@ -175,6 +180,9 @@ public class PreviewToolbarMenuAction implements
 		FormEditor editor = UIUtil.getActiveReportEditor( false );
 		ModuleHandle model = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
+
+		if ( !UIUtil.canPreviewWithErrors( model ) )
+			return;
 
 		if ( editor != null )
 		{
