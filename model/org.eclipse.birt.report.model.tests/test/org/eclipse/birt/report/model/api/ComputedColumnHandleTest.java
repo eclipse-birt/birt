@@ -207,8 +207,7 @@ public class ComputedColumnHandleTest extends BaseTestCase
 
 		// tests the default value of dataType in column binding.
 		computedColumn = (ComputedColumn) columns.get( 1 );
-		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING,
-				computedColumn.getDataType( ) );
+		assertNull( computedColumn.getDataType( ) );
 
 		TableHandle table = (TableHandle) designHandle.findElement( "table" ); //$NON-NLS-1$
 
@@ -222,8 +221,7 @@ public class ComputedColumnHandleTest extends BaseTestCase
 
 		// tests the default value of dataType in column binding.
 		computedColumn = (ComputedColumn) columns.get( 1 );
-		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING,
-				computedColumn.getDataType( ) );
+		assertNull( computedColumn.getDataType( ) );
 
 		ScalarParameterHandle param1 = (ScalarParameterHandle) designHandle
 				.findParameter( "NewParameter" ); //$NON-NLS-1$
@@ -238,8 +236,7 @@ public class ComputedColumnHandleTest extends BaseTestCase
 
 		// tests the default value of dataType in column binding.
 		computedColumn = (ComputedColumn) columns.get( 1 );
-		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING,
-				computedColumn.getDataType( ) );
+		assertNull( computedColumn.getDataType( ) );
 
 	}
 

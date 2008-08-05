@@ -1370,7 +1370,6 @@
   	<Member context="factory" displayNameID="Structure.ComputedColumn.expression" name="expression" returnType="any" runtimeSettable="false" since="1.0" type="expression" />
   	<Member detailType="columnDataType" displayNameID="Structure.ComputedColumn.dataType" name="dataType" runtimeSettable="false" since="2.0" type="choice">
 		<Allowed>integer,string,date-time,decimal,float,boolean,date,time,blob</Allowed>
-		<Default>string</Default>
 	</Member>
     <Member displayNameID="Structure.ComputedColumn.aggregateOn" name="aggregateOn" since="2.2" subType="string" type="list" />	  
     <Member displayNameID="Structure.ComputedColumn.aggregateFunction" name="aggregateFunction" since="2.2" type="string" >
