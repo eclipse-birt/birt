@@ -878,47 +878,49 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 			}
 		}
 
-		try
+		if ( OBJECTS_TYPE_BIRT.equals( objectType ) )
 		{
-			IScriptFunctionCategory[] categorys = FunctionProvider.getCategories( );
-			if ( categorys != null )
+			try
 			{
-				for ( int i = 0; i < categorys.length; i++ )
+				IScriptFunctionCategory[] categorys = FunctionProvider.getCategories( );
+				if ( categorys != null )
 				{
-					TreeItem subItem = createSubFolderItem( topItem,
-							categorys[i] );
-					IScriptFunction[] functions = categorys[i].getFunctions( );
-					if ( functions != null )
+					for ( int i = 0; i < categorys.length; i++ )
 					{
-						for ( int j = 0; j < functions.length; j++ )
+						TreeItem subItem = createSubFolderItem( topItem,
+								categorys[i] );
+						IScriptFunction[] functions = categorys[i].getFunctions( );
+						if ( functions != null )
 						{
-							Image image = null;
+							for ( int j = 0; j < functions.length; j++ )
+							{
+								Image image = null;
 
-							if ( functions[j].isStatic( ) )
-							{
-								image = IMAGE_STATIC_METHOD;
+								if ( functions[j].isStatic( ) )
+								{
+									image = IMAGE_STATIC_METHOD;
+								}
+								else
+								{
+									image = IMAGE_METHOD;
+								}
+								createSubTreeItem( subItem,
+										getFunctionDisplayText( functions[j] ),
+										image,
+										getFunctionExpression( categorys[i],
+												functions[j] ),
+										functions[j].getDescription( ),
+										true );
 							}
-							else
-							{
-								image = IMAGE_METHOD;
-							}
-							createSubTreeItem( subItem,
-									getFunctionDisplayText( functions[j] ),
-									image,
-									getFunctionExpression( categorys[i],
-											functions[j] ),
-									functions[j].getDescription( ),
-									true );
 						}
 					}
 				}
 			}
+			catch ( BirtException e )
+			{
+				ExceptionHandler.handle( e );
+			}
 		}
-		catch ( BirtException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-
 	}
 
 	private boolean isGlobal( String name )
