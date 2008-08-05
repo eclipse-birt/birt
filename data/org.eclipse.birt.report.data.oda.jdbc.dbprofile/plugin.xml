@@ -51,6 +51,11 @@
                nativeDataType="DOUBLE">
          </dataTypeMapping>
          <dataTypeMapping
+               nativeDataTypeCode="6"
+               odaScalarDataType="Double"
+               nativeDataType="FLOAT">
+         </dataTypeMapping>
+         <dataTypeMapping
                nativeDataTypeCode="3"
                odaScalarDataType="Decimal"
                nativeDataType="DECIMAL">
