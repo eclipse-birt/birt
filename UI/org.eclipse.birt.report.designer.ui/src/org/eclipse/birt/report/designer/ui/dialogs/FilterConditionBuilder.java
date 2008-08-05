@@ -1761,7 +1761,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 			// TODO Auto-generated method stub
 			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 			{
-				String columnName = ( (ComputedColumnHandle) ( iter.next( ) ) ).getName( );
+				String columnName = getColumnName( iter.next( ) );
 				if ( DEUtil.getColumnExpression( columnName )
 						.equals( expression.getText( ) ) )
 				{
