@@ -1025,6 +1025,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			if ( cc.getName( ).equalsIgnoreCase( columnName ) )
 			{
 				String dataType = cc.getDataType( );
+				if ( dataType == null )
+				{
+					continue;
+				}
 				if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) )
 				{
 					returnObj[0] = new Boolean( true );
