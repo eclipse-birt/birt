@@ -2306,6 +2306,8 @@ Element.ReportDesign.initialize.toolTip=开始执行报表时调用。
 Element.ReportDesign.initialize.reportContext=报表上下文
 Element.ReportDesign.cssStyleSheets=CSS 样式表
 Element.ReportDesign.enableACL=启用e ACL
+Element.ReportDesign.ACLExpression=ACL 表达式
+Element.ReportDesign.cascadeACL=层叠 ACL
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=显示名称

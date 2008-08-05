@@ -2306,6 +2306,8 @@ Element.ReportDesign.initialize.toolTip=Llamado al iniciar la ejecución del info
 Element.ReportDesign.initialize.reportContext=Contexto de informe
 Element.ReportDesign.cssStyleSheets=Hoja de estilos CSS
 Element.ReportDesign.enableACL=Activar ACL
+Element.ReportDesign.ACLExpression=Expresión ACL
+Element.ReportDesign.cascadeACL=Cascada ACL
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Nombre en pantalla

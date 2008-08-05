@@ -2306,6 +2306,8 @@ Element.ReportDesign.initialize.toolTip=レポートの実行を開始する際に呼び出されま
 Element.ReportDesign.initialize.reportContext=レポートのコンテキスト
 Element.ReportDesign.cssStyleSheets=CSS スタイルシート
 Element.ReportDesign.enableACL=ACLを有効にする
+Element.ReportDesign.ACLExpression=ACL 式
+Element.ReportDesign.cascadeACL=ACL を重ねて表示
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=表示名
