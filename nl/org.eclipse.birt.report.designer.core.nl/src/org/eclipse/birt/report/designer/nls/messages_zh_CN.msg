@@ -4367,3 +4367,8 @@ PropertyEditorFactory.Value.Auto=自动
 
 ExportElementToLibraryAction.waring=警告
 ExportElementToLibraryAction.waringMsg=元素没有名称，但不能为其设置名称。
+
+###########################################################
+#UIUtil
+UIUtil.previewconfirm.title=Errors in Report
+UIUtil.previewconfirm.message=The report contains some errors, would you like to process preview?\n(You can get details in Problems view)

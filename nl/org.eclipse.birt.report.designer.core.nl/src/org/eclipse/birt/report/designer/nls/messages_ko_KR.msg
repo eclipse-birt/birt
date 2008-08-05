@@ -4367,3 +4367,8 @@ PropertyEditorFactory.Value.Auto=자동
 
 ExportElementToLibraryAction.waring=경고
 ExportElementToLibraryAction.waringMsg=요소에 이름이 없지만 해당 요소의 이름을 설정할 수 없습니다.
+
+###########################################################
+#UIUtil
+UIUtil.previewconfirm.title=Errors in Report
+UIUtil.previewconfirm.message=The report contains some errors, would you like to process preview?\n(You can get details in Problems view)

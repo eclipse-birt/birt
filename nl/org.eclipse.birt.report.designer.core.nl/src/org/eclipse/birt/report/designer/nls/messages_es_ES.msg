@@ -4367,3 +4367,8 @@ PropertyEditorFactory.Value.Auto=Automático
 
 ExportElementToLibraryAction.waring=Advertencia
 ExportElementToLibraryAction.waringMsg=El elemento no tiene nombre, pero no se puede establecer su nombre.
+
+###########################################################
+#UIUtil
+UIUtil.previewconfirm.title=Errors in Report
+UIUtil.previewconfirm.message=The report contains some errors, would you like to process preview?\n(You can get details in Problems view)

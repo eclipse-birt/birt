@@ -4367,3 +4367,8 @@ PropertyEditorFactory.Value.Auto=Auto
 
 ExportElementToLibraryAction.waring=Avertissement
 ExportElementToLibraryAction.waringMsg=L'élément ne porte pas de nom, mais il est impossible d'en définir un.
+
+###########################################################
+#UIUtil
+UIUtil.previewconfirm.title=Errors in Report
+UIUtil.previewconfirm.message=The report contains some errors, would you like to process preview?\n(You can get details in Problems view)
