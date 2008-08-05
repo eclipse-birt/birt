@@ -352,12 +352,9 @@ public class ViewingTest extends RDTestCase
 		sd.setSortDirection( ISortDefinition.SORT_ASC );
 		query.addSort( sd );
 		
-		String columnBindingNameGroup = "COUNTRY1";
 		IBaseExpression columnBindingExprGroup = new ScriptExpression( "row.COUNTRY_1" );
 		GroupDefinition gd = new GroupDefinition( "COUNTRY");
-		gd.setKeyColumn( "COUNTRY1" );
-		query.addResultSetExpression( columnBindingNameGroup,
-				columnBindingExprGroup );
+		gd.setKeyColumn( "COUNTRY_1" );
 		query.addGroup( gd );
 		
 		_preBasicIV1( query );
