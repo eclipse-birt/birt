@@ -565,14 +565,4 @@ public class WizardBase implements IRegistrationListener
 		return false;
 	}
 	
-	protected void enableRefreshByResizing( )
-	{
-		// delete me
-	}
-
-	protected void disableRefreshByResizing( )
-	{
-		// delete me
-	}
-	
 }

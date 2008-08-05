@@ -34,10 +34,4 @@ public interface IWizardContext
 	 *            The bRefreshByResizing to set.
 	 */
 
-    public void setRefreshByResizing( boolean refreshByResizing );
-
-	/**
-	 * @return Returns the bRefreshByResizing.
-	 */
-	public boolean isRefreshByResizing( );
 }
