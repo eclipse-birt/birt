@@ -79,8 +79,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
-import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
-import org.eclipse.birt.report.item.crosstab.core.re.CrosstabQueryUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
@@ -103,8 +101,6 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
-import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
-import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
@@ -1147,20 +1143,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			CubeHandle cube = ChartXTabUtil.getBindingCube( itemHandle );
 			if ( cube != null )
 			{
-				session = prepareDataRequestSession( getMaxRow( ),
-						true );
-				if ( !isSharedBinding( ) )
-				{
-					// Create evaluator for data cube
-					evaluator = createCubeEvaluator( cube, session );
-				}
-				else
-				{
-					// Create evaluator for data cube under sharing crosstab
-					// query.
-					evaluator = createCubeEvaluatorForSharingQuery( session,
-							cube );
-				}
+				session = prepareDataRequestSession( getMaxRow( ), true );
+
+				// Create evaluator for data cube, even if in multiple view
+				evaluator = createCubeEvaluator( cube, session );
 			}
 			else
 			{
@@ -1263,73 +1249,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 
 		return null;
-	}
-
-	/**
-	 * Create evaluator for data cube under sharing crosstab query.
-	 * 
-	 * @param session
-	 * @param cube
-	 * @return
-	 * @throws ExtendedElementException
-	 * @throws BirtException
-	 * @throws DataException
-	 * @since 2.3
-	 */
-	private IDataRowExpressionEvaluator createCubeEvaluatorForSharingQuery(
-			final DataRequestSession session, CubeHandle cube )
-			throws ExtendedElementException, BirtException, DataException
-	{
-		CrosstabReportItemHandle crosstabItem = null;
-		if ( isInMultiView( ) )
-		{
-			crosstabItem = (CrosstabReportItemHandle) ( (ExtendedItemHandle) itemHandle.getContainer( )
-					.getContainer( ) ).getReportItem( );
-		}
-		else
-		{
-			IReportItem reportItem = ( (ExtendedItemHandle) itemHandle.getDataBindingReference( ) ).getReportItem( );
-			if ( reportItem instanceof CrosstabReportItemHandle )
-			{
-				crosstabItem = (CrosstabReportItemHandle) reportItem;
-			}
-			else
-			{
-				// It should be sharing cube query with other chart.
-				return createCubeEvaluator( cube, session );
-			}
-		}
-
-		// Always cube query returned
-		ICubeQueryDefinition qd = CrosstabQueryUtil.createCubeQuery( crosstabItem,
-				null,
-				false,
-				true,
-				true,
-				true,
-				true,
-				true );
-
-		session.defineCube( cube );
-
-		IPreparedCubeQuery ipcq = session.prepare( qd );
-		return new BIRTCubeResultSetEvaluator( ipcq.execute( null, null ) ) {
-
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see
-			 * org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator#
-			 * close()
-			 */
-			@Override
-			public void close( )
-			{
-				super.close( );
-				session.shutdown( );
-			}
-
-		};
 	}
 
 	/**

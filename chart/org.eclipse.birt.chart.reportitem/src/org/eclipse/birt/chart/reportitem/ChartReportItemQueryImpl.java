@@ -20,10 +20,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.engine.extension.ReportItemQueryBase;
-import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
-import org.eclipse.birt.report.item.crosstab.core.re.CrosstabQueryUtil;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
@@ -43,7 +40,9 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemQuery#setModelObject(org.eclipse.birt.report.model.api.ExtendedItemHandle)
+	 * @see
+	 * org.eclipse.birt.report.engine.extension.IReportItemQuery#setModelObject
+	 * (org.eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
 	public void setModelObject( ExtendedItemHandle eih )
 	{
@@ -80,8 +79,12 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		this.eih = eih;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.extension.ReportItemQueryBase#createReportQueries(org.eclipse.birt.data.engine.api.IDataQueryDefinition)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.engine.extension.ReportItemQueryBase#
+	 * createReportQueries
+	 * (org.eclipse.birt.data.engine.api.IDataQueryDefinition)
 	 */
 	public IDataQueryDefinition[] createReportQueries(
 			IDataQueryDefinition parent ) throws BirtException
@@ -112,40 +115,28 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		if ( handle.getDataSet( ) != null
 				|| parent instanceof IBaseQueryDefinition )
 		{
-			// If chart is sharing query or in multiple view, it means chart shares
+			// If chart is sharing query or in multiple view, it means chart
+			// shares
 			// bindings/groupings/filters from referred report item handle,
-			// so create concrete query definition by getting bindings/groupings/filters/sorts
-			// information from referred report item handle.  
+			// so create concrete query definition by getting
+			// bindings/groupings/filters/sorts
+			// information from referred report item handle.
 			ReportItemHandle itemHandle = ChartReportItemUtil.getReportItemReference( handle );
 			if ( itemHandle != null )
 			{
-				return new ChartSharingQueryHelper( itemHandle,
-						cm ).createQuery( parent );
+				return new ChartSharingQueryHelper( itemHandle, cm ).createQuery( parent );
 			}
-			
+
 			return new ChartBaseQueryHelper( handle, cm ).createBaseQuery( parent );
 		}
 		else if ( handle.getCube( ) != null
 				|| parent instanceof ICubeQueryDefinition )
 		{
-			if ( handle.getContainer( ) instanceof MultiViewsHandle )
-			{
-				CrosstabReportItemHandle crosstabItem = null;
-				crosstabItem = (CrosstabReportItemHandle) ((ExtendedItemHandle)handle.getContainer( ).getContainer( )).getReportItem( );
-				// Always cube query returned
-				return CrosstabQueryUtil.createCubeQuery( crosstabItem,
-						null,
-						false,
-						true,
-						true,
-						true,
-						true,
-						true );
-			}
-				
+			// Always create cube query definition by chart itself, even if
+			// sharing cross tab's
 			return new ChartCubeQueryHelper( handle, cm ).createCubeQuery( parent );
 		}
-		
+
 		return null;
 	}
 }
