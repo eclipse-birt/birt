@@ -104,6 +104,11 @@
                nativeDataType="REAL">
          </dataTypeMapping>
          <dataTypeMapping
+               nativeDataTypeCode="2"
+               odaScalarDataType="Decimal"
+               nativeDataType="NUMERIC">
+         </dataTypeMapping>
+         <dataTypeMapping
                nativeDataTypeCode="-1"
                odaScalarDataType="String"
                nativeDataType="LONGVARCHAR">
