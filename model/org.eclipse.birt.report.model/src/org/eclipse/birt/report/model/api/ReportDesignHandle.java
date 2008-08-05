@@ -1072,4 +1072,65 @@ public class ReportDesignHandle extends ModuleHandle
 		setProperty( IReportDesignModel.ENABLE_ACL_PROP, Boolean
 				.valueOf( enableACL ) );
 	}
+	
+	/**
+	 * Returns the ACL expression associated with the design instance.
+	 * 
+	 * @return the expression in string
+	 * 
+	 */
+
+	public String getACLExpression( )
+	{
+		return getStringProperty( IReportDesignModel.ACL_EXPRESSION_PROP );
+	}
+
+	/**
+	 * Sets the ACL expression associated with the design instance.
+	 * 
+	 * @param expr
+	 *            the expression in string
+	 * @throws SemanticException
+	 *             if the property is locked by masks
+	 * 
+	 */
+
+	public void setACLExpression( String expr ) throws SemanticException
+	{
+		setStringProperty( IReportDesignModel.ACL_EXPRESSION_PROP, expr );
+	}
+
+	/**
+	 * Returns <code>true</code> (the default), the design's ACL is
+	 * automatically propagated to all its directly contained child elements and
+	 * are added to their ACLs. Otherwise <code>false</code>.
+	 * 
+	 * @return the flag to control whether to cascade ACL
+	 * 
+	 */
+
+	public boolean cascadeACL( )
+	{
+
+		return getBooleanProperty( IReportDesignModel.CASCADE_ACL_PROP );
+	}
+
+	/**
+	 * Sets the flag to control whether to cascade ACL
+	 * 
+	 * @param cascadeACL
+	 *            <code>true</code> (the default), a design's ACL is
+	 *            automatically propagated to all its directly contained child
+	 *            elements and are added to their ACLs. Otherwise
+	 *            <code>false</code>.
+	 * @throws SemanticException
+	 *             if the property is locked by masks
+	 * 
+	 */
+
+	public void setCascadeACL( boolean cascadeACL ) throws SemanticException
+	{
+		setProperty( IReportDesignModel.CASCADE_ACL_PROP, Boolean
+				.valueOf( cascadeACL ) );
+	}
 }

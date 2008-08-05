@@ -209,6 +209,8 @@ public class ReportDesignParseTest extends BaseTestCase
 		// ACL
 
 		assertTrue( designHandle.isEnableACL( ) );
+		assertEquals( "acl expression test", designHandle.getACLExpression( ) ); //$NON-NLS-1$
+		assertFalse( designHandle.cascadeACL( ) );
 
 		// keywords is not implemented
 		// include libraries
@@ -426,6 +428,8 @@ public class ReportDesignParseTest extends BaseTestCase
 		// ACL
 
 		designHandle.setEnableACL( false );
+		designHandle.setACLExpression( "new acl expression test" ); //$NON-NLS-1$
+		designHandle.setCascadeACL( true );
 
 		save( );
 		assertTrue( compareFile( goldenFileName ) );

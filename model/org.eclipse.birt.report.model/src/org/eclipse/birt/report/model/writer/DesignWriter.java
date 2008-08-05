@@ -97,6 +97,8 @@ public class DesignWriter extends ModuleWriter
 		property( obj, IReportDesignModel.BIDI_ORIENTATION_PROP );
 
 		property( obj, IReportDesignModel.ENABLE_ACL_PROP );
+		property( obj, IReportDesignModel.ACL_EXPRESSION_PROP );
+		property( obj, IReportDesignModel.CASCADE_ACL_PROP );
 
 		// include libraries and scripts
 
