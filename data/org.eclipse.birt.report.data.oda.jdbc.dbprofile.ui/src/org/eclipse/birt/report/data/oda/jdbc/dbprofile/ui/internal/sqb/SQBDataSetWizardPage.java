@@ -362,14 +362,15 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
      */
 	protected DataSetDesign collectDataSetDesign( DataSetDesign design )
 	{	
-        if ( getControl() == null || getControl().isDisposed() || m_sqbDialog == null )
-	        return design;
-		
-        String name = this.getInitializationDesign().getName();
-	
+        if ( getControl() == null || getControl().isDisposed() )    // page is not active
+	        return design;          // not in an active session, keep the design as is
+        if( m_sqbDialog == null )   // likely error with the data set query
+            return null;            // return null to trigger a response session status error
+			
 	    // saves query and its metadata in DataSetDesign
         if( m_sqbDialog.isDirty() )
         {
+            String name = getInitializationDesign().getName();
             SQLQueryUtility.updateDataSetDesign( design, m_sqbDialog.getSQLQueryStatement(),
                                             getConnectionProfile( false, false ) , name);
             m_sqbDialog.setDirty( false );
