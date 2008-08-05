@@ -70,7 +70,6 @@ public final class LegendBuilder implements IConstants
 		private int[] filteredMinSliceEntry;
 		private double maxWrappingSize;
 		private double dHorizonalReservedSpace;
-//		private double dVerticalReservedSpace;
 		private double dAvailableWidth;
 		private double dAvailableHeight;
 		private double dItemHeight;
@@ -79,7 +78,6 @@ public final class LegendBuilder implements IConstants
 		private double dScale;
 		private double dSeparatorThickness;
 		private double dSafeSpacing;
-//		private double dEllipsisWidth;
 		private List legendItems = new ArrayList( );
 		private Insets insCa;
 		private String sMinSliceLabel;
@@ -1537,7 +1535,10 @@ public final class LegendBuilder implements IConstants
 							dMaxW = Math.max( dMaxW, dX );
 							dX = 0;
 							laiLegend.restoreOriginalText( fs );
-							laiValue.restoreOriginalText( fs );
+							if ( bIsShowValue )
+							{
+								laiValue.restoreOriginalText( fs );
+							}
 							bRedo = true;
 						}
 						else
