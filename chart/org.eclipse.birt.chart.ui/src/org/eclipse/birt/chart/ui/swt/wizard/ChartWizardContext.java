@@ -50,6 +50,7 @@ public class ChartWizardContext implements IWizardContext
 	private Map<String, Object[]> mQueries;
 	private IResourceFinder resourceFinder = null;
 	private IExternalizer externalizer = null;
+	private boolean bRefreshByResizing = true;
 
 	public ChartWizardContext( Chart chartModel, IUIServiceProvider uiProvider,
 			IDataServiceProvider dataProvider, IChartDataSheet dataSheet )
@@ -337,5 +338,22 @@ public class ChartWizardContext implements IWizardContext
 	public void setExternalizer( IExternalizer externalizer )
 	{
 		this.externalizer = externalizer;
+	}
+
+	/**
+	 * @return Returns the bRefreshByResizing.
+	 */
+	public boolean isRefreshByResizing( )
+	{
+		return bRefreshByResizing;
+	}
+
+	/**
+	 * @param refreshByResizing
+	 *            The bRefreshByResizing to set.
+	 */
+	public void setRefreshByResizing( boolean refreshByResizing )
+	{
+		bRefreshByResizing = refreshByResizing;
 	}
 }

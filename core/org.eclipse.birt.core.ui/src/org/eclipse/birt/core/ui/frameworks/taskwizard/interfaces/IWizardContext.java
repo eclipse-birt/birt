@@ -25,4 +25,19 @@ public interface IWizardContext
      * @return String specifying the ID of the wizard with which this context is associated. 
      */
     public String getWizardID();
+
+	/**
+	 * Determine whether the chart will be redrawn by resizing canvas. We need
+	 * to disable it sometimes, e.g. when creating the UI.
+	 * 
+	 * @param refreshByResizing
+	 *            The bRefreshByResizing to set.
+	 */
+
+    public void setRefreshByResizing( boolean refreshByResizing );
+
+	/**
+	 * @return Returns the bRefreshByResizing.
+	 */
+	public boolean isRefreshByResizing( );
 }

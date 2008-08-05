@@ -574,6 +574,22 @@ public class WizardBase implements IRegistrationListener
 		return false;
 	}
 	
+	protected void enableRefreshByResizing( )
+	{
+		if ( context != null )
+		{
+			context.setRefreshByResizing( true );
+		}
+	}
+
+	protected void disableRefreshByResizing( )
+	{
+		if ( context != null )
+		{
+			context.setRefreshByResizing( false );
+		}
+	}
+	
 	final class WizardBaseDialog extends BirtTitleAreaDialog implements
 			SelectionListener,
 			ControlListener,
@@ -701,7 +717,9 @@ public class WizardBase implements IRegistrationListener
 				packNeeded = true;
 			}
 
+			WizardBase.this.disableRefreshByResizing( );
 			super.initializeBounds( );
+			WizardBase.this.enableRefreshByResizing( );
 		}
 
 		public void create( )
@@ -840,6 +858,7 @@ public class WizardBase implements IRegistrationListener
 			}
 			CTabItem currentItem = getTabContainer( ).getItem( getTabContainer( ).getSelectionIndex( ) );
 			getCurrentTask( ).createControl( getTabContainer( ) );
+			WizardBase.this.disableRefreshByResizing( );
 			if ( currentItem.getControl( ) == null )
 			{
 				currentItem.setControl( getCurrentTask( ).getControl( ) );
@@ -848,6 +867,7 @@ public class WizardBase implements IRegistrationListener
 			// Pack every task to show as much as possible
 			packWizard( );
 
+			WizardBase.this.enableRefreshByResizing( );
 			// Notify page changed to refresh help page
 			firePageChanged( new PageChangedEvent( this, getCurrentTask( ) ) );
 		}
