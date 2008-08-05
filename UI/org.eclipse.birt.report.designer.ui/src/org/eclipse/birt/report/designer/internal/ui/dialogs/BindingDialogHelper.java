@@ -49,6 +49,7 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
@@ -226,7 +227,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		else
 		{
-			setTypeSelect( dataTypes[0] );
+			setTypeSelect( getDataTypeDisplayName(DesignChoiceConstants.COLUMN_DATA_TYPE_STRING) );
 		}
 
 		if ( isCreate )// create
@@ -326,8 +327,12 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			{
 				setName( getBinding( ).getName( ) );
 				setDisplayName( getBinding( ).getDisplayName( ) );
-				setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( getBinding( ).getDataType( ) )
-						.getDisplayName( ) );
+				
+				if ( getBinding( ).getDataType( ) != null )
+				{
+					setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( getBinding( ).getDataType( ) )
+							.getDisplayName( ) );
+				}
 				setDataFieldExpression( getBinding( ).getExpression( ) );
 			}
 		}
@@ -1356,8 +1361,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 					.getAggregation( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) )
 					.getDataType( ) ) );
 			if ( type != null
-					&& !DataType.getName( DataType.ANY_TYPE )
-							.equals( type )
+					&& !DataType.getName( DataType.ANY_TYPE ).equals( type )
 					&& !type.equals( cmbType.getText( ) ) )
 			{
 				if ( !canProcessFunctionTypeError( cmbFunction.getText( ),

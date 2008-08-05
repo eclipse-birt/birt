@@ -194,8 +194,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		{
 			setName( getBinding( ).getName( ) );
 			setDisplayName( getBinding( ).getDisplayName( ) );
-			setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( getBinding( ).getDataType( ) )
-					.getDisplayName( ) );
+			if ( getBinding( ).getDataType( ) != null )
+				setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( getBinding( ).getDataType( ) )
+						.getDisplayName( ) );
 			if ( getBinding( ).getExpression( ) != null )
 				setDataFieldExpression( getBinding( ).getExpression( ) );
 		}
