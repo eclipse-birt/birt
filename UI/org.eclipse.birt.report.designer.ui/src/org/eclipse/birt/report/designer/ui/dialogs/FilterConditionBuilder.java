@@ -18,8 +18,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
-import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseTitleAreaDialog;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.MultiValueCombo;
@@ -1726,14 +1724,9 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		ReportItemHandle reportItem = DEUtil.getBindingHolder( currentItem );
 		if ( bindingName != null && reportItem != null )
 		{
-
-			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-					reportItem.getModuleHandle( ) ) );
-			selectValueList.addAll( session.getColumnValueSet( reportItem.getDataSet( ),
-					reportItem.paramBindingsIterator( ),
-					reportItem.columnBindingsIterator( ),
-					bindingName ) );
-			session.shutdown( );
+			selectValueList = SelectValueFetcher.getSelectValueList( expression.getText( ),
+					reportItem.getDataSet( ),
+					false );
 		}
 		else
 		{

@@ -20,8 +20,6 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
-import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
@@ -35,7 +33,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.MapHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
-
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
@@ -1454,13 +1451,9 @@ public class MapRuleBuilder extends BaseDialog
 			
 			if(selectValueList.size( ) == 0)
 			{
-				DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-						reportItem.getModuleHandle( ) ) );
-				selectValueList.addAll( session.getColumnValueSet( reportItem.getDataSet( ),
-						reportItem.paramBindingsIterator( ),
-						reportItem.columnBindingsIterator( ),
-						bindingName ) );
-				session.shutdown( );
+				selectValueList = SelectValueFetcher.getSelectValueList( expression.getText( ),
+						reportItem.getDataSet( ),
+						false );
 			}
 			
 		}
