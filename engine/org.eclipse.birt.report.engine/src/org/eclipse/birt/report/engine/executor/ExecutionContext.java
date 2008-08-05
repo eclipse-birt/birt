@@ -408,8 +408,8 @@ public class ExecutionContext
 
 	protected void initializeScriptContext( Context cx, Scriptable scope )
 	{
-		scriptContext.getContext( ).setWrapFactory( new WrapFactory( ) {
-
+		WrapFactory factory = new WrapFactory( )
+		{
 			protected IJavascriptWrapper coreWrapper = new CoreJavaScriptWrapper( );
 
 			/**
@@ -425,11 +425,13 @@ public class ExecutionContext
 				}
 				return super.wrap( cx, scope, obj, staticType );
 			}
-		} );
+		};
+		factory.setJavaPrimitiveWrap( false );
+		scriptContext.getContext( ).setWrapFactory( factory );
 
 		new CoreJavaScriptInitializer( ).initialize( cx, scope );
 	}
-
+	
 	/**
 	 * get the report engine. In that engine, we create the context.
 	 * 
