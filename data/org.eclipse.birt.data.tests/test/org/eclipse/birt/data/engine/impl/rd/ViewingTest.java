@@ -325,6 +325,47 @@ public class ViewingTest extends RDTestCase
 		this.checkOutputFile( );
 	}
 	
+	/**
+	 * @throws Exception
+	 */
+	public void testSourceQueryIVWithGroup( ) throws Exception
+	{
+		this.GEN_add_filter = true;
+		this.GEN_add_group = false;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		QueryDefinition baseQuery = new QueryDefinition( );
+		baseQuery.setQueryResultsID( this.queryResultID );
+		QueryDefinition query = new QueryDefinition( );
+		
+		query.setSourceQuery( baseQuery );
+		
+		ScriptExpression filterExpr = new ScriptExpression( "row.AMOUNT_1 + 251 > 350" );
+		query.addFilter( new FilterDefinition( filterExpr ) );
+		
+		SortDefinition sd = new SortDefinition( );
+		sd.setExpression( "row.AMOUNT_1 + 251" );
+		sd.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sd );
+		
+		String columnBindingNameGroup = "COUNTRY1";
+		IBaseExpression columnBindingExprGroup = new ScriptExpression( "row.COUNTRY_1" );
+		GroupDefinition gd = new GroupDefinition( "COUNTRY");
+		gd.setKeyColumn( "COUNTRY1" );
+		query.addResultSetExpression( columnBindingNameGroup,
+				columnBindingExprGroup );
+		query.addGroup( gd );
+		
+		_preBasicIV1( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	
 	public void testSourceSubQueryIV( ) throws Exception
 	{
 		this.GEN_add_filter = false;
@@ -1242,15 +1283,25 @@ public class ViewingTest extends RDTestCase
 			abc += rowExprName[i] + "  ";
 		for ( int i = 0; i < totalExprName.length; i++ )
 			abc += totalExprName[i] + "  ";
+		if( qd.getGroups( ).size( ) > 0 )
+		{
+			abc += "starting level  " + "ending level  ";
+		}
 		this.testPrintln( abc );
 		do
 		{
 			abc = "";
+			
 			for ( int i = 0; i < rowExprName.length; i++ )
 				abc += ri.getValue( rowExprName[i] ) + "  ";
 			for ( int i = 0; i < totalExprName.length; i++ )
 				abc += ri.getValue( totalExprName[i] ) + "  ";
-			this.testPrintln( abc + ri.getRowId( ) );
+			abc += ri.getRowId( );
+			if( qd.getGroups( ).size( ) > 0 )
+			{
+				abc += "  " + ri.getStartingGroupLevel( ) + "  " + ri.getEndingGroupLevel( );
+			}
+			this.testPrintln( abc );
 		} while ( ri.next( ) );
 
 		ri.close( );
