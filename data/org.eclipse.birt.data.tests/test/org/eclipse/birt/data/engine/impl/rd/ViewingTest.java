@@ -976,6 +976,128 @@ public class ViewingTest extends RDTestCase
 
 		this.checkOutputFile( );
 	}
+	
+	/**
+	 * Test filter by group instance 
+	 * @throws BirtException
+	 */
+	public void testFilterByGroupInstanceIV_testDataExtr1( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.GEN_add_secondGroup = true;
+		QueryDefinition genquery = this.newGenIVReportQuery( );
+		addExtraAggregation( genquery );
+		this.genBasicIV( genquery );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.PRE_add_group = true;
+		this.PRE_printGroupInfo = true;
+		this.PRE_printExtraAggr = true;
+		this.PRE_add_filter = true;
+		QueryDefinition basequery = newPreIVReportQuery( );
+		addExtraAggregation( basequery );
+		QueryExecutionHints hints = new QueryExecutionHints();
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 1, 5) );
+		basequery.setQueryExecutionHints( hints );
+		basequery.setQueryResultsID( this.queryResultID );
+		
+		QueryDefinition query = new QueryDefinition( );
+		
+		query.setSourceQuery( basequery ); 
+		
+		this._preBasicIV( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	
+	/**
+	 * Test filter by group instance, add a filter 
+	 * @throws BirtException
+	 */
+	public void testFilterByGroupInstanceIV_testDataExtr2( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.GEN_add_secondGroup = true;
+		QueryDefinition genquery = this.newGenIVReportQuery( );
+		addExtraAggregation( genquery );
+		this.genBasicIV( genquery );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.PRE_add_group = true;
+		this.PRE_printGroupInfo = true;
+		this.PRE_printExtraAggr = true;
+		//this.PRE_add_filter = true;
+		QueryDefinition basequery = newPreIVReportQuery( );
+		addExtraAggregation( basequery );
+		QueryExecutionHints hints = new QueryExecutionHints();
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 1, 5) );
+		basequery.setQueryExecutionHints( hints );
+		basequery.setQueryResultsID( this.queryResultID );
+		
+		QueryDefinition query = new QueryDefinition( );
+		
+		query.setSourceQuery( basequery ); 
+		
+		ScriptExpression filterExpr = new ScriptExpression( "row.AMOUNT_1>450" );
+		query.addFilter( new FilterDefinition( filterExpr ) );
+		
+		this._preBasicIV( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	
+	
+	/**
+	 * Test filter by group instance, add a filter 
+	 * @throws BirtException
+	 */
+	public void testFilterByGroupInstanceIV_testDataExtr3( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.GEN_add_secondGroup = true;
+		QueryDefinition genquery = this.newGenIVReportQuery( );
+		addExtraAggregation( genquery );
+		this.genBasicIV( genquery );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.PRE_add_group = true;
+		this.PRE_printGroupInfo = true;
+		this.PRE_printExtraAggr = true;
+		//this.PRE_add_filter = true;
+		QueryDefinition basequery = newPreIVReportQuery( );
+		addExtraAggregation( basequery );
+		QueryExecutionHints hints = new QueryExecutionHints();
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 1, 5) );
+		basequery.setQueryExecutionHints( hints );
+		basequery.setQueryResultsID( this.queryResultID );
+		
+		QueryDefinition query = new QueryDefinition( );
+		
+		query.setSourceQuery( basequery ); 
+		
+		SortDefinition sd = new SortDefinition( );
+		sd.setExpression( "row.AMOUNT_1" );
+		sd.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sd );
+		this._preBasicIV( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
 	private void addExtraAggregation( QueryDefinition genquery )
 			throws DataException
 	{

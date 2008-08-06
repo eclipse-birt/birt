@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.impl;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
@@ -37,38 +38,48 @@ public class PreparedIVDataExtractionQuery extends PreparedIVQuerySourceQuery
 
 	protected void prepareQuery( ) throws DataException
 	{
-		IBinding[] bindings = null;
-		if ( this.queryDefn.getSourceQuery( ) instanceof SubqueryLocator )
+		try
 		{
-			this.queryResults = engine.getQueryResults( getParentQueryResultsID( (SubqueryLocator) ( queryDefn.getSourceQuery( ) ) ) );
-			IQueryDefinition queryDefinition = queryResults.getPreparedQuery( )
-					.getReportQueryDefn( );
-			bindings = getSubQueryBindings( queryDefinition,
-					( (SubqueryLocator) this.queryDefn.getSourceQuery( ) ).getName( ) );
-		}
-		else
-		{
-			this.queryResults = engine.getQueryResults( ( (IQueryDefinition) queryDefn.getSourceQuery( ) ).getQueryResultsID( ) );
-			if ( queryResults != null
-					&& queryResults.getPreparedQuery( ) != null )
+			IBinding[] bindings = null;
+			if ( this.queryDefn.getSourceQuery( ) instanceof SubqueryLocator )
 			{
+				this.queryResults = engine.getQueryResults( getParentQueryResultsID( (SubqueryLocator) ( queryDefn.getSourceQuery( ) ) ) );
 				IQueryDefinition queryDefinition = queryResults.getPreparedQuery( )
 						.getReportQueryDefn( );
-				bindings = (IBinding[]) queryDefinition.getBindings( )
-						.values( )
-						.toArray( new IBinding[0] );
+				bindings = getSubQueryBindings( queryDefinition,
+						( (SubqueryLocator) this.queryDefn.getSourceQuery( ) ).getName( ) );
 			}
 			else
 			{
-				bindings = new IBinding[0];
+				this.queryResults = PreparedQueryUtil.newInstance( dataEngine,
+						(IQueryDefinition) queryDefn.getSourceQuery( ),
+						null ).execute( null );
+
+				if ( queryResults != null
+						&& queryResults.getPreparedQuery( ) != null )
+				{
+					IQueryDefinition queryDefinition = queryResults.getPreparedQuery( )
+							.getReportQueryDefn( );
+					bindings = (IBinding[]) queryDefinition.getBindings( )
+							.values( )
+							.toArray( new IBinding[0] );
+				}
+				else
+				{
+					bindings = new IBinding[0];
+				}
+			}
+			for ( int i = 0; i < bindings.length; i++ )
+			{
+				IBinding binding = bindings[i];
+				this.queryDefn.addBinding( new Binding( binding.getBindingName( ),
+						new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( binding.getBindingName( ) ),
+								binding.getDataType( ) ) ) );
 			}
 		}
-		for ( int i = 0; i < bindings.length; i++ )
+		catch ( BirtException e )
 		{
-			IBinding binding = bindings[i];
-			this.queryDefn.addBinding( new Binding( binding.getBindingName( ),
-					new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( binding.getBindingName( ) ),
-							binding.getDataType( ) ) ) );
+			throw DataException.wrap( e );
 		}
 	}
 

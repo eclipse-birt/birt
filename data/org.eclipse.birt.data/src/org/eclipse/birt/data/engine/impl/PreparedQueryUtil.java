@@ -352,11 +352,6 @@ class PreparedQueryUtil
 	private static int runQueryOnRS( DataEngineImpl dataEngine,
 			IQueryDefinition queryDefn ) throws DataException
 	{
-		if( PLSUtil.isPLSEnabled( queryDefn ))
-		{
-			return BASED_ON_DATASET;
-		}
-		
 		String queryResultID = queryDefn.getQueryResultsID( );
 
 		String rootQueryResultID = QueryResultIDUtil.get1PartID( queryResultID );
