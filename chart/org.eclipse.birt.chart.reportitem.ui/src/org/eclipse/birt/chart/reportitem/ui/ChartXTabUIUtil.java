@@ -378,13 +378,18 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 	 * 
 	 * @param cell
 	 * @param bTransposed
+	 * @param bCleanSpan
+	 *            indicates if column and row span need to clean
 	 * @throws BirtException
 	 */
 	public static void removeAxisChartInXTab( AggregationCellHandle cell,
-			boolean bTransposed ) throws BirtException
+			boolean bTransposed, boolean bCleanSpan ) throws BirtException
 	{
-		cell.setSpanOverOnRow( null );
-		cell.setSpanOverOnColumn( null );
+		if ( bCleanSpan )
+		{
+			cell.setSpanOverOnRow( null );
+			cell.setSpanOverOnColumn( null );
+		}
 		AggregationCellHandle grandTotalAggCell = getGrandTotalAggregationCell( cell,
 				bTransposed );
 		if ( grandTotalAggCell != null
@@ -437,7 +442,7 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 					ChartWithAxes cwa = updateChartModelWhenTransposing( chartInOtherMeasure,
 							cmNew );
 					AggregationCellHandle cellAgg = getXtabContainerCell( chartInOtherMeasure );
-					removeAxisChartInXTab( cellAgg, bTransOld );
+					removeAxisChartInXTab( cellAgg, bTransOld, true );
 					bNewTotalJustAdded = addAxisChartInXTab( cellAgg,
 							cwa,
 							chartInOtherMeasure,
@@ -447,7 +452,7 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 
 			// Delete grand total only once, since assume that multiple
 			// measures will have the same grand total
-			removeAxisChartInXTab( cell, bTransOld );
+			removeAxisChartInXTab( cell, bTransOld, true );
 			addAxisChartInXTab( cell,
 					cmNew,
 					hostChartHandle,

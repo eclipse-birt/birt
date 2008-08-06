@@ -144,7 +144,8 @@ public class ShowAxisAction extends Action
 				{
 					// Delete axis chart
 					ChartXTabUIUtil.removeAxisChartInXTab( containerCell,
-							ChartXTabUIUtil.isTransposedChartWithAxes( cmNew ) );
+							ChartXTabUIUtil.isTransposedChartWithAxes( cmNew ),
+							false );
 				}
 			}
 

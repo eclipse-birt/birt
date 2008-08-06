@@ -164,7 +164,8 @@ public class ChartAggregationCellViewProvider extends
 
 			// Remove axis chart
 			ChartXTabUIUtil.removeAxisChartInXTab( cell,
-					ChartXTabUIUtil.isTransposedChartWithAxes( cm ) );
+					ChartXTabUIUtil.isTransposedChartWithAxes( cm ),
+					true );
 			// Plot chart will be removed by designer itself
 		}
 		catch ( BirtException e )
