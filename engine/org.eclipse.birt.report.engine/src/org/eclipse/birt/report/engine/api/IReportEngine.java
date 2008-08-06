@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
+import org.eclipse.birt.core.archive.compound.IArchiveFile;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
@@ -408,4 +409,15 @@ public interface IReportEngine
 	 * @deprecated Use destroy() instead.
 	 */
 	public void shutdown( );
+	
+	/**
+	 * creates a document writer that can write this archive file
+	 * 
+	 * @param file
+	 *            the archive file
+	 * @return a document writer of this archive file
+	 * @throws EngineException
+	 */
+	public IDocumentWriter openDocumentWriter( IArchiveFile file )
+			throws EngineException;
 }

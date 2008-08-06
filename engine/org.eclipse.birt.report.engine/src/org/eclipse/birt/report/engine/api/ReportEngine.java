@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
+import org.eclipse.birt.core.archive.compound.IArchiveFile;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -538,5 +539,19 @@ public class ReportEngine implements IReportEngine
 	public DataExtractionFormatInfo[] getDataExtractionFormatInfo( )
 	{
 		return engine.getDataExtractionFormatInfo( );
+	}
+	
+	/**
+	 * creates a document writer that can write this archive file
+	 * 
+	 * @param file
+	 *            the archive file
+	 * @return a document writer of this archive file
+	 * @throws EngineException
+	 */
+	public IDocumentWriter openDocumentWriter( IArchiveFile file )
+			throws EngineException
+	{
+		return engine.openDocumentWriter( file );
 	}
 }

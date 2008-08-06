@@ -24,12 +24,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
+import org.eclipse.birt.core.archive.compound.IArchiveFile;
 import org.eclipse.birt.report.engine.api.DataExtractionFormatInfo;
 import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
+import org.eclipse.birt.report.engine.api.IDocumentWriter;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -633,6 +635,15 @@ public class ReportEngine implements IReportEngine
 						"ReportEngine.openReportDocument: systemId={0}, reader={1}, options={2} ",
 						new Object[]{systemId, reader, options} );
 		return helper.openReportDocument( systemId, reader, options );
+	}
+	
+	public IDocumentWriter openDocumentWriter( IArchiveFile file )
+			throws EngineException
+	{
+		logger.log( Level.FINE,
+				"ReportEngine.openDocumentWriter: archive={0} ",
+				new Object[]{file} );
+		return helper.openDocumentWriter( file );
 	}
 
 	public Logger getLogger( )
