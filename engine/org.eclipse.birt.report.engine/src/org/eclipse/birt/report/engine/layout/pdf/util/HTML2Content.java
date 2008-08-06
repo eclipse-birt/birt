@@ -46,6 +46,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.css.CSSValue;
 
+/**
+ * Class <code>HTML2Content</code> encapsulates the logic of converting a
+ * section of HTML text to report content. 
+ * Currently the supported tags are: 
+ * "i" "font" "b" "a" "code" "em" "embed" "img" "ins" "span" "strong" "sub" "sup" 
+ * "tt" "u" "dd" "div" "dl" "dt" "h1" "h2" "h3" "h4" "h5" "h6" "hr" "ol" 
+ * "p" "pre" "ul" "li" "address" "body" "center" "table" "td" "tr".
+ */
 public class HTML2Content
 {
 
@@ -63,6 +71,7 @@ public class HTML2Content
 		htmlInlineDisplay.add( "a" );
 		htmlInlineDisplay.add( "code" );
 		htmlInlineDisplay.add( "em" );
+		htmlInlineDisplay.add( "embed" );
 		htmlInlineDisplay.add( "img" );
 		htmlInlineDisplay.add( "ins" );
 		htmlInlineDisplay.add( "span" );
