@@ -92,20 +92,28 @@ public class WizardTemplateChoicePage extends WizardPage
 	private ImageCanvas previewCanvas;
 
 	private Button chkBox;
-	
+
 	// bidi_hcg start
-	private static final String MESSAGE_RTL_BIDI = Messages
-			.getString( "WizardTemplateChoicePage.label.rtlBiDiOrientation" ); //$NON-NLS-1$)
-	private static final String MESSAGE_LTR_BIDI = Messages
-			.getString( "WizardTemplateChoicePage.label.ltrBiDiOrientation" ); //$NON-NLS-1$)
-	private static final String MESSAGE_CHOOSE_BIDI_DIR = Messages
-			.getString( "WizardTemplateChoicePage.label.chooseBiDiDirection" ); //$NON-NLS-1$)
+	private static final String MESSAGE_RTL_BIDI = Messages.getString( "WizardTemplateChoicePage.label.rtlBiDiOrientation" ); //$NON-NLS-1$)
+	private static final String MESSAGE_LTR_BIDI = Messages.getString( "WizardTemplateChoicePage.label.ltrBiDiOrientation" ); //$NON-NLS-1$)
+	private static final String MESSAGE_CHOOSE_BIDI_DIR = Messages.getString( "WizardTemplateChoicePage.label.chooseBiDiDirection" ); //$NON-NLS-1$)
 	public final int LTR_DIRECTION_INDX = 0;
 	public final int RTL_DIRECTION_INDX = 1;
 	private Label directionLabel;
 	private Combo directionCombo;
 	boolean isLTRDirection = true;
 	// bidi_hcg end
+
+	private boolean isModified = false;
+
+	public void setLTRDirection( boolean isLTRDirection )
+	{
+		if ( !isModified )
+		{
+			this.isLTRDirection = isLTRDirection;
+			reSelectDirectionCombo( );
+		}
+	}
 
 	private Label description;
 
@@ -249,7 +257,9 @@ public class WizardTemplateChoicePage extends WizardPage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	public void createControl( Composite parent )
 	{
@@ -360,11 +370,12 @@ public class WizardTemplateChoicePage extends WizardPage
 
 		// bidi_hcg start
 		/*
-		 * if BiDi support is enabled - a combobox with BiDi Orientation choices will be added to wizard page 
+		 * if BiDi support is enabled - a combobox with BiDi Orientation choices
+		 * will be added to wizard page
 		 */
-	
+
 		addBidiPart( composite );
-		
+
 		// bidi_hcg end
 		hookListeners( );
 		if ( templateList.getItemCount( ) > 0 )
@@ -381,51 +392,53 @@ public class WizardTemplateChoicePage extends WizardPage
 		setControl( composite );
 
 	}
-	
 
-	private void addBidiPart (Composite composite)
+	private void addBidiPart( Composite composite )
 	{
 		new Label( composite, SWT.NONE );
 
 		Composite bidiComposite = new Composite( composite, SWT.NONE );
-		GridData bidiGridData = new GridData  ( GridData.FILL_HORIZONTAL );
+		GridData bidiGridData = new GridData( GridData.FILL_HORIZONTAL );
 		bidiGridData.horizontalSpan = 2;
-		bidiComposite.setLayoutData(bidiGridData);
+		bidiComposite.setLayoutData( bidiGridData );
 
-		GridLayout bidiGridLayout = new GridLayout();
+		GridLayout bidiGridLayout = new GridLayout( );
 		bidiGridLayout.numColumns = 3;
 		bidiGridLayout.marginHeight = 10;
 		bidiGridLayout.marginWidth = 5;
 		bidiGridLayout.horizontalSpacing = 5;
 		bidiGridLayout.verticalSpacing = 10;
 		bidiGridLayout.makeColumnsEqualWidth = false;
-		bidiComposite.setLayout(bidiGridLayout);
+		bidiComposite.setLayout( bidiGridLayout );
 
-		bidiGridData = new GridData();
-		directionLabel = new Label(bidiComposite, SWT.NONE);
+		bidiGridData = new GridData( );
+		directionLabel = new Label( bidiComposite, SWT.NONE );
 		directionLabel.setText( MESSAGE_CHOOSE_BIDI_DIR );
-		directionLabel.setLayoutData(bidiGridData);
+		directionLabel.setLayoutData( bidiGridData );
 
-		directionCombo = new Combo(bidiComposite, SWT.DROP_DOWN | SWT.READ_ONLY );
-		directionCombo.add(MESSAGE_LTR_BIDI, LTR_DIRECTION_INDX);
-		directionCombo.add(MESSAGE_RTL_BIDI,RTL_DIRECTION_INDX);
-		bidiGridData = new GridData(  );
+		directionCombo = new Combo( bidiComposite, SWT.DROP_DOWN
+				| SWT.READ_ONLY );
+		directionCombo.add( MESSAGE_LTR_BIDI, LTR_DIRECTION_INDX );
+		directionCombo.add( MESSAGE_RTL_BIDI, RTL_DIRECTION_INDX );
+		bidiGridData = new GridData( );
 		bidiGridData.grabExcessHorizontalSpace = true;
 		bidiGridData.widthHint = 200;
 		bidiGridData.horizontalIndent = 20;
-		directionCombo.setLayoutData(bidiGridData);
-		isLTRDirection = ReportPlugin.getDefault().getLTRReportDirection();
-		directionCombo.select(isLTRDirection ?
-							  LTR_DIRECTION_INDX : RTL_DIRECTION_INDX);
+		directionCombo.setLayoutData( bidiGridData );
+		isLTRDirection = ReportPlugin.getDefault( ).getLTRReportDirection( );
+		reSelectDirectionCombo( );
 		directionCombo.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				if ( directionCombo.getSelectionIndex() == LTR_DIRECTION_INDX )
+				if ( directionCombo.getSelectionIndex( ) == LTR_DIRECTION_INDX )
 					isLTRDirection = true;
 				else
 					isLTRDirection = false;
+
+				isModified = true;
 			}
+
 			public void widgetDefaultSelected( SelectionEvent e )
 			{
 			}
@@ -433,6 +446,12 @@ public class WizardTemplateChoicePage extends WizardPage
 
 	}
 
+	private void reSelectDirectionCombo( )
+	{
+		if ( directionCombo != null )
+			directionCombo.select( isLTRDirection ? LTR_DIRECTION_INDX
+					: RTL_DIRECTION_INDX );
+	}
 
 	private void createCustomTemplateList( )
 	{
@@ -808,7 +827,6 @@ public class WizardTemplateChoicePage extends WizardPage
 		}
 		return false;
 	}
-	
 
 	// bidi_hcg start
 	public boolean isLTRDirection( )

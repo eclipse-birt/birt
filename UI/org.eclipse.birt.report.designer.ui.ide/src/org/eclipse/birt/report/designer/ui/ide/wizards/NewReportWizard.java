@@ -286,6 +286,7 @@ public class NewReportWizard extends Wizard implements
 		newReportFileWizardPage.setFileName( getUniqueReportName( NEW_REPORT_FILE_NAME_PREFIX,
 				NEW_REPORT_FILE_EXTENSION ) );
 		newReportFileWizardPage.setContainerFullPath( getDefaultContainerPath( ) );
+		newReportFileWizardPage.setTemplateChoicePage( templateChoicePage );
 
 	}
 

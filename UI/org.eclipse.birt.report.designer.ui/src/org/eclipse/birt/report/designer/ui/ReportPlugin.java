@@ -769,8 +769,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	/**
 	 * Convert Sting[] to String
 	 * 
-	 * @param elements []
-	 *            elements - the Strings to be converted to the preference value
+	 * @param elements
+	 *            [] elements - the Strings to be converted to the preference
+	 *            value
 	 */
 	public String convertStrArray2Str( String[] elements )
 	{
@@ -865,8 +866,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	/**
 	 * Set the bad words preference
 	 * 
-	 * @param elements []
-	 *            elements - the Strings to be converted to the preference value
+	 * @param elements
+	 *            [] elements - the Strings to be converted to the preference
+	 *            value
 	 */
 	public void setLibraryPreference( String[] elements )
 	{
@@ -1350,18 +1352,26 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * @return true if BiDi orientation is Left To Right false if BiDi
 	 *         orientation is Right To Left
 	 */
+
+	public boolean getLTRReportDirection( IProject project )
+	{
+		return PreferenceFactory.getInstance( )
+				.getPreferences( this, project )
+				.getBoolean( LTR_BIDI_DIRECTION );
+	}
+
 	public boolean getLTRReportDirection( )
 	{
-		return PreferenceFactory.getInstance( ).getPreferences( this,
-				UIUtil.getCurrentProject( ) ).getBoolean( LTR_BIDI_DIRECTION );
+		return PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.getBoolean( LTR_BIDI_DIRECTION );
 	}
 
 	/**
 	 * Sets value for 'Left To Right BIDi direction' flag
 	 * 
-	 * @param true
-	 *            if BiDi direction should be set to Left To Right false if BiDi
-	 *            direction should be set to Right To Left
+	 * @param true if BiDi direction should be set to Left To Right false if
+	 *        BiDi direction should be set to Right To Left
 	 */
 	public void setLTRReportDirection( boolean ltrDirection )
 	{

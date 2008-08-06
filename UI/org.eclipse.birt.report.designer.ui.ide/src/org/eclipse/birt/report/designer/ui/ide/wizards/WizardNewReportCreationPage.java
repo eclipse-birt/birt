@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.ide.wizards;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoicePage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.core.resources.IWorkspace;
@@ -84,7 +85,9 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#createAdvancedControls(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.ui.dialogs.WizardNewFileCreationPage#createAdvancedControls
+	 * (org.eclipse.swt.widgets.Composite)
 	 */
 	protected void createAdvancedControls( Composite parent )
 	{
@@ -94,7 +97,8 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#validateLinkedResource()
+	 * @see
+	 * org.eclipse.ui.dialogs.WizardNewFileCreationPage#validateLinkedResource()
 	 */
 	protected IStatus validateLinkedResource( )
 	{
@@ -151,11 +155,17 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 				}
 				else
 					resourcePath = getContainerFullPath( ).append( getFileName( ) );
-	
+
 				IWorkspace workspace = ResourcesPlugin.getWorkspace( );
-				if ( workspace.getRoot( ).getFolder( resourcePath ).getLocation( ).toFile( ).exists( )
+				if ( workspace.getRoot( )
+						.getFolder( resourcePath )
+						.getLocation( )
+						.toFile( )
+						.exists( )
 						|| workspace.getRoot( )
-								.getFile( resourcePath ).getLocation( ).toFile( )
+								.getFile( resourcePath )
+								.getLocation( )
+								.toFile( )
 								.exists( ) )
 				{
 					setErrorMessage( Messages.getString( "WizardNewReportCreationPage.Errors.nameExists" ) ); //$NON-NLS-1$
@@ -163,6 +173,13 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 				}
 			}
 
+			if ( templateChoicePage != null )
+			{
+				templateChoicePage.setLTRDirection( ReportPlugin.getDefault( )
+						.getLTRReportDirection( ResourcesPlugin.getWorkspace( )
+								.getRoot( )
+								.getProject( getContainerFullPath( ).lastSegment( ) ) ) );
+			}
 		}
 
 		return rt;
@@ -186,6 +203,14 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 	public void setFileExtension( String fileExtension )
 	{
 		this.fileExtension = fileExtension;
+	}
+
+	private WizardTemplateChoicePage templateChoicePage;
+
+	public void setTemplateChoicePage(
+			WizardTemplateChoicePage templateChoicePage )
+	{
+		this.templateChoicePage = templateChoicePage;
 	}
 
 }
