@@ -63,6 +63,7 @@ Export-Package: org.eclipse.birt.report.designer.data.ui.aggregation,
  org.eclipse.birt.report.designer.ui.parameters,
  org.eclipse.birt.report.designer.ui.parameters.node,
  org.eclipse.birt.report.designer.ui.preferences,
+ org.eclipse.birt.report.designer.ui.scripts,
  org.eclipse.birt.report.designer.ui.views,
  org.eclipse.birt.report.designer.ui.views.attributes.providers,
  org.eclipse.birt.report.designer.ui.widget

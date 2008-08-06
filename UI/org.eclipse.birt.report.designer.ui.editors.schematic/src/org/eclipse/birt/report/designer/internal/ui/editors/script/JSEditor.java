@@ -41,6 +41,9 @@ import org.eclipse.birt.report.designer.internal.ui.views.property.ReportPropert
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.scripts.IScriptContextInfo;
+import org.eclipse.birt.report.designer.ui.scripts.IScriptContextProvider;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -312,7 +315,7 @@ public class JSEditor extends EditorPart implements IColleague
 	}
 
 	/**
-	 * @see AbstractTextEditor#doSave( IProgressMonitor )
+	 * @see AbstractTextEditor#doSave(IProgressMonitor )
 	 */
 	public void doSave( IProgressMonitor monitor )
 	{
@@ -394,6 +397,52 @@ public class JSEditor extends EditorPart implements IColleague
 					+ fullName.substring( 1 );
 	}
 
+	private void updateExtensionScriptContext( Object[] adapters,
+			JSSyntaxContext context, String contextName, String methodName )
+	{
+		if ( adapters == null )
+		{
+			return;
+		}
+
+		for ( Object adapt : adapters )
+		{
+			IScriptContextProvider contextProvider = (IScriptContextProvider) adapt;
+
+			if ( contextProvider != null )
+			{
+				IScriptContextInfo[] infos;
+
+				if ( methodName == null )
+				{
+					infos = contextProvider.getScriptContext( contextName );
+				}
+				else
+				{
+					infos = contextProvider.getScriptContext( contextName,
+							methodName );
+				}
+
+				if ( infos != null )
+				{
+					for ( IScriptContextInfo info : infos )
+					{
+						if ( info != null )
+						{
+							String name = info.getName( );
+							IClassInfo type = info.getType( );
+
+							if ( name != null && type != null )
+							{
+								context.setVariable( name, type );
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 	private void updateScriptContext( DesignElementHandle handle, String method )
 	{
 		List args = DEUtil.getDesignElementMethodArgumentsInfo( handle, method );
@@ -414,6 +463,12 @@ public class JSEditor extends EditorPart implements IColleague
 				context.setVariable( name, element.getClassType( ) );
 			}
 		}
+
+		Object[] adapters = ElementAdapterManager.getAdapters( handle,
+				IScriptContextProvider.class );
+
+		// update script context from adapter
+		updateExtensionScriptContext( adapters, context, method, null );
 
 		if ( handle instanceof ExtendedItemHandle )
 		{
@@ -447,6 +502,15 @@ public class JSEditor extends EditorPart implements IColleague
 
 							context.setVariable( argName, ci );
 						}
+					}
+
+					// update script context from adapter
+					if ( mi.getName( ) != null )
+					{
+						updateExtensionScriptContext( adapters,
+								context,
+								method,
+								mi.getName( ) );
 					}
 				}
 			}
@@ -584,7 +648,7 @@ public class JSEditor extends EditorPart implements IColleague
 	 * Sets the status of the text listener.
 	 * 
 	 * @param enabled
-	 * 		<code>true</code> if enable, <code>false</code> otherwise.
+	 *            <code>true</code> if enable, <code>false</code> otherwise.
 	 */
 	private void setTextListenerEnable( boolean enabled )
 	{
@@ -734,7 +798,7 @@ public class JSEditor extends EditorPart implements IColleague
 	 * Creates tool bar pane.
 	 * 
 	 * @param parent
-	 * 		the parent of controller
+	 *            the parent of controller
 	 * @return a tool bar pane
 	 */
 	protected Composite createController( Composite parent )
@@ -840,7 +904,7 @@ public class JSEditor extends EditorPart implements IColleague
 	 * Hides a control from its parent composite.
 	 * 
 	 * @param control
-	 * 		the control to hide
+	 *            the control to hide
 	 */
 	private void hideControl( Control control )
 	{
@@ -1340,9 +1404,9 @@ public class JSEditor extends EditorPart implements IColleague
 	 * 
 	 * 
 	 * @param image
-	 * 		the icon image
+	 *            the icon image
 	 * @param tip
-	 * 		the tool tip text
+	 *            the tool tip text
 	 */
 	private void setValidateIcon( Image image, String tip )
 	{
@@ -1390,15 +1454,16 @@ public class JSEditor extends EditorPart implements IColleague
 	{
 		scriptEditor.setFocus( );
 	}
-	
+
 	/**
 	 * 
 	 */
-	public void resetText()
+	public void resetText( )
 	{
-		if (editObject instanceof DesignElementHandle && cmbItemLastSelected != null )
+		if ( editObject instanceof DesignElementHandle
+				&& cmbItemLastSelected != null )
 		{
-			DesignElementHandle desHdl = (DesignElementHandle)editObject;
+			DesignElementHandle desHdl = (DesignElementHandle) editObject;
 			String name = cmbItemLastSelected.getName( );
 
 			setEditorText( desHdl.getStringProperty( name ) );
