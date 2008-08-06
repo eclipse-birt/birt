@@ -84,7 +84,8 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 	/**
 	 * Text horizontal alignment style.
 	 */
-	private String textAlign = DesignChoiceConstants.TEXT_ALIGN_LEFT;
+	//private String textAlign = DesignChoiceConstants.TEXT_ALIGN_LEFT;
+	private String textAlign = null;
 
 	/**
 	 * Text vertical alignment style.
@@ -752,6 +753,31 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 
 		String align = BidiAlignmentResolver.resolveAlignment( textAlign,
 				isMirrored( ) );
+		if (align == null)
+		{
+			if (getDirection( ) != null)
+			{
+				if (getDirection( ).equals( DesignChoiceConstants.BIDI_DIRECTION_LTR ) && isMirrored( ))
+				{
+					align = DesignChoiceConstants.TEXT_ALIGN_RIGHT;
+				}
+				else if (getDirection( ).equals( DesignChoiceConstants.BIDI_DIRECTION_RTL ) && !isMirrored( ))
+				{
+					align = DesignChoiceConstants.TEXT_ALIGN_RIGHT;
+				}
+			}
+			else
+			{
+				if (isMirrored( ))
+				{
+					align = DesignChoiceConstants.TEXT_ALIGN_RIGHT;
+				}
+				else
+				{
+					align = DesignChoiceConstants.TEXT_ALIGN_LEFT;
+				}
+			}
+		}
 
 		if ( DesignChoiceConstants.TEXT_ALIGN_LEFT.equals( align )
 				|| DesignChoiceConstants.TEXT_ALIGN_JUSTIFY.equals( align ) )

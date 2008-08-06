@@ -218,6 +218,35 @@ public class LabelEditManager extends DirectEditManager
 		String align = ( ( LabelFigure )getEditPart( ).getFigure( ) )
 				.getTextAlign( );
 
+		if (align == null)
+		{
+			String direction = ( ( LabelFigure )
+					getEditPart( ).getFigure( ) ).getDirection( );
+			boolean isMirrored = getEditPart( ).getFigure( ).isMirrored( );
+			if (direction != null)
+			{
+				if (direction.equals( DesignChoiceConstants.BIDI_DIRECTION_LTR ) && isMirrored)
+				{
+					align = DesignChoiceConstants.TEXT_ALIGN_LEFT;
+				}
+				else if (direction.equals( DesignChoiceConstants.BIDI_DIRECTION_RTL ) && !isMirrored)
+				{
+					align = DesignChoiceConstants.TEXT_ALIGN_RIGHT;
+				}
+			}
+			else
+			{
+				if (isMirrored)
+				{
+					align = DesignChoiceConstants.TEXT_ALIGN_RIGHT;
+				}
+				else
+				{
+					align = DesignChoiceConstants.TEXT_ALIGN_LEFT;
+				}
+			}
+		}
+		
 		if ( IStyle.CSS_CENTER_VALUE.equals( align ) )
 			style |= SWT.CENTER;
 		else if ( IStyle.CSS_RIGHT_VALUE.equals( align ) )
