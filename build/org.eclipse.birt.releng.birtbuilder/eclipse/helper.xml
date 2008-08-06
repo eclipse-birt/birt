@@ -1049,10 +1049,9 @@ Have a nice day!
 
     <target name="genTestResultSummary">
     	<property file="${eclipse.build.configs}/../../config.properties" />
-        <property name="tool.lib.path" value="${p4.home}/dailybuild/source/org.eclipse.birt.build"/>
         <path id="customjar.classpath">
-                <path location="${tool.lib.path}/customtask.jar" />
-                <fileset dir="${tool.lib.path}/lib">
+        	    <path location="${eclipse.build.configs}/../../extras/org.eclipse.birt.build_2.2.0.jar" />
+        	    <fileset dir="${eclipse.build.configs}/../../extras/">
                         <include name="*.jar"/>
                 </fileset>
         </path>
@@ -1157,12 +1156,10 @@ Have a nice day!
 	<target name="generateCompileSummary">
 		
         <property file="config.properties" />
-        <property name="tool.lib.path" value="${p4.home}/dailybuild/source/org.eclipse.birt.build"/>
-	<property name="compile.log.summary" value="${postingDirectory}/compileSummary.properties"/>
+	    <property name="compile.log.summary" value="${postingDirectory}/compileSummary.properties"/>
 		
         <path id="customjar.classpath">
-                <path location="${tool.lib.path}/customtask.jar" />
-                <fileset dir="${tool.lib.path}/lib">
+        	    <fileset dir="${eclipse.build.configs}/../../extras/">
                         <include name="*.jar"/>
                 </fileset>
         </path>
