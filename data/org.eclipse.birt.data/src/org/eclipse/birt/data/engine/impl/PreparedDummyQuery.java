@@ -803,7 +803,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 		 */
 		public boolean isEmpty( ) throws BirtException
 		{
-			return exprManager.getBindingExprs( ).isEmpty( );
+			return false;
 		}
 
 		public boolean isBeforeFirst( ) throws BirtException
