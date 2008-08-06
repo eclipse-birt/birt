@@ -51,7 +51,7 @@ import org.w3c.dom.css.CSSValue;
  * section of HTML text to report content. 
  * Currently the supported tags are: 
  * "i" "font" "b" "a" "code" "em" "embed" "img" "ins" "span" "strong" "sub" "sup" 
- * "tt" "u" "dd" "div" "dl" "dt" "h1" "h2" "h3" "h4" "h5" "h6" "hr" "ol" 
+ * "tt" "u" "dd" "div" "dl" "dt" "h1" "h2" "h3" "h4" "h5" "h6" "ol" 
  * "p" "pre" "ul" "li" "address" "body" "center" "table" "td" "tr".
  */
 public class HTML2Content
