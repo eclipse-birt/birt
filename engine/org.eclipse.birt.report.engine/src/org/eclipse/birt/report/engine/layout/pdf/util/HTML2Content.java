@@ -207,6 +207,10 @@ public class HTML2Content
 							content, action );
 				}
 			}
+			else if ( node.getNodeName( ).equals( "script" ) ) //$NON-NLS-1$
+			{
+				continue;
+			}
 			else if ( node.getNodeType( ) == Node.TEXT_NODE )
 			{
 				ILabelContent label = content.getReportContent( )
