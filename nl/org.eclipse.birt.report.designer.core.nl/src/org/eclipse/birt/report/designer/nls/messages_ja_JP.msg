@@ -576,6 +576,7 @@ dataset.wizard.label.dataSource=データソース(&S) :
 dataSourceSelectionPage.title=データセットにリンクします。
 dataset.error.title.noReportDesign=エラー
 dataset.error.msg.noReportDesign=使用できるレポートデザインがありません。
+dataset.warning.invalidReponseStatus=Invalid design response from the custom ODA page. ODA design session response status: {0}.
 
 ###########################################################
 #DataSetBasePage properties

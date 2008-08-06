@@ -576,6 +576,7 @@ dataset.wizard.label.dataSource=데이터 원본(&S):
 dataSourceSelectionPage.title=데이터 원본에 연결
 dataset.error.title.noReportDesign=오류
 dataset.error.msg.noReportDesign=보고서 디자인을 사용할 수 없습니다.
+dataset.warning.invalidReponseStatus=Invalid design response from the custom ODA page. ODA design session response status: {0}.
 
 ###########################################################
 #DataSetBasePage properties

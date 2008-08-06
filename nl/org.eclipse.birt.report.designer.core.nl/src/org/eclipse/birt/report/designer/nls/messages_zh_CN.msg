@@ -576,6 +576,7 @@ dataset.wizard.label.dataSource=数据源(&S):
 dataSourceSelectionPage.title=与数据源链接。
 dataset.error.title.noReportDesign=错误
 dataset.error.msg.noReportDesign=没有可用的报表设计。
+dataset.warning.invalidReponseStatus=Invalid design response from the custom ODA page. ODA design session response status: {0}.
 
 ###########################################################
 #DataSetBasePage properties

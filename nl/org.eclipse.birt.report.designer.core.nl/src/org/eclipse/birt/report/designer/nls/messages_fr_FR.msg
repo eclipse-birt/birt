@@ -576,6 +576,7 @@ dataset.wizard.label.dataSource=&Source de données :
 dataSourceSelectionPage.title=Lien avec la source de données.
 dataset.error.title.noReportDesign=Erreur
 dataset.error.msg.noReportDesign=Aucun modèle d'état disponible.
+dataset.warning.invalidReponseStatus=Invalid design response from the custom ODA page. ODA design session response status: {0}.
 
 ###########################################################
 #DataSetBasePage properties
