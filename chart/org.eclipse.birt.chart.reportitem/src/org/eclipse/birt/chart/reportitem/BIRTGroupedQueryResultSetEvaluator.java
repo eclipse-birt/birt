@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 /**
  * The implementation of <code>IGroupedDataResultSet</code> for chart.
@@ -55,10 +56,15 @@ public class BIRTGroupedQueryResultSetEvaluator
 	 * @since 2.3
 	 */
 	public BIRTGroupedQueryResultSetEvaluator( IQueryResultSet resultSet,
-			boolean hasAggregation, boolean isSubQuery, Chart cm )
+			boolean hasAggregation, boolean isSubQuery, Chart cm,
+			ExtendedItemHandle handle )
 			throws ChartException
 	{
-		super( resultSet.getResultIterator( ), hasAggregation, isSubQuery, cm );
+		super( resultSet.getResultIterator( ),
+				hasAggregation,
+				isSubQuery,
+				cm,
+				handle );
 		fQueryResultSet = resultSet;
 	}
 

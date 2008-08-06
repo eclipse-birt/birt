@@ -31,6 +31,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.emf.common.util.EList;
 
 
@@ -104,7 +105,8 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 	 */
 	public BaseGroupedQueryResultSetEvaluator(
 			IResultIterator resultIterator, boolean hasAggregation,
-			boolean isSubQuery, Chart cm ) throws ChartException
+			boolean isSubQuery, Chart cm,
+			ExtendedItemHandle handle ) throws ChartException
 	{
 		fHasAggregation = hasAggregation;
 
@@ -143,7 +145,8 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 			int i = 0;
 			for ( ; i < subQuerys.size( ); i++ )
 			{
-				if ( ChartReportItemConstants.CHART_SUBQUERY.equals( ( (ISubqueryDefinition) subQuerys.get( i ) ).getName( ) ) )
+				if ( ( ChartReportItemConstants.CHART_SUBQUERY + handle.getElement( )
+						.getID( ) ).equals( ( (ISubqueryDefinition) subQuerys.get( i ) ).getName( ) ) )
 				{
 					fGroupDefinitions = ( (ISubqueryDefinition) subQuerys.get( i ) ).getGroups( );
 					break;

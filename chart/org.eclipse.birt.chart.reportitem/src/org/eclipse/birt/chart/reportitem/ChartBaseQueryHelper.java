@@ -277,7 +277,9 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 		else
 		{
 			// create a sub query
-			query = new SubqueryDefinition( ChartReportItemConstants.CHART_SUBQUERY, parentQuery );
+			query = new SubqueryDefinition( ChartReportItemConstants.CHART_SUBQUERY
+					+ handle.getElement( ).getID( ),
+					parentQuery );
 			parentQuery.getSubqueries( ).add( query );
 		}
 
