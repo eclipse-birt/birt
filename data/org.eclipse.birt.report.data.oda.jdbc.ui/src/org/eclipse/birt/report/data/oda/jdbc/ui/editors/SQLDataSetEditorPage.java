@@ -91,13 +91,14 @@ import org.eclipse.ui.PlatformUI;
 
 public class SQLDataSetEditorPage extends DataSetWizardPage
 {
+
 	// composite in editor page
 	private Document doc = null;
 	private SourceViewer viewer = null;
 	private Text searchTxt = null;
 	private ComboViewer filterComboViewer = null;
 	private Combo schemaCombo = null;
-	
+
 	private Label schemaLabel = null;
 	private Tree availableDbObjectsTree = null;
 	private Button identifierQuoteStringCheckBox = null;
@@ -125,10 +126,12 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		super( pageName );
 	}
 
-	public void readPreferences( )
+	private void readPreferences( )
 	{
+		setDefaultPereferencesIfNeed( );
 		Preferences preferences = JdbcPlugin.getDefault( )
 				.getPluginPreferences( );
+		
 		if ( DateSetPreferencePage.ENABLED.equals( preferences.getString( DateSetPreferencePage.SCHEMAS_PREFETCH_CONFIG ) ) )
 		{
 			prefetchSchema = true;
@@ -142,6 +145,23 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		if ( maxTableCountPerSchema <= 0 )
 		{
 			maxTableCountPerSchema = Integer.MAX_VALUE;
+		}
+	}
+	
+	private void setDefaultPereferencesIfNeed( )
+	{
+		Preferences preferences = JdbcPlugin.getDefault( ).getPluginPreferences( );
+		if ( !preferences.contains( DateSetPreferencePage.SCHEMAS_PREFETCH_CONFIG ) )
+		{
+			preferences.setValue( DateSetPreferencePage.SCHEMAS_PREFETCH_CONFIG, DateSetPreferencePage.ENABLED );
+		}
+		if ( !preferences.contains( DateSetPreferencePage.USER_MAX_NUM_OF_SCHEMA ) )
+		{
+			preferences.setValue( DateSetPreferencePage.USER_MAX_NUM_OF_SCHEMA, String.valueOf( DateSetPreferencePage.DEFAULT_MAX_NUM_OF_SCHEMA ) );
+		}
+		if ( !preferences.contains( DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA ) )
+		{
+			preferences.setValue( DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA, String.valueOf( DateSetPreferencePage.DEFAULT_MAX_NUM_OF_TABLE_EACH_SCHEMA ) );
 		}
 	}
 
@@ -350,7 +370,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		schemaLabel = new Label( selectTableGroup, SWT.LEFT );
 		schemaLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.schema" ) );
 
-		schemaCombo = new Combo( selectTableGroup, prefetchSchema ? SWT.READ_ONLY : SWT.DROP_DOWN );
+		schemaCombo = new Combo( selectTableGroup, prefetchSchema
+				? SWT.READ_ONLY : SWT.DROP_DOWN );
 
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
@@ -373,11 +394,23 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		// Filter Combo
 		filterComboViewer = new ComboViewer( selectTableGroup, SWT.READ_ONLY );
 		setFilterComboContents( filterComboViewer, supportsProcedure );
-		filterComboViewer.getControl( )
-				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		{
+			GridData data = new GridData( GridData.FILL_HORIZONTAL );
+			data.horizontalSpan = 2;
+			filterComboViewer.getControl( ).setLayoutData( data );
+		}
+
+		new Label( selectTableGroup, SWT.LEFT );
+		setupShowSystemTableCheckBox( selectTableGroup );
 
 		// Find Button
 		Button findButton = new Button( selectTableGroup, SWT.NONE );
+		{
+			GridData data = new GridData( GridData.HORIZONTAL_ALIGN_END );
+			data.horizontalSpan = 3;
+			findButton.setLayoutData( data );
+		}
+		
 		findButton.setText( JdbcPlugin.getResourceString( "tablepage.button.filter" ) );//$NON-NLS-1$
 
 		// Add listener to the find button
@@ -390,7 +423,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 						.asyncExec( new Runnable( ) {
 
 							public void run( )
-							{					
+							{
 								fc = populateFilterConfig( );
 								DBNodeUtil.createTreeRoot( availableDbObjectsTree,
 										new RootNode( dataSetDesign.getDataSourceDesign( )
@@ -402,19 +435,18 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		} );
 
 		setupIdentifierQuoteStringCheckBox( selectTableGroup );
-		setupShowSystemTableCheckBox( selectTableGroup );
 
 		String[] allSchemaNames = null;
 		if ( supportsSchema )
 		{
 			String allFlag = JdbcPlugin.getResourceString( "tablepage.text.All" );
 			schemaCombo.add( allFlag );
-			
+
 			if ( prefetchSchema )
 			{
 				allSchemaNames = JdbcMetaDataProvider.getInstance( )
 						.getAllSchemaNames( );
-				
+
 				for ( String name : allSchemaNames )
 				{
 					schemaCombo.add( name );
@@ -432,12 +464,15 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		{
 			fc = populateFilterConfig( );
 			DBNodeUtil.createTreeRoot( availableDbObjectsTree,
-					new RootNode( dataSetDesign.getDataSourceDesign( ).getName( ), allSchemaNames ),
+					new RootNode( dataSetDesign.getDataSourceDesign( )
+							.getName( ), allSchemaNames ),
 					fc );
 		}
 		else
 		{
-			DBNodeUtil.createRootTip( availableDbObjectsTree, new RootNode( dataSetDesign.getDataSourceDesign( ).getName( )));
+			DBNodeUtil.createRootTip( availableDbObjectsTree,
+					new RootNode( dataSetDesign.getDataSourceDesign( )
+							.getName( ) ) );
 		}
 		addDragSupportToTree( );
 		addFetchDbObjectListener( );
@@ -472,7 +507,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	 */
 	protected DataSetDesign collectDataSetDesign( DataSetDesign design )
 	{
-		//This method sometimes is called even if the whole page is ever not presented
+		// This method sometimes is called even if the whole page is ever not
+		// presented
 		if ( doc != null )
 		{
 			design.setQueryText( doc.get( ) );
@@ -509,8 +545,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	 */
 	private void setupShowSystemTableCheckBox( Group group )
 	{
-		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
-		layoutData.horizontalSpan = 3;
+		GridData layoutData = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING);
+		layoutData.horizontalSpan = 2;
 		showSystemTableCheckBox = new Button( group, SWT.CHECK );
 		showSystemTableCheckBox.setText( JdbcPlugin.getResourceString( "tablepage.button.showSystemTables" ) ); //$NON-NLS-1$
 		showSystemTableCheckBox.setSelection( false );
@@ -774,8 +810,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 			public void drop( DropTargetEvent event )
 			{
-				if ( event.data instanceof String
-						&& !event.data.equals( "" ) )
+				if ( event.data instanceof String && !event.data.equals( "" ) )
 					insertText( (String) event.data );
 			}
 		} );
