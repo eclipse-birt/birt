@@ -48,7 +48,6 @@ import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.script.JSDummyRowObject;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -804,7 +803,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 		 */
 		public boolean isEmpty( ) throws BirtException
 		{
-			return false;
+			return exprManager.getBindingExprs( ).isEmpty( );
 		}
 
 		public boolean isBeforeFirst( ) throws BirtException
