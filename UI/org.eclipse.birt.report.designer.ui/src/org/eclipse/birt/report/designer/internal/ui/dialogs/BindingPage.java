@@ -491,7 +491,7 @@ public class BindingPage extends Composite implements Listener
 	{
 		deRegisterListeners( );
 		input = elements;
-		ReportItemHandle container = DEUtil.getBindingHolder( (ReportItemHandle) DEUtil.getInputFirstElement( input ) );
+		ReportItemHandle container = DEUtil.getBindingHolder( ( (ReportItemHandle) DEUtil.getInputFirstElement( input ) ).getContainer( ) );
 		if ( container != null
 				&& ( container.getDataSet( ) != null || container.columnBindingsIterator( )
 						.hasNext( ) ) )

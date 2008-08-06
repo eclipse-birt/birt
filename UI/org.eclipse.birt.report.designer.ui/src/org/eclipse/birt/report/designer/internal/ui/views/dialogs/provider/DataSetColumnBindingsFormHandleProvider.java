@@ -426,9 +426,13 @@ public class DataSetColumnBindingsFormHandleProvider implements
 			ReportItemHandle reportHandle = DEUtil.getBindingRoot( (ReportItemHandle) inputElement );
 			this.bindingObject = reportHandle;
 			List children = new ArrayList( );
-			for ( Iterator iter = reportHandle.getColumnBindings( ).iterator( ); iter.hasNext( ); )
+			if ( reportHandle != null )
 			{
-				children.add( iter.next( ) );
+				for ( Iterator iter = reportHandle.getColumnBindings( )
+						.iterator( ); iter.hasNext( ); )
+				{
+					children.add( iter.next( ) );
+				}
 			}
 			return children.toArray( );
 		}
