@@ -35,7 +35,10 @@
 			<fileset dir="@dot">
 				<exclude name="**/*Test.class" />
 				<include name="org/eclipse/birt/report/engine/api/*.class" />
-				<include name="org/eclipse/birt/report/engine/util/*.class" />
+				<include name="org/eclipse/birt/report/engine/util/BidiAlignmentResolver.class" />
+				<include name="org/eclipse/birt/report/engine/util/ExportManifestUtils.class" />
+				<include name="org/eclipse/birt/report/engine/util/FastPool.class" />
+				<include name="org/eclipse/birt/report/engine/util/FileUtil.class" />
 				<include name="org/eclipse/birt/report/engine/i18n/*.class" />
 				<include name="org/eclipse/birt/report/engine/i18n/*.properties" />
 				<include name="org/eclipse/birt/report/engine/api/impl/CascadingParameterGroupDefn.class" />
