@@ -50,4 +50,12 @@ public interface IDataIterator
      * whose resources can be safely released as appropriate.  
      */
     public void close();
+    
+    /**
+	 * see whether this iterator is empty
+	 * 
+	 * @return true if this iterator is false; otherwise, return false
+	 * @throws BirtException
+	 */
+	public boolean isEmpty( ) throws BirtException;
 }

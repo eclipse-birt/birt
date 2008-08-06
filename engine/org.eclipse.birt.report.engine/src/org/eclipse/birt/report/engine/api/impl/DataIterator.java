@@ -99,4 +99,9 @@ public class DataIterator implements IDataIterator
 		{
 		}
 	}
+	
+	public boolean isEmpty( ) throws BirtException
+	{
+		return iterator.isEmpty( );
+	}
 }
