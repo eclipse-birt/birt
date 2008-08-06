@@ -74,6 +74,8 @@ public class ReportContent implements IReportContent
 	
 	private long totalPage;
 
+	protected String acl;
+
 	/**
 	 * default constructor.
 	 */
@@ -284,5 +286,15 @@ public class ReportContent implements IReportContent
 	public TOCNode getTOC( )
 	{
 		return getTOCTree( "viewer", ULocale.getDefault( ) ).getRoot( );
+	}
+	
+	public String getACL( )
+	{
+		return acl;
+	}
+
+	public void setACL( String acl )
+	{
+		this.acl = acl;
 	}
 }

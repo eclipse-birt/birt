@@ -233,4 +233,8 @@ public interface IReportContent
 	 * @return the data content.
 	 */
 	public IDataContent createDataContent( IContent conent );
+
+	public String getACL( );
+
+	public void setACL( String acl );
 }
