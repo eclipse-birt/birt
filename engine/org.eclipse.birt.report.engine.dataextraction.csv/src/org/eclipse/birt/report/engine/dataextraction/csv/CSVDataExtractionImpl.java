@@ -8,28 +8,39 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
-
 package org.eclipse.birt.report.engine.dataextraction.csv;
 
+import java.io.IOException;
 import java.io.OutputStream;
-import java.rmi.RemoteException;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IDataExtractionOption;
 import org.eclipse.birt.report.engine.api.IDataIterator;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.dataextraction.ICSVDataExtractionOption;
+import org.eclipse.birt.report.engine.dataextraction.i18n.Messages;
 import org.eclipse.birt.report.engine.dataextraction.impl.CommonDataExtractionImpl;
 
 /**
- * Implements the logic to extract data as CSV format
- * 
+ * Implements the logic to extract data as CSV format.
  */
 public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 {
+	public static final String PLUGIN_ID = "org.eclipse.birt.report.engine.dataextraction.csv"; //$NON-NLS-1$
+	public static final String DEFAULT_ENCODING = ICSVDataExtractionOption.UTF_8_ENCODE;
+	
+	private OutputStream outputStream;	
+	private String encoding;
+	private String sep;
+	private boolean isExportDataType;
+	private String[] selectedColumnNames;
+	
 	/**
 	 * @see org.eclipse.birt.report.engine.extension.IDataExtractionExtension#initilize(org.eclipse.birt.report.engine.api.script.IReportContext,
 	 *      org.eclipse.birt.report.engine.api.IDataExtractionOption)
@@ -39,6 +50,29 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 	{
 		assert option instanceof ICSVDataExtractionOption;
 		super.initilize( context, option );
+		initOptions((ICSVDataExtractionOption)option);
+	}
+	
+	private void initOptions( ICSVDataExtractionOption options )
+	{
+		outputStream = options.getOutputStream( );
+		encoding = options.getEncoding( );
+		if ( encoding == null || "".equals(encoding.trim( ))) //$NON-NLS-1$
+		{
+			encoding = null;
+		}
+		else
+		{
+			encoding = encoding.trim();
+		}
+		
+		if ( encoding == null ) {
+			encoding = DEFAULT_ENCODING;
+		}
+		
+		sep = options.getSeparator();
+		isExportDataType = options.isExportDataType( );
+		selectedColumnNames = (String[]) options.getSelectedColumns( );		
 	}
 
 	/**
@@ -46,17 +80,11 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 	 */
 	public void output( IExtractionResults results ) throws BirtException
 	{
-		ICSVDataExtractionOption options = (ICSVDataExtractionOption)this.getOptions( );
-		String sep = options.getSeparator( );
-		String encoding = options.getEncoding( );
-		OutputStream outputStream = options.getOutputStream( );
-		boolean isExportDataType = options.isExportDataType( );
-		String[] columnNames = (String[]) options.getSelectedColumns( );
-		
 		try
 		{
+			String[] columnNames = selectedColumnNames;
 			// if selected columns are null or empty, returns all columns
-			if ( columnNames == null || columnNames.length <= 0 )
+			if ( selectedColumnNames == null || selectedColumnNames.length <= 0 )
 			{
 				int count = results.getResultMetaData( ).getColumnCount( );
 				columnNames = new String[count];
@@ -72,153 +100,101 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 			if ( results != null )
 			{
 				iData = results.nextResultIterator( );
-
 				if ( iData != null && columnNames.length > 0 )
 				{
-					StringBuffer buf = new StringBuffer( );
+					output( CSVUtil.makeCSVRow( columnNames, sep ) );
 
-					// Captions
-					buf.append( csvConvertor( columnNames[0], sep ) );
-
-					for ( int i = 1; i < columnNames.length; i++ )
-					{
-						buf.append( sep );
-						buf.append( csvConvertor( columnNames[i], sep ) );
-					}
-
-					buf.append( '\n' );
-					if ( encoding != null && encoding.trim( ).length( ) > 0 )
-					{
-						outputStream.write( buf.toString( ).getBytes(
-								encoding.trim( ) ) );
-					}
-					else
-					{
-						outputStream.write( buf.toString( ).getBytes( ) );
-					}
-					buf.delete( 0, buf.length( ) );
-
+					int[] columnTypes = getColumnTypes( columnNames, results );
 					// Column data type
 					if ( isExportDataType )
 					{
-						Map types = new HashMap( );
-						int count = results.getResultMetaData( )
-								.getColumnCount( );
-						for ( int i = 0; i < count; i++ )
-						{
-							String colName = results.getResultMetaData( )
-									.getColumnName( i );
-							String colType = results.getResultMetaData( )
-									.getColumnTypeName( i );
-							types.put( colName, colType );
-						}
-
-						buf.append( (String) types.get( columnNames[0] ) );
-						for ( int i = 1; i < columnNames.length; i++ )
-						{
-							buf.append( sep );
-							buf.append( (String) types.get( columnNames[i] ) );
-						}
-						buf.append( '\n' );
-						outputStream.write( buf.toString( ).getBytes( ) );
-						buf.delete( 0, buf.length( ) );
+						output( makeDataTypesRow( columnTypes ) );
 					}
-
+					
 					// Data
+					String[] values = new String[columnNames.length];
 					while ( iData.next( ) )
 					{
-						String value = null;
-
-						try
+						for ( int i = 0; i < columnNames.length; i++ )
 						{
-							// convert object to string
-							value = csvConvertor( getStringValue( iData
-									.getValue( columnNames[0] ) ), sep );
-						}
-						catch ( Exception e )
-						{
-							// do nothing
-						}
-
-						if ( value != null )
-						{
-							buf.append( value );
-						}
-
-						for ( int i = 1; i < columnNames.length; i++ )
-						{
-							buf.append( sep );
-
-							try
+							if ( columnTypes[i] != DataType.BLOB_TYPE && columnTypes[i] != DataType.BINARY_TYPE  )
 							{
-								// convert object to string
-								value = csvConvertor( getStringValue( iData
-										.getValue( columnNames[i] ) ), sep );
+								values[i] = getStringValue( iData.getValue( columnNames[i] ) );
 							}
-							catch ( Exception e )
+							else
 							{
-								value = null;
-							}
-
-							if ( value != null )
-							{
-								buf.append( value );
+								values[i] = null;
 							}
 						}
-
-						buf.append( '\n' );
-						if ( encoding != null && encoding.trim( ).length( ) > 0 )
-						{
-							outputStream.write( buf.toString( ).getBytes(
-									encoding.trim( ) ) );
-						}
-						else
-						{
-							outputStream.write( buf.toString( ).getBytes( ) );
-						}
-						buf.delete( 0, buf.length( ) );
+						
+						output( CSVUtil.makeCSVRow( values, sep ) );
 					}
 				}
 			}
 		}
 		catch ( Exception e )
 		{
+			throw new BirtException( PLUGIN_ID,
+					Messages.getString( "exception.dataextraction.exception_occured" ), //$NON-NLS-1$
+					(ResourceBundle)null,
+					e );
 		}
 	}
 
 	/**
-	 * CSV format convertor. Here is the rule.
-	 * 
-	 * 1) Fields with given separator must be delimited with double-quote
-	 * characters. 2) Fields that contain double quote characters must be
-	 * surounded by double-quotes, and the embedded double-quotes must each be
-	 * represented by a pair of consecutive double quotes. 3) A field that
-	 * contains embedded line-breaks must be surounded by double-quotes. 4)
-	 * Fields with leading or trailing spaces must be delimited with
-	 * double-quote characters.
-	 * 
-	 * @param value
-	 * @param sep
-	 * @return the csv format string value
-	 * @throws RemoteException
+	 * Creates a CSV-row containing the data type names of the given types array.
+	 * @param types column typee array
+	 * @return CSV-row containing the data type names the result set
 	 */
-	private String csvConvertor( String value, String sep )
-			throws RemoteException
+	private String makeDataTypesRow( int[] types )
 	{
-		if ( value == null )
+		String[] values = new String[types.length];
+		for ( int i = 0; i < types.length; i++ )
 		{
-			return null;
+			values[i] = DataType.getName( types[i] );
 		}
+		return CSVUtil.makeCSVRow( values, sep );
+	}
+	
+	/**
+	 * Returns the column types for the selected columns.
+	 * @param columnNames selected columns
+	 * @param results result set
+	 * @return
+	 * @throws BirtException
+	 */
+	private int[] getColumnTypes( String[] columnNames, IExtractionResults results ) 
+		throws BirtException
+	{
+		Map<String,Integer> typesMap = new HashMap<String,Integer>( );
+		int count = results.getResultMetaData( )
+				.getColumnCount( );
+		for ( int i = 0; i < count; i++ )
+		{
+			String colName = results.getResultMetaData( )
+					.getColumnName( i );
+			int colType = results.getResultMetaData( )
+					.getColumnType( i );
+			typesMap.put( colName, colType );
+		}
+		
+		int[] types = new int[columnNames.length];
+		for ( int i = 0; i < columnNames.length; i++ )
+		{
+			types[i] = typesMap.get( columnNames[i] ).intValue( );
+		}
+		return types;		
+	}
 
-		value = value.replaceAll( "\"", "\"\"" ); //$NON-NLS-1$  //$NON-NLS-2$
-
-		boolean needQuote = false;
-		needQuote = ( value.indexOf( sep ) != -1 )
-				|| ( value.indexOf( '"' ) != -1 )
-				|| ( value.indexOf( 0x0A ) != -1 )
-				|| value.startsWith( " " ) || value.endsWith( " " ); //$NON-NLS-1$ //$NON-NLS-2$
-		value = needQuote ? "\"" + value + "\"" : value; //$NON-NLS-1$ //$NON-NLS-2$
-
-		return value;
+	/**
+	 * Outputs a given String to the output stream using the configured
+	 * encoding.
+	 * @param s string to output
+	 * @throws IOException
+	 * @throws UnsupportedEncodingException
+	 */
+	private void output( String s ) throws IOException, UnsupportedEncodingException
+	{
+		outputStream.write( s.getBytes( encoding ) );
 	}
 }

@@ -18,7 +18,12 @@ package org.eclipse.birt.report.engine.dataextraction;
  */
 public interface ICSVDataExtractionOption extends ICommonDataExtractionOption
 {
-
+	public static final String SEPARATOR_PIPE = "|"; //$NON-NLS-1$
+	public static final String SEPARATOR_COMMA = ","; //$NON-NLS-1$
+	public static final String SEPARATOR_COLON = ":"; //$NON-NLS-1$
+	public static final String SEPARATOR_SEMICOLON = ";"; //$NON-NLS-1$
+	public static final String SEPARATOR_TAB = "\t"; //$NON-NLS-1$
+	
 	/**
 	 * the separator
 	 */

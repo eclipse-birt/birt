@@ -1,4 +1,13 @@
-
+/*******************************************************************************
+ * Copyright (c) 2008 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.birt.report.engine.dataextraction.impl;
 
 import java.util.Locale;
@@ -11,6 +20,7 @@ import org.eclipse.birt.report.engine.api.IDataExtractionOption;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.dataextraction.ICSVDataExtractionOption;
+import org.eclipse.birt.report.engine.dataextraction.i18n.Messages;
 import org.eclipse.birt.report.engine.extension.IDataExtractionExtension;
 
 import com.ibm.icu.util.ULocale;
@@ -22,7 +32,8 @@ import com.ibm.icu.util.ULocale;
  */
 public class CommonDataExtractionImpl implements IDataExtractionExtension
 {
-
+	protected String PLUGIN_ID = "org.eclipse.birt.report.engine.dataextraction"; //$NON-NLS-1$
+	
 	private IReportContext context;
 	private ICSVDataExtractionOption option;
 	private DateFormatter dateFormatter = null;
@@ -30,12 +41,21 @@ public class CommonDataExtractionImpl implements IDataExtractionExtension
 	private ULocale locale = null;
 	private boolean isLocaleNeutral;
 
+	/**
+	 * @see org.eclipse.birt.report.engine.extension.IDataExtractionExtension#initilize(org.eclipse.birt.report.engine.api.script.IReportContext, org.eclipse.birt.report.engine.api.IDataExtractionOption)
+	 */
 	public void initilize( IReportContext context, IDataExtractionOption option )
 			throws BirtException
 	{
 		this.context = context;
 		this.option = (ICSVDataExtractionOption) option;
 
+		if ( option.getOutputStream( ) == null )
+		{	
+			throw new BirtException( PLUGIN_ID,
+					Messages.getString( "exception.dataextraction.options.outputstream_required" ), null ); //$NON-NLS-1$
+		}
+		
 		this.isLocaleNeutral = this.option.isLocaleNeutralFormat( );
 
 		String dateFormat = this.option.getDateFormat( );
@@ -82,7 +102,8 @@ public class CommonDataExtractionImpl implements IDataExtractionExtension
 	 */
 	public void output( IExtractionResults results ) throws BirtException	
 	{
-		throw new UnsupportedOperationException("Must be implemented by subclass"); //$NON-NLS-1$
+		throw new BirtException( PLUGIN_ID,
+				Messages.getString( "exception.dataextraction.missing_implementation" ), null ); //$NON-NLS-1$
 	}
 
 	/**
