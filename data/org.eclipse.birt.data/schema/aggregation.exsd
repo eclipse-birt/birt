@@ -6,7 +6,7 @@
          <meta.schema plugin="org.eclipse.birt.data" id="AggregationExtension" name="org.eclipse.birt.data.engine.aggregation.extension"/>
       </appinfo>
       <documentation>
-         This extension point is used to support the extension of BIRT aggregations.Each implementation of this extension must comply to interfaces defined in the &lt;i&gt;org.eclipse.birt.engine.api.aggregation&lt;/i&gt; package.
+         This extension point is used to support the extension of BIRT aggregations.Each implementation of this extension must comply to interfaces defined in the &lt;i&gt;org.eclipse.birt.data.engine.api.aggregation&lt;/i&gt; package.
 
 All extended aggregations would be referenced in design time with prefix &quot;Total&quot;. Say, user may defined an aggregation with name &quot;UserAggression&quot;. Then this aggregation will be referenced as &quot;Total.UserAggression()&quot; in design.
       </documentation>
@@ -14,6 +14,9 @@ All extended aggregations would be referenced in design time with prefix &quot;T
 
    <element name="extension">
       <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
          <documentation>
             This extension point is used to extend aggregation functions. User may define their own aggregation functions through this extension point.
          </documentation>
@@ -223,7 +226,6 @@ RUNNINGNPV,COUNTDISTINCT;
 &lt;i&gt;org.eclipse.birt.data.engine.api.aggregation&lt;/i&gt; package. See the package&apos;s JavaDoc documentation and API interfaces for more information.
       </documentation>
    </annotation>
-
 
    <annotation>
       <appinfo>
