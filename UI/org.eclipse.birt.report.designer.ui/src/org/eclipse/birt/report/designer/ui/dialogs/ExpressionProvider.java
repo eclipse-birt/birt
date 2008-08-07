@@ -29,6 +29,7 @@ import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.data.ui.aggregation.AggregationUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IIndexInfo;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -100,46 +101,6 @@ public class ExpressionProvider implements ISortableExpressionProvider
 			}
 			this.tooltip = tooltip;
 		}
-	}
-
-	/**
-	 * IIndexInfo
-	 */
-	private static class IIndexInfo implements ILocalizableInfo
-	{
-
-		private int idx;
-
-		public IIndexInfo( int idx )
-		{
-			this.idx = idx;
-		}
-
-		public String getDisplayName( )
-		{
-			return null;
-		}
-
-		public String getDisplayNameKey( )
-		{
-			return null;
-		}
-
-		public String getName( )
-		{
-			return null;
-		}
-
-		public String getToolTip( )
-		{
-			return null;
-		}
-
-		public String getToolTipKey( )
-		{
-			return null;
-		}
-
 	}
 
 	/** Arithmetic operators and their descriptions */
@@ -283,7 +244,9 @@ public class ExpressionProvider implements ISortableExpressionProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getOperators ()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getOperators
+	 * ()
 	 */
 	public Operator[] getOperators( )
 	{
@@ -317,7 +280,9 @@ public class ExpressionProvider implements ISortableExpressionProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getCategory ()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getCategory
+	 * ()
 	 */
 	public Object[] getCategory( )
 	{
@@ -370,8 +335,9 @@ public class ExpressionProvider implements ISortableExpressionProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.expressions.ISortableExpressionProvider
-	 *      #getSortedChildren(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.expressions.ISortableExpressionProvider
+	 * #getSortedChildren(java.lang.Object)
 	 */
 	public Object[] getSortedChildren( Object parentElement )
 	{
@@ -512,8 +478,9 @@ public class ExpressionProvider implements ISortableExpressionProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getChildren
-	 *      (java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getChildren
+	 * (java.lang.Object)
 	 */
 	public Object[] getChildren( Object parent )
 	{
@@ -842,7 +809,7 @@ public class ExpressionProvider implements ISortableExpressionProvider
 					IMethodInfo method = (IMethodInfo) info;
 					displayText.append( "(" ); //$NON-NLS-1$
 
-					int argIndex = ( ( (ILocalizableInfo[]) element ).length > 2 ) ? ( ( (IIndexInfo) ( (ILocalizableInfo[]) element )[2] ).idx )
+					int argIndex = ( ( (ILocalizableInfo[]) element ).length > 2 ) ? ( ( (IIndexInfo) ( (ILocalizableInfo[]) element )[2] ).getIndex( ) )
 							: 0;
 					int idx = -1;
 
@@ -1040,8 +1007,9 @@ public class ExpressionProvider implements ISortableExpressionProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getImage
-	 *      (java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getImage
+	 * (java.lang.Object)
 	 */
 	public Image getImage( Object element )
 	{
@@ -1122,8 +1090,9 @@ public class ExpressionProvider implements ISortableExpressionProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getInsertText
-	 *      (java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getInsertText
+	 * (java.lang.Object)
 	 */
 	public String getInsertText( Object element )
 	{

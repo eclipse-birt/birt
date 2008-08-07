@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -21,8 +23,10 @@ import org.eclipse.birt.core.script.functionservice.IScriptFunctionArgument;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionCategory;
 import org.eclipse.birt.core.script.functionservice.impl.FunctionProvider;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.data.ui.aggregation.AggregationUtil;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IIndexInfo;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -37,6 +41,7 @@ import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
@@ -71,6 +76,8 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.ISharedImages;
 
+import com.ibm.icu.text.Collator;
+
 /**
  * Deals with tree part of expression builder. Adds some mouse and DND support
  * to tree and corresponding source viewer.
@@ -90,6 +97,8 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	private static final Image IMAGE_METHOD = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_METHOD );
 
 	private static final Image IMAGE_STATIC_METHOD = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_METHOD );
+
+	private static final Image IMAGE_CONSTRUCTOR = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_CONSTRUCTOP );
 
 	private static final Image IMAGE_MEMBER = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_MEMBER );
 
@@ -517,14 +526,19 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	private TreeItem createSubFolderItem( TreeItem parent,
 			IScriptFunctionCategory category )
 	{
-		String categoreName = category.getName( ) == null ? Messages.getString( "ExpressionTreeSupport.Category.Global" ) //$NON-NLS-1$
-				: category.getName( );
+		String categoreName = getCategoryDisplayName( category );
 		return createSubTreeItem( parent,
 				categoreName,
 				IMAGE_FOLDER,
 				null,
 				category.getDescription( ),
 				true );
+	}
+
+	private String getCategoryDisplayName( IScriptFunctionCategory category )
+	{
+		return category.getName( ) == null ? Messages.getString( "ExpressionTreeSupport.Category.Global" ) //$NON-NLS-1$
+				: category.getName( );
 	}
 
 	private void createSubTreeItems( TreeItem parent, String[][] texts,
@@ -813,68 +827,38 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 				globalImage = IMAGE_GOLBAL;
 			}
 
-			// Add members
-			for ( Iterator iterator = classInfo.getMembers( ).iterator( ); iterator.hasNext( ); )
+			ArrayList<Object> childrenList = new ArrayList<Object>( );
+			IMemberInfo[] members = (IMemberInfo[]) DEUtil.getMembers( classInfo )
+					.toArray( new IMemberInfo[0] );
+			for ( int i = 0; i < members.length; i++ )
 			{
-				IMemberInfo memberInfo = (IMemberInfo) iterator.next( );
-				Image image = globalImage;
-				if ( image == null )
-				{
-					if ( memberInfo.isStatic( ) )
-					{
-						image = IMAGE_STATIC_MEMBER;
-					}
-					else
-					{
-						image = IMAGE_MEMBER;
-					}
-				}
-				createSubTreeItem( subItem,
-						memberInfo.getDisplayName( ),
-						image,
-						getMemberTextData( classInfo.getName( ), memberInfo ),
-						memberInfo.getToolTip( ),
-						true );
+				childrenList.add( new ILocalizableInfo[]{
+						classInfo, members[i]
+				} );
+			}
+			List methodList = new ArrayList( );
+			methodList.addAll( DEUtil.getMethods( classInfo, true ) );
+			methodList.addAll( AggregationUtil.getMethods( classInfo ) );
+
+			IMethodInfo[] methods = (IMethodInfo[]) methodList.toArray( new IMethodInfo[0] );
+			for ( int i = 0; i < methods.length; i++ )
+			{
+				IMethodInfo mi = (IMethodInfo) methods[i];
+				processMethods( classInfo, mi, childrenList );
 			}
 
-			// Add constructors and methods
-			List<IMethodInfo> methodList = new ArrayList<IMethodInfo>( );
-			methodList.add( classInfo.getConstructor( ) );
-			methodList.addAll( classInfo.getMethods( ) );
-			for ( Iterator<IMethodInfo> iterator = methodList.iterator( ); iterator.hasNext( ); )
+			ILocalizableInfo[][] children = childrenList.toArray( new ILocalizableInfo[0][] );
+			sortLocalizableInfo( children );
+
+			for ( int i = 0; i < children.length; i++ )
 			{
-				IMethodInfo methodInfo = iterator.next( );
-				if ( methodInfo == null )
-				{
-					// Constructor is null
-					continue;
-				}
-				Image image = globalImage;
-				if ( image == null )
-				{
-					if ( methodInfo.isStatic( ) )
-					{
-						image = IMAGE_STATIC_METHOD;
-					}
-					else
-					{
-						image = IMAGE_METHOD;
-					}
-				}
-				// Split a method with more than one signature into several
-				// entries
-				List displayList = getMethodArgumentsList( classInfo.getName( ),
-						methodInfo );
-				for ( int i = 0; i < displayList.size( ); i++ )
-				{
-					String[] array = (String[]) displayList.get( i );
-					createSubTreeItem( subItem,
-							array[0],
-							image,
-							array[1],
-							methodInfo.getToolTip( ),
-							true );
-				}
+				Object obj = children[i];
+				createSubTreeItem( subItem,
+						getDisplayText( obj ),
+						globalImage == null ? getImage( obj ) : globalImage,
+						getInsertText( obj ),
+						getTooltipText( obj ),
+						true );
 			}
 		}
 
@@ -883,6 +867,15 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 			try
 			{
 				IScriptFunctionCategory[] categorys = FunctionProvider.getCategories( );
+				Arrays.sort( categorys,
+						new Comparator<IScriptFunctionCategory>( ) {
+
+							public int compare( IScriptFunctionCategory o1,
+									IScriptFunctionCategory o2 )
+							{
+								return getCategoryDisplayName( o1 ).compareTo( getCategoryDisplayName( o2 ) );
+							}
+						} );
 				if ( categorys != null )
 				{
 					for ( int i = 0; i < categorys.length; i++ )
@@ -890,6 +883,15 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 						TreeItem subItem = createSubFolderItem( topItem,
 								categorys[i] );
 						IScriptFunction[] functions = categorys[i].getFunctions( );
+						Arrays.sort( functions,
+								new Comparator<IScriptFunction>( ) {
+
+									public int compare( IScriptFunction o1,
+											IScriptFunction o2 )
+									{
+										return getFunctionDisplayText( o1 ).compareTo( getFunctionDisplayText( o2 ) );
+									}
+								} );
 						if ( functions != null )
 						{
 							for ( int j = 0; j < functions.length; j++ )
@@ -923,56 +925,217 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 		}
 	}
 
+	public void sortLocalizableInfo( ILocalizableInfo[][] infos )
+	{
+		Arrays.sort( infos, new Comparator<ILocalizableInfo[]>( ) {
+
+			private int computeWeight( ILocalizableInfo obj )
+			{
+				if ( obj instanceof IMemberInfo )
+				{
+					return ( (IMemberInfo) obj ).isStatic( ) ? 0 : 2;
+				}
+				else if ( obj instanceof IMethodInfo )
+				{
+					if ( ( (IMethodInfo) obj ).isConstructor( ) )
+					{
+						return 3;
+					}
+					return ( (IMethodInfo) obj ).isStatic( ) ? 1 : 4;
+				}
+
+				return 4;
+			}
+
+			public int compare( ILocalizableInfo[] o1, ILocalizableInfo[] o2 )
+			{
+				ILocalizableInfo info1 = ( (ILocalizableInfo[]) o1 )[1];
+				ILocalizableInfo info2 = ( (ILocalizableInfo[]) o2 )[1];
+
+				int w1 = computeWeight( info1 );
+				int w2 = computeWeight( info2 );
+
+				if ( w1 != w2 )
+				{
+					return w1 < w2 ? -1 : 1;
+				}
+				return Collator.getInstance( ).compare( getDisplayText( o1 ),
+						getDisplayText( o2 ) );
+			}
+		} );
+	}
+
+	public Image getImage( Object element )
+	{
+		if ( element instanceof ILocalizableInfo[] )
+		{
+			ILocalizableInfo info = ( (ILocalizableInfo[]) element )[1];
+			if ( info instanceof IMethodInfo )
+			{
+				if ( ( (IMethodInfo) info ).isStatic( ) )
+				{
+					return IMAGE_STATIC_METHOD;
+				}
+				else if ( ( (IMethodInfo) info ).isConstructor( ) )
+				{
+					return IMAGE_CONSTRUCTOR;
+				}
+				return IMAGE_METHOD;
+			}
+			if ( info instanceof IMemberInfo )
+			{
+				if ( ( (IMemberInfo) info ).isStatic( ) )
+				{
+					return IMAGE_STATIC_MEMBER;
+				}
+				return IMAGE_MEMBER;
+			}
+		}
+		return null;
+	}
+
+	public String getInsertText( Object element )
+	{
+		if ( element instanceof VariableElementHandle )
+		{
+			return ( (VariableElementHandle) element ).getVariableName( );
+		}
+		if ( element instanceof ILocalizableInfo[] )
+		{
+			IClassInfo classInfo = (IClassInfo) ( (ILocalizableInfo[]) element )[0];
+			ILocalizableInfo info = ( (ILocalizableInfo[]) element )[1];
+			StringBuffer insertText = new StringBuffer( );
+			if ( info instanceof IMemberInfo )
+			{
+				IMemberInfo memberInfo = (IMemberInfo) info;
+				if ( memberInfo.isStatic( ) )
+				{
+					insertText.append( classInfo.getName( ) + "." ); //$NON-NLS-1$
+				}
+				insertText.append( memberInfo.getName( ) );
+			}
+			else if ( info instanceof IMethodInfo )
+			{
+				IMethodInfo methodInfo = (IMethodInfo) info;
+				if ( methodInfo.isStatic( ) )
+				{
+					insertText.append( classInfo.getName( ) + "." ); //$NON-NLS-1$
+				}
+				else if ( methodInfo.isConstructor( ) )
+				{
+					insertText.append( "new " ); //$NON-NLS-1$
+				}
+				insertText.append( methodInfo.getName( ) );
+				insertText.append( "()" ); //$NON-NLS-1$
+			}
+			return insertText.toString( );
+		}
+		return null;
+	}
+
+	public String getTooltipText( Object element )
+	{
+		if ( element instanceof ILocalizableInfo[] )
+		{
+			ILocalizableInfo info = ( (ILocalizableInfo[]) element )[1];
+			String tooltip = null;
+			if ( info instanceof IMemberInfo )
+			{
+				tooltip = ( (IMemberInfo) info ).getToolTip( );
+			}
+			else if ( info instanceof IMethodInfo )
+			{
+				tooltip = ( (IMethodInfo) info ).getToolTip( );
+			}
+			return tooltip == null ? "" : tooltip;
+		}
+		return null;
+	}
+
+	protected String getDisplayText( Object element )
+	{
+		if ( element instanceof ILocalizableInfo[] )
+		{
+			// including class info,method info and member info
+			ILocalizableInfo info = ( (ILocalizableInfo[]) element )[1];
+			StringBuffer displayText = new StringBuffer( info.getName( ) );
+			if ( info instanceof IMethodInfo )
+			{
+				IMethodInfo method = (IMethodInfo) info;
+				displayText.append( "(" ); //$NON-NLS-1$
+
+				int argIndex = ( ( (ILocalizableInfo[]) element ).length > 2 ) ? ( ( (IIndexInfo) ( (ILocalizableInfo[]) element )[2] ).getIndex( ) )
+						: 0;
+				int idx = -1;
+
+				Iterator argumentListIter = method.argumentListIterator( );
+				while ( argumentListIter.hasNext( ) )
+				{
+					IArgumentInfoList arguments = (IArgumentInfoList) argumentListIter.next( );
+
+					idx++;
+
+					if ( idx < argIndex )
+					{
+						continue;
+					}
+
+					boolean isFirst = true;
+
+					for ( Iterator iter = arguments.argumentsIterator( ); iter.hasNext( ); )
+					{
+						IArgumentInfo argInfo = (IArgumentInfo) iter.next( );
+						if ( !isFirst )
+						{
+							displayText.append( ", " ); //$NON-NLS-1$
+						}
+						isFirst = false;
+
+						if ( argInfo.getType( ) != null
+								&& argInfo.getType( ).length( ) > 0 )
+						{
+							displayText.append( argInfo.getType( ) + " " //$NON-NLS-1$
+									+ argInfo.getName( ) );
+						}
+						else
+							displayText.append( argInfo.getName( ) );
+					}
+
+					break;
+				}
+
+				displayText.append( ")" ); //$NON-NLS-1$
+
+				if ( !method.isConstructor( ) )
+				{
+					displayText.append( " : " ); //$NON-NLS-1$
+					String returnType = method.getReturnType( );
+					if ( returnType == null || returnType.length( ) == 0 )
+					{
+						returnType = "void"; //$NON-NLS-1$
+					}
+					displayText.append( returnType );
+				}
+
+			}
+			else if ( info instanceof IMemberInfo )
+			{
+				String dataType = ( (IMemberInfo) info ).getDataType( );
+				if ( dataType != null && dataType.length( ) > 0 )
+				{
+					displayText.append( " : " ); //$NON-NLS-1$
+					displayText.append( dataType );
+				}
+			}
+			return displayText.toString( );
+		}
+		return null;
+	}
+
 	private boolean isGlobal( String name )
 	{
 		// TODO global validation is hard coded
 		return name != null && name.startsWith( "Global" ); //$NON-NLS-1$
-	}
-
-	private List getMethodArgumentsList( String className, IMethodInfo info )
-	{
-		List list = new ArrayList( );
-		boolean isClassNameAdded = !isGlobal( className ) && isStatic( info );
-		String methodStart = info.isConstructor( ) ? "new " : ""; //$NON-NLS-1$//$NON-NLS-2$
-
-		for ( Iterator it = info.argumentListIterator( ); it.hasNext( ); )
-		{
-			// Includes display text in tree view and expression in source
-			// viewer
-			String[] array = new String[2];
-
-			StringBuffer displayText = new StringBuffer( methodStart );
-			displayText.append( info.getDisplayName( ) );
-			displayText.append( "(" );//$NON-NLS-1$
-
-			StringBuffer expression = new StringBuffer( methodStart );
-			if ( isClassNameAdded )
-			{
-				expression.append( className + "." );//$NON-NLS-1$
-			}
-			expression.append( info.getName( ) );
-			expression.append( "(" );//$NON-NLS-1$	
-
-			IArgumentInfoList arguments = (IArgumentInfoList) it.next( );
-			boolean firstTime = true;
-			for ( Iterator iterator = arguments.argumentsIterator( ); iterator.hasNext( ); )
-			{
-				IArgumentInfo argument = (IArgumentInfo) iterator.next( );
-				if ( !firstTime )
-				{
-					displayText.append( ", " );//$NON-NLS-1$
-				}
-				firstTime = false;
-				displayText.append( IArgumentInfo.OPTIONAL_ARGUMENT_NAME.equals( argument.getName( ) ) ? argument.getDisplayName( )
-						: ( argument.getType( ) + " " + argument.getDisplayName( ) ) ); //$NON-NLS-1$
-			}
-			displayText.append( ")" );//$NON-NLS-1$
-			expression.append( ")" );//$NON-NLS-1$
-			array[0] = displayText.toString( );
-			array[1] = expression.toString( );
-			list.add( array );
-		}
-		return list;
 	}
 
 	private String getFunctionDisplayText( IScriptFunction function )
@@ -1011,25 +1174,6 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 		}
 		textData.append( function.getName( ) + "()" );
 		return textData.toString( );
-	}
-
-	private String getMemberTextData( String className, ILocalizableInfo info )
-	{
-		StringBuffer textData = new StringBuffer( );
-		if ( !isGlobal( className ) && isStatic( info ) )
-		{
-			textData.append( className + "." );//$NON-NLS-1$
-		}
-		textData.append( info.getName( ) );
-		return textData.toString( );
-	}
-
-	private boolean isStatic( ILocalizableInfo info )
-	{
-		return info instanceof IMethodInfo
-				&& ( (IMethodInfo) info ).isStatic( )
-				|| info instanceof IMemberInfo
-				&& ( (IMemberInfo) info ).isStatic( );
 	}
 
 	protected void createContextCatagory( )
@@ -1109,8 +1253,9 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(
-	 *      org.eclipse.jface.viewers.SelectionChangedEvent)
+	 * @see
+	 * org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(
+	 * org.eclipse.jface.viewers.SelectionChangedEvent)
 	 * 
 	 * Listen to JS editor method change.
 	 */
@@ -1320,6 +1465,31 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 		{
 			clearTreeItem( parametersItem );
 			buildParameterTree( );
+		}
+	}
+
+	private void processMethods( IClassInfo classInfo, IMethodInfo mi,
+			List childrenList )
+	{
+		Iterator alitr = mi.argumentListIterator( );
+
+		int idx = 0;
+		if ( alitr == null )
+		{
+			childrenList.add( new ILocalizableInfo[]{
+					classInfo, mi
+			} );
+		}
+		else
+		{
+			while ( alitr.hasNext( ) )
+			{
+				alitr.next( );
+
+				childrenList.add( new ILocalizableInfo[]{
+						classInfo, mi, new IIndexInfo( idx++ )
+				} );
+			}
 		}
 	}
 }
