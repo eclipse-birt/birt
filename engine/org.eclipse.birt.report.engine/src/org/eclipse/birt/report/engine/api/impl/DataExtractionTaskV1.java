@@ -587,25 +587,6 @@ public class DataExtractionTaskV1 extends EngineTask
 
 	public IExtractionResults extract( ) throws EngineException
 	{
-		// test if we is a PLS enabled document
-		String[] extensions = executionContext.getEngineExtensions( );
-		if ( extensions != null )
-		{
-			StringBuilder sb = new StringBuilder( );
-			for ( String extName : extensions )
-			{
-				sb.append( extName );
-				sb.append( "," );
-			}
-			if ( sb.length( ) != 0 )
-			{
-				sb.setLength( sb.length( ) - 1 );
-			}
-			throw new EngineException(
-					"can''t extract data from document with extension(s): {0}",
-					new Object[]{sb} );
-		}
-		
 		try
 		{
 			if ( resultSetName != null )
