@@ -15,7 +15,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IFastConsumerProcessor;
-import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.util.ModelEventInfo;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFormHandleProvider;
@@ -49,10 +48,10 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 /**
- * The contained page of Filters, Sorting, Groups and Hight-lights.The page
+ * The contained page of Filters, Sorting, Groups and High-lights.The page
  * provides all table-based operations such as moving, adding, deleting. The
- * Filters, Sorting, Groups and Hight-lights will use FormPage as UI and
- * provides corresponding Model processors.
+ * Filters, Sorting, Groups and High-lights will use FormPage as UI and provides
+ * corresponding Model processors.
  * 
  * 
  */
@@ -93,6 +92,21 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 	private int style;
 
 	/**
+	 * The index of the button group created in the same page.
+	 */
+	private int index = 0;
+
+	/**
+	 * Set the index of this form created in the same page.
+	 * 
+	 * @param index
+	 */
+	public void setButtonGroupIndex( int index )
+	{
+		this.index = index;
+	}
+
+	/**
 	 * When Add button is clicked, whether invoke dialogs.
 	 */
 	protected boolean bAddWithDialog = false;
@@ -109,7 +123,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 
 	/**
 	 * The table widget that present the data of Filters, Sorting, Groups or
-	 * Hight-lights.
+	 * High-lights.
 	 */
 	protected Table table;
 
@@ -302,8 +316,15 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 					SWT.PUSH );
 		else
 			btnDel = new Button( formPanel, SWT.BORDER );
-		btnDel.setText( Messages.getString( "FormPage.Button.Delete" ) ); //$NON-NLS-1$
-
+		if ( 0 == index )
+		{
+			btnDel.setText( Messages.getString( "FormPage.Button.Delete" ) ); //$NON-NLS-1$
+		}
+		else if ( 1 == index )
+		{
+			btnDel.setText( Messages.getString( "FormPage.Button.Delete.Alt1" ) ); //$NON-NLS-1$
+		}
+		
 		btnDel.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -320,7 +341,16 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 			btnAdd = new Button( formPanel, SWT.BORDER );
 		if ( bAddWithDialog == true )
 		{
-			btnAdd.setText( Messages.getString( "FormPage.Button.AddWithDialog" ) ); //$NON-NLS-1$
+
+			if ( descriptorProvider.getDisplayName( )
+					.equals( Messages.getString( "ReportPageGenerator.List.Resources.JsFile" ) ) ) //$NON-NLS-1$
+			{
+				btnAdd.setText( Messages.getString( "FormPage.Button.AddWithDialog.JS" ) ); //$NON-NLS-1$
+			}
+			else
+			{
+				btnAdd.setText( Messages.getString( "FormPage.Button.AddWithDialog" ) ); //$NON-NLS-1$
+			}
 		}
 		else
 		{
@@ -370,7 +400,15 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 						.createButton( formPanel, "", SWT.PUSH ); //$NON-NLS-1$
 			else
 				btnUp = new Button( formPanel, SWT.BORDER );
-			btnUp.setText( Messages.getString( "FormPage.Button.Up" ) ); //$NON-NLS-1$
+			
+			if ( 0 == index )
+			{
+				btnUp.setText( Messages.getString( "FormPage.Button.Up" ) ); //$NON-NLS-1$
+			}
+			else if ( 1 == index )
+			{
+				btnUp.setText( Messages.getString( "FormPage.Button.Up.Alt1" ) ); //$NON-NLS-1$
+			}
 			btnUp.setToolTipText( Messages.getString( "FormPage.toolTipText.Up" ) ); //$NON-NLS-1$
 			btnUp.addSelectionListener( new SelectionAdapter( ) {
 
@@ -384,7 +422,15 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 						.createButton( formPanel, "", SWT.PUSH ); //$NON-NLS-1$
 			else
 				btnDown = new Button( formPanel, SWT.BORDER );
-			btnDown.setText( Messages.getString( "FormPage.Button.Down" ) ); //$NON-NLS-1$
+			if ( 0 == index )
+			{
+				btnDown.setText( Messages.getString( "FormPage.Button.Down" ) ); //$NON-NLS-1$
+			}
+			else if ( 1 == index )
+			{
+				btnDown.setText( Messages.getString( "FormPage.Button.Down.Alt1" ) ); //$NON-NLS-1$
+			}
+			
 			btnDown.setToolTipText( Messages.getString( "FormPage.toolTipText.Down" ) ); //$NON-NLS-1$
 			btnDown.addSelectionListener( new SelectionAdapter( ) {
 

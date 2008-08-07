@@ -83,6 +83,7 @@ public class ResourcesPage extends AttributePage
 				container,
 				true );
 		jarFileSection.setCustomForm( new FileFormPropertyDescriptor( true ) );
+		jarFileSection.setButtonGroupIndex( 0 );
 		jarFileSection.setProvider( jarFileProvider );
 		jarFileSection.showDisplayLabel( true );
 		jarFileSection.setButtonWithDialog( true );
@@ -99,6 +100,7 @@ public class ResourcesPage extends AttributePage
 				container,
 				true );
 		jsFileSection.setCustomForm( new FileFormPropertyDescriptor( true ) );
+		jsFileSection.setButtonGroupIndex( 1 );
 		jsFileSection.setProvider( jsFileProvider );
 		jsFileSection.showDisplayLabel( true );
 		jsFileSection.setButtonWithDialog( true );
