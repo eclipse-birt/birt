@@ -33,7 +33,7 @@ import org.eclipse.swt.widgets.Label;
 public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent
 {
 
-	private EList[] seriesDefnsArray;
+	private EList<?>[] seriesDefnsArray;
 
 	private ChartWizardContext wizardContext = null;
 
@@ -47,7 +47,7 @@ public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent
 
 	private String areaTitle = Messages.getString( "SelectDataChartWithAxisUI.Label.ValueYSeries" ); //$NON-NLS-1$
 
-	public MultipleSeriesSelectorComponent( EList[] seriesDefnsArray,
+	public MultipleSeriesSelectorComponent( EList<?>[] seriesDefnsArray,
 			ChartWizardContext wizardContext, String sTitle,
 			ISelectDataCustomizeUI selectDataUI )
 	{
@@ -56,6 +56,18 @@ public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent
 		this.wizardContext = wizardContext;
 		this.sTitle = sTitle;
 		this.selectDataUI = selectDataUI;
+	}
+	
+	protected DataDefinitionSelector createDataDefinitionSelector(
+			int axisIndex, EList<?> seriesDefns,
+			ChartWizardContext wizardContext,
+			String sTitle, ISelectDataCustomizeUI selectDataUI )
+	{
+		return new DataDefinitionSelector( axisIndex,
+				seriesDefns,
+				wizardContext,
+				sTitle,
+				selectDataUI );
 	}
 
 	public Composite createArea( Composite parent )
@@ -102,7 +114,7 @@ public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent
 				// Remove the title when only single series, i.e. axisIndex is
 				// -1
 				int axisIndex = seriesDefnsArray.length == 1 ? -1 : i;
-				selectors[i] = new DataDefinitionSelector( axisIndex,
+				selectors[i] = createDataDefinitionSelector( axisIndex,
 						seriesDefnsArray[i],
 						wizardContext,
 						sTitle,

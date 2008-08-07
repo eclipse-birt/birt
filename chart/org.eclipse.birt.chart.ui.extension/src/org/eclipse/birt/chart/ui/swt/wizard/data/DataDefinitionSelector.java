@@ -191,28 +191,42 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 					axisIndex );
 		}
 
-		cmbSeriesSelect = new Combo( cmpTop, SWT.DROP_DOWN | SWT.READ_ONLY );
-		{
-			cmbSeriesSelect.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			cmbSeriesSelect.addSelectionListener( this );
-			refreshSeriesCombo( );
-			cmbSeriesSelect.select( 0 );
-		}
+		cmbSeriesSelect = createSeriesSelectCombo( cmpTop, wizardContext );
 
-		btnSeriesDelete = new Button( cmpTop, SWT.NONE );
-		{
-			GridData gridData = new GridData( );
-			ChartUIUtil.setChartImageButtonSizeByPlatform( gridData );
-			btnSeriesDelete.setLayoutData( gridData );
-			btnSeriesDelete.setImage( UIHelper.getImage( ChartUIConstants.IMAGE_DELETE ) );
-			btnSeriesDelete.setToolTipText( Messages.getString( "DataDefinitionSelector.Tooltip.RemoveSeries" ) ); //$NON-NLS-1$
-			btnSeriesDelete.addSelectionListener( this );
-			setSeriesDeleteEnabled( );
-		}
+		btnSeriesDelete = createSeriesDeleteButton( cmpTop, wizardContext );
 
 		updateDataDefinition( );
 
 		return cmpTop;
+	}
+
+	protected Combo createSeriesSelectCombo( Composite cmpTop,
+			ChartWizardContext wizardContext )
+	{
+		Combo combo = new Combo( cmpTop, SWT.DROP_DOWN | SWT.READ_ONLY );
+		{
+			combo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			combo.addSelectionListener( this );
+			refreshSeriesCombo( combo );
+			combo.select( 0 );
+		}
+		return combo;
+	}
+
+	protected Button createSeriesDeleteButton( Composite cmpTop,
+			ChartWizardContext wizardContext )
+	{
+		Button button = new Button( cmpTop, SWT.NONE );
+		{
+			GridData gridData = new GridData( );
+			ChartUIUtil.setChartImageButtonSizeByPlatform( gridData );
+			button.setLayoutData( gridData );
+			button.setImage( UIHelper.getImage( ChartUIConstants.IMAGE_DELETE ) );
+			button.setToolTipText( Messages.getString( "DataDefinitionSelector.Tooltip.RemoveSeries" ) ); //$NON-NLS-1$
+			button.addSelectionListener( this );
+			setSeriesDeleteEnabled( );
+		}
+		return button;
 	}
 
 	private void updateDataDefinition( )
@@ -673,12 +687,18 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 
 	private void setSeriesDeleteEnabled( )
 	{
-		btnSeriesDelete.setEnabled( seriesDefns.size( ) > 1 );
+		if ( btnSeriesDelete != null )
+		{
+			btnSeriesDelete.setEnabled( seriesDefns.size( ) > 1 );
+		}
 	}
 
 	private void setAxisDeleteEnabled( )
 	{
-		btnAxisDelete.setEnabled( ChartUIUtil.getOrthogonalAxisNumber( getChart( ) ) > 1 );
+		if ( btnAxisDelete != null )
+		{
+			btnAxisDelete.setEnabled( ChartUIUtil.getOrthogonalAxisNumber( getChart( ) ) > 1 );
+		}
 	}
 
 	public void widgetDefaultSelected( SelectionEvent e )
@@ -697,6 +717,11 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 
 	private void refreshSeriesCombo( )
 	{
+		refreshSeriesCombo( cmbSeriesSelect );
+	}
+
+	private void refreshSeriesCombo( Combo cmbSeriesSelect )
+	{
 		ArrayList itemList = new ArrayList( );
 		int seriesSize = seriesDefns.size( );
 		for ( int i = 1; i <= seriesSize; i++ )
@@ -710,7 +735,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		cmbSeriesSelect.removeAll( );
 		cmbSeriesSelect.setItems( (String[]) itemList.toArray( new String[seriesSize] ) );
 	}
-	
+
 	private boolean isPartChart( )
 	{
 		return wizardContext.getDataServiceProvider( ).checkState( IDataServiceProvider.PART_CHART );

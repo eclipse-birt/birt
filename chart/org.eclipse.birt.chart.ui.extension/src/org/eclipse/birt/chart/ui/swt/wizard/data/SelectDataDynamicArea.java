@@ -142,6 +142,16 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 
 		cmpContainer.layout( );
 	}
+	
+	protected MultipleSeriesSelectorComponent createMultipleSeriesSelectorComponent(
+			EList[] seriesDefnsArray, ChartWizardContext wizardContext,
+			String sTitle, ISelectDataCustomizeUI selectDataUI )
+	{
+		return new MultipleSeriesSelectorComponent( seriesDefnsArray,
+				getContext( ),
+				"", //$NON-NLS-1$
+				this );
+	}
 
 	public void createLeftBindingArea( Composite parent )
 	{
@@ -165,7 +175,7 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 					seriesDefnArray[i] = ( (Axis) axisList.get( i ) ).getSeriesDefinitions( );
 				}
 			}
-			ISelectDataComponent component = new MultipleSeriesSelectorComponent( seriesDefnArray,
+			ISelectDataComponent component = createMultipleSeriesSelectorComponent( seriesDefnArray,
 					getContext( ),
 					"", //$NON-NLS-1$
 					this );
@@ -174,7 +184,7 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 		}
 		else
 		{
-			MultipleSeriesSelectorComponent component = new MultipleSeriesSelectorComponent( new EList[]{
+			MultipleSeriesSelectorComponent component = createMultipleSeriesSelectorComponent( new EList[]{
 				getValueSeriesDefinitionForProcessing( )
 			},
 					getContext( ),
