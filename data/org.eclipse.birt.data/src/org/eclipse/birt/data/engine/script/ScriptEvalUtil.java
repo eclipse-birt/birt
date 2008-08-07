@@ -708,7 +708,14 @@ public class ScriptEvalUtil
 				+ ", lineNo=" + lineNo);
 		
 		Object result;
-		result = cx.eval( scriptText, scope );
+		try
+		{
+			result = cx.eval( scriptText, scope );
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
+		}
 		return result;
 	}
 	
