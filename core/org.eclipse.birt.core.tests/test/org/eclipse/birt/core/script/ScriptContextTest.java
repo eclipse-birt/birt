@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import junit.framework.TestCase;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -41,7 +42,7 @@ public class ScriptContextTest extends TestCase
 	/**
 	 * test if the enterScope & exitScope is correct.
 	 */
-	public void testScope( )
+	public void testScope( ) throws BirtException
 	{
 		//register A in root
 		context.registerBean( "A", new Integer( 10 ) );
@@ -72,7 +73,7 @@ public class ScriptContextTest extends TestCase
 	/**
 	 * Test if we can use NativeJavaObject as scope.
 	 */
-	public void testJavaScope()
+	public void testJavaScope() throws BirtException
 	{
 		StringBuffer buffer = new StringBuffer();
 		Scriptable javaScope = (Scriptable)Context.javaToJS(buffer, context.getScope());
@@ -98,7 +99,7 @@ public class ScriptContextTest extends TestCase
 	 * 
 	 * the same code running in different scope reutrns different values.
 	 */
-	public void testCompiledScript()
+	public void testCompiledScript() throws BirtException
 	{
 		context.enterScope();
 		context.eval("function getText() { return 'A'}");
@@ -124,7 +125,7 @@ public class ScriptContextTest extends TestCase
 	/**
 	 * Test if the defineClass/definePackage is supported by script.
 	 */
-	public void testGlobal()
+	public void testGlobal() throws BirtException
 	{
 		context.eval("importPackage(java.util)");
 		context.eval("importClass(java.text.DateFormat)");
@@ -138,7 +139,7 @@ public class ScriptContextTest extends TestCase
 	/**
 	 * context shares the object in the root scope 
 	 */
-	public void testRootScope( )
+	public void testRootScope( ) throws BirtException
 	{
 		Context context = Context.enter( );
 		ScriptableObject root = context.initStandardObjects( );
@@ -154,7 +155,7 @@ public class ScriptContextTest extends TestCase
 	 * In javascript, the "this" always point to the 
 	 * current scope.
 	 */
-	public void testThisObject()
+	public void testThisObject() throws BirtException
 	{
 		context.registerBean("A", "ABCDE");
 		

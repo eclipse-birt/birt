@@ -21,6 +21,7 @@ public class ResourceConstants
 	public final static String INVALID_TYPE = "INVALID_TYPE";
 	public final static String CONVERT_FAILS = "CONVERT_FAILS";
 	public final static String JAVASCRIPT_ERROR = "birt.core.JavascriptError";
+	public final static String JAVASCRIPT_COMMON_ERROR = "birt.core.JavascriptCommonError";
 	public final static String CREATE_EXTENSION_FAIL = "CREATE_EXTENSION_FAIL";
 	public final static String INVALID_REGULAR_EXPRESSION = "birt.core.BirtComp.invalidRegularExpression";
 }

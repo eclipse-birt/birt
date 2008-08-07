@@ -17,8 +17,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.eclipse.birt.core.script.ScriptContext;
-import org.eclipse.birt.core.script.ScriptableParameters;
+import org.eclipse.birt.core.exception.BirtException;
 import org.mozilla.javascript.JavaScriptException;
 
 public class ScriptableParametersTest extends TestCase
@@ -46,7 +45,7 @@ public class ScriptableParametersTest extends TestCase
 		context.exit( );
 	}
 
-	public void testAssign( )
+	public void testAssign( ) throws BirtException
 	{
 		// change to a exits parameters
 		context.eval( "params['string'] = 'abcd'" );
@@ -72,7 +71,7 @@ public class ScriptableParametersTest extends TestCase
 
 	}
 
-	public void testReterive( )
+	public void testReterive( ) throws BirtException
 	{
 		// access the none exist paramter will return null directl
 		try
@@ -99,7 +98,7 @@ public class ScriptableParametersTest extends TestCase
 				+ "value.replace('a', 'b')" ) );
 	}
 
-	public void testEval( )
+	public void testEval( ) throws BirtException
 	{
 		addParameter( "jsDate", "", "" );
 		context.eval( "params['jsDate']=new Date();" );

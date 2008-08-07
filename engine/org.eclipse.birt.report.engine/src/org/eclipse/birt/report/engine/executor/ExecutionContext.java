@@ -646,32 +646,14 @@ public class ExecutionContext
 	{
 		if ( expr != null && expr.getScriptText( ) != null )
 		{
-			try
-			{
-				return getScriptContext( ).eval( expr );
-			}
-			catch ( Throwable e )
-			{
-				throw new EngineException(
-						MessageConstants.SCRIPT_EVALUATION_ERROR, new String[]{
-								expr.getScriptText( ), e.getMessage( )}, e ); //$NON-NLS-1$
-			}
+			return getScriptContext( ).eval( expr );
 		}
 		return null;
 	}
 	
 	public Object evaluate( String scriptText ) throws BirtException
 	{
-		try
-		{
-			return getScriptContext( ).eval( scriptText );
-		}
-		catch ( Throwable e )
-		{
-			throw new EngineException(
-					MessageConstants.SCRIPT_EVALUATION_ERROR, new String[]{
-							scriptText, e.getMessage( )}, e ); //$NON-NLS-1$
-		}
+		return getScriptContext( ).eval( scriptText );
 	}
 
 	/**
@@ -1149,7 +1131,15 @@ public class ExecutionContext
 		 */
 		public Object getDesign( )
 		{
-			return getScriptContext( ).eval( "design" );
+			try
+			{
+				return getScriptContext( ).eval( "design" );
+			}
+			catch ( BirtException ex )
+			{
+				ExecutionContext.this.addException( ex );
+			}
+			return null;
 		}
 
 		/**
@@ -1176,7 +1166,15 @@ public class ExecutionContext
 		 */
 		public Object getDataSets( )
 		{
-			return getScriptContext( ).eval( "design.dataSets" );
+			try
+			{
+				return getScriptContext( ).eval( "design.dataSets" );
+			}
+			catch ( BirtException ex )
+			{
+				ExecutionContext.this.addException( ex );
+			}
+			return null;
 		}
 
 		/**
@@ -1184,7 +1182,15 @@ public class ExecutionContext
 		 */
 		public Object getDataSources( )
 		{
-			return getScriptContext( ).eval( "design.dataSources" );
+			try
+			{
+				return getScriptContext( ).eval( "design.dataSources" );
+			}
+			catch ( BirtException ex )
+			{
+				ExecutionContext.this.addException( ex );
+			}
+			return null;
 		}
 
 		/**

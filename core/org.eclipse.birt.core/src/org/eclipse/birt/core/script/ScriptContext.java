@@ -16,6 +16,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.exception.CoreException;
+import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.NativeObject;
@@ -220,7 +223,7 @@ public class ScriptContext
 	 *            script to be evaluated
 	 * @return the evaluated value
 	 */
-	public Object eval( String source )
+	public Object eval( String source ) throws BirtException
 	{
 		if ( null != source && source.length( ) > 0 )
 		{
@@ -242,7 +245,7 @@ public class ScriptContext
 	 * @param scope
 	 * @return
 	 */
-	public Object eval( String source, Scriptable scope )
+	public Object eval( String source, Scriptable scope ) throws BirtException
 	{
 		if ( null != source && source.length( ) > 0 )
 		{
@@ -267,33 +270,42 @@ public class ScriptContext
 	 * @return
 	 */
 	private Object eval( Scriptable scope, ScriptExpression expr )
+			throws BirtException
 	{
 		String source = expr.getScriptText( );
 		Script script = expr.getCompiledScript( );
-		if ( script == null )
+		try
 		{
-			String text = expr.getScriptText( );
-			if ( context.getDebugger( ) != null )
-			{
-				source = text + expr.getLineNumber( );
-			}
-			script = compiledScripts.get( source );
 			if ( script == null )
 			{
-				script = context.compileString( expr.getScriptText( ), expr
-						.getId( ), expr.getLineNumber( ), null );
-				compiledScripts.put( source, script );
+				String text = expr.getScriptText( );
+				if ( context.getDebugger( ) != null )
+				{
+					source = text + expr.getLineNumber( );
+				}
+				script = compiledScripts.get( source );
+				if ( script == null )
+				{
+					script = context.compileString( expr.getScriptText( ), expr
+							.getId( ), expr.getLineNumber( ), null );
+					compiledScripts.put( source, script );
+				}
+				expr.setCompiledScript( script );
 			}
-			expr.setCompiledScript( script );
+			Object value = script.exec( context, scope );
+			return jsToJava( value );
 		}
-		Object value = script.exec( context, scope );
-		return jsToJava( value );
+		catch ( Throwable ex )
+		{
+			throw new CoreException( ResourceConstants.JAVASCRIPT_COMMON_ERROR,
+					new Object[]{source, ex.getMessage( )} );
+		}
 	}
 
 	/**
 	 * evaluates a script
 	 */
-	public Object eval( ScriptExpression expr )
+	public Object eval( ScriptExpression expr ) throws BirtException
 	{
 		assert ( this.context != null );
 		if ( null == expr )
