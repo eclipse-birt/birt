@@ -27,6 +27,9 @@ public class MemberInfo implements IMemberInfo
 
 	private final IMemberInfo memberInfo;
 
+	/**
+	 * Default constructor.
+	 */
 	public MemberInfo( )
 	{
 		memberInfo = new org.eclipse.birt.report.model.metadata.MemberInfo( );
@@ -77,7 +80,9 @@ public class MemberInfo implements IMemberInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName
+	 * ()
 	 */
 
 	public String getToolTip( )
@@ -101,7 +106,9 @@ public class MemberInfo implements IMemberInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getToolTipKey()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getToolTipKey
+	 * ()
 	 */
 	public String getToolTipKey( )
 	{
@@ -111,7 +118,9 @@ public class MemberInfo implements IMemberInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName
+	 * ()
 	 */
 
 	public String getDisplayName( )
@@ -134,7 +143,9 @@ public class MemberInfo implements IMemberInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayNameKey()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayNameKey
+	 * ()
 	 */
 
 	public String getDisplayNameKey( )
@@ -146,7 +157,8 @@ public class MemberInfo implements IMemberInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getName()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getName()
 	 */
 
 	public String getName( )
@@ -191,5 +203,17 @@ public class MemberInfo implements IMemberInfo
 	{
 		( (org.eclipse.birt.report.model.metadata.MemberInfo) memberInfo )
 				.setToolTipKey( toolTipKey );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IMemberInfo#getClassType()
+	 */
+	public IClassInfo getClassType( )
+	{
+		return ( (org.eclipse.birt.report.model.metadata.MemberInfo) memberInfo )
+				.getClassType( );
 	}
 }

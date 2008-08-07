@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.IMemberInfo;
 
 /**
@@ -26,11 +27,11 @@ public class MemberInfo extends LocalizableInfo implements IMemberInfo
 	 */
 
 	private String dataType;
-	
+
 	/**
 	 * Whether this memeber is static.
 	 */
-	
+
 	private boolean isStatic;
 
 	/**
@@ -59,23 +60,35 @@ public class MemberInfo extends LocalizableInfo implements IMemberInfo
 	/**
 	 * Sets whether this member is static.
 	 * 
-	 * @param isStatic the flag set
+	 * @param isStatic
+	 *            the flag set
 	 */
-	
+
 	public void setStatic( boolean isStatic )
 	{
 		this.isStatic = isStatic;
 	}
 
-	
 	/**
 	 * Returns whether this member is static.
 	 * 
 	 * @return <code>true</code> if this member is true.
 	 */
-	
+
 	public boolean isStatic( )
 	{
 		return isStatic;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IMemberInfo#getClassType()
+	 */
+	public IClassInfo getClassType( )
+	{
+		return null;
+	}
+
 }
