@@ -1104,7 +1104,7 @@ public class ColumnBindingDialog extends BaseDialog
 
 		String bindingName = bindingHandle.getName( );
 		DataColumnBindingDialog dialog = new DataColumnBindingDialog( false );
-		dialog.setInput( inputElement, bindingHandle );
+		setDialogInput( dialog, bindingHandle );
 		dialog.setExpressionProvider( expressionProvider );
 		if ( dialog.open( ) == Dialog.OK )
 		{
@@ -1113,6 +1113,15 @@ public class ColumnBindingDialog extends BaseDialog
 			if ( selectedColumnName != null
 					&& selectedColumnName.equals( bindingName ) )
 				selectedColumnName = bindingHandle.getName( );
+		}
+	}
+	
+	protected void setDialogInput( DataColumnBindingDialog dialog,
+			ComputedColumnHandle bindingHandle )
+	{
+		if ( dialog != null )
+		{
+			dialog.setInput( inputElement, bindingHandle );
 		}
 	}
 

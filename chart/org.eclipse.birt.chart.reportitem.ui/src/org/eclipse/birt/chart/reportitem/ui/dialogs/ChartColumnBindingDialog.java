@@ -309,4 +309,22 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 	{
 		fIsReadOnly = isReadOnly;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog#
+	 * setDialogInput
+	 * (org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog
+	 * , org.eclipse.birt.report.model.api.ComputedColumnHandle)
+	 */
+	@Override
+	protected void setDialogInput( DataColumnBindingDialog dialog,
+			ComputedColumnHandle bindingHandle )
+	{
+		if ( dialog != null )
+		{
+			dialog.setInput( inputElement, bindingHandle, context );
+		}
+	}
 }
