@@ -101,7 +101,7 @@ public class DataSessionContext
 	public DataSessionContext( int mode, ModuleHandle moduleHandle )
 		throws BirtException
 	{
-		this( mode, moduleHandle, null);
+		this( mode, moduleHandle, null, null );
 	}
 	
 	/**
@@ -126,7 +126,7 @@ public class DataSessionContext
 	
 	private static ScriptContext prepareScriptContext( Scriptable topScope )
 	{
-		ScriptContext cx = new ScriptContext();
+		ScriptContext cx = new ScriptContext( );
 		cx.enterScope( topScope );
 		return cx;
 	}
@@ -155,6 +155,11 @@ public class DataSessionContext
 		this.hasExternalScope = topScope != null;
 		this.moduleHandle = moduleHandle;
 		this.appClassLoader = classLoader;
+		if( scriptContext == null )
+		{
+			scriptContext = new ScriptContext();
+			scriptContext.enterScope( this.getTopScope( ) );
+		}
 		this.sContext = scriptContext;
 		this.topScope = scriptContext.getScope();
 	}
