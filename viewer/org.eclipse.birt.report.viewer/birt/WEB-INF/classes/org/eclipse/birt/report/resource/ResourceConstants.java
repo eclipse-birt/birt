@@ -77,4 +77,8 @@ public interface ResourceConstants
 	public static final String TAGLIB_NO_REPORT_SOURCE = "birt.viewer.taglib.NO_REPORT_SOURCE"; //$NON-NLS-1$
 	public static final String TAGLIB_NO_REPORT_DOCUMENT = "birt.viewer.taglib.NO_REPORT_DOCUMENT"; //$NON-NLS-1$
 	public static final String TAGLIB_NO_REQUESTER_NAME = "birt.viewer.taglib.NO_REQUESTER_NAME"; //$NON-NLS-1$
+	
+	// birt general exception
+	public static final String EXCEPTION_MAYBE_DISABLED_COOKIES = "birt.viewer.exception.maybe_disabled_cookies"; //$NON-NLS-1$
+	
 }

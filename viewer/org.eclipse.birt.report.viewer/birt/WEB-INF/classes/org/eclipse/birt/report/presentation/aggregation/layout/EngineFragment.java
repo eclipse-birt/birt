@@ -308,8 +308,14 @@ public class EngineFragment extends BirtBaseFragment
 		}
 		catch ( RemoteException e )
 		{
+			// if get image, output the exception
+			if ( ParameterAccessor.isGetImageOperator( request ) )
+			{
+				response.sendError( HttpServletResponse.SC_NOT_FOUND );
+				e.printStackTrace();
+			}
 			// if get image, don't write exception into output stream.
-			if ( !ParameterAccessor.isGetImageOperator( request ) )
+			else
 			{
 				response.setContentType( "text/html; charset=utf-8" ); //$NON-NLS-1$
 				BirtUtility.appendErrorMessage( response.getOutputStream( ), e );

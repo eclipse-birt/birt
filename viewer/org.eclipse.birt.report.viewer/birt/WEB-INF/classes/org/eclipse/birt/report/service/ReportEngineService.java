@@ -504,7 +504,8 @@ public class ReportEngineService
 		}
 		catch ( EngineException e )
 		{
-			AxisFault fault = new AxisFault( e.getLocalizedMessage( ),
+			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) + 
+					" " + BirtResources.getMessage( ResourceConstants.EXCEPTION_MAYBE_DISABLED_COOKIES ), //$NON-NLS-1$
 					e.getCause( ) );
 			fault.setFaultCode( new QName( "ReportEngineService.renderImage( )" ) ); //$NON-NLS-1$
 			throw fault;
