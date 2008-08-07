@@ -62,7 +62,7 @@ import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 
 /**
  * A dialog which can browser all properties in BIRT resource folder. User can
- * select a properties or enter new file name to creat a new one.
+ * select a properties or enter new file name to create a new one.
  * 
  */
 

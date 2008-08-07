@@ -67,7 +67,7 @@ public class Messages
 	}
 	
 	/**
-	 * Gets fomatted translation for current local
+	 * Gets formatted translation for current local
 	 * 
 	 * @param key
 	 *            the key

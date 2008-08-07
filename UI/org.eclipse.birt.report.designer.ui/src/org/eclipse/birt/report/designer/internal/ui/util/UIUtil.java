@@ -18,7 +18,6 @@ import java.net.URL;
 import java.text.Bidi;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -34,8 +33,6 @@ import java.util.regex.Pattern;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.runtime.GUIException;
-import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
-import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportLibraryDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
@@ -87,7 +84,6 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
@@ -111,9 +107,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
-import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
-import org.eclipse.gef.palette.PaletteContainer;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
@@ -196,7 +189,7 @@ public class UIUtil
 	}
 
 	/**
-	 * Returns the maxinum length in pixels of given strings in a control.
+	 * Returns the maximum length in pixels of given strings in a control.
 	 * 
 	 * @return the length in pixels
 	 */
@@ -1943,7 +1936,7 @@ public class UIUtil
 		StyleHandle styleHandle = handle.getPrivateStyle( );
 
 		String family = (String) ( styleHandle.getFontFamilyHandle( ).getValue( ) );
-		// some font not defined in model is encolsed with quote.
+		// some font not defined in model is enclosed with quote.
 		family = DEUtil.RemoveQuote( family );
 		String FontFamily = (String) DesignerConstants.familyMap.get( family );
 

@@ -47,7 +47,7 @@ public class ComboBoxFieldEditor extends AbstractFieldEditor
 	 * @param labelText
 	 *            the label text of the field editor
 	 * @param entryNamesAndValues
-	 *            the entyr name and value choices of the combox of the field
+	 *            the entry name and value choices of the combo of the field
 	 *            editor
 	 * @param parent
 	 *            the parent of the field editor's control
