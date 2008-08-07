@@ -113,12 +113,19 @@ public class ExtensionClassJSObject implements JSObjectMetaData
 	private class ExtensionClassMethod implements JSMethod, Comparable
 	{
 
+		private JSObjectMetaData returnType;
 		private IMethodInfo method;
 		private String displayText;
 
 		public ExtensionClassMethod( IMethodInfo method )
 		{
 			this.method = method;
+
+			IClassInfo typeInfo = method.getClassReturnType( );
+			if ( typeInfo != null )
+			{
+				returnType = new ExtensionClassJSObject( typeInfo );
+			}
 		}
 
 		public String getName( )
@@ -128,12 +135,7 @@ public class ExtensionClassJSObject implements JSObjectMetaData
 
 		public JSObjectMetaData getReturn( )
 		{
-			IClassInfo rtInfo = method.getClassReturnType( );
-			if ( rtInfo != null )
-			{
-				return new ExtensionClassJSObject( method.getClassReturnType( ) );
-			}
-			return null;
+			return returnType;
 		}
 
 		public JSObjectMetaData[] getArguments( )
@@ -237,12 +239,11 @@ public class ExtensionClassJSObject implements JSObjectMetaData
 		{
 			this.field = field;
 			this.typeName = field.getDataType( );
-			try
+
+			IClassInfo typeInfo = field.getClassType( );
+			if ( typeInfo != null )
 			{
-				this.type = JSSyntaxContext.getJavaClassMeta( field.getDataType( ) );
-			}
-			catch ( ClassNotFoundException e )
-			{
+				type = new ExtensionClassJSObject( typeInfo );
 			}
 		}
 
