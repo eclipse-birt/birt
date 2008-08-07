@@ -76,8 +76,8 @@ public class BundleHelper
 	 * @param baseName
 	 *            base name of the resource bundle. The name is a common base
 	 *            name
-	 * @return a correspondent helper instance. Return <code>null</code> if
-	 *         the <code>msgFolder</code> is null or not a directory.
+	 * @return a correspondent helper instance. Return <code>null</code> if the
+	 *         <code>msgFolder</code> is null or not a directory.
 	 * 
 	 */
 
@@ -125,11 +125,11 @@ public class BundleHelper
 	 *            Resource key of the user defined message.
 	 * @param locale
 	 *            locale of message, if the input <code>locale</code> is
-	 *            <code>null</code>, the locale for the current thread will
-	 *            be used instead.
+	 *            <code>null</code>, the locale for the current thread will be
+	 *            used instead.
 	 * @return the corresponding locale-dependent messages. Return
-	 *         <code>""</code> if resoueceKey is blank. Return
-	 *         <code>null</code> if the message is not found.
+	 *         <code>""</code> if resoueceKey is blank. Return <code>null</code>
+	 *         if the message is not found.
 	 * 
 	 */
 
@@ -182,7 +182,7 @@ public class BundleHelper
 				// cannot assume index must be greater than -1 since the user
 				// can write out their own IResourceLocator. In that case, the
 				// url may not contain the cachedBundleName.
-				
+
 				if ( index > -1 )
 				{
 					int beginIndex = index + cachedBundleName.length( );
@@ -210,7 +210,12 @@ public class BundleHelper
 			{
 				URL ret = findBundle( bundleName );
 				bundle = populateBundle( ret );
-				if ( ret != null )
+
+				// to check whether the bundle is successfully load. Not to
+				// use ret to check since IResourceLocator.findResource may
+				// return valid URL even the URL cannot be opened.
+
+				if ( bundle != null )
 				{
 					cachedBundleName = bundleName;
 					cachedURL = ret;
