@@ -234,3 +234,8 @@ birt.viewer.taglib.NO_REQUESTER_NAME=リクエスタの名前を指定してください。
 # Birt Viewer Message
 ###############################################################################
 birt.viewer.message.document.successful=レポート文書ファイルが生成されました。
+
+###############################################################################
+# Birt Viewer General Exceptions
+###############################################################################
+birt.viewer.exception.maybe_disabled_cookies=This might be caused by disabled cookies on the client side.
