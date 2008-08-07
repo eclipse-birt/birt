@@ -1090,11 +1090,50 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		{
 			return false;
 		}
+		
 		String regExp = hasOperation ? ".*\\Qrow[\"\\E.*\\Q\"]\\E.*" //$NON-NLS-1$
 				: "\\Qrow[\"\\E.*\\Q\"]\\E"; //$NON-NLS-1$
-		return expr.matches( regExp );
+		
+		boolean result = expr.matches( regExp );
+		if ( hasOperation )
+		{
+			return result;
+		}
+		else if ( result
+				&& containsOnce( expr, "row[\"" ) && containsOnce( expr, "\"]" ) )//$NON-NLS-1$ //$NON-NLS-2$
+		{
+			// It is a regular row binding.
+			return true;
+		}
+
+		return false;
 	}
 
+	/**
+	 * Check if expression only contains specified substring once.
+	 * 
+	 * @param expr
+	 * @param substring
+	 * @return
+	 */
+	private static boolean containsOnce( String expr, String substring )
+	{
+		String text = expr;
+		int index = text.indexOf( substring );
+		if ( index < 0 )
+		{
+			return false;
+		}
+
+		text = text.substring( index + substring.length( ) - 1 );
+		if ( text.indexOf( substring ) >= 0 )
+		{
+			return false;
+		}
+
+		return true;
+	}
+	
 	public static String createBindingNameForRowExpression( String expr )
 	{
 		if ( isRowBinding( expr, false ) )
