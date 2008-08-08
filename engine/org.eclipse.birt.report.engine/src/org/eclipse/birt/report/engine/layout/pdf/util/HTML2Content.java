@@ -538,17 +538,17 @@ public class HTML2Content
 		String src = ele.getAttribute( "src" ); //$NON-NLS-1$
 		if ( src != null )
 		{
-			IImageContent image = content.getReportContent( )
+			IImageContent flash = content.getReportContent( )
 					.createImageContent( );
-			image.setExtension(".swf");
-			image.setMIMEType("application/x-shockwave-flash");
-			addChild( content, image );
-			handleStyle( ele, cssStyles, image );
+			flash.setExtension(".swf");
+			flash.setMIMEType("application/x-shockwave-flash");
+			addChild( content, flash );
+			handleStyle( ele, cssStyles, flash );
 
 			if ( !FileUtil.isLocalResource( src ) )
 			{
-				image.setImageSource( IImageContent.IMAGE_URL );
-				image.setURI( src );
+				flash.setImageSource( IImageContent.IMAGE_URL );
+				flash.setURI( src );
 			}
 			else
 			{
@@ -559,34 +559,34 @@ public class HTML2Content
 				{
 					src = url.toString( );
 				}
-				image.setImageSource( IImageContent.IMAGE_FILE );
-				image.setURI( src );
+				flash.setImageSource( IImageContent.IMAGE_FILE );
+				flash.setURI( src );
 			}
 
 			IForeignContent foreign = getForeignRoot( content );
 			if ( null != ele.getAttribute( "width" ) && !"".equals( ele.getAttribute( "width" ) ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			{
-				image.setWidth( PropertyUtil.getDimensionAttribute( ele,
+				flash.setWidth( PropertyUtil.getDimensionAttribute( ele,
 						"width" ) ); //$NON-NLS-1$
 			}
 			else
 			{
 				if ( null != foreign )
-					image.setWidth( foreign.getWidth( ) );
+					flash.setWidth( foreign.getWidth( ) );
 			}
 			if ( ele.getAttribute( "height" ) != null && !"".equals( ele.getAttribute( "height" ) ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			{
-				image.setHeight( PropertyUtil.getDimensionAttribute( ele,
+				flash.setHeight( PropertyUtil.getDimensionAttribute( ele,
 						"height" ) ); //$NON-NLS-1$
 			}
 			else
 			{
 				if ( null != foreign )
-					image.setHeight( foreign.getHeight( ) );
+					flash.setHeight( foreign.getHeight( ) );
 			}
 			if ( ele.getAttribute( "alt" ) != null && !"".equals( ele.getAttribute( "alt" ) ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			{
-				image.setAltText( ele.getAttribute( "alt" ) ); //$NON-NLS-1$
+				flash.setAltText( ele.getAttribute( "alt" ) ); //$NON-NLS-1$
 			}
 		}
 	}

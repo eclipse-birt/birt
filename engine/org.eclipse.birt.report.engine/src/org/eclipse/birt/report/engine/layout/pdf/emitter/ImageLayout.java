@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,6 +27,8 @@ import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IImageContent;
+import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.content.impl.ActionContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.layout.area.IImageArea;
@@ -42,10 +45,120 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Image;
 
-public class ImageLayout extends Layout
+public class ImageLayout extends Layout 
 {
+	public static final int TYPE_IMAGE_OBJECT = 0;
+	public static final int TYPE_FLASH_OBJECT = 1;
+	
+	private Layout layout = null;
+	private ContainerLayout parentLayout = null;
+	
+	private int objectType = TYPE_IMAGE_OBJECT;
+	
+	/**
+	 * Is the image/flash object accessible
+	 */
+	private boolean isAccessible = true;
 
+	private static final HashMap<Integer, ArrayList<String>> unsupportedFormats = new HashMap<Integer, ArrayList<String>>( );
+	static
+	{
+		ArrayList<String> flashUnsupportedFormatList = new ArrayList<String>( );
+		flashUnsupportedFormatList.add( "postscript" );
+		flashUnsupportedFormatList.add( "xls" );
+		flashUnsupportedFormatList.add( "ppt" );
+		unsupportedFormats.put( TYPE_FLASH_OBJECT, flashUnsupportedFormatList );
+	};
+		
 	public ImageLayout( LayoutEngineContext context,
+			ContainerLayout parentContext, IContent content )
+	{
+		super( context, parentContext, content );
+		parentLayout = parentContext;
+	}
+	
+	public void layout( )
+	{
+		if ( layout != null )
+		{
+			layout.layout( );
+		}
+	}
+	
+	protected void closeLayout( )
+	{
+		if ( layout != null )
+		{
+			layout.closeLayout( );
+		}
+	}
+
+	protected void initialize( )
+	{
+		validate( );
+		// choose the layout manager
+		if ( isAccessible && isOutputSupported( objectType ) )
+		{
+			// the output format can display this kind of object and the object is accessible.
+			layout = new ConcreteImageLayout( context, parentLayout, content );
+		}
+		else
+		{
+			// display the alt text.
+			IImageContent image = (IImageContent) content;
+			IReportContent report = context.getReport( );
+			if ( report == null )
+			{
+				return;
+			}
+			ITextContent altTextContent = report.createTextContent( image );
+			altTextContent.setText( image.getAltText( ) );
+			layout = new BlockTextLayout( context, parentLayout, altTextContent );
+			layout.initialize( );
+		}
+	}
+	
+	protected void validate( )
+	{
+		IImageContent image = (IImageContent) content;
+		String uri = image.getURI( );
+		String mimeType = image.getMIMEType( );
+		String extension = image.getExtension( );
+		if (FlashFile.isFlash(mimeType, uri, extension))
+		{
+			objectType = TYPE_FLASH_OBJECT;
+		}
+		else
+		{
+			objectType = TYPE_IMAGE_OBJECT;
+		}
+		
+		//TODO  check the source accessibility.
+		isAccessible = true;
+	}
+	
+	/**
+	 * Is the target output emitter support the object type.
+	 * Currently the object type can be image and flash. 
+	 */
+	private boolean isOutputSupported( int type )
+	{
+		ArrayList<String> formats = unsupportedFormats.get( type );
+		if ( formats != null && formats.contains( context.getFormat( ) ) )
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+}
+
+class ConcreteImageLayout extends Layout
+{
+	public ConcreteImageLayout( LayoutEngineContext context,
 			ContainerLayout parentContext, IContent content )
 	{
 		super( context, parentContext, content );
@@ -356,7 +469,7 @@ public class ImageLayout extends Layout
 		root.setContentHeight( imageArea.getHeight( ) );
 		processChartLegend( image, imageArea );
 	}
-
+	
 	/**
 	 * Creates legend for chart.
 	 * 
