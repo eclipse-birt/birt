@@ -884,6 +884,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		attachMenus( viewer );
 
 		GridData data = new GridData( GridData.FILL_BOTH );
+		data.minimumWidth = 500;
 		viewer.getControl( ).setLayoutData( data );
 
 		// Add drop support to the viewer
