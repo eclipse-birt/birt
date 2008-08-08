@@ -50,7 +50,6 @@ import org.mozilla.javascript.Scriptable;
  */
 public abstract class DataRequestSession
 {
-	public static final String CURR_MODULE = "org.eclipse.birt.report.data.adapter.currentmodule";
 	/**
 	 * @param context
 	 * @return an instance of data adaptor

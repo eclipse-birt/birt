@@ -14,7 +14,9 @@
 
 package org.eclipse.birt.report.data.adapter.impl;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -99,6 +101,7 @@ import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
+import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -336,7 +339,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 		{
 			appContext = new HashMap( );
 		}
-		appContext.put( CURR_MODULE, this.sessionContext.getModuleHandle( ) );
+		appContext.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
+				createResourceIdentifiers( this.sessionContext.getModuleHandle( ) ) );
 		
 		return dataEngine.prepare( query, appContext );
 	}
@@ -505,7 +509,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 			{
 				appContext = new HashMap( );
 			}
-			appContext.put( CURR_MODULE, this.sessionContext.getModuleHandle( ) );
+			appContext.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
+					createResourceIdentifiers( this.sessionContext.getModuleHandle( ) ) );
 
 			if ( query instanceof IQueryDefinition )
 				return prepare( (IQueryDefinition) query, appContext == null
@@ -1047,7 +1052,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		stopSign.start( );
 		if ( appContext != null )
-			appContext.put( CURR_MODULE, this.sessionContext.getModuleHandle( ) );
+			appContext.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
+					createResourceIdentifiers( this.sessionContext.getModuleHandle( ) ) );
 		else
 			setModuleHandleToAppContext( );
 
@@ -1061,6 +1067,31 @@ public class DataRequestSessionImpl extends DataRequestSession
 		return this.dataEngine.prepare( query, appContext );
 	}
 
+	/**
+	 * This method create a ResourceIdentifiers instance which is in turn being passed to appContext.
+	 * 
+	 * The consumer of appContext, especially those Oda drivers, can then use it for acquire Resource info.
+	 * 
+	 * @param handle
+	 * @return
+	 */
+	private static ResourceIdentifiers createResourceIdentifiers(
+			ModuleHandle handle )
+	{
+		if ( handle == null )
+			return null;
+		try
+		{
+			ResourceIdentifiers identifiers = new ResourceIdentifiers( );
+			identifiers.setDesignResourceBaseURI( handle.getSystemId( ).toURI( ) );
+			identifiers.setApplResourceBaseURI( new File( handle.getResourceFolder( ) ).toURI( ) );
+			return identifiers;
+		}
+		catch ( URISyntaxException e )
+		{
+			return null;
+		}
+	}
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getCachedDataSetMetaData(org.eclipse.birt.data.engine.api.IBaseDataSourceDesign, org.eclipse.birt.data.engine.api.IBaseDataSetDesign)
@@ -1153,8 +1184,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		if ( this.sessionContext.getAppContext( ) == null )
 			this.sessionContext.setAppContext( new HashMap( ) );
-		this.sessionContext.getAppContext( ).put( CURR_MODULE,
-				this.sessionContext.getModuleHandle( ) );
+		this.sessionContext.getAppContext( ).put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
+				createResourceIdentifiers( this.sessionContext.getModuleHandle( ) ));
 	}
 
 	private void defineDataSourceDataSet( IQueryDefinition queryDefn ) throws BirtException
