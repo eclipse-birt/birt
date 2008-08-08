@@ -335,12 +335,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		if ( appContext == null )
 			// Use session app context
 			appContext = sessionContext.getAppContext( );
-		if ( appContext == null )
-		{
-			appContext = new HashMap( );
-		}
-		appContext.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
-				createResourceIdentifiers( this.sessionContext.getModuleHandle( ) ) );
+		setModuleHandleToAppContext( appContext );
 		
 		return dataEngine.prepare( query, appContext );
 	}
@@ -505,12 +500,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		try
 		{
-			if ( appContext == null )
-			{
-				appContext = new HashMap( );
-			}
-			appContext.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
-					createResourceIdentifiers( this.sessionContext.getModuleHandle( ) ) );
+			setModuleHandleToAppContext( appContext );
 
 			if ( query instanceof IQueryDefinition )
 				return prepare( (IQueryDefinition) query, appContext == null
@@ -1051,11 +1041,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			Map appContext ) throws BirtException
 	{
 		stopSign.start( );
-		if ( appContext != null )
-			appContext.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
-					createResourceIdentifiers( this.sessionContext.getModuleHandle( ) ) );
-		else
-			setModuleHandleToAppContext( );
+		setModuleHandleToAppContext( appContext );
 
 		if ( this.cubeHandleMap.get( query.getName( ) ) != null )
 		{
@@ -1092,6 +1078,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			return null;
 		}
 	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getCachedDataSetMetaData(org.eclipse.birt.data.engine.api.IBaseDataSourceDesign, org.eclipse.birt.data.engine.api.IBaseDataSetDesign)
@@ -1173,6 +1160,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public IPreparedCubeQuery prepare( ISubCubeQueryDefinition query,
 			Map appContext ) throws BirtException
 	{
+		setModuleHandleToAppContext( appContext );
 		return this.dataEngine.prepare( query, appContext );
 	}
 	
@@ -1183,9 +1171,33 @@ public class DataRequestSessionImpl extends DataRequestSession
 	private void setModuleHandleToAppContext( )
 	{
 		if ( this.sessionContext.getAppContext( ) == null )
+		{
 			this.sessionContext.setAppContext( new HashMap( ) );
-		this.sessionContext.getAppContext( ).put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
-				createResourceIdentifiers( this.sessionContext.getModuleHandle( ) ));
+		}
+		setModuleHandleToAppContext( this.sessionContext.getAppContext( ) );
+	}
+	
+	private void setModuleHandleToAppContext( Map appContext )
+	{
+		if ( appContext == null )
+		{
+			appContext = new HashMap( );
+		}
+		String resouceIDs = ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS;
+		if ( !appContext.containsKey( resouceIDs )
+				|| appContext.get( resouceIDs ) == null )
+		{
+			if ( this.sessionContext.getModuleHandle( ) != null )
+			{
+				appContext.put( resouceIDs,
+						createResourceIdentifiers( this.sessionContext.getModuleHandle( ) ) );
+			}
+			else if ( this.sessionContext.getAppContext( ) != null )
+			{
+				appContext.put( resouceIDs, this.sessionContext.getAppContext( )
+						.get( resouceIDs ) );
+			}
+		}
 	}
 
 	private void defineDataSourceDataSet( IQueryDefinition queryDefn ) throws BirtException

@@ -14,6 +14,8 @@
 
 package org.eclipse.birt.report.engine.adapter;
 
+import java.io.File;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -82,6 +84,7 @@ import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.JoinConditionHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
@@ -97,6 +100,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSetModel;
+import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -366,6 +370,14 @@ public class ModelDteApiAdapter
 	IOdaDataSourceDesign newOdaDataSource( OdaDataSourceHandle source )
 			throws BirtException
 	{
+		if ( dteSession.getDataSessionContext( ).getAppContext( ) == null )
+		{
+			dteSession.getDataSessionContext( ).setAppContext( new HashMap( ) );
+		}
+		dteSession.getDataSessionContext( )
+				.getAppContext( )
+				.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
+						createResourceIdentifiers( source.getModuleHandle( ) ) );
 		OdaDataSourceDesign dteSource = new OdaDataSourceDesign( source
 				.getQualifiedName( ) );
 		IBaseDataSourceEventHandler eventHandler = new DataSourceScriptExecutor(
@@ -433,6 +445,32 @@ public class ModelDteApiAdapter
 		return dteSource;
 	}
 
+	/**
+	 * This method create a ResourceIdentifiers instance which is in turn being passed to appContext.
+	 * 
+	 * The consumer of appContext, especially those Oda drivers, can then use it for acquire Resource info.
+	 * 
+	 * @param handle
+	 * @return
+	 */
+	private static ResourceIdentifiers createResourceIdentifiers(
+			ModuleHandle handle )
+	{
+		if ( handle == null )
+			return null;
+		try
+		{
+			ResourceIdentifiers identifiers = new ResourceIdentifiers( );
+			identifiers.setDesignResourceBaseURI( handle.getSystemId( ).toURI( ) );
+			identifiers.setApplResourceBaseURI( new File( handle.getResourceFolder( ) ).toURI( ) );
+			return identifiers;
+		}
+		catch ( URISyntaxException e )
+		{
+			return null;
+		}
+	}
+	
 	/**
 	 * Adds the externalized property configuration id for use by 
 	 * a BIRT consumer application's propertyProvider extension.
