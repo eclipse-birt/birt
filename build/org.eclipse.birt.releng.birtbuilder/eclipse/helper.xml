@@ -721,126 +721,297 @@
 		<property name="package-dest" value="${baseLocation}/../PackageFiles"/>
 		<property name="AllInOne-dest" value="${baseLocation}/../PackageFiles/AllInOne"/>
 		<property name="AllInOne-Linux-dest" value="${baseLocation}/../PackageFiles/AllInOne-Linux"/>
-		<property name="file-version" value="${file-prefix}${timestamp.TODAY_US}"/>
         
 		<get src="${dtpURL}"  dest="${postingDirectory}/../platform/DTP/${file-version}.zip" verbose="true" usetimestamp="true" />
 
 		<echo message="START to Unzip the downloaded Plugins files" />
 		<unzip src="${postingDirectory}/../platform/DTP/${file-version}.zip" dest="${p4.home}/downloads/${file-version}"/>
 		
-		<echo message="Clean last download stuff" />
-		<delete includeemptydirs="true" failonerror="false">
-			<fileset dir="${plugin-dest}/plugins" >
-				<include name="*.datatools.*.jar" />
-				<include name="org.eclipse.datatools.*/**" />
-			        <include name="org.apache.xerces_*.jar"/>
-			        <include name="org.apache.xml.resolver_*.jar"/>
-			        <include name="javax.wsdl_*.jar"/>
-			</fileset>
-			<fileset dir="${plugin-dest}/features" >
-				<include name="org.eclipse.datatools.*/**" />
-			</fileset>
-			<fileset dir="${package-dest}/dtp/eclipse/plugins" >
-				<include name="*.datatools.*.jar" />
-				<include name="org.eclipse.datatools.*/**" />
-			        <include name="org.apache.xerces_*.jar"/>
-			        <include name="org.apache.xml.resolver_*.jar"/>
-			        <include name="javax.wsdl_*.jar"/>
-			</fileset>
-			<fileset dir="${package-dest}/dtp/eclipse/features" >
-				<include name="org.eclipse.datatools.*/**" />
-			</fileset>
-			<!-- =============================
-			<fileset dir="${AllInOne-dest}/eclipse/plugins" >
-				<include name="*.datatools.*.jar" />
-				<include name="org.eclipse.datatools.*/**" />
-			        <include name="org.apache.xerces_*.jar"/>
-			        <include name="org.apache.xml.resolver_*.jar"/>
-			        <include name="javax.wsdl_*.jar"/>
-			</fileset>
-			<fileset dir="${AllInOne-dest}/eclipse/features" >
-				<include name="org.eclipse.datatools.*/**" />
-			</fileset>
-			<fileset dir="${AllInOne-Linux-dest}/eclipse/plugins" >
-				<include name="*.datatools.*.jar" />
-				<include name="org.eclipse.datatools.*/**" />
-			        <include name="org.apache.xerces_*.jar"/>
-			        <include name="org.apache.xml.resolver_*.jar"/>
-			        <include name="javax.wsdl_*.jar"/>
-			</fileset>
-			<fileset dir="${AllInOne-Linux-dest}/eclipse/features" >
-				<include name="org.eclipse.datatools.*/**" />
-			</fileset>
-				====================================== -->
-		</delete>
+        <echo message="Clean last download stuff" />
+        <delete includeemptydirs="true" failonerror="false">
+                <fileset dir="${plugin-dest}/plugins" >
+                        <include name="*.datatools.*.jar" />
+                        <include name="org.eclipse.datatools.*/**" />
+                        <include name="org.apache.xerces_*.jar"/>
+                        <include name="org.apache.xml.resolver_*.jar"/>
+                        <include name="javax.wsdl_1.4.0*.jar"/>
+                	<include name="javax.xml_*.jar"/>
+                	<include name="org.apache.xml.serializer_*.jar"/>
+		<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
+                </fileset>
+                <fileset dir="${plugin-dest}/features" >
+                        <include name="org.eclipse.datatools.*/**" />
+                </fileset>
+                <fileset dir="${package-dest}/dtp/eclipse/plugins" >
+                        <include name="*.datatools.*.jar" />
+                        <include name="org.eclipse.datatools.*/**" />
+                        <include name="org.apache.xerces_*.jar"/>
+                        <include name="org.apache.xml.resolver_*.jar"/>
+                        <include name="javax.wsdl_1.4.0*.jar"/>
+                	<include name="javax.xml_*.jar"/>
+                	<include name="org.apache.xml.serializer_*.jar"/>
+		<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
+                </fileset>
+                <fileset dir="${package-dest}/dtp/eclipse/features" >
+                        <include name="org.eclipse.datatools.*/**" />
+                </fileset>
+                <fileset dir="${package-dest}/jee/eclipse/plugins" >
+                        <include name="*.datatools.*.jar" />
+                        <include name="org.apache.xerces_*.jar"/>
+                        <include name="org.apache.xml.resolver_*.jar"/>
+                        <include name="javax.wsdl_1.4.0*.jar"/>
+                	<include name="javax.xml_*.jar"/>
+                	<include name="org.apache.xml.serializer_*.jar"/>
+		<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
+                </fileset>
+                <fileset dir="${package-dest}/jee/eclipse/features" >
+                        <include name="org.eclipse.datatools.*/**" />
+                </fileset>
+                <fileset dir="${package-dest}/jee-linux/eclipse/plugins" >
+                        <include name="*.datatools.*.jar" />
+                        <include name="org.apache.xerces_*.jar"/>
+                        <include name="org.apache.xml.resolver_*.jar"/>
+                        <include name="javax.wsdl_1.4.0*.jar"/>
+                	<include name="javax.xml_*.jar"/>
+                	<include name="org.apache.xml.serializer_*.jar"/>
+		<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
+                </fileset>
+                <fileset dir="${package-dest}/jee-linux/eclipse/features" >
+                        <include name="org.eclipse.datatools.*/**" />
+                </fileset>
+</delete>
 
-		<!--Define the ODA dependency plugins-->
-		<patternset id="oda.runtime.plugins">
-			<include name="org.eclipse.datatools.connectivity_*.jar" />
-			<include name="org.eclipse.datatools.connectivity.ui_*.jar" />
-			<include name="org.eclipse.datatools.connectivity.ui.dse_*.jar" />
-			<include name="org.eclipse.datatools.doc.user_*/**"/>
-			<include name="org.eclipse.datatools.connectivity.oda.consumer_*.jar" />
-			<include name="org.eclipse.datatools.connectivity.oda.design.ui_*.jar" />
-			<include name="org.eclipse.datatools.connectivity.oda.design_*.jar" />
-			<include name="org.eclipse.datatools.connectivity.oda.flatfile.ui_*.jar" />
-			<include name="org.eclipse.datatools.connectivity.oda.flatfile_*.jar" />
-			<include name="org.eclipse.datatools.connectivity.oda.profile_*.jar" />
-			<include name="org.eclipse.datatools.connectivity.oda_*.jar" />
-			<include name="org.eclipse.datatools.connectivity.oda.designer.finfo_*.jar"/>
-			<include name="org.eclipse.datatools.connectivity.oda.finfo_*.jar"/>
-			<include name="org.eclipse.datatools.connectivity.oda.template.ui_*.jar"/>
-			<include name="org.eclipse.datatools.enablement.oda.xml_*.jar"/>
-			<include name="org.eclipse.datatools.enablement.oda.xml.ui_*.jar"/>
-			<include name="org.eclipse.datatools.enablement.oda.designer.finfo_*.jar"/>
-			<include name="org.eclipse.datatools.enablement.oda.finfo_*.jar"/>
-			<include name="org.eclipse.datatools.oda.cshelp_*.jar"/>
-			<include name="org.eclipse.datatools.enablement.oda.ws.ui_*.jar"/>
-			<include name="org.eclipse.datatools.enablement.oda.ws_*.jar"/>
-			<include name="org.eclipse.datatools.help_*.jar"/>
-			<include name="org.eclipse.datatools.doc.isv_*.jar"/>
-			<include name="org.apache.xerces_*.jar"/>
-			<include name="org.apache.xml.resolver_*.jar"/>
-			<include name="javax.wsdl_*.jar"/>
-		</patternset>
-		<patternset id="oda.runtime.features">
-			<include name="org.eclipse.datatools.connectivity.oda.designer.feature_*/**" />
-			<include name="org.eclipse.datatools.connectivity.oda.feature_*/**" />
-    		<include name="org.eclipse.datatools.enablement.oda.feature_*/**" />
-    		<include name="org.eclipse.datatools.enablement.oda.designer.feature_*/**" />
-			<include name="org.eclipse.datatools.doc.user_*/**"/>
-		</patternset>
+        <!--Define the ODA dependency plugins-->
+        <patternset id="oda.runtime.plugins">
+                <include name="org.eclipse.datatools.connectivity_*.jar" />
+                <include name="org.eclipse.datatools.connectivity.ui_*.jar" />
+                <include name="org.eclipse.datatools.connectivity.ui.dse_*.jar" />
+                <include name="org.eclipse.datatools.doc.user_*/**"/>
+                <include name="org.eclipse.datatools.connectivity.oda.consumer_*.jar" />
+                <include name="org.eclipse.datatools.connectivity.oda.design.ui_*.jar" />
+                <include name="org.eclipse.datatools.connectivity.oda.design_*.jar" />
+                <include name="org.eclipse.datatools.connectivity.oda.flatfile.ui_*.jar" />
+                <include name="org.eclipse.datatools.connectivity.oda.flatfile_*.jar" />
+                <include name="org.eclipse.datatools.connectivity.oda.profile_*.jar" />
+                <include name="org.eclipse.datatools.connectivity.oda_*.jar" />
+                <include name="org.eclipse.datatools.connectivity.oda.designer.finfo_*.jar"/>
+                <include name="org.eclipse.datatools.connectivity.oda.finfo_*.jar"/>
+                <include name="org.eclipse.datatools.connectivity.oda.template.ui_*.jar"/>
+                <include name="org.eclipse.datatools.enablement.oda.xml_*.jar"/>
+                <include name="org.eclipse.datatools.enablement.oda.xml.ui_*.jar"/>
+                <include name="org.eclipse.datatools.enablement.oda.designer.finfo_*.jar"/>
+                <include name="org.eclipse.datatools.enablement.oda.finfo_*.jar"/>
+                <include name="org.eclipse.datatools.oda.cshelp_*.jar"/>
+                <include name="org.eclipse.datatools.enablement.oda.ws.ui_*.jar"/>
+                <include name="org.eclipse.datatools.enablement.oda.ws_*.jar"/>
+                <include name="org.eclipse.datatools.help_*.jar"/>
+                <include name="org.eclipse.datatools.doc.isv_*.jar"/>
+                <include name="org.apache.xerces_*.jar"/>
+                <include name="org.apache.xml.resolver_*.jar"/>
+                <include name="javax.xml_*.jar"/>
+                <include name="org.apache.xml.serializer_*.jar"/>
+                <include name="javax.wsdl_*.jar"/>
+	<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
+        </patternset>
+        <patternset id="oda.runtime.features">
+                <include name="org.eclipse.datatools.connectivity.oda.designer.feature_*/**" />
+                <include name="org.eclipse.datatools.connectivity.oda.feature_*/**" />
+            <include name="org.eclipse.datatools.enablement.oda.feature_*/**" />
+		        <include name="org.eclipse.datatools.enablement.oda.designer.feature_*/**" />
+                <include name="org.eclipse.datatools.doc.user_*/**"/>
+        </patternset>
+        <patternset id="jee.dtp.plugins">
+               <include name="org.apache.xerces_*.jar"/>
+               <include name="org.apache.xml.resolver_*.jar"/>
+               <include name="javax.wsdl_*.jar"/>
+               <include name="javax.xml_*.jar"/>
+               <include name="org.apache.xml.serializer_*.jar"/>
+       <include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
+               <include name="org.eclipse.datatools.connectivity_*.jar"/>
+               <include name="org.eclipse.datatools.connectivity.apache.derby_*.jar"/>
+               <include name="org.eclipse.datatools.connectivity.apache.derby.dbdefinition_*.jar"/>
+               <include name="org.eclipse.datatools.connectivity.apache.derby.ui_*.jar"/>
+               <include name="org.eclipse.datatools.connectivity.dbdefinition.genericJDBC_*.jar"/>
+               <include name="org.eclipse.datatools.connectivity.db.generic_*.jar"/>
+               <include name="org.eclipse.datatools.connectivity.db.generic.ui_*.jar"/>
+               <include name="org.eclipse.datatools.connectivity.oda_*.jar"/>
+               <include name="org.eclipse.datatools.connectivity.oda.consumer_*.jar"/>
+               <include name="org.eclipse.datatools.connectivity.oda.design_*.jar"/>
+               <include name="org.eclipse.datatools.connectivity.oda.design.ui_*.jar"/>
+               <include name="org.eclipse.datatools.connectivity.oda.flatfile_*.jar"/>
+               <include name="org.eclipse.datatools.connectivity.oda.flatfile.ui_*.jar"/>
+               <include name="org.eclipse.datatools.connectivity.oda.profile_*.jar"/>
+               <include name="org.eclipse.datatools.connectivity.oda.template.ui_*.jar"/>
+               <include name="org.eclipse.datatools.connectivity.sqm.core_*.jar"/>
+               <include name="org.eclipse.datatools.connectivity.sqm.core.ui_*.jar"/>
+               <include name="org.eclipse.datatools.connectivity.sqm.server.ui_*.jar"/>
+               <include name="org.eclipse.datatools.connectivity.ui_*.jar"/>
+               <include name="org.eclipse.datatools.connectivity.ui.dse_*.jar"/>
+               <include name="org.eclipse.datatools.doc.user_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.finfo_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.hsqldb_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.hsqldb.dbdefinition_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.hsqldb.ui_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.ibm.db2.iseries_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.ibm.db2.iseries.dbdefinition_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.ibm.db2.iseries.ui_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.ibm.db2.luw_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.ibm.db2.luw.dbdefinition_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.ibm.db2.luw.ui_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.ibm.db2.zseries_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.ibm.db2.zseries.dbdefinition_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.ibm.db2.zseries.ui_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.ibm.informix_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.ibm.informix.dbdefinition_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.ibm.informix.ui_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.ibm.ui_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.msft.sqlserver_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.msft.sqlserver.dbdefinition_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.msft.sqlserver.ui_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.mysql_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.mysql.dbdefinition_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.mysql.ui_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.oda.ws_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.oda.ws.ui_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.oda.xml_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.oda.xml.ui_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.oracle_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.oracle.dbdefinition_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.oracle.ui_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.postgresql_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.postgresql.dbdefinition_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.postgresql.ui_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.sap.maxdb_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.sap.maxdb.dbdefinition_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.sap.maxdb.ui_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.sybase_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.sybase.asa_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.sybase.ase_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.sybase.asa.models_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.sybase.ase.models_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.sybase.asa.dbdefinition_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.sybase.ase.dbdefinition_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.sybase.ase.profile_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.sybase.asa.profile_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.sybase.asa.ui_*.jar"/>
+               <include name="org.eclipse.datatools.enablement.sybase.ase.ui_*.jar"/>
+               <include name="org.eclipse.datatools.help_*.jar"/>
+               <include name="org.eclipse.datatools.modelbase.dbdefinition_*.jar"/>
+               <include name="org.eclipse.datatools.modelbase.derby_*.jar"/>
+               <include name="org.eclipse.datatools.modelbase.sql_*.jar"/>
+               <include name="org.eclipse.datatools.modelbase.sql.edit_*.jar"/>
+               <include name="org.eclipse.datatools.modelbase.sql.query_*.jar"/>
+               <include name="org.eclipse.datatools.modelbase.sql.query.edit_*.jar"/>
+               <include name="org.eclipse.datatools.modelbase.sql.xml.query_*.jar"/>
+               <include name="org.eclipse.datatools.oda.cshelp_*.jar"/>
+               <include name="org.eclipse.datatools.sqltools.common.ui_*.jar"/>
+               <include name="org.eclipse.datatools.sqltools.data.core_*.jar"/>
+               <include name="org.eclipse.datatools.sqltools.data.ui_*.jar"/>
+               <include name="org.eclipse.datatools.sqltools.db.derby_*.jar"/>
+               <include name="org.eclipse.datatools.sqltools.db.generic_*.jar"/>
+               <include name="org.eclipse.datatools.sqltools.ddlgen.ui_*.jar"/>
+               <include name="org.eclipse.datatools.sqltools.debugger.core_*.jar"/>
+               <include name="org.eclipse.datatools.sqltools.editor.core_*.jar"/>
+               <include name="org.eclipse.datatools.sqltools.parsers.sql_*.jar"/>
+               <include name="org.eclipse.datatools.sqltools.parsers.sql.lexer_*.jar"/>
+               <include name="org.eclipse.datatools.sqltools.parsers.sql.query_*.jar"/>
+               <include name="org.eclipse.datatools.sqltools.parsers.sql.xml.query_*.jar"/>
+               <include name="org.eclipse.datatools.sqltools.plan_*.jar"/>
+               <include name="org.eclipse.datatools.sqltools.result_*.jar"/>
+               <include name="org.eclipse.datatools.sqltools.routineeditor_*.jar"/>
+               <include name="org.eclipse.datatools.sqltools.sql_*.jar"/>
+               <include name="org.eclipse.datatools.sqltools.sqlbuilder_*.jar"/>
+               <include name="org.eclipse.datatools.sqltools.sqleditor_*.jar"/>
+               <include name="org.eclipse.datatools.sqltools.sqlscrapbook_*.jar"/>
+               <include name="org.eclipse.datatools.sqltools.tabledataeditor_*.jar"/>
+               <include name="org.eclipse.datatools.sqltools.tablewizard_*.jar"/>
+</patternset>
+        <patternset id="jee.dtp.features">
+               <include name="org.eclipse.datatools.connectivity.feature_*/**" />
+               <include name="org.eclipse.datatools.connectivity.oda.designer.feature_*/**" />
+               <include name="org.eclipse.datatools.connectivity.oda.feature_*/**" />
+               <include name="org.eclipse.datatools.doc.user_*/**" />
+               <include name="org.eclipse.datatools.enablement.apache.derby.feature_*/**" />
+               <include name="org.eclipse.datatools.enablement.feature_*/**" />
+               <include name="org.eclipse.datatools.enablement.hsqldb.feature_*/**" />
+               <include name="org.eclipse.datatools.enablement.ibm.feature_*/**" />
+               <include name="org.eclipse.datatools.enablement.jdbc.feature_*/**" />
+               <include name="org.eclipse.datatools.enablement.msft.feature_*/**" />
+               <include name="org.eclipse.datatools.enablement.mysql.feature_*/**" />
+               <include name="org.eclipse.datatools.enablement.oda.designer.feature_*/**" />
+               <include name="org.eclipse.datatools.enablement.oda.feature_*/**" />
+               <include name="org.eclipse.datatools.enablement.oracle.feature_*/**" />
+               <include name="org.eclipse.datatools.enablement.postgresql.feature_*/**" />
+               <include name="org.eclipse.datatools.enablement.sap.feature_*/**" />
+               <include name="org.eclipse.datatools.enablement.sybase.feature_*/**" />
+               <include name="org.eclipse.datatools.modelbase.feature_*/**" />
+               <include name="org.eclipse.datatools.sqldevtools.data.feature_*/**" />
+               <include name="org.eclipse.datatools.sqldevtools.ddl.feature_*/**" />
+               <include name="org.eclipse.datatools.sqldevtools.ddlgen.feature_*/**" />
+               <include name="org.eclipse.datatools.sqldevtools.feature_*/**" />
+               <include name="org.eclipse.datatools.sqldevtools.parsers.feature_*/**" />
+               <include name="org.eclipse.datatools.sqldevtools.results.feature_*/**" />
+</patternset>
 
+        <!-- Copy to static baseLocation -->
+        <copy todir="${plugin-dest}/plugins" failonerror="false" >
+                <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
+					<include name="**"/>
+                	<exclude name="*.doc.user_*/**"/>
+                </fileset>
+        </copy>
+        <copy todir="${plugin-dest}/features" failonerror="false" >
+                <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
+					<include name="**"/>
+                	<exclude name="*.doc.user_*/**"/>
+                </fileset>
+        </copy>
 
-		<!-- Copy to static baseLocation -->
-		<copy todir="${plugin-dest}/plugins" failonerror="false" >
-			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
-				<include name="**"/>
-				<exclude name="*.doc.user_*/**"/>
-			</fileset> 
-		</copy>	
-		<copy todir="${plugin-dest}/features" failonerror="false" >
-			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
-				<include name="**"/>
-				<exclude name="*.doc.user_*/**"/>
-			</fileset> 
-		</copy>
+        <!-- Copy to package files dir -->
+        <copy todir="${package-dest}/dtp/eclipse/plugins" failonerror="false">
+                <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
+					<include name="**"/>
+                	<exclude name="*.doc.user_*/**"/>
+                </fileset>
+        </copy>
 
-		<!-- Copy to package files dir -->	
-		<copy todir="${package-dest}/dtp/eclipse/plugins" failonerror="false">
-			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
-				<include name="**"/>
-				<exclude name="*.doc.user_*/**"/>
-			</fileset>
-		</copy>
-				
-		<copy todir="${package-dest}/dtp/eclipse/features" failonerror="false" >
-			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
-				<include name="**"/>
-				<exclude name="*.doc.user_*/**"/>
-			</fileset> 
-		</copy>
-	</target>
+        <copy todir="${package-dest}/dtp/eclipse/features" failonerror="false" >
+                <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
+					<include name="**"/>
+                	<exclude name="*.doc.user_*/**"/>
+                </fileset>
+        </copy>
+		<!-- copy to jee(-linux) dir -->
+        <copy todir="${package-dest}/jee/eclipse/plugins" failonerror="false">
+                <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
+					<include name="**"/>
+                	<exclude name="*.doc.user_*/**"/>
+                </fileset>
+        </copy>
+
+        <copy todir="${package-dest}/jee/eclipse/features" failonerror="false" >
+                <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
+					<include name="**"/>
+                	<exclude name="*.doc.user_*/**"/>
+                </fileset>
+        </copy>
+
+        <copy todir="${package-dest}/jee-linux/eclipse/plugins" failonerror="false">
+                <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
+					<include name="**"/>
+                	<exclude name="*.doc.user_*/**"/>
+                </fileset>
+        </copy>
+
+        <copy todir="${package-dest}/jee-linux/eclipse/features" failonerror="false" >
+                <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
+					<include name="**"/>
+                	<exclude name="*.doc.user_*/**"/>
+                </fileset>
+        </copy>
+
+	<delete dir="${p4.home}/downloads/${file-version}" includeemptydirs="true"/>
+</target>
 	
 	<!-- Build BIRT Web Viewer -->
 	<target name="BuildWebViewer" depends="init">
