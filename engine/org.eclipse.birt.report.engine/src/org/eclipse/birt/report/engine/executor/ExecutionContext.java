@@ -426,7 +426,8 @@ public class ExecutionContext
 				return super.wrap( cx, scope, obj, staticType );
 			}
 		};
-		factory.setJavaPrimitiveWrap( false );
+		//factory.setJavaPrimitiveWrap( false );
+		
 		scriptContext.getContext( ).setWrapFactory( factory );
 
 		new CoreJavaScriptInitializer( ).initialize( cx, scope );
