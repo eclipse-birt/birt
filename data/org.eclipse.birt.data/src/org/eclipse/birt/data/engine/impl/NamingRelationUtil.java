@@ -17,6 +17,7 @@ import java.util.Map;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.impl.document.NamingRelation;
 
 /**
@@ -39,7 +40,8 @@ public class NamingRelationUtil
 		{
 			if ( session == null
 					|| queryResults.getResultMetaData( ) == null
-					|| queryResults.getResultMetaData( ).getColumnCount( ) == 0 )
+					|| queryResults.getResultMetaData( ).getColumnCount( ) == 0
+					|| queryDefn instanceof ISubqueryDefinition )
 				return;
 		}
 		catch ( BirtException e )
