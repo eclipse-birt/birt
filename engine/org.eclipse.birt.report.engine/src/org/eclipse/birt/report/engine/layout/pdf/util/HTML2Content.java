@@ -80,6 +80,7 @@ public class HTML2Content
 		htmlInlineDisplay.add( "sup" );
 		htmlInlineDisplay.add( "tt" );
 		htmlInlineDisplay.add( "u" );
+		htmlInlineDisplay.add("del");
 	}
 
 	static
