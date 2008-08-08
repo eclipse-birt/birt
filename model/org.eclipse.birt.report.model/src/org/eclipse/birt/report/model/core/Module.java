@@ -328,6 +328,12 @@ public abstract class Module extends DesignElement
 	protected INameHelper nameHelper = null;
 
 	/**
+	 * Caches the bundle. The key is file name, the value is map which has the
+	 * key local and value PropertyResourceBundle.
+	 */
+	private Map bundles = null;
+
+	/**
 	 * Default constructor.
 	 * 
 	 * @param theSession
@@ -2863,5 +2869,58 @@ public abstract class Module extends DesignElement
 	public Module findOutermostModule( )
 	{
 		return this;
+	}
+
+	/**
+	 * Caches the propertyResourceBundle list.
+	 * 
+	 * @param baseName
+	 *            the file name
+	 * @param bundleList
+	 *            the propertyResouceBundle list
+	 */
+	public void cachePropertyResourceBundles( String baseName, List bundleList )
+	{
+		if ( getOptions( ) == null
+				|| ( getOptions( ) != null && getOptions( ).useSemanticCheck( ) ) )
+		{
+			return;
+		}
+
+		if ( bundles == null )
+			bundles = new HashMap( );
+
+		List cachbundles = (List) bundles.get( fileName );
+		if ( cachbundles == null )
+		{
+
+			bundles.put( fileName, bundleList );
+
+		}
+
+	}
+
+	/**
+	 * Gets the cached PropertyResourceBundle list according to the file name
+	 * and locale.
+	 * 
+	 * @param baseName
+	 *            the file name
+	 * @return PropertyResourceBundle list
+	 */
+	public List getCachePropertyResourceBundles( String baseName )
+	{
+
+		if ( getOptions( ) == null
+				|| ( getOptions( ) != null && getOptions( ).useSemanticCheck( ) ) )
+		{
+			return null;
+		}
+
+		if ( bundles == null )
+			return null;
+
+		return (List) bundles.get( fileName );
+
 	}
 }

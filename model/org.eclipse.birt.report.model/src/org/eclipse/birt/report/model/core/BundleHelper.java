@@ -163,9 +163,16 @@ public class BundleHelper
 
 	private List gatherMessageBundles( ULocale locale )
 	{
-		List bundleHierarchy = new ArrayList( );
+		List bundleHierarchy = module
+				.getCachePropertyResourceBundles( baseName );
+
+		if ( bundleHierarchy != null )
+			return bundleHierarchy;
+
+		bundleHierarchy = new ArrayList( );
 
 		List bundleNames = getMessageFilenames( locale );
+
 		URL cachedURL = null;
 		String cachedBundleName = null;
 
@@ -223,8 +230,13 @@ public class BundleHelper
 			}
 
 			if ( bundle != null )
+			{
 				bundleHierarchy.add( bundle );
+
+			}
 		}
+
+		module.cachePropertyResourceBundles( baseName, bundleHierarchy );
 
 		return bundleHierarchy;
 	}
