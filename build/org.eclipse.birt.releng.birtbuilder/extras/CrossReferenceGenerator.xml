@@ -6,16 +6,15 @@
 	<property name="javaDocCheck.base.dir" value="${postingDirectory}/javaDoc/javaDocCheck"/>
     
 
-    <property name="birt.build.tools.dir" value="${p4.home}/dailybuild/source/org.eclipse.birt.build"/>
-
-    <path id="lib.path">
-        <fileset dir="${p4.home}/dailybuild/source/org.eclipse.birt.build" includes="*.jar,lib/*.jar"/>
-    </path>
-
+	<path id="lib.path">
+		<fileset dir="${eclipse.build.configs}/../../extras" includes="org.eclipse.birt.build*.jar,*dom*.jar"/>
+	</path>
     <typedef name="dynamicProperty" classname="org.apache.tools.ant.taskdefs.Property" classpathref="lib.path" loaderref="lib.path.loader"/>
-    <typedef name="projectInfo" classname="org.eclipse.birt.build.ProjectInfo" classpath="${birt.build.tools.dir}/bin" classpathref="lib.path" loaderref="lib.path.loader" />
-    <typedef name="projectList" classname="org.eclipse.birt.build.ProjectList" classpath="${birt.build.tools.dir}/bin" classpathref="lib.path" loaderref="lib.path.loader" />
-    <taskdef name="forEach" classname="org.eclipse.birt.build.ForEach" classpath="${birt.build.tools.dir}/bin" classpathref="lib.path" loaderref="lib.path.loader"/>
+    <typedef name="versionUpdate" classname="org.eclipse.birt.build.VersionUpdater" classpathref="lib.path" loaderref="lib.path.loader"/>
+    <typedef name="projectInfo" classname="org.eclipse.birt.build.ProjectInfo" classpathref="lib.path" loaderref="lib.path.loader" />
+    <typedef name="projectList" classname="org.eclipse.birt.build.ProjectList" classpathref="lib.path" loaderref="lib.path.loader" />
+    <taskdef name="forEach" classname="org.eclipse.birt.build.ForEach" classpathref="lib.path" loaderref="lib.path.loader"/>
+    <taskdef name="reliableTask" classname="org.eclipse.birt.build.ReliableTask" classpathref="lib.path" loaderref="lib.path.loader"/>	
 
 
     <path id="javasrc.classpath">
@@ -85,7 +84,7 @@
 			private="false" 
 			author="true" 
 			version="true" 
-			source="1.4" 
+			source="1.5" 
 			failonerror="false">
 		</javadoc>
 	</target>

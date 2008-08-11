@@ -18,20 +18,19 @@
 	
 
 	<property name="javadoc.dir" value="${postingDirectory}/javaDoc/javaDocs" />
-	<property name="javacSource" value="1.4"/>
-	<property name="javacTarget" value="1.4"/>
+	<property name="javacSource" value="1.5"/>
+	<property name="javacTarget" value="1.5"/>
 
-    <property name="birt.build.tools.dir" value="${p4.home}/dailybuild/source/org.eclipse.birt.build"/>
 
-    <path id="lib.path">
-            <fileset dir="${p4.home}/dailybuild/source/org.eclipse.birt.build" includes="*.jar,lib/*.jar"/>
-    </path>
+	<path id="lib.path">
+		<fileset dir="${eclipse.build.configs}/../../extras" includes="org.eclipse.birt.build*.jar,*dom*.jar"/>
+	</path>
     <typedef name="dynamicProperty" classname="org.apache.tools.ant.taskdefs.Property" classpathref="lib.path" loaderref="lib.path.loader"/>
-    <typedef name="versionUpdate" classname="org.eclipse.birt.build.VersionUpdater" classpath="${birt.build.tools.dir}/bin" classpathref="lib.path" loaderref="lib.path.loader"/>
-    <typedef name="projectInfo" classname="org.eclipse.birt.build.ProjectInfo" classpath="${birt.build.tools.dir}/bin" classpathref="lib.path" loaderref="lib.path.loader" />
-    <typedef name="projectList" classname="org.eclipse.birt.build.ProjectList" classpath="${birt.build.tools.dir}/bin" classpathref="lib.path" loaderref="lib.path.loader" />
-    <taskdef name="forEach" classname="org.eclipse.birt.build.ForEach" classpath="${birt.build.tools.dir}/bin" classpathref="lib.path" loaderref="lib.path.loader"/>
-    <taskdef name="reliableTask" classname="org.eclipse.birt.build.ReliableTask" classpath="${birt.build.tools.dir}/bin" classpathref="lib.path" loaderref="lib.path.loader"/>	
+    <typedef name="versionUpdate" classname="org.eclipse.birt.build.VersionUpdater" classpathref="lib.path" loaderref="lib.path.loader"/>
+    <typedef name="projectInfo" classname="org.eclipse.birt.build.ProjectInfo" classpathref="lib.path" loaderref="lib.path.loader" />
+    <typedef name="projectList" classname="org.eclipse.birt.build.ProjectList" classpathref="lib.path" loaderref="lib.path.loader" />
+    <taskdef name="forEach" classname="org.eclipse.birt.build.ForEach" classpathref="lib.path" loaderref="lib.path.loader"/>
+    <taskdef name="reliableTask" classname="org.eclipse.birt.build.ReliableTask" classpathref="lib.path" loaderref="lib.path.loader"/>	
 	
 	<projectList id="project.list">
 		<!-- engine team -->
@@ -272,6 +271,27 @@
 			<property name="windowTitle" value="Birt Web Viewer Project" />
 			<property name="packagenames" value="org.eclipse.birt.integration.wtp.ui.*"/>
 		</projectInfo>
+		<!-- Test Plugins-->
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.report.tests.chart" />
+			<property name="windowTitle" value="QA Test Plugin - Chart" />
+			<property name="packagenames" value="org.eclipse.birt.report.tests.chart.*"/>
+		</projectInfo>
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.tests.data" />
+			<property name="windowTitle" value="QA Test Plugin - Data" />
+			<property name="packagenames" value="org.eclipse.birt.tests.data.*"/>
+		</projectInfo>
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.report.tests.model" />
+			<property name="windowTitle" value="QA Test Plugin - Model" />
+			<property name="packagenames" value="org.eclipse.birt.report.tests.model.*"/>
+		</projectInfo>
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.report.tests.engine" />
+			<property name="windowTitle" value="QA Test Plugin - Engine" />
+			<property name="packagenames" value="org.eclipse.birt.report.tests.engine.*"/>
+		</projectInfo>
 	</projectList>
 	<projectList id="project.doctitle.list">
 		<projectInfo>
@@ -310,6 +330,11 @@
 		<exec executable="unzip" dir="${postingDirectory}/${buildId}">
 			<arg line="-o -q birt-report-framework-${package.version}.zip -d ${javadoc.dir}" />
 		</exec>
+		<!--
+		<exec executable="unzip" dir="${postingDirectory}/${buildId}">
+			<arg line="-o -q birt-tests-suite-${package.version}.zip -d ${javadoc.dir}" />
+		</exec>
+		-->
 		<!-- copy baseLocation plugins -->
 		<copy todir="${javadoc.dir}/eclipse/plugins">
 			<fileset dir="${baseLocation}/plugins">
@@ -405,7 +430,7 @@
 				 windowtitle="${windowTitle}" 
 				 source="${javacSource}"
 				 classpath="${classpath}"
-				doctitle="${docTitle}" 
+				 doctitle="${docTitle}" 
 				 packagenames="${packagenames}">
 				<packageset dir="${buildDirectory}/plugins/${projectName}/src" defaultexcludes="yes" />
 	 	        <bottom><![CDATA[<i>Copyright &#169;  2005 Actuate Corp. All rights reserved. </i>]]></bottom>

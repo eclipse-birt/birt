@@ -19,9 +19,9 @@
     <property name="checkout.version" value=""/>
 	<property name="oda.build.version" value="" />
 
-	    <path id="lib.path">
-	            <fileset dir="${eclipse.build.configs}/../../extras" includes="org.eclipse.birt.build*.jar,*dom*.jar"/>
-	    </path>
+	<path id="lib.path">
+		<fileset dir="${eclipse.build.configs}/../../extras" includes="org.eclipse.birt.build*.jar,*dom*.jar"/>
+	</path>
     <typedef name="dynamicProperty" classname="org.apache.tools.ant.taskdefs.Property" classpathref="lib.path" loaderref="lib.path.loader"/>
     <typedef name="versionUpdate" classname="org.eclipse.birt.build.VersionUpdater" classpathref="lib.path" loaderref="lib.path.loader"/>
     <typedef name="projectInfo" classname="org.eclipse.birt.build.ProjectInfo" classpathref="lib.path" loaderref="lib.path.loader" />
