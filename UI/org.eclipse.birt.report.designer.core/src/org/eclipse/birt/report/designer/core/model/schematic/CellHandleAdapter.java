@@ -87,6 +87,11 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 			TableHandleAdapter adapt = HandleAdapterFactory.getInstance( )
 					.getTableHandleAdapter( getTableParent( ) );
 			TableHandleAdapter.RowUIInfomation info = adapt.getRowInfo( getHandle( ).getContainer( ) );
+			if (info == null)
+			{
+				adapt.reload( );
+				info = adapt.getRowInfo( getHandle( ).getContainer( ) );
+			}
 			return info.getAllChildren( ).indexOf( getHandle( ) ) + 1;
 		}
 
