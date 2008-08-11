@@ -195,9 +195,8 @@ public interface IElementDefn extends IObjectDefn
 	 * the following defined in {@link MetaDataConstants}:
 	 * <ul>
 	 * <li>{@link MetaDataConstants#NO_NAME}-- The element cannot have a name.
-	 * (Probably not used.)</li>
-	 * <li>{@link MetaDataConstants#OPTIONAL_NAME}-- The element can
-	 * optionally have a name, but a name is not required.</li>
+	 * (Probably not used.)</li> <li>{@link MetaDataConstants#OPTIONAL_NAME}--
+	 * The element can optionally have a name, but a name is not required.</li>
 	 * <li>{@link MetaDataConstants#REQUIRED_NAME}-- The element must have a
 	 * name.</li>
 	 * </ul>
@@ -242,5 +241,12 @@ public interface IElementDefn extends IObjectDefn
 	 */
 
 	public boolean isKindOf( IElementDefn type );
+
+	/**
+	 * Justifies whether this definition is extension element.
+	 * 
+	 * @return true if it is extension element
+	 */
+	public boolean isExtendedElement( );
 
 }

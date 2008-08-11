@@ -708,7 +708,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 			// have that style whether the meta data file explicitly indicated
 			// this or not.
 
-			if ( parent.hasStyle( ) && !isExtended( ) )
+			if ( parent.hasStyle( ) && !isExtendedElement( ) )
 				hasStyle = true;
 		}
 
@@ -775,7 +775,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 				nameConfig.holder = parent.nameConfig.holder;
 				nameConfig.holderName = parent.nameConfig.holderName;
 			}
-			else if ( !isExtended( ) &&
+			else if ( !isExtendedElement( ) &&
 					parent.getNameSpaceID( ) != MetaDataConstants.NO_NAME_SPACE )
 				throw new MetaDataException( new String[]{name},
 						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_OPTION );
@@ -826,7 +826,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 		addStyleProperties( );
 
-		if ( isExtended( ) )
+		if ( isExtendedElement( ) )
 		{
 			if ( hasStyle )
 			{
@@ -1729,7 +1729,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 * 
 	 * @return true if it is extension element
 	 */
-	private boolean isExtended( )
+	public boolean isExtendedElement( )
 	{
 		if ( name.equalsIgnoreCase( ReportDesignConstants.EXTENDED_ITEM ) ||
 				MetaDataDictionary.getInstance( ).getExtension( name ) != null )
