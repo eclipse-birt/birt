@@ -1069,8 +1069,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 		try
 		{
 			ResourceIdentifiers identifiers = new ResourceIdentifiers( );
-			identifiers.setDesignResourceBaseURI( handle.getSystemId( ).toURI( ) );
-			identifiers.setApplResourceBaseURI( new File( handle.getResourceFolder( ) ).toURI( ) );
+			if ( handle.getSystemId( ) != null )
+			{
+				identifiers.setDesignResourceBaseURI( handle.getSystemId( ).toURI( ) );
+			}
+			if( handle.getResourceFolder( ) != null )
+			{
+				identifiers.setApplResourceBaseURI( new File( handle.getResourceFolder( ) ).toURI( ) );
+			}
 			return identifiers;
 		}
 		catch ( URISyntaxException e )

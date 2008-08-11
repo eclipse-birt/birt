@@ -370,14 +370,7 @@ public class ModelDteApiAdapter
 	IOdaDataSourceDesign newOdaDataSource( OdaDataSourceHandle source )
 			throws BirtException
 	{
-		if ( dteSession.getDataSessionContext( ).getAppContext( ) == null )
-		{
-			dteSession.getDataSessionContext( ).setAppContext( new HashMap( ) );
-		}
-		dteSession.getDataSessionContext( )
-				.getAppContext( )
-				.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
-						createResourceIdentifiers( source.getModuleHandle( ) ) );
+		setResourceIDtoDataSourceHandle( source );
 		OdaDataSourceDesign dteSource = new OdaDataSourceDesign( source
 				.getQualifiedName( ) );
 		IBaseDataSourceEventHandler eventHandler = new DataSourceScriptExecutor(
@@ -446,6 +439,23 @@ public class ModelDteApiAdapter
 	}
 
 	/**
+	 * Set the ResourceIdentifiers instance to the data source handle
+	 * 
+	 * @param source
+	 */
+	private void setResourceIDtoDataSourceHandle( OdaDataSourceHandle source )
+	{
+		if ( dteSession.getDataSessionContext( ).getAppContext( ) == null )
+		{
+			dteSession.getDataSessionContext( ).setAppContext( new HashMap( ) );
+		}
+		dteSession.getDataSessionContext( )
+				.getAppContext( )
+				.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
+						createResourceIdentifiers( source.getModuleHandle( ) ) );
+	}
+
+	/**
 	 * This method create a ResourceIdentifiers instance which is in turn being passed to appContext.
 	 * 
 	 * The consumer of appContext, especially those Oda drivers, can then use it for acquire Resource info.
@@ -461,8 +471,14 @@ public class ModelDteApiAdapter
 		try
 		{
 			ResourceIdentifiers identifiers = new ResourceIdentifiers( );
-			identifiers.setDesignResourceBaseURI( handle.getSystemId( ).toURI( ) );
-			identifiers.setApplResourceBaseURI( new File( handle.getResourceFolder( ) ).toURI( ) );
+			if ( handle.getSystemId( ) != null )
+			{
+				identifiers.setDesignResourceBaseURI( handle.getSystemId( ).toURI( ) );
+			}			
+			if( handle.getResourceFolder( ) != null )
+			{
+				identifiers.setApplResourceBaseURI( new File( handle.getResourceFolder( ) ).toURI( ) );
+			}			
 			return identifiers;
 		}
 		catch ( URISyntaxException e )
