@@ -79,7 +79,7 @@ public class ScriptableParametersTest extends TestCase
 			context.eval( "params['none exsit'] == null" );
 			fail( );
 		}
-		catch ( JavaScriptException e )
+		catch ( BirtException e )
 		{
 			assertTrue( true );
 		}
