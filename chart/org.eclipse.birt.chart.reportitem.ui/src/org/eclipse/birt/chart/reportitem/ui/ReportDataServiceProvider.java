@@ -342,9 +342,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			// expression.
 			resetParametersForDataPreview( getDataSetFromHandle( ), queryDefn );
 
+			Iterator filtersIterator = getFiltersIterator( );
 			IQueryResults actualResultSet = session.executeQuery( queryDefn,
 					null,
-					getPropertyIterator( itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP ) ),
+					filtersIterator,
 					ChartReportItemUtil.getColumnDataBindings( itemHandle ) );
 			if ( actualResultSet != null )
 			{
@@ -1218,9 +1219,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		
 		try
 		{
+			Iterator filtersIterator = getFiltersIterator( );
+			
 			actualResultSet = session.executeQuery( queryDefn,
 					null,
-					getPropertyIterator( handle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP ) ),
+					filtersIterator,
 					ChartReportItemUtil.getColumnDataBindings( handle ) );
 
 			if ( actualResultSet != null )
@@ -1253,6 +1256,51 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 
 		return null;
+	}
+
+	/**
+	 * Returns iterator of all filters.
+	 * 
+	 * @return
+	 */
+	private Iterator getFiltersIterator( )
+	{
+		List filterList = new ArrayList( );
+		PropertyHandle ph = null;
+		if ( this.getBoundDataSet( ) == null
+				&& this.getReportItemReference( ) == null ) // Inherit case.
+		{
+			// Get filters on container.
+			ph = ChartReportItemUtil.getBindingHolder( itemHandle )
+					.getPropertyHandle( ExtendedItemHandle.FILTER_PROP );
+			if ( ph != null )
+			{
+				Iterator filterIterator = ph.iterator( );
+				if ( filterIterator != null )
+				{
+					while ( filterIterator.hasNext( ) )
+					{
+						filterList.add( filterIterator.next( ) );
+					}
+				}
+			}
+		}
+		
+		// Get filters on current item hanlde.
+		ph = itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP );
+		if ( ph != null )
+		{
+			Iterator filterIterator = ph.iterator( );
+			if ( filterIterator != null )
+			{
+				while ( filterIterator.hasNext( ) )
+				{
+					filterList.add( filterIterator.next( ) );
+				}
+			}
+		}
+		
+		return filterList.isEmpty( ) ? null : filterList.iterator( );
 	}
 
 	/**
