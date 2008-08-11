@@ -101,7 +101,7 @@ public class WizardTemplateChoicePage extends WizardPage
 	public final int RTL_DIRECTION_INDX = 1;
 	private Label directionLabel;
 	private Combo directionCombo;
-	boolean isLTRDirection = true;
+	boolean isLTRDirection = ReportPlugin.getDefault( ).getLTRReportDirection( );
 	// bidi_hcg end
 
 	private boolean isModified = false;
@@ -425,7 +425,6 @@ public class WizardTemplateChoicePage extends WizardPage
 		bidiGridData.widthHint = 200;
 		bidiGridData.horizontalIndent = 20;
 		directionCombo.setLayoutData( bidiGridData );
-		isLTRDirection = ReportPlugin.getDefault( ).getLTRReportDirection( );
 		reSelectDirectionCombo( );
 		directionCombo.addSelectionListener( new SelectionListener( ) {
 

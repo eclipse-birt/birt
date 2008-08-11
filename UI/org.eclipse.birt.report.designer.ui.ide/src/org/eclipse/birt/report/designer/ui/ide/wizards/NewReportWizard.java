@@ -217,7 +217,7 @@ public class NewReportWizard extends Wizard implements
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
-	 *      org.eclipse.jface.viewers.IStructuredSelection)
+	 * org.eclipse.jface.viewers.IStructuredSelection)
 	 */
 	public void init( IWorkbench workbench, IStructuredSelection selection )
 	{
@@ -287,6 +287,11 @@ public class NewReportWizard extends Wizard implements
 				NEW_REPORT_FILE_EXTENSION ) );
 		newReportFileWizardPage.setContainerFullPath( getDefaultContainerPath( ) );
 		newReportFileWizardPage.setTemplateChoicePage( templateChoicePage );
+		
+		templateChoicePage.setLTRDirection( ReportPlugin.getDefault( )
+				.getLTRReportDirection( ResourcesPlugin.getWorkspace( )
+						.getRoot( )
+						.getProject( getDefaultContainerPath( ).lastSegment( ) ) ) );
 
 	}
 
@@ -557,17 +562,17 @@ public class NewReportWizard extends Wizard implements
 				handle.setDisplayName( null );
 				handle.setDescription( null );
 			}
-			//bidi_hcg start
-			//save value of bidiLayoutOrientation property
-			
+			// bidi_hcg start
+			// save value of bidiLayoutOrientation property
+
 			String bidiOrientation;
 			if ( templateChoicePage.isLTRDirection( ) )
 				bidiOrientation = DesignChoiceConstants.BIDI_DIRECTION_LTR;
 			else
 				bidiOrientation = DesignChoiceConstants.BIDI_DIRECTION_RTL;
 
-			handle.setBidiOrientation( bidiOrientation ); 
-			
+			handle.setBidiOrientation( bidiOrientation );
+
 			// bidi_hcg end
 			handle.saveAs( file.getLocation( ).toOSString( ) );
 			handle.close( );
@@ -654,8 +659,10 @@ public class NewReportWizard extends Wizard implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.eclipse.core.runtime.IConfigurationElement,
-	 *      java.lang.String, java.lang.Object)
+	 * @see
+	 * org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org
+	 * .eclipse.core.runtime.IConfigurationElement, java.lang.String,
+	 * java.lang.Object)
 	 */
 	public void setInitializationData( IConfigurationElement config,
 			String propertyName, Object data ) throws CoreException
