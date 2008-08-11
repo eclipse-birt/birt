@@ -26,6 +26,8 @@ import org.mozilla.javascript.Wrapper;
 
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.TimeZone;
+import com.ibm.icu.util.ULocale;
 
 /**
  * 
@@ -564,17 +566,11 @@ public class DataTypeUtilTest extends TestCase
 		calendar.set( Calendar.MILLISECOND, 45 );
 		resultDates[10] = calendar.getTime( );
 		
-		for ( int i = 9; i < testStrings.length; i++ )
+		for ( int i = 0; i < testStrings.length; i++ )
 		{
 			try
 			{
 				Date dateResult = DataTypeUtil.toDate( testStrings[i] );
-				System.out.println( "i:" + i );
-				System.out.println( dateResult );
-				System.out.println( resultDates[i] );
-				System.out.println();
-				System.out.println(dateResult.getTime( ));
-				System.out.println(resultDates[i].getTime( ));
 				assertEquals( dateResult, resultDates[i] );
 			}
 			catch ( BirtException e )
@@ -584,6 +580,47 @@ public class DataTypeUtilTest extends TestCase
 			
 		}
 	}
+	
+	public void testToDate2( )
+	{
+		String[] dateStrings = {
+				"Jan 11, 2002", "Jan 11, 2002", "Feb 12, 1981 6:17 AM"
+		};
+		String[] timeZoneIDs = {
+				"GMT+00:00", "GMT-02:00", "GMT+03:00"
+		};
+		
+		Calendar calendar = Calendar.getInstance( );
+		calendar.setTimeZone( TimeZone.getTimeZone( "GMT+00:00" ) );
+		Date[] resultDates = new Date[3];
+		calendar.clear( );
+		calendar.set(2002,0,11,0,0,0);
+		resultDates[0] = calendar.getTime( );
+		calendar.clear( );
+		calendar.set(2002,0,11,2,0,0);
+		resultDates[1] = calendar.getTime( );
+		calendar.clear( );
+		calendar.set(1981,1,12,3,17,0 );
+		resultDates[2] = calendar.getTime( );
+		
+		
+		for ( int i = 0; i < dateStrings.length; i++ )
+		{
+			try
+			{
+				Date dateResult = DataTypeUtil.toDate( dateStrings[i],
+						ULocale.US,
+						TimeZone.getTimeZone( timeZoneIDs[i] ) );
+				assertEquals( dateResult, resultDates[i] );
+			}
+			catch ( BirtException e )
+			{
+				fail( "Should not throw Exception." );
+			}
+		}
+	}
+			
+		
     
     public void testToTime( ) throws BirtException
     {

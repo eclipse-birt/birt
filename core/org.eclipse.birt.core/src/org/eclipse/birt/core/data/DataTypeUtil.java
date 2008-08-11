@@ -21,6 +21,8 @@ import java.sql.Types;
 import com.ibm.icu.text.DateFormat;
 import java.text.ParseException;
 import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.TimeZone;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -682,6 +684,20 @@ public final class DataTypeUtil
 	public static Date toDate( String source, ULocale locale )
 			throws BirtException
 	{
+		return toDate( source, locale, null );
+	}
+	
+	/**
+	 * 
+	 * @param source
+	 * @param locale
+	 * @param timeZone
+	 * @return
+	 * @throws BirtException
+	 */
+	public static Date toDate( String source, ULocale locale, TimeZone timeZone )
+			throws BirtException
+	{
 		if ( source == null )
 			return null;
 
@@ -696,6 +712,12 @@ public final class DataTypeUtil
 			for ( int j = DEFAULT_DATE_STYLE; j <= DateFormat.SHORT; j++ )
 			{
 				dateFormat = DateFormatFactory.getDateTimeInstance( i, j, locale );
+				TimeZone savedTimeZone = null; 
+				if( timeZone != null )
+				{
+					savedTimeZone = dateFormat.getTimeZone( );
+					dateFormat.setTimeZone( timeZone );
+				}
 				try
 				{
 					resultDate = dateFormat.parse( source );
@@ -703,6 +725,11 @@ public final class DataTypeUtil
 				}
 				catch ( ParseException e1 )
 				{
+				}
+				finally 
+				{
+					if( savedTimeZone != null )
+						dateFormat.setTimeZone( savedTimeZone );
 				}
 			}
 
@@ -710,6 +737,12 @@ public final class DataTypeUtil
 			if ( !existTime )
 			{
 				dateFormat = DateFormatFactory.getDateInstance( i, locale );
+				TimeZone savedTimeZone = null; 
+				if( timeZone != null )
+				{
+					savedTimeZone = dateFormat.getTimeZone( );
+					dateFormat.setTimeZone( timeZone );
+				}
 				try
 				{
 					resultDate = dateFormat.parse( source );
@@ -717,6 +750,11 @@ public final class DataTypeUtil
 				}
 				catch ( ParseException e1 )
 				{
+				}
+				finally 
+				{
+					if( savedTimeZone != null )
+						dateFormat.setTimeZone( savedTimeZone );
 				}
 			}
 		}
