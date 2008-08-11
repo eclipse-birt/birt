@@ -762,7 +762,6 @@ public abstract class Module extends DesignElement
 		module.nameHelper = new ModuleNameHelper( module );
 		module.referencableProperties = null;
 		module.saveState = 0;
-		module.systemId = null;
 		module.translations = (TranslationTable) translations.clone( );
 		module.validationExecutor = new ValidationExecutor( module );
 		module.validationListeners = null;
