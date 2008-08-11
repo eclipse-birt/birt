@@ -43,12 +43,12 @@ public class LegendScript
 		cwaBar.setType( "Bar Chart" ); //$NON-NLS-1$
 		cwaBar.setSubType( "Side-by-side" ); //$NON-NLS-1$
 		
-		cwaBar.setScript( "function beforeDrawLegendEntry(label, scriptContext)" //$NON-NLS-1$
-				+ "{label.getCaption( ).getColor().set( 35, 184, 245 );"//$NON-NLS-1$
-				+ "label.getCaption().getFont().setBold(true);" //$NON-NLS-1$
-				+ "label.getCaption().getFont().setItalic(true);" //$NON-NLS-1$
-				+ "label.getOutline().setVisible(true);" //$NON-NLS-1$
-				+ "label.getOutline().getColor().set( 177, 12, 187);}" //$NON-NLS-1$
+		cwaBar.setScript( "function beforeDrawLegendItem( lerh, bounds, icsc )" //$NON-NLS-1$
+				+ "{lerh.getLabel().getCaption( ).getColor().set( 35, 184, 245 );"//$NON-NLS-1$
+				+ "lerh.getLabel().getCaption().getFont().setBold(true);" //$NON-NLS-1$
+				+ "lerh.getLabel().getCaption().getFont().setItalic(true);" //$NON-NLS-1$
+				+ "lerh.getLabel().getOutline().setVisible(true);" //$NON-NLS-1$
+				+ "lerh.getLabel().getOutline().getColor().set( 177, 12, 187);}" //$NON-NLS-1$
 		);
 		cwaBar.getLegend( ).setItemType( LegendItemType.CATEGORIES_LITERAL );
 		cwaBar.getTitle( ).getLabel( ).getCaption( ).setValue( "Chart with Legend Script" ); //$NON-NLS-1$
