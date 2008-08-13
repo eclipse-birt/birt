@@ -164,31 +164,14 @@ public class LayoutContextFactory
 
 		public Object visitAutoText( IAutoTextContent autoText, Object value )
 		{
-			if ( IAutoTextContent.TOTAL_PAGE == autoText.getType( ) )
+			int type = autoText.getType( );
+			if ( type == IAutoTextContent.TOTAL_PAGE
+					|| type == IAutoTextContent.UNFILTERED_TOTAL_PAGE )
 			{
 				context.addUnresolvedContent( autoText );
-				return new TemplateLayout(context, parent, autoText);
+				return new TemplateLayout( context, parent, autoText );
 			}
-			else
-			{
-				String originalPageNumber = autoText.getText( );
-				NumberFormatter nf = new NumberFormatter( );
-				String patternStr = autoText.getComputedStyle( )
-						.getNumberFormat( );
-				nf.applyPattern( patternStr );
-				try
-				{
-					autoText.setText( nf.format( Integer
-							.parseInt( originalPageNumber ) ) );
-				}
-				catch ( NumberFormatException nfe )
-				{
-					autoText.setText( originalPageNumber );
-				
-				}
-				return handleText( autoText );
-			}
-			
+			return handleText( autoText );
 		}
 
 		private Object handleText( ITextContent content )

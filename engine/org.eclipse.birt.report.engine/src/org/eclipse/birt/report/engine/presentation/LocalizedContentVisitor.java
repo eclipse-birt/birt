@@ -420,15 +420,39 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		handleOnRender( text );
 		return value;
 	}
-	
-	public Object visitAutoText(IAutoTextContent autoText, Object value)
+
+	public Object visitAutoText( IAutoTextContent autoText, Object value )
 	{
 		int type = autoText.getType( );
+		String pattern = autoText.getComputedStyle( ).getNumberFormat( );
+		NumberFormatter format = context.getNumberFormatter( pattern );
+
 		if ( type == IAutoTextContent.PAGE_NUMBER )
 		{
-			autoText.setText( String.valueOf( context.getPageNumber( ) ) );
+			long number = context.getFilteredPageNumber( );
+			String text = format.format( number );
+			autoText.setText( text );
 		}
 		else if ( type == IAutoTextContent.TOTAL_PAGE )
+		{
+			long totalPage = context.getFilteredTotalPage( );
+			if ( totalPage <= 0 )
+			{
+				autoText.setText( "---" );
+			}
+			else
+			{
+				String text = format.format( totalPage );
+				autoText.setText( text );
+			}
+		}
+		else if ( type == IAutoTextContent.UNFILTERED_PAGE_NUMBER )
+		{
+			long number = context.getPageNumber( );
+			String text = format.format( number );
+			autoText.setText( text );
+		}
+		else if ( type == IAutoTextContent.UNFILTERED_TOTAL_PAGE )
 		{
 			long totalPage = context.getTotalPage( );
 			if ( totalPage <= 0 )
@@ -437,14 +461,14 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			}
 			else
 			{
-				autoText.setText( String.valueOf( totalPage ) );
+				String text = format.format( totalPage );
+				autoText.setText( text );
 			}
 		}
 		handleOnRender( autoText );
 
 		return value;
 	}
-
 
 	/**
 	 * handle the foreign content object.

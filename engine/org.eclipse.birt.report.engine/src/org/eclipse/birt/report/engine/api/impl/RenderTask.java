@@ -350,16 +350,32 @@ public class RenderTask extends EngineTask implements IRenderTask
 			{
 				return !needPaginate( );
 			}
-			boolean paged = true;
+			int pageCount = getPageCount( );
+			if ( pageCount == 1 )
+			{
+				return true;
+			}
 			IRenderOption renderOption = executionContext.getRenderOption( );
 			HTMLRenderOption htmlRenderOption = new HTMLRenderOption(
 					renderOption );
 			boolean htmlPagination = htmlRenderOption.getHtmlPagination( );
 			if ( !htmlPagination )
 			{
-				paged = false;
+				return true;
 			}
-			return paged;
+			return false;
+		}
+
+		protected int getPageCount( )
+		{
+			int pageCount = 0;
+			for ( long[] pageSeg : pageSequences )
+			{
+				long start = pageSeg[0];
+				long end = pageSeg[1];
+				pageCount += ( end - start ) + 1;
+			}
+			return pageCount;
 		}
 
 		// identify if layout engine need do paginate
@@ -421,6 +437,13 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 			// setup the page sequences
 			List<long[]> physicalPageSequences = getPhysicalPageSequence( pageSequences );
+			long filteredTotalPage = getTotalPage( );
+			long totalPage = reportDocument.getPageCount( );
+			if ( filteredTotalPage != totalPage )
+			{
+				executionContext.setFilteredTotalPage( filteredTotalPage );
+			}
+
 			ReportPageExecutor pagesExecutor = new ReportPageExecutor(
 					executionContext, physicalPageSequences, paged );
 			IReportExecutor executor = new SuppressDuplciateReportExecutor(
@@ -434,7 +457,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 			layoutEngine.setLocale( executionContext.getLocale( ) );
 
-			PageRangeIterator iter = new PageRangeIterator( pageSequences );
+			PageRangeIterator iter = new PageRangeIterator( physicalPageSequences );
 
 			if ( ExtensionManager.PAGE_BREAK_PAGINATION.equals( pagination )
 					|| ExtensionManager.PAPER_SIZE_PAGINATION
@@ -491,6 +514,12 @@ public class RenderTask extends EngineTask implements IRenderTask
 								.getNextChild( );
 						if ( pageExecutor != null )
 						{
+							if ( filteredTotalPage != totalPage )
+							{
+								long filteredPageNumber = getLogicalPageNumber( pageNumber );
+								executionContext
+										.setFilteredPageNumber( filteredPageNumber );
+							}
 							IReportExecutor pExecutor = new ReportExecutorWrapper(
 									pageExecutor, executor );
 							layoutEngine.setLayoutPageHint( getPageHint(
@@ -694,13 +723,13 @@ public class RenderTask extends EngineTask implements IRenderTask
 	}
 
 	private ArrayList<long[]> getPhysicalPageSequence(
-			ArrayList<long[]> logicalPages )
+			ArrayList<long[]> logicalPages ) throws EngineException
 	{
-		if ( logicalPageSequence != null )
+		LogicalPageSequence visiblePages = loadVisiblePages( );
+		if ( visiblePages != null )
 		{
-			long[][] pages = logicalPageSequence
-					.getPhysicalPageNumbers( logicalPages
-							.toArray( new long[logicalPages.size( )][] ) );
+			long[][] pages = visiblePages.getPhysicalPageNumbers( logicalPages
+					.toArray( new long[logicalPages.size( )][] ) );
 			ArrayList<long[]> physicalPages = new ArrayList<long[]>(
 					pages.length );
 			for ( int i = 0; i < pages.length; i++ )

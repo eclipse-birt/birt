@@ -122,6 +122,8 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 			}
 			else
 			{
+				// FIXME: handle the TOTAL_PAGE and UNFILTERED_TOTAL_PAGE
+				// differently.
 				totalPageCount = context.totalPage > 0
 						? context.totalPage
 						: context.pageCount;

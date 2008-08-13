@@ -26,6 +26,8 @@ public interface IAutoTextContent extends ITextContent
 {
 	public static final int TOTAL_PAGE = 0;
 	public static final int PAGE_NUMBER = 1;
+	public static final int UNFILTERED_TOTAL_PAGE = 2;
+	public static final int UNFILTERED_PAGE_NUMBER = 3;
 	
 	/**
 	 * Set the type of the AutoText Content. This type must be one of the

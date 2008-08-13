@@ -11,15 +11,11 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
-import org.eclipse.birt.core.format.NumberFormatter;
-import org.eclipse.birt.report.engine.content.Dimension;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
-import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
-import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TemplateArea;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontHandler;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
@@ -31,7 +27,6 @@ public class TemplateLayout extends Layout
 			IContent content )
 	{
 		super( context, parent, content );
-		handleAutoText( (IAutoTextContent) content );
 	}
 
 	protected void closeLayout( )
@@ -119,23 +114,4 @@ public class TemplateLayout extends Layout
 		templateArea.setBaseLine( fontInfo.getBaseline( ) + templateArea.getContentY( ) );	
 		parent.addToRoot( templateArea );
 	}
-
-	protected void handleAutoText( IAutoTextContent autoText )
-	{
-		if ( IAutoTextContent.TOTAL_PAGE == autoText.getType( ) )
-		{
-			context.addUnresolvedContent( autoText );
-		}
-		if ( IAutoTextContent.PAGE_NUMBER == autoText.getType( ) )
-		{
-
-			String originalPageNumber = autoText.getText( );
-			NumberFormatter nf = new NumberFormatter( );
-			String patternStr = autoText.getComputedStyle( ).getNumberFormat( );
-			nf.applyPattern( patternStr );
-			autoText.setText( nf
-					.format( Integer.parseInt( originalPageNumber ) ) );
-		}
-	}
-
 }

@@ -241,6 +241,9 @@ public class ExecutionContext
 	 */
 	private long pageNumber;
 
+	private long filteredTotalPage;
+	private long filteredPageNumber;
+
 	/**
 	 * A list of script errors found in onPrepare. These will be added to the
 	 * IReportContent, when one is available
@@ -1439,6 +1442,34 @@ public class ExecutionContext
 	public long getTotalPage( )
 	{
 		return totalPage;
+	}
+
+	public void setFilteredPageNumber( long pageNo )
+	{
+		filteredPageNumber = pageNo;
+	}
+
+	public void setFilteredTotalPage( long totalPage )
+	{
+		filteredTotalPage = totalPage;
+	}
+
+	public long getFilteredPageNumber( )
+	{
+		if ( filteredPageNumber <= 0 )
+		{
+			return pageNumber;
+		}
+		return filteredPageNumber;
+	}
+
+	public long getFilteredTotalPage( )
+	{
+		if ( filteredTotalPage <= 0 )
+		{
+			return totalPage;
+		}
+		return filteredTotalPage;
 	}
 
 	/**

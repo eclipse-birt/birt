@@ -49,22 +49,21 @@ public class AutoTextItemExecutor extends ReportItemExecutor
 				.equalsIgnoreCase( type ) )
 		{
 			textContent.setType( IAutoTextContent.PAGE_NUMBER );
-			// If we can get the current page No., set it.
-			textContent.setText( String.valueOf( context.getPageNumber( ) ) );
 		}
 		else if ( DesignChoiceConstants.AUTO_TEXT_TOTAL_PAGE
 				.equalsIgnoreCase( type ) )
 		{
 			textContent.setType( IAutoTextContent.TOTAL_PAGE );
-			long totalPage = context.getTotalPage( );
-			if ( totalPage <= 0 )
-			{
-				textContent.setText( "---" );
-			}
-			else
-			{
-				textContent.setText( String.valueOf( context.getTotalPage( ) ) );
-			}
+		}
+		else if ( DesignChoiceConstants.AUTO_TEXT_PAGE_NUMBER_UNFILTERED
+				.equalsIgnoreCase( type ) )
+		{
+			textContent.setType( IAutoTextContent.UNFILTERED_PAGE_NUMBER );
+		}
+		else if ( DesignChoiceConstants.AUTO_TEXT_TOTAL_PAGE_UNFILTERED
+				.equalsIgnoreCase( type ) )
+		{
+			textContent.setType( IAutoTextContent.UNFILTERED_TOTAL_PAGE );
 		}
 	}
 }

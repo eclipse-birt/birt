@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -20,7 +21,6 @@ import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
-import org.eclipse.birt.report.engine.executor.ReportExecutorUtil;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.PageSetupDesign;
 import org.eclipse.birt.report.engine.layout.area.IContainerArea;
@@ -482,9 +482,10 @@ public class PageLayout extends BlockStackingLayout
 		}
 		else
 		{
-			return createPageContent( htmlPageContent, context.pageNumber++,
-					context.totalPage );
-
+			IPageContent pageContent = createPageContent( htmlPageContent,
+					context.pageNumber, context.totalPage );
+			context.pageNumber++;
+			return pageContent;
 		}
 	}
 
@@ -501,18 +502,14 @@ public class PageLayout extends BlockStackingLayout
 		IContent newContent = content.cloneContent( false );
 		if ( newContent.getContentType( ) == IContent.AUTOTEXT_CONTENT )
 		{
-			IAutoTextContent autoText = (IAutoTextContent) content;
-			switch ( autoText.getType( ) )
+			IAutoTextContent autoText = (IAutoTextContent) newContent;
+			int type = autoText.getType( );
+			if ( type == IAutoTextContent.PAGE_NUMBER
+					|| type == IAutoTextContent.UNFILTERED_PAGE_NUMBER )
 			{
-				case IAutoTextContent.TOTAL_PAGE :
-					( (IAutoTextContent) newContent ).setText( new Long(
-							totalPageNumber ).toString( ) );
-					break;
-				case IAutoTextContent.PAGE_NUMBER :
-					( (IAutoTextContent) newContent ).setText( new Long(
-							pageNumber ).toString( ) );
-					break;
-
+				String pattern = autoText.getComputedStyle( ).getNumberFormat( );
+				NumberFormatter nf = new NumberFormatter( pattern );
+				autoText.setText( nf.format( pageNumber ) );
 			}
 		}
 		Iterator iter = content.getChildren( ).iterator( );
