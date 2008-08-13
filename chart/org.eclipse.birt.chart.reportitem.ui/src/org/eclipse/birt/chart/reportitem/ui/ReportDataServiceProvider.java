@@ -1495,7 +1495,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					{
 						query.getBindings( ).remove( name );
 					}
-
+					
+					fNameSet.add( name );
+					
 					Binding colBinding = new Binding( name );
 
 					colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );

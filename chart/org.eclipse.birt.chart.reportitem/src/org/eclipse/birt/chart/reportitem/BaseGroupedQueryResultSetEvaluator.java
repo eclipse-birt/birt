@@ -402,7 +402,9 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 		EList<SeriesDefinition> baseSDs = ChartUtil.getBaseSeriesDefinitions( cm );
 		for ( SeriesDefinition sd : baseSDs )
 		{
-			if ( sd.getGrouping( ) == null || !sd.getGrouping( ).isEnabled( ) )
+			if ( sd.getDesignTimeSeries( ).getDataDefinition( ).isEmpty( )
+					|| sd.getGrouping( ) == null
+					|| !sd.getGrouping( ).isEnabled( ) )
 			{
 				continue;
 			}

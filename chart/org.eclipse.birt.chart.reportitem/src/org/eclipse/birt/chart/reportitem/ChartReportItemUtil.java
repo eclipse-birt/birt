@@ -467,7 +467,9 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 */
 	public static boolean isBaseGroupingDefined( SeriesDefinition baseSD )
 	{
-		if ( baseSD.getGrouping( ) != null && baseSD.getGrouping( ).isEnabled( ) )
+		if ( !baseSD.getDesignTimeSeries( ).getDataDefinition( ).isEmpty( )
+				&& baseSD.getGrouping( ) != null
+				&& baseSD.getGrouping( ).isEnabled( ) )
 		{
 			return true;
 		}
@@ -1144,7 +1146,8 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		{
 			return expr.replaceAll( "\"", "" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		return expr;
+		return expr; // The specified expression might be a binding name,
+						// directly return.
 	}
 	
 	/**

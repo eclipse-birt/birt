@@ -818,7 +818,7 @@ public class ChartUtil
 		}
 		return returnExpr.replaceAll( "\"", "" ); //$NON-NLS-1$ //$NON-NLS-2$
 	}
-	
+
 	/**
 	 * Returns row full expression of value series.
 	 *  
@@ -861,14 +861,36 @@ public class ChartUtil
 			return null;
 		}
 
-		IAggregateFunction aFunc = PluginSettings.instance( )
-				.getAggregateFunction( expr );
-		Object[] parameters = ChartUtil.getAggFunParameters( orthoSD,
-				categorySD );
-		for ( int i = 0; i < parameters.length &&
-				i < aFunc.getParametersCount( ); i++ )
+		expr = createFullAggregateString( expr,
+				ChartUtil.getAggFunParameters( orthoSD, categorySD ) );
+		
+		return expr;
+	}
+
+	/**
+	 * Create full aggregate string.
+	 * 
+	 * @param aggrFunc
+	 * @param aggrParameters
+	 * @return
+	 * @throws ChartException
+	 * @since 2.3.1
+	 */
+	public static String createFullAggregateString( String aggrFunc,
+			Object[] aggrParameters ) throws ChartException
+	{
+		if ( aggrFunc == null )
 		{
-			String param = ( parameters[i] ) == null ? "" : (String) parameters[i]; //$NON-NLS-1$
+			return null;
+		}
+		
+		String expr = aggrFunc;
+		IAggregateFunction aFunc = PluginSettings.instance( )
+				.getAggregateFunction( aggrFunc );
+		for ( int i = 0; i < aggrParameters.length
+				&& i < aFunc.getParametersCount( ); i++ )
+		{
+			String param = ( aggrParameters[i] ) == null ? "" : (String) aggrParameters[i]; //$NON-NLS-1$
 			expr = expr + "_" + param; //$NON-NLS-1$
 		}
 		return expr;
@@ -1475,6 +1497,18 @@ public class ChartUtil
 		}
 
 		return cm;
+	}
+
+	/**
+	 * Check if specified string is empty.
+	 * 
+	 * @param str
+	 * @return
+	 * @since 2.3.1
+	 */
+	public static boolean isEmpty( String str )
+	{
+		return ( str == null || "".equals( str ) );
 	}
 	
 }
