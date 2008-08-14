@@ -15,7 +15,7 @@ package org.eclipse.birt.report.engine.dataextraction.csv;
  */
 public class CSVUtil
 {
-	public static final String NEWLINE = "\r\n"; //$NON-NLS-1$ 
+	public static final String NEWLINE = "\n"; //$NON-NLS-1$ 
 	public static final String QUOTE = "\""; //$NON-NLS-1$
 
 	/**

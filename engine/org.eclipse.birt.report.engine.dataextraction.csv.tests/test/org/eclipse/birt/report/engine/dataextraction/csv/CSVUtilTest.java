@@ -199,7 +199,8 @@ public class CSVUtilTest extends TestCase
 	{
 		assertNotNull("Returned row is not null", row);
 		assertTrue("Row length is >= 2", row.length() >= 2); // because of CRLF chars
-		assertEquals("Row has CRLF at its end", "\r\n", row.substring( row.length() - 2 ));
+		assertEquals("Row has LF at its end", "\n", row.substring( row.length() - 1 ));
+		assertFalse("Row has no CRLF at its end", "\r\n".equals( row.substring( row.length() - 2 ) ));
 		
 		String[] rowValues = csvRowSplit( row, sep.charAt(0) );
 		for ( int i = 0; i < correctValues.length; i++ )
@@ -214,6 +215,11 @@ public class CSVUtilTest extends TestCase
 		if ( row.endsWith( "\r\n" ))
 		{
 			row = row.substring( 0, row.length() - 2 );			
+		}
+		else if ( row.endsWith("\n"))
+		{
+			row = row.substring( 0, row.length() - 1 );			
+			
 		}
 		
 		// limit is necessary to prevent split from trimming the empty values at the end of the row
