@@ -589,7 +589,6 @@ public class DataTypeUtilTest extends TestCase
 		String[] timeZoneIDs = {
 				"GMT+00:00", "GMT-02:00", "GMT+03:00"
 		};
-		
 		Calendar calendar = Calendar.getInstance( );
 		calendar.setTimeZone( TimeZone.getTimeZone( "GMT+00:00" ) );
 		Date[] resultDates = new Date[3];
@@ -612,6 +611,100 @@ public class DataTypeUtilTest extends TestCase
 						ULocale.US,
 						TimeZone.getTimeZone( timeZoneIDs[i] ) );
 				assertEquals( dateResult, resultDates[i] );
+			}
+			catch ( BirtException e )
+			{
+				fail( "Should not throw Exception." );
+			}
+		}
+	}
+	
+	public void testToDate3( )
+	{
+		String[] dateStrings = {
+				"Jan 11, 2002", "Jan 11, 2002", "Feb 12, 1981 6:17 AM"
+		};
+		String[] timeZoneIDs = {
+				"GMT+00:00", "GMT-02:00", "GMT+03:00"
+		};
+		String[] ISODateStrings = {
+				"1997-07-16",
+				"1997-07-16T19:20",
+				"1997-07-16T19:20:30"
+		};
+		Calendar calendar = Calendar.getInstance( );
+		calendar.setTimeZone( TimeZone.getTimeZone( "GMT+00:00" ) );
+		Date[] resultDates1 = new Date[3];
+		calendar.clear( );
+		calendar.set( 2002, 0, 11, 0, 0, 0 );
+		resultDates1[0] = calendar.getTime( );
+		calendar.clear( );
+		calendar.set( 2002, 0, 11, 2, 0, 0 );
+		resultDates1[1] = calendar.getTime( );
+		calendar.clear( );
+		calendar.set( 1981, 1, 12, 3, 17, 0 );
+		resultDates1[2] = calendar.getTime( );
+		
+		for ( int i = 0; i < dateStrings.length; i++ )
+		{
+			try
+			{
+				Date dateResult = DataTypeUtil.toDate( dateStrings[i],
+						ULocale.US,
+						TimeZone.getTimeZone( timeZoneIDs[i] ) );
+				assertEquals( dateResult, resultDates1[i] );
+			}
+			catch ( BirtException e )
+			{
+				fail( "Should not throw Exception." );
+			}
+		}
+		
+		calendar = Calendar.getInstance( );
+		Date[] resultDates2 = new Date[3];
+		calendar.clear( );
+		calendar.set( 1997, 6, 16, 0, 0, 0 );
+		resultDates2[0] = calendar.getTime( );
+		calendar.clear( );
+		calendar.set( 1997, 6, 16, 19, 20, 0 );
+		resultDates2[1] = calendar.getTime( );
+		calendar.clear( );
+		calendar.set( 1997, 6, 16, 19, 20, 30 );
+		resultDates2[2] = calendar.getTime( );
+
+		for ( int i = 0; i < dateStrings.length; i++ )
+		{
+			try
+			{
+				Date dateResult = DataTypeUtil.toDate( ISODateStrings[i] );
+				assertEquals( dateResult, resultDates2[i] );
+			}
+			catch ( BirtException e )
+			{
+				fail( "Should not throw Exception." );
+			}
+		}
+
+		calendar = Calendar.getInstance( );
+		calendar.setTimeZone( TimeZone.getTimeZone( "GMT+00:00" ) );
+		Date[] resultDates3 = new Date[3];
+		calendar.clear( );
+		calendar.set( 1997, 6, 16, 0, 0, 0 );
+		resultDates3[0] = calendar.getTime( );
+		calendar.clear( );
+		calendar.set( 1997, 6, 16, 21, 20, 0 );
+		resultDates3[1] = calendar.getTime( );
+		calendar.clear( );
+		calendar.set( 1997, 6, 16, 16, 20, 30 );
+		resultDates3[2] = calendar.getTime( );
+
+		for ( int i = 0; i < dateStrings.length; i++ )
+		{
+			try
+			{
+				Date dateResult = DataTypeUtil.toDate( ISODateStrings[i],
+						TimeZone.getTimeZone( timeZoneIDs[i] ) );
+				assertEquals( dateResult, resultDates3[i] );
 			}
 			catch ( BirtException e )
 			{

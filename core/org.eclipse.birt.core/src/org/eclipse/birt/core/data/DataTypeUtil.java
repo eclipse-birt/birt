@@ -774,6 +774,36 @@ public final class DataTypeUtil
 	}
 
 	/**
+	 * Convert a string to a Date instance according to the TimeZone value
+	 * 
+	 * @param source
+	 * @param timeZone
+	 * @return
+	 * @throws BirtException
+	 */
+	public static Date toDate( String source, TimeZone timeZone ) throws BirtException
+	{
+		assert timeZone != null;
+		try
+		{
+			return toDateISO8601( source, timeZone );
+		}
+		catch ( BirtException e )
+		{
+			try
+			{
+				// format the String for JRE default locale
+				return toDate( source, JRE_DEFAULT_LOCALE, timeZone );
+			}
+			catch ( BirtException use )
+			{
+				// format the String for Locale.US
+				return toDate( source, DEFAULT_LOCALE, timeZone );
+			}
+		}
+	}
+	
+	/**
 	 * A temp solution to the adoption of ICU4J in BIRT. It is a simple
 	 * delegation to toDateWithCheck( String, Locale ).
 	 * 
@@ -1303,7 +1333,7 @@ public final class DataTypeUtil
 	{
 		try
 		{
-			return toDateISO8601( source );
+			return toDateISO8601( source, null );
 		}
 		catch ( BirtException e )
 		{
@@ -1329,13 +1359,13 @@ public final class DataTypeUtil
 	 * 			  the locate of the string
 	 * @return result Date
 	 */
-	private static Date toDateISO8601( String source ) throws BirtException
+	private static Date toDateISO8601( String source, TimeZone timeZone ) throws BirtException
 	{
 		Date resultDate = null;
 
 		try
 		{
-			resultDate = DateFormatISO8601.parse( source );
+			resultDate = DateFormatISO8601.parse( source, timeZone );
 			return resultDate;
 		}
 		catch ( ParseException e1 )

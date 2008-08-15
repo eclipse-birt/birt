@@ -12,7 +12,11 @@
 package org.eclipse.birt.core.data;
 
 import java.text.ParseException;
+
+import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.TimeZone;
+
 import java.util.Date;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -33,7 +37,7 @@ public class DateFormatISO8601
 	 * @return
 	 * @throws ParseException
 	 */
-	public static Date parse( String source ) throws BirtException,
+	public static Date parse( String source, TimeZone timeZone ) throws BirtException,
 			ParseException
 	{
 		if ( source == null || source.trim( ).length( ) == 0 )
@@ -45,13 +49,25 @@ public class DateFormatISO8601
 		Object simpleDateFormatter = DateFormatFactory.getPatternInstance( PatternKey.getPatterKey( source ) );
 		if ( simpleDateFormatter != null )
 		{
+			SimpleDateFormat dateFormat = (SimpleDateFormat) simpleDateFormatter;
+			TimeZone savedTimeZone = null;
 			try
 			{
-				resultDate = ( (SimpleDateFormat) simpleDateFormatter ).parse( source );
+				if ( timeZone != null )
+				{
+					savedTimeZone = dateFormat.getTimeZone( );
+					dateFormat.setTimeZone( timeZone );
+				}
+				resultDate = dateFormat.parse( source );
 				return resultDate;
 			}
 			catch ( ParseException e1 )
 			{
+			}
+			finally
+			{
+				if ( savedTimeZone != null )
+					dateFormat.setTimeZone( savedTimeZone );
 			}
 		}
 		// for the String can not be parsed, throws a BirtException
