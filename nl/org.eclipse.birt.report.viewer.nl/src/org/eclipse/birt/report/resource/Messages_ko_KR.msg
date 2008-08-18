@@ -238,4 +238,4 @@ birt.viewer.message.document.successful=보고서 문서 파일이 성공적으로 생성되었습
 ###############################################################################
 # Birt Viewer General Exceptions
 ###############################################################################
-birt.viewer.exception.maybe_disabled_cookies=This might be caused by disabled cookies on the client side.
+birt.viewer.exception.maybe_disabled_cookies=클라이언트 쪽에 사용할 수 없는 쿠키 때문일 수 있습니다.

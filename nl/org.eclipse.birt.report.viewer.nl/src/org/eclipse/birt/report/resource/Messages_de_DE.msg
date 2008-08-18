@@ -238,4 +238,4 @@ birt.viewer.message.document.successful=Das Berichtsdokument wurde erfolgreich e
 ###############################################################################
 # Birt Viewer General Exceptions
 ###############################################################################
-birt.viewer.exception.maybe_disabled_cookies=This might be caused by disabled cookies on the client side.
+birt.viewer.exception.maybe_disabled_cookies=Das Problem wird möglicherweise durch deaktivierte Cookies auf der Client-Seite verursacht.

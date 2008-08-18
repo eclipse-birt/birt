@@ -238,4 +238,4 @@ birt.viewer.message.document.successful=Génération de l'état réussie.
 ###############################################################################
 # Birt Viewer General Exceptions
 ###############################################################################
-birt.viewer.exception.maybe_disabled_cookies=This might be caused by disabled cookies on the client side.
+birt.viewer.exception.maybe_disabled_cookies=Cela peut être dû à la désactivation des cookies côté client.

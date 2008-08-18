@@ -238,4 +238,4 @@ birt.viewer.message.document.successful=レポート文書ファイルが生成されました。
 ###############################################################################
 # Birt Viewer General Exceptions
 ###############################################################################
-birt.viewer.exception.maybe_disabled_cookies=This might be caused by disabled cookies on the client side.
+birt.viewer.exception.maybe_disabled_cookies=これは、クライアント側で cookies が無効になっていることが原因で発生する場合があります。

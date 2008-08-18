@@ -238,4 +238,4 @@ birt.viewer.message.document.successful=El archivo de documento de informe se ha
 ###############################################################################
 # Birt Viewer General Exceptions
 ###############################################################################
-birt.viewer.exception.maybe_disabled_cookies=This might be caused by disabled cookies on the client side.
+birt.viewer.exception.maybe_disabled_cookies=Puede deberse a que el cliente haya desactivado las cookies.

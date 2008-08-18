@@ -238,4 +238,4 @@ birt.viewer.message.document.successful=报表文档文件已成功生成。
 ###############################################################################
 # Birt Viewer General Exceptions
 ###############################################################################
-birt.viewer.exception.maybe_disabled_cookies=This might be caused by disabled cookies on the client side.
+birt.viewer.exception.maybe_disabled_cookies=这可能是由客户端上禁用的 Cookie 引起的。
