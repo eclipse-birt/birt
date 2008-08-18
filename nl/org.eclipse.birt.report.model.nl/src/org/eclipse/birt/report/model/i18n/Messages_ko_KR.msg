@@ -2307,7 +2307,7 @@ Element.ReportDesign.initialize.reportContext=보고서 컨텍스트
 Element.ReportDesign.cssStyleSheets=CSS 스타일시트
 Element.ReportDesign.enableACL=ACL 사용
 Element.ReportDesign.ACLExpression=ACL 식
-Element.ReportDesign.cascadeACL=계단식 ACL
+Element.ReportDesign.cascadeACL=ACL 하위 전달
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=표시 이름
