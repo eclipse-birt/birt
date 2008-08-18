@@ -3320,7 +3320,7 @@ Message.ReplaceElement=要素の置換
 Message.TransformTemplate=テンプレートの変換
 Message.SetTheme=テーマの設定
 Message.ChangePropertyEncryption=プロパティ {0} の暗号化を変更します。
-Message.RenameCSSFile=Rename CSS File
+Message.RenameCSSFile=CSS ファイルの名前の変更
 
 ###########################################################
 #Element new names.

@@ -3320,7 +3320,7 @@ Message.ReplaceElement=Sustituir elemento
 Message.TransformTemplate=Transformar plantilla
 Message.SetTheme=Establecer tema
 Message.ChangePropertyEncryption=Cambiar cifrado de la propiedad:{0}
-Message.RenameCSSFile=Rename CSS File
+Message.RenameCSSFile=Cambiar nombre al archivo CSS
 
 ###########################################################
 #Element new names.

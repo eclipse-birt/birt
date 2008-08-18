@@ -3320,7 +3320,7 @@ Message.ReplaceElement=요소 바꾸기
 Message.TransformTemplate=템플릿 변환
 Message.SetTheme=테마 설정
 Message.ChangePropertyEncryption=속성 {0}의 암호화 변경
-Message.RenameCSSFile=Rename CSS File
+Message.RenameCSSFile=CSS 파일 이름 바꾸기
 
 ###########################################################
 #Element new names.

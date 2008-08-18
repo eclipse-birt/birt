@@ -3320,7 +3320,7 @@ Message.ReplaceElement=Element ersetzen
 Message.TransformTemplate=Vorlage umwandeln
 Message.SetTheme=Thema festlegen
 Message.ChangePropertyEncryption=Verschlüsselung ändern für Eigenschaft:{0}
-Message.RenameCSSFile=Rename CSS File
+Message.RenameCSSFile=CSS-Datei umbenennen
 
 ###########################################################
 #Element new names.
