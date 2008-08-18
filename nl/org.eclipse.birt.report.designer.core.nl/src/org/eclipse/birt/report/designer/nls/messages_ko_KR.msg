@@ -576,7 +576,7 @@ dataset.wizard.label.dataSource=데이터 원본(&S):
 dataSourceSelectionPage.title=데이터 원본에 연결
 dataset.error.title.noReportDesign=오류
 dataset.error.msg.noReportDesign=보고서 디자인을 사용할 수 없습니다.
-dataset.warning.invalidReponseStatus=Invalid design response from the custom ODA page. ODA design session response status: {0}.
+dataset.warning.invalidReponseStatus=사용자 지정 ODA 페이지의 디자인 응답이 잘못되었습니다. ODA 디자인 세션 응답 상태: {0}.
 
 ###########################################################
 #DataSetBasePage properties
@@ -1174,7 +1174,7 @@ Element.ReportDesign.displayName=표시 이름(&Y):
 Element.ReportDesign.eventHandlerClass=이벤트 처리기 클래스(&V):
 Element.ReportDesign.iconFile=섬네일(&N): 
 Element.ReportDesign.refreshRate=새로 고침 빈도:
-Element.ReportDesign.bidiLayoutOrientation=&Bidi Layout Orientation:
+Element.ReportDesign.bidiLayoutOrientation=양방향 레이아웃 방향(&B):
 Element.ReportElement.comments=설명(&C):
 Element.ReportElement.Cube=데이터(&D):
 Element.ReportElement.customXml=사용자 지정 XML:
@@ -1680,17 +1680,17 @@ FormatStringPreferencePage.formatString.title=문자열 형식
 FormPage.Button.Add=추가(&A)
 FormPage.Button.AddWithDialog=추가(&A)...
 FormPage.Button.AddWithDialog.JAR=추가(&D)...
-FormPage.Button.AddWithDialog.JS=Add(&z)...
+FormPage.Button.AddWithDialog.JS=추가(&Z)...
 FormPage.Button.Add.AggregateOn=집계 추가(&A)
 FormPage.Button.AddWithDialog.AggregateOn=집계 추가(&A)...
 FormPage.Button.Delete=제거(&R)
-FormPage.Button.Delete.Alt1=Re&move
+FormPage.Button.Delete.Alt1=제거(&M)
 FormPage.Button.Down=아래로(&N)
-FormPage.Button.Down.Alt1=Do&wn
+FormPage.Button.Down.Alt1=아래로(&W)
 FormPage.Button.Edit=편집(&D)
 FormPage.Button.EditWithDialog=편집(&D)...
 FormPage.Button.Up=위로(&U)
-FormPage.Button.Up.Alt1=U&p
+FormPage.Button.Up.Alt1=위로(&P)
 FormPage.Button.Binding.Refresh=새로 고침(&F)
 FormPage.Menu.ModifyProperty=속성 수정
 FormPage.toolTipText.Up=위로 이동
@@ -4375,5 +4375,5 @@ ExportElementToLibraryAction.waringMsg=요소에 이름이 없지만 해당 요소의 이름을 �
 
 ###########################################################
 #UIUtil
-UIUtil.previewconfirm.title=Errors in Report
-UIUtil.previewconfirm.message=The report contains some errors, would you like to process preview?\n(You can get details in Problems view)
+UIUtil.previewconfirm.title=보고서 오류
+UIUtil.previewconfirm.message=보고서에 몇 가지 오류가 있습니다. 미리 보기를 계속하시겠습니까?\n(문제 보기에서 상세 정보 확인 가능)

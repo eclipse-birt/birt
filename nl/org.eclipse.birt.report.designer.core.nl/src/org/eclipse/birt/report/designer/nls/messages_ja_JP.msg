@@ -576,7 +576,7 @@ dataset.wizard.label.dataSource=ƒf[ƒ^ƒ\[ƒX(&S) :
 dataSourceSelectionPage.title=ƒf[ƒ^ƒZƒbƒg‚ÉƒŠƒ“ƒN‚µ‚Ü‚·B
 dataset.error.title.noReportDesign=ƒGƒ‰[
 dataset.error.msg.noReportDesign=g—p‚Å‚«‚éƒŒƒ|[ƒgƒfƒUƒCƒ“‚ª‚ ‚è‚Ü‚¹‚ñB
-dataset.warning.invalidReponseStatus=Invalid design response from the custom ODA page. ODA design session response status: {0}.
+dataset.warning.invalidReponseStatus=ƒJƒXƒ^ƒ€ ODA ƒy[ƒW‚©‚ç‚ÌƒfƒUƒCƒ“‚Ì‰“š‚ª–³Œø‚Å‚·BODA ƒfƒUƒCƒ“ƒZƒbƒVƒ‡ƒ“‚Ì‰“šó‘Ô : {0}
 
 ###########################################################
 #DataSetBasePage properties
@@ -1174,7 +1174,7 @@ Element.ReportDesign.displayName=•\¦–¼(&Y) :
 Element.ReportDesign.eventHandlerClass=ƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰‚ÌƒNƒ‰ƒX(&V) :
 Element.ReportDesign.iconFile=ƒTƒ€ƒl[ƒ‹(&N) : 
 Element.ReportDesign.refreshRate=XV•p“x :
-Element.ReportDesign.bidiLayoutOrientation=&Bidi Layout Orientation:
+Element.ReportDesign.bidiLayoutOrientation=‘o•ûŒüƒŒƒCƒAƒEƒg‚ÌŒü‚«(&B) :
 Element.ReportElement.comments=ƒRƒƒ“ƒg(&C) :
 Element.ReportElement.Cube=ƒf[ƒ^(&D) :
 Element.ReportElement.customXml=ƒJƒXƒ^ƒ€ XML :
@@ -1680,17 +1680,17 @@ FormatStringPreferencePage.formatString.title=•¶š—ñ‚Ì‘®
 FormPage.Button.Add=’Ç‰Á(&A)
 FormPage.Button.AddWithDialog=’Ç‰Á(&A)...
 FormPage.Button.AddWithDialog.JAR=’Ç‰Á(&D)...
-FormPage.Button.AddWithDialog.JS=Add(&z)...
+FormPage.Button.AddWithDialog.JS=’Ç‰Á(&Z)...
 FormPage.Button.Add.AggregateOn=WŒv‚Ì’Ç‰Á(&A)
 FormPage.Button.AddWithDialog.AggregateOn=WŒv‚Ì’Ç‰Á(&A)...
 FormPage.Button.Delete=íœ(&R)
-FormPage.Button.Delete.Alt1=Re&move
+FormPage.Button.Delete.Alt1=íœ(&M)
 FormPage.Button.Down=‰º‚Ö(&N)
-FormPage.Button.Down.Alt1=Do&wn
+FormPage.Button.Down.Alt1=‰º‚Ö(&W)
 FormPage.Button.Edit=•ÒW(&D)
 FormPage.Button.EditWithDialog=•ÒW(&D)...
 FormPage.Button.Up=ã‚Ö(&U)
-FormPage.Button.Up.Alt1=U&p
+FormPage.Button.Up.Alt1=ã‚Ö(&P)
 FormPage.Button.Binding.Refresh=Ä•\¦(&F)
 FormPage.Menu.ModifyProperty=ƒvƒƒpƒeƒB‚Ì•ÏX
 FormPage.toolTipText.Up=ã‚ÉˆÚ“®
@@ -4375,5 +4375,5 @@ ExportElementToLibraryAction.waringMsg=—v‘f‚É–¼‘O‚ª•t‚¢‚Ä‚¢‚Ü‚¹‚ñ‚ªA–¼‘O‚ğİ’è‚
 
 ###########################################################
 #UIUtil
-UIUtil.previewconfirm.title=Errors in Report
-UIUtil.previewconfirm.message=The report contains some errors, would you like to process preview?\n(You can get details in Problems view)
+UIUtil.previewconfirm.title=ƒŒƒ|[ƒg‚ÌƒGƒ‰[
+UIUtil.previewconfirm.message=ƒŒƒ|[ƒg‚ÉƒGƒ‰[‚ª‚ ‚è‚Ü‚·BƒvƒŒƒrƒ…[‚ğˆ—‚µ‚Ü‚·‚© ?\n(–â‘èƒrƒ…[‚ÉÚ×‚ª•\¦‚³‚ê‚Ü‚·)

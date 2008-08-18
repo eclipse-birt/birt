@@ -576,7 +576,7 @@ dataset.wizard.label.dataSource=&Source de données :
 dataSourceSelectionPage.title=Lien avec la source de données.
 dataset.error.title.noReportDesign=Erreur
 dataset.error.msg.noReportDesign=Aucun modèle d'état disponible.
-dataset.warning.invalidReponseStatus=Invalid design response from the custom ODA page. ODA design session response status: {0}.
+dataset.warning.invalidReponseStatus=Réponse de conception de la page ODA personnalisée non valide. Etat de la réponse de session de conception ODA : {0}.
 
 ###########################################################
 #DataSetBasePage properties
@@ -1174,7 +1174,7 @@ Element.ReportDesign.displayName=Nom d'afficha&ge :
 Element.ReportDesign.eventHandlerClass=Classe de gestionnaire d'é&vénements :
 Element.ReportDesign.iconFile=Mi&niature : 
 Element.ReportDesign.refreshRate=Fréquence d'actualisation :
-Element.ReportDesign.bidiLayoutOrientation=&Bidi Layout Orientation:
+Element.ReportDesign.bidiLayoutOrientation=Orientation de la mise en page &Bidi :
 Element.ReportElement.comments=&Commentaires :
 Element.ReportElement.Cube=&Données :
 Element.ReportElement.customXml=XML personnalisé :
@@ -1680,17 +1680,17 @@ FormatStringPreferencePage.formatString.title=Chaîne
 FormPage.Button.Add=&Ajouter
 FormPage.Button.AddWithDialog=&Ajouter...
 FormPage.Button.AddWithDialog.JAR=&Ajouter...
-FormPage.Button.AddWithDialog.JS=Add(&z)...
+FormPage.Button.AddWithDialog.JS=Ajouter(&z)...
 FormPage.Button.Add.AggregateOn=&Ajouter l'agrégation
 FormPage.Button.AddWithDialog.AggregateOn=&Ajouter l'agrégation...
 FormPage.Button.Delete=&Supprimer
-FormPage.Button.Delete.Alt1=Re&move
+FormPage.Button.Delete.Alt1=Suppri&mer
 FormPage.Button.Down=&Bas
-FormPage.Button.Down.Alt1=Do&wn
+FormPage.Button.Down.Alt1=&Vers le bas
 FormPage.Button.Edit=&Modifier
 FormPage.Button.EditWithDialog=&Modifier...
 FormPage.Button.Up=&Vers le haut
-FormPage.Button.Up.Alt1=U&p
+FormPage.Button.Up.Alt1=Vers le &haut
 FormPage.Button.Binding.Refresh=Ac&tualiser
 FormPage.Menu.ModifyProperty=Modifier la propriété
 FormPage.toolTipText.Up=Déplacer vers le haut
@@ -4375,5 +4375,5 @@ ExportElementToLibraryAction.waringMsg=L'élément ne porte pas de nom, mais il es
 
 ###########################################################
 #UIUtil
-UIUtil.previewconfirm.title=Errors in Report
-UIUtil.previewconfirm.message=The report contains some errors, would you like to process preview?\n(You can get details in Problems view)
+UIUtil.previewconfirm.title=Erreurs dans l'état
+UIUtil.previewconfirm.message=Cet état contient des erreurs. Voulez-vous procéder à la prévisualisation ?\n(Vous pouvez obtenir des détails dans l'écran d'affichage des problèmes)

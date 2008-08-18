@@ -576,7 +576,7 @@ dataset.wizard.label.dataSource=&Datenquelle:
 dataSourceSelectionPage.title=Verknüpfung mit Datenquelle.
 dataset.error.title.noReportDesign=Fehler
 dataset.error.msg.noReportDesign=Kein Berichtdesign verfügbar.
-dataset.warning.invalidReponseStatus=Invalid design response from the custom ODA page. ODA design session response status: {0}.
+dataset.warning.invalidReponseStatus=Ungültige Designantwort von der benutzerdefinierten ODA-Seite. Antwortstatus der ODA-Designsitzung: {0}.
 
 ###########################################################
 #DataSetBasePage properties
@@ -1174,7 +1174,7 @@ Element.ReportDesign.displayName=&Anzeigename:
 Element.ReportDesign.eventHandlerClass=E&reignis-Handler-Klasse:
 Element.ReportDesign.iconFile=Mini&atur: 
 Element.ReportDesign.refreshRate=Aktualisierungsrate:
-Element.ReportDesign.bidiLayoutOrientation=&Bidi Layout Orientation:
+Element.ReportDesign.bidiLayoutOrientation=&Bidirektionale Layout-Ausrichtung:
 Element.ReportElement.comments=&Kommentare:
 Element.ReportElement.Cube=&Daten:
 Element.ReportElement.customXml=Benutzerdefinierte XML:
@@ -1680,17 +1680,17 @@ FormatStringPreferencePage.formatString.title=Format Zeichenfolge
 FormPage.Button.Add=&Hinzufügen
 FormPage.Button.AddWithDialog=&Hinzufügen...
 FormPage.Button.AddWithDialog.JAR=&Hinzufügen...
-FormPage.Button.AddWithDialog.JS=Add(&z)...
+FormPage.Button.AddWithDialog.JS=Hin&zufügen...
 FormPage.Button.Add.AggregateOn=Aggregat &hinzufügen
 FormPage.Button.AddWithDialog.AggregateOn=Aggregat &hinzufügen...
 FormPage.Button.Delete=&Entfernen
-FormPage.Button.Delete.Alt1=Re&move
+FormPage.Button.Delete.Alt1=Ent&fernen
 FormPage.Button.Down=Nach &unten
-FormPage.Button.Down.Alt1=Do&wn
+FormPage.Button.Down.Alt1=Nach &unten
 FormPage.Button.Edit=&Bearbeiten
 FormPage.Button.EditWithDialog=&Bearbeiten...
 FormPage.Button.Up=&Nach oben
-FormPage.Button.Up.Alt1=U&p
+FormPage.Button.Up.Alt1=Nach &oben
 FormPage.Button.Binding.Refresh=A&ktualisieren
 FormPage.Menu.ModifyProperty=Eigenschaft modifizieren
 FormPage.toolTipText.Up=Nach oben
@@ -4375,5 +4375,5 @@ ExportElementToLibraryAction.waringMsg=Das Element wurde nicht benannt. Es kann 
 
 ###########################################################
 #UIUtil
-UIUtil.previewconfirm.title=Errors in Report
-UIUtil.previewconfirm.message=The report contains some errors, would you like to process preview?\n(You can get details in Problems view)
+UIUtil.previewconfirm.title=Fehler im Bericht
+UIUtil.previewconfirm.message=Der Bericht enthält einige Fehler. Möchten Sie eine Vorschau durchführen?\n(Weitere Informationen finden Sie in der Problemansicht.)

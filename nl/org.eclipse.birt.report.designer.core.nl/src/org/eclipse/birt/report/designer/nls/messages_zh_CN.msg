@@ -576,7 +576,7 @@ dataset.wizard.label.dataSource=数据源(&S):
 dataSourceSelectionPage.title=与数据源链接。
 dataset.error.title.noReportDesign=错误
 dataset.error.msg.noReportDesign=没有可用的报表设计。
-dataset.warning.invalidReponseStatus=Invalid design response from the custom ODA page. ODA design session response status: {0}.
+dataset.warning.invalidReponseStatus=自定义 ODA 页面中的设计响应无效。ODA 设计会话响应状态: {0}。
 
 ###########################################################
 #DataSetBasePage properties
@@ -1174,7 +1174,7 @@ Element.ReportDesign.displayName=显示名称(&Y):
 Element.ReportDesign.eventHandlerClass=事件处理程序类(&V):
 Element.ReportDesign.iconFile=缩略图(&N): 
 Element.ReportDesign.refreshRate=刷新率:
-Element.ReportDesign.bidiLayoutOrientation=&Bidi Layout Orientation:
+Element.ReportDesign.bidiLayoutOrientation=双向布局方向(&B):
 Element.ReportElement.comments=备注(&C):
 Element.ReportElement.Cube=数据(&D):
 Element.ReportElement.customXml=自定义 XML:
@@ -1680,17 +1680,17 @@ FormatStringPreferencePage.formatString.title=字符串格式
 FormPage.Button.Add=添加(&A)
 FormPage.Button.AddWithDialog=添加(&A)...
 FormPage.Button.AddWithDialog.JAR=添加(&D)...
-FormPage.Button.AddWithDialog.JS=Add(&z)...
+FormPage.Button.AddWithDialog.JS=添加(&Z)...
 FormPage.Button.Add.AggregateOn=添加聚合(&A)
 FormPage.Button.AddWithDialog.AggregateOn=添加聚合(&A)...
 FormPage.Button.Delete=删除(&R)
-FormPage.Button.Delete.Alt1=Re&move
+FormPage.Button.Delete.Alt1=删除(&M)
 FormPage.Button.Down=下移(&N)
-FormPage.Button.Down.Alt1=Do&wn
+FormPage.Button.Down.Alt1=下移(&W)
 FormPage.Button.Edit=编辑(&D)
 FormPage.Button.EditWithDialog=编辑(&D)...
 FormPage.Button.Up=上移(&U)
-FormPage.Button.Up.Alt1=U&p
+FormPage.Button.Up.Alt1=上移(&P)
 FormPage.Button.Binding.Refresh=刷新(&F)
 FormPage.Menu.ModifyProperty=修改属性
 FormPage.toolTipText.Up=上移
@@ -4375,5 +4375,5 @@ ExportElementToLibraryAction.waringMsg=元素没有名称，但不能为其设置名称。
 
 ###########################################################
 #UIUtil
-UIUtil.previewconfirm.title=Errors in Report
-UIUtil.previewconfirm.message=The report contains some errors, would you like to process preview?\n(You can get details in Problems view)
+UIUtil.previewconfirm.title=报表中存在错误
+UIUtil.previewconfirm.message=报表包含错误，是否继续预览?\n(可以在“问题”视图中查看详细信息)

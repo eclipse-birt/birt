@@ -576,7 +576,7 @@ dataset.wizard.label.dataSource=Fuente de dat&os:
 dataSourceSelectionPage.title=Link con fuente de datos.
 dataset.error.title.noReportDesign=Error
 dataset.error.msg.noReportDesign=Diseño de informe no disponible.
-dataset.warning.invalidReponseStatus=Invalid design response from the custom ODA page. ODA design session response status: {0}.
+dataset.warning.invalidReponseStatus=Respuesta de diseño no válida en la página personalizada ODA. Respuesta de la sesión de diseño ODA: {0}.
 
 ###########################################################
 #DataSetBasePage properties
@@ -1174,7 +1174,7 @@ Element.ReportDesign.displayName=N&ombre en pantalla:
 Element.ReportDesign.eventHandlerClass=Clase de controlador de e&vento:
 Element.ReportDesign.iconFile=Miniatura: 
 Element.ReportDesign.refreshRate=Intervalo de actualización:
-Element.ReportDesign.bidiLayoutOrientation=&Bidi Layout Orientation:
+Element.ReportDesign.bidiLayoutOrientation=Orientación bi&dimensional del diseño:
 Element.ReportElement.comments=&Comentarios:
 Element.ReportElement.Cube=&Datos:
 Element.ReportElement.customXml=XML personalizado:
@@ -1680,17 +1680,17 @@ FormatStringPreferencePage.formatString.title=Formato de string
 FormPage.Button.Add=&Añadir
 FormPage.Button.AddWithDialog=&Añadir...
 FormPage.Button.AddWithDialog.JAR=Añad&ir...
-FormPage.Button.AddWithDialog.JS=Add(&z)...
+FormPage.Button.AddWithDialog.JS=Añadir(&z)...
 FormPage.Button.Add.AggregateOn=&Añadir agregación
 FormPage.Button.AddWithDialog.AggregateOn=&Añadir agregación...
 FormPage.Button.Delete=&Quitar
-FormPage.Button.Delete.Alt1=Re&move
+FormPage.Button.Delete.Alt1=Eli&minar
 FormPage.Button.Down=&Abajo
-FormPage.Button.Down.Alt1=Do&wn
+FormPage.Button.Down.Alt1=A&bajo
 FormPage.Button.Edit=Ed&itar
 FormPage.Button.EditWithDialog=E&ditar...
 FormPage.Button.Up=A&rriba
-FormPage.Button.Up.Alt1=U&p
+FormPage.Button.Up.Alt1=A&rriba
 FormPage.Button.Binding.Refresh=Ac&tualizar
 FormPage.Menu.ModifyProperty=Modificar propiedad
 FormPage.toolTipText.Up=Mover hacia arriba
@@ -4375,5 +4375,5 @@ ExportElementToLibraryAction.waringMsg=El elemento no tiene nombre, pero no se p
 
 ###########################################################
 #UIUtil
-UIUtil.previewconfirm.title=Errors in Report
-UIUtil.previewconfirm.message=The report contains some errors, would you like to process preview?\n(You can get details in Problems view)
+UIUtil.previewconfirm.title=Errores en el informe
+UIUtil.previewconfirm.message=El informe contiene algunos errores, ¿desea proceder con la vista previa?\n(Puede obtener detalles en la vista de problemas)
