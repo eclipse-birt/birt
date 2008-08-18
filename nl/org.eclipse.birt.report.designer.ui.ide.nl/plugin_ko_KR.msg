@@ -39,10 +39,6 @@ OdaDesignerWizard=ODA 디자이너 플러그인 프로젝트
 OdaDesignerWizardDesc=새 ODA 디자이너 플러그인을 생성하십시오.
 
 ###############################################################################
-# Activities
-###############################################################################
-org.eclipse.birt.activity.description=보고서 디자인
-org.eclipse.birt.category.description=Business Intelligence 및 보고서 도구
 
 ###############################################################################
 # Actions

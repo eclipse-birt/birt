@@ -39,10 +39,6 @@ OdaDesignerWizard=Projet Plug-in de conception ODA
 OdaDesignerWizardDesc=Créez un nouveau plug-in de conception ODA.
 
 ###############################################################################
-# Activities
-###############################################################################
-org.eclipse.birt.activity.description=Modèle d'état
-org.eclipse.birt.category.description=Outils de reporting et de Business Intelligence
 
 ###############################################################################
 # Actions

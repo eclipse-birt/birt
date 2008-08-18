@@ -39,10 +39,6 @@ OdaDesignerWizard=Plug-In-Projekt für ODA-Designer
 OdaDesignerWizardDesc=Ein neues Plug-In-Projekt für ODA-Designer erstellen.
 
 ###############################################################################
-# Activities
-###############################################################################
-org.eclipse.birt.activity.description=Berichtdesign
-org.eclipse.birt.category.description=Business Intelligence and Report Tools
 
 ###############################################################################
 # Actions

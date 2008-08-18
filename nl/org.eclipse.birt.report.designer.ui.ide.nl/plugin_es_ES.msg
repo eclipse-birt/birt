@@ -39,10 +39,6 @@ OdaDesignerWizard=Proyecto de complemento de diseñador ODA
 OdaDesignerWizardDesc=Cree un nuevo complemento de diseñador ODA.
 
 ###############################################################################
-# Activities
-###############################################################################
-org.eclipse.birt.activity.description=Diseño de informe
-org.eclipse.birt.category.description=Herramientas de generación de informe para la actividad empresarial
 
 ###############################################################################
 # Actions
