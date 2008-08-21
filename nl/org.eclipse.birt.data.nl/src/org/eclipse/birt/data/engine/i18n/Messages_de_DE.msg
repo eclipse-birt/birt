@@ -207,7 +207,7 @@ data.engine.document.error.cannotLoadStream=Der Dokumentenstrom "{0}" ist ungült
 data.engine.failToCreateTempDir=Temporäres Verzeichnis in "{0}" konnte nicht erstellt werden; 
 data.engine.reportItem.SubQuery.Unsupported=Berichtobjekte sollten nicht freigegeben werden, wenn sie im Zusammenhang mit Teilabfragen verwendet werden.
 data.engine.emptyResultSet=Das Ergebnis ist leer.
-
+data.engine.errorHappenWhenRetrieveResultSet=Error happened when visiting result set:"{0}".The specified result set might not exist.
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Der Spaltenname darf nicht leer oder gleich Null sein.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.

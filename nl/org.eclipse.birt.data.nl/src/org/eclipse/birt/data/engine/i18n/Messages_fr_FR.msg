@@ -207,7 +207,7 @@ data.engine.document.error.cannotLoadStream=Le flux de document "{0}" est incorr
 data.engine.failToCreateTempDir=Echec de la création du répertoire temporaire dans "{0}"; 
 data.engine.reportItem.SubQuery.Unsupported=Le partage d'un élément d'état n'est pas destiné à être utilisé dans un élément d'état ayant une sous-requête.
 data.engine.emptyResultSet=Le jeu de résultats est vide.
-
+data.engine.errorHappenWhenRetrieveResultSet=Error happened when visiting result set:"{0}".The specified result set might not exist.
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Le nom de colonne ne peut être ni vide ni nul.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.

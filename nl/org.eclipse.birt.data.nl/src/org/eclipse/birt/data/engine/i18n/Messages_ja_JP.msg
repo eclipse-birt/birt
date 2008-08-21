@@ -207,7 +207,7 @@ data.engine.document.error.cannotLoadStream=文書ストリーム "{0}" が無効です。
 data.engine.failToCreateTempDir="{0}" に一時ディレクトリを作成できません。 
 data.engine.reportItem.SubQuery.Unsupported=サブクエリが含まれているレポート項目は共有できません。
 data.engine.emptyResultSet=結果セットは空です。
-
+data.engine.errorHappenWhenRetrieveResultSet=Error happened when visiting result set:"{0}".The specified result set might not exist.
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名は空白または null にできません。
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.

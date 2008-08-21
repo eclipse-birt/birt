@@ -207,7 +207,7 @@ data.engine.document.error.cannotLoadStream=문서 스트림 "{0}"은(는) 잘못되었습니
 data.engine.failToCreateTempDir="{0}"에 임시 디렉터리를 만들지 못했습니다. 
 data.engine.reportItem.SubQuery.Unsupported=보고서 항목 공유는하위 쿼리와 관련된 보고서 항목에서 사용하기 위한 것이 아닙니다. 
 data.engine.emptyResultSet=결과 집합이 비어 있습니다.
-
+data.engine.errorHappenWhenRetrieveResultSet=Error happened when visiting result set:"{0}".The specified result set might not exist.
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=열 이름은 비워 두거나 널(null)이 될 수 없습니다.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
