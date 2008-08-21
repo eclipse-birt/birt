@@ -197,6 +197,12 @@ public class FontSizeManager extends AbstractLengthManager {
 			}
 			return new FloatValue(CSSPrimitiveValue.CSS_NUMBER, fs * scale);
 		}
+		
+		if(value.getPrimitiveType() == CSSPrimitiveValue.CSS_NUMBER)
+		{
+			return super.computeValue(elt, engine, idx, new FloatValue(CSSPrimitiveValue.CSS_PT,
+					value.getFloatValue()));
+		}
 		return super.computeValue(elt, engine, idx, value);
 	}
 }
