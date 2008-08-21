@@ -45,7 +45,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 	public static final String TEMPLATE_ROOT = "templates"; //$NON-NLS-1$		
 	public static final String RESOURCE_ROOT = "resources"; //$NON-NLS-1$
 
-	private static Bundle bundle;
+	protected Bundle bundle;
 
 	protected String name;
 
@@ -77,10 +77,20 @@ public class FragmentResourceEntry extends BaseResourceEntity
 	public FragmentResourceEntry( final String[] filePattern, String name,
 			String displayName, String path )
 	{
+		this( filePattern,
+				name,
+				displayName,
+				path,
+				Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ) );
+	}
+
+	public FragmentResourceEntry( final String[] filePattern, String name,
+			String displayName, String path, Bundle bundle )
+	{
 		this( name, displayName, path, null, false, true ); //$NON-NLS-1$//$NON-NLS-2$
 		if ( filePattern != null )
 			filter = new FileFilter( filePattern );
-		bundle = Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST );
+		this.bundle = bundle;
 		if ( bundle != null )
 		{
 			Enumeration<URL> enumeration = findEntries( path );
@@ -117,6 +127,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 					path,
 					parent,
 					file.isFile( ) );
+			entry.bundle = Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST );
 
 			// Saves the element, avoid to be parsed repeatedly.
 			parsedEntries.add( element );
