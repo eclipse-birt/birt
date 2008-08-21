@@ -12,13 +12,10 @@
 package org.eclipse.birt.report.model.api.util;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.URIUtilImpl;
 
 /**
  * Utility class to handle URI.
@@ -92,42 +89,7 @@ public class URIUtil
 
 	public static String getLocalPath( String uri )
 	{
-		if ( uri == null )
-			return null;
-
-		URI objURI = null;
-
-		try
-		{
-			objURI = new URI( uri );
-		}
-		catch ( URISyntaxException e )
-		{
-			return getLocalFileOfFailedURI( uri );
-		}
-
-		if ( objURI.getScheme( ) == null )
-		{
-			if ( isFileProtocol( uri ) )
-				return uri;
-		}
-		else if ( objURI.getScheme( ).equalsIgnoreCase( FILE_SCHEMA ) )
-		{
-			return objURI.getSchemeSpecificPart( );
-		}
-		else
-		{
-			// this is for files on the windows platforms.
-
-			if ( objURI.getScheme( ).length( ) == 1
-					|| objURI.getScheme( ).equalsIgnoreCase( JAR_SCHEMA ) )
-			{
-				return uri;
-			}
-
-		}
-
-		return null;
+		return URIUtilImpl.getLocalPath( uri );
 	}
 
 	/**
@@ -165,59 +127,6 @@ public class URIUtil
 	}
 
 /**
-	 * Checks whether <code>filePath</code> is a file protocol if it is not a
-	 * invalid URI.
-	 * <p>
-	 * A invalid URI contains excluded US-ASCII characters:
-	 * <ul>
-	 * <li>contro = <US-ASCII coded characters 00-1F and 7F hexadecimal>
-	 * <li>space = <US-ASCII coded character 20 hexadecimal>
-	 * <li>delims="<" | ">" | "#" | "%" | <">
-	 * <li>unwise="{" | "}" | "|" | "\" | "^" | "[" | "]" | "`"
-	 * </ul>
-	 * Details are described at the hyperlink:
-	 * http://www.ietf.org/rfc/rfc2396.txt.
-	 * 
-	 * @param uri
-	 *            the input uri
-	 * @return the file path if <code>uri</code> refers to a file. Otherwise
-	 *         null.
-	 */
-
-	private static String getLocalFileOfFailedURI( String uri )
-	{
-		URL objURI = null;
-		try
-		{
-			objURI = new URL( uri );
-
-			if ( objURI.getProtocol( ).equalsIgnoreCase( FILE_SCHEMA ) )
-			{
-				return objURI.getAuthority( ) == null
-						? objURI.getPath( )
-						: objURI.getAuthority( ) + objURI.getPath( );
-			}
-			else if ( objURI.getProtocol( ).equalsIgnoreCase( JAR_SCHEMA ) )
-				return uri;
-			else
-				return null;
-		}
-		catch ( MalformedURLException e )
-		{
-			File file = new File( uri );
-
-			if ( uri.indexOf( JAR_EXTENTION ) > -1 )
-				return JAR_SCHEMA
-						+ ":" + FILE_SCHEMA + ":" + file.getAbsolutePath( ); //$NON-NLS-1$ //$NON-NLS-2$
-
-			if ( uri.startsWith( FILE_SCHEMA ) )
-				return file.toURI( ).getSchemeSpecificPart( );
-
-			return uri;
-		}
-	}
-
-	/**
 	 * Converts a filename to a valid URL string. The filename can include
 	 * directory information, either relative or absolute directory.
 	 * 
@@ -230,10 +139,6 @@ public class URIUtil
 	{
 		StringBuffer buffer = new StringBuffer( );
 		String path = filePath;
-
-		// convert non-URL style file separators
-
-		path = ModelUtil.toUniversalFileFormat( path );
 
 		// copy, converting URL special characters as we go
 
@@ -268,6 +173,11 @@ public class URIUtil
 				buffer.append( "%7B" ); //$NON-NLS-1$
 			else if ( c == '}' )
 				buffer.append( "%7D" ); //$NON-NLS-1$
+
+			// change the '\' to '/' if applicable
+
+			else if ( c == '\\' )
+				buffer.append( "/" ); //$NON-NLS-1$			
 			else
 				buffer.append( c );
 		}
@@ -291,38 +201,7 @@ public class URIUtil
 
 	public static URL getDirectory( String filePath )
 	{
-		// the filePath must be decoded.
-		if ( filePath == null )
-			return null;
-
-		URL url = null;
-
-		try
-		{
-			url = new URL( convertFileNameToURLString( filePath ) );
-		}
-		catch ( MalformedURLException e )
-		{
-			if ( filePath.indexOf( JAR_EXTENTION ) > -1 )
-				// try jar format
-				url = getJarDirectory( filePath );
-			else
-				// follows the file protocol
-				url = getFileDirectory( filePath );
-
-			return url;
-		}
-
-		try
-		{
-			return getDirectoryByURI( url.toURI( ) );
-		}
-		catch ( URISyntaxException e )
-		{
-			assert false;
-		}
-
-		return null;
+		return URIUtilImpl.getDirectory( filePath );
 	}
 
 	/**
@@ -337,161 +216,7 @@ public class URIUtil
 
 	public static URL getDirectory( URL url )
 	{
-		if ( url == null )
-			return null;
-
-		try
-		{
-			return getDirectoryByURI( url.toURI( ) );
-		}
-		catch ( URISyntaxException e )
-		{
-			assert false;
-		}
-
-		return null;
-	}
-
-	/**
-	 * Gets the directory according to the given uri. The uri contains the
-	 * encoded file path.When the methods getFileDirectory and getJarDirectory
-	 * are called, encode file path should be decoded. To get the decoded file
-	 * path, the <URL> should be converted to <URI> and method
-	 * getSchemeSpecificPart( ) will be called.
-	 * 
-	 * @param uri
-	 *            the uri of the file
-	 * @return the validate url
-	 */
-	
-	private static URL getDirectoryByURI( URI uri )
-	{
-		if ( FILE_SCHEMA.equalsIgnoreCase( uri.getScheme( ) ) )
-			return getFileDirectory( uri.getSchemeSpecificPart( ) );
-		else if ( JAR_SCHEMA.equalsIgnoreCase( uri.getScheme( ) )
-				&& !uri.getSchemeSpecificPart( ).toLowerCase( ).startsWith(
-						HTTP_SCHEMA ) )
-			return getJarDirectory( uri.getSchemeSpecificPart( ) );
-
-		// rather then the file protocol
-
-		return getNetDirectory( uri );
-	}
-
-	/**
-	 * Returns the directory of a file path that is a url with network
-	 * protocols. Note that <code>filePath</code> should include the file name
-	 * and file extension.
-	 * 
-	 * @param filePath
-	 *            the file url
-	 * @return a url for the directory of the file
-	 */
-
-	private static URL getNetDirectory( URI uri )
-	{
-		URL filePath = null;
-
-		try
-		{
-			filePath = uri.toURL( );
-		}
-		catch ( MalformedURLException e )
-		{
-			assert false;
-			return null;
-		}
-
-		assert filePath != null;
-
-		String path = filePath.getFile( );
-
-		// remove the file name
-
-		int index = path.lastIndexOf( '/' );
-		if ( index != -1 && index != path.length( ) - 1 )
-			path = path.substring( 0, index + 1 );
-
-		try
-		{
-			return new URL( filePath.getProtocol( ), filePath.getHost( ),
-					filePath.getPort( ), path );
-		}
-		catch ( MalformedURLException e )
-		{
-		}
-
-		assert false;
-		return null;
-	}
-
-	/**
-	 * Returns the directory of a file path that is a filepath or a url with the
-	 * file protocol.
-	 * 
-	 * @param filePath
-	 *            the file url
-	 * @return a url for the directory of the file
-	 */
-
-	private static URL getFileDirectory( String filePath )
-	{
-		File file = new File( filePath );
-
-		// get the absolute file in case of filePath is just
-		// "newReport.rptdesign".
-
-		file = file.getAbsoluteFile( );
-
-		// get the parent file when the absolute file is ready.
-
-		file = file.getParentFile( );
-
-		if ( file == null )
-			return null;
-
-		try
-		{
-			return file.getCanonicalFile( ).toURI( ).toURL( );
-		}
-		catch ( MalformedURLException e )
-		{
-			assert false;
-		}
-		catch ( IOException e )
-		{
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the directory of a file path that is a filepath or a url with the
-	 * file protocol.
-	 * 
-	 * @param filePath
-	 *            the file url
-	 * @return a url for the directory of the file
-	 */
-
-	private static URL getJarDirectory( String filePath )
-	{
-		if ( filePath.startsWith( FILE_SCHEMA ) )
-			filePath = filePath.substring( 5 );
-
-		URL url = getFileDirectory( filePath );
-		if ( url != null )
-			try
-			{
-				return new URL( JAR_SCHEMA + ":" + FILE_SCHEMA + ":" //$NON-NLS-1$ //$NON-NLS-2$
-						+ url.getPath( ) + '/' );
-			}
-			catch ( MalformedURLException e )
-			{
-				assert false;
-			}
-
-		return null;
+		return URIUtilImpl.getDirectory( url );
 	}
 
 	/**

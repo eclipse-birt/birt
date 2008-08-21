@@ -1078,7 +1078,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		// resources with HTTP protocols.
 
-		designHandle.setFileName( "http://www.eclipse.org/ima#ge  \\s/" ); //$NON-NLS-1$
+		designHandle.setFileName( "http://www.eclipse.org/ima%23ge%20%20/s/" ); //$NON-NLS-1$
 		assertEqualsOnWindows(
 				"http://www.eclipse.org/ima%23ge%20%20/s/", designHandle //$NON-NLS-1$
 						.getSystemId( ).toString( ) );
@@ -1101,6 +1101,18 @@ public class ReportDesignHandleTest extends BaseTestCase
 		designHandle.setFileName( "C:\\reports\\1.xml" ); //$NON-NLS-1$
 		assertEqualsOnWindows( "file:/C:/reports", designHandle //$NON-NLS-1$
 				.getSystemId( ).toString( ) );
+
+		// the file name with jar and zip protocol
+
+		designHandle.setFileName( "jar:file:/C:/reports/testRead.jar!/1.xml" ); //$NON-NLS-1$
+		assertEquals( "jar:file:/C:/reports/testRead.jar!/", designHandle //$NON-NLS-1$
+				.getSystemId( ).toString( ) );
+
+		designHandle
+				.setFileName( "jar:http://hello.com/reports/testRead.jar!/1.xml" ); //$NON-NLS-1$
+		assertEquals(
+				"jar:http://hello.com/reports/testRead.jar!/", designHandle //$NON-NLS-1$
+						.getSystemId( ).toString( ) );
 
 		designHandle.setFileName( "1.xml" ); //$NON-NLS-1$
 		assertNotNull( designHandle.getModule( ).getSystemId( ) );

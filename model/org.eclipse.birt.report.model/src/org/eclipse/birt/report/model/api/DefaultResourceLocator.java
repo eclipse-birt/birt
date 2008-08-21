@@ -21,7 +21,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.core.BundleHelper;
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.URIUtilImpl;
 
 import com.ibm.icu.util.ULocale;
 
@@ -288,7 +288,7 @@ public class DefaultResourceLocator implements IResourceLocator
 	{
 		File f = null;
 
-		String tmpFilePath = ModelUtil.toUniversalFileFormat( filePath );
+		String tmpFilePath = URIUtilImpl.toUniversalFileFormat( filePath );
 		if ( StringUtil.isBlank( fileDir ) )
 			f = new File( tmpFilePath );
 		else
