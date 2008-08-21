@@ -527,11 +527,6 @@ public class TextEditor extends BaseDialog
 			{
 				final int index = formatChoicer.getSelectionIndex( );
 
-				ReportPlugin.getDefault( )
-						.getPreferenceStore( )
-						.setValue( TEXT_EDIT_LAST_STAGE,
-								formatChoicer.getSelectionIndex( ) );
-
 				ToolItem[] toolItems = formatTagsBar.getItems( );
 				// avoid to dispose the separator( toolItems[ 0 ] )
 				for ( int i = 1; i < toolItems.length; i++ )
@@ -1327,6 +1322,18 @@ public class TextEditor extends BaseDialog
 
 		setResult( handle );
 		super.okPressed( );
+	}
+
+	/**
+	 * @see org.eclipse.jface.window.Window#close()
+	 */
+	public boolean close( )
+	{
+		ReportPlugin.getDefault( )
+				.getPreferenceStore( )
+				.setValue( TEXT_EDIT_LAST_STAGE,
+						formatChoicer.getSelectionIndex( ) );
+		return super.close( );
 	}
 
 	private int[] getBidiLineSegments( String lineText )
