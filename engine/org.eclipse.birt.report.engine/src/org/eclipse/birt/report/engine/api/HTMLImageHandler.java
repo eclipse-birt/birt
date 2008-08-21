@@ -28,7 +28,7 @@ public class HTMLImageHandler implements IHTMLImageHandler
 
 	public String onCustomImage( IImage image, IReportContext context )
 	{
-		return onCustomImage( image, getRenderContext( context ) );
+		return onCustomImage( image, getRenderOption( context ) );
 	}
 
 	/**
@@ -41,7 +41,7 @@ public class HTMLImageHandler implements IHTMLImageHandler
 
 	public String onDesignImage( IImage image, IReportContext context )
 	{
-		return onDesignImage( image, getRenderContext( context ) );
+		return onDesignImage( image, getRenderOption( context ) );
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class HTMLImageHandler implements IHTMLImageHandler
 
 	public String onDocImage( IImage image, IReportContext context )
 	{
-		return onDocImage( image, getRenderContext( context ) );
+		return onDocImage( image, getRenderOption( context ) );
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class HTMLImageHandler implements IHTMLImageHandler
 
 	public String onFileImage( IImage image, IReportContext context )
 	{
-		return onFileImage( image, getRenderContext( context ) );
+		return onFileImage( image, getRenderOption( context ) );
 	}
 
 	/**
@@ -80,13 +80,14 @@ public class HTMLImageHandler implements IHTMLImageHandler
 
 	public String onURLImage( IImage image, IReportContext context )
 	{
-		return onURLImage( image, getRenderContext( context ) );
+		return onURLImage( image, getRenderOption( context ) );
 	}
 	
     /**
      * Get render context.
      * 
      * @param context
+     * @deprecated
      * @return
      */
 	protected Object getRenderContext( IReportContext context )
@@ -107,6 +108,21 @@ public class HTMLImageHandler implements IHTMLImageHandler
 			return appContext.get( renderContextKey );
 		}
 		return null;
+	}
+	
+	/**
+	 * get render option
+	 * 
+	 * @param context
+	 * @return
+	 */
+	protected Object getRenderOption( IReportContext context )
+	{
+		if ( context == null )
+		{
+			return null;
+		}
+		return context.getRenderOption( );
 	}
 	
 	/**

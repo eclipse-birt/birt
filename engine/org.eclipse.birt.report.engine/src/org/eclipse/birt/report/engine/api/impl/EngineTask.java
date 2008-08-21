@@ -1425,9 +1425,14 @@ public abstract class EngineTask implements IEngineTask
 					log.log( Level.SEVERE, MessageConstants.INVALID_EMITTER_ID, emitterID);
 					throw new EngineException( MessageConstants.INVALID_EMITTER_ID, emitterID );
 				}
+				String formatOfEmitter = extManager.getFormat( emitterID );
 				if ( null == format )
 				{
-					renderOptions.setOutputFormat( extManager.getFormat( emitterID ) );
+					renderOptions.setOutputFormat( formatOfEmitter );
+				}
+				else if ( !format.equals( formatOfEmitter ) )
+				{
+					throw new EngineException( MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
 				}
 			}
 			else
@@ -1517,7 +1522,7 @@ public abstract class EngineTask implements IEngineTask
 		}
 
 		// try to get the render options by the format
-		IRenderOption formatOptions = (IRenderOption) configs.get( emitterID );
+		IRenderOption formatOptions = (IRenderOption) configs.get( format );
 		if ( formatOptions != null )
 		{
 			options.putAll( formatOptions.getOptions( ) );

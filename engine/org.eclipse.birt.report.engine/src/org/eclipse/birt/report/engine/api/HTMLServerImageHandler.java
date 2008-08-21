@@ -164,7 +164,7 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 	 * 
 	 * @param image
 	 *            represents the image design information
-	 * @param context
+	 * @param option
 	 *            context information
 	 * @param prefix
 	 *            image prefix in URL
@@ -172,7 +172,7 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 	 *            whether image map is needed
 	 * @return URL for the image
 	 */
-	protected String handleImage( IImage image, Object context, String prefix,
+	protected String handleImage( IImage image, Object option, String prefix,
 			boolean needMap )
 	{
 		String mapID = null;
@@ -188,11 +188,11 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 			}
 		}
 		String ret = null;
-		if ( context != null && ( context instanceof HTMLRenderContext ) )
+		if ( option instanceof HTMLRenderOption )
 		{
-			HTMLRenderContext myContext = (HTMLRenderContext) context;
-			String imageURL = myContext.getBaseImageURL( );
-			String imageDir = myContext.getImageDirectory( );
+			HTMLRenderOption myOption = (HTMLRenderOption) option;
+			String imageURL = myOption.getBaseImageURL( );
+			String imageDir = myOption.getImageDirectory( );
 			if ( imageURL == null || imageURL.length( ) == 0
 					|| imageDir == null || imageDir.length( ) == 0 )
 			{
