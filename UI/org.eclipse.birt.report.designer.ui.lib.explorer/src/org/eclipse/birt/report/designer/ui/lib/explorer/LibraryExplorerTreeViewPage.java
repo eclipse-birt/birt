@@ -435,6 +435,9 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		Menu menu = menuManager.createContextMenu( control );
 
 		control.setMenu( menu );
+		
+		getSite( ).registerContextMenu( "org.eclipse.birt.report.designer.ui.lib.explorer.view", menuManager, //$NON-NLS-1$
+				getSite( ).getSelectionProvider( ) );
 	}
 
 	private String getTooltip( TreeItem item ) throws IOException
