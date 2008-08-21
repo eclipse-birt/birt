@@ -2314,6 +2314,7 @@ public class ReportQueryBuilder
 			{
 				for ( int i = 0; i < bindings.length; i++ )
 				{
+					bindings[i].setExportable(false);
 					query.addBinding( bindings[i] );
 				}
 			}
