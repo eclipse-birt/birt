@@ -48,7 +48,7 @@ public class Finance
 	private static double getDouble( Object o ) throws BirtException
 	{
 		if( o == null )
-			return 0;
+			return Double.NaN;
 		return DataTypeUtil.toDouble( o );
 	}
 	
