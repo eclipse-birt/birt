@@ -47,6 +47,7 @@ ChartElementCommandImpl.setProperty.chart.dimension=Définir la dimension
 ChartElementCommandImpl.setProperty.chart.instance=Définir le modèle de graphique
 ChartElementCommandImpl.setProperty.plot.transposed=Définir l'état Transposé
 ChartElementCommandImpl.setProperty.script=Modifier le script du graphique
+ChartElementCommandImpl.setProperty.onRender=Modifier le script du graphique
 
 ChartImpl.error.DimensionUnitNotSupported=L''unité de dimension ({0}) n''est pas prise en charge par l''API graphique simple
 

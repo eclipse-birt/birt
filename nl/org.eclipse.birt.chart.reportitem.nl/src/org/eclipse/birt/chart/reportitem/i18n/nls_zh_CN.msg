@@ -47,6 +47,7 @@ ChartElementCommandImpl.setProperty.chart.dimension=设置维
 ChartElementCommandImpl.setProperty.chart.instance=设置图表模型
 ChartElementCommandImpl.setProperty.plot.transposed=设置转置
 ChartElementCommandImpl.setProperty.script=编辑图表脚本
+ChartElementCommandImpl.setProperty.onRender=编辑图表脚本
 
 ChartImpl.error.DimensionUnitNotSupported=Chart Simple API 不支持维单位 ({0})
 

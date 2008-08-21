@@ -47,6 +47,7 @@ ChartElementCommandImpl.setProperty.chart.dimension=次元の設定
 ChartElementCommandImpl.setProperty.chart.instance=グラフのモデルを設定
 ChartElementCommandImpl.setProperty.plot.transposed=置き換え後の設定
 ChartElementCommandImpl.setProperty.script=グラフスクリプトの編集
+ChartElementCommandImpl.setProperty.onRender=グラフスクリプトの編集
 
 ChartImpl.error.DimensionUnitNotSupported=Chart Simple API では次元の単位 ({0}) を使用できません。
 
