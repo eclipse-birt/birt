@@ -349,7 +349,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 			}
 			else
 			{
-				btnAdd.setText( Messages.getString( "FormPage.Button.AddWithDialog" ) ); //$NON-NLS-1$
+				btnAdd.setText( Messages.getString( "FormPage.Button.AddWithDialog.JAR" ) ); //$NON-NLS-1$
 			}
 		}
 		else
