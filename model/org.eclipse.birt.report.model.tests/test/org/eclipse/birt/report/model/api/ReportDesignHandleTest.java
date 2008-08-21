@@ -1119,6 +1119,10 @@ public class ReportDesignHandleTest extends BaseTestCase
 		assertEquals( new File( "1.xml" ).getAbsoluteFile( ).getParentFile( ) //$NON-NLS-1$
 				.toURL( ).toExternalForm( ), designHandle.getSystemId( )
 				.toString( ) );
+		
+		designHandle.setFileName( "bundleresource://22868/samplereports/Reporting Feature Examples/Combination Chart/CustomerOrdersFinal.rptdesign" ); //$NON-NLS-1$
+		assertEquals( "bundleresource://22868/samplereports/Reporting Feature Examples/Combination Chart/", designHandle //$NON-NLS-1$
+				.getSystemId( ).toString( ) );
 	}
 
 	/**

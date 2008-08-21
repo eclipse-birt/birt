@@ -63,7 +63,7 @@ public class URIUtilImpl
 	 */
 
 	private static final String URL_SIGNATURE = "://"; //$NON-NLS-1$
-	
+
 	/**
 	 * Returns the URL object of the given string. If the input value is in URL
 	 * format, return it. Otherwise, create the corresponding file object then
@@ -310,7 +310,7 @@ public class URIUtilImpl
 		// the filePath must be decoded.
 		if ( filePath == null )
 			return null;
-		
+
 		URL url = null;
 		int sigPos = filePath.indexOf( URL_SIGNATURE );
 		if ( sigPos != -1 )
@@ -328,7 +328,7 @@ public class URIUtilImpl
 
 			return getDirectoryByURL( url );
 		}
-		
+
 		String lowerFilePath = filePath.toLowerCase( );
 		if ( lowerFilePath.startsWith( FILE_SCHEMA ) )
 		{
@@ -373,7 +373,7 @@ public class URIUtilImpl
 			}
 
 		}
-		
+
 		return getDiskFileDirectory( filePath, true );
 	}
 
@@ -409,22 +409,26 @@ public class URIUtilImpl
 
 	private static URL getDirectoryByURL( URL url )
 	{
-		URI uri = null;
-		try
+		if ( FILE_SCHEMA.equalsIgnoreCase( url.getProtocol( ) )
+				|| JAR_SCHEMA.equalsIgnoreCase( url.getProtocol( ) ) )
 		{
-			uri = url.toURI( );
-		}
-		catch ( URISyntaxException e )
-		{
-			return url;
-		}
+			URI uri = null;
+			try
+			{
+				uri = url.toURI( );
+			}
+			catch ( URISyntaxException e )
+			{
+				return url;
+			}
 
-		if ( FILE_SCHEMA.equalsIgnoreCase( uri.getScheme( ) ) )
-			return getFileDirectory( uri.getSchemeSpecificPart( ), true );
-		else if ( JAR_SCHEMA.equalsIgnoreCase( uri.getScheme( ) )
-				&& !uri.getSchemeSpecificPart( ).toLowerCase( ).startsWith(
-						HTTP_SCHEMA ) )
-			return getJarDirectory( uri.getSchemeSpecificPart( ), true );
+			if ( FILE_SCHEMA.equalsIgnoreCase( uri.getScheme( ) ) )
+				return getFileDirectory( uri.getSchemeSpecificPart( ), true );
+			else if ( JAR_SCHEMA.equalsIgnoreCase( uri.getScheme( ) )
+					&& !uri.getSchemeSpecificPart( ).toLowerCase( ).startsWith(
+							HTTP_SCHEMA ) )
+				return getJarDirectory( uri.getSchemeSpecificPart( ), true );
+		}
 
 		// rather then the file protocol
 
