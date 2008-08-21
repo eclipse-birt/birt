@@ -206,7 +206,6 @@ class AdvancedPropertyNameLabelProvider extends ColumnLabelProvider implements
 	public String getText( Object element )
 	{
 		String text = getStyledText( element ).toString( );
-		System.out.println( text );
 		return text;
 	}
 

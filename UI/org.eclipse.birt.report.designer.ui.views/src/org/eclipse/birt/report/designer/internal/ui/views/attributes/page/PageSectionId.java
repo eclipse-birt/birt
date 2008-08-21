@@ -156,7 +156,7 @@ public class PageSectionId
 	public final static String RESOURCE_SEPERATOR = "RESOURCE_SEPERATOR"; //$NON-NLS-1$
 	public final static String RESOURCE_JARFILE = "RESOURCE_JARFILE"; //$NON-NLS-1$
 	public final static String RESOURCE_JAVASCRIPTFILE = "RESOURCE_JSFILE"; //$NON-NLS-1$
-	
+
 	public final static String ROW_HEIGHT = "ROW_HEIGHT"; //$NON-NLS-1$
 	public final static String ROW_HORIZONTAL_ALIGN = "ROW_HORIZONTAL_ALIGN"; //$NON-NLS-1$
 	public final static String ROW_BACKGROUND_COLOR = "ROW_BACKGROUND_COLOR"; //$NON-NLS-1$
@@ -169,10 +169,10 @@ public class PageSectionId
 	public final static String SCALAR_PARAMETER_NAME = "SCALAR_PARAMETER_NAME"; //$NON-NLS-1$
 	public final static String SCALAR_PARAMETER_DATA_TYPE = "SCALAR_PARAMETER_DATA_TYPE"; //$NON-NLS-1$
 	public final static String SCALAR_PARAMETER_CTRL_TYPE = "SCALAR_PARAMETER_CTRL_TYPE"; //$NON-NLS-1$
-	
+
 	public final static String PARAMTER_GROUP_NAME = "PARAMETER_GROUP_NAME";
 	public final static String PARAMTER_GROUP_DISPLAY_NAME = "PARAMETER_GROUP_DISPLAY_NAME";
-	
+
 	public final static String CASCADING_PARAMTER_GROUP_NAME = "CASCADING_PARAMETER_GROUP_NAME";
 	public final static String CASCADING_PARAMTER_GROUP_DISPLAY_NAME = "CASCADING_PARAMETER_GROUP_DISPLAY_NAME";
 
@@ -275,7 +275,9 @@ public class PageSectionId
 	public static final String GRID_SEPERATOR1 = "GRID_SEPERATOR1"; //$NON-NLS-1$
 
 	public static final String ALTER_ALT_TEXT_KEY = "ALTER_ALT_TEXT_KEY";
-	
-	public static final String REPORT_BIDI_ORIENTATION = "REPORT_BIDI_ORIENTATION"; //bidi_hcg
+
+	public static final String REPORT_BIDI_ORIENTATION = "REPORT_BIDI_ORIENTATION"; // bidi_hcg
+
+	public static final String GENERAL_LIBRARY_NOTE = "GENERAL_LIBRARY_NOTE";
 
 }
