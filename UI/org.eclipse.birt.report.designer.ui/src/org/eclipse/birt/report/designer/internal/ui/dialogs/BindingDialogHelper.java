@@ -185,6 +185,17 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		new Label( composite, SWT.NONE ).setText( DATA_TYPE );
 		cmbType = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 		cmbType.setLayoutData( gd );
+		cmbType.addSelectionListener( new SelectionListener(){
+
+			public void widgetDefaultSelected( SelectionEvent arg0 )
+			{
+				validate( );
+			}
+
+			public void widgetSelected( SelectionEvent arg0 )
+			{
+				validate( );
+			}} );
 		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		if ( isAggregate( ) )
@@ -224,10 +235,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			initFunction( );
 			initFilter( );
 			initGroups( );
-		}
-		else
-		{
-			setTypeSelect( getDataTypeDisplayName(DesignChoiceConstants.COLUMN_DATA_TYPE_STRING) );
 		}
 
 		if ( isCreate )// create
@@ -280,6 +287,11 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 								: DEFAULT_ITEM_NAME );
 				setName( this.newBinding.getName( ) );
 			}
+
+			if ( !isAggregate( ) )
+			{
+				setTypeSelect( getDataTypeDisplayName( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) );
+			}
 		}
 		else
 		{
@@ -327,11 +339,15 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			{
 				setName( getBinding( ).getName( ) );
 				setDisplayName( getBinding( ).getDisplayName( ) );
-				
+
 				if ( getBinding( ).getDataType( ) != null )
 				{
-					setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( getBinding( ).getDataType( ) )
-							.getDisplayName( ) );
+					if ( DATA_TYPE_CHOICE_SET.findChoice( getBinding( ).getDataType( ) ) != null )
+						setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( getBinding( ).getDataType( ) )
+								.getDisplayName( ) );
+					else
+						// the old type 'any'
+						cmbType.setText( "" );
 				}
 				setDataFieldExpression( getBinding( ).getExpression( ) );
 			}
@@ -823,6 +839,13 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				dialog.getOkButton( ).setEnabled( false );
 			return;
 		}
+		
+		if ( cmbType.getText( ) == null || cmbType.getText( ).equals( "" ) )
+		{
+			dialog.getOkButton( ).setEnabled( false );
+			return;
+		}
+
 		if ( this.binding == null )// create bindnig, we should check if the
 		// binding name already exists.
 		{

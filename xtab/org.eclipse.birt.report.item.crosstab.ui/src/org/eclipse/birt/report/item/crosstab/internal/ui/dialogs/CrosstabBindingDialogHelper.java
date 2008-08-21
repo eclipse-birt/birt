@@ -175,6 +175,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	public void initDialog( )
 	{
+		cmbType.setItems( dataTypes );
+		
 		if ( isAggregate( ) )
 		{
 			initFunction( );
@@ -195,8 +197,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			setName( getBinding( ).getName( ) );
 			setDisplayName( getBinding( ).getDisplayName( ) );
 			if ( getBinding( ).getDataType( ) != null )
-				setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( getBinding( ).getDataType( ) )
-						.getDisplayName( ) );
+				if ( DATA_TYPE_CHOICE_SET.findChoice( getBinding( ).getDataType( ) ) != null )
+					setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( getBinding( ).getDataType( ) )
+							.getDisplayName( ) );
+				else
+					cmbType.setText( "" );
 			if ( getBinding( ).getExpression( ) != null )
 				setDataFieldExpression( getBinding( ).getExpression( ) );
 		}
@@ -588,9 +593,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void setTypeSelect( String typeSelect )
 	{
-		if ( dataTypes != null && cmbType != null )
+		if ( cmbType != null )
 		{
-			cmbType.setItems( dataTypes );
 			if ( typeSelect != null )
 				cmbType.select( getItemIndex( cmbType.getItems( ), typeSelect ) );
 			else
