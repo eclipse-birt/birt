@@ -21,6 +21,7 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IJoinCondition;
@@ -35,6 +36,7 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
+import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.executor.JointDataSetQuery;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
@@ -69,8 +71,6 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	private IJointDataSetDesign dataSet;
 	private IDataSetPopulator populator;
 	private IResultClass resultClass;
-	private ResultIterator left;
-	private ResultIterator right;
 	private IJoinConditionMatcher matcher;
 	private int joinType;
 
@@ -85,6 +85,25 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	
 	private IResultMetaData leftResultMetaData;
 	private IResultMetaData rightResultMetaData;
+	
+	/************************************************************************
+	 * These 8 leftXXX / rightXXX fields are here just because of the poor designed 
+	 * <p><code>DataSetCacheManager</code> which should not expose  
+	 * <p><code>setDataSourceAndDataSet( )<code> and <code>getCurrentXXX( )</code>
+	 * <p>methods.
+	 * <p>These 8 fields is needless if <code>DataSetCacheManager</code> is
+	 * <p>well refactored.
+	 ************************************************************************/
+	IBaseDataSourceDesign leftDataSourceDesign;
+	IBaseDataSetDesign leftDataSetDesgin;
+	Collection leftParameterHints;
+	Map leftAppContext;
+	
+	IBaseDataSourceDesign rightDataSourceDesign;
+	IBaseDataSetDesign rightDataSetDesgin;
+	Collection rightParameterHints;
+	Map rightAppContext;
+	/************************************************************************/
 	
 	
 	/**
@@ -124,7 +143,8 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	 * @param appContext
 	 * @throws DataException
 	 */
-	private void initialize( DataEngineImpl dataEngine, Map appContext )
+	private void initialize( DataEngineImpl dataEngine, Map appContext, 
+			ResultIterator left, ResultIterator right )
 	{
 		//int savedCacheOption = getDataSetCacheManager( ).suspendCache( );
 		this.joinType = dataSet.getJoinType( );
@@ -469,12 +489,22 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		this.leftQueryResults = populatePreparedQuery( outer, true,
 				PreparedJointDataSourceQuery.this.dataSet.getLeftDataSetDesignName( ) );
 		this.leftResultMetaData = this.leftQueryResults.getResultMetaData( );
-		this.left = (ResultIterator) this.leftQueryResults.getResultIterator( );
-
+		
+		DataSetCacheManager dscm = dataEngine.getSession( ).getDataSetCacheManager( );
+		
+		IBaseDataSourceDesign leftDataSourceDesign = dscm.getCurrentDataSourceDesign( );
+		IBaseDataSetDesign leftDataSetDesgin = dscm.getCurrentDataSetDesign( );
+		Collection leftParameterHints = dscm.getCurrentParameterHints( );
+		Map leftAppContext = dscm.getCurrentAppContext( );
+		
 		this.rightQueryResults = populatePreparedQuery( outer, false,
 				PreparedJointDataSourceQuery.this.dataSet.getRightDataSetDesignName( ) );
 		this.rightResultMetaData = this.rightQueryResults.getResultMetaData( );
-		this.right = (ResultIterator) this.rightQueryResults.getResultIterator( );
+		
+		IBaseDataSourceDesign rightDataSourceDesign = dscm.getCurrentDataSourceDesign( );
+		IBaseDataSetDesign rightDataSetDesgin = dscm.getCurrentDataSetDesign( );
+		Collection rightParameterHints = dscm.getCurrentParameterHints( );
+		Map rightAppContext = dscm.getCurrentAppContext( );
 	}
 
 	/**
@@ -588,8 +618,27 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 
 				return dsQuery.execute( eventHandler, stopSign );
 			}
+			
+			ResultIterator left = null;
+			ResultIterator right = null;
+			try
+			{
+				DataSetCacheManager dscm = dataEngine.getSession( ).getDataSetCacheManager( );
+				dscm.setDataSourceAndDataSet( 
+						leftDataSourceDesign, leftDataSetDesgin, leftParameterHints, leftAppContext );
+				left = (ResultIterator) leftQueryResults.getResultIterator( );
+				
+				dscm.setDataSourceAndDataSet( 
+						rightDataSourceDesign, rightDataSetDesgin, rightParameterHints, rightAppContext );
+				right = (ResultIterator) rightQueryResults.getResultIterator( );
+				
+			}
+			catch ( BirtException e )
+			{
+				throw DataException.wrap( e );
+			}
 
-			initialize( dataEngine, appContext );
+			initialize( dataEngine, appContext, left, right );
 
 			JointResultMetadata jrm = getJointResultMetadata( left.getResultMetaData( ),
 					right.getResultMetaData( ) );

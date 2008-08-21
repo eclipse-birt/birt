@@ -23,9 +23,9 @@ public class Query extends org.eclipse.datatools.enablement.oda.xml.impl.Query
 	 * @param creator
 	 */
 	public Query(
-			org.eclipse.datatools.enablement.oda.xml.util.IXMLSource xmlSource )
+			org.eclipse.datatools.enablement.oda.xml.impl.Connection conn )
 	{
-		super( xmlSource );
+		super( conn );
 	}
 
 }
