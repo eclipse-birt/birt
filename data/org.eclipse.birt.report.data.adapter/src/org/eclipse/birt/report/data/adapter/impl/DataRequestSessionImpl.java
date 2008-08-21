@@ -135,6 +135,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 		sessionContext = context;
 		cubeHandleMap = new HashMap( );
 		stopSign = new StopSign( );
+		if( sessionContext!= null )
+		{
+			this.setModuleHandleToAppContext();
+		}
 	}
 
 	/*
@@ -268,7 +272,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public IResultMetaData refreshMetaData( DataSetHandle dataSetHandle )
 			throws BirtException
 	{
-		setModuleHandleToAppContext( );
 		return new DataSetMetaDataHelper( this.dataEngine,
 				this.modelAdaptor,
 				this.sessionContext ).refreshMetaData( dataSetHandle );
@@ -282,7 +285,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public IResultMetaData refreshMetaData( DataSetHandle dataSetHandle,
 			boolean holdEvent ) throws BirtException
 	{
-		setModuleHandleToAppContext( );
 		return new DataSetMetaDataHelper( this.dataEngine,
 				this.modelAdaptor,
 				this.sessionContext ).refreshMetaData( dataSetHandle, holdEvent );
@@ -296,7 +298,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 			Iterator paramBindingIt, Iterator filterIt, Iterator bindingIt )
 			throws BirtException
 	{
-		setModuleHandleToAppContext( );
 		return new QueryExecutionHelper( this.dataEngine,
 				this.modelAdaptor,
 				this.sessionContext ).executeQuery( queryDefn,
@@ -473,7 +474,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		try
 		{
-			setModuleHandleToAppContext( );
 			if ( query instanceof IPreparedQuery )
 			{
 				return ( (IPreparedQuery) query ).execute( outerResults,
