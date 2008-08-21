@@ -207,6 +207,8 @@ public class ResourceConstants
 	public static final String DOCUMENT_ERROR_CANNOT_LOAD_STREAM = "data.engine.document.error.cannotLoadStream";
 	public static final String FAIL_TO_CREATE_TEMP_DIR = "data.engine.failToCreateTempDir";
 	public final static String RESULT_SET_EMPTY = "data.engine.emptyResultSet";
+	public final static String ERROR_HAPPEN_WHEN_RETRIEVE_RESULTSET = "data.engine.errorHappenWhenRetrieveResultSet";
+
 	// ODA Consumer
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";
 	public final static String COLUMN_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ColumnPositionIsOneBased";

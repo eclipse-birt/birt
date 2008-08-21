@@ -354,11 +354,28 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		{
 			if ( canAccessResultSetByName( design ) )
 			{
-				result = odaStatement.getMetaData( design.getPrimaryResultSetName( ) );
+				try
+				{
+					result = odaStatement.getMetaData( design.getPrimaryResultSetName( ) );
+				}
+				catch ( DataException e )
+				{
+					throw new DataException( ResourceConstants.ERROR_HAPPEN_WHEN_RETRIEVE_RESULTSET,
+							design.getPrimaryResultSetName( ) );
+				}
+				
 			}
 			else if ( canAccessResultSetByNumber( design ) )
 			{
-				result = odaStatement.getMetaData( design.getPrimaryResultSetNumber( ) );
+				try
+				{
+					result = odaStatement.getMetaData( design.getPrimaryResultSetNumber( ) );
+				}
+				catch ( DataException e )
+				{
+					throw new DataException( ResourceConstants.ERROR_HAPPEN_WHEN_RETRIEVE_RESULTSET,
+							design.getPrimaryResultSetNumber( ) );
+				}
 			}
 		}
 		if( result == null )
@@ -658,11 +675,28 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		{
 			if ( canAccessResultSetByName( design ) )
 			{
-				rs = odaStatement.getResultSet( design.getPrimaryResultSetName( ) );
+				try
+				{
+
+					rs = odaStatement.getResultSet( design.getPrimaryResultSetName( ) );
+				}
+				catch ( DataException e )
+				{
+					throw new DataException( ResourceConstants.ERROR_HAPPEN_WHEN_RETRIEVE_RESULTSET,
+							design.getPrimaryResultSetName( ) );
+				}
 			}
 			else if ( canAccessResultSetByNumber( design ) )
 			{
-				rs = odaStatement.getResultSet( design.getPrimaryResultSetNumber( ) );
+				try
+				{
+					rs = odaStatement.getResultSet( design.getPrimaryResultSetNumber( ) );
+				}
+				catch ( DataException e )
+				{
+					throw new DataException( ResourceConstants.ERROR_HAPPEN_WHEN_RETRIEVE_RESULTSET,
+							design.getPrimaryResultSetNumber( ) );
+				}
 			}
 		}
 		if( rs == null )
