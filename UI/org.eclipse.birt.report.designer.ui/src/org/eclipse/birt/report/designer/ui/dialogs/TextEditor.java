@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
@@ -54,6 +55,7 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -82,7 +84,7 @@ public class TextEditor extends BaseDialog
 	private static final String ACTION_TEXT_FORMAT_STRING = Messages.getString( "TextEditDialog.action.text.formatString" ); //$NON-NLS-1$
 
 	private static final String ACTION_TEXT_FORMAT_NUMBER = Messages.getString( "TextEditDialog.action.text.formatNumber" ); //$NON-NLS-1$
-	
+
 	private static final String ACTION_BIDI_DIRECTION = Messages.getString( "TextEditDialog.action.text.direction" ); //$NON-NLS-1$
 
 	private static final String TOOL_TIP_TAG_FONT = Messages.getString( "TextEditDialog.toolTip.tag.font" ); //$NON-NLS-1$
@@ -161,6 +163,8 @@ public class TextEditor extends BaseDialog
 
 	private static final String TOOL_TIP_TEXT_COPY = Messages.getString( "TextEditDialog.toolTipText.copy" ); //$NON-NLS-1$
 
+	private static final String TOOL_TIP_TEXT_FX = Messages.getString( "TextEditDialog.toolTipText.fx" );
+
 	public static final String DLG_TITLE_NEW = "New Text Item"; //$NON-NLS-1$
 
 	public static final String DLG_TITLE_EDIT = "Edit Text Item"; //$NON-NLS-1$
@@ -192,6 +196,10 @@ public class TextEditor extends BaseDialog
 	private static String[] contentTypeDisplayNames;
 
 	private static IChoiceSet contentTypeChoiceSet;
+
+	private Composite formatParent;
+
+	private String TEXT_EDIT_LAST_STAGE = "org.eclipse.birt.report.designer.ui.dialogs.TextEditor.lastStage";
 
 	/**
 	 * Constructor
@@ -228,8 +236,7 @@ public class TextEditor extends BaseDialog
 	 * the button bar).
 	 * <p>
 	 * The <code>TextEditorDialog</code> overrides this framework method to
-	 * create and return a new <code>Composite</code> with an empty tab
-	 * folder.
+	 * create and return a new <code>Composite</code> with an empty tab folder.
 	 * </p>
 	 * 
 	 * @param parent
@@ -271,16 +278,16 @@ public class TextEditor extends BaseDialog
 	 */
 	private void createToolBar( Composite composite )
 	{
-		Composite innerParent = new Composite(composite, SWT.NONE);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		Composite innerParent = new Composite( composite, SWT.NONE );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 3;
 		innerParent.setLayoutData( gd );
-		
-		GridLayout layout = new GridLayout(3, false);
+
+		GridLayout layout = new GridLayout( 3, false );
 		layout.marginLeft = 0;
 		layout.marginTop = 0;
 		innerParent.setLayout( layout );
-		
+
 		ToolBar toolBar = new ToolBar( innerParent, SWT.FLAT );
 		toolBar.setLayoutData( new GridData( ) );
 
@@ -353,6 +360,17 @@ public class TextEditor extends BaseDialog
 			}
 		} );
 
+		ToolItem fx = new ToolItem( toolBar, SWT.NONE );
+		fx.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS ) );
+		fx.setToolTipText( TOOL_TIP_TEXT_FX );
+		fx.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				editDynamicTextDirectly( );
+			}
+		} );
+
 		// vertical separator between toolItems and combo
 		new ToolItem( toolBar, SWT.SEPARATOR );
 
@@ -368,12 +386,12 @@ public class TextEditor extends BaseDialog
 
 		int index = getContentChoiceType( textTypeChoicer,
 				handle.getContentType( ) );
-		if(index < 0)
+		if ( index < 0 )
 		{
 			index = 0;
 		}
 		textTypeChoicer.select( index );
-		
+
 		index = getContentChoiceType( textTypeChoicer,
 				DesignChoiceConstants.TEXT_CONTENT_TYPE_PLAIN );
 		final int PLAIN_INDEX = ( index < 0 ? 0 : index );
@@ -387,6 +405,12 @@ public class TextEditor extends BaseDialog
 				formatTagsBar.setEnabled( index != PLAIN_INDEX );
 				commonTagsBar.setEnabled( index != PLAIN_INDEX );
 
+				formatParent.setEnabled( formatTagsBar.isEnabled( ) );
+				for ( int i = 0; i < formatParent.getChildren( ).length; i++ )
+				{
+					Control control = formatParent.getChildren( )[i];
+					control.setEnabled( formatParent.getEnabled( ) );
+				}
 				// set the enablement of all html tags when the text type is
 				// changed.
 				ToolItem[] toolItems = formatTagsBar.getItems( );
@@ -433,21 +457,20 @@ public class TextEditor extends BaseDialog
 	 */
 	private void createFormatBar( Composite composite )
 	{
-		
-		Composite innerParent = new Composite(composite, SWT.NONE);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+
+		Composite innerParent = new Composite( composite, SWT.NONE );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 3;
 		innerParent.setLayoutData( gd );
-		
-		GridLayout layout = new GridLayout(3, false);
+
+		GridLayout layout = new GridLayout( 3, false );
 		layout.marginLeft = 0;
 		layout.marginTop = 0;
 		innerParent.setLayout( layout );
-		
+
 		formatChoicer = new CCombo( innerParent, SWT.READ_ONLY | SWT.FLAT );
-		GridData gdata = new GridData( GridData.FILL_HORIZONTAL
-				| GridData.HORIZONTAL_ALIGN_BEGINNING );
-		gdata.widthHint = formatChoicer.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x + 100;
+		GridData gdata = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
+		gdata.widthHint = 200;
 		gdata.horizontalIndent = 5;
 		formatChoicer.setLayoutData( gdata );
 		formatChoicer.setBackground( PlatformUI.getWorkbench( )
@@ -463,11 +486,15 @@ public class TextEditor extends BaseDialog
 				DesignChoiceConstants.TEXT_CONTENT_TYPE_PLAIN );
 		final int PLAIN_INDEX = ( index < 0 ? 0 : index );
 
-		formatChoicer.select( 0 );
+		int formatIndex = ReportPlugin.getDefault( )
+				.getPreferenceStore( )
+				.getInt( TEXT_EDIT_LAST_STAGE );
+		formatIndex = formatIndex < 0 ? 0 : formatIndex;
+		formatChoicer.select( formatIndex );
 		formatChoicer.setEnabled( textTypeChoicer.getSelectionIndex( ) != PLAIN_INDEX );
 
 		formatTagsBar = new ToolBar( innerParent, SWT.FLAT );
-		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		GridData data = new GridData( );
 		data.horizontalSpan = 2;
 		formatTagsBar.setLayoutData( data );
 
@@ -477,7 +504,7 @@ public class TextEditor extends BaseDialog
 		formatTagsBar.setEnabled( textTypeChoicer.getSelectionIndex( ) != PLAIN_INDEX );
 
 		// create initial format tags.
-		createFormatTags( 0, formatTagsBar );
+		createFormatTags( formatIndex, formatTagsBar );
 
 		// initiate the enablement of tool items right after they were created.
 		ToolItem[] toolItems = formatTagsBar.getItems( );
@@ -488,7 +515,6 @@ public class TextEditor extends BaseDialog
 
 		formatChoicer.addSelectionListener( new SelectionAdapter( ) {
 
-
 			private BidiSegmentListener listener = new BidiSegmentListener( ) {
 
 				public void lineGetSegments( BidiSegmentEvent event )
@@ -496,10 +522,16 @@ public class TextEditor extends BaseDialog
 					event.segments = UIUtil.getExpressionBidiSegments( event.lineText );
 				}
 			};
-			
+
 			public void widgetSelected( SelectionEvent e )
 			{
 				final int index = formatChoicer.getSelectionIndex( );
+
+				ReportPlugin.getDefault( )
+						.getPreferenceStore( )
+						.setValue( TEXT_EDIT_LAST_STAGE,
+								formatChoicer.getSelectionIndex( ) );
+
 				ToolItem[] toolItems = formatTagsBar.getItems( );
 				// avoid to dispose the separator( toolItems[ 0 ] )
 				for ( int i = 1; i < toolItems.length; i++ )
@@ -510,11 +542,13 @@ public class TextEditor extends BaseDialog
 				// choice selected.
 				createFormatTags( index, formatTagsBar );
 				textEditor.setFocus( );
-				
-				if(index == 4)
-					textViewer.getTextWidget( ).addBidiSegmentListener( listener );
+
+				if ( index == 4 )
+					textViewer.getTextWidget( )
+							.addBidiSegmentListener( listener );
 				else
-					textViewer.getTextWidget( ).removeBidiSegmentListener( listener );
+					textViewer.getTextWidget( )
+							.removeBidiSegmentListener( listener );
 				textViewer.getTextWidget( ).redraw( );
 			}
 		} );
@@ -655,11 +689,15 @@ public class TextEditor extends BaseDialog
 				menuManager.appendToGroup( ITextEditorActionConstants.GROUP_EDIT,
 						selectAllAction );
 
+				int index = getContentChoiceType( textTypeChoicer,
+						DesignChoiceConstants.TEXT_CONTENT_TYPE_PLAIN );
+				final int PLAIN_INDEX = ( index < 0 ? 0 : index );
+
 				IAction action = new Action( ACTION_TEXT_FORMAT_NUMBER ) {
 
 					public boolean isEnabled( )
 					{
-						return formatChoicer.getSelectionIndex( ) == FORMAT_CHOICE_INDEX_DYNAMIC_TEXT;
+						return textTypeChoicer.getSelectionIndex( ) != PLAIN_INDEX;
 					}
 
 					public void run( )
@@ -675,7 +713,7 @@ public class TextEditor extends BaseDialog
 
 					public boolean isEnabled( )
 					{
-						return formatChoicer.getSelectionIndex( ) == FORMAT_CHOICE_INDEX_DYNAMIC_TEXT;
+						return textTypeChoicer.getSelectionIndex( ) != PLAIN_INDEX;
 					}
 
 					public void run( )
@@ -691,7 +729,7 @@ public class TextEditor extends BaseDialog
 
 					public boolean isEnabled( )
 					{
-						return formatChoicer.getSelectionIndex( ) == FORMAT_CHOICE_INDEX_DYNAMIC_TEXT;
+						return textTypeChoicer.getSelectionIndex( ) != PLAIN_INDEX;
 					}
 
 					public void run( )
@@ -707,49 +745,38 @@ public class TextEditor extends BaseDialog
 
 					public boolean isEnabled( )
 					{
-						return formatChoicer.getSelectionIndex( ) == FORMAT_CHOICE_INDEX_DYNAMIC_TEXT;
+						return textTypeChoicer.getSelectionIndex( ) != PLAIN_INDEX;
 					}
 
 					public void run( )
 					{
-						ExpressionBuilder eb = new ExpressionBuilder( textEditor.getSelectionText( ) ); //$NON-NLS-1$
-
-						eb.setExpressionProvier( new ExpressionProvider( handle ) );
-
-						if ( eb.open( ) == OK )
-						{
-							if ( !eb.getResult( ).equals( "" ) ) //$NON-NLS-1$
-							{
-								textEditor.insert( eb.getResult( ) );
-							}
-						}
+						editDynamicTextDirectly( );
 					}
 				};
 
 				menuManager.appendToGroup( ITextEditorActionConstants.GROUP_REST,
 						action );
-				
+
 				// bidi_hcg start
-				
+
 				action = new Action( ACTION_BIDI_DIRECTION ) {
-	
+
 					public boolean isEnabled( )
 					{
 						return true;
 					}
-	
+
 					public void run( )
 					{
-						textEditor.setOrientation( this.isChecked( ) ? SWT
-									.RIGHT_TO_LEFT : SWT.LEFT_TO_RIGHT );
+						textEditor.setOrientation( this.isChecked( ) ? SWT.RIGHT_TO_LEFT
+								: SWT.LEFT_TO_RIGHT );
 					}
 				};
-				action.setChecked( ( textEditor.getOrientation() & SWT
-						.RIGHT_TO_LEFT ) != 0 );
-	
+				action.setChecked( ( textEditor.getOrientation( ) & SWT.RIGHT_TO_LEFT ) != 0 );
+
 				menuManager.appendToGroup( ITextEditorActionConstants.GROUP_REST,
-							action );
-				
+						action );
+
 				// bidi_hcg end
 
 			}
@@ -841,6 +868,11 @@ public class TextEditor extends BaseDialog
 	private void createFormatTags( int index, ToolBar toolBar )
 	{
 		HTMLTag tag;
+		if ( formatParent != null && ( !formatParent.isDisposed( ) ) )
+		{
+			formatParent.dispose( );
+			toolBar.getParent( ).layout( );
+		}
 		switch ( index )
 		{
 			// Creates tags of formatting.
@@ -898,6 +930,9 @@ public class TextEditor extends BaseDialog
 				tag = new HTMLTag( "<TT>", true ); //$NON-NLS-1$
 				tag.setToolTipText( TOOL_TIP_TAG_TT );
 				createToolItemWithHTMLTag( toolBar, tag );
+
+				( (GridData) toolBar.getLayoutData( ) ).horizontalSpan = 2;
+				toolBar.getParent( ).layout( true, true );
 				break;
 			}
 				// Creates tags of layout.
@@ -923,6 +958,9 @@ public class TextEditor extends BaseDialog
 				tag = new HTMLTag( "<SPAN>", true ); //$NON-NLS-1$
 				tag.setToolTipText( TOOL_TIP_TAG_GENERIC_STYLE );
 				createToolItemWithHTMLTag( toolBar, tag );
+
+				( (GridData) toolBar.getLayoutData( ) ).horizontalSpan = 2;
+				toolBar.getParent( ).layout( true, true );
 				break;
 			}
 				// Creates tags of content.
@@ -957,6 +995,9 @@ public class TextEditor extends BaseDialog
 				tag.addAttribute( "name" ); //$NON-NLS-1$
 				tag.addAttribute( "type" ); //$NON-NLS-1$
 				createToolItemWithHTMLTag( toolBar, tag );
+
+				( (GridData) toolBar.getLayoutData( ) ).horizontalSpan = 2;
+				toolBar.getParent( ).layout( true, true );
 				break;
 			}
 				// Creates tags of list.
@@ -982,6 +1023,9 @@ public class TextEditor extends BaseDialog
 				tag = new HTMLTag( "<DD>", true ); //$NON-NLS-1$
 				tag.setToolTipText( TOOL_TIP_TAG_DD );
 				createToolItemWithHTMLTag( toolBar, tag );
+
+				( (GridData) toolBar.getLayoutData( ) ).horizontalSpan = 2;
+				toolBar.getParent( ).layout( true, true );
 				break;
 			}
 				// Creates tags for Dynamic Text.
@@ -1017,6 +1061,70 @@ public class TextEditor extends BaseDialog
 						}
 					}
 				} );
+
+				formatParent = new Composite( toolBar.getParent( ), SWT.NONE );
+				GridLayout gdLayout = new GridLayout( );
+				gdLayout.numColumns = 3;
+				formatParent.setLayout( gdLayout );
+				GridData gd = new GridData( );
+				formatParent.setLayoutData( gd );
+				new Label( formatParent, SWT.NONE ).setText( "<VALUE-OF" );
+				final CCombo combo = new CCombo( formatParent, SWT.READ_ONLY
+						| SWT.FLAT );
+				GridData gdata = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
+				gdata.widthHint = 150;
+				combo.setLayoutData( gdata );
+				combo.setBackground( PlatformUI.getWorkbench( )
+						.getDisplay( )
+						.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
+				combo.setItems( new String[]{
+						Messages.getString( "TextEditDialog.action.item.formatNumber" ),
+						Messages.getString( "TextEditDialog.action.item.formatString" ),
+						Messages.getString( "TextEditDialog.action.item.formatDateTime" ),
+				} );
+				new Label( formatParent, SWT.NONE ).setText( ">" );
+				combo.addSelectionListener( new SelectionListener( ) {
+
+					public void widgetDefaultSelected( SelectionEvent e )
+					{
+						// TODO Auto-generated method stub
+
+					}
+
+					public void widgetSelected( SelectionEvent e )
+					{
+						// TODO Auto-generated method stub
+						int index = combo.getSelectionIndex( );
+						combo.select( -1 );
+						switch ( index )
+						{
+							case 0 :
+								insertFormat( FormatBuilder.NUMBER );
+								break;
+							case 1 :
+								insertFormat( FormatBuilder.STRING );
+								break;
+							case 2 :
+								insertFormat( FormatBuilder.DATETIME );
+								break;
+							default :
+						}
+						textEditor.setFocus( );
+					}
+				} );
+
+				( (GridData) toolBar.getLayoutData( ) ).horizontalSpan = 1;
+				toolBar.getParent( ).layout( true, true );
+
+				boolean enabled = toolBar.isEnabled( );
+				if ( !enabled )
+				{
+					formatParent.setEnabled( false );
+					for ( int i = 0; i < formatParent.getChildren( ).length; i++ )
+					{
+						formatParent.getChildren( )[i].setEnabled( false );
+					}
+				}
 
 				break;
 			}
@@ -1255,7 +1363,7 @@ public class TextEditor extends BaseDialog
 
 		return seg;
 	}
-	
+
 	/**
 	 * Updates SWT style based on the orientation of the
 	 * <code>TextItemHandle</code>.
@@ -1268,20 +1376,39 @@ public class TextEditor extends BaseDialog
 	{
 		style |= ( handle.isDirectionRTL( ) ? SWT.RIGHT_TO_LEFT
 				: SWT.LEFT_TO_RIGHT );
-		
+
 		return style;
 	}
-	
+
 	/**
 	 * Sets Bidi orientation on the text editor.
-	 *
+	 * 
 	 * @author bidi_hcg
 	 */
 	private void applyOrientation( )
 	{
-		textEditor.setOrientation( handle.isDirectionRTL( ) ?
-				SWT.RIGHT_TO_LEFT : SWT.LEFT_TO_RIGHT );
+		textEditor.setOrientation( handle.isDirectionRTL( ) ? SWT.RIGHT_TO_LEFT
+				: SWT.LEFT_TO_RIGHT );
 	}
-	
 
+	private void editDynamicTextDirectly( )
+	{
+		textEditor.selectAll( );
+		ExpressionBuilder eb = new ExpressionBuilder( textEditor.getSelectionText( ) ); //$NON-NLS-1$
+
+		eb.setExpressionProvier( new ExpressionProvider( handle ) );
+
+		if ( eb.open( ) == OK )
+		{
+			if ( !eb.getResult( ).equals( "" ) ) //$NON-NLS-1$
+			{
+				textEditor.insert( eb.getResult( ) );
+			}
+		}
+	}
+
+	protected boolean remLastSize( )
+	{
+		return true;
+	}
 }
