@@ -12,3 +12,4 @@
 contenttype.design=Diseño de informe
 contenttype.library=Librería de informes
 contenttype.template=Plantilla de informe
+contenttype.document=Report Document
