@@ -203,7 +203,9 @@ public class CrosstabInstanceImpl implements ICrosstabInstance
 
 	public void setWidth( String width )
 	{
-		content.setWidth( DimensionType.parserUnit( width ) );
+		String unit = content.getReportContent( ).getDesign( ).getReportDesign( )
+				.getDefaultUnits( );
+		content.setWidth( DimensionType.parserUnit( width, unit ) );
 	}
 
 }

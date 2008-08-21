@@ -2492,6 +2492,11 @@ public class EngineIRVisitor extends DesignVisitor
 		// set measure and unit
 		double measure = handle.getMeasure( );
 		String unit = handle.getUnits( );
+
+		if ( unit == null || unit.length( ) == 0 )
+		{
+			unit = handle.getDefaultUnit( );
+		}
 		return new DimensionType( measure, unit );
 	}
 
