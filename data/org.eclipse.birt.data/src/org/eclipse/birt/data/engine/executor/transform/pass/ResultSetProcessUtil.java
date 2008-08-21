@@ -158,6 +158,7 @@ class ResultSetProcessUtil extends RowProcessUtil
 			this.populator.getExpressionProcessor( )
 					.setResultIterator( this.populator.getResultIterator( ) );
 			AggrDefnRoundManager factory = new AggrDefnRoundManager( aggrDefns );
+			this.populator.getResultIterator( ).clearAggrValueHolder( );
 			for ( int i = 0; i < factory.getRound( ); i++ )
 			{
 				AggregationHelper helper = new AggregationHelper( factory.getAggrDefnManager( i ),
@@ -267,7 +268,12 @@ class ResultSetProcessUtil extends RowProcessUtil
 					stopSign );
 			groupingDone = true;
 		}
-
+		
+		//If the aggregation value is subject to change caused by group instance filter and row filter, recalculate the
+		//aggregations.
+		if( this.needDoGroupFiltering( ) || psController.needDoOperation( PassStatusController.AGGR_ROW_FILTERING ))
+			prepareAggregations( this.populator.getEventHandler( ).getAggrDefinitions( ), stopSign );
+		
 		this.populator.getGroupProcessorManager( )
 				.doGroupSorting( this.populator.getCache( ),
 						this.populator.getExpressionProcessor( ),

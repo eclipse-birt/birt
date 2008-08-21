@@ -122,6 +122,91 @@ public class AggregationTest extends APITestCase
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
 	}
+	
+	public void test11( ) throws Exception
+	{
+		QueryDefinition query = newReportQuery( );
+		
+		Calendar c = Calendar.getInstance( );
+		c.clear( );
+		// 3 grouping levels: CITY, STORE, SALE_DATE(by month)
+		GroupDefinition g1 = new GroupDefinition( "G1" );
+		g1.setKeyExpression( "row.e1" );
+		
+		SortDefinition sortDefn = new SortDefinition();
+		sortDefn.setExpression( "row.e5" );
+		sortDefn.setSortDirection( ISortDefinition.SORT_DESC );
+		g1.addSort( sortDefn );
+		FilterDefinition filter = new FilterDefinition( new ScriptExpression( "row.e7 > 100" ) );
+		g1.addFilter( filter );
+		
+		query.addGroup( g1 );
+
+		GroupDefinition g2 = new GroupDefinition( "G2" );
+		g2.setKeyExpression( "row.e2" );
+		
+		query.addGroup( g2 );
+
+		GroupDefinition g3 = new GroupDefinition( "G3" );
+		g3.setKeyExpression( "row.e3" );
+		g3.setInterval( GroupDefinition.MONTH_INTERVAL );
+		g3.setIntervalRange( 1 );
+		
+		c.set( 2004, 9, 1 );
+		g3.setIntervalStart( c.getTime( ) );
+		query.addGroup( g3 );
+		
+		SortDefinition sort = new SortDefinition( );
+		sort.setExpression( "row.e3" );
+		sort.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sort );
+		
+		query.addBinding( new Binding( "e1", new ScriptExpression( "dataSetRow.CITY" ) ) );
+		query.addBinding( new Binding( "e2", new ScriptExpression( "dataSetRow.STORE" ) ) );
+		query.addBinding( new Binding( "e3", new ScriptExpression( "dataSetRow.SALE_DATE" ) ) );
+		query.addBinding( new Binding( "e4", new ScriptExpression( "dataSetRow.SKU" ) ) );
+		query.addBinding( new Binding( "e10", new ScriptExpression( "dataSetRow.PRICE" ) ) );
+		query.addBinding( new Binding( "e11", new ScriptExpression( "dataSetRow.QUANTITY" ) ) );
+		
+		// Aggregate: count at city level
+		IBinding e5 = new Binding( "e5" );
+		e5.setAggrFunction( "COUNT" );
+		e5.addAggregateOn( "G1" );
+		query.addBinding( e5 );
+
+		// Aggregate: count at city level but added to Store group
+		IBinding e6 = new Binding( "e6");
+		e6.setAggrFunction( "COUNT" );
+		e6.addAggregateOn( "G1" );
+		query.addBinding( e6 );
+
+		// Aggregate: day total sales
+		IBinding e7 = new Binding( "e7", new ScriptExpression("dataSetRow.PRICE*dataSetRow.QUANTITY"));
+		e7.setAggrFunction( "SUM" );
+		e7.addAggregateOn( "G3" );
+		query.addBinding( e7 );
+		
+		IBinding e81 = new Binding( "e81", new ScriptExpression("dataSetRow.PRICE*dataSetRow.QUANTITY"));
+		e81.setAggrFunction( "SUM" );
+		query.addBinding( e81 );
+		
+		// Aggregate: Percent of grand total
+		IBinding e8 = new Binding( "e8", new ScriptExpression( "dataSetRow.PRICE * dataSetRow.QUANTITY / row.e81" ));
+		query.addBinding( e8 );
+
+		// Aggregate: a moving ave with a filtering condition
+		IBinding e9 = new Binding( "e9", new ScriptExpression( "dataSetRow.PRICE"));
+		e9.setAggrFunction( "MOVINGAVE" );
+		e9.setFilter( new ScriptExpression ("dataSetRow.QUANTITY>1")  );
+		e9.addArgument( new ScriptExpression( "3") );
+		query.addBinding( e9 );
+		String[] exprs = new String[]{
+				"e1", "e2", "e3", "e4", "e10", "e11", "e5", "e6", "e7", "e8", "e9"
+		};
+
+		outputQueryResult( executeQuery( query ), exprs );
+		checkOutputFile();
+	}
 
 	// Test aggregates on empty result set
 	public void test3( ) throws Exception

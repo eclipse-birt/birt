@@ -898,6 +898,11 @@ public class GroupOnRowTest extends APITestCase
 	{
 		groupOnWeek( null );
 	}
+	
+	public void testGroupOnWeek2(  ) throws Exception
+	{
+		groupOnWeek2( null );
+	}
 
 	private void groupOnWeek( Object startValue ) throws Exception, IOException
 	{
@@ -913,6 +918,62 @@ public class GroupOnRowTest extends APITestCase
 		if(startValue != null)
 			groupDefn[0].setIntervalStart( startValue );
 		groupDefn[0].setIntervalRange( 2 );
+
+		String[] bindingNameRow = new String[4];
+		bindingNameRow[0] = "ROW_DATE_FOR_GROUP";
+		bindingNameRow[1] = "ROW_ID";
+		bindingNameRow[2] = "ROW_AMOUT1";
+		bindingNameRow[3] = "ROW_AMOUT2";
+		IBaseExpression[] bindingExprRow = new IBaseExpression[4];
+		bindingExprRow[0] = new ScriptExpression( "dataSetRow.DATE_FOR_GROUP" );
+		bindingExprRow[1] = new ScriptExpression( "dataSetRow.ID" );
+		bindingExprRow[2] = new ScriptExpression( "dataSetRow.AMOUNT1" );
+		bindingExprRow[3] = new ScriptExpression( "dataSetRow.AMOUNT2" );
+
+		String[] columnStr = new String[]{
+				"date_for_group", "id", "amount1", "amount2"
+		};
+
+		QueryDefinition qd = this.createQuery( bindingNameGroup,
+				bindingExprGroup,
+				groupDefn,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				bindingNameRow,
+				bindingExprRow );
+
+		String outputStr = getOutputStrForGroupTest( 30,
+				qd,
+				groupDefn.length,
+				bindingNameRow,
+				columnStr );
+		testPrint( outputStr );
+
+		this.checkOutputFile( );
+	}
+	
+	private void groupOnWeek2( Object startValue ) throws Exception, IOException
+	{
+		String[] bindingNameGroup = new String[1];
+		bindingNameGroup[0] = "GROUP_DATE";
+		IBaseExpression[] bindingExprGroup = new IBaseExpression[1];
+		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.DATE_FOR_GROUP" );
+		GroupDefinition[] groupDefn = new GroupDefinition[]{
+			new GroupDefinition( "group1" )
+		};
+		groupDefn[0].setKeyExpression( "row.GROUP_DATE" );
+		groupDefn[0].setInterval( IGroupDefinition.WEEK_INTERVAL );
+		if(startValue != null)
+			groupDefn[0].setIntervalStart( startValue );
+		groupDefn[0].setIntervalRange( 2 );
+		SortDefinition sortDefn = new SortDefinition();
+		sortDefn.setExpression( "row.ROW_DATE_FOR_GROUP" );
+		sortDefn.setSortDirection( ISortDefinition.SORT_DESC );
+		groupDefn[0].addSort( sortDefn );
 
 		String[] bindingNameRow = new String[4];
 		bindingNameRow[0] = "ROW_DATE_FOR_GROUP";
