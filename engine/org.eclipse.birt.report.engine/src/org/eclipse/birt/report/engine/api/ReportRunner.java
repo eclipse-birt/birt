@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -29,6 +31,7 @@ import org.apache.commons.cli.Options;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * Defines a standalone reporting application that uses
@@ -767,10 +770,21 @@ public class ReportRunner
 
 				String paramName = paramDefn.getName( );
 				String inputValue = (String) params.get( paramName );
-				int paramType = paramDefn.getDataType( );
+				int paramDataType = paramDefn.getDataType( );
+				String paramType = paramDefn.getScalarParameterType( );
 				try
 				{
-					Object paramValue = stringToObject( paramType, inputValue );
+					Object paramValue = null;
+					if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE
+							.equals( paramType ) )
+					{
+						paramValue = stringToObjectArray( paramDataType,
+								inputValue );
+					}
+					else
+					{
+						paramValue = stringToObject( paramDataType, inputValue );
+					}
 					if ( paramValue != null )
 					{
 						inputValues.put( paramName, paramValue );
@@ -784,6 +798,28 @@ public class ReportRunner
 			}
 		}
 		return inputValues;
+	}
+/**
+ * 
+ * @param paramDataType the data type
+ * @param inputValue parameter value in String
+ * @return parameter value in Object[]
+ * @throws BirtException
+ */
+	private Object[] stringToObjectArray( int paramDataType, String inputValue )
+			throws BirtException
+	{
+		if ( inputValue == null )
+		{
+			return null;
+		}
+		List result = new LinkedList( );
+		String[] inputValues = inputValue.split( "," );
+		for ( String value : inputValues )
+		{
+			result.add( stringToObject( paramDataType, value ) );
+		}
+		return result.toArray( );
 	}
 
 	/**
