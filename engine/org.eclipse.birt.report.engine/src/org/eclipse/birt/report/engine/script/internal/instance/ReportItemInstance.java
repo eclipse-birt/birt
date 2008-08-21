@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.api.script.instance.IReportItemInstance;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
@@ -44,7 +45,8 @@ public class ReportItemInstance extends ReportElementInstance implements
 	 */
 	public String getHyperlink( )
 	{
-		return content.getHyperlinkAction( ).getHyperlink( );
+		IHyperlinkAction hyperlinkAction = content.getHyperlinkAction( );
+		return hyperlinkAction == null ? null : hyperlinkAction.getHyperlink( );
 	}
 
 	/*
