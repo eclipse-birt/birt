@@ -1102,6 +1102,8 @@ public final class LegendBuilder implements IConstants
 		all: for ( int j = 0; j < seda.length; j++ )
 		{
 			int iSedaId = bNeedInvert ? seda.length - 1 - j : j;
+			SeriesNameFormat snFormat = SeriesNameFormat.getSeriesNameFormat( seda[iSedaId],
+					rtc.getULocale( ) );
 			List al = seda[iSedaId].getRunTimeSeries( );
 			FormatSpecifier fs = seda[iSedaId].getFormatSpecifier( );
 
@@ -1124,7 +1126,7 @@ public final class LegendBuilder implements IConstants
 
 				// legend text
 				Object obj = se.getSeriesIdentifier( );
-				String lgtext = rtc.externalizedMessage( String.valueOf( obj ) );
+				String lgtext = rtc.externalizedMessage( snFormat.format( obj ) );
 				// value text
 				String strExtText = getValueText( cm, se );
 
@@ -1461,6 +1463,8 @@ public final class LegendBuilder implements IConstants
 		all: for ( int j = 0; j < seda.length; j++ )
 		{
 			int iSedaId = bNeedInvert ? seda.length - 1 - j : j;
+			SeriesNameFormat snFormat = SeriesNameFormat.getSeriesNameFormat( seda[iSedaId],
+					rtc.getULocale( ) );
 			List al = seda[iSedaId].getRunTimeSeries( );
 			FormatSpecifier fs = seda[iSedaId].getFormatSpecifier( );
 			boolean oneVisibleSerie = false;
@@ -1482,7 +1486,7 @@ public final class LegendBuilder implements IConstants
 
 				// legend text
 				Object obj = se.getSeriesIdentifier( );
-				String lgtext = rtc.externalizedMessage( String.valueOf( obj ) );
+				String lgtext = rtc.externalizedMessage( snFormat.format( obj ) );
 				// value text
 				String strExtText = getValueText( cm, se );
 

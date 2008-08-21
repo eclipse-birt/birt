@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.util;
 
+import java.sql.Time;
 import java.util.Date;
 import java.util.Locale;
 
@@ -64,6 +65,8 @@ public class CDateTime extends GregorianCalendar
 	};
 
 	private static final SimpleDateFormat _sdf = new SimpleDateFormat( "MM-dd-yyyy HH:mm:ss" ); //$NON-NLS-1$
+	
+	private boolean bTimeOnly = false;
 
 	/**
 	 * A zero-arg default constructor
@@ -72,7 +75,7 @@ public class CDateTime extends GregorianCalendar
 	{
 		super( );
 	}
-
+	
 	/**
 	 * A constructor that creates an instance from a given
 	 * <code>java.util.Date</code> value
@@ -84,6 +87,10 @@ public class CDateTime extends GregorianCalendar
 	{
 		super( );
 		setTime( d );
+		if ( d instanceof Time )
+		{
+			setTimeOnly( true );
+		}
 	}
 
 	/**
@@ -99,9 +106,13 @@ public class CDateTime extends GregorianCalendar
 		if ( c != null )
 		{
 			setTime( c.getTime( ) );
+			if ( c instanceof CDateTime )
+			{
+				setTimeOnly( ( (CDateTime) c ).isTimeOnly( ) );
+			}
 		}
 	}
-
+	
 	/**
 	 * A constructor that creates an instance from a given <code>long</code>
 	 * value
@@ -838,7 +849,21 @@ public class CDateTime extends GregorianCalendar
 			set( Calendar.MILLISECOND, 0 );
 		}
 	}
-
+	
+	/**
+	 * returns a CDateTime, whose value equals to the unit start of the current
+	 * instance
+	 * 
+	 * @param iUnit
+	 * @return
+	 */
+	public CDateTime getUnitStart( int iUnit )
+	{
+		CDateTime cd = new CDateTime( this );
+		cd.clearBelow( iUnit );
+		return cd;
+	}
+	
 	/**
 	 * Parses a value formatted as MM-dd-yyyy HH:mm:ss and attempts to create an
 	 * instance of this object
@@ -885,5 +910,29 @@ public class CDateTime extends GregorianCalendar
 			return false;
 		}
 		return super.before( when );
+	}
+
+	
+	/**
+	 * The property timeOnly indicates that this instance of CDateTime only
+	 * represents a Time value, the Date value will be ignored.
+	 * 
+	 * @return Returns the bTimeOnly.
+	 */
+	public boolean isTimeOnly( )
+	{
+		return bTimeOnly;
+	}
+
+	/**
+	 * The property timeOnly indicates that this instance of CDateTime only
+	 * represents a Time value, the Date value will be ignored.
+	 * 
+	 * @param timeOnly
+	 *            The bTimeOnly to set.
+	 */
+	public void setTimeOnly( boolean timeOnly )
+	{
+		bTimeOnly = timeOnly;
 	}
 }

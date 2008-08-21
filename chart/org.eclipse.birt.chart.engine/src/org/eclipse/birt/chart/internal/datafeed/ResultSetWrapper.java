@@ -1759,8 +1759,8 @@ public final class ResultSetWrapper
 					else if (seriesGrouping.getGroupType( ) == DataType.DATE_TIME_LITERAL )
 					{
 						int cunit = GroupingUtil.groupingUnit2CDateUnit( seriesGrouping.getGroupingUnit( ) );
-						double diff = CDateTime.computeDifference( (CDateTime)oValue,
-								(CDateTime)oPreviousValue,
+						double diff = CDateTime.computeDifference( ( (CDateTime) oValue ).getUnitStart( cunit ),
+								( (CDateTime) oPreviousValue ).getUnitStart( cunit ),
 								cunit,
 								true );
 						if ( diff != 0 )
@@ -1866,8 +1866,6 @@ public final class ResultSetWrapper
 					// set as the smallest Date.
 					baseReference = new CDateTime( 0 );
 				}
-
-				baseReference.clearBelow( cunit );
 
 				oaTuple[columnIndex] = baseReference;
 			}
