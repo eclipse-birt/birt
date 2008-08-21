@@ -170,7 +170,7 @@ public class JSResultSetRow extends ScriptableObject
 			}
 			catch ( BirtException e )
 			{
-				value = null;
+				throw Context.reportRuntimeError( e.getLocalizedMessage( ) );
 			}
 			if ( this.currRowIndex != rowIndex )
 			{
