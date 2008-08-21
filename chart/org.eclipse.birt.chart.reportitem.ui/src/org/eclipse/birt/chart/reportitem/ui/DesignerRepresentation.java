@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.reportitem.ui;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.chart.computation.IConstants;
@@ -38,6 +39,7 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.Figure;
@@ -56,6 +58,7 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Region;
+import org.eclipse.swt.graphics.TextLayout;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -119,7 +122,7 @@ public final class DesignerRepresentation extends Figure
 	DesignerRepresentation( ChartReportItemImpl crii )
 	{
 		this.crii = crii;
-		
+
 		updateChartModelAndSize( );
 
 		try
@@ -153,14 +156,14 @@ public final class DesignerRepresentation extends Figure
 					cm = ChartXTabUtil.updateModelToRenderAxis( (Chart) EcoreUtil.copy( cm ),
 							crii.getHandle( ).isDirectionRTL( ) );
 				}
-				
+
 				// Do not modify size for axis chart
 				if ( !ChartXTabUtil.isAxisChart( crii.getHandle( ) ) )
 				{
 					final IDisplayServer idsSWT = ChartUIUtil.getDisplayServer( ); // REUSE
 					final Bounds bo = cm.getBlock( )
 							.getBounds( )
-							.scaledInstance( idsSWT.getDpiResolution( ) / 72d  );
+							.scaledInstance( idsSWT.getDpiResolution( ) / 72d );
 					setSize( (int) bo.getWidth( ), (int) bo.getHeight( ) );
 				}
 			}
@@ -262,19 +265,19 @@ public final class DesignerRepresentation extends Figure
 		{
 			newSize.width = 72;
 		}
-		if ( dim.height == 0)
+		if ( dim.height == 0 )
 		{
 			newSize.height = 72;
 		}
 		setSize( newSize.width, newSize.height );
-		
+
 		// If figure size of chart has no change, no need to update chart
 		// bounds, returns directly.
 		if ( newSize.equals( dim ) )
 		{
 			return newSize;
 		}
-		
+
 		// ?? refresh the model size.
 		// TODO this is a temp solution, better not refresh model here. and this
 		// can not handle all the cases.
@@ -295,7 +298,6 @@ public final class DesignerRepresentation extends Figure
 		return newSize;
 	}
 
-
 	private List<Double> parseSampleData( String s )
 	{
 		List<Double> list = new ArrayList<Double>( );
@@ -312,10 +314,10 @@ public final class DesignerRepresentation extends Figure
 				return null;
 			}
 		}
-		
+
 		return list;
 	}
-	
+
 	private ScaleContext createSharedScaleFromSampleData( )
 	{
 		Double min = Double.MAX_VALUE, max = -Double.MAX_VALUE;
@@ -331,7 +333,7 @@ public final class DesignerRepresentation extends Figure
 
 		OrthogonalSampleData osd = (OrthogonalSampleData) sd.getOrthogonalSampleData( )
 				.get( 0 );
-		
+
 		String sData = osd.getDataSetRepresentation( );
 
 		List<Double> lData = parseSampleData( sData );
@@ -348,14 +350,15 @@ public final class DesignerRepresentation extends Figure
 			min = Math.min( min, v );
 			max = Math.max( max, v );
 		}
-			
+
 		return ScaleContext.createSimpleScale( min, max );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.draw2d.Figure#paintClientArea(org.eclipse.draw2d.Graphics)
+	 * @see
+	 * org.eclipse.draw2d.Figure#paintClientArea(org.eclipse.draw2d.Graphics)
 	 */
 	public final void paintClientArea( Graphics g )
 	{
@@ -373,14 +376,7 @@ public final class DesignerRepresentation extends Figure
 		if ( bDirty )
 		{
 			bDirty = false;
-			// GET THE MODEL WRAPPED INSIDE THE REPORT ITEM IMPL
-			if ( cm == null )
-			{
-				bPainting = false;
-				logger.log( ILogger.ERROR,
-						Messages.getString( "DesignerRepresentation.log.UnableToFind" ) ); //$NON-NLS-1$
-				return;
-			}
+
 			final Display d = Display.getCurrent( );
 			Dimension dSize = r.getSize( );
 
@@ -422,53 +418,13 @@ public final class DesignerRepresentation extends Figure
 					imgChart.getImageData( ).height );
 			gc.setBackground( clrPreviousBG ); // RESTORE
 
-			// SETUP THE RENDERING CONTEXT
-			Bounds bo = BoundsImpl.create( 0, 0, dSize.width, dSize.height );
-			bo.scale( 72d / idr.getDisplayServer( ).getDpiResolution( ) );
-			idr.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, gc );
-
-			Generator gr = Generator.instance( );
-			ChartAdapter.beginIgnoreNotifications( );
-			cm.clearSections( IConstants.RUN_TIME ); // REMOVE OLD TRANSIENT
-			// RUNTIME SERIES
-			cm.createSampleRuntimeSeries( ); // USING SAMPLE DATA STORED IN
-			ChartAdapter.endIgnoreNotifications( );
-			// MODEL
-			try
+			if ( cm == null )
 			{
-				RunTimeContext rtc = new RunTimeContext( );
-				rtc.setScriptingEnabled( false );
-				rtc.setMessageLookup( new BIRTDesignerMessageLookup( crii.getHandle( ) ) );
-
-				// Set direction from model to chart runtime context
-				rtc.setRightToLeft( crii.getHandle( ).isDirectionRTL( ) );
-				// Set text direction from StyleHandle to chart runtime context
-				rtc.setRightToLeftText( DesignChoiceConstants.BIDI_DIRECTION_RTL.equals( crii.getHandle( )
-						.getPrivateStyle( )
-						.getTextDirection( ) ) );
-
-				rtc.setResourceFinder( crii );
-				rtc.setExternalizer( crii );
-				
-				// Create shared scale if needed
-				boolean bPlotChart = ChartXTabUtil.isPlotChart( crii.getHandle( ) );
-				if ( bPlotChart )
-				{
-					rtc.setScale( createSharedScaleFromSampleData( ) );
-				}
-				
-				gr.render( idr,
-						gr.build( idr.getDisplayServer( ),
-								cm,
-								bo,
-								null,
-								rtc,
-								new ChartReportStyleProcessor( crii.getHandle( ),
-										true ) ) );
+				showNullChart( dSize );
 			}
-			catch ( ChartException gex )
+			else
 			{
-				showException( gc, gex );
+				showChart( dSize );
 			}
 		}
 
@@ -477,6 +433,81 @@ public final class DesignerRepresentation extends Figure
 			g.drawImage( imgChart, r.x, r.y );
 		}
 		bPainting = false;
+	}
+
+	private void showNullChart( Dimension dSize )
+	{
+		// Display error message for null chart. This behavior is consistent
+		// with invalid table.
+		String MSG = Messages.getString( "DesignerRepresentation.msg.InvalidChart" ); //$NON-NLS-1$
+		logger.log( ILogger.ERROR,
+				Messages.getString( "DesignerRepresentation.log.UnableToFind" ) ); //$NON-NLS-1$
+
+		Device dv = Display.getCurrent( );
+		Font font = FontManager.getFont( "Dialog", 10, SWT.ITALIC ); //$NON-NLS-1$
+		gc.setFont( font );
+		FontMetrics fm = gc.getFontMetrics( );
+		gc.setForeground( dv.getSystemColor( SWT.COLOR_RED ) );
+		gc.setBackground( dv.getSystemColor( SWT.COLOR_WHITE ) );
+		gc.fillRectangle( 0, 0, dSize.width - 1, dSize.height - 1 );
+		gc.drawRectangle( 0, 0, dSize.width - 1, dSize.height - 1 );
+		String[] texts = splitOnBreaks( MSG, font, dSize.width - 10 );
+		int y = 5;
+		for ( String text : texts )
+		{
+			gc.drawText( text, 5, y );
+			y += fm.getHeight( );
+		}
+	}
+
+	private void showChart( Dimension dSize )
+	{
+		// SETUP THE RENDERING CONTEXT
+		Bounds bo = BoundsImpl.create( 0, 0, dSize.width, dSize.height );
+		bo.scale( 72d / idr.getDisplayServer( ).getDpiResolution( ) );
+		idr.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, gc );
+
+		Generator gr = Generator.instance( );
+		ChartAdapter.beginIgnoreNotifications( );
+		cm.clearSections( IConstants.RUN_TIME ); // REMOVE OLD TRANSIENT
+		// RUNTIME SERIES
+		cm.createSampleRuntimeSeries( ); // USING SAMPLE DATA STORED IN
+		ChartAdapter.endIgnoreNotifications( );
+		// MODEL
+		try
+		{
+			RunTimeContext rtc = new RunTimeContext( );
+			rtc.setScriptingEnabled( false );
+			rtc.setMessageLookup( new BIRTDesignerMessageLookup( crii.getHandle( ) ) );
+
+			// Set direction from model to chart runtime context
+			rtc.setRightToLeft( crii.getHandle( ).isDirectionRTL( ) );
+			// Set text direction from StyleHandle to chart runtime context
+			rtc.setRightToLeftText( DesignChoiceConstants.BIDI_DIRECTION_RTL.equals( crii.getHandle( )
+					.getPrivateStyle( )
+					.getTextDirection( ) ) );
+
+			rtc.setResourceFinder( crii );
+			rtc.setExternalizer( crii );
+
+			// Create shared scale if needed
+			boolean bPlotChart = ChartXTabUtil.isPlotChart( crii.getHandle( ) );
+			if ( bPlotChart )
+			{
+				rtc.setScale( createSharedScaleFromSampleData( ) );
+			}
+
+			gr.render( idr, gr.build( idr.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					rtc,
+					new ChartReportStyleProcessor( crii.getHandle( ), true ) ) );
+		}
+		catch ( ChartException gex )
+		{
+			showException( gc, gex );
+		}
 	}
 
 	/**
@@ -554,5 +585,74 @@ public final class DesignerRepresentation extends Figure
 			bDirty = true;
 			idr = null;
 		}
+	}
+
+	private static String[] splitOnBreaks( String s, Font font, double maxSize )
+	{
+		List<String> al = new ArrayList<String>( );
+
+		// check hard break first
+		int i = 0, j;
+		do
+		{
+			j = s.indexOf( '\n', i );
+
+			if ( j == -1 )
+			{
+				j = s.length( );
+			}
+			String ss = s.substring( i, j );
+			if ( ss != null && ss.length( ) > 0 )
+			{
+				al.add( ss );
+			}
+
+			i = j + 1;
+
+		} while ( j != -1 && j < s.length( ) );
+
+		// check wrapping
+		if ( maxSize > 0 )
+		{
+			TextLayout tl = new TextLayout( Display.getCurrent( ) );
+			tl.setFont( font );
+			tl.setWidth( (int) maxSize );
+
+			List<String> nal = new ArrayList<String>( );
+
+			for ( Iterator<String> itr = al.iterator( ); itr.hasNext( ); )
+			{
+				String ns = itr.next( );
+
+				tl.setText( ns );
+
+				int[] offsets = tl.getLineOffsets( );
+				String ss;
+
+				for ( i = 1; i < offsets.length; i++ )
+				{
+					ss = ns.substring( offsets[i - 1], offsets[i] );
+
+					nal.add( ss );
+				}
+			}
+
+			tl.dispose( );
+
+			al = nal;
+		}
+
+		final int n = al.size( );
+		if ( n == 1 || n == 0 )
+		{
+			return null;
+		}
+
+		final String[] sa = new String[n];
+		for ( i = 0; i < al.size( ); i++ )
+		{
+			sa[i] = al.get( i );
+		}
+		return sa;
 	}
 }

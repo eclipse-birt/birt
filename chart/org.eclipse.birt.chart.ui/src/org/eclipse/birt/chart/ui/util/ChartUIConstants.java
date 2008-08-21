@@ -36,6 +36,7 @@ public interface ChartUIConstants
 	// Icons in Outline view
 	public static final String IMAGE_OUTLINE = "icons/obj16/outline.gif"; //$NON-NLS-1$
 	public static final String IMAGE_OUTLINE_LIB = "icons/obj16/outline_lib.gif"; //$NON-NLS-1$
+	public static final String IMAGE_OUTLINE_ERROR = "icons/obj16/outline_error.gif"; //$NON-NLS-1$
 
 	// Constants for position scope
 	public static final int ALLOW_ABOVE_POSITION = 1;
