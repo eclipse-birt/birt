@@ -183,10 +183,11 @@ public class FunctionProvider
 							configElems[i].getAttribute( ATTRIBUTE_DESC ) );
 					categories.put( category.getName( ), category );
 
-					IScriptFunctionFactory factory;
+					IScriptFunctionFactory factory = null;
 					try
 					{
-						factory = (IScriptFunctionFactory) configElems[i].createExecutableExtension( ATTRIBUTE_FACTORYCLASS );
+						if( configElems[i].getAttribute( ATTRIBUTE_FACTORYCLASS )!= null )
+							factory = (IScriptFunctionFactory) configElems[i].createExecutableExtension( ATTRIBUTE_FACTORYCLASS );
 						IConfigurationElement[] functions = configElems[i].getChildren( ELEMENT_FUNCTION );
 						for ( int j = 0; j < functions.length; j++ )
 						{
