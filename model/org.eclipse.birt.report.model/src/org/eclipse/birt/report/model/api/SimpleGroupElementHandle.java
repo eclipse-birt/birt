@@ -27,6 +27,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
@@ -97,7 +99,8 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#getModuleHandle()
+	 * @see
+	 * org.eclipse.birt.report.model.api.GroupElementHandle#getModuleHandle()
 	 */
 
 	public ModuleHandle getModuleHandle( )
@@ -108,7 +111,9 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#getCommonProperties()
+	 * @see
+	 * org.eclipse.birt.report.model.api.GroupElementHandle#getCommonProperties
+	 * ()
 	 */
 
 	public List getCommonProperties( )
@@ -203,7 +208,9 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#visiblePropertyIterator()
+	 * @see
+	 * org.eclipse.birt.report.model.api.GroupElementHandle#visiblePropertyIterator
+	 * ()
 	 */
 
 	public Iterator visiblePropertyIterator( )
@@ -226,7 +233,9 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#isPropertyVisible(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.GroupElementHandle#isPropertyVisible
+	 * (java.lang.String)
 	 */
 
 	protected boolean isPropertyVisible( String propName )
@@ -255,13 +264,16 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#clearLocalProperties()
+	 * @see
+	 * org.eclipse.birt.report.model.api.GroupElementHandle#clearLocalProperties
+	 * ()
 	 */
 
 	public void clearLocalProperties( ) throws SemanticException
 	{
 		ActivityStack stack = module.getActivityStack( );
-		stack.startTrans( null );
+		stack.startTrans( ModelMessages
+				.getMessage( MessageConstants.CLEAR_PROPERTIES_MESSAGE ) );
 
 		try
 		{
@@ -305,7 +317,8 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#isExtendedElements()
+	 * @see
+	 * org.eclipse.birt.report.model.api.GroupElementHandle#isExtendedElements()
 	 */
 
 	public boolean isExtendedElements( )
@@ -334,7 +347,8 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#hasVirtualExtendsElements()
+	 * @seeorg.eclipse.birt.report.model.api.GroupElementHandle#
+	 * hasVirtualExtendsElements()
 	 */
 
 	protected boolean allExtendedElements( )
@@ -367,7 +381,9 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#isPropertyReadOnly(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.GroupElementHandle#isPropertyReadOnly
+	 * (java.lang.String)
 	 */
 
 	protected boolean isPropertyReadOnly( String propName )
@@ -448,7 +464,9 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#getPropertyHandle(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.GroupElementHandle#getPropertyHandle
+	 * (java.lang.String)
 	 */
 
 	public GroupPropertyHandle getPropertyHandle( String propName )
@@ -470,7 +488,9 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#isInGroup(org.eclipse.birt.report.model.api.DesignElementHandle)
+	 * @see
+	 * org.eclipse.birt.report.model.api.GroupElementHandle#isInGroup(org.eclipse
+	 * .birt.report.model.api.DesignElementHandle)
 	 */
 
 	protected boolean isInGroup( DesignElementHandle element )

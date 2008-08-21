@@ -11,9 +11,12 @@
 
 package org.eclipse.birt.report.model.api;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 import org.eclipse.birt.report.model.util.DataTypeConversionUtil;
@@ -72,14 +75,10 @@ public class DataSetParameterHandle extends StructureHandle
 	 * Returns the data type of this parameter. The possible values are:
 	 * 
 	 * <ul>
-	 * <li>COLUMN_DATA_TYPE_ANY
-	 * <li>COLUMN_DATA_TYPE_INTEGER
-	 * <li>COLUMN_DATA_TYPE_STRING
-	 * <li>COLUMN_DATA_TYPE_DATETIME
-	 * <li>COLUMN_DATA_TYPE_DECIMAL
-	 * <li>COLUMN_DATA_TYPE_FLOAT
-	 * <li>COLUMN_DATA_TYPE_STRUCTURE
-	 * <li>COLUMN_DATA_TYPE_TABLE
+	 * <li>COLUMN_DATA_TYPE_ANY <li>COLUMN_DATA_TYPE_INTEGER <li>
+	 * COLUMN_DATA_TYPE_STRING <li>COLUMN_DATA_TYPE_DATETIME <li>
+	 * COLUMN_DATA_TYPE_DECIMAL <li>COLUMN_DATA_TYPE_FLOAT <li>
+	 * COLUMN_DATA_TYPE_STRUCTURE <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
 	 * 
 	 * @return the data type of this parameter.
@@ -98,14 +97,10 @@ public class DataSetParameterHandle extends StructureHandle
 	 * Sets the data type of this parameter. The allowed values are:
 	 * 
 	 * <ul>
-	 * <li>COLUMN_DATA_TYPE_ANY
-	 * <li>COLUMN_DATA_TYPE_INTEGER
-	 * <li>COLUMN_DATA_TYPE_STRING
-	 * <li>COLUMN_DATA_TYPE_DATETIME
-	 * <li>COLUMN_DATA_TYPE_DECIMAL
-	 * <li>COLUMN_DATA_TYPE_FLOAT
-	 * <li>COLUMN_DATA_TYPE_STRUCTURE
-	 * <li>COLUMN_DATA_TYPE_TABLE
+	 * <li>COLUMN_DATA_TYPE_ANY <li>COLUMN_DATA_TYPE_INTEGER <li>
+	 * COLUMN_DATA_TYPE_STRING <li>COLUMN_DATA_TYPE_DATETIME <li>
+	 * COLUMN_DATA_TYPE_DECIMAL <li>COLUMN_DATA_TYPE_FLOAT <li>
+	 * COLUMN_DATA_TYPE_STRUCTURE <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
 	 * 
 	 * @param dataType
@@ -346,7 +341,9 @@ public class DataSetParameterHandle extends StructureHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.StructureHandle#getMember(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.StructureHandle#getMember(java.lang
+	 * .String)
 	 */
 	public MemberHandle getMember( String memberName )
 	{
@@ -391,13 +388,9 @@ public class DataSetParameterHandle extends StructureHandle
 	 * possible values are:
 	 * 
 	 * <ul>
-	 * <li>PARAM_TYPE_ANY
-	 * <li>PARAM_TYPE_INTEGER
-	 * <li>PARAM_TYPE_STRING
-	 * <li>PARAM_TYPE_DATETIME
-	 * <li>PARAM_TYPE_DECIMAL
-	 * <li>PARAM_TYPE_FLOAT
-	 * <li>PARAM_TYPE_BOOLEAN
+	 * <li>PARAM_TYPE_ANY <li>PARAM_TYPE_INTEGER <li>PARAM_TYPE_STRING <li>
+	 * PARAM_TYPE_DATETIME <li>PARAM_TYPE_DECIMAL <li>PARAM_TYPE_FLOAT <li>
+	 * PARAM_TYPE_BOOLEAN
 	 * </ul>
 	 * 
 	 * @return the data type of this parameter.
@@ -413,13 +406,9 @@ public class DataSetParameterHandle extends StructureHandle
 	 * allowed values are:
 	 * 
 	 * <ul>
-	 * <li>PARAM_TYPE_ANY
-	 * <li>PARAM_TYPE_INTEGER
-	 * <li>PARAM_TYPE_STRING
-	 * <li>PARAM_TYPE_DATETIME
-	 * <li>PARAM_TYPE_DECIMAL
-	 * <li>PARAM_TYPE_FLOAT
-	 * <li>PARAM_TYPE_BOOLEAN
+	 * <li>PARAM_TYPE_ANY <li>PARAM_TYPE_INTEGER <li>PARAM_TYPE_STRING <li>
+	 * PARAM_TYPE_DATETIME <li>PARAM_TYPE_DECIMAL <li>PARAM_TYPE_FLOAT <li>
+	 * PARAM_TYPE_BOOLEAN
 	 * </ul>
 	 * 
 	 * @param dataType
@@ -461,14 +450,18 @@ public class DataSetParameterHandle extends StructureHandle
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#setValue(java.lang.Object)
+		 * @see
+		 * org.eclipse.birt.report.model.api.SimpleValueHandle#setValue(java
+		 * .lang.Object)
 		 */
 
 		public void setValue( Object value ) throws SemanticException
 		{
 			String oldName = this.getStringValue( );
 
-			getModule( ).getActivityStack( ).startTrans( null );
+			ActivityStack as = getModule( ).getActivityStack( );
+
+			as.startTrans( changePropertyMessage( ) );
 
 			try
 			{
@@ -476,7 +469,7 @@ public class DataSetParameterHandle extends StructureHandle
 			}
 			catch ( PropertyValueException e )
 			{
-				getModule( ).getActivityStack( ).rollback( );
+				as.rollback( );
 				throw e;
 			}
 
@@ -487,8 +480,20 @@ public class DataSetParameterHandle extends StructureHandle
 
 			propHandle.updateParamBindings( oldName, value.toString( ) );
 
-			getModule( ).getActivityStack( ).commit( );
+			as.commit( );
 
+		}
+
+		/**
+		 * Gets the property message.
+		 * 
+		 * @return the property message.
+		 */
+		private String changePropertyMessage( )
+		{
+			return ModelMessages.getMessage(
+					MessageConstants.CHANGE_PROPERTY_MESSAGE,
+					new String[]{getPropertyDefn( ).getDisplayName( )} );
 		}
 	}
 

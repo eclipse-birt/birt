@@ -11,9 +11,12 @@ package org.eclipse.birt.report.model.api;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.elements.TableColumn;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Provides the paste operation to the column band in the grid/table.
@@ -43,9 +46,9 @@ class ColumnBandPasteAction extends ColumnBandCopyAction
 	 * @param columnIndex
 	 *            the column index
 	 * @param inForce
-	 *            <code>true</code> indicates to paste the column regardless
-	 *            of the different layout of cells. <code>false</code>
-	 *            indicates not.
+	 *            <code>true</code> indicates to paste the column regardless of
+	 *            the different layout of cells. <code>false</code> indicates
+	 *            not.
 	 * @param data
 	 *            the copied column band data
 	 * @return <code>true</code> indicates the paste operation can be done.
@@ -100,8 +103,7 @@ class ColumnBandPasteAction extends ColumnBandCopyAction
 	 *         is <code>ErrorDetail</code>.
 	 * @throws SemanticException
 	 *             if layouts of slots are different. Or, <code>inForce</code>
-	 *             is <code>false</code> and the layout of cells are
-	 *             different.
+	 *             is <code>false</code> and the layout of cells are different.
 	 */
 
 	protected List pasteColumnBand( int columnIndex, boolean inForce,
@@ -124,22 +126,27 @@ class ColumnBandPasteAction extends ColumnBandCopyAction
 		List originalCells = getCellsContextInfo( adapter
 				.getCellsUnderColumn( columnIndex ) );
 
+		ActivityStack as = adapter.getModule( ).getActivityStack( );
 		try
 		{
 			if ( adapter instanceof TableColumnBandAdapter )
-				adapter.getModule( ).getActivityStack( ).startSilentTrans( );
+				as
+						.startSilentTrans( ModelMessages
+								.getMessage( MessageConstants.PASTE_COLUMN_BAND_MESSAGE ) );
 			else
-				adapter.getModule( ).getActivityStack( ).startTrans( null );
+				as
+						.startTrans( ModelMessages
+								.getMessage( MessageConstants.PASTE_COLUMN_BAND_MESSAGE ) );
 
 			pasteColumn( column, columnIndex, false );
 			pasteCells( cells, originalCells, columnIndex, false );
 		}
 		catch ( SemanticException e )
 		{
-			adapter.getModule( ).getActivityStack( ).rollback( );
+			as.rollback( );
 			throw e;
 		}
-		adapter.getModule( ).getActivityStack( ).commit( );
+		as.commit( );
 
 		return doPostPasteCheck( column, cells );
 	}

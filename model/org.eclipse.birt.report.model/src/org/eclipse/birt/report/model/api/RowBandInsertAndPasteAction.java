@@ -13,6 +13,8 @@ import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Does table row insert and paste operation.
@@ -55,7 +57,7 @@ public class RowBandInsertAndPasteAction extends RowBandAction
 
 		if ( adapter.hasParent( ) )
 			return false;
-		
+
 		int destIndex = parameters.getDestIndex( );
 
 		int desColumnCount = adapter.getColumnCount( );
@@ -103,7 +105,9 @@ public class RowBandInsertAndPasteAction extends RowBandAction
 		ActivityStack stack = adapter.getModule( ).getActivityStack( );
 		try
 		{
-			stack.startTrans( null );
+			stack
+					.startTrans( ModelMessages
+							.getMessage( MessageConstants.INSERT_AND_PASTE_ROW_MESSAGE ) );
 			adapter.getModule( ).getModuleHandle( ).rename(
 					copiedRow.getHandle( slotHandle.getModule( ) ) );
 

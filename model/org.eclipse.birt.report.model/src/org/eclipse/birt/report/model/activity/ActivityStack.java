@@ -882,11 +882,12 @@ public class ActivityStack implements CommandStack
 	 * Starts a silent transaction. All events in the transaction will not be
 	 * sent out.
 	 * 
+	 * @param label
+	 *            localized label for the transaction
 	 */
-
-	public void startSilentTrans( )
+	public void startSilentTrans( String label )
 	{
-		startSilentTrans( null, false );
+		startSilentTrans( label, false );
 	}
 
 	/**
@@ -904,7 +905,7 @@ public class ActivityStack implements CommandStack
 	}
 
 	/**
-	 * Starts a silent transaction. All events in the trasaction will not be
+	 * Starts a silent transaction. All events in the transaction will not be
 	 * sent out.
 	 * 
 	 * @param label

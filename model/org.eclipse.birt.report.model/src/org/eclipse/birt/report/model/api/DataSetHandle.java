@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
@@ -28,6 +29,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ISimpleDataSetModel;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
@@ -60,11 +63,11 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * To get a handle for the data source, uses the following example:
  * 
  * <pre>
- *              
- *                  
+ * 
+ * 
  *              		DataSetHandle dataHandle = designHandle
  *                      findDataSet( &quot;My First Data Set &quot; );
- *               
+ * 
  * </pre>
  * 
  * <p>
@@ -401,9 +404,9 @@ public abstract class DataSetHandle extends ReportElementHandle
 	 * output column information when it gets from databases, input/output
 	 * parameter definitions.
 	 * 
-	 * @return a <code>CachedMetaDataHandle</code> to deal with the cached
-	 *         data set information, return <code>null</code> if the property
-	 *         has not been set.
+	 * @return a <code>CachedMetaDataHandle</code> to deal with the cached data
+	 *         set information, return <code>null</code> if the property has not
+	 *         been set.
 	 */
 
 	public CachedMetaDataHandle getCachedMetaDataHandle( )
@@ -446,7 +449,9 @@ public abstract class DataSetHandle extends ReportElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getPropertyHandle(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#getPropertyHandle
+	 * (java.lang.String)
 	 */
 	public PropertyHandle getPropertyHandle( String propName )
 	{
@@ -551,7 +556,8 @@ public abstract class DataSetHandle extends ReportElementHandle
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#removeItem(int)
+		 * @see
+		 * org.eclipse.birt.report.model.api.SimpleValueHandle#removeItem(int)
 		 */
 
 		public void removeItem( int posn ) throws PropertyValueException
@@ -560,7 +566,10 @@ public abstract class DataSetHandle extends ReportElementHandle
 			DataSetParameter param = (DataSetParameter) paramHandle
 					.getStructure( );
 
-			getModule( ).getActivityStack( ).startTrans( null );
+			ActivityStack as = getModule( ).getActivityStack( );
+
+			as.startTrans( ModelMessages
+					.getMessage( MessageConstants.REMOVE_ITEM_MESSAGE ) );
 
 			try
 			{
@@ -568,7 +577,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 			}
 			catch ( PropertyValueException e )
 			{
-				getModule( ).getActivityStack( ).rollback( );
+				as.rollback( );
 				throw e;
 			}
 
@@ -582,20 +591,25 @@ public abstract class DataSetHandle extends ReportElementHandle
 			{
 			}
 
-			getModule( ).getActivityStack( ).commit( );
+			as.commit( );
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#removeItem(org.eclipse.birt.report.model.api.core.IStructure)
+		 * @see
+		 * org.eclipse.birt.report.model.api.SimpleValueHandle#removeItem(org
+		 * .eclipse.birt.report.model.api.core.IStructure)
 		 */
 
 		public void removeItem( IStructure item ) throws PropertyValueException
 		{
 			DataSetParameter param = (DataSetParameter) item;
 
-			getModule( ).getActivityStack( ).startTrans( null );
+			ActivityStack as = getModule( ).getActivityStack( );
+
+			as.startTrans( ModelMessages
+					.getMessage( MessageConstants.REMOVE_ITEM_MESSAGE ) );
 
 			try
 			{
@@ -603,7 +617,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 			}
 			catch ( PropertyValueException e )
 			{
-				getModule( ).getActivityStack( ).rollback( );
+				as.rollback( );
 				throw e;
 			}
 
@@ -617,18 +631,23 @@ public abstract class DataSetHandle extends ReportElementHandle
 			{
 			}
 
-			getModule( ).getActivityStack( ).commit( );
+			as.commit( );
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#removeItems(java.util.List)
+		 * @see
+		 * org.eclipse.birt.report.model.api.SimpleValueHandle#removeItems(java
+		 * .util.List)
 		 */
 
 		public void removeItems( List items ) throws PropertyValueException
 		{
-			getModule( ).getActivityStack( ).startTrans( null );
+			ActivityStack as = getModule( ).getActivityStack( );
+
+			as.startTrans( ModelMessages
+					.getMessage( MessageConstants.REMOVE_ITEM_MESSAGE ) );
 
 			try
 			{
@@ -636,7 +655,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 			}
 			catch ( PropertyValueException e )
 			{
-				getModule( ).getActivityStack( ).rollback( );
+				as.rollback( );
 				throw e;
 			}
 
@@ -650,20 +669,25 @@ public abstract class DataSetHandle extends ReportElementHandle
 			{
 			}
 
-			getModule( ).getActivityStack( ).commit( );
+			as.commit( );
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#replaceItem(org.eclipse.birt.report.model.api.core.IStructure,
-		 *      org.eclipse.birt.report.model.api.core.IStructure)
+		 * @see
+		 * org.eclipse.birt.report.model.api.SimpleValueHandle#replaceItem(org
+		 * .eclipse.birt.report.model.api.core.IStructure,
+		 * org.eclipse.birt.report.model.api.core.IStructure)
 		 */
 
 		public void replaceItem( IStructure oldItem, IStructure newItem )
 				throws SemanticException
 		{
-			getModule( ).getActivityStack( ).startTrans( null );
+			ActivityStack as = getModule( ).getActivityStack( );
+
+			as.startTrans( ModelMessages
+					.getMessage( MessageConstants.REPLACE_ITEM_MESSAGE ) );
 
 			try
 			{
@@ -671,7 +695,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 			}
 			catch ( PropertyValueException e )
 			{
-				getModule( ).getActivityStack( ).rollback( );
+				as.rollback( );
 				throw e;
 			}
 
@@ -680,20 +704,26 @@ public abstract class DataSetHandle extends ReportElementHandle
 			updateParamBindings( ( (DataSetParameter) oldItem ).getName( ),
 					( (DataSetParameter) newItem ).getName( ) );
 
-			getModule( ).getActivityStack( ).commit( );
+			as.commit( );
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#setValue(java.lang.Object)
+		 * @see
+		 * org.eclipse.birt.report.model.api.SimpleValueHandle#setValue(java
+		 * .lang.Object)
 		 */
 
 		public void setValue( Object value ) throws SemanticException
 		{
 			List paramList = getListValue( );
 
-			getModule( ).getActivityStack( ).startTrans( null );
+			ActivityStack as = getModule( ).getActivityStack( );
+
+			as
+					.startTrans( ModelMessages
+							.getMessage( changePropertyMessage( ) ) );
 
 			try
 			{
@@ -701,7 +731,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 			}
 			catch ( PropertyValueException e )
 			{
-				getModule( ).getActivityStack( ).rollback( );
+				as.rollback( );
 				throw e;
 			}
 
@@ -715,7 +745,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 			{
 			}
 
-			getModule( ).getActivityStack( ).commit( );
+			as.commit( );
 		}
 
 		/*
@@ -728,7 +758,10 @@ public abstract class DataSetHandle extends ReportElementHandle
 		{
 			List paramList = getListValue( );
 
-			getModule( ).getActivityStack( ).startTrans( null );
+			ActivityStack as = getModule( ).getActivityStack( );
+			as
+					.startTrans( ModelMessages
+							.getMessage( changePropertyMessage( ) ) );
 
 			try
 			{
@@ -736,7 +769,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 			}
 			catch ( PropertyValueException e )
 			{
-				getModule( ).getActivityStack( ).rollback( );
+				as.rollback( );
 				throw e;
 			}
 
@@ -750,7 +783,19 @@ public abstract class DataSetHandle extends ReportElementHandle
 			{
 			}
 
-			getModule( ).getActivityStack( ).commit( );
+			as.commit( );
+		}
+
+		/**
+		 * Gets the property message.
+		 * 
+		 * @return the property message.
+		 */
+		private String changePropertyMessage( )
+		{
+			return ModelMessages.getMessage(
+					MessageConstants.CHANGE_PROPERTY_MESSAGE,
+					new String[]{propDefn.getDisplayName( )} );
 		}
 
 		/**

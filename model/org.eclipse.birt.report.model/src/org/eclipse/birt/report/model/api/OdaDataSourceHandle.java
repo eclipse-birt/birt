@@ -24,6 +24,8 @@ import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSourceModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 
 /**
@@ -148,15 +150,17 @@ public class OdaDataSourceHandle extends DataSourceHandle
 	 *            the value of a public driver property
 	 * 
 	 * @throws SemanticException
-	 *             if <code>name</code> is <code>null</code> or an empty
-	 *             string after trimming.
+	 *             if <code>name</code> is <code>null</code> or an empty string
+	 *             after trimming.
 	 */
 
 	public void setPrivateDriverProperty( String name, String value )
 			throws SemanticException
 	{
-		ExtendedPropertyHelper.setExtendedProperty( this,
-				IOdaDataSourceModel.PRIVATE_DRIVER_PROPERTIES_PROP, name, value );
+		ExtendedPropertyHelper
+				.setExtendedProperty( this,
+						IOdaDataSourceModel.PRIVATE_DRIVER_PROPERTIES_PROP,
+						name, value );
 	}
 
 	/**
@@ -330,7 +334,11 @@ public class OdaDataSourceHandle extends DataSourceHandle
 			else if ( OdaDesignerState.CONTENT_AS_STRING_MEMBER
 					.equalsIgnoreCase( memberName ) )
 			{
-				getModuleHandle( ).getCommandStack( ).startTrans( null );
+				getModuleHandle( )
+						.getCommandStack( )
+						.startTrans(
+								ModelMessages
+										.getMessage( MessageConstants.CHANGE_ITEM_MESSAGE ) );
 				stateHandle.setContentAsString( (String) memberValue );
 				stateHandle.setContentAsBlob( null );
 				getModuleHandle( ).getCommandStack( ).commit( );
@@ -338,7 +346,11 @@ public class OdaDataSourceHandle extends DataSourceHandle
 			else if ( OdaDesignerState.CONTENT_AS_BLOB_MEMBER
 					.equalsIgnoreCase( memberName ) )
 			{
-				getModuleHandle( ).getCommandStack( ).startTrans( null );
+				getModuleHandle( )
+						.getCommandStack( )
+						.startTrans(
+								ModelMessages
+										.getMessage( MessageConstants.CHANGE_ITEM_MESSAGE ) );
 				stateHandle.setContentAsString( null );
 				stateHandle.setContentAsBlob( (byte[]) memberValue );
 				getModuleHandle( ).getCommandStack( ).commit( );

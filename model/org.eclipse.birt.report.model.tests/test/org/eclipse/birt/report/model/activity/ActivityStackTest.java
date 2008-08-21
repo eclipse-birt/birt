@@ -557,8 +557,7 @@ public class ActivityStackTest extends BaseTestCase
 	 * <p>
 	 * Test Cases:
 	 * <ul>
-	 * <li>when initial state of as can't do undo and redo operation , flush
-	 * </li>
+	 * <li>when initial state of as can't do undo and redo operation , flush</li>
 	 * <li>add two records , and let one in the undo stack and one in the redo
 	 * stack.</li>
 	 * <li>call flush method</li>
@@ -1556,16 +1555,13 @@ public class ActivityStackTest extends BaseTestCase
 	 * 
 	 * <ul>
 	 * <li>Silent transaction with add() operations. Before the commit, the
-	 * layout is not updated.</li>
-	 * <li>Undo/redo with silent transaction. After undo/redo, the layout is
-	 * updated.</li>
-	 * <li>Drop methods with filter transaction. The layout is updated.</li>
-	 * <li>Silent transaction with drop methods (filter transaction). The
-	 * layout is updated after the commit.</li>
-	 * <li>Silent transaction with drop methods (filter transaction). The
-	 * layout keeps same after rollback.</li>
-	 * <li>Silent transaction with add() methods(). The layout is updated after
-	 * the commit.</li>
+	 * layout is not updated.</li> <li>Undo/redo with silent transaction. After
+	 * undo/redo, the layout is updated.</li> <li>Drop methods with filter
+	 * transaction. The layout is updated.</li> <li>Silent transaction with drop
+	 * methods (filter transaction). The layout is updated after the commit.
+	 * </li> <li>Silent transaction with drop methods (filter transaction). The
+	 * layout keeps same after rollback.</li> <li>Silent transaction with add()
+	 * methods(). The layout is updated after the commit.</li>
 	 * </ul>
 	 * 
 	 * @throws Exception
@@ -1589,7 +1585,8 @@ public class ActivityStackTest extends BaseTestCase
 		table.getColumns( ).get( 0 ).setProperty( IStyleModel.COLOR_PROP,
 				ColorPropertyType.BLUE );
 
-		( (ActivityStack) designHandle.getCommandStack( ) ).startSilentTrans( );
+		( (ActivityStack) designHandle.getCommandStack( ) )
+				.startSilentTrans( null );
 
 		// silent transaction
 
@@ -1665,7 +1662,8 @@ public class ActivityStackTest extends BaseTestCase
 
 		row.addListener( rowListener );
 
-		( (ActivityStack) designHandle.getCommandStack( ) ).startSilentTrans( );
+		( (ActivityStack) designHandle.getCommandStack( ) )
+				.startSilentTrans( null );
 
 		row.drop( );
 
@@ -1686,7 +1684,8 @@ public class ActivityStackTest extends BaseTestCase
 		assertEquals( ColorPropertyType.BLUE, cell
 				.getProperty( IStyleModel.COLOR_PROP ) );
 
-		( (ActivityStack) designHandle.getCommandStack( ) ).startSilentTrans( );
+		( (ActivityStack) designHandle.getCommandStack( ) )
+				.startSilentTrans( null );
 
 		row.drop( );
 
@@ -1708,7 +1707,8 @@ public class ActivityStackTest extends BaseTestCase
 		cell = (CellHandle) row1.getCells( ).get( 0 );
 		table.getDetail( ).add( row1 );
 
-		( (ActivityStack) designHandle.getCommandStack( ) ).startSilentTrans( );
+		( (ActivityStack) designHandle.getCommandStack( ) )
+				.startSilentTrans( null );
 
 		cell = (CellHandle) row2.getCells( ).get( 0 );
 
@@ -1970,7 +1970,9 @@ public class ActivityStackTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.design.core.activity.ActivityRecord#execute()
+		 * @see
+		 * org.eclipse.birt.report.model.design.core.activity.ActivityRecord
+		 * #execute()
 		 */
 		public void execute( )
 		{
@@ -1984,7 +1986,9 @@ public class ActivityStackTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.design.core.activity.ActivityRecord#undo()
+		 * @see
+		 * org.eclipse.birt.report.model.design.core.activity.ActivityRecord
+		 * #undo()
 		 */
 		public void undo( )
 		{
@@ -1999,7 +2003,9 @@ public class ActivityStackTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.design.core.activity.ActivityRecord#redo()
+		 * @see
+		 * org.eclipse.birt.report.model.design.core.activity.ActivityRecord
+		 * #redo()
 		 */
 		public void redo( )
 		{
@@ -2014,7 +2020,9 @@ public class ActivityStackTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord#getTarget()
+		 * @see
+		 * org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
+		 * #getTarget()
 		 */
 		public DesignElement getTarget( )
 		{
@@ -2024,7 +2032,9 @@ public class ActivityStackTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord#getEvent()
+		 * @see
+		 * org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
+		 * #getEvent()
 		 */
 
 		public NotificationEvent getEvent( )
@@ -2044,7 +2054,9 @@ public class ActivityStackTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.activity.ActivityRecord#sendNotifcations(Stack)
+		 * @see
+		 * org.eclipse.birt.report.model.activity.ActivityRecord#sendNotifcations
+		 * (Stack)
 		 */
 
 		public void rollback( )
@@ -2053,8 +2065,8 @@ public class ActivityStackTest extends BaseTestCase
 		}
 
 		/**
-		 * Returns <code>true</code> if need to hold the event at this time.
-		 * We need to hold the event if it is sent inside a transaction that
+		 * Returns <code>true</code> if need to hold the event at this time. We
+		 * need to hold the event if it is sent inside a transaction that
 		 * declared to filter notification events(
 		 * <code>FilterEventsCompoundRecord</code>).
 		 * 
@@ -2083,7 +2095,9 @@ public class ActivityStackTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.activity.NotificationEvent#getEventType()
+		 * @see
+		 * org.eclipse.birt.report.model.activity.NotificationEvent#getEventType
+		 * ()
 		 */
 		public int getEventType( )
 		{
@@ -2121,7 +2135,10 @@ public class ActivityStackTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.design.core.elements.DesignElement#apply(org.eclipse.birt.report.model.design.report.elements.DesignVisitor)
+		 * @see
+		 * org.eclipse.birt.report.model.design.core.elements.DesignElement#
+		 * apply
+		 * (org.eclipse.birt.report.model.design.report.elements.DesignVisitor)
 		 */
 		public void apply( ElementVisitor visitor )
 		{
@@ -2130,7 +2147,9 @@ public class ActivityStackTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.design.core.elements.DesignElement#getElementName()
+		 * @see
+		 * org.eclipse.birt.report.model.design.core.elements.DesignElement#
+		 * getElementName()
 		 */
 		public String getElementName( )
 		{
@@ -2140,7 +2159,10 @@ public class ActivityStackTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.design.core.elements.DesignElement#getHandle(org.eclipse.birt.report.model.design.core.activity.DesignContext)
+		 * @see
+		 * org.eclipse.birt.report.model.design.core.elements.DesignElement#
+		 * getHandle
+		 * (org.eclipse.birt.report.model.design.core.activity.DesignContext)
 		 */
 		public DesignElementHandle getHandle( Module rootElement )
 		{
@@ -2158,7 +2180,9 @@ public class ActivityStackTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.activity.ActivityStackListener#stackChanged(org.eclipse.birt.report.model.activity.ActivityStackEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.activity.ActivityStackListener#stackChanged
+		 * (org.eclipse.birt.report.model.activity.ActivityStackEvent)
 		 */
 		public void stackChanged( ActivityStackEvent event )
 		{
@@ -2176,8 +2200,10 @@ public class ActivityStackTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.core.Listener#elementChanged(org.eclipse.birt.report.model.api.DesignElementHandle,
-		 *      org.eclipse.birt.report.model.activity.NotificationEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.core.Listener#elementChanged(org.eclipse
+		 * .birt.report.model.api.DesignElementHandle,
+		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
 		public void elementChanged( DesignElementHandle focus,
 				NotificationEvent ev )

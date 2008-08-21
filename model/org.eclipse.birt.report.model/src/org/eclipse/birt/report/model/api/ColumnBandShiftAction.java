@@ -11,11 +11,14 @@ package org.eclipse.birt.report.model.api;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.elements.ColumnHelper;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * The action to shift one column from one position to another in the same
@@ -43,8 +46,7 @@ class ColumnBandShiftAction extends ColumnBandAction
 	 * 
 	 * @param sourceIndex
 	 *            the source column number to shift
-	 * @return a <code>ColumnBandData</code> object containing the data to
-	 *         shift
+	 * @return a <code>ColumnBandData</code> object containing the data to shift
 	 * @throws SemanticException
 	 *             if the source column is forbidden to shift because of column
 	 *             spans and dropping properties.
@@ -67,7 +69,8 @@ class ColumnBandShiftAction extends ColumnBandAction
 			try
 			{
 				column = (TableColumn) column.clone( );
-				column.setProperty( ITableColumnModel.REPEAT_PROP, new Integer( 1 ) );
+				column.setProperty( ITableColumnModel.REPEAT_PROP, new Integer(
+						1 ) );
 				data.setColumn( column );
 			}
 			catch ( CloneNotSupportedException e )
@@ -154,23 +157,30 @@ class ColumnBandShiftAction extends ColumnBandAction
 							adapter.getElementHandle( ).getName( )},
 					SemanticError.DESIGN_EXCEPTION_COLUMN_PASTE_FORBIDDEN );
 
+		ActivityStack as = adapter.getModule( ).getActivityStack( );
+
 		try
 		{
 			if ( adapter instanceof TableColumnBandAdapter )
-				adapter.getModule( ).getActivityStack( ).startSilentTrans( );
+
+				as
+						.startSilentTrans( ModelMessages
+								.getMessage( MessageConstants.SHIFT_COLUMN_BAND_MESSAGE ) );
 			else
-				adapter.getModule( ).getActivityStack( ).startTrans( null );
+				as
+						.startTrans( ModelMessages
+								.getMessage( MessageConstants.SHIFT_COLUMN_BAND_MESSAGE ) );
 
 			shiftColumn( data.getColumn( ), sourceColumn, newPosn );
 			shiftCells( data.getCells( ), sourceColumn, newPosn );
 		}
 		catch ( SemanticException e )
 		{
-			adapter.getModule( ).getActivityStack( ).rollback( );
+			as.rollback( );
 			throw e;
 		}
 
-		adapter.getModule( ).getActivityStack( ).commit( );
+		as.commit( );
 	}
 
 	/**

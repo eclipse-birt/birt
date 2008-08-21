@@ -29,6 +29,8 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementRefPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -68,10 +70,10 @@ public abstract class SimpleValueHandle extends ValueHandle
 	 * methods to get the value as a particular type.
 	 * 
 	 * @return The value of the property as a generic object.
-	 * @see #getStringValue( )
-	 * @see #getIntValue( )
-	 * @see #getFloatValue( )
-	 * @see #getNumberValue( )
+	 * @see #getStringValue()
+	 * @see #getIntValue()
+	 * @see #getFloatValue()
+	 * @see #getNumberValue()
 	 */
 
 	public abstract Object getValue( );
@@ -184,8 +186,8 @@ public abstract class SimpleValueHandle extends ValueHandle
 	 * <li>If this property or member is a list of simeple value(int, float,
 	 * decimal, date-time, string), then return the atomice Java Object(Integer,
 	 * Float, Double, BigDecimal, Date, String).</li>
-	 * <li>If this property or member is not a list value or the index is out
-	 * of range, then return <code>null</code>.</li>
+	 * <li>If this property or member is not a list value or the index is out of
+	 * range, then return <code>null</code>.</li>
 	 * 
 	 * @param n
 	 *            The list index.
@@ -220,8 +222,8 @@ public abstract class SimpleValueHandle extends ValueHandle
 	 * Returns the index in this list of the first occurrence of the specified
 	 * element, or -1 if this list does not contain this element. More formally,
 	 * returns the lowest index <tt>i</tt> such that
-	 * <tt>(o==null ? get(i)==null : o.equals(get(i)))</tt>, or -1 if there
-	 * is no such index.
+	 * <tt>(o==null ? get(i)==null : o.equals(get(i)))</tt>, or -1 if there is
+	 * no such index.
 	 * 
 	 * @param o
 	 *            element to search for.
@@ -434,8 +436,8 @@ public abstract class SimpleValueHandle extends ValueHandle
 	 * <li>If this property or member is a structure list type, the item should
 	 * be a <code>StructureHandle</code> or <code>Structure</code>.</li>
 	 * <li>If this property or member is a list of element reference, the item
-	 * should be <code>DesignElementHandle</code> or
-	 * <code>IDesignElement</code>.</li>
+	 * should be <code>DesignElementHandle</code> or <code>IDesignElement</code>
+	 * .</li>
 	 * <li>If this property or member is a list of simeple value(int, float,
 	 * decimal, date-time, string), then return the atomice Java Object(Integer,
 	 * Float, Double, BigDecimal, Date, String).</li>
@@ -470,7 +472,8 @@ public abstract class SimpleValueHandle extends ValueHandle
 		if ( items == null || items.isEmpty( ) )
 			return;
 		ActivityStack stack = getModule( ).getActivityStack( );
-		stack.startTrans( null );
+		stack.startTrans( ModelMessages
+				.getMessage( MessageConstants.REMOVE_ITEM_MESSAGE ) );
 		try
 		{
 			for ( int i = 0; i < items.size( ); i++ )
@@ -659,8 +662,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 	/**
 	 * Checks whether a value is visible in the property sheet.
 	 * 
-	 * @return <code>true</code> if it is visible. Otherwise
-	 *         <code>false</code>.
+	 * @return <code>true</code> if it is visible. Otherwise <code>false</code>.
 	 */
 
 	abstract public boolean isVisible( );

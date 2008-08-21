@@ -18,6 +18,8 @@ import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.util.OperatorUtil;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Represents the handle of style rule. This abstract class provides the common
@@ -102,7 +104,9 @@ public abstract class StyleRuleHandle extends StructureHandle
 	public void setOperator( String operator ) throws SemanticException
 	{
 		ActivityStack stack = getModule( ).getActivityStack( );
-		stack.startTrans( null );
+		stack.startTrans( ModelMessages.getMessage(
+				MessageConstants.CHANGE_PROPERTY_MESSAGE,
+				new String[]{StyleRule.OPERATOR_MEMBER} ) );
 		try
 		{
 			setProperty( StyleRule.OPERATOR_MEMBER, operator );
@@ -153,7 +157,7 @@ public abstract class StyleRuleHandle extends StructureHandle
 	 * 
 	 * @return the value1 expression list.
 	 */
-	
+
 	public List getValue1List( )
 	{
 		List valueList = (List) getProperty( StyleRule.VALUE1_MEMBER );

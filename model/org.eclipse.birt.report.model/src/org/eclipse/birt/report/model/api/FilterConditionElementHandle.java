@@ -20,6 +20,8 @@ import org.eclipse.birt.report.model.api.util.OperatorUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * 
@@ -142,7 +144,9 @@ public class FilterConditionElementHandle extends ContentElementHandle
 	{
 
 		ActivityStack stack = getModule( ).getActivityStack( );
-		stack.startTrans( null );
+		stack.startTrans( ModelMessages.getMessage(
+				MessageConstants.CHANGE_PROPERTY_MESSAGE,
+				new String[]{OPERATOR_PROP} ) );
 		try
 		{
 			setProperty( OPERATOR_PROP, operator );

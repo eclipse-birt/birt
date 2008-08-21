@@ -18,7 +18,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -27,6 +26,7 @@ import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
@@ -172,8 +172,8 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 	/**
 	 * Returns a slot handle to work with the styles within the library.
 	 * 
-	 * @return A handle for working with the styles. Or <code>null</code> if
-	 *         the library has no values for the theme property
+	 * @return A handle for working with the styles. Or <code>null</code> if the
+	 *         library has no values for the theme property
 	 * @deprecated uses the theme instead
 	 */
 
@@ -258,8 +258,8 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 	}
 
 	/**
-	 * Imports the selected styles in a <code>CssStyleSheetHandle</code> to
-	 * the given theme of the library. Each in the list is instance of
+	 * Imports the selected styles in a <code>CssStyleSheetHandle</code> to the
+	 * given theme of the library. Each in the list is instance of
 	 * <code>SharedStyleHandle</code> .If any style selected has a duplicate
 	 * name with that of one style already existing in the report design, this
 	 * method will rename it and then add it to the design.
@@ -279,7 +279,8 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 			return;
 
 		ActivityStack stack = module.getActivityStack( );
-		stack.startTrans( null );
+		stack.startTrans( ModelMessages
+				.getMessage( MessageConstants.IMPORT_CSS_STYLES_MESSAGE ) );
 
 		// creates the theme if it does not exist
 
@@ -352,12 +353,12 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 
 		return null;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#isDirectionRTL()
-	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#isDirectionRTL()
 	 */
 
 	public boolean isDirectionRTL( )

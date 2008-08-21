@@ -17,6 +17,8 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.elements.interfaces.IMultiViewsModel;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Implements functions to deal with functions for multiple-views element.
@@ -132,7 +134,8 @@ final class MultiViewsElementProvider implements IMultiViewsModel
 			return;
 
 		CommandStack cmdStack = element.getModuleHandle( ).getCommandStack( );
-		cmdStack.startTrans( null );
+		cmdStack.startTrans( ModelMessages
+				.getMessage( MessageConstants.DROP_ELEMENT_MESSAGE ) );
 		try
 		{
 			DesignElementHandle currentView = getCurrentView( );

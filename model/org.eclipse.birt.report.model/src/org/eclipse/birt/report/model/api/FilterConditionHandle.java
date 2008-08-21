@@ -18,6 +18,9 @@ import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.util.OperatorUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Represents one filter in the filter list of List, Table or their Groups.
@@ -97,24 +100,18 @@ public class FilterConditionHandle extends StructureHandle
 	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
 	 * and they are:
 	 * <ul>
-	 * <li><code>FILTER_OPERATOR_EQ</code>
-	 * <li><code>FILTER_OPERATOR_NE</code>
-	 * <li><code>FILTER_OPERATOR_LT</code>
-	 * <li><code>FILTER_OPERATOR_LE</code>
-	 * <li><code>FILTER_OPERATOR_GE</code>
-	 * <li><code>FILTER_OPERATOR_GT</code>
-	 * <li><code>FILTER_OPERATOR_BETWEEN</code>
-	 * <li><code>FILTER_OPERATOR_NOT_BETWEEN</code>
-	 * <li><code>FILTER_OPERATOR_NULL</code>
-	 * <li><code>FILTER_OPERATOR_NOT_NULL</code>
-	 * <li><code>FILTER_OPERATOR_TRUE</code>
-	 * <li><code>FILTER_OPERATOR_FALSE</code>
-	 * <li><code>FILTER_OPERATOR_LIKE</code>
-	 * <li><code>FILTER_OPERATOR_TOP_N</code>
-	 * <li><code>FILTER_OPERATOR_BOTTOM_N</code>
-	 * <li><code>FILTER_OPERATOR_TOP_PERCENT</code>
-	 * <li><code>FILTER_OPERATOR_BOTTOM_PERCENT</code>
-	 * <li><code>FILTER_OPERATOR_ANY</code>
+	 * <li><code>FILTER_OPERATOR_EQ</code> <li><code>FILTER_OPERATOR_NE</code>
+	 * <li><code>FILTER_OPERATOR_LT</code> <li><code>FILTER_OPERATOR_LE</code>
+	 * <li><code>FILTER_OPERATOR_GE</code> <li><code>FILTER_OPERATOR_GT</code>
+	 * <li><code>FILTER_OPERATOR_BETWEEN</code> <li><code>
+	 * FILTER_OPERATOR_NOT_BETWEEN</code> <li><code>FILTER_OPERATOR_NULL</code>
+	 * <li><code>FILTER_OPERATOR_NOT_NULL</code> <li><code>FILTER_OPERATOR_TRUE
+	 * </code> <li><code>FILTER_OPERATOR_FALSE</code> <li><code>
+	 * FILTER_OPERATOR_LIKE</code> <li><code>FILTER_OPERATOR_TOP_N</code> <li>
+	 * <code>FILTER_OPERATOR_BOTTOM_N</code> <li><code>
+	 * FILTER_OPERATOR_TOP_PERCENT</code> <li><code>
+	 * FILTER_OPERATOR_BOTTOM_PERCENT</code> <li><code>FILTER_OPERATOR_ANY
+	 * </code>
 	 * </ul>
 	 * 
 	 * @return the operator of this filter condition
@@ -131,24 +128,18 @@ public class FilterConditionHandle extends StructureHandle
 	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
 	 * and they are:
 	 * <ul>
-	 * <li><code>FILTER_OPERATOR_EQ</code>
-	 * <li><code>FILTER_OPERATOR_NE</code>
-	 * <li><code>FILTER_OPERATOR_LT</code>
-	 * <li><code>FILTER_OPERATOR_LE</code>
-	 * <li><code>FILTER_OPERATOR_GE</code>
-	 * <li><code>FILTER_OPERATOR_GT</code>
-	 * <li><code>FILTER_OPERATOR_BETWEEN</code>
-	 * <li><code>FILTER_OPERATOR_NOT_BETWEEN</code>
-	 * <li><code>FILTER_OPERATOR_NULL</code>
-	 * <li><code>FILTER_OPERATOR_NOT_NULL</code>
-	 * <li><code>FILTER_OPERATOR_TRUE</code>
-	 * <li><code>FILTER_OPERATOR_FALSE</code>
-	 * <li><code>FILTER_OPERATOR_LIKE</code>
-	 * <li><code>FILTER_OPERATOR_TOP_N</code>
-	 * <li><code>FILTER_OPERATOR_BOTTOM_N</code>
-	 * <li><code>FILTER_OPERATOR_TOP_PERCENT</code>
-	 * <li><code>FILTER_OPERATOR_BOTTOM_PERCENT</code>
-	 * <li><code>FILTER_OPERATOR_ANY</code>
+	 * <li><code>FILTER_OPERATOR_EQ</code> <li><code>FILTER_OPERATOR_NE</code>
+	 * <li><code>FILTER_OPERATOR_LT</code> <li><code>FILTER_OPERATOR_LE</code>
+	 * <li><code>FILTER_OPERATOR_GE</code> <li><code>FILTER_OPERATOR_GT</code>
+	 * <li><code>FILTER_OPERATOR_BETWEEN</code> <li><code>
+	 * FILTER_OPERATOR_NOT_BETWEEN</code> <li><code>FILTER_OPERATOR_NULL</code>
+	 * <li><code>FILTER_OPERATOR_NOT_NULL</code> <li><code>FILTER_OPERATOR_TRUE
+	 * </code> <li><code>FILTER_OPERATOR_FALSE</code> <li><code>
+	 * FILTER_OPERATOR_LIKE</code> <li><code>FILTER_OPERATOR_TOP_N</code> <li>
+	 * <code>FILTER_OPERATOR_BOTTOM_N</code> <li><code>
+	 * FILTER_OPERATOR_TOP_PERCENT</code> <li><code>
+	 * FILTER_OPERATOR_BOTTOM_PERCENT</code> <li><code>FILTER_OPERATOR_ANY
+	 * </code>
 	 * </ul>
 	 * 
 	 * @param operator
@@ -161,7 +152,9 @@ public class FilterConditionHandle extends StructureHandle
 	{
 
 		ActivityStack stack = getModule( ).getActivityStack( );
-		stack.startTrans( null );
+		stack.startTrans( ModelMessages.getMessage(
+				MessageConstants.CHANGE_PROPERTY_MESSAGE,
+				new String[]{IFilterConditionElementModel.OPERATOR_PROP} ) );
 		try
 		{
 			setProperty( FilterCondition.OPERATOR_MEMBER, operator );
@@ -175,7 +168,7 @@ public class FilterConditionHandle extends StructureHandle
 					break;
 				case OperatorUtil.OPERATOR_LEVEL_ZERO :
 					setValue2( null );
-					setValue1( (List)null );
+					setValue1( (List) null );
 					break;
 				case OperatorUtil.OPERATOR_LEVEL_NOT_EXIST :
 					break;
@@ -381,8 +374,8 @@ public class FilterConditionHandle extends StructureHandle
 	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
 	 * and they are:
 	 * <ul>
-	 * <li><code>FILTER_TARGET_DATA_SET</code>
-	 * <li><code>FILTER_TARGET_RESULT_SET</code>
+	 * <li><code>FILTER_TARGET_DATA_SET</code> <li><code>
+	 * FILTER_TARGET_RESULT_SET</code>
 	 * </ul>
 	 * 
 	 * @return the target type
@@ -398,8 +391,8 @@ public class FilterConditionHandle extends StructureHandle
 	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
 	 * and they are:
 	 * <ul>
-	 * <li><code>FILTER_TARGET_DATA_SET</code>
-	 * <li><code>FILTER_TARGET_RESULT_SET</code>
+	 * <li><code>FILTER_TARGET_DATA_SET</code> <li><code>
+	 * FILTER_TARGET_RESULT_SET</code>
 	 * </ul>
 	 * 
 	 * @param filterTarget

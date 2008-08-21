@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -21,6 +22,8 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 
 /**
@@ -293,8 +296,8 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 	/**
 	 * Returns the embedded image name that this image refers, if the image
-	 * source type is <code>IMAGE_REF_TYPE_EMBED</code>. This is not the same
-	 * as {@link DesignElementHandle#getName}of this image item.
+	 * source type is <code>IMAGE_REF_TYPE_EMBED</code>. This is not the same as
+	 * {@link DesignElementHandle#getName}of this image item.
 	 * 
 	 * @return the embedded image name, if the image source type is
 	 *         <code>IMAGE_REF_TYPE_EMBED</code>. Otherwise, return
@@ -316,8 +319,8 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	 * source type is <code>IMAGE_REF_TYPE_EMBED</code>.
 	 * 
 	 * @return the embedded image handle, if the image source type is
-	 *         <code>IMAGE_REF_TYPE_EMBED</code> and the referred embedded
-	 *         image is found. Otherwise, return <code>null</code>.
+	 *         <code>IMAGE_REF_TYPE_EMBED</code> and the referred embedded image
+	 *         is found. Otherwise, return <code>null</code>.
 	 */
 
 	public EmbeddedImageHandle getEmbeddedImage( )
@@ -401,7 +404,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	 * Sets the embedded image name that this image refers, if the image source
 	 * type is <code>IMAGE_REF_TYPE_EMBED</code>. The reference type is
 	 * automatically set in this method. This is not the same as
-	 * {@link DesignElementHandle#setName( String )}.
+	 * {@link DesignElementHandle#setName(String )}.
 	 * 
 	 * @param name
 	 *            the embedded image name
@@ -411,9 +414,13 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 	public void setImageName( String name ) throws SemanticException
 	{
+		ActivityStack as = module.getActivityStack( );
 		try
 		{
-			module.getActivityStack( ).startTrans( null );
+
+			as.startTrans( ModelMessages.getMessage(
+					MessageConstants.CHANGE_PROPERTY_MESSAGE,
+					new String[]{IMAGE_NAME_PROP} ) );
 
 			setProperty( IImageItemModel.SOURCE_PROP,
 					DesignChoiceConstants.IMAGE_REF_TYPE_EMBED );
@@ -421,10 +428,10 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 		}
 		catch ( SemanticException e )
 		{
-			module.getActivityStack( ).rollback( );
+			as.rollback( );
 			throw e;
 		}
-		module.getActivityStack( ).commit( );
+		as.commit( );
 	}
 
 	/**
@@ -495,19 +502,22 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	private void setURIProperty( String prop, String source )
 			throws SemanticException
 	{
+		ActivityStack as = module.getActivityStack( );
 		try
 		{
-			module.getActivityStack( ).startTrans( null );
+			as.startTrans( ModelMessages.getMessage(
+					MessageConstants.CHANGE_PROPERTY_MESSAGE,
+					new String[]{URI_PROP} ) );
 
 			setProperty( IImageItemModel.SOURCE_PROP, source );
 			setProperty( IImageItemModel.URI_PROP, prop );
 		}
 		catch ( SemanticException e )
 		{
-			module.getActivityStack( ).rollback( );
+			as.rollback( );
 			throw e;
 		}
-		module.getActivityStack( ).commit( );
+		as.commit( );
 	}
 
 	/**
@@ -561,9 +571,13 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 	public void setTypeExpression( String value ) throws SemanticException
 	{
+		ActivityStack as = module.getActivityStack( );
 		try
 		{
-			module.getActivityStack( ).startTrans( null );
+
+			as.startTrans( ModelMessages.getMessage(
+					MessageConstants.CHANGE_PROPERTY_MESSAGE,
+					new String[]{TYPE_EXPR_PROP} ) );
 
 			setProperty( IImageItemModel.SOURCE_PROP,
 					DesignChoiceConstants.IMAGE_REF_TYPE_EXPR );
@@ -571,10 +585,10 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 		}
 		catch ( SemanticException e )
 		{
-			module.getActivityStack( ).rollback( );
+			as.rollback( );
 			throw e;
 		}
-		module.getActivityStack( ).commit( );
+		as.commit( );
 	}
 
 	/**
@@ -589,9 +603,13 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 	public void setValueExpression( String value ) throws SemanticException
 	{
+		ActivityStack as = module.getActivityStack( );
 		try
 		{
-			module.getActivityStack( ).startTrans( null );
+
+			as.startTrans( ModelMessages.getMessage(
+					MessageConstants.CHANGE_PROPERTY_MESSAGE,
+					new String[]{VALUE_EXPR_PROP} ) );
 
 			setProperty( IImageItemModel.SOURCE_PROP,
 					DesignChoiceConstants.IMAGE_REF_TYPE_EXPR );
@@ -599,18 +617,18 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 		}
 		catch ( SemanticException e )
 		{
-			module.getActivityStack( ).rollback( );
+			as.rollback( );
 			throw e;
 		}
-		module.getActivityStack( ).commit( );
+		as.commit( );
 	}
 
 	/**
 	 * Returns a handle to work with the action property, action is a structure
 	 * that defines a hyperlink.
 	 * 
-	 * @return a handle to the action property, return <code>null</code> if
-	 *         the action has not been set on the image.
+	 * @return a handle to the action property, return <code>null</code> if the
+	 *         action has not been set on the image.
 	 * @see ActionHandle
 	 */
 
@@ -630,8 +648,8 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	 * @param action
 	 *            new action to be set on the image, it represents a bookmark
 	 *            link, hyper-link, and drill through etc.
-	 * @return a handle to the action property, return <code>null</code> if
-	 *         the action has not been set on the image.
+	 * @return a handle to the action property, return <code>null</code> if the
+	 *         action has not been set on the image.
 	 * 
 	 * @throws SemanticException
 	 *             if member of the action is not valid.

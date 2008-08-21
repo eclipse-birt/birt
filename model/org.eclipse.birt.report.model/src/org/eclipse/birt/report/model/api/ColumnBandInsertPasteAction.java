@@ -11,9 +11,12 @@ package org.eclipse.birt.report.model.api;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.elements.TableColumn;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Provides the insert and paste operation to the column band in the grid/table.
@@ -114,22 +117,28 @@ class ColumnBandInsertPasteAction extends ColumnBandCopyAction
 		List originalCells = getCellsContextInfo( adapter
 				.getCellsUnderColumn( columnIndex ) );
 
+		ActivityStack as = adapter.getModule( ).getActivityStack( );
 		try
 		{
 			if ( adapter instanceof TableColumnBandAdapter )
-				adapter.getModule( ).getActivityStack( ).startSilentTrans( );
+
+				as
+						.startSilentTrans( ModelMessages
+								.getMessage( MessageConstants.INSERT_AND_PASTE_COLUMN_BAND_MESSAGE ) );
 			else
-				adapter.getModule( ).getActivityStack( ).startTrans( null );
+				as
+						.startTrans( ModelMessages
+								.getMessage( MessageConstants.INSERT_AND_PASTE_COLUMN_BAND_MESSAGE ) );
 
 			pasteColumn( column, columnIndex, true );
 			pasteCells( cells, originalCells, columnIndex, true );
 		}
 		catch ( SemanticException e )
 		{
-			adapter.getModule( ).getActivityStack( ).rollback( );
+			as.rollback( );
 			throw e;
 		}
-		adapter.getModule( ).getActivityStack( ).commit( );
+		as.commit( );
 
 		return doPostPasteCheck( column, cells );
 	}

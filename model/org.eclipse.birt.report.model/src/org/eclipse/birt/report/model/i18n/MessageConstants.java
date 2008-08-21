@@ -56,11 +56,25 @@ public interface MessageConstants
 	public static final String INSERT_ITEM_MESSAGE = "Message.InsertItem"; //$NON-NLS-1$
 
 	public static final String REMOVE_ITEM_MESSAGE = "Message.RemoveItem"; //$NON-NLS-1$
-	
-	public static final String CHANGE_PROPERTY_ENCRYPTION_MESSAGE = "Message.ChangePropertyEncryption"; //$NON-NLS-1$
-	
-	public static final String RENAME_CSS_FILE_MESSAGE = "Message.RenameCSSFile"; //$NON-NLS-1$
 
+	public static final String CHANGE_PROPERTY_ENCRYPTION_MESSAGE = "Message.ChangePropertyEncryption"; //$NON-NLS-1$
+
+	public static final String RENAME_CSS_FILE_MESSAGE = "Message.RenameCSSFile"; //$NON-NLS-1$
+	
+
+	public static final String INSERT_AND_PASTE_COLUMN_BAND_MESSAGE = "Message.InsertAndPasteColumnBand"; //$NON-NLS-1$
+	public static final String PASTE_COLUMN_BAND_MESSAGE = "Message.PasteColumnBand"; //$NON-NLS-1$
+	public static final String SHIFT_COLUMN_BAND_MESSAGE = "Message.ShiftColumnBand";//$NON-NLS-1$
+	public static final String INSERT_COLUMN_BAND_MESSAGE = "Message.InsertColumnBand";//$NON-NLS-1$
+	
+	public static final String INSERT_ROW_MESSAGE = "Message.InsertRow";//$NON-NLS-1$
+	public static final String INSERT_AND_PASTE_ROW_MESSAGE = "Message.InsertAndPasteRow"; //$NON-NLS-1$
+	public static final String PASTE_ROW_MESSAGE = "Message.PasteRow"; //$NON-NLS-1$
+	public static final String SHIFT_ROW_MESSAGE = "Message.ShiftRow";//$NON-NLS-1$
+	
+	public static final String IMPORT_CSS_STYLES_MESSAGE = "Message.ImportCSSStyles"; //$NON-NLS-1$
+	
+	public static final String CLEAR_PROPERTIES_MESSAGE = "Message.ClearProperties"; //$NON-NLS-1$
 	// Errors
 
 	// ContentException
@@ -82,9 +96,9 @@ public interface MessageConstants
 	public static final String CONTENT_EXCEPTION_INVALID_TEMPLATE_ELEMENT = "Error.ContentException.INVALID_TEMPLATE_ELEMENT"; //$NON-NLS-1$
 	public static final String CONTENT_EXCEPTION_TEMPLATE_TRANSFORM_FORBIDDEN = "Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN"; //$NON-NLS-1$
 	public static final String CONTENT_EXCEPTION_GROUPS_CHANGE_FORBIDDEN = "Error.ContentException.GROUPS_CHANGE_FORBIDDEN"; //$NON-NLS-1$
-		
+
 	public static final String CONTENT_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED = "Error.ContentException.CONTENT_NOT_ALLOWED_PASTED"; //$NON-NLS-1$
-	
+
 	// CustomMsgException
 	public static final String CUSTOM_MSG_EXCEPTION_RESOURCE_KEY_REQUIRED = "Error.CustomMsgException.RESOURCE_KEY_REQUIRED"; //$NON-NLS-1$
 
@@ -109,7 +123,7 @@ public interface MessageConstants
 	public static final String EXTENDS_FORBIDDEN_EXCEPTION_CANT_EXTEND = "Error.ExtendsForbiddenException.CANT_EXTEND"; //$NON-NLS-1$
 	public static final String EXTENDS_FORBIDDEN_EXCEPTION_PARENT_NOT_IN_COMPONENT = "Error.ExtendsForbiddenException.PARENT_NOT_IN_COMPONENT"; //$NON-NLS-1$
 	public static final String EXTENDS_FORBIDDEN_EXCEPTION_RESULT_SET_SHARED_CANT_EXTEND = "Error.ExtendsForbiddenException.RESULT_SET_SHARED_CANT_EXTEND"; //$NON-NLS-1$
-	
+
 	// CircularExtendsException
 	public static final String CIRCULAR_EXTENDS_EXCEPTION_SELF_EXTEND = "Error.CircularExtendsException.SELF_EXTEND"; //$NON-NLS-1$
 	public static final String CIRCULAR_EXTENDS_EXCEPTION_CIRCULAR = "Error.CircularExtendsException.CIRCULAR"; //$NON-NLS-1$
@@ -196,22 +210,22 @@ public interface MessageConstants
 	public static final String SEMANTIC_ERROR_MISSING_COLUMN_BINDING = "Error.SemanticError.MISSING_COLUMN_BINDING"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_COLUMN_INSERT_FORBIDDEN = "Error.SemanticError.COLUMN_INSERT_FORBIDDEN"; //$NON-NLS-1$
 
-	public static final String SEMANTIC_ERROR_ROW_COPY_FORBIDDEN="Error.SemanticError.ROW_COPY_FORBIDDEN";//$NON-NLS-1$
-	public static final String SEMANTIC_ERROR_ROW_PASTE_FORBIDDEN="Error.SemanticError.ROW_PASTE_FORBIDDEN";//$NON-NLS-1$
-	public static final String SEMANTIC_ERROR_ROW_INSERT_FORBIDDEN="Error.SemanticError.ROW_INSERT_FORBIDDEN";//$NON-NLS-1$
-	public static final String SEMANTIC_ERROR_ROW_SHIFT_FORBIDDEN="Error.SemanticError.ROW_SHIFT_FORBIDDEN";//$NON-NLS-1$
-	public static final String SEMANTIC_ERROR_ROW_INSERTANDPASTE_FORBIDDEN="Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN";//$NON-NLS-1$
-	
-	public static final String SEMANTIC_ERROR_CIRCULAR_ELEMENT_REFERNECE="Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE";//$NON-NLS-1$
+	public static final String SEMANTIC_ERROR_ROW_COPY_FORBIDDEN = "Error.SemanticError.ROW_COPY_FORBIDDEN";//$NON-NLS-1$
+	public static final String SEMANTIC_ERROR_ROW_PASTE_FORBIDDEN = "Error.SemanticError.ROW_PASTE_FORBIDDEN";//$NON-NLS-1$
+	public static final String SEMANTIC_ERROR_ROW_INSERT_FORBIDDEN = "Error.SemanticError.ROW_INSERT_FORBIDDEN";//$NON-NLS-1$
+	public static final String SEMANTIC_ERROR_ROW_SHIFT_FORBIDDEN = "Error.SemanticError.ROW_SHIFT_FORBIDDEN";//$NON-NLS-1$
+	public static final String SEMANTIC_ERROR_ROW_INSERTANDPASTE_FORBIDDEN = "Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN";//$NON-NLS-1$
+
+	public static final String SEMANTIC_ERROR_CIRCULAR_ELEMENT_REFERNECE = "Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE";//$NON-NLS-1$
 
 	public static final String SEMANTIC_ERROR_EXCEPTION_INCONSISTENT_DATA_GROUP = "Error.SemanticError.INCONSISTENT_DATA_GROUP";
-	
+
 	public static final String SEMANTIC_ERROR_INVALID_MANIFEST = "Error.SemanticError.INVALID_MANIFEST"; //$NON-NLS-1$
-	
+
 	// ThemeException
 
 	public static final String THEME_EXCEPTION_NOT_FOUND = "Error.ThemeException.NOT_FOUND"; //$NON-NLS-1$
-	
+
 	// DesignParserException
 	public static final String DESIGN_PARSER_EXCEPTION_FILE_NOT_FOUND = "Error.DesignParserException.FILE_NOT_FOUND"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_FILE_FORMAT_NOT_SUPPORT = "Error.DesignParserException.FILE_FORMAT_NOT_SUPPORT"; //$NON-NLS-1$
@@ -282,12 +296,12 @@ public interface MessageConstants
 	public static final String LIBRARY_EXCEPTION_LIBRARY_HAS_DESCENDENTS = "Error.LibraryException.LIBRARY_HAS_DESCENDENTS"; //$NON-NLS-1$
 	public static final String LIBRARY_EXCEPTION_LIBRARY_ALREADY_INCLUDED = "Error.LibraryException.LIBRARY_ALREADY_INCLUDED"; //$NON-NLS-1$
 
-	//IncludedCssStyleSheetException
+	// IncludedCssStyleSheetException
 	public static final String CSS_EXCEPTION_CSS_NOT_FOUND = "Error.CSSException.CSS_NOT_FOUND"; //$NON-NLS-1$
 	public static final String CSS_EXCEPTION_DUPLICATE_CSS = "Error.CSSException.DUPLICATE_CSS"; //$NON-NLS-1$
 	public static final String CSS_EXCEPTION_BADCSSFILE = "Error.CSSException.BADCSSFILE";//$NON-NLS-1$
 	public static final String CSS_EXCEPTION_READONLY = "Error.CssException.READONLY";//$NON-NLS-1$
-	
+
 	// StyleSheetException
 	public static final String STYLE_SHEET_EXCEPTION_STYLE_SHEET_NOT_FOUND = "Error.StyleSheetException.STYLE_SHEET_NOT_FOUND"; //$NON-NLS-1$
 	public static final String STYLE_SHEET_EXCEPTION_SYNTAX_ERROR = "Error.StyleSheetException.SYNTAX_ERROR"; //$NON-NLS-1$
@@ -316,5 +330,5 @@ public interface MessageConstants
 	// EncryptionException
 	public static final String ENCRYPTION_EXCEPTION_INVALID_ENCRYPTABLE_PROPERTY = "Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY"; //$NON-NLS-1$
 	public static final String ENCRYPTION_EXCEPTION_INVALID_ENCRYPTION = "Error.EncryptionException.INVALID_ENCRYPTION"; //$NON-NLS-1$
-	
+
 }

@@ -21,6 +21,8 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.interfaces.IMultiViewsModel;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Implements functions to deal with API-level views operations. Through these
@@ -39,9 +41,9 @@ class MultiViewsAPIProvider implements IMultiViewsModel
 
 	/**
 	 * The name of the property of which instance is a subclass of
-	 * <code>AbstractMultiViewHandle</code>. If the value is
-	 * <code>null</code>, the property definition on the given element is
-	 * <code>null</code>. For such case, should avoid NPE in function call.
+	 * <code>AbstractMultiViewHandle</code>. If the value is <code>null</code>,
+	 * the property definition on the given element is <code>null</code>. For
+	 * such case, should avoid NPE in function call.
 	 */
 
 	private String propertyName;
@@ -98,8 +100,8 @@ class MultiViewsAPIProvider implements IMultiViewsModel
 
 		AbstractMultiViewsHandle multiView = (AbstractMultiViewsHandle) element
 				.getProperty( propertyName );
-		if ( multiView == null ||
-				multiView.getCurrentViewIndex( ) == MultiViewsHandle.HOST )
+		if ( multiView == null
+				|| multiView.getCurrentViewIndex( ) == MultiViewsHandle.HOST )
 			return null;
 
 		MultiViewsElementProvider subProvider = new MultiViewsElementProvider(
@@ -147,7 +149,8 @@ class MultiViewsAPIProvider implements IMultiViewsModel
 
 		ModuleHandle module = element.getModuleHandle( );
 		CommandStack stack = module.getCommandStack( );
-		stack.startTrans( null );
+		stack.startTrans( ModelMessages
+				.getMessage( MessageConstants.ADD_ELEMENT_MESSAGE ) );
 		try
 		{
 			if ( multiView == null )
@@ -214,8 +217,8 @@ class MultiViewsAPIProvider implements IMultiViewsModel
 
 		DesignElement internalElement = element.getElement( );
 
-		if ( viewElement != null && viewElement.getContainer( ) != null &&
-				!viewElement.getElement( ).isContentOf( internalElement ) )
+		if ( viewElement != null && viewElement.getContainer( ) != null
+				&& !viewElement.getElement( ).isContentOf( internalElement ) )
 		{
 			throw new PropertyValueException( internalElement, element
 					.getPropertyDefn( propertyName ), null,
@@ -233,7 +236,9 @@ class MultiViewsAPIProvider implements IMultiViewsModel
 
 		ModuleHandle module = element.getModuleHandle( );
 		CommandStack stack = module.getCommandStack( );
-		stack.startTrans( null );
+		stack.startTrans( ModelMessages.getMessage(
+				MessageConstants.CHANGE_PROPERTY_MESSAGE,
+				new String[]{VIEWS_PROP} ) );
 		try
 		{
 			AbstractMultiViewsHandle multiView = (AbstractMultiViewsHandle) element
@@ -247,9 +252,9 @@ class MultiViewsAPIProvider implements IMultiViewsModel
 			// if the viewElement is in the table and not in multiple view,
 			// throw exception
 
-			if ( viewElement != null &&
-					viewElement.getContainer( ) != null &&
-					!viewElement.getElement( ).isContentOf(
+			if ( viewElement != null
+					&& viewElement.getContainer( ) != null
+					&& !viewElement.getElement( ).isContentOf(
 							multiView.getElement( ) ) )
 			{
 				throw new PropertyValueException( internalElement, element
@@ -293,5 +298,4 @@ class MultiViewsAPIProvider implements IMultiViewsModel
 		}
 		stack.commit( );
 	}
-
 }

@@ -13,6 +13,8 @@ import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Does table row shift operation. Shift is only allowed in the same slot
@@ -107,7 +109,8 @@ public class RowBandShiftAction extends RowBandAction
 		ActivityStack stack = adapter.getModule( ).getActivityStack( );
 		try
 		{
-			stack.startTrans( null );
+			stack.startTrans( ModelMessages
+					.getMessage( MessageConstants.SHIFT_ROW_MESSAGE ) );
 
 			// add source row to destination position.
 

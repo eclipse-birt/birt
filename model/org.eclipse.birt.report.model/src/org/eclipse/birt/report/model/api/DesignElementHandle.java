@@ -67,6 +67,8 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -368,8 +370,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * @param propName
 	 *            name of the property.
 	 * @return a corresponding DimensionHandle to deal with the dimension
-	 *         property. Return <code>null</code> if the property is defined
-	 *         or not dimension property.
+	 *         property. Return <code>null</code> if the property is defined or
+	 *         not dimension property.
 	 * 
 	 * @see DimensionHandle
 	 */
@@ -393,8 +395,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * @param propName
 	 *            name of the property.
 	 * @return a corresponding ColorHandle to with with the color property.
-	 *         Return <code>null</code> if the given property is not defined
-	 *         or not color property.
+	 *         Return <code>null</code> if the given property is not defined or
+	 *         not color property.
 	 * 
 	 * @see ColorHandle
 	 */
@@ -458,8 +460,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *            the module
 	 * @param propName
 	 *            the name of the property to get
-	 * @return the value as an <code>ArrayList</code>, or null if the
-	 *         property is not set or the value is not a list
+	 * @return the value as an <code>ArrayList</code>, or null if the property
+	 *         is not set or the value is not a list
 	 * @deprecated
 	 */
 
@@ -475,8 +477,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *            the module
 	 * @param propName
 	 *            the name of the property to get
-	 * @return the value as an <code>ArrayList</code>, or null if the
-	 *         property is not set or the value is not a list
+	 * @return the value as an <code>ArrayList</code>, or null if the property
+	 *         is not set or the value is not a list
 	 */
 
 	public List getListProperty( String propName )
@@ -616,7 +618,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		List props = getDefn( ).getProperties( );
 
 		ActivityStack stack = module.getActivityStack( );
-		stack.startTrans( null );
+		stack.startTrans( ModelMessages
+				.getMessage( MessageConstants.CLEAR_PROPERTIES_MESSAGE ) );
 
 		try
 		{
@@ -928,8 +931,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * Sets the name of the shared style for this element.
 	 * 
 	 * @param name
-	 *            the name of the shared style. If <code>null</code>, then
-	 *            the shared style name is cleared.
+	 *            the name of the shared style. If <code>null</code>, then the
+	 *            shared style name is cleared.
 	 * @throws StyleException
 	 *             If the name is not valid, or if this element does not support
 	 *             a style.
@@ -948,8 +951,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * Sets the shared style element for this element.
 	 * 
 	 * @param obj
-	 *            the shared style. If <code>null</code>, then the shared
-	 *            style is cleared.
+	 *            the shared style. If <code>null</code>, then the shared style
+	 *            is cleared.
 	 * @throws StyleException
 	 *             If this element does not support a style.
 	 * @see #getStyle()
@@ -1068,8 +1071,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	}
 
 	/**
-	 * Sets the name of this element. If the name is <code>null</code>, then
-	 * the name is cleared if this element does not require a name.
+	 * Sets the name of this element. If the name is <code>null</code>, then the
+	 * name is cleared if this element does not require a name.
 	 * 
 	 * @param name
 	 *            the new name
@@ -1103,10 +1106,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	/**
 	 * Returns the element factory for creating new report elements. After
-	 * creating the element, add it to the design by calling the the
-	 * <code>{@link SlotHandle#add( DesignElementHandle ) add}</code> method
-	 * of the slot handle that represents the point in the design where the new
-	 * element should appear.
+	 * creating the element, add it to the design by calling the the <code>
+	 * {@link SlotHandle#add(DesignElementHandle ) add}</code> method of the
+	 * slot handle that represents the point in the design where the new element
+	 * should appear.
 	 * 
 	 * @return a handle to the new element.
 	 * @see SlotHandle
@@ -1153,8 +1156,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * 
 	 * @param propName
 	 *            the name of the property to get
-	 * @return the user property definition handle, or <code>null</code> if
-	 *         the no property exists with the given name or it is not a
+	 * @return the user property definition handle, or <code>null</code> if the
+	 *         no property exists with the given name or it is not a
 	 *         user-defined property.
 	 */
 
@@ -1195,15 +1198,14 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * <li>Indicates if the value is a style property.</li>
 	 * <li>Indicates if a style property is set on the element's private style
 	 * or a shared style.</li>
-	 * <li>Performs property conversions as needed for the Factory context.
-	 * </li>
+	 * <li>Performs property conversions as needed for the Factory context.</li>
 	 * </ul>
 	 * 
 	 * @param propName
 	 *            the name of the property to get
-	 * @return the factory property handle, or <code>null</code> if either 1)
-	 *         no property exists with the given name or 2) the property is a
-	 *         style property and is not set in a private style.
+	 * @return the factory property handle, or <code>null</code> if either 1) no
+	 *         property exists with the given name or 2) the property is a style
+	 *         property and is not set in a private style.
 	 */
 
 	public FactoryPropertyHandle getFactoryPropertyHandle( String propName )
@@ -1443,8 +1445,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * Returns an iterator over the elements that derive from this one.
 	 * 
 	 * @return an iterator over the elements that derive from this one. Each
-	 *         item returned by the iterator's <code>getNext( )</code> method
-	 *         is of type {@link DesignElementHandle}.
+	 *         item returned by the iterator's <code>getNext( )</code> method is
+	 *         of type {@link DesignElementHandle}.
 	 */
 
 	public Iterator derivedIterator( )
@@ -1488,7 +1490,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * Returns the short display label for this element.
 	 * 
 	 * @return the display label of this element in SHORT_LABEL level.
-	 * @see #getDisplayLabel( int )
+	 * @see #getDisplayLabel(int )
 	 */
 
 	public String getDisplayLabel( )
@@ -1508,8 +1510,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * <li>The name of element, if set</li>
 	 * <li>The localized display name of this kind of element, which is defined
 	 * in metadata, if set</li>
-	 * <li>The name of this kind of element, which is also defined in metadata
-	 * </li>
+	 * <li>The name of this kind of element, which is also defined in metadata</li>
 	 * </ul>
 	 * <p>
 	 * The user can also decide at which detail level the display label should
@@ -1520,11 +1521,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * null</li>
 	 * <li>SHORT_LABEL: All the above steps are used. This will ensure there
 	 * will be a return value</li>
-	 * <li>FULL_LABEL: Besides the return value of SHORT_LABEL, this option
-	 * says we need to return additional information. This information is
-	 * specific to each kind of element and my include row and column position,
-	 * x and y position and so on. To get this, every child element needs to
-	 * overwrite this method</li>
+	 * <li>FULL_LABEL: Besides the return value of SHORT_LABEL, this option says
+	 * we need to return additional information. This information is specific to
+	 * each kind of element and my include row and column position, x and y
+	 * position and so on. To get this, every child element needs to overwrite
+	 * this method</li>
 	 * </ul>
 	 * 
 	 * @param level
@@ -1639,8 +1640,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * Copies all properties to the target element. The following properties
 	 * will not be copied.
 	 * <ul>
-	 * <li><code>DesignElement.NAME_PROP</code>
-	 * <li><code>DesignElement.EXTENDS_PROP</code>
+	 * <li><code>DesignElement.NAME_PROP</code> <li><code>
+	 * DesignElement.EXTENDS_PROP</code>
 	 * </ul>
 	 * 
 	 * The <code>targetHandle</code> should be in the same report as this
@@ -1841,8 +1842,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	/**
 	 * Determines if the slot can contain an element with the type of
-	 * <code>type</code>. Even return value is <code>true</code>, doesn't
-	 * mean the element can be added/moved without exceptions.
+	 * <code>type</code>. Even return value is <code>true</code>, doesn't mean
+	 * the element can be added/moved without exceptions.
 	 * 
 	 * @param slotId
 	 *            the slot id
@@ -1861,18 +1862,18 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	}
 
 	/**
-	 * Determines if the given slot can contain the <code>content</code>.
-	 * Even return value is <code>true</code>, doesn't mean the element can
-	 * be added/moved without exceptions.
+	 * Determines if the given slot can contain the <code>content</code>. Even
+	 * return value is <code>true</code>, doesn't mean the element can be
+	 * added/moved without exceptions.
 	 * 
 	 * @param slotId
 	 *            the slot id
 	 * @param content
 	 *            the design element handle to check
 	 * 
-	 * @return <code>true</code> if the slot with the given
-	 *         <code>slotId</code> can contain the <code>content</code>,
-	 *         otherwise <code>false</code>.
+	 * @return <code>true</code> if the slot with the given <code>slotId</code>
+	 *         can contain the <code>content</code>, otherwise
+	 *         <code>false</code>.
 	 * 
 	 * @see #canContain(int, String)
 	 */
@@ -1888,8 +1889,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	/**
 	 * Determines if the slot can contain an element with the type of
-	 * <code>type</code>. Even return value is <code>true</code>, doesn't
-	 * mean the element can be added/moved without exceptions.
+	 * <code>type</code>. Even return value is <code>true</code>, doesn't mean
+	 * the element can be added/moved without exceptions.
 	 * 
 	 * @param propName
 	 *            name of the property where the type to insert
@@ -1908,18 +1909,18 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	}
 
 	/**
-	 * Determines if the given slot can contain the <code>content</code>.
-	 * Even return value is <code>true</code>, doesn't mean the element can
-	 * be added/moved without exceptions.
+	 * Determines if the given slot can contain the <code>content</code>. Even
+	 * return value is <code>true</code>, doesn't mean the element can be
+	 * added/moved without exceptions.
 	 * 
 	 * @param propName
 	 *            the name of the property where the content to insert
 	 * @param content
 	 *            the design element handle to check
 	 * 
-	 * @return <code>true</code> if the slot with the given
-	 *         <code>slotId</code> can contain the <code>content</code>,
-	 *         otherwise <code>false</code>.
+	 * @return <code>true</code> if the slot with the given <code>slotId</code>
+	 *         can contain the <code>content</code>, otherwise
+	 *         <code>false</code>.
 	 * 
 	 * @see #canContain(int, String)
 	 */
@@ -2085,7 +2086,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	/**
 	 * if this design element is based on a template definition
-	 * {@link #isTemplateParameterValue( )},get rid of the template definition )
+	 * {@link #isTemplateParameterValue()},get rid of the template definition )
 	 * 
 	 * @throws SemanticException
 	 */
@@ -2871,7 +2872,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	/**
 	 * Sets the encryption for an encryptable property. Not only this method can
 	 * change the encryption ID for a property, but also call
-	 * {@link #setProperty(String, Object)}} to change the value of the
+	 * {@link #setProperty(String, Object)} to change the value of the
 	 * encryptable property.
 	 * 
 	 * @param propName
@@ -2912,7 +2913,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		ModuleHandle root = getRoot( );
 		return root != null && root.isDirectionRTL( );
 	}
-	
+
 	/**
 	 * Return the direct host element handle for this view element.
 	 * 
@@ -2920,13 +2921,14 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *         DesignElementHandle which is the direct host element of the
 	 *         current element view.
 	 */
-	public DesignElementHandle getHostViewHandle() {
+	public DesignElementHandle getHostViewHandle( )
+	{
 
-		if ((!(getElement().getContainer() instanceof MultiViews)))
+		if ( ( !( getElement( ).getContainer( ) instanceof MultiViews ) ) )
 			return null;
 
-		return getElement().getContainer().getContainer()
-				.getHandle(this.module);
+		return getElement( ).getContainer( ).getContainer( ).getHandle(
+				this.module );
 
 	}
 
