@@ -13,8 +13,6 @@ package org.eclipse.birt.chart.reportitem;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -55,6 +53,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IChoiceDefinition;
 import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
@@ -64,6 +63,7 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.ReportItem;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.Context;
@@ -872,4 +872,32 @@ public final class ChartReportItemImpl extends ReportItem implements
 				sDefaultValue,
 				locale );
 	}
+	
+	/**
+	 * Returns whether the BIDI direction is RTL. The reportItem's property
+	 * "bidiTextDirection" will be used if it is set, otherwise the
+	 * "bidiLayoutOrientation" of reportDesign will be used if it is set,
+	 * otherwise false will be returned.
+	 * 
+	 * @return
+	 */
+	public boolean isBIDIDirectionRTL( )
+	{
+		if ( handle != null )
+		{
+			Object sBIDI = handle.getPrivateStyle( ).getTextDirection( );
+			if ( sBIDI == null && handle.getModule( ) != null )
+			{
+				sBIDI = handle.getModule( ).getProperty( handle.getModule( ),
+						IReportDesignModel.BIDI_ORIENTATION_PROP );
+			}
+
+			return DesignChoiceConstants.BIDI_DIRECTION_RTL.equals( sBIDI );
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 }
