@@ -62,7 +62,6 @@ import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
@@ -696,6 +695,14 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 
 			// Get the BIRT report context
 			BIRTExternalContext externalContext = new BIRTExternalContext( context );
+			
+			// Initialize external context, which can be used by script during
+			// binding data
+			if ( rtc.getScriptContext( ) != null
+					&& rtc.getScriptContext( ) instanceof ChartScriptContext )
+			{
+				( (ChartScriptContext) rtc.getScriptContext( ) ).setExternalContext( externalContext );
+			}
 
 			// Initialize script handler and register birt context in scope
 			initializeScriptHandler( externalContext );
@@ -982,11 +989,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		// Set direction from model to chart runtime context
 		rtc.setRightToLeft( handle.isDirectionRTL( ) );
 		// Set text direction from StyleHandle to chart runtime context
-		rtc.setRightToLeftText( DesignChoiceConstants.BIDI_DIRECTION_RTL.equals( handle.getPrivateStyle( )
-				.getTextDirection( ) ) );
-		
-		rtc.setResourceFinder( (ChartReportItemImpl) getReportItem( handle ) );
-		rtc.setExternalizer( (ChartReportItemImpl) getReportItem( handle ) );
+		ChartReportItemImpl crii = (ChartReportItemImpl) getReportItem( handle );
+		rtc.setRightToLeftText( crii.isBIDIDirectionRTL( ) );
+		rtc.setResourceFinder( crii );
+		rtc.setExternalizer( crii );
 	}
 
 	protected void prepareDeviceRenderer( ) throws ChartException
