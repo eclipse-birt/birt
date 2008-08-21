@@ -58,14 +58,18 @@ public class AggregationManager
 	 * allowed aggregation function names in x-tab
 	 */
 	private static String[] xTabAggrNames = new String[]{
-			"SUM",//$NON-NLS-1$
-			"AVE",//$NON-NLS-1$
-			"MAX",//$NON-NLS-1$
-			"MIN",//$NON-NLS-1$
-			"FIRST",//$NON-NLS-1$
-			"LAST",//$NON-NLS-1$
-			"COUNT",//$NON-NLS-1$
-			"COUNTDISTINCT"//$NON-NLS-1$
+			"SUM",
+			"AVE",
+			"MAX",
+			"MIN",
+			"FIRST",
+			"LAST",
+			"COUNT",
+			"COUNTDISTINCT",
+			"MEDIAN",
+			"MODE",
+			"STDDEV",
+			"VARIANCE"
 	};
 
 	public static final int AGGR_TABULAR = 0;
