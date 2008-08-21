@@ -110,6 +110,8 @@ public class ResultIterator implements IResultIterator
 	
 	private int rawIdStartingValue = 0;
 	
+	private IShutdownListener listener;
+	
 	/**
 	 * Constructor for report query (which produces a QueryResults)
 	 * 
@@ -156,7 +158,7 @@ public class ResultIterator implements IResultIterator
 				throw new DataException( ResourceConstants.CREATE_CACHE_TEMPFILE_ERROR );
 			}
 		}
-		this.resultService.getSession( ).getEngine( ).addShutdownListener( new IShutdownListener(){
+		listener = new IShutdownListener( ) {
 
 			public void dataEngineShutdown( )
 			{
@@ -166,9 +168,13 @@ public class ResultIterator implements IResultIterator
 				}
 				catch ( BirtException e )
 				{
-				
-				}				
-			}} );
+				}
+			}
+		};
+		this.resultService.getSession( )
+				.getEngine( )
+				.addShutdownListener( listener );
+		
 		this.start( );
 		logger.exiting( ResultIterator.class.getName( ), "ResultIterator" );
 	}
@@ -850,6 +856,8 @@ public class ResultIterator implements IResultIterator
 	{
 		if ( state == CLOSED )
 			return;
+		
+		this.resultService.getSession( ).getEngine( ).removeListener( listener );
 		if ( this.getRdSaveHelper( ).needsSaveToDoc( ) )
 		{
 			// save all gap row
