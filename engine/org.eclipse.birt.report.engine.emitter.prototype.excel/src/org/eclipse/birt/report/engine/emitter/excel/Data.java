@@ -21,6 +21,8 @@ public class Data implements Serializable, Cloneable
 	
 	private XlsContainer container;
 	
+	private int rowSpanInDesign;
+	
 	//String txt;
     Object txt;
 
@@ -46,8 +48,6 @@ public class Data implements Serializable, Cloneable
 	
 	Logger log = Logger.getLogger( Data.class.getName( ) );
 
-	public static Data WASTE = new Data( null, null, null );
-	
 	public Data(final Object txt, final String datatype, XlsContainer container )
 	{
 	   this(txt, null, datatype, container );
@@ -56,11 +56,18 @@ public class Data implements Serializable, Cloneable
 	public Data( final Object txt, final StyleEntry s, final String datatype,
 			XlsContainer container )
 	{
+		this(txt, s, datatype, container, 0);
+	}
+	
+	public Data( final Object txt, final StyleEntry s, final String datatype,
+			XlsContainer container, int rowSpanOfDesign )
+	{
 		this.txt = txt;		
 		this.style = s;
 		this.datatype = datatype;
 		id = ID++;
 		this.container = container;
+		this.rowSpanInDesign = 0;
 	}
     
 	protected void setNotTxtData( )
@@ -269,5 +276,25 @@ public class Data implements Serializable, Cloneable
 	public void clearContainer( )
 	{
 		container = null;
+	}
+	
+	public boolean isBlank()
+	{
+		return false;
+	}
+	
+	public int getRowSpanInDesign( )
+	{
+		return rowSpanInDesign;
+	}
+	
+	public void setRowSpanInDesign( int rowSpan )
+	{
+		this.rowSpanInDesign = rowSpan;
+	}
+	
+	public void decreasRowSpanInDesign( )
+	{
+		rowSpanInDesign--;
 	}
 }

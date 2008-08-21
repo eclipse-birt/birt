@@ -199,7 +199,7 @@ public class StyleEngine
 		{
 			Data data = engine.getData( i, pos );			
 			
-			if(data == null || data == Data.WASTE )
+			if(data == null || data.isBlank( ) )
 			{
 				continue;
 			}	

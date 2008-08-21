@@ -12,6 +12,7 @@ import java.util.Stack;
 
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.emitter.excel.BlankData;
 import org.eclipse.birt.report.engine.emitter.excel.BookmarkDef;
 import org.eclipse.birt.report.engine.emitter.excel.Data;
 import org.eclipse.birt.report.engine.emitter.excel.DataCache;
@@ -211,12 +212,12 @@ public class ExcelLayoutEngine
 		return result;
 	}
 
-	public void addCell( int col, int span, IStyle style )
+	public void addCell( int col, int colSpan, int rowSpan, IStyle style )
 	{
 		XlsTable table = tables.peek( );
-		ContainerSizeInfo cellSizeInfo = table.getColumnSizeInfo( col, span );
-		addContainer( createContainer( cellSizeInfo, style,
-				getCurrentContainer( ) ) );
+		ContainerSizeInfo cellSizeInfo = table.getColumnSizeInfo( col, colSpan );
+		addContainer( createCellContainer( cellSizeInfo, style,
+				getCurrentContainer( ), rowSpan ) );
 	}
 
 	public void endCell( )
@@ -267,28 +268,53 @@ public class ExcelLayoutEngine
 			{
 				Data data = null;				
 				Data upstair = cache.getData( i, last );
-
-				if ( upstair != null && upstair != Data.WASTE
-						&& isInContainer( upstair, rowContainer ) )
+                
+				if ( upstair != null && canSpan(upstair, rowContainer) )
 				{
 					Data predata = upstair;
 					int rs = predata.getRowSpan( ) + rowspan;
 					predata.setRowSpan( rs );
-					data = predata;
+					BlankData blankData = new BlankData( getRealData( predata ) );
+					if ( !isInContainer( predata, rowContainer ))
+					{
+						blankData.decreasRowSpanInDesign( );
+					}
+					data = blankData;
 				}
 				else
 				{
-					data = Data.WASTE;
+					data = new BlankData(null);
 				}
 
 				for ( int p = 0; p < rowspan; p++ )
 				{
-					cache.addData( i, Data.WASTE );
+					cache.addData( i, data );
 				}
 			}
 		}
 	}
 
+	private boolean canSpan( Data data, XlsContainer rowContainer )
+	{
+		Data realData = getRealData(data);
+		if ( realData == null )
+			return false;
+		if ( isInContainer( realData, rowContainer ) )
+		{
+			return true;
+		}
+		return realData.getRowSpanInDesign( ) > 0;
+	}
+	
+	private Data getRealData(Data data )
+	{
+		if ( data.isBlank( ) )
+		{
+			return ((BlankData)data).getData( );
+		}
+		return data;
+	}
+	
 	private boolean isInContainer(Data data, XlsContainer rowContainer )
 	{
 		XlsContainer container = data.getContainer( );
@@ -416,6 +442,7 @@ public class ExcelLayoutEngine
 		}
 		
 		entry.setProperty( StyleConstant.DATA_TYPE_PROP, type );
+		
 		return new Data( txt, entry, type, getCurrentContainer( ) );
 	}
 	
@@ -460,7 +487,13 @@ public class ExcelLayoutEngine
 
 		for ( int i = col + 1; i < col + span; i++ )
 		{
-			addDatatoCache( i, Data.WASTE );
+			addDatatoCache( i, BlankData.BLANK );
+		}
+		
+		if ( container instanceof XlsCell )
+		{
+			XlsCell cell = (XlsCell)container;
+			data.setRowSpanInDesign( cell.getRowSpan( ) - 1 );
 		}
 	}
 
@@ -469,6 +502,13 @@ public class ExcelLayoutEngine
 	{
 		return new XlsContainer( engine.createEntry( sizeInfo, style ),
 				sizeInfo, parent );
+	}
+
+	public XlsContainer createCellContainer( ContainerSizeInfo sizeInfo,
+			IStyle style, XlsContainer parent, int rowSpan )
+	{
+		return new XlsCell( engine.createEntry( sizeInfo, style ), sizeInfo,
+				parent, rowSpan );
 	}
 
 	public Map<StyleEntry,Integer> getStyleMap( )
@@ -516,7 +556,12 @@ public class ExcelLayoutEngine
 	public Data getData( int col, int row )
 	{		
 		Object object = cache.getData( col, row );
-		return object == Data.WASTE ? null : (Data) object;
+		Data data = (Data) object;
+		if ( data == null || data.isBlank( ) )
+		{
+			return null;
+		}
+		return data;
 	}
 
 	public Data[] getRow( int rownum )
@@ -527,12 +572,11 @@ public class ExcelLayoutEngine
 
 		for ( int i = 0; i < width; i++ )
 		{
-			if ( Data.WASTE == row[i] )
+			Data d = (Data) row[i];
+			if ( d.isBlank( ) )
 			{
 				continue;
 			}
-
-			Data d = (Data) row[i];
 
 			if ( d.isProcessed( ) )
 			{
@@ -563,12 +607,12 @@ public class ExcelLayoutEngine
 
 			for ( int j = 0; j < row.length; j++ )
 			{
-				if ( row[j] == Data.WASTE )
+				Data d = (Data) row[j];
+				if ( d.isBlank( ) )
 				{
 					continue;
 				}
 
-				Data d = (Data) row[j];
 				int styleid = engine.getStyleID( d.getStyleEntry( ) );
 				d.setStyleId( styleid );
 				ContainerSizeInfo rule = d.getRule( );

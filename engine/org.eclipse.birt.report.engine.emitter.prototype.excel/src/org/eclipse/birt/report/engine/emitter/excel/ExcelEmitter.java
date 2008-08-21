@@ -191,7 +191,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	public void startCell( ICellContent cell )
 	{
 		IStyle style = cell.getComputedStyle( );
-		engine.addCell( cell.getColumn( ), cell.getColSpan( ), style );
+		engine.addCell( cell.getColumn( ), cell.getColSpan( ),cell.getRowSpan( ), style );
 	}
 
 	public void endCell( ICellContent cell )
@@ -221,7 +221,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	public void startListBand( IListBandContent listBand )
 	{	
-		engine.addCell( 0, 1, listBand.getComputedStyle( ) );
+		engine.addCell( 0, 1, 0, listBand.getComputedStyle( ) );
 	}
 	
 	public void endListBand( IListBandContent listBand )
