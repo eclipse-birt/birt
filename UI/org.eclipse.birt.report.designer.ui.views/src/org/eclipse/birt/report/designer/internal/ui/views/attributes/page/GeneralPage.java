@@ -50,7 +50,7 @@ public abstract class GeneralPage extends GeneralFontPage
 		addSection( PageSectionId.GENERAL_LIBRARY, librarySection );
 
 		noteSection = new FormTextSection( "", container, true ); //$NON-NLS-1$
-		noteSection.setText( Messages.getString("GeneralPage.Library.Modified.Note") ); //$NON-NLS-1$
+		noteSection.setText( Messages.getFormattedString( "GeneralPage.Library.Modified.Note", new Object[]{"color", "image", "color"} ) ); //$NON-NLS-1$
 		noteSection.setImage( "image", //$NON-NLS-1$
 				ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ENABLE_RESTORE_PROPERTIES ) );
 		noteSection.setColor( "color", ColorManager.getColor( 127, 127, 127 ) ); //$NON-NLS-1$
@@ -70,7 +70,7 @@ public abstract class GeneralPage extends GeneralFontPage
 						.isExtendedElements( ) )
 		{
 			librarySection.setHidden( false );
-			
+
 			if ( hasLocalProperties( ) )
 			{
 				noteSection.setHidden( false );
@@ -82,7 +82,7 @@ public abstract class GeneralPage extends GeneralFontPage
 			}
 			else
 				noteSection.setHidden( true );
-			
+
 			seperatorSection.setHidden( false );
 			librarySection.load( );
 		}
