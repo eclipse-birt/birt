@@ -98,6 +98,18 @@ public class CellLayout extends BlockStackingLayout
 
 	}
 	
+	protected void closeLayout( int size, boolean finished)
+	{
+		for ( int i = 0; i < size; i++ )
+		{
+			closeLayout( contextList.removeFirst( ), i, finished && i==(size-1) );
+		}
+		if ( contextList.size( ) > 0 )
+		{
+			currentContext = contextList.getFirst( );
+		}
+	}
+	
 	protected void closeLayout( )
 	{
 		super.closeLayout( );
