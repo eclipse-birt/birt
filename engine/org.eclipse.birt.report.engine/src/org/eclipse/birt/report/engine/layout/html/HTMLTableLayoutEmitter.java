@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.engine.layout.html;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Stack;
 import java.util.logging.Logger;
 
@@ -70,11 +72,13 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 	 */
 	protected Stack groupStack = new Stack( );
 
-	protected UnresolvedRowHint hint = null;
+	protected HashMap<String, UnresolvedRowHint> hintMap = new HashMap<String, UnresolvedRowHint>();
 	
 	protected boolean isFirst = true;
 	
 	int nestTableCount = 0;
+	
+	protected int lastRowId = -1;
 
 	public HTMLTableLayoutEmitter( IContentEmitter emitter,HTMLLayoutContext context  )
 	{
@@ -164,9 +168,24 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 
 	public void initLayout( ITableContent table )
 	{
+		String keyString = context.getHintMapKey(table.getInstanceID( ).toUniqueString( ));
 		this.layout = new TableContentLayout( table,
-				getOutputFormat( ), context );
+				getOutputFormat( ), context, keyString );
 		this.layoutEvents = new Stack( );
+		UnresolvedRowHint hint = null;
+		if(isFirst)
+		{
+			if(context!=null)
+			{
+				hint = context.getUnresolvedRowHint( keyString );
+				isFirst = false;
+			}
+		}
+		if(hint == null )
+		{
+			hint = hintMap.get( keyString );
+		}
+		layout.setUnresolvedRowHint( hint );
 	}
 	
 	public boolean isLayoutStarted()
@@ -357,17 +376,10 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		{
 			if ( !isNestTable( ) )
 			{
+				UnresolvedRowHint hint = null;
 				initLayout( table );
-				if(isFirst)
-				{
-					if(context!=null)
-					{
-						hint = context.getUnresolvedRowHint( table );
-						isFirst = false;
-					}
-				}
-				layout.setUnresolvedRowHint( hint );
 				emitter.startTable( layout.getWrappedTableContent( ) );
+				this.lastRowId = -1;
 			}
 			else
 			{
@@ -379,11 +391,16 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 	public void resolveAll( boolean finished )
 	{
 		layout.resolveDropCells( finished );
-		hint = layout.getUnresolvedRow( );
-		if(context!=null && hint!=null)
+		UnresolvedRowHint hint = layout.getUnresolvedRow( );
+		if(hint!=null)
 		{
-			context.addUnresolvedRowHint( hint );
+			hintMap.put( layout.getKeyString( ), hint );
+			if(context!=null )
+			{
+				context.addUnresolvedRowHint(layout.getKeyString( ), hint );
+			}
 		}
+		
 		hasDropCell = layout.hasDropCell( );
 	}
 		
@@ -536,6 +553,21 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		{
 			boolean isHidden = LayoutUtil.isHidden( row, emitter
 					.getOutputFormat( ), context.getOutputDisplayNone( ) );
+			if(!LayoutUtil.isRepeatableRow( row ))
+			{
+				int rowId = row.getRowID( );
+				if(lastRowId>=0 && rowId>lastRowId-1)
+				{
+					for(int i=lastRowId+1; i<rowId; i++)
+					{
+						IRowContent newRow = (IRowContent)row.cloneContent( false );
+						newRow.setParent(row.getParent( ));
+						newRow.setRowID( i );
+						startRow(newRow);
+						endRow(newRow);
+					}
+				}
+			}
 			if ( !isNestTable( ) )
 			{
 				layout.createRow( row, isHidden );
@@ -578,6 +610,10 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 			if ( !isNestTable( ) )
 			{
 				layout.endRow(row);
+				if(!LayoutUtil.isRepeatableRow( row ))
+				{
+					lastRowId = row.getRowID( );
+				}
 				hasDropCell = layout.hasDropCell( );
 				if ( hasDropCell( ) )
 				{

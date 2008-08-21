@@ -736,11 +736,13 @@ public class TableAreaLayout
 						cellContent.setColSpan( 1 );
 						cellContent.setRowSpan( 1 );
 						cellContent.setParent( rowArea.getContent( ) );
+						rowSpan = 1;
 					}
 					int startColumn = cellContent.getColumn( );
 					int endColumn = cellContent.getColSpan( ) + startColumn;
 					CellArea emptyCell = AreaFactory
 							.createCellArea( cellContent );
+					emptyCell.setRowSpan( rowSpan );
 
 					if ( previousCellArea != null )
 					{

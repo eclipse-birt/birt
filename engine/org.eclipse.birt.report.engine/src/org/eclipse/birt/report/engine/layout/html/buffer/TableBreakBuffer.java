@@ -265,6 +265,15 @@ public class TableBreakBuffer implements IPageBuffer
 			case IContent.ROW_CONTENT :
 				if ( currentTableIndex == nestCount )
 				{
+					if ( pageBreakIndexs.length-1 != currentIndex )
+					{
+						for(int i=currentIndex; i<pageBreakIndexs.length; i++)
+						{
+							currentIndex = i;
+							currentBuffer = buffers[currentIndex];
+							repeatCells( emitter);
+						}
+					}
 					endContainerInPages( content, finished, emitter, visible );
 				}
 				else

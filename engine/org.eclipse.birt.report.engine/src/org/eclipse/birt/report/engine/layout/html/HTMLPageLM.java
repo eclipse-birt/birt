@@ -96,6 +96,10 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		{
 			context.addLayoutHint( pageContent, false );
 		}
+		else
+		{
+			context.removeLayoutHint( pageContent );
+		}
 		isFirstPage = false;
 		end(isLastPage );
 		context.initilizePage( );
@@ -186,6 +190,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 			context.getPageBufferManager( ).endContainer( pageContent, finished, emitter, true );
 			context.getBufferFactory( ).close( );
 		}
+		context.resetRowHint( );
 	}
 	
 	public class ContentDOMEmitter extends ContentEmitterAdapter

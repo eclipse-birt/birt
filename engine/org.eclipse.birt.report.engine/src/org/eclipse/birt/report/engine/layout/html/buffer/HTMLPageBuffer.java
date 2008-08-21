@@ -12,6 +12,9 @@
 package org.eclipse.birt.report.engine.layout.html.buffer;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
@@ -32,6 +35,8 @@ public class HTMLPageBuffer implements IPageBuffer
 	protected boolean finished = false;
 
 	protected ArrayList columnHints = new ArrayList( );
+	
+	protected HashSet tableIds = new HashSet();
 
 	public HTMLPageBuffer( HTMLLayoutContext context )
 	{
@@ -69,6 +74,8 @@ public class HTMLPageBuffer implements IPageBuffer
 				setup( pageNode, isFirst );
 				currentNode = pageNode;
 				break;
+			case IContent.TABLE_CONTENT:
+				tableIds.add( content.getInstanceID( ).toUniqueString( ) );
 			default :
 				ContainerBufferNode node = new ContainerBufferNode( content,
 						emitter, generator, visible );
@@ -235,15 +242,29 @@ public class HTMLPageBuffer implements IPageBuffer
 		}
 		this.finished = true;
 		generator.reset( );
-		context.removeLayoutHint( );
+		//context.removeLayoutHint( );
 		context.clearPageHint( );
 		currentNode = null;
+	}
+	
+	protected Collection<String> getTableKeys()
+	{
+		HashSet keys = new HashSet();
+		Iterator iter = tableIds.iterator( );
+		while(iter.hasNext( ))
+		{
+			String tableId = (String)iter.next( );
+			String key = context.getHintMapKey(tableId);
+			keys.add( key );
+		}
+		return keys;
 	}
 
 	protected void pageBreakEvent( )
 	{
 		context.setPageHint( generator.getPageHint( ) );
-		//context.addTableColumnHints( this.columnHints );
+		//context.addTableColumnHints( columnHints );
+		context.generatePageRowHints( getTableKeys() );
 		long pageNumber = context.getPageNumber( );
 		ILayoutPageHandler pageHandler = context.getLayoutEngine( )
 				.getPageHandler( );
@@ -332,7 +353,5 @@ public class HTMLPageBuffer implements IPageBuffer
 	public void addTableColumnHint( TableColumnHint hint )
 	{
 		context.addTableColumnHint( hint );
-
 	}
-
 }

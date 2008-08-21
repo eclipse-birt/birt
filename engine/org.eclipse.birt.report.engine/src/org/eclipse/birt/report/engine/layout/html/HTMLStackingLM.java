@@ -29,6 +29,10 @@ public abstract class HTMLStackingLM extends HTMLAbstractLM
 		{
 			context.addLayoutHint( content, false );
 		}
+		else
+		{
+			context.removeLayoutHint( content );
+		}
 		return hasNext;
 	}
 	

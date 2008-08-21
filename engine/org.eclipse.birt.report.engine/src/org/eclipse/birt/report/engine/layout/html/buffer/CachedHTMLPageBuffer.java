@@ -132,6 +132,7 @@ public class CachedHTMLPageBuffer extends HTMLPageBuffer implements IPageBuffer
 		if ( page != null )
 		{
 			context.addTableColumnHints( columnHints );
+			context.generatePageRowHints( getTableKeys() );
 			page.flush( );
 			pageBreakEvent( );
 			if ( !page.finished )
@@ -140,7 +141,7 @@ public class CachedHTMLPageBuffer extends HTMLPageBuffer implements IPageBuffer
 				context.setPageCount( context.getPageCount( ) + 1 );
 			}
 			generator.reset( );
-			context.removeLayoutHint( );
+			//context.removeLayoutHint( );
 			context.clearPageHint( );
 			currentNode = null;
 

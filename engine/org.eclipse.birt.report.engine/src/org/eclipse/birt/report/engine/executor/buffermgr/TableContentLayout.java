@@ -69,13 +69,15 @@ public class TableContentLayout
 	
 	private int[] adjustedColumnIds;
 	
+	protected String keyString;
+	
 	public TableContentLayout( ITableContent tableContent, String format,
-			HTMLLayoutContext context )
+			HTMLLayoutContext context, String keyString )
 	{
 		this.format = format;
 		this.context = context;
 		this.tableContent = tableContent;
-		
+		this.keyString = keyString;
 		
 		this.colCount = tableContent.getColumnCount( );
 
@@ -160,6 +162,11 @@ public class TableContentLayout
 		}
 		this.realColCount = visibleColumns.size( );
 	}
+	
+	public String getKeyString()
+	{
+		return keyString;
+	}	
 	
 	public void setUnresolvedRowHint(UnresolvedRowHint rowHint)
 	{

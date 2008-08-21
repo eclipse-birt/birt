@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.layout.html;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -128,6 +129,11 @@ public class HTMLLayoutContext
 	{
 		layoutHint.put( content, new Boolean( finished ) );
 	}
+	
+	public void removeLayoutHint(IContent content)
+	{
+		layoutHint.remove( content );
+	}
 
 	public boolean getLayoutHint( IContent content )
 	{
@@ -191,14 +197,33 @@ public class HTMLLayoutContext
 		return cancelFlag;
 	}
 
-	protected ArrayList hints = new ArrayList( );
-	protected ArrayList currentHints = new ArrayList( );
-
-	public List getUnresolvedRowHints( )
+	protected HashMap<String, UnresolvedRowHint> currentHints = new HashMap<String, UnresolvedRowHint>();
+	
+	protected HashMap<String, UnresolvedRowHint> hints = new HashMap<String, UnresolvedRowHint>();
+	
+	
+	public void generatePageRowHints(Collection<String> keys )
 	{
-		return hints;
+		pageRowHints.clear( );
+		Iterator<String> iter = keys.iterator( );
+		while(iter.hasNext( ))
+		{
+			String key = iter.next( );
+			UnresolvedRowHint hint = hints.get( key );
+			if(hint!=null)
+			{
+				pageRowHints.add( hint );
+			}
+		}
 	}
-
+	
+	ArrayList pageRowHints = new ArrayList();
+	public List<UnresolvedRowHint> getUnresolvedRowHints()
+	{
+		return pageRowHints;
+	}
+	
+	
 	protected ArrayList columnHints = new ArrayList( );
 
 	public List getTableColumnHints( )
@@ -216,35 +241,31 @@ public class HTMLLayoutContext
 		columnHints.add( hint );
 	}
 
-	public UnresolvedRowHint getUnresolvedRowHint( ITableContent table )
+	public UnresolvedRowHint getUnresolvedRowHint( String key )
 	{
 		if ( hints.size( ) > 0 )
 		{
-			String idStr = table.getInstanceID( ).toUniqueString( );
-			Iterator iter = hints.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				UnresolvedRowHint rowHint = (UnresolvedRowHint) iter.next( );
-				if ( idStr.equals( rowHint.getTableId( ) ) )
-				{
-					return rowHint;
-				}
-			}
+			return hints.get( key );
 		}
 		return null;
 	}
 
-	public void addUnresolvedRowHint( UnresolvedRowHint hint )
+	public void addUnresolvedRowHint(String key,  UnresolvedRowHint hint )
 	{
-		currentHints.add( hint );
+		currentHints.put( key, hint );
 	}
 
 	public void clearPageHint( )
 	{
 		columnHints.clear( );
 		pageHints.clear( );
+		
+	}
+	
+	public void resetRowHint()
+	{
 		hints.clear( );
-		hints.addAll( currentHints );
+		hints.putAll( currentHints );
 		currentHints.clear( );
 	}
 
@@ -271,18 +292,38 @@ public class HTMLLayoutContext
 		{
 			pageNumber = pageHint.getPageNumber( );
 			masterPage = pageHint.getMasterPage( );
-			int count = pageHint.getUnresolvedRowCount( );
-			for ( int i = 0; i < count; i++ )
-			{
-				hints.add( pageHint.getUnresolvedRowHint( i ) );
-			}
-			count = pageHint.getTableColumnHintCount( );
+			int count = pageHint.getTableColumnHintCount( );
 			for ( int i = 0; i < count; i++ )
 			{
 				columnHints.add( pageHint.getTableColumnHint( i ) );
 			}
+			count = pageHint.getUnresolvedRowCount( );
+			if(count>0)
+			{
+				
+				for ( int i = 0; i < count; i++ )
+				{
+					UnresolvedRowHint hint = pageHint.getUnresolvedRowHint( i );
+					String key = getHintMapKey(hint.getTableId( ));
+					hints.put( key, hint );
+				}
+			}
 		}
 	}
+	
+	public String getHintMapKey(String tableId)
+	{
+		String key = tableId;
+		List hints = getTableColumnHint( key );
+		Iterator iter = hints.iterator( );
+		while(iter.hasNext( ))
+		{
+			int[] vs = (int[])iter.next( );
+			key = key +"-" + vs[0] + "-" + vs[1];
+		}
+		return key;
+	}
+	
 
 	public List getTableColumnHint( String tableId )
 	{

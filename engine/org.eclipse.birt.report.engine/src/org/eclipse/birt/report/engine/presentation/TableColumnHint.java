@@ -38,4 +38,10 @@ public class TableColumnHint
 	{
 		return this.tableId;
 	}
+	
+	public String toString( )
+	{
+		int end = start + columnCount;
+		return tableId + "-" + start + "-" + end;
+	}
 }

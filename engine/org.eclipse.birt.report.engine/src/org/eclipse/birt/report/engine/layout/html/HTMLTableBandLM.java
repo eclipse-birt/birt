@@ -63,10 +63,6 @@ public class HTMLTableBandLM extends HTMLListingBandLM
 			}
 		}*/
 		boolean hasNext = super.layoutChildren( );
-		if(hasNext)
-		{
-			context.addLayoutHint( content, !hasNext );
-		}
 		if ( !hasNext )
 		{
 /*			if ( bandType == IBandContent.BAND_GROUP_FOOTER )
