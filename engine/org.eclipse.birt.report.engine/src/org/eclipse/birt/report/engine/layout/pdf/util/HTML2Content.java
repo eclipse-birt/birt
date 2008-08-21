@@ -48,21 +48,195 @@ import org.w3c.dom.css.CSSValue;
 
 /**
  * Class <code>HTML2Content</code> encapsulates the logic of converting a
- * section of HTML text to report content. 
- * Currently the supported tags are: 
- * "i" "font" "b" "a" "code" "em" "embed" "img" "ins" "span" "strong" "sub" "sup" 
- * "tt" "u" "dd" "div" "dl" "dt" "h1" "h2" "h3" "h4" "h5" "h6" "ol" 
- * "p" "pre" "ul" "li" "address" "body" "center" "table" "td" "tr".
+ * section of HTML text to report content. Currently the supported tags are:
+ * <table>
+ * <tr>
+ * <td><b>Tag Name</b></td>
+ * <td><b>Supported Attributes</b></td>
+ * </tr>
+ * <tr>
+ * <td>"a"</td>
+ * <td>id, name, href, target</td>
+ * </tr>
+ * <tr>
+ * <td>"address"</td>
+ * </tr>
+ * <tr>
+ * <td>"b"</td>
+ * </tr>
+ * <tr>
+ * <td>"body"</td>
+ * </tr>
+ * <tr>
+ * <td>"center"</td>
+ * </tr>
+ * <tr>
+ * <td>"code"</td>
+ * </tr>
+ * <tr>
+ * <td>"col"</td>
+ * <td>width</td>
+ * </tr>
+ * <tr>
+ * <td>"del"</td>
+ * </tr>
+ * <tr>
+ * <td>"dd"</td>
+ * </tr>
+ * <tr>
+ * <td>"div"</td>
+ * </tr>
+ * <tr>
+ * <td>"dl"</td>
+ * </tr>
+ * <tr>
+ * <td>"dt"</td>
+ * </tr>
+ * <tr>
+ * <td>"em"</td>
+ * </tr>
+ * <tr>
+ * <td>"embed"</td>
+ * <td>src, alt, height, width</td>
+ * </tr>
+ * <tr>
+ * <td>"font"</td>
+ * <td>size, color, face</td>
+ * </tr>
+ * <tr>
+ * <td>"h1"</td>
+ * </tr>
+ * <tr>
+ * <td>"h2"</td>
+ * </tr>
+ * <tr>
+ * <td>"h3"</td>
+ * </tr>
+ * <tr>
+ * <td>"h4"</td>
+ * </tr>
+ * <tr>
+ * <td>"h5"</td>
+ * </tr>
+ * <tr>
+ * <td>"h6"</td>
+ * </tr>
+ * <tr>
+ * <td>"i"</td>
+ * </tr>
+ * <tr>
+ * <td>"img"</td>
+ * <td>src, alt, height, width</td>
+ * </tr>
+ * <tr>
+ * <td>"ins"</td>
+ * </tr>
+ * <tr>
+ * <td>"li"</td>
+ * </tr>
+ * <tr>
+ * <td>"ol"</td>
+ * </tr>
+ * <tr>
+ * <td>"p"</td>
+ * </tr>
+ * <tr>
+ * <td>"pre"</td>
+ * </tr>
+ * <tr>
+ * <td>"span"</td>
+ * </tr>
+ * <tr>
+ * <td>"strong"</td>
+ * </tr>
+ * <tr>
+ * <td>"sub"</td>
+ * </tr>
+ * <tr>
+ * <td>"sup"</td>
+ * </tr>
+ * <tr>
+ * <td>"table"</td>
+ * <td>width</td>
+ * </tr>
+ * <tr>
+ * <td>"tbody"</td>
+ * </tr>
+ * <tr>
+ * <td>"td"</td>
+ * <td>rowspan, colspan</td>
+ * </tr>
+ * <tr>
+ * <td>"tfoot"</td>
+ * </tr>
+ * <tr>
+ * <td>"thead"</td>
+ * </tr>
+ * <tr>
+ * <td>"tr"width</td>
+ * </tr>
+ * <tr>
+ * <td>"tt"</td>
+ * </tr>
+ * <tr>
+ * <td>"u"</td>
+ * </tr>
+ * <tr>
+ * <td>"ul"</td>
+ * </tr>
+ * </table>
+ * All the supported HTML tags can use attribute "style" to specify HTML inline
+ * style information. The syntax of the style attribute value is CSS inline
+ * style syntax. The supported CSS properties are listed below:<br> 
+ * <b>Text and Fonts</b>
+ * <ul>
+ * <li>font-family</li>
+ * <li>font-size</li>
+ * <li>font-weight</li>
+ * <li>font-style</li>
+ * <li>line-height</li>
+ * <li>letter-spacing</li>
+ * <li>word-spacing</li>
+ * <li>text-align</li>
+ * <li>text-decoration</li>
+ * <li>text-indent</li>
+ * <li>text-transform</li>
+ * <li>vertical-align</li>
+ * </ul>
+ * <b>Colors and Backgrounds</b>
+ * <ul>
+ * <li>background-color</li>
+ * <li>background-image</li>
+ * <li>background-repeat</li>
+ * </ul>
+ * <b>The Box Model - dimensions, padding, margin and borders</b>
+ * <ul>
+ * <li>padding-top, padding-right, padding-bottom, padding-left</li>
+ * <li>border-top, border-right, border-bottom, border-left</li>
+ * <li>border-top-style, border-right-style, border-bottom-style,
+ * border-left-style</li>
+ * <li>border-top-color, border-right-color, border-bottom-color,
+ * border-left-color</li>
+ * <li>border-top-width, border-right-width, border-bottom-width,
+ * border-left-width</li>
+ * <li>margin-top, margin-right, margin-bottom, margin-left</li>
+ * </ul>
+ * <b>Positioning and Display</b>
+ * <ul>
+ * <li>display</li>
+ * <li>visibility</li>
+ * </ul>
+ * Please note: the CSS shorthand properties are not supported.
  */
 public class HTML2Content
 {
 
 	protected static final HashSet htmlBlockDisplay = new HashSet( );
-	
+
 	protected static final HashSet htmlInlineDisplay = new HashSet( );
 
 	protected static final HashMap textTypeMapping = new HashMap( );
-	
+
 	static
 	{
 		htmlInlineDisplay.add( "i" );
@@ -80,7 +254,7 @@ public class HTML2Content
 		htmlInlineDisplay.add( "sup" );
 		htmlInlineDisplay.add( "tt" );
 		htmlInlineDisplay.add( "u" );
-		htmlInlineDisplay.add("del");
+		htmlInlineDisplay.add( "del" );
 	}
 
 	static
@@ -169,7 +343,7 @@ public class HTML2Content
 			}
 			addChild( foreign, container );
 			processNodes( body, styleMap, container, null );
-			//formalizeInlineContainer( new ArrayList( ), foreign, container );
+			// formalizeInlineContainer( new ArrayList( ), foreign, container );
 		}
 	}
 
@@ -228,7 +402,8 @@ public class HTML2Content
 					label.setHyperlinkAction( action );
 				}
 			}
-			else if ( // supportedHTMLElementTags.contains(node.getNodeName().toUpperCase())
+			else if ( // supportedHTMLElementTags.contains(node.getNodeName().
+						// toUpperCase())
 			// &&
 			node.getNodeType( ) == Node.ELEMENT_NODE )
 			{
@@ -282,25 +457,25 @@ public class HTML2Content
 					CSSValueConstants.INLINE_VALUE );
 			label.setInlineStyle( inlineStyle );
 		}
-		else if ( tagName.toLowerCase( ).equals( "ul" ) || tagName.toLowerCase( ).equals( "ol" ))//$NON-NLS-1$
+		else if ( tagName.toLowerCase( ).equals( "ul" ) || tagName.toLowerCase( ).equals( "ol" ) )//$NON-NLS-1$
 		{
 			IReportContent report = content.getReportContent( );
-			ITableContent table =report.createTableContent( );
-			addChild(content, table);
+			ITableContent table = report.createTableContent( );
+			addChild( content, table );
 			Column column1 = new Column( report );
 			column1.setWidth( new DimensionType( 2, "em" ) );
 			table.addColumn( column1 );
-			column1 = new Column(report);
+			column1 = new Column( report );
 			table.addColumn( column1 );
 			handleStyle( ele, cssStyles, table );
 			processNodes( ele, cssStyles, table, action );
-			
+
 		}
 		else if ( tagName.toLowerCase( ).equals( "li" ) //$NON-NLS-1$
 				&& ele.getParentNode( ).getNodeType( ) == Node.ELEMENT_NODE )
 		{
 			IReportContent report = content.getReportContent( );
-			
+
 			IRowContent row = report.createRowContent( );
 			addChild( content, row );
 			handleStyle( ele, cssStyles, row );
@@ -313,17 +488,17 @@ public class HTML2Content
 					.getCSSEngine( ) );
 			style.setProperty( IStyle.STYLE_VERTICAL_ALIGN,
 					CSSValueConstants.TOP_VALUE );
-			style.setProperty(IStyle.STYLE_PADDING_BOTTOM, IStyle.NUMBER_0 );
-			style.setProperty(IStyle.STYLE_PADDING_LEFT, IStyle.NUMBER_0 );
-			style.setProperty(IStyle.STYLE_PADDING_RIGHT, IStyle.NUMBER_0 );
-			style.setProperty(IStyle.STYLE_PADDING_TOP, IStyle.NUMBER_0 );
+			style.setProperty( IStyle.STYLE_PADDING_BOTTOM, IStyle.NUMBER_0 );
+			style.setProperty( IStyle.STYLE_PADDING_LEFT, IStyle.NUMBER_0 );
+			style.setProperty( IStyle.STYLE_PADDING_RIGHT, IStyle.NUMBER_0 );
+			style.setProperty( IStyle.STYLE_PADDING_TOP, IStyle.NUMBER_0 );
 			ICellContent orderCell = report.createCellContent( );
 			orderCell.setRowSpan( 1 );
 			orderCell.setColumn( 0 );
 			orderCell.setColSpan( 1 );
 			orderCell.setInlineStyle( style );
 			addChild( row, orderCell );
-			TextContent text = (TextContent)report.createTextContent( );
+			TextContent text = (TextContent) report.createTextContent( );
 			addChild( orderCell, text );
 			if ( ele.getParentNode( ).getNodeName( ).equals( "ol" ) ) //$NON-NLS-1$
 			{
@@ -334,17 +509,16 @@ public class HTML2Content
 				text.setText( new String( new char[]{'\u2022'} ) );
 			}
 
-			
 			ICellContent childCell = report.createCellContent( );
 			childCell.setRowSpan( 1 );
 			childCell.setColumn( 1 );
 			childCell.setColSpan( 1 );
 			childCell.setInlineStyle( style );
 			addChild( row, childCell );
-			
+
 			processNodes( ele, cssStyles, childCell, action );
 		}
-		
+
 		else if ( tagName.toLowerCase( ).equals( "dd" ) || tagName.toLowerCase( ).equals( "dt" ) ) //$NON-NLS-1$ //$NON-NLS-2$
 		{
 			IContainerContent container = content.getReportContent( )
@@ -374,7 +548,7 @@ public class HTML2Content
 						.createContainerContent( );
 				childContainer.setInlineStyle( style );
 				addChild( container, childContainer );
-				
+
 				processNodes( ele, cssStyles, container, action );
 
 			}
@@ -493,7 +667,7 @@ public class HTML2Content
 		{
 			style.setDisplay( "block" ); //$NON-NLS-1$
 		}
-		else if ( htmlInlineDisplay.contains( tagName ) ) 
+		else if ( htmlInlineDisplay.contains( tagName ) )
 		{
 			style.setDisplay( "inline" ); //$NON-NLS-1$
 		}
@@ -512,6 +686,7 @@ public class HTML2Content
 
 	/**
 	 * Outputs the embed content. Currently only support flash.
+	 * 
 	 * @param ele
 	 * @param cssStyles
 	 * @param content
@@ -524,10 +699,11 @@ public class HTML2Content
 		{
 			outputFlash( ele, cssStyles, content );
 		}
-	}	
-	
+	}
+
 	/**
 	 * Outputs the flash.
+	 * 
 	 * @param ele
 	 * @param cssStyles
 	 * @param content
@@ -540,8 +716,8 @@ public class HTML2Content
 		{
 			IImageContent flash = content.getReportContent( )
 					.createImageContent( );
-			flash.setExtension(".swf");
-			flash.setMIMEType("application/x-shockwave-flash");
+			flash.setExtension( ".swf" );
+			flash.setMIMEType( "application/x-shockwave-flash" );
 			addChild( content, flash );
 			handleStyle( ele, cssStyles, flash );
 
@@ -590,18 +766,18 @@ public class HTML2Content
 			}
 		}
 	}
-	
+
 	private static IForeignContent getForeignRoot( IContent content )
 	{
-		while ( !(content instanceof IForeignContent ) )
+		while ( !( content instanceof IForeignContent ) )
 		{
-			content = (IContent)content.getParent();
+			content = (IContent) content.getParent( );
 			if ( content == null )
 				return null;
 		}
-		return (IForeignContent)content;
+		return (IForeignContent) content;
 	}
-	
+
 	/**
 	 * Outputs the image
 	 * 
