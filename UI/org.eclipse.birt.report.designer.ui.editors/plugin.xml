@@ -46,7 +46,7 @@
       <content-type
             default-charset="UTF-8"
             id="org.eclipse.birt.report.designer.ui.editors.reportdocument"
-            name="report document"
+            name="%contenttype.document"
             priority="normal">
          <describer
                class="org.eclipse.birt.report.designer.ui.editors.ReportDocumentDescript">
