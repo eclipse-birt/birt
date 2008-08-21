@@ -1680,7 +1680,7 @@ FormatStringPreferencePage.formatString.title=Format Zeichenfolge
 FormPage.Button.Add=&Hinzufügen
 FormPage.Button.AddWithDialog=&Hinzufügen...
 FormPage.Button.AddWithDialog.JAR=&Hinzufügen...
-FormPage.Button.AddWithDialog.JS=Hin&zufügen...
+FormPage.Button.AddWithDialog.JS=&Hinzufügen...
 FormPage.Button.Add.AggregateOn=Aggregat &hinzufügen
 FormPage.Button.AddWithDialog.AggregateOn=Aggregat &hinzufügen...
 FormPage.Button.Delete=&Entfernen
@@ -3114,7 +3114,7 @@ ReportPage.text.Add=&Hinzufügen...
 ReportPage.text.Browse=&Durchsuchen...
 ReportPage.title.Location=Speicherort:
 ReportPage.title.setPrewImg=Wählen Sie eine Bilddatei
-ReportPage.text.Resource.Add=&Hinzufügen...
+ReportPage.text.Resource.Add=&Durchsuchen...
 ReportPage.text.Thumbnail=&Miniatur...
 
 ###########################################################
@@ -3611,6 +3611,10 @@ TextEditDialog.toolTipText.delete=Löschen
 TextEditDialog.toolTipText.paste=Einfügen
 TextEditDialog.toolTipText.redo=Wiederherstellen
 TextEditDialog.toolTipText.undo=Rückgängig
+TextEditDialog.toolTipText.fx=Open expression builder
+TextEditDialog.action.item.formatDateTime=Format Datum/Uhrzeit
+TextEditDialog.action.item.formatNumber=Format Zahl
+TextEditDialog.action.item.formatString=Format Zeichenfolge
 
 ###########################################################
 #TextEditPart properties
@@ -3928,6 +3932,7 @@ ResourceSelectionValidator.ExtErrorSplitter=\ oder
 ###########################################################
 #GeneralPage
 GeneralPage.Library.Included=Bibliothek:
+GeneralPage.Library.Modified.Note=<form><p><span color="{0}">NOTE: This report item from the library has been modified. To restore the original library item, click on</span> <img href="{1}"/> <span color="{2}">"Restore Properties"</span></p></form>
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4335,6 +4340,8 @@ TableDragGuideTracker.Pixels=Pixel
 GeneralConfigurationBlock.message.general.description=Allgemeine Einstellungen für Report Designer.
 GeneralConfigurationBlock.button.text.enable.gradient=Verlaufsauswahl aktivieren
 GeneralConfigurationBlock.button.text.enable.animation=Animierte Auswahl aktivieren
+GeneralConfigurationBlock.group.label=Prompt
+GeneralConfigurationBlock.button.text.prompt=Show prompt after opening library file.
 
 
 ###########################################################
@@ -4347,6 +4354,7 @@ ReportDocumentEditor.2=Dokumentinfomationen
 ReportDocumentEditor.3=Name: 
 ReportDocumentEditor.4=Version: 
 ReportDocumentEditor.5=Seitenzähler: 
+ReportDocumentEditor.errorMessage=Error happened when open the document in editor.
 
 ###########################################################
 #Export Element Dialog

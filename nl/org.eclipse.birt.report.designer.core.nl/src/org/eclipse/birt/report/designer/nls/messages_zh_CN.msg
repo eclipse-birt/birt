@@ -1679,8 +1679,8 @@ FormatStringPreferencePage.formatString.title=字符串格式
 
 FormPage.Button.Add=添加(&A)
 FormPage.Button.AddWithDialog=添加(&A)...
-FormPage.Button.AddWithDialog.JAR=添加(&D)...
-FormPage.Button.AddWithDialog.JS=添加(&Z)...
+FormPage.Button.AddWithDialog.JAR=添加(&A)...
+FormPage.Button.AddWithDialog.JS=添加(&D)...
 FormPage.Button.Add.AggregateOn=添加聚合(&A)
 FormPage.Button.AddWithDialog.AggregateOn=添加聚合(&A)...
 FormPage.Button.Delete=删除(&R)
@@ -3114,7 +3114,7 @@ ReportPage.text.Add=添加(&A)...
 ReportPage.text.Browse=浏览(&B)...
 ReportPage.title.Location=位置:
 ReportPage.title.setPrewImg=选择图像文件
-ReportPage.text.Resource.Add=添加(&D)...
+ReportPage.text.Resource.Add=浏览(&B)...
 ReportPage.text.Thumbnail=缩略图(&H)...
 
 ###########################################################
@@ -3611,6 +3611,10 @@ TextEditDialog.toolTipText.delete=删除
 TextEditDialog.toolTipText.paste=粘贴
 TextEditDialog.toolTipText.redo=恢复
 TextEditDialog.toolTipText.undo=撤消
+TextEditDialog.toolTipText.fx=Open expression builder
+TextEditDialog.action.item.formatDateTime=日期时间格式
+TextEditDialog.action.item.formatNumber=数值格式
+TextEditDialog.action.item.formatString=字符串格式
 
 ###########################################################
 #TextEditPart properties
@@ -3928,6 +3932,7 @@ ResourceSelectionValidator.ExtErrorSplitter=\ 或
 ###########################################################
 #GeneralPage
 GeneralPage.Library.Included=库:
+GeneralPage.Library.Modified.Note=<form><p><span color="{0}">NOTE: This report item from the library has been modified. To restore the original library item, click on</span> <img href="{1}"/> <span color="{2}">"Restore Properties"</span></p></form>
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4335,6 +4340,8 @@ TableDragGuideTracker.Pixels=像素
 GeneralConfigurationBlock.message.general.description=报表设计器的常规设置
 GeneralConfigurationBlock.button.text.enable.gradient=启用渐变选择
 GeneralConfigurationBlock.button.text.enable.animation=启用动画选择
+GeneralConfigurationBlock.group.label=Prompt
+GeneralConfigurationBlock.button.text.prompt=Show prompt after opening library file.
 
 
 ###########################################################
@@ -4347,6 +4354,7 @@ ReportDocumentEditor.2=文档信息
 ReportDocumentEditor.3=名称: 
 ReportDocumentEditor.4=版本: 
 ReportDocumentEditor.5=页数: 
+ReportDocumentEditor.errorMessage=Error happened when open the document in editor.
 
 ###########################################################
 #Export Element Dialog

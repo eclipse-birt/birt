@@ -1679,8 +1679,8 @@ FormatStringPreferencePage.formatString.title=문자열 형식
 
 FormPage.Button.Add=추가(&A)
 FormPage.Button.AddWithDialog=추가(&A)...
-FormPage.Button.AddWithDialog.JAR=추가(&D)...
-FormPage.Button.AddWithDialog.JS=추가(&Z)...
+FormPage.Button.AddWithDialog.JAR=추가(&A)...
+FormPage.Button.AddWithDialog.JS=추가(&D)...
 FormPage.Button.Add.AggregateOn=집계 추가(&A)
 FormPage.Button.AddWithDialog.AggregateOn=집계 추가(&A)...
 FormPage.Button.Delete=제거(&R)
@@ -3114,7 +3114,7 @@ ReportPage.text.Add=추가(&A)...
 ReportPage.text.Browse=찾아보기(&B)...
 ReportPage.title.Location=위치:
 ReportPage.title.setPrewImg=이미지 파일 선택
-ReportPage.text.Resource.Add=추가(&D)...
+ReportPage.text.Resource.Add=찾아보기(&B)...
 ReportPage.text.Thumbnail=축소판 보기(H)...
 
 ###########################################################
@@ -3611,6 +3611,10 @@ TextEditDialog.toolTipText.delete=삭제
 TextEditDialog.toolTipText.paste=붙여넣기
 TextEditDialog.toolTipText.redo=다시 실행
 TextEditDialog.toolTipText.undo=실행 취소
+TextEditDialog.toolTipText.fx=Open expression builder
+TextEditDialog.action.item.formatDateTime=날짜 시간 형식
+TextEditDialog.action.item.formatNumber=숫자 형식
+TextEditDialog.action.item.formatString=문자열 형식
 
 ###########################################################
 #TextEditPart properties
@@ -3928,6 +3932,7 @@ ResourceSelectionValidator.ExtErrorSplitter=\ 또는
 ###########################################################
 #GeneralPage
 GeneralPage.Library.Included=라이브러리:
+GeneralPage.Library.Modified.Note=<form><p><span color="{0}">NOTE: This report item from the library has been modified. To restore the original library item, click on</span> <img href="{1}"/> <span color="{2}">"Restore Properties"</span></p></form>
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4335,6 +4340,8 @@ TableDragGuideTracker.Pixels=픽셀
 GeneralConfigurationBlock.message.general.description=보고서 디자이너에 대한 일반 설정
 GeneralConfigurationBlock.button.text.enable.gradient=그라데이션 사용 선택
 GeneralConfigurationBlock.button.text.enable.animation=애니메이션 사용 선택
+GeneralConfigurationBlock.group.label=Prompt
+GeneralConfigurationBlock.button.text.prompt=Show prompt after opening library file.
 
 
 ###########################################################
@@ -4347,6 +4354,7 @@ ReportDocumentEditor.2=문서 정보
 ReportDocumentEditor.3=이름: 
 ReportDocumentEditor.4=버전: 
 ReportDocumentEditor.5=페이지 수: 
+ReportDocumentEditor.errorMessage=Error happened when open the document in editor.
 
 ###########################################################
 #Export Element Dialog

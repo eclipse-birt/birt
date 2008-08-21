@@ -1679,8 +1679,8 @@ FormatStringPreferencePage.formatString.title=文字列の書式
 
 FormPage.Button.Add=追加(&A)
 FormPage.Button.AddWithDialog=追加(&A)...
-FormPage.Button.AddWithDialog.JAR=追加(&D)...
-FormPage.Button.AddWithDialog.JS=追加(&Z)...
+FormPage.Button.AddWithDialog.JAR=追加(&A)...
+FormPage.Button.AddWithDialog.JS=追加(&D)...
 FormPage.Button.Add.AggregateOn=集計の追加(&A)
 FormPage.Button.AddWithDialog.AggregateOn=集計の追加(&A)...
 FormPage.Button.Delete=削除(&R)
@@ -3114,7 +3114,7 @@ ReportPage.text.Add=追加(&A)...
 ReportPage.text.Browse=参照(&B)...
 ReportPage.title.Location=場所 :
 ReportPage.title.setPrewImg=イメージファイルの選択
-ReportPage.text.Resource.Add=追加(&D)...
+ReportPage.text.Resource.Add=参照(&B)...
 ReportPage.text.Thumbnail=サムネール(&H)...
 
 ###########################################################
@@ -3611,6 +3611,10 @@ TextEditDialog.toolTipText.delete=削除
 TextEditDialog.toolTipText.paste=貼り付け
 TextEditDialog.toolTipText.redo=やり直し
 TextEditDialog.toolTipText.undo=元に戻す
+TextEditDialog.toolTipText.fx=Open expression builder
+TextEditDialog.action.item.formatDateTime=日時の書式設定
+TextEditDialog.action.item.formatNumber=数値の書式設定
+TextEditDialog.action.item.formatString=文字列の書式
 
 ###########################################################
 #TextEditPart properties
@@ -3928,6 +3932,7 @@ ResourceSelectionValidator.ExtErrorSplitter=\ または
 ###########################################################
 #GeneralPage
 GeneralPage.Library.Included=ライブラリ :
+GeneralPage.Library.Modified.Note=<form><p><span color="{0}">NOTE: This report item from the library has been modified. To restore the original library item, click on</span> <img href="{1}"/> <span color="{2}">"Restore Properties"</span></p></form>
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4335,6 +4340,8 @@ TableDragGuideTracker.Pixels=ピクセル
 GeneralConfigurationBlock.message.general.description=レポートデザイナの一般的なオプションを設定します。
 GeneralConfigurationBlock.button.text.enable.gradient=グラデーションの選択を有効にする
 GeneralConfigurationBlock.button.text.enable.animation=アニメーションの選択を有効にする
+GeneralConfigurationBlock.group.label=Prompt
+GeneralConfigurationBlock.button.text.prompt=Show prompt after opening library file.
 
 
 ###########################################################
@@ -4347,6 +4354,7 @@ ReportDocumentEditor.2=文書の情報
 ReportDocumentEditor.3=名前 : 
 ReportDocumentEditor.4=バージョン : 
 ReportDocumentEditor.5=ページ数 : 
+ReportDocumentEditor.errorMessage=Error happened when open the document in editor.
 
 ###########################################################
 #Export Element Dialog

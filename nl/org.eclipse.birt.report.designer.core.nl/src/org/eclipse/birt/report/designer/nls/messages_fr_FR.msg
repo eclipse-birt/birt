@@ -1680,7 +1680,7 @@ FormatStringPreferencePage.formatString.title=Chaîne
 FormPage.Button.Add=&Ajouter
 FormPage.Button.AddWithDialog=&Ajouter...
 FormPage.Button.AddWithDialog.JAR=&Ajouter...
-FormPage.Button.AddWithDialog.JS=Ajouter(&z)...
+FormPage.Button.AddWithDialog.JS=&Ajouter...
 FormPage.Button.Add.AggregateOn=&Ajouter l'agrégation
 FormPage.Button.AddWithDialog.AggregateOn=&Ajouter l'agrégation...
 FormPage.Button.Delete=&Supprimer
@@ -3114,7 +3114,7 @@ ReportPage.text.Add=&Ajouter...
 ReportPage.text.Browse=& Parcourir...
 ReportPage.title.Location=Emplacement :
 ReportPage.title.setPrewImg=Sélectionner un fichier image
-ReportPage.text.Resource.Add=&Ajouter...
+ReportPage.text.Resource.Add=& Parcourir...
 ReportPage.text.Thumbnail=Miniat&ure...
 
 ###########################################################
@@ -3611,6 +3611,10 @@ TextEditDialog.toolTipText.delete=Supprimer
 TextEditDialog.toolTipText.paste=Coller
 TextEditDialog.toolTipText.redo=Rétablir
 TextEditDialog.toolTipText.undo=Annuler
+TextEditDialog.toolTipText.fx=Open expression builder
+TextEditDialog.action.item.formatDateTime=Date/heure
+TextEditDialog.action.item.formatNumber=Nombre
+TextEditDialog.action.item.formatString=Chaîne
 
 ###########################################################
 #TextEditPart properties
@@ -3928,6 +3932,7 @@ ResourceSelectionValidator.ExtErrorSplitter=\ ou
 ###########################################################
 #GeneralPage
 GeneralPage.Library.Included=Bibliothèque :
+GeneralPage.Library.Modified.Note=<form><p><span color="{0}">NOTE: This report item from the library has been modified. To restore the original library item, click on</span> <img href="{1}"/> <span color="{2}">"Restore Properties"</span></p></form>
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4335,6 +4340,8 @@ TableDragGuideTracker.Pixels=pixels
 GeneralConfigurationBlock.message.general.description=Paramètres généraux pour le concepteur d'états.
 GeneralConfigurationBlock.button.text.enable.gradient=Activer la sélection du dégradé
 GeneralConfigurationBlock.button.text.enable.animation=Activer la sélection des éléments animés
+GeneralConfigurationBlock.group.label=Prompt
+GeneralConfigurationBlock.button.text.prompt=Show prompt after opening library file.
 
 
 ###########################################################
@@ -4347,6 +4354,7 @@ ReportDocumentEditor.2=Informations sur le document
 ReportDocumentEditor.3=Nom : 
 ReportDocumentEditor.4=Version : 
 ReportDocumentEditor.5=Nombre de pages : 
+ReportDocumentEditor.errorMessage=Error happened when open the document in editor.
 
 ###########################################################
 #Export Element Dialog
