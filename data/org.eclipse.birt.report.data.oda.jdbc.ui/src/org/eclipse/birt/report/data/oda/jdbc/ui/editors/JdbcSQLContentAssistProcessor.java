@@ -37,7 +37,7 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
  * If both a schema and a table have the same name the results are
  * unpredictable.
  * 
- * @version $Revision: 1.15 $ $Date: 2007/02/01 10:58:58 $
+ * @version $Revision: 1.16 $ $Date: 2008/08/04 07:55:17 $
  */
 
 public class JdbcSQLContentAssistProcessor implements
@@ -365,7 +365,7 @@ public class JdbcSQLContentAssistProcessor implements
 		else
 		{
 			//just raad until we encounter something that is not a character
-			while ( startOffset > viewer.getTopIndexStartOffset( )
+			while ( startOffset >= viewer.getTopIndexStartOffset( )
 					&& viewer.getDocument( ).getChar( startOffset ) != '.'&& viewer.getDocument( ).getChar( startOffset )!=' ' )
 			{
 				startOffset--;

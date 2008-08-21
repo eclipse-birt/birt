@@ -11,7 +11,12 @@
 
 package org.eclipse.birt.report.data.oda.jdbc.ui.editors;
 
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.ColorManager;
+import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.TextAttribute;
+import org.eclipse.jface.text.contentassist.ContentAssistant;
+import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.presentation.IPresentationReconciler;
 import org.eclipse.jface.text.presentation.PresentationReconciler;
 import org.eclipse.jface.text.rules.DefaultDamagerRepairer;
@@ -21,18 +26,21 @@ import org.eclipse.jface.text.source.SourceViewerConfiguration;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.2 $ $Date: 2007/01/05 07:25:00 $
+ * @version $Revision: 1.2 $ $Date: 2007/02/01 10:58:58 $
  */
 
 public class SQLSourceViewerConfiguration extends SourceViewerConfiguration
 {
-
+	private static final TextAttribute quoteString = new TextAttribute( ColorManager.getColor(42, 0, 255) ) ;
+	private static final TextAttribute comment = new TextAttribute( ColorManager.getColor(63, 127, 95) ) ;
+	private DataSourceDesign dsd;
 	/**
 	 *  
 	 */
-	public SQLSourceViewerConfiguration( )
+	public SQLSourceViewerConfiguration( DataSourceDesign dsd )
 	{
 		super( );
+		this.dsd = dsd;
 	}
 
 	/*
@@ -44,18 +52,44 @@ public class SQLSourceViewerConfiguration extends SourceViewerConfiguration
 			ISourceViewer sourceViewer )
 	{
 		PresentationReconciler reconciler = new PresentationReconciler( );
-		DefaultDamagerRepairer df = new DefaultDamagerRepairer( new SQLKeywordScanner( ) );
-		reconciler.setDamager( df, IDocument.DEFAULT_CONTENT_TYPE );
-		reconciler.setRepairer( df, IDocument.DEFAULT_CONTENT_TYPE );
-		df = new DefaultDamagerRepairer( new SQLCommentScanner( ) );
-		reconciler.setDamager( df, SQLPartitionScanner.SINGLE_LINE_COMMENT1 );
-		reconciler.setRepairer( df, SQLPartitionScanner.SINGLE_LINE_COMMENT1 );
-		df = new DefaultDamagerRepairer( new SQLCommentScanner( ) );
-		reconciler.setDamager( df, SQLPartitionScanner.SINGLE_LINE_COMMENT2 );
-		reconciler.setRepairer( df, SQLPartitionScanner.SINGLE_LINE_COMMENT2 );
-		df = new DefaultDamagerRepairer( new SQLCommentScanner( ) );
-		reconciler.setDamager( df, SQLPartitionScanner.MULTI_LINE_COMMENT );
-		reconciler.setRepairer( df, SQLPartitionScanner.MULTI_LINE_COMMENT );
+		
+		NonRuleBasedDamagerRepairer dr = new NonRuleBasedDamagerRepairer( quoteString );
+		reconciler.setDamager( dr, SQLPartitionScanner.QUOTE_STRING );
+		reconciler.setRepairer( dr, SQLPartitionScanner.QUOTE_STRING );
+		
+		
+		dr = new NonRuleBasedDamagerRepairer( comment );
+		reconciler.setDamager( dr, SQLPartitionScanner.COMMENT );
+		reconciler.setRepairer( dr, SQLPartitionScanner.COMMENT );
+		
+		
+		DefaultDamagerRepairer  ddr = new DefaultDamagerRepairer( new SQLKeywordScanner( ) );
+		reconciler.setDamager( ddr, IDocument.DEFAULT_CONTENT_TYPE );
+		reconciler.setRepairer( ddr, IDocument.DEFAULT_CONTENT_TYPE );
+
 		return reconciler;
+	}
+
+	@Override
+	public String[] getConfiguredContentTypes( ISourceViewer sourceViewer )
+	{
+		return new String[]{
+				SQLPartitionScanner.QUOTE_STRING,
+				SQLPartitionScanner.COMMENT,
+				IDocument.DEFAULT_CONTENT_TYPE };
+	}
+	
+
+	public IContentAssistant getContentAssistant( ISourceViewer sourceViewer )
+	{
+		ContentAssistant assistant = new ContentAssistant( );
+		JdbcSQLContentAssistProcessor contentAssist = new JdbcSQLContentAssistProcessor( );
+		contentAssist.setDataSourceHandle( dsd );
+		assistant.setContentAssistProcessor( contentAssist,
+				IDocument.DEFAULT_CONTENT_TYPE );
+		assistant.enableAutoActivation( true );
+		assistant.setAutoActivationDelay( 500 );
+		assistant.setProposalPopupOrientation( IContentAssistant.PROPOSAL_OVERLAY );
+		return assistant;
 	}
 }

@@ -17,20 +17,20 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.util.ColorManager;
 import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
+import org.eclipse.jface.text.rules.IWhitespaceDetector;
 import org.eclipse.jface.text.rules.RuleBasedScanner;
-import org.eclipse.jface.text.rules.SingleLineRule;
 import org.eclipse.jface.text.rules.Token;
+import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.swt.SWT;
 
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.2 $ $Date: 2007/01/05 07:25:00 $
+ * @version $Revision: 1.2 $ $Date: 2007/02/01 10:58:58 $
  */
 
 public class SQLKeywordScanner extends RuleBasedScanner implements ISQLSyntax
 {
-
 	/**
 	 *  
 	 */
@@ -38,20 +38,24 @@ public class SQLKeywordScanner extends RuleBasedScanner implements ISQLSyntax
 	{
 		super( );
 		IToken sqlKeywordsToken = new Token( new TextAttribute( ColorManager.getColor(127, 0, 85), null, SWT.BOLD ) );
-		IToken string = new Token( new TextAttribute( ColorManager.getColor(42, 0, 255) ) );
-
 		ArrayList rules = new ArrayList( );
 		rules.add( new SQLKeywordRule( sqlKeywordsToken, reservedwords ) );
 		rules.add( new SQLKeywordRule( sqlKeywordsToken, types ) );
 		rules.add( new SQLKeywordRule( sqlKeywordsToken, constants ) );
 		rules.add( new SQLKeywordRule( sqlKeywordsToken, functions ) );
 		rules.add( new SQLKeywordRule( sqlKeywordsToken, predicates ) );
+		
+		// Add generic whitespace rule.
+		rules.add( new WhitespaceRule( new IWhitespaceDetector( ) {
 
-		//Add rule for string and character literals
-		rules.add( new SingleLineRule( "\"", "\"", string, '\\' ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		rules.add( new SingleLineRule( "'", "'", string, '\\' ) ); //$NON-NLS-1$ //$NON-NLS-2$
+			public boolean isWhitespace( char c )
+			{
+				return Character.isWhitespace( c );
+			}
+		} ) );
 
 		setRules( (IRule[]) rules.toArray( new IRule[rules.size( )] ) );
+		this.setDefaultReturnToken( new Token( new TextAttribute( ColorManager.getColor(0, 0, 0) )));
 	}
 
 }

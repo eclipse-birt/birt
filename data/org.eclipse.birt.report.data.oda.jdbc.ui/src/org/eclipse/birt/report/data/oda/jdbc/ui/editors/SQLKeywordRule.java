@@ -19,7 +19,7 @@ import org.eclipse.jface.text.rules.Token;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.2 $ $Date: 2007/01/05 07:25:00 $
+ * @version $Revision: 1.3 $ $Date: 2007/02/01 10:58:58 $
  */
 
 public class SQLKeywordRule implements IPredicateRule
@@ -27,16 +27,7 @@ public class SQLKeywordRule implements IPredicateRule
 
 	protected IToken token = null;
 
-	protected String[] keywords = {
-			"select", //$NON-NLS-1$
-			"from", //$NON-NLS-1$
-			"where", //$NON-NLS-1$
-			"group by", //$NON-NLS-1$
-			"order by", //$NON-NLS-1$
-			"having", //$NON-NLS-1$
-			"compute", //$NON-NLS-1$
-			"selecting" //$NON-NLS-1$
-	};
+	protected String[] keywords;
 
 	StringBuffer buf = null;
 

@@ -40,6 +40,7 @@ import org.eclipse.jface.text.rules.FastPartitioner;
 import org.eclipse.jface.text.source.CompositeRuler;
 import org.eclipse.jface.text.source.LineNumberRulerColumn;
 import org.eclipse.jface.text.source.SourceViewer;
+import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -65,7 +66,6 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.TypedEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -91,7 +91,6 @@ import org.eclipse.ui.PlatformUI;
 
 public class SQLDataSetEditorPage extends DataSetWizardPage
 {
-
 	// composite in editor page
 	private Document doc = null;
 	private SourceViewer viewer = null;
@@ -103,7 +102,6 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private Tree availableDbObjectsTree = null;
 	private Button identifierQuoteStringCheckBox = null;
 	private Button showSystemTableCheckBox = null;
-	private JdbcSQLSourceViewerConfiguration sourceViewerConfiguration = null;
 	private DataSetDesign dataSetDesign;
 
 	private static String DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.new.query" );//$NON-NLS-1$	
@@ -348,8 +346,11 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 			public void mouseDoubleClick( MouseEvent e )
 			{
-				populateEventData( e );
-				insertText( (String) e.data );
+				String text = getTextToInsert( );
+				if ( text.length( ) > 0 )
+				{
+					insertText( text );
+				}
 			}
 		} );
 
@@ -700,7 +701,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	/**
 	 * Adds drag support to tree..Must set tree before execution.
 	 */
-	public void addDragSupportToTree( )
+	private void addDragSupportToTree( )
 	{
 		DragSource dragSource = new DragSource( availableDbObjectsTree,
 				DND.DROP_COPY );
@@ -709,21 +710,15 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		} );
 		dragSource.addDragListener( new DragSourceAdapter( ) {
 
+			private String textToInsert;
+			
 			public void dragStart( DragSourceEvent event )
 			{
-				TreeItem[] selection = availableDbObjectsTree.getSelection( );
 				event.doit = false;
-				if ( selection != null && selection.length > 0 )
+				this.textToInsert = getTextToInsert( );
+				if ( textToInsert.length( ) > 0 )
 				{
-					for ( TreeItem item : selection )
-					{
-						IDBNode dbNode = (IDBNode) item.getData( );
-						if ( dbNode.getQualifiedNameInSQL( identifierQuoteStringCheckBox.getSelection( ) ) != null )
-						{
-							event.doit = true;
-							break;
-						}
-					}
+					event.doit = true;
 				}
 			}
 
@@ -739,23 +734,18 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 				if ( TextTransfer.getInstance( )
 						.isSupportedType( event.dataType ) )
 				{
-					populateEventData( event );
+					event.data = textToInsert;
 				}
 			}
 		} );
 	}
 
-	/**
-	 * 
-	 * @param event
-	 */
-	private void populateEventData( TypedEvent event )
+	private String getTextToInsert( )
 	{
 		TreeItem[] selection = availableDbObjectsTree.getSelection( );
-		event.data = "";
+		StringBuffer data = new StringBuffer( );
 		if ( selection != null && selection.length > 0 )
 		{
-			StringBuffer data = new StringBuffer( );
 			for ( int i = 0; i < selection.length; i++ )
 			{
 				IDBNode dbNode = (IDBNode) selection[i].getData( );
@@ -765,15 +755,16 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 					data.append( sql ).append( "," );
 				}
 			}
-			String result = data.toString( );
-			if ( result.length( ) > 0 )
-			{
-				// remove the last ","
-				result = result.substring( 0, result.length( ) - 1 );
-			}
-			event.data = result.toString( );
 		}
+		String result = data.toString( );
+		if ( result.length( ) > 0 )
+		{
+			// remove the last ","
+			result = result.substring( 0, result.length( ) - 1 );
+		}
+		return result;
 	}
+	
 
 	/**
 	 * Adds drop support to viewer.Must set viewer before execution.
@@ -853,15 +844,14 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		ruler.addDecorator( 0, lineNumbers );
 		viewer = new SourceViewer( composite, ruler, SWT.H_SCROLL
 				| SWT.V_SCROLL );
-		sourceViewerConfiguration = new JdbcSQLSourceViewerConfiguration( );
-		viewer.configure( sourceViewerConfiguration );
+		SourceViewerConfiguration svc = new SQLSourceViewerConfiguration( dataSetDesign.getDataSourceDesign( ) );
+		viewer.configure( svc );
 
 		doc = new Document( getQueryText( ) );
 		FastPartitioner partitioner = new FastPartitioner( new SQLPartitionScanner( ),
 				new String[]{
-						SQLPartitionScanner.SINGLE_LINE_COMMENT1,
-						SQLPartitionScanner.SINGLE_LINE_COMMENT2,
-						SQLPartitionScanner.MULTI_LINE_COMMENT,
+						SQLPartitionScanner.QUOTE_STRING,
+						SQLPartitionScanner.COMMENT,
 						IDocument.DEFAULT_CONTENT_TYPE
 				} );
 		partitioner.connect( doc );
@@ -884,7 +874,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		attachMenus( viewer );
 
 		GridData data = new GridData( GridData.FILL_BOTH );
-		data.minimumWidth = 500;
+		data.widthHint = 500;
 		viewer.getControl( ).setLayoutData( data );
 
 		// Add drop support to the viewer
@@ -921,12 +911,11 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 			public void keyReleased( KeyEvent e )
 			{
-				// do nothing
 			}
 		} );
 		return composite;
 	}
-
+    
 	/**
 	 * 
 	 * @param viewer
