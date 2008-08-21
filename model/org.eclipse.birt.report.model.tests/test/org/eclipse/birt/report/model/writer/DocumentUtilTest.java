@@ -611,10 +611,27 @@ public class DocumentUtilTest extends BaseTestCase
 		// flatten table with library
 
 		openDesign( "DocumentUtilTest_PageBreakInterval_1.xml" ); //$NON-NLS-1$
-		
+
 		serializeDocument( );
-		
+
 		assertTrue( compareFile( "DocumentUtilTest_PageBreakInterval_golden_1.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests variable elements with the library.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testVariableElements( ) throws Exception
+	{
+		// flatten variable elements with the library
+		
+		openDesign( "DocumentUtilTest_16.xml" ); //$NON-NLS-1$
+
+		serializeDocument( );
+
+		saveOutputFile( "DocumentUtilTest_golden_16.xml" ); //$NON-NLS-1$
 	}
 
 	/*

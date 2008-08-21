@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.api.util;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.util.DimensionValueUtil;
 
 import com.ibm.icu.util.ULocale;

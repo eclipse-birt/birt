@@ -219,8 +219,11 @@ public class StructureRefUtil
 		if ( name == null || namespace == null )
 			return name;
 
-		int index = name.indexOf( namespace );
-		if ( index == -1 )
+		String tmpNamespace = StringUtil.extractNamespace( name );
+		if ( tmpNamespace == null )
+			return name;
+
+		if ( !namespace.equalsIgnoreCase( tmpNamespace ) )
 			return name;
 
 		return StringUtil.extractName( name );

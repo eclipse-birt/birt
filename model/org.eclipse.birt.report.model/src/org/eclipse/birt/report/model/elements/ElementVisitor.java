@@ -705,6 +705,7 @@ public class ElementVisitor
 
 	public void visitAccessControl( AccessControl obj )
 	{
+		visitContentElement( obj );
 	}
 
 	/**
@@ -716,6 +717,7 @@ public class ElementVisitor
 
 	public void visitValueAccessControl( ValueAccessControl obj )
 	{
+		visitContentElement( obj );
 	}
 
 	/**
@@ -870,7 +872,7 @@ public class ElementVisitor
 	 */
 	public void visitMemberValue( MemberValue obj )
 	{
-		// do nothing
+		visitContentElement( obj );
 	}
 
 	/**
@@ -879,10 +881,10 @@ public class ElementVisitor
 	 * @param obj
 	 *            the filter condition element to traverse
 	 */
-	
+
 	public void visitFilterConditionElement( FilterConditionElement obj )
 	{
-		// do nothing
+		visitContentElement( obj );
 	}
 
 	/**
@@ -893,7 +895,7 @@ public class ElementVisitor
 	 */
 	public void visitSortElement( SortElement obj )
 	{
-		// do nothing
+		visitContentElement( obj );
 	}
 
 	/**
@@ -902,33 +904,45 @@ public class ElementVisitor
 	 * @param obj
 	 *            the multiple view element
 	 */
-	 
+
 	public void visitMultiView( MultiViews obj )
 	{
 		visitDesignElement( obj );
 	}
-	
+
 	/**
 	 * Visits the variable element.
 	 * 
 	 * @param obj
 	 *            the variable element to traverse
 	 */
-	
+
 	public void visitVariableElement( VariableElement obj )
 	{
-		// do nothing
+		visitContentElement( obj );
 	}
-	
+
 	/**
 	 * Visits the data group element.
 	 * 
 	 * @param obj
 	 *            the data group element to traverse
 	 */
-	
+
 	public void visitDataGroup( DataGroup obj )
 	{
-		// do nothing
+		visitContentElement( obj );
+	}
+
+	/**
+	 * Visits the content element.
+	 * 
+	 * @param obj
+	 *            the content element to traverse
+	 */
+
+	protected void visitContentElement( ContentElement obj )
+	{
+
 	}
 }

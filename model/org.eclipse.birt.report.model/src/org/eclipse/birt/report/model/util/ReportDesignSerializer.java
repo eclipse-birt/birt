@@ -61,14 +61,12 @@ import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
-import org.eclipse.birt.report.model.elements.AccessControl;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.DataSource;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
-import org.eclipse.birt.report.model.elements.FilterConditionElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.MasterPage;
@@ -76,14 +74,12 @@ import org.eclipse.birt.report.model.elements.MemberValue;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
-import org.eclipse.birt.report.model.elements.SortElement;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
-import org.eclipse.birt.report.model.elements.ValueAccessControl;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
@@ -2608,30 +2604,6 @@ public class ReportDesignSerializer extends ElementVisitor
 	}
 
 	/**
-	 * Visits the filter condition element.
-	 * 
-	 * @param obj
-	 *            the filter condition element to traverse
-	 */
-
-	public void visitFilterConditionElement( FilterConditionElement obj )
-	{
-		visitDesignElement( obj );
-	}
-
-	/**
-	 * Visits the sort element.
-	 * 
-	 * @param obj
-	 *            the sort element to traverse
-	 */
-
-	public void visitSortElement( SortElement obj )
-	{
-		visitDesignElement( obj );
-	}
-
-	/**
 	 * Creates a design element specified by the element type name. Element type
 	 * names are defined in rom.def or extension elements. They are managed by
 	 * the meta-data system.
@@ -2662,8 +2634,9 @@ public class ReportDesignSerializer extends ElementVisitor
 				elementTypeName );
 		if ( elemDefn != null )
 		{
-			DesignElement element = ElementFactoryUtil.newElementExceptExtendedItem( targetDesign,
-					elementTypeName, name );
+			DesignElement element = ElementFactoryUtil
+					.newElementExceptExtendedItem( targetDesign,
+							elementTypeName, name );
 			if ( element == null )
 				return null;
 			return element.getHandle( targetDesign );
@@ -2859,24 +2832,11 @@ public class ReportDesignSerializer extends ElementVisitor
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitAccessControl
-	 * (org.eclipse.birt.report.model.elements.AccessControl)
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitContentElement
+	 * (org.eclipse.birt.report.model.elements.ContentElement)
 	 */
 
-	public void visitAccessControl( AccessControl obj )
-	{
-		visitDesignElement( obj );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitValueAccessControl
-	 * (org.eclipse.birt.report.model.elements.ValueAccessControl)
-	 */
-
-	public void visitValueAccessControl( ValueAccessControl obj )
+	protected void visitContentElement( ContentElement obj )
 	{
 		visitDesignElement( obj );
 	}
