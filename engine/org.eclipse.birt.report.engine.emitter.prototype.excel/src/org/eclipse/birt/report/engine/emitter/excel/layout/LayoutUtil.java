@@ -135,6 +135,10 @@ public class LayoutUtil
 			index[index.length - 1] = index[index.length - 1] + left; 
 			return new DefaultTableInfo(index);
 		}
+		else if(left < 0 )
+		{
+			return new DefaultTableInfo(split(width, colcount));
+		}
 		else if(left > 0 && unmount.size( ) > 0)
 		{
 			int[] size = split(left, unmount.size());			
