@@ -1,6 +1,7 @@
 package org.eclipse.birt.report.engine.api;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IResultIterator;
 
 /**
  * An iterator on a result set from a prepared and executed query.
@@ -58,4 +59,11 @@ public interface IDataIterator
 	 * @throws BirtException
 	 */
 	public boolean isEmpty( ) throws BirtException;
+	
+	/**
+	 * return the IResultIterator directly
+	 * 
+	 * @return the IResultIterator
+	 */
+	public IResultIterator getResultIterator( );
 }

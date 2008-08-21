@@ -104,4 +104,9 @@ public class DataIterator implements IDataIterator
 	{
 		return iterator.isEmpty( );
 	}
+	
+	public IResultIterator getResultIterator( )
+	{
+		return this.iterator;
+	}
 }
