@@ -361,9 +361,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 			boolean htmlPagination = htmlRenderOption.getHtmlPagination( );
 			if ( !htmlPagination )
 			{
-				return true;
+				return false;
 			}
-			return false;
+			return true;
 		}
 
 		protected int getPageCount( )
