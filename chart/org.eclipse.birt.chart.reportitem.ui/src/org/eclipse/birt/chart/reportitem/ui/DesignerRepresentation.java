@@ -483,9 +483,7 @@ public final class DesignerRepresentation extends Figure
 			// Set direction from model to chart runtime context
 			rtc.setRightToLeft( crii.getHandle( ).isDirectionRTL( ) );
 			// Set text direction from StyleHandle to chart runtime context
-			rtc.setRightToLeftText( DesignChoiceConstants.BIDI_DIRECTION_RTL.equals( crii.getHandle( )
-					.getPrivateStyle( )
-					.getTextDirection( ) ) );
+			rtc.setRightToLeftText( crii.isBIDIDirectionRTL( ) );
 
 			rtc.setResourceFinder( crii );
 			rtc.setExternalizer( crii );

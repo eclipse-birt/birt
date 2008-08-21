@@ -207,9 +207,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 
 			// Set direction from model to chart
 			context.setRtL( extendedHandle.isDirectionRTL( ) );
-			context.setTextRtL( DesignChoiceConstants.BIDI_DIRECTION_RTL.equals( extendedHandle.getPrivateStyle( )
-					.getTextDirection( ) ) );
-			
+			context.setTextRtL( crii.isBIDIDirectionRTL( ) );
 			context.setResourceFinder( crii );
 			context.setExternalizer( crii );
 			
