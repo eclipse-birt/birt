@@ -251,7 +251,14 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 				catch ( Exception _ )
 				{
 					// try with "file" prefix
-					urlString = "file:///" + urlString; //$NON-NLS-1$
+					if ( urlString != null && urlString.startsWith( "/" ) ) //$NON-NLS-1$
+					{
+						urlString = "file://" + urlString; //$NON-NLS-1$
+					}
+					else
+					{
+						urlString = "file:" + urlString; //$NON-NLS-1$
+					}
 
 					try
 					{
