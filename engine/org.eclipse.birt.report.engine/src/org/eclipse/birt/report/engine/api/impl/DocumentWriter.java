@@ -19,14 +19,15 @@ import org.eclipse.birt.core.archive.compound.IArchiveFile;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDocumentWriter;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.ir.EngineIRWriter;
+import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 public class DocumentWriter implements IDocumentWriter
 {
 
 	private IArchiveFile archive;
-
-	private IReportRunnable runnable;
 
 	public DocumentWriter( IArchiveFile file )
 	{
@@ -35,8 +36,6 @@ public class DocumentWriter implements IDocumentWriter
 
 	public void setRunnable( IReportRunnable runnable ) throws EngineException
 	{
-		this.runnable = runnable;
-
 		if ( archive == null || runnable == null )
 			return;
 
@@ -45,10 +44,27 @@ public class DocumentWriter implements IDocumentWriter
 			ArchiveWriter writer = new ArchiveWriter( archive );
 			ReportDesignHandle design = (ReportDesignHandle) runnable
 					.getDesignHandle( );
+			
+			// rewrite design
 			RAOutputStream out = writer
 					.createRandomAccessStream( ReportDocumentConstants.DESIGN_STREAM );
 			org.eclipse.birt.report.model.api.util.DocumentUtil.serialize(
 					design, out );
+			out.close( );
+			
+			// rewrite original design
+			out = writer
+					.createRandomAccessStream( ReportDocumentConstants.ORIGINAL_DESIGN_STREAM );
+			org.eclipse.birt.report.model.api.util.DocumentUtil.serialize(
+					design, out );
+			out.close( );
+			
+			// rewrite internal report
+			Report report = new ReportParser( )
+					.parse( (ReportDesignHandle) runnable.getDesignHandle( ) );
+			out = writer
+					.createRandomAccessStream( ReportDocumentConstants.DESIGN_IR_STREAM );
+			new EngineIRWriter( ).write( out, report );
 			out.close( );
 		}
 		catch ( IOException ex )
