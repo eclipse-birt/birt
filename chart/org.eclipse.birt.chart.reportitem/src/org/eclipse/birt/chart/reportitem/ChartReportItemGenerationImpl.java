@@ -115,7 +115,7 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 	public void onRowSets( IBaseResultSet[] results ) throws BirtException
 	{
 		// catch unwanted null handle case
-		if ( modelHandle == null )
+		if ( modelHandle == null || cm == null )
 		{
 			return;
 		}
