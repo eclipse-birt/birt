@@ -490,7 +490,7 @@ public class ComputedColumnTest extends APITestCase
 	 */
 	public void testNewAggregationOnComputedColumn( ) throws Exception
 	{
-		ccName = new String[] { "cc1", "cc2", "cc3", "cc4" };
+		ccName = new String[] { "cc1", "cc2", "cc3", "cc4", "cc5" };
 		ccExpr = new String[] {
 				"row.COL0+row.COL1",
 				"Total.sum(row.COL1+row.cc1)",
@@ -517,14 +517,16 @@ public class ComputedColumnTest extends APITestCase
 				"SUM",
 				null,
 				new ArrayList( ) );
+		ComputedColumn cc5 = new ComputedColumn("cc5", "Total.sum(row.COL1+row.COL2+row.COL3+row.COL0)");
 		
 		((BaseDataSetDesign) this.dataSet).addComputedColumn( cc1 );
 		((BaseDataSetDesign) this.dataSet).addComputedColumn( cc2 );
 		((BaseDataSetDesign) this.dataSet).addComputedColumn( cc3 );
 		((BaseDataSetDesign) this.dataSet).addComputedColumn( cc31 );
 		((BaseDataSetDesign) this.dataSet).addComputedColumn( cc4 );
+		((BaseDataSetDesign) this.dataSet).addComputedColumn( cc5 );
 
-		String[] bindingNameRow = new String[8];
+		String[] bindingNameRow = new String[9];
 		bindingNameRow[0] = "ROW_COL0";
 		bindingNameRow[1] = "ROW_COL1";
 		bindingNameRow[2] = "ROW_COL2";
@@ -533,6 +535,7 @@ public class ComputedColumnTest extends APITestCase
 		bindingNameRow[5] = "ROW_cc2";
 		bindingNameRow[6] = "ROW_cc3";
 		bindingNameRow[7] = "ROW_cc4";
+		bindingNameRow[8] = "ROW_cc5";
 
 		ScriptExpression[] bindingExprRow = new ScriptExpression[] {
 				new ScriptExpression("dataSetRow." + "COL0", 0),
@@ -542,7 +545,8 @@ public class ComputedColumnTest extends APITestCase
 				new ScriptExpression("dataSetRow." + ccName[0], 0),
 				new ScriptExpression("dataSetRow." + ccName[1], 0),
 				new ScriptExpression("dataSetRow." + ccName[2], 0),
-				new ScriptExpression("dataSetRow." + ccName[3], 0) };
+				new ScriptExpression("dataSetRow." + ccName[3], 0),
+				new ScriptExpression("dataSetRow." + ccName[4], 0)};
 
 		IResultIterator resultIt = this.executeQuery(this.createQuery(
 				null, null, null, null, null,

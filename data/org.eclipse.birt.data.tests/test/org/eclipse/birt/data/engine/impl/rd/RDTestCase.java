@@ -116,7 +116,21 @@ public abstract class RDTestCase extends APITestCase
 			if( !file.delete( ))
 				file.deleteOnExit( );
 		}
-		
+		if ( myGenDataEngine != null )
+		{
+			myGenDataEngine.shutdown( );
+			myGenDataEngine = null;
+		}
+		if ( myPreDataEngine != null )
+		{
+			myPreDataEngine.shutdown( );
+			myPreDataEngine = null;
+		}
+		if ( myPreDataEngine2 != null )
+		{
+			myPreDataEngine2.shutdown( );
+			myPreDataEngine2 = null;
+		}
 	}
 	
 	/**

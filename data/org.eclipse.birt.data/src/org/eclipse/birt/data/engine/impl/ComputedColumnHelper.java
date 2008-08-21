@@ -375,6 +375,11 @@ class ComputedColumnHelperInstance
 			// and assign it the computed value
 			for ( int i = 0; i < computedColumn.length; i++ )
 			{
+				if( isAggrComputedColumn( computedColumn[i] ))
+				{
+					continue;
+				}
+
 				if ( computedColumn[i].getExpression( ) != null )
 				{
 					Object value = null;
@@ -447,6 +452,11 @@ class ComputedColumnHelperInstance
 		}
 		logger.exiting( ComputedColumnHelper.class.getName( ), "process" );
 		return true;
+	}
+	
+	private boolean isAggrComputedColumn( IComputedColumn cc )
+	{
+		return cc.getAggregateFunction( ) != null;
 	}
 
 	/**
