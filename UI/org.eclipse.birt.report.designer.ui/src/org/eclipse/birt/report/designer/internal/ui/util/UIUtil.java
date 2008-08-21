@@ -1768,6 +1768,11 @@ public class UIUtil
 		return list;
 	}
 
+	/**
+	 * @deprecated DEUtil.getElementSupportList will sort elements
+	 * @param elements
+	 * @return
+	 */
 	private static List<IElementDefn> sortElements( List<IElementDefn> elements )
 	{
 		CategorizedElementSorter<IElementDefn> elementSorter = new CategorizedElementSorter<IElementDefn>( );
@@ -1838,7 +1843,7 @@ public class UIUtil
 
 		list.removeAll( getInvisibleExtensionElements( ) );
 
-		return sortElements( list );
+		return list;
 	}
 
 	/**
@@ -1854,7 +1859,7 @@ public class UIUtil
 
 		list.removeAll( getInvisibleExtensionElements( ) );
 
-		return sortElements( list );
+		return list;
 	}
 
 	public static void doFinishSava( ModuleHandle model )

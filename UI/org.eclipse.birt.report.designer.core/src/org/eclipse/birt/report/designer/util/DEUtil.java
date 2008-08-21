@@ -96,6 +96,7 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
+import com.ibm.icu.text.Collator;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.GregorianCalendar;
 
@@ -130,6 +131,8 @@ public class DEUtil
 	private static final String XMLDATE_PATTERN_WITH_OUT_SECOND = "yyyy-MM-dd'T'HH:mm"; //$NON-NLS-1$
 	private static final String XMLDATE_PATTERN_WITH_OUT_MILLISECOND = "yyyy-MM-dd'T'HH:mm:ss"; //$NON-NLS-1$
 
+	private static List<String> paletteElementList = new ArrayList<String>( );
+
 	/**
 	 * The class info of total
 	 */
@@ -150,6 +153,15 @@ public class DEUtil
 		// filter generic Extended item and AutoText item.
 		notSupportList.add( getMetaDataDictionary( ).getElement( ReportDesignConstants.AUTOTEXT_ITEM ) );
 		notSupportList.add( getMetaDataDictionary( ).getElement( ReportDesignConstants.EXTENDED_ITEM ) );
+
+		paletteElementList.add( IReportElementConstants.REPORT_ELEMENT_LABEL );
+		paletteElementList.add( IReportElementConstants.REPORT_ELEMENT_TEXT );
+		paletteElementList.add( IReportElementConstants.REPORT_ELEMENT_TEXTDATA );
+		paletteElementList.add( IReportElementConstants.REPORT_ELEMENT_DATA );
+		paletteElementList.add( IReportElementConstants.REPORT_ELEMENT_IMAGE );
+		paletteElementList.add( IReportElementConstants.REPORT_ELEMENT_GRID );
+		paletteElementList.add( IReportElementConstants.REPORT_ELEMENT_LIST );
+		paletteElementList.add( IReportElementConstants.REPORT_ELEMENT_TABLE );
 	}
 
 	/**
@@ -179,13 +191,38 @@ public class DEUtil
 
 		// Append to validate the type according to the context
 		List<IElementDefn> availableList = new ArrayList<IElementDefn>( );
-		for ( int i = 0; i < list.size( ); i++ )
+		List<IElementDefn> extendedList = new ArrayList<IElementDefn>( );
+		for ( IElementDefn elementDefn : list )
 		{
-			if ( parent.canContain( slotId, list.get( i ).getName( ) ) )
+			if ( parent.canContain( slotId, elementDefn.getName( ) ) )
 			{
-				availableList.add( list.get( i ) );
+				if ( elementDefn.isExtendedElement( ) )
+				{
+					extendedList.add( elementDefn );
+				}
+				else
+				{
+					availableList.add( elementDefn );
+				}
 			}
 		}
+		Collections.sort( availableList, new Comparator<IElementDefn>( ) {
+
+			public int compare( IElementDefn o1, IElementDefn o2 )
+			{
+				return paletteElementList.indexOf( o1.getName( ) )
+						- paletteElementList.indexOf( o2.getName( ) );
+			}
+		} );
+		Collections.sort( extendedList, new Comparator<IElementDefn>( ) {
+
+			public int compare( IElementDefn o1, IElementDefn o2 )
+			{
+				return Collator.getInstance( ).compare( o1.getName( ),
+						o2.getName( ) );
+			}
+		} );
+		availableList.addAll( extendedList );
 		return availableList;
 	}
 
