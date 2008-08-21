@@ -15,6 +15,7 @@ import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
@@ -97,8 +98,13 @@ public class PageIndexReader
 			{
 				return ((Long)value).longValue( );
 			}
+			Iterator iterator = pages.values( ).iterator( );
+			while ( iterator.hasNext( ) )
+			{
+				return ( (Long) iterator.next( ) ).longValue( );
+			}
 		}
-		return -1;
+		return 0;
 	}
 	
 	public void close()
