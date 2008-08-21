@@ -560,7 +560,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 			DataSetParameter param = (DataSetParameter) paramHandle
 					.getStructure( );
 
-			getModule( ).getActivityStack( ).startTrans( );
+			getModule( ).getActivityStack( ).startTrans( null );
 
 			try
 			{
@@ -595,7 +595,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 		{
 			DataSetParameter param = (DataSetParameter) item;
 
-			getModule( ).getActivityStack( ).startTrans( );
+			getModule( ).getActivityStack( ).startTrans( null );
 
 			try
 			{
@@ -628,7 +628,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 		public void removeItems( List items ) throws PropertyValueException
 		{
-			getModule( ).getActivityStack( ).startTrans( );
+			getModule( ).getActivityStack( ).startTrans( null );
 
 			try
 			{
@@ -663,7 +663,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 		public void replaceItem( IStructure oldItem, IStructure newItem )
 				throws SemanticException
 		{
-			getModule( ).getActivityStack( ).startTrans( );
+			getModule( ).getActivityStack( ).startTrans( null );
 
 			try
 			{
@@ -693,7 +693,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 		{
 			List paramList = getListValue( );
 
-			getModule( ).getActivityStack( ).startTrans( );
+			getModule( ).getActivityStack( ).startTrans( null );
 
 			try
 			{
@@ -728,7 +728,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 		{
 			List paramList = getListValue( );
 
-			getModule( ).getActivityStack( ).startTrans( );
+			getModule( ).getActivityStack( ).startTrans( null );
 
 			try
 			{

@@ -38,7 +38,7 @@ public class TemplateTransformRecord extends ContentReplaceRecord
 	 * @param containerInfo
 	 *            The container information.
 	 * @param from
-	 *            the elemnt which the record transforms from
+	 *            the element which the record transforms from
 	 * @param to
 	 *            the element which the record transforms to
 	 * 

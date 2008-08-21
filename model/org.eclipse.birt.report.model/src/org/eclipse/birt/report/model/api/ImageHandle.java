@@ -413,7 +413,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	{
 		try
 		{
-			module.getActivityStack( ).startTrans( );
+			module.getActivityStack( ).startTrans( null );
 
 			setProperty( IImageItemModel.SOURCE_PROP,
 					DesignChoiceConstants.IMAGE_REF_TYPE_EMBED );
@@ -497,7 +497,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	{
 		try
 		{
-			module.getActivityStack( ).startTrans( );
+			module.getActivityStack( ).startTrans( null );
 
 			setProperty( IImageItemModel.SOURCE_PROP, source );
 			setProperty( IImageItemModel.URI_PROP, prop );
@@ -563,7 +563,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	{
 		try
 		{
-			module.getActivityStack( ).startTrans( );
+			module.getActivityStack( ).startTrans( null );
 
 			setProperty( IImageItemModel.SOURCE_PROP,
 					DesignChoiceConstants.IMAGE_REF_TYPE_EXPR );
@@ -591,7 +591,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	{
 		try
 		{
-			module.getActivityStack( ).startTrans( );
+			module.getActivityStack( ).startTrans( null );
 
 			setProperty( IImageItemModel.SOURCE_PROP,
 					DesignChoiceConstants.IMAGE_REF_TYPE_EXPR );

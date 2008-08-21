@@ -451,7 +451,7 @@ public class ReportDesignHandle extends ModuleHandle
 		// do nothing now.
 
 		ActivityStack stack = module.getActivityStack( );
-		stack.startTrans( );
+		stack.startTrans( null );
 		for ( int i = 0; i < selectedStyles.size( ); i++ )
 		{
 			SharedStyleHandle style = (SharedStyleHandle) selectedStyles

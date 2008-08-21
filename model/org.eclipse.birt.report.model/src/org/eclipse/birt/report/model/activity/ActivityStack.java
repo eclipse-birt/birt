@@ -155,7 +155,7 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
  * <p>
  * As a convenience for the application, the compound record implementation is
  * abstracted into the concept of a <em>transaction</em>. The application simply
- * calls startTrans( ) to start a series of operations to be treated as atomic,
+ * calls startTrans( null ) to start a series of operations to be treated as atomic,
  * and calls commit( ) to complete the series. For convenience, transactions can
  * nest to any depth. Only the outermost transaction shows up as a an undoable
  * or redoable record in the UI.
@@ -635,19 +635,7 @@ public class ActivityStack implements CommandStack
 		assert label != null;
 		return label;
 	}
-
-	/**
-	 * Starts a transaction. All calls to execute( ) add records to the active
-	 * transactions. Transactions can nest. Calls to undo( ) or redo( ) are
-	 * illegal until the transaction completes. The compound record uses a
-	 * generic label.
-	 */
-
-	public void startTrans( )
-	{
-		startTrans( null );
-	}
-
+	
 	/**
 	 * Starts a transaction. The application provides the message ID for a label
 	 * to associate with the transaction.
@@ -891,7 +879,7 @@ public class ActivityStack implements CommandStack
 	}
 
 	/**
-	 * Starts a silent transaction. All events in the trasaction will not be
+	 * Starts a silent transaction. All events in the transaction will not be
 	 * sent out.
 	 * 
 	 */
@@ -902,7 +890,7 @@ public class ActivityStack implements CommandStack
 	}
 
 	/**
-	 * Starts a silent transaction. All events in the trasaction will not be
+	 * Starts a silent transaction. All events in the transaction will not be
 	 * sent out.
 	 * 
 	 * @param filterAll

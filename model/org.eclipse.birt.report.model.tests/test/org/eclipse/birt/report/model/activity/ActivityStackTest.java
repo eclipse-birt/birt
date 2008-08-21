@@ -408,7 +408,7 @@ public class ActivityStackTest extends BaseTestCase
 
 		// add transition before execute and canUndo is false
 
-		as.startTrans( );
+		as.startTrans( null );
 		this.record = new MockupActivityRecord( designElement );
 		as.execute( this.record );
 		assertEquals( false, as.canUndo( ) );
@@ -792,7 +792,7 @@ public class ActivityStackTest extends BaseTestCase
 	 * commit ) ,canUndo is true</li>
 	 * </ul>
 	 */
-	public void testStartTrans( )
+	public void teststartTrans( )
 	{
 		as.execute( record );
 		as.undo( );
@@ -800,7 +800,7 @@ public class ActivityStackTest extends BaseTestCase
 		assertEquals( true, as.canRedo( ) );
 		assertEquals( 0, designElement.counter );
 
-		as.startTrans( );
+		as.startTrans( null );
 		// The redo stack should have been flushed.
 		assertEquals( false, as.canRedo( ) );
 		as.execute( new MockupActivityRecord( this.designElement, 1 ) );
@@ -825,11 +825,11 @@ public class ActivityStackTest extends BaseTestCase
 
 		// nested transactions
 
-		as.startTrans( );
+		as.startTrans( null );
 		as.execute( new MockupActivityRecord( this.designElement, 1 ) );
 
 		// nested transaction started.
-		as.startTrans( );
+		as.startTrans( null );
 		as.execute( new MockupActivityRecord( this.designElement, 2 ) );
 
 		// commit the second one. One transaction remained uncommitted.
@@ -930,7 +930,7 @@ public class ActivityStackTest extends BaseTestCase
 		record1 = new MockupActivityRecord( this.designElement, 1 );
 		record2 = new MockupActivityRecord( this.designElement, 2 );
 		listener.action = -1;
-		as.startTrans( );
+		as.startTrans( null );
 		as.execute( record1 );
 		as.execute( record2 );
 		as.commit( );
@@ -955,10 +955,10 @@ public class ActivityStackTest extends BaseTestCase
 		record1 = new MockupActivityRecord( this.designElement, 1 );
 		record2 = new MockupActivityRecord( this.designElement, 2 );
 		listener.action = -1;
-		as.startTrans( );
+		as.startTrans( null );
 		as.execute( record1 );
 		as.execute( record2 );
-		as.startTrans( );
+		as.startTrans( null );
 		record1 = new MockupActivityRecord( this.designElement, 1 );
 		as.execute( record1 );
 		as.rollback( );
@@ -998,7 +998,7 @@ public class ActivityStackTest extends BaseTestCase
 
 		// test commit cases.
 
-		as.startTrans( );
+		as.startTrans( null );
 
 		as.execute( new MockupActivityRecord( this.designElement, 1 ) );
 		as.execute( new MockupActivityRecord( this.designElement, 2 ) );
@@ -1017,7 +1017,7 @@ public class ActivityStackTest extends BaseTestCase
 
 		// rollback cases.
 
-		as.startTrans( );
+		as.startTrans( null );
 
 		as.execute( new MockupActivityRecord( this.designElement, 1 ) );
 		as.execute( new MockupActivityRecord( this.designElement, 2 ) );
@@ -1043,11 +1043,11 @@ public class ActivityStackTest extends BaseTestCase
 
 		// nested cases.
 
-		as.startTrans( );
+		as.startTrans( null );
 
 		as.execute( new MockupActivityRecord( this.designElement, 1 ) );
 
-		as.startTrans( );
+		as.startTrans( null );
 
 		as.execute( new MockupActivityRecord( this.designElement, 2 ) );
 
@@ -1088,7 +1088,7 @@ public class ActivityStackTest extends BaseTestCase
 		// and call rollbackAll()
 
 		stack.flush( );
-		stack.startTrans( );
+		stack.startTrans( null );
 		grid.setComments( "comments for grid" ); //$NON-NLS-1$
 		grid.setOnCreate( "on create" ); //$NON-NLS-1$
 		stack.startPersistentTrans( );
@@ -1107,7 +1107,7 @@ public class ActivityStackTest extends BaseTestCase
 
 		grid.clearAllProperties( );
 		stack.flush( );
-		stack.startTrans( );
+		stack.startTrans( null );
 		grid.setComments( "comments for grid" ); //$NON-NLS-1$
 		grid.setOnCreate( "on create" ); //$NON-NLS-1$
 		stack.startPersistentTrans( );
@@ -1126,7 +1126,7 @@ public class ActivityStackTest extends BaseTestCase
 
 		grid.clearAllProperties( );
 		stack.flush( );
-		stack.startTrans( );
+		stack.startTrans( null );
 		grid.setComments( "comments for grid" ); //$NON-NLS-1$
 		grid.setOnCreate( "on create" ); //$NON-NLS-1$
 		stack.startPersistentTrans( );
@@ -1143,7 +1143,7 @@ public class ActivityStackTest extends BaseTestCase
 
 		grid.clearAllProperties( );
 		stack.flush( );
-		stack.startTrans( );
+		stack.startTrans( null );
 		grid.setComments( "comments for grid" ); //$NON-NLS-1$
 		grid.setOnCreate( "on create" ); //$NON-NLS-1$
 		stack.startPersistentTrans( );
@@ -1161,11 +1161,11 @@ public class ActivityStackTest extends BaseTestCase
 
 		grid.clearAllProperties( );
 		stack.flush( );
-		stack.startTrans( );
+		stack.startTrans( null );
 		grid.setComments( "comments for grid" ); //$NON-NLS-1$
 		grid.setOnCreate( "on create" ); //$NON-NLS-1$
 		stack.startPersistentTrans( );
-		// stack.startTrans( );
+		// stack.startTrans( null );
 		grid.setName( "New grid" ); //$NON-NLS-1$
 		grid.setHeight( 12 );
 		stack.rollback( );
@@ -1208,13 +1208,13 @@ public class ActivityStackTest extends BaseTestCase
 		ActivityStack stack = designHandle.getModule( ).getActivityStack( );
 		stack.flush( );
 
-		stack.startTrans( );
+		stack.startTrans( null );
 		designHandle.getStyles( ).add( style );
 
-		stack.startTrans( );
+		stack.startTrans( null );
 		designHandle.getBody( ).add( grid );
 
-		stack.startTrans( );
+		stack.startTrans( null );
 		designHandle.getComponents( ).add( label );
 
 		stack.startPersistentTrans( );
@@ -1290,10 +1290,10 @@ public class ActivityStackTest extends BaseTestCase
 		ActivityStack stack = designHandle.getModule( ).getActivityStack( );
 		stack.flush( );
 
-		stack.startTrans( );
+		stack.startTrans( null );
 		designHandle.getStyles( ).add( style );
 
-		stack.startTrans( );
+		stack.startTrans( null );
 		designHandle.getBody( ).add( grid );
 
 		stack.startPersistentTrans( );
@@ -1370,10 +1370,10 @@ public class ActivityStackTest extends BaseTestCase
 		ActivityStack stack = designHandle.getModule( ).getActivityStack( );
 		stack.flush( );
 
-		stack.startTrans( );
+		stack.startTrans( null );
 		designHandle.getStyles( ).add( style );
 
-		stack.startTrans( );
+		stack.startTrans( null );
 		designHandle.getBody( ).add( grid );
 
 		stack.startPersistentTrans( );
@@ -1387,7 +1387,7 @@ public class ActivityStackTest extends BaseTestCase
 		designHandle.getDataSources( ).add( datasource );
 		stack.commit( );
 
-		stack.startTrans( );
+		stack.startTrans( null );
 		designHandle.getComponents( ).add( label );
 		stack.commit( );
 
@@ -1454,10 +1454,10 @@ public class ActivityStackTest extends BaseTestCase
 		ActivityStack stack = designHandle.getModule( ).getActivityStack( );
 		stack.flush( );
 
-		stack.startTrans( );
+		stack.startTrans( null );
 		designHandle.getStyles( ).add( style );
 
-		stack.startTrans( );
+		stack.startTrans( null );
 		designHandle.getBody( ).add( grid );
 
 		stack.startPersistentTrans( );
@@ -1470,7 +1470,7 @@ public class ActivityStackTest extends BaseTestCase
 		stack.startPersistentTrans( );
 		designHandle.getDataSources( ).add( datasource );
 
-		stack.startTrans( );
+		stack.startTrans( null );
 		designHandle.getComponents( ).add( label );
 		stack.commit( );
 
@@ -1530,10 +1530,10 @@ public class ActivityStackTest extends BaseTestCase
 		stack.flush( );
 
 		// add grid
-		stack.startTrans( );
+		stack.startTrans( null );
 		designHandle.getBody( ).add( grid );
 
-		stack.startTrans( );
+		stack.startTrans( null );
 		designHandle.getBody( ).add( table );
 
 		stack.startPersistentTrans( );
@@ -1824,7 +1824,7 @@ public class ActivityStackTest extends BaseTestCase
 		designHandle.addListener( listener );
 		ActivityStack stack = (ActivityStack) designHandle.getCommandStack( );
 
-		stack.startTrans( );
+		stack.startTrans( null );
 		stack.startFilterEventTrans( "drop table" ); //$NON-NLS-1$
 
 		table.drop( );
@@ -1857,7 +1857,7 @@ public class ActivityStackTest extends BaseTestCase
 		as.execute( record );
 		as.undo( );
 
-		as.startTrans( );
+		as.startTrans( null );
 
 		as.clearListeners( );
 		as.flush( );

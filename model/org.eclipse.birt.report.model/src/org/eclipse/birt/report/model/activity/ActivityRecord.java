@@ -178,7 +178,7 @@ import org.eclipse.birt.report.model.validators.IValidatorProvider;
  * general, there are multiple activity records for each user-level operation.
  * The user- level operations generally don't exactly map to activity records.
  * As a result, the application should specify a (localized) label when calling
- * the <code>startTrans( )</code> method on the activity stack. That label is
+ * the <code>startTrans( null )</code> method on the activity stack. That label is
  * then cached in the activity record. Each activity record provides a default
  * label, but that label is often not the best one for the overall application
  * operation.

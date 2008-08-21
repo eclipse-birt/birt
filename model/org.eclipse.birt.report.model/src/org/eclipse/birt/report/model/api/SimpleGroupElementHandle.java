@@ -261,7 +261,7 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 	public void clearLocalProperties( ) throws SemanticException
 	{
 		ActivityStack stack = module.getActivityStack( );
-		stack.startTrans( );
+		stack.startTrans( null );
 
 		try
 		{

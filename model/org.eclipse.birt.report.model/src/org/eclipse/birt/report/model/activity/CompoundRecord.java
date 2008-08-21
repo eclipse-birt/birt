@@ -36,7 +36,7 @@ import org.eclipse.birt.report.model.api.activity.TransactionOption;
  * 
  * A compound record has a label. The system provides a default label. The
  * application can customize the label by passing the label to the
- * <code>ActivityStack.startTrans( )</code> method.
+ * <code>ActivityStack.startTrans( null )</code> method.
  */
 
 public class CompoundRecord extends ActivityRecord

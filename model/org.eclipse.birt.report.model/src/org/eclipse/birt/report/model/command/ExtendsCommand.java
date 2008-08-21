@@ -34,6 +34,8 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -350,7 +352,7 @@ public class ExtendsCommand extends AbstractElementCommand
 		// user properties.
 
 		ActivityStack activityStack = getActivityStack( );
-		activityStack.startTrans( );
+		activityStack.startTrans( ModelMessages.getMessage( MessageConstants.SET_EXTENDS_MESSAGE ) );
 
 		try
 		{

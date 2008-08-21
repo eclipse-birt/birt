@@ -106,7 +106,7 @@ public class RowBandInsertAction extends RowBandAction
 		ActivityStack stack = adapter.getModule( ).getActivityStack( );
 		try
 		{
-			stack.startTrans( );
+			stack.startTrans( null );
 			slotHandle.paste( rowHandle, destIndex );
 		}
 		catch ( SemanticException e )

@@ -103,7 +103,7 @@ public class RowBandInsertAndPasteAction extends RowBandAction
 		ActivityStack stack = adapter.getModule( ).getActivityStack( );
 		try
 		{
-			stack.startTrans( );
+			stack.startTrans( null );
 			adapter.getModule( ).getModuleHandle( ).rename(
 					copiedRow.getHandle( slotHandle.getModule( ) ) );
 

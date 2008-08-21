@@ -102,7 +102,7 @@ public abstract class StyleRuleHandle extends StructureHandle
 	public void setOperator( String operator ) throws SemanticException
 	{
 		ActivityStack stack = getModule( ).getActivityStack( );
-		stack.startTrans( );
+		stack.startTrans( null );
 		try
 		{
 			setProperty( StyleRule.OPERATOR_MEMBER, operator );

@@ -246,12 +246,13 @@ public class LibraryCommand extends AbstractElementCommand
 		// Remove the include library structure.
 
 		ActivityStack stack = getActivityStack( );
-		stack.startTrans( );
 
 		// Drop the library and update the client references.
 
 		LibraryRecord record = new LibraryRecord( library.getHost( ), library,
 				false );
+
+		stack.startTrans( record.getLabel( ) );
 
 		getActivityStack( ).execute( record );
 

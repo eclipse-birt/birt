@@ -199,7 +199,7 @@ public class UnusedBoundColumnsMgr extends BoundColumnsMgr
 				.getPropertyHandle( propName );
 
 		ActivityStack cmdStack = module.getActivityStack( );
-		cmdStack.startTrans( );
+		cmdStack.startTrans( null );
 		try
 		{
 			for ( int i = 0; i < unusedList.size( ); i++ )

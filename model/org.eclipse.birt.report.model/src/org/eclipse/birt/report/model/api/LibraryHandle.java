@@ -279,7 +279,7 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 			return;
 
 		ActivityStack stack = module.getActivityStack( );
-		stack.startTrans( );
+		stack.startTrans( null );
 
 		// creates the theme if it does not exist
 

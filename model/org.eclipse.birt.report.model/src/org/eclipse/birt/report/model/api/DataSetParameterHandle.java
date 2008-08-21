@@ -468,7 +468,7 @@ public class DataSetParameterHandle extends StructureHandle
 		{
 			String oldName = this.getStringValue( );
 
-			getModule( ).getActivityStack( ).startTrans( );
+			getModule( ).getActivityStack( ).startTrans( null );
 
 			try
 			{

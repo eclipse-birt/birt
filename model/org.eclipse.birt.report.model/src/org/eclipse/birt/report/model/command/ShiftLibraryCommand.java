@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.command;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
@@ -47,7 +48,7 @@ public class ShiftLibraryCommand extends AbstractElementCommand
 	 * Shifts the given library forwards or backwards.
 	 * 
 	 * @param library
-	 *            the libray to shift
+	 *            the library to shift
 	 * @param newPosn
 	 *            the new position to shift
 	 * @throws SemanticException
@@ -75,10 +76,13 @@ public class ShiftLibraryCommand extends AbstractElementCommand
 		if ( oldPosn == adjustedNewPosn )
 			return;
 
-		getActivityStack( ).startTrans( );
+		ActivityStack stack = getActivityStack( );
 
 		ShiftLibraryRecord record = new ShiftLibraryRecord( module, oldPosn,
 				adjustedNewPosn );
+
+		stack.startTrans( record.getLabel( ) );
+
 		getActivityStack( ).execute( record );
 
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand( module, module );
@@ -86,6 +90,6 @@ public class ShiftLibraryCommand extends AbstractElementCommand
 				.getPropertyDefn( IModuleModel.LIBRARIES_PROP );
 		cmd.moveItem( new CachedMemberRef( propDefn ), oldPosn, newPosn );
 
-		getActivityStack( ).commit( );
+		stack.commit( );
 	}
 }

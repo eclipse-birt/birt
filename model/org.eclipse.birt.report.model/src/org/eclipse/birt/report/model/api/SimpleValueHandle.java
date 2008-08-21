@@ -470,7 +470,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 		if ( items == null || items.isEmpty( ) )
 			return;
 		ActivityStack stack = getModule( ).getActivityStack( );
-		stack.startTrans( );
+		stack.startTrans( null );
 		try
 		{
 			for ( int i = 0; i < items.size( ); i++ )

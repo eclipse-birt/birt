@@ -356,7 +356,10 @@ public class PropertyCommand extends AbstractPropertyCommand
 				.getName( ) );
 
 		ActivityStack stack = module.getActivityStack( );
-		stack.startTrans( );
+		PropertyRecord record = new PropertyRecord( element, prop.getName( ),
+				value );
+
+		stack.startTrans( record.getLabel( ) );
 
 		try
 		{

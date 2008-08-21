@@ -107,7 +107,7 @@ public class RowBandShiftAction extends RowBandAction
 		ActivityStack stack = adapter.getModule( ).getActivityStack( );
 		try
 		{
-			stack.startTrans( );
+			stack.startTrans( null );
 
 			// add source row to destination position.
 

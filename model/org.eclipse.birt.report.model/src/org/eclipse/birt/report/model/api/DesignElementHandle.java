@@ -616,7 +616,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		List props = getDefn( ).getProperties( );
 
 		ActivityStack stack = module.getActivityStack( );
-		stack.startTrans( );
+		stack.startTrans( null );
 
 		try
 		{

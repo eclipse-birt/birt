@@ -37,6 +37,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITemplateParameterDefinitionModel;
 import org.eclipse.birt.report.model.elements.strategy.CopyForTemplatePolicy;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -86,14 +88,13 @@ public class TemplateCommand extends AbstractElementCommand
 	}
 
 	/**
-	 * Checks the <code>REF_TEMPLATE_PARAMETER_PROP</code> of template
-	 * elements to avoid that tit refers a non-exsiting template parameter
-	 * definition or a wrong type definition.
+	 * Checks the <code>REF_TEMPLATE_PARAMETER_PROP</code> of template elements
+	 * to avoid that tit refers a non-exsiting template parameter definition or
+	 * a wrong type definition.
 	 * 
 	 * @param prop
 	 *            the definition of property
-	 *            <code>REF_TEMPLATE_PARAMETER_PROP</code> in template
-	 *            elements
+	 *            <code>REF_TEMPLATE_PARAMETER_PROP</code> in template elements
 	 * @param value
 	 *            the new value to set
 	 * @throws PropertyValueException
@@ -151,8 +152,8 @@ public class TemplateCommand extends AbstractElementCommand
 	}
 
 	/**
-	 * Resolve the property value of <code>REF_TEMPLATE_PARAMETER_PROP</code>
-	 * in a template element.
+	 * Resolve the property value of <code>REF_TEMPLATE_PARAMETER_PROP</code> in
+	 * a template element.
 	 * 
 	 * @param module
 	 *            the module of the template element
@@ -184,8 +185,8 @@ public class TemplateCommand extends AbstractElementCommand
 	 * @param slotID
 	 * @throws ContentException
 	 *             if the value of property
-	 *             <code>REF_TEMPLATE_PARAMETER_PROP</code> in template
-	 *             element is null, or an un-resolved value
+	 *             <code>REF_TEMPLATE_PARAMETER_PROP</code> in template element
+	 *             is null, or an un-resolved value
 	 */
 
 	public void checkAdd( Object content ) throws ContentException
@@ -367,7 +368,7 @@ public class TemplateCommand extends AbstractElementCommand
 	 * @return the created template element
 	 * @throws SemanticException
 	 *             if the content can not be transformed to a template element,
-	 *             current module is not a repor design and can not support
+	 *             current module is not a report design and can not support
 	 *             template elements, or the replacement fails
 	 */
 
@@ -392,7 +393,7 @@ public class TemplateCommand extends AbstractElementCommand
 					TemplateException.DESIGN_EXCEPTION_TEMPLATE_ELEMENT_NOT_SUPPORTED );
 
 		ActivityStack stack = getActivityStack( );
-		stack.startTrans( );
+		stack.startTrans( ModelMessages.getMessage( MessageConstants.TRANSFORM_TEMPLATE_MESSAGE )  );
 
 		try
 		{
@@ -544,7 +545,7 @@ public class TemplateCommand extends AbstractElementCommand
 
 		ActivityStack stack = getActivityStack( );
 
-		stack.startTrans( );
+		stack.startTrans( ModelMessages.getMessage( MessageConstants.TRANSFORM_TEMPLATE_MESSAGE )  );
 
 		try
 		{
@@ -591,7 +592,7 @@ public class TemplateCommand extends AbstractElementCommand
 
 		ActivityStack stack = getActivityStack( );
 
-		stack.startTrans( );
+		stack.startTrans( ModelMessages.getMessage( MessageConstants.TRANSFORM_TEMPLATE_MESSAGE ) );
 
 		try
 		{

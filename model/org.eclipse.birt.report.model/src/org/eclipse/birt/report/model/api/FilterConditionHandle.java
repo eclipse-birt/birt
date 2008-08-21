@@ -161,7 +161,7 @@ public class FilterConditionHandle extends StructureHandle
 	{
 
 		ActivityStack stack = getModule( ).getActivityStack( );
-		stack.startTrans( );
+		stack.startTrans( null );
 		try
 		{
 			setProperty( FilterCondition.OPERATOR_MEMBER, operator );

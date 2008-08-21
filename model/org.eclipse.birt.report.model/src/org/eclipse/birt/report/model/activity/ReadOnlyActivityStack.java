@@ -83,16 +83,6 @@ public class ReadOnlyActivityStack extends ActivityStack
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.ActivityStack#startTrans()
-	 */
-	public void startTrans( )
-	{
-		throw new IllegalOperationException( MESSAGE );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.model.api.CommandStack#canUndo()
 	 */
 	public boolean canUndo( )

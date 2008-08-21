@@ -142,7 +142,7 @@ public class FilterConditionElementHandle extends ContentElementHandle
 	{
 
 		ActivityStack stack = getModule( ).getActivityStack( );
-		stack.startTrans( );
+		stack.startTrans( null );
 		try
 		{
 			setProperty( OPERATOR_PROP, operator );

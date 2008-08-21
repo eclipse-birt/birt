@@ -119,7 +119,7 @@ public class CssCommand extends AbstractElementCommand
 	 * @param sheet
 	 *            css style sheet
 	 * @throws SemanticException
-	 *             if failed to add <code>IncludedCssStyleSheet</code> strcutre
+	 *             if failed to add <code>IncludedCssStyleSheet</code> structure
 	 */
 
 	public void addCss( CssStyleSheet sheet ) throws SemanticException
@@ -181,7 +181,6 @@ public class CssCommand extends AbstractElementCommand
 			return;
 
 		ActivityStack activityStack = getActivityStack( );
-		activityStack.startTrans( );
 
 		CssRecord record = null;
 
@@ -189,6 +188,8 @@ public class CssCommand extends AbstractElementCommand
 			record = new CssRecord( module, element, sheet, true );
 		else
 			record = new CssRecord( module, element, sheet, true, posn );
+
+		activityStack.startTrans( record.getLabel( ) );
 
 		getActivityStack( ).execute( record );
 
@@ -241,12 +242,12 @@ public class CssCommand extends AbstractElementCommand
 		}
 
 		ActivityStack stack = getActivityStack( );
-		stack.startTrans( );
-
 		CssRecord record = new CssRecord( module, element, sheet, false,
 				position );
-		getActivityStack( ).execute( record );
 
+		stack.startTrans( record.getLabel( ) );
+
+		getActivityStack( ).execute( record );
 		removeIncludeCss( css );
 
 		getActivityStack( ).commit( );
