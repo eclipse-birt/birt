@@ -13,8 +13,8 @@ ChartDataBindingPage.Lbl.SaveDataSet=Modifier le jeu de données
 ChartDataBindingPage.Msg.AskSaveDataSet=Souhaitez-vous modifier le jeu de données lié ?
 
 DesignerRepresentation.error.Error=Erreur : 
-DesignerRepresentation.error.Error=Erreur : 
 DesignerRepresentation.log.UnableToFind=Impossible de trouver le modèle de graphique pendant le rendu dans Designer.
+DesignerRepresentation.msg.InvalidChart=Current chart is invalid. If you wish to continue to work on this chart, please delete it first.
 ChartReportItemBuilderImpl.problem.hasNotBeenFound=Le graphique n'a pas encore été lié à un jeu de données.
 ChartReportItemBuilderImpl.log.UnableToLocate=Impossible de localiser le wrapper d'élément d'état pour l'objet de graphique.
 

@@ -13,8 +13,8 @@ ChartDataBindingPage.Lbl.SaveDataSet=データセットの変更
 ChartDataBindingPage.Msg.AskSaveDataSet=バインドされたデータセットを変更しますか ?
 
 DesignerRepresentation.error.Error=エラー : 
-DesignerRepresentation.error.Error=エラー : 
 DesignerRepresentation.log.UnableToFind=デザイナで描画中に、グラフのモデルが見つかりません。
+DesignerRepresentation.msg.InvalidChart=Current chart is invalid. If you wish to continue to work on this chart, please delete it first.
 ChartReportItemBuilderImpl.problem.hasNotBeenFound=グラフはデータセットにバインドされていません。
 ChartReportItemBuilderImpl.log.UnableToLocate=グラフオブジェクトのレポート項目ラッパーが見つかりません。
 

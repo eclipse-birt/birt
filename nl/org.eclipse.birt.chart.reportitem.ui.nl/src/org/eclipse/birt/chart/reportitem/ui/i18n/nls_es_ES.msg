@@ -13,8 +13,8 @@ ChartDataBindingPage.Lbl.SaveDataSet=Cambiar conjunto de datos
 ChartDataBindingPage.Msg.AskSaveDataSet=¿Desea cambiar el conjunto de datos enlazado?
 
 DesignerRepresentation.error.Error=Error: 
-DesignerRepresentation.error.Error=Error: 
 DesignerRepresentation.log.UnableToFind=No es posible encontrar el modelo de diagrama mientras se procesa en el diseñador.
+DesignerRepresentation.msg.InvalidChart=Current chart is invalid. If you wish to continue to work on this chart, please delete it first.
 ChartReportItemBuilderImpl.problem.hasNotBeenFound=El diagrama no se ha enlazado aún a un conjunto de datos.
 ChartReportItemBuilderImpl.log.UnableToLocate=No se puede localizar el empaquetador de elementos de informe para el objeto de diagrama.
 
