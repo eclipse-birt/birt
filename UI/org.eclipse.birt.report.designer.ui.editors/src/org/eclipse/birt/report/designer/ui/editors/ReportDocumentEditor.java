@@ -216,7 +216,7 @@ public class ReportDocumentEditor extends EditorPart
 
 		// text.setForeground(JFaceColors.getErrorText(text.getDisplay()));
 		text.setLayoutData( new GridData( SWT.FILL, SWT.CENTER, true, false ) );
-		text.setText( "Error happened when open the document in editor." );
+		text.setText( Messages.getString("ReportDocumentEditor.errorMessage") ); //$NON-NLS-1$
 
 		detailsButton = new Button( parent, SWT.PUSH );
 		detailsButton.addSelectionListener( new SelectionAdapter( ) {
