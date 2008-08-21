@@ -16,12 +16,14 @@ import org.eclipse.birt.report.designer.internal.ui.util.PixelConverter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
 /**
@@ -32,6 +34,7 @@ public class GeneralConfigurationBlock extends OptionsConfigurationBlock
 
 	private final Key PREF_ENABLE_GRADIENT = getReportKey( ReportPlugin.ENABLE_GRADIENT_SELECTION_PREFERENCE );
 	private final Key PREF_ENABLE_ANIMATION = getReportKey( ReportPlugin.ENABLE_ANIMATION_SELECTION_PREFERENCE );
+	private final Key PREF_LIABRARY_WARNING = getReportKey( ReportPlugin.LIBRARY_WARNING_PREFERENCE );
 
 	private static final String ENABLED = "true"; //$NON-NLS-1$
 	private static final String DISABLED = "false"; //$NON-NLS-1$
@@ -50,7 +53,7 @@ public class GeneralConfigurationBlock extends OptionsConfigurationBlock
 	private Key[] getKeys( )
 	{
 		Key[] keys = new Key[]{
-				PREF_ENABLE_GRADIENT, PREF_ENABLE_ANIMATION
+				PREF_ENABLE_GRADIENT, PREF_ENABLE_ANIMATION,PREF_LIABRARY_WARNING
 		};
 		return keys;
 	}
@@ -119,6 +122,20 @@ public class GeneralConfigurationBlock extends OptionsConfigurationBlock
 		validateSettings( PREF_ENABLE_ANIMATION,
 				null,
 				getValue( PREF_ENABLE_ANIMATION ) );
+		
+		
+		String[] promptValues = new String[]{
+				MessageDialogWithToggle.PROMPT, MessageDialogWithToggle.NEVER
+		};
+		Group group = new Group(pageContent, SWT.NONE);
+		group.setText( Messages.getString( "GeneralConfigurationBlock.group.label" ) );
+		group.setLayoutData( new GridData(GridData.FILL_HORIZONTAL) );
+		group.setLayout( new GridLayout() );
+		addCheckBox( group,
+				Messages.getString( "GeneralConfigurationBlock.button.text.prompt" ), //$NON-NLS-1$
+				PREF_LIABRARY_WARNING,
+				promptValues,
+				0 );
 
 		return pageContent;
 	}

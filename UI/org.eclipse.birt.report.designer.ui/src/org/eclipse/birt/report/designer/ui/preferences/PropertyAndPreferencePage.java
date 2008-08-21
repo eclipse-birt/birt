@@ -82,7 +82,9 @@ public abstract class PropertyAndPreferencePage extends PreferencePage implement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.PreferencePage#PreferencePage(java.lang.String,org.eclipse.jface.resource.ImageDescriptor)
+	 * @see
+	 * org.eclipse.jface.preference.PreferencePage#PreferencePage(java.lang.
+	 * String,org.eclipse.jface.resource.ImageDescriptor)
 	 */
 	public PropertyAndPreferencePage( String title, ImageDescriptor image )
 	{
@@ -138,14 +140,14 @@ public abstract class PropertyAndPreferencePage extends PreferencePage implement
 
 				fUseProjectSettings = new SelectionButtonDialogField( SWT.CHECK );
 				fUseProjectSettings.setDialogFieldListener( listener );
-				fUseProjectSettings.setLabelText( Messages.getString("PropertyAndPreferencePage.Text.Enable.SpecialSettings") ); //$NON-NLS-1$
+				fUseProjectSettings.setLabelText( Messages.getString( "PropertyAndPreferencePage.Text.Enable.SpecialSettings" ) ); //$NON-NLS-1$
 				fUseProjectSettings.doFillIntoGrid( composite, 1 );
 				WidgetUtil.setHorizontalGrabbing( fUseProjectSettings.getSelectionButton( null ) );
 
 				if ( offerLink( ) )
 				{
 					fChangeWorkspaceSettings = createLink( composite,
-							Messages.getString("PropertyAndPreferencePage.Text.Configure.Workspace.Settings") ); //$NON-NLS-1$
+							Messages.getString( "PropertyAndPreferencePage.Text.Configure.Workspace.Settings" ) ); //$NON-NLS-1$
 					fChangeWorkspaceSettings.setLayoutData( new GridData( SWT.END,
 							SWT.CENTER,
 							false,
@@ -170,7 +172,7 @@ public abstract class PropertyAndPreferencePage extends PreferencePage implement
 			else if ( supportsProjectSpecificOptions( ) && offerLink( ) )
 			{
 				fChangeWorkspaceSettings = createLink( parent,
-						Messages.getString("PropertyAndPreferencePage.Text.Configure.Special.Settings") ); //$NON-NLS-1$
+						Messages.getString( "PropertyAndPreferencePage.Text.Configure.Special.Settings" ) ); //$NON-NLS-1$
 				fChangeWorkspaceSettings.setLayoutData( new GridData( SWT.END,
 						SWT.CENTER,
 						true,
@@ -182,7 +184,8 @@ public abstract class PropertyAndPreferencePage extends PreferencePage implement
 	}
 
 	/*
-	 * @see org.eclipse.jface.preference.IPreferencePage#createContents(Composite)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferencePage#createContents(Composite)
 	 */
 	protected Control createContents( Composite parent )
 	{
@@ -417,7 +420,8 @@ public abstract class PropertyAndPreferencePage extends PreferencePage implement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
+	 * @see
+	 * org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
 	 */
 	public void init( IWorkbench workbench )
 	{
@@ -436,7 +440,9 @@ public abstract class PropertyAndPreferencePage extends PreferencePage implement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.IWorkbenchPropertyPage#setElement(org.eclipse.core.runtime.IAdaptable)
+	 * @see
+	 * org.eclipse.ui.IWorkbenchPropertyPage#setElement(org.eclipse.core.runtime
+	 * .IAdaptable)
 	 */
 	public void setElement( IAdaptable element )
 	{
@@ -446,7 +452,8 @@ public abstract class PropertyAndPreferencePage extends PreferencePage implement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.PreferencePage#applyData(java.lang.Object)
+	 * @see
+	 * org.eclipse.jface.preference.PreferencePage#applyData(java.lang.Object)
 	 */
 	public void applyData( Object data )
 	{
