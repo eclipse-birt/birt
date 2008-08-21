@@ -3321,6 +3321,19 @@ Message.TransformTemplate=转换模板
 Message.SetTheme=设置主题
 Message.ChangePropertyEncryption=更改属性的加密:{0}
 Message.RenameCSSFile=重命名 CSS 文件
+Message.ImportCSSStyles=Import CSS Styles
+
+Message.InsertAndPasteColumnBand=Insert And Paste Column
+Message.PasteColumnBand=Paste Column
+Message.ShiftColumnBand=Shift Column
+Message.InsertColumnBand=Insert Column
+
+Message.InsertRow=Insert Row
+Message.InsertAndPasteRow=Insert And Paste Row
+Message.PasteRow=Paste Row
+Message.ShiftRow=Shift Row
+
+Message.ClearProperties=Clear Properties
 
 ###########################################################
 #Element new names.

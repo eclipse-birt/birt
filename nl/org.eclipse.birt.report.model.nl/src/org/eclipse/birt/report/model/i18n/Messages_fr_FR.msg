@@ -3321,6 +3321,19 @@ Message.TransformTemplate=Transformer le modèle
 Message.SetTheme=Définir le thème
 Message.ChangePropertyEncryption=Modifier le chiffrement pour la propriété : {0}
 Message.RenameCSSFile=Renommer le fichier CSS
+Message.ImportCSSStyles=Import CSS Styles
+
+Message.InsertAndPasteColumnBand=Insert And Paste Column
+Message.PasteColumnBand=Paste Column
+Message.ShiftColumnBand=Shift Column
+Message.InsertColumnBand=Insert Column
+
+Message.InsertRow=Insert Row
+Message.InsertAndPasteRow=Insert And Paste Row
+Message.PasteRow=Paste Row
+Message.ShiftRow=Shift Row
+
+Message.ClearProperties=Clear Properties
 
 ###########################################################
 #Element new names.

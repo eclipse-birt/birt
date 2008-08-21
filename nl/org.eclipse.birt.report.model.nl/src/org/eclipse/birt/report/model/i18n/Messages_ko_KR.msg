@@ -3321,6 +3321,19 @@ Message.TransformTemplate=템플릿 변환
 Message.SetTheme=테마 설정
 Message.ChangePropertyEncryption=속성 {0}의 암호화 변경
 Message.RenameCSSFile=CSS 파일 이름 바꾸기
+Message.ImportCSSStyles=Import CSS Styles
+
+Message.InsertAndPasteColumnBand=Insert And Paste Column
+Message.PasteColumnBand=Paste Column
+Message.ShiftColumnBand=Shift Column
+Message.InsertColumnBand=Insert Column
+
+Message.InsertRow=Insert Row
+Message.InsertAndPasteRow=Insert And Paste Row
+Message.PasteRow=Paste Row
+Message.ShiftRow=Shift Row
+
+Message.ClearProperties=Clear Properties
 
 ###########################################################
 #Element new names.

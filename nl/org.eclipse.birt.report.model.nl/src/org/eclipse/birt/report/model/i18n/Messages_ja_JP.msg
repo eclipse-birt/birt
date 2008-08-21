@@ -3321,6 +3321,19 @@ Message.TransformTemplate=テンプレートの変換
 Message.SetTheme=テーマの設定
 Message.ChangePropertyEncryption=プロパティ {0} の暗号化を変更します。
 Message.RenameCSSFile=CSS ファイルの名前の変更
+Message.ImportCSSStyles=Import CSS Styles
+
+Message.InsertAndPasteColumnBand=Insert And Paste Column
+Message.PasteColumnBand=Paste Column
+Message.ShiftColumnBand=Shift Column
+Message.InsertColumnBand=Insert Column
+
+Message.InsertRow=Insert Row
+Message.InsertAndPasteRow=Insert And Paste Row
+Message.PasteRow=Paste Row
+Message.ShiftRow=Shift Row
+
+Message.ClearProperties=Clear Properties
 
 ###########################################################
 #Element new names.
