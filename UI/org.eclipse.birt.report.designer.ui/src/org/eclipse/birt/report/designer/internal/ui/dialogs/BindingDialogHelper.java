@@ -1380,11 +1380,11 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		try
 		{
 			// check function type
+			//if datatype in DTE is any, here will return '', for any is deprecated.
 			String type = getDataTypeDisplayName( DataAdapterUtil.adapterToModelDataType( DataUtil.getAggregationManager( )
 					.getAggregation( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) )
 					.getDataType( ) ) );
-			if ( type != null
-					&& !DataType.getName( DataType.ANY_TYPE ).equals( type )
+			if ( type != null && !type.equals( "" )
 					&& !type.equals( cmbType.getText( ) ) )
 			{
 				if ( !canProcessFunctionTypeError( cmbFunction.getText( ),
