@@ -31,7 +31,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.ResourceAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.dnd.LibraryDragListener;
-import org.eclipse.birt.report.designer.ui.lib.explorer.resource.DesignElementEntry;
+import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportElementEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeListener;
@@ -153,7 +153,16 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 			@Override
 			public int compare( Viewer viewer, Object e1, Object e2 )
 			{
-				if ( e1 instanceof ResourceEntry && e2 instanceof ResourceEntry )
+				if ( e1 instanceof ReportElementEntry
+						|| e2 instanceof ReportElementEntry )
+				{
+					if ( e1 instanceof ReportElementEntry )
+						e1 = ( (ReportElementEntry) e1 ).getReportElement( );
+					if ( e2 instanceof ReportElementEntry )
+						e2 = ( (ReportElementEntry) e2 ).getReportElement( );
+				}
+				else if ( e1 instanceof ResourceEntry
+						&& e2 instanceof ResourceEntry )
 				{
 					ResourceEntry entry1 = (ResourceEntry) e1;
 					ResourceEntry entry2 = (ResourceEntry) e2;
@@ -183,11 +192,6 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 					}
 					return isEntry1File ? 1 : -1;
 				}
-
-				if ( e1 instanceof DesignElementEntry )
-					e1 = ( (DesignElementEntry) e1 ).getReportElement( );
-				if ( e2 instanceof DesignElementEntry )
-					e2 = ( (DesignElementEntry) e2 ).getReportElement( );
 				return super.compare( viewer, e1, e2 );
 			}
 
