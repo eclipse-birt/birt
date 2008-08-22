@@ -406,7 +406,7 @@ public class GetParameterDefinitionTask extends EngineTask
 	private Collection populateToList( IResultIterator iterator,
 			ScalarParameterHandle parameter, SelectionFilter filter )
 	{
-		ParameterHelper parameterHelper = new ParameterHelper( parameter, locale );
+		ParameterHelper parameterHelper = new ParameterHelper( parameter, locale, timeZone );
 		Collection choices = parameterHelper.createSelectionCollection( );
 		int limit = parameter.getListlimit( );
 		try
@@ -683,7 +683,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		for ( int i = 0; i < parameterCount; i++ )
 		{
 			ScalarParameterHandle parameter = (ScalarParameterHandle) parameters.get( i );
-			parameterHelpers[i] = new ParameterHelper( parameter, locale );
+			parameterHelpers[i] = new ParameterHelper( parameter, locale, timeZone );
 		}
 		return parameterHelpers;
 	}
