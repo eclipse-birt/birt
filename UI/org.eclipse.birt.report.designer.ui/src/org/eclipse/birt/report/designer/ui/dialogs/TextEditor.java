@@ -405,12 +405,16 @@ public class TextEditor extends BaseDialog
 				formatTagsBar.setEnabled( index != PLAIN_INDEX );
 				commonTagsBar.setEnabled( index != PLAIN_INDEX );
 
-				formatParent.setEnabled( formatTagsBar.isEnabled( ) );
-				for ( int i = 0; i < formatParent.getChildren( ).length; i++ )
+				if(formatParent != null && (!formatParent.isDisposed( )))
 				{
-					Control control = formatParent.getChildren( )[i];
-					control.setEnabled( formatParent.getEnabled( ) );
+					formatParent.setEnabled( formatTagsBar.isEnabled( ) );
+					for ( int i = 0; i < formatParent.getChildren( ).length; i++ )
+					{
+						Control control = formatParent.getChildren( )[i];
+						control.setEnabled( formatParent.getEnabled( ) );
+					}
 				}
+
 				// set the enablement of all html tags when the text type is
 				// changed.
 				ToolItem[] toolItems = formatTagsBar.getItems( );
