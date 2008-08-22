@@ -241,7 +241,7 @@ public class ComboBoxCellEditor extends CellEditor
 
 			public void widgetSelected( SelectionEvent event )
 			{
-				applyEditorValueAndDeactivate( );
+				selection = comboBox.getSelectionIndex();
 			}
 		} );
 

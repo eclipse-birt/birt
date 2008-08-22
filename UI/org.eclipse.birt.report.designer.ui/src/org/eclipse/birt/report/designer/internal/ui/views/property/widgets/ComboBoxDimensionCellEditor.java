@@ -208,7 +208,7 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 			}
 
 			public void widgetSelected(SelectionEvent event) {
-				applyEditorValueAndDeactivate();
+				selection = comboBox.getSelectionIndex();
 			}
 		});
 
