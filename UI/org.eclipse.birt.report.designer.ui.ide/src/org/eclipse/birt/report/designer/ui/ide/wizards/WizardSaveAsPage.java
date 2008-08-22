@@ -81,6 +81,10 @@ public class WizardSaveAsPage extends WizardPage
 			EXTENSIONS += ", ." + extensionList.get( i ); //$NON-NLS-1$
 		}
 	}
+	private static final String WRONG_DESIGN_EXTENSION = MessageFormat.format( Messages.getString( "WizardReportSettingPage.Error.ReportorTemplate" ), //$NON-NLS-1$
+			new String[]{
+				".rptdesign"
+			} );
 	private static final String WRONG_EXTENSION = MessageFormat.format( Messages.getString( "WizardReportSettingPage.Error.ReportorTemplate" ), //$NON-NLS-1$
 			new String[]{
 				EXTENSIONS
@@ -119,7 +123,9 @@ public class WizardSaveAsPage extends WizardPage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	public void createControl( Composite parent )
 	{
@@ -194,8 +200,8 @@ public class WizardSaveAsPage extends WizardPage
 
 	/**
 	 * Set the original file name to use. Used instead of
-	 * <code>setOriginalFile</code> when the original resource is not an
-	 * IFile. Must be called before <code>create</code>.
+	 * <code>setOriginalFile</code> when the original resource is not an IFile.
+	 * Must be called before <code>create</code>.
 	 * 
 	 * @param originalName
 	 *            default file name
@@ -246,7 +252,14 @@ public class WizardSaveAsPage extends WizardPage
 		if ( resourceGroup.getResource( ) != null
 				&& model instanceof ReportDesignHandle )
 		{
-			if ( !( ReportPlugin.getDefault( )
+			// rptdesign can only save as .rptdesign
+			if ( model.getFileName( ).endsWith( ".rptdesign" )
+					&& !( resourceGroup.getResource( ).endsWith( ".rptdesign" ) || resourceGroup.getResource( )
+							.endsWith( ".rpttemplate" ) ) )
+			{
+				setErrorMessage( WRONG_DESIGN_EXTENSION );
+			}
+			else if ( !( ReportPlugin.getDefault( )
 					.isReportDesignFile( resourceGroup.getResource( ) ) || resourceGroup.getResource( )
 					.endsWith( ".rpttemplate" ) ) ) //$NON-NLS-1$
 			{
@@ -698,10 +711,10 @@ class ResourceAndContainerGroup implements Listener
 	}
 
 	/**
-	 * Returns a <code>boolean</code> indicating whether the specified
-	 * resource path represents a valid new resource in the workbench. An error
-	 * message is stored for future reference if the path does not represent a
-	 * valid new resource path.
+	 * Returns a <code>boolean</code> indicating whether the specified resource
+	 * path represents a valid new resource in the workbench. An error message
+	 * is stored for future reference if the path does not represent a valid new
+	 * resource path.
 	 * 
 	 * @param resourcePath
 	 *            the path to validate
@@ -733,8 +746,8 @@ class ResourceAndContainerGroup implements Listener
 	}
 
 	/**
-	 * Returns a <code>boolean</code> indicating whether the resource name
-	 * rep- resents a valid resource name in the workbench. An error message is
+	 * Returns a <code>boolean</code> indicating whether the resource name rep-
+	 * resents a valid resource name in the workbench. An error message is
 	 * stored for future reference if the name does not represent a valid
 	 * resource name.
 	 * 
@@ -1091,7 +1104,9 @@ class ContainerContentProvider implements ITreeContentProvider
 	}
 
 	/*
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
+	 * @see
+	 * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.
+	 * Object)
 	 */
 	public Object[] getChildren( Object element )
 	{
@@ -1142,7 +1157,9 @@ class ContainerContentProvider implements ITreeContentProvider
 	}
 
 	/*
-	 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
+	 * @see
+	 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
+	 * .lang.Object)
 	 */
 	public Object[] getElements( Object element )
 	{
@@ -1150,7 +1167,9 @@ class ContainerContentProvider implements ITreeContentProvider
 	}
 
 	/*
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
+	 * @see
+	 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object
+	 * )
 	 */
 	public Object getParent( Object element )
 	{
@@ -1160,7 +1179,9 @@ class ContainerContentProvider implements ITreeContentProvider
 	}
 
 	/*
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
+	 * @see
+	 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.
+	 * Object)
 	 */
 	public boolean hasChildren( Object element )
 	{
