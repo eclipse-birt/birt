@@ -155,6 +155,8 @@ public class DateLevelDialog extends TitleAreaDialog
 
 	private String getDateFormatDisplayName( String dateType, String pattern )
 	{
+		if ( dateType == null )
+			return NONE;
 		String[][] formatPattern = (String[][]) formatMap.get( dateType );
 		if ( pattern == null )
 			return NONE;
@@ -239,6 +241,8 @@ public class DateLevelDialog extends TitleAreaDialog
 
 	public String getDateTypeDisplayName( String name )
 	{
+		if ( name == null )
+			return "";
 		return ChoiceSetFactory.getDisplayNameFromChoiceSet( name,
 				OlapUtil.getDateTimeLevelTypeChoiceSet( ) );
 	}
@@ -277,8 +281,11 @@ public class DateLevelDialog extends TitleAreaDialog
 		nameText.setText( input.getName( ) );
 		typeCombo.setItems( getAvailableDateTypeDisplayNames( ) );
 		typeCombo.setText( getDateTypeDisplayName( input.getDateTimeLevelType( ) ) );
-		formatCombo.setItems( getFormatDisplayItems( getAvailableDateTypeNames( ).get( typeCombo.getSelectionIndex( ) )
-				.toString( ) ) );
+		if ( typeCombo.getSelectionIndex( ) > -1 )
+		{
+			formatCombo.setItems( getFormatDisplayItems( getAvailableDateTypeNames( ).get( typeCombo.getSelectionIndex( ) )
+					.toString( ) ) );
+		}
 		formatCombo.add( NONE, 0 );
 		formatCombo.setText( getDateFormatDisplayName( input.getDateTimeLevelType( ),
 				input.getDateTimeFormat( ) ) );
@@ -333,9 +340,14 @@ public class DateLevelDialog extends TitleAreaDialog
 		} );
 	}
 
+	protected void createButtonsForButtonBar( Composite parent )
+	{
+		super.createButtonsForButtonBar( parent );
+		checkOkButtonStatus( );
+	}
+	
 	protected void checkOkButtonStatus( )
 	{
-
 		if ( nameText.getText( ) == null
 				|| nameText.getText( ).trim( ).equals( "" ) //$NON-NLS-1$
 				|| typeCombo.getSelectionIndex( ) == -1
