@@ -21,9 +21,12 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.birt.report.viewer.browsers.BrowserAccessor;
 import org.eclipse.birt.report.viewer.browsers.BrowserManager;
@@ -82,7 +85,7 @@ public class WebViewer
 	 * Preference key for SVG chart flag.
 	 */
 	public final static String SVG_FLAG = "svg_flag"; //$NON-NLS-1$
-	
+
 	public final static String BIDI_ORIENTATION = "bidi_orientation"; //$NON-NLS-1$
 	public final static String BIDI_ORIENTATION_AUTO = "auto"; //$NON-NLS-1$
 	public final static String BIDI_ORIENTATION_LTR = "ltr"; //$NON-NLS-1$
@@ -122,6 +125,17 @@ public class WebViewer
 	 * Key to indicate the format of the preview.
 	 */
 	public final static String FORMAT_KEY = "FORMAT_KEY"; //$NON-NLS-1$
+
+	/**
+	 * Key to indicate the emitter used for preview.
+	 */
+	public final static String EMITTER_ID_KEY = "EMITTER_ID_KEY"; //$NON-NLS-1$
+
+	/**
+	 * Key to indicate the emitter specific options used for preview. The value
+	 * must be an instance of Map<String, String>.
+	 */
+	public final static String EMITTER_OPTIONS_KEY = "EMITTER_OPTIONS_KEY"; //$NON-NLS-1$
 
 	/**
 	 * Key to indicate the 'allowPage' control of the preview.
@@ -176,14 +190,15 @@ public class WebViewer
 	private static ReloadableClassLoader reloadableClassLoader = null;
 
 	/**
-	 * locale mapping. Save some time.
+	 * Locale mapping. Key as Locale display name, value is in format like
+	 * "en_US"
 	 */
-	public static TreeMap LocaleTable = null;
+	public static TreeMap<String, String> LocaleTable = null;
 
 	static
 	{
 		// Initialize the locale mapping table
-		LocaleTable = new TreeMap( Collator.getInstance( ) );
+		LocaleTable = new TreeMap<String, String>( Collator.getInstance( ) );
 		Locale[] locales = Locale.getAvailableLocales( );
 		if ( locales != null )
 		{
@@ -299,15 +314,24 @@ public class WebViewer
 					null,
 					null,
 					null );
+
 		String servletName = (String) params.get( SERVLET_NAME_KEY );
 		String format = (String) params.get( FORMAT_KEY );
+		String emitterid = (String) params.get( EMITTER_ID_KEY );
 		String resourceFolder = (String) params.get( RESOURCE_FOLDER_KEY );
 		Boolean allowPage = (Boolean) params.get( ALLOW_PAGE_KEY );
+		Map<String, String> emitterOptions = (Map<String, String>) params.get( EMITTER_OPTIONS_KEY );
 
-		if ( format == null
-				|| format.trim( ).length( ) <= 0
-				|| HTM.equalsIgnoreCase( format ) )
+		// maintain legacy support
+		if ( HTM.equalsIgnoreCase( format ) )
+		{
 			format = HTML;
+		}
+
+		if ( StringUtil.isBlank( format ) )
+		{
+			format = StringUtil.isBlank( emitterid ) ? HTML : null;
+		}
 
 		if ( !HTML.equalsIgnoreCase( format ) )
 		{
@@ -315,10 +339,12 @@ public class WebViewer
 		}
 		else
 		{
-			if ( servletName == null || servletName.trim( ).length( ) <= 0 )
+			if ( StringUtil.isBlank( servletName ) )
 			{
 				if ( allowPage == null )
+				{
 					servletName = VIEWER_FRAMESET;
+				}
 				else
 				{
 					servletName = allowPage.booleanValue( ) ? VIEWER_FRAMESET
@@ -334,10 +360,8 @@ public class WebViewer
 		String maxrowlevels = (String) params.get( MAX_CUBE_ROW_LEVELS_KEY );
 		String maxcolumnlevels = (String) params.get( MAX_CUBE_COLUMN_LEVELS_KEY );
 
-		String url = createURL( webappName,
-				servletName,
-				report,
-				format,
+		// process common parameters
+		Map<String, String> urlParams = prepareCommonURLParams( format,
 				resourceFolder,
 				maxrows,
 				maxrowlevels,
@@ -354,11 +378,15 @@ public class WebViewer
 				{
 					String encodedDocumentName = URLEncoder.encode( documentName,
 							UTF_8 );
-					url += "&__document=" + encodedDocumentName; //$NON-NLS-1$
+					urlParams.put( ParameterAccessor.PARAM_REPORT_DOCUMENT,
+							encodedDocumentName );
 
 					String isCloseWin = (String) params.get( CLOSE_WINDOW_KEY );
 					if ( isCloseWin != null )
-						url += "&__closewin=" + isCloseWin; //$NON-NLS-1$
+					{
+						urlParams.put( ParameterAccessor.PARAM_CLOSEWIN,
+								isCloseWin );
+					}
 				}
 				catch ( UnsupportedEncodingException e )
 				{
@@ -371,13 +399,15 @@ public class WebViewer
 		String appContextName = ViewerPlugin.getDefault( )
 				.getPluginPreferences( )
 				.getString( APPCONTEXT_EXTENSION_KEY );
-		if ( appContextName != null && appContextName.trim( ).length( ) > 0 )
+
+		if ( !StringUtil.isBlank( appContextName ) )
 		{
 			try
 			{
 				String encodedAppContextName = URLEncoder.encode( appContextName.trim( ),
 						UTF_8 );
-				url += "&__appcontextname=" + encodedAppContextName; //$NON-NLS-1$
+				urlParams.put( ParameterAccessor.PARAM_APPCONTEXTNAME,
+						encodedAppContextName );
 			}
 			catch ( UnsupportedEncodingException e )
 			{
@@ -385,7 +415,17 @@ public class WebViewer
 			}
 		}
 
-		return url;
+		if ( !StringUtil.isBlank( emitterid ) )
+		{
+			urlParams.put( ParameterAccessor.PARAM_EMITTER_ID, emitterid.trim( ) );
+		}
+
+		if ( emitterOptions != null )
+		{
+			urlParams.putAll( emitterOptions );
+		}
+
+		return createURL( webappName, servletName, report, urlParams );
 	}
 
 	/**
@@ -409,6 +449,19 @@ public class WebViewer
 			String report, String format, String resourceFolder,
 			String maxrows, String maxrowlevels, String maxcolumnlevels )
 	{
+		return createURL( webappName,
+				servletName,
+				report,
+				prepareCommonURLParams( format,
+						resourceFolder,
+						maxrows,
+						maxrowlevels,
+						maxcolumnlevels ) );
+	}
+
+	private static String createURL( String webappName, String servletName,
+			String report, Map<String, String> urlParams )
+	{
 		String encodedReportName = null;
 
 		try
@@ -420,13 +473,52 @@ public class WebViewer
 			LogUtil.logWarning( e.getLocalizedMessage( ), e );
 		}
 
+		String reportParam = ParameterAccessor.PARAM_REPORT;
+		if ( isReportDocument( encodedReportName ) )
+		{
+			reportParam = ParameterAccessor.PARAM_REPORT_DOCUMENT;
+		}
+		reportParam += "=" + encodedReportName; //$NON-NLS-1$
+
+		// So far, only report name is encoded as utf-8 format
+		return getBaseURL( webappName ) + servletName + "?" //$NON-NLS-1$
+				+ reportParam
+				+ convertParams( urlParams );
+	}
+
+	private static String convertParams( Map<String, String> params )
+	{
+		if ( params != null && !params.isEmpty( ) )
+		{
+			StringBuffer sb = new StringBuffer( );
+
+			for ( Entry<String, String> entry : params.entrySet( ) )
+			{
+				sb.append( "&" ).append( entry.getKey( ) ); //$NON-NLS-1$
+
+				if ( entry.getValue( ) != null )
+				{
+					sb.append( "=" ).append( entry.getValue( ) ); //$NON-NLS-1$
+				}
+			}
+
+			return sb.toString( );
+		}
+
+		return ""; //$NON-NLS-1$
+	}
+
+	private static Map<String, String> prepareCommonURLParams( String format,
+			String resourceFolder, String maxrows, String maxrowlevels,
+			String maxcolumnlevels )
+	{
 		String locale = ViewerPlugin.getDefault( )
 				.getPluginPreferences( )
 				.getString( USER_LOCALE );
 
 		if ( LocaleTable.containsKey( locale ) )
 		{
-			locale = (String) LocaleTable.get( locale );
+			locale = LocaleTable.get( locale );
 		}
 		else
 		{
@@ -461,17 +553,17 @@ public class WebViewer
 		// read rtl value from the preferences
 		boolean rtl = false;
 		String bidiOrientation = ViewerPlugin.getDefault( )
-			.getPluginPreferences( )
-			.getString( BIDI_ORIENTATION );
+				.getPluginPreferences( )
+				.getString( BIDI_ORIENTATION );
 		if ( bidiOrientation == null )
 		{
 			bidiOrientation = BIDI_ORIENTATION_AUTO;
 		}
-		if ( BIDI_ORIENTATION_LTR.equals(bidiOrientation) )
+		if ( BIDI_ORIENTATION_LTR.equals( bidiOrientation ) )
 		{
 			rtl = false;
 		}
-		else if ( BIDI_ORIENTATION_RTL.equals(bidiOrientation) )
+		else if ( BIDI_ORIENTATION_RTL.equals( bidiOrientation ) )
 		{
 			rtl = true;
 		}
@@ -480,7 +572,7 @@ public class WebViewer
 			// detect rtl from eclipse
 			rtl = ( Window.getDefaultOrientation( ) == SWT.RIGHT_TO_LEFT );
 		}
-		
+
 		if ( "true".equalsIgnoreCase( svgFlag ) ) //$NON-NLS-1$
 		{
 			bSVGFlag = true;
@@ -498,50 +590,77 @@ public class WebViewer
 		// handle resource folder encoding
 		String encodedResourceFolder = null;
 
-		try
+		if ( resourceFolder != null )
 		{
-			if ( resourceFolder != null )
+			try
+			{
 				encodedResourceFolder = URLEncoder.encode( resourceFolder,
 						UTF_8 );
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+				LogUtil.logWarning( e.getLocalizedMessage( ), e );
+			}
 		}
-		catch ( UnsupportedEncodingException e )
-		{
-			LogUtil.logWarning( e.getLocalizedMessage( ), e );
-		}
-		if ( encodedResourceFolder == null )
-			encodedResourceFolder = ""; //$NON-NLS-1$
 
-		String reportParam = "__report"; //$NON-NLS-1$
-		if ( isReportDocument( encodedReportName ) )
-			reportParam = "__document"; //$NON-NLS-1$
-		reportParam += "=" + encodedReportName; //$NON-NLS-1$
+		if ( encodedResourceFolder == null )
+		{
+			encodedResourceFolder = ""; //$NON-NLS-1$
+		}
 
 		// workaround for postscript format, force "Content-Disposition" as
 		// "attachment"
 		String asattachment = null;
 		if ( POSTSCRIPT.equalsIgnoreCase( format ) )
-			asattachment = "&__asattachment=true"; //$NON-NLS-1$	
+		{
+			asattachment = "&__asattachment=true"; //$NON-NLS-1$
+		}
 
 		// get the local DPI setting
 		int dpi = Toolkit.getDefaultToolkit( ).getScreenResolution( );
 
-		// So far, only report name is encoded as utf-8 format
-		return getBaseURL( webappName ) + servletName + "?" //$NON-NLS-1$
-				+ reportParam
-				+ "&__format=" + format //$NON-NLS-1$
-				+ "&__svg=" + String.valueOf( bSVGFlag ) //$NON-NLS-1$
-				+ ( locale != null ? "&__locale=" + locale : "" ) //$NON-NLS-1$ //$NON-NLS-2$
-				+ "&__masterpage=" + String.valueOf( bMasterPageContent ) //$NON-NLS-1$
-				+ "&__rtl=" + String.valueOf( rtl ) //$NON-NLS-1$
-				+ ( maxrows != null && maxrows.trim( ).length( ) > 0 ? "&__maxrows=" + maxrows : "" ) //$NON-NLS-1$ //$NON-NLS-2$
-				+ ( maxrowlevels != null && maxrowlevels.trim( ).length( ) > 0 ? "&__maxrowlevels=" + maxrowlevels : "" ) //$NON-NLS-1$ //$NON-NLS-2$
-				+ ( maxcolumnlevels != null
-						&& maxcolumnlevels.trim( ).length( ) > 0 ? "&__maxcolumnlevels=" + maxcolumnlevels : "" ) //$NON-NLS-1$ //$NON-NLS-2$
-				+ ( cubeMemorySize != null
-						&& cubeMemorySize.trim( ).length( ) > 0 ? "&__cubememsize=" + cubeMemorySize : "" ) //$NON-NLS-1$ //$NON-NLS-2$
-				+ "&__resourceFolder=" + encodedResourceFolder //$NON-NLS-1$
-				+ ( asattachment != null ? asattachment : "" ) //$NON-NLS-1$
-				+ "&__dpi=" + dpi; //$NON-NLS-1$
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>( );
+
+		if ( format != null )
+		{
+			params.put( ParameterAccessor.PARAM_FORMAT, format );
+		}
+		params.put( ParameterAccessor.PARAM_SVG, String.valueOf( bSVGFlag ) );
+		if ( locale != null )
+		{
+			params.put( ParameterAccessor.PARAM_LOCALE, locale );
+		}
+		params.put( ParameterAccessor.PARAM_MASTERPAGE,
+				String.valueOf( bMasterPageContent ) );
+		params.put( ParameterAccessor.PARAM_RTL, String.valueOf( rtl ) );
+		if ( !StringUtil.isBlank( maxrows ) )
+		{
+			params.put( ParameterAccessor.PARAM_MAXROWS, maxrows.trim( ) );
+		}
+		if ( !StringUtil.isBlank( maxrowlevels ) )
+		{
+			params.put( ParameterAccessor.PARAM_MAXCUBE_ROWLEVELS,
+					maxrowlevels.trim( ) );
+		}
+		if ( !StringUtil.isBlank( maxcolumnlevels ) )
+		{
+			params.put( ParameterAccessor.PARAM_MAXCUBE_COLUMNLEVELS,
+					maxcolumnlevels.trim( ) );
+		}
+		if ( !StringUtil.isBlank( cubeMemorySize ) )
+		{
+			params.put( ParameterAccessor.PARAM_CUBEMEMSIZE,
+					cubeMemorySize.trim( ) );
+		}
+		params.put( ParameterAccessor.PARAM_RESOURCE_FOLDER,
+				encodedResourceFolder );
+		if ( asattachment != null )
+		{
+			params.put( ParameterAccessor.PARAM_AS_ATTACHMENT, "true" ); //$NON-NLS-1$
+		}
+		params.put( ParameterAccessor.PARAM_DPI, String.valueOf( dpi ) );
+
+		return params;
 	}
 
 	/**
