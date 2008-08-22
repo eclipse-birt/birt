@@ -79,7 +79,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 	int nestTableCount = 0;
 	
 	protected int lastRowId = -1;
-
+	
 	public HTMLTableLayoutEmitter( IContentEmitter emitter,HTMLLayoutContext context  )
 	{
 		this.emitter = emitter;
@@ -526,6 +526,10 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		{
 			if ( !isNestTable( ) )
 			{
+				if(LayoutUtil.isRepeatableBand( band ))
+				{
+					lastRowId = -1;
+				}
 				if ( band.getBandType( ) == IBandContent.BAND_GROUP_FOOTER )
 				{
 					int groupLevel = getGroupLevel( );
@@ -553,19 +557,16 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		{
 			boolean isHidden = LayoutUtil.isHidden( row, emitter
 					.getOutputFormat( ), context.getOutputDisplayNone( ) );
-			if(!LayoutUtil.isRepeatableRow( row ))
+			int rowId = row.getRowID( );
+			if(lastRowId>=0 && rowId>lastRowId+1)
 			{
-				int rowId = row.getRowID( );
-				if(lastRowId>=0 && rowId>lastRowId-1)
+				for(int i=lastRowId+1; i<rowId; i++)
 				{
-					for(int i=lastRowId+1; i<rowId; i++)
-					{
-						IRowContent newRow = (IRowContent)row.cloneContent( false );
-						newRow.setParent(row.getParent( ));
-						newRow.setRowID( i );
-						startRow(newRow);
-						endRow(newRow);
-					}
+					IRowContent newRow = (IRowContent)row.cloneContent( false );
+					newRow.setParent(row.getParent( ));
+					newRow.setRowID( i );
+					startRow(newRow);
+					endRow(newRow);
 				}
 			}
 			if ( !isNestTable( ) )
@@ -610,10 +611,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 			if ( !isNestTable( ) )
 			{
 				layout.endRow(row);
-				if(!LayoutUtil.isRepeatableRow( row ))
-				{
-					lastRowId = row.getRowID( );
-				}
+				lastRowId = row.getRowID( );
 				hasDropCell = layout.hasDropCell( );
 				if ( hasDropCell( ) )
 				{
