@@ -13,7 +13,6 @@ package org.eclipse.birt.report.taglib.util;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
@@ -241,62 +240,5 @@ public class BirtTagUtil
 		options.put( IModuleOption.RESOURCE_FOLDER_KEY, resourceFolder );
 		options.put( IModuleOption.PARSER_SEMANTIC_CHECK_KEY, Boolean.FALSE );
 		return options;
-	}
-	
-	/**
-	 * Makes an URI string based on the given parameters.
-	 * @param parameters map of parameters to values (must be String)
-	 * @return URI string
-	 */
-	public static String makeUriString( Map parameters )
-	{
-		StringBuffer output = new StringBuffer();
-		
-		for ( Iterator i = parameters.entrySet( ).iterator( ); i.hasNext( ); )
-		{
-			Map.Entry entry = (Map.Entry)i.next( );
-			Object value = entry.getValue();
-			
-			output.append( urlParamValueEncode( entry.getKey() ) );
-			
-			if ( value != null )
-			{
-				output.append("=");	
-				output.append( urlParamValueEncode( value ) );
-			}
-			if ( i.hasNext() )
-			{
-				output.append("&");
-			}
-		}
-		
-		return output.toString( );		
-	}
-
-	/**
-	 * Encode the url parameter value
-	 * 
-	 * @param plain
-	 * @return
-	 */
-	public static String urlParamValueEncode( String plain )
-	{
-		return ParameterAccessor.urlEncode( plain,
-				ParameterAccessor.UTF_8_ENCODE );
-	}
-	
-	/**
-	 * Encode the url parameter value
-	 * 
-	 * @param plain
-	 * @return
-	 */
-	public static String urlParamValueEncode( Object value )
-	{
-		if ( !(value instanceof String) )
-		{
-			value = value.toString();
-		}
-		return urlParamValueEncode( (String)value );
 	}	
 }

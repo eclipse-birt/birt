@@ -34,7 +34,7 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.utility.DataUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
-
+import org.eclipse.birt.report.utility.UrlUtility;
 
 /**
  * HTML action handler for url generation.
@@ -46,8 +46,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 * Logger for this handler.
 	 */
 
-	protected Logger log = Logger.getLogger( ViewerHTMLActionHandler.class
-			.getName( ) );
+	protected Logger log = Logger.getLogger( ViewerHTMLActionHandler.class.getName( ) );
 
 	/**
 	 * Document instance.
@@ -176,7 +175,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 * @see
 	 * org.eclipse.birt.report.engine.api.HTMLActionHandler#getURL(org.eclipse
 	 * .birt.report.engine.api.IAction,
-	 *      org.eclipse.birt.report.engine.api.script.IReportContext)
+	 * org.eclipse.birt.report.engine.api.script.IReportContext)
 	 */
 
 	public String getURL( IAction actionDefn, IReportContext context )
@@ -295,8 +294,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 
 		if ( this.document != null )
 		{
-			long pageNumber = this.document
-					.getPageNumber( action.getBookmark( ) );
+			long pageNumber = this.document.getPageNumber( action.getBookmark( ) );
 			realBookmark = ( pageNumber == this.page && !isEmbeddable );
 		}
 
@@ -356,40 +354,37 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 
 		if ( locale != null )
 		{
-			link.append( ParameterAccessor.getQueryParameterString(
-					ParameterAccessor.PARAM_LOCALE, locale.toString( ) ) );
+			link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_LOCALE,
+					locale.toString( ) ) );
 		}
 
 		if ( isRtl )
 		{
-			link.append( ParameterAccessor.getQueryParameterString(
-					ParameterAccessor.PARAM_RTL, String.valueOf( isRtl ) ) );
+			link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_RTL,
+					String.valueOf( isRtl ) ) );
 		}
 
 		if ( svg != null )
 		{
-			link.append( ParameterAccessor.getQueryParameterString(
-					ParameterAccessor.PARAM_SVG, String.valueOf( svg
-							.booleanValue( ) ) ) );
+			link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_SVG,
+					String.valueOf( svg.booleanValue( ) ) ) );
 		}
 
 		if ( isDesigner != null )
 		{
-			link.append( ParameterAccessor.getQueryParameterString(
-					ParameterAccessor.PARAM_DESIGNER, String
-							.valueOf( isDesigner ) ) );
+			link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_DESIGNER,
+					String.valueOf( isDesigner ) ) );
 		}
 
 		if ( pageOverflow != null )
 		{
-			link.append( ParameterAccessor.getQueryParameterString(
-					ParameterAccessor.PARAM_PAGE_OVERFLOW, pageOverflow ) );
+			link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_PAGE_OVERFLOW,
+					pageOverflow ) );
 		}
 
 		// add isMasterPageContent
-		link.append( ParameterAccessor.getQueryParameterString(
-				ParameterAccessor.PARAM_MASTERPAGE, String
-						.valueOf( this.isMasterPageContent ) ) );
+		link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_MASTERPAGE,
+				String.valueOf( this.isMasterPageContent ) ) );
 
 		// append resource folder setting
 		try
@@ -398,8 +393,8 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			{
 				String res = URLEncoder.encode( resourceFolder,
 						ParameterAccessor.UTF_8_ENCODE );
-				link.append( ParameterAccessor.getQueryParameterString(
-						ParameterAccessor.PARAM_RESOURCE_FOLDER, res ) );
+				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_RESOURCE_FOLDER,
+						res ) );
 			}
 		}
 		catch ( UnsupportedEncodingException e )
@@ -413,13 +408,13 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		}
 		else
 		{
-			link.append( ParameterAccessor.getQueryParameterString(
-					ParameterAccessor.PARAM_BOOKMARK, bookmark ) );
+			link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_BOOKMARK,
+					bookmark ) );
 
 			// Bookmark is TOC name.
 			if ( !action.isBookmark( ) )
-				link.append( ParameterAccessor.getQueryParameterString(
-						ParameterAccessor.PARAM_ISTOC, "true" ) ); //$NON-NLS-1$
+				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_ISTOC,
+						"true" ) ); //$NON-NLS-1$
 		}
 
 		return link.toString( );
@@ -438,11 +433,12 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			return null;
 
 		boolean encodePaths = false;
-		String actionString = action.getActionString( );
-		if ( actionString != null && actionString.indexOf( "__encodedPaths=true" ) >= 0 ) //$NON-NLS-1$
-		{
-			encodePaths = true;
-		}
+		String actionString = action.getActionString();
+		Map params = UrlUtility.extractUriParameters( actionString );
+		String anchor = UrlUtility.getAnchor( actionString );
+		
+		String encodedPathsString = (String)params.get( ParameterAccessor.PARAM_ENCODED_PATHS );
+		encodePaths = ( encodedPathsString != null && Boolean.valueOf( encodedPathsString ).booleanValue() );
 		
 		// Get Base URL
 		String baseURL = null;
@@ -455,104 +451,56 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		{
 			baseURL = ( (PDFRenderContext) renderContext ).getBaseURL( );
 		}
-
+		
 		// replace the servlet pattern using extract
 		baseURL = createBaseURLWithExtractPattern( baseURL );
-
-		// Save the URL String
-		StringBuffer link = new StringBuffer( );
-
-		link.append( baseURL );
-		link.append( ParameterAccessor.QUERY_CHAR );
 
 		// if the document is not null, then use it
 		if ( document != null )
 		{
-			link.append( ParameterAccessor.PARAM_REPORT_DOCUMENT );
-			link.append( ParameterAccessor.EQUALS_OPERATOR );
 			String documentName = document.getName( );
-
-			try
+			if ( encodePaths )
 			{
-				if ( encodePaths )
-				{
-					documentName = ParameterAccessor.encodeBase64( documentName );
-				}
-				documentName = URLEncoder.encode( documentName,
-						ParameterAccessor.UTF_8_ENCODE );
+				documentName = ParameterAccessor.encodeBase64( documentName );
 			}
-			catch ( UnsupportedEncodingException e )
-			{
-				// Does nothing
-			}
-			link.append( documentName );
+			params.put( ParameterAccessor.PARAM_REPORT_DOCUMENT, documentName );
 		}
 		else if ( action.getReportName( ) != null
 				&& action.getReportName( ).length( ) > 0 )
 		{
-			link.append( ParameterAccessor.PARAM_REPORT );
-			link.append( ParameterAccessor.EQUALS_OPERATOR );
 			String reportName = getReportName( context, action );
-			try
+			if ( encodePaths )
 			{
-				if ( encodePaths )
-				{
-					reportName = ParameterAccessor.encodeBase64( reportName );
-				}
-				reportName = URLEncoder.encode( reportName,
-						ParameterAccessor.UTF_8_ENCODE );
-			}
-			catch ( UnsupportedEncodingException e )
-			{
-				// do nothing
-			}
-			link.append( reportName );
+				reportName = ParameterAccessor.encodeBase64( reportName );
+			}			
+			params.put( ParameterAccessor.PARAM_REPORT, reportName );
 		}
 
-		if ( encodePaths )
-		{
-			link.append( ParameterAccessor.PARAMETER_SEPARATOR );
-			link.append( ParameterAccessor.PARAM_ENCODED_PATHS );
-			link.append( ParameterAccessor.EQUALS_OPERATOR );
-			link.append( "true" );  //$NON-NLS-1$
-		}
-		
 		// append extract options
-		createURLWithExtractInfo( action, link );
+		createURLWithExtractInfo( action, params );
 
 		if ( locale != null )
 		{
-			link.append( ParameterAccessor.getQueryParameterString(
-					ParameterAccessor.PARAM_LOCALE, locale.toString( ) ) );
+			params.put( ParameterAccessor.PARAM_LOCALE, locale.toString( ) );
 		}
 
 		if ( isRtl )
 		{
-			link.append( ParameterAccessor.getQueryParameterString(
-					ParameterAccessor.PARAM_RTL, String.valueOf( isRtl ) ) );
+			params.put( ParameterAccessor.PARAM_RTL, String.valueOf( isRtl ) );
 		}
 
 		// append resource folder setting
-		try
+		if ( resourceFolder != null )
 		{
-			if ( resourceFolder != null )
+			if ( encodePaths )
 			{
-				if ( encodePaths )
-				{
-					resourceFolder = ParameterAccessor.encodeBase64( resourceFolder );
-				}
-				
-				String res = URLEncoder.encode( resourceFolder,
-						ParameterAccessor.UTF_8_ENCODE );
-				link.append( ParameterAccessor.getQueryParameterString(
-						ParameterAccessor.PARAM_RESOURCE_FOLDER, res ) );
+				resourceFolder = ParameterAccessor.encodeBase64( resourceFolder );
 			}
-		}
-		catch ( UnsupportedEncodingException e )
-		{
+			
+			params.put( ParameterAccessor.PARAM_RESOURCE_FOLDER, resourceFolder );
 		}
 
-		return link.toString( );
+		return UrlUtility.buildUrl( baseURL, params, anchor );
 	}
 
 	/**
@@ -590,9 +538,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		{
 			link.append( baseURL );
 
-			link
-					.append( reportName.toLowerCase( )
-							.endsWith( ".rptdocument" ) ? "?__document=" : "?__report=" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			link.append( reportName.toLowerCase( ).endsWith( ".rptdocument" ) ? "?__document=" : "?__report=" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 			try
 			{
@@ -610,14 +556,15 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 				format = hostFormat;
 			if ( format != null && format.length( ) > 0 )
 			{
-				link.append( ParameterAccessor.getQueryParameterString(
-						ParameterAccessor.PARAM_FORMAT, format ) );
+				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_FORMAT,
+						format ) );
 			}
 
 			// Adds the parameters
 			if ( action.getParameterBindings( ) != null )
 			{
-				Iterator paramsIte = action.getParameterBindings( ).entrySet( )
+				Iterator paramsIte = action.getParameterBindings( )
+						.entrySet( )
 						.iterator( );
 				while ( paramsIte.hasNext( ) )
 				{
@@ -643,34 +590,21 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 							{
 								// TODO: here need the get the format from the
 								// parameter.
-								String value = DataUtil
-										.getDisplayValue( values[i] );
+								String value = DataUtil.getDisplayValue( values[i] );
 
 								if ( value != null )
 								{
-									link
-											.append( ParameterAccessor
-													.getQueryParameterString(
-															URLEncoder
-																	.encode(
-																			key,
-																			ParameterAccessor.UTF_8_ENCODE ),
-															URLEncoder
-																	.encode(
-																			value,
-																			ParameterAccessor.UTF_8_ENCODE ) ) );
+									link.append( ParameterAccessor.getQueryParameterString( URLEncoder.encode( key,
+											ParameterAccessor.UTF_8_ENCODE ),
+											URLEncoder.encode( value,
+													ParameterAccessor.UTF_8_ENCODE ) ) );
 								}
 								else
 								{
 									// pass NULL value
-									link
-											.append( ParameterAccessor
-													.getQueryParameterString(
-															ParameterAccessor.PARAM_ISNULL,
-															URLEncoder
-																	.encode(
-																			key,
-																			ParameterAccessor.UTF_8_ENCODE ) ) );
+									link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_ISNULL,
+											URLEncoder.encode( key,
+													ParameterAccessor.UTF_8_ENCODE ) ) );
 								}
 							}
 						}
@@ -682,52 +616,47 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 				}
 
 				// Adding overwrite.
-				if ( !reportName.toLowerCase( ).endsWith(
-						ParameterAccessor.SUFFIX_REPORT_DOCUMENT )
-						&& baseURL
-								.lastIndexOf( IBirtConstants.SERVLET_PATH_FRAMESET ) > 0 )
+				if ( !reportName.toLowerCase( )
+						.endsWith( ParameterAccessor.SUFFIX_REPORT_DOCUMENT )
+						&& baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_FRAMESET ) > 0 )
 				{
-					link.append( ParameterAccessor.getQueryParameterString(
-							ParameterAccessor.PARAM_OVERWRITE, String
-									.valueOf( true ) ) );
+					link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_OVERWRITE,
+							String.valueOf( true ) ) );
 				}
 			}
 
 			if ( locale != null )
 			{
-				link.append( ParameterAccessor.getQueryParameterString(
-						ParameterAccessor.PARAM_LOCALE, locale.toString( ) ) );
+				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_LOCALE,
+						locale.toString( ) ) );
 			}
 			if ( isRtl )
 			{
-				link.append( ParameterAccessor.getQueryParameterString(
-						ParameterAccessor.PARAM_RTL, String.valueOf( isRtl ) ) );
+				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_RTL,
+						String.valueOf( isRtl ) ) );
 			}
 
 			if ( svg != null )
 			{
-				link.append( ParameterAccessor.getQueryParameterString(
-						ParameterAccessor.PARAM_SVG, String.valueOf( svg
-								.booleanValue( ) ) ) );
+				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_SVG,
+						String.valueOf( svg.booleanValue( ) ) ) );
 			}
 
 			if ( isDesigner != null )
 			{
-				link.append( ParameterAccessor.getQueryParameterString(
-						ParameterAccessor.PARAM_DESIGNER, String
-								.valueOf( isDesigner ) ) );
+				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_DESIGNER,
+						String.valueOf( isDesigner ) ) );
 			}
 
 			if ( pageOverflow != null )
 			{
-				link.append( ParameterAccessor.getQueryParameterString(
-						ParameterAccessor.PARAM_PAGE_OVERFLOW, pageOverflow ) );
+				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_PAGE_OVERFLOW,
+						pageOverflow ) );
 			}
 
 			// add isMasterPageContent
-			link.append( ParameterAccessor.getQueryParameterString(
-					ParameterAccessor.PARAM_MASTERPAGE, String
-							.valueOf( this.isMasterPageContent ) ) );
+			link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_MASTERPAGE,
+					String.valueOf( this.isMasterPageContent ) ) );
 
 			// append resource folder setting
 			try
@@ -736,8 +665,8 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 				{
 					String res = URLEncoder.encode( resourceFolder,
 							ParameterAccessor.UTF_8_ENCODE );
-					link.append( ParameterAccessor.getQueryParameterString(
-							ParameterAccessor.PARAM_RESOURCE_FOLDER, res ) );
+					link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_RESOURCE_FOLDER,
+							res ) );
 				}
 			}
 			catch ( UnsupportedEncodingException e )
@@ -753,23 +682,22 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 				{
 					// In PREVIEW mode or pdf format, don't support bookmark as
 					// parameter
-					if ( baseURL
-							.lastIndexOf( IBirtConstants.SERVLET_PATH_PREVIEW ) > 0
-							|| IBirtConstants.PDF_RENDER_FORMAT
-									.equalsIgnoreCase( format ) )
+					if ( baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_PREVIEW ) > 0
+							|| IBirtConstants.PDF_RENDER_FORMAT.equalsIgnoreCase( format ) )
 					{
 						link.append( "#" ); //$NON-NLS-1$
 
 						// use TOC to find bookmark, only link to document file
 						if ( !action.isBookmark( )
-								&& reportName.toLowerCase( ).endsWith(
-										".rptdocument" ) ) //$NON-NLS-1$
+								&& reportName.toLowerCase( )
+										.endsWith( ".rptdocument" ) ) //$NON-NLS-1$
 						{
 							InputOptions options = new InputOptions( );
 							options.setOption( InputOptions.OPT_LOCALE, locale );
-							bookmark = BirtReportServiceFactory
-									.getReportService( ).findTocByName(
-											reportName, bookmark, options );
+							bookmark = BirtReportServiceFactory.getReportService( )
+									.findTocByName( reportName,
+											bookmark,
+											options );
 						}
 
 						link.append( URLEncoder.encode( bookmark,
@@ -779,15 +707,13 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 					{
 						bookmark = URLEncoder.encode( bookmark,
 								ParameterAccessor.UTF_8_ENCODE );
-						link.append( ParameterAccessor.getQueryParameterString(
-								ParameterAccessor.PARAM_BOOKMARK, bookmark ) );
+						link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_BOOKMARK,
+								bookmark ) );
 
 						// Bookmark is TOC name.
 						if ( !action.isBookmark( ) )
-							link.append( ParameterAccessor
-									.getQueryParameterString(
-											ParameterAccessor.PARAM_ISTOC,
-											"true" ) ); //$NON-NLS-1$
+							link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_ISTOC,
+									"true" ) ); //$NON-NLS-1$
 					}
 
 				}
@@ -891,54 +817,38 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 * @param link
 	 * @return
 	 */
-	private void createURLWithExtractInfo( IDataAction action, StringBuffer link )
+	private void createURLWithExtractInfo( IDataAction action, Map params )
 	{
 		assert action != null;
-		assert link != null;
+		assert params != null;
 
 		// append extract format
 		if ( action.getDataType( ) != null )
 		{
-			link.append( ParameterAccessor.PARAMETER_SEPARATOR );
-			link.append( ParameterAccessor.PARAM_DATA_EXTRACT_FORMAT );
-			link.append( ParameterAccessor.EQUALS_OPERATOR );
-			link.append( action.getDataType( ) );
+			params.put( ParameterAccessor.PARAM_DATA_EXTRACT_FORMAT,
+					action.getDataType( ) );
 		}
 
 		// append instance id
 		if ( action.getInstanceID( ) != null )
 		{
-			link.append( ParameterAccessor.PARAMETER_SEPARATOR );
-			link.append( ParameterAccessor.PARAM_INSTANCEID );
-			link.append( ParameterAccessor.EQUALS_OPERATOR );
 			String instanceId = null;
 			try
 			{
 				instanceId = URLEncoder.encode( action.getInstanceID( )
 						.toUniqueString( ), ParameterAccessor.UTF_8_ENCODE );
-				link.append( instanceId );
 			}
 			catch ( UnsupportedEncodingException e )
 			{
 				// Does nothing
 			}
+			params.put( ParameterAccessor.PARAM_INSTANCEID, instanceId );
 		}
 
 		// append bookmark
 		if ( action.getBookmark( ) != null )
 		{
-			link.append( ParameterAccessor.PARAMETER_SEPARATOR );
-			link.append( ParameterAccessor.PARAM_BOOKMARK );
-			link.append( ParameterAccessor.EQUALS_OPERATOR );
-			try
-			{
-				link.append( URLEncoder.encode( action.getBookmark( ),
-						ParameterAccessor.UTF_8_ENCODE ) );
-			}
-			catch ( UnsupportedEncodingException e )
-			{
-				// Does nothing
-			}
+			params.put( ParameterAccessor.PARAM_BOOKMARK, action.getBookmark( ) );
 		}
 	}
 

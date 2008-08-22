@@ -21,6 +21,7 @@ import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.taglib.ITagConstants;
 import org.eclipse.birt.report.taglib.util.BirtTagUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
+import org.eclipse.birt.report.utility.UrlUtility;
 
 /**
  * Specifies the viewer tag parameters.
@@ -331,7 +332,7 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 					&& !"true".equalsIgnoreCase( isReportlet ) ) //$NON-NLS-1$
 			{
 				// if use PREVIEW mode, append bookmark directly
-				uriSuffix += "#" + BirtTagUtil.urlParamValueEncode( bookmark ); //$NON-NLS-1$
+				uriSuffix += "#" + UrlUtility.urlParamValueEncode( bookmark ); //$NON-NLS-1$
 			}
 			else
 			{
@@ -344,7 +345,7 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 			uriParams.put( ParameterAccessor.PARAM_ISREPORTLET, isReportlet );
 		}
 
-		return uri += "?" + BirtTagUtil.makeUriString( uriParams ) + uriSuffix;
+		return uri += "?" + UrlUtility.makeUriString( uriParams ) + uriSuffix;
 	}
 
 	/**
