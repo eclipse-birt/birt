@@ -263,15 +263,15 @@ SelectValueDialog.messages.info.selectVauleUnavailable=值列表不可用。
 
 CrosstabPreferencePage.Title=交叉表
 CrosstabPreferencePage.filterLimit=筛选限制
-CrosstabPreferencePage.filterLimit.prompt=要显示的最大值数:
+CrosstabPreferencePage.filterLimit.prompt=Maximum number of &values to display:
 CrosstabPreferencePage.Error.MaxRowInvalid=数值无效
 CrosstabPreferencePage.autoDelBindings.Text=交叉表结果更改后删除未使用的绑定
-CrosstabPreferencePage.autoDelBindings.Text.Prompt=提示
-CrosstabPreferencePage.autoDelBindings.Text.Always=始终
-CrosstabPreferencePage.autoDelBindings.Text.Never=从不
+CrosstabPreferencePage.autoDelBindings.Text.Prompt=&Prompt
+CrosstabPreferencePage.autoDelBindings.Text.Always=A&lways
+CrosstabPreferencePage.autoDelBindings.Text.Never=&Never
 
 CrosstabPreferencePage.promptGroup=提示
-CrosstabPreferencePage.cubePopup.Text=在将字段拖动到交叉表并成功创建多维数据集之后提示。
+CrosstabPreferencePage.cubePopup.Text=&Hint after dropping fields to crosstab and creating a cube successfully.
 
 ###########################################################
 #Crosstab DataBinding properties

@@ -263,15 +263,15 @@ SelectValueDialog.messages.info.selectVauleUnavailable=値リストがありません。
 
 CrosstabPreferencePage.Title=クロスタブ
 CrosstabPreferencePage.filterLimit=フィルタの制限
-CrosstabPreferencePage.filterLimit.prompt=表示する値の最大数 :
+CrosstabPreferencePage.filterLimit.prompt=Maximum number of &values to display:
 CrosstabPreferencePage.Error.MaxRowInvalid=数値が無効です。
 CrosstabPreferencePage.autoDelBindings.Text=クロスタブ構造の変更後に未使用のバインドを削除する
-CrosstabPreferencePage.autoDelBindings.Text.Prompt=確認する
-CrosstabPreferencePage.autoDelBindings.Text.Always=常に削除する
-CrosstabPreferencePage.autoDelBindings.Text.Never=削除しない
+CrosstabPreferencePage.autoDelBindings.Text.Prompt=&Prompt
+CrosstabPreferencePage.autoDelBindings.Text.Always=A&lways
+CrosstabPreferencePage.autoDelBindings.Text.Never=&Never
 
 CrosstabPreferencePage.promptGroup=プロンプト
-CrosstabPreferencePage.cubePopup.Text=フィールドをクロスタブにドロップし、キューブを作成した後でヒントを表示します。
+CrosstabPreferencePage.cubePopup.Text=&Hint after dropping fields to crosstab and creating a cube successfully.
 
 ###########################################################
 #Crosstab DataBinding properties
