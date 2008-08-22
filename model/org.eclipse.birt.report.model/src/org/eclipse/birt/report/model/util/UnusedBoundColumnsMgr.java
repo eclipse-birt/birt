@@ -36,6 +36,8 @@ import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Checks unused bound columns for the specified element.
@@ -64,8 +66,10 @@ public class UnusedBoundColumnsMgr extends BoundColumnsMgr
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.writer.BoundColumnsMgr#handleBoundsForParamBinding(org.eclipse.birt.report.model.core.DesignElement,
-	 *      org.eclipse.birt.report.model.core.Module, java.lang.String)
+	 * @seeorg.eclipse.birt.report.model.writer.BoundColumnsMgr#
+	 * handleBoundsForParamBinding
+	 * (org.eclipse.birt.report.model.core.DesignElement,
+	 * org.eclipse.birt.report.model.core.Module, java.lang.String)
 	 */
 
 	protected void handleBoundsForParamBinding( DesignElement element,
@@ -99,8 +103,10 @@ public class UnusedBoundColumnsMgr extends BoundColumnsMgr
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.writer.BoundColumnsMgr#handleBoundsForValue(org.eclipse.birt.report.model.core.DesignElement,
-	 *      org.eclipse.birt.report.model.core.Module, java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.writer.BoundColumnsMgr#handleBoundsForValue
+	 * (org.eclipse.birt.report.model.core.DesignElement,
+	 * org.eclipse.birt.report.model.core.Module, java.lang.String)
 	 */
 
 	protected void handleBoundsForValue( DesignElement element, Module module,
@@ -199,7 +205,8 @@ public class UnusedBoundColumnsMgr extends BoundColumnsMgr
 				.getPropertyHandle( propName );
 
 		ActivityStack cmdStack = module.getActivityStack( );
-		cmdStack.startTrans( null );
+		cmdStack.startTrans( ModelMessages
+				.getMessage( MessageConstants.REMOVE_ITEM_MESSAGE ) );
 		try
 		{
 			for ( int i = 0; i < unusedList.size( ); i++ )
@@ -218,8 +225,10 @@ public class UnusedBoundColumnsMgr extends BoundColumnsMgr
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.writer.BoundColumnsMgr#dealData(org.eclipse.birt.report.model.elements.DataItem,
-	 *      org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.writer.BoundColumnsMgr#dealData(org.eclipse
+	 * .birt.report.model.elements.DataItem,
+	 * org.eclipse.birt.report.model.core.Module)
 	 */
 
 	public void dealData( DataItem element, Module module )
@@ -240,8 +249,10 @@ public class UnusedBoundColumnsMgr extends BoundColumnsMgr
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealReportItem(org.eclipse.birt.report.model.elements.ReportItem,
-	 *      org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.util.BoundColumnsMgr#dealReportItem(org
+	 * .eclipse.birt.report.model.elements.ReportItem,
+	 * org.eclipse.birt.report.model.core.Module)
 	 */
 
 	protected void dealReportItem( ReportItem element, Module module )
@@ -265,8 +276,10 @@ public class UnusedBoundColumnsMgr extends BoundColumnsMgr
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealScalarParameter(org.eclipse.birt.report.model.elements.ScalarParameter,
-	 *      org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.util.BoundColumnsMgr#dealScalarParameter
+	 * (org.eclipse.birt.report.model.elements.ScalarParameter,
+	 * org.eclipse.birt.report.model.core.Module)
 	 */
 
 	protected void dealScalarParameter( ScalarParameter element, Module module )
