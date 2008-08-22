@@ -100,6 +100,8 @@ public class FillChooserComposite extends Composite implements
 
 	private transient boolean bGradientEnabled = true;
 
+	private boolean bGradientAngleEnabled = true;
+
 	private transient boolean bImageEnabled = true;
 
 	private transient boolean bTransparentEnabled = true;
@@ -109,10 +111,10 @@ public class FillChooserComposite extends Composite implements
 	private transient Fill fCurrent = null;
 
 	private transient boolean bTransparencyChanged = false;
-	
+
 	/** It indicates if the transparency slider is visible. */
 	private transient boolean bTransparencySliderEnable = true;
-	
+
 	private transient boolean bPositiveNegativeEnabled = false;
 
 	private transient int iTransparency = 0;
@@ -143,6 +145,7 @@ public class FillChooserComposite extends Composite implements
 	public static final int ENABLE_TRANSPARENT = 1 << 3;
 	public static final int ENABLE_TRANSPARENT_SLIDER = 1 << 4;
 	public static final int ENABLE_POSITIVE_NEGATIVE = 1 << 5;
+	public static final int DISABLE_GRADIENT_ANGLE = 1 << 6;
 
 	/**
 	 * @param parent
@@ -164,8 +167,9 @@ public class FillChooserComposite extends Composite implements
 				( ( ENABLE_TRANSPARENT & optionalStyle ) == ENABLE_TRANSPARENT ),
 				( ( ENABLE_POSITIVE_NEGATIVE & optionalStyle ) == ENABLE_POSITIVE_NEGATIVE ) );
 		this.bTransparencySliderEnable = ( ( ENABLE_TRANSPARENT_SLIDER & optionalStyle ) == ENABLE_TRANSPARENT_SLIDER );
+		this.bGradientAngleEnabled = !( ( DISABLE_GRADIENT_ANGLE & optionalStyle ) == DISABLE_GRADIENT_ANGLE );
 	}
-	
+
 	/**
 	 * 
 	 * @param parent
@@ -220,7 +224,7 @@ public class FillChooserComposite extends Composite implements
 		placeComponents( );
 		initAccessible( );
 	}
-	
+
 	/**
 	 * 
 	 * @param parent
@@ -234,8 +238,8 @@ public class FillChooserComposite extends Composite implements
 	 *            Indicates whether auto button will be displayed.
 	 * @param bEnableTransparent
 	 *            Indicates whether transparent button will be displayed.
-	 * @param bPositiveNegative 
-	 * 			  Indicates whether positive/negative button will be displayed.
+	 * @param bPositiveNegative
+	 *            Indicates whether positive/negative button will be displayed.
 	 */
 	public FillChooserComposite( Composite parent, int style,
 			ChartWizardContext wizardContext, Fill fCurrent,
@@ -600,7 +604,7 @@ public class FillChooserComposite extends Composite implements
 			srTransparency.addListener( SWT.KeyDown, this );
 			srTransparency.addListener( SWT.Traverse, this );
 		}
-		
+
 		final int BUTTON_HEIGHTHINT = 28;
 		if ( this.bTransparentEnabled )
 		{
@@ -752,7 +756,9 @@ public class FillChooserComposite extends Composite implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
+	 * .events.SelectionEvent)
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
@@ -829,7 +835,8 @@ public class FillChooserComposite extends Composite implements
 		}
 		else if ( oSource.equals( this.btnCustom ) )
 		{
-			ColorDialog cDlg = new ColorDialog( this.getShell( ), SWT.APPLICATION_MODAL );
+			ColorDialog cDlg = new ColorDialog( this.getShell( ),
+					SWT.APPLICATION_MODAL );
 			cmpDropDown.getShell( ).close( );
 			int iTrans = 255;
 			if ( fCurrent instanceof ColorDefinition )
@@ -863,7 +870,8 @@ public class FillChooserComposite extends Composite implements
 			{
 				ged = new GradientEditorDialog( this.getShell( ),
 						wizardContext,
-						(Gradient) fCurrent );
+						(Gradient) fCurrent,
+						bGradientAngleEnabled );
 			}
 			else if ( fCurrent instanceof ColorDefinition )
 			{
@@ -871,14 +879,15 @@ public class FillChooserComposite extends Composite implements
 				newCD.eAdapters( ).addAll( fCurrent.eAdapters( ) );
 				ged = new GradientEditorDialog( this.getShell( ),
 						wizardContext,
-						null,
-						newCD );
+						newCD,
+						bGradientAngleEnabled );
 			}
 			else
 			{
 				ged = new GradientEditorDialog( this.getShell( ),
 						wizardContext,
-						null );
+						ColorDefinitionImpl.create( 0, 0, 254 ),
+						bGradientAngleEnabled );
 			}
 			if ( ged.open( ) == Window.OK )
 			{
@@ -914,7 +923,9 @@ public class FillChooserComposite extends Composite implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
+	 * .swt.events.SelectionEvent)
 	 */
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
@@ -935,7 +946,9 @@ public class FillChooserComposite extends Composite implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.DisposeListener#widgetDisposed(org.eclipse.swt.events.DisposeEvent)
+	 * @see
+	 * org.eclipse.swt.events.DisposeListener#widgetDisposed(org.eclipse.swt
+	 * .events.DisposeEvent)
 	 */
 	public void widgetDisposed( DisposeEvent e )
 	{

@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.ui.swt.composites;
 
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Gradient;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -42,11 +41,10 @@ import org.eclipse.swt.widgets.Shell;
  * @author Actuate Corporation
  * 
  */
-public class GradientEditorDialog extends TrayDialog
-		implements
-			SelectionListener,
-			Listener,
-			IAngleChangeListener
+public class GradientEditorDialog extends TrayDialog implements
+		SelectionListener,
+		Listener,
+		IAngleChangeListener
 {
 
 	private Composite cmpContent = null;
@@ -58,8 +56,6 @@ public class GradientEditorDialog extends TrayDialog
 	private FillChooserComposite fccEndColor = null;
 
 	private Button cbCyclic = null;
-
-	private Group grpRotation = null;
 
 	private AngleSelectorComposite ascRotation = null;
 
@@ -73,34 +69,32 @@ public class GradientEditorDialog extends TrayDialog
 
 	private ChartWizardContext wizardContext;
 
+	private final boolean bSupportAngle;
+
 	/**
 	 * 
 	 */
 	public GradientEditorDialog( Shell shellParent,
 			ChartWizardContext wizardContext, Gradient gSelected,
-			ColorDefinition selectedColor )
+			boolean bSupportAngle )
 	{
-		super(shellParent);
-		
+		super( shellParent );
+
 		this.wizardContext = wizardContext;
-		if ( gSelected != null )
-		{
-			gCurrent = (Gradient) EcoreUtil.copy( gSelected );
-			gBackup = (Gradient) EcoreUtil.copy( gSelected );
-		}
-		else
-		{
-			gCurrent = FillUtil.createDefaultGradient( selectedColor );
-		}
+		this.bSupportAngle = bSupportAngle;
+
+		gCurrent = (Gradient) EcoreUtil.copy( gSelected );
+		gBackup = (Gradient) EcoreUtil.copy( gSelected );
 	}
 
 	public GradientEditorDialog( Shell shellParent,
-			ChartWizardContext wizardContext, Gradient gSelected )
+			ChartWizardContext wizardContext, ColorDefinition selectedColor,
+			boolean bSupportAngle )
 	{
 		this( shellParent,
 				wizardContext,
-				gSelected,
-				ColorDefinitionImpl.create( 0, 0, 254 ) );
+				FillUtil.createDefaultGradient( selectedColor ),
+				bSupportAngle );
 	}
 
 	protected Control createContents( Composite parent )
@@ -111,11 +105,13 @@ public class GradientEditorDialog extends TrayDialog
 		UIHelper.centerOnScreen( getShell( ) );
 		return super.createContents( parent );
 	}
-	
+
 	protected void setShellStyle( int newShellStyle )
 	{
 		super.setShellStyle( newShellStyle
-				| SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL );
+				| SWT.DIALOG_TRIM
+				| SWT.RESIZE
+				| SWT.APPLICATION_MODAL );
 	}
 
 	protected Control createDialogArea( Composite parent )
@@ -173,7 +169,10 @@ public class GradientEditorDialog extends TrayDialog
 		GridData gdLBLDummy = new GridData( GridData.FILL_BOTH );
 		lblDummy.setLayoutData( gdLBLDummy );
 
-		createRotationPanel( );
+		if ( bSupportAngle )
+		{
+			createRotationPanel( );
+		}
 
 		/*
 		 * cbCyclic = new Button(cmpContent, SWT.CHECK); GridData gdCBCyclic =
@@ -203,7 +202,7 @@ public class GradientEditorDialog extends TrayDialog
 		glRotation.marginWidth = 2;
 		glRotation.numColumns = 3;
 
-		grpRotation = new Group( cmpContent, SWT.NONE );
+		Group grpRotation = new Group( cmpContent, SWT.NONE );
 		GridData gdGRPRotation = new GridData( GridData.FILL_BOTH );
 		gdGRPRotation.heightHint = 180;
 		grpRotation.setLayoutData( gdGRPRotation );
@@ -236,7 +235,7 @@ public class GradientEditorDialog extends TrayDialog
 	{
 		return gCurrent;
 	}
-	
+
 	protected void cancelPressed( )
 	{
 		gCurrent = gBackup;
@@ -246,7 +245,9 @@ public class GradientEditorDialog extends TrayDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
+	 * .events.SelectionEvent)
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
@@ -259,7 +260,9 @@ public class GradientEditorDialog extends TrayDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
+	 * .swt.events.SelectionEvent)
 	 */
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
@@ -268,7 +271,9 @@ public class GradientEditorDialog extends TrayDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+	 * @see
+	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
+	 * Event)
 	 */
 	public void handleEvent( Event event )
 	{
@@ -292,7 +297,9 @@ public class GradientEditorDialog extends TrayDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.composites.IAngleChangeListener#angleChanged(int)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.composites.IAngleChangeListener#angleChanged
+	 * (int)
 	 */
 	public void angleChanged( int iNewAngle )
 	{
