@@ -197,7 +197,7 @@ public class PathResourceEntry extends BaseResourceEntity
 				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 		}
-		return sort( (ResourceEntry[]) childrenList.toArray( new ResourceEntry[childrenList.size( )] ) );
+		return (ResourceEntry[]) childrenList.toArray( new ResourceEntry[childrenList.size( )] );
 	}
 
 	public String getName( )

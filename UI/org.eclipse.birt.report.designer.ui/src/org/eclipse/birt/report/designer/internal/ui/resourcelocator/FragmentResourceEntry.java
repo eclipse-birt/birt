@@ -185,7 +185,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 
 	public ResourceEntry[] getChildren( )
 	{
-		return sort( (ResourceEntry[]) this.children.toArray( new ResourceEntry[this.children.size( )] ) );
+		return (ResourceEntry[]) this.children.toArray( new ResourceEntry[this.children.size( )] );
 	}
 
 	public String getName( )

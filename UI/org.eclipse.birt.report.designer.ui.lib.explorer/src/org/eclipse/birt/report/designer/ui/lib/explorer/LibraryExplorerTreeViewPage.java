@@ -155,12 +155,33 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 			{
 				if ( e1 instanceof ResourceEntry && e2 instanceof ResourceEntry )
 				{
-					// check same type
-					if ( ( ( (ResourceEntry) e1 ).isFile( ) ^ ( (ResourceEntry) e2 ).isFile( ) ) )
+					ResourceEntry entry1 = (ResourceEntry) e1;
+					ResourceEntry entry2 = (ResourceEntry) e2;
+
+					if ( entry1 == null || entry2 == null )
 					{
-						// place folder first
-						return ( (ResourceEntry) e1 ).isFile( ) ? 1 : -1;
+						return entry1 == null ? -1 : 1;
 					}
+
+					boolean isEntry1File = entry1.isFile( );
+					boolean isEntry2File = entry2.isFile( );
+
+					if ( isEntry1File == isEntry2File )
+					{
+						String name1 = entry1.getName( );
+						String name2 = entry2.getName( );
+
+						if ( name1 != null && name2 != null )
+						{
+							return name1.toLowerCase( )
+									.compareTo( name2.toLowerCase( ) );
+						}
+						else
+						{
+							return name1 == null ? -1 : 1;
+						}
+					}
+					return isEntry1File ? 1 : -1;
 				}
 
 				if ( e1 instanceof DesignElementEntry )
