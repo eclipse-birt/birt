@@ -832,17 +832,8 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		// append instance id
 		if ( action.getInstanceID( ) != null )
 		{
-			String instanceId = null;
-			try
-			{
-				instanceId = URLEncoder.encode( action.getInstanceID( )
-						.toUniqueString( ), ParameterAccessor.UTF_8_ENCODE );
-			}
-			catch ( UnsupportedEncodingException e )
-			{
-				// Does nothing
-			}
-			params.put( ParameterAccessor.PARAM_INSTANCEID, instanceId );
+			params.put( ParameterAccessor.PARAM_INSTANCEID, action.getInstanceID( )
+					.toUniqueString( ) );
 		}
 
 		// append bookmark
