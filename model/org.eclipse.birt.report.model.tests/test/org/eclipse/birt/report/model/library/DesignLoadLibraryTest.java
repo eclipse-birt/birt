@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.IllegalOperationException;
+import org.eclipse.birt.report.model.api.IncludeScriptHandle;
 import org.eclipse.birt.report.model.api.IncludedLibraryHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -34,6 +35,7 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
+import org.eclipse.birt.report.model.api.ScriptLibHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -168,9 +170,8 @@ public class DesignLoadLibraryTest extends BaseTestCase
 					( (ErrorDetail) e.getErrorList( ).get( 0 ) ).getErrorCode( ) );
 		}
 
-
 		// this is an allowed case.
-		
+
 		openDesign( "DesignWithDuplicateNamespace1.xml" ); //$NON-NLS-1$
 
 	}
@@ -270,7 +271,7 @@ public class DesignLoadLibraryTest extends BaseTestCase
 		assertEquals( "Library_2", includeLibrary.getNamespace( ) ); //$NON-NLS-1$
 		assertEquals( includeLibrary.getFileName( ), libraryHandle2
 				.getRelativeFileName( ) );
-		
+
 		includeLibrary = (IncludedLibrary) list.get( 2 );
 		assertEquals( "Library_3.xml", includeLibrary.getFileName( ) ); //$NON-NLS-1$
 		assertEquals( "Lib3", includeLibrary.getNamespace( ) ); //$NON-NLS-1$
@@ -1996,7 +1997,7 @@ public class DesignLoadLibraryTest extends BaseTestCase
 
 		// test getAllImages()
 
-		assertEquals( 2, designHandle.getAllImages( ).size( ) );
+		assertEquals( 4, designHandle.getAllImages( ).size( ) );
 		assertEquals( 4, lib1.getAllImages( ).size( ) );
 	}
 
@@ -2028,8 +2029,8 @@ public class DesignLoadLibraryTest extends BaseTestCase
 	 * 
 	 * cases:
 	 * <ul>
-	 * <li>a table with dataset in library is extended triple times.
-	 * <li>a table with dataset in library is extended two times.
+	 * <li>a table with dataset in library is extended triple times. <li>a table
+	 * with dataset in library is extended two times.
 	 * </ul>
 	 * 
 	 * @throws Exception
@@ -2102,5 +2103,36 @@ public class DesignLoadLibraryTest extends BaseTestCase
 		label.drop( );
 		assertNull( label.getRoot( ) );
 		assertNull( designHandle.findElement( "NewLabel" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Test cases to retrieve script libs/included scripts from the design with
+	 * its included libraries.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testGetLibResources( ) throws Exception
+	{
+		openDesign( "DesignWithResourcesTest.xml" ); //$NON-NLS-1$
+
+		List<ScriptLibHandle> libs = designHandle.getAllScriptLibs( );
+		assertEquals( 4, libs.size( ) );
+
+		List<IncludeScriptHandle> includedScripts = designHandle
+				.getAllIncludeScripts( );
+		assertEquals( 4, includedScripts.size( ) );
+
+		IncludeScriptHandle script = includedScripts.get( 0 );
+		assertEquals( "a", script.getFileName( ) );  //$NON-NLS-1$
+
+		script = includedScripts.get( 1 );
+		assertEquals( "outer", script.getFileName( ) );  //$NON-NLS-1$
+
+		script = includedScripts.get( 2 );
+		assertEquals( "inner", script.getFileName( ) );  //$NON-NLS-1$
+
+		script = includedScripts.get( 3 );
+		assertEquals( "outer1", script.getFileName( ) );  //$NON-NLS-1$
 	}
 }

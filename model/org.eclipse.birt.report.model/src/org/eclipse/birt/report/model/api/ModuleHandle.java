@@ -420,7 +420,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		for ( int i = 0; i < size; i++ )
 		{
 			LibraryHandle library = (LibraryHandle) theLibraries.get( i );
-			tempList = library.getNativeStructureList( propName );
+			tempList = library.getStructureList( propName );
 			if ( !tempList.isEmpty( ) )
 				list.addAll( tempList );
 		}

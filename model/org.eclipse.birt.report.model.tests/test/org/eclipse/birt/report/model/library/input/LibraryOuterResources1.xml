@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.4" id="1">
+    <list-property name="scriptLibs">
+        <structure>
+            <property name="name">outer1.jar</property>
+        </structure>
+    </list-property>
+    <list-property name="includeScripts">
+		<property>outer1</property>
+	</list-property>        
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+        </simple-master-page>
+    </page-setup>
+</library>
