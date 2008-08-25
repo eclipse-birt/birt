@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * 
@@ -144,7 +144,7 @@ public class FilterConditionElementHandle extends ContentElementHandle
 	{
 
 		ActivityStack stack = getModule( ).getActivityStack( );
-		stack.startTrans( ModelMessages.getMessage(
+		stack.startTrans( CommandLabelFactory.getCommandLabel(
 				MessageConstants.CHANGE_PROPERTY_MESSAGE,
 				new String[]{OPERATOR_PROP} ) );
 		try

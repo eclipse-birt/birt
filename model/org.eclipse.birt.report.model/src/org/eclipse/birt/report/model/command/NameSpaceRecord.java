@@ -28,11 +28,11 @@ import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.namespace.INameHelper;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
@@ -95,18 +95,19 @@ public class NameSpaceRecord extends SimpleRecord
 		// and the label for that task should appear in the UI.
 
 		if ( add )
-			label = ModelMessages
-					.getMessage( MessageConstants.INSERT_ELEMENT_MESSAGE );
+			label = CommandLabelFactory
+					.getCommandLabel( MessageConstants.INSERT_ELEMENT_MESSAGE );
 		else
-			label = ModelMessages
-					.getMessage( MessageConstants.DELETE_ELEMENT_MESSAGE );
+			label = CommandLabelFactory
+					.getCommandLabel( MessageConstants.DELETE_ELEMENT_MESSAGE );
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.SimpleRecord#perform(boolean)
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.SimpleRecord#perform(boolean)
 	 */
 
 	protected void perform( boolean undo )
@@ -264,7 +265,9 @@ public class NameSpaceRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.AbstractElementRecord#getTarget()
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getTarget
+	 * ()
 	 */
 
 	public DesignElement getTarget( )
@@ -275,7 +278,9 @@ public class NameSpaceRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent()
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent
+	 * ()
 	 */
 
 	public NotificationEvent getEvent( )

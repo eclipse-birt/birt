@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.MetaDataException;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Creates, modifies and deletes user-defined property, which is also known as
@@ -204,7 +205,7 @@ public class UserPropertyCommand extends AbstractElementCommand
 
 		ActivityStack stack = getActivityStack( );
 
-		String label = ModelMessages.getMessage(
+		String label = CommandLabelFactory.getCommandLabel(
 				MessageConstants.CHANGE_PROPERTY_DEFINITION_MESSAGE,
 				new String[]{oldPropDefn.getDisplayName( )} );
 		stack.startTrans( label );
@@ -402,7 +403,8 @@ public class UserPropertyCommand extends AbstractElementCommand
 						element,
 						name,
 						UserPropertyException.DESIGN_EXCEPTION_INVALID_DEFAULT_VALUE,
-						e, new String[]{defaultValue.toString( ), prop.getType().getName()} );
+						e, new String[]{defaultValue.toString( ),
+								prop.getType( ).getName( )} );
 			}
 		}
 

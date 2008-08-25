@@ -23,8 +23,8 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Represents an image report item. The image can come from a number of sources:
@@ -418,7 +418,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 		try
 		{
 
-			as.startTrans( ModelMessages.getMessage(
+			as.startTrans( CommandLabelFactory.getCommandLabel(
 					MessageConstants.CHANGE_PROPERTY_MESSAGE,
 					new String[]{IMAGE_NAME_PROP} ) );
 
@@ -505,7 +505,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 		ActivityStack as = module.getActivityStack( );
 		try
 		{
-			as.startTrans( ModelMessages.getMessage(
+			as.startTrans( CommandLabelFactory.getCommandLabel(
 					MessageConstants.CHANGE_PROPERTY_MESSAGE,
 					new String[]{URI_PROP} ) );
 
@@ -575,7 +575,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 		try
 		{
 
-			as.startTrans( ModelMessages.getMessage(
+			as.startTrans( CommandLabelFactory.getCommandLabel(
 					MessageConstants.CHANGE_PROPERTY_MESSAGE,
 					new String[]{TYPE_EXPR_PROP} ) );
 
@@ -607,7 +607,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 		try
 		{
 
-			as.startTrans( ModelMessages.getMessage(
+			as.startTrans( CommandLabelFactory.getCommandLabel(
 					MessageConstants.CHANGE_PROPERTY_MESSAGE,
 					new String[]{VALUE_EXPR_PROP} ) );
 

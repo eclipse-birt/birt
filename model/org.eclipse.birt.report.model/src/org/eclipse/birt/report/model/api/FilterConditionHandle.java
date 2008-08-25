@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.util.OperatorUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Represents one filter in the filter list of List, Table or their Groups.
@@ -152,7 +152,7 @@ public class FilterConditionHandle extends StructureHandle
 	{
 
 		ActivityStack stack = getModule( ).getActivityStack( );
-		stack.startTrans( ModelMessages.getMessage(
+		stack.startTrans( CommandLabelFactory.getCommandLabel(
 				MessageConstants.CHANGE_PROPERTY_MESSAGE,
 				new String[]{IFilterConditionElementModel.OPERATOR_PROP} ) );
 		try

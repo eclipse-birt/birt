@@ -32,9 +32,9 @@ import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 
 /**
@@ -136,14 +136,15 @@ public class MoveContentRecord extends SimpleRecord
 		int count = to.getContentCount( module );
 		this.newPosn = ( posn == -1 || count < posn ) ? count : posn;
 
-		label = ModelMessages
-				.getMessage( MessageConstants.MOVE_CONTENT_MESSAGE );
+		label = CommandLabelFactory
+				.getCommandLabel( MessageConstants.MOVE_CONTENT_MESSAGE );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform()
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform()
 	 */
 
 	protected void perform( boolean undo )
@@ -172,7 +173,9 @@ public class MoveContentRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord#getTarget()
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
+	 * #getTarget()
 	 */
 
 	public DesignElement getTarget( )
@@ -186,7 +189,9 @@ public class MoveContentRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord#getEvent()
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
+	 * #getEvent()
 	 */
 
 	public NotificationEvent getEvent( )
@@ -197,7 +202,8 @@ public class MoveContentRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.validators.core.IValidatorProvider#getValidators()
+	 * @seeorg.eclipse.birt.report.model.validators.core.IValidatorProvider#
+	 * getValidators()
 	 */
 
 	public List getValidators( )

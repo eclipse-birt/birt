@@ -16,7 +16,7 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.NameEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Records a change to the name of an element.
@@ -59,14 +59,16 @@ public class NameRecord extends SimpleRecord
 		newName = name;
 		oldName = element.getName( );
 
-		label = ModelMessages.getMessage( MessageConstants.SET_NAME_MESSAGE );
+		label = CommandLabelFactory
+				.getCommandLabel( MessageConstants.SET_NAME_MESSAGE );
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.SimpleRecord#perform(boolean)
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.SimpleRecord#perform(boolean)
 	 */
 
 	protected void perform( boolean undo )
@@ -77,7 +79,9 @@ public class NameRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.AbstractElementRecord#getTarget()
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getTarget
+	 * ()
 	 */
 
 	public DesignElement getTarget( )
@@ -88,7 +92,9 @@ public class NameRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent()
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent
+	 * ()
 	 */
 
 	public NotificationEvent getEvent( )

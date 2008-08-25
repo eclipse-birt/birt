@@ -32,10 +32,10 @@ import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.ContentExceptionFactory;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
@@ -241,8 +241,8 @@ public class GroupElementCommand extends ContentCommand
 	{
 		super.checkBeforeAdd( content );
 
-		if ( !flag && element instanceof ListingElement &&
-				content instanceof GroupElement )
+		if ( !flag && element instanceof ListingElement
+				&& content instanceof GroupElement )
 		{
 			ListingElement tmpContainer = (ListingElement) element;
 			if ( tmpContainer.isDataBindingReferring( module ) )
@@ -258,16 +258,17 @@ public class GroupElementCommand extends ContentCommand
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.command.ContentCommand#checkBeforeMovePosition(org.eclipse.birt.report.model.core.DesignElement,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.command.ContentCommand#checkBeforeMovePosition
+	 * (org.eclipse.birt.report.model.core.DesignElement, int)
 	 */
 	protected void checkBeforeMovePosition( DesignElement content, int newPosn )
 			throws ContentException
 	{
 		super.checkBeforeMovePosition( content, newPosn );
 
-		if ( !flag && element instanceof ListingElement &&
-				content instanceof GroupElement )
+		if ( !flag && element instanceof ListingElement
+				&& content instanceof GroupElement )
 		{
 			ListingElement tmpContainer = (ListingElement) element;
 			if ( tmpContainer.isDataBindingReferring( module ) )
@@ -282,7 +283,9 @@ public class GroupElementCommand extends ContentCommand
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.command.ContentCommand#checkBeforeRemove(org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.command.ContentCommand#checkBeforeRemove
+	 * (org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
 	protected void checkBeforeRemove( DesignElement content )
@@ -290,8 +293,8 @@ public class GroupElementCommand extends ContentCommand
 	{
 		super.checkBeforeRemove( content );
 
-		if ( !flag && element instanceof ListingElement &&
-				content instanceof GroupElement )
+		if ( !flag && element instanceof ListingElement
+				&& content instanceof GroupElement )
 		{
 			ListingElement tmpContainer = (ListingElement) element;
 			if ( tmpContainer.isDataBindingReferring( module ) )
@@ -307,7 +310,7 @@ public class GroupElementCommand extends ContentCommand
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.command.ContentCommand#doAdd(int,
-	 *      org.eclipse.birt.report.model.core.DesignElement)
+	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
 	protected void doAdd( int newPos, DesignElement content )
@@ -315,8 +318,8 @@ public class GroupElementCommand extends ContentCommand
 	{
 		ActivityStack stack = getActivityStack( );
 
-		stack.startTrans( ModelMessages
-				.getMessage( MessageConstants.ADD_ELEMENT_MESSAGE ) );
+		stack.startTrans( CommandLabelFactory
+				.getCommandLabel( MessageConstants.ADD_ELEMENT_MESSAGE ) );
 
 		try
 		{
@@ -358,8 +361,9 @@ public class GroupElementCommand extends ContentCommand
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.command.ContentCommand#doDelectAction(org.eclipse.birt.report.model.core.DesignElement,
-	 *      boolean)
+	 * @see
+	 * org.eclipse.birt.report.model.command.ContentCommand#doDelectAction(org
+	 * .eclipse.birt.report.model.core.DesignElement, boolean)
 	 */
 	protected void doDelectAction( DesignElement content )
 			throws SemanticException
@@ -380,8 +384,9 @@ public class GroupElementCommand extends ContentCommand
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.command.ContentCommand#doMovePosition(org.eclipse.birt.report.model.core.DesignElement,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.command.ContentCommand#doMovePosition(org
+	 * .eclipse.birt.report.model.core.DesignElement, int)
 	 */
 
 	protected void doMovePosition( DesignElement content, int newPosn )
@@ -391,8 +396,8 @@ public class GroupElementCommand extends ContentCommand
 		int oldPosn = focus.indexOf( module, content );
 
 		ActivityStack stack = getActivityStack( );
-		stack.startTrans( ModelMessages
-				.getMessage( MessageConstants.MOVE_CONTENT_MESSAGE ) );
+		stack.startTrans( CommandLabelFactory
+				.getCommandLabel( MessageConstants.MOVE_CONTENT_MESSAGE ) );
 
 		try
 		{

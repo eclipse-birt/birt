@@ -42,13 +42,13 @@ import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.IContainerDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.ContentExceptionFactory;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
 
@@ -431,14 +431,14 @@ public class ContentCommand extends AbstractContentCommand
 						String propName = ref.getPropertyName( );
 						ElementPropertyDefn propDefn = client
 								.getPropertyDefn( propName );
-						if ( propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE &&
-								propDefn.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+						if ( propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE
+								&& propDefn.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 						{
 							// for this case, make sure only one corresponding
 							// element reference value is removed, not the whole
 							// list. Otherwise, some back references may be
 							// corrupted.
-							
+
 							clearMatchedElementRefInList( client, propDefn,
 									referred );
 						}
@@ -472,8 +472,8 @@ public class ContentCommand extends AbstractContentCommand
 			throws SemanticException
 	{
 
-		assert propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE &&
-				propDefn.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE;
+		assert propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE
+				&& propDefn.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE;
 
 		List values = (List) client.getProperty( module, propDefn );
 		if ( values == null || values.isEmpty( ) )
@@ -519,21 +519,21 @@ public class ContentCommand extends AbstractContentCommand
 			// handled in remove method.
 
 			if ( IDesignElementModel.EXTENDS_PROP.equalsIgnoreCase( propDefn
-					.getName( ) ) ||
-					IStyledElementModel.STYLE_PROP.equalsIgnoreCase( propDefn
-							.getName( ) ) )
+					.getName( ) )
+					|| IStyledElementModel.STYLE_PROP
+							.equalsIgnoreCase( propDefn.getName( ) ) )
 				continue;
 
-			if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE ||
-					propDefn.getTypeCode( ) == IPropertyType.STRUCT_REF_TYPE )
+			if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE
+					|| propDefn.getTypeCode( ) == IPropertyType.STRUCT_REF_TYPE )
 			{
 				Object value = element.getLocalProperty( module,
 						(ElementPropertyDefn) propDefn );
 
 				if ( value != null )
 				{
-					if ( ( value instanceof StructRefValue ) ||
-							( (ElementRefValue) value ).isResolved( ) )
+					if ( ( value instanceof StructRefValue )
+							|| ( (ElementRefValue) value ).isResolved( ) )
 					{
 						try
 						{
@@ -551,8 +551,8 @@ public class ContentCommand extends AbstractContentCommand
 					}
 				}
 			}
-			else if ( propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE &&
-					propDefn.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+			else if ( propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE
+					&& propDefn.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 			{
 				List valueList = (List) element.getLocalProperty( module,
 						(ElementPropertyDefn) propDefn );
@@ -693,8 +693,8 @@ public class ContentCommand extends AbstractContentCommand
 
 	private boolean canMovePosition( DesignElement content, int newPosn )
 	{
-		if ( element instanceof ReportDesign &&
-				focus.getSlotID( ) == IModuleModel.COMPONENT_SLOT )
+		if ( element instanceof ReportDesign
+				&& focus.getSlotID( ) == IModuleModel.COMPONENT_SLOT )
 		{
 			List derived = content.getDerived( );
 			// ContainerSlot slot = element.getSlot( slotID );
@@ -734,9 +734,9 @@ public class ContentCommand extends AbstractContentCommand
 
 	private boolean hasDescendents( DesignElement content )
 	{
-		return element instanceof ReportDesign &&
-				focus.getSlotID( ) == IModuleModel.COMPONENT_SLOT &&
-				content.hasDerived( );
+		return element instanceof ReportDesign
+				&& focus.getSlotID( ) == IModuleModel.COMPONENT_SLOT
+				&& content.hasDerived( );
 	}
 
 	/**
@@ -825,9 +825,9 @@ public class ContentCommand extends AbstractContentCommand
 		// do all checks about the transformation state
 		if ( oldElement instanceof TemplateElement )
 		{
-			if ( !oldElement.canDrop( module ) ||
-					!oldElement.isTemplateParameterValue( module ) ||
-					!newElement.getDefn( ).isKindOf(
+			if ( !oldElement.canDrop( module )
+					|| !oldElement.isTemplateParameterValue( module )
+					|| !newElement.getDefn( ).isKindOf(
 							( (TemplateElement) oldElement ).getDefaultElement(
 									module ).getDefn( ) ) )
 				throw new TemplateException(
@@ -836,8 +836,8 @@ public class ContentCommand extends AbstractContentCommand
 		}
 		else
 		{
-			if ( !oldElement.canTransformToTemplate( module ) ||
-					!( newElement instanceof TemplateElement ) )
+			if ( !oldElement.canTransformToTemplate( module )
+					|| !( newElement instanceof TemplateElement ) )
 				throw ContentExceptionFactory
 						.createContentException(
 								focus,
@@ -974,8 +974,8 @@ public class ContentCommand extends AbstractContentCommand
 	{
 		ActivityStack stack = getActivityStack( );
 
-		String label = ModelMessages
-				.getMessage( MessageConstants.MOVE_ELEMENT_MESSAGE );
+		String label = CommandLabelFactory
+				.getCommandLabel( MessageConstants.MOVE_ELEMENT_MESSAGE );
 		stack.startTrans( label );
 
 		super.doMove( content, toContainerInfor, newPos );
@@ -986,8 +986,9 @@ public class ContentCommand extends AbstractContentCommand
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.command.AbstractContentCommand#doMovePosition(org.eclipse.birt.report.model.core.DesignElement,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.command.AbstractContentCommand#doMovePosition
+	 * (org.eclipse.birt.report.model.core.DesignElement, int)
 	 */
 
 	protected void doMovePosition( DesignElement content, int newPosn )

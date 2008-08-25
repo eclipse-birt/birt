@@ -18,8 +18,8 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Records a change to the style of an element.
@@ -40,7 +40,6 @@ public class StyleRecord extends SimpleRecord
 	 */
 
 	protected Object oldStyle = null;
-
 
 	/**
 	 * The new style. Can be null.
@@ -70,13 +69,15 @@ public class StyleRecord extends SimpleRecord
 		else
 			oldStyle = element.getStyleName( );
 
-		label = ModelMessages.getMessage( MessageConstants.SET_STYLE_MESSAGE );
+		label = CommandLabelFactory
+				.getCommandLabel( MessageConstants.SET_STYLE_MESSAGE );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.SimpleRecord#perform(boolean)
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.SimpleRecord#perform(boolean)
 	 */
 
 	protected void perform( boolean undo )
@@ -100,7 +101,9 @@ public class StyleRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.AbstractElementRecord#getTarget()
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getTarget
+	 * ()
 	 */
 
 	public DesignElement getTarget( )
@@ -111,7 +114,9 @@ public class StyleRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent()
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent
+	 * ()
 	 */
 
 	public NotificationEvent getEvent( )

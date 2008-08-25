@@ -16,9 +16,9 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.DataTypeConversionUtil;
 
 /**
@@ -491,7 +491,7 @@ public class DataSetParameterHandle extends StructureHandle
 		 */
 		private String changePropertyMessage( )
 		{
-			return ModelMessages.getMessage(
+			return CommandLabelFactory.getCommandLabel(
 					MessageConstants.CHANGE_PROPERTY_MESSAGE,
 					new String[]{getPropertyDefn( ).getDisplayName( )} );
 		}

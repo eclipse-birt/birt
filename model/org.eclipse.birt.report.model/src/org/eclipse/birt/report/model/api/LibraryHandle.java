@@ -27,7 +27,7 @@ import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
@@ -203,8 +203,8 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 		String themeName = ( (Module) getElement( ) ).getThemeName( );
 
 		if ( themeName == null )
-			themeName = ModelMessages
-					.getMessage( IThemeModel.DEFAULT_THEME_NAME );
+			themeName = CommandLabelFactory
+					.getCommandLabel( IThemeModel.DEFAULT_THEME_NAME );
 
 		importCssStyles( stylesheet, selectedStyles, themeName );
 
@@ -279,8 +279,8 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 			return;
 
 		ActivityStack stack = module.getActivityStack( );
-		stack.startTrans( ModelMessages
-				.getMessage( MessageConstants.IMPORT_CSS_STYLES_MESSAGE ) );
+		stack.startTrans( CommandLabelFactory
+				.getCommandLabel( MessageConstants.IMPORT_CSS_STYLES_MESSAGE ) );
 
 		// creates the theme if it does not exist
 

@@ -25,8 +25,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSourceModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Represents a extended data source.
@@ -337,8 +337,8 @@ public class OdaDataSourceHandle extends DataSourceHandle
 				getModuleHandle( )
 						.getCommandStack( )
 						.startTrans(
-								ModelMessages
-										.getMessage( MessageConstants.CHANGE_ITEM_MESSAGE ) );
+								CommandLabelFactory
+										.getCommandLabel( MessageConstants.CHANGE_ITEM_MESSAGE ) );
 				stateHandle.setContentAsString( (String) memberValue );
 				stateHandle.setContentAsBlob( null );
 				getModuleHandle( ).getCommandStack( ).commit( );
@@ -349,8 +349,8 @@ public class OdaDataSourceHandle extends DataSourceHandle
 				getModuleHandle( )
 						.getCommandStack( )
 						.startTrans(
-								ModelMessages
-										.getMessage( MessageConstants.CHANGE_ITEM_MESSAGE ) );
+								CommandLabelFactory
+										.getCommandLabel( MessageConstants.CHANGE_ITEM_MESSAGE ) );
 				stateHandle.setContentAsString( null );
 				stateHandle.setContentAsBlob( (byte[]) memberValue );
 				getModuleHandle( ).getCommandStack( ).commit( );

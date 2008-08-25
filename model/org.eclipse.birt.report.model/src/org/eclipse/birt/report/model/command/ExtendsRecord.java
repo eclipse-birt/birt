@@ -16,8 +16,8 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ExtendsEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Sets the extends attribute of an element.
@@ -94,7 +94,8 @@ public class ExtendsRecord extends SimpleRecord
 		if ( oldParent == null )
 			oldName = obj.getExtendsName( );
 
-		label = ModelMessages.getMessage( MessageConstants.SET_EXTENDS_MESSAGE );
+		label = CommandLabelFactory
+				.getCommandLabel( MessageConstants.SET_EXTENDS_MESSAGE );
 
 	}
 

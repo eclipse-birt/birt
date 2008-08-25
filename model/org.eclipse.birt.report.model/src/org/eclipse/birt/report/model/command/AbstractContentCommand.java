@@ -24,11 +24,11 @@ import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.IContainerDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.ContentExceptionFactory;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
 
@@ -338,8 +338,8 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 
 		ActivityStack stack = getActivityStack( );
 
-		stack.startFilterEventTrans( ModelMessages
-				.getMessage( MessageConstants.DROP_ELEMENT_MESSAGE ) );
+		stack.startFilterEventTrans( CommandLabelFactory
+				.getCommandLabel( MessageConstants.DROP_ELEMENT_MESSAGE ) );
 
 		try
 		{
@@ -555,8 +555,8 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 	 *            The slot that contains the element.
 	 * @param newPosn
 	 *            The new position within the slot. Note that the range of
-	 *            <code>newPos</code> is from 0 to the number of element in
-	 *            the slot with the ID <code>slotID</code>.
+	 *            <code>newPos</code> is from 0 to the number of element in the
+	 *            slot with the ID <code>slotID</code>.
 	 * @throws ContentException
 	 *             if the content cannot be moved to new container.
 	 */

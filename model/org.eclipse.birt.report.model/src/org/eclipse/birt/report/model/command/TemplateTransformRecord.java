@@ -17,7 +17,7 @@ import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Records transforming a report item or data set to a template element and
@@ -44,19 +44,21 @@ public class TemplateTransformRecord extends ContentReplaceRecord
 	 * 
 	 */
 
-	public TemplateTransformRecord( Module module, ContainerContext containerInfo,
-			DesignElement from, DesignElement to )
+	public TemplateTransformRecord( Module module,
+			ContainerContext containerInfo, DesignElement from, DesignElement to )
 	{
 		super( module, containerInfo, from, to );
-		this.label = ModelMessages
-				.getMessage( MessageConstants.TRANSFORM_TEMPLATE_MESSAGE );
+		this.label = CommandLabelFactory
+				.getCommandLabel( MessageConstants.REPLACE_ELEMENT_MESSAGE );
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.command.ContentReplaceRecord#getContainerEvent()
+	 * @see
+	 * org.eclipse.birt.report.model.command.ContentReplaceRecord#getContainerEvent
+	 * ()
 	 */
 
 	protected NotificationEvent getContainerEvent( )

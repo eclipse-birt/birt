@@ -18,14 +18,14 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * ActivityRecord to add, remove or change a custom-defined message. As with any
  * command, the caller must have verified that the operation is legal. This one
  * command handles both the add and remove operations, since they are inverse
  * operations.
- *  
+ * 
  */
 
 public class CustomMsgRecord extends SimpleRecord
@@ -87,7 +87,7 @@ public class CustomMsgRecord extends SimpleRecord
 	 * @param action
 	 *            one of the action options, can be <code>ADD</code> or
 	 *            <code>DROP</code>
-	 *  
+	 * 
 	 */
 
 	public CustomMsgRecord( ReportDesign design, Translation translation,
@@ -102,11 +102,11 @@ public class CustomMsgRecord extends SimpleRecord
 		this.translation = translation;
 
 		if ( action == ADD )
-			label = ModelMessages
-					.getMessage( MessageConstants.ADD_TRANSLATION_MESSAGE );
+			label = CommandLabelFactory
+					.getCommandLabel( MessageConstants.ADD_TRANSLATION_MESSAGE );
 		else if ( action == DROP )
-			label = ModelMessages
-					.getMessage( MessageConstants.DROP_TRANSLATION_MESSAGE );
+			label = CommandLabelFactory
+					.getCommandLabel( MessageConstants.DROP_TRANSLATION_MESSAGE );
 	}
 
 	/**
@@ -119,8 +119,8 @@ public class CustomMsgRecord extends SimpleRecord
 	 * @param value
 	 *            new value for either translation text or locale.
 	 * @param action
-	 *            one of the action options, can be <code>CHANGE_TEXT</code>
-	 *            or <code>CHANGE_LOCALE</code>
+	 *            one of the action options, can be <code>CHANGE_TEXT</code> or
+	 *            <code>CHANGE_LOCALE</code>
 	 */
 
 	public CustomMsgRecord( ReportDesign design, Translation translation,
@@ -140,14 +140,16 @@ public class CustomMsgRecord extends SimpleRecord
 		else if ( action == CHANGE_LOCALE )
 			oldValue = translation.getLocale( );
 
-		label = ModelMessages
-				.getMessage( MessageConstants.CHANGE_TRANSLATION_MESSAGE );
+		label = CommandLabelFactory
+				.getCommandLabel( MessageConstants.CHANGE_TRANSLATION_MESSAGE );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.activity.SimpleRecord#perform(boolean)
+	 * @see
+	 * org.eclipse.birt.report.model.design.activity.SimpleRecord#perform(boolean
+	 * )
 	 */
 
 	protected void perform( boolean undo )
@@ -186,7 +188,9 @@ public class CustomMsgRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.activity.AbstractElementRecord#getTarget()
+	 * @see
+	 * org.eclipse.birt.report.model.design.activity.AbstractElementRecord#getTarget
+	 * ()
 	 */
 
 	public DesignElement getTarget( )
@@ -197,7 +201,9 @@ public class CustomMsgRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.activity.AbstractElementRecord#getEvent()
+	 * @see
+	 * org.eclipse.birt.report.model.design.activity.AbstractElementRecord#getEvent
+	 * ()
 	 */
 
 	public NotificationEvent getEvent( )

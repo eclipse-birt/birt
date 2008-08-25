@@ -32,9 +32,9 @@ import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Complex property command to handle all list related operations, such as,
@@ -114,8 +114,8 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 			element.checkStructureList( module, propDefn, list, struct );
 
 		ActivityStack stack = getActivityStack( );
-		stack.startTrans( ModelMessages
-				.getMessage( MessageConstants.ADD_ITEM_MESSAGE ) );
+		stack.startTrans( CommandLabelFactory
+				.getCommandLabel( MessageConstants.ADD_ITEM_MESSAGE ) );
 
 		makeLocalCompositeValue( ref );
 		list = ref.getList( module, element );
@@ -206,8 +206,8 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 			element.checkSimpleList( module, prop, list, value );
 
 		ActivityStack stack = getActivityStack( );
-		stack.startTrans( ModelMessages
-				.getMessage( MessageConstants.ADD_ITEM_MESSAGE ) );
+		stack.startTrans( CommandLabelFactory
+				.getCommandLabel( MessageConstants.ADD_ITEM_MESSAGE ) );
 
 		makeLocalCompositeValue( ref );
 
@@ -291,8 +291,8 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 
 		ActivityStack stack = getActivityStack( );
 
-		stack.startTrans( ModelMessages
-				.getMessage( MessageConstants.INSERT_ITEM_MESSAGE ) );
+		stack.startTrans( CommandLabelFactory
+				.getCommandLabel( MessageConstants.INSERT_ITEM_MESSAGE ) );
 
 		makeLocalCompositeValue( ref );
 		list = ref.getList( module, element );
@@ -320,8 +320,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	 * Removes an item from a structure list.
 	 * <ul>
 	 * <li>The element must exist in the current effective value for the list.
-	 * This means the list must be set on this element or a ancestor element.
-	 * </li>
+	 * This means the list must be set on this element or a ancestor element.</li>
 	 * <li>If the property is set on this element, then the element is simply
 	 * removed.</li>
 	 * <li>If the property is set on an ancestor element, then the inherited
@@ -397,8 +396,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	 * Removes an item from a structure list.
 	 * <ul>
 	 * <li>The element must exist in the current effective value for the list.
-	 * This means the list must be set on this element or a ancestor element.
-	 * </li>
+	 * This means the list must be set on this element or a ancestor element.</li>
 	 * <li>If the property is set on this element, then the element is simply
 	 * removed.</li>
 	 * <li>If the property is set on an ancestor element, then the inherited
@@ -447,8 +445,8 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 
 	private void doRemoveItem( MemberRef memberRef )
 	{
-		String label = ModelMessages
-				.getMessage( MessageConstants.REMOVE_ITEM_MESSAGE );
+		String label = CommandLabelFactory
+				.getCommandLabel( MessageConstants.REMOVE_ITEM_MESSAGE );
 
 		ActivityStack stack = module.getActivityStack( );
 		stack.startTrans( label );
@@ -554,8 +552,8 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 
 		ActivityStack stack = module.getActivityStack( );
 
-		stack.startTrans( ModelMessages
-				.getMessage( MessageConstants.REPLACE_ITEM_MESSAGE ) );
+		stack.startTrans( CommandLabelFactory
+				.getCommandLabel( MessageConstants.REPLACE_ITEM_MESSAGE ) );
 
 		makeLocalCompositeValue( ref );
 		list = ref.getList( module, element );
@@ -615,8 +613,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	 * Moves an item within a list from one position to a new position.
 	 * <ul>
 	 * <li>The element must exist in the current effective value for the list.
-	 * This means the list must be set on this element or a ancestor element.
-	 * </li>
+	 * This means the list must be set on this element or a ancestor element.</li>
 	 * <li>If the property is set on this element, then the element is simply
 	 * moved.</li>
 	 * <li>If the property is set on an ancestor element, then the inherited
@@ -626,8 +623,8 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	 * 
 	 * <p>
 	 * For example, if a list has A, B, C structures in order, when move A
-	 * strucutre to <code>newPosn</code> with the value 2, the sequence
-	 * becomes B, A, C.
+	 * strucutre to <code>newPosn</code> with the value 2, the sequence becomes
+	 * B, A, C.
 	 * 
 	 * 
 	 * @param ref
@@ -663,8 +660,8 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		ActivityStack stack = getActivityStack( );
-		String label = ModelMessages
-				.getMessage( MessageConstants.MOVE_ITEM_MESSAGE );
+		String label = CommandLabelFactory
+				.getCommandLabel( MessageConstants.MOVE_ITEM_MESSAGE );
 
 		int adjustedNewPosn = checkAndAdjustPosition( oldPosn, newPosn, list
 				.size( ) );

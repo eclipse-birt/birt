@@ -17,14 +17,14 @@ import org.eclipse.birt.report.model.api.command.UserPropertyEvent;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * ActivityRecord to add or remove a user-defined property. As with any command,
  * the caller must have verified that the operation is legal. This one command
  * handles both the add and remove operations, since they are inverse
  * operations.
- *  
+ * 
  */
 
 public class UserPropertyRecord extends SimpleRecord
@@ -68,11 +68,11 @@ public class UserPropertyRecord extends SimpleRecord
 		addOp = add;
 
 		if ( addOp )
-			label = ModelMessages.getMessage(
+			label = CommandLabelFactory.getCommandLabel(
 					MessageConstants.ADD_PROPERTY_MESSAGE, new String[]{prop
 							.getDisplayName( )} );
 		else
-			label = ModelMessages.getMessage(
+			label = CommandLabelFactory.getCommandLabel(
 					MessageConstants.DROP_PROPERTY_MESSAGE, new String[]{prop
 							.getDisplayName( )} );
 	}
@@ -80,7 +80,9 @@ public class UserPropertyRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent()
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent
+	 * ()
 	 */
 
 	public NotificationEvent getEvent( )
@@ -99,7 +101,9 @@ public class UserPropertyRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform(boolean)
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform
+	 * (boolean)
 	 */
 
 	protected void perform( boolean undo )
@@ -128,7 +132,9 @@ public class UserPropertyRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.AbstractElementRecord#getTarget()
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getTarget
+	 * ()
 	 */
 
 	public DesignElement getTarget( )

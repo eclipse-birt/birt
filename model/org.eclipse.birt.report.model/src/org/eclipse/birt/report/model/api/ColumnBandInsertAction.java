@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Provides the insert and paste operation to the column band in the grid/table.
@@ -149,8 +150,9 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 
 		ActivityStack as = adapter.getModule( ).getActivityStack( );
 
-		as.startSilentTrans( ModelMessages
-				.getMessage( MessageConstants.INSERT_COLUMN_BAND_MESSAGE ) );
+		as
+				.startSilentTrans( CommandLabelFactory
+						.getCommandLabel( MessageConstants.INSERT_COLUMN_BAND_MESSAGE ) );
 		try
 		{
 			pasteColumn( column, targetColumnIndex, true );

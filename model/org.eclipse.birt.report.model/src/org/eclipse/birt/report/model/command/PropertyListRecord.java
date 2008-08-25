@@ -24,9 +24,9 @@ import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Records adding or removing an item from a property list.
@@ -107,7 +107,7 @@ public class PropertyListRecord extends SimpleRecord
 
 		posn = list.indexOf( toRemove );
 
-		label = ModelMessages.getMessage(
+		label = CommandLabelFactory.getCommandLabel(
 				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{context
 						.getElementProp( ).getDisplayName( )} );
 	}
@@ -148,7 +148,7 @@ public class PropertyListRecord extends SimpleRecord
 
 		this.posn = posn;
 
-		label = ModelMessages.getMessage(
+		label = CommandLabelFactory.getCommandLabel(
 				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{context
 						.getElementProp( ).getDisplayName( )} );
 	}
@@ -183,7 +183,7 @@ public class PropertyListRecord extends SimpleRecord
 		this.propDefn = propDefn;
 		this.posn = posn;
 
-		label = ModelMessages.getMessage(
+		label = CommandLabelFactory.getCommandLabel(
 				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{propDefn
 						.getDisplayName( )} );
 	}
@@ -215,7 +215,7 @@ public class PropertyListRecord extends SimpleRecord
 		this.context = null;
 		this.propDefn = propDefn;
 
-		label = ModelMessages.getMessage(
+		label = CommandLabelFactory.getCommandLabel(
 				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{propDefn
 						.getDisplayName( )} );
 	}
@@ -223,7 +223,9 @@ public class PropertyListRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform(boolean)
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform
+	 * (boolean)
 	 */
 
 	protected void perform( boolean undo )
@@ -245,7 +247,7 @@ public class PropertyListRecord extends SimpleRecord
 		{
 			if ( !( value instanceof Structure ) )
 			{
-				list.remove( posn );			
+				list.remove( posn );
 				return;
 			}
 
@@ -256,7 +258,9 @@ public class PropertyListRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord#getTarget()
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
+	 * #getTarget()
 	 */
 
 	public DesignElement getTarget( )
@@ -270,7 +274,9 @@ public class PropertyListRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent()
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent
+	 * ()
 	 */
 
 	public NotificationEvent getEvent( )

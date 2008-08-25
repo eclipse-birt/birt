@@ -33,8 +33,7 @@ public interface MessageConstants
 
 	public static final String MOVE_CONTENT_MESSAGE = "Message.MoveContent"; //$NON-NLS-1$
 	public static final String REPLACE_ELEMENT_MESSAGE = "Message.ReplaceElement"; //$NON-NLS-1$
-	public static final String TRANSFORM_TEMPLATE_MESSAGE = "Message.TransformTemplate"; //$NON-NLS-1$
-
+	
 	public static final String ADD_PROPERTY_MESSAGE = "Message.AddProperty"; //$NON-NLS-1$
 	public static final String DROP_PROPERTY_MESSAGE = "Message.DropProperty"; //$NON-NLS-1$
 	public static final String SET_NAME_MESSAGE = "Message.SetName"; //$NON-NLS-1$
@@ -75,6 +74,10 @@ public interface MessageConstants
 	public static final String IMPORT_CSS_STYLES_MESSAGE = "Message.ImportCSSStyles"; //$NON-NLS-1$
 	
 	public static final String CLEAR_PROPERTIES_MESSAGE = "Message.ClearProperties"; //$NON-NLS-1$
+	
+	public static final String CREATE_TEMPLATE_ELEMENT_MESSAGE = "Message.CreateTemplateElement"; //$NON-NLS-1$
+	public static final String TRANSFORM_TO_REPORT_ITEM_MESSAGE = "Message.TransformToReportItem"; //$NON-NLS-1$
+	public static final String TRANSFORM_TO_DATA_SET_MESSAGE = "Message.TransformToDataSet"; //$NON-NLS-1$
 	// Errors
 
 	// ContentException

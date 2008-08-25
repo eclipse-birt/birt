@@ -16,7 +16,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Provides the insert and paste operation to the column band in the grid/table.
@@ -123,12 +123,12 @@ class ColumnBandInsertPasteAction extends ColumnBandCopyAction
 			if ( adapter instanceof TableColumnBandAdapter )
 
 				as
-						.startSilentTrans( ModelMessages
-								.getMessage( MessageConstants.INSERT_AND_PASTE_COLUMN_BAND_MESSAGE ) );
+						.startSilentTrans( CommandLabelFactory
+								.getCommandLabel( MessageConstants.INSERT_AND_PASTE_COLUMN_BAND_MESSAGE ) );
 			else
 				as
-						.startTrans( ModelMessages
-								.getMessage( MessageConstants.INSERT_AND_PASTE_COLUMN_BAND_MESSAGE ) );
+						.startTrans( CommandLabelFactory
+								.getCommandLabel( MessageConstants.INSERT_AND_PASTE_COLUMN_BAND_MESSAGE ) );
 
 			pasteColumn( column, columnIndex, true );
 			pasteCells( cells, originalCells, columnIndex, true );

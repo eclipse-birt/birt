@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ISimpleDataSetModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Abstract handle for data set elements. A data set is a named object that
@@ -608,8 +609,8 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 			ActivityStack as = getModule( ).getActivityStack( );
 
-			as.startTrans( ModelMessages
-					.getMessage( MessageConstants.REMOVE_ITEM_MESSAGE ) );
+			as.startTrans( CommandLabelFactory
+					.getCommandLabel( MessageConstants.REMOVE_ITEM_MESSAGE ) );
 
 			try
 			{
@@ -646,8 +647,8 @@ public abstract class DataSetHandle extends ReportElementHandle
 		{
 			ActivityStack as = getModule( ).getActivityStack( );
 
-			as.startTrans( ModelMessages
-					.getMessage( MessageConstants.REMOVE_ITEM_MESSAGE ) );
+			as.startTrans( CommandLabelFactory
+					.getCommandLabel( MessageConstants.REMOVE_ITEM_MESSAGE ) );
 
 			try
 			{
@@ -686,8 +687,8 @@ public abstract class DataSetHandle extends ReportElementHandle
 		{
 			ActivityStack as = getModule( ).getActivityStack( );
 
-			as.startTrans( ModelMessages
-					.getMessage( MessageConstants.REPLACE_ITEM_MESSAGE ) );
+			as.startTrans( CommandLabelFactory
+					.getCommandLabel( MessageConstants.REPLACE_ITEM_MESSAGE ) );
 
 			try
 			{
@@ -721,9 +722,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 			ActivityStack as = getModule( ).getActivityStack( );
 
-			as
-					.startTrans( ModelMessages
-							.getMessage( changePropertyMessage( ) ) );
+			as.startTrans( changePropertyMessage( ) );
 
 			try
 			{
@@ -759,9 +758,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 			List paramList = getListValue( );
 
 			ActivityStack as = getModule( ).getActivityStack( );
-			as
-					.startTrans( ModelMessages
-							.getMessage( changePropertyMessage( ) ) );
+			as.startTrans( changePropertyMessage( ) );
 
 			try
 			{
@@ -793,7 +790,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 		 */
 		private String changePropertyMessage( )
 		{
-			return ModelMessages.getMessage(
+			return CommandLabelFactory.getCommandLabel(
 					MessageConstants.CHANGE_PROPERTY_MESSAGE,
 					new String[]{propDefn.getDisplayName( )} );
 		}

@@ -30,10 +30,10 @@ import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementRefPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Abstract base class that represents a handle for the value to either a
@@ -472,8 +472,8 @@ public abstract class SimpleValueHandle extends ValueHandle
 		if ( items == null || items.isEmpty( ) )
 			return;
 		ActivityStack stack = getModule( ).getActivityStack( );
-		stack.startTrans( ModelMessages
-				.getMessage( MessageConstants.REMOVE_ITEM_MESSAGE ) );
+		stack.startTrans( CommandLabelFactory
+				.getCommandLabel( MessageConstants.REMOVE_ITEM_MESSAGE ) );
 		try
 		{
 			for ( int i = 0; i < items.size( ); i++ )
@@ -519,8 +519,8 @@ public abstract class SimpleValueHandle extends ValueHandle
 	 * 
 	 * @param item
 	 *            The new item to add.
-	 * @return a handle to the newly added structure��return null if the item
-	 *         is null.
+	 * @return a handle to the newly added structure��return null if the
+	 *         item is null.
 	 * @throws SemanticException
 	 *             If the property is not a list property, or if the the value
 	 *             of the item is incorrect.

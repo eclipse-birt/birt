@@ -13,7 +13,7 @@ import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Does table row insert operation.
@@ -108,8 +108,8 @@ public class RowBandInsertAction extends RowBandAction
 		ActivityStack stack = adapter.getModule( ).getActivityStack( );
 		try
 		{
-			stack.startTrans( ModelMessages
-					.getMessage( MessageConstants.INSERT_ROW_MESSAGE ) );
+			stack.startTrans( CommandLabelFactory
+					.getCommandLabel( MessageConstants.INSERT_ROW_MESSAGE ) );
 			slotHandle.paste( rowHandle, destIndex );
 		}
 		catch ( SemanticException e )

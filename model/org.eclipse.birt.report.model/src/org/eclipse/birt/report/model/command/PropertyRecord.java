@@ -28,8 +28,8 @@ import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 
@@ -92,7 +92,7 @@ public class PropertyRecord extends SimpleRecord
 		oldValue = copyLocalValue( propertyOwner.getLocalProperty( null,
 				propDefn ) );
 
-		label = ModelMessages.getMessage(
+		label = CommandLabelFactory.getCommandLabel(
 				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{propDefn
 						.getDisplayName( )} );
 	}
@@ -124,7 +124,7 @@ public class PropertyRecord extends SimpleRecord
 		oldValue = copyLocalValue( propertyOwner.getLocalProperty( null,
 				propDefn ) );
 
-		label = ModelMessages.getMessage(
+		label = CommandLabelFactory.getCommandLabel(
 				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{propDefn
 						.getDisplayName( )} );
 	}
@@ -153,7 +153,9 @@ public class PropertyRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.AbstractElementRecord#getTarget()
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getTarget
+	 * ()
 	 */
 
 	public DesignElement getTarget( )
@@ -167,7 +169,9 @@ public class PropertyRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent()
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent
+	 * ()
 	 */
 
 	public NotificationEvent getEvent( )
@@ -201,7 +205,9 @@ public class PropertyRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform(boolean)
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform
+	 * (boolean)
 	 */
 
 	protected void perform( boolean undo )
@@ -233,7 +239,7 @@ public class PropertyRecord extends SimpleRecord
 				String encryption = localEncryption == null ? element
 						.getEncryptionID( propDefn ) : localEncryption;
 				assert encryption != null;
-				
+
 				value = ModelUtil.encryptProperty( element, propDefn,
 						encryption, value );
 				element.setProperty( propDefn, value );
@@ -310,7 +316,8 @@ public class PropertyRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.validators.IValidatable#getValidators()
+	 * @see
+	 * org.eclipse.birt.report.model.validators.IValidatable#getValidators()
 	 */
 	public List getValidators( )
 	{

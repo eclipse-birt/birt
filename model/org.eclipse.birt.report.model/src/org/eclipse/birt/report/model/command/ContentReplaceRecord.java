@@ -29,9 +29,9 @@ import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 
 /**
@@ -100,8 +100,8 @@ public class ContentReplaceRecord extends SimpleRecord
 		this.posn = focus.indexOf( module, oldElement );
 		assert posn != -1;
 
-		this.label = ModelMessages
-				.getMessage( MessageConstants.REPLACE_ELEMENT_MESSAGE );
+		this.label = CommandLabelFactory
+				.getCommandLabel( MessageConstants.REPLACE_ELEMENT_MESSAGE );
 
 	}
 
@@ -149,7 +149,8 @@ public class ContentReplaceRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
+	 * @see
+	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
 
 	public DesignElement getTarget( )
@@ -160,7 +161,8 @@ public class ContentReplaceRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
+	 * @see
+	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
 	 */
 
 	public NotificationEvent getEvent( )
@@ -188,7 +190,8 @@ public class ContentReplaceRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.validators.core.IValidatorProvider#getValidators()
+	 * @seeorg.eclipse.birt.report.model.validators.core.IValidatorProvider#
+	 * getValidators()
 	 */
 
 	public List getValidators( )

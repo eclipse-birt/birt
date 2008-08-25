@@ -38,11 +38,11 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITemplateParameterDefinitionModel;
 import org.eclipse.birt.report.model.elements.strategy.CopyForTemplatePolicy;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.ContentExceptionFactory;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
 import org.eclipse.birt.report.model.util.ModelUtil;
@@ -393,7 +393,9 @@ public class TemplateCommand extends AbstractElementCommand
 					TemplateException.DESIGN_EXCEPTION_TEMPLATE_ELEMENT_NOT_SUPPORTED );
 
 		ActivityStack stack = getActivityStack( );
-		stack.startTrans( ModelMessages.getMessage( MessageConstants.TRANSFORM_TEMPLATE_MESSAGE )  );
+		stack
+				.startTrans( CommandLabelFactory
+						.getCommandLabel( MessageConstants.CREATE_TEMPLATE_ELEMENT_MESSAGE ) );
 
 		try
 		{
@@ -545,7 +547,9 @@ public class TemplateCommand extends AbstractElementCommand
 
 		ActivityStack stack = getActivityStack( );
 
-		stack.startTrans( ModelMessages.getMessage( MessageConstants.TRANSFORM_TEMPLATE_MESSAGE )  );
+		stack
+				.startTrans( CommandLabelFactory
+						.getCommandLabel( MessageConstants.TRANSFORM_TO_REPORT_ITEM_MESSAGE ) );
 
 		try
 		{
@@ -592,7 +596,9 @@ public class TemplateCommand extends AbstractElementCommand
 
 		ActivityStack stack = getActivityStack( );
 
-		stack.startTrans( ModelMessages.getMessage( MessageConstants.TRANSFORM_TEMPLATE_MESSAGE ) );
+		stack
+				.startTrans( CommandLabelFactory
+						.getCommandLabel( MessageConstants.TRANSFORM_TO_DATA_SET_MESSAGE ) );
 
 		try
 		{

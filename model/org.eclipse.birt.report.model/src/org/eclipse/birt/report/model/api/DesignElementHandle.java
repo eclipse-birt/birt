@@ -68,13 +68,13 @@ import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
@@ -618,8 +618,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		List props = getDefn( ).getProperties( );
 
 		ActivityStack stack = module.getActivityStack( );
-		stack.startTrans( ModelMessages
-				.getMessage( MessageConstants.CLEAR_PROPERTIES_MESSAGE ) );
+		stack.startTrans( CommandLabelFactory
+				.getCommandLabel( MessageConstants.CLEAR_PROPERTIES_MESSAGE ) );
 
 		try
 		{

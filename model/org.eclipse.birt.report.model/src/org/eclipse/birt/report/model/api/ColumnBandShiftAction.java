@@ -18,7 +18,7 @@ import org.eclipse.birt.report.model.elements.ColumnHelper;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * The action to shift one column from one position to another in the same
@@ -164,12 +164,12 @@ class ColumnBandShiftAction extends ColumnBandAction
 			if ( adapter instanceof TableColumnBandAdapter )
 
 				as
-						.startSilentTrans( ModelMessages
-								.getMessage( MessageConstants.SHIFT_COLUMN_BAND_MESSAGE ) );
+						.startSilentTrans( CommandLabelFactory
+								.getCommandLabel( MessageConstants.SHIFT_COLUMN_BAND_MESSAGE ) );
 			else
 				as
-						.startTrans( ModelMessages
-								.getMessage( MessageConstants.SHIFT_COLUMN_BAND_MESSAGE ) );
+						.startTrans( CommandLabelFactory
+								.getCommandLabel( MessageConstants.SHIFT_COLUMN_BAND_MESSAGE ) );
 
 			shiftColumn( data.getColumn( ), sourceColumn, newPosn );
 			shiftCells( data.getCells( ), sourceColumn, newPosn );

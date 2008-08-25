@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.interfaces.IMultiViewsModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Implements functions to deal with API-level views operations. Through these
@@ -149,8 +149,8 @@ class MultiViewsAPIProvider implements IMultiViewsModel
 
 		ModuleHandle module = element.getModuleHandle( );
 		CommandStack stack = module.getCommandStack( );
-		stack.startTrans( ModelMessages
-				.getMessage( MessageConstants.ADD_ELEMENT_MESSAGE ) );
+		stack.startTrans( CommandLabelFactory
+				.getCommandLabel( MessageConstants.ADD_ELEMENT_MESSAGE ) );
 		try
 		{
 			if ( multiView == null )
@@ -236,7 +236,7 @@ class MultiViewsAPIProvider implements IMultiViewsModel
 
 		ModuleHandle module = element.getModuleHandle( );
 		CommandStack stack = module.getCommandStack( );
-		stack.startTrans( ModelMessages.getMessage(
+		stack.startTrans( CommandLabelFactory.getCommandLabel(
 				MessageConstants.CHANGE_PROPERTY_MESSAGE,
 				new String[]{VIEWS_PROP} ) );
 		try

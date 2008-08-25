@@ -33,8 +33,8 @@ import org.eclipse.birt.report.model.css.CssStyleSheetAdapter;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
@@ -566,8 +566,8 @@ public class CssCommand extends AbstractElementCommand
 		int posn = findIncludedCssStyleSheetPosition( fileName );
 		ActivityStack stack = module.getActivityStack( );
 
-		stack.startTrans( ModelMessages
-				.getMessage( MessageConstants.RENAME_CSS_FILE_MESSAGE ) );
+		stack.startTrans( CommandLabelFactory
+				.getCommandLabel( MessageConstants.RENAME_CSS_FILE_MESSAGE ) );
 
 		CssStyleSheet newStyleSheet = null;
 

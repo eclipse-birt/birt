@@ -28,9 +28,9 @@ import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Implements a simple group element handle, which has a non-empty selection
@@ -272,8 +272,8 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 	public void clearLocalProperties( ) throws SemanticException
 	{
 		ActivityStack stack = module.getActivityStack( );
-		stack.startTrans( ModelMessages
-				.getMessage( MessageConstants.CLEAR_PROPERTIES_MESSAGE ) );
+		stack.startTrans( CommandLabelFactory
+				.getCommandLabel( MessageConstants.CLEAR_PROPERTIES_MESSAGE ) );
 
 		try
 		{

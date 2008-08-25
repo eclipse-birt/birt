@@ -23,8 +23,8 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Records a change to the theme of a report design.
@@ -68,7 +68,8 @@ public class ThemeRecord extends SimpleRecord
 		oldTheme = (ElementRefValue) module.getLocalProperty( module,
 				IModuleModel.THEME_PROP );
 
-		label = ModelMessages.getMessage( MessageConstants.SET_THEME_MESSAGE );
+		label = CommandLabelFactory
+				.getCommandLabel( MessageConstants.SET_THEME_MESSAGE );
 
 	}
 
@@ -98,7 +99,8 @@ public class ThemeRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
+	 * @see
+	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
 
 	public DesignElement getTarget( )
@@ -109,7 +111,8 @@ public class ThemeRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
+	 * @see
+	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
 	 */
 
 	public NotificationEvent getEvent( )
@@ -133,13 +136,13 @@ public class ThemeRecord extends SimpleRecord
 
 		if ( !theme.isResolved( ) )
 			return;
-		
+
 		Theme t = (Theme) theme.getElement( );
 		List styles = t.getAllStyles( );
 		Iterator iter = styles.iterator( );
-		while( iter.hasNext() )
+		while ( iter.hasNext( ) )
 		{
-			Style style = (Style) iter.next();
+			Style style = (Style) iter.next( );
 			style.updateClientReferences( );
 		}
 	}

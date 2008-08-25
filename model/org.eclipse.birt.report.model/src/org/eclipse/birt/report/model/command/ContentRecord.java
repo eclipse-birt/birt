@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 
 /**
@@ -165,18 +166,19 @@ public class ContentRecord extends SimpleRecord
 		}
 
 		if ( add )
-			label = ModelMessages
-					.getMessage( MessageConstants.ADD_ELEMENT_MESSAGE );
+			label = CommandLabelFactory
+					.getCommandLabel( MessageConstants.ADD_ELEMENT_MESSAGE );
 		else
-			label = ModelMessages
-					.getMessage( MessageConstants.DROP_ELEMENT_MESSAGE );
+			label = CommandLabelFactory
+					.getCommandLabel( MessageConstants.DROP_ELEMENT_MESSAGE );
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform()
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform()
 	 */
 
 	public DesignElement getTarget( )
@@ -202,7 +204,9 @@ public class ContentRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform(boolean)
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform
+	 * (boolean)
 	 */
 
 	protected void perform( boolean undo )
@@ -250,7 +254,8 @@ public class ContentRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.validators.core.IValidatorProvider#getValidators()
+	 * @seeorg.eclipse.birt.report.model.validators.core.IValidatorProvider#
+	 * getValidators()
 	 */
 
 	public List getValidators( )

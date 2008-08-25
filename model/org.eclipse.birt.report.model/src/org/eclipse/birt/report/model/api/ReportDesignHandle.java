@@ -34,7 +34,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
@@ -453,8 +453,8 @@ public class ReportDesignHandle extends ModuleHandle
 		// do nothing now.
 
 		ActivityStack stack = module.getActivityStack( );
-		stack.startTrans( ModelMessages
-				.getMessage( MessageConstants.IMPORT_CSS_STYLES_MESSAGE ) );
+		stack.startTrans( CommandLabelFactory
+				.getCommandLabel( MessageConstants.IMPORT_CSS_STYLES_MESSAGE ) );
 		for ( int i = 0; i < selectedStyles.size( ); i++ )
 		{
 			SharedStyleHandle style = (SharedStyleHandle) selectedStyles

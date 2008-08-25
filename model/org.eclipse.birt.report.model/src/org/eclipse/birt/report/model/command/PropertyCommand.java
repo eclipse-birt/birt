@@ -67,10 +67,10 @@ import org.eclipse.birt.report.model.elements.olap.TabularLevel;
 import org.eclipse.birt.report.model.elements.strategy.GroupPropSearchStrategy;
 import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
@@ -871,8 +871,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 		ActivityStack stack = getActivityStack( );
 
-		String label = ModelMessages
-				.getMessage( MessageConstants.CHANGE_ITEM_MESSAGE );
+		String label = CommandLabelFactory
+				.getCommandLabel( MessageConstants.CHANGE_ITEM_MESSAGE );
 		stack.startTrans( label );
 
 		makeLocalCompositeValue( ref );

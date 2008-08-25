@@ -31,10 +31,10 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
@@ -183,8 +183,8 @@ class ContentElementCommand extends AbstractContentCommand
 			throws ContentException, NameException
 	{
 		ActivityStack stack = getActivityStack( );
-		stack.startTrans( ModelMessages
-				.getMessage( MessageConstants.ADD_ELEMENT_MESSAGE ),
+		stack.startTrans( CommandLabelFactory
+				.getCommandLabel( MessageConstants.ADD_ELEMENT_MESSAGE ),
 				getTransOption( ) );
 
 		// for add action, the content parameter can be ignored.
@@ -229,8 +229,8 @@ class ContentElementCommand extends AbstractContentCommand
 	{
 		ActivityStack stack = getActivityStack( );
 
-		String label = ModelMessages
-				.getMessage( MessageConstants.MOVE_ELEMENT_MESSAGE );
+		String label = CommandLabelFactory
+				.getCommandLabel( MessageConstants.MOVE_ELEMENT_MESSAGE );
 		stack.startTrans( label, getTransOption( ) );
 
 		DesignElement toMove = makeLocalCompositeValue( content );
@@ -258,8 +258,8 @@ class ContentElementCommand extends AbstractContentCommand
 
 		ActivityStack stack = getActivityStack( );
 
-		String label = ModelMessages
-				.getMessage( MessageConstants.MOVE_ELEMENT_MESSAGE );
+		String label = CommandLabelFactory
+				.getCommandLabel( MessageConstants.MOVE_ELEMENT_MESSAGE );
 		stack.startTrans( label, getTransOption( ) );
 
 		DesignElement toMove = makeLocalCompositeValue( content );
@@ -367,8 +367,8 @@ class ContentElementCommand extends AbstractContentCommand
 	{
 		ActivityStack stack = getActivityStack( );
 
-		stack.startTrans( ModelMessages
-				.getMessage( MessageConstants.ADD_ITEM_MESSAGE ),
+		stack.startTrans( CommandLabelFactory
+				.getCommandLabel( MessageConstants.ADD_ITEM_MESSAGE ),
 				getTransOption( ) );
 
 		// for add action, the content parameter can be ignored.
@@ -400,8 +400,8 @@ class ContentElementCommand extends AbstractContentCommand
 	protected void removeItem( MemberRef ref )
 	{
 		ActivityStack stack = getActivityStack( );
-		stack.startTrans( ModelMessages
-				.getMessage( MessageConstants.REMOVE_ITEM_MESSAGE ),
+		stack.startTrans( CommandLabelFactory
+				.getCommandLabel( MessageConstants.REMOVE_ITEM_MESSAGE ),
 				getTransOption( ) );
 
 		// for add action, the content parameter can be ignored.
@@ -476,7 +476,9 @@ class ContentElementCommand extends AbstractContentCommand
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.api.activity.IEventFilter#filter(java.util.List)
+		 * @see
+		 * org.eclipse.birt.report.model.api.activity.IEventFilter#filter(java
+		 * .util.List)
 		 */
 
 		public List filter( List events )

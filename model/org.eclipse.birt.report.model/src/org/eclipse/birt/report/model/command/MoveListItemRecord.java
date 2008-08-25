@@ -19,11 +19,11 @@ import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Records the move of a structure within a property list or member list.
- *  
+ * 
  */
 
 public class MoveListItemRecord extends SimpleRecord
@@ -94,14 +94,17 @@ public class MoveListItemRecord extends SimpleRecord
 		oldPosn = from;
 		newPosn = to;
 
-		label = ModelMessages.getMessage( MessageConstants.MOVE_ITEM_MESSAGE );
+		label = CommandLabelFactory
+				.getCommandLabel( MessageConstants.MOVE_ITEM_MESSAGE );
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform(boolean)
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform
+	 * (boolean)
 	 */
 
 	protected void perform( boolean undo )
@@ -116,7 +119,9 @@ public class MoveListItemRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord#getTarget()
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
+	 * #getTarget()
 	 */
 
 	public DesignElement getTarget( )
@@ -130,7 +135,9 @@ public class MoveListItemRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent()
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent
+	 * ()
 	 */
 
 	public NotificationEvent getEvent( )

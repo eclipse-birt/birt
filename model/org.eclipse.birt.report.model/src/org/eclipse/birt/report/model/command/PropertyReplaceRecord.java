@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Replaces one structure in the structure list property.
@@ -107,14 +107,16 @@ public class PropertyReplaceRecord extends SimpleRecord
 
 		assert oldItem != null && newItem != null;
 
-		label = ModelMessages
-				.getMessage( MessageConstants.REPLACE_ITEM_MESSAGE );
+		label = CommandLabelFactory
+				.getCommandLabel( MessageConstants.REPLACE_ITEM_MESSAGE );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.activity.SimpleRecord#perform(boolean)
+	 * @see
+	 * org.eclipse.birt.report.model.design.activity.SimpleRecord#perform(boolean
+	 * )
 	 */
 	protected void perform( boolean undo )
 	{
@@ -137,7 +139,9 @@ public class PropertyReplaceRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.activity.AbstractElementRecord#getTarget()
+	 * @see
+	 * org.eclipse.birt.report.model.design.activity.AbstractElementRecord#getTarget
+	 * ()
 	 */
 	public DesignElement getTarget( )
 	{
@@ -150,7 +154,9 @@ public class PropertyReplaceRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.activity.AbstractElementRecord#getEvent()
+	 * @see
+	 * org.eclipse.birt.report.model.design.activity.AbstractElementRecord#getEvent
+	 * ()
 	 */
 
 	public NotificationEvent getEvent( )
@@ -165,7 +171,9 @@ public class PropertyReplaceRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getNotificationChain()
+	 * @see
+	 * org.eclipse.birt.report.model.activity.ActivityRecord#getNotificationChain
+	 * ()
 	 */
 
 	protected List getPostTasks( )

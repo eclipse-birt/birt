@@ -25,8 +25,8 @@ import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Records setting the value of a structure member.
@@ -97,7 +97,7 @@ public class MemberRecord extends SimpleRecord
 		structure = memberRef.getStructure( module, element );
 		oldValue = memberRef.getLocalValue( module, element );
 
-		label = ModelMessages.getMessage(
+		label = CommandLabelFactory.getCommandLabel(
 				MessageConstants.CHANGE_PROPERTY_MESSAGE,
 				new String[]{memberRef.getPropDefn( ).getDisplayName( )} );
 
@@ -106,7 +106,9 @@ public class MemberRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform(boolean)
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform
+	 * (boolean)
 	 */
 
 	protected void perform( boolean undo )
@@ -144,7 +146,9 @@ public class MemberRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord#getTarget()
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
+	 * #getTarget()
 	 */
 
 	public DesignElement getTarget( )
@@ -155,7 +159,9 @@ public class MemberRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord#getEvent()
+	 * @see
+	 * org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
+	 * #getEvent()
 	 */
 
 	public NotificationEvent getEvent( )
@@ -168,7 +174,8 @@ public class MemberRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getEventChain()
+	 * @see
+	 * org.eclipse.birt.report.model.activity.ActivityRecord#getEventChain()
 	 */
 
 	protected List getPostTasks( )

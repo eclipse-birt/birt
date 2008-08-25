@@ -14,7 +14,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Does table row paste operation.
@@ -103,8 +103,8 @@ public class RowBandPasteAction extends RowBandAction
 		ActivityStack stack = adapter.getModule( ).getActivityStack( );
 		try
 		{
-			stack.startTrans( ModelMessages
-					.getMessage( MessageConstants.PASTE_ROW_MESSAGE ) );
+			stack.startTrans( CommandLabelFactory
+					.getCommandLabel( MessageConstants.PASTE_ROW_MESSAGE ) );
 			adapter.getModule( ).getModuleHandle( ).rename(
 					copiedRow.getHandle( slotHandle.getModule( ) ) );
 
