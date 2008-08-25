@@ -22,6 +22,8 @@ import java.util.logging.Logger;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.util.BundleVersionUtil;
 import org.eclipse.birt.report.engine.layout.emitter.IPage;
 import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
@@ -61,19 +63,27 @@ public class PDFPageDevice implements IPageDevice
 	{
 		this.context = context;
 		this.report = report;
-		doc = new Document();
+		doc = new Document( );
 		try
 		{
 			writer = PdfWriter.getInstance( doc, new BufferedOutputStream(
 					output ) );
-			String creator = "BIRT Report Engine " 
-				+ BundleVersionUtil.getBundleVersion( "org.eclipse.birt.report.engine" )
-				+ " using iText "
-				+ BundleVersionUtil.getBundleVersion( "com.lowagie.itext" );
+			EngineResourceHandle handle = new EngineResourceHandle(
+					ULocale.forLocale( context.getLocale( ) ) );
+
+			String creator = handle
+					.getMessage(
+							MessageConstants.PDF_CREATOR,
+							new String[]{
+									BundleVersionUtil
+											.getBundleVersion( "org.eclipse.birt.report.engine" ),
+									BundleVersionUtil
+											.getBundleVersion( "com.lowagie.itext" ) } );
 			doc.addCreator( creator );
+
 			if ( null != author )
 			{
-				doc.addAuthor( author );	
+				doc.addAuthor( author );
 			}
 			if ( description != null )
 			{
@@ -155,7 +165,8 @@ public class PDFPageDevice implements IPageDevice
 		else
 		{
 			writer.setViewerPreferences( PdfWriter.PageModeUseOutlines );
-			TOCHandler tocHandler = new TOCHandler( tocTree, writer.getDirectContent().getRootOutline( ), bookmarks );
+			TOCHandler tocHandler = new TOCHandler( tocTree, writer
+					.getDirectContent( ).getRootOutline( ), bookmarks );
 			tocHandler.createTOC( );
 		}
 	}
