@@ -28,7 +28,7 @@ public class ParameterGroupPage extends GeneralPage
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.GeneralPage#buildContent()
 	 */
 	@Override
-	void buildContent( )
+	protected void buildContent( )
 	{
 		// TODO Auto-generated method stub
 		
@@ -39,8 +39,7 @@ public class ParameterGroupPage extends GeneralPage
 				container,
 				true );
 		nameSection.setProvider( nameProvider );
-		nameSection.setLayoutNum( 2 );
-		nameSection.setWidth( 200 );
+		nameSection.setWidth( 500 );
 		nameSection.setGridPlaceholder( 4, true );
 		addSection( PageSectionId.PARAMTER_GROUP_NAME, nameSection );
 		
@@ -51,14 +50,9 @@ public class ParameterGroupPage extends GeneralPage
 				container,
 				true );
 		displayNameSection.setProvider( displayNameProvider );
-		displayNameSection.setLayoutNum( 2 );
-		displayNameSection.setWidth( 200 );
-		displayNameSection.setGridPlaceholder( 2, true );
+		displayNameSection.setWidth( 500 );
+		displayNameSection.setGridPlaceholder( 4, true );
 		addSection( PageSectionId.PARAMTER_GROUP_DISPLAY_NAME, displayNameSection );		
-		
-		
-		createSections( );
-		layoutSections( );
 	}
 
 }

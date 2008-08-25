@@ -11,19 +11,13 @@
 
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes.page;
 
-import java.util.List;
-
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.GeneralPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ElementIdDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.LibraryDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.CheckSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboSection;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
@@ -31,34 +25,15 @@ import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.HideMe
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.MeasureComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
 
-public class CrosstabGeneralPage extends AttributePage
+public class CrosstabGeneralPage extends GeneralPage
 {
-
-	private TextSection librarySection;
-	private SeperatorSection seperatorSection;
-	// private Button chkBrandColumn;
-	// private Button chkBrandRow;
 
 	IDescriptorProvider grandTotalColumnProvider, grandTotalRowProvider;
 	IDescriptorProvider layoutMeasuresProvider;
 
-	public void buildContent( )
+	protected void buildContent( )
 	{
-		container.setLayout( WidgetUtil.createGridLayout( 6, 15 ) );
-
-		LibraryDescriptorProvider provider = new LibraryDescriptorProvider( );
-		librarySection = new TextSection( provider.getDisplayName( ),
-				container,
-				true );
-		librarySection.setProvider( provider );
-		librarySection.setGridPlaceholder( 2, true );
-		addSection( CrosstabPageSectionId.CROSSTAB_LIBRARY, librarySection );
-
-		seperatorSection = new SeperatorSection( container, SWT.HORIZONTAL );
-		addSection( CrosstabPageSectionId.CROSSTAB_SEPERATOR, seperatorSection );
 
 		TextPropertyDescriptorProvider nameProvider = new TextPropertyDescriptorProvider( ReportItemHandle.NAME_PROP,
 				ReportDesignConstants.EXTENDED_ITEM );
@@ -116,7 +91,8 @@ public class CrosstabGeneralPage extends AttributePage
 		// layoutMeasuresSection );
 
 		// IChoiceSet choiceSet =
-		// ChoiceSetFactory.getElementChoiceSet(ICrosstabConstants.CROSSTAB_EXTENSION_NAME
+		// ChoiceSetFactory.getElementChoiceSet(ICrosstabConstants.
+		// CROSSTAB_EXTENSION_NAME
 		// ,
 		// ICrosstabReportItemConstants.MEASURE_DIRECTION_PROP );
 
@@ -129,46 +105,14 @@ public class CrosstabGeneralPage extends AttributePage
 		layoutMeasureSection.setWidth( 200 );
 		layoutMeasureSection.setLayoutNum( 2 );
 		addSection( CrosstabPageSectionId.LAYOUT_MEASURES, layoutMeasureSection );
-		
+
 		HideMeasureHeaderProvider hideMeasureProvider = new HideMeasureHeaderProvider( ICrosstabReportItemConstants.HIDE_MEASURE_HEADER_PROP,
 				ReportDesignConstants.EXTENDED_ITEM );
 		CheckSection hideMeasureSection = new CheckSection( container, true );
 		hideMeasureSection.setProvider( hideMeasureProvider );
 		hideMeasureSection.setLayoutNum( 4 );
 		hideMeasureSection.setGridPlaceholder( 2, true );
-		addSection( CrosstabPageSectionId.HIDE_MEASURE_HEADER, hideMeasureSection );		
-
-		createSections( );
-		layoutSections( );
-	}
-
-	public void buildUI( Composite parent )
-	{
-		super.buildUI( parent );
-		buildContent( );
-	}
-
-	// temporary refresh, should update later
-	public void refresh( )
-	{
-		if ( input instanceof List
-				&& DEUtil.getMultiSelectionHandle( (List) input )
-						.isExtendedElements( ) )
-		{
-			librarySection.setHidden( false );
-			seperatorSection.setHidden( false );
-			librarySection.load( );
-		}
-		else
-		{
-			librarySection.setHidden( true );
-			seperatorSection.setHidden( true );
-		}
-
-		container.layout( true );
-		container.redraw( );
-
-		super.refresh( );
-
+		addSection( CrosstabPageSectionId.HIDE_MEASURE_HEADER,
+				hideMeasureSection );
 	}
 }

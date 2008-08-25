@@ -61,6 +61,8 @@ public abstract class GeneralPage extends GeneralFontPage
 
 		buildContent( );
 
+		createSections( );
+		layoutSections( );
 	}
 
 	public void refresh( )
@@ -111,6 +113,6 @@ public abstract class GeneralPage extends GeneralFontPage
 	 * @param content
 	 *            parent composite.
 	 */
-	abstract void buildContent( );
+	protected abstract void buildContent( );
 
 }

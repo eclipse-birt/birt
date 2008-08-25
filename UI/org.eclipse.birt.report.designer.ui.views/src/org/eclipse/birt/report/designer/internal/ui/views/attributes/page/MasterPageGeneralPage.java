@@ -37,7 +37,7 @@ public class MasterPageGeneralPage extends GeneralPage
 	private ComboPropertyDescriptorProvider typeProvider;
 	private UnitSection widthSection;
 
-	public void buildContent( )
+	protected void buildContent( )
 	{
 		container.setLayout( WidgetUtil.createGridLayout( 6, 15 ) );
 
@@ -168,9 +168,6 @@ public class MasterPageGeneralPage extends GeneralPage
 		 * propertiesMap, ReportDesignConstants.MASTER_PAGE_ELEMENT,
 		 * MasterPageHandle.HEIGHT_PROP, 1, false );
 		 */
-
-		createSections( );
-		layoutSections( );
 	}
 
 	public void refresh( )

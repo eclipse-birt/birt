@@ -40,14 +40,13 @@ import org.eclipse.swt.SWT;
 public class DataPage extends GeneralPage
 {
 
-
-
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.GeneralPage#buildContent()
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * GeneralPage#buildContent()
 	 */
-	void buildContent( )
+	protected void buildContent( )
 	{
 		// Defines providers.
 
@@ -77,7 +76,8 @@ public class DataPage extends GeneralPage
 				container,
 				true );
 
-		Section seperator1Section = new SeperatorSection( container, SWT.HORIZONTAL );
+		Section seperator1Section = new SeperatorSection( container,
+				SWT.HORIZONTAL );
 
 		ComboSection fontFamilySection = new ComboSection( fontFamilyProvider.getDisplayName( ),
 				container,
@@ -99,7 +99,8 @@ public class DataPage extends GeneralPage
 				true,
 				true );
 
-		Section seperator2Section = new SeperatorSection( container, SWT.HORIZONTAL );
+		Section seperator2Section = new SeperatorSection( container,
+				SWT.HORIZONTAL );
 
 		SimpleComboSection styleSection = new SimpleComboSection( styleProvider.getDisplayName( ),
 				container,
@@ -148,7 +149,7 @@ public class DataPage extends GeneralPage
 		// Adds sections into this page.
 
 		addSection( PageSectionId.DATA_NAME, nameSection ); //$NON-NLS-1$
-		
+
 		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider( );
 		TextSection elementIdSection = new TextSection( elementIdProvider.getDisplayName( ),
 				container,
@@ -158,7 +159,7 @@ public class DataPage extends GeneralPage
 		elementIdSection.setLayoutNum( 4 );
 		elementIdSection.setGridPlaceholder( 2, true );
 		addSection( PageSectionId.DATA_ELEMENT_ID, elementIdSection );
-		
+
 		addSection( PageSectionId.DATA_SEPERATOR, seperator1Section ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_FONT_FAMILY, fontFamilySection ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_FONT_SIZE, fontSizeSection ); //$NON-NLS-1$
@@ -168,8 +169,6 @@ public class DataPage extends GeneralPage
 		addSection( PageSectionId.DATA_SEPERATOR_1, seperator2Section ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_STYLE, styleSection ); //$NON-NLS-1$
 
-		createSections( );
-		layoutSections( );
 	}
 
 	/**

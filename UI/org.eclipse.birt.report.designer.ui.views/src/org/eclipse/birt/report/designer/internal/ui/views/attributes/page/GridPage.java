@@ -38,15 +38,13 @@ import org.eclipse.swt.SWT;
 public class GridPage extends GeneralPage
 {
 
-	
-
-	
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.GeneralPage#buildContent()
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * GeneralPage#buildContent()
 	 */
-	void buildContent( )
+	protected void buildContent( )
 	{
 		// Defines providers.
 
@@ -61,7 +59,7 @@ public class GridPage extends GeneralPage
 
 		IDescriptorProvider canShrinkProvider = new PropertyDescriptorProvider( StyleHandle.CAN_SHRINK_PROP,
 				ReportDesignConstants.GRID_ITEM );
-		
+
 		IDescriptorProvider vAlignProvider = new ComboPropertyDescriptorProvider( StyleHandle.VERTICAL_ALIGN_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
 
@@ -77,7 +75,8 @@ public class GridPage extends GeneralPage
 				container,
 				true );
 
-		Section seperatorSection = new SeperatorSection( container, SWT.HORIZONTAL );
+		Section seperatorSection = new SeperatorSection( container,
+				SWT.HORIZONTAL );
 
 		UnitSection widthSection = new UnitSection( widthProvider.getDisplayName( ),
 				container,
@@ -88,7 +87,6 @@ public class GridPage extends GeneralPage
 				true );
 
 		CheckSection canShrinkSection = new CheckSection( container, true );
-
 
 		ComboSection vAlignSection = new ComboSection( vAlignProvider.getDisplayName( ),
 				container,
@@ -141,9 +139,8 @@ public class GridPage extends GeneralPage
 		styleSection.setGridPlaceholder( 0, true );
 		backgroundSection.setGridPlaceholder( 2, true );
 
-
 		addSection( PageSectionId.GRID_NAME, nameSection ); //$NON-NLS-1$
-		
+
 		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider( );
 		TextSection elementIdSection = new TextSection( elementIdProvider.getDisplayName( ),
 				container,
@@ -153,7 +150,7 @@ public class GridPage extends GeneralPage
 		elementIdSection.setLayoutNum( 4 );
 		elementIdSection.setGridPlaceholder( 2, true );
 		addSection( PageSectionId.GRID_ELEMENT_ID, elementIdSection );
-		
+
 		addSection( PageSectionId.GRID_SEPERATOR, seperatorSection ); //$NON-NLS-1$
 		addSection( PageSectionId.GRID_WIDTH, widthSection ); //$NON-NLS-1$
 		addSection( PageSectionId.GRID_HEIGHT, heightSection ); //$NON-NLS-1$
@@ -161,13 +158,11 @@ public class GridPage extends GeneralPage
 		addSection( PageSectionId.GRID_BACKGROUND_COLOR, backgroundSection ); //$NON-NLS-1$
 		addSection( PageSectionId.GRID_STYLE, styleSection ); //$NON-NLS-1$
 		addSection( PageSectionId.GRID_CAN_SHRINK, canShrinkSection ); //$NON-NLS-1$
-		
-		Section seperatorSection1 = new SeperatorSection( container, SWT.HORIZONTAL );
+
+		Section seperatorSection1 = new SeperatorSection( container,
+				SWT.HORIZONTAL );
 		addSection( PageSectionId.GRID_SEPERATOR1, seperatorSection1 ); //$NON-NLS-1$
 
 		addFontsSection( );
-		
-		createSections( );
-		layoutSections( );
 	}
 }

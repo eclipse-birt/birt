@@ -31,8 +31,7 @@ import org.eclipse.swt.SWT;
 public class ListPage extends GeneralPage
 {
 
-	
-	void buildContent( )
+	protected void buildContent( )
 	{
 
 		TextPropertyDescriptorProvider nameProvider = new TextPropertyDescriptorProvider( ReportItemHandle.NAME_PROP,
@@ -54,7 +53,7 @@ public class ListPage extends GeneralPage
 		elementIdSection.setLayoutNum( 4 );
 		elementIdSection.setGridPlaceholder( 2, true );
 		addSection( PageSectionId.LIST_ELEMENT_ID, elementIdSection );
-		
+
 		SimpleComboPropertyDescriptorProvider styleProvider = new SimpleComboPropertyDescriptorProvider( ReportItemHandle.STYLE_PROP,
 				ReportDesignConstants.REPORT_ITEM );
 		SimpleComboSection styleSection = new SimpleComboSection( styleProvider.getDisplayName( ),
@@ -100,14 +99,12 @@ public class ListPage extends GeneralPage
 		 * 
 		 * WidgetUtil.createGridPlaceholder( this, 2, true );
 		 */
-		
-		Section seperatorSection = new SeperatorSection( container, SWT.HORIZONTAL );
+
+		Section seperatorSection = new SeperatorSection( container,
+				SWT.HORIZONTAL );
 		addSection( PageSectionId.LIST_SEPERATOR, seperatorSection ); //$NON-NLS-1$
 
 		addFontsSection( );
-		
-		createSections( );
-		layoutSections( );
 	}
 
 }

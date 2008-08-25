@@ -37,7 +37,8 @@ import org.eclipse.swt.SWT;
  */
 public class TablePage extends GeneralPage
 {
-	void buildContent( )
+
+	protected void buildContent( )
 	{
 		// Defines providers.
 
@@ -68,7 +69,8 @@ public class TablePage extends GeneralPage
 				container,
 				true );
 
-		Section seperatorSection = new SeperatorSection( container, SWT.HORIZONTAL );
+		Section seperatorSection = new SeperatorSection( container,
+				SWT.HORIZONTAL );
 
 		UnitSection widthSection = new UnitSection( widthProvider.getDisplayName( ),
 				container,
@@ -134,7 +136,7 @@ public class TablePage extends GeneralPage
 		// Adds sections into container page.
 
 		addSection( PageSectionId.TABLE_NAME, nameSection ); //$NON-NLS-1$
-		
+
 		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider( );
 		TextSection elementIdSection = new TextSection( elementIdProvider.getDisplayName( ),
 				container,
@@ -144,7 +146,7 @@ public class TablePage extends GeneralPage
 		elementIdSection.setLayoutNum( 4 );
 		elementIdSection.setGridPlaceholder( 2, true );
 		addSection( PageSectionId.TABEL_ELEMENT_ID, elementIdSection );
-		
+
 		addSection( PageSectionId.TABLE_SEPERATOR, seperatorSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TABLE_WIDTH, widthSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TABLE_HEIGHT, heightSection ); //$NON-NLS-1$
@@ -152,13 +154,11 @@ public class TablePage extends GeneralPage
 		addSection( PageSectionId.TABLE_BACKGROUND_COLOR, backgroundSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TABLE_STYLE, styleSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TABLE_CAN_SHRINK, canShrinkSection ); //$NON-NLS-1$
-		
-		Section seperatorSection1 = new SeperatorSection( container, SWT.HORIZONTAL );
+
+		Section seperatorSection1 = new SeperatorSection( container,
+				SWT.HORIZONTAL );
 		addSection( PageSectionId.TABLE_SEPERATOR1, seperatorSection1 ); //$NON-NLS-1$
-		
+
 		addFontsSection( );
-		
-		createSections( );
-		layoutSections( );
 	}
 }

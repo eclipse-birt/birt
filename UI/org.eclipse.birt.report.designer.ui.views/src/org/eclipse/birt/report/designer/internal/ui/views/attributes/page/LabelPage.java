@@ -37,7 +37,8 @@ import org.eclipse.swt.SWT;
  */
 public class LabelPage extends GeneralPage
 {
-	public void buildContent(   )
+
+	protected void buildContent( )
 	{
 		TextPropertyDescriptorProvider nameProvider = new TextPropertyDescriptorProvider( ReportItemHandle.NAME_PROP,
 				ReportDesignConstants.LABEL_ITEM );
@@ -48,7 +49,7 @@ public class LabelPage extends GeneralPage
 		nameSection.setLayoutNum( 2 );
 		nameSection.setWidth( 200 );
 		addSection( PageSectionId.LABEL_NAME, nameSection );
-		
+
 		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider( );
 		TextSection elementIdSection = new TextSection( elementIdProvider.getDisplayName( ),
 				container,
@@ -59,7 +60,8 @@ public class LabelPage extends GeneralPage
 		elementIdSection.setGridPlaceholder( 2, true );
 		addSection( PageSectionId.LABEL_ELEMENT_ID, elementIdSection );
 
-		SeperatorSection seperator = new SeperatorSection( container, SWT.HORIZONTAL );
+		SeperatorSection seperator = new SeperatorSection( container,
+				SWT.HORIZONTAL );
 		addSection( PageSectionId.LABEL_SEPERATOR, seperator );
 
 		ComboPropertyDescriptorProvider fontFamilyProvider = new ComboPropertyDescriptorProvider( StyleHandle.FONT_FAMILY_PROP,
@@ -130,12 +132,12 @@ public class LabelPage extends GeneralPage
 		 * WidgetUtil.createGridPlaceholder( container, 1, false );
 		 * 
 		 * Composite container = WidgetUtil.buildFontStyleUI( container,
-		 * propertiesMap ); GridData data = new GridData( ); data.horizontalSpan =
-		 * 3; container.setLayoutData( data );
+		 * propertiesMap ); GridData data = new GridData( ); data.horizontalSpan
+		 * = 3; container.setLayoutData( data );
 		 * 
 		 * int height = container.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y;
-		 * Label separator = new Label( container, SWT.SEPARATOR | SWT.VERTICAL |
-		 * SWT.CENTER ); int width = separator.computeSize( SWT.DEFAULT,
+		 * Label separator = new Label( container, SWT.SEPARATOR | SWT.VERTICAL
+		 * | SWT.CENTER ); int width = separator.computeSize( SWT.DEFAULT,
 		 * SWT.DEFAULT ).x + WidgetUtil.SPACING 2; separator.setLayoutData( new
 		 * RowData( width, height ) );
 		 * 
@@ -158,9 +160,6 @@ public class LabelPage extends GeneralPage
 		styleSection.setGridPlaceholder( 4, true );
 		styleSection.setWidth( 200 );
 		addSection( PageSectionId.LABEL_STYLE, styleSection );
-
-		createSections( );
-		layoutSections( );
 
 	}
 }

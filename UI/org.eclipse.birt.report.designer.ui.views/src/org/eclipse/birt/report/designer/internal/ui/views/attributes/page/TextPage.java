@@ -40,7 +40,7 @@ import org.eclipse.swt.SWT;
 public class TextPage extends GeneralPage
 {
 
-	void buildContent( )
+	protected void buildContent( )
 	{
 		// Defines providers.
 
@@ -170,9 +170,6 @@ public class TextPage extends GeneralPage
 		addSection( PageSectionId.TEXT_COLOR, colorSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TEXT_BACKGROUND_COLOR, bgColorSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TEXT_FONT_STYLE, fontStyleSection ); //$NON-NLS-1$
-
-		createSections( );
-		layoutSections( );
 	}
 
 	/**

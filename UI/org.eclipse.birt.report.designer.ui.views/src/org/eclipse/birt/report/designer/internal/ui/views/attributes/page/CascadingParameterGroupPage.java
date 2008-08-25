@@ -24,14 +24,17 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 public class CascadingParameterGroupPage extends GeneralPage
 {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.GeneralPage#buildContent()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * GeneralPage#buildContent()
 	 */
 	@Override
-	void buildContent( )
+	protected void buildContent( )
 	{
 		// TODO Auto-generated method stub
-		
+
 		IDescriptorProvider nameProvider = new TextPropertyDescriptorProvider( CascadingParameterGroupHandle.NAME_PROP,
 				ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT );
 
@@ -39,11 +42,10 @@ public class CascadingParameterGroupPage extends GeneralPage
 				container,
 				true );
 		nameSection.setProvider( nameProvider );
-		nameSection.setLayoutNum( 2 );
-		nameSection.setWidth( 200 );
+		nameSection.setWidth( 500 );
 		nameSection.setGridPlaceholder( 4, true );
 		addSection( PageSectionId.CASCADING_PARAMTER_GROUP_NAME, nameSection );
-		
+
 		IDescriptorProvider displayNameProvider = new TextPropertyDescriptorProvider( CascadingParameterGroupHandle.DISPLAY_NAME_PROP,
 				ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT );
 
@@ -51,13 +53,10 @@ public class CascadingParameterGroupPage extends GeneralPage
 				container,
 				true );
 		displayNameSection.setProvider( displayNameProvider );
-		displayNameSection.setLayoutNum( 2 );
-		displayNameSection.setWidth( 200 );
-		displayNameSection.setGridPlaceholder( 2, true );
-		addSection( PageSectionId.CASCADING_PARAMTER_GROUP_DISPLAY_NAME, displayNameSection );
-		
-		createSections( );
-		layoutSections( );
+		displayNameSection.setWidth( 500 );
+		displayNameSection.setGridPlaceholder( 4, true );
+		addSection( PageSectionId.CASCADING_PARAMTER_GROUP_DISPLAY_NAME,
+				displayNameSection );
 	}
 
 }
