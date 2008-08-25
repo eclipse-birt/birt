@@ -3317,7 +3317,6 @@ Message.AddItem=항목 추가
 Message.InsertItem=항목 삽입
 Message.RemoveItem=항목 제거
 Message.ReplaceElement=요소 바꾸기
-Message.TransformTemplate=템플릿 변환
 Message.SetTheme=테마 설정
 Message.ChangePropertyEncryption=속성 {0}의 암호화 변경
 Message.RenameCSSFile=CSS 파일 이름 바꾸기
@@ -3334,6 +3333,10 @@ Message.PasteRow=Paste Row
 Message.ShiftRow=Shift Row
 
 Message.ClearProperties=Clear Properties
+
+Message.CreateTemplateElement=Create Template Element
+Message.TransformToReportItem=Transform TO Report Item
+Message.TransformToDataSet=Transform To Data Set
 
 ###########################################################
 #Element new names.

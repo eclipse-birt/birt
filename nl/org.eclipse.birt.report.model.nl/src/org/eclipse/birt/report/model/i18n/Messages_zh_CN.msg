@@ -3317,7 +3317,6 @@ Message.AddItem=添加项
 Message.InsertItem=插入项
 Message.RemoveItem=删除项
 Message.ReplaceElement=替换元素
-Message.TransformTemplate=转换模板
 Message.SetTheme=设置主题
 Message.ChangePropertyEncryption=更改属性的加密:{0}
 Message.RenameCSSFile=重命名 CSS 文件
@@ -3334,6 +3333,10 @@ Message.PasteRow=Paste Row
 Message.ShiftRow=Shift Row
 
 Message.ClearProperties=Clear Properties
+
+Message.CreateTemplateElement=Create Template Element
+Message.TransformToReportItem=Transform TO Report Item
+Message.TransformToDataSet=Transform To Data Set
 
 ###########################################################
 #Element new names.

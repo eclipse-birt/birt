@@ -3317,7 +3317,6 @@ Message.AddItem=Objekt hinzufügen
 Message.InsertItem=Objekt einfügen
 Message.RemoveItem=Objekt entfernen
 Message.ReplaceElement=Element ersetzen
-Message.TransformTemplate=Vorlage umwandeln
 Message.SetTheme=Thema festlegen
 Message.ChangePropertyEncryption=Verschlüsselung ändern für Eigenschaft:{0}
 Message.RenameCSSFile=CSS-Datei umbenennen
@@ -3334,6 +3333,10 @@ Message.PasteRow=Paste Row
 Message.ShiftRow=Shift Row
 
 Message.ClearProperties=Clear Properties
+
+Message.CreateTemplateElement=Create Template Element
+Message.TransformToReportItem=Transform TO Report Item
+Message.TransformToDataSet=Transform To Data Set
 
 ###########################################################
 #Element new names.

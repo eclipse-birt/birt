@@ -3317,7 +3317,6 @@ Message.AddItem=項目を追加してください。
 Message.InsertItem=項目を挿入してください。
 Message.RemoveItem=項目を削除してください。
 Message.ReplaceElement=要素の置換
-Message.TransformTemplate=テンプレートの変換
 Message.SetTheme=テーマの設定
 Message.ChangePropertyEncryption=プロパティ {0} の暗号化を変更します。
 Message.RenameCSSFile=CSS ファイルの名前の変更
@@ -3334,6 +3333,10 @@ Message.PasteRow=Paste Row
 Message.ShiftRow=Shift Row
 
 Message.ClearProperties=Clear Properties
+
+Message.CreateTemplateElement=Create Template Element
+Message.TransformToReportItem=Transform TO Report Item
+Message.TransformToDataSet=Transform To Data Set
 
 ###########################################################
 #Element new names.
