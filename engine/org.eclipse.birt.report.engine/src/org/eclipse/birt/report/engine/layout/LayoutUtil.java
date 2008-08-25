@@ -151,9 +151,9 @@ public class LayoutUtil
 		{
 			String fmt = formats.item( i ).getCssText( );
 
-			if ( EngineIRConstants.FORMAT_TYPE_VIEWER.equals( fmt ) ||
-					BIRTConstants.BIRT_ALL_VALUE.equals( fmt ) ||
-					format.equals( fmt ) )
+			if ( EngineIRConstants.FORMAT_TYPE_VIEWER.equalsIgnoreCase( fmt ) ||
+					BIRTConstants.BIRT_ALL_VALUE.equalsIgnoreCase( fmt ) ||
+					format.equalsIgnoreCase( fmt ) )
 			{
 				return true;
 			}
