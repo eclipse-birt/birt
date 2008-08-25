@@ -1846,9 +1846,37 @@ public abstract class EngineTask implements IEngineTask
 		return executor;
 	}
 	
-	public void setUserACL( String[] acl )
+	public void setUserACL( String[] acls )
 	{
-		executionContext.getAppContext( ).put( EngineConstants.USER_ACL_KEY,
-				acl );
+		if ( acls != null )
+		{
+			String[] strippedAcls = strip( acls );
+			executionContext.getAppContext( ).put(
+					EngineConstants.USER_ACL_KEY, strippedAcls );
+
+		}
+		else
+		{
+			executionContext.getAppContext( ).put(
+					EngineConstants.USER_ACL_KEY, null );
+		}
+	}
+
+	protected String[] strip( String[] acls )
+	{
+		ArrayList<String> strippedAcls = new ArrayList<String>( );
+		for ( int i = 0; i < acls.length; i++ )
+		{
+			String acl = acls[i];
+			if ( acl != null )
+			{
+				String strippedAcl = acl.trim( );
+				if ( strippedAcl.length( ) > 0 )
+				{
+					strippedAcls.add( strippedAcl );
+				}
+			}
+		}
+		return strippedAcls.toArray( new String[strippedAcls.size( )] );
 	}
 }
