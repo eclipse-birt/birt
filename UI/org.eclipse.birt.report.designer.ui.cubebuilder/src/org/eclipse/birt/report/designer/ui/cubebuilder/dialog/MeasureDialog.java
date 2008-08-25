@@ -223,11 +223,10 @@ public class MeasureDialog extends BaseDialog
 			{
 				functionCombo.select( 0 );
 			}
+			handleFunctionSelectEvent( );
 		}
 		else
 		{
-			typeCombo.setText( getDataTypeDisplayName( input.getDataType( ) ) == null ? "" //$NON-NLS-1$
-					: getDataTypeDisplayName( input.getDataType( ) ) );
 			try
 			{
 				functionCombo.setText( getFunctionDisplayName( DataAdapterUtil.adaptModelAggregationType( input.getFunction( ) ) ) == null ? "" //$NON-NLS-1$
@@ -240,8 +239,11 @@ public class MeasureDialog extends BaseDialog
 			expressionText.setText( input.getMeasureExpression( ) == null ? "" //$NON-NLS-1$
 					: input.getMeasureExpression( ) );
 			nameText.setText( input.getName( ) == null ? "" : input.getName( ) ); //$NON-NLS-1$
+			handleFunctionSelectEvent( );
+			typeCombo.setText( getDataTypeDisplayName( input.getDataType( ) ) == null ? "" //$NON-NLS-1$
+					: getDataTypeDisplayName( input.getDataType( ) ) );
 		}
-		handleFunctionSelectEvent( );
+
 	}
 
 	private Object result;
@@ -257,8 +259,15 @@ public class MeasureDialog extends BaseDialog
 		{
 			if ( !isEdit )
 			{
-				TabularMeasureHandle measure = DesignElementFactory.getInstance( )
-						.newTabularMeasure( nameText.getText( ) );
+				TabularMeasureHandle measure;
+				if ( input == null )
+					measure = DesignElementFactory.getInstance( )
+							.newTabularMeasure( nameText.getText( ) );
+				else
+				{
+					measure = input;
+					input.setName( nameText.getText( ) );
+				}
 
 				measure.setFunction( getFunctions( )[functionCombo.getSelectionIndex( )].getName( ) );
 				measure.setDataType( getDataTypeNames( )[typeCombo.getSelectionIndex( )] );

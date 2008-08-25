@@ -653,6 +653,8 @@ public class CubeGroupContent extends Composite implements Listener
 						{
 							if ( element instanceof MeasureHandle )
 							{
+								if ( !checkColumnDataType( dataField ) )
+									return;
 								CommandStack stack = SessionHandleAdapter.getInstance( )
 										.getCommandStack( );
 								stack.startTrans( "" ); //$NON-NLS-1$
@@ -1472,7 +1474,7 @@ public class CubeGroupContent extends Composite implements Listener
 					{
 						measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
 								measure );
-						MeasureDialog dialog = new MeasureDialog( false );
+						MeasureDialog dialog = new MeasureDialog( true );
 						dialog.setInput( input, measure );
 						if ( dialog.open( ) == Window.CANCEL )
 						{
@@ -1500,7 +1502,7 @@ public class CubeGroupContent extends Composite implements Listener
 					{
 						( (MeasureHandle) obj ).getContainer( )
 								.add( IMeasureGroupModel.MEASURES_PROP, measure );
-						MeasureDialog dialog = new MeasureDialog( false );
+						MeasureDialog dialog = new MeasureDialog( true );
 						dialog.setInput( input, measure );
 						if ( dialog.open( ) == Window.CANCEL )
 						{
@@ -1924,6 +1926,8 @@ public class CubeGroupContent extends Composite implements Listener
 					}
 					else if ( obj instanceof MeasureHandle )
 					{
+						if ( !checkColumnDataType( dataField ) )
+							return;
 						CommandStack stack = SessionHandleAdapter.getInstance( )
 								.getCommandStack( );
 						stack.startTrans( "" ); //$NON-NLS-1$
