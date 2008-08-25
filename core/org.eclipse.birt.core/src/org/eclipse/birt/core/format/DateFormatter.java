@@ -154,6 +154,19 @@ public class DateFormatter
 	public void applyPattern( String formatString )
 	{
 		createPattern( formatString );
+		
+		// make sure there is a separate formatter for each kind of dates
+		if ( this.dateFormat == null )
+		{
+			this.dateFormat = (com.ibm.icu.text.DateFormat) this.dateTimeFormat
+					.clone( );
+		}
+		if ( this.timeFormat == null )
+		{
+			this.timeFormat = (com.ibm.icu.text.DateFormat) this.dateTimeFormat
+					.clone( );
+		}
+		
 		applyTimeZone( );
 	}
 	/**
@@ -403,18 +416,22 @@ public class DateFormatter
 	{
 		if ( this.timeZone != null )
 		{
+			/*
 			if ( this.dateFormat != null )
 			{
 				this.dateFormat.setTimeZone( timeZone );
 			}
+			*/
 			if ( this.dateTimeFormat != null )
 			{
 				this.dateTimeFormat.setTimeZone( timeZone );
 			}
+			/*
 			if ( this.timeFormat != null )
 			{
 				this.timeFormat.setTimeZone( timeZone );
 			}
+			*/
 		}
 	}
 	

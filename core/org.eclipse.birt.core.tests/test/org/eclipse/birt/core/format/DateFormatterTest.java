@@ -228,17 +228,24 @@ public class DateFormatterTest extends TestCase
 		Calendar dateCal = Calendar.getInstance( );
 		dateCal.set( 1998, 8, 13, 20, 1, 44 );
 		Date dateTime = dateCal.getTime( );
+		java.sql.Time sqlTime = new java.sql.Time( dateTime.getTime( ) );
 
-		String goldenUTC = "13 Sep 1998 12:01";
+		String utcDate = "13 Sep 1998 12:01";
+		String utcTime = "20:01:44";
 		TimeZone UTCTimeZone = TimeZone.getTimeZone( "UTC" );
 		df = new DateFormatter( ULocale.UK, UTCTimeZone );
 		result = df.format( dateTime );
-		assertTrue( goldenUTC.equalsIgnoreCase( result ) );
+		assertTrue( utcDate.equalsIgnoreCase( result ) );
+		result = df.format( sqlTime );
+		assertTrue( utcTime.equalsIgnoreCase( result ) );
 
-		String goldenJapan = "1998/09/13 21:01";
+		String japanDate = "1998/09/13 21:01";
+		String japanTime = "20:01:44";
 		TimeZone japanTimeZone = TimeZone.getTimeZone( "Japan" );
 		df = new DateFormatter( ULocale.JAPAN, japanTimeZone );
 		result = df.format( dateTime );
-		assertTrue( goldenJapan.equalsIgnoreCase( result ) );
+		assertTrue( japanDate.equalsIgnoreCase( result ) );
+		result = df.format( sqlTime );
+		assertTrue( japanTime.equalsIgnoreCase( result ) );
 	}
 }
