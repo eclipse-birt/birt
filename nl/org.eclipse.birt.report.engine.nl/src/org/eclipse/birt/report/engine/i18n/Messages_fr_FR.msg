@@ -97,3 +97,6 @@ Error.ReportRunError = Error happened while running the report
 Error.ReportDocmentOpenError = L'ouverture de l'état a échoué.
 Error.ReportArchiveOpenError = Impossible d'ouvrir l'archive d'état.
 Error.SkipError = Une erreur s'est produite lorsque vous avez ignoré l'élément.
+
+###########################################################
+PDFCreator = BIRT Report Engine {0} using iText {1}.
