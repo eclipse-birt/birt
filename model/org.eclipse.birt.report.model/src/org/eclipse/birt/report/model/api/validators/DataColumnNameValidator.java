@@ -20,7 +20,9 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.DataItem;
+import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
+import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.util.BoundDataColumnUtil;
@@ -29,15 +31,14 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 /**
  * Validates the result set column of the data item.
  * 
- * <h3>Rule</h3>
- * The rule is that
+ * <h3>Rule</h3> The rule is that
  * <ul>
  * <li>If data item has a column name and this column name has no corresponding
  * column binding, semantic error is logged.
  * </ul>
  * 
- * <h3>Applicability</h3>
- * This validator is only applied to <code>DataItem</code>.
+ * <h3>Applicability</h3> This validator is only applied to
+ * <code>DataItem</code>.
  */
 
 public class DataColumnNameValidator extends AbstractElementValidator
@@ -127,13 +128,16 @@ public class DataColumnNameValidator extends AbstractElementValidator
 	private static boolean hasCorrespondingColumnBinding( Module module,
 			DesignElement target, String columnBindingName )
 	{
+		List columns = findBoundColumnsInGrid( module, target );
+		if ( exists( columns, columnBindingName ) )
+			return true;
 		DesignElement tmpElement = BoundDataColumnUtil
 				.findTargetOfBoundColumns( target, module );
 
 		if ( tmpElement instanceof GroupElement )
 		{
 			tmpElement = tmpElement.getContainer( );
-			List columns = (List) tmpElement.getProperty( module,
+			columns = (List) tmpElement.getProperty( module,
 					IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 
 			if ( exists( columns, columnBindingName ) )
@@ -142,7 +146,7 @@ public class DataColumnNameValidator extends AbstractElementValidator
 		else
 		{
 
-			List columns = (List) tmpElement.getProperty( module,
+			columns = (List) tmpElement.getProperty( module,
 					IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 
 			if ( exists( columns, columnBindingName ) )
@@ -150,12 +154,48 @@ public class DataColumnNameValidator extends AbstractElementValidator
 		}
 
 		// see bug 205400, find itself.
-		List columns = (List) target.getProperty( module,
+		columns = (List) target.getProperty( module,
 				IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 		if ( exists( columns, columnBindingName ) )
 			return true;
 
 		return false;
+	}
+
+	/**
+	 * Gets the bound column of gird if the element is <DataItem> and this
+	 * element locates in the <GridItem>.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param element
+	 *            the element
+	 * @return The property value, or null if no value is found.
+	 */
+	private static List findBoundColumnsInGrid( Module module,
+			DesignElement element )
+	{
+		if ( !( element instanceof DataItem ) )
+			return null;
+
+		DesignElement container = element.getContainer( );
+
+		while ( container != null )
+		{
+			if ( container instanceof ReportItem )
+			{
+				if ( container instanceof GridItem )
+				{
+					return (List) container.getProperty( module,
+							IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+				}
+				return null;
+			}
+			container = container.getContainer( );
+
+		}
+
+		return null;
 	}
 
 	/**

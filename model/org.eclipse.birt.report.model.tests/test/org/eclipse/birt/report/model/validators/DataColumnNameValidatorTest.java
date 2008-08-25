@@ -48,4 +48,18 @@ public class DataColumnNameValidatorTest extends BaseTestCase
 		assertEquals( 0, result.size( ) );
 
 	}
+
+	/**
+	 * Tests validate column name in grid,if the data item locates in grid. see
+	 * bug 244914
+	 * 
+	 * @throws Exception
+	 */
+	public void testValidateColumnNameInGrid( ) throws Exception
+	{
+		openDesign( "ValidateColumnNameInGridTest.xml" ); //$NON-NLS-1$
+
+		assertEquals( 0, designHandle.getErrorList( ).size( ) );
+
+	}
 }
