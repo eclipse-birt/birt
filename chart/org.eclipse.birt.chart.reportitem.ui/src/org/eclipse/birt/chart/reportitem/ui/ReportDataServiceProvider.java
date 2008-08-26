@@ -11,10 +11,6 @@
 
 package org.eclipse.birt.chart.reportitem.ui;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,11 +69,17 @@ import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
-import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
+import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.engine.api.EngineConfig;
+import org.eclipse.birt.report.engine.api.impl.EngineTask;
+import org.eclipse.birt.report.engine.api.impl.ReportEngine;
+import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
+import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -91,6 +93,7 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
@@ -316,17 +319,29 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		ClassLoader parentLoader = oldContextLoader;
 		if ( parentLoader == null )
 			parentLoader = this.getClass( ).getClassLoader( );
-		ClassLoader newContextLoader = getCustomScriptClassLoader( parentLoader );
+		ClassLoader newContextLoader = DataSetProvider.getCustomScriptClassLoader( parentLoader,
+				itemHandle.getModuleHandle( ) );
 		Thread.currentThread( ).setContextClassLoader( newContextLoader );
-		DataRequestSession session = null;
 
+		ReportEngine engine = null;
+		DummyEngineTask engineTask = null;
 		try
 		{
+			engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( new EngineConfig( ) );
+
+			engineTask = new DummyEngineTask( engine,
+					new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ) );
+			
 			QueryDefinition queryDefn = new QueryDefinition( );
 			int maxRow = getMaxRow( );
 			queryDefn.setMaxRows( maxRow );
 			queryDefn.setDataSetName( getDataSetFromHandle( ).getQualifiedName( ) );
-			session = prepareDataRequestSession( maxRow, false );
+
+			DataRequestSession session = prepareDataRequestSession( engineTask,
+					maxRow,
+					false );
+			
+			engineTask.run( );
 			
 			for ( int i = 0; i < columnExpression.length; i++ )
 			{
@@ -378,9 +393,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 				actualResultSet.close( );
 			}
-			
-			session.shutdown( );
-			session = null;
 		}
 		catch ( BirtException e )
 		{
@@ -392,9 +404,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			// Restore old thread context class loader
 			Thread.currentThread( ).setContextClassLoader( oldContextLoader );
-			if ( session != null )
+
+			 if ( engineTask != null )
 			{
-				session.shutdown( );
+				engineTask.close( );
+			}
+			if ( engine != null )
+			{
+				engine.destroy( );
 			}
 		}
 		return dataList;
@@ -890,37 +907,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return true;
 	}
 
-	private ClassLoader getCustomScriptClassLoader( ClassLoader parent )
-	{
-		// For Bugzilla 106580: in order for Data Set Preview to locate POJO, we
-		// need to set current thread's context class loader to a custom loader
-		// which has the following path:
-		// All workspace Java project's class path (this class path is already
-		// has already calculated byorg.eclipse.birt.report.debug.ui plugin, and
-		// set as system property "workspace.projectclasspath"
-		String classPath = System.getProperty( "workspace.projectclasspath" ); //$NON-NLS-1$
-		if ( classPath == null || classPath.length( ) == 0 )
-			return parent;
-
-		String[] classPathArray = classPath.split( File.pathSeparator, -1 );
-		int count = classPathArray.length;
-		URL[] urls = new URL[count];
-		for ( int i = 0; i < count; i++ )
-		{
-			File file = new File( classPathArray[i] );
-			try
-			{
-				urls[i] = file.toURL( );
-			}
-			catch ( MalformedURLException e )
-			{
-				urls[i] = null;
-			}
-		}
-
-		return new URLClassLoader( urls, parent );
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1137,57 +1123,91 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		ClassLoader parentLoader = oldContextLoader;
 		if ( parentLoader == null )
 			parentLoader = this.getClass( ).getClassLoader( );
-		ClassLoader newContextLoader = getCustomScriptClassLoader( parentLoader );
+		ClassLoader newContextLoader = DataSetProvider.getCustomScriptClassLoader( parentLoader,
+				itemHandle.getModuleHandle( ) );
 		Thread.currentThread( ).setContextClassLoader( newContextLoader );
 		
 		IDataRowExpressionEvaluator evaluator = null;
 		DataRequestSession session = null;
+		ReportEngine engine = null;
+		DummyEngineTask engineTask = null;
 
 		try
 		{
+			engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( new EngineConfig( ) );
+
+			engineTask = new DummyEngineTask( engine,
+					new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ) );
+
 			CubeHandle cube = ChartXTabUtil.getBindingCube( itemHandle );
 			if ( cube != null )
 			{
-				session = prepareDataRequestSession( getMaxRow( ), true );
+				session = prepareDataRequestSession( engineTask,
+						getMaxRow( ),
+						true );
+
+				engineTask.run( );
 
 				// Create evaluator for data cube, even if in multiple view
-				evaluator = createCubeEvaluator( cube, session );
+				evaluator = createCubeEvaluator( cube, session, engineTask );
 			}
 			else
 			{
-				session = prepareDataRequestSession( getMaxRow( ), false );
+
+				session = prepareDataRequestSession( engineTask,
+						getMaxRow( ),
+						false );
+
+				engineTask.run( );
 				// Create evaluator for data set
 				if ( isSharedBinding( ) )
 				{
 					evaluator = fShareBindingQueryHelper.createShareBindingEvaluator( cm,
-							session );
+							session,
+							engineTask );
 				}
 				else
 				{
 					evaluator = createBaseEvaluator( itemHandle,
 							cm,
 							columnExpression,
-							session );
+							session,
+							engineTask );
 				}
 			}
 			return evaluator;
 		}
 		catch ( BirtException e )
 		{
+			if ( engineTask != null )
+			{
+				engineTask.close( );
+			}
+			
 			throw new ChartException( ChartReportItemUIActivator.ID,
 					ChartException.DATA_BINDING,
 					e );
 		}
 		catch ( RuntimeException e )
 		{
+			if ( engineTask != null )
+			{
+				engineTask.close( );
+			}
+			
 			throw new ChartException( ChartReportItemUIActivator.ID,
 					ChartException.DATA_BINDING,
 					e );
 		}
 		finally
 		{
+			if ( engine != null )
+			{
+				engine.destroy( );
+			}
 			// Restore old thread context class loader
 			Thread.currentThread( ).setContextClassLoader( oldContextLoader );
+
 		}
 	}
 
@@ -1198,12 +1218,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @param cm
 	 * @param columnExpression
 	 * @param session
+	 * @param engineTask
 	 * @return
 	 * @throws ChartException
 	 */
 	private IDataRowExpressionEvaluator createBaseEvaluator(
 			ExtendedItemHandle handle, Chart cm, List columnExpression,
-			final DataRequestSession session ) throws ChartException
+			final DataRequestSession session, final EngineTask engineTask )
+			throws ChartException
 	{
 		IQueryResults actualResultSet;
 		BaseQueryHelper cbqh = new BaseQueryHelper( handle, cm );
@@ -1242,7 +1264,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					public void close( )
 					{
 						super.close( );
-						session.shutdown( );
+						engineTask.close( );
 					}
 
 				};
@@ -1308,11 +1330,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * 
 	 * @param cube
 	 * @param session
+	 * @param engineTask
 	 * @return
 	 * @throws BirtException
 	 */
 	private IDataRowExpressionEvaluator createCubeEvaluator( CubeHandle cube,
-			final DataRequestSession session ) throws BirtException
+			final DataRequestSession session, final EngineTask engineTask )
+			throws BirtException
 	{
 		// Use the chart model in context, because this model will be updated
 		// once UI changes it. On the contrary, the model in handle may be old.
@@ -1336,7 +1360,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			public void close( )
 			{
 				super.close( );
-				session.shutdown( );
+				engineTask.close( );
 			}
 
 		};
@@ -1348,12 +1372,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @return
 	 * @throws BirtException
 	 */
-	private DataRequestSession prepareDataRequestSession( int maxRow,
-			boolean isCudeMode )
+	private DataRequestSession prepareDataRequestSession(
+			EngineTask engineTask, int maxRow, boolean isCudeMode )
 			throws BirtException
 	{
-		DataSessionContext dsc = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-				getReportDesignHandle( ) );
+
+		// DataSessionContext dsc = new DataSessionContext(
+		// DataSessionContext.MODE_DIRECT_PRESENTATION,
+		// getReportDesignHandle( ) );
 
 		// Bugzilla #210225.
 		// If filter is set on report item handle of chart, here should not use
@@ -1368,7 +1394,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			if ( !isCudeMode )
 			{
 				appContext.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT,
-					new Integer( maxRow ) );
+						new Integer( maxRow ) );
 			}
 			else
 			{
@@ -1377,10 +1403,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				appContext.put( DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE,
 						new Integer( maxRow ) );
 			}
-			dsc.setAppContext( appContext );
+			engineTask.setAppContext( appContext );
 		}
 
-		DataRequestSession session = DataRequestSession.newSession( dsc );
+		DataRequestSession session = engineTask.getDataSession( );
 		return session;
 	}
 
@@ -1805,13 +1831,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			};
 		}
 
-
-
 		/**
 		 * Prepare data expression evaluator for query share with table.
 		 * 
 		 * @param cm
 		 * @param session
+		 * @param engineTask
 		 * @return
 		 * @throws BirtException
 		 * @throws AdapterException
@@ -1819,7 +1844,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		 * @throws ChartException
 		 */
 		private IDataRowExpressionEvaluator createShareBindingEvaluator(
-				Chart cm, final DataRequestSession session )
+				Chart cm, final DataRequestSession session,
+				final EngineTask engineTask )
 				throws BirtException,
 				AdapterException, DataException, ChartException
 		{
@@ -1895,7 +1921,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					public void close( )
 					{
 						super.close( );
-						session.shutdown( );
+						engineTask.close( );
 					}
 				};
 			}
@@ -2115,18 +2141,30 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			ClassLoader parentLoader = oldContextLoader;
 			if ( parentLoader == null )
 				parentLoader = this.getClass( ).getClassLoader( );
-			ClassLoader newContextLoader = getCustomScriptClassLoader( parentLoader );
+			ClassLoader newContextLoader = DataSetProvider.getCustomScriptClassLoader( parentLoader,
+					itemHandle.getModuleHandle( ) );
 			Thread.currentThread( ).setContextClassLoader( newContextLoader );
-			DataRequestSession session = null;
-			
+
+			ReportEngine engine = null;
+			DummyEngineTask engineTask = null;
 			try
 			{
+				engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( new EngineConfig( ) );
+
+				engineTask = new DummyEngineTask( engine,
+						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ) );
+				
 				// Create query definition.
 				QueryDefinition queryDefn = new QueryDefinition( );
 				int maxRow = getMaxRow( );
 				queryDefn.setMaxRows( maxRow );
-				session = prepareDataRequestSession( getMaxRow( ), false );
 
+				DataRequestSession session = prepareDataRequestSession( engineTask,
+						getMaxRow( ),
+						false );
+
+				engineTask.run( );
+				
 				// Binding columns, aggregates, filters and sorts.
 				List columns = generateShareBindingsWithTable( headers,
 						queryDefn,
@@ -2168,9 +2206,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 					actualResultSet.close( );
 				}
-				
-				session.shutdown( );
-				session = null;
 			}
 			catch ( BirtException e )
 			{
@@ -2183,9 +2218,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				// Restore old thread context class loader
 				Thread.currentThread( )
 						.setContextClassLoader( oldContextLoader );
-				if ( session != null )
+				if ( engineTask != null )
 				{
-					session.shutdown( );
+					engineTask.close( );
+				}
+				if ( engine != null )
+				{
+					engine.destroy( );
 				}
 			}
 			return dataList;
