@@ -31,6 +31,7 @@ import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo;
+import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.data.adapter.api.IDimensionLevel;
 import org.eclipse.birt.report.data.adapter.impl.DataRequestSessionImpl;
 
@@ -252,6 +253,46 @@ public class DataRequestSessionTest extends TestCase
 		assertTrue( l3.size( ) == 2 );
 		assertTrue( ((ILevelDefinition)l3.get(0)).getName( ).equals( "level1" ));
 		assertTrue( ((ILevelDefinition)l3.get(1)).getName( ).equals( "level2" ));
+	}
+	
+	public void testIsValidDimensionName( )
+	{
+		ICubeQueryUtil cubeQueryUtil = this.session.getCubeQueryUtil( );
+		String testNames[] = new String[]{
+				"12345678",
+				"1234.5678",
+				"123abc",
+				"123+^#",
+				"123.456.78",
+				"abcdefg",
+				"abc.def",
+				".123.456.",
+				"..123..456",
+				"123.456.?",
+				"........",
+				"123  456"
+		};
+		boolean results[] = new boolean[]{
+				false,
+				false,
+				true,
+				true,
+				false,
+				true,
+				true,
+				false,
+				false,
+				true,
+				false,
+				true
+		};
+
+		assert testNames.length == results.length;
+		for ( int i = 0; i < testNames.length; i++ )
+		{
+			assertEquals( cubeQueryUtil.isValidDimensionName( testNames[i] ),
+					results[i] );
+		}
 	}
 	
 	public void tearDown()

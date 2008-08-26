@@ -17,6 +17,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -699,7 +701,20 @@ public class CubeQueryUtil implements ICubeQueryUtil
 		}
 
 	}
-
+	
+	/**
+	 * Checks whether the given string is valid to be the name for a level/dimension 
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public boolean isValidDimensionName( String name )
+	{
+		Pattern pattern = Pattern.compile( "(\\d+(\\.\\d*)?)*|(\\.\\d*)*" );
+		Matcher isNum = pattern.matcher( name );
+		return !isNum.matches( );
+	}	
+	
 	/**
 	 * 
 	 * @param appContext

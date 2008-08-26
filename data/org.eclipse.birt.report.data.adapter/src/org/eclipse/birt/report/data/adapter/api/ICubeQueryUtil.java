@@ -177,6 +177,15 @@ public interface ICubeQueryUtil
 	 * @throws AdapterException
 	 */
 	public List getInvalidBindings( ICubeQueryDefinition queryDefn )
-			throws AdapterException;
+			throws AdapterException;	
+	
+	/**
+	 * Checks whether the given string is valid to be the name for a level/dimension 
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public boolean isValidDimensionName( String name );
+
 
 }
