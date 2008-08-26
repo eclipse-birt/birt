@@ -15,11 +15,14 @@ import java.util.Iterator;
 import java.util.Stack;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
+import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.emitter.BufferedReportEmitter;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
@@ -29,9 +32,11 @@ import org.eclipse.birt.report.engine.executor.buffermgr.Cell;
 import org.eclipse.birt.report.engine.executor.buffermgr.Row;
 import org.eclipse.birt.report.engine.executor.buffermgr.TableContentLayout;
 import org.eclipse.birt.report.engine.internal.content.wrap.CellContentWrapper;
-import org.eclipse.birt.report.engine.ir.EngineIRConstants;
+import org.eclipse.birt.report.engine.ir.CellDesign;
+import org.eclipse.birt.report.engine.layout.LayoutUtil;
+import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
-abstract public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
+public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 {
 
 	final static Logger logger = Logger.getLogger( HTMLTableLayoutEmitter.class
@@ -64,6 +69,12 @@ abstract public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 	 * the group level information used to resovle the drop cells.
 	 */
 	protected Stack groupStack = new Stack( );
+
+	protected UnresolvedRowHint hint = null;
+	
+	protected boolean isFirst = true;
+	 
+	int nestTableCount = 0;
 
 	public HTMLTableLayoutEmitter( IContentEmitter emitter,HTMLLayoutContext context  )
 	{
@@ -104,7 +115,7 @@ abstract public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 	{
 		if(context!=null)
 		{
-				return context.getLayoutHint( content );
+			return context.getLayoutHint( content );
 		}
 		return true;
 	}
@@ -113,7 +124,7 @@ abstract public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 	{
 		if(context!=null)
 		{
-				return context.allowPageBreak( );
+			return context.allowPageBreak( );
 		}
 		return false;
 	}
@@ -168,16 +179,6 @@ abstract public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		return hasDropCell;
 	}
 
-	public void createCell( int colId, int rowSpan, int colSpan,
-			Cell.Content cellContent )
-	{
-		layout.createCell( colId, rowSpan, colSpan, cellContent );
-		if ( rowSpan < 0 )
-		{
-			hasDropCell = true;
-		}
-	}
-
 	protected int createDropID( int groupIndex, String dropType )
 	{
 		int dropId = -10 * ( groupIndex + 1 );
@@ -186,15 +187,6 @@ abstract public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 			dropId--;
 		}
 		return dropId;
-	}
-
-	public void resolveAll(boolean finished )
-	{
-		if ( hasDropCell )
-		{
-			layout.resolveDropCells( finished );
-			hasDropCell = layout.hasDropCell( );
-		}
 	}
 
 	public void resolveCellsOfDrop( int groupLevel, boolean dropAll, boolean finished )
@@ -348,4 +340,349 @@ abstract public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		emitter.endRow( rowContent );
 	}
 
+	private boolean isNestTable( )
+	{
+		return nestTableCount > 1;
+	}
+
+	public void startTable( ITableContent table )
+	{
+		nestTableCount++;
+		if ( cellEmitter != null )
+		{
+			cellEmitter.startTable( table );
+		}
+		else
+		{
+			if ( !isNestTable( ) )
+			{
+				initLayout( table );
+				if(isFirst)
+				{
+					if(context!=null)
+					{
+						hint = context.getUnresolvedRowHint( table );
+						isFirst = false;
+					}
+				}
+				layout.setUnresolvedRowHint( hint );
+				emitter.startTable( layout.getWrappedTableContent( ) );
+			}
+			else
+			{
+				emitter.startTable( table );
+			}
+		}
+	}
+
+	public void resolveAll( boolean finished )
+	{
+		layout.resolveDropCells( finished );
+		hint = layout.getUnresolvedRow( );
+		if(context!=null && hint!=null)
+		{
+			context.addUnresolvedRowHint( hint );
+		}
+		hasDropCell = layout.hasDropCell( );
+	}
+		
+	public void createCell( int colId, int rowSpan, int colSpan,
+			Cell.Content cellContent )
+	{
+		layout.createCell( colId, rowSpan, colSpan, cellContent );
+		if ( rowSpan < 0  || rowSpan > 1)
+		{
+			hasDropCell = true;
+		}
+	}
+	
+	public void endTable( ITableContent table )
+	{
+		if ( cellEmitter != null )
+		{
+			cellEmitter.endTable( table );
+		}
+		else
+		{
+			if ( !isNestTable( ) )
+			{
+				resolveAll( isContentFinished(table) );
+				flush( );
+				emitter.endTable( layout.getWrappedTableContent( ) );
+			}
+			else
+			{
+				emitter.endTable( table );
+			}
+		}
+		nestTableCount--;
+	}
+
+	public void startTableGroup( ITableGroupContent group )
+	{
+		if ( cellEmitter != null )
+		{
+			cellEmitter.startTableGroup( group );
+		}
+		else
+		{
+			if ( !isNestTable( ) )
+			{
+				int groupLevel = group.getGroupLevel( );
+				groupStack.push( new Integer( groupLevel ) );
+				if ( hasDropCell( ) )
+				{
+					layoutEvents.push( new LayoutEvent(
+							LayoutEvent.START_GROUP, group ) );
+					return;
+				}
+			}
+			emitter.startTableGroup( group );
+		}
+	}
+	
+
+	public void endTableGroup( ITableGroupContent group )
+	{
+		if ( cellEmitter != null )
+		{
+			cellEmitter.endTableGroup( group );
+		}
+		else
+		{
+			if ( !isNestTable( ) )
+			{
+				// if there is no group footer, we still need to do with the
+				// drop.
+				int groupLevel = getGroupLevel( );
+				resolveCellsOfDrop( groupLevel, false, isContentFinished( group ) );
+				resolveCellsOfDrop( groupLevel, true, isContentFinished( group ) );
+				assert !groupStack.isEmpty( );
+				groupStack.pop( );
+				if ( hasDropCell( ) )
+				{
+					layoutEvents.push( new LayoutEvent( LayoutEvent.END_GROUP,
+							group ) );
+					return;
+				}
+				flush( );
+			}
+			emitter.endTableGroup( group );
+		}
+	}
+
+	public void startTableBand( ITableBandContent band )
+	{
+		if ( cellEmitter != null )
+		{
+			cellEmitter.startTableBand( band );
+		}
+		else
+		{
+			if ( !isNestTable( ) )
+			{
+				if ( band.getBandType( ) == IBandContent.BAND_GROUP_FOOTER )
+				{
+					int groupLevel = getGroupLevel( );
+					resolveCellsOfDrop( groupLevel, false, true );
+				}
+				if ( hasDropCell( ) )
+				{
+					layoutEvents.push( new LayoutEvent( LayoutEvent.START_BAND,
+							band ) );
+					return;
+				}
+				flush( );
+			}
+			emitter.startTableBand( band );
+		}
+	}
+
+	public void endTableBand( ITableBandContent band )
+	{
+		if ( cellEmitter != null )
+		{
+			cellEmitter.endTableBand( band );
+		}
+		else
+		{
+			if ( !isNestTable( ) )
+			{
+				if ( band.getBandType( ) == IBandContent.BAND_GROUP_FOOTER )
+				{
+					int groupLevel = getGroupLevel( );
+					resolveCellsOfDrop( groupLevel, true, isContentFinished(band) );
+				}
+				if ( hasDropCell( ) )
+				{
+					layoutEvents.push( new LayoutEvent( LayoutEvent.END_BAND,
+							band ) );
+					return;
+				}
+				flush( );
+			}
+			emitter.endTableBand( band );
+		}
+	}
+
+	public void startRow( IRowContent row )
+	{
+		if ( cellEmitter != null )
+		{
+			cellEmitter.startRow( row );
+		}
+		else
+		{
+			boolean isHidden = LayoutUtil.isHidden( row, emitter
+					.getOutputFormat( ), context.getOutputDisplayNone( ) );
+			if ( !isNestTable( ) )
+			{
+				layout.createRow( row, isHidden );
+				if(!isHidden)
+				{
+					if ( hasDropCell( ) )
+					{
+						layoutEvents.push( new LayoutEvent( LayoutEvent.ON_ROW,
+								new StartInfo( layout.getRowCount( ) - 1, 0 ) ) );
+						return;
+					}
+					else if(layout.hasUnResolvedRow( ) && !LayoutUtil.isRepeatableRow( row ))
+					{
+						layoutEvents.push( new LayoutEvent( LayoutEvent.ON_ROW,
+								new StartInfo( layout.getRowCount( ) - 1, 0) ) );
+						hasDropCell = true;
+						return;
+					}
+				}
+					 
+				// TODO: here we need handle the hidden row and change the row
+				// id.
+			}
+			if(!isHidden)
+			{
+				emitter.startRow( row );
+			}
+			
+		}
+	}
+
+	public void endRow( IRowContent row )
+	{
+		if ( cellEmitter != null )
+		{
+			cellEmitter.endRow( row );
+		}
+		else
+		{
+			if ( !isNestTable( ) )
+			{
+				layout.endRow(row);
+				hasDropCell = layout.hasDropCell( );
+				if ( hasDropCell( ) )
+				{
+					return;
+				}
+				if(layoutEvents.size( )>0)
+				{
+					flush( );
+					return;
+				}
+			}
+			
+			boolean isHidden = LayoutUtil.isHidden( row, emitter
+					.getOutputFormat( ), context.getOutputDisplayNone( ) );
+			if(!isHidden)
+			{
+				emitter.endRow( row );
+			}
+		}
+	}
+
+	public void startCell( ICellContent cell )
+	{
+		if ( cellEmitter != null )
+		{
+			cellEmitter.startCell( cell );
+		}
+		else
+		{
+			if ( !isNestTable( ) )
+			{
+				BufferedReportEmitter buffer = null;
+				int colId = cell.getColumn( );
+				int colSpan = cell.getColSpan( );
+				int rowSpan = cell.getRowSpan( );
+
+				// the current executed cell is rowIndex, columnIndex
+				// get the span value of that cell.
+				CellDesign cellDesign = (CellDesign) cell.getGenerateBy( );
+				if ( cellDesign != null )
+				{
+					String dropType = cellDesign.getDrop( );
+					if ( dropType != null && !"none".equals( dropType ) ) //$NON-NLS-1$
+					{
+						rowSpan = createDropID( getGroupLevel( ), dropType );
+					}
+				}
+
+				// the table has no cache, the cell is the first drop or spanned cell
+				if ( !hasDropCell( ) && (rowSpan < 0 || rowSpan > 1) )
+				{
+					layoutEvents.push( new LayoutEvent(
+							LayoutEvent.ON_FIRST_DROP_CELL, new StartInfo( layout
+									.getRowCount( ) - 1, colId ) ) );
+				}
+				if ( hasDropCell( ) || rowSpan < 0 || rowSpan > 1)
+				{
+					buffer = new BufferedReportEmitter( emitter );
+					cellEmitter = buffer;
+				}
+				// we need cache the cell
+				createCell( colId, rowSpan, colSpan, new CellContent( cell,
+						buffer ) );
+				if ( hasDropCell( ) )
+				{
+					return;
+				}
+				// TODO: changes the column id and output it.
+				emitter.startCell( layout.getWrappedCellContent( cell ) );
+			}
+			else
+			{
+				emitter.startCell( cell );
+			}
+		}
+	}
+
+	public void endCell( ICellContent cell )
+	{
+		if ( !isNestTable( ) )
+		{
+			if ( cellEmitter != null )
+			{
+				cellEmitter = null;
+				return;
+			}
+			else
+			{
+				emitter.endCell( layout.getWrappedCellContent( cell ) );
+			}
+		}
+		else
+		{
+			if ( cellEmitter != null )
+			{
+				cellEmitter.endCell( cell );
+			}
+			else
+			{
+				emitter.endCell( cell );
+			}
+		}
+	}
+
+	public IContentEmitter getInternalEmitter( )
+	{
+		return emitter;
+	}
 }

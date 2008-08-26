@@ -129,7 +129,7 @@ public class LayoutUtil
 		return false;
 	}
 
-	static private boolean isHiddenByVisibility( IColumn column, String format )
+	public static boolean isHiddenByVisibility( IColumn column, String format )
 	{
 		String columnFormats = column.getVisibleFormat( );
 		if ( columnFormats != null )
@@ -168,7 +168,7 @@ public class LayoutUtil
 		{
 			if ( index > 0 )
 			{
-				if ( formats.charAt( index - 1 ) != ';' )
+				if ( formats.charAt( index - 1 ) != ',' )
 				{
 					return false;
 				}
@@ -176,7 +176,7 @@ public class LayoutUtil
 			int lastIndex = index + format.length( );
 			if ( lastIndex < formats.length( ) )
 			{
-				if ( formats.charAt( lastIndex ) != ';' )
+				if ( formats.charAt( lastIndex ) != ',' )
 				{
 					return false;
 				}

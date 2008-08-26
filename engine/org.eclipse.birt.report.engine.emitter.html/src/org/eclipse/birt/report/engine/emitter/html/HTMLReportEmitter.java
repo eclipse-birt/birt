@@ -1373,11 +1373,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			IColumn column = table.getColumn( i );
 
-			if ( isColumnHidden( column ) )
-			{
-				continue;
-			}
-
 			writer.openTag( HTMLTags.TAG_COL );
 
 			// output class attribute.

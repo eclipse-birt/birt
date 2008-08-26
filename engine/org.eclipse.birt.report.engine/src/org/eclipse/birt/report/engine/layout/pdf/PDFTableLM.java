@@ -35,6 +35,7 @@ import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
+import org.eclipse.birt.report.engine.layout.LayoutUtil;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
@@ -638,16 +639,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 	private boolean isColumnHidden( IColumn column )
 	{
 		String format = context.getFormat( );
-		String formats = column.getVisibleFormat( );
-		if ( formats != null
-				&& formats.length( ) > 0
-				&& ( formats.toUpperCase( ).indexOf( format.toUpperCase( ) ) >= 0 || formats
-						.toUpperCase( ).indexOf(
-								BIRTConstants.BIRT_ALL_VALUE.toUpperCase( ) ) >= 0 ) )
-		{
-			return true;
-		}
-		return false;
+		return LayoutUtil.isHiddenByVisibility( column, format );
 	}
 
 	public int updateUnresolvedCell( int groupLevel, boolean dropAll )
