@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -105,6 +106,11 @@ abstract public class BaseAttributeBean
 	 */
 	protected Locale locale = null;
 
+	/**
+	 * Current time zone
+	 */
+	protected TimeZone timeZone = null;
+	
 	/**
 	 * Enable master page content.
 	 */
@@ -205,28 +211,11 @@ abstract public class BaseAttributeBean
 
 	abstract protected IViewerReportService getReportService( );
 
-	abstract protected void __finalize( ) throws Throwable;
-
 	/**
 	 * Default constructor.
 	 */
 	public BaseAttributeBean( )
 	{
-	}
-
-	/**
-	 * Constructor.
-	 */
-	public BaseAttributeBean( HttpServletRequest request )
-	{
-		try
-		{
-			init( request );
-		}
-		catch ( Exception e )
-		{
-			this.exception = e;
-		}
 	}
 
 	/**
@@ -238,39 +227,10 @@ abstract public class BaseAttributeBean
 	protected void init( HttpServletRequest request ) throws Exception
 	{
 		this.locale = ParameterAccessor.getLocale( request );
+		this.timeZone = ParameterAccessor.getTimeZone(request);
 		this.rtl = ParameterAccessor.isRtl( request );
 		this.reportletId = ParameterAccessor.getReportletId( request );
 		this.__init( request );
-	}
-
-	/*
-	 * Prepare the report parameters
-	 */
-	protected void __initParameters( HttpServletRequest request )
-			throws Exception
-	{
-		IViewerReportDesignHandle reportDesignHandle = getDesignHandle( request );
-
-		InputOptions options = new InputOptions( );
-		options.setOption( InputOptions.OPT_REQUEST, request );
-		options.setOption( InputOptions.OPT_LOCALE, locale );
-		options.setOption( InputOptions.OPT_RTL, new Boolean( rtl ) );
-
-		Collection parameterList = this.getReportService( )
-				.getParameterDefinitions( reportDesignHandle, options, false );
-
-		// TODO: Change parameters to be Map, not HashMap
-		this.parameters = (HashMap) getParsedParameters( reportDesignHandle,
-				parameterList, request, options );
-
-		this.missingParameter = BirtUtility.validateParameters( parameterList,
-				this.parameters );
-	}
-
-	protected IViewerReportDesignHandle getDesignHandle(
-			HttpServletRequest request ) throws Exception
-	{
-		return new BirtViewerReportDesignHandle( null, reportDesignName );
 	}
 
 	/**
@@ -322,6 +282,14 @@ abstract public class BaseAttributeBean
 		return locale;
 	}
 
+	/**
+	 * @return returns the time zone.
+	 */
+	public TimeZone getTimeZone( )
+	{
+		return timeZone;
+	}
+		
 	/**
 	 * @return Returns the useTestConfig.
 	 */
@@ -434,24 +402,6 @@ abstract public class BaseAttributeBean
 	public boolean isRtl( )
 	{
 		return rtl;
-	}
-
-	/**
-	 * Override default finalizer.
-	 * 
-	 * @exception Throwable
-	 * @return
-	 */
-	protected void finalize( ) throws Throwable
-	{
-		try
-		{
-			__finalize( );
-		}
-		finally
-		{
-			super.finalize( );
-		}
 	}
 
 	protected Map getParsedParameters( IViewerReportDesignHandle design,

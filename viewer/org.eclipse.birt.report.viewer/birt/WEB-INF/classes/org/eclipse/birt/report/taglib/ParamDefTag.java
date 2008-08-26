@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,7 +31,6 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
-import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
@@ -94,6 +94,11 @@ public class ParamDefTag extends BodyTagSupport
 	 * Current locale setting
 	 */
 	private Locale locale;
+	
+	/**
+	 * Current time zone setting.
+	 */
+	private TimeZone timeZone;
 
 	/**
 	 * Current parameter format pattern
@@ -249,11 +254,13 @@ public class ParamDefTag extends BodyTagSupport
 		HttpServletRequest request = (HttpServletRequest) pageContext
 				.getRequest( );
 		this.locale = BirtTagUtil.getLocale( request, viewer.getLocale( ) );
+		this.timeZone = BirtTagUtil.getTimeZone( request, viewer.getTimeZone() );
 
 		// Create Input Options
 		this.options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
 		options.setOption( InputOptions.OPT_LOCALE, this.locale );
+		options.setOption( InputOptions.OPT_TIMEZONE, this.timeZone );
 		options.setOption( InputOptions.OPT_RTL, Boolean.valueOf( viewer
 				.getRtl( ) ) );
 
@@ -303,7 +310,7 @@ public class ParamDefTag extends BodyTagSupport
 				// convert parameter value to object
 				Object valueObj = DataUtil.validateWithPattern(
 						param.getName( ), dataType, this.pattern,
-						(String) param.getValue( ), locale, isLocale );
+						(String) param.getValue( ), locale, timeZone, isLocale );
 				if ( this.paramDef.isMultiValue( ) )
 					param.setValue( new Object[]{valueObj} );
 				else
@@ -319,7 +326,7 @@ public class ParamDefTag extends BodyTagSupport
 				{
 					Object valueObj = DataUtil.validateWithPattern( param
 							.getName( ), dataType, this.pattern, sValues[i],
-							locale, isLocale );
+							locale, timeZone, isLocale );
 					values[i] = valueObj;
 				}
 				param.setValue( values );
@@ -346,14 +353,14 @@ public class ParamDefTag extends BodyTagSupport
 			{
 				for ( int i = 0; i < values.length; i++ )
 				{
-					String value = DataUtil.getDisplayValue( values[i] );
+					String value = DataUtil.getDisplayValue( values[i], timeZone );
 					this.valueStringList.add( value );
 				}
 			}
 		}
 		else
 		{
-			this.valueString = DataUtil.getDisplayValue( param.getValue( ) );
+			this.valueString = DataUtil.getDisplayValue( param.getValue( ), timeZone );
 			if ( this.valueString == null )
 				this.valueString = ""; //$NON-NLS-1$
 		}
@@ -374,8 +381,8 @@ public class ParamDefTag extends BodyTagSupport
 						obj = null;
 				}
 
-				this.displayTextString = ParameterValidationUtil
-						.getDisplayValue( dataType, this.pattern, obj, locale );
+				this.displayTextString = DataUtil
+						.getDisplayValue( dataType, this.pattern, obj, locale, timeZone );
 			}
 		}
 		if ( this.displayTextString == null )
@@ -955,7 +962,7 @@ public class ParamDefTag extends BodyTagSupport
 			}
 
 			// Convert parameter value using standard format
-			String displayValue = DataUtil.getDisplayValue( value );
+			String displayValue = DataUtil.getDisplayValue( value, timeZone );
 			if ( displayValue == null )
 				continue;
 
@@ -963,8 +970,8 @@ public class ParamDefTag extends BodyTagSupport
 			// value for display
 			String label = selectionItem.getLabel( );
 			if ( label == null || label.length( ) <= 0 )
-				label = ParameterValidationUtil.getDisplayValue( null,
-						this.pattern, value, this.locale );
+				label = DataUtil.getDisplayValue( null,
+						this.pattern, value, this.locale, this.timeZone );
 
 			label = label != null ? label : ""; //$NON-NLS-1$
 			writer.write( "<option value=\"" //$NON-NLS-1$
@@ -1221,7 +1228,7 @@ public class ParamDefTag extends BodyTagSupport
 			}
 
 			// Convert parameter value using standard format
-			String displayValue = DataUtil.getDisplayValue( value );
+			String displayValue = DataUtil.getDisplayValue( value, timeZone );
 			if ( displayValue == null )
 				continue;
 
@@ -1229,14 +1236,14 @@ public class ParamDefTag extends BodyTagSupport
 			// value for display
 			String label = selectionItem.getLabel( );
 			if ( label == null || label.length( ) <= 0 )
-				label = ParameterValidationUtil.getDisplayValue( null,
-						this.pattern, value, this.locale );
+				label = DataUtil.getDisplayValue( null,
+						this.pattern, value, this.locale, this.timeZone );
 
 			label = label != null ? label : ""; //$NON-NLS-1$
 			writer.write( "<option value=\"" //$NON-NLS-1$
 					+ ParameterAccessor.htmlEncode( displayValue ) + "\"" ); //$NON-NLS-1$
 			if ( displayValue.equals( DataUtil.getDisplayValue( param
-					.getValue( ) ) ) )
+					.getValue( ), timeZone ) ) )
 			{
 				isSelected = true;
 				writer.write( " selected" ); //$NON-NLS-1$
@@ -1267,16 +1274,16 @@ public class ParamDefTag extends BodyTagSupport
 			else
 			{
 				isNullValue = false;
-				defaultValueText = DataUtil.getDisplayValue( defaultValue );
+				defaultValueText = DataUtil.getDisplayValue( defaultValue, timeZone );
 				if ( this.valueString.equalsIgnoreCase( defaultValueText )
 						|| paramDef.mustMatch( ) )
 				{
 					if ( defaultValueText != null )
 						this.valueString = defaultValueText;
 
-					String defaultDisplayText = ParameterValidationUtil
+					String defaultDisplayText = DataUtil
 							.getDisplayValue( null, this.pattern, defaultValue,
-									locale );
+									locale, this.timeZone );
 					if ( defaultDisplayText != null )
 						this.displayTextString = defaultDisplayText;
 
@@ -1583,7 +1590,7 @@ public class ParamDefTag extends BodyTagSupport
 			}
 
 			// Convert parameter value using standard format
-			String displayValue = DataUtil.getDisplayValue( value );
+			String displayValue = DataUtil.getDisplayValue( value, timeZone );
 			if ( displayValue == null )
 				continue;
 
@@ -1591,8 +1598,8 @@ public class ParamDefTag extends BodyTagSupport
 			// value for display
 			String label = selectionItem.getLabel( );
 			if ( label == null || label.length( ) <= 0 )
-				label = ParameterValidationUtil.getDisplayValue( null,
-						this.pattern, value, this.locale );
+				label = DataUtil.getDisplayValue( null,
+						this.pattern, value, this.locale, timeZone );
 
 			label = label != null ? ParameterAccessor.htmlEncode( label ) : ""; //$NON-NLS-1$
 			String ctlId = encParamId + "_" //$NON-NLS-1$
@@ -1606,7 +1613,7 @@ public class ParamDefTag extends BodyTagSupport
 					.write( " value=\"" + ParameterAccessor.htmlEncode( displayValue ) + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 			writer.write( " onclick=\"" + onClick + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 			if ( displayValue.equalsIgnoreCase( DataUtil.getDisplayValue( param
-					.getValue( ) ) ) )
+					.getValue( ), timeZone ) ) )
 			{
 				isChecked = true;
 				writer.write( " checked" ); //$NON-NLS-1$

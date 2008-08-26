@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.dataextraction;
 
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.Map;
 
 import org.eclipse.birt.report.engine.api.IDataExtractionOption;
@@ -28,6 +29,11 @@ public interface ICommonDataExtractionOption extends IDataExtractionOption
 	 */
 	public static final String OUTPUT_LOCALE = "Locale"; //$NON-NLS-1$
 
+	/**
+	 * output locale
+	 */
+	public static final String OUTPUT_TIMEZONE = "Timezone"; //$NON-NLS-1$
+	
 	/**
 	 * output encoding
 	 */
@@ -87,6 +93,20 @@ public interface ICommonDataExtractionOption extends IDataExtractionOption
 	 */
 	Locale getLocale( );
 
+	/**
+	 * Sets the output time zone.
+	 * 
+	 * @param timeZone time zone
+	 */
+	void setTimeZone( TimeZone timeZone );
+
+	/**
+	 * Returns the output time zone.
+	 * 
+	 * @return Timezone
+	 */
+	TimeZone getTimeZone( );
+	
 	/**
 	 * Sets the output encoding
 	 * 

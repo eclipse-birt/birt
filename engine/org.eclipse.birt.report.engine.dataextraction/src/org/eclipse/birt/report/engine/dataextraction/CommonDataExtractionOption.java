@@ -11,6 +11,7 @@
 package org.eclipse.birt.report.engine.dataextraction;
 
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.Map;
 
 import org.eclipse.birt.report.engine.api.DataExtractionOption;
@@ -31,6 +32,14 @@ public class CommonDataExtractionOption extends DataExtractionOption
 		return (Locale) getOption( OUTPUT_LOCALE );
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.engine.dataextraction.csv.ICSVDataExtractionOption#getTimezone()
+	 */
+	public TimeZone getTimeZone( )
+	{
+		return (TimeZone) getOption( OUTPUT_TIMEZONE );
+	}
+	
 	/**
 	 * @see org.eclipse.birt.report.engine.dataextraction.csv.ICSVDataExtractionOption#getDateFormat()
 	 */
@@ -87,6 +96,14 @@ public class CommonDataExtractionOption extends DataExtractionOption
 		setOption( OUTPUT_LOCALE, locale );
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.engine.dataextraction.csv.ICSVDataExtractionOption#setTimezone(java.util.TimeZone)
+	 */
+	public void setTimeZone( TimeZone timeZone )
+	{
+		setOption( OUTPUT_TIMEZONE, timeZone );
+	}
+	
 	/**
 	 * @see org.eclipse.birt.report.engine.dataextraction.csv.ICSVDataExtractionOption#setDateFormat(java.lang.String)
 	 */

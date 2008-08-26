@@ -208,6 +208,15 @@
 		</attribute>
 
 		<attribute>
+			<name>timeZone</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Specifies a time zone id. For example: "America/Los_Angeles" or "GMT+1" or "GMT+01:00".
+			</description>			
+		</attribute>
+
+		<attribute>
 			<name>svg</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
@@ -523,6 +532,15 @@
 		</attribute>
 
 		<attribute>
+			<name>timeZone</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Specifies a time zone id. For example: "America/Los_Angeles" or "GMT+1" or "GMT+01:00".
+			</description>			
+		</attribute>
+
+		<attribute>
 			<name>svg</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
@@ -680,7 +698,8 @@
             <description>
             	Specifies whether the report parameter value is a locale/format related string.
             </description>
-        </attribute>             
+        </attribute>
+                     
      </tag>   
      
     <!--**********************************************-->
@@ -890,6 +909,15 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>
 				Specifies the Locale information.
+			</description>			
+		</attribute>
+
+		<attribute>
+			<name>timeZone</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Specifies a time zone id. For example: "America/Los_Angeles" or "GMT+1" or "GMT+01:00".
 			</description>			
 		</attribute>
 

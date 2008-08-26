@@ -7,6 +7,8 @@ public class InputOptions
 {
 	public static final String OPT_LOCALE = "locale"; //$NON-NLS-1$
 
+	public static final String OPT_TIMEZONE = "timeZone"; //$NON-NLS-1$
+	
 	public static final String OPT_FORMAT = "format"; //$NON-NLS-1$
 
 	public static final String OPT_EMITTER_ID = "emitterId"; //$NON-NLS-1$
@@ -40,14 +42,15 @@ public class InputOptions
     public static final String OPT_SERVLET_PATH = "servletPath"; //$NON-NLS-1$
     
     public static final String OPT_PAGE_OVERFLOW = "pageOverflow"; //$NON-NLS-1$
+
     
 	// add options here that matches the common engine run or render options
 
-	private Map options;
+	private Map<String,Object> options;
 
 	public InputOptions( )
 	{
-		this.options = new HashMap( );
+		this.options = new HashMap<String,Object>( );
 	}
 
 	public void setOption( String optName, Object optValue )
@@ -60,7 +63,7 @@ public class InputOptions
 		return options.get( optName );
 	}
 
-	public Map getOptions( )
+	public Map<String,Object> getOptions( )
 	{
 		return options;
 	}

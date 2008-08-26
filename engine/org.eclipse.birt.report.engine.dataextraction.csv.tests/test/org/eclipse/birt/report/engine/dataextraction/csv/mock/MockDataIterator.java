@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.report.engine.api.IDataIterator;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IResultMetaData;
@@ -116,5 +117,10 @@ public class MockDataIterator implements IDataIterator
 	public boolean isEmpty( ) throws BirtException
 	{
 		return false;
+	}
+
+	public IResultIterator getResultIterator( )
+	{
+		throw new UnsupportedOperationException("Not implemented");
 	}
 }

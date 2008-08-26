@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
+
 import com.ibm.icu.util.ULocale;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -116,6 +118,7 @@ public class BirtViewerReportService implements IViewerReportService
 		HttpServletRequest request = (HttpServletRequest) runOptions
 				.getOption( InputOptions.OPT_REQUEST );
 		Locale locale = (Locale) runOptions.getOption( InputOptions.OPT_LOCALE );
+		TimeZone timeZone = (TimeZone) runOptions.getOption( InputOptions.OPT_TIMEZONE );
 
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
 				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
@@ -141,10 +144,10 @@ public class BirtViewerReportService implements IViewerReportService
 			Integer maxRows = null;
 			if ( ParameterAccessor.isReportParameterExist( request,
 					ParameterAccessor.PARAM_MAXROWS ) )
-				maxRows = new Integer( ParameterAccessor.getMaxRows( request ) );
+				maxRows = Integer.valueOf( ParameterAccessor.getMaxRows( request ) );
 
 			ReportEngineService.getInstance( ).runReport( request, runnable,
-					outputDocName, locale, parsedParams, displayTextMap,
+					outputDocName, locale, timeZone, parsedParams, displayTextMap,
 					maxRows );
 		}
 		catch ( RemoteException e )
@@ -362,6 +365,7 @@ public class BirtViewerReportService implements IViewerReportService
 
 			Locale locale = (Locale) options
 					.getOption( InputOptions.OPT_LOCALE );
+			TimeZone timeZone = (TimeZone) options.getOption( InputOptions.OPT_TIMEZONE );
 			HttpServletRequest request = (HttpServletRequest) options
 					.getOption( InputOptions.OPT_REQUEST );
 
@@ -394,7 +398,7 @@ public class BirtViewerReportService implements IViewerReportService
 
 			ReportEngineService.getInstance( ).extractDataEx( doc,
 					extractFormat, extractExtension, resultSetName, instanceId,
-					columns, locale, paramMap, out );
+					columns, locale, timeZone, paramMap, out );
 		}
 		catch ( RemoteException e )
 		{
@@ -424,6 +428,7 @@ public class BirtViewerReportService implements IViewerReportService
 			doc = openReportDocument( docName, options );
 			Locale locale = (Locale) options
 					.getOption( InputOptions.OPT_LOCALE );
+			TimeZone timeZone = (TimeZone) options.getOption( InputOptions.OPT_TIMEZONE );
 			HttpServletRequest request = (HttpServletRequest) options
 					.getOption( InputOptions.OPT_REQUEST );
 
@@ -431,7 +436,7 @@ public class BirtViewerReportService implements IViewerReportService
 			ReportEngineService.getInstance( ).extractDataEx( doc,
 					DataExtractionParameterUtil.EXTRACTION_FORMAT_CSV,
 					DataExtractionParameterUtil.EXTRACTION_EXTENSION_CSV, resultSetId,
-					null, columns, locale, paramMap, out );
+					null, columns, locale, timeZone, paramMap, out );
 		}
 		catch ( RemoteException e )
 		{
@@ -542,13 +547,27 @@ public class BirtViewerReportService implements IViewerReportService
 		if ( doc != null )
 		{
 			Locale locale = null;
+			TimeZone timeZone = null;
 			if ( options != null )
+			{
 				locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
+				timeZone = (TimeZone) options.getOption( InputOptions.OPT_TIMEZONE );
+			}
 			if ( locale == null )
 				locale = Locale.getDefault( );
-			ITOCTree tocTree = doc.getTOCTree(
+			ITOCTree tocTree = null;
+			if ( timeZone != null )
+			{
+				tocTree = doc.getTOCTree(
 					DesignChoiceConstants.FORMAT_TYPE_VIEWER, ULocale
-							.forLocale( locale ) );
+							.forLocale( locale ), BirtUtility.toICUTimeZone( timeZone ) );
+			}
+			else
+			{
+				tocTree = doc.getTOCTree(
+						DesignChoiceConstants.FORMAT_TYPE_VIEWER, ULocale
+								.forLocale( locale ));			
+			}
 
 			if ( tocId != null )
 			{
@@ -680,6 +699,7 @@ public class BirtViewerReportService implements IViewerReportService
 				ViewerAttributeBean bean = getViewerAttrBean( options );
 				if ( bean != null )
 				{
+					task.setTimeZone( BirtUtility.toICUTimeZone( bean.getTimeZone( ) ));
 					task.setLocale( bean.getLocale( ) );
 					task.setParameterValues( bean.getParameters( ) );
 				}
@@ -724,6 +744,7 @@ public class BirtViewerReportService implements IViewerReportService
 				ViewerAttributeBean bean = getViewerAttrBean( runOptions );
 				if ( bean != null )
 				{
+					task.setTimeZone( BirtUtility.toICUTimeZone( bean.getTimeZone( ) ) );
 					task.setLocale( bean.getLocale( ) );
 					task.setParameterValues( bean.getParameters( ) );
 				}
@@ -892,7 +913,7 @@ public class BirtViewerReportService implements IViewerReportService
 			Integer maxRows = null;
 			if ( ParameterAccessor.isReportParameterExist( request,
 					ParameterAccessor.PARAM_MAXROWS ) )
-				maxRows = new Integer( ParameterAccessor.getMaxRows( request ) );
+				maxRows = Integer.valueOf( ParameterAccessor.getMaxRows( request ) );
 
 			ReportEngineService.getInstance( ).runAndRenderReport( runnable,
 					out, options, parameters, null, null, null, displayTexts,

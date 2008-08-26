@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -155,6 +156,7 @@ public class ReportTag extends AbstractViewerTag
 		this.options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
 		options.setOption( InputOptions.OPT_LOCALE, this.locale );
+		options.setOption( InputOptions.OPT_TIMEZONE, this.timeZone );
 		options.setOption( InputOptions.OPT_RTL, Boolean.valueOf( viewer
 				.getRtl( ) ) );
 		options.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT, Boolean
@@ -589,12 +591,14 @@ public class ReportTag extends AbstractViewerTag
 		{
 			Locale locale = (Locale) this.options
 			.getOption( InputOptions.OPT_LOCALE );
+			TimeZone timeZone = (TimeZone) this.options
+			.getOption( InputOptions.OPT_TIMEZONE );
 			
 			// preview reportlet
 			String documentName = ParameterAccessor.getReportDocument( request,
 					viewer.getReportDesign( ), viewer.getId( ) );
 			ReportEngineService.getInstance( ).runReport( request, runnable,
-					documentName, locale, parameters, displayTexts,
+					documentName, locale, timeZone, parameters, displayTexts,
 					new Integer( viewer.getMaxRowsOfRecords( ) ) );
 
 			// Render the reportlet
@@ -744,7 +748,7 @@ public class ReportTag extends AbstractViewerTag
 		}
 
 		return DataUtil.validate( handle.getName( ), handle.getDataType( ),
-				pattern, value, this.locale, field.isLocale( ) );
+				pattern, value, this.locale, this.timeZone, field.isLocale( ) );
 	}
 
 	/**

@@ -28,6 +28,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.PropertyResourceBundle;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -122,6 +123,11 @@ public class ParameterAccessor {
 	 */
 	public static final String PARAM_LOCALE = "__locale"; //$NON-NLS-1$
 
+	/**
+	 * URL parameter name that gives the time zone.
+	 */
+	public static final String PARAM_TIMEZONE = "__timezone"; //$NON-NLS-1$
+	
 	/**
 	 * URL parameter name that determins to support the SVG or not.
 	 */
@@ -349,6 +355,11 @@ public class ParameterAccessor {
 	public static final String INIT_PARAM_LOCALE = "BIRT_VIEWER_LOCALE"; //$NON-NLS-1$
 
 	/**
+	 * Context parameter name that gives the default time zone of the BIRT viewer.
+	 */
+	public static final String INIT_PARAM_TIMEZONE = "BIRT_VIEWER_TIMEZONE"; //$NON-NLS-1$	
+		
+	/**
 	 * Context parameter name that gives the working folder of the local BIRT
 	 * viewer user.
 	 */
@@ -529,6 +540,11 @@ public class ParameterAccessor {
 	 */
 	public static Locale webAppLocale = null;
 
+	/**
+	 * Current web application time zone.
+	 */
+	public static TimeZone webAppTimeZone = null;
+	
 	/**
 	 * Indicating that if user can only access the files in working folder.
 	 */
@@ -812,6 +828,43 @@ public class ParameterAccessor {
 		return getParameter(request, PARAM_INSTANCEID);
 	}
 
+
+	/**
+	 * Returns the timezone from the http request.
+	 * @param request http request
+	 * @return TimeZone instance. If the timezone ID from the request is
+	 * unknown, returns the GMT timezone by default. If no timezone ID was
+	 * given in the request, return null. 
+	 */
+	public static TimeZone getTimeZone(HttpServletRequest request) {
+		TimeZone timeZone = getTimeZoneFromString( getParameter(request, PARAM_TIMEZONE) );
+		
+		// Get Locale from Web Context
+		if (timeZone == null)
+		{
+			timeZone = webAppTimeZone;
+		}
+		return timeZone;
+	}
+
+	/**
+	 * Returns a time zone from the given string.
+	 * @param timeZoneString time zone string
+	 * @return TimeZone instance. If the timezone ID from the string is
+	 * unknown, returns the GMT timezone by default. If the string 
+	 * is null, returns null.
+	 */
+	public static TimeZone getTimeZoneFromString( String timeZoneString )
+	{
+		if ( timeZoneString != null ) {
+			timeZoneString = timeZoneString.trim();
+			if ( !"".equals( timeZoneString )) { //$NON-NLS-1$
+				return TimeZone.getTimeZone( timeZoneString );
+			}
+		}
+		return null;
+	}
+	
 	/**
 	 * Get report locale from Http request.
 	 * 
@@ -819,7 +872,6 @@ public class ParameterAccessor {
 	 *            http request
 	 * @return report locale
 	 */
-
 	public static Locale getLocale(HttpServletRequest request) {
 		Locale locale = null;
 
@@ -828,11 +880,15 @@ public class ParameterAccessor {
 
 		// Get Locale from client browser
 		if (locale == null)
+		{
 			locale = request.getLocale();
+		}
 
 		// Get Locale from Web Context
 		if (locale == null)
+		{
 			locale = webAppLocale;
+		}
 
 		return locale;
 	}
@@ -1269,6 +1325,14 @@ public class ParameterAccessor {
 	}
 
 	/**
+	 * Returns the time zone configured in the web context.
+	 * @return time zone object
+	 */
+	public static TimeZone getWebAppTimeZone() {
+		return webAppTimeZone;
+	}
+	
+	/**
 	 * This function is used to encode an ordinary string that may contain
 	 * characters or more than one consecutive spaces for appropriate HTML
 	 * display.
@@ -1444,6 +1508,13 @@ public class ParameterAccessor {
 		if (webAppLocale == null)
 			webAppLocale = Locale.getDefault();
 
+		webAppTimeZone = getTimeZoneFromString(context
+				.getInitParameter(INIT_PARAM_TIMEZONE));
+		if ( "".equals( webAppTimeZone ) ) {
+			// use default
+			webAppTimeZone = null;
+		}
+		
 		isWorkingFolderAccessOnly = Boolean
 				.valueOf(
 						context

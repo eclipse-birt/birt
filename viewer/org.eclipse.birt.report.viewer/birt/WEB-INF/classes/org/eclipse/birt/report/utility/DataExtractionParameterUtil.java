@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import org.eclipse.birt.report.engine.api.DataExtractionOption;
 import org.eclipse.birt.report.engine.dataextraction.CSVDataExtractionOption;
@@ -218,7 +219,7 @@ public class DataExtractionParameterUtil
 	 */
 	public static DataExtractionOption createOptions(
 			CommonDataExtractionOption extractOption, String[] columns,
-			Locale locale, Map options )
+			Locale locale, TimeZone timeZone, Map options )
 	{
 		if ( extractOption == null )
 			extractOption = new CommonDataExtractionOption( );
@@ -227,6 +228,7 @@ public class DataExtractionParameterUtil
 		extractOption.setExportDataType( isExportDataType( options ) );
 		extractOption.setLocaleNeutralFormat( isLocaleNeutral( options ) );
 		extractOption.setLocale(locale);
+		extractOption.setTimeZone(timeZone);
 		extractOption.setSelectedColumns( columns );
 		extractOption.setUserParameters( options );
 		return extractOption;
@@ -241,10 +243,10 @@ public class DataExtractionParameterUtil
 	 * @return
 	 */
 	public static DataExtractionOption createCSVOptions( String[] columns,
-			Locale locale, Map options )
+			Locale locale, TimeZone timeZone, Map options )
 	{
 		CSVDataExtractionOption extractOption = new CSVDataExtractionOption( );
-		createOptions( extractOption, columns, locale, options );
+		createOptions( extractOption, columns, locale, timeZone, options );
 
 		// CSV separator
 		extractOption.setSeparator( getSep( options ) );

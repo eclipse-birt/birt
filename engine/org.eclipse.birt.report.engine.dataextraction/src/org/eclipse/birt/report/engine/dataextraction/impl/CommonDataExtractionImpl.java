@@ -23,6 +23,7 @@ import org.eclipse.birt.report.engine.dataextraction.ICSVDataExtractionOption;
 import org.eclipse.birt.report.engine.dataextraction.i18n.Messages;
 import org.eclipse.birt.report.engine.extension.IDataExtractionExtension;
 
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -39,6 +40,7 @@ public class CommonDataExtractionImpl implements IDataExtractionExtension
 	private DateFormatter dateFormatter = null;
 	private NumberFormatter numberFormatter = null;
 	private ULocale locale = null;
+	private TimeZone timeZone = null;
 	private boolean isLocaleNeutral;
 
 	/**
@@ -49,7 +51,7 @@ public class CommonDataExtractionImpl implements IDataExtractionExtension
 	{
 		this.context = context;
 		this.option = (ICSVDataExtractionOption) option;
-
+		
 		if ( option.getOutputStream( ) == null )
 		{	
 			throw new BirtException( PLUGIN_ID,
@@ -60,7 +62,7 @@ public class CommonDataExtractionImpl implements IDataExtractionExtension
 
 		String dateFormat = this.option.getDateFormat( );
 		// get locale info
-		Locale aLocale = (Locale) this.option.getLocale( );
+		Locale aLocale = this.option.getLocale( );
 		if ( aLocale == null )
 		{
 			locale = ULocale.forLocale( Locale.getDefault( ) );
@@ -70,9 +72,20 @@ public class CommonDataExtractionImpl implements IDataExtractionExtension
 			locale = ULocale.forLocale( aLocale );
 		}
 
+		java.util.TimeZone javaTimeZone = this.option.getTimeZone( );
+		if ( javaTimeZone != null )
+		{
+			// convert java time zone to ICU time zone
+			this.timeZone = TimeZone.getTimeZone( javaTimeZone.getID( ) );
+		}
+		else
+		{
+			this.timeZone = null;
+		}
+		
 		if ( !isLocaleNeutral )
 		{
-			dateFormatter = createDateFormatter( dateFormat, locale );
+			dateFormatter = createDateFormatter( dateFormat, locale, this.timeZone );
 			numberFormatter = new NumberFormatter( locale );
 		}
 	}
@@ -121,16 +134,30 @@ public class CommonDataExtractionImpl implements IDataExtractionExtension
 	 * 		date format string or null for default
 	 */
 	private DateFormatter createDateFormatter( String dateFormat,
-			ULocale locale )
+			ULocale locale, TimeZone timeZone )
 	{
 		DateFormatter dateFormatter = null;
 		if ( dateFormat != null )
 		{
-			dateFormatter = new DateFormatter( dateFormat, locale );
+			if ( timeZone != null )
+			{
+				dateFormatter = new DateFormatter( dateFormat, locale, timeZone );
+			}
+			else
+			{
+				dateFormatter = new DateFormatter( dateFormat, locale );
+			}
 		}
 		else
 		{
-			dateFormatter = new DateFormatter( locale );
+			if ( timeZone != null )
+			{
+				dateFormatter = new DateFormatter( locale, timeZone ); 
+			}
+			else
+			{
+				dateFormatter = new DateFormatter( locale );
+			}
 		}
 		return dateFormatter;
 	}
@@ -153,8 +180,9 @@ public class CommonDataExtractionImpl implements IDataExtractionExtension
 		}
 		else
 		{
-			if ( obj instanceof java.util.Date || obj instanceof java.sql.Date
-					|| obj instanceof java.sql.Time )
+			// implicitly includes its child classes java.sql.Date,
+			// java.sql.Time and java.sql.Timestamp
+			if ( obj instanceof java.util.Date )
 			{
 				value = dateFormatter.format( (java.util.Date) obj );
 			}

@@ -70,6 +70,8 @@ public abstract class AbstractChangeParameterActionHandler
 						.getRequest( ) );
 				options.setOption( InputOptions.OPT_LOCALE, attrBean
 						.getLocale( ) );
+				options.setOption( InputOptions.OPT_TIMEZONE, attrBean
+						.getTimeZone( ) );
 
 				// Bookmark is a TOC name, then find TOC id by name
 				if ( isToc( operation.getOprand( ), attrBean ) )

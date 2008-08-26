@@ -548,6 +548,15 @@ public class RequesterTag extends AbstractBaseTag
 	}
 
 	/**
+	 * @param timeZone
+	 *            the time zone to set
+	 */
+	public void setTimeZone( String timeZone )
+	{
+		viewer.setTimeZone( timeZone );
+	}
+	
+	/**
 	 * @param format
 	 *            the format to set
 	 */

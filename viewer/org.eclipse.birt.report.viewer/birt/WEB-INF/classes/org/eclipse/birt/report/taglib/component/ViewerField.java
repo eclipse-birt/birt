@@ -49,6 +49,7 @@ import org.eclipse.birt.report.utility.UrlUtility;
  * <li>target</li>
  * <li>bookmark</li>
  * <li>locale</li>
+ * <li>timeZone</li>
  * <li>format</li>
  * <li>emitterId</li>
  * <li>pageOverflow</li>
@@ -99,6 +100,7 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 
 	private String bookmark;
 	private String locale;
+	private String timeZone;
 	private String format;
 	private String emitterId;
 	private String pageOverflow;
@@ -260,6 +262,12 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 			uriParams.put( ParameterAccessor.PARAM_LOCALE, locale );
 		}
 
+		// append time zone setting
+		if ( timeZone != null )
+		{
+			uriParams.put( ParameterAccessor.PARAM_TIMEZONE, timeZone );
+		}
+		
 		// append svg setting
 		if ( svg != null )
 		{
@@ -703,6 +711,23 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 	public void setLocale( String locale )
 	{
 		this.locale = locale;
+	}
+	
+	/**
+	 * @return the timeZone
+	 */
+	public String getTimeZone( )
+	{
+		return timeZone;
+	}
+
+	
+	/**
+	 * @param timeZone the timeZone to set
+	 */
+	public void setTimeZone( String timeZone )
+	{
+		this.timeZone = timeZone;
 	}
 
 	/**

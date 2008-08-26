@@ -24,7 +24,6 @@ import java.util.Set;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
-import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
@@ -112,7 +111,7 @@ public class BirtGetCascadeParameterActionHandler
 			String dataType = ParameterDataTypeConverter
 					.ConvertDataType( parameter.getDataType( ) );
 			Object paramValue = DataUtil.validate( paramName, dataType, format,
-					param.getValue( ), attrBean.getLocale( ), isLocale );
+					param.getValue( ), attrBean.getLocale( ), attrBean.getTimeZone(), isLocale );
 
 			paramMap.put( paramName, paramValue );
 		}
@@ -362,9 +361,9 @@ public class BirtGetCascadeParameterActionHandler
 					.get( parameter.getName( ) );
 			if ( obj != null )
 			{
-				defaultValue = DataUtil.getDisplayValue( obj );
-				defaultLabel = ParameterValidationUtil.getDisplayValue( null,
-						parameter.getPattern( ), obj, attrBean.getLocale( ) );
+				defaultValue = DataUtil.getDisplayValue( obj, attrBean.getTimeZone( ) );
+				defaultLabel = DataUtil.getDisplayValue( null,
+						parameter.getPattern( ), obj, attrBean.getLocale( ), attrBean.getTimeZone( ) );
 			}
 		}
 
@@ -400,7 +399,7 @@ public class BirtGetCascadeParameterActionHandler
 				}
 
 				// Convert parameter value using standard format
-				String displayValue = DataUtil.getDisplayValue( value );
+				String displayValue = DataUtil.getDisplayValue( value, attrBean.getTimeZone( ) );
 				if ( displayValue == null )
 					continue;
 
@@ -409,9 +408,9 @@ public class BirtGetCascadeParameterActionHandler
 				{
 					// If label is null or blank, then use the format
 					// parameter value for display
-					label = ParameterValidationUtil.getDisplayValue( null,
+					label = DataUtil.getDisplayValue( null,
 							parameter.getPattern( ), value, attrBean
-									.getLocale( ) );
+									.getLocale( ), attrBean.getTimeZone( ) );
 				}
 
 				if ( label != null )

@@ -131,6 +131,8 @@ public abstract class AbstractGetPageActionHandler
 			InputOptions getPageCountOptions = new InputOptions( );
 			getPageCountOptions.setOption( InputOptions.OPT_LOCALE, __bean
 					.getLocale( ) );
+			getPageCountOptions.setOption( InputOptions.OPT_TIMEZONE, __bean
+					.getTimeZone( ) );
 			getPageCountOptions.setOption( InputOptions.OPT_REQUEST, context
 					.getRequest( ) );
 			OutputOptions outputOptions = new OutputOptions( );

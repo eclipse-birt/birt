@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.model.api.util;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -32,6 +30,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.BooleanPropertyType;
 
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -138,12 +137,48 @@ public class ParameterValidationUtil
 	static private Object validate( String dataType, String value,
 			ULocale locale ) throws ValidationValueException
 	{
+		return validate(dataType, value, locale, null);
+	}
+			
+	
+	/**
+	 * Validates a input parameter value with the given data type. The returned
+	 * value is locale and format independent. The data type can be one of the
+	 * following:
+	 * 
+	 * <ul>
+	 * <li><code>PARAM_TYPE_DATETIME</code></li>
+	 * <li><code>PARAM_TYPE_FLOAT</code></li>
+	 * <li><code>PARAM_TYPE_DECIMAL</code></li>
+	 * <li><code>PARAM_TYPE_BOOLEAN</code></li>
+	 * <li><code>PARAM_TYPE_STRING</code></li>
+	 * <li><code>PARAM_TYPE_DATE</code></li>
+	 * <li><code>PARAM_TYPE_TIME</code></li>
+	 * </ul>
+	 * 
+	 * @param dataType
+	 *            the data type of the value
+	 * @param value
+	 *            the input value to validate
+	 * @param locale
+	 *            the locale information
+	 * @param timeZone
+	 * 			  the time zone information (only for DateTime type)
+	 * @return the validated value if the input value is valid for the given
+	 *         data type
+	 * @throws ValidationValueException
+	 *             if the input value is not valid with the given data type
+	 */
+
+	static private Object validate( String dataType, String value,
+			ULocale locale, TimeZone timeZone ) throws ValidationValueException
+	{
 		if ( value == null )
 			return null;
 
 		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
 				.equalsIgnoreCase( dataType ) )
-			return doVidateDateTime( value, locale );
+			return doValidateDateTime( value, locale, timeZone );
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATE
 				.equalsIgnoreCase( dataType ) )
 		{
@@ -192,7 +227,7 @@ public class ParameterValidationUtil
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT
 				.equalsIgnoreCase( dataType ) )
-		{
+		{			
 			Number number = doValidateNumber( dataType, value, locale );
 			if ( number == null )
 				return null;
@@ -247,17 +282,19 @@ public class ParameterValidationUtil
 	 *            the value to validate
 	 * @param locale
 	 *            the locale information
+	 * @param timeZone
+	 * 			  the time zone information           
 	 * @return the date value if validation is successful
 	 * @throws ValidationValueException
 	 *             if the value is invalid
 	 */
 
-	static final Date doVidateDateTime( String value, ULocale locale )
+	private static final Date doValidateDateTime( String value, ULocale locale, TimeZone timeZone )
 			throws ValidationValueException
 	{
 		try
 		{
-			return DataTypeUtil.toDate( value, locale );
+			return DataTypeUtil.toDate( value, locale, timeZone );
 		}
 		catch ( BirtException e )
 		{
@@ -473,6 +510,158 @@ public class ParameterValidationUtil
 	 *            the input value to validate
 	 * @param locale
 	 *            the locale information
+	 * @param timeZone
+	 * 			  the time zone information
+	 * @return the validated value if the input value is valid for the given
+	 *         data type and format choice string
+	 * @throws ValidationValueException
+	 *             if the input value is not valid with the given data type and
+	 *             format string
+	 */
+
+	static public Object validate( String dataType, String format,
+			String value, Locale locale, TimeZone timeZone ) throws ValidationValueException
+	{
+		return validate( dataType, format, value, ULocale.forLocale( locale ), timeZone );
+	}
+	
+	/**
+	 * Validates a input parameter value with the given data type, format choice
+	 * string, using the default locale. The returned value is locale and pattern
+	 * dependent. The data type and the format can be one pair of the following:
+	 * <p>
+	 * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse:
+	 * collapse" bordercolor="#111111" width="36%" id="AutoNumber1">
+	 * <tr>
+	 * <td width="16%">Data Type</td>
+	 * <td width="84%">Format Type</td>
+	 * </tr>
+	 * <tr>
+	 * <td width="16%">Float/Decimal</td>
+	 * <td width="84%">
+	 * <ul>
+	 * <li>General Number</li>
+	 * <li>Currency</li>
+	 * <li>Fixed</li>
+	 * <li>Percent</li>
+	 * <li>Scientific</li>
+	 * <li>Standard</li>
+	 * <li>pattern string, such as "###,##0", "###,##0.00 'm/s'", "###.#\';';#"
+	 * and so on.</li>
+	 * </ul>
+	 * </td>
+	 * </tr>
+	 * <tr>
+	 * <td width="16%">Date time</td>
+	 * <td width="84%">
+	 * <ul>
+	 * <li>General Date</li>
+	 * <li>Long Date</li>
+	 * <li>Medium Date</li>
+	 * <li>Short Date</li>
+	 * <li>Long Time</li>
+	 * <li>Medium Time</li>
+	 * <li>Short Time</li>
+	 * <li>pattern string, such as "MM/dd/yyyy hh:mm:ss a", "yyyy-MM-dd
+	 * HH:mm:ss" and so on.</li>
+	 * </ul>
+	 * </td>
+	 * </tr>
+	 * <tr>
+	 * <td width="16%">String</td>
+	 * <td width="84%">
+	 * <ul>
+	 * <li>Upper case</li>
+	 * <li>Lower case</li>
+	 * <li>pattern string, such as "lt!" and so on.</li>
+	 * </ul>
+	 * </td>
+	 * </tr>
+	 * </table>
+	 * 
+	 * @param dataType
+	 *            the data type of the value
+	 * @param format
+	 *            the format choice string
+	 * @param value
+	 *            the input value to validate
+	 * @param timeZone
+	 * 			  the time zone information
+	 * @return the validated value if the input value is valid for the given
+	 *         data type and format choice string
+	 * @throws ValidationValueException
+	 *             if the input value is not valid with the given data type and
+	 *             format string
+	 */
+
+	static public Object validate( String dataType, String format,
+			String value, TimeZone timeZone ) throws ValidationValueException
+	{
+		return validate( dataType, format, value, DEFAULT_LOCALE, timeZone );
+	}
+	
+	/**
+	 * Validates a input parameter value with the given data type, format choice
+	 * string. The returned value is locale and pattern dependent. The data type
+	 * and the format can be one pair of the following:
+	 * <p>
+	 * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse:
+	 * collapse" bordercolor="#111111" width="36%" id="AutoNumber1">
+	 * <tr>
+	 * <td width="16%">Data Type</td>
+	 * <td width="84%">Format Type</td>
+	 * </tr>
+	 * <tr>
+	 * <td width="16%">Float/Decimal</td>
+	 * <td width="84%">
+	 * <ul>
+	 * <li>General Number</li>
+	 * <li>Currency</li>
+	 * <li>Fixed</li>
+	 * <li>Percent</li>
+	 * <li>Scientific</li>
+	 * <li>Standard</li>
+	 * <li>pattern string, such as "###,##0", "###,##0.00 'm/s'", "###.#\';';#"
+	 * and so on.</li>
+	 * </ul>
+	 * </td>
+	 * </tr>
+	 * <tr>
+	 * <td width="16%">Date time</td>
+	 * <td width="84%">
+	 * <ul>
+	 * <li>General Date</li>
+	 * <li>Long Date</li>
+	 * <li>Medium Date</li>
+	 * <li>Short Date</li>
+	 * <li>Long Time</li>
+	 * <li>Medium Time</li>
+	 * <li>Short Time</li>
+	 * <li>pattern string, such as "MM/dd/yyyy hh:mm:ss a", "yyyy-MM-dd
+	 * HH:mm:ss" and so on.</li>
+	 * </ul>
+	 * </td>
+	 * </tr>
+	 * <tr>
+	 * <td width="16%">String</td>
+	 * <td width="84%">
+	 * <ul>
+	 * <li>Upper case</li>
+	 * <li>Lower case</li>
+	 * <li>pattern string, such as "lt!" and so on.</li>
+	 * </ul>
+	 * </td>
+	 * </tr>
+	 * </table>
+	 * 
+	 * @param dataType
+	 *            the data type of the value
+	 * @param format
+	 *            the format choice string
+	 * @param value
+	 *            the input value to validate
+	 * @param locale
+	 *            the locale information
 	 * @return the validated value if the input value is valid for the given
 	 *         data type and format choice string
 	 * @throws ValidationValueException
@@ -483,11 +672,87 @@ public class ParameterValidationUtil
 	static public Object validate( String dataType, String format,
 			String value, ULocale locale ) throws ValidationValueException
 	{
+		return validate(dataType, format, value, locale, null);
+	}
+	/**
+	 * Validates a input parameter value with the given data type, format choice
+	 * string. The returned value is locale and pattern dependent. The data type
+	 * and the format can be one pair of the following:
+	 * <p>
+	 * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse:
+	 * collapse" bordercolor="#111111" width="36%" id="AutoNumber1">
+	 * <tr>
+	 * <td width="16%">Data Type</td>
+	 * <td width="84%">Format Type</td>
+	 * </tr>
+	 * <tr>
+	 * <td width="16%">Float/Decimal</td>
+	 * <td width="84%">
+	 * <ul>
+	 * <li>General Number</li>
+	 * <li>Currency</li>
+	 * <li>Fixed</li>
+	 * <li>Percent</li>
+	 * <li>Scientific</li>
+	 * <li>Standard</li>
+	 * <li>pattern string, such as "###,##0", "###,##0.00 'm/s'", "###.#\';';#"
+	 * and so on.</li>
+	 * </ul>
+	 * </td>
+	 * </tr>
+	 * <tr>
+	 * <td width="16%">Date time</td>
+	 * <td width="84%">
+	 * <ul>
+	 * <li>General Date</li>
+	 * <li>Long Date</li>
+	 * <li>Medium Date</li>
+	 * <li>Short Date</li>
+	 * <li>Long Time</li>
+	 * <li>Medium Time</li>
+	 * <li>Short Time</li>
+	 * <li>pattern string, such as "MM/dd/yyyy hh:mm:ss a", "yyyy-MM-dd
+	 * HH:mm:ss" and so on.</li>
+	 * </ul>
+	 * </td>
+	 * </tr>
+	 * <tr>
+	 * <td width="16%">String</td>
+	 * <td width="84%">
+	 * <ul>
+	 * <li>Upper case</li>
+	 * <li>Lower case</li>
+	 * <li>pattern string, such as "lt!" and so on.</li>
+	 * </ul>
+	 * </td>
+	 * </tr>
+	 * </table>
+	 * 
+	 * @param dataType
+	 *            the data type of the value
+	 * @param format
+	 *            the format choice string
+	 * @param value
+	 *            the input value to validate
+	 * @param locale
+	 *            the locale information
+	 * @param timeZone
+	 * 			  the time zone information (only valid for DateTime type)
+	 * @return the validated value if the input value is valid for the given
+	 *         data type and format choice string
+	 * @throws ValidationValueException
+	 *             if the input value is not valid with the given data type and
+	 *             format string
+	 */
+
+	static public Object validate( String dataType, String format,
+			String value, ULocale locale, TimeZone timeZone ) throws ValidationValueException
+	{
 		if ( value == null )
 			return null;
 
 		if ( StringUtil.isBlank( format ) )
-			return validate( dataType, value, locale );
+			return validate( dataType, value, locale, timeZone );
 
 		String newFormat = transformDateFormat( dataType, format, value );
 		try
@@ -498,8 +763,9 @@ public class ParameterValidationUtil
 			{
 				try
 				{
+					// no time zone for java.sql.Date
 					return new java.sql.Date( doValidateDateTimeByPattern(
-							newFormat, value, locale ).getTime( ) );
+							newFormat, value, locale, null ).getTime( ) );
 				}
 				catch ( Exception e )
 				{
@@ -521,8 +787,9 @@ public class ParameterValidationUtil
 			{
 				try
 				{
+					// no time zone for java.sql.Time
 					return new java.sql.Time( doValidateDateTimeByPattern(
-							newFormat, value, locale ).getTime( ) );
+							newFormat, value, locale, null ).getTime( ) );
 				}
 				catch ( Exception e )
 				{
@@ -541,7 +808,8 @@ public class ParameterValidationUtil
 			}
 			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
 					.equalsIgnoreCase( dataType ) )
-				return doValidateDateTimeByPattern( newFormat, value, locale );
+				// time zone is only supported for the DataTime type
+				return doValidateDateTimeByPattern( newFormat, value, locale, timeZone );
 			else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT
 					.equalsIgnoreCase( dataType ) )
 			{
@@ -832,13 +1100,15 @@ public class ParameterValidationUtil
 	 *            the value to validate
 	 * @param locale
 	 *            the locale information
+	 * @param timeZone
+	 * 			  the time zone information
 	 * @return the date value if validation is successful
 	 * @throws ValidationValueException
 	 *             if the value to validate is invalid
 	 */
 
 	static private Date doValidateDateTimeByPattern( String format,
-			String value, ULocale locale ) throws ValidationValueException
+			String value, ULocale locale, TimeZone timeZone ) throws ValidationValueException
 	{
 		assert !StringUtil.isBlank( format );
 		if ( StringUtil.isBlank( value ) )
@@ -846,7 +1116,15 @@ public class ParameterValidationUtil
 
 		try
 		{
-			DateFormatter formatter = new DateFormatter( locale );
+			DateFormatter formatter = null;
+			if ( timeZone != null )
+			{
+				formatter = new DateFormatter( locale, timeZone );
+			}
+			else
+			{
+				formatter = new DateFormatter( locale );
+			}
 			formatter.applyPattern( format );
 			return formatter.parse( value );
 		}
@@ -970,13 +1248,51 @@ public class ParameterValidationUtil
 
 	static public String getDisplayValue( Object value )
 	{
+		return getDisplayValue( value, null );
+	}
+	
+	/**
+	 * Gets the display string for the value with default locale and default
+	 * format, The value must be the valid data type. That is:
+	 * 
+	 * <ul>
+	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value
+	 * must be <code>java.util.Date<code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_FLOAT</code>, then the value must
+	 * be <code>java.lang.Double</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_DECIMAL</code>, then the value must
+	 * be <code>java.math.BigDecimal</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_BOOLEAN</code>, then the value must
+	 * be <code>java.lang.Boolean</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value must
+	 * be <code>java.lang.String</code>.</li>
+	 * </ul>
+	 * 
+	 * @param value
+	 *  		the input value to validate
+	 * @param timeZone
+	 * 			the time zone to use (only for DateTime type)
+	 * @return the formatted string
+	 */
+
+	static public String getDisplayValue( Object value, TimeZone timeZone )
+	{
 		if ( value == null )
 			return null;
 
 		if ( value instanceof Date
 				&& !( value instanceof java.sql.Date || value instanceof java.sql.Time ) )
 		{
-			DateFormatter formatter = defaultDateFormatters[DATETIME_FORMAT_TYPE];
+			DateFormatter formatter = null;
+			if ( timeZone != null ) 
+			{
+				formatter = new DateFormatter( DEFAULT_LOCALE, timeZone );
+				formatter.applyPattern( DEFAULT_DATETIME_FORMAT );
+			}
+			else
+			{
+				formatter = defaultDateFormatters[DATETIME_FORMAT_TYPE];
+			}
 			return formatter.format( (Date) value );
 		}
 		else if ( value instanceof java.sql.Date )
@@ -1065,6 +1381,40 @@ public class ParameterValidationUtil
 	static public String getDisplayValue( String dataType, String format,
 			Object value, ULocale locale )
 	{
+		return getDisplayValue( dataType, format, value, locale, null );
+	}
+	
+	/**
+	 * Gets the display string for the value with the given data type, format,
+	 * locale. The value must be the valid data type. That is:
+	 * 
+	 * <ul>
+	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value
+	 * must be <code>java.util.Date<code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_FLOAT</code>, then the value must
+	 * be <code>java.lang.Double</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_DECIMAL</code>, then the value must
+	 * be <code>java.math.BigDecimal</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_BOOLEAN</code>, then the value must
+	 * be <code>java.lang.Boolean</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value must
+	 * be <code>java.lang.String</code>.</li>
+	 * </ul>
+	 * 
+	 * @param dataType
+	 *  		the data type of the input value
+	 * @param format
+	 *  		the format pattern to validate
+	 * @param value
+	 *  		the input value to validate
+	 * @param locale
+	 *  		the locale information
+	 * @return the formatted string
+	 */
+
+	static public String getDisplayValue( String dataType, String format,
+			Object value, ULocale locale, TimeZone timeZone )
+	{
 		if ( value == null )
 			return null;
 
@@ -1074,7 +1424,7 @@ public class ParameterValidationUtil
 				.equalsIgnoreCase( dataType )
 				|| ( value instanceof Date && !( value instanceof java.sql.Date || value instanceof java.sql.Time ) ) )
 		{
-			DateFormatter formatter = new DateFormatter( locale );
+			DateFormatter formatter = new DateFormatter( locale, timeZone );
 			formatter.applyPattern( format );
 			return formatter.format( (Date) value );
 		}

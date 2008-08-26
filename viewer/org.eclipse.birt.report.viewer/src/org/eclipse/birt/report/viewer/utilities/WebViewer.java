@@ -77,10 +77,15 @@ public class WebViewer
 	public final static String WebAppPlugin = ViewerPlugin.PLUGIN_ID;
 
 	/**
-	 * locale preference name
+	 * Locale preference name
 	 */
 	public final static String USER_LOCALE = "user_locale"; //$NON-NLS-1$
 
+	/**
+	 * Time zone preference name
+	 */
+	public final static String USER_TIME_ZONE = "user_time_zone"; //$NON-NLS-1$
+	
 	/**
 	 * Preference key for SVG chart flag.
 	 */
@@ -512,6 +517,14 @@ public class WebViewer
 			String resourceFolder, String maxrows, String maxrowlevels,
 			String maxcolumnlevels )
 	{
+		String timeZone = ViewerPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getString( USER_TIME_ZONE );
+		if ( timeZone != null && "".equals( timeZone ))
+		{
+			timeZone = null;
+		}
+			
 		String locale = ViewerPlugin.getDefault( )
 				.getPluginPreferences( )
 				.getString( USER_LOCALE );
@@ -629,6 +642,10 @@ public class WebViewer
 		if ( locale != null )
 		{
 			params.put( ParameterAccessor.PARAM_LOCALE, locale );
+		}
+		if ( timeZone != null )
+		{
+			params.put( ParameterAccessor.PARAM_TIMEZONE, timeZone );
 		}
 		params.put( ParameterAccessor.PARAM_MASTERPAGE,
 				String.valueOf( bMasterPageContent ) );

@@ -67,6 +67,7 @@ public class CSVDataExtractionImplTest extends TestCase
 	 * Date format used for the date format test.
 	 */
 	private static final String TEST_DATE_FORMAT = "dd/MM/yyyy HH:mm:ss"; //$NON-NLS-1$
+	private static final String TEST_DATE_FORMAT_WITH_TIMEZONE = "dd/MM/yyyy HH:mm:ss z"; //$NON-NLS-1$
 	
 	private static final String ENCODING_ISO = "ISO-8859-1"; //$NON-NLS-1$
 
@@ -148,7 +149,7 @@ public class CSVDataExtractionImplTest extends TestCase
 	public void setUp()
 	{		
 		Locale.setDefault( new Locale( TEST_LOCALE_LANGUAGE, TEST_LOCALE_COUNTRY ) );
-		TimeZone.setDefault( TimeZone.getTimeZone( TEST_TIME_ZONE) );
+		TimeZone.setDefault( TimeZone.getTimeZone( TEST_TIME_ZONE ) );
 		inputDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //$NON-NLS-1$
 		out = new ByteArrayOutputStream();
 		option = createOptions( );
@@ -246,6 +247,7 @@ public class CSVDataExtractionImplTest extends TestCase
 	{
 		option.setLocale( Locale.FRENCH );
 		option.setLocaleNeutralFormat( true );
+		option.setTimeZone( TimeZone.getTimeZone( "Asia/Shanghai" ) ); //$NON-NLS-1$ // must be ignored because of locale neutral
 		option.setDateFormat( TEST_DATE_FORMAT ); // must be ignored because of locale neutral
 		subtestDateFormat("testLocaleNeutralDateFormat.csv"); //$NON-NLS-1$
 	}
@@ -260,7 +262,7 @@ public class CSVDataExtractionImplTest extends TestCase
 		
 		subtestDateFormat( "testDateFormat.csv" ); //$NON-NLS-1$
 	}
-
+	
 	public void testOutputDefaultDateFormatWithLocale( ) throws Exception
 	{
 		option.setLocale( Locale.FRENCH );
@@ -269,6 +271,30 @@ public class CSVDataExtractionImplTest extends TestCase
 		subtestDateFormat( "testDefaultDateFormat.csv" ); //$NON-NLS-1$
 	}
 
+	public void testOutputWithTimeZone( ) throws Exception
+	{
+		option.setLocale( Locale.FRENCH );
+		option.setTimeZone( TimeZone.getTimeZone( "Asia/Shanghai" ) ); //$NON-NLS-1$
+		option.setLocaleNeutralFormat( false );
+		option.setDateFormat( null );
+		
+		// replace test value with chars available in ISO encoding
+		
+		subtestDateFormat( "testTimeZone.csv" ); //$NON-NLS-1$
+	}
+
+	public void testOutputDateFormatWithTimeZone( ) throws Exception
+	{
+		option.setLocale( Locale.FRENCH );
+		option.setTimeZone( TimeZone.getTimeZone( "Asia/Shanghai" ) ); //$NON-NLS-1$
+		option.setLocaleNeutralFormat( false );
+		option.setDateFormat( TEST_DATE_FORMAT_WITH_TIMEZONE );
+		
+		// replace test value with chars available in ISO encoding
+		
+		subtestDateFormat( "testDateFormatWithTimeZone.csv" ); //$NON-NLS-1$
+	}
+	
 	/**
 	 * @param fileName
 	 * @throws BirtException

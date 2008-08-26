@@ -205,9 +205,9 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 						// convert parameter
 						Object paramValueObj = DataUtil.validate( dataType,
 								pattern, (String) paramValues.get( i ),
-								attrBean.getLocale( ), isLocale );
+								attrBean.getLocale( ), attrBean.getTimeZone( ), isLocale );
 
-						paramValue = DataUtil.getDisplayValue( paramValueObj );
+						paramValue = DataUtil.getDisplayValue( paramValueObj, attrBean.getTimeZone( ) );
 
 					}
 					catch ( Exception err )
@@ -234,9 +234,9 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 					// convert parameter
 					Object paramValueObj = DataUtil.validate( dataType,
 							pattern, (String) paramValues.get( 0 ), attrBean
-									.getLocale( ), isLocale );
+									.getLocale( ), attrBean.getTimeZone(), isLocale );
 
-					paramValue = DataUtil.getDisplayValue( paramValueObj );
+					paramValue = DataUtil.getDisplayValue( paramValueObj, attrBean.getTimeZone( ) );
 
 				}
 				catch ( Exception err )

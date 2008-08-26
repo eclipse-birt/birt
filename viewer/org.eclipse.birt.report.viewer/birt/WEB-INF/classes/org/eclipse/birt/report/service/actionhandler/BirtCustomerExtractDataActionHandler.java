@@ -55,11 +55,10 @@ public class BirtCustomerExtractDataActionHandler
 	{
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
 		String docName = attrBean.getReportDocumentName( );
-		Locale locale = attrBean.getLocale( );
-
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
-		options.setOption( InputOptions.OPT_LOCALE, locale );
+		options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
+		options.setOption( InputOptions.OPT_TIMEZONE, attrBean.getTimeZone( ) );
 
 		String extractFormat = ParameterAccessor.getExtractFormat( context
 				.getRequest( ) );

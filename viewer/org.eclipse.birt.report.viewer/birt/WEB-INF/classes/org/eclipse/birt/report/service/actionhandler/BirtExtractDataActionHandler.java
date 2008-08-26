@@ -46,10 +46,10 @@ public class BirtExtractDataActionHandler extends AbstractBaseActionHandler
 		Collection columns = ParameterAccessor.getSelectedColumns( context
 				.getRequest( ) );
 		Set filters = Collections.EMPTY_SET;
-		Locale locale = attrBean.getLocale( );
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
-		options.setOption( InputOptions.OPT_LOCALE, locale );
+		options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
+		options.setOption( InputOptions.OPT_TIMEZONE, attrBean.getTimeZone( ) );
 		
 		ServletOutputStream out = context.getResponse( ).getOutputStream( );
 		getReportService( ).extractResultSet( docName, resultSetName,

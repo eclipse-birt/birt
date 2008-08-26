@@ -127,6 +127,7 @@ public abstract class AbstractGetTOCActionHandler
 		if ( bean != null )
 		{
 			options.setOption( InputOptions.OPT_LOCALE, bean.getLocale( ) );
+			options.setOption( InputOptions.OPT_TIMEZONE, bean.getTimeZone( ) );
 		}
 
 		if ( oprands != null && oprands.length > 0 )

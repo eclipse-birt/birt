@@ -15,6 +15,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -248,7 +249,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
 		options.setOption( InputOptions.OPT_LOCALE, locale );
-		options.setOption( InputOptions.OPT_RTL, new Boolean( rtl ) );
+		options.setOption( InputOptions.OPT_TIMEZONE, timeZone );
+		options.setOption( InputOptions.OPT_RTL, Boolean.valueOf( rtl ) );
 
 		// Get parameter definition list
 		this.parameterDefList = getReportService( ).getParameterDefinitions(
@@ -762,15 +764,6 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		return BirtReportServiceFactory.getReportService( );
 	}
 
-	/**
-	 * Clear our resources.
-	 * 
-	 * @exception Throwable
-	 * @return
-	 */
-	protected void __finalize( ) throws Throwable
-	{
-	}
 
 	/**
 	 * get parsed parameters with default value.
@@ -840,7 +833,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 						// convert parameter to object
 						Object paramValueObj = DataUtil.validate( paramName,
 								dataType, format, (String) paramList.get( i ),
-								locale, isLocale );
+								locale, timeZone, isLocale );
 						paramList.set( i, paramValueObj );
 					}
 					catch ( ViewerValidationException e )
@@ -1034,7 +1027,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 					for ( int i = 0; i < values.size( ); i++ )
 					{
-						paramValue = DataUtil.getDisplayValue( values.get( i ) );
+						paramValue = DataUtil.getDisplayValue( values.get( i ), timeZone );
 						values.set( i, paramValue );
 					}
 
@@ -1043,7 +1036,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				else
 				{
 					// return String parameter value
-					paramValue = DataUtil.getDisplayValue( valueObj );
+					paramValue = DataUtil.getDisplayValue( valueObj, timeZone );
 					params.put( paramName, paramValue );
 				}
 			}
@@ -1067,12 +1060,15 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * @return Map
 	 */
 	protected Map getParsedParametersAsStringWithDefaultValue(
-			Map parsedParameters, Collection parameterList,
+			Map aParsedParameters, Collection parameterList,
 			HttpServletRequest request, InputOptions options )
 			throws ReportServiceException
 	{
+		Map parsedParameters = aParsedParameters;
 		if ( parsedParameters == null )
+		{
 			parsedParameters = new HashMap( );
+		}
 
 		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
@@ -1090,7 +1086,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			if ( !parsedParameters.containsKey( paramName ) )
 			{
 				String paramValue = DataUtil
-						.getDisplayValue( this.defaultValues.get( paramName ) );
+						.getDisplayValue( this.defaultValues.get( paramName ), timeZone );
 				if ( parameter.isMultiValue( ) )
 				{
 					List values = new ArrayList( );

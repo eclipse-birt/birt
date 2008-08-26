@@ -8,10 +8,21 @@
 
     <display-name>Eclipse BIRT Report Viewer</display-name>
 
-	<!-- Default locale setting -->
+	<!-- Default locale setting.
+	-->
 	<context-param>
 		<param-name>BIRT_VIEWER_LOCALE</param-name>
 		<param-value>en-US</param-value>
+	</context-param>
+
+	<!-- 
+		Default timezone setting.
+		Examples: "Europe/Paris", "GMT+1".
+		Defaults to the container's timezone.		
+	 -->
+	<context-param>
+		<param-name>BIRT_VIEWER_TIMEZONE</param-name>
+		<param-value></param-value>
 	</context-param>
 
 	<!-- Report resources directory for preview. Default to ${birt home} -->

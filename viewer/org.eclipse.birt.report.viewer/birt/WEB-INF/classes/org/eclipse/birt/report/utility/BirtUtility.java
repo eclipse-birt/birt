@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -537,6 +538,7 @@ public class BirtUtility
 							pattern,
 							(String) paramValues.get( i ),
 							bean.getLocale( ),
+							bean.getTimeZone( ),
 							isLocale );
 					values.add( paramValueObj );
 				}
@@ -558,6 +560,7 @@ public class BirtUtility
 						pattern,
 						(String) paramValues.get( 0 ),
 						bean.getLocale( ),
+						bean.getTimeZone( ),
 						isLocale );
 
 				// push to parameter map
@@ -1024,14 +1027,27 @@ public class BirtUtility
 
 		// get locale information
 		Locale locale = null;
+		TimeZone timeZone = null;
 		if ( options != null )
+		{
 			locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
+			timeZone = (TimeZone) options.getOption( InputOptions.OPT_TIMEZONE );
+		}
 		if ( locale == null )
 			locale = Locale.getDefault( );
 
 		// get TOC tree
-		ITOCTree tocTree = doc.getTOCTree( DesignChoiceConstants.FORMAT_TYPE_VIEWER,
-				ULocale.forLocale( locale ) );
+		ITOCTree tocTree = null;
+		if ( timeZone != null )
+		{
+			tocTree = doc.getTOCTree( DesignChoiceConstants.FORMAT_TYPE_VIEWER,
+				ULocale.forLocale( locale ), BirtUtility.toICUTimeZone( timeZone ) );
+		}
+		else
+		{
+			tocTree = doc.getTOCTree( DesignChoiceConstants.FORMAT_TYPE_VIEWER,
+					ULocale.forLocale( locale ) );			
+		}
 		if ( tocTree == null )
 			return null;
 
@@ -1317,5 +1333,22 @@ public class BirtUtility
 		}
 
 		return context;
+	}
+	
+	/**
+	 * Converts a Java time zone to an ICU time zone.
+	 * @param timeZone Java time zone
+	 * @return ICU time zone
+	 */
+	public static com.ibm.icu.util.TimeZone toICUTimeZone( java.util.TimeZone timeZone )
+	{
+		if ( timeZone != null )
+		{
+			return com.ibm.icu.util.TimeZone.getTimeZone( timeZone.getID( ) );
+		}
+		else
+		{
+			return null;
+		}
 	}
 }

@@ -15,6 +15,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -103,11 +104,35 @@ public class BirtTagUtil
 
 		// Get Locale from Web Context
 		if ( locale == null )
-			locale = ParameterAccessor.webAppLocale;
+			locale = ParameterAccessor.getWebAppLocale();
 
 		return locale;
 	}
 
+	/**
+	 * Get report time zone.
+	 * 
+	 * @param request
+	 *            HttpServletRequest
+	 * @param timeZone time zone
+	 *            String
+	 * @return locale
+	 */
+
+	public static TimeZone getTimeZone( HttpServletRequest request, String sTimeZone )
+	{
+		TimeZone timeZone = null;
+
+		// Get Locale from String value
+		timeZone = ParameterAccessor.getTimeZoneFromString( sTimeZone );
+
+		// Get Locale from Web Context
+		if ( timeZone == null )
+			timeZone = ParameterAccessor.getWebAppTimeZone();
+
+		return timeZone;
+	}
+	
 	/**
 	 * If a report file name is a relative path, it is relative to document
 	 * folder. So if a report file path is relative path, it's absolute path is

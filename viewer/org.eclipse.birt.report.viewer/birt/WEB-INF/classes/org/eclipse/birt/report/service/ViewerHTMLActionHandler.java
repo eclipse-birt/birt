@@ -19,6 +19,7 @@ import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.IBirtConstants;
@@ -60,6 +61,11 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 
 	protected Locale locale = null;
 
+	/**
+	 * Time zone
+	 */
+	protected TimeZone timeZone = null;
+	
 	/**
 	 * Page number of the action requester.
 	 */
@@ -130,13 +136,14 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 */
 
 	public ViewerHTMLActionHandler( IReportDocument document, long page,
-			Locale locale, boolean isEmbeddable, boolean isRtl,
+			Locale locale, TimeZone timeZone, boolean isEmbeddable, boolean isRtl,
 			boolean isMasterPageContent, String format, Boolean svg,
 			String isDesigner )
 	{
 		this.document = document;
 		this.page = page;
 		this.locale = locale;
+		this.timeZone = timeZone;
 		this.isEmbeddable = isEmbeddable;
 		this.isRtl = isRtl;
 		this.isMasterPageContent = isMasterPageContent;
@@ -157,11 +164,12 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 * @param isDesigner
 	 */
 
-	public ViewerHTMLActionHandler( Locale locale, boolean isRtl,
+	public ViewerHTMLActionHandler( Locale locale, TimeZone timeZone, boolean isRtl,
 			boolean isMasterPageContent, String format, Boolean svg,
 			String isDesigner )
 	{
 		this.locale = locale;
+		this.timeZone = timeZone;
 		this.isRtl = isRtl;
 		this.isMasterPageContent = isMasterPageContent;
 		this.hostFormat = format;
@@ -358,6 +366,12 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 					locale.toString( ) ) );
 		}
 
+		if ( timeZone != null )
+		{
+			link.append( ParameterAccessor.getQueryParameterString(
+					ParameterAccessor.PARAM_TIMEZONE, timeZone.getID( ) ) );
+		}
+		
 		if ( isRtl )
 		{
 			link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_RTL,
@@ -484,6 +498,11 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			params.put( ParameterAccessor.PARAM_LOCALE, locale.toString( ) );
 		}
 
+		if ( timeZone != null )
+		{
+			params.put( ParameterAccessor.PARAM_TIMEZONE, timeZone.getID( ) );
+		}
+		
 		if ( isRtl )
 		{
 			params.put( ParameterAccessor.PARAM_RTL, String.valueOf( isRtl ) );
@@ -590,7 +609,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 							{
 								// TODO: here need the get the format from the
 								// parameter.
-								String value = DataUtil.getDisplayValue( values[i] );
+								String value = DataUtil.getDisplayValue( values[i], timeZone );
 
 								if ( value != null )
 								{
@@ -630,6 +649,13 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_LOCALE,
 						locale.toString( ) ) );
 			}
+			
+			if ( timeZone != null )
+			{
+				link.append( ParameterAccessor.getQueryParameterString(
+						ParameterAccessor.PARAM_TIMEZONE, timeZone.getID( ) ) );
+			}
+			
 			if ( isRtl )
 			{
 				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_RTL,
@@ -694,6 +720,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 						{
 							InputOptions options = new InputOptions( );
 							options.setOption( InputOptions.OPT_LOCALE, locale );
+							options.setOption( InputOptions.OPT_TIMEZONE, timeZone );
 							bookmark = BirtReportServiceFactory.getReportService( )
 									.findTocByName( reportName,
 											bookmark,
@@ -797,17 +824,18 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 */
 	private String createBaseURLWithExtractPattern( String baseURL )
 	{
+		String url = baseURL;
 		// replace servlet pattern to extract path
-		while ( baseURL.endsWith( "/" ) ) //$NON-NLS-1$
+		while ( url.endsWith( "/" ) ) //$NON-NLS-1$
 		{
-			baseURL = baseURL.substring( 0, baseURL.length( ) - 2 );
+			url = url.substring( 0, url.length( ) - 2 );
 		}
 
-		int index = baseURL.lastIndexOf( "/" ); //$NON-NLS-1$
+		int index = url.lastIndexOf( "/" ); //$NON-NLS-1$
 		if ( index >= 0 )
-			baseURL = baseURL.substring( 0, index );
+			url = url.substring( 0, index );
 
-		return baseURL + IBirtConstants.SERVLET_PATH_EXTRACT;
+		return url + IBirtConstants.SERVLET_PATH_EXTRACT;
 	}
 
 	/**

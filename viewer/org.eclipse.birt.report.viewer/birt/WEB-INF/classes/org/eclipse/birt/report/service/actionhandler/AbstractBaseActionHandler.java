@@ -519,6 +519,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 	{
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_LOCALE, bean.getLocale( ) );
+		options.setOption( InputOptions.OPT_TIMEZONE, bean.getTimeZone( ) );
 		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
 		options.setOption( InputOptions.OPT_EMITTER_ID, bean.getEmitterId( ) );
 		options.setOption( InputOptions.OPT_FORMAT, bean.getFormat( ) );

@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
@@ -431,9 +432,11 @@ public class ReportEngineService
 		{
 			HttpServletRequest request = (HttpServletRequest) options.getOption( InputOptions.OPT_REQUEST );
 			Locale locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
+			TimeZone timeZone = (TimeZone) options.getOption( InputOptions.OPT_TIMEZONE );
 
 			task = engine.createGetParameterDefinitionTask( runnable );
 			task.setLocale( locale );
+			task.setTimeZone( BirtUtility.toICUTimeZone( timeZone ) );
 
 			// set app context
 			Map context = BirtUtility.getAppContext( request );
@@ -617,11 +620,11 @@ public class ReportEngineService
 		{
 			case IBirtConstants.PAGE_OVERFLOW_AUTO :
 				renderOption.setOption( PDFRenderOption.PAGE_OVERFLOW,
-						new Integer( PDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES ) );
+						Integer.valueOf( PDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES ) );
 				break;
 			case IBirtConstants.PAGE_OVERFLOW_ACTUAL :
 				renderOption.setOption( PDFRenderOption.PAGE_OVERFLOW,
-						new Integer( PDFRenderOption.ENLARGE_PAGE_SIZE ) );
+						Integer.valueOf( PDFRenderOption.ENLARGE_PAGE_SIZE ) );
 				break;
 			case IBirtConstants.PAGE_OVERFLOW_FITTOPAGE :
 				renderOption.setOption( PDFRenderOption.FIT_TO_PAGE,
@@ -629,7 +632,7 @@ public class ReportEngineService
 				break;
 			default :
 				renderOption.setOption( PDFRenderOption.PAGE_OVERFLOW,
-						new Integer( PDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES ) );
+						Integer.valueOf( PDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES ) );
 		}
 
 		// pagebreak pagination only setting
@@ -803,10 +806,10 @@ public class ReportEngineService
 		inputOptions.setOption( InputOptions.OPT_REQUEST, request );
 		inputOptions.setOption( InputOptions.OPT_LOCALE, locale );
 		inputOptions.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
-				new Boolean( masterPage ) );
+				Boolean.valueOf( masterPage ) );
 		inputOptions.setOption( InputOptions.OPT_SVG_FLAG,
-				new Boolean( svgFlag ) );
-		inputOptions.setOption( InputOptions.OPT_RTL, new Boolean( rtl ) );
+				Boolean.valueOf( svgFlag ) );
+		inputOptions.setOption( InputOptions.OPT_RTL, Boolean.valueOf( rtl ) );
 		inputOptions.setOption( InputOptions.OPT_FORMAT, format );
 		inputOptions.setOption( InputOptions.OPT_SERVLET_PATH, iServletPath );
 
@@ -840,13 +843,15 @@ public class ReportEngineService
 	public void runAndRenderReport( IReportRunnable runnable,
 			OutputStream outputStream, InputOptions inputOptions,
 			Map parameters, Boolean embeddable, List activeIds,
-			RenderOption renderOption, Map displayTexts, String reportTitle,
+			RenderOption aRenderOption, Map displayTexts, String reportTitle,
 			Integer maxRows ) throws RemoteException
 	{
 		assert runnable != null;
-
+		RenderOption renderOption = aRenderOption;
+		
 		HttpServletRequest request = (HttpServletRequest) inputOptions.getOption( InputOptions.OPT_REQUEST );
 		Locale locale = (Locale) inputOptions.getOption( InputOptions.OPT_LOCALE );
+		TimeZone timeZone = (TimeZone) inputOptions.getOption( InputOptions.OPT_TIMEZONE );
 		Boolean isMasterPageContent = (Boolean) inputOptions.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
 		boolean masterPage = isMasterPageContent == null ? true
 				: isMasterPageContent.booleanValue( );
@@ -865,6 +870,7 @@ public class ReportEngineService
 
 		IRunAndRenderTask runAndRenderTask = engine.createRunAndRenderTask( runnable );
 		runAndRenderTask.setLocale( locale );
+		runAndRenderTask.setTimeZone( BirtUtility.toICUTimeZone( timeZone ) );
 		if ( parameters != null )
 		{
 			runAndRenderTask.setParameterValues( parameters );
@@ -917,11 +923,12 @@ public class ReportEngineService
 		renderOption.setOutputFormat( format );
 		renderOption.setEmitterID( emitterId );
 		renderOption.setOption( IHTMLRenderOption.MASTER_PAGE_CONTENT,
-				new Boolean( masterPage ) );
+				Boolean.valueOf( masterPage ) );
 		renderOption.setOption( IHTMLRenderOption.HTML_RTL_FLAG,
-				new Boolean( rtl ) );
+				Boolean.valueOf( rtl ) );
 
 		ViewerHTMLActionHandler handler = new ViewerHTMLActionHandler( locale,
+				timeZone,
 				rtl,
 				masterPage,
 				format,
@@ -1104,6 +1111,32 @@ public class ReportEngineService
 	}
 
 	/**
+	 * 
+	 * @param request
+	 * @param runnable
+	 * @param documentName
+	 * @param locale
+	 * @param parameters
+	 * @param displayTexts
+	 * @param object
+	 * @deprecated
+	 */
+	private void runReport( HttpServletRequest request,
+			IReportRunnable runnable, String documentName, Locale locale,
+			Map parameters, Map displayTexts, Object object )
+		throws RemoteException
+	{
+		runReport( request,
+				runnable,
+				documentName,
+				locale,
+				null,
+				parameters,
+				displayTexts,
+				null );
+	}
+
+	/**
 	 * Run report.
 	 * 
 	 * @param request
@@ -1119,6 +1152,7 @@ public class ReportEngineService
 	 */
 	public void runReport( HttpServletRequest request,
 			IReportRunnable runnable, String documentName, Locale locale,
+			TimeZone timeZone,
 			Map parameters, Map displayTexts, Integer maxRows )
 			throws RemoteException
 	{
@@ -1128,6 +1162,7 @@ public class ReportEngineService
 		IRunTask runTask = null;
 		runTask = engine.createRunTask( runnable );
 		runTask.setLocale( locale );
+		runTask.setTimeZone( BirtUtility.toICUTimeZone( timeZone ) );
 		runTask.setParameterValues( parameters );
 
 		// set MaxRows settings
@@ -1416,6 +1451,7 @@ public class ReportEngineService
 	{
 		HttpServletRequest request = (HttpServletRequest) inputOptions.getOption( InputOptions.OPT_REQUEST );
 		Locale locale = (Locale) inputOptions.getOption( InputOptions.OPT_LOCALE );
+		TimeZone timeZone = (TimeZone) inputOptions.getOption( InputOptions.OPT_TIMEZONE );
 		Boolean isMasterPageContent = (Boolean) inputOptions.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
 		boolean masterPage = isMasterPageContent == null ? true
 				: isMasterPageContent.booleanValue( );
@@ -1490,6 +1526,7 @@ public class ReportEngineService
 			handler = new ViewerHTMLActionHandler( reportDocument,
 					pageNumber,
 					locale,
+					timeZone,
 					false,
 					rtl,
 					masterPage,
@@ -1515,6 +1552,7 @@ public class ReportEngineService
 			handler = new ViewerHTMLActionHandler( reportDocument,
 					pageNumber,
 					locale,
+					timeZone,
 					isEmbeddable,
 					rtl,
 					masterPage,
@@ -1541,6 +1579,7 @@ public class ReportEngineService
 
 		renderTask.setRenderOption( renderOption );
 		renderTask.setLocale( locale );
+		renderTask.setTimeZone( BirtUtility.toICUTimeZone( timeZone ) );
 
 		return renderTask;
 	}
@@ -1838,13 +1877,14 @@ public class ReportEngineService
 	 * @param out
 	 * @throws RemoteException
 	 */
-	public void extractDataEx( IReportDocument document, String extractFormat,
+	public void extractDataEx( IReportDocument document, String aExtractFormat,
 			String extractExtension, String resultSetName, String instanceId,
-			Collection columns, Locale locale, Map options, OutputStream out )
+			Collection columns, Locale locale, TimeZone timeZone, Map options, OutputStream out )
 			throws RemoteException
 	{
 		assert document != null;
 		IDataExtractionTask dataTask = null;
+		String extractFormat = aExtractFormat;
 		try
 		{
 			if ( extractFormat == null || "".equals( extractFormat ) )
@@ -1867,6 +1907,7 @@ public class ReportEngineService
 
 			// set locale information
 			dataTask.setLocale( locale );
+			dataTask.setTimeZone( BirtUtility.toICUTimeZone( timeZone ) );
 
 			DataExtractionOption extractOption = null;
 
@@ -1876,6 +1917,7 @@ public class ReportEngineService
 				// CSV data extraction option
 				extractOption = DataExtractionParameterUtil.createCSVOptions( columnNames,
 						locale,
+						timeZone,
 						options );
 
 			}
@@ -1885,6 +1927,7 @@ public class ReportEngineService
 				extractOption = DataExtractionParameterUtil.createOptions( null,
 						columnNames,
 						locale,
+						timeZone,
 						options );
 			}
 
@@ -1985,44 +2028,9 @@ public class ReportEngineService
 				null,
 				columns,
 				locale,
+				null,
 				options,
 				outputStream );
-	}
-
-	/**
-	 * CSV format convertor. Here is the rule.
-	 * 
-	 * 1) Fields with given separator must be delimited with double-quote
-	 * characters. 2) Fields that contain double quote characters must be
-	 * surounded by double-quotes, and the embedded double-quotes must each be
-	 * represented by a pair of consecutive double quotes. 3) A field that
-	 * contains embedded line-breaks must be surounded by double-quotes. 4)
-	 * Fields with leading or trailing spaces must be delimited with
-	 * double-quote characters.
-	 * 
-	 * @param value
-	 * @param sep
-	 * @return the csv format string value
-	 * @throws RemoteException
-	 */
-	private String csvConvertor( String value, char sep )
-			throws RemoteException
-	{
-		if ( value == null )
-		{
-			return null;
-		}
-
-		value = value.replaceAll( "\"", "\"\"" ); //$NON-NLS-1$  //$NON-NLS-2$
-
-		boolean needQuote = false;
-		needQuote = ( value.indexOf( sep ) != -1 )
-				|| ( value.indexOf( '"' ) != -1 )
-				|| ( value.indexOf( 0x0A ) != -1 )
-				|| value.startsWith( " " ) || value.endsWith( " " ); //$NON-NLS-1$ //$NON-NLS-2$
-		value = needQuote ? "\"" + value + "\"" : value; //$NON-NLS-1$ //$NON-NLS-2$
-
-		return value;
 	}
 
 	/**

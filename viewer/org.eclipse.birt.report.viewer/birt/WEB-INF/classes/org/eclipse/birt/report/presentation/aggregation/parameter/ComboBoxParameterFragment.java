@@ -15,13 +15,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.ScalarParameterBean;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
-import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
@@ -57,11 +57,11 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 	 * @see org.eclipse.birt.report.presentation.aggregation.parameter.ScalarParameterFragment#prepareParameterBean(javax.servlet.http.HttpServletRequest,
 	 *      org.eclipse.birt.report.service.api.IViewerReportService,
 	 *      org.eclipse.birt.report.context.ScalarParameterBean,
-	 *      java.util.Locale)
+	 *      java.util.Locale, Timezone)
 	 */
 	protected void prepareParameterBean( HttpServletRequest request,
 			IViewerReportService service, ScalarParameterBean parameterBean,
-			Locale locale ) throws ReportServiceException
+			Locale locale, TimeZone timeZone ) throws ReportServiceException
 	{
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
 				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
@@ -115,7 +115,7 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 				}
 
 				// Convert parameter value using standard format
-				String displayValue = DataUtil.getDisplayValue( value );
+				String displayValue = DataUtil.getDisplayValue( value, timeZone );
 				if ( displayValue == null )
 					continue;
 
@@ -124,8 +124,8 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 				{
 					// If label is null or blank, then use the format parameter
 					// value for display
-					label = ParameterValidationUtil.getDisplayValue( null,
-							paramDef.getPattern( ), value, locale );
+					label = DataUtil.getDisplayValue( null,
+							paramDef.getPattern( ), value, locale, timeZone );
 				}
 
 				if ( label == null )

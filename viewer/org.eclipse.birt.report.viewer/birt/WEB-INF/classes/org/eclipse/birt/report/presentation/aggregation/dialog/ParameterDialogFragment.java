@@ -92,6 +92,7 @@ public class ParameterDialogFragment extends BaseDialogFragment
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
 		options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
+		options.setOption( InputOptions.OPT_TIMEZONE, attrBean.getTimeZone( ) );
 
 		try
 		{

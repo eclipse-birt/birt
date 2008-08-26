@@ -18,8 +18,10 @@ import java.sql.Types;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.data.DateFormatISO8601;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
@@ -30,6 +32,8 @@ import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Provides data convert and format services
@@ -154,7 +158,7 @@ public class DataUtil
 	 * @throws ViewerValidationException
 	 */
 	public static Object validate( String paramName, String dataType,
-			String format, String value, Locale locale, boolean isLocale )
+			String format, String value, Locale locale, TimeZone timeZone, boolean isLocale )
 			throws ViewerValidationException
 	{
 		if ( paramName == null || value == null )
@@ -171,7 +175,7 @@ public class DataUtil
 
 		try
 		{
-			return validate( dataType, format, value, locale, isLocale );
+			return validate( dataType, format, value, locale, timeZone, isLocale );
 		}
 		catch ( ValidationValueException e )
 		{
@@ -197,7 +201,7 @@ public class DataUtil
 	 * @throws ViewerValidationException
 	 */
 	public static Object validateWithPattern( String paramName,
-			String dataType, String format, String value, Locale locale,
+			String dataType, String format, String value, Locale locale, TimeZone timeZone,
 			boolean isLocale ) throws ViewerValidationException
 	{
 		if ( paramName == null )
@@ -205,7 +209,7 @@ public class DataUtil
 
 		try
 		{
-			return validateWithPattern( dataType, format, value, locale,
+			return validateWithPattern( dataType, format, value, locale, timeZone,
 					isLocale );
 		}
 		catch ( ValidationValueException e )
@@ -231,7 +235,7 @@ public class DataUtil
 	 * @throws ValidationValueException
 	 */
 	public static Object validate( String dataType, String format,
-			String value, Locale locale, boolean isLocale )
+			String value, Locale locale, TimeZone timeZone, boolean isLocale )
 			throws ValidationValueException
 	{
 		Object obj = null;
@@ -242,13 +246,13 @@ public class DataUtil
 		// format parameter value first
 		if ( isLocale )
 		{
-			obj = validateWithLocale( dataType, format, value, locale );
+			obj = validateWithLocale( dataType, format, value, locale, timeZone );
 		}
 		else
 		{
 			// Convert string to object using default format/local
 			obj = ParameterValidationUtil.validate( dataType,
-					getDefaultDateFormat( dataType ), value );
+					getDefaultDateFormat( dataType ), value, BirtUtility.toICUTimeZone( timeZone ) );
 		}
 
 		return obj;
@@ -268,7 +272,7 @@ public class DataUtil
 	 * @throws ValidationValueException
 	 */
 	public static Object validateWithPattern( String dataType, String format,
-			String value, Locale locale, boolean isLocale )
+			String value, Locale locale, TimeZone timeZone, boolean isLocale )
 			throws ValidationValueException
 	{
 		Object obj = null;
@@ -279,7 +283,7 @@ public class DataUtil
 		// format parameter value first
 		if ( isLocale )
 		{
-			obj = validateWithLocale( dataType, format, value, locale );
+			obj = validateWithLocale( dataType, format, value, locale, timeZone );
 		}
 		else
 		{
@@ -288,7 +292,7 @@ public class DataUtil
 				format = getDefaultDateFormat( dataType );
 
 			// Convert string to object using default locale
-			obj = ParameterValidationUtil.validate( dataType, format, value );
+			obj = ParameterValidationUtil.validate( dataType, format, value, BirtUtility.toICUTimeZone( timeZone ) );
 		}
 
 		return obj;
@@ -305,7 +309,7 @@ public class DataUtil
 	 * @throws ValidationValueException
 	 */
 	public static Object validateWithLocale( String dataType, String format,
-			String value, Locale locale ) throws ValidationValueException
+			String value, Locale locale, TimeZone timeZone ) throws ValidationValueException
 	{
 		Object obj = null;
 		if ( value == null )
@@ -334,7 +338,7 @@ public class DataUtil
 
 			// Convert locale string to object
 			obj = ParameterValidationUtil.validate( dataType, format, value,
-					locale );
+					locale, BirtUtility.toICUTimeZone( timeZone ) );
 		}
 		catch ( Exception e )
 		{
@@ -345,7 +349,14 @@ public class DataUtil
 				// Make the consistent with designer
 				try
 				{
-					obj = DataTypeUtil.toDate( value );
+					if ( timeZone != null && value instanceof String )
+					{
+						obj = DataTypeUtil.toDate( value, BirtUtility.toICUTimeZone( timeZone ) );
+					}
+					else
+					{
+						obj = DataTypeUtil.toDate( value );
+					}
 				}
 				catch ( BirtException el )
 				{
@@ -358,13 +369,53 @@ public class DataUtil
 			else
 			{
 				obj = ParameterValidationUtil.validate( dataType,
-						getDefaultDateFormat( dataType ), value );
+						getDefaultDateFormat( dataType ), value, BirtUtility.toICUTimeZone( timeZone ) );
 			}
 		}
 
 		return obj;
 	}
 
+	/**
+	 * Gets the display string for the value with the given data type, format,
+	 * locale. The value must be the valid data type. That is:
+	 * 
+	 * <ul>
+	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value
+	 * must be <code>java.util.Date<code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_FLOAT</code>, then the value must
+	 * be <code>java.lang.Double</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_DECIMAL</code>, then the value must
+	 * be <code>java.math.BigDecimal</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_BOOLEAN</code>, then the value must
+	 * be <code>java.lang.Boolean</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value must
+	 * be <code>java.lang.String</code>.</li>
+	 * </ul>
+	 * 
+	 * @param dataType
+	 *  		the data type of the input value
+	 * @param format
+	 *  		the format pattern to validate
+	 * @param value
+	 *  		the input value to validate
+	 * @param locale
+	 *  		the locale information
+	 * @param timeZone
+	 * 			the time zone information
+	 * @return the formatted string
+	 */
+	public static String getDisplayValue( String dataType, String format,
+			Object value, Locale locale, TimeZone timeZone ) {
+		return ParameterValidationUtil.getDisplayValue(
+				dataType,
+				format,
+				value,
+				ULocale.forLocale( locale ),
+				BirtUtility.toICUTimeZone( timeZone )
+				);
+	}
+	
 	/**
 	 * Gets the display string for the value with default locale and default
 	 * format, The value must be the valid data type. That is:
@@ -389,6 +440,35 @@ public class DataUtil
 
 	public static String getDisplayValue( Object value )
 	{
+		return getDisplayValue( value, null );
+	}
+	
+	/**
+	 * Gets the display string for the value with default locale and default
+	 * format, The value must be the valid data type. That is:
+	 * 
+	 * <ul>
+	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value
+	 * must be <code>java.util.Date<code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_FLOAT</code>, then the value must
+	 * be <code>java.lang.Double</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_DECIMAL</code>, then the value must
+	 * be <code>java.math.BigDecimal</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_BOOLEAN</code>, then the value must
+	 * be <code>java.lang.Boolean</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value must
+	 * be <code>java.lang.String</code>.</li>
+	 * </ul>
+	 * 
+	 * @param value
+	 *  		the input value to validate
+	 * @param time zone
+	 * 			the time zone to use for the output
+	 * @return the formatted string
+	 */
+
+	public static String getDisplayValue( Object value, TimeZone timeZone )
+	{
 		if ( value == null )
 			return null;
 
@@ -402,7 +482,7 @@ public class DataUtil
 			return value.toString( ).replaceFirst( "E\\+", "E" );		  //$NON-NLS-1$//$NON-NLS-2$
 		}
 
-		return ParameterValidationUtil.getDisplayValue( value );
+		return ParameterValidationUtil.getDisplayValue( value, BirtUtility.toICUTimeZone( timeZone ) );
 	}
 
 	/**

@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,6 +44,11 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 	 */
 	protected Locale locale;
 
+	/**
+	 * Time zone information
+	 */
+	protected TimeZone timeZone;
+	
 	/**
 	 * Report parameters
 	 */
@@ -76,6 +82,10 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 		this.locale = BirtTagUtil.getLocale( (HttpServletRequest) pageContext
 				.getRequest( ), viewer.getLocale( ) );
 
+		// get time zone
+		this.timeZone = BirtTagUtil.getTimeZone( (HttpServletRequest) pageContext
+				.getRequest( ), viewer.getTimeZone( ) );
+		
 		// Set locale information
 		BirtResources.setLocale( this.locale );
 
@@ -190,7 +200,7 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 			for ( int i = 0; i < values.length; i++ )
 			{
 				// parse parameter object as standard format
-				String paramValue = DataUtil.getDisplayValue( values[i] );
+				String paramValue = DataUtil.getDisplayValue( values[i], timeZone );
 
 				// set NULL parameter
 				if ( paramValue == null )
@@ -489,6 +499,15 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 		viewer.setLocale( locale );
 	}
 
+	/**
+	 * @param timeZone
+	 *            the time zone to set
+	 */
+	public void setTimeZone( String timeZone )
+	{
+		viewer.setTimeZone( timeZone );
+	}
+	
 	/**
 	 * @param format
 	 *            the format to set

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.ScalarParameterBean;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
-import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
@@ -89,7 +89,7 @@ public class ScalarParameterFragment extends BirtBaseFragment
 					locale, isDesigner );
 			// Prepare additional parameter properties.
 			prepareParameterBean( request, getReportService( ), parameterBean,
-					locale );
+					locale, attrBean.getTimeZone( )  );
 		}
 		catch ( ReportServiceException e )
 		{
@@ -172,10 +172,10 @@ public class ScalarParameterFragment extends BirtBaseFragment
 		if ( defaultValue != null )
 		{
 			parameterBean.setDefaultValue( DataUtil
-					.getDisplayValue( defaultValue ) );
-			parameterBean.setDefaultDisplayText( ParameterValidationUtil
+					.getDisplayValue( defaultValue, attrBean.getTimeZone( )  ) );
+			parameterBean.setDefaultDisplayText( DataUtil
 					.getDisplayValue( null, parameter.getPattern( ),
-							defaultValue, locale ) );
+							defaultValue, locale, attrBean.getTimeZone( ) ) );
 		}
 
 		// parameter map
@@ -192,7 +192,7 @@ public class ScalarParameterFragment extends BirtBaseFragment
 					List paramList = new ArrayList( );
 					for ( int i = 0; i < values.length; i++ )
 					{
-						String value = DataUtil.getDisplayValue( values[i] );
+						String value = DataUtil.getDisplayValue( values[i], attrBean.getTimeZone( )  );
 						paramList.add( value );
 					}
 					parameterBean.setValueList( paramList );
@@ -202,7 +202,7 @@ public class ScalarParameterFragment extends BirtBaseFragment
 				else
 				{
 					displayTextObj = param;
-					String value = DataUtil.getDisplayValue( param );
+					String value = DataUtil.getDisplayValue( param, attrBean.getTimeZone( )  );
 					parameterBean.setValue( value );
 				}
 
@@ -210,9 +210,9 @@ public class ScalarParameterFragment extends BirtBaseFragment
 				if ( !displayTexts.containsKey( parameterBean.getName( ) ) )
 				{
 					parameterBean.setDisplayTextInReq( false );
-					String displayText = ParameterValidationUtil
+					String displayText = DataUtil
 							.getDisplayValue( null, parameter.getPattern( ),
-									displayTextObj, locale );
+									displayTextObj, locale, attrBean.getTimeZone( )  );
 					parameterBean.setDisplayText( displayText );
 				}
 			}
@@ -226,11 +226,12 @@ public class ScalarParameterFragment extends BirtBaseFragment
 	 * @param service
 	 * @param parameterBean
 	 * @param locale
+	 * @param timeZone
 	 * @throws ReportServiceException
 	 */
 	protected void prepareParameterBean( HttpServletRequest request,
 			IViewerReportService service, ScalarParameterBean parameterBean,
-			Locale locale ) throws ReportServiceException
+			Locale locale, TimeZone timeZone ) throws ReportServiceException
 	{
 	}
 }
