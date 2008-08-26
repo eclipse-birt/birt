@@ -51,7 +51,6 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 
 	private int staleType;
 
-
 	private ActivityStackListener commandStackListener = new ActivityStackListener( ) {
 
 		public void stackChanged( ActivityStackEvent event )
@@ -62,9 +61,6 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 		}
 	};
 
-	private boolean hasWarning;
-
-
 	protected void configureGraphicalViewer( )
 	{
 		super.configureGraphicalViewer( );
@@ -74,6 +70,7 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 			stack.addCommandStackListener( getCommandStackListener( ) );
 		}
 	}
+
 	/**
 	 * returns command stack listener.
 	 */
@@ -85,7 +82,9 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms.editor.FormEditor)
+	 * @see
+	 * org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms
+	 * .editor.FormEditor)
 	 */
 	public void initialize( FormEditor editor )
 	{
@@ -101,13 +100,13 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 			throws PartInitException
 	{
 		super.init( site, input );
-		initialize( (FormEditor)((MultiPageEditorSite)site).getMultiPageEditor() );
+		initialize( (FormEditor) ( (MultiPageEditorSite) site ).getMultiPageEditor( ) );
 		// Initializes command stack
-//		WrapperCommandStack stack = (WrapperCommandStack) getCommandStack( );
-//		if ( stack != null )
-//		{
-//			stack.addCommandStackListener( getCommandStackListener( ) );
-//		}
+		// WrapperCommandStack stack = (WrapperCommandStack) getCommandStack( );
+		// if ( stack != null )
+		// {
+		// stack.addCommandStackListener( getCommandStackListener( ) );
+		// }
 	}
 
 	public IManagedForm getManagedForm( )
@@ -135,7 +134,7 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 	}
 
 	public String getId( )
-	{		
+	{
 		return ID;
 	}
 
@@ -162,7 +161,9 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	public void createPartControl( Composite parent )
 	{
@@ -173,56 +174,68 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 
 	public boolean onBroughtToTop( IReportEditorPage page )
 	{
-		
-		if ( !hasWarning && ReportPlugin.getDefault( )
+		String prompt = ReportPlugin.getDefault( )
 				.getPreferenceStore( )
-				.getString( ReportPlugin.LIBRARY_WARNING_PREFERENCE )
-				.equals( MessageDialogWithToggle.PROMPT ) )
+				.getString( ReportPlugin.LIBRARY_WARNING_PREFERENCE );
+
+		if ( prompt == null
+				|| ( !ReportPlugin.getDefault( )
+						.getPreferenceStore( )
+						.getString( ReportPlugin.LIBRARY_WARNING_PREFERENCE )
+						.equals( MessageDialogWithToggle.NEVER ) ) )
 		{
-			MessageDialogWithToggle.openInformation( UIUtil.getDefaultShell( ),
+			MessageDialogWithToggle dialog = MessageDialogWithToggle.openInformation( UIUtil.getDefaultShell( ),
 					Messages.getString( "LibraryLayoutEditorFormPage.warning.title" ), //$NON-NLS-1$
 					Messages.getString( "LibraryLayoutEditorFormPage.warning.message" ), //$NON-NLS-1$
 					Messages.getString( "LibraryLayoutEditorFormPage.warning.prompt" ), //$NON-NLS-1$
 					false,
 					ReportPlugin.getDefault( ).getPreferenceStore( ),
 					ReportPlugin.LIBRARY_WARNING_PREFERENCE );
-			hasWarning = true;
+			// if dialog.getToggleState() == true then means not show again.
+			if ( dialog.getToggleState( ) )
+			{
+				ReportPlugin.getDefault( )
+						.getPreferenceStore( )
+						.setValue( ReportPlugin.LIBRARY_WARNING_PREFERENCE,
+								MessageDialogWithToggle.NEVER );
+			}
 		}
-		
-		//the three classes has the logic to rebuild the model, should be refactor. 
+
+		// the three classes has the logic to rebuild the model, should be
+		// refactor.
 		ModuleHandle model = getProvider( ).getReportModuleHandle( getEditorInput( ) );
 		boolean reload = false;
-		if (getStaleType( ) == IPageStaleType.MODEL_RELOAD)
+		if ( getStaleType( ) == IPageStaleType.MODEL_RELOAD )
 		{
 			setModel( null );
 			doSave( null );
 			reload = true;
 		}
-		if ( (model != null && getModel( ) != model) || reload )
+		if ( ( model != null && getModel( ) != model ) || reload )
 		{
 			Object oldModel = getModel( );
 
 			setModel( model );
-			
+
 			rebuildReportDesign( oldModel );
 			if ( getModel( ) != null )
 			{
 				this.getGraphicalViewer( ).setContents( getModel( ) );
-				hookModelEventManager(getModel( ) );
+				hookModelEventManager( getModel( ) );
 				markPageStale( IPageStaleType.NONE );
 			}
 			updateStackActions( );
 		}
-//		reselect the selection
+		// reselect the selection
 		GraphicalViewer view = getGraphicalViewer( );
 
-		if(view !=null)
+		if ( view != null )
 		{
 			UIUtil.resetViewSelection( view, true );
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Rebuild report design model.
 	 * 
@@ -243,14 +256,15 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 		SessionHandleAdapter.getInstance( ).resetReportDesign( oldModel,
 				getModel( ) );
 
-		SessionHandleAdapter.getInstance( ).setReportDesignHandle(
-				getProvider( ).getReportModuleHandle( getEditorInput( ) ) );
+		SessionHandleAdapter.getInstance( )
+				.setReportDesignHandle( getProvider( ).getReportModuleHandle( getEditorInput( ) ) );
 
 	}
 
 	public void dispose( )
 	{
-		if ( getCommandStack( ) != null && getCommandStack( ) instanceof WrapperCommandStack)
+		if ( getCommandStack( ) != null
+				&& getCommandStack( ) instanceof WrapperCommandStack )
 		{
 			WrapperCommandStack stack = (WrapperCommandStack) getCommandStack( );
 			stack.removeCommandStackListener( getCommandStackListener( ) );
@@ -273,7 +287,7 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 		if ( adapter == DataViewPage.class )
 		{
 			DataViewTreeViewerPage page = new DataViewTreeViewerPage( getModel( ) );
-			getModelEventManager().addModelEventProcessor( page.getModelProcessor( ) );
+			getModelEventManager( ).addModelEventProcessor( page.getModelProcessor( ) );
 			return page;
 		}
 		if ( adapter == AttributeViewPage.class )
@@ -283,23 +297,23 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 		}
 		return super.getAdapter( adapter );
 	}
-	
-	public void setInput(IEditorInput input)
+
+	public void setInput( IEditorInput input )
 	{
-		super.setInput(input);
+		super.setInput( input );
 	}
-	
+
 	protected IReportProvider getProvider( )
 	{
-		IReportProvider provider =  (IReportProvider) editor.getAdapter( IReportProvider.class );
-		if(provider == null)
+		IReportProvider provider = (IReportProvider) editor.getAdapter( IReportProvider.class );
+		if ( provider == null )
 		{
 			provider = super.getProvider( );
 		}
-		
+
 		return provider;
-	}	
-	
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

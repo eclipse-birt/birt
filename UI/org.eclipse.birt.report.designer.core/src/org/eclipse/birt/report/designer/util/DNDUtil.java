@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.util;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,6 +33,7 @@ import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnBandData;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.CssSharedStyleHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -59,6 +61,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -106,8 +109,8 @@ public final class DNDUtil
 	 *            <code>DesignElement</code>
 	 * @param container
 	 *            container, class type could be
-	 *            <code>DesignElementHandle</code>,<code>SlotHandle</code>
-	 *            or <code>ReportElementModel</code>
+	 *            <code>DesignElementHandle</code>,<code>SlotHandle</code> or
+	 *            <code>ReportElementModel</code>
 	 * @param position
 	 *            the position will be added
 	 * @return move result
@@ -130,8 +133,8 @@ public final class DNDUtil
 	 *            <code>DesignElement</code>
 	 * @param container
 	 *            container elements, class type could be
-	 *            <code>DesignElementHandle</code>,<code>SlotHandle</code>
-	 *            or <code>ReportElementModel</code>
+	 *            <code>DesignElementHandle</code>,<code>SlotHandle</code> or
+	 *            <code>ReportElementModel</code>
 	 * @param position
 	 *            the position will be added
 	 * @return paste result
@@ -139,6 +142,44 @@ public final class DNDUtil
 	public static boolean copyHandles( Object transferData, Object container,
 			int position )
 	{
+		if ( transferData instanceof Object[]
+				&& ( (Object[]) transferData )[0] instanceof CssSharedStyleHandle )
+
+		{
+			if ( ( container instanceof SlotHandle && ( (SlotHandle) container ).getElementHandle( ) instanceof ReportDesignHandle )
+					|| ( container instanceof ReportDesignHandle ) )
+			{
+				ReportDesignHandle report = null;
+				if ( container instanceof ReportDesignHandle )
+				{
+					report = (ReportDesignHandle) container;
+				}
+				else
+				{
+					report = (ReportDesignHandle) ( (SlotHandle) container ).getElementHandle( );
+				}
+
+				return ImportCssStyle( (CssSharedStyleHandle) ( (Object[]) transferData )[0],
+						report );
+			}
+			else if ( ( container instanceof SlotHandle && ( (SlotHandle) container ).getElementHandle( ) instanceof ThemeHandle )
+					|| ( container instanceof ThemeHandle ) )
+			{
+				ThemeHandle theme = null;
+				if ( container instanceof ThemeHandle )
+				{
+					theme = (ThemeHandle) container;
+				}
+				else
+				{
+					theme = (ThemeHandle) ( (SlotHandle) container ).getElementHandle( );
+				}
+				return ImportCssStyle( (CssSharedStyleHandle) ( (Object[]) transferData )[0],
+						theme );
+			}
+
+		}
+
 		return operateHandles( transferData,
 				container,
 				position,
@@ -283,8 +324,8 @@ public final class DNDUtil
 	 *            <code>DesignElement</code>
 	 * @param targetObj
 	 *            target elements, class type could be
-	 *            <code>DesignElementHandle</code>,<code>SlotHandle</code>
-	 *            or <code>ReportElementModel</code>
+	 *            <code>DesignElementHandle</code>,<code>SlotHandle</code> or
+	 *            <code>ReportElementModel</code>
 	 * @param position
 	 *            the position will be added
 	 * @param commandName
@@ -1414,4 +1455,26 @@ public final class DNDUtil
 		}
 		return true;
 	}
+
+	protected static boolean ImportCssStyle( CssSharedStyleHandle css,
+			ReportDesignHandle report )
+	{
+		CssStyleSheetHandle cssStyleSheet = css.getCssStyleSheetHandle( );
+		List styleList = new ArrayList( );
+		styleList.add( css );
+		report.importCssStyles( cssStyleSheet, styleList );
+		return true;
+	}
+
+	protected static boolean ImportCssStyle( CssSharedStyleHandle css,
+			ThemeHandle theme )
+	{
+		CssStyleSheetHandle cssStyleSheet = css.getCssStyleSheetHandle( );
+		List styleList = new ArrayList( );
+		styleList.add( css );
+		LibraryHandle library = (LibraryHandle) theme.getRoot( );
+		library.importCssStyles( cssStyleSheet, styleList, theme.getName( ) );
+		return true;
+	}
+
 }

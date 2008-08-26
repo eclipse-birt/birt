@@ -116,11 +116,21 @@ public class PreviewPreferencePage extends PreferencePage implements
 
 		createSpacer( mainComposite );
 
-		Label localeDescription = new Label( mainComposite, SWT.NULL );
+		Composite composite = new Composite( mainComposite, SWT.NONE );
+		data = new GridData( GridData.FILL_HORIZONTAL );
+		data.horizontalIndent = 0;
+		layout = new GridLayout( );
+		layout.numColumns = 2;
+		layout.marginLeft = 0;
+		layout.marginWidth = 0;
+		composite.setLayoutData( data );
+		composite.setLayout( layout );
+
+		Label localeDescription = new Label( composite, SWT.NULL );
 		localeDescription.setText( Messages.getString( "designer.preview.preference.locale.description" ) ); //$NON-NLS-1$
 
-		localeCombo = new Combo( mainComposite, SWT.DROP_DOWN );
-		localeCombo.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL ) );
+		localeCombo = new Combo( composite, SWT.DROP_DOWN );
+		localeCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		assert WebViewer.LocaleTable != null;
 		String[] localeDisplayNames = new String[WebViewer.LocaleTable.size( )];
 		WebViewer.LocaleTable.keySet( ).toArray( localeDisplayNames );
@@ -135,9 +145,9 @@ public class PreviewPreferencePage extends PreferencePage implements
 		}
 		localeCombo.setText( defaultLocale );
 
-		createSpacer( mainComposite );
+		createBIDIChoice( composite );
 
-		createBIDIChoice( mainComposite );
+		createSpacer( mainComposite );
 
 		// Enable svg or not.
 		svgFlag = new Button( mainComposite, SWT.CHECK );
@@ -448,19 +458,21 @@ public class PreviewPreferencePage extends PreferencePage implements
 	 */
 	protected void performDefaults( )
 	{
-//		String defaultBrowserID = BrowserManager.getInstance( )
-//				.getDefaultBrowserID( );
-//
-//		for ( int i = 0; i < externalBrowsers.length; i++ )
-//		{
-//			BrowserDescriptor descriptor = (BrowserDescriptor) externalBrowsers[i].getData( );
-//			externalBrowsers[i].setSelection( descriptor.getID( ) == defaultBrowserID );
-//		}
-//
-//		customBrowserPath.setText( ViewerPlugin.getDefault( )
-//				.getPluginPreferences( )
-//				.getDefaultString( CustomBrowser.CUSTOM_BROWSER_PATH_KEY ) );
-//		setCustomBrowserPathEnabled( );
+		// String defaultBrowserID = BrowserManager.getInstance( )
+		// .getDefaultBrowserID( );
+		//
+		// for ( int i = 0; i < externalBrowsers.length; i++ )
+		// {
+		// BrowserDescriptor descriptor = (BrowserDescriptor)
+		// externalBrowsers[i].getData( );
+		// externalBrowsers[i].setSelection( descriptor.getID( ) ==
+		// defaultBrowserID );
+		// }
+		//
+		// customBrowserPath.setText( ViewerPlugin.getDefault( )
+		// .getPluginPreferences( )
+		// .getDefaultString( CustomBrowser.CUSTOM_BROWSER_PATH_KEY ) );
+		// setCustomBrowserPathEnabled( );
 
 		if ( svgFlag != null )
 		{
@@ -607,7 +619,7 @@ public class PreviewPreferencePage extends PreferencePage implements
 		Label lb = new Label( parent, SWT.NONE );
 		lb.setText( Messages.getString( "designer.preview.preference.bidiOrientation.label" ) );
 		bidiCombo = new Combo( parent, SWT.READ_ONLY );
-		GridData gd = new GridData( GridData.GRAB_HORIZONTAL );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.minimumWidth = 100;
 		bidiCombo.setLayoutData( gd );
 		bidiCombo.setItems( BIDI_CHOICE_DISPLAYNAMES );
