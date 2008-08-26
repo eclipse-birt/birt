@@ -65,6 +65,7 @@ import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.mozilla.javascript.Scriptable;
 
 public class DataExtractionTaskV1 extends EngineTask
@@ -293,7 +294,7 @@ public class DataExtractionTaskV1 extends EngineTask
 
 					IQueryDefinition query = getQuery( queryId );
 
-					rsetId2queryIdMapping.put( rsetId, queryId );
+					//rsetId2queryIdMapping.put( rsetId, queryId );
 
 					int count = -1;
 					Integer countObj = (Integer) queryCounts.get( queryId );
@@ -308,7 +309,7 @@ public class DataExtractionTaskV1 extends EngineTask
 						rsetName = rsetName + "_" + count;
 					}
 					queryCounts.put( queryId, new Integer( count ) );
-					rsetName2IdMapping.put( rsetName, rsetId );
+					//rsetName2IdMapping.put( rsetName, rsetId );
 
 					if ( null != query2ResultMetaData )
 					{
@@ -318,10 +319,19 @@ public class DataExtractionTaskV1 extends EngineTask
 						{
 							ReportItemDesign design = (ReportItemDesign) report
 									.getReportItemToQueryMap( ).get( query );
+							ReportItemHandle handle = (ReportItemHandle) design
+									.getHandle( );
+							if ( !handle.allowExport( ) )
+							{
+								continue;
+							}
 							IResultSetItem resultItem = new ResultSetItem(
-									rsetName, metaData, design.getHandle( ),
+									rsetName, metaData, handle,
 									executionContext.getLocale( ) );
+							
 							resultMetaList.add( resultItem );
+							rsetName2IdMapping.put( rsetName, rsetId );
+							rsetId2queryIdMapping.put( rsetId, queryId );
 						}
 					}
 				}
@@ -615,6 +625,11 @@ public class DataExtractionTaskV1 extends EngineTask
 		assert executionContext.getDataEngine( ) != null;
 
 		prepareMetaData( );
+		
+		if ( !rsetName2IdMapping.containsKey( rsetName ) )
+		{
+			throw new EngineException( MessageConstants.RESULTSET_EXTRACT_ERROR );
+		}
 
 		DataRequestSession dataSession = executionContext.getDataEngine( )
 				.getDTESession( );
@@ -669,6 +684,12 @@ public class DataExtractionTaskV1 extends EngineTask
 
 			if ( dataQuery != null )
 			{
+				ReportItemHandle handle = (ReportItemHandle) design.getHandle( );
+				if ( !handle.allowExport( ) )
+				{
+					throw new EngineException(
+							MessageConstants.RESULTSET_EXTRACT_ERROR );
+				}
 				if ( !( dataQuery instanceof IBaseQueryDefinition ) )
 				{
 					// it is a cube query, as we don't support it now, exit.
@@ -829,6 +850,11 @@ public class DataExtractionTaskV1 extends EngineTask
 			IDataQueryDefinition query = design.getQuery( );
 			if ( query != null )
 			{
+				ReportItemHandle handle = (ReportItemHandle) design.getHandle( );
+				if ( !handle.allowExport( ) )
+				{
+					return null;
+				}
 				HashMap query2ResultMetaData = report.getResultMetaData( );
 				if ( null != query2ResultMetaData )
 				{
