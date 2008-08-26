@@ -1015,11 +1015,11 @@ public class BasePaletteFactory
 			{
 				try
 				{
-
 					Object newObj = getRequest( ).getNewObject( );
 					if ( newObj instanceof Object[] )
 					{
 						Object[] newObjs = (Object[]) newObj;
+						Object[] insertedObjs = new Object[newObjs.length];
 						for ( int i = 0; i < newObjs.length; i++ )
 						{
 							DesignElementHandle elementHandle = (DesignElementHandle) newObjs[i];
@@ -1040,6 +1040,8 @@ public class BasePaletteFactory
 															elementHandle.getName( ) );
 											moduleHandle.addElement( elementHandle,
 													ModuleHandle.PARAMETER_SLOT );
+											insertedObjs[i] = elementHandle;
+											continue;
 										}
 									}
 									catch ( Exception e )
@@ -1048,7 +1050,9 @@ public class BasePaletteFactory
 									}
 								}
 							}
+							insertedObjs[i] = newObjs[i];
 						}
+						newObj = insertedObjs;
 					}
 
 					Object newHandle = InsertInLayoutUtil.performInsert( newObj,
