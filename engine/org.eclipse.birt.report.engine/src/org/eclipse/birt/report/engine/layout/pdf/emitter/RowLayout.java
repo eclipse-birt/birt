@@ -60,11 +60,11 @@ public class RowLayout extends ContainerLayout
 		parent.gotoLastPage();
 	}
 	
-	protected void closeLayout( ContainerContext currentContext, int index, boolean finished )
+	protected void closeLayout( ContainerContext currentContext, int index,
+			boolean finished )
 	{
 		if ( currentContext.root != null )
 		{
-			boolean added = false;
 			if ( unresolvedRow != null )
 			{
 				TableContext tc = (TableContext) ( tbl.contextList.get( index ) );
@@ -76,20 +76,11 @@ public class RowLayout extends ContainerLayout
 			{
 				tbl.addRow( (RowArea) currentContext.root, index );
 				parent.addToRoot( currentContext.root, index );
-				added = true;
 			}
 			if ( !finished && unresolvedRow == null )
 			{
-				
 				TableContext tc = (TableContext) ( tbl.contextList.get( index ) );
-				if(added)
-				{
-					unresolvedRow = tc.layout.getUnresolvedRow( );
-				}
-				else
-				{
-					unresolvedRow = tc.layout.getUnresolvedRow( (RowArea) currentContext.root);
-				}
+				unresolvedRow = tc.layout.getUnresolvedRow( );
 			}
 		}
 	}
