@@ -492,7 +492,7 @@ public abstract class AbstractChartBaseQueryGenerator
 	}
 
 	private GroupDefinition initCategoryGrouping( BaseQueryDefinition query,
-			SeriesDefinition categorySD )
+			SeriesDefinition categorySD ) throws ChartException
 	{
 		GroupDefinition baseGroupDefinition = createBaseGroupingDefinition( categorySD );
 		if ( baseGroupDefinition != null )
@@ -500,7 +500,9 @@ public abstract class AbstractChartBaseQueryGenerator
 			query.addGroup( baseGroupDefinition );
 			// #238715 Do not use DTE functions in old report, since chart
 			// groups data by itself
-			if ( !ChartReportItemUtil.isOldChartUsingInternalGroup( fReportItemHandle ) )
+			// #242100 If running aggregate is set, it should not ignore detail rows.
+			if ( !ChartReportItemUtil.isOldChartUsingInternalGroup( fReportItemHandle )
+					&& !ChartReportItemUtil.isSetRunningAggregation( fChartModel ) ) 
 			{
 				query.setUsesDetails( false );
 			}

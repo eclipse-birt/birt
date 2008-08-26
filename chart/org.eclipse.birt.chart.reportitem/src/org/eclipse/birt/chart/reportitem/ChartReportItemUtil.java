@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -514,6 +515,61 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	}
 
 	/**
+	 * Check if running aggregates are set on chart.
+	 * 
+	 * @param cm
+	 * @return
+	 * @throws ChartException
+     * @since 2.3.1
+	 */
+	public static boolean isSetRunningAggregation( Chart cm )
+			throws ChartException
+	{
+		String aggrFunc = ChartUtil.getAggregateFuncExpr( ChartUtil.getAllOrthogonalSeriesDefinitions( cm )
+				.get( 0 ),
+				ChartUtil.getBaseSeriesDefinitions( cm ).get( 0 ) );
+		if ( aggrFunc == null )
+		{
+			return false;
+		}
+		IAggregateFunction aFunc = PluginSettings.instance( )
+				.getAggregateFunction( aggrFunc );
+		if ( aFunc.getType( ) == IAggregateFunction.RUNNING_AGGR )
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check fi summary aggregates are set on chart.
+	 * 
+	 * @param cm
+	 * @return
+	 * @throws ChartException
+	 */
+	public static boolean isSetSummaryAggregation( Chart cm )
+			throws ChartException
+	{
+		String aggrFunc = ChartUtil.getAggregateFuncExpr( ChartUtil.getAllOrthogonalSeriesDefinitions( cm )
+				.get( 0 ),
+				ChartUtil.getBaseSeriesDefinitions( cm ).get( 0 ) );
+		if ( aggrFunc == null )
+		{
+			return false;
+		}
+		IAggregateFunction aFunc = PluginSettings.instance( )
+				.getAggregateFunction( aggrFunc );
+		if ( aFunc.getType( ) == IAggregateFunction.SUMMARY_AGGR )
+		{
+			return true;
+		}
+
+		return false;
+	}
+	
+	/**
 	 * Check if chart has aggregation.
 	 * 
 	 * @param cm
@@ -533,7 +589,10 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 			baseSD = (SeriesDefinition) cwoa.getSeriesDefinitions( ).get( 0 );
 		}
 
-		if ( isBaseGroupingDefined( baseSD ) )
+		// Check base is set aggregation.
+		if ( isBaseGroupingDefined( baseSD )
+				&& !ChartUtil.isEmpty( baseSD.getGrouping( )
+						.getAggregateExpression( ) ) )
 		{
 			return true;
 		}

@@ -58,20 +58,25 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 
 	protected int fCountOfAvaiableRows = 0;
 
-	protected boolean fHasAggregation = false;
+	/**
+	 * The field indicates if there is summary aggregate is set on chart, if no
+	 * summary aggregate is set, the count of available row should be one by one
+	 * row, it will not ignore detail rows.
+	 */
+	protected boolean fHasSummaryAggregation = false;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param resultSet
-	 * @param hasAggregation
+	 * @param hasSummaryAggregation
 	 * @param cm
 	 * @throws ChartException
 	 */
 	public BaseGroupedQueryResultSetEvaluator( IResultIterator resultIterator,
-			boolean hasAggregation, Chart cm ) throws ChartException
+			boolean hasSummaryAggregation, Chart cm ) throws ChartException
 	{
-		fHasAggregation = hasAggregation;
+		fHasSummaryAggregation = hasSummaryAggregation;
 
 		fResultIterator = resultIterator;
 		fGroupDefinitions = fResultIterator.getQueryResults( )
@@ -108,7 +113,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 			boolean isSubQuery, Chart cm,
 			ExtendedItemHandle handle ) throws ChartException
 	{
-		fHasAggregation = hasAggregation;
+		fHasSummaryAggregation = hasAggregation;
 
 		fResultIterator = resultIterator;
 		if ( isSubQuery )
@@ -344,7 +349,9 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 				}
 			}
 
-			if ( !fHasAggregation )
+			// If it has no summary aggregate, we should not ignore detail rows,
+			// it still increase count one by one row.
+			if ( !fHasSummaryAggregation )
 			{
 				fCountOfAvaiableRows++;
 				return true;

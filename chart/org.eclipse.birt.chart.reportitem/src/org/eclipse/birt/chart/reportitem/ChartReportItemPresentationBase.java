@@ -529,7 +529,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 					|| ChartReportItemUtil.hasAggregation( cm ) )
 			{
 				return new BIRTGroupedQueryResultSetEvaluator( (IQueryResultSet) set,
-						ChartReportItemUtil.hasAggregation( cm ),
+						ChartReportItemUtil.isSetSummaryAggregation( cm ),
 						isSubQuery( ),
 						cm,
 						handle );

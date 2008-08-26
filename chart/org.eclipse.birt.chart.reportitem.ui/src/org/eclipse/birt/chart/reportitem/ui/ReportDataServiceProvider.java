@@ -1229,7 +1229,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			if ( actualResultSet != null )
 			{
 				return new BaseGroupedQueryResultSetEvaluator( actualResultSet.getResultIterator( ),
-						ChartReportItemUtil.hasAggregation( cm ),
+						ChartReportItemUtil.isSetSummaryAggregation( cm ),
 						cm ) {
 
 					/*
@@ -1856,7 +1856,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			if ( actualResultSet != null )
 			{
 				return new BaseGroupedQueryResultSetEvaluator( actualResultSet.getResultIterator( ),
-						ChartReportItemUtil.hasAggregation( cm ),
+						ChartReportItemUtil.isSetSummaryAggregation( cm ),
 						cm ) {
 
 					/*
