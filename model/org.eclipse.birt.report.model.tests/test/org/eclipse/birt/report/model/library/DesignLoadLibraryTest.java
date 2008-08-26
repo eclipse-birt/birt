@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.IllegalOperationException;
 import org.eclipse.birt.report.model.api.IncludeScriptHandle;
+import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.IncludedLibraryHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -2124,15 +2125,34 @@ public class DesignLoadLibraryTest extends BaseTestCase
 		assertEquals( 4, includedScripts.size( ) );
 
 		IncludeScriptHandle script = includedScripts.get( 0 );
-		assertEquals( "a", script.getFileName( ) );  //$NON-NLS-1$
+		assertEquals( "a", script.getFileName( ) ); //$NON-NLS-1$
 
 		script = includedScripts.get( 1 );
-		assertEquals( "outer", script.getFileName( ) );  //$NON-NLS-1$
+		assertEquals( "outer", script.getFileName( ) ); //$NON-NLS-1$
 
 		script = includedScripts.get( 2 );
-		assertEquals( "inner", script.getFileName( ) );  //$NON-NLS-1$
+		assertEquals( "inner", script.getFileName( ) ); //$NON-NLS-1$
 
 		script = includedScripts.get( 3 );
-		assertEquals( "outer1", script.getFileName( ) );  //$NON-NLS-1$
+		assertEquals( "outer1", script.getFileName( ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	public void testGetAllIncludeCsses( ) throws Exception
+	{
+		openDesign( "DesignWithResourcesTest.xml" ); //$NON-NLS-1$
+
+		List<IncludedCssStyleSheetHandle> sheets = designHandle
+				.getAllExternalIncludedCsses( );
+		assertEquals( 2, sheets.size( ) );
+		
+		IncludedCssStyleSheetHandle sheetHandle = sheets.get( 0 );
+		assertEquals( "base2.css", sheetHandle.getFileName( ) ); //$NON-NLS-1$
+		
+		sheetHandle = sheets.get( 1 );
+		assertEquals( "outer1.css", sheetHandle.getFileName( ) ); //$NON-NLS-1$
 	}
 }

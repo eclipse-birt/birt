@@ -7,7 +7,60 @@
     </list-property>
     <list-property name="includeScripts">
 		<property>outer</property>
-	</list-property>        
+	</list-property>
+	<themes>
+		<theme name="theme1">
+			<list-property name="cssStyleSheets">
+    			<structure>
+    				<property name="fileName">outer1.css</property>
+    				<property name="externalCssURI">externalCss1.css</property>
+    			</structure>
+    		</list-property>    
+			<styles>
+				<style name="label">
+					<property name="color">red</property>											
+				</style>	
+				<style name="libStyle1">
+					<property name="color">lime</property>											
+				</style>	
+				<style name="list">
+					<property name="color">gray</property>	
+				</style>						
+			</styles>
+		</theme>
+		<theme name="theme2">
+			<list-property name="cssStyleSheets">
+    			<structure>
+    				<property name="fileName">outer2.css</property>
+    				<property name="externalCssURI">externalCss1.css</property>
+    			</structure>
+    		</list-property>    
+			<styles>
+				<style name="libStyle1">		
+					<property name="color">aqua</property>				
+				</style>
+				<style name="label">		
+					<property name="color">green</property>				
+				</style>
+				<style name="list">
+					<property name="color">blue</property>	
+				</style>				
+			</styles>
+		</theme>
+		<theme name="theme3">
+			<list-property name="cssStyleSheets">
+    			<structure>
+    				<property name="fileName">outer3.css</property>
+    				<property name="externalCssURI">externalCss1.css</property>
+    			</structure>
+    		</list-property>
+			<styles>
+				<style name="text">
+					<property name="color">yellow</property>											
+				</style>			
+			</styles>
+		</theme>		
+	</themes>	     
     <list-property name="libraries">
         <structure>
             <property name="fileName">LibraryInnerResources.xml</property>

@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
+import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
@@ -905,6 +906,7 @@ public class ReportDesignHandle extends ModuleHandle
 	 * @param newFileName
 	 *            the new file name.
 	 * @return <code>true</code> can be renamed.else return <code>false</code>
+	 * @throws SemanticException
 	 */
 	public boolean canRenameCss( IncludedCssStyleSheetHandle handle,
 			String newFileName ) throws SemanticException
@@ -1057,7 +1059,7 @@ public class ReportDesignHandle extends ModuleHandle
 	public boolean isEnableACL( )
 	{
 
-		return getBooleanProperty( IReportDesignModel.ENABLE_ACL_PROP );
+		return getBooleanProperty( ENABLE_ACL_PROP );
 	}
 
 	/**
@@ -1072,8 +1074,7 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public void setEnableACL( boolean enableACL ) throws SemanticException
 	{
-		setProperty( IReportDesignModel.ENABLE_ACL_PROP, Boolean
-				.valueOf( enableACL ) );
+		setProperty( ENABLE_ACL_PROP, Boolean.valueOf( enableACL ) );
 	}
 
 	/**
@@ -1085,7 +1086,7 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public String getACLExpression( )
 	{
-		return getStringProperty( IReportDesignModel.ACL_EXPRESSION_PROP );
+		return getStringProperty( ACL_EXPRESSION_PROP );
 	}
 
 	/**
@@ -1100,7 +1101,7 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public void setACLExpression( String expr ) throws SemanticException
 	{
-		setStringProperty( IReportDesignModel.ACL_EXPRESSION_PROP, expr );
+		setStringProperty( ACL_EXPRESSION_PROP, expr );
 	}
 
 	/**
@@ -1115,7 +1116,7 @@ public class ReportDesignHandle extends ModuleHandle
 	public boolean cascadeACL( )
 	{
 
-		return getBooleanProperty( IReportDesignModel.CASCADE_ACL_PROP );
+		return getBooleanProperty( CASCADE_ACL_PROP );
 	}
 
 	/**
@@ -1133,7 +1134,48 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public void setCascadeACL( boolean cascadeACL ) throws SemanticException
 	{
-		setProperty( IReportDesignModel.CASCADE_ACL_PROP, Boolean
-				.valueOf( cascadeACL ) );
+		setProperty( CASCADE_ACL_PROP, Boolean.valueOf( cascadeACL ) );
+	}
+
+	/**
+	 * Gets the list of the included css style sheets that set the external URI.
+	 * The css style might be included by the design handle itself and the theme
+	 * which the design refers. Each item in the list is instance of
+	 * <code>IncludedCssStyleSheetHandle</code>.
+	 * 
+	 * @return list of all the included css style sheet that set the external
+	 *         URI
+	 */
+	public List<IncludedCssStyleSheetHandle> getAllExternalIncludedCsses( )
+	{
+		List<IncludedCssStyleSheetHandle> ret = new ArrayList<IncludedCssStyleSheetHandle>( );
+		List<IncludedCssStyleSheetHandle> values = getNativeStructureList( CSSES_PROP );
+
+		// first, look css style sheet in the design itself
+		if ( values != null && !values.isEmpty( ) )
+		{
+			for ( int i = 0; i < values.size( ); i++ )
+			{
+				IncludedCssStyleSheetHandle sheetHandle = values.get( i );
+				if ( sheetHandle.getExternalCssURI( ) != null )
+					ret.add( sheetHandle );
+			}
+		}
+
+		// second, look in the theme which design refers
+		ThemeHandle themeHandle = getTheme( );
+		if ( themeHandle != null )
+		{
+			Iterator<IncludedCssStyleSheetHandle> iter = themeHandle
+					.getPropertyHandle( ThemeHandle.CSSES_PROP ).iterator( );
+			while ( iter.hasNext( ) )
+			{
+				IncludedCssStyleSheetHandle sheetHandle = iter.next( );
+				if ( sheetHandle.getExternalCssURI( ) != null )
+					ret.add( sheetHandle );
+			}
+		}
+
+		return ret;
 	}
 }
