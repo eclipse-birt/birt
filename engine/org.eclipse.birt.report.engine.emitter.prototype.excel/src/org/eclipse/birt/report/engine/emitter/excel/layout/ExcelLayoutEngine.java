@@ -420,7 +420,7 @@ public class ExcelLayoutEngine
 				Rule rule = d.getRule( );
 				int start = axis.getCoordinate( rule.getStart( ) );
 				int end = axis.getCoordinate( rule.getEnd( ) );
-				Span span = new Span( start + 1, end - start - 1 );
+				Span span = new Span( start, end - start - 1 );
 
 				HyperlinkDef link = d.getHyperlinkDef( );
 
