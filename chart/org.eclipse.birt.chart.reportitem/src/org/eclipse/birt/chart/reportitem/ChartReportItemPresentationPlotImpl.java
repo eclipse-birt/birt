@@ -18,15 +18,13 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * Presentation implementation for Chart Plot in Cross tab
  */
-public final class ChartReportItemPresentationPlotImpl
-		extends
-			ChartReportItemPresentationBase
+public final class ChartReportItemPresentationPlotImpl extends
+		ChartReportItemPresentationBase
 {
 
 	protected Bounds computeBounds( ) throws ChartException
@@ -55,21 +53,12 @@ public final class ChartReportItemPresentationPlotImpl
 					{
 						dWidth = ChartXTabUtil.DEFAULT_COLUMN_WIDTH.getMeasure( );
 					}
-					StyleHandle style = xtabCell.getModelHandle( ).getPrivateStyle( );
-					double dLeftBorder = ChartReportItemUtil.convertToPoints( style.getBorderLeftWidth( ),
-							dpi );
-					double dRightBorder = ChartReportItemUtil.convertToPoints( style.getBorderRightWidth( ),
-							dpi );
-					double dLeftPadding = ChartReportItemUtil.convertToPoints( style.getPaddingLeft( ),
-							dpi );
-					double dRightPadding = ChartReportItemUtil.convertToPoints( style.getPaddingRight( ),
-							dpi );
 					// Set negative size to be replaced by actual size
-					bounds.setWidth( -dWidth
-							- ( dLeftBorder + dRightBorder )
-							/ 2
-							- dLeftPadding
-							- dRightPadding );
+					// Cell size includes border. In IE, cell size doesn't
+					// include padding, but FF and PDF includes padding. To
+					// avoid this computation conflict, set 0 padding in design
+					// time.
+					bounds.setWidth( -dWidth );
 				}
 				else if ( xtabCell.getSpanOverOnRow( ) != null )
 				{
@@ -83,21 +72,12 @@ public final class ChartReportItemPresentationPlotImpl
 					{
 						dHeight = ChartXTabUtil.DEFAULT_ROW_HEIGHT.getMeasure( );
 					}
-					StyleHandle style = xtabCell.getModelHandle( ).getPrivateStyle( );
-					double dTopBorder = ChartReportItemUtil.convertToPoints( style.getBorderTopWidth( ),
-							dpi );
-					double dBottomBorder = ChartReportItemUtil.convertToPoints( style.getBorderBottomWidth( ),
-							dpi );
-					double dTopPadding = ChartReportItemUtil.convertToPoints( style.getPaddingTop( ),
-							dpi );
-					double dBottomPadding = ChartReportItemUtil.convertToPoints( style.getPaddingBottom( ),
-							dpi );
 					// Set negative size to be replaced by actual size
-					bounds.setHeight( -dHeight
-							- ( dTopBorder + dBottomBorder )
-							/ 2
-							- dTopPadding
-							- dBottomPadding );
+					// Cell size includes border. In IE, cell size doesn't
+					// include padding, but FF and PDF includes padding. To
+					// avoid this computation conflict, set 0 padding in design
+					// time.
+					bounds.setHeight( -dHeight );
 				}
 			}
 		}

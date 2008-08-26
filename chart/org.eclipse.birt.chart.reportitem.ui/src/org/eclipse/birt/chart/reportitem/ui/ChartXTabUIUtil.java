@@ -87,11 +87,12 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 				// Set a default height for cell to fit with chart
 				cell.getCrosstab( ).setRowHeight( rowCell, DEFAULT_ROW_HEIGHT );
 			}
-			rowCell.getCrosstabHandle( )
+			// Set 0 padding to avoid size difference between browsers
+			rowCell.getModelHandle( )
 					.setProperty( StyleHandle.PADDING_TOP_PROP,
 							new DimensionValue( 0,
 									DesignChoiceConstants.UNITS_PT ) );
-			rowCell.getCrosstabHandle( )
+			rowCell.getModelHandle( )
 					.setProperty( StyleHandle.PADDING_BOTTOM_PROP,
 							new DimensionValue( 0,
 									DesignChoiceConstants.UNITS_PT ) );
@@ -114,11 +115,12 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 				cell.getCrosstab( ).setColumnWidth( columnCell,
 						DEFAULT_COLUMN_WIDTH );
 			}
-			columnCell.getCrosstabHandle( )
+			// Set 0 padding to avoid size difference between browsers
+			columnCell.getModelHandle( )
 					.setProperty( StyleHandle.PADDING_LEFT_PROP,
 							new DimensionValue( 0,
 									DesignChoiceConstants.UNITS_PT ) );
-			columnCell.getCrosstabHandle( )
+			columnCell.getModelHandle( )
 					.setProperty( StyleHandle.PADDING_RIGHT_PROP,
 							new DimensionValue( 0,
 									DesignChoiceConstants.UNITS_PT ) );
