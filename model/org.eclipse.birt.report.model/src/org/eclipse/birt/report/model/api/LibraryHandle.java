@@ -294,14 +294,16 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 			{
 				try
 				{
-					style.getElement( )
-							.setName(
-									themeHandle.makeUniqueStyleName( style
-											.getName( ) ) );
 					// Copy CssStyle to Style
 
 					SharedStyleHandle newStyle = ModelUtil
 							.TransferCssStyleToSharedStyle( module, style );
+
+					newStyle.getElement( )
+							.setName(
+									themeHandle.makeUniqueStyleName( newStyle
+											.getName( ) ) );
+
 					if ( newStyle == null )
 						continue;
 					themeHandle.getStyles( ).add( newStyle );

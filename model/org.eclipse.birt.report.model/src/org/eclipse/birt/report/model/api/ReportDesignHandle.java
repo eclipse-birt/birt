@@ -461,12 +461,13 @@ public class ReportDesignHandle extends ModuleHandle
 			SharedStyleHandle style = (SharedStyleHandle) selectedStyles
 					.get( i );
 			if ( stylesheet.findStyle( style.getName( ) ) != null )
-			{
-				module.makeUniqueName( style.getElement( ) );
+			{				
 				// Copy CssStyle to Style
 				SharedStyleHandle newStyle = ModelUtil
 						.TransferCssStyleToSharedStyle( module, style );
 
+				module.makeUniqueName( newStyle.getElement( ) );
+				
 				if ( newStyle == null )
 					continue;
 				try
