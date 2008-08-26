@@ -285,7 +285,7 @@ public class ImageManager
 	{
 		String key = url.toString( );
 		Image image = null;
-		if ( refresh )
+		if ( !refresh )
 		{
 			image = getImageRegistry( ).get( key );
 			if ( image != null )
