@@ -23,6 +23,7 @@ public class ItemContent
 {
 
 	private String defaultName = ""; //$NON-NLS-1$
+	private String displayName = ""; //$NON-NLS-1$
 	private String customName = ""; //$NON-NLS-1$
 	private String description = ""; //$NON-NLS-1$
 
@@ -42,6 +43,15 @@ public class ItemContent
 	}
 
 	/**
+	 * 
+	 * @return Returns the display name of the ItemContent
+	 */
+	public String getDisplayName( )
+	{
+		return displayName;
+	}
+
+	/**
 	 * Set default name for ItemContent
 	 * 
 	 * @param string
@@ -52,8 +62,18 @@ public class ItemContent
 	}
 
 	/**
+	 * Sets the display name for the ItemContent
 	 * 
-	 * @return custom name of Itemcontent
+	 * @param string
+	 */
+	public void setDisplayName( String string )
+	{
+		displayName = string.trim( );
+	}
+
+	/**
+	 * 
+	 * @return custom name of ItemContent
 	 */
 	public String getCustomName( )
 	{

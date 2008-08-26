@@ -78,13 +78,14 @@ public class ItemContentList
 					.getDefaultDescriptionPreference( );
 		}
 
-		int i;
 		IElementDefn elementDefn;
-		for ( i = 0; i < defaultNames.length; i++ )
+		for ( int i = 0; i < defaultNames.length; i++ )
 		{
 			elementDefn = DEUtil.getElementDefn( defaultNames[i] );
 			content = new ItemContent( customNames[i] );
-			content.setDefaultName( elementDefn != null ? elementDefn.getDisplayName( )
+			content.setDefaultName( defaultNames[i] );
+			content.setDisplayName( elementDefn != null ? DEUtil.getElementDefn( defaultNames[i] )
+					.getDisplayName( )
 					: defaultNames[i] );
 			content.setDescription( descriptions[i] );
 			contents.add( content );

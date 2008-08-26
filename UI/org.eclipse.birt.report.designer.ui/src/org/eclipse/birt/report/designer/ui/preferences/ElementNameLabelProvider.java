@@ -47,7 +47,7 @@ public class ElementNameLabelProvider extends LabelProvider implements
 		switch ( columnIndex )
 		{
 			case 0 : // Get default Name
-				result = content.getDefaultName( );
+				result = content.getDisplayName( );
 				break;
 			case 1 : // Get Custom Name
 				result = content.getCustomName( );
