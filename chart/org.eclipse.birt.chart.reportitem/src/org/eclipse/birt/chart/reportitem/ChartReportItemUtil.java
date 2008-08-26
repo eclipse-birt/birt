@@ -1144,7 +1144,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		}
 		if ( isRowBinding( expr, true ) )
 		{
-			return expr.replaceAll( "\"", "" ); //$NON-NLS-1$ //$NON-NLS-2$
+			return ChartUtil.removeInvalidSymbols( expr );
 		}
 		return expr; // The specified expression might be a binding name,
 						// directly return.

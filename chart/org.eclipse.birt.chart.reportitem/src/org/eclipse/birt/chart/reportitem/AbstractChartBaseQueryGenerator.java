@@ -270,7 +270,7 @@ public abstract class AbstractChartBaseQueryGenerator
 	protected String generateUniqueBindingName( String expr )
 	{
 		String name = StructureFactory.newComputedColumn( fReportItemHandle,
-				expr.replaceAll( "\"", "" ) ) //$NON-NLS-1$ //$NON-NLS-2$
+				ChartUtil.removeInvalidSymbols( expr ) )
 				.getName( );
 		if ( fNameSet.contains( name ) )
 		{

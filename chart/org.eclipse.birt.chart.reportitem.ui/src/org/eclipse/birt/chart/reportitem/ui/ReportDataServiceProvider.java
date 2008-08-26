@@ -1922,7 +1922,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						!bindingExprsMap.containsKey( expr ) )
 				{
 					String name = StructureFactory.newComputedColumn( itemHandle,
-							expr.replaceAll( "\"", "" ) ) //$NON-NLS-1$ //$NON-NLS-2$
+							ChartUtil.removeInvalidSymbols( expr ) )
 							.getName( );
 					queryDefn.addBinding( new Binding( name,
 							new ScriptExpression( expr ) ) );

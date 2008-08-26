@@ -747,8 +747,25 @@ public class ChartUtil
 
 		return null;
 	}
-	
 
+	/**
+	 * The method removes '"','\n',EOF and '\r' from specified expression/script
+	 * expression, it gets a expression that can be used as binding name.
+	 * 
+	 * @param expression
+	 * @return
+	 * @since 2.3.1
+	 */
+	public static String removeInvalidSymbols( String expression )
+	{
+		return expression.replaceAll( "\"", "" )//$NON-NLS-1$ //$NON-NLS-2$
+				.replaceAll( "\\n", "" )//$NON-NLS-1$ //$NON-NLS-2$
+				.replaceAll( new String( new char[]{
+					(char) -1
+				} ), "" )//$NON-NLS-1$
+				.replaceAll( "\\r", "" );//$NON-NLS-1$ //$NON-NLS-2$
+	}
+	
 	/**
 	 * Create row full expression of value series.
 	 * 
@@ -816,7 +833,7 @@ public class ChartUtil
 		{
 			returnExpr = valueExpr + "_" + fullAggExpr; //$NON-NLS-1$
 		}
-		return returnExpr.replaceAll( "\"", "" ); //$NON-NLS-1$ //$NON-NLS-2$
+		return removeInvalidSymbols( returnExpr );
 	}
 
 	/**
@@ -839,8 +856,8 @@ public class ChartUtil
 		}
 		else
 		{
-			return ExpressionUtil.createRowExpression( ( valueExpr + "_" + fullAggExpr ).replaceAll( "\"", //$NON-NLS-1$ //$NON-NLS-2$
-					"" ) ); //$NON-NLS-1$
+			return ExpressionUtil.createRowExpression( removeInvalidSymbols( ( valueExpr
+					+ "_" + fullAggExpr ) ) ); //$NON-NLS-1$
 		}
 	}
 	
