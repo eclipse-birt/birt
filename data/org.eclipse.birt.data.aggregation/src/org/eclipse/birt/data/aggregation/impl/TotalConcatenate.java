@@ -230,12 +230,13 @@ public class TotalConcatenate extends AggrFunction
 		private void setSeparator( Object source ) throws BirtException
 		{
 			String value = DataTypeUtil.toString( source );
-			if ( value == null || value.trim( ).length( ) > 1 )
+			if ( value == null || value.length( ) == 0 )
 			{
 				throw new DataException( Messages.getString( "aggregation.InvalidSeparator" )
 						+ getName( ) );
 			}
-			separator = value.trim( );
+			// should not trim the separator string
+			separator = value;
 		}
 
 		/**

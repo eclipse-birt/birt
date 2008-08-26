@@ -226,6 +226,126 @@ public class TotalTest extends TestCase
 		
 		ac.start( );
 		result = "";
+		separator = ";  ";
+		exceedsMaxLength = false;
+		for ( int i = 0; i < str2.length; i++ )
+		{
+			ac.onRow( new Object[]{
+					str2[i], separator, 20, null
+			} );
+			if ( exceedsMaxLength || result.getBytes( ).length > 20 - str2[i].length( ) )
+			{
+				exceedsMaxLength = true;
+				continue;
+			}
+			result += str2[i];
+			result += separator;
+		}
+		if ( result.length( ) > 0 )
+		{
+			result = result.substring( 0, result.length( ) - 1 );
+		}
+		ac.finish( );
+		assertEquals( result, ac.getValue( ) );
+		
+		ac.start( );
+		result = "";
+		separator = "\n";
+		exceedsMaxLength = false;
+		for ( int i = 0; i < str2.length; i++ )
+		{
+			ac.onRow( new Object[]{
+					str2[i], separator, 20, null
+			} );
+			if ( exceedsMaxLength || result.getBytes( ).length > 20 - str2[i].length( ) )
+			{
+				exceedsMaxLength = true;
+				continue;
+			}
+			result += str2[i];
+			result += separator;
+		}
+		if ( result.length( ) > 0 )
+		{
+			result = result.substring( 0, result.length( ) - 1 );
+		}
+		ac.finish( );
+		assertEquals( result, ac.getValue( ) );
+		
+		ac.start( );
+		result = "";
+		separator = "\t";
+		exceedsMaxLength = false;
+		for ( int i = 0; i < str2.length; i++ )
+		{
+			ac.onRow( new Object[]{
+					str2[i], separator, 20, null
+			} );
+			if ( exceedsMaxLength || result.getBytes( ).length > 20 - str2[i].length( ) )
+			{
+				exceedsMaxLength = true;
+				continue;
+			}
+			result += str2[i];
+			result += separator;
+		}
+		if ( result.length( ) > 0 )
+		{
+			result = result.substring( 0, result.length( ) - 1 );
+		}
+		ac.finish( );
+		assertEquals( result, ac.getValue( ) );
+		
+		ac.start( );
+		result = "";
+		separator = "   ";
+		exceedsMaxLength = false;
+		for ( int i = 0; i < str2.length; i++ )
+		{
+			ac.onRow( new Object[]{
+					str2[i], separator, 20, null
+			} );
+			if ( exceedsMaxLength || result.getBytes( ).length > 20 - str2[i].length( ) )
+			{
+				exceedsMaxLength = true;
+				continue;
+			}
+			result += str2[i];
+			result += separator;
+		}
+		if ( result.length( ) > 0 )
+		{
+			result = result.substring( 0, result.length( ) - 1 );
+		}
+		ac.finish( );
+		assertEquals( result, ac.getValue( ) );
+		
+		ac.start( );
+		result = "";
+		separator = ",,, ";
+		exceedsMaxLength = false;
+		for ( int i = 0; i < str2.length; i++ )
+		{
+			ac.onRow( new Object[]{
+					str2[i], separator, 20, null
+			} );
+			if ( exceedsMaxLength || result.getBytes( ).length > 20 - str2[i].length( ) )
+			{
+				exceedsMaxLength = true;
+				continue;
+			}
+			result += str2[i];
+			result += separator;
+		}
+		if ( result.length( ) > 0 )
+		{
+			result = result.substring( 0, result.length( ) - 1 );
+		}
+		ac.finish( );
+		assertEquals( result, ac.getValue( ) );
+		
+		ac.start( );
+		result = "";
 		separator = "#";
 		exceedsMaxLength = false;
 		LinkedHashSet<String> objects = new LinkedHashSet<String>( );
