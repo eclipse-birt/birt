@@ -97,6 +97,7 @@ Error.ReportRunError = Error happened while running the report
 Error.ReportDocmentOpenError = レポート文書を開けません。
 Error.ReportArchiveOpenError = レポートアーカイブを開けません。
 Error.SkipError = 省略中にエラーが発生しました。
+Error.ResultsetExtractError = Result set not found
 
 ###########################################################
 PDFCreator = BIRT Report Engine {0} using iText {1}.
