@@ -1371,4 +1371,34 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	{
 		return ( (ReportItem) getElement( ) ).canCascadeACL( );
 	}
+
+	/**
+	 * Get the suppress duplicates property of this column.
+	 * 
+	 * @return a boolean value which indicates if this column is suppress
+	 *         duplicates.
+	 */
+
+	/**
+	 * Gets the allowExport property of the report item.
+	 * 
+	 * @return a boolean value which indicates if can be exported or not.
+	 */
+	public boolean allowExport( )
+	{
+		return getBooleanProperty( ALLOW_EXPORT_PROP );
+	}
+
+	/**
+	 * Sets the allowExport property of the report item.
+	 * 
+	 * @param allowExport
+	 *            indicates whether can be exported or not.
+	 * @throws SemanticException
+	 */
+	public void setAllowExport( boolean allowExport ) throws SemanticException
+	{
+		setProperty( ALLOW_EXPORT_PROP, String.valueOf( allowExport ) );
+	}
+
 }

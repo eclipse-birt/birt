@@ -152,4 +152,9 @@ public interface IReportItemModel
 
 	public static final String ACL_EXPRESSION_PROP = "ACLExpression"; //$NON-NLS-1$
 
+	/**
+	 * An option to hide specific data sets from the extractions box.
+	 */
+	public static final String ALLOW_EXPORT_PROP = "allowExport"; //$NON-NLS-1$
+
 }

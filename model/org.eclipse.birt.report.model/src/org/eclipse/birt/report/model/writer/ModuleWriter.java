@@ -3054,6 +3054,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( obj, IReportItemModel.ACL_EXPRESSION_PROP );
 		property( obj, IReportItemModel.CASCADE_ACL_PROP );
+		property( obj, IReportItemModel.ALLOW_EXPORT_PROP );
 
 		writeOverridenPropertyValues( obj );
 	}

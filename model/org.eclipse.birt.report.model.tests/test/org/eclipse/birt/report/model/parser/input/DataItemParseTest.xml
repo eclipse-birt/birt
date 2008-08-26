@@ -84,6 +84,7 @@
         <data name="Body Data1">
             <property name="dataBindingRef">Body Data</property>
 			<property name="resultSetColumn">column1</property>
+			<property name="allowExport">false</property>
         </data>
     </body>
     <scratch-pad>

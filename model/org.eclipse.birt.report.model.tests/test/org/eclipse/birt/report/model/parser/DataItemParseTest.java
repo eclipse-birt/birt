@@ -79,6 +79,9 @@ public class DataItemParseTest extends BaseTestCase
 		DataItem data = (DataItem) design.findElement( "My First Data" ); //$NON-NLS-1$
 		DataItemHandle dataHandle = (DataItemHandle) data.getHandle( design );
 
+		// test default value of allowExport
+		assertTrue( dataHandle.allowExport( ) );
+
 		assertEquals( "First data value", dataHandle.getResultSetColumn( ) ); //$NON-NLS-1$
 		assertNull( dataHandle.getValueExpr( ) );
 		assertEquals( "First data value", dataHandle //$NON-NLS-1$
@@ -176,6 +179,7 @@ public class DataItemParseTest extends BaseTestCase
 		assertEquals( "column1 aggre1", column.getAggregateOn( ) ); //$NON-NLS-1$
 		assertEquals( "column1 aggre1, column1 aggre2", //$NON-NLS-1$
 				serializeStringList( column.getAggregateOnList( ) ) );
+		assertFalse( dataHandle.allowExport( ) );
 	}
 
 	/**
@@ -218,6 +222,10 @@ public class DataItemParseTest extends BaseTestCase
 				.argumentsIterator( ).next( );
 		argumentHandle.setName( "new_" + argumentHandle.getName( ) ); //$NON-NLS-1$
 		argumentHandle.setValue( "new_" + argumentHandle.getValue( ) ); //$NON-NLS-1$
+
+		dataHandle = (DataItemHandle) designHandle.findElement( "Body Data1" ); //$NON-NLS-1$
+		dataHandle.setAllowExport( true );
+
 		save( );
 
 		assertTrue( compareFile( goldenFileName ) );

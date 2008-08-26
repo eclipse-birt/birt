@@ -2289,7 +2289,10 @@
 	<Property displayNameID="Element.ReportItem.cascadeACL" name="cascadeACL" since="2.3" type="boolean" >
 		<Default>true</Default>
 	</Property>
-	<Property displayNameID="Element.ReportItem.ACLExpression" name="ACLExpression" since="2.3" type="expression" />	
+	<Property displayNameID="Element.ReportItem.ACLExpression" name="ACLExpression" since="2.3" type="expression" />
+	<Property displayNameID="Element.ReportItem.allowExport" name="allowExport" since="2.3" type="boolean" >
+		<Default>true</Default>
+	</Property>	
     <PropertyVisibility name="x" visibility="hide"/>         
     <PropertyVisibility name="y" visibility="hide"/> 
     <PropertyVisibility name="refTemplateParameter" visibility="hide"/>    
