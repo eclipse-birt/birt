@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.LabelCellEditor;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
+import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.IFigure;
@@ -211,42 +212,13 @@ public class LabelEditManager extends DirectEditManager
 	 */
 	private int applyBidiStyle( int style )
 	{
-		boolean rtl = DesignChoiceConstants.BIDI_DIRECTION_RTL.equals( ( ( LabelFigure )
-				getEditPart( ).getFigure( ) ).getDirection( ) );
+		LabelFigure figure = (LabelFigure) getEditPart( ).getFigure( );
+		boolean rtl = DesignChoiceConstants.BIDI_DIRECTION_RTL
+				.equals( figure.getDirection( ) );
 		style |= ( rtl ? SWT.RIGHT_TO_LEFT : SWT.LEFT_TO_RIGHT );
 
-		String align = ( ( LabelFigure )getEditPart( ).getFigure( ) )
-				.getTextAlign( );
+		String align = figure.getTextAlign( );
 
-		if (align == null)
-		{
-			String direction = ( ( LabelFigure )
-					getEditPart( ).getFigure( ) ).getDirection( );
-			boolean isMirrored = getEditPart( ).getFigure( ).isMirrored( );
-			if (direction != null)
-			{
-				if (direction.equals( DesignChoiceConstants.BIDI_DIRECTION_LTR ) && isMirrored)
-				{
-					align = DesignChoiceConstants.TEXT_ALIGN_LEFT;
-				}
-				else if (direction.equals( DesignChoiceConstants.BIDI_DIRECTION_RTL ) && !isMirrored)
-				{
-					align = DesignChoiceConstants.TEXT_ALIGN_RIGHT;
-				}
-			}
-			else
-			{
-				if (isMirrored)
-				{
-					align = DesignChoiceConstants.TEXT_ALIGN_RIGHT;
-				}
-				else
-				{
-					align = DesignChoiceConstants.TEXT_ALIGN_LEFT;
-				}
-			}
-		}
-		
 		if ( IStyle.CSS_CENTER_VALUE.equals( align ) )
 			style |= SWT.CENTER;
 		else if ( IStyle.CSS_RIGHT_VALUE.equals( align ) )
@@ -254,10 +226,8 @@ public class LabelEditManager extends DirectEditManager
 		else if ( IStyle.CSS_LEFT_VALUE.equals( align ) )
 			style |= ( rtl ? SWT.RIGHT : SWT.LEFT );
 		else
-		{
-			boolean mirrored = getEditPart( ).getFigure( ).isMirrored( );
-			style |= ( mirrored ^ rtl ? SWT.RIGHT : SWT.LEFT );
-		}
+			style |= SWT.LEFT;
+
 		return style;
 	}
 

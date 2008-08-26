@@ -14,7 +14,6 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -56,7 +55,7 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 
 	private ComboBoxFieldEditor display;
 	
-	private ComboBoxFieldEditor direction = null; // bidi_hcg
+	private ComboBoxFieldEditor direction; // bidi_hcg
 
 	/**
 	 * Constructs a new instance of block preference page.
@@ -95,11 +94,10 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 
 		( (GridData) display.getComboBoxControl( getFieldEditorParent( ) )
 				.getLayoutData( ) ).widthHint = 167;
-		
+
 		// bidi_hcg
-		if ( direction != null )
-			( (GridData) direction.getComboBoxControl( getFieldEditorParent( ) )
-					.getLayoutData( ) ).widthHint = 167;
+		( (GridData) direction.getComboBoxControl( getFieldEditorParent( ) )
+				.getLayoutData( ) ).widthHint = 167;
 	}
 
 	/*
@@ -220,8 +218,8 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 						true ),
 				getFieldEditorParent( ) );
 		addField( direction );
-		
 		// bidi_hcg end
+
 		UIUtil.bindHelp( getFieldEditorParent( ).getParent( ),
 				IHelpContextIds.STYLE_BUILDER_TEXTBLOCK_ID );
 

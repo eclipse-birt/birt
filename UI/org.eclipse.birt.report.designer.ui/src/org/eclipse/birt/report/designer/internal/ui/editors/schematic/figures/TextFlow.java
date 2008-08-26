@@ -17,7 +17,6 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.bidi.BidiUIUtils;
-import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.ColorConstants;
@@ -84,8 +83,7 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 	/**
 	 * Text horizontal alignment style.
 	 */
-	//private String textAlign = DesignChoiceConstants.TEXT_ALIGN_LEFT;
-	private String textAlign = null;
+	private String textAlign = DesignChoiceConstants.TEXT_ALIGN_LEFT;
 
 	/**
 	 * Text vertical alignment style.
@@ -751,36 +749,10 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 	{
 		int rlt = 0;
 
-		String align = BidiAlignmentResolver.resolveAlignment( textAlign,
-				isMirrored( ) );
-		if (align == null)
-		{
-			if (getDirection( ) != null)
-			{
-				if (getDirection( ).equals( DesignChoiceConstants.BIDI_DIRECTION_LTR ) && isMirrored( ))
-				{
-					align = DesignChoiceConstants.TEXT_ALIGN_RIGHT;
-				}
-				else if (getDirection( ).equals( DesignChoiceConstants.BIDI_DIRECTION_RTL ) && !isMirrored( ))
-				{
-					align = DesignChoiceConstants.TEXT_ALIGN_RIGHT;
-				}
-			}
-			else
-			{
-				if (isMirrored( ))
-				{
-					align = DesignChoiceConstants.TEXT_ALIGN_RIGHT;
-				}
-				else
-				{
-					align = DesignChoiceConstants.TEXT_ALIGN_LEFT;
-				}
-			}
-		}
+		String align = BidiAlignmentResolver.resolveAlignmentForDesigner( textAlign,
+				getDirection( ), isMirrored( ) );
 
-		if ( DesignChoiceConstants.TEXT_ALIGN_LEFT.equals( align )
-				|| DesignChoiceConstants.TEXT_ALIGN_JUSTIFY.equals( align ) )
+		if ( DesignChoiceConstants.TEXT_ALIGN_LEFT.equals( align ) )
 		{
 			rlt = 0;
 		}
