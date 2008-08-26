@@ -228,7 +228,7 @@ birt.viewer.taglib.ATTR_ID_DUPLICATE=L'ID de l'attribut doit être unique.
 birt.viewer.taglib.PARAM_NAME_DUPLICATE=Le nom du paramètre ne peut être dupliqué.
 birt.viewer.taglib.NO_REPORT_SOURCE=Un modèle d'état ou un document doit être spécifié.
 birt.viewer.taglib.NO_REPORT_DOCUMENT=L'état est requis par le reportlet.
-birt.viewer.taglib.NO_REQUESTER_NAME=Le nom du requêteur doit être spécifié.
+birt.viewer.taglib.NO_REQUESTER_NAME=The "name" attribute of the parameterPage tag is required.
 
 ###############################################################################
 # Birt Viewer Message

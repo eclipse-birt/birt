@@ -228,7 +228,7 @@ birt.viewer.taglib.ATTR_ID_DUPLICATE=El ID de atributo debe ser exclusivo.
 birt.viewer.taglib.PARAM_NAME_DUPLICATE=El nombre de parámetro no puede duplicarse.
 birt.viewer.taglib.NO_REPORT_SOURCE=Se debe especificar el diseño de informe o archivo de documento.
 birt.viewer.taglib.NO_REPORT_DOCUMENT=El informe necesita el archivo de documento de informe.
-birt.viewer.taglib.NO_REQUESTER_NAME=Se debe especificar un nombre de solicitante
+birt.viewer.taglib.NO_REQUESTER_NAME=The "name" attribute of the parameterPage tag is required.
 
 ###############################################################################
 # Birt Viewer Message

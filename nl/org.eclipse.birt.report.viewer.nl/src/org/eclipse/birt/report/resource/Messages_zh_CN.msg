@@ -228,7 +228,7 @@ birt.viewer.taglib.ATTR_ID_DUPLICATE=属性 ID 必须唯一。
 birt.viewer.taglib.PARAM_NAME_DUPLICATE=无法复制参数名称。
 birt.viewer.taglib.NO_REPORT_SOURCE=应指定报表设计或文档文件。
 birt.viewer.taglib.NO_REPORT_DOCUMENT=reportlet 需要报表文档文件。
-birt.viewer.taglib.NO_REQUESTER_NAME=必须指定请求者名称。
+birt.viewer.taglib.NO_REQUESTER_NAME=The "name" attribute of the parameterPage tag is required.
 
 ###############################################################################
 # Birt Viewer Message

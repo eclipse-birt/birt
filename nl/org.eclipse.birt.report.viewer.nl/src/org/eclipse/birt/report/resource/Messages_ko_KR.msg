@@ -228,7 +228,7 @@ birt.viewer.taglib.ATTR_ID_DUPLICATE=특성 ID는 고유해야 합니다.
 birt.viewer.taglib.PARAM_NAME_DUPLICATE=매개 변수 이름은 중복될 수 없습니다.
 birt.viewer.taglib.NO_REPORT_SOURCE=보고서 디자인 또는 문서 파일을 지정해야 합니다.
 birt.viewer.taglib.NO_REPORT_DOCUMENT=리포틀릿은 보고서 문서 파일이 필요합니다.
-birt.viewer.taglib.NO_REQUESTER_NAME=요청자 이름을 지정해야 합니다.
+birt.viewer.taglib.NO_REQUESTER_NAME=The "name" attribute of the parameterPage tag is required.
 
 ###############################################################################
 # Birt Viewer Message
