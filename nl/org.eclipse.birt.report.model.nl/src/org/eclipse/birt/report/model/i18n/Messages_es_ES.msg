@@ -2528,6 +2528,7 @@ Element.ReportItem.dataBindingRef=Referencia de enlace de datos
 Element.ReportItem.multiViews=Vistas múltiples
 Element.ReportItem.ACLExpression=Expresión ACL
 Element.ReportItem.cascadeACL=Cascada ACL
+Element.ReportItem.allowExport=Allow export
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Contenido

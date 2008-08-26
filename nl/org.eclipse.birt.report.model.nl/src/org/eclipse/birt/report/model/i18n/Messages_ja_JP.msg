@@ -2528,6 +2528,7 @@ Element.ReportItem.dataBindingRef=データバインドの参照
 Element.ReportItem.multiViews=マルチビュー
 Element.ReportItem.ACLExpression=ACL 式
 Element.ReportItem.cascadeACL=ACL を重ねて表示
+Element.ReportItem.allowExport=Allow export
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=コンテンツ

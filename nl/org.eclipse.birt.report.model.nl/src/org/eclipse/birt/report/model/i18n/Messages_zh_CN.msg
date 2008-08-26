@@ -2528,6 +2528,7 @@ Element.ReportItem.dataBindingRef=数据绑定引用
 Element.ReportItem.multiViews=多个视图
 Element.ReportItem.ACLExpression=ACL 表达式
 Element.ReportItem.cascadeACL=层叠 ACL
+Element.ReportItem.allowExport=Allow export
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=内容
