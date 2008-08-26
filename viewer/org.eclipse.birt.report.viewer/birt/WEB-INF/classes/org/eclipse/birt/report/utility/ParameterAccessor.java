@@ -1289,7 +1289,10 @@ public class ParameterAccessor {
 		for (int i = 0; i < columnCount; i++) {
 			String paramName = PARAM_SELECTEDCOLUMN + String.valueOf(i);
 			String columnName = getParameter(request, paramName);
-			columns.add(columnName);
+			if ( columnName != null && !"".equals(columnName) )
+			{
+				columns.add(columnName);
+			}
 		}
 
 		return columns;
