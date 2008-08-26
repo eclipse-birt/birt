@@ -16,7 +16,6 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
-import org.eclipse.birt.report.engine.layout.pdf.emitter.ContainerLayout.ContainerContext;
 
 
 public class CellLayout extends BlockStackingLayout

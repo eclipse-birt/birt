@@ -81,7 +81,6 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.w3c.dom.Document;
@@ -484,26 +483,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		this.report = report;
 		writer.open( out, "UTF-8" ); //$NON-NLS-1$
-		
-		// If it is the body style and htmlRtLFlag has been set true, 
-		// remove the text-align included in the style.
-		if ( htmlRtLFlag )
-		{
-			String reportStyleName = report == null ? null : report.getDesign( )
-					.getRootStyleName( );
-			if ( reportStyleName != null )
-			{
-				IStyle style = report.findStyle( reportStyleName );
-				if ( null != style )
-				{
-					// style.removeProperty( "text-align" );
-					style.setProperty( IStyle.STYLE_TEXT_ALIGN,
-							IStyle.RIGHT_VALUE );
-					style.setProperty( IStyle.STYLE_DIRECTION,
-							IStyle.RTL_VALUE ); // bidi_hcg
-				}
-			}
-		}
 		
 		ReportDesignHandle designHandle= null;
 		Report reportDesign = null;
@@ -1519,13 +1498,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					// be explicit for non-center alignment (i.e. alignment
 					// left and dir is RTL or alignment right and dir is LTR.
 					if ( IStyle.CENTER_VALUE.equals( align ) )
+							// XXX Is justify here applicable?
+							// || IStyle.JUSTIFY_VALUE.equals( align ) )
 					{
 						return true;
 					}
 					CSSValue direction = style.getProperty( IStyle.STYLE_DIRECTION );
 					if ( IStyle.RTL_VALUE.equals(direction) )
 					{
-						if ( IStyle.LEFT_VALUE.equals( align ) )
+						if ( !IStyle.RIGHT_VALUE.equals( align ) )
 						{
 							return true;
 						}

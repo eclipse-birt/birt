@@ -35,6 +35,7 @@ import org.eclipse.birt.report.engine.layout.pdf.BorderConflictResolver;
 import org.eclipse.birt.report.engine.layout.pdf.PDFTableLM.TableLayoutInfo;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
+import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
 import org.w3c.dom.css.CSSValue;
 
 
@@ -374,27 +375,29 @@ public class TableAreaLayout
 			}
 		}
 		
-		CSSValue align = content.getComputedStyle( ).getProperty( IStyle.STYLE_TEXT_ALIGN );
-		boolean isRightAligned = IStyle.RIGHT_VALUE.equals(  align )
-				|| IStyle.JUSTIFY_VALUE.equals( align ) && content.isRTL( ); // bidi_hcg
+		CSSValue align = content.getComputedStyle( ).getProperty(
+				IStyle.STYLE_TEXT_ALIGN );
+
+		// bidi_hcg: handle empty or justify align in RTL direction as right alignment
+		boolean isRightAligned = BidiAlignmentResolver.isRightAligned( content, align, false );
+
 		// single line
 		if ( ( isRightAligned || IStyle.CENTER_VALUE.equals( align ) ) )
 		{
-			
 			Iterator iter = cell.getChildren( );
 			while ( iter.hasNext( ) )
 			{
 				AbstractArea area = (AbstractArea) iter.next( );
-				int spacing = cell.getContentWidth( ) - area.getAllocatedWidth( ) ;
-				if(spacing>0)
+				int spacing = cell.getContentWidth( )
+						- area.getAllocatedWidth( );
+				if ( spacing > 0 )
 				{
 					if ( isRightAligned )
 					{
-						area.setAllocatedPosition( spacing + area.getAllocatedX( ),
-								area.getAllocatedY( ) );
+						area.setAllocatedPosition( spacing
+								+ area.getAllocatedX( ), area.getAllocatedY( ) );
 					}
-					else if ( IStyle.CENTER_VALUE
-							.equals( align ) )
+					else if ( IStyle.CENTER_VALUE.equals( align ) )
 					{
 						area.setAllocatedPosition( spacing / 2
 								+ area.getAllocatedX( ), area.getAllocatedY( ) );

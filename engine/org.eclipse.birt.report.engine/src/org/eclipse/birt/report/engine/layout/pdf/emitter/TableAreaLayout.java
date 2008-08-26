@@ -18,12 +18,10 @@ import java.util.Iterator;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
-import org.eclipse.birt.report.engine.layout.LayoutUtil;
 import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
@@ -34,10 +32,10 @@ import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.layout.pdf.BorderConflictResolver;
 import org.eclipse.birt.report.engine.layout.pdf.cache.CursorableList;
 import org.eclipse.birt.report.engine.layout.pdf.cache.DummyCell;
-import org.eclipse.birt.report.engine.layout.pdf.cache.TableAreaLayout.Row;
 import org.eclipse.birt.report.engine.layout.pdf.emitter.TableLayout.TableLayoutInfo;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
+import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
 import org.w3c.dom.css.CSSValue;
 
 public class TableAreaLayout
@@ -371,9 +369,14 @@ public class TableAreaLayout
 
 		CSSValue align = content.getComputedStyle( ).getProperty(
 				IStyle.STYLE_TEXT_ALIGN );
+
+		// bidi_hcg: handle empty or justify align in RTL direction as right
+		// alignment
+		boolean isRightAligned = BidiAlignmentResolver.isRightAligned( content,
+				align, false );
+
 		// single line
-		if ( ( IStyle.RIGHT_VALUE.equals( align ) || IStyle.CENTER_VALUE
-				.equals( align ) ) )
+		if ( isRightAligned || IStyle.CENTER_VALUE.equals( align ) )
 		{
 
 			Iterator iter = cell.getChildren( );
@@ -384,7 +387,7 @@ public class TableAreaLayout
 						- area.getAllocatedWidth( );
 				if ( spacing > 0 )
 				{
-					if ( IStyle.RIGHT_VALUE.equals( align ) )
+					if ( isRightAligned )
 					{
 						area.setAllocatedPosition( spacing
 								+ area.getAllocatedX( ), area.getAllocatedY( ) );

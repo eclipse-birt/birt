@@ -777,7 +777,7 @@ abstract public class AbstractContent extends AbstractElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.IContent#isOrientationRTL()
+	 * @see org.eclipse.birt.report.engine.content.IContent#isRTL()
 	 */
 	public boolean isRTL( )
 	{
@@ -792,6 +792,16 @@ abstract public class AbstractContent extends AbstractElement
 		return false;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#isTextDirectionRTL()
+	 */
+	public boolean isDirectionRTL( )
+	{
+		return CSSConstants.CSS_RTL_VALUE.equals( getComputedStyle( ).getDirection( ) );
+	}
+
 	public String getACL( )
 	{
 		return acl;

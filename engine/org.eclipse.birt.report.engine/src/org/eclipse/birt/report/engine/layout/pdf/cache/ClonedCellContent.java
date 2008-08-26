@@ -337,7 +337,9 @@ public class ClonedCellContent implements ICellContent
 		return new ClonedCellContent(this, rowSpan);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#isOrientationRTL()
 	 */
 	public boolean isRTL( )
@@ -345,6 +347,15 @@ public class ClonedCellContent implements ICellContent
 		return cellContent.isRTL( );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#isTextDirectionRTL()
+	 */
+	public boolean isDirectionRTL( )
+	{
+		return cellContent.isDirectionRTL( );
+	}
 	
 	public String getACL( )
 	{

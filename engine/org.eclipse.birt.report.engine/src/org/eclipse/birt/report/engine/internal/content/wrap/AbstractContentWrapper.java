@@ -438,6 +438,16 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	{
 		return content.isRTL( );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#isTextDirectionRTL()
+	 */
+	public boolean isDirectionRTL( )
+	{
+		return content.isDirectionRTL( );
+	}
 	
 	public String getACL()
 	{

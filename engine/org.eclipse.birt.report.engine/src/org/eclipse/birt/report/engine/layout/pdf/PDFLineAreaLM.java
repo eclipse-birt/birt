@@ -28,6 +28,8 @@ import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.InlineContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TextArea;
+import org.eclipse.birt.report.engine.layout.pdf.emitter.BlockStackingLayout;
+import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
 import org.w3c.dom.css.CSSPrimitiveValue;
 
 public class PDFLineAreaLM extends PDFInlineStackingLM
@@ -304,9 +306,15 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 		}
 		assert ( parent instanceof PDFBlockStackingLM );
 		String align = ( (PDFBlockStackingLM) parent ).getTextAlign( );
+
+		// bidi_hcg: handle empty or justify align in RTL direction as right
+		// alignment
+		boolean isRightAligned = BidiAlignmentResolver.isRightAligned( root
+				.getContent( ), align, lastLine );
+
 		// single line
-		if ( ( CSSConstants.CSS_RIGHT_VALUE.equalsIgnoreCase( align ) || CSSConstants.CSS_CENTER_VALUE
-				.equalsIgnoreCase( align ) ) )
+		if ( isRightAligned
+				|| CSSConstants.CSS_CENTER_VALUE.equalsIgnoreCase( align ) )
 		{
 			int spacing = root.getContentWidth( ) - getCurrentIP( );
 			Iterator iter = root.getChildren( );
@@ -315,7 +323,7 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 				AbstractArea area = (AbstractArea) iter.next( );
 				if ( spacing > 0 )
 				{
-					if ( CSSConstants.CSS_RIGHT_VALUE.equalsIgnoreCase( align ) )
+					if ( isRightAligned )
 					{
 						area.setAllocatedPosition( spacing
 								+ area.getAllocatedX( ), area.getAllocatedY( ) );

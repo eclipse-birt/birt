@@ -47,6 +47,7 @@ import org.eclipse.birt.report.engine.layout.pdf.text.Chunk;
 import org.eclipse.birt.report.engine.layout.pdf.text.ChunkGenerator;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
 
 public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEmitter
 {
@@ -145,14 +146,18 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 			}
 			
 			String align = totalPageContent.getComputedStyle( ).getTextAlign( );
-			if ( ( CSSConstants.CSS_RIGHT_VALUE.equalsIgnoreCase( align ) || CSSConstants.CSS_CENTER_VALUE
+			// bidi_hcg: handle empty or justify align in RTL direction as right
+			// alignment
+			boolean isRightAligned = BidiAlignmentResolver.isRightAligned(
+					totalPageContent, align, false );
+			if ( ( isRightAligned || CSSConstants.CSS_CENTER_VALUE
 					.equalsIgnoreCase( align ) ) )
 			{
 				int spacing = context.getTotalPageTemplateWidth( )
 						- totalPageArea.getWidth( );
 				if ( spacing > 0 )
 				{
-					if ( CSSConstants.CSS_RIGHT_VALUE.equalsIgnoreCase( align ) )
+					if ( isRightAligned )
 					{
 						totalPageArea.setAllocatedPosition( spacing
 								+ totalPageArea.getAllocatedX( ), totalPageArea

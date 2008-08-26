@@ -118,7 +118,7 @@ public class StyleBuilder
 						"0", "1"}, false ) );
 
 		entry.setProperty( StyleConstant.H_ALIGN_PROP, convertHAlign( style
-				.getTextAlign( ) ) );
+				.getTextAlign( ), style.getDirection( ) ) );
 
 		entry.setProperty( StyleConstant.V_ALIGN_PROP, convertVAlign( style
 				.getVerticalAlign( ) ) );
@@ -259,12 +259,17 @@ public class StyleBuilder
 		return bs;
 	}
 
-	public static String convertHAlign( String align )
+	public static String convertHAlign( String align, String direction )
 	{
-		String ha = "Left";
+		String ha = null; 
+			//"Left";
 		align = ExcelUtil.getValue( align );
 
-		if ( "right".equalsIgnoreCase( align ) )
+		if ( "left".equalsIgnoreCase( align ) )
+		{
+			ha = "Left";
+		}
+		else if ( "right".equalsIgnoreCase( align ) )
 		{
 			ha = "Right";
 		}
@@ -272,6 +277,10 @@ public class StyleBuilder
 		{
 			ha = "Center";
 		}
+		else if ( "rtl".equalsIgnoreCase( direction ) )
+			ha = "Right";
+		else
+			ha = "Left";
 
 		return ha;
 	}

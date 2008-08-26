@@ -15,6 +15,7 @@ package org.eclipse.birt.report.engine.layout.pdf.emitter;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.dom.AbstractStyle;
@@ -26,7 +27,9 @@ import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
+import org.eclipse.birt.report.engine.layout.area.impl.InlineContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TextArea;
+import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
 import org.w3c.dom.css.CSSPrimitiveValue;
 
 import com.ibm.icu.text.Bidi;
@@ -222,23 +225,30 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 		lineFinished = false;
 	}
 
-
-	protected void align(ContainerContext currentContext, boolean lastLine)
+	protected void align( ContainerContext currentContext, boolean lastLine )
 	{
 		assert ( parent instanceof BlockStackingLayout );
 		String align = ( (BlockStackingLayout) parent ).getTextAlign( );
+
+		// bidi_hcg: handle empty and justify align in RTL direction as right
+		// alignment
+		boolean isRightAligned = BidiAlignmentResolver.isRightAligned(
+				( (BlockStackingLayout) parent ).content, align, lastLine );
+
 		// single line
-		if ( ( CSSConstants.CSS_RIGHT_VALUE.equalsIgnoreCase( align ) || CSSConstants.CSS_CENTER_VALUE
+		if ( ( isRightAligned || CSSConstants.CSS_CENTER_VALUE
 				.equalsIgnoreCase( align ) ) )
 		{
-			int spacing = currentContext.root.getWidth( ) - currentContext.currentIP;
+			int spacing = currentContext.root.getWidth( )
+					- currentContext.currentIP;
 			Iterator iter = currentContext.root.getChildren( );
 			while ( iter.hasNext( ) )
 			{
 				AbstractArea area = (AbstractArea) iter.next( );
 				if ( spacing > 0 )
 				{
-					if ( CSSConstants.CSS_RIGHT_VALUE.equalsIgnoreCase( align ) )
+					//if ( CSSConstants.CSS_RIGHT_VALUE.equalsIgnoreCase( align ) )
+					if ( isRightAligned )
 					{
 						area.setAllocatedPosition( spacing
 								+ area.getAllocatedX( ), area.getAllocatedY( ) );

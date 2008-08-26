@@ -11,9 +11,11 @@
 
 package org.eclipse.birt.report.engine.util;
 
+import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.w3c.dom.css.CSSValue;
 
 /**
  * Provides convenience methods for text alignment resolution
@@ -21,15 +23,6 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  */
 public class BidiAlignmentResolver
 {
-	public static String resolveAlignment( ReportDesignHandle model )
-	{
-		if ( model != null )
-		{
-			return getDefaultAlignment( model.getBidiOrientation( ) );
-		}
-		return CSSConstants.CSS_LEFT_VALUE;
-	}
-
 	public static String getDefaultAlignment( boolean rtl )
 	{
 		if ( rtl )
@@ -38,14 +31,18 @@ public class BidiAlignmentResolver
 		return CSSConstants.CSS_LEFT_VALUE;
 	}
 
-	public static String getDefaultAlignment( String orientation )
+	public static String getDefaultAlignment( String direction )
 	{
 		return getDefaultAlignment( DesignChoiceConstants.BIDI_DIRECTION_RTL
-				.equals( orientation ) );
+				.equals( direction ) );
 	}
 
-	public static String resolveAlignment( String alignment, boolean mirrored )
+	public static String resolveAlignmentForDesigner( String alignment, String direction, boolean mirrored )
 	{
+		if ( alignment == null || CSSConstants.CSS_JUSTIFY_VALUE.equals( alignment ) )
+		{
+			alignment = getDefaultAlignment( direction );
+		}
 		if ( !mirrored )
 		{
 			return alignment;
@@ -61,4 +58,20 @@ public class BidiAlignmentResolver
 		return alignment;
 	}
 
+	public static boolean isRightAligned( IContent content, String align,
+			boolean lastLine )
+	{
+		return CSSConstants.CSS_RIGHT_VALUE.equalsIgnoreCase( align )
+				|| ( content != null && content.isDirectionRTL( )
+				&& ( null == align || lastLine
+				&& CSSConstants.CSS_JUSTIFY_VALUE.equalsIgnoreCase( align ) ) );
+	}
+
+	public static boolean isRightAligned( IContent content, CSSValue align,
+			boolean lastLine )
+	{
+		return IStyle.RIGHT_VALUE.equals( align )
+				|| ( content != null && content.isDirectionRTL( ) && ( null == align || lastLine
+						&& IStyle.JUSTIFY_VALUE.equals( align ) ) );
+	}
 }

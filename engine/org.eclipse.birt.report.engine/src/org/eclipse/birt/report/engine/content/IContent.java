@@ -196,6 +196,7 @@ public interface IContent extends IElement, CSSStylableElement
 	IContent cloneContent(boolean isDeep);
 
 	boolean isRTL( );
+	boolean isDirectionRTL( );
 
 	String getACL( );
 
