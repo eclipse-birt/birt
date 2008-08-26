@@ -188,11 +188,14 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 			}
 		}
 		String ret = null;
-		if ( option instanceof HTMLRenderOption )
+		// option is usually a RenderOption
+		if ( option instanceof RenderOption )
 		{
-			HTMLRenderOption myOption = (HTMLRenderOption) option;
-			String imageURL = myOption.getBaseImageURL( );
-			String imageDir = myOption.getImageDirectory( );
+			RenderOption myOption = (RenderOption) option;
+			String imageURL = (String) myOption
+					.getOption( HTMLRenderOption.BASE_IMAGE_URL );
+			String imageDir = (String) myOption
+					.getOption( HTMLRenderOption.IMAGE_DIRECTROY );
 			if ( imageURL == null || imageURL.length( ) == 0
 					|| imageDir == null || imageDir.length( ) == 0 )
 			{

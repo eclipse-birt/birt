@@ -141,15 +141,15 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler
 	 * 
 	 * @param image
 	 *            represents the image design information
-	 * @param context
-	 *            context information
+	 * @param option
+	 *            renderoption information
 	 * @param prefix
 	 *            image prefix in URL
 	 * @param needMap
 	 *            whether image map is needed
 	 * @return URL for the image
 	 */
-	protected String handleImage( IImage image, Object context, String prefix,
+	protected String handleImage( IImage image, Object option, String prefix,
 			boolean needMap )
 	{
 		String mapID = null;
@@ -163,10 +163,11 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler
 		}
 
 		String imageDirectory = null;
-		if ( context != null && ( context instanceof HTMLRenderContext ) )
+		if ( option instanceof RenderOption )
 		{
-			HTMLRenderContext myContext = (HTMLRenderContext) context;
-			imageDirectory = myContext.getImageDirectory( );
+			RenderOption myOption = (RenderOption) option;
+			imageDirectory = (String) myOption
+					.getOption( HTMLRenderOption.IMAGE_DIRECTROY );
 		}
 		if ( imageDirectory == null )
 		{
