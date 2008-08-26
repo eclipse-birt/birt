@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLDecoder;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ResourceEditDialog;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
@@ -54,7 +55,9 @@ public class ResourceKeyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.PropertyDescriptor#resetUIData()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 * PropertyDescriptor#resetUIData()
 	 */
 	public void load( )
 	{
@@ -86,7 +89,8 @@ public class ResourceKeyDescriptor extends PropertyDescriptor
 			{
 				if ( resource != null )
 				{
-					path = FileLocator.resolve( resource ).getFile( );
+					path = URLDecoder.decode( FileLocator.resolve( resource )
+							.getFile( ) );
 				}
 
 			}
@@ -117,7 +121,8 @@ public class ResourceKeyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#createControl(org.eclipse.swt.widgets.Composite)
+	 * @seeorg.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
+	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public Control createControl( Composite parent )
 	{
@@ -170,7 +175,8 @@ public class ResourceKeyDescriptor extends PropertyDescriptor
 
 		try
 		{
-			// if the key keeps the same, then set to null first.(Fix bug 164767)
+			// if the key keeps the same, then set to null first.(Fix bug
+			// 164767)
 			if ( oldValue != null && oldValue.equals( newValue ) )
 			{
 				save( null );

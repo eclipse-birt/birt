@@ -16,6 +16,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.Map;
 import java.util.Properties;
 
@@ -90,8 +91,9 @@ public class ResourceEditDialog extends BaseDialog
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.lang.Object,
-		 *      int)
+		 * @see
+		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.
+		 * lang.Object, int)
 		 */
 		public String getColumnText( Object element, int columnIndex )
 		{
@@ -114,8 +116,9 @@ public class ResourceEditDialog extends BaseDialog
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java.lang.Object,
-		 *      int)
+		 * @see
+		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java
+		 * .lang.Object, int)
 		 */
 		public Image getColumnImage( Object element, int columnIndex )
 		{
@@ -151,8 +154,9 @@ public class ResourceEditDialog extends BaseDialog
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.jface.viewers.ViewerSorter#compare(org.eclipse.jface.viewers.Viewer,
-		 *      java.lang.Object, java.lang.Object)
+		 * @see
+		 * org.eclipse.jface.viewers.ViewerSorter#compare(org.eclipse.jface.
+		 * viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
 		public int compare( Viewer viewer, Object e1, Object e2 )
 		{
@@ -290,7 +294,7 @@ public class ResourceEditDialog extends BaseDialog
 				InputStream in = this.resourceURL.openStream( );
 				content.load( in );
 				in.close( );
-				propFileName = this.resourceURL.getPath( );
+				propFileName = URLDecoder.decode( this.resourceURL.getPath( ) );
 			}
 			catch ( IOException e )
 			{
@@ -309,7 +313,7 @@ public class ResourceEditDialog extends BaseDialog
 			if ( this.resourceURL.getProtocol( ).equals( "file" ) //$NON-NLS-1$
 					&& listChanged )
 			{
-				return saveFile( this.resourceURL.getPath( ) );
+				return saveFile( URLDecoder.decode( this.resourceURL.getPath( ) ) );
 			}
 			else
 			{
@@ -366,7 +370,9 @@ public class ResourceEditDialog extends BaseDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
@@ -484,7 +490,7 @@ public class ResourceEditDialog extends BaseDialog
 		table.setSortColumn( column1 );
 		table.setSortDirection( SWT.UP );
 		viewer.setSorter( new ResourceSorter( false, false ) );
-		
+
 		Group gp = new Group( innerParent, SWT.NONE );
 		gp.setText( Messages.getString( "ResourceEditDialog.text.QuickAdd" ) ); //$NON-NLS-1$
 		gp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -666,13 +672,14 @@ public class ResourceEditDialog extends BaseDialog
 
 		super.okPressed( );
 	}
-	
+
 	public Object getDetailResult( )
 	{
 		return detailResult;
 	}
 
 	private Object detailResult;
+
 	final protected void setDetailResult( Object value )
 	{
 		detailResult = value;
