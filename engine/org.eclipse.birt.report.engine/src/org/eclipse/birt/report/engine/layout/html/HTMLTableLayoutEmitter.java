@@ -557,20 +557,21 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		{
 			boolean isHidden = LayoutUtil.isHidden( row, emitter
 					.getOutputFormat( ), context.getOutputDisplayNone( ) );
-			int rowId = row.getRowID( );
-			if(lastRowId>=0 && rowId>lastRowId+1)
-			{
-				for(int i=lastRowId+1; i<rowId; i++)
-				{
-					IRowContent newRow = (IRowContent)row.cloneContent( false );
-					newRow.setParent(row.getParent( ));
-					newRow.setRowID( i );
-					startRow(newRow);
-					endRow(newRow);
-				}
-			}
+			
 			if ( !isNestTable( ) )
 			{
+				int rowId = row.getRowID( );
+				if(lastRowId>=0 && rowId>lastRowId+1)
+				{
+					for(int i=lastRowId+1; i<rowId; i++)
+					{
+						IRowContent newRow = (IRowContent)row.cloneContent( false );
+						newRow.setParent(row.getParent( ));
+						newRow.setRowID( i );
+						startRow(newRow);
+						endRow(newRow);
+					}
+				}
 				layout.createRow( row, isHidden );
 				if(!isHidden)
 				{
