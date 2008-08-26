@@ -654,13 +654,11 @@
                 <copy todir="${plugin-dest}/plugins" failonerror="false" >
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
 							<include name="**"/>
-                        	<exclude name="*.doc.user_*/**"/>
                         </fileset>
                 </copy>
                 <copy todir="${plugin-dest}/features" failonerror="false" >
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
 							<include name="**"/>
-                        	<exclude name="*.doc.user_*/**"/>
                         </fileset>
                 </copy>
 
@@ -668,42 +666,36 @@
                 <copy todir="${package-dest}/dtp/eclipse/plugins" failonerror="false">
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
 							<include name="**"/>
-                        	<exclude name="*.doc.user_*/**"/>
                         </fileset>
                 </copy>
 
                 <copy todir="${package-dest}/dtp/eclipse/features" failonerror="false" >
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
 							<include name="**"/>
-                        	<exclude name="*.doc.user_*/**"/>
                         </fileset>
                 </copy>
 				<!-- copy to jee(-linux) dir -->
                 <copy todir="${package-dest}/jee/eclipse/plugins" failonerror="false">
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
 							<include name="**"/>
-                        	<exclude name="*.doc.user_*/**"/>
                         </fileset>
                 </copy>
 
                 <copy todir="${package-dest}/jee/eclipse/features" failonerror="false" >
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
 							<include name="**"/>
-                        	<exclude name="*.doc.user_*/**"/>
                         </fileset>
                 </copy>
 
                 <copy todir="${package-dest}/jee-linux/eclipse/plugins" failonerror="false">
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
 							<include name="**"/>
-                        	<exclude name="*.doc.user_*/**"/>
                         </fileset>
                 </copy>
 
                 <copy todir="${package-dest}/jee-linux/eclipse/features" failonerror="false" >
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
 							<include name="**"/>
-                        	<exclude name="*.doc.user_*/**"/>
                         </fileset>
                 </copy>
 
@@ -957,13 +949,11 @@
         <copy todir="${plugin-dest}/plugins" failonerror="false" >
                 <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
 					<include name="**"/>
-                	<exclude name="*.doc.user_*/**"/>
                 </fileset>
         </copy>
         <copy todir="${plugin-dest}/features" failonerror="false" >
                 <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
 					<include name="**"/>
-                	<exclude name="*.doc.user_*/**"/>
                 </fileset>
         </copy>
 
@@ -971,42 +961,36 @@
         <copy todir="${package-dest}/dtp/eclipse/plugins" failonerror="false">
                 <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
 					<include name="**"/>
-                	<exclude name="*.doc.user_*/**"/>
                 </fileset>
         </copy>
 
         <copy todir="${package-dest}/dtp/eclipse/features" failonerror="false" >
                 <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
 					<include name="**"/>
-                	<exclude name="*.doc.user_*/**"/>
                 </fileset>
         </copy>
 		<!-- copy to jee(-linux) dir -->
         <copy todir="${package-dest}/jee/eclipse/plugins" failonerror="false">
                 <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
 					<include name="**"/>
-                	<exclude name="*.doc.user_*/**"/>
                 </fileset>
         </copy>
 
         <copy todir="${package-dest}/jee/eclipse/features" failonerror="false" >
                 <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
 					<include name="**"/>
-                	<exclude name="*.doc.user_*/**"/>
                 </fileset>
         </copy>
 
         <copy todir="${package-dest}/jee-linux/eclipse/plugins" failonerror="false">
                 <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
 					<include name="**"/>
-                	<exclude name="*.doc.user_*/**"/>
                 </fileset>
         </copy>
 
         <copy todir="${package-dest}/jee-linux/eclipse/features" failonerror="false" >
                 <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
 					<include name="**"/>
-                	<exclude name="*.doc.user_*/**"/>
                 </fileset>
         </copy>
 
