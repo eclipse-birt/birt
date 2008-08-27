@@ -3,7 +3,7 @@
 
 <contexts>
 <context id="dummy_outer_container" title="BIRT contexts">
-<description>Contexts for items identified by Actuate, 3/06</description>
+<description>Contexts for items identified by Actuate, 08/2008</description>
 </context>
 
 <context id="NewReportProjectWizard_ID" title="New Report Project">
@@ -711,6 +711,35 @@ Note that you must assign a resource file to the report before you can define lo
 <description>Use this page to control the column mapping page.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/retrieving-data.3.1.html" label="Retrieving data"/>
+</context>
+<context id="Preference_BIRT_CrossTab_ID">
+   <description>Use this page to control the behavior of the crosstab editor.
+
+In Filter Limit, specify the number of values to retrieve from the data source when selecting values for a filter.
+
+In Prompt, select whether to display the informational message about how to create a crosstab element.
+
+You can also choose how the report designer treats unused data bindings after you change the structure of a crosstab.</description>
+</context>
+<context id="Preference_BIRT_GENERAL_ID">
+   <description>Use this page to set the appearance of a selected item in the report layout editor.
+
+To display a selected item with an animated highlight, select Enable animated selection.
+
+To display a selected item with a gradient highlight that is not animated, deselect Enable animated selection, then select Enable gradient selection.
+
+To display a selected item with a simple outline with handles, deselect both Enable animated selection and Enable gradient selection.</description>
+</context>
+<context id="Preference_BIRT_Preview_DATA_ID">
+   <description>Use this page to control the amount of data that a report displays in the Preview pane of the report designer. Reducing any of these values makes the report preview faster. Increasing these values produces a report preview that contains more of the data in your data set.
+
+To set the maximum number of rows that the report preview fetches from the data set, type a value in Maximum number of rows to display.
+
+To set the maximum number of rows to display in a group in a table or crosstab, type a value in  Maximum member count of each row level to display.
+
+To set the maximum number of columns to display in a horizontal group in a crosstab, type a value in  Maximum member count of each column level to display.
+
+To limit the size of a data cube structure in memory, type the number of megabytes in Maximum in-memory cube size.</description>
 </context>
 
 
