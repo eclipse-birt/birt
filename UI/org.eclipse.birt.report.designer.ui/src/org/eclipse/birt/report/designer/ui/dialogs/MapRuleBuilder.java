@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -53,7 +52,6 @@ import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.JFaceColors;
@@ -2208,11 +2206,11 @@ public class MapRuleBuilder extends BaseDialog
 			{
 				if ( resource != null )
 				{
-					path = FileLocator.resolve( resource ).getFile( );
+					path = DEUtil.getFilePathFormURL( resource );
 				}
 
 			}
-			catch ( IOException e )
+			catch ( Exception e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}

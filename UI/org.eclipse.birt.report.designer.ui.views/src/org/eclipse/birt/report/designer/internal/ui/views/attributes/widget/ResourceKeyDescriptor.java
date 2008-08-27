@@ -12,18 +12,16 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
-import java.net.URLDecoder;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ResourceEditDialog;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IResourceKeyDescriptorProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -89,15 +87,13 @@ public class ResourceKeyDescriptor extends PropertyDescriptor
 			{
 				if ( resource != null )
 				{
-					path = URLDecoder.decode( FileLocator.resolve( resource )
-							.getFile( ) );
+					path = DEUtil.getFilePathFormURL( resource );
 				}
 
 			}
-			catch ( IOException e )
+			catch ( Exception e )
 			{
-				// TODO Auto-generated catch block
-				e.printStackTrace( );
+				ExceptionHandler.handle( e );
 			}
 			if ( resource == null || path == null || !new File( path ).exists( ) )
 			{

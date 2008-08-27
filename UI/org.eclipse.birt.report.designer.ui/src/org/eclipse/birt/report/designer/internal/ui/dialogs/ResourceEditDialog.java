@@ -13,10 +13,8 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.util.Map;
 import java.util.Properties;
 
@@ -24,6 +22,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ContentViewer;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
@@ -294,9 +293,9 @@ public class ResourceEditDialog extends BaseDialog
 				InputStream in = this.resourceURL.openStream( );
 				content.load( in );
 				in.close( );
-				propFileName = URLDecoder.decode( this.resourceURL.getPath( ) );
+				propFileName = DEUtil.getFilePathFormURL( resourceURL );
 			}
-			catch ( IOException e )
+			catch ( Exception e )
 			{
 				ExceptionHandler.handle( e );
 			}
@@ -313,7 +312,15 @@ public class ResourceEditDialog extends BaseDialog
 			if ( this.resourceURL.getProtocol( ).equals( "file" ) //$NON-NLS-1$
 					&& listChanged )
 			{
-				return saveFile( URLDecoder.decode( this.resourceURL.getPath( ) ) );
+				try
+				{
+					return saveFile( DEUtil.getFilePathFormURL( resourceURL ) );
+				}
+				catch ( Exception e )
+				{
+					ExceptionHandler.handle( e );
+					return false;
+				}
 			}
 			else
 			{
