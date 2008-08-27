@@ -69,6 +69,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
@@ -325,23 +326,26 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		ReportEngine engine = null;
 		DummyEngineTask engineTask = null;
+		DataRequestSession session = null;
 		try
 		{
-			engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( new EngineConfig( ) );
-
-			engineTask = new DummyEngineTask( engine,
-					new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ) );
-			
-			QueryDefinition queryDefn = new QueryDefinition( );
 			int maxRow = getMaxRow( );
+			if ( isReportDesignHandle( ) )
+			{
+				engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( new EngineConfig( ) );
+				engineTask = new DummyEngineTask( engine,
+						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ) );
+				session = prepareDataRequestSession( engineTask, maxRow, false );
+				engineTask.run( );
+			}
+			else
+			{
+				session = prepareDataRequestSession( maxRow, false );
+			}
+
+			QueryDefinition queryDefn = new QueryDefinition( );
 			queryDefn.setMaxRows( maxRow );
 			queryDefn.setDataSetName( getDataSetFromHandle( ).getQualifiedName( ) );
-
-			DataRequestSession session = prepareDataRequestSession( engineTask,
-					maxRow,
-					false );
-			
-			engineTask.run( );
 			
 			for ( int i = 0; i < columnExpression.length; i++ )
 			{
@@ -405,7 +409,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			// Restore old thread context class loader
 			Thread.currentThread( ).setContextClassLoader( oldContextLoader );
 
-			 if ( engineTask != null )
+			if ( engine == null && session != null )
+			{
+				session.shutdown( );
+			}
+			if ( engineTask != null )
 			{
 				engineTask.close( );
 			}
@@ -415,6 +423,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 		}
 		return dataList;
+	}
+
+	private boolean isReportDesignHandle( )
+	{
+		return itemHandle.getModuleHandle( ) instanceof ReportDesignHandle;
 	}
 
 	/**
@@ -1134,31 +1147,46 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		try
 		{
-			engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( new EngineConfig( ) );
-
-			engineTask = new DummyEngineTask( engine,
-					new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ) );
-
+			if ( isReportDesignHandle( ) )
+			{
+				engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( new EngineConfig( ) );
+				engineTask = new DummyEngineTask( engine,
+						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ) );
+			}
+			
 			CubeHandle cube = ChartXTabUtil.getBindingCube( itemHandle );
 			if ( cube != null )
 			{
-				session = prepareDataRequestSession( engineTask,
-						getMaxRow( ),
-						true );
-
-				engineTask.run( );
+				if ( isReportDesignHandle( ) )
+				{
+					session = prepareDataRequestSession( engineTask,
+							getMaxRow( ),
+							true );
+					engineTask.run( );
+				}
+				else
+				{
+					session = prepareDataRequestSession( getMaxRow( ), true );
+				}
 
 				// Create evaluator for data cube, even if in multiple view
 				evaluator = createCubeEvaluator( cube, session, engineTask );
 			}
 			else
 			{
+				if ( isReportDesignHandle( ) )
+				{
 
-				session = prepareDataRequestSession( engineTask,
-						getMaxRow( ),
-						false );
-
-				engineTask.run( );
+					session = prepareDataRequestSession( engineTask,
+							getMaxRow( ),
+							false );
+					engineTask.run( );
+				}
+				else
+				{
+					session = prepareDataRequestSession( getMaxRow( ), false );
+				}
+				
 				// Create evaluator for data set
 				if ( isSharedBinding( ) )
 				{
@@ -1179,6 +1207,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		catch ( BirtException e )
 		{
+			if ( engine == null && session != null )
+			{
+				session.shutdown( );
+			}
 			if ( engineTask != null )
 			{
 				engineTask.close( );
@@ -1190,6 +1222,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		catch ( RuntimeException e )
 		{
+			if ( engine == null && session != null )
+			{
+				session.shutdown( );
+			}
 			if ( engineTask != null )
 			{
 				engineTask.close( );
@@ -1264,7 +1300,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					public void close( )
 					{
 						super.close( );
-						engineTask.close( );
+						if ( engineTask != null )
+						{
+							engineTask.close( );
+						}
+						else if ( session != null )
+						{
+							session.shutdown( );
+						}
 					}
 
 				};
@@ -1360,7 +1403,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			public void close( )
 			{
 				super.close( );
-				engineTask.close( );
+				if ( engineTask != null )
+				{
+					engineTask.close( );
+				}
+				else if ( session != null )
+				{
+					session.shutdown( );
+				}
 			}
 
 		};
@@ -1407,6 +1457,47 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 
 		DataRequestSession session = engineTask.getDataSession( );
+		return session;
+	}
+
+	/**
+	 * @param maxRow
+	 * @param isCubeMode
+	 * @return
+	 * @throws BirtException
+	 */
+	private DataRequestSession prepareDataRequestSession( int maxRow,
+			boolean isCudeMode ) throws BirtException
+	{
+		DataSessionContext dsc = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+				getReportDesignHandle( ) );
+
+		// Bugzilla #210225.
+		// If filter is set on report item handle of chart, here should not use
+		// data cache mode and get all valid data firstly, then set row limit on
+		// query(QueryDefinition.setMaxRows) to get required rows.
+		PropertyHandle filterProperty = itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP );
+		if ( filterProperty == null
+				|| filterProperty.getListValue( ) == null
+				|| filterProperty.getListValue( ).size( ) == 0 )
+		{
+			Map appContext = new HashMap( );
+			if ( !isCudeMode )
+			{
+				appContext.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT,
+						new Integer( maxRow ) );
+			}
+			else
+			{
+				appContext.put( DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE,
+						new Integer( maxRow ) );
+				appContext.put( DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE,
+						new Integer( maxRow ) );
+			}
+			dsc.setAppContext( appContext );
+		}
+
+		DataRequestSession session = DataRequestSession.newSession( dsc );
 		return session;
 	}
 
@@ -1921,7 +2012,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					public void close( )
 					{
 						super.close( );
-						engineTask.close( );
+						if ( engineTask != null )
+						{
+							engineTask.close( );
+						}
+						else if ( session != null )
+						{
+							session.shutdown( );
+						}
 					}
 				};
 			}
@@ -2147,24 +2245,29 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 			ReportEngine engine = null;
 			DummyEngineTask engineTask = null;
+			DataRequestSession session = null;
 			try
 			{
-				engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( new EngineConfig( ) );
+				int maxRow = getMaxRow( );
+				if ( isReportDesignHandle( ) )
+				{
+					engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( new EngineConfig( ) );
+					engineTask = new DummyEngineTask( engine,
+							new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ) );
+					session = prepareDataRequestSession( engineTask,
+							maxRow,
+							false );
+					engineTask.run( );
+				}
+				else
+				{
+					session = prepareDataRequestSession( maxRow, false );
+				}
 
-				engineTask = new DummyEngineTask( engine,
-						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ) );
-				
 				// Create query definition.
 				QueryDefinition queryDefn = new QueryDefinition( );
-				int maxRow = getMaxRow( );
 				queryDefn.setMaxRows( maxRow );
 
-				DataRequestSession session = prepareDataRequestSession( engineTask,
-						getMaxRow( ),
-						false );
-
-				engineTask.run( );
-				
 				// Binding columns, aggregates, filters and sorts.
 				List columns = generateShareBindingsWithTable( headers,
 						queryDefn,
@@ -2218,6 +2321,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				// Restore old thread context class loader
 				Thread.currentThread( )
 						.setContextClassLoader( oldContextLoader );
+				
+				if ( engine == null && session != null )
+				{
+					session.shutdown( );
+				}
 				if ( engineTask != null )
 				{
 					engineTask.close( );
