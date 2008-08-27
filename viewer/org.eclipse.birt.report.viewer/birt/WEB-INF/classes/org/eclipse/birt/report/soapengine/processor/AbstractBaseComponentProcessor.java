@@ -16,6 +16,7 @@ import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.service.actionhandler.IActionHandler;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
+import org.eclipse.birt.report.utility.BirtUtility;
 
 public abstract class AbstractBaseComponentProcessor
 		implements
@@ -112,25 +113,8 @@ public abstract class AbstractBaseComponentProcessor
 			}
 			catch ( InvocationTargetException e )
 			{
-				AxisFault fault = AxisFault.makeFault( (Exception) e
-						.getTargetException( ) );
-				StringBuffer detail = new StringBuffer( );
-				StackTraceElement[] stackTraces = fault.getStackTrace( );
-				if ( stackTraces != null )
-				{
-					for ( int i = 0; i < stackTraces.length; i++ )
-					{
-						detail.append( stackTraces[i].toString( ) );
-						detail.append( "<BR>" ); //$NON-NLS-1$
-					}
-				}
-				else
-				{
-					detail.append( "There is no stack trace available." ); //$NON-NLS-1$
-				}
-
-				fault.setFaultDetailString( detail.toString( ) );
-				throw fault;
+				Exception target = (Exception) e.getTargetException( );
+				throw BirtUtility.makeAxisFault( target );
 			}
 			catch ( Exception e )
 			{

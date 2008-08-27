@@ -41,14 +41,18 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 	initialize : function( id )
 	{
 		this.__initBase( id, "600px" );
+		this.__allowSelection = true; // allow selecting text with the mouse
 		
 		// it looks like IE 6 handles the width differently
-		var faultStringContainer = document.getElementById("faultStringContainer");
+		var faultDetailContainer = $( "faultdetail" ); 
+		var faultStringContainer = $("faultStringContainer");
 		if ( BrowserUtility.isIE && !BrowserUtility.isIE7 )
 		{
 			this.__setFaultContainersWidth( "580px" );
-			faultStringContainer.style.overflowX = "auto";			
+			faultStringContainer.style.overflowX = "auto";
 			faultStringContainer.style.paddingBottom = "20px";
+			faultDetailContainer.parentNode.style.width = "570px";
+			faultDetailContainer.style.width = "100%";
 		}
 		else
 		{
@@ -57,9 +61,9 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 		}
 
 		// Bugzilla 225924: Fix overflow issue in the stack trace container		
-		if ( BrowserUtility.isSafari || BrowserUtility.isIE7 )
+		if ( BrowserUtility.isSafari || BrowserUtility.isIE7 || BrowserUtility.isFirefox3 )
 		{
-			$( "faultdetail" ).parentNode.style.width = "510px";		
+			faultDetailContainer.parentNode.style.width = "510px";	
 		}
 		
 		this.__z_index = 300;
@@ -67,7 +71,7 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 		// click event on input control
 		this.__neh_click_input_closure = this.__neh_click_input.bindAsEventListener( this );
 		Event.observe( $( this.__LABEL_SHOW_TRACE ), 'click', this.__neh_click_input_closure, false );				
-		Event.observe( $( this.__LABEL_HIDE_TRACE ), 'click', this.__neh_click_input_closure, false );				
+		Event.observe( $( this.__LABEL_HIDE_TRACE ), 'click', this.__neh_click_input_closure, false );
 	},	
 	
 	/**

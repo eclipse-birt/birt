@@ -35,8 +35,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.namespace.QName;
 
 import org.apache.axis.AxisFault;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
@@ -63,6 +65,8 @@ import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.soapengine.api.Oprand;
+import org.eclipse.birt.report.resource.ResourceConstants;
+import org.w3c.dom.Element;
 
 import com.ibm.icu.util.ULocale;
 
@@ -648,6 +652,108 @@ public class BirtUtility
 		return reportTitle;
 	}
 
+	public static String getStackTrace( Throwable e )
+	{
+		StringWriter stackTraceWriter = null;
+		PrintWriter writer = null; 
+		try
+		{
+			stackTraceWriter = new StringWriter();
+			writer = new PrintWriter(stackTraceWriter);
+			e.printStackTrace( writer );
+			return stackTraceWriter.toString( );
+		}
+		finally
+		{
+			if ( stackTraceWriter != null )
+			{
+				try
+				{
+					stackTraceWriter.close();
+				}
+				catch ( IOException e1 )
+				{
+				}
+			}
+			if ( writer != null )
+			{
+				writer.close();
+			}
+		}
+	}
+	
+	/**
+	 * Converts the given text into HTML code.
+	 * Replaces the newlines into <BR> and the leading spaces/tabs
+	 * into &nbsp;
+	 * @param text
+	 * @return
+	 */
+	public static String toHtml( String text )
+	{
+		return text.replaceAll( "\n", "<BR/>" ); //.replaceAll( "^([\s])*[^\s]", "&nbsp;");
+	}
+	
+	/**
+	 * Creates an axis fault based on a given exception.
+	 * @param qName QName of the fault
+	 * @param e exception
+	 * @return axis fault
+	 */
+	public static AxisFault makeAxisFault( String qName, Exception e )
+	{
+		AxisFault fault = makeAxisFault(e);
+		fault.setFaultCode( new QName( qName ) );
+		return fault;
+	}
+	
+	/**
+	 * Creates an axis fault based on a given exception.
+	 * @param qName QName of the fault
+	 * @param e exception
+	 * @return axis fault
+	 */	
+	public static AxisFault makeAxisFault( Exception e )
+	{
+		if ( e instanceof AxisFault )
+		{
+			return (AxisFault)e;
+		}
+		else
+		{
+			AxisFault fault = AxisFault.makeFault(e);
+			fault.addFaultDetailString( BirtUtility.getStackTrace(e) );
+			return fault;
+		}
+	}		
+	
+	/**
+	 * Creates an axis fault grouping the given exceptions list
+	 * @param qName QName of the fault
+	 * @param exceptions list of exceptions
+	 * @return axis fault
+	 */
+	public static Exception makeAxisFault( String qName, Collection<Exception> exceptions )
+	{
+		if ( exceptions.size( ) == 1 )
+		{
+			return makeAxisFault(qName, exceptions.iterator( ).next( ));
+		}
+		else
+		{
+			QName exceptionQName = new QName("string");
+			AxisFault fault = new AxisFault( BirtResources.getMessage( ResourceConstants.GENERAL_EXCEPTION_MULTIPLE_EXCEPTIONS ));
+			fault.setFaultCode( new QName( qName ));
+			
+			for ( Iterator i = exceptions.iterator( ); i.hasNext(); )
+			{
+				Exception e = (Exception)i.next( );
+				fault.addFaultDetail( exceptionQName, getStackTrace(e) );
+			}
+			return fault;
+		}
+	}
+	
 	/**
 	 * Append Error Message with stack trace
 	 * 

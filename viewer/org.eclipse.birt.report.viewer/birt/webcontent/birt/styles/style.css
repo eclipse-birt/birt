@@ -413,3 +413,10 @@
 	height:1px; 
 	overflow:hidden;
 }
+
+.birtviewer_exception_dialog_detail #faultdetail
+{
+	font-family: monospace;
+	direction: ltr;
+	text-align: left;
+}

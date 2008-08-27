@@ -1117,7 +1117,6 @@ public class ParameterAccessor {
 	 * @param request
 	 *            Http request, used to get the session Id.
 	 * @return
-	 * @throws AxisFault
 	 */
 	protected static String createDocumentPath(String filePath,
 			HttpServletRequest request) {

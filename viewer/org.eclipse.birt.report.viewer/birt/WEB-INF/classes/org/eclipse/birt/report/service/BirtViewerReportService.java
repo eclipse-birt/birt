@@ -100,6 +100,12 @@ public class BirtViewerReportService implements IViewerReportService
 		return runReport( design, outputDocName, runOptions, parameters, null );
 	}
 
+	public String runReport( IViewerReportDesignHandle design,
+			String outputDocName, InputOptions runOptions, Map parameters,
+			Map displayTexts ) throws ReportServiceException
+	{
+		return runReport( design, outputDocName, runOptions, parameters, displayTexts, null );
+	}
 	/**
 	 * @see org.eclipse.birt.report.service.api.IViewerReportService#runReport(org.eclipse.birt.report.service.api.IViewerReportDesignHandle,
 	 *      java.lang.String, org.eclipse.birt.report.service.api.InputOptions,
@@ -107,7 +113,7 @@ public class BirtViewerReportService implements IViewerReportService
 	 */
 	public String runReport( IViewerReportDesignHandle design,
 			String outputDocName, InputOptions runOptions, Map parameters,
-			Map displayTexts ) throws ReportServiceException
+			Map displayTexts, List<Exception> errorList ) throws ReportServiceException
 	{
 		if ( design == null || design.getDesignObject( ) == null )
 			throw new ReportServiceException(
@@ -146,9 +152,12 @@ public class BirtViewerReportService implements IViewerReportService
 					ParameterAccessor.PARAM_MAXROWS ) )
 				maxRows = Integer.valueOf( ParameterAccessor.getMaxRows( request ) );
 
-			ReportEngineService.getInstance( ).runReport( request, runnable,
-					outputDocName, locale, timeZone, parsedParams, displayTextMap,
-					maxRows );
+			List<Exception> errors = ReportEngineService.getInstance( ).runReport( request, runnable,
+					outputDocName, locale, timeZone, parsedParams, displayTextMap, maxRows );
+			if ( errors != null && !errors.isEmpty( ) )
+			{
+				errorList.addAll( errors );
+			}
 		}
 		catch ( RemoteException e )
 		{
@@ -168,28 +177,27 @@ public class BirtViewerReportService implements IViewerReportService
 			throws ReportServiceException
 	{
 		IReportDocument doc = null;
-
+		ByteArrayOutputStream os = null;
 		try
 		{
 			doc = openReportDocument( docName, renderOptions );
 			Long pageNum = Long.valueOf( pageID );
 
-			ByteArrayOutputStream os = new ByteArrayOutputStream( );
+			os = new ByteArrayOutputStream( );
 			ReportEngineService.getInstance( ).renderReport( os, doc,
 					pageNum.longValue( ), null, renderOptions, activeIds );
-			return os;
 
 		}
 		catch ( RemoteException e )
 		{
-			throw new ReportServiceException( e.getLocalizedMessage( ), e
-					.getCause( ) );
+			throwReportServiceException(e);
 		}
 		finally
 		{
 			if ( doc != null )
 				doc.close( );
 		}
+		return os;
 	}
 	
 	/**
@@ -209,11 +217,6 @@ public class BirtViewerReportService implements IViewerReportService
 			String bidiOrientation = doc.getReportDesign( ).getBidiOrientation( );			
 			return ( DesignChoiceConstants.BIDI_DIRECTION_RTL.equalsIgnoreCase(bidiOrientation) ); //$NON-NLS-1$
 		}
-		catch ( RemoteException e )
-		{
-			throw new ReportServiceException( e.getLocalizedMessage( ), e
-					.getCause( ) );
-		}
 		finally
 		{
 			if ( doc != null )
@@ -230,11 +233,20 @@ public class BirtViewerReportService implements IViewerReportService
 	 * @throws RemoteException
 	 */
 	private IReportDocument openReportDocument( String docName,
-			InputOptions renderOptions ) throws RemoteException
+			InputOptions renderOptions ) throws ReportServiceException
 	{
-		return ReportEngineService.getInstance( ).openReportDocument(
+		IReportDocument doc = null;
+		try
+		{
+			doc = ReportEngineService.getInstance( ).openReportDocument(
 				getReportDesignName( renderOptions ), docName,
 				getModuleOptions( renderOptions ) );
+		}
+		catch ( RemoteException e )
+		{
+			throwReportServiceException(e);			
+		}
+		return doc;
 	}
 
 	/**
@@ -297,8 +309,7 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		catch ( RemoteException e )
 		{
-			throw new ReportServiceException( e.getLocalizedMessage( ), e
-					.getCause( ) );
+			throwReportServiceException(e);
 		}
 		finally
 		{
@@ -328,8 +339,7 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		catch ( RemoteException e )
 		{
-			throw new ReportServiceException( e.getLocalizedMessage( ), e
-					.getCause( ) );
+			throwReportServiceException(e);			
 		}
 		finally
 		{
@@ -402,8 +412,7 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		catch ( RemoteException e )
 		{
-			throw new ReportServiceException( e.getLocalizedMessage( ), e
-					.getCause( ) );
+			throwReportServiceException(e);
 		}
 		finally
 		{
@@ -412,6 +421,32 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 	}
 
+	/**
+	 * Temporary method for extracting the exception from the DummyRemoteException
+	 * and throwing it.
+	 */
+	private void throwReportServiceException( RemoteException e )
+		throws ReportServiceException
+	{
+		Throwable wrappedException = e;
+		if ( e instanceof ReportEngineService.DummyRemoteException )
+		{
+			wrappedException = e.getCause();
+		}
+		if ( wrappedException instanceof ReportServiceException )
+		{
+			throw (ReportServiceException)wrappedException.getCause();
+		}
+		else if ( wrappedException != null )
+		{
+			throw new ReportServiceException( wrappedException.getLocalizedMessage( ), wrappedException );
+		}
+		else
+		{
+			throw new ReportServiceException( e.getLocalizedMessage( ), e );
+		}
+	}
+	
 	/**
 	 * @see org.eclipse.birt.report.service.api.IViewerReportService#extractResultSet(java.lang.String,
 	 *      java.lang.String, java.util.Collection, java.util.Set,
@@ -440,8 +475,7 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		catch ( RemoteException e )
 		{
-			throw new ReportServiceException( e.getLocalizedMessage( ), e
-					.getCause( ) );
+			throwReportServiceException(e);			
 		}
 		finally
 		{
@@ -458,7 +492,7 @@ public class BirtViewerReportService implements IViewerReportService
 			throws ReportServiceException
 	{
 		IReportDocument doc = null;
-		ResultSet[] resultSetArray;
+		ResultSet[] resultSetArray = null;
 		try
 		{
 			doc = openReportDocument( docName, options );
@@ -468,8 +502,7 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		catch ( RemoteException e )
 		{
-			throw new ReportServiceException( e.getLocalizedMessage( ), e
-					.getCause( ) );
+			throwReportServiceException(e);
 		}
 		finally
 		{
@@ -516,8 +549,7 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		catch ( RemoteException e )
 		{
-			throw new ReportServiceException( e.getLocalizedMessage( ), e
-					.getCause( ) );
+			throwReportServiceException(e);
 		}
 
 	}
@@ -534,13 +566,11 @@ public class BirtViewerReportService implements IViewerReportService
 		{
 			doc = openReportDocument( docName, options );
 		}
-		catch ( RemoteException e )
+		catch ( ReportServiceException e )
 		{
 			if ( doc != null )
 				doc.close( );
-
-			throw new ReportServiceException( e.getLocalizedMessage( ), e
-					.getCause( ) );
+			throw e;
 		}
 
 		TOCNode node = null;
@@ -608,7 +638,7 @@ public class BirtViewerReportService implements IViewerReportService
 
 			return BirtUtility.findTocByName( doc, name, options );
 		}
-		catch ( RemoteException e )
+		catch ( ReportServiceException e )
 		{
 			e.printStackTrace( );
 			return null;
@@ -636,11 +666,6 @@ public class BirtViewerReportService implements IViewerReportService
 			doc = openReportDocument( docName, options );
 			if ( doc != null )
 				count = doc.getPageCount( );
-		}
-		catch ( RemoteException e )
-		{
-			throw new ReportServiceException( e.getLocalizedMessage( ), e
-					.getCause( ) );
 		}
 		finally
 		{
@@ -829,11 +854,6 @@ public class BirtViewerReportService implements IViewerReportService
 			if ( doc != null )
 				pageNumber = doc.getPageNumber( bookmark );
 		}
-		catch ( RemoteException e )
-		{
-			throw new ReportServiceException( e.getLocalizedMessage( ), e
-					.getCause( ) );
-		}
 		finally
 		{
 			if ( doc != null )
@@ -855,11 +875,6 @@ public class BirtViewerReportService implements IViewerReportService
 		{
 			doc = openReportDocument( docName, options );
 			pageNumber = doc.getPageNumber( objectId );
-		}
-		catch ( RemoteException e )
-		{
-			throw new ReportServiceException( e.getLocalizedMessage( ), e
-					.getCause( ) );
 		}
 		finally
 		{
@@ -921,8 +936,7 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		catch ( RemoteException e )
 		{
-			throw new ReportServiceException( e.getLocalizedMessage( ), e
-					.getCause( ) );
+			throwReportServiceException(e);			
 		}
 	}
 

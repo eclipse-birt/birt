@@ -11,6 +11,7 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.util.HashMap;
+import java.util.ResourceBundle;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
@@ -43,7 +44,7 @@ public class EngineException extends BirtException {
 
 	public EngineException( BirtException ex)
 	{
-		super( );
+		super(ex.getErrorCode( ), (ResourceBundle)null, ex);
 		birtException = ex;
 	}
 	
@@ -245,4 +246,6 @@ public class EngineException extends BirtException {
 		}
 		super.setSeverity( severity );
 	}
+
+	
 }

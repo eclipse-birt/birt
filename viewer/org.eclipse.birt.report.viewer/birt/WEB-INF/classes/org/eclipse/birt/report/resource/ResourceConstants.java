@@ -39,7 +39,8 @@ public interface ResourceConstants
 	public static final String GENERAL_EXCEPTION_REPORT_ACCESS_ERROR = "birt.viewer.generalException.REPORT_ACCESS_ERROR"; //$NON-NLS-1$	
 	public static final String GENERAL_EXCEPTION_DOCUMENT_FILE_PROCESSING = "birt.viewer.generalException.DOCUMENT_FILE_PROCESSING"; //$NON-NLS-1$
 	public static final String GENERAL_EXCEPTION_NO_REPORT_DESIGN = "birt.viewer.generalException.NO_REPORT_DESIGN"; //$NON-NLS-1$
-
+	public static final String GENERAL_EXCEPTION_MULTIPLE_EXCEPTIONS = "birt.viewer.generalException.MULTIPLE_EXCEPTIONS"; //$NON-NLS-1$
+	
 	// report service exception
 	public static final String REPORT_SERVICE_EXCEPTION_EXTRACT_DATA_NO_DOCUMENT = "birt.viewer.reportServiceException.EXTRACT_DATA_NO_DOCUMENT"; //$NON-NLS-1$
 	public static final String REPORT_SERVICE_EXCEPTION_EXTRACT_DATA_NO_RESULT_SET = "birt.viewer.reportServiceException.EXTRACT_DATA_NO_RESULT_SET"; //$NON-NLS-1$

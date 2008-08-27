@@ -19,6 +19,7 @@ AbstractBaseDialog.prototype =
 	contentHolderWidth: 500, //TODO - move to display constants? Default width in pixels
 	visible: null, //Is the dialog currently visible		
 	__operationCancelled: false,
+	__allowSelection: false,
 	 
 	/**
 	 Initialize dialog base
@@ -332,14 +333,13 @@ AbstractBaseDialog.prototype =
 	__neh_drag: function(event)
 	{
 		debug("Mouse move");
-		
 		Event.stop( event );
 
 		var target = Event.element( event );
 		Event.stopObserving( target, 'mouseup',  this.mouseup_closure , false );
 		Event.stopObserving( target, 'mousemove', this.drag_closure , false );
 					
-		DragDrop.startDrag(this.__instance, event, null);	
+		DragDrop.startDrag(this.__instance, event, null);
 	},
 	
 	/**
@@ -347,16 +347,19 @@ AbstractBaseDialog.prototype =
 	*/
 	__neh_disposeSelection: function(event)
 	{
-		if(document.selection)
+		if ( !this.__allowSelection )
 		{
-			document.selection.empty();
-		}
-		else if(window.getSelection)
-		{
-			var selection = window.getSelection();
-			if(selection)
+			if(document.selection)
 			{
-				selection.removeAllRanges();
+				document.selection.empty();
+			}
+			else if(window.getSelection)
+			{
+				var selection = window.getSelection();
+				if(selection)
+				{
+					selection.removeAllRanges();
+				}
 			}
 		}
 	},

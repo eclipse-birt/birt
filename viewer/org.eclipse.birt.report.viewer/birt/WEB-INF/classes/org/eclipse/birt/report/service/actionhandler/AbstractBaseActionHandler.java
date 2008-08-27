@@ -35,6 +35,7 @@ import org.eclipse.birt.report.soapengine.api.ReportId;
 import org.eclipse.birt.report.soapengine.api.ReportIdType;
 import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
+import org.eclipse.birt.report.utility.BirtUtility;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 abstract public class AbstractBaseActionHandler implements IActionHandler
@@ -90,8 +91,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 		}
 		catch ( Exception e )
 		{
-			// Exception handle in action handler layer.
-			throwAxisFault( e );
+			throw BirtUtility.makeAxisFault(e);
 		}
 	}
 
@@ -424,26 +424,6 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 		update.setUpdateData( updateData );
 
 		return update;
-	}
-
-	/**
-	 * Handle exception.
-	 * 
-	 * @param e
-	 * @throws RemoteException
-	 */
-	protected void throwAxisFault( Exception e ) throws RemoteException
-	{
-		AxisFault fault = AxisFault.makeFault( e );
-		if ( e.getCause( ) != null )
-		{
-			fault.setStackTrace( e.getCause( ).getStackTrace( ) );
-		}
-		else
-		{
-			fault.setStackTrace( e.getStackTrace( ) );
-		}
-		throw fault;
 	}
 
 	/**

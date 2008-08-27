@@ -23,6 +23,21 @@ AbstractExceptionDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		document.getElementById("faultStringContainer").style.width = width;
 		document.getElementById("exceptionTraceContainer").style.width = width;
 	},
+
+	
+	/**
+	 * Formats the given stack trace for HTML output.
+	 * @param data stack trace
+	 * @return formatted HTML data
+	 */
+	__formatStackTrace : function( data )	
+	{
+		if ( !data )
+		{
+			return "";
+		}
+		return data.replace(/\r?\n/g,"<br/>").replace(/[\s]{1}at/g,"&nbsp;&nbsp;&nbsp;at");
+	},
 	
 	/**
 	 *	Binding data to the dialog UI. Data includes zoom scaling factor.
@@ -50,11 +65,44 @@ AbstractExceptionDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			oSpans[0].innerHTML = "";
 		}
 
-	 	// Prepare fault detail (Stack trace)
+	 	// Prepare fault detail (Stack traces)
 	 	var faultDetail = data.getElementsByTagName( 'string' );
-	 	if ( faultDetail[0] && faultDetail[0].firstChild )
+	 	if ( faultDetail && faultDetail.length > 0 )
 	 	{
-			oSpans[1].innerHTML = faultDetail[0].firstChild.data;
+	 		var detailSpan = oSpans[1];
+	 		for ( var detailIndex = 0; detailIndex < faultDetail.length; detailIndex++ )
+	 		{
+	 			if ( faultDetail[detailIndex].hasChildNodes() )
+	 			{
+	 				var detailNodes = faultDetail[detailIndex].childNodes;
+	 				if ( detailIndex > 0 )
+	 				{
+	 					detailSpan.appendChild( document.createElement("hr") );
+	 				}
+	 				var detailElement = document.createElement("span");	 				
+ 					detailElement.style.whiteSpace = "pre";
+	 				if ( BrowserUtility.isIE )
+	 				{
+	 					detailElement.innerHTML = "";
+	 				}
+	 				
+	 				for ( var textIndex = 0; textIndex < detailNodes.length; textIndex++ )
+	 				{
+		 				var stackTrace = detailNodes[textIndex].data;
+		 				
+		 				if ( BrowserUtility.isIE )
+		 				{
+		 					detailElement.innerHTML += this.__formatStackTrace( stackTrace );
+		 				}
+		 				else
+		 				{
+		 					detailElement.appendChild( document.createTextNode( stackTrace ) );
+		 				}
+		 				
+		 				detailSpan.appendChild(detailElement);
+	 				}
+	 			}
+	 		}
 		}
 		else
 		{

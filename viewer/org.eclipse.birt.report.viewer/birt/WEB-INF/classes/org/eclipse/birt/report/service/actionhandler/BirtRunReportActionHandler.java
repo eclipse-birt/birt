@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.service.actionhandler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.context.IContext;
@@ -74,8 +76,13 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 		BirtUtility.handleOperation( operation, attrBean, parameterMap,
 				displayTexts );
 
+		List<Exception> errorList = new ArrayList<Exception>();
 		getReportService( ).runReport( designHandle, docName, options,
-				parameterMap, displayTexts );
+				parameterMap, displayTexts, errorList );
+		if ( errorList != null && !errorList.isEmpty() ) 
+		{
+			throw BirtUtility.makeAxisFault( "BirtRunReportActionHandler.__execute()", errorList ); //$NON-NLS-1$
+		}
 	}
 
 	protected IViewerReportService getReportService( )
