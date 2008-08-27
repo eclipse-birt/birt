@@ -284,6 +284,8 @@ public class DataSetCacheTest extends APITestCase
 	public void testUseAppContextCacheRowLimit3( ) throws BirtException, Exception
 	{
 		this.dataSet.setCacheRowCount( 100 );
+		this.dataSet.setBeforeOpenScript( "a = 0;" );
+		this.dataSet.setOnFetchScript( "if ( a == 0  ) a = 1;");
 		DataEngineContext dec = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,

@@ -300,6 +300,8 @@ public abstract class QueryExecutor implements IQueryExecutor
 		//For cached data set, we need not execute any scripts.
 		loadFromCache = loadFromCache( );
 		
+		dataSet.setFromCache( loadFromCache );
+		
 		openDataSource( );
 		
 		// Run beforeOpen script now so the script can modify the

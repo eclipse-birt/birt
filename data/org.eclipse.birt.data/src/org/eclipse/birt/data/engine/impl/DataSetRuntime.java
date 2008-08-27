@@ -117,6 +117,7 @@ public class DataSetRuntime implements IDataSetInstanceHandle
      * the value from outsource
      */
     private Map outParamValues = new LinkedHashMap( );
+	private boolean fromCache = false;;
     
     // Special value tag to indicate that a parameter value has not been set
     public static final Object UNSET_VALUE = Scriptable.NOT_FOUND;
@@ -513,6 +514,8 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 	/** Executes the beforeOpen script associated with the data source */
 	public void beforeOpen() throws DataException
 	{
+		if ( fromCache )
+			return;
 		if ( getEventHandler() != null )
 		{
 			try
@@ -529,6 +532,8 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 	/** Executes the beforeClose script associated with the data source */
 	public void beforeClose() throws DataException
 	{
+		if ( fromCache )
+			return;
 		if ( getEventHandler() != null )
 		{
 			try
@@ -545,6 +550,8 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 	/** Executes the afterOpen script associated with the data source */
 	public void afterOpen() throws DataException
 	{
+		if ( fromCache )
+			return;
 		if ( getEventHandler() != null )
 		{
 			try
@@ -561,6 +568,8 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 	/** Executes the afterClose script associated with the data source */
 	public void afterClose() throws DataException
 	{
+		if ( fromCache )
+			return;
 		if ( getEventHandler() != null )
 		{
 			try
@@ -577,6 +586,8 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 	/** Executes the onFetch script associated with the data source */
 	public void onFetch() throws DataException
 	{
+		if ( fromCache )
+			return;
 		if ( getEventHandler() != null )
 		{
 			Mode temp = this.getMode();
@@ -634,6 +645,11 @@ public class DataSetRuntime implements IDataSetInstanceHandle
         this.rowMetaData = null;
     }
 
+    public void setFromCache( boolean fromCache )
+    {
+    	this.fromCache  = fromCache;
+    }
+    
 	/**
 	 * Indicates the index of the current result row
 	 */
