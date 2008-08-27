@@ -272,9 +272,8 @@ public class PPTWriter
 	private String getFontName( BaseFont baseFont )
 	{
 		String[][] familyFontNames = baseFont.getFamilyFontName( );
-		String[] family = familyFontNames[0];
-		String fontName = family[family.length - 1];
-		return fontName;
+		String[] family = familyFontNames[familyFontNames.length - 1];
+		return family[family.length - 1];
 	}
 
 	/**
