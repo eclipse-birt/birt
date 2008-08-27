@@ -5,6 +5,7 @@
             <property name="name">outer.jar</property>
         </structure>
     </list-property>
+    <property name="theme">theme2</property>
     <list-property name="includeScripts">
 		<property>outer</property>
 	</list-property>

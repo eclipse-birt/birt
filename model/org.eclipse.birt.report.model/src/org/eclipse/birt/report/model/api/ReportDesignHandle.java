@@ -1163,10 +1163,28 @@ public class ReportDesignHandle extends ModuleHandle
 			}
 		}
 
-		// second, look in the theme which design refers
+		// second, collect the theme referred by the design and included
+		// libraries
+		List<ThemeHandle> themeList = new ArrayList<ThemeHandle>( );
 		ThemeHandle themeHandle = getTheme( );
 		if ( themeHandle != null )
+			themeList.add( themeHandle );
+		List<LibraryHandle> libs = getAllLibraries( );
+		if ( libs != null )
 		{
+			for ( int i = 0; i < libs.size( ); i++ )
+			{
+				LibraryHandle libHandle = libs.get( i );
+				themeHandle = libHandle.getTheme( );
+				if ( themeHandle != null && !themeList.contains( themeHandle ) )
+					themeList.add( themeHandle );
+			}
+		}
+
+		// third, look external csses in all the collected themes
+		for ( int i = 0; i < themeList.size( ); i++ )
+		{
+			themeHandle = themeList.get( i );
 			Iterator<IncludedCssStyleSheetHandle> iter = themeHandle
 					.getPropertyHandle( ThemeHandle.CSSES_PROP ).iterator( );
 			while ( iter.hasNext( ) )

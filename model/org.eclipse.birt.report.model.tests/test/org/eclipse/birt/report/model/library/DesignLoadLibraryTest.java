@@ -2147,12 +2147,15 @@ public class DesignLoadLibraryTest extends BaseTestCase
 
 		List<IncludedCssStyleSheetHandle> sheets = designHandle
 				.getAllExternalIncludedCsses( );
-		assertEquals( 2, sheets.size( ) );
+		assertEquals( 3, sheets.size( ) );
 		
 		IncludedCssStyleSheetHandle sheetHandle = sheets.get( 0 );
 		assertEquals( "base2.css", sheetHandle.getFileName( ) ); //$NON-NLS-1$
 		
 		sheetHandle = sheets.get( 1 );
 		assertEquals( "outer1.css", sheetHandle.getFileName( ) ); //$NON-NLS-1$
+		
+		sheetHandle = sheets.get( 2 );
+		assertEquals( "outer2.css", sheetHandle.getFileName( ) ); //$NON-NLS-1$
 	}
 }
