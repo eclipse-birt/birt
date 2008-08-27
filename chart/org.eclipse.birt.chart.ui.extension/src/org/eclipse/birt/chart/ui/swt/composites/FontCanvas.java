@@ -220,6 +220,7 @@ public class FontCanvas extends Canvas implements
 		Color cFore = null;
 		Color cBack = null;
 		GC gc = pe.gc;
+		gc.setAdvanced( true );
 		Font fOld = gc.getFont( );
 
 		if ( !this.isEnabled( ) )
