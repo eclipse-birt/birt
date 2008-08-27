@@ -181,6 +181,7 @@ birt.viewer.generalException.REPORT_FILE_ERROR=Le fichier d''état {0} n''existe 
 birt.viewer.generalException.REPORT_ACCESS_ERROR=Impossible d''accéder au fichier d''état {0}.
 birt.viewer.generalException.DOCUMENT_FILE_PROCESSING=Traitement du fichier de document en cours, veuillez réessayer ultérieurement.
 birt.viewer.generalException.NO_REPORT_DESIGN=Aucun objet de modèle d'état n'est disponible.
+birt.viewer.generalException.MULTIPLE_EXCEPTIONS=Multiple exceptions occurred.
 
 ###############################################################################
 # Report service exception

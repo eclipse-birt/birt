@@ -181,6 +181,7 @@ birt.viewer.generalException.REPORT_FILE_ERROR=レポートファイル {0} は存在しない
 birt.viewer.generalException.REPORT_ACCESS_ERROR=レポートファイル {0} にアクセスできません。
 birt.viewer.generalException.DOCUMENT_FILE_PROCESSING=文書ファイルを処理しています。後でやり直してください。
 birt.viewer.generalException.NO_REPORT_DESIGN=レポートデザインオブジェクトがありません。
+birt.viewer.generalException.MULTIPLE_EXCEPTIONS=Multiple exceptions occurred.
 
 ###############################################################################
 # Report service exception

@@ -181,6 +181,7 @@ birt.viewer.generalException.REPORT_FILE_ERROR=Die Berichtdatei : {0} ist nicht 
 birt.viewer.generalException.REPORT_ACCESS_ERROR=Zugriff auf die Berichtdatei nicht möglich : {0}.
 birt.viewer.generalException.DOCUMENT_FILE_PROCESSING=Dokumentdatei wird verarbeitet. Versuchen Sie es später erneut.
 birt.viewer.generalException.NO_REPORT_DESIGN=Kein Berichtdesignobjekt verfügbar.
+birt.viewer.generalException.MULTIPLE_EXCEPTIONS=Multiple exceptions occurred.
 
 ###############################################################################
 # Report service exception

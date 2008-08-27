@@ -181,6 +181,7 @@ birt.viewer.generalException.REPORT_FILE_ERROR=El archivo de informe: {0} no exi
 birt.viewer.generalException.REPORT_ACCESS_ERROR=No se puede acceder al archivo de informe: {0}.
 birt.viewer.generalException.DOCUMENT_FILE_PROCESSING=Procesando archivo de documento, inténtelo más tarde.
 birt.viewer.generalException.NO_REPORT_DESIGN=No hay ningún objeto de diseño de informe disponible.
+birt.viewer.generalException.MULTIPLE_EXCEPTIONS=Multiple exceptions occurred.
 
 ###############################################################################
 # Report service exception

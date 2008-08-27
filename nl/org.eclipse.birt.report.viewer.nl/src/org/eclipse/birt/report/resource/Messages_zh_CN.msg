@@ -181,6 +181,7 @@ birt.viewer.generalException.REPORT_FILE_ERROR=报表文件: {0} 不存在或包含错误。
 birt.viewer.generalException.REPORT_ACCESS_ERROR=无法访问报表文件: {0}。
 birt.viewer.generalException.DOCUMENT_FILE_PROCESSING=正在处理文档文件，请稍后再试。
 birt.viewer.generalException.NO_REPORT_DESIGN=没有可用的报表设计对象。
+birt.viewer.generalException.MULTIPLE_EXCEPTIONS=Multiple exceptions occurred.
 
 ###############################################################################
 # Report service exception

@@ -181,6 +181,7 @@ birt.viewer.generalException.REPORT_FILE_ERROR=보고서 파일: {0}이(가) 없거나 오�
 birt.viewer.generalException.REPORT_ACCESS_ERROR=보고서 파일: {0}에 액세스할 수 없습니다.
 birt.viewer.generalException.DOCUMENT_FILE_PROCESSING=문서 파일을 처리 중입니다. 나중에 다시 시도하십시오.
 birt.viewer.generalException.NO_REPORT_DESIGN=사용 가능한 보고서 디자인 개체가 없습니다.
+birt.viewer.generalException.MULTIPLE_EXCEPTIONS=Multiple exceptions occurred.
 
 ###############################################################################
 # Report service exception
