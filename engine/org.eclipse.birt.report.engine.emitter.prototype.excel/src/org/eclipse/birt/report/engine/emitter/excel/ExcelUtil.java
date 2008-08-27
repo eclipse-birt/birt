@@ -757,74 +757,77 @@ public class ExcelUtil
 			{
 				return "####";
 			}
-		}
-		else
-		{
-			if ( givenValue.equals( "Fixed" ) )
-				return "Fixed";
-			if ( givenValue.equals( "Percent" ) )
-				return "Percent";
-			if ( givenValue.equals( "Scientific" ) )
-				return "Scientific";
-			if ( givenValue.equals( "Standard" ) )
-				return "Standard";
-			if(givenValue.equals( "General Number" ))
-				return "General";
 			
-			if(validType(givenValue)){
-				return givenValue;
-			}
-			int count = givenValue.length( );
-			boolean flag=false;
-			for ( int num = 0; num < count ; num++)
+		}
+		
+		if ( givenValue.equals( "Fixed" ) )
+			return "Fixed";
+		if ( givenValue.equals( "Percent" ) )
+			return "Percent";
+		if ( givenValue.equals( "Scientific" ) )
+			return "Scientific";
+		if ( givenValue.equals( "Standard" ) )
+			return "Standard";
+		if ( givenValue.equals( "General Number" ) )
+			return "General";
+
+		if ( validType( givenValue ) )
+		{
+			return givenValue;
+		}
+		int count = givenValue.length( );
+		boolean flag = false;
+		for ( int num = 0; num < count; num++ )
+		{
+			char temp = givenValue.charAt( num );
+			if ( temp == '\'' )
 			{
-				char temp=givenValue.charAt( num );
-				if(temp=='\'')
+				if ( flag )
 				{
-					if(flag)
-					{
-						flag=false;
-					}
-					else
-					{
-						char nextChar=givenValue.charAt(num+1);
-						if(nextChar=='\'')
-						{
-							returnStr=returnStr+'\'';
-							num++;
-							flag=false;
-						}
-						else
-						{
-							flag=true;
-						}
-					}
+					flag = false;
 				}
-				
 				else
-				{	
-					if(flag)
+				{
+					char nextChar = givenValue.charAt( num + 1 );
+					if ( nextChar == '\'' )
 					{
-						returnStr=returnStr+"\\"+temp;
+						returnStr = returnStr + '\'';
+						num++;
+						flag = false;
 					}
 					else
 					{
-						if(specialStr.indexOf( temp )!=-1)
-						{
-							returnStr=returnStr+"\\"+temp;
-						}
-						else if ( temp == '¤' )
-						{
-							String symbol = getCurrencySymbol( locale );
-							returnStr = returnStr + symbol;
-						}
-						else
-						{
-							returnStr=returnStr+temp;
-						}
+						flag = true;
 					}
 				}
 			}
+			else
+			{
+				if ( flag )
+				{
+					returnStr = returnStr + "\\" + temp;
+				}
+				else
+				{
+					if ( specialStr.indexOf( temp ) != -1 )
+					{
+						returnStr = returnStr + "\\" + temp;
+					}
+					else if ( temp == '¤' )
+					{
+						String symbol = getCurrencySymbol( locale );
+						returnStr = returnStr + symbol;
+					}
+					else
+					{
+						returnStr = returnStr + temp;
+					}
+				}
+			}
+		}
+		if ( returnStr.indexOf( "#" ) == -1 && returnStr.indexOf( "0" ) == -1 )
+		{
+			returnStr += "#";
 		}
 		return returnStr;
 	}
