@@ -245,6 +245,10 @@
                nativeDataType="CLOB"
                nativeDataTypeCode="2005"
                odaScalarDataType="Clob"/>
+         <dataTypeMapping
+               nativeDataType="REF CURSOR"
+               nativeDataTypeCode="-10"
+               odaScalarDataType="String"/>
          <properties>
             <propertyGroup
                   defaultDisplayName="Query Properties"
