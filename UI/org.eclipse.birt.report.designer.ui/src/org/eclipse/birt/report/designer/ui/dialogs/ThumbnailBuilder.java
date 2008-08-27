@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Level;
 
@@ -25,10 +24,10 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.ImageCanvas;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -127,7 +126,9 @@ public class ThumbnailBuilder extends BaseDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
@@ -420,14 +421,21 @@ public class ThumbnailBuilder extends BaseDialog
 			}
 
 			removeImage( );
-			hasThumbnail = true;
+			
 
-			image = new Image( null, fileName );
-
-			previewCanvas.loadImage( image );
-			btnRemove.setEnabled( true );
-
-			imageName = fileName;
+			try
+			{
+				image = new Image( null, fileName );
+				previewCanvas.loadImage( image );
+				btnRemove.setEnabled( true );
+				imageName = fileName;
+				hasThumbnail = true;
+			}
+			catch ( Exception e )
+			{
+				ExceptionHandler.openErrorMessageBox( Messages.getString( "ThumbnailBuilder.FileDialog.FileNameError.Title" ), //$NON-NLS-1$
+						Messages.getString( "ThumbnailBuilder.FileDialog.FileNameError.Message" ) ); //$NON-NLS-1$
+			}
 		}
 	};
 
@@ -452,9 +460,9 @@ public class ThumbnailBuilder extends BaseDialog
 			imageName = fileName;
 			try
 			{
-				fileName = FileLocator.resolve( url ).getPath( );
+				fileName = DEUtil.getFilePathFormURL( url );
 			}
-			catch ( IOException e )
+			catch ( Exception e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
@@ -466,12 +474,18 @@ public class ThumbnailBuilder extends BaseDialog
 			}
 
 			removeImage( );
-			hasThumbnail = true;
-
-			image = new Image( null, fileName );
-
-			previewCanvas.loadImage( image );
-			btnRemove.setEnabled( true );
+			try
+			{
+				image = new Image( null, fileName );
+				previewCanvas.loadImage( image );
+				btnRemove.setEnabled( true );
+				hasThumbnail = true;
+			}
+			catch ( Exception e )
+			{
+				ExceptionHandler.openErrorMessageBox( Messages.getString( "ThumbnailBuilder.FileDialog.FileNameError.Title" ), //$NON-NLS-1$
+						Messages.getString( "ThumbnailBuilder.FileDialog.FileNameError.Message" ) ); //$NON-NLS-1$
+			}
 
 		}
 	};
@@ -494,6 +508,8 @@ public class ThumbnailBuilder extends BaseDialog
 
 	private boolean checkExtensions( String fileName )
 	{
+		if ( fileName == null )
+			return false;
 		for ( int i = 0; i < IMAGE_TYPES.length; i++ )
 		{
 			if ( fileName.toLowerCase( ).endsWith( IMAGE_TYPES[i] ) )

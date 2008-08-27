@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.util;
 
 import java.io.File;
+import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -90,6 +91,7 @@ import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
@@ -3042,5 +3044,22 @@ public class DEUtil
 	public static boolean isReferenceElement( DesignElementHandle handle )
 	{
 		return isLinkedElement( handle );
+	}
+
+	public static String getFilePathFormURL( URL url ) throws Exception
+	{
+		if ( url != null )
+		{
+			URL localURL = FileLocator.resolve( url );
+			if ( "bundleresource".equals( url.getProtocol( ) ) )
+				return localURL.getPath( );
+			else if ( localURL != null
+					&& "file".equals( localURL.getProtocol( ) ) )
+				return localURL.toURI( ).getSchemeSpecificPart( );
+			else
+				return null;
+		}
+		else
+			return null;
 	}
 }
