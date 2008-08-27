@@ -61,7 +61,12 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 				if ( showFiles )
 					return filter.accept( entity );
 				else
-					return false;
+				{
+					if ( entity.isFile( ) )
+						return false;
+					else
+						return filter.accept( entity );
+				}
 			}
 		} );
 	}
@@ -84,7 +89,7 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 				ResourceEntryFilter filter = new ResourceEntryFilter( (ResourceFilter[]) ReportPlugin.getFilterMap( )
 						.values( )
 						.toArray( new ResourceFilter[0] ) );
-				
+
 				if ( entity.hasChildren( ) )
 				{
 					return filter.accept( entity );
@@ -95,7 +100,8 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 							.toLowerCase( )
 							.endsWith( extension[i] ) )
 					{
-						if(filter.accept( entity ))return true;
+						if ( filter.accept( entity ) )
+							return true;
 					}
 				}
 				return false;
@@ -124,7 +130,8 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 							.toLowerCase( )
 							.endsWith( fileNamePattern[i].substring( 1 ) ) )
 					{
-						if(filter.accept( entity ))return true;
+						if ( filter.accept( entity ) )
+							return true;
 					}
 				}
 				return false;
@@ -135,7 +142,9 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
+	 * @see
+	 * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.
+	 * Object)
 	 */
 	public Object[] getChildren( Object parentElement )
 	{
@@ -153,7 +162,9 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
+	 * @see
+	 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object
+	 * )
 	 */
 	public Object getParent( Object element )
 	{
@@ -171,7 +182,9 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
+	 * @see
+	 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.
+	 * Object)
 	 */
 	public boolean hasChildren( Object element )
 	{
@@ -182,7 +195,7 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 		}
 		if ( element instanceof ResourceEntry )
 		{
-			return ( (ResourceEntry) element ).hasChildren( );
+			return ( (ResourceEntry) element ).getChildren( filter ).length > 0;
 		}
 		return false;
 	}
@@ -190,7 +203,9 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
+	 * @see
+	 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
+	 * .lang.Object)
 	 */
 	public Object[] getElements( Object inputElement )
 	{
