@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.item.crosstab.internal.ui.dnd;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
@@ -22,6 +23,8 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProvider
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.gef.EditPart;
@@ -101,6 +104,10 @@ public class LevelHandleDropAdapter implements IDropAdapter
 				Command command = editPart.getCommand( request );
 				if ( command != null && command.canExecute( ) )
 				{
+					CommandStack stack = SessionHandleAdapter.getInstance( )
+					.getCommandStack( );
+					stack.startTrans( Messages.getString( "LevelHandleDropAdapter.ActionText" ) ); //$NON-NLS-1$
+			
 					editPart.getViewer( )
 							.getEditDomain( )
 							.getCommandStack( )
@@ -111,6 +118,7 @@ public class LevelHandleDropAdapter implements IDropAdapter
 						AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( crosstab );
 						providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.SWITCH_VIEW_TYPE );
 					}
+					stack.commit( );
 					return true;
 				}
 				else
