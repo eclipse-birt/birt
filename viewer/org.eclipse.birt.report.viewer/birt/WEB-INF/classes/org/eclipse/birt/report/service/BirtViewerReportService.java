@@ -435,7 +435,7 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		if ( wrappedException instanceof ReportServiceException )
 		{
-			throw (ReportServiceException)wrappedException.getCause();
+			throw (ReportServiceException)wrappedException;
 		}
 		else if ( wrappedException != null )
 		{

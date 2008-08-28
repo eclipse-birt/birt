@@ -1184,17 +1184,16 @@ public class ReportEngineService
 			if ( ParameterAccessor.isDesigner( ) )
 				BirtUtility.error( request, runTask.getErrors( ) );
 
-			// clear document file
-			File doc = new File( documentName );
-			if ( doc != null )
-				doc.delete( );
-
 			runTask.close( );
 
 			// check for non-fatal errors
 			List<Exception> errors = (List<Exception>) runTask.getErrors( );
 			if ( !errors.isEmpty( ) )
 			{
+				// clear document file
+				File doc = new File( documentName );
+				if ( doc != null )
+					doc.delete( );
 				return errors;
 			}
 		}
