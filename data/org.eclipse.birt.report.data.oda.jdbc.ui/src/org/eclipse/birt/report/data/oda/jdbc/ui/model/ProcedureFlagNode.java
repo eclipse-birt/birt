@@ -57,7 +57,8 @@ public class ProcedureFlagNode extends ChildrenAllowedNode
 	/**
 	 * Just a flag node, can't be part of a SQL text
 	 */
-	public String getQualifiedNameInSQL( boolean useIdentifierQuoteString )
+	public String getQualifiedNameInSQL( boolean useIdentifierQuoteString,
+			boolean includeSchema )
 	{
 		return null;
 	}

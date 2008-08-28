@@ -67,7 +67,8 @@ public class ProcedureNode extends ChildrenAllowedNode
 		return JFaceResources.getImageRegistry( ).get( PROCEDURE_ICON );
 	}
 
-	public String getQualifiedNameInSQL( boolean useIdentifierQuoteString )
+	public String getQualifiedNameInSQL( boolean useIdentifierQuoteString,
+			boolean includeSchema )
 	{
 		StringBuffer sb = new StringBuffer( );
 		String quoteFlag = "";
@@ -76,7 +77,7 @@ public class ProcedureNode extends ChildrenAllowedNode
 			quoteFlag
 				= JdbcMetaDataProvider.getInstance( ).getIdentifierQuoteString( );
 		}
-		if ( schemaName != null )
+		if ( includeSchema && schemaName != null )
 		{
 			sb.append( Utility.quoteString( schemaName, quoteFlag ) ).append( "." );
 		}

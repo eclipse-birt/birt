@@ -293,7 +293,8 @@ public class RootNode extends ChildrenAllowedNode
 	/**
 	 * Can't be a part of SQL text
 	 */
-	public String getQualifiedNameInSQL( boolean useIdentifierQuoteString )
+	public String getQualifiedNameInSQL( boolean useIdentifierQuoteString,
+			boolean includeSchema )
 	{
 		return null;
 	}

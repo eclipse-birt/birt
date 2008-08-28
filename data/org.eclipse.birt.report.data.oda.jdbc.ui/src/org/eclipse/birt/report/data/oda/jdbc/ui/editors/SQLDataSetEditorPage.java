@@ -102,6 +102,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private Tree availableDbObjectsTree = null;
 	private Button identifierQuoteStringCheckBox = null;
 	private Button showSystemTableCheckBox = null;
+	private Button includeSchemaCheckBox = null;
 	private DataSetDesign dataSetDesign;
 
 	private static String DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.new.query" );//$NON-NLS-1$	
@@ -357,16 +358,15 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		// Group for selecting the Tables etc
 		// Searching the Tables and Views
 		Group selectTableGroup = new Group( tablescomposite, SWT.FILL );
-		{
-			GridLayout groupLayout = new GridLayout( );
-			groupLayout.numColumns = 3;
-			// groupLayout.horizontalSpacing = 10;
-			groupLayout.verticalSpacing = 10;
-			selectTableGroup.setLayout( groupLayout );
 
-			GridData data = new GridData( GridData.FILL_HORIZONTAL );
-			selectTableGroup.setLayoutData( data );
-		}
+		GridLayout groupLayout = new GridLayout( );
+		groupLayout.numColumns = 3;
+		// groupLayout.horizontalSpacing = 10;
+		groupLayout.verticalSpacing = 10;
+		selectTableGroup.setLayout( groupLayout );
+
+		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		selectTableGroup.setLayoutData( data );
 
 		schemaLabel = new Label( selectTableGroup, SWT.LEFT );
 		schemaLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.schema" ) );
@@ -382,11 +382,9 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		FilterLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.filter" ) );
 
 		searchTxt = new Text( selectTableGroup, SWT.BORDER );
-		{
-			GridData data = new GridData( GridData.FILL_HORIZONTAL );
-			data.horizontalSpan = 2;
-			searchTxt.setLayoutData( data );
-		}
+		GridData searchTxtData = new GridData( GridData.FILL_HORIZONTAL );
+		searchTxtData.horizontalSpan = 2;
+		searchTxt.setLayoutData( searchTxtData );
 
 		// Select Type
 		Label selectTypeLabel = new Label( selectTableGroup, SWT.NONE );
@@ -395,22 +393,17 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		// Filter Combo
 		filterComboViewer = new ComboViewer( selectTableGroup, SWT.READ_ONLY );
 		setFilterComboContents( filterComboViewer, supportsProcedure );
-		{
-			GridData data = new GridData( GridData.FILL_HORIZONTAL );
-			data.horizontalSpan = 2;
-			filterComboViewer.getControl( ).setLayoutData( data );
-		}
+		GridData filterData = new GridData( GridData.FILL_HORIZONTAL );
+		filterData.horizontalSpan = 2;
+		filterComboViewer.getControl( ).setLayoutData( filterData );
 
-		new Label( selectTableGroup, SWT.LEFT );
 		setupShowSystemTableCheckBox( selectTableGroup );
 
 		// Find Button
 		Button findButton = new Button( selectTableGroup, SWT.NONE );
-		{
-			GridData data = new GridData( GridData.HORIZONTAL_ALIGN_END );
-			data.horizontalSpan = 3;
-			findButton.setLayoutData( data );
-		}
+		GridData btnData = new GridData( GridData.HORIZONTAL_ALIGN_CENTER );
+		btnData.horizontalSpan = 3;
+		findButton.setLayoutData( btnData );
 		
 		findButton.setText( JdbcPlugin.getResourceString( "tablepage.button.filter" ) );//$NON-NLS-1$
 
@@ -434,8 +427,17 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 						} );
 			}
 		} );
+		
+		Group sqlOptionGroup = new Group( tablescomposite, SWT.FILL );
+		GridLayout sqlOptionGroupLayout = new GridLayout( );
+		sqlOptionGroupLayout.verticalSpacing = 10;
+		sqlOptionGroup.setLayout( sqlOptionGroupLayout );
+		GridData sqlOptionGroupData = new GridData( GridData.FILL_HORIZONTAL );
+		sqlOptionGroup.setLayoutData( sqlOptionGroupData );
 
-		setupIdentifierQuoteStringCheckBox( selectTableGroup );
+		setupIdentifierQuoteStringCheckBox( sqlOptionGroup );
+		
+		setupIncludeSchemaCheckBox( sqlOptionGroup );
 
 		String[] allSchemaNames = null;
 		if ( supportsSchema )
@@ -553,6 +555,21 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		showSystemTableCheckBox.setSelection( false );
 		showSystemTableCheckBox.setLayoutData( layoutData );
 		showSystemTableCheckBox.setEnabled( true );
+	}
+	
+	/**
+	 * 
+	 * @param group
+	 */
+	private void setupIncludeSchemaCheckBox( Group group )
+	{
+		GridData layoutData = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
+		layoutData.horizontalSpan = 2;
+		includeSchemaCheckBox = new Button( group, SWT.CHECK );
+		includeSchemaCheckBox.setText( JdbcPlugin.getResourceString( "tablepage.button.includeSchemaInfo" ) ); //$NON-NLS-1$
+		includeSchemaCheckBox.setSelection( true );
+		includeSchemaCheckBox.setLayoutData( layoutData );
+		includeSchemaCheckBox.setEnabled( true );
 	}
 
 	/**
@@ -749,7 +766,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			for ( int i = 0; i < selection.length; i++ )
 			{
 				IDBNode dbNode = (IDBNode) selection[i].getData( );
-				String sql = dbNode.getQualifiedNameInSQL( identifierQuoteStringCheckBox.getSelection( ) );
+				String sql = dbNode.getQualifiedNameInSQL( identifierQuoteStringCheckBox.getSelection( ),
+						includeSchemaCheckBox.getSelection( ) );
 				if ( sql != null )
 				{
 					data.append( sql ).append( "," );

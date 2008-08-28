@@ -62,7 +62,8 @@ public class ProcedureColumnNode implements IDBNode, Comparable<ProcedureColumnN
 	/**
 	 * can't be part of a SQL text
 	 */
-	public String getQualifiedNameInSQL( boolean useIdentifierQuoteString )
+	public String getQualifiedNameInSQL( boolean useIdentifierQuoteString,
+			boolean includeSchema )
 	{
 		return null;
 	}

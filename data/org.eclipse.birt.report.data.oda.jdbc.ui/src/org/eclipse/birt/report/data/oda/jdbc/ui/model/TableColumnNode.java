@@ -53,6 +53,26 @@ public class TableColumnNode implements IDBNode, Comparable<TableColumnNode>
 	{
 		return JFaceResources.getImage( COLUMN_ICON );
 	}
+	
+	public String getQualifiedNameInSQL( boolean useIdentifierQuoteString,
+			boolean includeSchema )
+	{
+		StringBuffer sb = new StringBuffer( );
+		String quoteFlag = "";
+		if ( useIdentifierQuoteString )
+		{
+			quoteFlag = JdbcMetaDataProvider.getInstance( )
+					.getIdentifierQuoteString( );
+		}
+		if ( includeSchema && schemaName != null )
+		{
+			sb.append( Utility.quoteString( schemaName, quoteFlag ) )
+					.append( "." );
+		}
+		sb.append( Utility.quoteString( tableName, quoteFlag ) ).append( "." );
+		sb.append( Utility.quoteString( columnName, quoteFlag ) );
+		return sb.toString( );
+	}
 
 	public String getQualifiedNameInSQL( boolean useIdentifierQuoteString )
 	{

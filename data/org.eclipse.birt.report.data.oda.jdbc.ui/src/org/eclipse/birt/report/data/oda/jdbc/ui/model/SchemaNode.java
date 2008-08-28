@@ -104,7 +104,8 @@ public class SchemaNode extends ChildrenAllowedNode
 		return JFaceResources.getImageRegistry( ).get( SCHEMA_ICON );
 	}
 
-	public String getQualifiedNameInSQL( boolean useIdentifierQuoteString )
+	public String getQualifiedNameInSQL( boolean useIdentifierQuoteString,
+			boolean includeSchema )
 	{
 		String quoteFlag = "";
 		if ( useIdentifierQuoteString )

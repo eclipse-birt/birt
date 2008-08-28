@@ -71,7 +71,8 @@ public class TableNode extends ChildrenAllowedNode implements Comparable<TableNo
 		return this.tableName.compareTo( o.tableName );
 	}
 
-	public String getQualifiedNameInSQL( boolean useIdentifierQuoteString )
+	public String getQualifiedNameInSQL( boolean useIdentifierQuoteString,
+			boolean includeSchema )
 	{
 		StringBuffer sb = new StringBuffer( );
 		String quoteFlag = "";
@@ -80,7 +81,7 @@ public class TableNode extends ChildrenAllowedNode implements Comparable<TableNo
 			quoteFlag
 				= JdbcMetaDataProvider.getInstance( ).getIdentifierQuoteString( );
 		}
-		if ( schemaName != null )
+		if ( includeSchema && schemaName != null )
 		{
 			sb.append( Utility.quoteString( schemaName, quoteFlag ) ).append( "." );
 		}

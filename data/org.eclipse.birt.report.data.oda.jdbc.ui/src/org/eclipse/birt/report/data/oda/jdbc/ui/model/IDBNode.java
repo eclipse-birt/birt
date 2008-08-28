@@ -25,7 +25,8 @@ public interface IDBNode
 	 * @return the full qualified name in a SQL text.
 	 *         <p>null if it can't be a part of SQL text.
 	 */
-	String getQualifiedNameInSQL( boolean useIdentifierQuoteString );
+	String getQualifiedNameInSQL( boolean useIdentifierQuoteString,
+			boolean includeSchema );
 	
 	/**
 	 * @return image of node in the DB available items tree
