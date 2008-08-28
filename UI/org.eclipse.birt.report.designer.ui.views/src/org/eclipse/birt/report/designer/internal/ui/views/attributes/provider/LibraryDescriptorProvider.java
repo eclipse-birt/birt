@@ -2,9 +2,9 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -34,15 +34,19 @@ public class LibraryDescriptorProvider implements ITextDescriptorProvider
 			return ""; //$NON-NLS-1$
 		try
 		{
-			File libraryFile = new File( new URL( handle.getExtends( )
+			String filePath = DEUtil.getFilePathFormURL( new URL( handle.getExtends( )
 					.getRoot( )
-					.getFileName( ) ).getFile( ) );
-			if ( libraryFile.exists( ) )
-				return libraryFile.getAbsolutePath( );
+					.getFileName( ) ) );
+			if ( filePath != null )
+			{
+				File libraryFile = new File( filePath );
+				if ( libraryFile.exists( ) )
+					return libraryFile.getAbsolutePath( );
+			}
 		}
-		catch ( MalformedURLException e )
+		catch ( Exception e )
 		{
-			e.printStackTrace( );
+			ExceptionHandler.handle( e );
 		}
 		return ""; //$NON-NLS-1$
 	}
