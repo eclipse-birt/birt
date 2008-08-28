@@ -61,53 +61,56 @@ public class TableBreakBuffer implements IPageBuffer
 		{
 			case IContent.TABLE_CONTENT :
 				nestCount++;
-				ITableContent table = (ITableContent) content;
-				boolean hasPageBreak = hasPageBreak( table );
-				if ( hasPageBreak )
+				if(buffers == null)
 				{
-					if ( currentTableIndex < 0 )
+					ITableContent table = (ITableContent) content;
+					boolean hasPageBreak = hasPageBreak( table );
+					if ( hasPageBreak )
 					{
-						INode[] nodeList = currentBuffer
-								.getNodeStack( );
-						pageBreakIndexs = getPageBreakIndex( table );
-						repeatEnd = getRepeatEnd( table );
-						currentBuffer
-								.startContainer( createTable( table,
-										pageBreakIndexs, 0 ), isFirst, emitter,
-										visible );
-						currentTableIndex = nestCount;
-
-						buffers = new IPageBuffer[pageBreakIndexs.length];
-						buffers[0] = currentBuffer;
-						String tableId = table.getInstanceID( )
-								.toUniqueString( );
-						currentBuffer.addTableColumnHint( new TableColumnHint(
-								tableId, 0, pageBreakIndexs[0] + 1 ) );
-						for ( int i = 1; i < pageBreakIndexs.length; i++ )
+						if ( currentTableIndex < 0 )
 						{
-							buffers[i] = new TableBreakBuffer( null, context );
-							INode[] list = new INode[nodeList.length + 1];
-							ITableContent newTable = createTable( table, pageBreakIndexs, i );
-							list[0] = new ContainerBufferNode(newTable, emitter, null, true);
-							for ( int j = 0; j < nodeList.length; j++ )
+							INode[] nodeList = currentBuffer
+									.getNodeStack( );
+							pageBreakIndexs = getPageBreakIndex( table );
+							repeatEnd = getRepeatEnd( table );
+							currentBuffer
+									.startContainer( createTable( table,
+											pageBreakIndexs, 0 ), isFirst, emitter,
+											visible );
+							currentTableIndex = nestCount;
+	
+							buffers = new IPageBuffer[pageBreakIndexs.length];
+							buffers[0] = currentBuffer;
+							String tableId = table.getInstanceID( )
+									.toUniqueString( );
+							currentBuffer.addTableColumnHint( new TableColumnHint(
+									tableId, 0, pageBreakIndexs[0] + 1 ) );
+							for ( int i = 1; i < pageBreakIndexs.length; i++ )
 							{
-								list[j + 1] = nodeList[j];
-							}
-
-							buffers[i].openPage( list );
-							if ( hasRepeatedColumn )
-							{
+								buffers[i] = new TableBreakBuffer( null, context );
+								INode[] list = new INode[nodeList.length + 1];
+								ITableContent newTable = createTable( table, pageBreakIndexs, i );
+								list[0] = new ContainerBufferNode(newTable, emitter, null, true);
+								for ( int j = 0; j < nodeList.length; j++ )
+								{
+									list[j + 1] = nodeList[j];
+								}
+	
+								buffers[i].openPage( list );
+								if ( hasRepeatedColumn )
+								{
+									buffers[i]
+											.addTableColumnHint( new TableColumnHint(
+													tableId, repeatStart, repeatEnd
+															- repeatStart ) );
+								}
 								buffers[i]
 										.addTableColumnHint( new TableColumnHint(
-												tableId, repeatStart, repeatEnd
-														- repeatStart ) );
+												tableId,
+												pageBreakIndexs[i - 1] + 1,
+												pageBreakIndexs[i]
+														- pageBreakIndexs[i - 1] ) );
 							}
-							buffers[i]
-									.addTableColumnHint( new TableColumnHint(
-											tableId,
-											pageBreakIndexs[i - 1] + 1,
-											pageBreakIndexs[i]
-													- pageBreakIndexs[i - 1] ) );
 						}
 					}
 					else
@@ -245,13 +248,14 @@ public class TableBreakBuffer implements IPageBuffer
 					for ( int i = 0; i < buffers.length - 1; i++ )
 					{
 						buffers[i].closePage( nodeList );
+						buffers[i] = null;
 					}
 					buffers[buffers.length - 1].endContainer( content,
 							finished, emitter, visible );
 					context.getBufferFactory( ).refresh( );
 					currentBuffer = buffers[buffers.length - 1];
 
-					buffers = null;
+					//buffers = null;
 					currentTableIndex = -1;
 				}
 				else
@@ -263,7 +267,7 @@ public class TableBreakBuffer implements IPageBuffer
 			case IContent.TABLE_GROUP_CONTENT :
 			case IContent.TABLE_BAND_CONTENT :
 			case IContent.ROW_CONTENT :
-				if ( currentTableIndex == nestCount )
+				if ( currentTableIndex == nestCount &&  currentTableIndex > 0 )
 				{
 					if ( pageBreakIndexs.length-1 != currentIndex )
 					{
@@ -526,12 +530,16 @@ public class TableBreakBuffer implements IPageBuffer
 	public void closePage( INode[] nodeList )
 	{
 		currentBuffer.closePage( nodeList );
+		nestCount--;
 	}
 
 	public void openPage( INode[] nodeList )
 	{
 		currentBuffer.openPage( nodeList );
+		nestCount++;
 	}
+	
+	
 
 	public INode[] getNodeStack( )
 	{
