@@ -279,6 +279,9 @@ public interface IHelpContextIds
 
 	public static final String PREFERENCE_BIRT_COMMENTTEMPLATE_ID = PREFIX
 			+ "Preference_BIRT_CommentTemplate_ID"; //$NON-NLS-1$
+	
+	public static final String PREFERENCE_BIRT_BIDI_ID = PREFIX
+	+ "Preference_BIRT_BIDI_ID"; //$NON-NLS-1$
 
 	public static final String PREFERENCE_BIRT_RESOURCE_ID = PREFIX
 			+ "Preference_BIRT_Resource_ID"; //$NON-NLS-1$

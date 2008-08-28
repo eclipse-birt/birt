@@ -57,7 +57,7 @@ public class BidiPropertiesPreferencePage extends PropertyAndPreferencePage
 		super.createControl( parent );
 
 		UIUtil.bindHelp( getControl( ),
-				IHelpContextIds.PREFERENCE_BIRT_COMMENTTEMPLATE_ID );
+				IHelpContextIds.PREFERENCE_BIRT_BIDI_ID );
 	}
 
 	protected Control createPreferenceContent( Composite composite )
