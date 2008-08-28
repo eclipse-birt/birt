@@ -492,19 +492,19 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		
 		DataSetCacheManager dscm = dataEngine.getSession( ).getDataSetCacheManager( );
 		
-		IBaseDataSourceDesign leftDataSourceDesign = dscm.getCurrentDataSourceDesign( );
-		IBaseDataSetDesign leftDataSetDesgin = dscm.getCurrentDataSetDesign( );
-		Collection leftParameterHints = dscm.getCurrentParameterHints( );
-		Map leftAppContext = dscm.getCurrentAppContext( );
+		leftDataSourceDesign = dscm.getCurrentDataSourceDesign( );
+		leftDataSetDesgin = dscm.getCurrentDataSetDesign( );
+		leftParameterHints = dscm.getCurrentParameterHints( );
+		leftAppContext = dscm.getCurrentAppContext( );
 		
 		this.rightQueryResults = populatePreparedQuery( outer, false,
 				PreparedJointDataSourceQuery.this.dataSet.getRightDataSetDesignName( ) );
 		this.rightResultMetaData = this.rightQueryResults.getResultMetaData( );
 		
-		IBaseDataSourceDesign rightDataSourceDesign = dscm.getCurrentDataSourceDesign( );
-		IBaseDataSetDesign rightDataSetDesgin = dscm.getCurrentDataSetDesign( );
-		Collection rightParameterHints = dscm.getCurrentParameterHints( );
-		Map rightAppContext = dscm.getCurrentAppContext( );
+		rightDataSourceDesign = dscm.getCurrentDataSourceDesign( );
+		rightDataSetDesgin = dscm.getCurrentDataSetDesign( );
+		rightParameterHints = dscm.getCurrentParameterHints( );
+		rightAppContext = dscm.getCurrentAppContext( );
 	}
 
 	/**
