@@ -28,12 +28,12 @@ import org.eclipse.birt.report.engine.dataextraction.CommonDataExtractionOption;
 public class DataExtractionParameterUtil
 {
 
-	public static final String DEFAULT_SEP = ",";
+	public static final String DEFAULT_SEP = ","; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name to indicate the export encoding.
 	 */
-	public static final String PARAM_EXPORT_ENCODING = "__exportencoding";//$NON-NLS-1$
+	public static final String PARAM_EXPORT_ENCODING = ParameterAccessor.PARAM_EXPORT_ENCODING;
 
 	/**
 	 * URL parameter name to indicate the CSV separator.
@@ -48,19 +48,19 @@ public class DataExtractionParameterUtil
 	/**
 	 * Parameter name that gives the result set names of the export data form.
 	 */
-	public static final String PARAM_RESULTSETNAME = "__resultsetname"; //$NON-NLS-1$
+	public static final String PARAM_RESULTSETNAME = ParameterAccessor.PARAM_RESULTSETNAME;
 
 	/**
 	 * Parameter name that gives the selected column numbers of the export data
 	 * form.
 	 */
-	public static final String PARAM_SELECTEDCOLUMNNUMBER = "__selectedcolumnnumber"; //$NON-NLS-1$
+	public static final String PARAM_SELECTEDCOLUMNNUMBER = ParameterAccessor.PARAM_SELECTEDCOLUMNNUMBER;
 
 	/**
 	 * Parameter name that gives the selected column names of the export data
 	 * form.
 	 */
-	public static final String PARAM_SELECTEDCOLUMN = "__selectedcolumn"; //$NON-NLS-1$
+	public static final String PARAM_SELECTEDCOLUMN = ParameterAccessor.PARAM_SELECTEDCOLUMN;
 
 	/**
 	 * URL Parameter name to indicate whether exports locale neutral value.
@@ -70,9 +70,9 @@ public class DataExtractionParameterUtil
 	/**
 	 * Known export extension names.
 	 */
-	public static final String EXTRACTION_FORMAT_CSV = "csv";
+	public static final String EXTRACTION_FORMAT_CSV = "csv"; //$NON-NLS-1$
 
-	public static final String EXTRACTION_EXTENSION_CSV = "org.eclipse.birt.report.engine.dataextraction.csv";
+	public static final String EXTRACTION_EXTENSION_CSV = "org.eclipse.birt.report.engine.dataextraction.csv"; //$NON-NLS-1$
 
 	/**
 	 * Get result set name.
@@ -207,15 +207,15 @@ public class DataExtractionParameterUtil
 	 * parameters.
 	 * 
 	 * @param extractOption
-	 * 		common data extraction option
+	 *            common data extraction option
 	 * @param columns
-	 * 		columns to export
+	 *            columns to export
 	 * @param locale
-	 * 		locale
+	 *            locale
 	 * @param options
-	 * 		general options to use for the configuration
+	 *            general options to use for the configuration
 	 * @return instance of CommonDataExtractionOption initialized with the
-	 * 	passed values
+	 *         passed values
 	 */
 	public static DataExtractionOption createOptions(
 			CommonDataExtractionOption extractOption, String[] columns,
@@ -227,8 +227,8 @@ public class DataExtractionParameterUtil
 		extractOption.setEncoding( getExportEncoding( options ) );
 		extractOption.setExportDataType( isExportDataType( options ) );
 		extractOption.setLocaleNeutralFormat( isLocaleNeutral( options ) );
-		extractOption.setLocale(locale);
-		extractOption.setTimeZone(timeZone);
+		extractOption.setLocale( locale );
+		extractOption.setTimeZone( timeZone );
 		extractOption.setSelectedColumns( columns );
 		extractOption.setUserParameters( options );
 		return extractOption;
@@ -257,7 +257,7 @@ public class DataExtractionParameterUtil
 	 * Returns an array of decoded columns names.
 	 * 
 	 * @param columns
-	 * 		Collection of column names, in HTML format
+	 *            Collection of column names, in HTML format
 	 * @return Returns an array of decoded columns names.
 	 */
 	public static String[] getColumnNames( Collection columns )
@@ -268,8 +268,7 @@ public class DataExtractionParameterUtil
 			Iterator iSelectedColumns = columns.iterator( );
 			for ( int i = 0; iSelectedColumns.hasNext( ); i++ )
 			{
-				columnNames[i] = ParameterAccessor
-						.htmlDecode( (String) iSelectedColumns.next( ) );
+				columnNames[i] = ParameterAccessor.htmlDecode( (String) iSelectedColumns.next( ) );
 			}
 			return columnNames;
 		}
