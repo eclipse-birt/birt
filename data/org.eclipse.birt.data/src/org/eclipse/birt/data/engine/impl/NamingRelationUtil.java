@@ -36,18 +36,12 @@ public class NamingRelationUtil
 	public static void merge( DataEngineSession session,
 			IBaseQueryDefinition queryDefn, IQueryResults queryResults )
 	{
-		try
-		{
-			if ( session == null
-					|| queryResults.getResultMetaData( ) == null
-					|| queryResults.getResultMetaData( ).getColumnCount( ) == 0
-					|| queryDefn instanceof ISubqueryDefinition )
+		if ( session == null
+			|| queryResults.getPreparedQuery( ) == null
+			|| queryResults.getPreparedQuery( ).getReportQueryDefn( )== null
+			|| queryResults.getPreparedQuery( ).getReportQueryDefn( ).getBindings( ).size( ) == 0
+			|| queryDefn instanceof ISubqueryDefinition )
 				return;
-		}
-		catch ( BirtException e )
-		{
-			return;
-		}
 		String elementId = queryDefn.getName( );
 		String bookmark = queryResults.getName( );
 		String rsId = queryResults.getID( );
