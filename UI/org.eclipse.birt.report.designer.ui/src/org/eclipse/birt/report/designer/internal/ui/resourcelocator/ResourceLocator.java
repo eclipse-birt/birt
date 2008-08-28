@@ -64,7 +64,7 @@ public class ResourceLocator
 
 	public static String relativize( URL url )
 	{
-		String path = url.getFile( );
+		String path = url.toString( );
 		if ( url.getProtocol( ).equals( "file" ) ) //$NON-NLS-1$
 		{
 			return relativize( path );
