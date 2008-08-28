@@ -311,3 +311,5 @@ InsertCubeInLayoutAction.action.message=Kreuztabelle aus Quader erstellen
 
 MapRuleBuilderDialog.MsgDlg.Title=Warnung
 MapRuleBuilderDialog.MsgDlg.Msg=Der Wert darf nicht leer sein.
+
+LevelHandleDropAdapter.ActionText=Add a dimension

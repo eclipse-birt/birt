@@ -311,3 +311,5 @@ InsertCubeInLayoutAction.action.message=Crear tabla de referencias cruzadas desd
 
 MapRuleBuilderDialog.MsgDlg.Title=Advertencia
 MapRuleBuilderDialog.MsgDlg.Msg=El valor no puede estar vacío.
+
+LevelHandleDropAdapter.ActionText=Add a dimension

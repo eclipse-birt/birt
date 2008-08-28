@@ -311,3 +311,5 @@ InsertCubeInLayoutAction.action.message=Créer un tableau croisé à partir du cube
 
 MapRuleBuilderDialog.MsgDlg.Title=Avertissement
 MapRuleBuilderDialog.MsgDlg.Msg=La valeur ne peut pas être vierge.
+
+LevelHandleDropAdapter.ActionText=Add a dimension
