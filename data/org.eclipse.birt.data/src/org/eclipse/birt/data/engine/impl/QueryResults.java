@@ -168,43 +168,20 @@ public class QueryResults implements IQueryResults, IQueryService
 				}
 				else
 				{
-					if ( queryService.getQueryDefn( ).usesDetails( ) == true )
+					if ( queryService.getQueryDefn( ).usesDetails( ) == true || queryService.getQueryDefn( ).cacheQueryResults( ) )
 					{
-						if ( queryService.getQueryDefn( ).cacheQueryResults( ) )
-						{
-							//First create the cache. The cache is created when 
-							//a ResultIterator is closed;
-							new ResultIterator( new ResultService( session,
-									this ), odiIterator, this.queryScope, this.queryService.getStartingRawID( ) ).close( );
-							iterator = new CacheResultIterator( session.getTempDir( ),
-									this );
-						}else
-						{
-							iterator = new ResultIterator( new ResultService( session,
+						//First create the cache. The cache is created when 
+						//a ResultIterator is closed;Please note that whether usesDetails or
+						//not, we should always create a complete ResultIterator.
+						iterator = new ResultIterator( new ResultService( session,
 									this ), odiIterator, this.queryScope, this.queryService.getStartingRawID( )  );
-						}
 					}
 					else
 					{
-						if ( queryService.getQueryDefn( ).cacheQueryResults( ) )
-						{
-
-							//First create the cache. The cache is created when 
-							//a ResultIterator is closed;Please note that whether usesDetails or
-							//not, we should always create a complete ResultIterator.
-							new ResultIterator( new ResultService( session,
-									this ), odiIterator, this.queryScope, this.queryService.getStartingRawID( )  ).close( );
-							iterator = new CacheResultIterator( session.getTempDir( ),
-									this );
-						}
-						else
-						{
-							iterator = new ResultIterator2( new ResultService( session,
+						iterator = new ResultIterator2( new ResultService( session,
 									this ),
 									odiIterator,
 									this.queryScope, this.queryService.getStartingRawID( )  );
-
-						}
 					}
 				}
 			}
