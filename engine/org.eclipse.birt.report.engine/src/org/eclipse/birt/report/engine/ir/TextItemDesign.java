@@ -58,7 +58,8 @@ public class TextItemDesign extends ReportItemDesign
 		}
 
 		if ( HTML_TEXT.equals( textType )
-				|| ( AUTO_TEXT.equals( textType ) && text.startsWith( "<html>" ) ) )
+				|| ( AUTO_TEXT.equals( textType ) && ( text.substring( 0, 6 )
+						.equalsIgnoreCase( "<html>" ) ) ) )
 		{
 			exprs = new HashMap( );
 			TextTemplate template = new TemplateParser( ).parse( text );
