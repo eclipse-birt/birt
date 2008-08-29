@@ -205,7 +205,7 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 		map.put( temp, getParameterObject( temp, value ) );
 	}
 
-	private Date doValidateDateTimeByPattern( String value )
+	private Date doValidateDateTimeByPattern( String value, String dataType )
 			throws ValidationValueException
 	{
 		try
@@ -215,13 +215,25 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 		}
 		catch ( Exception e )
 		{
+			Object obj = null;
+			try
+			{
+				obj = convert( value, dataType );
+			}
+			catch ( BirtException e1 )
+			{
+			}
+			if (obj instanceof Date)
+			{
+				return (Date)obj;
+			}
 			throw new ValidationValueException( value,
 					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 					DesignChoiceConstants.PARAM_TYPE_DATETIME );
 		}
 	}
 
-	private java.sql.Date doValidateSqlDateTimeByPattern( String value )
+	private java.sql.Date doValidateSqlDateTimeByPattern( String value, String dataType )
 			throws ValidationValueException
 	{
 		try
@@ -231,13 +243,25 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 		}
 		catch ( Exception e )
 		{
+			Object obj = null;
+			try
+			{
+				obj = convert( value, dataType );
+			}
+			catch ( BirtException e1 )
+			{
+			}
+			if (obj instanceof java.sql.Date)
+			{
+				return (java.sql.Date)obj;
+			}
 			throw new ValidationValueException( value,
 					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 					DesignChoiceConstants.PARAM_TYPE_DATETIME );
 		}
 	}
 
-	static private java.sql.Time doValidateTimeDateTimeByPattern( String value )
+	static private java.sql.Time doValidateTimeDateTimeByPattern( String value, String dataType )
 			throws ValidationValueException
 	{
 		try
@@ -247,6 +271,18 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 		}
 		catch ( Exception e )
 		{
+			Object obj = null;
+			try
+			{
+				obj = convert( value, dataType );
+			}
+			catch ( BirtException e1 )
+			{
+			}
+			if (obj instanceof java.sql.Time)
+			{
+				return (java.sql.Time)obj;
+			}
 			throw new ValidationValueException( value,
 					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 					DesignChoiceConstants.PARAM_TYPE_DATETIME );
@@ -267,17 +303,17 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 				if ( DesignChoiceConstants.PARAM_TYPE_DATE.equalsIgnoreCase( dataType ) )
 				{
 
-					return doValidateSqlDateTimeByPattern( value );
+					return doValidateSqlDateTimeByPattern( value, dataType );
 
 				}
 				else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equalsIgnoreCase( dataType ) )
 				{
-					return doValidateTimeDateTimeByPattern( value );
+					return doValidateTimeDateTimeByPattern( value, dataType );
 
 				}
 				else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equalsIgnoreCase( dataType ) )
 				{
-					return doValidateDateTimeByPattern( value );
+					return doValidateDateTimeByPattern( value, dataType );
 				}
 			}
 			catch ( ValidationValueException e )
