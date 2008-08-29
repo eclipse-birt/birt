@@ -33,7 +33,9 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.EngineExtensionManager;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.OnPageBreakLayoutPageHandle;
+import org.eclipse.birt.report.engine.executor.ReportExtensionExecutor;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.extension.engine.IContentProcessor;
 import org.eclipse.birt.report.engine.extension.engine.IRenderExtension;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
@@ -446,8 +448,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 			ReportPageExecutor pagesExecutor = new ReportPageExecutor(
 					executionContext, physicalPageSequences, paged );
-			IReportExecutor executor = new SuppressDuplciateReportExecutor(
-					pagesExecutor );
+			
+			IReportExecutor executor = createRenderExtensionExecutor( pagesExecutor );
+			executor = new SuppressDuplciateReportExecutor( executor );
 			executor = new LocalizedReportExecutor( executionContext, executor );
 			executionContext.setExecutor( executor );
 			initializeContentEmitter( emitter, executor );
@@ -576,6 +579,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			String format = executionContext.getOutputFormat( );
 			IReportExecutor executor = new ReportletExecutor( executionContext,
 					offset );
+			executor = createRenderExtensionExecutor( executor );
 			executor = new SuppressDuplciateReportExecutor( executor );
 			executor = new LocalizedReportExecutor( executionContext, executor );
 			executionContext.setExecutor( executor );
@@ -816,4 +820,31 @@ public class RenderTask extends EngineTask implements IRenderTask
 		visiblePageLoaded = false;
 		logicalPageSequence = null;
 	}
+	
+	protected IReportExecutor createRenderExtensionExecutor(
+			IReportExecutor executor ) throws EngineException
+	{
+		// prepare the extension executor
+		ArrayList<IRenderExtension> renderExtensions = loadRenderExtensions( );
+		if ( renderExtensions != null )
+		{
+			ArrayList<IContentProcessor> processors = new ArrayList<IContentProcessor>( );
+			for ( IRenderExtension extension : renderExtensions )
+			{
+				IContentProcessor processor = extension.getRenderProcessor( );
+				if ( processor != null )
+				{
+					processors.add( processor );
+				}
+			}
+			if ( !processors.isEmpty( ) )
+			{
+				return new ReportExtensionExecutor( executionContext, executor,
+						processors.toArray( new IContentProcessor[processors
+								.size( )] ) );
+			}
+		}
+		return executor;
+	}
+	
 }

@@ -2044,11 +2044,31 @@ public class ExecutionContext
 	
 	public String[] getEngineExtensions( )
 	{
+		ArrayList<String> resultList = new ArrayList<String>( );
 		ReportDesignHandle design = this.getDesign( );
 		if ( design.isEnableACL( ) )
 		{
-			return new String[]{"PLS"};
+			resultList.add( "PLS" );
 		}
-		return null;
+
+		String engineExtensions = (String) design
+				.getProperty( "ENGINE_EXTENSIONS" );
+
+		if ( engineExtensions != null )
+		{
+			String[] exts = engineExtensions.split( "," );
+			for ( String ext : exts )
+			{
+				if ( ext != null )
+				{
+					ext = ext.trim( );
+					if ( ext.length( ) > 0 )
+					{
+						resultList.add( ext );
+					}
+				}
+			}
+		}
+		return resultList.toArray( new String[resultList.size( )] );
 	}
 }
