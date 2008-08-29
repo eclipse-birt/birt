@@ -14,7 +14,9 @@ package org.eclipse.birt.data.engine.binding;
 import org.eclipse.birt.data.engine.api.APITestCase;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 
 import testutil.ConfigText;
 /**
@@ -43,13 +45,24 @@ public class QueryCacheTest extends APITestCase
 		IQueryResults queryResults = this.dataEngine.prepare( query ).execute( null );
 		String id = queryResults.getID( );
 		IResultIterator it = queryResults.getResultIterator( );
-		
+		it.close( );
 		IQueryResults result = this.dataEngine.getQueryResults( id );
 		it = result.getResultIterator( );
 		this.outputQueryResult( it, new String[]{"CITY", "AMOUNT"} );
 		this.checkOutputFile( );
+		
 	}
 	
+	public void testCacheEmptyResultSet( ) throws Exception
+	{
+		QueryDefinition query = new QueryDefinition();
+		query.setDataSetName( this.dataSet.getName( ) );
+		query.setAutoBinding( true );
+		query.setCacheQueryResults( true );
+		query.addFilter( new FilterDefinition( new ScriptExpression("false")) );
+		IQueryResults queryResults = this.dataEngine.prepare( query ).execute( null );
+		queryResults.getResultIterator( ).close( );
+	}
 	public void testUseDetailsCache( ) throws Exception
 	{
 		QueryDefinition query = new QueryDefinition();
@@ -60,7 +73,7 @@ public class QueryCacheTest extends APITestCase
 		IQueryResults queryResults = this.dataEngine.prepare( query ).execute( null );
 		String id = queryResults.getID( );
 		IResultIterator it = queryResults.getResultIterator( );
-		
+		it.close( );
 		IQueryResults result = this.dataEngine.getQueryResults( id );
 		it = result.getResultIterator( );
 		this.outputQueryResult( it, new String[]{"CITY", "AMOUNT"} );

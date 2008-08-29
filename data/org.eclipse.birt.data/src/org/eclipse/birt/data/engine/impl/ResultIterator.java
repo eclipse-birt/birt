@@ -647,22 +647,14 @@ public class ResultIterator implements IResultIterator
 	{
 		// currRowIndex value will be changed driven by this.next method.
 		int currRowIndex = this.odiResult.getCurrentResultIndex( );
+		prepareBindingColumnsEvalUtil( );
+		
 		if ( lastRowIndex < currRowIndex )
 		{
 			lastRowIndex = currRowIndex;
-			if( bindingColumnsEvalUtil == null )
-			{
-				this.bindingColumnsEvalUtil = new BindingColumnsEvalUtil( this.odiResult,
-						this.scope,
-						this.resultService.getSession( ).getEngineContext( ).getScriptContext( ),
-						this.getRdSaveHelper( ),
-						this.resultService.getAllBindingExprs( ),
-						this.resultService.getAllAutoBindingExprs( ) );
-			}
-			
 			bindingColumnsEvalUtil.getColumnsValue( boundColumnValueMap );
 			
-			if ( needCache() )
+			if ( needCache() && !this.isEmpty( ))
 			{
 				try 
 				{
@@ -681,6 +673,19 @@ public class ResultIterator implements IResultIterator
 			this.isFirstRowPepared = false;
 		}
 		
+	}
+
+	protected void prepareBindingColumnsEvalUtil( ) throws DataException
+	{
+		if( bindingColumnsEvalUtil == null )
+		{
+			this.bindingColumnsEvalUtil = new BindingColumnsEvalUtil( this.odiResult,
+					this.scope,
+					this.resultService.getSession( ).getEngineContext( ).getScriptContext( ),
+					this.getRdSaveHelper( ),
+					this.resultService.getAllBindingExprs( ),
+					this.resultService.getAllAutoBindingExprs( ) );
+		}
 	}
 	
 	/*
@@ -866,7 +871,7 @@ public class ResultIterator implements IResultIterator
 			this.getRdSaveHelper( ).doSaveFinish( );
 		}
 
-		if ( needCache() )
+		if ( needCache() && !this.isEmpty( ))
 		{
 			while( this.next() ){}
 			closeCacheOutputStream( );

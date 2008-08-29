@@ -73,6 +73,9 @@ public class MemoryCache implements ResultSetCache
 	 */
 	public boolean next( ) throws DataException
 	{
+		if ( countOfResult == 0 )
+			return false;
+		
 		if ( currResultIndex > countOfResult - 1 )
 		{
 			currResultObject = null;
