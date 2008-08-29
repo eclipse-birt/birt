@@ -30,6 +30,7 @@ import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
@@ -569,4 +570,33 @@ public class CrosstabUtil implements ICrosstabConstants
 		return expList;
 	}
 
+	public static DimensionViewHandle getDimensionViewHandle(
+			CrosstabReportItemHandle crosstab, String dimensionShortName )
+	{
+		DimensionViewHandle dimension = null;
+
+		int type[] = new int[]{
+				ROW_AXIS_TYPE, COLUMN_AXIS_TYPE
+		};
+		for ( int i = 0; i < type.length; i++ )
+		{
+			int count = crosstab.getDimensionCount( type[i] );
+			for ( int j = 0; j < count; j++ )
+			{
+				DimensionViewHandle tmpDimension = crosstab.getDimension( type[i],
+						j );
+				if ( tmpDimension != null
+						&& tmpDimension.getCubeDimension( )
+								.getName( )
+								.equals( dimensionShortName ) )
+				{
+					dimension = tmpDimension;
+					return dimension;
+				}
+			}
+		}
+
+		return dimension;
+
+	}
 }

@@ -2296,7 +2296,8 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		{
 			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
-		DimensionViewHandle dimension = crosstab.getDimension( dimensionName );
+		DimensionViewHandle dimension = CrosstabUtil.getDimensionViewHandle( crosstab,
+				dimensionName );
 		// LevelViewHandle level = getLevel(dimension, levelName );
 		LevelViewHandle level = dimension.findLevel( levelName );
 		levelHandle = level.getCubeLevel( );
