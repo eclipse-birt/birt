@@ -65,7 +65,8 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.IWorkbenchWindow)
+	 * @seeorg.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.
+	 * IWorkbenchWindow)
 	 */
 	public void init( IWorkbenchWindow window )
 	{
@@ -123,8 +124,9 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction,
-	 *      org.eclipse.jface.viewers.ISelection)
+	 * @see
+	 * org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
+	 * .IAction, org.eclipse.jface.viewers.ISelection)
 	 */
 	public void selectionChanged( IAction action, ISelection selection )
 	{
@@ -137,8 +139,9 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 			}
 			if ( file != null )
 			{
-				if ( file.getFileExtension( ).equals( "rpttemplate" ) //$NON-NLS-1$
-						|| file.getFileExtension( ).equals( "rptdesign" ) ) //$NON-NLS-1$
+				if ( file.getFileExtension( ) != null
+						&& ( file.getFileExtension( ).equals( "rpttemplate" ) //$NON-NLS-1$
+						|| file.getFileExtension( ).equals( "rptdesign" ) ) )//$NON-NLS-1$
 				{
 					reportFile = file;
 					selectReport = true;
@@ -154,7 +157,7 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 				return;
 			}
 		}
-		
+
 		reportFile = null;
 		selectReport = false;
 		action.setEnabled( isEnable( ) ); //$NON-NLS-1$
@@ -186,8 +189,8 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 /**
  * PublishPage
  * 
- * @deprecated change to
- *             org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage
+ * @deprecated change to org.eclipse.birt.report.designer.internal.ui.wizards.
+ *             WizardReportSettingPage
  */
 class PublishPage extends WizardPage
 {
@@ -230,7 +233,9 @@ class PublishPage extends WizardPage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	public void createControl( Composite parent )
 	{
