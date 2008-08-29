@@ -3321,19 +3321,19 @@ Message.ReplaceElement=替换元素
 Message.SetTheme=设置主题
 Message.ChangePropertyEncryption=更改属性的加密:{0}
 Message.RenameCSSFile=重命名 CSS 文件
-Message.ImportCSSStyles=Import CSS Styles
+Message.ImportCSSStyles=导入 CSS 样式 
 
-Message.InsertAndPasteColumnBand=Insert And Paste Column
-Message.PasteColumnBand=Paste Column
-Message.ShiftColumnBand=Shift Column
-Message.InsertColumnBand=Insert Column
+Message.InsertAndPasteColumnBand=插入和粘贴列 
+Message.PasteColumnBand=粘贴列 
+Message.ShiftColumnBand=移动列 
+Message.InsertColumnBand=插入列 
 
-Message.InsertRow=Insert Row
-Message.InsertAndPasteRow=Insert And Paste Row
-Message.PasteRow=Paste Row
-Message.ShiftRow=Shift Row
+Message.InsertRow=插入行 
+Message.InsertAndPasteRow=插入和粘贴行 
+Message.PasteRow=粘贴行 
+Message.ShiftRow=移动行 
 
-Message.ClearProperties=Clear Properties
+Message.ClearProperties=清除属性
 
 Message.CreateTemplateElement=Create Template Element
 Message.TransformToReportItem=Transform TO Report Item

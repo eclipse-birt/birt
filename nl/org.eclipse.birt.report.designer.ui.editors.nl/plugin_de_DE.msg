@@ -12,4 +12,4 @@
 contenttype.design=Berichtdesign
 contenttype.library=Berichtbibliothek
 contenttype.template=Berichtvorlage
-contenttype.document=Report Document
+contenttype.document=Berichtdokument

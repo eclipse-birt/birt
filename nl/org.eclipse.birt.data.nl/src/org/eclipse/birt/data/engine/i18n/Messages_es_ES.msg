@@ -207,7 +207,7 @@ data.engine.document.error.cannotLoadStream=La secuencia de documento "{0}" no e
 data.engine.failToCreateTempDir=Error al crear el directorio temporal en "{0}"; 
 data.engine.reportItem.SubQuery.Unsupported=Report item sharing cannot be used for subquery.
 data.engine.emptyResultSet=El conjunto de resultados está vacío.
-data.engine.errorHappenWhenRetrieveResultSet=Error happened when visiting result set:"{0}".The specified result set might not exist.
+data.engine.errorHappenWhenRetrieveResultSet=Se ha producido un error durante el acceso al conjunto de resultados "{0}". Es posible que el conjunto de resultados no exista.
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=El nombre de columna no puede ser nulo ni estar vacío.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.

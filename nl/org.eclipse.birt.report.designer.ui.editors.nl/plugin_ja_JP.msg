@@ -12,4 +12,4 @@
 contenttype.design=レポートデザイン
 contenttype.library=レポートライブラリ
 contenttype.template=レポートテンプレート
-contenttype.document=Report Document
+contenttype.document=レポート文書

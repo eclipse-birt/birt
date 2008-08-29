@@ -12,4 +12,4 @@
 contenttype.design=报表设计
 contenttype.library=报表库
 contenttype.template=报表模板
-contenttype.document=Report Document
+contenttype.document=报表文档

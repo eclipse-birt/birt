@@ -816,7 +816,7 @@ designer.preview.preference.browser.program=&Benutzerdefinierter Browser-Befehl:
 designer.preview.preference.browser.svg=&SVG-Diagramm aktivieren
 designer.preview.preference.browser.extbrowser.link=Informationen zur Konfiguration des externen Browsers zur Anzeige von Berichten finden Sie unter <a>"{0}"</a>.
 designer.preview.preference.masterpagecontent=&Inhalt der Master-Seite aktivieren
-designer.preview.preference.appcontextkey=&Use custom application context
+designer.preview.preference.appcontextkey=Benutzerdefinierten Anwendungskontext &verwenden 
 designer.preview.preference.browser.useExternal=&Immer externe Browser verwenden
 designer.preview.preference.elementname.columnwidth=125
 designer.preview.preference.elementname.customname.Enabled=true
@@ -837,16 +837,16 @@ designer.preview.preference.resultset.maxrow.description=&Maximale Anzahl anzuze
 designer.preview.preference.resultset.maxrow.errormessage=Geben Sie für die maximale Zeilenanzahl eine Zahl zwischen 1 und {0} ein.
 designer.preview.preference.resultset.maxrowlevelmember.description=&Anzuzeigende maximale Mitgliederanzahl für jede Zeilenebene:
 designer.preview.preference.resultset.maxrowlevelmember.errormessage=Geben Sie für die maximale Mitgliederanzahl eine Zahl zwischen 1 und {0} ein.
-designer.preview.preference.resultset.maxcolumnlevelmember.description=Maximum member count of each &column level to display:
+designer.preview.preference.resultset.maxcolumnlevelmember.description=Maximale Anzahl anzuzeigender Mitglieder jeder &Spaltenebene: 
 designer.preview.preference.resultset.maxcolumnlevelmember.errormessage=Geben Sie für die maximale Mitgliederanzahl eine Zahl zwischen 1 und {0} ein.
-designer.preview.preference.resultset.maxinmemorycubesize.description=Maximum in-memory cube &size (MB):
+designer.preview.preference.resultset.maxinmemorycubesize.description=Maximale Quader&größe im Speicher (MB): 
 designer.preview.preference.resultset.maxinmemorycubesize.errormessage=Geben Sie eine Zahl zwischen 1 und {0} für die maximale Quaderspeichergröße an.
 designer.preview.preference.server.description=Konfiguration des internen Anwendungsservers. Der Server wird intern vom\nBIRT Report Designer Preview Framework verwendet.
 designer.preview.preference.server.hostDescription=&Host-Name oder IP-Adresse des lokalen Rechners. Leer lassen, damit eine automatische\nFestlegung erfolgt.
 designer.preview.preference.server.note=Hinweis:
 designer.preview.preference.server.portDescription=&Anschluss für die Serververbindung. Auf 0 stellen, da Zuordnung dynamisch.
 designer.preview.preference.server.requireRestart=Wird der Server bereits ausgeführt, werden diese Einstellungen erst\nnach dem Neustart übernommen.
-designer.preview.preference.bidiOrientation.label=&Bidi Orientation:
+designer.preview.preference.bidiOrientation.label=&Bidirektionale Ausrichtung: 
 designer.preview.preference.bidiOrientation.auto=Automatisch
 designer.preview.preference.bidiOrientation.ltr=Von links nach rechts
 designer.preview.preference.bidiOrientation.rtl=Von rechts nach links
@@ -1108,11 +1108,11 @@ Element.MasterPage.columnSpacing=Spaltenabstand:
 Element.MasterPage.height=Höh&e:
 Element.MasterPage.leftMargin=Linker Rand:
 Element.MasterPage.margin=Rand:
-Element.MasterPage.orientation=O&rientation:
+Element.MasterPage.orientation=Aus&richtung: 
 Element.MasterPage.rightMargin=Rechter Rand:
 Element.MasterPage.slot.contents=Inhalt:
 Element.MasterPage.topMargin=Oberer Rand:
-Element.MasterPage.type=T&ype:
+Element.MasterPage.type=T&yp: 
 Element.MasterPage.width=&Breite:
 Element.Module.author=&Verfasser:
 Element.Module.base=Basis:
@@ -1120,17 +1120,17 @@ Element.Module.colorPalette=Farbpalette:
 Element.Module.comments=&Kommentare:
 Element.Module.configVars=Konfigurationsvariablen:
 Element.Module.createdBy=&Erstellt von:
-Element.Module.description=D&escription:
+Element.Module.description=B&eschreibung: 
 Element.Module.descriptionID=Beschreibungsschlüssel:
 Element.Module.helpGuide=Hilfe-Handbuch:
 Element.Module.images=Bilder:
 Element.Module.includeLibraries=Bibliotheken einschließen:
-Element.Module.includeResource=R&esource File:
+Element.Module.includeResource=R&essourcendatei: 
 Element.Module.includeScripts=Skripte einschließen:
 Element.Module.initialize.toolTip=Wird zu Beginn der Berichtausführung aufgerufen.
 Element.Module.initialize=Initialisieren:
-Element.Module.theme=T&hemes:
-Element.Module.title=T&itle:
+Element.Module.theme=T&hemen: 
+Element.Module.title=T&itel: 
 Element.Module.titleID=Titelschlüssel:
 Element.Module.units=&Einheiten:
 Element.MultiLineData.contentTypeExpr=Inhaltstypausdruck:
@@ -1154,7 +1154,7 @@ Element.ParameterGroup.helpTextID=Hilfetextschlüssel:
 Element.ParameterGroup.slot.parameters=Parameter:
 Element.ParameterGroup.startExpanded=Erweiterte starten:
 Element.ReportDesign.afterCloseDoc.toolTip=Wird direkt nach dem Schließen des Berichtdokuments in der Erstellungsphase aufgerufen.
-Element.ReportDesign.layoutPreference=&Layout Preference:
+Element.ReportDesign.layoutPreference=&Layoutvoreinstellungen: 
 Element.ReportDesign.afterCloseDoc=Nach dem Schließen des Dokuments:
 Element.ReportDesign.afterFactory.toolTip=Wird am Ende der Erstellungsphase nach dem Schließen des Berichtdokuments (falls vorhanden) aufgerufen. Dies ist die letzte in der Erstellungsphase aufgerufene Methode.
 Element.ReportDesign.afterFactory=Nach Factory:
@@ -1171,7 +1171,7 @@ Element.ReportDesign.beforeOpenDoc=Vor Öffnen des Dokuments:
 Element.ReportDesign.beforeRender.toolTip=Wird vor dem Starten einer Aktion während der Präsentation aufgerufen.
 Element.ReportDesign.beforeRender=Vor dem Rendern:
 Element.ReportDesign.displayName=&Anzeigename: 
-Element.ReportDesign.eventHandlerClass=Event Handler &Class:
+Element.ReportDesign.eventHandlerClass=Ereignis-Handler-&Klasse: 
 Element.ReportDesign.iconFile=Mini&atur: 
 Element.ReportDesign.refreshRate=Aktualisierungsrate:
 Element.ReportDesign.bidiLayoutOrientation=&Bidirektionale Layout-Ausrichtung:
@@ -1234,8 +1234,8 @@ Element.ScriptDataSource.open=Öffnen:
 Element.SimpleMasterPage.floatingFooter=Unverankerte &Fußzeile
 Element.SimpleMasterPage.footerHeight=Höhe der &Fußzeile:
 Element.SimpleMasterPage.headerHeight=&Höhe der Kopfzeile:
-Element.SimpleMasterPage.showFooterOnLast=Show &footer on last
-Element.SimpleMasterPage.showHeaderOnFirst=Show &header on first
+Element.SimpleMasterPage.showFooterOnLast=&Fußzeile auf letzter Seite anzeigen 
+Element.SimpleMasterPage.showHeaderOnFirst=&Kopfzeile auf erster Seite anzeigen 
 Element.SimpleMasterPage.slot.pageFooter=Seitenfußzeile:
 Element.SimpleMasterPage.slot.pageHeader=Seitenkopfzeile:
 Element.Style.background.attachment=&Anlage:
@@ -1679,12 +1679,12 @@ FormatStringPreferencePage.formatString.title=Format Zeichenfolge
 
 FormPage.Button.Add=&Hinzufügen
 FormPage.Button.AddWithDialog=&Hinzufügen...
-FormPage.Button.AddWithDialog.JAR=&Hinzufügen...
-FormPage.Button.AddWithDialog.JS=&Hinzufügen...
+FormPage.Button.AddWithDialog.JAR=&Hinzufügen... 
+FormPage.Button.AddWithDialog.JS=&Hinzufügen... 
 FormPage.Button.Add.AggregateOn=Aggregat &hinzufügen
 FormPage.Button.AddWithDialog.AggregateOn=Aggregat &hinzufügen...
 FormPage.Button.Delete=&Entfernen
-FormPage.Button.Delete.Alt1=Remo&ve
+FormPage.Button.Delete.Alt1=Entf&ernen 
 FormPage.Button.Down=Nach &unten
 FormPage.Button.Down.Alt1=Nach &unten
 FormPage.Button.Edit=&Bearbeiten
@@ -3040,10 +3040,10 @@ report.designer.ui.preferences.template.select=&Auswählen...
 report.designer.ui.preferences.template.templatedir=Vorlagen
 report.designer.ui.preferences.template.templatefolder= &Vorlagenordner
 report.designer.ui.preferences.template.title=Wählen Sie den Vorlagenordner.
-org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=&Generate comment when creating a report design
+org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=Kommentar bei Erstellung eines Berichtdesigns &erstellen 
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2008 <<Name Ihrer Firma>>
 #bidi_hcg start
-report.designer.ui.preferences.bidiproperties.defaultdirection=Default Report &Orientation:
+report.designer.ui.preferences.bidiproperties.defaultdirection=Standard-Berichtseiten&ausrichtung: 
 report.designer.ui.preferences.bidiproperties.ltrdirection=Von links nach rechts
 report.designer.ui.preferences.bidiproperties.rtldirection=Von rechts nach links
 #bidi_hcg end
@@ -3114,7 +3114,7 @@ ReportPage.text.Add=&Hinzufügen...
 ReportPage.text.Browse=&Durchsuchen...
 ReportPage.title.Location=Speicherort:
 ReportPage.title.setPrewImg=Wählen Sie eine Bilddatei
-ReportPage.text.Resource.Add=&Durchsuchen...
+ReportPage.text.Resource.Add=&Durchsuchen... 
 ReportPage.text.Thumbnail=&Miniatur...
 
 ###########################################################
@@ -3613,10 +3613,10 @@ TextEditDialog.toolTipText.paste=Einfügen
 TextEditDialog.toolTipText.redo=Wiederherstellen
 TextEditDialog.toolTipText.undo=Rückgängig
 TextEditDialog.toolTip.formatHTML=format HTML
-TextEditDialog.toolTipText.fx=Open expression builder
-TextEditDialog.action.item.formatDateTime=Format Datum/Uhrzeit
-TextEditDialog.action.item.formatNumber=Format Zahl
-TextEditDialog.action.item.formatString=Format Zeichenfolge
+TextEditDialog.toolTipText.fx=Ausdruckserstellung öffnen 
+TextEditDialog.action.item.formatDateTime=Datum/Uhrzeit formatieren 
+TextEditDialog.action.item.formatNumber=Zahl formatieren 
+TextEditDialog.action.item.formatString=Zeichenfolge formatieren 
 
 ###########################################################
 #TextEditPart properties
@@ -3934,7 +3934,7 @@ ResourceSelectionValidator.ExtErrorSplitter=\ oder
 ###########################################################
 #GeneralPage
 GeneralPage.Library.Included=Bibliothek:
-GeneralPage.Library.Modified.Note=<form><p><span color="{0}">NOTE: This report item from the library has been modified. To restore the original library item, click on</span> <img href="{1}"/> <span color="{2}">"Restore Properties"</span></p></form>
+GeneralPage.Library.Modified.Note=<form><p><span color="{0}">HINWEIS: Dieses Berichtobjekt aus der Bibliothek wurde geändert. Klicken Sie zum Wiederherstellen des Objekts aus der Bibliothek auf</span> <img href="{1}"/> <span color="{2}">"Eigenschaften wiederherstellen".</span></p></form> 
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4340,10 +4340,10 @@ TableDragGuideTracker.Pixels=Pixel
 ###########################################################
 #General Designer settings
 GeneralConfigurationBlock.message.general.description=Allgemeine Einstellungen für Report Designer.
-GeneralConfigurationBlock.button.text.enable.gradient=Enable &gradient selection
-GeneralConfigurationBlock.button.text.enable.animation=Enable a&nimated selection
-GeneralConfigurationBlock.group.label=Prompt
-GeneralConfigurationBlock.button.text.prompt=Show &prompt after opening library file.
+GeneralConfigurationBlock.button.text.enable.gradient=&Verlaufsauswahl aktivieren 
+GeneralConfigurationBlock.button.text.enable.animation=A&nimierte Auswahl aktivieren 
+GeneralConfigurationBlock.group.label=Eingabeaufforderung 
+GeneralConfigurationBlock.button.text.prompt=&Eingabeaufforderung nach Öffnen der Bibliotheksdatei anzeigen
 
 
 ###########################################################
@@ -4356,7 +4356,7 @@ ReportDocumentEditor.2=Dokumentinfomationen
 ReportDocumentEditor.3=Name: 
 ReportDocumentEditor.4=Version: 
 ReportDocumentEditor.5=Seitenzähler: 
-ReportDocumentEditor.errorMessage=Error happened when open the document in editor.
+ReportDocumentEditor.errorMessage=Fehler beim Öffnen des Dokuments im Editor.
 
 ###########################################################
 #Export Element Dialog

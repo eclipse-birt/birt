@@ -14,7 +14,7 @@ ChartDataBindingPage.Msg.AskSaveDataSet=Möchten Sie den gebundenen Datensatz änd
 
 DesignerRepresentation.error.Error=Fehler: 
 DesignerRepresentation.log.UnableToFind=Diagrammmodel konnte während des Renderns im Designer nicht gefunden werden.
-DesignerRepresentation.msg.InvalidChart=Current chart is invalid. If you wish to continue to work on this chart, please delete it first.
+DesignerRepresentation.msg.InvalidChart=Das aktuelle Diagramm ist ungültig. Wenn Sie an diesem Diagramm weiterarbeiten möchten, müssen Sie es zuerst löschen.
 ChartReportItemBuilderImpl.problem.hasNotBeenFound=Das Diagramm wurde noch nicht mit einem Datensatz verknüpft.
 ChartReportItemBuilderImpl.log.UnableToLocate=Berichtobjekt-Wrapper für Diagrammobjekt kann nicht gefunden werden.
 

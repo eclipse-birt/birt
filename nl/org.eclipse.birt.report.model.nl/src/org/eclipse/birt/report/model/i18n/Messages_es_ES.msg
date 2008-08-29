@@ -3321,19 +3321,19 @@ Message.ReplaceElement=Sustituir elemento
 Message.SetTheme=Establecer tema
 Message.ChangePropertyEncryption=Cambiar cifrado de la propiedad:{0}
 Message.RenameCSSFile=Cambiar nombre al archivo CSS
-Message.ImportCSSStyles=Import CSS Styles
+Message.ImportCSSStyles=Importar estilos CSS 
 
-Message.InsertAndPasteColumnBand=Insert And Paste Column
-Message.PasteColumnBand=Paste Column
-Message.ShiftColumnBand=Shift Column
-Message.InsertColumnBand=Insert Column
+Message.InsertAndPasteColumnBand=Insertar y pegar columna 
+Message.PasteColumnBand=Pegar columna 
+Message.ShiftColumnBand=Cambiar columna 
+Message.InsertColumnBand=Insertar columna 
 
-Message.InsertRow=Insert Row
-Message.InsertAndPasteRow=Insert And Paste Row
-Message.PasteRow=Paste Row
-Message.ShiftRow=Shift Row
+Message.InsertRow=Insertar fila 
+Message.InsertAndPasteRow=Insertar y pegar fila 
+Message.PasteRow=Pegar fila 
+Message.ShiftRow=Cambiar fila 
 
-Message.ClearProperties=Clear Properties
+Message.ClearProperties=Borrar propiedades
 
 Message.CreateTemplateElement=Create Template Element
 Message.TransformToReportItem=Transform TO Report Item

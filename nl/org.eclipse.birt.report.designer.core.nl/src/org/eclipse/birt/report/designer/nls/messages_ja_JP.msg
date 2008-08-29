@@ -816,7 +816,7 @@ designer.preview.preference.browser.program=カスタムブラウザコマンド(&S) :
 designer.preview.preference.browser.svg=SVG グラフを有効にする(&E)
 designer.preview.preference.browser.extbrowser.link=レポートを表示する外部ブラウザの設定方法については、<a>''{0}''</a> を参照してください。
 designer.preview.preference.masterpagecontent=マスタページコンテンツを有効にする(&M)
-designer.preview.preference.appcontextkey=&Use custom application context
+designer.preview.preference.appcontextkey=カスタムアプリケーションのコンテキストを使用する(&U) 
 designer.preview.preference.browser.useExternal=常に外部ブラウザを使用する(&W)
 designer.preview.preference.elementname.columnwidth=125
 designer.preview.preference.elementname.customname.Enabled=true
@@ -837,16 +837,16 @@ designer.preview.preference.resultset.maxrow.description=表示する行の最大数(&R) 
 designer.preview.preference.resultset.maxrow.errormessage=最大行数には、1 から {0} までの数を入力してください。
 designer.preview.preference.resultset.maxrowlevelmember.description=各行レベルに表示するメンバの最大数(&L) :
 designer.preview.preference.resultset.maxrowlevelmember.errormessage=行レベルメンバの最大数には、1 から {0} までの数を入力してください。
-designer.preview.preference.resultset.maxcolumnlevelmember.description=Maximum member count of each &column level to display:
+designer.preview.preference.resultset.maxcolumnlevelmember.description=各列レベルに表示するメンバの最大数(&C) : 
 designer.preview.preference.resultset.maxcolumnlevelmember.errormessage=列レベルメンバの最大数には、1 から {0} までの数を入力してください。
-designer.preview.preference.resultset.maxinmemorycubesize.description=Maximum in-memory cube &size (MB):
+designer.preview.preference.resultset.maxinmemorycubesize.description=メモリ内の最大キューブサイズ (MB)(&S) : 
 designer.preview.preference.resultset.maxinmemorycubesize.errormessage=メモリ内の最大キューブサイズには、1 から {0} までの数を入力してください。
 designer.preview.preference.server.description=内部アプリケーションサーバの設定。サーバは、BIRT Report Designer\nPreview Framework 内部で使用されます。
 designer.preview.preference.server.hostDescription=ローカルマシンのホスト名または IP アドレス(&H)\n自動的に決定するには、空白のままにしてください。
 designer.preview.preference.server.note=注 :
 designer.preview.preference.server.portDescription=サーバがリスンするポート(&P)\n動的に割り当てるには 0 に設定します。
 designer.preview.preference.server.requireRestart=サーバがすでに実行している場合は、サーバを再起動するまでこれらの設定は\n有効になりません。
-designer.preview.preference.bidiOrientation.label=&Bidi Orientation:
+designer.preview.preference.bidiOrientation.label=双方向の向き(&B) : 
 designer.preview.preference.bidiOrientation.auto=自動
 designer.preview.preference.bidiOrientation.ltr=左から右へ
 designer.preview.preference.bidiOrientation.rtl=右から左へ
@@ -1108,11 +1108,11 @@ Element.MasterPage.columnSpacing=列の間隔 :
 Element.MasterPage.height=高さ (&E):
 Element.MasterPage.leftMargin=左余白 :
 Element.MasterPage.margin=余白 :
-Element.MasterPage.orientation=O&rientation:
+Element.MasterPage.orientation=向き(&R) : 
 Element.MasterPage.rightMargin=右余白 :
 Element.MasterPage.slot.contents=コンテンツ :
 Element.MasterPage.topMargin=上余白 :
-Element.MasterPage.type=T&ype:
+Element.MasterPage.type=型(&Y) : 
 Element.MasterPage.width=幅 (&W):
 Element.Module.author=作成者(&U) :
 Element.Module.base=基本 :
@@ -1120,17 +1120,17 @@ Element.Module.colorPalette=カラーパレット :
 Element.Module.comments=コメント(&C) :
 Element.Module.configVars=設定変数 :
 Element.Module.createdBy=作成環境(&C) :
-Element.Module.description=D&escription:
+Element.Module.description=説明(&E) : 
 Element.Module.descriptionID=説明キー :
 Element.Module.helpGuide=ヘルプガイド :
 Element.Module.images=イメージ :
 Element.Module.includeLibraries=インクルードするライブラリ :
-Element.Module.includeResource=R&esource File:
+Element.Module.includeResource=リソースファイル(&E) : 
 Element.Module.includeScripts=インクルードするスクリプト :
 Element.Module.initialize.toolTip=レポートの実行を開始する際に呼び出されます。
 Element.Module.initialize=初期化 :
-Element.Module.theme=T&hemes:
-Element.Module.title=T&itle:
+Element.Module.theme=テーマ(&H) : 
+Element.Module.title=タイトル(&I) : 
 Element.Module.titleID=タイトルキー :
 Element.Module.units=単位(&S) :
 Element.MultiLineData.contentTypeExpr=コンテンツ型の式 :
@@ -1154,7 +1154,7 @@ Element.ParameterGroup.helpTextID=ヘルプテキストキー :
 Element.ParameterGroup.slot.parameters=パラメタ :
 Element.ParameterGroup.startExpanded=開始時に展開 :
 Element.ReportDesign.afterCloseDoc.toolTip=生成フェーズでレポート文書ファイルを閉じた直後に呼び出されます。
-Element.ReportDesign.layoutPreference=&Layout Preference:
+Element.ReportDesign.layoutPreference=レイアウトの設定(&L) : 
 Element.ReportDesign.afterCloseDoc=文書を閉じた後 :
 Element.ReportDesign.afterFactory.toolTip=生成フェーズでの処理が終了した際に、レポート文書 (該当する場合) を閉じた後に呼び出されます。これは、生成フェーズで呼び出される最後のメソッドです。
 Element.ReportDesign.afterFactory=Factory での処理後 :
@@ -1171,7 +1171,7 @@ Element.ReportDesign.beforeOpenDoc=文書を開く前 :
 Element.ReportDesign.beforeRender.toolTip=プレゼンテーション時のアクションを開始する前に呼び出されます。
 Element.ReportDesign.beforeRender=レンダリング前 :
 Element.ReportDesign.displayName=表示名(&Y) : 
-Element.ReportDesign.eventHandlerClass=Event Handler &Class:
+Element.ReportDesign.eventHandlerClass=イベントハンドラのクラス(&C) : 
 Element.ReportDesign.iconFile=サムネール(&N) : 
 Element.ReportDesign.refreshRate=更新頻度 :
 Element.ReportDesign.bidiLayoutOrientation=双方向レイアウトの向き(&B) :
@@ -1234,8 +1234,8 @@ Element.ScriptDataSource.open=開く :
 Element.SimpleMasterPage.floatingFooter=浮動フッタ(&F)
 Element.SimpleMasterPage.footerHeight=フッタの高さ (&F):
 Element.SimpleMasterPage.headerHeight=ヘッダの高さ (&H):
-Element.SimpleMasterPage.showFooterOnLast=Show &footer on last
-Element.SimpleMasterPage.showHeaderOnFirst=Show &header on first
+Element.SimpleMasterPage.showFooterOnLast=最終ページにフッタを表示(&F) 
+Element.SimpleMasterPage.showHeaderOnFirst=先頭ページにヘッダを表示(&H) 
 Element.SimpleMasterPage.slot.pageFooter=ページフッタ :
 Element.SimpleMasterPage.slot.pageHeader=ページヘッダ :
 Element.Style.background.attachment=添付ファイル(&A) :
@@ -1679,12 +1679,12 @@ FormatStringPreferencePage.formatString.title=文字列の書式
 
 FormPage.Button.Add=追加(&A)
 FormPage.Button.AddWithDialog=追加(&A)...
-FormPage.Button.AddWithDialog.JAR=追加(&A)...
-FormPage.Button.AddWithDialog.JS=追加(&D)...
+FormPage.Button.AddWithDialog.JAR=追加(&A)... 
+FormPage.Button.AddWithDialog.JS=追加(&D)... 
 FormPage.Button.Add.AggregateOn=集計の追加(&A)
 FormPage.Button.AddWithDialog.AggregateOn=集計の追加(&A)...
 FormPage.Button.Delete=削除(&R)
-FormPage.Button.Delete.Alt1=Remo&ve
+FormPage.Button.Delete.Alt1=削除(&V) 
 FormPage.Button.Down=下へ(&N)
 FormPage.Button.Down.Alt1=下へ(&W)
 FormPage.Button.Edit=編集(&D)
@@ -3040,10 +3040,10 @@ report.designer.ui.preferences.template.select=選択(&S)...
 report.designer.ui.preferences.template.templatedir=テンプレート
 report.designer.ui.preferences.template.templatefolder= テンプレートフォルダ(&T)
 report.designer.ui.preferences.template.title=テンプレートフォルダを選択してください。
-org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=&Generate comment when creating a report design
+org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=レポートデザインの作成時にコメントを生成する(&G) 
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2008 <<ここに会社名を入力>>
 #bidi_hcg start
-report.designer.ui.preferences.bidiproperties.defaultdirection=Default Report &Orientation:
+report.designer.ui.preferences.bidiproperties.defaultdirection=レポートのデフォルトの向き(&O) : 
 report.designer.ui.preferences.bidiproperties.ltrdirection=左から右へ
 report.designer.ui.preferences.bidiproperties.rtldirection=右から左へ
 #bidi_hcg end
@@ -3114,7 +3114,7 @@ ReportPage.text.Add=追加(&A)...
 ReportPage.text.Browse=参照(&B)...
 ReportPage.title.Location=場所 :
 ReportPage.title.setPrewImg=イメージファイルの選択
-ReportPage.text.Resource.Add=参照(&B)...
+ReportPage.text.Resource.Add=参照(&B)... 
 ReportPage.text.Thumbnail=サムネール(&H)...
 
 ###########################################################
@@ -3613,10 +3613,10 @@ TextEditDialog.toolTipText.paste=貼り付け
 TextEditDialog.toolTipText.redo=やり直し
 TextEditDialog.toolTipText.undo=元に戻す
 TextEditDialog.toolTip.formatHTML=format HTML
-TextEditDialog.toolTipText.fx=Open expression builder
-TextEditDialog.action.item.formatDateTime=日時の書式設定
-TextEditDialog.action.item.formatNumber=数値の書式設定
-TextEditDialog.action.item.formatString=文字列の書式
+TextEditDialog.toolTipText.fx=式ビルダを開く 
+TextEditDialog.action.item.formatDateTime=日時の書式設定 
+TextEditDialog.action.item.formatNumber=数値の書式設定 
+TextEditDialog.action.item.formatString=文字列の書式設定 
 
 ###########################################################
 #TextEditPart properties
@@ -3934,7 +3934,7 @@ ResourceSelectionValidator.ExtErrorSplitter=\ または
 ###########################################################
 #GeneralPage
 GeneralPage.Library.Included=ライブラリ :
-GeneralPage.Library.Modified.Note=<form><p><span color="{0}">NOTE: This report item from the library has been modified. To restore the original library item, click on</span> <img href="{1}"/> <span color="{2}">"Restore Properties"</span></p></form>
+GeneralPage.Library.Modified.Note=<form><p><span color="{0}">注 : このレポート項目はライブラリで編集されています。元に戻すには、</span> <img href="{1}"/> <span color="{2}">[プロパティの復元]</span></p></form> をクリックしてください。 
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4340,10 +4340,10 @@ TableDragGuideTracker.Pixels=ピクセル
 ###########################################################
 #General Designer settings
 GeneralConfigurationBlock.message.general.description=レポートデザイナの一般的なオプションを設定します。
-GeneralConfigurationBlock.button.text.enable.gradient=Enable &gradient selection
-GeneralConfigurationBlock.button.text.enable.animation=Enable a&nimated selection
-GeneralConfigurationBlock.group.label=Prompt
-GeneralConfigurationBlock.button.text.prompt=Show &prompt after opening library file.
+GeneralConfigurationBlock.button.text.enable.gradient=グラデーションの選択を有効にする(&G) 
+GeneralConfigurationBlock.button.text.enable.animation=アニメーションの選択を有効にする(&N) 
+GeneralConfigurationBlock.group.label=確認する 
+GeneralConfigurationBlock.button.text.prompt=ライブラリのファイルを開いた後に確認メッセージを表示する(&P)
 
 
 ###########################################################
@@ -4356,7 +4356,7 @@ ReportDocumentEditor.2=文書の情報
 ReportDocumentEditor.3=名前 : 
 ReportDocumentEditor.4=バージョン : 
 ReportDocumentEditor.5=ページ数 : 
-ReportDocumentEditor.errorMessage=Error happened when open the document in editor.
+ReportDocumentEditor.errorMessage=エディタで文書を開いた際にエラーが発生しました。
 
 ###########################################################
 #Export Element Dialog

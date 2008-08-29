@@ -816,7 +816,7 @@ designer.preview.preference.browser.program=사용자 지정 브라우저 명령:(&S):
 designer.preview.preference.browser.svg=SVG 차트 사용(&E)
 designer.preview.preference.browser.extbrowser.link=보고서를 표시하는 데 사용할 외부 브라우저를 구성하려면 <a>''{0}''</a>을(를) 참조하십시오.
 designer.preview.preference.masterpagecontent=마스터 페이지 내용 사용(&M)
-designer.preview.preference.appcontextkey=&Use custom application context
+designer.preview.preference.appcontextkey=사용자 지정 응용 프로그램 컨텍스트 사용(&U) 
 designer.preview.preference.browser.useExternal=항상 외부 브라우저 사용(&W)
 designer.preview.preference.elementname.columnwidth=125
 designer.preview.preference.elementname.customname.Enabled=true
@@ -837,16 +837,16 @@ designer.preview.preference.resultset.maxrow.description=표시할 최대 행 수(&R):
 designer.preview.preference.resultset.maxrow.errormessage=최대 행에 대해 1과 {0} 사이의 숫자를 입력하십시오.
 designer.preview.preference.resultset.maxrowlevelmember.description=표시할 각 행 수준의 최대 구성원 수(&L):
 designer.preview.preference.resultset.maxrowlevelmember.errormessage=최대 행 수준 구성원에 대해 1과 {0} 사이의 숫자를 입력하십시오.
-designer.preview.preference.resultset.maxcolumnlevelmember.description=Maximum member count of each &column level to display:
+designer.preview.preference.resultset.maxcolumnlevelmember.description=각 열 수준에서 표시할 최대 구성원 수(&C): 
 designer.preview.preference.resultset.maxcolumnlevelmember.errormessage=최대 열 수준 구성원에 대해 1과 {0} 사이의 숫자를 입력하십시오.
-designer.preview.preference.resultset.maxinmemorycubesize.description=Maximum in-memory cube &size (MB):
+designer.preview.preference.resultset.maxinmemorycubesize.description=메모리 내 큐브 최대 크기(MB)(&S): 
 designer.preview.preference.resultset.maxinmemorycubesize.errormessage=최대 인 메모리 큐브 크기에 대해 1과 {0} 사이의 숫자를 입력하십시오.
 designer.preview.preference.server.description=내부 응용 프로그램 서버 구성. BIRT Report Designer 미리 보기 프레임워크에서\n내부적으로 해당 서버를 사용하고 있습니다.
 designer.preview.preference.server.hostDescription=로컬 컴퓨터의 호스트 이름 또는 IP 주소(&H)입니다. 자동으로 결정되게 하려면 공백으로\n두십시오.
 designer.preview.preference.server.note=참고:
 designer.preview.preference.server.portDescription=수신 대기할 서버의 포트(&P)입니다. 동적으로 할당하려면 0으로 설정하십시오.
 designer.preview.preference.server.requireRestart=서버가 이미 실행 중인 경우 이러한 기본 설정은\n다시 시작한 후부터 적용됩니다.
-designer.preview.preference.bidiOrientation.label=&Bidi Orientation:
+designer.preview.preference.bidiOrientation.label=양방향(&B): 
 designer.preview.preference.bidiOrientation.auto=자동
 designer.preview.preference.bidiOrientation.ltr=왼쪽에서 오른쪽
 designer.preview.preference.bidiOrientation.rtl=오른쪽에서 왼쪽
@@ -1108,11 +1108,11 @@ Element.MasterPage.columnSpacing=열 간격:
 Element.MasterPage.height=높이(&E):
 Element.MasterPage.leftMargin=왼쪽 여백:
 Element.MasterPage.margin=여백:
-Element.MasterPage.orientation=O&rientation:
+Element.MasterPage.orientation=방향(&R): 
 Element.MasterPage.rightMargin=오른쪽 여백:
 Element.MasterPage.slot.contents=내용:
 Element.MasterPage.topMargin=위쪽 여백:
-Element.MasterPage.type=T&ype:
+Element.MasterPage.type=형식(&Y): 
 Element.MasterPage.width=너비(&W):
 Element.Module.author=만든 이(&U):
 Element.Module.base=기본:
@@ -1120,17 +1120,17 @@ Element.Module.colorPalette=색상표:
 Element.Module.comments=설명(&C):
 Element.Module.configVars=구성 변수:
 Element.Module.createdBy=만든 사람(&C):
-Element.Module.description=D&escription:
+Element.Module.description=설명(&E): 
 Element.Module.descriptionID=설명 키:
 Element.Module.helpGuide=도움말 설명서:
 Element.Module.images=이미지:
 Element.Module.includeLibraries=라이브러리 포함:
-Element.Module.includeResource=R&esource File:
+Element.Module.includeResource=리소스 파일(&E): 
 Element.Module.includeScripts=스크립트 포함:
 Element.Module.initialize.toolTip=보고서 실행 시작 시 호출됩니다.
 Element.Module.initialize=초기화:
-Element.Module.theme=T&hemes:
-Element.Module.title=T&itle:
+Element.Module.theme=테마(&H) 
+Element.Module.title=제목(&I): 
 Element.Module.titleID=제목 키:
 Element.Module.units=단위(&S):
 Element.MultiLineData.contentTypeExpr=내용 형식 식:
@@ -1154,7 +1154,7 @@ Element.ParameterGroup.helpTextID=도움말 텍스트 키:
 Element.ParameterGroup.slot.parameters=매개 변수:
 Element.ParameterGroup.startExpanded=시작 확장됨:
 Element.ReportDesign.afterCloseDoc.toolTip=생성 단계에서 보고서 문서 파일을 닫은 직후 호출됩니다.
-Element.ReportDesign.layoutPreference=&Layout Preference:
+Element.ReportDesign.layoutPreference=레이아웃 기본 설정(&L): 
 Element.ReportDesign.afterCloseDoc=문서 닫기 이후:
 Element.ReportDesign.afterFactory.toolTip=생성 단계의 끝과 보고서 문서(있는 경우)를 닫은 직후 호출됩니다. 생성 단계에서 호출되는 마지막 메서드입니다.
 Element.ReportDesign.afterFactory=공장 이후:
@@ -1171,7 +1171,7 @@ Element.ReportDesign.beforeOpenDoc=문서를 열기 전:
 Element.ReportDesign.beforeRender.toolTip=프리젠테이션 시간 작업 시작 전에 호출됩니다.
 Element.ReportDesign.beforeRender=렌더링 이전:
 Element.ReportDesign.displayName=표시 이름(&Y): 
-Element.ReportDesign.eventHandlerClass=Event Handler &Class:
+Element.ReportDesign.eventHandlerClass=이벤트 처리기 클래스(&C): 
 Element.ReportDesign.iconFile=섬네일(&N): 
 Element.ReportDesign.refreshRate=새로 고침 빈도:
 Element.ReportDesign.bidiLayoutOrientation=양방향 레이아웃 방향(&B):
@@ -1234,8 +1234,8 @@ Element.ScriptDataSource.open=열기:
 Element.SimpleMasterPage.floatingFooter=부동 바닥글(&F)
 Element.SimpleMasterPage.footerHeight=바닥글 높이(&F):
 Element.SimpleMasterPage.headerHeight=머리글 높이(&H):
-Element.SimpleMasterPage.showFooterOnLast=Show &footer on last
-Element.SimpleMasterPage.showHeaderOnFirst=Show &header on first
+Element.SimpleMasterPage.showFooterOnLast=마지막에 바닥글 표시(&F) 
+Element.SimpleMasterPage.showHeaderOnFirst=처음에 머리글 표시(&H) 
 Element.SimpleMasterPage.slot.pageFooter=페이지 바닥글:
 Element.SimpleMasterPage.slot.pageHeader=페이지 머리글:
 Element.Style.background.attachment=첨부(&A):
@@ -1679,12 +1679,12 @@ FormatStringPreferencePage.formatString.title=문자열 형식
 
 FormPage.Button.Add=추가(&A)
 FormPage.Button.AddWithDialog=추가(&A)...
-FormPage.Button.AddWithDialog.JAR=추가(&A)...
-FormPage.Button.AddWithDialog.JS=추가(&D)...
+FormPage.Button.AddWithDialog.JAR=추가(&A)... 
+FormPage.Button.AddWithDialog.JS=추가(&D)... 
 FormPage.Button.Add.AggregateOn=집계 추가(&A)
 FormPage.Button.AddWithDialog.AggregateOn=집계 추가(&A)...
 FormPage.Button.Delete=제거(&R)
-FormPage.Button.Delete.Alt1=Remo&ve
+FormPage.Button.Delete.Alt1=제거(&V) 
 FormPage.Button.Down=아래로(&N)
 FormPage.Button.Down.Alt1=아래로(&W)
 FormPage.Button.Edit=편집(&D)
@@ -3040,10 +3040,10 @@ report.designer.ui.preferences.template.select=선택(&S)...
 report.designer.ui.preferences.template.templatedir=템플릿
 report.designer.ui.preferences.template.templatefolder= 템플릿 폴더(&T)
 report.designer.ui.preferences.template.title=템플릿 폴더를 선택하십시오.
-org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=&Generate comment when creating a report design
+org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=보고서 디자인 생성 시 설명 작성(&G) 
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2008 <<회사 이름>>
 #bidi_hcg start
-report.designer.ui.preferences.bidiproperties.defaultdirection=Default Report &Orientation:
+report.designer.ui.preferences.bidiproperties.defaultdirection=기본 보고서 방향(&O): 
 report.designer.ui.preferences.bidiproperties.ltrdirection=왼쪽에서 오른쪽
 report.designer.ui.preferences.bidiproperties.rtldirection=오른쪽에서 왼쪽
 #bidi_hcg end
@@ -3114,7 +3114,7 @@ ReportPage.text.Add=추가(&A)...
 ReportPage.text.Browse=찾아보기(&B)...
 ReportPage.title.Location=위치:
 ReportPage.title.setPrewImg=이미지 파일 선택
-ReportPage.text.Resource.Add=찾아보기(&B)...
+ReportPage.text.Resource.Add=찾아보기(&B)... 
 ReportPage.text.Thumbnail=축소판 보기(H)...
 
 ###########################################################
@@ -3613,10 +3613,10 @@ TextEditDialog.toolTipText.paste=붙여넣기
 TextEditDialog.toolTipText.redo=다시 실행
 TextEditDialog.toolTipText.undo=실행 취소
 TextEditDialog.toolTip.formatHTML=format HTML
-TextEditDialog.toolTipText.fx=Open expression builder
-TextEditDialog.action.item.formatDateTime=날짜 시간 형식
-TextEditDialog.action.item.formatNumber=숫자 형식
-TextEditDialog.action.item.formatString=문자열 형식
+TextEditDialog.toolTipText.fx=식 빌더 열기 
+TextEditDialog.action.item.formatDateTime=날짜/시간 형식 
+TextEditDialog.action.item.formatNumber=숫자 형식 
+TextEditDialog.action.item.formatString=문자열 형식 
 
 ###########################################################
 #TextEditPart properties
@@ -3934,7 +3934,7 @@ ResourceSelectionValidator.ExtErrorSplitter=\ 또는
 ###########################################################
 #GeneralPage
 GeneralPage.Library.Included=라이브러리:
-GeneralPage.Library.Modified.Note=<form><p><span color="{0}">NOTE: This report item from the library has been modified. To restore the original library item, click on</span> <img href="{1}"/> <span color="{2}">"Restore Properties"</span></p></form>
+GeneralPage.Library.Modified.Note=<form><p><span color="{0}">참고: 이 보고서 항목은 라이브러리에서 수정되었습니다. 원래의 라이브러리 항목을 복원하려면</span> <img href="{1}"/> <span color="{2}">"속성 복원"</span></p></form>을 클릭하십시오. 
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4340,10 +4340,10 @@ TableDragGuideTracker.Pixels=픽셀
 ###########################################################
 #General Designer settings
 GeneralConfigurationBlock.message.general.description=보고서 디자이너에 대한 일반 설정
-GeneralConfigurationBlock.button.text.enable.gradient=Enable &gradient selection
-GeneralConfigurationBlock.button.text.enable.animation=Enable a&nimated selection
-GeneralConfigurationBlock.group.label=Prompt
-GeneralConfigurationBlock.button.text.prompt=Show &prompt after opening library file.
+GeneralConfigurationBlock.button.text.enable.gradient=그라데이션 사용 선택(&G) 
+GeneralConfigurationBlock.button.text.enable.animation=애니메이션 사용 선택(&N) 
+GeneralConfigurationBlock.group.label=묻기 
+GeneralConfigurationBlock.button.text.prompt=라이브러리 파일을 연 후 프롬프트 표시(&P)
 
 
 ###########################################################
@@ -4356,7 +4356,7 @@ ReportDocumentEditor.2=문서 정보
 ReportDocumentEditor.3=이름: 
 ReportDocumentEditor.4=버전: 
 ReportDocumentEditor.5=페이지 수: 
-ReportDocumentEditor.errorMessage=Error happened when open the document in editor.
+ReportDocumentEditor.errorMessage=편집기에서 문서를 여는 동안 오류가 발생했습니다.
 
 ###########################################################
 #Export Element Dialog

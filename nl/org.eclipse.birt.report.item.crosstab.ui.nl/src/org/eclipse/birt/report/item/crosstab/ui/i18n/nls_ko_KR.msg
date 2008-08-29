@@ -263,15 +263,15 @@ SelectValueDialog.messages.info.selectVauleUnavailable=값 목록을 사용할 수 없습�
 
 CrosstabPreferencePage.Title=크로스 탭
 CrosstabPreferencePage.filterLimit=필터 제한
-CrosstabPreferencePage.filterLimit.prompt=Maximum number of &values to display:
+CrosstabPreferencePage.filterLimit.prompt=표시할 최대 값 수(&V): 
 CrosstabPreferencePage.Error.MaxRowInvalid=숫자 값이 잘못되었습니다.
 CrosstabPreferencePage.autoDelBindings.Text=크로스 탭 구조 변경 후 사용하지 않는 바인딩 제거
-CrosstabPreferencePage.autoDelBindings.Text.Prompt=&Prompt
-CrosstabPreferencePage.autoDelBindings.Text.Always=A&lways
-CrosstabPreferencePage.autoDelBindings.Text.Never=&Never
+CrosstabPreferencePage.autoDelBindings.Text.Prompt=묻기(&P) 
+CrosstabPreferencePage.autoDelBindings.Text.Always=항상(&L) 
+CrosstabPreferencePage.autoDelBindings.Text.Never=안 함(&N) 
 
 CrosstabPreferencePage.promptGroup=묻기
-CrosstabPreferencePage.cubePopup.Text=&Hint after dropping fields to crosstab and creating a cube successfully.
+CrosstabPreferencePage.cubePopup.Text=필드를 크로스 탭으로 끌어 놓고 큐브를 생성한 후 힌트 제공(&H)
 
 ###########################################################
 #Crosstab DataBinding properties

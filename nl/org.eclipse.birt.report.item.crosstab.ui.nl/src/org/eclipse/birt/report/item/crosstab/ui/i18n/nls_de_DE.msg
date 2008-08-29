@@ -263,15 +263,15 @@ SelectValueDialog.messages.info.selectVauleUnavailable=Werteliste ist nicht verf
 
 CrosstabPreferencePage.Title=Kreuztabelle
 CrosstabPreferencePage.filterLimit=Filter-Limit
-CrosstabPreferencePage.filterLimit.prompt=Maximum number of &values to display:
+CrosstabPreferencePage.filterLimit.prompt=Maximale Anzahl anzuzeigender &Werte: 
 CrosstabPreferencePage.Error.MaxRowInvalid=Der numerische Wert ist ungültig.
 CrosstabPreferencePage.autoDelBindings.Text=Nicht verwendete Bindungen nach Änderungen an der Kreuztabellenstruktur entfernen
-CrosstabPreferencePage.autoDelBindings.Text.Prompt=&Prompt
-CrosstabPreferencePage.autoDelBindings.Text.Always=A&lways
-CrosstabPreferencePage.autoDelBindings.Text.Never=&Never
+CrosstabPreferencePage.autoDelBindings.Text.Prompt=&Eingabeaufforderung 
+CrosstabPreferencePage.autoDelBindings.Text.Always=&Immer 
+CrosstabPreferencePage.autoDelBindings.Text.Never=&Nie 
 
 CrosstabPreferencePage.promptGroup=Eingabeaufforderung
-CrosstabPreferencePage.cubePopup.Text=&Hint after dropping fields to crosstab and creating a cube successfully.
+CrosstabPreferencePage.cubePopup.Text=&Hinweis nach Verschieben von Feldern in Kreuztabelle und erfolgreichem Erstellen von Quader
 
 ###########################################################
 #Crosstab DataBinding properties

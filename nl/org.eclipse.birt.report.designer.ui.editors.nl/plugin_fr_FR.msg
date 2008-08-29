@@ -12,4 +12,4 @@
 contenttype.design=Modèle d'état
 contenttype.library=Bibliothèque d'états
 contenttype.template=Modèle d'état
-contenttype.document=Report Document
+contenttype.document=Etat

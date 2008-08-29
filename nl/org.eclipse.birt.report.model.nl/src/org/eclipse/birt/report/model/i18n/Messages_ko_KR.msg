@@ -3321,19 +3321,19 @@ Message.ReplaceElement=요소 바꾸기
 Message.SetTheme=테마 설정
 Message.ChangePropertyEncryption=속성 {0}의 암호화 변경
 Message.RenameCSSFile=CSS 파일 이름 바꾸기
-Message.ImportCSSStyles=Import CSS Styles
+Message.ImportCSSStyles=CSS 스타일 가져오기 
 
-Message.InsertAndPasteColumnBand=Insert And Paste Column
-Message.PasteColumnBand=Paste Column
-Message.ShiftColumnBand=Shift Column
-Message.InsertColumnBand=Insert Column
+Message.InsertAndPasteColumnBand=열 삽입 및 붙여넣기 
+Message.PasteColumnBand=열 붙여넣기 
+Message.ShiftColumnBand=열 이동 
+Message.InsertColumnBand=열 삽입 
 
-Message.InsertRow=Insert Row
-Message.InsertAndPasteRow=Insert And Paste Row
-Message.PasteRow=Paste Row
-Message.ShiftRow=Shift Row
+Message.InsertRow=행 삽입 
+Message.InsertAndPasteRow=행 삽입 및 붙여넣기 
+Message.PasteRow=행 붙여넣기 
+Message.ShiftRow=행 이동 
 
-Message.ClearProperties=Clear Properties
+Message.ClearProperties=속성 지우기
 
 Message.CreateTemplateElement=Create Template Element
 Message.TransformToReportItem=Transform TO Report Item

@@ -263,15 +263,15 @@ SelectValueDialog.messages.info.selectVauleUnavailable=La lista de valores no es
 
 CrosstabPreferencePage.Title=Tabla de referencias cruzadas
 CrosstabPreferencePage.filterLimit=Límite de filtro
-CrosstabPreferencePage.filterLimit.prompt=Maximum number of &values to display:
+CrosstabPreferencePage.filterLimit.prompt=Número máximo de &valores que mostrar: 
 CrosstabPreferencePage.Error.MaxRowInvalid=El valor de número no es válido.
 CrosstabPreferencePage.autoDelBindings.Text=Eliminar los enlaces no utilizados después de los cambios estructurales de la tabla de referencias cruzadas
-CrosstabPreferencePage.autoDelBindings.Text.Prompt=&Prompt
-CrosstabPreferencePage.autoDelBindings.Text.Always=A&lways
-CrosstabPreferencePage.autoDelBindings.Text.Never=&Never
+CrosstabPreferencePage.autoDelBindings.Text.Prompt=&Solicitar 
+CrosstabPreferencePage.autoDelBindings.Text.Always=S&iempre 
+CrosstabPreferencePage.autoDelBindings.Text.Never=&Nunca 
 
 CrosstabPreferencePage.promptGroup=Solicitar
-CrosstabPreferencePage.cubePopup.Text=&Hint after dropping fields to crosstab and creating a cube successfully.
+CrosstabPreferencePage.cubePopup.Text=Su&gerencia después de colocar los campos en la tabla de referencias cruzadas y crear un cubo correctamente.
 
 ###########################################################
 #Crosstab DataBinding properties

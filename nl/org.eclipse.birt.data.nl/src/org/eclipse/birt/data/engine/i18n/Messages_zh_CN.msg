@@ -207,7 +207,7 @@ data.engine.document.error.cannotLoadStream=文档流“{0}”无效。
 data.engine.failToCreateTempDir=无法在“{0}”中创建临时目录； 
 data.engine.reportItem.SubQuery.Unsupported=Report item sharing cannot be used for subquery.
 data.engine.emptyResultSet=结果集为空。
-data.engine.errorHappenWhenRetrieveResultSet=Error happened when visiting result set:"{0}".The specified result set might not exist.
+data.engine.errorHappenWhenRetrieveResultSet=访问结果集“{0}”时出错。指定的结果集可能不存在。
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名称不能为空或 null。
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
