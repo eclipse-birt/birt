@@ -85,6 +85,8 @@ public class TextEditor extends BaseDialog
 
 	private static final String ACTION_TEXT_FORMAT_NUMBER = Messages.getString( "TextEditDialog.action.text.formatNumber" ); //$NON-NLS-1$
 
+	private static final String ACTION_TEXT_FORMAT_HTML = Messages.getString( "TextEditDialog.action.text.formatHTML" ); //$NON-NLS-1$
+
 	private static final String ACTION_BIDI_DIRECTION = Messages.getString( "TextEditDialog.action.text.direction" ); //$NON-NLS-1$
 
 	private static final String TOOL_TIP_TAG_FONT = Messages.getString( "TextEditDialog.toolTip.tag.font" ); //$NON-NLS-1$
@@ -96,6 +98,8 @@ public class TextEditor extends BaseDialog
 	private static final String TOOL_TIP_TAG_B = Messages.getString( "TextEditDialog.toolTip.tag.b" ); //$NON-NLS-1$
 
 	private static final String TOOL_TIP_VALUE_OF = Messages.getString( "TextEditDialog.toolTip.valueOf" ); //$NON-NLS-1$
+
+	private static final String TOOL_TIP_FORMAT_HTML = Messages.getString( "TextEditDialog.toolTip.formatHTML" );
 
 	private static final String TOOL_TIP_TAG_DD = Messages.getString( "TextEditDialog.toolTip.tag.dd" ); //$NON-NLS-1$
 
@@ -405,7 +409,7 @@ public class TextEditor extends BaseDialog
 				formatTagsBar.setEnabled( index != PLAIN_INDEX );
 				commonTagsBar.setEnabled( index != PLAIN_INDEX );
 
-				if(formatParent != null && (!formatParent.isDisposed( )))
+				if ( formatParent != null && ( !formatParent.isDisposed( ) ) )
 				{
 					formatParent.setEnabled( formatTagsBar.isEnabled( ) );
 					for ( int i = 0; i < formatParent.getChildren( ).length; i++ )
@@ -692,7 +696,24 @@ public class TextEditor extends BaseDialog
 						DesignChoiceConstants.TEXT_CONTENT_TYPE_PLAIN );
 				final int PLAIN_INDEX = ( index < 0 ? 0 : index );
 
-				IAction action = new Action( ACTION_TEXT_FORMAT_NUMBER ) {
+				IAction action = new Action( ACTION_TEXT_FORMAT_HTML ) {
+
+					public boolean isEnabled( )
+					{
+						return textTypeChoicer.getSelectionIndex( ) != PLAIN_INDEX;
+					}
+
+					public void run( )
+					{
+						String result = " format=\"HTML\"";
+						textEditor.insert( result ); //$NON-NLS-1$
+					}
+				};
+
+				menuManager.appendToGroup( ITextEditorActionConstants.GROUP_REST,
+						action );
+
+				action = new Action( ACTION_TEXT_FORMAT_NUMBER ) {
 
 					public boolean isEnabled( )
 					{
@@ -1058,6 +1079,18 @@ public class TextEditor extends BaseDialog
 										+ result.length( ) );
 							}
 						}
+					}
+				} );
+
+				final ToolItem formatHTML = new ToolItem( toolBar, SWT.NONE );
+				formatHTML.setText( "<VALUE-OF Format HTML>" ); //$NON-NLS-1$
+				formatHTML.setToolTipText( TOOL_TIP_FORMAT_HTML );
+				formatHTML.addSelectionListener( new SelectionAdapter( ) {
+
+					public void widgetSelected( SelectionEvent e )
+					{
+						String result = " format=\"HTML\"";
+						textEditor.insert( result ); //$NON-NLS-1$
 					}
 				} );
 
