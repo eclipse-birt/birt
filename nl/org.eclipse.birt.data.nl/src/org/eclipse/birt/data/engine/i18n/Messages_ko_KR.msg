@@ -205,7 +205,7 @@ data.engine.resultClassSaveError=다음 열 참조를 찾을 수 없음: {0}.
 data.engine.invalidMemBufferSize=메모리 버퍼 크기 "{0}"은(는) 잘못되었습니다. 메모리 버퍼 크기는 0보다 큰 정수여야 합니다.
 data.engine.document.error.cannotLoadStream=문서 스트림 "{0}"은(는) 잘못되었습니다.
 data.engine.failToCreateTempDir="{0}"에 임시 디렉터리를 만들지 못했습니다. 
-data.engine.reportItem.SubQuery.Unsupported=보고서 항목 공유는하위 쿼리와 관련된 보고서 항목에서 사용하기 위한 것이 아닙니다. 
+data.engine.reportItem.SubQuery.Unsupported=Report item sharing cannot be used for subquery.
 data.engine.emptyResultSet=결과 집합이 비어 있습니다.
 data.engine.errorHappenWhenRetrieveResultSet=Error happened when visiting result set:"{0}".The specified result set might not exist.
 # oda consumer errors

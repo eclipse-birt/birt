@@ -205,7 +205,7 @@ data.engine.resultClassSaveError=Die folgenden Spaltenbezüge können nicht gefund
 data.engine.invalidMemBufferSize=Die Speicher-Puffergröße "{0}" ist ungültig. Die Speicher-Puffergröße muss eine Ganzzahl größer Null sein.
 data.engine.document.error.cannotLoadStream=Der Dokumentenstrom "{0}" ist ungültig.
 data.engine.failToCreateTempDir=Temporäres Verzeichnis in "{0}" konnte nicht erstellt werden; 
-data.engine.reportItem.SubQuery.Unsupported=Berichtobjekte sollten nicht freigegeben werden, wenn sie im Zusammenhang mit Teilabfragen verwendet werden.
+data.engine.reportItem.SubQuery.Unsupported=Report item sharing cannot be used for subquery.
 data.engine.emptyResultSet=Das Ergebnis ist leer.
 data.engine.errorHappenWhenRetrieveResultSet=Error happened when visiting result set:"{0}".The specified result set might not exist.
 # oda consumer errors

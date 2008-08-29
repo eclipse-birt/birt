@@ -205,7 +205,7 @@ data.engine.resultClassSaveError=列の参照 {0} が見つかりません。
 data.engine.invalidMemBufferSize=メモリバッファサイズ "{0}" が無効です。メモリバッファサイズには、1 以上の整数を指定してください。
 data.engine.document.error.cannotLoadStream=文書ストリーム "{0}" が無効です。
 data.engine.failToCreateTempDir="{0}" に一時ディレクトリを作成できません。 
-data.engine.reportItem.SubQuery.Unsupported=サブクエリが含まれているレポート項目は共有できません。
+data.engine.reportItem.SubQuery.Unsupported=Report item sharing cannot be used for subquery.
 data.engine.emptyResultSet=結果セットは空です。
 data.engine.errorHappenWhenRetrieveResultSet=Error happened when visiting result set:"{0}".The specified result set might not exist.
 # oda consumer errors
