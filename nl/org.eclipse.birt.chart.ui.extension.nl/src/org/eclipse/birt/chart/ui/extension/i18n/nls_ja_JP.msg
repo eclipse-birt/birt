@@ -650,7 +650,7 @@ LayoutSheetImpl.Lbl.Outline=外枠
 LayoutSheetImpl.Title.SheetTitle=レイアウト - グラフブロックの書式設定
 
 AttributeSheetImpl.Lbl.ChartProperties=グラフのプロパティ
-AttributeSheetImpl.Lbl.Type=型 :
+AttributeSheetImpl.Lbl.Type=種類 :
 AttributeSheetImpl.Lbl.Subtype=サブタイプ :
 AttributeSheetImpl.Lbl.Units=単位 (&U):
 AttributeSheetImpl.Lbl.ColumnCount=グリッドの列数 (&C):
