@@ -116,7 +116,7 @@ public final class AutoScale extends Methods implements Cloneable
 	private ScaleContext tmpSC;
 
 	/** Indicates the max boundary of axis ticks. */
-	private static final int TICKS_MAX = 100;
+	private static final int TICKS_MAX = 1000;
 
 	private static final NumberFormat dfDoulbeNormalized = NumberFormat.getInstance( Locale.ENGLISH );;
 
@@ -2161,7 +2161,8 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.oStep = new Integer( 1 );
 			sc.oStepNumber = oStepNumber;
 			sc.oUnit = new Integer( iUnit );
-			sc.iMinUnit = getMinUnitId( fs, rtc );
+			sc.iMinUnit = oMinValue.equals( oMaxValue ) ? getUnitId( iUnit )
+					: getMinUnitId( fs, rtc );
 			sc.setDirection( direction );
 			sc.fs = fs; // FORMAT SPECIFIER
 			sc.rtc = rtc; // LOCALE
@@ -2366,6 +2367,38 @@ public final class AutoScale extends Methods implements Cloneable
 		}
 
 		return iUnit;
+	}
+
+	public static int getMinUnit( CDateTime cdt ) throws ChartException
+	{
+		int iUnit = 0;
+
+		for ( int i = 0; i < iaCalendarUnits.length; i++ )
+		{
+			if ( cdt.get( iaCalendarUnits[i] ) > 0 )
+			{
+				iUnit = i;
+				break;
+			}
+		}
+
+		return iaCalendarUnits[iUnit];
+	}
+
+	public static int getUnitId( int iUnit ) throws ChartException
+	{
+		int id = 0;
+
+		for ( int i = 0; i < iaCalendarUnits.length; i++ )
+		{
+			if ( iaCalendarUnits[i] == iUnit )
+			{
+				id = i;
+				break;
+			}
+		}
+
+		return id;
 	}
 
 	/**

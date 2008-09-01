@@ -435,17 +435,33 @@ public class CDateTime extends GregorianCalendar
 	public final static int getPreferredUnit( CDateTime minDateTime,
 			CDateTime maxDateTime )
 	{
-		for ( int i = 0; i < iaCalendarUnits.length; i++ )
+		if ( minDateTime.equals( maxDateTime ) )
 		{
-			int pUnit = iaCalendarUnits[i];
-			if ( computeDifference( maxDateTime, minDateTime, pUnit ) <= 95 )
+			for ( int i = 0; i < iaCalendarUnits.length; i++ )
 			{
-				return pUnit;
+				int pUnit = iaCalendarUnits[i];
+				if ( minDateTime.get( pUnit ) > 0 )
+				{
+					return pUnit;
+				}
 			}
+			return Calendar.YEAR;
 		}
-		return Calendar.YEAR;
+		else
+		{
+			for ( int i = 0; i < iaCalendarUnits.length; i++ )
+			{
+				int pUnit = iaCalendarUnits[i];
+				if ( computeDifference( maxDateTime, minDateTime, pUnit ) <= 95 )
+				{
+					return pUnit;
+				}
+			}
+			return Calendar.YEAR;
+		}
 	}
 
+	
 	/**
 	 * Computes the difference between two given datetime values as a fraction
 	 * for the requested field.

@@ -35,6 +35,7 @@ import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.attribute.ScaleUnitType;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -614,11 +615,6 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			{
 				CDateTime dtMin = asDateTime( oMin );
 				CDateTime dtMax = asDateTime( oMax );
-
-				if ( dtMin.equals( dtMax ) )
-				{
-					dtMin.setTimeInMillis( 0 );
-				}
 
 				return new Calendar[]{
 						dtMin, dtMax
