@@ -92,28 +92,23 @@ class DataSource implements IDataSource
 			if ( odaConnectionsMap == null )
 				return;
 
-			ConnectionProp connProp = new ConnectionProp( DataSource.this.driverName,
-					DataSource.this.connectionProps,
-					DataSource.this.appContext );
-
-			Set<CacheConnection> odaConnections = odaConnectionsMap.get( connProp );
-			if ( odaConnections == null )
-				return;
-
-			for ( CacheConnection conn : odaConnections )
+			for ( Set<CacheConnection> set : odaConnectionsMap.values( ) )
 			{
-				try
+				for ( CacheConnection conn : set )
 				{
-					conn.odaConn.close( );
-				}
-				catch ( DataException e )
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace( );
+					try
+					{
+						conn.odaConn.close( );
+					}
+					catch ( DataException e )
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace( );
+					}
 				}
 			}
 		};
-    }
+	}
     
     private Set<CacheConnection> getOdaConnections( boolean populateToCache )
 	{
