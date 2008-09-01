@@ -58,8 +58,8 @@ public class TextItemDesign extends ReportItemDesign
 		}
 
 		if ( HTML_TEXT.equals( textType )
-				|| ( AUTO_TEXT.equals( textType ) && ( text.substring( 0, 6 )
-						.equalsIgnoreCase( "<html>" ) ) ) )
+				|| ( AUTO_TEXT.equals( textType ) && startsWithIgnoreCase(
+						text, "<html>" ) ) )
 		{
 			exprs = new HashMap( );
 			TextTemplate template = new TemplateParser( ).parse( text );
@@ -91,6 +91,16 @@ public class TextItemDesign extends ReportItemDesign
 		return exprs;
 	}
 
+	public boolean startsWithIgnoreCase( String original, String pattern )
+	{
+		int length = pattern.length( );
+		if ( original == null || original.length( ) < length )
+		{
+			return false;
+		}
+		return original.substring( 0, length ).equalsIgnoreCase( pattern );
+	}
+	
 	/**
 	 * @param textKey
 	 *            the message key for the text
