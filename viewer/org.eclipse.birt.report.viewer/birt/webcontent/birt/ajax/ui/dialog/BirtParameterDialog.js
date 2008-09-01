@@ -1140,20 +1140,11 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 				if( oInput[i+1] && ( oInput[i+1].type == "text" || oInput[i+1].type == "password" ) )
 				{
 					oInput[i+1].disabled = false;
-					// if cascading parameter and not the last one, clear value
-					if( oCascadeFlag == "true" && !this.__ifLastSelect( oSelect[0] ) )
-						oInput[i+1].value = "";
 					oInput[i+1].focus( );
 				}
 				else if( oSelect[0] )
 				{
 					oSelect[0].disabled = false;
-					// if cascading parameter and not the last one, clear value
-					if( oCascadeFlag == "true" && !this.__ifLastSelect( oSelect[0] ) )
-					{
-						oSelect[0].selectedIndex = -1;
-						oSelect[0].title = "";
-					}
 					oSelect[0].focus( );
 				}
 			}
@@ -1164,10 +1155,21 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 				if( oInput[i+1] && ( oInput[i+1].type == "text" || oInput[i+1].type == "password" ) )
 				{
 					oInput[i+1].disabled = true;
+					// if cascading parameter, clear value 
+					if ( oCascadeFlag == "true" )
+					{
+						oInput[i+1].value = "";
+					}
 				}
 				else if( oSelect[0] )
 				{
 					oSelect[0].disabled = true;
+					// if cascading parameter, clear value
+					if ( oCascadeFlag == "true" )
+					{
+						oSelect[0].selectedIndex = -1;
+						oSelect[0].title = "";
+					}
 				}
 		    }
 		}
