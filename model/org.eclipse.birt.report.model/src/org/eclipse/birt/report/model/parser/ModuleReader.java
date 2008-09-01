@@ -27,6 +27,7 @@ import javax.xml.parsers.SAXParserFactory;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -155,16 +156,34 @@ public abstract class ModuleReader
 		// support the url syntax such as file://, http://,
 		// bundleresource://, jar://
 
-		String location = handler.getModule( ).getLocation( );
-		URL url = null;
 		InputStream in = null;
+
 		try
 		{
-			if ( location == null )
-				throw new IOException( );
+			// if the hander if the generic module reader, the module has not be
+			// initialized.
 
-			url = new URL( location );
-			in = url.openStream( );
+			if ( handler instanceof GenericModuleParserHandler )
+			{
+				URL url = ModelUtil.getURLPresentation( handler.getFileName( ) );
+
+				if ( url != null )
+				{
+					( (GenericModuleParserHandler) handler ).location = url;
+					in = url.openStream( );					
+				}
+			}
+			else
+			{
+				String location = handler.getModule( ).getLocation( );
+
+				if ( location == null )
+					throw new IOException( );
+
+				URL url = new URL( location );
+				in = url.openStream( );
+
+			}
 		}
 		catch ( IOException e )
 		{

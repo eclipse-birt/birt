@@ -29,10 +29,17 @@ public class GenericModuleParserHandler extends ModuleParserHandler
 {
 
 	/**
-	 * Catched system ID.
+	 * Cached file location ID.
+	 */
+
+	protected URL location = null;
+	
+	/**
+	 * Cached system ID.
 	 */
 
 	private URL systemID = null;
+
 
 	/**
 	 * Options set for this module.
@@ -87,6 +94,8 @@ public class GenericModuleParserHandler extends ModuleParserHandler
 				module.setSystemId( systemID );
 				module.setFileName( fileName );
 				module.setOptions( options );
+				module.setLocation( location );
+
 				initLineNumberMarker( options );
 				if ( markLineNumber )
 					tempLineNumbers.put( module, new Integer( locator
@@ -99,6 +108,8 @@ public class GenericModuleParserHandler extends ModuleParserHandler
 				module = new Library( session );
 				module.setSystemId( systemID );
 				module.setFileName( fileName );
+				module.setLocation( location );
+
 				module.setOptions( options );
 				initLineNumberMarker( options );
 				if ( markLineNumber )
