@@ -233,7 +233,7 @@ public class AttributesBuilder
 		if ( type == GridHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.Grid" ); //$NON-NLS-1$
-			return DataPageGenerator.class;
+			return GridPageGenerator.class;
 		}
 		if ( type == DataItemHandle.class )
 		{
