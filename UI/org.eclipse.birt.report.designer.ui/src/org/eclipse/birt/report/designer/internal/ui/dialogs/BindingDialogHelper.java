@@ -42,7 +42,9 @@ import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -90,6 +92,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	protected static final String AGGREGATE_ON = Messages.getString( "BindingDialogHelper.text.AggOn" ); //$NON-NLS-1$
 	protected static final String TABLE = Messages.getString( "BindingDialogHelper.text.Table" ); //$NON-NLS-1$
 	protected static final String LIST = Messages.getString( "BindingDialogHelper.text.List" ); //$NON-NLS-1$
+	protected static final String GRID = Messages.getString( "BindingDialogHelper.text.Grid" ); //$NON-NLS-1$
 	protected static final String GROUP = Messages.getString( "BindingDialogHelper.text.Group" ); //$NON-NLS-1$
 	protected static final String EXPRESSION = Messages.getString( "BindingDialogHelper.text.Expression" ); //$NON-NLS-1$
 	protected static final String DISPLAY_NAME = Messages.getString( "BindingDialogHelper.text.displayName" ); //$NON-NLS-1$
@@ -185,7 +188,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		new Label( composite, SWT.NONE ).setText( DATA_TYPE );
 		cmbType = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 		cmbType.setLayoutData( gd );
-		cmbType.addSelectionListener( new SelectionListener(){
+		cmbType.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetDefaultSelected( SelectionEvent arg0 )
 			{
@@ -195,7 +198,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			public void widgetSelected( SelectionEvent arg0 )
 			{
 				validate( );
-			}} );
+			}
+		} );
 		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		if ( isAggregate( ) )
@@ -739,8 +743,13 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		aggOnComposite.setLayout( layout );
 
 		btnTable = new Button( aggOnComposite, SWT.RADIO );
-		btnTable.setText( getBindingHolder( ) instanceof TableHandle ? TABLE
-				: LIST );
+		if ( getBindingHolder( ) instanceof TableHandle )
+			btnTable.setText( TABLE );
+		else if ( getBindingHolder( ) instanceof ListHandle )
+			btnTable.setText( LIST );
+		else if ( getBindingHolder( ) instanceof GridHandle )
+			btnTable.setText( GRID );
+
 		btnTable.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetDefaultSelected( SelectionEvent e )
@@ -839,7 +848,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				dialog.getOkButton( ).setEnabled( false );
 			return;
 		}
-		
+
 		if ( cmbType.getText( ) == null || cmbType.getText( ).equals( "" ) )
 		{
 			dialog.getOkButton( ).setEnabled( false );
@@ -1380,11 +1389,13 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		try
 		{
 			// check function type
-			//if datatype in DTE is any, here will return '', for any is deprecated.
+			// if datatype in DTE is any, here will return '', for any is
+			// deprecated.
 			String type = getDataTypeDisplayName( DataAdapterUtil.adapterToModelDataType( DataUtil.getAggregationManager( )
 					.getAggregation( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) )
 					.getDataType( ) ) );
-			if ( type != null && !type.equals( "" )
+			if ( type != null
+					&& !type.equals( "" )
 					&& !type.equals( cmbType.getText( ) ) )
 			{
 				if ( !canProcessFunctionTypeError( cmbFunction.getText( ),
