@@ -125,8 +125,9 @@ public class PublishLibraryAction implements IWorkbenchWindowActionDelegate
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction,
-	 *      org.eclipse.jface.viewers.ISelection)
+	 * @see
+	 * org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
+	 * .IAction, org.eclipse.jface.viewers.ISelection)
 	 */
 	public void selectionChanged( IAction action, ISelection selection )
 	{
@@ -139,7 +140,8 @@ public class PublishLibraryAction implements IWorkbenchWindowActionDelegate
 			}
 			if ( file != null )
 			{
-				if ( file.getFileExtension( ).equals( "rptlibrary" ) ) //$NON-NLS-1$
+				if ( file.getFileExtension( ) != null
+						&& file.getFileExtension( ).equals( "rptlibrary" ) ) //$NON-NLS-1$
 				{
 					libFile = file;
 					selectLibrary = true;
