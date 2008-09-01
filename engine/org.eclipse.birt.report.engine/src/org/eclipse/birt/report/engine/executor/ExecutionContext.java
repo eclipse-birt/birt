@@ -2052,7 +2052,7 @@ public class ExecutionContext
 		}
 
 		String engineExtensions = (String) design
-				.getProperty( "ENGINE_EXTENSIONS" );
+				.getProperty( "Engine extensions" );
 
 		if ( engineExtensions != null )
 		{
