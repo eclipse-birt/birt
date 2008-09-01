@@ -528,7 +528,7 @@ public class ReportDocumentReader
 		
 		// test if request extension are present
 		String extensions = (String) properties.get( BIRT_ENGINE_EXTENSIONS );
-		if ( extensions != null )
+		if ( extensions != null && extensions.length() > 0 )
 		{
 			String[] extIds = extensions.split( ";" );
 			for ( String extId : extIds )

@@ -75,7 +75,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	{
 		this.engine = engine;
 		this.archive = archive;
-		if ( extensions != null )
+		if ( extensions != null && extensions.length > 0 )
 		{
 			StringBuilder sb = new StringBuilder( );
 			for ( String ext : extensions )
