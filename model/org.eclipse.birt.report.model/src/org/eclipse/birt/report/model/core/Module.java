@@ -257,6 +257,14 @@ public abstract class Module extends DesignElement
 	protected URL systemId = null;
 
 	/**
+	 * The absolute path for the design file in URL format. It can be a file
+	 * directory or a network path such as HTTP, FTP, etc. It is
+	 * <code>null</code> if the file cannot be found. 
+	 */
+
+	private URL location = null;
+
+	/**
 	 * The UTF signature.
 	 */
 
@@ -1571,6 +1579,7 @@ public abstract class Module extends DesignElement
 		{
 			library = LibraryReader.getInstance( ).read( session, this, url,
 					namespace, url.openStream( ), null, reloadLibs );
+			library.setLocation( url );
 
 			if ( StringUtil.isBlank( namespace ) )
 			{
@@ -2352,11 +2361,22 @@ public abstract class Module extends DesignElement
 
 	public String getLocation( )
 	{
-		assert systemId != null;
+		if ( location == null )
+			return null;
 
-		if ( fileName == null )
-			return systemId.toString( );
-		return systemId + StringUtil.extractFileNameWithSuffix( fileName );
+		return location.toExternalForm( );
+	}
+
+	/**
+	 * Sets the location information of the module.
+	 * 
+	 * @param location
+	 *            the location information of the module
+	 */
+
+	public void setLocation( URL location )
+	{
+		this.location = location;
 	}
 
 	/**

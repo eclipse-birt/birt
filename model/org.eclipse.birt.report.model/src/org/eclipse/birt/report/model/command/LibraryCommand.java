@@ -332,6 +332,8 @@ public class LibraryCommand extends AbstractElementCommand
 	 * @param toReloadLibrary
 	 *            the URL file path of the library file. The instance must be
 	 *            directly/indirectly included in the module.
+	 * @param includedLib
+	 *            the included library structure
 	 * @param reloadLibs
 	 *            the map contains reload libraries, the name space is key and
 	 *            the library instance is the value
@@ -342,10 +344,12 @@ public class LibraryCommand extends AbstractElementCommand
 	 */
 
 	public void reloadLibrary( Library toReloadLibrary,
-			Map<String, Library> reloadLibs ) throws DesignFileException,
-			SemanticException
+			IncludedLibrary includedLib, Map<String, Library> reloadLibs )
+			throws DesignFileException, SemanticException
 	{
 		String location = toReloadLibrary.getLocation( );
+		if ( location == null )
+			location = toReloadLibrary.getFileName( );
 
 		Library library = null;
 		List<Library> libs = module.getLibrariesByLocation( location,
@@ -358,6 +362,9 @@ public class LibraryCommand extends AbstractElementCommand
 				break;
 			}
 		}
+
+		if ( library == null )
+			library = getLibraryByStruct( includedLib );
 
 		if ( library == null )
 			throw new LibraryException( library, new String[]{toReloadLibrary
@@ -403,6 +410,7 @@ public class LibraryCommand extends AbstractElementCommand
 
 		library = module.getLibraryWithNamespace( library.getNamespace( ),
 				IAccessControl.DIRECTLY_INCLUDED_LEVEL );
+
 		doPostReloadAction( library );
 
 	}
@@ -429,7 +437,7 @@ public class LibraryCommand extends AbstractElementCommand
 					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND );
 
 		for ( int i = 0; i < libs.size( ); i++ )
-			reloadLibrary( libs.get( i ), reloadLibs );
+			reloadLibrary( libs.get( i ), null, reloadLibs );
 	}
 
 	/**
@@ -618,6 +626,23 @@ public class LibraryCommand extends AbstractElementCommand
 		{
 			if ( module.findIncludedLibrary( namespace ) == null )
 				addLibraryStructure( includedLibPath, namespace, removePosn );
+
+			// add an invalid library instance, same to the parser
+
+			Library invalidLib = new Library( module.getSession( ), module );
+			invalidLib.setFileName( includedLibPath );
+			invalidLib.setNamespace( namespace );
+			invalidLib.setValid( false );
+
+			ActivityStack activityStack = getActivityStack( );
+
+			LibraryRecord record = new LibraryRecord( module, invalidLib,
+					overriddenValues, removePosn );
+
+			activityStack.startTrans( record.getLabel( ) );
+			activityStack.execute( record );
+			activityStack.commit( );
+
 			return;
 		}
 
@@ -825,5 +850,32 @@ public class LibraryCommand extends AbstractElementCommand
 					includeLibrary );
 			break;
 		}
+	}
+
+	/**
+	 * Finds the library that matches the given the included library structure.
+	 * 
+	 * @param includedLib
+	 *            the included library structure
+	 * @return the matched library instance
+	 */
+
+	private Library getLibraryByStruct( IncludedLibrary includedLib )
+	{
+		List<IncludedLibrary> includedLibs = module.getListProperty( module,
+				IModuleModel.LIBRARIES_PROP );
+		if ( includedLibs == null )
+			return null;
+
+		int index = includedLibs.indexOf( includedLib );
+		if ( index == -1 )
+			return null;
+
+		Library retLib = (Library) module.getLibraries( ).get( index );
+		if ( retLib.getNamespace( ).equalsIgnoreCase(
+				includedLib.getNamespace( ) ) )
+			return retLib;
+
+		return null;
 	}
 }

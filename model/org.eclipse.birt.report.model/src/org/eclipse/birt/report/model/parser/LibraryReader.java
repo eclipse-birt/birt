@@ -17,7 +17,6 @@ import java.util.Map;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleOption;
-import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
@@ -91,15 +90,12 @@ public final class LibraryReader extends ModuleReader
 			String namespace, InputStream inputStream, ModuleOption options )
 			throws DesignFileException
 	{
-		URL systemId = URIUtil.getDirectory( fileName );
-
 		LibraryParserHandler handler = new LibraryParserHandler( session, host,
-				systemId, fileName, options );
+				fileName, options );
 		( (Library) handler.getModule( ) ).setNamespace( namespace );
 
 		return (Library) readModule( handler, inputStream );
 	}
-
 
 	/**
 	 * Parses an XML library file given an input stream. Creates and returns the
@@ -131,10 +127,8 @@ public final class LibraryReader extends ModuleReader
 			String namespace, InputStream inputStream, ModuleOption options,
 			Map<String, Library> reloadLibs ) throws DesignFileException
 	{
-		URL systemId = URIUtil.getDirectory( url );
-
 		LibraryParserHandler handler = new LibraryParserHandler( session, host,
-				systemId, url.toString( ), options, reloadLibs );
+				url, options, reloadLibs );
 		( (Library) handler.getModule( ) ).setNamespace( namespace );
 
 		return (Library) readModule( handler, inputStream );
@@ -164,9 +158,8 @@ public final class LibraryReader extends ModuleReader
 			InputStream inputStream, ModuleOption options )
 			throws DesignFileException
 	{
-		URL systemId = URIUtil.getDirectory( fileName );
-		LibraryParserHandler handler = new LibraryParserHandler( session, null,
-				systemId, fileName, options );
+		LibraryParserHandler handler = new LibraryParserHandler( session,
+				fileName, options );
 		return (Library) readModule( handler, inputStream );
 	}
 
@@ -192,8 +185,8 @@ public final class LibraryReader extends ModuleReader
 			InputStream inputStream, ModuleOption options )
 			throws DesignFileException
 	{
-		LibraryParserHandler handler = new LibraryParserHandler( session, null,
-				systemId, null, options );
+		LibraryParserHandler handler = new LibraryParserHandler( session,
+				systemId, options );
 		return (Library) readModule( handler, inputStream );
 	}
 
@@ -218,9 +211,8 @@ public final class LibraryReader extends ModuleReader
 	public Library read( DesignSession session, String fileName,
 			ModuleOption options ) throws DesignFileException
 	{
-		URL systemId = URIUtil.getDirectory( fileName );
-		LibraryParserHandler handler = new LibraryParserHandler( session, null,
-				systemId, fileName, options );
+		LibraryParserHandler handler = new LibraryParserHandler( session,
+				fileName, options );
 		return (Library) readModule( handler );
 	}
 

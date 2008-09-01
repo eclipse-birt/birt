@@ -435,8 +435,8 @@ public abstract class BaseTestCase extends TestCase
 		assertNotNull( sessionHandle );
 
 		if ( inSingleJarMode )
-			libraryHandle = sessionHandle.openLibrary( getResource( fileName ),
-					getResourceAStream( fileName ) );
+			libraryHandle = sessionHandle.openLibrary( getResource( fileName )
+					.toString( ), getResourceAStream( fileName ) );
 		else
 			libraryHandle = sessionHandle.openLibrary( fileName );
 	}

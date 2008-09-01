@@ -282,7 +282,7 @@ public class URIUtilImpl
 		{
 			File file = new File( uri );
 
-			if ( uri.indexOf( JAR_EXTENTION ) > -1 )
+			if ( uri.startsWith( JAR_EXTENTION ) )
 				return JAR_SCHEMA
 						+ ":" + FILE_SCHEMA + ":" + file.getAbsolutePath( ); //$NON-NLS-1$ //$NON-NLS-2$
 

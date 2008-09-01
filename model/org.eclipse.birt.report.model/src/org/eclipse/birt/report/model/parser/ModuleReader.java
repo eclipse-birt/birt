@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.parser;
 
 import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -28,7 +27,6 @@ import javax.xml.parsers.SAXParserFactory;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.util.ModelUtil;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -133,6 +131,7 @@ public abstract class ModuleReader
 		Module module = handler.getModule( );
 		module.setUTFSignature( signature );
 		module.setValid( true );
+
 		return module;
 	}
 
@@ -156,15 +155,16 @@ public abstract class ModuleReader
 		// support the url syntax such as file://, http://,
 		// bundleresource://, jar://
 
-		URL url = ModelUtil.getURLPresentation( handler.getFileName( ) );
-
+		String location = handler.getModule( ).getLocation( );
+		URL url = null;
 		InputStream in = null;
 		try
 		{
-			if ( url != null )
-				in = url.openStream( );
-			else
-				in = new FileInputStream( handler.getFileName( ) );
+			if ( location == null )
+				throw new IOException( );
+
+			url = new URL( location );
+			in = url.openStream( );
 		}
 		catch ( IOException e )
 		{

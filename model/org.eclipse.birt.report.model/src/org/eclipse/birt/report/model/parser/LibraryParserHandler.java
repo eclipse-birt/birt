@@ -12,14 +12,15 @@
 package org.eclipse.birt.report.model.parser;
 
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.api.ModuleOption;
+import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Top-level handler for the XML library file. Recognizes the top-level tags in
@@ -28,6 +29,7 @@ import org.eclipse.birt.report.model.util.AbstractParseState;
 
 public class LibraryParserHandler extends ModuleParserHandler
 {
+
 	/**
 	 * Constructor.
 	 * 
@@ -35,22 +37,31 @@ public class LibraryParserHandler extends ModuleParserHandler
 	 *            the design session
 	 * @param host
 	 *            the host module
-	 * @param systemId
-	 *            the library system id
 	 * @param fileName
-	 *            the file name
+	 *            the file name in URL format
 	 * @param options
 	 *            module options.
+	 * @param reloadLibs
+	 *            libraries that have been reload
 	 */
 
-	LibraryParserHandler( DesignSession theSession, Module host, URL systemId,
-			String fileName, ModuleOption options )
+	LibraryParserHandler( DesignSession theSession, Module host, URL fileName,
+			ModuleOption options, Map<String, Library> reloadLibs )
 	{
-		super( theSession, fileName );
+		super( theSession, fileName.toExternalForm( ), reloadLibs );
+
 		module = new Library( theSession, host );
-		module.setSystemId( systemId );
-		module.setFileName( fileName );
+
+		URL url = URIUtil.getDirectory( fileName );
+		module.setSystemId( url );
+		module.setFileName( fileName.toExternalForm( ) );
 		module.setOptions( options );
+
+		// setup the location
+
+		URL location = ModelUtil
+				.getURLPresentation( fileName.toExternalForm( ) );
+		module.setLocation( location );
 
 		initLineNumberMarker( options );
 	}
@@ -72,14 +83,81 @@ public class LibraryParserHandler extends ModuleParserHandler
 	 *            libraries that have been reload
 	 */
 
-	LibraryParserHandler( DesignSession theSession, Module host, URL systemId,
-			String fileName, ModuleOption options,
-			Map<String, Library> reloadLibs )
+	LibraryParserHandler( DesignSession theSession, Module host,
+			String fileName, ModuleOption options )
 	{
-		super( theSession, fileName, reloadLibs );
+		super( theSession, fileName );
+
 		module = new Library( theSession, host );
+
+		URL url = URIUtil.getDirectory( fileName );
+		module.setSystemId( url );
+		module.setFileName( fileName );
+		module.setOptions( options );
+
+		// setup the location
+
+		URL location = ModelUtil.getURLPresentation( fileName );
+		module.setLocation( location );
+
+		initLineNumberMarker( options );
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param theSession
+	 *            the design session
+	 * @param host
+	 *            the host module
+	 * @param systemId
+	 *            the library system id
+	 * @param fileName
+	 *            the file name
+	 * @param options
+	 *            module options.
+	 */
+
+	LibraryParserHandler( DesignSession theSession, String fileName,
+			ModuleOption options )
+	{
+		super( theSession, fileName );
+		module = new Library( theSession, null );
+
+		URL systemId = URIUtil.getDirectory( fileName );
 		module.setSystemId( systemId );
 		module.setFileName( fileName );
+		module.setOptions( options );
+
+		// setup the location
+
+		URL location = ModelUtil.getURLPresentation( fileName );
+		module.setLocation( location );
+		
+		initLineNumberMarker( options );
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param theSession
+	 *            the design session
+	 * @param host
+	 *            the host module
+	 * @param systemId
+	 *            the library system id
+	 * @param fileName
+	 *            the file name
+	 * @param options
+	 *            module options.
+	 */
+
+	LibraryParserHandler( DesignSession theSession, URL systemId,
+			ModuleOption options )
+	{
+		super( theSession, systemId.toExternalForm( ) );
+		module = new Library( theSession, null );
+		module.setSystemId( systemId );
 		module.setOptions( options );
 
 		initLineNumberMarker( options );

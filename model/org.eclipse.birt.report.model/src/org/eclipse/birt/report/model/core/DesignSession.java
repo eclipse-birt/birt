@@ -561,7 +561,7 @@ public class DesignSession
 		initializeOptions( options );
 		Library design = LibraryReader.getInstance( ).read( this, fileName, is,
 				options );
-		designs.add( design );
+		libraries.add( design );
 		return design;
 	}
 

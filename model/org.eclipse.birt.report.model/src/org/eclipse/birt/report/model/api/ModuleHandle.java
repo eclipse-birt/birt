@@ -82,6 +82,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.URIUtilImpl;
 
 import com.ibm.icu.util.ULocale;
 
@@ -1634,9 +1635,11 @@ public abstract class ModuleHandle extends DesignElementHandle
 		if ( !StringUtil.isBlank( newName ) )
 		{
 			URL systemId = URIUtil.getDirectory( newName );
-
 			if ( systemId != null )
 				getModule( ).setSystemId( systemId );
+
+			URL location = URIUtilImpl.getURLPresentation( newName );
+			getModule( ).setLocation( location );
 		}
 
 		AttributeEvent event = new AttributeEvent( module,
@@ -2133,7 +2136,12 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		Map reloadLibs = new HashMap( );
 		LibraryCommand command = new LibraryCommand( module );
-		command.reloadLibrary( libraryToReload.getLocation( ), reloadLibs );
+
+		String location = libraryToReload.getLocation( );
+		if ( location == null )
+			location = libraryToReload.getFileName( );
+
+		command.reloadLibrary( location, reloadLibs );
 
 		ModuleOption options = module.getOptions( );
 		if ( options == null || options.useSemanticCheck( ) )
@@ -2160,7 +2168,36 @@ public abstract class ModuleHandle extends DesignElementHandle
 			return;
 
 		LibraryCommand command = new LibraryCommand( module );
-		command.reloadLibrary( (Library) libraryToReload, reloadLibs );
+		command.reloadLibrary( (Library) libraryToReload, null, reloadLibs );
+
+		ModuleOption options = module.getOptions( );
+		if ( options == null || options.useSemanticCheck( ) )
+			checkReport( );
+	}
+
+	/**
+	 * Reloads the library this module includes. <code>libraryToReload</code>
+	 * must be directly/indirectly included in the module.
+	 * 
+	 * @param libraryToReload
+	 *            the library to reload
+	 * @param reloadLibs
+	 *            the map contains library files that has been reload
+	 * 
+	 * @throws SemanticException
+	 * @throws DesignFileException
+	 */
+
+	private void reloadLibrary( Library libraryToReload,
+			IncludedLibrary includedLib, Map reloadLibs )
+			throws SemanticException, DesignFileException
+	{
+		if ( libraryToReload == null )
+			return;
+
+		LibraryCommand command = new LibraryCommand( module );
+		command.reloadLibrary( (Library) libraryToReload, includedLib,
+				reloadLibs );
 
 		ModuleOption options = module.getOptions( );
 		if ( options == null || options.useSemanticCheck( ) )
@@ -2198,7 +2235,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 			Library includeLib = module.getLibraryWithNamespace( lib
 					.getNamespace( ), IAccessControl.DIRECTLY_INCLUDED_LEVEL );
 			if ( includeLib != null )
-				reloadLibrary( includeLib, reloadLibs );
+				reloadLibrary( includeLib, lib, reloadLibs );
 			else
 			{
 				LibraryCommand cmd = new LibraryCommand( module );
@@ -2262,7 +2299,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		{
 			LibraryCommand command = new LibraryCommand( module );
 			Library lib = libs.get( i );
-			command.reloadLibrary( lib, reloadLibs );
+			command.reloadLibrary( lib, null, reloadLibs );
 		}
 
 		ModuleOption options = module.getOptions( );

@@ -12,13 +12,13 @@
 package org.eclipse.birt.report.model.parser;
 
 import java.net.URL;
-import java.util.Map;
 
 import org.eclipse.birt.report.model.api.ModuleOption;
+import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.core.DesignSession;
-import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Top-level handler for the XML design file. Recognizes the top-level tags in
@@ -42,15 +42,22 @@ public class DesignParserHandler extends ModuleParserHandler
 	 *            the options set for this module
 	 */
 
-	public DesignParserHandler( DesignSession theSession, URL systemId,
-			String fileName, ModuleOption options )
+	public DesignParserHandler( DesignSession theSession, String fileName,
+			ModuleOption options )
 	{
 		super( theSession, fileName );
 		module = new ReportDesign( session );
+
+		URL systemId = URIUtil.getDirectory( fileName );
 		module.setSystemId( systemId );
 		module.setFileName( fileName );
 		module.setOptions( options );
 
+		// setup the location
+
+		URL location = ModelUtil.getURLPresentation( fileName );
+		module.setLocation( location );
+		
 		initLineNumberMarker( options );
 	}
 
@@ -68,13 +75,13 @@ public class DesignParserHandler extends ModuleParserHandler
 	 */
 
 	public DesignParserHandler( DesignSession theSession, URL systemId,
-			String fileName, ModuleOption options,
-			Map<String, Library> reloadLibs )
+			ModuleOption options )
 	{
-		super( theSession, fileName, reloadLibs );
+		super( theSession, systemId.toExternalForm( ) );
 		module = new ReportDesign( session );
-		module.setSystemId( systemId );
-		module.setFileName( fileName );
+
+		URL url = URIUtil.getDirectory( systemId.toExternalForm( ) );
+		module.setSystemId( url );
 		module.setOptions( options );
 
 		initLineNumberMarker( options );
