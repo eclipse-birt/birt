@@ -87,15 +87,9 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 				// Set a default height for cell to fit with chart
 				cell.getCrosstab( ).setRowHeight( rowCell, DEFAULT_ROW_HEIGHT );
 			}
-			// Set 0 padding to avoid size difference between browsers
-			rowCell.getModelHandle( )
-					.setProperty( StyleHandle.PADDING_TOP_PROP,
-							new DimensionValue( 0,
-									DesignChoiceConstants.UNITS_PT ) );
-			rowCell.getModelHandle( )
-					.setProperty( StyleHandle.PADDING_BOTTOM_PROP,
-							new DimensionValue( 0,
-									DesignChoiceConstants.UNITS_PT ) );
+			// Set 0 padding to level cell to avoid size difference between
+			// browsers
+			removeCellPadding( rowCell, bTransposed );
 		}
 		else
 		{
@@ -115,16 +109,16 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 				cell.getCrosstab( ).setColumnWidth( columnCell,
 						DEFAULT_COLUMN_WIDTH );
 			}
-			// Set 0 padding to avoid size difference between browsers
-			columnCell.getModelHandle( )
-					.setProperty( StyleHandle.PADDING_LEFT_PROP,
-							new DimensionValue( 0,
-									DesignChoiceConstants.UNITS_PT ) );
-			columnCell.getModelHandle( )
-					.setProperty( StyleHandle.PADDING_RIGHT_PROP,
-							new DimensionValue( 0,
-									DesignChoiceConstants.UNITS_PT ) );
+			// Set 0 padding to level cell to avoid size difference between
+			// browsers
+			removeCellPadding( columnCell, bTransposed );
 		}
+		// Set 0 padding to all related aggregation cells to avoid size
+		// difference between browsers
+		removeCellPadding( cell, bTransposed );
+		removeCellPadding( getGrandTotalAggregationCell( cell, !bTransposed ),
+				bTransposed );
+		removeCellPadding( getMeasureAggregationCell( cell ), bTransposed );
 
 		if ( !isYAxisVisible( cwa ) )
 		{
@@ -294,8 +288,18 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 		}
 	}
 
+	public static AggregationCellHandle getMeasureAggregationCell(
+			AggregationCellHandle cell )
+	{
+		if ( cell == null )
+		{
+			return null;
+		}
+		return ( (MeasureViewHandle) cell.getContainer( ) ).getCell( );
+	}
+
 	private static CrosstabCellHandle getGrandTotalCell(
-			AggregationCellHandle cell, boolean bTransposed )
+			CrosstabCellHandle cell, boolean bTransposed )
 	{
 		if ( cell == null )
 		{
@@ -653,6 +657,36 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 			if ( !ICrosstabConstants.MEASURE_DIRECTION_VERTICAL.equals( xtab.getMeasureDirection( ) ) )
 			{
 				xtab.setMeasureDirection( ICrosstabConstants.MEASURE_DIRECTION_VERTICAL );
+			}
+		}
+	}
+
+	private static void removeCellPadding( CrosstabCellHandle cell,
+			boolean bTransposed ) throws SemanticException
+	{
+		if ( cell != null )
+		{
+			if ( bTransposed )
+			{
+				cell.getModelHandle( )
+						.setProperty( StyleHandle.PADDING_TOP_PROP,
+								new DimensionValue( 0,
+										DesignChoiceConstants.UNITS_PT ) );
+				cell.getModelHandle( )
+						.setProperty( StyleHandle.PADDING_BOTTOM_PROP,
+								new DimensionValue( 0,
+										DesignChoiceConstants.UNITS_PT ) );
+			}
+			else
+			{
+				cell.getModelHandle( )
+						.setProperty( StyleHandle.PADDING_LEFT_PROP,
+								new DimensionValue( 0,
+										DesignChoiceConstants.UNITS_PT ) );
+				cell.getModelHandle( )
+						.setProperty( StyleHandle.PADDING_RIGHT_PROP,
+								new DimensionValue( 0,
+										DesignChoiceConstants.UNITS_PT ) );
 			}
 		}
 	}
