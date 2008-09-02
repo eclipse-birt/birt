@@ -99,7 +99,12 @@ public class ImageManager
 			{
 				return null;
 			}
-			image = loadImage( url, refresh );
+			String key = url.toString( );
+			image = getImageRegistry( ).get( key );
+			if ( image == null )
+			{
+				image = loadImage( url );
+			}
 			if ( image == null )
 			{
 				if ( !invalidUrlList.contains( url.toString( ) ) )
@@ -227,7 +232,6 @@ public class ImageManager
 		}
 		if ( image != null )
 		{
-			getImageRegistry( ).remove( key );
 			getImageRegistry( ).put( key, image );
 			if ( DesignerConstants.TRACING_IMAGE_MANAGER_IMAGE_ADD )
 			{
@@ -278,20 +282,11 @@ public class ImageManager
 
 	public Image loadImage( URL url ) throws IOException
 	{
-		return loadImage( url, false );
-	}
-
-	public Image loadImage( URL url, boolean refresh ) throws IOException
-	{
 		String key = url.toString( );
-		Image image = null;
-		if ( !refresh )
+		Image image = getImageRegistry( ).get( key );
+		if ( image != null )
 		{
-			image = getImageRegistry( ).get( key );
-			if ( image != null )
-			{
-				return image;
-			}
+			return image;
 		}
 		InputStream in = null;
 
@@ -341,7 +336,6 @@ public class ImageManager
 		}
 		if ( image != null )
 		{
-			getImageRegistry( ).remove( key );
 			getImageRegistry( ).put( key, image );
 		}
 		return image;
@@ -362,13 +356,12 @@ public class ImageManager
 		catch ( MalformedURLException e )
 		{
 			String path = URIUtil.getLocalPath( uri );
-
-			if ( designHandle == null )
+			
+			if (designHandle == null)
 			{
-				designHandle = SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( );
+				designHandle = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
 			}
-
+			
 			if ( path != null && designHandle != null )
 			{
 				// add by gao for lib

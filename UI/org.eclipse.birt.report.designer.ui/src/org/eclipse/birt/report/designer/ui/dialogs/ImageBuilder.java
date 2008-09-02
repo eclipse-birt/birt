@@ -603,7 +603,7 @@ public class ImageBuilder extends BaseDialog
 		try
 		{
 			Image image = ImageManager.getInstance( )
-					.getImage( inputImage.getModuleHandle( ), uri, true );
+					.loadImage( inputImage.getModuleHandle( ), uri );
 			previewCanvas.loadImage( image );
 		}
 		catch ( Exception e )
