@@ -11,10 +11,15 @@
 
 package org.eclipse.birt.report.data.adapter.api;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
@@ -22,9 +27,18 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
+import org.eclipse.birt.report.model.api.ConfigVariableHandle;
+import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * This class implement some utility methods that can be used by the consumer of Data Engine.
@@ -387,6 +401,139 @@ public class DataAdapterUtil
 		return "Data Field".equals( name )
 				? org.eclipse.birt.data.aggregation.impl.Constants.EXPRESSION_NAME
 				: name;
+	}
+	
+	/**
+	 * Get the parameter value from .rptconfig file if it does exist
+	 * 
+	 * @return Object[] the parameter value
+	 */
+	public static Object getParamValueFromConfigFile( ScalarParameterHandle paramHandle )
+	{
+		ModuleHandle designModule = paramHandle.getModuleHandle( );
+		String designFileName = designModule.getFileName( );
+		// replace the file extension
+		// maybe the report is provided as a stream
+		// then the config file cannot be found
+		int index = designFileName.lastIndexOf( '.' );
+		if ( index < 0 )
+		{
+			return null;
+		}
+		String reportConfigName = designFileName.substring( 0, index + 1 )
+				+ "rptconfig";
+		File file = new File( reportConfigName );
+		if ( file.exists( ) )
+		{
+			String paraName = paramHandle.getName( );
+			ScalarParameterHandle parameterHandle = (ScalarParameterHandle) designModule.findParameter( paraName );
+			paraName = paraName + "_" + parameterHandle.getID( );
+			SessionHandle sessionHandle = new DesignEngine( null ).newSessionHandle( ULocale.US );
+			ReportDesignHandle rdHandle = null;
+			// Open report config file
+			try
+			{
+				rdHandle = sessionHandle.openDesign( reportConfigName );
+			}
+			catch ( DesignFileException e )
+			{
+				return null;
+			}
+			// handle config vars
+			if ( rdHandle != null )
+			{
+				List values = new ArrayList( );
+				Iterator configVars = rdHandle.configVariablesIterator( );
+				while ( configVars != null && configVars.hasNext( ) )
+				{
+					ConfigVariableHandle configVar = (ConfigVariableHandle) configVars.next( );
+					if ( configVar != null )
+					{
+						String varName = prepareConfigVarName( configVar.getName( ) );
+						Object varValue = configVar.getValue( );
+						if ( varName == null || varValue == null )
+						{
+							continue;
+						}
+						if ( varName.equals( paraName ) )
+						{
+							String value = (String) varValue;
+							// if the value actually is in String type, convert
+							// it by adding quotation marks
+							values.add( value );
+							// return value;
+						}
+						if ( isNullValue( varName, (String) varValue, paraName ) )
+						{
+							if ( !parameterHandle.getParamType( )
+									.equals( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE ) )
+							{
+								return null;
+							}
+							return new Object[0];
+						}
+					}
+				}
+				if( values.size( ) > 0 )
+				{
+					if ( parameterHandle.getParamType( )
+							.equals( DesignChoiceConstants.SCALAR_PARAM_TYPE_SIMPLE ) )
+					{
+						try
+						{
+							return DataTypeUtil.convert( 
+									values.get( 0 ), DataAdapterUtil.modelDataTypeToCoreDataType( parameterHandle.getDataType() ) );
+						}
+						catch ( BirtException e )
+						{
+							return null;
+						}
+					}
+					
+					try {
+						Object[] reValues = new Object[values.size()];
+						for (int i = 0; i < reValues.length; i++)
+						{
+							reValues[i] = DataTypeUtil.convert( 
+									values.get(i), DataAdapterUtil.modelDataTypeToCoreDataType(parameterHandle.getDataType()));
+						}
+						return reValues;
+					}
+					catch (BirtException e)
+					{
+						return null;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Delete the last "_" part
+	 * 
+	 * @param name
+	 * @return String
+	 */
+	private static String prepareConfigVarName( String name )
+	{
+		int index = name.lastIndexOf( "_" ); //$NON-NLS-1$
+		return name.substring( 0, index );
+	}
+
+	/**
+	 * Checks whether the parameter value is null in the rptconfig file
+	 * 
+	 * @param varName
+	 * @param varValue
+	 * @param newParaName
+	 * @return
+	 */
+	private static boolean isNullValue( String varName, String varValue,
+			String newParaName )
+	{
+		return varName.toLowerCase( ).startsWith( "__isnull" )
+				&& varValue.equals( newParaName );
 	}
 	
 	private static class JSResultIteratorObject extends ScriptableObject

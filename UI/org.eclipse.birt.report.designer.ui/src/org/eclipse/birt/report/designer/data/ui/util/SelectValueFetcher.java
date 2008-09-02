@@ -83,7 +83,8 @@ public class SelectValueFetcher
 
 			DummyEngineTask engineTask = new DummyEngineTask( engine,
 					new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) ( dataSetHandle == null
-							? null : dataSetHandle.getModuleHandle( ) ) ) );
+							? null : dataSetHandle.getModuleHandle( ) ) ),
+					dataSetHandle.getModuleHandle( ) );
 
 			DataRequestSession session = engineTask.getDataSession( );
 
