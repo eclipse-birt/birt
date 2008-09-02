@@ -718,9 +718,9 @@ TaskSelectData.Label.UseToGroupYSeries=Utiliser la série verticale de groupes
 TaskSelectData.Label.EnableLivePreview=Activer l'aperçu direct du graphique
 TaskSelectData.Label.UseToGroupValueSeries=Utiliser la série de valeurs de groupes
 
-TaskFormatChart.TaskExp=Formater le graphique
+TaskFormatChart.TaskExp=Sélectionner le format de graphique
 TaskFormatChart.Label.Preview=Aperçu du graphique
-TaskFormatChart.Task.Description=Ajuster votre graphique en définissant l'interactivité, la mise en page et les propriétés de la série, ainsi que le formatage général du texte, des ombres, de l'arrière-plan et des bordures.
+TaskFormatChart.Task.Description=Ajuster votre graphique en définissant l'interactivité, la mise en page et les propriétés de la série, ainsi que le format général du texte, des ombres, de l'arrière-plan et des bordures.
 
 CustomPreviewTable.Exception.InvalidColumnIndexNotDefined=Index de colonne {0} incorrect ou colonnes non définies \!
 CustomPreviewTable.Exception.InvalidColumnIndexSpecified=Index de colonne spécifié incorrect \!
