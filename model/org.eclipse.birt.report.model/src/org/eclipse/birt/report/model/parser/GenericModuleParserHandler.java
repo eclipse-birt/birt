@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Generic module parser handler, used to parse a design file or a library file.
@@ -54,6 +55,8 @@ public class GenericModuleParserHandler extends ModuleParserHandler
 		this.systemID = systemID;
 		this.fileName = fileName;
 		this.options = options;
+		
+		this.location = ModelUtil.getURLPresentation( fileName );
 	}
 
 	GenericModuleParserHandler( DesignSession theSession, URL systemID,
