@@ -319,29 +319,23 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		GridLayout layout = new GridLayout( );
 
 		tablescomposite.setLayout( layout );
-		{
-			GridData data = new GridData( GridData.FILL_VERTICAL );
-			data.grabExcessVerticalSpace = true;
-			tablescomposite.setLayoutData( data );
-		}
+		GridData data = new GridData( GridData.FILL_VERTICAL );
+		data.grabExcessVerticalSpace = true;
+		tablescomposite.setLayoutData( data );
 
 		// Available Items
 		Label dataSourceLabel = new Label( tablescomposite, SWT.LEFT );
 		dataSourceLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.availableItems" ) );//$NON-NLS-1$
-		{
-			GridData data = new GridData( );
-			dataSourceLabel.setLayoutData( data );
-		}
+		GridData labelData = new GridData( );
+		dataSourceLabel.setLayoutData( labelData );
 
 		availableDbObjectsTree = new Tree( tablescomposite, SWT.BORDER
 				| SWT.MULTI );
-		{
-			GridData data = new GridData( GridData.FILL_BOTH );
-			data.grabExcessHorizontalSpace = true;
-			data.grabExcessVerticalSpace = true;
-			data.heightHint = 150;
-			availableDbObjectsTree.setLayoutData( data );
-		}
+		GridData treeData = new GridData( GridData.FILL_BOTH );
+		treeData.grabExcessHorizontalSpace = true;
+		treeData.grabExcessVerticalSpace = true;
+		treeData.heightHint = 150;
+		availableDbObjectsTree.setLayoutData( treeData );
 
 		availableDbObjectsTree.addMouseListener( new MouseAdapter( ) {
 
@@ -355,6 +349,20 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			}
 		} );
 
+		createSchemaFilterComposite( supportsSchema,
+				supportsProcedure,
+				tablescomposite );
+		
+		createSQLOptionGroup( tablescomposite );
+
+		addDragSupportToTree( );
+		addFetchDbObjectListener( );
+		return tablescomposite;
+	}
+
+	private void createSchemaFilterComposite( boolean supportsSchema,
+			boolean supportsProcedure, Composite tablescomposite )
+	{
 		// Group for selecting the Tables etc
 		// Searching the Tables and Views
 		Group selectTableGroup = new Group( tablescomposite, SWT.FILL );
@@ -365,8 +373,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		groupLayout.verticalSpacing = 10;
 		selectTableGroup.setLayout( groupLayout );
 
-		GridData data = new GridData( GridData.FILL_HORIZONTAL );
-		selectTableGroup.setLayoutData( data );
+		GridData selectTableData = new GridData( GridData.FILL_HORIZONTAL );
+		selectTableGroup.setLayoutData( selectTableData );
 
 		schemaLabel = new Label( selectTableGroup, SWT.LEFT );
 		schemaLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.schema" ) );
@@ -428,17 +436,6 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			}
 		} );
 		
-		Group sqlOptionGroup = new Group( tablescomposite, SWT.FILL );
-		GridLayout sqlOptionGroupLayout = new GridLayout( );
-		sqlOptionGroupLayout.verticalSpacing = 10;
-		sqlOptionGroup.setLayout( sqlOptionGroupLayout );
-		GridData sqlOptionGroupData = new GridData( GridData.FILL_HORIZONTAL );
-		sqlOptionGroup.setLayoutData( sqlOptionGroupData );
-
-		setupIdentifierQuoteStringCheckBox( sqlOptionGroup );
-		
-		setupIncludeSchemaCheckBox( sqlOptionGroup );
-
 		String[] allSchemaNames = null;
 		if ( supportsSchema )
 		{
@@ -477,9 +474,20 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 					new RootNode( dataSetDesign.getDataSourceDesign( )
 							.getName( ) ) );
 		}
-		addDragSupportToTree( );
-		addFetchDbObjectListener( );
-		return tablescomposite;
+	}
+
+	private void createSQLOptionGroup( Composite tablescomposite )
+	{
+		Group sqlOptionGroup = new Group( tablescomposite, SWT.FILL );
+		GridLayout sqlOptionGroupLayout = new GridLayout( );
+		sqlOptionGroupLayout.verticalSpacing = 10;
+		sqlOptionGroup.setLayout( sqlOptionGroupLayout );
+		GridData sqlOptionGroupData = new GridData( GridData.FILL_HORIZONTAL );
+		sqlOptionGroup.setLayoutData( sqlOptionGroupData );
+
+		setupIdentifierQuoteStringCheckBox( sqlOptionGroup );
+		
+		setupIncludeSchemaCheckBox( sqlOptionGroup );
 	}
 
 	private FilterConfig populateFilterConfig( )
