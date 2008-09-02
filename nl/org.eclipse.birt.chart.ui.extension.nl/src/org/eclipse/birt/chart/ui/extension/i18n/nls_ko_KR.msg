@@ -285,7 +285,7 @@ ScatterChart.Txt.DisplayName=분산형
 ScatterChart.SubType.Standard=표준 분산형 차트
 
 BarChart.Txt.DefaultBarChartTitle=막대 차트 제목
-BarChart.Txt.DisplayName=막대형
+BarChart.Txt.DisplayName=가로 막대형
 BarChart.SubType.Stacked=누적
 BarChart.SubType.PercentStacked=누적 백분율
 BarChart.SubType.Side=연속
