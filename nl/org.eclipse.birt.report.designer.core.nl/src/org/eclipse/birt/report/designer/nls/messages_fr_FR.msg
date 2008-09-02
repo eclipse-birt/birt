@@ -4230,6 +4230,7 @@ BindingDialogHelper.text.Filter=Condition de filtre :
 BindingDialogHelper.text.AggOn=Regrouper par :
 BindingDialogHelper.text.Table=Table
 BindingDialogHelper.text.List=Liste
+BindingDialogHelper.text.Grid=Grille
 BindingDialogHelper.text.Group=Groupe
 BindingDialogHelper.text.Expression=Expression :
 BindingDialogHelper.text.displayName=Nom d'affichage :

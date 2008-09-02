@@ -4230,6 +4230,7 @@ BindingDialogHelper.text.Filter=Condición de filtro:
 BindingDialogHelper.text.AggOn=Agregar en:
 BindingDialogHelper.text.Table=Tabla
 BindingDialogHelper.text.List=Lista
+BindingDialogHelper.text.Grid=Cuadrícula
 BindingDialogHelper.text.Group=Grupo
 BindingDialogHelper.text.Expression=Expresión:
 BindingDialogHelper.text.displayName=Nombre en pantalla:

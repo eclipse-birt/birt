@@ -4230,6 +4230,7 @@ BindingDialogHelper.text.Filter=フィルタの条件 :
 BindingDialogHelper.text.AggOn=集計条件 :
 BindingDialogHelper.text.Table=テーブル
 BindingDialogHelper.text.List=リスト
+BindingDialogHelper.text.Grid=グリッド
 BindingDialogHelper.text.Group=グループ
 BindingDialogHelper.text.Expression=式 :
 BindingDialogHelper.text.displayName=表示名 :

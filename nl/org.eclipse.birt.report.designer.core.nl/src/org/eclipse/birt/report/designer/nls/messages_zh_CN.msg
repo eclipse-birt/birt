@@ -4230,6 +4230,7 @@ BindingDialogHelper.text.Filter=筛选条件:
 BindingDialogHelper.text.AggOn=聚合条件:
 BindingDialogHelper.text.Table=表
 BindingDialogHelper.text.List=列表
+BindingDialogHelper.text.Grid=网格
 BindingDialogHelper.text.Group=组
 BindingDialogHelper.text.Expression=表达式:
 BindingDialogHelper.text.displayName=显示名称:

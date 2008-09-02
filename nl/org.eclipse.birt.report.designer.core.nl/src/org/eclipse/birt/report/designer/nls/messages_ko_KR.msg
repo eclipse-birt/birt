@@ -4230,6 +4230,7 @@ BindingDialogHelper.text.Filter=필터 조건:
 BindingDialogHelper.text.AggOn=집계 대상:
 BindingDialogHelper.text.Table=테이블
 BindingDialogHelper.text.List=목록
+BindingDialogHelper.text.Grid=눈금
 BindingDialogHelper.text.Group=그룹
 BindingDialogHelper.text.Expression=식:
 BindingDialogHelper.text.displayName=표시 이름:
