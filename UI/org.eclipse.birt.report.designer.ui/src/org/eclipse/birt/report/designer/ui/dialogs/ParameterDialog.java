@@ -1015,7 +1015,7 @@ public class ParameterDialog extends BaseDialog
 			}
 			else if ( isDynamic )
 			{
-				String columnName = inputParameter.getSortByColumn( );
+				String columnName = getColumnName( inputParameter.getSortByColumn( ) );
 				if ( columnName != null
 						&& sortKeyChooser.indexOf( columnName ) >= 0 )
 				{
