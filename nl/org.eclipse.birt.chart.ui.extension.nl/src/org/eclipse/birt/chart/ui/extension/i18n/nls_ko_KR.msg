@@ -376,7 +376,7 @@ SeriesYSheetImpl.Label.Titles&=제목(&T)
 SeriesYSheetImpl.Label.Markers=계열 표지
 SeriesYSheetImpl.Label.PositiveMarkers=양수 표지
 SeriesYSheetImpl.Label.NegativeMarkers=음수 표지
-SeriesYSheetImpl.Label.Markers&=표지(&M)
+SeriesYSheetImpl.Label.Markers&=마커(&M)
 SeriesYSheetImpl.Label.PositiveMarkers&=양수 표지(&P)
 SeriesYSheetImpl.Label.NegativeMarkers&=음수 표지(&N)
 SeriesYSheetImpl.Label.Decoration=작업
@@ -720,7 +720,7 @@ TaskSelectData.Label.UseToGroupValueSeries=값 계열을 그룹화하는 데 사용
 
 TaskFormatChart.TaskExp=차트 형식 지정
 TaskFormatChart.Label.Preview=차트 미리 보기
-TaskFormatChart.Task.Description=텍스트, 그림자, 배경, 테두리에 대한 전체적인 형식을 지정하는 것 뿐만 아니라 계열 속성, 대화형 작업, 레이아웃을 정의하여 차트를 미세 조정합니다.
+TaskFormatChart.Task.Description=텍스트, 그림자, 배경, 테두리에 대한 전체적인 형식을 지정하는 것 뿐만 아니라 계열 속성, 대화형 작업, 레이아웃을 정의하여 차트의 상세한 부분까지 조정합니다.
 
 CustomPreviewTable.Exception.InvalidColumnIndexNotDefined=잘못된 열 인덱스 {0}이(가) 지정되었거나 열이 아직 정의되지 않았습니다\!
 CustomPreviewTable.Exception.InvalidColumnIndexSpecified=잘못된 열 인덱스가 지정되었습니다\!
@@ -775,7 +775,7 @@ AbstractAxisSubtask.Lbl.IsCategoryAxis=범주 축임(&A)
 AbstractAxisSubtask.Label.Visible2=표시(&B)
 AbstractScaleSheet.Label.StepNumber=단계 번호(&N):
 AxisYSheetImpl.Label.Markers=축 표지
-AxisYSheetImpl.Label.Markers&=표지(&M)
+AxisYSheetImpl.Label.Markers&=마커(&M)
 AxisZSheetImpl.Label.Visible=표시(&V)
 AxisXSheetImpl.Label.AxisData=축 데이터
 AbstractAxisSubtask.Label.Stagger=교차(&R)
