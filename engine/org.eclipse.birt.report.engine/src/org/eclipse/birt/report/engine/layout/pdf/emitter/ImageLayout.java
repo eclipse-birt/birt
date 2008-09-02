@@ -158,6 +158,11 @@ public class ImageLayout extends Layout
 
 class ConcreteImageLayout extends Layout
 {
+	/** The DpiX */
+	private int resolutionX = 0;
+	/** The DpiY */
+	private int resolutionY = 0;
+	
 	public ConcreteImageLayout( LayoutEngineContext context,
 			ContainerLayout parentContext, IContent content )
 	{
@@ -268,8 +273,6 @@ class ConcreteImageLayout extends Layout
 			// 2. the resolution in image file, if the image is set to "auto" dpi from designer.
 			// 3. use the DPI in render options.
 			// 4. the default DPI (96).
-			int resolutionX = 0;
-			int resolutionY = 0;
 			int contentResolution = content.getResolution( );
 			if ( contentResolution != 0 )
 			{
@@ -583,9 +586,12 @@ class ConcreteImageLayout extends Layout
 	private int[] getAbsoluteArea( int[] area, IImageArea imageArea )
 	{
 		assert ( intrinsic != null );
-		for ( int i = 0; i < 4; i++ )
+		for ( int i = 0; i < 4; )
 		{
-			area[i] = getTranslatedLength( area[i] );
+			area[i] = getTranslatedLengthX( area[i] );
+			i++;
+			area[i] = getTranslatedLengthY( area[i] );
+			i++;
 		}
 		int[] result = new int[4];
 		int imageX = imageArea.getX( );
@@ -603,9 +609,14 @@ class ConcreteImageLayout extends Layout
 		return result;
 	}
 
-	private int getTranslatedLength( int length )
+	private int getTranslatedLengthX( int length )
 	{
-		return length * 1000 / 192 * 72;
+		return length * 1000 / resolutionX * 72;
+	}
+	
+	private int getTranslatedLengthY( int length )
+	{
+		return length * 1000 / resolutionY * 72;
 	}
 
 	/**
