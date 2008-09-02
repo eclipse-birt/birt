@@ -334,7 +334,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			{
 				engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( new EngineConfig( ) );
 				engineTask = new DummyEngineTask( engine,
-						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ) );
+						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ),
+						itemHandle.getModuleHandle( ) );
 				session = prepareDataRequestSession( engineTask, maxRow, false );
 				engineTask.run( );
 			}
@@ -1151,7 +1152,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			{
 				engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( new EngineConfig( ) );
 				engineTask = new DummyEngineTask( engine,
-						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ) );
+						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ),
+						itemHandle.getModuleHandle( ) );
 			}
 			
 			CubeHandle cube = ChartXTabUtil.getBindingCube( itemHandle );
@@ -2253,7 +2255,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				{
 					engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( new EngineConfig( ) );
 					engineTask = new DummyEngineTask( engine,
-							new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ) );
+							new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ),
+							itemHandle.getModuleHandle( ) );
 					session = prepareDataRequestSession( engineTask,
 							maxRow,
 							false );
