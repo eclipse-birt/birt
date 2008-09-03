@@ -3934,7 +3934,7 @@ ResourceSelectionValidator.ExtErrorSplitter=\ o
 ###########################################################
 #GeneralPage
 GeneralPage.Library.Included=Librería:
-GeneralPage.Library.Modified.Note=<form><p><span color="{0}">NOTA: se ha modificado el elemento del informe de la librería. Para restaurar el elemento original de la librería, haga clic en</span> <img href="{1}"/> <span color="{2}">"Restaurar propiedades"</span></p></form> 
+GeneralPage.Library.Modified.Note=NOTE: This report item from the library has been modified. To restore the original library item, click on{0}"Restore Properties"
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4387,4 +4387,4 @@ ExportElementToLibraryAction.waringMsg=El elemento no tiene nombre, pero no se p
 ###########################################################
 #UIUtil
 UIUtil.previewconfirm.title=Errores en el informe
-UIUtil.previewconfirm.message=El informe contiene algunos errores, ¿desea proceder con la vista previa?\n(Puede obtener detalles en la vista de problemas)
+UIUtil.previewconfirm.message=The report contains errors, would you like to continue for previewing?

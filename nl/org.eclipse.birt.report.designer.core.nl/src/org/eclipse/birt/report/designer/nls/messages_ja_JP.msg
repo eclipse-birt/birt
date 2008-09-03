@@ -3934,7 +3934,7 @@ ResourceSelectionValidator.ExtErrorSplitter=\ ‚Ü‚½‚Í
 ###########################################################
 #GeneralPage
 GeneralPage.Library.Included=ƒ‰ƒCƒuƒ‰ƒŠ :
-GeneralPage.Library.Modified.Note=<form><p><span color="{0}">’ : ‚±‚ÌƒŒƒ|[ƒg€–Ú‚Íƒ‰ƒCƒuƒ‰ƒŠ‚Å•ÒW‚³‚ê‚Ä‚¢‚Ü‚·BŒ³‚É–ß‚·‚É‚ÍA</span> <img href="{1}"/> <span color="{2}">[ƒvƒƒpƒeƒB‚Ì•œŒ³]</span></p></form> ‚ğƒNƒŠƒbƒN‚µ‚Ä‚­‚¾‚³‚¢B 
+GeneralPage.Library.Modified.Note=NOTE: This report item from the library has been modified. To restore the original library item, click on{0}"Restore Properties"
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4387,4 +4387,4 @@ ExportElementToLibraryAction.waringMsg=—v‘f‚É–¼‘O‚ª•t‚¢‚Ä‚¢‚Ü‚¹‚ñ‚ªA–¼‘O‚ğİ’è‚
 ###########################################################
 #UIUtil
 UIUtil.previewconfirm.title=ƒŒƒ|[ƒg‚ÌƒGƒ‰[
-UIUtil.previewconfirm.message=ƒŒƒ|[ƒg‚ÉƒGƒ‰[‚ª‚ ‚è‚Ü‚·BƒvƒŒƒrƒ…[‚ğˆ—‚µ‚Ü‚·‚© ?\n(–â‘èƒrƒ…[‚ÉÚ×‚ª•\¦‚³‚ê‚Ü‚·)
+UIUtil.previewconfirm.message=The report contains errors, would you like to continue for previewing?
