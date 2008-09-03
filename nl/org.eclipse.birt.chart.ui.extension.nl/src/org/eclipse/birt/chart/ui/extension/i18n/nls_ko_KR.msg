@@ -689,7 +689,7 @@ TaskSelectType.Label.Dimension=차원(&D):
 TaskSelectType.Label.ChartSubtypes=차트 하위 형식
 
 TaskSelectData.TaskExp=데이터 선택
-TaskSelectData.Label.ToBindADataColumn=오른쪽 단추 메뉴를 사용하거나 계열 필드로 열을 끄십시오.
+TaskSelectData.Label.ToBindADataColumn=오른쪽 단추 메뉴를 사용하거나 계열 필드로 열을 끌어 오십시오.
 TaskSelectData.Label.ChartPreview=차트 미리 보기
 TaskSelectData.Label.SelectDataSet=데이터 선택
 TaskSelectData.Label.UseReportData=컨테이너에서 데이터 상속(&I)
