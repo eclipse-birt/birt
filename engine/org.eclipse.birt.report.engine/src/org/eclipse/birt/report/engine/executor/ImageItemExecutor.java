@@ -183,18 +183,30 @@ public class ImageItemExecutor extends QueryItemExecutor
 		imageContent.setImageSource( IImageContent.IMAGE_URL );
 
 		assert uriExpr != null;
-		Object uriObj = evaluate( uriExpr );
-		String strUri = null;
-		if ( uriObj != null )
+		try
 		{
-			strUri = uriObj.toString( );
+			Object uriObj = evaluate( uriExpr );
+
+			String strUri = null;
+			if ( uriObj != null )
+			{
+				strUri = uriObj.toString( );
+			}
+			else if ( uriExpr != null && uriExpr.length( ) > 0 )
+			{
+				strUri = uriExpr;
+			}
+
+			imageContent.setURI( strUri );
 		}
-		else if ( uriExpr != null && uriExpr.length( ) > 0 )
+		catch ( BirtException ex )
 		{
-			strUri = uriExpr;
+			if ( uriExpr != null && uriExpr.length( ) > 0 )
+			{
+				imageContent.setURI( uriExpr );
+			}
+			throw ex;
 		}
-		
-		imageContent.setURI( strUri );		
 	}
 
 	protected void handleNamedImage( String imageName,
@@ -229,18 +241,27 @@ public class ImageItemExecutor extends QueryItemExecutor
 
 		imageContent.setImageSource( IImageContent.IMAGE_EXPRESSION );
 
-		Object value = evaluate( imgExpr );
+		Object value = evaluate( imgExpr ); // throw directly in case of exceptions
 		if ( value instanceof byte[] )
 		{
 			imgData = (byte[]) value;
 		}
+		
+		BirtException tempEx = null;
 		if ( fmtExpr != null )
 		{
-			Object strValue = evaluate( fmtExpr );
-			if ( strValue != null )
+			try
 			{
-				imgExt = strValue.toString( );
-				imgExt = FileUtil.getExtFromType( imgExt );
+				Object strValue = evaluate( fmtExpr );
+				if ( strValue != null )
+				{
+					imgExt = strValue.toString( );
+					imgExt = FileUtil.getExtFromType( imgExt );
+				}
+			}
+			catch ( BirtException ex )
+			{
+				tempEx = ex;
 			}
 		}
 
@@ -250,22 +271,37 @@ public class ImageItemExecutor extends QueryItemExecutor
 			imageContent.setExtension( imgExt );
 			imageContent.setURI( null );
 		}
+		if ( tempEx != null )
+		{
+			throw tempEx;
+		}
 	}
 
 	protected void handleFileExpressionImage( String fileExpr,
 			IImageContent imageContent ) throws BirtException
 	{
 		String imageFile = "";
-		Object file = evaluate( fileExpr );
-		if ( file != null )
+		try
 		{
-			imageFile = file.toString( );
+			Object file = evaluate( fileExpr );
+			if ( file != null )
+			{
+				imageFile = file.toString( );
+			}
+			else if ( fileExpr != null && fileExpr.length( ) > 0 )
+			{
+				imageFile = fileExpr;
+			}
+			handleFileImage( imageFile, imageContent );
 		}
-		else if ( fileExpr != null && fileExpr.length( ) > 0 )
+		catch ( BirtException ex )
 		{
-			imageFile = fileExpr;
+			if ( fileExpr != null && fileExpr.length( ) > 0 )
+			{
+				handleFileImage( fileExpr, imageContent );
+			}
+			throw ex;
 		}
-		handleFileImage( imageFile, imageContent );
 	}
 
 	protected void handleFileImage( String imageFile, IImageContent imageContent )
