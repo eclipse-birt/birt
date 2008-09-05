@@ -64,11 +64,11 @@ public class ResourceLocator
 
 	public static String relativize( URL url )
 	{
-		String path = url.toString( );
 		if ( url.getProtocol( ).equals( "file" ) ) //$NON-NLS-1$
 		{
-			return relativize( path );
+			return relativize( url.toString( ) );
 		}
-		return path;
+		else
+			return url.getFile( );
 	}
 }
