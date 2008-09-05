@@ -1846,6 +1846,13 @@ public class ReportEngineService
 			// set locale information
 			dataTask.setLocale( locale );
 			dataTask.setTimeZone( BirtUtility.toICUTimeZone( timeZone ) );
+			String enableGroupsString = (String)options.get( ParameterAccessor.PARAM_EXTRACT_DATA_GROUPS );
+			boolean enableGroups = false;
+			if ( enableGroupsString != null && !"".equals(enableGroupsString) )
+			{
+				enableGroups = Boolean.valueOf(enableGroupsString.toLowerCase());
+			}
+			dataTask.setGroupMode( enableGroups );			
 
 			DataExtractionOption extractOption = null;
 
