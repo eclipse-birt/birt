@@ -78,7 +78,7 @@ BaseAxisLabelAttributeSheetImpl.Lbl.ShowLabelsStaggered=Afficher les étiquettes 
 BaseAxisLabelAttributeSheetImpl.Title.SheetTitle=Attributs > Axe horizontal > Etiquettes - Personnaliser les étiquettes de l'axe horizontal
 
 BaseAxisMarkerAttributeSheetImpl.Lbl.AddLine=&Ajouter une ligne
-BaseAxisMarkerAttributeSheetImpl.Lbl.AddRange=A&jouter une gamme
+BaseAxisMarkerAttributeSheetImpl.Lbl.AddRange=A&jouter une plage
 BaseAxisMarkerAttributeSheetImpl.Lbl.AddRegion=&Ajouter une zone
 BaseAxisMarkerAttributeSheetImpl.Lbl.RemoveEntry=&Retirer une entrée
 BaseAxisMarkerAttributeSheetImpl.Lbl.StartValue=V&aleur de début :
