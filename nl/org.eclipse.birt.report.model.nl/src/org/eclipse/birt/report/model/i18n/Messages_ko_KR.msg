@@ -2528,7 +2528,7 @@ Element.ReportItem.dataBindingRef=데이터 바인딩 참조
 Element.ReportItem.multiViews=다중 보기
 Element.ReportItem.ACLExpression=ACL 식
 Element.ReportItem.cascadeACL=계단식 ACL
-Element.ReportItem.allowExport=Allow export
+Element.ReportItem.allowExport=내보내기 허용
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=내용
@@ -3335,9 +3335,9 @@ Message.ShiftRow=행 이동
 
 Message.ClearProperties=속성 지우기
 
-Message.CreateTemplateElement=Create Template Element
-Message.TransformToReportItem=Transform TO Report Item
-Message.TransformToDataSet=Transform To Data Set
+Message.CreateTemplateElement=템플릿 요소 생성
+Message.TransformToReportItem=보고서 항목으로 변환
+Message.TransformToDataSet=데이터 집합으로 변환
 
 ###########################################################
 #Element new names.

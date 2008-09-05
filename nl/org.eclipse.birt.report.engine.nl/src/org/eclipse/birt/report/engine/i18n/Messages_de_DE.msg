@@ -97,7 +97,7 @@ Error.ReportRunError = Fehler bei der Ausführung des Berichts.
 Error.ReportDocmentOpenError = Berichtdokument konnte nicht geöffnet werden.
 Error.ReportArchiveOpenError = Berichtarchiv kann nicht geöffnet werden.
 Error.SkipError = Fehler beim Ignorieren.
-Error.ResultsetExtractError = Result set not found
+Error.ResultsetExtractError = Ergebnis nicht gefunden.
 
 ###########################################################
-PDFCreator = BIRT Report Engine {0} using iText {1}.
+PDFCreator = BIRT-Berichtengine {0} mit iText {1}.

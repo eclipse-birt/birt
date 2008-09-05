@@ -181,7 +181,7 @@ birt.viewer.generalException.REPORT_FILE_ERROR=ƒŒƒ|[ƒgƒtƒ@ƒCƒ‹ {0} ‚Í‘¶İ‚µ‚È‚¢
 birt.viewer.generalException.REPORT_ACCESS_ERROR=ƒŒƒ|[ƒgƒtƒ@ƒCƒ‹ {0} ‚ÉƒAƒNƒZƒX‚Å‚«‚Ü‚¹‚ñB
 birt.viewer.generalException.DOCUMENT_FILE_PROCESSING=•¶‘ƒtƒ@ƒCƒ‹‚ğˆ—‚µ‚Ä‚¢‚Ü‚·BŒã‚Å‚â‚è’¼‚µ‚Ä‚­‚¾‚³‚¢B
 birt.viewer.generalException.NO_REPORT_DESIGN=ƒŒƒ|[ƒgƒfƒUƒCƒ“ƒIƒuƒWƒFƒNƒg‚ª‚ ‚è‚Ü‚¹‚ñB
-birt.viewer.generalException.MULTIPLE_EXCEPTIONS=Multiple exceptions occurred.
+birt.viewer.generalException.MULTIPLE_EXCEPTIONS=•¡”‚Ì—áŠO‚ª”­¶‚µ‚Ü‚µ‚½B
 
 ###############################################################################
 # Report service exception
@@ -229,7 +229,7 @@ birt.viewer.taglib.ATTR_ID_DUPLICATE=‘®« ID ‚É‚ÍA‘¼‚Åg‚í‚ê‚Ä‚¢‚È‚¢‚à‚Ì‚ğw’è‚
 birt.viewer.taglib.PARAM_NAME_DUPLICATE=d•¡‚·‚éƒpƒ‰ƒƒ^–¼‚Íg—p‚Å‚«‚Ü‚¹‚ñB
 birt.viewer.taglib.NO_REPORT_SOURCE=ƒŒƒ|[ƒgƒfƒUƒCƒ“‚Ü‚½‚Í•¶‘ƒtƒ@ƒCƒ‹‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
 birt.viewer.taglib.NO_REPORT_DOCUMENT=Reportlet ‚Å‚ÍƒŒƒ|[ƒg•¶‘ƒtƒ@ƒCƒ‹‚ª•K—v‚Å‚·B
-birt.viewer.taglib.NO_REQUESTER_NAME=The "name" attribute of the parameterPage tag is required.
+birt.viewer.taglib.NO_REQUESTER_NAME=parameterPage ƒ^ƒO‚Ì "name" ‘®«‚ª•K—v‚Å‚·B
 
 ###############################################################################
 # Birt Viewer Message

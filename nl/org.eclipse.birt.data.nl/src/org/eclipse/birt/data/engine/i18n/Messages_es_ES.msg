@@ -205,7 +205,7 @@ data.engine.resultClassSaveError=No se pueden encontrar las referencias de colum
 data.engine.invalidMemBufferSize=El tamaño de búfer de memoria "{0}" no es válido. El tamaño de búfer de memoria debe ser un número entero superior a cero. 
 data.engine.document.error.cannotLoadStream=La secuencia de documento "{0}" no es válida.
 data.engine.failToCreateTempDir=Error al crear el directorio temporal en "{0}"; 
-data.engine.reportItem.SubQuery.Unsupported=Report item sharing cannot be used for subquery.
+data.engine.reportItem.SubQuery.Unsupported=Los elementos de informe para compartir no se pueden usar para una subconsulta.
 data.engine.emptyResultSet=El conjunto de resultados está vacío.
 data.engine.errorHappenWhenRetrieveResultSet=Se ha producido un error durante el acceso al conjunto de resultados "{0}". Es posible que el conjunto de resultados no exista.
 # oda consumer errors

@@ -97,7 +97,7 @@ Error.ReportRunError = Une erreur s'est produite lors de l'exécution de l'état
 Error.ReportDocmentOpenError = L'ouverture de l'état a échoué.
 Error.ReportArchiveOpenError = Impossible d'ouvrir l'archive d'état.
 Error.SkipError = Une erreur s'est produite lorsque vous avez ignoré l'élément.
-Error.ResultsetExtractError = Result set not found
+Error.ResultsetExtractError = Jeu de résultats introuvable
 
 ###########################################################
-PDFCreator = BIRT Report Engine {0} using iText {1}.
+PDFCreator = Moteur d'états BIRT {0} utilisant iText ({1}).

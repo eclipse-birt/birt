@@ -97,7 +97,7 @@ Error.ReportRunError = 运行报表时出错
 Error.ReportDocmentOpenError = 打开报表文档失败。
 Error.ReportArchiveOpenError = 无法打开报表存档。
 Error.SkipError = 跨过时出错。
-Error.ResultsetExtractError = Result set not found
+Error.ResultsetExtractError = 未找到结果集
 
 ###########################################################
-PDFCreator = BIRT Report Engine {0} using iText {1}.
+PDFCreator = 使用 iText {1} 的 BIRT 报表引擎 {0}。

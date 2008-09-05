@@ -312,4 +312,4 @@ InsertCubeInLayoutAction.action.message=キューブからクロスタブを作成
 MapRuleBuilderDialog.MsgDlg.Title=警告
 MapRuleBuilderDialog.MsgDlg.Msg=値は空にできません。
 
-LevelHandleDropAdapter.ActionText=Add a dimension
+LevelHandleDropAdapter.ActionText=次元の追加

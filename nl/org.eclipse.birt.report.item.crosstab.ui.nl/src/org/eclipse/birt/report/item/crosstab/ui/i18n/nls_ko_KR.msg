@@ -312,4 +312,4 @@ InsertCubeInLayoutAction.action.message=큐브에서 크로스 탭 생성
 MapRuleBuilderDialog.MsgDlg.Title=경고
 MapRuleBuilderDialog.MsgDlg.Msg=값을 입력해야 합니다.
 
-LevelHandleDropAdapter.ActionText=Add a dimension
+LevelHandleDropAdapter.ActionText=차원 추가

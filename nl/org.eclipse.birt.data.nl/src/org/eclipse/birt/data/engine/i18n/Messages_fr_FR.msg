@@ -205,7 +205,7 @@ data.engine.resultClassSaveError=Impossible de trouver les références des colonn
 data.engine.invalidMemBufferSize=La taille du tampon de la mémoire "{0}" est incorrecte. La taille du tampon de la mémoire doit être un entier supérieur à zéro.
 data.engine.document.error.cannotLoadStream=Le flux de document "{0}" est incorrect.
 data.engine.failToCreateTempDir=Echec de la création du répertoire temporaire dans "{0}"; 
-data.engine.reportItem.SubQuery.Unsupported=Report item sharing cannot be used for subquery.
+data.engine.reportItem.SubQuery.Unsupported=Le partage d'un élément d'état ne peut pas être utilisé pour une sous-requête.
 data.engine.emptyResultSet=Le jeu de résultats est vide.
 data.engine.errorHappenWhenRetrieveResultSet=Une erreur s'est produite lorsque vous avez consulté le jeu de résultats :"{0}". Il se peut que le jeu de résultats spécifié n'existe pas.
 # oda consumer errors

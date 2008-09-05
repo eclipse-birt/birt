@@ -312,4 +312,4 @@ InsertCubeInLayoutAction.action.message=使用多维数据集创建交叉表
 MapRuleBuilderDialog.MsgDlg.Title=警告
 MapRuleBuilderDialog.MsgDlg.Msg=值不能为空。
 
-LevelHandleDropAdapter.ActionText=Add a dimension
+LevelHandleDropAdapter.ActionText=添加维

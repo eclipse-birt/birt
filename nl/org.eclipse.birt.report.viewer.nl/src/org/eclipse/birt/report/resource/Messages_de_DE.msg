@@ -181,7 +181,7 @@ birt.viewer.generalException.REPORT_FILE_ERROR=Die Berichtdatei : {0} ist nicht 
 birt.viewer.generalException.REPORT_ACCESS_ERROR=Zugriff auf die Berichtdatei nicht möglich : {0}.
 birt.viewer.generalException.DOCUMENT_FILE_PROCESSING=Dokumentdatei wird verarbeitet. Versuchen Sie es später erneut.
 birt.viewer.generalException.NO_REPORT_DESIGN=Kein Berichtdesignobjekt verfügbar.
-birt.viewer.generalException.MULTIPLE_EXCEPTIONS=Multiple exceptions occurred.
+birt.viewer.generalException.MULTIPLE_EXCEPTIONS=Es sind mehrere Ausnahmen aufgetreten.
 
 ###############################################################################
 # Report service exception
@@ -229,7 +229,7 @@ birt.viewer.taglib.ATTR_ID_DUPLICATE=Attribut-ID muss eindeutig sein.
 birt.viewer.taglib.PARAM_NAME_DUPLICATE=Parametername darf nicht doppelt vorhanden sein.
 birt.viewer.taglib.NO_REPORT_SOURCE=Berichtdesign oder Dokumentdatei muss angegeben werden.
 birt.viewer.taglib.NO_REPORT_DOCUMENT=Reportlet benötigt Berichtsdokument.
-birt.viewer.taglib.NO_REQUESTER_NAME=The "name" attribute of the parameterPage tag is required.
+birt.viewer.taglib.NO_REQUESTER_NAME=Das Attribut "Name" des Tags parameterPage ist erforderlich.
 
 ###############################################################################
 # Birt Viewer Message

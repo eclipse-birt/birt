@@ -2528,7 +2528,7 @@ Element.ReportItem.dataBindingRef=Referencia de enlace de datos
 Element.ReportItem.multiViews=Vistas múltiples
 Element.ReportItem.ACLExpression=Expresión ACL
 Element.ReportItem.cascadeACL=Cascada ACL
-Element.ReportItem.allowExport=Allow export
+Element.ReportItem.allowExport=Permitir exportación
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Contenido
@@ -3335,9 +3335,9 @@ Message.ShiftRow=Cambiar fila
 
 Message.ClearProperties=Borrar propiedades
 
-Message.CreateTemplateElement=Create Template Element
-Message.TransformToReportItem=Transform TO Report Item
-Message.TransformToDataSet=Transform To Data Set
+Message.CreateTemplateElement=Crear elemento de plantilla
+Message.TransformToReportItem=Transformar en un elemento de informe
+Message.TransformToDataSet=Transformar en un conjunto de datos
 
 ###########################################################
 #Element new names.

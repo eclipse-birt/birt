@@ -205,7 +205,7 @@ data.engine.resultClassSaveError=找不到以下列引用: {0}。
 data.engine.invalidMemBufferSize=内存缓冲区大小“{0}”无效。内存缓冲区大小必须为大于零的整数。
 data.engine.document.error.cannotLoadStream=文档流“{0}”无效。
 data.engine.failToCreateTempDir=无法在“{0}”中创建临时目录； 
-data.engine.reportItem.SubQuery.Unsupported=Report item sharing cannot be used for subquery.
+data.engine.reportItem.SubQuery.Unsupported=报表项共享不能用于子查询。
 data.engine.emptyResultSet=结果集为空。
 data.engine.errorHappenWhenRetrieveResultSet=访问结果集“{0}”时出错。指定的结果集可能不存在。
 # oda consumer errors

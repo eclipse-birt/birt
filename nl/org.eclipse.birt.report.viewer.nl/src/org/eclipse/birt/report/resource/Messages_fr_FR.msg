@@ -181,7 +181,7 @@ birt.viewer.generalException.REPORT_FILE_ERROR=Le fichier d''état {0} n''existe 
 birt.viewer.generalException.REPORT_ACCESS_ERROR=Impossible d''accéder au fichier d''état {0}.
 birt.viewer.generalException.DOCUMENT_FILE_PROCESSING=Traitement du fichier de document en cours, veuillez réessayer ultérieurement.
 birt.viewer.generalException.NO_REPORT_DESIGN=Aucun objet de modèle d'état n'est disponible.
-birt.viewer.generalException.MULTIPLE_EXCEPTIONS=Multiple exceptions occurred.
+birt.viewer.generalException.MULTIPLE_EXCEPTIONS=Plusieurs exceptions se sont produites.
 
 ###############################################################################
 # Report service exception
@@ -229,7 +229,7 @@ birt.viewer.taglib.ATTR_ID_DUPLICATE=L'ID de l'attribut doit être unique.
 birt.viewer.taglib.PARAM_NAME_DUPLICATE=Le nom du paramètre ne peut être dupliqué.
 birt.viewer.taglib.NO_REPORT_SOURCE=Un modèle d'état ou un document doit être spécifié.
 birt.viewer.taglib.NO_REPORT_DOCUMENT=L'état est requis par le reportlet.
-birt.viewer.taglib.NO_REQUESTER_NAME=The "name" attribute of the parameterPage tag is required.
+birt.viewer.taglib.NO_REQUESTER_NAME=L'attribut "name" de la balise parameterPage est requis.
 
 ###############################################################################
 # Birt Viewer Message

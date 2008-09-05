@@ -181,7 +181,7 @@ birt.viewer.generalException.REPORT_FILE_ERROR=El archivo de informe: {0} no exi
 birt.viewer.generalException.REPORT_ACCESS_ERROR=No se puede acceder al archivo de informe: {0}.
 birt.viewer.generalException.DOCUMENT_FILE_PROCESSING=Procesando archivo de documento, inténtelo más tarde.
 birt.viewer.generalException.NO_REPORT_DESIGN=No hay ningún objeto de diseño de informe disponible.
-birt.viewer.generalException.MULTIPLE_EXCEPTIONS=Multiple exceptions occurred.
+birt.viewer.generalException.MULTIPLE_EXCEPTIONS=Se han producido varias excepciones.
 
 ###############################################################################
 # Report service exception
@@ -229,7 +229,7 @@ birt.viewer.taglib.ATTR_ID_DUPLICATE=El ID de atributo debe ser exclusivo.
 birt.viewer.taglib.PARAM_NAME_DUPLICATE=El nombre de parámetro no puede duplicarse.
 birt.viewer.taglib.NO_REPORT_SOURCE=Se debe especificar el diseño de informe o archivo de documento.
 birt.viewer.taglib.NO_REPORT_DOCUMENT=El informe necesita el archivo de documento de informe.
-birt.viewer.taglib.NO_REQUESTER_NAME=The "name" attribute of the parameterPage tag is required.
+birt.viewer.taglib.NO_REQUESTER_NAME=Es necesario el atributo "name" de la etiqueta de la página de parámetros
 
 ###############################################################################
 # Birt Viewer Message

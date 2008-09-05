@@ -2528,7 +2528,7 @@ Element.ReportItem.dataBindingRef=データバインドの参照
 Element.ReportItem.multiViews=マルチビュー
 Element.ReportItem.ACLExpression=ACL 式
 Element.ReportItem.cascadeACL=ACL を重ねて表示
-Element.ReportItem.allowExport=Allow export
+Element.ReportItem.allowExport=エクスポートを許可する
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=コンテンツ
@@ -3335,9 +3335,9 @@ Message.ShiftRow=行のシフト
 
 Message.ClearProperties=プロパティのクリア
 
-Message.CreateTemplateElement=Create Template Element
-Message.TransformToReportItem=Transform TO Report Item
-Message.TransformToDataSet=Transform To Data Set
+Message.CreateTemplateElement=テンプレートの要素の作成
+Message.TransformToReportItem=レポート項目に変換
+Message.TransformToDataSet=データセットに変換
 
 ###########################################################
 #Element new names.

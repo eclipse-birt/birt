@@ -181,7 +181,7 @@ birt.viewer.generalException.REPORT_FILE_ERROR=报表文件: {0} 不存在或包含错误。
 birt.viewer.generalException.REPORT_ACCESS_ERROR=无法访问报表文件: {0}。
 birt.viewer.generalException.DOCUMENT_FILE_PROCESSING=正在处理文档文件，请稍后再试。
 birt.viewer.generalException.NO_REPORT_DESIGN=没有可用的报表设计对象。
-birt.viewer.generalException.MULTIPLE_EXCEPTIONS=Multiple exceptions occurred.
+birt.viewer.generalException.MULTIPLE_EXCEPTIONS=出现多个异常。
 
 ###############################################################################
 # Report service exception
@@ -229,7 +229,7 @@ birt.viewer.taglib.ATTR_ID_DUPLICATE=属性 ID 必须唯一。
 birt.viewer.taglib.PARAM_NAME_DUPLICATE=无法复制参数名称。
 birt.viewer.taglib.NO_REPORT_SOURCE=应指定报表设计或文档文件。
 birt.viewer.taglib.NO_REPORT_DOCUMENT=reportlet 需要报表文档文件。
-birt.viewer.taglib.NO_REQUESTER_NAME=The "name" attribute of the parameterPage tag is required.
+birt.viewer.taglib.NO_REQUESTER_NAME=参数页标记的 "name" 属性是必需的。
 
 ###############################################################################
 # Birt Viewer Message

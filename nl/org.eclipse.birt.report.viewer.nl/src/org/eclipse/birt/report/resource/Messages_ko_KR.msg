@@ -181,7 +181,7 @@ birt.viewer.generalException.REPORT_FILE_ERROR=보고서 파일: {0}이(가) 없거나 오�
 birt.viewer.generalException.REPORT_ACCESS_ERROR=보고서 파일: {0}에 액세스할 수 없습니다.
 birt.viewer.generalException.DOCUMENT_FILE_PROCESSING=문서 파일을 처리 중입니다. 나중에 다시 시도하십시오.
 birt.viewer.generalException.NO_REPORT_DESIGN=사용 가능한 보고서 디자인 개체가 없습니다.
-birt.viewer.generalException.MULTIPLE_EXCEPTIONS=Multiple exceptions occurred.
+birt.viewer.generalException.MULTIPLE_EXCEPTIONS=여러 예외가 발생했습니다.
 
 ###############################################################################
 # Report service exception
@@ -229,7 +229,7 @@ birt.viewer.taglib.ATTR_ID_DUPLICATE=특성 ID는 고유해야 합니다.
 birt.viewer.taglib.PARAM_NAME_DUPLICATE=매개 변수 이름은 중복될 수 없습니다.
 birt.viewer.taglib.NO_REPORT_SOURCE=보고서 디자인 또는 문서 파일을 지정해야 합니다.
 birt.viewer.taglib.NO_REPORT_DOCUMENT=리포틀릿은 보고서 문서 파일이 필요합니다.
-birt.viewer.taglib.NO_REQUESTER_NAME=The "name" attribute of the parameterPage tag is required.
+birt.viewer.taglib.NO_REQUESTER_NAME=parameterPage 태그의 "name" 속성이 필요합니다.
 
 ###############################################################################
 # Birt Viewer Message

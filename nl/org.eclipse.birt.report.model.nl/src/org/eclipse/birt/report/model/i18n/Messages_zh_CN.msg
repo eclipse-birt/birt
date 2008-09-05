@@ -2528,7 +2528,7 @@ Element.ReportItem.dataBindingRef=数据绑定引用
 Element.ReportItem.multiViews=多个视图
 Element.ReportItem.ACLExpression=ACL 表达式
 Element.ReportItem.cascadeACL=层叠 ACL
-Element.ReportItem.allowExport=Allow export
+Element.ReportItem.allowExport=允许导出
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=内容
@@ -3335,9 +3335,9 @@ Message.ShiftRow=移动行
 
 Message.ClearProperties=清除属性
 
-Message.CreateTemplateElement=Create Template Element
-Message.TransformToReportItem=Transform TO Report Item
-Message.TransformToDataSet=Transform To Data Set
+Message.CreateTemplateElement=创建模板元素
+Message.TransformToReportItem=转换为报表项
+Message.TransformToDataSet=转换为数据集
 
 ###########################################################
 #Element new names.
