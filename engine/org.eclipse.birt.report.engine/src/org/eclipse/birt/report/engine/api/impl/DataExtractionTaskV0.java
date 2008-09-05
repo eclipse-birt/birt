@@ -909,4 +909,9 @@ public class DataExtractionTaskV0 extends EngineTask
 	{
 		this.startRow = startRow;
 	}
+	
+	public void setGroupMode( boolean isGroupMode )
+	{
+		// not supported
+	}
 }

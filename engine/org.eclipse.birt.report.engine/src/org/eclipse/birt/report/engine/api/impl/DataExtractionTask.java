@@ -275,4 +275,9 @@ public class DataExtractionTask implements IDataExtractionTask
 	{
 		task.setUserACL( acl );
 	}
+	
+	public void setGroupMode( boolean isGroupMode )
+	{
+		task.setGroupMode( isGroupMode );
+	}
 }
