@@ -843,8 +843,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				{
 					if ( isGroupExpr )
 					{
-						seriesdefinition.getGrouping( )
-								.setAggregateExpression( null );
 						seriesdefinition.getGrouping( ).setEnabled( true );
 					}
 					else
