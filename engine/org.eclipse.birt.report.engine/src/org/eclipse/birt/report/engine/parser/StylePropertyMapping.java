@@ -153,12 +153,10 @@ public class StylePropertyMapping
 	{
 		Object value = getDefaultValue( name );
 
-		if ( value == null && handle != null )
+		if ( value == null && handle != null && handle.isDirectionRTL( ) )
 		{
 			if ( IStyleModel.TEXT_DIRECTION_PROP.equals( name ) )
-				return handle.isDirectionRTL( )
-						? DesignChoiceConstants.BIDI_DIRECTION_RTL
-						: DesignChoiceConstants.BIDI_DIRECTION_LTR;
+				return DesignChoiceConstants.BIDI_DIRECTION_RTL;
 		}
 		return value;
 	}
