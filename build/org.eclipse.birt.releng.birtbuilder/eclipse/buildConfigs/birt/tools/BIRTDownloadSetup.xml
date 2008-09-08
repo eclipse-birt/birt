@@ -483,10 +483,10 @@
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 	<target name="createAllInOneForLinux">
 		<!--  Make birt all-in-one ZIP file-->
-		<mkdir dir="${OutputDir}/temp" failonerror="false"/>
-		<mkdir dir="${OutputDir}/temp/eclipse" failonerror="false"/>
-		<mkdir dir="${OutputDir}/temp/eclipse/plugins" failonerror="false"/>
-		<mkdir dir="${OutputDir}/temp/eclipse/features" failonerror="false"/>
+		<mkdir dir="${OutputDir}/temp"/>
+		<mkdir dir="${OutputDir}/temp/eclipse"/>
+		<mkdir dir="${OutputDir}/temp/eclipse/plugins"/>
+		<mkdir dir="${OutputDir}/temp/eclipse/features"/>
 		
 		<copy todir="${OutputDir}/temp/eclipse/plugins" overwrite="true">
 			<fileset dir="${deposit}/eclipse/plugins">
