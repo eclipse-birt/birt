@@ -518,7 +518,7 @@
 			</fileset>
 		</copy>
 		<copy todir="${OutputDir}/temp/eclipse" overwrite="true">
-			<fileset dir="${package.files.dir}/jee-linux" includes="**/*"/>
+			<fileset dir="${package.files.dir}/jee-linux/eclipses" includes="**/*"/>
 		</copy>
 		
 		<exec executable="tar" dir="${OutputDir}/temp">
