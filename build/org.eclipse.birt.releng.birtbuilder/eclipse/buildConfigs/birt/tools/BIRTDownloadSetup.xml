@@ -520,7 +520,9 @@
 		<copy todir="${OutputDir}/temp/eclipse" overwrite="true">
 			<fileset dir="${package.files.dir}/jee-linux/eclipse" includes="**/*"/>
 		</copy>
-		
+		<exec executable="chmod" dir="${OutputDir}/temp/eclipse">
+			<arg line="+x eclipse" />
+		</exec>
 		<exec executable="tar" dir="${OutputDir}/temp">
 			<arg line="-cvf ${OutputDir}/${allinone.linux.zip.name} eclipse/" />
 		</exec>
