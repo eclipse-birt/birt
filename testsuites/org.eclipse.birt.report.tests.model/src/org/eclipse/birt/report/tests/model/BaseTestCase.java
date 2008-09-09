@@ -58,9 +58,9 @@ import com.ibm.icu.util.ULocale;
  * <li>Open a design file, and store the
  * {@link org.eclipse.birt.report.model.elements.ReportDesign}instance and its
  * handle, {@link org.eclipse.birt.report.model.api.ReportDesignHandle}</li>
- * <li>After opening the design file, if the design file contains some syntax
- * or semantic error, the error list can be accessed by this class. This is to
- * make it easy when developing the test cases</li>
+ * <li>After opening the design file, if the design file contains some syntax or
+ * semantic error, the error list can be accessed by this class. This is to make
+ * it easy when developing the test cases</li>
  * </ul>
  * <p>
  * Note:
@@ -191,14 +191,13 @@ public abstract class BaseTestCase extends TestCase {
 	}
 
 	/*
-	 * protected void runCase( String args[] ) { Vector runArgs = new Vector( ); //
-	 * invoke the report runner. String input = PLUGIN_PATH +
+	 * protected void runCase( String args[] ) { Vector runArgs = new Vector( );
+	 * // invoke the report runner. String input = PLUGIN_PATH +
 	 * System.getProperty( "file.separator" ) //$NON-NLS-1$ +
 	 * RESOURCE_BUNDLE.getString( "CASE_INPUT" ); //$NON-NLS-1$ input +=
 	 * System.getProperty( "file.separator" ) + caseName //$NON-NLS-1$ +
 	 * ".rptdesign"; //$NON-NLS-1$ System.out.println( "input is : " + input );
-	 * //$NON-NLS-1$
-	 *  // run report runner.
+	 * //$NON-NLS-1$ // run report runner.
 	 * 
 	 * if ( args != null ) { for ( int i = 0; i < args.length; i++ ) {
 	 * runArgs.add( args[i] ); } } runArgs.add( "-f" ); //$NON-NLS-1$
@@ -361,7 +360,7 @@ public abstract class BaseTestCase extends TestCase {
 		}
 
 		FileOutputStream fos = new FileOutputStream(folder + filename);
-//		System.out.println(folder + filename);
+		// System.out.println(folder + filename);
 		byte[] fileData = new byte[5120];
 		int readCount = -1;
 		while ((readCount = is.read(fileData)) != -1) {
@@ -684,8 +683,8 @@ public abstract class BaseTestCase extends TestCase {
 		assertNotNull(sessionHandle);
 
 		if (inSingleJarMode)
-			libraryHandle = sessionHandle.openLibrary(getResource(fileName),
-					getResourceAStream(fileName));
+			libraryHandle = sessionHandle.openLibrary(getResource(fileName)
+					.toString(), getResourceAStream(fileName));
 		else
 			libraryHandle = sessionHandle.openLibrary(fileName);
 	}
@@ -1121,7 +1120,7 @@ public abstract class BaseTestCase extends TestCase {
 	 * bis != null ) bis.close( );
 	 * 
 	 * if ( bos != null ) bos.close( ); } catch ( IOException e ) { // ignore }
-	 *  } }
+	 * } }
 	 */
 	/**
 	 * Prints out all semantic errors stored in the error list during parsing
@@ -1150,8 +1149,7 @@ public abstract class BaseTestCase extends TestCase {
 	 * design file.
 	 * 
 	 * @param e
-	 *            <code>DesignFileException</code> containing syntax error
-	 *            list.
+	 *            <code>DesignFileException</code> containing syntax error list.
 	 */
 
 	protected void printSyntaxError(DesignFileException e) {
