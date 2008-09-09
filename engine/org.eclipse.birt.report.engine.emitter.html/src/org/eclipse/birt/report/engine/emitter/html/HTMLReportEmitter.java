@@ -1126,6 +1126,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.closeTag( "hr" );
 		}
 
+		if ( pageNo > 1 )
+		{
+			writer.writeCode( " <div style=\"visibility: hidden; height: 0px; overflow: hidden; page-break-after: always;\">page separator</div>" );
+		}
+		
 		boolean fixedReport = HTMLRenderOption.LAYOUT_PREFERENCE_FIXED
 				.equals( layoutPreference );
 		// out put the page tag
@@ -1133,10 +1138,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.openTag( HTMLTags.TAG_TABLE );
 		writer.attribute( "cellpadding", "0" );
 		styleBuffer.append( " border-collapse: collapse; empty-cells: show;" ); //$NON-NLS-1$
-		if ( pageNo > 1 )
-		{
-			styleBuffer.append( "page-break-before: always;" );
-		}
 
 		if ( page != null && outputMasterPageContent )
 		{
