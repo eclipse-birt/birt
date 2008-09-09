@@ -115,7 +115,7 @@ public class ImageManagerTest extends BaseTestCase
 		embeddedImage.setData( data );
 		getReportDesign( ).handle( ).addImage( embeddedImage );
 		Image image = ImageManager.getInstance( )
-				.getImage( getReportDesignHandle( ), embeddedImage.getName( ) );
+				.getEmbeddedImage( getReportDesignHandle( ), embeddedImage.getName( ) );
 		assertNotNull( image );
 		if ( PlatformUtil.isWindows( ) )
 		{//platform related issue
@@ -123,7 +123,7 @@ public class ImageManagerTest extends BaseTestCase
 					localData.data ) );
 		}
 		assertEquals( image, ImageManager.getInstance( )
-				.getImage( getReportDesignHandle( ), embeddedImage.getName( ) ) );
+				.getEmbeddedImage( getReportDesignHandle( ), embeddedImage.getName( ) ) );
 	}
 
 	public void testLoadImage( ) throws IOException

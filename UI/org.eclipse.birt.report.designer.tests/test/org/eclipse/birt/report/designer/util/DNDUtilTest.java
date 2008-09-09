@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
@@ -443,11 +444,16 @@ public class DNDUtilTest extends BaseTestCase
 					ParameterGroup.PARAMETERS_SLOT );
 			groupChild.addElement( getElementFactory( ).newScalarParameter( "c2" ),
 					ParameterGroup.PARAMETERS_SLOT );
+			// add to report before operation
+			getReportDesignHandle().addElement( groupChild, ModuleHandle.PARAMETER_SLOT );
+			
 			ParameterGroupHandle groupParent = getElementFactory( ).newParameterGroup( "parent" );
 			groupParent.addElement( getElementFactory( ).newScalarParameter( "p1" ),
 					ParameterGroup.PARAMETERS_SLOT );
 			groupParent.addElement( getElementFactory( ).newScalarParameter( "p2" ),
 					ParameterGroup.PARAMETERS_SLOT );
+			// add to report before operation
+			getReportDesignHandle().addElement( groupParent, ModuleHandle.PARAMETER_SLOT );
 
 			DNDUtil.moveHandles( groupChild, groupParent, 0 );
 			int childCount = groupChild.getParameters( ).getCount( );
@@ -515,11 +521,16 @@ public class DNDUtilTest extends BaseTestCase
 					ParameterGroup.PARAMETERS_SLOT );
 			groupChild.addElement( getElementFactory( ).newScalarParameter( "c2" ),
 					ParameterGroup.PARAMETERS_SLOT );
+			// add to report before operation
+			getReportDesignHandle().addElement( groupChild, ModuleHandle.PARAMETER_SLOT );
+			
 			ParameterGroupHandle groupParent = getElementFactory( ).newParameterGroup( "parent" );
 			groupParent.addElement( getElementFactory( ).newScalarParameter( "p1" ),
 					ParameterGroup.PARAMETERS_SLOT );
 			groupParent.addElement( getElementFactory( ).newScalarParameter( "p2" ),
 					ParameterGroup.PARAMETERS_SLOT );
+			// add to report before operation
+			getReportDesignHandle().addElement( groupParent, ModuleHandle.PARAMETER_SLOT );
 
 			DNDUtil.moveHandles( groupChild, groupParent, 0 );
 			SlotHandle parameters = groupParent.getParameters( );

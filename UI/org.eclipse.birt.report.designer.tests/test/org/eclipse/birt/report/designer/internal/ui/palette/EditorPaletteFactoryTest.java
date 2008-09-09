@@ -25,7 +25,7 @@ public class EditorPaletteFactoryTest extends TestCase
 	public void testCreatePalette( )
 	{
 		PaletteRoot root = DesignerPaletteFactory.createPalette( );
-		int size = 2;
+		int size = 3;
 		if ( ExtensionPointManager.getInstance( )
 				.getExtendedElementPoint( ITestConstants.TEST_EXTENSION_NAME ) != null )
 		{
@@ -45,7 +45,8 @@ public class EditorPaletteFactoryTest extends TestCase
 		if ( ExtensionPointManager.getInstance( )
 				.getExtendedElementPoint( ITestConstants.TEST_EXTENSION_NAME ) != null )
 		{
-			size++;
+			// extended item is not shown in masterpage.
+			//size++;
 		}
 		assertEquals( size, root.getChildren( ).size( ) );
 	}

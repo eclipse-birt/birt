@@ -16,6 +16,7 @@ import junit.framework.TestCase;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.tests.ITestConstants;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 
@@ -61,8 +62,10 @@ public abstract class BaseTestCase extends TestCase
 
 	private void loadFile( String fileName ) throws DesignFileException
 	{
-		SessionHandleAdapter.getInstance( ).init( fileName,
+		ModuleHandle module = SessionHandleAdapter.getInstance( ).init( fileName,
 				BaseTestCase.class.getResourceAsStream( fileName ) );
+		
+		SessionHandleAdapter.getInstance( ).setReportDesignHandle( module );
 	}
 
 	protected String getLoadFile( )

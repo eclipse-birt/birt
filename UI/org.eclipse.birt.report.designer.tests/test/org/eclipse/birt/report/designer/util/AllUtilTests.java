@@ -22,7 +22,7 @@ public class AllUtilTests
 
 	public static Test suite( )
 	{
-		TestSuite suite = new TestSuite( "Test for org.eclipse.bird.designer.util" );
+		TestSuite suite = new TestSuite( "Test for org.eclipse.birt.report.designer.util" );
 		//$JUnit-BEGIN$
 		suite.addTestSuite( MetricUtilityTest.class );
 		suite.addTestSuite( FontManagerTest.class );

@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.swt.SWT;
 
 /**
  * Tests for TableHandleAdapter
@@ -131,7 +132,9 @@ public class TableHandleAdapterTest extends BaseTestCase
 
 		int color = adapter.getBackgroundColor( adapter.getHandle( ) );
 		// if the back ground was not set , return 0xffffff
-		assertEquals( 0xffffff, color );
+		// assertEquals( 0xffffff, color );
+		// if the back ground was not set , return system default background color
+		assertEquals( SWT.COLOR_LIST_BACKGROUND, color );
 
 		try
 		{

@@ -12,6 +12,7 @@ package org.eclipse.birt.report.designer.ui;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtilTest;
 import org.eclipse.birt.report.designer.util.DNDUtilTest;
 
 public class AllUITests
@@ -25,14 +26,11 @@ public class AllUITests
 		suite.addTest( new TestSuite( ReportPlatformUIImagesTest.class ) );
 		suite.addTest( new TestSuite( DNDUtilTest.class ) );
 		suite.addTest( new TestSuite( ReportPluginTest.class ) );
-		// Remove unit test which server can't run successfully
-		// suite.addTest( new TestSuite( InsertInLayoutUtilTest.class ) );
+		suite.addTest( new TestSuite( InsertInLayoutUtilTest.class ) );
 
 		suite.addTest( org.eclipse.birt.report.designer.ui.extensions.AllTests.suite( ) );
 		suite.addTest( org.eclipse.birt.report.designer.internal.ui.palette.AllTests.suite( ) );
-		// suite.addTest(
-		// org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AllTests.suite(
-		// ) );
+		suite.addTest( org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AllTests.suite( ) );
 		suite.addTest( org.eclipse.birt.report.designer.ui.views.attributes.AllTests.suite( ) );
 		// $JUnit-END$
 		return suite;
