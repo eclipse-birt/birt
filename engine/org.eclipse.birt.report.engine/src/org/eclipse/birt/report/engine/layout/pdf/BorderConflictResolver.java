@@ -65,9 +65,9 @@ public class BorderConflictResolver
 
 	final static int POSITION_BOTTOM = 3;
 
-	private static int POSITION_LEAD = POSITION_LEFT;
+	private int POSITION_LEAD = POSITION_LEFT;
 
-	private static int POSITION_TRAIL = POSITION_RIGHT;
+	private int POSITION_TRAIL = POSITION_RIGHT;
 
 	static HashMap<Value, Integer> styleMap = null;
 	static

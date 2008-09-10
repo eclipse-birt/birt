@@ -110,11 +110,19 @@ public class TableBorder
 		if ( !segments.isEmpty( ) )
 		{
 			last = (BorderSegment) segments.get( segments.size( ) - 1 );
-			if ( last.end == start && last.width == width
-					&& last.color.equals( color ) && last.style.equals( style ) )
+			if ( last.width == width && last.color.equals( color ) && last.style.equals( style ) )
 			{
-				last.end = end;
-				return;
+				if ( last.end == start )
+				{
+					last.end = end;
+					return;
+				}
+				// bidi_hcg: In RTL X coordinates are progressing from right to left
+				if ( last.start == end )
+				{
+					last.start = start;
+					return;
+				}
 			}
 		}
 
