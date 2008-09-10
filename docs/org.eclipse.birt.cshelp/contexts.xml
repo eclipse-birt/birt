@@ -543,6 +543,25 @@ The dialog box helps you specify the If and Then parts of a rule by breaking the
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/format.7.8.html" label="How to create a formatting rule"/>
 </context>
 
+<context id="Preference_BIRT_BIDI_ID" title="Preferences - Bidirectional Properties page">
+<description>Use this page to set the default layout direction for new report designs.
+
+The setting, Left to Right, is suitable for designing reports in languages such as English or Russian that write text from the left of the page to the right. The setting, Right to Left, is suitable for languages such as Arabic or Hebrew that write in the opposite direction.
+
+For example:
+When the report orientation is left to right:
+* The handles for table, grid, and cross-tab rows appear on the left of the element in the layout editor.
+* When you drag a data set into the layout, the data columns are added from the left of the table to the right.
+* Scroll bars appear on the right edge of the layout editor windows.
+
+When the report orientation is right to left:
+* The handles for table, grid, and cross-tab rows appear on the right of the element in the layout editor.
+* When you drag a data set into the layout, the data columns are added from the right of the table to the left.
+* Scroll bars appear on the left edge of the layout editor windows.
+</description>
+</context>
+
+
 <context id="Preference_BIRT_DataSetEditor_ID" title="Preferences - Data Set Editor page">
 <description>Use this page to control how the Data Set Editor displays SQL queries and report previews.
 </description>
