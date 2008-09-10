@@ -40,13 +40,18 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryLocator;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.engine.api.DataExtractionOption;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataExtractionOption;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
+import org.eclipse.birt.report.engine.api.IEngineConfig;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
+import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
+import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
+import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IResultMetaData;
@@ -1191,6 +1196,7 @@ public class DataExtractionTaskV1 extends EngineTask
 
 	public void extract( IDataExtractionOption option ) throws BirtException
 	{
+		setupExtractOption( option );
 		IDataExtractionExtension dataExtraction = getDataExtractionExtension( option );
 		try
 		{
@@ -1273,5 +1279,66 @@ public class DataExtractionTaskV1 extends EngineTask
 	public void setGroupMode( boolean isGroupMode )
 	{
 		this.mode = isGroupMode;
+	}
+	
+	private IDataExtractionOption getDefaultOptions( )
+	{
+		HashMap options = new HashMap( );
+
+		// try to get the default render option from the engine config.
+		HashMap configs = engine.getConfig( ).getEmitterConfigs( );
+		// get the default format of the emitters, the default format key is
+		// IRenderOption.OUTPUT_FORMAT;
+		IRenderOption defaultOptions = (IRenderOption) configs
+				.get( IEngineConfig.DEFAULT_RENDER_OPTION );
+		if ( defaultOptions != null )
+		{
+			options.putAll( defaultOptions.getOptions( ) );
+		}
+
+		// try to get the render options by the format
+		IRenderOption htmlOptions = (IRenderOption) configs
+				.get( IRenderOption.OUTPUT_FORMAT_HTML );
+		if ( htmlOptions != null )
+		{
+			options.putAll( htmlOptions.getOptions( ) );
+		}
+		return new DataExtractionOption( options );
+	}
+
+	private IDataExtractionOption setupExtractOption(
+			IDataExtractionOption options )
+	{
+		// setup the data extraction options from:
+		IDataExtractionOption defaultOptions = getDefaultOptions( );
+		// load the options from task level options
+		if ( options.getActionHandler( ) == null )
+		{
+			IHTMLActionHandler actionHandler = defaultOptions
+					.getActionHandler( );
+			if ( actionHandler != null )
+			{
+				options.setActionHandler( actionHandler );
+			}
+		}
+
+		if ( options.getImageHandler( ) == null )
+		{
+			IHTMLImageHandler imageHandler = defaultOptions.getImageHandler( );
+			if ( imageHandler != null )
+			{
+				options.setImageHandler( imageHandler );
+			}
+		}
+
+		if ( options.getInstanceID( ) == null )
+		{
+			if ( instanceId != null )
+			{
+				options.setInstanceID( instanceId );
+			}
+		}
+
+		return options;
 	}
 }

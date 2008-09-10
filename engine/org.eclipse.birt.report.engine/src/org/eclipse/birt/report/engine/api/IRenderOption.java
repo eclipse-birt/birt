@@ -66,46 +66,10 @@ public interface IRenderOption extends ITaskOption
 	public static final String CLOSE_OUTPUTSTREAM_ON_EXIT = "closeOutputStreamOnExit";
 	
 	/**
-	 * get all the options defined in this object
-	 * 
-	 * @return
-	 */
-	public Map getOptions( );
-
-	/**
 	 * @return
 	 * @deprecated use getOptions instead
 	 */
 	public Map getOutputSetting( );
-
-	/**
-	 * set the option value.
-	 * 
-	 * @param name
-	 *            option name.
-	 * @param value
-	 *            value
-	 */
-	public void setOption( String name, Object value );
-
-	/**
-	 * get the option value defined by the name.
-	 * 
-	 * @param name
-	 *            option name.
-	 * @return value, null if not defined
-	 */
-	public Object getOption( String name );
-
-	/**
-	 * if there exits an option named by name.
-	 * 
-	 * @param name
-	 *            option name.
-	 * @return true if user has defined an option with this name, even if the
-	 *         value is NULL. false otherwise.
-	 */
-	public boolean hasOption( String name );
 
 	/**
 	 * Set output format.

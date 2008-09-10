@@ -11,9 +11,18 @@
 
 package org.eclipse.birt.report.engine.api;
 
+import java.util.Map;
 
 public interface ITaskOption
 {
+
+	/**
+	 * get all the options defined in this object
+	 * 
+	 * @return
+	 */
+	public Map getOptions( );
+
 	/**
 	 * set the option value.
 	 * 
@@ -32,4 +41,15 @@ public interface ITaskOption
 	 * @return value, null if not defined
 	 */
 	public Object getOption( String name );
+
+	/**
+	 * if there exits an option named by name.
+	 * 
+	 * @param name
+	 *            option name.
+	 * @return true if user has defined an option with this name, even if the
+	 *         value is NULL. false otherwise.
+	 */
+	public boolean hasOption( String name );
+
 }

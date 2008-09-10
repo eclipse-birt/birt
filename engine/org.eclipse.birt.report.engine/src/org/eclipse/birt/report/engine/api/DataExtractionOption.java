@@ -12,11 +12,23 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.io.OutputStream;
+import java.util.Map;
 
 public class DataExtractionOption extends TaskOption
 		implements
 			IDataExtractionOption
 {
+
+	public DataExtractionOption( )
+	{
+		super( );
+	}
+
+	public DataExtractionOption( Map options )
+	{
+		super( options );
+	}
+
 	/**
 	 * Set extension id.
 	 * 
@@ -96,5 +108,50 @@ public class DataExtractionOption extends TaskOption
 			return (OutputStream) value;
 		}
 		return null;
+	}
+
+	public IHTMLActionHandler getActionHandler( )
+	{
+		Object handler = getOption( ACTION_HANDLER );
+		if ( handler instanceof IHTMLActionHandler )
+		{
+			return (IHTMLActionHandler) handler;
+		}
+		return null;
+	}
+
+	public IHTMLImageHandler getImageHandler( )
+	{
+		Object handler = getOption( ACTION_HANDLER );
+		if ( handler instanceof IHTMLImageHandler )
+		{
+			return (IHTMLImageHandler) handler;
+		}
+		return null;
+	}
+
+	public InstanceID getInstanceID( )
+	{
+		Object instanceId = getOption( ACTION_HANDLER );
+		if ( instanceId instanceof InstanceID )
+		{
+			return (InstanceID) instanceId;
+		}
+		return null;
+	}
+
+	public void setActionHandler( IHTMLActionHandler actionHandler )
+	{
+		setOption( ACTION_HANDLER, actionHandler );
+	}
+
+	public void setImageHandler( IHTMLImageHandler imageHandler )
+	{
+		setOption( IMAGE_HANDLER, imageHandler );
+	}
+
+	public void setInstanceID( InstanceID iid )
+	{
+		setOption( INSTANCE_ID, iid );
 	}
 }
