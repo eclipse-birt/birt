@@ -15,21 +15,25 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
+import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.PrivateStyleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
@@ -542,8 +546,8 @@ public class ParserCompatibilityTest extends BaseTestCase
 	 * new OdaDataSet.resultSet.
 	 * <p>
 	 * The rule is by taking 1) the current ResultSet�s column name as the
-	 * �nativeName�, and 2) the ResultSetHints�s column name as the
-	 * �name�, in the merged OdaResultSetColumn structure.
+	 * �nativeName�, and 2) the ResultSetHints�s column name as the �name�, in
+	 * the merged OdaResultSetColumn structure.
 	 * 
 	 * 
 	 * @throws Exception
@@ -788,5 +792,101 @@ public class ParserCompatibilityTest extends BaseTestCase
 
 		save( );
 		assertTrue( compareFile( "CompatibleSortByParseTest_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests compatibility for parameter type property in <ScalarParameter>,
+	 * <OdaDataSet> and <JointDataSet>.
+	 * 
+	 * @throws Exception
+	 */
+	public void testParameterType( ) throws Exception
+	{
+		openDesign( "CompatibleParameterTypeTest.xml" ); //$NON-NLS-1$
+
+		SlotHandle params = designHandle.getParameters( );
+
+		// tests compatibility for any.
+		ScalarParameterHandle handle = (ScalarParameterHandle) params.get( 0 );
+		assertEquals( DesignChoiceConstants.PARAM_TYPE_ANY, handle
+				.getDataType( ) );
+
+		// tests default value.
+		handle = (ScalarParameterHandle) params.get( 1 );
+		assertEquals( DesignChoiceConstants.PARAM_TYPE_STRING, handle
+				.getDataType( ) );
+
+		// tests set parameter type property value as any.
+
+		try
+		{
+			handle.setDataType( DesignChoiceConstants.PARAM_TYPE_ANY );
+			fail( );
+		}
+		catch ( PropertyValueException e )
+		{
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND, e
+							.getErrorCode( ) );
+		}
+
+		OdaDataSetHandle dataSet = (OdaDataSetHandle) designHandle
+				.findDataSet( "firstDataSet" ); //$NON-NLS-1$
+
+		Iterator parameters = dataSet.parametersIterator( );
+
+		DataSetParameterHandle parameter = (DataSetParameterHandle) parameters
+				.next( );
+
+		// tests compatibility for any.
+		assertEquals( DesignChoiceConstants.PARAM_TYPE_ANY, parameter
+				.getDataType( ) );
+		parameter = (DataSetParameterHandle) parameters.next( );
+
+		// tests default value.
+		assertEquals( DesignChoiceConstants.PARAM_TYPE_STRING, parameter
+				.getDataType( ) );
+
+		// tests set parameter type property value as any.
+		try
+		{
+			handle.setDataType( DesignChoiceConstants.PARAM_TYPE_ANY );
+			fail( );
+		}
+		catch ( PropertyValueException e )
+		{
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND, e
+							.getErrorCode( ) );
+		}
+
+		JointDataSetHandle jointDataSet = (JointDataSetHandle) designHandle
+				.findDataSet( "JointDataSet" ); //$NON-NLS-1$
+
+		parameters = jointDataSet.parametersIterator( );
+
+		parameter = (DataSetParameterHandle) parameters.next( );
+
+		// tests compatibility for any.
+		assertEquals( DesignChoiceConstants.PARAM_TYPE_ANY, parameter
+				.getDataType( ) );
+		parameter = (DataSetParameterHandle) parameters.next( );
+
+		// tests default value.
+		assertEquals( DesignChoiceConstants.PARAM_TYPE_STRING, parameter
+				.getDataType( ) );
+
+		// tests set parameter type property value as any.
+		try
+		{
+			handle.setDataType( DesignChoiceConstants.PARAM_TYPE_ANY );
+			fail( );
+		}
+		catch ( PropertyValueException e )
+		{
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND, e
+							.getErrorCode( ) );
+		}
 	}
 }

@@ -37,34 +37,36 @@ import org.eclipse.birt.report.model.util.xpathparser.XPathParser;
  * slot.
  * 
  * <p>
- * For example, <table border="1" width="80%">
+ * For example,
+ * <table border="1" width="80%">
  * <tr>
  * <td width="25%">type</td>
  * <td width="50%">examples</td>
  * </tr>
  * <tr>
  * <td>element</td>
- * <td> /report/body/table[3] <br>
- * /library/components/grid/row[1]/cell[2]/label </td>
+ * <td>/report/body/table[3] <br>
+ * /library/components/grid/row[1]/cell[2]/label</td>
  * <tr>
  * <td>slot</td>
- * <td> /report/body <br>
+ * <td>/report/body <br>
  * /report/body/* <br>
  * /report/body/table/detail/row[slotName="cells"] <br>
  * </tr>
  * <tr>
- * <td> property </td>
- * <td> /report/parameters/scalar-parameter[@id="2"]/@name<br>
+ * <td>property</td>
+ * <td>/report/parameters/scalar-parameter[@id="2"]/@name<br>
  * /report/list-property[@name="images"] <br>
  * /report/body/text[@id="19"]/text-property[@name="content"]<br>
  * /report/body/text[@id="19"]/text-property[@name="content"]/@key</td>
  * <tr>
  * <tr>
- * <td> structure
- * (EmbeddedImageHandle/IncludedLibraryHandle/ResultSetColumnHandle) </td>
- * <td> /report/list-property[@name="images"]/structure[2]<br>
- * /report/list-property[@name="images"]/structure </td>
- * <tr> </table>
+ * <td>structure
+ * (EmbeddedImageHandle/IncludedLibraryHandle/ResultSetColumnHandle)</td>
+ * <td>/report/list-property[@name="images"]/structure[2]<br>
+ * /report/list-property[@name="images"]/structure</td>
+ * <tr>
+ * </table>
  * 
  * <p>
  * It is strongly recommended not to call
@@ -335,9 +337,9 @@ public class XPathUtil
 
 		if ( !tmpPropDefn.isList( ) && tmpPropDefn.getStructDefn( ) != null )
 		{
-			sb.append( SEPARATOR +
-					DesignSchemaConstants.STRUCTURE_TAG +
-					formatXPathProperty( DesignSchemaConstants.NAME_ATTRIB,
+			sb.append( SEPARATOR
+					+ DesignSchemaConstants.STRUCTURE_TAG
+					+ formatXPathProperty( DesignSchemaConstants.NAME_ATTRIB,
 							tmpPropDefn.getName( ) ) );
 
 			tmpPropDefn = memberRef.getMemberDefn( );
@@ -345,9 +347,9 @@ public class XPathUtil
 
 		if ( tmpPropDefn.isList( ) )
 		{
-			sb.append( SEPARATOR +
-					DesignSchemaConstants.LIST_PROPERTY_TAG +
-					formatXPathProperty( DesignSchemaConstants.NAME_ATTRIB,
+			sb.append( SEPARATOR
+					+ DesignSchemaConstants.LIST_PROPERTY_TAG
+					+ formatXPathProperty( DesignSchemaConstants.NAME_ATTRIB,
 							tmpPropDefn.getName( ) ) );
 		}
 
@@ -415,11 +417,8 @@ public class XPathUtil
 					if ( !StringUtil.isBlank( slotTagName ) )
 						slotInfo = SEPARATOR + slotTagName;
 
-					if ( slot.getCount( ) > 1 )
-					{
-						idInfo = formatXPathProperty( "id", Long //$NON-NLS-1$
-								.toString( tmpElement.getID( ) ) );
-					}
+					idInfo = formatXPathProperty( "id", Long //$NON-NLS-1$
+							.toString( tmpElement.getID( ) ) );
 				}
 				else
 				{
@@ -428,9 +427,9 @@ public class XPathUtil
 					String slotTagName = getTagByPropertyType( (ElementPropertyDefn) tmpProp
 							.getDefn( ) );
 
-					slotInfo = SEPARATOR +
-							slotTagName +
-							formatXPathProperty(
+					slotInfo = SEPARATOR
+							+ slotTagName
+							+ formatXPathProperty(
 									DesignSchemaConstants.NAME_ATTRIB,
 									tmpElement.getContainerPropertyHandle( )
 											.getDefn( ).getName( ) );
@@ -479,12 +478,12 @@ public class XPathUtil
 
 	private static boolean isEnclosedAttr( String propName )
 	{
-		if ( DesignElement.NAME_PROP.equalsIgnoreCase( propName ) ||
-				DesignSchemaConstants.EXTENDS_ATTRIB
-						.equalsIgnoreCase( propName ) ||
-				IExtendedItemModel.EXTENSION_NAME_PROP
-						.equalsIgnoreCase( propName ) ||
-				IOdaExtendableElementModel.EXTENSION_ID_PROP
+		if ( DesignElement.NAME_PROP.equalsIgnoreCase( propName )
+				|| DesignSchemaConstants.EXTENDS_ATTRIB
+						.equalsIgnoreCase( propName )
+				|| IExtendedItemModel.EXTENSION_NAME_PROP
+						.equalsIgnoreCase( propName )
+				|| IOdaExtendableElementModel.EXTENSION_ID_PROP
 						.equalsIgnoreCase( propName ) )
 			return true;
 
@@ -509,8 +508,8 @@ public class XPathUtil
 
 	/**
 	 * Returns the property definition that has a resource key bound with. For
-	 * example, if <code>propDefn=TextItem.content</code>, the return value
-	 * is property definition to the <code>TextItem.content</code>. If
+	 * example, if <code>propDefn=TextItem.content</code>, the return value is
+	 * property definition to the <code>TextItem.content</code>. If
 	 * <code>propDefn=TextItem.contentID</code>, the return value is also the
 	 * property definition to the <code>TextItem.content</code>.
 	 * 
@@ -544,7 +543,7 @@ public class XPathUtil
 		}
 
 		// change the key definition to property definition, vice versa
-		
+
 		isKeyDefn = !isKeyDefn;
 
 		ElementDefn defn = (ElementDefn) propDefn.definedBy( );
@@ -555,8 +554,8 @@ public class XPathUtil
 		if ( tmpPropDefn == null )
 			return null;
 
-		if ( isKeyDefn &&
-				tmpPropDefn.getTypeCode( ) != IPropertyType.RESOURCE_KEY_TYPE )
+		if ( isKeyDefn
+				&& tmpPropDefn.getTypeCode( ) != IPropertyType.RESOURCE_KEY_TYPE )
 			return null;
 
 		return ( isKeyDefn ? propDefn : tmpPropDefn );

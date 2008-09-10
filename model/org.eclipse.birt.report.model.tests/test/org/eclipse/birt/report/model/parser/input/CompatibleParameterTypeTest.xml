@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.12">
+	<data-sets>
+        <oda-data-set name="firstDataSet">
+            <list-property name="parameters">
+                <structure>
+                	<property name="dataType">any</property>                   
+                </structure>
+                <structure>
+                    <property name="name">default</property>                    
+                </structure>
+            </list-property>
+        </oda-data-set>
+        <joint-data-set name="JointDataSet" id="47">
+        	<list-property name="parameters">
+                <structure>
+                    <property name="dataType">any</property>
+                </structure>
+                <structure>
+                    <property name="name">default</property> 
+                </structure>
+            </list-property>
+        </joint-data-set>
+    </data-sets>		
+    <parameters>
+        <scalar-parameter name="Param 1">
+            <property name="dataType">any</property>
+            <expression name="defaultValue">1999-01-01</expression>
+        </scalar-parameter>
+         <scalar-parameter name="Param 2">
+            <expression name="defaultValue">12:30:30</expression>
+        </scalar-parameter>
+    </parameters>
+</report>

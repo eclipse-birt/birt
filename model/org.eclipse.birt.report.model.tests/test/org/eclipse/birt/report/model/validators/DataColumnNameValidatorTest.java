@@ -33,7 +33,7 @@ public class DataColumnNameValidatorTest extends BaseTestCase
 
 	public void testValidate( ) throws Exception
 	{
-		openDesign( "DataColumnNameValidator.xml" ); //$NON-NLS-1$
+		openDesign( "DataColumnNameValidatorTest.xml" ); //$NON-NLS-1$
 		DataItemHandle datawithBind = (DataItemHandle) designHandle
 				.getElementByID( 146l );
 		DataItemHandle datawithoutBind = (DataItemHandle) designHandle
@@ -57,9 +57,39 @@ public class DataColumnNameValidatorTest extends BaseTestCase
 	 */
 	public void testValidateColumnNameInGrid( ) throws Exception
 	{
-		openDesign( "ValidateColumnNameInGridTest.xml" ); //$NON-NLS-1$
+		openDesign( "DataColumnNameValidatorTest_2.xml" ); //$NON-NLS-1$
 
 		assertEquals( 0, designHandle.getErrorList( ).size( ) );
 
 	}
+
+	/**
+	 * Tests the data in the inner table without binding and data-set.
+	 * 
+	 * @throws Exception
+	 */
+	public void testDataInInnerTable( ) throws Exception
+	{
+		openDesign( "DataColumnNameValidatorTest_1.xml" ); //$NON-NLS-1$
+		DataItemHandle datawithBind = (DataItemHandle) designHandle
+				.findElement( "test_data" ); //$NON-NLS-1$
+
+		List result = DataColumnNameValidator.getInstance( ).validate(
+				designHandle.getModule( ), datawithBind.getElement( ) );
+		assertEquals( 0, result.size( ) );
+	}
+
+	/**
+	 * Tests validate column name. If the column locates in template, the column
+	 * name need not be checked.
+	 * 
+	 * @throws Exception
+	 */
+	public void testValidateColumnNameInTemplate( ) throws Exception
+	{
+		openDesign( "ValidateColumnNameInTemplateTest.xml" ); //$NON-NLS-1$
+
+		assertEquals( 0, designHandle.getErrorList( ).size( ) );
+	}
+
 }

@@ -11,6 +11,12 @@
 
 package org.eclipse.birt.report.model.validators;
 
+import org.eclipse.birt.report.model.core.ContainerContext;
+import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+
 /**
  * Abstract class for semantic validator. It provides the validator name and the
  * target element on which the validation is performed.
@@ -131,6 +137,40 @@ public class AbstractSemanticValidator
 			if ( moduleName.equals( modules[i] ) )
 				return true;
 		}
+
+		return false;
+	}
+
+	/**
+	 * Checks whether the given element is contained by one of template
+	 * parameter definition.
+	 * 
+	 * @param element
+	 *            the design element
+	 * @return <code>true</code> if the element is in the template parameter
+	 *         definition. Otherwise, <code>false</code>.
+	 */
+	protected static boolean isTemplateParameterDefinition(
+			DesignElement element )
+	{
+		if ( element == null )
+			return false;
+
+		DesignElement tmpContainer = element.getContainer( );
+		ContainerContext containerInfo = null;
+
+		while ( tmpContainer != null && !( tmpContainer instanceof Module ) )
+		{
+			containerInfo = tmpContainer.getContainerInfo( );
+			tmpContainer = tmpContainer.getContainer( );
+		}
+
+		int slot = containerInfo == null
+				? IDesignElementModel.NO_SLOT
+				: containerInfo.getSlotID( );
+
+		if ( IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT == slot )
+			return true;
 
 		return false;
 	}

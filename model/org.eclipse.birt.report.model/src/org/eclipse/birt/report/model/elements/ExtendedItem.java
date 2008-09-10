@@ -103,12 +103,6 @@ public class ExtendedItem extends ReportItem
 	private List methods = null;
 
 	/**
-	 * PropertDefinitions of the extension element.
-	 */
-
-	private List props = null;
-
-	/**
 	 * Default constructor.
 	 */
 
@@ -133,7 +127,9 @@ public class ExtendedItem extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * .report.model.elements.ElementVisitor)
 	 */
 
 	public void apply( ElementVisitor visitor )
@@ -156,7 +152,9 @@ public class ExtendedItem extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse
+	 * .birt.report.model.elements.ReportDesign)
 	 */
 
 	public DesignElementHandle getHandle( Module module )
@@ -185,7 +183,8 @@ public class ExtendedItem extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#hasLocalPropertyValues()
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#hasLocalPropertyValues()
 	 */
 
 	public boolean hasLocalPropertyValues( )
@@ -267,10 +266,7 @@ public class ExtendedItem extends ReportItem
 
 	public List getPropertyDefns( )
 	{
-		if ( props == null )
-			props = provider.getPropertyDefns( );
-
-		return props;
+		return provider.getPropertyDefns( );
 	}
 
 	/**
@@ -287,14 +283,13 @@ public class ExtendedItem extends ReportItem
 	}
 
 	/**
-	 * Creates an instance of <code>IReportItem</code> to store the
-	 * information of the peer extension. When the application invokes UI for
-	 * the extended item, it calls this method to get the instance of the peer
-	 * extension and reads the information--property values from the BIRT ROM
-	 * properties. If there is no instance of peer for the item before the
-	 * calling and then it is successfully created. If the item has no extension
-	 * peer for it or the peer instance has been created before, then there is
-	 * no operation.
+	 * Creates an instance of <code>IReportItem</code> to store the information
+	 * of the peer extension. When the application invokes UI for the extended
+	 * item, it calls this method to get the instance of the peer extension and
+	 * reads the information--property values from the BIRT ROM properties. If
+	 * there is no instance of peer for the item before the calling and then it
+	 * is successfully created. If the item has no extension peer for it or the
+	 * peer instance has been created before, then there is no operation.
 	 * 
 	 * @param module
 	 *            the module the peer element has
@@ -324,7 +319,9 @@ public class ExtendedItem extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getIntrinsicProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getIntrinsicProperty
+	 * (java.lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -339,8 +336,9 @@ public class ExtendedItem extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#setIntrinsicProperty
+	 * (java.lang.String, java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
@@ -362,7 +360,9 @@ public class ExtendedItem extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
+	 * .birt.report.model.elements.ReportDesign)
 	 */
 
 	public List validate( Module module )
@@ -509,8 +509,8 @@ public class ExtendedItem extends ReportItem
 	/**
 	 * Returns if this extended item has local property values on own model.
 	 * 
-	 * @return <code>true</code> if this extended item has local property
-	 *         values on own model, <code>false</code> otherwise.
+	 * @return <code>true</code> if this extended item has local property values
+	 *         on own model, <code>false</code> otherwise.
 	 */
 
 	public boolean hasLocalPropertyValuesOnOwnModel( )
@@ -550,7 +550,9 @@ public class ExtendedItem extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getLocalEncryptionID(org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getLocalEncryptionID
+	 * (org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
 	public String getLocalEncryptionID( ElementPropertyDefn propDefn )
 	{
@@ -565,8 +567,10 @@ public class ExtendedItem extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#setEncryptionHelper(org.eclipse.birt.report.model.metadata.ElementPropertyDefn,
-	 *      java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#setEncryptionHelper(
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn,
+	 * java.lang.String)
 	 */
 
 	public void setEncryptionHelper( ElementPropertyDefn propDefn,
@@ -581,7 +585,9 @@ public class ExtendedItem extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#hasLocalValue(org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#hasLocalValue(org.eclipse
+	 * .birt.report.model.metadata.ElementPropertyDefn)
 	 */
 	protected boolean hasLocalValue( ElementPropertyDefn propDefn )
 	{
@@ -595,8 +601,10 @@ public class ExtendedItem extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.StyledElement#getFactoryProperty(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.StyledElement#getFactoryProperty(org
+	 * .eclipse.birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
 
 	public Object getFactoryProperty( Module module, ElementPropertyDefn prop )
@@ -733,7 +741,9 @@ public class ExtendedItem extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.ReferencableStyledElement#doClone(org.eclipse.birt.report.model.elements.strategy.CopyPolicy)
+	 * @see
+	 * org.eclipse.birt.report.model.core.ReferencableStyledElement#doClone(
+	 * org.eclipse.birt.report.model.elements.strategy.CopyPolicy)
 	 */
 
 	public Object doClone( CopyPolicy policy )
