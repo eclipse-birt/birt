@@ -290,7 +290,7 @@ public class TableContentLayout
 		if ( rowCount > 0 )
 		{
 			// update the status of last row
-			Cell[] lastCells = rows[rowCount - 1].cells;;
+			Cell[] lastCells = rows[rowCount - 1].cells;
 			for ( int cellId = 0; cellId < realColCount; cellId++ )
 			{
 				Cell lastCell = lastCells[cellId];
@@ -370,9 +370,34 @@ public class TableContentLayout
 						newCell );
 			}
 		}
-		else
+		else if ( status == Cell.CELL_SPANED )
 		{
-			// FIXME resolve conflict
+			if ( rowCount > 1 )
+			{
+				Cell lastCell = rows[rowCount - 2].cells[columnNumber];
+				if ( lastCell.getRowSpan( ) > 0 )
+				{
+					if ( lastCell.status == Cell.CELL_SPANED )
+					{
+						lastCell = lastCell.getCell( );
+					}
+					if ( lastCell.status == Cell.CELL_USED )
+					{
+						lastCell.rowSpan = rowCount - 1 - lastCell.rowId;
+					}
+					Cell newCell = Cell.createCell( rows[rowCount - 1].rowId,
+							columnNumber, rowSpan, columnSpan, content );
+
+					Cell[] cells = rows[rowCount - 1].cells;
+					rows[rowCount - 1].cells[columnNumber] = newCell;
+					for ( int i = columnNumber + 1; i < columnNumber
+							+ columnSpan; i++ )
+					{
+						cells[i] = Cell.createSpanCell(
+								rows[rowCount - 1].rowId, i, newCell );
+					}
+				}
+			}
 		}
 
 	}
