@@ -5,7 +5,7 @@
             <property name="hidden">true</property>
             <text-property name="helpText" key="help">new help text for report param 1</text-property>
             <method name="validate"><![CDATA[the validation test]]></method>
-            <property name="valueType">static</property>
+            <property name="valueType">dynamic</property>
             <property name="dataType">decimal</property>
             <text-property name="promptText">new prompt text for report param 1</text-property>
             <property name="concealValue">false</property>

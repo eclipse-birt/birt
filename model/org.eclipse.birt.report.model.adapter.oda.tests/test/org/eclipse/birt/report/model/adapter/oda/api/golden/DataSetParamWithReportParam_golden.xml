@@ -105,7 +105,7 @@
                 </design:properties>
               </design:publicProperties>
             </design:dataSetDesign>
-            <design:enabled>true</design:enabled>
+            <design:enabled>false</design:enabled>
             <design:valueColumn>value column</design:valueColumn>
             <design:displayNameColumn>label column</design:displayNameColumn>
           </design:dynamicValueChoices>
