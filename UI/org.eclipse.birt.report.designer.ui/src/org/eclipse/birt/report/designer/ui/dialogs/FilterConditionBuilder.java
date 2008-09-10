@@ -1794,9 +1794,19 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 				}
 
 			}
-			else if ( designHandle instanceof TabularCubeHandle )
+			else if ( designHandle instanceof TabularCubeHandle
+					|| designHandle instanceof TabularHierarchyHandle )
 			{
-				DataSetHandle dataSet = ( (TabularCubeHandle) designHandle ).getDataSet( );
+
+				DataSetHandle dataSet = null;
+				if ( designHandle instanceof TabularCubeHandle )
+				{
+					dataSet = ( (TabularCubeHandle) designHandle ).getDataSet( );
+				}
+				else
+				{
+					dataSet = ( (TabularHierarchyHandle) designHandle ).getDataSet( );
+				}
 				String expressionString = expression.getText( );
 				try
 				{
