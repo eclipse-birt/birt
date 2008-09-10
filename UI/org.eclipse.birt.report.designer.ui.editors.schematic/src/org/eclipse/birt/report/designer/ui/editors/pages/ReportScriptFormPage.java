@@ -62,7 +62,7 @@ public class ReportScriptFormPage extends ReportFormPage
 	private ModelEventManager manager = getModelEventManager( );
 	public static final String ID = MultiPageReportEditor.ScriptForm_ID; //$NON-NLS-1$
 
-	private IEditorPart jsEditor;
+	protected IEditorPart jsEditor;
 
 	private Control control;
 

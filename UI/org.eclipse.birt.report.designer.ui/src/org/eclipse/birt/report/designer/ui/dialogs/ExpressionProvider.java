@@ -61,9 +61,14 @@ import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * The default implementation of IExpressionProvider
+ * The default implementation of IExpressionProvider.
+ * <br><p>
+ * NOTE: This class should not be extended for those expression provider user
+ * extensions. Instead, they should extend
+ * <code>org.eclipse.birt.report.designer.ui.expressions.AbstractExpressionProvider</code>
+ * 
+ * @see org.eclipse.birt.report.designer.ui.expressions.AbstractExpressionProvider
  */
-
 public class ExpressionProvider implements ISortableExpressionProvider
 {
 
@@ -1142,7 +1147,7 @@ public class ExpressionProvider implements ISortableExpressionProvider
 			{
 				if ( function.getCategory( ).getName( ) != null )
 				{
-					insertText.append( function.getCategory( ).getName( ) + "." );
+					insertText.append( function.getCategory( ).getName( ) + "." ); //$NON-NLS-1$
 				}
 			}
 			else if ( function.isConstructor( ) )

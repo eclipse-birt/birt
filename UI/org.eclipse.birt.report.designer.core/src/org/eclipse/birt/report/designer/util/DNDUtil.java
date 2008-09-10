@@ -1412,7 +1412,7 @@ public final class DNDUtil
 	 * @param objs
 	 *            the array of the object
 	 */
-	static boolean isInSameColumn( Object[] objs )
+	public static boolean isInSameColumn( Object[] objs )
 	{
 		assert objs != null && objs.length > 1;
 		final class ColumnPosition

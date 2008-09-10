@@ -129,36 +129,36 @@ public class WizardTemplateChoicePage extends WizardPage
 
 	private List templateList;
 
-	public class TemplateType
-	{
-
-		public static final int BLANK_REPORT = 0;
-
-		public static final int SIMPLE_LISTING = 1;
-
-		public static final int GROUPED_LISTING = 2;
-
-		public static final int CHART_LISTING = 3;
-
-		public static final int CROSSTAB = 4;
-
-		public static final int MAILING_LABELS = 5;
-
-		public static final int FREE_FORMAT = 6;
-
-		public static final int GROUPED_LISTING_HEADING_OUTSIDE = 7;
-
-		public static final int DUALCHART_LISTING = 8;
-
-		public static final int LETTER = 9;
-
-		public static final int SIDEBYSIDE_CHART_LISTING = 10;
-
-		public static final int DUAL_COLUMN_CHART_LISTING = 11;
-
-		public static final int DASHBOARD_REPORT = 12;
-
-	}
+//	public class TemplateType
+//	{
+//
+//		public static final int BLANK_REPORT = 0;
+//
+//		public static final int SIMPLE_LISTING = 1;
+//
+//		public static final int GROUPED_LISTING = 2;
+//
+//		public static final int CHART_LISTING = 3;
+//
+//		public static final int CROSSTAB = 4;
+//
+//		public static final int MAILING_LABELS = 5;
+//
+//		public static final int FREE_FORMAT = 6;
+//
+//		public static final int GROUPED_LISTING_HEADING_OUTSIDE = 7;
+//
+//		public static final int DUALCHART_LISTING = 8;
+//
+//		public static final int LETTER = 9;
+//
+//		public static final int SIDEBYSIDE_CHART_LISTING = 10;
+//
+//		public static final int DUAL_COLUMN_CHART_LISTING = 11;
+//
+//		public static final int DASHBOARD_REPORT = 12;
+//
+//	}
 
 	/**
 	 * @param pageName
@@ -650,17 +650,17 @@ public class WizardTemplateChoicePage extends WizardPage
 		return (ReportDesignHandle) templates.get( selectedIndex );
 	}
 
-	/**
-	 * @return Returns the blank report template.
-	 */
-	public ReportDesignHandle getBlankTemplate( )
-	{
-		if ( templates.size( ) == 0 )
-		{
-			return null;
-		}
-		return (ReportDesignHandle) templates.get( 0 );
-	}
+//	/**
+//	 * @return Returns the blank report template.
+//	 */
+//	public ReportDesignHandle getBlankTemplate( )
+//	{
+//		if ( templates.size( ) == 0 )
+//		{
+//			return null;
+//		}
+//		return (ReportDesignHandle) templates.get( 0 );
+//	}
 
 	/**
 	 * @return true if show CheatSheets is checked.

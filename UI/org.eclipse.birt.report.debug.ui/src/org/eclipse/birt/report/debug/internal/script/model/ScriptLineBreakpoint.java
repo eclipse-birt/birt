@@ -60,7 +60,7 @@ public class ScriptLineBreakpoint extends LineBreakpoint
 	 * @throws CoreException
 	 */
 	public ScriptLineBreakpoint( final IResource resource, final String name,
-			final String subName, final int lineNumber ) throws CoreException
+			final String subName, final int lineNumber, final String displayName ) throws CoreException
 	{
 		assert resource != null;
 		assert subName != null;
@@ -68,7 +68,7 @@ public class ScriptLineBreakpoint extends LineBreakpoint
 
 			public void run( IProgressMonitor monitor ) throws CoreException
 			{
-				IMarker marker = resource.createMarker( "org.eclipse.birt.report.debug.ui.script.scriptLineBreakpointMarker" );//$NON-NLS-1$
+				IMarker marker = resource.createMarker( ScriptDocumentProvider.MARK_TYPE );//$NON-NLS-1$
 				setMarker( marker );
 				marker.setAttribute( IBreakpoint.ENABLED, Boolean.TRUE );
 				marker.setAttribute( IMarker.LINE_NUMBER, lineNumber );
@@ -80,6 +80,7 @@ public class ScriptLineBreakpoint extends LineBreakpoint
 						+ "]" );//$NON-NLS-1$
 				marker.setAttribute( SUBNAME, subName );
 				marker.setAttribute( FILENAME, name );
+				setDisplayName( displayName );
 			}
 		};
 		run( getMarkerRule( resource ), runnable );

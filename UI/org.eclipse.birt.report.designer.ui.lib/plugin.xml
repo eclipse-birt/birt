@@ -31,7 +31,7 @@
             actionBarContributor="org.eclipse.birt.report.designer.internal.ui.editors.DesignerActionBarContributor"
             class="org.eclipse.birt.report.designer.ui.editors.LibraryMasterPageEditorFormPage"
             displayName="%design.masterPage"
-            id="org.eclipse.birt.report.designer.ui.editors.library.masterpage"
+            id="org.eclipse.birt.report.designer.ui.editors.masterpage"
             pageAction="org.eclipse.birt.report.designer.ui.editors.schematic.action.MasterPageAction"
             position="right"
             relative="org.eclipse.birt.report.designer.ui.editors.library.layout"
@@ -42,7 +42,7 @@
             displayName="%library.script"
             id="org.eclipse.birt.report.designer.ui.editors.script"
             position="right"
-            relative="org.eclipse.birt.report.designer.ui.lib.editors.design.library.masterpage"
+            relative="org.eclipse.birt.report.designer.ui.editors.masterpage"
             visible="true"/>
       <formPage
             actionBarContributor="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"

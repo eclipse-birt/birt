@@ -45,7 +45,6 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
@@ -146,7 +145,7 @@ public class ImageBuilder extends BaseDialog
 
 	private static final int BLOB_TYPE = 3;
 
-	private static final Map descriptionMap = new HashMap( );
+	private static final Map<Integer, String> descriptionMap = new HashMap<Integer, String>( );
 
 	static
 	{
@@ -160,7 +159,7 @@ public class ImageBuilder extends BaseDialog
 				Messages.getString( "ImageBuilder.Description.Dynamic" ) ); //$NON-NLS-1$
 	}
 
-	private static final Map uriEditorLabelMap = new HashMap( );
+	private static final Map<Integer, String> uriEditorLabelMap = new HashMap<Integer, String>( );
 
 	static
 	{
@@ -217,7 +216,7 @@ public class ImageBuilder extends BaseDialog
 	{
 		if ( inputImage == null )
 		{
-			inputImage = DesignElementFactory.getInstance( ).newImage( null );
+			inputImage = DesignElementFactory.getInstance( getModuleHandle( ) ).newImage( null );
 			setOKLabel( DLG_INSERT_BUTTON_MSG );
 		}
 
@@ -272,7 +271,7 @@ public class ImageBuilder extends BaseDialog
 		} );
 
 		resource = new Button( selectionArea, SWT.RADIO );
-		resource.setText( TYPE_RESOURCE_FILE ); //$NON-NLS-1$
+		resource.setText( TYPE_RESOURCE_FILE );
 		resource.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -292,7 +291,7 @@ public class ImageBuilder extends BaseDialog
 		} );
 
 		dynamic = new Button( selectionArea, SWT.RADIO );
-		dynamic.setText( TYPE_DYNAMIC_IMAGE ); //$NON-NLS-1$
+		dynamic.setText( TYPE_DYNAMIC_IMAGE );
 		dynamic.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -332,7 +331,7 @@ public class ImageBuilder extends BaseDialog
 		selectedType = type;
 
 		clearPreview( );
-		description.setText( (String) descriptionMap.get( new Integer( type ) ) );
+		description.setText( descriptionMap.get( new Integer( type ) ) );
 
 		Control[] controls = inputArea.getChildren( );
 		for ( int i = 0; i < controls.length; i++ )
@@ -365,7 +364,7 @@ public class ImageBuilder extends BaseDialog
 		GridData labelGd = new GridData( GridData.FILL_HORIZONTAL );
 		labelGd.horizontalSpan = 3;
 		uriEditorLabel.setLayoutData( labelGd );
-		uriEditorLabel.setText( (String) uriEditorLabelMap.get( new Integer( type ) ) );
+		uriEditorLabel.setText( uriEditorLabelMap.get( new Integer( type ) ) );
 
 		uriEditor = new Text( inputArea, SWT.SINGLE | SWT.BORDER );
 		GridData textGd = new GridData( GridData.GRAB_HORIZONTAL
@@ -388,13 +387,10 @@ public class ImageBuilder extends BaseDialog
 
 			public void focusGained( FocusEvent e )
 			{
-				// TODO Auto-generated method stub
-
 			}
 
 			public void focusLost( FocusEvent e )
 			{
-				// TODO Auto-generated method stub
 				preview( DEUtil.RemoveQuote( uriEditor.getText( ) ) );
 			}
 		} );
@@ -564,7 +560,7 @@ public class ImageBuilder extends BaseDialog
 		else if ( type == BLOB_TYPE )
 		{
 			inputButton = new Button( inputArea, SWT.PUSH );
-			inputButton.setText( BUTTON_SELECT_IMAGE_DATA ); //$NON-NLS-1$
+			inputButton.setText( BUTTON_SELECT_IMAGE_DATA );
 			inputButton.setEnabled( !getModuleHandle( ).getVisibleDataSets( )
 					.isEmpty( ) );
 			inputButton.addSelectionListener( new SelectionAdapter( ) {
@@ -600,6 +596,12 @@ public class ImageBuilder extends BaseDialog
 
 	private void preview( String uri )
 	{
+		if ( uri == null || uri.trim( ).length( ) == 0 )
+		{
+			clearPreview( );
+			return;
+		}
+
 		try
 		{
 			Image image = ImageManager.getInstance( )
@@ -610,9 +612,6 @@ public class ImageBuilder extends BaseDialog
 		{
 			clearPreview( );
 			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
-			// ExceptionHandler.handle( e,
-			// DLG_TITLE_LOADING_FAIL,
-			// DLG_ERROR_MSG_LOADING_FAIL );
 		}
 	}
 
@@ -666,7 +665,7 @@ public class ImageBuilder extends BaseDialog
 				case BLOB_TYPE :
 					inputImage.setValueExpression( uriEditor.getText( ).trim( ) );
 			}
-			//bug 236564
+			// bug 236564
 			Image image = previewCanvas.getSourceImage( );
 			if ( image != null )
 			{
@@ -691,7 +690,8 @@ public class ImageBuilder extends BaseDialog
 	 */
 	public void setInput( Object input )
 	{
-		Assert.isTrue( input instanceof ImageHandle );
+		assert input instanceof ImageHandle;
+		
 		inputImage = (ImageHandle) input;
 		if ( DesignChoiceConstants.IMAGE_REF_TYPE_NONE.equals( inputImage.getSource( ) ) )
 		{
@@ -828,7 +828,7 @@ public class ImageBuilder extends BaseDialog
 
 	private void openBidingDialog( )
 	{
-		ReportItemHandle handle = (ReportItemHandle) inputImage;
+		ReportItemHandle handle = inputImage;
 		ColumnBindingDialog dialog = new ColumnBindingDialog( handle,
 				PlatformUI.getWorkbench( ).getDisplay( ).getActiveShell( ),
 				true );

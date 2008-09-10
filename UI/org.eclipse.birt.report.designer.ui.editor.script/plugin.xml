@@ -33,7 +33,7 @@
                id="org.eclipse.birt.report.designer.ui.editors.script"
                position="right"
                priority="high"
-               relative="org.eclipse.birt.report.designer.ui.editors.library.masterpage"
+               relative="org.eclipse.birt.report.designer.ui.editors.masterpage"
                visible="true"/>
       </targetEditor>
    </extension>
