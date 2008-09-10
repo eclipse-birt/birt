@@ -88,6 +88,7 @@ import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -1330,9 +1331,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * 
 	 * @return
 	 */
-	private Iterator getFiltersIterator( )
+	private Iterator<FilterConditionHandle> getFiltersIterator( )
 	{
-		List filterList = new ArrayList( );
+		List<FilterConditionHandle> filterList = new ArrayList<FilterConditionHandle>( );
 		PropertyHandle ph = null;
 		if ( this.getBoundDataSet( ) == null
 				&& this.getReportItemReference( ) == null ) // Inherit case.
@@ -1342,12 +1343,18 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					.getPropertyHandle( ExtendedItemHandle.FILTER_PROP );
 			if ( ph != null )
 			{
-				Iterator filterIterator = ph.iterator( );
+				Iterator<FilterConditionHandle> filterIterator = ph.iterator( );
 				if ( filterIterator != null )
 				{
 					while ( filterIterator.hasNext( ) )
 					{
-						filterList.add( filterIterator.next( ) );
+						// Design time doesn't support parent query expressions
+						FilterConditionHandle filter = filterIterator.next( );
+						if ( filter.getValue1( ).indexOf( "._outer" ) < 0 //$NON-NLS-1$
+								&& filter.getValue2( ).indexOf( "._outer" ) < 0 ) //$NON-NLS-1$
+						{
+							filterList.add( filter );
+						}
 					}
 				}
 			}
@@ -1357,12 +1364,18 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		ph = itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP );
 		if ( ph != null )
 		{
-			Iterator filterIterator = ph.iterator( );
+			Iterator<FilterConditionHandle> filterIterator = ph.iterator( );
 			if ( filterIterator != null )
 			{
 				while ( filterIterator.hasNext( ) )
 				{
-					filterList.add( filterIterator.next( ) );
+					// Design time doesn't support parent query expressions
+					FilterConditionHandle filter = filterIterator.next( );
+					if ( filter.getValue1( ).indexOf( "._outer" ) < 0 //$NON-NLS-1$
+							&& filter.getValue2( ).indexOf( "._outer" ) < 0 ) //$NON-NLS-1$
+					{
+						filterList.add( filter );
+					}
 				}
 			}
 		}
