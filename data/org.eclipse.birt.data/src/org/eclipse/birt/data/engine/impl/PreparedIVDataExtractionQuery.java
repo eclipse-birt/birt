@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.Map;
+
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -30,9 +32,9 @@ public class PreparedIVDataExtractionQuery extends PreparedIVQuerySourceQuery
 {
 
 	PreparedIVDataExtractionQuery( DataEngineImpl dataEngine,
-			IQueryDefinition queryDefn ) throws DataException
+			IQueryDefinition queryDefn, Map appContext ) throws DataException
 	{
-		super( dataEngine, queryDefn );
+		super( dataEngine, queryDefn, appContext );
 		// TODO Auto-generated constructor stub
 	}
 

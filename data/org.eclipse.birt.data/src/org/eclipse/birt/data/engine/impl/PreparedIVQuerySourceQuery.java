@@ -18,6 +18,7 @@ package org.eclipse.birt.data.engine.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
@@ -64,9 +65,9 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 	 * @throws DataException
 	 */
 	PreparedIVQuerySourceQuery( DataEngineImpl dataEngine,
-			IQueryDefinition queryDefn ) throws DataException
+			IQueryDefinition queryDefn, Map appContext ) throws DataException
 	{
-		super( dataEngine, queryDefn, null, null );
+		super( dataEngine, queryDefn, null, appContext );
 		Object[] params = {
 				dataEngine, queryDefn
 		};

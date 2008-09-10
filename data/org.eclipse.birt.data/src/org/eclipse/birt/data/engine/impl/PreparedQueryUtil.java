@@ -95,7 +95,7 @@ class PreparedQueryUtil
 		
 		if ( queryDefn.getSourceQuery( ) != null )
 		{
-			return new PreparedIVDataExtractionQuery( dataEngine, queryDefn );
+			return new PreparedIVDataExtractionQuery( dataEngine, queryDefn, appContext );
 		}
 		
 		if ( queryDefn.getQueryResultsID( ) != null )
