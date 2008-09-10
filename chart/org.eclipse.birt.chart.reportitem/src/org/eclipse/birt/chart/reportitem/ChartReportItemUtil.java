@@ -525,18 +525,23 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	public static boolean isSetRunningAggregation( Chart cm )
 			throws ChartException
 	{
-		String aggrFunc = ChartUtil.getAggregateFuncExpr( ChartUtil.getAllOrthogonalSeriesDefinitions( cm )
-				.get( 0 ),
-				ChartUtil.getBaseSeriesDefinitions( cm ).get( 0 ) );
-		if ( aggrFunc == null )
+		SeriesDefinition baseSD = ChartUtil.getBaseSeriesDefinitions( cm )
+				.get( 0 );
+		for ( SeriesDefinition orthoSD : ChartUtil.getAllOrthogonalSeriesDefinitions( cm ) )
 		{
-			return false;
-		}
-		IAggregateFunction aFunc = PluginSettings.instance( )
-				.getAggregateFunction( aggrFunc );
-		if ( aFunc.getType( ) == IAggregateFunction.RUNNING_AGGR )
-		{
-			return true;
+			String aggrFunc = ChartUtil.getAggregateFuncExpr( orthoSD, baseSD );
+			if ( aggrFunc == null )
+			{
+				continue;
+			}
+
+			IAggregateFunction aFunc = PluginSettings.instance( )
+					.getAggregateFunction( aggrFunc );
+			if ( aFunc != null
+					&& aFunc.getType( ) == IAggregateFunction.RUNNING_AGGR )
+			{
+				return true;
+			}
 		}
 
 		return false;
@@ -552,20 +557,24 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	public static boolean isSetSummaryAggregation( Chart cm )
 			throws ChartException
 	{
-		String aggrFunc = ChartUtil.getAggregateFuncExpr( ChartUtil.getAllOrthogonalSeriesDefinitions( cm )
-				.get( 0 ),
-				ChartUtil.getBaseSeriesDefinitions( cm ).get( 0 ) );
-		if ( aggrFunc == null )
+		SeriesDefinition baseSD = ChartUtil.getBaseSeriesDefinitions( cm )
+				.get( 0 );
+		for ( SeriesDefinition orthoSD : ChartUtil.getAllOrthogonalSeriesDefinitions( cm ) )
 		{
-			return false;
+			String aggrFunc = ChartUtil.getAggregateFuncExpr( orthoSD, baseSD );
+			if ( aggrFunc == null )
+			{
+				continue;
+			}
+			IAggregateFunction aFunc = PluginSettings.instance( )
+					.getAggregateFunction( aggrFunc );
+			if ( aFunc != null
+					&& aFunc.getType( ) == IAggregateFunction.SUMMARY_AGGR )
+			{
+				return true;
+			}
 		}
-		IAggregateFunction aFunc = PluginSettings.instance( )
-				.getAggregateFunction( aggrFunc );
-		if ( aFunc.getType( ) == IAggregateFunction.SUMMARY_AGGR )
-		{
-			return true;
-		}
-
+		
 		return false;
 	}
 	
@@ -607,23 +616,26 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 						.get( 0 ) ).getAssociatedAxes( );
 				for ( Axis a : axisList )
 				{
-					orthSD = (SeriesDefinition) a.getSeriesDefinitions( )
-							.get( 0 );
-
+					for ( Iterator iter = a.getSeriesDefinitions( ).iterator( ); iter.hasNext( ); )
+					{
+						orthSD = (SeriesDefinition) iter.next( );
+						if ( ChartUtil.getAggregateFuncExpr( orthSD, baseSD ) != null )
+						{
+							return true;
+						}
+					}
+				}
+			}
+			else if ( cm instanceof ChartWithoutAxes )
+			{
+				for ( Iterator iter = ( (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
+						.get( 0 ) ).getSeriesDefinitions( ).iterator( ); iter.hasNext( ); )
+				{
+					orthSD = (SeriesDefinition) iter.next( );
 					if ( ChartUtil.getAggregateFuncExpr( orthSD, baseSD ) != null )
 					{
 						return true;
 					}
-				}
-
-			}
-			else if ( cm instanceof ChartWithoutAxes )
-			{
-				orthSD = (SeriesDefinition) ( (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
-						.get( 0 ) ).getSeriesDefinitions( ).get( 0 );
-				if ( ChartUtil.getAggregateFuncExpr( orthSD, baseSD ) != null )
-				{
-					return true;
 				}
 			}
 		}

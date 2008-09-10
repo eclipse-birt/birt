@@ -342,7 +342,7 @@ public class GroupingLookupHelper
 				{
 					addDataExpForAggregate( ChartUtil.createValueSeriesRowFullExpression( qOrthogonalSeries.getDefinition( ),
 							orthoSD,
-							baseSD ), strOrthoAgg );	
+							baseSD ), strOrthoAgg );
 					
 					bAnyQueries = true;
 					
@@ -542,22 +542,20 @@ public class GroupingLookupHelper
 	 */
 	public String getOrthogonalAggregationExpression( SeriesDefinition orthoSD )
 	{
-		String strOrthoAgg = null;
-		SeriesGrouping grouping = orthoSD.getGrouping( );
-		// Only if base series has enabled grouping
-		if ( this.strBaseAggExp != null )
+		 String strOrthoAgg = null;
+		 SeriesGrouping grouping = orthoSD.getGrouping( );
+		 if ( grouping != null
+				&& grouping.isSetEnabled( )
+				&& grouping.isEnabled( ) )
 		{
-			if ( grouping.isSetEnabled( ) && grouping.isEnabled( ) )
-			{
-				// Set own group
-				strOrthoAgg = grouping.getAggregateExpression( );
-			}
-			
-			// Set base group
-			if ( strOrthoAgg == null || "".equals( strOrthoAgg ) ) //$NON-NLS-1$
-			{
-				strOrthoAgg = strBaseAggExp;
-			}
+			// Set own group
+			strOrthoAgg = grouping.getAggregateExpression( );
+		}
+
+		if ( ( strOrthoAgg == null || strOrthoAgg.length( ) == 0 )
+				&& this.strBaseAggExp != null )
+		{
+			strOrthoAgg = strBaseAggExp;
 		}
 		return strOrthoAgg;
 	}
