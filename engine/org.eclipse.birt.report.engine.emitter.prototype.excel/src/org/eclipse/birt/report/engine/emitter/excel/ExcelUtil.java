@@ -33,6 +33,7 @@ public class ExcelUtil
 	
 	private static String validStr = "#.0<>()%_";
 	private static String specialStr="mMdDyYhHsSeEbBgGnN/*\"@";
+	private static String currencySymbol= "£¢€￥¥";
 	
 	public static String ridQuote( String val )
 	{
@@ -816,7 +817,11 @@ public class ExcelUtil
 					else if ( temp == '¤' )
 					{
 						String symbol = getCurrencySymbol( locale );
-						returnStr = returnStr + symbol;
+						returnStr = returnStr + "\"" + symbol + "\"";
+					}
+					else if ( currencySymbol.indexOf( temp ) != -1 )
+					{
+						returnStr = returnStr + "\"" + temp + "\"";
 					}
 					else
 					{
