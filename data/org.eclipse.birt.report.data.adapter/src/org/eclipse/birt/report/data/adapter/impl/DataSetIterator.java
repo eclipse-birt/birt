@@ -219,16 +219,20 @@ public class DataSetIterator implements IDatasetIterator
 	 */
 	public boolean next( ) throws BirtException
 	{
+		boolean hasNext = false;
+		
 		if ( it.getQueryResults( )
 				.getPreparedQuery( )
 				.getReportQueryDefn( )
 				.getGroups( )
 				.size( ) == 0 )
-			return it.next( );
-		if ( !started )
+		{
+			hasNext = it.next( );
+		}
+		else if ( !started )
 		{
 			started = true;
-			return it.next( );
+			hasNext = it.next( );
 		}
 		else
 		{
@@ -237,8 +241,15 @@ public class DataSetIterator implements IDatasetIterator
 					.getReportQueryDefn( )
 					.getGroups( )
 					.size( ) );
-			return it.next( );
+			hasNext = it.next( );
 		}
+		
+		if( !hasNext )
+		{
+			it.close( );
+		}
+		
+		return hasNext;
 	}
 
 	private static Calendar getCalendar( Object d )
