@@ -597,9 +597,17 @@ public class ReportTag extends AbstractViewerTag
 			// preview reportlet
 			String documentName = ParameterAccessor.getReportDocument( request,
 					viewer.getReportDesign( ), viewer.getId( ) );
-			ReportEngineService.getInstance( ).runReport( request, runnable,
-					documentName, locale, timeZone, parameters, displayTexts,
+			List<Exception> errors = ReportEngineService.getInstance( ).runReport( request, runnable,
+					documentName, locale, timeZone, params, displayTexts,
 					new Integer( viewer.getMaxRowsOfRecords( ) ) );
+			
+			if ( errors != null && !errors.isEmpty() )
+			{
+				for ( Iterator<Exception> i = errors.iterator( ); i.hasNext(); )
+				{
+					i.next( ).printStackTrace( );
+				}
+			}
 
 			// Render the reportlet
 			IReportDocument doc = ReportEngineService.getInstance( )

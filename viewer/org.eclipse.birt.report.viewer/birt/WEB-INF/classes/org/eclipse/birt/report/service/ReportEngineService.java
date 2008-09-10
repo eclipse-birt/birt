@@ -1190,10 +1190,6 @@ public class ReportEngineService
 			List<Exception> errors = (List<Exception>) runTask.getErrors( );
 			if ( !errors.isEmpty( ) )
 			{
-				// clear document file
-				File doc = new File( documentName );
-				if ( doc != null )
-					doc.delete( );
 				return errors;
 			}
 		}

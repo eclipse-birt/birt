@@ -206,7 +206,7 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 
 			var previewExists = false;
 			// retrieve previous window instance
-			var previousPrintWindow = window.open( '', Constants.WINDOW_PRINT_PREVIEW, 'location=no' );
+			var previousPrintWindow = window.open( '', Constants.WINDOW_PRINT_PREVIEW, 'location=no,scrollbars=yes,dependent=yes' );
 			try
 			{
 				// if the window didn't exist, then window.open() has opened an empty window

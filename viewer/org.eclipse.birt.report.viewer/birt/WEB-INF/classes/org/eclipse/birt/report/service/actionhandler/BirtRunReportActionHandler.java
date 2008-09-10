@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.service.actionhandler;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -81,6 +82,11 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 				parameterMap, displayTexts, errorList );
 		if ( errorList != null && !errorList.isEmpty() ) 
 		{
+			// clear document file
+			File doc = new File( docName );
+			if ( doc != null )
+				doc.delete( );
+			
 			throw BirtUtility.makeAxisFault( "BirtRunReportActionHandler.__execute()", errorList ); //$NON-NLS-1$
 		}
 	}
