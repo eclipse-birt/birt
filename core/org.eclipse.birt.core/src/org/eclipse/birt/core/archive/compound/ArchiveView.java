@@ -234,4 +234,14 @@ public class ArchiveView implements IArchiveFile
 	{
 		view.unlockEntry( locker );
 	}
+
+	public IArchiveFile getArchive( )
+	{
+		return this.archive;
+	}
+
+	public IArchiveFile getView( )
+	{
+		return this.view;
+	}
 }
