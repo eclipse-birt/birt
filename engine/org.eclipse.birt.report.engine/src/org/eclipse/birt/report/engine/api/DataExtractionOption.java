@@ -122,7 +122,7 @@ public class DataExtractionOption extends TaskOption
 
 	public IHTMLImageHandler getImageHandler( )
 	{
-		Object handler = getOption( ACTION_HANDLER );
+		Object handler = getOption( IMAGE_HANDLER );
 		if ( handler instanceof IHTMLImageHandler )
 		{
 			return (IHTMLImageHandler) handler;
@@ -132,7 +132,7 @@ public class DataExtractionOption extends TaskOption
 
 	public InstanceID getInstanceID( )
 	{
-		Object instanceId = getOption( ACTION_HANDLER );
+		Object instanceId = getOption( INSTANCE_ID );
 		if ( instanceId instanceof InstanceID )
 		{
 			return (InstanceID) instanceId;

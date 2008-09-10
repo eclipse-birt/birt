@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.api;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -23,6 +24,11 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 	 * Constructor
 	 */
 	public HTMLRenderOption( IRenderOption options )
+	{
+		super( options );
+	}
+	
+	public HTMLRenderOption( HashMap options )
 	{
 		super( options );
 	}

@@ -24,8 +24,8 @@ public interface IDataExtractionOption extends ITaskOption
 
 	public static final String EXTENSION = "extension"; //$NON-NLS-1$
 	public static final String INSTANCE_ID = "instanceId";//$NON-NLS-1$
-	public static final String IMAGE_HANDLER = "imageHandler"; //$NON-NLS-1$
-	public static final String ACTION_HANDLER = "actionHandler"; //$NON-NLS-1$
+	public static final String IMAGE_HANDLER = IHTMLRenderOption.IMAGE_HANDLER;
+	public static final String ACTION_HANDLER = IHTMLRenderOption.ACTION_HANDLER;
 	public static final String LOCALE = "locale"; //$NON-NLS-1$
 
 	/**

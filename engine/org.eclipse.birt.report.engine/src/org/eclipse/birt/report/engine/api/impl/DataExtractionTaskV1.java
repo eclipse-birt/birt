@@ -43,14 +43,15 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.DataExtractionOption;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
+import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.HTMLRenderContext;
+import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IDataExtractionOption;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
 import org.eclipse.birt.report.engine.api.IEngineConfig;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
-import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
-import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
@@ -1281,9 +1282,12 @@ public class DataExtractionTaskV1 extends EngineTask
 		this.mode = isGroupMode;
 	}
 	
-	private IDataExtractionOption getDefaultOptions( )
+
+	private IDataExtractionOption setupExtractOption(
+			IDataExtractionOption options )
 	{
-		HashMap options = new HashMap( );
+		// setup the data extraction options from:
+		HashMap allOptions = new HashMap( );
 
 		// try to get the default render option from the engine config.
 		HashMap configs = engine.getConfig( ).getEmitterConfigs( );
@@ -1293,52 +1297,49 @@ public class DataExtractionTaskV1 extends EngineTask
 				.get( IEngineConfig.DEFAULT_RENDER_OPTION );
 		if ( defaultOptions != null )
 		{
-			options.putAll( defaultOptions.getOptions( ) );
+			allOptions.putAll( defaultOptions.getOptions( ) );
 		}
 
 		// try to get the render options by the format
-		IRenderOption htmlOptions = (IRenderOption) configs
+		IRenderOption defaultHtmlOptions = (IRenderOption) configs
 				.get( IRenderOption.OUTPUT_FORMAT_HTML );
-		if ( htmlOptions != null )
+		if ( defaultHtmlOptions != null )
 		{
-			options.putAll( htmlOptions.getOptions( ) );
-		}
-		return new DataExtractionOption( options );
-	}
-
-	private IDataExtractionOption setupExtractOption(
-			IDataExtractionOption options )
-	{
-		// setup the data extraction options from:
-		IDataExtractionOption defaultOptions = getDefaultOptions( );
-		// load the options from task level options
-		if ( options.getActionHandler( ) == null )
-		{
-			IHTMLActionHandler actionHandler = defaultOptions
-					.getActionHandler( );
-			if ( actionHandler != null )
-			{
-				options.setActionHandler( actionHandler );
-			}
+			allOptions.putAll( defaultHtmlOptions.getOptions( ) );
 		}
 
-		if ( options.getImageHandler( ) == null )
+		// merge the user's setting
+		allOptions.putAll( options.getOptions( ) );
+
+		// copy the new setting to old APIs
+		Map appContext = executionContext.getAppContext( );
+		Object renderContext = appContext
+				.get( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT );
+		if ( renderContext == null )
 		{
-			IHTMLImageHandler imageHandler = defaultOptions.getImageHandler( );
-			if ( imageHandler != null )
-			{
-				options.setImageHandler( imageHandler );
-			}
+			HTMLRenderContext htmlContext = new HTMLRenderContext( );
+			HTMLRenderOption htmlOptions = new HTMLRenderOption( allOptions );
+			htmlContext.setBaseImageURL( htmlOptions.getBaseImageURL( ) );
+			htmlContext.setBaseURL( htmlOptions.getBaseURL( ) );
+			htmlContext.setImageDirectory( htmlOptions.getImageDirectory( ) );
+			htmlContext.setSupportedImageFormats( htmlOptions
+					.getSupportedImageFormats( ) );
+			htmlContext.SetRenderOption( htmlOptions );
+			appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+					htmlContext );
 		}
 
-		if ( options.getInstanceID( ) == null )
+		// setup the instance id which is comes from the task.setInstanceId
+		IDataExtractionOption extractOption = new DataExtractionOption(
+				allOptions );
+		if ( extractOption.getInstanceID( ) == null )
 		{
 			if ( instanceId != null )
 			{
-				options.setInstanceID( instanceId );
+				extractOption.setInstanceID( instanceId );
 			}
 		}
 
-		return options;
+		return extractOption;
 	}
 }
