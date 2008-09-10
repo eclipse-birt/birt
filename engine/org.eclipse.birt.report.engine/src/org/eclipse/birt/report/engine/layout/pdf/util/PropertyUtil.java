@@ -122,9 +122,8 @@ public class PropertyUtil
      */
     public static Color getColor( String color )
 	{
-		if ( color == null )
+		if ( color == null || color.length( ) == 0 )
 		{
-			logger.log( Level.WARNING, "invalid color" ); //$NON-NLS-1$
 			return null;
 		}
 		Pattern p = Pattern.compile( "rgb\\(.+,.+,.+\\)" );
@@ -142,14 +141,14 @@ public class PropertyUtil
 					int blue = Integer.parseInt( rgb[2].trim( ) );
 					return new Color( red, green, blue );
 				}
-				catch ( RuntimeException ex )
+				catch ( IllegalArgumentException ex )
 				{
-					logger.log( Level.WARNING, "invalid color" ); //$NON-NLS-1$
+					logger.log( Level.WARNING, "invalid color: {0}", color ); //$NON-NLS-1$
 					return null;
 				}
 			}
 		}
-		logger.log( Level.WARNING, "invalid color" ); //$NON-NLS-1$
+		logger.log( Level.WARNING, "invalid color: {0}", color ); //$NON-NLS-1$
 		return null;
 	}
     
