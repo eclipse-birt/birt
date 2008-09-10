@@ -481,9 +481,9 @@ public final class DesignerRepresentation extends Figure
 			rtc.setMessageLookup( new BIRTDesignerMessageLookup( crii.getHandle( ) ) );
 
 			// Set direction from model to chart runtime context
-			rtc.setRightToLeft( crii.getHandle( ).isDirectionRTL( ) );
+			rtc.setRightToLeft( crii.isLayoutDirectionRTL( ) );
 			// Set text direction from StyleHandle to chart runtime context
-			rtc.setRightToLeftText( crii.isBIDIDirectionRTL( ) );
+			rtc.setRightToLeftText( crii.getHandle( ).isDirectionRTL( ) );
 
 			rtc.setResourceFinder( crii );
 			rtc.setExternalizer( crii );

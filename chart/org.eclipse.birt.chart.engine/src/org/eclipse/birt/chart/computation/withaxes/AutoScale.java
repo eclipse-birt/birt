@@ -45,7 +45,6 @@ import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
 
 import com.ibm.icu.text.DecimalFormat;
-import com.ibm.icu.text.DecimalFormatSymbols;
 import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.ULocale;
@@ -1195,6 +1194,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 		// Temperory scale for later used in shared scale
 		tmpSC = sct;
+		updateSharedScaleContext(rtc, iType, tmpSC);
 	}
 
 	private final void updateContext( ScaleContext sct )
@@ -1204,6 +1204,7 @@ public final class AutoScale extends Methods implements Cloneable
 		this.oMaximumWithMargin = sct.getMaxWithMargin( );
 		this.oMinimumWithMargin = sct.getMinWithMargin( );
 		this.oStep = sct.getStep( );
+		this.oUnit = sct.getUnit( );
 	}
 
 	Object getMinWithMargin( )
@@ -2150,7 +2151,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 			// Can't detect a difference, assume ms
 			if ( iUnit == 0 )
-				iUnit = CDateTime.SECOND;
+				iUnit = Calendar.SECOND;
 
 			CDateTime cdtMinAxis = ( (CDateTime) oMinValue ).backward( iUnit, 1 );
 			CDateTime cdtMaxAxis = ( (CDateTime) oMaxValue ).forward( iUnit, 1 );
@@ -2317,11 +2318,7 @@ public final class AutoScale extends Methods implements Cloneable
 				sc = scCloned;
 			}
 
-			if ( rtc.getScale( ) != null && !rtc.getScale( ).isShared( ) )
-			{
-				// Finish computation, set scale shared
-				rtc.setScale( sc.tmpSC );
-			}
+			updateSharedScaleContext( rtc, iType, sc.tmpSC );
 		}
 
 		sc.setData( dsi );
@@ -4085,6 +4082,27 @@ public final class AutoScale extends Methods implements Cloneable
 			// If they are neither double-precise, use the default value
 		}
 		return new DecimalFormat( valuePattern );
+	}
+	
+	private static void updateSharedScaleContext( RunTimeContext rtc,
+			int iType, 
+			ScaleContext sct )
+	{
+		if ( rtc.getScale( ) != null && !rtc.getScale( ).isShared( ) )
+		{
+			if ( ( iType & DATE_TIME ) == DATE_TIME )
+			{
+				// In Case DateTime the Min/Max, the min/max value 
+				// will be enlarged by zooming in due to changing 
+				// unit, therefore the min/max context should not be
+				// updated, otherwise the differance will be accumulated. 
+				rtc.getScale( ).updateShared( sct );
+			}
+			else
+			{
+				rtc.setScale( sct );
+			}
+		}
 	}
 
 }

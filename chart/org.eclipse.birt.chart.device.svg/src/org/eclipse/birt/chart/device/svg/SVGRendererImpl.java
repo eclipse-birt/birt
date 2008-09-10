@@ -37,7 +37,6 @@ import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.device.svg.plugin.ChartDeviceSVGPlugin;
 import org.eclipse.birt.chart.device.swing.SwingRendererImpl;
-import org.eclipse.birt.chart.device.util.ChartTextRenderer;
 import org.eclipse.birt.chart.event.ArcRenderEvent;
 import org.eclipse.birt.chart.event.AreaRenderEvent;
 import org.eclipse.birt.chart.event.ImageRenderEvent;
@@ -136,7 +135,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		try
 		{
 			_ids = ps.getDisplayServer( "ds.SVG" ); //$NON-NLS-1$
-			_tr = new ChartTextRenderer( _ids );
+			_tr = new SVGTextRenderer( _ids );
 			ivRenderer = new SVGInteractiveRenderer( getULocale( ) );
 		}
 		catch ( ChartException pex )

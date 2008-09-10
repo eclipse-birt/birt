@@ -14,6 +14,8 @@ package org.eclipse.birt.chart.reportitem;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -873,6 +875,25 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 
 	protected Object getImageToDisplay( )
 	{
+		File f = new File( "c:/aaa.png" );
+		try
+		{
+			FileOutputStream fos = new FileOutputStream( f );
+			int b;
+			while ( ( b = fis.read( ) ) >= 0 )
+			{
+				fos.write( b );
+			}
+			fos.close( );
+			fis.reset( );
+		}
+		catch ( Exception e )
+		{
+
+		}
+		
+		
+		
 		if ( getOutputType( ) == OUTPUT_AS_IMAGE )
 		{
 			return fis;
@@ -970,27 +991,11 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				this.context ) );
 		rtc.setMessageLookup( new BIRTMessageLookup( context ) );
 
-		// // read RtL flag from engine
-		// Object renderContext = context.getAppContext( )
-		// .get( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT );
-		// if ( renderContext instanceof HTMLRenderContext )
-		// {
-		// IRenderOption renderOption = ( (HTMLRenderContext) renderContext
-		// ).getRenderOption( );
-		// if ( renderOption instanceof HTMLRenderOption )
-		// {
-		// if ( ( (HTMLRenderOption) renderOption ).getHtmlRtLFlag( ) )
-		// {
-		// rtc.setRightToLeft( true );
-		// }
-		// }
-		// }
-
 		// Set direction from model to chart runtime context
-		rtc.setRightToLeft( handle.isDirectionRTL( ) );
+		rtc.setRightToLeftText( handle.isDirectionRTL( ) );
 		// Set text direction from StyleHandle to chart runtime context
 		ChartReportItemImpl crii = (ChartReportItemImpl) getReportItem( handle );
-		rtc.setRightToLeftText( crii.isBIDIDirectionRTL( ) );
+		rtc.setRightToLeft( crii.isLayoutDirectionRTL( ) );
 		rtc.setResourceFinder( crii );
 		rtc.setExternalizer( crii );
 	}

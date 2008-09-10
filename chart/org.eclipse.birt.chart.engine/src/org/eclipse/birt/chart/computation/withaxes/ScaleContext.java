@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.computation.withaxes;
 
+import java.util.Date;
+
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -39,7 +41,7 @@ public class ScaleContext extends Methods
 
 	private final int iType;
 
-	private final int iUnit;
+	private int iUnit;
 
 	private Object oMin;
 	private Object oMax;
@@ -71,6 +73,16 @@ public class ScaleContext extends Methods
 	{
 		this( iMarginPercent, iType, 0, oMinAuto, oMaxAuto, oStep );
 	}
+	
+	/**
+	 * 
+	 * @param that
+	 */
+	public void updateShared( ScaleContext that )
+	{
+		this.iUnit = that.iUnit;
+		this.oStep = that.oStep;
+	}
 
 	/**
 	 * Creates a simple instance of scale. Note that this instance is just used
@@ -83,8 +95,16 @@ public class ScaleContext extends Methods
 	public static ScaleContext createSimpleScale( Object oMin, Object oMax )
 	{
 		ScaleContext scale = new ScaleContext( 0, 0, oMin, oMax, null );
-		scale.oMin = oMin;
-		scale.oMax = oMax;
+		if ( oMin instanceof Date )
+		{
+			scale.oMin = new CDateTime( (Date) oMin );
+			scale.oMax = new CDateTime( (Date) oMax );
+		}
+		else
+		{
+			scale.oMin = oMin;
+			scale.oMax = oMax;
+		}
 		return scale;
 	}
 
@@ -491,5 +511,14 @@ public class ScaleContext extends Methods
 	public boolean isShared( )
 	{
 		return this.bShared;
+	}
+
+	
+	/**
+	 * @return Returns the iUnit.
+	 */
+	public int getUnit( )
+	{
+		return iUnit;
 	}
 }
