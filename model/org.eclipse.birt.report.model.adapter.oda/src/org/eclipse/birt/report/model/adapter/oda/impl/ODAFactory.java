@@ -126,11 +126,10 @@ class ODAFactory implements IODAFactory
 			case DataType.BOOLEAN_TYPE :
 				return DesignChoiceConstants.PARAM_TYPE_BOOLEAN;
 			case DataType.ANY_TYPE :
-				return DesignChoiceConstants.PARAM_TYPE_ANY;
 			case DataType.BLOB_TYPE :
 			case DataType.BINARY_TYPE :
 			default :
-				return DesignChoiceConstants.PARAM_TYPE_ANY;
+				return DesignChoiceConstants.PARAM_TYPE_STRING;
 		}
 	}
 

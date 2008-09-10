@@ -94,7 +94,7 @@
                     <property name="name">dataSetParam2</property>
                     <property name="paramName">Param 2</property>
                     <property name="nativeName">dataSetParam2</property>
-                    <property name="dataType">any</property>
+                    <property name="dataType">string</property>
                     <property name="nativeDataType">0</property>                    
                     <property name="position">2</property>
                     <expression name="defaultValue">param["Param 2"]</expression>
@@ -105,7 +105,7 @@
                     <property name="name">dataSetParam3</property>
                     <property name="paramName">Param 3</property>
                     <property name="nativeName">dataSetParam3</property>
-                    <property name="dataType">any</property>
+                    <property name="dataType">string</property>
                     <property name="nativeDataType">0</property>                    
                     <property name="position">3</property>
                     <expression name="defaultValue">data set param default value 3</expression>
