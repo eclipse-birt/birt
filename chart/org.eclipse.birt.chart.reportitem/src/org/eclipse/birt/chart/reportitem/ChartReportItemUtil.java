@@ -45,7 +45,6 @@ import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -75,10 +74,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	{
 		if ( handle instanceof ReportElementHandle )
 		{
-			if ( handle instanceof ListingHandle )
-			{
-				return (ReportItemHandle) handle;
-			}
+			
 			if ( handle instanceof ReportItemHandle )
 			{
 				if ( ( (ReportItemHandle) handle ).getDataBindingReference( ) != null
