@@ -1174,7 +1174,7 @@ Element.ReportDesign.displayName=表示名(&Y) :
 Element.ReportDesign.eventHandlerClass=イベントハンドラのクラス(&C) : 
 Element.ReportDesign.iconFile=サムネール(&N) : 
 Element.ReportDesign.refreshRate=更新頻度 :
-Element.ReportDesign.bidiLayoutOrientation=双方向レイアウトの向き(&B) :
+Element.ReportDesign.bidiLayoutOrientation=Report &Orientation:
 Element.ReportElement.comments=コメント(&C) :
 Element.ReportElement.Cube=データ(&D) :
 Element.ReportElement.customXml=カスタム XML :
@@ -3823,7 +3823,7 @@ WizardTemplateChoicePage.title.SimpleListing=簡易リスト
 #bidi_hcg start
 WizardTemplateChoicePage.label.rtlBiDiOrientation=右から左へ
 WizardTemplateChoicePage.label.ltrBiDiOrientation=左から右へ
-WizardTemplateChoicePage.label.chooseBiDiDirection=レポートの向きを設定 :
+WizardTemplateChoicePage.label.chooseBiDiDirection=Report Orientation:
 #bidi_hcg end
 ###########################################################
 #XMLSourcePage properties

@@ -1174,7 +1174,7 @@ Element.ReportDesign.displayName=표시 이름(&Y):
 Element.ReportDesign.eventHandlerClass=이벤트 처리기 클래스(&C): 
 Element.ReportDesign.iconFile=섬네일(&N): 
 Element.ReportDesign.refreshRate=새로 고침 빈도:
-Element.ReportDesign.bidiLayoutOrientation=양방향 레이아웃 방향(&B):
+Element.ReportDesign.bidiLayoutOrientation=Report &Orientation:
 Element.ReportElement.comments=설명(&C):
 Element.ReportElement.Cube=데이터(&D):
 Element.ReportElement.customXml=사용자 지정 XML:
@@ -3823,7 +3823,7 @@ WizardTemplateChoicePage.title.SimpleListing=간단한 목록
 #bidi_hcg start
 WizardTemplateChoicePage.label.rtlBiDiOrientation=오른쪽에서 왼쪽
 WizardTemplateChoicePage.label.ltrBiDiOrientation=왼쪽에서 오른쪽
-WizardTemplateChoicePage.label.chooseBiDiDirection=보고서 방향 설정:
+WizardTemplateChoicePage.label.chooseBiDiDirection=Report Orientation:
 #bidi_hcg end
 ###########################################################
 #XMLSourcePage properties

@@ -1174,7 +1174,7 @@ Element.ReportDesign.displayName=&Anzeigename:
 Element.ReportDesign.eventHandlerClass=Ereignis-Handler-&Klasse: 
 Element.ReportDesign.iconFile=Mini&atur: 
 Element.ReportDesign.refreshRate=Aktualisierungsrate:
-Element.ReportDesign.bidiLayoutOrientation=&Bidirektionale Layout-Ausrichtung:
+Element.ReportDesign.bidiLayoutOrientation=Report &Orientation:
 Element.ReportElement.comments=&Kommentare:
 Element.ReportElement.Cube=&Daten:
 Element.ReportElement.customXml=Benutzerdefinierte XML:
@@ -3823,7 +3823,7 @@ WizardTemplateChoicePage.title.SimpleListing=Einfache Liste
 #bidi_hcg start
 WizardTemplateChoicePage.label.rtlBiDiOrientation=Von rechts nach links
 WizardTemplateChoicePage.label.ltrBiDiOrientation=Von links nach rechts
-WizardTemplateChoicePage.label.chooseBiDiDirection=Seitenausrichtung des Berichts festlegen:
+WizardTemplateChoicePage.label.chooseBiDiDirection=Report Orientation:
 #bidi_hcg end
 ###########################################################
 #XMLSourcePage properties
