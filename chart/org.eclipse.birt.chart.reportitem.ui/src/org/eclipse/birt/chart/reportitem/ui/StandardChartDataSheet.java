@@ -28,14 +28,14 @@ import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
-import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartColumnBindingDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ExtendedItemFilterDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ReportItemParametersDialog;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
-import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartCubeUIFilterHandleProvider;
+import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartCubeFilterHandleProvider;
+import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartFilterProviderDelegate;
 import org.eclipse.birt.chart.ui.swt.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
 import org.eclipse.birt.chart.ui.swt.CustomPreviewTable;
@@ -53,6 +53,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.action.NewCubeAction;
 import org.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog;
@@ -63,7 +64,6 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
@@ -200,8 +200,9 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 	{
 		if ( isCubeMode( ) )
 		{
-			boolean disabled = getDataServiceProvider( ).checkState( IDataServiceProvider.SHARE_QUERY )
-					|| getDataServiceProvider( ).isInXTabAggrCell( )
+			// getDataServiceProvider( ).checkState(
+			// IDataServiceProvider.SHARE_QUERY )
+			boolean disabled = getDataServiceProvider( ).isInXTabAggrCell( )
 					|| getDataServiceProvider( ).isInXTabMeasureCell( );
 			btnFilters.setEnabled( !disabled );
 			btnBinding.setEnabled( getDataServiceProvider( ).isInvokingSupported( )
@@ -210,8 +211,8 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 		}
 		else
 		{
-			btnFilters.setEnabled( hasDataSet( )
-					&& getDataServiceProvider( ).isInvokingSupported( ) );
+			 btnFilters.setEnabled( hasDataSet( ) );
+	
 			// Bugzilla#177704 Chart inheriting data from container doesn't
 			// support parameters due to limitation in DtE
 			btnParameters.setEnabled( getDataServiceProvider( ).getBoundDataSet( ) != null
@@ -448,25 +449,13 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 		handle.getModuleHandle( ).getCommandStack( ).startTrans( null );
 		ExtendedItemFilterDialog page = new ExtendedItemFilterDialog( handle );
 
-		// The chart using cube set case, it will use other filter handle
-		// provider to manage filters.
-		if ( handle.getCube( ) != null
-				&& getDataServiceProvider( ).isInvokingSupported( ) )
+		AbstractFilterHandleProvider provider = ChartFilterProviderDelegate.createFilterProvider( handle,
+				handle );
+		if ( provider instanceof ChartCubeFilterHandleProvider )
 		{
-			try
-			{
-				if ( handle.getReportItem( ) instanceof ChartReportItemImpl )
-				{
-					( (ChartReportItemImpl) handle.getReportItem( ) ).setModel( getContext( ).getModel( ) );
-				}
-			}
-			catch ( ExtendedElementException e )
-			{
-				WizardBase.displayException( e );
-				return Window.CANCEL;
-			}
-			page.setFilterHandleProvider( new ChartCubeUIFilterHandleProvider( ) );
+			( (ChartCubeFilterHandleProvider) provider ).setContext( getContext( ) );
 		}
+		page.setFilterHandleProvider( provider );
 
 		int openStatus = page.open( );
 		if ( openStatus == Window.OK )

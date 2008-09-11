@@ -156,7 +156,17 @@ public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider
 					&& ( ChartReportItemUtil.isChildOfMultiViewsHandle( (DesignElementHandle) handle ) || ( (ReportItemHandle) handle ).getDataBindingReference( ) != null ) )
 			{
 				// Sharing crosstab/multi-view
-				currentProvider = new ChartShareCrosstabFiltersHandleProvider( );
+				ReportItemHandle ref = ( (ReportItemHandle) handle ).getDataBindingReference( );
+				if ( ChartReportItemUtil.isChartHandle( ref ) )
+				{
+					currentProvider = new ChartShareCubeFiltersHandleProvider( );
+				}
+				else
+				{
+					currentProvider = new ChartShareCrosstabFiltersHandleProvider( );
+				}
+				
+				
 			}
 			else
 			{

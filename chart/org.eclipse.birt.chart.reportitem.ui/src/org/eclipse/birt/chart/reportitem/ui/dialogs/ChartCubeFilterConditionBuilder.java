@@ -28,6 +28,7 @@ import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartCubeFilterExpressionProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -63,10 +64,11 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -112,12 +114,11 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 	protected static Logger logger = Logger.getLogger( FilterConditionBuilder.class.getName( ) );
 
-	public static final String DLG_TITLE_NEW = Messages.getString( "FilterConditionBuilder.DialogTitle.New" ); //$NON-NLS-1$
-	public static final String DLG_TITLE_EDIT = Messages.getString( "FilterConditionBuilder.DialogTitle.Edit" ); //$NON-NLS-1$
-	public static final String DLG_MESSAGE_NEW = Messages.getString( "FilterConditionBuilder.DialogMessage.New" ); //$NON-NLS-1$
-	public static final String DLG_MESSAGE_EDIT = Messages.getString( "FilterConditionBuilder.DialogMessage.Edit" ); //$NON-NLS-1$
-
+	public static final String CUBE_INFO = "The expression list needs data binding.";
+	
 	protected transient String[] popupItems = null;
+	
+	private ChartWizardContext context = null;
 
 	private static String[] actions = new String[]{
 			Messages.getString( "ExpressionValueCellEditor.selectValueAction" ), //$NON-NLS-1$
@@ -128,7 +129,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 	protected Composite dummy1, dummy2;
 	protected Label label1, label2;
 
-	protected List valueList = new ArrayList( );
+	protected List<String> valueList = new ArrayList<String>( );
 
 	protected List selValueList = new ArrayList( );
 
@@ -145,19 +146,21 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 	protected static String[] EMPTY_ARRAY = new String[]{};
 
-	protected List columnList;
+	protected List<String> columnList;
 
 	protected int valueVisible;
 
 	protected Table table;
 	protected TableViewer tableViewer;
+	
+	private String tipsForCube = null;
 
 	/**
 	 * Constant, represents empty String array.
 	 */
 	protected static final String[] EMPTY = new String[0];
 
-	private Map<String, String> fExprMap = new LinkedHashMap( );
+	private Map<String, String> fExprMap = new LinkedHashMap<String, String>( );
 
 	protected String title, message;
 	
@@ -183,6 +186,16 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		this.message = message;
 	}
 	
+	private void setContext( ChartWizardContext context )
+	{
+		this.context = context;
+	}
+	
+	public void setTipsForCube( String s )
+	{
+		tipsForCube = s;
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.FilterConditionBuilder#setColumnList(org.eclipse.birt.report.model.api.DesignElementHandle)
 	 */
@@ -193,7 +206,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			try
 			{
 				fExprMap = getChartExprDefinitions( (ExtendedItemHandle) handle );
-				columnList = new ArrayList( fExprMap.keySet( ) );
+				columnList = new ArrayList<String>( fExprMap.keySet( ) );
 				return;
 			}
 			catch ( ExtendedElementException e )
@@ -202,36 +215,47 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			}
 		}
 		
-		columnList = new ArrayList();
+		columnList = new ArrayList<String>( );
 	}
 
-	private Map getChartExprDefinitions( ExtendedItemHandle handle ) throws ExtendedElementException
+	private Map<String, String> getChartExprDefinitions(
+			ExtendedItemHandle handle ) throws ExtendedElementException
 	{
-		Map exprMap = new LinkedHashMap();
+		Map<String, String> exprMap = new LinkedHashMap<String, String>( );
 		IReportItem item = handle.getReportItem( );
-		Chart cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemConstants.PROPERTY_CHART );
-		SeriesDefinition sd = (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( cm ).get(0);
+		Chart cm;
+		if ( context == null )
+		{
+			cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemConstants.PROPERTY_CHART );
+		}
+		else
+		{
+			cm = context.getModel( );
+		}
+		
+		SeriesDefinition sd = ChartUIUtil.getBaseSeriesDefinitions( cm )
+				.get( 0 );
 		Query query = (Query) sd.getDesignTimeSeries( ).getDataDefinition( ).get( 0 );
 		if ( query != null && query.getDefinition( ) != null && !"".equals( query.getDefinition( ) )) //$NON-NLS-1$
 		{
 			exprMap.put( org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix" ) + query.getDefinition( ), query.getDefinition( ) ); //$NON-NLS-1$
 		}
 		
-		List sdList = ChartUIUtil.getAllOrthogonalSeriesDefinitions( cm );
+		List<SeriesDefinition> sdList = ChartUIUtil.getAllOrthogonalSeriesDefinitions( cm );
 		if ( sdList.size( ) <= 0 )
 		{
 			return exprMap;
 		}
 		
-		Query q = ((SeriesDefinition)sdList.get( 0 )).getQuery( );
+		Query q = sdList.get( 0 ).getQuery( );
 		if ( q != null && q.getDefinition( ) != null && !"".equals( q.getDefinition( ) )) //$NON-NLS-1$
 		{
 			exprMap.put( org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix" ) + q.getDefinition( ), q.getDefinition( ) ); //$NON-NLS-1$
 		}
 		
-		for (Iterator iter = sdList.iterator( ); iter.hasNext( ); )
+		for ( Iterator<SeriesDefinition> iter = sdList.iterator( ); iter.hasNext( ); )
 		{
-			SeriesDefinition sDefintion = (SeriesDefinition) iter.next( );
+			SeriesDefinition sDefintion = iter.next( );
 			for (Iterator i = sDefintion.getDesignTimeSeries( ).getDataDefinition( ).iterator( ); i.hasNext( ); )
 			{
 				query = (Query) i.next( );
@@ -253,7 +277,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		String[] values = new String[columnList.size( )];
 		for ( int i = 0; i < columnList.size( ); i++ )
 		{
-			values[i] = (String) columnList.get( i );
+			values[i] = columnList.get( i );
 		}
 		return values;
 	}
@@ -381,9 +405,10 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 	
 	private String getDisplayExpression( String expression )
 	{
-		for ( Iterator iter = fExprMap.entrySet( ).iterator( ); iter.hasNext( ); )
+		for ( Iterator<Entry<String, String>> iter = fExprMap.entrySet( )
+				.iterator( ); iter.hasNext( ); )
 		{
-			Entry entry = (Entry) iter.next( );
+			Entry<String, String> entry = iter.next( );
 			if ( expression == null && entry.getValue( ) == null )
 			{
 				return DEUtil.resolveNull( expression );
@@ -391,7 +416,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			else if ( expression != null &&
 					expression.equals( entry.getValue( ) ) )
 			{
-				return (String) entry.getKey( );
+				return entry.getKey( );
 			}
 		}
 		return DEUtil.resolveNull( expression );
@@ -608,6 +633,20 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 				updateButtons( );
 			}
 		} );
+		expression.addMouseListener( new MouseAdapter( ) {
+
+			public void mouseUp( MouseEvent e )
+			{
+				if ( expression.getItem( 0 ).length( ) == 0
+						&& tipsForCube != null )
+				{
+					updateMessage( tipsForCube, IMessageProvider.INFORMATION );
+					tipsForCube = null;
+				}
+				
+			}
+
+		} );
 		expression.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -659,7 +698,6 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 		public void handleEvent( Event event )
 		{
-			// TODO Auto-generated method stub
 			Combo thisCombo = (Combo) event.widget;
 			String text = event.text;
 			if ( text != null && thisCombo.indexOf( text ) >= 0 )
@@ -677,7 +715,6 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 		public void handleEvent( Event event )
 		{
-			// TODO Auto-generated method stub
 			Combo thisCombo = (Combo) event.widget;
 			int selectionIndex = thisCombo.getSelectionIndex( );
 			if ( selectionIndex < 0 )
@@ -958,13 +995,11 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 			public void widgetDefaultSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 
 			}
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 				String value = addExpressionValue.getText( ).trim( );
 				if ( valueList.indexOf( value ) < 0 )
 				{
@@ -1014,12 +1049,10 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 			public void widgetDefaultSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 			}
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 				checkEditDelButtonStatus( );
 			}
 		} );
@@ -1028,7 +1061,6 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 			public void keyPressed( KeyEvent e )
 			{
-				// TODO Auto-generated method stub
 				if ( e.keyCode == SWT.DEL )
 				{
 					int index = table.getSelectionIndex( );
@@ -1056,7 +1088,6 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 			public void keyReleased( KeyEvent e )
 			{
-				// TODO Auto-generated method stub
 
 			}
 
@@ -1121,13 +1152,11 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 			public void widgetDefaultSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 
 			}
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 				IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection( );
 				if ( selection.getFirstElement( ) != null
 						&& selection.getFirstElement( ) instanceof String )
@@ -1172,13 +1201,11 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 			public void widgetDefaultSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 
 			}
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 				int index = table.getSelectionIndex( );
 				if ( index > -1 )
 				{
@@ -1210,13 +1237,11 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 			public void widgetDefaultSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 
 			}
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 				int count = valueList.size( );
 				if ( count > 0 )
 				{
@@ -1256,13 +1281,11 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 		public Image getColumnImage( Object element, int columnIndex )
 		{
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		public String getColumnText( Object element, int columnIndex )
 		{
-			// TODO Auto-generated method stub
 			if ( columnIndex == 0 )
 			{
 				return (String) element;
@@ -1272,25 +1295,21 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 		public void addListener( ILabelProviderListener listener )
 		{
-			// TODO Auto-generated method stub
 
 		}
 
 		public void dispose( )
 		{
-			// TODO Auto-generated method stub
 
 		}
 
 		public boolean isLabelProperty( Object element, String property )
 		{
-			// TODO Auto-generated method stub
 			return false;
 		}
 
 		public void removeListener( ILabelProviderListener listener )
 		{
-			// TODO Auto-generated method stub
 
 		}
 	};
@@ -1299,20 +1318,17 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 		public void dispose( )
 		{
-			// TODO Auto-generated method stub
 
 		}
 
 		public void inputChanged( Viewer viewer, Object oldInput,
 				Object newInput )
 		{
-			// TODO Auto-generated method stub
 
 		}
 
 		public Object[] getElements( Object inputElement )
 		{
-			// TODO Auto-generated method stub
 			if ( inputElement == null )
 			{
 				return new Object[0];
@@ -1329,7 +1345,6 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 		public void widgetSelected( SelectionEvent e )
 		{
-			// TODO Auto-generated method stub
 			String value = getValueForOperator( operator.getText( ) );
 
 			valueVisible = determineValueVisible( value );
@@ -1382,7 +1397,6 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 		public void widgetDefaultSelected( SelectionEvent e )
 		{
-			// TODO Auto-generated method stub
 
 		}
 	};
@@ -1414,16 +1428,6 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		return dummy;
 	}
 
-	private Text createText( Composite parent )
-	{
-		Text txt = new Text( parent, SWT.BORDER );
-		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
-		gdata.widthHint = 100;
-		txt.setLayoutData( gdata );
-
-		return txt;
-	}
-
 	/*
 	 * Update handle for the Map Rule builder
 	 */
@@ -1435,10 +1439,18 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 	/*
 	 * Set design handle for the Map Rule builder
 	 */
-	public void setDesignHandle( DesignElementHandle handle )
+	private void setDesignHandle( DesignElementHandle handle )
 	{
 		this.designHandle = handle;
 		setColumnList( this.designHandle );
+	}
+	
+	public void setDesignHandle( DesignElementHandle handle,
+			ChartWizardContext context )
+	{
+		setContext( context );
+		setDesignHandle( handle );
+
 	}
 
 	protected IExpressionProvider expressionProvider;
@@ -1773,7 +1785,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 	{
 		if ( refreshItems )
 		{
-			ArrayList finalItems = new ArrayList( 10 );
+			ArrayList<String> finalItems = new ArrayList<String>( 10 );
 			for ( int n = 0; n < actions.length; n++ )
 			{
 				finalItems.add( actions[n] );
@@ -1783,7 +1795,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			{
 				// addParamterItems( finalItems );
 			}
-			popupItems = (String[]) finalItems.toArray( EMPTY_ARRAY );
+			popupItems =  finalItems.toArray( EMPTY_ARRAY );
 		}
 		refreshItems = false;
 	}
@@ -1861,4 +1873,8 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		return super.open( );
 	}
 
+	protected void updateMessage( String s, int type )
+	{
+		super.setMessage( s, type );
+	}
 }

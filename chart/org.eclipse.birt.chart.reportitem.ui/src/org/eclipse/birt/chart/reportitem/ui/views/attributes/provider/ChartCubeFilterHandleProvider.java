@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.reportitem.ui.views.attributes.provider;
 
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartCubeFilterConditionBuilder;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
@@ -37,7 +38,12 @@ import org.eclipse.jface.dialogs.Dialog;
 public class ChartCubeFilterHandleProvider extends
 		FilterHandleProvider
 {
+	private ChartWizardContext context = null;
 	
+	public void setContext( ChartWizardContext context )
+	{
+		this.context = context;
+	}
 	
 	public ChartCubeFilterHandleProvider( )
 	{
@@ -56,8 +62,10 @@ public class ChartCubeFilterHandleProvider extends
 		if ( item instanceof DesignElementHandle )
 		{
 			ChartCubeFilterConditionBuilder dialog = new ChartCubeFilterConditionBuilder( UIUtil.getDefaultShell( ),
-					FilterConditionBuilder.DLG_TITLE_NEW, FilterConditionBuilder.DLG_MESSAGE_NEW );
-			dialog.setDesignHandle( (DesignElementHandle) item );
+					FilterConditionBuilder.DLG_TITLE_NEW,
+					FilterConditionBuilder.DLG_MESSAGE_NEW );
+			dialog.setTipsForCube( "Before adding filters, please make sure data bindings are complete" );
+			dialog.setDesignHandle( (DesignElementHandle) item, context );
 			dialog.setInput( null );
 			dialog.setBindingParams( bindingParams );
 			if ( item instanceof ReportItemHandle )
@@ -97,8 +105,9 @@ public class ChartCubeFilterHandleProvider extends
 			}
 
 			ChartCubeFilterConditionBuilder dialog = new ChartCubeFilterConditionBuilder( UIUtil.getDefaultShell( ),
-					FilterConditionBuilder.DLG_TITLE_EDIT,FilterConditionBuilder.DLG_MESSAGE_NEW );
-			dialog.setDesignHandle( (DesignElementHandle) item );
+					FilterConditionBuilder.DLG_TITLE_EDIT,
+					FilterConditionBuilder.DLG_MESSAGE_EDIT );
+			dialog.setDesignHandle( (DesignElementHandle) item, context );
 			dialog.setInput( filterHandle );
 			dialog.setBindingParams( bindingParams );
 			if ( item instanceof ReportItemHandle )

@@ -18,8 +18,8 @@ import org.eclipse.birt.chart.reportitem.ui.dialogs.widget.FormPage;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.FilterHandleProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.IFormHandleProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.jface.dialogs.TrayDialog;
@@ -39,7 +39,7 @@ public class ExtendedItemFilterDialog extends TrayDialog
 	private ExtendedItemHandle fReportItemHandle;
 
 	/** The field will provide all controls and operations for filter setting. */
-	private IFormHandleProvider fFilterHandleProvider = new FilterHandleProvider( ) {
+	private IFormProvider fFilterHandleProvider = new FilterHandleProvider( ) {
 
 		/*
 		 * (non-Javadoc)
@@ -65,6 +65,7 @@ public class ExtendedItemFilterDialog extends TrayDialog
 		super( UIUtil.getDefaultShell( ) );
 		setShellStyle( SWT.RESIZE );
 		fReportItemHandle = reportItemHandle;
+		fFilterHandleProvider.setInput( reportItemHandle );
 	}
 
 	/*
@@ -113,7 +114,7 @@ public class ExtendedItemFilterDialog extends TrayDialog
 	 * @param filterHandleProvider
 	 * @since 2.3
 	 */
-	public void setFilterHandleProvider( IFormHandleProvider filterHandleProvider )
+	public void setFilterHandleProvider( IFormProvider filterHandleProvider )
 	{
 		fFilterHandleProvider = filterHandleProvider;
 	}

@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.IFormHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -121,7 +122,7 @@ public class FormPage extends Composite implements Listener
 	/**
 	 * The data provider and processor.
 	 */
-	private IFormHandleProvider provider;
+	private IFormProvider provider;
 
 	/**
 	 * The current selection index.
@@ -144,7 +145,7 @@ public class FormPage extends Composite implements Listener
 	 * @param provider
 	 *            The data provider and processor
 	 */
-	public FormPage( Composite parent, int style, IFormHandleProvider provider,
+	public FormPage( Composite parent, int style, IFormProvider provider,
 			boolean bAddWithDialog )
 	{
 		super( parent, SWT.NONE );
@@ -171,7 +172,7 @@ public class FormPage extends Composite implements Listener
 	 * @param provider
 	 *            The data provider and processor
 	 */
-	public FormPage( Composite parent, int style, IFormHandleProvider provider )
+	public FormPage( Composite parent, int style, IFormProvider provider )
 	{
 		this( parent, style, provider, false );
 	}
