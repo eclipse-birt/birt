@@ -87,6 +87,7 @@ ChartBindingGroupDescriptorProvider.DataCubes.Default=---Datenquader---
 BindingPage.Data.Label=Daten:
 Error.ChartShouldIncludeAxes=Diagramm muss Achsen einschlieﬂen
 
+ChartCubeFilterConditionBuilder.Information=Before adding filters, please make sure data bindings are complete.
 ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Kategorie:  
 ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Wert:  
 ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y-Option:  
