@@ -143,6 +143,9 @@ public class ReportItemDataRefTest extends BaseTestCase
 		// make sure the last one has no name.
 		assertNull( tmpList.get( 6 ).getName( ) );
 
+		tmpList = text.getAvailableDataBindingReferenceList( );
+		assertEquals( 10, tmpList.size( ) );
+
 		assertEquals( 6, text.getNamedDataSetBindingReferenceList( ).size( ) );
 
 		ListHandle list = (ListHandle) designHandle.findElement( "my list" ); //$NON-NLS-1$
@@ -323,8 +326,7 @@ public class ReportItemDataRefTest extends BaseTestCase
 	 * Cases:
 	 * 
 	 * <ul>
-	 * <li>table refers to the table
-	 * <li>list refers to the table
+	 * <li>table refers to the table <li>list refers to the table
 	 * </ul>
 	 * 
 	 * @throws Exception

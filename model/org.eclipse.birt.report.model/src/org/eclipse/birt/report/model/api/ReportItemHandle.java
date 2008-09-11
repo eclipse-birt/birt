@@ -1135,7 +1135,8 @@ public abstract class ReportItemHandle extends ReportElementHandle
 				if ( element instanceof IReferencableElement
 						&& !ModelUtil.isRecursiveReference( tmpElementHandle
 								.getElement( ), (IReferencableElement) element ) )
-					if ( tmpElementHandle.getProperty( propName ) != null )
+					if ( propName == null
+							|| tmpElementHandle.getProperty( propName ) != null )
 					{
 						rtnList.add( elementHandle );
 					}
