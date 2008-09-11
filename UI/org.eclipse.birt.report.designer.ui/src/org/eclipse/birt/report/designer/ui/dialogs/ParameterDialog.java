@@ -2783,7 +2783,9 @@ public class ParameterDialog extends BaseDialog
 						: formatCategroy,
 						ULocale.getDefault( ) ).format( Messages.getString( "ParameterDialog.Label.Sample" ) ); //$NON-NLS-1$
 			}
-			else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_INTEGER ) )
+			else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_INTEGER )
+					|| type.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL )
+					|| type.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT ) )
 			{
 				previewString = new NumberFormatter( ( ParameterUtil.isCustomCategory( formatCategroy ) || ( isNumberFormat( formatCategroy ) ) ) ? formatPattern
 						: formatCategroy,
