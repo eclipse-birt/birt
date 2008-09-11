@@ -22,7 +22,8 @@ import com.ibm.icu.text.DecimalFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 public class ExcelUtil
 {
-
+	private static String currencySymbol= "£¢€￥¥";
+	
 	public static String ridQuote( String val )
 	{
 		if ( val.charAt( 0 ) == '"' && val.charAt( val.length( ) - 1 ) == '"' )
@@ -274,5 +275,29 @@ public class ExcelUtil
 		{
 			return (int) (value.convertTo( DimensionType.UNITS_PT ));
 		}
-	}	
+	}
+	
+	public static String formatNumberPattern(String givenValue)
+	{
+		String returnStr ="";
+		if(givenValue == null )
+		{
+			return "";
+		}
+		int count = givenValue.length( );
+		for ( int num = 0; num < count; num++ )
+		{
+			char temp = givenValue.charAt( num );
+			if ( currencySymbol.indexOf( temp ) != -1 )
+			{
+				returnStr = returnStr + "\"" + temp + "\"";
+			}
+			else
+			{
+				returnStr = returnStr + temp;
+			}
+		}
+		return returnStr;
+	}
+	
 }

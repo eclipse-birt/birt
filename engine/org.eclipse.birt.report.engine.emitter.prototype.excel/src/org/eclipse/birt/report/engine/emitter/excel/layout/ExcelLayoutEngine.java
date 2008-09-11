@@ -280,6 +280,7 @@ public class ExcelLayoutEngine
 
 				String format = ExcelUtil.getPattern( value, entry
 						.getProperty( StyleConstant.NUMBER_FORMAT_PROP ) );
+				format = ExcelUtil.formatNumberPattern( format );
 				entry.setProperty( StyleConstant.NUMBER_FORMAT_PROP, format );
 				entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.NUMBER );
 				return new Data( value, entry, Data.NUMBER );
