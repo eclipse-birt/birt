@@ -65,6 +65,7 @@ import com.ibm.icu.text.NumberFormat;
 public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		IUIServiceProvider
 {
+	private static boolean isChartWizardOpen = false;
 
 	protected static int iInstanceCount = 0;
 
@@ -92,6 +93,11 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 	{
 		super( );
 		this.taskId = taskId;
+	}
+	
+	public static boolean isChartWizardOpen( )
+	{
+		return isChartWizardOpen;
 	}
 
 	/*
@@ -226,9 +232,15 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			context.setExtendedItem( extendedHandle );
 			context.setProcessor( new ChartReportStyleProcessor( extendedHandle,
 					false ) );
+			
+			isChartWizardOpen = true;
+			
 			ChartWizardContext contextResult = (ChartWizardContext) chartBuilder.open( null,
 					taskId,
 					context );
+			
+			isChartWizardOpen = false;
+			
 			if ( contextResult != null && contextResult.getModel( ) != null )
 			{
 				// Pressing Finish
@@ -283,6 +295,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			// Reset the ExtendedItemHandle instance since it is no
 			// longer needed
 			this.extendedHandle = null;
+			
+			isChartWizardOpen = false;
 		}
 	}
 
