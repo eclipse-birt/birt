@@ -287,12 +287,6 @@ public class NewReportWizard extends Wizard implements
 				NEW_REPORT_FILE_EXTENSION ) );
 		newReportFileWizardPage.setContainerFullPath( getDefaultContainerPath( ) );
 		newReportFileWizardPage.setTemplateChoicePage( templateChoicePage );
-		
-		templateChoicePage.setLTRDirection( ReportPlugin.getDefault( )
-				.getLTRReportDirection( ResourcesPlugin.getWorkspace( )
-						.getRoot( )
-						.getProject( getDefaultContainerPath( ).lastSegment( ) ) ) );
-
 	}
 
 	/**
@@ -412,7 +406,7 @@ public class NewReportWizard extends Wizard implements
 
 	}
 
-	private static final List tmpList = new ArrayList( );
+	private static final List<Boolean> tmpList = new ArrayList<Boolean>( );
 	private IConfigurationElement configElement;
 
 	/**
