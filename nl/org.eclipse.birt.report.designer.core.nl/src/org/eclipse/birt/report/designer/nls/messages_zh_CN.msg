@@ -3934,7 +3934,7 @@ ResourceSelectionValidator.ExtErrorSplitter=\ 或
 ###########################################################
 #GeneralPage
 GeneralPage.Library.Included=库:
-GeneralPage.Library.Modified.Note=NOTE: This report item from the library has been modified. To restore the original library item, click on{0}"Restore Properties"
+GeneralPage.Library.Modified.Note=注: 库中的此报表项已被修改。要还原原始库项目，请单击{0}“还原属性”
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4387,4 +4387,4 @@ ExportElementToLibraryAction.waringMsg=元素没有名称，但不能为其设置名称。
 ###########################################################
 #UIUtil
 UIUtil.previewconfirm.title=报表中存在错误
-UIUtil.previewconfirm.message=The report contains errors, would you like to continue for previewing?
+UIUtil.previewconfirm.message=报表包含错误，是否继续预览?

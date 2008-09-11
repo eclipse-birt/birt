@@ -3934,7 +3934,7 @@ ResourceSelectionValidator.ExtErrorSplitter=\ 또는
 ###########################################################
 #GeneralPage
 GeneralPage.Library.Included=라이브러리:
-GeneralPage.Library.Modified.Note=NOTE: This report item from the library has been modified. To restore the original library item, click on{0}"Restore Properties"
+GeneralPage.Library.Modified.Note=참고: 이 보고서 항목은 라이브러리에서 수정되었습니다. 원래의 라이브러리 항목을 복원하려면 {0}"속성 복원"을 클릭하십시오.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4387,4 +4387,4 @@ ExportElementToLibraryAction.waringMsg=요소에 이름이 없지만 해당 요소의 이름을 �
 ###########################################################
 #UIUtil
 UIUtil.previewconfirm.title=보고서 오류
-UIUtil.previewconfirm.message=The report contains errors, would you like to continue for previewing?
+UIUtil.previewconfirm.message=보고서에 오류가 있습니다. 미리 보기를 계속하시겠습니까?
