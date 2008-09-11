@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.reportitem.ui.views.attributes.provider;
 
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartCubeFilterConditionBuilder;
+import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
@@ -64,7 +65,7 @@ public class ChartCubeFilterHandleProvider extends
 			ChartCubeFilterConditionBuilder dialog = new ChartCubeFilterConditionBuilder( UIUtil.getDefaultShell( ),
 					FilterConditionBuilder.DLG_TITLE_NEW,
 					FilterConditionBuilder.DLG_MESSAGE_NEW );
-			dialog.setTipsForCube( "Before adding filters, please make sure data bindings are complete" );
+			dialog.setTipsForCube( Messages.getString( "ChartCubeFilterConditionBuilder.Information" ) ); //$NON-NLS-1$
 			dialog.setDesignHandle( (DesignElementHandle) item, context );
 			dialog.setInput( null );
 			dialog.setBindingParams( bindingParams );
