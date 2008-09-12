@@ -92,14 +92,6 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		{
 			isLastPage = true;
 		}
-		if(hasNextPage && !isLastPage)
-		{
-			context.addLayoutHint( pageContent, false );
-		}
-		else
-		{
-			context.removeLayoutHint( pageContent );
-		}
 		isFirstPage = false;
 		end(isLastPage );
 		context.initilizePage( );
