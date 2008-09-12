@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.reportitem.ui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,8 +26,11 @@ import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
@@ -459,6 +463,33 @@ public final class DesignerRepresentation extends Figure
 			y += fm.getHeight( );
 		}
 	}
+	
+	private List<Axis> findAllAxes( ChartWithAxes cwa )
+	{
+		List<Axis> al = new ArrayList<Axis>( );
+		final Axis axBase = cwa.getPrimaryBaseAxes( )[0];
+		al.add( axBase );
+		al.addAll( Arrays.asList( cwa.getOrthogonalAxes( axBase, true ) ) );
+		return al;
+	}
+	
+	private void removeStepInfoForSample( Chart chart )
+	{
+		if ( chart instanceof ChartWithAxes )
+		{
+			ChartWithAxes cwa = (ChartWithAxes) chart;
+			List<Axis> axisList = findAllAxes( cwa );
+			for ( Axis ax : axisList )
+			{
+				Scale scale = ax.getScale( );
+				if ( scale != null )
+				{
+					scale.unsetStep( );
+					scale.unsetStepNumber( );
+				}
+			}
+		}
+	}
 
 	private void showChart( Dimension dSize )
 	{
@@ -473,9 +504,13 @@ public final class DesignerRepresentation extends Figure
 		// RUNTIME SERIES
 		cm.createSampleRuntimeSeries( ); // USING SAMPLE DATA STORED IN
 		ChartAdapter.endIgnoreNotifications( );
+
 		// MODEL
 		try
 		{
+			Chart cmRunTime = (Chart) EcoreUtil.copy( cm );
+			removeStepInfoForSample( cmRunTime );
+
 			RunTimeContext rtc = new RunTimeContext( );
 			rtc.setScriptingEnabled( false );
 			rtc.setMessageLookup( new BIRTDesignerMessageLookup( crii.getHandle( ) ) );
@@ -496,7 +531,7 @@ public final class DesignerRepresentation extends Figure
 			}
 
 			gr.render( idr, gr.build( idr.getDisplayServer( ),
-					cm,
+					cmRunTime,
 					bo,
 					null,
 					rtc,
