@@ -1642,5 +1642,10 @@ public class ColumnBindingDialog extends BaseDialog
 			}
 		}
 	}
+	
+	protected Button getAggregationButton( )
+	{
+		return btnAddAggr;
+	}
 
 }

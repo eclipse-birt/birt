@@ -54,7 +54,6 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 {
 
 	private ChartWizardContext context;
-	private Button btnAddAgg;
 	private Button btnRefresh;
 
 	/** The field indicates if all bindings are read-only in chart. */
@@ -63,7 +62,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 	public ChartColumnBindingDialog( ReportItemHandle input, Shell parent,
 			ChartWizardContext context )
 	{
-		super( input, parent, false, false );
+		super( input, parent, false, true );
 		this.context = context;
 	}
 
@@ -101,21 +100,19 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 			btnAdd.setEnabled( false );
 			btnEdit.setEnabled( false );
 			btnDel.setEnabled( false );
-			btnAddAgg.setEnabled( false );
+			getAggregationButton( ).setEnabled( false );
 			btnRefresh.setEnabled( false );
 		}
 	}
 
 	protected int addButtons( Composite cmp, final Table table )
 	{
-		btnAddAgg = new Button( cmp, SWT.PUSH );
-		btnAddAgg.setText( Messages.getString( "ChartColumnBindingDialog.Button.AddAggregation" ) ); //$NON-NLS-1$
-		GridData data = new GridData( );
-		data.widthHint = Math.max( 60, btnAddAgg.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
-		btnAddAgg.setLayoutData( data );
-		btnAddAgg.addListener( SWT.Selection, new Listener( ) {
+		Listener[] listeners = getAggregationButton( ).getListeners( SWT.Selection );
+		if ( listeners.length > 0 )
+		{
+			getAggregationButton( ).removeListener( SWT.Selection, listeners[0] );
+		}
+		getAggregationButton( ).addListener( SWT.Selection, new Listener( ) {
 
 			public void handleEvent( Event event )
 			{
@@ -145,7 +142,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 		btnRefresh = new Button( cmp, SWT.PUSH );
 		btnRefresh.setText( Messages.getString( "ChartColumnBindingDialog.Button.Refresh" ) ); //$NON-NLS-1$
 
-		data = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
+		GridData data = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
 		data.widthHint = Math.max( 60, btnRefresh.computeSize( SWT.DEFAULT,
 				SWT.DEFAULT,
 				true ).x );
@@ -263,7 +260,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 	protected void updateButtons( )
 	{
 		super.updateButtons( );
-		btnAddAgg.setEnabled( btnAdd.isEnabled( ) );
+		getAggregationButton( ).setEnabled( btnAdd.isEnabled( ) );
 
 		updateButtonStatusForReadOnly( );
 	}
