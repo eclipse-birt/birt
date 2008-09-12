@@ -305,6 +305,7 @@ public class GradientEditorDialog extends TrayDialog implements
 	{
 		iscRotation.setValue( iNewAngle );
 		gCurrent.setDirection( iNewAngle );
+		cnvPreview.redraw( );
 	}
 
 }

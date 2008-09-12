@@ -19,6 +19,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.apache.commons.codec.binary.Base64;
+import org.eclipse.birt.chart.device.IDeviceRenderer;
+import org.eclipse.birt.chart.event.PolygonRenderEvent;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -26,9 +29,15 @@ import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.Image;
+import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
+import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
@@ -41,7 +50,10 @@ import org.eclipse.swt.widgets.Display;
  * @author Administrator
  * 
  */
-public class FillCanvas extends Canvas implements PaintListener
+public class FillCanvas extends Canvas
+		implements
+			PaintListener,
+			DisposeListener
 {
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.composites" ); //$NON-NLS-1$
@@ -49,11 +61,24 @@ public class FillCanvas extends Canvas implements PaintListener
 	protected Fill fCurrent = null;
 
 	private boolean isAutoEnabled = false;
+	
+	private IDeviceRenderer idr;
 
 	public FillCanvas( Composite parent, int iStyle )
 	{
 		super( parent, iStyle );
 		this.addPaintListener( this );
+		this.addDisposeListener( this );
+		
+		try
+		{
+			idr = PluginSettings.instance( ).getDevice( "dv.SWT" ); //$NON-NLS-1$
+		}
+		catch ( ChartException pex )
+		{
+			idr = null;
+			WizardBase.displayException( pex );
+		}
 	}
 
 	/**
@@ -244,40 +269,23 @@ public class FillCanvas extends Canvas implements PaintListener
 	 */
 	protected void fillGradient( GC gc )
 	{
-		if ( ( (Gradient) fCurrent ).getStartColor( ) == null
-				&& ( (Gradient) fCurrent ).getEndColor( ) == null )
+		idr.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, gc );
+		PolygonRenderEvent event = new PolygonRenderEvent( this );
+		Location[] la = LocationImpl.create( new double[]{
+				2, 2, this.getSize( ).x - 2, this.getSize( ).x - 2
+		}, new double[]{
+				2, this.getSize( ).y - 2, this.getSize( ).y - 2, 2
+		} );
+		event.setPoints( la );
+		event.setBackground( fCurrent );
+		try
 		{
-			return;
+			idr.fillPolygon( event );
 		}
-		Color clrStart = null;
-		Color clrEnd = null;
-		if ( ( (Gradient) fCurrent ).getStartColor( ) != null )
+		catch ( ChartException e )
 		{
-			clrStart = new Color( Display.getDefault( ),
-					( (Gradient) fCurrent ).getStartColor( )
-							.getRed( ),
-					( (Gradient) fCurrent ).getStartColor( )
-							.getGreen( ),
-					( (Gradient) fCurrent ).getStartColor( )
-							.getBlue( ) );
-			gc.setForeground( clrStart );
+			
 		}
-		if ( ( (Gradient) fCurrent ).getEndColor( ) != null )
-		{
-			clrEnd = new Color( Display.getDefault( ),
-					( (Gradient) fCurrent ).getEndColor( )
-							.getRed( ),
-					( (Gradient) fCurrent ).getEndColor( )
-							.getGreen( ),
-					( (Gradient) fCurrent ).getEndColor( )
-							.getBlue( ) );
-			gc.setBackground( clrEnd );
-		}
-		gc.fillGradientRectangle( 2,
-				2,
-				this.getSize( ).x - 4,
-				this.getSize( ).y - 4,
-				false );
 	}
 
 	private org.eclipse.swt.graphics.Image getSWTImage( Image modelImage )
@@ -333,5 +341,14 @@ public class FillCanvas extends Canvas implements PaintListener
 	{
 		super.setEnabled( bState );
 		redraw( );
+	}
+	
+	public void widgetDisposed( DisposeEvent e )
+	{
+		if ( idr != null )
+		{
+			idr.dispose( );
+			idr = null;
+		}
 	}
 }
