@@ -27,12 +27,16 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Scale;
+import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
+import org.eclipse.birt.chart.model.type.DialSeries;
+import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor;
@@ -143,7 +147,7 @@ public final class DesignerRepresentation extends Figure
 	{
 		if ( crii != null )
 		{
-			cm = (Chart) crii.getProperty( ChartReportItemUtil.PROPERTY_CHART );
+			cm = (Chart) crii.getProperty( ChartReportItemConstants.PROPERTY_CHART );
 
 			// GET THE MODEL WRAPPED INSIDE THE REPORT ITEM IMPL
 			if ( cm != null )
@@ -173,14 +177,14 @@ public final class DesignerRepresentation extends Figure
 			}
 			else
 			{
-				setSize( (int) ChartReportItemUtil.DEFAULT_CHART_BLOCK_WIDTH,
-						(int) ChartReportItemUtil.DEFAULT_CHART_BLOCK_HEIGHT );
+				setSize( (int) ChartReportItemConstants.DEFAULT_CHART_BLOCK_WIDTH,
+						(int) ChartReportItemConstants.DEFAULT_CHART_BLOCK_HEIGHT );
 			}
 		}
 		else
 		{
-			setSize( (int) ChartReportItemUtil.DEFAULT_CHART_BLOCK_WIDTH,
-					(int) ChartReportItemUtil.DEFAULT_CHART_BLOCK_HEIGHT );
+			setSize( (int) ChartReportItemConstants.DEFAULT_CHART_BLOCK_WIDTH,
+					(int) ChartReportItemConstants.DEFAULT_CHART_BLOCK_HEIGHT );
 		}
 	}
 
@@ -473,7 +477,18 @@ public final class DesignerRepresentation extends Figure
 		return al;
 	}
 	
-	private void removeStepInfoForSample( Chart chart )
+	private void removeScaleInfo( Scale scale )
+	{
+		if ( scale != null )
+		{
+			scale.unsetStep( );
+			scale.unsetStepNumber( );
+			scale.setMin( null );
+			scale.setMax( null );
+		}
+	}
+	
+	private void removeScaleInfoForSample( Chart chart )
 	{
 		if ( chart instanceof ChartWithAxes )
 		{
@@ -481,11 +496,19 @@ public final class DesignerRepresentation extends Figure
 			List<Axis> axisList = findAllAxes( cwa );
 			for ( Axis ax : axisList )
 			{
-				Scale scale = ax.getScale( );
-				if ( scale != null )
+				removeScaleInfo( ax.getScale( ) );
+			}
+		}
+		else if ( chart instanceof DialChart )
+		{
+			DialChart dChart = (DialChart) chart;
+			Series[] aSeries = dChart.getRunTimeSeries( );
+			for ( Series series : aSeries )
+			{
+				if ( series instanceof DialSeries )
 				{
-					scale.unsetStep( );
-					scale.unsetStepNumber( );
+					removeScaleInfo( ( (DialSeries) series ).getDial( )
+							.getScale( ) );
 				}
 			}
 		}
@@ -509,7 +532,7 @@ public final class DesignerRepresentation extends Figure
 		try
 		{
 			Chart cmRunTime = (Chart) EcoreUtil.copy( cm );
-			removeStepInfoForSample( cmRunTime );
+			removeScaleInfoForSample( cmRunTime );
 
 			RunTimeContext rtc = new RunTimeContext( );
 			rtc.setScriptingEnabled( false );
