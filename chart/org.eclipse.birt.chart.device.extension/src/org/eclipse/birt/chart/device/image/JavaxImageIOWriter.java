@@ -502,8 +502,8 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			}
 
 			// CREATE THE IMAGE INSTANCE
-			_img = new BufferedImage( (int) _bo.getWidth( ),
-					(int) _bo.getHeight( ),
+			_img = new BufferedImage( (int) Math.round( _bo.getWidth( ) ),
+					(int) Math.round( _bo.getHeight( ) ),
 					getImageType( ) );
 		}
 		super.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, _img.getGraphics( ) );
