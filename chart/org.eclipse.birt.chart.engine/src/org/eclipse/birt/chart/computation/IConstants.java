@@ -173,5 +173,7 @@ public interface IConstants
 
 	public final int LEGEND_SEPERATOR = 2;
 	
+	public static final int LEGEND_GROUP_NAME = 4;
+	
 	public final int LEGEND_MINSLICE_ENTRY = 5;
 }

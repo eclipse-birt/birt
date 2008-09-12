@@ -78,23 +78,23 @@ public final class LegendBuilder implements IConstants
 		private double dScale;
 		private double dSeparatorThickness;
 		private double dSafeSpacing;
-		private List legendItems = new ArrayList( );
+		private List<LegendItemHints> legendItems = new ArrayList<LegendItemHints>( );
 		private Insets insCa;
 		private String sMinSliceLabel;
 
 	}
 
-	private class InvertibleIterator implements Iterator
+	private class InvertibleIterator implements Iterator<Object>
 	{
 
 		private boolean isInverse_ = false;
-		private ListIterator lit_ = null;
+		private ListIterator<?> lit_ = null;
 		private int index_ = -1;
 
 		/**
 		 * The constructor.
 		 */
-		public InvertibleIterator( List tList, boolean isInverse, int index )
+		public InvertibleIterator( List<?> tList, boolean isInverse, int index )
 		{
 			lit_ = tList.listIterator( index );
 			isInverse_ = isInverse;
@@ -108,7 +108,7 @@ public final class LegendBuilder implements IConstants
 			}
 		}
 
-		public InvertibleIterator( List tList, boolean isInverse )
+		public InvertibleIterator( List<?> tList, boolean isInverse )
 		{
 			this( tList, isInverse, isInverse ? tList.size( ) : 0 );
 		}
@@ -771,8 +771,8 @@ public final class LegendBuilder implements IConstants
 
 			if ( rtc != null )
 			{
-				List legendItems = legendData.legendItems;
-				LegendItemHints[] liha = (LegendItemHints[]) legendItems.toArray( new LegendItemHints[legendItems.size( )] );
+				List<LegendItemHints> legendItems = legendData.legendItems;
+				LegendItemHints[] liha = legendItems.toArray( new LegendItemHints[legendItems.size( )] );
 
 				// update context hints here.
 				LegendLayoutHints lilh = new LegendLayoutHints( SizeImpl.create( dWidth,
@@ -887,7 +887,7 @@ public final class LegendBuilder implements IConstants
 		double dX = 0, dY = 0;
 		double dW = 0, dH = 0;
 		double dMaxW = 0, dMaxH = 0;
-		ArrayList columnList = new ArrayList( );
+		ArrayList<LegendItemHints> columnList = new ArrayList<LegendItemHints>( );
 
 		LabelItem laiLegend = new LabelItem( xs,
 				rtc,
@@ -1038,7 +1038,9 @@ public final class LegendBuilder implements IConstants
 					dW - legendData.dHorizonalReservedSpace,
 					laiLegend.getHeight( ),
 					laiLegend.getCaption( ),
-					bNeedInvert ? dsiBase.size( ) - 1 - pos : pos ) );
+					bNeedInvert ? dsiBase.size( ) - 1 - pos : pos,
+					sdBase,
+					seBase ) );
 
 		}
 
@@ -1073,7 +1075,75 @@ public final class LegendBuilder implements IConstants
 
 		return value;
 	}
+	
+	
+	private static class LegendGroupNameProvider
+	{
+		private boolean bProvided = false;
+		private Object oGroupName = null;
 
+		public LegendGroupNameProvider( SeriesDefinition[] seda,
+				SeriesDefinition sed )
+		{
+			if ( needToShowGroupName( seda, sed ) )
+			{
+				oGroupName = getGroupName( sed );
+			}
+		}
+
+		private static boolean needToShowGroupName( SeriesDefinition[] seda,
+				SeriesDefinition sed )
+		{
+			if ( seda == null
+					|| seda.length <= 1
+					|| sed.getQuery( ) == null
+					|| sed.getQuery( ).getDefinition( ) == null
+					|| sed.getQuery( ).getDefinition( ).trim( ) == "" ) //$NON-NLS-1$
+			{
+				return false;
+			}
+
+			List<?> alRun = sed.getRunTimeSeries( );
+			if ( alRun.size( ) < 1 )
+			{
+				return false;
+			}
+
+			Series seDesign = sed.getDesignTimeSeries( );
+			Series seRun = (Series) alRun.get( 0 );
+			
+			if (seDesign==null || alRun.size( )>1)
+			{
+				return true;
+			}
+			
+			return !seDesign.getSeriesIdentifier( )
+					.equals( seRun.getSeriesIdentifier( ) );
+			
+		}
+
+		private static Object getGroupName( SeriesDefinition sed )
+		{
+			Object sGN = ""; //$NON-NLS-1$
+			if ( sed.getDesignTimeSeries( ) != null )
+			{
+				sGN = sed.getDesignTimeSeries( ).getSeriesIdentifier( );
+			}
+			return sGN;
+		}
+
+		public Object getGroupName( )
+		{
+			if ( !bProvided )
+			{
+				bProvided = true;
+				return oGroupName;
+			}
+			return null;
+		}
+		
+	}
+	
 	private double[] computeVerticalByValue( IDisplayServer xs, Chart cm,
 			SeriesDefinition[] seda, RunTimeContext rtc, ITextMetrics itm,
 			Label la, LegendData legendData, boolean bNeedInvert,
@@ -1081,7 +1151,7 @@ public final class LegendBuilder implements IConstants
 	{
 		double dX = 0, dY = 0;
 		double dMaxW = 0, dMaxH = 0;
-		ArrayList columnList = new ArrayList( );
+		ArrayList<LegendItemHints> columnList = new ArrayList<LegendItemHints>( );
 
 		LabelItem laiLegend = new LabelItem( xs,
 				rtc,
@@ -1092,7 +1162,7 @@ public final class LegendBuilder implements IConstants
 
 		// a seperated itm for value text
 		ITextMetrics itm_v = xs.getTextMetrics( la );
-		boolean bIsShowValue = cm.getLegend( ).isShowValue( );
+		// boolean bIsShowValue = cm.getLegend( ).isShowValue( );
 
 		// (VERTICAL => TB)
 		double dSeparatorThickness = legendData.dSeparatorThickness
@@ -1108,14 +1178,24 @@ public final class LegendBuilder implements IConstants
 			FormatSpecifier fs = seda[iSedaId].getFormatSpecifier( );
 
 			boolean oneVisibleSerie = false;
+			boolean isGroupName;
+			
+			LegendGroupNameProvider gnProvider = new LegendGroupNameProvider( seda,
+					seda[iSedaId] );
 
 			InvertibleIterator it = new InvertibleIterator( al, bNeedInvert );
 
-			while ( it.hasNext( ) )
+			Object oGN;
+			while ( ( oGN = gnProvider.getGroupName( ) ) != null
+					|| it.hasNext( ) )
 			{
-				Series se = (Series) it.next( );
+				isGroupName = ( oGN != null );
+				boolean bIsShowValue = cm.getLegend( ).isShowValue( )
+						&& !isGroupName;
+				
+				Series se = isGroupName ? null : (Series) it.next( );
 
-				if ( se.isVisible( ) )
+				if ( isGroupName || se.isVisible( ) )
 				{
 					oneVisibleSerie = true;
 				}
@@ -1123,12 +1203,24 @@ public final class LegendBuilder implements IConstants
 				{
 					continue;
 				}
+				
+				Object obj;
+				String lgtext = null;
+				String strExtText = null;
 
-				// legend text
-				Object obj = se.getSeriesIdentifier( );
-				String lgtext = rtc.externalizedMessage( snFormat.format( obj ) );
-				// value text
-				String strExtText = getValueText( cm, se );
+				if ( isGroupName )
+				{
+					obj = oGN;
+					lgtext = rtc.externalizedMessage( snFormat.format( obj ) );
+				}
+				else
+				{
+					// legend text
+					obj = se.getSeriesIdentifier( );
+					lgtext = rtc.externalizedMessage( snFormat.format( obj ) );
+					// value text
+					strExtText = getValueText( cm, se );
+				}
 
 				{
 					double dW = 0, dH = 0;
@@ -1147,11 +1239,21 @@ public final class LegendBuilder implements IConstants
 					for ( int iLoopLimit = 2; bRedo && iLoopLimit > 0; iLoopLimit-- )
 					{
 						// compute the size
-						double[] dsize = getItemSize( laiLegend,
+						double[] dsize;
+						if ( isGroupName )
+						{
+							dsize = getItemSizeGN( laiLegend,
+								legendData,
+								dX );
+						}
+						else
+						{
+							dsize = getItemSize( laiLegend,
 								laiValue,
 								bIsShowValue,
 								legendData,
 								dX );
+						}
 						dW = dsize[0];
 						dH = dsize[1];
 						
@@ -1194,15 +1296,30 @@ public final class LegendBuilder implements IConstants
 						dExtHeight = laiValue.getHeight( );
 						strExtText = laiValue.getCaption( );
 					}
-
-					columnList.add( new LegendItemHints( LEGEND_ENTRY,
-							new Point( dX, dY - dH ),
-							dW - legendData.dHorizonalReservedSpace,
-							laiLegend.getHeight( ),
-							laiLegend.getCaption( ),
-							dExtHeight,
-							strExtText,
-							it.getIndex( ) ) );
+					
+					if ( isGroupName )
+					{
+						columnList.add( new LegendItemHints( LEGEND_GROUP_NAME,
+								new Point( dX, dY
+										- dH
+										+ legendData.insCa.getTop( ) ),
+								dW,
+								laiLegend.getHeight( ),
+								laiLegend.getCaption( ) ) );
+					}
+					else
+					{
+						columnList.add( new LegendItemHints( LEGEND_ENTRY,
+								new Point( dX, dY - dH ),
+								dW - legendData.dHorizonalReservedSpace,
+								laiLegend.getHeight( ),
+								laiLegend.getCaption( ),
+								dExtHeight,
+								strExtText,
+								it.getIndex( ),
+								seda[iSedaId],
+								se ) );
+					}
 
 				}
 			}
@@ -1274,7 +1391,7 @@ public final class LegendBuilder implements IConstants
 		double dX = 0, dY = 0;
 		double dW = 0, dH = 0;
 		double dMaxW = 0, dMaxH = 0;
-		ArrayList columnList = new ArrayList( );
+		ArrayList<LegendItemHints> columnList = new ArrayList<LegendItemHints>( );
 
 		LabelItem laiLegend = new LabelItem( xs,
 				rtc,
@@ -1419,7 +1536,9 @@ public final class LegendBuilder implements IConstants
 					dW - legendData.dHorizonalReservedSpace,
 					laiLegend.getHeight( ),
 					laiLegend.getCaption( ),
-					bNeedInvert ? dsiBase.size( ) - 1 - pos : pos ) );
+					bNeedInvert ? dsiBase.size( ) - 1 - pos : pos,
+					sdBase,
+					seBase ) );
 
 		}
 
@@ -1442,7 +1561,7 @@ public final class LegendBuilder implements IConstants
 	{
 		double dX = 0, dY = 0;
 		double dMaxH = 0, dMaxW = 0;
-		ArrayList columnList = new ArrayList( );
+		ArrayList<LegendItemHints> columnList = new ArrayList<LegendItemHints>( );
 
 		LabelItem laiLegend = new LabelItem( xs,
 				rtc,
@@ -1453,13 +1572,13 @@ public final class LegendBuilder implements IConstants
 
 		// a seperated itm for value text
 		ITextMetrics itm_v = xs.getTextMetrics( la );
-		boolean bIsShowValue = cm.getLegend( ).isShowValue( );
 		// (HORIZONTAL => LR)
 
 		double dSeparatorThickness = legendData.dSeparatorThickness
 				+ ( bIsLeftRight ? legendData.dHorizontalSpacing
 						: legendData.dVerticalSpacing );
 
+		LegendItemHints lihLastGN = null;
 		all: for ( int j = 0; j < seda.length; j++ )
 		{
 			int iSedaId = bNeedInvert ? seda.length - 1 - j : j;
@@ -1467,15 +1586,26 @@ public final class LegendBuilder implements IConstants
 					rtc.getULocale( ) );
 			List al = seda[iSedaId].getRunTimeSeries( );
 			FormatSpecifier fs = seda[iSedaId].getFormatSpecifier( );
+			
 			boolean oneVisibleSerie = false;
+			boolean isGroupName;
+
+			LegendGroupNameProvider gnProvider = new LegendGroupNameProvider( seda,
+					seda[iSedaId] );
 
 			InvertibleIterator it = new InvertibleIterator( al, bNeedInvert );
 
-			while ( it.hasNext( ) )
+			Object oGN;
+			while ( ( oGN = gnProvider.getGroupName( ) ) != null
+					|| it.hasNext( ) )
 			{
-				Series se = (Series) it.next( );
+				isGroupName = ( oGN != null );
+				boolean bIsShowValue = cm.getLegend( ).isShowValue( )
+						&& !isGroupName;
 
-				if ( se.isVisible( ) )
+				Series se = isGroupName ? null : (Series) it.next( );
+
+				if ( isGroupName || se.isVisible( ) )
 				{
 					oneVisibleSerie = true;
 				}
@@ -1484,11 +1614,23 @@ public final class LegendBuilder implements IConstants
 					continue;
 				}
 
-				// legend text
-				Object obj = se.getSeriesIdentifier( );
-				String lgtext = rtc.externalizedMessage( snFormat.format( obj ) );
-				// value text
-				String strExtText = getValueText( cm, se );
+				Object obj;
+				String lgtext = null;
+				String strExtText = null;
+
+				if ( isGroupName )
+				{
+					obj = oGN;
+					lgtext = rtc.externalizedMessage( snFormat.format( obj ) );
+				}
+				else
+				{
+					// legend text
+					obj = se.getSeriesIdentifier( );
+					lgtext = rtc.externalizedMessage( snFormat.format( obj ) );
+					// value text
+					strExtText = getValueText( cm, se );
+				}
 
 				// {
 				double dW = 0, dH = 0;
@@ -1507,11 +1649,19 @@ public final class LegendBuilder implements IConstants
 				for ( int iLoopLimit = 2; bRedo && iLoopLimit > 0; iLoopLimit-- )
 				{
 					// compute the size
-					double[] dsize = getItemSize( laiLegend,
+					double[] dsize;
+					if ( isGroupName )
+					{
+						dsize = getItemSizeGN( laiLegend, legendData, dX );
+					}
+					else
+					{
+						dsize = getItemSize( laiLegend,
 							laiValue,
 							bIsShowValue,
 							legendData,
 							dX );
+					}
 					dW = dsize[0];
 					dH = dsize[1];
 
@@ -1531,6 +1681,11 @@ public final class LegendBuilder implements IConstants
 						if ( dX + dW > legendData.dAvailableWidth +
 								legendData.dSafeSpacing )
 						{
+							if ( lihLastGN != null )
+							{
+								lihLastGN.setHeight( dMaxH );
+								lihLastGN = null;
+							}
 							legendData.legendItems.addAll( columnList );
 							columnList.clear( );
 
@@ -1562,17 +1717,38 @@ public final class LegendBuilder implements IConstants
 					strExtText = laiValue.getCaption( );
 				}
 
-				columnList.add( new LegendItemHints( LEGEND_ENTRY,
-						new Point( dX - dW, dY ),
-						dW - legendData.dHorizonalReservedSpace,
-						laiLegend.getHeight( ),
-						laiLegend.getCaption( ),
-						dExtHeight,
-						strExtText,
-						it.getIndex( ) ) );
+				if ( isGroupName )
+				{
+					lihLastGN = new LegendItemHints( LEGEND_GROUP_NAME,
+							new Point( dX - dW, dY ),
+							dW,
+							dH - legendData.dVerticalSpacing,
+							laiLegend.getCaption( ) );
+					columnList.add( lihLastGN );
+				}
+				else
+				{
+					columnList.add( new LegendItemHints( LEGEND_ENTRY,
+							new Point( dX - dW, dY ),
+							dW - legendData.dHorizonalReservedSpace,
+							laiLegend.getHeight( ),
+							laiLegend.getCaption( ),
+							dExtHeight,
+							strExtText,
+							it.getIndex( ),
+							seda[iSedaId],
+							se ) );
+				}
 			}
 
+			if ( lihLastGN != null )
+			{
+				lihLastGN.setHeight( dMaxH );
+				lihLastGN = null;
+			}
+			
 			legendData.legendItems.addAll( columnList );
+			columnList.clear( );
 
 			if ( bIsLeftRight )
 			{
@@ -1619,7 +1795,6 @@ public final class LegendBuilder implements IConstants
 
 			}
 
-			columnList.clear( );
 		}
 
 		columnList.clear( );
@@ -1631,7 +1806,7 @@ public final class LegendBuilder implements IConstants
 		};
 
 	}
-
+	
 	private static int[] getDuplicateIndices( int[] a1, int[] a2 )
 	{
 		if ( a1 == null || a2 == null || a1.length == 0 || a2.length == 0 )
@@ -1764,6 +1939,22 @@ public final class LegendBuilder implements IConstants
 			dWidth = Math.max( dWidth, laiValue.getWidth( ) );
 			dHeight += laiValue.getHeight( ) + 2 * legendData.dScale;
 		}
+
+		return new double[]{
+				dWidth, dHeight
+		};
+	}
+
+	private double[] getItemSizeGN( LabelItem laiLegend, LegendData legendData,
+			double dX )
+			throws ChartException
+	{
+		double dWidth = 0, dHeight = 0;
+
+		laiLegend.checkEllipsis( legendData.dAvailableWidth - dX );
+
+		dWidth = laiLegend.getWidth( );
+		dHeight = laiLegend.getHeight( );
 
 		return new double[]{
 				dWidth, dHeight

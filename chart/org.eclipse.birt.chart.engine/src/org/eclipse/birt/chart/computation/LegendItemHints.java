@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.chart.computation;
 
+import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
+
 /**
  * LegendItemHints
  */
@@ -19,28 +22,57 @@ public class LegendItemHints implements IConstants
 
 	private final Point location;
 	private final double width;
-	private final double height;
+	private double height;
 	private final String text;
 	private final String extraText;
 	private final double extraHeight;
 	private final int type;
 	private final int categoryIndex;
+	private final SeriesDefinition seriesDefinition;
+	private final Series series;
 
 	public LegendItemHints( int type, Point loc, double width, double height,
-			String text, int categoryIndex )
+			String text, int categoryIndex, SeriesDefinition seriesDefinition,
+			Series series )
 	{
-		this( type, loc, width, height, text, 0, null, categoryIndex );
+		this( type,
+				loc,
+				width,
+				height,
+				text,
+				0,
+				null,
+				categoryIndex,
+				seriesDefinition,
+				series );
 	}
 
 	public LegendItemHints( int type, Point loc, double width, double height,
 			String text, double extraHeight, String extraText )
 	{
 		// not using the category index when color by series.
-		this( type, loc, width, height, text, extraHeight, extraText, 0 );
+		this( type,
+				loc,
+				width,
+				height,
+				text,
+				extraHeight,
+				extraText,
+				0,
+				null,
+				null );
+	}
+
+	// for group name
+	public LegendItemHints( int type, Point loc, double width, double height,
+			String text )
+	{
+		this( type, loc, width, height, text, 0, null, 0, null, null );
 	}
 
 	public LegendItemHints( int type, Point loc, double width, double height,
-			String text, double extraHeight, String extraText, int categoryIndex )
+			String text, double extraHeight, String extraText,
+			int categoryIndex, SeriesDefinition seriesDefinition, Series series )
 	{
 		this.type = type;
 		this.location = loc;
@@ -50,6 +82,8 @@ public class LegendItemHints implements IConstants
 		this.extraText = extraText;
 		this.extraHeight = extraHeight;
 		this.categoryIndex = categoryIndex;
+		this.series = series;
+		this.seriesDefinition = seriesDefinition;
 	}
 
 	public int getType( )
@@ -117,4 +151,33 @@ public class LegendItemHints implements IConstants
 	{
 		return categoryIndex;
 	}
+
+	
+	/**
+	 * @return Returns the series.
+	 */
+	public Series getSeries( )
+	{
+		return series;
+	}
+
+	
+	/**
+	 * @return Returns the seriesDefinition.
+	 */
+	public SeriesDefinition getSeriesDefinition( )
+	{
+		return seriesDefinition;
+	}
+
+	
+	/**
+	 * @param height
+	 *            The height to set.
+	 */
+	void setHeight( double height )
+	{
+		this.height = height;
+	}
+
 }
