@@ -669,9 +669,33 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 				cachedElementAttrs == null ? null : cachedElementAttrs
 						.getStaticValueChoices( ), reportParam );
 
-		updateROMDyanmicList( elementAttrs.getDynamicValueChoices( ),
-				cachedElementAttrs == null ? null : cachedElementAttrs
-						.getDynamicValueChoices( ), reportParam, setHandle );
+		DynamicValuesQuery valueQuery = elementAttrs.getDynamicValueChoices( );
+		updateROMDyanmicList( valueQuery, cachedElementAttrs == null
+				? null
+				: cachedElementAttrs.getDynamicValueChoices( ), reportParam,
+				setHandle );
+
+		if ( valueQuery == null )
+			valueQuery = designFactory.createDynamicValuesQuery( );
+
+		// for both dynamic and static parameter, the flag is in
+		// DynamicValuesQuery
+
+		DynamicValuesQuery cachedValueQuery = cachedElementAttrs == null
+				? null
+				: cachedElementAttrs.getDynamicValueChoices( );
+		boolean isEnabled = valueQuery.isEnabled( );
+		boolean cachedIsEnabled = cachedValueQuery == null
+				? false
+				: cachedValueQuery.isEnabled( );
+		if ( ( cachedValueQuery == null || cachedIsEnabled != isEnabled )
+				&& isEnabled )
+			reportParam
+					.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC );
+		else if ( ( cachedValueQuery == null || cachedIsEnabled != isEnabled )
+				&& !isEnabled )
+			reportParam
+					.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC );
 
 		InputElementUIHints uiHints = elementAttrs.getUiHints( );
 		if ( uiHints != null )
@@ -832,16 +856,6 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 				.getDisplayNameColumn( );
 		if ( cachedValue == null || !cachedValue.equals( value ) )
 			reportParam.setLabelExpr( value );
-
-		boolean isEnabled = valueQuery.isEnabled( );
-		boolean cachedIsEnabled = cachedValueQuery == null
-				? false
-				: cachedValueQuery.isEnabled( );
-		if ( cachedValueQuery == null
-				|| ( cachedIsEnabled != isEnabled && isEnabled ) )
-			reportParam
-					.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC );
-
 	}
 
 	/**
@@ -984,12 +998,12 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 				valueQuery.setDataSetDesign( targetDataSetDesign );
 			}
 			valueQuery.setDisplayNameColumn( labelExpr );
-			valueQuery.setValueColumn( valueExpr );			
+			valueQuery.setValueColumn( valueExpr );
 		}
 
 		valueQuery.setEnabled( isEnabled );
 		inputAttrs.setDynamicValueChoices( valueQuery );
-		
+
 		InputElementUIHints uiHints = designFactory.createInputElementUIHints( );
 		uiHints.setPromptStyle( newPromptStyle( paramHandle.getControlType( ),
 				paramHandle.isMustMatch( ) ) );
