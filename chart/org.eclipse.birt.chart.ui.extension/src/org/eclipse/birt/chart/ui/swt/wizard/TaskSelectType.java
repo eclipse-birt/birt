@@ -19,6 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
+import java.util.Map.Entry;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
@@ -1101,22 +1102,37 @@ public class TaskSelectType extends SimpleTask implements
 				// Set series name from cache or model
 				String lastType = ChartCacheManager.getInstance( )
 						.findSeriesType( );
-				if ( lastType != null )
+
+				Axis overlayAxis = (Axis) xAxis.getAssociatedAxes( ).get( 1 );
+				if ( !overlayAxis.getSeriesDefinitions( ).isEmpty( ) )
 				{
-					cbSeriesType.setText( lastType );
-				}
-				else
-				{
-					Axis overlayAxis = (Axis) xAxis.getAssociatedAxes( )
-							.get( 1 );
-					if ( !overlayAxis.getSeriesDefinitions( ).isEmpty( ) )
+					Series oseries = ( (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
+							.get( 0 ) ).getDesignTimeSeries( );
+					String sDisplayName = oseries.getDisplayName( );
+					if ( lastType != null )
 					{
-						String sDisplayName = ( (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
-								.get( 0 ) ).getDesignTimeSeries( )
-								.getDisplayName( );
+						cbSeriesType.setText( lastType );
+					}
+					else
+					{
 						cbSeriesType.setText( sDisplayName );
 					}
+
+					String seriesName = oseries.getSeriesIdentifier( )
+							.toString( );
+					if ( seriesName.trim( ).length( ) != 0 )
+					{
+						Iterator<Entry<String, Series>> itr = htSeriesNames.entrySet( )
+								.iterator( );
+						while ( itr.hasNext( ) )
+						{
+							Entry<String, Series> entry = itr.next( );
+							entry.getValue( ).setSeriesIdentifier( seriesName );
+						}
+					}
+
 				}
+
 				// Update overlay series
 				changeOverlaySeriesType( );
 			}
