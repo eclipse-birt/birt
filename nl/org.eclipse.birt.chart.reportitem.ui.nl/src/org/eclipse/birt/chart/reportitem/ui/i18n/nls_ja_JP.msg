@@ -32,7 +32,6 @@ ChartExpressionProvider.DataPoints.OrthogonalValue=値データ
 ChartExpressionProvider.ChartVariables.JavaScript=JavaScript
 ChartExpressionProvider.ChartVariables.Event=イベント
 ChartExpressionProvider.DataPoints.SeriesValue=系列データ
-ChartColumnBindingDialog.Button.AddAggregation=集計の追加...
 ChartColumnBindingDialog.Button.Refresh=更新
 
 OpenChartTaskAction.Text.SelectChartType=グラフの種類の選択(&S)...

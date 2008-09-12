@@ -32,7 +32,6 @@ ChartExpressionProvider.DataPoints.OrthogonalValue=Datos de valor
 ChartExpressionProvider.ChartVariables.JavaScript=JavaScript
 ChartExpressionProvider.ChartVariables.Event=Evento
 ChartExpressionProvider.DataPoints.SeriesValue=Datos de serie
-ChartColumnBindingDialog.Button.AddAggregation=Añadir agregación...
 ChartColumnBindingDialog.Button.Refresh=Actualizar
 
 OpenChartTaskAction.Text.SelectChartType=&Seleccionar tipo de diagrama...
