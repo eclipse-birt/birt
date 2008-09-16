@@ -180,6 +180,22 @@
       version="latest">
     </feature>
     <feature
+      id="org.eclipse.datatools.common.doc.user"
+      version="latest">
+    </feature>    
+    <feature
+      id="org.eclipse.datatools.connectivity.doc.user"
+      version="latest">
+    </feature>    
+    <feature
+      id="org.eclipse.datatools.sqltools.doc.user"
+      version="latest">
+    </feature>  
+    <feature
+      id="org.eclipse.datatools.intro"
+      version="latest">
+    </feature> 
+    <feature
       id="org.eclipse.datatools.connectivity.oda.designer.feature"
       version="latest">
     </feature>
