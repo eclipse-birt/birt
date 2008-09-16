@@ -872,6 +872,8 @@ public class TaskSelectType extends SimpleTask implements
 			if ( !newDimension.equals( sDimension ) )
 			{
 				sDimension = newDimension;
+				ChartCacheManager.getInstance( ).cacheDimension( sType,
+						sDimension );
 				createAndDisplayTypesSheet( sType );
 				setDefaultSubtypeSelection( );
 
@@ -951,6 +953,14 @@ public class TaskSelectType extends SimpleTask implements
 			{
 				isOldExist = isSupported;
 			}
+		}
+		
+		String cache = ChartCacheManager.getInstance( )
+				.getDimension( sSelectedType );
+		if ( cache != null )
+		{
+			sDimension = cache;
+			isOldExist = true;
 		}
 
 		// Select the previous selection or the default

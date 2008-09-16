@@ -37,7 +37,7 @@ public final class ChartCacheManager
 
 	private List<Map<String, Series>> cacheSeries = new ArrayList<Map<String, Series>>( 3 );
 
-	private Map cacheCharts = new HashMap( );
+	private Map<String, Object> cacheCharts = new HashMap<String, Object>( );
 
 	/**
 	 * The map stores Series label position, key is Chart stacked type, value is
@@ -52,6 +52,8 @@ public final class ChartCacheManager
 	private static final String PREFIX_CATEGORY = "c_"; //$NON-NLS-1$
 
 	private static final String PREFIX_SERIESTYPE = "t_"; //$NON-NLS-1$
+	
+	private static final String PREFIX_DIMENSION = "d_"; //$NON-NLS-1$
 
 	private ChartCacheManager( )
 	{
@@ -136,11 +138,11 @@ public final class ChartCacheManager
 	 *            A list of series definitions. Series types can be different
 	 *            from each other.
 	 */
-	public void cacheSeries( List seriesDefinitions )
+	public void cacheSeries( List<SeriesDefinition> seriesDefinitions )
 	{
 		for ( int i = 0; i < seriesDefinitions.size( ); i++ )
 		{
-			Series series = ( (SeriesDefinition) seriesDefinitions.get( i ) ).getDesignTimeSeries( );
+			Series series = seriesDefinitions.get( i ).getDesignTimeSeries( );
 			if ( cacheSeries.size( ) <= i )
 			{
 				cacheSeries.add( new HashMap<String, Series>( ) );
@@ -320,5 +322,30 @@ public final class ChartCacheManager
 	public Boolean findCategory( String chartType )
 	{
 		return (Boolean) cacheCharts.get( PREFIX_CATEGORY + chartType );
+	}
+	
+	/**
+	 * Cache the dimension selection matching to the chart type.
+	 * 
+	 * @param chartType
+	 *            Chart type
+	 * @param dimension
+	 *            dimension
+	 */
+	public void cacheDimension( String chartType, String dimension )
+	{
+		cacheCharts.put( PREFIX_DIMENSION + chartType, dimension );
+	}
+
+	/**
+	 * Return the latest selection according to the chart type.
+	 * 
+	 * @param chartType
+	 *            chart type
+	 * @return the latest selection according to the chart type.
+	 */
+	public String getDimension( String chartType )
+	{
+		return (String) cacheCharts.get( PREFIX_DIMENSION + chartType );
 	}
 }
