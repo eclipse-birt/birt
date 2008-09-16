@@ -145,8 +145,13 @@ public class ChartUtilTest extends TestCase
 				ChartXTabUtil.getBindingName( "data[\"ab c\"] + 100", true ) ); //$NON-NLS-1$
 		assertEquals( "ab c", //$NON-NLS-1$
 				ChartXTabUtil.getBindingName( "100 * data[\"ab c\"] ", true ) ); //$NON-NLS-1$
-		assertEquals( "ab c", //$NON-NLS-1$
+		assertEquals( "123", //$NON-NLS-1$
 				ChartXTabUtil.getBindingName( "data[\"123\"] + data[\"ab c\"] ", //$NON-NLS-1$
+						true ) );
+
+		// Test script expression
+		assertEquals( "123", //$NON-NLS-1$
+				ChartXTabUtil.getBindingName( "data[\"12\"+\"3\"] ", //$NON-NLS-1$
 						true ) );
 	}
 
@@ -173,6 +178,59 @@ public class ChartUtilTest extends TestCase
 		assertEquals( "123", names.get( 0 ) ); //$NON-NLS-1$
 		assertEquals( "ab c", names.get( 1 ) ); //$NON-NLS-1$
 		assertEquals( "a", names.get( 2 ) ); //$NON-NLS-1$
+	}
+
+	public void testIsDimensionExpresion( )
+	{
+		assertEquals( true,
+				ChartXTabUtil.isDimensionExpresion( "dimension[\"abc\"][\"12 3\"]" ) ); //$NON-NLS-1$
+		assertEquals( true,
+				ChartXTabUtil.isDimensionExpresion( "dimension[\"a\"+\"bc\"][\"12 3\"]" ) ); //$NON-NLS-1$
+		assertEquals( false,
+				ChartXTabUtil.isDimensionExpresion( "dimension[\"abc\"][\"12 3\"]+2" ) ); //$NON-NLS-1$
+		assertEquals( false,
+				ChartXTabUtil.isDimensionExpresion( "2+dimension[\"abc\"][\"12 3\"]" ) ); //$NON-NLS-1$
+		assertEquals( false,
+				ChartXTabUtil.isDimensionExpresion( "dimension[\"abc\"][12 3]" ) ); //$NON-NLS-1$
+		assertEquals( false,
+				ChartXTabUtil.isDimensionExpresion( "dimension[\"abc\"]" ) ); //$NON-NLS-1$
+	}
+
+	public void testGetLevelNameFromDimensionExpression( )
+	{
+		String[] levels = ChartXTabUtil.getLevelNameFromDimensionExpression( "dimension[\"abc\"][\"12 3\"]" );//$NON-NLS-1$
+		assertEquals( "abc", levels[0] ); //$NON-NLS-1$
+		assertEquals( "12 3", levels[1] ); //$NON-NLS-1$
+
+		// dimension["a"+"bc"]["a"+2*3+"b"]
+		levels = ChartXTabUtil.getLevelNameFromDimensionExpression( "dimension[\"a\"+\"bc\"][\"a\"+2*3+\"b\"]" ); //$NON-NLS-1$
+		assertEquals( "abc", levels[0] ); //$NON-NLS-1$
+		assertEquals( "a6b", levels[1] ); //$NON-NLS-1$
+
+		levels = ChartXTabUtil.getLevelNameFromDimensionExpression( "1+dimension[\"abc\"][\"12 3\"]" );//$NON-NLS-1$
+		assertNull( levels );
+	}
+
+	public void testIsMeasureExpresion( )
+	{
+		assertEquals( true,
+				ChartXTabUtil.isMeasureExpresion( "measure[\"12 3\"]" ) ); //$NON-NLS-1$
+		assertEquals( true,
+				ChartXTabUtil.isMeasureExpresion( "measure[\"a\"+\"bc\"]" ) ); //$NON-NLS-1$
+		assertEquals( false,
+				ChartXTabUtil.isMeasureExpresion( "measure[\"12 3\"]+1" ) ); //$NON-NLS-1$
+		assertEquals( false,
+				ChartXTabUtil.isMeasureExpresion( "1*measure[\"12 3\"]" ) ); //$NON-NLS-1$
+		assertEquals( false, ChartXTabUtil.isMeasureExpresion( "measure[12 3]" ) ); //$NON-NLS-1$
+		assertEquals( false,
+				ChartXTabUtil.isMeasureExpresion( "dimension[\"abc\"]" ) ); //$NON-NLS-1$
+	}
+
+	public void testGetMeasureName( )
+	{
+		assertEquals( "12 3", ChartXTabUtil.getMeasureName( "measure[\"12 3\"]" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( "abc", ChartXTabUtil.getMeasureName( "measure[\"a\"+\"bc\"]" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertNull( ChartXTabUtil.getMeasureName( "measure[\"abc\"+5]" ) ); //$NON-NLS-1$
 	}
 
 	public void testCheckStringInExpression( )
