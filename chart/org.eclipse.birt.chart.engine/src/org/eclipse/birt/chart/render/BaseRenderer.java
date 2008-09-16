@@ -2491,10 +2491,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					if ( dph.getBaseValue( ) instanceof Calendar )
 					{
 						// Bugzilla#215442 fix a parse issue to date
-						urlValue = DateFormat.getDateInstance( DateFormat.LONG,
-								rtc.getULocale( ) )
-								.format( dph.getBaseValue( ) );
-
+						urlValue = formatDateString( dph.getBaseValue( ) );
 					}
 					sb.append( URLValueImpl.encode( urlValue ) );
 				}
@@ -2510,10 +2507,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					if ( dph.getOrthogonalValue( ) instanceof Calendar )
 					{
 						// Bugzilla#215442 fix a parse issue to date
-						urlValue = DateFormat.getDateInstance( DateFormat.LONG,
-								rtc.getULocale( ) )
-								.format( dph.getOrthogonalValue( ) );
-
+						urlValue = formatDateString( dph.getOrthogonalValue( ) );
 					}
 					sb.append( URLValueImpl.encode( urlValue ) );
 				}
@@ -2530,7 +2524,19 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 		}
 	}
-
+	
+	/**
+	 * @param value
+	 * @return
+	 */
+	private String formatDateString( Object value )
+	{
+		// Bugzilla#215442 fix a parse issue to date
+		// Bugzilla#245920 Just using default locale to format date string to
+		// avoid passing locale-specific value for drill-through.
+		return DateFormat.getDateInstance( DateFormat.LONG ).format( value );
+	}
+	
 	/**
 	 * @return Returns the current cell bounds associated with current series.
 	 * @see #getCellBounds(int)
