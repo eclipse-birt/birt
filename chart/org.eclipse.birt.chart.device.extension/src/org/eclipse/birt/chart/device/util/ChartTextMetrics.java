@@ -16,9 +16,13 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.font.FontRenderContext;
+import java.awt.font.LineBreakMeasurer;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.text.AttributedString;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.device.IDisplayServer;
@@ -299,12 +303,14 @@ public final class ChartTextMetrics extends TextAdapter
 	 */
 	private String[] splitOnBreaks( String s, double maxSize )
 	{
-		final ArrayList<String> al = new ArrayList<String>( );
+		List al = new ArrayList( );
 
+		// check hard break first
 		int i = 0, j;
 		do
 		{
 			j = s.indexOf( '\n', i );
+
 			if ( j == -1 )
 			{
 				j = s.length( );
@@ -312,85 +318,41 @@ public final class ChartTextMetrics extends TextAdapter
 			String ss = s.substring( i, j );
 			if ( ss != null && ss.length( ) > 0 )
 			{
-				// check max size.
-				if ( maxSize > 0 )
+				al.add( ss );
+			}
+
+			i = j + 1;
+
+		} while ( j != -1 && j < s.length( ) );
+
+		// check wrapping
+		if ( maxSize > 0 )
+		{
+			List nal = new ArrayList( );
+
+			for ( Iterator itr = al.iterator( ); itr.hasNext( ); )
+			{
+				String ns = (String) itr.next( );
+
+				AttributedString as = new AttributedString( ns,
+						fm.getFont( )
+						.getAttributes( ) );
+				LineBreakMeasurer lbm = new LineBreakMeasurer( as.getIterator( ),
+						g2d.getFontRenderContext( ) );
+
+				while ( lbm.getPosition( ) < ns.length( ) )
 				{
-					Rectangle2D size = fm.getStringBounds( ss, g2d );
-					if ( size.getWidth( ) > maxSize )
-					{
-						// try fuzzy match first
-						int estCount = (int) ( maxSize / size.getWidth( ) )
-								* ss.length( );
+					int next = lbm.nextOffset( (float) maxSize );
 
-						if ( estCount < 1 )
-						{
-							estCount = ss.length( );
-						}
+					String ss = ns.substring( lbm.getPosition( ), next );
+					lbm.setPosition( next );
 
-						String fs;
-						Rectangle2D fsize;
-						int curPos = 0;
-
-						while ( ss.length( ) > 0 )
-						{
-							fs = ss.substring( 0, Math.min( estCount,
-									ss.length( ) ) );
-							fsize = fm.getStringBounds( fs, g2d );
-
-							if ( fsize.getWidth( ) <= maxSize )
-							{
-								al.add( fs );
-								curPos = fs.length( );
-							}
-							else
-							{
-								boolean matched = false;
-
-								// decrease the count and test again.
-								int curCount = Math.min( estCount - 1,
-										ss.length( ) );
-								while ( curCount > 1 )
-								{
-									fs = ss.substring( 0, curCount );
-									fsize = fm.getStringBounds( fs, g2d );
-
-									if ( fsize.getWidth( ) <= maxSize )
-									{
-										al.add( fs );
-										curPos = fs.length( );
-										matched = true;
-										break;
-									}
-									else
-									{
-										curCount--;
-									}
-								}
-
-								if ( !matched )
-								{
-									al.add( fs );
-									curPos = fs.length( );
-								}
-							}
-
-							ss = ss.substring( curPos );
-							curPos = 0;
-						}
-
-					}
-					else
-					{
-						al.add( ss );
-					}
-				}
-				else
-				{
-					al.add( ss );
+					nal.add( ss );
 				}
 			}
-			i = j + 1;
-		} while ( j != -1 && j < s.length( ) );
+
+			al = nal;
+		}
 
 		final int n = al.size( );
 		if ( n == 1 || n == 0 )
@@ -401,7 +363,7 @@ public final class ChartTextMetrics extends TextAdapter
 		final String[] sa = new String[n];
 		for ( i = 0; i < al.size( ); i++ )
 		{
-			sa[i] = al.get( i );
+			sa[i] = (String) al.get( i );
 		}
 		return sa;
 	}
