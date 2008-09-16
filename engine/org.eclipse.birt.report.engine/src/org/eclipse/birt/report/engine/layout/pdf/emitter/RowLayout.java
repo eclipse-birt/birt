@@ -44,9 +44,20 @@ public class RowLayout extends ContainerLayout
 
 	protected void initialize( )
 	{
+		calculateSpecifiedHeight( );
+		if ( specifiedHeight > parent.getCurrentMaxContentHeight( ) )
+		{
+			if ( !parent.isPageEmpty( ) )
+			{
+				parent.autoPageBreak( );
+				if(isInBlockStacking)
+				{
+					parent.flushFinishedPage();
+				}
+			}
+		}
 		currentContext = new ContainerContext( );
 		contextList.add( currentContext );
-		calculateSpecifiedHeight( );
 		createRoot( );
 		currentContext.maxAvaWidth = parent.getCurrentMaxContentWidth( );
 		currentContext.root.setWidth( getCurrentMaxContentWidth( ) );
