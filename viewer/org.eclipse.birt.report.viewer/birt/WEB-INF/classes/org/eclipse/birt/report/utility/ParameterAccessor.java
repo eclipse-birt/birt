@@ -344,12 +344,6 @@ public class ParameterAccessor {
 	public static final String PARAM_DATA_EXTRACT_EXTENSION = "__extractextension"; //$NON-NLS-1$
 
 	/**
-	 * Parameter that specifies whether the groups of the result set must be available
-	 * for the data extraction extension.
-	 */
-	public static final String PARAM_EXTRACT_DATA_GROUPS = "__extractdatagroups"; //$NON-NLS-1$
-	
-	/**
 	 * Parameter that indicates that the paths used in common URL parameters are
 	 * encoded.
 	 */
