@@ -829,17 +829,18 @@ public class ParameterDialog extends BaseDialog
 			promptTextEditor.setText( inputParameter.getPromptText( ) );
 		}
 		helpTextEditor.setText( UIUtil.convertToGUIString( inputParameter.getHelpText( ) ) );
+		
+		for ( Iterator iter = inputParameter.getPropertyHandle( ScalarParameterHandle.SELECTION_LIST_PROP )
+				.iterator( ); iter.hasNext( ); )
+		{
+			SelectionChoiceHandle choiceHandle = (SelectionChoiceHandle) iter.next( );
+			choiceList.add( choiceHandle.getStructure( ) );
+		}
+		
 		if ( inputParameter.getValueType( )
 				.equals( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC ) )
 		{
 			staticRadio.setSelection( true );
-
-			for ( Iterator iter = inputParameter.getPropertyHandle( ScalarParameterHandle.SELECTION_LIST_PROP )
-					.iterator( ); iter.hasNext( ); )
-			{
-				SelectionChoiceHandle choiceHandle = (SelectionChoiceHandle) iter.next( );
-				choiceList.add( choiceHandle.getStructure( ) );
-			}
 		}
 		else
 		{
