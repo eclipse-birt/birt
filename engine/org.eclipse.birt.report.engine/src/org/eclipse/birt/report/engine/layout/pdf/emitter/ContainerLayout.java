@@ -11,14 +11,16 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
+import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
+import org.w3c.dom.css.CSSValue;
 
 
 public abstract class ContainerLayout extends Layout
@@ -357,7 +359,41 @@ public abstract class ContainerLayout extends Layout
 		
 	}
 	
-		
+	protected void align( ContainerArea container )
+	{
+		if ( container == null || content == null )
+			return;
+
+		CSSValue align = content.getComputedStyle( ).getProperty(
+				IStyle.STYLE_TEXT_ALIGN );
+
+		boolean isRightAligned = BidiAlignmentResolver.isRightAligned( content,
+				align, false );
+	
+		if ( isRightAligned || IStyle.CENTER_VALUE.equals( align ) )
+		{
+			Iterator<?> iter = container.getChildren( );
+			while ( iter.hasNext( ) )
+			{
+				AbstractArea area = (AbstractArea) iter.next( );
+				int spacing = getMaxAvaWidth( ) - area.getAllocatedWidth( );
+				if ( spacing > 0 )
+				{
+					if ( isRightAligned )
+					{
+						area.setAllocatedPosition( spacing
+								+ area.getAllocatedX( ), area.getAllocatedY( ) );
+					}
+					else if ( IStyle.CENTER_VALUE.equals( align ) )
+					{
+						area.setAllocatedPosition( spacing / 2
+								+ area.getAllocatedX( ), area.getAllocatedY( ) );
+					}
+				}
+			}
+		}
+	}
+
 	class ContainerContext 
 	{
 		protected ContainerArea root;
