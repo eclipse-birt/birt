@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.reportitem;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.event.StructureSource;
@@ -51,12 +52,12 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 	private DesignElementHandle eih;
 	private IReportContext context;
 	private IDataRowExpressionEvaluator evaluator;
-	
+
 	/**
 	 * This map is used to cache evaluated script for reducing evaluation
 	 * overhead
 	 */
-	private Map cacheScriptEvaluator;
+	private Map<String, String> cacheScriptEvaluator;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
@@ -78,8 +79,10 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.render.IActionRenderer#processAction(org.eclipse.birt.chart.model.data.Action,
-	 *      org.eclipse.birt.chart.event.StructureSource)
+	 * @see
+	 * org.eclipse.birt.chart.render.IActionRenderer#processAction(org.eclipse
+	 * .birt.chart.model.data.Action,
+	 * org.eclipse.birt.chart.event.StructureSource)
 	 */
 	public void processAction( Action action, StructureSource source )
 	{
@@ -98,7 +101,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 				{
 					final ActionHandle handle = ModuleUtil.deserializeAction( sa );
 					setTooltip( uv, handle );
-					
+
 					target = handle.getTargetWindow( );
 					// use engine api to convert actionHandle to a final url
 					// value.
@@ -197,7 +200,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 						{
 							return handle.getTargetFileType( );
 						}
-						
+
 						public String getTooltip( )
 						{
 							return handle.getToolTip( );
@@ -217,7 +220,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 				{
 					final ActionHandle handle = ModuleUtil.deserializeAction( sa );
 					setTooltip( uv, handle );
-					
+
 					target = handle.getTargetWindow( );
 
 					// use engine api to convert actionHandle to a final url
@@ -317,7 +320,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 						{
 							return handle.getTargetFileType( );
 						}
-						
+
 						public String getTooltip( )
 						{
 							return handle.getToolTip( );
@@ -357,9 +360,9 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 			ScriptValue sv = (ScriptValue) action.getValue( );
 			if ( cacheScriptEvaluator == null )
 			{
-				cacheScriptEvaluator = new HashMap( );
+				cacheScriptEvaluator = new HashMap<String, String>( );
 			}
-			String evaluatResult = (String) cacheScriptEvaluator.get( sv.getScript( ) );
+			String evaluatResult = cacheScriptEvaluator.get( sv.getScript( ) );
 			if ( evaluatResult == null )
 			{
 				evaluatResult = evaluateExpression( sv.getScript( ) );
@@ -394,17 +397,17 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 		String expression = findParameterExp( script, 0 );
 		while ( expression != null )
 		{
-			// Do not use JAVA 5.0 API to replace expression with evaluated
-			// result
-			// script = script.replace( expression,
-			// (String) evaluator.evaluate( expression ) );
-			// script = Pattern.compile( expression, Pattern.LITERAL )
-			// .matcher( script )
-			// .replaceAll( evaluator.evaluate( expression ).toString( ) );
-			int pos = script.indexOf( expression );
-			script = script.substring( 0, pos )
-					+ evaluator.evaluate( expression ).toString( )
-					+ script.substring( pos + expression.length( ) );
+			Object evaluateResult = evaluator.evaluate( expression );
+			// Bugzilla#242667 Add double quotation signs automatically
+			if ( evaluateResult instanceof String )
+			{
+				evaluateResult = "\"" + evaluateResult + "\""; //$NON-NLS-1$//$NON-NLS-2$
+			}
+
+			script = Pattern.compile( expression, Pattern.LITERAL )
+					.matcher( script )
+					.replaceAll( evaluateResult.toString( ) );
+
 			expression = findParameterExp( script, 0 );
 		}
 		return script;
@@ -424,7 +427,8 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 			return null;
 		}
 		return script.substring( iStart, iEnd
-				+ 1 + ExpressionUtil.EXPRESSION_VALUE_SUFFIX.length( ) );
+				+ 1
+				+ ExpressionUtil.EXPRESSION_VALUE_SUFFIX.length( ) );
 	}
 
 }
