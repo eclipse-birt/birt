@@ -69,6 +69,7 @@ import org.eclipse.birt.report.model.api.MemberValueHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
@@ -688,6 +689,17 @@ public class ChartCubeQueryHelper
 				filters.addAll( getCubeFiltersFromHandle( ) );
 			}
 		}
+		else if ( ChartReportItemUtil.getReportItemReference( handle ) != null )
+		{
+			// It is shaing crosstab case.
+			ReportItemHandle rih = ChartReportItemUtil.getReportItemReference( handle );
+			if ( rih instanceof ExtendedItemHandle )
+			{
+				CrosstabReportItemHandle crossTab = (CrosstabReportItemHandle) ( (ExtendedItemHandle) rih ).getReportItem( );
+				filters = getFiltersFromXtab( crossTab );
+			}
+		}
+		
 		if ( filters == null )
 		{
 			filters = getCubeFiltersFromHandle( );
