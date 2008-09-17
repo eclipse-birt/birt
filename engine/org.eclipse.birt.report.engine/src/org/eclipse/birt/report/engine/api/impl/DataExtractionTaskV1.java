@@ -131,7 +131,7 @@ public class DataExtractionTaskV1 extends EngineTask
 	/**
 	 * group mode
 	 */
-	protected boolean mode = false;
+	protected boolean mode = true;
 
 	/**
 	 * have the metadata be prepared. meta data means rsetName2IdMapping and
@@ -1276,12 +1276,6 @@ public class DataExtractionTaskV1 extends EngineTask
 			}
 		}
 	}
-	
-	public void setGroupMode( boolean isGroupMode )
-	{
-		this.mode = isGroupMode;
-	}
-	
 
 	private IDataExtractionOption setupExtractOption(
 			IDataExtractionOption options )
