@@ -899,7 +899,7 @@ public class ColumnBindingDialog extends BaseDialog
 		return parentComposite;
 	}
 
-	private void deleteRow( ComputedColumnHandle handle )
+	protected void deleteRow( ComputedColumnHandle handle )
 	{
 		try
 		{

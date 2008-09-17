@@ -23,6 +23,7 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -65,11 +66,29 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 		super( input, parent, false, true );
 		this.context = context;
 	}
+	
+	protected void handleAddEvent( )
+	{
+		DataColumnBindingDialog dialog = new DataColumnBindingDialog( true,
+				true );
+		dialog.setInput( inputElement );
+		dialog.setExpressionProvider( expressionProvider );
+		if ( dialog.open( ) == Dialog.OK )
+		{
+			if ( bindingTable != null )
+			{
+				refreshBindingTable( );
+				bindingTable.getTable( ).setSelection( bindingTable.getTable( )
+						.getItemCount( ) - 1 );
+			}
+		}
+
+	}
 
 	protected void handleEditEvent( )
 	{
 		ComputedColumnHandle bindingHandle = null;
-		int pos = bindingTable.getTable( ).getSelectionIndex( );
+		int pos = getColumnBindingIndexFromTableSelection( );
 		if ( pos > -1 )
 		{
 			bindingHandle = (ComputedColumnHandle) ( DEUtil.getBindingHolder( inputElement ) ).getColumnBindings( )
@@ -85,6 +104,27 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 		{
 			if ( bindingTable != null )
 				bindingTable.getTable( ).setSelection( pos );
+		}
+	}
+	
+	@Override
+	protected void handleDelEvent( )
+	{
+		if ( !btnDel.isEnabled( ) )
+			return;
+		int pos = getColumnBindingIndexFromTableSelection( );
+		if ( pos > -1 )
+		{
+			try
+			{
+				ComputedColumnHandle handle = (ComputedColumnHandle) ( DEUtil.getBindingHolder( inputElement ) ).getColumnBindings( )
+						.getAt( pos );
+				deleteRow( handle );
+			}
+			catch ( Exception e1 )
+			{
+				ExceptionHandler.handle( e1 );
+			}
 		}
 	}
 
@@ -261,8 +301,31 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 	{
 		super.updateButtons( );
 		getAggregationButton( ).setEnabled( btnAdd.isEnabled( ) );
-
+		if ( !isOwnColumnBinding( bindingTable.getTable( ).getSelectionIndex( ) ) )
+		{
+			btnDel.setEnabled( false );
+			btnEdit.setEnabled( false );
+		}
 		updateButtonStatusForReadOnly( );
+	}
+	
+	private boolean isOwnColumnBinding( int pos )
+	{
+		List<ComputedColumnHandle> bindings = getBindingList( inputElement );
+		
+		return bindings.get( pos ).getElementHandle( ) == inputElement;
+	}
+	
+	private int getColumnBindingIndexFromTableSelection( )
+	{
+		int selection = bindingTable.getTable( ).getSelectionIndex( );
+		int index = -1;
+		for ( int i = 0; i <= selection; i++ )
+		{
+			if ( isOwnColumnBinding( i ) )
+				index++;
+		}
+		return index;
 	}
 
 	protected void addBinding( ComputedColumn column )
@@ -277,13 +340,14 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 		}
 	}
 
-	protected List getBindingList( DesignElementHandle inputElement )
+	protected List<ComputedColumnHandle> getBindingList(
+			DesignElementHandle inputElement )
 	{
 		Iterator iterator = ChartReportItemUtil.getColumnDataBindings( (ReportItemHandle) inputElement );
-		List list = new ArrayList( );
+		List<ComputedColumnHandle> list = new ArrayList<ComputedColumnHandle>( );
 		while ( iterator.hasNext( ) )
 		{
-			list.add( iterator.next( ) );
+			list.add( (ComputedColumnHandle) iterator.next( ) );
 		}
 		return list;
 	}
