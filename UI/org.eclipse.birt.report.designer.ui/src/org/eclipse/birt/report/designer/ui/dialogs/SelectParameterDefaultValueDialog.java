@@ -19,6 +19,8 @@ import java.util.Iterator;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
@@ -109,6 +111,8 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 
 		} );
 
+		UIUtil.bindHelp( parent,
+				IHelpContextIds.SELECT_PARAMETER_DEFAULT_VALUE_DIALOG_ID );
 		return composite;
 	}
 

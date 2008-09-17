@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -73,6 +75,8 @@ public class SimpleCubeBuilder extends TitleAreaDialog
 		group.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		initDialog( );
+
+		UIUtil.bindHelp( parent, IHelpContextIds.SIMPLE_CUBE_BUILDER_ID );
 		return area;
 	}
 

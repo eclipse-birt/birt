@@ -21,6 +21,8 @@ import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.swt.SWT;
@@ -42,7 +44,7 @@ import com.ibm.icu.util.ULocale;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.31 $ $Date: 2008/06/12 08:05:55 $
+ * @version $Revision: 1.32 $ $Date: 2008/07/07 03:38:53 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -113,14 +115,16 @@ public class SelectValueDialog extends BaseDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
 		Composite composite = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
 		composite.setLayout( layout );
-		composite.setLayoutData( new GridData( GridData.FILL_BOTH) );
+		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		Label label = new Label( composite, SWT.NONE );
 		label.setText( Messages.getString( "SelectValueDialog.selectValue" ) ); //$NON-NLS-1$
 
@@ -153,6 +157,7 @@ public class SelectValueDialog extends BaseDialog
 
 		} );
 
+		UIUtil.bindHelp( parent, IHelpContextIds.SELECT_VALUE_DIALOG_ID );
 		return composite;
 	}
 

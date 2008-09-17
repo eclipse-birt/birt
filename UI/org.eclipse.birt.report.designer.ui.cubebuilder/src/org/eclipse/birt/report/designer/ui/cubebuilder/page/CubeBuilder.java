@@ -17,6 +17,8 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.data.ui.property.AbstractTitlePropertyDialog;
 import org.eclipse.birt.report.designer.data.ui.property.PropertyNode;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
@@ -63,7 +65,13 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 	{
 		return true;
 	}
-	
+
+	protected Control createDialogArea( Composite parent )
+	{
+		UIUtil.bindHelp( parent, IHelpContextIds.CUBE_BUILDER_ID );
+		return super.createDialogArea( parent );
+	}
+
 	private void addCommonPage( TabularCubeHandle model )
 	{
 		datasetNode = new PropertyNode( DATASETSELECTIONPAGE,
@@ -99,7 +107,7 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 		if ( checkCubeLink( ) )
 		{
 			return true;
-		}			
+		}
 		else
 			return false;
 	}
@@ -114,7 +122,9 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 			for ( int i = 0; i < dimensions.length; i++ )
 			{
 				TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimensions[i].getDefaultHierarchy( );
-				if ( hierarchy != null && hierarchy.getDataSet( ) != null && hierarchy.getDataSet( ) != input.getDataSet( ) )
+				if ( hierarchy != null
+						&& hierarchy.getDataSet( ) != null
+						&& hierarchy.getDataSet( ) != input.getDataSet( ) )
 					childList.add( hierarchy );
 			}
 		}

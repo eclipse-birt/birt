@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
@@ -60,14 +61,14 @@ public class AddComputedSummaryDialog extends BaseDialog
 	private String name;
 	private String expression;
 	private String dataType;
-	
+
 	protected static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
-	.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
-	.getMember( ComputedColumn.DATA_TYPE_MEMBER )
-	.getAllowedChoices( );
+			.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
+			.getMember( ComputedColumn.DATA_TYPE_MEMBER )
+			.getAllowedChoices( );
 	protected String[] dataTypes = ChoiceSetFactory.getDisplayNamefromChoiceSet( DATA_TYPE_CHOICE_SET );
 	protected static final IChoice[] DATA_TYPE_CHOICES = DATA_TYPE_CHOICE_SET.getChoices( null );
-	
+
 	public AddComputedSummaryDialog( Shell parentShell,
 			CrosstabReportItemHandle crosstab )
 	{
@@ -136,6 +137,7 @@ public class AddComputedSummaryDialog extends BaseDialog
 		errorLabel = new CLabel( parentComposite, SWT.NONE );
 		errorLabel.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
+		UIUtil.bindHelp( parent, IHelpContextIds.ADD_COMPUTED_SUMMARY_DIALOG_ID );
 		return parentComposite;
 	}
 
@@ -150,7 +152,7 @@ public class AddComputedSummaryDialog extends BaseDialog
 	protected void initialize( )
 	{
 		dataTypeCmb.setItems( dataTypes );
-		if(dataTypeCmb.getItemCount( ) > 0)
+		if ( dataTypeCmb.getItemCount( ) > 0 )
 		{
 			dataTypeCmb.select( 0 );
 		}
@@ -241,12 +243,12 @@ public class AddComputedSummaryDialog extends BaseDialog
 	{
 		return expression;
 	}
-	
-	public String getDataType()
+
+	public String getDataType( )
 	{
 		return dataType;
 	}
-	
+
 	protected void okPressed( )
 	{
 		name = nameText.getText( ).trim( );
@@ -254,7 +256,7 @@ public class AddComputedSummaryDialog extends BaseDialog
 		dataType = getType( );
 		super.okPressed( );
 	}
-	
+
 	private String getType( )
 	{
 		for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )

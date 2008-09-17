@@ -17,7 +17,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -25,7 +24,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- *  Dialog used for parameter binding
+ * Dialog used for parameter binding
  */
 public class ParameterBindingDialog extends BaseDialog
 {
@@ -44,11 +43,13 @@ public class ParameterBindingDialog extends BaseDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
-		UIUtil.bindHelp( parent, IHelpContextIds.PARAMETERBINDING_DIALOG_ID);
+		UIUtil.bindHelp( parent, IHelpContextIds.PARAMETERBINDING_DIALOG_ID );
 		Composite composite = (Composite) super.createDialogArea( parent );
 		ParameterBindingPage page = new ParameterBindingPage( composite,
 				SWT.NONE );
@@ -58,7 +59,8 @@ public class ParameterBindingDialog extends BaseDialog
 		GridData data = new GridData( GridData.FILL_BOTH );
 		data.heightHint = 300;
 		page.setLayoutData( data );
-		this.getShell( ).setText( Messages.getString( "parameterBinding.title" ) ); //$NON-NLS-1$
+		this.getShell( )
+				.setText( Messages.getString( "parameterBinding.title" ) ); //$NON-NLS-1$
 		return composite;
 	}
 }

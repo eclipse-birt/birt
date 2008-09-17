@@ -21,7 +21,7 @@ public interface IHelpContextIds
 
 	public static final String UNKNOWN = PREFIX + "dummy_outer_container"; //$NON-NLS-1$
 
-	/*----------Control: Wizard----------*/
+	/* ----------Control: Wizard---------- */
 	public static final String NEW_REPORT_PROJECT_ID = PREFIX
 			+ "NewReportProjectWizard_ID"; //$NON-NLS-1$
 
@@ -52,7 +52,7 @@ public interface IHelpContextIds
 	public static final String EXPORT_TO_LIBRARY_WIZARD_ID = PREFIX
 			+ "ExportToLibrary_ID"; //$NON-NLS-1$
 
-	/*----------Control: Dialog----------*/
+	/* ----------Control: Dialog---------- */
 	public static final String FORMAT_BUILDER_ID = PREFIX + "FormatBuilder_ID"; //$NON-NLS-1$
 
 	public static final String IMPORT_VALUE_DIALOG_ID = PREFIX
@@ -162,9 +162,9 @@ public interface IHelpContextIds
 
 	public static final String ADD_JAR_FILES_DIALOG_ID = PREFIX
 			+ "AddJarResourceFileFolderSelectionDialog_ID"; //$NON-NLS-1$
-	
+
 	public static final String ADD_JS_FILES_DIALOG_ID = PREFIX
-	+ "AddJsResourceFileFolderSelectionDialog_ID"; //$NON-NLS-1$
+			+ "AddJsResourceFileFolderSelectionDialog_ID"; //$NON-NLS-1$
 
 	public static final String ADD_IMAGE_FILES_DIALOG_ID = PREFIX
 			+ "AddImageResourceFileFolderSelectionDialog_ID"; //$NON-NLS-1$
@@ -255,7 +255,7 @@ public interface IHelpContextIds
 	public static final String CUBE_FILTER_LIST_DIALOG = PREFIX
 			+ "CubeBuilderFilterListDialog_ID"; //$NON-NLS-1$
 
-	/*----------Control: Preference----------*/
+	/* ----------Control: Preference---------- */
 	public static final String PREFERENCE_BIRT_DATA_SET_EDITOR_ID = PREFIX
 			+ "Preference_BIRT_DataSetEditor_ID"; //$NON-NLS-1$
 
@@ -279,9 +279,9 @@ public interface IHelpContextIds
 
 	public static final String PREFERENCE_BIRT_COMMENTTEMPLATE_ID = PREFIX
 			+ "Preference_BIRT_CommentTemplate_ID"; //$NON-NLS-1$
-	
+
 	public static final String PREFERENCE_BIRT_BIDI_ID = PREFIX
-	+ "Preference_BIRT_BIDI_ID"; //$NON-NLS-1$
+			+ "Preference_BIRT_BIDI_ID"; //$NON-NLS-1$
 
 	public static final String PREFERENCE_BIRT_RESOURCE_ID = PREFIX
 			+ "Preference_BIRT_Resource_ID"; //$NON-NLS-1$
@@ -295,15 +295,42 @@ public interface IHelpContextIds
 			+ "UseCssInReportDialog_ID"; //$NON-NLS-1$
 
 	public static final String RESOURCE_FILTER_DIALOG_ID = PREFIX
-	+ "ResourceFilterDialog_ID"; //$NON-NLS-1$
+			+ "ResourceFilterDialog_ID"; //$NON-NLS-1$
 
 	public static final String STYLE_BUILDER_COMMENTS_ID = PREFIX
 			+ "StyleBuilderComments_ID"; //$NON-NLS-1$
 
 	public static final String PREFERENCE_BIRT_XTAB_ID = PREFIX
 			+ "Preference_BIRT_CrossTab_ID"; //$NON-NLS-1$
-	
+
 	public static final String PREFERENCE_BIRT_GENERAL_ID = PREFIX
 			+ "Preference_BIRT_GENERAL_ID"; //$NON-NLS-1$
+
+	public static final String CUBE_BUILDER_ID = PREFIX + "Cube_Builder_ID";
+
+	public static final String DATA_SET_EDITOR_ID = PREFIX + "DataSetEditor_ID";
+
+	public static final String DATA_SOURCE_EDITOR_ID = PREFIX
+			+ "DataSourceEditor_ID";
+
+	public static final String ADD_COMPUTED_SUMMARY_DIALOG_ID = PREFIX
+			+ "AddComputedSummaryDialog_ID";
+
+	public static final String ADD_DATA_SOURCE_SELECTION_DIALOG_ID = PREFIX
+			+ "DataSourceSelectionDialog_ID";
+
+	public static final String IMPORT_LIBRARY_DIALOG_ID = PREFIX
+			+ "ImportLibraryDialog_ID";
+
+	public static final String SELECT_PARAMETER_DEFAULT_VALUE_DIALOG_ID = PREFIX
+			+ "SelectParameterDefaultValueDialog_ID";
+
+	public static final String SELECT_VALUE_DIALOG_ID = PREFIX
+			+ "SelectValueDialog_ID";
+
+	public static final String CSS_ERROR_DIALOG_ID = PREFIX + "CssErrDialog_ID";
+
+	public static final String SIMPLE_CUBE_BUILDER_ID = PREFIX
+			+ "SimpleCubeBuilder_ID";
 
 }

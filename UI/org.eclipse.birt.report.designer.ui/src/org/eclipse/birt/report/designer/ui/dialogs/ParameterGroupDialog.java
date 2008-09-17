@@ -13,7 +13,11 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ParameterGroupGeneralPage;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TabDialog;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -39,11 +43,18 @@ public class ParameterGroupDialog extends TabDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.TabDialog#addTabPages()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.TabDialog#addTabPages
+	 * ()
 	 */
 	public void addTabPages( )
 	{
 		addTabPage( new ParameterGroupGeneralPage( GENERAL_PAGE_TITLE ) ); //$NON-NLS-1$
 	}
 
+	protected Control createDialogArea( Composite parent )
+	{
+		UIUtil.bindHelp( parent, IHelpContextIds.PARAMETER_GROUP_DIALOG_ID );
+		return super.createDialogArea( parent );
+	}
 }

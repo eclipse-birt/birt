@@ -8,8 +8,11 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -26,17 +29,21 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class DataSourceSelectionDialog extends BaseDialog
 {
+
 	private String[] dataSourceNames;
 	private Combo combo;
-	
-	public DataSourceSelectionDialog( Shell parentShell, String title, String[] names )
+
+	public DataSourceSelectionDialog( Shell parentShell, String title,
+			String[] names )
 	{
 		super( parentShell, title );
 		this.dataSourceNames = names;
 	}
 
 	/*
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
@@ -45,11 +52,16 @@ public class DataSourceSelectionDialog extends BaseDialog
 		combo = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 		combo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		combo.setItems( dataSourceNames );
+
+		UIUtil.bindHelp( parent,
+				IHelpContextIds.ADD_DATA_SOURCE_SELECTION_DIALOG_ID );
 		return composite;
 	}
-	
+
 	/*
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#initDialog()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#initDialog
+	 * ()
 	 */
 	protected boolean initDialog( )
 	{
@@ -63,7 +75,7 @@ public class DataSourceSelectionDialog extends BaseDialog
 		}
 		return true;
 	}
-	
+
 	/*
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
@@ -72,5 +84,5 @@ public class DataSourceSelectionDialog extends BaseDialog
 		setResult( combo.getItem( combo.getSelectionIndex( ) ) );
 		super.okPressed( );
 	}
-	
+
 }
