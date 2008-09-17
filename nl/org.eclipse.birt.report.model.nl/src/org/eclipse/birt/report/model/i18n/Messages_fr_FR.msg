@@ -15,34 +15,34 @@ Property.Boolean.False=faux
 ###########################################################
 # Property type names
 
-Property.boolean=booléen
-Property.choice=choix
-Property.float=flottant
-Property.color=couleur
-Property.dateTime=dateHeure
-Property.dimension=dimension
-Property.expression=expression
-Property.html=html
-Property.integer=entier
-Property.messageId=idMessage
-Property.name=nom
-Property.number=nombre
-Property.points=points
-Property.string=chaîne
-Property.uri=uri
-Property.xml=xml
-Property.elementRef=référence d'élément
-Property.column=colonne
-Property.variant=variante
-Property.structList=listeStruct
-Property.extends=extends
+Property.boolean=Booléen
+Property.choice=Choix
+Property.float=Flottant
+Property.color=Couleur
+Property.dateTime=DateHeure
+Property.dimension=Dimension
+Property.expression=Expression
+Property.html=Html
+Property.integer=Entier
+Property.messageId=IdMessage
+Property.name=Nom
+Property.number=Nombre
+Property.points=Points
+Property.string=Chaîne
+Property.uri=Uri
+Property.xml=Xml
+Property.elementRef=Référence d'élément
+Property.column=Colonne
+Property.variant=Variante
+Property.structList=ListeStruct
+Property.extends=Extends
 Property.script=Script
-Property.list=liste
-Property.memberKey=clé de membre
-Property.literalString=littéral de chaîne
-Property.element=élément
-Property.structRef=référence de structure
-Property.contentElement=élément en tant que valeur de propriété
+Property.list=Liste
+Property.memberKey=Clé de membre
+Property.literalString=Littéral de chaîne
+Property.element=Elément
+Property.structRef=Référence de structure
+Property.contentElement=Elément en tant que valeur de propriété
 
 ###########################################################
 # Choice values

@@ -15,34 +15,34 @@ Property.Boolean.False=false
 ###########################################################
 # Property type names
 
-Property.boolean=booleano
-Property.choice=selección
-Property.float=flotante
-Property.color=color
-Property.dateTime=fecha/Hora
-Property.dimension=dimensión
-Property.expression=expresión
-Property.html=html
-Property.integer=entero
+Property.boolean=Booleano
+Property.choice=Selección
+Property.float=Flotante
+Property.color=Color
+Property.dateTime=Fecha/Hora
+Property.dimension=Dimensión
+Property.expression=Expresión
+Property.html=Html
+Property.integer=Entero
 Property.messageId=IDmensaje
-Property.name=nombre
-Property.number=número
-Property.points=puntos
-Property.string=string
-Property.uri=uri
-Property.xml=xml
-Property.elementRef=referencia de elemento
-Property.column=columna
-Property.variant=variante
-Property.structList=structList
-Property.extends=extends
+Property.name=Nombre
+Property.number=Número
+Property.points=Puntos
+Property.string=String
+Property.uri=Uri
+Property.xml=Xml
+Property.elementRef=Referencia de elemento
+Property.column=Columna
+Property.variant=Variante
+Property.structList=StructList
+Property.extends=Extends
 Property.script=Script
-Property.list=lista
-Property.memberKey=clave de miembro
-Property.literalString=string literal
-Property.element=elemento
-Property.structRef=referencia de estructura
-Property.contentElement=elemento como valor de la propiedad
+Property.list=Lista
+Property.memberKey=Clave de miembro
+Property.literalString=String literal
+Property.element=Elemento
+Property.structRef=Referencia de estructura
+Property.contentElement=Elemento como valor de la propiedad
 
 ###########################################################
 # Choice values
