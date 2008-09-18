@@ -11,6 +11,7 @@
 package org.eclipse.birt.data.engine.impl.rd;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -242,8 +243,9 @@ public class ViewingTest extends RDTestCase
 
 		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
 				fileName, fileName );
+		
 		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
-
+	
 		QueryDefinition baseQuery = new QueryDefinition( );
 		baseQuery.setQueryResultsID( this.queryResultID );
 		QueryDefinition query = new QueryDefinition( );
@@ -1392,7 +1394,9 @@ public class ViewingTest extends RDTestCase
 	 */
 	private void _preBasicIV1( QueryDefinition qd ) throws BirtException
 	{
-		IQueryResults qr = myPreDataEngine.prepare( qd ).execute( null );
+		HashMap appContext = new HashMap();
+		appContext.put( DataEngine.MEMORY_BUFFER_SIZE, 10 );
+		IQueryResults qr = myPreDataEngine.prepare( qd , appContext ).execute( null );
 		
 		IResultIterator ri = qr.getResultIterator( );
 

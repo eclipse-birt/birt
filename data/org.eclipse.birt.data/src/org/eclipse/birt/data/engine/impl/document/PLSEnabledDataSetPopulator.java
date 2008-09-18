@@ -12,13 +12,17 @@
 package org.eclipse.birt.data.engine.impl.document;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IGroupInstanceInfo;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
@@ -48,6 +52,7 @@ public class PLSEnabledDataSetPopulator implements IDataSetPopulator
 	private PLSDataPopulator populator = null;
 	private IResultClass resultClass;
 	private List<String> originalBindingNames;
+	private Map<String, String> datasetColumnNameBindingNameMapping;
 
 	/**
 	 * Constructor
@@ -87,25 +92,27 @@ public class PLSEnabledDataSetPopulator implements IDataSetPopulator
 		if( !this.populator.next( ) )
 			return null;
 		Object[] field = new Object[this.resultClass.getFieldCount( )];
-		IResultObject curr = this.populator.getDocumentIterator( )
-				.getExprResultSet( )
-				.getDataSetResultSet( )
-				.getResultObject( );
 
-		assert curr!= null;
-		
-		for ( int i = 0; i < curr.getResultClass( ).getFieldCount( ); i++ )
-		{
-			field[i] = curr.getFieldValue( i + 1 );
-		}
-
-		for ( int i = curr.getResultClass( ).getFieldCount( ); i < field.length; i++ )
+		int proceedField = this.originalBindingNames.size( );
+		for ( int i = 0; i < this.resultClass.getFieldCount( ) - proceedField; i++ )
 		{
 			try
 			{
 				field[i] = this.populator.getDocumentIterator( )
-						.getValue( this.originalBindingNames.get( i
-								- curr.getResultClass( ).getFieldCount( ) ) );
+						.getValue( datasetColumnNameBindingNameMapping.get( this.resultClass.getFieldName( i + 1 ) ));
+				}
+			catch ( BirtException e )
+			{				
+				throw DataException.wrap( e );
+			}
+		}
+		
+		for ( int i = this.resultClass.getFieldCount( )-proceedField; i < field.length; i++ )
+		{
+			try
+			{
+				field[i] = this.populator.getDocumentIterator( )
+						.getValue( this.originalBindingNames.get( i + proceedField - this.resultClass.getFieldCount( ) ) );
 			}
 			catch ( BirtException e )
 			{
@@ -143,6 +150,7 @@ public class PLSEnabledDataSetPopulator implements IDataSetPopulator
 		}
 
 		this.originalBindingNames = new ArrayList<String>( );
+		this.datasetColumnNameBindingNameMapping = new HashMap<String,String>();
 		Iterator<IBinding> bindings = query.getBindings( ).values( ).iterator( );
 		while ( bindings.hasNext( ) )
 		{
@@ -157,6 +165,15 @@ public class PLSEnabledDataSetPopulator implements IDataSetPopulator
 						false );
 				list.add( rfmeta );
 				this.originalBindingNames.add( binding.getBindingName( ) );
+			}
+			else if ( binding.getExpression( ) instanceof IScriptExpression
+					&& (IScriptExpression) binding.getExpression( ) != null
+					&& binding.getAggrFunction( ) == null )
+			{
+				String name = ExpressionUtil.getColumnName( ( (IScriptExpression) binding.getExpression( ) ).getText( ) );
+				if ( name != null )
+					this.datasetColumnNameBindingNameMapping.put( name,
+							binding.getBindingName( ) );
 			}
 		}
 		return new ResultClass( list );
