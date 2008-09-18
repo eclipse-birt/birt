@@ -1286,10 +1286,24 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 					String expr = createCubeExpression( );
 					if ( expr != null )
 					{
-						addMenu( manager, getBaseSeriesMenu( getChartModel( ),
+						// bug#220724
+						if ( ( (Boolean) dataProvider.checkData( ChartUIConstants.QUERY_CATEGORY,
+								expr ) ).booleanValue( ) )
+						{
+							addMenu( manager,
+									getBaseSeriesMenu( getChartModel( ),
 								expr ) );
-						addMenu( manager, getGroupSeriesMenu( getChartModel( ),
+						}
+						
+						if ( dataProvider.checkState( IDataServiceProvider.MULTI_CUBE_DIMENSIONS )
+								&& ( (Boolean) dataProvider.checkData( ChartUIConstants.QUERY_OPTIONAL,
+										expr ) ).booleanValue( ) )
+						{
+							addMenu( manager,
+									getGroupSeriesMenu( getChartModel( ),
 								expr ) );
+						}
+						
 					}
 				}
 			}
