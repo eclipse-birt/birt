@@ -131,7 +131,7 @@ public class DataExtractionTaskV1 extends EngineTask
 	/**
 	 * group mode
 	 */
-	protected boolean mode = true;
+	protected boolean groupMode = true;
 
 	/**
 	 * have the metadata be prepared. meta data means rsetName2IdMapping and
@@ -610,7 +610,7 @@ public class DataExtractionTaskV1 extends EngineTask
 	{
 		try
 		{
-			if ( mode )
+			if ( !groupMode )
 			{
 				if ( resultSetName != null )
 				{
@@ -680,6 +680,9 @@ public class DataExtractionTaskV1 extends EngineTask
 				// get new result
 				newQuery.setQueryResultsID( rsetId );
 				Scriptable scope = executionContext.getSharedScope( );
+				// prepare the query
+				processQueryExtensions( newQuery );
+				
 				IPreparedQuery preparedQuery = dataSession.prepare( newQuery );
 				results = preparedQuery.execute( scope );
 			}
@@ -719,24 +722,29 @@ public class DataExtractionTaskV1 extends EngineTask
 		if ( rsetId != null )
 		{
 			IQueryResults results = null;
+			/*
 			if ( null == filterExpressions && null == sortExpressions )
 			{
 				results = dataSession.getQueryResults( rsetId );
 			}
 			else
 			{
+			*/
 				// creat new query
 				String queryId = (String) rsetId2queryIdMapping.get( rsetId );
 				QueryDefinition query = (QueryDefinition) getQuery( queryId );
+				query.setQueryResultsID( rsetId );
 				QueryDefinition newQuery = new QueryDefinition( );
-				newQuery.setQueryResultsID( rsetId );
 				newQuery.setSourceQuery( query );
 				setupQueryWithFilterAndSort(newQuery);
 
+				// prepare the query
+				processQueryExtensions( newQuery );
+				
 				Scriptable scope = executionContext.getSharedScope( );
 				IPreparedQuery preparedQuery = dataSession.prepare( newQuery );
 				results = preparedQuery.execute( scope );
-			}
+			//}
 
 			if ( null != results )
 			{
@@ -867,12 +875,12 @@ public class DataExtractionTaskV1 extends EngineTask
 				IBaseQueryDefinition query = (IBaseQueryDefinition) dataQuery;
 				String queryId = (String)query2QueryIdMapping.get( query );
 
+				DataRequestSession dataSession = executionContext
+						.getDataEngine( ).getDTESession( );
+				Scriptable scope = executionContext.getSharedScope( );
+				
 				if ( query instanceof IQueryDefinition )
 				{
-					QueryDefinition newQuery = new QueryDefinition( );
-					newQuery.setSourceQuery( query );
-					setupQueryWithFilterAndSort( newQuery );
-					
 					String prsid = null;
 					long rowId = -1;
 					DataID dataId = getValidDataID( iid );
@@ -883,12 +891,27 @@ public class DataExtractionTaskV1 extends EngineTask
 						prsid = dataSetId.toString( );
 					}
 					
-					IResultIterator dataIter = executeQuery( prsid, rowId, queryId, newQuery );
-					IResultMetaData metaData = getMetaDateByInstanceID( instanceId );
-					if ( dataIter != null && metaData != null )
+					String rsId = getResultsetID( prsid, rowId, queryId );
+					( (QueryDefinition) query ).setQueryResultsID( rsId );
+					
+					QueryDefinition newQuery = new QueryDefinition( );
+					newQuery.setSourceQuery( query );
+					setupQueryWithFilterAndSort( newQuery );
+					// prepare the query
+					processQueryExtensions( newQuery );
+					
+					IPreparedQuery preparedQuery = dataSession
+							.prepare( newQuery );
+					IQueryResults results = preparedQuery.execute( scope );
+
+					if ( null != results )
 					{
-						return new ExtractionResults( dataIter, metaData,
-								this.selectedColumns, startRow, maxRows );
+						IResultMetaData metaData = getMetaDateByInstanceID( instanceId );
+						if ( metaData != null )
+						{
+							return new ExtractionResults( results, metaData,
+									this.selectedColumns, startRow, maxRows );
+						}
 					}
 					return null;
 				}
@@ -918,10 +941,9 @@ public class DataExtractionTaskV1 extends EngineTask
 						QueryDefinition newQuery = new QueryDefinition( );
 						newQuery.setSourceQuery( query );
 						setupQueryWithFilterAndSort(newQuery);
+						// prepare the query
+						processQueryExtensions( newQuery );
 						
-						DataRequestSession dataSession = executionContext
-								.getDataEngine( ).getDTESession( );
-						Scriptable scope = executionContext.getSharedScope( );
 						IPreparedQuery preparedQuery = dataSession
 								.prepare( newQuery );
 						IQueryResults results = preparedQuery.execute( scope );
