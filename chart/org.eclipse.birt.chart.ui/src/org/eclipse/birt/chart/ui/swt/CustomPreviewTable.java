@@ -24,6 +24,8 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseMoveListener;
@@ -31,6 +33,8 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
@@ -60,7 +64,8 @@ public class CustomPreviewTable extends Composite implements
 		MouseListener,
 		MouseMoveListener,
 		ControlListener,
-		DisposeListener
+		DisposeListener,
+			KeyListener
 {
 
 	// HEIGHT OF DATA ROWS IN THE TABLE
@@ -132,19 +137,6 @@ public class CustomPreviewTable extends Composite implements
 					cnvCells.selectColumn( btnHeaders.indexOf( event.widget ) );
 					break;
 
-				case SWT.KeyDown :
-					if ( event.keyCode == SWT.ARROW_LEFT
-							|| event.keyCode == SWT.ARROW_RIGHT )
-					{
-						scrollTable( cnvCells.getHorizontalBar( ), event );
-					}
-					else if ( event.keyCode == SWT.ARROW_UP
-							|| event.keyCode == SWT.ARROW_DOWN )
-					{
-						scrollTable( cnvCells.getVerticalBar( ), event );
-					}
-					break;
-
 				case SWT.FocusIn :
 					// Maintain the index correct after focus in
 					iColumnIndex = btnHeaders.indexOf( event.widget );
@@ -157,44 +149,15 @@ public class CustomPreviewTable extends Composite implements
 					break;
 			}
 		}
-
-		private void scrollTable( ScrollBar widget, Event event )
-		{
-			int newSelectionValue = widget.getSelection( );
-			if ( event.keyCode == SWT.ARROW_LEFT )
-			{
-				newSelectionValue -= TableCanvas.SCROLL_HORIZONTAL_STEP;
-			}
-			else if ( event.keyCode == SWT.ARROW_RIGHT )
-			{
-				newSelectionValue += TableCanvas.SCROLL_HORIZONTAL_STEP;
-			}
-			else if ( event.keyCode == SWT.ARROW_UP )
-			{
-				newSelectionValue -= 1;
-			}
-			else if ( event.keyCode == SWT.ARROW_DOWN )
-			{
-				newSelectionValue += 1;
-			}
-
-			if ( newSelectionValue < widget.getMinimum( ) )
-			{
-				newSelectionValue = widget.getMinimum( );
-			}
-			else if ( newSelectionValue > widget.getMaximum( ) )
-			{
-				newSelectionValue = widget.getMaximum( );
-			}
-
-			widget.setSelection( newSelectionValue );
-			Event newEvent = new Event( );
-			newEvent.widget = widget;
-			newEvent.type = SWT.Selection;
-			newEvent.data = event.data;
-			widget.notifyListeners( SWT.Selection, newEvent );
-		}
 	};
+	
+	TraverseListener traverseListener = new TraverseListener( ) {
+
+		public void keyTraversed( TraverseEvent e )
+		{
+			 e.doit = false;
+		}
+	}; 
 
 	/**
 	 * @param parent
@@ -301,7 +264,8 @@ public class CustomPreviewTable extends Composite implements
 		btnHeader.setText( sColumnHeading );
 		btnHeader.setVisible( true );
 		btnHeader.addListener( SWT.Selection, headerButtonListener );
-		btnHeader.addListener( SWT.KeyDown, headerButtonListener );
+		btnHeader.addKeyListener( this );
+		btnHeader.addTraverseListener( traverseListener );
 		btnHeader.addListener( SWT.FocusIn, headerButtonListener );
 		btnHeader.addMouseListener( this );
 		btnHeader.addMouseMoveListener( this );
@@ -363,7 +327,8 @@ public class CustomPreviewTable extends Composite implements
 
 		btnHeader.setVisible( true );
 		btnHeader.addListener( SWT.Selection, headerButtonListener );
-		btnHeader.addListener( SWT.KeyDown, headerButtonListener );
+		btnHeader.addKeyListener( this );
+		btnHeader.addTraverseListener( traverseListener );
 		btnHeader.addListener( SWT.FocusIn, headerButtonListener );
 		btnHeader.addMouseListener( this );
 		btnHeader.addMouseMoveListener( this );
@@ -1336,6 +1301,68 @@ public class CustomPreviewTable extends Composite implements
 	{
 		// Remove outside listeners after being disposed
 		getShell( ).removeControlListener( this );
+	}
+	
+	@Override
+	public void keyPressed( KeyEvent event )
+	{
+		if ( ( event.stateMask == SWT.CTRL )
+				&& ( event.keyCode == SWT.ARROW_LEFT || event.keyCode == SWT.ARROW_RIGHT ) )
+		{
+			scrollTable( cnvCells.getHorizontalBar( ), event );
+		}
+		else if ( event.keyCode == SWT.PAGE_UP
+				|| event.keyCode == SWT.PAGE_DOWN
+				|| ( ( event.stateMask == SWT.CTRL ) && ( event.keyCode == SWT.ARROW_UP || event.keyCode == SWT.ARROW_DOWN ) ) )
+		{
+			scrollTable( cnvCells.getVerticalBar( ), event );
+		}
+
+	}
+
+	@Override
+	public void keyReleased( KeyEvent event )
+	{
+		//do nothing
+	}
+
+	private void scrollTable( ScrollBar widget, KeyEvent event )
+	{
+		int newSelectionValue = widget.getSelection( );
+		if ( event.keyCode == SWT.ARROW_LEFT )
+		{
+			newSelectionValue -= TableCanvas.SCROLL_HORIZONTAL_STEP;
+		}
+		else if ( event.keyCode == SWT.ARROW_RIGHT )
+		{
+			newSelectionValue += TableCanvas.SCROLL_HORIZONTAL_STEP;
+		}
+		else if ( event.keyCode == SWT.PAGE_UP 
+				|| event.keyCode == SWT.ARROW_UP )
+		{
+			newSelectionValue -= 1;
+		}
+		else if ( event.keyCode == SWT.PAGE_DOWN
+				|| event.keyCode == SWT.ARROW_DOWN )
+		{
+			newSelectionValue += 1;
+		}
+
+		if ( newSelectionValue < widget.getMinimum( ) )
+		{
+			newSelectionValue = widget.getMinimum( );
+		}
+		else if ( newSelectionValue > widget.getMaximum( ) )
+		{
+			newSelectionValue = widget.getMaximum( );
+		}
+
+		widget.setSelection( newSelectionValue );
+		Event newEvent = new Event( );
+		newEvent.widget = widget;
+		newEvent.type = SWT.Selection;
+		newEvent.data = event.data;
+		widget.notifyListeners( SWT.Selection, newEvent );
 	}
 
 }
