@@ -378,6 +378,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				&& isCubeNoMultiDimensions )
 		{
 			cmbDefinition.setEnabled( false );
+			btnBuilder.setEnabled( false );
 		}
 
 		setTooltipForInputControl( );
