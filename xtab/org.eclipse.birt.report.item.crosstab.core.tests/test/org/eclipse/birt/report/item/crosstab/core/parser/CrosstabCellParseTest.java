@@ -15,7 +15,9 @@ import java.util.List;
 
 import org.eclipse.birt.report.item.crosstab.core.BaseTestCase;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
@@ -42,9 +44,12 @@ public class CrosstabCellParseTest extends BaseTestCase
 	{
 		openDesign( "CrosstabCellParseTest.xml" );//$NON-NLS-1$
 		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
-				.getElementByID( 40l );
-		CrosstabCellHandle cellHandle = (CrosstabCellHandle) extendedHandle
+				.findElement( "ccc" );
+		CrosstabReportItemHandle crosstab = (CrosstabReportItemHandle) extendedHandle
 				.getReportItem( );
+		
+		AggregationCellHandle cellHandle = crosstab.getMeasure( 0 ).getCell( );
+		
 		assertEquals( 1, cellHandle.getContents( ).size( ) );
 
 		DataItemHandle dataHandle = (DataItemHandle) cellHandle.getContents( )
@@ -62,7 +67,8 @@ public class CrosstabCellParseTest extends BaseTestCase
 		openDesign( "CrosstabCellParseTest.xml" );//$NON-NLS-1$
 		List errors = designHandle.getErrorList( );
 
-		assertEquals( 0, errors.size( ) );
+		// 1 error: no cube defined for this crosstab
+		assertEquals( 1, errors.size( ) );
 	}
 
 	/**

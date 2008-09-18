@@ -45,7 +45,7 @@ public class DimensionViewParseTest extends BaseTestCase
 		openDesign( "DimensionViewParseTest.xml" );//$NON-NLS-1$
 
 		List errors = designHandle.getErrorList( );
-		assertEquals( 0, errors.size( ) );
+		assertEquals( 1, errors.size( ) );
 
 		ExtendedItemHandle handle = (ExtendedItemHandle) designHandle.getBody( )
 				.get( 0 );
@@ -76,7 +76,7 @@ public class DimensionViewParseTest extends BaseTestCase
 		openDesign( "DimensionViewParseTest.xml" );//$NON-NLS-1$
 		List errors = designHandle.getErrorList( );
 
-		assertEquals( 0, errors.size( ) );
+		assertEquals( 1, errors.size( ) );
 	}
 
 	/**

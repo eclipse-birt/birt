@@ -43,7 +43,6 @@ import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 import com.ibm.icu.util.ULocale;
 
@@ -95,14 +94,26 @@ public class BaseTestCase extends TestCase
 	{
 		ThreadResources.setLocale( ULocale.ENGLISH );
 		IDesignEngine designEngine = new DesignEngine( new DesignConfig( ) );
-		MetaDataDictionary.reset( );
+		// MetaDataDictionary.reset( );
 		// initialize the metadata.
 
 		designEngine.getMetaData( );
 
-		SessionHandle sh = designEngine
-				.newSessionHandle( ULocale.getDefault( ) );
+		SessionHandle sh = designEngine.newSessionHandle( ULocale.getDefault( ) );
 		designHandle = sh.openDesign( getResource( INPUT_FOLDER + fileName ) );
+	}
+
+	private ReportDesignHandle loadGolden( String fileName ) throws Exception
+	{
+		ThreadResources.setLocale( ULocale.ENGLISH );
+		IDesignEngine designEngine = new DesignEngine( new DesignConfig( ) );
+		// MetaDataDictionary.reset( );
+		// initialize the metadata.
+
+		designEngine.getMetaData( );
+
+		SessionHandle sh = designEngine.newSessionHandle( ULocale.getDefault( ) );
+		return sh.openDesign( getResource( GOLDEN_FOLDER + fileName ) );
 	}
 
 	/**
@@ -115,13 +126,12 @@ public class BaseTestCase extends TestCase
 	{
 		ThreadResources.setLocale( ULocale.ENGLISH );
 		IDesignEngine designEngine = new DesignEngine( new DesignConfig( ) );
-		MetaDataDictionary.reset( );
+		// MetaDataDictionary.reset( );
 		// initialize the metadata.
 
 		designEngine.getMetaData( );
 
-		SessionHandle sh = designEngine
-				.newSessionHandle( ULocale.getDefault( ) );
+		SessionHandle sh = designEngine.newSessionHandle( ULocale.getDefault( ) );
 		designHandle = sh.createDesign( );
 	}
 
@@ -181,9 +191,11 @@ public class BaseTestCase extends TestCase
 			String strB = lineReaderB.readLine( ).trim( );
 			while ( strA != null )
 			{
-				same = strA.trim( ).equals( strB.trim( ) );
+				// ignore id part
+				strA = strA.replaceAll( "id=\"\\d+\"", "" ); //$NON-NLS-1$ //$NON-NLS-2$
+				strB = strB.replaceAll( "id=\"\\d+\"", "" ); //$NON-NLS-1$ //$NON-NLS-2$
 
-				// TODO don't compare version and other thing
+				same = strA.trim( ).equals( strB.trim( ) );
 
 				if ( !same )
 				{
@@ -191,7 +203,7 @@ public class BaseTestCase extends TestCase
 
 					message.append( "line=" ); //$NON-NLS-1$
 					message.append( lineNo );
-					message.append( " is different:\n" );//$NON-NLS-1$
+					message.append( " is different:\n" ); //$NON-NLS-1$
 					message.append( " The line from golden file: " );//$NON-NLS-1$
 					message.append( strA );
 					message.append( "\n" );//$NON-NLS-1$
@@ -244,11 +256,19 @@ public class BaseTestCase extends TestCase
 	 */
 	protected boolean compareFile( String goldenFileName ) throws Exception
 	{
-		String tmpGoldenFileName = GOLDEN_FOLDER + goldenFileName;
-
-		InputStream streamA = getResourceAStream( tmpGoldenFileName );
 		if ( os == null )
 			return false;
+
+		// String tmpGoldenFileName = GOLDEN_FOLDER + goldenFileName;
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream( );
+
+		ReportDesignHandle golden = loadGolden( goldenFileName );
+		golden.serialize( baos );
+		baos.flush( );
+
+		// InputStream streamA = getResourceAStream( tmpGoldenFileName );
+		InputStream streamA = new ByteArrayInputStream( baos.toByteArray( ) );
 
 		InputStream streamB = new ByteArrayInputStream( os.toByteArray( ) );
 		InputStreamReader readerA = new InputStreamReader( streamA );
@@ -307,12 +327,10 @@ public class BaseTestCase extends TestCase
 		CubeHandle cubeHandle = factory.newTabularCube( "Cube_Test_1" );//$NON-NLS-1$
 		designHandle.getCubes( ).add( cubeHandle );
 
-		DimensionHandle dimensionHandle = factory
-				.newTabularDimension( "Customer" );//$NON-NLS-1$
+		DimensionHandle dimensionHandle = factory.newTabularDimension( "Customer" );//$NON-NLS-1$
 		cubeHandle.add( CubeHandle.DIMENSIONS_PROP, dimensionHandle );
 
-		HierarchyHandle hierarchyHandle = factory
-				.newTabularHierarchy( "Hierarchy" );//$NON-NLS-1$
+		HierarchyHandle hierarchyHandle = factory.newTabularHierarchy( "Hierarchy" );//$NON-NLS-1$
 		dimensionHandle.add( DimensionHandle.HIERARCHIES_PROP, hierarchyHandle );
 
 		LevelHandle levelHandle = factory.newTabularLevel( dimensionHandle,
@@ -323,12 +341,10 @@ public class BaseTestCase extends TestCase
 				"CUSTOMER_REGION" );//$NON-NLS-1$
 		hierarchyHandle.add( HierarchyHandle.LEVELS_PROP, levelHandle );
 
-		DimensionHandle dimensionHandle2 = factory
-				.newTabularDimension( "Product" );//$NON-NLS-1$
+		DimensionHandle dimensionHandle2 = factory.newTabularDimension( "Product" );//$NON-NLS-1$
 		cubeHandle.add( CubeHandle.DIMENSIONS_PROP, dimensionHandle2 );
 
-		HierarchyHandle hierarchyHandle2 = factory
-				.newTabularHierarchy( "Hierarchy2" );//$NON-NLS-1$
+		HierarchyHandle hierarchyHandle2 = factory.newTabularHierarchy( "Hierarchy2" );//$NON-NLS-1$
 		dimensionHandle2.add( DimensionHandle.HIERARCHIES_PROP,
 				hierarchyHandle2 );
 
@@ -340,12 +356,10 @@ public class BaseTestCase extends TestCase
 				"PRODUCT_NAME" );//$NON-NLS-1$
 		hierarchyHandle2.add( HierarchyHandle.LEVELS_PROP, levelHandle2 );
 
-		MeasureGroupHandle groupHandle = factory
-				.newTabularMeasureGroup( "measure group" );//$NON-NLS-1$
+		MeasureGroupHandle groupHandle = factory.newTabularMeasureGroup( "measure group" );//$NON-NLS-1$
 		cubeHandle.add( CubeHandle.MEASURE_GROUPS_PROP, groupHandle );
 
-		MeasureHandle measureHandle = factory
-				.newTabularMeasure( "QUANTITY_PRICE" );//$NON-NLS-1$
+		MeasureHandle measureHandle = factory.newTabularMeasure( "QUANTITY_PRICE" );//$NON-NLS-1$
 		groupHandle.add( MeasureGroupHandle.MEASURES_PROP, measureHandle );
 
 		measureHandle = factory.newTabularMeasure( "QUANTITY" );//$NON-NLS-1$
@@ -368,51 +382,41 @@ public class BaseTestCase extends TestCase
 			// create cube
 			CubeHandle cubeHandle = prepareCube( );
 
-			DimensionHandle dimensionHandle = cubeHandle
-					.getDimension( "Customer" );//$NON-NLS-1$
+			DimensionHandle dimensionHandle = cubeHandle.getDimension( "Customer" );//$NON-NLS-1$
 
-			DimensionHandle dimensionHandle2 = cubeHandle
-					.getDimension( "Product" );//$NON-NLS-1$
+			DimensionHandle dimensionHandle2 = cubeHandle.getDimension( "Product" );//$NON-NLS-1$
 
-			PropertyHandle propHandle = dimensionHandle
-					.getPropertyHandle( IDimensionModel.HIERARCHIES_PROP );
-			HierarchyHandle hierarchyHandle = (HierarchyHandle) propHandle
-					.get( 0 );
+			PropertyHandle propHandle = dimensionHandle.getPropertyHandle( IDimensionModel.HIERARCHIES_PROP );
+			HierarchyHandle hierarchyHandle = (HierarchyHandle) propHandle.get( 0 );
 
-			propHandle = dimensionHandle2
-					.getPropertyHandle( IDimensionModel.HIERARCHIES_PROP );
-			HierarchyHandle hierarchyHandle2 = (HierarchyHandle) propHandle
-					.get( 0 );
+			propHandle = dimensionHandle2.getPropertyHandle( IDimensionModel.HIERARCHIES_PROP );
+			HierarchyHandle hierarchyHandle2 = (HierarchyHandle) propHandle.get( 0 );
 
 			// create cross tab
-			CrosstabReportItemHandle crosstabItem = (CrosstabReportItemHandle) CrosstabUtil
-					.getReportItem( CrosstabExtendedItemFactory
-							.createCrosstabReportItem( module, cubeHandle, null ) );
+			CrosstabReportItemHandle crosstabItem = (CrosstabReportItemHandle) CrosstabUtil.getReportItem( CrosstabExtendedItemFactory.createCrosstabReportItem( module,
+					cubeHandle,
+					null ) );
 
-			DimensionViewHandle dimensionViewHandle = crosstabItem
-					.insertDimension( dimensionHandle,
-							ICrosstabConstants.ROW_AXIS_TYPE, -1 );
+			DimensionViewHandle dimensionViewHandle = crosstabItem.insertDimension( dimensionHandle,
+					ICrosstabConstants.ROW_AXIS_TYPE,
+					-1 );
 
 			dimensionViewHandle.insertLevel( hierarchyHandle.getLevel( 0 ), -1 );
 			dimensionViewHandle.insertLevel( hierarchyHandle.getLevel( 1 ), -1 );
 
-			DimensionViewHandle dimensionViewHandle2 = crosstabItem
-					.insertDimension( dimensionHandle2,
-							ICrosstabConstants.COLUMN_AXIS_TYPE, -1 );
+			DimensionViewHandle dimensionViewHandle2 = crosstabItem.insertDimension( dimensionHandle2,
+					ICrosstabConstants.COLUMN_AXIS_TYPE,
+					-1 );
 
 			dimensionViewHandle2.insertLevel( hierarchyHandle2.getLevel( 0 ),
 					-1 );
 			dimensionViewHandle2.insertLevel( hierarchyHandle2.getLevel( 1 ),
 					-1 );
 
-			crosstabItem.insertMeasure( cubeHandle
-					.getMeasure( "QUANTITY_PRICE" ), -1 );//$NON-NLS-1$
-			crosstabItem
-					.insertMeasure( cubeHandle.getMeasure( "QUANTITY" ), -1 );//$NON-NLS-1$
-			crosstabItem.insertMeasure( cubeHandle
-					.getMeasure( "QUANTITY_NUMBER" ), -1 );//$NON-NLS-1$
-			crosstabItem.insertMeasure(
-					cubeHandle.getMeasure( "QUANTITY_SIZE" ), -1 );//$NON-NLS-1$
+			crosstabItem.insertMeasure( cubeHandle.getMeasure( "QUANTITY_PRICE" ), -1 );//$NON-NLS-1$
+			crosstabItem.insertMeasure( cubeHandle.getMeasure( "QUANTITY" ), -1 );//$NON-NLS-1$
+			crosstabItem.insertMeasure( cubeHandle.getMeasure( "QUANTITY_NUMBER" ), -1 );//$NON-NLS-1$
+			crosstabItem.insertMeasure( cubeHandle.getMeasure( "QUANTITY_SIZE" ), -1 );//$NON-NLS-1$
 			return crosstabItem;
 		}
 		catch ( SemanticException e )

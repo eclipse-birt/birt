@@ -78,7 +78,7 @@ public class TestEngine extends TestCase implements ICrosstabConstants
 		if ( designEngine == null )
 		{
 			designEngine = new DesignEngine( new DesignConfig( ) );
-			MetaDataDictionary.reset( );
+			//MetaDataDictionary.reset( );
 			// initialize the metadata.
 
 			designEngine.getMetaData( );

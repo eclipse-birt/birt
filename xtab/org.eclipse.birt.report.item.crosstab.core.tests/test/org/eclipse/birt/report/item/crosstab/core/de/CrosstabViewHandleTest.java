@@ -28,6 +28,8 @@ public class CrosstabViewHandleTest extends BaseTestCase
 	public void testRemoveGrandTotal( ) throws Exception
 	{
 		openDesign( "CrosstabViewHandleTest.xml" );//$NON-NLS-1$
+		
+		//TODO
 	
 	}
 }

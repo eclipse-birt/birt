@@ -40,7 +40,8 @@ public class CrosstabParseTest extends BaseTestCase
 		openDesign( "CrosstabParseTest.xml" );//$NON-NLS-1$
 
 		List errors = designHandle.getErrorList( );
-		assertEquals( 0, errors.size( ) );
+		// 1 error: no cube defined for this crosstab
+		assertEquals( 1, errors.size( ) );
 
 		ExtendedItemHandle handle = (ExtendedItemHandle) designHandle.getBody( )
 				.get( 0 );
@@ -73,7 +74,8 @@ public class CrosstabParseTest extends BaseTestCase
 		openDesign( "CrosstabParseTest.xml" );//$NON-NLS-1$
 		List errors = designHandle.getErrorList( );
 
-		assertEquals( 0, errors.size( ) );
+		// 1 error: no cube defined for this crosstab
+		assertEquals( 1, errors.size( ) );
 	}
 
 	/**

@@ -61,7 +61,8 @@ public class AggregationCellParseTest extends BaseTestCase
 		openDesign( "AggregationCellParseTest.xml" );//$NON-NLS-1$
 		List errors = designHandle.getErrorList( );
 
-		assertEquals( 0, errors.size( ) );
+		// 1 error: no cube defined for this crosstab
+		assertEquals( 1, errors.size( ) );
 	}
 
 	/**

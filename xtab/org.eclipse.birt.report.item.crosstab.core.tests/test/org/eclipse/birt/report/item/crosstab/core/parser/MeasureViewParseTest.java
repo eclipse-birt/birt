@@ -60,7 +60,7 @@ public class MeasureViewParseTest extends BaseTestCase
 		openDesign( "MeasureViewParseTest.xml" );//$NON-NLS-1$
 		List errors = designHandle.getErrorList( );
 
-		assertEquals( 0, errors.size( ) );
+		assertEquals( 1, errors.size( ) );
 	}
 
 	/**
