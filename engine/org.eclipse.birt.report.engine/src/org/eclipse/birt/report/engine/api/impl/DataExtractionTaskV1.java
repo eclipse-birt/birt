@@ -610,7 +610,7 @@ public class DataExtractionTaskV1 extends EngineTask
 	{
 		try
 		{
-			if ( !groupMode )
+			if ( groupMode )
 			{
 				if ( resultSetName != null )
 				{
@@ -660,12 +660,14 @@ public class DataExtractionTaskV1 extends EngineTask
 		if ( rsetId != null )
 		{
 			IQueryResults results = null;
+			/*
 			if ( null == filterExpressions && null == sortExpressions )
 			{
 				results = dataSession.getQueryResults( rsetId );
 			}
 			else
 			{
+			*/
 				// creat new query
 				String queryId = (String) rsetId2queryIdMapping.get( rsetId );
 				QueryDefinition query = (QueryDefinition) getQuery( queryId );
@@ -685,7 +687,7 @@ public class DataExtractionTaskV1 extends EngineTask
 				
 				IPreparedQuery preparedQuery = dataSession.prepare( newQuery );
 				results = preparedQuery.execute( scope );
-			}
+			//}
 
 			if ( null != results )
 			{
