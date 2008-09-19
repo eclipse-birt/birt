@@ -111,12 +111,14 @@ public class PLSEnabledDataSetPopulator implements IDataSetPopulator
 		{
 			try
 			{
+				String name = this.originalBindingNames.get( i + proceedField - this.resultClass.getFieldCount( )  );
+				if( name!= null )
 				field[i] = this.populator.getDocumentIterator( )
-						.getValue( this.originalBindingNames.get( i + proceedField - this.resultClass.getFieldCount( ) ) );
+						.getValue( name );
 			}
 			catch ( BirtException e )
 			{
-				throw DataException.wrap( e );
+				this.originalBindingNames.set( i + proceedField - this.resultClass.getFieldCount( )  , null );
 			}
 		}
 		return new ResultObject( this.resultClass, field );
