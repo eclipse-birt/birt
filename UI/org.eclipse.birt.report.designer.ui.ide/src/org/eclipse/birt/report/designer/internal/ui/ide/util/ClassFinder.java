@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.internal.ui.ide.dialog.HandlerClassSelectionDialog;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -40,7 +41,6 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.window.Window;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SelectionDialog;
@@ -234,38 +234,6 @@ public class ClassFinder
 	}
 
 	/**
-	 * Returns the default shell used by dialogs
-	 * 
-	 * @return the active shell of the current display
-	 */
-	private Shell getDefaultShell( )
-	{
-		Shell shell = null;
-		try
-		{
-			shell = PlatformUI.getWorkbench( ).getDisplay( ).getActiveShell( );
-			if ( shell == null )
-			{
-				shell = Display.getCurrent( ).getActiveShell( );
-			}
-			if ( shell == null )
-			{
-				shell = PlatformUI.getWorkbench( )
-						.getActiveWorkbenchWindow( )
-						.getShell( );
-			}
-		}
-		catch ( Exception e )
-		{
-		}
-		if ( shell == null )
-		{
-			return new Shell( );
-		}
-		return shell;
-	}
-
-	/**
 	 * @param elements
 	 * @return
 	 * @throws InvocationTargetException
@@ -322,7 +290,7 @@ public class ClassFinder
 		{
 		}
 
-		Shell shell = getDefaultShell( );
+		Shell shell = UIUtil.getDefaultShell( );
 		SelectionDialog dialog = new HandlerClassSelectionDialog( shell, types );
 		dialog.setTitle( DIALOG_TITLE );
 		dialog.setMessage( DIALOG_MESSAGE );

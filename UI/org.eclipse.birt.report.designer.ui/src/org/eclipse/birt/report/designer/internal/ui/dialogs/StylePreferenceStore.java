@@ -17,7 +17,6 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.swt.widgets.Shell;
 
 /**
  * Provides get/set of model for field editors
@@ -449,7 +448,7 @@ public class StylePreferenceStore implements IPreferenceStore
 		catch ( SemanticException e )
 		{
 			hasError = true;
-			WidgetUtil.processError( new Shell( ), e );
+			WidgetUtil.processError( e );
 		}
 	}
 
@@ -468,7 +467,7 @@ public class StylePreferenceStore implements IPreferenceStore
 		catch ( SemanticException e )
 		{
 			hasError = true;
-			WidgetUtil.processError( new Shell( ), e );
+			WidgetUtil.processError( e );
 		}
 	}
 
@@ -487,7 +486,7 @@ public class StylePreferenceStore implements IPreferenceStore
 		catch ( SemanticException e )
 		{
 			hasError = true;
-			WidgetUtil.processError( new Shell( ), e );
+			WidgetUtil.processError( e );
 		}
 	}
 
@@ -518,7 +517,7 @@ public class StylePreferenceStore implements IPreferenceStore
 		catch ( SemanticException e )
 		{
 			hasError = true;
-			WidgetUtil.processError( new Shell( ), e );
+			WidgetUtil.processError( e );
 		}
 
 	}
@@ -539,7 +538,7 @@ public class StylePreferenceStore implements IPreferenceStore
 		catch ( SemanticException e )
 		{
 			hasError = true;
-			WidgetUtil.processError( new Shell( ), e );
+			WidgetUtil.processError( e );
 		}
 	}
 

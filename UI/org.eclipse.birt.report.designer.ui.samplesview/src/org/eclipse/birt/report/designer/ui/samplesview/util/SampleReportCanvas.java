@@ -13,6 +13,8 @@ package org.eclipse.birt.report.designer.ui.samplesview.util;
 
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.GC;
@@ -52,6 +54,18 @@ public class SampleReportCanvas extends Canvas
 				SampleReportCanvas.this.controlResized( e );
 			}
 		} );
+
+		addDisposeListener( new DisposeListener( ) {
+
+			public void widgetDisposed( DisposeEvent e )
+			{
+				if ( sampleImage != null && !sampleImage.isDisposed( ) )
+				{
+					sampleImage.dispose( );
+				}
+
+			}
+		} );
 	}
 
 	public void setSampleImage( Image sampleImage )
@@ -84,10 +98,10 @@ public class SampleReportCanvas extends Canvas
 						0,
 						0,
 						getClientArea( ).width,
-						(int)(getClientArea( ).width / srcRatio) );
+						(int) ( getClientArea( ).width / srcRatio ) );
 			}
-			
-			else if ( srcRatio < clntRatio  )
+
+			else if ( srcRatio < clntRatio )
 			{
 				gc.drawImage( sampleImage,
 						0,
@@ -96,7 +110,7 @@ public class SampleReportCanvas extends Canvas
 						sampleImage.getBounds( ).height,
 						0,
 						0,
-						(int)(getClientArea( ).height * srcRatio),
+						(int) ( getClientArea( ).height * srcRatio ),
 						getClientArea( ).height );
 			}
 		}

@@ -40,6 +40,7 @@ final class R31Enhance
 		GC gc = new GC( Display.getDefault( ) );
 		gc.setAdvanced( true );
 		R31_AVAILABLE = gc.getAdvanced( );
+		gc.dispose( );
 
 		if ( R31_AVAILABLE )
 		{

@@ -468,6 +468,7 @@ public class UIUtil
 		}
 		if ( shell == null )
 		{
+			// XXX potential resource leak problem, should never reach here
 			return new Shell( );
 		}
 		return shell;
@@ -1990,5 +1991,13 @@ public class UIUtil
 					Messages.getString( "UIUtil.previewconfirm.message" ) );
 		}
 		return true;
+	}
+
+	/**
+	 * @return Creates a shell according to default window orientation
+	 */
+	public static Shell createDefaultShell( )
+	{
+		return new Shell( SWT.SHELL_TRIM | Window.getDefaultOrientation( ) );
 	}
 }

@@ -312,7 +312,7 @@ public class ReportPreviewEditor extends EditorPart
 
 				public void open( final WindowEvent event )
 				{
-					final Shell shell = new Shell( );
+					final Shell shell = UIUtil.createDefaultShell( );
 					shell.setLayout( new FillLayout( ) );
 					Browser browser = new Browser( shell, SWT.NONE );
 					initialize( Display.getCurrent( ), browser );
@@ -381,7 +381,7 @@ public class ReportPreviewEditor extends EditorPart
 
 			public void open( final WindowEvent event )
 			{
-				final Shell shell = new Shell( );
+				final Shell shell = UIUtil.createDefaultShell( );
 				shell.setLayout( new FillLayout( ) );
 				Browser browser = new Browser( shell, SWT.NONE );
 				initialize( display, browser );

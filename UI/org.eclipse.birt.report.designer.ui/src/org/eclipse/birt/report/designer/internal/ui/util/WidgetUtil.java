@@ -86,22 +86,22 @@ public class WidgetUtil
 		layout.verticalSpacing = WidgetUtil.SPACING;
 		return layout;
 	}
-	
-	public static void setGridData(Control control,int hSpan,
-			boolean grabSpace){
+
+	public static void setGridData( Control control, int hSpan,
+			boolean grabSpace )
+	{
 		GridData data = new GridData( );
 		data.horizontalSpan = hSpan;
 		data.grabExcessHorizontalSpace = grabSpace;
-		if ( control instanceof Text  || control instanceof Combo)
+		if ( control instanceof Text || control instanceof Combo )
 		{
 			data.widthHint = MIN_TEXT_WIDTH;
-		}		
+		}
 		data.horizontalAlignment = GridData.FILL;
 		control.setLayoutData( data );
 	}
-	
-	public static void setGridData( Control control, int hSpan,
-			int width )
+
+	public static void setGridData( Control control, int hSpan, int width )
 	{
 		GridData data = new GridData( );
 		data.horizontalSpan = hSpan;
@@ -158,22 +158,18 @@ public class WidgetUtil
 		return layout;
 	}
 
+	public static Composite buildGridComposite( Composite parent, int hSpan,
+			boolean grabSpace )
+	{
 
-	
-
-	
-	public static Composite buildGridComposite( Composite parent, int hSpan , boolean grabSpace ){
-		
-		Composite composite = new Composite(parent,SWT.NONE);
+		Composite composite = new Composite( parent, SWT.NONE );
 		GridData data = new GridData( GridData.FILL_HORIZONTAL );
 		data.horizontalSpan = hSpan;
 		data.grabExcessHorizontalSpace = grabSpace;
 		composite.setLayoutData( data );
-		
+
 		return composite;
 	}
-	
-	
 
 	/**
 	 * Creates a place-holder Label for using in GridLayout.
@@ -191,7 +187,7 @@ public class WidgetUtil
 	public static Label createGridPlaceholder( Composite parent, int hSpan,
 			boolean grabSpace )
 	{
-		Label label = new Label(parent,SWT.NONE);
+		Label label = new Label( parent, SWT.NONE );
 		GridData data = new GridData( );
 		data.horizontalSpan = hSpan;
 		data.grabExcessHorizontalSpace = grabSpace;
@@ -211,7 +207,7 @@ public class WidgetUtil
 	 */
 	public static Label createHorizontalLine( Composite parent, int hSpan )
 	{
-		Label label = new Label(parent,SWT.SEPARATOR | SWT.HORIZONTAL );
+		Label label = new Label( parent, SWT.SEPARATOR | SWT.HORIZONTAL );
 		GridData data = new GridData( );
 		data.horizontalSpan = hSpan;
 		data.horizontalAlignment = GridData.FILL;
@@ -226,17 +222,35 @@ public class WidgetUtil
 	 *            the parent window.
 	 * @param e
 	 *            Exception object.
+	 * 
+	 * @deprecated use {@link #processError(Exception)} instead
 	 */
 	public static void processError( Shell shell, Exception e )
 	{
+		processError( e );
+	}
+
+	/**
+	 * Error processor, shows the Error message.
+	 * 
+	 * @param shell
+	 *            the parent window.
+	 * @param e
+	 *            Exception object.
+	 */
+	public static void processError( Exception e )
+	{
 		ExceptionHandler.handle( e );
 	}
-	
-	public static void setExcludeGridData(Control control,boolean exclude){
+
+	public static void setExcludeGridData( Control control, boolean exclude )
+	{
 		Object obj = control.getLayoutData( );
-		if(obj == null)control.setLayoutData( new GridData() );
-		else if(!(obj instanceof GridData))return;
-		GridData data = (GridData)control.getLayoutData( );
+		if ( obj == null )
+			control.setLayoutData( new GridData( ) );
+		else if ( !( obj instanceof GridData ) )
+			return;
+		GridData data = (GridData) control.getLayoutData( );
 		data.exclude = exclude;
 		control.setLayoutData( data );
 		control.setVisible( !exclude );
@@ -245,55 +259,69 @@ public class WidgetUtil
 	/**
 	 * Sets the span of a control. Assumes that GridData is used.
 	 */
-	public static void setHorizontalSpan(Control control, int span) {
-		Object ld= control.getLayoutData();
-		if (ld instanceof GridData) {
-			((GridData)ld).horizontalSpan= span;
-		} else if (span != 1) {
-			GridData gd= new GridData();
-			gd.horizontalSpan= span;
-			control.setLayoutData(gd);
+	public static void setHorizontalSpan( Control control, int span )
+	{
+		Object ld = control.getLayoutData( );
+		if ( ld instanceof GridData )
+		{
+			( (GridData) ld ).horizontalSpan = span;
 		}
-	}	
+		else if ( span != 1 )
+		{
+			GridData gd = new GridData( );
+			gd.horizontalSpan = span;
+			control.setLayoutData( gd );
+		}
+	}
 
 	/**
 	 * Sets the width hint of a control. Assumes that GridData is used.
 	 */
-	public static void setWidthHint(Control control, int widthHint) {
-		Object ld= control.getLayoutData();
-		if (ld instanceof GridData) {
-			((GridData)ld).widthHint= widthHint;
+	public static void setWidthHint( Control control, int widthHint )
+	{
+		Object ld = control.getLayoutData( );
+		if ( ld instanceof GridData )
+		{
+			( (GridData) ld ).widthHint = widthHint;
 		}
 	}
-	
+
 	/**
 	 * Sets the heightHint hint of a control. Assumes that GridData is used.
 	 */
-	public static void setHeightHint(Control control, int heightHint) {
-		Object ld= control.getLayoutData();
-		if (ld instanceof GridData) {
-			((GridData)ld).heightHint= heightHint;
+	public static void setHeightHint( Control control, int heightHint )
+	{
+		Object ld = control.getLayoutData( );
+		if ( ld instanceof GridData )
+		{
+			( (GridData) ld ).heightHint = heightHint;
 		}
-	}	
-	
+	}
+
 	/**
 	 * Sets the horizontal indent of a control. Assumes that GridData is used.
 	 */
-	public static void setHorizontalIndent(Control control, int horizontalIndent) {
-		Object ld= control.getLayoutData();
-		if (ld instanceof GridData) {
-			((GridData)ld).horizontalIndent= horizontalIndent;
+	public static void setHorizontalIndent( Control control,
+			int horizontalIndent )
+	{
+		Object ld = control.getLayoutData( );
+		if ( ld instanceof GridData )
+		{
+			( (GridData) ld ).horizontalIndent = horizontalIndent;
 		}
 	}
-	
+
 	/**
-	 * Sets the horizontal grabbing of a control to true. Assumes that GridData is used.
+	 * Sets the horizontal grabbing of a control to true. Assumes that GridData
+	 * is used.
 	 */
-	public static void setHorizontalGrabbing(Control control) {
-		Object ld= control.getLayoutData();
-		if (ld instanceof GridData) {
-			((GridData)ld).grabExcessHorizontalSpace= true;
+	public static void setHorizontalGrabbing( Control control )
+	{
+		Object ld = control.getLayoutData( );
+		if ( ld instanceof GridData )
+		{
+			( (GridData) ld ).grabExcessHorizontalSpace = true;
 		}
-	}		
+	}
 
 }

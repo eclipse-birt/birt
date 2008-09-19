@@ -38,7 +38,7 @@ public class TabPageGeneratorTest extends TestCase
 		Control control = generator.getControl( );
 		if(control instanceof CTabFolder)
 		assertEquals( 0, ((CTabFolder)control).getItemCount( ) );
-
+		shell.dispose( );
 	}
 
 }
