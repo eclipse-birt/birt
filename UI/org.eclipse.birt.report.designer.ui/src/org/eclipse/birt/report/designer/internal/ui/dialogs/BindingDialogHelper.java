@@ -18,7 +18,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
@@ -106,10 +105,11 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			.getAllowedChoices( );
 	protected static final IChoice[] DATA_TYPE_CHOICES = DATA_TYPE_CHOICE_SET.getChoices( null );
 	protected String[] dataTypes = ChoiceSetFactory.getDisplayNamefromChoiceSet( DATA_TYPE_CHOICE_SET );
+	protected Button btnTable;
 
 	private Text txtName, txtFilter, txtExpression;
 	private Combo cmbType, cmbFunction, cmbGroup;
-	private Button btnTable, btnGroup;
+	private Button btnGroup;
 	private Composite paramsComposite;
 
 	private Map<String, Control> paramsMap = new LinkedHashMap<String, Control>( );
@@ -678,7 +678,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		return -1;
 	}
 
-	private void createAggregateSection( Composite composite )
+	protected void createAggregateSection( Composite composite )
 	{
 
 		new Label( composite, SWT.NONE ).setText( FUNCTION );

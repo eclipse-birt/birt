@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.reportitem.ui.dialogs;
 
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BindingDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.IBindingDialogHelper;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.core.runtime.IAdapterFactory;
@@ -36,7 +35,7 @@ public class ChartBindingDialogFactory implements IAdapterFactory
 			}
 			else
 			{
-				return new BindingDialogHelper( );
+				return new ChartDataSetBindingDialogHelper( );
 			}
 		}
 		return null;
