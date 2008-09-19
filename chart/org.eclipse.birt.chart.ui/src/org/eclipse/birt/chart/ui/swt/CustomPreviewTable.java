@@ -1303,7 +1303,6 @@ public class CustomPreviewTable extends Composite implements
 		getShell( ).removeControlListener( this );
 	}
 	
-	@Override
 	public void keyPressed( KeyEvent event )
 	{
 		if ( ( event.stateMask == SWT.CTRL )
@@ -1320,7 +1319,6 @@ public class CustomPreviewTable extends Composite implements
 
 	}
 
-	@Override
 	public void keyReleased( KeyEvent event )
 	{
 		//do nothing
