@@ -837,7 +837,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 
 		// UPDATE THE SIZES OF THE OVERLAY AXES
 		updateOverlayAxes( aax );
-		growBaseAxis( aax, bo );
+		// #9026, pass the bounds which takes the overlay axes into acounts
+		growBaseAxis( aax, BoundsImpl.create( dX, dY, dW, dH ) );
 
 		// UPDATE FOR OVERLAYS
 		final OneAxis axPH = aax.areAxesSwapped( ) ? aax.getPrimaryOrthogonal( )
