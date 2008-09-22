@@ -43,6 +43,7 @@ public class AllApiTests
 		test.addTestSuite( ThemeTest.class );
 		test.addTestSuite( TocSupportTest.class );
 		test.addTestSuite( DimensionValueUtilTest.class );
+		test.addTestSuite( StringUtilTest.class );
 	
 		/*Removed api case
 		test.addTestSuite( CascadingParameterGroupTest.class );
