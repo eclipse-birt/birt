@@ -353,14 +353,14 @@ public class ExecutionContext
 		}
 		
 		Context context = scriptContext.getContext( );
-		try
-		{
-			context.setSecurityController( ScriptUtil
-					.createSecurityController( ) );
-		}
-		catch ( Throwable throwable )
-		{
-		}
+//		try
+//		{
+//			context.setSecurityController( ScriptUtil
+//					.createSecurityController( ) );
+//		}
+//		catch ( Throwable throwable )
+//		{
+//		}
 		context.setLocale( locale );
 
 		initializeScriptContext( context, scriptContext

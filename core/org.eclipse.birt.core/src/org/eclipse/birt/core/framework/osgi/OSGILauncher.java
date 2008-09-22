@@ -20,6 +20,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLStreamHandlerFactory;
+import java.security.CodeSource;
+import java.security.Policy;
+import java.security.ProtectionDomain;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -29,6 +32,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.exception.CoreException;
+import org.eclipse.birt.core.framework.FrameworkException;
 import org.eclipse.birt.core.framework.IPlatformContext;
 import org.eclipse.birt.core.framework.PlatformConfig;
 
@@ -57,12 +62,37 @@ public class OSGILauncher
 	private static final String PROP_ECLIPSE_IGNOREAPP = "eclipse.ignoreApp";//$NON-NLS-1$
 	private static final String PROP_OSGI_NOSHUTDOWN = "osgi.noShutdown";//$NON-NLS-1$
 	private static final String PROP_OSGI_CLEAN = "osgi.clean";//$NON-NLS-1$
+	private static final String PROP_ECLIPSE_SECURITY = "eclipse.security"; //$NON-NLS-1$	
 
 	private static final String CONFIG_FILE = "config.ini";//$NON-NLS-1$
 	private static final String CONFIG_FOLDER = "configuration";//$NON-NLS-1$
 	private static final String INSTANCE_FOLDER = "workspace";//$NON-NLS-1$
 
-	public void startup( PlatformConfig config ) throws BirtException
+	public void startup( final PlatformConfig config ) throws BirtException
+	{
+		try
+		{
+			java.security.AccessController
+					.doPrivileged( new java.security.PrivilegedExceptionAction<Object>( ) {
+
+						public Object run( ) throws Exception
+						{
+							doStartup( config );
+							return null;
+						}
+					} );
+		}
+		catch ( Exception ex )
+		{
+			if ( ex instanceof BirtException )
+			{
+				throw (BirtException) ex;
+			}
+			throw new CoreException( ex.getMessage( ), ex );
+		}
+	}
+	
+	private void doStartup(PlatformConfig config) throws BirtException
 	{
 		if ( frameworkClassLoader != null )
 		{
@@ -74,8 +104,7 @@ public class OSGILauncher
 		IPlatformContext context = config.getPlatformContext( );
 		if ( context == null )
 		{
-			throw new BirtException(
-					PluginId,
+			throw new FrameworkException(
 					"PlatformContext is not setted - {0}", new Object[]{"PlatformConfig"} ); //$NON-NLS-1$
 		}
 
@@ -84,17 +113,16 @@ public class OSGILauncher
 		platformDirectory = new File( root );
 		if ( !platformDirectory.exists( ) || !platformDirectory.isDirectory( ) )
 		{
-			throw new BirtException( PluginId,
-					"Could not start the Framework - {0}", root ); //$NON-NLS-1$
+			throw new FrameworkException(
+					"Framework {0} doesn't exist or is not a directory", new Object[]{root} ); //$NON-NLS-1$
 		}
 
 		String path = new File( platformDirectory, "plugins" ).toString( ); //$NON-NLS-1$
 		path = searchFor( "org.eclipse.osgi", path ); //$NON-NLS-1$
 		if ( path == null )
 		{
-			throw new BirtException(
-					PluginId,
-					"Could not find the Framework - {0}", "org.eclipse.osgi" ); //$NON-NLS-1$
+			throw new FrameworkException(
+					"Could not find the Framework - {0}", new Object[]{"org.eclipse.osgi"} ); //$NON-NLS-1$
 		}
 		try
 		{
@@ -132,7 +160,8 @@ public class OSGILauncher
 
 			Class clazz = frameworkClassLoader.loadClass( ECLIPSE_STARTER );
 
-			setupOSGiProperties();
+			setupOSGiProperties( );
+			setupSecurityPolicy( );
 
 			Method initPropertiesMethod = clazz.getMethod(
 					"setInitialProperties", new Class[]{Map.class} ); //$NON-NLS-1$
@@ -164,10 +193,14 @@ public class OSGILauncher
 			frameworkContextClassLoader = Thread.currentThread( )
 					.getContextClassLoader( );
 		}
+		catch ( BirtException be )
+		{
+			throw be;
+		}
 		catch ( Exception e )
 		{
-			throw new BirtException( PluginId, "Can not start up OSGI - {0}", e
-					.getLocalizedMessage( ) ); 
+			throw new FrameworkException( "Can not start up OSGI - {0}",
+					new Object[]{e.getMessage( )}, e );
 		}
 		finally
 		{
@@ -356,6 +389,20 @@ public class OSGILauncher
 	}
 
 	public void shutdown( )
+	{
+		java.security.AccessController
+				.doPrivileged( new java.security.PrivilegedAction<Object>( ) {
+
+					public Object run( )
+					{
+						doShutdown( );
+						return null;
+					}
+				} );
+
+	}
+	
+	private void doShutdown()
 	{
 		if ( platformDirectory == null )
 		{
@@ -649,4 +696,33 @@ public class OSGILauncher
 		}
 
 	}
+	
+	protected void setupSecurityPolicy( ) throws FrameworkException
+	{
+		String eclipseSecurity = System.getProperty( PROP_ECLIPSE_SECURITY );
+		if ( eclipseSecurity != null )
+		{
+			// setup a policy that grants the launcher and path for the
+			// framework AllPermissions.
+			// Do not set the security manager, this will be done by the
+			// framework itself.
+			ProtectionDomain domain = OSGILauncher.class.getProtectionDomain( );
+			CodeSource source = null;
+			if ( domain != null )
+				source = OSGILauncher.class.getProtectionDomain( )
+						.getCodeSource( );
+			if ( domain == null || source == null )
+			{
+				throw new FrameworkException(
+						"Can not automatically set the security manager. Please use a policy file." );
+			}
+			// get the list of codesource URLs to grant AllPermission to
+			URL[] rootURLs = new URL[]{source.getLocation( ), osgiFramework};
+			// replace the security policy
+			Policy eclipsePolicy = new OSGIPolicy( Policy.getPolicy( ),
+					rootURLs );
+			Policy.setPolicy( eclipsePolicy );
+		}
+	}
+	
 }

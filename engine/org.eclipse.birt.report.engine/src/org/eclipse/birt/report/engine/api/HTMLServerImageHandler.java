@@ -13,6 +13,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -262,26 +265,34 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 	 *           whether image map is needed
 	 * @return
 	 */
-	protected String handleTempImage( IImage image, String prefix,
+	protected String handleTempImage( final IImage image, final String prefix,
 			boolean needMap )
 	{
 		try
 		{
+			String fileName = AccessController
+					.doPrivileged( new PrivilegedExceptionAction<String>( ) {
 
-			File imageFile = File.createTempFile( prefix, ".img" );
-			image.writeImage( imageFile );
-			String fileName = imageFile.getAbsolutePath( ); //$NON-NLS-1$
+						public String run( ) throws IOException
+						{
+							File tempFile = File
+									.createTempFile( prefix, ".img" );
+							image.writeImage( tempFile );
+							return tempFile.getAbsolutePath( );
+						}
+					} );
+
 			if ( needMap )
 			{
 				String mapID = getImageMapID( image );
-				synchronized( map )
+				synchronized ( map )
 				{
 					map.put( mapID, fileName );
 				}
 			}
 			return fileName;
 		}
-		catch ( IOException e )
+		catch ( PrivilegedActionException e )
 		{
 			log.log( Level.SEVERE, e.getMessage( ), e );
 		}

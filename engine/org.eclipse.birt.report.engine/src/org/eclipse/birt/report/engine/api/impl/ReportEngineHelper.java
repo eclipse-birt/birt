@@ -118,7 +118,7 @@ public class ReportEngineHelper
 			String systemId = designName;
 			try
 			{
-				systemId = file.toURL( ).toString( );
+				systemId = file.toURI( ).toURL( ).toString( );
 			}
 			catch ( MalformedURLException ue )
 			{

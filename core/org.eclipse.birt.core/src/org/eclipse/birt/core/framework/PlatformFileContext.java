@@ -8,6 +8,9 @@
 
 package org.eclipse.birt.core.framework;
 
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+
 /**
  * An platform context that is based on file operations. Since in web
  * environment WAR deployment, absolute file path is not available. In this
@@ -28,11 +31,7 @@ public class PlatformFileContext implements IPlatformContext
 	 */
 	public PlatformFileContext( )
 	{
-		root = System.getProperty( "BIRT_HOME" );
-		if ( root == null )
-		{
-			root = ".";
-		}
+		root = getSystemBirtHome( );
 		arguments = null;
 	}
 
@@ -45,14 +44,10 @@ public class PlatformFileContext implements IPlatformContext
 	public PlatformFileContext( PlatformConfig config )
 	{
 		assert config != null;
-		root = config.getBIRTHome( );;
+		root = config.getBIRTHome( );
 		if ( root == null )
 		{
-			root = System.getProperty( IPlatformConfig.BIRT_HOME );
-		}
-		if ( root == null )
-		{
-			root = ".";
+			root = getSystemBirtHome( );
 		}
 		arguments = config.getOSGiArguments( );
 	}
@@ -65,5 +60,21 @@ public class PlatformFileContext implements IPlatformContext
 	public String[] getLaunchArguments( )
 	{
 		return arguments;
+	}
+	
+	private String getSystemBirtHome( )
+	{
+		return AccessController.doPrivileged( new PrivilegedAction<String>( ) {
+
+			public String run( )
+			{
+				String home = System.getProperty( IPlatformConfig.BIRT_HOME );
+				if ( home == null || home.isEmpty( ) )
+				{
+					return ".";
+				}
+				return home;
+			}
+		} );
 	}
 }

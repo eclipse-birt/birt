@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -68,6 +69,7 @@ import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
+import org.eclipse.birt.report.engine.util.SecurityUtil;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.IncludeScriptHandle;
@@ -406,14 +408,15 @@ public abstract class EngineTask implements IEngineTask
 	{
 		if ( runnable != null )
 		{
+			Properties systemProperties = SecurityUtil.getSystemProperties( );
 			executionContext.setRunnable( runnable );
 			// register the properties into the scope, so the user can
 			// access the config through the property name directly.
-			executionContext.registerBeans( System.getProperties( ) );
+			executionContext.registerBeans( systemProperties );
 			executionContext.registerBeans( runnable.getTestConfig( ) );
 			// put the properties into the configs also, so the user can
 			// access the config through config["name"].
-			executionContext.getConfigs( ).putAll( System.getProperties( ) );
+			executionContext.getConfigs( ).putAll( systemProperties );
 			executionContext.getConfigs( ).putAll( runnable.getTestConfig( ) );
 		}
 	}
@@ -1650,9 +1653,7 @@ public abstract class EngineTask implements IEngineTask
 		ClassLoader newLoader = Platform.getContextClassLoader( );
 		if ( newLoader != null )
 		{
-			Thread thread = Thread.currentThread( );
-			contextClassLoader = thread.getContextClassLoader( );
-			thread.setContextClassLoader( newLoader );
+			contextClassLoader = SecurityUtil.setContextClassLoader( newLoader );
 		}
 	}
 
@@ -1660,10 +1661,10 @@ public abstract class EngineTask implements IEngineTask
 	{
 		if ( contextClassLoader != null )
 		{
-			Thread.currentThread( ).setContextClassLoader( contextClassLoader );
+			SecurityUtil.setContextClassLoader( contextClassLoader );
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @throws EngineException

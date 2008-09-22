@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.core.script;
 
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -269,7 +271,7 @@ public class ScriptContext
 	 * @param expr
 	 * @return
 	 */
-	private Object eval( Scriptable scope, ScriptExpression expr )
+	private Object eval( Scriptable scope, final ScriptExpression expr )
 			throws BirtException
 	{
 		String source = expr.getScriptText( );
@@ -286,8 +288,8 @@ public class ScriptContext
 				script = compiledScripts.get( source );
 				if ( script == null )
 				{
-					script = context.compileString( expr.getScriptText( ), expr
-							.getId( ), expr.getLineNumber( ), null );
+					script = compile( expr.getScriptText( ), expr.getId( ),
+							expr.getLineNumber( ) );
 					compiledScripts.put( source, script );
 				}
 				expr.setCompiledScript( script );
@@ -300,6 +302,18 @@ public class ScriptContext
 			throw new CoreException( ResourceConstants.JAVASCRIPT_COMMON_ERROR,
 					new Object[]{source, ex.getMessage( )} );
 		}
+	}
+
+	private Script compile( final String script, final String id,
+			final int lineNumber )
+	{
+		return AccessController.doPrivileged( new PrivilegedAction<Script>( ) {
+
+			public Script run( )
+			{
+				return context.compileString( script, id, lineNumber, null );
+			}
+		} );
 	}
 
 	/**

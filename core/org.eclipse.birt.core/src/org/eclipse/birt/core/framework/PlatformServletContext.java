@@ -13,6 +13,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
@@ -60,7 +62,15 @@ public class PlatformServletContext implements IPlatformContext
 			{
 				if ( platform == null )
 				{
-					deploy( );
+					AccessController
+							.doPrivileged( new PrivilegedAction<Object>( ) {
+
+								public Object run( )
+								{
+									deploy( );
+									return null;
+								}
+							} );					
 				}
 			}
 		}

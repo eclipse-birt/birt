@@ -60,7 +60,7 @@ public class ReportEngine implements IReportEngine
 		}
 		catch ( BirtException ex )
 		{
-			logger.log( Level.SEVERE, ex.getMessage( ) );
+			logger.log( Level.SEVERE, ex.getMessage( ), ex );
 		}
 
 		Object factory = Platform

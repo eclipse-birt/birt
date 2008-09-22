@@ -156,6 +156,19 @@ public class EngineLogger
 	 */
 	public static void stopEngineLogging( )
 	{
+		java.security.AccessController
+				.doPrivileged( new java.security.PrivilegedAction<Object>( ) {
+
+					public Object run( )
+					{
+						doStopEngineLogging( );
+						return null;
+					}
+				} );
+	}
+	
+	private static void doStopEngineLogging( )
+	{
 		Logger rootLogger = Logger.getLogger( BIRT_NAME_SPACE );
 		rootLogger.removeHandler( sharedHandler );
 		if ( sharedHandler != null )
@@ -222,7 +235,7 @@ public class EngineLogger
 		if ( directoryName == null )
 			directoryName = ""; //$NON-NLS-1$
 		else if ( directoryName.length( ) > 0 )
-			directoryName += System.getProperty( "file.separator" ); //$NON-NLS-1$
+			directoryName += File.separator;
 
 		return new String( directoryName + fileName ); //$NON-NLS-1$; $NON-NLS-2$;
 	}

@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.framework.IPlatformContext;
 import org.eclipse.birt.core.framework.PlatformConfig;
+import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 
 /**
@@ -315,9 +316,9 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	public String getTempDir( )
 	{
 		String tempDir = (String) getProperty( TEMP_DIR );
-		if (tempDir == null)
+		if ( tempDir == null )
 		{
-			tempDir = System.getProperty( "java.io.tmpdir" );
+			tempDir = FileUtil.getJavaTmpDir( );
 		}
 		return tempDir;
 	}

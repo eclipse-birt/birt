@@ -23,6 +23,9 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -44,7 +47,6 @@ import org.eclipse.birt.report.engine.emitter.postscript.truetypefont.ITrueTypeW
 import org.eclipse.birt.report.engine.emitter.postscript.truetypefont.TrueTypeFont;
 import org.eclipse.birt.report.engine.emitter.postscript.truetypefont.Util;
 import org.eclipse.birt.report.engine.emitter.postscript.util.FileUtil;
-import org.eclipse.birt.report.engine.layout.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.layout.emitter.util.BackgroundImageLayout;
 import org.eclipse.birt.report.engine.layout.emitter.util.Position;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
@@ -790,14 +792,43 @@ public class PostscriptWriter
 		return null;
 	}
 
-	private Object getField( Class fontFactoryClass, String fieldName,
-			Object instaces ) throws NoSuchFieldException,
-			IllegalAccessException
+	private Object getField( final Class fontFactoryClass,
+			final String fieldName, final Object instaces )
+			throws NoSuchFieldException, IllegalAccessException
 	{
-		Field fldTrueTypeFonts = fontFactoryClass.getDeclaredField( fieldName );
-		fldTrueTypeFonts.setAccessible( true );
-		Object field = fldTrueTypeFonts.get( instaces );
-		return field;
+		try
+		{
+			Object field = (Object) AccessController
+					.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+						public Object run( ) throws IllegalArgumentException,
+								IllegalAccessException, NoSuchFieldException
+						{
+							Field fldTrueTypeFonts = fontFactoryClass
+									.getDeclaredField( fieldName );// $NON-SEC-3
+							fldTrueTypeFonts.setAccessible( true );// $NON-SEC-2
+							return fldTrueTypeFonts.get( instaces );
+						}
+					} );
+			return field;
+		}
+		catch ( PrivilegedActionException e )
+		{
+			Exception typedException = e.getException( );
+			if ( typedException instanceof IllegalArgumentException )
+			{
+				throw (IllegalArgumentException) typedException;
+			}
+			if ( typedException instanceof IllegalAccessException )
+			{
+				throw (IllegalAccessException) typedException;
+			}
+			if ( typedException instanceof NoSuchFieldException )
+			{
+				throw (NoSuchFieldException) typedException;
+			}
+		}
+		return null;
 	}
 
 	protected float transformY( float y )

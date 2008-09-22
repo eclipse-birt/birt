@@ -4,6 +4,7 @@ package org.eclipse.birt.report.engine.api.impl;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
+import org.eclipse.birt.report.engine.util.SecurityUtil;
 
 abstract public class AbstractRunTask extends EngineTask
 {
@@ -11,8 +12,7 @@ abstract public class AbstractRunTask extends EngineTask
 	ReportExecutor executor;
 	EngineEmitterServices services;
 
-	AbstractRunTask( ReportEngine engine, IReportRunnable runnable,
-			int taskType )
+	AbstractRunTask( ReportEngine engine, IReportRunnable runnable, int taskType )
 	{
 		super( engine, runnable, taskType );
 	}
@@ -23,6 +23,7 @@ abstract public class AbstractRunTask extends EngineTask
 		// setup runtime configurations
 		// user defined configs are overload using system properties.
 		executionContext.getConfigs( ).putAll( runnable.getTestConfig( ) );
-		executionContext.getConfigs( ).putAll( System.getProperties( ) );
+		executionContext.getConfigs( ).putAll(
+				SecurityUtil.getSystemProperties( ) );
 	}
 }

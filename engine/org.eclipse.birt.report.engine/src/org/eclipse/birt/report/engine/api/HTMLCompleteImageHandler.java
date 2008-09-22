@@ -186,7 +186,7 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler
 		}
 		if ( imageDirectory == null )
 		{
-			imageDirectory = System.getProperty( "java.io.tmpdir" );
+			imageDirectory = FileUtil.getJavaTmpDir( );
 		}
 		if ( imageDirectory == null )
 		{

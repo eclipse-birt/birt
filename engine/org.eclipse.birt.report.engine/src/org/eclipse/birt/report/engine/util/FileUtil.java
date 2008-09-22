@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,6 +19,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -359,5 +361,16 @@ public class FileUtil
 			file.delete();
 		}
 		file.delete();
+	}
+	
+	public static String getJavaTmpDir( )
+	{
+		return AccessController.doPrivileged( new PrivilegedAction<String>( ) {
+
+			public String run( )
+			{
+				return System.getProperty( "java.io.tmpdir" );
+			}
+		} );
 	}
 }

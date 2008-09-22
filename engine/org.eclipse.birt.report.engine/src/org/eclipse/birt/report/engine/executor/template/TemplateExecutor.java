@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,7 +22,6 @@ import org.eclipse.birt.core.template.TextTemplate;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportEngine;
-import org.eclipse.birt.report.engine.api.impl.EngineLogger;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -57,7 +58,7 @@ public class TemplateExecutor implements TextTemplate.Visitor
 		}
 		if ( tmpDir == null )
 		{
-			tmpDir = System.getProperty( "java.io.tmpdir" );
+			tmpDir = FileUtil.getJavaTmpDir( );
 		}
 		if ( tmpDir == null )
 		{
@@ -206,7 +207,8 @@ public class TemplateExecutor implements TextTemplate.Visitor
 		return value;
 	}
 
-	protected String saveToFile( String name, String ext, byte[] content )
+	protected String saveToFile( final String name, final String ext,
+			final byte[] content )
 	{
 		if ( name != null )
 		{
@@ -216,24 +218,29 @@ public class TemplateExecutor implements TextTemplate.Visitor
 				return file;
 			}
 		}
+		return AccessController.doPrivileged( new PrivilegedAction<String>( ) {
 
-		try
-		{
-			File imageFile = File.createTempFile( "img", ext, imageFolder );
-			OutputStream out = new FileOutputStream( imageFile );
-			out.write( content );
-			out.close( );
-			String fileName = imageFile.toURL( ).toExternalForm( );
-			imageCaches.put( name, fileName );
-			return fileName;
-		}
-		catch ( IOException ex )
-		{
-			logger.log( Level.WARNING, ex.getMessage( ), ex );
-			context
-					.addException( new EngineException( ex
+			public String run( )
+			{
+				try
+				{
+					File imageFile = File.createTempFile( "img", ext,
+							imageFolder );
+					OutputStream out = new FileOutputStream( imageFile );
+					out.write( content );
+					out.close( );
+					String fileName = imageFile.toURL( ).toExternalForm( );
+					imageCaches.put( name, fileName );
+					return fileName;
+				}
+				catch ( IOException ex )
+				{
+					logger.log( Level.WARNING, ex.getMessage( ), ex );
+					context.addException( new EngineException( ex
 							.getLocalizedMessage( ) ) );
-		}
-		return null;
+				}
+				return null;
+			}
+		} );
 	}
 }

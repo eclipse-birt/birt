@@ -36,7 +36,8 @@ class EclipseConfigurationElement implements IConfigurationElement
 		}
 		catch(CoreException ex)
 		{
-			throw new FrameworkException( ResourceConstants.CREATE_EXTENSION_FAIL);
+			throw new FrameworkException(
+					ResourceConstants.CREATE_EXTENSION_FAIL, ex );
 		}
 	}
 

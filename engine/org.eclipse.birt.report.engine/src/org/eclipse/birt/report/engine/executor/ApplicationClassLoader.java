@@ -44,9 +44,10 @@ public class ApplicationClassLoader extends ClassLoader
 	/**
 	 * the logger
 	 */
-	protected static Logger logger = Logger.getLogger( ClassLoader.class
-			.getName( ) );
+	protected static Logger logger = Logger
+			.getLogger( ApplicationClassLoader.class.getName( ) );
 
+	private ClassLoader engineClassLoader; 
 	private ClassLoader loader = null;
 	private IReportRunnable runnable;
 	private ExecutionContext executionContext = null;
@@ -59,6 +60,7 @@ public class ApplicationClassLoader extends ClassLoader
 		this.runnable = reportRunnable;
 		this.engine = engine;
 		this.executionContext = executionContext;
+		this.engineClassLoader = getReportEngineClassLoader( );
 	}
 
 	public Class loadClass( String className ) throws ClassNotFoundException
@@ -74,14 +76,13 @@ public class ApplicationClassLoader extends ClassLoader
 		}
 		catch ( ClassNotFoundException ex )
 		{
-			return IReportEngine.class.getClassLoader( ).loadClass( className );
+			return engineClassLoader.loadClass( className );
 		}
 	}
 
 	public URL getResource( String name )
 	{
-		URL url = IReportEngine.class.getClassLoader( ).getResource(
-				name );
+		URL url = engineClassLoader.getResource( name );
 		if ( url == null )
 		{
 			if ( loader == null )
@@ -95,12 +96,29 @@ public class ApplicationClassLoader extends ClassLoader
 
 	protected void createWrappedClassLoaders( )
 	{
-		ClassLoader engineClassLoader = IReportEngine.class.getClassLoader( );
+		ClassLoader engineClassLoader = this.engineClassLoader;
 		if ( engine != null )
 		{
 			engineClassLoader = engine.getClassLoader( );
 		}
 		loader = createClassLoaderFromDesign( runnable, engineClassLoader, executionContext );
+	}
+
+	protected ClassLoader getReportEngineClassLoader( )
+	{
+		// we need wrap the code into a privileged action as the
+		// IReportEngine.class exist in the WEB-INF/lib folder
+		// while the ApplicationClassLoader.class exits in plugin folder.
+		// Getting the class loader directly may throws out an security
+		// exception
+		return java.security.AccessController
+				.doPrivileged( new java.security.PrivilegedAction<ClassLoader>( ) {
+
+					public ClassLoader run( )
+					{
+						return IReportEngine.class.getClassLoader( );
+					}
+				} );
 	}
 
 	public static ClassLoader createClassLoaderFromDesign(

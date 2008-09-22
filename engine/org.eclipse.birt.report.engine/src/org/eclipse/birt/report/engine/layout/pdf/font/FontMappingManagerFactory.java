@@ -14,6 +14,8 @@ package org.eclipse.birt.report.engine.layout.pdf.font;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -21,6 +23,7 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.engine.util.SecurityUtil;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
@@ -189,10 +192,17 @@ public class FontMappingManagerFactory
 
 	private void registerJavaFonts( )
 	{
-		String javaHome = System.getProperty( "java.home" );
-		String fontsFolder = javaHome + File.separatorChar + "lib"
-				+ File.separatorChar + "fonts";
-		FontFactory.registerDirectory( fontsFolder );
+		AccessController.doPrivileged( new PrivilegedAction<Object>( ) {
+
+			public Object run( )
+			{
+				String javaHome = System.getProperty( "java.home" );
+				String fontsFolder = javaHome + File.separatorChar + "lib"
+						+ File.separatorChar + "fonts";
+				FontFactory.registerDirectory( fontsFolder );
+				return null;
+			}
+		} );
 	}
 
 	protected FontMappingManager createFontMappingManager( String format,
@@ -299,7 +309,7 @@ public class FontMappingManagerFactory
 
 	private String getOSName( )
 	{
-		String osName = System.getProperty( "os.name" );
+		String osName = SecurityUtil.getSystemProperty( "os.name" );
 		if ( osName != null )
 		{
 			return osName.replace( ' ', '_' );
@@ -473,24 +483,31 @@ public class FontMappingManagerFactory
 		}
 	}
 
-	private void registerFontPath( String fontPath )
+	private void registerFontPath( final String fontPath )
 	{
-		long start = System.currentTimeMillis( );
-		File file = new File( fontPath );
-		if ( file.exists( ) )
-		{
-			if ( file.isDirectory( ) )
+		AccessController.doPrivileged( new PrivilegedAction<Object>( ) {
+
+			public Object run( )
 			{
-				FontFactory.registerDirectory( fontPath );
+				long start = System.currentTimeMillis( );
+				File file = new File( fontPath );
+				if ( file.exists( ) )
+				{
+					if ( file.isDirectory( ) )
+					{
+						FontFactory.registerDirectory( fontPath );
+					}
+					else
+					{
+						FontFactory.register( fontPath );
+					}
+				}
+				long end = System.currentTimeMillis( );
+				logger.info( "register fonts in " + fontPath + " cost:"
+						+ ( end - start ) + "ms" );
+				return null;
 			}
-			else
-			{
-				FontFactory.register( fontPath );
-			}
-		}
-		long end = System.currentTimeMillis( );
-		logger.info( "register fonts in " + fontPath + " cost:" +
-				( end - start ) + "ms" );
+		} );
 	}
 
 	protected String getEmbededFontPath( )

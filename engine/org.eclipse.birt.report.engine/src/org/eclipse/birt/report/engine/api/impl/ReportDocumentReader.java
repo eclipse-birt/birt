@@ -15,6 +15,8 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -1285,9 +1287,17 @@ public class ReportDocumentReader
 		return applicationClassLoader;
 	}
 
-	private ClassLoader createClassLoader( String systemId )
+	private ClassLoader createClassLoader( final String systemId )
 	{
-		return new ApplicationClassLoader(engine, getOnPreparedRunnable(), null);
+		return AccessController
+				.doPrivileged( new PrivilegedAction<ClassLoader>( ) {
+
+					public ClassLoader run( )
+					{
+						return new ApplicationClassLoader( engine,
+								getOnPreparedRunnable( ), null );
+					}
+				} );
 	}
 	
 	/*

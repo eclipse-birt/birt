@@ -16,6 +16,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -43,6 +45,7 @@ import org.eclipse.birt.report.engine.api.IStatusHandler;
 import org.eclipse.birt.report.engine.executor.ScriptUtil;
 import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtension;
 import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtensionFactory;
+import org.eclipse.birt.report.engine.util.SecurityUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.runtime.CoreException;
@@ -673,7 +676,14 @@ public class ReportEngine implements IReportEngine
 		ClassLoader root = getAppClassLoader( engine );
 		if ( root == null )
 		{
-			root = IReportEngine.class.getClassLoader( );
+			root = AccessController
+					.doPrivileged( new PrivilegedAction<ClassLoader>( ) {
+
+						public ClassLoader run( )
+						{
+							return IReportEngine.class.getClassLoader( );
+						}
+					} );
 		}
 		return createClassLoaderFromProperty( engine, root );
 	}
@@ -687,13 +697,14 @@ public class ReportEngine implements IReportEngine
 			return parent;
 		}
 		Map appContext = config.getAppContext( );
-		ArrayList urls = new ArrayList( );
+		ArrayList<URL> urls = new ArrayList<URL>( );
 		if ( appContext != null )
 		{
 			for ( int i = 0; i < classPathes.length; i++ )
 			{
+				final String classPathName = classPathes[i];
 				String classPath = null;
-				Object propValue = appContext.get( classPathes[i] );
+				Object propValue = appContext.get( classPathName );
 				if ( propValue instanceof String )
 				{
 					classPath = (String) propValue;
@@ -701,7 +712,7 @@ public class ReportEngine implements IReportEngine
 
 				if ( classPath == null )
 				{
-					classPath = System.getProperty( classPathes[i] );
+					classPath = SecurityUtil.getSystemProperty( classPathes[i] );
 				}
 
 				if ( classPath != null && classPath.length( ) != 0 )
@@ -727,7 +738,7 @@ public class ReportEngine implements IReportEngine
 		}
 		if ( urls.size( ) != 0 )
 		{
-			return new URLClassLoader( (URL[]) urls.toArray( new URL[urls
+			return new URLClassLoader( urls.toArray( new URL[urls
 					.size( )] ), parent );
 		}
 		return parent;

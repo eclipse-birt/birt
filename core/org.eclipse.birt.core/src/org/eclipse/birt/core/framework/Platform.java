@@ -255,11 +255,18 @@ public class Platform
 	 *            factory extension id
 	 * @return the service object.
 	 */
-	public static Object createFactoryObject( String extensionId )
+	public static Object createFactoryObject( final String extensionId )
 	{
 		if ( platform != null )
 		{
-			return platform.createFactoryObject( extensionId );
+			return java.security.AccessController
+					.doPrivileged( new java.security.PrivilegedAction<Object>( ) {
+
+						public Object run( )
+						{
+							return platform.createFactoryObject( extensionId );
+						}
+					} );
 		}
 		return null;
 	}
