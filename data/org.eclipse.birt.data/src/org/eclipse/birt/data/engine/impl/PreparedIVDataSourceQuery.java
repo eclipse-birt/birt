@@ -11,12 +11,17 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
@@ -28,6 +33,9 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
+import org.eclipse.birt.data.engine.executor.cache.CacheRequest;
+import org.eclipse.birt.data.engine.executor.cache.OdiAdapter;
+import org.eclipse.birt.data.engine.executor.cache.SmartCache;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
 import org.eclipse.birt.data.engine.impl.document.PLSEnabledDataSetPopulator;
@@ -35,6 +43,7 @@ import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDLoad;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
+import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
 import org.eclipse.birt.data.engine.impl.document.viewing.NewInstanceHelper;
 import org.eclipse.birt.data.engine.odi.IDataSource;
@@ -252,45 +261,113 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		protected IResultIterator executeOdiQuery( IEventHandler eventHandler,
 				StopSign stopSign ) throws DataException
 		{
-			RDLoad rdLoad = RDUtil.newLoad( engine.getSession( ).getTempDir( ),
-					engine.getContext( ),
-					new QueryResultInfo( realBasedQueryID, null, -1 ) );
-			DataSetResultSet dataSetResult = rdLoad.loadDataSetData( );
-			IResultClass meta = dataSetResult.getResultClass( );
-			IResultIterator resultIterator = null;
-			if ( PLSUtil.isPLSEnabled( queryDefn ) )
+			try
 			{
-				org.eclipse.birt.data.engine.impl.document.ResultIterator docIt = new org.eclipse.birt.data.engine.impl.document.ResultIterator( engine.getSession( )
+				RDLoad rdLoad = RDUtil.newLoad( engine.getSession( )
 						.getTempDir( ),
 						engine.getContext( ),
-						null,
-						queryDefn.getQueryResultsID( ) );
-				PLSEnabledDataSetPopulator populator = new PLSEnabledDataSetPopulator( queryDefn,
-						queryDefn.getQueryExecutionHints( )
-								.getTargetGroupInstances( ),
-						docIt );
-				resultIterator = new CachedResultSet( query,
-						populateResultClass( populator.getResultClass( ) ),
-						populator,
-						eventHandler,
-						engine.getSession( ),
-						stopSign );
+						new QueryResultInfo( realBasedQueryID, null, -1 ) );
+				DataSetResultSet dataSetResult = rdLoad.loadDataSetData( );
+				StreamManager manager = new StreamManager( engine.getContext( ),
+						new QueryResultInfo( queryDefn.getQueryResultsID( ),
+								null,
+								0 ) );
+				if ( PLSUtil.isPLSEnabled( queryDefn )
+						&& PLSUtil.needUpdateDataSet( queryDefn, manager ) )
+				{
+					populatePLSDataSetData( eventHandler, stopSign, manager );
+					
+					dataSetResult.close( );
 
-			}
-			else
-			{
-				resultIterator = new CachedResultSet( query,
+					rdLoad = RDUtil.newLoad( engine.getSession( ).getTempDir( ),
+							engine.getContext( ),
+							new QueryResultInfo( realBasedQueryID, null, -1 ) );
+
+					dataSetResult = rdLoad.loadDataSetData( );
+
+				}
+				IResultClass meta = dataSetResult.getResultClass( );
+				IResultIterator resultIterator = new CachedResultSet( query,
 						populateResultClass( meta ),
 						dataSetResult,
 						eventHandler,
 						engine.getSession( ),
 						stopSign );
+				dataSetResult.close( );
 
+				return resultIterator;
 			}
+			catch ( IOException e )
+			{
+				throw new DataException( e.getLocalizedMessage( ) );
+			}
+		}
 
-			dataSetResult.close( );
+		/**
+		 * 
+		 * @param eventHandler
+		 * @param stopSign
+		 * @param manager
+		 * @throws DataException
+		 * @throws IOException
+		 */
+		private void populatePLSDataSetData( IEventHandler eventHandler,
+				StopSign stopSign, StreamManager manager )
+				throws DataException, IOException
+		{
+			org.eclipse.birt.data.engine.impl.document.ResultIterator docIt = new org.eclipse.birt.data.engine.impl.document.ResultIterator( engine.getSession( )
+					.getTempDir( ),
+					engine.getContext( ),
+					null,
+					queryDefn.getQueryResultsID( ) );
 
-			return resultIterator;
+			PLSEnabledDataSetPopulator populator = new PLSEnabledDataSetPopulator( queryDefn,
+					queryDefn.getQueryExecutionHints( )
+							.getTargetGroupInstances( ),
+					docIt );
+
+			ResultClass processedRC = (ResultClass) populateResultClass( populator.getResultClass( ) );
+			
+			SmartCache cache = new SmartCache( new CacheRequest( 0,
+					new ArrayList( ),
+					null,
+					eventHandler ),
+					new OdiAdapter( populator ),
+					processedRC,
+					engine.getSession( ),
+					stopSign );
+			
+			manager.dropStream1( DataEngineContext.DATASET_DATA_STREAM );
+			manager.dropStream1( DataEngineContext.DATASET_DATA_LEN_STREAM );
+			
+			OutputStream resultClassStream = manager.getOutStream( DataEngineContext.DATASET_META_STREAM,
+					StreamManager.ROOT_STREAM,
+					StreamManager.SELF_SCOPE );
+			processedRC.doSave( resultClassStream,
+					new ArrayList( queryDefn.getBindings( ).values( ) ) );
+
+			resultClassStream.close( );
+
+
+			DataOutputStream dataSetDataStream = new DataOutputStream( manager.getOutStream( DataEngineContext.DATASET_DATA_STREAM,
+					StreamManager.ROOT_STREAM,
+					StreamManager.SELF_SCOPE ) );
+			DataOutputStream rowLensStream = new DataOutputStream( manager.getOutStream( DataEngineContext.DATASET_DATA_LEN_STREAM,
+					StreamManager.ROOT_STREAM,
+					StreamManager.SELF_SCOPE ) );
+
+			cache.doSave( dataSetDataStream,
+					rowLensStream,
+					eventHandler.getAllColumnBindings( ) );
+			cache.close( );
+
+			DataOutputStream plsGroupLevelStream = new DataOutputStream( manager.getOutStream( DataEngineContext.PLS_GROUPLEVEL_STREAM,
+					StreamManager.ROOT_STREAM,
+					StreamManager.SELF_SCOPE ) );
+
+			IOUtil.writeInt( plsGroupLevelStream,
+					PLSUtil.getOutmostPlsGroupLevel( queryDefn ) );
+			plsGroupLevelStream.close( );
 		}
 
 		/**

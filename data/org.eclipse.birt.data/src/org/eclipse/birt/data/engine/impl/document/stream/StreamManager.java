@@ -297,8 +297,8 @@ public class StreamManager
 		StreamID streamID = getStreamID( streamType, streamPos, streamScope );
 		if ( useTempStream( streamType ))
 		{
-			if ( this.metaManagers.get( streamID ) == null )
-				return false;
+			/*if ( this.metaManagers.get( streamID ) == null )
+				return false;*/
 			return this.getMetaManager( streamID, streamType ).hasInputStream( streamType );
 		}
 		else
@@ -501,6 +501,8 @@ public class StreamManager
 			case DataEngineContext.QUERYID_INFO_STREAM :
 				return true;
 			case DataEngineContext.SUBQUERY_PARENTINDEX_STREAM :
+				return true;
+			case DataEngineContext.PLS_GROUPLEVEL_STREAM :
 				return true;
 			case DataEngineContext.META_STREAM :
 				return false;

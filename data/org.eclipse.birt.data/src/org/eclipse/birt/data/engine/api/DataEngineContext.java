@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.api;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Locale;
 import java.util.logging.Logger;
 
@@ -123,6 +124,7 @@ public class DataEngineContext
 	
 	public final static int NAMING_RELATION_STREAM = 101;
 	
+	public final static int PLS_GROUPLEVEL_STREAM = 102;
 	private static Logger logger = Logger.getLogger( DataEngineContext.class.getName( ) );
 	
 	private ScriptContext scriptContext;
@@ -357,8 +359,7 @@ public class DataEngineContext
 	{
 		String relativePath = getPath( streamID, subStreamID, streamType );
 		
-		if ( writer != null )
-			writer.dropStream( relativePath );
+		this.dropStream( relativePath );
 	}
 	
 	/**
@@ -369,7 +370,24 @@ public class DataEngineContext
 	public void dropStream( String streamPath )
 	{
 		if ( writer != null )
-			writer.dropStream( streamPath );
+		{
+			try
+			{
+				//If a stream exists in ArchiveFile but not exists in ArchiveView
+				//the call to IDocArchiveWriter.dropStream() would not remove the stream
+				//from ArchiveFile. So we've to first create a stream of same path in
+				//ArchiveView (so that it can automatically replace the on in ArchiveFile) 
+				//and then drop it.
+				OutputStream stream = writer.createRandomAccessStream( streamPath );
+				stream.close( );
+			}
+			catch ( IOException e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//writer.dropStream( streamPath );
+		}
 	}
 
 	/**
@@ -553,6 +571,9 @@ public class DataEngineContext
 				break;
 			case META_INDEX_STREAM :
 				relativePath = "MetaIndex"; //$NON-NLS-1$
+				break;
+			case PLS_GROUPLEVEL_STREAM:
+				relativePath = "PlsGroupLevel";
 				break;
 			default :
 				assert false; // impossible

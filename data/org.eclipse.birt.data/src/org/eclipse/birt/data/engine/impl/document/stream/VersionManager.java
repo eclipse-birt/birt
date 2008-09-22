@@ -37,8 +37,12 @@ public class VersionManager
 	public final static int VERSION_2_2_1_2 = 30;
 	public final static int VERSION_2_2_1_3 = 50;
 	
+	
 	//In version 2_3_1 the sort strength information is saved.
 	public final static int VERSION_2_3_1 = 70;
+	
+	//In version 2_3_2 the PLS_GROUPLEVEL is saved.
+	public final static int VERSION_2_3_2 = 90;
 	
 	private DataEngineContext dataEngineContext;
 	private static Logger logger = Logger.getLogger( VersionManager.class.getName( ) );
@@ -113,7 +117,7 @@ public class VersionManager
 	 */
 	public static int getLatestVersion( )
 	{
-		return VERSION_2_3_1;
+		return VERSION_2_3_2;
 	}
 
 }

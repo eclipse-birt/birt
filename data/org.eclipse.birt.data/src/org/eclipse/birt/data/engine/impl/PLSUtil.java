@@ -11,13 +11,17 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IGroupInstanceInfo;
@@ -25,6 +29,7 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 
 /**
  * This utility class provides util methods that are used by Data Engine's supporing to PLS features.
@@ -45,6 +50,70 @@ public final class PLSUtil
 						.size( ) > 0;
 	}
 
+	/**
+	 * Indicates whether need to update the data set data in report document.
+	 * 
+	 * @param queryDefn
+	 * @param manager
+	 * @return
+	 * @throws DataException
+	 */
+	public static boolean needUpdateDataSet( IQueryDefinition queryDefn,
+			StreamManager manager ) throws DataException
+	{
+		assert queryDefn != null;
+		assert queryDefn.getQueryExecutionHints( ) != null;
+		if ( queryDefn.getQueryExecutionHints( )
+				.getTargetGroupInstances( )
+				.size( ) == 0 )
+			return false;
+		RAInputStream in = null;
+		if( manager.hasInStream( DataEngineContext.PLS_GROUPLEVEL_STREAM,
+				StreamManager.ROOT_STREAM,
+				StreamManager.BASE_SCOPE ))
+			in = manager.getInStream( DataEngineContext.PLS_GROUPLEVEL_STREAM,
+					StreamManager.ROOT_STREAM,
+					StreamManager.BASE_SCOPE );
+		try
+		{
+			if ( in == null )
+			{
+				return true;
+			}
+
+			int savedGroupLevel = IOUtil.readInt( in );
+			in.close( );
+			int currentRequestedGroupLevel = getOutmostPlsGroupLevel( queryDefn );
+			if ( savedGroupLevel < currentRequestedGroupLevel )
+				return true;
+			else
+				return false;
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	/**
+	 * 
+	 * @param queryDefn
+	 * @return
+	 */
+	public static int getOutmostPlsGroupLevel( IQueryDefinition queryDefn )
+	{
+		assert queryDefn != null;
+		assert queryDefn.getQueryExecutionHints( ) != null;
+		int currentRequestedGroupLevel = 0;
+		for ( IGroupInstanceInfo info : queryDefn.getQueryExecutionHints( )
+				.getTargetGroupInstances( ) )
+		{
+			currentRequestedGroupLevel = info.getGroupLevel( ) > currentRequestedGroupLevel
+					? info.getGroupLevel( ) : currentRequestedGroupLevel;
+		}
+		return currentRequestedGroupLevel;
+	}
+	
 	/**
 	 * 
 	 * @param query
