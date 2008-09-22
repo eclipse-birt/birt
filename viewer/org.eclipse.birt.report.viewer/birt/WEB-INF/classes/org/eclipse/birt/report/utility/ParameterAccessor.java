@@ -2823,14 +2823,31 @@ public class ParameterAccessor {
 	 * @param request
 	 * @return
 	 */
-	public static Map getParameterAsMap(HttpServletRequest request) {
-		Map map = new HashMap();
+	public static Map<String,String> getParameterAsMap(HttpServletRequest request) {
+		Map<String,String> map = new HashMap<String,String>();
 
 		Enumeration names = request.getParameterNames();
 		while (names.hasMoreElements()) {
 			String name = (String) names.nextElement();
 			String value = getParameter(request, name);
 			map.put(name, value);
+		}
+
+		// decode paths if necessary
+		if ( isEncodedPaths( request ) )
+		{
+			if ( map.containsKey( PARAM_RESOURCE_FOLDER ) )
+			{
+				map.put( PARAM_RESOURCE_FOLDER, decodeBase64(map.get(PARAM_RESOURCE_FOLDER)));
+			}
+			if ( map.containsKey( PARAM_REPORT ) )
+			{
+				map.put( PARAM_REPORT, decodeBase64( map.get(PARAM_REPORT) ));
+			}
+			if ( map.containsKey( PARAM_REPORT_DOCUMENT ) )
+			{
+				map.put( PARAM_REPORT_DOCUMENT, decodeBase64( map.get(PARAM_REPORT_DOCUMENT) ));
+			}
 		}
 
 		return map;
