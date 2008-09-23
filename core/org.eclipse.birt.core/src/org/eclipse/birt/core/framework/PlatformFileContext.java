@@ -69,7 +69,7 @@ public class PlatformFileContext implements IPlatformContext
 			public String run( )
 			{
 				String home = System.getProperty( IPlatformConfig.BIRT_HOME );
-				if ( home == null || home.isEmpty( ) )
+				if ( home == null || "".equals( home ) )
 				{
 					return ".";
 				}
