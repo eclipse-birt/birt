@@ -901,8 +901,8 @@ DesignerOutlinePage.menu.Filters=筛选器
 
 ###########################################################
 #Content outline page switch action
-ContentOutlinePage.action.text.reportOutline=切换至 XML 源大纲
-ContentOutlinePage.action.text.reportXMLSourceOutline=切换至报表大纲
+ContentOutlinePage.action.text.reportOutline=Switch to XML Source Outline
+ContentOutlinePage.action.text.reportXMLSourceOutline=Switch to Report Outline
 
 ###########################################################
 #DesignerPaletteFactory properties
