@@ -17,21 +17,21 @@ import java.util.Map;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.preview.IPreviewConstants;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.ui.IViewActionDelegate;
-import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.forms.editor.FormEditor;
 
 /**
- * 
+ * GenerateDocumentToolbarMenuAction
  */
-
-public class GenerateDocumentToolbarMenuAction implements IWorkbenchWindowActionDelegate
+public class GenerateDocumentToolbarMenuAction implements
+		IWorkbenchWindowActionDelegate
 {
 
 	public void dispose( )
@@ -44,14 +44,14 @@ public class GenerateDocumentToolbarMenuAction implements IWorkbenchWindowAction
 
 	public void run( IAction action )
 	{
-		gendoc( );
+		gendoc( action );
 	}
 
 	public void selectionChanged( IAction action, ISelection selection )
 	{
 	}
 
-	private void gendoc( )
+	private void gendoc( IAction action )
 	{
 		FormEditor editor = UIUtil.getActiveReportEditor( false );
 		ModuleHandle model = SessionHandleAdapter.getInstance( )
@@ -68,6 +68,24 @@ public class GenerateDocumentToolbarMenuAction implements IWorkbenchWindowAction
 		options.put( WebViewer.RESOURCE_FOLDER_KEY, ReportPlugin.getDefault( )
 				.getResourceFolder( ) );
 		options.put( WebViewer.SERVLET_NAME_KEY, WebViewer.VIEWER_DOCUMENT );
+
+		Object adapter = ElementAdapterManager.getAdapter( action,
+				IPreviewAction.class );
+
+		if ( adapter instanceof IPreviewAction )
+		{
+			IPreviewAction delegate = (IPreviewAction) adapter;
+
+			delegate.setProperty( IPreviewConstants.REPORT_PREVIEW_OPTIONS,
+					options );
+			delegate.setProperty( IPreviewConstants.REPORT_FILE_PATH,
+					model.getFileName( ) );
+
+			delegate.run( );
+
+			return;
+		}
+
 		WebViewer.display( model.getFileName( ), options );
 	}
 

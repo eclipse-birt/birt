@@ -85,7 +85,7 @@ public class WebViewer
 	 * Time zone preference name
 	 */
 	public final static String USER_TIME_ZONE = "user_time_zone"; //$NON-NLS-1$
-	
+
 	/**
 	 * Preference key for SVG chart flag.
 	 */
@@ -146,6 +146,11 @@ public class WebViewer
 	 * Key to indicate the 'allowPage' control of the preview.
 	 */
 	public final static String ALLOW_PAGE_KEY = "ALLOW_PAGE_KEY"; //$NON-NLS-1$
+
+	/**
+	 * Key to indicate the output document file path.
+	 */
+	public final static String OUTPUT_DOCUMENT_KEY = "OUTPUT_DOCUMENT_KEY"; //$NON-NLS-1$
 
 	/**
 	 * Key to indicate the 'servletName' of the preview.
@@ -326,6 +331,7 @@ public class WebViewer
 		String resourceFolder = (String) params.get( RESOURCE_FOLDER_KEY );
 		Boolean allowPage = (Boolean) params.get( ALLOW_PAGE_KEY );
 		Map<String, String> emitterOptions = (Map<String, String>) params.get( EMITTER_OPTIONS_KEY );
+		String outputDocName = (String) params.get( OUTPUT_DOCUMENT_KEY );
 
 		// maintain legacy support
 		if ( HTM.equalsIgnoreCase( format ) )
@@ -425,6 +431,21 @@ public class WebViewer
 			urlParams.put( ParameterAccessor.PARAM_EMITTER_ID, emitterid.trim( ) );
 		}
 
+		if ( !StringUtil.isBlank( outputDocName ) )
+		{
+			try
+			{
+				String encodedOutputDocumentName = URLEncoder.encode( outputDocName,
+						UTF_8 );
+				urlParams.put( ParameterAccessor.PARAM_OUTPUT_DOCUMENT_NAME,
+						encodedOutputDocumentName );
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+				LogUtil.logWarning( e.getLocalizedMessage( ), e );
+			}
+		}
+
 		if ( emitterOptions != null )
 		{
 			urlParams.putAll( emitterOptions );
@@ -520,11 +541,11 @@ public class WebViewer
 		String timeZone = ViewerPlugin.getDefault( )
 				.getPluginPreferences( )
 				.getString( USER_TIME_ZONE );
-		if ( timeZone != null && "".equals( timeZone ))
+		if ( timeZone != null && "".equals( timeZone ) )
 		{
 			timeZone = null;
 		}
-			
+
 		String locale = ViewerPlugin.getDefault( )
 				.getPluginPreferences( )
 				.getString( USER_LOCALE );

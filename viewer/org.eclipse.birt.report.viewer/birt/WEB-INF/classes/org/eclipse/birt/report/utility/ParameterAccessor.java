@@ -37,7 +37,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.axis.AxisFault;
+import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.BirtContext;
@@ -49,7 +49,6 @@ import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.utility.filename.DefaultFilenameGenerator;
 import org.eclipse.birt.report.utility.filename.IFilenameGenerator;
 import org.eclipse.birt.report.utility.filename.IFilenameGeneratorFactory;
-import org.apache.commons.codec.binary.Base64;
 
 /**
  * Utilities class for all types of URl related operations.
@@ -99,6 +98,11 @@ public class ParameterAccessor {
 	 * URL parameter name that gives the report document name.
 	 */
 	public static final String PARAM_REPORT_DOCUMENT = "__document"; //$NON-NLS-1$
+
+    /**
+     * URL parameter name that gives the output report document file path.
+     */
+	public static final String PARAM_OUTPUT_DOCUMENT_NAME = "__outputDocName"; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name that gives the format to display the report, html or

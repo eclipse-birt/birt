@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Preferences;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.CloseWindowListener;
@@ -80,7 +81,7 @@ public class EmbeddedBrowser
 	{
 		store = ViewerPlugin.getDefault( ).getPluginPreferences( );
 
-		shell = new Shell( );
+		shell = new Shell( SWT.SHELL_TRIM | Window.getDefaultOrientation( ) );
 
 		initializeShell( shell );
 
@@ -222,7 +223,7 @@ public class EmbeddedBrowser
 	{
 		if ( parent == null )
 		{
-			shell = new Shell( );
+			shell = new Shell( SWT.SHELL_TRIM | Window.getDefaultOrientation( ) );
 		}
 		else
 		{
