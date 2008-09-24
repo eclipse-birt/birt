@@ -32,7 +32,7 @@ public class ProviderFactory
 	 * 
 	 * @return Returns the default provider
 	 */
-	public static DefaultNodeProvider getDefaultProvider( )
+	public static INodeProvider getDefaultProvider( )
 	{
 		return defaultProvider;
 	}

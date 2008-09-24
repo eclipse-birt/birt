@@ -41,32 +41,10 @@ public class SlotHandlePropertyTester extends PropertyTester
 				{
 				}
 			}
-			else if ( receiver instanceof SlotHandle )
-			{
-				try
-				{
-					int slotId = Integer.parseInt( expectedValue.toString( ) );
-					return slotId == ( (SlotHandle) receiver ).getSlotID( );
-				}
-				catch ( NumberFormatException e )
-				{
-				}
-			}
 		}
 		else if ( "elementName".equals( property ) ) //$NON-NLS-1$
 		{
 			if ( receiver instanceof SlotHandle )
-			{
-				try
-				{
-					DesignElementHandle handle = ( (SlotHandle) receiver ).getElementHandle( );
-					return handle.getDefn( ).getName( ).equals( expectedValue );
-				}
-				catch ( NumberFormatException e )
-				{
-				}
-			}
-			else if ( receiver instanceof SlotHandle )
 			{
 				try
 				{

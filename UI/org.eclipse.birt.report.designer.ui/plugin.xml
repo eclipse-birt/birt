@@ -199,7 +199,7 @@
          	id="ElementContainerTester"
          	namespace="ElementContainer"
          	properties="containerName"
-         	type="org.eclipse.birt.report.model.api.DataItemHandle">
+         	type="org.eclipse.birt.report.model.api.DesignElementHandle">
    		</propertyTester>
    		<propertyTester
          	class="org.eclipse.birt.report.designer.internal.ui.extension.SlotHandlePropertyTester"
@@ -208,6 +208,13 @@
          	properties="id,elementName"
          	type="org.eclipse.birt.report.model.api.SlotHandle">
    		</propertyTester>
+     <propertyTester
+           class="org.eclipse.birt.report.designer.internal.ui.extension.ActionPropertyTester"
+           id="ActionPropertyTester"
+           namespace="IAction"
+           properties="id"
+           type="org.eclipse.jface.action.IAction">
+     </propertyTester>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
