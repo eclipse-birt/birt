@@ -353,12 +353,13 @@ public final class RDGroupUtil
 	/**
 	 * Advance the leaf group with offset.
 	 * @param offset
+	 * @throws DataException 
 	 */
-	public void move( int offset )
+	public void move( ) throws DataException
 	{
 		if ( groups.length > 0 )
 		{
-			for ( int i = 0; i < offset; i++ )
+			for ( int i = leafGroupIdx; i < this.getGroups( )[groups.length-1].size( ); i++ )
 			{
 				GroupInfo nextLeafGroup = findGroup( groups.length - 1,
 						leafGroupIdx + 1 );
@@ -366,6 +367,10 @@ public final class RDGroupUtil
 						cacheProvider.getCurrentIndex( ) >= nextLeafGroup.firstChild )
 				{
 					++leafGroupIdx;
+				}
+				else 
+				{
+					break;
 				}
 			}
 		}

@@ -156,7 +156,7 @@ public class ExprResultSet implements IExprResultSet
 	{
 		int currIndex = this.getCurrentIndex( );
 		exprResultReader.moveTo( rowIndex );
-		this.rdGroupUtil.move( rowIndex - currIndex );
+		this.rdGroupUtil.move( );
 	}
 
 	/* (non-Javadoc)
