@@ -336,13 +336,13 @@ public final class Generator implements IGenerator
 		}
 		else if ( component instanceof LineAttributes )
 		{
-			IStyle style = getMingledStyle( model, type, externalProcessor );
-			LineAttributes lia = (LineAttributes) component;
-			// check for axis
-			if ( lia.eContainer( ) instanceof Axis )
-			{
+			// only apply to axis
+			if ( component.eContainer( ) instanceof Axis )
+			{	
+				LineAttributes lia = (LineAttributes) component;
 				if ( lia.getColor( ) == null )
 				{
+					IStyle style = getMingledStyle( model, type, externalProcessor );
 					lia.setColor( style.getColor( ) );
 				}
 			}
