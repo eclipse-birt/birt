@@ -1174,7 +1174,7 @@ Element.ReportDesign.displayName=显示名称(&Y):
 Element.ReportDesign.eventHandlerClass=事件处理程序类(&C): 
 Element.ReportDesign.iconFile=缩略图(&N): 
 Element.ReportDesign.refreshRate=刷新率:
-Element.ReportDesign.bidiLayoutOrientation=Report &Orientation:
+Element.ReportDesign.bidiLayoutOrientation=报表方向(&O):
 Element.ReportElement.comments=备注(&C):
 Element.ReportElement.Cube=数据(&D):
 Element.ReportElement.customXml=自定义 XML:
@@ -3823,7 +3823,7 @@ WizardTemplateChoicePage.title.SimpleListing=简易列表
 #bidi_hcg start
 WizardTemplateChoicePage.label.rtlBiDiOrientation=从右到左
 WizardTemplateChoicePage.label.ltrBiDiOrientation=从左到右
-WizardTemplateChoicePage.label.chooseBiDiDirection=Report Orientation:
+WizardTemplateChoicePage.label.chooseBiDiDirection=报表方向:
 #bidi_hcg end
 ###########################################################
 #XMLSourcePage properties

@@ -86,7 +86,7 @@ ChartBindingGroupDescriptorProvider.DataCubes.Default=---データキューブ---
 BindingPage.Data.Label=データ :
 Error.ChartShouldIncludeAxes=グラフには軸を含める必要があります。
 
-ChartCubeFilterConditionBuilder.Information=Before adding filters, please make sure data bindings are complete.
+ChartCubeFilterConditionBuilder.Information=フィルタを追加する前にデータバインドが完全であることを確認してください。
 ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=カテゴリ :  
 ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=値 :  
 ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y 軸のオプション値 :  

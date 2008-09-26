@@ -637,8 +637,8 @@ Choices.scalarParamType.multi-value=Valor múltiple
 Choices.scalarParamType.ad-hoc=Ad-hoc
 
 #77. bidiLayoutOrientation   
-Choices.bidiDirection.rtl=De derecha a izquierda 
-Choices.bidiDirection.ltr=De izquierda a derecha 
+Choices.bidiDirection.rtl=De derecha a izquierda
+Choices.bidiDirection.ltr=De izquierda a derecha
 
 ###########################################################
 # Classes

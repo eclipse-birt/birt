@@ -86,7 +86,7 @@ ChartBindingGroupDescriptorProvider.DataCubes.Default=---데이터 큐브---
 BindingPage.Data.Label=데이터:
 Error.ChartShouldIncludeAxes=차트에는 축이 포함되어야 합니다.
 
-ChartCubeFilterConditionBuilder.Information=Before adding filters, please make sure data bindings are complete.
+ChartCubeFilterConditionBuilder.Information=필터를 추가하기 전에 먼저 데이터 바인딩이 완료되었는지 확인하십시오.
 ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=범주:  
 ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=값:  
 ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y 옵션:  

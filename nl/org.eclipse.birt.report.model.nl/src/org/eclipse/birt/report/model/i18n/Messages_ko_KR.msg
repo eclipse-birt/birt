@@ -637,8 +637,8 @@ Choices.scalarParamType.multi-value=복수 값
 Choices.scalarParamType.ad-hoc=Ad-hoc
 
 #77. bidiLayoutOrientation   
-Choices.bidiDirection.rtl=오른쪽에서 왼쪽 
-Choices.bidiDirection.ltr=왼쪽에서 오른쪽 
+Choices.bidiDirection.rtl=오른쪽에서 왼쪽
+Choices.bidiDirection.ltr=왼쪽에서 오른쪽
 
 ###########################################################
 # Classes

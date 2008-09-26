@@ -86,7 +86,7 @@ ChartBindingGroupDescriptorProvider.DataCubes.Default=---Cubos de datos---
 BindingPage.Data.Label=Datos:
 Error.ChartShouldIncludeAxes=El diagrama debería contener ejes.
 
-ChartCubeFilterConditionBuilder.Information=Before adding filters, please make sure data bindings are complete.
+ChartCubeFilterConditionBuilder.Information=Antes de añadir filtros, asegúrese de que los enlaces de datos están completos.
 ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Categoría:  
 ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Valor:  
 ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Opción Y:  
