@@ -275,17 +275,43 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 				if ( PLSUtil.isPLSEnabled( queryDefn )
 						&& PLSUtil.needUpdateDataSet( queryDefn, manager ) )
 				{
-					populatePLSDataSetData( eventHandler, stopSign, manager );
-					
-					dataSetResult.close( );
+					if ( engine.getContext( ).getDocWriter( ) != null )
+					{
+						//When we can update the data set data.
+						populatePLSDataSetData( eventHandler, stopSign, manager );
 
-					rdLoad = RDUtil.newLoad( engine.getSession( ).getTempDir( ),
-							engine.getContext( ),
-							new QueryResultInfo( realBasedQueryID, null, -1 ) );
+						dataSetResult.close( );
 
-					dataSetResult = rdLoad.loadDataSetData( );
+						rdLoad = RDUtil.newLoad( engine.getSession( )
+								.getTempDir( ),
+								engine.getContext( ),
+								new QueryResultInfo( realBasedQueryID, null, -1 ) );
 
+						dataSetResult = rdLoad.loadDataSetData( );
+					}
+					else
+					{
+						//Indicate that we need not update the report document.
+						org.eclipse.birt.data.engine.impl.document.ResultIterator docIt = new org.eclipse.birt.data.engine.impl.document.ResultIterator( engine.getSession( )
+								.getTempDir( ),
+								engine.getContext( ),
+								null,
+								queryDefn.getQueryResultsID( ) );
+						PLSEnabledDataSetPopulator populator = new PLSEnabledDataSetPopulator( queryDefn,
+								queryDefn.getQueryExecutionHints( )
+										.getTargetGroupInstances( ),
+								docIt );
+						IResultIterator resultIterator = new CachedResultSet( query,
+								populateResultClass( populator.getResultClass( ) ),
+								populator,
+								eventHandler,
+								engine.getSession( ),
+								stopSign );
+						dataSetResult.close( );
+						return resultIterator;
+					}
 				}
+				
 				IResultClass meta = dataSetResult.getResultClass( );
 				IResultIterator resultIterator = new CachedResultSet( query,
 						populateResultClass( meta ),
