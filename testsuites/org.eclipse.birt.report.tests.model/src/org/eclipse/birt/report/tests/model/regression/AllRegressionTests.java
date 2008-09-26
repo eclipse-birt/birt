@@ -250,6 +250,7 @@ public class AllRegressionTests
 		test.addTestSuite( Regression_245931.class );
 		test.addTestSuite( Regression_246198.class );
 		test.addTestSuite( Regression_246686.class );
+		test.addTestSuite( Regression_245341.class );
 		return test;
 	}
 }
