@@ -79,7 +79,7 @@ public class ChoicePropertyType extends PropertyType
 			return validateInputString( module, defn, (String) value );
 		}
 
-		logger.log( Level.SEVERE, "Invalid choice value type:" + value ); //$NON-NLS-1$
+		logger.log( Level.WARNING, "Invalid choice value type:" + value ); //$NON-NLS-1$
 
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
@@ -127,14 +127,14 @@ public class ChoicePropertyType extends PropertyType
 		{
 			// The is in the whole choice set, but not in the allowed list.
 
-			logger.log( Level.SEVERE, "Not allowed choice " + value ); //$NON-NLS-1$
+			logger.log( Level.WARNING, "Not allowed choice " + value ); //$NON-NLS-1$
 
 			throw new PropertyValueException( value,
 					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED,
 					getTypeCode( ) );
 		}
 
-		logger.log( Level.SEVERE, "Not found choice: " + value ); //$NON-NLS-1$
+		logger.log( Level.WARNING, "Not found choice: " + value ); //$NON-NLS-1$
 		
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND,
@@ -281,14 +281,14 @@ public class ChoicePropertyType extends PropertyType
 		{
 			// The is in the whole choice set, but not in the allowed list.
 
-			logger.log( Level.SEVERE, "Not allowed choice " + name ); //$NON-NLS-1$
+			logger.log( Level.WARNING, "Not allowed choice " + name ); //$NON-NLS-1$
 
 			throw new PropertyValueException( name,
 					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED,
 					getTypeCode( ) );
 		}
 
-		logger.log( Level.SEVERE, "Invalid choice:" + name ); //$NON-NLS-1$
+		logger.log( Level.WARNING, "Invalid choice:" + name ); //$NON-NLS-1$
 
 		throw new PropertyValueException( name,
 				PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND,
