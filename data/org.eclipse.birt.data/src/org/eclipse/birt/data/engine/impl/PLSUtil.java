@@ -204,10 +204,13 @@ public final class PLSUtil
 					{
 						String text = ( (IScriptExpression) binding.getExpression( ) ).getText( );
 						if ( ExpressionUtil.getColumnName( text ) != null
-								|| ExpressionUtil.getColumnBindingName( text ) != null )
+								|| ExpressionUtil.getColumnBindingName( text ) == null )
 							continue;
-						//If refer to an aggr binding that need to be recalculated, we need also recalculate this binding.
-						if( referToRecAggrBinding( queryDefn, reCalGroupNames, text ))
+						// If refer to an aggr binding that need to be
+						// recalculated, we need also recalculate this binding.
+						if ( !referToRecAggrBinding( queryDefn,
+								reCalGroupNames,
+								text ) )
 							continue;
 					}
 	
