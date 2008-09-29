@@ -549,7 +549,7 @@ dataset.editor.inputDialog.columnName=列名(&C)
 dataset.editor.inputDialog.dataType=データ型(&T)
 dataset.editor.inputDialog.expression=式(&E)
 dataset.editor.inputDialog.aggrArgu=引数(&R)
-dataset.editor.inputDialog.aggrFunc=総計(&A)
+dataset.editor.inputDialog.aggrFunc=集計(&A)
 dataset.editor.inputDialog.filter=フィルタ(&F)
 dataset.editor.inputDialog.value1=値 1(&1)
 dataset.editor.inputDialog.value2=値 2(&2)
@@ -4190,7 +4190,7 @@ CrosstabPageGenerator.List.UserProperties=ユーザのプロパティ
 CrosstabPageGenerator.List.AdvancedProperty=詳細設定
 
 CrosstabPageGenerator.List.SubTotals=小計
-CrosstabPageGenerator.List.GrandTotals=総計
+CrosstabPageGenerator.List.GrandTotals=集計
 CrosstabPageGenerator.List.PageBreak=ページ区切り
 
 ###########################################################
@@ -4218,7 +4218,7 @@ PageGenerator.TabItem.Sorting=ソート
 
 ###########################################################
 #AggDataDropAdapter
-AggDataDropAdapter.Trans.Name=総計の作成
+AggDataDropAdapter.Trans.Name=集計の作成
 
 ###########################################################
 #BindingDialogHelper

@@ -3,9 +3,9 @@
 Element.Crosstab=クロスタブ
 Element.CrosstabCell=クロスタブセル
 Element.CrosstabAggregationCell=クロスタブ集計セル
-Element.AggregationOnRow=行ごとの総計
-Element.AggregationOnColumn=列ごとの総計
-Element.AggregationHeaderLocation=総計ヘッダの位置
+Element.AggregationOnRow=行ごとの集計
+Element.AggregationOnColumn=列ごとの集計
+Element.AggregationHeaderLocation=集計ヘッダの位置
 Element.MeasureView=計測ビュー
 Element.ComputedMeasureView=計測値ビュー
 Element.PageBreakBefore=次の前で改ページ
