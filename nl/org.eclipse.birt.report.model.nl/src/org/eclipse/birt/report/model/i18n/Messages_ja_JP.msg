@@ -1187,7 +1187,7 @@ Class.Color.rgb.toolTip=色の RGB 値を取得します
 Class.Color.value=value
 Class.Color.value.toolTip=色の名前 (名前として設定されている場合) または CSS RGB の文字列 (RGB 値として設定されている場合) を取得します
 Class.Color.cssValue=cssValue
-Class.Color.cssValue.toolTip=色を CSS で設定可能な形式 (CSS カラー名または RBG 値)で取得します
+Class.Color.cssValue.toolTip=色を CSS で設定可能な形式 (CSS カラー名または RGB 値)で取得します
 
 
 #12. Dimension

@@ -1187,7 +1187,7 @@ Class.Color.rgb.toolTip=Ruft die Farbe als RGB-Wert ab.
 Class.Color.value=value
 Class.Color.value.toolTip=Ruft die Farbe als Name ab (sofern als Name festgelegt) bzw. als CSS-RGB-Zeichenfolge (sofern als RGB festgelegt)
 Class.Color.cssValue=cssValue
-Class.Color.cssValue.toolTip=Ruft die Farbe in der Form ab, die in CSS festgelegt werden kann: entweder als CSS-Farbname oder als RBG-Wert
+Class.Color.cssValue.toolTip=Ruft die Farbe in der Form ab, die in CSS festgelegt werden kann: entweder als CSS-Farbname oder als RGB-Wert
 
 
 #12. Dimension

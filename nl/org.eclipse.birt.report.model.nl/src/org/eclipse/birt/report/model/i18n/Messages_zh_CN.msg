@@ -1187,7 +1187,7 @@ Class.Color.rgb.toolTip=获取 RGB 值形式的颜色
 Class.Color.value=value
 Class.Color.value.toolTip=获取名称（如果设置为名称）或 CSS RGB 字符串（如果设置为 RGB）形式的颜色
 Class.Color.cssValue=cssValue
-Class.Color.cssValue.toolTip=获取可在 CSS 中设置的形式的颜色：CSS 颜色名称或 RBG 值
+Class.Color.cssValue.toolTip=获取可在 CSS 中设置的形式的颜色：CSS 颜色名称或 RGB 值
 
 
 #12. Dimension

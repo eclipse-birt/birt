@@ -1187,7 +1187,7 @@ Class.Color.rgb.toolTip=Obtiene el color como valor RGB
 Class.Color.value=value
 Class.Color.value.toolTip=Obtiene el color como nombre (si se establece como un nombre) o como string CSS RGB (si se establece como RGB.)
 Class.Color.cssValue=cssValue
-Class.Color.cssValue.toolTip=Obtiene el color de forma que se pueda establecer en CSS: un nombre de color CSS o un valor RBG
+Class.Color.cssValue.toolTip=Obtiene el color de forma que se pueda establecer en CSS: un nombre de color CSS o un valor RGB
 
 
 #12. Dimension
