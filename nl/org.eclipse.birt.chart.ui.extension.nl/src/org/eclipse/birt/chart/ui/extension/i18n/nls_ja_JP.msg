@@ -897,7 +897,7 @@ AggregateEditorComposite.AggregateDisplayName.None=なし
 AggregateEditorComposite.AggregateParameterDefinition.Title=パラメタの定義の集計
 AggregateEditorComposite.Button.Cancel=キャンセル
 AggregateEditorComposite.Button.OK=OK
-AggregateEditorComposite.Tooltip.SetAggregateFunction=総計関数の設定
+AggregateEditorComposite.Tooltip.SetAggregateFunction=集計関数の設定
 
 LocalizedNumberEditorComposite.error.Title=数値の書式のエラー
 LocalizedNumberEditorComposite.error.Message=数値 "{0}" は無効です。

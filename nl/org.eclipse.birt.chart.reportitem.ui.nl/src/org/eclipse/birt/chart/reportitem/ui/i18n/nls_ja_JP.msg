@@ -43,7 +43,7 @@ GeneralPage.Library.Included=ライブラリ :
 ChartEventHandlerPage.dialog.Browse=参照(&B)...
 ReportDataServiceProvider.Option.None=<なし>
 ReportDataServiceProvider.Option.Inherits=<コンテナの {0}>
-ReportDataServiceProvider.Tooltip.Aggregate=総計 : 
+ReportDataServiceProvider.Tooltip.Aggregate=集計 : 
 ReportDataServiceProvider.Tooltip.GroupExpression=グループ式 : 
 ReportDataServiceProvider.Tooltip.OnGroup=グループ : 
 
