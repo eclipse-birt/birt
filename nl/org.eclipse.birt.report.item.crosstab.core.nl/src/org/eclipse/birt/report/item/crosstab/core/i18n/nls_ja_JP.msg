@@ -54,10 +54,10 @@ CrosstabReportItemQuery.error.query.building=ƒNƒGƒŠ\’z‚ÌƒNƒƒXƒ^ƒuƒ‚ƒfƒ‹‚ª–³Œø‚
 CrosstabReportItemQuery.error.register.empty.cell.value=‹ó‚ÌƒZƒ‹’l‚Ì“o˜^’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
 
 CrosstabQueryHelper.error.invalid.measure=ƒNƒƒXƒ^ƒu‚ÌŒv‘ª’è‹`‚ª NULL ‚É‚È‚Á‚Ä‚¢‚é‚©AŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒLƒ…[ƒu‚É“Á’è‚ÌŒv‘ª "{0}" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
-CrosstabQueryHelper.error.invalid.dimension.row=ƒNƒƒXƒ^ƒus‚Ì—Ìˆæ‚ÌŸŒ³’è‹`‚ª NULL ‚É‚È‚Á‚Ä‚¢‚é‚©AŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒLƒ…[ƒu‚É“Á’è‚ÌŸŒ³ "{0}" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
-CrosstabQueryHelper.error.invalid.level.row=ƒNƒƒXƒ^ƒus‚Ì—Ìˆæ‚ÌƒŒƒxƒ‹’è‹`‚ª NULL ‚É‚È‚Á‚Ä‚¢‚é‚©AŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒLƒ…[ƒu‚É“Á’è‚ÌƒŒƒxƒ‹ "{0}" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
-CrosstabQueryHelper.error.invalid.dimension.column=ƒNƒƒXƒ^ƒu—ñ‚Ì—Ìˆæ‚ÌŸŒ³’è‹`‚ª NULL ‚É‚È‚Á‚Ä‚¢‚é‚©AŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒLƒ…[ƒu‚É“Á’è‚ÌŸŒ³ "{0}" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
-CrosstabQueryHelper.error.invalid.level.column=ƒNƒƒXƒ^ƒu—ñ‚Ì—Ìˆæ‚ÌƒŒƒxƒ‹’è‹`‚ª NULL ‚É‚È‚Á‚Ä‚¢‚é‚©AŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒLƒ…[ƒu‚É“Á’è‚ÌƒŒƒxƒ‹ "{0}" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
+CrosstabQueryHelper.error.invalid.dimension.row=ƒNƒƒXƒ^ƒu‚Ìs—Ìˆæ‚ÌŸŒ³’è‹`‚ª NULL ‚É‚È‚Á‚Ä‚¢‚é‚©AŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒLƒ…[ƒu‚É“Á’è‚ÌŸŒ³ "{0}" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
+CrosstabQueryHelper.error.invalid.level.row=ƒNƒƒXƒ^ƒu‚Ìs—Ìˆæ‚ÌƒŒƒxƒ‹’è‹`‚ª NULL ‚É‚È‚Á‚Ä‚¢‚é‚©AŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒLƒ…[ƒu‚É“Á’è‚ÌƒŒƒxƒ‹ "{0}" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
+CrosstabQueryHelper.error.invalid.dimension.column=ƒNƒƒXƒ^ƒu‚Ì—ñ—Ìˆæ‚ÌŸŒ³’è‹`‚ª NULL ‚É‚È‚Á‚Ä‚¢‚é‚©AŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒLƒ…[ƒu‚É“Á’è‚ÌŸŒ³ "{0}" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
+CrosstabQueryHelper.error.invalid.level.column=ƒNƒƒXƒ^ƒu‚Ì—ñ—Ìˆæ‚ÌƒŒƒxƒ‹’è‹`‚ª NULL ‚É‚È‚Á‚Ä‚¢‚é‚©AŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒLƒ…[ƒu‚É“Á’è‚ÌƒŒƒxƒ‹ "{0}" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 
 BaseCrosstabExecutor.error.process.visibility=‰Â‹«‚Ìˆ—’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
 BaseCrosstabExecutor.error.process.bookmark=ƒuƒbƒNƒ}[ƒN‚Ìˆ—’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
