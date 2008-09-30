@@ -1172,7 +1172,7 @@ Element.ReportDesign.beforeRender.toolTip=プレゼンテーション時のアクションを開始
 Element.ReportDesign.beforeRender=レンダリング前 :
 Element.ReportDesign.displayName=表示名(&Y) : 
 Element.ReportDesign.eventHandlerClass=イベントハンドラのクラス(&C) : 
-Element.ReportDesign.iconFile=サムネール(&N) : 
+Element.ReportDesign.iconFile=サムネイル(&N) : 
 Element.ReportDesign.refreshRate=更新頻度 :
 Element.ReportDesign.bidiLayoutOrientation=レポートの向き(&O) :
 Element.ReportElement.comments=コメント(&C) :
@@ -2907,7 +2907,7 @@ PublishTemplateAction.wizard.message=Unable to publish the template to the direc
 PublishTemplateAction.wizard.notvalidfolder=設定に無効なテンプレートフォルダが定義されています。
 PublishTemplateAction.wizard.page.nameInfo=表示名を指定してください。
 PublishTemplateAction.wizard.message.SourceFileNotExist=ソースファイルが存在しません。
-PublishTemplateAction.wizard.message.ThumbnailImageNotExist=サムネールのイメージは存在しません。
+PublishTemplateAction.wizard.message.ThumbnailImageNotExist=サムネイルのイメージは存在しません。
 PublishTemplateAction.wizard.message.PreviewImageNotExist=プレビュー用のイメージファイルは存在しません。
 PublishTemplateAction.wizard.message.PreviewImageNotValid=プレビュー用のイメージファイルは、有効なイメージではありません。
 
@@ -3115,7 +3115,7 @@ ReportPage.text.Browse=参照(&B)...
 ReportPage.title.Location=場所 :
 ReportPage.title.setPrewImg=イメージファイルの選択
 ReportPage.text.Resource.Add=参照(&B)... 
-ReportPage.text.Thumbnail=サムネール(&H)...
+ReportPage.text.Thumbnail=サムネイル(&H)...
 
 ###########################################################
 #ReportPageGenerator properties
@@ -4109,7 +4109,7 @@ ChangeDataColumnAction.text=データ列の変更(&G)
 
 ###########################################################
 #ThumbnailBuilder properties
-ThumbnailBuilder.Text.Title=サムネールの管理
+ThumbnailBuilder.Text.Title=サムネイルの管理
 ThumbnailBuilder.Button.Text.Generate=生成(&G)
 ThumbnailBuilder.Button.Text.Remove=削除(&R)
 ThumbnailBuilder.Button.Text.Import=インポート(&I)...
@@ -4120,7 +4120,7 @@ ThumbnailBuilder.FileDialog.FileNameError.Message=選択したファイルは、イメージで
 ThumbnailBuilder.Button.GenerateFromReport=レポートから生成
 ThumbnailBuilder.Button.BrowseFromFileSystem=ファイルシステムの参照
 ThumbnailBuilder.Button.ImportFromResource=共有リソースからインポート
-ThumbnailBuilder.Image.DefaultName=サムネールのイメージ
+ThumbnailBuilder.Image.DefaultName=サムネイルのイメージ
 
 ###########################################################
 #FragmentResourceEntry properties
@@ -4248,7 +4248,7 @@ BindingDialogHelper.warning.button.no=いいえ
 Scripts.Node.DisplayName=スクリプト
 ScriptElementNode.Action.Text=レポート要素にジャンプ
 
-ReportPage.PreviewImage.Button.ToolTip=サムネールの管理
+ReportPage.PreviewImage.Button.ToolTip=サムネイルの管理
 
 ###########################################################
 #CrosstabBindingDialogHelper
