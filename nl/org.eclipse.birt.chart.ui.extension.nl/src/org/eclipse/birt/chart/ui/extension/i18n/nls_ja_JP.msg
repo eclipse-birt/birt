@@ -881,7 +881,7 @@ ImageDialog.label.SelectFile=ファイルの選択
 ImageDialog.label.Preview=プレビュー(&P)
 ImageDialog.label.SelectImage=イメージの選択
 
-TextEditorComposite.Tooltip.EnterDecimalOrFractionValue=小数または分数の値を入力してください。
+TextEditorComposite.Tooltip.EnterDecimalOrFractionValue=10進数または分数の値を入力してください。
 
 PlotClientAreaSheet.Label.HeightHint=高さのヒント (&N):
 PlotClientAreaSheet.Label.WidthHint=幅のヒント (&T):
