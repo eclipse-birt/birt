@@ -61,8 +61,8 @@ LevelViewDialog.Label.Info=クロスタブに表示するレベルの選択 :
 AggregationDialog.Title=合計
 AggregationDialog.Label.Grand=総計 :
 AggregationDialog.Label.Sub=小計 :
-AggregationDialog.TabItem.Title.RowArea=行の領域
-AggregationDialog.TabItem.Title.ColumnArea=列の領域
+AggregationDialog.TabItem.Title.RowArea=行領域
+AggregationDialog.TabItem.Title.ColumnArea=列領域
 ShowSummaryFieldDialog.Title=計測の表示/非表示
 ShowSummaryFieldDialog.Label.Info=クロスタブに表示する計測の選択 :
 ShowSummaryFieldDialog.Column.Measures=計測
@@ -75,11 +75,11 @@ DeleteBindingDialog.Message=この操作により、未使用のデータバインドが削除されます
 DeleteBindingDialog.ToggleMessage=今後、このメッセージを表示しない
 ###########################################################
 # Crosstab Outline Node
-AreaNodeProvider.ColumnArea=列の領域
-AreaNodeProvider.RowArea=行の領域
+AreaNodeProvider.ColumnArea=列領域
+AreaNodeProvider.RowArea=行領域
 AreaNodeProvider.DetailArea=詳細の領域
-CrossTabViewNodeProvider.ColumnArea=列の領域
-CrossTabViewNodeProvider.RowArea=行の領域
+CrossTabViewNodeProvider.ColumnArea=列領域
+CrossTabViewNodeProvider.RowArea=行領域
 CrossTabCellNodeProvider.Cell=セル
 CrossTabLevelNodeProvider.Level=レベル - 
 CrossTabMeasureNodeProvider.Detail=詳細 - 
@@ -112,8 +112,8 @@ CrosstabPageGenerator.List.AdvancedProperty=詳細設定
 CrosstabPageGenerator.List.EmptyRowColumn=空の行と列
 
 CrosstabPageGenerator.TabItem.Binding=バインド
-CrosstabPageGenerator.TabItem.RowArea=行の領域
-CrosstabPageGenerator.TabItem.ColumnArea=列の領域
+CrosstabPageGenerator.TabItem.RowArea=行領域
+CrosstabPageGenerator.TabItem.ColumnArea=列領域
 CrosstabPageGenerator.TabItem.DetailArea=詳細の領域
 CrosstabPageGenerator.TabItem.Filters=フィルタ
 CrosstabPageGenerator.TabItem.Highlights=ハイライト
