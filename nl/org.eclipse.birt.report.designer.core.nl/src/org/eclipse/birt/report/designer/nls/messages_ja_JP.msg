@@ -939,7 +939,7 @@ DesignerPaletteFactory.quicktool.agg.toolTip=集計項目の挿入
 ###########################################################
 #DimensionBuilderDialog properties
 
-DimensionBuilderDialog.LabelMeasure=計測 :
+DimensionBuilderDialog.LabelMeasure=メジャー :
 DimensionBuilderDialog.LabelUnit=単位 :
 DimensionBuilderDialog.Title=ディメンジョンビルダ
 
@@ -3124,7 +3124,7 @@ ReportPageGenerator.List.Comments=コメント
 ReportPageGenerator.List.Description=説明
 ReportPageGenerator.List.EventHandler=イベントハンドラ
 ReportPageGenerator.List.General=全般
-ReportPageGenerator.List.Measurement=計測
+ReportPageGenerator.List.Measurement=メジャー
 ReportPageGenerator.List.NamedExpressions=名前付き式
 ReportPageGenerator.List.UserProperties=ユーザのプロパティ
 ReportPageGenerator.List.Resources=リソース
