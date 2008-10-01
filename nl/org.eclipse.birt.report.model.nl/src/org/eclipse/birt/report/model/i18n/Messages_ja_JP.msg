@@ -438,7 +438,7 @@ Choices.exportType.always=‘Sƒy[ƒW
 
 #56. analysisType
 Choices.analysisType.auto=©“®
-Choices.analysisType.dimension=ŸŒ³
+Choices.analysisType.dimension=ƒƒWƒƒ[
 Choices.analysisType.measure=Œv‘ª
 Choices.analysisType.detail=Ú×
 Choices.analysisType.none=•ªÍ‚Ìí—Ş‚È‚µ
@@ -1193,13 +1193,13 @@ Class.Color.cssValue.toolTip=F‚ğ CSS ‚Åİ’è‰Â”\‚ÈŒ`® (CSS ƒJƒ‰[–¼‚Ü‚½‚Í RGB ’
 #12. Dimension
 
 Class.Dimension=Dimension ƒNƒ‰ƒX
-Class.Dimension.toolTip=ŸŒ³ƒvƒƒpƒeƒBƒIƒuƒWƒFƒNƒg‚É‚æ‚Á‚ÄACSS ŸŒ³ƒvƒƒpƒeƒB‚Ì‰ğÍ‚ªˆ—‚³‚ê‚Ü‚·
+Class.Dimension.toolTip=ƒfƒBƒƒ“ƒWƒ‡ƒ“ƒvƒƒpƒeƒBƒIƒuƒWƒFƒNƒg‚É‚æ‚Á‚ÄACSS ƒfƒBƒƒ“ƒWƒ‡ƒ“ƒvƒƒpƒeƒB‚Ì‰ğÍ‚ªˆ—‚³‚ê‚Ü‚·
 Class.Dimension.value=value
-Class.Dimension.value.toolTip=CSS ‚ÆŒİŠ·«‚Ì‚ ‚éŸŒ³‚Ì’l‚ğ•Ô‚µ‚Ü‚·
+Class.Dimension.value.toolTip=CSS ‚ÆŒİŠ·«‚Ì‚ ‚éƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ì’l‚ğ•Ô‚µ‚Ü‚·
 Class.Dimension.measure=measure
-Class.Dimension.measure.toolTip=ŸŒ³‚ÌŒv‘ª•”•ª‚ğæ“¾‚µ‚Ü‚·BŸŒ³‚ª’è”‚ğg—p‚µ‚Ä’è‹`‚³‚ê‚Ä‚¢‚éê‡‚ÍANull ‚ğ•Ô‚µ‚Ü‚·
+Class.Dimension.measure.toolTip=ƒfƒBƒƒ“ƒWƒ‡ƒ“‚ÌŒv‘ª•”•ª‚ğæ“¾‚µ‚Ü‚·BƒfƒBƒƒ“ƒWƒ‡ƒ“‚ª’è”‚ğg—p‚µ‚Ä’è‹`‚³‚ê‚Ä‚¢‚éê‡‚ÍANull ‚ğ•Ô‚µ‚Ü‚·
 Class.Dimension.units=units
-Class.Dimension.units.toolTip=ŸŒ³‚Ì’PˆÊ•”•ª‚ğæ“¾‚µ‚Ü‚·BŸŒ³‚ª’è”‚ğg—p‚µ‚Ä’è‹`‚³‚ê‚Ä‚¢‚éê‡‚ÍANull ‚ğ•Ô‚µ‚Ü‚·
+Class.Dimension.units.toolTip=ƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ì’PˆÊ•”•ª‚ğæ“¾‚µ‚Ü‚·BƒfƒBƒƒ“ƒWƒ‡ƒ“‚ª’è”‚ğg—p‚µ‚Ä’è‹`‚³‚ê‚Ä‚¢‚éê‡‚ÍANull ‚ğ•Ô‚µ‚Ü‚·
 
 #13. PropertyDefn
 
@@ -1402,7 +1402,7 @@ Class.ResultSetColumn.lineage.toolTip=—ñ’l‚ÌŒ³‚Ìƒ\[ƒX‚É–¼‘O‚ğ•t‚¯‚é©—RŒ`®‚Ì•¶
 Class.ResultSetColumn.axis=axis
 Class.ResultSetColumn.axis.toolTip=—ñ‚ª‘½ŸŒ³ƒf[ƒ^ƒ\[ƒX‚©‚çæ“¾‚³‚ê‚½ê‡‚É“K—p‚³‚ê‚Ü‚·
 Class.ResultSetColumn.axisType=axisType
-Class.ResultSetColumn.axisType.toolTip=‚»‚Ì’l‚ÍAŸŒ³‚Ìƒƒ“ƒoAŸŒ³‚Ì‘®«A‚Ü‚½‚ÍŒv‘ª‚Ì‚¢‚¸‚ê‚©‚Å‚·
+Class.ResultSetColumn.axisType.toolTip=‚»‚Ì’l‚ÍAƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ìƒƒ“ƒoAƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ì‘®«A‚Ü‚½‚ÍŒv‘ª‚Ì‚¢‚¸‚ê‚©‚Å‚·
 Class.ResultSetColumn.onColumnLayout=onColumnLayout
 Class.ResultSetColumn.onColumnLayout.toolTip=‚±‚Ì—ñ‚ğƒŒƒ|[ƒgo—Í‚É”z’u‚·‚é•û–@‚É‚Â‚¢‚Ä‚Ìƒqƒ“ƒg
 Class.ResultSetColumn.DIMENSION_MEMBER=DIMENSION_MEMBER
@@ -1815,7 +1815,7 @@ Structure.ParameterFormatValue=ƒpƒ‰ƒƒ^‚Ì‘®‚Ì’l
 Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=ƒXƒNƒŠƒvƒgƒ‰ƒCƒuƒ‰ƒŠ
 Structure.IncludedCssStyleSheet=ƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚Ä‚¢‚é CSS ƒXƒ^ƒCƒ‹ƒV[ƒg
-Structure.DimensionJoinCondition=ŸŒ³‚ÌƒWƒ‡ƒCƒ“ğŒ
+Structure.DimensionJoinCondition=ƒfƒBƒƒ“ƒWƒ‡ƒ“‚ÌƒWƒ‡ƒCƒ“ğŒ
 
 #0.MapRule
 Structure.MapRule.testExpr=ƒeƒXƒg®
@@ -2104,7 +2104,7 @@ Structure.TOC.text.transform=•¶š—ñ‚ÌˆÊ’u•ÏX
 Structure.TOC.text.direction=•¶š—ñ‚ÌŒü‚« 
 
 #29. DimensionCondition
-Structure.DimensionCondition=ŸŒ³ğŒ
+Structure.DimensionCondition=ƒfƒBƒƒ“ƒWƒ‡ƒ“ğŒ
 Structure.DimensionCondition.joinConditions=ƒWƒ‡ƒCƒ“‚ÌğŒ
 Structure.DimensionCondition.hierarchy=ŠK‘w
 
@@ -2195,25 +2195,25 @@ Element.TemplateReportItem=ƒeƒ“ƒvƒŒ[ƒg‚ÌƒŒƒ|[ƒg€–Ú
 Element.TemplateDataSet=ƒeƒ“ƒvƒŒ[ƒg‚Ìƒf[ƒ^ƒZƒbƒg
 Element.JointDataSet=ƒWƒ‡ƒCƒ“ƒgƒf[ƒ^ƒZƒbƒg
 Element.Cube=ƒLƒ…[ƒu
-Element.Dimension=ŸŒ³
+Element.Dimension=ƒfƒBƒƒ“ƒWƒ‡ƒ“
 Element.Hierarchy=ŠK‘w
 Element.Level=ƒŒƒxƒ‹
 Element.Measure=Œv‘ª
 Element.MeasureGroup=Œv‘ªƒOƒ‹[ƒv
 Element.TabularCube=ƒe[ƒuƒ‹Œ`®‚ÌƒLƒ…[ƒu
-Element.TabularDimension=ƒe[ƒuƒ‹Œ`®‚ÌŸŒ³
+Element.TabularDimension=ƒe[ƒuƒ‹Œ`®‚ÌƒfƒBƒƒ“ƒWƒ‡ƒ“
 Element.TabularHierarchy=ƒe[ƒuƒ‹Œ`®‚ÌŠK‘w
 Element.TabularLevel=ƒe[ƒuƒ‹Œ`®‚ÌƒŒƒxƒ‹
-Element.TabularMeasure=ƒe[ƒuƒ‹Œ`®‚ÌŒv‘ª
-Element.TabularMeasureGroup=ƒe[ƒuƒ‹Œ`®‚ÌŒv‘ªƒOƒ‹[ƒv
+Element.TabularMeasure=ƒe[ƒuƒ‹Œ`®‚ÌƒƒWƒƒ[
+Element.TabularMeasureGroup=ƒe[ƒuƒ‹Œ`®‚ÌƒƒWƒƒ[ƒOƒ‹[ƒv
 Element.AccessControl=ƒAƒNƒZƒXƒRƒ“ƒgƒ[ƒ‹
 Element.ValueAccessControl=’l‚Ö‚ÌƒAƒNƒZƒXƒRƒ“ƒgƒ[ƒ‹
 Element.OdaCube=ODA ƒLƒ…[ƒu
-Element.OdaDimension=ODA ŸŒ³
+Element.OdaDimension=ODA ƒfƒBƒƒ“ƒWƒ‡ƒ“
 Element.OdaHierarchy=ODA ŠK‘w
 Element.OdaLevel=ODA ƒŒƒxƒ‹
-Element.OdaMeasure=ODA Œv‘ª
-Element.OdaMeasureGroup=ODA Œv‘ªƒOƒ‹[ƒv
+Element.OdaMeasure=ODA ƒƒWƒƒ[
+Element.OdaMeasureGroup=ODA ƒƒWƒƒ[ƒOƒ‹[ƒv
 Element.MemberValue=ƒƒ“ƒo’l
 Element.SortElement=ƒ\[ƒg—v‘f
 Element.FilterConditionElement=ƒtƒBƒ‹ƒ^‚ÌğŒ—v‘f
@@ -3063,7 +3063,7 @@ Element.ValueAccessControl.values=’l
 Element.TabularCube.dataSet=ƒf[ƒ^ƒZƒbƒg
 Element.TabularCube.dimensions=ƒTƒCƒY
 Element.TabularCube.measureGroups=Œv‘ªƒOƒ‹[ƒv
-Element.TabularCube.dimensionConditions=ŸŒ³ğŒ
+Element.TabularCube.dimensionConditions=ƒfƒBƒƒ“ƒWƒ‡ƒ“ğŒ
 
 #53. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=ŠK‘w
@@ -3388,11 +3388,11 @@ New.TabularLevel=V‹Kƒe[ƒuƒ‹Œ`®‚ÌƒŒƒxƒ‹
 New.TabularMeasure=V‹Kƒe[ƒuƒ‹Œ`®‚ÌŒv‘ª
 New.TabularMeasureGroup=ƒTƒ}ƒŠƒtƒB[ƒ‹ƒh
 New.OdaCube=V‹KODAƒLƒ…[ƒu
-New.OdaDimension=V‹KODAŸŒ³
-New.OdaHierarchy=V‹KODAŸŒ³
+New.OdaDimension=V‹KODAƒfƒBƒƒ“ƒWƒ‡ƒ“
+New.OdaHierarchy=V‹KODAƒfƒBƒƒ“ƒWƒ‡ƒ“
 New.OdaLevel=V‹KODAƒŒƒxƒ‹
-New.OdaMeasure=V‹KODAŒv‘ª
-New.OdaMeasureGroup=V‹KODAŒv‘ªƒOƒ‹[ƒv
+New.OdaMeasure=V‹KODAƒƒWƒƒ[
+New.OdaMeasureGroup=V‹KODAƒƒWƒƒ[ƒOƒ‹[ƒv
 
 ###########################################################
 #Default theme name.
