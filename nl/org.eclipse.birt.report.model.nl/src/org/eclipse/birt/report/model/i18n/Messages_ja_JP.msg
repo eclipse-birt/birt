@@ -438,8 +438,8 @@ Choices.exportType.always=全ページ
 
 #56. analysisType
 Choices.analysisType.auto=自動
-Choices.analysisType.dimension=メジャー
-Choices.analysisType.measure=計測
+Choices.analysisType.dimension=ディメンジョン
+Choices.analysisType.measure=メジャー
 Choices.analysisType.detail=詳細
 Choices.analysisType.none=分析の種類なし
 
@@ -1197,7 +1197,7 @@ Class.Dimension.toolTip=ディメンジョンプロパティオブジェクトによって、CSS ディメ
 Class.Dimension.value=value
 Class.Dimension.value.toolTip=CSS と互換性のあるディメンジョンの値を返します
 Class.Dimension.measure=measure
-Class.Dimension.measure.toolTip=ディメンジョンの計測部分を取得します。ディメンジョンが定数を使用して定義されている場合は、Null を返します
+Class.Dimension.measure.toolTip=ディメンジョンのメジャー部分を取得します。ディメンジョンが定数を使用して定義されている場合は、Null を返します
 Class.Dimension.units=units
 Class.Dimension.units.toolTip=ディメンジョンの単位部分を取得します。ディメンジョンが定数を使用して定義されている場合は、Null を返します
 
@@ -1402,7 +1402,7 @@ Class.ResultSetColumn.lineage.toolTip=列値の元のソースに名前を付ける自由形式の文
 Class.ResultSetColumn.axis=axis
 Class.ResultSetColumn.axis.toolTip=列がマルチディメンジョンデータソースから取得された場合に適用されます
 Class.ResultSetColumn.axisType=axisType
-Class.ResultSetColumn.axisType.toolTip=その値は、ディメンジョンのメンバ、ディメンジョンの属性、または計測のいずれかです
+Class.ResultSetColumn.axisType.toolTip=その値は、ディメンジョンのメンバ、ディメンジョンの属性、またはメジャーのいずれかです
 Class.ResultSetColumn.onColumnLayout=onColumnLayout
 Class.ResultSetColumn.onColumnLayout.toolTip=この列をレポート出力に配置する方法についてのヒント
 Class.ResultSetColumn.DIMENSION_MEMBER=DIMENSION_MEMBER
@@ -2198,8 +2198,8 @@ Element.Cube=キューブ
 Element.Dimension=ディメンジョン
 Element.Hierarchy=階層
 Element.Level=レベル
-Element.Measure=計測
-Element.MeasureGroup=計測グループ
+Element.Measure=メジャー
+Element.MeasureGroup=メジャーグループ
 Element.TabularCube=テーブル形式のキューブ
 Element.TabularDimension=テーブル形式のディメンジョン
 Element.TabularHierarchy=テーブル形式の階層
@@ -3018,7 +3018,7 @@ Element.AutoText.onPageBreak.reportContext=レポートのコンテキスト
 
 #45. Cube ( prefix Element.Cube )
 Element.Cube.filter=フィルタ条件
-Element.Cube.defaultMeasureGroup=デフォルトの計測グループ
+Element.Cube.defaultMeasureGroup=デフォルトのメジャーグループ
 Element.Cube.accessControls=アクセスコントロール
 
 #46. Dimension ( prefix Element.Dimension )
@@ -3045,11 +3045,11 @@ Element.Level.defaultValue=デフォルト値
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=関数
 Element.Measure.isCalculated=Is Calculated
-Element.Measure.measureExpression=計測式
+Element.Measure.measureExpression=メジャー式
 Element.Measure.dataType=データ型
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
-Element.MeasureGroup.measures=計測
+Element.MeasureGroup.measures=メジャー
 
 #51. AccessControl ( prefix Element.AccessControl )
 Element.AccessControl.userNames=ユーザ名
@@ -3062,7 +3062,7 @@ Element.ValueAccessControl.values=値
 #52. TabularCube ( prefix Element.TabularCube )
 Element.TabularCube.dataSet=データセット
 Element.TabularCube.dimensions=サイズ
-Element.TabularCube.measureGroups=計測グループ
+Element.TabularCube.measureGroups=メジャーグループ
 Element.TabularCube.dimensionConditions=ディメンジョン条件
 
 #53. TabularDimension ( prefix Element.TabularDimension )
@@ -3080,7 +3080,7 @@ Element.TabularLevel.attributes=属性
 
 #56. OdaCube ( prefix Element.OdaCube )
 Element.OdaCube.dimensions=サイズ
-Element.OdaCube.measureGroups=計測グループ
+Element.OdaCube.measureGroups=メジャーグループ
 Element.OdaCube.nativeName=ネイティブの名前
 
 #57. OdaDimension ( prefix Element.OdaDimension )
@@ -3385,7 +3385,7 @@ New.TabularCube=データキューブ
 New.TabularDimension=グループ
 New.TabularHierarchy=新規テーブル形式の階層
 New.TabularLevel=新規テーブル形式のレベル
-New.TabularMeasure=新規テーブル形式の計測
+New.TabularMeasure=新規テーブル形式のメジャー
 New.TabularMeasureGroup=サマリフィールド
 New.OdaCube=新規ODAキューブ
 New.OdaDimension=新規ODAディメンジョン
