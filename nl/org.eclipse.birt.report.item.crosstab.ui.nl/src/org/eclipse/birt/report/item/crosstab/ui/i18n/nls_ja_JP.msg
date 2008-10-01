@@ -2,8 +2,8 @@
 # Crosstab Action mame and trans name
 AddLevelHandleAction_Displayname=グループレベルの表示/非表示
 AddLevelHandleAction_TransName=グループレベルの表示/非表示
-AddMesureViewHandleAction.DisplayName=計測の表示/非表示
-AddMesureViewHandleAction.TransName=計測の表示/非表示
+AddMesureViewHandleAction.DisplayName=メジャーの表示/非表示
+AddMesureViewHandleAction.TransName=メジャーの表示/非表示
 AddSubTotalAction.LabelName=総計
 AddSubTotalAction.TransName=合計の編集
 AddSubTotalAction.DisplayName=合計
@@ -12,16 +12,16 @@ CrosstabMenuBuilder.EditCubeAction.DisplayName=データキューブの編集
 DeleteDimensionViewHandleAction.TransName=ディメンジョンの削除
 DeleteDimensionViewHandleAction.DisplayName=削除
 DeleteMeasureHandleAction.DisplayName=削除
-DeleteMeasureHandleAction.TransName=計測の削除
+DeleteMeasureHandleAction.TransName=メジャーの削除
 
-AddComputedMesureHandleAction.DisplayName=派生計測の追加
-AddComputedMesureHandleAction.TransName=派生計測の追加
-AddComputedSummaryDialog.Title=派生計測
+AddComputedMesureHandleAction.DisplayName=派生メジャーの追加
+AddComputedMesureHandleAction.TransName=派生メジャーの追加
+AddComputedSummaryDialog.Title=派生メジャー
 AddComputedSummaryDialog.Label.Name=名前(&N) :
 AddComputedSummaryDialog.Label.Expression=式(&E) :
 AddComputedSummaryDialog.Label.DataType=データ型(&D) :
-AddComputedSummaryDialog.ErrMsg.Msg1=計測名は空白にできません。
-AddComputedSummaryDialog.ErrMsg.Msg2=この計測名はすでに使用されています。
+AddComputedSummaryDialog.ErrMsg.Msg1=メジャー名は空白にできません。
+AddComputedSummaryDialog.ErrMsg.Msg2=このメジャー名はすでに使用されています。
 AddComputedSummaryDialog.ErrMsg.Msg3=式は空白にできません。
 
 ShowAsViewAction.DisplayName=表示形式
@@ -32,11 +32,11 @@ MeasureComboPropertyDescriptorProvider.TransName=クロスタブの向きを変更する
 ###########################################################
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=ディメンジョンの追加
-AddMeasureViewHandleCommand.TransName=計測の追加
+AddMeasureViewHandleCommand.TransName=メジャーの追加
 ChangeAreaCommand.TransName=ディメンジョンの削除
-ChangeMeasureOrderCommand.TransName=計測順の変更
+ChangeMeasureOrderCommand.TransName=メジャー順の変更
 CreateDimensionViewCommand.TransName=ディメンジョンの作成
-CreateMeasureViewCommand.TransName=計測の作成
+CreateMeasureViewCommand.TransName=メジャーの作成
 ###########################################################
 # Crosstab EditPart
 ###########################################################
@@ -63,9 +63,9 @@ AggregationDialog.Label.Grand=総計 :
 AggregationDialog.Label.Sub=小計 :
 AggregationDialog.TabItem.Title.RowArea=行領域
 AggregationDialog.TabItem.Title.ColumnArea=列領域
-ShowSummaryFieldDialog.Title=計測の表示/非表示
-ShowSummaryFieldDialog.Label.Info=クロスタブに表示する計測の選択 :
-ShowSummaryFieldDialog.Column.Measures=計測
+ShowSummaryFieldDialog.Title=メジャーの表示/非表示
+ShowSummaryFieldDialog.Label.Info=クロスタブに表示するメジャーの選択 :
+ShowSummaryFieldDialog.Column.Measures=メジャー
 ShowSummaryFieldDialog.Column.View=ビュー
 ShowSummaryFieldDialog.ViewStatus=現在のビューの保存
 
@@ -122,7 +122,7 @@ CrosstabPageGenerator.TabItem.Sorting=ソート
 
 CrosstabGeneralPage.ForEmptyCell=空のセルに次を表示(&S) :
 LayoutMeasuresSection.DisplayName=向き :
-CrosstabGeneralPage.HideMeasureHeader=計測のヘッダを隠す
+CrosstabGeneralPage.HideMeasureHeader=メジャーのヘッダを隠す
 
 
 parameterBinding.title=データセットパラメタのバインド...
@@ -175,9 +175,9 @@ CrosstabFilterConditionBuilder.DialogMessage.Edit=フィルタを適用するグループレベ
 CrosstabFilterConditionBuilder.label.value=値
 CrosstabFilterConditionBuilder.Label.Target=ターゲット : 
 CrosstabFilterConditionBuilder.Button.GroupLevel=グループレベル
-CrosstabFilterConditionBuilder.Button.Measure=計測
+CrosstabFilterConditionBuilder.Button.Measure=メジャー
 
-FilterbyTree.Bindings.Catogory.Measures=計測
+FilterbyTree.Bindings.Catogory.Measures=メジャー
 FilterbyTree.Bindings.Catogory.Dimension=ディメンジョン
 FilterbyTree.Bindings.Catogory.GrandTotal=総計
 FilterbyTree.Bindings.Catogory.SubTotal=小計
@@ -247,7 +247,7 @@ CrosstabSortKeyBuilder.Label.SelRowMemberValue=行のメンバ値の選択
 CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=列のメンバ値の選択
 CrosstabFilterConditionBuilder.Label.SelRowMemberValue=行のメンバ値の選択
 CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel=グループレベル :
-CrosstabFilterConditionBuilder.DialogTitle.Label.Measure=計測 :
+CrosstabFilterConditionBuilder.DialogTitle.Label.Measure=メジャー :
 SelColumnMemberValue.Column.Level=レベル
 SelColumnMemberValue.Column.Value=値
 ChoiceSetFactory.choice.None=なし
