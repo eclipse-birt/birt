@@ -9,7 +9,7 @@ AddSubTotalAction.TransName=合計の編集
 AddSubTotalAction.DisplayName=合計
 AddSubTotalAction.TotalName=合計
 CrosstabMenuBuilder.EditCubeAction.DisplayName=データキューブの編集
-DeleteDimensionViewHandleAction.TransName=次元の削除
+DeleteDimensionViewHandleAction.TransName=ディメンジョンの削除
 DeleteDimensionViewHandleAction.DisplayName=削除
 DeleteMeasureHandleAction.DisplayName=削除
 DeleteMeasureHandleAction.TransName=計測の削除
@@ -31,11 +31,11 @@ MeasureComboPropertyDescriptorProvider.TransName=クロスタブの向きを変更する
 
 ###########################################################
 # Crosstab Command trans name
-AddDimensionViewHandleCommand.TransName=次元の追加
+AddDimensionViewHandleCommand.TransName=ディメンジョンの追加
 AddMeasureViewHandleCommand.TransName=計測の追加
-ChangeAreaCommand.TransName=次元の削除
+ChangeAreaCommand.TransName=ディメンジョンの削除
 ChangeMeasureOrderCommand.TransName=計測順の変更
-CreateDimensionViewCommand.TransName=次元の作成
+CreateDimensionViewCommand.TransName=ディメンジョンの作成
 CreateMeasureViewCommand.TransName=計測の作成
 ###########################################################
 # Crosstab EditPart
@@ -178,7 +178,7 @@ CrosstabFilterConditionBuilder.Button.GroupLevel=グループレベル
 CrosstabFilterConditionBuilder.Button.Measure=計測
 
 FilterbyTree.Bindings.Catogory.Measures=計測
-FilterbyTree.Bindings.Catogory.Dimension=次元
+FilterbyTree.Bindings.Catogory.Dimension=ディメンジョン
 FilterbyTree.Bindings.Catogory.GrandTotal=総計
 FilterbyTree.Bindings.Catogory.SubTotal=小計
 FilterbyTree.Bindings.Catogory.OtherType=その他の種類
@@ -312,4 +312,4 @@ InsertCubeInLayoutAction.action.message=キューブからクロスタブを作成
 MapRuleBuilderDialog.MsgDlg.Title=警告
 MapRuleBuilderDialog.MsgDlg.Msg=値は空にできません。
 
-LevelHandleDropAdapter.ActionText=次元の追加
+LevelHandleDropAdapter.ActionText=ディメンジョンの追加
