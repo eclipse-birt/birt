@@ -685,7 +685,7 @@ TaskSelectType.Label.SelectSubtype=サブタイプの選択
 TaskSelectType.Exception.CannotSupportAxes=ChartWithoutAxes では軸を使用できません。
 TaskSelectType.Exception.NotSupportedForMultipleAxes=\ は、複数軸には使用できません。\!
 TaskSelectType.Label.ChartTypes=グラフの種類
-TaskSelectType.Label.Dimension=次元(&D) :
+TaskSelectType.Label.Dimension=ディメンジョン(&D) :
 TaskSelectType.Label.ChartSubtypes=グラフのサブタイプ
 
 TaskSelectData.TaskExp=データの選択
@@ -852,7 +852,7 @@ BaseDataDefinitionComponent.Text.SpecifyDataDefinition=データ定義の指定
 BaseDataDefinitionComponent.Label.EditGroupSorting=グループとソートの編集
 BaseDataDefinitionComponent.Tooltip.InputValueExpression=値式の入力
 BaseDataDefinitionComponent.Text.EditFormat=書式の編集
-BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=1 つの次元の式を選択して、カテゴリ系列と Y 軸のオプション値を同時に設定することはできません。
+BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=1 つのディメンジョンの式を選択して、カテゴリ系列と Y 軸のオプション値を同時に設定することはできません。
 BaseGroupSortingDialog.Label.SortOn=ソート :
 
 MarkerIconDialog.Title.MarkerIconSelector=マーカのアイコンセレクタ
