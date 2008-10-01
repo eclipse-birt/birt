@@ -941,7 +941,7 @@ DesignerPaletteFactory.quicktool.agg.toolTip=集計項目の挿入
 
 DimensionBuilderDialog.LabelMeasure=計測 :
 DimensionBuilderDialog.LabelUnit=単位 :
-DimensionBuilderDialog.Title=次元ビルダ
+DimensionBuilderDialog.Title=ディメンジョンビルダ
 
 ###########################################################
 #DNDUtil properties
