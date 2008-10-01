@@ -43,13 +43,13 @@ SeriesQueries.NoDataDefinitionFor={0} には、データ定義エントリがありません。
 SeriesQueries.dataDefnUndefined={0} のデータ定義エントリが指定されていません。
 
 ChartElementCommandImpl.editChart=グラフの編集
-ChartElementCommandImpl.setProperty.chart.dimension=次元の設定
+ChartElementCommandImpl.setProperty.chart.dimension=ディメンジョンの設定
 ChartElementCommandImpl.setProperty.chart.instance=グラフのモデルを設定
 ChartElementCommandImpl.setProperty.plot.transposed=置き換え後の設定
 ChartElementCommandImpl.setProperty.script=グラフスクリプトの編集
 ChartElementCommandImpl.setProperty.onRender=グラフスクリプトの編集
 
-ChartImpl.error.DimensionUnitNotSupported=Chart Simple API では次元の単位 ({0}) を使用できません。
+ChartImpl.error.DimensionUnitNotSupported=Chart Simple API ではディメンジョンの単位 ({0}) を使用できません。
 
 ################################################
 # Display names for report model extension 
@@ -73,7 +73,7 @@ property.label.title.value=タイトル :
 property.label.title.font.rotation=タイトルの回転 :
 property.label.legend.position=凡例の位置 :
 property.label.legend.anchor=凡例のアンカー :
-property.label.chart.dimension=次元 :
+property.label.chart.dimension=ディメンジョン :
 property.label.chart.plot.transposed=置き換え後
 property.script=スクリプト
 property.onRender=onRender
