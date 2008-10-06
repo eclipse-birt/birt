@@ -20,11 +20,11 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
-import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
 import org.eclipse.birt.report.engine.api.EngineConfig;
-import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
@@ -88,24 +88,36 @@ public final class DataSetUIUtil
 	{
 		try
 		{
-			EngineConfig ec = new EngineConfig( );
-			ReportEngine engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( ec );
-			DummyEngineTask engineTask = new DummyEngineTask( engine,
-					new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) dataSetHandle.getModuleHandle( ) ),
-					dataSetHandle.getModuleHandle( ) );
+			if ( dataSetHandle.getModuleHandle( ) instanceof ReportDesignHandle )
+			{
+				EngineConfig ec = new EngineConfig( );
+				ReportEngine engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( ec );
+				DummyEngineTask engineTask = new DummyEngineTask( engine,
+						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) dataSetHandle.getModuleHandle( ) ),
+						dataSetHandle.getModuleHandle( ) );
 
-			DataRequestSession session = engineTask.getDataSession( );
+				DataRequestSession session = engineTask.getDataSession( );
 
-			Map appContext = new HashMap( );
-			appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,
-					new Integer( dataSetHandle.getRowFetchLimit( ) ) );
+				Map appContext = new HashMap( );
+				appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,
+						new Integer( dataSetHandle.getRowFetchLimit( ) ) );
 
-			engineTask.setAppContext( appContext );
-			engineTask.run( );
+				engineTask.setAppContext( appContext );
+				engineTask.run( );
 
-			session.refreshMetaData( dataSetHandle, holdEvent );
-			engineTask.close( );
-			engine.destroy( );
+				session.refreshMetaData( dataSetHandle, holdEvent );
+				engineTask.close( );
+				engine.destroy( );
+			}
+			else
+			{
+				DataSessionContext context = new DataSessionContext( DataEngineContext.DIRECT_PRESENTATION,
+						dataSetHandle.getRoot( ),
+						null );
+				DataRequestSession drSession = DataRequestSession.newSession( context );
+				drSession.refreshMetaData( dataSetHandle, holdEvent );
+				drSession.shutdown( );
+			}
 		}
 		catch ( BirtException ex )
 		{
