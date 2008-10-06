@@ -15,6 +15,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.eclipse.birt.report.model.util.SecurityUtil;
 import org.eclipse.birt.report.model.util.URIUtilImpl;
 
 /**
@@ -119,14 +120,18 @@ public class URIUtil
 			// ignore the error since this string is not in URL format
 		}
 		File file = new File( filePath );
-		if ( file.toURI( ).getScheme( ).equalsIgnoreCase( FILE_SCHEMA ) )
+		String scheme = SecurityUtil.getFiletoURISchemaPart( file );
+		if ( scheme == null )
+			return false;
+
+		if ( scheme.equalsIgnoreCase( FILE_SCHEMA ) )
 		{
 			return true;
 		}
 		return false;
 	}
 
-/**
+	/**
 	 * Converts a filename to a valid URL string. The filename can include
 	 * directory information, either relative or absolute directory.
 	 * 
@@ -226,7 +231,9 @@ public class URIUtil
 	 * The <code>base</code> value should be directory ONLY and does NOT contain
 	 * file name and the format can be:
 	 * <ul>
-	 * <li>./../hello/ <li>C:\\hello\..\ <li>/C:/../hello/
+	 * <li>./../hello/
+	 * <li>C:\\hello\..\
+	 * <li>/C:/../hello/
 	 * </ul>
 	 * The spearator in the return path is platform-indepedent "/". Please note
 	 * that the <code>/</code> in the end of directory will be striped in the
@@ -275,8 +282,8 @@ public class URIUtil
 
 		// get platform-depedent file path by using Java File class
 
-		baseDir = baseFile.getAbsolutePath( );
-		resourceDir = resourceFile.getAbsolutePath( );
+		baseDir = SecurityUtil.getFileAbsolutePath( baseFile );
+		resourceDir = SecurityUtil.getFileAbsolutePath( resourceFile );
 
 		return createRelativePathFromString( baseDir, resourceDir,
 				File.separator );
@@ -376,12 +383,15 @@ public class URIUtil
 
 	/**
 	 * Gets the absolute path for the given <code>base</code> and <code>
-	 * relativePath</code>.
+	 * relativePath</code>
+	 * .
 	 * <p>
 	 * The <code>base</code> value should be directory ONLY and does NOT contain
 	 * file name and the format can be:
 	 * <ul>
-	 * <li>./../hello/ <li>C:\\hello\..\ <li>/C:/../hello/
+	 * <li>./../hello/
+	 * <li>C:\\hello\..\
+	 * <li>/C:/../hello/
 	 * </ul>
 	 * The spearator in the return path is platform-depedent.
 	 * 
@@ -405,12 +415,15 @@ public class URIUtil
 
 	/**
 	 * Gets the absolute path for the given <code>base</code> and <code>
-	 * relativePath</code>.
+	 * relativePath</code>
+	 * .
 	 * <p>
 	 * The <code>base</code> value should be directory ONLY and does NOT contain
 	 * file name and the format can be:
 	 * <ul>
-	 * <li>./../hello/ <li>C:\\hello\..\ <li>/C:/../hello/
+	 * <li>./../hello/
+	 * <li>C:\\hello\..\
+	 * <li>/C:/../hello/
 	 * </ul>
 	 * The spearator in the return path is platform-depedent.
 	 * 
@@ -443,12 +456,15 @@ public class URIUtil
 
 	/**
 	 * Gets the absolute path for the given <code>base</code> and <code>
-	 * relativePath</code>.
+	 * relativePath</code>
+	 * .
 	 * <p>
 	 * The <code>base</code> value should be directory ONLY and does NOT contain
 	 * file name and the format can be:
 	 * <ul>
-	 * <li>./../hello/ <li>C:\\hello\..\ <li>/C:/../hello/
+	 * <li>./../hello/
+	 * <li>C:\\hello\..\
+	 * <li>/C:/../hello/
 	 * </ul>
 	 * The spearator in the return path is platform-depedent.
 	 * 
@@ -519,15 +535,14 @@ public class URIUtil
 	 * @throws MalformedURLException
 	 */
 
-	public static boolean isValidResourcePath( String resourceDir )
+	public static boolean isValidResourcePath( final String resourceDir )
 	{
 		if ( resourceDir == null )
 			return false;
+
 		File f = new File( resourceDir );
-
-		// TODO: support resource path with jar format.
-
-		if ( f.isAbsolute( ) && f.exists( ) && f.isDirectory( ) )
+		if ( f.isAbsolute( ) && SecurityUtil.isFile( f )
+				&& SecurityUtil.isDirectory( f ) )
 			return true;
 
 		return false;

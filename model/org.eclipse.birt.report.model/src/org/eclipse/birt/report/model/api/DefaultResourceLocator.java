@@ -17,10 +17,12 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.core.BundleHelper;
+import org.eclipse.birt.report.model.util.SecurityUtil;
 import org.eclipse.birt.report.model.util.URIUtilImpl;
 
 import com.ibm.icu.util.ULocale;
@@ -45,6 +47,12 @@ import com.ibm.icu.util.ULocale;
 
 public class DefaultResourceLocator implements IResourceLocator
 {
+
+	/**
+	 * the logger
+	 */
+	protected static Logger logger = Logger
+			.getLogger( DefaultResourceLocator.class.getName( ) );
 
 	/*
 	 * (non-Javadoc)
@@ -286,6 +294,7 @@ public class DefaultResourceLocator implements IResourceLocator
 
 	private URL tryDiskFileSearch( String fileDir, String filePath )
 	{
+
 		File f = null;
 
 		String tmpFilePath = URIUtilImpl.toUniversalFileFormat( filePath );
@@ -296,8 +305,9 @@ public class DefaultResourceLocator implements IResourceLocator
 
 		try
 		{
-			if ( f.exists( ) && f.isFile( ) )
-				return f.getCanonicalFile( ).toURI( ).toURL( );
+			if ( SecurityUtil.exists( f ) && SecurityUtil.isFile( f ) )
+				return SecurityUtil.fileToURI(
+						SecurityUtil.getCanonicalFile( f ) ).toURL( );
 		}
 		catch ( MalformedURLException e )
 		{
@@ -307,12 +317,8 @@ public class DefaultResourceLocator implements IResourceLocator
 		{
 			assert false;
 		}
-		catch ( IOException e )
-		{
-			// ignore the error
-		}
 
 		return null;
-	}
 
+	}
 }

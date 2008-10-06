@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.Stack;
 
+import org.eclipse.birt.report.model.util.SecurityUtil;
 import org.w3c.css.sac.CSSException;
 import org.w3c.css.sac.DocumentHandler;
 import org.w3c.css.sac.InputSource;
@@ -237,7 +238,7 @@ public class CssParser
 
 	public static void setProperty( String key, String val )
 	{
-		Properties props = System.getProperties( );
+		Properties props = SecurityUtil.getSystemProperties( );
 		props.put( key, val );
 		System.setProperties( props );
 	}
