@@ -61,7 +61,7 @@ public class ParameterHelper
 		this.fixedOrder = parameter.isFixedOrder( );
 		this.alreadySorted = parameter.getSortByColumn( ) != null;
 		String pattern = parameter.getPattern( );
-		this.converter = new ReportParameterConverter( pattern, ULocale
+		this.converter = new ReportParameterConverter( null, ULocale
 				.forLocale( locale ), timezone );
 		if ( !fixedOrder && !alreadySorted )
 		{
