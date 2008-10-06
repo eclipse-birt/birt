@@ -23,6 +23,7 @@ public class InlineBlockLayout extends ContainerLayout
 	{
 		super( context, parent, content );
 		isInBlockStacking = false;
+		isInline = true;
 	}
 
 	protected void createRoot( )

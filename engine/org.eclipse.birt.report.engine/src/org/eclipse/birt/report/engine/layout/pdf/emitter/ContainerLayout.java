@@ -35,6 +35,8 @@ public abstract class ContainerLayout extends Layout
 	protected int offsetY = 0;
 	
 	protected boolean isInBlockStacking = true;
+	
+	protected boolean isInline = false;
 
 	
 	public ContainerLayout( LayoutEngineContext context, ContainerLayout parent, IContent content )
@@ -155,30 +157,6 @@ public abstract class ContainerLayout extends Layout
 		return true;
 	}
 	
-	/*public boolean addAreaFromLast(AbstractArea area, int index)
-	{
-		int size = contextList.size();
-		ContainerContext cc = currentContext;
-		currentContext = contextList.get( size-index-1 );
-		boolean ret = addArea(area);
-		currentContext = cc;
-		return ret;
-	}*/
-	
-	public void flushFinishedPage()
-	{
-		int size = contextList.size();
-		closeLayout( size-1, false );
-		parent.flushFinishedPage( );
-	}
-	
-	public void flushPage( )
-	{
-		int size = contextList.size();
-		closeLayout( size, false );
-		parent.flushPage( );
-	}
-	
 	public void autoPageBreak( )
 	{
 		if ( parent != null )
@@ -250,45 +228,7 @@ public abstract class ContainerLayout extends Layout
 
 	protected abstract void createRoot( );
 	
-	protected void closeLayout( int size, boolean finished)
-	{
-		if(isInBlockStacking)
-		{
-			for ( int i = 0; i < size; i++ )
-			{
-				closeLayout( contextList.removeFirst( ), i, finished && i==(size-1) );
-			}
-		}
-		else
-		{
-			if ( parent != null )
-			{
-				int parentSize = parent.contextList.size( );
-				for ( int i = 0; i < size; i++ )
-				{
-					closeLayout( contextList.removeFirst( ), parentSize - size
-							+ i, finished && i == ( size - 1 ) );
-				}
-			}
-			else
-			{
-				for ( int i = 0; i < size; i++ )
-				{
-					closeLayout( contextList.removeFirst( ), i, finished && i==(size-1) );
-				}
-			}
-		}
-		if ( contextList.size( ) > 0 )
-		{
-			currentContext = contextList.getFirst( );
-		}
-	}
-	
-	
-	
-	
-	
-	
+
 	public void step(int step)
 	{
 		if ( currentContext != null )
@@ -340,24 +280,81 @@ public abstract class ContainerLayout extends Layout
 		}
 	}
 	
-	protected void closeLayout( )
+	protected void setCurrentContext( int index )
 	{
-		int size = contextList.size( );
-		if ( isInBlockStacking && size > 1 )
+		if ( index >= 0 && index < contextList.size( ) )
 		{
-			flushFinishedPage();
-		}
-		size = contextList.size( );
-		if(size>0)
-		{
-			closeLayout( size, true );
+			currentContext = contextList.get( index );
 		}
 	}
 	
-	protected void closeLayout(ContainerContext currentLayout, int index, boolean finished)
+	protected void closeExcludingLast()
 	{
-		
+		//Current layout should be in block stacking.
+		int size = contextList.size( );
+		closeFirstN( size - 1 );
 	}
+	
+	protected void closeFirstN(int size)
+	{
+		for ( int i = 0; i < size; i++ )
+		{
+			closeLayout( contextList.removeFirst( ), i, false );
+		}
+		setCurrentContext( 0 );
+		if ( parent != null )
+		{
+			parent.closeFirstN( size );
+		}
+	}
+	
+	protected void closeLayout( )
+	{
+		int size = contextList.size( );
+		if ( isInline )
+		{
+			for ( int i = 0; i < size; i++ )
+			{
+				closeLayout( contextList.removeFirst( ), i, i == size - 1 );
+			}
+			if ( parent != null )
+			{
+				parent.gotoFirstPage( );
+			}
+		}
+		else
+		{
+			if ( parent != null )
+			{
+				for ( int i = 0; i < size; i++ )
+				{
+					int parentSize = parent.contextList.size( );
+					closeLayout( contextList.removeFirst( ), parentSize - size
+							+ i, i == size - 1 );
+				}
+				if ( isInBlockStacking )
+				{
+					if ( size > 1 )
+					{
+						parent.closeExcludingLast( );
+					}
+				}
+				parent.gotoLastPage( );
+			}
+			else
+			{
+				// Current layout should be page layout
+				for ( int i = 0; i < size; i++ )
+				{
+					closeLayout( contextList.removeFirst( ), i, i == size - 1 );
+				}
+			}
+
+		}
+	}
+	
+	
+	protected  abstract void closeLayout(ContainerContext currentContext, int index, boolean finished);
 	
 	protected void align( ContainerArea container )
 	{

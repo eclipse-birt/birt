@@ -30,6 +30,7 @@ public class BlockStackingLayout extends ContainerLayout
 			IContent content )
 	{
 		super(context, parent, content );
+		isInline = false;
 	}
 	
 	protected void initialize( )
@@ -58,11 +59,6 @@ public class BlockStackingLayout extends ContainerLayout
 		currentContext.maxAvaHeight = currentContext.root.getContentHeight( );
 
 	}
-	
-	
-	
-	
-	
 	
 	protected void closeLayout(ContainerContext currentContext, int index, boolean finished )
 	{
@@ -123,7 +119,6 @@ public class BlockStackingLayout extends ContainerLayout
 			content.setExtension( IContent.LAYOUT_EXTENSION,
 					currentContext.root );
 		}
-
 	}
 
 	protected void createRoot( )

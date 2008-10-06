@@ -57,8 +57,7 @@ public class CellLayout extends BlockStackingLayout
 		{
 			isInBlockStacking = false;
 		}
-		
-
+		isInline = true;
 	}
 
 	
@@ -95,10 +94,8 @@ public class CellLayout extends BlockStackingLayout
 				+ getDimensionValue( currentContext.root.getStyle( ).getProperty(
 						StyleConstants.STYLE_PADDING_BOTTOM ) ) );
 		parent.addToRoot( currentContext.root, index );
-
 	}
 
-	@Override
 	protected void align( ContainerArea container )
 	{
 		// Do nothing, this is handled by Tablelayout.
@@ -116,11 +113,6 @@ public class CellLayout extends BlockStackingLayout
 		}
 	}
 	
-	protected void closeLayout( )
-	{
-		super.closeLayout( );
-		parent.gotoFirstPage();
-	}
 	
 
 }

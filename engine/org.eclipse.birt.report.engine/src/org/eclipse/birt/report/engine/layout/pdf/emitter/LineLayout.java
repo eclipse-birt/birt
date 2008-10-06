@@ -159,7 +159,7 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 	
 	protected void closeLayout()
 	{
-		closeLayout(true);
+		closeLayout( true );
 	}
 	
 	
@@ -184,7 +184,10 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 					parent.addToRoot(currentContext.root, parent.contextList.size()-1);
 					if(isInBlockStacking)
 					{
-						parent.flushFinishedPage();
+						if(parent.contextList.size( )>1)
+						{
+							parent.closeExcludingLast( );
+						}
 					}
 				}
 			}
@@ -199,9 +202,9 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 					parent.addToRoot( currentContext.root, i );
 				}
 			}
-			if(parent.isInBlockStacking)
+			if( parent.isInBlockStacking )
 			{
-				parent.flushFinishedPage();
+				parent.closeLayout( );
 			}
 		}
 	}

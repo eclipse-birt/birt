@@ -430,9 +430,12 @@ class ConcreteImageLayout extends Layout
 					parent.autoPageBreak();
 				}
 				parent.addToRoot(root, parent.contextList.size()-1);
-				if(parent.isInBlockStacking)
+				if( parent.isInBlockStacking )
 				{
-					parent.flushFinishedPage();
+					if( parent.contextList.size( )>1 )
+					{
+						parent.closeExcludingLast();
+					}
 				}
 			}
 		}
