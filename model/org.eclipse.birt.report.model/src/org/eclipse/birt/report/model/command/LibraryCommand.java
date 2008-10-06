@@ -432,9 +432,6 @@ public class LibraryCommand extends AbstractElementCommand
 	{
 		List<Library> libs = module.getLibrariesByLocation( location,
 				IAccessControl.ARBITARY_LEVEL );
-		if ( libs.isEmpty( ) )
-			throw new LibraryException( module, new String[]{location},
-					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND );
 
 		for ( int i = 0; i < libs.size( ); i++ )
 			reloadLibrary( libs.get( i ), null, reloadLibs );
