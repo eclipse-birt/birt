@@ -113,8 +113,6 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 {
 
 	protected static Logger logger = Logger.getLogger( FilterConditionBuilder.class.getName( ) );
-
-	public static final String CUBE_INFO = "The expression list needs data binding.";
 	
 	protected transient String[] popupItems = null;
 	
