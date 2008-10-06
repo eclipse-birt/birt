@@ -64,9 +64,9 @@ public final class ChartReportItemPresentationPlotImpl extends
 					// In IE, cell size doesn't include padding, but FF and PDF
 					// includes padding. To avoid this computation conflict, set
 					// 0 padding in design time.
-					bounds.setWidth( -dWidth
-							- ( dLeftBorder + dRightBorder )
-							/ 2 );
+					bounds.setWidth( -roundPointsWithPixels( dWidth
+							+ ( dLeftBorder + dRightBorder )
+							/ 2 ) );
 				}
 				else if ( xtabCell.getSpanOverOnRow( ) != null )
 				{
@@ -90,9 +90,9 @@ public final class ChartReportItemPresentationPlotImpl extends
 					// In IE, cell size doesn't include padding, but FF and PDF
 					// includes padding. To avoid this computation conflict, set
 					// 0 padding in design time.
-					bounds.setHeight( -dHeight
-							- ( dTopBorder + dBottomBorder )
-							/ 2 );
+					bounds.setHeight( -roundPointsWithPixels( dHeight
+							+ ( dTopBorder + dBottomBorder )
+							/ 2 ) );
 				}
 			}
 		}
@@ -110,6 +110,14 @@ public final class ChartReportItemPresentationPlotImpl extends
 	{
 		// Update runtime model to render plot only
 		ChartXTabUtil.updateModelToRenderPlot( cm, rtc.isRightToLeft( ) );
+	}
+
+	private double roundPointsWithPixels( double points )
+	{
+		// Bugzilla#247924: Since each cell size in x table is rendered with
+		// pixels rounding, chart should round base size with pixels first so
+		// that chart could align with each cell.
+		return ( (int) ( points / 72 * dpi ) ) * 72 / (double) dpi;
 	}
 
 }
