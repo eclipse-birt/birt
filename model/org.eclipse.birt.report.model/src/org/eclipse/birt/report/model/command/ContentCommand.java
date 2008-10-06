@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
@@ -910,12 +911,19 @@ public class ContentCommand extends AbstractContentCommand
 	protected void doDelectAction( DesignElement content )
 			throws SemanticException
 	{
+		// if element is table/list, we must localize the group before they are
+		// removed, so handle this special case
+		if ( content instanceof ListingElement )
+		{
+			if ( content.hasReferences( ) )
+				adjustReferenceClients( (IReferencableElement) content );
+		}
+
 		super.doDelectAction( content );
 
 		// Clean up references to or from the element.
-
 		dropUserProperties( content );
-		if ( content.hasReferences( ) )
+		if ( !( element instanceof ListingElement ) && content.hasReferences( ) )
 			adjustReferenceClients( (IReferencableElement) content );
 		adjustReferredClients( content );
 		adjustDerived( content );

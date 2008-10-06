@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 public class ReportItemDataRefTest extends BaseTestCase
 {
+	private static final String FILE_NAME = "DataGroupRef_1.xml"; //$NON-NLS-1$ 
 
 	/**
 	 * Tests the function for adding bound data columns.
@@ -207,7 +208,7 @@ public class ReportItemDataRefTest extends BaseTestCase
 
 	public void testPropsOfDataGroupRef( ) throws Exception
 	{
-		openDesign( "DataGroupRef_1.xml" ); //$NON-NLS-1$
+		openDesign( FILE_NAME );
 
 		TableHandle table2 = (TableHandle) designHandle
 				.findElement( "myTable2" ); //$NON-NLS-1$
@@ -266,7 +267,7 @@ public class ReportItemDataRefTest extends BaseTestCase
 
 	public void testAddandRemoveDataGroup( ) throws Exception
 	{
-		openDesign( "DataGroupRef_1.xml" ); //$NON-NLS-1$
+		openDesign( FILE_NAME );
 
 		TableHandle table1 = (TableHandle) designHandle
 				.findElement( "myTable1" ); //$NON-NLS-1$
@@ -300,7 +301,7 @@ public class ReportItemDataRefTest extends BaseTestCase
 
 	public void testCanMumbleForDataGroup( ) throws Exception
 	{
-		openDesign( "DataGroupRef_1.xml" ); //$NON-NLS-1$
+		openDesign( FILE_NAME );
 
 		TableHandle table2 = (TableHandle) designHandle
 				.findElement( "myTable2" ); //$NON-NLS-1$
@@ -411,5 +412,23 @@ public class ReportItemDataRefTest extends BaseTestCase
 
 		save( );
 		assertTrue( compareFile( "ParseInconsistentDataGroup_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests the properties and group structure when the referred table is
+	 * removed by calling dropAndClear.
+	 * 
+	 * @throws Exception
+	 */
+	public void testDropAndClear( ) throws Exception
+	{
+		openDesign( FILE_NAME );
+
+		TableHandle table1 = (TableHandle) designHandle
+				.findElement( "myTable1" ); //$NON-NLS-1$
+		table1.dropAndClear( );
+		
+		save( );
+		assertTrue( compareFile( "ReportItemDataRefTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 }

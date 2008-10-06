@@ -529,10 +529,21 @@ public class PropertyCommand extends AbstractPropertyCommand
 		{
 			try
 			{
-				// Localizes element properties or removes current group
-				// elements and adds new group elements when the data binding
-				// reference is set between two listing elements.
 
+				// if element is table/list, we must localize group structure in
+				// some special cases firstly
+				if ( element instanceof ListingElement )
+				{
+					GroupElementCommand tmpCmd = new GroupElementCommand(
+							module, new ContainerContext( element,
+									IListingElementModel.GROUP_SLOT ) );
+
+					tmpCmd.updateBindingRef( (ElementRefValue) oldValue,
+							(ElementRefValue) value );
+				}
+
+				// whether the element is table/list or not, we must localize
+				// the binding-ref related data properties
 				if ( value == null || !( (ElementRefValue) value ).isResolved( ) )
 				{
 					if ( oldValue != null
@@ -541,16 +552,6 @@ public class PropertyCommand extends AbstractPropertyCommand
 								.getElement( ) );
 				}
 
-				if ( value != null && ( (ElementRefValue) value ).isResolved( )
-						&& element instanceof ListingElement )
-				{
-					GroupElementCommand tmpCmd = new GroupElementCommand(
-							module, new ContainerContext( element,
-									IListingElementModel.GROUP_SLOT ) );
-
-					tmpCmd.setupSharedDataGroups( ( (ElementRefValue) value )
-							.getElement( ) );
-				}
 			}
 			catch ( SemanticException e )
 			{
@@ -569,7 +570,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 	 * @throws SemanticException
 	 */
 
-	protected void localizeProperties( DesignElement targetElement )
+	private void localizeProperties( DesignElement targetElement )
 			throws SemanticException
 	{
 		ReportItem reportItem = (ReportItem) element;
