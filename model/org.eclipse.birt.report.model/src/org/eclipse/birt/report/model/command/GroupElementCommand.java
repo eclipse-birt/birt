@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.command;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
@@ -27,12 +28,16 @@ import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListItem;
 import org.eclipse.birt.report.model.elements.ListingElement;
+import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.strategy.GroupPropSearchStrategy;
+import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
@@ -439,14 +444,15 @@ public class GroupElementCommand extends ContentCommand
 	 * @throws SemanticException
 	 */
 
-	protected void setupSharedDataGroups( DesignElement targetElement )
+	private void setupSharedDataGroups( DesignElement targetElement )
 			throws SemanticException
 	{
 		if ( !ModelUtil
 				.isCompatibleDataBindingElements( element, targetElement ) )
 			return;
 
-		List groupsToRemove = ( (ListingElement) element ).getGroups( );
+		List groupsToRemove = new ArrayList<DesignElement>( );
+		groupsToRemove.addAll( ( (ListingElement) element ).getGroups( ) );
 		for ( int i = 0; i < groupsToRemove.size( ); i++ )
 		{
 			GroupElementCommand tmpCmd = new GroupElementCommand( module,
@@ -478,5 +484,30 @@ public class GroupElementCommand extends ContentCommand
 
 		return tmpContext;
 
+	}
+
+	/**
+	 * Updates the data group slot when we changes the value of
+	 * <code>dataBindingRef</code>.
+	 * 
+	 * @param oldValue
+	 * @param value
+	 * @throws SemanticException
+	 */
+	protected void updateBindingRef( ElementRefValue oldValue,
+			ElementRefValue value ) throws SemanticException
+	{
+		if ( !( element instanceof ListingElement ) )
+			return;
+		if ( value != null && value.isResolved( ) )
+		{
+			setupSharedDataGroups( value.getElement( ) );
+		}
+		// for dropAndClear case, value is null and if old value is resolved, we
+		// should localize the groups too
+		else if ( value == null && oldValue.isResolved( ) )
+		{
+			setupSharedDataGroups( oldValue.getElement( ) );
+		}
 	}
 }

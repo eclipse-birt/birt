@@ -101,7 +101,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                 </structure>
             </list-property>
             <property name="pageBreakInterval">50</property>
-            <group id="32">
+            <group id="38">
                 <property name="groupName">group1</property>
                 <expression name="keyExpr">row["CUSTOMERNAME"]</expression>
                 <list-property name="sort">
@@ -117,11 +117,11 @@ from CLASSICMODELS.CUSTOMERS</property>
                     </structure>
                 </list-property>
             </group>
-            <group id="33">
+            <group id="39">
                 <property name="groupName">group2</property>
                 <expression name="keyExpr">row["CUSTOMERNAME"]</expression>
             </group>
-            <group id="34">
+            <group id="40">
                 <property name="groupName">group3</property>
                 <expression name="keyExpr">row["CUSTOMERNAME"]</expression>
             </group>
@@ -141,7 +141,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                 </structure>
             </list-property>
             <property name="pageBreakInterval">50</property>
-            <group id="35">
+            <group id="41">
                 <property name="groupName">group1</property>
                 <expression name="keyExpr">row["CUSTOMERNAME"]</expression>
                 <list-property name="sort">
@@ -157,11 +157,11 @@ from CLASSICMODELS.CUSTOMERS</property>
                     </structure>
                 </list-property>
             </group>
-            <group id="36">
+            <group id="42">
                 <property name="groupName">group2</property>
                 <expression name="keyExpr">row["CUSTOMERNAME"]</expression>
             </group>
-            <group id="37">
+            <group id="43">
                 <property name="groupName">group3</property>
                 <expression name="keyExpr">row["CUSTOMERNAME"]</expression>
             </group>
