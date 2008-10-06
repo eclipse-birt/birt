@@ -33,8 +33,6 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.command.LibraryReloadedEvent;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
@@ -260,16 +258,9 @@ public class ReloadLibraryTest extends BaseTestCase
 		String lib1FilePath = (String) filePaths.get( 2 );
 		openLibrary( lib1FilePath, false );
 
-		try
-		{
-			designHandle.reloadLibrary( libraryHandle );
-			fail( );
-		}
-		catch ( SemanticException e )
-		{
-			assertEquals( LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND,
-					e.getErrorCode( ) );
-		}
+		// When reload library, if the library is not found, exception should
+		// not be thrown. see bug 246664.
+		designHandle.reloadLibrary( libraryHandle );
 
 		String libFilePath = (String) filePaths.get( 1 );
 
@@ -295,15 +286,11 @@ public class ReloadLibraryTest extends BaseTestCase
 		fis.close( );
 		fos.close( );
 
-		try
-		{
-			designHandle.reloadLibrary( libraryHandle );
-			fail( );
-		}
-		catch ( LibraryException e )
-		{
-			save( );
-		}
+		// When reload library, if the library is not found, exception should
+		// not be thrown. see bug 246664.
+		designHandle.reloadLibrary( libraryHandle );
+
+		save( );
 
 		assertTrue( compareFile( "DesignToReloadLibrary_golden_1.xml" ) ); //$NON-NLS-1$
 	}
@@ -443,8 +430,10 @@ public class ReloadLibraryTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt.report.model.core.DesignElement,
-		 *      org.eclipse.birt.report.model.activity.NotificationEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
+		 * .report.model.core.DesignElement,
+		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
 
 		public void elementChanged( DesignElementHandle focus,
@@ -485,8 +474,8 @@ public class ReloadLibraryTest extends BaseTestCase
 	 * should be false.
 	 * 
 	 * <ul>
-	 * <li>reload error library and throw out exception</li>
-	 * <li>isDirty not changed</li>
+	 * <li>reload error library and throw out exception</li> <li>isDirty not
+	 * changed</li>
 	 * 
 	 * </ul>
 	 * 
