@@ -29,8 +29,21 @@ import org.eclipse.jface.action.IAction;
 public class GenerateDocumentAction extends AbstractViewAction
 {
 
+	protected boolean preGenerate( )
+	{
+		System.clearProperty( IPreviewConstants.MAX_DATASET_ROWS );
+		System.clearProperty( IPreviewConstants.MAX_CUBE_ROW_LEVELS );
+		System.clearProperty( IPreviewConstants.MAX_CUBE_COLUMN_LEVELS );
+		return true;
+	}
+
 	public void run( IAction action )
 	{
+		if ( !preGenerate( ) )
+		{
+			return;
+		}
+
 		IFile file = getSelectedFile( );
 		if ( file != null )
 		{
