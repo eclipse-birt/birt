@@ -1640,7 +1640,6 @@
     <PropertyVisibility name="refreshRate" visibility="hide"/>	    
 	<PropertyVisibility name="includeResource" visibility="hide"/>	
 	<PropertyVisibility name="thumbnail" visibility="hide"/>
-	<PropertyVisibility name="bidiLayoutOrientation" visibility="hide"/>
     <PropertyVisibility name="enableACL" visibility="hide"/>
     <PropertyVisibility name="cascadeACL" visibility="hide"/>
     <PropertyVisibility name="ACLExpression" visibility="hide"/> 	
