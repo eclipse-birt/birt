@@ -53,6 +53,11 @@ public class GenerateDocumentToolbarMenuAction implements
 
 	private void gendoc( IAction action )
 	{
+		// cleanup system settings
+		System.clearProperty( IPreviewConstants.MAX_DATASET_ROWS );
+		System.clearProperty( IPreviewConstants.MAX_CUBE_ROW_LEVELS );
+		System.clearProperty( IPreviewConstants.MAX_CUBE_COLUMN_LEVELS );
+
 		FormEditor editor = UIUtil.getActiveReportEditor( false );
 		ModuleHandle model = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );

@@ -22,8 +22,6 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Display;
 
 /**
  * The action to run a report in navigator view
@@ -34,6 +32,9 @@ public class RunReportAction extends AbstractViewAction
 	protected boolean prePreview( )
 	{
 		System.clearProperty( IPreviewConstants.SID );
+		System.clearProperty( IPreviewConstants.MAX_DATASET_ROWS );
+		System.clearProperty( IPreviewConstants.MAX_CUBE_ROW_LEVELS );
+		System.clearProperty( IPreviewConstants.MAX_CUBE_COLUMN_LEVELS );
 		return true;
 	}
 

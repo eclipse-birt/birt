@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
+import org.eclipse.birt.report.designer.ui.preview.IPreviewConstants;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.birt.report.viewer.browsers.BrowserManager;
@@ -351,9 +352,9 @@ public class ReportPreviewEditor extends EditorPart
 			progressBar.setVisible( false );
 			control.setBackground( Display.getDefault( )
 					.getSystemColor( SWT.COLOR_WHITE ) );
-			control.setLayout( new GridLayout() );
+			control.setLayout( new GridLayout( ) );
 			Label message = new Label( control, SWT.NONE );
-			message.setText( Messages.getString( "PreviewEditor.browser.notfound" ) );
+			message.setText( Messages.getString( "PreviewEditor.browser.notfound" ) ); //$NON-NLS-1$
 			message.setBackground( Display.getDefault( )
 					.getSystemColor( SWT.COLOR_WHITE ) );
 		}
@@ -500,7 +501,22 @@ public class ReportPreviewEditor extends EditorPart
 					.getPluginPreferences( )
 					.getString( WebViewer.APPCONTEXT_EXTENSION_KEY );
 			if ( extKey != null && extKey.length( ) > 0 )
+			{
 				this.options.put( WebViewer.APPCONTEXT_EXTENSION_KEY, extKey );
+			}
+
+			System.setProperty( IPreviewConstants.MAX_DATASET_ROWS,
+					ViewerPlugin.getDefault( )
+							.getPluginPreferences( )
+							.getString( WebViewer.PREVIEW_MAXROW ) );
+			System.setProperty( IPreviewConstants.MAX_CUBE_ROW_LEVELS,
+					ViewerPlugin.getDefault( )
+							.getPluginPreferences( )
+							.getString( WebViewer.PREVIEW_MAXCUBEROWLEVEL ) );
+			System.setProperty( IPreviewConstants.MAX_CUBE_COLUMN_LEVELS,
+					ViewerPlugin.getDefault( )
+							.getPluginPreferences( )
+							.getString( WebViewer.PREVIEW_MAXCUBECOLUMNLEVEL ) );
 
 			if ( browser != null && !browser.isDisposed( ) )
 			{
