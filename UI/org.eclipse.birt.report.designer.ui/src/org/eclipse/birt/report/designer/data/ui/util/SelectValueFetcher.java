@@ -32,6 +32,7 @@ import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.datatools.connectivity.oda.IBlob;
 
 /**
  * Utility class to fetch all available value for filter use.
@@ -70,6 +71,7 @@ public class SelectValueFetcher
 			columnName = ExpressionUtil.getColumnBindingName( expression );
 		}
 
+		Collection result = null;
 		if ( dataSetHandle.getModuleHandle( ) instanceof ReportDesignHandle )
 		{
 			EngineConfig config = new EngineConfig( );
@@ -92,7 +94,7 @@ public class SelectValueFetcher
 
 			List selectValueList = new ArrayList( );
 
-			Collection result = session.getColumnValueSet( dataSetHandle,
+			result = session.getColumnValueSet( dataSetHandle,
 					dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
 							.iterator( ),
 					null,
@@ -100,7 +102,6 @@ public class SelectValueFetcher
 
 			engineTask.close( );
 			engine.destroy( );
-			return new ArrayList( result );
 		}
 		else
 		{
@@ -111,15 +112,22 @@ public class SelectValueFetcher
 					dataSetHandle == null ? null
 							: dataSetHandle.getModuleHandle( ) ) );
 
-			Collection result = session.getColumnValueSet( dataSetHandle,
+			result = session.getColumnValueSet( dataSetHandle,
 					dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
 							.iterator( ),
 					null,
 					columnName );
-
-			return new ArrayList( result );
-
 		}
+		
+		assert result != null;
+		if ( result.isEmpty( ) )
+			return new ArrayList( );
+
+		Object resultProtoType = result.iterator( ).next( );
+		if ( resultProtoType instanceof IBlob
+				|| resultProtoType instanceof byte[] )
+			return new ArrayList( );
+		return new ArrayList( result );
 	}
 	
 	/**
