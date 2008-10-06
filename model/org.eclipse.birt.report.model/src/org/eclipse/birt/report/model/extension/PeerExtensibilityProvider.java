@@ -717,6 +717,9 @@ public abstract class PeerExtensibilityProvider
 				ElementPropertyDefn prop = (ElementPropertyDefn) props.get( i );
 				if ( prop.isExtended( ) )
 				{
+					if ( prop.isElementType( ) )
+						continue;
+					
 					Object value = source.getExtensionProperty( source.element
 							.getRoot( ), prop );
 					if ( value == null )
