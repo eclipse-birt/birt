@@ -27,6 +27,7 @@ import org.eclipse.birt.core.preference.IPreferences;
 import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.SelectionBorder;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceFilter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -384,6 +385,9 @@ public class ReportPlugin extends AbstractUIPlugin
 		}
 		Platform.getExtensionRegistry( )
 				.removeRegistryChangeListener( DNDService.getInstance( ) );
+
+		// clean up border width cache to free resource
+		BaseBorder.cleanWidthCache( );
 
 		super.stop( context );
 	}
@@ -1184,7 +1188,7 @@ public class ReportPlugin extends AbstractUIPlugin
 
 		PreferenceFactory.getInstance( )
 				.getPreferences( this )
-				.setDefault( ENABLE_ANIMATION_SELECTION_PREFERENCE, true );
+				.setDefault( ENABLE_ANIMATION_SELECTION_PREFERENCE, false );
 	}
 
 	public boolean getEnableGradientSelectionPreference( )

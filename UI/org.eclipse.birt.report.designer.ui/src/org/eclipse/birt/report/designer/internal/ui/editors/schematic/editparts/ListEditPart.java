@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.schematic.ListHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportFigureUtilities;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.SectionBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ListLayoutEditPolicy;
@@ -28,11 +29,13 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -61,21 +64,31 @@ public class ListEditPart extends ReportElementEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#createGuideHandle()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#createGuideHandle()
 	 */
 	protected AbstractGuideHandle createGuideHandle( )
 	{
 		TableGuideHandle handle = new TableGuideHandle( this );
 		handle.setIndicatorLabel( getGuideLabel( ) );
-		handle.setIndicatorIcon( ProviderFactory.createProvider( getModel( ) )
-				.getNodeIcon( getModel( ) ) );
+
+		INodeProvider provider = ProviderFactory.createProvider( getModel( ) );
+
+		handle.setIndicatorIcon( provider.getNodeIcon( getModel( ) ) );
+		handle.setToolTip( ReportFigureUtilities.createToolTipFigure( provider.getNodeTooltip( getModel( ) ),
+				DesignChoiceConstants.BIDI_DIRECTION_LTR,
+				DesignChoiceConstants.TEXT_ALIGN_LEFT ) );
+		
 		return handle;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#getGuideLabel()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#getGuideLabel()
 	 */
 	public String getGuideLabel( )
 	{
@@ -85,7 +98,9 @@ public class ListEditPart extends ReportElementEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#createEditPolicies()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#createEditPolicies()
 	 */
 	protected void createEditPolicies( )
 	{
@@ -99,7 +114,9 @@ public class ListEditPart extends ReportElementEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#refreshFigure()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#refreshFigure()
 	 */
 	public void refreshFigure( )
 	{
@@ -117,7 +134,9 @@ public class ListEditPart extends ReportElementEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#notifyModelChange()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#notifyModelChange()
 	 */
 	public void notifyModelChange( )
 	{
@@ -170,7 +189,9 @@ public class ListEditPart extends ReportElementEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#getModelChildren()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#getModelChildren()
 	 */
 	protected List getModelChildren( )
 	{
@@ -293,7 +314,9 @@ public class ListEditPart extends ReportElementEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#isinterest(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#isinterest(java.lang.Object)
 	 */
 	public boolean isinterest( Object model )
 	{
@@ -310,7 +333,9 @@ public class ListEditPart extends ReportElementEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#contentChange(java.util.Map)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#contentChange(java.util.Map)
 	 */
 	protected void contentChange( Map info )
 	{
@@ -339,7 +364,9 @@ public class ListEditPart extends ReportElementEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#getResizePolice(org.eclipse.gef.EditPolicy)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#getResizePolice(org.eclipse.gef.EditPolicy)
 	 */
 	public EditPolicy getResizePolice( EditPolicy parentPolice )
 	{

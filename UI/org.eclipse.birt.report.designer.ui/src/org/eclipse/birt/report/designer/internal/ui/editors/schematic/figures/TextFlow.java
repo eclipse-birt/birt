@@ -101,7 +101,7 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 	private static final Color TRANSPARENT_COLOR = ColorConstants.lightGray;
 
 	/**
-	 * bidi_hcg: <b>lineRoot</b> field in 
+	 * bidi_hcg: <b>lineRoot</b> field in
 	 * org.eclipse.draw2d.text.TextFragmentBox.
 	 */
 	static Field LINE_ROOT;
@@ -210,11 +210,18 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 		if ( fragments.size( ) > 0 )
 		{
 			int index = 0;
+
+			boolean isMirrored = isMirrored( );
+
 			do
 			{
-				index = paintLineTo( g, xoff, yoff, lineWidth, index ); // bidi_hcg
-			}
-			while ( index != -1 );
+				index = paintLineTo( g,
+						xoff,
+						yoff,
+						lineWidth,
+						index,
+						isMirrored ); // bidi_hcg
+			} while ( index != -1 );
 		}
 		g.restoreState( );
 	}
@@ -238,8 +245,8 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 		int totalHeight = 0;
 		for ( int i = 0; i < fragments.size( ); i++ )
 		{
-// FlowBoxWrapper wrapper = new FlowBoxWrapper( (FlowBox) fragments
-// .get( i ) );
+			// FlowBoxWrapper wrapper = new FlowBoxWrapper( (FlowBox) fragments
+			// .get( i ) );
 			totalHeight += ( (TextFragmentBox) fragments.get( i ) ).getAscent( )
 					+ ( (TextFragmentBox) fragments.get( i ) ).getDescent( );
 		}
@@ -298,8 +305,8 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 
 			if ( !isEnabled( ) )
 			{
-// g.setForegroundColor( ColorConstants.buttonLightest );
-// g.drawString( draw, realX + 1, realY + 1 );
+				// g.setForegroundColor( ColorConstants.buttonLightest );
+				// g.drawString( draw, realX + 1, realY + 1 );
 				g.setForegroundColor( ColorConstants.buttonDarker );
 				// g.drawString( draw, realX, realY );
 				paintSpecial_old( g, draw, realX, realY, i == 0 );
@@ -406,8 +413,8 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 	 * @return Next fragment index or -1 if there is no more fragments to
 	 *         process
 	 */
-	public int paintLineTo( Graphics g, int xoff, int yoff, int lineWidth,
-			int fragIndex )
+	private int paintLineTo( Graphics g, int xoff, int yoff, int lineWidth,
+			int fragIndex, boolean isMirrored )
 	{
 		List fragments = this.getFragments( );
 		if ( fragments == null )
@@ -424,9 +431,9 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 		TextFragmentBox frag = (TextFragmentBox) fragments.get( fragIndex );
 		int totalHeight = frag.getAscent( ) + frag.getDescent( );
 		int totalWidth = 0;
-		String[] draws = new String [nFragments - fragIndex];
+		String[] draws = new String[nFragments - fragIndex];
 		LineRoot lineRoot = null, prevLineRoot;
-		
+
 		try
 		{
 			lineRoot = prevLineRoot = (LineRoot) LINE_ROOT.get( frag );
@@ -439,7 +446,7 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 		{
 			ExceptionHandler.handle( e );
 		}
-		
+
 		int i = fragIndex;
 		// bidi_hcg end
 
@@ -482,7 +489,6 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 			// Here we need re-calculate the line width of fragments,
 			// since maybe the font style is changed
 			// See bugzilla item
-			
 			int linew = FigureUtilities.getTextWidth( draw, g.getFont( ) );
 			frag.setWidth( linew );
 
@@ -510,17 +516,20 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 				ExceptionHandler.handle( iace );
 			}
 			// bidi_hcg end
-		}
-		while ( fragIndex < nFragments && prevLineRoot == lineRoot );
+		} while ( fragIndex < nFragments && prevLineRoot == lineRoot );
 
 		// bidi_hcg start
 		int retIndex = i;
-		int spacing = calculateSpacing( this.getSize( ).width, totalWidth );
+		int spacing = calculateSpacing( this.getSize( ).width,
+				totalWidth,
+				isMirrored );
 		// bidi_hcg end
 
 		for ( i = fragIndex; i < retIndex; i++ )
 		{
 			frag = (TextFragmentBox) fragments.get( i );
+
+			int fragAscent = frag.getAscent( );
 
 			/**
 			 * Calculates the adjusted left coordinate according to the
@@ -529,21 +538,30 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 
 			int top = calculateTop( this.getSize( ).height, totalHeight );
 
-			int realX = frag.getX( ) + 
-				spacing // bidi_hcg
-				+ xoff;
-			int realY = frag.getBaseline( ) - frag.getAscent( ) + top + yoff;
+			int realX = frag.getX( ) + spacing // bidi_hcg
+					+ xoff;
+			int realY = frag.getBaseline( ) - fragAscent + top + yoff;
 
 			if ( !isEnabled( ) )
 			{
 				g.setForegroundColor( ColorConstants.buttonDarker );
-				paintSpecial( g, draws[i - fragIndex], realX, realY, i == 0,
-						frag.isRightToLeft( ) ); // bidi_hcg
+				paintSpecial( g,
+						draws[i - fragIndex],
+						realX,
+						realY,
+						i == 0,
+						frag.isRightToLeft( ),
+						isMirrored ); // bidi_hcg
 			}
 			else
 			{
-				paintSpecial( g, draws[i - fragIndex], realX, realY, i == 0,
-						frag.isRightToLeft( ) ); // bidi_hcg
+				paintSpecial( g,
+						draws[i - fragIndex],
+						realX,
+						realY,
+						i == 0,
+						frag.isRightToLeft( ),
+						isMirrored ); // bidi_hcg
 			}
 
 			/**
@@ -559,16 +577,12 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 				 */
 				if ( DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( textUnderline ) )
 				{
+					int fragDescent = frag.getDescent( );
+
 					g.drawLine( realX,
-							frag.getBaseline( )
-									+ top
-									+ frag.getDescent( )
-									- lineWidth,
+							frag.getBaseline( ) + top + fragDescent - lineWidth,
 							realX + frag.getWidth( ),
-							frag.getBaseline( )
-									+ top
-									+ frag.getDescent( )
-									- lineWidth );
+							frag.getBaseline( ) + top + fragDescent - lineWidth );
 				}
 
 				/**
@@ -579,13 +593,13 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 					g.drawLine( realX,
 							frag.getBaseline( )
 									+ top
-									- frag.getAscent( )
+									- fragAscent
 									/ 2
 									+ lineWidth,
 							realX + frag.getWidth( ),
 							frag.getBaseline( )
 									+ top
-									- frag.getAscent( )
+									- fragAscent
 									/ 2
 									+ lineWidth );
 				}
@@ -604,11 +618,11 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 		}
 		return retIndex;
 	}
-	
+
 	private void paintSpecial( Graphics g, String text, int x, int y,
-			boolean firstBox, boolean rtl )
+			boolean firstBox, boolean rtl, boolean isMirrored )
 	{
-		//ReportColorConstants.textFillColor
+		// ReportColorConstants.textFillColor
 		// bidi_hcg start
 		Image image = null;
 		GC gc = null;
@@ -618,10 +632,9 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 		// When run is RTL or this figure is mirrored, paint to an offscreen
 		// image with the appropriate orientation, and then copy the image to
 		// the main painting graphics.
-		if ( rtl || this.isMirrored( ) )
+		if ( rtl || isMirrored )
 		{
-			TextLayout textLayout = BidiUIUtils.INSTANCE.getTextLayout(
-					SWT.LEFT_TO_RIGHT );
+			TextLayout textLayout = BidiUIUtils.INSTANCE.getTextLayout( SWT.LEFT_TO_RIGHT );
 			textLayout.setFont( g.getFont( ) );
 
 			if ( firstBox
@@ -632,19 +645,21 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 				textLayout.setText( text );
 
 			textLayout.setStyle( new TextStyle( g.getFont( ),
-					g.getForegroundColor( ), TRANSPARENT_COLOR ), 0, text
-					.length( ) );
-			
-			PaletteData paletteData = new PaletteData( new RGB[] {
-					TRANSPARENT_COLOR.getRGB(), g.getForegroundColor( )
-					.getRGB( ) } );
+					g.getForegroundColor( ),
+					TRANSPARENT_COLOR ), 0, text.length( ) );
+
+			PaletteData paletteData = new PaletteData( new RGB[]{
+					TRANSPARENT_COLOR.getRGB( ),
+					g.getForegroundColor( ).getRGB( )
+			} );
 			ImageData imageData = new ImageData(
-					// RTL graphics has a 1-pixel-origin-shift problem, so add
-					// 1 extra pixel to the image width.
-					textLayout.getBounds( ).width + 1,
-					textLayout.getBounds( ).height, 4, paletteData );
-			imageData.transparentPixel = paletteData.getPixel( TRANSPARENT_COLOR
-					.getRGB( ) );
+			// RTL graphics has a 1-pixel-origin-shift problem, so add
+			// 1 extra pixel to the image width.
+			textLayout.getBounds( ).width + 1,
+					textLayout.getBounds( ).height,
+					4,
+					paletteData );
+			imageData.transparentPixel = paletteData.getPixel( TRANSPARENT_COLOR.getRGB( ) );
 			image = new Image( Display.getCurrent( ), imageData );
 
 			gc = new GC( image, rtl ? SWT.RIGHT_TO_LEFT : SWT.LEFT_TO_RIGHT );
@@ -663,16 +678,15 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 			g.drawString( specialPREFIX, x, y );
 
 			g.setForegroundColor( c );
-			
+
 			// bidi_hcg start
 			if ( image != null )
 				g.drawImage( image, x + with, y );
 			else
-			// bidi_hcg end
+				// bidi_hcg end
 
-				g.drawString( text.substring( specialPREFIX.length( ) ),
-						x + with,
-						y );
+				g.drawString( text.substring( specialPREFIX.length( ) ), x
+						+ with, y );
 		}
 		else
 		{
@@ -680,9 +694,9 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 			if ( image != null )
 				g.drawImage( image, x, y );
 			else
-			// bidi_hcg end
+				// bidi_hcg end
 
-			g.drawString( text, x, y );
+				g.drawString( text, x, y );
 		}
 		// bidi_hcg start
 		if ( gc != null )
@@ -695,7 +709,8 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.draw2d.text.TextFlow#paintFigure(org.eclipse.draw2d.Graphics)
+	 * @see
+	 * org.eclipse.draw2d.text.TextFlow#paintFigure(org.eclipse.draw2d.Graphics)
 	 */
 	protected void paintFigure( Graphics g )
 	{
@@ -745,12 +760,14 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 	 * 
 	 * @author bidi_hcg
 	 */
-	protected int calculateSpacing( int compWidth, int textWidth )
+	private int calculateSpacing( int compWidth, int textWidth,
+			boolean isMirrored )
 	{
 		int rlt = 0;
 
 		String align = BidiAlignmentResolver.resolveAlignmentForDesigner( textAlign,
-				getDirection( ), isMirrored( ) );
+				resolveDirection( direction, isMirrored ),
+				isMirrored );
 
 		if ( DesignChoiceConstants.TEXT_ALIGN_LEFT.equals( align ) )
 		{
@@ -882,7 +899,7 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 	 * 
 	 * @param direction
 	 *            The direction to set.
-	 *
+	 * 
 	 * @author bidi_hcg
 	 */
 	public void setDirection( String direction )
@@ -918,8 +935,7 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 	 */
 	private boolean isRtl( )
 	{
-		return DesignChoiceConstants.BIDI_DIRECTION_RTL.equals(
-				getDirection( ) );
+		return DesignChoiceConstants.BIDI_DIRECTION_RTL.equals( getDirection( ) );
 	}
 
 	/**
@@ -934,19 +950,33 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 		if ( direction == null )
 		{
 			return isMirrored( ) ? DesignChoiceConstants.BIDI_DIRECTION_RTL
-					: DesignChoiceConstants.BIDI_DIRECTION_LTR; 
+					: DesignChoiceConstants.BIDI_DIRECTION_LTR;
 		}
 		return direction;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.draw2d.text.TextFlow#contributeBidi(org.eclipse.draw2d.text.BidiProcessor)
+	private String resolveDirection( String direction, boolean isMirrored )
+	{
+		if ( direction == null )
+		{
+			return isMirrored ? DesignChoiceConstants.BIDI_DIRECTION_RTL
+					: DesignChoiceConstants.BIDI_DIRECTION_LTR;
+		}
+		return direction;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.draw2d.text.TextFlow#contributeBidi(org.eclipse.draw2d.text
+	 * .BidiProcessor)
+	 * 
 	 * @bidi_hcg
 	 */
 	protected void contributeBidi( BidiProcessor proc )
 	{
-		proc.setOrientation( isRtl( ) ? SWT.RIGHT_TO_LEFT
-				: SWT.LEFT_TO_RIGHT );
+		proc.setOrientation( isRtl( ) ? SWT.RIGHT_TO_LEFT : SWT.LEFT_TO_RIGHT );
 		super.contributeBidi( proc );
 	}
 

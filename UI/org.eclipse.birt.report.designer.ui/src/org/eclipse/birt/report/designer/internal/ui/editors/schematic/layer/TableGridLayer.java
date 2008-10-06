@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.layer;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -88,8 +87,8 @@ public class TableGridLayer extends GridLayer
 	protected void paintGrid( Graphics g )
 	{
 
-		Collections.sort( getRows( ), new NumberComparator( ) );
-		Collections.sort( getColumns( ), new NumberComparator( ) );
+		// Collections.sort( getRows( ), new NumberComparator( ) );
+		// Collections.sort( getColumns( ), new NumberComparator( ) );
 
 		if ( !getColumns( ).isEmpty( ) )
 		{
@@ -111,29 +110,29 @@ public class TableGridLayer extends GridLayer
 		int height = 0;
 		for ( int i = 0; i < size; i++ )
 		{
+			int rowHeight = getRowHeight( rows.get( i ) );
+
 			// if ( height < clip.y + clip.height )
 			{
 				// g.fillRectangle( clip.x, height, clip.x + clip.width, height
 				// );
-				drawBackgroud( rows.get( i ), g, new Rectangle( clip.x,
-						height,
-						clip.x + clip.width,
-						getRowHeight( rows.get( i ) ) ) );
+				drawBackgroud( rows.get( i ), g, clip.x, height, clip.x
+						+ clip.width, rowHeight );
 
 				drawBackgroudImage( (DesignElementHandle) rows.get( i ),
 						g,
-						new Rectangle( clip.x,
-								height,
-								clip.x + clip.width,
-								getRowHeight( rows.get( i ) ) ) );
+						clip.x,
+						height,
+						clip.x + clip.width,
+						rowHeight );
 			}
-			height = height + getRowHeight( rows.get( i ) );
+			height = height + rowHeight;
 		}
 
 	}
 
 	private void drawBackgroudImage( DesignElementHandle handle, Graphics g,
-			Rectangle rectangle )
+			int x, int y, int width, int height )
 	{
 		String backGroundImage = getBackgroundImage( handle );
 
@@ -154,6 +153,8 @@ public class TableGridLayer extends GridLayer
 
 			if ( image != null )
 			{
+				Rectangle rectangle = new Rectangle( x, y, width, height );
+
 				Object[] backGroundPosition = getBackgroundPosition( handle );
 				int backGroundRepeat = getBackgroundRepeat( handle );
 
@@ -199,26 +200,26 @@ public class TableGridLayer extends GridLayer
 					alignment |= DesignElementHandleAdapter.getPosition( (String) yPosition );
 				}
 
-				int x, y;
+				int tx, ty;
 				Dimension size = new Rectangle( image.getBounds( ) ).getSize( );
 
 				// Calculates X
 				if ( position != null && position.x != -1 )
 				{
-					x = area.x + position.x;
+					tx = area.x + position.x;
 				}
 				else
 				{
 					switch ( alignment & PositionConstants.EAST_WEST )
 					{
 						case PositionConstants.EAST :
-							x = area.x + area.width - size.width;
+							tx = area.x + area.width - size.width;
 							break;
 						case PositionConstants.WEST :
-							x = area.x;
+							tx = area.x;
 							break;
 						default :
-							x = ( area.width - size.width ) / 2 + area.x;
+							tx = ( area.width - size.width ) / 2 + area.x;
 							break;
 					}
 				}
@@ -226,26 +227,26 @@ public class TableGridLayer extends GridLayer
 				// Calculates Y
 				if ( position != null && position.y != -1 )
 				{
-					y = area.y + position.y;
+					ty = area.y + position.y;
 				}
 				else
 				{
 					switch ( alignment & PositionConstants.NORTH_SOUTH )
 					{
 						case PositionConstants.NORTH :
-							y = area.y;
+							ty = area.y;
 							break;
 						case PositionConstants.SOUTH :
-							y = area.y + area.height - size.height;
+							ty = area.y + area.height - size.height;
 							break;
 						default :
-							y = ( area.height - size.height ) / 2 + area.y;
+							ty = ( area.height - size.height ) / 2 + area.y;
 							break;
 					}
 				}
 
-				ArrayList xyList = createImageList( x,
-						y,
+				ArrayList xyList = createImageList( tx,
+						ty,
 						size,
 						repeat,
 						rectangle );
@@ -408,23 +409,27 @@ public class TableGridLayer extends GridLayer
 		int width = 0;
 		for ( int i = 0; i < size; i++ )
 		{
+			int columnWidth = getColumnWidth( i + 1, columns.get( i ) );
 
 			// if ( width < clip.x + clip.width )
 			{
 				// g.fillRectangle( width, clip.y, width, clip.y + clip.height
 				// );
-				drawBackgroud( columns.get( i ), g, new Rectangle( width,
+				drawBackgroud( columns.get( i ),
+						g,
+						width,
 						clip.y,
-						getColumnWidth( columns.get( i ) ),
-						clip.y + clip.height ) );
+						columnWidth,
+						clip.y + clip.height );
+
 				drawBackgroudImage( (DesignElementHandle) columns.get( i ),
 						g,
-						new Rectangle( width,
-								clip.y,
-								getColumnWidth( columns.get( i ) ),
-								clip.y + clip.height ) );
+						width,
+						clip.y,
+						columnWidth,
+						clip.y + clip.height );
 			}
-			width = width + getColumnWidth( columns.get( i ) );
+			width = width + columnWidth;
 		}
 
 	}
@@ -434,9 +439,9 @@ public class TableGridLayer extends GridLayer
 		return TableUtil.caleVisualHeight( source, row );
 	}
 
-	private int getColumnWidth( Object column )
+	private int getColumnWidth( int columnIndex, Object column )
 	{
-		return TableUtil.caleVisualWidth( source, column );
+		return TableUtil.caleVisualWidth( source, columnIndex, column );
 	}
 
 	private int getTableWidth( )
@@ -453,14 +458,18 @@ public class TableGridLayer extends GridLayer
 	/*
 	 * Refresh Background: Color, Image, Repeat, PositionX, PositionY.
 	 */
-	public void drawBackgroud( Object model, Graphics g, Rectangle rect )
+	private void drawBackgroud( Object model, Graphics g, int x, int y,
+			int width, int height )
 	{
 		assert model instanceof DesignElementHandle;
+
 		DesignElementHandle handle = (DesignElementHandle) model;
 		Object obj = handle.getProperty( StyleHandle.BACKGROUND_COLOR_PROP );
 
 		if ( obj != null )
 		{
+			Rectangle rect = new Rectangle( x, y, width, height );
+
 			int color = 0xFFFFFF;
 			// if ( obj instanceof String )
 			// {

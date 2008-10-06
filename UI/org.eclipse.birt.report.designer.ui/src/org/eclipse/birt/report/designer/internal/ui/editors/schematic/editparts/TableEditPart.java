@@ -27,6 +27,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportFigureUtilities;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.SectionBorder;
@@ -43,6 +44,7 @@ import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
@@ -54,6 +56,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayeredPane;
 import org.eclipse.draw2d.IFigure;
@@ -107,14 +110,22 @@ public class TableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#createGuideHandle()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#createGuideHandle()
 	 */
 	protected AbstractGuideHandle createGuideHandle( )
 	{
 		TableGuideHandle handle = new TableGuideHandle( this );
 		handle.setIndicatorLabel( getGuideLabel( ) );
-		handle.setIndicatorIcon( ProviderFactory.createProvider( getModel( ) )
-				.getNodeIcon( getModel( ) ) );
+
+		INodeProvider provider = ProviderFactory.createProvider( getModel( ) );
+
+		handle.setIndicatorIcon( provider.getNodeIcon( getModel( ) ) );
+		handle.setToolTip( ReportFigureUtilities.createToolTipFigure( provider.getNodeTooltip( getModel( ) ),
+				DesignChoiceConstants.BIDI_DIRECTION_LTR,
+				DesignChoiceConstants.TEXT_ALIGN_LEFT ) );
+
 		return handle;
 	}
 
@@ -227,7 +238,9 @@ public class TableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractReportEditPart#refreshFigure()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .AbstractReportEditPart#refreshFigure()
 	 */
 	public void refreshFigure( )
 	{
@@ -251,15 +264,18 @@ public class TableEditPart extends AbstractTableEditPart implements
 		}
 		layoutManagerLayout( );
 	}
-	
+
 	protected void checkHelper( )
 	{
-		if (HandleAdapterFactory.getInstance( ).getTableHandleAdapter( getModel( ), this ).getModelAdaptHelper( ) == null)
+		if ( HandleAdapterFactory.getInstance( )
+				.getTableHandleAdapter( getModel( ), this )
+				.getModelAdaptHelper( ) == null )
 		{
 			peer = creatDesignElementHandleAdapter( );
 		}
 		getTableAdapter( ).reload( );
 	}
+
 	/**
 	 * Gets the top, left, right, bottom of edit part.
 	 * 
@@ -346,11 +362,11 @@ public class TableEditPart extends AbstractTableEditPart implements
 	}
 
 	/**
-	 * Creates a {@link GridLayer grid}. Sub-classes can override this method
-	 * to customize the appearance of the grid. The grid layer should be the
-	 * first layer (i.e., beneath the primary layer) if it is not to cover up
-	 * parts on the primary layer. In that case, the primary layer should be
-	 * transparent so that the grid is visible.
+	 * Creates a {@link GridLayer grid}. Sub-classes can override this method to
+	 * customize the appearance of the grid. The grid layer should be the first
+	 * layer (i.e., beneath the primary layer) if it is not to cover up parts on
+	 * the primary layer. In that case, the primary layer should be transparent
+	 * so that the grid is visible.
 	 * 
 	 * @return the newly created GridLayer
 	 */
@@ -385,7 +401,7 @@ public class TableEditPart extends AbstractTableEditPart implements
 
 		try
 		{
-			getTableAdapter( ).transStar( RESIZE_COLUMN_TRANS_LABEL ); //$NON-NLS-1$
+			getTableAdapter( ).transStar( RESIZE_COLUMN_TRANS_LABEL );
 			startAdapt.setWidth( startWidth + value );
 			// endAdapt.setWidth( endWidth - value );
 			getTableAdapter( ).transEnd( );
@@ -1041,7 +1057,8 @@ public class TableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.core.model.IModelAdaptHelper#getPreferredSize()
+	 * @seeorg.eclipse.birt.report.designer.core.model.IModelAdaptHelper#
+	 * getPreferredSize()
 	 */
 	public Dimension getPreferredSize( )
 	{
@@ -1069,7 +1086,8 @@ public class TableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.core.facade.ITableAdaptHelper#caleVisualWidth(int)
+	 * @seeorg.eclipse.birt.report.designer.core.facade.ITableAdaptHelper#
+	 * caleVisualWidth(int)
 	 */
 	public int caleVisualWidth( int columnNumber )
 	{
@@ -1080,7 +1098,8 @@ public class TableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.core.facade.ITableAdaptHelper#caleVisualHeight(int)
+	 * @seeorg.eclipse.birt.report.designer.core.facade.ITableAdaptHelper#
+	 * caleVisualHeight(int)
 	 */
 	public int caleVisualHeight( int rowNumber )
 	{
@@ -1210,7 +1229,8 @@ public class TableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.core.model.ITableAdaptHelper#getClientAreaSize()
+	 * @seeorg.eclipse.birt.report.designer.core.model.ITableAdaptHelper#
+	 * getClientAreaSize()
 	 */
 	public Dimension getClientAreaSize( )
 	{
@@ -1220,7 +1240,9 @@ public class TableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#showTargetFeedback(org.eclipse.gef.Request)
+	 * @see
+	 * org.eclipse.gef.editparts.AbstractEditPart#showTargetFeedback(org.eclipse
+	 * .gef.Request)
 	 */
 	public void showTargetFeedback( Request request )
 	{
@@ -1246,7 +1268,9 @@ public class TableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#eraseTargetFeedback(org.eclipse.gef.Request)
+	 * @see
+	 * org.eclipse.gef.editparts.AbstractEditPart#eraseTargetFeedback(org.eclipse
+	 * .gef.Request)
 	 */
 	public void eraseTargetFeedback( Request request )
 	{
@@ -1260,8 +1284,9 @@ public class TableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#addChildVisual(org.eclipse.gef.EditPart,
-	 *      int)
+	 * @see
+	 * org.eclipse.gef.editparts.AbstractGraphicalEditPart#addChildVisual(org
+	 * .eclipse.gef.EditPart, int)
 	 */
 	protected void addChildVisual( EditPart part, int index )
 	{
@@ -1290,7 +1315,9 @@ public class TableEditPart extends AbstractTableEditPart implements
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart#createEditPolicies()
+		 * @see
+		 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+		 * .DummyEditpart#createEditPolicies()
 		 */
 		protected void createEditPolicies( )
 		{
@@ -1340,7 +1367,9 @@ public class TableEditPart extends AbstractTableEditPart implements
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart#createEditPolicies()
+		 * @see
+		 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+		 * .DummyEditpart#createEditPolicies()
 		 */
 		protected void createEditPolicies( )
 		{
@@ -1371,7 +1400,9 @@ public class TableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#notifyModelChange()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#notifyModelChange()
 	 */
 	public void notifyModelChange( )
 	{
@@ -1382,7 +1413,9 @@ public class TableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#isinterest(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#isinterest(java.lang.Object)
 	 */
 	public boolean isinterest( Object model )
 	{
@@ -1401,7 +1434,9 @@ public class TableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getColumnWidth(int)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 * #getColumnWidth(int)
 	 */
 	public ITableLayoutOwner.DimensionInfomation getColumnWidth( int number )
 	{
@@ -1418,7 +1453,9 @@ public class TableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getRowHeight(int)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 * #getRowHeight(int)
 	 */
 	public ITableLayoutOwner.DimensionInfomation getRowHeight( int number )
 	{
@@ -1435,7 +1472,9 @@ public class TableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getDefinedWidth()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 * #getDefinedWidth()
 	 */
 	public String getDefinedWidth( )
 	{
@@ -1447,7 +1486,9 @@ public class TableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getRawWidth(int)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 * #getRawWidth(int)
 	 */
 	public String getRawWidth( int columNumber )
 	{
@@ -1460,7 +1501,9 @@ public class TableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getColumnWidthValue(int)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 * #getColumnWidthValue(int)
 	 */
 	public int getColumnWidthValue( int number )
 	{
@@ -1473,7 +1516,9 @@ public class TableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getRowHeightValue(int)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 * #getRowHeightValue(int)
 	 */
 	public int getRowHeightValue( int number )
 	{
@@ -1486,7 +1531,9 @@ public class TableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#getResizePolice(org.eclipse.gef.EditPolicy)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#getResizePolice(org.eclipse.gef.EditPolicy)
 	 */
 	public EditPolicy getResizePolice( EditPolicy parentPolice )
 	{

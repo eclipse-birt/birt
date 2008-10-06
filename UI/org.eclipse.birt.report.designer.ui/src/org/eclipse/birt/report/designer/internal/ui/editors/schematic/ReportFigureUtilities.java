@@ -11,8 +11,12 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
 import org.eclipse.birt.report.designer.util.ColorManager;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.Polygon;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
@@ -21,7 +25,7 @@ import org.eclipse.swt.graphics.Color;
 
 /**
  * Figure related utilities.
- *  
+ * 
  */
 public class ReportFigureUtilities
 {
@@ -119,6 +123,7 @@ public class ReportFigureUtilities
 
 	/**
 	 * Paints double arrow on list element
+	 * 
 	 * @param graphics
 	 * @param height
 	 * @param center
@@ -149,6 +154,7 @@ public class ReportFigureUtilities
 
 	/**
 	 * Paints expand handle
+	 * 
 	 * @param graphics
 	 * @param height
 	 * @param center
@@ -163,7 +169,9 @@ public class ReportFigureUtilities
 				height );
 
 		graphics.drawLine( center.x - height / 2 + 2, center.y, center.x
-				+ height / 2 - 2, center.y );
+				+ height
+				/ 2
+				- 2, center.y );
 
 		if ( collapsed )
 		{
@@ -184,6 +192,7 @@ public class ReportFigureUtilities
 
 	/**
 	 * Paints bevel
+	 * 
 	 * @param graphics
 	 * @param area
 	 * @param rised
@@ -197,7 +206,8 @@ public class ReportFigureUtilities
 
 		graphics.setForegroundColor( BEVEL_COLOR[rised ? 1 : 3] );
 		graphics.drawLine( area.x + 1, area.y + 1, area.x + 1, area.y
-				+ area.height - 3 );
+				+ area.height
+				- 3 );
 		graphics.drawLine( area.x + 1,
 				area.y + 1,
 				area.x + area.width - 3,
@@ -205,19 +215,24 @@ public class ReportFigureUtilities
 
 		graphics.setForegroundColor( BEVEL_COLOR[rised ? 2 : 0] );
 		graphics.drawLine( area.x, area.y + area.height - 1, area.x
-				+ area.width - 1, area.y + area.height - 1 );
+				+ area.width
+				- 1, area.y + area.height - 1 );
 		graphics.drawLine( area.x + area.width - 1, area.y, area.x
-				+ area.width - 1, area.y + area.height - 1 );
+				+ area.width
+				- 1, area.y + area.height - 1 );
 
 		graphics.setForegroundColor( BEVEL_COLOR[rised ? 3 : 1] );
 		graphics.drawLine( area.x + 1, area.y + area.height - 2, area.x
-				+ area.width - 2, area.y + area.height - 2 );
+				+ area.width
+				- 2, area.y + area.height - 2 );
 		graphics.drawLine( area.x + area.width - 2, area.y + 1, area.x
-				+ area.width - 2, area.y + area.height - 2 );
+				+ area.width
+				- 2, area.y + area.height - 2 );
 	}
 
 	/**
 	 * Paints shadow
+	 * 
 	 * @param graphics
 	 * @param area
 	 * @param drawTopLeft
@@ -264,7 +279,8 @@ public class ReportFigureUtilities
 					{
 						graphics.setForegroundColor( SHADOW_COLOR[i * 4 + 4 + j] );
 						graphics.drawPoint( xlpos + 8 * inc - i * inc, ypos
-								+ j * inc );
+								+ j
+								* inc );
 					}
 				}
 			}
@@ -291,7 +307,10 @@ public class ReportFigureUtilities
 					{
 						graphics.setForegroundColor( SHADOW_COLOR[i * 4 + 4 + j] );
 						graphics.drawPoint( xpos + i * inc, ylpos
-								+ 8 * inc - j * inc );
+								+ 8
+								* inc
+								- j
+								* inc );
 					}
 				}
 			}
@@ -302,10 +321,39 @@ public class ReportFigureUtilities
 				{
 					graphics.setForegroundColor( SHADOW_COLOR[i] );
 					graphics.drawLine( xpos + inc * i, area.y + 4 + yoff, xpos
-							+ inc * i, area.y + area.height + yoff - 4 );
+							+ inc
+							* i, area.y + area.height + yoff - 4 );
 				}
 			}
 		}
 	}
 
+	public static Figure createToolTipFigure( String toolTipText,
+			String direction, String textAlign )
+	{
+		if ( toolTipText == null )
+		{
+			return null;
+		}
+
+		LabelFigure tooltip = new LabelFigure( );
+
+		// bidi_hcg start
+		if ( DesignChoiceConstants.BIDI_DIRECTION_RTL.equals( direction ) )
+		{
+			tooltip.setDirection( direction );
+		}
+		else if ( DesignChoiceConstants.BIDI_DIRECTION_LTR.equals( direction ) )
+		{
+			tooltip.setDirection( direction );
+		}
+
+		tooltip.setTextAlign( textAlign );
+		// bidi_hcg end
+
+		tooltip.setText( toolTipText );
+		tooltip.setBorder( new MarginBorder( 0, 2, 0, 2 ) );
+
+		return tooltip;
+	}
 }

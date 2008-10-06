@@ -47,9 +47,9 @@ import org.eclipse.birt.report.model.api.CssSharedStyleHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementDetailHandle;
+import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
-import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -167,8 +167,8 @@ public class DefaultNodeProvider implements INodeProvider
 			menu.add( copyAction );
 
 		if ( !( object instanceof ResultSetColumnHandle )
-		&& !(object instanceof CssStyleSheetHandle)
-		&& !(object instanceof CssSharedStyleHandle))
+				&& !( object instanceof CssStyleSheetHandle )
+				&& !( object instanceof CssSharedStyleHandle ) )
 		{
 			menu.add( new PasteAction( object ) );
 		}
@@ -270,7 +270,7 @@ public class DefaultNodeProvider implements INodeProvider
 					|| handle.getContainer( ) instanceof CellHandle
 					|| handle.getContainer( ) instanceof ParameterGroupHandle
 					|| ( handle instanceof RowHandle && handle.getContainer( ) instanceof GridHandle )
-					|| ( ( handle instanceof DataItemHandle || handle instanceof LabelHandle ) && handle.getContainer( ) instanceof ExtendedItemHandle ) )
+					|| ( handle.getContainer( ) instanceof ExtendedItemHandle ) )
 			{
 				return handle.getContainer( );
 			}
@@ -325,6 +325,27 @@ public class DefaultNodeProvider implements INodeProvider
 	 */
 	public String getNodeTooltip( Object model )
 	{
+		if ( model instanceof DesignElementHandle )
+		{
+			List errors = ( (DesignElementHandle) model ).getSemanticErrors( );
+
+			if ( errors != null && errors.size( ) > 0 )
+			{
+				StringBuffer sb = new StringBuffer( );
+
+				for ( int i = 0; i < errors.size( ); i++ )
+				{
+					if ( i > 0 )
+					{
+						sb.append( "\r\n" ); //$NON-NLS-1$
+					}
+
+					sb.append( ( (ErrorDetail) errors.get( i ) ).getMessage( ) );
+				}
+
+				return sb.toString( );
+			}
+		}
 		return null;
 	}
 
@@ -363,7 +384,9 @@ public class DefaultNodeProvider implements INodeProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getCommand(org.eclipse.gef.Request)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getCommand
+	 * (org.eclipse.gef.Request)
 	 */
 	public boolean performRequest( Object model, Request request )
 			throws Exception
@@ -382,14 +405,15 @@ public class DefaultNodeProvider implements INodeProvider
 		}
 		if ( request.getType( ).equals( IRequestConstants.REQUEST_TYPE_EDIT ) )
 		{
-			if(model instanceof ReportElementHandle)
+			if ( model instanceof ReportElementHandle )
 			{
 				return performEdit( (ReportElementHandle) model );
-			}else if(model instanceof ElementDetailHandle)
+			}
+			else if ( model instanceof ElementDetailHandle )
 			{
 				return performEdit( (ElementDetailHandle) model );
 			}
-			
+
 		}
 		if ( request.getType( ).equals( IRequestConstants.REQUEST_TYPE_DELETE ) )
 		{
@@ -688,7 +712,7 @@ public class DefaultNodeProvider implements INodeProvider
 	{
 		return false;
 	}
-	
+
 	protected boolean performEdit( ElementDetailHandle handle )
 	{
 		return false;
@@ -697,7 +721,9 @@ public class DefaultNodeProvider implements INodeProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#hasChildren(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#hasChildren
+	 * (java.lang.Object)
 	 */
 	public boolean hasChildren( Object object )
 	{
