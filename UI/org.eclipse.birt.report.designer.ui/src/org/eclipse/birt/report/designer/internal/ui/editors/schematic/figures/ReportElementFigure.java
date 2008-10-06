@@ -142,7 +142,7 @@ public class ReportElementFigure extends Figure implements IReportElementFigure
 		}
 
 		int x, y;
-		Rectangle area = getClientArea( );
+		Rectangle area = getBounds( );
 
 		graphics.getClip( PRIVATE_RECT );
 		//graphics.setClip( area );
