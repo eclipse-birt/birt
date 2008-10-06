@@ -133,7 +133,7 @@ public class RootNode extends ChildrenAllowedNode
 						String schemaName = rs.getString( "TABLE_SCHEM" );
 						String tableName = rs.getString( "TABLE_NAME" );
 						String type = rs.getString( "TABLE_TYPE" );//$NON-NLS-1$
-						TableNode table = new TableNode( null,
+						TableNode table = new TableNode( schemaName,
 								tableName,
 								"VIEW".equalsIgnoreCase( type ) );
 						TablesAndProcedures tap = schemas.get( schemaName );
