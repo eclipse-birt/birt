@@ -27,8 +27,8 @@ public class ListLayout extends RepeatableLayout
 			IContent content )
 	{
 		super( context, parent, content );
-		boolean isBlock = !PropertyUtil.isInlineElement(content);
-		isInBlockStacking &= isBlock;
+		isInline = PropertyUtil.isInlineElement(content);
+		isInBlockStacking &= !isInline;
 	}
 	
 	protected void repeatHeader( )
@@ -66,14 +66,14 @@ public class ListLayout extends RepeatableLayout
 		super.initialize();
 	}
 	
-	protected void closeLayout( )
+	/*protected void closeLayout( )
 	{
 		super.closeLayout();
 		if(PropertyUtil.isInlineElement(content)&&parent!=null)
 		{
 			parent.gotoFirstPage();
 		}
-	}
+	}*/
 	
 	protected void checkInlineBlock()
 	{

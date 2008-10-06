@@ -170,14 +170,12 @@ public class TableLayout extends RepeatableLayout
 		
 	}
 	
-	protected void closeLayout( )
+	protected void setCurrentContext( int index )
 	{
-		super.closeLayout( );
-		if ( PropertyUtil.isInlineElement( tableContent ) && parent != null )
-		{
-			parent.gotoFirstPage( );
-		}
+		super.setCurrentContext( index );
+		tableContext = (TableContext) currentContext;
 	}
+	
 
 	protected void closeLayout( ContainerContext currentContext, int index, boolean finished )
 	{
@@ -679,31 +677,56 @@ public class TableLayout extends RepeatableLayout
 		}
 	}
 
-
 	/**
 	 * update row height
 	 * 
 	 * @param row
 	 */
-	public void updateRow( RowArea row, int specifiedHeight, int index )
+	public void updateRow( RowArea row, int specifiedHeight, int index, int size )
 	{
 		
-		
-		tableContext = (TableContext)contextList.get(index);
-		
-		if ( tableContext.layout != null )
+		if ( isInBlockStacking )
 		{
-			tableContext.layout.updateRow( row, specifiedHeight );
+			tableContext = (TableContext) contextList.get( index );
+			if ( tableContext.layout != null )
+			{
+				tableContext.layout.updateRow( row, specifiedHeight );
+			}
+		}
+		else
+		{
+			int tableSize = contextList.size( );
+			tableContext = (TableContext) contextList.get( tableSize - size
+					+ index );
+			if ( tableContext.layout != null )
+			{
+				tableContext.layout.updateRow( row, specifiedHeight );
+			}
 		}
 	}
+	
 
-	public void addRow( RowArea row, int index )
+	public void addRow( RowArea row, int index, int size )
 	{
-		tableContext = (TableContext)contextList.get(index);
-		if ( tableContext.layout != null )
+		if ( isInBlockStacking )
 		{
-			tableContext.layout.addRow( row );
+			tableContext = (TableContext) contextList.get( index );
+			if ( tableContext.layout != null )
+			{
+				tableContext.layout.addRow( row );
+			}
 		}
+		else
+		{
+			int tableSize = contextList.size( );
+			tableContext = (TableContext) contextList.get( tableSize - size
+					+ index );
+			if ( tableContext.layout != null )
+			{
+				tableContext.layout.addRow( row );
+			}
+		}
+		
 	}
 
 	public int getXPos( int columnID )

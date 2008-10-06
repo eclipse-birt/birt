@@ -330,6 +330,10 @@ public class PageLayout extends BlockStackingLayout
 
 		((PageContext)currentContext).pageContent.setExtension( IContent.LAYOUT_EXTENSION, page );
 		outputPage(((PageContext)currentContext).pageContent);
+		if(contextList.size( )>0)
+		{
+			this.currentContext = contextList.get( 0 );
+		}
 	}
 	
 	public boolean isPageEmpty( )
@@ -346,7 +350,7 @@ public class PageLayout extends BlockStackingLayout
 		return true;
 	}
 
-	public void flushPage()
+	/*public void flushPage()
 	{
 		int size = contextList.size( );
 		if ( size > 0 )
@@ -362,7 +366,7 @@ public class PageLayout extends BlockStackingLayout
 		{
 			closeLayout( size, false );
 		}
-	}
+	}*/
 	
 	public void outputPage( IPageContent page )
 	{

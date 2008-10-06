@@ -204,4 +204,9 @@ public class TextAreaLayout extends ContainerLayout
 	{
 	}
 
+	protected void closeLayout( ContainerContext currentContext, int index,
+			boolean finished )
+	{
+	}
+
 }
