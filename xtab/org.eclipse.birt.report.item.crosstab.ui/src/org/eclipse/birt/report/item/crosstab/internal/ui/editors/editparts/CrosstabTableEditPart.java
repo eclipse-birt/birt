@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportFigureUtilities;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractReportEditPart;
@@ -34,6 +35,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.Ta
 import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell;
 import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner;
 import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout;
+import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
@@ -109,7 +111,9 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#activate()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#activate()
 	 */
 	public void activate( )
 	{
@@ -120,7 +124,9 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#deactivate()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#deactivate()
 	 */
 	public void deactivate( )
 	{
@@ -131,11 +137,12 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#setModel(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#setModel(java.lang.Object)
 	 */
 	public void setModel( Object model )
 	{
-		// TODO Auto-generated method stub
 		super.setModel( model );
 		if ( model != null )
 		{
@@ -153,21 +160,31 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#createGuideHandle()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#createGuideHandle()
 	 */
 	protected AbstractGuideHandle createGuideHandle( )
 	{
 		TableGuideHandle handle = new TableGuideHandle( this );
 		handle.setIndicatorLabel( getGuideLabel( ) );
-		handle.setIndicatorIcon( ProviderFactory.createProvider( getModel( ) )
-				.getNodeIcon( getModel( ) ) );
+
+		INodeProvider provider = ProviderFactory.createProvider( getModel( ) );
+
+		handle.setIndicatorIcon( provider.getNodeIcon( getModel( ) ) );
+		handle.setToolTip( ReportFigureUtilities.createToolTipFigure( provider.getNodeTooltip( getModel( ) ),
+				DesignChoiceConstants.BIDI_DIRECTION_LTR,
+				DesignChoiceConstants.TEXT_ALIGN_LEFT ) );
+
 		return handle;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#getGuideLabel()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#getGuideLabel()
 	 */
 	public String getGuideLabel( )
 	{
@@ -177,7 +194,9 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#createEditPolicies()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#createEditPolicies()
 	 */
 	protected void createEditPolicies( )
 	{
@@ -203,10 +222,10 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#refreshFigure()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#refreshFigure()
 	 */
-
-	// TODO only refresh the boder and background
 	public void refreshFigure( )
 	{
 		refreshBorder( getCrosstabHandleAdapter( ).getDesignElementHandle( ),
@@ -361,7 +380,9 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getColumnCount()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 * #getColumnCount()
 	 */
 	public int getColumnCount( )
 	{
@@ -371,7 +392,9 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getColumnWidth(int)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 * #getColumnWidth(int)
 	 */
 	public ITableLayoutOwner.DimensionInfomation getColumnWidth(
 			final int number )
@@ -491,7 +514,9 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getColumnWidthValue(int)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 * #getColumnWidthValue(int)
 	 */
 	public int getColumnWidthValue( int number )
 	{
@@ -521,7 +546,8 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.core.model.IModelAdaptHelper#getPreferredSize()
+	 * @seeorg.eclipse.birt.report.designer.core.model.IModelAdaptHelper#
+	 * getPreferredSize()
 	 */
 	public Dimension getPreferredSize( )
 	{
@@ -604,7 +630,9 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getDefinedWidth()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 * #getDefinedWidth()
 	 */
 	public String getDefinedWidth( )
 	{
@@ -614,7 +642,9 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getRawWidth(int)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 * #getRawWidth(int)
 	 */
 	public String getRawWidth( int columNumber )
 	{
@@ -654,7 +684,9 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getRowCount()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 * #getRowCount()
 	 */
 	public int getRowCount( )
 	{
@@ -664,7 +696,9 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getRowHeight(int)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 * #getRowHeight(int)
 	 */
 	public ITableLayoutOwner.DimensionInfomation getRowHeight( final int number )
 	{
@@ -691,7 +725,9 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getRowHeightValue(int)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 * #getRowHeightValue(int)
 	 */
 	public int getRowHeightValue( final int number )
 	{
@@ -727,8 +763,9 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractTableEditPart#getCell(int,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .AbstractTableEditPart#getCell(int, int)
 	 */
 	public AbstractCellEditPart getCell( int rowNumber, int columnNumber )
 	{
@@ -752,7 +789,8 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#createChild(java.lang.Object)
+	 * @see
+	 * org.eclipse.gef.editparts.AbstractEditPart#createChild(java.lang.Object)
 	 */
 	protected EditPart createChild( Object model )
 	{
@@ -793,7 +831,9 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#notifyModelChange()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#notifyModelChange()
 	 */
 	public void notifyModelChange( )
 	{
@@ -804,7 +844,9 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#isinterest(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#isinterest(java.lang.Object)
 	 */
 	public boolean isinterest( Object model )
 	{
@@ -841,7 +883,8 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 * @seejava.beans.PropertyChangeListener#propertyChange(java.beans.
+	 * PropertyChangeEvent)
 	 */
 	public void propertyChange( PropertyChangeEvent evt )
 	{
@@ -858,7 +901,9 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#propertyChange(java.util.Map)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#propertyChange(java.util.Map)
 	 */
 	protected void propertyChange( Map info )
 	{
