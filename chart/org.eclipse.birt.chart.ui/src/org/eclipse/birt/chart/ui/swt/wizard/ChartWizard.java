@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
@@ -163,11 +164,17 @@ public class ChartWizard extends WizardBase
 				.validate( getContext( ).getModel( ),
 						getContext( ).getExtendedItem( ) );
 	}
+	
+	protected Chart getChartModel( IWizardContext context )
+	{
+		return ( (ChartWizardContext) context ).getModel( );
+	}
 
 	public IWizardContext open( String[] sTasks, String topTaskId,
 			IWizardContext initialContext )
 	{
-		EObject chart = getAdaptableObject( initialContext );
+		Chart chart = getChartModel( initialContext );
+
 		if ( chart == null )
 		{
 			setTitle( getTitleNewChart( ) );
@@ -176,7 +183,7 @@ public class ChartWizard extends WizardBase
 		{
 			setTitle( getTitleEditChart( ) );
 			// Add adapters to chart model
-			chart.eAdapters( ).add( adapter );
+			getAdaptableObject( initialContext ).eAdapters( ).add( adapter );
 		}
 
 		if ( chart == null )
@@ -189,6 +196,7 @@ public class ChartWizard extends WizardBase
 			// Try to get last opened task if no task specified
 			topTaskId = lastTask.get( initialContext.getWizardID( ) );
 		}
+
 		return super.open( sTasks, topTaskId, initialContext );
 	}
 
