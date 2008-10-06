@@ -145,6 +145,11 @@ public class TaskSelectData extends SimpleTask implements
 				getChartModel( ) );
 		ChartUIUtil.checkAggregateType( (ChartWizardContext) getContext( ) );
 
+		bindHelp( );
+	}
+
+	protected void bindHelp( )
+	{
 		ChartUIUtil.bindHelp( getControl( ),
 				ChartHelpContextIds.TASK_SELECT_DATA );
 	}
