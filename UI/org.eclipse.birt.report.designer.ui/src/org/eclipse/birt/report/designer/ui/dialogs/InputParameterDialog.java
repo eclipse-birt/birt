@@ -146,7 +146,6 @@ public class InputParameterDialog extends Dialog
 				}
 				catch ( BirtException e )
 				{
-					// TODO: handle exception
 					MessageDialog.openError( getShell( ), "Invalid value type", //$NON-NLS-1$
 							"The value \"" //$NON-NLS-1$
 									+ paramValue
@@ -374,20 +373,25 @@ public class InputParameterDialog extends Dialog
 		return container;
 	}
 
-	private void checkParam( final String defaultValue,
-			List list )
+	private void checkParam( final String defaultValue, List list )
 	{
 		if ( !performed )
 		{
 			boolean contains = false;
 			for ( int i = 0; i < list.size( ); i++ )
 			{
-				if ( ( (IParameterSelectionChoice) ( list.get( i ) ) ).getValue( )
-						.toString( )
-						.equals( defaultValue ) )
+				try
 				{
-					contains = true;
-					break;
+					if ( ( (IParameterSelectionChoice) ( list.get( i ) ) ).getValue( )
+							.toString( )
+							.equals( defaultValue ) )
+					{
+						contains = true;
+						break;
+					}
+				}
+				catch ( Exception e )
+				{
 				}
 			}
 			if ( !contains )
@@ -465,7 +469,7 @@ public class InputParameterDialog extends Dialog
 				list.add( InputParameterDialog.nullValueChoice );
 			}
 		}
-
+		boolean nullAdded = false;
 		for ( Iterator iterator = list.iterator( ); iterator.hasNext( ); )
 		{
 			IParameterSelectionChoice choice = (IParameterSelectionChoice) iterator.next( );
@@ -473,8 +477,12 @@ public class InputParameterDialog extends Dialog
 					: choice.getLabel( ) );
 			if ( choice.getValue( ) == null && choice.getLabel( ) == null )
 			{
-				combo.add( NULL_VALUE_STR );
-				combo.setData( NULL_VALUE_STR, null );
+				if ( !isRequired && !nullAdded )
+				{
+					combo.add( NULL_VALUE_STR );
+					combo.setData( NULL_VALUE_STR, null );
+					nullAdded = true;
+				}
 			}
 			else
 			{
@@ -528,13 +536,11 @@ public class InputParameterDialog extends Dialog
 
 			public void focusGained( FocusEvent e )
 			{
-				// TODO Auto-generated method stub
 
 			}
 
 			public void focusLost( FocusEvent e )
 			{
-				// TODO Auto-generated method stub
 				if ( !( listParam instanceof ComboBoxParameter ) )
 				{
 					return;
