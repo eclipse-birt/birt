@@ -538,8 +538,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 			BaseDataSetDesign baseDataSet = this.modelAdaptor.adaptDataSet( dsHandle );
 			
 			//When the data set is joint data set, the data source does not exist.
-			if ( baseDataSource!= null )
+			if ( baseDataSource!= null && this.dataEngine.getDataSourceRuntime( baseDataSource.getName( ) ) == null )
 				this.defineDataSource( baseDataSource );
+			
+			//If the data set has not been defined previously, define it.
+			if( this.dataEngine.getDataSetDesign(  baseDataSet.getName( ) ) == null )
+				this.defineDataSet( baseDataSet );
 			this.defineDataSet( baseDataSet );
 		}
 		
