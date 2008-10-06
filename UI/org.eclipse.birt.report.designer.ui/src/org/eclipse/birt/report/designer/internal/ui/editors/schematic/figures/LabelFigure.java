@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportFigureUtilities;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportItemConstraint;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.FigureUtilities;
@@ -333,8 +334,8 @@ public class LabelFigure extends ReportElementFigure
 	 */
 	public void setDisplay( String display )
 	{
-		//if the display equals none, as the block
-		if (DesignChoiceConstants.DISPLAY_NONE.equals( display ))
+		// if the display equals none, as the block
+		if ( DesignChoiceConstants.DISPLAY_NONE.equals( display ) )
 		{
 			setDisplay( DesignChoiceConstants.DISPLAY_BLOCK );
 		}
@@ -416,11 +417,11 @@ public class LabelFigure extends ReportElementFigure
 	 * 
 	 * @return The textAlign.
 	 */
-	public String getTextAlign()
+	public String getTextAlign( )
 	{
 		return label.getTextAlign( );
 	}
-	
+
 	/**
 	 * Sets the vertical text alignment style.
 	 * 
@@ -439,41 +440,15 @@ public class LabelFigure extends ReportElementFigure
 	 */
 	public void setToolTipText( String toolTip )
 	{
-//		if ( toolTip != null )
-//		{
-//			LabelFigure tooltip = new LabelFigure( );
-//			tooltip.setText( toolTip );
-//			tooltip.setBorder( new MarginBorder( 0, 2, 0, 2 ) );
-//
-//			setToolTip( tooltip );
-//		}
-//		else
-//		{
-//			setToolTip( null );
-//		}
-		
-		if (toolTip != null) {
-			LabelFigure tooltip = new LabelFigure();
-			
-			// bidi_hcg start
-			String direction = this.getDirection();
-			if ( DesignChoiceConstants.BIDI_DIRECTION_RTL.equals( direction ) )
-			{
-				tooltip.setDirection( direction );
-			}
-			else if ( DesignChoiceConstants.BIDI_DIRECTION_LTR.equals( direction ) )
-			{
-				tooltip.setDirection( direction );
-			}
-			tooltip.setTextAlign( this.getTextAlign() );
-			// bidi_hcg end
-
-			tooltip.setText(toolTip);
-			tooltip.setBorder(new MarginBorder(0, 2, 0, 2));
-
-			setToolTip(tooltip);
-		} else {
-			setToolTip(null);
+		if ( toolTip != null )
+		{
+			setToolTip( ReportFigureUtilities.createToolTipFigure( toolTip,
+					this.getDirection( ),
+					this.getTextAlign( ) ) );
+		}
+		else
+		{
+			setToolTip( null );
 		}
 	}
 
@@ -495,19 +470,19 @@ public class LabelFigure extends ReportElementFigure
 	{
 		label.setSpecialPREFIX( specialPREFIX );
 	}
-	
+
 	/**
 	 * Gets the direction property of the Label.
-	 *
+	 * 
 	 * @return the Label direction.
-	 *     
-	 * @author bidi_hcg          
+	 * 
+	 * @author bidi_hcg
 	 */
 	public String getDirection( )
 	{
 		return label.getDirection( );
 	}
-	
+
 	/**
 	 * Sets the direction property of the Label.
 	 * 
@@ -515,8 +490,8 @@ public class LabelFigure extends ReportElementFigure
 	 *            the direction property. this should be one of the following:
 	 *            DesignChoiceConstants.BIDI_DIRECTION_LTR |
 	 *            DesignChoiceConstants.BIDI_DIRECTION_RTL
-	 *            
-	 * @author bidi_hcg          
+	 * 
+	 * @author bidi_hcg
 	 */
 	public void setDirection( String direction )
 	{

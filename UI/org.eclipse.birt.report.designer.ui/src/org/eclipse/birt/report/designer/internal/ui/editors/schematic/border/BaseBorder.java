@@ -22,12 +22,10 @@ import org.eclipse.swt.SWT;
 
 /**
  * Base class for border
- *  
  */
-
 public abstract class BaseBorder extends AbstractBorder
 {
-	
+
 	// Defines keys for line style.
 	public static final String STYLE_NONO = DesignChoiceConstants.LINE_STYLE_NONE;
 	public static final String STYLE_SOLID = DesignChoiceConstants.LINE_STYLE_SOLID;
@@ -104,8 +102,8 @@ public abstract class BaseBorder extends AbstractBorder
 	protected int i_left_style, i_left_width = 1;
 	protected int i_right_style, i_right_width = 1;
 
-	private static final HashMap styleMap = new HashMap( );
-	private static final HashMap widthMap = new HashMap( );
+	private static final HashMap<String, Integer> styleMap = new HashMap<String, Integer>( );
+	private static final HashMap<String, Integer> widthMap = new HashMap<String, Integer>( );
 
 	private static final double EPS = 1.0E-10;
 
@@ -126,6 +124,16 @@ public abstract class BaseBorder extends AbstractBorder
 		widthMap.put( DesignChoiceConstants.LINE_WIDTH_THIN, new Integer( 1 ) );
 		widthMap.put( DesignChoiceConstants.LINE_WIDTH_MEDIUM, new Integer( 2 ) );
 		widthMap.put( DesignChoiceConstants.LINE_WIDTH_THICK, new Integer( 3 ) );
+	}
+
+	private static final HashMap<String, Integer> commonCacheWidthMap = new HashMap<String, Integer>( );
+
+	/**
+	 * Clean up the width cache.
+	 */
+	public static void cleanWidthCache( )
+	{
+		commonCacheWidthMap.clear( );
 	}
 
 	/**
@@ -159,12 +167,12 @@ public abstract class BaseBorder extends AbstractBorder
 	 */
 	protected int getBorderStyle( Object obj )
 	{
-		Integer retValue = (Integer) ( styleMap.get( obj ) );
+		Integer retValue = styleMap.get( obj );
 		if ( retValue == null )
 		{
-			//fix bug 168627.the default style is silid.
+			// fix bug 168627.the default style is silid.
 			return SWT.LINE_SOLID;
-			//return SWT.LINE_DASH;
+			// return SWT.LINE_DASH;
 		}
 
 		return retValue.intValue( );
@@ -178,7 +186,23 @@ public abstract class BaseBorder extends AbstractBorder
 	 */
 	protected int getBorderWidth( Object obj )
 	{
-		//handle non-predefined values.
+		// handle predefined values.
+		Integer retValue = widthMap.get( obj );
+
+		if ( retValue != null )
+		{
+			return retValue.intValue( );
+		}
+
+		// handle cached values.
+		retValue = commonCacheWidthMap.get( obj );
+
+		if ( retValue != null )
+		{
+			return retValue.intValue( );
+		}
+
+		// handle non-predefined values.
 		if ( obj instanceof String )
 		{
 			String[] rt = DEUtil.splitString( (String) obj );
@@ -197,19 +221,16 @@ public abstract class BaseBorder extends AbstractBorder
 
 				// if the width is not too small;
 				// think it's minimum size is 1
-				return Math.max( 1, (int) w );
+				int cw = Math.max( 1, (int) w );
+
+				// put to cache
+				commonCacheWidthMap.put( (String) obj, cw );
+
+				return cw;
 			}
 		}
 
-		//handle predefined values.
-		Integer retValue = (Integer) ( widthMap.get( obj ) );
-
-		if ( retValue == null )
-		{
-			return 1;
-		}
-
-		return retValue.intValue( );
+		return 1;
 	}
 
 	/**

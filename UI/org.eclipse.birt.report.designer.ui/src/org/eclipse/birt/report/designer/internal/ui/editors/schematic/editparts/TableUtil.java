@@ -34,7 +34,6 @@ import org.eclipse.jface.viewers.StructuredSelection;
 
 /**
  * Table Utility class
- *  
  */
 public class TableUtil
 {
@@ -208,10 +207,16 @@ public class TableUtil
 	 * @param Column
 	 * @return
 	 */
-	public static int caleVisualWidth( TableEditPart part, Object Column )
+	public static int caleVisualWidth( TableEditPart part, Object column )
+	{
+		return caleVisualWidth( part, -1, column );
+	}
+
+	public static int caleVisualWidth( TableEditPart part, int columnIndex,
+			Object column )
 	{
 		ColumnHandleAdapter adapt = HandleAdapterFactory.getInstance( )
-				.getColumnHandleAdapter( Column );
+				.getColumnHandleAdapter( column );
 
 		IFigure figure = part.getLayer( LayerConstants.PRIMARY_LAYER );
 		TableLayout.WorkingData data = (TableLayout.WorkingData) figure.getLayoutManager( )
@@ -221,7 +226,9 @@ public class TableUtil
 			return adapt.getWidth( );
 		}
 
-		int columnNumber = adapt.getColumnNumber( );
+		int columnNumber = ( columnIndex <= 0 ) ? adapt.getColumnNumber( )
+				: columnIndex;
+
 		if ( columnNumber <= data.columnWidths.length )
 		{
 			return data.findColumnData( columnNumber ).width;
@@ -280,59 +287,63 @@ public class TableUtil
 	 * @param list
 	 * @return
 	 */
-	public static ISelection filletCellInSelectionEditorpart(ISelection selection)
+	public static ISelection filletCellInSelectionEditorpart(
+			ISelection selection )
 	{
 		if ( selection == null || !( selection instanceof IStructuredSelection ) )
 			return new StructuredSelection( Collections.EMPTY_LIST );
 		List list = ( (IStructuredSelection) selection ).toList( );
-		list = filterRemoveEditpart(list);
-		List retValue = filletCellModel(list); 
-		
-		return new StructuredSelection(retValue);
+		list = filterRemoveEditpart( list );
+		List retValue = filletCellModel( list );
+
+		return new StructuredSelection( retValue );
 	}
-	
-	private static List filterRemoveEditpart(List list)
+
+	private static List filterRemoveEditpart( List list )
 	{
-		List retValue = new ArrayList(list);
+		List retValue = new ArrayList( list );
 		int size = list.size( );
 		for ( int i = 0; i < size; i++ )
 		{
-			Object obj = list.get(i);
-			if (obj instanceof ReportElementEditPart && ((ReportElementEditPart)obj).isDelete( ))
+			Object obj = list.get( i );
+			if ( obj instanceof ReportElementEditPart
+					&& ( (ReportElementEditPart) obj ).isDelete( ) )
 			{
 				retValue.remove( obj );
 			}
 		}
 		return retValue;
 	}
-	public static List filletCellModel(List list)
+
+	public static List filletCellModel( List list )
 	{
-		List retValue = new ArrayList(list);
+		List retValue = new ArrayList( list );
 		boolean hasRowOrColumn = false;
 		int size = list.size( );
 		for ( int i = 0; i < size; i++ )
 		{
-			Object obj = list.get(i);
-			if (obj instanceof TableEditPart.DummyColumnEditPart
-					|| obj instanceof TableEditPart.DummyRowEditPart)
+			Object obj = list.get( i );
+			if ( obj instanceof TableEditPart.DummyColumnEditPart
+					|| obj instanceof TableEditPart.DummyRowEditPart )
 			{
 				hasRowOrColumn = true;
 				break;
 			}
 		}
-		if (hasRowOrColumn)
+		if ( hasRowOrColumn )
 		{
 			for ( int i = 0; i < size; i++ )
 			{
-				Object obj = list.get(i);
-				if (obj instanceof TableCellEditPart)
+				Object obj = list.get( i );
+				if ( obj instanceof TableCellEditPart )
 				{
-					retValue.remove(obj);
+					retValue.remove( obj );
 				}
 			}
 		}
 		return retValue;
 	}
+
 	/**
 	 * Get minimum height of row.
 	 * 
@@ -380,12 +391,14 @@ public class TableUtil
 		}
 		return 0;
 	}
-	
-	/**Gets the table contents height
+
+	/**
+	 * Gets the table contents height
+	 * 
 	 * @param part
 	 * @return
 	 */
-	public static int getTableContentsHeight(TableEditPart part)
+	public static int getTableContentsHeight( TableEditPart part )
 	{
 		IFigure figure = part.getLayer( LayerConstants.PRIMARY_LAYER );
 		TableLayout.WorkingData data = (TableLayout.WorkingData) figure.getLayoutManager( )
@@ -395,25 +408,26 @@ public class TableUtil
 			return 0;
 		}
 		int height = 0;
-		if (data.rowHeights == null)
+		if ( data.rowHeights == null )
 		{
 			return height;
 		}
 		int len = data.rowHeights.length;
-		for (int i=0; i<len; i++)
+		for ( int i = 0; i < len; i++ )
 		{
 			height = height + data.rowHeights[i].height;
 		}
-		
+
 		return height;
 	}
-	
-	
-	/**Gets the table contents width
+
+	/**
+	 * Gets the table contents width
+	 * 
 	 * @param part
 	 * @return
 	 */
-	public static int getTableContentsWidth(TableEditPart part)
+	public static int getTableContentsWidth( TableEditPart part )
 	{
 		IFigure figure = part.getLayer( LayerConstants.PRIMARY_LAYER );
 		TableLayout.WorkingData data = (TableLayout.WorkingData) figure.getLayoutManager( )
@@ -423,44 +437,44 @@ public class TableUtil
 			return 0;
 		}
 		int width = 0;
-		if (data.columnWidths == null)
+		if ( data.columnWidths == null )
 		{
 			return width;
 		}
 		int len = data.columnWidths.length;
-		for (int i=0; i<len; i++)
+		for ( int i = 0; i < len; i++ )
 		{
 			width = width + data.columnWidths[i].width;
 		}
-		
+
 		return width;
 	}
-	
+
 	/**
 	 * @param list
 	 * @return true if the all objectt int the list is CellHandle.
 	 */
-	public static boolean isAllCell(List list)
+	public static boolean isAllCell( List list )
 	{
 		int size = list.size( );
-		for (int i=0; i<size; i++)
+		for ( int i = 0; i < size; i++ )
 		{
 			Object obj = list.get( i );
-			if (! (obj instanceof CellHandle))
+			if ( !( obj instanceof CellHandle ) )
 			{
 				return false;
 			}
 		}
 		return true;
 	}
-	
+
 	/**
 	 * @param intValue
 	 * @return true if the int array is continuous.
 	 */
-	public static boolean isContinue(int[] intValue)
+	public static boolean isContinue( int[] intValue )
 	{
-		if (intValue == null || intValue.length < 2)
+		if ( intValue == null || intValue.length < 2 )
 		{
 			return true;
 		}

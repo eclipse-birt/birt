@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.border;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.draw2d.AbstractBorder;
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Insets;
@@ -144,7 +143,7 @@ public class SelectionBorder extends AbstractBorder
 		graphics.translate( bounds.getLocation( ) );
 
 		int halfW = bounds.width / 2 + 1;
-
+		
 		if ( halfW < 32 )
 		{
 			setGradientColor( graphics, false );
