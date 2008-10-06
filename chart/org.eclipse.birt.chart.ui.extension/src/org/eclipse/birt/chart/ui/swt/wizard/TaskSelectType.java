@@ -229,7 +229,11 @@ public class TaskSelectType extends SimpleTask implements
 			cmpMisc.layout( );
 		}
 		doPreview( );
+		bindHelp( );
+	}
 
+	protected void bindHelp( )
+	{
 		ChartUIUtil.bindHelp( getControl( ),
 				ChartHelpContextIds.TASK_SELECT_TYPE );
 	}
