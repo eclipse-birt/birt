@@ -194,6 +194,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		cmbSeriesSelect = createSeriesSelectCombo( cmpTop, wizardContext );
 
 		btnSeriesDelete = createSeriesDeleteButton( cmpTop, wizardContext );
+		setSeriesDeleteEnabled( );
 
 		updateDataDefinition( );
 
@@ -224,7 +225,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 			button.setImage( UIHelper.getImage( ChartUIConstants.IMAGE_DELETE ) );
 			button.setToolTipText( Messages.getString( "DataDefinitionSelector.Tooltip.RemoveSeries" ) ); //$NON-NLS-1$
 			button.addSelectionListener( this );
-			setSeriesDeleteEnabled( );
+			
 		}
 		return button;
 	}
