@@ -101,7 +101,7 @@ public class GradientEditorDialog extends TrayDialog implements
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.DIALOG_COLOR_GRADIENT );
 		getShell( ).setText( Messages.getString( "GradientEditorDialog.Lbl.GradientEditor" ) ); //$NON-NLS-1$
-		getShell( ).setSize( 420, 320 );
+		getShell( ).setSize( 300, 350 );
 		UIHelper.centerOnScreen( getShell( ) );
 		return super.createContents( parent );
 	}
@@ -165,10 +165,6 @@ public class GradientEditorDialog extends TrayDialog implements
 		fccEndColor.setLayoutData( gdFCCEndColor );
 		fccEndColor.addListener( this );
 
-		Label lblDummy = new Label( cmpGeneral, SWT.NONE );
-		GridData gdLBLDummy = new GridData( GridData.FILL_BOTH );
-		lblDummy.setLayoutData( gdLBLDummy );
-
 		if ( bSupportAngle )
 		{
 			createRotationPanel( );
@@ -181,7 +177,7 @@ public class GradientEditorDialog extends TrayDialog implements
 		 * cbCyclic.setSelection(gCurrent.isCyclic());
 		 */
 
-		Group grpPreview = new Group( cmpContent, SWT.NONE );
+		Group grpPreview = new Group( cmpGeneral, SWT.NONE );
 		GridData gdGRPPreview = new GridData( GridData.FILL_BOTH );
 		gdGRPPreview.horizontalSpan = 2;
 		grpPreview.setLayoutData( gdGRPPreview );
@@ -200,7 +196,6 @@ public class GradientEditorDialog extends TrayDialog implements
 		glRotation.verticalSpacing = 2;
 		glRotation.marginHeight = 2;
 		glRotation.marginWidth = 2;
-		glRotation.numColumns = 3;
 
 		Group grpRotation = new Group( cmpContent, SWT.NONE );
 		GridData gdGRPRotation = new GridData( GridData.FILL_BOTH );
@@ -208,27 +203,25 @@ public class GradientEditorDialog extends TrayDialog implements
 		grpRotation.setLayoutData( gdGRPRotation );
 		grpRotation.setLayout( glRotation );
 		grpRotation.setText( Messages.getString( "GradientEditorDialog.Lbl.Rotation" ) ); //$NON-NLS-1$
+		
+		iscRotation = new IntegerSpinControl( grpRotation,
+				SWT.NONE,
+				(int) gCurrent.getDirection( ) );
+		GridData gdISCRotation = new GridData( GridData.FILL_HORIZONTAL );
+		iscRotation.setLayoutData( gdISCRotation );
+		iscRotation.setMinimum( -90 );
+		iscRotation.setMaximum( 90 );
+		iscRotation.setIncrement( 1 );
+		iscRotation.addListener( this );
 
 		ascRotation = new AngleSelectorComposite( grpRotation,
 				SWT.BORDER,
 				(int) gCurrent.getDirection( ),
 				Display.getCurrent( ).getSystemColor( SWT.COLOR_WHITE ) );
 		GridData gdASCRotation = new GridData( GridData.FILL_BOTH );
-		gdASCRotation.horizontalSpan = 1;
 		gdASCRotation.verticalSpan = 3;
 		ascRotation.setLayoutData( gdASCRotation );
 		ascRotation.setAngleChangeListener( this );
-
-		iscRotation = new IntegerSpinControl( grpRotation,
-				SWT.NONE,
-				(int) gCurrent.getDirection( ) );
-		GridData gdISCRotation = new GridData( GridData.FILL_HORIZONTAL );
-		gdISCRotation.horizontalSpan = 2;
-		iscRotation.setLayoutData( gdISCRotation );
-		iscRotation.setMinimum( -90 );
-		iscRotation.setMaximum( 90 );
-		iscRotation.setIncrement( 1 );
-		iscRotation.addListener( this );
 	}
 
 	public Gradient getGradient( )
