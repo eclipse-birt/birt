@@ -12,11 +12,11 @@
 package org.eclipse.birt.report.model.util;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.util.StringUtil;
 
@@ -63,6 +63,12 @@ public class URIUtilImpl
 	 */
 
 	private static final String URL_SIGNATURE = "://"; //$NON-NLS-1$
+
+	/**
+	 * the logger
+	 */
+	protected static Logger logger = Logger.getLogger( URIUtilImpl.class
+			.getName( ) );
 
 	/**
 	 * Returns the URL object of the given string. If the input value is in URL
@@ -233,7 +239,11 @@ public class URIUtilImpl
 			// ignore the error since this string is not in URL format
 		}
 		File file = new File( filePath );
-		if ( file.toURI( ).getScheme( ).equalsIgnoreCase( FILE_SCHEMA ) )
+		String schema = SecurityUtil.getFiletoURISchemaPart( file );
+		if ( schema == null )
+			return false;
+
+		if ( schema.equalsIgnoreCase( FILE_SCHEMA ) )
 		{
 			return true;
 		}
@@ -283,13 +293,12 @@ public class URIUtilImpl
 			URL url = getFileDirectory( uri, false );
 
 			if ( uri.startsWith( JAR_SCHEMA ) )
-				return JAR_SCHEMA
-						+ ":" + FILE_SCHEMA + ":" + url.getPath( ); //$NON-NLS-1$ //$NON-NLS-2$
+				return JAR_SCHEMA + ":" + FILE_SCHEMA + ":" + url.getPath( ); //$NON-NLS-1$ //$NON-NLS-2$
 
 			try
 			{
 				if ( uri.startsWith( FILE_SCHEMA ) )
-					return url.toURI( ).getSchemeSpecificPart( );				
+					return url.toURI( ).getSchemeSpecificPart( );
 			}
 			catch ( URISyntaxException e2 )
 			{
@@ -513,14 +522,16 @@ public class URIUtilImpl
 	private static URL getFileDirectory( String filePath,
 			boolean returnDirectory )
 	{
+
 		File file = new File( filePath );
 
 		// get the absolute file in case of filePath is just
 		// "newReport.rptdesign".
 
-		file = file.getAbsoluteFile( );
+		file = SecurityUtil.getAbsoluteFile( file );
 
-		// get the parent file when the absolute file is ready.
+		// get the parent file when the absolute file is
+		// ready.
 
 		if ( returnDirectory )
 			file = file.getParentFile( );
@@ -530,18 +541,16 @@ public class URIUtilImpl
 
 		try
 		{
-			return file.getCanonicalFile( ).toURI( ).toURL( );
+			return SecurityUtil
+					.fileToURI( SecurityUtil.getCanonicalFile( file ) ).toURL( );
 		}
 		catch ( MalformedURLException e )
 		{
 			assert false;
 		}
-		catch ( IOException e )
-		{
-			// unexpected error
-		}
 
 		return null;
+
 	}
 
 	/**

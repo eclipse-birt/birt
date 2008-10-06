@@ -13,19 +13,19 @@ package org.eclipse.birt.report.model.metadata;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Date;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
+import org.eclipse.birt.report.model.util.SecurityUtil;
 
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
-
 
 /**
  * Default meta logger class for model's own use. Logs the exceptions into a
@@ -46,6 +46,12 @@ class FileMetaLogger implements IMetaLogger
 	 */
 
 	protected final static String DEFAULT_ENCODING = "UTF-8"; //$NON-NLS-1$
+
+	/**
+	 * the logger
+	 */
+	protected static Logger logger = Logger.getLogger( FileMetaLogger.class
+			.getName( ) );
 
 	/**
 	 * The writer that does the actual writing to disk.
@@ -98,7 +104,8 @@ class FileMetaLogger implements IMetaLogger
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.IMetaLogger#log(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.IMetaLogger#log(java.lang.String)
 	 */
 
 	public void log( String message )
@@ -127,8 +134,9 @@ class FileMetaLogger implements IMetaLogger
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.IMetaLogger#log(java.lang.String,
-	 *      java.lang.Throwable)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.IMetaLogger#log(java.lang.String,
+	 * java.lang.Throwable)
 	 */
 
 	public void log( String message, Throwable t )
@@ -225,15 +233,17 @@ class FileMetaLogger implements IMetaLogger
 	 *             file.
 	 */
 
-	protected OutputStreamWriter createWriter( String fileName )
+	protected OutputStreamWriter createWriter( final String fileName )
 			throws IOException
 	{
+
 		OutputStreamWriter retWriter = null;
 
 		try
 		{
-			retWriter = new OutputStreamWriter( new FileOutputStream( new File(
-					fileName ), false ), DEFAULT_ENCODING );
+			retWriter = new OutputStreamWriter( SecurityUtil
+					.createFileOutputStream( new File( fileName ) ),
+					DEFAULT_ENCODING );
 		}
 		catch ( UnsupportedEncodingException e )
 		{

@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
+import org.eclipse.birt.report.model.util.SecurityUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
@@ -245,7 +246,12 @@ public class ImageState extends ReportItemState
 			// ignore the error since this string is not in URL format
 		}
 		File file = new File( filePath );
-		if ( file.toURI( ).getScheme( ).equalsIgnoreCase( URIUtil.FILE_SCHEMA ) )
+		
+		String scheme = SecurityUtil.getFiletoURISchemaPart( file );
+		if ( scheme == null )
+			return false;
+		
+		if ( scheme.equalsIgnoreCase( URIUtil.FILE_SCHEMA ) )
 		{
 			return true;
 		}
