@@ -113,6 +113,13 @@ public class SemanticError extends SemanticException
 	public static final String DESIGN_EXCEPTION_INVALID_ELEMENT_REF = MessageConstants.SEMANTIC_ERROR_INVALID_ELEMENT_REF;
 
 	/**
+	 * Error code indicating the element referred should not be the container or
+	 * content of the element.
+	 */
+
+	public static final String DESIGN_EXCEPTION_INVALID_DATA_BINDING_REF = MessageConstants.SEMANTIC_ERROR_INVALID_DATA_BINDING_REF;
+
+	/**
 	 * Error code indicating the structure referred is not found.
 	 */
 
@@ -212,7 +219,7 @@ public class SemanticError extends SemanticException
 	 */
 
 	public static final String DESIGN_EXCEPTION_ROW_INSERTANDPASTE_FORBIDDEN = MessageConstants.SEMANTIC_ERROR_ROW_INSERTANDPASTE_FORBIDDEN;
-	
+
 	/**
 	 * Error code indicating to shift one row is forbidden.
 	 */
@@ -322,7 +329,7 @@ public class SemanticError extends SemanticException
 	public static final String DESIGN_EXCEPTION_INCONSISTENT_DATA_GROUP = MessageConstants.SEMANTIC_ERROR_EXCEPTION_INCONSISTENT_DATA_GROUP;
 
 	public static final String DESIGN_EXCEPTION_INVALID_MANIFEST = MessageConstants.SEMANTIC_ERROR_INVALID_MANIFEST;
-	
+
 	/**
 	 * The constant for the semantic error.
 	 */

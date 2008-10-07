@@ -228,7 +228,10 @@ public class PropertyCommand extends AbstractPropertyCommand
 		if ( value instanceof ElementRefValue
 				&& prop.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 		{
+
 			checkRecursiveElementReference( prop, (ElementRefValue) value );
+
+			checkDataBindingReference( prop, (ElementRefValue) value );
 		}
 
 		if ( element instanceof GroupElement
@@ -684,6 +687,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 		}
 
 		Object retValue = null;
+		String propName = prop.getName( );
 
 		try
 		{
@@ -692,7 +696,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 		catch ( PropertyValueException ex )
 		{
 			ex.setElement( element );
-			ex.setPropertyName( prop.getName( ) );
+			ex.setPropertyName( propName );
 			throw ex;
 		}
 
@@ -707,7 +711,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 				&& value instanceof DesignElementHandle
 				&& refValue.getElement( ) != ( (DesignElementHandle) value )
 						.getElement( ) )
-			throw new SemanticError( element, new String[]{prop.getName( ),
+			throw new SemanticError( element, new String[]{propName,
 					refValue.getName( )},
 					SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF );
 
@@ -908,5 +912,31 @@ public class PropertyCommand extends AbstractPropertyCommand
 		if ( element != null && element instanceof CssStyle )
 			throw new IllegalOperationException(
 					CssException.DESIGN_EXCEPTION_READONLY );
+	}
+
+	/**
+	 * Checks data binding reference.
+	 * 
+	 * @param propDefn
+	 *            the property/member definition
+	 * @param the
+	 *            element reference value
+	 * @throws SemanticException
+	 */
+	private void checkDataBindingReference( PropertyDefn propDefn,
+			ElementRefValue refValue ) throws SemanticException
+	{
+
+		// if the element is the container or the content of the input
+		// element throws exception
+		if ( IReportItemModel.DATA_BINDING_REF_PROP.equals( propDefn
+				.getName( ) )
+				&& refValue.isResolved( )
+				&& ModelUtil.checkContainerOrContent( element, refValue
+						.getElement( ) ) )
+			throw new SemanticError(
+					element,
+					new String[]{element.getName( ), refValue.getName( )},
+					SemanticError.DESIGN_EXCEPTION_INVALID_DATA_BINDING_REF );
 	}
 }
