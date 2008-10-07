@@ -727,6 +727,18 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return null;
 	}
 
+	/**
+	 * The method is designed for overriding purpose. Subclasses can do some
+	 * additional processing on the QueryDefinition here (e.g. add sorts or
+	 * filters), before that it is going to be excuted.
+	 * 
+	 * @param queryDefn
+	 */
+	protected void processQueryDefinition( QueryDefinition queryDefn )
+	{
+		// nothing to do here.
+	}
+
 	private StyleHandle[] getAllStyleHandles( )
 	{
 		List sLst = getReportDesignHandle( ).getAllStyles( );
@@ -1278,6 +1290,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		
 		handleGroup( queryDefn, handle );
 		
+		processQueryDefinition( queryDefn );
+
 		try
 		{
 			Iterator filtersIterator = getFiltersIterator( );
