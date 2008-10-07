@@ -28,8 +28,10 @@ class ODAFactory implements IODAFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.api.IODAFactory#getUpdatedDataType(java.lang.String,
-	 *      java.lang.String, int, java.lang.String, java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.adapter.oda.api.IODAFactory#getUpdatedDataType
+	 * (java.lang.String, java.lang.String, int, java.lang.String,
+	 * java.lang.String)
 	 */
 
 	public String getUpdatedDataType( String dataSourceId, String dataSetId,
@@ -79,8 +81,6 @@ class ODAFactory implements IODAFactory
 	{
 		switch ( apiDataType )
 		{
-			case DataType.ANY_TYPE :
-				return DesignChoiceConstants.COLUMN_DATA_TYPE_ANY;
 			case DataType.INTEGER_TYPE :
 				return DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER;
 			case DataType.STRING_TYPE :
@@ -100,8 +100,9 @@ class ODAFactory implements IODAFactory
 			case DataType.BLOB_TYPE :
 				return DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB;
 			case DataType.BINARY_TYPE :
+			case DataType.ANY_TYPE :
 			default :
-				return DesignChoiceConstants.COLUMN_DATA_TYPE_ANY;
+				return DesignChoiceConstants.COLUMN_DATA_TYPE_STRING;
 		}
 	}
 

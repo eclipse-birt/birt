@@ -377,7 +377,6 @@
     <Choice displayNameID="Choices.scalarParamAlign.right" name="right"/>
   </ChoiceType>
   <ChoiceType name="columnDataType">
-    <Choice displayNameID="Choices.columnDataType.any" name="any"/>
     <Choice displayNameID="Choices.columnDataType.integer" name="integer"/>
     <Choice displayNameID="Choices.columnDataType.string" name="string"/>
     <Choice displayNameID="Choices.columnDataType.date-time" name="date-time"/>
@@ -1350,7 +1349,7 @@
     <Member displayNameID="Structure.ResultSetColumn.position" isIntrinsic="true" name="position" runtimeSettable="false" since="1.0" type="integer"/>
     <Member displayNameID="Structure.ResultSetColumn.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>
     <Member detailType="columnDataType" displayNameID="Structure.ResultSetColumn.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="1.0" type="choice">
-		<Default>any</Default>
+		<Default>string</Default>
 	</Member>
     <Member displayNameID="Structure.ResultSetColumn.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.1" type="integer" />
   </Structure>
@@ -1359,7 +1358,7 @@
     <Member displayNameID="Structure.OdaResultSetColumn.name" isIntrinsic="true" name="name" runtimeSettable="false" since="2.1.1" type="string" valueRequired="true"/>
     <Member displayNameID="Structure.OdaResultSetColumn.nativeName" isIntrinsic="true" name="nativeName" runtimeSettable="false" since="2.1.1" type="literalString" valueRequired="false"/>   
     <Member detailType="columnDataType" displayNameID="Structure.ResultSetColumn.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="2.1.1" type="choice">
-		<Default>any</Default>
+		<Default>string</Default>
 	</Member>
     <Member displayNameID="Structure.OdaResultSetColumn.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.1.1" type="integer" />
   </Structure>
@@ -1367,9 +1366,7 @@
     <Member displayNameID="Structure.ComputedColumn.name" name="name" runtimeSettable="false" since="1.0" type="memberKey" valueRequired="true"/>
   	<Member displayNameID="Structure.ComputedColumn.displayName" name="displayName" runtimeSettable="false" since="2.2" type="string"/>
   	<Member context="factory" displayNameID="Structure.ComputedColumn.expression" name="expression" returnType="any" runtimeSettable="false" since="1.0" type="expression" />
-  	<Member detailType="columnDataType" displayNameID="Structure.ComputedColumn.dataType" name="dataType" runtimeSettable="false" since="2.0" type="choice">
-		<Allowed>integer,string,date-time,decimal,float,boolean,date,time,blob</Allowed>
-	</Member>
+  	<Member detailType="columnDataType" displayNameID="Structure.ComputedColumn.dataType" name="dataType" runtimeSettable="false" since="2.0" type="choice"/>
     <Member displayNameID="Structure.ComputedColumn.aggregateOn" name="aggregateOn" since="2.2" subType="string" type="list" />	  
     <Member displayNameID="Structure.ComputedColumn.aggregateFunction" name="aggregateFunction" since="2.2" type="string" >
     </Member>	  	  
@@ -1507,13 +1504,13 @@
   <Structure displayNameID="Structure.LevelAttribute" name="LevelAttribute" since="2.2">
     <Member displayNameID="Structure.LevelAttribute.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>
     <Member detailType="columnDataType" displayNameID="Structure.LevelAttribute.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="1.0" type="choice">
-		<Default>any</Default>
+		<Default>string</Default>
 	</Member>
   </Structure>	
   <Structure displayNameID="Structure.OdaLevelAttribute" name="OdaLevelAttribute" since="2.2">
     <Member displayNameID="Structure.OdaLevelAttribute.name" isIntrinsic="true" name="name" runtimeSettable="false" since="2.2" type="string" valueRequired="true"/>
     <Member detailType="columnDataType" displayNameID="Structure.OdaLevelAttribute.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="2.2" type="choice">
-		<Default>any</Default>
+		<Default>string</Default>		
 	</Member>
     <Member displayNameID="Structure.OdaLevelAttribute.nativeName" isIntrinsic="true" name="nativeName" runtimeSettable="false" since="2.2" type="string" valueRequired="true"/>	  
     <Member displayNameID="Structure.OdaLevelAttribute.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.2" type="integer" />	  
@@ -3381,7 +3378,6 @@
   	  <Default>false</Default>
   	</Property>
   	<Property detailType="columnDataType" displayNameID="Element.Measure.dataType" name="dataType" runtimeSettable="false" since="2.2" type="choice">
-		<Allowed>integer,string,date-time,decimal,float,boolean,date,time</Allowed>
 		<Default>decimal</Default>
 	</Property>
   </Element>
