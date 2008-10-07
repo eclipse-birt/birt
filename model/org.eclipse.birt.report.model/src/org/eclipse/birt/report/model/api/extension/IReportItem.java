@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
  * <p>
  * 
  * <pre>
- *                         BIRT Extended Item &lt;--&gt; ExtendedItem 
+ *                         BIRT Extended Item &lt;--&gt; ExtendedItem
  * </pre>
  * 
  * 
@@ -91,8 +91,8 @@ public interface IReportItem
 	 * defined as a list or structure.
 	 * <p>
 	 * If the report element support styles or inheritance, then a return value
-	 * of <code>null</code> means that the value should be inherited. BIRT
-	 * will use its normal inheritance mechanisms to locate the value. If the
+	 * of <code>null</code> means that the value should be inherited. BIRT will
+	 * use its normal inheritance mechanisms to locate the value. If the
 	 * extended element does not support inheritance or styles, then this method
 	 * must return the value of each property, including defaults if the value
 	 * has not yet been set.
@@ -234,5 +234,13 @@ public interface IReportItem
 	 *            extended item handle
 	 */
 	public void setHandle( ExtendedItemHandle handle );
+
+	/**
+	 * Indicates whether the report item can be allowed to export to library.
+	 * 
+	 * @return <code>true</code> if the report item can be allowed to export to
+	 *         library; <code>false</code> otherwise.
+	 */
+	public boolean canExport( );
 
 }
