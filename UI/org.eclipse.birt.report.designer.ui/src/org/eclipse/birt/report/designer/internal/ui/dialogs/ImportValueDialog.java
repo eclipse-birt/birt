@@ -11,11 +11,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.regex.PatternSyntaxException;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.data.engine.api.DataEngine;
@@ -34,6 +36,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.parameters.ParameterUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -43,6 +46,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -75,6 +79,7 @@ import com.ibm.icu.util.ULocale;
 public class ImportValueDialog extends BaseDialog
 {
 
+	private boolean distinct = true;
 	private boolean hasNullValue = false;
 	private String nullValue = "<null>"; //$NON-NLS-1$
 	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
@@ -126,6 +131,11 @@ public class ImportValueDialog extends BaseDialog
 		}
 	}
 
+	public void setDistinct(boolean distinct)
+	{
+		this.distinct = distinct;
+	}
+	
 	/**
 	 * Constructs a new instance of the dialog
 	 */
@@ -675,7 +685,28 @@ public class ImportValueDialog extends BaseDialog
 					if ( ( validator == null )
 							|| ( validator != null && validator.validateString( beforeValidateString( value ) ) == null ) )
 					{
-						valueList.add( value );
+						if(distinct)
+						{
+							boolean exist = false;
+							for(int i = 0; i < selectedList.getItemCount( ); i ++)
+							{
+								
+								String selectValue = selectedList.getItem( i );
+								if(isEqual(selectValue, value))
+								{
+									exist = true;
+									break;
+								}
+							}
+							if(!exist)
+							{
+								valueList.add( value );
+							}
+						}else
+						{
+							valueList.add( value );
+						}
+						
 					}
 
 				}
@@ -697,9 +728,34 @@ public class ImportValueDialog extends BaseDialog
 				&& selectedList.indexOf( valueEditor.getText( ).trim( ) ) == -1 )
 		{
 			if ( ( validator == null )
-					|| ( validator != null && validator.validateString( beforeValidateString( valueEditor.getText( ) ) ) == null ) )
+					|| ( validator != null && validator.validateString( beforeValidateString( valueEditor.getText( ).trim( ) ) ) == null ) )
 			{
-				add.setEnabled( true );
+				if(distinct)
+				{
+					boolean exist = false;
+					for(int i = 0; i < selectedList.getItemCount( ); i ++)
+					{
+						
+						String selectValue = selectedList.getItem( i );
+						if(isEqual(selectValue, valueEditor.getText( ).trim( )))
+						{
+							exist = true;
+							break;
+						}
+					}
+					if(exist)
+					{
+						add.setEnabled( false );
+					}else
+					{
+						add.setEnabled( true );
+					}
+				}else
+				{
+					add.setEnabled( true );
+				}
+
+				
 			}
 			else
 			{
@@ -742,6 +798,82 @@ public class ImportValueDialog extends BaseDialog
 			engine.shutdown( );
 		}
 		return super.close( );
+	}
+	
+	private boolean isEqual( String value1, String value2 )
+	{
+		Object v1 = null;
+		Object v2 = null;
+		if ( ( value1 == null && value2 != null )
+				|| ( value1 != null && value2 == null ) )
+		{
+			return false;
+		}
+
+		try
+		{
+			v1 = validateValue( value1 );
+			v2 = validateValue( value2 );
+		}
+		catch ( BirtException e )
+		{
+			return false;
+		}
+		if ( v1 == null )
+		{
+			return v2 == null;
+		}
+		if ( v1 instanceof Double && v2 instanceof Double )
+		{
+			return ( (Double) v1 ).compareTo( (Double) v2 ) == 0;
+		}
+		if ( v1 instanceof BigDecimal && v2 instanceof BigDecimal )
+		{
+			return ( (BigDecimal) v1 ).compareTo( (BigDecimal) v2 ) == 0;
+		}
+		if ( v1 instanceof Integer && v2 instanceof Integer )
+		{
+			return ( (Integer) v1 ).compareTo( (Integer) v2 ) == 0;
+		}
+		return v1.equals( v2 );
+	}
+	
+	private Object validateValue( String value ) throws BirtException
+	{
+		String tempdefaultValue = value;
+
+		if ( !( ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( style ) ) || ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( style ) ) ) )
+		{
+			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( style ) )
+			{
+				tempdefaultValue = ParameterUtil.convertToStandardFormat( DataTypeUtil.toDate( tempdefaultValue ) );
+			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( style ) )
+			{
+				tempdefaultValue = ParameterUtil.convertToStandardFormat( DataTypeUtil.toSqlDate( tempdefaultValue ) );
+			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( style ) )
+			{
+				tempdefaultValue = ParameterUtil.convertToStandardFormat( DataTypeUtil.toSqlTime( tempdefaultValue ) );
+			}
+
+			return ParameterValidationUtil.validate( style,
+					ParameterUtil.STANDARD_DATE_TIME_PATTERN,
+					tempdefaultValue,
+					ULocale.getDefault( ) );
+
+		}
+		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( style ) )
+		{
+			if ( tempdefaultValue != null
+					&& tempdefaultValue.equals( Messages.getString( "ParameterDialog.Choice.NoDefault" ) ) )
+			{
+				return DataTypeUtil.toBoolean( null );
+			}
+			return DataTypeUtil.toBoolean( tempdefaultValue );
+		}
+		else
+			return tempdefaultValue;
 	}
 
 }
