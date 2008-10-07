@@ -90,23 +90,21 @@ public class TableContentLayout
 		
 		if(hints.size()>0)
 		{
-			int current = 0;
+			int current = -1;
 			Iterator iter = hints.iterator();
-			int total = 0;
 			while(iter.hasNext())
 			{
 				int[] hint = (int[])iter.next();
-				for(int i=hint[0]; i<hint[1]; i++)
+				for ( int i = hint[0]; i < hint[1]; i++ )
 				{
 					IColumn column = tableContent.getColumn( i );
-					adjustedColumnIds[i] = current;
 					if ( !isColumnHidden( column ) )
 					{
 						visibleColumns.add( column );
 						current++;
 					}
+					adjustedColumnIds[i] = ( current >= 0 ? current : 0 );
 				}
-				total = total + hint[1] - hint[0];
 			}
 			
 			current = adjustedColumnIds[0];
@@ -132,11 +130,11 @@ public class TableContentLayout
 		}
 		else
 		{
-			int current = 0;
+			int current = -1;
 			for(int i=0; i<colCount; i++)
 			{
 				IColumn column = tableContent.getColumn( i );
-				adjustedColumnIds[i] = current;
+				
 				if ( !isColumnHidden( column ) )
 				{
 					visibleColumns.add( column );
@@ -151,6 +149,7 @@ public class TableContentLayout
 					}
 					
 				}
+				adjustedColumnIds[i] = (current>=0?current:0);
 			}
 			
 		}
