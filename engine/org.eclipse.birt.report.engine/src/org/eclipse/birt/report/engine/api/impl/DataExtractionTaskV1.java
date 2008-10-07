@@ -1221,12 +1221,12 @@ public class DataExtractionTaskV1 extends EngineTask
 
 	public void extract( IDataExtractionOption option ) throws BirtException
 	{
-		setupExtractOption( option );
-		IDataExtractionExtension dataExtraction = getDataExtractionExtension( option );
+		IDataExtractionOption extractOption = setupExtractOption( option );
+		IDataExtractionExtension dataExtraction = getDataExtractionExtension( extractOption );
 		try
 		{
 			dataExtraction.initilize( executionContext.getReportContext( ),
-					option );
+					extractOption );
 			dataExtraction.output( extract( ) );
 		}
 		finally
