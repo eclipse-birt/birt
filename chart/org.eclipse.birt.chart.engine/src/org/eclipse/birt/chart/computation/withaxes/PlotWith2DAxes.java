@@ -425,11 +425,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		{
 			if ( ax.getType( ).getValue( ) == AxisType.DATE_TIME )
 			{
-				throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( rtc.getULocale( ) )
-						.getString( "exception.stacked.datetime.axis.series" ), //$NON-NLS-1$
-						new Object[]{
-							ax
-						} ) );
+				throw new IllegalArgumentException( Messages.getResourceBundle( rtc.getULocale( ) )
+						.getString( "exception.stacked.datetime.axis.series" ) );//$NON-NLS-1$
 			}
 			Object oValue;
 			int iSeriesPerGroup;
