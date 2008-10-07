@@ -25,6 +25,7 @@ import java.util.Map;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.FrameworkException;
+import org.eclipse.birt.core.framework.IBundle;
 import org.eclipse.birt.core.framework.IConfigurationElement;
 import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.core.framework.IExtensionPoint;
@@ -38,7 +39,6 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
-import org.osgi.framework.Bundle;
 
 /**
  * 
@@ -239,7 +239,7 @@ public class FunctionProvider
 			IConfigurationElement confElement )
 	{
 		String source = confElement.getAttribute( ATTRIBUTE_LOCATION );
-		Bundle bundle = org.eclipse.core.runtime.Platform.getBundle( confElement.getDeclaringExtension( )
+		IBundle bundle = Platform.getBundle( confElement.getDeclaringExtension( )
 				.getNamespace( ) );
 		if ( bundle != null )
 		{
