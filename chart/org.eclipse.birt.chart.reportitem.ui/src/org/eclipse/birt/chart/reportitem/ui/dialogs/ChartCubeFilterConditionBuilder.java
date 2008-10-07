@@ -1830,7 +1830,15 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
 
 			IReportItem item = ( (ExtendedItemHandle) designHandle ).getReportItem( );
-			Chart cm = context.getModel( );
+			Chart cm = null;
+			if ( context != null && context.getModel( ) != null )
+			{
+				cm = context.getModel( );
+			}
+			else
+			{
+				cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemUtil.PROPERTY_CHART );
+			}
 			cubeQueryDefn = new ChartCubeQueryHelper( (ExtendedItemHandle) designHandle,
 					cm ).createCubeQuery( null );
 			iter = session.getCubeQueryUtil( )
