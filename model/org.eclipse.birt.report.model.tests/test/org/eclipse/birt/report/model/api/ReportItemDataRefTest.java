@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 public class ReportItemDataRefTest extends BaseTestCase
 {
+
 	private static final String FILE_NAME = "DataGroupRef_1.xml"; //$NON-NLS-1$ 
 
 	/**
@@ -415,6 +416,39 @@ public class ReportItemDataRefTest extends BaseTestCase
 	}
 
 	/**
+	 * Tests get data binding of the container of the element.
+	 * 
+	 * @throws Exception
+	 */
+	public void testGetDataBindingOfContainer( ) throws Exception
+	{
+		openDesign( "DataBindingOfContainerTest.xml" ); //$NON-NLS-1$
+
+		TableHandle table = (TableHandle) designHandle.getElementByID( 9 );
+
+		List list = table.getAvailableDataSetBindingReferenceList( );
+
+		assertEquals( 0, list.size( ) );
+
+		ExtendedItemHandle handle = (ExtendedItemHandle) designHandle
+				.getElementByID( 28 );
+
+		try
+		{
+			table.setDataBindingReference( handle );
+			fail( );
+		}
+		catch ( SemanticError e )
+		{
+
+			assertEquals(
+					SemanticError.DESIGN_EXCEPTION_INVALID_DATA_BINDING_REF,
+					e.getErrorCode( ) );
+		}
+
+	}
+
+	/**
 	 * Tests the properties and group structure when the referred table is
 	 * removed by calling dropAndClear.
 	 * 
@@ -427,7 +461,7 @@ public class ReportItemDataRefTest extends BaseTestCase
 		TableHandle table1 = (TableHandle) designHandle
 				.findElement( "myTable1" ); //$NON-NLS-1$
 		table1.dropAndClear( );
-		
+
 		save( );
 		assertTrue( compareFile( "ReportItemDataRefTest_golden.xml" ) ); //$NON-NLS-1$
 	}

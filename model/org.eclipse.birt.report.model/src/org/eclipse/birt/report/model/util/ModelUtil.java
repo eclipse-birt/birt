@@ -11,12 +11,8 @@
 
 package org.eclipse.birt.report.model.util;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,7 +55,6 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.command.ContentElementInfo;
 import org.eclipse.birt.report.model.core.BackRef;
@@ -1694,6 +1689,33 @@ public class ModelUtil
 			assert index > -1;
 			targetDimension.setDefaultHierarchy( index );
 		}
+	}
+
+	/**
+	 * Checks the elements have container or content relationship.
+	 * 
+	 * @param firstElement
+	 *            the design element
+	 * @param secondElement
+	 *            the design element
+	 * @return <code>true</code> if the elements have container or content
+	 *         relationship; <code>false</code> otherwise.
+	 */
+	public static boolean checkContainerOrContent( DesignElement firstElement,
+			DesignElement secondElement )
+	{
+		if ( firstElement == null || secondElement == null )
+			return false;
+
+		if ( firstElement == secondElement )
+			return false;
+
+		if ( firstElement.isContentOf( secondElement ) )
+			return true;
+		if ( secondElement.isContentOf( firstElement ) )
+			return true;
+
+		return false;
 	}
 
 }

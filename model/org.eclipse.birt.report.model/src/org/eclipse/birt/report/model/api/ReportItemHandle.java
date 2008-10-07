@@ -1092,6 +1092,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 			if ( !( e instanceof ReportItem ) )
 				continue;
 
+			if ( ModelUtil.checkContainerOrContent( getElement( ), e ) )
+				continue;
+
 			ReportItemHandle elementHandle = (ReportItemHandle) e
 					.getHandle( module );
 			int bindingType = elementHandle.getDataBindingType( );

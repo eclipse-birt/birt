@@ -33,7 +33,7 @@ public interface MessageConstants
 
 	public static final String MOVE_CONTENT_MESSAGE = "Message.MoveContent"; //$NON-NLS-1$
 	public static final String REPLACE_ELEMENT_MESSAGE = "Message.ReplaceElement"; //$NON-NLS-1$
-	
+
 	public static final String ADD_PROPERTY_MESSAGE = "Message.AddProperty"; //$NON-NLS-1$
 	public static final String DROP_PROPERTY_MESSAGE = "Message.DropProperty"; //$NON-NLS-1$
 	public static final String SET_NAME_MESSAGE = "Message.SetName"; //$NON-NLS-1$
@@ -59,22 +59,21 @@ public interface MessageConstants
 	public static final String CHANGE_PROPERTY_ENCRYPTION_MESSAGE = "Message.ChangePropertyEncryption"; //$NON-NLS-1$
 
 	public static final String RENAME_CSS_FILE_MESSAGE = "Message.RenameCSSFile"; //$NON-NLS-1$
-	
 
 	public static final String INSERT_AND_PASTE_COLUMN_BAND_MESSAGE = "Message.InsertAndPasteColumnBand"; //$NON-NLS-1$
 	public static final String PASTE_COLUMN_BAND_MESSAGE = "Message.PasteColumnBand"; //$NON-NLS-1$
 	public static final String SHIFT_COLUMN_BAND_MESSAGE = "Message.ShiftColumnBand";//$NON-NLS-1$
 	public static final String INSERT_COLUMN_BAND_MESSAGE = "Message.InsertColumnBand";//$NON-NLS-1$
-	
+
 	public static final String INSERT_ROW_MESSAGE = "Message.InsertRow";//$NON-NLS-1$
 	public static final String INSERT_AND_PASTE_ROW_MESSAGE = "Message.InsertAndPasteRow"; //$NON-NLS-1$
 	public static final String PASTE_ROW_MESSAGE = "Message.PasteRow"; //$NON-NLS-1$
 	public static final String SHIFT_ROW_MESSAGE = "Message.ShiftRow";//$NON-NLS-1$
-	
+
 	public static final String IMPORT_CSS_STYLES_MESSAGE = "Message.ImportCSSStyles"; //$NON-NLS-1$
-	
+
 	public static final String CLEAR_PROPERTIES_MESSAGE = "Message.ClearProperties"; //$NON-NLS-1$
-	
+
 	public static final String CREATE_TEMPLATE_ELEMENT_MESSAGE = "Message.CreateTemplateElement"; //$NON-NLS-1$
 	public static final String TRANSFORM_TO_REPORT_ITEM_MESSAGE = "Message.TransformToReportItem"; //$NON-NLS-1$
 	public static final String TRANSFORM_TO_DATA_SET_MESSAGE = "Message.TransformToDataSet"; //$NON-NLS-1$
@@ -173,6 +172,7 @@ public interface MessageConstants
 	public static final String SEMANTIC_ERROR_INVALID_MULTI_COLUMN = "Error.SemanticError.INVALID_MULTI_COLUMN"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INCONSISTENT_GRID_COL_COUNT = "Error.SemanticError.INCONSISTENT_GRID_COL_COUNT"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INVALID_ELEMENT_REF = "Error.SemanticError.INVALID_ELEMENT_REF"; //$NON-NLS-1$
+	public static final String SEMANTIC_ERROR_INVALID_DATA_BINDING_REF = "Error.SemanticError.INVALID_DATA_BINDING_REF";//$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_MISSING_SQL_STMT = "Error.SemanticError.MISSING_SQL_STMT"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INVALID_IMAGE_SCALE_VALUE = "Error.SemanticError.INVALID_IMAGE_SCALE_VALUE"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_CANNOT_SPECIFY_PAGE_SIZE = "Error.SemanticError.CANNOT_SPECIFY_PAGE_SIZE"; //$NON-NLS-1$
@@ -221,7 +221,7 @@ public interface MessageConstants
 
 	public static final String SEMANTIC_ERROR_CIRCULAR_ELEMENT_REFERNECE = "Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE";//$NON-NLS-1$
 
-	public static final String SEMANTIC_ERROR_EXCEPTION_INCONSISTENT_DATA_GROUP = "Error.SemanticError.INCONSISTENT_DATA_GROUP";
+	public static final String SEMANTIC_ERROR_EXCEPTION_INCONSISTENT_DATA_GROUP = "Error.SemanticError.INCONSISTENT_DATA_GROUP";//$NON-NLS-1$
 
 	public static final String SEMANTIC_ERROR_INVALID_MANIFEST = "Error.SemanticError.INVALID_MANIFEST"; //$NON-NLS-1$
 
