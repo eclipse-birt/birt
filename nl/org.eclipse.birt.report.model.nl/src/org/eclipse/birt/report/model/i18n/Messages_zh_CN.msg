@@ -2408,12 +2408,12 @@ Element.ScalarParameter.sortByColumn=按列排序
 Element.ParameterGroup.startExpanded=开始展开
 Element.ParameterGroup.helpText=帮助文本
 Element.ParameterGroup.helpTextID=帮助文本关键字
+Element.ParameterGroup.promptText=提示文本
+Element.ParameterGroup.promptTextID=提示文本关键字
 Element.ParameterGroup.slot.parameters=参数
 
 # CascadingParameterGroup (prefix Element.CascadingParameterGroup)
 Element.CascadingParameterGroup.dataSet=数据集
-Element.CascadingParameterGroup.promptText=提示文本
-Element.CascadingParameterGroup.promptTextID=提示文本关键字
 Element.CascadingParameterGroup.dataSetMode=单个或多个数据集
 Element.CascadingParameterGroup.slot.parameters=参数
 
@@ -3491,6 +3491,7 @@ Error.SemanticError.INVALID_PAGE_MARGINS=主页 "{0}" 的边距值无效。
 Error.SemanticError.MISSING_MASTER_PAGE=报表至少必须具有一个主页。
 Error.SemanticError.INVALID_MULTI_COLUMN=主页“{0}”在页面内容外具有列跨度。
 Error.SemanticError.INVALID_ELEMENT_REF=元素 "{0}" 具有属性 "{1}"，该属性引用了未定义的元素 "{2}"。
+Error.SemanticError.INVALID_DATA_BINDING_REF=The element "{0}" has property dataBindingRef that refers an element "{1}" which is the container or content of the element.
 Error.SemanticError.MISSING_SQL_STMT=JDBC 选择数据集 "{0}" 必须具有 SQL 语句。
 Error.SemanticError.MISSING_DATA_SET={0} 必须能够访问一个数据集。
 Error.SemanticError.INVALID_IMAGE_SCALE_VALUE=图像 "{0}" 的缩放值必须为正。

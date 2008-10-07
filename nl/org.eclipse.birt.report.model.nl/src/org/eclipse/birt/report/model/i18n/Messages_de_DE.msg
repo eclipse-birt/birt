@@ -2408,12 +2408,12 @@ Element.ScalarParameter.sortByColumn=Nach Spalten sortieren
 Element.ParameterGroup.startExpanded=Erweiterte starten
 Element.ParameterGroup.helpText=Hilfetext
 Element.ParameterGroup.helpTextID=Hilfetextschlüssel
+Element.ParameterGroup.promptText=Aufforderungstext
+Element.ParameterGroup.promptTextID=Aufforderungstextschlüssel
 Element.ParameterGroup.slot.parameters=Parameter
 
 # CascadingParameterGroup (prefix Element.CascadingParameterGroup)
 Element.CascadingParameterGroup.dataSet=Datensatz
-Element.CascadingParameterGroup.promptText=Aufforderungstext
-Element.CascadingParameterGroup.promptTextID=Aufforderungstextschlüssel
 Element.CascadingParameterGroup.dataSetMode=Einfache oder mehrfache Datensätze
 Element.CascadingParameterGroup.slot.parameters=Parameter
 
@@ -3491,6 +3491,7 @@ Error.SemanticError.INVALID_PAGE_MARGINS=Die Master-Seite "{0}" hat einen ungült
 Error.SemanticError.MISSING_MASTER_PAGE=Der Bericht muss mindestens eine Master-Seite aufweisen.
 Error.SemanticError.INVALID_MULTI_COLUMN=Der Spaltenbereich der Master-Seite "{0}" liegt außerhalb des Seiteninhalts.
 Error.SemanticError.INVALID_ELEMENT_REF=Das Element "{0}" besitzt die Eigenschaft "{1}", die auf ein undefiniertes Element "{2}" verweist.
+Error.SemanticError.INVALID_DATA_BINDING_REF=The element "{0}" has property dataBindingRef that refers an element "{1}" which is the container or content of the element.
 Error.SemanticError.MISSING_SQL_STMT=Der JDBC-Auswahldatensatz "{0}" muss eine SQL-Anweisung aufweisen.
 Error.SemanticError.MISSING_DATA_SET={0} muss auf einen Datensatz zugreifen können.
 Error.SemanticError.INVALID_IMAGE_SCALE_VALUE=Der Skalierwert des Bildes "{0}" muss positiv sein.
