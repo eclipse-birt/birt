@@ -17,6 +17,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.TreeSearch;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 
 
 /**
@@ -90,19 +91,30 @@ public class ReportRootFigure extends ReportElementFigure
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.draw2d.Figure#paintChildren(org.eclipse.draw2d.Graphics)
-	 */
+	 */	
 	protected void paintChildren( Graphics graphics )
 	{
 		IFigure child;
 
 		for ( int i = 0; i < this.getChildren( ).size( ); i++ )
 		{
+			Rectangle clip = graphics.getClip(Rectangle.SINGLETON);
 			child = (IFigure) this.getChildren( ).get( i );
 			if ( child.isVisible( ) )
 			{
-				graphics.setClip( getBounds( ).getCopy( )
-						.intersect( child.getBounds( ) ) );
-				child.paint( graphics );
+				Rectangle bounds = child.getBounds( ).getCopy( );
+				int extend = bounds.x + bounds.width - clip.x - clip.width;
+				if (extend > 0)
+				{
+					clip.width = clip.width + extend;
+				}
+				
+				if (child.intersects(clip))
+				{
+					graphics.setClip( clip.getCopy( ) );
+					child.paint( graphics );
+				}
+				
 				graphics.restoreState( );
 			}
 		}

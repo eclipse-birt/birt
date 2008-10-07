@@ -213,7 +213,7 @@ public class ReportElementFigure extends Figure implements IReportElementFigure
 	 */
 	private ArrayList createImageList( int x, int y )
 	{
-		Rectangle area = getClientArea( );
+		Rectangle area = getBounds( );
 
 		ArrayList yList = new ArrayList( );
 
