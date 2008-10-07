@@ -1350,8 +1350,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					{
 						// Design time doesn't support parent query expressions
 						FilterConditionHandle filter = filterIterator.next( );
-						if ( filter.getValue1( ).indexOf( "._outer" ) < 0 //$NON-NLS-1$
-								&& filter.getValue2( ).indexOf( "._outer" ) < 0 ) //$NON-NLS-1$
+						if ( ( filter.getValue1( ) == null || filter.getValue1( )
+								.indexOf( "._outer" ) < 0 ) //$NON-NLS-1$
+								&& ( filter.getValue2( ) == null || filter.getValue2( )
+										.indexOf( "._outer" ) < 0 ) ) //$NON-NLS-1$
 						{
 							filterList.add( filter );
 						}
@@ -1371,8 +1373,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				{
 					// Design time doesn't support parent query expressions
 					FilterConditionHandle filter = filterIterator.next( );
-					if ( filter.getValue1( ).indexOf( "._outer" ) < 0 //$NON-NLS-1$
-							&& filter.getValue2( ).indexOf( "._outer" ) < 0 ) //$NON-NLS-1$
+					if ( ( filter.getValue1( ) == null || filter.getValue1( )
+							.indexOf( "._outer" ) < 0 )//$NON-NLS-1$
+							&& ( filter.getValue2( ) == null || filter.getValue2( )
+									.indexOf( "._outer" ) < 0 ) ) //$NON-NLS-1$
 					{
 						filterList.add( filter );
 					}
