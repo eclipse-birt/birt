@@ -217,8 +217,18 @@ public class WebViewer
 				Locale locale = locales[i];
 				if ( locale != null )
 				{
-					LocaleTable.put( locale.getDisplayName( ),
-							locale.getLanguage( ) + "_" + locale.getCountry( ) ); //$NON-NLS-1$
+					if ( locale.getCountry( ).length( ) == 0 )
+					{
+						LocaleTable.put( locale.getDisplayName( ),
+								locale.getLanguage( ) ); //$NON-NLS-1$
+					}
+					else
+					{
+						LocaleTable.put( locale.getDisplayName( ),
+								locale.getLanguage( )
+										+ "_" + locale.getCountry( ) ); //$NON-NLS-1$	
+					}
+
 				}
 			}
 		}
