@@ -36,7 +36,9 @@ public class ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IReportItem#serialize(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IReportItem#serialize(java.lang
+	 * .String)
 	 */
 
 	public ByteArrayOutputStream serialize( String propName )
@@ -47,8 +49,9 @@ public class ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IReportItem#deserialize(java.lang.String,
-	 *      java.io.ByteArrayInputStream)
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IReportItem#deserialize(java.
+	 * lang.String, java.io.ByteArrayInputStream)
 	 */
 
 	public void deserialize( String propName, ByteArrayInputStream data )
@@ -60,7 +63,9 @@ public class ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IReportItem#getPropertyDefinitions()
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IReportItem#getPropertyDefinitions
+	 * ()
 	 */
 	public IPropertyDefinition[] getPropertyDefinitions( )
 	{
@@ -70,7 +75,9 @@ public class ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IReportItem#getProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IReportItem#getProperty(java.
+	 * lang.String)
 	 */
 	public Object getProperty( String propName )
 	{
@@ -80,8 +87,9 @@ public class ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IReportItem#checkProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IReportItem#checkProperty(java
+	 * .lang.String, java.lang.Object)
 	 */
 
 	public void checkProperty( String propName, Object value )
@@ -93,8 +101,9 @@ public class ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IReportItem#setProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IReportItem#setProperty(java.
+	 * lang.String, java.lang.Object)
 	 */
 
 	public void setProperty( String propName, Object value )
@@ -135,7 +144,9 @@ public class ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IReportItem#refreshPropertyDefinition()
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IReportItem#refreshPropertyDefinition
+	 * ()
 	 */
 
 	public boolean refreshPropertyDefinition( )
@@ -157,7 +168,8 @@ public class ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#getScriptPropertyDefinition()
+	 * @seeorg.eclipse.birt.report.model.api.extension.IReportItem#
+	 * getScriptPropertyDefinition()
 	 */
 
 	public IPropertyDefinition getScriptPropertyDefinition( )
@@ -168,7 +180,9 @@ public class ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#getScriptableElement()
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.IReportItem#getScriptableElement
+	 * ()
 	 */
 
 	public org.eclipse.birt.report.model.api.simpleapi.IReportItem getSimpleElement( )
@@ -187,7 +201,9 @@ public class ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#getMethods(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.IReportItem#getMethods(java
+	 * .lang.String)
 	 */
 
 	public IMethodInfo[] getMethods( String methodName )
@@ -198,7 +214,8 @@ public class ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.ICompatibleReportItem#checkCompatibility()
+	 * @seeorg.eclipse.birt.report.model.api.extension.ICompatibleReportItem#
+	 * checkCompatibility()
 	 */
 	public CompatibilityStatus checkCompatibility( )
 	{
@@ -208,7 +225,8 @@ public class ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.ICompatibleReportItem#getRowExpressions()
+	 * @seeorg.eclipse.birt.report.model.api.extension.ICompatibleReportItem#
+	 * getRowExpressions()
 	 */
 	public List getRowExpressions( )
 	{
@@ -218,7 +236,8 @@ public class ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.ICompatibleReportItem#updateRowExpressions(java.util.Map)
+	 * @seeorg.eclipse.birt.report.model.api.extension.ICompatibleReportItem#
+	 * updateRowExpressions(java.util.Map)
 	 */
 	public void updateRowExpressions( Map newExpressions )
 	{
@@ -228,11 +247,25 @@ public class ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#setHandle(org.eclipse.birt.report.model.api.ExtendedItemHandle)
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.IReportItem#setHandle(org
+	 * .eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
 	public void setHandle( ExtendedItemHandle handle )
 	{
 		// do nothing by default
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.IReportItem#canExportSingleChart
+	 * ()
+	 */
+	public boolean canExport( )
+	{
+		return true;
 	}
 
 }

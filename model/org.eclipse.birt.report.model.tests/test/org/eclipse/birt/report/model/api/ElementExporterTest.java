@@ -897,7 +897,7 @@ public class ElementExporterTest extends BaseTestCase
 		// same name a and b
 		DesignElementHandle libElement_a = libraryHandle.findElement( "a" );//$NON-NLS-1$
 		DesignElementHandle libElement_b = libraryHandle.findElement( "b" );//$NON-NLS-1$
-		
+
 		assertNotNull( libElement_a.getRoot( ) );
 		assertNotNull( libElement_b.getRoot( ) );
 
@@ -916,4 +916,24 @@ public class ElementExporterTest extends BaseTestCase
 
 	}
 
+	/**
+	 * Test the function that whether if extended item can be exported to
+	 * library
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testCanExportExtendedItem( ) throws Exception
+	{
+		openDesign( "ExtendedItemExporterTest.xml" ); //$NON-NLS-1$
+		openLibrary( "ExtendedItemExporterTestLibrary.xml" ); //$NON-NLS-1$
+
+		// tests extended item which can be exported.
+		DesignElementHandle handle = designHandle.findElement( "action1" );//$NON-NLS-1$
+		assertTrue( ElementExportUtil.canExport( handle, libraryHandle, true ) );
+
+		// tests extended item which can not be exported.
+		handle = designHandle.findElement( "testBox" );//$NON-NLS-1$
+		assertFalse( ElementExportUtil.canExport( handle, libraryHandle, true ) );
+	}
 }

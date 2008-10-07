@@ -10,6 +10,7 @@ import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
@@ -22,6 +23,8 @@ import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.validators.StructureListValidator;
@@ -480,6 +483,22 @@ public class ElementExportUtil
 			return false;
 
 		String name = elementToExport.getName( );
+
+		if ( elementToExport instanceof ExtendedItemHandle )
+		{
+			try
+			{
+				IReportItem item = ( (ExtendedItemHandle) elementToExport )
+						.getReportItem( );
+
+				if ( item != null && !item.canExport( ) )
+					return false;
+			}
+			catch ( ExtendedElementException e )
+			{
+				return false;
+			}
+		}
 
 		if ( elementToExport instanceof ReportItemHandle )
 		{
