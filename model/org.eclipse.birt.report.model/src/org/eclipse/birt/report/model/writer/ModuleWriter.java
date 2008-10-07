@@ -2186,9 +2186,10 @@ public abstract class ModuleWriter extends ElementVisitor
 		super.visitParameterGroup( obj );
 
 		property( obj, IParameterGroupModel.START_EXPANDED_PROP );
-
 		resourceKey( obj, IParameterGroupModel.HELP_TEXT_KEY_PROP,
 				IParameterGroupModel.HELP_TEXT_PROP );
+		resourceKey( obj, IParameterGroupModel.PROMPT_TEXT_ID_PROP,
+				IParameterGroupModel.PROMPT_TEXT_PROP );
 
 		writeContents( obj, IParameterGroupModel.PARAMETERS_SLOT,
 				DesignSchemaConstants.PARAMETERS_TAG );
