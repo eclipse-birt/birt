@@ -281,10 +281,30 @@ public class BirtCompTest extends TestCase
 				"BirtComp.like(\"x 99:02:03\",\"x 99%0_\");",
 				"BirtComp.like(\"x 99:02:03\",\"_ 99%03\");",
 				"BirtComp.like(\"x 99:02:03\",\"%:0_:__3\");",
+				"BirtComp.like(\"x 99:02:03\",\"%:0\\\\_03\");",
+				"BirtComp.like(\"x 99:02_03\",\"%:0\\\\_03\");",
+				"BirtComp.like(\"x 99:02_03\",\"%:02\\\\_03\");",
+				"BirtComp.like(\"x 99:02_03\",\"\\\\%:02\\\\_03\");",
+				"BirtComp.like(\"x 99%:02_03\",\"%\\\\%:02\\\\_03\");",
+				"BirtComp.like(\"x 99%:02_03\",\"\\\\\\\\%\\\\%:02\\\\_03\");",
+				"BirtComp.like(\"x \\99%:02_03\",\"_ \\\\\\\\99\\\\%:02\\\\_03\");"
 				
 		};
 		
-		boolean[] result = new boolean[] { true, true, true, true, true, false};
+		boolean[] result = new boolean[]{
+				true,
+				true,
+				true,
+				true,
+				true,
+				false,
+				false,
+				false,
+				true,
+				false,
+				true,
+				false
+		};
 		
 		for( int i = 0; i < script.length; i++ )
 		{
@@ -293,7 +313,6 @@ public class BirtCompTest extends TestCase
 				"inline",
 				1,
 				null ) ).booleanValue( ) == result[i]);
-			System.out.println( i );
 		}
 	}
 	
@@ -311,10 +330,29 @@ public class BirtCompTest extends TestCase
 				"BirtComp.notLike(\"x 99:02:03\",\"x 99%0_\");",
 				"BirtComp.notLike(\"x 99:02:03\",\"_ 99%03\");",
 				"BirtComp.notLike(\"x 99:02:03\",\"%:0_:__3\");",
+				"BirtComp.notLike(\"x 99:02:03\",\"_ 99%\\\\_03\");",
+				"BirtComp.notLike(\"x 99:02:03\",\"\\\\_ 99%03\");",
+				"BirtComp.notLike(\"x 99:02_03\",\"_ 99%\\\\_03\");",
+				"BirtComp.notLike(\"x 99:02_03\",\"_ 99\\\\%\\\\_03\");",
+				"BirtComp.notLike(\"x 99:02%_03\",\"_ 99%\\\\%\\\\_03\");",
+				"BirtComp.notLike(\"x \\\\99:02%_03\",\"_ \\\\\\\\99%\\\\%\\\\_03\");"
 				
 		};
 		
-		boolean[] result = new boolean[] { false, false, false, false, false, true};
+		boolean[] result = new boolean[]{
+				false,
+				false,
+				false,
+				false,
+				false,
+				true,
+				true,
+				true,
+				false,
+				true,
+				false,
+				true
+		};
 		
 		for( int i = 0; i < script.length; i++ )
 		{
@@ -323,7 +361,6 @@ public class BirtCompTest extends TestCase
 				"inline",
 				1,
 				null ) ).booleanValue( ) == result[i]);
-			System.out.println( i );
 		}
 	}	
 
