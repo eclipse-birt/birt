@@ -56,6 +56,25 @@ public class DefaultWordRecognizerTest extends TestCase
 		word = wr.getNextWord( );
 		assertTrue("\n".equals( word.getValue( ) ));
 
+		str = "first\nsecond\r\nthird\rfourth\r";
+		wr = new DefaultWordRecognizer(str);
+		word = wr.getNextWord( );
+		assertTrue("first".equals( word.getValue( ) ));
+		word = wr.getNextWord( );
+		assertTrue("\n".equals( word.getValue( ) ));
+		word = wr.getNextWord( );
+		assertTrue("second".equals( word.getValue( ) ));
+		word = wr.getNextWord( );
+		assertTrue("\r\n".equals( word.getValue( ) ));
+		word = wr.getNextWord( );
+		assertTrue("third".equals( word.getValue( ) ));
+		word = wr.getNextWord( );
+		assertTrue("\r".equals( word.getValue( ) ));
+		word = wr.getNextWord( );
+		assertTrue("fourth".equals( word.getValue( ) ));
+		word = wr.getNextWord( );
+		assertTrue("\r".equals( word.getValue( ) ));
+
 	}
 
 }

@@ -65,6 +65,15 @@ public class Chunk
 		return this.text;
 	}
 	
+	public int getLength( )
+	{
+		if ( text != null )
+		{
+			return text.length();
+		}
+		return 0;
+	}
+	
 	public void setFontInfo(FontInfo fi)
 	{
 		this.fontInfo = fi;
