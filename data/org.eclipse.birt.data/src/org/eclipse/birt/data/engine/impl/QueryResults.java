@@ -38,7 +38,6 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.impl.document.NamingRelation;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -389,7 +388,7 @@ public class QueryResults implements IQueryResults, IQueryService
 
 		public int getCurrentResultIndex( ) throws DataException
 		{
-			return this.prototype.getCurrentResultIndex();
+			return 0;
 		}
 
 		public int getEndingGroupLevel( ) throws DataException
