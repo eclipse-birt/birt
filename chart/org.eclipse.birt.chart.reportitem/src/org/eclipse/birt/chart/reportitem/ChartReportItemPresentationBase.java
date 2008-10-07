@@ -14,8 +14,6 @@ package org.eclipse.birt.chart.reportitem;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -875,25 +873,6 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 
 	protected Object getImageToDisplay( )
 	{
-		File f = new File( "c:/aaa.png" );
-		try
-		{
-			FileOutputStream fos = new FileOutputStream( f );
-			int b;
-			while ( ( b = fis.read( ) ) >= 0 )
-			{
-				fos.write( b );
-			}
-			fos.close( );
-			fis.reset( );
-		}
-		catch ( Exception e )
-		{
-
-		}
-		
-		
-		
 		if ( getOutputType( ) == OUTPUT_AS_IMAGE )
 		{
 			return fis;
