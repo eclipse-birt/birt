@@ -137,4 +137,59 @@ public class ParameterGroupHandle extends ReportElementHandle
 				.valueOf( value ) );
 	}
 
+	/**
+	 * Gets the display prompt text.
+	 * 
+	 * @return the display prompt.
+	 * 
+	 */
+	
+	public String getPromptText( )
+	{
+		return getStringProperty( PROMPT_TEXT_PROP );
+	}
+
+	/**
+	 * Returns the prompt text key.
+	 * 
+	 * @return the prompt text key.
+	 * 
+	 */
+	
+	public String getPromptTextKey( )
+	{
+		return getStringProperty( PROMPT_TEXT_ID_PROP );
+	}
+
+	/**
+	 * Sets the value for the display prompt context.
+	 * 
+	 * @param promptValue
+	 *            The display prompt context.
+	 * 
+	 * @throws SemanticException
+	 * 
+	 */
+	
+	public void setPromptText( String promptValue ) throws SemanticException
+	{
+		setStringProperty( PROMPT_TEXT_PROP, promptValue );
+	}
+
+	/**
+	 * Set the value for the prompt text key.
+	 * 
+	 * @param promptIDValue
+	 *            The prompt text key.
+	 * 
+	 * @throws SemanticException
+	 * 
+	 */
+	
+	public void setPromptTextKey( String promptIDValue )
+			throws SemanticException
+	{
+		setStringProperty( PROMPT_TEXT_ID_PROP, promptIDValue );
+	}
+
 }

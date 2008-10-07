@@ -22,6 +22,20 @@ public interface IParameterGroupModel
 	public static final String HELP_TEXT_KEY_PROP = "helpTextID"; //$NON-NLS-1$
 
 	/**
+	 * Name of the prompt text property. Give hints to the user when enter
+	 * parameter values.
+	 */
+
+	public static final String PROMPT_TEXT_PROP = "promptText"; //$NON-NLS-1$
+
+	/**
+	 * Name of the prompt text key property. This property contains the message
+	 * ID used to localize property prompt text key.
+	 */
+
+	public static final String PROMPT_TEXT_ID_PROP = "promptTextID"; //$NON-NLS-1$
+	
+	/**
 	 * Constant for the Report Items slot within a container.
 	 */
 

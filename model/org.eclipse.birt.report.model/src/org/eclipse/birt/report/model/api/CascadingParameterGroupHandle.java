@@ -93,33 +93,6 @@ public class CascadingParameterGroupHandle extends ParameterGroupHandle
 	}
 
 	/**
-	 * Sets the value for the display prompt context.
-	 * 
-	 * @param promptValue
-	 *            The display prompt context.
-	 * 
-	 * @throws SemanticException
-	 * 
-	 */
-
-	public void setPromptText( String promptValue ) throws SemanticException
-	{
-		setStringProperty( PROMPT_TEXT_PROP, promptValue );
-	}
-
-	/**
-	 * Gets the display prompt text.
-	 * 
-	 * @return the display prompt.
-	 * 
-	 */
-
-	public String getPromptText( )
-	{
-		return getStringProperty( PROMPT_TEXT_PROP );
-	}
-
-	/**
 	 * Sets the mode for data set support. It can be one of the following
 	 * values:
 	 * 
@@ -154,34 +127,6 @@ public class CascadingParameterGroupHandle extends ParameterGroupHandle
 	public String getDataSetMode( )
 	{
 		return getStringProperty( DATA_SET_MODE_PROP );
-	}
-
-	/**
-	 * Set the value for the prompt text key.
-	 * 
-	 * @param promptIDValue
-	 *            The prompt text key.
-	 * 
-	 * @throws SemanticException
-	 * 
-	 */
-
-	public void setPromptTextKey( String promptIDValue )
-			throws SemanticException
-	{
-		setStringProperty( PROMPT_TEXT_ID_PROP, promptIDValue );
-	}
-
-	/**
-	 * Returns the prompt text key.
-	 * 
-	 * @return the prompt text key.
-	 * 
-	 */
-
-	public String getPromptTextKey( )
-	{
-		return getStringProperty( PROMPT_TEXT_ID_PROP );
 	}
 
 	/**
