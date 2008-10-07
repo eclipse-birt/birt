@@ -196,10 +196,12 @@ public class CachedResultSet implements IResultIterator
 		List projectedColumns = new ArrayList();
 		if (query.getFetchEvents() != null) {
 			for (int i = 0; i < meta.getFieldCount(); i++) {
-				projectedColumns.add(new ResultFieldMetadata(i, meta
+				ResultFieldMetadata rfMeta = new ResultFieldMetadata(i, meta
 						.getFieldName(i + 1), meta.getFieldLabel(i + 1), meta
 						.getFieldValueClass(i + 1), meta
-						.getFieldNativeTypeName(i + 1), false));
+						.getFieldNativeTypeName(i + 1), false);
+				rfMeta.setAlias( meta.getFieldAlias( i+1 ) );
+				projectedColumns.add( rfMeta );
 			}
 			for (int j = 0; j < query.getFetchEvents().size(); j++) {
 				if (query.getFetchEvents().get(j) instanceof ComputedColumnHelper) {
