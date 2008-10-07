@@ -206,8 +206,8 @@ public class TableContentLayout
 								rowSpan, colSpan, new CellContent( cellContent,
 										null ) );
 						row.cells[cellId] = newCell;
-
-						for ( int i = cellId + 1; i < cellId + colSpan; i++ )
+						int end = Math.min( realColCount, cellId + colSpan );
+						for ( int i = cellId + 1; i < end; i++ )
 						{
 							row.cells[i] = Cell.createSpanCell( row.rowId, i,
 									newCell );
