@@ -1639,6 +1639,14 @@ public class ParameterDialog extends BaseDialog
 					}
 				}
 				ImportValueDialog dialog = new ImportValueDialog( type, choices );
+				if(distinct.isEnabled( ) && distinct.getSelection( ))
+				{
+					dialog.setDistinct( false );
+				}else
+				{
+					dialog.setDistinct( true );
+				}
+				
 				dialog.setValidate( new ImportValueDialog.IAddChoiceValidator( ) {
 
 					public String validateString( String value )
