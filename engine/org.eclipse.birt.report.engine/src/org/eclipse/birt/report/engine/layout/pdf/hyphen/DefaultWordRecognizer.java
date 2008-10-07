@@ -11,19 +11,11 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.hyphen;
 
-import java.util.HashSet;
 
 public class DefaultWordRecognizer implements IWordRecognizer
 {
 
-	final static HashSet excludedSplitChars = new HashSet( );
-	final static HashSet includedSplitChars = new HashSet( );
-
-	static
-	{
-		excludedSplitChars.add( new Character( ' ' ) );
-		includedSplitChars.add( new Character( (char) 0x0A ) );
-	}
+	final static char SPACE = ' ';
 
 	protected int start;
 
@@ -61,19 +53,22 @@ public class DefaultWordRecognizer implements IWordRecognizer
 
 		for ( int i = start; i < text.length( ); i++ )
 		{
-			Character c = new Character( text.charAt( i ) );
-			if ( excludedSplitChars.contains( c ) )
+			char c = text.charAt( i );
+			if (  c == SPACE )
 			{
 				currentWord = new Word( text, start, i + 1 );
 				start = i + 1;
 				return currentWord;
 			}
-			else if ( includedSplitChars.contains( c ) )
+			else
 			{
+				int lineBreakLength = getLineBreakLength(text, i);
+				if (lineBreakLength == 0)
+					continue;
 				if(i==start)
 				{
-					currentWord = new Word(text, start, i + 1);
-					start = i + 1;
+					currentWord = new Word(text, start, i + lineBreakLength);
+					start = i + lineBreakLength;
 					return currentWord;
 				}
 				else
@@ -91,4 +86,24 @@ public class DefaultWordRecognizer implements IWordRecognizer
 
 	}
 
+	private int getLineBreakLength( String text, int index )
+	{
+		char c = text.charAt(index);
+		if ( c == '\n' )
+		{
+			return 1;
+		}
+		if ( c == '\r')
+		{
+			if ( index + 1 < text.length() && text.charAt(index + 1) == '\n' )
+			{
+				return 2;
+			}
+			else
+			{
+				return 1;
+			}
+		}
+		return 0;
+	}
 }

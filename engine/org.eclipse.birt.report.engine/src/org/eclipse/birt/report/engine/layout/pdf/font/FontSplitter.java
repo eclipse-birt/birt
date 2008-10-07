@@ -38,7 +38,7 @@ public class FontSplitter implements ISplitter
 
 	private FontInfo lastFontInfo = null;
 	
-	private boolean encounteredReturn = false;
+	private Chunk lineBreak = null;
 
 	public FontSplitter( FontMappingManager fontManager, Chunk inputChunk,
 			ITextContent textContent, boolean fontSubstitution )
@@ -61,30 +61,22 @@ public class FontSplitter implements ISplitter
 			return c;	
 		}
 		
-		if (encounteredReturn)
+		if (lineBreak != null)
 		{
-			encounteredReturn = false;
+			Chunk result = lineBreak;
+			lineBreak = null;
 			chunkStartPos ++;
-			return Chunk.HARD_LINE_BREAK;
+			return result;
 		}
 		
 		while (++currentPos < chunkText.length)
-		{	
-			if (chunkText[currentPos] == '\n')
-			{	
-				// If the first character of a chunk is return carriage, return a 
-				// Chunk.HARD_LINE_BREAK directly.
-				if (null == lastFontInfo)
-				{
-					chunkStartPos = currentPos + 1;
-					return Chunk.HARD_LINE_BREAK;
-				}
-				encounteredReturn = true;
-				Chunk c = new Chunk(new String(chunkText, chunkStartPos, currentPos-chunkStartPos), 
-				baseOffset + chunkStartPos, baseLevel, runLevel, lastFontInfo);
-				chunkStartPos = currentPos;
-				return c;
+		{
+			Chunk lineBreakChunk = processLineBreak();
+			if ( lineBreakChunk != null )
+			{
+				return lineBreakChunk;
 			}
+			
 			//We fail to find a font to display the character,
 			//we replace this character with MISSING_CHAR defined in FontHander.
 			if (!fh.selectFont(chunkText[currentPos]))
@@ -122,6 +114,50 @@ public class FontSplitter implements ISplitter
 		{
 			return null;
 		}
+	}
+
+	private Chunk processLineBreak(Chunk lineBreakChunk )
+	{
+		int returnCharacterCount = lineBreakChunk.getLength();
+		if (null == lastFontInfo)
+		{
+			chunkStartPos = currentPos + returnCharacterCount;
+			return Chunk.HARD_LINE_BREAK;
+		}
+		lineBreak = lineBreakChunk;
+		Chunk c = new Chunk(new String(chunkText, chunkStartPos, currentPos-chunkStartPos), 
+		baseOffset + chunkStartPos, baseLevel, runLevel, lastFontInfo);
+		currentPos = currentPos + returnCharacterCount - 1;
+		chunkStartPos = currentPos;
+		return c;
+	}
+
+	private Chunk processLineBreak( )
+	{
+		Chunk lineBreakChunk = null;
+		if ( chunkText[currentPos] == '\n' )
+		{
+			lineBreakChunk = Chunk.HARD_LINE_BREAK;
+			lineBreakChunk.setText("\n");
+		}
+		else if (chunkText[currentPos] == '\r' )
+		{
+			lineBreakChunk = Chunk.HARD_LINE_BREAK;
+			if ( currentPos + 1 < chunkText.length && chunkText[currentPos + 1] == '\n' )
+			{
+				lineBreakChunk.setText("\r\n");
+			}
+			else
+			{
+				lineBreakChunk.setText("\r");
+			}
+		}
+		
+		if ( lineBreakChunk != null )
+		{
+			return processLineBreak(lineBreakChunk);
+		}
+		return null;
 	}
 	
 	public boolean hasMore()

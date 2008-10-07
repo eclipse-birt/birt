@@ -150,7 +150,7 @@ public class TextCompositor
 						textContent, false );
 				TextArea textArea = (TextArea)AreaFactory.createTextArea( textContent, handler
 						.getFontInfo( ), true );
-				textArea.setTextLength( 1 );
+				textArea.setTextLength( chunk.getLength() );
 				hasLineBreak = true;
 				return textArea;
 			}
