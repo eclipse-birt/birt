@@ -495,6 +495,9 @@ public interface DesignChoiceConstants
 	 */
 
 	public static final String CHOICE_COLUMN_DATA_TYPE = "columnDataType"; //$NON-NLS-1$
+	/**
+	 * @deprecated this choice is removed since 2.3
+	 */
 	public static final String COLUMN_DATA_TYPE_ANY = "any"; //$NON-NLS-1$
 	public static final String COLUMN_DATA_TYPE_INTEGER = "integer"; //$NON-NLS-1$
 	public static final String COLUMN_DATA_TYPE_STRING = "string"; //$NON-NLS-1$

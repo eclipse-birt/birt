@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.DateFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
@@ -24,6 +25,7 @@ import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.elements.structures.TimeFormatValue;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -37,6 +39,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
+import org.eclipse.birt.report.model.metadata.ChoiceSet;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ObjectDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -437,6 +440,22 @@ public class AbstractPropertyState extends AbstractParseState
 				|| PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED
 						.equalsIgnoreCase( errorCode ) )
 			return true;
+
+		// choice 'any' is removed from column-data-type since 3.2.17(design
+		// file version)/2.3.2(birt release version)
+		if ( PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND
+				.equalsIgnoreCase( errorCode ) )
+		{
+			IChoiceSet columnDataTypeSet = propDefn.getChoices( );
+			if ( columnDataTypeSet != null
+					&& DesignChoiceConstants.CHOICE_COLUMN_DATA_TYPE
+							.equalsIgnoreCase( columnDataTypeSet.getName( ) ) )
+			{
+				if ( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY
+						.equals( invalidValue ) )
+					return true;
+			}
+		}
 
 		if ( PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE
 				.equalsIgnoreCase( errorCode )
