@@ -265,6 +265,172 @@ public class ViewingTest extends RDTestCase
 		this.checkOutputFile( );
 	}
 	
+	public void testSourceQueryIV1withMaxRow( ) throws Exception
+	{
+		this.GEN_add_filter = true;
+		this.GEN_add_group = true;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+	
+		QueryDefinition baseQuery = new QueryDefinition( );
+		baseQuery.setQueryResultsID( this.queryResultID );
+		QueryDefinition query = new QueryDefinition( );
+		
+		query.setSourceQuery( baseQuery );
+		query.setStartingRow( 1 );
+		query.setMaxRows( 2 );
+		
+		ScriptExpression filterExpr = new ScriptExpression( "row.AMOUNT_1>350" );
+		query.addFilter( new FilterDefinition( filterExpr ) );
+		
+		SortDefinition sd = new SortDefinition( );
+		sd.setExpression( "row.SALE_NAME_1" );
+		sd.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sd );
+		_preBasicIV1( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	
+	public void testSourceQueryIV1withDistinct( ) throws Exception
+	{
+		this.genNotDistinctBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+	
+		QueryDefinition baseQuery = new QueryDefinition( );
+		baseQuery.setQueryResultsID( this.queryResultID );
+		QueryDefinition query = new QueryDefinition( );
+		
+		query.setSourceQuery( baseQuery );
+		query.setDistinctValue( true );
+		query.setStartingRow( 1 );
+		
+		ScriptExpression filterExpr = new ScriptExpression( "row.AMOUNT_1>0" );
+		query.addFilter( new FilterDefinition( filterExpr ) );
+		
+		SortDefinition sd = new SortDefinition( );
+		sd.setExpression( "row.COUNTRY_1" );
+		sd.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sd );
+		_preBasicIV2( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	
+	public void testSourceQueryIV1withDistinct1( ) throws Exception
+	{
+		this.genNotDistinctBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+	
+		QueryDefinition baseQuery = new QueryDefinition( );
+		baseQuery.setQueryResultsID( this.queryResultID );
+		QueryDefinition query = new QueryDefinition( );
+		
+		query.setSourceQuery( baseQuery );
+		query.setDistinctValue( true );
+		query.setMaxRows( 3 );
+		
+		ScriptExpression filterExpr = new ScriptExpression( "row.AMOUNT_1<500" );
+		query.addFilter( new FilterDefinition( filterExpr ) );
+		
+		SortDefinition sd = new SortDefinition( );
+		sd.setExpression( "row.CITY_1" );
+		sd.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sd );
+		_preBasicIV2( query );
+		
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+		
+		baseQuery = new QueryDefinition( );
+		baseQuery.setQueryResultsID( this.queryResultID );
+		query = new QueryDefinition( );
+		
+		query.setSourceQuery( baseQuery );
+		query.setDistinctValue( false );
+		query.setMaxRows( 3 );
+		
+		filterExpr = new ScriptExpression( "row.AMOUNT_1<500" );
+		query.addFilter( new FilterDefinition( filterExpr ) );
+		
+		sd = new SortDefinition( );
+		sd.setExpression( "row.CITY_1" );
+		sd.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sd );
+		_preBasicIV2( query );
+		
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	
+	public void testSourceQueryIV1withDistinct2( ) throws Exception
+	{
+		this.genNotDistinctBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+	
+		QueryDefinition baseQuery = new QueryDefinition( );
+		baseQuery.setQueryResultsID( this.queryResultID );
+		QueryDefinition query = new QueryDefinition( );
+		
+		query.setSourceQuery( baseQuery );
+		query.setDistinctValue( true );
+		query.setStartingRow( 1 );
+		
+		ScriptExpression filterExpr = new ScriptExpression( "row.AMOUNT_1 < 710" );
+		query.addFilter( new FilterDefinition( filterExpr ) );
+		
+		SortDefinition sd = new SortDefinition( );
+		sd.setExpression( "row.CITY_1" );
+		sd.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sd );
+		_preBasicIV2( query );
+		
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+		baseQuery = new QueryDefinition( );
+		baseQuery.setQueryResultsID( this.queryResultID );
+		query = new QueryDefinition( );
+		
+		query.setSourceQuery( baseQuery );
+		query.setDistinctValue( true );
+		query.setStartingRow( 1 );
+		query.setMaxRows( 4 );
+		
+		filterExpr = new ScriptExpression( "row.AMOUNT_1 < 710" );
+		query.addFilter( new FilterDefinition( filterExpr ) );
+		
+		sd = new SortDefinition( );
+		sd.setExpression( "row.CITY_1" );
+		sd.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sd );
+		_preBasicIV2( query );
+		
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	
 	public void testSourceQueryIVLikeFilter( ) throws Exception
 	{
 		this.GEN_add_filter = true;
@@ -1152,6 +1318,28 @@ public class ViewingTest extends RDTestCase
 
 	}
 
+	private void genNotDistinctBasicIV( QueryDefinition qd ) throws BirtException
+	{
+
+		// generation
+		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
+
+		// important step
+		queryResultID = qr.getID( );
+
+		IResultIterator ri = qr.getResultIterator( );
+		while ( ri.next( ) )
+		{
+			expectedValue.add( ri.getValue( "COUNTRY_1" ) );
+			expectedValue.add( ri.getValue( "CITY_1" ) );
+			expectedValue.add( ri.getValue( "AMOUNT_1" ) );
+		}
+
+		ri.close( );
+		qr.close( );
+		myGenDataEngine.shutdown( );
+	}
+	
 	private void genBasicIV( QueryDefinition qd ) throws BirtException
 	{
 		// prepare
@@ -1188,6 +1376,34 @@ public class ViewingTest extends RDTestCase
 		QueryDefinition qd = newGenIVReportQuery( );
 		genBasicIV( qd );
 		
+	}
+	
+	/**
+	 * 
+	 * @throws BirtException
+	 */
+	private void genNotDistinctBasicIV( ) throws BirtException
+	{
+		QueryDefinition qd = newGenIVReportQuery2( );
+		genNotDistinctBasicIV( qd );
+
+	}
+	
+	/**
+	 * @return
+	 */
+	private QueryDefinition newGenIVReportQuery2( )
+	{
+		QueryDefinition qd = newReportQuery( );
+
+		qd.addResultSetExpression( "COUNTRY_1", new ScriptExpression( "dataSetRow.COUNTRY" ) );
+		qd.addResultSetExpression( "CITY_1", new ScriptExpression( "dataSetRow.CITY" ) );
+
+		qd.addResultSetExpression( "AMOUNT_1", new ScriptExpression( "dataSetRow.AMOUNT" ) );
+		
+		
+		qd.setUsesDetails( this.GEN_useDetail );
+		return qd;
 	}
 	
 	/**
@@ -1424,6 +1640,34 @@ public class ViewingTest extends RDTestCase
 			{
 				abc += "  " + ri.getStartingGroupLevel( ) + "  " + ri.getEndingGroupLevel( );
 			}
+			this.testPrintln( abc );
+		} while ( ri.next( ) );
+
+		ri.close( );
+		myPreDataEngine.shutdown( );
+	}
+	
+	private void _preBasicIV2( QueryDefinition qd ) throws BirtException
+	{
+		HashMap appContext = new HashMap();
+		appContext.put( DataEngine.MEMORY_BUFFER_SIZE, 10 );
+		IQueryResults qr = myPreDataEngine.prepare( qd , appContext ).execute( null );
+		
+		IResultIterator ri = qr.getResultIterator( );
+		String[] rowExprName = {"COUNTRY_1", "CITY_1", "AMOUNT_1" };
+		ri.moveTo( 0 );
+		String abc = "";
+		for ( int i = 0; i < rowExprName.length; i++ )
+			abc += rowExprName[i] + "  ";
+		this.testPrintln( abc );
+		do
+		{
+			abc = "";
+			
+			for ( int i = 0; i < rowExprName.length; i++ )
+				abc += ri.getValue( rowExprName[i] ) + "  ";
+			abc += ri.getRowId( );
+			
 			this.testPrintln( abc );
 		} while ( ri.next( ) );
 

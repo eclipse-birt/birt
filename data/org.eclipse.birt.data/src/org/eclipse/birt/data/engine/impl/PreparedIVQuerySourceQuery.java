@@ -373,7 +373,9 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 				}
 				IDataSetPopulator querySourcePopulator = new IVQuerySourcePopulator( sourceResultIterator,
 						getResultClass( ),
-						query );
+						query,
+						queryDefn.getStartingRow( ) );
+				query.setDistinctValueFlag( queryDefn.getDistinctValue( ) );
 				resultIterator = new CachedResultSet( query,
 						resultClass,
 						querySourcePopulator,
@@ -427,13 +429,23 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 
 		IVQuerySourcePopulator(
 				org.eclipse.birt.data.engine.api.IResultIterator apiResultIterator,
-				IResultClass resultClass, BaseQuery query )
+				IResultClass resultClass, BaseQuery query, int startingRow )
 				throws DataException
 		{
 			this.apiResultIterator = apiResultIterator;
 			this.resultClass = resultClass;
 			fieldNames = resultClass.getFieldNames( );
-
+			if( startingRow > 0 )
+			{
+				try
+				{
+					this.apiResultIterator.moveTo( startingRow - 1 );
+				}
+				catch ( BirtException e )
+				{
+					throw DataException.wrap( e );
+				}
+			}
 		}
 
 		/**

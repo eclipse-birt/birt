@@ -104,4 +104,19 @@ public interface IBaseQueryDefinition extends IBaseTransform, IDataQueryDefiniti
 	 * @return
 	 */
 	public IQueryExecutionHints getQueryExecutionHints();
+	
+	/**
+	 * Gets the starting row that will be retrieved by this query
+	 * @return
+	 */
+	public int getStartingRow( );
+	
+	/**
+	 * If the flag is true this query will return the rows with distinct or
+	 * unique column values. Currently this flag is valid only for the query
+	 * which use another query as data source.
+	 * 
+	 * @return
+	 */
+	public boolean getDistinctValue( );
 }
