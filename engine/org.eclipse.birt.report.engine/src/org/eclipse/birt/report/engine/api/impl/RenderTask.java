@@ -300,10 +300,11 @@ public class RenderTask extends EngineTask implements IRenderTask
 		if ( list.size( ) == 1 )
 		{
 			long[] range = (long[]) list.get( 0 );
-			if ( range[0] == 1 && range[1] == totalVisiblePageCount )
+			long totalPageCount = reportDocument.getPageCount( );
+			if ( range[0] == 1 && range[1] == totalPageCount )
 			{
 				innerRender = new AllPageRender( new long[]{1,
-						totalVisiblePageCount} );
+						totalPageCount} );				
 				return;
 			}
 		}
