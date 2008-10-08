@@ -39,6 +39,8 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	protected boolean 			hasDetail = true;
 	protected IBaseQueryDefinition 	parentQuery;
 	protected int				maxRowCount = 0;
+	protected int				startingRow = 0;
+	protected boolean			distinctValue = false;
 	
 	private   boolean           cacheQueryResults = false;
 	
@@ -125,6 +127,41 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	    maxRowCount = maxRows;
 	}
 	
+	/**
+	 * Sets the starting row that will be retrieved by this query
+	 * @param startingRow
+	 */
+	public void setStartingRow( int startingRow )
+	{
+		this.startingRow = startingRow;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IBaseQueryDefinition#getStartingRow()
+	 */
+	public int getStartingRow( )
+	{
+		return this.startingRow;
+	}
+	
+	/**
+	 * Sets the distinct value flag.
+	 * @return
+	 */
+	public void setDistinctValue( boolean distinctValue )
+	{
+		this.distinctValue = distinctValue;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IBaseQueryDefinition#isDistinct()
+	 */
+	public boolean getDistinctValue( )
+	{
+		return this.distinctValue;
+	}
 	
 	/**
 	 * @param name
