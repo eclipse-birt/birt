@@ -53,7 +53,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IChoiceDefinition;
 import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
@@ -63,7 +62,6 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.ReportItem;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
-import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.Context;
@@ -871,6 +869,20 @@ public final class ChartReportItemImpl extends ReportItem implements
 				sKey,
 				sDefaultValue,
 				locale );
+	}
+	
+	@Override
+	public boolean canExport( )
+	{
+		// If chart is from multi-view or xtab part, do not allow to
+		// export to library.
+		if ( handle.getContainer( ) instanceof MultiViewsHandle
+				|| ChartXTabUtil.isPlotChart( handle )
+				|| ChartXTabUtil.isAxisChart( handle ) )
+		{
+			return false;
+		}
+		return true;
 	}
 
 	/**
