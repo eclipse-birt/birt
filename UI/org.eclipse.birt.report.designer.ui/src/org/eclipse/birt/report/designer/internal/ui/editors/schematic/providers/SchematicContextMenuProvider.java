@@ -67,6 +67,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.CutAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ExportToLibraryAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportCSSStyleAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteFormatAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.RefreshModuleHandleAction;
@@ -272,7 +273,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				menuManager.add( action );
 				createInsertElementMenu( menuManager,
 						GEFActionConstants.GROUP_EDIT );
-				createThemeMenu( menuManager, GEFActionConstants.GROUP_REST );
+				createThemeMenu( selectedElements, menuManager, GEFActionConstants.GROUP_REST );
 				action = new ExportToLibraryAction( selectedElements );
 				menuManager.add( action );
 			}
@@ -845,9 +846,16 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * @param group_name
 	 * 		The action group contains the sub menu.
 	 */
-	private void createThemeMenu( IMenuManager menuManager, String group_name )
+	private void createThemeMenu( Object selectedObject, IMenuManager menuManager, String group_name )
 	{
 		MenuManager menu = new MenuManager( Messages.getString( "SchematicContextMenuProvider.Menu.Theme" ) );//$NON-NLS-1$
+		if(selectedObject instanceof LibraryHandle)
+		{
+			SlotHandle obj = ((LibraryHandle)selectedObject).getThemes( );
+			menu.add( new InsertAction( obj,
+					Messages.getString( "ThemesNodeProvider.action.New" ) ));
+		}
+		
 		MenuManager subMenu = new MenuManager( Messages.getString( "SchematicContextMenuProvider.menutitle.applythemerule" ) );//$NON-NLS-1$
 		subMenu.add( NoneAction.getInstance( ) );
 		subMenu.addMenuListener( new IMenuListener( ) {
