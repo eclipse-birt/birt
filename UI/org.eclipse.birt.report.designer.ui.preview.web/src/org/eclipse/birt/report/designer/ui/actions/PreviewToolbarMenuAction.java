@@ -47,8 +47,7 @@ public class PreviewToolbarMenuAction implements
 			.createImage( );
 	private Image previewPDFIcon = Activator.getImageDescriptor( "icons/etool16/preview_pdf.gif" ) //$NON-NLS-1$
 			.createImage( );
-	// TODO create a word Icon
-	private Image previewDOCIcon = Activator.getImageDescriptor( "icons/etool16/preview_pdf.gif" ) //$NON-NLS-1$
+	private Image previewDOCIcon = Activator.getImageDescriptor( "icons/etool16/preview_doc.gif" ) //$NON-NLS-1$
 			.createImage( );
 
 	/**
@@ -99,7 +98,6 @@ public class PreviewToolbarMenuAction implements
 			{
 				previewOption.setImage( previewPDFIcon );
 			}
-			// add a logic to deal with word
 			else if ( format.equals( "doc" ) ) //$NON-NLS-1$
 			{
 				previewOption.setImage( previewDOCIcon );
