@@ -23,8 +23,17 @@ import org.eclipse.birt.report.engine.api.DataExtractionOption;
 public class CommonDataExtractionOption extends DataExtractionOption
 	implements ICommonDataExtractionOption
 {
+	public CommonDataExtractionOption( )
+	{
+		super( );
+	}
 
-	/**
+	public CommonDataExtractionOption( Map options )
+	{
+		super( options );	
+	}
+	
+	/** 
 	 * @see org.eclipse.birt.report.engine.dataextraction.csv.ICSVDataExtractionOption#getLocale()
 	 */
 	public Locale getLocale( )

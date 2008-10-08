@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.dataextraction;
 
+import java.util.Map;
+
 
 
 /**
@@ -22,6 +24,16 @@ public class CSVDataExtractionOption extends CommonDataExtractionOption
 			ICSVDataExtractionOption
 {
 
+	public CSVDataExtractionOption( )
+	{
+		super( );
+	}
+
+	public CSVDataExtractionOption( Map options )
+	{
+		super( options );	
+	}
+	
 	/**
 	 * @see org.eclipse.birt.report.engine.dataextraction.ICSVDataExtractionOption#getSeparator()
 	 */

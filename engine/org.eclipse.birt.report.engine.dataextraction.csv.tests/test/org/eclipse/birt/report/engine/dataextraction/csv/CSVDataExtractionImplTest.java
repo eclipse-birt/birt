@@ -24,18 +24,23 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.DataExtractionOption;
+import org.eclipse.birt.report.engine.api.IDataExtractionOption;
 import org.eclipse.birt.report.engine.api.IDataIterator;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IResultMetaData;
 import org.eclipse.birt.report.engine.dataextraction.CSVDataExtractionOption;
 import org.eclipse.birt.report.engine.dataextraction.ICSVDataExtractionOption;
+import org.eclipse.birt.report.engine.dataextraction.ICommonDataExtractionOption;
 import org.eclipse.birt.report.engine.dataextraction.csv.mock.MockExtractionResults;
 
 import junit.framework.TestCase;
@@ -200,6 +205,14 @@ public class CSVDataExtractionImplTest extends TestCase
 		out = null;
 		option = null;
 	}
+
+	public void testOutputDefaults( ) throws Exception
+	{
+		IDataExtractionOption option = new DataExtractionOption();
+		option.setOutputFile( "test.csv" ); //$NON-NLS-1$
+		option.setOutputFormat( "csv" ); //$NON-NLS-1$		
+		subtestRegular( option, "testDefaults.csv"); //$NON-NLS-1$
+	}
 	
 	public void testOutputRegular( ) throws Exception
 	{
@@ -214,7 +227,7 @@ public class CSVDataExtractionImplTest extends TestCase
 		option.setLocaleNeutralFormat( false );
 		subtestRegular( option, "testLocalized.csv"); //$NON-NLS-1$
 	}
-	
+
 	public void testOutputEncoding( ) throws Exception
 	{
 		option.setLocale( Locale.ENGLISH );
@@ -509,7 +522,7 @@ public class CSVDataExtractionImplTest extends TestCase
 	/**
 	 * @throws BirtException
 	 */
-	private void subtestRegular( CSVDataExtractionOption option, String testFile ) throws BirtException
+	private void subtestRegular( IDataExtractionOption option, String testFile ) throws BirtException
 	{
 		CSVDataExtractionImpl extract = createExtraction( out, option );
 		extract.output( results );		
@@ -587,11 +600,18 @@ public class CSVDataExtractionImplTest extends TestCase
 	 */
 	private CSVDataExtractionImpl createExtraction(
 			OutputStream out,
-			CSVDataExtractionOption option ) throws BirtException
+			IDataExtractionOption option ) throws BirtException
 	{
 		CSVDataExtractionImpl extract = new CSVDataExtractionImpl();
-		option.setOutputStream( out );		
-		extract.initilize( null, option );
+		
+		// simulate engine's DataExtractionTaskV1.setupExtractOption() by copying the values to a new object
+		// of instance DataExtractionOption		
+		Map allOptions = new HashMap();
+		allOptions.putAll( option.getOptions( ) );
+		
+		DataExtractionOption deOptions = new DataExtractionOption(allOptions);
+		deOptions.setOutputStream( out );		
+		extract.initilize( null, deOptions );
 		return extract;
 	}
 
