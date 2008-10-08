@@ -882,7 +882,7 @@ public class ModelDteApiAdapter
 		            ((OdaDataSetParameterHandle) modelParam ).getNativeName() );
         }
         
-		dteParam.setType( DataAdapterUtil.modelDataTypeToCoreDataType( modelParam.getDataType( ) ) );
+		dteParam.setType( DataAdapterUtil.adaptModelDataType( modelParam.getDataType( ) ) );
 		dteParam.setInputMode( modelParam.isInput( ) );
 		dteParam.setOutputMode( modelParam.isOutput( ) );
 		dteParam.setNullable( modelParam.allowNull( ) );
