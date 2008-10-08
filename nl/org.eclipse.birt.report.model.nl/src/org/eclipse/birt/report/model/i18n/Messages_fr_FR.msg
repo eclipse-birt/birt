@@ -2408,12 +2408,12 @@ Element.ScalarParameter.sortByColumn=Trier par colonne
 Element.ParameterGroup.startExpanded=Lancement développé
 Element.ParameterGroup.helpText=Texte d'aide
 Element.ParameterGroup.helpTextID=Clé du texte d'aide
+Element.ParameterGroup.promptText=Prompt text
+Element.ParameterGroup.promptTextID=Prompt text key
 Element.ParameterGroup.slot.parameters=Paramètres
 
 # CascadingParameterGroup (prefix Element.CascadingParameterGroup)
 Element.CascadingParameterGroup.dataSet=Jeu de données
-Element.CascadingParameterGroup.promptText=Texte de l'invite
-Element.CascadingParameterGroup.promptTextID=Clé du texte de l'invite
 Element.CascadingParameterGroup.dataSetMode=Jeux de données uniques ou multiples
 Element.CascadingParameterGroup.slot.parameters=Paramètres
 
@@ -3491,6 +3491,7 @@ Error.SemanticError.INVALID_PAGE_MARGINS=La page maître "{0}" comporte une valeu
 Error.SemanticError.MISSING_MASTER_PAGE=L'état doit comporter au moins une page maître.
 Error.SemanticError.INVALID_MULTI_COLUMN=La page maître "{0}" comporte une plage de colonne en dehors du contenu de la page.
 Error.SemanticError.INVALID_ELEMENT_REF=La propriété "{1}" de l''élément "{0}" fait référence à un élément non défini "{2}".
+Error.SemanticError.INVALID_DATA_BINDING_REF=The element "{0}" has property dataBindingRef that refers an element "{1}" which is the container or content of the element.
 Error.SemanticError.MISSING_SQL_STMT=Le jeu de données JDBC de sélection "{0}" doit comporter une instruction SQL.
 Error.SemanticError.MISSING_DATA_SET={0} doit pouvoir accéder à un jeu de données.
 Error.SemanticError.INVALID_IMAGE_SCALE_VALUE=La valeur d''échelle de l''image "{0}" doit être positive.

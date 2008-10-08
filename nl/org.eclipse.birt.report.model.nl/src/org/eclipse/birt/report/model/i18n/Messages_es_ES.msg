@@ -2408,12 +2408,12 @@ Element.ScalarParameter.sortByColumn=Ordenar por columna
 Element.ParameterGroup.startExpanded=Iniciar expandido
 Element.ParameterGroup.helpText=Texto de ayuda
 Element.ParameterGroup.helpTextID=Clave de texto de ayuda:
+Element.ParameterGroup.promptText=Prompt text
+Element.ParameterGroup.promptTextID=Prompt text key
 Element.ParameterGroup.slot.parameters=Parámetros
 
 # CascadingParameterGroup (prefix Element.CascadingParameterGroup)
 Element.CascadingParameterGroup.dataSet=Conjunto de datos
-Element.CascadingParameterGroup.promptText=Texto de solicitud
-Element.CascadingParameterGroup.promptTextID=Solicitar clave de texto
 Element.CascadingParameterGroup.dataSetMode=Conjuntos de datos únicos o múltiples
 Element.CascadingParameterGroup.slot.parameters=Parámetros
 
@@ -3491,6 +3491,7 @@ Error.SemanticError.INVALID_PAGE_MARGINS=La página maestra "{0}" tiene un valor 
 Error.SemanticError.MISSING_MASTER_PAGE=El informe debe tener al menos una página maestra.
 Error.SemanticError.INVALID_MULTI_COLUMN=La página maestra "{0}" tiene las columnas extendidas fuera del contenido de la página.
 Error.SemanticError.INVALID_ELEMENT_REF=El elemento "{0}" tiene la propiedad "{1}" que hace referencia al elemento indefinido "{2}".
+Error.SemanticError.INVALID_DATA_BINDING_REF=The element "{0}" has property dataBindingRef that refers an element "{1}" which is the container or content of the element.
 Error.SemanticError.MISSING_SQL_STMT=El conjunto de datos de selección JDBC "{0}" debe tener una sentencia SQL.
 Error.SemanticError.MISSING_DATA_SET={0} debe poder acceder a un conjunto de datos.
 Error.SemanticError.INVALID_IMAGE_SCALE_VALUE=El valor de escala de la imagen "{0}" debe ser positivo.

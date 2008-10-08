@@ -2408,12 +2408,12 @@ Element.ScalarParameter.sortByColumn=열을 기준으로 정렬
 Element.ParameterGroup.startExpanded=시작 확장됨
 Element.ParameterGroup.helpText=도움말 텍스트
 Element.ParameterGroup.helpTextID=도움말 텍스트 키
+Element.ParameterGroup.promptText=Prompt text
+Element.ParameterGroup.promptTextID=Prompt text key
 Element.ParameterGroup.slot.parameters=매개 변수
 
 # CascadingParameterGroup (prefix Element.CascadingParameterGroup)
 Element.CascadingParameterGroup.dataSet=데이터 집합
-Element.CascadingParameterGroup.promptText=프롬프트 텍스트
-Element.CascadingParameterGroup.promptTextID=프롬프트 텍스트 키
 Element.CascadingParameterGroup.dataSetMode=단일 또는 다중 데이터 집합
 Element.CascadingParameterGroup.slot.parameters=매개 변수
 
@@ -3491,6 +3491,7 @@ Error.SemanticError.INVALID_PAGE_MARGINS=마스터 페이지 "{0}"의 여백 값이 잘못되�
 Error.SemanticError.MISSING_MASTER_PAGE=보고서에 하나 이상의 마스터 페이지가 있어야 합니다.
 Error.SemanticError.INVALID_MULTI_COLUMN=마스터 페이지 "{0}"에 페이지 내용 밖으로 걸쳐진 열이 있습니다.
 Error.SemanticError.INVALID_ELEMENT_REF=요소 "{0}"에 정의되지 않은 요소 "{2}"을(를) 참조하는 속성 "{1}"이(가) 있습니다.
+Error.SemanticError.INVALID_DATA_BINDING_REF=The element "{0}" has property dataBindingRef that refers an element "{1}" which is the container or content of the element.
 Error.SemanticError.MISSING_SQL_STMT=JDBC 선택 데이터 집합 "{0}"에는 SQL 문이 있어야 합니다.
 Error.SemanticError.MISSING_DATA_SET={0}은(는) 하나의 데이터 집합을 액세스할 수 있어야 합니다.
 Error.SemanticError.INVALID_IMAGE_SCALE_VALUE=이미지 "{0}"의 배율 값이 양수여야 합니다.

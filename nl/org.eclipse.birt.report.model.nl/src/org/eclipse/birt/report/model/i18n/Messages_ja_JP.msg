@@ -2408,12 +2408,12 @@ Element.ScalarParameter.sortByColumn=列を基準に並べ替える
 Element.ParameterGroup.startExpanded=開始時に展開
 Element.ParameterGroup.helpText=ヘルプテキスト
 Element.ParameterGroup.helpTextID=ヘルプテキストキー
+Element.ParameterGroup.promptText=Prompt text
+Element.ParameterGroup.promptTextID=Prompt text key
 Element.ParameterGroup.slot.parameters=パラメタ
 
 # CascadingParameterGroup (prefix Element.CascadingParameterGroup)
 Element.CascadingParameterGroup.dataSet=データセット
-Element.CascadingParameterGroup.promptText=プロンプトテキスト
-Element.CascadingParameterGroup.promptTextID=プロンプトテキストキー
 Element.CascadingParameterGroup.dataSetMode=1 つまたは複数のデータセット
 Element.CascadingParameterGroup.slot.parameters=パラメタ
 
@@ -3491,6 +3491,7 @@ Error.SemanticError.INVALID_PAGE_MARGINS=マスタページ "{0}" の余白の値が無効です
 Error.SemanticError.MISSING_MASTER_PAGE=レポートには、マスタページが少なくとも 1 つ含まれている必要があります。
 Error.SemanticError.INVALID_MULTI_COLUMN=マスタページ "{0}" のページコンテンツの外部に列の幅が設定されています。
 Error.SemanticError.INVALID_ELEMENT_REF=この要素 "{0}" には、未定義の要素 "{2}" を参照するプロパティ "{1}" が含まれています。
+Error.SemanticError.INVALID_DATA_BINDING_REF=The element "{0}" has property dataBindingRef that refers an element "{1}" which is the container or content of the element.
 Error.SemanticError.MISSING_SQL_STMT=JDBC 選択データセット "{0}" には、SQL 文が含まれている必要があります。
 Error.SemanticError.MISSING_DATA_SET={0} は、1 つのデータセットにアクセスできる必要があります。
 Error.SemanticError.INVALID_IMAGE_SCALE_VALUE=イメージ "{0}" のスケールは正の値である必要があります。
