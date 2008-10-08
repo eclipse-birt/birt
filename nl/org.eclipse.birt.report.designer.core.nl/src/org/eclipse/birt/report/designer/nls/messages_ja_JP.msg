@@ -3131,7 +3131,7 @@ ReportPageGenerator.List.NamedExpressions=名前付き式
 ReportPageGenerator.List.UserProperties=ユーザのプロパティ
 ReportPageGenerator.List.Resources=リソース
 ReportPageGenerator.List.Resources.JarFile=JAR ファイル :
-ReportPageGenerator.List.AdvancedProperty=使用頻度 : 中
+ReportPageGenerator.List.AdvancedProperty=詳細設定
 
 #OdaDataSourceGenerator properties
 DataSourcePageGenerator.List.General=全般
