@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
@@ -407,12 +408,40 @@ public class MetadataEmitter
 		}
 		if ( generateBy instanceof TextItemDesign )
 		{
+			if ( isTopLevelContent( text ) )
+			{
+				return true;
+			}
 			return isTextInHeaderFooter( text );
 		}
 		// Meta data of data items which are in table header, ta
 		if ( generateBy instanceof DataItemDesign )
 		{
+			if ( isTopLevelContent( text ) )
+			{
+				return true;
+			}
 			return isAggregatable( text );
+		}
+		return false;
+	}
+	
+	private boolean isTopLevelContent( IContent content )
+	{
+		if ( null == content.getParent( ) )
+		{
+			return true;
+		}
+		else
+		{
+			IReportContent report = content.getReportContent( );
+			if ( null != report )
+			{
+				if ( report.getRoot( ) == content.getParent( ) )
+				{
+					return true;
+				}
+			}
 		}
 		return false;
 	}
