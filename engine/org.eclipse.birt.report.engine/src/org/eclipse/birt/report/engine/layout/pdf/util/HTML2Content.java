@@ -150,6 +150,15 @@ import org.w3c.dom.css.CSSValue;
  * <td>"strong"</td>
  * </tr>
  * <tr>
+ * <td>"strike"</td>
+ * </tr>
+ * <tr>
+ * <td>"big"</td>
+ * </tr>
+ * <tr>
+ * <td>"small"</td>
+ * </tr>
+ * <tr>
  * <td>"sub"</td>
  * </tr>
  * <tr>
@@ -255,6 +264,10 @@ public class HTML2Content
 		htmlInlineDisplay.add( "tt" );
 		htmlInlineDisplay.add( "u" );
 		htmlInlineDisplay.add( "del" );
+		htmlInlineDisplay.add( "strike" );
+		htmlInlineDisplay.add( "s" );
+		htmlInlineDisplay.add( "big" );
+		htmlInlineDisplay.add( "small" );
 	}
 
 	static
@@ -426,8 +439,8 @@ public class HTML2Content
 			}
 		}
 
-		String tagName = ele.getTagName( );
-		if ( tagName.toLowerCase( ).equals( "a" ) ) //$NON-NLS-1$
+		String lTagName = ele.getTagName( ).toLowerCase( );
+		if ( lTagName.equals( "a" ) ) //$NON-NLS-1$
 		{
 			IContainerContent container = content.getReportContent( )
 					.createContainerContent( );
@@ -436,15 +449,15 @@ public class HTML2Content
 			ActionContent actionContent = handleAnchor( ele, container, action );
 			processNodes( ele, cssStyles, content, actionContent );
 		}
-		else if ( tagName.toLowerCase( ).equals( "img" ) ) //$NON-NLS-1$
+		else if ( lTagName.equals( "img" ) ) //$NON-NLS-1$
 		{
 			outputImg( ele, cssStyles, content );
 		}
-		else if ( tagName.toLowerCase( ).equals( "embed" ) ) //$NON-NLS-1$
+		else if ( lTagName.equals( "embed" ) ) //$NON-NLS-1$
 		{
 			outputEmbedContent( ele, cssStyles, content );
 		}
-		else if ( tagName.toLowerCase( ).equals( "br" ) ) //$NON-NLS-1$
+		else if ( lTagName.equals( "br" ) ) //$NON-NLS-1$
 		{
 
 			ILabelContent label = content.getReportContent( )
@@ -457,7 +470,7 @@ public class HTML2Content
 					CSSValueConstants.INLINE_VALUE );
 			label.setInlineStyle( inlineStyle );
 		}
-		else if ( tagName.toLowerCase( ).equals( "ul" ) || tagName.toLowerCase( ).equals( "ol" ) )//$NON-NLS-1$
+		else if (lTagName.equals( "ul" ) || lTagName.equals( "ol" ) )//$NON-NLS-1$
 		{
 			IReportContent report = content.getReportContent( );
 			ITableContent table = report.createTableContent( );
@@ -471,7 +484,7 @@ public class HTML2Content
 			processNodes( ele, cssStyles, table, action );
 
 		}
-		else if ( tagName.toLowerCase( ).equals( "li" ) //$NON-NLS-1$
+		else if ( lTagName.equals( "li" ) //$NON-NLS-1$
 				&& ele.getParentNode( ).getNodeType( ) == Node.ELEMENT_NODE )
 		{
 			IReportContent report = content.getReportContent( );
@@ -519,14 +532,14 @@ public class HTML2Content
 			processNodes( ele, cssStyles, childCell, action );
 		}
 
-		else if ( tagName.toLowerCase( ).equals( "dd" ) || tagName.toLowerCase( ).equals( "dt" ) ) //$NON-NLS-1$ //$NON-NLS-2$
+		else if ( lTagName.equals( "dd" ) || lTagName.equals( "dt" ) ) //$NON-NLS-1$ //$NON-NLS-2$
 		{
 			IContainerContent container = content.getReportContent( )
 					.createContainerContent( );
 			addChild( content, container );
 			handleStyle( ele, cssStyles, container );
 
-			if ( tagName.toLowerCase( ).equals( "dd" ) ) //$NON-NLS-1$
+			if ( lTagName.equals( "dd" ) ) //$NON-NLS-1$
 			{
 				StyleDeclaration style = new StyleDeclaration( content
 						.getCSSEngine( ) );
@@ -558,11 +571,12 @@ public class HTML2Content
 			}
 
 		}
-		else if ( "table".equals( tagName.toLowerCase( ) ) ) //$NON-NLS-1$
+		else if ( "table".equals( lTagName ) ) //$NON-NLS-1$
 		{
 			TableProcessor.processTable( ele, cssStyles, content, action );
 		}
-		else
+		else if ( htmlBlockDisplay.contains( lTagName )
+				|| htmlInlineDisplay.contains( lTagName ) )
 		{
 			IContainerContent container = content.getReportContent( )
 					.createContainerContent( );
@@ -570,6 +584,10 @@ public class HTML2Content
 			addChild( content, container );
 			// handleStyle(ele, cssStyles, container);
 			processNodes( ele, cssStyles, container, action );
+		}
+		else
+		{
+			processNodes( ele, cssStyles, content, action );
 		}
 	}
 
