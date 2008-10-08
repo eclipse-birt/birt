@@ -449,10 +449,14 @@ public class ModelDteApiAdapter
 		{
 			dteSession.getDataSessionContext( ).setAppContext( new HashMap( ) );
 		}
-		dteSession.getDataSessionContext( )
+		
+		if ( !dteSession.getDataSessionContext( )
 				.getAppContext( )
-				.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
-						createResourceIdentifiers( source.getModuleHandle( ) ) );
+				.containsKey( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS ) )
+			dteSession.getDataSessionContext( )
+					.getAppContext( )
+					.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
+							createResourceIdentifiers( source.getModuleHandle( ) ) );
 	}
 
 	/**
