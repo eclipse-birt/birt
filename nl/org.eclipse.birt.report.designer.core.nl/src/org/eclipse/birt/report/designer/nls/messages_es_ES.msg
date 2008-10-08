@@ -902,8 +902,8 @@ DesignerOutlinePage.menu.Filters=Filtros
 
 ###########################################################
 #Content outline page switch action
-ContentOutlinePage.action.text.reportOutline=Switch to XML Source Outline
-ContentOutlinePage.action.text.reportXMLSourceOutline=Switch to Report Outline
+ContentOutlinePage.action.text.reportOutline=Cambiar a contorno de fuente XML
+ContentOutlinePage.action.text.reportXMLSourceOutline=Cambiar a contorno de informe
 
 ###########################################################
 #DesignerPaletteFactory properties

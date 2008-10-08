@@ -902,8 +902,8 @@ DesignerOutlinePage.menu.Filters=필터
 
 ###########################################################
 #Content outline page switch action
-ContentOutlinePage.action.text.reportOutline=Switch to XML Source Outline
-ContentOutlinePage.action.text.reportXMLSourceOutline=Switch to Report Outline
+ContentOutlinePage.action.text.reportOutline=XML 소스 윤곽선으로 전환
+ContentOutlinePage.action.text.reportXMLSourceOutline=보고서 윤곽선으로 전환
 
 ###########################################################
 #DesignerPaletteFactory properties

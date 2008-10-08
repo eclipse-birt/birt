@@ -902,8 +902,8 @@ DesignerOutlinePage.menu.Filters=フィルタ
 
 ###########################################################
 #Content outline page switch action
-ContentOutlinePage.action.text.reportOutline=Switch to XML Source Outline
-ContentOutlinePage.action.text.reportXMLSourceOutline=Switch to Report Outline
+ContentOutlinePage.action.text.reportOutline=XML ソースのアウトラインに切り換える
+ContentOutlinePage.action.text.reportXMLSourceOutline=レポートのアウトラインに切り換える
 
 ###########################################################
 #DesignerPaletteFactory properties
