@@ -1028,6 +1028,11 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		{
 			int itemCount = table.getItemCount( );
 			int pos = table.getSelectionIndex( );
+			
+			if(pos < 0) // select nothing
+			{
+				return;
+			}
 			if ( selectIndex == itemCount - 1 )
 			{
 				selectIndex--;
