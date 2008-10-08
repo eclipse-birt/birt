@@ -18,19 +18,15 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
-import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
-import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 
 /**
  * This UI component is made up of data text fields for grouping series of each
@@ -152,19 +148,6 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 							sd,
 							context,
 							sTitle );
-					subUI.addListener( new Listener( ) {
-
-						public void handleEvent( Event event )
-						{
-							final String query = event.text;
-							// Copy the group query to other query definitions.
-							ChartAdapter.beginIgnoreNotifications( );
-							ChartUIUtil.setAllGroupingQueryExceptFirst( context.getModel( ),
-									query );
-							ChartAdapter.endIgnoreNotifications( );
-
-						}
-					} );
 					subUI.createArea( cmpGroup );
 					components.add( subUI );
 				}
