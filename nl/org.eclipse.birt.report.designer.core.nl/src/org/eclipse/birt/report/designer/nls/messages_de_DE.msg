@@ -827,6 +827,7 @@ designer.preview.preference.elementname.description.Enabled=false
 designer.preview.preference.elementname.description=Beschreibung
 designer.preview.preference.elementname.Enabled=true 
 designer.preview.preference.locale.description=&Gebietsschema auswählen:
+designer.preview.preference.timezone.description=&Time zone:
 designer.preview.preference.resultset.sqldatasetpage.group.title=Abfrageseite
 designer.preview.preference.resultset.previewpage.group.title=Vorschauseite
 designer.preview.preference.resultset.maxNoOfSchema.description=&Maximale Anzahl anzuzeigender Schemata:
@@ -1153,6 +1154,7 @@ Element.ParameterGroup.helpText=Hilfetext:
 Element.ParameterGroup.helpTextID=Hilfetextschlüssel:
 Element.ParameterGroup.slot.parameters=Parameter:
 Element.ParameterGroup.startExpanded=Erweiterte starten:
+Element.ParameterGroup.promptTextID=Prompt &text key:
 Element.ReportDesign.afterCloseDoc.toolTip=Wird direkt nach dem Schließen des Berichtdokuments in der Erstellungsphase aufgerufen.
 Element.ReportDesign.layoutPreference=&Layoutvoreinstellungen: 
 Element.ReportDesign.afterCloseDoc=Nach dem Schließen des Dokuments:
@@ -3662,7 +3664,7 @@ AutoTextPageGenerator.List.Visibility=Sichtbarkeit
 ###########################################################
 #ThemesNodeProvider properties
 
-ThemesNodeProvider.action.New=Neues Thema
+ThemesNodeProvider.action.New=&New Theme...
 ThemesNodeProvider.Failed=Neues Thema fehlgeschlagen
 NewThemeDialog.DialogTitle=Neues Thema
 NewThemeDialog.DialogMessage=Geben Sie den Namen ein.
