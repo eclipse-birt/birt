@@ -211,4 +211,44 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 			}
 		}
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent
+	 * #updateQuery(java.lang.String)
+	 */
+	@Override
+	public void updateQuery( String expression )
+	{
+		super.updateQuery( expression );
+
+		final SeriesDefinition[] seda = context.getModel( )
+				.getSeriesForLegend( );
+		if ( seda.length > 1 )
+		{
+			for ( int i = 1; i < seda.length; i++ )
+			{
+				setQueryExpression( seda[i], expression );
+			}
+
+		}
+	}
+
+	private void setQueryExpression( SeriesDefinition sed, String expression )
+	{
+		Query query = sed.getQuery( );
+		if ( query != null )
+		{
+			query.setDefinition( expression );
+		}
+		else
+		{
+			query = QueryImpl.create( expression );
+			query.eAdapters( ).addAll( sed.eAdapters( ) );
+			sed.setQuery( query );
+		}
+	}
+	
 }
