@@ -110,7 +110,8 @@ public final class DataPointHints
 		dp = _dp;
 		oBaseValue = _oBaseValue;
 		oOrthogonalValue = _oOrthogonalValue;
-		oSeriesValue = _oSeriesValue;
+		oSeriesValue = _oSeriesValue != null ? _rtc.externalizedMessage( _oSeriesValue.toString( ) )
+				: null;
 		oPercentileOrthogonalValue = _oPercentileValue;
 
 		fsBase = _fsBase;
