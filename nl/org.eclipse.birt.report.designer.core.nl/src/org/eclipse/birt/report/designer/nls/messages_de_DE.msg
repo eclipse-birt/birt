@@ -834,13 +834,13 @@ designer.preview.preference.resultset.maxNoOfSchema.description=&Maximale Anzahl
 designer.preview.preference.resultset.maxNoOfTable.description=&Maximale Anzahl von Tabellen in den anzuzeigenden Schemata:
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=Geben Sie eine Zahl zwischen 0 und {0} an, um die maximale Anzahl an Schemata zu definieren.
 designer.preview.preference.resultset.maxNoOfTable.errormessage=Geben Sie eine Zahl zwischen 0 und {0} an, um die maximale Anzahl von Tabellen in den Schemata zu definieren.
-designer.preview.preference.resultset.maxrow.description=&Maximale Anzahl anzuzeigender Zeilen:
+designer.preview.preference.resultset.maxrow.description=Anzahl anzuzeigender &Zeilen:
 designer.preview.preference.resultset.maxrow.errormessage=Geben Sie für die maximale Zeilenanzahl eine Zahl zwischen 1 und {0} ein.
-designer.preview.preference.resultset.maxrowlevelmember.description=&Anzuzeigende maximale Mitgliederanzahl für jede Zeilenebene:
+designer.preview.preference.resultset.maxrowlevelmember.description=Anzahl anzuzeigender Mitglieder jeder Zeilen&ebene:
 designer.preview.preference.resultset.maxrowlevelmember.errormessage=Geben Sie für die maximale Mitgliederanzahl eine Zahl zwischen 1 und {0} ein.
-designer.preview.preference.resultset.maxcolumnlevelmember.description=Maximale Anzahl anzuzeigender Mitglieder jeder &Spaltenebene: 
+designer.preview.preference.resultset.maxcolumnlevelmember.description=Anzahl anzuzeigender Mitglieder jeder &Spaltenebene:
 designer.preview.preference.resultset.maxcolumnlevelmember.errormessage=Geben Sie für die maximale Mitgliederanzahl eine Zahl zwischen 1 und {0} ein.
-designer.preview.preference.resultset.maxinmemorycubesize.description=Maximale Quader&größe im Speicher (MB): 
+designer.preview.preference.resultset.maxinmemorycubesize.description=Quader&größe im Speicher (MB):
 designer.preview.preference.resultset.maxinmemorycubesize.errormessage=Geben Sie eine Zahl zwischen 1 und {0} für die maximale Quaderspeichergröße an.
 designer.preview.preference.server.description=Konfiguration des internen Anwendungsservers. Der Server wird intern vom\nBIRT Report Designer Preview Framework verwendet.
 designer.preview.preference.server.hostDescription=&Host-Name oder IP-Adresse des lokalen Rechners. Leer lassen, damit eine automatische\nFestlegung erfolgt.
@@ -902,8 +902,8 @@ DesignerOutlinePage.menu.Filters=Filter
 
 ###########################################################
 #Content outline page switch action
-ContentOutlinePage.action.text.reportOutline=Switch to XML Source Outline
-ContentOutlinePage.action.text.reportXMLSourceOutline=Switch to Report Outline
+ContentOutlinePage.action.text.reportOutline=Zu XML-Quellgliederung wechseln
+ContentOutlinePage.action.text.reportXMLSourceOutline=Zu Berichtsgliederung wechseln
 
 ###########################################################
 #DesignerPaletteFactory properties
@@ -1148,7 +1148,7 @@ Element.OdaDataSource.driverName=Treibername:
 Element.OdaDataSource.privateDriverProperties=Eigenschaften des privaten Treibers:
 Element.OdaDataSource.publicDriverProperties=Eigenschaften des öffentlichen Treibers:
 Element.Parameter.helpText=Hilfetext:
-Element.Parameter.helpTextID=Hilfetextschlüssel
+Element.Parameter.helpTextID=Hilfetextsch&lüssel:
 Element.Parameter.hidden=Verborgen:
 Element.ParameterGroup.helpText=Hilfetext:
 Element.ParameterGroup.helpTextID=Hilfetextschlüssel:
@@ -1220,7 +1220,7 @@ Element.ScalarParameter.selectionList.fixedOrder=Feste Reihenfolge:
 Element.ScalarParameter.selectionList.mustMatch=Muss übereinstimmen mit:
 Element.ScalarParameter.selectionList.selectionList=Auswahlliste:
 Element.ScalarParameter.selectionList=Auswahlliste:
-Element.ScalarParameter.promptTextID=Aufforderungs&textschlüssel:
+Element.ScalarParameter.promptTextID=Aufforderungstexts&chlüssel:
 Element.ScriptDataSet.close.toolTip=Schließt den Datensatz.
 Element.ScriptDataSet.close=Schließen:
 Element.ScriptDataSet.describe.toolTip=Beschreibt das Ergebnis.
@@ -2848,7 +2848,7 @@ PreviewAction.Text=Vorschau
 PreviewEditor.parameter.tooltip=Berichtparameter anzeigen
 PreviewEditor.parameter.note=Hinweis:
 PreviewEditor.parameter.info=Die maximale Anzahl an Datenzeilen beträgt derzeit
-PreviewEditor.parameter.change=Zum Ändern klicken
+PreviewEditor.parameter.change=Zum Ändern der Vorschaueinstellungen klicken.
 PreviewEditor.ConfirmRefresh.Title=Aktualisierung bestätigen
 PreviewEditor.ConfirmRefresh.Message=Der Vorgang kann das Vorschauergebnis beeinflussen. Möchten Sie die Vorschauseite aktualisieren? 
 PreviewEditor.browser.notfound=Interner Browser ist nicht verfügbar.
@@ -3664,7 +3664,7 @@ AutoTextPageGenerator.List.Visibility=Sichtbarkeit
 ###########################################################
 #ThemesNodeProvider properties
 
-ThemesNodeProvider.action.New=Neues Thema
+ThemesNodeProvider.action.New=&New Theme...
 ThemesNodeProvider.Failed=Neues Thema fehlgeschlagen
 NewThemeDialog.DialogTitle=Neues Thema
 NewThemeDialog.DialogMessage=Geben Sie den Namen ein.

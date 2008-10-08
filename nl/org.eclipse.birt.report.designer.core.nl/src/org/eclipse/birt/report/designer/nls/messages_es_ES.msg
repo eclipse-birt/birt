@@ -834,13 +834,13 @@ designer.preview.preference.resultset.maxNoOfSchema.description=Número máximo de
 designer.preview.preference.resultset.maxNoOfTable.description=Número máximo de &tablas de cada esquema que mostrar:
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=Introduzca un número entre 0 y {0} para el número máximo de esquemas.
 designer.preview.preference.resultset.maxNoOfTable.errormessage=Introduzca un número entre 0 y {0} para el número máximo de tablas de cada esquema.
-designer.preview.preference.resultset.maxrow.description=Número máximo de &filas que mostrar:
+designer.preview.preference.resultset.maxrow.description=Número de &filas para mostrar:
 designer.preview.preference.resultset.maxrow.errormessage=Introduzca un número entre 1 y {0} para el número máximo de filas.
-designer.preview.preference.resultset.maxrowlevelmember.description=Recuento de miembros máximo de cada &nivel de fila para mostrar:
+designer.preview.preference.resultset.maxrowlevelmember.description=Recuento de miembros de cada &nivel de fila para mostrar:
 designer.preview.preference.resultset.maxrowlevelmember.errormessage=Introduzca un número entre 1 y {0} para el número máximo de miembros por nivel de fila.
-designer.preview.preference.resultset.maxcolumnlevelmember.description=Recuento de miembros máximo de cada &nivel de columna para mostrar: 
+designer.preview.preference.resultset.maxcolumnlevelmember.description=Recuento de miembros de cada &nivel de columna para mostrar:
 designer.preview.preference.resultset.maxcolumnlevelmember.errormessage=Introduzca un número entre 1 y {0} para el número máximo de miembros por nivel de columna.
-designer.preview.preference.resultset.maxinmemorycubesize.description=Tamaño máximo del cubo de memoria (MB): 
+designer.preview.preference.resultset.maxinmemorycubesize.description=Tamaño del cubo de memoria (MB):
 designer.preview.preference.resultset.maxinmemorycubesize.errormessage=Introduzca un número entre 1 y {0} para el tamaño máximo del cubo de memoria.
 designer.preview.preference.server.description=Configuración del servidor de aplicaciones interno. El frame de vista previa de BIRT Report Designer\nutiliza el servidor internamente.
 designer.preview.preference.server.hostDescription=&Nombre del anfitrión o dirección IP de equipo local. Deje en blanco, se\ndetermina automáticamente.
@@ -902,8 +902,8 @@ DesignerOutlinePage.menu.Filters=Filtros
 
 ###########################################################
 #Content outline page switch action
-ContentOutlinePage.action.text.reportOutline=Switch to XML Source Outline
-ContentOutlinePage.action.text.reportXMLSourceOutline=Switch to Report Outline
+ContentOutlinePage.action.text.reportOutline=Cambiar a contorno de fuente XML
+ContentOutlinePage.action.text.reportXMLSourceOutline=Cambiar a contorno de informe
 
 ###########################################################
 #DesignerPaletteFactory properties
@@ -1148,7 +1148,7 @@ Element.OdaDataSource.driverName=Nombre de controlador:
 Element.OdaDataSource.privateDriverProperties=Propiedades de controlador privadas:
 Element.OdaDataSource.publicDriverProperties=Propiedades de controlador públicas:
 Element.Parameter.helpText=Texto de ayuda:
-Element.Parameter.helpTextID=Clave de texto de ayuda
+Element.Parameter.helpTextID=Clave de texto de a&yuda:
 Element.Parameter.hidden=Oculto:
 Element.ParameterGroup.helpText=Texto de ayuda:
 Element.ParameterGroup.helpTextID=Clave de texto de ayuda:
@@ -1220,7 +1220,7 @@ Element.ScalarParameter.selectionList.fixedOrder=Orden fijo:
 Element.ScalarParameter.selectionList.mustMatch=Debe coincidir:
 Element.ScalarParameter.selectionList.selectionList=Lista de selección:
 Element.ScalarParameter.selectionList=Lista de selección:
-Element.ScalarParameter.promptTextID=Solicitar &clave de texto:
+Element.ScalarParameter.promptTextID=Clave de texto de &solicitud:
 Element.ScriptDataSet.close.toolTip=Cierra el conjunto de datos.
 Element.ScriptDataSet.close=Cerrar:
 Element.ScriptDataSet.describe.toolTip=Describe el conjunto de resultados.
@@ -2848,7 +2848,7 @@ PreviewAction.Text=Vista previa
 PreviewEditor.parameter.tooltip=Mostrar parámetros de informe
 PreviewEditor.parameter.note=Nota:
 PreviewEditor.parameter.info=El número máximo actual de filas de datos está limitado a
-PreviewEditor.parameter.change=Haga clic para cambiarlo
+PreviewEditor.parameter.change=Haga clic para cambiar las preferencias de vista previa
 PreviewEditor.ConfirmRefresh.Title=Confirmar actualización
 PreviewEditor.ConfirmRefresh.Message=La operación puede influir en el resultado de vista previa. ¿Desea actualizar la página de previsualización? 
 PreviewEditor.browser.notfound=El explorador interno no está disponible.
@@ -3664,7 +3664,7 @@ AutoTextPageGenerator.List.Visibility=Visibilidad
 ###########################################################
 #ThemesNodeProvider properties
 
-ThemesNodeProvider.action.New=Nuevo tema
+ThemesNodeProvider.action.New=&New Theme...
 ThemesNodeProvider.Failed=Error en el nuevo tema
 NewThemeDialog.DialogTitle=Nuevo tema
 NewThemeDialog.DialogMessage=Introduzca el nombre

@@ -834,13 +834,13 @@ designer.preview.preference.resultset.maxNoOfSchema.description=要显示的最大架构
 designer.preview.preference.resultset.maxNoOfTable.description=每个架构中要显示的最大表数(&T):
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=请为最大架构数输入一个介于 0 和 {0} 之间的数。
 designer.preview.preference.resultset.maxNoOfTable.errormessage=请在每个架构中分别为最大表数输入一个介于 0 和 {0} 之间的数。
-designer.preview.preference.resultset.maxrow.description=要显示的最大行数(&R):
+designer.preview.preference.resultset.maxrow.description=要显示的行数(&R):
 designer.preview.preference.resultset.maxrow.errormessage=请为最大行数输入一个介于 1 和 {0} 之间的数。
-designer.preview.preference.resultset.maxrowlevelmember.description=显示的每个行级别的最大计数(&L):
+designer.preview.preference.resultset.maxrowlevelmember.description=要显示的每个行级别的计数(&L):
 designer.preview.preference.resultset.maxrowlevelmember.errormessage=请为最大行级别数输入一个介于 1 和 {0} 之间的数。
-designer.preview.preference.resultset.maxcolumnlevelmember.description=显示的每个列级别的最大计数(&C): 
+designer.preview.preference.resultset.maxcolumnlevelmember.description=要显示的每个列级别的计数(&C):
 designer.preview.preference.resultset.maxcolumnlevelmember.errormessage=请为最大列级别数输入一个介于 1 和 {0} 之间的数。
-designer.preview.preference.resultset.maxinmemorycubesize.description=最大内存多维数据集大小(MB)(&S): 
+designer.preview.preference.resultset.maxinmemorycubesize.description=内存多维数据集大小(MB)(&S):
 designer.preview.preference.resultset.maxinmemorycubesize.errormessage=请为最大内存多维数据集大小输入一个介于 1 和 {0} 之间的数。
 designer.preview.preference.server.description=Internal Application Server 配置。该服务器由 \nBIRT Report Designer Preview Framework 内部使用。
 designer.preview.preference.server.hostDescription=本地计算机的主机名或 IP 地址。将其留空以自动\n确定(&H)。
@@ -902,8 +902,8 @@ DesignerOutlinePage.menu.Filters=筛选器
 
 ###########################################################
 #Content outline page switch action
-ContentOutlinePage.action.text.reportOutline=Switch to XML Source Outline
-ContentOutlinePage.action.text.reportXMLSourceOutline=Switch to Report Outline
+ContentOutlinePage.action.text.reportOutline=切换至 XML 源大纲
+ContentOutlinePage.action.text.reportXMLSourceOutline=切换至报表大纲
 
 ###########################################################
 #DesignerPaletteFactory properties
@@ -1148,7 +1148,7 @@ Element.OdaDataSource.driverName=驱动程序名称:
 Element.OdaDataSource.privateDriverProperties=私有驱动程序属性:
 Element.OdaDataSource.publicDriverProperties=公共驱动程序属性:
 Element.Parameter.helpText=帮助文本:
-Element.Parameter.helpTextID=帮助文本关键字
+Element.Parameter.helpTextID=帮助文本关键字(&Y):
 Element.Parameter.hidden=隐藏:
 Element.ParameterGroup.helpText=帮助文本:
 Element.ParameterGroup.helpTextID=帮助文本关键字:
@@ -1220,7 +1220,7 @@ Element.ScalarParameter.selectionList.fixedOrder=固定顺序:
 Element.ScalarParameter.selectionList.mustMatch=必须匹配:
 Element.ScalarParameter.selectionList.selectionList=选择列表:
 Element.ScalarParameter.selectionList=选择列表:
-Element.ScalarParameter.promptTextID=提示文本关键字(&T):
+Element.ScalarParameter.promptTextID=提示文本关键字(&Y):
 Element.ScriptDataSet.close.toolTip=关闭数据集。
 Element.ScriptDataSet.close=关闭:
 Element.ScriptDataSet.describe.toolTip=说明结果集。
@@ -2848,7 +2848,7 @@ PreviewAction.Text=预览
 PreviewEditor.parameter.tooltip=显示报表参数
 PreviewEditor.parameter.note=注:
 PreviewEditor.parameter.info=当前数据行数的最大限制为
-PreviewEditor.parameter.change=单击进行更改
+PreviewEditor.parameter.change=单击以更改预览首选项
 PreviewEditor.ConfirmRefresh.Title=确认刷新
 PreviewEditor.ConfirmRefresh.Message=您的操作可能影响预览结果，是否要刷新预览页面? 
 PreviewEditor.browser.notfound=内部浏览器不可用。
@@ -3664,7 +3664,7 @@ AutoTextPageGenerator.List.Visibility=可见性
 ###########################################################
 #ThemesNodeProvider properties
 
-ThemesNodeProvider.action.New=新主题
+ThemesNodeProvider.action.New=&New Theme...
 ThemesNodeProvider.Failed=新建主题失败
 NewThemeDialog.DialogTitle=新主题
 NewThemeDialog.DialogMessage=请输入名称

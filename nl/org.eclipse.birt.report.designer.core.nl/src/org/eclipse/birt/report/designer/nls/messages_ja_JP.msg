@@ -834,13 +834,13 @@ designer.preview.preference.resultset.maxNoOfSchema.description=表示するスキーマ
 designer.preview.preference.resultset.maxNoOfTable.description=各スキーマに表示するテーブルの最大数(&T) :
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=最大スキーマ数には、0 から {0} までの数を入力してください。
 designer.preview.preference.resultset.maxNoOfTable.errormessage=各スキーマの最大テーブル数には、0 から {0} までの数を入力してください。
-designer.preview.preference.resultset.maxrow.description=表示する行の最大数(&R) :
+designer.preview.preference.resultset.maxrow.description=表示する行数(&R) :
 designer.preview.preference.resultset.maxrow.errormessage=最大行数には、1 から {0} までの数を入力してください。
-designer.preview.preference.resultset.maxrowlevelmember.description=各行レベルに表示するメンバの最大数(&L) :
+designer.preview.preference.resultset.maxrowlevelmember.description=各行レベルに表示するメンバ数(&L) :
 designer.preview.preference.resultset.maxrowlevelmember.errormessage=行レベルメンバの最大数には、1 から {0} までの数を入力してください。
-designer.preview.preference.resultset.maxcolumnlevelmember.description=各列レベルに表示するメンバの最大数(&C) : 
+designer.preview.preference.resultset.maxcolumnlevelmember.description=各列レベルに表示するメンバ数(&C) :
 designer.preview.preference.resultset.maxcolumnlevelmember.errormessage=列レベルメンバの最大数には、1 から {0} までの数を入力してください。
-designer.preview.preference.resultset.maxinmemorycubesize.description=メモリ内の最大キューブサイズ (MB)(&S) : 
+designer.preview.preference.resultset.maxinmemorycubesize.description=メモリ内のキューブサイズ (MB)(&S) :
 designer.preview.preference.resultset.maxinmemorycubesize.errormessage=メモリ内の最大キューブサイズには、1 から {0} までの数を入力してください。
 designer.preview.preference.server.description=内部アプリケーションサーバの設定。サーバは、BIRT Report Designer\nPreview Framework 内部で使用されます。
 designer.preview.preference.server.hostDescription=ローカルマシンのホスト名または IP アドレス(&H)\n自動的に決定するには、空白のままにしてください。
@@ -902,8 +902,8 @@ DesignerOutlinePage.menu.Filters=フィルタ
 
 ###########################################################
 #Content outline page switch action
-ContentOutlinePage.action.text.reportOutline=Switch to XML Source Outline
-ContentOutlinePage.action.text.reportXMLSourceOutline=Switch to Report Outline
+ContentOutlinePage.action.text.reportOutline=XML ソースのアウトラインに切り換える
+ContentOutlinePage.action.text.reportXMLSourceOutline=レポートのアウトラインに切り換える
 
 ###########################################################
 #DesignerPaletteFactory properties
@@ -1148,7 +1148,7 @@ Element.OdaDataSource.driverName=ドライバ名 :
 Element.OdaDataSource.privateDriverProperties=プライベートドライバのプロパティ :
 Element.OdaDataSource.publicDriverProperties=パブリックドライバのプロパティ :
 Element.Parameter.helpText=ヘルプテキスト :
-Element.Parameter.helpTextID=ヘルプテキストキー
+Element.Parameter.helpTextID=ヘルプテキストキー(&Y) :
 Element.Parameter.hidden=非表示 :
 Element.ParameterGroup.helpText=ヘルプテキスト :
 Element.ParameterGroup.helpTextID=ヘルプテキストキー :
@@ -1220,7 +1220,7 @@ Element.ScalarParameter.selectionList.fixedOrder=固定順序 :
 Element.ScalarParameter.selectionList.mustMatch=必ず一致 :
 Element.ScalarParameter.selectionList.selectionList=選択リスト :
 Element.ScalarParameter.selectionList=選択リスト :
-Element.ScalarParameter.promptTextID=プロンプトテキストキー (&T):
+Element.ScalarParameter.promptTextID=プロンプトテキストキー(&K) :
 Element.ScriptDataSet.close.toolTip=データセットを閉じます。
 Element.ScriptDataSet.close=閉じる :
 Element.ScriptDataSet.describe.toolTip=結果セットを記述します。
@@ -2848,7 +2848,7 @@ PreviewAction.Text=プレビュー
 PreviewEditor.parameter.tooltip=レポートパラメタを表示します。
 PreviewEditor.parameter.note=注 :
 PreviewEditor.parameter.info=データ行の現在の制限 :
-PreviewEditor.parameter.change=変更するにはここをクリック
+PreviewEditor.parameter.change=プレビューの環境設定を変更するにはここをクリック
 PreviewEditor.ConfirmRefresh.Title=更新の確認
 PreviewEditor.ConfirmRefresh.Message=この操作はプレビュー結果に影響する可能性があります。プレビューページを更新しますか ? 
 PreviewEditor.browser.notfound=内部ブラウザがありません。
@@ -3664,7 +3664,7 @@ AutoTextPageGenerator.List.Visibility=表示/非表示
 ###########################################################
 #ThemesNodeProvider properties
 
-ThemesNodeProvider.action.New=新規テーマ
+ThemesNodeProvider.action.New=&New Theme...
 ThemesNodeProvider.Failed=新規テーマのエラー
 NewThemeDialog.DialogTitle=新規テーマ
 NewThemeDialog.DialogMessage=名前を入力してください。
