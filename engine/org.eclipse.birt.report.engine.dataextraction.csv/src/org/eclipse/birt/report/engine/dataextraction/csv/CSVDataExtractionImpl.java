@@ -23,6 +23,7 @@ import org.eclipse.birt.report.engine.api.IDataExtractionOption;
 import org.eclipse.birt.report.engine.api.IDataIterator;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.dataextraction.CSVDataExtractionOption;
 import org.eclipse.birt.report.engine.dataextraction.ICSVDataExtractionOption;
 import org.eclipse.birt.report.engine.dataextraction.i18n.Messages;
 import org.eclipse.birt.report.engine.dataextraction.impl.CommonDataExtractionImpl;
@@ -45,18 +46,33 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 	 * @see org.eclipse.birt.report.engine.extension.IDataExtractionExtension#initilize(org.eclipse.birt.report.engine.api.script.IReportContext,
 	 *      org.eclipse.birt.report.engine.api.IDataExtractionOption)
 	 */
-	public void initilize( IReportContext context, IDataExtractionOption option )
+	public void initilize( IReportContext context, IDataExtractionOption options )
 			throws BirtException
 	{
-		assert option instanceof ICSVDataExtractionOption;
-		super.initilize( context, option );
-		initOptions((ICSVDataExtractionOption)option);
+		super.initilize( context, options );
+		initCsvOptions(options);
 	}
 	
-	private void initOptions( ICSVDataExtractionOption options )
+	/**
+	 * Initializes the CSV options based on the data extraction option.
+	 * If the passed option doesn't contain common options, use default
+	 * values.
+	 * @param option options
+	 */	
+	private void initCsvOptions( IDataExtractionOption options )
 	{
-		outputStream = options.getOutputStream( );
-		encoding = options.getEncoding( );
+		this.outputStream = options.getOutputStream( );
+		ICSVDataExtractionOption csvOptions;		
+		if ( options instanceof ICSVDataExtractionOption )
+		{
+			csvOptions = (ICSVDataExtractionOption)options;
+		}
+		else
+		{
+			csvOptions = new CSVDataExtractionOption(options.getOptions( ));
+		}		
+		
+		encoding = csvOptions.getEncoding( );
 		if ( encoding == null || "".equals(encoding.trim( ))) //$NON-NLS-1$
 		{
 			encoding = null;
@@ -70,9 +86,14 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 			encoding = DEFAULT_ENCODING;
 		}
 		
-		sep = options.getSeparator();
-		isExportDataType = options.isExportDataType( );
-		selectedColumnNames = (String[]) options.getSelectedColumns( );		
+		sep = csvOptions.getSeparator();
+		if ( sep == null || "".equals(sep) ) //$NON-NLS-1$
+		{
+			sep = ICSVDataExtractionOption.SEPARATOR_COMMA;
+		}
+		
+		isExportDataType = csvOptions.isExportDataType( );
+		selectedColumnNames = (String[]) csvOptions.getSelectedColumns( );
 	}
 
 	/**

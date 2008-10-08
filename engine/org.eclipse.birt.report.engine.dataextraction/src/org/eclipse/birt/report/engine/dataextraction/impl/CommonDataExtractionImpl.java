@@ -19,7 +19,8 @@ import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.engine.api.IDataExtractionOption;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
-import org.eclipse.birt.report.engine.dataextraction.ICSVDataExtractionOption;
+import org.eclipse.birt.report.engine.dataextraction.CommonDataExtractionOption;
+import org.eclipse.birt.report.engine.dataextraction.ICommonDataExtractionOption;
 import org.eclipse.birt.report.engine.dataextraction.i18n.Messages;
 import org.eclipse.birt.report.engine.extension.IDataExtractionExtension;
 
@@ -36,7 +37,7 @@ public class CommonDataExtractionImpl implements IDataExtractionExtension
 	protected String PLUGIN_ID = "org.eclipse.birt.report.engine.dataextraction"; //$NON-NLS-1$
 	
 	private IReportContext context;
-	private ICSVDataExtractionOption option;
+	private IDataExtractionOption options;
 	private DateFormatter dateFormatter = null;
 	private NumberFormatter numberFormatter = null;
 	private ULocale locale = null;
@@ -46,33 +47,55 @@ public class CommonDataExtractionImpl implements IDataExtractionExtension
 	/**
 	 * @see org.eclipse.birt.report.engine.extension.IDataExtractionExtension#initilize(org.eclipse.birt.report.engine.api.script.IReportContext, org.eclipse.birt.report.engine.api.IDataExtractionOption)
 	 */
-	public void initilize( IReportContext context, IDataExtractionOption option )
+	public void initilize( IReportContext context, IDataExtractionOption options )
 			throws BirtException
 	{
 		this.context = context;
-		this.option = (ICSVDataExtractionOption) option;
+		this.options = options;
 		
-		if ( option.getOutputStream( ) == null )
+		if ( options.getOutputStream( ) == null )
 		{	
 			throw new BirtException( PLUGIN_ID,
 					Messages.getString( "exception.dataextraction.options.outputstream_required" ), null ); //$NON-NLS-1$
 		}
 		
-		this.isLocaleNeutral = this.option.isLocaleNeutralFormat( );
-
-		String dateFormat = this.option.getDateFormat( );
-		// get locale info
-		Locale aLocale = this.option.getLocale( );
-		if ( aLocale == null )
+		initCommonOptions(options);
+	}
+	
+	/**
+	 * Initializes the common options based on the data extraction option.
+	 * If the passed option doesn't contain common options, use default
+	 * values.
+	 * @param options options
+	 */
+	private void initCommonOptions(IDataExtractionOption options)
+	{
+		String dateFormat = null;
+		ICommonDataExtractionOption commonOptions;		
+		if ( options instanceof ICommonDataExtractionOption )
 		{
-			locale = ULocale.forLocale( Locale.getDefault( ) );
+			commonOptions = (ICommonDataExtractionOption)options;
 		}
 		else
 		{
-			locale = ULocale.forLocale( aLocale );
+			commonOptions = new CommonDataExtractionOption(options.getOptions( ));
+		}
+		
+		this.isLocaleNeutral = commonOptions.isLocaleNeutralFormat( );
+
+		dateFormat = commonOptions.getDateFormat( );
+		// get locale info
+		Locale aLocale = commonOptions.getLocale( );
+		if ( aLocale == null )
+		{
+			this.locale = ULocale.forLocale( Locale.getDefault( ) );
+		}
+		else
+		{
+			this.locale = ULocale.forLocale( aLocale );
 		}
 
-		java.util.TimeZone javaTimeZone = this.option.getTimeZone( );
+		java.util.TimeZone javaTimeZone = commonOptions.getTimeZone( );
 		if ( javaTimeZone != null )
 		{
 			// convert java time zone to ICU time zone
@@ -82,12 +105,12 @@ public class CommonDataExtractionImpl implements IDataExtractionExtension
 		{
 			this.timeZone = null;
 		}
-		
+			
 		if ( !isLocaleNeutral )
 		{
-			dateFormatter = createDateFormatter( dateFormat, locale, this.timeZone );
-			numberFormatter = new NumberFormatter( locale );
-		}
+			dateFormatter = createDateFormatter( dateFormat, this.locale, this.timeZone );
+			numberFormatter = new NumberFormatter( this.locale );
+		}		
 	}
 
 	/**
@@ -107,7 +130,7 @@ public class CommonDataExtractionImpl implements IDataExtractionExtension
 	 */
 	public IDataExtractionOption getOptions()
 	{
-		return this.option;
+		return this.options;
 	}
 	
 	/**
