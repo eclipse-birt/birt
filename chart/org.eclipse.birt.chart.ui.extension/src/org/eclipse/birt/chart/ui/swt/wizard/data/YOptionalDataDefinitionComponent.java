@@ -223,32 +223,9 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 	public void updateQuery( String expression )
 	{
 		super.updateQuery( expression );
-
-		final SeriesDefinition[] seda = context.getModel( )
-				.getSeriesForLegend( );
-		if ( seda.length > 1 )
-		{
-			for ( int i = 1; i < seda.length; i++ )
-			{
-				setQueryExpression( seda[i], expression );
-			}
-
-		}
+		
+		ChartUIUtil.setAllGroupingQueryExceptFirst( context.getModel( ),
+				expression );
 	}
 
-	private void setQueryExpression( SeriesDefinition sed, String expression )
-	{
-		Query query = sed.getQuery( );
-		if ( query != null )
-		{
-			query.setDefinition( expression );
-		}
-		else
-		{
-			query = QueryImpl.create( expression );
-			query.eAdapters( ).addAll( sed.eAdapters( ) );
-			sed.setQuery( query );
-		}
-	}
-	
 }
