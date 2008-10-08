@@ -11,8 +11,11 @@
 
 package org.eclipse.birt.report.designer.ui.preferences;
 
+import java.text.Collator;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.TimeZone;
+import java.util.TreeMap;
 
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -72,7 +75,7 @@ public class PreviewPreferencePage extends PreferencePage implements
 	private Label customBrowserPathLabel;
 	private Text customBrowserPath;
 	private Button customBrowserBrowse;
-	private Combo localeCombo;
+	private Combo localeCombo, timeZoneCombo;
 	private Button appContextExt;
 	private Combo appContextExtCombo;
 	private Combo bidiCombo;
@@ -91,6 +94,32 @@ public class PreviewPreferencePage extends PreferencePage implements
 			Messages.getString( "designer.preview.preference.bidiOrientation.rtl" ),
 	};
 
+	public static TreeMap<String, String> timeZoneTable_disKey = null;
+	public static TreeMap<String, String> timeZoneTable_idKey = null;
+
+	static
+	{
+		// Initialize the locale mapping table
+		timeZoneTable_disKey = new TreeMap<String, String>( Collator.getInstance( ) );
+		timeZoneTable_idKey = new TreeMap<String, String>( Collator.getInstance( ) );
+		String ids[] = TimeZone.getAvailableIDs( );
+		
+		if ( ids != null )
+		{
+			for ( int i = 0; i < ids.length; i++ )
+			{
+				String id = ids[i];
+				if ( id != null )
+				{
+					TimeZone timeZone = TimeZone.getTimeZone( id );
+					String timeZoneDisplayName = timeZone.getDisplayName( );
+					timeZoneTable_disKey.put( timeZoneDisplayName, id );
+					timeZoneTable_idKey.put( id, timeZoneDisplayName );					
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Creates preference page controls on demand.
 	 * 
@@ -144,6 +173,8 @@ public class PreviewPreferencePage extends PreferencePage implements
 			defaultLocale = ULocale.getDefault( ).getDisplayName( );
 		}
 		localeCombo.setText( defaultLocale );
+
+		createTimeZoneChoice( composite );
 
 		createBIDIChoice( composite );
 
@@ -516,6 +547,16 @@ public class PreviewPreferencePage extends PreferencePage implements
 			localeCombo.setText( defaultLocale.getDisplayName( ) );
 		}
 
+		if ( timeZoneCombo != null )
+		{
+			String displayName = TimeZone.getDefault( ).getDisplayName( );
+			if(displayName == null)
+			{
+				displayName = "";
+			}
+			timeZoneCombo.setText( displayName );
+		}
+		
 		super.performDefaults( );
 	}
 
@@ -563,6 +604,16 @@ public class PreviewPreferencePage extends PreferencePage implements
 					.setAlwaysUseExternal( alwaysExternal.getSelection( ) );
 		}
 
+		if ( timeZoneCombo != null )
+		{
+			String timeZoneId = timeZoneTable_disKey.get( timeZoneCombo.getText( ) );
+			if(timeZoneId == null)
+			{
+				timeZoneId = "";
+			}
+			pref.setValue( WebViewer.USER_TIME_ZONE, timeZoneId );
+		}
+		
 		if ( localeCombo != null )
 		{
 			pref.setValue( WebViewer.USER_LOCALE, localeCombo.getText( ) );
@@ -604,6 +655,31 @@ public class PreviewPreferencePage extends PreferencePage implements
 		data.horizontalAlignment = GridData.FILL;
 		data.verticalAlignment = GridData.BEGINNING;
 		spacer.setLayoutData( data );
+	}
+
+	protected Composite createTimeZoneChoice( Composite parent )
+	{
+		Label timeZoneDescription = new Label( parent, SWT.NULL );
+		timeZoneDescription.setText( Messages.getString( "designer.preview.preference.timezone.description" ) ); //$NON-NLS-1$
+
+		timeZoneCombo = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY);
+		timeZoneCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		
+		assert timeZoneTable_disKey != null;
+		String[] timeZoneDisplayNames = new String[timeZoneTable_disKey.size( )];
+		timeZoneTable_disKey.keySet( ).toArray( timeZoneDisplayNames );
+		timeZoneCombo.setItems( timeZoneDisplayNames );
+		String defaultTimeZone = ViewerPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getString( WebViewer.USER_TIME_ZONE );
+		if ( defaultTimeZone == null || defaultTimeZone.trim( ).length( ) <= 0 )
+		{
+			defaultTimeZone = TimeZone.getDefault( ).getID( );
+		}
+		String displayTimeZone = timeZoneTable_idKey.get( defaultTimeZone );
+		timeZoneCombo.setText( displayTimeZone );
+
+		return parent;
 	}
 
 	protected Composite createBIDIChoice( Composite parent )
