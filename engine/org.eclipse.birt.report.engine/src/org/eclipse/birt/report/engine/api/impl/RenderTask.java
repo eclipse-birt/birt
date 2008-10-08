@@ -536,11 +536,14 @@ public class RenderTask extends EngineTask implements IRenderTask
 				}
 				else
 				{
-					long pageNumber = iter.next( );
-					layoutEngine.setLayoutPageHint( getPageHint( pagesExecutor,
-							pageNumber ) );
-					layoutEngine.layout( executor, report, emitter, false );
-					layoutEngine.close( );
+					if ( iter.hasNext( ) )
+					{
+						long pageNumber = iter.next( );
+						layoutEngine.setLayoutPageHint( getPageHint(
+								pagesExecutor, pageNumber ) );
+						layoutEngine.layout( executor, report, emitter, false );
+						layoutEngine.close( );
+					}
 				}
 
 				emitter.end( report );
