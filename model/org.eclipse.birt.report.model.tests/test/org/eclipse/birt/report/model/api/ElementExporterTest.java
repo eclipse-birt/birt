@@ -931,9 +931,11 @@ public class ElementExporterTest extends BaseTestCase
 		// tests extended item which can be exported.
 		DesignElementHandle handle = designHandle.findElement( "action1" );//$NON-NLS-1$
 		assertTrue( ElementExportUtil.canExport( handle, libraryHandle, true ) );
+		assertTrue( ElementExportUtil.canExport( handle, true ) );
 
 		// tests extended item which can not be exported.
 		handle = designHandle.findElement( "testBox" );//$NON-NLS-1$
 		assertFalse( ElementExportUtil.canExport( handle, libraryHandle, true ) );
+		assertFalse( ElementExportUtil.canExport( handle, true ) );
 	}
 }

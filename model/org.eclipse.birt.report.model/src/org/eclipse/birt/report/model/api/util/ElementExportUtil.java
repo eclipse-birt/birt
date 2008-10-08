@@ -484,20 +484,10 @@ public class ElementExportUtil
 
 		String name = elementToExport.getName( );
 
-		if ( elementToExport instanceof ExtendedItemHandle )
+		if ( elementToExport instanceof ExtendedItemHandle
+				&& !checkExportedExtendedItem( (ExtendedItemHandle) elementToExport ) )
 		{
-			try
-			{
-				IReportItem item = ( (ExtendedItemHandle) elementToExport )
-						.getReportItem( );
-
-				if ( item != null && !item.canExport( ) )
-					return false;
-			}
-			catch ( ExtendedElementException e )
-			{
-				return false;
-			}
+			return false;
 		}
 
 		if ( elementToExport instanceof ReportItemHandle )
@@ -689,6 +679,12 @@ public class ElementExportUtil
 			return true;
 		}
 
+		if ( elementToExport instanceof ExtendedItemHandle
+				&& !checkExportedExtendedItem( (ExtendedItemHandle) elementToExport ) )
+		{
+			return false;
+		}
+
 		if ( elementToExport instanceof ReportItemHandle )
 		{
 			return true;
@@ -731,6 +727,31 @@ public class ElementExportUtil
 			return false;
 		}
 
+		return true;
+	}
+
+	/**
+	 * Checks extended item can be exported or not.
+	 * 
+	 * @param elementToExport
+	 *            the extended item to export
+	 * @return <code>true</code> if the element can be exported successfully.
+	 *         Otherwise <code>false</code>.
+	 */
+	private static boolean checkExportedExtendedItem(
+			ExtendedItemHandle elementToExport )
+	{
+		try
+		{
+			IReportItem item = elementToExport.getReportItem( );
+
+			if ( item != null && !item.canExport( ) )
+				return false;
+		}
+		catch ( ExtendedElementException e )
+		{
+			return false;
+		}
 		return true;
 	}
 }
