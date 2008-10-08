@@ -338,10 +338,44 @@ public class BirtComp implements IScriptFunctionExecutor
 			return false;
 		}
 		String str = obj1.toString( );
-		String pattern = obj2.toString( );
-		pattern = pattern.replaceAll( "%", ".*" );
-		pattern = pattern.replaceAll( "_", "." );
+		String pattern = toPatternString( obj2.toString( ) );
 		return str.matches( pattern );
+	}
+	
+	/**
+	 * Transfers the user-input string to the Pattern regular expression
+	 * 
+	 * @param regex
+	 * @return
+	 */
+	private static String toPatternString( String regex )
+	{
+		String pattern = "";
+		for( int i = 0; i < regex.length( ); i++ )
+		{
+			char c = regex.charAt( i );
+			if ( c == '\\' )
+			{
+				i++;
+				if ( i < regex.length( ) )
+				{
+					pattern += regex.charAt( i );
+				}
+			}
+			else if ( c == '%' )
+			{
+				pattern += ".*";
+			}
+			else if ( c == '_' )
+			{
+				pattern += ".";
+			}
+			else
+			{
+				pattern += c;
+			}
+		}
+		return pattern;		
 	}
 
 	private class Function_AnyOf implements IScriptFunctionExecutor
