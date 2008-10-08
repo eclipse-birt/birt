@@ -46,6 +46,8 @@ public class PreviewCascadingMenuGroup implements
 			.createImage( );
 	private Image previewPDFIcon = Activator.getImageDescriptor( "icons/etool16/preview_pdf.gif" ) //$NON-NLS-1$
 			.createImage( );
+	private Image previewDOCIcon = Activator.getImageDescriptor( "icons/etool16/preview_doc.gif" ) //$NON-NLS-1$
+			.createImage( );
 
 	/**
 	 * The menu created by this action.
@@ -69,6 +71,7 @@ public class PreviewCascadingMenuGroup implements
 	{
 		previewIcon.dispose( );
 		previewPDFIcon.dispose( );
+		previewDOCIcon.dispose( );
 	}
 
 	/**
@@ -133,6 +136,10 @@ public class PreviewCascadingMenuGroup implements
 			if ( format.equals( "pdf" ) ) //$NON-NLS-1$
 			{
 				previewOption.setImage( previewPDFIcon );
+			}
+			else if ( format.equals( "doc" ) ) //$NON-NLS-1$
+			{
+				previewOption.setImage( previewDOCIcon );
 			}
 			else
 			{
