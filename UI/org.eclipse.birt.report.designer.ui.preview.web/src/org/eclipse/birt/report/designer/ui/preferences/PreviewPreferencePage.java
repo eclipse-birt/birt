@@ -101,7 +101,6 @@ public class PreviewPreferencePage extends PreferencePage implements
 	{
 		// Initialize the locale mapping table
 		timeZoneTable_disKey = new TreeMap<String, String>( Collator.getInstance( ) );
-		timeZoneTable_idKey = new TreeMap<String, String>( Collator.getInstance( ) );
 		String ids[] = TimeZone.getAvailableIDs( );
 		
 		if ( ids != null )
@@ -113,8 +112,7 @@ public class PreviewPreferencePage extends PreferencePage implements
 				{
 					TimeZone timeZone = TimeZone.getTimeZone( id );
 					String timeZoneDisplayName = timeZone.getDisplayName( );
-					timeZoneTable_disKey.put( timeZoneDisplayName, id );
-					timeZoneTable_idKey.put( id, timeZoneDisplayName );					
+					timeZoneTable_disKey.put( timeZoneDisplayName, id );				
 				}
 			}
 		}
@@ -607,9 +605,9 @@ public class PreviewPreferencePage extends PreferencePage implements
 		if ( timeZoneCombo != null )
 		{
 			String timeZoneId = timeZoneTable_disKey.get( timeZoneCombo.getText( ) );
-			if(timeZoneId == null)
+			if(timeZoneId == null || timeZoneId.trim( ).length( ) <= 0)
 			{
-				timeZoneId = "";
+				timeZoneId = TimeZone.getDefault( ).getID( );
 			}
 			pref.setValue( WebViewer.USER_TIME_ZONE, timeZoneId );
 		}
@@ -676,8 +674,8 @@ public class PreviewPreferencePage extends PreferencePage implements
 		{
 			defaultTimeZone = TimeZone.getDefault( ).getID( );
 		}
-		String displayTimeZone = timeZoneTable_idKey.get( defaultTimeZone );
-		timeZoneCombo.setText( displayTimeZone );
+		TimeZone timeZone = TimeZone.getTimeZone( defaultTimeZone );
+		timeZoneCombo.setText( timeZone.getDisplayName( ) );
 
 		return parent;
 	}
