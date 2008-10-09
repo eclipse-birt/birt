@@ -1237,7 +1237,7 @@ public class DataExtractionTaskV1 extends EngineTask
 
 		newQuery.getGroups( ).addAll( query.getGroups( ) );
 		newQuery.setUsesDetails( query.usesDetails( ) );
-
+		newQuery.setApplyOnGroupFlag( query.applyOnGroup( ) );
 		parent.getSubqueries( ).add( newQuery );
 
 		return newQuery;
