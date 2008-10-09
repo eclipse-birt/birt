@@ -226,6 +226,7 @@ public class HTMLPageBuffer implements IPageBuffer
 		}
 		else
 		{
+			context.setEmptyPage( true );
 			if ( finished )
 			{
 				if ( context.getPageNumber( ) == 1 )

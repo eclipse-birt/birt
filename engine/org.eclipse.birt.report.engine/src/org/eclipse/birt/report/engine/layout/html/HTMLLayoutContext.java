@@ -52,6 +52,8 @@ public class HTMLLayoutContext
 	protected String newMasterPage = null;
 
 	protected PageBufferFactory bufferFactory = new PageBufferFactory( this );
+	
+	protected boolean emptyPage = false;
 
 	public PageBufferFactory getBufferFactory( )
 	{
@@ -264,9 +266,17 @@ public class HTMLLayoutContext
 	
 	public void resetRowHint()
 	{
-		hints.clear( );
-		hints.putAll( currentHints );
-		currentHints.clear( );
+		if(!emptyPage)
+		{
+			hints.clear( );
+			hints.putAll( currentHints );
+			currentHints.clear( );
+		}
+	}
+	
+	public void setEmptyPage(boolean emptyPage)
+	{
+		this.emptyPage = emptyPage;
 	}
 
 	/**
