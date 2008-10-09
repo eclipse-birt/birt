@@ -16,7 +16,6 @@ package org.eclipse.birt.report.data.oda.sampledb.ui;
 import java.util.Properties;
 
 import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
-import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
 import org.eclipse.birt.report.data.oda.sampledb.SampleDBConstants;
 import org.eclipse.birt.report.data.oda.sampledb.ui.i18n.Messages;
 import org.eclipse.datatools.connectivity.oda.OdaException;
@@ -102,11 +101,11 @@ public class SampleDataSetEditor extends DataSetWizardPage
 			props = new Properties( );
 
 		// set custom driver specific properties
-		props.setProperty( Constants.ODADriverClass,
+		props.setProperty( org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODADriverClass,
 				SampleDBConstants.DRIVER_CLASS );
-		props.setProperty( Constants.ODAURL, SampleDBConstants.DRIVER_URL );
-		props.setProperty( Constants.ODAUser, SAMPLE_DB_SCHEMA );
-		props.setProperty( Constants.ODAPassword, "" );
+		props.setProperty( org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAURL, SampleDBConstants.DRIVER_URL );
+		props.setProperty( org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAUser, SAMPLE_DB_SCHEMA );
+		props.setProperty( org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAPassword, "" );
 
 		design.getDataSourceDesign( )
 				.setOdaExtensionId( OdaJdbcDriver.Constants.DATA_SOURCE_ID );
