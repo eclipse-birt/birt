@@ -183,6 +183,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 			context.getBufferFactory( ).close( );
 		}
 		context.resetRowHint( );
+		context.setEmptyPage( false );
 	}
 	
 	public class ContentDOMEmitter extends ContentEmitterAdapter
