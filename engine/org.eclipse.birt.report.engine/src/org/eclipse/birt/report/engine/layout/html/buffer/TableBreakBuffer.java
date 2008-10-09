@@ -350,7 +350,7 @@ public class TableBreakBuffer implements IPageBuffer
 		{
 			for ( int i = 0; i < buffers.length - 1; i++ )
 			{
-				buffers[i].endContainer( content, finished, emitter, visible );
+				buffers[i].endContainer( content, false, emitter, visible );
 			}
 			buffers[buffers.length - 1].endContainer( content, finished,
 					emitter, visible );
