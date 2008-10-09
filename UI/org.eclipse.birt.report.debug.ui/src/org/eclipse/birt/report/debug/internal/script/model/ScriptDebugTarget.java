@@ -14,6 +14,7 @@ package org.eclipse.birt.report.debug.internal.script.model;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -37,6 +38,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.DebugEvent;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.IBreakpointManagerListener;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.IDebugTarget;
@@ -52,7 +54,7 @@ import com.ibm.icu.util.ULocale;
  * Debug target class
  */
 public class ScriptDebugTarget extends ScriptDebugElement implements
-		IDebugTarget,
+		IDebugTarget,IBreakpointManagerListener,
 		VMListener
 {
 
@@ -156,6 +158,8 @@ public class ScriptDebugTarget extends ScriptDebugElement implements
 		DebugPlugin.getDefault( )
 				.getBreakpointManager( )
 				.addBreakpointListener( this );
+		
+		DebugPlugin.getDefault().getBreakpointManager().addBreakpointManagerListener(this);
 
 		// connect the server util the ReportLauncher run already
 		while ( !isTerminated( ) )
@@ -458,7 +462,20 @@ public class ScriptDebugTarget extends ScriptDebugElement implements
 		{
 			return;
 		}
-		JsLineBreakPoint point = createJsLineBreakPoint( (ScriptLineBreakpoint) breakpoint );
+		
+		ScriptLineBreakpoint scriptPoint = (ScriptLineBreakpoint)breakpoint;
+		try
+		{
+			if (scriptPoint.shouldSkipBreakpoint( ))
+			{
+				return;
+			}
+		}
+		catch ( CoreException e1 )
+		{
+			//do nothing
+		}
+		JsLineBreakPoint point = createJsLineBreakPoint( scriptPoint );
 		try
 		{
 			if ( ScriptLineBreakpoint.RUNTOLINE.equals( ( (ScriptLineBreakpoint) breakpoint ).getType( ) ) )
@@ -704,7 +721,7 @@ public class ScriptDebugTarget extends ScriptDebugElement implements
 		DebugPlugin.getDefault( )
 				.getBreakpointManager( )
 				.removeBreakpointListener( this );
-
+		DebugPlugin.getDefault( ).getBreakpointManager().removeBreakpointManagerListener(this);
 		setTerminating( false );
 		if ( !fTerminated )
 		{
@@ -948,6 +965,35 @@ public class ScriptDebugTarget extends ScriptDebugElement implements
 		catch ( DebugException e )
 		{
 			return getDefaultName( );
+		}
+	}
+
+	public void breakpointManagerEnablementChanged( boolean enabled )
+	{
+		if (!isAvailable()) {
+			return;
+		}
+		
+		Iterator breakpoints= new ArrayList(breakPoints).iterator( );
+			
+		while (breakpoints.hasNext()) {
+			JsLineBreakPoint breakpoint= (JsLineBreakPoint) breakpoints.next();
+			try
+			{
+				if (enabled)
+				{
+					reportVM.removeBreakPoint( breakpoint );
+				}
+				else
+				{
+					reportVM.removeBreakPoint( breakpoint );
+				}
+			}
+			catch ( VMException e )
+			{
+				logger.warning( e.getMessage( ) );
+			}
+			
 		}
 	}
 }
