@@ -15,11 +15,4 @@ Require-Bundle: org.eclipse.birt.report.data.oda.jdbc;bundle-version="[2.2.0,3.0
  org.apache.commons.codec;bundle-version="[1.3.0,2.0.0)",
  com.ibm.icu;bundle-version="[3.4.4,4.0.0)"
 Bundle-ActivationPolicy: lazy
-Export-Package: org.eclipse.birt.report.data.oda.jdbc.ui,
- org.eclipse.birt.report.data.oda.jdbc.ui.dialogs,
- org.eclipse.birt.report.data.oda.jdbc.ui.editors,
- org.eclipse.birt.report.data.oda.jdbc.ui.preference,
- org.eclipse.birt.report.data.oda.jdbc.ui.profile,
- org.eclipse.birt.report.data.oda.jdbc.ui.provider,
- org.eclipse.birt.report.data.oda.jdbc.ui.util
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

@@ -16,7 +16,6 @@ package org.eclipse.birt.report.data.oda.sampledb.ui.profile;
 
 import java.util.Properties;
 
-import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
 import org.eclipse.birt.report.data.oda.sampledb.SampleDBConstants;
 import org.eclipse.birt.report.data.oda.sampledb.SampleDBJDBCConnectionFactory;
 import org.eclipse.birt.report.data.oda.sampledb.ui.i18n.Messages;
@@ -94,10 +93,10 @@ public class SampleDbSelectionPageHelper
             props = new Properties();
         
         // set custom driver specific properties
-		props.setProperty( Constants.ODADriverClass, getDriverClass( ) );
-		props.setProperty( Constants.ODAURL, getDriverUrl( ) );
-		props.setProperty( Constants.ODAUser, SAMPLE_DB_SCHEMA );
-		props.setProperty( Constants.ODAPassword, "" );
+		props.setProperty( org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODADriverClass, getDriverClass( ) );
+		props.setProperty( org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAURL, getDriverUrl( ) );
+		props.setProperty( org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAUser, SAMPLE_DB_SCHEMA );
+		props.setProperty( org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAPassword, "" );
 		
 		// sampledb uses predined connection property values, and does not support
 		// external reference to a connection profile
@@ -136,17 +135,17 @@ public class SampleDbSelectionPageHelper
         if( profileProps == null || profileProps.isEmpty() )
             return;     // nothing to initialize
         
-        String driverClass = profileProps.getProperty( Constants.ODADriverClass );
+        String driverClass = profileProps.getProperty( org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODADriverClass );
         if( driverClass == null )
         	driverClass = EMPTY_STRING;
         m_driverClass.setText( driverClass );
 
-        String driverUrl = profileProps.getProperty( Constants.ODAURL );
+        String driverUrl = profileProps.getProperty( org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAURL );
         if( driverUrl == null )
         	driverUrl = EMPTY_STRING;
         m_driverURL.setText( driverUrl );
         
-        String user = profileProps.getProperty( Constants.ODAUser );
+        String user = profileProps.getProperty( org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAUser );
         if( user == null )
         	user = EMPTY_STRING;
         m_sampleUser.setText( user );
