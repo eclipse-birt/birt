@@ -797,9 +797,14 @@ public class DataExtractionTaskV1 extends EngineTask
 					{
 						DataSetID dataSetId = dataId.getDataSetID( );
 						long rowId = dataId.getRowID( );
+						/*
 						IResultIterator dataIter = executeQuery( dataSetId
 								.toString( ), rowId, queryId,
 								(IQueryDefinition) query );
+						*/
+						IResultIterator dataIter = executeQuery( dataSetId,
+								rowId, (IQueryDefinition) query, queryId );
+						
 						IResultMetaData metaData = getMetaDateByInstanceID( instanceId );
 						if ( dataIter != null && metaData != null )
 						{
@@ -1049,13 +1054,40 @@ public class DataExtractionTaskV1 extends EngineTask
 				HashMap query2ResultMetaData = report.getResultMetaData( );
 				if ( null != query2ResultMetaData )
 				{
-					return (ResultMetaData) query2ResultMetaData.get( query );
+					//return (ResultMetaData) query2ResultMetaData.get( query );
+					return hackMetaData( query2ResultMetaData, query );
 				}
 				return null;
 			}
 			iid = iid.getParentID( );
 		}
 		return null;
+	}
+	
+	private IResultMetaData hackMetaData( HashMap metas,
+			IDataQueryDefinition query )
+	{
+		IResultMetaData meta = (ResultMetaData) metas.get( query );
+		if ( meta.getColumnCount( ) > 0 )
+			return meta;
+
+		if ( query instanceof SubqueryDefinition )
+		{
+			IBaseQueryDefinition parent = ( (SubqueryDefinition) query )
+					.getParentQuery( );
+			meta = (ResultMetaData) metas.get( parent );
+			while ( parent instanceof SubqueryDefinition )
+			{
+				if ( meta != null && meta.getColumnCount( ) > 0 )
+				{
+					return meta;
+				}
+				parent = ( (SubqueryDefinition) parent ).getParentQuery( );
+				meta = (ResultMetaData) metas.get( parent );
+			}
+		}
+
+		return meta;
 	}
 
 	private IResultIterator executeQuery( String rset, QueryDefinition query )
@@ -1094,6 +1126,43 @@ public class DataExtractionTaskV1 extends EngineTask
 		String queryName = query.getName( );
 		Scriptable scope = executionContext.getSharedScope( );
 		return rsetIter.getSecondaryIterator( queryName, scope );
+	}
+	
+	private IResultIterator executeQuery( DataSetID dataSet, long rowId,
+			IQueryDefinition query, String queryId ) throws BirtException
+	{
+		IResultIterator rsetIter = null;
+		String rset = dataSet.getDataSetName( );
+		if ( rset == null )
+		{
+			ISubqueryDefinition parentQuery = (ISubqueryDefinition) query
+					.getParentQuery( );
+			rsetIter = executeSubQuery( dataSet.getParentID( ), dataSet
+					.getRowID( ), parentQuery );
+			rsetIter.moveTo( (int) rowId );
+			int rawId = rsetIter.getRowId( );
+			return executeQuery( dataSet.getParentID( ).toString( ), rawId,
+					queryId, query );
+		}
+		else
+		{
+			QueryDefinition parentQuery = (QueryDefinition) query
+					.getParentQuery( );
+			String parentQueryId = (String) queryId2QueryMapping
+					.get( parentQuery );
+			if ( rset != null )
+			{
+				rsetIter = executeQuery( rset, parentQuery );
+			}
+			else
+			{
+				rsetIter = executeQuery( dataSet.getParentID( ), dataSet
+						.getRowID( ), parentQuery, parentQueryId );
+			}
+			rsetIter.moveTo( (int) rowId );
+			int rawId = rsetIter.getRowId( );
+			return executeQuery( rset, rawId, queryId, query );
+		}
 	}
 
 	private BaseQueryDefinition cloneQuery2( IBaseQueryDefinition query,
@@ -1176,7 +1245,8 @@ public class DataExtractionTaskV1 extends EngineTask
 
 	private QueryDefinition cloneQuery( QueryDefinition query )
 	{
-		QueryDefinition newQuery = new QueryDefinition( );
+		QueryDefinition newQuery = new QueryDefinition(
+				(BaseQueryDefinition) query.getParentQuery( ) );
 		newQuery.getBindings( ).putAll( query.getBindings( ) );
 		newQuery.getSorts( ).addAll( query.getSorts( ) );
 		newQuery.getFilters( ).addAll( query.getFilters( ) );
@@ -1188,7 +1258,8 @@ public class DataExtractionTaskV1 extends EngineTask
 		newQuery.setDataSetName( query.getDataSetName( ) );
 		newQuery.setAutoBinding( query.needAutoBinding( ) );
 		newQuery.setColumnProjection( query.getColumnProjection( ) );
-
+		
+		newQuery.setName( query.getName( ) );
 		return newQuery;
 	}
 
