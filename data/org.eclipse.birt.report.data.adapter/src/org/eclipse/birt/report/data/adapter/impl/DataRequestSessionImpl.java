@@ -544,7 +544,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 			//If the data set has not been defined previously, define it.
 			if( this.dataEngine.getDataSetDesign(  baseDataSet.getName( ) ) == null )
 				this.defineDataSet( baseDataSet );
-			this.defineDataSet( baseDataSet );
 		}
 		
 		if ( !cubeHandleMap.containsKey( cubeHandle.getQualifiedName( ) ) )
