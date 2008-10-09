@@ -19,6 +19,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.LineBreakpoint;
 
@@ -194,5 +195,10 @@ public class ScriptLineBreakpoint extends LineBreakpoint
 	public void setType( String type )
 	{
 		this.type = type;
+	}
+	
+	public boolean shouldSkipBreakpoint() throws CoreException {
+		DebugPlugin plugin = DebugPlugin.getDefault();
+        return plugin != null && isRegistered() && !plugin.getBreakpointManager().isEnabled();
 	}
 }
