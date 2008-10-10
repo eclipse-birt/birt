@@ -33,6 +33,8 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -719,7 +721,7 @@ public abstract class PeerExtensibilityProvider
 				{
 					if ( prop.isElementType( ) )
 						continue;
-					
+
 					Object value = source.getExtensionProperty( source.element
 							.getRoot( ), prop );
 					if ( value == null )
@@ -741,6 +743,15 @@ public abstract class PeerExtensibilityProvider
 								encryptionID, strValue );
 					}
 					extensionPropValues.put( prop.getName( ), valueToSet );
+
+					// if the property is structure type, then set-up the
+					// container relationship
+
+					if ( prop.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
+					{
+						ModelUtil.setStructureContext( prop, valueToSet,
+								element );
+					}
 				}
 			}
 		}
@@ -765,6 +776,15 @@ public abstract class PeerExtensibilityProvider
 					continue;
 
 				extensionPropValues.put( propName, valueToSet );
+
+				// if the property is structure type, then set-up the
+				// container relationship
+
+				if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
+				{
+					ModelUtil.setStructureContext( propDefn, valueToSet,
+							element );
+				}
 			}
 		}
 	}

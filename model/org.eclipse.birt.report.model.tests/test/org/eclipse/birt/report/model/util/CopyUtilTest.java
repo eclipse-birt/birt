@@ -11,9 +11,12 @@
 
 package org.eclipse.birt.report.model.util;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -274,6 +277,32 @@ public class CopyUtilTest extends BaseTestCase
 
 		IElementCopy copy = CopyUtil.copy( handle );
 
+	}
+
+	/**
+	 * Tests copy and paste extended item correctly and the structure in the
+	 * extended item can be dropped successfully.
+	 * 
+	 * @throws Exception
+	 */
+	public void testCopyExtendedItem( ) throws Exception
+	{
+		openDesign( "CopyExtendedItemTest.xml" ); //$NON-NLS-1$
+
+		DesignElementHandle handle = designHandle.findElement( "box" ); //$NON-NLS-1$
+		IElementCopy copy = CopyUtil.copy( handle );
+		CopyUtil.paste( copy, designHandle, IReportDesignModel.BODY_SLOT );
+
+		handle = designHandle.findElement( "box1" ); //$NON-NLS-1$
+		List list = handle.getListProperty( "filter" ); //$NON-NLS-1$
+		assertEquals( 1, list.size( ) );
+
+		PropertyHandle propHandle = handle.getPropertyHandle( "filter" ); //$NON-NLS-1$
+
+		// drop filter in the new chart.
+		propHandle.removeItem( 0 );
+		list = handle.getListProperty( "filter" ); //$NON-NLS-1$
+		assertEquals( 0, list.size( ) );
 	}
 
 }
