@@ -101,6 +101,11 @@ public interface IDataExtractionTask extends IEngineTask
 	public void setStartRow( int startRow );
 	
 	/**
+	 * whether gets distinct values
+	 */
+	public void setDistinctValuesOnly( boolean distinct );
+	
+	/**
 	 * @return an object of type IExtractionResults, from which data iterators
 	 *         can be obtained and data can be retrieved
 	 */

@@ -275,4 +275,9 @@ public class DataExtractionTask implements IDataExtractionTask
 	{
 		task.setUserACL( acl );
 	}
+	
+	public void setDistinctValuesOnly( boolean distinct )
+	{
+		task.setDistinctValuesOnly( distinct );
+	}
 }
