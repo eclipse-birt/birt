@@ -792,8 +792,9 @@ public class TableLayout extends RepeatableLayout
 		{
 			return;
 		}
-		ITableBandContent header = (ITableBandContent) tableContent.getHeader( );
-		if ( !tableContent.isHeaderRepeat( ) || header == null )
+		ITableBandContent header = context.getWrappedTableHeader( content
+				.getInstanceID( ) );
+		if ( header == null || !tableContent.isHeaderRepeat( ) )
 		{
 			return;
 		}
