@@ -2366,7 +2366,8 @@ public class CascadingParametersDialog extends BaseDialog {
 			// {
 			// sortKeyChooser.setText( CHOICE_VALUE_COLUMN );
 			// }
-			String columnName = selectedParameter.getSortByColumn();
+			String columnExp = selectedParameter.getSortByColumn();
+			String columnName = getColumnName(columnExp);
 			if (columnName != null && sortKeyChooser.indexOf(columnName) >= 0) {
 				sortKeyChooser.setText(columnName);
 			} else {
@@ -2468,5 +2469,20 @@ public class CascadingParametersDialog extends BaseDialog {
 			sortKeyChooser.add(cachedColumn.getColumnName());
 		}
 
+	}
+	
+	private String getColumnName( String expression )
+	{
+		List columnList = getColumnList();
+		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+		{
+			ResultSetColumnHandle cachedColumn = (ResultSetColumnHandle) iter.next( );
+			if ( DEUtil.getExpression( cachedColumn ).equals( expression ) )
+			{
+				return cachedColumn.getColumnName( );
+			}
+		}
+		// return null;
+		return expression;
 	}
 }
