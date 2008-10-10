@@ -13,6 +13,7 @@ public class ConvertMapToPsf {
 	private File mapRoot = new File("../org.eclipse.birt.releng/maps");
 	private BufferedWriter curOut = null;
 	private BufferedWriter allOut = null;
+	private String psfFolder = "psf" ;
 	private final Map<String,String> reposLoc;
 
 	/**
@@ -24,7 +25,7 @@ public class ConvertMapToPsf {
 		// TODO Auto-generated method stub
 		Map<String,String> rLoc = new HashMap();
 		rLoc.put(":pserver:dev.eclipse.org:/cvsroot/birt", "BIRT_2_3_2_Branch");
-		rLoc.put(":pserver:dev.eclipse.org:/cvsroot/datatools", "DTP_1_6_1_M1_20080725");
+		rLoc.put(":pserver:dev.eclipse.org:/cvsroot/datatools", "HEAD");
 		
 		ConvertMapToPsf converter = new ConvertMapToPsf(rLoc);
 		try {
@@ -47,7 +48,8 @@ public class ConvertMapToPsf {
 		if (mapRoot == null || mapRoot.exists() == false) {
 			System.out.println("NO MAP FILES");
 		}
-		File allFile = new File(mapRoot.getPath() + "/all_files.psf");
+		File allFile = new File(mapRoot.getParent() + "/" + psfFolder + "/all_files.psf");
+		System.out.print(mapRoot.getParent() + "/" + psfFolder + "/all_files.psf");
 		if(allFile.exists() == false){
 			allFile.createNewFile();
 		}
@@ -81,13 +83,15 @@ public class ConvertMapToPsf {
 
 	public void buildPsfFile(String fileName) throws IOException {
 		String inFile = mapRoot.getPath() + "/" + fileName;
+		String outFilePath = mapRoot.getParent() + "/" + psfFolder;
 		File mapFile = new File(inFile);
 		if (mapFile.exists() == false) {
 			System.out.println("No Map File " + mapRoot.getPath() + "/"
 					+ fileName);
 			return;
 		}
-		File outFile = new File(inFile.replace(".map", ".psf"));
+		File outFile = new File(outFilePath + "/" + fileName.replace(".map", ".psf"));
+		System.out.println(outFilePath + "/" + fileName.replace(".map", ".psf"));
 		curOut = new BufferedWriter(new FileWriter(outFile));
 		initOutFile(curOut);
 
