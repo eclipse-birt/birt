@@ -1807,16 +1807,17 @@ public final class Generator implements IGenerator
 					}
 
 					sExpression = qOrthogonalSeries.getDefinition( );
-					if ( needChangeValueExpr )
-					{
-						sExpression = ChartUtil.createValueSeriesRowFullExpression( sExpression,
-								sd,
-								categorySD );
-					}
-
 					if ( sExpression != null
 							&& sExpression.trim( ).length( ) > 0 )
 					{
+						if ( needChangeValueExpr )
+						{
+							sExpression = ChartUtil.createValueSeriesRowFullExpression( sExpression,
+									sd,
+									categorySD );
+						}
+
+					
 						bAnyQueries = true;
 						if ( !alExpressions.contains( sExpression ) )
 						{
