@@ -100,16 +100,15 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * <h3>Meta-data</h3>
  * 
  * This class stores information that the user enters for a design element.
- * Every element is defined by an <em>element definition </em>. The
- * relationship between an element and element definition is much like that
- * between a object and a class in Java. The element definition defines
- * characteristics of the element, and is fixed by the development team. The
- * element is defined by the user and contains information needed for a
- * particular report.
+ * Every element is defined by an <em>element definition </em>. The relationship
+ * between an element and element definition is much like that between a object
+ * and a class in Java. The element definition defines characteristics of the
+ * element, and is fixed by the development team. The element is defined by the
+ * user and contains information needed for a particular report.
  * <p>
  * The {@link #getDefn}method provides access to the element definition for the
- * particular element. The returned {@link ElementDefn}object provides access
- * to the properties defined for the element as well as other information.
+ * particular element. The returned {@link ElementDefn}object provides access to
+ * the properties defined for the element as well as other information.
  * <p>
  * This abstract base class provides operations common to all (or most)
  * elements. The application creates Java subclasses to represent the various
@@ -126,15 +125,14 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * <li>The {@link #getDefn}method gets the element meta-data.</li>
  * <li>The {@link #getPropertyDefn}method gets the meta-data for a system- or
  * user-defined property.</li>
- * <li>The {@link #validatePropertyValue}method validates a property value
- * using the rules defined in the meta-data for the * property.</li>
- * <li>The {@link ElementDefn}class provides the meta-data for an element
- * type.</li>
+ * <li>The {@link #validatePropertyValue}method validates a property value using
+ * the rules defined in the meta-data for the * property.</li>
+ * <li>The {@link ElementDefn}class provides the meta-data for an element type.</li>
  * <li>The {@link ElementPropertyDefn}class provides meta-data for a property.
  * It has two subclasses:
- * {@link org.eclipse.birt.report.model.metadata.SystemPropertyDefn}for
- * built-in properties defined in the meta-data file, and
- * {@link UserPropertyDefn}for user-defined properties.</li>
+ * {@link org.eclipse.birt.report.model.metadata.SystemPropertyDefn}for built-in
+ * properties defined in the meta-data file, and {@link UserPropertyDefn}for
+ * user-defined properties.</li>
  * <li>The {@link org.eclipse.birt.report.model.metadata.MetaDataDictionary}
  * singleton class provides information to the meta-data for all elements.</li>
  * </ul>
@@ -155,8 +153,8 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * <ol>
  * <li>The element can include some or all of the properties defined for the
  * style element. The element defines only those that make sense for that
- * element. These <em>style properties</em> appear as if they are properties
- * of the element itself.</li>
+ * element. These <em>style properties</em> appear as if they are properties of
+ * the element itself.</li>
  * <li>The element can name a shared style from which to get properties.</li>
  * <li>If element does provide the value for a style property, and the element
  * does not explicitly reference a shared style, then the application will use a
@@ -181,14 +179,13 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * allowed to extend each other. The following is the terminology used for this
  * system.
  * <ul>
- * <li>If element E extends element D, then D is said to be the
- * <em>parent </em> element, and element E is the <em>derived </em> element.
- * </li>
- * <li>We can also use the term <em>base </em> as a synonym for parent. That
- * is, D is the base element above.</li>
+ * <li>If element E extends element D, then D is said to be the <em>parent </em>
+ * element, and element E is the <em>derived </em> element.</li>
+ * <li>We can also use the term <em>base </em> as a synonym for parent. That is,
+ * D is the base element above.</li>
  * <li>Element D may in turn extend another element C.</li>
- * <li>We say that C and D are <em>ancestor </em> elements of E, and that D
- * and E are <em>descendents </em> of C.</li>
+ * <li>We say that C and D are <em>ancestor </em> elements of E, and that D and
+ * E are <em>descendents </em> of C.</li>
  * <li>In this simple hierarchy, element E is the <em>most derived </em>
  * element, while element C is the <em>most base </em> element.</li>
  * </ul>
@@ -203,9 +200,9 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * the method overriding rules in Java.</dd>
  * 
  * <dt><strong>Named style </strong></dt>
- * <dd>If an ancestor element explicitly names a style, then the derived
- * element will also use that style (unless the derived element specifies a
- * different style.)</dd>
+ * <dd>If an ancestor element explicitly names a style, then the derived element
+ * will also use that style (unless the derived element specifies a different
+ * style.)</dd>
  * 
  * <dt><strong>Element type </strong></dt>
  * <dd>Inheritance only works between elements of the same type. One could say
@@ -240,12 +237,12 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * <p>
  * <ul>
  * <li>The {@link #setExtendsElement}method sets the parent element.</li>
- * <li>The {@link #setExtendsName}method sets the name of the parent element.
- * It is used when reading a design file, or if it is necessary to store an
+ * <li>The {@link #setExtendsName}method sets the name of the parent element. It
+ * is used when reading a design file, or if it is necessary to store an
  * unresolved parent name.</li>
  * <li>The {@link #getExtendsElement}method gets the parent element.</li>
- * <li>The {@link #extendsRef}member stores the reference to the parent
- * element.</li>
+ * <li>The {@link #extendsRef}member stores the reference to the parent element.
+ * </li>
  * </ul>
  * 
  * <h3>User-Defined Properties</h3>
@@ -259,14 +256,11 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * Members and classes in the user-defined property system include:
  * <p>
  * <ul>
- * <li>The {@link #addUserPropertyDefn}method defines a user-defined property.
- * </li>
- * <li>The {@link #dropUserPropertyDefn}method removes a user-defined
- * property.</li>
+ * <li>The {@link #addUserPropertyDefn}method defines a user-defined property.</li>
+ * <li>The {@link #dropUserPropertyDefn}method removes a user-defined property.</li>
  * <li>The {@link #getUserPropertyDefn}method gets the definition of a
  * user-defined property.</li>
- * <li>The {@link UserPropertyDefn}class defines a user-defined property.
- * </li>
+ * <li>The {@link UserPropertyDefn}class defines a user-defined property.</li>
  * <li>The {@link #userProperties}member holds the user-defined property
  * definitions for this element.</li>
  * </ul>
@@ -290,30 +284,28 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * P is unset on element E, E will inherit the value of P from its parent
  * element.
  * <p>
- * The <em>local value</em> of a property for an element E indicates whether
- * or not the property is set on that specific element. The local value is
+ * The <em>local value</em> of a property for an element E indicates whether or
+ * not the property is set on that specific element. The local value is
  * generally of interest only to low-level code. The XML design file shows only
  * the local property values for an element.
  * <p>
- * The <em>effective value </em> of a property provides the value computed
- * using the property search which includes the ancestor elements, styles,
- * context, system-defaults, and other information. The effective value is
- * generally what the user cares about, and is what appears in the property
- * sheet and other UI.
+ * The <em>effective value </em> of a property provides the value computed using
+ * the property search which includes the ancestor elements, styles, context,
+ * system-defaults, and other information. The effective value is generally what
+ * the user cares about, and is what appears in the property sheet and other UI.
  * <p>
  * Members and classes in the property value system include:
  * <p>
  * <ul>
  * <li>The {@link #propValues}member stores the property values set on this
  * element.</li>
- * <li>The {@link #setProperty( String, Object )}method sets a property value
- * on this element.</li>
- * <li>The {@link #clearProperty}method unsets a property value on this
- * method.</li>
- * <li>The {@link #getLocalProperty( Module, String )}method gets the property
+ * <li>The {@link #setProperty(String, Object )}method sets a property value on
+ * this element.</li>
+ * <li>The {@link #clearProperty}method unsets a property value on this method.</li>
+ * <li>The {@link #getLocalProperty(Module, String )}method gets the property
  * value, if any, set on this element.</li>
- * <li>The {@link #getProperty( Module, String )}method gets the effective
- * value of the property.</li>
+ * <li>The {@link #getProperty(Module, String )}method gets the effective value
+ * of the property.</li>
  * </ul>
  * 
  * <h3>Element Name</h3>
@@ -349,9 +341,9 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * elements except the report design itself are <em>contained </em> within some
  * other element: the <em>container </em>. The contained element is the
  * <em>content
- * </em>. (Note: the usage of the term container in this
- * discussion is more generic than the Container element in the report design.
- * The Container element is a container, but other elements are as well.)
+ * </em>. (Note: the usage of the term container in this discussion is more
+ * generic than the Container element in the report design. The Container
+ * element is a container, but other elements are as well.)
  * <p>
  * The details of the containment are specific to each element type. For
  * example, a Container element has an ordered list of content elements. The
@@ -396,17 +388,16 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * Members and classes in the notification system include:
  * <p>
  * <ul>
- * <li>The {@link #listeners}member holds the list of subscribed listeners.
- * </li>
+ * <li>The {@link #listeners}member holds the list of subscribed listeners.</li>
  * <li>The {@link #addListener}and {@link #removeListener}methods to add and
  * remove listeners.</li>
  * <li>The {@link Listener}class to receive notifications.</li>
- * <li>A subclass of {@link NotificationEvent}notifies the listener of the
- * type of change, and information about the change.</li>
+ * <li>A subclass of {@link NotificationEvent}notifies the listener of the type
+ * of change, and information about the change.</li>
  * <li>The {@link org.eclipse.birt.report.model.activity.ActivityStack}class
  * triggers the notifications as it processes commands.</li>
- * <li>ActivityStack calls the {@link #sendEvent}method to send the
- * notification to the appropriate listeners.</li>
+ * <li>ActivityStack calls the {@link #sendEvent}method to send the notification
+ * to the appropriate listeners.</li>
  * <li>The sendEvent( ) method in turn calls
  * {@link #broadcast(NotificationEvent)}to do the detailed work of sending an
  * event to all the listeners.</li>
@@ -443,12 +434,11 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * the server. None of the above is both simple and consistent. Element IDs
  * provide this service. IDs are valid only within a single design "session". A
  * session is the time between when a design is loaded into memory, and the time
- * that the design is released. IDs are <em>not </em> valid across sessions,
- * and are not persistent. The application must enable IDs by calling
- * {@link org.eclipse.birt.report.model.metadata.MetaDataDictionary#enableElementID}.
- * Call {@link #getID}to get the ID of an element. Call
- * {@link Module#getElementByID}to obtain and element given an element ID.
- * </dd>
+ * that the design is released. IDs are <em>not </em> valid across sessions, and
+ * are not persistent. The application must enable IDs by calling
+ * {@link org.eclipse.birt.report.model.metadata.MetaDataDictionary#enableElementID}
+ * . Call {@link #getID}to get the ID of an element. Call
+ * {@link Module#getElementByID}to obtain and element given an element ID.</dd>
  * </dl>
  * 
  * <h3>Element Visitor</h3>
@@ -474,7 +464,7 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * The API handle package provides a set of "facade" classes that give this
  * high-level view. Therefore, the application will seldom work with this class
  * directly. Instead, it will work with the handle produced by calling the
- * {@link #getHandle( Module module )}method.
+ * {@link #getHandle(Module module )}method.
  * 
  * <h3>Semantic State</h3>
  * 
@@ -483,8 +473,8 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * Expressions reference elements, parameters and data set columns. Many
  * elements reference data sources or data sets.
  * <p>
- * <em>Semantic processing</em> resolves name references to the actual
- * elements or other objects. Semantic processing is done incrementally for most
+ * <em>Semantic processing</em> resolves name references to the actual elements
+ * or other objects. Semantic processing is done incrementally for most
  * operations. However, batch processing is needed when reading a design file
  * and for certain other operations.
  * <p>
@@ -823,14 +813,14 @@ public abstract class DesignElement
 	}
 
 	/**
-	 * Returns <code>true</code> if the element is within a child element
-	 * which extends from another. Returns <code>false</code> otherwise. <br>
+	 * Returns <code>true</code> if the element is within a child element which
+	 * extends from another. Returns <code>false</code> otherwise. <br>
 	 * <strong>Notice: </strong> <br>
 	 * If the element is a virtual element, it must have defined a <code>
-	 * baseId<code> which point to the ID of its virtual parent. 
+	 * baseId<code> which point to the ID of its virtual parent.
 	 * 
-	 * @return Returns <code>true</code> if the element is within a child element
-	 * which extends from another.
+	 * @return Returns <code>true</code> if the element is within a child
+	 *         element which extends from another.
 	 */
 
 	public final boolean isVirtualElement( )
@@ -840,8 +830,8 @@ public abstract class DesignElement
 
 	/**
 	 * Resolve and returns the virtual parent element. If the element is not
-	 * virtual element, <code>null</code> will be returned. Otherwise, find
-	 * and returns the virtual parent using the <code>baseId</code>.
+	 * virtual element, <code>null</code> will be returned. Otherwise, find and
+	 * returns the virtual parent using the <code>baseId</code>.
 	 * 
 	 * @return the virtual parent element.
 	 */
@@ -1145,8 +1135,8 @@ public abstract class DesignElement
 	 * <p>
 	 * This class has two intrinsic properties:
 	 * <ul>
-	 * <li><strong>name </strong>-- The element name. The property value must
-	 * be null or a String.
+	 * <li><strong>name </strong>-- The element name. The property value must be
+	 * null or a String.
 	 * <li><strong>extends </strong>-- The element that this element extends.
 	 * Must be a String (for an unresolved name), DesignElement (for a resolved
 	 * name) or null. The caller should ensure canExtend of this element is
@@ -1301,8 +1291,9 @@ public abstract class DesignElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.IPropertySet#setProperty(org.eclipse.birt.report.model.metadata.PropertyDefn,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.core.IPropertySet#setProperty(org.eclipse
+	 * .birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 
 	public void setProperty( PropertyDefn prop, Object value )
@@ -1913,7 +1904,7 @@ public abstract class DesignElement
 
 	/**
 	 * Returns the optional display name. Note: set the display name by calling
-	 * the {@link #setProperty( String, Object )}method.
+	 * the {@link #setProperty(String, Object )}method.
 	 * <p>
 	 * Part of: The name system.
 	 * 
@@ -1928,7 +1919,7 @@ public abstract class DesignElement
 	/**
 	 * Returns the optional message id used to localize the display name. Note:
 	 * set the display name id by calling the
-	 * {@link #setProperty( String, Object )}method.
+	 * {@link #setProperty(String, Object )}method.
 	 * <p>
 	 * Part of: The name system.
 	 * 
@@ -2137,7 +2128,7 @@ public abstract class DesignElement
 
 		// Besides elements in the slot, also need to validate elements that in
 		// the property values in which elements can reside.
-		
+
 		List contentProps = getDefn( ).getContents( );
 		for ( int i = 0; i < contentProps.size( ); i++ )
 		{
@@ -2272,8 +2263,8 @@ public abstract class DesignElement
 	 * @param parent
 	 *            the parent element
 	 * @throws ExtendsException
-	 *             throws <code>ExtendsException</code> if the parent element
-	 *             is <code>NOT_FOUND</code>,<code>WRONG_TYPE</code>,
+	 *             throws <code>ExtendsException</code> if the parent element is
+	 *             <code>NOT_FOUND</code>,<code>WRONG_TYPE</code>,
 	 *             <code>SELF_EXTEND</code>,<code>CIRCULAR</code>.
 	 */
 
@@ -2379,8 +2370,8 @@ public abstract class DesignElement
 	 *            the module
 	 * @param propName
 	 *            the name of the property to get
-	 * @return the value as an <code>ArrayList</code>, or null if the
-	 *         property is not set or the value is not a list
+	 * @return the value as an <code>ArrayList</code>, or null if the property
+	 *         is not set or the value is not a list
 	 */
 
 	public List getListProperty( Module module, String propName )
@@ -2458,8 +2449,8 @@ public abstract class DesignElement
 	 * 
 	 * @param module
 	 * 
-	 * @return <code>true</code> if the property of current element is
-	 *         editable. Otherwise <code>false</code>.
+	 * @return <code>true</code> if the property of current element is editable.
+	 *         Otherwise <code>false</code>.
 	 */
 
 	public boolean canEdit( Module module )
@@ -2522,8 +2513,8 @@ public abstract class DesignElement
 	 * Checks whether the root of the current element is included by
 	 * report/library.
 	 * 
-	 * @return <code>true</code> if the root of the current element is
-	 *         included by report/library. Otherwise <code>false</code>.
+	 * @return <code>true</code> if the root of the current element is included
+	 *         by report/library. Otherwise <code>false</code>.
 	 */
 
 	public boolean isRootIncludedByModule( )
@@ -2553,8 +2544,8 @@ public abstract class DesignElement
 
 	/**
 	 * Checks whether elements with the given element definition can be inserted
-	 * to the slot <code>slotId</code> in another element
-	 * <code>container</code>.
+	 * to the slot <code>slotId</code> in another element <code>container</code>
+	 * .
 	 * 
 	 * @param module
 	 *            the module
@@ -2629,8 +2620,7 @@ public abstract class DesignElement
 	 * method uses specialized property resolution rules:
 	 * <p>
 	 * <ul>
-	 * <li>A property value is either a style property or a non-style property.
-	 * </li>
+	 * <li>A property value is either a style property or a non-style property.</li>
 	 * <li>A non-style property is set if this element, or any of its ancestor
 	 * elements, provide a value. It is also considered set if the system
 	 * provides a default value.</li>
@@ -2660,8 +2650,7 @@ public abstract class DesignElement
 	 * method uses specialized property resolution rules:
 	 * <p>
 	 * <ul>
-	 * <li>A property value is either a style property or a non-style property.
-	 * </li>
+	 * <li>A property value is either a style property or a non-style property.</li>
 	 * <li>A non-style property is set if this element, or any of its ancestor
 	 * elements, provide a value. It is also considered set if the system
 	 * provides a default value.</li>
@@ -2737,13 +2726,11 @@ public abstract class DesignElement
 	 * Returns the display label of this element. To get the display label of an
 	 * element, the following step should be done:
 	 * <ul>
-	 * <li>The localized display name of this element if set</li>
-	 * <li>The display property value of this element if set</li>
-	 * <li>The name of element if set</li>
-	 * <li>The localized display name of this kind of element, which is defined
-	 * in metadata, if set</li>
-	 * <li>The name of this kind of element, which is also defined in metadata
-	 * </li>
+	 * <li>The localized display name of this element if set</li> <li>The
+	 * display property value of this element if set</li> <li>The name of
+	 * element if set</li> <li>The localized display name of this kind of
+	 * element, which is defined in metadata, if set</li> <li>The name of this
+	 * kind of element, which is also defined in metadata </li>
 	 * </ul>
 	 * <p>
 	 * User can also decide at which detail level the display label should be
@@ -2753,8 +2740,8 @@ public abstract class DesignElement
 	 * return null</li>
 	 * <li>SHORT_LABEL: All the above 5 steps can be visited. This will ensure
 	 * there will be a return value</li>
-	 * <li>FULL_LABEL: Besides the return value of SHORT_LABEL, this option
-	 * says we need to return additional information. To get this, every child
+	 * <li>FULL_LABEL: Besides the return value of SHORT_LABEL, this option says
+	 * we need to return additional information. To get this, every child
 	 * element needs to overwrite this method</li>
 	 * </ul>
 	 * 
@@ -2870,8 +2857,8 @@ public abstract class DesignElement
 	 * When inserting the cloned element into the design tree, user needs to
 	 * care about the element name confliction; that is, the client needs to
 	 * call the method
-	 * <code>{@link ReportDesignHandle#rename( DesignElementHandle )}</code>
-	 * to change the element names.
+	 * <code>{@link ReportDesignHandle#rename( DesignElementHandle )}</code> to
+	 * change the element names.
 	 * 
 	 * @return Object the cloned design element.
 	 * @throws CloneNotSupportedException
@@ -2897,8 +2884,8 @@ public abstract class DesignElement
 	 * When inserting the cloned element into the design tree, user needs to
 	 * care about the element name confliction; that is, the client needs to
 	 * call the method
-	 * <code>{@link ReportDesignHandle#rename( DesignElementHandle )}</code>
-	 * to change the element names.
+	 * <code>{@link ReportDesignHandle#rename( DesignElementHandle )}</code> to
+	 * change the element names.
 	 * 
 	 * @param policy
 	 *            the policy for the clone action, maybe copy or copy for
@@ -3023,8 +3010,8 @@ public abstract class DesignElement
 	 * <ul>
 	 * <li>report.body[0] - The first element in body slot
 	 * <li>table("myTable") - The table named myTable
-	 * <li>table("myTable").detail[0].cells[3] - The forth cell of the first
-	 * row in table
+	 * <li>table("myTable").detail[0].cells[3] - The forth cell of the first row
+	 * in table
 	 * </ul>
 	 * <p>
 	 * Note: the localized name is used for element type and slot name.
@@ -3271,22 +3258,7 @@ public abstract class DesignElement
 
 			if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 			{
-				if ( propDefn.isList( ) )
-				{
-					List values = (ArrayList) clonedValue;
-					for ( int i = 0; i < values.size( ); i++ )
-					{
-						Structure item = (Structure) values.get( i );
-						item.setContext( new StructureContext( element,
-								propDefn.getName( ) ) );
-					}
-				}
-				else
-				{
-					( (Structure) clonedValue )
-							.setContext( new StructureContext( element,
-									propDefn.getName( ) ) );
-				}
+				ModelUtil.setStructureContext( propDefn, clonedValue, element );
 			}
 		}
 

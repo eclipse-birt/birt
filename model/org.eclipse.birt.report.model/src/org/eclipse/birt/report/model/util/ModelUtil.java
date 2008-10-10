@@ -65,6 +65,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ContentElement;
@@ -1716,6 +1717,40 @@ public class ModelUtil
 			return true;
 
 		return false;
+	}
+
+	/**
+	 * Sets structure context.
+	 * 
+	 * @param propDefn
+	 *            the property define
+	 * @param clonedValue
+	 *            the cloned value
+	 * @param element
+	 *            the design element.
+	 */
+	public static void setStructureContext( PropertyDefn propDefn,
+			Object clonedValue, DesignElement element )
+	{
+		assert propDefn != null;
+		assert clonedValue != null;
+		assert element != null;
+
+		if ( propDefn.isList( ) )
+		{
+			List values = (ArrayList) clonedValue;
+			for ( int i = 0; i < values.size( ); i++ )
+			{
+				Structure item = (Structure) values.get( i );
+				item.setContext( new StructureContext( element, propDefn
+						.getName( ) ) );
+			}
+		}
+		else
+		{
+			( (Structure) clonedValue ).setContext( new StructureContext(
+					element, propDefn.getName( ) ) );
+		}
 	}
 
 }
