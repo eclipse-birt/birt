@@ -129,7 +129,13 @@ public class DataExtractionTaskV1 extends EngineTask
 	protected int startRow = 0;
 	
 	/**
-	 * group mode
+	 * whether get distinct values
+	 */
+	protected boolean distinct;
+	
+	/**
+	 * group mode. Default is true.
+	 * group mode isn't used if startRow or distint is set.
 	 */
 	protected boolean groupMode = true;
 
@@ -738,7 +744,8 @@ public class DataExtractionTaskV1 extends EngineTask
 				query.setQueryResultsID( rsetId );
 				QueryDefinition newQuery = new QueryDefinition( );
 				newQuery.setSourceQuery( query );
-				setupQueryWithFilterAndSort(newQuery);
+				setupQueryWithFilterAndSort( newQuery );
+				setupDistinct( newQuery );
 
 				// prepare the query
 				processQueryExtensions( newQuery );
@@ -904,6 +911,7 @@ public class DataExtractionTaskV1 extends EngineTask
 					QueryDefinition newQuery = new QueryDefinition( );
 					newQuery.setSourceQuery( query );
 					setupQueryWithFilterAndSort( newQuery );
+					setupDistinct( newQuery );
 					// prepare the query
 					processQueryExtensions( newQuery );
 					
@@ -948,6 +956,7 @@ public class DataExtractionTaskV1 extends EngineTask
 						QueryDefinition newQuery = new QueryDefinition( );
 						newQuery.setSourceQuery( query );
 						setupQueryWithFilterAndSort(newQuery);
+						setupDistinct( newQuery );
 						// prepare the query
 						processQueryExtensions( newQuery );
 						
@@ -1016,6 +1025,11 @@ public class DataExtractionTaskV1 extends EngineTask
 			}
 			sortExpressions = null;
 		}
+	}
+	
+	private void setupDistinct( IBaseQueryDefinition query )
+	{
+		( (BaseQueryDefinition) query ).setDistinctValue( this.distinct );
 	}
 
 	private IResultIterator executeQuery( String prset, long rowId,
@@ -1350,6 +1364,13 @@ public class DataExtractionTaskV1 extends EngineTask
 	public void setStartRow( int startRow )
 	{
 		this.startRow = startRow;
+		groupMode = false;
+	}
+	
+	public void setDistinctValuesOnly( boolean distinct )
+	{
+		this.distinct = distinct;
+		groupMode = false;
 	}
 
 	protected void processQueryExtensions( IDataQueryDefinition query )

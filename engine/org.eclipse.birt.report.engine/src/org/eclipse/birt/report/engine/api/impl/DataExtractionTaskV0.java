@@ -111,6 +111,11 @@ public class DataExtractionTaskV0 extends EngineTask
 	protected int startRow = 0;
 	
 	/**
+	 * whether get distinct values
+	 */
+	protected boolean distinct;
+	
+	/**
 	 * have the metadata be prepared. meta data means rsetName2IdMapping and
 	 * queryId2NameMapping
 	 */
@@ -908,5 +913,10 @@ public class DataExtractionTaskV0 extends EngineTask
 	public void setStartRow( int startRow )
 	{
 		this.startRow = startRow;
+	}
+	
+	public void setDistinctValuesOnly( boolean distinct )
+	{
+		this.distinct = distinct;
 	}
 }

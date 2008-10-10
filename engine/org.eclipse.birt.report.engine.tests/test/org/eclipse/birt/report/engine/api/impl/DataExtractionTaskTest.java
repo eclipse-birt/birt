@@ -161,7 +161,7 @@ public class DataExtractionTaskTest extends EngineCase
 	{
 		// we have total 3 rsets in the list (doesn't include the sub query)
 		ArrayList resultSetList = (ArrayList) dataExTask.getResultSetList( );
-		assertEquals( "Result set number error", 3, resultSetList.size( ) );
+		assertEquals( "Result set number error", 4, resultSetList.size( ) );
 
 		// in this list, we have three resutl set items, one is ELEMENT_219, ELEMENT_277, ELEMENT_289
 		IResultSetItem resultItem1 = (IResultSetItem) resultSetList.get( 0 );
@@ -207,7 +207,28 @@ public class DataExtractionTaskTest extends EngineCase
 	public void testExtractionWithFilters( ) throws Exception
 	{
 		dataExTask.selectResultSet( "ELEMENT_277" );
-		doTestExtractionTaskWithFilters( 3 );
+		doTestExtractionTaskWithFilters( 4 );
+	}
+	
+	public void testExtractionWithDistinct( ) throws Exception
+	{
+		dataExTask.selectResultSet( "ELEMENT_339" );
+		dataExTask.setDistinctValuesOnly( true );
+		IExtractionResults results = dataExTask.extract( );
+		IDataIterator itr = results.nextResultIterator( );
+		HashSet set = new HashSet();
+		while(itr.next( ))
+		{
+			Object value = itr.getValue( 0 );
+			if ( set.contains( value ) )
+			{
+				fail("fail test on DataExtraction's distinct");
+			}
+			else
+			{
+				set.add( value );
+			}
+		}
 	}
 	
 	public void testDataExtractionWithSorts( ) throws Exception

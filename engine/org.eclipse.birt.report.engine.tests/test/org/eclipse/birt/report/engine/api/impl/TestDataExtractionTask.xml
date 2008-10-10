@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.3.1.v20080701-0630 Build &lt;2.3.1.v20080701-0630></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.3.2.v20081006-0630 Build &lt;2.3.2.v20081006-0630></property>
     <property name="units">in</property>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="SampleDB" id="4">
@@ -491,5 +491,41 @@ from Customers</property>
                 </data>
             </detail>
         </list>
+        <table id="339">
+            <property name="width">100%</property>
+            <property name="dataSet">Customer</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">COUNTRY</property>
+                    <property name="displayName">COUNTRY</property>
+                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="346"/>
+            <header>
+                <row id="340">
+                    <cell id="341">
+                        <label id="347">
+                            <text-property name="text">COUNTRY</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="342">
+                    <cell id="343">
+                        <data id="348">
+                            <property name="resultSetColumn">COUNTRY</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="344">
+                    <cell id="345"/>
+                </row>
+            </footer>
+        </table>
     </body>
 </report>
