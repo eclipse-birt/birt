@@ -320,22 +320,25 @@ public class SQLQueryUtility
         DataType varDataType = var.getDataType();
         elementAttrs.setNativeDataTypeCode( getJDBCTypeCode( varDataType ));
 
-        // get precision if applicable
-        if( varDataType instanceof NumericalDataType )
+        if( varDataType != null )
         {
-            int precision = ((NumericalDataType) varDataType).getPrecision();
-            if( precision > 0 )
-                elementAttrs.setPrecision( precision );
-        }
-        else if( varDataType instanceof CharacterStringDataType )
-        {
-            elementAttrs.setPrecision( ((CharacterStringDataType) varDataType).getLength() );
-        }
-
-        // get scale if applicable
-        if( varDataType instanceof ExactNumericDataType )
-        {
-            elementAttrs.setScale( ((ExactNumericDataType) varDataType).getScale() );
+            // get precision if applicable
+            if( varDataType instanceof NumericalDataType )
+            {
+                int precision = ((NumericalDataType) varDataType).getPrecision();
+                if( precision > 0 )
+                    elementAttrs.setPrecision( precision );
+            }
+            else if( varDataType instanceof CharacterStringDataType )
+            {
+                elementAttrs.setPrecision( ((CharacterStringDataType) varDataType).getLength() );
+            }
+    
+            // get scale if applicable
+            if( varDataType instanceof ExactNumericDataType )
+            {
+                elementAttrs.setScale( ((ExactNumericDataType) varDataType).getScale() );
+            }
         }
         
         if( var.getLabel() != null )
@@ -346,6 +349,9 @@ public class SQLQueryUtility
     
     private static int getJDBCTypeCode( DataType varDataType )
     {
+        if( varDataType == null )
+            return Types.NULL;  // unknown value 
+
         int nativeTypeCode = DataTypeHelper.getJDBCTypeForNamedType( varDataType.getName() );
         if( nativeTypeCode != 0 )   // has valid value
             return nativeTypeCode;
@@ -360,45 +366,6 @@ public class SQLQueryUtility
         
         return Types.NULL;  // unknown value 
     }
-
-//    /**
-//     * Updates the specified data set design's parameter definition based on the
-//     * specified runtime metadata.
-//     * @param paramMd   runtime parameter metadata instance
-//     * @param dataSetDesign     data set design instance to update
-//     * @throws OdaException
-//     */
-//    private static void updateParameterDesign( IParameterMetaData paramMd,
-//            DataSetDesign dataSetDesign ) 
-//        throws OdaException
-//    {
-//        if( dataSetDesign == null || paramMd == null )
-//            return;
-//        DataSetParameters newParamDesign = 
-//            DesignSessionUtil.toDataSetParametersDesign( paramMd, 
-//                    DesignSessionUtil.toParameterModeDesign( IParameterMetaData.parameterModeIn ) );
-//
-//        // no exception in conversion; go ahead and assign to specified dataSetDesign
-//        adjustParameterDesign( newParamDesign, true );
-//        dataSetDesign.setParameters( newParamDesign );        
-//    }
-
-//    private static void adjustParameterDesign( DataSetParameters paramsDesign, boolean isDerivedMetaData )
-//    {
-//        if( paramsDesign == null )
-//            return;     // no specified parameter definitions; done with adjustment
-//
-//        paramsDesign.setDerivedMetaData( isDerivedMetaData );
-//
-//        // adjust each parameter to supplement the metadata not available from a JDBC driver
-//        Iterator iter = paramsDesign.getParameterDefinitions().iterator();
-//        while( iter.hasNext() )
-//        {
-//            ParameterDefinition paramDefn = (ParameterDefinition) iter.next( );
-//            
-//            adjustParameterDefinition( paramDefn );
-//        }
-//    }
 
     /**
      * Process the parameter definition to handle special use, such as setting
