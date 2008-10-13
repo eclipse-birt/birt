@@ -348,7 +348,7 @@ public class CrosstabAdaptUtil
 	// processInvaildBindings( handle, true );
 	// }
 
-	public static void processInvaildBindings( CrosstabReportItemHandle handle )
+	public static boolean needRemoveInvaildBindings( CrosstabReportItemHandle handle )
 	{
 		String preferenceData = PreferenceFactory.getInstance( )
 		.getPreferences( CrosstabPlugin.getDefault( ) )
@@ -364,10 +364,12 @@ public class CrosstabAdaptUtil
 					null );
 			if ( msgDlg.getReturnCode( ) == IDialogConstants.YES_ID )
 			{
-				removeInvalidBindings( handle );
+				return true;
+				//removeInvalidBindings( handle );
 			}
 			else if ( msgDlg.getReturnCode( ) == IDialogConstants.NO_ID )
 			{
+				return false;
 				// dothing
 			}
 			if(msgDlg.getToggleState( ))
@@ -390,8 +392,10 @@ public class CrosstabAdaptUtil
 		}
 		else if(preferenceData != null && preferenceData.equals( MessageDialogWithToggle.ALWAYS ))
 		{
-			removeInvalidBindings( handle );
+			return true;
+			//removeInvalidBindings( handle );
 		}
+		return false;
 		// removeInvalidBindings(handle);
 	}
 

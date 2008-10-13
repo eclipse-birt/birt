@@ -157,10 +157,16 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 			if ( dialog.open( ) == Window.OK )
 			{
 				List result = (List) dialog.getResult( );
-				boolean isRemove = processor( input, result );
+				boolean isRemove = processor( input, result, false );
+				
 				if ( isRemove )
 				{
-					CrosstabAdaptUtil.processInvaildBindings( reportHandle );
+					boolean bool  = CrosstabAdaptUtil.needRemoveInvaildBindings( reportHandle );
+					processor( input, result, true );
+					if (bool)
+					{
+						CrosstabAdaptUtil.removeInvalidBindings( reportHandle );
+					}
 				}
 
 				providerWrapper.switchViews( );
@@ -209,7 +215,7 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 				.getMeasure( measure.getQualifiedName( ) );
 	}
 
-	private boolean processor( List list, List result )
+	private boolean processor( List list, List result, boolean doChange )
 			throws SemanticException
 	{
 		initializeProviders( );
@@ -275,7 +281,10 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 			}
 			else
 			{
-				reportHandle.removeMeasure( info.getMeasureName( ) );
+				if (doChange)
+				{
+					reportHandle.removeMeasure( info.getMeasureName( ) );
+				}
 				isRemove = true;
 				needUpdateView = true;
 			}
