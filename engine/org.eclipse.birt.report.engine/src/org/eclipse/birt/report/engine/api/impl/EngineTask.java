@@ -1810,6 +1810,23 @@ public abstract class EngineTask implements IEngineTask
 					throw new EngineException( "Failed to update RtL flag." );//$NON-NLS-1$
 				}
 			}
+			// Updated renderOptions based on report design orientation.
+			// XXX It seems ideally we should distinguish between null value for
+			// direction/rtl flag and the explicit 'ltr' value, either here, or
+			// in the block above.
+			else if ( handle.isDirectionRTL( ) )
+			{
+				renderOptions.setOption( IRenderOption.RTL_FLAG, new Boolean(
+						true ) );
+				IRenderOption renderOptions2 = executionContext
+						.getRenderOption( );
+				if ( renderOptions2 != null )
+				{
+					renderOptions2.setOption( IRenderOption.RTL_FLAG,
+							new Boolean( true ) );
+					executionContext.setRenderOption( renderOptions2 );
+				}
+			}
 		}
 	}
 
