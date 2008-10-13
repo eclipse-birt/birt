@@ -104,16 +104,28 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 			if ( dialog.open( ) == Window.OK )
 			{
 				CrosstabReportItemHandle reportHandle = viewHandle.getCrosstab( );
+				
 				List result = (List) dialog.getResult( );
 				boolean isLevelRemoved = processor( showLevels,
 						result,
-						nullLevelHandle );
+						nullLevelHandle, false);
+				
 				if (isLevelRemoved)
 				{
-					CrosstabAdaptUtil.processInvaildBindings( reportHandle );
+					boolean bool = CrosstabAdaptUtil.needRemoveInvaildBindings( reportHandle );
+					processor( showLevels,
+							result,
+							nullLevelHandle, true);
+					if (bool)
+					{
+						CrosstabAdaptUtil.removeInvalidBindings( reportHandle );
+					}
 				}
+				
 				AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper(reportHandle);
 				providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.SWITCH_VIEW_TYPE );
+				
+				
 			}
 		}
 		catch ( SemanticException e )
@@ -125,14 +137,17 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		transEnd( );
 	}
 
-	private boolean processor( List ori, List newList, List nullLevelHandle )
+	private boolean processor( List ori, List newList, List nullLevelHandle, boolean doChange )
 			throws SemanticException
 	{
 		boolean isLevelRemoved = false;
 		for ( int i = nullLevelHandle.size( ) - 1; i >= 0; i-- )
 		{
 			int index = ( (Integer) nullLevelHandle.get( i ) ).intValue( );
-			viewHandle.removeLevel( index );
+			if (doChange)
+			{
+				viewHandle.removeLevel( index );
+			}
 			isLevelRemoved = true;
 		}
 
@@ -141,18 +156,24 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 			LevelHandle tempHandle = (LevelHandle) ori.get( i );
 			if ( !newList.contains( tempHandle ) )
 			{
-				viewHandle.removeLevel( tempHandle.getQualifiedName( ) );
+				if (doChange)
+				{
+					viewHandle.removeLevel( tempHandle.getQualifiedName( ) );
+				}
 				isLevelRemoved = true;
 			}
 		}
 
 		Collections.sort( newList, new LevelComparator( ) );
-		for ( int i = 0; i < newList.size( ); i++ )
+		if (doChange)
 		{
-			LevelHandle tempHandle = (LevelHandle) newList.get( i );
-			if ( viewHandle.getLevel( tempHandle.getQualifiedName( ) ) == null )
+			for ( int i = 0; i < newList.size( ); i++ )
 			{
-				insertLevelHandle( tempHandle, i );
+				LevelHandle tempHandle = (LevelHandle) newList.get( i );
+				if ( viewHandle.getLevel( tempHandle.getQualifiedName( ) ) == null )
+				{
+					insertLevelHandle( tempHandle, i );
+				}
 			}
 		}
 		return isLevelRemoved;

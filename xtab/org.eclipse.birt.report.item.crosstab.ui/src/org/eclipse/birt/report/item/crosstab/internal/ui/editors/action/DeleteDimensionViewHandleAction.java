@@ -82,11 +82,15 @@ public class DeleteDimensionViewHandleAction extends AbstractCrosstabAction
 		try
 		{
 			CrosstabReportItemHandle handle = dimensionHandle.getCrosstab(  );
+			boolean bool = CrosstabAdaptUtil.needRemoveInvaildBindings(handle );
 			dimensionHandle.getCrosstab( ).removeDimension( dimensionHandle.getAxisType( ), dimensionHandle.getIndex( ) );
-			CrosstabAdaptUtil.processInvaildBindings(handle );
-			
+			if (bool)
+			{
+				CrosstabAdaptUtil.removeInvalidBindings( handle );
+			}
 			AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper((ExtendedItemHandle)handle.getModelHandle( ));
 			providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.SWITCH_VIEW_TYPE );
+			
 		}
 		catch ( SemanticException e )
 		{
