@@ -11,11 +11,9 @@
 
 package org.eclipse.birt.report.model.api.validators;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.core.DesignElement;
