@@ -335,8 +335,8 @@ class BirtStr implements IScriptFunctionExecutor
 			{
 				byte[] value = str.getBytes( );
 				int end = str.length( );
-				while ( ( end < str.length( ) )
-						&& ( value[str.length( ) - 1] <= ' ' ) )
+				while ( ( end > 0 )
+						&& ( value[end - 1] <= ' ' ) )
 				{
 					end--;
 				}
