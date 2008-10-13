@@ -222,8 +222,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			Button btnLabel = createToggleButton( cmp,
 					BUTTON_LABEL,
 					Messages.getString( "SeriesYSheetImpl.Label.Labels&" ), //$NON-NLS-1$
-					popup,
-					cbVisible.getSelection( ) );
+					popup );
 			btnLabel.addSelectionListener( this );
 
 		}
@@ -398,22 +397,12 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			}
 			else
 			{
-				setToggleButtonEnabled( BUTTON_LABEL, cbVisible.getSelection( ) );
 				getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
 						.getLabel( )
 						.setVisible( cbVisible.getSelection( ) );
-				Button btnLabel = getToggleButton( BUTTON_LABEL );
-				if ( !cbVisible.getSelection( ) && btnLabel.getSelection( ) )
-				{
-					btnLabel.setSelection( false );
-					detachPopup( btnLabel );
-				}
-			}
-			if ( cbVisible.getSelection( ) )
-			{
-				refreshPopupSheet( );
 			}
 
+			refreshPopupSheet( );
 		}
 		else if ( e.widget.equals( cbDecoVisible ) )
 		{
