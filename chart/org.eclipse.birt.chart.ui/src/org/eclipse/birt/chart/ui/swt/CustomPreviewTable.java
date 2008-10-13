@@ -16,6 +16,7 @@ import java.util.Vector;
 import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DragSource;
@@ -503,6 +504,8 @@ public class CustomPreviewTable extends Composite implements
 		setColumns( new String[]{
 				"", "", ""}, new int[]{200, 200, 200} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		layout( true );
+		// bug#245498
+		WizardBase.removeException( );
 	}
 
 	int getColumnWidthFor( int iIndex )
