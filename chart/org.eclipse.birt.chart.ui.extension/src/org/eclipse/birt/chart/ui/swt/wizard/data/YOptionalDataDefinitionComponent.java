@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.ui.swt.composites.GroupSortingDialog;
 import org.eclipse.birt.chart.ui.swt.composites.YOptionalGroupSortingDialog;
@@ -103,7 +104,7 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 			
 			// Update the query sorting of other series.
 			ChartAdapter.beginIgnoreNotifications( );
-			List sds = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) );
+			List<?> sds = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) );
 			for ( int i = 0; i < sds.size( ); i++ )
 			{
 				if ( i != 0 )
@@ -142,11 +143,31 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 						.getGrouping( )
 						.eAdapters( )
 						.addAll( seriesdefinition.getQuery( ).eAdapters( ) );
-				ChartUIUtil.checkGroupType( context, context.getModel() );
+
+				// Update the query grouping of other series.
+				ChartAdapter.beginIgnoreNotifications( );
+				for ( int i = 0; i < sds.size( ); i++ )
+				{
+					if ( i != 0 )
+					{
+						SeriesDefinition sdf = (SeriesDefinition) sds.get( i );
+						sdf.getQuery( )
+								.setGrouping( (SeriesGrouping) EcoreUtil.copy( seriesdefinition.getQuery( )
+										.getGrouping( ) ) );
+						sdf.getQuery( )
+								.getGrouping( )
+								.eAdapters( )
+								.addAll( sdf.getQuery( ).eAdapters( ) );
+					}
+				}
+				ChartAdapter.endIgnoreNotifications( );
+
+				ChartUIUtil.checkGroupType( context, context.getModel( ) );
 			}
 		}
 	}
 	
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent#saveQuery()
 	 */
