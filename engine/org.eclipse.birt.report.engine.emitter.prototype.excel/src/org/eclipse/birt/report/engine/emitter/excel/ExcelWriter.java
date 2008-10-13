@@ -50,35 +50,27 @@ public class ExcelWriter
 		{
 			s = super.getEscapedStr( s, whitespace );
 
-			StringBuffer result = null;
+			StringBuffer buffer = new StringBuffer();
 
-			char[] s2char = s.toCharArray( );
-
-			for ( int i = 0, max = s2char.length, delta = 0; i < max; i++ )
+			for ( int i = 0, max = s.length( ), delta = 0; i < max; i++ )
 			{
-				char c = s2char[i];
-				String replacement = null;
+				char c = s.charAt( i );
 
-				if ( c == '\n' )
+				if ( c == '\n' || c == '\r' )
 				{
-					replacement = "&#10;"; //$NON-NLS-1$
-				}
-
-				if ( replacement != null )
-				{
-					if ( result == null )
+					buffer.append( "&#10;" ); //$NON-NLS-1$
+					if ( c == '\r' && i + 1 < max && s.charAt( i + 1 ) == '\n')
 					{
-						result = new StringBuffer( s );
+						i++;
 					}
-					result.replace( i + delta, i + delta + 1, replacement );
-					delta += ( replacement.length( ) - 1 );
 				}
+				else
+				{
+					buffer.append( c );
+				}
+
 			}
-			if ( result == null )
-			{
-				return s;
-			}
-			return result.toString( );
+			return buffer.toString( );
 		}
 	}
 
