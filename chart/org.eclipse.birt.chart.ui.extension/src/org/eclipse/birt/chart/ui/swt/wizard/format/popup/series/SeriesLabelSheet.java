@@ -423,18 +423,21 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		lblShadow.setEnabled( bEnableUI );
 		fccShadow.setEnabled( bEnableUI );
 
-		grpDataPoint.setEnabled( bEnableUI );
-		lstComponents.setEnabled( bEnableUI );
-		btnFormatSpecifier.setEnabled( bEnableUI );
-		btnRemoveComponent.setEnabled( bEnableUI );
-		btnAddComponent.setEnabled( bEnableUI );
-		cmbComponentTypes.setEnabled( bEnableUI );
-		lblPrefix.setEnabled( bEnableUI );
-		lblSuffix.setEnabled( bEnableUI );
-		lblSeparator.setEnabled( bEnableUI );
-		txtPrefix.setEnabled( bEnableUI );
-		txtSuffix.setEnabled( bEnableUI );
-		txtSeparator.setEnabled( bEnableUI );
+		// Do not disable data point labels even if the label is visible,
+		// because it can be used as tooltips
+		
+		// grpDataPoint.setEnabled( bEnableUI );
+		// lstComponents.setEnabled( bEnableUI );
+		// btnFormatSpecifier.setEnabled( bEnableUI );
+		// btnRemoveComponent.setEnabled( bEnableUI );
+		// btnAddComponent.setEnabled( bEnableUI );
+		// cmbComponentTypes.setEnabled( bEnableUI );
+		// lblPrefix.setEnabled( bEnableUI );
+		// lblSuffix.setEnabled( bEnableUI );
+		// lblSeparator.setEnabled( bEnableUI );
+		// txtPrefix.setEnabled( bEnableUI );
+		// txtSuffix.setEnabled( bEnableUI );
+		// txtSeparator.setEnabled( bEnableUI );
 	}
 
 	private void createDataPointArea( Composite parent )
