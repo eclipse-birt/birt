@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CssException;
+import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
@@ -948,5 +949,19 @@ public class ReportDesignParseTest extends BaseTestCase
 		assertTrue( compareFile( "ReportDesignParseTest_golden_3.xml" ) ); //$NON-NLS-1$
 	}
 
-	// public void test
+	/**
+	 * Tests report design which contains the library which could not be found.
+	 * 
+	 * @throws Exception
+	 */
+	public void testNotExistLibrary( ) throws Exception
+	{
+		openDesign( "NotExistLibraryTest.xml" ); //$NON-NLS-1$
+
+		List errors = design.getAllErrors( );
+
+		assertEquals( 1, errors.size( ) );
+		assertEquals( LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND,
+				( (ErrorDetail) errors.get( 0 ) ).getErrorCode( ) );
+	}
 }
