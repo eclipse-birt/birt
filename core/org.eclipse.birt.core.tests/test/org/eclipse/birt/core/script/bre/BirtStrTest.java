@@ -11,12 +11,11 @@
  *******************************************************************************/
 package org.eclipse.birt.core.script.bre;
 
+import junit.framework.TestCase;
+
 import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
-
-import junit.framework.TestCase;
 
 
 /**
@@ -208,8 +207,9 @@ public class BirtStrTest extends TestCase
 	 */
 	public void testTrimRight( )
 	{
-		String script1 = "BirtStr.trimRight(\"" + str + "\")";
+		String script1 = "BirtStr.trimRight(\"" + str + "      \")";
 		String script2 = "BirtStr.trimRight(" + null + ")";
+		String script3 = "BirtStr.trimRight(\"" + " " + "\")";
 		assertEquals( ( (String) cx.evaluateString( scope,
 				script1,
 				"inline",
@@ -221,6 +221,12 @@ public class BirtStrTest extends TestCase
 				"inline",
 				1,
 				null ) ) , null);
+		
+		assertEquals( ( (String) cx.evaluateString( scope,
+				script3,
+				"inline",
+				1,
+				null ) ) , "");
 	}
 
 	/*
