@@ -17,6 +17,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Image;
 import java.awt.Shape;
+import java.awt.geom.FlatteningPathIterator;
 import java.awt.geom.PathIterator;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
@@ -357,10 +358,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 		ArrayList al = new ArrayList( );
 
-		PathIterator pitr = shape.getPathIterator( null );
+		FlatteningPathIterator pitr = new FlatteningPathIterator( shape.getPathIterator( null ),
+				1 );
 		double[] data = new double[6];
-
-		// TODO improve to support precise curve coordinates.
 
 		while ( !pitr.isDone( ) )
 		{
