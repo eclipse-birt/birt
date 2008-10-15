@@ -81,19 +81,20 @@ public class RowLayout extends ContainerLayout
 		for(int i=0; i<size; i++)
 		{
 			int parentSize = parent.contextList.size( );
-			closeLayout(contextList.removeFirst( ), parentSize - size + i, size, i==size-1);
+			closeLayout(contextList.removeFirst( ), parentSize - size + i, size, i, i==size-1);
 		}
 		parent.gotoLastPage( );
 	}
 	
-	protected void closeLayout( ContainerContext currentContext, int index, int size,
+	protected void closeLayout( ContainerContext currentContext, int parentIndex, int size, int index,
 			boolean finished )
 	{
 		if ( currentContext.root != null )
 		{
+			int tableSize = tbl.contextList.size();
 			if ( unresolvedRow != null )
 			{
-				TableContext tc = (TableContext) ( tbl.contextList.get( index ) );
+				TableContext tc = (TableContext) ( tbl.contextList.get( tableSize - size + index ) );
 				tc.layout.setUnresolvedRow( unresolvedRow );
 			}
 			tbl.updateRow( (RowArea) currentContext.root, specifiedHeight,
@@ -101,11 +102,11 @@ public class RowLayout extends ContainerLayout
 			if ( finished || !isRowEmpty( currentContext ) )
 			{
 				tbl.addRow( (RowArea) currentContext.root, index, size );
-				parent.addToRoot( currentContext.root, index );
+				parent.addToRoot( currentContext.root, parentIndex );
 			}
 			if ( !finished && unresolvedRow == null )
 			{
-				TableContext tc = (TableContext) ( tbl.contextList.get( index ) );
+				TableContext tc = (TableContext) ( tbl.contextList.get( tableSize - size + index ) );
 				unresolvedRow = tc.layout.getUnresolvedRow( );
 			}
 		}
@@ -120,9 +121,10 @@ public class RowLayout extends ContainerLayout
 	
 	protected void closeFirstN(int size)
 	{
+		int rowSize = contextList.size( );
 		for ( int i = 0; i < size; i++ )
 		{
-			closeLayout( contextList.removeFirst( ), i, size, false );
+			closeLayout( contextList.removeFirst( ), i, rowSize, i, false );
 		}
 		setCurrentContext( 0 );
 		if ( parent != null )
