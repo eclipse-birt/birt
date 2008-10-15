@@ -110,6 +110,6 @@ public class PPTPage extends AbstractPage
 		// automatically wrapped if the width of textbox equals to the width of
 		// text exactly.
 		writer.drawText( text, textX, textY, width + 1f, height, textStyle
-				.getFontInfo( ), textStyle.getColor( ) );
+				.getFontInfo( ), textStyle.getColor( ), textStyle.isRtl( ) );
 	}
 }

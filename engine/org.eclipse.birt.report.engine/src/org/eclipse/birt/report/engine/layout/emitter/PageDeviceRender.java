@@ -49,6 +49,7 @@ import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
+import org.eclipse.birt.report.engine.layout.area.impl.TextArea;
 import org.eclipse.birt.report.engine.layout.emitter.TableBorder.Border;
 import org.eclipse.birt.report.engine.layout.emitter.TableBorder.BorderSegment;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
@@ -784,8 +785,9 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				.getProperty( IStyle.STYLE_TEXT_OVERLINE ) );
 		boolean underline = IStyle.UNDERLINE_VALUE.equals( style
 				.getProperty( IStyle.STYLE_TEXT_UNDERLINE ) );
-		boolean rtl = CSSConstants.CSS_RTL_VALUE.equals( style
-				.getProperty( IStyle.STYLE_DIRECTION ) ); // bidi_hcg
+		boolean rtl = text instanceof TextArea ? ( ( (TextArea) text )
+				.getRunLevel( ) & 1 ) != 0 : CSSConstants.CSS_RTL_VALUE
+				.equals( style.getProperty( IStyle.STYLE_DIRECTION ) ); // bidi_hcg
 		IContent content = text.getContent( );
 		if ( content != null && content.getHyperlinkAction( ) != null )
 		{

@@ -39,6 +39,8 @@ import org.eclipse.birt.report.engine.layout.emitter.util.BackgroundImageLayout;
 import org.eclipse.birt.report.engine.layout.emitter.util.Position;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 
+import com.ibm.icu.lang.UCharacter;
+import com.ibm.icu.lang.UCharacter.UnicodeBlock;
 import com.lowagie.text.Font;
 import com.lowagie.text.pdf.BaseFont;
 
@@ -291,7 +293,7 @@ public class PPTWriter
 	 *            the height of the content byte.
 	 */
 	public void drawText( String text, float textX, float textY, float width,
-			float height, FontInfo fontInfo, Color color )
+			float height, FontInfo fontInfo, Color color, boolean rtl )
 	{
 
 		BaseFont baseFont = fontInfo.getBaseFont( );
@@ -309,7 +311,9 @@ public class PPTWriter
 				+ "<span style=3D'font-family:" //$NON-NLS-1$
 				+ fontName + ";font-size:" //$NON-NLS-1$
 				+ fontInfo.getFontSize( ) + "pt;color:#" //$NON-NLS-1$
-				+ getColorString( color ) + ";'>" ); //$NON-NLS-1$
+				+ getColorString( color ) + ";'"
+				+ buildI18nAttributes( text, rtl )
+				+ ">" ); //$NON-NLS-1$
 
 		boolean isItalic = fontInfo != null
 				&& ( fontInfo.getFontStyle( ) & Font.ITALIC ) != 0;
@@ -753,5 +757,53 @@ public class PPTWriter
 			return s;
 		}
 		return result.toString( );
+	}
+
+	/**
+	 * Builds i18n attributes.
+	 *
+	 * @param rtl
+	 *            Whether the string being processed is right-to-left or not.
+	 *
+	 * @author bidi_hcg
+	 */
+	private String buildI18nAttributes( String text, boolean rtl )
+	{
+		if ( text == null )
+			return ""; //$NON-NLS-1$
+
+		if ( rtl )
+		{
+			String bidiAttributes = " dir=3D'rtl'"; //$NON-NLS-1$
+			for ( int i = text.length( ); i-- > 0; )
+			{
+				UnicodeBlock block = UCharacter.UnicodeBlock.of( text
+						.charAt( i ) );
+				// If there is a Hebrew or Arabic content, write the 
+				// corresponding language attribute
+				if ( UCharacter.UnicodeBlock.HEBREW.equals( block ) )
+				{
+					return bidiAttributes + " lang=3D'HE'"; //$NON-NLS-1$
+				}
+				if ( UCharacter.UnicodeBlock.ARABIC.equals( block )
+						|| UCharacter.UnicodeBlock.ARABIC_PRESENTATION_FORMS_A
+								.equals( block )
+						|| UCharacter.UnicodeBlock.ARABIC_PRESENTATION_FORMS_B
+								.equals( block )
+						|| UCharacter.UnicodeBlock.ARABIC_SUPPLEMENT
+								.equals( block ) )
+				{
+					return bidiAttributes + " lang=3D'AR'"; //$NON-NLS-1$
+				}
+			}
+			// If no actual RTL content was found (e.g. in case the text
+			// consists of sheer neutral characters), indicate Hebrew language
+			return bidiAttributes + " lang=3D'HE'"; //$NON-NLS-1$
+		}
+		else
+		{
+			// XXX Other language attributes can be addressed as needed
+			return " dir=3D'ltr' lang=3D'EN-US'"; //$NON-NLS-1$
+		}
 	}
 }
