@@ -515,7 +515,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			// here checks the version number( <3.2.16, before BIRT 2.3 ) of
 			// report model to use old evaluator logic for chart and chart
 			// does group/aggregation by itself.
-			if ( ChartReportItemUtil.isOldChartUsingInternalGroup( handle ) )
+			if ( ChartReportItemUtil.isOldChartUsingInternalGroup( handle, cm ) )
 			{
 				// Version is less than 3.2.16, directly return.
 				return new BIRTQueryResultSetEvaluator( (IQueryResultSet) set );

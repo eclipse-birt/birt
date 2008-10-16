@@ -45,9 +45,11 @@ import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
@@ -510,6 +512,28 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		return false;
 	}
 
+	public static boolean isBaseGroupingDefined( Chart cm )
+	{
+		SeriesDefinition baseSD = null;
+		if ( cm instanceof ChartWithAxes )
+		{
+			ChartWithAxes cwa = (ChartWithAxes) cm;
+			baseSD = (SeriesDefinition) cwa.getBaseAxes( )[0].getSeriesDefinitions( )
+					.get( 0 );
+		}
+		else if ( cm instanceof ChartWithoutAxes )
+		{
+			ChartWithoutAxes cwoa = (ChartWithoutAxes) cm;
+			baseSD = (SeriesDefinition) cwoa.getSeriesDefinitions( ).get( 0 );
+		}
+
+		if ( isBaseGroupingDefined( baseSD ) )
+		{
+			return true;
+		}
+
+		return false;
+	}
 	/**
 	 * Check if running aggregates are set on chart.
 	 * 
@@ -1029,6 +1053,26 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	}
 
 	/**
+	 * Returns groups in shared binding.
+	 * 
+	 * @return
+	 */
+	private static boolean hasGroupsOnSharedBinding( ReportItemHandle handle )
+	{
+		handle = getReportItemReference( handle );
+
+		if ( handle instanceof ListingHandle )
+		{
+			SlotHandle groups = ( (ListingHandle) handle ).getGroups( );
+			if ( groups != null && groups.getCount( ) > 0 )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Checks if chart should use internal grouping or DTE grouping.
 	 * 
 	 * @param chartHandle
@@ -1037,10 +1081,24 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 * @since 2.3.1
 	 */
 	public static boolean isOldChartUsingInternalGroup(
-			DesignElementHandle chartHandle )
+			ReportItemHandle chartHandle, Chart cm )
 	{
 		String reportVer = chartHandle.getModuleHandle( ).getVersion( );
 		if ( reportVer == null || compareVersion( reportVer, "3.2.16" ) < 0 ) //$NON-NLS-1$
+		{
+			return true;
+		}
+
+		// Since if the chart is serilized into a document, the version number
+		// will always be
+		// the newest, so we can only detect an old chart using internal group
+		// with following facts:
+		// 1. the chart has an gouping on base seriesDefination
+		// 2. shared binding is used.
+		// 3. the shared binding is not grouped.
+		if ( chartHandle.getDataBindingReference( ) != null
+				&& ChartReportItemUtil.isBaseGroupingDefined( cm )
+				&& !hasGroupsOnSharedBinding( chartHandle ) )
 		{
 			return true;
 		}
