@@ -827,7 +827,7 @@ designer.preview.preference.elementname.description.Enabled=false
 designer.preview.preference.elementname.description=説明
 designer.preview.preference.elementname.Enabled=true 
 designer.preview.preference.locale.description=ロケールの選択(&C) :
-designer.preview.preference.timezone.description=&Time zone:
+designer.preview.preference.timezone.description=タイムゾーン(&T) :
 designer.preview.preference.resultset.sqldatasetpage.group.title=クエリページ
 designer.preview.preference.resultset.previewpage.group.title=プレビューページ
 designer.preview.preference.resultset.maxNoOfSchema.description=表示するスキーマの最大数(&S) :
@@ -1154,7 +1154,7 @@ Element.ParameterGroup.helpText=ヘルプテキスト :
 Element.ParameterGroup.helpTextID=ヘルプテキストキー :
 Element.ParameterGroup.slot.parameters=パラメタ :
 Element.ParameterGroup.startExpanded=開始時に展開 :
-Element.ParameterGroup.promptTextID=Prompt &text key:
+Element.ParameterGroup.promptTextID=プロンプトテキストキー (&T):
 Element.ReportDesign.afterCloseDoc.toolTip=生成フェーズでレポート文書ファイルを閉じた直後に呼び出されます。
 Element.ReportDesign.layoutPreference=レイアウトの設定(&L) : 
 Element.ReportDesign.afterCloseDoc=文書を閉じた後 :
@@ -3664,7 +3664,7 @@ AutoTextPageGenerator.List.Visibility=表示/非表示
 ###########################################################
 #ThemesNodeProvider properties
 
-ThemesNodeProvider.action.New=&New Theme...
+ThemesNodeProvider.action.New=テーマの新規作成(&N)...
 ThemesNodeProvider.Failed=新規テーマのエラー
 NewThemeDialog.DialogTitle=新規テーマ
 NewThemeDialog.DialogMessage=名前を入力してください。

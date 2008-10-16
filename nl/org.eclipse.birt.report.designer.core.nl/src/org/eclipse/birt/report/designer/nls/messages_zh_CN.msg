@@ -827,7 +827,7 @@ designer.preview.preference.elementname.description.Enabled=false
 designer.preview.preference.elementname.description=说明
 designer.preview.preference.elementname.Enabled=true 
 designer.preview.preference.locale.description=选择区域设置(&C):
-designer.preview.preference.timezone.description=&Time zone:
+designer.preview.preference.timezone.description=时区(&T):
 designer.preview.preference.resultset.sqldatasetpage.group.title=查询页面
 designer.preview.preference.resultset.previewpage.group.title=预览页面
 designer.preview.preference.resultset.maxNoOfSchema.description=要显示的最大架构数(&S):
@@ -1154,7 +1154,7 @@ Element.ParameterGroup.helpText=帮助文本:
 Element.ParameterGroup.helpTextID=帮助文本关键字:
 Element.ParameterGroup.slot.parameters=参数:
 Element.ParameterGroup.startExpanded=开始展开:
-Element.ParameterGroup.promptTextID=Prompt &text key:
+Element.ParameterGroup.promptTextID=提示文本关键字(&T):
 Element.ReportDesign.afterCloseDoc.toolTip=仅在生成阶段关闭报表文档文件之后调用。
 Element.ReportDesign.layoutPreference=布局首选项(&L): 
 Element.ReportDesign.afterCloseDoc=关闭文档后:
@@ -3664,7 +3664,7 @@ AutoTextPageGenerator.List.Visibility=可见性
 ###########################################################
 #ThemesNodeProvider properties
 
-ThemesNodeProvider.action.New=&New Theme...
+ThemesNodeProvider.action.New=新建主题(&N)...
 ThemesNodeProvider.Failed=新建主题失败
 NewThemeDialog.DialogTitle=新主题
 NewThemeDialog.DialogMessage=请输入名称
