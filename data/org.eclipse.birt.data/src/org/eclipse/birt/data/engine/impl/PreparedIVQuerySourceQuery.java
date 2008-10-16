@@ -17,11 +17,14 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
@@ -29,6 +32,7 @@ import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryLocator;
@@ -101,9 +105,10 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 	 * @param queryDefinition
 	 * @param subQueryName
 	 * @return
+	 * @throws DataException 
 	 */
-	protected static IBinding[] getSubQueryBindings(
-			IBaseQueryDefinition queryDefinition, String subQueryName )
+	protected static void getSubQueryBindings(
+			IBaseQueryDefinition queryDefinition, String subQueryName, List<IBinding> resultBindingList ) throws DataException
 	{
 		List groups = queryDefinition.getGroups( );
 		if ( groups != null )
@@ -115,11 +120,11 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 				{
 					SubqueryDefinition[] subqueryDefinitions = (SubqueryDefinition[]) groupDefinition.getSubqueries( )
 							.toArray( new SubqueryDefinition[0] );
-					IBinding[] bindings = getSubQueryBindings( subqueryDefinitions,
-							subQueryName );
-					if ( bindings != null )
+					getSubQueryBindings( subqueryDefinitions,
+							subQueryName, resultBindingList );
+					if ( resultBindingList.size( ) > 0 )
 					{
-						return bindings;
+						return;
 					}
 				}
 			}
@@ -128,9 +133,35 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 		{
 			SubqueryDefinition[] subqueryDefinitions = (SubqueryDefinition[]) queryDefinition.getSubqueries( )
 					.toArray( new SubqueryDefinition[0] );
-			return getSubQueryBindings( subqueryDefinitions, subQueryName );
+			getSubQueryBindings( subqueryDefinitions, subQueryName, resultBindingList );
+			if ( resultBindingList.size( ) > 0 )
+			{
+				return;
+			}
 		}
-		return null;
+		return;
+	}
+	
+	/**
+	 * 
+	 * @param resultBindingList
+	 * @param bindingCollection
+	 * @throws DataException 
+	 */
+	protected static void addQueryBindings( List<IBinding> resultBindingList,
+			Collection bindingCollection ) throws DataException
+	{
+		Iterator bindingIterator = bindingCollection.iterator( );
+		while ( bindingIterator.hasNext( ) )
+		{
+			IBinding binding = (IBinding) ( bindingIterator.next( ) );
+			IBaseExpression expr = binding.getExpression( );
+			if ( expr instanceof IScriptExpression
+					&& !ExpressionUtil.hasAggregation( ( (IScriptExpression) expr ).getText( ) ) )
+			{
+				resultBindingList.add( binding );
+			}
+		}
 	}
 	
 	/**
@@ -138,9 +169,10 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 	 * @param subqueryDefinitions
 	 * @param subQueryName
 	 * @return
+	 * @throws DataException 
 	 */
-	private static IBinding[] getSubQueryBindings(
-			SubqueryDefinition[] subqueryDefinitions, String subQueryName )
+	private static void getSubQueryBindings(
+			SubqueryDefinition[] subqueryDefinitions, String subQueryName, List<IBinding> resultBindingList ) throws DataException
 	{
 		for ( int j = 0; j < subqueryDefinitions.length; j++ )
 		{
@@ -148,17 +180,17 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 					&& subqueryDefinitions[j].getName( )
 							.equals( subQueryName ) )
 			{
-				return (IBinding[]) subqueryDefinitions[j].getBindings( )
-						.values( )
-						.toArray( new IBinding[0] );
+				addQueryBindings( resultBindingList, subqueryDefinitions[j].getBindings( ).values( ) );
+				return;
 			}
-			IBinding[] bindings = getSubQueryBindings( subqueryDefinitions[j], subQueryName );
-			if ( bindings != null )
+			getSubQueryBindings( subqueryDefinitions[j], subQueryName, resultBindingList );
+			if ( resultBindingList.size( ) > 0 )
 			{
-				return bindings;
+				addQueryBindings( resultBindingList, subqueryDefinitions[j].getBindings( ).values( ) );
+				return;
 			}
 		}
-		return null;
+		return;
 	}
 
 	
@@ -290,8 +322,11 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 
 			if ( queryDefn.getSourceQuery( ) instanceof SubqueryLocator )
 			{
-				bindings = getSubQueryBindings( queryDefinition,
-						( (SubqueryLocator) queryDefn.getSourceQuery( ) ).getName( ) );
+				ArrayList<IBinding> bindingList = new ArrayList<IBinding>( );
+				getSubQueryBindings( queryDefinition,
+						( (SubqueryLocator) queryDefn.getSourceQuery( ) ).getName( ), bindingList );
+				addQueryBindings( bindingList, queryDefinition.getBindings( ).values( ) );
+				bindings = bindingList.toArray( new IBinding[0] );
 			}
 			else
 			{
