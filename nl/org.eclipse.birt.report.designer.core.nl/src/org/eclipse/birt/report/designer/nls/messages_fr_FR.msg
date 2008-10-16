@@ -827,7 +827,7 @@ designer.preview.preference.elementname.description.Enabled=false
 designer.preview.preference.elementname.description=Description
 designer.preview.preference.elementname.Enabled=true 
 designer.preview.preference.locale.description=&Choisir vos informations locales :
-designer.preview.preference.timezone.description=&Time zone:
+designer.preview.preference.timezone.description=&Fuseau horaire :
 designer.preview.preference.resultset.sqldatasetpage.group.title=Page de requête
 designer.preview.preference.resultset.previewpage.group.title=Page de prévisualisation
 designer.preview.preference.resultset.maxNoOfSchema.description=Nombre maximum de &schémas à afficher :
@@ -1154,7 +1154,7 @@ Element.ParameterGroup.helpText=Texte d'aide :
 Element.ParameterGroup.helpTextID=Clé du texte d'aide :
 Element.ParameterGroup.slot.parameters=Paramètres :
 Element.ParameterGroup.startExpanded=Lancement développé :
-Element.ParameterGroup.promptTextID=Prompt &text key:
+Element.ParameterGroup.promptTextID=Clé du &texte de l'invite :
 Element.ReportDesign.afterCloseDoc.toolTip=Commande appelée juste après la fermeture de l'état pendant le processus de génération.
 Element.ReportDesign.layoutPreference=&Préférence de mise en page : 
 Element.ReportDesign.afterCloseDoc=Après fermeture du document :
@@ -3664,7 +3664,7 @@ AutoTextPageGenerator.List.Visibility=Visibilité
 ###########################################################
 #ThemesNodeProvider properties
 
-ThemesNodeProvider.action.New=&New Theme...
+ThemesNodeProvider.action.New=&Nouveau thème...
 ThemesNodeProvider.Failed=Echec du nouveau thème
 NewThemeDialog.DialogTitle=Nouveau thème
 NewThemeDialog.DialogMessage=Saisissez le nom

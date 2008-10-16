@@ -827,7 +827,7 @@ designer.preview.preference.elementname.description.Enabled=false
 designer.preview.preference.elementname.description=설명
 designer.preview.preference.elementname.Enabled=true 
 designer.preview.preference.locale.description=로케일 선택(&C):
-designer.preview.preference.timezone.description=&Time zone:
+designer.preview.preference.timezone.description=표준 시간대(&T):
 designer.preview.preference.resultset.sqldatasetpage.group.title=쿼리 페이지
 designer.preview.preference.resultset.previewpage.group.title=미리 보기 페이지
 designer.preview.preference.resultset.maxNoOfSchema.description=표시할 최대 스키마 수(&S):
@@ -1154,7 +1154,7 @@ Element.ParameterGroup.helpText=도움말 텍스트:
 Element.ParameterGroup.helpTextID=도움말 텍스트 키:
 Element.ParameterGroup.slot.parameters=매개 변수:
 Element.ParameterGroup.startExpanded=시작 확장됨:
-Element.ParameterGroup.promptTextID=Prompt &text key:
+Element.ParameterGroup.promptTextID=프롬프트 텍스트 키(&T):
 Element.ReportDesign.afterCloseDoc.toolTip=생성 단계에서 보고서 문서 파일을 닫은 직후 호출됩니다.
 Element.ReportDesign.layoutPreference=레이아웃 기본 설정(&L): 
 Element.ReportDesign.afterCloseDoc=문서 닫기 이후:
@@ -3664,7 +3664,7 @@ AutoTextPageGenerator.List.Visibility=표시 유형
 ###########################################################
 #ThemesNodeProvider properties
 
-ThemesNodeProvider.action.New=&New Theme...
+ThemesNodeProvider.action.New=새 테마(&N)...
 ThemesNodeProvider.Failed=새 테마 실패
 NewThemeDialog.DialogTitle=새 테마
 NewThemeDialog.DialogMessage=이름을 입력하십시오.

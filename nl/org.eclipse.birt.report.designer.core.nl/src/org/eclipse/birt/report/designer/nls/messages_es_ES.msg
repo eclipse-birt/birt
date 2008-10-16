@@ -827,7 +827,7 @@ designer.preview.preference.elementname.description.Enabled=false
 designer.preview.preference.elementname.description=Descripción
 designer.preview.preference.elementname.Enabled=true 
 designer.preview.preference.locale.description=Elegir configuración &regional:
-designer.preview.preference.timezone.description=&Time zone:
+designer.preview.preference.timezone.description=&Zona horaria:
 designer.preview.preference.resultset.sqldatasetpage.group.title=Página de consulta
 designer.preview.preference.resultset.previewpage.group.title=Página de vista previa
 designer.preview.preference.resultset.maxNoOfSchema.description=Número máximo de e&squemas que mostrar:
@@ -1154,7 +1154,7 @@ Element.ParameterGroup.helpText=Texto de ayuda:
 Element.ParameterGroup.helpTextID=Clave de texto de ayuda:
 Element.ParameterGroup.slot.parameters=Parámetros:
 Element.ParameterGroup.startExpanded=Iniciar expandido:
-Element.ParameterGroup.promptTextID=Prompt &text key:
+Element.ParameterGroup.promptTextID=Clave de texto de &solicitud:
 Element.ReportDesign.afterCloseDoc.toolTip=Llamado justo después de cerrar el documento de informe en la fase de generación.
 Element.ReportDesign.layoutPreference=&Preferencia de diseño: 
 Element.ReportDesign.afterCloseDoc=Después de cerrar documento:
@@ -3323,8 +3323,8 @@ UseCssInReportDialog.Dialog.Browse=Examinar
 UseCssInReportDialog.Dialog.Browse.Title=Seleccionar un archivo CSS para incluirlo en el informe
 UseCssInReportDialog.Dialog.Browse.Library.Title=Seleccionar un archivo CSS para incluirlo en la librería
 UseCssInReportDialog.Error.Already.Include={0} ya se ha incluido
-UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Incluir el archivo CSS en el momento de la visualización (solo en formato HTML)
-UseCssInReportDialog.Dialog.Label.viewTimeLb=Visualizar la ubicación temporal del archivo css:
+UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Incluir el archivo CSS en el momento de la visualización (sólo en formato HTML)
+UseCssInReportDialog.Dialog.Label.viewTimeLb=Visualizar la ubicación temporal del archivo CSS:
 UseCssInReportDialog.Dialog.Label.example=por ejemplo, http://mydomain/test.css, myfolder/test/css
 UseCssInReportDialog.Dialog.Text.uri=&URI:
 
@@ -3664,7 +3664,7 @@ AutoTextPageGenerator.List.Visibility=Visibilidad
 ###########################################################
 #ThemesNodeProvider properties
 
-ThemesNodeProvider.action.New=&New Theme...
+ThemesNodeProvider.action.New=&Nuevo tema...
 ThemesNodeProvider.Failed=Error en el nuevo tema
 NewThemeDialog.DialogTitle=Nuevo tema
 NewThemeDialog.DialogMessage=Introduzca el nombre
