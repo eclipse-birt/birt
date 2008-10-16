@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -48,8 +49,19 @@ public class PreparedIVDataExtractionQuery extends PreparedIVQuerySourceQuery
 				this.queryResults = engine.getQueryResults( getParentQueryResultsID( (SubqueryLocator) ( queryDefn.getSourceQuery( ) ) ) );
 				IQueryDefinition queryDefinition = queryResults.getPreparedQuery( )
 						.getReportQueryDefn( );
-				bindings = getSubQueryBindings( queryDefinition,
-						( (SubqueryLocator) this.queryDefn.getSourceQuery( ) ).getName( ) );
+				if ( queryDefn.getSourceQuery( ) instanceof SubqueryLocator )
+				{
+					ArrayList<IBinding> bindingList = new ArrayList<IBinding>( );
+					getSubQueryBindings( queryDefinition,
+							( (SubqueryLocator) queryDefn.getSourceQuery( ) ).getName( ), bindingList );
+					addQueryBindings( bindingList, queryDefinition.getBindings( ).values( ) );
+					bindings = bindingList.toArray( new IBinding[0] );
+				}
+				else
+				{
+					bindings = (IBinding[]) ( queryDefinition.getBindings( )
+							.values( ).toArray( new IBinding[0] ) );
+				}
 			}
 			else
 			{
