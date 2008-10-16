@@ -501,7 +501,8 @@ public abstract class AbstractChartBaseQueryGenerator
 			// #238715 Do not use DTE functions in old report, since chart
 			// groups data by itself
 			// #242100 If running aggregate is set, it should not ignore detail rows.
-			if ( !ChartReportItemUtil.isOldChartUsingInternalGroup( fReportItemHandle )
+			if ( !ChartReportItemUtil.isOldChartUsingInternalGroup( fReportItemHandle,
+					fChartModel )
 					&& !ChartReportItemUtil.isSetRunningAggregation( fChartModel ) ) 
 			{
 				query.setUsesDetails( false );
