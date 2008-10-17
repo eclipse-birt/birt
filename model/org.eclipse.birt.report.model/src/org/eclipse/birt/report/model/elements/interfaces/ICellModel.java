@@ -86,11 +86,47 @@ public interface ICellModel
 	 */
 
 	public static final String ON_PREPARE_METHOD = "onPrepare"; //$NON-NLS-1$
-	
+
 	/**
 	 * Identifier of the slot that holds the page decoration.
 	 */
 
 	public static final int CONTENT_SLOT = 0;
+
+	/**
+	 * Name of the diagonalNumber property that defines the number of the
+	 * diagonal that is from top-left to bottom-right corner.
+	 */
+	public static final String DIAGONAL_NUMBER_PROP = "diagonalNumber"; //$NON-NLS-1$
+
+	/**
+	 * Name of the antidiagonalNumber property that defines the number of the
+	 * anti-diagonal that is from the top-right to bottom-left
+	 */
+	public static final String ANTIDIAGONAL_NUMBER_PROP = "antidiagonalNumber"; //$NON-NLS-1$
+
+	/**
+	 * Name of the diagonalThickness property that defines the thickness of the
+	 * diagonal that is from top-left to bottom-right corner.
+	 */
+	public static final String DIAGONAL_THICKNESS_PROP = "diagonalThickness"; //$NON-NLS-1$
+
+	/**
+	 * Name of the antidiagonalThickness property that defines the thickness of
+	 * the anti-diagonal that is from the top-right to bottom-left
+	 */
+	public static final String ANTIDIAGONAL_THICKNESS_PROP = "antidiagonalThickness"; //$NON-NLS-1$
+
+	/**
+	 * Name of the diagonalStyle property that defines the style of the diagonal
+	 * that is from top-left to bottom-right corner.
+	 */
+	public static final String DIAGONAL_STYLE_PROP = "diagonalStyle"; //$NON-NLS-1$
+
+	/**
+	 * Name of the antidiagonalStyle property that defines the style of the
+	 * anti-diagonal that is from the top-right to bottom-left
+	 */
+	public static final String ANTIDIAGONAL_STYLE_PROP = "antidiagonalStyle"; //$NON-NLS-1$
 
 }

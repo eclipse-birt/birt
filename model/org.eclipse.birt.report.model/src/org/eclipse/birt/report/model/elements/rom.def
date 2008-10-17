@@ -2972,6 +2972,28 @@
     <Property canInherit="false" detailType="viewAction" displayNameID="Element.Cell.viewAction" name="viewAction" runtimeSettable="false" since="2.1" type="choice">
     	<Default>NoChange</Default>
     </Property>
+    <PropertyGroup displayNameID="Element.Cell.diagonal">
+    	<Property displayNameID="Element.Cell.diagonalNumber" name="diagonalNumber" runtimeSettable="false" since="2.3" type="integer" validator="NonNegativeValueValidator">
+    		<Default>0</Default>
+    	</Property>
+    	<Property displayNameID="Element.Cell.antidiagonalNumber" name="antidiagonalNumber" runtimeSettable="false" since="2.3" type="integer" validator="NonNegativeValueValidator">
+    		<Default>0</Default>
+    	</Property>   
+    	<Property detailType="lineWidth"  displayNameID="Element.Cell.diagonalThickness" name="diagonalThickness" runtimeSettable="false" since="3.2" type="dimension" validator="NonNegativeValueValidator">
+    		<DefaultUnit>pt</DefaultUnit>
+        	<Default>medium</Default>
+    	</Property>
+    	<Property detailType="lineWidth" displayNameID="Element.Cell.antidiagonalThickness" name="antidiagonalThickness" runtimeSettable="false" since="3.2" type="dimension" validator="NonNegativeValueValidator">
+    		<DefaultUnit>pt</DefaultUnit>
+        	<Default>medium</Default>
+    	</Property>   
+    	<Property detailType="lineStyle" displayNameID="Element.Cell.diagonalStyle" name="diagonalStyle" runtimeSettable="false" since="3.2" type="choice">
+    		<Default>none</Default>
+    	</Property>
+    	<Property detailType="lineStyle" displayNameID="Element.Cell.antidiagonalStyle" name="antidiagonalStyle" runtimeSettable="false" since="3.2" type="choice">
+    		<Default>none</Default>
+    	</Property>
+    </PropertyGroup>
     <Method context="startup" displayNameID="Element.Cell.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Cell.onPrepare.toolTip">
       <Argument name="this" tagID="Element.Cell.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.ICell"/>
       <Argument name="reportContext" tagID="Element.Cell.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>

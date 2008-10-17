@@ -6,6 +6,12 @@ height
 width
 eventHandlerClass
 viewAction
+diagonalNumber
+antidiagonalNumber
+diagonalThickness
+antidiagonalThickness
+diagonalStyle
+antidiagonalStyle
 onPrepare
 onCreate
 onRender

@@ -2059,6 +2059,12 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ICellModel.DROP_PROP );
 		property( obj, ICellModel.HEIGHT_PROP );
 		property( obj, ICellModel.WIDTH_PROP );
+		property( obj, ICellModel.DIAGONAL_NUMBER_PROP );
+		property( obj, ICellModel.DIAGONAL_STYLE_PROP );
+		property( obj, ICellModel.DIAGONAL_THICKNESS_PROP );
+		property( obj, ICellModel.ANTIDIAGONAL_NUMBER_PROP );
+		property( obj, ICellModel.ANTIDIAGONAL_STYLE_PROP );
+		property( obj, ICellModel.ANTIDIAGONAL_THICKNESS_PROP );		
 		property( obj, IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
 		property( obj, ICellModel.ON_PREPARE_METHOD );
 		property( obj, ICellModel.ON_CREATE_METHOD );

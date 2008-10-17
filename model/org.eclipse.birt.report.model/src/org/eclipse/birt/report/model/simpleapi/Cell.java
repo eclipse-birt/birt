@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.simpleapi;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.ICell;
@@ -144,4 +145,160 @@ public class Cell extends DesignElement implements ICell
 		return ( (CellHandle) handle ).getWidth( ).getStringValue( );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#getAntidiagonalNumber
+	 * ()
+	 */
+	public int getAntidiagonalNumber( )
+	{
+
+		return ( (CellHandle) handle ).getAntidiagonalNumber( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#getAntidiagonalStyle()
+	 */
+	public String getAntidiagonalStyle( )
+	{
+
+		return ( (CellHandle) handle ).getAntidiagonalStyle( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#getDiagonalNumber()
+	 */
+	public int getDiagonalNumber( )
+	{
+
+		return ( (CellHandle) handle ).getDiagonalNumber( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#getDiagonalStyle()
+	 */
+	public String getDiagonalStyle( )
+	{
+
+		return ( (CellHandle) handle ).getDiagonalStyle( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#setAntidiagonalNumber
+	 * (int)
+	 */
+	public void setAntidiagonalNumber( int antidiagonalNumber )
+			throws SemanticException
+	{
+		setProperty( ICellModel.ANTIDIAGONAL_NUMBER_PROP, Integer
+				.valueOf( antidiagonalNumber ) );
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#setAntidiagonalStyle
+	 * (java.lang.String)
+	 */
+	public void setAntidiagonalStyle( String antidiagonalStyle )
+			throws SemanticException
+	{
+		setProperty( ICellModel.ANTIDIAGONAL_STYLE_PROP, antidiagonalStyle );
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#setDiagonalNumber(int)
+	 */
+	public void setDiagonalNumber( int diagonalNumber )
+			throws SemanticException
+	{
+		setProperty( ICellModel.DIAGONAL_NUMBER_PROP, Integer
+				.valueOf( diagonalNumber ) );
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#setDiagonalStyle(java
+	 * .lang.String)
+	 */
+	public void setDiagonalStyle( String lineStyle ) throws SemanticException
+	{
+		setProperty( ICellModel.DIAGONAL_STYLE_PROP, lineStyle );
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#getAntidiagonalThickness
+	 * ()
+	 */
+	public String getAntidiagonalThickness( )
+	{
+		return ( (CellHandle) handle ).getAntidiagonalThickness( )
+				.getStringValue( );
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#getDiagonalThickness()
+	 */
+	public String getDiagonalThickness( )
+	{
+		return ( (CellHandle) handle ).getDiagonalThickness( ).getStringValue( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#setAntidiagonalThickness
+	 * (java.lang.String)
+	 */
+	public void setAntidiagonalThickness( String thickness )
+			throws SemanticException
+	{
+		setProperty( ICellModel.ANTIDIAGONAL_THICKNESS_PROP, thickness );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#setDiagonalThickness
+	 * (java.lang.String)
+	 */
+	public void setDiagonalThickness( String thickness )
+			throws SemanticException
+	{
+		setProperty( ICellModel.DIAGONAL_THICKNESS_PROP, thickness );
+
+	}
 }

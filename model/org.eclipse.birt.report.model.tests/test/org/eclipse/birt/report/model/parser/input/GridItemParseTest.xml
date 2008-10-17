@@ -72,6 +72,12 @@
                     <property name="borderTopColor">yellow</property>
                     <property name="borderTopStyle">dotted</property>
                     <property name="borderTopWidth">2mm</property>
+                    <property name="diagonalNumber">10</property>
+        			<property name="antidiagonalNumber">20</property>
+        			<property name="diagonalThickness">10mm</property>
+        			<property name="antidiagonalThickness">20mm</property>
+        			<property name="diagonalStyle">solid</property>
+        			<property name="antidiagonalStyle">dashed</property>
                     <label name="address">
                         <property name="x">1.1mm</property>
                         <property name="y">2.2mm</property>

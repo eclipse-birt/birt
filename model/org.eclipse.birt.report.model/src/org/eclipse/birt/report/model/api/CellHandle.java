@@ -125,9 +125,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	 * <code>DesignChoiceConstants</code> and can be one of:
 	 * 
 	 * <ul>
-	 * <li>DROP_TYPE_NONE</li>
-	 * <li>DROP_TYPE_DETAIL</li>
-	 * <li>DROP_TYPE_ALL</li>
+	 * <li>DROP_TYPE_NONE</li> <li>DROP_TYPE_DETAIL</li> <li>DROP_TYPE_ALL</li>
 	 * </ul>
 	 * 
 	 * <p>
@@ -211,7 +209,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	{
 		return getDimensionProperty( ICellModel.WIDTH_PROP );
 	}
-	
+
 	/**
 	 * Gets the on-prepare script of the group. Startup phase. No data binding
 	 * yet. The design of an element can be changed here.
@@ -299,7 +297,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	}
 
 	/**
-	 * Gets a string that defines the event handle class. 
+	 * Gets a string that defines the event handle class.
 	 * 
 	 * @return the expression as a string
 	 * 
@@ -310,7 +308,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	{
 		return getStringProperty( IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
 	}
-	
+
 	/**
 	 * Sets the group expression.
 	 * 
@@ -326,4 +324,171 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	{
 		setProperty( IDesignElementModel.EVENT_HANDLER_CLASS_PROP, expr );
 	}
+
+	/**
+	 * Sets the number of the diagonal lines that are from top-left to
+	 * bottom-right corners.
+	 * 
+	 * @param diagonalNumber
+	 *            the diagonal number
+	 * @throws SemanticException
+	 */
+	public void setDiagonalNumber( int diagonalNumber )
+			throws SemanticException
+	{
+		setIntProperty( ICellModel.DIAGONAL_NUMBER_PROP, diagonalNumber );
+	}
+
+	/**
+	 * Gets the number of the diagonal lines that are from top-left to
+	 * bottom-right corners.
+	 * 
+	 * @return the diagonal number.
+	 */
+	public int getDiagonalNumber( )
+	{
+		return getIntProperty( ICellModel.DIAGONAL_NUMBER_PROP );
+	}
+
+	/**
+	 * Gets a dimension handle to deal with the diagonal thickness. Besides the
+	 * dimension value, the dimension handle may return one of constants defined
+	 * in <code>DesignChoiceConstatns</code>:
+	 * <ul>
+	 * <li><code>LINE_WIDTH_THIN</code> <li><code>LINE_WIDTH_MEDIUM</code> <li>
+	 * <code>LINE_WIDTH_THICK</code>
+	 * </ul>
+	 * 
+	 * @return a DimensionHandle for the diagonal thickness
+	 */
+	public DimensionHandle getDiagonalThickness( )
+	{
+		return getDimensionProperty( ICellModel.DIAGONAL_THICKNESS_PROP );
+	}
+
+	/**
+	 * Sets the style of the diagonal that is from top-left to bottom-right. The
+	 * input value is one of constants defined in
+	 * <code>DesignChoiceConstants</code>:
+	 * <ul>
+	 * <li><code>LINE_STYLE_NONE</code> <li><code>LINE_STYLE_SOLID</code> <li>
+	 * <code>LINE_STYLE_DOTTED</code> <li><code>LINE_STYLE_DASHED</code> <li>
+	 * <code>LINE_STYLE_DOUBLE</code> <li><code>LINE_STYLE_GROOVE</code> <li>
+	 * <code>LINE_STYLE_RIDGE</code> <li><code>LINE_STYLE_INSET</code> <li>
+	 * <code>LINE_STYLE_OUTSET</code>
+	 * </ul>
+	 * 
+	 * @param lineStyle
+	 *            the line style.
+	 * @throws SemanticException
+	 *             if the input value is not one of the above values.
+	 */
+	public void setDiagonalStyle( String lineStyle ) throws SemanticException
+	{
+		setStringProperty( ICellModel.DIAGONAL_STYLE_PROP, lineStyle );
+	}
+
+	/**
+	 * Returns the style of the diagonal that is from top-left to bottom-right.
+	 * The return value is one of constants defined in
+	 * <code>DesignChoiceConstants</code>:
+	 * <ul>
+	 * <li><code>LINE_STYLE_NONE</code> <li><code>LINE_STYLE_SOLID</code> <li>
+	 * <code>LINE_STYLE_DOTTED</code> <li><code>LINE_STYLE_DASHED</code> <li>
+	 * <code>LINE_STYLE_DOUBLE</code> <li><code>LINE_STYLE_GROOVE</code> <li>
+	 * <code>LINE_STYLE_RIDGE</code> <li><code>LINE_STYLE_INSET</code> <li>
+	 * <code>LINE_STYLE_OUTSET</code>
+	 * </ul>
+	 * 
+	 * @return the diagonal style.
+	 */
+	public String getDiagonalStyle( )
+	{
+		return getStringProperty( ICellModel.DIAGONAL_STYLE_PROP );
+	}
+
+	/**
+	 * Sets the number of the anti-diagonal lines that are from the top-right to
+	 * bottom-left.
+	 * 
+	 * @param antidiagonalNumber
+	 *            the anti-diagonal number
+	 * @throws SemanticException
+	 */
+	public void setAntidiagonalNumber( int antidiagonalNumber )
+			throws SemanticException
+	{
+		setIntProperty( ICellModel.ANTIDIAGONAL_NUMBER_PROP, antidiagonalNumber );
+	}
+
+	/**
+	 * Gets the number of the anti-diagonal lines that are from the top-right to
+	 * bottom-left.
+	 * 
+	 * @return the anti-diagonal number.
+	 */
+	public int getAntidiagonalNumber( )
+	{
+		return getIntProperty( ICellModel.ANTIDIAGONAL_NUMBER_PROP );
+	}
+
+	/**
+	 * Gets a dimension handle to deal with the anti-diagonal thickness. Besides
+	 * the dimension value, the dimension handle may return one of constants
+	 * defined in <code>DesignChoiceConstatns</code>:
+	 * <ul>
+	 * <li><code>LINE_WIDTH_THIN</code> <li><code>LINE_WIDTH_MEDIUM</code> <li>
+	 * <code>LINE_WIDTH_THICK</code>
+	 * </ul>
+	 * 
+	 * @return a DimensionHandle for the anti-diagonal thickness
+	 */
+	public DimensionHandle getAntidiagonalThickness( )
+	{
+		return getDimensionProperty( ICellModel.ANTIDIAGONAL_THICKNESS_PROP );
+	}
+
+	/**
+	 * Returns the style of the anti-diagonal that is from top-right to
+	 * bottom-left corner. The return value is one of constants defined in
+	 * <code>DesignChoiceConstants</code>:
+	 * <ul>
+	 * <li><code>LINE_STYLE_NONE</code> <li><code>LINE_STYLE_SOLID</code> <li>
+	 * <code>LINE_STYLE_DOTTED</code> <li><code>LINE_STYLE_DASHED</code> <li>
+	 * <code>LINE_STYLE_DOUBLE</code> <li><code>LINE_STYLE_GROOVE</code> <li>
+	 * <code>LINE_STYLE_RIDGE</code> <li><code>LINE_STYLE_INSET</code> <li>
+	 * <code>LINE_STYLE_OUTSET</code>
+	 * </ul>
+	 * 
+	 * @return the anti-diagonal style.
+	 */
+	public String getAntidiagonalStyle( )
+	{
+		return getStringProperty( ICellModel.ANTIDIAGONAL_STYLE_PROP );
+	}
+
+	/**
+	 * Sets the style of the anti-diagonal that is from top-right to bottom-left
+	 * corner. The input value is one of constants defined in
+	 * <code>DesignChoiceConstants</code>:
+	 * <ul>
+	 * <li><code>LINE_STYLE_NONE</code> <li><code>LINE_STYLE_SOLID</code> <li>
+	 * <code>LINE_STYLE_DOTTED</code> <li><code>LINE_STYLE_DASHED</code> <li>
+	 * <code>LINE_STYLE_DOUBLE</code> <li><code>LINE_STYLE_GROOVE</code> <li>
+	 * <code>LINE_STYLE_RIDGE</code> <li><code>LINE_STYLE_INSET</code> <li>
+	 * <code>LINE_STYLE_OUTSET</code>
+	 * </ul>
+	 * 
+	 * @param antidiagonalStyle
+	 *            the anti-diagonal style.
+	 * @throws SemanticException
+	 *             if the input value is not one of the above values.
+	 */
+	public void setAntidiagonalStyle( String antidiagonalStyle )
+			throws SemanticException
+	{
+		setStringProperty( ICellModel.ANTIDIAGONAL_STYLE_PROP,
+				antidiagonalStyle );
+	}
+
 }

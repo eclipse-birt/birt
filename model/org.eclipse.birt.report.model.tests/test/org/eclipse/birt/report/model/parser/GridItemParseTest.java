@@ -15,17 +15,20 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
+import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 
 /**
  * The test case of <code>GridItem</code> parser and writer.
@@ -164,7 +167,21 @@ public class GridItemParseTest extends ParserTestCase
 		SlotHandle cells = row.getCells( );
 		assertEquals( 2, cells.getCount( ) );
 
-		CellHandle cell = (CellHandle) cells.get( 1 );
+		CellHandle cell = (CellHandle) cells.get( 0 );
+		assertEquals( DesignChoiceConstants.LINE_STYLE_NONE, cell
+				.getDiagonalStyle( ) );
+		assertEquals( DesignChoiceConstants.LINE_STYLE_NONE, cell
+				.getAntidiagonalStyle( ) );
+		assertEquals( 0, cell.getDiagonalNumber( ) );
+		assertEquals( 0, cell.getAntidiagonalNumber( ) );
+		DimensionHandle dimensionHandle = cell.getDiagonalThickness( );
+		assertEquals( DesignChoiceConstants.LINE_WIDTH_MEDIUM, dimensionHandle
+				.getStringValue( ) );
+		dimensionHandle = cell.getAntidiagonalThickness( );
+		assertEquals( DesignChoiceConstants.LINE_WIDTH_MEDIUM, dimensionHandle
+				.getStringValue( ) );
+
+		cell = (CellHandle) cells.get( 1 );
 		assertEquals( 2, cell.getColumn( ) );
 		assertEquals( 3, cell.getColumnSpan( ) );
 		assertEquals( 1, cell.getRowSpan( ) );
@@ -177,6 +194,18 @@ public class GridItemParseTest extends ParserTestCase
 		SlotHandle content = cell.getContent( );
 		LabelHandle label = (LabelHandle) content.get( 0 );
 		assertEquals( "address", label.getName( ) ); //$NON-NLS-1$
+
+		// tests the given value of the diagonal line.
+		assertEquals( DesignChoiceConstants.LINE_STYLE_SOLID, cell
+				.getDiagonalStyle( ) );
+		assertEquals( DesignChoiceConstants.LINE_STYLE_DASHED, cell
+				.getAntidiagonalStyle( ) );
+		assertEquals( 10, cell.getDiagonalNumber( ) );
+		assertEquals( 20, cell.getAntidiagonalNumber( ) );
+		dimensionHandle = cell.getDiagonalThickness( );
+		assertEquals( "10mm", dimensionHandle.getStringValue( ) ); //$NON-NLS-1$
+		dimensionHandle = cell.getAntidiagonalThickness( );
+		assertEquals( "20mm", dimensionHandle.getStringValue( ) ); //$NON-NLS-1$
 
 		// reads in a grid that exists in the components.
 
@@ -255,6 +284,17 @@ public class GridItemParseTest extends ParserTestCase
 		grid.setCaption( "new caption" ); //$NON-NLS-1$
 		grid.setCaptionKey( "new caption key" ); //$NON-NLS-1$
 		grid.setSummary( "new summary" ); //$NON-NLS-1$
+
+		SlotHandle rows = grid.getRows( );
+		RowHandle row = (RowHandle) rows.get( 0 );
+		SlotHandle cells = row.getCells( );
+		CellHandle cell = (CellHandle) cells.get( 1 );
+		cell.setDiagonalStyle( DesignChoiceConstants.LINE_STYLE_INSET );
+		cell.setAntidiagonalStyle( DesignChoiceConstants.LINE_STYLE_OUTSET );
+		cell.setDiagonalNumber( 20 );
+		cell.setAntidiagonalNumber( 30 );
+		cell.setProperty( ICellModel.DIAGONAL_THICKNESS_PROP, "1.5mm" ); //$NON-NLS-1$
+		cell.setProperty( ICellModel.ANTIDIAGONAL_THICKNESS_PROP, "2.5mm" ); //$NON-NLS-1$
 
 		save( );
 		assertTrue( compareFile( goldenFileName ) );
