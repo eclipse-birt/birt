@@ -2767,6 +2767,13 @@ Element.Cell.onRender.toolTip=TBD
 Element.Cell.onRender.this=Zelleninstanz
 Element.Cell.onRender.reportContext=Berichtkontext
 Element.Cell.viewAction=Aktion anzeigen
+Element.Cell.diagonal=Diagonal
+Element.Cell.diagonalNumber=Diagonal number
+Element.Cell.antidiagonalNumber=Antidiagonal number
+Element.Cell.diagonalThickness=Diagonal thickness
+Element.Cell.antidiagonalThickness=Antidiagonal thickness
+Element.Cell.diagonalStyle=Diagonal style
+Element.Cell.antidiagonalStyle=Antidiagonal style
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=Alternativer Text
