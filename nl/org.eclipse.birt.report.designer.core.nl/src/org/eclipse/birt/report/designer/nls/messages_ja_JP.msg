@@ -1489,8 +1489,8 @@ ExpressionProvider.Operators.Comparison=比較
 ExpressionProvider.Operators.Computational=演算
 ExpressionProvider.Operators.Logical=論理
 ExpressionProvider.EditBindings=バインドの編集...
-ExpressionProvider.Expression.RowNumName=行数
-ExpressionProvider.Expression.RowNumTooltip=現在の行数を返す式です。
+ExpressionProvider.Expression.RowNumName=行番号
+ExpressionProvider.Expression.RowNumTooltip=現在の行番号を返す式です。
 ExpressionTreeSupport.Category.Global=グローバル
 
 ###########################################################
