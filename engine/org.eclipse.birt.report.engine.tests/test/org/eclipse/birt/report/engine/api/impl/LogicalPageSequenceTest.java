@@ -37,6 +37,25 @@ public class LogicalPageSequenceTest extends TestCase
 				toString( sequence.getVisiblePages( ) ) );
 	}
 
+	public void testMergeWithMax( )
+	{
+		long[][] pages1 = new long[][]{new long[]{200, 700},
+				new long[]{900, 1200}, new long[]{1500, 1600}};
+
+		long[][] pages2 = new long[][]{new long[]{100, 300},
+				new long[]{400, 500}, new long[]{600, 800},
+				new long[]{1000, 1100}, new long[]{1300, 1400}};
+
+		ArrayList<long[][]> pages = new ArrayList<long[][]>( );
+		pages.add( pages1 );
+		pages.add( pages2 );
+
+		LogicalPageSequence sequence = new LogicalPageSequence( pages, 659 );
+		assertEquals( 262, sequence.getTotalVisiblePageCount( ) );
+		assertEquals( "[200-300],[400-500],[600-659]",
+				toString( sequence.getVisiblePages( ) ) );
+	}
+
 	public void testGetLogicalPageNumber( )
 	{
 		LogicalPageSequence sequence = new LogicalPageSequence( new long[][]{

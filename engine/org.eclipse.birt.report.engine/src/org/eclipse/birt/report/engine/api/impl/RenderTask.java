@@ -811,7 +811,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 				}
 				if ( !pages.isEmpty( ) )
 				{
-					logicalPageSequence = new LogicalPageSequence( pages );
+					long physicalTotalPage = reportDocument.getPageCount( );
+					logicalPageSequence = new LogicalPageSequence( pages,
+							physicalTotalPage );
 				}
 			}
 			visiblePageLoaded = true;
