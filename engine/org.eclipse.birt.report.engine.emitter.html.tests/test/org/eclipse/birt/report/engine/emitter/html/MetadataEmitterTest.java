@@ -63,7 +63,8 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 	{
 		String designFile = "org/eclipse/birt/report/engine/emitter/html/ActiveId_Test.xml";
 		String[][] bookmarksWithMetadata = {{"label", "LABEL"},
-				{"table", "TABLE"}, {"chart", "Chart"}, {"list", "LIST"},
+				{"table", "TABLE"}, {"chart", "Chart"},
+				{"list", "LIST"}, {"data", "DATA"},
 				{"AUTOGENBOOKMARK_1", "TEMPLATE"},
 				{"AUTOGENBOOKMARK_2", "TEMPLATE"},
 				{"AUTOGENBOOKMARK_3", "TEMPLATE"},
@@ -75,8 +76,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 				{"AUTOGENBOOKMARK_9", "TEMPLATE"}};
 		String[][] bookmarksWithoutMetadata = {{"grid", "GRID"},
 				{"dynamic text", "DYNAMIC_TEXT"},
-				{"image", "IMAGE"}, {"static text", "STATIC_TEXT"},
-				{"data", "DATA"}};
+				{"image", "IMAGE"}, {"static text", "STATIC_TEXT"}};
 		checkAllTask( designFile, bookmarksWithMetadata, bookmarksWithoutMetadata );
 	}
 
@@ -91,14 +91,14 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 	public void testDataItem( ) throws EngineException, IOException
 	{
 		String designFile = "org/eclipse/birt/report/engine/emitter/html/dataItemMetadata_Test.xml";
-		String[][] bookmarksWithMetadata = {
+		String[][] bookmarksWithMetadata = {{"topLevelData", "DATA"},
 				{"dataInTableHeader", "DATA", "192"},
 				{"dataInGridInTableHeader", "DATA", "204"},
 				{"dataInTableGroupHeader", "DATA", "190"},
 				{"dataInGridInGridInTableGroupHeader", "DATA", "214"},
 				{"dataInTableGroupFooter", "DATA", "191"},
 				{"dataInTableFooter", "DATA", "193"}};
-		String[][] bookmarksWithoutMetadata = {{"topLevelData", "DATA"},
+		String[][] bookmarksWithoutMetadata = {
 				{"dataInTableHeaderWithDataSet", "DATA"},
 				{"dataInTableDetail", "DATA"}, {"dataInListHeader", "DATA"},
 				{"dataInListGroupHeader", "DATA"},
@@ -112,12 +112,13 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 	{
 		String designFile = "org/eclipse/birt/report/engine/emitter/html/dataItemWithoutBookmarkMetadata_Test.xml";
 		String[][] bookmarksWithMetadata = {
-				{"AUTOGENBOOKMARK_2", "DATA", "192"},
-				{"AUTOGENBOOKMARK_4", "DATA", "204"},
-				{"AUTOGENBOOKMARK_5", "DATA", "190"},
-				{"AUTOGENBOOKMARK_8", "DATA", "214"},
-				{"AUTOGENBOOKMARK_9", "DATA", "191"},
-				{"AUTOGENBOOKMARK_10", "DATA", "193"}};
+				{"AUTOGENBOOKMARK_1", "DATA", "176"},
+				{"AUTOGENBOOKMARK_3", "DATA", "192"},
+				{"AUTOGENBOOKMARK_5", "DATA", "204"},
+				{"AUTOGENBOOKMARK_6", "DATA", "190"},
+				{"AUTOGENBOOKMARK_9", "DATA", "214"},
+				{"AUTOGENBOOKMARK_10", "DATA", "191"},
+				{"AUTOGENBOOKMARK_11", "DATA", "193"}};
 		String[][] bookmarksWithoutMetadata = {};
 		checkAllTask( designFile, bookmarksWithMetadata,
 				bookmarksWithoutMetadata );
