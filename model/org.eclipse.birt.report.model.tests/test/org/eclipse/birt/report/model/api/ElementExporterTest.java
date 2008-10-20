@@ -938,4 +938,21 @@ public class ElementExporterTest extends BaseTestCase
 		assertFalse( ElementExportUtil.canExport( handle, libraryHandle, true ) );
 		assertFalse( ElementExportUtil.canExport( handle, true ) );
 	}
+
+	/**
+	 * Tests the design exporting including table that defines data-binding-ref.
+	 * 
+	 * @throws Exception
+	 */
+	public void testExportTableWithBindingRef( ) throws Exception
+	{
+		openDesign( "ElementExporterTest_1.xml" ); //$NON-NLS-1$
+		openLibrary( "ExportLabelToLibTestLibrary.xml" ); //$NON-NLS-1$
+
+		ElementExportUtil.exportDesign( designHandle, libraryHandle, true,
+				false );
+		save( libraryHandle );
+
+		assertTrue( compareFile( "ElementExporterTestLibrary_golden_16.xml" ) ); //$NON-NLS-1$
+	}
 }

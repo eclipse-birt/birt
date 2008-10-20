@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -36,6 +37,8 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.command.GroupElementCommand;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
@@ -350,7 +353,7 @@ class ElementExporter
 	 *            handle of the element to export.
 	 * @param canOverride
 	 *            indicates whether the element with the same name in target
-	 *            library will be overriden.
+	 *            library will be overridden.
 	 * 
 	 * @throws SemanticException
 	 *             if error encountered when adding this element to target
@@ -366,6 +369,8 @@ class ElementExporter
 			return;
 		}
 
+		// if canOverride, we must firstly drop the elements whose name are
+		// duplicate with the exported element and its contents
 		if ( canOverride )
 		{
 			findAndDropDuplicatedElement( elementToExport );
@@ -374,7 +379,6 @@ class ElementExporter
 		int slotID = getTopContainerSlot( elementToExport.getElement( ) );
 
 		// The element in body slot should be added into components slot.
-
 		if ( slotID == IReportDesignModel.BODY_SLOT )
 			slotID = IModuleModel.COMPONENT_SLOT;
 		else if ( slotID == IModuleModel.PAGE_SLOT
@@ -682,6 +686,8 @@ class ElementExporter
 			DesignElementHandle destination ) throws SemanticException
 	{
 		int slotCount = source.getDefn( ).getSlotCount( );
+
+		// duplicate slot
 		for ( int i = 0; i < slotCount; i++ )
 		{
 			SlotHandle sourceSlotHandle = source.getSlot( i );
@@ -696,15 +702,40 @@ class ElementExporter
 				DesignElementHandle newContentHandle = duplicateElement(
 						contentHandle, true );
 
-				addToSlot( destinationSlotHandle, newContentHandle );
+				// table/list must have special handle for group slot if they
+				// have binding-ref
+				if ( source instanceof ListingHandle
+						&& i == ListingHandle.GROUP_SLOT )
+				{
+					Object bindingRef = source
+							.getProperty( ListingHandle.DATA_BINDING_REF_PROP );
+
+					// if binding-ref is set whether is resolved or not, we must
+					// call GroupContentCommand to localize the groups rather
+					// than the content command to add group for content command
+					// will throw out exception
+					if ( bindingRef != null )
+					{
+						GroupElementCommand cmd = new GroupElementCommand(
+								destination.getModule( ), new ContainerContext(
+										destination.getElement( ), i ) );
+						cmd.setupSharedDataGroups( source.getElement( ) );
+					}
+					else
+						addToSlot( destinationSlotHandle, newContentHandle );
+
+				}
+				else
+					addToSlot( destinationSlotHandle, newContentHandle );
 			}
 		}
 
-		Iterator props = source.getElement( ).getPropertyDefns( ).iterator( );
-		while ( props.hasNext( ) )
+		// duplicate container properties
+		List props = source.getElement( ).getDefn( ).getContents( );
+		for ( int i = 0; i < props.size( ); i++ )
 		{
 
-			IPropertyDefn propDefn = (IPropertyDefn) props.next( );
+			IPropertyDefn propDefn = (IPropertyDefn) props.get( i );
 
 			if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_TYPE )
 				continue;

@@ -62,7 +62,7 @@ public class GroupElementCommand extends ContentCommand
 	 *            the container information
 	 */
 
-	GroupElementCommand( Module module, ContainerContext containerInfo )
+	public GroupElementCommand( Module module, ContainerContext containerInfo )
 	{
 		super( module, containerInfo );
 	}
@@ -444,7 +444,7 @@ public class GroupElementCommand extends ContentCommand
 	 * @throws SemanticException
 	 */
 
-	private void setupSharedDataGroups( DesignElement targetElement )
+	public void setupSharedDataGroups( DesignElement targetElement )
 			throws SemanticException
 	{
 		if ( !ModelUtil
@@ -494,7 +494,7 @@ public class GroupElementCommand extends ContentCommand
 	 * @param value
 	 * @throws SemanticException
 	 */
-	protected void updateBindingRef( ElementRefValue oldValue,
+	void updateBindingRef( ElementRefValue oldValue,
 			ElementRefValue value ) throws SemanticException
 	{
 		if ( !( element instanceof ListingElement ) )
