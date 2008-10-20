@@ -19,6 +19,7 @@ public class LogicalPageSequence
 
 	private long[][] visiblePages;
 	private long totalVisiblePageCount;
+	private long totalPhysicalPageCount;
 
 	public LogicalPageSequence( long[][] visiblePages )
 	{
@@ -28,7 +29,14 @@ public class LogicalPageSequence
 
 	public LogicalPageSequence( ArrayList<long[][]> pages )
 	{
-		this.visiblePages = pages.get( 0 );
+		this( pages, -1 );
+	}
+
+	public LogicalPageSequence( ArrayList<long[][]> pages,
+			long totalPhysicalPageNumber )
+	{
+		this.totalPhysicalPageCount = totalPhysicalPageNumber;
+		this.visiblePages = mergeVisiblePages( pages.get( 0 ) );
 		for ( int i = 1; i < pages.size( ); i++ )
 		{
 			this.visiblePages = mergeVisiblePages( visiblePages, pages.get( i ) );
@@ -124,6 +132,31 @@ public class LogicalPageSequence
 		return physicalPages.toArray( new long[physicalPages.size( )][] );
 	}
 
+	private long[][] mergeVisiblePages( long[][] pages )
+	{
+		if ( totalPhysicalPageCount == -1 )
+		{
+			return pages;
+		}
+
+		ArrayList<long[]> visiblePages = new ArrayList<long[]>( );
+		for ( int i = 0; i < pages.length; i++ )
+		{
+			long firstPage = pages[i][0];
+			long lastPage = pages[i][1];
+			if ( lastPage <= totalPhysicalPageCount )
+			{
+				visiblePages.add( pages[i] );
+			}
+			else if ( firstPage <= totalPhysicalPageCount )
+			{
+				visiblePages
+						.add( new long[]{firstPage, totalPhysicalPageCount} );
+			}
+		}
+		return visiblePages.toArray( new long[visiblePages.size( )][] );
+	}
+	
 	private long[][] mergeVisiblePages( long[][] pages1, long[][] pages2 )
 	{
 		ArrayList<long[]> pages = new ArrayList<long[]>( );
@@ -143,7 +176,17 @@ public class LogicalPageSequence
 			{
 				long firstPage = Math.max( pages1[i][0], pages2[j][0] );
 				long lastPage = Math.min( pages1[i][1], pages2[j][1] );
-				pages.add( new long[]{firstPage, lastPage} );
+				if ( totalPhysicalPageCount == -1 )
+				{
+					pages.add( new long[]{firstPage, lastPage} );
+				}
+				else
+				{
+					if ( lastPage <= totalPhysicalPageCount )
+					{
+						pages.add( new long[]{firstPage, lastPage} );
+					}
+				}
 
 				j++;
 			}
