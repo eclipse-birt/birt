@@ -42,7 +42,8 @@ public class Regression_246686 extends BaseTestCase {
 		openDesign(INPUT);
 		DataItemHandle dataHandle = (DataItemHandle) designHandle
 				.findElement("data1");
-		assertEquals(0, dataHandle.getAvailableDataSetBindingReferenceList());
+		assertEquals(0, dataHandle.getAvailableDataSetBindingReferenceList()
+				.size());
 		assertEquals(2, dataHandle.getAvailableCubeBindingReferenceList()
 				.size());
 	}

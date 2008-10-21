@@ -188,7 +188,6 @@ public class AllRegressionTests
 		test.addTestSuite( Regression_159033.class );
 		test.addTestSuite( Regression_159858.class );
 		test.addTestSuite( Regression_160176.class );
-		test.addTestSuite( Regression_160193.class );
 		test.addTestSuite( Regression_160419.class );
 		test.addTestSuite( Regression_160429.class );
 		test.addTestSuite( Regression_160808.class );
