@@ -42,7 +42,9 @@ import org.eclipse.birt.chart.ui.swt.CustomPreviewTable;
 import org.eclipse.birt.chart.ui.swt.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.DefaultChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.SimpleTextTransfer;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
+import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
@@ -785,6 +787,19 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 								return;
 							}
 							getDataServiceProvider( ).setReportItemReference( cmbDataItems.getText( ) );
+							
+							// TED 10163
+							// Following calls will revise chart model for
+							// report item sharing case, in older version of
+							// chart, it is allowed to set grouping on category
+							// series when sharing report item, but now it isn't
+							// allowed, so this calls will revise chart model to
+							// remove category series grouping flag for the
+							// case.
+							ChartReportItemUtil.reviseChartModel( ChartReportItemUtil.REVISE_REFERENCE_REPORT_ITEM,
+									this.getContext( ).getModel( ),
+									itemHandle );
+							
 							currentData = cmbDataItems.getText( );
 							// selectDataSet( );
 							// switchDataSet( cmbDataItems.getText( ) );

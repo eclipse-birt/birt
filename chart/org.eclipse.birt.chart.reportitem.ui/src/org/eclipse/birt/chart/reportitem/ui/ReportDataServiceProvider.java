@@ -26,6 +26,7 @@ import java.util.Map.Entry;
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.factory.DataRowExpressionEvaluatorAdapter;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.DataType;
@@ -1203,7 +1204,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				}
 				
 				// Create evaluator for data set
-				if ( isSharedBinding( ) )
+				if ( isSharedBinding( )
+						&& !ChartReportItemUtil.isOldChartUsingInternalGroup( itemHandle,
+								cm ) )
 				{
 					evaluator = fShareBindingQueryHelper.createShareBindingEvaluator( cm,
 							session,
@@ -1216,6 +1219,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 							columnExpression,
 							session,
 							engineTask );
+					
 				}
 			}
 			return evaluator;
@@ -1303,31 +1307,39 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 			if ( actualResultSet != null )
 			{
-				return new BaseGroupedQueryResultSetEvaluator( actualResultSet.getResultIterator( ),
-						ChartReportItemUtil.isSetSummaryAggregation( cm ),
-						cm ) {
+				if ( ChartReportItemUtil.isOldChartUsingInternalGroup( itemHandle,
+						cm ) )
+				{
+					return createSimpleExpressionEvaluator( actualResultSet );
+				}
+				else
+				{
+					return new BaseGroupedQueryResultSetEvaluator( actualResultSet.getResultIterator( ),
+							ChartReportItemUtil.isSetSummaryAggregation( cm ),
+							cm ) {
 
-					/*
-					 * (non-Javadoc)
-					 * 
-					 * @seeorg.eclipse.birt.chart.reportitem.
-					 * BaseGroupedQueryResultSetEvaluator#close()
-					 */
-					@Override
-					public void close( )
-					{
-						super.close( );
-						if ( engineTask != null )
+						/*
+						 * (non-Javadoc)
+						 * 
+						 * @seeorg.eclipse.birt.chart.reportitem.
+						 * BaseGroupedQueryResultSetEvaluator#close()
+						 */
+						@Override
+						public void close( )
 						{
-							engineTask.close( );
+							super.close( );
+							if ( engineTask != null )
+							{
+								engineTask.close( );
+							}
+							else if ( session != null )
+							{
+								session.shutdown( );
+							}
 						}
-						else if ( session != null )
-						{
-							session.shutdown( );
-						}
-					}
 
-				};
+					};
+				}
 			}
 		}
 		catch ( BirtException e )
@@ -1338,6 +1350,107 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 
 		return null;
+	}
+
+	/**
+	 * Create a simple expression evalutor, it will causes chart engine using
+	 * default grouping instead of DTE's grouping.
+	 * 
+	 * @param actualResultSet
+	 * @return
+	 * @throws BirtException
+	 */
+	private IDataRowExpressionEvaluator createSimpleExpressionEvaluator(
+			IQueryResults actualResultSet ) throws BirtException
+	{
+		final IResultIterator resultIterator = actualResultSet.getResultIterator( );
+		return new DataRowExpressionEvaluatorAdapter( ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @seeorg.eclipse.birt.chart.factory.
+			 * IDataRowExpressionEvaluator
+			 * #evaluate(java.lang.String)
+			 */
+			public Object evaluate( String expression )
+			{
+				try
+				{
+					return resultIterator.getValue( expression );
+				}
+				catch ( BirtException e )
+				{
+					return null;
+				}
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @seeorg.eclipse.birt.chart.factory.
+			 * IDataRowExpressionEvaluator
+			 * #evaluateGlobal(java.lang.String)
+			 */
+			public Object evaluateGlobal( String expression )
+			{
+				return evaluate( expression );
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @seeorg.eclipse.birt.chart.factory.
+			 * IDataRowExpressionEvaluator#next()
+			 */
+			public boolean next( )
+			{
+				try
+				{
+					return resultIterator.next( );
+				}
+				catch ( BirtException e )
+				{
+					return false;
+				}
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @seeorg.eclipse.birt.chart.factory.
+			 * IDataRowExpressionEvaluator#close()
+			 */
+			public void close( )
+			{
+				try
+				{
+					resultIterator.close( );
+				}
+				catch ( BirtException e )
+				{
+					return;
+				}
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @seeorg.eclipse.birt.chart.factory.
+			 * IDataRowExpressionEvaluator#first()
+			 */
+			public boolean first( )
+			{
+				try
+				{
+					return resultIterator.next( );
+				}
+				catch ( BirtException e )
+				{
+					return false;
+				}
+			}
+		};
 	}
 
 	/**
