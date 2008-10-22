@@ -33,6 +33,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.IBinding;
@@ -45,11 +46,13 @@ import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
@@ -1053,20 +1056,39 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	}
 
 	/**
-	 * Returns groups in shared binding.
+	 * Check if specified expression is a grouping expression of shared report
+	 * item.
 	 * 
+	 * @param expression
+	 * @param handle
 	 * @return
 	 */
-	private static boolean hasGroupsOnSharedBinding( ReportItemHandle handle )
+	private static boolean isSharedGroupExpression( String expression,
+			ReportItemHandle handle )
 	{
-		handle = getReportItemReference( handle );
-
-		if ( handle instanceof ListingHandle )
+		ReportItemHandle itemHandle = getReportItemReference( handle );
+		if ( itemHandle instanceof ListingHandle )
 		{
-			SlotHandle groups = ( (ListingHandle) handle ).getGroups( );
-			if ( groups != null && groups.getCount( ) > 0 )
+			List<GroupHandle> groupList = new ArrayList<GroupHandle>( );
+			if ( itemHandle instanceof TableHandle )
 			{
-				return true;
+				SlotHandle groups = ( (TableHandle) itemHandle ).getGroups( );
+				for ( Iterator iter = groups.iterator( ); iter.hasNext( ); )
+				{
+					groupList.add( (GroupHandle) iter.next( ) );
+				}
+			}
+			
+			if ( groupList.size( ) == 0 )
+			{
+				return false;
+			}
+			for ( GroupHandle gh : groupList )
+			{
+				if ( expression.equals( ExpressionUtil.createJSRowExpression( gh.getName( ) ) ) )
+				{
+					return true;
+				}
 			}
 		}
 		return false;
@@ -1098,7 +1120,8 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		// 3. the shared binding is not grouped.
 		if ( chartHandle.getDataBindingReference( ) != null
 				&& ChartReportItemUtil.isBaseGroupingDefined( cm )
-				&& !hasGroupsOnSharedBinding( chartHandle ) )
+				&& !isSharedGroupExpression( ChartUtil.getCategoryExpressions( cm )[0],
+						chartHandle ) )
 		{
 			return true;
 		}
@@ -1310,6 +1333,56 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 			binding.setFilter( parentBinding.getFilter( ) );
 			// Exportable is true for new subquery bindings
 			query.addBinding( binding );
+		}
+	}
+
+	/**
+	 * The field indicates it will revise chart model under reference report
+	 * item case.
+	 */
+	public static final int REVISE_REFERENCE_REPORT_ITEM = 1;
+
+	/**
+	 * Revise chart model.
+	 * 
+	 * @param reviseType
+	 * @param cm
+	 * @param itemHandle
+	 */
+	public static void reviseChartModel( int reviseType, Chart cm,
+			ReportItemHandle itemHandle )
+	{
+		switch ( reviseType )
+		{
+			case REVISE_REFERENCE_REPORT_ITEM :
+				if ( itemHandle.getDataBindingReference( ) != null
+						&& ChartReportItemUtil.isBaseGroupingDefined( cm )
+						&& !isSharedGroupExpression( ChartUtil.getCategoryExpressions( cm )[0],
+								itemHandle ) )
+				{
+					// In older version of chart, it is allowed to set grouping
+					// on category series when sharing report item, but now it
+					// isn't allowed, so this calls will revise chart model to
+					// remove category series grouping flag for the case.
+					SeriesDefinition baseSD = null;
+					if ( cm instanceof ChartWithAxes )
+					{
+						ChartWithAxes cwa = (ChartWithAxes) cm;
+						baseSD = (SeriesDefinition) cwa.getBaseAxes( )[0].getSeriesDefinitions( )
+								.get( 0 );
+					}
+					else if ( cm instanceof ChartWithoutAxes )
+					{
+						ChartWithoutAxes cwoa = (ChartWithoutAxes) cm;
+						baseSD = (SeriesDefinition) cwoa.getSeriesDefinitions( )
+								.get( 0 );
+					}
+					if ( baseSD != null && baseSD.getGrouping( ) != null )
+					{
+						baseSD.getGrouping( ).unsetEnabled( );
+					}
+				}
+				break;
 		}
 	}
 }
