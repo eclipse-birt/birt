@@ -2767,13 +2767,13 @@ Element.Cell.onRender.toolTip=TBD
 Element.Cell.onRender.this=单元格实例
 Element.Cell.onRender.reportContext=报表上下文
 Element.Cell.viewAction=查看操作
-Element.Cell.diagonal=Diagonal
-Element.Cell.diagonalNumber=Diagonal number
-Element.Cell.antidiagonalNumber=Antidiagonal number
-Element.Cell.diagonalThickness=Diagonal thickness
-Element.Cell.antidiagonalThickness=Antidiagonal thickness
-Element.Cell.diagonalStyle=Diagonal style
-Element.Cell.antidiagonalStyle=Antidiagonal style
+Element.Cell.diagonal=对角线
+Element.Cell.diagonalNumber=对角线编号
+Element.Cell.antidiagonalNumber=反对角线编号
+Element.Cell.diagonalThickness=对角线粗细
+Element.Cell.antidiagonalThickness=反对角线粗细
+Element.Cell.diagonalStyle=对角线样式
+Element.Cell.antidiagonalStyle=反对角线样式
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=替代文本

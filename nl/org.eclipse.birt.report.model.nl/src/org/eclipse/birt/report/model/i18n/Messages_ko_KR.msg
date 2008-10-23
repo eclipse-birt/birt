@@ -2767,13 +2767,13 @@ Element.Cell.onRender.toolTip=TBD
 Element.Cell.onRender.this=셀 인스턴스
 Element.Cell.onRender.reportContext=보고서 컨텍스트
 Element.Cell.viewAction=작업 보기
-Element.Cell.diagonal=Diagonal
-Element.Cell.diagonalNumber=Diagonal number
-Element.Cell.antidiagonalNumber=Antidiagonal number
-Element.Cell.diagonalThickness=Diagonal thickness
-Element.Cell.antidiagonalThickness=Antidiagonal thickness
-Element.Cell.diagonalStyle=Diagonal style
-Element.Cell.antidiagonalStyle=Antidiagonal style
+Element.Cell.diagonal=대각선
+Element.Cell.diagonalNumber=대각선 수
+Element.Cell.antidiagonalNumber=반대각선 수
+Element.Cell.diagonalThickness=대각선 두께
+Element.Cell.antidiagonalThickness=반대각선 두께
+Element.Cell.diagonalStyle=대각선 스타일
+Element.Cell.antidiagonalStyle=반대각선 스타일
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=대체 텍스트

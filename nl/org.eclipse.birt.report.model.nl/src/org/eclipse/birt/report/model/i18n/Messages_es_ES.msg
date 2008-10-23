@@ -2768,12 +2768,12 @@ Element.Cell.onRender.this=Instancia de celda
 Element.Cell.onRender.reportContext=Contexto de informe
 Element.Cell.viewAction=Ver acción
 Element.Cell.diagonal=Diagonal
-Element.Cell.diagonalNumber=Diagonal number
-Element.Cell.antidiagonalNumber=Antidiagonal number
-Element.Cell.diagonalThickness=Diagonal thickness
-Element.Cell.antidiagonalThickness=Antidiagonal thickness
-Element.Cell.diagonalStyle=Diagonal style
-Element.Cell.antidiagonalStyle=Antidiagonal style
+Element.Cell.diagonalNumber=Número de diagonal
+Element.Cell.antidiagonalNumber=Número de diagonal secundaria
+Element.Cell.diagonalThickness=Grosor de diagonal
+Element.Cell.antidiagonalThickness=Grosor de diagonal secundaria
+Element.Cell.diagonalStyle=Estilo de diagonal
+Element.Cell.antidiagonalStyle=Estilo de diagonal secundaria
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=Texto alternativo

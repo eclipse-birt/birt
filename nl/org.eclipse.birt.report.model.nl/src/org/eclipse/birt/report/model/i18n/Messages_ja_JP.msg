@@ -2767,13 +2767,13 @@ Element.Cell.onRender.toolTip=TBD
 Element.Cell.onRender.this=セルインスタンス
 Element.Cell.onRender.reportContext=レポートのコンテキスト
 Element.Cell.viewAction=アクションの表示
-Element.Cell.diagonal=Diagonal
-Element.Cell.diagonalNumber=Diagonal number
-Element.Cell.antidiagonalNumber=Antidiagonal number
-Element.Cell.diagonalThickness=Diagonal thickness
-Element.Cell.antidiagonalThickness=Antidiagonal thickness
-Element.Cell.diagonalStyle=Diagonal style
-Element.Cell.antidiagonalStyle=Antidiagonal style
+Element.Cell.diagonal=対角線
+Element.Cell.diagonalNumber=対角線番号
+Element.Cell.antidiagonalNumber=非対角線番号
+Element.Cell.diagonalThickness=対角線の幅
+Element.Cell.antidiagonalThickness=非対角線の幅
+Element.Cell.diagonalStyle=対角線のスタイル
+Element.Cell.antidiagonalStyle=非対角線のスタイル
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=代替テキスト
