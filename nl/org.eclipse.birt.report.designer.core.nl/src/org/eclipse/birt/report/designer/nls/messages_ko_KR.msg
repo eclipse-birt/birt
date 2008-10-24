@@ -1872,12 +1872,18 @@ HighlightsPreferencePage.toolTipText.Down=강조 아래로 이동
 #HyperlinkBuilder properties
 
 HyperlinkBuilder.Column.Parameters=매개 변수
-HyperlinkBuilder.DrillThroughStep1=1단계: 대상 보고서 선택 
-HyperlinkBuilder.DrillThroughStep2=2단계: 대상 앵커 선택 
-HyperlinkBuilder.DrillThroughStep3=3단계: 대상 책갈피에 맞는 링크 식 생성
-HyperlinkBuilder.DrillThroughStep4=4단계: 대상 보고서 표시 
-HyperlinkBuilder.DrillThroughStep5=5단계: 대상 보고서 서식 선택
-HyperlinkBuilder.DrillThroughStep6=6단계: 도구 설명
+HyperlinkBuilder.DrillThrough.SelectTargetReport=Select a target report 
+HyperlinkBuilder.DrillThrough.SelectTargetAnchor=Select a target anchor 
+HyperlinkBuilder.DrillThrough.CreateLinkExpr=Create a link expression that matches the target bookmark
+HyperlinkBuilder.DrillThrough.ShowTargetReport=Show target report in 
+HyperlinkBuilder.DrillThrough.SelectFormat=Select a format for target report
+HyperlinkBuilder.DrillThrough.Tooltip=Tool Tip
+HyperlinkBuilder.Step.1=Step 1: 
+HyperlinkBuilder.Step.2=Step 2: 
+HyperlinkBuilder.Step.3=Step 3: 
+HyperlinkBuilder.Step.4=Step 4: 
+HyperlinkBuilder.Step.5=Step 5: 
+HyperlinkBuilder.Step.6=Step 6: 
 HyperlinkBuilder.ParameterRequired=필수
 HyperlinkBuilder.Column.DataType=데이터 형식
 HyperlinkBuilder.Column.Values=값

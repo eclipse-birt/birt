@@ -1872,12 +1872,18 @@ HighlightsPreferencePage.toolTipText.Down=Markierung nach unten verschieben
 #HyperlinkBuilder properties
 
 HyperlinkBuilder.Column.Parameters=Parameter
-HyperlinkBuilder.DrillThroughStep1=Schritt 1: Zielbericht auswählen 
-HyperlinkBuilder.DrillThroughStep2=Schritt 2: Zielanker auswählen 
-HyperlinkBuilder.DrillThroughStep3=Schritt 3: Verknüpfungsausdruck erstellen, der mit dem Ziellesezeichen übereinstimmt
-HyperlinkBuilder.DrillThroughStep4=Schritt 4: Zielbericht anzeigen in 
-HyperlinkBuilder.DrillThroughStep5=Schritt 5: Format für Zielbericht auswählen
-HyperlinkBuilder.DrillThroughStep6=Schritt 6: Kontexthilfe
+HyperlinkBuilder.DrillThrough.SelectTargetReport=Select a target report 
+HyperlinkBuilder.DrillThrough.SelectTargetAnchor=Select a target anchor 
+HyperlinkBuilder.DrillThrough.CreateLinkExpr=Create a link expression that matches the target bookmark
+HyperlinkBuilder.DrillThrough.ShowTargetReport=Show target report in 
+HyperlinkBuilder.DrillThrough.SelectFormat=Select a format for target report
+HyperlinkBuilder.DrillThrough.Tooltip=Tool Tip
+HyperlinkBuilder.Step.1=Step 1: 
+HyperlinkBuilder.Step.2=Step 2: 
+HyperlinkBuilder.Step.3=Step 3: 
+HyperlinkBuilder.Step.4=Step 4: 
+HyperlinkBuilder.Step.5=Step 5: 
+HyperlinkBuilder.Step.6=Step 6: 
 HyperlinkBuilder.ParameterRequired=Erforderlich
 HyperlinkBuilder.Column.DataType=Datentyp
 HyperlinkBuilder.Column.Values=Werte
