@@ -1872,12 +1872,18 @@ HighlightsPreferencePage.toolTipText.Down=突出显示下移
 #HyperlinkBuilder properties
 
 HyperlinkBuilder.Column.Parameters=参数
-HyperlinkBuilder.DrillThroughStep1=第 1 步: 选择目标报表 
-HyperlinkBuilder.DrillThroughStep2=第 2 步: 选择目标定位标记 
-HyperlinkBuilder.DrillThroughStep3=第 3 步: 创建与目标书签匹配的链接表达式
-HyperlinkBuilder.DrillThroughStep4=第 4 步: 显示目标报表 
-HyperlinkBuilder.DrillThroughStep5=第 5 步:为目标报表选择格式
-HyperlinkBuilder.DrillThroughStep6=步骤 6: 工具提示
+HyperlinkBuilder.DrillThrough.SelectTargetReport=Select a target report 
+HyperlinkBuilder.DrillThrough.SelectTargetAnchor=Select a target anchor 
+HyperlinkBuilder.DrillThrough.CreateLinkExpr=Create a link expression that matches the target bookmark
+HyperlinkBuilder.DrillThrough.ShowTargetReport=Show target report in 
+HyperlinkBuilder.DrillThrough.SelectFormat=Select a format for target report
+HyperlinkBuilder.DrillThrough.Tooltip=Tool Tip
+HyperlinkBuilder.Step.1=Step 1: 
+HyperlinkBuilder.Step.2=Step 2: 
+HyperlinkBuilder.Step.3=Step 3: 
+HyperlinkBuilder.Step.4=Step 4: 
+HyperlinkBuilder.Step.5=Step 5: 
+HyperlinkBuilder.Step.6=Step 6: 
 HyperlinkBuilder.ParameterRequired=必需
 HyperlinkBuilder.Column.DataType=数据类型
 HyperlinkBuilder.Column.Values=值
