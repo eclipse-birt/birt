@@ -107,7 +107,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		layout.marginHeight = 0;
 		setLayout( layout );
 
-		cnvMarker = new Canvas( this, SWT.NONE );
+		cnvMarker = new Canvas( this, SWT.DOUBLE_BUFFERED );
 		{
 			GridData gd = new GridData( );
 			gd.heightHint = MARKER_BLOCK_HEIGHT;
@@ -465,7 +465,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 					* MARKER_ROW_MAX_NUMBER;
 			for ( int i = 0; i < modifiedSize; i++ )
 			{
-				Canvas cnvType = new Canvas( cmpType, SWT.NONE );
+				Canvas cnvType = new Canvas( cmpType, SWT.DOUBLE_BUFFERED );
 				GridData gd = new GridData( );
 				gd.heightHint = MARKER_BLOCK_HEIGHT;
 				gd.widthHint = MARKER_BLOCK_WIDTH;
