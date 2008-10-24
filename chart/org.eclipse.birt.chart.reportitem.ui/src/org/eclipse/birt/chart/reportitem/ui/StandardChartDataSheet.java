@@ -42,9 +42,7 @@ import org.eclipse.birt.chart.ui.swt.CustomPreviewTable;
 import org.eclipse.birt.chart.ui.swt.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.DefaultChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.SimpleTextTransfer;
-import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
-import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
@@ -107,7 +105,7 @@ import org.eclipse.ui.PlatformUI;
  * Data sheet implementation for Standard Chart
  */
 
-public final class StandardChartDataSheet extends DefaultChartDataSheet implements
+public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		Listener
 {
 
@@ -1103,7 +1101,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 		}
 	}
 
-	private void manageColorAndQuery( Query query, String expr )
+	protected void manageColorAndQuery( Query query, String expr )
 	{
 		// If it's not used any more, remove color binding
 		if ( DataDefinitionTextManager.getInstance( )
@@ -1116,7 +1114,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 		// will be converted and set to query, else directly set specified
 		// expression to query.
 		// DataDefinitionTextManager.getInstance( ).updateQuery( query, expr );
-		query.setDefinition( getActualExpression( query, expr ) );
+		query.setDefinition( getActualExpression( expr ) );
 
 		DataDefinitionTextManager.getInstance( ).updateText( query );
 		// Reset table column color
@@ -1132,7 +1130,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 	 * @param expr
 	 * @return
 	 */
-	private String getActualExpression( Query query, String expr )
+	private String getActualExpression( String expr )
 	{
 		if ( !dataProvider.checkState( IDataServiceProvider.SHARE_QUERY ) )
 		{
@@ -1264,6 +1262,15 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 		return this.dataProvider;
 	}
 
+	protected List<Object> getActionsForTableHead( String expr )
+	{
+		List<Object> actions = new ArrayList<Object>( 3 );
+		actions.add( getBaseSeriesMenu( getChartModel( ), expr ) );
+		actions.add( getOrthogonalSeriesMenu( getChartModel( ), expr ) );
+		actions.add( getGroupSeriesMenu( getChartModel( ), expr ) );
+		return actions;
+	}
+
 	private MenuManager createMenuManager( final Object data )
 	{
 		MenuManager menuManager = new MenuManager( );
@@ -1278,12 +1285,11 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 					addMenu( manager,
 							new HeaderShowAction( tablePreview.getCurrentColumnHeading( ) ) );
 					String expr = ExpressionUtil.createJSRowExpression( tablePreview.getCurrentColumnHeading( ) );
-					addMenu( manager,
-							getBaseSeriesMenu( getChartModel( ), expr ) );
-					addMenu( manager,
-							getOrthogonalSeriesMenu( getChartModel( ), expr ) );
-					addMenu( manager, getGroupSeriesMenu( getChartModel( ),
-							expr ) );
+					List<Object> actions = getActionsForTableHead( expr );
+					for ( Object act : actions )
+					{
+						addMenu( manager, act );
+					}
 				}
 				else if ( data instanceof MeasureHandle )
 				{
