@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
@@ -59,7 +60,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_AXIS );
 
-		final int COLUMN_NUMBER = 4;
+		final int COLUMN_NUMBER = 6;
 		cmpContent = new Composite( parent, SWT.NONE ) {
 
 			public Point computeSize( int wHint, int hHint, boolean changed )
@@ -108,15 +109,6 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			lblAxis.setText( Messages.getString( "AxisSheetImpl.Label.Axis" ) ); //$NON-NLS-1$
 		}
 
-		Label lblVisible = new Label( cmpList, SWT.WRAP | SWT.CENTER );
-		{
-			GridData gd = new GridData( );
-			gd.horizontalAlignment = SWT.CENTER;
-			lblVisible.setLayoutData( gd );
-			lblVisible.setFont( JFaceResources.getBannerFont( ) );
-			lblVisible.setText( Messages.getString( "AxisSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
-		}
-
 		Label lblType = new Label( cmpList, SWT.WRAP );
 		{
 			GridData gd = new GridData( );
@@ -133,6 +125,33 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			lblColor.setLayoutData( gd );
 			lblColor.setFont( JFaceResources.getBannerFont( ) );
 			lblColor.setText( Messages.getString( "AxisSheetImpl.Label.Color" ) ); //$NON-NLS-1$
+		}
+
+		Label lblVisible = new Label( cmpList, SWT.WRAP | SWT.CENTER );
+		{
+			GridData gd = new GridData( );
+			gd.horizontalAlignment = SWT.CENTER;
+			lblVisible.setLayoutData( gd );
+			lblVisible.setFont( JFaceResources.getBannerFont( ) );
+			lblVisible.setText( Messages.getString( "AxisSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
+		}
+
+		Label lblAligned = new Label( cmpList, SWT.WRAP | SWT.CENTER );
+		{
+			GridData gd = new GridData( );
+			gd.horizontalAlignment = SWT.CENTER;
+			lblAligned.setLayoutData( gd );
+			lblAligned.setFont( JFaceResources.getBannerFont( ) );
+			lblAligned.setText( Messages.getString("AxisSheetImpl.Label.Aligned") ); //$NON-NLS-1$
+		}
+
+		Label lblSideBySide = new Label( cmpList, SWT.WRAP | SWT.CENTER );
+		{
+			GridData gd = new GridData( );
+			gd.horizontalAlignment = SWT.CENTER;
+			lblSideBySide.setLayoutData( gd );
+			lblSideBySide.setFont( JFaceResources.getBannerFont( ) );
+			lblSideBySide.setText( Messages.getString("AxisSheetImpl.Label.SideBySide") ); //$NON-NLS-1$
 		}
 
 		int treeIndex = 0;
@@ -176,6 +195,9 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 		// Index of tree item in the navigator tree
 		private int treeIndex = 0;
 
+		private Button btnAligned;
+		private Button btnSideBySide;
+
 		public AxisOptionChoser( Axis axis, String axisName, int angleType,
 				int treeIndex )
 		{
@@ -193,15 +215,6 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 				linkAxis.setLayoutData( gd );
 				linkAxis.setText( "<a>" + axisName + "</a>" ); //$NON-NLS-1$//$NON-NLS-2$
 				linkAxis.addSelectionListener( this );
-			}
-
-			btnVisible = new Button( parent, SWT.CHECK );
-			{
-				GridData gd = new GridData( );
-				gd.horizontalAlignment = SWT.CENTER;
-				btnVisible.setLayoutData( gd );
-				btnVisible.addSelectionListener( this );
-				btnVisible.setSelection( axis.getLineAttributes( ).isVisible( ) );
 			}
 
 			cmbTypes = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
@@ -234,6 +247,49 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 				cmbColor.setLayoutData( gd );
 				cmbColor.addListener( this );
 			}
+
+			btnVisible = new Button( parent, SWT.CHECK );
+			{
+				GridData gd = new GridData( );
+				gd.horizontalAlignment = SWT.CENTER;
+				btnVisible.setLayoutData( gd );
+				btnVisible.addSelectionListener( this );
+				btnVisible.setSelection( axis.getLineAttributes( ).isVisible( ) );
+			}
+
+			btnAligned = new Button( parent, SWT.CHECK );
+			{
+				GridData gd = new GridData( );
+				gd.horizontalAlignment = SWT.CENTER;
+				btnAligned.setLayoutData( gd );
+				btnAligned.addSelectionListener( this );
+				btnAligned.setSelection( axis.isAligned( ) );
+				updateBtnAlignedStatus( );
+			}
+
+			btnSideBySide = new Button( parent, SWT.CHECK );
+			{
+				GridData gd = new GridData( );
+				gd.horizontalAlignment = SWT.CENTER;
+				btnSideBySide.setLayoutData( gd );
+				btnSideBySide.addSelectionListener( this );
+				btnSideBySide.setSelection( axis.isSideBySide( ) );
+				updateBtnSideBySidStatus( );
+			}
+
+		}
+
+		private void updateBtnAlignedStatus( )
+		{
+			btnAligned.setEnabled( ( angleType == AngleType.Y )
+					&& ( axis.getType( ).getValue( ) == AxisType.LINEAR ) );
+		}
+
+		private void updateBtnSideBySidStatus( )
+		{
+			btnSideBySide.setEnabled( ( angleType == AngleType.Y )
+					&& ( ( (SeriesDefinition) axis.getSeriesDefinitions( )
+							.get( 0 ) ).getDesignTimeSeries( ) instanceof BarSeries ) );
 		}
 
 		public void widgetSelected( SelectionEvent e )
@@ -255,10 +311,19 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 
 				// Set type and refresh the preview
 				axis.setType( axisType );
+				updateBtnAlignedStatus( );
 			}
 			else if ( e.widget.equals( linkAxis ) )
 			{
 				switchTo( treeIndex );
+			}
+			else if ( e.widget.equals( btnAligned ) )
+			{
+				axis.setAligned( btnAligned.getSelection( ) );
+			}
+			else if ( e.widget.equals( btnSideBySide ) )
+			{
+				axis.setSideBySide( btnSideBySide.getSelection( ) );
 			}
 		}
 

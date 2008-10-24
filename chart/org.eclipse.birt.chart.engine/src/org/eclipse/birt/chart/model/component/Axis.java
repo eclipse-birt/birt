@@ -59,6 +59,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#isCategoryAxis <em>Category Axis</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#isPercent <em>Percent</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#isLabelWithinAxes <em>Label Within Axes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#isAligned <em>Aligned</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#isSideBySide <em>Side By Side</em>}</li>
  * </ul>
  * </p>
  *
@@ -281,7 +283,10 @@ public interface Axis extends EObject
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Holds the value ancillary base axes associated with this axis.
+	 * 
+	 * 						Holds the value ancillary base axes associated
+	 * 						with this axis.
+	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Ancillary Axes</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_AncillaryAxes()
@@ -611,7 +616,9 @@ public interface Axis extends EObject
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Specifies the showing interval for the labels.
+	 * 
+	 * 						Specifies the showing interval for the labels.
+	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Interval</em>' attribute.
 	 * @see #isSetInterval()
@@ -665,7 +672,9 @@ public interface Axis extends EObject
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 					Defines a set of markers for positions on the axis scale displayed as lines across the plot at those locations.
+	 * 						Defines a set of markers for positions on the
+	 * 						axis scale displayed as lines across the plot at
+	 * 						those locations.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Marker Lines</em>' containment reference list.
@@ -700,7 +709,7 @@ public interface Axis extends EObject
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 					Holds the triggers for the axis.
+	 * 						Holds the triggers for the axis.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Triggers</em>' containment reference list.
@@ -920,7 +929,8 @@ public interface Axis extends EObject
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 					Specifies whether or not this is a percentage axis.
+	 * 						Specifies whether or not this is a percentage
+	 * 						axis.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Percent</em>' attribute.
@@ -972,7 +982,10 @@ public interface Axis extends EObject
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Specifies whether axis labels are within axes, i.e. inside the axis delimited area.
+	 * 
+	 * 						Specifies whether axis labels are within axes,
+	 * 						i.e. inside the axis delimited area.
+	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Label Within Axes</em>' attribute.
 	 * @see #isSetLabelWithinAxes()
@@ -1019,6 +1032,121 @@ public interface Axis extends EObject
 	 * @generated
 	 */
 	boolean isSetLabelWithinAxes( );
+
+	/**
+	 * Returns the value of the '<em><b>Aligned</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 						Specifies whether the zero point of this axis is to be 
+	 * 						aligned with other axes whose "Aligned" is true.
+	 * 					
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Aligned</em>' attribute.
+	 * @see #isSetAligned()
+	 * @see #unsetAligned()
+	 * @see #setAligned(boolean)
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_Aligned()
+	 * @model default="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 *        extendedMetaData="kind='element' name='Aligned'"
+	 * @generated
+	 */
+	boolean isAligned( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isAligned <em>Aligned</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Aligned</em>' attribute.
+	 * @see #isSetAligned()
+	 * @see #unsetAligned()
+	 * @see #isAligned()
+	 * @generated
+	 */
+	void setAligned( boolean value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isAligned <em>Aligned</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetAligned()
+	 * @see #isAligned()
+	 * @see #setAligned(boolean)
+	 * @generated
+	 */
+	void unsetAligned( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isAligned <em>Aligned</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Aligned</em>' attribute is set.
+	 * @see #unsetAligned()
+	 * @see #isAligned()
+	 * @see #setAligned(boolean)
+	 * @generated
+	 */
+	boolean isSetAligned( );
+
+	/**
+	 * Returns the value of the '<em><b>Side By Side</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 						Specifies whether the data points of this axis is to be 
+	 * 						placed side by side instead of overlayed with those
+	 * 						of other axes whose "SideBySide" is true.
+	 * 					
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Side By Side</em>' attribute.
+	 * @see #isSetSideBySide()
+	 * @see #unsetSideBySide()
+	 * @see #setSideBySide(boolean)
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_SideBySide()
+	 * @model default="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 *        extendedMetaData="kind='element' name='SideBySide'"
+	 * @generated
+	 */
+	boolean isSideBySide( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isSideBySide <em>Side By Side</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Side By Side</em>' attribute.
+	 * @see #isSetSideBySide()
+	 * @see #unsetSideBySide()
+	 * @see #isSideBySide()
+	 * @generated
+	 */
+	void setSideBySide( boolean value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isSideBySide <em>Side By Side</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetSideBySide()
+	 * @see #isSideBySide()
+	 * @see #setSideBySide(boolean)
+	 * @generated
+	 */
+	void unsetSideBySide( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isSideBySide <em>Side By Side</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Side By Side</em>' attribute is set.
+	 * @see #unsetSideBySide()
+	 * @see #isSideBySide()
+	 * @see #setSideBySide(boolean)
+	 * @generated
+	 */
+	boolean isSetSideBySide( );
 
 	/**
 	 * 

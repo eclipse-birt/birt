@@ -929,7 +929,11 @@ public class PlotWith3DAxes extends PlotWithAxes
 		return null;
 	}
 
-	private final Object getMinMax( Axis ax, int iType ) throws ChartException,
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.computation.withaxes.PlotWithAxes#getMinMax(org.eclipse.birt.chart.model.component.Axis, int)
+	 */
+	@Override
+	protected Object getMinMax( Axis ax, int iType ) throws ChartException,
 			IllegalArgumentException
 	{
 		final Series[] sea = ax.getRuntimeSeries( );

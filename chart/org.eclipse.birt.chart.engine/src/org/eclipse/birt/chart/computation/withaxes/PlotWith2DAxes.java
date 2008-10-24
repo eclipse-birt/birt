@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,6 +14,8 @@ package org.eclipse.birt.chart.computation.withaxes;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Map;
+
+import javax.xml.bind.ValidationException;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
@@ -35,7 +37,6 @@ import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Orientation;
-import org.eclipse.birt.chart.model.attribute.ScaleUnitType;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -100,6 +101,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		ssl = new StackedSeriesLookup( _rtc );
 		dPointToPixel = ids.getDpiResolution( ) / 72d;
 		buildAxes( ); // CREATED ONCE
+		initAlignZeroHelper( );
 	}
 
 	/**
@@ -270,22 +272,29 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		ssl = StackedSeriesLookup.create( cwa, rtc );
 	}
 
-	/**
-	 * This method pulls out the 'min' and 'max' value for all datasets
-	 * associated with a single axis using the custom data source processor
-	 * implementation
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param ax
-	 *            The orthogonal axis for which the min/max values are being
-	 *            computed
-	 * @param iType
-	 *            The renderer's axis data type
-	 * 
-	 * @return
+	 * @see
+	 * org.eclipse.birt.chart.computation.withaxes.PlotWithAxes#getMinMax(org
+	 * .eclipse.birt.chart.model.component.Axis, int)
 	 */
-	private final Object getMinMax( Axis ax, int iType ) throws ChartException,
+	@Override
+	protected final Object getMinMax( Axis ax, int iType )
+			throws ChartException,
 			IllegalArgumentException
 	{
+		if ( ax.getType( ).getValue( ) == AxisType.LINEAR
+				&& ax.isAligned( )
+				&& azHelper != null )
+		{
+			double[] minmax = azHelper.getCachedMinMax( ax );
+			if ( minmax != null )
+			{
+				return minmax;
+			}
+		}
+
 		final Series[] sea = ax.getRuntimeSeries( );
 		final int iSeriesCount = sea.length;
 		Series se;
@@ -671,6 +680,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 	public final void compute( Bounds bo ) throws ChartException,
 			IllegalArgumentException
 	{
+
 		bo = bo.scaledInstance( dPointToPixel ); // CONVERSION
 		dSeriesThickness = ( ids.getDpiResolution( ) / 72d )
 				* cwa.getSeriesThickness( );
@@ -1266,7 +1276,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				// SPACING)
 				// x2 = RIGHT EDGE OF Y-AXIS BAND (DUE TO AXIS LABELS, TICKS,
 				// SPACING)
-				if ( iv.getType( ) == IntersectionValue.MIN )
+				if ( iv.getType( ) == IConstants.MIN )
 				{
 					// NOTE: ENSURE CODE SYMMETRY WITH 'iaLabelPositions[i] ==
 					// RIGHT'
@@ -1312,7 +1322,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					}
 					dBlockStart += ( dX2 - dX1 ); // SHIFT LEFT EDGE >>
 				}
-				else if ( iv.getType( ) == IntersectionValue.MAX )
+				else if ( iv.getType( ) == IConstants.MAX )
 				{
 					// NOTE: ENSURE CODE SYMMETRY WITH 'InsersectionValue.MIN'
 					dX = dBlockStart + dBlockLength;
@@ -1362,11 +1372,11 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				dBlockLength -= dX2 - dX1; // SHIFT RIGHT EDGE <<
 
 				double dDelta = 0;
-				if ( iv.getType( ) == IntersectionValue.MIN )
+				if ( iv.getType( ) == IConstants.MIN )
 				{
 					dDelta = -insCA.getLeft( );
 				}
-				else if ( iv.getType( ) == IntersectionValue.MAX )
+				else if ( iv.getType( ) == IConstants.MAX )
 				{
 					dDelta = insCA.getRight( );
 				}
@@ -1407,7 +1417,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				// SPACING)
 				// y2 = LOWER EDGE OF X-AXIS (DUE TO AXIS LABELS, TICKS,
 				// SPACING)
-				if ( iv.getType( ) == IntersectionValue.MAX ) // ABOVE
+				if ( iv.getType( ) == IConstants.MAX ) // ABOVE
 				// THE
 				// PLOT
 				{
@@ -1453,7 +1463,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					}
 					dBlockStart += ( dY2 - dY1 ); // SHIFT TOP EDGE >>
 				}
-				else if ( iv.getType( ) == IntersectionValue.MIN )
+				else if ( iv.getType( ) == IConstants.MIN )
 				// BELOW THE PLOT
 				{
 					// NOTE: ENSURE CODE SYMMETRY WITH 'InsersectionValue.MIN'
@@ -1502,11 +1512,11 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					}
 				}
 				double dDelta = 0;
-				if ( iv.getType( ) == IntersectionValue.MAX )
+				if ( iv.getType( ) == IConstants.MAX )
 				{
 					dDelta = -insCA.getTop( );
 				}
-				else if ( iv.getType( ) == IntersectionValue.MIN )
+				else if ( iv.getType( ) == IConstants.MIN )
 				{
 					dDelta = insCA.getBottom( );
 				}

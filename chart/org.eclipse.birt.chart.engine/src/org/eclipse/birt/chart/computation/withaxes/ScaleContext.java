@@ -260,10 +260,10 @@ public class ScaleContext extends Methods
 				final double dAbsMax = Math.abs( dMaxValue );
 				final double dAbsMin = Math.abs( dMinValue );
 
-				dMinAxis = ( ( dStep > 1 ) ? Math.floor( dAbsMin / dStep )
+				dMinAxis = ( ( dStep >= 1 ) ? Math.floor( dAbsMin / dStep )
 						: Math.round( dAbsMin / dStep ) )
 						* dStep;
-				dMaxAxis = ( ( dStep > 1 ) ? Math.floor( dAbsMax / dStep )
+				dMaxAxis = ( ( dStep >= 1 ) ? Math.floor( dAbsMax / dStep )
 						: Math.round( dAbsMax / dStep ) )
 						* dStep;
 

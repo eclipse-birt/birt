@@ -12,7 +12,10 @@
 package org.eclipse.birt.chart.computation.withaxes;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.bind.ValidationException;
 
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.IConstants;
@@ -104,6 +107,11 @@ public abstract class PlotWithAxes extends Methods
 	 * Ratio for converting a point to a pixel
 	 */
 	protected transient double dPointToPixel = 0;
+
+	/**
+	 * Instance of the Helper class for align zero point of multiple axes
+	 */
+	protected AlignZeroHelper azHelper = null;
 
 	/**
 	 * Converts to internal (non public-model) data structures
@@ -224,7 +232,7 @@ public abstract class PlotWithAxes extends Methods
 		}
 		else
 		{
-			iv = new IntersectionValue( IntersectionValue.VALUE, ao.getValue( ) );
+			iv = new IntersectionValue( IConstants.VALUE, ao.getValue( ) );
 		}
 		return iv;
 	}
@@ -871,7 +879,7 @@ public abstract class PlotWithAxes extends Methods
 		final boolean bTicksRight = ( iYTickStyle & TICK_RIGHT ) == TICK_RIGHT;
 		// If axis labels should be within axes, do not set default spacing, so
 		// value axis labels can be aligned with category axis.
-		final double dAppliedYAxisPlotSpacing = ( iv.iType == IntersectionValue.MAX || iv.iType == IntersectionValue.MIN )
+		final double dAppliedYAxisPlotSpacing = ( iv.iType == IConstants.MAX || iv.iType == IConstants.MIN )
 				&& !aax.getPrimaryOrthogonal( )
 						.getModelAxis( )
 						.isLabelWithinAxes( ) ? dYAxisPlotSpacing : 0;
@@ -986,7 +994,7 @@ public abstract class PlotWithAxes extends Methods
 		// SPACING)
 		// x2 = RIGHT EDGE OF Y-AXIS BAND (DUE TO AXIS LABELS, TITLE, TICKS &
 		// SPACING)
-		if ( iv.iType == IntersectionValue.MIN )
+		if ( iv.iType == IConstants.MIN )
 		{
 			if ( scX.getDirection( ) == BACKWARD )
 			{
@@ -1190,7 +1198,7 @@ public abstract class PlotWithAxes extends Methods
 					: dX2 + 1 - dYAxisTitleThickness );
 
 		}
-		else if ( iv.iType == IntersectionValue.MAX )
+		else if ( iv.iType == IConstants.MAX )
 		{
 			if ( scX.getDirection( ) == BACKWARD )
 			{
@@ -1825,7 +1833,7 @@ public abstract class PlotWithAxes extends Methods
 		double dY = getLocation( scY, iv ), dY1 = dY, dY2 = dY;
 		final boolean bTicksAbove = ( iXTickStyle & TICK_ABOVE ) == TICK_ABOVE;
 		final boolean bTicksBelow = ( iXTickStyle & TICK_BELOW ) == TICK_BELOW;
-		final double dAppliedXAxisPlotSpacing = ( iv.iType == IntersectionValue.MAX || iv.iType == IntersectionValue.MIN ) ? dXAxisPlotSpacing
+		final double dAppliedXAxisPlotSpacing = ( iv.iType == IConstants.MAX || iv.iType == IConstants.MIN ) ? dXAxisPlotSpacing
 				: 0;
 		final boolean bForwardScale = scY.getDirection( ) == FORWARD;
 
@@ -1833,8 +1841,8 @@ public abstract class PlotWithAxes extends Methods
 		// y = VERTICAL LOCATION OF X-AXIS ALONG PLOT
 		// y1 = UPPER EDGE OF X-AXIS (DUE TO AXIS LABELS, TICKS, SPACING)
 		// y2 = LOWER EDGE OF X-AXIS (DUE TO AXIS LABELS, TICKS, SPACING)
-		if ( ( bForwardScale && iv.iType == IntersectionValue.MIN )
-				|| ( !bForwardScale && iv.iType == IntersectionValue.MAX ) )
+		if ( ( bForwardScale && iv.iType == IConstants.MIN )
+				|| ( !bForwardScale && iv.iType == IConstants.MAX ) )
 		{
 			// NOTE: ENSURE CODE SYMMETRY WITH 'InsersectionValue.MIN'
 
@@ -1954,8 +1962,8 @@ public abstract class PlotWithAxes extends Methods
 			axPH.setTitleCoordinate( ( iXTitleLocation == ABOVE ) ? dY1 - 1
 					: dY2 + 1 - dXAxisTitleThickness );
 		}
-		else if ( ( bForwardScale && iv.iType == IntersectionValue.MAX )
-				|| ( !bForwardScale && iv.iType == IntersectionValue.MIN ) )
+		else if ( ( bForwardScale && iv.iType == IConstants.MAX )
+				|| ( !bForwardScale && iv.iType == IConstants.MIN ) )
 		{
 			// NOTE: ENSURE CODE SYMMETRY WITH 'InsersectionValue.MAX'
 
@@ -2367,6 +2375,114 @@ public abstract class PlotWithAxes extends Methods
 	private boolean isSharedScale( )
 	{
 		return rtc.getScale( ) != null && rtc.getScale( ).isShared( );
+	}
+
+	protected abstract Object getMinMax( Axis ax, int iType )
+			throws ChartException,
+			IllegalArgumentException;
+
+	protected void initAlignZeroHelper( )
+	{
+		azHelper = null;
+		azHelper = AlignZeroHelper.getInstance( this );
+	}
+
+	protected static class AlignZeroHelper
+	{
+
+		private final Map<Axis, double[]> minMaxLookup;
+
+		private AlignZeroHelper( Map<Axis, double[]> minMaxLookup )
+		{
+			this.minMaxLookup = minMaxLookup;
+		}
+
+		public static AlignZeroHelper getInstance( PlotWithAxes pwa )
+		{
+			Map<Axis, double[]> minMaxLookup = new HashMap<Axis, double[]>( 2 );
+			Axis[] axList = pwa.cwa.getOrthogonalAxes( pwa.cwa.getPrimaryBaseAxes( )[0],
+					true );
+
+			boolean bAnyPositive = false;
+			boolean bAnyNegative = false;
+
+			for ( Axis ax : axList )
+			{
+				if ( ax.getType( ).getValue( ) == AxisType.LINEAR
+						&& ax.isAligned( ) )
+				{
+					try
+					{
+						double[] minmax = (double[]) pwa.getMinMax( ax,
+								IConstants.NUMERICAL | IConstants.LINEAR );
+						if ( minmax[0] > 0 )
+						{
+							minmax[0] = 0;
+						}
+						if ( minmax[1] < 0 )
+						{
+							minmax[1] = 0;
+						}
+						minMaxLookup.put( ax, minmax );
+
+						bAnyPositive |= minmax[1] > 0d;
+						bAnyNegative |= minmax[0] < 0d;
+
+					}
+					catch ( Exception e )
+					{
+
+					}
+
+				}
+
+			}
+
+			if ( bAnyPositive
+					&& bAnyNegative
+					&& minMaxLookup.values( ).size( ) > 1 )
+			{
+				for ( double[] minmax : minMaxLookup.values( ) )
+				{
+					applyRateToMinmax( minmax );
+				}
+				
+				return new AlignZeroHelper( minMaxLookup );
+			}
+
+			return null;
+		}
+
+		private static void applyRateToMinmax( double[] minmax )
+		{
+			if ( minmax[0] >= 0 )
+			{
+				// positive only
+				minmax[0] = -minmax[1];
+			}
+			else if ( minmax[1] <= 0 )
+			{
+				minmax[1] = -minmax[0];
+			}
+			else
+			{
+				if ( minmax[1] < -minmax[0] )
+				{
+					minmax[1] = -minmax[0];
+				}
+				else if ( minmax[1] > -minmax[0] )
+				{
+					minmax[0] = -minmax[1];
+				}
+
+			}
+		}
+
+		public double[] getCachedMinMax( Axis ax )
+		{
+			return minMaxLookup.get( ax );
+		}
+
 	}
 
 }

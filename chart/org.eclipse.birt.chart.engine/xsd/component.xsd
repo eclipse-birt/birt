@@ -15,177 +15,233 @@
 			<xsd:element name="Type" type="attribute:AxisType">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Holds the type of Axis.
+						Holds the type of Axis.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Title" type="Label" minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					This is the element title.
+						This is the element title.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="SubTitle" type="Label" minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					This is the element subtitle.
+						This is the element subtitle.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="TitlePosition" type="attribute:Position" minOccurs="0">
+			<xsd:element name="TitlePosition" type="attribute:Position"
+				minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies where the title for the axis should be displayed.
+						Specifies where the title for the axis should be
+						displayed.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="AssociatedAxes" type="Axis" minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="AssociatedAxes" type="Axis" minOccurs="0"
+				maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Holds the value orthogonal axes associated with this axis.
+						Holds the value orthogonal axes associated with
+						this axis.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="AncillaryAxes" type="Axis" minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="AncillaryAxes" type="Axis" minOccurs="0"
+				maxOccurs="unbounded">
 				<xsd:annotation>
-					<xsd:documentation>Holds the value ancillary base axes associated with this axis.</xsd:documentation>
-				</xsd:annotation>
-			</xsd:element>
-			<xsd:element name="SeriesDefinitions" type="data:SeriesDefinition" maxOccurs="unbounded">
-				<xsd:annotation>
-					<xsd:documentation xml:lang="en">
-					Defines the source of the series. 
+					<xsd:documentation>
+						Holds the value ancillary base axes associated
+						with this axis.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="GapWidth" type="xsd:double" minOccurs="0">
+			<xsd:element name="SeriesDefinitions"
+				type="data:SeriesDefinition" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Holds the spacing between the first (or last) series marker and the edge of the unit on the axis. This is specified as a percentage.
+						Defines the source of the series.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Orientation" type="attribute:Orientation" minOccurs="0">
+			<xsd:element name="GapWidth" type="xsd:double"
+				minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the orientation of the Axis.
+						Holds the spacing between the first (or last)
+						series marker and the edge of the unit on the
+						axis. This is specified as a percentage.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="LineAttributes" type="attribute:LineAttributes">
+			<xsd:element name="Orientation" type="attribute:Orientation"
+				minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the formatting information for the axis line.
+						Specifies the orientation of the Axis.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="LineAttributes"
+				type="attribute:LineAttributes">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+						Specifies the formatting information for the
+						axis line.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Label" type="Label">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					A label instance to hold attributes for axis labels.
+						A label instance to hold attributes for axis
+						labels.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="FormatSpecifier" type="attribute:FormatSpecifier" minOccurs="0">
+			<xsd:element name="FormatSpecifier"
+				type="attribute:FormatSpecifier" minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the formatting for axis labels.
+						Specifies the formatting for axis labels.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="LabelPosition" type="attribute:Position" minOccurs="0">
+			<xsd:element name="LabelPosition" type="attribute:Position"
+				minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies where the labels for the axis should be displayed.
+						Specifies where the labels for the axis should
+						be displayed.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Staggered" type="xsd:boolean">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the position to be used for the labels. (Staggered/Straight)
+						Specifies the position to be used for the
+						labels. (Staggered/Straight)
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Interval" type="xsd:int" default="1" minOccurs="0">
+			<xsd:element name="Interval" type="xsd:int" default="1"
+				minOccurs="0">
 				<xsd:annotation>
-					<xsd:documentation>Specifies the showing interval for the labels.</xsd:documentation>
-				</xsd:annotation>
-			</xsd:element>
-			<xsd:element name="MarkerLines" type="MarkerLine" minOccurs="0" maxOccurs="unbounded">
-				<xsd:annotation>
-					<xsd:documentation xml:lang="en">
-					Defines a set of markers for positions on the axis scale displayed as lines across the plot at those locations.
+					<xsd:documentation>
+						Specifies the showing interval for the labels.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="MarkerRanges" type="MarkerRange" minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="MarkerLines" type="MarkerLine"
+				minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Defines a set of marker areas for a range of values on the axis displayed as filled rectangles extending across the plot between the start and end positions.
+						Defines a set of markers for positions on the
+						axis scale displayed as lines across the plot at
+						those locations.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Triggers" type="data:Trigger" minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="MarkerRanges" type="MarkerRange"
+				minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Holds the triggers for the axis.
+						Defines a set of marker areas for a range of
+						values on the axis displayed as filled
+						rectangles extending across the plot between the
+						start and end positions.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Triggers" type="data:Trigger"
+				minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+						Holds the triggers for the axis.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="MajorGrid" type="Grid">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Defines the major grid associated with the axis.
+						Defines the major grid associated with the axis.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="MinorGrid" type="Grid">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Defines the minor grid associated with the axis.
+						Defines the minor grid associated with the axis.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Scale" type="Scale">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Defines the scale for the axis.
+						Defines the scale for the axis.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Origin" type="attribute:AxisOrigin">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the location on the perpendicular primary axis that should be considered as the point of intersection for this axis.
+						Specifies the location on the perpendicular
+						primary axis that should be considered as the
+						point of intersection for this axis.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="PrimaryAxis" type="xsd:boolean">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies whether or not this is a primary axis.
+						Specifies whether or not this is a primary axis.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="CategoryAxis" type="xsd:boolean">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies whether or not this is a category axis.
+						Specifies whether or not this is a category
+						axis.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Percent" type="xsd:boolean">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies whether or not this is a percentage axis.
+						Specifies whether or not this is a percentage
+						axis.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="LabelWithinAxes" type="xsd:boolean" default="false">
+			<xsd:element name="LabelWithinAxes" type="xsd:boolean"
+				default="false">
 				<xsd:annotation>
-					<xsd:documentation>Specifies whether axis labels are within axes, i.e. inside the axis delimited area.</xsd:documentation>
+					<xsd:documentation>
+						Specifies whether axis labels are within axes,
+						i.e. inside the axis delimited area.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Aligned" type="xsd:boolean" default="false">
+				<xsd:annotation>
+					<xsd:documentation>
+						Specifies whether the zero point of this axis is to be 
+						aligned with other axes whose "Aligned" is true.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="SideBySide" type="xsd:boolean" default="false">
+				<xsd:annotation>
+					<xsd:documentation>
+						Specifies whether the data points of this axis is to be 
+						placed side by side instead of overlayed with those
+						of other axes whose "SideBySide" is true.
+					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 		</xsd:sequence>

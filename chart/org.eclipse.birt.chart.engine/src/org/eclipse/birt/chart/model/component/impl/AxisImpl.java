@@ -84,6 +84,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isCategoryAxis <em>Category Axis</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isPercent <em>Percent</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isLabelWithinAxes <em>Label Within Axes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isAligned <em>Aligned</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isSideBySide <em>Side By Side</em>}</li>
  * </ul>
  * </p>
  *
@@ -117,7 +119,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean typeESet = false;
+	protected boolean typeESet;
 
 	/**
 	 * The cached value of the '{@link #getTitle() <em>Title</em>}' containment reference.
@@ -126,7 +128,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected Label title = null;
+	protected Label title;
 
 	/**
 	 * The cached value of the '{@link #getSubTitle() <em>Sub Title</em>}' containment reference.
@@ -135,7 +137,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected Label subTitle = null;
+	protected Label subTitle;
 
 	/**
 	 * The default value of the '
@@ -166,7 +168,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean titlePositionESet = false;
+	protected boolean titlePositionESet;
 
 	/**
 	 * The cached value of the '{@link #getAssociatedAxes() <em>Associated Axes</em>}' containment reference list.
@@ -175,7 +177,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected EList associatedAxes = null;
+	protected EList associatedAxes;
 
 	/**
 	 * The cached value of the '{@link #getAncillaryAxes() <em>Ancillary Axes</em>}' containment reference list.
@@ -184,7 +186,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected EList ancillaryAxes = null;
+	protected EList ancillaryAxes;
 
 	/**
 	 * The cached value of the '{@link #getSeriesDefinitions() <em>Series Definitions</em>}' containment reference list.
@@ -193,7 +195,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected EList seriesDefinitions = null;
+	protected EList seriesDefinitions;
 
 	/**
 	 * The default value of the '{@link #getGapWidth() <em>Gap Width</em>}' attribute.
@@ -220,7 +222,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean gapWidthESet = false;
+	protected boolean gapWidthESet;
 
 	/**
 	 * The default value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
@@ -247,7 +249,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean orientationESet = false;
+	protected boolean orientationESet;
 
 	/**
 	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}' containment reference.
@@ -256,7 +258,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected LineAttributes lineAttributes = null;
+	protected LineAttributes lineAttributes;
 
 	/**
 	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
@@ -265,7 +267,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected Label label = null;
+	protected Label label;
 
 	/**
 	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}' containment reference.
@@ -274,7 +276,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected FormatSpecifier formatSpecifier = null;
+	protected FormatSpecifier formatSpecifier;
 
 	/**
 	 * The default value of the '
@@ -305,7 +307,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean labelPositionESet = false;
+	protected boolean labelPositionESet;
 
 	/**
 	 * The default value of the '{@link #isStaggered() <em>Staggered</em>}' attribute.
@@ -332,7 +334,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean staggeredESet = false;
+	protected boolean staggeredESet;
 
 	/**
 	 * The default value of the '{@link #getInterval() <em>Interval</em>}' attribute.
@@ -361,7 +363,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean intervalESet = false;
+	protected boolean intervalESet;
 
 	/**
 	 * The cached value of the '{@link #getMarkerLines() <em>Marker Lines</em>}' containment reference list.
@@ -370,7 +372,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected EList markerLines = null;
+	protected EList markerLines;
 
 	/**
 	 * The cached value of the '{@link #getMarkerRanges() <em>Marker Ranges</em>}' containment reference list.
@@ -379,7 +381,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected EList markerRanges = null;
+	protected EList markerRanges;
 
 	/**
 	 * The cached value of the '{@link #getTriggers() <em>Triggers</em>}' containment reference list.
@@ -389,7 +391,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected EList triggers = null;
+	protected EList triggers;
 
 	/**
 	 * The cached value of the '{@link #getMajorGrid() <em>Major Grid</em>}' containment reference.
@@ -398,7 +400,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected Grid majorGrid = null;
+	protected Grid majorGrid;
 
 	/**
 	 * The cached value of the '{@link #getMinorGrid() <em>Minor Grid</em>}' containment reference.
@@ -407,7 +409,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected Grid minorGrid = null;
+	protected Grid minorGrid;
 
 	/**
 	 * The cached value of the '{@link #getScale() <em>Scale</em>}' containment reference.
@@ -416,7 +418,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected Scale scale = null;
+	protected Scale scale;
 
 	/**
 	 * The cached value of the '{@link #getOrigin() <em>Origin</em>}' containment reference.
@@ -425,7 +427,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected AxisOrigin origin = null;
+	protected AxisOrigin origin;
 
 	/**
 	 * The default value of the '{@link #isPrimaryAxis() <em>Primary Axis</em>}' attribute.
@@ -452,7 +454,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean primaryAxisESet = false;
+	protected boolean primaryAxisESet;
 
 	/**
 	 * The default value of the '
@@ -483,7 +485,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean categoryAxisESet = false;
+	protected boolean categoryAxisESet;
 
 	/**
 	 * The default value of the '{@link #isPercent() <em>Percent</em>}' attribute.
@@ -510,7 +512,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean percentESet = false;
+	protected boolean percentESet;
 
 	/**
 	 * The default value of the '{@link #isLabelWithinAxes() <em>Label Within Axes</em>}' attribute.
@@ -539,7 +541,65 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean labelWithinAxesESet = false;
+	protected boolean labelWithinAxesESet;
+
+	/**
+	 * The default value of the '{@link #isAligned() <em>Aligned</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isAligned()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean ALIGNED_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isAligned() <em>Aligned</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isAligned()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean aligned = ALIGNED_EDEFAULT;
+
+	/**
+	 * This is true if the Aligned attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean alignedESet;
+
+	/**
+	 * The default value of the '{@link #isSideBySide() <em>Side By Side</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSideBySide()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean SIDE_BY_SIDE_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isSideBySide() <em>Side By Side</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSideBySide()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean sideBySide = SIDE_BY_SIDE_EDEFAULT;
+
+	/**
+	 * This is true if the Side By Side attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean sideBySideESet;
 
 	/*
 	 * private static int iLastID = Integer.MIN_VALUE; private final int iID;
@@ -547,7 +607,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected AxisImpl( )
@@ -1873,6 +1932,126 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isAligned( )
+	{
+		return aligned;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAligned( boolean newAligned )
+	{
+		boolean oldAligned = aligned;
+		aligned = newAligned;
+		boolean oldAlignedESet = alignedESet;
+		alignedESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					ComponentPackage.AXIS__ALIGNED,
+					oldAligned,
+					aligned,
+					!oldAlignedESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetAligned( )
+	{
+		boolean oldAligned = aligned;
+		boolean oldAlignedESet = alignedESet;
+		aligned = ALIGNED_EDEFAULT;
+		alignedESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					ComponentPackage.AXIS__ALIGNED,
+					oldAligned,
+					ALIGNED_EDEFAULT,
+					oldAlignedESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetAligned( )
+	{
+		return alignedESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSideBySide( )
+	{
+		return sideBySide;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSideBySide( boolean newSideBySide )
+	{
+		boolean oldSideBySide = sideBySide;
+		sideBySide = newSideBySide;
+		boolean oldSideBySideESet = sideBySideESet;
+		sideBySideESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					ComponentPackage.AXIS__SIDE_BY_SIDE,
+					oldSideBySide,
+					sideBySide,
+					!oldSideBySideESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetSideBySide( )
+	{
+		boolean oldSideBySide = sideBySide;
+		boolean oldSideBySideESet = sideBySideESet;
+		sideBySide = SIDE_BY_SIDE_EDEFAULT;
+		sideBySideESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					ComponentPackage.AXIS__SIDE_BY_SIDE,
+					oldSideBySide,
+					SIDE_BY_SIDE_EDEFAULT,
+					oldSideBySideESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetSideBySide( )
+	{
+		return sideBySideESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -1979,6 +2158,10 @@ public class AxisImpl extends EObjectImpl implements Axis
 				return isPercent( ) ? Boolean.TRUE : Boolean.FALSE;
 			case ComponentPackage.AXIS__LABEL_WITHIN_AXES :
 				return isLabelWithinAxes( ) ? Boolean.TRUE : Boolean.FALSE;
+			case ComponentPackage.AXIS__ALIGNED :
+				return isAligned( ) ? Boolean.TRUE : Boolean.FALSE;
+			case ComponentPackage.AXIS__SIDE_BY_SIDE :
+				return isSideBySide( ) ? Boolean.TRUE : Boolean.FALSE;
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -2076,6 +2259,12 @@ public class AxisImpl extends EObjectImpl implements Axis
 			case ComponentPackage.AXIS__LABEL_WITHIN_AXES :
 				setLabelWithinAxes( ( (Boolean) newValue ).booleanValue( ) );
 				return;
+			case ComponentPackage.AXIS__ALIGNED :
+				setAligned( ( (Boolean) newValue ).booleanValue( ) );
+				return;
+			case ComponentPackage.AXIS__SIDE_BY_SIDE :
+				setSideBySide( ( (Boolean) newValue ).booleanValue( ) );
+				return;
 		}
 		super.eSet( featureID, newValue );
 	}
@@ -2167,6 +2356,12 @@ public class AxisImpl extends EObjectImpl implements Axis
 			case ComponentPackage.AXIS__LABEL_WITHIN_AXES :
 				unsetLabelWithinAxes( );
 				return;
+			case ComponentPackage.AXIS__ALIGNED :
+				unsetAligned( );
+				return;
+			case ComponentPackage.AXIS__SIDE_BY_SIDE :
+				unsetSideBySide( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -2233,6 +2428,10 @@ public class AxisImpl extends EObjectImpl implements Axis
 				return isSetPercent( );
 			case ComponentPackage.AXIS__LABEL_WITHIN_AXES :
 				return isSetLabelWithinAxes( );
+			case ComponentPackage.AXIS__ALIGNED :
+				return isSetAligned( );
+			case ComponentPackage.AXIS__SIDE_BY_SIDE :
+				return isSetSideBySide( );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -2300,6 +2499,16 @@ public class AxisImpl extends EObjectImpl implements Axis
 		result.append( ", labelWithinAxes: " ); //$NON-NLS-1$
 		if ( labelWithinAxesESet )
 			result.append( labelWithinAxes );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", aligned: " ); //$NON-NLS-1$
+		if ( alignedESet )
+			result.append( aligned );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", sideBySide: " ); //$NON-NLS-1$
+		if ( sideBySideESet )
+			result.append( sideBySide );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );

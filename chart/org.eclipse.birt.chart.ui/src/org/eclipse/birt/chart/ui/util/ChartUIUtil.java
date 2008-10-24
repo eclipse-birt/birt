@@ -720,6 +720,8 @@ public class ChartUIUtil
 		// Now update overlay axis to set the properties that are
 		// different from
 		// the original
+		overlayAxis.setAligned( false );
+		overlayAxis.setSideBySide( false );
 		overlayAxis.setPrimaryAxis( false );
 		overlayAxis.setOrigin( AxisOriginImpl.create( IntersectionType.MAX_LITERAL,
 				null ) );

@@ -293,12 +293,30 @@ public interface ComponentPackage extends EPackage
 	int AXIS__LABEL_WITHIN_AXES = 25;
 
 	/**
+	 * The feature id for the '<em><b>Aligned</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AXIS__ALIGNED = 26;
+
+	/**
+	 * The feature id for the '<em><b>Side By Side</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AXIS__SIDE_BY_SIDE = 27;
+
+	/**
 	 * The number of structural features of the '<em>Axis</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS_FEATURE_COUNT = 26;
+	int AXIS_FEATURE_COUNT = 28;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl <em>Chart Preferences</em>}' class.
@@ -1444,6 +1462,28 @@ public interface ComponentPackage extends EPackage
 	EAttribute getAxis_LabelWithinAxes( );
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Axis#isAligned <em>Aligned</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Aligned</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Axis#isAligned()
+	 * @see #getAxis()
+	 * @generated
+	 */
+	EAttribute getAxis_Aligned( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Axis#isSideBySide <em>Side By Side</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Side By Side</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Axis#isSideBySide()
+	 * @see #getAxis()
+	 * @generated
+	 */
+	EAttribute getAxis_SideBySide( );
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.component.ChartPreferences <em>Chart Preferences</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Chart Preferences</em>'.
@@ -2513,6 +2553,22 @@ public interface ComponentPackage extends EPackage
 		 * @generated
 		 */
 		EAttribute AXIS__LABEL_WITHIN_AXES = eINSTANCE.getAxis_LabelWithinAxes( );
+
+		/**
+		 * The meta object literal for the '<em><b>Aligned</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute AXIS__ALIGNED = eINSTANCE.getAxis_Aligned( );
+
+		/**
+		 * The meta object literal for the '<em><b>Side By Side</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute AXIS__SIDE_BY_SIDE = eINSTANCE.getAxis_SideBySide( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl <em>Chart Preferences</em>}' class.
