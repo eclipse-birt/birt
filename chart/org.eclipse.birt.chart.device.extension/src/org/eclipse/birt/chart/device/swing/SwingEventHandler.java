@@ -312,13 +312,26 @@ public final class SwingEventHandler
 		}
 		else if (! iv.getSource(src ).equals(iv.getSource(previousSrc) ))
 		{
-			// unhighlight previous region
-			iv.unregisterAction( previousSrc,
-					actionType);
-
-			previousSrc = src;
-			iv.registerAction( src,
-					actionType );
+			if ( actionType == ActionType.HIGHLIGHT_LITERAL )
+			{
+				// unhighlight previous region
+				iv.unregisterAction( previousSrc, actionType );
+				previousSrc = src;
+				iv.registerAction( src, actionType );
+			}
+			else
+			{
+				previousSrc = src;
+				// Register action only once.
+				if ( iv.isRegisteredAction( src, actionType ) )
+				{
+					iv.unregisterAction( src, actionType );
+				}
+				else
+				{
+					iv.registerAction( src, actionType );
+				}
+			}
 			iun.repaintChart( );
 		}
 		else
