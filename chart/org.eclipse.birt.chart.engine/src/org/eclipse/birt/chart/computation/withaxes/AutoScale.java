@@ -324,7 +324,7 @@ public final class AutoScale extends Methods implements Cloneable
 				final double dStep = asDouble( oStep ).doubleValue( );
 				if ( ( Math.log( dStep ) / LOG_10 ) > 1 )
 				{
-					oStep = new Double( dStep / 10 );
+					setStep( new Double( dStep / 10 ) );
 				}
 				else
 				{
@@ -335,7 +335,7 @@ public final class AutoScale extends Methods implements Cloneable
 						{
 							if ( i > 0 )
 							{
-								oStep = new Double( iaLogarithmicDeltas[i - 1] );
+								setStep( new Double( iaLogarithmicDeltas[i - 1] ) );
 								return true;
 							}
 							else
@@ -381,17 +381,17 @@ public final class AutoScale extends Methods implements Cloneable
 					{
 						dStep /= 2;
 					}
-					oStep = new Double( dStep );
+					setStep( new Double( dStep ) );
 				}
 				else
 				{
 					dStep /= 2;
-					oStep = new Double( dStep );
+					setStep( new Double( dStep ) );
 				}
 
 				if ( ( (Number) oStep ).doubleValue( ) < dPrecision )
 				{
-					oStep = new Double( oldStep ); // revert step
+					setStep( new Double( oldStep ) );
 					return false; // CANNOT ZOOM ANY MORE
 				}
 			}
@@ -413,7 +413,7 @@ public final class AutoScale extends Methods implements Cloneable
 						iStep--;
 						if ( iStep == 0 )
 						{
-							oStep = new Integer( iaMonthDeltas[iaMonthDeltas.length - 1] );
+							setStep( new Integer( iaMonthDeltas[iaMonthDeltas.length - 1] ) );
 							oUnit = new Integer( Calendar.MONTH );
 						}
 					}
@@ -445,7 +445,7 @@ public final class AutoScale extends Methods implements Cloneable
 							oUnit = new Integer( iaCalendarUnits[icu - 1] ); // DOWNGRADE
 							// UNIT
 						}
-						oStep = new Integer( ia[i - 1] ); // RETURN PREVIOUS
+						setStep( new Integer( ia[i - 1] ) ); // RETURN PREVIOUS
 						// STEP IN DELTAS
 						// ARRAY
 						break;
@@ -480,7 +480,7 @@ public final class AutoScale extends Methods implements Cloneable
 				final double dStep = asDouble( oStep ).doubleValue( );
 				if ( ( Math.log( dStep ) / LOG_10 ) >= 1 )
 				{
-					oStep = new Double( dStep * 10 );
+					setStep( new Double( dStep * 10 ) );
 				}
 				else
 				{
@@ -489,7 +489,7 @@ public final class AutoScale extends Methods implements Cloneable
 					{
 						if ( (int) dStep == iaLogarithmicDeltas[i] )
 						{
-							oStep = new Double( iaLogarithmicDeltas[i + 1] );
+							setStep( new Double( iaLogarithmicDeltas[i + 1] ) );
 							return true;
 						}
 					}
@@ -507,13 +507,13 @@ public final class AutoScale extends Methods implements Cloneable
 					if ( dPower < 0 )
 					{
 						dPower = Math.floor( dPower );
+						dPower = Math.pow( 10, dPower );
 					}
 					else
 					{
-						dPower = ChartUtil.alignWithInt( dPower, false );
+						dPower = dStep;
 					}
 
-					dPower = Math.pow( 10, dPower );
 					dStep /= dPower;
 					dStep = Math.round( dStep );
 					int n = iaLinearDeltas.length;
@@ -545,7 +545,7 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 
 				dStep = ChartUtil.alignWithInt( dStep, false );
-				oStep = new Double( dStep );
+				setStep( new Double( dStep ) );
 			}
 		}
 		else if ( ( iType & DATE_TIME ) == DATE_TIME )
@@ -562,7 +562,7 @@ public final class AutoScale extends Methods implements Cloneable
 					if ( ia == null ) // HANDLE YEARS SEPARATELY
 					{
 						iStep++; // NO UPPER LIMIT FOR YEARS
-						oStep = new Integer( iStep );
+						setStep( new Integer( iStep ) );
 					}
 					else
 					// HANDLE SECONDS, MINUTES, HOURS, DAYS, MONTHS
@@ -584,12 +584,12 @@ public final class AutoScale extends Methods implements Cloneable
 							oUnit = new Integer( iaCalendarUnits[icu + 1] );
 							if ( ia == null ) // HANDLE YEARS
 							{
-								oStep = new Integer( 1 );
+								setStep( new Integer( 1 ) );
 								return true;
 							}
 							i = -1; // MANIPULATE OFFSET TO START-1
 						}
-						oStep = new Integer( ia[i + 1] ); // RETURN NEXT STEP
+						setStep( new Integer( ia[i + 1] ) ); // RETURN NEXT STEP
 						// IN
 						// DELTAS ARRAY
 						break;
@@ -902,7 +902,7 @@ public final class AutoScale extends Methods implements Cloneable
 						checkValible( dStep,
 								Messages.getString( "AutoScale.ValueName.StepSize" ) ); //$NON-NLS-1$
 						dStep = ChartUtil.alignWithInt( dStep, true );
-						oStep = new Double( dStep );
+						setStep( new Double( dStep ) );
 					}
 					else
 					{
@@ -1143,7 +1143,7 @@ public final class AutoScale extends Methods implements Cloneable
 			{
 				oMaximum = new Double( 100 );
 				oMinimum = new Double( 1 );
-				oStep = new Double( 10 );
+				setStep( new Double( 10 ) );
 				bMaximumFixed = true;
 				bMinimumFixed = true;
 				bStepFixed = true;
@@ -1203,7 +1203,7 @@ public final class AutoScale extends Methods implements Cloneable
 		this.oMinimum = sct.getMin( );
 		this.oMaximumWithMargin = sct.getMaxWithMargin( );
 		this.oMinimumWithMargin = sct.getMinWithMargin( );
-		this.oStep = sct.getStep( );
+		setStep( sct.getStep( ) );
 		this.oUnit = sct.getUnit( );
 	}
 
@@ -1983,7 +1983,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 			}
 			sc = new AutoScale( iType, new Double( 0 ), new Double( 0 ) );
-			sc.oStep = new Double( dStep );
+			sc.setStep( new Double( dStep ) );
 			sc.oStepNumber = oStepNumber;
 			sc.setData( dsi );
 			sc.setDirection( direction );
@@ -2055,7 +2055,7 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 
 			sc = new AutoScale( iType, new Double( 0 ), new Double( 0 ) );
-			sc.oStep = new Double( 10 );
+			sc.setStep( new Double( 10 ) );
 			sc.oStepNumber = oStepNumber;
 			sc.fs = fs; // FORMAT SPECIFIER
 			sc.rtc = rtc; // LOCALE
@@ -2159,7 +2159,7 @@ public final class AutoScale extends Methods implements Cloneable
 			cdtMaxAxis.clearBelow( iUnit );
 
 			sc = new AutoScale( DATE_TIME, cdtMinAxis, cdtMaxAxis );
-			sc.oStep = new Integer( 1 );
+			sc.setStep( new Integer( 1 ) );
 			sc.oStepNumber = oStepNumber;
 			sc.oUnit = new Integer( iUnit );
 			sc.iMinUnit = oMinValue.equals( oMaxValue ) ? getUnitId( iUnit )
@@ -4006,7 +4006,7 @@ public final class AutoScale extends Methods implements Cloneable
 		// OVERRIDE STEP IF SPECIFIED
 		if ( oStep != null )
 		{
-			sc.oStep = oStep;
+			sc.setStep( oStep );
 			sc.bStepFixed = true;
 
 			// VALIDATE OVERRIDDEN STEP
