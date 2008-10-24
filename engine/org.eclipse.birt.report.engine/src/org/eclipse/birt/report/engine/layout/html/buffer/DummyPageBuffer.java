@@ -19,6 +19,7 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.ReportExecutorUtil;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
+import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.layout.LayoutUtil;
 import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
 import org.eclipse.birt.report.engine.presentation.TableColumnHint;
@@ -139,23 +140,38 @@ public class DummyPageBuffer implements IPageBuffer
 		}
 		else
 		{
-			IReportContent report = pageContent.getReportContent( );
-			MasterPageDesign defaultMasterPage = LayoutUtil
-					.getDefaultMasterPage( report );
-			if ( defaultMasterPage.getName( ).equals( masterPage ) )
+			Object mp = pageContent.getGenerateBy( );
+			if ( mp != null && mp instanceof SimpleMasterPageDesign )
 			{
-				ContentEmitterUtil.startContent( pageContent, pageEmitter );
-			}
-			else
-			{
-				pageContent = ReportExecutorUtil.executeMasterPage( executor,
-						context.getPageNumber( ), LayoutUtil.getMasterPage(
-								report, masterPage ) );
-				if ( pageContent != null )
+				String mpStr = ( (SimpleMasterPageDesign) mp ).getName( );
+				if ( masterPage.equals( mpStr ) )
 				{
 					ContentEmitterUtil.startContent( pageContent, pageEmitter );
 				}
+				else
+				{
+					IReportContent report = pageContent.getReportContent( );
+					MasterPageDesign defaultMasterPage = LayoutUtil
+							.getDefaultMasterPage( report );
+					if ( defaultMasterPage.getName( ).equals( masterPage ) )
+					{
+						ContentEmitterUtil.startContent( pageContent,
+								pageEmitter );
+					}
+					else
+					{
+						pageContent = ReportExecutorUtil.executeMasterPage(
+								executor, context.getPageNumber( ), LayoutUtil
+										.getMasterPage( report, masterPage ) );
+						if ( pageContent != null )
+						{
+							ContentEmitterUtil.startContent( pageContent,
+									pageEmitter );
+						}
+					}
+				}
 			}
+
 		}
 	}
 
