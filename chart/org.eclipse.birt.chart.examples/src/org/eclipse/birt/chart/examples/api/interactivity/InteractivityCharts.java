@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.AxisType;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
@@ -29,6 +30,7 @@ import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.attribute.RiserType;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.impl.CallBackValueImpl;
@@ -62,12 +64,14 @@ import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 public class InteractivityCharts
 {
 	protected static final Chart createHSChart( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+		cwaBar.setDimension( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL );
 		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
 		cwaBar.getInteractivity( )
 				.setLegendBehavior( LegendBehaviorType.HIGHLIGHT_SERIE_LITERAL );
@@ -122,8 +126,9 @@ public class InteractivityCharts
 
 		// Y-Series
 		BarSeries bs = (BarSeries) BarSeriesImpl.create( );
+		bs.setStacked( true );
 		bs.setDataSet( orthoValues );
-		bs.setRiserOutline( null );
+		bs.setRiser( RiserType.TUBE_LITERAL );
 		bs.setSeriesIdentifier( "Highlight" ); //$NON-NLS-1$
 		bs.getLabel( ).setVisible( true );
 		bs.setLabelPosition( Position.INSIDE_LITERAL );
@@ -135,6 +140,18 @@ public class InteractivityCharts
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 		sdY.getSeries( ).add( bs );
+
+		Series bs2 = (Series) EcoreUtil.copy( bs );
+		bs2.setDataSet( NumberDataSetImpl.create( new double[]{
+				35, 30, 10
+		} ) );
+		sdY.getSeries( ).add( bs2 );
+
+		Series bs3 = (Series) EcoreUtil.copy( bs );
+		bs3.setDataSet( NumberDataSetImpl.create( new double[]{
+				20, 10, 30
+		} ) );
+		sdY.getSeries( ).add( bs3 );
 
 		return cwaBar;
 	}
@@ -280,8 +297,6 @@ public class InteractivityCharts
 		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
 		xAxisPrimary.getTitle( ).setVisible( false );
 
-		xAxisPrimary.setStaggered( true );
-
 		Axis yAxisPrimary = cwaLine.getPrimaryOrthogonalAxis( xAxisPrimary );
 		yAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
 		yAxisPrimary.getTitle( ).setVisible( false );
@@ -305,10 +320,10 @@ public class InteractivityCharts
 
 		// CREATE THE PRIMARY DATASET
 		LineSeries ls = (LineSeries) LineSeriesImpl.create( );
+		ls.setStacked( true );
 		ls.setSeriesIdentifier( "Line Series" ); //$NON-NLS-1$
 		ls.setDataSet( orthoValues1 );
-		ls.getLineAttributes( ).setColor( ColorDefinitionImpl.CREAM( ) );
-		ls.getLabel( ).setVisible( true );
+		ls.getLineAttributes( ).setColor( ColorDefinitionImpl.CREAM( ) );		
 		
 		for ( int i = 0; i < ls.getMarkers( ).size( ); i++ )
 		{
@@ -326,6 +341,14 @@ public class InteractivityCharts
 
 		sdX.getSeries( ).add( seCategory );
 		sdY.getSeries( ).add( ls );
+		
+		Series ls2 = (Series)EcoreUtil.copy( ls );
+		ls2.setDataSet( NumberDataSetImpl.create( vn1 ) );
+		sdY.getSeries( ).add( ls2 );
+		
+		Series ls3 = (Series)EcoreUtil.copy( ls );
+		ls3.setDataSet( NumberDataSetImpl.create( vn1 ) );
+		sdY.getSeries( ).add( ls3 );
 
 		return cwaLine;
 	}
