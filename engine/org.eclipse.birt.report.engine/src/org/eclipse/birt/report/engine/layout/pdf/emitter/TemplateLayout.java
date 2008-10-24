@@ -13,12 +13,12 @@ package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.TemplateArea;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontHandler;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
+import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
 public class TemplateLayout extends Layout
 {
@@ -62,17 +62,17 @@ public class TemplateLayout extends Layout
 		else
 		{
 			assert ( parent instanceof BlockStackingLayout );
-			if ( content != null )
+			boolean inlineElement = PropertyUtil.isInlineElement( content );
+			if(!inlineElement)
 			{
-				IStyle contentStyle = content.getComputedStyle( );
-				String align = contentStyle.getTextAlign( );
-				parent.content.getComputedStyle( ).setTextAlign( align );
+				BlockTextLayout tLayout = new BlockTextLayout(context, parent, content);
+				tLayout.initialize( );
+				LineLayout line = new LineLayout( context, tLayout );
+				line.initialize( );
+				addTemplateArea( line, false );
+				line.closeLayout( );
+				tLayout.closeLayout();
 			}
-
-			LineLayout line = new LineLayout( context, parent );
-			line.initialize( );
-			addTemplateArea( line, false );
-			line.closeLayout( );
 		}
 
 	}
