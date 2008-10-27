@@ -72,6 +72,11 @@ public class TableGroupLayout extends RepeatableLayout
 						tableContext.layout.addRow( (RowArea)row );
 					}
 				}
+//				int deltaHeight = tableContext.layout.resolveAll( );
+//				if ( 0 != deltaHeight)
+//				{
+//					area.setHeight( area.getHeight( ) + deltaHeight );	
+//				}
 			}
 			
 			// add to root

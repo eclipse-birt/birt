@@ -19,7 +19,13 @@ public class DummyCell extends CellArea
 	
 	protected int rowSpan;
 	
+	protected int colSpan;
 	
+	/**
+	 * For the first dummy cell, delta = refCellHeight - lastRowHeight
+	 * For the subsequent dummy cell, delta = upperDummyCellDelta - lastRowHeight
+	 */
+	protected int delta;
 	
 	public DummyCell(CellArea cell)
 	{
@@ -49,6 +55,26 @@ public class DummyCell extends CellArea
 	public int getColumnID()
 	{
 		return cell.getColumnID( );
+	}
+
+	public int getColSpan( )
+	{
+		return colSpan;
+	}
+
+	public void setColSpan( int colSpan )
+	{
+		this.colSpan = colSpan;
+	}
+	
+	public int getDelta( )
+	{
+		return delta;
+	}
+
+	public void setDelta( int delta )
+	{
+		this.delta = delta;
 	}
 	
 }
