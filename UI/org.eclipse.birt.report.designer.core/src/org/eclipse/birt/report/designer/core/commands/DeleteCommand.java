@@ -54,6 +54,26 @@ public class DeleteCommand extends Command
 	private Object model = null;
 
 	private ArrayList embeddedImageList = new ArrayList( );
+	
+	private boolean isClear = true;
+
+	
+	/**
+	 * @return
+	 */
+	public boolean isClear( )
+	{
+		return isClear;
+	}
+
+	
+	/**
+	 * @param isClear
+	 */
+	public void setClear( boolean isClear )
+	{
+		this.isClear = isClear;
+	}
 
 	/**
 	 * Deletes the command
@@ -192,8 +212,14 @@ public class DeleteCommand extends Command
 			}
 			else
 			{
-				// handle.drop( );
-				handle.dropAndClear( );
+				if (isClear( ))
+				{
+					handle.dropAndClear( );
+				}else
+				{
+					handle.drop( );
+				}
+				
 			}
 		}
 	}
