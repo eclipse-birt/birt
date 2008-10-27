@@ -14,12 +14,14 @@ package org.eclipse.birt.report.designer.internal.ui.wizards;
 import java.io.File;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.AddImageResourceFileFolderSelectionDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.AddImageResourceForNewTemplateWizard;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.window.Window;
@@ -44,6 +46,7 @@ import org.eclipse.swt.widgets.Text;
 public class WizardReportSettingPage extends WizardPage
 {
 
+	private IPath containerFullPath;
 	private static final String LABEL_DISPLAY_NAME = Messages.getString( "PublishTemplateAction.wizard.page.label.displayName" ); //$NON-NLS-1$
 	private static final String LABEL_DESCRIPTION = Messages.getString( "PublishTemplateAction.wizard.page.label.description" ); //$NON-NLS-1$
 	private static final String LABEL_IMAGE = Messages.getString( "PublishTemplateAction.wizard.page.label.image" ); //$NON-NLS-1$
@@ -87,6 +90,11 @@ public class WizardReportSettingPage extends WizardPage
 	};
 	
 	private String orientation = null; // bidi_hcg
+	
+	public void setContainerFullPath(IPath path)
+	{
+		this.containerFullPath = path;
+	}
 	
 	public WizardReportSettingPage( ReportDesignHandle handle )
 	{
@@ -169,7 +177,8 @@ public class WizardReportSettingPage extends WizardPage
 			{
 
 				String fileName = null;
-				AddImageResourceFileFolderSelectionDialog dlg = new AddImageResourceFileFolderSelectionDialog( );
+				AddImageResourceForNewTemplateWizard dlg = new AddImageResourceForNewTemplateWizard( );
+				dlg.setContainerFullPath( containerFullPath );
 				if ( dlg.open( ) == Window.OK )
 				{
 					fileName = dlg.getPath( );

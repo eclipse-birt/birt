@@ -42,7 +42,7 @@ public class AddImageResourceFileFolderSelectionDialog extends
 			".bmp", ".jpg", ".jpeg", ".gif", ".png", ".ico" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 	};
 
-	private ResourceEntry[] getAllRootEntries( String[] fileNamePattern )
+	protected ResourceEntry[] getAllRootEntries( String[] fileNamePattern )
 	{
 		ResourceEntry systemResource = new FragmentResourceEntry( fileNamePattern );
 		ResourceEntry templateResource = new FragmentResourceEntry( fileNamePattern,
@@ -69,6 +69,10 @@ public class AddImageResourceFileFolderSelectionDialog extends
 				new ResourceFileLabelProvider( ),
 				new ResourceFileContentProvider( true ) );
 
+	}
+
+	protected void initialize()
+	{
 		Object input = getAllRootEntries( IMAGE_FILTER );
 		setInput( input );
 
@@ -79,16 +83,22 @@ public class AddImageResourceFileFolderSelectionDialog extends
 
 		setSorter( new FileViewerSorter( ) );
 	}
-
+	
+    public int open() {
+    	initialize();
+    	return super.open( );
+    }
 	/*
 	 * @see Dialog#createDialogArea(Composite)
 	 */
 	protected Control createDialogArea( Composite parent )
-	{
+	{		
 		Control control = super.createDialogArea( parent );
 		UIUtil.bindHelp( parent, IHelpContextIds.ADD_IMAGE_FILES_DIALOG_ID );
 		return control;
 	}
+	
+	
 
 
 }

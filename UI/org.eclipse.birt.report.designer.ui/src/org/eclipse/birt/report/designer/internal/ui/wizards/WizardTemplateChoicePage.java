@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -64,7 +65,6 @@ import org.osgi.framework.Bundle;
  */
 public class WizardTemplateChoicePage extends WizardPage
 {
-
 	protected static Logger logger = Logger.getLogger( WizardTemplateChoicePage.class.getName( ) );
 
 	private static final String[] IMAGE_TYPES = new String[]{
@@ -80,7 +80,7 @@ public class WizardTemplateChoicePage extends WizardPage
 			".ico", //$NON-NLS-1$
 			".svg" //$NON-NLS-1$
 	};
-
+	
 	private static final String MESSAGE_DESCRIPTION = Messages.getString( "WizardTemplateChoicePage.label.Description" ); //$NON-NLS-1$
 
 	private static final String MESSAGE_PREVIEW = Messages.getString( "WizardTemplateChoicePage.label.Preview" ); //$NON-NLS-1$
@@ -105,7 +105,7 @@ public class WizardTemplateChoicePage extends WizardPage
 	// bidi_hcg end
 
 	private boolean isModified = false;
-
+	
 	public void setLTRDirection( boolean isLTRDirection )
 	{
 		if ( !isModified )

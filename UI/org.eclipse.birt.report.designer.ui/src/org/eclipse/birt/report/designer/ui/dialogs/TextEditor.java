@@ -169,9 +169,9 @@ public class TextEditor extends BaseDialog
 
 	private static final String TOOL_TIP_TEXT_FX = Messages.getString( "TextEditDialog.toolTipText.fx" );
 
-	public static final String DLG_TITLE_NEW = "New Text Item"; //$NON-NLS-1$
+	public static final String DLG_TITLE_NEW = Messages.getString( "TextEditDialog.title.DlgNew" ); //$NON-NLS-1$
 
-	public static final String DLG_TITLE_EDIT = "Edit Text Item"; //$NON-NLS-1$
+	public static final String DLG_TITLE_EDIT = Messages.getString( "TextEditDialog.title.DlgEdit" ); //$NON-NLS-1$
 
 	private static final int FORMAT_CHOICE_INDEX_FORMATTING = 0;
 
