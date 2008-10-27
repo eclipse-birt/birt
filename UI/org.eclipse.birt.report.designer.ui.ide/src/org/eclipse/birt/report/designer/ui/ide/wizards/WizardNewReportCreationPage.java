@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.ide.wizards;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoicePage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -24,6 +25,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
@@ -195,6 +197,16 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 		return fileExtension;
 	}
 
+	
+	public IWizardPage getNextPage() {
+		IWizardPage page = super.getNextPage( );
+		if(page != null && page instanceof WizardReportSettingPage)
+		{
+			((WizardReportSettingPage)page).setContainerFullPath( getContainerFullPath( ) );
+		}
+		return page;
+	}
+	
 	/**
 	 * Set file extension
 	 * 

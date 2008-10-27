@@ -69,6 +69,12 @@ public class PathResourceEntry extends BaseResourceEntity
 		this( filePattern, true );
 	}
 
+	public PathResourceEntry(final String[] filePattern, String path)
+	{
+		this( filePattern);
+		this.path = path;
+	}
+	
 	public PathResourceEntry( final String[] filePattern,
 			final boolean showFiles )
 	{
@@ -127,6 +133,13 @@ public class PathResourceEntry extends BaseResourceEntity
 			File file = new File( this.path );
 			this.isFolder = file.isDirectory( );
 			this.url = file.toURL( );
+			// If path is empty, then eclipse home directory is used instead
+			if(this.path.length( ) == 0 && this.url != null)
+			{
+				file = new File(url.getPath( ));
+				this.path = file.getPath( );
+				this.isFolder = file.isDirectory( );
+			}
 			this.isFile = file.isFile( );
 		}
 		catch ( Exception e )
@@ -137,13 +150,22 @@ public class PathResourceEntry extends BaseResourceEntity
 	private void initRoot( )
 	{
 		this.path = ReportPlugin.getDefault( ).getResourceFolder( );
+		
 		if ( this.path != null )
 		{
 			try
 			{
-				File file = new File( this.path );
+				File file = new File( this.path );				
 				this.isFolder = file.isDirectory( );
 				this.url = file.toURL( );
+				
+				// If path is empty, then eclipse home directory is used instead
+				if(this.path.length( ) == 0 && this.url != null)
+				{
+					file = new File(url.getPath( ));
+					this.path = file.getPath( );
+					this.isFolder = file.isDirectory( );
+				}
 			}
 			catch ( Exception e )
 			{
