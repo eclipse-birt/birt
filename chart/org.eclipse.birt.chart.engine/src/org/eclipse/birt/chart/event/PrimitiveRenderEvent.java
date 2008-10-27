@@ -86,7 +86,7 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 	 * @return A copy of this primitive rendering instruction implemented by
 	 *         subclasses
 	 * 
-	 * @throws UnsupportedFeatureException
+	 * @throws ChartException
 	 */
 	public PrimitiveRenderEvent copy( ) throws ChartException
 	{
@@ -251,7 +251,7 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 	 * Causes this instruction to 'draw' itself on the device renderer
 	 * 
 	 * @param idr
-	 * @throws UnsupportedFeatureException
+	 * @throws ChartException
 	 */
 	public void draw( IDeviceRenderer idr ) throws ChartException
 	{
@@ -268,7 +268,7 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 	 * Causes this instruction to 'fill' itself on the device renderer
 	 * 
 	 * @param idr
-	 * @throws UnsupportedFeatureException
+	 * @throws ChartException
 	 */
 	public void fill( IDeviceRenderer idr ) throws ChartException
 	{

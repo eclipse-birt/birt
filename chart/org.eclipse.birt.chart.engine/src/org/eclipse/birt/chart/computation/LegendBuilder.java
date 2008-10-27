@@ -471,7 +471,7 @@ public final class LegendBuilder implements IConstants
 	 * @param lg
 	 * @param sea
 	 * 
-	 * @throws GenerationException
+	 * @throws ChartException
 	 */
 	public final Size compute( IDisplayServer xs, Chart cm,
 			SeriesDefinition[] seda, RunTimeContext rtc ) throws ChartException

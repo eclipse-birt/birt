@@ -225,15 +225,17 @@ public class PDFRendererImpl extends SVGRendererImpl {
             // ignore output stream flush error
         }
     }
-    
-    
+
 	/**
-	 * Serializes a <code>Document</code> object to a <code>String</code> in XML format. 
-	 * This is a convevience method to save the output of the SVG generator to a string.
+	 * Serializes a <code>Document</code> object to a <code>String</code> in XML
+	 * format. This is a convevience method to save the output of the SVG
+	 * generator to a string.
 	 * 
-	 * @param generatedDocument the generated graphic
+	 * @param generatedDocument
+	 *            the generated graphic
 	 * @return String the XML-serialized form of the <code>Document</code>
-	 * @throws SVGGeneratorException If XML serialization failed
+	 * @throws Exception
+	 *             If XML serialization failed
 	 */	
 	protected String serializeGeneratedDocumentToString(Document generatedDocument) throws Exception {
 		if (generatedDocument == null) {

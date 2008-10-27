@@ -62,7 +62,7 @@ public final class SwingImageCache
 	 * 
 	 * @param url
 	 * @return
-	 * @throws ImageLoadingException
+	 * @throws ChartException
 	 */
 	final Image loadImage( URL url ) throws ChartException
 	{

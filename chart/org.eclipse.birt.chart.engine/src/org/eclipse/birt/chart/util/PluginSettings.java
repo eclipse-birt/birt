@@ -356,7 +356,7 @@ public final class PluginSettings
 	 * @return A newly created instance of a registered data set processor
 	 *         extension
 	 * 
-	 * @throws PluginException
+	 * @throws ChartException
 	 */
 	public final IDataSetProcessor getDataSetProcessor( Class cSeries )
 			throws ChartException
@@ -423,7 +423,7 @@ public final class PluginSettings
 	 * @return A newly created (and initialized) instance of a registered series
 	 *         renderer
 	 * 
-	 * @throws PluginException
+	 * @throws ChartException
 	 */
 	public final BaseRenderer getRenderer( Class cSeries )
 			throws ChartException
@@ -494,7 +494,7 @@ public final class PluginSettings
 	 * 
 	 * @return An newly initialized instance of the requested device renderer
 	 * 
-	 * @throws PluginException
+	 * @throws ChartException
 	 */
 	public final IDeviceRenderer getDevice( String sName )
 			throws ChartException
@@ -575,7 +575,7 @@ public final class PluginSettings
 	 * 
 	 * @return An newly initialized instance of the requested display server
 	 * 
-	 * @throws PluginException
+	 * @throws ChartException
 	 */
 	public final IDisplayServer getDisplayServer( String sName )
 			throws ChartException
@@ -640,7 +640,7 @@ public final class PluginSettings
 	 * @return An newly initialized instance of the requested aggregate
 	 *         function.
 	 * 
-	 * @throws PluginException
+	 * @throws ChartException
 	 */
 	public final IAggregateFunction getAggregateFunction( String sName )
 			throws ChartException
@@ -696,7 +696,7 @@ public final class PluginSettings
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Retrieves the first instance of a series renderer registered as an
 	 * extension for a given series type.
@@ -707,7 +707,7 @@ public final class PluginSettings
 	 * @return A newly created (and initialized) instance of a registered series
 	 *         renderer
 	 * 
-	 * @throws PluginException
+	 * @throws ChartException
 	 */
 	public final IDataPointDefinition getDataPointDefinition( Class cSeries )
 			throws ChartException
@@ -1040,7 +1040,7 @@ public final class PluginSettings
 			return saFunctions;
 		}
 	}
-	
+
 	/**
 	 * Attempts to internally create an instance of a given class using
 	 * reflection using the default constructor.
@@ -1051,7 +1051,7 @@ public final class PluginSettings
 	 * 
 	 * @return A new instance of the requested class
 	 * 
-	 * @throws PluginException
+	 * @throws ChartException
 	 */
 	private static final Object newInstance( String sFQClassName )
 			throws ChartException

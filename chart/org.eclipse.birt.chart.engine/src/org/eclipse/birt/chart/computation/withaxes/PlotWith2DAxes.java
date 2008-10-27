@@ -15,8 +15,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Map;
 
-import javax.xml.bind.ValidationException;
-
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.IConstants;
@@ -87,9 +85,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 	 *            The display server using which the chart is computed
 	 * @param _cwa
 	 *            An instance of the model (ChartWithAxes)
-	 * @throws ValidationException
-	 * @throws UndefinedValueException
-	 * @throws UnexpectedInputException
+	 * @throws IllegalArgumentException
+	 * @throws ChartException
 	 */
 	public PlotWith2DAxes( IDisplayServer _ids, ChartWithAxes _cwa,
 			RunTimeContext _rtc ) throws IllegalArgumentException,
@@ -1116,9 +1113,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 	 * @param dBlockStart
 	 * @param dBlockLength
 	 * 
-	 * @throws PluginException
-	 * @throws DataSetException
-	 * @throws GenerationException
+	 * @throws ChartException
+	 * @throws IllegalArgumentException
 	 */
 	private final void updateOverlayScales( AllAxes aax, double dAxisStart,
 			double dAxisEnd, double dBlockStart, double dBlockLength )

@@ -139,14 +139,14 @@ public interface IDeviceRenderer extends
 	 * A notification sent to the device to initialize itself before rendering
 	 * begins
 	 * 
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	void before( ) throws ChartException;
 
 	/**
 	 * A notification sent to the device to cleanup after rendering is done
 	 * 
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	void after( ) throws ChartException;
 

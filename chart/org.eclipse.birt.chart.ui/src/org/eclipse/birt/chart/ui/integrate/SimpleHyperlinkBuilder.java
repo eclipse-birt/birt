@@ -77,7 +77,6 @@ public class SimpleHyperlinkBuilder extends TrayDialog
 	 *            the serialized string
 	 * @param handle
 	 *            DesignElementHandle
-	 * @throws DesignFileException
 	 */
 	public void setInputString( String input )
 	{

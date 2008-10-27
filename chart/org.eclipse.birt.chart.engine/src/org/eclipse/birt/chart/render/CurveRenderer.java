@@ -222,7 +222,7 @@ public final class CurveRenderer
 	/**
 	 * 
 	 * @param ipr
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public final void draw( IPrimitiveRenderer ipr ) throws ChartException
 	{
@@ -379,7 +379,7 @@ public final class CurveRenderer
 	 * @param y1
 	 * @param x2
 	 * @param y2
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	private final void plotPlane( IPrimitiveRenderer ipr, double x1, double y1,
 			double x2, double y2, double z1, double z2, boolean drawSide,
@@ -533,7 +533,7 @@ public final class CurveRenderer
 	 * @param y1
 	 * @param x2
 	 * @param y2
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	private final void plotLine( IPrimitiveRenderer ipr, double x1, double y1,
 			double x2, double y2, double z1, double z2 ) throws ChartException
@@ -893,7 +893,7 @@ public final class CurveRenderer
 	 * @param ipr
 	 * @param fXOffset
 	 * @param fYOffset
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	private final void renderCurve( IPrimitiveRenderer ipr, double fXOffset,
 			double fYOffset ) throws ChartException

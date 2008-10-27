@@ -122,7 +122,7 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * 
 	 * @param columns
 	 * @return
-	 * @throws DataException
+	 * @throws ChartException
 	 */
 	public abstract IDataQueryDefinition createBaseQuery( List columns )
 			throws ChartException;
@@ -135,8 +135,7 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * @param innerMostGroupDef
 	 * @param valueExprMap
 	 * @param baseSD
-	 * @throws DataException
-	 * @throws DataException
+	 * @throws ChartException
 	 */
 	protected void addValueSeriesAggregateBindingForGrouping(
 			BaseQueryDefinition query, EList seriesDefinitions,
@@ -286,7 +285,7 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * Generate grouping bindings and add into query definition.
 	 * 
 	 * @param query
-	 * @throws DataException
+	 * @throws ChartException
 	 */
 	protected void generateGroupBindings( BaseQueryDefinition query )
 			throws ChartException

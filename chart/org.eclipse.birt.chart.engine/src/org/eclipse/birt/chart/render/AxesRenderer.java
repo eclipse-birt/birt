@@ -890,7 +890,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	 * @param boPlotClientArea
 	 *            The bounds of the actual client area
 	 * 
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	private final void renderMarkerRanges( OneAxis[] oaxa,
 			Bounds boPlotClientArea ) throws ChartException
@@ -2462,7 +2462,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	 * @param oaxa
 	 * @param boPlotClientArea
 	 * 
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	private final void renderMarkerLines( OneAxis[] oaxa,
 			Bounds boPlotClientArea ) throws ChartException
@@ -2891,7 +2891,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	 * @param ax
 	 * @param iWhatToDraw
 	 * 
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public final void renderEachAxis( IPrimitiveRenderer ipr, Plot pl,
 			OneAxis ax, int iWhatToDraw ) throws ChartException

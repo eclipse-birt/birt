@@ -1093,7 +1093,7 @@ public final class LayoutManager
 	 * as NullLayout with fixed 'relative' bounds
 	 * 
 	 * @param bo
-	 * @throws OverlapException
+	 * @throws ChartException
 	 */
 	public void doLayout( IDisplayServer xs, Chart cm, Bounds bo,
 			RunTimeContext rtc ) throws ChartException

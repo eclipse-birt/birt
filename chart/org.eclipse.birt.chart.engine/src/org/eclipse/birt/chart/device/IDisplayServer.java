@@ -99,7 +99,7 @@ public interface IDisplayServer
 	 * 
 	 * @return An instance of an image associated with the specified URL
 	 * 
-	 * @throws ImageLoadingException
+	 * @throws ChartException
 	 */
 	Object loadImage( URL url ) throws ChartException;
 

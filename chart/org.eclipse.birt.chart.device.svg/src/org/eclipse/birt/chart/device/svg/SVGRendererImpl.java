@@ -221,7 +221,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 	/**
 	 * 
 	 * @param os
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public void after( ) throws ChartException
 	{

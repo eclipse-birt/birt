@@ -348,7 +348,7 @@ final class SwtTextRenderer extends TextRendererAdapter
 	 * @param iLabelPosition
 	 * @param lo
 	 * @param la
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public final void renderTextAtLocation( IPrimitiveRenderer idr,
 			int iLabelPosition, // IConstants. LEFT, RIGHT, ABOVE

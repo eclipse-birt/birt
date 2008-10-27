@@ -117,7 +117,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 	 *            POINT WHERE THE CORNER OF THE ROTATED RECTANGLE (OR EDGE
 	 *            CENTERED) IS RENDERED
 	 * @param label
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public final void renderTextAtLocation( IPrimitiveRenderer renderer,
 			int labelPosition, Location location, Label label )

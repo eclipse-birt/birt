@@ -53,7 +53,7 @@ public interface ITextRenderer extends IConstants
 	 *            POINT WHERE THE CORNER OF THE ROTATED RECTANGLE (OR EDGE
 	 *            CENTERED) IS RENDERED
 	 * @param la
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	void renderTextAtLocation( IPrimitiveRenderer ipr, int iLabelPosition,
 			Location lo, Label la ) throws ChartException;

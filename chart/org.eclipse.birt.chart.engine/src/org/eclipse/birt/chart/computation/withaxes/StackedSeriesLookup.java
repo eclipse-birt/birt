@@ -155,8 +155,8 @@ public final class StackedSeriesLookup
 	 * 
 	 * @param cwa
 	 * @return
-	 * @throws UndefinedValueException
-	 * @throws UnexpectedInputException
+	 * @throws ChartException
+	 * @throws IllegalArgumentException
 	 */
 	static final StackedSeriesLookup create( ChartWithAxes cwa,
 			RunTimeContext rtc ) throws ChartException,

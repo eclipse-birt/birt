@@ -15,8 +15,6 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.bind.ValidationException;
-
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.LegendItemRenderingHints;
@@ -379,7 +377,7 @@ public abstract class PlotWithAxes extends Methods
 	 * 
 	 * @param ax
 	 *            The axis to validate
-	 * @throws ValidationException
+	 * @throws ChartException
 	 */
 	protected void validateAxis( Axis ax ) throws ChartException
 	{
@@ -722,7 +720,7 @@ public abstract class PlotWithAxes extends Methods
 	 * 
 	 * @param dOriginalAngle
 	 * @return
-	 * @throws UnexpectedInputException
+	 * @throws IllegalArgumentException
 	 */
 	public final double getTransposedAngle( double dOriginalAngle )
 			throws IllegalArgumentException
@@ -749,7 +747,7 @@ public abstract class PlotWithAxes extends Methods
 	 * @param iBaseOrOrthogonal
 	 * @param iOriginalPosition
 	 * @return
-	 * @throws UnexpectedInputException
+	 * @throws IllegalArgumentException
 	 */
 	public final int transposeLabelPosition( int iBaseOrOrthogonal,
 			int iOriginalPosition ) throws IllegalArgumentException
@@ -803,7 +801,7 @@ public abstract class PlotWithAxes extends Methods
 	 * @param iBaseOrOrthogonal
 	 * @param iOriginalStyle
 	 * @return
-	 * @throws UnexpectedInputException
+	 * @throws IllegalArgumentException
 	 */
 	protected final int transposeTickStyle( int iBaseOrOrthogonal,
 			int iOriginalStyle ) throws IllegalArgumentException

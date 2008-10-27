@@ -68,7 +68,6 @@ public final class DataSetIterator implements Iterator
 	/**
 	 * 
 	 * @param ds
-	 * @throws UnexpectedInputException
 	 */
 	public DataSetIterator( Double[] dda )
 	{
@@ -106,7 +105,8 @@ public final class DataSetIterator implements Iterator
 	/**
 	 * 
 	 * @param ds
-	 * @throws UnexpectedInputException
+	 * @throws IllegalArgumentException
+	 * @throws ChartException
 	 */
 	public DataSetIterator( Object oContent, int iDataType )
 			throws IllegalArgumentException, ChartException
@@ -206,7 +206,8 @@ public final class DataSetIterator implements Iterator
 	/**
 	 * 
 	 * @param ds
-	 * @throws UnexpectedInputException
+	 * @throws IllegalArgumentException
+	 * @throws ChartException
 	 */
 	public DataSetIterator( DataSet ds ) throws IllegalArgumentException,
 			ChartException

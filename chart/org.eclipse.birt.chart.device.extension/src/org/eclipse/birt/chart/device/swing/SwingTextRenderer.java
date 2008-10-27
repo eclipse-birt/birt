@@ -124,7 +124,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 	 *            POINT WHERE THE CORNER OF THE ROTATED RECTANGLE (OR EDGE
 	 *            CENTERED) IS RENDERED
 	 * @param la
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public final void renderTextAtLocation( IPrimitiveRenderer ipr,
 			int iLabelPosition, Location lo, Label la ) throws ChartException

@@ -289,8 +289,8 @@ public final class SeriesRenderingHints3D implements ISeriesRenderingHints3D
 	 * 
 	 * @param se
 	 * @return
-	 * @throws UndefinedValueException
-	 * @throws UnexpectedInputException
+	 * @throws ChartException
+	 * @throws IllegalArgumentException
 	 */
 	public final Position getLabelPosition( Series se ) throws ChartException,
 			IllegalArgumentException
@@ -338,7 +338,7 @@ public final class SeriesRenderingHints3D implements ISeriesRenderingHints3D
 	 * 
 	 * @param se
 	 * @return
-	 * @throws UnexpectedInputException
+	 * @throws IllegalArgumentException
 	 */
 	public final Label getLabelAttributes( Series se )
 			throws IllegalArgumentException

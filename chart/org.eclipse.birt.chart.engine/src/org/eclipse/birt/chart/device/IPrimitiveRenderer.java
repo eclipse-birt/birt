@@ -39,7 +39,6 @@ public interface IPrimitiveRenderer extends EventListener
 	 * 
 	 * @param cre
 	 *            Encapsulated information that defines the area to be clipped
-	 * @throws RenderingException
 	 */
 	public void setClip( ClipRenderEvent cre );
 
@@ -50,7 +49,7 @@ public interface IPrimitiveRenderer extends EventListener
 	 * @param ire
 	 *            Encapsulated information that defines a polygon and its
 	 *            attributes
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public void drawImage( ImageRenderEvent ire ) throws ChartException;
 
@@ -61,7 +60,7 @@ public interface IPrimitiveRenderer extends EventListener
 	 * @param lre
 	 *            Encapsulated information that defines a line and its
 	 *            attributes
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public void drawLine( LineRenderEvent lre ) throws ChartException;
 
@@ -72,7 +71,7 @@ public interface IPrimitiveRenderer extends EventListener
 	 * @param rre
 	 *            Encapsulated information that defines a rectangle and its
 	 *            attributes
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public void drawRectangle( RectangleRenderEvent rre ) throws ChartException;
 
@@ -83,7 +82,7 @@ public interface IPrimitiveRenderer extends EventListener
 	 * @param rre
 	 *            Encapsulated information that defines a rectangle and its
 	 *            attributes
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public void fillRectangle( RectangleRenderEvent rre ) throws ChartException;
 
@@ -94,7 +93,7 @@ public interface IPrimitiveRenderer extends EventListener
 	 * @param pre
 	 *            Encapsulated information that defines a polygon and its
 	 *            attributes
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public void drawPolygon( PolygonRenderEvent pre ) throws ChartException;
 
@@ -105,7 +104,7 @@ public interface IPrimitiveRenderer extends EventListener
 	 * @param pre
 	 *            Encapsulated information that defines a polygon and its
 	 *            attributes
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public void fillPolygon( PolygonRenderEvent pre ) throws ChartException;
 
@@ -116,7 +115,7 @@ public interface IPrimitiveRenderer extends EventListener
 	 * @param are
 	 *            Encapsulated information that defines the arc and its
 	 *            attributes
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public void drawArc( ArcRenderEvent are ) throws ChartException;
 
@@ -127,14 +126,14 @@ public interface IPrimitiveRenderer extends EventListener
 	 * @param are
 	 *            Encapsulated information that defines an arc and its
 	 *            attributes
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public void fillArc( ArcRenderEvent are ) throws ChartException;
 
 	/**
 	 * 
 	 * @param ie
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public void enableInteraction( InteractionEvent ie ) throws ChartException;
 
@@ -145,7 +144,7 @@ public interface IPrimitiveRenderer extends EventListener
 	 * @param are
 	 *            Encapsulated information that defines the area and its
 	 *            attributes
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public void drawArea( AreaRenderEvent are ) throws ChartException;
 
@@ -156,7 +155,7 @@ public interface IPrimitiveRenderer extends EventListener
 	 * @param are
 	 *            Encapsulated information that defines the area and its
 	 *            attributes
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public void fillArea( AreaRenderEvent are ) throws ChartException;
 
@@ -167,7 +166,7 @@ public interface IPrimitiveRenderer extends EventListener
 	 * @param ore
 	 *            Encapsulated information that defines the oval and its
 	 *            attributes
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public void drawOval( OvalRenderEvent ore ) throws ChartException;
 
@@ -178,7 +177,7 @@ public interface IPrimitiveRenderer extends EventListener
 	 * @param ore
 	 *            Encapsulated information that defines the oval and its
 	 *            attributes
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public void fillOval( OvalRenderEvent ore ) throws ChartException;
 
@@ -197,7 +196,7 @@ public interface IPrimitiveRenderer extends EventListener
 	 * @param ore
 	 *            Encapsulated information that defines the text being rendered,
 	 *            its position and various other attributes
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public void drawText( TextRenderEvent tre ) throws ChartException;
 
@@ -207,7 +206,7 @@ public interface IPrimitiveRenderer extends EventListener
 	 * TRANSLATE, ROTATE
 	 * 
 	 * @param tev
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	public void applyTransformation( TransformationEvent tev )
 			throws ChartException;
