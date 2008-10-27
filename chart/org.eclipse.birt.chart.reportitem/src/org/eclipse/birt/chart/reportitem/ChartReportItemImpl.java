@@ -178,8 +178,16 @@ public final class ChartReportItemImpl extends ReportItem implements
 	 */
 	public void setHandle( ExtendedItemHandle handle )
 	{
-		this.handle = handle;
-		this.bCopied = false;
+		if ( this.handle != handle )
+		{
+			this.handle = handle;
+		}
+		else
+		{
+			// When two handles are equal, hostChart reference should be
+			// updated, so copy state should clean.
+			this.bCopied = false;
+		}
 	}
 
 	public void executeSetSimplePropertyCommand( DesignElementHandle eih,
