@@ -47,13 +47,13 @@ class BreakableSourceChecker implements Debugger
 		try
 		{
 			BreakableSourceChecker checker = new BreakableSourceChecker( );
-			checker.lineNumber = lineNumber + 1;
+			checker.lineNumber = lineNumber + 2;
 
 			cx.setDebugger( checker, null );
 			cx.setGeneratingDebug( true );
 			cx.setOptimizationLevel( -1 );
 
-			cx.compileString( source, "<check>", 1, null ); //$NON-NLS-1$
+			cx.compileString( addHeader( source ), "<check>", 1, null ); //$NON-NLS-1$
 
 			return checker.breakable;
 		}
@@ -69,6 +69,11 @@ class BreakableSourceChecker implements Debugger
 
 			Context.exit( );
 		}
+	}
+	
+	private static String addHeader(String source)
+	{
+		return "function addHeader(){\r\n" + source + "\r\n}"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	int lineNumber;
