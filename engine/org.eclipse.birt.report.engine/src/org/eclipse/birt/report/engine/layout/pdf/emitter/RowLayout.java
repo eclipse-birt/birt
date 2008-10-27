@@ -97,11 +97,11 @@ public class RowLayout extends ContainerLayout
 				TableContext tc = (TableContext) ( tbl.contextList.get( tableSize - size + index ) );
 				tc.layout.setUnresolvedRow( unresolvedRow );
 			}
-			tbl.updateRow( (RowArea) currentContext.root, specifiedHeight,
-					index, size );
+//			tbl.updateRow( (RowArea) currentContext.root, specifiedHeight,
+//					index, size );
 			if ( finished || !isRowEmpty( currentContext ) )
 			{
-				tbl.addRow( (RowArea) currentContext.root, index, size );
+				tbl.addRow( (RowArea) currentContext.root, specifiedHeight, index, size );
 				parent.addToRoot( currentContext.root, parentIndex );
 			}
 			if ( !finished && unresolvedRow == null )

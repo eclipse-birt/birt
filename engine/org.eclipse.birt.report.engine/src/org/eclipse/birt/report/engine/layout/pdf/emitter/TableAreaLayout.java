@@ -12,10 +12,8 @@
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 
-import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
@@ -34,7 +32,6 @@ import org.eclipse.birt.report.engine.layout.pdf.cache.CursorableList;
 import org.eclipse.birt.report.engine.layout.pdf.cache.DummyCell;
 import org.eclipse.birt.report.engine.layout.pdf.emitter.TableLayout.TableLayoutInfo;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
-import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
 import org.w3c.dom.css.CSSValue;
 
@@ -52,13 +49,11 @@ public class TableAreaLayout
 
 	protected ITableContent tableContent;
 
-	protected ICellContent lastCellContent;
+	protected ICellContent[] cellCache = new ICellContent[2];
 
 	protected int startCol;
 
 	protected int endCol;
-
-	protected boolean hasDropCell;
 
 	protected Row unresolvedRow;
 
@@ -73,24 +68,6 @@ public class TableAreaLayout
 			bcr.setRTL( tableContent.isRTL( ) );
 	}
 
-	public void initTableLayout( UnresolvedRowHint hint )
-	{
-		/*
-		 * if(hint!=null) { IReportContent report =
-		 * tableContent.getReportContent( ); IRowContent rowContent =
-		 * report.createRowContent( ); InstanceID rowId = InstanceID.parse(
-		 * hint.getRowId( )); rowContent.setInstanceID( rowId );
-		 * rowContent.setParent( tableContent ); RowArea rowArea =
-		 * AreaFactory.createRowArea( rowContent ); unresolvedRow = new
-		 * Row(rowArea, startCol, endCol); for(int i=startCol; i<=endCol; i++) {
-		 * ICellContent cellContent = report.createCellContent( );
-		 * hint.initUnresolvedCell( cellContent, rowId, i );
-		 * cellContent.setParent( rowContent ); CellArea cellArea =
-		 * AreaFactory.createCellArea( cellContent ); unresolvedRow.addArea(
-		 * cellArea ); i = i + cellArea.getColSpan( ) - 1; } }
-		 */
-	}
-
 	public void setUnresolvedRow( Row row )
 	{
 		this.unresolvedRow = row;
@@ -99,16 +76,6 @@ public class TableAreaLayout
 	public Row getUnresolvedRow( )
 	{
 		return (Row) rows.getCurrent( );
-	}
-	
-	public Row getUnresolvedRow( RowArea row )
-	{
-		addRow(row);
-		Row unResolvedRow = (Row)rows.getCurrent();
-		rows.removeLast();
-		return unResolvedRow;
-		
-		
 	}
 
 	protected int resolveBottomBorder( CellArea cell )
@@ -161,8 +128,8 @@ public class TableAreaLayout
 
 	protected IStyle getLeftCellContentStyle( Row lastRow, int columnID )
 	{
-		if ( lastCellContent != null
-				&& lastCellContent.getColumn( ) + lastCellContent.getColSpan( ) <= columnID )
+		if ( cellCache[1] != null
+				&& cellCache[1].getColumn( ) + cellCache[1].getColSpan( ) <= columnID )
 		{
 			if ( lastRow != null && columnID > 0 )
 			{
@@ -174,7 +141,7 @@ public class TableAreaLayout
 				}
 
 			}
-			return lastCellContent.getComputedStyle( );
+			return cellCache[1].getComputedStyle( );
 
 		}
 		if ( lastRow != null && columnID > 0 )
@@ -211,6 +178,14 @@ public class TableAreaLayout
 		IStyle topCellStyle = null;
 
 		Row lastRow = null;
+		
+		if(cellCache[0]!=cellContent)
+		{
+			cellCache[1] = cellCache[0];
+			cellCache[0] = (ICellContent)cellContent;
+		}
+		
+		
 		if ( rows.size( ) > 0 )
 		{
 			lastRow = (Row) rows.getCurrent( );
@@ -254,7 +229,7 @@ public class TableAreaLayout
 						leftCellContentStyle, cellContentStyle, cellAreaStyle );
 			}
 
-			// resovle right border
+			// resolve right border
 
 			if ( columnID + colSpan - 1 == endCol )
 			{
@@ -295,9 +270,6 @@ public class TableAreaLayout
 						cellContentStyle, cellAreaStyle );
 			}
 		}
-
-		lastCellContent = (ICellContent) cellContent;
-
 	}
 
 	/**
@@ -399,7 +371,6 @@ public class TableAreaLayout
 					}
 				}
 			}
-
 		}
 	}
 
@@ -418,119 +389,82 @@ public class TableAreaLayout
 		rows.resetCursor( );
 	}
 
+	/**
+	 * When pagination happens, if drop cells should be finished by force, we need to end these
+	 * cells and vertical align for them.
+	 * 
+	 */
 	public int resolveAll( )
 	{
-
-		/*
-		 * 1. scan current row and calculate row height 2. update the height of
-		 * drop cells 3. update the height of row
-		 */
-
 		if ( rows.size( ) == 0 )
 		{
 			return 0;
 		}
-
 		Row row = (Row) rows.getCurrent( );
-		int rowHeight = row.getArea( ).getHeight( );
-		int height = rowHeight;
-		boolean hasDropCell = false;
-		// scan for Max height for drop cells
+		int originalRowHeight = row.getArea( ).getHeight( );
+		int height = originalRowHeight;
+
+		for ( int i = startCol; i <= endCol; i++ )
+		{
+			CellArea cell = row.getCell(i);
+			if ( null == cell )
+			{
+				// After padding empty cell and dummy cell, the cell should not be null.
+				continue;
+			}
+			if ( cell instanceof DummyCell )
+			{
+				DummyCell dummyCell = (DummyCell) cell;
+				int delta = dummyCell.getDelta( );
+				height = Math.max( height, delta );
+			}
+			else
+			{
+				height = Math.max( height, cell.getHeight( ) );
+			}
+			i = i + cell.getColSpan( ) - 1;
+		}
+ 
 		for ( int i = startCol; i <= endCol; i++ )
 		{
 			CellArea cell = row.getCell( i );
-			if ( cell != null )
+			if ( cell == null )
 			{
-				if ( cell.getRowSpan( ) > 1 )
+				// this should NOT happen.
+				continue;
+			}
+			if ( cell instanceof DummyCell )
+			{
+				if ( cell.getRowSpan( ) == 1 )
+				// this dummyCell and it reference cell height have already been
+				// updated.
 				{
-					if ( cell instanceof DummyCell )
+					CellArea refCell = ( (DummyCell) cell ).getCell( );
+					refCell.setHeight( refCell.getHeight( ) + height
+							- originalRowHeight );
+					verticalAlign( refCell );
+				}
+				else
+				{
+					CellArea refCell = ( (DummyCell) cell ).getCell( );
+					int delta = ( (DummyCell) cell ).getDelta( );
+					if ( delta < height )
 					{
-						height = Math.max( height, cell.getHeight( )
-								+ rowHeight );
+						refCell.setHeight( refCell.getHeight( ) - delta
+								+ height );
 					}
-					else
-					{
-						height = Math.max( height, cell.getHeight( ) );
-					}
-					hasDropCell = true;
+					verticalAlign( refCell );
 				}
 			}
+			else
+			{
+				cell.setHeight( height );
+				verticalAlign( cell );
+			}
+			i = i + cell.getColSpan( ) - 1;
 		}
-
-		int delta = height - rowHeight;
-		if ( hasDropCell )
-		{
-			HashSet dropCells = new HashSet( );
-
-			if ( delta > 0 )
-			{
-				row.getArea( ).setHeight( height );
-			}
-			for ( int i = startCol; i <= endCol; i++ )
-			{
-				CellArea cell = row.getCell( i );
-				if ( cell == null )
-				{
-					continue;
-				}
-				int rowSpan = cell.getRowSpan( );
-				if ( rowSpan < 0 || rowSpan > 1 )
-				{
-					if ( cell instanceof DummyCell )
-					{
-						CellArea ref = ( (DummyCell) cell ).getCell( );
-						int cellHeight = cell.getHeight( );
-						int refHeight = ref.getHeight( );
-						if ( !dropCells.contains( ref ) )
-						{
-							ref.setHeight( refHeight - cellHeight + delta );
-							verticalAlign( ref );
-							dropCells.add( ref );
-						}
-					}
-					else
-					{
-						cell.setHeight( height );
-						verticalAlign( cell );
-					}
-					// FIXME resolve conflict?
-					/*
-					 * unfinishedRow.addUnresolvedCell( (ICellContent) cell
-					 * .getContent( ), getLeftRowSpan( row.finished, rowSpan )
-					 * );
-					 */
-				}
-				else if ( rowSpan == 1 )
-				{
-					if ( cell instanceof DummyCell )
-					{
-						CellArea ref = ( (DummyCell) cell ).getCell( );
-						if ( !dropCells.contains( ref ) )
-						{
-							ref.setHeight( ref.getHeight( ) + delta );
-							if ( delta > 0 )
-							{
-								verticalAlign( ref );
-							}
-							dropCells.add( ref );
-						}
-					}
-					else
-					{
-						cell.setHeight( height );
-						verticalAlign( cell );
-					}
-					/*
-					 * if(row!=null && !row.finished) {
-					 * unfinishedRow.addUnresolvedCell( (ICellContent) cell
-					 * .getContent( ), 1 ); }
-					 */
-				}
-
-			}
-
-		}
-		return delta;
+		row.getArea( ).setHeight( height );
+		return height - originalRowHeight;
 	}
 
 	public int resolveBottomBorder( )
@@ -540,296 +474,269 @@ public class TableAreaLayout
 			return 0;
 		}
 		Row row = (Row) rows.getCurrent( );
-		HashSet cells = new HashSet( );
 		int result = 0;
+		int width = 0;
 		for ( int i = startCol; i <= endCol; i++ )
 		{
 			CellArea cell = row.getCell( i );
-			if ( cell != null )
+			if ( cell == null )
 			{
-				if ( cell instanceof DummyCell )
-				{
-					CellArea ref = ( (DummyCell) cell ).getCell( );
-					if ( !cells.contains( ref ) )
-					{
-						int width = resolveBottomBorder( ref );
-						if ( width > result )
-							result = width;
-						cells.add( ref );
-					}
-				}
-				else
-				{
-					if ( !cells.contains( cell ) )
-					{
-						int width = resolveBottomBorder( cell );
-						if ( width > result )
-							result = width;
-
-						cells.add( cell );
-					}
-				}
+				// this should NOT happen.
+				continue;
 			}
+			if ( cell instanceof DummyCell )
+			{
+				width = resolveBottomBorder( ( (DummyCell) cell ).getCell( ) );
+			}
+			else
+			{
+				width = resolveBottomBorder( cell );
+			}
+
+			if ( width > result )
+				result = width;
+			i = i + cell.getColSpan( ) - 1;
 		}
+		
 		// update cell height
 		if ( result > 0 )
 		{
-			if ( cells.size( ) > 0 )
+			row.getArea( ).setHeight( row.getArea( ).getHeight( ) + result );
+			for ( int i = startCol; i <= endCol; i++ )
 			{
-				Iterator iter = cells.iterator( );
-				while ( iter.hasNext( ) )
+				CellArea cell = row.getCell( i );
+				if ( cell instanceof DummyCell )
 				{
-					CellArea cell = (CellArea) iter.next( );
+					CellArea refCell =  ( (DummyCell) cell ).getCell( );
+					refCell.setHeight( refCell.getHeight( ) + result );
+				}
+				else
+				{
 					cell.setHeight( cell.getHeight( ) + result );
 				}
-				row.getArea( ).setHeight( row.getArea( ).getHeight( ) + result );
+				i = i + cell.getColSpan( ) - 1;
 			}
 		}
 		return result;
 	}
-
+	
+	/**
+	 * Adds the updated row wrapper to rows.
+	 */
 	public void addRow( RowArea rowArea )
 	{
-		/*
-		 * 1. create row wrapper, and add it to rows
-		 */
-		Row lastRow = (Row) rows.getCurrent( );
-
-		Row row = new Row( rowArea, startCol, endCol );
-
-		int rowHeight = rowArea.getHeight( );
-
-		HashSet dropCells = new HashSet( );
-		for ( int i = startCol; i <= endCol; i++ )
-		{
-			CellArea lastCell = null;
-			if ( lastRow != null )
-			{
-				lastCell = lastRow.getCell( i );
-			}
-			CellArea cell = row.getCell( i );
-			if ( cell != null && ( cell.getRowSpan( ) > 1 ) )
-			{
-				hasDropCell = true;
-			}
-			if ( lastCell != null && ( lastCell.getRowSpan( ) > 1 ) )
-			{
-				if ( cell == null )
-				{
-					DummyCell dummyCell = null;
-					if ( lastCell instanceof DummyCell )
-					{
-						DummyCell refDummy = ( (DummyCell) lastCell );
-						dummyCell = new DummyCell( refDummy.getCell( ) );
-						if ( lastCell.getRowSpan( ) > 0 )
-						{
-							dummyCell.setRowSpan( lastCell.getRowSpan( ) - 1 );
-						}
-						else
-						{
-							dummyCell.setRowSpan( lastCell.getRowSpan( ) );
-						}
-						dummyCell.setHeight( refDummy.getHeight( ) - rowHeight );
-					}
-					else
-					{
-						dummyCell = new DummyCell( lastCell );
-						if ( lastCell.getRowSpan( ) > 0 )
-						{
-							dummyCell.setRowSpan( lastCell.getRowSpan( ) - 1 );
-						}
-						else
-						{
-							dummyCell.setRowSpan( lastCell.getRowSpan( ) );
-						}
-						dummyCell.setHeight( lastCell.getHeight( )
-								- lastRow.getArea( ).getHeight( ) - rowHeight );
-					}
-					row.addArea( dummyCell );
-					// update drop cell height and vertial alignment
-					if ( dummyCell.getRowSpan( ) == 1 )
-					{
-						if ( dummyCell.getHeight( ) < 0 )
-						{
-							CellArea cArea = dummyCell.getCell( );
-							if ( !dropCells.contains( cArea ) )
-							{
-								cArea.setHeight( cArea.getHeight( )
-										- dummyCell.getHeight( ) );
-								verticalAlign( cArea );
-								dropCells.add( cArea );
-							}
-						}
-					}
-					else
-					{
-						hasDropCell = true;
-					}
-					i = i + dummyCell.getColSpan( ) - 1;
-				}
-			}
-		}
+		addRow( rowArea, 0 );
+	}
+	
+	/**
+	 * Adds the updated row wrapper to rows.
+	 */
+	public void addRow( RowArea rowArea, int specifiedHeight )
+	{		
+		Row row = updateRow( rowArea, specifiedHeight );
 		rows.add( row );
 	}
-
-	public void updateRow( RowArea rowArea, int specifiedHeight )
-	{
-		Row lastRow = getPreviousRow( );
-		Row row = new Row( rowArea, startCol, endCol );
+	
+	/**
+	 * 1) Creates row wrapper. 2) For the null cell in the row wrapper, fills
+	 * the responsible position with dummy cell or empty cell. 3) Updates the
+	 * height of the row and the cells in the row.
+	 * 
+	 * @param rowArea
+	 *            current rowArea.
+	 */
+	private Row updateRow( RowArea rowArea, int specifiedHeight )
+	{	
 		int height = specifiedHeight;
-		CellArea previousCellArea = null;
+		Row lastRow = (Row) rows.getCurrent( );
+		Row row = new Row( rowArea, startCol, endCol );
+
 		for ( int i = startCol; i <= endCol; i++ )
 		{
-			CellArea lastCell = null;
+			CellArea upperCell = null;
 			if ( lastRow != null )
 			{
-				lastCell = lastRow.getCell( i );
+				upperCell = lastRow.getCell( i );
 			}
-			CellArea cell = row.getCell( i );
-			if ( lastCell != null && ( lastCell.getRowSpan( ) > 1 ) )
+			
+			// upperCell has row span, or is a drop cell.
+			if ( upperCell != null && ( upperCell.getRowSpan( ) > 1 ) )
 			{
-
-				if ( lastCell.getRowSpan( ) == 2 )
+				DummyCell dummyCell = createDummyCell( upperCell );
+				row.addArea( dummyCell );
+				
+				int delta = dummyCell.getDelta( );
+				if ( dummyCell.getRowSpan( ) == 1 )
 				{
-					if ( lastCell instanceof DummyCell )
-					{
-						height = Math.max( height, lastCell.getHeight( ) );
-					}
-					else
-					{
-						height = Math.max( height, lastCell.getHeight( )
-								- lastRow.getArea( ).getHeight( ) );
-					}
-
+					height = Math.max( height, delta );
 				}
-				i = i + lastCell.getColSpan( ) - 1;
+				i = i + upperCell.getColSpan( ) - 1;
+			}
+			// upperCell has NO row span, and is NOT a drop cell.
+			// Or upperCell is null.
+			else
+			{
+				CellArea cell = row.getCell( i );
+				if ( cell == null )
+				{
+					if ( unresolvedRow != null )
+					{
+						upperCell = unresolvedRow.getCell( i );
+					}
+					cell = createEmptyCell( upperCell, i, row, lastRow );	
+				}
+				if( cell.getRowSpan( ) == 1 )
+				{
+					height = Math.max( height, cell.getHeight( ) );
+				}
+				i = i + cell.getColSpan( ) - 1;
+			}
+		}
+		updateRowHeight( row, height );
+		return row;
+	}
+	
+	/**
+	 * Creates dummy cell and updates its delta value. 
+	 * @param upperCell			the upper cell.
+	 * @return					the created dummy cell.
+	 */
+	private DummyCell createDummyCell( CellArea upperCell )
+	{
+		DummyCell dummyCell = null;
+		CellArea refCell = null;
+		Row lastRow = (Row) rows.getCurrent( );
+		int lastRowHeight = lastRow.getArea( ).getHeight( );
+		int delta = 0;
+		if ( upperCell instanceof DummyCell )
+		{
+			refCell = ( (DummyCell) upperCell ).getCell( );
+			dummyCell = new DummyCell( refCell );
+			delta = ( (DummyCell) upperCell ).getDelta( ) - lastRowHeight;
+			dummyCell.setDelta( delta );
+		}
+		else
+		{
+			refCell = upperCell;
+			dummyCell = new DummyCell( upperCell );
+			delta = refCell.getHeight( ) - lastRowHeight;
+			dummyCell.setDelta( delta );
+		}
+		dummyCell.setRowSpan( upperCell.getRowSpan( ) - 1 );
+		dummyCell.setColSpan( upperCell.getColSpan( ) );
+		return dummyCell;
+	}
+	
+	private CellArea createEmptyCell( CellArea upperCell,
+			int columnId, Row row, Row lastRow )
+	{
+		ICellContent cellContent = null;
+		int rowSpan = 1;
+
+		if ( upperCell != null )
+		{
+			cellContent = (ICellContent) upperCell.getContent( );
+			rowSpan = upperCell.getRowSpan( );
+		}
+		
+		if ( cellContent == null )
+		{
+			cellContent = tableContent.getReportContent( )
+					.createCellContent( );
+			cellContent.setColumn( columnId );
+			cellContent.setColSpan( 1 );
+			cellContent.setRowSpan( 1 );
+			cellContent.setParent( row.getArea( ).getContent( ) );
+		}
+		int emptyCellColID = cellContent.getColumn( );
+		int emptyCellColSpan = cellContent.getColSpan( );
+		CellArea emptyCell = AreaFactory
+				.createCellArea( cellContent );
+		emptyCell.setRowSpan( rowSpan );
+		row.addArea( emptyCell );
+		
+		CellArea leftSideCellArea = null;
+		if ( emptyCellColID > startCol )
+		{
+			leftSideCellArea = row.getCell( emptyCellColID - 1 );
+			if ( leftSideCellArea == null )
+			{
+				// the left-side cell is a dummy cell which will be
+				// created in addRow()
+				cellCache[1] = (ICellContent) lastRow.getCell(
+						emptyCellColID - 1 ).getContent( );
+				int k = emptyCellColID - 1;
+				while ( leftSideCellArea == null && k > startCol )
+				{
+					k--;
+					leftSideCellArea = row.getCell( k );
+				}
 			}
 			else
 			{
-				if ( cell != null )
-				{
-					if ( cell.getRowSpan( ) == 1 )
-					{
-						height = Math.max( height, cell.getHeight( ) );
-					}
-					if(!(cell instanceof DummyCell))
-					{
-						previousCellArea = cell;
-					}
-				}
-				if ( cell == null )
-				{
-					ICellContent cellContent = null;
-					int rowSpan = 1;
-					if ( unresolvedRow != null )
-					{
-						lastCell = unresolvedRow.getCell( i );
-
-						if ( lastCell != null )
-						{
-							cellContent = (ICellContent) lastCell.getContent( );
-							rowSpan = lastCell.getRowSpan( );
-						}
-					}
-					if ( cellContent == null )
-					{
-						cellContent = tableContent.getReportContent( )
-								.createCellContent( );
-						cellContent.setColumn( i );
-						cellContent.setColSpan( 1 );
-						cellContent.setRowSpan( 1 );
-						cellContent.setParent( rowArea.getContent( ) );
-						rowSpan = 1;
-					}
-					int startColumn = cellContent.getColumn( );
-					int endColumn = cellContent.getColSpan( ) + startColumn;
-					CellArea emptyCell = AreaFactory
-							.createCellArea( cellContent );
-					emptyCell.setRowSpan( rowSpan );
-
-					if ( previousCellArea != null )
-					{
-						lastCellContent = (ICellContent) previousCellArea
-								.getContent( );
-					}
-					resolveBorderConflict( emptyCell, true );
-					IStyle areaStyle = emptyCell.getStyle( );
-					areaStyle.setProperty( IStyle.STYLE_PADDING_TOP,
-							IStyle.NUMBER_0 );
-					areaStyle.setProperty( IStyle.STYLE_MARGIN_TOP,
-							IStyle.NUMBER_0 );
-					emptyCell.setWidth( getCellWidth( startColumn, endColumn ) );
-					emptyCell.setPosition( layoutInfo.getXPosition( i ), 0 );
-					if ( previousCellArea != null )
-					{
-						int index = rowArea.indexOf( previousCellArea );
-						rowArea.addChild( index + 1, emptyCell );
-					}
-					else
-					{
-						rowArea.addChild(0, emptyCell );
-					}
-					i = i + emptyCell.getColSpan( ) - 1;
-				}
+				cellCache[1] = (ICellContent) leftSideCellArea.getContent( );
 			}
 		}
-
-		// update row height
-		if ( height >= 0 )
+		else
 		{
-			Iterator iter = rowArea.getChildren( );
-			while ( iter.hasNext( ) )
+			leftSideCellArea = null;
+		}
+		resolveBorderConflict( emptyCell, true );
+		IStyle areaStyle = emptyCell.getStyle( );
+		areaStyle.setProperty( IStyle.STYLE_PADDING_TOP, IStyle.NUMBER_0 );
+		areaStyle.setProperty( IStyle.STYLE_MARGIN_TOP, IStyle.NUMBER_0 );
+		emptyCell.setWidth( getCellWidth( emptyCellColID, emptyCellColID
+				+ emptyCellColSpan ) );
+		emptyCell.setPosition( layoutInfo.getXPosition( columnId ), 0 );
+		if ( leftSideCellArea != null )
+		{
+			int index = row.getArea( ).indexOf( leftSideCellArea );
+			row.getArea( ).addChild( index + 1, emptyCell );
+		}
+		else
+		{
+			row.getArea( ).addChild( 0, emptyCell );
+		}
+		return emptyCell;
+	}
+	
+	/**
+	 * Updates the row height and the height of the cells in the row.
+	 * @param rowArea
+	 * @param height
+	 */
+	private void updateRowHeight( Row row, int height )
+	{
+		if ( height < 0 )
+			return;
+		row.getArea( ).setHeight( height );
+		for ( int i = startCol; i <= endCol; i++ )
+		{
+			CellArea cell = row.getCell( i );
+			if ( cell.getRowSpan( ) == 1 )
 			{
-				CellArea cell = (CellArea) iter.next( );
-				if ( cell.getRowSpan( ) == 1 )
+				if ( cell instanceof DummyCell )
+				{
+					CellArea refCell = ( (DummyCell) cell ).getCell( );
+					int delta = ( (DummyCell) cell ).getDelta( );
+					if ( delta < height )
+					{
+						refCell.setHeight( refCell.getHeight( ) - delta + height );
+					}
+					( (DummyCell) cell ).setDelta( 0 );
+					verticalAlign( refCell );
+				}
+				else
 				{
 					cell.setHeight( height );
 					verticalAlign( cell );
-				}
+				}				
 			}
-			rowArea.setHeight( height );
+			i = i + cell.getColSpan( ) - 1;
 		}
-
 	}
 
-	protected int getRowSpan( IRowContent row, CellArea cell, RowArea rowArea )
-	{
-		int rowSpan = cell.getRowSpan( );
-		IContent rowContent = rowArea.getContent( );
-		InstanceID id = row.getInstanceID( );
-		InstanceID contentId = rowContent.getInstanceID( );
-
-		if ( id != null && contentId != null )
-		{
-			if ( rowSpan > 1
-					&& ( !id.toUniqueString( ).equals(
-							contentId.toUniqueString( ) ) ) )
-			{
-				return rowSpan - 1;
-			}
-			return rowSpan;
-		}
-		else
-		// FIX 203576
-		{
-			if ( row != rowContent && rowSpan > 1 )
-			{
-				return rowSpan - 1;
-			}
-			else
-			{
-				return rowSpan;
-			}
-		}
-
-	}
-
-	protected CellArea getReference( )
-	{
-		return null;
-	}
-
-	public int getCellWidth( int startColumn, int endColumn )
+	private int getCellWidth( int startColumn, int endColumn )
 	{
 		if ( layoutInfo != null )
 		{
@@ -838,27 +745,8 @@ public class TableAreaLayout
 		return 0;
 	}
 
-	public Row getLastRow( )
-	{
-		Row row = (Row) rows.getCurrent( );
-		return row;
-	}
-
-	protected Row getPreviousRow( )
-	{
-		// FIXME use current cursor
-		int size = rows.size( );
-		for ( int i = size - 1; i >= 0; i-- )
-		{
-			Row row = (Row) rows.get( i );
-			return row;
-		}
-		return null;
-	}
-
 	public static class Row
 	{
-
 		protected int start;
 		protected int length;
 		protected int end;
@@ -935,10 +823,6 @@ public class TableAreaLayout
 
 		public void addArea( IArea area )
 		{
-			if ( !( area instanceof DummyCell ) )
-			{
-				row.addChild( area );
-			}
 			CellArea cell = (CellArea) area;
 			int colId = cell.getColumnID( );
 			int colSpan = cell.getColSpan( );
@@ -951,7 +835,6 @@ public class TableAreaLayout
 					cells[colId - start + j] = cell;
 				}
 			}
-
 		}
 
 		/**
@@ -961,7 +844,5 @@ public class TableAreaLayout
 		{
 			return row;
 		}
-
 	}
-
 }

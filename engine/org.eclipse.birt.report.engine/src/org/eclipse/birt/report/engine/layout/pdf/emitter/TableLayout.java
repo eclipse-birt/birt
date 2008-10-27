@@ -39,14 +39,10 @@ import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
 public class TableLayout extends RepeatableLayout
 {
-
-	
-	
 	/**
 	 * table content
 	 */
 	private ITableContent tableContent;
-
 
 	/**
 	 * number of table column
@@ -179,7 +175,8 @@ public class TableLayout extends RepeatableLayout
 
 	protected void closeLayout( ContainerContext currentContext, int index, boolean finished )
 	{
-		if(currentContext.root==null || currentContext.root.getChildrenCount()==0)
+		if ( currentContext.root == null
+				|| currentContext.root.getChildrenCount( ) == 0 )
 		{
 			return;
 		}
@@ -676,44 +673,15 @@ public class TableLayout extends RepeatableLayout
 			}
 		}
 	}
-
-	/**
-	 * update row height
-	 * 
-	 * @param row
-	 */
-	public void updateRow( RowArea row, int specifiedHeight, int index, int size )
-	{
-		
-		if ( isInBlockStacking )
-		{
-			tableContext = (TableContext) contextList.get( index );
-			if ( tableContext.layout != null )
-			{
-				tableContext.layout.updateRow( row, specifiedHeight );
-			}
-		}
-		else
-		{
-			int tableSize = contextList.size( );
-			tableContext = (TableContext) contextList.get( tableSize - size
-					+ index );
-			if ( tableContext.layout != null )
-			{
-				tableContext.layout.updateRow( row, specifiedHeight );
-			}
-		}
-	}
 	
-
-	public void addRow( RowArea row, int index, int size )
+	public void addRow( RowArea row, int specifiedHeight, int index, int size )
 	{
 		if ( isInBlockStacking )
 		{
 			tableContext = (TableContext) contextList.get( index );
 			if ( tableContext.layout != null )
 			{
-				tableContext.layout.addRow( row );
+				tableContext.layout.addRow( row, specifiedHeight );
 			}
 		}
 		else
@@ -723,7 +691,7 @@ public class TableLayout extends RepeatableLayout
 					+ index );
 			if ( tableContext.layout != null )
 			{
-				tableContext.layout.addRow( row );
+				tableContext.layout.addRow( row, specifiedHeight );
 			}
 		}
 		
@@ -828,6 +796,11 @@ public class TableLayout extends RepeatableLayout
 						tableContext.layout.addRow( (RowArea)row );
 					}
 				}
+//				int deltaHeight = tableContext.layout.resolveAll( );
+//				if ( 0 != deltaHeight)
+//				{
+//					area.setHeight( area.getHeight( ) + deltaHeight );	
+//				}
 			}
 			
 			
