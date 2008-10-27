@@ -364,7 +364,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 			pageFooterFloatFlag = htmlOption.getPageFooterFloatFlag( );
 			//htmlRtLFlag = htmlOption.getHtmlRtLFlag( );
-			retrieveRtLFlag( htmlOption ); // bidi_hcg
 			enableMetadata = htmlOption.getEnableMetadata( );
 			ouputInstanceIDs = htmlOption.getInstanceIDs( );
 			metadataEmitter = new MetadataEmitter( writer, htmlOption, idGenerator );
@@ -491,6 +490,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			reportDesign = report.getDesign( );
 			designHandle = reportDesign.getReportDesign( );
 		}
+		retrieveRtLFlag( ); // bidi_hcg
 		if ( null == layoutPreference )
 		{
 			// get the layout preference from the report design.
@@ -2971,11 +2971,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * @param htmlOption
 	 * @author bidi_hcg
 	 */
-	private void retrieveRtLFlag( HTMLRenderOption htmlOption )
+	private void retrieveRtLFlag( )
 	{
 		// If htmlOption has RTL_FLAG option set (likely adopted from an URL
 		// parameter), honor this option, otherwise obtain direction from
 		// the report design.
+		HTMLRenderOption htmlOption = new HTMLRenderOption( renderOption );
 		Object bidiFlag = htmlOption.getOption( IRenderOption.RTL_FLAG );
 		if ( Boolean.TRUE.equals( bidiFlag ) )
 		{
