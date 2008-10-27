@@ -1235,6 +1235,8 @@ public class GetParameterDefinitionTask extends EngineTask
 			paramGroup.setDisplayNameKey( handle.getDisplayNameKey( ) );
 			paramGroup.setHelpText( handle.getHelpText( ) );
 			paramGroup.setHelpTextKey( handle.getHelpTextKey( ) );
+			paramGroup.setPromptText( handle.getPromptText( ) );
+			paramGroup.setPromptTextKey( handle.getPromptTextKey( ) );
 			SlotHandle parameters = handle.getParameters( );
 
 			// set custom properties
