@@ -121,6 +121,10 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 						CrosstabAdaptUtil.removeInvalidBindings( reportHandle );
 					}
 				}
+				else
+				{
+					processor( showLevels, result, nullLevelHandle, true);
+				}
 				
 				AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper(reportHandle);
 				providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.SWITCH_VIEW_TYPE );

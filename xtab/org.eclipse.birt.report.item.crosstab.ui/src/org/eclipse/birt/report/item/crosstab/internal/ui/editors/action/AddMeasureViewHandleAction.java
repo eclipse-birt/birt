@@ -168,6 +168,10 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 						CrosstabAdaptUtil.removeInvalidBindings( reportHandle );
 					}
 				}
+				else
+				{
+					processor( input, result, true );
+				}
 
 				providerWrapper.switchViews( );
 				if ( needUpdateView )
@@ -251,8 +255,12 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 		for ( int i = 0; i < temp.size( ); i++ )
 		{
 			MeasureInfo info = (MeasureInfo) temp.get( i );
-			if ( info.isShow( ) )
+			if ( info.isShow( ))
 			{
+				if (!doChange)
+				{
+					continue;
+				}
 				// reportHandle.insertMeasure( info.getMeasure( ),
 				// reportHandle.getMeasureCount( ) );
 				MeasureHandle measure = reportHandle.getCube( )
