@@ -365,6 +365,21 @@ public class ImageDialog extends TrayDialog
 	{
 		boolean complete = uriEditor.getText( ) != null
 				&& uriEditor.getText( ).trim( ).length( ) > 0;
+		URL url = null;
+		try
+		{
+			url = new URL( uriEditor.getText( ).trim( ) );
+			if ( selectedType == EMBEDDED_TYPE )
+			{
+				File file = new File( url.getPath( ) );
+				complete = file.exists( ) && file.isAbsolute( );
+			}
+		}
+		catch ( Exception e )
+		{
+			complete = false;
+		}
+		
 		previewButton.setEnabled( complete );
 		getButton( IDialogConstants.OK_ID ).setEnabled( complete );
 		browseButton.setVisible( embedded.getSelection( ) );
