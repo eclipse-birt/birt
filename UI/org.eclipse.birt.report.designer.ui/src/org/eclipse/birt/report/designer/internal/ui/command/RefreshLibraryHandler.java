@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.editors.AbstractMultiPageEditor;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -22,6 +23,8 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.ui.forms.editor.FormEditor;
 
 /**
  * 
@@ -33,7 +36,9 @@ public class RefreshLibraryHandler extends SelectionHandler
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
+	 * .ExecutionEvent)
 	 */
 	public Object execute( ExecutionEvent event ) throws ExecutionException
 	{
@@ -71,6 +76,8 @@ public class RefreshLibraryHandler extends SelectionHandler
 		{
 			return reloadAllLibraries( obj );
 		}
+		
+		UIUtil.refreshCurrentEditorMarkers( );
 
 		return new Boolean( retBoolean );
 	}
@@ -80,8 +87,9 @@ public class RefreshLibraryHandler extends SelectionHandler
 		boolean retBoolean = true;
 		if ( obj instanceof ReportDesignHandle || obj instanceof LibraryHandle )
 		{
-			retBoolean = UIUtil.reloadModuleHandleLibraries( (ModuleHandle )obj);
+			retBoolean = UIUtil.reloadModuleHandleLibraries( (ModuleHandle) obj );
 		}
+		UIUtil.refreshCurrentEditorMarkers( );
 		return new Boolean( retBoolean );
 	}
 }

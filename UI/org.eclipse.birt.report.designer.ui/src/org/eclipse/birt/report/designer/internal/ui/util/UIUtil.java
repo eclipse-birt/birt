@@ -2000,4 +2000,19 @@ public class UIUtil
 	{
 		return new Shell( SWT.SHELL_TRIM | Window.getDefaultOrientation( ) );
 	}
+	
+	public static void refreshCurrentEditorMarkers( )
+	{
+		FormEditor editor = UIUtil.getActiveReportEditor( );
+		if ( editor instanceof AbstractMultiPageEditor )
+		{
+			try
+			{
+				( (AbstractMultiPageEditor) editor ).refreshMarkers( editor.getEditorInput( ) );
+			}
+			catch ( CoreException e )
+			{
+			}
+		}
+	}
 }

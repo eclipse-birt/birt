@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.command;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -27,10 +28,13 @@ import org.eclipse.core.commands.ExecutionException;
 
 public class ReloadCssStyleHandler extends SelectionHandler
 {
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
+	 * .ExecutionEvent)
 	 */
 	public Object execute( ExecutionEvent event ) throws ExecutionException
 	{
@@ -42,99 +46,105 @@ public class ReloadCssStyleHandler extends SelectionHandler
 
 		if ( obj instanceof List )
 		{
-			List tmpList = (List)obj;
-			if( tmpList.size( ) < 1 )
+			List tmpList = (List) obj;
+			if ( tmpList.size( ) < 1 )
 				return new Boolean( true );
 			obj = tmpList.get( 0 );
 		}
-		if ( obj instanceof CssStyleSheetHandle  )
+		if ( obj instanceof CssStyleSheetHandle )
 		{
-			container = ((CssStyleSheetHandle)obj).getContainerHandle( );
-		}else
-		if(obj instanceof ReportDesignHandle || obj instanceof ThemeHandle)
+			container = ( (CssStyleSheetHandle) obj ).getContainerHandle( );
+		}
+		else if ( obj instanceof ReportDesignHandle
+				|| obj instanceof ThemeHandle )
 		{
 			container = obj;
 			obj = null;
 		}
 
-		retBoolean = reloadCss((CssStyleSheetHandle)obj, container);
+		retBoolean = reloadCss( (CssStyleSheetHandle) obj, container );
 		return new Boolean( retBoolean );
 	}
-	
-	private boolean reloadCss(CssStyleSheetHandle cssCtyleSheetHandle, Object container )
+
+	private boolean reloadCss( CssStyleSheetHandle cssCtyleSheetHandle,
+			Object container )
 	{
-		if(cssCtyleSheetHandle == null)
+		if ( cssCtyleSheetHandle == null )
 		{
 			List cssStyleSheet = null;
-			if(container instanceof ReportDesignHandle)
+			if ( container instanceof ReportDesignHandle )
 			{
-				cssStyleSheet = ((ReportDesignHandle)container).getAllCssStyleSheets( );
-				if(cssStyleSheet == null)
+				cssStyleSheet = ( (ReportDesignHandle) container ).getAllCssStyleSheets( );
+				if ( cssStyleSheet == null )
 				{
 					return true;
 				}
-				for(int i = 0; i < cssStyleSheet.size( ); i ++)
+				for ( int i = 0; i < cssStyleSheet.size( ); i++ )
 				{
 					try
 					{
-						((ReportDesignHandle)container).reloadCss( (CssStyleSheetHandle)cssStyleSheet.get( i ) );
+						( (ReportDesignHandle) container ).reloadCss( (CssStyleSheetHandle) cssStyleSheet.get( i ) );
 					}
 					catch ( SemanticException e )
 					{
-						ExceptionHandler.handle(e);
+						ExceptionHandler.handle( e );
 						return false;
 					}
 				}
-				
-			}else
-			if(container instanceof ThemeHandle)
+
+			}
+			else if ( container instanceof ThemeHandle )
 			{
-				cssStyleSheet = ((ThemeHandle)container).getAllCssStyleSheets( );
-				if(cssStyleSheet == null)
+				cssStyleSheet = ( (ThemeHandle) container ).getAllCssStyleSheets( );
+				if ( cssStyleSheet == null )
 				{
 					return true;
 				}
-				for(int i = 0; i < cssStyleSheet.size( ); i ++)
+				for ( int i = 0; i < cssStyleSheet.size( ); i++ )
 				{
 					try
 					{
-						((ThemeHandle)container).reloadCss( (CssStyleSheetHandle)cssStyleSheet.get( i ) );
+						( (ThemeHandle) container ).reloadCss( (CssStyleSheetHandle) cssStyleSheet.get( i ) );
 					}
 					catch ( SemanticException e )
 					{
-						ExceptionHandler.handle(e);
+						ExceptionHandler.handle( e );
 						return false;
 					}
 				}
 			}
 
-		}else
+		}
+		else
 		{
-			if(container instanceof ReportDesignHandle)
+			if ( container instanceof ReportDesignHandle )
 			{
 				try
 				{
-					((ReportDesignHandle)container).reloadCss( cssCtyleSheetHandle );
+					( (ReportDesignHandle) container ).reloadCss( cssCtyleSheetHandle );
 				}
 				catch ( SemanticException e )
 				{
-					ExceptionHandler.handle(e);
+					ExceptionHandler.handle( e );
 					return false;
 				}
-			}else
-			if(container instanceof ThemeHandle)
+			}
+			else if ( container instanceof ThemeHandle )
 			{
 				try
 				{
-					((ThemeHandle)container).reloadCss( cssCtyleSheetHandle );
+					( (ThemeHandle) container ).reloadCss( cssCtyleSheetHandle );
 				}
 				catch ( SemanticException e )
 				{
-					ExceptionHandler.handle(e);
+					ExceptionHandler.handle( e );
 					return false;
 				}
 			}
 		}
+		
+		UIUtil.refreshCurrentEditorMarkers( );
+		
 		return true;
 	}
 }
