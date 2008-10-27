@@ -231,6 +231,26 @@ public class DataSetCacheManager
 			return 0;
 		}
 	}
+	
+	/**
+	 * @return >0: the max row count to be cached
+	 *         <0: unlimited cache capability
+	 *         =0: do not use cache at all 
+	 * @throws DataException 
+	 */
+	public int getCacheCountConfig( ) throws DataException
+	{
+		DataSetCacheConfig dscc = this.getDataSetCacheConfig( dataSetDesign, appContext );
+		if (dscc != null)
+		{
+			return dscc.getCountConfig( );
+		}
+		else
+		{
+			//do not use cache at all
+			return 0;
+		}
+	}
 
 	/**
 	 * Clear cache

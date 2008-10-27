@@ -31,7 +31,7 @@ public class DataSetCacheUtil
 	 * @param context
 	 * @param session
 	 * @param dataSetDesign
-	 * @return
+	 * @return null if no JVM level data set cache settings
 	 * @throws DataException
 	 */
 	public static DataSetCacheConfig getJVMDataSetCacheConfig(
@@ -42,7 +42,7 @@ public class DataSetCacheUtil
 		String tempDir = context.getTmpdir( );
 		if (dataSetDesign != null && dataSetDesign instanceof IIncreCacheDataSetDesign)
 		{
-			return DataSetCacheConfig.getInstance( DataSetCacheMode.IN_DISK, Integer.MAX_VALUE, true, tempDir );
+			return DataSetCacheConfig.getInstance( DataSetCacheMode.IN_DISK, -1, true, tempDir );
 		}
 		if ( appContext != null )
 		{
@@ -86,6 +86,14 @@ public class DataSetCacheUtil
 		return null;
 	}
 	
+	
+	/**
+	 * @param queryExecutionHints
+	 * @param dataSetDesign
+	 * @param session
+	 * @return null if no Dte level data set settings
+	 * @throws DataException
+	 */
 	public static DataSetCacheConfig getDteDataSetCacheConfig(IEngineExecutionHints queryExecutionHints,
 			IBaseDataSetDesign dataSetDesign,
 			DataEngineSession session) throws DataException
@@ -98,7 +106,7 @@ public class DataSetCacheUtil
 		{
 			if (queryExecutionHints.needCacheDataSet( dataSetDesign.getName( ) ))
 			{
-				return DataSetCacheConfig.getInstacne( DataSetCacheMode.IN_DISK, Integer.MAX_VALUE, session.getTempDir( ));
+				return DataSetCacheConfig.getInstacne( DataSetCacheMode.IN_DISK, -1, session.getTempDir( ));
 			}
 			else
 			{

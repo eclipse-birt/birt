@@ -13,45 +13,60 @@ package org.eclipse.birt.data.engine.executor;
 public class DataSetCacheConfig
 {
 	private DataSetCacheMode cacheMode;
-	private int cacheCapability;
+
+	/**
+	 * >0: the max row count of cache
+	 * <0: unlimited cache capability
+	 * 0:  invalid value, can't be this value
+	 */
+	private int countConfig;
+	
 	private boolean isIncremental;
 	private String cacheDir;
 	
-	private DataSetCacheConfig( DataSetCacheMode cacheMode, int cacheCapability, boolean isIncremental, String cacheDir)
+	private DataSetCacheConfig( DataSetCacheMode cacheMode, int countConfig, boolean isIncremental, String cacheDir)
 	{
-		assert cacheMode != null && cacheCapability > 0; 
+		assert cacheMode != null && countConfig != 0; 
 		this.cacheMode = cacheMode;
-		this.cacheCapability = cacheCapability;
+		this.countConfig = countConfig;
 		this.isIncremental = isIncremental;
 		this.cacheDir = cacheDir;
 	}
 	
 	
-	public static DataSetCacheConfig getInstacne(DataSetCacheMode cacheMode, int cacheCapability, String cacheDir)
+	public static DataSetCacheConfig getInstacne(DataSetCacheMode cacheMode, int countConfig, String cacheDir)
 	{
-		return getInstance(cacheMode, cacheCapability, false, cacheDir);
+		return getInstance(cacheMode, countConfig, false, cacheDir);
 	}
 	
-	public static DataSetCacheConfig getInstance(DataSetCacheMode cacheMode, int cacheCapability, boolean isIncremental, String cacheDir)
+	/**
+	 * @param cacheMode
+	 * @param countConfig >0: a limited count cache; <0: unlimited capability cache; =0: do not use cache at all.
+	 *        see <code>setCacheOption( )</code> method in <code>org.eclipse.birt.data.engine.api.DataEngineContext</code>
+	 * @param isIncremental
+	 * @param cacheDir
+	 * @return
+	 */
+	public static DataSetCacheConfig getInstance(DataSetCacheMode cacheMode, int countConfig, boolean isIncremental, String cacheDir)
 	{
-		if (cacheMode == null || cacheCapability == 0)
+		if (cacheMode == null || countConfig == 0)
 		{
 			return null;
 		}
-		if (cacheCapability > 0)
-		{
-			return new DataSetCacheConfig(cacheMode, cacheCapability, isIncremental, cacheDir);
-		}
-		else
-		{
-			return new DataSetCacheConfig(cacheMode, Integer.MAX_VALUE, isIncremental, cacheDir);
-		}
+		return new DataSetCacheConfig(cacheMode, countConfig, isIncremental, cacheDir);
 	}
 
+	/**
+	 * @return 
+	 */
+	int getCountConfig( )
+	{
+		return countConfig;
+	}
 	
 	int getCacheCapability( )
 	{
-		return cacheCapability;
+		return countConfig < 0 ? Integer.MAX_VALUE : countConfig;
 	}
 	
 	String getCacheDir( )
@@ -63,7 +78,7 @@ public class DataSetCacheConfig
 	{
 		if (cacheMode == DataSetCacheMode.IN_MEMORY)
 		{
-			return new MemoryDataSetCacheObject(cacheCapability);
+			return new MemoryDataSetCacheObject( getCacheCapability( ) );
 		} 
 		else if (cacheMode == DataSetCacheMode.IN_DISK)
 		{
@@ -73,7 +88,7 @@ public class DataSetCacheConfig
 			}
 			else
 			{
-				return new DiskDataSetCacheObject(cacheDir, cacheCapability);
+				return new DiskDataSetCacheObject(cacheDir, getCacheCapability( ) );
 			}
 		}
 		assert false;
