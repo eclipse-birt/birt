@@ -29,3 +29,4 @@ missing.join.condition=팩트 테이블과 차원 "{0}" 간의 조인 조건이 없습니다.
 exception.error=처리 도중 예외가 발생했습니다. 자세한 내용은 다음 메시지를 참조하십시오.
 invalid.level.expression=수준 이름 "{0}"을(를) 찾을 수 없습니다.
 invalid.measure.expression=측정값 "{0}"의 측정값 식은 널(null)일 수 없습니다.
+invalid.data.type=Invalid data type: {0}. 
