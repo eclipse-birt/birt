@@ -29,3 +29,4 @@ missing.join.condition=La condition de jointure nécessaire entre la table de fai
 exception.error=Une exception s'est produite au cours du traitement. Pour plus de détails, consultez le message suivant :
 invalid.level.expression=Le nom de niveau "{0}" est introuvable.
 invalid.measure.expression=L'expression de mesure"{0}" ne peut pas être nulle.
+invalid.data.type=Invalid data type: {0}. 
