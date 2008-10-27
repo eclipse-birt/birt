@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
+import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -232,6 +233,43 @@ public class DataAdapterUtil
 		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB ) )
 			return DataType.BLOB_TYPE;
 		return DataType.UNKNOWN_TYPE;
+	}
+	
+	/**
+	 * @param type: a Data Engine data type
+	 * @return Data Engine data types compatible with <code>type</code>, including <code>type</code> itself
+	 * @throws exception if <code>DataType.ANY_TYPE</code>, <code>DataType.UNKNOWN_TYPE</code> or other unsupported int value is passed into
+	 */
+	public static int[] getCompatibleDataTypes( int type ) throws AdapterException
+	{
+		switch ( type )
+		{
+			case DataType.BOOLEAN_TYPE:
+				return new int[]{ DataType.BOOLEAN_TYPE };
+			case DataType.INTEGER_TYPE:
+				return new int[]{ DataType.INTEGER_TYPE };
+			case DataType.DOUBLE_TYPE:
+				return new int[]{ DataType.DOUBLE_TYPE, DataType.INTEGER_TYPE };
+			case DataType.DECIMAL_TYPE:
+				return new int[]{ DataType.DECIMAL_TYPE, DataType.DOUBLE_TYPE, DataType.INTEGER_TYPE };
+			case DataType.STRING_TYPE:
+				return new int[]{ DataType.STRING_TYPE, DataType.BOOLEAN_TYPE,
+						DataType.DECIMAL_TYPE, DataType.DOUBLE_TYPE, DataType.INTEGER_TYPE, 
+						DataType.DATE_TYPE, DataType.BLOB_TYPE, DataType.BINARY_TYPE, 
+						DataType.SQL_DATE_TYPE, DataType.SQL_TIME_TYPE };
+			case DataType.DATE_TYPE:
+				return new int[]{ DataType.DATE_TYPE, DataType.SQL_DATE_TYPE, DataType.SQL_TIME_TYPE };
+			case DataType.BLOB_TYPE:
+				return new int[]{ DataType.BLOB_TYPE };
+			case DataType.BINARY_TYPE:
+				return new int[]{ DataType.BINARY_TYPE };
+			case DataType.SQL_DATE_TYPE:
+				return new int[]{ DataType.SQL_DATE_TYPE };
+			case DataType.SQL_TIME_TYPE:
+				return new int[]{ DataType.SQL_TIME_TYPE };
+			default:
+				throw new AdapterException( ResourceConstants.INVALID_DATA_TYPE, type );
+		}
 	}
 		
 	/**

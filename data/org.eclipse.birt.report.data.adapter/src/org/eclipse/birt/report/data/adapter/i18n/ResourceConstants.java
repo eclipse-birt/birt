@@ -33,4 +33,5 @@ public class ResourceConstants
 	public final static String EXCEPTION_ERROR = "exception.error";
 	public final static String INVALID_LEVEL_EXPRESSION = "invalid.level.expression";
 	public final static String INVALID_MEASURE_EXPRESSION = "invalid.measure.expression";
+	public final static String INVALID_DATA_TYPE = "invlid.data.type";
 }
