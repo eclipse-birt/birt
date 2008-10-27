@@ -61,11 +61,9 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.data.dte.DteDataEngine;
 import org.eclipse.birt.report.engine.data.dte.DteMetaInfoIOUtil;
+import org.eclipse.birt.report.engine.data.dte.QueryResultSet;
 import org.eclipse.birt.report.engine.executor.EngineExtensionManager;
-import org.eclipse.birt.report.engine.extension.IBaseResultSet;
-import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IDataExtractionExtension;
-import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.engine.IDataExtension;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
@@ -228,6 +226,8 @@ public class DataExtractionTaskV1 extends EngineTask
 				ReportItemDesign item = (ReportItemDesign) query2itemMapping
 						.get( query );
 				String queryName = item.getName( );
+				// FIXME: as an report element may have 2 or more queries, the queryName
+				// shoulde be different for each query
 				if ( queryName == null )
 				{
 					queryName = "ELEMENT_" + item.getID( );
@@ -400,84 +400,6 @@ public class DataExtractionTaskV1 extends EngineTask
 		return (InstanceID[]) iids.toArray( new InstanceID[]{} );
 	}
 
-	IBaseResultSet executeQuery( IBaseResultSet prset, InstanceID iid )
-			throws BirtException
-	{
-		DataID dataId = iid.getDataID( );
-		if ( dataId != null && prset != null )
-		{
-			if ( prset instanceof IQueryResultSet )
-			{
-				( (IQueryResultSet) prset ).skipTo( dataId.getRowID( ) );
-			}
-			else if ( prset instanceof ICubeResultSet )
-			{
-				( (ICubeResultSet) prset ).skipTo( dataId.getCellID( ) );
-			}
-		}
-		long id = iid.getComponentID( );
-		ReportItemDesign design = (ReportItemDesign) report
-				.getReportItemByID( id );
-		if ( design != null )
-		{
-			IDataQueryDefinition query = design.getQuery( );
-			if ( query != null )
-			{
-				return executionContext.getDataEngine( ).execute( prset, query,
-						false );
-			}
-		}
-		return prset;
-	}
-
-	/**
-	 * get the result set name used by the instance.
-	 * 
-	 * @param iid
-	 *            instance id
-	 * @return result set name.
-	 */
-	protected String instanceId2RsetName( InstanceID iid )
-	{
-		InstanceID[] iids = getAncestors( iid );
-		ArrayList rsets = new ArrayList( );
-		IBaseResultSet prset = null;
-		IBaseResultSet rset = null;
-		String rsetName = null;
-		try
-		{
-			for ( int i = 0; i < iids.length; i++ )
-			{
-				rset = executeQuery( prset, iids[i] );
-				if ( rset != null && rset != prset )
-				{
-					rsets.add( rset );
-				}
-				prset = rset;
-			}
-			if ( rset != null )
-			{
-				rsetName = rset.getID( ).getDataSetName( );
-			}
-		}
-		catch ( BirtException ex )
-		{
-			logger.log( Level.SEVERE, ex.getLocalizedMessage( ), ex );
-
-		}
-		for ( int i = 0; i < rsets.size( ); i++ )
-		{
-			rset = (IBaseResultSet) rsets.get( i );
-			rset.close( );
-		}
-
-		if ( rsetName != null )
-		{
-			return rsetId2Name( rsetName );
-		}
-		return rsetName;
-	}
-
 	/**
 	 * get the resultset id from the query id.
 	 * 
@@ -616,25 +538,14 @@ public class DataExtractionTaskV1 extends EngineTask
 	{
 		try
 		{
-			if ( groupMode )
-			{
-				if ( resultSetName != null )
-				{
-					return extractByResultSetName( resultSetName );
-				}
-				if ( instanceId != null )
-				{
-					return extractByInstanceID( instanceId );
-				}
-				return null;
-			}
+			prepareMetaData( );
 			if ( resultSetName != null )
 			{
-				return extractByResultSetName2( resultSetName );
+				return extractByResultSetName( resultSetName );
 			}
 			if ( instanceId != null )
 			{
-				return extractByInstanceID2( instanceId );
+				return extractByInstanceID( instanceId );
 			}
 			return null;
 		}
@@ -643,6 +554,236 @@ public class DataExtractionTaskV1 extends EngineTask
 			throw new EngineException( ex );
 		}
 	}
+	
+	class QueryTask
+	{
+
+		IBaseQueryDefinition query;
+		DataSetID parent;
+		int rowId;
+		InstanceID iid;
+
+		QueryTask( IBaseQueryDefinition query, DataSetID parent, int rowId, InstanceID iid )
+		{
+			this.query = query;
+			this.parent = parent;
+			this.rowId = rowId;
+			this.iid = iid;
+		}
+	}
+	
+	/*
+	 * A plan is a list of QueryTask and these tasks are arranged in son-parent order,
+	 * that is, the nth QueryTask is based on the (n+1)th QueryTask
+	 */
+	class Plan extends ArrayList<QueryTask>
+	{
+	}
+	
+	/*
+	 * create a plan.
+	 */
+	private Plan createPlan( InstanceID instanceId ) throws EngineException
+	{
+		InstanceID iid = instanceId;
+		IBaseQueryDefinition query = null;
+		while ( iid != null )
+		{
+			long id = iid.getComponentID( );
+			ReportItemDesign design = (ReportItemDesign) report
+					.getReportItemByID( id );
+			IDataQueryDefinition dataQuery = design.getQuery( );
+
+			if ( dataQuery != null )
+			{
+				ReportItemHandle handle = (ReportItemHandle) design.getHandle( );
+				if ( !handle.allowExport( ) )
+				{
+					throw new EngineException(
+							MessageConstants.RESULTSET_EXTRACT_ERROR );
+				}
+				if ( !( dataQuery instanceof IBaseQueryDefinition ) )
+				{
+					// it is a cube query, as we don't support it now, exit.
+					return null;
+				}
+				query = (IBaseQueryDefinition) dataQuery;
+				break;
+			}
+			iid = iid.getParentID( );
+		}
+		// At this point, query refers to the last query in the query chain.
+		ArrayList<DataSetID> dsIDs = new ArrayList<DataSetID>( );
+		Plan plan = new Plan( );
+		while ( query != null )
+		{
+			while ( iid != null )
+			{
+				if ( iid.getDataID( ) != null )
+				{
+					DataID dataId = iid.getDataID( );
+					DataSetID dsId = dataId.getDataSetID( );
+					boolean found = false;
+					Iterator<DataSetID> itr = dsIDs.iterator( );
+					while ( itr.hasNext( ) )
+					{
+						if ( itr.next( ).equals( dsId ) )
+						{
+							found = true;
+							break;
+						}
+					}
+					if ( !found )
+					{
+						dsIDs.add( dsId );
+						QueryTask task = new QueryTask( query, dsId,
+								(int) dataId.getRowID( ), iid );
+						plan.add( task );
+						break;
+					}
+				}
+				iid = iid.getParentID( );
+			}
+			if ( iid == null )
+			{
+				break;
+			}
+			query = query.getParentQuery( );
+		}
+		// At this point, query refers to the top most query
+		QueryTask task = new QueryTask( query, null, -1, null );
+		plan.add( task );
+		return plan;
+	}
+	
+	/*
+	 * update a plan by replacing the item at [index] with the new query
+	 */
+	private void updatePlan( Plan plan, int index, IBaseQueryDefinition query )
+	{
+		if ( index < 0 || plan == null || plan.size( ) < index + 1 )
+		{
+			return;
+		}
+		QueryTask task = plan.get( index );
+		task.query = query;
+	}
+	
+	/*
+	 * update a plan's queries using the specified query and all its parent
+	 */
+	private void updatePlanFully( Plan plan, IBaseQueryDefinition query )
+	{
+		int index = 0;
+		while ( query != null && index <= plan.size( ) )
+		{
+			updatePlan( plan, index, query );
+			index++;
+			query = query.getParentQuery( );
+		}
+	}
+	
+	/*
+	 * execute those tasks from [index] to the top most
+	 */
+	private QueryResultSet executePlan( ArrayList<QueryTask> plan, int index )
+			throws BirtException
+	{
+		if ( plan == null || plan.size( ) == 0 || index < 0
+				|| index + 1 > plan.size( ) )
+		{
+			return null;
+		}
+
+		QueryResultSet parent = null;
+		for ( int current = plan.size( ) - 1; current >= index; current-- )
+		{
+			QueryTask task = plan.get( current );
+			IBaseQueryDefinition query = task.query;
+			if ( task.parent == null )
+			{
+				// this is a top query
+				String queryId = getQueryId( query );
+				String rsID = getResultsetID( null, -1, queryId );
+				assert rsID != null;
+
+				IQueryResults qryRS = executeQuery( rsID,
+						(QueryDefinition) query );
+				parent = new QueryResultSet( executionContext
+						.getDataEngine( ), executionContext,
+						(IQueryDefinition) query, qryRS );
+			}
+			else
+			{
+				if ( parent == null )
+				{
+					throw new EngineException(
+							MessageConstants.RESULTSET_EXTRACT_ERROR );
+				}
+				IResultIterator parentItr = parent.getResultIterator( );
+				parentItr.moveTo( task.rowId );
+				if ( query instanceof IQueryDefinition )
+				{
+					// this is a nested query
+					String queryId = getQueryId( query );
+					int rowId = parentItr.getRowId( );
+					String rsID = getResultsetID( parent.getQueryResultsID( ),
+							rowId, queryId );
+					assert rsID != null;
+					IQueryResults qryRS = executeQuery( rsID,
+							(QueryDefinition) query );
+					parent = new QueryResultSet( executionContext
+							.getDataEngine( ), executionContext, parent,
+							(IQueryDefinition) query, qryRS );
+				}
+				else if ( query instanceof ISubqueryDefinition )
+				{
+					// this is a sub query
+					String queryName = query.getName( );
+					Scriptable scope = executionContext.getSharedScope( );
+					IResultIterator itr2 = parentItr.getSecondaryIterator(
+							queryName, scope );
+					parent = new QueryResultSet( parent,
+							(ISubqueryDefinition) query, itr2 );
+				}
+				else
+				{
+					// should not enter here
+					return null;
+				}
+			}
+		}
+		return parent;
+	}
+	
+	// when cloning queries, map the cloned query to its old query id
+	private HashMap tmpQuery2QueryIdMapping = new HashMap( );
+	
+	private String getQueryId( IBaseQueryDefinition query )
+	{
+		String id = (String) tmpQuery2QueryIdMapping.get( query );
+		if ( id == null )
+		{
+			return (String) query2QueryIdMapping.get( query );
+		}
+		return id;
+	}
+	
+	private IQueryResults executeQuery( String rset, QueryDefinition query )
+			throws BirtException
+	{
+		( (QueryDefinition) query ).setQueryResultsID( rset );
+
+		DataRequestSession dataSession = executionContext.getDataEngine( )
+				.getDTESession( );
+		Scriptable scope = executionContext.getSharedScope( );
+		Map appContext = executionContext.getAppContext( );
+		// prepare the query
+		processQueryExtensions( query );
+
+		IPreparedQuery pQuery = dataSession.prepare( query, appContext );
+		return pQuery.execute( scope );
+	}
 
 	/*
 	 * export result directly from result set name
@@ -650,11 +791,6 @@ public class DataExtractionTaskV1 extends EngineTask
 	private IExtractionResults extractByResultSetName( String rsetName )
 			throws BirtException
 	{
-		assert rsetName != null;
-		assert executionContext.getDataEngine( ) != null;
-
-		prepareMetaData( );
-		
 		if ( !rsetName2IdMapping.containsKey( rsetName ) )
 		{
 			throw new EngineException( MessageConstants.RESULTSET_EXTRACT_ERROR );
@@ -666,95 +802,34 @@ public class DataExtractionTaskV1 extends EngineTask
 		if ( rsetId != null )
 		{
 			IQueryResults results = null;
-			/*
-			if ( null == filterExpressions && null == sortExpressions )
+			String queryId = (String) rsetId2queryIdMapping.get( rsetId );
+			QueryDefinition query = (QueryDefinition) getQuery( queryId );
+			if ( null == query )
 			{
-				results = dataSession.getQueryResults( rsetId );
+				return null;
 			}
-			else
+			// set up a new query
+			QueryDefinition newQuery = null;
+			if ( groupMode )
 			{
-			*/
-				// creat new query
-				String queryId = (String) rsetId2queryIdMapping.get( rsetId );
-				QueryDefinition query = (QueryDefinition) getQuery( queryId );
-				QueryDefinition newQuery = cloneQuery( query );
-				if ( null == newQuery )
-				{
-					return null;
-				}
-
+				newQuery = cloneQuery( query );
 				setupQueryWithFilterAndSort( newQuery );
-
-				// get new result
 				newQuery.setQueryResultsID( rsetId );
-				Scriptable scope = executionContext.getSharedScope( );
-				// prepare the query
-				processQueryExtensions( newQuery );
-				
-				IPreparedQuery preparedQuery = dataSession.prepare( newQuery );
-				results = preparedQuery.execute( scope );
-			//}
-
-			if ( null != results )
-			{
-				IResultMetaData metaData = getResultMetaData( rsetName );
-				if ( metaData != null )
-				{
-					return new ExtractionResults( results, metaData,
-							this.selectedColumns, startRow, maxRows );
-				}
-			}
-		}
-		return null;
-	}
-	
-	/*
-	 * export data by resultset name. This is used for non-group mode.
-	 */
-	private IExtractionResults extractByResultSetName2( String rsetName )
-			throws BirtException
-	{
-		assert rsetName != null;
-		assert executionContext.getDataEngine( ) != null;
-
-		prepareMetaData( );
-		
-		if ( !rsetName2IdMapping.containsKey( rsetName ) )
-		{
-			throw new EngineException( MessageConstants.RESULTSET_EXTRACT_ERROR );
-		}
-
-		DataRequestSession dataSession = executionContext.getDataEngine( )
-				.getDTESession( );
-		String rsetId = rsetName2Id( rsetName );
-		if ( rsetId != null )
-		{
-			IQueryResults results = null;
-			/*
-			if ( null == filterExpressions && null == sortExpressions )
-			{
-				results = dataSession.getQueryResults( rsetId );
 			}
 			else
 			{
-			*/
-				// creat new query
-				String queryId = (String) rsetId2queryIdMapping.get( rsetId );
-				QueryDefinition query = (QueryDefinition) getQuery( queryId );
-				query.setQueryResultsID( rsetId );
-				QueryDefinition newQuery = new QueryDefinition( );
-				newQuery.setSourceQuery( query );
+				QueryDefinition cloned = cloneQuery( query );
+				cloned.setQueryResultsID( rsetId );
+				newQuery = new QueryDefinition( );
+				newQuery.setSourceQuery( cloned );
 				setupQueryWithFilterAndSort( newQuery );
 				setupDistinct( newQuery );
-
-				// prepare the query
-				processQueryExtensions( newQuery );
-				
-				Scriptable scope = executionContext.getSharedScope( );
-				IPreparedQuery preparedQuery = dataSession.prepare( newQuery );
-				results = preparedQuery.execute( scope );
-			//}
-
+			}
+			// execute query
+			Scriptable scope = executionContext.getSharedScope( );
+			processQueryExtensions( newQuery );
+			IPreparedQuery preparedQuery = dataSession.prepare( newQuery );
+			results = preparedQuery.execute( scope );
 			if ( null != results )
 			{
 				IResultMetaData metaData = getResultMetaData( rsetName );
@@ -771,237 +846,86 @@ public class DataExtractionTaskV1 extends EngineTask
 	private IExtractionResults extractByInstanceID( InstanceID instanceId )
 			throws BirtException
 	{
-		InstanceID iid = instanceId;
-		while ( iid != null )
+		assert instanceId != null;
+		Plan plan = createPlan( instanceId );
+		if ( plan.size( ) == 0 )
 		{
-			long id = iid.getComponentID( );
-			ReportItemDesign design = (ReportItemDesign) report
-					.getReportItemByID( id );
-			IDataQueryDefinition dataQuery = design.getQuery( );
+			return null;
+		}
+		tmpQuery2QueryIdMapping.clear( );
+		IQueryResults queryResults = null;
 
-			if ( dataQuery != null )
+		QueryTask task = plan.get( 0 );
+		IBaseQueryDefinition query = task.query;
+		if ( groupMode )
+		{
+			IBaseQueryDefinition newQuery = null;
+			newQuery = cloneQuery( query );
+			setupQueryWithFilterAndSort( newQuery );
+
+			updatePlanFully( plan, newQuery );
+			QueryResultSet rset = executePlan( plan, 0 );
+			if ( rset == null )
 			{
-				ReportItemHandle handle = (ReportItemHandle) design.getHandle( );
-				if ( !handle.allowExport( ) )
-				{
-					throw new EngineException(
-							MessageConstants.RESULTSET_EXTRACT_ERROR );
-				}
-				if ( !( dataQuery instanceof IBaseQueryDefinition ) )
-				{
-					// it is a cube query, as we don't support it now, exit.
-					return null;
-				}
-				IBaseQueryDefinition query = (IBaseQueryDefinition) dataQuery;
-				String queryId = (String)query2QueryIdMapping.get( query );
-				query = cloneQuery( query );
-				setupQueryWithFilterAndSort( query );
-
-				if ( query instanceof IQueryDefinition )
-				{
-					DataID dataId = getValidDataID( iid );
-					if ( dataId != null )
-					{
-						DataSetID dataSetId = dataId.getDataSetID( );
-						long rowId = dataId.getRowID( );
-						/*
-						IResultIterator dataIter = executeQuery( dataSetId
-								.toString( ), rowId, queryId,
-								(IQueryDefinition) query );
-						*/
-						IResultIterator dataIter = executeQuery( dataSetId,
-								rowId, (IQueryDefinition) query, queryId );
-						
-						IResultMetaData metaData = getMetaDateByInstanceID( instanceId );
-						if ( dataIter != null && metaData != null )
-						{
-							return new ExtractionResults( dataIter, metaData,
-									this.selectedColumns, startRow, maxRows );
-						}
-						return null;
-					}
-
-					//this is the topmost level, we must find the result set of the query
-					
-					IResultIterator dataIter = executeQuery( null, -1, queryId, (QueryDefinition)query );
-					IResultMetaData metaData = getMetaDateByInstanceID( instanceId );
-					if ( dataIter != null && metaData != null )
-					{
-						return new ExtractionResults( dataIter, metaData,
-								this.selectedColumns, startRow, maxRows );
-					}
-					return null;
-				}
-				else
-				{
-					DataID dataId = getValidDataID( iid );
-					if ( dataId != null )
-					{
-						DataSetID dataSetId = dataId.getDataSetID( );
-						long rowId = dataId.getRowID( );
-
-						IResultIterator dataIter = executeSubQuery( dataSetId,
-								rowId, (ISubqueryDefinition) query );
-						IResultMetaData metaData = getMetaDateByInstanceID( instanceId );
-						if ( dataIter != null && metaData != null )
-						{
-							return new ExtractionResults( dataIter, metaData,
-									this.selectedColumns, startRow, maxRows );
-						}
-						return null;
-					}
-
-				}
-
+				return null;
 			}
-			iid = iid.getParentID( );
+			queryResults = (IQueryResults) rset.getQueryResults( );
+		}
+		else
+		{
+			QueryDefinition newQuery = new QueryDefinition( );
+			if ( query instanceof IQueryDefinition )
+			{
+				QueryDefinition cloned = cloneQuery( (QueryDefinition) query );
+				updatePlanFully( plan, cloned );
+				QueryResultSet rset = executePlan( plan, 0 );
+				( (QueryDefinition) cloned ).setQueryResultsID( rset
+						.getQueryResultsID( ) );
+				newQuery.setSourceQuery( cloned );
+				setupQueryWithFilterAndSort( newQuery );
+			}
+			else
+			{
+				ISubqueryDefinition clonedSubquery = cloneQuery2(
+						(SubqueryDefinition) query, task.iid );
+				updatePlanFully( plan, clonedSubquery );
+				int index = 1;
+				ISubqueryDefinition topSubquery = clonedSubquery;
+				while ( topSubquery != null )
+				{
+					if ( topSubquery.getParentQuery( ) instanceof IQueryDefinition )
+					{
+						break;
+					}
+					topSubquery = (ISubqueryDefinition) topSubquery
+							.getParentQuery( );
+					index++;
+				}
+				QueryResultSet rset = executePlan( plan, index );
+				( (QueryDefinition) topSubquery.getParentQuery( ) )
+						.setQueryResultsID( rset.getQueryResultsID( ) );
+				newQuery.setSourceQuery( clonedSubquery );
+				setupDistinct( newQuery );
+				setupQueryWithFilterAndSort( newQuery );
+			}
+
+			DataRequestSession dataSession = executionContext.getDataEngine( )
+					.getDTESession( );
+			Scriptable scope = executionContext.getSharedScope( );
+			processQueryExtensions( newQuery );
+			IPreparedQuery preparedQuery = dataSession.prepare( newQuery );
+			queryResults = preparedQuery.execute( scope );
+		}
+		if ( queryResults != null )
+		{
+			IResultMetaData metaData = getMetaDateByInstanceID( instanceId );
+			if ( metaData != null )
+			{
+				return new ExtractionResults( queryResults, metaData,
+						this.selectedColumns, startRow, maxRows );
+			}
 		}
 		return null;
-	}
-	
-	/*
-	 * export data by instance id, used for non-group mode.
-	 */
-	private IExtractionResults extractByInstanceID2( InstanceID instanceId )
-			throws BirtException
-	{
-		InstanceID iid = instanceId;
-		while ( iid != null )
-		{
-			long id = iid.getComponentID( );
-			ReportItemDesign design = (ReportItemDesign) report
-					.getReportItemByID( id );
-			IDataQueryDefinition dataQuery = design.getQuery( );
-
-			if ( dataQuery != null )
-			{
-				ReportItemHandle handle = (ReportItemHandle) design.getHandle( );
-				if ( !handle.allowExport( ) )
-				{
-					throw new EngineException(
-							MessageConstants.RESULTSET_EXTRACT_ERROR );
-				}
-				if ( !( dataQuery instanceof IBaseQueryDefinition ) )
-				{
-					// it is a cube query, as we don't support it now, exit.
-					return null;
-				}
-				IBaseQueryDefinition query = (IBaseQueryDefinition) dataQuery;
-				String queryId = (String)query2QueryIdMapping.get( query );
-
-				DataRequestSession dataSession = executionContext
-						.getDataEngine( ).getDTESession( );
-				Scriptable scope = executionContext.getSharedScope( );
-				
-				if ( query instanceof IQueryDefinition )
-				{
-					String prsid = null;
-					long rowId = -1;
-					DataID dataId = getValidDataID( iid );
-					if ( dataId != null )
-					{
-						DataSetID dataSetId = dataId.getDataSetID( );
-						rowId = dataId.getRowID( );
-						prsid = dataSetId.toString( );
-					}
-					
-					String rsId = getResultsetID( prsid, rowId, queryId );
-					( (QueryDefinition) query ).setQueryResultsID( rsId );
-					
-					QueryDefinition newQuery = new QueryDefinition( );
-					newQuery.setSourceQuery( query );
-					setupQueryWithFilterAndSort( newQuery );
-					setupDistinct( newQuery );
-					// prepare the query
-					processQueryExtensions( newQuery );
-					
-					IPreparedQuery preparedQuery = dataSession
-							.prepare( newQuery );
-					IQueryResults results = preparedQuery.execute( scope );
-
-					if ( null != results )
-					{
-						IResultMetaData metaData = getMetaDateByInstanceID( instanceId );
-						if ( metaData != null )
-						{
-							return new ExtractionResults( results, metaData,
-									this.selectedColumns, startRow, maxRows );
-						}
-					}
-					return null;
-				}
-				else
-				{
-					DataID dataId = getValidDataID( iid );
-					if ( dataId != null )
-					{
-						DataSetID dataSetId = dataId.getDataSetID( );
-						long rowId = dataId.getRowID( );
-
-						String rsetName = dataSetId.getDataSetName( );
-						while ( rsetName == null )
-						{
-							dataSetId = dataSetId.getParentID( );
-							rsetName = dataSetId.getDataSetName( );
-						}
-						query = cloneQuery2( query, iid );
-						IBaseQueryDefinition tmpQuery = query;
-						while ( !( tmpQuery instanceof QueryDefinition ) )
-						{
-							tmpQuery = tmpQuery.getParentQuery( );
-						}
-						( (QueryDefinition) tmpQuery )
-								.setQueryResultsID( rsetName );
-						
-						QueryDefinition newQuery = new QueryDefinition( );
-						newQuery.setSourceQuery( query );
-						setupQueryWithFilterAndSort(newQuery);
-						setupDistinct( newQuery );
-						// prepare the query
-						processQueryExtensions( newQuery );
-						
-						IPreparedQuery preparedQuery = dataSession
-								.prepare( newQuery );
-						IQueryResults results = preparedQuery.execute( scope );
-
-						if ( null != results )
-						{
-							IResultMetaData metaData = getMetaDateByInstanceID( instanceId );
-							if ( metaData != null )
-							{
-								return new ExtractionResults( results,
-										metaData, this.selectedColumns,
-										startRow, maxRows );
-							}
-						}
-						return null;
-					}
-				}
-
-			}
-			iid = iid.getParentID( );
-		}
-		return null;
-	}
-	
-	/*
-	 * traverse the instaceId chain from child up and return the first valid dataID.
-	 */
-	private DataID getValidDataID( InstanceID iid )
-	{
-		DataID dataId = null;
-
-		while ( iid != null )
-		{
-			dataId = iid.getDataID( );
-			if ( dataId != null )
-			{
-				break;
-			}
-			iid = iid.getParentID( );
-		}
-
-		return dataId;
 	}
 
 	private void setupQueryWithFilterAndSort( IBaseQueryDefinition query )
@@ -1032,17 +956,6 @@ public class DataExtractionTaskV1 extends EngineTask
 		( (BaseQueryDefinition) query ).setDistinctValue( this.distinct );
 	}
 
-	private IResultIterator executeQuery( String prset, long rowId,
-			String queryId, IQueryDefinition query ) throws BirtException
-	{
-		String rsId = getResultsetID( prset, rowId, queryId );
-		if ( rsId != null )
-		{
-			return executeQuery( rsId, (QueryDefinition) query );
-		}
-		return null;
-	}
-	
 	private String getResultsetID( String prset, long rowId, String queryId )
 	{
 		String parentRSet = ( prset == null ) ? "null" : prset;
@@ -1103,7 +1016,7 @@ public class DataExtractionTaskV1 extends EngineTask
 
 		return meta;
 	}
-
+/*
 	private IResultIterator executeQuery( String rset, QueryDefinition query )
 			throws BirtException
 	{
@@ -1178,7 +1091,89 @@ public class DataExtractionTaskV1 extends EngineTask
 			return executeQuery( rset, rawId, queryId, query );
 		}
 	}
+	
+	private IResultIterator executeQuery( String prset, long rowId,
+			String queryId, IQueryDefinition query ) throws BirtException
+	{
+		String rsId = getResultsetID( prset, rowId, queryId );
+		if ( rsId != null )
+		{
+			return executeQuery( rsId, (QueryDefinition) query );
+		}
+		return null;
+	}
+	
+	IBaseResultSet executeQuery( IBaseResultSet prset, InstanceID iid )
+			throws BirtException
+	{
+		DataID dataId = iid.getDataID( );
+		if ( dataId != null && prset != null )
+		{
+			if ( prset instanceof IQueryResultSet )
+			{
+				( (IQueryResultSet) prset ).skipTo( dataId.getRowID( ) );
+			}
+			else if ( prset instanceof ICubeResultSet )
+			{
+				( (ICubeResultSet) prset ).skipTo( dataId.getCellID( ) );
+			}
+		}
+		long id = iid.getComponentID( );
+		ReportItemDesign design = (ReportItemDesign) report
+				.getReportItemByID( id );
+		if ( design != null )
+		{
+			IDataQueryDefinition query = design.getQuery( );
+			if ( query != null )
+			{
+				return executionContext.getDataEngine( ).execute( prset, query,
+						false );
+			}
+		}
+		return prset;
+	}
 
+	protected String instanceId2RsetName( InstanceID iid )
+	{
+		InstanceID[] iids = getAncestors( iid );
+		ArrayList rsets = new ArrayList( );
+		IBaseResultSet prset = null;
+		IBaseResultSet rset = null;
+		String rsetName = null;
+		try
+		{
+			for ( int i = 0; i < iids.length; i++ )
+			{
+				rset = executeQuery( prset, iids[i] );
+				if ( rset != null && rset != prset )
+				{
+					rsets.add( rset );
+				}
+				prset = rset;
+			}
+			if ( rset != null )
+			{
+				rsetName = rset.getID( ).getDataSetName( );
+			}
+		}
+		catch ( BirtException ex )
+		{
+			logger.log( Level.SEVERE, ex.getLocalizedMessage( ), ex );
+
+		}
+		for ( int i = 0; i < rsets.size( ); i++ )
+		{
+			rset = (IBaseResultSet) rsets.get( i );
+			rset.close( );
+		}
+
+		if ( rsetName != null )
+		{
+			return rsetId2Name( rsetName );
+		}
+		return rsetName;
+	}
+*/
 	private BaseQueryDefinition cloneQuery2( IBaseQueryDefinition query,
 			InstanceID instanceID )
 	{
@@ -1274,6 +1269,9 @@ public class DataExtractionTaskV1 extends EngineTask
 		newQuery.setColumnProjection( query.getColumnProjection( ) );
 		
 		newQuery.setName( query.getName( ) );
+		
+		String queryID = (String)query2QueryIdMapping.get( query );
+		tmpQuery2QueryIdMapping.put( newQuery, queryID );
 		return newQuery;
 	}
 
