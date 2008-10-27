@@ -1414,19 +1414,6 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		} );
 	}
 
-	/**
-	 * Refresh resource markser
-	 * 
-	 * temporary for WTP XML editor
-	 * 
-	 * @param input
-	 * @throws CoreException
-	 */
-	public void refreshMarkers( IEditorInput input ) throws CoreException
-	{
-
-	}
-
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.designer.ui.views.IReportResourceChangeListener#resourceChanged(org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent)
 	 */

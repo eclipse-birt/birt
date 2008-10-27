@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.designer.ui.editors;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IEditorActionBarContributor;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.IFormPage;
 
@@ -54,4 +56,17 @@ public abstract class AbstractMultiPageEditor extends FormEditor
 
 	}
 
+
+	/**
+	 * Refresh resource markser
+	 * 
+	 * temporary for WTP XML editor
+	 * 
+	 * @param input
+	 * @throws CoreException
+	 */
+	public void refreshMarkers( IEditorInput input ) throws CoreException
+	{
+
+	}
 }
