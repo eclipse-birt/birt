@@ -3625,6 +3625,8 @@ TextEditDialog.toolTipText.fx=式ビルダを開く
 TextEditDialog.action.item.formatDateTime=日時の書式設定 
 TextEditDialog.action.item.formatNumber=数値の書式設定 
 TextEditDialog.action.item.formatString=文字列の書式設定 
+TextEditDialog.title.DlgNew=New Text Item
+TextEditDialog.title.DlgEdit=テキスト項目の編集
 
 ###########################################################
 #TextEditPart properties

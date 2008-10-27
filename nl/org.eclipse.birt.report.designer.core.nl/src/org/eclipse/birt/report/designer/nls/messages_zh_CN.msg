@@ -3625,6 +3625,8 @@ TextEditDialog.toolTipText.fx=打开表达式生成器
 TextEditDialog.action.item.formatDateTime=设置日期时间格式 
 TextEditDialog.action.item.formatNumber=设置数字格式 
 TextEditDialog.action.item.formatString=字符串格式 
+TextEditDialog.title.DlgNew=New Text Item
+TextEditDialog.title.DlgEdit=编辑文本项
 
 ###########################################################
 #TextEditPart properties

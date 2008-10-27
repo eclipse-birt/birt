@@ -3625,6 +3625,8 @@ TextEditDialog.toolTipText.fx=식 빌더 열기
 TextEditDialog.action.item.formatDateTime=날짜/시간 형식 
 TextEditDialog.action.item.formatNumber=숫자 형식 
 TextEditDialog.action.item.formatString=문자열 형식 
+TextEditDialog.title.DlgNew=New Text Item
+TextEditDialog.title.DlgEdit=텍스트 항목 편집
 
 ###########################################################
 #TextEditPart properties

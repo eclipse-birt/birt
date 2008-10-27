@@ -3625,6 +3625,8 @@ TextEditDialog.toolTipText.fx=Ausdruckserstellung öffnen
 TextEditDialog.action.item.formatDateTime=Datum/Uhrzeit formatieren 
 TextEditDialog.action.item.formatNumber=Zahl formatieren 
 TextEditDialog.action.item.formatString=Zeichenfolge formatieren 
+TextEditDialog.title.DlgNew=New Text Item
+TextEditDialog.title.DlgEdit=Textelement bearbeiten
 
 ###########################################################
 #TextEditPart properties
