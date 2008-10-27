@@ -590,6 +590,13 @@ public class CrosstabModelUtil implements ICrosstabConstants
 
 				LevelViewHandle colLevelHandle = getInnerMostLevel( crosstabItem,
 						COLUMN_AXIS_TYPE );
+
+				if ( colLevelHandle == null )
+				{
+					// empty column area, use measure detail cell directly
+					return mv.getCell( );
+				}
+
 				DimensionViewHandle colDimHandle = (DimensionViewHandle) colLevelHandle.getContainer( );
 
 				if ( colLevelHandle.getCubeLevelName( ).equals( colLevel )
@@ -892,6 +899,13 @@ public class CrosstabModelUtil implements ICrosstabConstants
 
 				LevelViewHandle rowLevelHandle = getInnerMostLevel( crosstabItem,
 						ROW_AXIS_TYPE );
+
+				if ( rowLevelHandle == null )
+				{
+					// empty row area, use measure detail cell directly
+					return mv.getCell( );
+				}
+
 				DimensionViewHandle rowDimHandle = (DimensionViewHandle) rowLevelHandle.getContainer( );
 
 				if ( rowLevelHandle.getCubeLevelName( ).equals( rowLevel )
