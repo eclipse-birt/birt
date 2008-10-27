@@ -406,8 +406,13 @@ public class ContentCommand extends AbstractContentCommand
 			DesignElement client = ref.getElement( );
 			if ( unresolveReference )
 			{
-				BackRefRecord record = new ElementBackRefRecord( module,
-						referred, client, ref.getPropertyName( ) );
+				BackRefRecord record = null;
+				if ( client != null )
+					record = new ElementBackRefRecord( module, referred,
+							client, ref.getPropertyName( ) );
+				else
+					record = new ElementBackRefRecord( module, referred, ref
+							.getStructure( ), ref.getPropertyName( ) );
 				getActivityStack( ).execute( record );
 			}
 			else

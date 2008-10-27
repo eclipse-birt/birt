@@ -50,8 +50,8 @@ public class ElementBackRefRecord extends BackRefRecord
 	 *            the element that refers to another element.
 	 * @param propName
 	 *            the property name. The type of the property must be
-	 *            <code>PropertyType.ELEMENT_REF_TYPE</code>. Meanwhile, it
-	 *            must not be <code>DesignElement.EXTENDS_PROP</code> and
+	 *            <code>PropertyType.ELEMENT_REF_TYPE</code>. Meanwhile, it must
+	 *            not be <code>DesignElement.EXTENDS_PROP</code> and
 	 *            <code>DesignElement.STYLE_PROP</code>
 	 */
 
@@ -77,8 +77,8 @@ public class ElementBackRefRecord extends BackRefRecord
 	 *            the element that refers to another element.
 	 * @param propName
 	 *            the property name. The type of the property must be
-	 *            <code>PropertyType.ELEMENT_REF_TYPE</code>. Meanwhile, it
-	 *            must not be <code>DesignElement.EXTENDS_PROP</code> and
+	 *            <code>PropertyType.ELEMENT_REF_TYPE</code>. Meanwhile, it must
+	 *            not be <code>DesignElement.EXTENDS_PROP</code> and
 	 *            <code>DesignElement.STYLE_PROP</code>
 	 * @param memberRef
 	 *            the member reference that refers to a structure member
@@ -133,14 +133,7 @@ public class ElementBackRefRecord extends BackRefRecord
 		}
 		else
 		{
-			if ( reference instanceof DesignElement )
-			{
-				removeElementRefOfProperty( );
-			}
-			else
-			{
-				removeBackRefOfStructMember( );
-			}
+			unresolveBackRef( module, reference, referred, propName );
 		}
 	}
 
@@ -148,7 +141,8 @@ public class ElementBackRefRecord extends BackRefRecord
 	 * Removes the back reference that established by a structure member value.
 	 */
 
-	private void removeBackRefOfStructMember( )
+	private static void removeBackRefOfStructMember( Module module,
+			Object reference, IReferencableElement referred, String propName )
 	{
 		Structure struct = (Structure) reference;
 		Object value = struct.getLocalProperty( module, propName );
@@ -165,7 +159,8 @@ public class ElementBackRefRecord extends BackRefRecord
 	 * Removes the back reference that established by a element property value.
 	 */
 
-	private void removeElementRefOfProperty( )
+	private static void removeElementRefOfProperty( Module module,
+			Object reference, IReferencableElement referred, String propName )
 	{
 		DesignElement tmpElement = (DesignElement) reference;
 
@@ -196,5 +191,18 @@ public class ElementBackRefRecord extends BackRefRecord
 	public DesignElement getTarget( )
 	{
 		return target;
+	}
+
+	static void unresolveBackRef( Module module, Object reference,
+			IReferencableElement referred, String propName )
+	{
+		if ( reference instanceof DesignElement )
+		{
+			removeElementRefOfProperty( module, reference, referred, propName );
+		}
+		else
+		{
+			removeBackRefOfStructMember( module, reference, referred, propName );
+		}
 	}
 }

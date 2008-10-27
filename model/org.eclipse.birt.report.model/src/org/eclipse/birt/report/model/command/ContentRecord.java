@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.command;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.LayoutRecordTask;
@@ -22,8 +23,11 @@ import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.ElementDeletedEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.GridItem;
@@ -34,10 +38,16 @@ import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.ReferenceValue;
+import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 
@@ -231,6 +241,105 @@ public class ContentRecord extends SimpleRecord
 
 			oldPosn = containerInfo.indexOf( module, content );
 			containerInfo.remove( module, content );
+
+			// for the content may be copied and pasted to the tree, so we must
+			// handle the back-reference relationship
+
+			// first, this content is referred by other elements
+			if ( content.hasReferences( ) )
+			{
+				adjustReferenceClients( (IReferencableElement) content );
+			}
+
+			// second, handle the content refers other element
+			adjustReferredClients( content );
+
+		}
+	}
+
+	private void adjustReferenceClients( IReferencableElement referred )
+	{
+		List clients = new ArrayList( referred.getClientList( ) );
+
+		Iterator iter = clients.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			BackRef ref = (BackRef) iter.next( );
+			DesignElement client = ref.getElement( );
+
+			if ( client != null )
+				ElementBackRefRecord.unresolveBackRef( module, client,
+						referred, ref.getPropertyName( ) );
+			else
+				ElementBackRefRecord.unresolveBackRef( module, ref
+						.getStructure( ), referred, ref.getPropertyName( ) );
+		}
+	}
+
+	private void adjustReferredClients( DesignElement element )
+	{
+		List propDefns = element.getPropertyDefns( );
+
+		StyleElement style = element.getStyle( module );
+		if ( style != null )
+		{
+			ElementBackRefRecord.unresolveBackRef( module, element, style,
+					IStyledElementModel.STYLE_PROP );
+		}
+		for ( Iterator iter = propDefns.iterator( ); iter.hasNext( ); )
+		{
+			PropertyDefn propDefn = (PropertyDefn) iter.next( );
+
+			// DO NOT consider extends and style property since this has been
+			// handled in remove method.
+
+			if ( IDesignElementModel.EXTENDS_PROP.equalsIgnoreCase( propDefn
+					.getName( ) )
+					|| IStyledElementModel.STYLE_PROP
+							.equalsIgnoreCase( propDefn.getName( ) ) )
+				continue;
+
+			if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE
+					|| propDefn.getTypeCode( ) == IPropertyType.STRUCT_REF_TYPE )
+			{
+				ReferenceValue value = (ReferenceValue) element
+						.getLocalProperty( module,
+								(ElementPropertyDefn) propDefn );
+
+				if ( value != null && value.isResolved( ) )
+				{
+					if ( value instanceof ElementRefValue )
+					{
+						( (ElementRefValue) value ).getTargetElement( )
+								.dropClient( element );
+					}
+					else
+					{
+						( (StructRefValue) value ).getTargetStructure( )
+								.dropClient( element );
+					}
+					value.unresolved( value.getName( ) );
+				}
+			}
+			else if ( propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE
+					&& propDefn.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+			{
+				List valueList = (List) element.getLocalProperty( module,
+						(ElementPropertyDefn) propDefn );
+				if ( valueList != null )
+				{
+					for ( int i = valueList.size( ) - 1; i >= 0; i-- )
+					{
+						ElementRefValue item = (ElementRefValue) valueList
+								.get( i );
+						if ( item.isResolved( ) )
+						{
+							item.getTargetElement( ).dropClient( element );
+							item.unresolved( item.getName( ) );
+						}
+					}
+				}
+			}
 		}
 	}
 
