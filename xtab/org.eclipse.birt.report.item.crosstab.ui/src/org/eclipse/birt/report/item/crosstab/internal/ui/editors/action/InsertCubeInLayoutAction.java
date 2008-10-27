@@ -378,10 +378,12 @@ public class InsertCubeInLayoutAction extends AbstractViewAction
 
 						stack.commit( );
 
-						if ( targetPart instanceof EditPart )
-						{
-							( (EditPart) targetPart ).getViewer( ).flush( );
-						}
+						//251960, viewer had been refreshed since model commit, and the targetEditPart is changed, 
+						//if we need to flush the viewer, we must re-retrieve it
+//						if ( targetPart instanceof EditPart )
+//						{
+//							( (EditPart) targetPart ).getViewer( ).flush( );
+//						}
 
 						ReportRequest request = new ReportRequest( );
 						List selectionObjects = new ArrayList( );
