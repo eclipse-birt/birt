@@ -1780,7 +1780,7 @@ public class CallStatement implements IAdvancedQuery
 		for ( int i = 0; i < positionArray.length; i++ )
 		{
 			int index = positionArray[i]; // 1-based
-			if ( paramMetaList1.size( ) >= index )
+			if ( paramMetaList1.size( ) >= index + containsReturnValue )
 				paramMetaList2.add( paramMetaList1.get( index
 						- 1 + containsReturnValue ) );
 			else
