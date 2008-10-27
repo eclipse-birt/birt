@@ -111,11 +111,13 @@ public class ReportRootFigure extends ReportElementFigure
 				
 				if (child.intersects(clip))
 				{
-					graphics.setClip( clip.getCopy( ) );
+					graphics.clipRect(bounds );
+					//graphics.setClip( clip.getCopy( ) );
 					child.paint( graphics );
+					
+					graphics.restoreState( );
 				}
-				
-				graphics.restoreState( );
+					
 			}
 		}
 	}

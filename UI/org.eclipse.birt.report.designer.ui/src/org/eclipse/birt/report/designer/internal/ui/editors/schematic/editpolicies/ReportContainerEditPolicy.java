@@ -49,7 +49,9 @@ public class ReportContainerEditPolicy extends ContainerEditPolicy
 		CompoundCommand result = new CompoundCommand( "Move in layout" );//$NON-NLS-1$
 		for ( int i = 0; i < parts.size( ); i++ )
 		{
-			result.add( new DeleteCommand( ( (EditPart) parts.get( i ) ).getModel( ) ) );
+			DeleteCommand command = new DeleteCommand( ( (EditPart) parts.get( i ) ).getModel( ) );
+			command.setClear( false );
+			result.add( command );
 		}
 		return result.unwrap( );
 	}
