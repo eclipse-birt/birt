@@ -176,6 +176,11 @@ public class ExtendedItem extends ReportItem
 		if ( handle == null )
 		{
 			handle = new ExtendedItemHandle( module, this );
+			IReportItem item = provider.getExtensionElement( );
+			if ( item != null )
+			{
+				item.setHandle( (ExtendedItemHandle) handle );
+			}
 		}
 		return (ExtendedItemHandle) handle;
 	}
