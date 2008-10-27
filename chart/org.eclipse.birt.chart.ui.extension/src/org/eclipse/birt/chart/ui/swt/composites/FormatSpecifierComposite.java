@@ -30,9 +30,11 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
@@ -945,7 +947,7 @@ public class FormatSpecifierComposite extends Composite
 				ModifyListener
 	{
 
-		private Text txtNumberPattern = null;
+		private CCombo txtNumberPattern = null;
 
 		private LocalizedNumberEditorComposite txtAdvMultiplier = null;
 
@@ -987,10 +989,40 @@ public class FormatSpecifierComposite extends Composite
 			lblNumberPattern.setLayoutData( gdLBLNumberPattern );
 			lblNumberPattern.setText( Messages.getString( "FormatSpecifierComposite.Lbl.NumberPattern" ) ); //$NON-NLS-1$
 
-			txtNumberPattern = new Text( this, SWT.BORDER | SWT.SINGLE );
+			txtNumberPattern = new CCombo( this, SWT.BORDER | SWT.SINGLE );
 			GridData gdTXTNumberPattern = new GridData( GridData.FILL_HORIZONTAL );
 			txtNumberPattern.setLayoutData( gdTXTNumberPattern );
 			txtNumberPattern.addModifyListener( this );
+			
+			// set sample number patterns
+			txtNumberPattern.setItems( new String[]{
+					"##.###", //$NON-NLS-1$
+					"00.###", //$NON-NLS-1$
+					"##,###.00", //$NON-NLS-1$
+					"0.00'K'", //$NON-NLS-1$
+					"##0.00 ¤", //$NON-NLS-1$
+					"###0.000‰" //$NON-NLS-1$
+			} );
+			txtNumberPattern.setVisibleItemCount( txtNumberPattern.getItemCount( ) );
+			txtNumberPattern.addSelectionListener( new SelectionAdapter( ) {
+
+				@Override
+				public void widgetSelected( SelectionEvent e )
+				{
+
+					bEnableEvents = false;
+					
+					if ( !( formatspecifier instanceof JavaNumberFormatSpecifier ) )
+					{
+						formatspecifier = JavaNumberFormatSpecifierImpl.create( "" ); //$NON-NLS-1$
+					}
+					( (JavaNumberFormatSpecifier) formatspecifier ).setPattern( txtNumberPattern.getText( ) );
+
+					bEnableEvents = true;
+
+					updatePreview( );
+				}
+			} );
 
 		}
 
@@ -1070,7 +1102,7 @@ public class FormatSpecifierComposite extends Composite
 				ModifyListener
 	{
 
-		private Text txtDatePattern = null;
+		private CCombo txtDatePattern = null;
 		private Label lblDatePattern;
 
 		private DateAdvancedComposite( Composite parent )
@@ -1096,10 +1128,42 @@ public class FormatSpecifierComposite extends Composite
 			lblDatePattern.setLayoutData( gdLBLDatePattern );
 			lblDatePattern.setText( Messages.getString( "FormatSpecifierComposite.Lbl.DatePattern" ) ); //$NON-NLS-1$
 
-			txtDatePattern = new Text( this, SWT.BORDER | SWT.SINGLE );
+			txtDatePattern = new CCombo( this, SWT.BORDER | SWT.SINGLE );
 			GridData gdTXTDatePattern = new GridData( GridData.FILL_HORIZONTAL );
 			txtDatePattern.setLayoutData( gdTXTDatePattern );
 			txtDatePattern.addModifyListener( this );
+			
+			txtDatePattern.setItems( new String[]{
+					"EEEE,MMMM dd,yyyy", //$NON-NLS-1$
+					"MM/dd/yy", //$NON-NLS-1$
+					"dd-MMM-yy", //$NON-NLS-1$
+					"LLL,yyyy", //$NON-NLS-1$
+					"hh:mm:ss,a", //$NON-NLS-1$
+					"HH:mm:ss", //$NON-NLS-1$
+					"DDD,yyyy,QQQQ", //$NON-NLS-1$
+					"EEE, MMM d, yyyy", //$NON-NLS-1$
+					"yyyy.MMMM.dd GGG hh:mm aaa", //$NON-NLS-1$
+					"yyyy.MM.dd G 'at' HH:mm:ss zzz" //$NON-NLS-1$
+			} );
+			txtDatePattern.setVisibleItemCount( txtDatePattern.getItemCount( ) );
+			txtDatePattern.addSelectionListener( new SelectionAdapter( ) {
+
+				@Override
+				public void widgetSelected( SelectionEvent e )
+				{
+					bEnableEvents = false;
+
+					if ( !( formatspecifier instanceof JavaDateFormatSpecifier ) )
+					{
+						formatspecifier = JavaDateFormatSpecifierImpl.create( "" ); //$NON-NLS-1$
+					}
+					( (JavaDateFormatSpecifier) formatspecifier ).setPattern( txtDatePattern.getText( ) );
+
+					bEnableEvents = true;
+
+					updatePreview( );
+				}
+			} );
 		}
 
 		public void populateLists( )
