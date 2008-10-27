@@ -187,6 +187,12 @@
 	<!-- Steps to do before running the build.xmls for the elements being built. -->
 	<!-- ===================================================================== -->
 	<target name="preProcess">
+		<replace dir="${buildDirectory}/plugins" value="${buildId}" token="@Replace_By_Date@">
+			<include name="**/about.mappings" />
+		</replace>
+		<replace dir="${buildDirectory}/plugins" value="${BranchVersion}.${buildId}" token="@BUILD@">
+			<include name="**/plugin.properties" />
+		</replace>
 	</target>
 
 	<!-- ===================================================================== -->
