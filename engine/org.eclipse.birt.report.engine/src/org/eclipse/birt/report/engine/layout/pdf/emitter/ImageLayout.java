@@ -65,7 +65,6 @@ public class ImageLayout extends Layout
 	{
 		ArrayList<String> flashUnsupportedFormatList = new ArrayList<String>( );
 		flashUnsupportedFormatList.add( "postscript" );
-		flashUnsupportedFormatList.add( "xls" );
 		flashUnsupportedFormatList.add( "ppt" );
 		unsupportedFormats.put( TYPE_FLASH_OBJECT, flashUnsupportedFormatList );
 	};
@@ -144,7 +143,7 @@ public class ImageLayout extends Layout
 	private boolean isOutputSupported( int type )
 	{
 		ArrayList<String> formats = unsupportedFormats.get( type );
-		if ( formats != null && formats.contains( context.getFormat( ) ) )
+		if ( formats != null && formats.contains( context.getFormat( ).toLowerCase( ) ) )
 		{
 			return false;
 		}
