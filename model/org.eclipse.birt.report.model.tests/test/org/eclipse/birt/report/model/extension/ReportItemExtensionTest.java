@@ -1228,7 +1228,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		// test the property values of cloned element
 
-		assertNull( ( (ExtendedItem) clonedHandle.getElement( ) )
+		assertNotNull( ( (ExtendedItem) clonedHandle.getElement( ) )
 				.getExtendedElement( ) );
 		clonedHandle.loadExtendedElement( );
 		assertEquals( TESTING_MATRIX_NAME, clonedHandle.getExtensionName( ) );

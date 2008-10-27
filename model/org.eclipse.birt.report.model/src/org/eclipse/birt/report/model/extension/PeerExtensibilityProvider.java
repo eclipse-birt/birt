@@ -691,7 +691,16 @@ public abstract class PeerExtensibilityProvider
 
 	public void copyFromWithNonElementType( PeerExtensibilityProvider source )
 	{
+		// if the extended element is not null, just copy it
+
+		reportItem = null;
+		if ( source.reportItem != null )
+		{
+			reportItem = source.reportItem.copy( );
+		}
+
 		// copy encryption map
+
 		if ( source.encryptionMap != null && !source.encryptionMap.isEmpty( ) )
 		{
 			if ( encryptionMap == null )
@@ -701,91 +710,28 @@ public abstract class PeerExtensibilityProvider
 
 		// extension Properties has been reallocated as a new hash map. There is
 		// no need to new again.
+
 		if ( extensionPropValues == null )
 			extensionPropValues = new HashMap( );
 
-		// handle property values
-		assert extensionPropValues != null;
-		reportItem = null;
-
-		// if report item is not empty, then we can only retrieve properties
-		// one by one in the extension definition; otherwise we can simply
-		// retrieve property whose value is set in the hash-map of source
-		if ( source.reportItem != null )
+		Iterator it = source.extensionPropValues.keySet( ).iterator( );
+		while ( it.hasNext( ) )
 		{
-			List props = getExtDefn( ).getProperties( );
-			for ( int i = 0; i < props.size( ); i++ )
-			{
-				ElementPropertyDefn prop = (ElementPropertyDefn) props.get( i );
-				if ( prop.isExtended( ) )
-				{
-					if ( prop.isElementType( ) )
-						continue;
+			String propName = (String) it.next( );
+			PropertyDefn propDefn = element.getPropertyDefn( propName );
+			if ( propDefn.isElementType( ) )
+				continue;
 
-					Object value = source.getExtensionProperty( source.element
-							.getRoot( ), prop );
-					if ( value == null )
-						continue;
+			Object value = source.extensionPropValues.get( propName );
+			if ( value == null )
+				continue;
 
-					Object valueToSet = ModelUtil.copyValue( prop, value );
+			Object valueToSet = ModelUtil.copyValue( propDefn, value );
 
-					if ( valueToSet == null )
-						continue;
+			if ( valueToSet == null )
+				continue;
 
-					if ( prop.isEncryptable( ) )
-					{
-						String encryptionID = source.element
-								.getEncryptionID( prop );
-						String strValue = (String) valueToSet;
-						// getLocalProperty will return decrypted value, so
-						// encrypt it here
-						valueToSet = ModelUtil.encryptProperty( element, prop,
-								encryptionID, strValue );
-					}
-					extensionPropValues.put( prop.getName( ), valueToSet );
-
-					// if the property is structure type, then set-up the
-					// container relationship
-
-					if ( prop.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
-					{
-						ModelUtil.setStructureContext( prop, valueToSet,
-								element );
-					}
-				}
-			}
-		}
-		else
-		{
-
-			Iterator it = source.extensionPropValues.keySet( ).iterator( );
-			while ( it.hasNext( ) )
-			{
-				String propName = (String) it.next( );
-				PropertyDefn propDefn = element.getPropertyDefn( propName );
-				if ( propDefn.isElementType( ) )
-					continue;
-
-				Object value = source.extensionPropValues.get( propName );
-				if ( value == null )
-					continue;
-
-				Object valueToSet = ModelUtil.copyValue( propDefn, value );
-
-				if ( valueToSet == null )
-					continue;
-
-				extensionPropValues.put( propName, valueToSet );
-
-				// if the property is structure type, then set-up the
-				// container relationship
-
-				if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
-				{
-					ModelUtil.setStructureContext( propDefn, valueToSet,
-							element );
-				}
-			}
+			extensionPropValues.put( propName, valueToSet );
 		}
 	}
 
