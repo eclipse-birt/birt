@@ -503,7 +503,7 @@ public class StreamManager
 			case DataEngineContext.SUBQUERY_PARENTINDEX_STREAM :
 				return true;
 			case DataEngineContext.PLS_GROUPLEVEL_STREAM :
-				return true;
+				return false;
 			case DataEngineContext.META_STREAM :
 				return false;
 			case DataEngineContext.META_INDEX_STREAM :

@@ -39,6 +39,7 @@ import org.eclipse.birt.data.engine.executor.cache.SmartCache;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
 import org.eclipse.birt.data.engine.impl.document.PLSEnabledDataSetPopulator;
+import org.eclipse.birt.data.engine.impl.document.QueryResultIDManager;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDLoad;
@@ -85,6 +86,8 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		this.queryDefn = queryDefn;
 		this.engine = dataEngine;
 
+		if(!PLSUtil.isPLSEnabled( queryDefn ))
+			cleanUpOldRD();
 		logger.exiting( PreparedIVDataSourceQuery.class.getName( ),
 				"PreparedIVDataSourceQuery" );
 	}
@@ -96,8 +99,10 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 	 * 
 	 * @throws DataException
 	 */
-	/*private void cleanUpOldRD( ) throws DataException
+	private void cleanUpOldRD( ) throws DataException
 	{
+		if(true)
+			return;
 		String basedID = this.queryDefn.getQueryResultsID( );
 		String _1partID = QueryResultIDUtil.get1PartID( basedID );
 		if ( _1partID != null )
@@ -105,15 +110,17 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 
 		// remove EXPR_VALUE_STREAM, EXPR_META_STREAM, EXPR_ROWLEN_STREAM
 		StreamManager streamManager = new StreamManager( engine.getContext( ),
-				new QueryResultInfo( null, null, basedID, null, -1 ) );
+				new QueryResultInfo( queryDefn.getQueryResultsID( ),
+						null,
+						0 ) );
 
 		streamManager.dropStream1( DataEngineContext.EXPR_VALUE_STREAM );
-
+		streamManager.dropStream1( DataEngineContext.EXPR_ROWLEN_STREAM );
 		// remove QUERYID_INFO_STREAM
 		QueryResultIDManager.cleanChildOfRoot( streamManager );
 		streamManager.dropStream1( DataEngineContext.META_STREAM );
 		streamManager.dropStream1( DataEngineContext.META_INDEX_STREAM );
-	}*/
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -272,43 +279,55 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 						new QueryResultInfo( queryDefn.getQueryResultsID( ),
 								null,
 								0 ) );
-				if ( PLSUtil.isPLSEnabled( queryDefn )
-						&& PLSUtil.needUpdateDataSet( queryDefn, manager ) )
+				if ( PLSUtil.isPLSEnabled( queryDefn ) )
 				{
-					if ( engine.getContext( ).getDocWriter( ) != null )
+					if ( PLSUtil.needUpdateDataSet( queryDefn, manager ) )
 					{
-						//When we can update the data set data.
-						populatePLSDataSetData( eventHandler, stopSign, manager );
+						if ( engine.getContext( ).getDocWriter( ) != null )
+						{
+							// When we can update the data set data.
+							populatePLSDataSetData( eventHandler,
+									stopSign,
+									manager );
 
-						dataSetResult.close( );
+							dataSetResult.close( );
 
-						rdLoad = RDUtil.newLoad( engine.getSession( )
-								.getTempDir( ),
-								engine.getContext( ),
-								new QueryResultInfo( realBasedQueryID, null, -1 ) );
+							rdLoad = RDUtil.newLoad( engine.getSession( )
+									.getTempDir( ),
+									engine.getContext( ),
+									new QueryResultInfo( realBasedQueryID,
+											null,
+											-1 ) );
 
-						dataSetResult = rdLoad.loadDataSetData( );
+							dataSetResult = rdLoad.loadDataSetData( );
+						}
+						else
+						{
+							// Indicate that we need not update the report
+							// document.
+							org.eclipse.birt.data.engine.impl.document.ResultIterator docIt = new org.eclipse.birt.data.engine.impl.document.ResultIterator( engine.getSession( )
+									.getTempDir( ),
+									engine.getContext( ),
+									null,
+									queryDefn.getQueryResultsID( ) );
+							PLSEnabledDataSetPopulator populator = new PLSEnabledDataSetPopulator( queryDefn,
+									queryDefn.getQueryExecutionHints( )
+											.getTargetGroupInstances( ),
+									docIt );
+							IResultIterator resultIterator = new CachedResultSet( query,
+									populateResultClass( populator.getResultClass( ) ),
+									populator,
+									eventHandler,
+									engine.getSession( ),
+									stopSign );
+							dataSetResult.close( );
+							cleanUpOldRD( );
+							return resultIterator;
+						}
 					}
 					else
 					{
-						//Indicate that we need not update the report document.
-						org.eclipse.birt.data.engine.impl.document.ResultIterator docIt = new org.eclipse.birt.data.engine.impl.document.ResultIterator( engine.getSession( )
-								.getTempDir( ),
-								engine.getContext( ),
-								null,
-								queryDefn.getQueryResultsID( ) );
-						PLSEnabledDataSetPopulator populator = new PLSEnabledDataSetPopulator( queryDefn,
-								queryDefn.getQueryExecutionHints( )
-										.getTargetGroupInstances( ),
-								docIt );
-						IResultIterator resultIterator = new CachedResultSet( query,
-								populateResultClass( populator.getResultClass( ) ),
-								populator,
-								eventHandler,
-								engine.getSession( ),
-								stopSign );
-						dataSetResult.close( );
-						return resultIterator;
+						cleanUpOldRD( );
 					}
 				}
 				
@@ -365,7 +384,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 			
 			manager.dropStream1( DataEngineContext.DATASET_DATA_STREAM );
 			manager.dropStream1( DataEngineContext.DATASET_DATA_LEN_STREAM );
-			
+			cleanUpOldRD();
 			OutputStream resultClassStream = manager.getOutStream( DataEngineContext.DATASET_META_STREAM,
 					StreamManager.ROOT_STREAM,
 					StreamManager.SELF_SCOPE );
