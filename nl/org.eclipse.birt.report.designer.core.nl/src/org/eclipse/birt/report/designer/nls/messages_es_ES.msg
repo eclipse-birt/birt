@@ -3625,6 +3625,8 @@ TextEditDialog.toolTipText.fx=Abrir el compilador de expresiones
 TextEditDialog.action.item.formatDateTime=Formato de fecha/hora 
 TextEditDialog.action.item.formatNumber=Formato de número 
 TextEditDialog.action.item.formatString=Formato de string 
+TextEditDialog.title.DlgNew=New Text Item
+TextEditDialog.title.DlgEdit=Editar elemento de texto
 
 ###########################################################
 #TextEditPart properties

@@ -3625,6 +3625,8 @@ TextEditDialog.toolTipText.fx=Ouvrir le générateur d'expression
 TextEditDialog.action.item.formatDateTime=Format de date/heure 
 TextEditDialog.action.item.formatNumber=Format de nombre 
 TextEditDialog.action.item.formatString=Chaîne 
+TextEditDialog.title.DlgNew=New Text Item
+TextEditDialog.title.DlgEdit=Modifier l'élément de texte
 
 ###########################################################
 #TextEditPart properties
