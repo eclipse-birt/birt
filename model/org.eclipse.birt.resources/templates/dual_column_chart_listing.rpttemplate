@@ -1694,7 +1694,10 @@
         </template-parameter-definition>
     </template-parameter-definitions>
     <styles>
-        <style name="report" id="2"/>
+        <style name="report" id="2">
+		    <property name="fontFamily">"Verdana"</property>
+            <property name="fontSize">10pt</property>
+        </style>
         <style name="label" id="3"/>
         <style name="text" id="4"/>
         <style name="data" id="5"/>
@@ -1705,6 +1708,10 @@
     </styles>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="10">
+            <property name="topMargin">0.25in</property>
+            <property name="leftMargin">0.25in</property>
+            <property name="bottomMargin">0.25in</property>
+            <property name="rightMargin">0.25in</property>          
             <page-footer>
                 <text id="11">
                     <property name="contentType">html</property>
