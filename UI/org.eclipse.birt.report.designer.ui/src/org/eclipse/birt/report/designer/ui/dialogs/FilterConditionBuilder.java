@@ -1917,7 +1917,17 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 			{
-				String columnName = ( (ComputedColumnHandle) ( iter.next( ) ) ).getName( );
+				Object obj = iter.next( );
+				String columnName = "";
+				if ( obj instanceof ComputedColumnHandle )
+				{
+					columnName = ( (ComputedColumnHandle) ( obj ) ).getName( );
+				}
+				else if ( obj instanceof ResultSetColumnHandle )
+				{
+					columnName = ( (ResultSetColumnHandle) ( obj ) ).getColumnName( );
+				}
+
 				if ( DEUtil.getColumnExpression( columnName )
 						.equals( expression.getText( ) ) )
 				{
