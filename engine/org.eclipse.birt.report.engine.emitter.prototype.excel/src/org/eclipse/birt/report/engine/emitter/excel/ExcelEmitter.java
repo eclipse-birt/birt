@@ -516,23 +516,32 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			while ( iter.hasNext( ) )
 			{
 				Object child = iter.next( );
-				if ( child instanceof ITextContent )
-				{
-					headfoot.append( ( (ITextContent) child ).getText( ) );
-				}
-				if ( child instanceof IForeignContent )
-				{
-					headfoot
-							.append( ( (IForeignContent) child ).getRawValue( ) );
-				}
 				if ( child instanceof ITableContent )
 				{
 					headfoot.append( getTableValue( (ITableContent) child ) );
 				}
+				else
+					processText( headfoot, child );		
 			}
 			return headfoot.toString( );
 		}
 		return null;
+	}
+
+	private void processText( StringBuffer buffer, Object child )
+	{
+		if ( child instanceof IAutoTextContent )
+		{
+			buffer.append( getAutoText( (IAutoTextContent) child ) );
+		}
+		else if ( child instanceof ITextContent )
+		{
+			buffer.append( ( (ITextContent) child ).getText( ) );
+		}
+		else if ( child instanceof IForeignContent )
+		{
+			buffer.append( ( (IForeignContent) child ).getRawValue( ) );
+		}
 	}
 	
 	public boolean needOutputInMasterPage( IContent headerFooter )
@@ -622,17 +631,24 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		Iterator iter = list.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			Object child = iter.next( );
-			if ( child instanceof ITextContent )
-			{
-				cellValue.append( ( (ITextContent) child ).getText( ) );
-			}
-			if ( child instanceof IForeignContent )
-			{
-				cellValue.append( ( (IForeignContent) child ).getRawValue( ) );
-			}
+			processText( cellValue, iter.next( ) );
 		}
 		return cellValue.toString( );
+	}
+	
+	private String getAutoText( IAutoTextContent autoText )
+	{
+		String result = null;
+		int type = autoText.getType( );
+		if ( type == IAutoTextContent.PAGE_NUMBER )
+		{
+			result = "&P";
+		}
+		else if ( type == IAutoTextContent.TOTAL_PAGE )
+		{
+			result = "&N";
+		}
+		return result;
 	}
 	
 	private boolean isEmbededTable(ITableContent table)
