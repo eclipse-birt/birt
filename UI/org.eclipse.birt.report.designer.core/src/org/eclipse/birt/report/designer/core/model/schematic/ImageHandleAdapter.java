@@ -58,18 +58,25 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter
 		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL.equalsIgnoreCase( imageSource )
 				|| DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equalsIgnoreCase( imageSource ) )
 		{
-			if ( URIUtil.isValidResourcePath( getImageHandle( ).getURI( ) ) )
-			{
-				return ImageManager.getInstance( )
-						.getImage( getHandle( ).getModuleHandle( ),
-								URIUtil.getLocalPath( removeQuoteString( getImageHandle( ).getURI( ) ) ) );
-			}
-			else
-			{
-				return ImageManager.getInstance( )
-						.getImage( getHandle( ).getModuleHandle( ),
-								removeQuoteString( getImageHandle( ).getURI( ) ) );
-			}
+			// if ( URIUtil.isValidResourcePath( getImageHandle( ).getURI( ) ) )
+			// {
+			// return ImageManager.getInstance( )
+			// .getImage( getHandle( ).getModuleHandle( ),
+			// URIUtil.getLocalPath( removeQuoteString( getImageHandle(
+			// ).getURI( ) ) ) );
+			// }
+			// else
+			// {
+			// return ImageManager.getInstance( )
+			// .getImage( getHandle( ).getModuleHandle( ),
+			// removeQuoteString( getImageHandle( ).getURI( ) ) );
+			// }
+			//
+			
+			// bugzilla 245641
+			return ImageManager.getInstance( )
+					.getURIImage( getHandle( ).getModuleHandle( ),
+							removeQuoteString( getImageHandle( ).getURI( ) ) );
 		}
 		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR.equalsIgnoreCase( imageSource ) )
 		{
