@@ -37,7 +37,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupType <em>Group Type</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getAggregateExpression <em>Aggregate Expression</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getAggregateParameters <em>Aggregate Parameters</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getPatternForYOptional <em>Pattern For YOptional</em>}</li>
  * </ul>
  * </p>
  *
@@ -323,59 +322,5 @@ public interface SeriesGrouping extends EObject
 	 * @generated
 	 */
 	EList getAggregateParameters( );
-
-	/**
-	 * Returns the value of the '<em><b>Pattern For YOptional</b></em>' attribute.
-	 * The default value is <code>""</code>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Specifies the pattern of Datetime type or numeric type for Y Optional Grouping.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Pattern For YOptional</em>' attribute.
-	 * @see #isSetPatternForYOptional()
-	 * @see #unsetPatternForYOptional()
-	 * @see #setPatternForYOptional(String)
-	 * @see org.eclipse.birt.chart.model.data.DataPackage#getSeriesGrouping_PatternForYOptional()
-	 * @model default="" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.String"
-	 *        extendedMetaData="kind='element' name='PatternForYOptional'"
-	 * @generated
-	 */
-	String getPatternForYOptional( );
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getPatternForYOptional <em>Pattern For YOptional</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Pattern For YOptional</em>' attribute.
-	 * @see #isSetPatternForYOptional()
-	 * @see #unsetPatternForYOptional()
-	 * @see #getPatternForYOptional()
-	 * @generated
-	 */
-	void setPatternForYOptional( String value );
-
-	/**
-	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getPatternForYOptional <em>Pattern For YOptional</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isSetPatternForYOptional()
-	 * @see #getPatternForYOptional()
-	 * @see #setPatternForYOptional(String)
-	 * @generated
-	 */
-	void unsetPatternForYOptional( );
-
-	/**
-	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getPatternForYOptional <em>Pattern For YOptional</em>}' attribute is set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return whether the value of the '<em>Pattern For YOptional</em>' attribute is set.
-	 * @see #unsetPatternForYOptional()
-	 * @see #getPatternForYOptional()
-	 * @see #setPatternForYOptional(String)
-	 * @generated
-	 */
-	boolean isSetPatternForYOptional( );
 
 } // SeriesGrouping

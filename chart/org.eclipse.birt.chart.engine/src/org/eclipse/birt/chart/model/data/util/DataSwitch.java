@@ -302,11 +302,11 @@ public class DataSwitch
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Action</em>'.
+	 * Returns the result of interpretting the object as an instance of '<em>Action</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Action</em>'.
+	 * @return the result of interpretting the object as an instance of '<em>Action</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -332,13 +332,13 @@ public class DataSwitch
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Bubble Data Set</em>'.
+	 * Returns the result of interpretting the object as an instance of '<em>Bubble Data Set</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Bubble Data Set</em>'.
+	 * @return the result of interpretting the object as an instance of '<em>Bubble Data Set</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -348,11 +348,11 @@ public class DataSwitch
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Element</em>'.
+	 * Returns the result of interpretting the object as an instance of '<em>Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Element</em>'.
+	 * @return the result of interpretting the object as an instance of '<em>Element</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -362,11 +362,11 @@ public class DataSwitch
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Set</em>'.
+	 * Returns the result of interpretting the object as an instance of '<em>Set</em>'.
 	 * <!-- begin-user-doc --> This
 	 * implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Set</em>'.
+	 * @return the result of interpretting the object as an instance of '<em>Set</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -408,13 +408,13 @@ public class DataSwitch
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Difference Data Set</em>'.
+	 * Returns the result of interpretting the object as an instance of '<em>Difference Data Set</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Difference Data Set</em>'.
+	 * @return the result of interpretting the object as an instance of '<em>Difference Data Set</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -424,13 +424,13 @@ public class DataSwitch
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Gantt Data Set</em>'.
+	 * Returns the result of interpretting the object as an instance of '<em>Gantt Data Set</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Gantt Data Set</em>'.
+	 * @return the result of interpretting the object as an instance of '<em>Gantt Data Set</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -440,13 +440,13 @@ public class DataSwitch
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Null Data Set</em>'.
+	 * Returns the result of interpretting the object as an instance of '<em>Null Data Set</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Null Data Set</em>'.
+	 * @return the result of interpretting the object as an instance of '<em>Null Data Set</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -504,11 +504,11 @@ public class DataSwitch
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Query</em>'.
+	 * Returns the result of interpretting the object as an instance of '<em>Query</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Query</em>'.
+	 * @return the result of interpretting the object as an instance of '<em>Query</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -518,11 +518,11 @@ public class DataSwitch
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Rule</em>'.
+	 * Returns the result of interpretting the object as an instance of '<em>Rule</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Rule</em>'.
+	 * @return the result of interpretting the object as an instance of '<em>Rule</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -612,11 +612,11 @@ public class DataSwitch
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Trigger</em>'.
+	 * Returns the result of interpretting the object as an instance of '<em>Trigger</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Trigger</em>'.
+	 * @return the result of interpretting the object as an instance of '<em>Trigger</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -626,12 +626,12 @@ public class DataSwitch
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
+	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch, but this is the last
 	 * case anyway. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
+	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */

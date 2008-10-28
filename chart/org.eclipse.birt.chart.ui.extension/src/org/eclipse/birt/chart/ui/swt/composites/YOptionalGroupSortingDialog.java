@@ -11,10 +11,8 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.eclipse.birt.chart.model.Chart;
@@ -26,18 +24,11 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
-import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
-import org.eclipse.swt.events.FocusAdapter;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 
@@ -182,46 +173,14 @@ public class YOptionalGroupSortingDialog extends GroupSortingDialog
 	 */
 	class YSeriesGroupingComposite extends SeriesGroupingComposite
 	{
-		private List<String[]> preDTPatterns = new ArrayList<String[]>( );
-		private Label lblpattern;
-		private CCombo txtpattern;
 
 		public YSeriesGroupingComposite( Composite parent, int style,
 				SeriesGrouping grouping, boolean aggEnabled,
 				ChartWizardContext context, String title )
 		{
 			super( parent, style, grouping, aggEnabled, context, title );
-			fillDatePatterns( );
-			updatePatternStatus( );
 		}
 
-		private void fillDatePatterns( )
-		{
-			preDTPatterns.add( new String[]{
-					"ss", "mm:ss", "HH:mm:ss" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			} );
-			preDTPatterns.add( new String[]{
-					"mm", "HH:mm", "dd, HH:mm", "MM-dd, HH:mm", "MMM dd, HH:mm" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-			} );
-			preDTPatterns.add( new String[]{
-					"HH", "EEE, HH'h'", "MMM-dd, hh, a", "MMMM, dd, HH" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			} );
-			preDTPatterns.add( new String[]{
-					"MMM dd", "DDD 'of' yyyy", "MMM dd, yyyy" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			} );
-			preDTPatterns.add( new String[]{
-					"yyyy, 'Week'ww", "yyyy-LLL, W" //$NON-NLS-1$ //$NON-NLS-2$
-			} );
-			preDTPatterns.add( new String[]{
-					"LLL", "MMMM", "yyyy, LLL", "yyyy, MMMM" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			} );
-			preDTPatterns.add( new String[]{
-					"yyyy, QQQ", "yyyy, QQQQ" //$NON-NLS-1$ //$NON-NLS-2$
-			} );
-			preDTPatterns.add( new String[]{
-					"'Y' yyyy", "'Year' yy" //$NON-NLS-1$ //$NON-NLS-2$
-			} );
-		}
 
 		/* (non-Javadoc)
 		 * @see org.eclipse.birt.chart.ui.swt.composites.SeriesGroupingComposite#setGroupingButtonStatus()
@@ -240,103 +199,6 @@ public class YOptionalGroupSortingDialog extends GroupSortingDialog
 				btnEnabled.setSelection( false );
 			}
 		}
-		
-		@Override
-		protected void placeComponents( )
-		{
-			super.placeComponents( );
-			
-			lblpattern = new Label( grpContent, SWT.NONE );
-			GridData gd = new GridData( );
-			lblpattern.setLayoutData( gd );
-			lblpattern.setText( Messages.getString("YOptionalGroupSortingDialog.CustomPattern") ); //$NON-NLS-1$
-
-			txtpattern = new CCombo( grpContent, SWT.BORDER );
-			gd = new GridData( );
-			gd.widthHint = 90;
-			gd.horizontalSpan = 3;
-			txtpattern.setLayoutData( gd );
-			if ( fGrouping.isSetPatternForYOptional( ) )
-			{
-				txtpattern.setText( fGrouping.getPatternForYOptional( ) );
-			}
-			txtpattern.addSelectionListener( this );
-			txtpattern.addFocusListener( new FocusAdapter( ) {
-				@Override
-				public void focusLost( FocusEvent e )
-				{
-					fGrouping.setPatternForYOptional( txtpattern.getText( )
-							.trim( ) );
-				}
-			} );
-		}
-		
-		@Override
-		protected void setIntervalButtonsStatus( boolean enableUI )
-		{
-			super.setIntervalButtonsStatus( enableUI );
-			lblpattern.setEnabled( enableUI );
-			txtpattern.setEnabled( enableUI );
-		}
-		
-		private void updatePatternListForDateTime( )
-		{
-			if ( isDateTimeGrouping( cmbType.getText( ) ) )
-			{
-				txtpattern.setItems( preDTPatterns.get( cmbUnit.getSelectionIndex( ) ) );
-			}
-			else
-			{
-				// it will be disabled if its type is text
-				 txtpattern.setItems( new String[]{
-						"##.###", //$NON-NLS-1$
-						"00.###", //$NON-NLS-1$
-						"##,###.00", //$NON-NLS-1$
-						"0.00'K'", //$NON-NLS-1$
-						"¤ ##0.00", //$NON-NLS-1$
-				} );
-			}
-			txtpattern.setVisibleItemCount( txtpattern.getItemCount( ) + 1 );
-		}
-		
-		private void updatePatternStatus( )
-		{
-			if ( cmbType.isEnabled( ) )
-			{
-				if ( isTextGrouping( cmbType.getText( ) ) )
-				{
-					lblpattern.setEnabled( false );
-					txtpattern.setEnabled( false );
-				}
-				else
-				{
-					lblpattern.setEnabled( true );
-					txtpattern.setEnabled( true );
-				}
-				updatePatternListForDateTime( );
-			}
-		}
-		
-		@Override
-		public void widgetSelected( SelectionEvent e )
-		{
-			super.widgetSelected( e );
-			if ( e.widget == cmbType )
-			{
-				updatePatternStatus( );
-			}
-			else if ( e.widget == cmbUnit )
-			{
-				updatePatternListForDateTime( );
-			}
-			else if ( e.widget == txtpattern )
-			{
-				fGrouping.setPatternForYOptional( txtpattern.getText( ).trim( ) );
-			}
-			
-			
-		}
-		
 	}
 	/**
 	 * Get the Y Grouping expression.

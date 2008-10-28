@@ -694,21 +694,12 @@ public interface DataPackage extends EPackage
 	int SERIES_GROUPING__AGGREGATE_PARAMETERS = 6;
 
 	/**
-	 * The feature id for the '<em><b>Pattern For YOptional</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SERIES_GROUPING__PATTERN_FOR_YOPTIONAL = 7;
-
-	/**
 	 * The number of structural features of the '<em>Series Grouping</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SERIES_GROUPING_FEATURE_COUNT = 8;
+	int SERIES_GROUPING_FEATURE_COUNT = 7;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.StockDataSetImpl <em>Stock Data Set</em>}' class.
@@ -1304,17 +1295,6 @@ public interface DataPackage extends EPackage
 	EAttribute getSeriesGrouping_AggregateParameters( );
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getPatternForYOptional <em>Pattern For YOptional</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Pattern For YOptional</em>'.
-	 * @see org.eclipse.birt.chart.model.data.SeriesGrouping#getPatternForYOptional()
-	 * @see #getSeriesGrouping()
-	 * @generated
-	 */
-	EAttribute getSeriesGrouping_PatternForYOptional( );
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.data.StockDataSet <em>Stock Data Set</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Stock Data Set</em>'.
@@ -1835,14 +1815,6 @@ public interface DataPackage extends EPackage
 		 * @generated
 		 */
 		EAttribute SERIES_GROUPING__AGGREGATE_PARAMETERS = eINSTANCE.getSeriesGrouping_AggregateParameters( );
-
-		/**
-		 * The meta object literal for the '<em><b>Pattern For YOptional</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute SERIES_GROUPING__PATTERN_FOR_YOPTIONAL = eINSTANCE.getSeriesGrouping_PatternForYOptional( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.StockDataSetImpl <em>Stock Data Set</em>}' class.

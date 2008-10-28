@@ -57,17 +57,17 @@ public class SeriesGroupingComposite extends Composite implements
 		SelectionListener
 {
 
-	protected transient Group grpContent = null;
+	private transient Group grpContent = null;
 
 	protected transient Button btnEnabled = null;
 
 	private transient Label lblType = null;
 
-	protected transient Combo cmbType = null;
+	private transient Combo cmbType = null;
 
 	private transient Label lblUnit = null;
 
-	protected transient Combo cmbUnit = null;
+	private transient Combo cmbUnit = null;
 
 	private transient Label lblInterval = null;
 
@@ -131,7 +131,7 @@ public class SeriesGroupingComposite extends Composite implements
 				getParent( ).getClientArea( ).height );
 	}
 
-	protected void placeComponents( )
+	private void placeComponents( )
 	{
 		// Layout for content composite
 		GridLayout glContent = new GridLayout( );
@@ -498,7 +498,7 @@ public class SeriesGroupingComposite extends Composite implements
 	 * @return
 	 * @since BIRT 2.3
 	 */
-	protected boolean isTextGrouping( String dataTypeName )
+	private boolean isTextGrouping( String dataTypeName )
 	{
 		return DataType.TEXT_LITERAL.getName( ) 
 		.equals( LiteralHelper.dataTypeSet.getNameByDisplayName( dataTypeName ) );
@@ -511,7 +511,7 @@ public class SeriesGroupingComposite extends Composite implements
 	 * @return
 	 * @since BIRT 2.3
 	 */
-	protected boolean isDateTimeGrouping( String dataTypeName )
+	private boolean isDateTimeGrouping( String dataTypeName )
 	{
 		return DataType.DATE_TIME_LITERAL.getName( ) 
 				.equals( LiteralHelper.dataTypeSet.getNameByDisplayName( dataTypeName ) );

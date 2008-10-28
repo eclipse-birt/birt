@@ -26,7 +26,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EDataTypeEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -41,7 +40,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getGroupType <em>Group Type</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getAggregateExpression <em>Aggregate Expression</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getAggregateParameters <em>Aggregate Parameters</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getPatternForYOptional <em>Pattern For YOptional</em>}</li>
  * </ul>
  * </p>
  *
@@ -112,12 +110,12 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * @since BIRT 2.3
 	 */
 	protected static final int DEFAULT_GROUPING_INTERVAL = 1;
-
+	
 	/**
 	 * @since BIRT 2.3
 	 */
 	protected static final String DEFAULT_AGGREGATE_EXPRESSION = "Sum"; //$NON-NLS-1$
-
+	
 	/**
 	 * The cached value of the '{@link #getGroupingOrigin() <em>Grouping Origin</em>}' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -208,35 +206,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * @ordered
 	 */
 	protected EList aggregateParameters;
-
-	/**
-	 * The default value of the '{@link #getPatternForYOptional() <em>Pattern For YOptional</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getPatternForYOptional()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String PATTERN_FOR_YOPTIONAL_EDEFAULT = "";
-
-	/**
-	 * The cached value of the '{@link #getPatternForYOptional() <em>Pattern For YOptional</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getPatternForYOptional()
-	 * @generated
-	 * @ordered
-	 */
-	protected String patternForYOptional = PATTERN_FOR_YOPTIONAL_EDEFAULT;
-
-	/**
-	 * This is true if the Pattern For YOptional attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean patternForYOptionalESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -594,66 +563,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getPatternForYOptional( )
-	{
-		return patternForYOptional;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setPatternForYOptional( String newPatternForYOptional )
-	{
-		String oldPatternForYOptional = patternForYOptional;
-		patternForYOptional = newPatternForYOptional;
-		boolean oldPatternForYOptionalESet = patternForYOptionalESet;
-		patternForYOptionalESet = true;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					DataPackage.SERIES_GROUPING__PATTERN_FOR_YOPTIONAL,
-					oldPatternForYOptional,
-					patternForYOptional,
-					!oldPatternForYOptionalESet ) );
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void unsetPatternForYOptional( )
-	{
-		String oldPatternForYOptional = patternForYOptional;
-		boolean oldPatternForYOptionalESet = patternForYOptionalESet;
-		patternForYOptional = PATTERN_FOR_YOPTIONAL_EDEFAULT;
-		patternForYOptionalESet = false;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.UNSET,
-					DataPackage.SERIES_GROUPING__PATTERN_FOR_YOPTIONAL,
-					oldPatternForYOptional,
-					PATTERN_FOR_YOPTIONAL_EDEFAULT,
-					oldPatternForYOptionalESet ) );
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isSetPatternForYOptional( )
-	{
-		return patternForYOptionalESet;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -688,8 +597,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 				return getAggregateExpression( );
 			case DataPackage.SERIES_GROUPING__AGGREGATE_PARAMETERS :
 				return getAggregateParameters( );
-			case DataPackage.SERIES_GROUPING__PATTERN_FOR_YOPTIONAL :
-				return getPatternForYOptional( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -725,9 +632,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 				getAggregateParameters( ).clear( );
 				getAggregateParameters( ).addAll( (Collection) newValue );
 				return;
-			case DataPackage.SERIES_GROUPING__PATTERN_FOR_YOPTIONAL :
-				setPatternForYOptional( (String) newValue );
-				return;
 		}
 		super.eSet( featureID, newValue );
 	}
@@ -762,9 +666,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 			case DataPackage.SERIES_GROUPING__AGGREGATE_PARAMETERS :
 				getAggregateParameters( ).clear( );
 				return;
-			case DataPackage.SERIES_GROUPING__PATTERN_FOR_YOPTIONAL :
-				unsetPatternForYOptional( );
-				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -789,14 +690,11 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 			case DataPackage.SERIES_GROUPING__GROUP_TYPE :
 				return isSetGroupType( );
 			case DataPackage.SERIES_GROUPING__AGGREGATE_EXPRESSION :
-				return AGGREGATE_EXPRESSION_EDEFAULT == null
-						? aggregateExpression != null
+				return AGGREGATE_EXPRESSION_EDEFAULT == null ? aggregateExpression != null
 						: !AGGREGATE_EXPRESSION_EDEFAULT.equals( aggregateExpression );
 			case DataPackage.SERIES_GROUPING__AGGREGATE_PARAMETERS :
 				return aggregateParameters != null
 						&& !aggregateParameters.isEmpty( );
-			case DataPackage.SERIES_GROUPING__PATTERN_FOR_YOPTIONAL :
-				return isSetPatternForYOptional( );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -835,11 +733,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 		result.append( aggregateExpression );
 		result.append( ", aggregateParameters: " ); //$NON-NLS-1$
 		result.append( aggregateParameters );
-		result.append( ", patternForYOptional: " ); //$NON-NLS-1$
-		if ( patternForYOptionalESet )
-			result.append( patternForYOptional );
-		else
-			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
 		return result.toString( );
 	}
