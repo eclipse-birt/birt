@@ -198,46 +198,48 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				ExceptionHandler.handle( e );
 			}
 		}
+
+		refreshDynamicViewer( );
+		dataset = OlapUtil.getHierarchyDataset( (TabularHierarchyHandle) input.getContainer( ) );
+		if ( dataset != null )
+			attributeItems = OlapUtil.getDataFieldNames( dataset );
+		resetEditorItems( );
+
+		if ( input.getName( ) != null )
+			nameText.setText( input.getName( ) );
+		dynamicDataTypeCombo.setItems( getDataTypeDisplayNames( ) );
+		dynamicDataTypeCombo.setText( getDataTypeDisplayName( input.getDataType( ) ) );
+
+		fieldCombo.setItems( OlapUtil.getDataFieldNames( dataset ) );
+		if ( input.getColumnName( ) != null )
+			fieldCombo.setText( input.getColumnName( ) );
+		else
+			fieldCombo.select( 0 );
+
+		displayKeyCombo.setItems( OlapUtil.getDataFieldNames( dataset ) );
+		displayKeyCombo.add( Messages.getString( "LevelPropertyDialog.None" ), 0 ); //$NON-NLS-1$
+
+		if ( input.getDisplayColumnName( ) != null )
+		{
+			displayKeyCombo.setText( input.getDisplayColumnName( ) );
+		}
+		else if ( displayKeyCombo.getItemCount( ) > 0 )
+			displayKeyCombo.select( 0 );
+
+		staticDataTypeCombo.setItems( getDataTypeDisplayNames( ) );
+		staticNameText.setText( input.getName( ) );
+		staticDataTypeCombo.setText( getDataTypeDisplayName( input.getDataType( ) ) );
+		refreshStaticViewer( );
+		// dynamicViewer.setInput( dynamicAttributes );
+
 		if ( input.getLevelType( )
 				.equals( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC ) )
 		{
-			refreshDynamicViewer( );
-			dataset = OlapUtil.getHierarchyDataset( (TabularHierarchyHandle) input.getContainer( ) );
-			if ( dataset != null )
-				attributeItems = OlapUtil.getDataFieldNames( dataset );
-			resetEditorItems( );
-
 			dynamicButton.setSelection( true );
-			if ( input.getName( ) != null )
-				nameText.setText( input.getName( ) );
-			dynamicDataTypeCombo.setItems( getDataTypeDisplayNames( ) );
-			dynamicDataTypeCombo.setText( getDataTypeDisplayName( input.getDataType( ) ) );
-
-			fieldCombo.setItems( OlapUtil.getDataFieldNames( dataset ) );
-			if ( input.getColumnName( ) != null )
-				fieldCombo.setText( input.getColumnName( ) );
-			else
-				fieldCombo.select( 0 );
-
-			displayKeyCombo.setItems( OlapUtil.getDataFieldNames( dataset ) );
-			displayKeyCombo.add( Messages.getString( "LevelPropertyDialog.None" ), 0 ); //$NON-NLS-1$
-
-			if ( input.getDisplayColumnName( ) != null )
-			{
-				displayKeyCombo.setText( input.getDisplayColumnName( ) );
-			}
-			else if ( displayKeyCombo.getItemCount( ) > 0 )
-				displayKeyCombo.select( 0 );
 			updateButtonStatus( dynamicButton );
-
 		}
 		else
 		{
-			staticDataTypeCombo.setItems( getDataTypeDisplayNames( ) );
-			staticNameText.setText( input.getName( ) );
-			staticDataTypeCombo.setText( getDataTypeDisplayName( input.getDataType( ) ) );
-			refreshStaticViewer( );
-			// dynamicViewer.setInput( dynamicAttributes );
 			staticButton.setSelection( true );
 			updateButtonStatus( staticButton );
 		}
@@ -1039,8 +1041,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				{
 					ExceptionHandler.handle( e1 );
 				}
-				initLevelDialog( );
-				refreshDynamicViewer( );
+
 				updateButtonStatus( dynamicButton );
 			}
 
@@ -1058,8 +1059,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				{
 					ExceptionHandler.handle( e1 );
 				}
-				initLevelDialog( );
-				refreshStaticViewer( );
+
 				updateButtonStatus( staticButton );
 			}
 
