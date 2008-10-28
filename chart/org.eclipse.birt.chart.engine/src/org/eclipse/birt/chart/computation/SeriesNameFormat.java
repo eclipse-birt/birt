@@ -20,6 +20,8 @@ import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.util.CDateTime;
 
 import com.ibm.icu.text.DateFormat;
+import com.ibm.icu.text.DecimalFormat;
+import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.ULocale;
@@ -41,7 +43,24 @@ public class SeriesNameFormat
 			SeriesGrouping sg = sd.getQuery( ).getGrouping( );
 			if ( sg.getGroupType( ) == DataType.DATE_TIME_LITERAL )
 			{
-				return new SeriesNameDateFormat( sg.getGroupingUnit( ), loc );
+				if ( sg.isSetPatternForYOptional( ) && sg.getPatternForYOptional( ).trim( ).length( ) > 0 )
+				{
+					return new SeriesNameDateFormat( sg.getPatternForYOptional( ),
+							loc );
+				}
+				else
+				{
+					return new SeriesNameDateFormat( sg.getGroupingUnit( ), loc );
+				}
+				
+			}
+			if ( sg.getGroupType( ) == DataType.NUMERIC_LITERAL )
+			{
+				if ( sg.isSetPatternForYOptional( )
+						&& sg.getPatternForYOptional( ).trim( ).length( ) > 0 )
+				{
+					return new SeriesNameNumricFormat( sg.getPatternForYOptional( ) );
+				}
 			}
 		}
 		
@@ -91,6 +110,12 @@ public class SeriesNameFormat
 			fmTimeOnly = new SimpleDateFormat( createPattern( unitType,
 					loc,
 					true ), loc );
+		}
+		
+		public SeriesNameDateFormat( String pattern, ULocale loc )
+		{
+			fm = new SimpleDateFormat( pattern, loc );
+			fmTimeOnly = new SimpleDateFormat( pattern, loc );
 		}
 		
 		/**
@@ -187,6 +212,24 @@ public class SeriesNameFormat
 			}
 		}
 		
+	}
+	
+	private static class SeriesNameNumricFormat extends SeriesNameFormat
+	{
+
+		private NumberFormat nf;
+
+		public SeriesNameNumricFormat( String pattern )
+		{
+			nf = new DecimalFormat( pattern );
+		}
+
+		@Override
+		public String format( Object obj )
+		{
+			return nf.format( obj );
+		}
+
 	}
 
 }

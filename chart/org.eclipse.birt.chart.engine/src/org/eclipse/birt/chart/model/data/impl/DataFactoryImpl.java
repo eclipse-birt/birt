@@ -394,7 +394,7 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 	 */
 	public Object createDataFromString( EDataType eDataType, String initialValue )
 	{
-		return (Object) super.createFromString( eDataType, initialValue );
+		return super.createFromString( eDataType, initialValue );
 	}
 
 	/**

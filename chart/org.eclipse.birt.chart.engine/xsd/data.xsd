@@ -215,6 +215,12 @@
 			</xsd:element>
 
 			<xsd:element name="AggregateParameters" type="xsd:string" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+			<xsd:element name="PatternForYOptional" minOccurs="0"
+				maxOccurs="1" type="xsd:string">
+                <xsd:annotation>
+                	<xsd:documentation>Specifies the pattern of Datetime type or numeric type for Y Optional Grouping.</xsd:documentation>
+                </xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="Trigger">

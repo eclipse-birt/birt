@@ -524,6 +524,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/groupType"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/aggregateExpression"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/aggregateParameters"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/patternForYOptional"/>
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//StockDataSet"/>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//TextDataSet"/>

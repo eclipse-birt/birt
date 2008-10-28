@@ -250,7 +250,8 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 			return (DataPackage) EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI );
 
 		// Obtain or create and register package
-		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( eNS_URI )
+		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( eNS_URI ) instanceof DataPackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( eNS_URI )
 				: new DataPackageImpl( ) );
 
 		isInited = true;
@@ -259,15 +260,20 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		XMLTypePackage.eINSTANCE.eClass( );
 
 		// Obtain or create and register interdependencies
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
+		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
 				: AttributePackage.eINSTANCE );
-		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
+		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
 				: TypePackage.eINSTANCE );
-		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
 				: ComponentPackage.eINSTANCE );
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
 				: LayoutPackage.eINSTANCE );
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
 				: ModelPackage.eINSTANCE );
 
 		// Create package meta-data objects
@@ -762,6 +768,17 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSeriesGrouping_PatternForYOptional( )
+	{
+		return (EAttribute) seriesGroupingEClass.getEStructuralFeatures( )
+				.get( 7 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -932,6 +949,8 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 				SERIES_GROUPING__AGGREGATE_EXPRESSION );
 		createEAttribute( seriesGroupingEClass,
 				SERIES_GROUPING__AGGREGATE_PARAMETERS );
+		createEAttribute( seriesGroupingEClass,
+				SERIES_GROUPING__PATTERN_FOR_YOPTIONAL );
 
 		stockDataSetEClass = createEClass( STOCK_DATA_SET );
 
@@ -1167,6 +1186,9 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		initEAttribute( getSeriesGrouping_AggregateParameters( ),
 				theXMLTypePackage.getString( ),
 				"aggregateParameters", null, 0, -1, SeriesGrouping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getSeriesGrouping_PatternForYOptional( ),
+				theXMLTypePackage.getString( ),
+				"patternForYOptional", "", 0, 1, SeriesGrouping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( stockDataSetEClass,
 				StockDataSet.class,
@@ -1435,6 +1457,12 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 				new String[]{
 						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 						"name", "AggregateParameters" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
+		addAnnotation( getSeriesGrouping_PatternForYOptional( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "PatternForYOptional" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
 		addAnnotation( stockDataSetEClass, source, new String[]{
 				"name", "StockDataSet", //$NON-NLS-1$ //$NON-NLS-2$
