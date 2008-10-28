@@ -86,7 +86,8 @@ public class PreparedIVDataExtractionQuery extends PreparedIVQuerySourceQuery
 			for ( int i = 0; i < bindings.length; i++ )
 			{
 				IBinding binding = bindings[i];
-				this.queryDefn.addBinding( new Binding( binding.getBindingName( ),
+				if( !this.queryDefn.getBindings( ).containsKey( binding.getBindingName( ) ))
+					this.queryDefn.addBinding( new Binding( binding.getBindingName( ),
 						new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( binding.getBindingName( ) ),
 								binding.getDataType( ) ) ) );
 			}
