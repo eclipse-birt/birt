@@ -150,7 +150,7 @@ public class ScriptLineBreakpoint extends LineBreakpoint
 	/**Gets the file name.
 	 * @return
 	 */
-	public String getFileName( )
+	public String getFileName( ) 
 	{
 		try
 		{
@@ -158,8 +158,7 @@ public class ScriptLineBreakpoint extends LineBreakpoint
 		}
 		catch ( CoreException e )
 		{
-			logger.warning( e.getMessage( ) );
-			throw new Error( "Don't set the file name" );//$NON-NLS-1$
+			return "";
 		}
 	}
 

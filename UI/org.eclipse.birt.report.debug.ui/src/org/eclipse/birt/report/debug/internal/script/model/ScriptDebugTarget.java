@@ -303,9 +303,16 @@ public class ScriptDebugTarget extends ScriptDebugElement implements
 	 */
 	public boolean supportsBreakpoint( IBreakpoint breakpoint )
 	{
-		return breakpoint instanceof ScriptLineBreakpoint
-				&& ( (ScriptLineBreakpoint) breakpoint ).getFileName( )
-						.equals( getFileName( ) );
+		if (!(breakpoint instanceof ScriptLineBreakpoint))
+		{
+			return false;
+		}
+		String str = ( (ScriptLineBreakpoint) breakpoint ).getFileName( );
+		if (str == null || str.length( ) == 0)
+		{
+			return false;
+		}
+		return  str.equals( getFileName( ) );
 	}
 
 	/*
