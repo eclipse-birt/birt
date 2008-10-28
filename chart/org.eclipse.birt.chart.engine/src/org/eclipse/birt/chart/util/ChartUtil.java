@@ -1203,12 +1203,62 @@ public class ChartUtil
 			return null;
 		}
 
-		String regularExpr = "row\\[\\\"" + expression + "\\\"\\]"; //$NON-NLS-1$ //$NON-NLS-2$
+		String regularExpr = "row\\[\"" + escapeRegexpSymbol( expression ) + "\"\\]"; //$NON-NLS-1$ //$NON-NLS-2$
 		if ( hasOperation )
 		{
 			regularExpr = ".*" + regularExpr + ".*"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return regularExpr;
+	}
+
+	/**
+	 * The method compiles specified string to convert special symbol of regular
+	 * expression, it avoids the special char in string is parsed as regular
+	 * symbol.
+	 * 
+	 * @param expr
+	 * @return
+	 * @since 2.3.1
+	 */
+	private static String escapeRegexpSymbol( String expr )
+	{
+		char[] specialSymbol = new char[]{
+				'$',
+				'(',
+				')',
+				'*',
+				'+',
+				'.',
+				'[',
+				'?',
+				'^',
+				'{',
+				'|',
+				'}',
+				'\\'
+		};
+		
+		List specialList = new ArrayList( );
+		for ( int i = 0; i < specialSymbol.length; i++ )
+		{
+			specialList.add( new Character( specialSymbol[i] ) );
+		}
+		
+		StringBuffer sb = new StringBuffer( expr );
+		for ( int i = 0; i < sb.length( ); i++ )
+		{
+			int index = specialList.indexOf( new Character( sb.charAt( i ) ) );
+			if ( index < 0 ) {
+				continue;
+			}
+			if ( ( (Character) specialList.get( index ) ).charValue( ) == '\\' )
+			{
+				sb.insert( i++, '\\' );
+				sb.insert( i++, '\\' );
+			}
+			sb.insert( i++, '\\' );
+		}
+		return sb.toString( );
 	}
 	
 	/**
