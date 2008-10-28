@@ -280,16 +280,23 @@ public class URIUtilImpl
 		}
 		catch ( MalformedURLException e )
 		{
-			File file = new File( uri );
+			URL url = getFileDirectory( uri, false );
 
-			if ( uri.startsWith( JAR_EXTENTION ) )
+			if ( uri.startsWith( JAR_SCHEMA ) )
 				return JAR_SCHEMA
-						+ ":" + FILE_SCHEMA + ":" + file.getAbsolutePath( ); //$NON-NLS-1$ //$NON-NLS-2$
+						+ ":" + FILE_SCHEMA + ":" + url.getPath( ); //$NON-NLS-1$ //$NON-NLS-2$
 
-			if ( uri.startsWith( FILE_SCHEMA ) )
-				return file.toURI( ).getSchemeSpecificPart( );
+			try
+			{
+				if ( uri.startsWith( FILE_SCHEMA ) )
+					return url.toURI( ).getSchemeSpecificPart( );				
+			}
+			catch ( URISyntaxException e2 )
+			{
+			}
 
 			return uri;
+
 		}
 	}
 

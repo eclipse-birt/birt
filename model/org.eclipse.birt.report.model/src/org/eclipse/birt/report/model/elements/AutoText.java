@@ -20,7 +20,6 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IAutoTextModel;
-import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
@@ -59,7 +58,9 @@ public class AutoText extends ReportItem implements IAutoTextModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * .report.model.elements.ElementVisitor)
 	 */
 	public void apply( ElementVisitor visitor )
 	{
@@ -96,36 +97,13 @@ public class AutoText extends ReportItem implements IAutoTextModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse
+	 * .birt.report.model.core.Module)
 	 */
 	public DesignElementHandle getHandle( Module module )
 	{
 		return handle( module );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getDisplayLabel(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      int)
-	 */
-
-	public String getDisplayLabel( Module module, int level )
-	{
-		String displayLabel = super.getDisplayLabel( module, level );
-
-		if ( level == IDesignElementModel.FULL_LABEL )
-		{
-			String value = getStringProperty( module,
-					IAutoTextModel.AUTOTEXT_TYPE_PROP );
-
-			if ( !StringUtil.isBlank( value ) )
-			{
-				String rtnValue = getChoiceDisplayName( value );
-				displayLabel += "(" + rtnValue + ")"; //$NON-NLS-1$ //$NON-NLS-2$
-			}
-		}
-		return displayLabel;
 	}
 
 	/**
@@ -158,9 +136,11 @@ public class AutoText extends ReportItem implements IAutoTextModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getDefnDisplayName(org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getDefnDisplayName(org
+	 * .eclipse.birt.report.model.core.Module)
 	 */
-	
+
 	protected String getDefnDisplayName( Module module )
 	{
 		// the parameter of module will be used in the override method.
@@ -178,6 +158,20 @@ public class AutoText extends ReportItem implements IAutoTextModel
 			return retValue;
 
 		return super.getDefnDisplayName( module );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getNameForDisplayLabel()
+	 */
+	protected String getNameForDisplayLabel( )
+	{
+
+		// To Display text correctly, just return null whatever the AutoText has
+		// the name or not. see bug 245931.
+		return null;
 	}
 
 }

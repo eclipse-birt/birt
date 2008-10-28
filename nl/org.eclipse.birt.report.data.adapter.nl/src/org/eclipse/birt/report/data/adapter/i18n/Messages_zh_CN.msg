@@ -29,3 +29,4 @@ missing.join.condition=缺少事实表与维“{0}”之间的联接条件。
 exception.error=处理过程中出错。有关详情，请参阅下列消息:
 invalid.level.expression=找不到级别名称“{0}”。
 invalid.measure.expression=度量“{0}”的度量表达式不能为空。
+invalid.data.type=Invalid data type: {0}. 

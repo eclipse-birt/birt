@@ -827,19 +827,20 @@ designer.preview.preference.elementname.description.Enabled=false
 designer.preview.preference.elementname.description=Beschreibung
 designer.preview.preference.elementname.Enabled=true 
 designer.preview.preference.locale.description=&Gebietsschema auswählen:
+designer.preview.preference.timezone.description=&Zeitzone:
 designer.preview.preference.resultset.sqldatasetpage.group.title=Abfrageseite
 designer.preview.preference.resultset.previewpage.group.title=Vorschauseite
 designer.preview.preference.resultset.maxNoOfSchema.description=&Maximale Anzahl anzuzeigender Schemata:
 designer.preview.preference.resultset.maxNoOfTable.description=&Maximale Anzahl von Tabellen in den anzuzeigenden Schemata:
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=Geben Sie eine Zahl zwischen 0 und {0} an, um die maximale Anzahl an Schemata zu definieren.
 designer.preview.preference.resultset.maxNoOfTable.errormessage=Geben Sie eine Zahl zwischen 0 und {0} an, um die maximale Anzahl von Tabellen in den Schemata zu definieren.
-designer.preview.preference.resultset.maxrow.description=&Maximale Anzahl anzuzeigender Zeilen:
+designer.preview.preference.resultset.maxrow.description=Anzahl anzuzeigender &Zeilen:
 designer.preview.preference.resultset.maxrow.errormessage=Geben Sie für die maximale Zeilenanzahl eine Zahl zwischen 1 und {0} ein.
-designer.preview.preference.resultset.maxrowlevelmember.description=&Anzuzeigende maximale Mitgliederanzahl für jede Zeilenebene:
+designer.preview.preference.resultset.maxrowlevelmember.description=Anzahl anzuzeigender Mitglieder jeder Zeilen&ebene:
 designer.preview.preference.resultset.maxrowlevelmember.errormessage=Geben Sie für die maximale Mitgliederanzahl eine Zahl zwischen 1 und {0} ein.
-designer.preview.preference.resultset.maxcolumnlevelmember.description=Maximale Anzahl anzuzeigender Mitglieder jeder &Spaltenebene: 
+designer.preview.preference.resultset.maxcolumnlevelmember.description=Anzahl anzuzeigender Mitglieder jeder &Spaltenebene:
 designer.preview.preference.resultset.maxcolumnlevelmember.errormessage=Geben Sie für die maximale Mitgliederanzahl eine Zahl zwischen 1 und {0} ein.
-designer.preview.preference.resultset.maxinmemorycubesize.description=Maximale Quader&größe im Speicher (MB): 
+designer.preview.preference.resultset.maxinmemorycubesize.description=Quader&größe im Speicher (MB):
 designer.preview.preference.resultset.maxinmemorycubesize.errormessage=Geben Sie eine Zahl zwischen 1 und {0} für die maximale Quaderspeichergröße an.
 designer.preview.preference.server.description=Konfiguration des internen Anwendungsservers. Der Server wird intern vom\nBIRT Report Designer Preview Framework verwendet.
 designer.preview.preference.server.hostDescription=&Host-Name oder IP-Adresse des lokalen Rechners. Leer lassen, damit eine automatische\nFestlegung erfolgt.
@@ -1147,12 +1148,13 @@ Element.OdaDataSource.driverName=Treibername:
 Element.OdaDataSource.privateDriverProperties=Eigenschaften des privaten Treibers:
 Element.OdaDataSource.publicDriverProperties=Eigenschaften des öffentlichen Treibers:
 Element.Parameter.helpText=Hilfetext:
-Element.Parameter.helpTextID=Hilfetextschlüssel
+Element.Parameter.helpTextID=Hilfetextsch&lüssel:
 Element.Parameter.hidden=Verborgen:
 Element.ParameterGroup.helpText=Hilfetext:
 Element.ParameterGroup.helpTextID=Hilfetextschlüssel:
 Element.ParameterGroup.slot.parameters=Parameter:
 Element.ParameterGroup.startExpanded=Erweiterte starten:
+Element.ParameterGroup.promptTextID=Aufforderungs&textschlüssel:
 Element.ReportDesign.afterCloseDoc.toolTip=Wird direkt nach dem Schließen des Berichtdokuments in der Erstellungsphase aufgerufen.
 Element.ReportDesign.layoutPreference=&Layoutvoreinstellungen: 
 Element.ReportDesign.afterCloseDoc=Nach dem Schließen des Dokuments:
@@ -1174,7 +1176,7 @@ Element.ReportDesign.displayName=&Anzeigename:
 Element.ReportDesign.eventHandlerClass=Ereignis-Handler-&Klasse: 
 Element.ReportDesign.iconFile=Mini&atur: 
 Element.ReportDesign.refreshRate=Aktualisierungsrate:
-Element.ReportDesign.bidiLayoutOrientation=&Bidirektionale Layout-Ausrichtung:
+Element.ReportDesign.bidiLayoutOrientation=&Berichtseitenausrichtung:
 Element.ReportElement.comments=&Kommentare:
 Element.ReportElement.Cube=&Daten:
 Element.ReportElement.customXml=Benutzerdefinierte XML:
@@ -1218,7 +1220,7 @@ Element.ScalarParameter.selectionList.fixedOrder=Feste Reihenfolge:
 Element.ScalarParameter.selectionList.mustMatch=Muss übereinstimmen mit:
 Element.ScalarParameter.selectionList.selectionList=Auswahlliste:
 Element.ScalarParameter.selectionList=Auswahlliste:
-Element.ScalarParameter.promptTextID=Aufforderungs&textschlüssel:
+Element.ScalarParameter.promptTextID=Aufforderungstexts&chlüssel:
 Element.ScriptDataSet.close.toolTip=Schließt den Datensatz.
 Element.ScriptDataSet.close=Schließen:
 Element.ScriptDataSet.describe.toolTip=Beschreibt das Ergebnis.
@@ -1870,12 +1872,18 @@ HighlightsPreferencePage.toolTipText.Down=Markierung nach unten verschieben
 #HyperlinkBuilder properties
 
 HyperlinkBuilder.Column.Parameters=Parameter
-HyperlinkBuilder.DrillThroughStep1=Schritt 1: Zielbericht auswählen 
-HyperlinkBuilder.DrillThroughStep2=Schritt 2: Zielanker auswählen 
-HyperlinkBuilder.DrillThroughStep3=Schritt 3: Verknüpfungsausdruck erstellen, der mit dem Ziellesezeichen übereinstimmt
-HyperlinkBuilder.DrillThroughStep4=Schritt 4: Zielbericht anzeigen in 
-HyperlinkBuilder.DrillThroughStep5=Schritt 5: Format für Zielbericht auswählen
-HyperlinkBuilder.DrillThroughStep6=Schritt 6: Kontexthilfe
+HyperlinkBuilder.DrillThrough.SelectTargetReport=Select a target report 
+HyperlinkBuilder.DrillThrough.SelectTargetAnchor=Select a target anchor 
+HyperlinkBuilder.DrillThrough.CreateLinkExpr=Create a link expression that matches the target bookmark
+HyperlinkBuilder.DrillThrough.ShowTargetReport=Show target report in 
+HyperlinkBuilder.DrillThrough.SelectFormat=Select a format for target report
+HyperlinkBuilder.DrillThrough.Tooltip=Tool Tip
+HyperlinkBuilder.Step.1=Step 1: 
+HyperlinkBuilder.Step.2=Step 2: 
+HyperlinkBuilder.Step.3=Step 3: 
+HyperlinkBuilder.Step.4=Step 4: 
+HyperlinkBuilder.Step.5=Step 5: 
+HyperlinkBuilder.Step.6=Step 6: 
 HyperlinkBuilder.ParameterRequired=Erforderlich
 HyperlinkBuilder.Column.DataType=Datentyp
 HyperlinkBuilder.Column.Values=Werte
@@ -2846,7 +2854,7 @@ PreviewAction.Text=Vorschau
 PreviewEditor.parameter.tooltip=Berichtparameter anzeigen
 PreviewEditor.parameter.note=Hinweis:
 PreviewEditor.parameter.info=Die maximale Anzahl an Datenzeilen beträgt derzeit
-PreviewEditor.parameter.change=Zum Ändern klicken
+PreviewEditor.parameter.change=Zum Ändern der Vorschaueinstellungen klicken.
 PreviewEditor.ConfirmRefresh.Title=Aktualisierung bestätigen
 PreviewEditor.ConfirmRefresh.Message=Der Vorgang kann das Vorschauergebnis beeinflussen. Möchten Sie die Vorschauseite aktualisieren? 
 PreviewEditor.browser.notfound=Interner Browser ist nicht verfügbar.
@@ -3617,6 +3625,8 @@ TextEditDialog.toolTipText.fx=Ausdruckserstellung öffnen
 TextEditDialog.action.item.formatDateTime=Datum/Uhrzeit formatieren 
 TextEditDialog.action.item.formatNumber=Zahl formatieren 
 TextEditDialog.action.item.formatString=Zeichenfolge formatieren 
+TextEditDialog.title.DlgNew=New Text Item
+TextEditDialog.title.DlgEdit=Textelement bearbeiten
 
 ###########################################################
 #TextEditPart properties
@@ -3662,7 +3672,7 @@ AutoTextPageGenerator.List.Visibility=Sichtbarkeit
 ###########################################################
 #ThemesNodeProvider properties
 
-ThemesNodeProvider.action.New=Neues Thema
+ThemesNodeProvider.action.New=&Neues Thema...
 ThemesNodeProvider.Failed=Neues Thema fehlgeschlagen
 NewThemeDialog.DialogTitle=Neues Thema
 NewThemeDialog.DialogMessage=Geben Sie den Namen ein.
@@ -3823,7 +3833,7 @@ WizardTemplateChoicePage.title.SimpleListing=Einfache Liste
 #bidi_hcg start
 WizardTemplateChoicePage.label.rtlBiDiOrientation=Von rechts nach links
 WizardTemplateChoicePage.label.ltrBiDiOrientation=Von links nach rechts
-WizardTemplateChoicePage.label.chooseBiDiDirection=Seitenausrichtung des Berichts festlegen:
+WizardTemplateChoicePage.label.chooseBiDiDirection=Berichtseitenausrichtung:
 #bidi_hcg end
 ###########################################################
 #XMLSourcePage properties
@@ -3934,7 +3944,7 @@ ResourceSelectionValidator.ExtErrorSplitter=\ oder
 ###########################################################
 #GeneralPage
 GeneralPage.Library.Included=Bibliothek:
-GeneralPage.Library.Modified.Note=NOTE: This report item from the library has been modified. To restore the original library item, click on{0}"Restore Properties"
+GeneralPage.Library.Modified.Note=HINWEIS: Dieses Berichtobjekt aus der Bibliothek wurde geändert. Klicken Sie zum Wiederherstellen des Objekts aus der Bibliothek auf{0}"Eigenschaften wiederherstellen".
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4387,4 +4397,4 @@ ExportElementToLibraryAction.waringMsg=Das Element wurde nicht benannt. Es kann 
 ###########################################################
 #UIUtil
 UIUtil.previewconfirm.title=Fehler im Bericht
-UIUtil.previewconfirm.message=The report contains errors, would you like to continue for previewing?
+UIUtil.previewconfirm.message=Der Bericht enthält Fehler. Möchten Sie mit der Vorschau fortfahren?

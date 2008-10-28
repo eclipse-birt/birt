@@ -1168,8 +1168,7 @@ public class DesignElementHandleTest extends BaseTestCase
 	 * <ul>
 	 * <li>
 	 * {@link org.eclipse.birt.report.model.api.DesignElementHandle#addElement(DesignElementHandle, int) }
-	 * </li>
-	 * <li>
+	 * </li> <li>
 	 * {@link org.eclipse.birt.report.model.api.DesignElementHandle#addElement(DesignElementHandle, int, int)}
 	 * </li>
 	 * </ul>
@@ -1593,7 +1592,8 @@ public class DesignElementHandleTest extends BaseTestCase
 				row.getCells( ).get( 0 ).getXPath( ) );
 
 		element = designHandle.findElement( "text2" ); //$NON-NLS-1$
-		assertEquals( "/report/body/table[@id=\"18\"]/detail/row/cell/text", //$NON-NLS-1$
+		assertEquals(
+				"/report/body/table[@id=\"18\"]/detail/row[@id=\"19\"]/cell[@id=\"20\"]/text[@id=\"21\"]", //$NON-NLS-1$
 				element.getXPath( ) );
 
 		StyleHandle style = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
@@ -1605,7 +1605,7 @@ public class DesignElementHandleTest extends BaseTestCase
 				style.getXPath( ) );
 
 		MasterPageHandle page = designHandle.findMasterPage( "My Page" ); //$NON-NLS-1$
-		assertEquals( "/report/page-setup/graphic-master-page", //$NON-NLS-1$
+		assertEquals( "/report/page-setup/graphic-master-page[@id=\"8\"]", //$NON-NLS-1$
 				page.getXPath( ) );
 	}
 
@@ -1614,25 +1614,24 @@ public class DesignElementHandleTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	
+
 	public void testIsDirectionRTL( ) throws Exception
 	{
 		LabelHandle bodyLabel1 = (LabelHandle) designHandle
-				.findElement( "bodyLabel1" );  //$NON-NLS-1$
+				.findElement( "bodyLabel1" ); //$NON-NLS-1$
 		assertTrue( bodyLabel1.isDirectionRTL( ) );
 
 		LabelHandle bodyLabel2 = (LabelHandle) designHandle
-				.findElement( "bodyLabel2" );  //$NON-NLS-1$ 
+				.findElement( "bodyLabel2" ); //$NON-NLS-1$ 
 		assertFalse( bodyLabel2.isDirectionRTL( ) );
 
-		TableHandle tabl1 = (TableHandle) designHandle.findElement( "My table" );  //$NON-NLS-1$
+		TableHandle tabl1 = (TableHandle) designHandle.findElement( "My table" ); //$NON-NLS-1$
 		assertTrue( tabl1.isDirectionRTL( ) );
 	}
 
 	/**
 	 * The listener modifies the <code>listeners</code> of a design element.
-	 * Used to test <code>broadcast</code> method in
-	 * <code>DesignElement</code>.
+	 * Used to test <code>broadcast</code> method in <code>DesignElement</code>.
 	 */
 
 	class BroadCast1Listener implements Listener
@@ -1641,8 +1640,10 @@ public class DesignElementHandleTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt.report.model.core.DesignElement,
-		 *      org.eclipse.birt.report.model.activity.NotificationEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
+		 * .report.model.core.DesignElement,
+		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
 
 		public void elementChanged( DesignElementHandle focus,
@@ -1669,8 +1670,10 @@ public class DesignElementHandleTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt.report.model.core.DesignElement,
-		 *      org.eclipse.birt.report.model.activity.NotificationEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
+		 * .report.model.core.DesignElement,
+		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
 
 		public void elementChanged( DesignElementHandle focus,
@@ -1692,8 +1695,11 @@ public class DesignElementHandleTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.api.validators.IValidationListener#elementValidated(org.eclipse.birt.report.model.api.DesignElementHandle,
-		 *      org.eclipse.birt.report.model.api.validators.ValidationEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.api.validators.IValidationListener#
+		 * elementValidated
+		 * (org.eclipse.birt.report.model.api.DesignElementHandle,
+		 * org.eclipse.birt.report.model.api.validators.ValidationEvent)
 		 */
 		public void elementValidated( DesignElementHandle targetElement,
 				ValidationEvent ev )

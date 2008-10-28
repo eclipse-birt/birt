@@ -24,6 +24,7 @@ import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.content.impl.Column;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
@@ -140,6 +141,13 @@ public class TableLayout extends RepeatableLayout
 		currentContext.root.setWidth( layoutInfo.getTableWidth( ) );
 		currentContext.maxAvaWidth = layoutInfo.getTableWidth( );
 
+		// bidi_hcg start
+		if ( this.columnNumber < layoutInfo.columnNumber )
+		{
+			addDummyColumnForRTL( );
+		}
+		// bidi_hcg end
+
 		if ( parent != null )
 		{
 			currentContext.root.setAllocatedHeight( parent.getCurrentMaxContentHeight( ) );
@@ -222,6 +230,24 @@ public class TableLayout extends RepeatableLayout
 		{
 			tableContext.layout.resolveBorderConflict( cellArea, isFirst );
 		}
+	}
+
+	/**
+	 * Creates a hidden column at X position 0.
+	 * 
+	 * @author bidi_hcg
+	 */
+	private void addDummyColumnForRTL( )
+	{
+		// If the leftmost column X is not 0, the border is not drawn correctly
+		// (FIXME??? - this may apparently happen in LTR as well, when xOffset
+		// is not 0).
+		// In RTL, that usually happens when table width is other than 100 %.
+		// To work around, create a dummy column which will occupy the room
+		// between |x = 0| and the leftmost meaningful table column.
+
+		tableContent.addColumn( new Column( tableContent.getReportContent( ) ) );
+		this.columnNumber++;
 	}
 
 	private class ColumnWidthResolver
@@ -834,11 +860,16 @@ public class TableLayout extends RepeatableLayout
 
 			if ( tableContent.isRTL( ) ) // bidi_hcg
 			{
+				int parentMaxWidth = parent != null ? parent
+						.getCurrentMaxContentWidth( ) : context.getMaxWidth( );
 				for ( int i = 0; i < columnNumber; i++ )
 				{
-					xPositions[i] = parent.getCurrentMaxContentWidth( ) - tableWidth
- 						- colWidth[i];
+					xPositions[i] = parentMaxWidth - tableWidth - colWidth[i];
 					tableWidth += colWidth[i];
+				}
+				if ( xPositions[columnNumber - 1] != 0 )
+				{
+					addDummyColumnForRTL( colWidth );
 				}
 			}
 			else // ltr
@@ -893,8 +924,26 @@ public class TableLayout extends RepeatableLayout
 		 */
 		protected int[] xPositions = null;
 
-	}
+		/**
+		 * Creates a hidden column at X position 0.
+		 * 
+		 * @author bidi_hcg
+		 */
+		private void addDummyColumnForRTL( int[] colWidth )
+		{
+			this.colWidth = new int[columnNumber + 1];
+			System.arraycopy( colWidth, 0, this.colWidth, 0, columnNumber );
+			this.colWidth[columnNumber] = xPositions[columnNumber - 1];
+			
+			int[] newXPositions = new int[columnNumber + 1];
+			System.arraycopy( xPositions, 0, newXPositions, 0, columnNumber );
+			xPositions = newXPositions;
+			xPositions[columnNumber] = 0;
 
+			tableWidth += this.colWidth[columnNumber - 1];
+			++columnNumber;
+		}
+	}
 
 	public boolean addArea( AbstractArea area )
 	{

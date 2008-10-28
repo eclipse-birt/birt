@@ -637,8 +637,8 @@ Choices.scalarParamType.multi-value=복수 값
 Choices.scalarParamType.ad-hoc=Ad-hoc
 
 #77. bidiLayoutOrientation   
-Choices.bidiDirection.rtl=오른쪽에서 왼쪽 
-Choices.bidiDirection.ltr=왼쪽에서 오른쪽 
+Choices.bidiDirection.rtl=오른쪽에서 왼쪽
+Choices.bidiDirection.ltr=왼쪽에서 오른쪽
 
 ###########################################################
 # Classes
@@ -2408,12 +2408,12 @@ Element.ScalarParameter.sortByColumn=열을 기준으로 정렬
 Element.ParameterGroup.startExpanded=시작 확장됨
 Element.ParameterGroup.helpText=도움말 텍스트
 Element.ParameterGroup.helpTextID=도움말 텍스트 키
+Element.ParameterGroup.promptText=프롬프트 텍스트
+Element.ParameterGroup.promptTextID=프롬프트 텍스트 키
 Element.ParameterGroup.slot.parameters=매개 변수
 
 # CascadingParameterGroup (prefix Element.CascadingParameterGroup)
 Element.CascadingParameterGroup.dataSet=데이터 집합
-Element.CascadingParameterGroup.promptText=프롬프트 텍스트
-Element.CascadingParameterGroup.promptTextID=프롬프트 텍스트 키
 Element.CascadingParameterGroup.dataSetMode=단일 또는 다중 데이터 집합
 Element.CascadingParameterGroup.slot.parameters=매개 변수
 
@@ -2767,6 +2767,13 @@ Element.Cell.onRender.toolTip=TBD
 Element.Cell.onRender.this=셀 인스턴스
 Element.Cell.onRender.reportContext=보고서 컨텍스트
 Element.Cell.viewAction=작업 보기
+Element.Cell.diagonal=대각선
+Element.Cell.diagonalNumber=대각선 수
+Element.Cell.antidiagonalNumber=반대각선 수
+Element.Cell.diagonalThickness=대각선 두께
+Element.Cell.antidiagonalThickness=반대각선 두께
+Element.Cell.diagonalStyle=대각선 스타일
+Element.Cell.antidiagonalStyle=반대각선 스타일
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=대체 텍스트
@@ -3491,6 +3498,7 @@ Error.SemanticError.INVALID_PAGE_MARGINS=마스터 페이지 "{0}"의 여백 값이 잘못되�
 Error.SemanticError.MISSING_MASTER_PAGE=보고서에 하나 이상의 마스터 페이지가 있어야 합니다.
 Error.SemanticError.INVALID_MULTI_COLUMN=마스터 페이지 "{0}"에 페이지 내용 밖으로 걸쳐진 열이 있습니다.
 Error.SemanticError.INVALID_ELEMENT_REF=요소 "{0}"에 정의되지 않은 요소 "{2}"을(를) 참조하는 속성 "{1}"이(가) 있습니다.
+Error.SemanticError.INVALID_DATA_BINDING_REF=요소 "{0}"에 요소의 컨테이너 또는 내용인 요소 "{1}"을(를) 참조하는 속성 dataBindingRef가 있습니다.
 Error.SemanticError.MISSING_SQL_STMT=JDBC 선택 데이터 집합 "{0}"에는 SQL 문이 있어야 합니다.
 Error.SemanticError.MISSING_DATA_SET={0}은(는) 하나의 데이터 집합을 액세스할 수 있어야 합니다.
 Error.SemanticError.INVALID_IMAGE_SCALE_VALUE=이미지 "{0}"의 배율 값이 양수여야 합니다.

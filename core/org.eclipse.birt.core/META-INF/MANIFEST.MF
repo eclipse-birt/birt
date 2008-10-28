@@ -7,8 +7,7 @@ Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.core.internal.plugin.CorePlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
-Export-Package: org.eclipse.birt.cor.script.functionservice,
- org.eclipse.birt.core.archive,
+Export-Package: org.eclipse.birt.core.archive,
  org.eclipse.birt.core.archive.compound,
  org.eclipse.birt.core.config,
  org.eclipse.birt.core.data,

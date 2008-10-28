@@ -32,7 +32,6 @@ ChartExpressionProvider.DataPoints.OrthogonalValue=値データ
 ChartExpressionProvider.ChartVariables.JavaScript=JavaScript
 ChartExpressionProvider.ChartVariables.Event=イベント
 ChartExpressionProvider.DataPoints.SeriesValue=系列データ
-ChartColumnBindingDialog.Button.AddAggregation=集計の追加...
 ChartColumnBindingDialog.Button.Refresh=更新
 
 OpenChartTaskAction.Text.SelectChartType=グラフの種類の選択(&S)...
@@ -44,7 +43,7 @@ GeneralPage.Library.Included=ライブラリ :
 ChartEventHandlerPage.dialog.Browse=参照(&B)...
 ReportDataServiceProvider.Option.None=<なし>
 ReportDataServiceProvider.Option.Inherits=<コンテナの {0}>
-ReportDataServiceProvider.Tooltip.Aggregate=総計 : 
+ReportDataServiceProvider.Tooltip.Aggregate=集計 : 
 ReportDataServiceProvider.Tooltip.GroupExpression=グループ式 : 
 ReportDataServiceProvider.Tooltip.OnGroup=グループ : 
 
@@ -66,7 +65,7 @@ StandardChartDataSheet.Task.Description=グラフに表示して系列に関連付けるデータを
 StandardChartDataSheet.Exception.UnableToSwitchToDataset=データセットに切り替えることができません。 
 StandardChartDataSheet.Label.InsertAggregation=統計を挿入する
 StandardChartDataSheet.Label.DataExpressionBuilder=データ式ビルダ
-StandardChartDataSheet.Label.DragCube=右クリックまたはドラッグでレベルをカテゴリ系列やオプションの Y 系列に追加し、値系列に計測を追加します。
+StandardChartDataSheet.Label.DragCube=右クリックまたはドラッグでレベルをカテゴリ系列やオプションの Y 系列に追加し、値系列にメジャーを追加します。
 StandardChartDataSheet.Label.Component=\ コンポーネント
 StandardChartDataSheet.Label.CubeTree=データキューブ : グループとサマリ
 StandardChartDataSheet.Label.Overlay=オーバーレイ 
@@ -87,6 +86,7 @@ ChartBindingGroupDescriptorProvider.DataCubes.Default=---データキューブ---
 BindingPage.Data.Label=データ :
 Error.ChartShouldIncludeAxes=グラフには軸を含める必要があります。
 
+ChartCubeFilterConditionBuilder.Information=先に値系列またはカテゴリ系列の値を選択してください。
 ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=カテゴリ :  
 ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=値 :  
 ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y 軸のオプション値 :  

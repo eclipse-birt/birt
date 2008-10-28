@@ -1978,7 +1978,8 @@ public class ExecutionContext
 	{
 		if ( ( task != null ) && ( task.getTaskType( ) == IEngineTask.TASK_RUN ) )
 		{
-			if ( getEngineExtensions( ) == null )
+			String[] engineExts = getEngineExtensions( );
+			if ( engineExts == null || engineExts.length == 0 )
 			{
 				executionPolicy = new ExecutionOptimize( )
 						.optimize( getReport( ) );
@@ -2041,9 +2042,16 @@ public class ExecutionContext
 	{
 		return maxRowsPerQuery;
 	}
-	
+
+	private String[] engineExts;
+
 	public String[] getEngineExtensions( )
 	{
+		if ( engineExts != null )
+		{
+			return engineExts;
+		}
+
 		ArrayList<String> resultList = new ArrayList<String>( );
 		ReportDesignHandle design = this.getDesign( );
 		if ( design.isEnableACL( ) )
@@ -2069,6 +2077,8 @@ public class ExecutionContext
 				}
 			}
 		}
-		return resultList.toArray( new String[resultList.size( )] );
+		engineExts = resultList.toArray( new String[resultList.size( )] );
+
+		return engineExts;
 	}
 }

@@ -77,7 +77,7 @@ public class TextCompositor
 		this.bidiProcessing = bidiProcessing;
 		this.fontSubstitution = fontSubstitution;
 		this.hyphenation = hyphenation;
-		this.textWrapping =  textWrapping;
+		this.textWrapping = textWrapping;
 		this.locale = locale;
 		IStyle style = textContent.getComputedStyle( );
 		letterSpacing = PropertyUtil.getDimensionValue( style
@@ -90,15 +90,11 @@ public class TextCompositor
 
 	public boolean hasNextArea( )
 	{
-		if ( textWrapping )
+		if ( !textWrapping && hasLineBreak )
 		{
-			// there are more text to be generated
-			return offset < textContent.getText( ).length( );	
+			return false;
 		}
-		else
-		{
-			return !hasLineBreak;
-		}
+		return offset < textContent.getText( ).length( );
 	}
 
 	public void setNewLineStatus ( boolean status )

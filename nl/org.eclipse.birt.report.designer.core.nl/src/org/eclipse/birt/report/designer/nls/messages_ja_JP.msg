@@ -549,7 +549,7 @@ dataset.editor.inputDialog.columnName=—ñ–¼(&C)
 dataset.editor.inputDialog.dataType=ƒf[ƒ^Œ^(&T)
 dataset.editor.inputDialog.expression=®(&E)
 dataset.editor.inputDialog.aggrArgu=ˆø”(&R)
-dataset.editor.inputDialog.aggrFunc=‘Œv(&A)
+dataset.editor.inputDialog.aggrFunc=WŒv(&A)
 dataset.editor.inputDialog.filter=ƒtƒBƒ‹ƒ^(&F)
 dataset.editor.inputDialog.value1=’l 1(&1)
 dataset.editor.inputDialog.value2=’l 2(&2)
@@ -827,19 +827,20 @@ designer.preview.preference.elementname.description.Enabled=false
 designer.preview.preference.elementname.description=à–¾
 designer.preview.preference.elementname.Enabled=true 
 designer.preview.preference.locale.description=ƒƒP[ƒ‹‚Ì‘I‘ğ(&C) :
+designer.preview.preference.timezone.description=ƒ^ƒCƒ€ƒ][ƒ“(&T) :
 designer.preview.preference.resultset.sqldatasetpage.group.title=ƒNƒGƒŠƒy[ƒW
 designer.preview.preference.resultset.previewpage.group.title=ƒvƒŒƒrƒ…[ƒy[ƒW
 designer.preview.preference.resultset.maxNoOfSchema.description=•\¦‚·‚éƒXƒL[ƒ}‚ÌÅ‘å”(&S) :
 designer.preview.preference.resultset.maxNoOfTable.description=ŠeƒXƒL[ƒ}‚É•\¦‚·‚éƒe[ƒuƒ‹‚ÌÅ‘å”(&T) :
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=Å‘åƒXƒL[ƒ}”‚É‚ÍA0 ‚©‚ç {0} ‚Ü‚Å‚Ì”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
 designer.preview.preference.resultset.maxNoOfTable.errormessage=ŠeƒXƒL[ƒ}‚ÌÅ‘åƒe[ƒuƒ‹”‚É‚ÍA0 ‚©‚ç {0} ‚Ü‚Å‚Ì”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
-designer.preview.preference.resultset.maxrow.description=•\¦‚·‚és‚ÌÅ‘å”(&R) :
+designer.preview.preference.resultset.maxrow.description=•\¦‚·‚és”(&R) :
 designer.preview.preference.resultset.maxrow.errormessage=Å‘ås”‚É‚ÍA1 ‚©‚ç {0} ‚Ü‚Å‚Ì”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
-designer.preview.preference.resultset.maxrowlevelmember.description=ŠesƒŒƒxƒ‹‚É•\¦‚·‚éƒƒ“ƒo‚ÌÅ‘å”(&L) :
+designer.preview.preference.resultset.maxrowlevelmember.description=ŠesƒŒƒxƒ‹‚É•\¦‚·‚éƒƒ“ƒo”(&L) :
 designer.preview.preference.resultset.maxrowlevelmember.errormessage=sƒŒƒxƒ‹ƒƒ“ƒo‚ÌÅ‘å”‚É‚ÍA1 ‚©‚ç {0} ‚Ü‚Å‚Ì”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
-designer.preview.preference.resultset.maxcolumnlevelmember.description=Še—ñƒŒƒxƒ‹‚É•\¦‚·‚éƒƒ“ƒo‚ÌÅ‘å”(&C) : 
+designer.preview.preference.resultset.maxcolumnlevelmember.description=Še—ñƒŒƒxƒ‹‚É•\¦‚·‚éƒƒ“ƒo”(&C) :
 designer.preview.preference.resultset.maxcolumnlevelmember.errormessage=—ñƒŒƒxƒ‹ƒƒ“ƒo‚ÌÅ‘å”‚É‚ÍA1 ‚©‚ç {0} ‚Ü‚Å‚Ì”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
-designer.preview.preference.resultset.maxinmemorycubesize.description=ƒƒ‚ƒŠ“à‚ÌÅ‘åƒLƒ…[ƒuƒTƒCƒY (MB)(&S) : 
+designer.preview.preference.resultset.maxinmemorycubesize.description=ƒƒ‚ƒŠ“à‚ÌƒLƒ…[ƒuƒTƒCƒY (MB)(&S) :
 designer.preview.preference.resultset.maxinmemorycubesize.errormessage=ƒƒ‚ƒŠ“à‚ÌÅ‘åƒLƒ…[ƒuƒTƒCƒY‚É‚ÍA1 ‚©‚ç {0} ‚Ü‚Å‚Ì”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
 designer.preview.preference.server.description=“à•”ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒT[ƒo‚Ìİ’èBƒT[ƒo‚ÍABIRT Report Designer\nPreview Framework “à•”‚Åg—p‚³‚ê‚Ü‚·B
 designer.preview.preference.server.hostDescription=ƒ[ƒJƒ‹ƒ}ƒVƒ“‚ÌƒzƒXƒg–¼‚Ü‚½‚Í IP ƒAƒhƒŒƒX(&H)\n©“®“I‚ÉŒˆ’è‚·‚é‚É‚ÍA‹ó”’‚Ì‚Ü‚Ü‚É‚µ‚Ä‚­‚¾‚³‚¢B
@@ -885,7 +886,7 @@ DesignerActionBarContributor.style.new=ƒXƒ^ƒCƒ‹‚ÌV‹Kì¬(&N)...
 DesignerActionBarContributor.menu.data-NewParameter=ƒŒƒ|[ƒgƒpƒ‰ƒƒ^‚ÌV‹Kì¬(&P)
 DesignerActionBarContributor.menu.data-NewDataSetParent=V‹Kƒf[ƒ^ƒZƒbƒg(&S)
 designerActionBarContributor.menu.data-newDataset=V‹Kƒf[ƒ^ƒZƒbƒg(&E)
-designerActionBarContributor.menu.data-newJointDataset=ƒWƒ‡ƒCƒ“ƒg‚Ìƒf[ƒ^ƒZƒbƒg‚ÌV‹Kì¬(&J)
+designerActionBarContributor.menu.data-newJointDataset=ƒWƒ‡ƒCƒ“ƒgƒf[ƒ^ƒZƒbƒg‚ÌV‹Kì¬(&J)
 DesignerActionBarContributor.menu.element.insert=‘}“ü(&I)
 DesignerActionBarContributor.menu.element.group=ƒOƒ‹[ƒv(&G) 
 DesignerActionBarContributor.menu.element.style=ƒXƒ^ƒCƒ‹(&Y)
@@ -939,9 +940,9 @@ DesignerPaletteFactory.quicktool.agg.toolTip=WŒv€–Ú‚Ì‘}“ü
 ###########################################################
 #DimensionBuilderDialog properties
 
-DimensionBuilderDialog.LabelMeasure=Œv‘ª :
+DimensionBuilderDialog.LabelMeasure=ƒƒWƒƒ[ :
 DimensionBuilderDialog.LabelUnit=’PˆÊ :
-DimensionBuilderDialog.Title=ŸŒ³ƒrƒ‹ƒ_
+DimensionBuilderDialog.Title=ƒfƒBƒƒ“ƒWƒ‡ƒ“ƒrƒ‹ƒ_
 
 ###########################################################
 #DNDUtil properties
@@ -1147,12 +1148,13 @@ Element.OdaDataSource.driverName=ƒhƒ‰ƒCƒo–¼ :
 Element.OdaDataSource.privateDriverProperties=ƒvƒ‰ƒCƒx[ƒgƒhƒ‰ƒCƒo‚ÌƒvƒƒpƒeƒB :
 Element.OdaDataSource.publicDriverProperties=ƒpƒuƒŠƒbƒNƒhƒ‰ƒCƒo‚ÌƒvƒƒpƒeƒB :
 Element.Parameter.helpText=ƒwƒ‹ƒvƒeƒLƒXƒg :
-Element.Parameter.helpTextID=ƒwƒ‹ƒvƒeƒLƒXƒgƒL[
+Element.Parameter.helpTextID=ƒwƒ‹ƒvƒeƒLƒXƒgƒL[(&Y) :
 Element.Parameter.hidden=”ñ•\¦ :
 Element.ParameterGroup.helpText=ƒwƒ‹ƒvƒeƒLƒXƒg :
 Element.ParameterGroup.helpTextID=ƒwƒ‹ƒvƒeƒLƒXƒgƒL[ :
 Element.ParameterGroup.slot.parameters=ƒpƒ‰ƒƒ^ :
 Element.ParameterGroup.startExpanded=ŠJn‚É“WŠJ :
+Element.ParameterGroup.promptTextID=ƒvƒƒ“ƒvƒgƒeƒLƒXƒgƒL[ (&T):
 Element.ReportDesign.afterCloseDoc.toolTip=¶¬ƒtƒF[ƒY‚ÅƒŒƒ|[ƒg•¶‘ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚½’¼Œã‚ÉŒÄ‚Ño‚³‚ê‚Ü‚·B
 Element.ReportDesign.layoutPreference=ƒŒƒCƒAƒEƒg‚Ìİ’è(&L) : 
 Element.ReportDesign.afterCloseDoc=•¶‘‚ğ•Â‚¶‚½Œã :
@@ -1172,9 +1174,9 @@ Element.ReportDesign.beforeRender.toolTip=ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“‚ÌƒAƒNƒVƒ‡ƒ“‚ğŠJn
 Element.ReportDesign.beforeRender=ƒŒƒ“ƒ_ƒŠƒ“ƒO‘O :
 Element.ReportDesign.displayName=•\¦–¼(&Y) : 
 Element.ReportDesign.eventHandlerClass=ƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰‚ÌƒNƒ‰ƒX(&C) : 
-Element.ReportDesign.iconFile=ƒTƒ€ƒl[ƒ‹(&N) : 
+Element.ReportDesign.iconFile=ƒTƒ€ƒlƒCƒ‹(&N) : 
 Element.ReportDesign.refreshRate=XV•p“x :
-Element.ReportDesign.bidiLayoutOrientation=‘o•ûŒüƒŒƒCƒAƒEƒg‚ÌŒü‚«(&B) :
+Element.ReportDesign.bidiLayoutOrientation=ƒŒƒ|[ƒg‚ÌŒü‚«(&O) :
 Element.ReportElement.comments=ƒRƒƒ“ƒg(&C) :
 Element.ReportElement.Cube=ƒf[ƒ^(&D) :
 Element.ReportElement.customXml=ƒJƒXƒ^ƒ€ XML :
@@ -1218,7 +1220,7 @@ Element.ScalarParameter.selectionList.fixedOrder=ŒÅ’è‡˜ :
 Element.ScalarParameter.selectionList.mustMatch=•K‚¸ˆê’v :
 Element.ScalarParameter.selectionList.selectionList=‘I‘ğƒŠƒXƒg :
 Element.ScalarParameter.selectionList=‘I‘ğƒŠƒXƒg :
-Element.ScalarParameter.promptTextID=ƒvƒƒ“ƒvƒgƒeƒLƒXƒgƒL[ (&T):
+Element.ScalarParameter.promptTextID=ƒvƒƒ“ƒvƒgƒeƒLƒXƒgƒL[(&K) :
 Element.ScriptDataSet.close.toolTip=ƒf[ƒ^ƒZƒbƒg‚ğ•Â‚¶‚Ü‚·B
 Element.ScriptDataSet.close=•Â‚¶‚é :
 Element.ScriptDataSet.describe.toolTip=Œ‹‰ÊƒZƒbƒg‚ğ‹Lq‚µ‚Ü‚·B
@@ -1487,8 +1489,8 @@ ExpressionProvider.Operators.Comparison=”äŠr
 ExpressionProvider.Operators.Computational=‰‰Z
 ExpressionProvider.Operators.Logical=˜_—
 ExpressionProvider.EditBindings=ƒoƒCƒ“ƒh‚Ì•ÒW...
-ExpressionProvider.Expression.RowNumName=s”
-ExpressionProvider.Expression.RowNumTooltip=Œ»İ‚Ìs”‚ğ•Ô‚·®‚Å‚·B
+ExpressionProvider.Expression.RowNumName=s”Ô†
+ExpressionProvider.Expression.RowNumTooltip=Œ»İ‚Ìs”Ô†‚ğ•Ô‚·®‚Å‚·B
 ExpressionTreeSupport.Category.Global=ƒOƒ[ƒoƒ‹
 
 ###########################################################
@@ -1870,12 +1872,18 @@ HighlightsPreferencePage.toolTipText.Down=ƒnƒCƒ‰ƒCƒg•”•ª‚ğ‰º‚ÉˆÚ“®
 #HyperlinkBuilder properties
 
 HyperlinkBuilder.Column.Parameters=ƒpƒ‰ƒƒ^
-HyperlinkBuilder.DrillThroughStep1=è‡ 1 : ƒ^[ƒQƒbƒgƒŒƒ|[ƒg‚Ì‘I‘ğ 
-HyperlinkBuilder.DrillThroughStep2=è‡ 2 : ƒ^[ƒQƒbƒgƒAƒ“ƒJ[‚Ì‘I‘ğ 
-HyperlinkBuilder.DrillThroughStep3=è‡ 3 : ƒ^[ƒQƒbƒg‚ÌƒuƒbƒNƒ}[ƒN‚Éˆê’v‚·‚éƒŠƒ“ƒN®‚Ìì¬
-HyperlinkBuilder.DrillThroughStep4=è‡ 4 : ƒ^[ƒQƒbƒg‚ÌƒŒƒ|[ƒg‚Ì•\¦ 
-HyperlinkBuilder.DrillThroughStep5=è‡ 5 : ƒ^[ƒQƒbƒgƒŒƒ|[ƒg‚ÌŒ`®İ’è
-HyperlinkBuilder.DrillThroughStep6=è‡ 6 : ƒc[ƒ‹ƒqƒ“ƒg
+HyperlinkBuilder.DrillThrough.SelectTargetReport=Select a target report 
+HyperlinkBuilder.DrillThrough.SelectTargetAnchor=Select a target anchor 
+HyperlinkBuilder.DrillThrough.CreateLinkExpr=Create a link expression that matches the target bookmark
+HyperlinkBuilder.DrillThrough.ShowTargetReport=Show target report in 
+HyperlinkBuilder.DrillThrough.SelectFormat=Select a format for target report
+HyperlinkBuilder.DrillThrough.Tooltip=Tool Tip
+HyperlinkBuilder.Step.1=Step 1: 
+HyperlinkBuilder.Step.2=Step 2: 
+HyperlinkBuilder.Step.3=Step 3: 
+HyperlinkBuilder.Step.4=Step 4: 
+HyperlinkBuilder.Step.5=Step 5: 
+HyperlinkBuilder.Step.6=Step 6: 
 HyperlinkBuilder.ParameterRequired=•K{
 HyperlinkBuilder.Column.DataType=ƒf[ƒ^Œ^
 HyperlinkBuilder.Column.Values=’l
@@ -2846,7 +2854,7 @@ PreviewAction.Text=ƒvƒŒƒrƒ…[
 PreviewEditor.parameter.tooltip=ƒŒƒ|[ƒgƒpƒ‰ƒƒ^‚ğ•\¦‚µ‚Ü‚·B
 PreviewEditor.parameter.note=’ :
 PreviewEditor.parameter.info=ƒf[ƒ^s‚ÌŒ»İ‚Ì§ŒÀ :
-PreviewEditor.parameter.change=•ÏX‚·‚é‚É‚Í‚±‚±‚ğƒNƒŠƒbƒN
+PreviewEditor.parameter.change=ƒvƒŒƒrƒ…[‚ÌŠÂ‹«İ’è‚ğ•ÏX‚·‚é‚É‚Í‚±‚±‚ğƒNƒŠƒbƒN
 PreviewEditor.ConfirmRefresh.Title=XV‚ÌŠm”F
 PreviewEditor.ConfirmRefresh.Message=‚±‚Ì‘€ì‚ÍƒvƒŒƒrƒ…[Œ‹‰Ê‚É‰e‹¿‚·‚é‰Â”\«‚ª‚ ‚è‚Ü‚·BƒvƒŒƒrƒ…[ƒy[ƒW‚ğXV‚µ‚Ü‚·‚© ? 
 PreviewEditor.browser.notfound=“à•”ƒuƒ‰ƒEƒU‚ª‚ ‚è‚Ü‚¹‚ñB
@@ -2907,7 +2915,7 @@ PublishTemplateAction.wizard.message=Unable to publish the template to the direc
 PublishTemplateAction.wizard.notvalidfolder=İ’è‚É–³Œø‚Èƒeƒ“ƒvƒŒ[ƒgƒtƒHƒ‹ƒ_‚ª’è‹`‚³‚ê‚Ä‚¢‚Ü‚·B
 PublishTemplateAction.wizard.page.nameInfo=•\¦–¼‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
 PublishTemplateAction.wizard.message.SourceFileNotExist=ƒ\[ƒXƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚Ü‚¹‚ñB
-PublishTemplateAction.wizard.message.ThumbnailImageNotExist=ƒTƒ€ƒl[ƒ‹‚ÌƒCƒ[ƒW‚Í‘¶İ‚µ‚Ü‚¹‚ñB
+PublishTemplateAction.wizard.message.ThumbnailImageNotExist=ƒTƒ€ƒlƒCƒ‹‚ÌƒCƒ[ƒW‚Í‘¶İ‚µ‚Ü‚¹‚ñB
 PublishTemplateAction.wizard.message.PreviewImageNotExist=ƒvƒŒƒrƒ…[—p‚ÌƒCƒ[ƒWƒtƒ@ƒCƒ‹‚Í‘¶İ‚µ‚Ü‚¹‚ñB
 PublishTemplateAction.wizard.message.PreviewImageNotValid=ƒvƒŒƒrƒ…[—p‚ÌƒCƒ[ƒWƒtƒ@ƒCƒ‹‚ÍA—LŒø‚ÈƒCƒ[ƒW‚Å‚Í‚ ‚è‚Ü‚¹‚ñB
 
@@ -3115,7 +3123,7 @@ ReportPage.text.Browse=QÆ(&B)...
 ReportPage.title.Location=êŠ :
 ReportPage.title.setPrewImg=ƒCƒ[ƒWƒtƒ@ƒCƒ‹‚Ì‘I‘ğ
 ReportPage.text.Resource.Add=QÆ(&B)... 
-ReportPage.text.Thumbnail=ƒTƒ€ƒl[ƒ‹(&H)...
+ReportPage.text.Thumbnail=ƒTƒ€ƒlƒCƒ‹(&H)...
 
 ###########################################################
 #ReportPageGenerator properties
@@ -3124,12 +3132,12 @@ ReportPageGenerator.List.Comments=ƒRƒƒ“ƒg
 ReportPageGenerator.List.Description=à–¾
 ReportPageGenerator.List.EventHandler=ƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰
 ReportPageGenerator.List.General=‘S”Ê
-ReportPageGenerator.List.Measurement=Œv‘ª
+ReportPageGenerator.List.Measurement=ƒƒWƒƒ[
 ReportPageGenerator.List.NamedExpressions=–¼‘O•t‚«®
 ReportPageGenerator.List.UserProperties=ƒ†[ƒU‚ÌƒvƒƒpƒeƒB
 ReportPageGenerator.List.Resources=ƒŠƒ\[ƒX
 ReportPageGenerator.List.Resources.JarFile=JAR ƒtƒ@ƒCƒ‹ :
-ReportPageGenerator.List.AdvancedProperty=g—p•p“x : ’†
+ReportPageGenerator.List.AdvancedProperty=Ú×İ’è
 
 #OdaDataSourceGenerator properties
 DataSourcePageGenerator.List.General=‘S”Ê
@@ -3617,6 +3625,8 @@ TextEditDialog.toolTipText.fx=®ƒrƒ‹ƒ_‚ğŠJ‚­
 TextEditDialog.action.item.formatDateTime=“ú‚Ì‘®İ’è 
 TextEditDialog.action.item.formatNumber=”’l‚Ì‘®İ’è 
 TextEditDialog.action.item.formatString=•¶š—ñ‚Ì‘®İ’è 
+TextEditDialog.title.DlgNew=New Text Item
+TextEditDialog.title.DlgEdit=ƒeƒLƒXƒg€–Ú‚Ì•ÒW
 
 ###########################################################
 #TextEditPart properties
@@ -3662,7 +3672,7 @@ AutoTextPageGenerator.List.Visibility=•\¦/”ñ•\¦
 ###########################################################
 #ThemesNodeProvider properties
 
-ThemesNodeProvider.action.New=V‹Kƒe[ƒ}
+ThemesNodeProvider.action.New=ƒe[ƒ}‚ÌV‹Kì¬(&N)...
 ThemesNodeProvider.Failed=V‹Kƒe[ƒ}‚ÌƒGƒ‰[
 NewThemeDialog.DialogTitle=V‹Kƒe[ƒ}
 NewThemeDialog.DialogMessage=–¼‘O‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
@@ -3823,7 +3833,7 @@ WizardTemplateChoicePage.title.SimpleListing=ŠÈˆÕƒŠƒXƒg
 #bidi_hcg start
 WizardTemplateChoicePage.label.rtlBiDiOrientation=‰E‚©‚ç¶‚Ö
 WizardTemplateChoicePage.label.ltrBiDiOrientation=¶‚©‚ç‰E‚Ö
-WizardTemplateChoicePage.label.chooseBiDiDirection=ƒŒƒ|[ƒg‚ÌŒü‚«‚ğİ’è :
+WizardTemplateChoicePage.label.chooseBiDiDirection=ƒŒƒ|[ƒg‚ÌŒü‚« :
 #bidi_hcg end
 ###########################################################
 #XMLSourcePage properties
@@ -3934,7 +3944,7 @@ ResourceSelectionValidator.ExtErrorSplitter=\ ‚Ü‚½‚Í
 ###########################################################
 #GeneralPage
 GeneralPage.Library.Included=ƒ‰ƒCƒuƒ‰ƒŠ :
-GeneralPage.Library.Modified.Note=NOTE: This report item from the library has been modified. To restore the original library item, click on{0}"Restore Properties"
+GeneralPage.Library.Modified.Note=’ : ‚±‚ÌƒŒƒ|[ƒg€–Ú‚Íƒ‰ƒCƒuƒ‰ƒŠ‚Å•ÒW‚³‚ê‚Ä‚¢‚Ü‚·BŒ³‚É–ß‚·‚É‚ÍA{0}[ƒvƒƒpƒeƒB‚Ì•œŒ³] ‚ğƒNƒŠƒbƒN‚µ‚Ä‚­‚¾‚³‚¢B
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4109,7 +4119,7 @@ ChangeDataColumnAction.text=ƒf[ƒ^—ñ‚Ì•ÏX(&G)
 
 ###########################################################
 #ThumbnailBuilder properties
-ThumbnailBuilder.Text.Title=ƒTƒ€ƒl[ƒ‹‚ÌŠÇ—
+ThumbnailBuilder.Text.Title=ƒTƒ€ƒlƒCƒ‹‚ÌŠÇ—
 ThumbnailBuilder.Button.Text.Generate=¶¬(&G)
 ThumbnailBuilder.Button.Text.Remove=íœ(&R)
 ThumbnailBuilder.Button.Text.Import=ƒCƒ“ƒ|[ƒg(&I)...
@@ -4120,7 +4130,7 @@ ThumbnailBuilder.FileDialog.FileNameError.Message=‘I‘ğ‚µ‚½ƒtƒ@ƒCƒ‹‚ÍAƒCƒ[ƒW‚Å
 ThumbnailBuilder.Button.GenerateFromReport=ƒŒƒ|[ƒg‚©‚ç¶¬
 ThumbnailBuilder.Button.BrowseFromFileSystem=ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ÌQÆ
 ThumbnailBuilder.Button.ImportFromResource=‹¤—LƒŠƒ\[ƒX‚©‚çƒCƒ“ƒ|[ƒg
-ThumbnailBuilder.Image.DefaultName=ƒTƒ€ƒl[ƒ‹‚ÌƒCƒ[ƒW
+ThumbnailBuilder.Image.DefaultName=ƒTƒ€ƒlƒCƒ‹‚ÌƒCƒ[ƒW
 
 ###########################################################
 #FragmentResourceEntry properties
@@ -4190,7 +4200,7 @@ CrosstabPageGenerator.List.UserProperties=ƒ†[ƒU‚ÌƒvƒƒpƒeƒB
 CrosstabPageGenerator.List.AdvancedProperty=Ú×İ’è
 
 CrosstabPageGenerator.List.SubTotals=¬Œv
-CrosstabPageGenerator.List.GrandTotals=‘Œv
+CrosstabPageGenerator.List.GrandTotals=WŒv
 CrosstabPageGenerator.List.PageBreak=ƒy[ƒW‹æØ‚è
 
 ###########################################################
@@ -4218,7 +4228,7 @@ PageGenerator.TabItem.Sorting=ƒ\[ƒg
 
 ###########################################################
 #AggDataDropAdapter
-AggDataDropAdapter.Trans.Name=‘Œv‚Ìì¬
+AggDataDropAdapter.Trans.Name=WŒv‚Ìì¬
 
 ###########################################################
 #BindingDialogHelper
@@ -4248,7 +4258,7 @@ BindingDialogHelper.warning.button.no=‚¢‚¢‚¦
 Scripts.Node.DisplayName=ƒXƒNƒŠƒvƒg
 ScriptElementNode.Action.Text=ƒŒƒ|[ƒg—v‘f‚ÉƒWƒƒƒ“ƒv
 
-ReportPage.PreviewImage.Button.ToolTip=ƒTƒ€ƒl[ƒ‹‚ÌŠÇ—
+ReportPage.PreviewImage.Button.ToolTip=ƒTƒ€ƒlƒCƒ‹‚ÌŠÇ—
 
 ###########################################################
 #CrosstabBindingDialogHelper
@@ -4387,4 +4397,4 @@ ExportElementToLibraryAction.waringMsg=—v‘f‚É–¼‘O‚ª•t‚¢‚Ä‚¢‚Ü‚¹‚ñ‚ªA–¼‘O‚ğİ’è‚
 ###########################################################
 #UIUtil
 UIUtil.previewconfirm.title=ƒŒƒ|[ƒg‚ÌƒGƒ‰[
-UIUtil.previewconfirm.message=The report contains errors, would you like to continue for previewing?
+UIUtil.previewconfirm.message=ƒŒƒ|[ƒg‚ÉƒGƒ‰[‚ª‚ ‚è‚Ü‚·BƒvƒŒƒrƒ…[‚ğ‘±s‚µ‚Ü‚·‚© ?

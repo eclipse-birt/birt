@@ -2783,9 +2783,11 @@ public class ParameterDialog extends BaseDialog
 						: formatCategroy,
 						ULocale.getDefault( ) ).format( Messages.getString( "ParameterDialog.Label.Sample" ) ); //$NON-NLS-1$
 			}
-			else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_INTEGER ) )
+			else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_INTEGER )
+					|| type.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL )
+					|| type.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT ) )
 			{
-				previewString = new NumberFormatter( ParameterUtil.isCustomCategory( formatCategroy ) ? formatPattern
+				previewString = new NumberFormatter( ( ParameterUtil.isCustomCategory( formatCategroy ) || ( isNumberFormat( formatCategroy ) ) ) ? formatPattern
 						: formatCategroy,
 						ULocale.getDefault( ) ).format( 1234567890 );
 			}
@@ -2800,6 +2802,20 @@ public class ParameterDialog extends BaseDialog
 		formatField.setText( displayFormat );
 		previewLabel.setText( convertNullString( previewString ) );
 		changeFormat.setEnabled( choiceSet != null );
+	}
+
+	private boolean isNumberFormat( String formatCatogory )
+	{
+		if ( formatCatogory.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED )
+				|| formatCatogory.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER )
+				|| formatCatogory.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY )
+				|| formatCatogory.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED )
+				|| formatCatogory.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT )
+				|| formatCatogory.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC ) )
+		{
+			return true;
+		}
+		return false;
 	}
 
 	private String convertNullString( String str )

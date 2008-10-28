@@ -20,6 +20,13 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 
 public interface IDebugScriptEditor extends IScriptEditor
 {
+	
+	
+	 /**
+	 * Before set the script text.
+	 */
+	void beforeChangeContents(PropertyHandle handle);
+	
 	/**Update the script ID.
 	 * @param id
 	 */

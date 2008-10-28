@@ -669,24 +669,20 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		hasCsslinks = false;
 		if ( designHandle != null )
 		{
-			List externalCsses = designHandle.getAllExternalIncludedCsses( );
-			if( null != externalCsses)
+			Iterator iter = designHandle.includeCssesIterator( );
+			while ( iter.hasNext( ) )
 			{
-				Iterator iter = externalCsses.iterator( );
-				while ( iter.hasNext( ) )
+				IncludedCssStyleSheetHandle cssStyleSheetHandle = (IncludedCssStyleSheetHandle) iter
+						.next( );
+				String href = cssStyleSheetHandle.getExternalCssURI( ) ;
+				if (href != null)
 				{
-					IncludedCssStyleSheetHandle cssStyleSheetHandle = (IncludedCssStyleSheetHandle) iter
-							.next( );
-					String href = cssStyleSheetHandle.getExternalCssURI( ) ;
-					if (href != null)
-					{
-						hasCsslinks = true;
-						writer.openTag( HTMLTags.TAG_LINK );
-						writer.attribute( HTMLTags.ATTR_REL, "stylesheet" );
-						writer.attribute( HTMLTags.ATTR_TYPE, "text/css" );
-						writer.attribute( HTMLTags.ATTR_HREF, href);
-						writer.closeTag( HTMLTags.TAG_LINK );
-					}
+					hasCsslinks = true;
+					writer.openTag( HTMLTags.TAG_LINK );
+					writer.attribute( HTMLTags.ATTR_REL, "stylesheet" );
+					writer.attribute( HTMLTags.ATTR_TYPE, "text/css" );
+					writer.attribute( HTMLTags.ATTR_HREF, href);
+					writer.closeTag( HTMLTags.TAG_LINK );
 				}
 			}
 		}

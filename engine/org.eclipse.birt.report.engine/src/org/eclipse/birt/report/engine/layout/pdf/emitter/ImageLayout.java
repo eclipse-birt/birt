@@ -668,8 +668,13 @@ class ConcreteImageLayout extends Layout
 
 	protected void closeLayout( )
 	{
-		// TODO Auto-generated method stub
-		
+		if ( !PropertyUtil.isInlineElement( image ) )
+			// We align inline elements (here - inline container parenting the
+			// inline image) in LineLayout, but not block-level image.
+			// Invoke it here, since it should not be done by ContainerLayout
+			// always.
+			// TODO: Check if this can be done in a neater way.
+			parent.align( root );
 	}
 
 	protected void initialize( )

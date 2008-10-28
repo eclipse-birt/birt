@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.script.JSEditor;
 import org.eclipse.birt.report.designer.ui.editor.script.DecoratedScriptEditor;
 import org.eclipse.birt.report.designer.ui.editor.script.IDebugScriptEditor;
 import org.eclipse.birt.report.designer.ui.editor.script.ScriptDocumentProvider;
+import org.eclipse.birt.report.designer.ui.editor.script.ScriptDocumentProvider.DebugResourceMarkerAnnotationModel;
 import org.eclipse.birt.report.designer.ui.editors.IReportScriptLocation;
 import org.eclipse.birt.report.designer.ui.editors.pages.ReportScriptFormPage;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -33,7 +34,6 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.CommandNotMappedException;
 import org.eclipse.ui.actions.ContributedAction;
-import org.eclipse.ui.texteditor.AbstractMarkerAnnotationModel;
 import org.eclipse.ui.texteditor.ConfigurationElementSorter;
 
 /**
@@ -160,16 +160,36 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage
 	 */
 	public void updateScipt(PropertyHandle handle )
 	{
+		ScriptDocumentProvider provider = (ScriptDocumentProvider) getDocumentProvider( );
+		provider.update( provider.getAnnotationModel( getEditorInput( ) ) );
+		((DebugResourceMarkerAnnotationModel)provider.getAnnotationModel( getEditorInput( ) )).resetReportMarkers( );
+	
+	}
+
+	public void beforeChangeContents(PropertyHandle handle )
+	{
+		ScriptDocumentProvider provider = (ScriptDocumentProvider) getDocumentProvider( );
 		String id = ModuleUtil.getScriptUID( handle );
+		boolean isSame = provider.getId( ).equals( id );
+		if (!isSame)
+		{
+			jsEditor.doSave( null );
+		}
 		if (id == null)
 		{
-			return;
+			provider.setId( "" );
 		}
-		ScriptDocumentProvider provider = (ScriptDocumentProvider) getDocumentProvider( );
-		provider.setId(id);
-		provider.setFileName( handle.getElementHandle( ).getModuleHandle( ).getFileName( ) );
-		((AbstractMarkerAnnotationModel)provider.getAnnotationModel( getEditorInput( ) )).resetMarkers( );
-		provider.update( provider.getAnnotationModel( getEditorInput( ) ) );
+		else
+		{
+			provider.setId(id);
+		}
+		provider.setSameElement( isSame );
+		if (handle != null)
+		{			
+			provider.setFileName( handle.getElementHandle( ).getModuleHandle( ).getFileName( ) );
+		}
+		
+		((DebugResourceMarkerAnnotationModel)provider.getAnnotationModel( getEditorInput( ) )).beforeChangeText(  );
 	}
 	}
 	
@@ -248,9 +268,14 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage
 		 */
 		protected void setEditorText( String text )
 		{
-			super.setEditorText( text );
 			final PropertyHandle handle = getPropertyHandle( );
-			if (handle != null && getScriptEditor( ) instanceof IDebugScriptEditor)
+			if (getScriptEditor( ) instanceof IDebugScriptEditor)
+			{
+				((IDebugScriptEditor)getScriptEditor( )).beforeChangeContents(handle );
+			}
+			super.setEditorText( text );
+			
+			if ( getScriptEditor( ) instanceof IDebugScriptEditor)
 			{
 				((IDebugScriptEditor)getScriptEditor( )).updateScipt( handle );
 			}	

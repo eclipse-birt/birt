@@ -62,13 +62,13 @@ public class AutoTextHandleTest extends BaseTestCase
 
 		String displayName = autoText
 				.getDisplayLabel( DesignElement.FULL_LABEL );
-		assertEquals( "sf1(Page Number)", displayName ); //$NON-NLS-1$
+		assertEquals( "Page Number", displayName ); //$NON-NLS-1$
 
 		autoText.setAutoTextType( DesignChoiceConstants.AUTO_TEXT_TOTAL_PAGE );
 		displayName = autoText.getDisplayLabel( );
-		assertEquals( "sf1", displayName ); //$NON-NLS-1$
+		assertEquals( "Total Page", displayName ); //$NON-NLS-1$
 		assertEquals(
-				"sf1(Total Page)", autoText.getDisplayLabel( DesignElement.FULL_LABEL ) ); //$NON-NLS-1$
+				"Total Page", autoText.getDisplayLabel( DesignElement.FULL_LABEL ) ); //$NON-NLS-1$
 	}
 
 	/**

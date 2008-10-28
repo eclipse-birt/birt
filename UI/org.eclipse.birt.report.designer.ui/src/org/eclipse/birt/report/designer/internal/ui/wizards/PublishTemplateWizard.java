@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -179,7 +180,8 @@ public class PublishTemplateWizard extends Wizard
 				if ( synchronizer != null )
 				{
 					synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( this,
-							Path.fromOSString( targetFile.getAbsolutePath( ) ), IReportResourceChangeEvent.NewResource ) );
+							Path.fromOSString( targetFile.getAbsolutePath( ) ),
+							IReportResourceChangeEvent.NewResource ) );
 				}
 			}
 		}
@@ -220,8 +222,9 @@ public class PublishTemplateWizard extends Wizard
 		{
 			newHandle.setIconFile( "" ); //$NON-NLS-1$
 		}
-		
-		if ( !newHandle.getIconFile( ).equals( handle.getIconFile( ) ) )
+
+		if ( !StringUtil.isEqual( newHandle.getIconFile( ),
+				handle.getIconFile( ) ) )
 		{
 			// cleanup existing thumbnail if icon file changed.
 			newHandle.deleteThumbnail( );

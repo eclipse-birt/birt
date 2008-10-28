@@ -15,34 +15,34 @@ Property.Boolean.False=false
 ###########################################################
 # Property type names
 
-Property.boolean=booleano
-Property.choice=selección
-Property.float=flotante
-Property.color=color
-Property.dateTime=fecha/Hora
-Property.dimension=dimensión
-Property.expression=expresión
-Property.html=html
-Property.integer=entero
+Property.boolean=Booleano
+Property.choice=Selección
+Property.float=Flotante
+Property.color=Color
+Property.dateTime=Fecha/Hora
+Property.dimension=Dimensión
+Property.expression=Expresión
+Property.html=Html
+Property.integer=Entero
 Property.messageId=IDmensaje
-Property.name=nombre
-Property.number=número
-Property.points=puntos
-Property.string=string
-Property.uri=uri
-Property.xml=xml
-Property.elementRef=referencia de elemento
-Property.column=columna
-Property.variant=variante
-Property.structList=structList
-Property.extends=extends
+Property.name=Nombre
+Property.number=Número
+Property.points=Puntos
+Property.string=String
+Property.uri=Uri
+Property.xml=Xml
+Property.elementRef=Referencia de elemento
+Property.column=Columna
+Property.variant=Variante
+Property.structList=StructList
+Property.extends=Extends
 Property.script=Script
-Property.list=lista
-Property.memberKey=clave de miembro
-Property.literalString=string literal
-Property.element=elemento
-Property.structRef=referencia de estructura
-Property.contentElement=elemento como valor de la propiedad
+Property.list=Lista
+Property.memberKey=Clave de miembro
+Property.literalString=String literal
+Property.element=Elemento
+Property.structRef=Referencia de estructura
+Property.contentElement=Elemento como valor de la propiedad
 
 ###########################################################
 # Choice values
@@ -637,8 +637,8 @@ Choices.scalarParamType.multi-value=Valor múltiple
 Choices.scalarParamType.ad-hoc=Ad-hoc
 
 #77. bidiLayoutOrientation   
-Choices.bidiDirection.rtl=De derecha a izquierda 
-Choices.bidiDirection.ltr=De izquierda a derecha 
+Choices.bidiDirection.rtl=De derecha a izquierda
+Choices.bidiDirection.ltr=De izquierda a derecha
 
 ###########################################################
 # Classes
@@ -1187,7 +1187,7 @@ Class.Color.rgb.toolTip=Obtiene el color como valor RGB
 Class.Color.value=value
 Class.Color.value.toolTip=Obtiene el color como nombre (si se establece como un nombre) o como string CSS RGB (si se establece como RGB.)
 Class.Color.cssValue=cssValue
-Class.Color.cssValue.toolTip=Obtiene el color de forma que se pueda establecer en CSS: un nombre de color CSS o un valor RBG
+Class.Color.cssValue.toolTip=Obtiene el color de forma que se pueda establecer en CSS: un nombre de color CSS o un valor RGB
 
 
 #12. Dimension
@@ -2408,12 +2408,12 @@ Element.ScalarParameter.sortByColumn=Ordenar por columna
 Element.ParameterGroup.startExpanded=Iniciar expandido
 Element.ParameterGroup.helpText=Texto de ayuda
 Element.ParameterGroup.helpTextID=Clave de texto de ayuda:
+Element.ParameterGroup.promptText=Texto de solicitud
+Element.ParameterGroup.promptTextID=Solicitar clave de texto
 Element.ParameterGroup.slot.parameters=Parámetros
 
 # CascadingParameterGroup (prefix Element.CascadingParameterGroup)
 Element.CascadingParameterGroup.dataSet=Conjunto de datos
-Element.CascadingParameterGroup.promptText=Texto de solicitud
-Element.CascadingParameterGroup.promptTextID=Solicitar clave de texto
 Element.CascadingParameterGroup.dataSetMode=Conjuntos de datos únicos o múltiples
 Element.CascadingParameterGroup.slot.parameters=Parámetros
 
@@ -2767,6 +2767,13 @@ Element.Cell.onRender.toolTip=TBD
 Element.Cell.onRender.this=Instancia de celda
 Element.Cell.onRender.reportContext=Contexto de informe
 Element.Cell.viewAction=Ver acción
+Element.Cell.diagonal=Diagonal
+Element.Cell.diagonalNumber=Número de diagonal
+Element.Cell.antidiagonalNumber=Número de diagonal secundaria
+Element.Cell.diagonalThickness=Grosor de diagonal
+Element.Cell.antidiagonalThickness=Grosor de diagonal secundaria
+Element.Cell.diagonalStyle=Estilo de diagonal
+Element.Cell.antidiagonalStyle=Estilo de diagonal secundaria
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=Texto alternativo
@@ -3491,6 +3498,7 @@ Error.SemanticError.INVALID_PAGE_MARGINS=La página maestra "{0}" tiene un valor 
 Error.SemanticError.MISSING_MASTER_PAGE=El informe debe tener al menos una página maestra.
 Error.SemanticError.INVALID_MULTI_COLUMN=La página maestra "{0}" tiene las columnas extendidas fuera del contenido de la página.
 Error.SemanticError.INVALID_ELEMENT_REF=El elemento "{0}" tiene la propiedad "{1}" que hace referencia al elemento indefinido "{2}".
+Error.SemanticError.INVALID_DATA_BINDING_REF=El elemento "{0}" tiene la propiedad dataBindingRef que hace referencia al elemento "{1}" que es el contenedor o contenido del elemento.
 Error.SemanticError.MISSING_SQL_STMT=El conjunto de datos de selección JDBC "{0}" debe tener una sentencia SQL.
 Error.SemanticError.MISSING_DATA_SET={0} debe poder acceder a un conjunto de datos.
 Error.SemanticError.INVALID_IMAGE_SCALE_VALUE=El valor de escala de la imagen "{0}" debe ser positivo.

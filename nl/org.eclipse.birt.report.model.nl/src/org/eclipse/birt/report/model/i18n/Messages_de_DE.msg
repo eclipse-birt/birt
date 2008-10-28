@@ -637,8 +637,8 @@ Choices.scalarParamType.multi-value=Mehrere Werte
 Choices.scalarParamType.ad-hoc=Adhoc
 
 #77. bidiLayoutOrientation   
-Choices.bidiDirection.rtl=Von rechts nach links 
-Choices.bidiDirection.ltr=Von links nach rechts 
+Choices.bidiDirection.rtl=Von rechts nach links
+Choices.bidiDirection.ltr=Von links nach rechts
 
 ###########################################################
 # Classes
@@ -1187,7 +1187,7 @@ Class.Color.rgb.toolTip=Ruft die Farbe als RGB-Wert ab.
 Class.Color.value=value
 Class.Color.value.toolTip=Ruft die Farbe als Name ab (sofern als Name festgelegt) bzw. als CSS-RGB-Zeichenfolge (sofern als RGB festgelegt)
 Class.Color.cssValue=cssValue
-Class.Color.cssValue.toolTip=Ruft die Farbe in der Form ab, die in CSS festgelegt werden kann: entweder als CSS-Farbname oder als RBG-Wert
+Class.Color.cssValue.toolTip=Ruft die Farbe in der Form ab, die in CSS festgelegt werden kann: entweder als CSS-Farbname oder als RGB-Wert
 
 
 #12. Dimension
@@ -2408,12 +2408,12 @@ Element.ScalarParameter.sortByColumn=Nach Spalten sortieren
 Element.ParameterGroup.startExpanded=Erweiterte starten
 Element.ParameterGroup.helpText=Hilfetext
 Element.ParameterGroup.helpTextID=Hilfetextschlüssel
+Element.ParameterGroup.promptText=Aufforderungstext
+Element.ParameterGroup.promptTextID=Aufforderungstextschlüssel
 Element.ParameterGroup.slot.parameters=Parameter
 
 # CascadingParameterGroup (prefix Element.CascadingParameterGroup)
 Element.CascadingParameterGroup.dataSet=Datensatz
-Element.CascadingParameterGroup.promptText=Aufforderungstext
-Element.CascadingParameterGroup.promptTextID=Aufforderungstextschlüssel
 Element.CascadingParameterGroup.dataSetMode=Einfache oder mehrfache Datensätze
 Element.CascadingParameterGroup.slot.parameters=Parameter
 
@@ -2767,6 +2767,13 @@ Element.Cell.onRender.toolTip=TBD
 Element.Cell.onRender.this=Zelleninstanz
 Element.Cell.onRender.reportContext=Berichtkontext
 Element.Cell.viewAction=Aktion anzeigen
+Element.Cell.diagonal=Diagonal
+Element.Cell.diagonalNumber=Anzahl Diagonal
+Element.Cell.antidiagonalNumber=Anzahl Antidiagonal
+Element.Cell.diagonalThickness=Stärke Diagonal
+Element.Cell.antidiagonalThickness=Stärke Antidiagonal
+Element.Cell.diagonalStyle=Stil Diagonal
+Element.Cell.antidiagonalStyle=Stil Antidiagonal
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=Alternativer Text
@@ -3491,6 +3498,7 @@ Error.SemanticError.INVALID_PAGE_MARGINS=Die Master-Seite "{0}" hat einen ungült
 Error.SemanticError.MISSING_MASTER_PAGE=Der Bericht muss mindestens eine Master-Seite aufweisen.
 Error.SemanticError.INVALID_MULTI_COLUMN=Der Spaltenbereich der Master-Seite "{0}" liegt außerhalb des Seiteninhalts.
 Error.SemanticError.INVALID_ELEMENT_REF=Das Element "{0}" besitzt die Eigenschaft "{1}", die auf ein undefiniertes Element "{2}" verweist.
+Error.SemanticError.INVALID_DATA_BINDING_REF=Das Element "{0}" besitzt die Eigenschaft "dataBindingRef", die auf ein Element "{1}" verweist, das der Container oder Inhalt des Elements ist.
 Error.SemanticError.MISSING_SQL_STMT=Der JDBC-Auswahldatensatz "{0}" muss eine SQL-Anweisung aufweisen.
 Error.SemanticError.MISSING_DATA_SET={0} muss auf einen Datensatz zugreifen können.
 Error.SemanticError.INVALID_IMAGE_SCALE_VALUE=Der Skalierwert des Bildes "{0}" muss positiv sein.

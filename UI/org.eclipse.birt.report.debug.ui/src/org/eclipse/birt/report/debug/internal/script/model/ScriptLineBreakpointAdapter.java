@@ -148,8 +148,8 @@ public class ScriptLineBreakpointAdapter implements IToggleBreakpointsTarget
 			ScriptLineBreakpoint lineBreakpoint = new ScriptLineBreakpoint( resource,
 					location.getReportFileName( ),
 					location.getID( ),
-					lineNumber + 1 );
-			lineBreakpoint.setDisplayName( location.getDisplayName( ) );
+					lineNumber + 1 , location.getDisplayName( ));
+			//lineBreakpoint.setDisplayName( location.getDisplayName( ) );
 			DebugPlugin.getDefault( )
 					.getBreakpointManager( )
 					.addBreakpoint( lineBreakpoint );

@@ -16,6 +16,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
+import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 
 
 public class CellLayout extends BlockStackingLayout
@@ -96,7 +97,13 @@ public class CellLayout extends BlockStackingLayout
 		parent.addToRoot( currentContext.root, index );
 
 	}
-	
+
+	@Override
+	protected void align( ContainerArea container )
+	{
+		// Do nothing, this is handled by Tablelayout.
+	}
+
 	protected void closeLayout( int size, boolean finished)
 	{
 		for ( int i = 0; i < size; i++ )

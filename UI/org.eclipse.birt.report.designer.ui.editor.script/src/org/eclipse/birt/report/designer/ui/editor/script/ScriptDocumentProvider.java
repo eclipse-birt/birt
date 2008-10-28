@@ -11,13 +11,23 @@
 
 package org.eclipse.birt.report.designer.ui.editor.script;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.birt.report.designer.internal.ui.script.JSDocumentProvider;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.Position;
+import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.ui.ISaveablePart;
+import org.eclipse.ui.texteditor.MarkerAnnotation;
 import org.eclipse.ui.texteditor.ResourceMarkerAnnotationModel;
 
 /**
@@ -25,7 +35,7 @@ import org.eclipse.ui.texteditor.ResourceMarkerAnnotationModel;
  */
 public class ScriptDocumentProvider extends JSDocumentProvider
 {
-	
+	public static final String MARK_TYPE = "org.eclipse.birt.report.debug.ui.script.scriptLineBreakpointMarker";
 	/**
 	 * ID key
 	 */
@@ -37,6 +47,7 @@ public class ScriptDocumentProvider extends JSDocumentProvider
 	private String id = ""; //$NON-NLS-1$
 	private String fileName = ""; //$NON-NLS-1$
 
+	private boolean isSameElement;
 	/**
 	 * Creates a new script's document provider with the specified saveable
 	 * part.
@@ -47,6 +58,18 @@ public class ScriptDocumentProvider extends JSDocumentProvider
 	public ScriptDocumentProvider( ISaveablePart part )
 	{
 		super( part );
+	}
+
+	
+	public boolean isSameElement( )
+	{
+		return isSameElement;
+	}
+
+	
+	public void setSameElement( boolean isSameElement )
+	{
+		this.isSameElement = isSameElement;
 	}
 
 	/*
@@ -96,11 +119,49 @@ public class ScriptDocumentProvider extends JSDocumentProvider
 	/**
 	 * DebugResourceMarkerAnnotationModel
 	 */
-	protected class DebugResourceMarkerAnnotationModel extends ResourceMarkerAnnotationModel
+	public class DebugResourceMarkerAnnotationModel extends ResourceMarkerAnnotationModel
 	{
+		private boolean patch = false;
+		
+		private Map<MarkerAnnotation, Position> markMap = new HashMap<MarkerAnnotation, Position>();
+		private boolean change = false;
 		public DebugResourceMarkerAnnotationModel( IResource resource )
 		{
 			super( resource );
+		}
+		
+		public void beforeChangeText()
+		{		
+			for (Iterator e= getAnnotationIterator(true); e.hasNext();) {
+				Object o= e.next();
+				if (o instanceof MarkerAnnotation) {
+					MarkerAnnotation a= (MarkerAnnotation) o;
+					
+					//System.out.println(a.getType( ));
+					IMarker mark = a.getMarker( );
+					try
+					{
+						if (mark == null || !getId( ).equals( mark.getAttribute( SUBNAME ) ))
+						{
+							continue;
+						}
+						if (!(ScriptDocumentProvider.MARK_TYPE.equals( a.getMarker( ).getType( ))))
+						{
+							continue;
+						}
+					}
+					catch ( CoreException e1 )
+					{
+						continue;
+					}
+					Position p= getPosition( a );
+					if (p != null && !p.isDeleted( )) {
+						markMap.put( a, p );
+					}
+				}
+			}
+
+			change = true;
 		}
 		
 		protected boolean isAcceptable(IMarker marker)
@@ -125,6 +186,132 @@ public class ScriptDocumentProvider extends JSDocumentProvider
 		protected void connected( )
 		{
 			super.connected( );
+		}
+		
+		/**
+		 * 
+		 */
+		public void resetReportMarkers()
+		{			
+			if (!change)
+			{
+				return;
+			}
+			for (Iterator<MarkerAnnotation> e= markMap.keySet( ).iterator( ); e.hasNext();)
+			{
+				MarkerAnnotation temp = e.next( );
+				markMap.get( temp ).isDeleted = false;
+			}
+			patch = true;
+			resetMarkers( );
+			patch = false;
+			
+			List<MarkerAnnotation> markList = new ArrayList<MarkerAnnotation>();
+			for (Iterator e= getAnnotationIterator(true); e.hasNext();) {
+				Object o= e.next();
+				if (o instanceof MarkerAnnotation) {
+					MarkerAnnotation a= (MarkerAnnotation) o;
+					
+					try
+					{
+						if (a.getMarker( ) == null || !getId( ).equals( a.getMarker( ).getAttribute( SUBNAME ) ))
+						{
+							continue;
+						}
+						if (!ScriptDocumentProvider.MARK_TYPE.equals( a.getMarker( ).getType( )))
+						{
+							continue;
+						}
+					}
+					catch ( CoreException e1 )
+					{
+						continue;
+					}
+					
+					IMarker p= findTrueMark( a );
+					//removeAnnotation(a, true);
+					if (p != null) {
+						
+					}
+					else if (isSameElement())
+					{
+						markList.add( a );
+					}
+				}
+			}
+			
+			for (Iterator<MarkerAnnotation> e= markMap.keySet( ).iterator( ); e.hasNext();)
+			{
+				MarkerAnnotation temp = e.next( );
+				//if (!markList.contains( temp.getMarker( ) ))
+				{
+					removeAnnotation(temp, true);
+					try {
+						addAnnotation(temp, markMap.get( temp ), true);
+					} catch (BadLocationException e1) 
+					{
+					}
+				}
+			}
+			
+			removeAnnotations(markList, true, true);
+			markMap.clear( );
+			markList.clear( );
+			change = false;
+		}
+		
+		@Override
+		protected Position createPositionFromMarker( IMarker marker )
+		{
+			Position p = super.createPositionFromMarker( marker );
+			if (p == null && patch)
+			{
+				p = new Position(0, 0);
+				
+				p.isDeleted = true;
+			}
+			return p;
+		}
+		
+		protected void addAnnotation(Annotation annotation, Position position, boolean fireModelChanged)throws BadLocationException
+		{
+			if (annotation instanceof MarkerAnnotation)
+			{
+				IMarker marker = ((MarkerAnnotation)annotation).getMarker( );
+				if (marker != null)
+				{
+					try
+					{
+						if (!getId( ).equals( marker.getAttribute( SUBNAME ) ))
+						{
+							return;
+						}
+						if (!(ScriptDocumentProvider.MARK_TYPE.equals( marker.getType( ))))
+						{
+							return;
+						}
+					
+					}
+					catch ( CoreException e )
+					{
+						//do nothing now
+					}
+				}
+			}
+			super.addAnnotation( annotation, position, fireModelChanged );
+		}
+		
+		private IMarker findTrueMark(MarkerAnnotation a)
+		{
+			for (Iterator<MarkerAnnotation> e= markMap.keySet( ).iterator( ); e.hasNext();) 
+			{
+				MarkerAnnotation temp = e.next( );
+				if (a.getMarker( ).equals( temp.getMarker( ) ))
+				{
+					return temp.getMarker( );
+				}
+			}
+			return null;
 		}
 	}
 

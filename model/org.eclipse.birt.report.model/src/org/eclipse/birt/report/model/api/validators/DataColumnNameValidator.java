@@ -20,12 +20,11 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.DataItem;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.GridItem;
-import org.eclipse.birt.report.model.elements.GroupElement;
-import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
-import org.eclipse.birt.report.model.util.BoundDataColumnUtil;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -128,74 +127,67 @@ public class DataColumnNameValidator extends AbstractElementValidator
 	private static boolean hasCorrespondingColumnBinding( Module module,
 			DesignElement target, String columnBindingName )
 	{
-		List columns = findBoundColumnsInGrid( module, target );
-		if ( exists( columns, columnBindingName ) )
+		if ( isTemplateParameterDefinition( target ) )
 			return true;
-		DesignElement tmpElement = BoundDataColumnUtil
-				.findTargetOfBoundColumns( target, module );
 
-		if ( tmpElement instanceof GroupElement )
-		{
-			tmpElement = tmpElement.getContainer( );
-			columns = (List) tmpElement.getProperty( module,
-					IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+		List columns = null;
 
-			if ( exists( columns, columnBindingName ) )
-				return true;
-		}
-		else
-		{
-
-			columns = (List) tmpElement.getProperty( module,
-					IReportItemModel.BOUND_DATA_COLUMNS_PROP );
-
-			if ( exists( columns, columnBindingName ) )
-				return true;
-		}
-
+		// first find the column binding in the element itself
 		// see bug 205400, find itself.
 		columns = (List) target.getProperty( module,
 				IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 		if ( exists( columns, columnBindingName ) )
 			return true;
 
+		// if data defines data-set, stop searching and return false
+		if ( target.getProperty( module, IReportItemModel.DATA_SET_PROP ) != null
+				|| target.getProperty( module, IReportItemModel.CUBE_PROP ) != null )
+			return false;
+
+		// search data-container: grid, list, table and extended-item(x-tab)
+		DesignElement container = target.getContainer( );
+		while ( container != null )
+		{
+			if ( isDataContainer( container ) )
+			{
+				columns = (List) container.getProperty( module,
+						IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+				if ( exists( columns, columnBindingName ) )
+					return true;
+
+				// if data container defines data-set or cube, then we will stop
+				// searching: the container may define the property value itself
+				// or get an computed value with data binding reference
+				if ( container.getProperty( module,
+						IReportItemModel.DATA_SET_PROP ) != null
+						|| container.getProperty( module,
+								IReportItemModel.CUBE_PROP ) != null )
+					break;
+			}
+
+			container = container.getContainer( );
+		}
+
 		return false;
 	}
 
 	/**
-	 * Gets the bound column of gird if the element is <DataItem> and this
-	 * element locates in the <GridItem>.
+	 * Determines whether this element is a data-container or not. Now in Model,
+	 * listing element(table/list), grid, extended element(x-tab) are data
+	 * container.
 	 * 
-	 * @param module
-	 *            the module
 	 * @param element
-	 *            the element
-	 * @return The property value, or null if no value is found.
+	 * @return
 	 */
-	private static List findBoundColumnsInGrid( Module module,
-			DesignElement element )
+	private static boolean isDataContainer( DesignElement element )
 	{
-		if ( !( element instanceof DataItem ) )
-			return null;
-
-		DesignElement container = element.getContainer( );
-
-		while ( container != null )
+		if ( element instanceof ListingElement || element instanceof GridItem
+				|| element instanceof ExtendedItem )
 		{
-			if ( container instanceof ReportItem )
-			{
-				if ( container instanceof GridItem )
-				{
-					return (List) container.getProperty( module,
-							IReportItemModel.BOUND_DATA_COLUMNS_PROP );
-				}
-				return null;
-			}
-			container = container.getContainer( );
-
+			return true;
 		}
 
-		return null;
+		return false;
 	}
 
 	/**

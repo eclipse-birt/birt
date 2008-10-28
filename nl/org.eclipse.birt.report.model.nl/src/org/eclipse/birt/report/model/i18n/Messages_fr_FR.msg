@@ -15,34 +15,34 @@ Property.Boolean.False=faux
 ###########################################################
 # Property type names
 
-Property.boolean=booléen
-Property.choice=choix
-Property.float=flottant
-Property.color=couleur
-Property.dateTime=dateHeure
-Property.dimension=dimension
-Property.expression=expression
-Property.html=html
-Property.integer=entier
-Property.messageId=idMessage
-Property.name=nom
-Property.number=nombre
-Property.points=points
-Property.string=chaîne
-Property.uri=uri
-Property.xml=xml
-Property.elementRef=référence d'élément
-Property.column=colonne
-Property.variant=variante
-Property.structList=listeStruct
-Property.extends=extends
+Property.boolean=Booléen
+Property.choice=Choix
+Property.float=Flottant
+Property.color=Couleur
+Property.dateTime=DateHeure
+Property.dimension=Dimension
+Property.expression=Expression
+Property.html=Html
+Property.integer=Entier
+Property.messageId=IdMessage
+Property.name=Nom
+Property.number=Nombre
+Property.points=Points
+Property.string=Chaîne
+Property.uri=Uri
+Property.xml=Xml
+Property.elementRef=Référence d'élément
+Property.column=Colonne
+Property.variant=Variante
+Property.structList=ListeStruct
+Property.extends=Extends
 Property.script=Script
-Property.list=liste
-Property.memberKey=clé de membre
-Property.literalString=littéral de chaîne
-Property.element=élément
-Property.structRef=référence de structure
-Property.contentElement=élément en tant que valeur de propriété
+Property.list=Liste
+Property.memberKey=Clé de membre
+Property.literalString=Littéral de chaîne
+Property.element=Elément
+Property.structRef=Référence de structure
+Property.contentElement=Elément en tant que valeur de propriété
 
 ###########################################################
 # Choice values
@@ -637,8 +637,8 @@ Choices.scalarParamType.multi-value=Valeurs multiples
 Choices.scalarParamType.ad-hoc=Ad hoc
 
 #77. bidiLayoutOrientation   
-Choices.bidiDirection.rtl=Droite à gauche 
-Choices.bidiDirection.ltr=Gauche à droite 
+Choices.bidiDirection.rtl=Droite à gauche
+Choices.bidiDirection.ltr=Gauche à droite
 
 ###########################################################
 # Classes
@@ -2408,12 +2408,12 @@ Element.ScalarParameter.sortByColumn=Trier par colonne
 Element.ParameterGroup.startExpanded=Lancement développé
 Element.ParameterGroup.helpText=Texte d'aide
 Element.ParameterGroup.helpTextID=Clé du texte d'aide
+Element.ParameterGroup.promptText=Texte de l'invite
+Element.ParameterGroup.promptTextID=Clé du texte de l'invite
 Element.ParameterGroup.slot.parameters=Paramètres
 
 # CascadingParameterGroup (prefix Element.CascadingParameterGroup)
 Element.CascadingParameterGroup.dataSet=Jeu de données
-Element.CascadingParameterGroup.promptText=Texte de l'invite
-Element.CascadingParameterGroup.promptTextID=Clé du texte de l'invite
 Element.CascadingParameterGroup.dataSetMode=Jeux de données uniques ou multiples
 Element.CascadingParameterGroup.slot.parameters=Paramètres
 
@@ -2767,6 +2767,13 @@ Element.Cell.onRender.toolTip=A définir
 Element.Cell.onRender.this=Instance de cellule
 Element.Cell.onRender.reportContext=Contexte d'état
 Element.Cell.viewAction=Afficher l'action
+Element.Cell.diagonal=Diagonal
+Element.Cell.diagonalNumber=Nombre diagonal
+Element.Cell.antidiagonalNumber=Nombre antidiagonal
+Element.Cell.diagonalThickness=Epaisseur diagonale
+Element.Cell.antidiagonalThickness=Epaisseur antidiagonale
+Element.Cell.diagonalStyle=Style diagonal
+Element.Cell.antidiagonalStyle=Style antidiagonal
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=Autre texte
@@ -3491,6 +3498,7 @@ Error.SemanticError.INVALID_PAGE_MARGINS=La page maître "{0}" comporte une valeu
 Error.SemanticError.MISSING_MASTER_PAGE=L'état doit comporter au moins une page maître.
 Error.SemanticError.INVALID_MULTI_COLUMN=La page maître "{0}" comporte une plage de colonne en dehors du contenu de la page.
 Error.SemanticError.INVALID_ELEMENT_REF=La propriété "{1}" de l''élément "{0}" fait référence à un élément non défini "{2}".
+Error.SemanticError.INVALID_DATA_BINDING_REF=La propriété dataBindingRef de l'élément "{0}" fait référence à un élément "{1}" qui correspond au conteneur ou au contenu de l'élément.
 Error.SemanticError.MISSING_SQL_STMT=Le jeu de données JDBC de sélection "{0}" doit comporter une instruction SQL.
 Error.SemanticError.MISSING_DATA_SET={0} doit pouvoir accéder à un jeu de données.
 Error.SemanticError.INVALID_IMAGE_SCALE_VALUE=La valeur d''échelle de l''image "{0}" doit être positive.

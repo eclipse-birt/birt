@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Level;
 
@@ -21,9 +20,9 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -37,9 +36,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ISharedImages;
@@ -146,7 +143,7 @@ public class SelectionChoiceDialog extends BaseDialog
 
 		Label note = new Label( noteContainer, SWT.WRAP );
 		note.setText( Messages.getString( "ParameterDialog.SelectionDialog.Label.Note" ) ); //$NON-NLS-1$
-		gd = new GridData( GridData.FILL_HORIZONTAL ); 
+		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.minimumWidth = UIUtil.getMaxStringWidth( labels, composite )
 				+ 200
 				+ layout.horizontalSpacing
@@ -242,11 +239,11 @@ public class SelectionChoiceDialog extends BaseDialog
 		{
 			if ( resource != null )
 			{
-				path = FileLocator.resolve( resource ).getFile( );
+				path = DEUtil.getFilePathFormURL( resource );
 			}
 
 		}
-		catch ( IOException e )
+		catch ( Exception e )
 		{
 			// TODO Auto-generated catch block
 			logger.log( Level.SEVERE, e.getMessage( ), e );

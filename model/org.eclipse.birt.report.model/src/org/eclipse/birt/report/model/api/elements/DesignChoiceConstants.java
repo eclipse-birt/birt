@@ -251,6 +251,9 @@ public interface DesignChoiceConstants
 	public static final String PARAM_TYPE_DATETIME = "dateTime"; //$NON-NLS-1$
 	public static final String PARAM_TYPE_BOOLEAN = "boolean"; //$NON-NLS-1$
 	public static final String PARAM_TYPE_INTEGER = "integer"; //$NON-NLS-1$
+	/**
+	 * @deprecated Now any is not supported.
+	 */
 	public static final String PARAM_TYPE_ANY = "any"; //$NON-NLS-1$
 	public static final String PARAM_TYPE_DATE = "date"; //$NON-NLS-1$
 	public static final String PARAM_TYPE_TIME = "time"; //$NON-NLS-1$
@@ -747,7 +750,7 @@ public interface DesignChoiceConstants
 	public static final String AUTO_TEXT_TOTAL_PAGE = "total-page"; //$NON-NLS-1$
 	public static final String AUTO_TEXT_PAGE_NUMBER_UNFILTERED = "page-number-unfiltered"; //$NON-NLS-1$
 	public static final String AUTO_TEXT_TOTAL_PAGE_UNFILTERED = "total-page-unfiltered"; //$NON-NLS-1$
-	
+
 	/**
 	 * dataSetMode -- the mode to support data sets. Can be single data set and
 	 */
@@ -899,7 +902,6 @@ public interface DesignChoiceConstants
 	public static final String SCALAR_PARAM_TYPE_SIMPLE = "simple"; //$NON-NLS-1$
 	public static final String SCALAR_PARAM_TYPE_MULTI_VALUE = "multi-value"; //$NON-NLS-1$
 	public static final String SCALAR_PARAM_TYPE_AD_HOC = "ad-hoc"; //$NON-NLS-1$
-	
 
 	/**
 	 * Choice constants for direction and orientation

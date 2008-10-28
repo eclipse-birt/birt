@@ -107,12 +107,4 @@ public interface IDataExtractionTask extends IEngineTask
 	public IExtractionResults extract() throws EngineException;
 
 	public void extract( IDataExtractionOption option ) throws BirtException;
-	
-	/**
-	 * set group mode. default is to non-group mode.
-	 * 
-	 * @param isGroupMode
-	 *            true means group mode, false means non-group mode
-	 */
-	public void setGroupMode( boolean isGroupMode );
 }

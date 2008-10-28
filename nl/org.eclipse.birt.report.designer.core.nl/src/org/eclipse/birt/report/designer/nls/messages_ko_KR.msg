@@ -827,19 +827,20 @@ designer.preview.preference.elementname.description.Enabled=false
 designer.preview.preference.elementname.description=설명
 designer.preview.preference.elementname.Enabled=true 
 designer.preview.preference.locale.description=로케일 선택(&C):
+designer.preview.preference.timezone.description=표준 시간대(&T):
 designer.preview.preference.resultset.sqldatasetpage.group.title=쿼리 페이지
 designer.preview.preference.resultset.previewpage.group.title=미리 보기 페이지
 designer.preview.preference.resultset.maxNoOfSchema.description=표시할 최대 스키마 수(&S):
 designer.preview.preference.resultset.maxNoOfTable.description=표시할 각 스키마의 최대 테이블 수(&T):
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=최대 스키마에 대해 0과 {0} 사이의 숫자를 입력하십시오.
 designer.preview.preference.resultset.maxNoOfTable.errormessage=각 스키마의 최대 테이블 수를 0에서 {0} 사이의 숫자로 입력하십시오.
-designer.preview.preference.resultset.maxrow.description=표시할 최대 행 수(&R):
+designer.preview.preference.resultset.maxrow.description=표시할 행 수(&R):
 designer.preview.preference.resultset.maxrow.errormessage=최대 행에 대해 1과 {0} 사이의 숫자를 입력하십시오.
-designer.preview.preference.resultset.maxrowlevelmember.description=표시할 각 행 수준의 최대 구성원 수(&L):
+designer.preview.preference.resultset.maxrowlevelmember.description=각 행 수준에서 표시할 구성원 수(&L):
 designer.preview.preference.resultset.maxrowlevelmember.errormessage=최대 행 수준 구성원에 대해 1과 {0} 사이의 숫자를 입력하십시오.
-designer.preview.preference.resultset.maxcolumnlevelmember.description=각 열 수준에서 표시할 최대 구성원 수(&C): 
+designer.preview.preference.resultset.maxcolumnlevelmember.description=각 열 수준에서 표시할 구성원 수(&C):
 designer.preview.preference.resultset.maxcolumnlevelmember.errormessage=최대 열 수준 구성원에 대해 1과 {0} 사이의 숫자를 입력하십시오.
-designer.preview.preference.resultset.maxinmemorycubesize.description=메모리 내 큐브 최대 크기(MB)(&S): 
+designer.preview.preference.resultset.maxinmemorycubesize.description=메모리 내 큐브 크기(MB)(&S):
 designer.preview.preference.resultset.maxinmemorycubesize.errormessage=최대 인 메모리 큐브 크기에 대해 1과 {0} 사이의 숫자를 입력하십시오.
 designer.preview.preference.server.description=내부 응용 프로그램 서버 구성. BIRT Report Designer 미리 보기 프레임워크에서\n내부적으로 해당 서버를 사용하고 있습니다.
 designer.preview.preference.server.hostDescription=로컬 컴퓨터의 호스트 이름 또는 IP 주소(&H)입니다. 자동으로 결정되게 하려면 공백으로\n두십시오.
@@ -1147,12 +1148,13 @@ Element.OdaDataSource.driverName=드라이버 이름:
 Element.OdaDataSource.privateDriverProperties=개인 드라이버 속성:
 Element.OdaDataSource.publicDriverProperties=공용 드라이버 속성:
 Element.Parameter.helpText=도움말 텍스트:
-Element.Parameter.helpTextID=도움말 텍스트 키
+Element.Parameter.helpTextID=도움말 텍스트 키(&Y):
 Element.Parameter.hidden=숨김:
 Element.ParameterGroup.helpText=도움말 텍스트:
 Element.ParameterGroup.helpTextID=도움말 텍스트 키:
 Element.ParameterGroup.slot.parameters=매개 변수:
 Element.ParameterGroup.startExpanded=시작 확장됨:
+Element.ParameterGroup.promptTextID=프롬프트 텍스트 키(&T):
 Element.ReportDesign.afterCloseDoc.toolTip=생성 단계에서 보고서 문서 파일을 닫은 직후 호출됩니다.
 Element.ReportDesign.layoutPreference=레이아웃 기본 설정(&L): 
 Element.ReportDesign.afterCloseDoc=문서 닫기 이후:
@@ -1174,7 +1176,7 @@ Element.ReportDesign.displayName=표시 이름(&Y):
 Element.ReportDesign.eventHandlerClass=이벤트 처리기 클래스(&C): 
 Element.ReportDesign.iconFile=섬네일(&N): 
 Element.ReportDesign.refreshRate=새로 고침 빈도:
-Element.ReportDesign.bidiLayoutOrientation=양방향 레이아웃 방향(&B):
+Element.ReportDesign.bidiLayoutOrientation=보고서 방향(&O):
 Element.ReportElement.comments=설명(&C):
 Element.ReportElement.Cube=데이터(&D):
 Element.ReportElement.customXml=사용자 지정 XML:
@@ -1218,7 +1220,7 @@ Element.ScalarParameter.selectionList.fixedOrder=고정된 순서:
 Element.ScalarParameter.selectionList.mustMatch=일치해야 함:
 Element.ScalarParameter.selectionList.selectionList=선택 목록:
 Element.ScalarParameter.selectionList=선택 목록:
-Element.ScalarParameter.promptTextID=프롬프트 텍스트 키(&T):
+Element.ScalarParameter.promptTextID=프롬프트 텍스트 키(%K):
 Element.ScriptDataSet.close.toolTip=데이터 집합을 닫습니다.
 Element.ScriptDataSet.close=닫기:
 Element.ScriptDataSet.describe.toolTip=결과 집합을 설명합니다.
@@ -1870,12 +1872,18 @@ HighlightsPreferencePage.toolTipText.Down=강조 아래로 이동
 #HyperlinkBuilder properties
 
 HyperlinkBuilder.Column.Parameters=매개 변수
-HyperlinkBuilder.DrillThroughStep1=1단계: 대상 보고서 선택 
-HyperlinkBuilder.DrillThroughStep2=2단계: 대상 앵커 선택 
-HyperlinkBuilder.DrillThroughStep3=3단계: 대상 책갈피에 맞는 링크 식 생성
-HyperlinkBuilder.DrillThroughStep4=4단계: 대상 보고서 표시 
-HyperlinkBuilder.DrillThroughStep5=5단계: 대상 보고서 서식 선택
-HyperlinkBuilder.DrillThroughStep6=6단계: 도구 설명
+HyperlinkBuilder.DrillThrough.SelectTargetReport=Select a target report 
+HyperlinkBuilder.DrillThrough.SelectTargetAnchor=Select a target anchor 
+HyperlinkBuilder.DrillThrough.CreateLinkExpr=Create a link expression that matches the target bookmark
+HyperlinkBuilder.DrillThrough.ShowTargetReport=Show target report in 
+HyperlinkBuilder.DrillThrough.SelectFormat=Select a format for target report
+HyperlinkBuilder.DrillThrough.Tooltip=Tool Tip
+HyperlinkBuilder.Step.1=Step 1: 
+HyperlinkBuilder.Step.2=Step 2: 
+HyperlinkBuilder.Step.3=Step 3: 
+HyperlinkBuilder.Step.4=Step 4: 
+HyperlinkBuilder.Step.5=Step 5: 
+HyperlinkBuilder.Step.6=Step 6: 
 HyperlinkBuilder.ParameterRequired=필수
 HyperlinkBuilder.Column.DataType=데이터 형식
 HyperlinkBuilder.Column.Values=값
@@ -2846,7 +2854,7 @@ PreviewAction.Text=미리 보기
 PreviewEditor.parameter.tooltip=보고서 매개 변수 표시
 PreviewEditor.parameter.note=참고:
 PreviewEditor.parameter.info=현재 최대 데이터 행 수가 다음으로 제한됩니다.
-PreviewEditor.parameter.change=변경하려면 누르십시오.
+PreviewEditor.parameter.change=미리 보기 기본 설정을 변경하려면 클릭
 PreviewEditor.ConfirmRefresh.Title=새로 고침 확인
 PreviewEditor.ConfirmRefresh.Message=현재 작업이 미리 보기 결과에 영향을 미칠 수 있습니다. 미리 보기를 새로 고치겠습니까? 
 PreviewEditor.browser.notfound=내부 브라우저를 사용할 수 없습니다.
@@ -3617,6 +3625,8 @@ TextEditDialog.toolTipText.fx=식 빌더 열기
 TextEditDialog.action.item.formatDateTime=날짜/시간 형식 
 TextEditDialog.action.item.formatNumber=숫자 형식 
 TextEditDialog.action.item.formatString=문자열 형식 
+TextEditDialog.title.DlgNew=New Text Item
+TextEditDialog.title.DlgEdit=텍스트 항목 편집
 
 ###########################################################
 #TextEditPart properties
@@ -3662,7 +3672,7 @@ AutoTextPageGenerator.List.Visibility=표시 유형
 ###########################################################
 #ThemesNodeProvider properties
 
-ThemesNodeProvider.action.New=새 테마
+ThemesNodeProvider.action.New=새 테마(&N)...
 ThemesNodeProvider.Failed=새 테마 실패
 NewThemeDialog.DialogTitle=새 테마
 NewThemeDialog.DialogMessage=이름을 입력하십시오.
@@ -3823,7 +3833,7 @@ WizardTemplateChoicePage.title.SimpleListing=간단한 목록
 #bidi_hcg start
 WizardTemplateChoicePage.label.rtlBiDiOrientation=오른쪽에서 왼쪽
 WizardTemplateChoicePage.label.ltrBiDiOrientation=왼쪽에서 오른쪽
-WizardTemplateChoicePage.label.chooseBiDiDirection=보고서 방향 설정:
+WizardTemplateChoicePage.label.chooseBiDiDirection=보고서 방향:
 #bidi_hcg end
 ###########################################################
 #XMLSourcePage properties
@@ -3934,7 +3944,7 @@ ResourceSelectionValidator.ExtErrorSplitter=\ 또는
 ###########################################################
 #GeneralPage
 GeneralPage.Library.Included=라이브러리:
-GeneralPage.Library.Modified.Note=NOTE: This report item from the library has been modified. To restore the original library item, click on{0}"Restore Properties"
+GeneralPage.Library.Modified.Note=참고: 이 보고서 항목은 라이브러리에서 수정되었습니다. 원래의 라이브러리 항목을 복원하려면 {0}"속성 복원"을 클릭하십시오.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4387,4 +4397,4 @@ ExportElementToLibraryAction.waringMsg=요소에 이름이 없지만 해당 요소의 이름을 �
 ###########################################################
 #UIUtil
 UIUtil.previewconfirm.title=보고서 오류
-UIUtil.previewconfirm.message=The report contains errors, would you like to continue for previewing?
+UIUtil.previewconfirm.message=보고서에 오류가 있습니다. 미리 보기를 계속하시겠습니까?

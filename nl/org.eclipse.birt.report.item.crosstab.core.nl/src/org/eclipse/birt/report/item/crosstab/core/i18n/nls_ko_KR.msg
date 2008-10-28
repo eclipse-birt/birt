@@ -125,7 +125,7 @@ CrosstabReportItemTask.msg.pivot.dimension=차원 피벗
 CrosstabReportItemTask.msg.insert.dimension=차원 삽입
 CrosstabReportItemTask.msg.set.mirroredStartingLevel=Set Mirrored Starting Level
 
-CrosstabReportItemHandle.Error.HasNoCube=교차 테이블은 하나의 큐브에 액세스할 수 있어야 합니다.
+CrosstabReportItemHandle.Error.HasNoCube=크로스 탭은 하나의 큐브에 액세스할 수 있어야 합니다.
 CrosstabReportItemHandle.log.validate=확인 중(...)
 
 CrosstabScriptHandler.error.javascript=JavaScript의 줄 {1}에 있는 {0}:\r\n{2}\r\n

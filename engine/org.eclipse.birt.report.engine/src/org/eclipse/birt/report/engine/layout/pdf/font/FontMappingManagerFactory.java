@@ -198,6 +198,7 @@ public class FontMappingManagerFactory
 	protected FontMappingManager createFontMappingManager( String format,
 			Locale locale )
 	{
+		String formatString = format.toLowerCase();
 		// we have max 19 configs
 		String[] configNames = new String[19];
 		int count = 0;
@@ -238,7 +239,7 @@ public class FontMappingManagerFactory
 		sb.setLength( 0 );
 		// fontsConfig_format_<osgi-os>
 		configNames[count++] = sb.append( CONFIG_NAME ).append( '_' ).append(
-				format ).toString( );
+				formatString ).toString( );
 		if ( osgiName != null )
 		{
 			configNames[count++] = sb.append( '_' ).append( osgiName )
@@ -254,7 +255,7 @@ public class FontMappingManagerFactory
 		if ( osName != null && !osName.equals( osgiName ) )
 		{
 			sb.setLength( 0 );
-			sb.append( CONFIG_NAME ).append( '_' ).append( format );
+			sb.append( CONFIG_NAME ).append( '_' ).append( formatString );
 			configNames[count++] = sb.append( '_' ).append( osName ).toString( );
 			configNames[count++] = sb.append( '_' ).append( language )
 					.toString( );

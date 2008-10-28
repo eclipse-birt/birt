@@ -59,7 +59,7 @@ public class XPathUtilTest extends BaseTestCase
 				.getContainerSlotHandle( );
 
 		assertEquals(
-				"/report/body/table[@id=\"10\"]/detail/row/cell[@id=\"17\"][@slotName=\"content\"]", //$NON-NLS-1$
+				"/report/body/table[@id=\"10\"]/detail/row[@id=\"15\"]/cell[@id=\"17\"][@slotName=\"content\"]", //$NON-NLS-1$
 				XPathUtil.getXPath( tmpSlot ) );
 
 		ListHandle list = (ListHandle) designHandle.findElement( "My list1" ); //$NON-NLS-1$
@@ -97,7 +97,7 @@ public class XPathUtilTest extends BaseTestCase
 		OdaDataSetHandle tmpDataSet = (OdaDataSetHandle) designHandle
 				.findDataSet( "firstDataSet" ); //$NON-NLS-1$
 		assertEquals(
-				"/report/data-sets/oda-data-set", XPathUtil.getXPath( tmpDataSet ) ); //$NON-NLS-1$
+				"/report/data-sets/oda-data-set[@id=\"7\"]", XPathUtil.getXPath( tmpDataSet ) ); //$NON-NLS-1$
 
 		ExtendedItemHandle tmpMatrix = (ExtendedItemHandle) designHandle
 				.findElement( "matrix1" ); //$NON-NLS-1$
@@ -109,7 +109,7 @@ public class XPathUtilTest extends BaseTestCase
 		assertEquals(
 				"/report/body/extended-item[@id=\"20\"]/property[@name=\"type\"]", XPathUtil.getXPath( propHandle ) ); //$NON-NLS-1$
 		assertTrue( propHandle.equals( XPathUtil.getInstance( designHandle,
-				XPathUtil.getXPath( propHandle ) )) );
+				XPathUtil.getXPath( propHandle ) ) ) );
 
 		OdaDataSetHandle dataSet = (OdaDataSetHandle) designHandle
 				.findDataSet( "firstDataSet" ); //$NON-NLS-1$
@@ -117,12 +117,12 @@ public class XPathUtilTest extends BaseTestCase
 				.iterator( );
 		ResultSetColumnHandle setColumn = (ResultSetColumnHandle) iter1.next( );
 		assertEquals(
-				"/report/data-sets/oda-data-set/structure[@name=\"cachedMetaData\"]/list-property[@name=\"resultSet\"]/structure[1]", //$NON-NLS-1$
+				"/report/data-sets/oda-data-set[@id=\"7\"]/structure[@name=\"cachedMetaData\"]/list-property[@name=\"resultSet\"]/structure[1]", //$NON-NLS-1$
 				XPathUtil.getXPath( setColumn ) );
 
 		setColumn = (ResultSetColumnHandle) iter1.next( );
 		assertEquals(
-				"/report/data-sets/oda-data-set/structure[@name=\"cachedMetaData\"]/list-property[@name=\"resultSet\"]/structure[2]", //$NON-NLS-1$
+				"/report/data-sets/oda-data-set[@id=\"7\"]/structure[@name=\"cachedMetaData\"]/list-property[@name=\"resultSet\"]/structure[2]", //$NON-NLS-1$
 				XPathUtil.getXPath( setColumn ) );
 
 		// cases on scripts

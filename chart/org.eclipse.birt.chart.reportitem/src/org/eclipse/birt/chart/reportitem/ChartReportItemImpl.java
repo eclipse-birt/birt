@@ -872,32 +872,20 @@ public final class ChartReportItemImpl extends ReportItem implements
 				sDefaultValue,
 				locale );
 	}
-	
+
 	/**
-	 * Returns whether the BIDI direction is RTL. The reportItem's property
-	 * "bidiTextDirection" will be used if it is set, otherwise the
-	 * "bidiLayoutOrientation" of reportDesign will be used if it is set,
-	 * otherwise false will be returned.
+	 * Since model does not differentiate Layout-RTL and Text-RTL, but chart
+	 * does. Currently we always retrieve the Layout-RTL from container.
 	 * 
 	 * @return
 	 */
-	public boolean isBIDIDirectionRTL( )
+	public boolean isLayoutDirectionRTL( )
 	{
-		if ( handle != null )
-		{
-			Object sBIDI = handle.getPrivateStyle( ).getTextDirection( );
-			if ( sBIDI == null && handle.getModule( ) != null )
-			{
-				sBIDI = handle.getModule( ).getProperty( handle.getModule( ),
-						IReportDesignModel.BIDI_ORIENTATION_PROP );
-			}
-
-			return DesignChoiceConstants.BIDI_DIRECTION_RTL.equals( sBIDI );
-		}
-		else
+		if ( handle.getContainer( ) == null )
 		{
 			return false;
 		}
+		return handle.getContainer( ).isDirectionRTL( );
 	}
 	
 }

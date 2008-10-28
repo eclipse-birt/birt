@@ -12,12 +12,14 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.DateFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.elements.structures.TimeFormatValue;
@@ -28,9 +30,11 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -50,7 +54,7 @@ import org.xml.sax.Attributes;
  * Parses the abstract property. The XML file is like:
  * 
  * <pre>
- *         
+ * 
  *              &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
  * </pre>
  * 
@@ -134,7 +138,9 @@ public class AbstractPropertyState extends AbstractParseState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * xml.sax.Attributes)
 	 */
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -254,8 +260,8 @@ public class AbstractPropertyState extends AbstractParseState
 	{
 		assert propName != null;
 
-		if ( propName.equalsIgnoreCase( IDesignElementModel.NAME_PROP ) ||
-				propName.equalsIgnoreCase( IDesignElementModel.EXTENDS_PROP ) )
+		if ( propName.equalsIgnoreCase( IDesignElementModel.NAME_PROP )
+				|| propName.equalsIgnoreCase( IDesignElementModel.EXTENDS_PROP ) )
 		{
 			DesignParserException e = new DesignParserException(
 					DesignParserException.DESIGN_EXCEPTION_INVALID_PROPERTY_SYNTAX );
@@ -270,10 +276,10 @@ public class AbstractPropertyState extends AbstractParseState
 		{
 			if ( element instanceof Cell )
 			{
-				if ( ICellModel.COL_SPAN_PROP.equalsIgnoreCase( propName ) ||
-						ICellModel.ROW_SPAN_PROP.equalsIgnoreCase( propName ) ||
-						ICellModel.DROP_PROP.equalsIgnoreCase( propName ) ||
-						ICellModel.COLUMN_PROP.equalsIgnoreCase( propName ) )
+				if ( ICellModel.COL_SPAN_PROP.equalsIgnoreCase( propName )
+						|| ICellModel.ROW_SPAN_PROP.equalsIgnoreCase( propName )
+						|| ICellModel.DROP_PROP.equalsIgnoreCase( propName )
+						|| ICellModel.COLUMN_PROP.equalsIgnoreCase( propName ) )
 				{
 					PropertyValueException e = new PropertyValueException(
 							element,
@@ -414,8 +420,8 @@ public class AbstractPropertyState extends AbstractParseState
 	 * @param propDefn
 	 *            the definition of the exception. Can be an element property
 	 *            definition or a member definition.
-	 * @return return <code>true</code> if it is a recoverable error,
-	 *         otherwise <code>false</code>.
+	 * @return return <code>true</code> if it is a recoverable error, otherwise
+	 *         <code>false</code>.
 	 */
 
 	private boolean isRecoverableError( Object invalidValue, String errorCode,
@@ -423,30 +429,35 @@ public class AbstractPropertyState extends AbstractParseState
 	{
 
 		if ( PropertyValueException.DESIGN_EXCEPTION_NEGATIVE_VALUE
-				.equalsIgnoreCase( errorCode ) ||
-				PropertyValueException.DESIGN_EXCEPTION_NON_POSITIVE_VALUE
-						.equalsIgnoreCase( errorCode ) ||
-				PropertyValueException.DESIGN_EXCEPTION_UNIT_NOT_ALLOWED
-						.equalsIgnoreCase( errorCode ) ||
-				PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED
+				.equalsIgnoreCase( errorCode )
+				|| PropertyValueException.DESIGN_EXCEPTION_NON_POSITIVE_VALUE
+						.equalsIgnoreCase( errorCode )
+				|| PropertyValueException.DESIGN_EXCEPTION_UNIT_NOT_ALLOWED
+						.equalsIgnoreCase( errorCode )
+				|| PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED
 						.equalsIgnoreCase( errorCode ) )
 			return true;
 
 		if ( PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE
-				.equalsIgnoreCase( errorCode ) ||
-				PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND
+				.equalsIgnoreCase( errorCode )
+				|| PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND
 						.equalsIgnoreCase( errorCode ) )
 		{
-			if ( element instanceof TextDataItem &&
-					ITextDataItemModel.CONTENT_TYPE_PROP
+			if ( element instanceof TextDataItem
+					&& ITextDataItemModel.CONTENT_TYPE_PROP
+							.equalsIgnoreCase( propDefn.getName( ) ) )
+				return true;
+
+			if ( element instanceof ScalarParameter
+					&& IScalarParameterModel.DATA_TYPE_PROP
 							.equalsIgnoreCase( propDefn.getName( ) ) )
 				return true;
 
 			if ( IStyleModel.PAGE_BREAK_AFTER_PROP.equalsIgnoreCase( propDefn
-					.getName( ) ) ||
-					IStyleModel.PAGE_BREAK_BEFORE_PROP
-							.equalsIgnoreCase( propDefn.getName( ) ) ||
-					IStyleModel.PAGE_BREAK_INSIDE_PROP
+					.getName( ) )
+					|| IStyleModel.PAGE_BREAK_BEFORE_PROP
+							.equalsIgnoreCase( propDefn.getName( ) )
+					|| IStyleModel.PAGE_BREAK_INSIDE_PROP
 							.equalsIgnoreCase( propDefn.getName( ) ) )
 				return true;
 
@@ -461,14 +472,14 @@ public class AbstractPropertyState extends AbstractParseState
 
 				String structureName = objDefn.getName( );
 				if ( DateTimeFormatValue.FORMAT_VALUE_STRUCT
-						.equals( structureName ) ||
-						NumberFormatValue.FORMAT_VALUE_STRUCT
-								.equals( structureName ) ||
-						StringFormatValue.FORMAT_VALUE_STRUCT
-								.equals( structureName ) ||
-						TimeFormatValue.FORMAT_VALUE_STRUCT
-								.equals( structureName ) ||
-						DateFormatValue.FORMAT_VALUE_STRUCT
+						.equals( structureName )
+						|| NumberFormatValue.FORMAT_VALUE_STRUCT
+								.equals( structureName )
+						|| StringFormatValue.FORMAT_VALUE_STRUCT
+								.equals( structureName )
+						|| TimeFormatValue.FORMAT_VALUE_STRUCT
+								.equals( structureName )
+						|| DateFormatValue.FORMAT_VALUE_STRUCT
 								.equals( structureName ) )
 				{
 					if ( FormatValue.CATEGORY_MEMBER.equalsIgnoreCase( propDefn
@@ -476,15 +487,25 @@ public class AbstractPropertyState extends AbstractParseState
 						return true;
 				}
 
+				if ( ( DataSetParameter.STRUCT_NAME
+						.equalsIgnoreCase( structureName ) && DataSetParameter.DATA_TYPE_MEMBER
+						.equalsIgnoreCase( propDefn.getName( ) ) )
+						|| ( OdaDataSetParameter.STRUCT_NAME
+								.equalsIgnoreCase( structureName ) && OdaDataSetParameter.DATA_TYPE_MEMBER
+								.equalsIgnoreCase( propDefn.getName( ) ) ) )
+				{
+					return true;
+				}
+
 				// MapRule.OPERATOR_MEMBER
 				// HighlightRule.OPERATOR_MEMBER
 
-				if ( MapRule.STRUCTURE_NAME.equals( objDefn.getName( ) ) ||
-						HighlightRule.STRUCTURE_NAME
-								.equals( objDefn.getName( ) ) )
+				if ( MapRule.STRUCTURE_NAME.equals( objDefn.getName( ) )
+						|| HighlightRule.STRUCTURE_NAME.equals( objDefn
+								.getName( ) ) )
 				{
-					if ( StyleRule.OPERATOR_MEMBER.equals( propDefn.getName( ) ) ||
-							StyleRule.OPERATOR_MEMBER.equals( propDefn
+					if ( StyleRule.OPERATOR_MEMBER.equals( propDefn.getName( ) )
+							|| StyleRule.OPERATOR_MEMBER.equals( propDefn
 									.getName( ) ) )
 					{
 						return "any".equalsIgnoreCase( invalidValue.toString( ) ); //$NON-NLS-1$
@@ -499,8 +520,8 @@ public class AbstractPropertyState extends AbstractParseState
 	/**
 	 * Sets the value of the attribute "name". This method is used when the
 	 * specific state is defined. When the generic state jumps to the specific
-	 * one, the <code>parseAttrs</code> will not be called. So the value of
-	 * the attribute "name" should be set by the generic state.
+	 * one, the <code>parseAttrs</code> will not be called. So the value of the
+	 * attribute "name" should be set by the generic state.
 	 * 
 	 * @param name
 	 *            the name to set

@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.device.util;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -316,7 +317,9 @@ public class ChartTextRenderer extends TextRendererAdapter
 		final double dSineTheta = ( Math.sin( dAngleInRadians ) );
 		final double dCosTheta = ( Math.cos( dAngleInRadians ) );
 
-		final ITextMetrics textMetrics = new ChartTextMetrics( _sxs, label );
+		// final ITextMetrics textMetrics = new ChartTextMetrics( _sxs, label );
+		final ITextMetrics textMetrics = _sxs.getTextMetrics( label );
+
 		// Tune text position if needed. Location instance may be changed
 		location = adjustTextPosition( labelPosition,
 				location,
@@ -365,7 +368,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
 
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dY - dYHalfOffset ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -441,7 +445,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 									( dYDiff ) + shadowness + dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dYDiff ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -525,7 +530,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 									( dY - dHeight ) + shadowness + dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dY - dHeight ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -596,7 +602,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 									( dYDiff ) + shadowness + dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dYDiff ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -668,7 +675,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 									( dYDiff ) + shadowness + dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dYDiff ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -745,7 +753,9 @@ public class ChartTextRenderer extends TextRendererAdapter
 			clrBackground = (Color) _sxs.getColor( (ColorDefinition) label.getBackground( ) );
 		}
 
-		final ITextMetrics textMetrics = new ChartTextMetrics( _sxs, label );
+		// final ITextMetrics textMetrics = new ChartTextMetrics( _sxs, label );
+		final ITextMetrics textMetrics = _sxs.getTextMetrics( label );
+		
 		// Tune text position if needed. Location instance may be changed
 		location = adjustTextPosition( labelPosition,
 				location,
@@ -798,7 +808,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 											+ dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dY - dYHalfOffset ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -882,7 +893,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 									( dYDiff ) + shadowness + dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dYDiff ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -957,7 +969,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 											+ dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dY - dFullHeight ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -1032,7 +1045,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 									( dYDiff ) + shadowness + dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dYDiff ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -1106,7 +1120,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 									( dYDiff ) + shadowness + dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dYDiff ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -1184,7 +1199,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 		}
 		double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
 
-		final ITextMetrics textMetrics = new ChartTextMetrics( _sxs, label );
+		// final ITextMetrics textMetrics = new ChartTextMetrics( _sxs, label );
+		final ITextMetrics textMetrics = _sxs.getTextMetrics( label );
 		// Tune text position if needed. Location instance may be changed
 		location = adjustTextPosition( labelPosition,
 				location,
@@ -1227,7 +1243,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 									( dY - dHeight ) + shadowness + dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dY - dHeight ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -1310,7 +1327,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 									( dY - dHeight ) + shadowness + dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dY - dHeight ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -1379,7 +1397,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 									( dY - dHeight ) + shadowness + dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dY - dHeight ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -1454,7 +1473,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 											+ dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dY - dYHalfOffset ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -1534,7 +1554,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 											+ dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dY - dYHalfOffset ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -1597,6 +1618,11 @@ public class ChartTextRenderer extends TextRendererAdapter
 			textMetrics.dispose( );
 		}
 	}
+	
+	protected void fillShadow( Graphics2D g2d, Shape shape )
+	{
+		g2d.fill( shape );
+	}
 
 	private final void showTopValue( IPrimitiveRenderer renderer,
 			Location location, Label label, int labelPosition, boolean bShadow )
@@ -1615,7 +1641,9 @@ public class ChartTextRenderer extends TextRendererAdapter
 		}
 		double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
 
-		final ITextMetrics textMetrics = new ChartTextMetrics( _sxs, label );
+		// final ITextMetrics textMetrics = new ChartTextMetrics( _sxs, label );
+		final ITextMetrics textMetrics = _sxs.getTextMetrics( label );
+
 		// Tune text position if needed. Location instance may be changed
 		location = adjustTextPosition( labelPosition,
 				location,
@@ -1659,7 +1687,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 											+ dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dY - dFullHeight ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -1738,7 +1767,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 											+ dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dY - dFullHeight ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -1817,7 +1847,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 											+ dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dY - dFullHeight ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -1900,7 +1931,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 											+ dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dY - dYHalfOffset ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -1979,7 +2011,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 											+ dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dY - dYHalfOffset ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -2118,7 +2151,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 											+ dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dY - dYHalfOffset ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -2196,7 +2230,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 											+ dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dY - dFullHeight ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -2280,7 +2315,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 									( dY - dHeight ) + shadowness + dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dY - dHeight ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -2353,7 +2389,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 											+ dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dY - dFullHeight ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -2427,7 +2464,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 											+ dFullHeight ),
 							(Color) _sxs.getColor( label.getShadowColor( )
 									.translucent( ) ) ) );
-					g2d.fill( new Rectangle2D.Double( dX + shadowness,
+					fillShadow( g2d, new Rectangle2D.Double( dX
+							+ shadowness,
 							( dY - dFullHeight ) + shadowness,
 							dFullWidth,
 							dFullHeight ) );
@@ -2500,7 +2538,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 	// (int) bb.getHeight());
 	// }
 
-	private final void renderOutline( IPrimitiveRenderer renderer,
+	protected void renderOutline( IPrimitiveRenderer renderer,
 			LineAttributes lineAttribs, Rectangle2D.Double rect )
 	{
 		if ( lineAttribs != null

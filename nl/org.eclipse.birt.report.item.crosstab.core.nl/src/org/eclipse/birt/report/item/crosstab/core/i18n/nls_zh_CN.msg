@@ -125,7 +125,7 @@ CrosstabReportItemTask.msg.pivot.dimension=透视维
 CrosstabReportItemTask.msg.insert.dimension=插入维
 CrosstabReportItemTask.msg.set.mirroredStartingLevel=Set Mirrored Starting Level
 
-CrosstabReportItemHandle.Error.HasNoCube=交叉表必须能够访问一个多维
+CrosstabReportItemHandle.Error.HasNoCube=交叉表必须能够访问一个多维。
 CrosstabReportItemHandle.log.validate=正在验证(...)
 
 CrosstabScriptHandler.error.javascript=JavaScript 第 {1} 行的 {0}:\r\n{2}\r\n

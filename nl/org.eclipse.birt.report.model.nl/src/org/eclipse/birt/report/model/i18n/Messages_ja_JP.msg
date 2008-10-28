@@ -15,27 +15,27 @@ Property.Boolean.False=false
 ###########################################################
 # Property type names
 
-Property.boolean=boolean
-Property.choice=choice
-Property.float=float
-Property.color=color
-Property.dateTime=dateTime
-Property.dimension=dimension
-Property.expression=expression
-Property.html=html
-Property.integer=integer
-Property.messageId=messageId
-Property.name=name
-Property.number=number
-Property.points=points
-Property.string=string
-Property.uri=uri
-Property.xml=xml
+Property.boolean=Boolean
+Property.choice=Choice
+Property.float=Float
+Property.color=Color
+Property.dateTime=DateTime
+Property.dimension=Dimension
+Property.expression=Expression
+Property.html=Html
+Property.integer=Integer
+Property.messageId=MessageId
+Property.name=Name
+Property.number=Number
+Property.points=Points
+Property.string=String
+Property.uri=Uri
+Property.xml=Xml
 Property.elementRef=要素参照
-Property.column=column
-Property.variant=variant
-Property.structList=structList
-Property.extends=extends
+Property.column=Column
+Property.variant=Variant
+Property.structList=StructList
+Property.extends=Extends
 Property.script=Script
 Property.list=リスト
 Property.memberKey=メンバキー
@@ -110,7 +110,7 @@ Choices.units.%=%
 #5.paramDataType
 Choices.paramType.string=文字列
 Choices.paramType.float=浮動小数値
-Choices.paramType.decimal=小数値
+Choices.paramType.decimal=10進数値
 Choices.paramType.dateTime=日時
 Choices.paramType.boolean=論理
 Choices.paramType.integer=整数値
@@ -123,7 +123,7 @@ Choices.paramControl.text-box=テキストボックス
 Choices.paramControl.list-box=コンボボックス/リストボックス
 Choices.paramControl.radio-button=ラジオボタン
 Choices.paramControl.check-box=チェックボックス
-Choices.paramControl.auto-suggest=テキストボックス - 自動推奨
+Choices.paramControl.auto-suggest=テキストボックス - 入力補完
 
 #7.textAlign
 Choices.textAlign.left=左揃え
@@ -417,7 +417,7 @@ Choices.columnDataType.any=任意
 Choices.columnDataType.integer=整数値
 Choices.columnDataType.string=文字列
 Choices.columnDataType.date-time=日時
-Choices.columnDataType.decimal=小数値
+Choices.columnDataType.decimal=10進数値
 Choices.columnDataType.float=浮動小数値
 Choices.columnDataType.structure=構造
 Choices.columnDataType.table=テーブル
@@ -438,8 +438,8 @@ Choices.exportType.always=全ページ
 
 #56. analysisType
 Choices.analysisType.auto=自動
-Choices.analysisType.dimension=次元
-Choices.analysisType.measure=計測
+Choices.analysisType.dimension=ディメンジョン
+Choices.analysisType.measure=メジャー
 Choices.analysisType.detail=詳細
 Choices.analysisType.none=分析の種類なし
 
@@ -637,8 +637,8 @@ Choices.scalarParamType.multi-value=複数の値
 Choices.scalarParamType.ad-hoc=アドホック
 
 #77. bidiLayoutOrientation   
-Choices.bidiDirection.rtl=右から左へ 
-Choices.bidiDirection.ltr=左から右へ 
+Choices.bidiDirection.rtl=右から左へ
+Choices.bidiDirection.ltr=左から右へ
 
 ###########################################################
 # Classes
@@ -1187,19 +1187,19 @@ Class.Color.rgb.toolTip=色の RGB 値を取得します
 Class.Color.value=value
 Class.Color.value.toolTip=色の名前 (名前として設定されている場合) または CSS RGB の文字列 (RGB 値として設定されている場合) を取得します
 Class.Color.cssValue=cssValue
-Class.Color.cssValue.toolTip=色を CSS で設定可能な形式 (CSS カラー名または RBG 値)で取得します
+Class.Color.cssValue.toolTip=色を CSS で設定可能な形式 (CSS カラー名または RGB 値)で取得します
 
 
 #12. Dimension
 
 Class.Dimension=Dimension クラス
-Class.Dimension.toolTip=次元プロパティオブジェクトによって、CSS 次元プロパティの解析が処理されます
+Class.Dimension.toolTip=ディメンジョンプロパティオブジェクトによって、CSS ディメンジョンプロパティの解析が処理されます
 Class.Dimension.value=value
-Class.Dimension.value.toolTip=CSS と互換性のある次元の値を返します
+Class.Dimension.value.toolTip=CSS と互換性のあるディメンジョンの値を返します
 Class.Dimension.measure=measure
-Class.Dimension.measure.toolTip=次元の計測部分を取得します。次元が定数を使用して定義されている場合は、Null を返します
+Class.Dimension.measure.toolTip=ディメンジョンのメジャー部分を取得します。ディメンジョンが定数を使用して定義されている場合は、Null を返します
 Class.Dimension.units=units
-Class.Dimension.units.toolTip=次元の単位部分を取得します。次元が定数を使用して定義されている場合は、Null を返します
+Class.Dimension.units.toolTip=ディメンジョンの単位部分を取得します。ディメンジョンが定数を使用して定義されている場合は、Null を返します
 
 #13. PropertyDefn
 
@@ -1338,7 +1338,7 @@ Class.ColumnDefn.INTEGER.toolTip=整数列の定数
 Class.ColumnDefn.FLOAT=FLOAT
 Class.ColumnDefn.FLOAT.toolTip=浮動小数点列の定数 
 Class.ColumnDefn.DECIMAL=DECIMAL
-Class.ColumnDefn.DECIMAL.toolTip=固定精度小数の定数
+Class.ColumnDefn.DECIMAL.toolTip=固定精度10進数の定数
 Class.ColumnDefn.BOOLEAN=BOOLEAN
 Class.ColumnDefn.BOOLEAN.toolTip=論理値の定数
 Class.ColumnDefn.STRING=STRING
@@ -1400,9 +1400,9 @@ Class.ResultSetColumn.helpText.toolTip=列の詳細な説明を提供する自由形式の文字列
 Class.ResultSetColumn.lineage=lineage
 Class.ResultSetColumn.lineage.toolTip=列値の元のソースに名前を付ける自由形式の文字列 
 Class.ResultSetColumn.axis=axis
-Class.ResultSetColumn.axis.toolTip=列が多次元データソースから取得された場合に適用されます
+Class.ResultSetColumn.axis.toolTip=列がマルチディメンジョンデータソースから取得された場合に適用されます
 Class.ResultSetColumn.axisType=axisType
-Class.ResultSetColumn.axisType.toolTip=その値は、次元のメンバ、次元の属性、または計測のいずれかです
+Class.ResultSetColumn.axisType.toolTip=その値は、ディメンジョンのメンバ、ディメンジョンの属性、またはメジャーのいずれかです
 Class.ResultSetColumn.onColumnLayout=onColumnLayout
 Class.ResultSetColumn.onColumnLayout.toolTip=この列をレポート出力に配置する方法についてのヒント
 Class.ResultSetColumn.DIMENSION_MEMBER=DIMENSION_MEMBER
@@ -1467,7 +1467,7 @@ Class.Total.toolTip=集計関数のホルダー
 Class.Total.OVERALL=OVERALL
 Class.Total.OVERALL.toolTip=データセット全体の合計を要求するグループ引数に使用される定数
 Class.Total.NO_FILTER=NO_FILTER
-Class.Total.NO_FILTER.toolTip=総計関数でフィルタを使っていないことを示す、フィルタ引数の定数。
+Class.Total.NO_FILTER.toolTip=集計関数でフィルタを使っていないことを示す、フィルタ引数の定数。
 Class.Total.sum=sum
 Class.Total.sum.toolTip=数値のシーケンスの合計
 Class.Total.runningSum=runningSum
@@ -1815,7 +1815,7 @@ Structure.ParameterFormatValue=パラメタの書式の値
 Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=スクリプトライブラリ
 Structure.IncludedCssStyleSheet=インクルードされている CSS スタイルシート
-Structure.DimensionJoinCondition=次元のジョイン条件
+Structure.DimensionJoinCondition=ディメンジョンのジョイン条件
 
 #0.MapRule
 Structure.MapRule.testExpr=テスト式
@@ -2104,7 +2104,7 @@ Structure.TOC.text.transform=文字列の位置変更
 Structure.TOC.text.direction=文字列の向き 
 
 #29. DimensionCondition
-Structure.DimensionCondition=次元条件
+Structure.DimensionCondition=ディメンジョン条件
 Structure.DimensionCondition.joinConditions=ジョインの条件
 Structure.DimensionCondition.hierarchy=階層
 
@@ -2195,25 +2195,25 @@ Element.TemplateReportItem=テンプレートのレポート項目
 Element.TemplateDataSet=テンプレートのデータセット
 Element.JointDataSet=ジョイントデータセット
 Element.Cube=キューブ
-Element.Dimension=次元
+Element.Dimension=ディメンジョン
 Element.Hierarchy=階層
 Element.Level=レベル
-Element.Measure=計測
-Element.MeasureGroup=計測グループ
+Element.Measure=メジャー
+Element.MeasureGroup=メジャーグループ
 Element.TabularCube=テーブル形式のキューブ
-Element.TabularDimension=テーブル形式の次元
+Element.TabularDimension=テーブル形式のディメンジョン
 Element.TabularHierarchy=テーブル形式の階層
 Element.TabularLevel=テーブル形式のレベル
-Element.TabularMeasure=テーブル形式の計測
-Element.TabularMeasureGroup=テーブル形式の計測グループ
+Element.TabularMeasure=テーブル形式のメジャー
+Element.TabularMeasureGroup=テーブル形式のメジャーグループ
 Element.AccessControl=アクセスコントロール
 Element.ValueAccessControl=値へのアクセスコントロール
 Element.OdaCube=ODA キューブ
-Element.OdaDimension=ODA 次元
+Element.OdaDimension=ODA ディメンジョン
 Element.OdaHierarchy=ODA 階層
 Element.OdaLevel=ODA レベル
-Element.OdaMeasure=ODA 計測
-Element.OdaMeasureGroup=ODA 計測グループ
+Element.OdaMeasure=ODA メジャー
+Element.OdaMeasureGroup=ODA メジャーグループ
 Element.MemberValue=メンバ値
 Element.SortElement=ソート要素
 Element.FilterConditionElement=フィルタの条件要素
@@ -2280,7 +2280,7 @@ Element.ReportDesign.displayNameID=表示名キー
 Element.ReportDesign.displayName=表示名
 Element.ReportDesign.iconFile=アイコンファイル
 Element.ReportDesign.cheatSheet=ガイドの表示
-Element.ReportDesign.thumbnail=サムネール
+Element.ReportDesign.thumbnail=サムネイル
 Element.ReportDesign.layoutPreference=レイアウトの設定
 Element.ReportDesign.bidiLayoutOrientation=双方向レイアウトの向き 
 Element.ReportDesign.beforeFactory.toolTip=Factory での処理を開始する際に、initialize( ) メソッドを実行した後で、レポート文書 (該当する場合) を開く前に呼び出されます
@@ -2401,19 +2401,19 @@ Element.ScalarParameter.boundDataColumns=バインドされたデータカラム
 Element.ScalarParameter.distinct=Distinct
 Element.ScalarParameter.sortDirection=ソート方向
 Element.ScalarParameter.sortBy=方向
-Element.ScalarParameter.autoSuggestThreshold=自動推奨のしきい値
+Element.ScalarParameter.autoSuggestThreshold=入力補完のしきい値
 Element.ScalarParameter.sortByColumn=列を基準に並べ替える
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=開始時に展開
 Element.ParameterGroup.helpText=ヘルプテキスト
 Element.ParameterGroup.helpTextID=ヘルプテキストキー
+Element.ParameterGroup.promptText=プロンプトテキスト
+Element.ParameterGroup.promptTextID=プロンプトテキストキー
 Element.ParameterGroup.slot.parameters=パラメタ
 
 # CascadingParameterGroup (prefix Element.CascadingParameterGroup)
 Element.CascadingParameterGroup.dataSet=データセット
-Element.CascadingParameterGroup.promptText=プロンプトテキスト
-Element.CascadingParameterGroup.promptTextID=プロンプトテキストキー
 Element.CascadingParameterGroup.dataSetMode=1 つまたは複数のデータセット
 Element.CascadingParameterGroup.slot.parameters=パラメタ
 
@@ -2767,6 +2767,13 @@ Element.Cell.onRender.toolTip=TBD
 Element.Cell.onRender.this=セルインスタンス
 Element.Cell.onRender.reportContext=レポートのコンテキスト
 Element.Cell.viewAction=アクションの表示
+Element.Cell.diagonal=対角線
+Element.Cell.diagonalNumber=対角線番号
+Element.Cell.antidiagonalNumber=非対角線番号
+Element.Cell.diagonalThickness=対角線の幅
+Element.Cell.antidiagonalThickness=非対角線の幅
+Element.Cell.diagonalStyle=対角線のスタイル
+Element.Cell.antidiagonalStyle=非対角線のスタイル
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=代替テキスト
@@ -3018,7 +3025,7 @@ Element.AutoText.onPageBreak.reportContext=レポートのコンテキスト
 
 #45. Cube ( prefix Element.Cube )
 Element.Cube.filter=フィルタ条件
-Element.Cube.defaultMeasureGroup=デフォルトの計測グループ
+Element.Cube.defaultMeasureGroup=デフォルトのメジャーグループ
 Element.Cube.accessControls=アクセスコントロール
 
 #46. Dimension ( prefix Element.Dimension )
@@ -3045,11 +3052,11 @@ Element.Level.defaultValue=デフォルト値
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=関数
 Element.Measure.isCalculated=Is Calculated
-Element.Measure.measureExpression=計測式
+Element.Measure.measureExpression=メジャー式
 Element.Measure.dataType=データ型
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
-Element.MeasureGroup.measures=計測
+Element.MeasureGroup.measures=メジャー
 
 #51. AccessControl ( prefix Element.AccessControl )
 Element.AccessControl.userNames=ユーザ名
@@ -3062,8 +3069,8 @@ Element.ValueAccessControl.values=値
 #52. TabularCube ( prefix Element.TabularCube )
 Element.TabularCube.dataSet=データセット
 Element.TabularCube.dimensions=サイズ
-Element.TabularCube.measureGroups=計測グループ
-Element.TabularCube.dimensionConditions=次元条件
+Element.TabularCube.measureGroups=メジャーグループ
+Element.TabularCube.dimensionConditions=ディメンジョン条件
 
 #53. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=階層
@@ -3080,7 +3087,7 @@ Element.TabularLevel.attributes=属性
 
 #56. OdaCube ( prefix Element.OdaCube )
 Element.OdaCube.dimensions=サイズ
-Element.OdaCube.measureGroups=計測グループ
+Element.OdaCube.measureGroups=メジャーグループ
 Element.OdaCube.nativeName=ネイティブの名前
 
 #57. OdaDimension ( prefix Element.OdaDimension )
@@ -3385,14 +3392,14 @@ New.TabularCube=データキューブ
 New.TabularDimension=グループ
 New.TabularHierarchy=新規テーブル形式の階層
 New.TabularLevel=新規テーブル形式のレベル
-New.TabularMeasure=新規テーブル形式の計測
+New.TabularMeasure=新規テーブル形式のメジャー
 New.TabularMeasureGroup=サマリフィールド
 New.OdaCube=新規ODAキューブ
-New.OdaDimension=新規ODA次元
-New.OdaHierarchy=新規ODA次元
+New.OdaDimension=新規ODAディメンジョン
+New.OdaHierarchy=新規ODAディメンジョン
 New.OdaLevel=新規ODAレベル
-New.OdaMeasure=新規ODA計測
-New.OdaMeasureGroup=新規ODA計測グループ
+New.OdaMeasure=新規ODAメジャー
+New.OdaMeasureGroup=新規ODAメジャーグループ
 
 ###########################################################
 #Default theme name.
@@ -3491,6 +3498,7 @@ Error.SemanticError.INVALID_PAGE_MARGINS=マスタページ "{0}" の余白の値が無効です
 Error.SemanticError.MISSING_MASTER_PAGE=レポートには、マスタページが少なくとも 1 つ含まれている必要があります。
 Error.SemanticError.INVALID_MULTI_COLUMN=マスタページ "{0}" のページコンテンツの外部に列の幅が設定されています。
 Error.SemanticError.INVALID_ELEMENT_REF=この要素 "{0}" には、未定義の要素 "{2}" を参照するプロパティ "{1}" が含まれています。
+Error.SemanticError.INVALID_DATA_BINDING_REF=要素 "{0}" には、要素 "{1}" (コンテナまたは要素の内容) を参照するプロパティ dataBindingRef が含まれています。
 Error.SemanticError.MISSING_SQL_STMT=JDBC 選択データセット "{0}" には、SQL 文が含まれている必要があります。
 Error.SemanticError.MISSING_DATA_SET={0} は、1 つのデータセットにアクセスできる必要があります。
 Error.SemanticError.INVALID_IMAGE_SCALE_VALUE=イメージ "{0}" のスケールは正の値である必要があります。

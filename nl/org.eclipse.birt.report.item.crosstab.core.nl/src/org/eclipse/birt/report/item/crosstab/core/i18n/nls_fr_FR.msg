@@ -125,7 +125,7 @@ CrosstabReportItemTask.msg.pivot.dimension=Faire pivoter la dimension
 CrosstabReportItemTask.msg.insert.dimension=Insérer une dimension
 CrosstabReportItemTask.msg.set.mirroredStartingLevel=Set Mirrored Starting Level
 
-CrosstabReportItemHandle.Error.HasNoCube=La table croisée doit pouvoir accéder à un cube
+CrosstabReportItemHandle.Error.HasNoCube=Le tableau croisé doit pouvoir accéder à un cube.
 CrosstabReportItemHandle.log.validate=validation(...)
 
 CrosstabScriptHandler.error.javascript={0} à la ligne {1} du JavaScript :\r\n{2}\r\n

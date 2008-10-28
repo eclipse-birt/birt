@@ -32,7 +32,6 @@ ChartExpressionProvider.DataPoints.OrthogonalValue=값 데이터
 ChartExpressionProvider.ChartVariables.JavaScript=JavaScript
 ChartExpressionProvider.ChartVariables.Event=이벤트
 ChartExpressionProvider.DataPoints.SeriesValue=계열 데이터
-ChartColumnBindingDialog.Button.AddAggregation=집계 추가...
 ChartColumnBindingDialog.Button.Refresh=새로 고침
 
 OpenChartTaskAction.Text.SelectChartType=차트 형식 선택(&S)...
@@ -87,6 +86,7 @@ ChartBindingGroupDescriptorProvider.DataCubes.Default=---데이터 큐브---
 BindingPage.Data.Label=데이터:
 Error.ChartShouldIncludeAxes=차트에는 축이 포함되어야 합니다.
 
+ChartCubeFilterConditionBuilder.Information=먼저 값 계열 또는 범주 계열에 대한 값을 선택하십시오.
 ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=범주:  
 ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=값:  
 ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y 옵션:  

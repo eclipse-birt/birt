@@ -827,19 +827,20 @@ designer.preview.preference.elementname.description.Enabled=false
 designer.preview.preference.elementname.description=Descripción
 designer.preview.preference.elementname.Enabled=true 
 designer.preview.preference.locale.description=Elegir configuración &regional:
+designer.preview.preference.timezone.description=&Zona horaria:
 designer.preview.preference.resultset.sqldatasetpage.group.title=Página de consulta
 designer.preview.preference.resultset.previewpage.group.title=Página de vista previa
 designer.preview.preference.resultset.maxNoOfSchema.description=Número máximo de e&squemas que mostrar:
 designer.preview.preference.resultset.maxNoOfTable.description=Número máximo de &tablas de cada esquema que mostrar:
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=Introduzca un número entre 0 y {0} para el número máximo de esquemas.
 designer.preview.preference.resultset.maxNoOfTable.errormessage=Introduzca un número entre 0 y {0} para el número máximo de tablas de cada esquema.
-designer.preview.preference.resultset.maxrow.description=Número máximo de &filas que mostrar:
+designer.preview.preference.resultset.maxrow.description=Número de &filas para mostrar:
 designer.preview.preference.resultset.maxrow.errormessage=Introduzca un número entre 1 y {0} para el número máximo de filas.
-designer.preview.preference.resultset.maxrowlevelmember.description=Recuento de miembros máximo de cada &nivel de fila para mostrar:
+designer.preview.preference.resultset.maxrowlevelmember.description=Recuento de miembros de cada &nivel de fila para mostrar:
 designer.preview.preference.resultset.maxrowlevelmember.errormessage=Introduzca un número entre 1 y {0} para el número máximo de miembros por nivel de fila.
-designer.preview.preference.resultset.maxcolumnlevelmember.description=Recuento de miembros máximo de cada &nivel de columna para mostrar: 
+designer.preview.preference.resultset.maxcolumnlevelmember.description=Recuento de miembros de cada &nivel de columna para mostrar:
 designer.preview.preference.resultset.maxcolumnlevelmember.errormessage=Introduzca un número entre 1 y {0} para el número máximo de miembros por nivel de columna.
-designer.preview.preference.resultset.maxinmemorycubesize.description=Tamaño máximo del cubo de memoria (MB): 
+designer.preview.preference.resultset.maxinmemorycubesize.description=Tamaño del cubo de memoria (MB):
 designer.preview.preference.resultset.maxinmemorycubesize.errormessage=Introduzca un número entre 1 y {0} para el tamaño máximo del cubo de memoria.
 designer.preview.preference.server.description=Configuración del servidor de aplicaciones interno. El frame de vista previa de BIRT Report Designer\nutiliza el servidor internamente.
 designer.preview.preference.server.hostDescription=&Nombre del anfitrión o dirección IP de equipo local. Deje en blanco, se\ndetermina automáticamente.
@@ -1147,12 +1148,13 @@ Element.OdaDataSource.driverName=Nombre de controlador:
 Element.OdaDataSource.privateDriverProperties=Propiedades de controlador privadas:
 Element.OdaDataSource.publicDriverProperties=Propiedades de controlador públicas:
 Element.Parameter.helpText=Texto de ayuda:
-Element.Parameter.helpTextID=Clave de texto de ayuda
+Element.Parameter.helpTextID=Clave de texto de a&yuda:
 Element.Parameter.hidden=Oculto:
 Element.ParameterGroup.helpText=Texto de ayuda:
 Element.ParameterGroup.helpTextID=Clave de texto de ayuda:
 Element.ParameterGroup.slot.parameters=Parámetros:
 Element.ParameterGroup.startExpanded=Iniciar expandido:
+Element.ParameterGroup.promptTextID=Clave de texto de &solicitud:
 Element.ReportDesign.afterCloseDoc.toolTip=Llamado justo después de cerrar el documento de informe en la fase de generación.
 Element.ReportDesign.layoutPreference=&Preferencia de diseño: 
 Element.ReportDesign.afterCloseDoc=Después de cerrar documento:
@@ -1174,7 +1176,7 @@ Element.ReportDesign.displayName=N&ombre en pantalla:
 Element.ReportDesign.eventHandlerClass=&Clase de controlador de evento: 
 Element.ReportDesign.iconFile=Miniatura: 
 Element.ReportDesign.refreshRate=Intervalo de actualización:
-Element.ReportDesign.bidiLayoutOrientation=Orientación bi&dimensional del diseño:
+Element.ReportDesign.bidiLayoutOrientation=&Orientación del informe:
 Element.ReportElement.comments=&Comentarios:
 Element.ReportElement.Cube=&Datos:
 Element.ReportElement.customXml=XML personalizado:
@@ -1218,7 +1220,7 @@ Element.ScalarParameter.selectionList.fixedOrder=Orden fijo:
 Element.ScalarParameter.selectionList.mustMatch=Debe coincidir:
 Element.ScalarParameter.selectionList.selectionList=Lista de selección:
 Element.ScalarParameter.selectionList=Lista de selección:
-Element.ScalarParameter.promptTextID=Solicitar &clave de texto:
+Element.ScalarParameter.promptTextID=Clave de texto de &solicitud:
 Element.ScriptDataSet.close.toolTip=Cierra el conjunto de datos.
 Element.ScriptDataSet.close=Cerrar:
 Element.ScriptDataSet.describe.toolTip=Describe el conjunto de resultados.
@@ -1870,12 +1872,18 @@ HighlightsPreferencePage.toolTipText.Down=Mover resaltado hacia abajo
 #HyperlinkBuilder properties
 
 HyperlinkBuilder.Column.Parameters=Parámetros
-HyperlinkBuilder.DrillThroughStep1=Paso 1: seleccionar un informe de destino 
-HyperlinkBuilder.DrillThroughStep2=Paso 2: seleccionar un delimitador de destino 
-HyperlinkBuilder.DrillThroughStep3=Paso 3: crear una expresión de link que coincida con el marcador de destino
-HyperlinkBuilder.DrillThroughStep4=Paso 4: mostrar informe de destino en 
-HyperlinkBuilder.DrillThroughStep5=Paso 5: seleccionar un formato para el informe de destino
-HyperlinkBuilder.DrillThroughStep6=Paso 6: Información sobre herramienta
+HyperlinkBuilder.DrillThrough.SelectTargetReport=Select a target report 
+HyperlinkBuilder.DrillThrough.SelectTargetAnchor=Select a target anchor 
+HyperlinkBuilder.DrillThrough.CreateLinkExpr=Create a link expression that matches the target bookmark
+HyperlinkBuilder.DrillThrough.ShowTargetReport=Show target report in 
+HyperlinkBuilder.DrillThrough.SelectFormat=Select a format for target report
+HyperlinkBuilder.DrillThrough.Tooltip=Tool Tip
+HyperlinkBuilder.Step.1=Step 1: 
+HyperlinkBuilder.Step.2=Step 2: 
+HyperlinkBuilder.Step.3=Step 3: 
+HyperlinkBuilder.Step.4=Step 4: 
+HyperlinkBuilder.Step.5=Step 5: 
+HyperlinkBuilder.Step.6=Step 6: 
 HyperlinkBuilder.ParameterRequired=Requerido
 HyperlinkBuilder.Column.DataType=Tipo de datos
 HyperlinkBuilder.Column.Values=Valores
@@ -2846,7 +2854,7 @@ PreviewAction.Text=Vista previa
 PreviewEditor.parameter.tooltip=Mostrar parámetros de informe
 PreviewEditor.parameter.note=Nota:
 PreviewEditor.parameter.info=El número máximo actual de filas de datos está limitado a
-PreviewEditor.parameter.change=Haga clic para cambiarlo
+PreviewEditor.parameter.change=Haga clic para cambiar las preferencias de vista previa
 PreviewEditor.ConfirmRefresh.Title=Confirmar actualización
 PreviewEditor.ConfirmRefresh.Message=La operación puede influir en el resultado de vista previa. ¿Desea actualizar la página de previsualización? 
 PreviewEditor.browser.notfound=El explorador interno no está disponible.
@@ -3321,8 +3329,8 @@ UseCssInReportDialog.Dialog.Browse=Examinar
 UseCssInReportDialog.Dialog.Browse.Title=Seleccionar un archivo CSS para incluirlo en el informe
 UseCssInReportDialog.Dialog.Browse.Library.Title=Seleccionar un archivo CSS para incluirlo en la librería
 UseCssInReportDialog.Error.Already.Include={0} ya se ha incluido
-UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Incluir el archivo CSS en el momento de la visualización (solo en formato HTML)
-UseCssInReportDialog.Dialog.Label.viewTimeLb=Visualizar la ubicación temporal del archivo css:
+UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Incluir el archivo CSS en el momento de la visualización (sólo en formato HTML)
+UseCssInReportDialog.Dialog.Label.viewTimeLb=Visualizar la ubicación temporal del archivo CSS:
 UseCssInReportDialog.Dialog.Label.example=por ejemplo, http://mydomain/test.css, myfolder/test/css
 UseCssInReportDialog.Dialog.Text.uri=&URI:
 
@@ -3617,6 +3625,8 @@ TextEditDialog.toolTipText.fx=Abrir el compilador de expresiones
 TextEditDialog.action.item.formatDateTime=Formato de fecha/hora 
 TextEditDialog.action.item.formatNumber=Formato de número 
 TextEditDialog.action.item.formatString=Formato de string 
+TextEditDialog.title.DlgNew=New Text Item
+TextEditDialog.title.DlgEdit=Editar elemento de texto
 
 ###########################################################
 #TextEditPart properties
@@ -3662,7 +3672,7 @@ AutoTextPageGenerator.List.Visibility=Visibilidad
 ###########################################################
 #ThemesNodeProvider properties
 
-ThemesNodeProvider.action.New=Nuevo tema
+ThemesNodeProvider.action.New=&Nuevo tema...
 ThemesNodeProvider.Failed=Error en el nuevo tema
 NewThemeDialog.DialogTitle=Nuevo tema
 NewThemeDialog.DialogMessage=Introduzca el nombre
@@ -3823,7 +3833,7 @@ WizardTemplateChoicePage.title.SimpleListing=Listado simple
 #bidi_hcg start
 WizardTemplateChoicePage.label.rtlBiDiOrientation=De derecha a izquierda
 WizardTemplateChoicePage.label.ltrBiDiOrientation=De izquierda a derecha
-WizardTemplateChoicePage.label.chooseBiDiDirection=Establecer orientación del informe:
+WizardTemplateChoicePage.label.chooseBiDiDirection=Orientación del informe:
 #bidi_hcg end
 ###########################################################
 #XMLSourcePage properties
@@ -3934,7 +3944,7 @@ ResourceSelectionValidator.ExtErrorSplitter=\ o
 ###########################################################
 #GeneralPage
 GeneralPage.Library.Included=Librería:
-GeneralPage.Library.Modified.Note=NOTE: This report item from the library has been modified. To restore the original library item, click on{0}"Restore Properties"
+GeneralPage.Library.Modified.Note=NOTA: Se ha modificado el elemento del informe de la librería. Para restaurar el elemento de informe original, haga clic en {0} "Restaurar propiedades"
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4387,4 +4397,4 @@ ExportElementToLibraryAction.waringMsg=El elemento no tiene nombre, pero no se p
 ###########################################################
 #UIUtil
 UIUtil.previewconfirm.title=Errores en el informe
-UIUtil.previewconfirm.message=The report contains errors, would you like to continue for previewing?
+UIUtil.previewconfirm.message=El informe contiene errores, ¿desea continuar para realizar la vista previa?

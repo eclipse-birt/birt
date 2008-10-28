@@ -1,2 +1,2 @@
 #Processed using Jarprocessor
-jarprocessor.exclude.children = true
+jarprocessor.exclude = true

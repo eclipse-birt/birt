@@ -827,19 +827,20 @@ designer.preview.preference.elementname.description.Enabled=false
 designer.preview.preference.elementname.description=说明
 designer.preview.preference.elementname.Enabled=true 
 designer.preview.preference.locale.description=选择区域设置(&C):
+designer.preview.preference.timezone.description=时区(&T):
 designer.preview.preference.resultset.sqldatasetpage.group.title=查询页面
 designer.preview.preference.resultset.previewpage.group.title=预览页面
 designer.preview.preference.resultset.maxNoOfSchema.description=要显示的最大架构数(&S):
 designer.preview.preference.resultset.maxNoOfTable.description=每个架构中要显示的最大表数(&T):
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=请为最大架构数输入一个介于 0 和 {0} 之间的数。
 designer.preview.preference.resultset.maxNoOfTable.errormessage=请在每个架构中分别为最大表数输入一个介于 0 和 {0} 之间的数。
-designer.preview.preference.resultset.maxrow.description=要显示的最大行数(&R):
+designer.preview.preference.resultset.maxrow.description=要显示的行数(&R):
 designer.preview.preference.resultset.maxrow.errormessage=请为最大行数输入一个介于 1 和 {0} 之间的数。
-designer.preview.preference.resultset.maxrowlevelmember.description=显示的每个行级别的最大计数(&L):
+designer.preview.preference.resultset.maxrowlevelmember.description=要显示的每个行级别的计数(&L):
 designer.preview.preference.resultset.maxrowlevelmember.errormessage=请为最大行级别数输入一个介于 1 和 {0} 之间的数。
-designer.preview.preference.resultset.maxcolumnlevelmember.description=显示的每个列级别的最大计数(&C): 
+designer.preview.preference.resultset.maxcolumnlevelmember.description=要显示的每个列级别的计数(&C):
 designer.preview.preference.resultset.maxcolumnlevelmember.errormessage=请为最大列级别数输入一个介于 1 和 {0} 之间的数。
-designer.preview.preference.resultset.maxinmemorycubesize.description=最大内存多维数据集大小(MB)(&S): 
+designer.preview.preference.resultset.maxinmemorycubesize.description=内存多维数据集大小(MB)(&S):
 designer.preview.preference.resultset.maxinmemorycubesize.errormessage=请为最大内存多维数据集大小输入一个介于 1 和 {0} 之间的数。
 designer.preview.preference.server.description=Internal Application Server 配置。该服务器由 \nBIRT Report Designer Preview Framework 内部使用。
 designer.preview.preference.server.hostDescription=本地计算机的主机名或 IP 地址。将其留空以自动\n确定(&H)。
@@ -1147,12 +1148,13 @@ Element.OdaDataSource.driverName=驱动程序名称:
 Element.OdaDataSource.privateDriverProperties=私有驱动程序属性:
 Element.OdaDataSource.publicDriverProperties=公共驱动程序属性:
 Element.Parameter.helpText=帮助文本:
-Element.Parameter.helpTextID=帮助文本关键字
+Element.Parameter.helpTextID=帮助文本关键字(&Y):
 Element.Parameter.hidden=隐藏:
 Element.ParameterGroup.helpText=帮助文本:
 Element.ParameterGroup.helpTextID=帮助文本关键字:
 Element.ParameterGroup.slot.parameters=参数:
 Element.ParameterGroup.startExpanded=开始展开:
+Element.ParameterGroup.promptTextID=提示文本关键字(&T):
 Element.ReportDesign.afterCloseDoc.toolTip=仅在生成阶段关闭报表文档文件之后调用。
 Element.ReportDesign.layoutPreference=布局首选项(&L): 
 Element.ReportDesign.afterCloseDoc=关闭文档后:
@@ -1174,7 +1176,7 @@ Element.ReportDesign.displayName=显示名称(&Y):
 Element.ReportDesign.eventHandlerClass=事件处理程序类(&C): 
 Element.ReportDesign.iconFile=缩略图(&N): 
 Element.ReportDesign.refreshRate=刷新率:
-Element.ReportDesign.bidiLayoutOrientation=双向布局方向(&B):
+Element.ReportDesign.bidiLayoutOrientation=报表方向(&O):
 Element.ReportElement.comments=备注(&C):
 Element.ReportElement.Cube=数据(&D):
 Element.ReportElement.customXml=自定义 XML:
@@ -1218,7 +1220,7 @@ Element.ScalarParameter.selectionList.fixedOrder=固定顺序:
 Element.ScalarParameter.selectionList.mustMatch=必须匹配:
 Element.ScalarParameter.selectionList.selectionList=选择列表:
 Element.ScalarParameter.selectionList=选择列表:
-Element.ScalarParameter.promptTextID=提示文本关键字(&T):
+Element.ScalarParameter.promptTextID=提示文本关键字(&Y):
 Element.ScriptDataSet.close.toolTip=关闭数据集。
 Element.ScriptDataSet.close=关闭:
 Element.ScriptDataSet.describe.toolTip=说明结果集。
@@ -1870,12 +1872,18 @@ HighlightsPreferencePage.toolTipText.Down=突出显示下移
 #HyperlinkBuilder properties
 
 HyperlinkBuilder.Column.Parameters=参数
-HyperlinkBuilder.DrillThroughStep1=第 1 步: 选择目标报表 
-HyperlinkBuilder.DrillThroughStep2=第 2 步: 选择目标定位标记 
-HyperlinkBuilder.DrillThroughStep3=第 3 步: 创建与目标书签匹配的链接表达式
-HyperlinkBuilder.DrillThroughStep4=第 4 步: 显示目标报表 
-HyperlinkBuilder.DrillThroughStep5=第 5 步:为目标报表选择格式
-HyperlinkBuilder.DrillThroughStep6=步骤 6: 工具提示
+HyperlinkBuilder.DrillThrough.SelectTargetReport=Select a target report 
+HyperlinkBuilder.DrillThrough.SelectTargetAnchor=Select a target anchor 
+HyperlinkBuilder.DrillThrough.CreateLinkExpr=Create a link expression that matches the target bookmark
+HyperlinkBuilder.DrillThrough.ShowTargetReport=Show target report in 
+HyperlinkBuilder.DrillThrough.SelectFormat=Select a format for target report
+HyperlinkBuilder.DrillThrough.Tooltip=Tool Tip
+HyperlinkBuilder.Step.1=Step 1: 
+HyperlinkBuilder.Step.2=Step 2: 
+HyperlinkBuilder.Step.3=Step 3: 
+HyperlinkBuilder.Step.4=Step 4: 
+HyperlinkBuilder.Step.5=Step 5: 
+HyperlinkBuilder.Step.6=Step 6: 
 HyperlinkBuilder.ParameterRequired=必需
 HyperlinkBuilder.Column.DataType=数据类型
 HyperlinkBuilder.Column.Values=值
@@ -2846,7 +2854,7 @@ PreviewAction.Text=预览
 PreviewEditor.parameter.tooltip=显示报表参数
 PreviewEditor.parameter.note=注:
 PreviewEditor.parameter.info=当前数据行数的最大限制为
-PreviewEditor.parameter.change=单击进行更改
+PreviewEditor.parameter.change=单击以更改预览首选项
 PreviewEditor.ConfirmRefresh.Title=确认刷新
 PreviewEditor.ConfirmRefresh.Message=您的操作可能影响预览结果，是否要刷新预览页面? 
 PreviewEditor.browser.notfound=内部浏览器不可用。
@@ -3617,6 +3625,8 @@ TextEditDialog.toolTipText.fx=打开表达式生成器
 TextEditDialog.action.item.formatDateTime=设置日期时间格式 
 TextEditDialog.action.item.formatNumber=设置数字格式 
 TextEditDialog.action.item.formatString=字符串格式 
+TextEditDialog.title.DlgNew=New Text Item
+TextEditDialog.title.DlgEdit=编辑文本项
 
 ###########################################################
 #TextEditPart properties
@@ -3662,7 +3672,7 @@ AutoTextPageGenerator.List.Visibility=可见性
 ###########################################################
 #ThemesNodeProvider properties
 
-ThemesNodeProvider.action.New=新主题
+ThemesNodeProvider.action.New=新建主题(&N)...
 ThemesNodeProvider.Failed=新建主题失败
 NewThemeDialog.DialogTitle=新主题
 NewThemeDialog.DialogMessage=请输入名称
@@ -3823,7 +3833,7 @@ WizardTemplateChoicePage.title.SimpleListing=简易列表
 #bidi_hcg start
 WizardTemplateChoicePage.label.rtlBiDiOrientation=从右到左
 WizardTemplateChoicePage.label.ltrBiDiOrientation=从左到右
-WizardTemplateChoicePage.label.chooseBiDiDirection=设置报表的方向:
+WizardTemplateChoicePage.label.chooseBiDiDirection=报表方向:
 #bidi_hcg end
 ###########################################################
 #XMLSourcePage properties
@@ -3934,7 +3944,7 @@ ResourceSelectionValidator.ExtErrorSplitter=\ 或
 ###########################################################
 #GeneralPage
 GeneralPage.Library.Included=库:
-GeneralPage.Library.Modified.Note=NOTE: This report item from the library has been modified. To restore the original library item, click on{0}"Restore Properties"
+GeneralPage.Library.Modified.Note=注: 库中的此报表项已被修改。要还原原始库项目，请单击{0}“还原属性”
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4387,4 +4397,4 @@ ExportElementToLibraryAction.waringMsg=元素没有名称，但不能为其设置名称。
 ###########################################################
 #UIUtil
 UIUtil.previewconfirm.title=报表中存在错误
-UIUtil.previewconfirm.message=The report contains errors, would you like to continue for previewing?
+UIUtil.previewconfirm.message=报表包含错误，是否继续预览?

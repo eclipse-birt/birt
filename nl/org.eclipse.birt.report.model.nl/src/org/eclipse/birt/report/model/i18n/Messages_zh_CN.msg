@@ -637,8 +637,8 @@ Choices.scalarParamType.multi-value=多个值
 Choices.scalarParamType.ad-hoc=特定
 
 #77. bidiLayoutOrientation   
-Choices.bidiDirection.rtl=从右到左 
-Choices.bidiDirection.ltr=从左到右 
+Choices.bidiDirection.rtl=从右到左
+Choices.bidiDirection.ltr=从左到右
 
 ###########################################################
 # Classes
@@ -1187,7 +1187,7 @@ Class.Color.rgb.toolTip=获取 RGB 值形式的颜色
 Class.Color.value=value
 Class.Color.value.toolTip=获取名称（如果设置为名称）或 CSS RGB 字符串（如果设置为 RGB）形式的颜色
 Class.Color.cssValue=cssValue
-Class.Color.cssValue.toolTip=获取可在 CSS 中设置的形式的颜色：CSS 颜色名称或 RBG 值
+Class.Color.cssValue.toolTip=获取可在 CSS 中设置的形式的颜色：CSS 颜色名称或 RGB 值
 
 
 #12. Dimension
@@ -2408,12 +2408,12 @@ Element.ScalarParameter.sortByColumn=按列排序
 Element.ParameterGroup.startExpanded=开始展开
 Element.ParameterGroup.helpText=帮助文本
 Element.ParameterGroup.helpTextID=帮助文本关键字
+Element.ParameterGroup.promptText=提示文本
+Element.ParameterGroup.promptTextID=提示文本关键字
 Element.ParameterGroup.slot.parameters=参数
 
 # CascadingParameterGroup (prefix Element.CascadingParameterGroup)
 Element.CascadingParameterGroup.dataSet=数据集
-Element.CascadingParameterGroup.promptText=提示文本
-Element.CascadingParameterGroup.promptTextID=提示文本关键字
 Element.CascadingParameterGroup.dataSetMode=单个或多个数据集
 Element.CascadingParameterGroup.slot.parameters=参数
 
@@ -2767,6 +2767,13 @@ Element.Cell.onRender.toolTip=TBD
 Element.Cell.onRender.this=单元格实例
 Element.Cell.onRender.reportContext=报表上下文
 Element.Cell.viewAction=查看操作
+Element.Cell.diagonal=对角线
+Element.Cell.diagonalNumber=对角线编号
+Element.Cell.antidiagonalNumber=反对角线编号
+Element.Cell.diagonalThickness=对角线粗细
+Element.Cell.antidiagonalThickness=反对角线粗细
+Element.Cell.diagonalStyle=对角线样式
+Element.Cell.antidiagonalStyle=反对角线样式
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=替代文本
@@ -3491,6 +3498,7 @@ Error.SemanticError.INVALID_PAGE_MARGINS=主页 "{0}" 的边距值无效。
 Error.SemanticError.MISSING_MASTER_PAGE=报表至少必须具有一个主页。
 Error.SemanticError.INVALID_MULTI_COLUMN=主页“{0}”在页面内容外具有列跨度。
 Error.SemanticError.INVALID_ELEMENT_REF=元素 "{0}" 具有属性 "{1}"，该属性引用了未定义的元素 "{2}"。
+Error.SemanticError.INVALID_DATA_BINDING_REF=元素“{0}”具有属性 dataBindingRef，该属性引用的元素“{1}”是该元素的容器或内容。
 Error.SemanticError.MISSING_SQL_STMT=JDBC 选择数据集 "{0}" 必须具有 SQL 语句。
 Error.SemanticError.MISSING_DATA_SET={0} 必须能够访问一个数据集。
 Error.SemanticError.INVALID_IMAGE_SCALE_VALUE=图像 "{0}" 的缩放值必须为正。

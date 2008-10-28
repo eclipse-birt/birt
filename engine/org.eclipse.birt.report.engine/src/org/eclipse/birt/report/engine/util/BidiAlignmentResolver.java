@@ -12,8 +12,8 @@
 package org.eclipse.birt.report.engine.util;
 
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
+import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.w3c.dom.css.CSSValue;
 
@@ -70,8 +70,8 @@ public class BidiAlignmentResolver
 	public static boolean isRightAligned( IContent content, CSSValue align,
 			boolean lastLine )
 	{
-		return IStyle.RIGHT_VALUE.equals( align )
-				|| ( content != null && content.isDirectionRTL( ) && ( null == align || lastLine
-						&& IStyle.JUSTIFY_VALUE.equals( align ) ) );
+		return align != null
+				&& isRightAligned( content, align.getCssText( ), lastLine );
 	}
+
 }

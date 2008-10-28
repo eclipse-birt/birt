@@ -29,3 +29,4 @@ missing.join.condition=Die Knotenpunktbedingung zwischen Faktentabelle und Dimen
 exception.error=Ein Ausnahmefehler ist während der Verarbeitung aufgetreten. Nähere Informationen finden Sie in der folgenden Meldung:
 invalid.level.expression=Der Ebenenname "{0}" wurde nicht gefunden.
 invalid.measure.expression=Der Ausdruck für die Maßeinheit "{0}" darf nicht Null sein.
+invalid.data.type=Invalid data type: {0}. 

@@ -175,7 +175,7 @@ public class JDBCDataSourceUtil
 	/**
 	 * Used to insert Blob data
 	 * 
-	 * @return Object[], SQL statement and data object array
+	 * @return Object[], sql statement and data object array
 	 */
 	private Object[] getPreparedData( String testTableName, String[] dataType,
 			String dataStr )
@@ -447,7 +447,7 @@ public class JDBCDataSourceUtil
 	}
 
 	/**
-	 * Load JDBC drivers
+	 * Load jdbc drivers
 	 * 
 	 * @throws Exception
 	 */

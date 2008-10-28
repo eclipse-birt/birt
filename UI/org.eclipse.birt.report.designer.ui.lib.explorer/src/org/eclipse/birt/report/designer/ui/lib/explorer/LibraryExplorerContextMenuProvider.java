@@ -77,9 +77,6 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 	private final IAction newFolderAction;
 	private final IAction newLibraryAction;
 
-	/** The menu group for creating folder & library. */
-	IMenuManager newMenuGroup = new MenuManager( Messages.getString( "NewResource.MenuGroup.Text" ) ); //$NON-NLS-1$
-
 	private final LibraryExplorerTreeViewPage page;
 	private Clipboard clipboard;
 
@@ -110,8 +107,6 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 		newLibraryAction = new NewLibraryAction( page );
 		copyResourceAction = new CopyResourceAction( page, clipboard );
 		pasteResourceAction = new PasteResourceAction( page, clipboard );
-		newMenuGroup.add( newFolderAction );
-		newMenuGroup.add( newLibraryAction );
 		
 		handleGlobalAction();
 		page.addSelectionChangedListener( new ISelectionChangedListener( ) {
@@ -215,6 +210,10 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 		menu.add( new Separator( ) );
 
 		IStructuredSelection selection = (IStructuredSelection) page.getSelection( );
+		IMenuManager newMenuGroup = new MenuManager( Messages.getString( "NewResource.MenuGroup.Text" ) ); //$NON-NLS-1$
+
+		newMenuGroup.add( newFolderAction );
+		newMenuGroup.add( newLibraryAction );
 
 		if ( selection != null && selection.getFirstElement( ) != null )
 		{
