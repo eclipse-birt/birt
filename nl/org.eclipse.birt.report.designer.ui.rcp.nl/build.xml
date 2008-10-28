@@ -87,7 +87,7 @@
 		</jar>
 	</target>
 	
-	<target name="Jar" depends="NativeToAscii, nl-jar" >
+	<target name="Jar" depends="NativeToAscii, replaceBuildInfo, nl-jar" >
 	</target>
 	<target name="Export">
 		<copy todir="${export.dir}">
