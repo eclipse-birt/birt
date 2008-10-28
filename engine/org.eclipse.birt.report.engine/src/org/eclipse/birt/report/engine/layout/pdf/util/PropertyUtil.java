@@ -126,30 +126,89 @@ public class PropertyUtil
 		{
 			return null;
 		}
-		Pattern p = Pattern.compile( "rgb\\(.+,.+,.+\\)" );
-		Matcher m = p.matcher( color );
-		if ( m.find( ) )
+		if ( color.charAt( 0 ) == '#' )
+			return hexToColor( color );
+		else if ( color.equalsIgnoreCase( "Black" ) )
+			return Color.black;
+		else if ( color.equalsIgnoreCase( "Gray" ) )
+			return Color.gray;
+		else if ( color.equalsIgnoreCase( "White" ) )
+			return Color.white;
+		else if ( color.equalsIgnoreCase( "Red" ) )
+			return Color.red;
+		else if ( color.equalsIgnoreCase( "Green" ) )
+			return Color.green;
+		else if ( color.equalsIgnoreCase( "Yellow" ) )
+			return Color.yellow;
+		else if ( color.equalsIgnoreCase( "Blue" ) )
+			return Color.blue;
+		else if ( color.equalsIgnoreCase( "Teal" ) )
+			return hexToColor( "#008080" );
+		else if ( color.equalsIgnoreCase( "Aqua" ) )
+			return hexToColor( "#00FFFF" );
+		else if ( color.equalsIgnoreCase( "Silver" ) )
+			return hexToColor( "#C0C0C0" );
+		else if ( color.equalsIgnoreCase( "Navy" ) )
+			return hexToColor( "#000080" );
+		else if ( color.equalsIgnoreCase( "Lime" ) )
+			return hexToColor( "#00FF00" );
+		else if ( color.equalsIgnoreCase( "Olive" ) )
+			return hexToColor( "#808000" );
+		else if ( color.equalsIgnoreCase( "Purple" ) )
+			return hexToColor( "#800080" );
+		else if ( color.equalsIgnoreCase( "Fuchsia" ) )
+			return hexToColor( "#FF00FF" );
+		else if ( color.equalsIgnoreCase( "Maroon" ) )
+			return hexToColor( "#800000" );
+		else
 		{
-			String[] rgb = color.substring( m.start( ) + 4, m.end( ) - 1 )
-					.split( "," );
-			if ( rgb.length == 3 )
+			Pattern p = Pattern.compile( "rgb\\(.+,.+,.+\\)" );
+			Matcher m = p.matcher( color );
+			if ( m.find( ) )
 			{
-				try
+				String[] rgb = color.substring( m.start( ) + 4, m.end( ) - 1 )
+						.split( "," );
+				if ( rgb.length == 3 )
 				{
-					int red = Integer.parseInt( rgb[0].trim( ) );
-					int green = Integer.parseInt( rgb[1].trim( ) );
-					int blue = Integer.parseInt( rgb[2].trim( ) );
-					return new Color( red, green, blue );
-				}
-				catch ( IllegalArgumentException ex )
-				{
-					logger.log( Level.WARNING, "invalid color: {0}", color ); //$NON-NLS-1$
-					return null;
+					try
+					{
+						int red = Integer.parseInt( rgb[0].trim( ) );
+						int green = Integer.parseInt( rgb[1].trim( ) );
+						int blue = Integer.parseInt( rgb[2].trim( ) );
+						return new Color( red, green, blue );
+					}
+					catch ( IllegalArgumentException ex )
+					{
+						return null;
+					}
 				}
 			}
 		}
-		logger.log( Level.WARNING, "invalid color: {0}", color ); //$NON-NLS-1$
 		return null;
+	}
+    
+	static final Color hexToColor( String value )
+	{
+		String digits;
+		if ( value.startsWith( "#" ) )
+		{
+			digits = value.substring( 1, Math.min( value.length( ), 7 ) );
+		}
+		else
+		{
+			digits = value;
+		}
+		String hstr = "0x" + digits;
+		Color c;
+		try
+		{
+			c = Color.decode( hstr );
+		}
+		catch ( NumberFormatException nfe )
+		{
+			c = null;
+		}
+		return c;
 	}
     
     public static int getFontStyle(String fontStyle, String fontWeight )
