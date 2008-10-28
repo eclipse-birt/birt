@@ -424,7 +424,8 @@ public class TableAreaLayout
 			}
 			i = i + cell.getColSpan( ) - 1;
 		}
- 
+		
+		int dValue = height - originalRowHeight;
 		for ( int i = startCol; i <= endCol; i++ )
 		{
 			CellArea cell = row.getCell( i );
@@ -439,10 +440,13 @@ public class TableAreaLayout
 				// this dummyCell and it reference cell height have already been
 				// updated.
 				{
-					CellArea refCell = ( (DummyCell) cell ).getCell( );
-					refCell.setHeight( refCell.getHeight( ) + height
-							- originalRowHeight );
-					verticalAlign( refCell );
+					if ( dValue != 0 )
+					{
+						CellArea refCell = ( (DummyCell) cell ).getCell( );
+						refCell.setHeight( refCell.getHeight( ) + height
+								- originalRowHeight );
+						verticalAlign( refCell );
+					}
 				}
 				else
 				{
@@ -458,13 +462,16 @@ public class TableAreaLayout
 			}
 			else
 			{
-				cell.setHeight( height );
-				verticalAlign( cell );
+				if ( dValue != 0 )
+				{
+					cell.setHeight( height );
+					verticalAlign( cell );
+				}
 			}
 			i = i + cell.getColSpan( ) - 1;
 		}
 		row.getArea( ).setHeight( height );
-		return height - originalRowHeight;
+		return dValue;
 	}
 
 	public int resolveBottomBorder( )
