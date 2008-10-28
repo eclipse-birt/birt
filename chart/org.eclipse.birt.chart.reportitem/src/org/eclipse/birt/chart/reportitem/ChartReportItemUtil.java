@@ -33,7 +33,6 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
-import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.IBinding;
@@ -1085,7 +1084,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 			}
 			for ( GroupHandle gh : groupList )
 			{
-				if ( expression.equals( ExpressionUtil.createJSRowExpression( gh.getName( ) ) ) )
+				if ( expression.equals( gh.getKeyExpr( ) ) )
 				{
 					return true;
 				}
