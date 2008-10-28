@@ -248,8 +248,11 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	public void startText( ITextContent text )
 	{
-
-	}	
+		HyperlinkDef url = parseHyperLink( text );
+		BookmarkDef bookmark = getBookmark( text );
+		engine.addData( text.getText( ), text.getComputedStyle( ), url,
+				bookmark );
+	}
 
 	public void startData( IDataContent data )
 	{
