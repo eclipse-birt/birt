@@ -12,16 +12,27 @@
 package org.eclipse.birt.report.engine.emitter;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilterOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.RenderOption;
+import org.eclipse.birt.report.engine.content.IImageContent;
+import org.eclipse.birt.report.engine.util.FlashFile;
+import org.eclipse.birt.report.engine.util.SvgFile;
+import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+
+import com.lowagie.text.Image;
 
 public class EmitterUtil
 {
@@ -112,5 +123,90 @@ public class EmitterUtil
 				out.close( );
 			}
 		}
+	}
+
+	public static Image getImage( IImageContent content )
+	{
+		Image image = null;
+		try
+		{
+			String uri = content.getURI( );
+			String mimeType = content.getMIMEType( );
+			String extension = content.getExtension( );
+			if ( FlashFile.isFlash( mimeType, uri, extension ) )
+			{
+				return null;
+			}
+			switch ( content.getImageSource( ) )
+			{
+				case IImageContent.IMAGE_FILE :
+					ReportDesignHandle design = content.getReportContent( )
+							.getDesign( ).getReportDesign( );
+					URL url = design.findResource( uri, IResourceLocator.IMAGE );
+					InputStream in = url.openStream( );
+					try
+					{
+						byte[] buffer;
+						if ( SvgFile.isSvg( content.getURI( ) ) )
+						{
+							buffer = SvgFile.transSvgToArray( in );
+						}
+						else
+						{
+							ArrayList<Byte> bytes = new ArrayList<Byte>( );
+							int data = in.read( );
+							while ( data != -1 )
+							{
+								bytes.add( (byte) data );
+								data = in.read( );
+							}
+							buffer = new byte[bytes.size( )];
+							for ( int i = 0; i < buffer.length; i++ )
+							{
+								buffer[i] = bytes.get( i );
+							}
+						}
+						image = Image.getInstance( buffer );
+					}
+					catch ( Exception ex )
+					{
+						logger.log( Level.WARNING, ex.getMessage( ), ex );
+					}
+					finally
+					{
+						in.close( );
+					}
+					break;
+				case IImageContent.IMAGE_NAME :
+				case IImageContent.IMAGE_EXPRESSION :
+					byte[] data = content.getData( );
+					in = new ByteArrayInputStream( data );
+					if ( SvgFile.isSvg( mimeType, uri, extension ) )
+						data = SvgFile.transSvgToArray( in );
+					image = Image.getInstance( data );
+					break;
+
+				case IImageContent.IMAGE_URL :
+					if ( SvgFile.isSvg( uri ) )
+					{
+						image = Image.getInstance( SvgFile
+								.transSvgToArray( uri ) );
+					}
+					else
+					{
+						image = Image
+								.getInstance( new URL( content.getURI( ) ) );
+					}
+
+					break;
+				default :
+					assert ( false );
+			}
+		}
+		catch ( Exception e )
+		{
+			logger.log( Level.SEVERE, e.getLocalizedMessage( ) );
+		}
+		return image;
 	}
 }

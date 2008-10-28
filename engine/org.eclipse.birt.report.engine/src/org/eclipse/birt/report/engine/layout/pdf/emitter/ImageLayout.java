@@ -11,11 +11,8 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -31,6 +28,7 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.content.impl.ActionContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
+import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.layout.area.IImageArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.BlockContainerArea;
@@ -38,9 +36,6 @@ import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ImageArea;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.util.FlashFile;
-import org.eclipse.birt.report.engine.util.SvgFile;
-import org.eclipse.birt.report.model.api.IResourceLocator;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Image;
@@ -97,10 +92,12 @@ public class ImageLayout extends Layout
 	{
 		validate( );
 		// choose the layout manager
-		if ( isAccessible && isOutputSupported( objectType ) )
+		Image imageObject = EmitterUtil.getImage((IImageContent)content);
+		if ( isAccessible && isOutputSupported( objectType )
+				&& imageObject != null )
 		{
 			// the output format can display this kind of object and the object is accessible.
-			layout = new ConcreteImageLayout( context, parentLayout, content );
+			layout = new ConcreteImageLayout( context, parentLayout, content, imageObject );
 		}
 		else
 		{
@@ -163,10 +160,13 @@ class ConcreteImageLayout extends Layout
 	/** The DpiY */
 	private int resolutionY = 0;
 	
+	private Image imageObject = null;
+	
 	public ConcreteImageLayout( LayoutEngineContext context,
-			ContainerLayout parentContext, IContent content )
+			ContainerLayout parentContext, IContent content, Image imageObject )
 	{
 		super( context, parentContext, content );
+		this.imageObject = imageObject;
 	}
 
 	protected final static int DEFAULT_WIDHT = 212000;
@@ -191,80 +191,9 @@ class ConcreteImageLayout extends Layout
 	 * @throws MalformedURLException
 	 * @throws BadElementException
 	 */
-	protected Dimension getIntrinsicDimension( IImageContent content )
+	protected Dimension getIntrinsicDimension( IImageContent content, Image image )
 			throws BadElementException, MalformedURLException, IOException
 	{
-		Image image = null;
-		String uri = content.getURI( );
-		String mimeType = content.getMIMEType( );
-		String extension = content.getExtension( );
-		if (FlashFile.isFlash(mimeType, uri, extension))
-		{
-			return null;
-		}
-		switch ( content.getImageSource( ) )
-		{
-			case IImageContent.IMAGE_FILE :
-				ReportDesignHandle design = content.getReportContent( )
-						.getDesign( ).getReportDesign( );
-				URL url = design.findResource( uri, IResourceLocator.IMAGE );
-				InputStream in = url.openStream( );
-				try
-				{
-					byte[] buffer;
-					if ( SvgFile.isSvg( content.getURI( ) ) )
-					{
-						buffer = SvgFile.transSvgToArray( in );
-					}
-					else
-					{
-						ArrayList<Byte> bytes = new ArrayList<Byte>( );
-						int data = in.read( );
-						while ( data != -1 )
-						{
-							bytes.add( (byte) data );
-							data = in.read( );
-						}
-						buffer = new byte[bytes.size( )];
-						for ( int i = 0; i < buffer.length; i++ )
-						{
-							buffer[i] = bytes.get( i );
-						}
-					}
-					image = Image.getInstance( buffer );
-				}
-				catch ( Exception ex )
-				{
-					logger.log( Level.WARNING, ex.getMessage( ), ex );
-				}
-				finally
-				{
-					in.close( );
-				}
-				break;
-			case IImageContent.IMAGE_NAME :
-			case IImageContent.IMAGE_EXPRESSION :
-				byte[] data = content.getData( );
-				in = new ByteArrayInputStream( data );
-				if ( SvgFile.isSvg( mimeType, uri, extension ) )
-					data = SvgFile.transSvgToArray( in );
-				image = Image.getInstance( data );
-				break;
-
-			case IImageContent.IMAGE_URL :
-				if ( SvgFile.isSvg( uri ) )
-				{
-					image = Image.getInstance( SvgFile.transSvgToArray( uri ) );
-				}
-				else
-				{
-					image = Image.getInstance( new URL( content.getURI( ) ) );
-				}
-
-				break;
-			default :
-				assert ( false );
-		}
 		if ( image != null )
 		{
 			// The DPI resolution of the image.
@@ -312,7 +241,7 @@ class ConcreteImageLayout extends Layout
 		Dimension dim = new Dimension( DEFAULT_WIDHT, DEFAULT_HEIGHT );
 		try
 		{
-			intrinsic = getIntrinsicDimension( content );
+			intrinsic = getIntrinsicDimension( content, imageObject );
 		}
 		catch ( Exception e )
 		{
@@ -440,8 +369,6 @@ class ConcreteImageLayout extends Layout
 			}
 		}
 	}
-
-	
 
 	protected void init( )
 	{
