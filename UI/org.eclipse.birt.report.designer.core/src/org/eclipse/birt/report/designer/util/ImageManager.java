@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,6 +49,8 @@ public class ImageManager
 	private static final ImageManager instance = new ImageManager( );
 
 	private List invalidUrlList = new ArrayList( );
+
+	private String resourcesRootPath = "";
 
 	private ImageManager( )
 	{
@@ -85,37 +88,13 @@ public class ImageManager
 	 */
 	public Image getImage( ModuleHandle handle, String uri, boolean refresh )
 	{
-		Image image;
+		Image image = null;
 		URL url = null;
 
 		try
 		{
 			url = generateURL( handle, uri );
-			if ( url == null )
-			{
-				return null;
-			}
-			if ( !refresh && invalidUrlList.contains( url.toString( ) ) )
-			{
-				return null;
-			}
-			String key = url.toString( );
-			image = getImageRegistry( ).get( key );
-			if ( image == null )
-			{
-				image = loadImage( url );
-			}
-			if ( image == null )
-			{
-				if ( !invalidUrlList.contains( url.toString( ) ) )
-				{
-					invalidUrlList.add( url.toString( ) );
-				}
-			}
-			else
-			{
-				invalidUrlList.remove( url.toString( ) );
-			}
+			image = getImageFromURL( url, refresh );
 		}
 		catch ( Exception e )
 		{
@@ -123,7 +102,37 @@ public class ImageManager
 			{
 				invalidUrlList.add( url.toString( ) );
 			}
+		}
+		return image;
+	}
+
+	private Image getImageFromURL( URL url, boolean refresh )
+			throws IOException
+	{
+		if ( url == null )
+		{
 			return null;
+		}
+		if ( !refresh && invalidUrlList.contains( url.toString( ) ) )
+		{
+			return null;
+		}
+		String key = url.toString( );
+		Image image = getImageRegistry( ).get( key );
+		if ( image == null )
+		{
+			image = loadImage( url );
+		}
+		if ( image == null )
+		{
+			if ( !invalidUrlList.contains( url.toString( ) ) )
+			{
+				invalidUrlList.add( url.toString( ) );
+			}
+		}
+		else
+		{
+			invalidUrlList.remove( url.toString( ) );
 		}
 		return image;
 	}
@@ -356,12 +365,13 @@ public class ImageManager
 		catch ( MalformedURLException e )
 		{
 			String path = URIUtil.getLocalPath( uri );
-			
-			if (designHandle == null)
+
+			if ( designHandle == null )
 			{
-				designHandle = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+				designHandle = SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( );
 			}
-			
+
 			if ( path != null && designHandle != null )
 			{
 				// add by gao for lib
@@ -383,6 +393,60 @@ public class ImageManager
 	public String generateKey( ModuleHandle reportDesignHandle, String name )
 	{
 		return reportDesignHandle.hashCode( ) + EMBEDDED_SUFFIX + name;
+	}
+
+	/**
+	 * Get image from URI
+	 * 
+	 * @param moduleHandel
+	 * @param uri
+	 * @return
+	 */
+	// bugzilla 245641
+	public Image getURIImage( ModuleHandle moduleHandel, String uri )
+	{
+		URL url = null;
+		try
+		{
+			url = new URL( uri );
+		}
+		catch ( MalformedURLException e )
+		{
+			String path = URIUtil.getLocalPath( uri );
+			try
+			{
+				url = URI.create( uri ).toURL( );
+			}
+			catch ( Exception e1 )
+			{
+				path = URIUtil.resolveAbsolutePath( this.resourcesRootPath , uri );
+				try
+				{
+					url = new File( path ).toURI( ).toURL( );
+				}
+				catch ( Exception e2 )
+				{
+				}
+			}
+		}
+		Image image = null;
+		try
+		{
+			image = getImageFromURL( url, false );
+		}
+		catch ( Exception e )
+		{
+			if ( url != null && !invalidUrlList.contains( url.toString( ) ) )
+			{
+				invalidUrlList.add( url.toString( ) );
+			}
+		}
+		return image;
+	}
+
+	public void setURIRootPath( String rootPath )
+	{
+		this.resourcesRootPath = rootPath;
 	}
 
 }
