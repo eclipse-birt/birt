@@ -1000,8 +1000,8 @@ public class FormatSpecifierComposite extends Composite
 					"00.###", //$NON-NLS-1$
 					"##,###.00", //$NON-NLS-1$
 					"0.00'K'", //$NON-NLS-1$
-					"##0.00 ¤", //$NON-NLS-1$
-					"###0.000‰" //$NON-NLS-1$
+					"##0.00 \u00A4", //$NON-NLS-1$
+					"###0.000\u2030" //$NON-NLS-1$
 			} );
 			txtNumberPattern.setVisibleItemCount( txtNumberPattern.getItemCount( ) );
 			txtNumberPattern.addSelectionListener( new SelectionAdapter( ) {
