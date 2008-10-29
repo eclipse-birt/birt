@@ -274,6 +274,8 @@ public class ParameterDialog extends BaseDialog
 	private static final IChoiceSet CONTROL_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_PARAM_CONTROL );
 
+	private static final double DEFAULT_PREVIEW_NUMBER = 1234.56;
+
 	private ScalarParameterHandle inputParameter;
 
 	private boolean loading = true;
@@ -2790,7 +2792,8 @@ public class ParameterDialog extends BaseDialog
 			{
 				previewString = new StringFormatter( ParameterUtil.isCustomCategory( formatCategroy ) ? formatPattern
 						: formatCategroy,
-						ULocale.getDefault( ) ).format( Messages.getString( "ParameterDialog.Label.Sample" ) ); //$NON-NLS-1$
+						ULocale.getDefault( ) ).format( defaultValue == null ? Messages.getString( "FormatStringPage.default.preview.text" ) //$NON-NLS-1$
+						: defaultValue );
 			}
 			else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_INTEGER )
 					|| type.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL )
@@ -2798,13 +2801,14 @@ public class ParameterDialog extends BaseDialog
 			{
 				previewString = new NumberFormatter( ( ParameterUtil.isCustomCategory( formatCategroy ) || ( isNumberFormat( formatCategroy ) ) ) ? formatPattern
 						: formatCategroy,
-						ULocale.getDefault( ) ).format( 1234567890 );
+						 ULocale.getDefault( ) ).format( defaultValue == null ? DEFAULT_PREVIEW_NUMBER
+						: Double.parseDouble( defaultValue ) );
 			}
 			else
 			{
 				previewString = new NumberFormatter( ParameterUtil.isCustomCategory( formatCategroy ) ? formatPattern
 						: formatCategroy,
-						ULocale.getDefault( ) ).format( 123456789.01234 );
+						ULocale.getDefault( ) ).format( DEFAULT_PREVIEW_NUMBER );
 			}
 		}
 		// }
@@ -3097,8 +3101,8 @@ public class ParameterDialog extends BaseDialog
 	private void changeDefaultValue( String value )
 	{
 		defaultValue = value;
-		updateFormatField( );
 		updateMessageLine( );
+		updateFormatField( );
 	}
 
 	private void setExpression( Combo chooser, String key )
