@@ -47,9 +47,11 @@ import org.eclipse.birt.report.model.api.extension.IllegalContentInfo;
 import org.eclipse.birt.report.model.api.extension.UndefinedPropertyInfo;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.IColorConstants;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
@@ -63,6 +65,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionPropertyDefn;
@@ -531,6 +534,7 @@ public class PeerExtensionTest extends BaseTestCase
 	}
 
 	protected static final String TESTING_TABLE = "TestingTable"; //$NON-NLS-1$
+	protected static final String TESTING_TABLE1 = "TestingTable1"; //$NON-NLS-1$
 
 	protected static final String TABLE = "Table";//$NON-NLS-1$
 
@@ -1135,6 +1139,29 @@ public class PeerExtensionTest extends BaseTestCase
 		// save out and check golden file
 		save( );
 		assertTrue( compareFile( "PeerExtensionTest_golden_4.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests multiple level inheritance for the overridden property. Used
+	 * "TestingTable" and "TestingTable1" as examples.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testMultipleInheritance( ) throws Exception
+	{
+		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+
+		IElementDefn tmpDefn = dd.getExtension( TESTING_TABLE1 );
+		IPropertyDefn tmpPropDefn = tmpDefn
+				.getProperty( ReportItemHandle.WIDTH_PROP );
+
+		IChoiceSet tmpSet = tmpPropDefn.getAllowedUnits( );
+		IChoice[] tmpChoices = tmpSet.getChoices( );
+		assertEquals( 2, tmpChoices.length );
+
+		tmpPropDefn = tmpDefn.getProperty( StyleHandle.COLOR_PROP );
+		assertTrue( ( (ElementPropertyDefn) tmpPropDefn ).enableContextSearch( ) );
 	}
 
 	private static class MyListener implements Listener

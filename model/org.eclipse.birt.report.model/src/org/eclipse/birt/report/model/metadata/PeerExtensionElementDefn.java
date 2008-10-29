@@ -184,6 +184,30 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 
 	private void overrideProperty( )
 	{
+		// inherit override property definition from parent.
+
+		ElementDefn tmpDefn = parent;
+		while ( tmpDefn != null && tmpDefn instanceof PeerExtensionElementDefn )
+		{
+			PeerExtensionElementDefn tmpPeerDefn = (PeerExtensionElementDefn) tmpDefn;
+			if ( tmpPeerDefn.overridePropertyInfoMap == null
+					|| tmpPeerDefn.overridePropertyInfoMap.isEmpty( ) )
+			{
+				tmpDefn = tmpDefn.parent;
+				continue;
+			}
+
+			Iterator iterator = tmpPeerDefn.overridePropertyInfoMap.keySet( )
+					.iterator( );
+			while ( iterator.hasNext( ) )
+			{
+				String propName = (String) iterator.next( );
+				cachedProperties.put( propName, tmpDefn.cachedProperties
+						.get( propName ) );
+			}
+			tmpDefn = tmpDefn.parent;
+		}
+
 		// set override property value
 		Set set = overridePropertyInfoMap.keySet( );
 		Iterator iterator = set.iterator( );
@@ -433,7 +457,8 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.ElementDefn#buildTriggerDefnSet()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.ElementDefn#buildTriggerDefnSet()
 	 */
 
 	protected void buildTriggerDefnSet( )
