@@ -10,6 +10,8 @@ import java.util.Map;
 
 public class ConvertMapToPsf {
 
+	private static String birtMapTag="HEAD";
+	private static String dtpMapTag="HEAD";
 	private File mapRoot = new File("../org.eclipse.birt.releng/maps");
 	private BufferedWriter curOut = null;
 	private BufferedWriter allOut = null;
@@ -21,11 +23,20 @@ public class ConvertMapToPsf {
 	 */
 	public static void main(String[] args) {
 		
+		if (args.length < 2)
+		{
+			System.out.println("Missing arguments: <birt map tag> <dtp map tag>");
+			System.exit(1);
+		}
+			
+		birtMapTag = args[1];
+		dtpMapTag = args[2];
+		
 		System.out.println("Start");
 		// TODO Auto-generated method stub
 		Map<String,String> rLoc = new HashMap();
-		rLoc.put(":pserver:dev.eclipse.org:/cvsroot/birt", "HEAD");
-		rLoc.put(":pserver:dev.eclipse.org:/cvsroot/datatools", "HEAD");
+		rLoc.put(":pserver:dev.eclipse.org:/cvsroot/birt", birtMapTag);
+		rLoc.put(":pserver:dev.eclipse.org:/cvsroot/datatools", dtpMapTag);
 		
 		ConvertMapToPsf converter = new ConvertMapToPsf(rLoc);
 		try {
