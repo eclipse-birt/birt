@@ -171,12 +171,33 @@ public class Connection implements IConnection
 
 		try
 		{
-			jdbcConn = JDBCDriverManager.getInstance( )
-					.getConnection( driverClass,
-							url,
-							jndiNameUrl,
-							props,
-							getDriverClassPath( ) );
+			if ( ( jndiNameUrl == null || jndiNameUrl.trim( ).length( ) == 0 )
+					&& ConnectionPoolFactory.getInstance( ) != null )
+			{
+				jdbcConn = ConnectionPoolFactory.getInstance( )
+						.getConnection( driverClass,
+								url,
+								props,
+								getDriverClassPath( ),
+								this.appContext );
+			}
+		}
+		catch ( Exception e )
+		{
+			// ignore it
+		}
+		try
+		{
+
+			if ( jdbcConn == null )
+			{
+				jdbcConn = JDBCDriverManager.getInstance( )
+						.getConnection( driverClass,
+								url,
+								jndiNameUrl,
+								props,
+								getDriverClassPath( ) );
+			}
 		}
 		catch ( SQLException e )
 		{
