@@ -55,24 +55,24 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter
 					.getEmbeddedImage( getImageHandle( ).getModuleHandle( ),
 							getImageHandle( ).getImageName( ) );
 		}
-		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL.equalsIgnoreCase( imageSource )
-				|| DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equalsIgnoreCase( imageSource ) )
+		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equalsIgnoreCase( imageSource ) )
 		{
-			// if ( URIUtil.isValidResourcePath( getImageHandle( ).getURI( ) ) )
-			// {
-			// return ImageManager.getInstance( )
-			// .getImage( getHandle( ).getModuleHandle( ),
-			// URIUtil.getLocalPath( removeQuoteString( getImageHandle(
-			// ).getURI( ) ) ) );
-			// }
-			// else
-			// {
-			// return ImageManager.getInstance( )
-			// .getImage( getHandle( ).getModuleHandle( ),
-			// removeQuoteString( getImageHandle( ).getURI( ) ) );
-			// }
-			//
-			
+			if ( URIUtil.isValidResourcePath( getImageHandle( ).getURI( ) ) )
+			{
+				return ImageManager.getInstance( )
+						.getImage( getHandle( ).getModuleHandle( ),
+								URIUtil.getLocalPath( removeQuoteString( getImageHandle( ).getURI( ) ) ) );
+			}
+			else
+			{
+				return ImageManager.getInstance( )
+						.getImage( getHandle( ).getModuleHandle( ),
+								removeQuoteString( getImageHandle( ).getURI( ) ) );
+			}
+
+		}
+		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL.equalsIgnoreCase( imageSource ) )
+		{
 			// bugzilla 245641
 			return ImageManager.getInstance( )
 					.getURIImage( getHandle( ).getModuleHandle( ),
