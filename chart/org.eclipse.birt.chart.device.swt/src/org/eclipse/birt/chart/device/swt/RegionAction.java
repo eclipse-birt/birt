@@ -32,30 +32,37 @@ public final class RegionAction
 
 	private final StructureSource _oSource;
 
-	private final Region _sh;
-
-	private final Path _ph;
+	/**
+	 * the bounding box used to describe the RegionAction's working area
+	 */
+	private Rectangle _bb;
 
 	private final Action _ac;
 
-	private RegionAction( StructureSource source, Region rg, Path ph, Action ac )
+	private RegionAction( StructureSource source, Rectangle bb, Action ac )
 	{
 		this._oSource = source;
-		this._sh = rg;
 		this._ac = ac;
-		this._ph = ph;
+		this._bb = bb;
 	}
 
 	/**
 	 * RegionAction constructor taking a polygon to define the region
 	 * 
-	 * @param oSource StructureSource
-	 * @param loa Polygon points
-	 * @param ac Action
-	 * @param dTranslateX X Translation to apply on polygon coordinates
-	 * @param dTranslateY Y Translation to apply on polygon coordinates
-	 * @param dScale Scale to apply on polygon coordinates
-	 * @param clipping Clipping area, points outside it will be clipped
+	 * @param oSource
+	 *            StructureSource
+	 * @param loa
+	 *            Polygon points
+	 * @param ac
+	 *            Action
+	 * @param dTranslateX
+	 *            X Translation to apply on polygon coordinates
+	 * @param dTranslateY
+	 *            Y Translation to apply on polygon coordinates
+	 * @param dScale
+	 *            Scale to apply on polygon coordinates
+	 * @param clipping
+	 *            Clipping area, points outside it will be clipped
 	 */
 	RegionAction( StructureSource oSource, Location[] loa, Action ac,
 			double dTranslateX, double dTranslateY, double dScale,
@@ -67,29 +74,39 @@ public final class RegionAction
 				dTranslateX,
 				dTranslateY,
 				dScale );
-		_sh = new Region( );
-		_sh.add( i2a );
+		Region sh = new Region( );
+		sh.add( i2a );
 		if ( clipping != null )
 		{
-			_sh.intersect( clipping );
+			sh.intersect( clipping );
 		}
 		_ac = ac;
-		_ph = null;
+
+		_bb = sh.getBounds( );
+		sh.dispose( );
 	}
 
 	/**
 	 * This constructor supports shape definition via a rectangle.
 	 * 
-	 * @param oSource StructureSource
-	 * @param bo Rectangle
-	 * @param ac Action
-	 * @param dTranslateX X translation to apply to rectangle
-	 * @param dTranslateY Y translation to apply to rectangle
-	 * @param dScale scale to apply to rectangle
-	 * @param clipping Clipping area, points outside it will be clipped
+	 * @param oSource
+	 *            StructureSource
+	 * @param bo
+	 *            Rectangle
+	 * @param ac
+	 *            Action
+	 * @param dTranslateX
+	 *            X translation to apply to rectangle
+	 * @param dTranslateY
+	 *            Y translation to apply to rectangle
+	 * @param dScale
+	 *            scale to apply to rectangle
+	 * @param clipping
+	 *            Clipping area, points outside it will be clipped
 	 */
-	RegionAction( StructureSource oSource, Bounds bo, Action ac, double dTranslateX,
-			double dTranslateY, double dScale, Region clipping )
+	RegionAction( StructureSource oSource, Bounds bo, Action ac,
+			double dTranslateX, double dTranslateY, double dScale,
+			Region clipping )
 	{
 		_oSource = oSource;
 
@@ -102,16 +119,18 @@ public final class RegionAction
 				(int) bo.getWidth( ),
 				(int) bo.getHeight( ) );
 
-		_sh = new Region( );
-		_sh.add( rect );
+		Region sh = new Region( );
+		sh.add( rect );
 		if ( clipping != null )
 		{
-			_sh.intersect( clipping );
+			sh.intersect( clipping );
 		}
 		_ac = ac;
-		_ph = null;
+
+		_bb = sh.getBounds( );
+		sh.dispose( );
 	}
-	
+
 	/**
 	 * This constructor supports shape definition via an elliptical arc
 	 * 
@@ -157,73 +176,14 @@ public final class RegionAction
 			// TODO intersect with clipping
 		}
 
-		_ph = ph;
 		_ac = ac;
-		_sh = null;
-	}
-	/**
-	 *  This constructor supports polygon shapes without clipping 
-	 *  
-	 * @param oSource StructureSource
-	 * @param loa Polygon points
-	 * @param ac Action
-	 * @param dTranslateX X Translation to apply on polygon coordinates
-	 * @param dTranslateY Y Translation to apply on polygon coordinates
-	 * @param dScale Scale to apply on polygon coordinates
-	 * 
-	 * @deprecated
-	 * @see #RegionAction(StructureSource, Location[], Action, double, double, double, Region)
-	 */
-	RegionAction( StructureSource oSource, Location[] loa, Action ac,
-			double dTranslateX, double dTranslateY, double dScale )
-	{
-		this( oSource, loa, ac, dTranslateX, dTranslateY, dScale, null );
-	}
 
-	/**
-	 * This constructor supports shape definition via a rectangle without clipping
-	 * 
-	 * @param oSource StructureSource
-	 * @param bo Rectangle
-	 * @param ac Action
-	 * @param dTranslateX X translation to apply to rectangle
-	 * @param dTranslateY Y translation to apply to rectangle
-	 * @param dScale scale to apply to rectangle
-	 * 
-	 * @deprecated
-	 * @see #RegionAction(StructureSource, Bounds, Action, double, double, double, Region)
-	 */
-	RegionAction( StructureSource oSource, Bounds bo, Action ac, double dTranslateX,
-			double dTranslateY, double dScale )
-	{
-		this( oSource, bo, ac, dTranslateX, dTranslateY, dScale, null );
+		// use bounding box of Path
+		float[] b = new float[4];
+		ph.getBounds( b );
+		_bb = new Rectangle( (int) b[0], (int) b[1], (int) b[2], (int) b[3] );
+		ph.dispose( );
 	}
-/**
-	 * This constructor supports shape definition via an elliptical arc
-	 * 
-	 * @param oSource
-	 * @param boEllipse
-	 * @param dStart
-	 * @param dExtent
-	 * @param iArcType
-	 * @param ac
-	 */
-	RegionAction( StructureSource oSource, Bounds boEllipse, double dStart,
-			double dExtent, boolean bSector, Action ac, double dTranslateX,
-			double dTranslateY, double dScale )
-	{
-		this( oSource,
-				boEllipse,
-				dStart,
-				dExtent,
-				bSector,
-				ac,
-				dTranslateX,
-				dTranslateY,
-				dScale,
-				null );
-	}
-
 
 	/**
 	 * @return The action associated with current ShapedAction.
@@ -242,51 +202,34 @@ public final class RegionAction
 	}
 
 	/**
-	 * Note the Region object is value copied,
-	 * others are just reference copy. <b>The invoker must call
-	 * <code>dispose()</code> explicitly when this is not used anymore</b>.
+	 * Note the Region object is value copied, others are just reference copy.
+	 * <b>The invoker must call <code>dispose()</code> explicitly when this is
+	 * not used anymore</b>.
 	 * 
 	 * @return A copy of current RegionAction
 	 */
 	public RegionAction copy( )
 	{
-		Region nrg = null;
-		Path nph = null;
+		Rectangle nbb = null;
 
-		if ( _sh != null )
+		if ( _bb != null )
 		{
-			nrg = new Region( );
-		nrg.add( _sh );
+			nbb = new Rectangle( _bb.x, _bb.y, _bb.width, _bb.height );
 		}
 
-		if ( _ph != null )
-		{
-			nph = new Path( Display.getDefault( ) );
-			nph.addPath( _ph );
+		return new RegionAction( _oSource, nbb, _ac );
 	}
 
-		return new RegionAction( _oSource, nrg, nph, _ac );
-}
 	/**
 	 * Returns if the current region contains given point.
 	 * 
 	 * @param p
 	 * @param gc
-	 * @return
+	 * @return if the current region contains given point
 	 */
 	public boolean contains( Point p, GC gc )
 	{
-		if ( _sh != null && !_sh.isDisposed( ) )
-		{
-			return _sh.contains( p );
-		}
-
-		if ( _ph != null && !_ph.isDisposed( ) )
-		{
-			return _ph.contains( p.x, p.y, gc, false );
-		}
-
-		return false;
+		return contains( p.x, p.y, gc );
 	}
 
 	/**
@@ -295,18 +238,15 @@ public final class RegionAction
 	 * @param x
 	 * @param y
 	 * @param gc
-	 * @return
+	 * @return if the current region contains given x,y
 	 */
 	public boolean contains( double x, double y, GC gc )
 	{
-		if ( _sh != null && !_sh.isDisposed( ) )
+		if ( _bb != null )
 		{
-			return _sh.contains( (int) x, (int) y );
-		}
-
-		if ( _ph != null && !_ph.isDisposed( ) )
-		{
-			return _ph.contains( (float) x, (float) y, gc, false );
+			// we are operating on pixels (swt), there should be
+			// no problems down-casting to int
+			return _bb.contains( (int) x, (int) y );
 		}
 
 		return false;
@@ -317,32 +257,19 @@ public final class RegionAction
 	 */
 	public void dispose( )
 	{
-		if ( _sh != null && !_sh.isDisposed( ) )
-		{
-			_sh.dispose( );
-		}
-
-		if ( _ph != null && !_ph.isDisposed( ) )
-		{
-			_ph.dispose( );
-		}
+		// empty
 	}
 
 	/**
 	 * Returns if current region is empty.
 	 * 
-	 * @return
+	 * @return if current region is empty
 	 */
 	public boolean isEmpty( )
 	{
-		if ( _sh != null )
+		if ( _bb != null )
 		{
-			return _sh.isDisposed( ) || _sh.isEmpty( );
-		}
-
-		if ( _ph != null )
-		{
-			return _ph.isDisposed( );
+			return _bb.isEmpty( );
 		}
 
 		return true;
