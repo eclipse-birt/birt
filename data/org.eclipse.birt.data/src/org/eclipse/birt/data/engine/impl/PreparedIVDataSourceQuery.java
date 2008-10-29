@@ -100,9 +100,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 	 * @throws DataException
 	 */
 	private void cleanUpOldRD( ) throws DataException
-	{
-		if(true)
-			return;
+	{if(true)return;
 		String basedID = this.queryDefn.getQueryResultsID( );
 		String _1partID = QueryResultIDUtil.get1PartID( basedID );
 		if ( _1partID != null )
