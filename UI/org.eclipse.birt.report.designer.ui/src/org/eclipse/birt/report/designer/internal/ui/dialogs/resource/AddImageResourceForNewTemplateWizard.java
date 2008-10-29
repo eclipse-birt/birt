@@ -53,9 +53,13 @@ public class AddImageResourceForNewTemplateWizard extends
 		String resourceFolder = getResourceFolder( );
 		if ( resourceFolder == null || resourceFolder.length( ) == 0 )
 		{
+			 IProject project = ResourcesPlugin.getWorkspace( )
+				.getRoot( )
+				.getProject( containerFullPath.segment( 0 ) );
+				
 			IResource resource = ResourcesPlugin.getWorkspace( )
 					.getRoot( )
-					.findMember( containerFullPath );
+					.findMember( project.getFullPath( ) );
 
 			sharedResource = new PathResourceEntry( fileNamePattern,
 					resource.getLocation( ).toOSString( ) );
