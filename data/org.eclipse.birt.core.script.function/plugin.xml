@@ -271,7 +271,7 @@
    		<Argument name="n">
    			<DataType value="%dataType.Number"></DataType>
    		</Argument>
-   		<Argument name="divisor" isOptional="true">
+   		<Argument name="dec" isOptional="true">
    			<DataType value="%dataType.Number"></DataType>
    		</Argument></Function>
    	<Function
@@ -322,7 +322,14 @@
           name="month">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="date">
-   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+     <Argument
+           isOptional="true"
+           name="option">
+        <DataType
+              value="Integer">
+        </DataType>
+     </Argument></Function>
    	<Function
           desc="Week number of the year (1 to 52) of date/time value d."
           name="week">
@@ -340,7 +347,14 @@
           name="weekDay">
    		<DataType value="%dataType.String"></DataType>
    		<Argument name="date">
-   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+     <Argument
+           isOptional="true"
+           name="option">
+        <DataType
+              value="Integer">
+        </DataType>
+     </Argument></Function>
    	<Function
           desc="Returns a timestamp value which is midnight of the current date."
           name="today">
