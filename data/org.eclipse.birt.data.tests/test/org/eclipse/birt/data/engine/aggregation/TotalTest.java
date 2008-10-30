@@ -163,7 +163,7 @@ public class TotalTest extends TestCase
 		}
 		if ( result.length( ) > 0 )
 		{
-			result = result.substring( 0, result.length( ) - 1 );
+			result = result.substring( 0, result.length( ) - separator.length( ) );
 		}
 		ac.finish( );
 		assertEquals( result, ac.getValue( ) );
@@ -196,7 +196,7 @@ public class TotalTest extends TestCase
 		}
 		if ( result.length( ) > 0 )
 		{
-			result = result.substring( 0, result.length( ) - 1 );
+			result = result.substring( 0, result.length( ) - separator.length( ) );
 		}
 		ac.finish( );
 		assertEquals( result, ac.getValue( ) );
@@ -219,7 +219,7 @@ public class TotalTest extends TestCase
 		}
 		if ( result.length( ) > 0 )
 		{
-			result = result.substring( 0, result.length( ) - 1 );
+			result = result.substring( 0, result.length( ) - separator.length( ) );
 		}
 		ac.finish( );
 		assertEquals( result, ac.getValue( ) );
@@ -243,7 +243,7 @@ public class TotalTest extends TestCase
 		}
 		if ( result.length( ) > 0 )
 		{
-			result = result.substring( 0, result.length( ) - 1 );
+			result = result.substring( 0, result.length( ) - separator.length( ) );
 		}
 		ac.finish( );
 		assertEquals( result, ac.getValue( ) );
@@ -267,7 +267,7 @@ public class TotalTest extends TestCase
 		}
 		if ( result.length( ) > 0 )
 		{
-			result = result.substring( 0, result.length( ) - 1 );
+			result = result.substring( 0, result.length( ) - separator.length( ) );
 		}
 		ac.finish( );
 		assertEquals( result, ac.getValue( ) );
@@ -291,7 +291,7 @@ public class TotalTest extends TestCase
 		}
 		if ( result.length( ) > 0 )
 		{
-			result = result.substring( 0, result.length( ) - 1 );
+			result = result.substring( 0, result.length( ) - separator.length( ) );
 		}
 		ac.finish( );
 		assertEquals( result, ac.getValue( ) );
@@ -315,7 +315,7 @@ public class TotalTest extends TestCase
 		}
 		if ( result.length( ) > 0 )
 		{
-			result = result.substring( 0, result.length( ) - 1 );
+			result = result.substring( 0, result.length( ) - separator.length( ) );
 		}
 		ac.finish( );
 		assertEquals( result, ac.getValue( ) );
@@ -339,7 +339,7 @@ public class TotalTest extends TestCase
 		}
 		if ( result.length( ) > 0 )
 		{
-			result = result.substring( 0, result.length( ) - 1 );
+			result = result.substring( 0, result.length( ) - separator.length( ) );
 		}
 		ac.finish( );
 		assertEquals( result, ac.getValue( ) );
@@ -377,7 +377,7 @@ public class TotalTest extends TestCase
 		}
 		if ( result.length( ) > 0 )
 		{
-			result = result.substring( 0, result.length( ) - 1 );
+			result = result.substring( 0, result.length( ) - separator.length( ) );
 		}
 		ac.finish( );
 		assertEquals( result, ac.getValue( ) );

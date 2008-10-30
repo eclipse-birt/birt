@@ -216,7 +216,8 @@ public class TotalConcatenate extends AggrFunction
 			// delete the last separator character
 			if ( buffer.length( ) > 0 )
 			{
-				buffer.deleteCharAt( buffer.length( ) - 1 );
+				return buffer.toString( ).substring( 0,
+						buffer.length( ) - separator.length( ) );
 			}
 			return buffer.toString( );
 		}
