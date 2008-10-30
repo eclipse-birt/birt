@@ -17,8 +17,8 @@ import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.designer.ui.preview.Activator;
 import org.eclipse.birt.report.designer.ui.preview.IPreviewConstants;
+import org.eclipse.birt.report.designer.ui.util.UIHelper;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -42,13 +42,31 @@ import org.eclipse.ui.forms.editor.FormEditor;
 public class PreviewToolbarMenuAction implements
 		IWorkbenchWindowPulldownDelegate
 {
-
-	private Image previewIcon = Activator.getImageDescriptor( "icons/etool16/preview.gif" ) //$NON-NLS-1$
-			.createImage( );
-	private Image previewPDFIcon = Activator.getImageDescriptor( "icons/etool16/preview_pdf.gif" ) //$NON-NLS-1$
-			.createImage( );
-	private Image previewDOCIcon = Activator.getImageDescriptor( "icons/etool16/preview_doc.gif" ) //$NON-NLS-1$
-			.createImage( );
+	private static Map typeMap = new HashMap( );
+	public static final String TYPE_DOC = "doc"; //$NON-NLS-1$
+	public static final String TYPE_HTML = "html"; //$NON-NLS-1$
+	public static final String TYPE_PDF = "pdf"; //$NON-NLS-1$
+	public static final String TYPE_PPT = "ppt"; //$NON-NLS-1$
+	public static final String TYPE_PS = "postscript"; //$NON-NLS-1$
+	public static final String TYPE_XLS = "xls"; //$NON-NLS-1$
+	public static final String IMG_FILE_DEFAULT = "icons/etool16/preview.gif"; //$NON-NLS-1$
+	public static final String IMG_FILE_WEB = "icons/etool16/preview_web.gif"; //$NON-NLS-1$
+	public static final String IMG_FILE_DOC = "icons/etool16/preview_doc.gif"; //$NON-NLS-1$
+	public static final String IMG_FILE_HTML = "icons/etool16/preview_html.gif"; //$NON-NLS-1$
+	public static final String IMG_FILE_PDF = "icons/etool16/preview_pdf.gif"; //$NON-NLS-1$
+	public static final String IMG_FILE_PPT = "icons/etool16/preview_ppt.gif"; //$NON-NLS-1$
+	public static final String IMG_FILE_PS = "icons/etool16/preview_ps.gif"; //$NON-NLS-1$
+	public static final String IMG_FILE_XLS = "icons/etool16/preview_xls.gif"; //$NON-NLS-1$
+	
+	static
+	{
+		typeMap.put( TYPE_DOC, IMG_FILE_DOC );
+		typeMap.put( TYPE_HTML, IMG_FILE_HTML );
+		typeMap.put( TYPE_PDF, IMG_FILE_PDF );
+		typeMap.put( TYPE_PPT, IMG_FILE_PPT );
+		typeMap.put( TYPE_PS, IMG_FILE_PS );
+		typeMap.put( TYPE_XLS, IMG_FILE_XLS );
+	}
 
 	/**
 	 * The constructor.
@@ -70,41 +88,36 @@ public class PreviewToolbarMenuAction implements
 		ReportEngine engine = new ReportEngine( new EngineConfig( ) );
 		String[] supportedFormats = engine.getSupportedFormats( );
 		java.util.Arrays.sort( supportedFormats );
-
+		
 		Menu menu = new Menu( parent );
-
 		MenuItem previewWebViewer = new MenuItem( menu, SWT.PUSH );
-		previewWebViewer.setText( "&1 " + Messages.getString( "designer.preview.previewaction.label.webviewer" ) ); //$NON-NLS-1$
-		previewWebViewer.setImage( previewIcon );
+		previewWebViewer.setText( "&1 " + Messages.getString( "designer.preview.previewaction.label.webviewer" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		previewWebViewer.setImage( (Image) UIHelper.getImage( IMG_FILE_WEB ) );
 		previewWebViewer.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				preview( "html", true ); //$NON-NLS-1$
+				preview( TYPE_HTML, true );
 			}
 		} );
-
+		
 		for ( int i = 0; i < supportedFormats.length; i++ )
 		{
 			final String format = supportedFormats[i];
 			MenuItem previewOption = new MenuItem( menu, SWT.PUSH );
-			String indexPrefix = i > 7 ? " " : "&" + ( i + 2 );
+			String indexPrefix = i > 7 ? " " : "&" + ( i + 2 ); //$NON-NLS-1$ //$NON-NLS-2$ 
 			previewOption.setText( indexPrefix
-					+ " " + Messages.getFormattedString( "designer.preview.previewaction.label", //$NON-NLS-1$
+					+ " " + Messages.getFormattedString( "designer.preview.previewaction.label", //$NON-NLS-1$ //$NON-NLS-2$
 							new Object[]{
 								format.toUpperCase( )
 							} ) );
-			if ( format.equals( "pdf" ) ) //$NON-NLS-1$
+			if ( typeMap.containsKey( format ) )
 			{
-				previewOption.setImage( previewPDFIcon );
-			}
-			else if ( format.equals( "doc" ) ) //$NON-NLS-1$
-			{
-				previewOption.setImage( previewDOCIcon );
+				previewOption.setImage( (Image) UIHelper.getImage( (String) typeMap.get( format ) ) );
 			}
 			else
 			{
-				previewOption.setImage( previewIcon );
+				previewOption.setImage( (Image) UIHelper.getImage( IMG_FILE_DEFAULT ) );
 			}
 			previewOption.addSelectionListener( new SelectionAdapter( ) {
 
@@ -134,9 +147,6 @@ public class PreviewToolbarMenuAction implements
 	 */
 	public void dispose( )
 	{
-		previewIcon.dispose( );
-		previewPDFIcon.dispose( );
-		previewDOCIcon.dispose( );
 	}
 
 	public void run( IAction action )
@@ -145,7 +155,7 @@ public class PreviewToolbarMenuAction implements
 		{
 			System.out.println( "Preview action >> Run ..." ); //$NON-NLS-1$
 		}
-		preview( "html", true ); //$NON-NLS-1$
+		preview( TYPE_HTML, true ); 
 	}
 
 	/**
