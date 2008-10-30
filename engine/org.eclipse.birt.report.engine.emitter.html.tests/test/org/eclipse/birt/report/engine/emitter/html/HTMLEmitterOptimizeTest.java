@@ -45,7 +45,7 @@ public class HTMLEmitterOptimizeTest extends HTMLReportEmitterTestCase
 		List instanceIDs = new ArrayList( );
 		options.setInstanceIDs( instanceIDs );
 		options.setOutputStream( output );
-		options.setEnableMetadata( true );
+		//options.setEnableMetadata( true );
 		IRenderTask task = createRenderTask( designFile );
 		task.setRenderOption( options );
 		task.render( );
@@ -72,7 +72,7 @@ public class HTMLEmitterOptimizeTest extends HTMLReportEmitterTestCase
 		List instanceIDs = new ArrayList( );
 		options.setInstanceIDs( instanceIDs );
 		options.setOutputStream( output );
-		options.setEnableMetadata( true );
+		//options.setEnableMetadata( true );
 		IRenderTask task = createRenderTask( designFile );
 		task.setRenderOption( options );
 		task.render( );

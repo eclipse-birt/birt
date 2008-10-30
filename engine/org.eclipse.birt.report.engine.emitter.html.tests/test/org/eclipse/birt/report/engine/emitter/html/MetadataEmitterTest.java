@@ -29,7 +29,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 	static String noMetadata1 = "<div([^<>]* id=\"";
 	static String noMetadata2 = "\"[^<>]*)>[^<>]*</div>";
 	static String metadata1 = "<div([^<>]* id=\"";
-	static String metadata2 = "\"[^<>]*)>[^<>]*<div[^<>]*>[^<>]*</div>[^<>]*</div>";
+	static String metadata2 = "\"[^<>]*)>[^<>]*";
 
 	static String template1 = metadata1;
 	static String template2 = "\"[^<>]*)>";
@@ -37,8 +37,8 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 	static String table2 = "\"[^<>]*)>";
 	static String list1 = "<div([^<>]* id=\"";
 	static String list2 = "\"[^<>]*)>";
-	static String imageMetadata1 = "<div([^<>]* id=\"";
-	static String imageMetadata2 = "\"[^<>]*)>[^<>]*<div>[^<>]*<img[^<>]*>[^<>]*</img>[^<>]*</div>[^<>]*</div>";
+	static String imageMetadata1 = "<img([^<>]* id=\"";
+	static String imageMetadata2 = "\"[^<>]*)>[^<>]*";
 	static String imageNoMetadata1 = "<div>[^<>]*<img([^<>]* id=\"";
 	static String imageNoMetadata2 = "\"[^<>]*)>[^<>]*</div>";
 
@@ -179,7 +179,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 		String content = getRenderResult( designFile, true, options ).content;
 		content = content.replaceAll( "\n", "\"\n\"+\\\\n" );
 		String regex = "<table[^<>]*>[^<>]*<tr[^<>]*>[^<>]*<td[^<>]*>[^<>]*<img[^<>]* src=\"./images/iv/collapsexpand.gif\"[^<>]*>[^<>]*</img>"
-			+ "[^<>]*</td[^<>]*>[^<>]*<td[^<>]*>[^<>]*<div[^<>]*>[^<>]*<div[^<>]*>[^<>]*GroupHead";
+			+ "[^<>]*</td[^<>]*>[^<>]*<td[^<>]*>[^<>]*<div[^<>]*>[^<>]*GroupHead";
 		Matcher matcher = Pattern.compile( regex ).matcher( content );
 		assertEquals( true, matcher.find( ) );
 	}
@@ -214,7 +214,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 	private void assertHasGroupkey( String content, HTMLRenderOption options,
 			String identityString ) throws EngineException, IOException
 	{
-		String prefix = "<td[^<>]*>[^<>]*<img src=\"./images/iv/collapsexpand.gif\"[^<>]*>[^<>]*</img>[^<>]*</td>[^<>]*<td[^<>]*>[^<>]*<div[^<>]*>[^<>]*<div[^<>]*>";
+		String prefix = "<td[^<>]*>[^<>]*<img src=\"./images/iv/collapsexpand.gif\"[^<>]*>[^<>]*</img>[^<>]*</td>[^<>]*<td[^<>]*>[^<>]*<div[^<>]*>";
 		Pattern pattern = Pattern.compile( prefix + identityString );
 		if( !pattern.matcher( content ).find( ) )
 		{

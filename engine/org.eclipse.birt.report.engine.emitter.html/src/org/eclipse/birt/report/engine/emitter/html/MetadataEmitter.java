@@ -32,7 +32,6 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.emitter.html.util.HTMLEmitterUtil;
 import org.eclipse.birt.report.engine.internal.util.HTMLUtil;
-import org.eclipse.birt.report.engine.ir.BandDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
@@ -59,7 +58,6 @@ public class MetadataEmitter
 	/**
 	 * Strores tags so that tags can be ouput in pairs.
 	 */
-	private Stack tagStack = new Stack( );
 	private HTMLWriter writer;
 	private boolean displayFilterIcon;
 	private boolean displayGroupIcon;
@@ -256,19 +254,10 @@ public class MetadataEmitter
 	{
 		if ( needMetadata( text ) )
 		{
-			String styleName = getStyleClass( text );
-			startContent( text, tag, styleName );
+			startContent( text, tag );
 			return true;
 		}
 		return false;
-	}
-
-	public void endText( ITextContent text )
-	{
-		if ( needMetadata( text ) )
-		{
-			endContent( text );
-		}
 	}
 
 	/**
@@ -282,21 +271,12 @@ public class MetadataEmitter
 	{
 		if ( needMetadata( foreign ) )
 		{
-			String styleName = getStyleClass( foreign );;
-			startContent( foreign, tag, styleName );
+			startContent( foreign, tag );
 			return true;
 		}
 		return false;
 	}
 	
-	public void endForeign( IForeignContent foreign )
-	{
-		if ( needMetadata( foreign ) )
-		{
-			endContent( foreign );
-		}
-	}
-
 	/**
 	 * Outputs instance id and bookmark for charts.
 	 * 
@@ -307,8 +287,6 @@ public class MetadataEmitter
 	{
 		if ( image.getGenerateBy( ) instanceof ExtendedItemDesign )
 		{
-			startSelectHandle( HTMLEmitterUtil.getElementType( image ),
-					HTMLEmitterUtil.DISPLAY_BLOCK, "birt-chart-design" ); //$NON-NLS-1$
 			// If the image is a chart, add it to active id list, and output type ��iid to html
 			String bookmark = image.getBookmark( );				
 			if ( bookmark == null )
@@ -323,14 +301,6 @@ public class MetadataEmitter
 		return false;
 	}
 	
-	public void endImage( IImageContent image )
-	{
-		if ( image.getGenerateBy( ) instanceof ExtendedItemDesign )
-		{
-			endSelectHandle( HTMLEmitterUtil.getElementType( image ), HTMLEmitterUtil.DISPLAY_BLOCK);
-		}
-	}
-
 	/**
 	 * Outputs instance id.
 	 * 
@@ -351,16 +321,6 @@ public class MetadataEmitter
 		HTMLEmitterUtil.setActiveIDTypeIID( writer, ouputInstanceIDs, htmlIDNamespace, content );
 	}
 
-	private void startSelectHandle( int display, int blockType, String cssClass )
-	{
-		writer.openTag( HTMLEmitterUtil.getTagByType( display, blockType ) );
-		writer.attribute( HTMLTags.ATTR_CLASS, cssClass );
-	}
-
-	private void endSelectHandle( int display, int blockType )
-	{
-		writer.closeTag( HTMLEmitterUtil.getTagByType( display, blockType ) );
-	}
 
 	/**
 	 * Output instance id and bookmark for a content.
@@ -369,22 +329,14 @@ public class MetadataEmitter
 	 * @param tag
 	 * @param styleName
 	 */
-	private void startContent( IContent content, String tag, String styleName )
+	private void startContent( IContent content, String tag )
 	{
-		tagStack.push( tag );
-		writer.openTag( tag );
 		if ( content.getBookmark( ) == null )
 		{
 			content.setBookmark( idGenerator.generateUniqueID( ) );
 		}
-		writer.attribute( HTMLTags.ATTR_CLASS, styleName ); //$NON-NLS-1$
 		setActiveIDTypeIID( content );
 		HTMLEmitterUtil.setBookmark( writer, tag, htmlIDNamespace, content.getBookmark( ) );
-	}
-
-	private void endContent( IContent content )
-	{
-		writer.closeTag( (String) tagStack.pop( ) );
 	}
 
 	/**
@@ -591,21 +543,35 @@ public class MetadataEmitter
 	}
 	
 	//FIXME: code review: rename to getPredefineStyle or other names????
-	private String getStyleClass( IContent content )
+	public String getMetadataStyleClass( IContent content )
 	{
 		Object generateBy = content.getGenerateBy( );
 		String styleName = null;
-		if ( generateBy instanceof LabelItemDesign )
+		if ( content instanceof ITextContent )
 		{
-			styleName = "birt-label-design";
+			if ( generateBy instanceof LabelItemDesign )
+			{
+				styleName = "birt-label-design";
+			}
+			else if ( generateBy instanceof DataItemDesign )
+			{
+				styleName = "birt-data-design";
+			}
+			else
+			{
+				styleName = "birt-label-design";
+			}
 		}
-		else if ( generateBy instanceof DataItemDesign )
+		else if( content instanceof IImageContent)
 		{
-			styleName = "birt-data-design";
+			if ( generateBy instanceof ExtendedItemDesign )
+			{
+				styleName = "birt-chart-design";
+			}
 		}
-		else
+		//FIXME: should we still ouput "birt-label-design" for ForeignContent
+		else if ( content instanceof IForeignContent )
 		{
-			//TODO: chang to "birt-data-design".
 			styleName = "birt-label-design";
 		}
 		return styleName;

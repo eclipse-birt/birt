@@ -1906,15 +1906,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 
 		// action
-		String tagName;
+		String tagName = openTagByType( display, DISPLAY_FLAG_ALL );
+
 		boolean metadataOutput = false;
 		if ( enableMetadata )
 		{
-			metadataOutput = metadataEmitter.startText( text,
-					HTMLEmitterUtil.getTagByType( display, DISPLAY_FLAG_ALL ) );
+			metadataOutput = metadataEmitter.startText( text, tagName );
 		}
-		tagName = openTagByType( display, DISPLAY_FLAG_ALL );
-
+		
 		// output class attribute.
 		String styleClass = text.getStyleClass( );
 		setStyleName( styleClass, text);
@@ -1957,10 +1956,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		htmlEmitter.handleVerticalAlignEnd( text );
 		
 		writer.closeTag( tagName );
-		if ( enableMetadata )
-		{
-			metadataEmitter.endText( text );
-		}
 	}
 
 	/*
@@ -1995,15 +1990,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		display = getElementType( x, y, width, height, mergedStyle );
 
 		// action
-		String tagName;
+		String tagName = openTagByType( display, DISPLAY_FLAG_ALL );
+		
 		boolean metadataOutput = false;
 		if ( enableMetadata )
 		{
-			metadataOutput = metadataEmitter.startForeign( foreign,
-					HTMLEmitterUtil.getTagByType( display, DISPLAY_FLAG_ALL ) );
+			metadataOutput = metadataEmitter.startForeign( foreign, tagName );
 		}
-		tagName = openTagByType( display, DISPLAY_FLAG_ALL );
-
+		
 		// output class attribute.
 		String styleClass = foreign.getStyleClass( );
 		setStyleName( styleClass, foreign);
@@ -2041,10 +2035,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 
 		writer.closeTag( tagName );
-		if ( enableMetadata )
-		{
-			metadataEmitter.endForeign( foreign );
-		}
 		if( isTemplate )
 		{
 			writer.closeTag( HTMLTags.TAG_DIV );
@@ -2288,10 +2278,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		int display = checkElementType( image.getX( ), image.getY( ),
 				mergedStyle, styleBuffer );
 		boolean isSelectHandleTableChart = false;
-		if ( enableMetadata  )
-		{
-			isSelectHandleTableChart = metadataEmitter.startImage( image );
-		}		
 
 		// In HTML the default display value of image is inline. We use the tag
 		// <div> to implement the block of the image.
@@ -2315,6 +2301,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		if ( useSVG || useSWT )
 		{ // use svg
 			writer.openTag( HTMLTags.TAG_EMBED );
+			
+			if ( enableMetadata )
+			{
+				isSelectHandleTableChart = metadataEmitter.startImage( image );
+			}
+			
+			// output class attribute.
+			String styleClass = image.getStyleClass( );
+			setStyleName( styleClass, image );
 
 			// bookmark
 			String bookmark = image.getBookmark( );				
@@ -2360,10 +2355,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				writer.attribute( "wmode", "transparent" );
 			}
 			
-			// output class attribute.
-			String styleClass = image.getStyleClass( );
-			setStyleName( styleClass, image );
-
 			// build style
 			htmlEmitter.buildImageStyle( image, styleBuffer, display );
 			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
@@ -2392,7 +2383,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 
 			writer.openTag( HTMLTags.TAG_IMAGE ); //$NON-NLS-1$
-
+			
+			if ( enableMetadata  )
+			{
+				isSelectHandleTableChart = metadataEmitter.startImage( image );
+			}
+			
 			// output class attribute.
 			String styleClass = image.getStyleClass( );
 			setStyleName( styleClass ,image);
@@ -2509,12 +2505,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 
 		writer.closeTag( tag );
-		
-		// include	select handle chart
-		if ( enableMetadata )
-		{
-			metadataEmitter.endImage( image );
-		}
 	}
 	
 	/**
@@ -2572,10 +2562,23 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	{
 		StringBuffer classBuffer = new StringBuffer();
 
+		if ( enableMetadata )
+		{
+			String metadataStyleClass = metadataEmitter.getMetadataStyleClass( content );
+			if ( null != metadataStyleClass )
+			{
+				classBuffer.append( metadataStyleClass );
+			}
+		}
+		
 		if ( styleName != null )
 		{
 			if ( outputtedStyles.contains( styleName ) )
 			{
+				if ( classBuffer.length( ) != 0 )
+				{
+					classBuffer.append( " " );
+				}
 				if ( null != htmlIDNamespace )
 				{
 					classBuffer.append( htmlIDNamespace + styleName );
