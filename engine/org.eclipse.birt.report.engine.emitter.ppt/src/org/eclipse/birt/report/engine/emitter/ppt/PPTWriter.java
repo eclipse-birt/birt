@@ -293,7 +293,7 @@ public class PPTWriter
 	 *            the height of the content byte.
 	 */
 	public void drawText( String text, float textX, float textY, float width,
-			float height, FontInfo fontInfo, Color color, boolean rtl )
+			float height, FontInfo fontInfo, Color color, boolean rtl, String link )
 	{
 
 		BaseFont baseFont = fontInfo.getBaseFont( );
@@ -327,7 +327,19 @@ public class PPTWriter
 		{
 			print( "<b>" );
 		}
+		if ( link != null )
+		{
+			println( "<p:onmouseclick  hyperlinktype=3D\"url\" href=3D\""
+					+ link
+					+ "\"/><a href=3D\""
+					+ link
+					+ "/\" target=3D\"_parent\" onclick=3D\"window.event.cancelBubble=3Dtrue;\">" );
+		}
 		print( getEscapedStr( text ) );
+		if ( link != null )
+		{
+			print("</a>");
+		}
 		if ( isBold )
 		{
 			print( "</b>" );
@@ -360,12 +372,12 @@ public class PPTWriter
 	}
 
 	public void drawImage( String imageId, byte[] imageData, String extension, float imageX,
-			float imageY, float height, float width, String helpText )
+			float imageY, float height, float width, String helpText, String link )
 			throws Exception
 	{
 		ImageInfo imageInfo = getImageInfo( imageId, imageData, extension );
 		exportImageDefn( imageInfo.imageName, imageInfo.imageId, width, height,
-				imageX, imageY );
+				imageX, imageY, link );
 	}
 
 	private ImageInfo getImageInfo( String imageId, byte[] imageData,
@@ -419,9 +431,13 @@ public class PPTWriter
 	 * @param y
 	 */
 	private void exportImageDefn( String imageName, String imageTitle,
-			double width, double height, double x, double y )
+			double width, double height, double x, double y, String link )
 	{
 		println( "<v:shape id=3D'" + ( shapeCount ) + "' type=3D'#_x0000_t75'" ); //$NON-NLS-1$ //$NON-NLS-2$
+		if ( link != null )
+		{
+			print("href=3D\"" + link + "\" target=3D\"_parent\"");
+		}
 		println( " style=3D'position:absolute;left:" + x + "pt;top:" + y + "pt;width:" + width + "pt;height:" + height + "pt'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		println( " filled=3D'f' stroked=3D'f'>" ); //$NON-NLS-1$
 		println( "<v:imagedata src=3D\"" + imageName + "\" o:title=3D\"" + imageTitle + "\"/>" ); //$NON-NLS-1$
@@ -666,7 +682,7 @@ public class PPTWriter
 		{
 			Position position = (Position) iterator.next( );
 			exportImageDefn( imageInfo.imageName, imageInfo.imageId, imageWidth, imageHeight,
-					position.getX( ), position.getY( ) );
+					position.getX( ), position.getY( ), null );
 		}
 	}
 

@@ -25,6 +25,7 @@ public class PPTPage extends AbstractPage
 
 	private PPTWriter writer;
 	private boolean isDisposed;
+	private String link;
 
 	public PPTPage( int pageWidth, int pageHeight, Color backgroundColor,
 			PPTWriter writer )
@@ -75,7 +76,7 @@ public class PPTPage extends AbstractPage
 			float width, String helpText ) throws Exception
 	{
 		writer.drawImage( imageId, imageData, extension, imageX, imageY, height, width,
-				helpText );
+				helpText, link );
 	}
 
 	protected void drawImage( String uri, String extension, float imageX,
@@ -110,6 +111,11 @@ public class PPTPage extends AbstractPage
 		// automatically wrapped if the width of textbox equals to the width of
 		// text exactly.
 		writer.drawText( text, textX, textY, width + 1f, height, textStyle
-				.getFontInfo( ), textStyle.getColor( ), textStyle.isRtl( ) );
+				.getFontInfo( ), textStyle.getColor( ), textStyle.isRtl( ), link );
+	}
+
+	public void setLink(String link)
+	{
+		this.link = link;
 	}
 }
