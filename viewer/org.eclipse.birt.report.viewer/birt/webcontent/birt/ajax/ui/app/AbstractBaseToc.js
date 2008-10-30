@@ -152,7 +152,7 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 			var tocitem = document.createElement( "div" );			
 			tocitem.title = s_displayname;
 			tocitem.id =  'span_' + imgid;
-			tocitem.innerHTML = s_displayname;
+			tocitem.innerHTML = s_displayname ? s_displayname : "&nbsp;";
 						
 			var cssText = "cursor:pointer;border:0px;font-family:Verdana;font-size:9pt;background-color:#FFFFFF;overflow:visible;";			
 			var styles = tmp.getElementsByTagName( 'Style' );
