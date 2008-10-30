@@ -11,7 +11,13 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.io.BufferedOutputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.ArrayList;
@@ -25,21 +31,26 @@ import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
+import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -47,6 +58,7 @@ import org.eclipse.birt.data.engine.impl.document.IRDSave;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
+import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.script.JSDummyRowObject;
 import org.mozilla.javascript.Scriptable;
 
@@ -468,6 +480,9 @@ public class PreparedDummyQuery implements IPreparedQuery
 
 		private int openStatus = NOT_START;
 		
+		private OutputStream metaOutputStream = null;
+		private DataOutputStream rowOutputStream = null;
+		
 		/**
 		 * @throws BirtException
 		 */
@@ -493,11 +508,13 @@ public class PreparedDummyQuery implements IPreparedQuery
 					queryScope, parentScope, session.getEngineContext( ).getScriptContext( ));
 
 			queryScope.put( "row", queryScope, jsDummyRowObject );
+			
 			this.getRdSaveUtil( ).doSaveStart( );
 
 			exprValueMap = new HashMap( );
 			Map exprMap = getBindingMap( exprManager.getBindingExprs( ) );
 			Iterator it = exprMap.entrySet( ).iterator( );
+			
 			while ( it.hasNext( ) )
 			{
 				Map.Entry entry = (Entry) it.next( );
@@ -509,6 +526,67 @@ public class PreparedDummyQuery implements IPreparedQuery
 			}
 
 			this.getRdSaveUtil( ).doSaveExpr( exprValueMap );
+			
+			if( needCache() )
+			{
+				try 
+				{
+					createCacheOutputStream( );
+					saveMetaData( );
+					IOUtil.writeInt(this.rowOutputStream, 1 );
+					cacheRow( );
+				} 
+				catch (IOException e) 
+				{
+					throw new DataException( ResourceConstants.CREATE_CACHE_TEMPFILE_ERROR );
+				}
+			}
+		}
+		
+		/**
+		 * 
+		 * @throws IOException
+		 * @throws BirtException
+		 */
+		private void cacheRow( ) throws IOException, BirtException
+		{
+			Object[] columns = exprValueMap.keySet( ).toArray( );
+			IOUtil.writeInt( rowOutputStream, columns.length );
+			for ( int i = 0; i < columns.length; i++ )
+			{
+				IOUtil.writeObject( rowOutputStream, columns[i] );
+			}
+			IOUtil.writeInt( rowOutputStream, 0 );
+			IOUtil.writeInt( rowOutputStream, 0 );
+			IOUtil.writeInt( rowOutputStream, 0 );
+			Iterator iterator = exprValueMap.values( ).iterator( );
+			while ( iterator.hasNext( ) )
+			{
+				IOUtil.writeObject( rowOutputStream, iterator.next( ) );
+			}
+			closeCacheOutputStream( );
+		}
+		
+		/**
+		 * @throws DataException 
+		 * @throws IOException 
+		 * 
+		 */
+		private void closeCacheOutputStream( ) throws DataException
+		{
+			try
+			{
+				if(rowOutputStream!=null)
+				{
+					IOUtil.writeInt( rowOutputStream, -1 );
+					rowOutputStream.close( );
+					rowOutputStream = null;
+				}
+			}
+			catch (IOException e)
+			{
+				throw new DataException( ResourceConstants.CLOSE_CACHE_TEMPFILE_ERROR );
+			}
 		}
 
 		/**
@@ -517,6 +595,72 @@ public class PreparedDummyQuery implements IPreparedQuery
 		private Scriptable getJSDummyRowObject( )
 		{
 			return this.jsDummyRowObject;
+		}
+		
+		/*
+		 * 
+		 */
+		private void createCacheOutputStream( ) throws FileNotFoundException
+		{
+			File tmpDir = new File( session.getTempDir( ) );
+			if (!tmpDir.exists( ) || !tmpDir.isDirectory( ))
+			{
+				tmpDir.mkdirs( );
+			}
+			metaOutputStream = new BufferedOutputStream( new FileOutputStream( ResultSetCacheUtil.getMetaFile( session.getTempDir( ),
+					queryResults.getID( ) ) ),
+					1024 );
+			rowOutputStream = new DataOutputStream( new BufferedOutputStream( new FileOutputStream( ResultSetCacheUtil.getDataFile( session.getTempDir( ),
+					queryResults.getID( ) ) ),
+					1024 ) );
+			File file = ResultSetCacheUtil.getDataFile( session.getTempDir( ),
+					queryResults.getID( ) );
+			file.deleteOnExit( );
+			file = ResultSetCacheUtil.getMetaFile( session.getTempDir( ),
+					queryResults.getID( ) );
+			file.deleteOnExit( );
+		}
+		
+		/*
+		 * 
+		 */
+		private void saveMetaData( ) throws DataException, IOException
+		{
+			List<IBinding> metaMap = new ArrayList<IBinding>( );
+			populateDataSetRowMapping( metaMap, getResultClass( ) );
+			( (ResultClass) (getResultClass( )) ).doSave( metaOutputStream, metaMap );
+			if(metaOutputStream!=null)
+			{
+				metaOutputStream.close( );
+				metaOutputStream = null;
+			}
+		}
+		
+		/**
+		 * Populate the new rsClass object instance
+		 * 
+		 * @param metaMap
+		 * @throws DataException
+		 */
+		private void populateDataSetRowMapping( List<IBinding> metaMap, IResultClass rsClass )
+				throws DataException
+		{
+			for ( int i = 0; i < rsClass.getFieldCount( ); i++ )
+			{
+				IBinding binding = new Binding( rsClass.getFieldName( i + 1 ) );
+				binding.setExpression( new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( rsClass.getFieldName( i + 1 ) ) ) );
+				metaMap.add( binding );
+			}
+		}
+		
+		/*
+		 * 
+		 */
+		private boolean needCache( )
+		{
+			if( queryResults == null || queryResults.getPreparedQuery( ).getReportQueryDefn( ) == null )
+				return false;
+			return queryResults.getPreparedQuery( ).getReportQueryDefn( ).cacheQueryResults( );
 		}
 		
 		/*
@@ -541,6 +685,23 @@ public class PreparedDummyQuery implements IPreparedQuery
 		public IResultMetaData getResultMetaData( ) throws BirtException
 		{
 			return new ResultMetaData( new ResultClass( new ArrayList( ) ) );
+		}
+		
+		/*
+		 * 
+		 */
+		private IResultClass getResultClass( ) throws DataException
+		{
+			List columns = new ArrayList( );
+			Iterator bindings = queryResults.getPreparedQuery( ).getReportQueryDefn( ).getBindings( ).values( ).iterator( );
+			int position = 0;
+			while( bindings.hasNext( ) )
+			{
+				IBinding binding = (IBinding)(bindings.next( ));
+				columns.add( new ResultFieldMetadata( position, binding.getBindingName( ), binding.getDisplayName( ), binding.getClass( ), null, false ) );
+				position ++;
+			}
+			return new ResultClass( columns );
 		}
 
 		/*
