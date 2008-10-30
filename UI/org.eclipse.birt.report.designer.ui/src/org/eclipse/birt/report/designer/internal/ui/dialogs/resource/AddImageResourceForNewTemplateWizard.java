@@ -51,7 +51,7 @@ public class AddImageResourceForNewTemplateWizard extends
 				FragmentResourceEntry.TEMPLATE_ROOT );
 		ResourceEntry sharedResource = null;
 		String resourceFolder = getResourceFolder( );
-		if ( resourceFolder == null || resourceFolder.length( ) == 0 )
+		if ( (resourceFolder == null || resourceFolder.length( ) == 0 ) && containerFullPath != null)
 		{
 			 IProject project = ResourcesPlugin.getWorkspace( )
 				.getRoot( )
