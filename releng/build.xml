@@ -90,6 +90,20 @@
 	<!-- Clean all objects created by this script -->
 	<target name="Clean">
 	</target>
+	
+    <path id="customjar.classpath">
+    	<fileset dir=".">
+    		<include name="psf.jar"/>
+    	</fileset>
+    </path>
 
+    <target name="generate">
+    	<java classname="ConvertMapToPsf">
+    		<classpath refid="customjar.classpath" />
+    		<arg value="HEAD" />
+    		<arg value="HEAD" />
+     	</java>
+    </target>
+	
 </project>
 

@@ -29,8 +29,8 @@ public class ConvertMapToPsf {
 			System.exit(1);
 		}
 			
-		birtMapTag = args[1];
-		dtpMapTag = args[2];
+		birtMapTag = args[0];
+		dtpMapTag = args[1];
 		
 		System.out.println("Start");
 		// TODO Auto-generated method stub
