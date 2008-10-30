@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.internal.ui.script.JSSourceViewerConfigu
 import org.eclipse.birt.report.designer.internal.ui.script.JSSyntaxContext;
 import org.eclipse.birt.report.designer.internal.ui.script.PreferenceNames;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.editors.schematic.action.TextSaveAction;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
@@ -203,6 +204,7 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor
 
 		contentAssistAction.setActionDefinitionId( ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS );
 		setAction( "ContentAssistProposal", contentAssistAction );//$NON-NLS-1$
+		setAction( ITextEditorActionConstants.SAVE, new TextSaveAction( this ) );
 	}
 
 	/*

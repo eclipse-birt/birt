@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.xml;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.FileReportProvider;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
+import org.eclipse.birt.report.designer.ui.editors.schematic.action.TextSaveAction;
 import org.eclipse.jface.text.source.IAnnotationAccess;
 import org.eclipse.jface.text.source.IOverviewRuler;
 import org.eclipse.jface.text.source.ISourceViewer;
@@ -23,6 +24,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.MultiPageEditorSite;
 import org.eclipse.ui.texteditor.DefaultRangeIndicator;
+import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
 import org.eclipse.ui.texteditor.StatusTextEditor;
 
@@ -76,6 +78,13 @@ public class XMLEditor extends StatusTextEditor
 		
 		setRangeIndicator(new DefaultRangeIndicator());
 //		initializeEditor();
+	}
+
+	@Override
+	protected void createActions( )
+	{
+		super.createActions( );
+		setAction( ITextEditorActionConstants.SAVE, new TextSaveAction(  this ) );
 	}
 
 	public void dispose( )
