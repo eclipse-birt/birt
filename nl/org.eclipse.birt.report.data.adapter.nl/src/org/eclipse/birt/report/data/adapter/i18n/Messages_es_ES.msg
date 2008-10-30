@@ -29,4 +29,4 @@ missing.join.condition=Falta la condición de combinación entre la tabla de hecho
 exception.error=Se ha producido una excepción durante el procesamiento. Consulte el siguiente mensaje para obtener más información:
 invalid.level.expression=No se ha encontrado el nombre de nivel "{0}".
 invalid.measure.expression=La expresión de medida para la medida "{0}" no puede ser nula.
-invalid.data.type=Invalid data type: {0}. 
+invalid.data.type=Tipo de datos no válido: {0}. 

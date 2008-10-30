@@ -29,4 +29,4 @@ missing.join.condition=ファクトテーブルとディメンジョン "{0}" の間のジョイン条件
 exception.error=処理中に例外が発生しました。詳しくは次のメッセージを参照してください :
 invalid.level.expression=レベル名 "{0}" が見つかりません。
 invalid.measure.expression=メジャー "{0}" の式は null にできません。
-invalid.data.type=Invalid data type: {0}. 
+invalid.data.type=データ型が無効です : {0} 
