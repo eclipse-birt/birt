@@ -35,6 +35,7 @@ import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor;
 import org.eclipse.birt.report.designer.ui.editors.pages.ReportFormPage;
+import org.eclipse.birt.report.designer.ui.editors.schematic.action.TextSaveAction;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -67,6 +68,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.Page;
 import org.eclipse.ui.texteditor.AbstractMarkerAnnotationModel;
+import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import org.eclipse.ui.texteditor.MarkerUtilities;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
@@ -113,6 +115,14 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		try
 		{
 			reportXMLEditor = new StructuredTextEditor( ) {
+
+				@Override
+				protected void createActions( )
+				{
+					super.createActions( );
+					setAction( ITextEditorActionConstants.SAVE,
+							new TextSaveAction( this ) );
+				}
 
 				@Override
 				public void doSave( IProgressMonitor progressMonitor )
