@@ -1291,11 +1291,8 @@ public class ReportQueryBuilder
 					AggregationArgumentHandle argumentHandle = (AggregationArgumentHandle) arguments
 							.next( );
 					String argument = argumentHandle.getValue( );
-					if ( argument != null )
-					{
-						binding.addArgument( DataAdapterUtil.adaptArgumentName( argumentHandle.getName( ) ),
+					binding.addArgument( DataAdapterUtil.adaptArgumentName( argumentHandle.getName( ) ),
 								new ScriptExpression( argument ) );
-					}
 				}
 			}
 			binding.setDataType( dbType );
