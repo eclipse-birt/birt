@@ -335,18 +335,18 @@ public class AggregationHelper implements IAggrValueHolder
 										aggrInfo.getName( )
 								} );
 					}
-					if ( isEmptyScriptExpression( aggrInfo ) )
+					if ( isEmptyAggrArgument( aggrInfo ) )
 					{
 						aggrArgs[aggrIndex] = null;
 					}
 					else
 					{
-						evaluateArgsValue( aggrIndex, aggrInfo, i );
+						evaluateArgsValue( aggrIndex, aggrInfo, i, argDefs[i].isOptional( ) );
 					}
 				}
 
 				if ( aggrInfo.getArgument( ) == null
-						|| ( ( aggrInfo.getArgument( ).length != argDefs.length ) && !( aggrInfo.getArgument( ).length == ( argDefs.length - optionalAgrsNum ) ) ) )
+						|| !isValidArgumentNumber( aggrInfo.getArgument( ).length, argDefs.length, optionalAgrsNum ) )
 				{
 					DataException e = new DataException( ResourceConstants.INVALID_AGGR_PARAMETER,
 							aggrInfo.getName( ) );
@@ -391,6 +391,21 @@ public class AggregationHelper implements IAggrValueHolder
 		}
 		return true;
 	}
+	
+	/**
+	 * Checks whether the arguments number is valid
+	 * 
+	 * @param aggrArgNumb
+	 * @param argDefsLength
+	 * @param optionalNum
+	 * @return
+	 */
+	private boolean isValidArgumentNumber( int aggrArgNumb, int argDefsLength,
+			int optionalNum )
+	{
+		return ( aggrArgNumb >= argDefsLength - optionalNum )
+				&& ( aggrArgNumb <= argDefsLength );
+	}
 
 	/**
 	 * Check whether the input aggregation script expression is empty
@@ -398,11 +413,10 @@ public class AggregationHelper implements IAggrValueHolder
 	 * @param aggrInfo
 	 * @return
 	 */
-	private boolean isEmptyScriptExpression( IAggrInfo aggrInfo )
+	private boolean isEmptyAggrArgument( IAggrInfo aggrInfo )
 	{
 		return aggrInfo.getArgument( ).length == 0
-				|| aggrInfo.getArgument( )[0] == null
-				|| ( (IScriptExpression) aggrInfo.getArgument( )[0] ).getText( ) == null;
+				|| aggrInfo.getArgument( )[0] == null;
 	}
 
 	/**
@@ -434,7 +448,7 @@ public class AggregationHelper implements IAggrValueHolder
 	 * @param i
 	 * @throws DataException
 	 */
-	private void evaluateArgsValue( int aggrIndex, IAggrInfo aggrInfo, int i )
+	private void evaluateArgsValue( int aggrIndex, IAggrInfo aggrInfo, int i, boolean isOptional )
 			throws DataException
 	{
 		if( i >= aggrInfo.getArgument( ).length )
@@ -442,7 +456,17 @@ public class AggregationHelper implements IAggrValueHolder
 			return;
 		}
 		IBaseExpression argExpr = aggrInfo.getArgument( )[i];
-		checkExpression( aggrInfo, argExpr );
+		if ( !isOptional )
+		{
+			checkExpression( aggrInfo, argExpr );
+		}
+		else if ( argExpr == null
+				|| ( (IScriptExpression) argExpr ).getText( ) == null
+				|| ( (IScriptExpression) argExpr ).getText( ).trim( ).length( ) == 0 )
+		{
+			aggrArgs[aggrIndex][i] = null;
+			return;
+		}
 		try
 		{
 			aggrArgs[aggrIndex][i] = ExprEvaluateUtil.evaluateValue( argExpr,
@@ -477,16 +501,24 @@ public class AggregationHelper implements IAggrValueHolder
 	private void checkExpression( IAggrInfo aggrInfo, IBaseExpression argExpr )
 			throws DataException
 	{
-		if ( !isFunctionCount( aggrInfo ) )
+		if ( !isFunctionCount( aggrInfo ) && isEmptyScriptExpression( argExpr ) )
 		{
-			IScriptExpression expr = (IScriptExpression) argExpr;
-			if ( expr == null
-					|| expr.getText( ) == null
-					|| "".equals( expr.getText( ).trim( ) ) )//$NON-NLS-1$
-			{
-				throw new DataException( ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK );
-			}
+			throw new DataException( ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK );
 		}
+	}
+	
+	/**
+	 * Checks whether the ScriptExpression has empty expression text
+	 * 
+	 * @param argExpr
+	 * @return
+	 */
+	private boolean isEmptyScriptExpression( IBaseExpression argExpr )
+	{
+		IScriptExpression expr = (IScriptExpression) argExpr;
+		return expr == null
+				|| expr.getText( ) == null
+				|| expr.getText( ).trim( ).length( ) == 0;
 	}
 
 	/**
