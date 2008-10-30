@@ -1872,18 +1872,18 @@ HighlightsPreferencePage.toolTipText.Down=강조 아래로 이동
 #HyperlinkBuilder properties
 
 HyperlinkBuilder.Column.Parameters=매개 변수
-HyperlinkBuilder.DrillThrough.SelectTargetReport=Select a target report 
-HyperlinkBuilder.DrillThrough.SelectTargetAnchor=Select a target anchor 
-HyperlinkBuilder.DrillThrough.CreateLinkExpr=Create a link expression that matches the target bookmark
-HyperlinkBuilder.DrillThrough.ShowTargetReport=Show target report in 
-HyperlinkBuilder.DrillThrough.SelectFormat=Select a format for target report
-HyperlinkBuilder.DrillThrough.Tooltip=Tool Tip
-HyperlinkBuilder.Step.1=Step 1: 
-HyperlinkBuilder.Step.2=Step 2: 
-HyperlinkBuilder.Step.3=Step 3: 
-HyperlinkBuilder.Step.4=Step 4: 
-HyperlinkBuilder.Step.5=Step 5: 
-HyperlinkBuilder.Step.6=Step 6: 
+HyperlinkBuilder.DrillThrough.SelectTargetReport=대상 보고서 선택 
+HyperlinkBuilder.DrillThrough.SelectTargetAnchor=대상 앵커 선택 
+HyperlinkBuilder.DrillThrough.CreateLinkExpr=대상 책갈피에 맞는 링크 식 생성
+HyperlinkBuilder.DrillThrough.ShowTargetReport=대상 보고서 표시 
+HyperlinkBuilder.DrillThrough.SelectFormat=대상 보고서의 형식 선택
+HyperlinkBuilder.DrillThrough.Tooltip=도구 설명
+HyperlinkBuilder.Step.1=1단계: 
+HyperlinkBuilder.Step.2=2단계: 
+HyperlinkBuilder.Step.3=3단계: 
+HyperlinkBuilder.Step.4=4단계: 
+HyperlinkBuilder.Step.5=5단계: 
+HyperlinkBuilder.Step.6=6단계: 
 HyperlinkBuilder.ParameterRequired=필수
 HyperlinkBuilder.Column.DataType=데이터 형식
 HyperlinkBuilder.Column.Values=값
@@ -3625,7 +3625,7 @@ TextEditDialog.toolTipText.fx=식 빌더 열기
 TextEditDialog.action.item.formatDateTime=날짜/시간 형식 
 TextEditDialog.action.item.formatNumber=숫자 형식 
 TextEditDialog.action.item.formatString=문자열 형식 
-TextEditDialog.title.DlgNew=New Text Item
+TextEditDialog.title.DlgNew=새 텍스트 항목
 TextEditDialog.title.DlgEdit=텍스트 항목 편집
 
 ###########################################################

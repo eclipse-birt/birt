@@ -1872,18 +1872,18 @@ HighlightsPreferencePage.toolTipText.Down=Déplacer la mise en surbrillance vers 
 #HyperlinkBuilder properties
 
 HyperlinkBuilder.Column.Parameters=Paramètres
-HyperlinkBuilder.DrillThrough.SelectTargetReport=Select a target report 
-HyperlinkBuilder.DrillThrough.SelectTargetAnchor=Select a target anchor 
-HyperlinkBuilder.DrillThrough.CreateLinkExpr=Create a link expression that matches the target bookmark
-HyperlinkBuilder.DrillThrough.ShowTargetReport=Show target report in 
-HyperlinkBuilder.DrillThrough.SelectFormat=Select a format for target report
-HyperlinkBuilder.DrillThrough.Tooltip=Tool Tip
-HyperlinkBuilder.Step.1=Step 1: 
-HyperlinkBuilder.Step.2=Step 2: 
-HyperlinkBuilder.Step.3=Step 3: 
-HyperlinkBuilder.Step.4=Step 4: 
-HyperlinkBuilder.Step.5=Step 5: 
-HyperlinkBuilder.Step.6=Step 6: 
+HyperlinkBuilder.DrillThrough.SelectTargetReport=Sélectionner un état cible 
+HyperlinkBuilder.DrillThrough.SelectTargetAnchor=Sélectionner une ancre cible 
+HyperlinkBuilder.DrillThrough.CreateLinkExpr=Créer une expression de lien correspondant au signet cible
+HyperlinkBuilder.DrillThrough.ShowTargetReport=Afficher un état cible dans 
+HyperlinkBuilder.DrillThrough.SelectFormat=Sélectionner un format pour l'état cible
+HyperlinkBuilder.DrillThrough.Tooltip=Info-bulle
+HyperlinkBuilder.Step.1=Etape 1 : 
+HyperlinkBuilder.Step.2=Etape 2 : 
+HyperlinkBuilder.Step.3=Etape 3 : 
+HyperlinkBuilder.Step.4=Etape 4 : 
+HyperlinkBuilder.Step.5=Etape 5 : 
+HyperlinkBuilder.Step.6=Etape 6 : 
 HyperlinkBuilder.ParameterRequired=Obligatoire
 HyperlinkBuilder.Column.DataType=Type de données
 HyperlinkBuilder.Column.Values=Valeurs
@@ -3625,7 +3625,7 @@ TextEditDialog.toolTipText.fx=Ouvrir le générateur d'expression
 TextEditDialog.action.item.formatDateTime=Format de date/heure 
 TextEditDialog.action.item.formatNumber=Format de nombre 
 TextEditDialog.action.item.formatString=Chaîne 
-TextEditDialog.title.DlgNew=New Text Item
+TextEditDialog.title.DlgNew=Nouvel élément de texte
 TextEditDialog.title.DlgEdit=Modifier l'élément de texte
 
 ###########################################################
