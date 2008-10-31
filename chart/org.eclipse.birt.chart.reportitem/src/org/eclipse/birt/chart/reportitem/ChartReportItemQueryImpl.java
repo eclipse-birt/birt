@@ -113,7 +113,7 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 			IDataQueryDefinition parent ) throws BirtException
 	{
 		if ( handle.getDataSet( ) != null
-				|| parent instanceof IBaseQueryDefinition )
+				|| ( handle.getCube( ) == null && parent instanceof IBaseQueryDefinition ) )
 		{
 			// If chart is sharing query or in multiple view, it means chart
 			// shares
