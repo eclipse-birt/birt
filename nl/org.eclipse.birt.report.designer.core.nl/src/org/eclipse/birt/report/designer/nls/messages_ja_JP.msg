@@ -2851,7 +2851,7 @@ PreviewAction.Text=プレビュー
 ###########################################################
 #PreviewEditor properties
 
-PreviewEditor.parameter.tooltip=レポートパラメタを表示します。
+PreviewEditor.parameter.tooltip=レポートパラメタの表示
 PreviewEditor.parameter.note=注 :
 PreviewEditor.parameter.info=データ行の現在の制限 :
 PreviewEditor.parameter.change=プレビューの環境設定を変更するにはここをクリック
