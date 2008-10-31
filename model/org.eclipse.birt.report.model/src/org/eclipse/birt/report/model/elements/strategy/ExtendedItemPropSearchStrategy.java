@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.MultiViews;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.SystemPropertyDefn;
@@ -52,6 +53,9 @@ public class ExtendedItemPropSearchStrategy
 		tmpSet.add( IReportItemModel.TOC_PROP );
 		tmpSet.add( IReportItemModel.VISIBILITY_PROP );
 		tmpSet.add( IReportItemModel.BOOKMARK_PROP );
+		tmpSet.add( IStyleModel.PAGE_BREAK_BEFORE_PROP );
+		tmpSet.add( IStyleModel.PAGE_BREAK_AFTER_PROP );
+		tmpSet.add( IStyleModel.PAGE_BREAK_INSIDE_PROP );
 		hostViewRelatedProps = Collections.unmodifiableSet( tmpSet );
 	}
 

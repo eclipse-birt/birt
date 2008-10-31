@@ -19,6 +19,9 @@
         <table name="MyTable1">
             <property name="dataSet">firstDataSet</property>
             <property name="bookmark">"a"</property>
+            <property name="pageBreakBefore">always</property>
+            <property name="pageBreakAfter">always</property>
+            <property name="pageBreakInside">auto</property>
             <list-property name="visibility">
                 <structure>
                     <property name="format">ppt</property>
