@@ -188,9 +188,9 @@ FilterbyTree.Message=フィルタの条件
 
 ###########################################################
 #VirtualCellEditPart.java
-Blank.text.column=データフィールドを削除して、ここに列を定義
-Blank.text.row=データフィールドを削除して、\nここに行を定義
-Blank.text.measure=データフィールドを削除して、ここにサマリを作成
+Blank.text.column=列を定義するためにデータフィールドをここにドロップ
+Blank.text.row=行を定義するために\nデータフィールドをここにドロップ
+Blank.text.measure=サマリを定義するためにデータフィールドをここにドロップ
 
 ###########################################################
 #CrosstabGrandTotalDialog
