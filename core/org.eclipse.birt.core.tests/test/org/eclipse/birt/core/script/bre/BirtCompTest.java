@@ -303,6 +303,7 @@ public class BirtCompTest extends TestCase
 				true,
 				false,
 				true,
+				false,
 				false
 		};
 		
