@@ -35,8 +35,8 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Title=警告
 #Cube Builder Dialog properties
 CubeBuilder.Title=クロスタブキューブビルダ
 DatasetPage.Title=データセット
-GroupDialog.Button.DateGroup=データグループ
-GroupDialog.Button.RegularGroup=正規グループ
+GroupDialog.Button.DateGroup=日付グループ
+GroupDialog.Button.RegularGroup=通常グループ
 GroupsPage.Title=グループとサマリ
 LinkGroupsPage.Title=リンクグループ
 DatasetPage.Label.Name=名前(&N) :
