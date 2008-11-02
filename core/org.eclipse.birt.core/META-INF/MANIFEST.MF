@@ -9,6 +9,7 @@ Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.core.archive,
  org.eclipse.birt.core.archive.compound,
+ org.eclipse.birt.core.btree,
  org.eclipse.birt.core.config,
  org.eclipse.birt.core.data,
  org.eclipse.birt.core.exception,
