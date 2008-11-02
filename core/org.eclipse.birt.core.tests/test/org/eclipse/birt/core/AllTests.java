@@ -83,7 +83,13 @@ public class AllTests
 		
 		/* in package: org.eclipse.birt.core.util */
 		suite.addTestSuite( org.eclipse.birt.core.util.IOUtilTest.class );
-		
+
+		/* in package: org.eclipse.birt.core.btree*/
+		suite.addTestSuite( org.eclipse.birt.core.btree.BTreeTest.class );
+		suite.addTestSuite( org.eclipse.birt.core.btree.BTreeCursorTest.class );
+		suite.addTestSuite( org.eclipse.birt.core.btree.NodeInputStreamTest.class );
+		suite.addTestSuite( org.eclipse.birt.core.btree.NodeOutputStreamTest.class );
+
 		//$JUnit-END$
 		return suite;
 	}
