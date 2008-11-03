@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Stack;
 
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
@@ -33,7 +34,7 @@ public class StyleEngine
 	private int styleID = RESERVE_STYLE_ID;	
 	private Hashtable<StyleEntry,Integer> style2id = new Hashtable<StyleEntry,Integer>( );
 	private ExcelLayoutEngine engine;
-
+	private Stack<StyleEntry> containerStyles = new Stack<StyleEntry>( );
 	/**
 	 * 
 	 * @param dataMap
@@ -227,9 +228,13 @@ public class StyleEngine
 
 	private StyleEntry initStyle( IStyle style, ContainerSizeInfo rule )
 	{
-		StyleEntry entry = StyleBuilder.createStyleEntry( style );
-		
-		if(engine.getContainers( ).size( ) > 0)		
+		StyleEntry entry = StyleBuilder.createStyleEntry( style );;
+		if ( !containerStyles.isEmpty( ) )
+		{
+			StyleEntry centry = containerStyles.peek( );
+			StyleBuilder.mergeInheritableProp( centry, entry );
+		}
+		if ( engine.getContainers( ).size( ) > 0 )
 		{
 			XlsContainer container = engine.getCurrentContainer( );
 			StyleEntry cEntry = container.getStyle( );
@@ -238,5 +243,22 @@ public class StyleEngine
 		}
 
 		return entry;
+	}
+
+	public void addContainderStyle( IStyle computedStyle )
+	{
+		StyleEntry entry = StyleBuilder.createStyleEntry( computedStyle );
+		if ( !containerStyles.isEmpty( ) )
+		{
+			StyleEntry centry = containerStyles.peek( );
+			StyleBuilder.mergeInheritableProp( centry, entry );
+		}
+		containerStyles.add( entry );
+	}
+
+	public void removeForeignContainerStyle( )
+	{
+		if ( !containerStyles.isEmpty( ) )
+			containerStyles.pop( );
 	}
 }

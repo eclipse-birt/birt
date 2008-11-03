@@ -17,6 +17,7 @@ import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
+import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
@@ -693,5 +694,15 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			}
 		}
 		return Locale.getDefault( );
+	}
+
+	public void endContainer( IContainerContent container )
+	{
+		engine.removeContainerStyle();
+	}
+
+	public void startContainer( IContainerContent container )
+	{
+		engine.addContainerStyle( container.getComputedStyle( ) );
 	}
 }

@@ -647,4 +647,15 @@ public class ExcelLayoutEngine
 
 		return chr.toString( ) + row;
 	}
+
+
+	public void addContainerStyle( IStyle computedStyle )
+	{
+		engine.addContainderStyle(computedStyle);	
+	}
+
+	public void removeContainerStyle( )
+	{
+		engine.removeForeignContainerStyle( );
+	}
 }
