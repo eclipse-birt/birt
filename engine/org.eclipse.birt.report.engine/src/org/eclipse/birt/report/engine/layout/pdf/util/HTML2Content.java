@@ -32,6 +32,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.impl.ActionContent;
 import org.eclipse.birt.report.engine.content.impl.Column;
+import org.eclipse.birt.report.engine.content.impl.ObjectContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.content.impl.TextContent;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
@@ -312,7 +313,6 @@ public class HTML2Content
 
 	protected static void processForeignData( IForeignContent foreign )
 	{
-
 		if ( foreign.getChildren( ) != null
 				&& foreign.getChildren( ).size( ) > 0 )
 		{
@@ -732,8 +732,8 @@ public class HTML2Content
 		String src = ele.getAttribute( "src" ); //$NON-NLS-1$
 		if ( src != null )
 		{
-			IImageContent flash = content.getReportContent( )
-					.createImageContent( );
+			ObjectContent flash = (ObjectContent) ( (ReportContent) ( content
+					.getReportContent( ) ) ).createObjectContent( );	
 			flash.setExtension( ".swf" );
 			flash.setMIMEType( "application/x-shockwave-flash" );
 			addChild( content, flash );
@@ -778,9 +778,19 @@ public class HTML2Content
 				if ( null != foreign )
 					flash.setHeight( foreign.getHeight( ) );
 			}
-			if ( ele.getAttribute( "alt" ) != null && !"".equals( ele.getAttribute( "alt" ) ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			String flashVars = ele.getAttribute( "flashvars" );
+			if ( flashVars != null && !"".equals( flashVars ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			{
-				flash.setAltText( ele.getAttribute( "alt" ) ); //$NON-NLS-1$
+				flash.addParam( "flashvars", flashVars ); //$NON-NLS-1$
+			}
+			String alt = ele.getAttribute( "alt" );
+			if ( alt != null && !"".equals( alt ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			{
+				flash.setAltText( alt ); //$NON-NLS-1$
+			}
+			else if ( flashVars != null && !"".equals( flashVars ) )
+			{
+				flash.setAltText( ele.getAttribute( "The current format does NOT support flash variables!" ) );
 			}
 		}
 	}

@@ -11,8 +11,11 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -27,6 +30,7 @@ import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.content.impl.ActionContent;
+import org.eclipse.birt.report.engine.content.impl.ObjectContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.layout.area.IImageArea;
@@ -36,6 +40,9 @@ import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ImageArea;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.util.FlashFile;
+import org.eclipse.birt.report.engine.util.SvgFile;
+import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Image;
@@ -49,18 +56,13 @@ public class ImageLayout extends Layout
 	private ContainerLayout parentLayout = null;
 	
 	private int objectType = TYPE_IMAGE_OBJECT;
-	
-	/**
-	 * Is the image/flash object accessible
-	 */
-	private boolean isAccessible = true;
+	private boolean withFlashVars = false;
 
 	private static final HashMap<Integer, ArrayList<String>> unsupportedFormats = new HashMap<Integer, ArrayList<String>>( );
 	static
 	{
 		ArrayList<String> flashUnsupportedFormatList = new ArrayList<String>( );
 		flashUnsupportedFormatList.add( "postscript" );
-		flashUnsupportedFormatList.add( "xls" );
 		flashUnsupportedFormatList.add( "ppt" );
 		unsupportedFormats.put( TYPE_FLASH_OBJECT, flashUnsupportedFormatList );
 	};
@@ -90,10 +92,10 @@ public class ImageLayout extends Layout
 
 	protected void initialize( )
 	{
-		validate( );
+		checkObjectType( );
 		// choose the layout manager
 		Image imageObject = EmitterUtil.getImage((IImageContent)content);
-		if ( isAccessible && isOutputSupported( objectType )
+		if ( isOutputSupported( objectType )
 				&& imageObject != null )
 		{
 			// the output format can display this kind of object and the object is accessible.
@@ -115,7 +117,7 @@ public class ImageLayout extends Layout
 		}
 	}
 	
-	protected void validate( )
+	protected void checkObjectType( )
 	{
 		IImageContent image = (IImageContent) content;
 		String uri = image.getURI( );
@@ -124,14 +126,16 @@ public class ImageLayout extends Layout
 		if (FlashFile.isFlash(mimeType, uri, extension))
 		{
 			objectType = TYPE_FLASH_OBJECT;
+			ObjectContent flash = (ObjectContent)image;
+			if ( null != flash.getParamValueByName( "flashvars" ) )
+			{
+				withFlashVars = true;
+			}
 		}
 		else
 		{
 			objectType = TYPE_IMAGE_OBJECT;
 		}
-		
-		//TODO  check the source accessibility.
-		isAccessible = true;
 	}
 	
 	/**
@@ -140,8 +144,12 @@ public class ImageLayout extends Layout
 	 */
 	private boolean isOutputSupported( int type )
 	{
+		if ( withFlashVars )
+		{
+			return false;
+		}
 		ArrayList<String> formats = unsupportedFormats.get( type );
-		if ( formats != null && formats.contains( context.getFormat( ) ) )
+		if ( formats != null && formats.contains( context.getFormat( ).toLowerCase( ) ) )
 		{
 			return false;
 		}
@@ -150,7 +158,6 @@ public class ImageLayout extends Layout
 			return true;
 		}
 	}
-
 }
 
 class ConcreteImageLayout extends Layout
@@ -210,7 +217,6 @@ class ConcreteImageLayout extends Layout
 			}
 			else
 			{
-				
 //				if ( content.isAutoDPI() )
 // 				the image is set to auto dpi from designer.
 //				{
