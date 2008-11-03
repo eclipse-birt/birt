@@ -416,7 +416,9 @@ public class AggregationHelper implements IAggrValueHolder
 	private boolean isEmptyAggrArgument( IAggrInfo aggrInfo )
 	{
 		return aggrInfo.getArgument( ).length == 0
-				|| aggrInfo.getArgument( )[0] == null;
+				|| aggrInfo.getArgument( )[0] == null
+				|| ( (IScriptExpression)aggrInfo.getArgument( )[0]).getText( ) == null 
+				|| ( (IScriptExpression)aggrInfo.getArgument( )[0]).getText( ).trim().length( ) == 0;
 	}
 
 	/**
