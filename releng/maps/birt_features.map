@@ -32,7 +32,7 @@ feature@org.eclipse.birt.report.designer.editor.xml.wtp=r232_v20081010,:pserver:
 feature@org.eclipse.birt.report.designer.debug=r232_v20081010,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.designer.debug.feature
 
 feature@org.eclipse.birt.testhelper=r232_v20081010,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.testhelper.feature
-feature@org.eclipse.birt.tests=r232_v20081010,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.tests.feature
+feature@org.eclipse.birt.tests=r232_v20081103,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.tests.feature
 plugin@org.eclipse.birt.tests=v20080313,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.tests
 
 feature@org.eclipse.birt.integration.wtp=r232_v20081010,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.integration.wtp.feature
