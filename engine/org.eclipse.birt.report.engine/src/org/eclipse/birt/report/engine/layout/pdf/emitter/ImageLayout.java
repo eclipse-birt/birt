@@ -30,6 +30,7 @@ import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.content.impl.ActionContent;
+import org.eclipse.birt.report.engine.content.impl.ObjectContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.layout.area.IImageArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
@@ -54,11 +55,7 @@ public class ImageLayout extends Layout
 	private ContainerLayout parentLayout = null;
 	
 	private int objectType = TYPE_IMAGE_OBJECT;
-	
-	/**
-	 * Is the image/flash object accessible
-	 */
-	private boolean isAccessible = true;
+	private boolean withFlashVars = false;
 
 	private static final HashMap<Integer, ArrayList<String>> unsupportedFormats = new HashMap<Integer, ArrayList<String>>( );
 	static
@@ -94,9 +91,9 @@ public class ImageLayout extends Layout
 
 	protected void initialize( )
 	{
-		validate( );
+		checkObjectType( );
 		// choose the layout manager
-		if ( isAccessible && isOutputSupported( objectType ) )
+		if ( isOutputSupported( objectType ) )
 		{
 			// the output format can display this kind of object and the object is accessible.
 			layout = new ConcreteImageLayout( context, parentLayout, content );
@@ -117,7 +114,7 @@ public class ImageLayout extends Layout
 		}
 	}
 	
-	protected void validate( )
+	protected void checkObjectType( )
 	{
 		IImageContent image = (IImageContent) content;
 		String uri = image.getURI( );
@@ -126,14 +123,16 @@ public class ImageLayout extends Layout
 		if (FlashFile.isFlash(mimeType, uri, extension))
 		{
 			objectType = TYPE_FLASH_OBJECT;
+			ObjectContent flash = (ObjectContent)image;
+			if ( null != flash.getParamValueByName( "flashvars" ) )
+			{
+				withFlashVars = true;
+			}
 		}
 		else
 		{
 			objectType = TYPE_IMAGE_OBJECT;
 		}
-		
-		//TODO  check the source accessibility.
-		isAccessible = true;
 	}
 	
 	/**
@@ -142,6 +141,10 @@ public class ImageLayout extends Layout
 	 */
 	private boolean isOutputSupported( int type )
 	{
+		if ( withFlashVars )
+		{
+			return false;
+		}
 		ArrayList<String> formats = unsupportedFormats.get( type );
 		if ( formats != null && formats.contains( context.getFormat( ).toLowerCase( ) ) )
 		{
@@ -152,7 +155,6 @@ public class ImageLayout extends Layout
 			return true;
 		}
 	}
-
 }
 
 class ConcreteImageLayout extends Layout
@@ -280,7 +282,6 @@ class ConcreteImageLayout extends Layout
 			}
 			else
 			{
-				
 //				if ( content.isAutoDPI() )
 // 				the image is set to auto dpi from designer.
 //				{

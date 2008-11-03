@@ -262,6 +262,11 @@ public class ReportContent implements IReportContent
 	{
 		return new ImageContent( content );
 	}
+	
+	public IImageContent createObjectContent( )
+	{
+		return new ObjectContent( this );
+	}
 
 	public List getErrors( )
 	{
