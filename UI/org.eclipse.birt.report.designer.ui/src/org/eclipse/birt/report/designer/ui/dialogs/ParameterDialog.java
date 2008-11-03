@@ -831,14 +831,14 @@ public class ParameterDialog extends BaseDialog
 			promptTextEditor.setText( inputParameter.getPromptText( ) );
 		}
 		helpTextEditor.setText( UIUtil.convertToGUIString( inputParameter.getHelpText( ) ) );
-		
+
 		for ( Iterator iter = inputParameter.getPropertyHandle( ScalarParameterHandle.SELECTION_LIST_PROP )
 				.iterator( ); iter.hasNext( ); )
 		{
 			SelectionChoiceHandle choiceHandle = (SelectionChoiceHandle) iter.next( );
 			choiceList.add( choiceHandle.getStructure( ) );
 		}
-		
+
 		if ( inputParameter.getValueType( )
 				.equals( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC ) )
 		{
@@ -896,6 +896,12 @@ public class ParameterDialog extends BaseDialog
 	private void initValueArea( )
 	{
 		String controlType = getSelectedControlType( );
+		
+		if ( DesignChoiceConstants.PARAM_CONTROL_AUTO_SUGGEST.equals( controlType ) )
+		{
+			listLimit.setEnabled( false );
+		}
+
 		if ( isStatic( ) )
 		{
 			if ( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( controlType ) )
@@ -1498,9 +1504,13 @@ public class ParameterDialog extends BaseDialog
 				switchParamterType( );
 			}
 			hideStartPointSection( false );
+			listLimit.setEnabled( false );
 		}
 		else
+		{
 			hideStartPointSection( true );
+			listLimit.setEnabled( true );
+		}
 		if ( PARAM_CONTROL_LIST.equals( getSelectedControlType( ) )
 				&& allowMultiValueVisible )
 		{
@@ -1641,14 +1651,15 @@ public class ParameterDialog extends BaseDialog
 					}
 				}
 				ImportValueDialog dialog = new ImportValueDialog( type, choices );
-				if(distinct.isEnabled( ) && distinct.getSelection( ))
+				if ( distinct.isEnabled( ) && distinct.getSelection( ) )
 				{
 					dialog.setDistinct( false );
-				}else
+				}
+				else
 				{
 					dialog.setDistinct( true );
 				}
-				
+
 				dialog.setValidate( new ImportValueDialog.IAddChoiceValidator( ) {
 
 					public String validateString( String value )
@@ -1738,7 +1749,7 @@ public class ParameterDialog extends BaseDialog
 	private void switchToStatic( )
 	{
 		changeControlType( );
-		listLimit.setEditable( false );
+		listLimit.setEnabled( false );
 	}
 
 	private void switchToDynamic( )
@@ -1846,7 +1857,7 @@ public class ParameterDialog extends BaseDialog
 		createSortingArea( valueArea );
 		createLabel( valueArea, null );
 		createPromptLine( valueArea );
-		listLimit.setEditable( true );
+		listLimit.setEnabled( true );
 	}
 
 	private void refresSortByItems( )
@@ -2306,7 +2317,9 @@ public class ParameterDialog extends BaseDialog
 			}
 
 			// Save limits
-			if ( !isStatic( ) && !StringUtil.isBlank( listLimit.getText( ) ) )
+			if ( !isStatic( )
+					&& !StringUtil.isBlank( listLimit.getText( ) )
+					&& !DesignChoiceConstants.PARAM_CONTROL_AUTO_SUGGEST.equals( getSelectedControlType( ) ) )
 			{
 				try
 				{
@@ -2801,7 +2814,7 @@ public class ParameterDialog extends BaseDialog
 			{
 				previewString = new NumberFormatter( ( ParameterUtil.isCustomCategory( formatCategroy ) || ( isNumberFormat( formatCategroy ) ) ) ? formatPattern
 						: formatCategroy,
-						 ULocale.getDefault( ) ).format( defaultValue == null ? DEFAULT_PREVIEW_NUMBER
+						ULocale.getDefault( ) ).format( defaultValue == null ? DEFAULT_PREVIEW_NUMBER
 						: Double.parseDouble( defaultValue ) );
 			}
 			else
