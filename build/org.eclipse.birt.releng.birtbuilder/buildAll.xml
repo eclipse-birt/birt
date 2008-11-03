@@ -464,6 +464,12 @@
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
 			<property name="builder" value="${eclipse.build.configs}/birt.nl" />
 		</ant>
+		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
+			<property name="builder" value="${eclipse.build.configs}/birt.dtp.nl" />
+		</ant>
+		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
+			<property name="builder" value="${eclipse.build.configs}/birt.dtp.nl" />
+		</ant>
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="buildLanguagePack" />
 	</target>
 	

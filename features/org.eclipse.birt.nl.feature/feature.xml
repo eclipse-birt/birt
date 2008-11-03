@@ -352,126 +352,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.datatools.connectivity.nl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.datatools.connectivity.oda.consumer.nl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.datatools.connectivity.oda.design.nl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.datatools.connectivity.oda.design.ui.nl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.datatools.connectivity.oda.flatfile.nl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.datatools.connectivity.oda.flatfile.ui.nl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.datatools.connectivity.oda.nl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.datatools.connectivity.oda.profile.nl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.datatools.connectivity.ui.dse.nl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.datatools.connectivity.ui.nl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.datatools.connectivity.oda.template.ui.nl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.datatools.enablement.oda.xml.nl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.datatools.enablement.oda.xml.ui.nl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.datatools.enablement.oda.ws.nl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.datatools.enablement.oda.ws.ui.nl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.birt.report.engine.dataextraction.csv.nl"
          download-size="0"
          install-size="0"
@@ -486,7 +366,7 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.birt.report.designer.ui.editor.script.nl"
          download-size="0"
@@ -494,7 +374,7 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-   
+
    <plugin
          id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.nl"
          download-size="0"
@@ -502,7 +382,7 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-   
+
    <plugin
          id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.nl"
          download-size="0"
@@ -510,15 +390,15 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.nl"
          download-size="0"
          install-size="0"
          version="0.0.0"
          fragment="true"
-         unpack="false"/>      
-   
+         unpack="false"/>
+
    <plugin
          id="org.eclipse.birt.report.designer.ui.editors.nl"
          download-size="0"
@@ -526,70 +406,5 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-   
-   <plugin id="org.eclipse.datatools.connectivity.apache.derby.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.connectivity.apache.derby.dbdefinition.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.connectivity.apache.derby.ui.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.connectivity.db.generic.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.connectivity.db.generic.ui.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.connectivity.dbdefinition.genericJDBC.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.connectivity.sqm.core.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.connectivity.sqm.core.ui.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.connectivity.sqm.server.ui.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.connectivity.console.profile.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.sqltools.common.ui.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.sqltools.db.derby.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.sqltools.db.generic.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.sqltools.editor.core.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.sqltools.parsers.sql.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.sqltools.parsers.sql.query.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.sqltools.plan.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.sqltools.result.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.sqltools.sql.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.sqltools.sqlbuilder.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.sqltools.sqleditor.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.hsqldb.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.hsqldb.dbdefinition.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.hsqldb.ui.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.ibm.db2.iseries.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.ibm.db2.iseries.dbdefinition.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.ibm.db2.iseries.ui.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.ibm.db2.luw.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.ibm.db2.luw.dbdefinition.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.ibm.db2.luw.ui.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.ibm.db2.zseries.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.ibm.db2.zseries.dbdefinition.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.ibm.db2.zseries.ui.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.ibm.informix.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.ibm.informix.dbdefinition.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.ibm.informix.ui.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.ibm.ui.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.msft.sqlserver.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.msft.sqlserver.dbdefinition.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.msft.sqlserver.ui.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.mysql.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.mysql.dbdefinition.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.mysql.ui.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.oracle.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.oracle.dbdefinition.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.oracle.ui.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.postgresql.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.postgresql.ui.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.sap.maxdb.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.sap.maxdb.dbdefinition.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.sap.maxdb.ui.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.sybase.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.sybase.ui.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.sybase.asa.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.sybase.asa.models.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.sybase.ase.dbdefinition.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.enablement.sybase.ase.profile.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.modelbase.dbdefinition.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.modelbase.derby.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.modelbase.sql.edit.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.modelbase.sql.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.modelbase.sql.query.edit.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.modelbase.sql.query.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-   <plugin id="org.eclipse.datatools.modelbase.sql.xml.query.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
-         
+
 </feature>
