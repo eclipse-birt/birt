@@ -73,6 +73,12 @@
 	<!-- Steps to do after the fetch -->
 	<!-- ===================================================================== -->
 	<target name="postFetch">
+		<replace dir="${buildDirectory}/plugins" value="${buildId}" token="@Replace_By_Date@">
+			<include name="**/about.mappings" />
+		</replace>
+		<replace dir="${buildDirectory}/plugins" value="${BranchVersion}.${buildId}" token="@BUILD@">
+			<include name="**/plugin.properties" />
+		</replace>
 	</target>
 	
 	<!-- ===================================================================== -->
