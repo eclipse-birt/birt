@@ -216,6 +216,13 @@ public final class SwtTextMetrics extends TextAdapter
 		return getHeight( ) * getLineCount( ) + ins.getTop( ) + ins.getBottom( );
 	}
 
+	@Override
+	public final double getFullHeight( double fontHeight )
+	{
+
+		return fontHeight * getLineCount( ) + ins.getTop( ) + ins.getBottom( );
+	}
+
 	public final double getFullWidth( )
 	{
 		

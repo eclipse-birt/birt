@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
-import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.emf.common.notify.Notification;
@@ -323,9 +322,11 @@ public class LocationImpl extends EObjectImpl implements Location
 	 */
 	public static final Location create( double dX, double dY )
 	{
-		final Location lo = AttributeFactory.eINSTANCE.createLocation( );
-		lo.setX( dX );
-		lo.setY( dY );
+		LocationImpl lo = new LocationImpl( );
+		lo.x = dX;
+		lo.xESet = true;
+		lo.y = dY;
+		lo.yESet = true;
 		return lo;
 	}
 
@@ -373,14 +374,17 @@ public class LocationImpl extends EObjectImpl implements Location
 	}
 
 	/*
+	 * Fast set x and y, without EMF notifying. Used for graphic purpose.
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.chart.model.attribute.Location#set(double, double)
 	 */
 	public void set( double dX, double dY )
 	{
-		setX( dX );
-		setY( dY );
+		x = dX;
+		xESet = true;
+		y = dY;
+		yESet = true;
 	}
 
 	/*

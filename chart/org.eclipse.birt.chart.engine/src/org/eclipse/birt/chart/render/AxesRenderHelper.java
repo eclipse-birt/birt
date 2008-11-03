@@ -656,11 +656,18 @@ public final class AxesRenderHelper
 
 		final double x = ( iLabelLocation == IConstants.LEFT ) ? context.dTick1 - 1
 				: context.dTick2 + 1;
+
+		int yLast = Integer.MIN_VALUE;
+		Location loMinorStart = LocationImpl.create( 0, 0 );
+		Location loMinorEnd = LocationImpl.create( 0, 0 );
 		for ( int i = 0; i < length; i++ )
 		{
 			computation.handlePreEachTick( i );
 
 			int y = (int) da.getCoordinate( i );
+			boolean bSkipTickLine = ( yLast == y );
+			yLast = y;
+
 			if ( bRendering3D )
 			{
 				context.y3d = (int) da3D.getCoordinate( i );
@@ -684,30 +691,45 @@ public final class AxesRenderHelper
 						}
 						else
 						{
-							LineRenderEvent lreMinor = null;
-							for ( int k = 0; k < daMinor.length - 1; k++ )
+							if ( !bSkipTickLine )
 							{
-								if ( computation instanceof LinearAxisTypeComputation )
+								LineRenderEvent lreMinor = null;
+								int minorStep = (int) ( 1d / da.getStep( ) );
+								if ( minorStep < 1 )
 								{
-									// Special case for linear type
-									if ( ( iDirection == -1 && y - daMinor[k] <= da.getCoordinate( i + 1 ) )
-											|| ( iDirection == 1 && y
-													+ daMinor[k] >= da.getCoordinate( i + 1 ) ) )
-									{
-										// if current minor tick exceed
-										// the range of current unit, skip
-										continue;
-									}
+									minorStep = 1;
 								}
+								for ( int k = 0; k < daMinor.length - 1; k += minorStep )
+								{
+									if ( computation instanceof LinearAxisTypeComputation )
+									{
+										// Special case for linear type
+										if ( ( iDirection == -1 && y
+												- daMinor[k] <= da.getCoordinate( i + 1 ) )
+												|| ( iDirection == 1 && y
+														+ daMinor[k] >= da.getCoordinate( i + 1 ) ) )
+										{
+											// if current minor tick exceed
+											// the range of current unit, skip
+											continue;
+										}
+									}
 
-								lreMinor = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-										LineRenderEvent.class );
-								lreMinor.setLineAttributes( liaMinorTick );
-								lreMinor.setStart( LocationImpl.create( dXMinorTick1,
-										y + iDirection * daMinor[k] ) );
-								lreMinor.setEnd( LocationImpl.create( dXMinorTick2,
-										y + iDirection * daMinor[k] ) );
-								ipr.drawLine( lreMinor );
+									lreMinor = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+											LineRenderEvent.class );
+									lreMinor.setLineAttributes( liaMinorTick );
+									loMinorStart.set( dXMinorTick1, y
+											+ iDirection
+											* daMinor[k] );
+									lreMinor.setStart( loMinorStart );
+
+									loMinorEnd.set( dXMinorTick2, y
+											+ iDirection
+											* daMinor[k] );
+									lreMinor.setEnd( loMinorEnd );
+
+									ipr.drawLine( lreMinor );
+								}
 							}
 						}
 					}
@@ -720,7 +742,7 @@ public final class AxesRenderHelper
 					continue;
 				}
 
-				if ( context.dTick1 != context.dTick2 )
+				if ( !bSkipTickLine && context.dTick1 != context.dTick2 )
 				{
 					if ( bRenderOrthogonal3DAxis )
 					{
@@ -866,12 +888,20 @@ public final class AxesRenderHelper
 		double y = ( iLabelLocation == IConstants.ABOVE ) ? ( bRendering3D ? context.dTick1 + 1
 				: context.dTick1 - 1 )
 				: ( bRendering3D ? context.dTick2 - 1 : context.dTick2 + 1 );
+
+		int xLast = Integer.MIN_VALUE;
+		Location loMinorStart = LocationImpl.create( 0, 0 );
+		Location loMinorEnd = LocationImpl.create( 0, 0 );
 		for ( int i = 0; i < length; i++ )
 		{
 
 			computation.handlePreEachTick( i );
 
 			int x = (int) da.getCoordinate( i );
+
+			boolean bSkipTickLine = ( x == xLast );
+			xLast = x;
+
 			if ( bRendering3D )
 			{
 				context.x3d = (int) da3D.getCoordinate( i );
@@ -903,32 +933,43 @@ public final class AxesRenderHelper
 						}
 						else
 						{
-							LineRenderEvent lreMinor = null;
-							for ( int k = 0; k < daMinor.length - 1; k++ )
+							if ( !bSkipTickLine )
 							{
-								// Special case for linear type
-								if ( computation instanceof LinearAxisTypeComputation )
+								LineRenderEvent lreMinor = null;
+								int minorStep = (int) ( 1d / da.getStep( ) );
+								if ( minorStep < 1 )
 								{
-									if ( ( iDirection == 1 && x + daMinor[k] >= da.getCoordinate( i + 1 ) )
-											|| ( iDirection == -1 && x
-													- daMinor[k] <= da.getCoordinate( i + 1 ) ) )
-									{
-										// if current minor tick exceed the
-										// range of current unit, skip
-										continue;
-									}
+									minorStep = 1;
 								}
+								for ( int k = 0; k < daMinor.length - 1; k += minorStep )
+								{
+									// Special case for linear type
+									if ( computation instanceof LinearAxisTypeComputation )
+									{
+										if ( ( iDirection == 1 && x
+												+ daMinor[k] >= da.getCoordinate( i + 1 ) )
+												|| ( iDirection == -1 && x
+														- daMinor[k] <= da.getCoordinate( i + 1 ) ) )
+										{
+											// if current minor tick exceed the
+											// range of current unit, skip
+											continue;
+										}
+									}
 
-								lreMinor = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-										LineRenderEvent.class );
-								lreMinor.setLineAttributes( liaMinorTick );
-								lreMinor.setStart( LocationImpl.create( x
-										+ iDirection
-										* daMinor[k], dYMinorTick1 ) );
-								lreMinor.setEnd( LocationImpl.create( x
-										+ iDirection
-										* daMinor[k], dYMinorTick2 ) );
-								ipr.drawLine( lreMinor );
+									lreMinor = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+											LineRenderEvent.class );
+									lreMinor.setLineAttributes( liaMinorTick );
+
+									loMinorStart.set( x
+											+ iDirection
+											* daMinor[k], dYMinorTick1 );
+									lreMinor.setStart( loMinorStart );
+									loMinorEnd.set( x + iDirection * daMinor[k],
+											dYMinorTick2 );
+									lreMinor.setEnd( loMinorEnd );
+									ipr.drawLine( lreMinor );
+								}
 							}
 						}
 					}
@@ -941,7 +982,7 @@ public final class AxesRenderHelper
 					continue;
 				}
 
-				if ( context.dTick1 != context.dTick2 )
+				if ( !bSkipTickLine && context.dTick1 != context.dTick2 )
 				{
 					if ( bRenderBase3DAxis )
 					{
@@ -961,7 +1002,7 @@ public final class AxesRenderHelper
 
 					if ( iv != null
 							&& iDimension == IConstants.TWO_5_D
-							&& iv.getType( ) == IntersectionValue.VALUE )
+							&& iv.getType( ) == IConstants.VALUE )
 					{
 						lre.getStart( ).set( x, context.dY );
 						lre.getEnd( ).set( x + dSeriesThickness,

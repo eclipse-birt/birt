@@ -52,6 +52,7 @@ import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.render.InteractiveRenderer;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -1589,7 +1590,7 @@ public class SwtRendererImpl extends DeviceAdapter
 						Messages.getResourceBundle( getULocale( ) ) );
 
 			case TextRenderEvent.RENDER_SHADOW_AT_LOCATION :
-				Location lo = (Location) EcoreUtil.copy( tre.getLocation( ) );
+				Location lo = LocationImpl.copyInstance( tre.getLocation( ) );
 				lo.translate( dTranslateX, dTranslateY );
 				lo.scale( dScale );
 				_tr.renderShadowAtLocation( this,
@@ -1599,7 +1600,7 @@ public class SwtRendererImpl extends DeviceAdapter
 				break;
 
 			case TextRenderEvent.RENDER_TEXT_AT_LOCATION :
-				lo = (Location) EcoreUtil.copy( tre.getLocation( ) );
+				lo = LocationImpl.copyInstance( tre.getLocation( ) );
 				lo.translate( dTranslateX, dTranslateY );
 				lo.scale( dScale );
 

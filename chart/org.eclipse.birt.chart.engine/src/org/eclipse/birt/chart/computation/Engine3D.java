@@ -37,6 +37,7 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Rotation3D;
+import org.eclipse.birt.chart.util.FillUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -963,7 +964,7 @@ public final class Engine3D implements IConstants
 		if ( sharedEdgeObject != null )
 		{
 			sharedPolygonEdge = new Polygon3DRenderEvent( primEvent.getSource( ) );
-			ColorDefinition sharedBackgroundColor = (ColorDefinition)EcoreUtil.copy( backgroundColor );
+			ColorDefinition sharedBackgroundColor = (ColorDefinition) FillUtil.copyOf( backgroundColor );
 			
 			sharedPolygonEdge.setBackground( sharedBackgroundColor  );
 			if (backgroundColor.isSetTransparency( ) && backgroundColor.getTransparency( ) < 255 )

@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.util.FillUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -75,7 +76,7 @@ public class Arc3DRenderEvent extends ArcRenderEvent implements I3DRenderEvent
 
 		if ( ifBackground != null )
 		{
-			are.setBackground( (Fill) EcoreUtil.copy( ifBackground ) );
+			are.setBackground( FillUtil.copyOf( ifBackground ) );
 		}
 
 		are.setStyle( iStyle );

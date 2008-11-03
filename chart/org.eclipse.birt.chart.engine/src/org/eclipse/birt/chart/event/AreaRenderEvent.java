@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.util.FillUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -218,7 +219,7 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 
 		if ( fill != null )
 		{
-			are.setBackground( (Fill) EcoreUtil.copy( fill ) );
+			are.setBackground( FillUtil.copyOf( fill ) );
 		}
 
 		if ( lia != null )

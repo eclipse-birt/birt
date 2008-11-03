@@ -15,9 +15,11 @@ import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
@@ -55,6 +57,7 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
+import com.ibm.icu.text.DecimalFormat;
 import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
@@ -1578,4 +1581,34 @@ public class ChartUtil
 		return ( str == null || "".equals( str ) );
 	}
 	
+	public static abstract class Cache<T, V>
+	{
+
+		private Map<T, V> hm = new HashMap<T, V>( );
+
+		public V get( T key )
+		{
+			V value = hm.get( key );
+			if ( value == null )
+			{
+				value = newValue( key );
+				hm.put( key, value );
+			}
+			return value;
+		}
+
+		protected abstract V newValue( T key );
+	}
+
+	public static class CacheDecimalFormat extends Cache<String, DecimalFormat>
+	{
+
+		@Override
+		protected DecimalFormat newValue( String pattern )
+		{
+			return new DecimalFormat( pattern );
+		}
+
+	};
+
 }

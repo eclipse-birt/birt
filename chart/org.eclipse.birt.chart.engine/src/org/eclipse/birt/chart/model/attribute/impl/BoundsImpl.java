@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
-import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Insets;
@@ -514,7 +513,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	/**
 	 * A convenient method that allows initializing member variables.
 	 * 
-	 * Note: Manually written
+	 * Note: Manually written, no EMF notifying!
 	 * 
 	 * @param dLeft
 	 * @param dTop
@@ -523,10 +522,14 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	 */
 	public void set( double dLeft, double dTop, double dWidth, double dHeight )
 	{
-		setLeft( dLeft );
-		setTop( dTop );
-		setWidth( dWidth );
-		setHeight( dHeight );
+		left = dLeft;
+		leftESet = true;
+		top = dTop;
+		topESet = true;
+		width = dWidth;
+		widthESet = true;
+		height = dHeight;
+		heightESet = true;
 	}
 
 	/**
@@ -544,11 +547,15 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	public static final Bounds create( double dLeft, double dTop,
 			double dWidth, double dHeight )
 	{
-		final Bounds bo = AttributeFactory.eINSTANCE.createBounds( );
-		bo.setLeft( dLeft );
-		bo.setTop( dTop );
-		bo.setWidth( dWidth );
-		bo.setHeight( dHeight );
+		BoundsImpl bo = new BoundsImpl( );
+		bo.left = dLeft;
+		bo.leftESet = true;
+		bo.top = dTop;
+		bo.topESet = true;
+		bo.width = dWidth;
+		bo.widthESet = true;
+		bo.height = dHeight;
+		bo.heightESet = true;
 		return bo;
 	}
 

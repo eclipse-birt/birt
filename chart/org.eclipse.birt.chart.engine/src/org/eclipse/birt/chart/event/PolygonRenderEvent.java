@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
+import org.eclipse.birt.chart.util.FillUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -129,7 +130,7 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent
 
 		if ( _ifBackground != null )
 		{
-			pre.setBackground( (Fill) EcoreUtil.copy( _ifBackground ) );
+			pre.setBackground( FillUtil.copyOf( _ifBackground ) );
 		}
 
 		pre.setDepth( getDepth( ) );

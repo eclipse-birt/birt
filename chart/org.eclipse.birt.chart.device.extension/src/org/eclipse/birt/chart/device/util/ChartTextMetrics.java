@@ -267,6 +267,13 @@ public final class ChartTextMetrics extends TextAdapter
 				+ ( ins.getTop( ) + ins.getBottom( ) );
 	}
 
+	@Override
+	public final double getFullHeight( double fontHeight )
+	{
+
+		return fontHeight * getLineCount( ) + ins.getTop( ) + ins.getBottom( );
+	}
+
 	public final double getFullWidth( )
 	{
 		return stringWidth( ) + ( ins.getLeft( ) + ins.getRight( ) );

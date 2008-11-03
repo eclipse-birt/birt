@@ -103,6 +103,7 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.chart.util.FillUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -2318,7 +2319,8 @@ public abstract class AxesRenderer extends BaseRenderer
 			DataPointHints dph, Integer markerSize, boolean bDeferred,
 			boolean bConsiderTranspostion ) throws ChartException
 	{
-		m = (Marker) EcoreUtil.copy( m );
+		Fill markerFill = m.getFill( );
+		m = MarkerImpl.copyInstanceNoFill( m );
 
 		// Convert Fill for negative value
 		if ( dph != null && dph.getOrthogonalValue( ) instanceof Double )
@@ -2333,7 +2335,12 @@ public abstract class AxesRenderer extends BaseRenderer
 		if ( m.getType( ).getValue( ) != MarkerType.ICON
 				&& fPaletteEntry != null )
 		{
-			m.setFill( (Fill) EcoreUtil.copy( fPaletteEntry ) );
+			MarkerImpl.setFillSimple( m, fPaletteEntry );
+		}
+		else
+		{
+			// use the original marker's fill
+			MarkerImpl.setFillSimple( m, FillUtil.copyOf( markerFill ) );
 		}
 		
 		final ScriptHandler sh = getRunTimeContext( ).getScriptHandler( );

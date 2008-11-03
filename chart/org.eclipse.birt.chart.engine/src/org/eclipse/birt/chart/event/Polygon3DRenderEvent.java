@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.birt.chart.util.FillUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 
@@ -246,7 +247,7 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 
 		if ( _ifBackground != null )
 		{
-			pre.setBackground( (Fill) EcoreUtil.copy( _ifBackground ) );
+			pre.setBackground( FillUtil.copyOf( _ifBackground ) );
 		}
 
 		pre.bDoubleSided = bDoubleSided;

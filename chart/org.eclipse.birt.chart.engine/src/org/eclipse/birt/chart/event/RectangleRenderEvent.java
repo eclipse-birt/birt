@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.layout.Block;
+import org.eclipse.birt.chart.util.FillUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -121,7 +122,7 @@ public final class RectangleRenderEvent extends PrimitiveRenderEvent
 
 		if ( _ifBackground != null )
 		{
-			rre.setBackground( (Fill) EcoreUtil.copy( _ifBackground ) );
+			rre.setBackground( FillUtil.copyOf( _ifBackground ) );
 		}
 		return rre;
 	}

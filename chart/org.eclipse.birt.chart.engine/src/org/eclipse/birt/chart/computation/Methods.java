@@ -26,7 +26,6 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
-import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
@@ -34,7 +33,6 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.layout.Plot;
-import org.eclipse.birt.chart.render.ISeriesRenderingHints;
 import org.eclipse.birt.chart.util.CDateTime;
 
 import com.ibm.icu.util.Calendar;
@@ -425,11 +423,32 @@ public class Methods implements IConstants
 	 * @param dAngleInDegrees
 	 * @param dX
 	 * @param dY
-	 * @return
+	 * @return Note: If you find yourself calling this method very frequently
+	 *         while the font of the label is not changed, consider using the
+	 *         version with fontHeight instead. (following)
 	 */
 	public static final RotatedRectangle computePolygon( IDisplayServer xs,
 			int iLabelLocation, Label la, double dX, double dY )
 			throws IllegalArgumentException
+	{
+		return computePolygon( xs, iLabelLocation, la, dX, dY, null );
+	}
+
+	/**
+	 * 
+	 * @param xs
+	 * @param iLabelLocation
+	 * @param la
+	 * @param dX
+	 * @param dY
+	 * @param fontHeight
+	 *            , see also: computeFontHeight
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	public static final RotatedRectangle computePolygon( IDisplayServer xs,
+			int iLabelLocation, Label la, double dX, double dY,
+			Double fontHeight ) throws IllegalArgumentException
 	{
 		double dAngleInDegrees = la.getCaption( ).getFont( ).getRotation( );
 		final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
@@ -440,7 +459,8 @@ public class Methods implements IConstants
 		try
 		{
 			double dW = itm.getFullWidth( );
-			double dH = itm.getFullHeight( );
+			double dH = fontHeight == null ? itm.getFullHeight( )
+					: itm.getFullHeight( fontHeight );
 
 			RotatedRectangle rr = null;
 			if ( ( iLabelLocation & LEFT ) == LEFT )
@@ -857,6 +877,15 @@ public class Methods implements IConstants
 			int iLabelLocation, Label la, double dX, double dY, double dWrapping )
 			throws IllegalArgumentException
 	{
+		return computeBox( xs, iLabelLocation, la, dX, dY, dWrapping, null );
+	}
+
+
+	public static final BoundingBox computeBox( IDisplayServer xs,
+			int iLabelLocation, Label la, double dX, double dY,
+			double dWrapping, Double fontHeight )
+			throws IllegalArgumentException
+	{
 		double dAngleInDegrees = la.getCaption( ).getFont( ).getRotation( );
 		if ( dAngleInDegrees < -90 || dAngleInDegrees > 90 )
 		{
@@ -871,7 +900,6 @@ public class Methods implements IConstants
 		final double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
 
 		final ITextMetrics itm = xs.getTextMetrics( la );
-
 		
 		try
 		{
@@ -880,7 +908,8 @@ public class Methods implements IConstants
 				itm.reuse( la, dWrapping );
 			}
 			double dW = itm.getFullWidth( );
-			double dH = itm.getFullHeight( );
+			double dH = fontHeight == null ? itm.getFullHeight( )
+					: itm.getFullHeight( fontHeight );
 			
 			BoundingBox bb = null;
 			if ( ( iLabelLocation & LEFT ) == LEFT )
@@ -1190,6 +1219,31 @@ public class Methods implements IConstants
 			{
 				lo.setX( dXmax );
 			}
+		}
+	}
+
+	/**
+	 * Convenient method to compute the font's height of a label. This
+	 * computation is costly, but in most case we do not change the font of a
+	 * label, we just change the string value, so the font height will not
+	 * changed. The purpose of the method is to get the font height overhead for
+	 * reusing.
+	 * 
+	 * @param xs
+	 * @param la
+	 * @return
+	 */
+	public static double computeFontHeight( IDisplayServer xs, Label la )
+	{
+		ITextMetrics itm = xs.getTextMetrics( la );
+		try
+		{
+			itm.reuse( la );
+			return itm.getHeight( );
+		}
+		finally
+		{
+			itm.dispose( );
 		}
 	}
 

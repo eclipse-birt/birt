@@ -112,4 +112,24 @@ public final class RotatedRectangle extends Polygon
 		List pts = getPoints( );
 		return (Point[]) pts.toArray( new Point[pts.size( )] );
 	}
+
+	private static double getDistance( Point pt0, Point pt1 )
+	{
+		double dx = pt0.x - pt1.x;
+		double dy = pt0.y - pt1.y;
+		return Math.sqrt( dx * dx + dy * dy );
+	}
+
+	/**
+	 * returns the size of the rectangle.
+	 * 
+	 * @return
+	 */
+	public final Point getRectSize( )
+	{
+		Point[] pts = asPoints( );
+		double width = getDistance( pts[0], pts[1] );
+		double height = getDistance( pts[1], pts[2] );
+		return new Point( width, height );
+	}
 }

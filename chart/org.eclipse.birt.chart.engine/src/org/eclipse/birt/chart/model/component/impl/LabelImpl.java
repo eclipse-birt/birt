@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.model.component.ComponentFactory;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.chart.util.FillUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -840,7 +841,7 @@ public class LabelImpl extends EObjectImpl implements Label
 		LabelImpl lb = new LabelImpl( );
 		if ( src.getBackground( ) != null )
 		{
-			lb.background = (Fill) EcoreUtil.copy( src.getBackground( ) );
+			lb.background = FillUtil.copyOf( src.getBackground( ) );
 		}
 		lb.caption = TextImpl.copyInstance( src.getCaption( ) );
 		lb.insets = InsetsImpl.copyInstance( src.getInsets( ) );
@@ -876,7 +877,7 @@ public class LabelImpl extends EObjectImpl implements Label
 		// TODO remove more unused attrbutes.
 		if ( src.getBackground( ) != null )
 		{
-			lb.background = (Fill) EcoreUtil.copy( src.getBackground( ) );
+			lb.background = FillUtil.copyOf( src.getBackground( ) );
 		}
 		lb.caption = TextImpl.copyInstance( src.getCaption( ) );
 		lb.insets = InsetsImpl.copyInstance( src.getInsets( ) );
