@@ -459,10 +459,18 @@
 
 	<target name="buildBirtNLFeature">
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
+			<property name="builder" value="${eclipse.build.configs}/birt.dtp.nl" />
+		</ant>
+		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
+			<property name="builder" value="${eclipse.build.configs}/birt.dtp.nl" />
+			<property name="fetchTag" value="HEAD" />
+		</ant>
+		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
 			<property name="builder" value="${eclipse.build.configs}/birt.nl" />
 		</ant>
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
 			<property name="builder" value="${eclipse.build.configs}/birt.nl" />
+			<property name="fetchTag" value="HEAD" />
 		</ant>
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="buildLanguagePack" />
 	</target>
