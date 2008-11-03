@@ -896,7 +896,7 @@ public class ParameterDialog extends BaseDialog
 	private void initValueArea( )
 	{
 		String controlType = getSelectedControlType( );
-		
+
 		if ( DesignChoiceConstants.PARAM_CONTROL_AUTO_SUGGEST.equals( controlType ) )
 		{
 			listLimit.setEnabled( false );
@@ -1509,7 +1509,15 @@ public class ParameterDialog extends BaseDialog
 		else
 		{
 			hideStartPointSection( true );
-			listLimit.setEnabled( true );
+			if ( isStatic( ) )
+			{
+				listLimit.setEnabled( false );
+			}
+			else
+			{
+				listLimit.setEnabled( true );
+			}
+
 		}
 		if ( PARAM_CONTROL_LIST.equals( getSelectedControlType( ) )
 				&& allowMultiValueVisible )
