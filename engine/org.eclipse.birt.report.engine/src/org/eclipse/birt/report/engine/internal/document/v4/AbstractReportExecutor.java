@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2004,2008 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.internal.document.v4;
 
@@ -5,8 +15,10 @@ import java.io.IOException;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
+import org.eclipse.birt.report.engine.api.impl.ReportDocumentReader;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
@@ -23,8 +35,8 @@ import org.eclipse.birt.report.engine.internal.document.PageHintReader;
 import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentReaderV3;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.toc.DocumentTOCTree;
-import org.eclipse.birt.report.engine.toc.TOCTree;
+import org.eclipse.birt.report.engine.toc.ITOCReader;
+import org.eclipse.birt.report.engine.toc.ITreeNode;
 
 abstract public class AbstractReportExecutor implements IReportExecutor
 {
@@ -68,9 +80,19 @@ abstract public class AbstractReportExecutor implements IReportExecutor
 		context.setReportContent( reportContent );
 
 		IReportDocument reportDoc = context.getReportDocument( );
-
-		TOCTree tocTree = new DocumentTOCTree( reportDoc );
-		reportContent.setTOCTree( tocTree );
+		if ( reportDoc instanceof ReportDocumentReader )
+		{
+			ReportDocumentReader docReader = (ReportDocumentReader) reportDoc;
+			try
+			{
+				ITreeNode tocTree = docReader.getTOCTree( );
+				reportContent.setTOCTree( tocTree );
+			}
+			catch ( EngineException ex )
+			{
+				context.addException( ex );
+			}
+		}
 
 		long totalPage = reportDoc.getPageCount( );
 		context.setTotalPage( totalPage );

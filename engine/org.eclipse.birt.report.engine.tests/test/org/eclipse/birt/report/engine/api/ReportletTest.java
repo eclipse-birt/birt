@@ -131,37 +131,91 @@ public class ReportletTest extends EngineCase
 
 	protected void doRenderReportletTest( ) throws Exception
 	{
-		// open the document in the archive.
+		String BOOKMARK_1 = "bookmark1";
+		String BOOKMARK_2 = "bookmark2";
+		String CONTENT_1 = "test_reportlet_table1";
+		String CONTENT_2 = "test_reportlet_table2";
 		IReportDocument reportDoc = engine.openReportDocument( REPORT_DOCUMENT );
-		// create an RenderTask using the report document
-		IRenderTask task = engine.createRenderTask( reportDoc );
-		// get the page number
-		List bookmarks = reportDoc.getBookmarks( );
-		assertEquals( 2, bookmarks.size( ) );
-		String[] contents = new String[]{"test_reportlet_table1",
-				"test_reportlet_table2"};
-		List instanceIds = getTableInstanceIds( );
-		assertEquals( 2, instanceIds.size( ) );
-		for ( int i = 0; i <= 1; i++ )
+		try
 		{
-			task.setReportlet( (String) bookmarks.get( i ) );
-			testRender( task, contents, i );
-			task.setInstanceID( ( InstanceID ) instanceIds.get( i ) );
-			testRender( task, contents, i );
+			// get the page number
+			List bookmarks = reportDoc.getBookmarks( );
+			assertEquals( 2, bookmarks.size( ) );
+			assertTrue( bookmarks.contains( BOOKMARK_1 ) );
+			assertTrue( bookmarks.contains( BOOKMARK_2 ) );
+
+			// test reportlet through bookmark
+			testReportletWithBookmark( reportDoc, BOOKMARK_1, CONTENT_1,
+					CONTENT_2 );
+			testReportletWithBookmark( reportDoc, BOOKMARK_2, CONTENT_2,
+					CONTENT_1 );
+
+			// test reportlet through reportlet instanceId
+			List<InstanceID> instanceIds = getTableInstanceIds( );
+			assertEquals( 2, instanceIds.size( ) );
+
+			testReportletWithInstanceId( reportDoc, instanceIds.get( 0 ),
+					CONTENT_1, CONTENT_2 );
+			testReportletWithInstanceId( reportDoc, instanceIds.get( 1 ),
+					CONTENT_2, CONTENT_1 );
 		}
-
-		task.close( );
-
-		reportDoc.close( );
+		finally
+		{
+			reportDoc.close( );
+		}
 	}
 
-	private void testRender( IRenderTask task, String[] contents, int i ) throws EngineException
+	private void testReportletWithBookmark( IReportDocument reportDoc,
+			String bookmark, String contain, String notContain )
+			throws EngineException
 	{
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream( );
-		render( task, outputStream );
-		String content = new String( outputStream.toByteArray( ) );
-		assertTrue( contains( content, contents[i] ) );
-		assertFalse( contains( content, contents[1 - i] ) );
+		IRenderTask task = engine.createRenderTask( reportDoc );
+		try
+		{
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream( );
+			IRenderOption option = new HTMLRenderOption( );
+			option.setOutputFormat( "html" ); //$NON-NLS-1$
+			option.setOutputStream( outputStream );
+			task.setRenderOption( option );
+
+			task.setReportlet( bookmark );
+			task.render( );
+
+			String content = new String( outputStream.toByteArray( ) );
+			assertTrue( contains( content, contain ) );
+			assertFalse( contains( content, notContain ) );
+		}
+		finally
+		{
+			task.close( );
+		}
+	}
+
+	private void testReportletWithInstanceId( IReportDocument reportDoc,
+			InstanceID iid, String contain, String notContain )
+			throws EngineException
+	{
+		IRenderTask task = engine.createRenderTask( reportDoc );
+		try
+		{
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream( );
+
+			IRenderOption option = new HTMLRenderOption( );
+			option.setOutputFormat( "html" ); //$NON-NLS-1$
+			option.setOutputStream( outputStream );
+			task.setRenderOption( option );
+
+			task.setInstanceID( iid );
+			task.render( );
+
+			String content = new String( outputStream.toByteArray( ) );
+			assertTrue( contains( content, contain ) );
+			assertFalse( contains( content, notContain ) );
+		}
+		finally
+		{
+			task.close( );
+		}
 	}
 
 	private boolean contains( String content, String searchString )
@@ -169,52 +223,54 @@ public class ReportletTest extends EngineCase
 		return content.indexOf( searchString ) >= 0;
 	}
 
-	private void render( IRenderTask task, OutputStream outputStream )
-			throws EngineException
-	{
-		IRenderOption option = new HTMLRenderOption( );
-		option.setOutputFormat( "html" ); //$NON-NLS-1$
-		option.setOutputStream( outputStream );
-		// set the render options
-		task.setRenderOption( option );
-		// render report by page
-		task.render( );
-	}
 
-	private List getTableInstanceIds( ) throws EngineException, UnsupportedEncodingException
+	private List<InstanceID> getTableInstanceIds( ) throws EngineException,
+			UnsupportedEncodingException
 	{
-		List result = new ArrayList( );
-		IReportRunnable runnable;
 		IReportDocument document = engine.openReportDocument( REPORT_DOCUMENT );
-		IRenderTask render = engine.createRenderTask( document );
-		ByteArrayOutputStream ostream = new ByteArrayOutputStream( );
-		HTMLRenderOption option = new HTMLRenderOption( );
-		option.setOutputFormat( "html" );
-		option.setOutputStream( ostream );
-		option.setEnableMetadata( true );
-		render.setRenderOption( option );
-		render.render( );
-		render.close( );
-
-		// for all the reportlets
-		String content = ostream.toString( "utf-8" );
-		Pattern iidPattern = Pattern.compile( "iid=\"([^\"]*)\"" );
-		Matcher matcher = iidPattern.matcher( content );
-		while ( matcher.find( ) )
+		try
 		{
-			String strIid = matcher.group( 1 );
-			InstanceID iid = InstanceID.parse( strIid );
-			long designId = iid.getComponentID( );
-			runnable = render.getReportRunnable( );
+			ByteArrayOutputStream ostream = new ByteArrayOutputStream( );
+			IRenderTask render = engine.createRenderTask( document );
+			try
+			{
+				HTMLRenderOption option = new HTMLRenderOption( );
+				option.setOutputFormat( "html" );
+				option.setOutputStream( ostream );
+				option.setEnableMetadata( true );
+				render.setRenderOption( option );
+				render.render( );
+			}
+			finally
+			{
+				render.close( );
+			}
+
+			IReportRunnable runnable = document.getReportRunnable( );
 			ReportDesignHandle report = (ReportDesignHandle) runnable
 					.getDesignHandle( );
-			DesignElementHandle element = report.getElementByID( designId );
-			if ( element instanceof TableHandle )
+			List<InstanceID> result = new ArrayList<InstanceID>( );
+
+			// for all the reportlets
+			String content = ostream.toString( "utf-8" );
+			Pattern iidPattern = Pattern.compile( "iid=\"([^\"]*)\"" );
+			Matcher matcher = iidPattern.matcher( content );
+			while ( matcher.find( ) )
 			{
-				result.add( iid );
+				String strIid = matcher.group( 1 );
+				InstanceID iid = InstanceID.parse( strIid );
+				long designId = iid.getComponentID( );
+				DesignElementHandle element = report.getElementByID( designId );
+				if ( element instanceof TableHandle )
+				{
+					result.add( iid );
+				}
 			}
+			return result;
 		}
-		document.close( );
-		return result;
+		finally
+		{
+			document.close( );
+		}
 	}
 }

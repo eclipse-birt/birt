@@ -705,7 +705,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 					String bookmark = content.getBookmark( );
 					tocEntry = tocBuilder.startEntry( parentTOCEntry, tocValue,
 							bookmark, hiddenFormats, elementId );
-					String tocId = tocEntry.getNode( ).getNodeID( );
+					String tocId = tocEntry.getNodeId( );
 					if ( bookmark == null )
 					{
 						content.setBookmark( tocId );
@@ -756,7 +756,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			long elementId = getElementId( );
 			tocEntry = tocBuilder.startGroupEntry( entry, group.getTOC( ),
 					group.getBookmark( ), hiddenFormats, elementId );
-			String tocId = tocEntry.getNode( ).getNodeID( );
+			String tocId = tocEntry.getNodeId( );
 			if ( group.getBookmark( ) == null )
 			{
 				group.setBookmark( tocId );

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Actuate Corporation.
+ * Copyright (c) 2007,2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.api;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
@@ -82,7 +83,7 @@ public class TOCStyle implements IScriptStyle, Serializable
 	public static final String WHITE_SPACE = "white-space";
 	public static final String WORD_SPACING = "word-spacing";
 
-	private HashMap properties = new HashMap( );
+	private HashMap<String, String> properties = new HashMap<String, String>( );
 
 	public String getBackgroundAttachement( )
 	{
@@ -1056,5 +1057,21 @@ public class TOCStyle implements IScriptStyle, Serializable
 	public Map getProperties( )
 	{
 		return properties;
+	}
+
+	public String toString( )
+	{
+		StringBuilder sb = new StringBuilder( );
+		Iterator<Map.Entry<String, String>> iter = properties.entrySet( )
+				.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			Map.Entry<String, String> entry = iter.next( );
+			sb.append( entry.getKey( ) );
+			sb.append( ":" );
+			sb.append( entry.getValue( ) );
+			sb.append( ";" );
+		}
+		return sb.toString( );
 	}
 }

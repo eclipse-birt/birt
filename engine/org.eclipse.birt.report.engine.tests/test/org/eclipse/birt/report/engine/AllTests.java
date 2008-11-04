@@ -59,9 +59,9 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.ReportRunnerTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.ReportletTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.RunTaskTest.class );
-		suite.addTestSuite( org.eclipse.birt.report.engine.api.TOCNodeTest.class );
-		suite.addTestSuite( org.eclipse.birt.report.engine.api.TOCStyleTest.class );
-		suite.addTestSuite( org.eclipse.birt.report.engine.api.TOCTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.toc.TOCViewTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.toc.TOCStyleTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.toc.TOCTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.TimeZoneTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.document.ReportDocumentTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.impl.DataExtractionTaskTest.class );
@@ -106,6 +106,7 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.engine.internal.executor.doc.SegmentTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.internal.executor.doc.TreeFragmentTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.internal.executor.load.PageSequenceIteratorTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.internal.index.v2.IndexReadWriteTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.ir.ActionTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.ir.CellTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.ir.ColumnTest.class );
@@ -164,8 +165,15 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.engine.parser.TextParserTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.presentation.HtmlPaginateEmitterTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.presentation.XMLContentReaderWriterTest.class );
-		suite.addTestSuite( org.eclipse.birt.report.engine.toc.TOCBuilderReadV1Test.class );
+
 		suite.addTestSuite( org.eclipse.birt.report.engine.toc.TOCBuilderTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.toc.TOCComparatorTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.toc.TOCReadWriteTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.toc.TOCStyleTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.toc.TOCTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.toc.TOCVersionTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.toc.TOCViewTest.class );
+
 		suite.addTestSuite( org.eclipse.birt.report.engine.util.FileUtilTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.executor.optimize.ExecutionOptimizeTest.class );
 		// $JUnit-END$

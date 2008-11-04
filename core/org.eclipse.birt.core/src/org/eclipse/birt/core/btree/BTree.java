@@ -136,11 +136,14 @@ public class BTree<K, V> implements BTreeConstants
 
 		try
 		{
+			// write the header
 			ByteArrayOutputStream buffer = new ByteArrayOutputStream(
 					BLOCK_SIZE );
 			DataOutput output = new DataOutputStream( buffer );
 			writeTreeHead( output );
 			file.writeBlock( headNodeId, buffer.toByteArray( ) );
+
+			// flush the nodes
 			for ( BTreeNode<K, V> node : nodeCaches.values( ) )
 			{
 				if ( node.isDirty( ) )

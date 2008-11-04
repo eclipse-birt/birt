@@ -11,9 +11,11 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
@@ -26,7 +28,6 @@ import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
-import org.eclipse.birt.report.engine.toc.TOCTree;
 
 /**
  * Captures the (report design to) report instance creation logic, by combining
@@ -89,10 +90,18 @@ public class ReportExecutor implements IReportExecutor
 	{
 		reportContent = new ReportContent( report );
 		context.setReportContent( reportContent );
-		TOCTree tocTree = new TOCTree( );
-		reportContent.setTOCTree( tocTree );
-		TOCBuilder tocBuilder = new TOCBuilder( tocTree );
-		context.setTOCBuilder( tocBuilder );
+		
+		try
+		{
+			TOCBuilder tocBuilder = new TOCBuilder( context );
+			reportContent.setTOCTree( tocBuilder.getTOCTree( ) );
+			context.setTOCBuilder( tocBuilder );
+		}
+		catch ( IOException ex )
+		{
+			context.addException( new EngineException( "failed to create TOC",
+					ex ) );
+		}
 
 		DocumentDataSource dataSource = context.getDataSource( );
 		if ( dataSource != null )

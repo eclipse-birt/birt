@@ -134,11 +134,23 @@ public interface ReportDocumentConstants
 	 * merge the streams to one stream.
 	 */
 	static final String CORE_VERSION_PREFIX = "CORE_VERSION_";
+	/**
+	 * version used in case there is no version tag in core stream
+	 */
+	static final String CORE_VERSION_UNKNOWN = CORE_VERSION_PREFIX + "UNKNOWN";
+	/**
+	 * the first version in the core stream
+	 */
 	static final String CORE_VERSION_0 = CORE_VERSION_PREFIX + 0;
 	/**
 	 * start from 2.2.1
 	 */
 	static final String CORE_VERSION_1 = CORE_VERSION_PREFIX + 1;
+	
+	/**
+	 * start from 2.3.2
+	 */
+	static final String CORE_VERSION_2 = CORE_VERSION_PREFIX + 2;
 
 	/**
 	 * the engine version used to generate the report document
