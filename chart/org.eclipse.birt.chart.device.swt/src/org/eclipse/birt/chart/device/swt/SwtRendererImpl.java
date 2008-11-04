@@ -56,7 +56,6 @@ import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.render.InteractiveRenderer;
 import org.eclipse.birt.chart.util.PluginSettings;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
@@ -80,7 +79,7 @@ public class SwtRendererImpl extends DeviceAdapter
 	 */
 	public static final String DOUBLE_BUFFERED = "device.double.buffered"; //$NON-NLS-1$
 
-	private final LinkedHashMap _lhmAllTriggers = new LinkedHashMap( );
+	private final LinkedHashMap<TriggerCondition, List<RegionAction>> _lhmAllTriggers = new LinkedHashMap<TriggerCondition, List<RegionAction>>( );
 
 	private IDisplayServer _ids;
 
@@ -1164,7 +1163,7 @@ public class SwtRendererImpl extends DeviceAdapter
 
 		// CREATE AND SETUP THE SHAPES FOR INTERACTION
 		TriggerCondition tc;
-		ArrayList al;
+		List<RegionAction> al;
 		final PrimitiveRenderEvent pre = iev.getHotSpot( );
 		if ( pre instanceof PolygonRenderEvent )
 		{
@@ -1173,10 +1172,11 @@ public class SwtRendererImpl extends DeviceAdapter
 			for ( int i = 0; i < tga.length; i++ )
 			{
 				tc = tga[i].getCondition( );
-				al = (ArrayList) _lhmAllTriggers.get( tc );
+				al = _lhmAllTriggers.get( tc );
 				if ( al == null )
 				{
-					al = new ArrayList( 4 ); // UNDER NORMAL CONDITIONS
+					al = new ArrayList<RegionAction>( 4 ); // UNDER NORMAL
+															// CONDITIONS
 					_lhmAllTriggers.put( tc, al );
 				}
 				al.add( new RegionAction( iev.getStructureSource( ),
@@ -1195,10 +1195,11 @@ public class SwtRendererImpl extends DeviceAdapter
 			for ( int i = 0; i < tga.length; i++ )
 			{
 				tc = tga[i].getCondition( );
-				al = (ArrayList) _lhmAllTriggers.get( tc );
+				al = _lhmAllTriggers.get( tc );
 				if ( al == null )
 				{
-					al = new ArrayList( 4 ); // UNDER NORMAL CONDITIONS
+					al = new ArrayList<RegionAction>( 4 ); // UNDER NORMAL
+															// CONDITIONS
 					_lhmAllTriggers.put( tc, al );
 				}
 				al.add( new RegionAction( iev.getStructureSource( ),
@@ -1217,10 +1218,11 @@ public class SwtRendererImpl extends DeviceAdapter
 			for ( int i = 0; i < tga.length; i++ )
 			{
 				tc = tga[i].getCondition( );
-				al = (ArrayList) _lhmAllTriggers.get( tc );
+				al = _lhmAllTriggers.get( tc );
 				if ( al == null )
 				{
-					al = new ArrayList( 4 ); // UNDER NORMAL CONDITIONS
+					al = new ArrayList<RegionAction>( 4 ); // UNDER NORMAL
+															// CONDITIONS
 					_lhmAllTriggers.put( tc, al );
 				}
 
@@ -1245,10 +1247,11 @@ public class SwtRendererImpl extends DeviceAdapter
 			for ( int i = 0; i < tga.length; i++ )
 			{
 				tc = tga[i].getCondition( );
-				al = (ArrayList) _lhmAllTriggers.get( tc );
+				al = _lhmAllTriggers.get( tc );
 				if ( al == null )
 				{
-					al = new ArrayList( 4 ); // UNDER NORMAL CONDITIONS
+					al = new ArrayList<RegionAction>( 4 ); // UNDER NORMAL
+															// CONDITIONS
 					_lhmAllTriggers.put( tc, al );
 				}
 
@@ -1272,10 +1275,11 @@ public class SwtRendererImpl extends DeviceAdapter
 			for ( int i = 0; i < tga.length; i++ )
 			{
 				tc = tga[i].getCondition( );
-				al = (ArrayList) _lhmAllTriggers.get( tc );
+				al = _lhmAllTriggers.get( tc );
 				if ( al == null )
 				{
-					al = new ArrayList( 4 ); // UNDER NORMAL CONDITIONS
+					al = new ArrayList<RegionAction>( 4 ); // UNDER NORMAL
+															// CONDITIONS
 					_lhmAllTriggers.put( tc, al );
 				}
 				al.add( new RegionAction( iev.getStructureSource( ),
@@ -1758,13 +1762,14 @@ public class SwtRendererImpl extends DeviceAdapter
 
 	private void cleanUpTriggers( )
 	{
-		for ( Iterator itr = _lhmAllTriggers.values( ).iterator( ); itr.hasNext( ); )
+		for ( Iterator<List<RegionAction>> itr = _lhmAllTriggers.values( )
+				.iterator( ); itr.hasNext( ); )
 		{
-			List ralist = (List) itr.next( );
+			List<RegionAction> ralist = itr.next( );
 
 			if ( ralist != null )
 			{
-				for ( Iterator sitr = ralist.iterator( ); sitr.hasNext( ); )
+				for ( Iterator<RegionAction> sitr = ralist.iterator( ); sitr.hasNext( ); )
 				{
 					RegionAction ra = (RegionAction) sitr.next( );
 					ra.dispose( );

@@ -15,10 +15,8 @@ import java.util.Iterator;
 
 import org.eclipse.birt.chart.computation.Object3D;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.util.FillUtil;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * A rendering event type for rendering 3D Area object.
@@ -66,7 +64,7 @@ public class Area3DRenderEvent extends AreaRenderEvent implements
 			are.setOutline( LineAttributesImpl.copyInstance( lia ) );
 		}
 
-		for ( Iterator itr = alLinesAndArcs.iterator( ); itr.hasNext( ); )
+		for ( Iterator<PrimitiveRenderEvent> itr = alLinesAndArcs.iterator( ); itr.hasNext( ); )
 		{
 			are.add( ( (PrimitiveRenderEvent) itr.next( ) ).copy( ) );
 		}

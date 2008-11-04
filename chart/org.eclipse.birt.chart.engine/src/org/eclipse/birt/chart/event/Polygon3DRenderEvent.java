@@ -145,7 +145,8 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 		}
 		else if ( fill instanceof MultipleFill )
 		{
-			for ( Iterator iter = ((MultipleFill)fill).getFills( ).iterator( ); iter.hasNext( ); )
+			for ( Iterator<?> iter = ( (MultipleFill) fill ).getFills( )
+					.iterator( ); iter.hasNext( ); )
 			{
 				applyBrightnessToFill( (Fill)iter.next( ), brightness );
 			}

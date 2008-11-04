@@ -1578,7 +1578,7 @@ public class ChartUtil
 	 */
 	public static boolean isEmpty( String str )
 	{
-		return ( str == null || "".equals( str ) );
+		return ( str == null || "".equals( str ) ); //$NON-NLS-1$
 	}
 	
 	public static abstract class Cache<T, V>

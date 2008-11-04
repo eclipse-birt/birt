@@ -752,7 +752,7 @@ public final class Engine3D implements IConstants
 		{
 			Area3DRenderEvent a3dre = (Area3DRenderEvent) obj;
 
-			for ( Iterator itr = a3dre.iterator( ); itr.hasNext( ); )
+			for ( Iterator<PrimitiveRenderEvent> itr = a3dre.iterator( ); itr.hasNext( ); )
 			{
 				PrimitiveRenderEvent pre = (PrimitiveRenderEvent) itr.next( );
 

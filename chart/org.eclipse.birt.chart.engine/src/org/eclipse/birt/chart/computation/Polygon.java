@@ -22,11 +22,11 @@ import java.util.List;
 public class Polygon
 {
 
-	private List points;
+	private List<Point> points;
 
 	public Polygon( )
 	{
-		points = new ArrayList( );
+		points = new ArrayList<Point>( );
 	}
 
 	public void add( double x, double y )
@@ -41,10 +41,10 @@ public class Polygon
 
 	public Point getPoint( int index )
 	{
-		return (Point) points.get( index );
+		return points.get( index );
 	}
 
-	public List getPoints( )
+	public List<Point> getPoints( )
 	{
 		return points;
 	}
@@ -126,8 +126,7 @@ public class Polygon
 		boolean c = false;
 		for ( int i = 0, j = points.size( ) - 1; !c && i < points.size( ); j = i++ )
 		{
-			c = testWithinLine( (Point) points.get( i ),
-					(Point) points.get( j ),
+			c = testWithinLine( points.get( i ), points.get( j ),
 					p );
 		}
 		return c;
@@ -220,9 +219,9 @@ public class Polygon
 			}
 
 			// first round test
-			for ( Iterator itr = poly.getPoints( ).iterator( ); itr.hasNext( ); )
+			for ( Iterator<Point> itr = poly.getPoints( ).iterator( ); itr.hasNext( ); )
 			{
-				Point pt = (Point) itr.next( );
+				Point pt = itr.next( );
 
 				diff = testInside( count, xa, ya, pt.getX( ), pt.getY( ) );
 
@@ -259,9 +258,9 @@ public class Polygon
 					ya[i] = pt.getY( );
 				}
 
-				for ( Iterator itr = points.iterator( ); itr.hasNext( ); )
+				for ( Iterator<Point> itr = points.iterator( ); itr.hasNext( ); )
 				{
-					Point pt = (Point) itr.next( );
+					Point pt = itr.next( );
 
 					if ( testInside( count, xa, ya, pt.getX( ), pt.getY( ) ) )
 					{
@@ -274,8 +273,8 @@ public class Polygon
 		// check line cases
 		if ( points.size( ) == 2 || poly.points.size( ) == 2 )
 		{
-			List line = points;
-			List pg = poly.points;
+			List<Point> line = points;
+			List<Point> pg = poly.points;
 
 			if ( line.size( ) > 2 )
 			{
@@ -283,16 +282,15 @@ public class Polygon
 				pg = points;
 			}
 
-			Point lp1 = (Point) line.get( 0 );
-			Point lp2 = (Point) line.get( 1 );
+			Point lp1 = line.get( 0 );
+			Point lp2 = line.get( 1 );
 			for ( int i = 0; i < pg.size( ); i++ )
 			{
 				if ( i == pg.size( ) - 1 )
 				{
 					if ( testLineIntersect( lp1,
 							lp2,
-							(Point) pg.get( i ),
-							(Point) pg.get( 0 ) ) )
+ pg.get( i ), pg.get( 0 ) ) )
 					{
 						return true;
 					}
@@ -301,8 +299,8 @@ public class Polygon
 				{
 					if ( testLineIntersect( lp1,
 							lp2,
-							(Point) pg.get( i ),
-							(Point) pg.get( i + 1 ) ) )
+							pg.get( i ),
+							pg.get( i + 1 ) ) )
 					{
 						return true;
 					}

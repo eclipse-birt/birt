@@ -12,12 +12,10 @@
 package org.eclipse.birt.chart.event;
 
 import org.eclipse.birt.chart.computation.Object3D;
-import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.util.FillUtil;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * A rendering event type for rendering 3D Arc object.

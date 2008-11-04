@@ -109,8 +109,8 @@ public final class RotatedRectangle extends Polygon
 	 */
 	public final Point[] asPoints( )
 	{
-		List pts = getPoints( );
-		return (Point[]) pts.toArray( new Point[pts.size( )] );
+		List<Point> pts = getPoints( );
+		return pts.toArray( new Point[pts.size( )] );
 	}
 
 	private static double getDistance( Point pt0, Point pt1 )

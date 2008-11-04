@@ -310,7 +310,7 @@ public final class ChartTextMetrics extends TextAdapter
 	 */
 	private String[] splitOnBreaks( String s, double maxSize )
 	{
-		List al = new ArrayList( );
+		List<String> al = new ArrayList<String>( );
 
 		// check hard break first
 		int i = 0, j;
@@ -335,9 +335,9 @@ public final class ChartTextMetrics extends TextAdapter
 		// check wrapping
 		if ( maxSize > 0 )
 		{
-			List nal = new ArrayList( );
+			List<String> nal = new ArrayList<String>( );
 
-			for ( Iterator itr = al.iterator( ); itr.hasNext( ); )
+			for ( Iterator<String> itr = al.iterator( ); itr.hasNext( ); )
 			{
 				String ns = (String) itr.next( );
 

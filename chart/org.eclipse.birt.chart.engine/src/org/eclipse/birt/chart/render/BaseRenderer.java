@@ -2711,9 +2711,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @param ll
 	 * @return
 	 */
-	protected List filterNull( List ll )
+	protected List<double[]> filterNull( List<double[]> ll )
 	{
-		ArrayList al = new ArrayList( );
+		List<double[]> al = new ArrayList<double[]>( );
 		for ( int i = 0; i < ll.size( ); i++ )
 		{
 			double[] obj = (double[]) ll.get( i );

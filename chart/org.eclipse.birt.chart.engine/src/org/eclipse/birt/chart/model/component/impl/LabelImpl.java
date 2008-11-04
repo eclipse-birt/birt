@@ -33,7 +33,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -136,7 +135,7 @@ public class LabelImpl extends EObjectImpl implements Label
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int ELLIPSIS_EDEFAULT = 0; //$NON-NLS-1$
+	protected static final int ELLIPSIS_EDEFAULT = 0;
 
 	/**
 	 * The cached value of the '{@link #getEllipsis() <em>Ellipsis</em>}' attribute.

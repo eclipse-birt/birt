@@ -114,11 +114,11 @@ public class Methods implements IConstants
 	public static final double getLocation( AutoScale sc, IntersectionValue iv )
 	{
 		AxisTickCoordinates da = sc.getTickCordinates( );
-		if ( iv.getType( ) == IntersectionValue.MIN )
+		if ( iv.getType( ) == IConstants.MIN )
 		{
 			return da.getStart( );
 		}
-		else if ( iv.getType( ) == IntersectionValue.MAX )
+		else if ( iv.getType( ) == IConstants.MAX )
 		{
 			return da.getEnd( );
 		}

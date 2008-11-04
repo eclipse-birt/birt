@@ -14,13 +14,11 @@ package org.eclipse.birt.chart.event;
 import java.util.ArrayList;
 
 import org.eclipse.birt.chart.computation.Object3D;
-import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.util.FillUtil;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * A rendering event type for rendering 3D Oval object.
@@ -102,7 +100,7 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 	{
 		Location[] points = object3D.getPoints2D( xOffset, yOffset );
 
-		ArrayList lst = new ArrayList( );
+		ArrayList<Location> lst = new ArrayList<Location>( );
 		for ( int i = 0; i < points.length; i++ )
 		{
 			if ( !lst.contains( points[i] ) )
@@ -110,7 +108,7 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 				lst.add( points[i] );
 			}
 		}
-		points = (Location[]) lst.toArray( new Location[lst.size( )] );
+		points = lst.toArray( new Location[lst.size( )] );
 
 		setBounds( BoundsImpl.create( points[0].getX( ),
 				points[0].getY( ),
