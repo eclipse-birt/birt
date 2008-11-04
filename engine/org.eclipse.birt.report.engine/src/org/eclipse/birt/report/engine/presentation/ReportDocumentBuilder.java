@@ -616,12 +616,15 @@ public class ReportDocumentBuilder
 				}
 
 				boolean checkpoint = false;
-				// check points for page 1, 10, 50, 100, 200 ...
-				// the end of report should also be check point.
-				if ( pageNumber == 1 || pageNumber == 10 || pageNumber == 50
-						|| pageNumber % 100 == 0 )
+				if ( executionContext.isProgressiveViewingEnable( ) )
 				{
-					checkpoint = true;
+					// check points for page 1, 10, 50, 100, 200 ...
+					// the end of report should also be check point.
+					if ( pageNumber == 1 || pageNumber == 10
+							|| pageNumber == 50 || pageNumber % 100 == 0 )
+					{
+						checkpoint = true;
+					}
 				}
 
 				ArrayList pageHint = htmlContext.getPageHint( );

@@ -311,4 +311,9 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	{
 		executionContext.setMaxRowsPerQuery( maxRows );
 	}
+	
+	public void enableProgressiveViewing( boolean enabled )
+	{
+		executionContext.enableProgressiveViewing( enabled );
+	}
 }

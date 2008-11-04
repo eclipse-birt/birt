@@ -68,4 +68,9 @@ public class RunContext extends ReportContextImpl implements IRunContext
 		}
 		return null;
 	}
+	
+	public boolean isProgressiveViewingEnable( )
+	{
+		return context.isProgressiveViewingEnable( );
+	}
 }

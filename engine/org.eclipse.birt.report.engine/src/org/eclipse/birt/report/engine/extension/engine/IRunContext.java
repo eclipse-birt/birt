@@ -19,4 +19,5 @@ public interface IRunContext extends IEngineContext
 
 	IDocArchiveReader getDataSource( );
 	IDocArchiveWriter getWriter( );
+	boolean isProgressiveViewingEnable( );
 }
