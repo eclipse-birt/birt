@@ -226,8 +226,10 @@ class BindingColumnsEvalUtil
 							scope,
 							cx);
 				
-				if ( exprValue!= null )
-					exprValue = DataTypeUtil.convert( JavascriptEvalUtil.convertJavascriptValue( exprValue ), bindingColumn.type );
+				if ( exprValue != null
+						&& !( exprValue instanceof Exception ) )
+					exprValue = DataTypeUtil.convert( JavascriptEvalUtil.convertJavascriptValue( exprValue ),
+							bindingColumn.type );
 			}
 		}
 		catch ( BirtException e )

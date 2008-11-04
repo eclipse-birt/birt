@@ -181,7 +181,7 @@ public class TotalConcatenate extends AggrFunction
 				}
 				catch ( BirtException e )
 				{
-					throw new DataException( e.getErrorCode( ), e );
+					throw DataException.wrap( e );
 				}
 			}
 		}
@@ -261,15 +261,17 @@ public class TotalConcatenate extends AggrFunction
 					int value = DataTypeUtil.toInteger( source );
 					if ( value < 1 )
 					{
-						throw new DataException( Messages.getString( "aggregation.InvalidParameterValue" )
-								+ getName( ) );
+						throw new DataException( Messages.getString( "aggregation.InvalidParameterValue" ),
+								new Object[] {getParameterDefn( )[2].getDisplayName( ),
+								getDisplayName( ),
+								value} );
 					}
 					maxLength = value;
 				}
 			}
 			catch ( BirtException e )
 			{
-				throw new DataException( e.getErrorCode( ), e );
+				throw DataException.wrap( e );
 			}
 		}
 
