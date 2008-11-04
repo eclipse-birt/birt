@@ -1408,4 +1408,22 @@ public abstract class ReportItemHandle extends ReportElementHandle
 		setProperty( ALLOW_EXPORT_PROP, String.valueOf( allowExport ) );
 	}
 
+	/**
+	 * Gets the host element of this view.
+	 * 
+	 * @return the host element of this view
+	 */
+	public ReportItemHandle getViewHost( )
+	{
+		DesignElementHandle container = getContainer( );
+
+		if ( !( container instanceof MultiViewsHandle ) )
+			return null;
+		MultiViewsHandle viewHandle = (MultiViewsHandle) container;
+		DesignElementHandle viewHost = viewHandle.getContainer( );
+		return viewHost instanceof ReportItemHandle
+				? (ReportItemHandle) viewHost
+				: null;
+	}
+
 }

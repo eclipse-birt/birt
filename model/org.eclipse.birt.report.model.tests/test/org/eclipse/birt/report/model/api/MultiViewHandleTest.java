@@ -70,6 +70,8 @@ public class MultiViewHandleTest extends BaseTestCase
 		assertTrue( box1 == views.get( 0 ) );
 
 		assertTrue( box1 == table1.getCurrentView( ) );
+		assertEquals( table1, box1.getViewHost( ) );
+		assertNull( table1.getViewHost( ) );
 
 		table1.dropView( box1 );
 
@@ -80,7 +82,8 @@ public class MultiViewHandleTest extends BaseTestCase
 		assertNull( table1.getCurrentView( ) );
 		views = table1.getViews( );
 		assertEquals( 0, views.size( ) );
-
+		assertNull( box1.getViewHost( ) );
+		
 		table1.setCurrentView( box1 );
 
 		// make sure table receives the event
