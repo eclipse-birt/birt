@@ -22,6 +22,7 @@
             <property name="pageBreakBefore">always</property>
             <property name="pageBreakAfter">always</property>
             <property name="pageBreakInside">auto</property>
+            <property name="masterPage">Simple MasterPage</property>
             <list-property name="visibility">
                 <structure>
                     <property name="format">ppt</property>

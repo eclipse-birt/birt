@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.command.ViewsContentEvent;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -118,11 +119,13 @@ public class MultiViewHandleTest extends BaseTestCase
 		assertTrue( propHandle.isReadOnly( ) );
 
 		assertEquals( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS, box1
-				.getStringProperty( "pageBreakBefore" ) ); //$NON-NLS-1$
+				.getStringProperty( IStyleModel.PAGE_BREAK_BEFORE_PROP ) );
 		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS, box1
-				.getStringProperty( "pageBreakAfter" ) ); //$NON-NLS-1$
+				.getStringProperty( IStyleModel.PAGE_BREAK_AFTER_PROP ) );
 		assertEquals( DesignChoiceConstants.PAGE_BREAK_INSIDE_AUTO, box1
-				.getStringProperty( "pageBreakInside" ) ); //$NON-NLS-1$
+				.getStringProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP ) );
+		assertEquals( "Simple MasterPage", box1 //$NON-NLS-1$
+				.getStringProperty( IStyleModel.MASTER_PAGE_PROP ) );
 
 	}
 

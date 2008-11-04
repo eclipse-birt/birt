@@ -56,6 +56,7 @@ public class ExtendedItemPropSearchStrategy
 		tmpSet.add( IStyleModel.PAGE_BREAK_BEFORE_PROP );
 		tmpSet.add( IStyleModel.PAGE_BREAK_AFTER_PROP );
 		tmpSet.add( IStyleModel.PAGE_BREAK_INSIDE_PROP );
+		tmpSet.add( IStyleModel.MASTER_PAGE_PROP );
 		hostViewRelatedProps = Collections.unmodifiableSet( tmpSet );
 	}
 
