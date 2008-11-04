@@ -41,8 +41,10 @@ import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.toc.TOCTree;
+import org.eclipse.birt.report.engine.toc.ITreeNode;
+import org.eclipse.birt.report.engine.toc.TOCView;
 
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -68,7 +70,7 @@ public class ReportContent implements IReportContent
 	/**
 	 * toc of this report
 	 */
-	private TOCTree tocTree;
+	private ITreeNode tocTree;
 	
 	private IContent root;
 	
@@ -277,13 +279,13 @@ public class ReportContent implements IReportContent
 	{
 		if ( tocTree == null )
 		{
-			tocTree = new TOCTree( );
+			return null;
 		}
-		return new TOCTree( tocTree.getTOCRoot( ), format, locale, report
-				.getReportDesign( ) );
+		return new TOCView( tocTree, report.getReportDesign( ), locale,
+				TimeZone.getDefault( ) );
 	}
 	
-	public void setTOCTree( TOCTree tocTree )
+	public void setTOCTree( ITreeNode tocTree )
 	{
 		this.tocTree = tocTree;
 	}

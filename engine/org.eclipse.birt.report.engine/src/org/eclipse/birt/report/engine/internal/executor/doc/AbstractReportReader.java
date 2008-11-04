@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,6 +18,7 @@ import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportDocument;
+import org.eclipse.birt.report.engine.api.impl.IInternalReportDocument;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -32,8 +33,7 @@ import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentRe
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
-import org.eclipse.birt.report.engine.toc.DocumentTOCTree;
-import org.eclipse.birt.report.engine.toc.TOCTree;
+import org.eclipse.birt.report.engine.toc.ITreeNode;
 
 public abstract class AbstractReportReader implements IReportExecutor
 {
@@ -68,9 +68,19 @@ public abstract class AbstractReportReader implements IReportExecutor
 
 		reportDoc = context.getReportDocument( );
 
-
-		TOCTree tocTree = new DocumentTOCTree(reportDoc);
-		reportContent.setTOCTree(tocTree);
+		if ( reportDoc instanceof IInternalReportDocument )
+		{
+			try
+			{
+				ITreeNode tocTree = ( (IInternalReportDocument) reportDoc )
+						.getTOCTree( );
+				reportContent.setTOCTree( tocTree );
+			}
+			catch ( EngineException ex )
+			{
+				context.addException( ex );
+			}
+		}
 		
 		long totalPage = reportDoc.getPageCount( );
 		context.setTotalPage( totalPage );

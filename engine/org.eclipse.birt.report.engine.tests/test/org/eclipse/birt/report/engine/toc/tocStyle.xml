@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.3.1.v20080924-1200 Build &lt;2.3.1.v20080924-1200></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <html-property name="description">Creates a blank report with no predefined content.</html-property>
+    <text-property name="displayName">Blank Report</text-property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <styles>
+        <style name="TOCStyle" id="5">
+            <structure name="stringFormat">
+                <property name="category">></property>
+                <property name="pattern">></property>
+            </structure>
+        </style>
+        <style name="TOC-level-0" id="8">
+            <structure name="numberFormat">
+                <property name="category">Scientific</property>
+                <property name="pattern">0.0000E00</property>
+            </structure>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label id="4">
+            <structure name="toc">
+                <expression name="expressionValue">245.123456789</expression>
+            </structure>
+            <text-property name="text">number format defined in the TOC_0: 2.4512E2</text-property>
+        </label>
+        <label id="6">
+            <structure name="toc">
+                <expression name="expressionValue">"lower case toc"</expression>
+                <property name="TOCStyle">TOCStyle</property>
+            </structure>
+            <text-property name="text">string format defined in the named style: LOWER CASE TOC</text-property>
+        </label>
+        <label id="7">
+            <structure name="toc">
+                <expression name="expressionValue">"bold font"</expression>
+            </structure>
+            <text-property name="text">TOC with bold font: "bold font"</text-property>
+        </label>
+    </body>
+</report>

@@ -50,6 +50,8 @@ import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.pdf.emitter.PDFLayoutEmitterProxy;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
+import org.eclipse.birt.report.engine.toc.ITreeNode;
+import org.eclipse.birt.report.engine.toc.TOCView;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 import com.ibm.icu.util.TimeZone;
@@ -698,15 +700,32 @@ public class RenderTask extends EngineTask implements IRenderTask
 				format = renderFormat;
 			}
 		}
+
 		ULocale ulocale = getULocale( );
 		TimeZone timeZone = getTimeZone( );
-		ITOCTree tocTree = document.getTOCTree( format, ulocale, timeZone );
-		LogicalPageSequence visiblePages = loadVisiblePages( );
-		if ( visiblePages != null )
+		ReportDesignHandle design = executionContext.getDesign( );
+
+		if ( document instanceof IInternalReportDocument )
 		{
-			return new TOCView( tocTree, document, visiblePages );
+			ITreeNode tocTree = ( (IInternalReportDocument) document )
+					.getTOCTree( );
+			if ( tocTree != null )
+			{
+				LogicalPageSequence visiblePages = loadVisiblePages( );
+				if ( visiblePages != null )
+				{
+					return new TOCView( tocTree, design, ulocale, timeZone,
+							format, new VisiblePageFilter( document,
+									visiblePages ) );
+				}
+				else
+				{
+					return new TOCView( tocTree, design, ulocale, timeZone,
+							format );
+				}
+			}
 		}
-		return tocTree;
+		return TOCView.EMPTY_TOC_VIEW;
 	}
 
 	public long getTotalPage( ) throws EngineException

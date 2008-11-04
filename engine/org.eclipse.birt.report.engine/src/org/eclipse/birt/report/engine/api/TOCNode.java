@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2007 Actuate Corporation.
+ * Copyright (c) 2004,2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
@@ -24,6 +25,8 @@ import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
  */
 public class TOCNode
 {
+	public static final List EMPTY_CHILDREN = Collections
+			.unmodifiableList( new ArrayList( 0 ) ); 
 	/**
 	 * the string to be displayed for the TOC entry
 	 */
@@ -47,7 +50,7 @@ public class TOCNode
 	/**
 	 * A list of children for the TOC node
 	 */
-	protected ArrayList children;
+	protected List children;
 	
 	/**
 	 * The TOC's style 
@@ -95,7 +98,7 @@ public class TOCNode
 	{
 		if ( children == null )
 		{
-			children = new ArrayList( );
+			children = EMPTY_CHILDREN;
 		}
 		return children;
 	}

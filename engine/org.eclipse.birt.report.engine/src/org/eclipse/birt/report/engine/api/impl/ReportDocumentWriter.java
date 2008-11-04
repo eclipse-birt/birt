@@ -12,9 +12,7 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Dictionary;
@@ -25,17 +23,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
-import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.script.ParameterAttribute;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.InstanceID;
+import org.eclipse.birt.report.engine.internal.index.DocumentIndexWriter;
 import org.eclipse.birt.report.engine.ir.EngineIRWriter;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.toc.TOCBuilder;
-import org.eclipse.birt.report.engine.toc.TOCTree;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.util.DocumentUtil;
 import org.eclipse.core.runtime.Platform;
@@ -55,14 +51,10 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	private String extensions;
 	private HashMap paramters = new HashMap( );
 	private HashMap globalVariables = new HashMap( );
+	private DocumentIndexWriter indexWriter;
 	private int checkpoint = CHECKPOINT_INIT;
 	private long pageCount = PAGECOUNT_INIT;
 	
-	private HashMap bookmarks = new HashMap( );
-	private TOCTree tocTree = null;
-	private HashMap idToOffset = new HashMap( );
-	private HashMap bookmarkToOffset = new HashMap( );
-
 	public ReportDocumentWriter( IReportEngine engine, IDocArchiveWriter archive )
 			throws EngineException
 	{
@@ -107,6 +99,18 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 
 	public void close( )
 	{
+		if ( indexWriter != null )
+		{
+			try
+			{
+				indexWriter.close( );
+			}
+			catch ( IOException ex )
+			{
+				logger.log( Level.SEVERE, "Failed to close the indexes", ex );
+			}
+			indexWriter = null;
+		}
 		try
 		{
 			checkpoint = CHECKPOINT_END;
@@ -125,34 +129,6 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		return archive.getName( );
 	}
 
-	/**
-	 * save the TOC stream into the report document.
-	 * 
-	 * @param node
-	 *            TOC nodes.
-	 */
-	public void saveTOC( TOCTree tocTree )
-	{
-		this.tocTree = tocTree;
-	}
-
-	/**
-	 * save bookmarks into the stream.
-	 * 
-	 * @param bookmarks
-	 *            HashMap contains (bookmark, page) pair.
-	 */
-	public void saveBookmarks( HashMap bookmarks )
-	{
-		if ( bookmarks.isEmpty( ) )
-		{
-			return;
-		}
-		
-		this.bookmarks = new HashMap();
-		this.bookmarks.putAll( bookmarks );
-	}
-	
 	public void saveReportIR(Report reportIR)
 	{
 		RAOutputStream out = null;
@@ -287,7 +263,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			coreStream = new DataOutputStream( new BufferedOutputStream(
 					out ) );
 			IOUtil.writeString( coreStream, REPORT_DOCUMENT_TAG );			
-			IOUtil.writeString( coreStream, CORE_VERSION_1 );
+			IOUtil.writeString( coreStream, CORE_VERSION_2 );
 			IOUtil.writeString( coreStream, REPORT_DOCUMENT_VERSION );
 			
 			HashMap properties = new HashMap( );
@@ -311,13 +287,6 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			IOUtil.writeMap( coreStream, paramters );
 			IOUtil.writeMap( coreStream, globalVariables );
 			
-			if ( checkpoint == CHECKPOINT_END )
-			{
-				writeMap( coreStream, bookmarks );
-				TOCBuilder.write( tocTree, coreStream );
-				writeMap( coreStream, idToOffset );
-				writeMap( coreStream, bookmarkToOffset );
-			}
 			coreStream.flush( );
 		}
 		catch ( IOException ex )
@@ -366,18 +335,6 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		this.pageCount = pageCount;
 	}
 
-	public void saveReprotletsBookmarkIndex( Map bookmarkToOffset)
-	{
-		this.bookmarkToOffset = new HashMap();
-		this.bookmarkToOffset.putAll( bookmarkToOffset );
-	}
-
-	public void saveReportletsIdIndex( Map idToOffset )
-	{
-		this.idToOffset = new HashMap();
-		this.idToOffset.putAll( idToOffset );
-	}
-	
 	private String getBuildNumber( )
 	{
 		Bundle bundle = Platform.getBundle( "org.eclipse.birt.report.engine" );
@@ -415,6 +372,63 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		finally
 		{
 			out.close( );
+		}
+	}
+	
+	public void setPageNumberOfBookmark( String bookmark, long pageNumber )
+	{
+		try
+		{
+			if ( indexWriter == null )
+			{
+				indexWriter = new DocumentIndexWriter( archive );
+			}
+			if ( indexWriter != null )
+			{
+				indexWriter.setPageOfBookmark( bookmark, pageNumber );
+			}
+		}
+		catch ( IOException ex )
+		{
+			logger.log( Level.WARNING, "Failed to save the bookmark", ex );
+		}
+	}
+
+	public void setOffsetOfBookmark( String bookmark, long offset )
+	{
+		try
+		{
+			if ( indexWriter == null )
+			{
+				indexWriter = new DocumentIndexWriter( archive );
+			}
+			if ( indexWriter != null )
+			{
+				indexWriter.setOffsetOfBookmark( bookmark, offset );
+			}
+		}
+		catch ( IOException ex )
+		{
+			logger.log( Level.WARNING, "Failed to save the bookmark", ex );
+		}
+	}
+
+	public void setOffsetOfInstance( String instanceId, long offset )
+	{
+		try
+		{
+			if ( indexWriter == null )
+			{
+				indexWriter = new DocumentIndexWriter( archive );
+			}
+			if ( indexWriter != null )
+			{
+				indexWriter.setOffsetOfInstance( instanceId, offset );
+			}
+		}
+		catch ( IOException ex )
+		{
+			logger.log( Level.WARNING, "Failed to save the bookmark", ex );
 		}
 	}
 }

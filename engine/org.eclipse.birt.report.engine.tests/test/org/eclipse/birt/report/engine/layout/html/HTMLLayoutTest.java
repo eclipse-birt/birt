@@ -69,6 +69,6 @@ public class HTMLLayoutTest extends EngineCase
 	{
 		List tocs = document.findTOCByName( bookmark );
 		TOCNode toc = (TOCNode) tocs.get( 0 );
-		return document.getPageNumber( toc.getNodeID( ) );
+		return document.getPageNumber( toc.getBookmark( ) );
 	}
 }

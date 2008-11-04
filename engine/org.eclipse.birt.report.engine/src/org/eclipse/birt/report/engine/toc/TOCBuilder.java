@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,63 +11,62 @@
 
 package org.eclipse.birt.report.engine.toc;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
 
-import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.core.archive.IDocArchiveWriter;
+import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.toc.document.MemTOCWriter;
 
 /**
  * A class for building up TOC hierarchy
  */
-public class TOCBuilder
+public class TOCBuilder implements ITOCConstants
 {
-	/**
-	 * the root TOC entry
-	 */
-	private TOCTree tocTree;
-	private TOCEntry rootEntry;
 
-	private static final String VERSION_PREFIX = "__Version : ";
-	private static final String VERSION = VERSION_PREFIX + "2.0";
-	
-	public static final String TOC_PREFIX = "__TOC";//
-	
-	/**
-	 * @param tocTree
-	 *            the root for the TOC tree
-	 */
-	public TOCBuilder( TOCTree tocTree )
+	private ITOCWriter writer;
+
+	public TOCBuilder( )
 	{
-		this.tocTree = tocTree;
-		TOCTreeNode root = tocTree.getTOCRoot( );
-		rootEntry = new TOCEntry( null, root, root );
+		writer = new MemTOCWriter( );
+	}
+
+	public TOCBuilder( ITOCWriter writer ) throws IOException
+	{
+		if ( writer == null )
+		{
+			this.writer = new MemTOCWriter( );
+		}
+		else
+		{
+			this.writer = writer;
+		}
+	}
+
+	public TOCBuilder( ExecutionContext context ) throws IOException
+	{
+		ReportDocumentWriter document = context.getReportDocWriter( );
+		if ( document != null )
+		{
+			IDocArchiveWriter archive = document.getArchive( );
+			writer = new TOCWriter( archive );
+		}
+		else
+		{
+			writer = new MemTOCWriter( );
+		}
 	}
 
 	public TOCEntry startGroupEntry( TOCEntry parent, Object tocValue,
 			String bookmark, String hiddenFormats, long elementId )
 	{
-		return startEntry( parent, tocValue, bookmark, hiddenFormats, true, elementId );
-	}
-
-	private String mergeHideFormats( TOCEntry parent, String hiddenFormats )
-	{
-		String parentHiddenFormats = parent.getHideFormats( );
-		if ( hiddenFormats == null )
-		{
-			return parentHiddenFormats;
-		}
-		if ( parentHiddenFormats == null )
-		{
-			return hiddenFormats;
-		}
-		return hiddenFormats + ", " + parentHiddenFormats ;
+		return startEntry( parent, tocValue, bookmark, hiddenFormats, true,
+				elementId );
 	}
 
 	public void closeGroupEntry( TOCEntry group )
 	{
+		closeEntry( group );
 	}
 
 	/**
@@ -78,62 +77,61 @@ public class TOCBuilder
 	public TOCEntry startEntry( TOCEntry parent, Object tocValue,
 			String bookmark, String hiddenFormats, long elementId )
 	{
-		return startEntry( parent, tocValue, bookmark, hiddenFormats, false, elementId );
+		return startEntry( parent, tocValue, bookmark, hiddenFormats, false,
+				elementId );
 	}
 
 	public TOCEntry startEntry( TOCEntry parent, Object tocValue,
-			String bookmark, String hiddenFormats, boolean isGroupRoot, long elementId )
+			String bookmark, long elementId )
 	{
-		if ( parent == null )
-		{
-			parent = rootEntry;
-		}
-
-		TOCTreeNode parentNode = parent.node;
-		TOCTreeNode node = new TOCTreeNode( );
-		String id = parentNode.getNodeID( );
-		if ( id == null )
-		{
-			id = TOC_PREFIX;
-		}
-		id = id + "_" + parentNode.getChildren( ).size( );
-
-		String formats = mergeHideFormats( parent, hiddenFormats);
-		node.setNodeID( id );
-		node.setBookmark( bookmark == null ? id : bookmark );
-		node.setParent( parentNode );
-		node.setHideFormats( formats );
-		node.setIsGroupRoot( isGroupRoot );
-		node.setTOCValue( tocValue );
-		node.setElementId( elementId );
-		parentNode.getChildren( ).add( node );
-
-		TOCEntry entry = new TOCEntry( parent, parent.getRoot( ), node );
-		entry.setHideFormats( formats );
-		return entry;
-	}
-
-	public TOCEntry startEntry( TOCEntry parent, Object tocValue, String bookmark, long elementId )
-	{
-		return startEntry( parent, tocValue, bookmark, null, elementId );
+		return startEntry( parent, tocValue, bookmark, null, false, elementId );
 	}
 
 	public TOCEntry startDummyEntry( TOCEntry parent, String hiddenFormats )
 	{
-		if ( parent == null )
-		{
-			parent = rootEntry;
-		}
-		TOCEntry entry = new TOCEntry( parent, parent.getRoot( ), parent
-				.getNode( ) );
-		entry.setHideFormats( mergeHideFormats( parent, hiddenFormats ) );
+		return startEntry( parent, null, null, hiddenFormats, false, -1 );
+	}
+
+	public TOCEntry createEntry( TOCEntry parent, Object tocValue,
+			String bookmark, long elementId )
+	{
+		TOCEntry entry = startEntry( parent, tocValue, bookmark, null, false,
+				elementId );
+		closeEntry( entry );
 		return entry;
 	}
 
-	public TOCEntry createEntry( TOCEntry parent, Object tocValue, String bookmark, long elementId )
+	int nextChildId;
+	private String getNextId( TOCEntry parent )
 	{
-		TOCEntry entry = startEntry( parent, tocValue, bookmark, null, elementId );
-		closeEntry( entry );
+		if ( parent == null )
+		{
+			return TOC_PREFIX + nextChildId++;
+		}
+		else
+		{
+			return parent.getNodeId( ) + "_" + parent.nextChildId++;
+		}
+	}
+
+	private TOCEntry startEntry( TOCEntry parent, Object tocValue,
+			String bookmark, String hiddenFormats, boolean isGroup,
+			long elementId )
+	{
+		TOCEntry entry = new TOCEntry( );
+		entry.setParent( parent );
+		entry.setNodeId( getNextId( parent ) );
+		entry.setBookmark( bookmark == null ? entry.getNodeId( ) : bookmark );
+		entry.setHiddenFormats( hiddenFormats );
+		entry.setGroup( isGroup );
+		entry.setTOCValue( tocValue );
+		entry.setElementId( elementId );
+
+		if ( tocValue != null )
+		{
+			writeTOCEntry( entry );
+		}
+
 		return entry;
 	}
 
@@ -144,156 +142,37 @@ public class TOCBuilder
 	 */
 	public void closeEntry( TOCEntry entry )
 	{
-	}
-	
-	public TOCEntry getTOCEntry( )
-	{
-		return rootEntry;
-	}
-	
-	public TOCTree getTOCTree( )
-	{
-		return tocTree;
-	}
-
-	static public void write( TOCTree tree, DataOutputStream out )
-			throws IOException
-	{
-		IOUtil.writeString( out, VERSION );
-		if ( tree != null )
+		if ( entry.getTreeNode( ) != null )
 		{
-			writeTOC( tree.getTOCRoot( ), out );
-		}
-		else
-		{
-			writeTOC( new TOCTreeNode( ), out );
-		}
-	}
-
-	private static void writeTOC( TOCTreeNode root, DataOutputStream out )
-			throws IOException
-	{
-		IOUtil.writeString( out, root.getNodeID( ) );
-		IOUtil.writeString( out, root.getDisplayString( ) );
-		IOUtil.writeString( out, root.getBookmark( ) );
-		IOUtil.writeString( out, root.getHiddenFormats( ) );
-		IOUtil.writeBool( out, root.isGroupRoot( ) );
-		IOUtil.writeObject( out, root.getTOCValue( ) );
-		IOUtil.writeLong( out, root.getElementId( ) );
-		List children = root.getChildren( );
-		IOUtil.writeInt( out, children.size( ) );
-		Iterator iter = children.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			TOCTreeNode child = (TOCTreeNode) iter.next( );
-			writeTOC( child, out );
-		}
-		out.flush( );
-		return;
-	}
-
-	public static void read( TOCTree tree, DataInputStream input ) throws IOException
-	{
-		read( tree, input, null );
-	}
-	
-	public static void read( TOCTree tree, DataInputStream input, ClassLoader loader ) throws IOException
-	{
-		TOCTreeNode node = tree.getTOCRoot( );
-		String head = IOUtil.readString( input );
-		if ( head == null || ! head.startsWith( VERSION_PREFIX ) )
-		{
-			readV0( node, input, head, true );
-		}
-		else
-		{
-			String versionNo = head.substring( VERSION_PREFIX.length( ) );
-			if ( "1.0".equals( versionNo ) )
+			try
 			{
-				readV1( node, input, loader );
-				return;
+				writer.closeTOCEntry( entry );
 			}
-			if ( "2.0".equals( versionNo ) )
+			catch ( IOException ex )
 			{
-				readV2( node, input, loader );
-				return;
 			}
 		}
 	}
 
-	static public void readV0( TOCTreeNode node, DataInputStream input,
-			String nodeId, boolean isRoot ) throws IOException
+	private void writeTOCEntry( TOCEntry entry )
 	{
-		if ( !isRoot )
+		TOCEntry parent = entry.getParent( );
+		while ( parent != null && parent.getTreeNode( ) == null )
 		{
-			nodeId = IOUtil.readString( input );
+			writeTOCEntry( parent );
 		}
-		String displayString = IOUtil.readString( input );
-		String bookmark = IOUtil.readString( input );
-		node.setNodeID( nodeId );
-		node.setDisplayString( displayString );
-		node.setBookmark( bookmark );
-		int size = IOUtil.readInt( input );
-		for ( int i = 0; i < size; i++ )
+
+		try
 		{
-			TOCTreeNode child = new TOCTreeNode( );
-			readV0( child, input, null, false );
-			child.setParent( node );
-			node.getChildren( ).add( child );
+			writer.startTOCEntry( entry );
+		}
+		catch ( IOException ex )
+		{
 		}
 	}
 
-	static public void readV1( TOCTreeNode node, DataInputStream input,
-			ClassLoader loader ) throws IOException
+	public ITreeNode getTOCTree( )
 	{
-		String nodeId = IOUtil.readString( input );
-		String displayString = IOUtil.readString( input );
-		String bookmark = IOUtil.readString( input );
-		String hiddenFormats = IOUtil.readString( input );
-		boolean isGroupRoot = IOUtil.readBool( input );
-		Object tocValue = IOUtil.readObject( input, loader );
-		node.setNodeID( nodeId );
-		node.setDisplayString( displayString );
-		node.setBookmark( bookmark );
-		node.setHideFormats( hiddenFormats );
-		node.setIsGroupRoot( isGroupRoot );
-		node.setTOCValue( tocValue );
-		int size = IOUtil.readInt( input );
-		for ( int i = 0; i < size; i++ )
-		{
-			TOCTreeNode child = new TOCTreeNode( );
-			readV1( child, input, loader );
-			child.setParent( node );
-			node.getChildren( ).add( child );
-		}
+		return writer.getTree( );
 	}
-	
-	static public void readV2( TOCTreeNode node, DataInputStream input,
-			ClassLoader loader ) throws IOException
-	{
-		String nodeId = IOUtil.readString( input );
-		String displayString = IOUtil.readString( input );
-		String bookmark = IOUtil.readString( input );
-		String hiddenFormats = IOUtil.readString( input );
-		boolean isGroupRoot = IOUtil.readBool( input );
-		Object tocValue = IOUtil.readObject( input, loader );
-		long elementId = IOUtil.readLong( input );
-		node.setNodeID( nodeId );
-		node.setDisplayString( displayString );
-		node.setBookmark( bookmark );
-		node.setHideFormats( hiddenFormats );
-		node.setIsGroupRoot( isGroupRoot );
-		node.setTOCValue( tocValue );
-		node.setElementId( elementId );
-		int size = IOUtil.readInt( input );
-		for ( int i = 0; i < size; i++ )
-		{
-			TOCTreeNode child = new TOCTreeNode( );
-			readV2( child, input, loader );
-			child.setParent( node );
-			node.getChildren( ).add( child );
-		}
-	}	
-
-	
 }

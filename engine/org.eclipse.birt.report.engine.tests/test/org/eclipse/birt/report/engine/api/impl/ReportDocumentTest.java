@@ -15,8 +15,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.archive.FileArchiveReader;
@@ -29,13 +27,8 @@ import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
-import org.eclipse.birt.report.engine.api.ITOCTree;
-import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.parser.ReportParser;
-import org.eclipse.birt.report.engine.toc.TOCBuilder;
-import org.eclipse.birt.report.engine.toc.TOCEntry;
-import org.eclipse.birt.report.engine.toc.TOCTree;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
@@ -68,7 +61,7 @@ public class ReportDocumentTest extends EngineCase
 		createDocument( );
 		checkDocument( );
 	}
-	
+
 	public void testDesignStream( )
 	{
 		try
@@ -103,24 +96,13 @@ public class ReportDocumentTest extends EngineCase
 			IDocArchiveWriter archive = new FileArchiveWriter( REPORT_DOCUMENT );
 			ReportDocumentWriter document = new ReportDocumentWriter( engine,
 					archive );
-
-			TOCTree tree = new TOCTree( );
-			document.saveTOC( tree );
-
-			HashMap bookmarks = new HashMap( );
-			document.saveBookmarks( bookmarks );
-
 			document.close( );
 
 			IDocArchiveReader reader = new FileArchiveReader( REPORT_DOCUMENT );
-			IReportDocument docReader = engine.openReportDocument( null, reader, null );
+			IReportDocument docReader = engine.openReportDocument( null,
+					reader, null );
 
 			assertFalse( reader.exists( ReportDocumentReader.BOOKMARK_STREAM ) );
-			// we now create TOC_STREAM whenever where is TOC or not.
-			// assertFalse( reader.exists( ReportDocumentReader.TOC_STREAM ) );
-
-			TOCNode root = tree.getTOCRoot( );
-			assertTrue( root.getChildren( ).isEmpty( ) );
 
 			assertTrue( docReader.getBookmarks( ).isEmpty( ) );
 
@@ -146,23 +128,18 @@ public class ReportDocumentTest extends EngineCase
 			ReportRunnable runnable = (ReportRunnable) engine
 					.openReportDesign( REPORT_DESIGN );
 			Report reportIR = new ReportParser( )
-					.parse( (ReportDesignHandle) runnable
-							.getDesignHandle( ) );
+					.parse( (ReportDesignHandle) runnable.getDesignHandle( ) );
 			document.saveDesign( runnable, null );
 			document.saveReportIR( reportIR );
 
 			HashMap parameters = createParamters( );
 			document.saveParamters( parameters );
 
-			TOCTree tocTree = createTOC( );
-			document.saveTOC( tocTree );
-
-			HashMap bookmarks = createBookmarks( );
-			document.saveBookmarks( bookmarks );
-
 			Map map = createPersistentObjects( );
 			document.savePersistentObjects( map );
-
+			
+			createBookmarks( document );
+			
 			document.close( );
 		}
 		catch ( Exception ex )
@@ -183,7 +160,6 @@ public class ReportDocumentTest extends EngineCase
 			assertTrue( document.getName( ) != null );
 			assertTrue( document.getReportRunnable( ) != null );
 			checkParamters( document.getParameterValues( ) );
-			checkTOC( document );
 			checkBookmarks( document );
 			checkPersistentObjects( document.getGlobalVariables( null ) );
 
@@ -231,110 +207,10 @@ public class ReportDocumentTest extends EngineCase
 		assertEquals( new Integer( 3 ), map.get( "integer" ) );
 	}
 
-	protected TOCTree createTOC( )
+	protected void createBookmarks( ReportDocumentWriter writer )
 	{
-		long elementId = 1000;
-		TOCTree tree = new TOCTree( );
-		TOCBuilder builder = new TOCBuilder( tree );
-		TOCEntry rootEntry = builder.getTOCEntry( );
-		{
-			TOCEntry chapter1 = startEntry( builder, rootEntry,
-					"Chapter 1 title", null, elementId++ );
-			{
-				createEntry( builder, chapter1, "Section 1 title", null, elementId++ );
-				createEntry( builder, chapter1, "Section 1 title", null, elementId++ );
-				createEntry( builder, chapter1, "Chapter 2 title", null, elementId++ );
-			}
-			builder.closeEntry( chapter1 );
-			createEntry( builder, rootEntry, "Chapter 2 title", null, elementId++ );
-			createEntry( builder, rootEntry, "Section 1 title", null, elementId++ );
-		}
-		return builder.getTOCTree( );
-	}
-
-	private TOCEntry startEntry( TOCBuilder builder, TOCEntry entry,
-			String displayString, String bookmark, long elementId )
-	{
-		return builder.startEntry( entry, displayString, bookmark, elementId );
-	}
-	
-	private TOCEntry createEntry( TOCBuilder builder, TOCEntry entry,
-			String displayString, String bookmark, long elementId )
-	{
-		return builder.createEntry( entry, displayString, bookmark, elementId );
-	}
-	
-	protected void checkTOC( IReportDocument document )
-	{
-		// assertTOCNode( root, null, "/", "ROOT", "0" );
-		ITOCTree tree = document.getTOCTree( "viewer", null );
-		TOCNode root = tree.getRoot( );
-		assertTrue( root != null );
-		assertTrue( root.getNodeID( ) == null );
-		assertEquals( 3, root.getChildren( ).size( ) );
-		Iterator iter = root.getChildren( ).iterator( );
-		TOCNode chart1 = (TOCNode) iter.next( );
-		assertTOCNode( chart1, root, "__TOC_0", "Chapter 1 title", "__TOC_0" );
-		assertEquals( 3, chart1.getChildren( ).size( ) );
-		Iterator sectionIter = chart1.getChildren( ).iterator( );
-
-		TOCNode section1 = (TOCNode) sectionIter.next( );
-		assertTOCNode( section1, chart1, "__TOC_0_0", "Section 1 title",
-				"__TOC_0_0" );
-
-		section1 = (TOCNode) sectionIter.next( );
-		assertTOCNode( section1, chart1, "__TOC_0_1", "Section 1 title",
-				"__TOC_0_1" );
-
-		section1 = (TOCNode) sectionIter.next( );
-		assertTOCNode( section1, chart1, "__TOC_0_2", "Chapter 2 title",
-				"__TOC_0_2" );
-		assertFalse( sectionIter.hasNext( ) );
-
-		TOCNode chart2 = (TOCNode) iter.next( );
-		assertTOCNode( chart2, root, "__TOC_1", "Chapter 2 title", "__TOC_1" );
-		chart2 = (TOCNode) iter.next( );
-		assertTOCNode( chart2, root, "__TOC_2", "Section 1 title", "__TOC_2" );
-		assertFalse( sectionIter.hasNext( ) );
-
-		checkFindTOCByName( document );
-	}
-
-	protected void checkFindTOCByName( IReportDocument document )
-	{
-		TOCNode root = document.findTOC( "/" );
-		assertTrue( root != null );
-
-		List tocs = (List) document.findTOCByName( "Chapter 1 title" );
-		assertEquals( 1, tocs.size( ) );
-
-		tocs = (List) document.findTOCByName( "Chapter 2 title" );
-		assertEquals( 2, tocs.size( ) );
-
-		tocs = (List) document.findTOCByName( "Section 1 title" );
-		assertEquals( 3, tocs.size( ) );
-
-		tocs = (List) document.findTOCByName( "Unexist toc" );
-		assertNull( tocs );
-
-		assertNull( document.findTOCByName( null ) );
-	}
-
-	protected void assertTOCNode( TOCNode node, TOCNode parent, String id,
-			String label, String bookmark )
-	{
-		assertEquals( parent, node.getParent( ) );
-		assertEquals( id, node.getNodeID( ) );
-		assertEquals( label, node.getDisplayString( ) );
-		assertEquals( bookmark, node.getBookmark( ) );
-	}
-
-	protected HashMap createBookmarks( )
-	{
-		HashMap bookmarks = new HashMap( );
-		bookmarks.put( "A", new Long( 1 ) );
-		bookmarks.put( "B", new Long( 2 ) );
-		return bookmarks;
+		writer.setPageNumberOfBookmark( "A", 1 );
+		writer.setPageNumberOfBookmark( "B", 2 );
 	}
 
 	protected void checkBookmarks( IReportDocument document )

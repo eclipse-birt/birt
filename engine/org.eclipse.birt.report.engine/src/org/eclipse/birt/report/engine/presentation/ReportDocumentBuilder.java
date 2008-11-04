@@ -15,7 +15,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -29,7 +28,6 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
-import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.impl.EngineTask;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
@@ -48,9 +46,7 @@ import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.OnPageBreakLayoutPageHandle;
 import org.eclipse.birt.report.engine.extension.engine.IContentProcessor;
 import org.eclipse.birt.report.engine.extension.engine.IDocumentExtension;
-import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtension;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
-import org.eclipse.birt.report.engine.extension.internal.RunContext;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.IPageHintWriter;
 import org.eclipse.birt.report.engine.internal.document.IReportContentWriter;
@@ -66,7 +62,6 @@ import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
-import org.eclipse.birt.report.engine.toc.TOCTree;
 
 /**
  * Used in run task. To builder the report document.
@@ -109,21 +104,6 @@ public class ReportDocumentBuilder
 	 * the offset of the page content
 	 */
 	protected long pageOffset;
-
-	/**
-	 * bookmark index, contains bookmark, page pair.
-	 */
-	protected HashMap bookmarks = new HashMap( );
-
-	/**
-	 * Reportlets index by instanceID, contains instanceId, offset pair.
-	 */
-	protected HashMap reportletsIndexById = new HashMap( );
-
-	/**
-	 * Reportlets index by bookmark, contains bookmark, offset pair.
-	 */
-	protected HashMap reportletsIndexByBookmark = new HashMap( );
 
 	/**
 	 * report document used to save the informations.
@@ -357,15 +337,6 @@ public class ReportDocumentBuilder
 		public void end( IReportContent report )
 		{
 			close( );
-			// save the toc stream
-			ITOCTree tocTree = report.getTOCTree( null, null );
-			if ( tocTree instanceof TOCTree )
-			{
-				document.saveTOC( (TOCTree) report.getTOCTree( null, null ) );
-			}
-			// save the instance id to the report document
-			document.saveReportletsIdIndex( reportletsIndexById );
-			document.saveReprotletsBookmarkIndex( reportletsIndexByBookmark );
 		}
 
 		public void startContent( IContent content )
@@ -389,22 +360,14 @@ public class ReportDocumentBuilder
 						if ( iid != null )
 						{
 							String strIID = iid.toUniqueString( );
-							if ( reportletsIndexById.get( strIID ) == null )
-							{
-								reportletsIndexById.put( strIID, new Long(
-										offset ) );
-							}
+							document.setOffsetOfInstance( strIID, offset );
 						}
 					}
 
 					String bookmark = content.getBookmark( );
 					if ( bookmark != null )
 					{
-						if ( reportletsIndexByBookmark.get( bookmark ) == null )
-						{
-							reportletsIndexByBookmark.put( bookmark, new Long(
-									offset ) );
-						}
+						document.setOffsetOfBookmark( bookmark, offset );
 					}
 				}
 				catch ( IOException ex )
@@ -473,8 +436,6 @@ public class ReportDocumentBuilder
 		public void end( IReportContent report )
 		{
 			close( );
-			// save the bookmark stream
-			document.saveBookmarks( bookmarks );
 		}
 
 		private ByteArrayOutputStream writeBuffer = new ByteArrayOutputStream( );
@@ -520,13 +481,10 @@ public class ReportDocumentBuilder
 		public void startContent( IContent content )
 		{
 			// save the bookmark index
-			if ( content.getBookmark( ) != null )
+			String bookmark = content.getBookmark( );
+			if ( bookmark != null )
 			{
-				if ( !bookmarks.containsKey( content.getBookmark( ) ) )
-				{
-					bookmarks.put( content.getBookmark( ),
-							new Long( pageNumber ) );
-				}
+				document.setPageNumberOfBookmark( bookmark, pageNumber );
 			}
 		}
 	}
