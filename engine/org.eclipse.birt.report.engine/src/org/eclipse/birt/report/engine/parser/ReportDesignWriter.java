@@ -77,7 +77,6 @@ public class ReportDesignWriter
 		new ReportDumpVisitor( document ).createDocument( report );
 
 		Transformer tr = TransformerFactory.newInstance( ).newTransformer( );
-		tr.setOutputProperty( OutputKeys.STANDALONE, "none" );
 		tr.setOutputProperty( OutputKeys.INDENT, "yes" );
 		tr.setOutputProperty( OutputKeys.METHOD, "xml" );
 		tr.setOutputProperty( "{http://xml.apache.org/xslt}indent-amount", "3" );

@@ -57,4 +57,17 @@ public interface IRunTask extends IEngineTask
 	 *            max rows
 	 */
 	public void setMaxRowsPerQuery( int maxRows );
+
+	/**
+	 * need the run task support progressive viewing.
+	 * 
+	 * the default value is TRUE.
+	 * 
+	 * @param enable
+	 *            true the render task can render the document while the run
+	 *            task is generating.
+	 * 
+	 *            false the render task must wait for the run task.
+	 */
+	public void enableProgressiveViewing( boolean enable );
 }
