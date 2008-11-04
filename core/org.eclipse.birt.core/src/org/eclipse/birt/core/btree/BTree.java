@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -396,6 +397,9 @@ public class BTree<K, V> implements BTreeConstants
 					}
 					catch ( IOException ex )
 					{
+						logger.log( Level.WARNING, "failed to write node "
+								+ node.getNodeId( ) + " type "
+								+ node.getNodeType( ), ex );
 						return false;
 					}
 				}
@@ -413,6 +417,7 @@ public class BTree<K, V> implements BTreeConstants
 			DataOutput output = new DataOutputStream( out );
 			output.writeInt( node.getNodeType( ) );
 			node.write( output );
+			node.setDirty( false );
 		}
 		finally
 		{
@@ -456,6 +461,7 @@ public class BTree<K, V> implements BTreeConstants
 			}
 			node.read( input );
 			node.setUsedBlocks( in.getUsedBlocks( ) );
+			node.setDirty( false );
 			node.lock( );
 			nodeCaches.put( new Integer( nodeId ), node );
 			return node;

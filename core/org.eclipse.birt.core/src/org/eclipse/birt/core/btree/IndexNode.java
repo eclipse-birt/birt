@@ -373,7 +373,6 @@ public class IndexNode<K, V> extends BTreeNode<K, V>
 				lastEntry = entry;
 			}
 		}
-		dirty = false;
 	}
 
 	protected void write( DataOutput out ) throws IOException
@@ -389,7 +388,6 @@ public class IndexNode<K, V> extends BTreeNode<K, V>
 			writeEntry( out, entry );
 			entry = entry.getNext( );
 		}
-		dirty = false;
 	}
 
 	private IndexEntry<K, V> readEntry( DataInput in ) throws IOException
