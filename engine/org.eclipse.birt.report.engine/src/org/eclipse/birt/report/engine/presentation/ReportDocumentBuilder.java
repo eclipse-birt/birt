@@ -372,7 +372,7 @@ public class ReportDocumentBuilder
 				}
 				catch ( IOException ex )
 				{
-					logger.log( Level.SEVERE, "Write content error" );
+					logger.log( Level.SEVERE, "Write content error", ex );
 					close( );
 				}
 			}
