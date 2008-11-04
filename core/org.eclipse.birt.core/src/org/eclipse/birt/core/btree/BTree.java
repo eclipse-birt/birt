@@ -57,12 +57,12 @@ public class BTree<K, V> implements BTreeConstants
 	protected BTreeSerializer<V> valueSerializer;
 	protected Comparator<K> comparator;
 
-	public BTree( ) throws BTreeException
+	public BTree( ) throws IOException
 	{
 		this( new BTreeOption<K, V>( ) );
 	}
 
-	public BTree( BTreeOption<K, V> option ) throws BTreeException
+	public BTree( BTreeOption<K, V> option ) throws IOException
 	{
 		if ( option.file != null )
 		{
@@ -94,36 +94,29 @@ public class BTree<K, V> implements BTreeConstants
 		this.headNodeId = option.headNodeId;
 		this.cacheSize = option.cacheSize;
 
-		try
+		if ( file != null )
 		{
-			if ( file != null )
+			if ( file.getTotalBlock( ) > headNodeId )
 			{
-				if ( file.getTotalBlock( ) > headNodeId )
-				{
-					byte[] bytes = new byte[BLOCK_SIZE];
-					file.readBlock( headNodeId, bytes );
-					DataInput input = new DataInputStream(
-							new ByteArrayInputStream( bytes ) );
-					readTreeHead( input );
-				}
-				else
-				{
-					ByteArrayOutputStream buffer = new ByteArrayOutputStream(
-							BLOCK_SIZE );
-					DataOutput output = new DataOutputStream( buffer );
-					writeTreeHead( output );
-					file.writeBlock( headNodeId, buffer.toByteArray( ) );
-				}
-				totalBlocks = file.getTotalBlock( );
+				byte[] bytes = new byte[BLOCK_SIZE];
+				file.readBlock( headNodeId, bytes );
+				DataInput input = new DataInputStream(
+						new ByteArrayInputStream( bytes ) );
+				readTreeHead( input );
 			}
-		}
-		catch ( IOException ex )
-		{
-			throw new BTreeException( ex );
+			else
+			{
+				ByteArrayOutputStream buffer = new ByteArrayOutputStream(
+						BLOCK_SIZE );
+				DataOutput output = new DataOutputStream( buffer );
+				writeTreeHead( output );
+				file.writeBlock( headNodeId, buffer.toByteArray( ) );
+			}
+			totalBlocks = file.getTotalBlock( );
 		}
 	}
 
-	public void close( ) throws BTreeException
+	public void close( ) throws IOException
 	{
 		if ( readOnly )
 		{
@@ -134,29 +127,20 @@ public class BTree<K, V> implements BTreeConstants
 			return;
 		}
 
-		try
-		{
-			// write the header
-			ByteArrayOutputStream buffer = new ByteArrayOutputStream(
-					BLOCK_SIZE );
-			DataOutput output = new DataOutputStream( buffer );
-			writeTreeHead( output );
-			file.writeBlock( headNodeId, buffer.toByteArray( ) );
+		// write the header
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream( BLOCK_SIZE );
+		DataOutput output = new DataOutputStream( buffer );
+		writeTreeHead( output );
+		file.writeBlock( headNodeId, buffer.toByteArray( ) );
 
-			// flush the nodes
-			for ( BTreeNode<K, V> node : nodeCaches.values( ) )
+		// flush the nodes
+		for ( BTreeNode<K, V> node : nodeCaches.values( ) )
+		{
+			if ( node.isDirty( ) )
 			{
-				if ( node.isDirty( ) )
-				{
-					writeNode( node );
-				}
+				writeNode( node );
 			}
 		}
-		catch ( IOException ex )
-		{
-			throw new BTreeException( ex );
-		}
-
 	}
 
 	LeafEntry<K, V> findEntry( K k ) throws IOException
@@ -185,7 +169,7 @@ public class BTree<K, V> implements BTreeConstants
 		return null;
 	}
 
-	void removeEntry( LeafEntry<K, V> entry ) throws BTreeException
+	void removeEntry( LeafEntry<K, V> entry ) throws IOException
 	{
 		throw new UnsupportedOperationException( "setEntryValue" );
 	}
@@ -287,123 +271,86 @@ public class BTree<K, V> implements BTreeConstants
 		return totalValues;
 	}
 
-	public V getValue( K key ) throws BTreeException
+	public V getValue( K key ) throws IOException
 	{
 		if ( !hasValue( ) )
 		{
 			return null;
 		}
-		try
+		LeafEntry<K, V> entry = findEntry( key );
+		if ( entry != null )
 		{
-			LeafEntry<K, V> entry = findEntry( key );
-			if ( entry != null )
+			K entryKey = getKey( entry.getKey( ) );
+			if ( comparator.compare( key, entryKey ) == 0 )
 			{
-				K entryKey = getKey( entry.getKey( ) );
-				if ( comparator.compare( key, entryKey ) == 0 )
-				{
-					BTreeValues<V> values = entry.getValues( );
-					BTreeValues.Value<V> value = values.getFirstValue( );
-					return getValue( value.getValue( ) );
-				}
+				BTreeValues<V> values = entry.getValues( );
+				BTreeValues.Value<V> value = values.getFirstValue( );
+				return getValue( value.getValue( ) );
 			}
-			return null;
 		}
-		catch ( IOException ex )
-		{
-			throw new BTreeException( ex );
-		}
+		return null;
 	}
 
-	public Collection<V> getValues( K key ) throws BTreeException
+	public Collection<V> getValues( K key ) throws IOException
 	{
 		if ( !hasValue( ) )
 		{
 			return null;
 		}
-		try
+		LeafEntry<K, V> entry = findEntry( key );
+		if ( entry != null )
 		{
-			LeafEntry<K, V> entry = findEntry( key );
-			if ( entry != null )
+			K entryKey = getKey( entry.getKey( ) );
+			if ( comparator.compare( key, entryKey ) == 0 )
 			{
-				K entryKey = getKey( entry.getKey( ) );
-				if ( comparator.compare( key, entryKey ) == 0 )
+				BTreeValues<V> values = entry.getValues( );
+				ArrayList<V> list = new ArrayList<V>( values.getValueCount( ) );
+				BTreeValues.Value<V> value = values.getFirstValue( );
+				while ( value != null )
 				{
-					BTreeValues<V> values = entry.getValues( );
-					ArrayList<V> list = new ArrayList<V>( values
-							.getValueCount( ) );
-					BTreeValues.Value<V> value = values.getFirstValue( );
-					while ( value != null )
-					{
-						list.add( getValue( value.getValue( ) ) );
-						value = value.getNext( );
-					}
-					return list;
+					list.add( getValue( value.getValue( ) ) );
+					value = value.getNext( );
 				}
+				return list;
 			}
-			return null;
 		}
-		catch ( IOException ex )
-		{
-			throw new BTreeException( ex );
-		}
-
+		return null;
 	}
 
-	public boolean exist( K key ) throws BTreeException
+	public boolean exist( K key ) throws IOException
 	{
-		try
+		LeafEntry<K, V> entry = findEntry( key );
+		if ( entry != null )
 		{
-			LeafEntry<K, V> entry = findEntry( key );
-			if ( entry != null )
+			K entryKey = getKey( entry.getKey( ) );
+			if ( comparator.compare( key, entryKey ) == 0 )
 			{
-				K entryKey = getKey( entry.getKey( ) );
-				if ( comparator.compare( key, entryKey ) == 0 )
-				{
-					return true;
-				}
+				return true;
 			}
-			return false;
 		}
-		catch ( IOException ex )
-		{
-			throw new BTreeException( ex );
-		}
+		return false;
 	}
 
-	public void insert( K k, V v ) throws BTreeException
+	public void insert( K k, V v ) throws IOException
 	{
 		if ( readOnly )
 		{
-			throw new BTreeException(
+			throw new IOException(
 					"can not insert a entry into a read only tree" );
 		}
-		try
-		{
-			insertEntry( k, v );
-		}
-		catch ( IOException ex )
-		{
-			throw new BTreeException( ex );
-		}
+		insertEntry( k, v );
 	}
 
-	public void remove( K key ) throws BTreeException
+	public void remove( K key ) throws IOException
 	{
-		try
+		LeafEntry<K, V> entry = findEntry( key );
+		if ( entry != null )
 		{
-			LeafEntry<K, V> entry = findEntry( key );
-			if ( entry != null )
+			K entryKey = getKey( entry.getKey( ) );
+			if ( comparator.compare( key, entryKey ) == 0 )
 			{
-				K entryKey = getKey( entry.getKey( ) );
-				if ( comparator.compare( key, entryKey ) == 0 )
-				{
-					removeEntry( entry );
-				}
+				removeEntry( entry );
 			}
-		}
-		catch ( IOException ex )
-		{
-			throw new BTreeException( ex );
 		}
 	}
 
