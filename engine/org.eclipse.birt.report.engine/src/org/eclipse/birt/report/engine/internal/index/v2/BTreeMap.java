@@ -24,7 +24,6 @@ import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.btree.BTree;
-import org.eclipse.birt.core.btree.BTreeException;
 import org.eclipse.birt.core.btree.BTreeFile;
 import org.eclipse.birt.core.btree.BTreeOption;
 import org.eclipse.birt.core.btree.BTreeSerializer;
@@ -83,24 +82,17 @@ class BTreeMap extends BTree<String, Long>
 		super.writeTreeHead( out );
 	}
 
-	public void close( ) throws BTreeException
+	public void close( ) throws IOException
 	{
 		super.close( );
 
-		try
+		if ( file instanceof ArchiveInputFile )
 		{
-			if ( file instanceof ArchiveInputFile )
-			{
-				( (ArchiveInputFile) file ).close( );
-			}
-			if ( file instanceof ArchiveOutputFile )
-			{
-				( (ArchiveOutputFile) file ).close( );
-			}
+			( (ArchiveInputFile) file ).close( );
 		}
-		catch ( IOException ex )
+		if ( file instanceof ArchiveOutputFile )
 		{
-			throw new BTreeException( ex );
+			( (ArchiveOutputFile) file ).close( );
 		}
 	}
 

@@ -47,7 +47,7 @@ public class BTreeCursor<K, V>
 	 * 
 	 * @return
 	 */
-	public void reset( ) throws BTreeException
+	public void reset( ) throws IOException
 	{
 		if ( entry != null )
 		{
@@ -64,31 +64,24 @@ public class BTreeCursor<K, V>
 	 * @return true if the current key equals to the key.
 	 * @throws IOException
 	 */
-	public boolean moveTo( K key ) throws BTreeException
+	public boolean moveTo( K key ) throws IOException
 	{
-		try
+		LeafEntry<K, V> tgtEntry = btree.findEntry( key );
+		if ( tgtEntry != null )
 		{
-			LeafEntry<K, V> tgtEntry = btree.findEntry( key );
-			if ( tgtEntry != null )
+			btree.lockEntry( tgtEntry );
+			if ( entry != null )
 			{
-				btree.lockEntry( tgtEntry );
-				if ( entry != null )
-				{
-					btree.unlockEntry( entry );
-				}
-				entry = tgtEntry;
-				K tgtKey = btree.getKey( tgtEntry.getKey( ) );
-				if ( key.equals( tgtKey ) )
-				{
-					return true;
-				}
+				btree.unlockEntry( entry );
 			}
-			return false;
+			entry = tgtEntry;
+			K tgtKey = btree.getKey( tgtEntry.getKey( ) );
+			if ( key.equals( tgtKey ) )
+			{
+				return true;
+			}
 		}
-		catch ( IOException ex )
-		{
-			throw new BTreeException( ex );
-		}
+		return false;
 	}
 
 	private LeafEntry<K, V> getPrevEntry( LeafEntry<K, V> entry )
@@ -141,137 +134,87 @@ public class BTreeCursor<K, V>
 		return null;
 	}
 
-	public boolean previous( ) throws BTreeException
+	public boolean previous( ) throws IOException
 	{
-		try
+		LeafEntry<K, V> tgtEntry = getPrevEntry( entry );
+		if ( tgtEntry != null )
 		{
-			LeafEntry<K, V> tgtEntry = getPrevEntry( entry );
-			if ( tgtEntry != null )
+			btree.lockEntry( tgtEntry );
+			if ( entry != null )
 			{
-				btree.lockEntry( tgtEntry );
-				if ( entry != null )
-				{
-					btree.unlockEntry( entry );
-				}
-				entry = tgtEntry;
-				return true;
+				btree.unlockEntry( entry );
 			}
-			return false;
+			entry = tgtEntry;
+			return true;
 		}
-		catch ( IOException ex )
-		{
-			throw new BTreeException( ex );
-		}
+		return false;
 	}
 
-	public boolean next( ) throws BTreeException
+	public boolean next( ) throws IOException
 	{
-		try
+		LeafEntry<K, V> tgtEntry = getNextEntry( entry );
+		if ( tgtEntry != null )
 		{
-			LeafEntry<K, V> tgtEntry = getNextEntry( entry );
-			if ( tgtEntry != null )
+			btree.lockEntry( tgtEntry );
+			if ( entry != null )
 			{
-				btree.lockEntry( tgtEntry );
-				if ( entry != null )
-				{
-					btree.unlockEntry( entry );
-				}
-				entry = tgtEntry;
-				return true;
+				btree.unlockEntry( entry );
 			}
-			return false;
+			entry = tgtEntry;
+			return true;
 		}
-		catch ( IOException ex )
-		{
-			throw new BTreeException( ex );
-		}
+		return false;
 	}
 
-	public boolean hasPrevious( ) throws BTreeException
+	public boolean hasPrevious( ) throws IOException
 	{
-		try
-		{
-			LeafEntry<K, V> prev = getPrevEntry( entry );
-			return prev != null;
-		}
-		catch ( IOException ex )
-		{
-			throw new BTreeException( ex );
-		}
+		LeafEntry<K, V> prev = getPrevEntry( entry );
+		return prev != null;
 	}
 
-	public boolean hasNext( ) throws BTreeException
+	public boolean hasNext( ) throws IOException
 	{
-		try
-		{
-			LeafEntry<K, V> next = getNextEntry( entry );
-			return next != null;
-		}
-		catch ( IOException ex )
-		{
-			throw new BTreeException( ex );
-		}
+		LeafEntry<K, V> next = getNextEntry( entry );
+		return next != null;
 	}
 
-	public K getKey( ) throws BTreeException
+	public K getKey( ) throws IOException
 	{
 		if ( entry == null )
 		{
-			throw new BTreeException( "Invalid cursor position" );
+			throw new IOException( "Invalid cursor position" );
 		}
-		try
-		{
-			return btree.getKey( entry.getKey( ) );
-		}
-		catch ( IOException ex )
-		{
-			throw new BTreeException( ex );
-		}
-
+		return btree.getKey( entry.getKey( ) );
 	}
 
-	public V getValue( ) throws BTreeException
+	public V getValue( ) throws IOException
 	{
 		if ( !btree.hasValue( ) )
 		{
 			return null;
 		}
-		try
-		{
-			BTreeValues<V> values = entry.getValues( );
-			BTreeValues.Value<V> value = values.getFirstValue( );
-			BTreeValue<V> v = value.getValue( );
-			return btree.getValue( v );
-		}
-		catch ( IOException ex )
-		{
-			throw new BTreeException( ex );
-		}
+		BTreeValues<V> values = entry.getValues( );
+		BTreeValues.Value<V> value = values.getFirstValue( );
+		BTreeValue<V> v = value.getValue( );
+		return btree.getValue( v );
 	}
 
-	public Collection<V> getValues( ) throws BTreeException
+	public Collection<V> getValues( ) throws IOException
 	{
 		if ( entry != null )
 		{
-			try
+			BTreeValues<V> values = entry.getValues( );
+			ArrayList<V> list = new ArrayList<V>( values.getValueCount( ) );
+			BTreeValues.Value<V> value = values.getFirstValue( );
+			while ( value != null )
 			{
-				BTreeValues<V> values = entry.getValues( );
-				ArrayList<V> list = new ArrayList<V>( values.getValueCount( ) );
-				BTreeValues.Value<V> value = values.getFirstValue( );
-				while ( value != null )
-				{
-					BTreeValue<V> bv = value.getValue( );
-					V v = btree.getValue( bv );
-					list.add( v );
-				}
-				return list;
+				BTreeValue<V> bv = value.getValue( );
+				V v = btree.getValue( bv );
+				list.add( v );
 			}
-			catch ( IOException ex )
-			{
-				throw new BTreeException( ex );
-			}
+			return list;
 		}
-		throw new BTreeException( "must initialize the cursor first" );
+		throw new IOException( "must initialize the cursor first" );
 	}
 
 	/**
@@ -281,23 +224,15 @@ public class BTreeCursor<K, V>
 	 * @param value
 	 * @throws IOException
 	 */
-	public void insert( K key, V value ) throws BTreeException
+	public void insert( K key, V value ) throws IOException
 	{
-		try
+		LeafEntry<K, V> tgtEntry = btree.insertEntry( key, value );
+		btree.lockEntry( tgtEntry );
+		if ( entry != null )
 		{
-
-			LeafEntry<K, V> tgtEntry = btree.insertEntry( key, value );
-			btree.lockEntry( tgtEntry );
-			if ( entry != null )
-			{
-				btree.unlockEntry( entry );
-			}
-			entry = tgtEntry;
+			btree.unlockEntry( entry );
 		}
-		catch ( IOException ex )
-		{
-			throw new BTreeException( ex );
-		}
+		entry = tgtEntry;
 	}
 
 	/**
@@ -305,7 +240,7 @@ public class BTreeCursor<K, V>
 	 * 
 	 * @throws IOException
 	 */
-	public void remove( ) throws BTreeException
+	public void remove( ) throws IOException
 	{
 		throw new UnsupportedOperationException( "remove" );
 	}
@@ -316,7 +251,7 @@ public class BTreeCursor<K, V>
 	 * @param value
 	 * @throws IOException
 	 */
-	public void setValue( V value ) throws BTreeException
+	public void setValue( V value ) throws IOException
 	{
 		throw new UnsupportedOperationException( "setValue(V)" );
 	}
