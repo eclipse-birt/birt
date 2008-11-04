@@ -644,7 +644,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		}
 		else
 		{
-			long pos = blockId * BLOCK_SIZE + blockOff;
+			long pos = (long)blockId * BLOCK_SIZE + blockOff;
 			rf.seek( pos );
 			rf.readFully( b, off, len );
 		}
@@ -681,7 +681,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		else
 		{
 			ensureFileCreated( );
-			long pos = blockId * BLOCK_SIZE + blockOff;
+			long pos = (long)blockId * BLOCK_SIZE + blockOff;
 			rf.seek( pos );
 			rf.write( b, off, len );
 		}
