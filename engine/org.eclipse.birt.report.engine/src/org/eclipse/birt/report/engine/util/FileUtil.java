@@ -48,6 +48,7 @@ public class FileUtil
 	 * mapping.
 	 */
 	private static HashMap fileExtension = new HashMap( );
+	private static HashMap mimeType = new HashMap( );
 
 	static
 	{
@@ -60,6 +61,16 @@ public class FileUtil
 		fileExtension.put( "image/x-png", ".png" );  //$NON-NLS-1$//$NON-NLS-2$
 		fileExtension.put( "image/tif", ".tif" );  //$NON-NLS-1$//$NON-NLS-2$
 		fileExtension.put( "image/svg+xml", ".svg" );  //$NON-NLS-1$//$NON-NLS-2$
+		
+		// initialize mimeType
+		mimeType.put( ".bmp", "image/bmp" ); //$NON-NLS-1$ //$NON-NLS-2$
+		mimeType.put( ".gif", "image/gif" );  //$NON-NLS-1$//$NON-NLS-2$
+		mimeType.put( ".jpg", "image/jpeg" );  //$NON-NLS-1$//$NON-NLS-2$
+		mimeType.put( ".pcx", "image/pcx" );  //$NON-NLS-1$//$NON-NLS-2$
+		mimeType.put( ".png", "image/png" );  //$NON-NLS-1$//$NON-NLS-2$
+		mimeType.put( ".png", "image/x-png" );  //$NON-NLS-1$//$NON-NLS-2$
+		mimeType.put( ".tif", "image/tif" );  //$NON-NLS-1$//$NON-NLS-2$
+		mimeType.put( ".svg", "image/svg+xml" );  //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	/**
@@ -276,6 +287,18 @@ public class FileUtil
 	public static String getExtFromType( String fileType )
 	{
 		return (String) fileExtension.get( fileType );
+	}
+	
+	/**
+	 * Gets the Image file mime type according to the given file extension.
+	 * 
+	 * @param fileType
+	 *            The image file type say, ".jpg".
+	 * @return File extension string say, "image/jpg".
+	 */
+	public static String getTypeFromExt( String imgExt )
+	{
+		return (String) mimeType.get( imgExt );
 	}
 
 	/**
