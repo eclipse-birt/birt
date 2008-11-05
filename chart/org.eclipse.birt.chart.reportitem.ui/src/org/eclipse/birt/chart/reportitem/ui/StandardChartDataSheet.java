@@ -1741,7 +1741,6 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 						|| dataProvider.isSharedBinding( ) ) // Is sharing
 				// query case.
 				{
-					int aggregateOnCount = 0;
 					// Get all column bindings.
 					List<String> dimensionExprs = new ArrayList<String>( );
 					List<String> measureExprs = new ArrayList<String>( );
@@ -1757,19 +1756,20 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 						}
 						else if ( ChartXTabUtil.isMeasureExpresion( cch.getExpression( ) ) )
 						{
+							// Fixed issue ED 28.
+							// Underlying code was reverted to the earlier than
+							// bugzilla 246683, since we have enhanced it to
+							// support all available measures defined in shared
+							// item.
+
 							// Bugzilla 246683.
 							// Here if it is sharing with crosstab or
 							// multi-view, we just put the measure expression
 							// whose aggregate-ons is most into prepared
 							// expression query. It will keep correct value to
 							// shared crosstab or multi-view.
-							if ( cch.getAggregateOnList( ).size( ) > aggregateOnCount )
-							{
-								measureExprs.clear( );
-								measureExprs.add( dataExpr );
-								aggregateOnCount = cch.getAggregateOnList( )
-										.size( );
-							}
+							measureExprs.add( dataExpr );
+
 						}
 					}
 					String[] categoryExprs = dimensionExprs.toArray( new String[dimensionExprs.size( )] );

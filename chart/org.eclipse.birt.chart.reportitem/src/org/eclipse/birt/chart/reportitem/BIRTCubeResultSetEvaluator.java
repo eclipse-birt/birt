@@ -58,11 +58,11 @@ public class BIRTCubeResultSetEvaluator extends
 
 	protected EdgeCursor subEdgeCursor;
 
-	private List<Integer> lstBreaks = new ArrayList<Integer>( );
+	protected List<Integer> lstBreaks = new ArrayList<Integer>( );
 
-	private int iIndex = 0;
+	protected int iIndex = 0;
 
-	private boolean bWithoutSub = false;
+	protected boolean bWithoutSub = false;
 
 	// Use DTE APIs with rhino to evaluate expression like data["x"]+data["xx"]
 	private Context cx;

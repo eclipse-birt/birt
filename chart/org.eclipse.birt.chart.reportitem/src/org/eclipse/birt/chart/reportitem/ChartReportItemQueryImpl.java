@@ -20,7 +20,10 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.engine.extension.ReportItemQueryBase;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.re.CrosstabQueryUtil;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
@@ -132,6 +135,24 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		else if ( handle.getCube( ) != null
 				|| parent instanceof ICubeQueryDefinition )
 		{
+			// Fixed ED 28
+			// Here we just check multiple view, because chart doesn't need
+			// create query for sharing xtab case.
+			if ( handle.getContainer( ) instanceof MultiViewsHandle )
+			{
+				// Sharing crosstab.
+				ExtendedItemHandle bindingHandle = (ExtendedItemHandle) ChartReportItemUtil.getReportItemReference( handle );
+				IDataQueryDefinition cubeQuery = CrosstabQueryUtil.createCubeQuery( (CrosstabReportItemHandle) bindingHandle.getReportItem( ),
+						parent,
+						true,
+						true,
+						true,
+						true,
+						true,
+						true );
+				return cubeQuery;
+			}
+
 			// Always create cube query definition by chart itself, even if
 			// sharing cross tab's
 			return new ChartCubeQueryHelper( handle, cm ).createCubeQuery( parent );

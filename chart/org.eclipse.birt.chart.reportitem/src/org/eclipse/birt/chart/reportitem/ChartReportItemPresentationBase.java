@@ -62,6 +62,7 @@ import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
@@ -544,6 +545,16 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				return new BIRTChartXtabResultSetEvaluator( (ICubeResultSet) set,
 						handle );
 			}
+
+			// Fixed ED 28
+			// Sharing case/Multiple view case
+			ReportItemHandle itemHandle = ChartReportItemUtil.getReportItemReference( handle );
+			if ( itemHandle != null )
+			{
+				return new SharedCubeResultSetEvaluator( (ICubeResultSet) set,
+						cm );
+			}
+
 			return new BIRTCubeResultSetEvaluator( (ICubeResultSet) set );
 		}
 		return null;
