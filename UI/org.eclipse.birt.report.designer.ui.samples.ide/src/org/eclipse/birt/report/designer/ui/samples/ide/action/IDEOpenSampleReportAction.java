@@ -24,7 +24,7 @@ import org.eclipse.birt.report.designer.ui.samplesview.sampleslocator.SampleIncl
 import org.eclipse.birt.report.designer.ui.samplesview.util.PlaceResources;
 import org.eclipse.birt.report.designer.ui.samplesview.view.ReportExamples;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.brit.report.designer.ui.samples.nls.Messages;
+import org.eclipse.birt.report.designer.ui.samples.nls.Messages;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
