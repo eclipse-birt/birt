@@ -586,12 +586,12 @@ public class ExecutionOptimize
 						.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE );
 				CSSValue pageBreakAfter = style
 						.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER );
-				if ( masterPage != null || pageBreakBefore != null )
+				if ( masterPage != null || (pageBreakBefore != null) && !pageBreakBefore.equals( IStyle.AUTO_VALUE ) )
 				{
 					node.breakBefore = true;
 					node.execute = true;
 				}
-				if ( pageBreakAfter != null )
+				if ( pageBreakAfter != null &&  !pageBreakAfter.equals( IStyle.AUTO_VALUE ))
 				{
 					node.breakAfter = true;
 					node.execute = true;
