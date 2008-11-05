@@ -51,3 +51,4 @@ fragment@org.eclipse.birt.report.data.oda.jdbc.dbprofile.nl=HEAD,:pserver:anonym
 fragment@org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.nl
 fragment@org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.nl
 fragment@org.eclipse.birt.report.designer.ui.editors.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.designer.ui.editors.nl
+fragment@org.eclipse.birt.report.designer.ui.samples.ide.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.designer.ui.samples.ide.nl
