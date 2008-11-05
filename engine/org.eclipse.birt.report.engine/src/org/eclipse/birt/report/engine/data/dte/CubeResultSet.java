@@ -245,4 +245,9 @@ public class CubeResultSet implements ICubeResultSet
 		}
 	}
 
+	public IBaseCubeQueryDefinition getCubeQuery( )
+	{
+		return this.queryDefn;
+	}
+
 }

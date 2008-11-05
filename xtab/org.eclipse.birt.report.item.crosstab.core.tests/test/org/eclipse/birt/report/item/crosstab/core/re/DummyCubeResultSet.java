@@ -21,6 +21,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
@@ -228,6 +229,12 @@ public class DummyCubeResultSet implements ICubeResultSet
 	{
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public IBaseCubeQueryDefinition getCubeQuery( )
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
