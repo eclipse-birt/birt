@@ -67,4 +67,10 @@ public abstract class ReportItemExecutorBase implements IReportItemExecutor
 		return null;
 	}
 
+	public void close( )
+	{
+		executorContext = null;
+		parent = null;
+		handle = null;
+	}
 }

@@ -133,6 +133,13 @@ public class ExtendedItemExecutor extends ReportItemExecutor
 		if ( executor != null )
 		{
 			IReportItemExecutor child = executor.getNextChild( );
+			/*
+			 *  this child executor could be:
+			 *  1. system executor
+			 *  2. extended item executor
+			 *  3. user executor
+			 *  
+			 */
 			if ( child != null )
 			{
 				// the child is a system element, the parent should be set to
@@ -181,7 +188,12 @@ public class ExtendedItemExecutor extends ReportItemExecutor
 		{
 			if ( executor.getParent( ) == null )
 			{
-				executor.setParent( parent );
+				IReportItemExecutor tmpExecutor = parent;
+				if( tmpExecutor instanceof ExtendedItemExecutor )
+				{
+					tmpExecutor = ((ExtendedItemExecutor)tmpExecutor).executor;
+				}
+				executor.setParent( tmpExecutor );
 			}
 		}
 		super.setParent( parent );

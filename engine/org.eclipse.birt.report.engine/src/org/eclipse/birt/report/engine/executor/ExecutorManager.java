@@ -222,8 +222,8 @@ public class ExecutorManager
 		ExtendedItemExecutor wrapper = (ExtendedItemExecutor) getItemExecutor( EXTENDEDITEM );
 		if ( wrapper != null )
 		{
-			wrapper.setParent( parent );
 			wrapper.executor = executor;
+			wrapper.setParent( parent );
 		}
 		return wrapper;
 	}
