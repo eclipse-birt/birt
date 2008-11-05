@@ -129,6 +129,13 @@ public class Image extends ReportPart implements IImage
 				extension = FileUtil.getExtFromType( mimeType );
 			}
 		}
+		if ( mimeType == null )
+		{
+			if ( extension != null )
+			{
+				mimeType = FileUtil.getTypeFromExt( extension );
+			}
+		}
 		switch ( content.getImageSource( ) )
 		{
 			case IImageContent.IMAGE_FILE :

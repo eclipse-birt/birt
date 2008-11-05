@@ -221,23 +221,40 @@ public class ImageItemExecutor extends QueryItemExecutor
 		{
 			imageContent.setData( embeddedImage.getData( context.getDesign( )
 					.getModule( ) ) );
-			String extension = FileUtil.getExtFromType( embeddedImage
-					.getType( context.getDesign( ).getModule( ) ) );
-			if ( extension != null )
+			String mimeType = embeddedImage.getType( context.getDesign( )
+					.getModule( ) );
+			if ( null != mimeType )
 			{
-				imageContent.setExtension( extension );
+				imageContent.setMIMEType( mimeType );
+				String extension = FileUtil.getExtFromType( mimeType );
+				if ( extension != null )
+				{
+					imageContent.setExtension( extension );
+				}
 			}
-
+			else
+			{
+				String extension = FileUtil.getExtFromFileName( imageName );
+				if ( extension != null )
+				{
+					imageContent.setExtension( extension );
+					mimeType = FileUtil.getTypeFromExt( extension );
+					if ( null != mimeType )
+					{
+						imageContent.setMIMEType( mimeType );
+					}
+				}
+			}
 			imageContent.setURI( imageName );
 		}
-
 	}
 
 	protected void handleValueImage( String imgExpr, String fmtExpr,
 			IImageContent imageContent ) throws BirtException
 	{
 		byte[] imgData = null;
-		String imgExt = "";
+		String imgExt = null;
+		String mimeType = null;
 
 		imageContent.setImageSource( IImageContent.IMAGE_EXPRESSION );
 
@@ -255,8 +272,8 @@ public class ImageItemExecutor extends QueryItemExecutor
 				Object strValue = evaluate( fmtExpr );
 				if ( strValue != null )
 				{
-					imgExt = strValue.toString( );
-					imgExt = FileUtil.getExtFromType( imgExt );
+					mimeType = strValue.toString( );
+					imgExt = FileUtil.getExtFromType( mimeType );
 				}
 			}
 			catch ( BirtException ex )
@@ -270,6 +287,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 			imageContent.setData( imgData );
 			imageContent.setExtension( imgExt );
 			imageContent.setURI( null );
+			imageContent.setMIMEType( mimeType );
 		}
 		if ( tempEx != null )
 		{
@@ -311,7 +329,16 @@ public class ImageItemExecutor extends QueryItemExecutor
 		// improve the performance.
 		imageContent.setURI( imageFile );
 		imageContent.setImageSource( IImageContent.IMAGE_FILE );
-		imageContent.setExtension( FileUtil.getExtFromFileName( imageFile ) );
+		String imgExt = FileUtil.getExtFromFileName( imageFile );
+		if ( null != imgExt )
+		{
+			imageContent.setExtension( imgExt );
+			String mimeType = FileUtil.getTypeFromExt( imgExt );
+			if ( null != mimeType )
+			{
+				imageContent.setMIMEType( mimeType );
+			}
+		}
 
 		if ( imageFile == null )
 		{
