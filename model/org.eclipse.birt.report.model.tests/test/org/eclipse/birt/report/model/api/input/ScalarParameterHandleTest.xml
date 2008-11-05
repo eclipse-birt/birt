@@ -57,6 +57,10 @@
             <property name="dataType">time</property>
             <expression name="defaultValue">12:30:30</expression>
         </scalar-parameter>
+        <scalar-parameter name="Param 7">
+            <property name="controlType">auto-suggest</property>
+            <expression name="listLimit">100</expression>
+        </scalar-parameter>
     </parameters>
     <page-setup>
         <graphic-master-page name="My Page">
