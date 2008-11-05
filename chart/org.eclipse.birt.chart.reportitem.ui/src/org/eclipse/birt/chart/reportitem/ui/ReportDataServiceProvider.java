@@ -40,6 +40,7 @@ import org.eclipse.birt.chart.reportitem.ChartBaseQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartCubeQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
+import org.eclipse.birt.chart.reportitem.SharedCubeResultSetEvaluator;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
@@ -83,6 +84,8 @@ import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.re.CrosstabQueryUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
@@ -1186,7 +1189,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				}
 
 				// Create evaluator for data cube, even if in multiple view
-				evaluator = createCubeEvaluator( cube, session, engineTask );
+				evaluator = createCubeEvaluator( cube, session, engineTask, cm );
 			}
 			else
 			{
@@ -1524,18 +1527,70 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @throws BirtException
 	 */
 	private IDataRowExpressionEvaluator createCubeEvaluator( CubeHandle cube,
-			final DataRequestSession session, final EngineTask engineTask )
+			final DataRequestSession session, final EngineTask engineTask,
+			final Chart cm )
 			throws BirtException
 	{
 		// Use the chart model in context, because this model will be updated
 		// once UI changes it. On the contrary, the model in handle may be old.
-		IBaseCubeQueryDefinition qd = new ChartCubeQueryHelper( itemHandle,
+		IBaseCubeQueryDefinition qd = null;
+
+		ReportItemHandle referredHandle = ChartReportItemUtil.getReportItemReference( itemHandle );
+		if ( referredHandle != null )
+		{
+			// If it is 'sharing' case, include sharing crosstab and multiple
+			// view, we just invokes referred crosstab handle to create query.
+			ExtendedItemHandle bindingHandle = (ExtendedItemHandle) referredHandle;
+			qd = CrosstabQueryUtil.createCubeQuery( (CrosstabReportItemHandle) bindingHandle.getReportItem( ),
+					null,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true );
+		}
+		else
+		{
+			qd = new ChartCubeQueryHelper( itemHandle,
 				context.getModel( ) ).createCubeQuery( null );
+		}
 
 		session.defineCube( cube );
 
 		// Always cube query returned
 		IPreparedCubeQuery ipcq = session.prepare( (ICubeQueryDefinition) qd );
+
+		if ( itemHandle.getCube( ) == null && referredHandle != null ) // Sharing
+																		// case
+		{
+			return new SharedCubeResultSetEvaluator( ipcq.execute( null, null ),
+					qd,
+					cm ) {
+
+				/*
+				 * (non-Javadoc)
+				 * 
+				 * @see
+				 * org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator#
+				 * close()
+				 */
+				@Override
+				public void close( )
+				{
+					super.close( );
+					if ( engineTask != null )
+					{
+						engineTask.close( );
+					}
+					else if ( session != null )
+					{
+						session.shutdown( );
+					}
+				}
+			};
+		}
+
 		return new BIRTCubeResultSetEvaluator( ipcq.execute( null, null ) ) {
 
 			/*
