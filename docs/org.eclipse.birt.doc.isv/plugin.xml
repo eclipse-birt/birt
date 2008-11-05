@@ -13,35 +13,35 @@
           point="org.eclipse.pde.core.javadoc">
        <javadoc
              archive="true"
-             path="doc.zip!/core/api">
+             path="core/api">
           <plugin
                 id="org.eclipse.birt.core">
           </plugin>
        </javadoc>
        <javadoc
              archive="true"
-             path="doc.zip!/coreui/api/">
+             path="coreui/api/">
           <plugin
                 id="org.eclipse.birt.core.ui">
           </plugin>
        </javadoc>
        <javadoc
              archive="true"
-             path="doc.zip!/data/api/">
+             path="data/api/">
           <plugin
                 id="org.eclipse.birt.data">
           </plugin>
        </javadoc>
        <javadoc
              archive="true"
-             path="doc.zip!/engine/api/,doc.zip!/enginescipt/api">
+             path="engine/api/,enginescipt/api">
           <plugin
                 id="../org.eclipse.birt.report.engine">
           </plugin>
        </javadoc>
        <javadoc
              archive="true"
-             path="doc.zip!/model/api/">
+             path="model/api/">
           <plugin
                 id="org.eclipse.birt.report.model">
           </plugin>

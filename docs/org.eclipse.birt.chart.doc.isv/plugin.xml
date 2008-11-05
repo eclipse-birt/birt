@@ -13,14 +13,14 @@
           point="org.eclipse.pde.core.javadoc">
        <javadoc
              archive="true"
-             path="doc.zip!/chart/api">
+             path="chart/api,chartscript/api">
           <plugin
                 id="org.eclipse.birt.chart.engine">
           </plugin>
        </javadoc>
        <javadoc
              archive="true"
-             path="doc.zip!/chartui/api/">
+             path="chartui/api/">
           <plugin
                 id="org.eclipse.birt.chart.ui">
           </plugin>
