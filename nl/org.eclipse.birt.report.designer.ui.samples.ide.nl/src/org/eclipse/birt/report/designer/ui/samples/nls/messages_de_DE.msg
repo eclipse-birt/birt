@@ -1,17 +1,17 @@
 ###########################################################
 #Sample Reports View properties
-SampleReportsView.defautDescription=Please select an sample report from the categories
-SampleReportsView.Text.Explorer=Sample Reports
-SampleReportsView.Text.Preview=Preview
-SampleReportsView.Text.Description=Description
-SampleReportsView.MessageDialog.Title=Question
-SampleReportsView.MessageDialog.Message=The ''{0}'' already exists. Do you want to replace it?
-SampleReportsView.Action.exportSampleReport=Save
-SampleReportsView.Action.openSampleReport=Open
-SampleReportsView.Action.exportSampleReport.toolTipText=Export selected sample report
-SampleReportsView.Action.openSampleReport.toolTipText.ide=Create a report project and place the report into the project folder
-SampleReportsView.Action.openSampleReport.toolTipText.rcp=Export the selected sample report into RCP workspace folder directly
-SampleReportsView.Text.Contribute_Samples=Contribute Samples
+SampleReportsView.defautDescription=Wählen Sie aus den Kategorien einen Beispielbericht aus
+SampleReportsView.Text.Explorer=Beispielberichte
+SampleReportsView.Text.Preview=Vorschau
+SampleReportsView.Text.Description=Beschreibung
+SampleReportsView.MessageDialog.Title=Frage
+SampleReportsView.MessageDialog.Message=''{0}'' ist bereits vorhanden. Ersetzen?
+SampleReportsView.Action.exportSampleReport=Speichern
+SampleReportsView.Action.openSampleReport=Anfang
+SampleReportsView.Action.exportSampleReport.toolTipText=Ausgewählten Beispielbericht exportieren
+SampleReportsView.Action.openSampleReport.toolTipText.ide=Berichtprojekt erstellen und Bericht im Projektordner aufnehmen
+SampleReportsView.Action.openSampleReport.toolTipText.rcp=Ausgewählten Beispielbericht direkt in den Ordner des RCP-Arbeitsbereichs exportieren
+SampleReportsView.Text.Contribute_Samples=Beispiele beitragen
 IDEOpenSampleReportAction.ProjectNameDialog.Label.PrjectName=Project name:
 IDEOpenSampleReportAction.ProjectNameDialog.Title.PrjectName=Project Name
 IDEOpenSampleReportAction.MessageDialog.ProjectExists.Title=Project Exists
@@ -22,15 +22,15 @@ IDEOpenSampleReportAction.MessageDialog.ProjectExists.ButtonText=Overwrite
 #NewReportProjectWizard properties
 
 NewReportProjectWizard.bin=bin
-NewReportProjectWizard.caseVariantExistsError=The file system is case insensitive. There is an existing project which conflicts with ''{0}''.
-NewReportProjectWizard.description=Creates a new report project.
-NewReportProjectWizard.errorMessage=There was a problem creating the new report project.
-NewReportProjectWizard.errorOpeningWindow=There was a problem opening a window.
-NewReportProjectWizard.internalError=Internal error: {0}
-NewReportProjectWizard.javaProject=Create a Java Project
-NewReportProjectWizard.perspSwitchMessage=This kind of project is associated with the {0} Perspective.  Do you want to switch to this perspective now?
-NewReportProjectWizard.perspSwitchTitle=Confirm Perspective Switch
-NewReportProjectWizard.projectSetting=Project Setting
+NewReportProjectWizard.caseVariantExistsError=Im Dateisystem wird Groß- und Kleinschreibung nicht unterschieden. Es ist bereits ein Projekt vorhanden, dessen Benennung zu ''{0}'' im Widerspruch steht.
+NewReportProjectWizard.description=Neues Berichtprojekt erstellen
+NewReportProjectWizard.errorMessage=Beim Erstellen des neuen Berichtprojekts ist ein Fehler aufgetreten.
+NewReportProjectWizard.errorOpeningWindow=Beim Öffnen eines Fensters ist ein Fehler aufgetreten.
+NewReportProjectWizard.internalError=Interner Fehler: {0}
+NewReportProjectWizard.javaProject=Java-Projekt erstellen
+NewReportProjectWizard.perspSwitchMessage=Diese Art von Projekt ist mit der Perspektive {0} verknüpft. Jetzt zu dieser Perspektive wechseln?
+NewReportProjectWizard.perspSwitchTitle=Wechsel der Perspektive bestätigen
+NewReportProjectWizard.projectSetting=Projekteinstellung
 NewReportProjectWizard.src=src
-NewReportProjectWizard.title=Report Project
-NewReportProjectWizard.windowTitle=New Report Project
+NewReportProjectWizard.title=Berichtprojekt
+NewReportProjectWizard.windowTitle=Neues Berichtprojekt

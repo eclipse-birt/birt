@@ -1,17 +1,17 @@
 ###########################################################
 #Sample Reports View properties
-SampleReportsView.defautDescription=Please select an sample report from the categories
-SampleReportsView.Text.Explorer=Sample Reports
-SampleReportsView.Text.Preview=Preview
-SampleReportsView.Text.Description=Description
-SampleReportsView.MessageDialog.Title=Question
-SampleReportsView.MessageDialog.Message=The ''{0}'' already exists. Do you want to replace it?
-SampleReportsView.Action.exportSampleReport=Save
-SampleReportsView.Action.openSampleReport=Open
-SampleReportsView.Action.exportSampleReport.toolTipText=Export selected sample report
-SampleReportsView.Action.openSampleReport.toolTipText.ide=Create a report project and place the report into the project folder
-SampleReportsView.Action.openSampleReport.toolTipText.rcp=Export the selected sample report into RCP workspace folder directly
-SampleReportsView.Text.Contribute_Samples=Contribute Samples
+SampleReportsView.defautDescription=サンプルレポートをカテゴリから選択してください。
+SampleReportsView.Text.Explorer=サンプルレポート
+SampleReportsView.Text.Preview=プレビュー
+SampleReportsView.Text.Description=説明
+SampleReportsView.MessageDialog.Title=質問
+SampleReportsView.MessageDialog.Message=''{0}'' はすでに存在します。置き換えますか ?
+SampleReportsView.Action.exportSampleReport=保存
+SampleReportsView.Action.openSampleReport=始値
+SampleReportsView.Action.exportSampleReport.toolTipText=選択したサンプルレポートをエクスポートします
+SampleReportsView.Action.openSampleReport.toolTipText.ide=レポートプロジェクトを作成して、レポートをプロジェクトフォルダに配置します
+SampleReportsView.Action.openSampleReport.toolTipText.rcp=選択したサンプルレポートを RCP 作業フォルダに直接エクスポートします
+SampleReportsView.Text.Contribute_Samples=サンプルの提供
 IDEOpenSampleReportAction.ProjectNameDialog.Label.PrjectName=Project name:
 IDEOpenSampleReportAction.ProjectNameDialog.Title.PrjectName=Project Name
 IDEOpenSampleReportAction.MessageDialog.ProjectExists.Title=Project Exists
@@ -22,15 +22,15 @@ IDEOpenSampleReportAction.MessageDialog.ProjectExists.ButtonText=Overwrite
 #NewReportProjectWizard properties
 
 NewReportProjectWizard.bin=bin
-NewReportProjectWizard.caseVariantExistsError=The file system is case insensitive. There is an existing project which conflicts with ''{0}''.
-NewReportProjectWizard.description=Creates a new report project.
-NewReportProjectWizard.errorMessage=There was a problem creating the new report project.
-NewReportProjectWizard.errorOpeningWindow=There was a problem opening a window.
-NewReportProjectWizard.internalError=Internal error: {0}
-NewReportProjectWizard.javaProject=Create a Java Project
-NewReportProjectWizard.perspSwitchMessage=This kind of project is associated with the {0} Perspective.  Do you want to switch to this perspective now?
-NewReportProjectWizard.perspSwitchTitle=Confirm Perspective Switch
-NewReportProjectWizard.projectSetting=Project Setting
+NewReportProjectWizard.caseVariantExistsError=ファイルシステムでは、大文字と小文字が区別されないため、既存のプロジェクトと同じ名前 "{0}" は使用できません。
+NewReportProjectWizard.description=新しいレポートプロジェクトを作成します。
+NewReportProjectWizard.errorMessage=新しいレポートプロジェクトを作成中にエラーが発生しました。
+NewReportProjectWizard.errorOpeningWindow=ウィンドウを開けませんでした。
+NewReportProjectWizard.internalError=内部エラー : {0}
+NewReportProjectWizard.javaProject=Java プロジェクトの作成
+NewReportProjectWizard.perspSwitchMessage=この種類のプロジェクトは {0} パースペクティブに関連付けられています。今すぐこのパースペクティブに切り替えますか ?
+NewReportProjectWizard.perspSwitchTitle=パースペクティブの切り替え確認
+NewReportProjectWizard.projectSetting=プロジェクトの設定
 NewReportProjectWizard.src=src
-NewReportProjectWizard.title=Report Project
-NewReportProjectWizard.windowTitle=New Report Project
+NewReportProjectWizard.title=レポートプロジェクト
+NewReportProjectWizard.windowTitle=新規レポートプロジェクト
