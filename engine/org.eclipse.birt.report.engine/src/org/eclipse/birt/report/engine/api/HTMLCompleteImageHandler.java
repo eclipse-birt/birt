@@ -10,7 +10,10 @@ package org.eclipse.birt.report.engine.api;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,13 +39,25 @@ import org.eclipse.birt.report.engine.util.FileUtil;
  */
 public class HTMLCompleteImageHandler extends HTMLImageHandler
 {
-
+	protected static int IMAGE_CACHE_SIZE = 200;
 	protected Logger log = Logger.getLogger( HTMLCompleteImageHandler.class
 			.getName( ) );
 
 	private static int count = 0;
 
-	private static HashMap map = new HashMap( );
+	private Map map = Collections.synchronizedMap( new LinkedHashMap(
+			IMAGE_CACHE_SIZE, (float) 0.75, true ) {
+
+		private static final long serialVersionUID = -7226271443785942978L;
+
+		/*
+		 * @see java.util.LinkedHashMap#removeEldestEntry(java.util.Map.Entry)
+		 */
+		protected boolean removeEldestEntry( Map.Entry eldest )
+		{
+			return size( ) > IMAGE_CACHE_SIZE;
+		}
+	} );
 
 	/**
 	 * dummy constructor

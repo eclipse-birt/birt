@@ -16,7 +16,9 @@ import java.io.OutputStream;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,14 +30,26 @@ import org.eclipse.birt.report.engine.i18n.MessageConstants;
  */
 public class HTMLServerImageHandler extends HTMLImageHandler
 {
-
+	protected static int IMAGE_CACHE_SIZE = 200;
 	protected Logger log = Logger.getLogger( HTMLServerImageHandler.class
 			.getName( ) );
 	
 	private String handlerId;
 	private int count = 0;
 
-	private static HashMap map = new HashMap( );
+	private Map map = Collections.synchronizedMap( new LinkedHashMap(
+			IMAGE_CACHE_SIZE, (float) 0.75, true ) {
+
+		private static final long serialVersionUID = 5595672554397698644L;
+
+		/*
+		 * @see java.util.LinkedHashMap#removeEldestEntry(java.util.Map.Entry)
+		 */
+		protected boolean removeEldestEntry( Map.Entry eldest )
+		{
+			return size( ) > IMAGE_CACHE_SIZE;
+		}
+	} );
 
 	/**
 	 * dummy constructor
@@ -184,10 +198,7 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 			mapID = getImageMapID( image );
 			if ( map.containsKey( mapID ) )
 			{
-				synchronized( map )
-				{
-					return (String) map.get( mapID );
-				}
+				return (String) map.get( mapID );
 			}
 		}
 		String ret = null;
@@ -239,10 +250,7 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 
 			if ( needMap )
 			{
-				synchronized( map )
-				{
-					map.put( mapID, ret );
-				}
+				map.put( mapID, ret );
 			}
 
 		}
@@ -285,10 +293,7 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 			if ( needMap )
 			{
 				String mapID = getImageMapID( image );
-				synchronized ( map )
-				{
-					map.put( mapID, fileName );
-				}
+				map.put( mapID, fileName );
 			}
 			return fileName;
 		}
