@@ -924,6 +924,7 @@ public class ReportDocumentReader
 			return -1;
 		}
 
+		loadCoreStreamLazily( );
 		if ( indexReader != null )
 		{
 			try
