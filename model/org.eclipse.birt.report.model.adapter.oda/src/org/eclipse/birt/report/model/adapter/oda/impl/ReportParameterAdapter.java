@@ -675,15 +675,21 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 				: cachedElementAttrs.getDynamicValueChoices( ), reportParam,
 				setHandle );
 
-		if ( valueQuery == null )
-			valueQuery = designFactory.createDynamicValuesQuery( );
-
 		// for both dynamic and static parameter, the flag is in
 		// DynamicValuesQuery
 
 		DynamicValuesQuery cachedValueQuery = cachedElementAttrs == null
 				? null
 				: cachedElementAttrs.getDynamicValueChoices( );
+
+		if ( valueQuery == null && cachedValueQuery == null )
+			return;
+
+		// please note that new dynamic values query's isEnabled flag is true
+
+		if ( valueQuery == null )
+			valueQuery = designFactory.createDynamicValuesQuery( );
+
 		boolean isEnabled = valueQuery.isEnabled( );
 		boolean cachedIsEnabled = cachedValueQuery == null
 				? false
