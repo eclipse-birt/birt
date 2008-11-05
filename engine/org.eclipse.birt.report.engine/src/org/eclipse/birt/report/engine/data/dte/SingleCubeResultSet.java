@@ -31,6 +31,7 @@ import javax.olap.cursor.Timestamp;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
@@ -388,5 +389,10 @@ public class SingleCubeResultSet implements ICubeResultSet
 		{
 			return new SingleCubeCursor( (CubeCursor) cursor.clone( ) );
 		}
+	}
+
+	public IBaseCubeQueryDefinition getCubeQuery( )
+	{
+		return cube.getCubeQuery( );
 	}
 }
