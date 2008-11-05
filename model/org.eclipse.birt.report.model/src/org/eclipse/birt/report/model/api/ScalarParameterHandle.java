@@ -891,6 +891,11 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public int getListlimit( )
 	{
+		// if the parameter control type is auto-suggest, the list limit should
+		// return 0.
+		if ( DesignChoiceConstants.PARAM_CONTROL_AUTO_SUGGEST
+				.equals( getControlType( ) ) )
+			return 0;
 		return getIntProperty( LIST_LIMIT_PROP );
 	}
 

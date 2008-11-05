@@ -209,6 +209,11 @@ public class ScalarParameterHandleTest extends BaseTestCase
 		assertNull( choices[2].getMember(
 				SelectionChoice.LABEL_RESOURCE_KEY_MEMBER ).getValue( ) );
 
+		// if the parameter control type is auto-suggest, the list limit should
+		// return 0.
+		handle = (ScalarParameterHandle) params.get( 6 );
+		assertEquals( 0, handle.getListlimit( ) );
+
 	}
 
 	/**
