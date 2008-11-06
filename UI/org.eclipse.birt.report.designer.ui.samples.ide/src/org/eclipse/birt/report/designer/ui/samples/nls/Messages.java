@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
 public class Messages
 {
 
-	private static final String BUNDLE_NAME = "org.eclipse.brit.report.designer.ui.samples.nls.messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "org.eclipse.birt.report.designer.ui.samples.nls.messages"; //$NON-NLS-1$
 
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
 			.getBundle( BUNDLE_NAME );
