@@ -346,7 +346,6 @@ public class CallStatement implements IAdvancedQuery
 		{
 			IResultSet ret = this.cachedResultSet;
 			this.cachedResultSet = null; // Clear this so subsequent// executeQuery should run it again
-			this.isExecuted = false;
 			return ret;
 		}
 		if ( !maxRowsUpToDate )
