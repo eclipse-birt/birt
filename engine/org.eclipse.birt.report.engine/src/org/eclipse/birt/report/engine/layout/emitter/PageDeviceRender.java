@@ -13,19 +13,15 @@ package org.eclipse.birt.report.engine.layout.emitter;
 
 import java.awt.Color;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.batik.transcoder.TranscoderException;
-import org.apache.batik.transcoder.TranscoderInput;
-import org.apache.batik.transcoder.TranscoderOutput;
-import org.apache.batik.transcoder.image.JPEGTranscoder;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -88,6 +84,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 
 	protected int currentX;
 	protected int currentY;
+	
+	protected Stack rowStyleStack = new Stack();
 	
 	/**
 	 * for any (x,y) in the ContainerArea, if x<offsetX, the (x,y) will be
@@ -266,10 +264,79 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		{
 			startClip( container );
 		}
-		drawContainer( container );
+		if ( container instanceof RowArea )
+		{
+			rowStyleStack.push( container.getStyle( ) );
+		}
+		else if ( container instanceof CellArea )
+		{
+			drawCell(container);
+		}
+		else
+		{
+			drawContainer( container );
+		}
 		currentX += getX( container );
 		currentY += getY( container );
 	}
+	
+	protected void drawCell( IContainerArea container )
+	{
+		Color rowbc = null;
+		String rowImageUrl = null;
+		IStyle rowStyle = null;
+		// get the style of the row
+		if ( rowStyleStack.size( ) > 0 )
+		{
+			rowStyle = (IStyle) rowStyleStack.peek( );
+			rowbc = PropertyUtil.getColor( rowStyle
+					.getProperty( StyleConstants.STYLE_BACKGROUND_COLOR ) );
+			rowImageUrl = getBackgroundImageUrl( rowStyle );
+		}
+
+		IStyle style = container.getStyle( );
+		Color bc = PropertyUtil.getColor( style
+				.getProperty( StyleConstants.STYLE_BACKGROUND_COLOR ) );
+		String imageUrl = getBackgroundImageUrl( style );
+
+		if ( rowbc != null || rowImageUrl != null || bc != null
+				|| imageUrl != null )
+		{
+			// the container's start position (the left top corner of the
+			// container)
+			int startX = currentX + getX( container );
+			int startY = currentY + getY( container );
+
+			// the dimension of the container
+			int width = getWidth( container );
+			int height = getHeight( container );
+
+			if ( rowbc != null )
+			{
+				pageGraphic.drawBackgroundColor( rowbc, startX, startY, width,
+						height );
+			}
+			if ( rowImageUrl != null )
+			{
+				drawBackgroundImage( rowStyle, rowImageUrl, startX, startY,
+						width, height );
+			}
+			if ( bc != null )
+			{
+				// Draws background color for the container, if the background
+				// color is NOT set, draws nothing.
+				pageGraphic.drawBackgroundColor( bc, startX, startY, width,
+						height );
+			}
+			if ( imageUrl != null )
+			{
+				// Draws background image for the container. if the background
+				// image is NOT set, draws nothing.
+				drawBackgroundImage( style, imageUrl, startX, startY, width, height );
+			}
+		}
+	}
+	
 	
 	/**
 	 * Output a layout PageArea, extend the pageArea into multiple physical pages if needed.
@@ -417,6 +484,10 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		}
 		else
 		{
+			if(container instanceof RowArea)
+			{
+				rowStyleStack.pop( );
+			}
 			if ( container instanceof TableArea )
 			{
 				drawTableBorder( (TableArea) container );
@@ -448,10 +519,15 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				.getProperty( StyleConstants.STYLE_BACKGROUND_COLOR ) );
 		pageGraphic = pageDevice.newPage( pageWidth, pageHeight,
 				backgroundColor );
-
-		// Draws background image for the new page. if the background image is
-		// NOT set, draw nothing.
-		drawBackgroundImage( page.getStyle( ), 0, 0, pageWidth, pageHeight );
+		IStyle style = page.getStyle( );
+		String imageUrl = getBackgroundImageUrl( style );
+		if ( imageUrl != null )
+		{
+			// Draws background image for the new page. if the background image
+			// is
+			// NOT set, draw nothing.
+			drawBackgroundImage( style, imageUrl, 0, 0, pageWidth, pageHeight );
+		}
 
 	}
 
@@ -489,12 +565,14 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	{
 		pageGraphic.endClip( );
 	}
-
+	
 	/**
 	 * draw background image for the container
 	 * 
 	 * @param containerStyle
 	 *            the style of the container we draw background image for
+	 * @param imageUrl
+	 *            the url of background image 
 	 * @param startX
 	 *            the absolute horizontal position of the container
 	 * @param startY
@@ -504,22 +582,9 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 * @param height
 	 *            container height
 	 */
-	private void drawBackgroundImage( IStyle containerStyle, int startX,
+	private void drawBackgroundImage( IStyle containerStyle, String imageUrl, int startX,
 			int startY, int width, int height )
 	{
-		String imageUri = PropertyUtil.getBackgroundImage( containerStyle
-				.getProperty( StyleConstants.STYLE_BACKGROUND_IMAGE ) );
-		if ( imageUri == null )
-		{
-			return;
-		}
-		String imageUrl = getImageUrl( imageUri );
-
-		if ( imageUrl == null || "".equals( imageUrl ) ) //$NON-NLS-1$
-		{
-			return;
-		}
-
 		FloatValue positionValX = (FloatValue) containerStyle
 				.getProperty( StyleConstants.STYLE_BACKGROUND_POSITION_X );
 		FloatValue positionValY = (FloatValue) containerStyle
@@ -553,7 +618,23 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				positionX, positionY, containerStyle.getBackgroundRepeat( ),
 				xMode, yMode );
 	}
+	
+	protected String getBackgroundImageUrl(IStyle style)
+	{
+		String imageUri = PropertyUtil.getBackgroundImage( style
+				.getProperty( StyleConstants.STYLE_BACKGROUND_IMAGE ) );
+		if ( imageUri != null )
+		{
+			String url = getImageUrl( imageUri );
+			if(url!=null && url.length( )>0)
+			{
+				return url;
+			}
+		}
+		return null;
+	}
 
+	
 	/**
 	 * Draws a container's border, and its background color/image if there is
 	 * any.
@@ -573,24 +654,38 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		// content mapping, so it has no background/border etc.
 		if ( container.getContent( ) != null )
 		{
-			// the container's start position (the left top corner of the
-			// container)
-			int startX = currentX + getX( container );
-			int startY = currentY + getY( container );
-
-			// the dimension of the container
-			int width = getWidth( container );
-			int height = getHeight( container );
-
+			
 			// Draws background color for the container, if the background
 			// color is NOT set, draws nothing.
 			Color bc = PropertyUtil.getColor( style
 					.getProperty( StyleConstants.STYLE_BACKGROUND_COLOR ) );
-			pageGraphic.drawBackgroundColor( bc, startX, startY, width, height );
+			String imageUrl = getBackgroundImageUrl( style );
 
-			// Draws background image for the container. if the background
-			// image is NOT set, draws nothing.
-			drawBackgroundImage( style, startX, startY, width, height );
+			if ( bc != null || imageUrl != null )
+			{
+				// the container's start position (the left top corner of the
+				// container)
+				int startX = currentX + getX( container );
+				int startY = currentY + getY( container );
+	
+				// the dimension of the container
+				int width = getWidth( container );
+				int height = getHeight( container );
+	
+				if ( bc != null )
+				{
+					pageGraphic.drawBackgroundColor( bc, startX, startY, width,
+							height );
+				}
+				if ( imageUrl != null )
+				{
+					// Draws background image for the container. if the
+					// background
+					// image is NOT set, draws nothing.
+					drawBackgroundImage( style, imageUrl, startX, startY,
+							width, height );
+				}
+			}
 		}
 	}
 
