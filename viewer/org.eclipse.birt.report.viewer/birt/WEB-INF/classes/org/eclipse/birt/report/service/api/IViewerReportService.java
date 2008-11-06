@@ -397,6 +397,7 @@ public interface IViewerReportService
 	 * @param renderOptions render options
 	 * @return true if the report document is right-to-left, false otherwise
 	 * @throws ReportServiceException
+	 * @deprecated
 	 */	
 	public boolean isDocumentRtl( String docName, InputOptions renderOptions )
 		throws ReportServiceException;

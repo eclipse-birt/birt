@@ -168,6 +168,21 @@ public class BirtViewerReportService implements IViewerReportService
 	}
 
 	/**
+	 * Copies document properties, like RTL, to the given input options.
+	 * This is a workaround to prevent changing method signatures and will
+	 * be removed in the future.
+	 * @param options options to which to copy the properties
+	 * @param doc document from which to read the properties
+	 */
+	private void copyProperties( InputOptions options, IReportDocument doc )
+	{
+		// return the RTL property through the InputOptions
+		// TODO: in the future provide a separate structure that returns doc properties
+		String bidiOrientation = doc.getReportDesign( ).getBidiOrientation( );			
+		options.setOption( IBirtConstants.DOC_PROPERTY_RTL, new Boolean(DesignChoiceConstants.BIDI_DIRECTION_RTL.equalsIgnoreCase(bidiOrientation)) );		
+	}
+	
+	/**
 	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getPage(java.lang.String,
 	 *      java.lang.String, org.eclipse.birt.report.service.api.InputOptions,
 	 *      java.util.List)
@@ -186,7 +201,6 @@ public class BirtViewerReportService implements IViewerReportService
 			os = new ByteArrayOutputStream( );
 			ReportEngineService.getInstance( ).renderReport( os, doc,
 					pageNum.longValue( ), null, renderOptions, activeIds );
-
 		}
 		catch ( RemoteException e )
 		{
@@ -199,13 +213,14 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		return os;
 	}
-	
+
 	/**
 	 * Returns whether a given report document has right-to-left orientation.
 	 * @param docName document file name
 	 * @param renderOptions render options
 	 * @return true if the report document is right-to-left, false otherwise
 	 * @throws ReportServiceException
+	 * @deprecated
 	 */
 	public boolean isDocumentRtl( String docName, InputOptions renderOptions )
 		throws ReportServiceException
@@ -241,6 +256,8 @@ public class BirtViewerReportService implements IViewerReportService
 			doc = ReportEngineService.getInstance( ).openReportDocument(
 				getReportDesignName( renderOptions ), docName,
 				getModuleOptions( renderOptions ) );
+			
+			copyProperties(renderOptions, doc);			
 		}
 		catch ( RemoteException e )
 		{

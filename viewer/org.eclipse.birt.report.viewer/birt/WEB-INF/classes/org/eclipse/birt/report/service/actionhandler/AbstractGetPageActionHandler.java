@@ -240,7 +240,9 @@ public abstract class AbstractGetPageActionHandler
 			__page = getReportService( ).getPage( docName, __pageNumber + "", //$NON-NLS-1$
 					options, __activeIds );
 		}
-		__isDocumentRtl = getReportService().isDocumentRtl( docName, options );		
+		
+		Boolean docPropertyRtl = (Boolean)options.getOption( IBirtConstants.DOC_PROPERTY_RTL ); 
+		__isDocumentRtl = docPropertyRtl!=null?docPropertyRtl.booleanValue( ):false;		
 	}
 
 	/**
