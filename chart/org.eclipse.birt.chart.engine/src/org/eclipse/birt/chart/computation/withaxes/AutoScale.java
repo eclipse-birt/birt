@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.computation.EllipsisHelper;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.Point;
+import org.eclipse.birt.chart.computation.Rectangle;
 import org.eclipse.birt.chart.computation.RotatedRectangle;
 import org.eclipse.birt.chart.computation.ValueFormatter;
 import org.eclipse.birt.chart.device.IDisplayServer;
@@ -59,6 +60,8 @@ import com.ibm.icu.util.ULocale;
  */
 public final class AutoScale extends Methods implements Cloneable
 {
+
+	public static String KEY_SHARED_MINMAX = "SharedMinMax"; //$NON-NLS-1$
 
 	private final int iType;
 
@@ -1145,14 +1148,6 @@ public final class AutoScale extends Methods implements Cloneable
 			return;
 		}
 
-		if ( rtc.getScale( ) != null )
-		{
-			// Gets the shared min/max value if the whole scale is not ready to
-			// share
-			oMinValue = rtc.getScale( ).getMin( );
-			oMaxValue = rtc.getScale( ).getMax( );
-		}
-
 		ScaleContext sct;
 		if ( ( iType & LOGARITHMIC ) == LOGARITHMIC )
 		{
@@ -1344,6 +1339,19 @@ public final class AutoScale extends Methods implements Cloneable
 							uiex );
 				}
 
+				if ( i == 0 && bLabelWithinAxes )
+				{
+					Rectangle rect = rr.getBounds( );
+					if ( iLabelLocation == ABOVE || iLabelLocation == BELOW )
+					{
+						rr.shiftXVertices( rect.getWidth( ) / 2 );
+					}
+					else
+					{
+						rr.shiftYVertices( -rect.getHeight( ) / 2 );
+					}
+				}
+
 				Point p = rr.getPoint( iPointToCheck );
 
 				if ( isAxisLabelStaggered( ) && isTickLabelStaggered( i ) )
@@ -1493,6 +1501,19 @@ public final class AutoScale extends Methods implements Cloneable
 					throw new ChartException( ChartEnginePlugin.ID,
 							ChartException.GENERATION,
 							uiex );
+				}
+
+				if ( i == 0 && bLabelWithinAxes )
+				{
+					Rectangle rect = rr.getBounds( );
+					if ( iLabelLocation == ABOVE || iLabelLocation == BELOW )
+					{
+						rr.shiftXVertices( rect.getWidth( ) / 2 );
+					}
+					else
+					{
+						rr.shiftYVertices( -rect.getHeight( ) / 2 );
+					}
 				}
 
 				Point p = rr.getPoint( iPointToCheck );
@@ -4167,18 +4188,7 @@ public final class AutoScale extends Methods implements Cloneable
 	{
 		if ( rtc.getScale( ) != null && !rtc.getScale( ).isShared( ) )
 		{
-			if ( ( iType & DATE_TIME ) == DATE_TIME )
-			{
-				// In Case DateTime the Min/Max, the min/max value
-				// will be enlarged by zooming in due to changing
-				// unit, therefore the min/max context should not be
-				// updated, otherwise the differance will be accumulated.
-				rtc.getScale( ).updateShared( sct );
-			}
-			else
-			{
-				rtc.setScale( sct );
-			}
+			rtc.setScale( sct );
 		}
 	}
 

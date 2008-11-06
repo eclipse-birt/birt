@@ -784,8 +784,17 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		if ( ( iAxisType & NUMERICAL ) == NUMERICAL
 				|| ( iAxisType & DATE_TIME ) == DATE_TIME )
 		{
-			dsi = new DataSetIterator( getMinMax( axPrimaryOrthogonal,
-					iAxisType ), iAxisType );
+			if ( rtc.getScale( ) != null
+					&& rtc.getState( AutoScale.KEY_SHARED_MINMAX ) != null )
+			{
+				dsi = new DataSetIterator( rtc.getState( AutoScale.KEY_SHARED_MINMAX ),
+						iAxisType );
+			}
+			else
+			{
+				dsi = new DataSetIterator( getMinMax( axPrimaryOrthogonal,
+						iAxisType ), iAxisType );
+			}
 			// Reverse the series categories if needed.
 			dsi.reverse( cwa.isReverseCategory( ) );
 		}

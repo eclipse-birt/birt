@@ -26,6 +26,7 @@ import javax.olap.OLAPException;
 import javax.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.chart.api.ChartEngine;
+import org.eclipse.birt.chart.computation.withaxes.AutoScale;
 import org.eclipse.birt.chart.computation.withaxes.ScaleContext;
 import org.eclipse.birt.chart.device.EmptyUpdateNotifier;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
@@ -48,6 +49,7 @@ import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.script.ChartScriptContext;
 import org.eclipse.birt.chart.script.ScriptHandler;
+import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -179,7 +181,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		{
 			return;
 		}
-		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemUtil.PROPERTY_CHART );
+		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemConstants.PROPERTY_CHART );
 		handle = eih;
 
 		setChartModelObject( item );
@@ -187,13 +189,13 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 
 	protected void setChartModelObject( IReportItem item )
 	{
-		Object of = handle.getProperty( ChartReportItemUtil.PROPERTY_OUTPUT );
+		Object of = handle.getProperty( ChartReportItemConstants.PROPERTY_OUTPUT );
 		if ( of instanceof String )
 		{
 			outputFormat = (String) of;
 		}
 
-		of = item.getProperty( ChartReportItemUtil.PROPERTY_SCALE );
+		of = item.getProperty( ChartReportItemConstants.PROPERTY_SCALE );
 		if ( of instanceof ScaleContext )
 		{
 			if ( rtc == null )
@@ -571,10 +573,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		if ( baseResultSet instanceof IQueryResultSet )
 		{
 			Object min = baseResultSet.evaluate( "row._outer[\"" //$NON-NLS-1$
-					+ ChartReportItemUtil.QUERY_MIN
+					+ ChartReportItemConstants.QUERY_MIN
 					+ "\"]" ); //$NON-NLS-1$
 			Object max = baseResultSet.evaluate( "row._outer[\"" //$NON-NLS-1$
-					+ ChartReportItemUtil.QUERY_MAX
+					+ ChartReportItemConstants.QUERY_MAX
 					+ "\"]" ); //$NON-NLS-1$
 			return ScaleContext.createSimpleScale( min, max );
 		}
@@ -688,11 +690,36 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 
 		try
 		{
-			// Create shared scale if needed
-			if ( rtc.getScale( ) == null
-					&& ChartReportItemUtil.canScaleShared( handle, cm ) )
+			// Create and set shared scale if needed
+			ScaleContext sharedScale = createSharedScale( resultSet );
+
+			if ( ChartReportItemUtil.canScaleShared( handle, cm ) )
 			{
-				rtc.setScale( createSharedScale( resultSet ) );
+				if ( rtc.getScale( ) == null )
+				{
+					rtc.setScale( sharedScale );
+				}
+
+				if ( sharedScale != null )
+				{
+					if ( sharedScale.getMin( ) instanceof Double )
+					{
+						rtc.putState( AutoScale.KEY_SHARED_MINMAX,
+								new double[]{
+										(Double) sharedScale.getMin( ),
+										(Double) sharedScale.getMax( )
+								} );
+					}
+					else if ( rtc.getScale( ).getMin( ) instanceof CDateTime )
+					{
+						rtc.putState( AutoScale.KEY_SHARED_MINMAX,
+								new CDateTime[]{
+										(CDateTime) sharedScale.getMin( ),
+										(CDateTime) sharedScale.getMax( )
+								} );
+					}
+				}
+
 			}
 
 			// Set sharing query flag.
