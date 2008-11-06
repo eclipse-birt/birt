@@ -189,9 +189,12 @@ public class ExtendedItemExecutor extends ReportItemExecutor
 			if ( executor.getParent( ) == null )
 			{
 				IReportItemExecutor tmpExecutor = parent;
-				if( tmpExecutor instanceof ExtendedItemExecutor )
+				if ( !( executor instanceof ReportItemExecutor ) )
 				{
-					tmpExecutor = ((ExtendedItemExecutor)tmpExecutor).executor;
+					if ( tmpExecutor instanceof ExtendedItemExecutor )
+					{
+						tmpExecutor = ( (ExtendedItemExecutor) tmpExecutor ).executor;
+					}
 				}
 				executor.setParent( tmpExecutor );
 			}
