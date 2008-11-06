@@ -498,7 +498,15 @@ public class DataExtractionTaskV1 extends EngineTask
 		if ( instanceId != null )
 		{
 			ArrayList rsetList = new ArrayList( );
-			IResultMetaData metaData = getMetaDateByInstanceID( instanceId );
+			IResultMetaData metaData = null;
+			try
+			{
+				metaData = getMetaDateByInstanceID( instanceId );
+			}
+			catch ( BirtException ex )
+			{
+				throw new EngineException( ex );
+			}
 			if ( metaData != null )
 			{
 				rsetList.add( new ResultSetItem( "InstanceId:"
@@ -963,7 +971,7 @@ public class DataExtractionTaskV1 extends EngineTask
 		return (String) rssetIdMapping.get( rsmeta );
 	}
 
-	private IResultMetaData getMetaDateByInstanceID( InstanceID iid )
+	private IResultMetaData getMetaDateByInstanceID( InstanceID iid ) throws BirtException
 	{
 		while ( iid != null )
 		{
@@ -982,7 +990,15 @@ public class DataExtractionTaskV1 extends EngineTask
 				if ( null != query2ResultMetaData )
 				{
 					//return (ResultMetaData) query2ResultMetaData.get( query );
-					return hackMetaData( query2ResultMetaData, query );
+					if ( query instanceof ISubqueryDefinition )
+					{
+						return new SubqueryResultMetaData( (ISubqueryDefinition) query,
+								query2ResultMetaData );
+					}
+					else
+					{
+						return (ResultMetaData) query2ResultMetaData.get( query );
+					}
 				}
 				return null;
 			}
@@ -990,32 +1006,7 @@ public class DataExtractionTaskV1 extends EngineTask
 		}
 		return null;
 	}
-	
-	private IResultMetaData hackMetaData( HashMap metas,
-			IDataQueryDefinition query )
-	{
-		IResultMetaData meta = (ResultMetaData) metas.get( query );
-		if ( meta.getColumnCount( ) > 0 )
-			return meta;
 
-		if ( query instanceof SubqueryDefinition )
-		{
-			IBaseQueryDefinition parent = ( (SubqueryDefinition) query )
-					.getParentQuery( );
-			meta = (ResultMetaData) metas.get( parent );
-			while ( parent instanceof SubqueryDefinition )
-			{
-				if ( meta != null && meta.getColumnCount( ) > 0 )
-				{
-					return meta;
-				}
-				parent = ( (SubqueryDefinition) parent ).getParentQuery( );
-				meta = (ResultMetaData) metas.get( parent );
-			}
-		}
-
-		return meta;
-	}
 /*
 	private IResultIterator executeQuery( String rset, QueryDefinition query )
 			throws BirtException
