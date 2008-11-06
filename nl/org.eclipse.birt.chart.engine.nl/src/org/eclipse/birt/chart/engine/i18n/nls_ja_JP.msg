@@ -330,8 +330,8 @@ GroupingUnitType.Weeks.displayName=T
 GroupingUnitType.Months.displayName=Œ
 GroupingUnitType.Years.displayName=”N
 GroupingUnitType.Quarters.displayName=l”¼Šú
-GroupingUnitType.String.displayName=String
-GroupingUnitType.StringPrefix.displayName=StringPrefix
+GroupingUnitType.String.displayName=•¶š—ñ
+GroupingUnitType.StringPrefix.displayName=“ª•¶š
 
 DateFormatType.Long.displayName=Long Œ^
 DateFormatType.Short.displayName=Short Œ^
