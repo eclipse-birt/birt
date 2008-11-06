@@ -67,8 +67,8 @@ import com.ibm.icu.util.ULocale;
  * <p>
  * <code>DesignSession</code> allows to specify customized resource locator to
  * search a file. This resource locator must be set before opening any
- * <code>ReportDesign</code>, so for example, when encountering a library tag
- * in the design file, the parser needs to know where to get the library file by
+ * <code>ReportDesign</code>, so for example, when encountering a library tag in
+ * the design file, the parser needs to know where to get the library file by
  * this resource locator, the code in the parser might be like the following.
  * 
  * @see org.eclipse.birt.report.model.api.SessionHandle
@@ -162,6 +162,12 @@ public class DesignSession
 	 */
 
 	private List resourceChangeListeners = null;
+
+	/**
+	 * The flag to determine whether the TOC style has been initialized.
+	 */
+
+	private static Boolean isTOCStyleInitialized = Boolean.FALSE;
 
 	/**
 	 * Constructor.
@@ -620,7 +626,7 @@ public class DesignSession
 	 * 
 	 * @param fileName
 	 *            file name.
-	 * @param options 
+	 * @param options
 	 * @return A handle to the report design.
 	 */
 
@@ -1283,6 +1289,8 @@ public class DesignSession
 					.getHandle( tocDesign );
 			defaultTOCStyleList.add( styleHandle );
 		}
+
+		isTOCStyleInitialized = Boolean.TRUE;
 	}
 
 	/**
@@ -1293,11 +1301,11 @@ public class DesignSession
 
 	public List getDefaultTOCStyleValue( )
 	{
-		if ( defaultTOCStyleList != null )
+		if ( isTOCStyleInitialized )
 			return Collections.unmodifiableList( defaultTOCStyleList );
-		synchronized ( DesignSession.class )
+		synchronized ( isTOCStyleInitialized )
 		{
-			if ( defaultTOCStyleList == null )
+			if ( !isTOCStyleInitialized )
 				initDefaultTOCStyle( );
 		}
 		return Collections.unmodifiableList( defaultTOCStyleList );
