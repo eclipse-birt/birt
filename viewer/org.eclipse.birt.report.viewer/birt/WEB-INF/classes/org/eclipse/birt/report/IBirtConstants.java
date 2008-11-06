@@ -166,4 +166,6 @@ public interface IBirtConstants
 	public static final int PAGE_OVERFLOW_AUTO = 0;
 	public static final int PAGE_OVERFLOW_ACTUAL = 1;
 	public static final int PAGE_OVERFLOW_FITTOPAGE = 2;
+	
+	public static final String DOC_PROPERTY_RTL = "docRtl";
 }

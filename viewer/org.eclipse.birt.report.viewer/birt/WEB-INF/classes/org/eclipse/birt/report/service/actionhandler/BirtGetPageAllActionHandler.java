@@ -16,10 +16,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
@@ -109,7 +112,8 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler
 					attrBean.getReportPage( ), attrBean.getReportPageRange( ),
 					options, out );
 			
-			isDocumentRtl = getReportService( ).isDocumentRtl( docName, options );
+			Boolean docPropertyRtl = (Boolean)options.getOption( IBirtConstants.DOC_PROPERTY_RTL ); 
+			isDocumentRtl = docPropertyRtl!=null?docPropertyRtl.booleanValue( ):false;		
 		}
 		else
 		{
@@ -137,7 +141,7 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler
 			if ( r.getDesignHandle( ) instanceof ReportDesignHandle )
 			{
 				ReportDesignHandle handle = (ReportDesignHandle)r.getDesignHandle( );
-				isDocumentRtl = "RTL".equalsIgnoreCase( handle.getBidiOrientation( ) ); //$NON-NLS-1$
+				isDocumentRtl = DesignChoiceConstants.BIDI_DIRECTION_RTL.equalsIgnoreCase( handle.getBidiOrientation( ) ); //$NON-NLS-1$
 			}
 		}
 

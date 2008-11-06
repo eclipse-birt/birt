@@ -16,6 +16,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
@@ -81,7 +82,9 @@ public class BirtChangeParameterActionHandler
 			page = getReportService( ).getPage( docName,
 					pageNumber + "", options, activeIds ); //$NON-NLS-1$
 		}
-		boolean isDocumentRtl = getReportService().isDocumentRtl( docName, options );		
+		
+		Boolean docPropertyRtl = (Boolean)options.getOption( IBirtConstants.DOC_PROPERTY_RTL ); 
+		boolean isDocumentRtl = docPropertyRtl!=null?docPropertyRtl.booleanValue( ):false;		
 
 		// Update instruction for document.
 		UpdateContent content = new UpdateContent( );
