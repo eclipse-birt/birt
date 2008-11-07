@@ -472,7 +472,7 @@ public class SeriesGroupingComposite extends Composite implements
 					}
 					else
 					{
-						cmbUnit.setText( name );
+						cmbUnit.setText( displayName );
 					}
 				}
 				else
