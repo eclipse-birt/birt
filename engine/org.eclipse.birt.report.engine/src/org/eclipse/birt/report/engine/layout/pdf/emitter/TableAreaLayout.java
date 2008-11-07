@@ -27,6 +27,7 @@ import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
+import org.eclipse.birt.report.engine.layout.area.impl.TextArea;
 import org.eclipse.birt.report.engine.layout.pdf.BorderConflictResolver;
 import org.eclipse.birt.report.engine.layout.pdf.cache.CursorableList;
 import org.eclipse.birt.report.engine.layout.pdf.cache.DummyCell;
@@ -76,6 +77,51 @@ public class TableAreaLayout
 	public Row getUnresolvedRow( )
 	{
 		return (Row) rows.getCurrent( );
+	}
+	
+	public Row createUnresolvedRow( RowArea rowArea )
+	{
+		Row lastRow = (Row) rows.getCurrent( );
+		Row row = new Row( rowArea, startCol, endCol );
+		boolean usedResolvedRow = false;
+
+		for ( int i = startCol; i <= endCol; i++ )
+		{
+			CellArea upperCell = null;
+			if ( lastRow != null )
+			{
+				upperCell = lastRow.getCell( i );
+			}
+			// upperCell has row span, or is a drop cell.
+			if ( upperCell != null && ( upperCell.getRowSpan( ) > 1 ) )
+			{
+				DummyCell dummyCell = createDummyCell( upperCell );
+				row.addArea( dummyCell );
+				i = i + upperCell.getColSpan( ) - 1;
+			}
+			// upperCell has NO row span, and is NOT a drop cell.
+			// or upperCell is null. In this case, we need not care about
+			// the upperCell.
+			else
+			{
+				CellArea cell = row.getCell( i );
+				if ( cell == null )
+				{
+					if ( unresolvedRow != null )
+					{
+						upperCell = unresolvedRow.getCell( i );
+						usedResolvedRow = true;
+					}
+					cell = createEmptyCell( upperCell, i, row, lastRow );	
+				}
+				i = i + cell.getColSpan( ) - 1;
+			}
+		}
+		if ( usedResolvedRow )
+		{
+			unresolvedRow = null;
+		}
+		return row;
 	}
 
 	protected int resolveBottomBorder( CellArea cell )
@@ -528,25 +574,29 @@ public class TableAreaLayout
 	}
 	
 	/**
-	 * Adds the updated row wrapper to rows.
+	 * Adds a list of rows to current rows.
 	 */
-	public void addRow( RowArea rowArea )
+	public void addRows( CursorableList rs )
 	{
-		addRow( rowArea, 0 );
+		Iterator iter = rs.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			rows.add( iter.next( ) );
+		}
 	}
-	
+
 	/**
 	 * Adds the updated row wrapper to rows.
 	 */
 	public void addRow( RowArea rowArea, int specifiedHeight )
-	{		
+	{
 		Row row = updateRow( rowArea, specifiedHeight );
 		rows.add( row );
 	}
 	
 	/**
 	 * 1) Creates row wrapper. 2) For the null cell in the row wrapper, fills
-	 * the responsible position with dummy cell or empty cell. 3) Updates the
+	 * the relevant position with dummy cell or empty cell. 3) Updates the
 	 * height of the row and the cells in the row.
 	 * 
 	 * @param rowArea
@@ -557,6 +607,7 @@ public class TableAreaLayout
 		int height = specifiedHeight;
 		Row lastRow = (Row) rows.getCurrent( );
 		Row row = new Row( rowArea, startCol, endCol );
+		boolean usedResolvedRow = false;
 
 		for ( int i = startCol; i <= endCol; i++ )
 		{
@@ -565,7 +616,6 @@ public class TableAreaLayout
 			{
 				upperCell = lastRow.getCell( i );
 			}
-			
 			// upperCell has row span, or is a drop cell.
 			if ( upperCell != null && ( upperCell.getRowSpan( ) > 1 ) )
 			{
@@ -580,7 +630,8 @@ public class TableAreaLayout
 				i = i + upperCell.getColSpan( ) - 1;
 			}
 			// upperCell has NO row span, and is NOT a drop cell.
-			// Or upperCell is null.
+			// or upperCell is null. In this case, we need not care about
+			// the upperCell.
 			else
 			{
 				CellArea cell = row.getCell( i );
@@ -589,6 +640,7 @@ public class TableAreaLayout
 					if ( unresolvedRow != null )
 					{
 						upperCell = unresolvedRow.getCell( i );
+						usedResolvedRow = true;
 					}
 					cell = createEmptyCell( upperCell, i, row, lastRow );	
 				}
@@ -598,6 +650,10 @@ public class TableAreaLayout
 				}
 				i = i + cell.getColSpan( ) - 1;
 			}
+		}
+		if ( usedResolvedRow )
+		{
+			unresolvedRow = null;
 		}
 		updateRowHeight( row, height );
 		return row;
@@ -670,7 +726,7 @@ public class TableAreaLayout
 			{
 				// the left-side cell is a dummy cell which will be
 				// created in addRow()
-				cellCache[1] = (ICellContent) lastRow.getCell(
+				cellCache[0] = (ICellContent) lastRow.getCell(
 						emptyCellColID - 1 ).getContent( );
 				int k = emptyCellColID - 1;
 				while ( leftSideCellArea == null && k > startCol )
@@ -681,7 +737,7 @@ public class TableAreaLayout
 			}
 			else
 			{
-				cellCache[1] = (ICellContent) leftSideCellArea.getContent( );
+				cellCache[0] = (ICellContent) leftSideCellArea.getContent( );
 			}
 		}
 		else
@@ -852,4 +908,10 @@ public class TableAreaLayout
 			return row;
 		}
 	}
+
+	public CursorableList getRows( )
+	{
+		return rows;
+	}
+
 }

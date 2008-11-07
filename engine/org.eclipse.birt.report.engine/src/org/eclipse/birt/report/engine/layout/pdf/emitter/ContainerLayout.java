@@ -317,6 +317,13 @@ public abstract class ContainerLayout extends Layout
 			{
 				closeLayout( contextList.removeFirst( ), i, i == size - 1 );
 			}
+			if ( isInBlockStacking )
+			{
+				if ( size > 1 )
+				{
+					parent.closeExcludingLast( );
+				}
+			}
 			if ( parent != null )
 			{
 				parent.gotoFirstPage( );

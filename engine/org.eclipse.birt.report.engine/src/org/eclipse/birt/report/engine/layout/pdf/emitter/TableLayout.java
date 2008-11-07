@@ -779,33 +779,13 @@ public class TableLayout extends RepeatableLayout
 				.getExtension( IContent.LAYOUT_EXTENSION );
 		if ( tableRegion != null
 				&& tableRegion.getAllocatedHeight( ) < getCurrentMaxContentHeight( ) )
-		{
-			
+		{			
 			//add to layout
-			Iterator iter = tableRegion.getChildren();
-			TableContext tableContext = (TableContext)contextList.getLast();
-			while ( iter.hasNext( ) )
-			{
-				ContainerArea area = (ContainerArea) iter.next( );
-				Iterator rowIter = area.getChildren();
-				while(rowIter.hasNext())
-				{
-					AbstractArea row = (AbstractArea) rowIter.next( );
-					if(row instanceof RowArea)
-					{
-						tableContext.layout.addRow( (RowArea)row );
-					}
-				}
-//				int deltaHeight = tableContext.layout.resolveAll( );
-//				if ( 0 != deltaHeight)
-//				{
-//					area.setHeight( area.getHeight( ) + deltaHeight );	
-//				}
-			}
+			TableContext tableContext = (TableContext)contextList.getLast( );
+			tableContext.layout.addRows( rLayout.getTableAreaLayout( ).getRows( ) );
 			
-			
-			// add to root
-			iter = tableRegion.getChildren( );
+			//add to root
+			Iterator iter = tableRegion.getChildren( );
 			while ( iter.hasNext( ) )
 			{
 				AbstractArea area = (AbstractArea) iter.next( );
