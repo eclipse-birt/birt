@@ -35,13 +35,13 @@ public final class ChartReportItemPresentationAxisImpl extends
 	public void setModelObject( ExtendedItemHandle eih )
 	{
 		// Get the host chart handle from host chart
-		handle = (ExtendedItemHandle) eih.getElementProperty( ChartReportItemUtil.PROPERTY_HOST_CHART );
+		handle = (ExtendedItemHandle) eih.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART );
 		IReportItem item = getReportItem( handle );
 		if ( item == null )
 		{
 			return;
 		}
-		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemUtil.PROPERTY_CHART );
+		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemConstants.PROPERTY_CHART );
 
 		setChartModelObject( item );
 	}
@@ -82,7 +82,7 @@ public final class ChartReportItemPresentationAxisImpl extends
 			throws ChartException
 	{
 		// If no shared scale, to get evaluator from query.
-		if ( rtc.getScale( ) == null || !rtc.getScale( ).isShared( ) )
+		if ( rtc.getSharedScale( ) == null || !rtc.getSharedScale( ).isShared( ) )
 		{
 			return super.createEvaluator( set );
 		}

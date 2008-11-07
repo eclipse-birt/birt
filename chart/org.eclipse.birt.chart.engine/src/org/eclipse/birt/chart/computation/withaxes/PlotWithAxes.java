@@ -2372,7 +2372,8 @@ public abstract class PlotWithAxes extends Methods
 
 	private boolean isSharedScale( )
 	{
-		return rtc.getScale( ) != null && rtc.getScale( ).isShared( );
+		return rtc.getSharedScale( ) != null
+				&& rtc.getSharedScale( ).isShared( );
 	}
 
 	protected abstract Object getMinMax( Axis ax, int iType )

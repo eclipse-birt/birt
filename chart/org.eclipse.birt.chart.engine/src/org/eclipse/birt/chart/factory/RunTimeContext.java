@@ -17,7 +17,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.eclipse.birt.chart.computation.LegendLayoutHints;
-import org.eclipse.birt.chart.computation.withaxes.ScaleContext;
+import org.eclipse.birt.chart.computation.withaxes.SharedScaleContext;
 import org.eclipse.birt.chart.device.IStructureDefinitionListener;
 import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.StructureChangeEvent;
@@ -91,7 +91,7 @@ public final class RunTimeContext implements Serializable
 	/**
 	 * A map to store user defined state object.
 	 */
-	private HashMap stateStore = null;
+	private HashMap<Object, Object> stateStore = null;
 
 	/**
 	 * Specifies if enable scripting support in current context.
@@ -111,7 +111,7 @@ public final class RunTimeContext implements Serializable
 	/**
 	 * Specified the shared context among multiple chart instances
 	 */
-	private transient ScaleContext sharedScale;
+	private transient SharedScaleContext sharedScale;
 
 	/** 
      * The field indicates if current chart is sharing query with other module(table/crosstab...).
@@ -129,7 +129,7 @@ public final class RunTimeContext implements Serializable
 	 */
 	public RunTimeContext( )
 	{
-		stateStore = new HashMap( );
+		stateStore = new HashMap<Object, Object>( 2 );
 	}
 
 	/**
@@ -558,20 +558,20 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @param scale
 	 *            shared scale context
-	 * @since 2.3
+	 * @since 2.5
 	 */
-	public void setScale( ScaleContext scale )
+	public void setSharedScale( SharedScaleContext ssContext )
 	{
-		this.sharedScale = scale;
+		this.sharedScale = ssContext;
 	}
 
 	/**
 	 * Returns the shared scale
 	 * 
 	 * @return the shared scale context
-	 * @since 2.3
+	 * @since 2.5
 	 */
-	public ScaleContext getScale( )
+	public SharedScaleContext getSharedScale( )
 	{
 		return this.sharedScale;
 	}

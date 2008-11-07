@@ -1142,9 +1142,9 @@ public final class AutoScale extends Methods implements Cloneable
 	public final void updateAxisMinMax( Object oMinValue, Object oMaxValue )
 	{
 		// Use the shared context if it's shared
-		if ( rtc.getScale( ) != null && rtc.getScale( ).isShared( ) )
+		if ( rtc.getSharedScale( ) != null && rtc.getSharedScale( ).isShared( ) )
 		{
-			updateContext( rtc.getScale( ) );
+			updateContext( rtc.getSharedScale( ).getScaleContext( ) );
 			return;
 		}
 
@@ -1613,7 +1613,7 @@ public final class AutoScale extends Methods implements Cloneable
 		hmComputedLabelText = new HashMap<Integer, String>( );
 
 		boolean vis = la.isSetVisible( ) && la.isVisible( );
-		if ( !vis && rtc.getScale( ) != null )
+		if ( !vis && rtc.getSharedScale( ) != null )
 		{
 			// In shared scale case, treat plot chart with invisible labels has
 			// axis labels, so axis chart can have the same scale with plot
@@ -2317,8 +2317,8 @@ public final class AutoScale extends Methods implements Cloneable
 				scCloned = (AutoScale) sc.clone( );
 				// DO NOT AUTO ZOOM IF STEP IS FIXED or shared scale is used
 				if ( sc.bStepFixed
-						|| rtc.getScale( ) != null
-						&& rtc.getScale( ).isShared( ) )
+						|| rtc.getSharedScale( ) != null
+						&& rtc.getSharedScale( ).isShared( ) )
 				{
 					break;
 				}
@@ -4186,9 +4186,9 @@ public final class AutoScale extends Methods implements Cloneable
 	private static void updateSharedScaleContext( RunTimeContext rtc,
 			int iType, ScaleContext sct )
 	{
-		if ( rtc.getScale( ) != null && !rtc.getScale( ).isShared( ) )
+		if ( rtc.getSharedScale( ) != null && !rtc.getSharedScale( ).isShared( ) )
 		{
-			rtc.setScale( sct );
+			rtc.getSharedScale( ).setScaleContext( sct );
 		}
 	}
 

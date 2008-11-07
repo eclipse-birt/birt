@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.eclipse.birt.chart.computation.withaxes.ScaleContext;
+import org.eclipse.birt.chart.computation.withaxes.SharedScaleContext;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.factory.IExternalizer;
@@ -90,7 +90,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 
 	private transient ExtendedItemHandle handle = null;
 
-	private transient ScaleContext sharedScale = null;
+	private transient SharedScaleContext sharedScale = null;
 
 	private transient boolean bCopied = false;
 
@@ -160,7 +160,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 	/**
 	 * Set the shared scale directly (no command)
 	 */
-	public void setScale( ScaleContext sharedScale )
+	public void setSharedScale( SharedScaleContext sharedScale )
 	{
 		this.sharedScale = sharedScale;
 	}

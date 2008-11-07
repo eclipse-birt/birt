@@ -52,8 +52,6 @@ public class ScaleContext extends Methods
 	private boolean bStepFixed = false;
 	private boolean bMargin = false;
 
-	private boolean bShared = false;
-
 	public ScaleContext( int iMarginPercent, int iType, int iUnit,
 			Object oMinValue, Object oMaxValue, Object oStep )
 	{
@@ -490,30 +488,6 @@ public class ScaleContext extends Methods
 		oMaxAuto = null;
 	}
 
-	/**
-	 * Marks the scale will be shared among multiple chart instances or not
-	 * 
-	 * @param bShared
-	 *            shared or not
-	 * @since 2.3
-	 */
-	public void setShared( boolean bShared )
-	{
-		this.bShared = bShared;
-	}
-
-	/**
-	 * Returns if the scale will be shared among multiple chart instances
-	 * 
-	 * @return shared or not
-	 * @since 2.3
-	 */
-	public boolean isShared( )
-	{
-		return this.bShared;
-	}
-
-	
 	/**
 	 * @return Returns the iUnit.
 	 */

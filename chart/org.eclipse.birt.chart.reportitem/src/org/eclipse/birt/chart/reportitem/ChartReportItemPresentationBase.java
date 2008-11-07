@@ -26,8 +26,7 @@ import javax.olap.OLAPException;
 import javax.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.chart.api.ChartEngine;
-import org.eclipse.birt.chart.computation.withaxes.AutoScale;
-import org.eclipse.birt.chart.computation.withaxes.ScaleContext;
+import org.eclipse.birt.chart.computation.withaxes.SharedScaleContext;
 import org.eclipse.birt.chart.device.EmptyUpdateNotifier;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IImageMapEmitter;
@@ -49,7 +48,6 @@ import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.script.ChartScriptContext;
 import org.eclipse.birt.chart.script.ScriptHandler;
-import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -196,13 +194,13 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		}
 
 		of = item.getProperty( ChartReportItemConstants.PROPERTY_SCALE );
-		if ( of instanceof ScaleContext )
+		if ( of instanceof SharedScaleContext )
 		{
 			if ( rtc == null )
 			{
 				rtc = new RunTimeContext( );
 			}
-			rtc.setScale( (ScaleContext) of );
+			rtc.setSharedScale( (SharedScaleContext) of );
 		}
 	}
 
@@ -362,7 +360,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				if ( rtc != null )
 				{
 					drtc.setULocale( rtc.getULocale( ) );
-					drtc.setScale( rtc.getScale( ) );
+					drtc.setSharedScale( rtc.getSharedScale( ) );
 				}
 
 				rtc = drtc;
@@ -380,7 +378,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				{
 					IReportItem item = handle.getReportItem( );
 					( (ChartReportItemImpl) item ).setModel( cm );
-					( (ChartReportItemImpl) item ).setScale( rtc.getScale( ) );
+					( (ChartReportItemImpl) item ).setSharedScale( rtc.getSharedScale( ) );
 				}
 
 				// Get chart max row number from application context
@@ -567,7 +565,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		return handle.getDataSet( ) == null;
 	}
 
-	protected ScaleContext createSharedScale( IBaseResultSet baseResultSet )
+	protected SharedScaleContext createSharedScale( IBaseResultSet baseResultSet )
 			throws BirtException
 	{
 		if ( baseResultSet instanceof IQueryResultSet )
@@ -578,7 +576,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			Object max = baseResultSet.evaluate( "row._outer[\"" //$NON-NLS-1$
 					+ ChartReportItemConstants.QUERY_MAX
 					+ "\"]" ); //$NON-NLS-1$
-			return ScaleContext.createSimpleScale( min, max );
+			return SharedScaleContext.createInstance( min, max );
 		}
 		else if ( baseResultSet instanceof CubeResultSet )
 		{
@@ -607,7 +605,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				Object max = baseResultSet.evaluate( ExpressionUtil.createJSDataExpression( maxBindingName ) );
 				if ( min != null && max != null )
 				{
-					return ScaleContext.createSimpleScale( min, max );
+					return SharedScaleContext.createInstance( min, max );
 				}
 			}
 			catch ( OLAPException e )
@@ -691,35 +689,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		try
 		{
 			// Create and set shared scale if needed
-			ScaleContext sharedScale = createSharedScale( resultSet );
-
-			if ( ChartReportItemUtil.canScaleShared( handle, cm ) )
+			if ( rtc.getSharedScale( ) == null
+					&& ChartReportItemUtil.canScaleShared( handle, cm ) )
 			{
-				if ( rtc.getScale( ) == null )
-				{
-					rtc.setScale( sharedScale );
-				}
-
-				if ( sharedScale != null )
-				{
-					if ( sharedScale.getMin( ) instanceof Double )
-					{
-						rtc.putState( AutoScale.KEY_SHARED_MINMAX,
-								new double[]{
-										(Double) sharedScale.getMin( ),
-										(Double) sharedScale.getMax( )
-								} );
-					}
-					else if ( rtc.getScale( ).getMin( ) instanceof CDateTime )
-					{
-						rtc.putState( AutoScale.KEY_SHARED_MINMAX,
-								new CDateTime[]{
-										(CDateTime) sharedScale.getMin( ),
-										(CDateTime) sharedScale.getMax( )
-								} );
-					}
-				}
-
+				rtc.setSharedScale( createSharedScale( resultSet ) );
 			}
 
 			// Set sharing query flag.
@@ -769,10 +742,11 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 
 			// Set the scale shared when scale has been computed, and store it
 			// in the ReportItem
-			if ( rtc.getScale( ) != null && !rtc.getScale( ).isShared( ) )
+			if ( rtc.getSharedScale( ) != null
+					&& !rtc.getSharedScale( ).isShared( ) )
 			{
-				rtc.getScale( ).setShared( true );
-				( (ChartReportItemImpl) getReportItem( handle ) ).setScale( rtc.getScale( ) );
+				rtc.getSharedScale( ).setShared( true );
+				( (ChartReportItemImpl) getReportItem( handle ) ).setSharedScale( rtc.getSharedScale( ) );
 			}
 
 			// Returns the content to display (image or image+imagemap)

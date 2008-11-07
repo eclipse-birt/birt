@@ -17,7 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.chart.computation.IConstants;
-import org.eclipse.birt.chart.computation.withaxes.ScaleContext;
+import org.eclipse.birt.chart.computation.withaxes.SharedScaleContext;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -38,7 +38,6 @@ import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
@@ -326,7 +325,7 @@ public final class DesignerRepresentation extends Figure
 		return list;
 	}
 
-	private ScaleContext createSharedScaleFromSampleData( )
+	private SharedScaleContext createSharedScaleFromSampleData( )
 	{
 		Double min = Double.MAX_VALUE, max = -Double.MAX_VALUE;
 
@@ -359,7 +358,7 @@ public final class DesignerRepresentation extends Figure
 			max = Math.max( max, v );
 		}
 
-		return ScaleContext.createSimpleScale( min, max );
+		return SharedScaleContext.createInstance( min, max );
 	}
 
 	/*
@@ -550,7 +549,7 @@ public final class DesignerRepresentation extends Figure
 			boolean bPlotChart = ChartXTabUtil.isPlotChart( crii.getHandle( ) );
 			if ( bPlotChart )
 			{
-				rtc.setScale( createSharedScaleFromSampleData( ) );
+				rtc.setSharedScale( createSharedScaleFromSampleData( ) );
 			}
 
 			gr.render( idr, gr.build( idr.getDisplayServer( ),

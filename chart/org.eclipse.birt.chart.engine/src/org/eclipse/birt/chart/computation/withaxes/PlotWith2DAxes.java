@@ -784,11 +784,9 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		if ( ( iAxisType & NUMERICAL ) == NUMERICAL
 				|| ( iAxisType & DATE_TIME ) == DATE_TIME )
 		{
-			if ( rtc.getScale( ) != null
-					&& rtc.getState( AutoScale.KEY_SHARED_MINMAX ) != null )
+			if ( rtc.getSharedScale( ) != null )
 			{
-				dsi = new DataSetIterator( rtc.getState( AutoScale.KEY_SHARED_MINMAX ),
-						iAxisType );
+				dsi = rtc.getSharedScale( ).createDataSetIterator( iAxisType );
 			}
 			else
 			{
