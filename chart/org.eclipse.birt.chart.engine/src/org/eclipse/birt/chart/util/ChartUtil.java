@@ -1578,4 +1578,15 @@ public class ChartUtil
 		return ( str == null || "".equals( str ) );
 	}
 	
+	/**
+	 * XOR for boolean
+	 * 
+	 * @param b0
+	 * @param b1
+	 * @return
+	 */
+	public static boolean XOR( boolean b0, boolean b1 )
+	{
+		return ( !b0 && b1 ) || ( b0 && !b1 );
+	}
 }

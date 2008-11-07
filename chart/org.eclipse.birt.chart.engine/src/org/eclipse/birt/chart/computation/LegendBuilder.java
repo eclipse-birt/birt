@@ -50,6 +50,7 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.emf.common.util.EList;
 
 import com.ibm.icu.text.DecimalFormat;
@@ -940,7 +941,13 @@ public final class LegendBuilder implements IConstants
 		}
 
 		int pos = -1;
-		dsiBase.reverse( bNeedInvert );
+		boolean bDataReverse = bNeedInvert;
+		if ( cm instanceof ChartWithAxes )
+		{
+			ChartWithAxes cwa = (ChartWithAxes) cm;
+			bDataReverse = ChartUtil.XOR( bNeedInvert, cwa.isReverseCategory( ) );
+		}
+		dsiBase.reverse( bDataReverse );
 
 		boolean bHasMoreData = true;
 		all: while ( bHasMoreData )
@@ -1440,7 +1447,13 @@ public final class LegendBuilder implements IConstants
 		}
 
 		int pos = -1;
-		dsiBase.reverse( bNeedInvert );
+		boolean bDataReverse = bNeedInvert;
+		if ( cm instanceof ChartWithAxes )
+		{
+			ChartWithAxes cwa = (ChartWithAxes) cm;
+			bDataReverse = ChartUtil.XOR( bNeedInvert, cwa.isReverseCategory( ) );
+		}
+		dsiBase.reverse( bDataReverse );
 
 		boolean bHasMoreData = true;
 		all: while ( bHasMoreData )
