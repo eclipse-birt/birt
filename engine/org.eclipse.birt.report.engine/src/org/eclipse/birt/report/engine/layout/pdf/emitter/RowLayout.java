@@ -20,6 +20,7 @@ import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
+import org.eclipse.birt.report.engine.layout.pdf.cache.CursorableList;
 import org.eclipse.birt.report.engine.layout.pdf.emitter.TableAreaLayout.Row;
 import org.eclipse.birt.report.engine.layout.pdf.emitter.TableLayout.TableContext;
 
@@ -83,9 +84,24 @@ public class RowLayout extends ContainerLayout
 			int parentSize = parent.contextList.size( );
 			closeLayout(contextList.removeFirst( ), parentSize - size + i, size, i, i==size-1);
 		}
+		if ( isInBlockStacking )
+		{
+			if ( size > 1 )
+			{
+				parent.closeExcludingLast( );
+			}
+		}
 		parent.gotoLastPage( );
 	}
 	
+	/**
+	 * 
+	 * @param currentContext	the context containing the sub-row which is going to be closed.		 
+	 * @param parentIndex		the parent(sub-table) index.	
+	 * @param size				after pagination, a row is split into size sub-rows.	
+	 * @param index				the index of the sub-row.
+	 * @param finished			is it the last sub-row.	
+	 */
 	protected void closeLayout( ContainerContext currentContext, int parentIndex, int size, int index,
 			boolean finished )
 	{
@@ -97,17 +113,24 @@ public class RowLayout extends ContainerLayout
 				TableContext tc = (TableContext) ( tbl.contextList.get( tableSize - size + index ) );
 				tc.layout.setUnresolvedRow( unresolvedRow );
 			}
-//			tbl.updateRow( (RowArea) currentContext.root, specifiedHeight,
-//					index, size );
-			if ( finished || !isRowEmpty( currentContext ) )
-			{
+			
+			boolean isRowEmpty = isRowEmpty( currentContext );
+			if ( finished || !isRowEmpty )
+			{	
 				tbl.addRow( (RowArea) currentContext.root, specifiedHeight, index, size );
 				parent.addToRoot( currentContext.root, parentIndex );
 			}
 			if ( !finished && unresolvedRow == null )
 			{
 				TableContext tc = (TableContext) ( tbl.contextList.get( tableSize - size + index ) );
-				unresolvedRow = tc.layout.getUnresolvedRow( );
+				if ( isRowEmpty )
+				{
+					unresolvedRow = tc.layout.createUnresolvedRow( (RowArea)currentContext.root );
+				}
+				else
+				{
+					unresolvedRow = tc.layout.getUnresolvedRow( );
+				}
 			}
 		}
 	}

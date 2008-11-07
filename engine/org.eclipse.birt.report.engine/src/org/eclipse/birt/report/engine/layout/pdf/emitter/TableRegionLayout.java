@@ -46,6 +46,11 @@ public class TableRegionLayout extends TableLayout
 		
 	}	
 	
+	public TableAreaLayout getTableAreaLayout( )
+	{
+		return tableContext.layout;
+	}
+	
 	public void layout( )
 	{
 		initialize( );

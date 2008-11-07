@@ -1005,7 +1005,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				Border rs = (Border) tb.rowBorders.get( seg.start );
 				Border re = (Border) tb.rowBorders.get( seg.end );
 				if ( null == rs || null == re )
-					return;
+					continue;
 				int sy = getScaledValue( rs.position + rs.width / 2 );
 				int ey = getScaledValue( re.position + re.width / 2 );
 				int x = getScaledValue( border.position + seg.width / 2 );
@@ -1038,7 +1038,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			Border rs = (Border) tb.rowBorders.get( seg.start );
 			Border re = (Border) tb.rowBorders.get( seg.end );
 			if ( null == rs || null == re )
-				return;
+				continue;
 			int sy = getScaledValue( rs.position + rs.width / 2 );
 			int ey = getScaledValue( re.position + re.width / 2 );
 			int x = getScaledValue( border.position - seg.width / 2 );
@@ -1078,7 +1078,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				Border cs = (Border) tb.columnBorders.get( seg.start );
 				Border ce = (Border) tb.columnBorders.get( seg.end );
 				if ( null == cs || null == ce )
-					return;
+					continue;
 				// we can also adjust the columns in this position
 				int sx = getScaledValue( cs.position + cs.width / 2 );
 				int ex = getScaledValue( ce.position + ce.width / 2 );
@@ -1126,7 +1126,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			Border cs = (Border) tb.columnBorders.get( seg.start );
 			Border ce = (Border) tb.columnBorders.get( seg.end );
 			if ( null == cs || null == ce )
-				return;
+				continue;
 			// we can also adjust the columns in this position
 			int sx = getScaledValue( cs.position + cs.width / 2 );
 			int ex = getScaledValue( ce.position + ce.width / 2 );

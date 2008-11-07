@@ -331,6 +331,12 @@ public class WrappedPDFLayoutEmitter extends LayoutEmitterAdapter implements ICo
 	public void startForeign( IForeignContent foreign )
 	{
 		layoutEmitter.startForeign( foreign );
+		if ( isInHeader( ) )
+		{
+			IContainerContent pContent = (IContainerContent) parentContents
+					.peek( );
+			pContent.getChildren( ).add( foreign );
+		}
 	}
 	
 	/**
