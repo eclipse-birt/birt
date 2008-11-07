@@ -173,7 +173,7 @@ public abstract class ContainerLayout extends Layout
 			int index = contextList.indexOf( currentContext ) + 1;
 			if ( index >= 0 && index < contextList.size( ) )
 			{
-				currentContext = contextList.get( index );
+				setCurrentContext( index );
 			}
 		}
 	}
@@ -236,7 +236,7 @@ public abstract class ContainerLayout extends Layout
 			int index = contextList.indexOf( currentContext ) + step;
 			if ( index >= 0 && index < contextList.size( ) )
 			{
-				currentContext = contextList.get( index );
+				setCurrentContext( index );
 				if ( parent != null )
 				{
 					parent.step( step );
@@ -256,7 +256,7 @@ public abstract class ContainerLayout extends Layout
 			int index = contextList.indexOf( currentContext );
 			if ( index != size-1 )
 			{
-				currentContext = contextList.get( size-1 );
+				setCurrentContext( size-1 );
 				parent.step( size-1-index );
 			}
 		}
@@ -274,7 +274,7 @@ public abstract class ContainerLayout extends Layout
 			int index = contextList.indexOf( currentContext );
 			if ( index > 0 )
 			{
-				currentContext = contextList.get( 0 );
+				setCurrentContext( 0 );
 				parent.step( 0 - index );
 			}
 		}
