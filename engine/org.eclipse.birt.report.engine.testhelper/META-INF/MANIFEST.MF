@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Testhelper Fragment
 Bundle-SymbolicName: org.eclipse.birt.report.engine.testhelper
 Bundle-Version: 2.3.2.qualifier
-Fragment-Host: org.eclipse.birt.report.engine;bundle-version="2.3.1"
+Fragment-Host: org.eclipse.birt.report.engine;bundle-version="[2.3.1,2.5.0)"
 Bundle-ClassPath: enginetesthelper.jar
 Export-Package: org.eclipse.birt.report.engine,
  org.eclipse.birt.report.engine.api,
