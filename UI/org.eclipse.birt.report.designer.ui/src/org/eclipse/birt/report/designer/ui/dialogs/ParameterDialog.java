@@ -442,7 +442,9 @@ public class ParameterDialog extends BaseDialog
 			} );
 			if ( dialog.open( ) == Dialog.OK )
 			{
-				choice.setValue( convertToStandardFormat( choice.getValue( ) ) );
+				// choice.setValue( convertToStandardFormat( choice.getValue( )
+				// ) );
+				choice.setValue( choice.getValue( ) );
 				if ( isDefault )
 				{
 					changeDefaultValue( choice.getValue( ) );
@@ -470,7 +472,9 @@ public class ParameterDialog extends BaseDialog
 			} );
 			if ( dialog.open( ) == Dialog.OK )
 			{
-				choice.setValue( convertToStandardFormat( choice.getValue( ) ) );
+				// choice.setValue( convertToStandardFormat( choice.getValue( )
+				// ) );
+				// choice.setValue( choice.getValue( ) );
 				choiceList.add( choice );
 				return true;
 			}
@@ -2996,7 +3000,7 @@ public class ParameterDialog extends BaseDialog
 	{
 
 		String choiceValue = choice.getValue( );
-		String defaultValue = convertToStandardFormat( this.defaultValue );
+		// String defaultValue = convertToStandardFormat( this.defaultValue );
 		if ( canBeNull( ) && choiceValue == null && defaultValue == null )
 		{
 			return true;
@@ -3091,7 +3095,7 @@ public class ParameterDialog extends BaseDialog
 		{
 			return errorMessage;
 		}
-		String newValue = convertToStandardFormat( value );
+		// String newValue = convertToStandardFormat( value );
 		if ( distinct.isEnabled( ) && distinct.getSelection( ) )
 		{
 			if ( containValue( choice, displayLabelKey, COLUMN_DISPLAY_TEXT_KEY ) )
@@ -3101,12 +3105,12 @@ public class ParameterDialog extends BaseDialog
 			else
 				return null;
 		}
-		if ( containValue( choice, newValue, COLUMN_VALUE ) )
+		if ( containValue( choice, value, COLUMN_VALUE ) )
 		{
 			return ERROR_MSG_DUPLICATED_VALUE;
 		}
 		if ( ( displayLabel == null && containValue( choice,
-				newValue,
+				value,
 				COLUMN_DISPLAY_TEXT ) )
 				|| ( containValue( choice, displayLabel, COLUMN_DISPLAY_TEXT ) ) )
 		{

@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.regex.PatternSyntaxException;
@@ -49,6 +48,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.util.DataTypeConvertUtil;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
@@ -535,8 +535,8 @@ public class ImportValueDialog extends BaseDialog
 //		{
 //			return style.equals( DesignChoiceConstants.PARAM_TYPE_TIME );
 //		}
-		
-		int dteType = DataAdapterUtil.adaptModelDataType( style );
+		String columnTypeStr = DataTypeConvertUtil.converToColumnDataType( style );
+		int dteType = DataAdapterUtil.adaptModelDataType( columnTypeStr );
 		try
 		{
 			int compatibleDataTypes[] = DataAdapterUtil.getCompatibleDataTypes( dteType );
