@@ -615,7 +615,7 @@ Choices.paramSortValues.value=値
 Choices.paramSortValues.label=表示テキスト
 
 #74. reportLayoutPreference
-Choices.reportLayoutPreference.fixedLayout=修正したレイアウト
+Choices.reportLayoutPreference.fixedLayout=固定レイアウト
 Choices.reportLayoutPreference.autoLayout=自動レイアウト
 
 #75. dateTimeLevelType
