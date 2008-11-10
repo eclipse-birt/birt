@@ -39,6 +39,7 @@ import org.eclipse.birt.report.engine.executor.ApplicationClassLoader;
 import org.eclipse.birt.report.engine.extension.engine.IReportDocumentExtension;
 import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtension;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.IPageHintReader;
 import org.eclipse.birt.report.engine.internal.document.PageHintReader;
 import org.eclipse.birt.report.engine.internal.document.v3.ReportContentReaderV3;
@@ -1345,6 +1346,29 @@ public class ReportDocumentReader
 		return getDesignStream( true );
 	}
 
+	private InstanceID loadInstanceID( ReportContentReaderV3 reader, long offset )
+			throws IOException
+	{
+		IContent content = reader.readContent( offset );
+		if ( content != null )
+		{
+			InstanceID iid = content.getInstanceID( );
+			DocumentExtension ext = (DocumentExtension) content
+					.getExtension( IContent.DOCUMENT_EXTENSION );
+			long parentOffset = ext.getParent( );
+			if ( parentOffset != -1 )
+			{
+				InstanceID pid = loadInstanceID( reader, parentOffset );
+				if ( pid != null )
+				{
+					return new InstanceID( pid, iid );
+				}
+			}
+			return iid;
+		}
+		return null;
+	}
+
 	public InstanceID getBookmarkInstance( String bookmark )
 	{
 		if ( bookmark == null || bookmark.length( ) == 0 )
@@ -1357,16 +1381,25 @@ public class ReportDocumentReader
 		if ( offset < 0 )
 			return null;
 
-		ReportContentReaderV3 reader = null;
 		try
 		{
 			RAInputStream is = archive.getStream( CONTENT_STREAM );
-			reader = new ReportContentReaderV3( new ReportContent( ), is,
-					applicationClassLoader );
-			IContent content = reader.readContent( offset );
-			if ( content != null )
+			try
 			{
-				return content.getInstanceID( );
+				ReportContentReaderV3 reader = new ReportContentReaderV3(
+						new ReportContent( ), is, applicationClassLoader );
+				try
+				{
+					return loadInstanceID( reader, offset );
+				}
+				finally
+				{
+					reader.close( );
+				}
+			}
+			finally
+			{
+				is.close( );
 			}
 		}
 		catch ( IOException ioe )
@@ -1374,13 +1407,6 @@ public class ReportDocumentReader
 			logger.log( Level.FINE,
 					"Failed to get the instance ID of the bookmark: "
 							+ bookmark, ioe );
-		}
-		finally
-		{
-			if ( reader != null )
-			{
-				reader.close( );
-			}
 		}
 		return null;
 	}
