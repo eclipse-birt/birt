@@ -57,6 +57,15 @@ public class TOCBuilder implements ITOCConstants
 		}
 	}
 
+	public void close( ) throws IOException
+	{
+		if ( writer != null )
+		{
+			writer.close( );
+			writer = null;
+		}
+	}
+
 	public TOCEntry startGroupEntry( TOCEntry parent, Object tocValue,
 			String bookmark, String hiddenFormats, long elementId )
 	{

@@ -80,6 +80,16 @@ public class TOCWriterV3 implements ITOCWriter, ITOCConstants
 
 	public void closeTOCEntry( TOCEntry entry ) throws IOException
 	{
+		DocTreeNode node = (DocTreeNode) entry.getTreeNode( );
+		if ( node != null )
+		{
+			// update the total child
+			if ( node.childCount > 0 )
+			{
+				out.seek( node.offset + DocTreeNode.OFFSET_CHILD_COUNT );
+				out.writeInt( node.childCount );
+			}
+		}
 	}
 
 	public void close( ) throws IOException
@@ -88,6 +98,15 @@ public class TOCWriterV3 implements ITOCWriter, ITOCConstants
 		{
 			try
 			{
+				if ( root != null )
+				{
+					if ( root.childCount > 0 )
+					{
+						out.seek( root.offset + DocTreeNode.OFFSET_CHILD_COUNT );
+						out.writeInt( root.childCount );
+					}
+					root = null;
+				}
 				out.close( );
 			}
 			finally
@@ -125,7 +144,6 @@ public class TOCWriterV3 implements ITOCWriter, ITOCConstants
 		{
 			return;
 		}
-		out.seek( parent.offset + DocTreeNode.OFFSET_NEXT );
 		if ( parent.child == -1 )
 		{
 			// this is the first child of the parent
@@ -139,9 +157,5 @@ public class TOCWriterV3 implements ITOCWriter, ITOCConstants
 			out.writeInt( node.offset );
 		}
 		parent.child = node.offset;
-
-		// update the total child
-		out.seek( parent.offset + DocTreeNode.OFFSET_CHILD_COUNT );
-		out.writeInt( parent.childCount );
 	}
 }
