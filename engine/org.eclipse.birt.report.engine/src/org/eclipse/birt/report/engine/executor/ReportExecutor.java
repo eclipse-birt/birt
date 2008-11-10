@@ -137,6 +137,24 @@ public class ReportExecutor implements IReportExecutor
 
 	public void close( )
 	{
+		TOCBuilder builder = context.getTOCBuilder( );
+		if ( builder != null )
+		{
+			try
+			{
+				builder.close( );
+			}
+			catch ( IOException ex )
+			{
+				context.addException( new EngineException(
+						"failed to close TOC", ex ) );
+			}
+			finally
+			{
+				context.setTOCBuilder( null );
+			}
+		}
+
 		if ( reportletExecutor != null )
 		{
 			reportletExecutor.close( );
