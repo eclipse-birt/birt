@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ID
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.MarginsPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.ui.widget.IValueChangedListener;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -50,7 +51,9 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.PropertyDescriptor#resetUIData()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 * PropertyDescriptor#resetUIData()
 	 */
 	public void load( )
 	{
@@ -87,7 +90,9 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.PropertyDescriptor#getControl()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 * PropertyDescriptor#getControl()
 	 */
 	public Control getControl( )
 	{
@@ -97,7 +102,8 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#createControl(org.eclipse.swt.widgets.Composite)
+	 * @seeorg.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
+	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public Control createControl( Composite parent )
 	{
@@ -168,14 +174,10 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor
 
 	protected void handleSelectedEvent( )
 	{
-
-		String value = spinner.getText( );
-
-		if ( provider.getUnit( combo.getText( ) ) != null )
-			value += provider.getUnit( combo.getText( ) );
 		try
 		{
-			save( value );
+			save( new DimensionValue( spinner.getSelection( ),
+					provider.getUnit( combo.getText( ) ) ) );
 		}
 		catch ( SemanticException e )
 		{
