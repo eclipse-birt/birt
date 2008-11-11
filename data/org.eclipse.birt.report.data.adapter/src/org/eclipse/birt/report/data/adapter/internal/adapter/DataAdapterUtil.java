@@ -125,11 +125,13 @@ class DataAdapterUtil
 					}
 					else
 						defaultValueExpr = modelParam.getDefaultValue( );
-					dteDataSet.addParameter( new ParameterAdapter( modelParam ) );
 					if ( defaultValueExpr != null )
+					{
+						dteDataSet.addParameter( new ParameterAdapter( modelParam ) );
 						paramBindingCandidates.put( modelParam.getName( ),
 								new ExpressionAdapter( defaultValueExpr,
 										org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.modelDataTypeToCoreDataType( modelParam.getDataType( ) ) ) );
+					}
 				}
 				else
 				{
