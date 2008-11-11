@@ -992,12 +992,13 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			element.title = "";
 		}
 	},
+
 	
 	/**
 	 *	Handle change event when clicking on cascading select.
 	 *
-	 *	@event, incoming browser native event
-	 *	@return, void
+	 *	@event incoming browser native event
+	 *	@return
 	 */
 	__neh_change_cascade_select : function( event )
 	{
@@ -1011,8 +1012,16 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			return;
 		}
 
-		this.__currentSelectedIndex = Event.element( event ).selectedIndex;
+		var element = Event.element( event );		
+		this.__currentSelectedIndex = element.selectedIndex;
+		this.__refresh_cascade_select(element);
+	},
 	
+	/**
+	 *	Refreshes the cascading elements following the given element.
+	 */
+	__refresh_cascade_select : function( element )
+	{
 	    var matrix = new Array( );
 	    var m = 0;
         for( var i = 0; i < this.__cascadingParameter.length; i++ )
@@ -1023,10 +1032,10 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
             	if( paramName == this.__isnull )
             		paramName = this.__cascadingParameter[i][j].value;
             		
-                if( paramName == Event.element( event ).id.substr( 0, Event.element( event ).id.length - 10 ) )
+                if( paramName == element.id.substr( 0, element.id.length - 10 ) )
                 {
-                	var tempText = Event.element( event ).options[Event.element( event ).selectedIndex].text;
-					var tempValue = Event.element( event ).options[Event.element( event ).selectedIndex].value;
+                	var tempText = element.options[element.selectedIndex].text;
+					var tempValue = element.options[element.selectedIndex].value;
 					                	
                 	if( tempValue == '' )
                 	{
@@ -1038,7 +1047,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
                 		}
                 		else if( tempText == "" )
                 		{
-                			var target = Event.element( event );
+                			var target = element;
 							target = target.parentNode;
 							var oInputs = target.getElementsByTagName( "input" );
 							if( oInputs.length >0 && oInputs[1].value != Constants.TYPE_STRING )
@@ -1123,52 +1132,68 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		var oSelect = temp.parentNode.getElementsByTagName( "select" );
 		
 		// check if current parameter is cascading parameter
-		var oCascadeFlag = "";
+		var oCascadeFlag = false;
 		if ( oInput && oInput.length > 0 )
 		{
 			var oLastInput = oInput[oInput.length - 1];
 			if ( oLastInput.id == "isCascade" )
-				oCascadeFlag = oLastInput.value;
+				oCascadeFlag = ( oLastInput.value == "true" );
 		}
-			
+		
+		var oSelectElement = oSelect[0];
+		
 		for( var i = 0; i < oInput.length; i++ )
 		{
 			if( oInput[i].id == temp.id )
 			{
+				var element = oInput[i+1]; 
 				//enable the next component
 				oInput[i].checked = true;
-				if( oInput[i+1] && ( oInput[i+1].type == "text" || oInput[i+1].type == "password" ) )
+				if( element && ( element.type == "text" || element.type == "password" ) )
 				{
-					oInput[i+1].disabled = false;
-					oInput[i+1].focus( );
-				}
-				else if( oSelect[0] )
-				{
-					oSelect[0].disabled = false;
-					oSelect[0].focus( );
-				}
-			}
-			else if( oInput[i].type == "radio" && oInput[i].id != temp.id )
-			{
-				//disable the next component and clear the radio
-				oInput[i].checked = false;
-				if( oInput[i+1] && ( oInput[i+1].type == "text" || oInput[i+1].type == "password" ) )
-				{
-					oInput[i+1].disabled = true;
-					// if cascading parameter, clear value 
-					if ( oCascadeFlag == "true" )
+					element.disabled = false;
+					element.focus( );
+					if ( oCascadeFlag )
 					{
-						oInput[i+1].value = "";
+						// refresh cascading elements
+						this.__refresh_cascade_text(element);
 					}
 				}
-				else if( oSelect[0] )
+				else if( oSelectElement )
 				{
-					oSelect[0].disabled = true;
-					// if cascading parameter, clear value
-					if ( oCascadeFlag == "true" )
+					oSelectElement.selectedIndex = 0;
+					oSelectElement.disabled = false;
+					oSelectElement.focus( );
+					if ( oCascadeFlag )
 					{
-						oSelect[0].selectedIndex = -1;
-						oSelect[0].title = "";
+						// refresh cascading elements
+						this.__refresh_cascade_select(oSelectElement);
+					}
+				}
+			}
+			// if i points to the element that must be disabled
+			else if( oInput[i].type == "radio" && oInput[i].id != temp.id )			
+			{				
+				var element = oInput[i+1];
+				//disable the next component and clear the radio
+				oInput[i].checked = false;
+				if( element && ( element.type == "text" || element.type == "password" ) )
+				{
+					element.disabled = true;
+					// if cascading parameter, clear value 
+					if ( oCascadeFlag )
+					{
+						element.value = "";
+					}
+				}
+				else if( oSelectElement )
+				{
+					oSelectElement.disabled = true;
+					// if cascading parameter, clear value
+					if ( oCascadeFlag )
+					{
+						oSelectElement.selectedIndex = -1;
+						oSelectElement.title = "";
 					}
 				}
 		    }
@@ -1204,8 +1229,16 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	__neh_change_cascade_text : function( event )
 	{	
 		var temp = Event.element( event );
-		var paramName = temp.id.substr( 0, temp.id.length - 6 );
-						
+		this.__refresh_cascade_text(temp);
+	},
+	
+	/**
+	 * Refresh cascade elements from a text box.
+	 */
+	__refresh_cascade_text : function( element )
+	{		
+		// trim the "_text" suffix from the parameter name
+		var paramName = element.id.substr( 0, element.id.length - 6 );
 	    var matrix = new Array( );
 	    var m = 0;
         for( var i = 0; i < this.__cascadingParameter.length; i++ )
@@ -1214,7 +1247,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
             {
                 if( this.__cascadingParameter[i][j].name == paramName )
                 {
-                    this.__cascadingParameter[i][j].value = temp.value;
+                    this.__cascadingParameter[i][j].value = element.value;
                     for( var m = 0; m <= j; m++ )
                     {
 					    if( !matrix[m] )
@@ -1228,7 +1261,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
                     birtEventDispatcher.broadcastEvent( birtEvent.__E_CASCADING_PARAMETER, matrix );
                 }
             }
-        }
+        }	
 	},
 		
 	/**

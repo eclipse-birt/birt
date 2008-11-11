@@ -76,6 +76,7 @@
 %>
 		<LABEL FOR="<%= encodedParameterName + "_radio_selection" %>" CLASS="birtviewer_hidden_label">Select</LABEL>
 		<INPUT TYPE="RADIO"
+			birtParameterType="combobox"
 			NAME="<%= encodedParameterName + "_radios" %>" 
 			ID="<%= encodedParameterName + "_radio_selection" %>" 
 			VALUE="<%= encodedParameterName %>"
@@ -85,7 +86,8 @@
 %>
 		<SELECT ID="<%= encodedParameterName + "_selection"%>"
 			TITLE="<%= parameterBean.getToolTip( ) %>"
-			CLASS="birtviewer_parameter_dialog_Select" 
+			CLASS="birtviewer_parameter_dialog_Select"
+			birtParameterType="combobox" 
 			<%= !CHECKED ? "DISABLED='true'" : "" %> 
 			<%=  allowMultiValue? "multiple='true'" : "" %> >
 <%
@@ -213,6 +215,7 @@
 		<BR>
 		<LABEL FOR="<%= encodedParameterName + "_radio_input" %>" CLASS="birtviewer_hidden_label">Input</LABEL>
 		<INPUT TYPE="RADIO"
+			birtParameterType="combobox"
 			NAME="<%= encodedParameterName + "_radios" %>" 
 			ID="<%= encodedParameterName + "_radio_input"%>" 
 			VALUE="<%= encodedParameterName %>"
@@ -220,6 +223,7 @@
 			
 		<LABEL FOR="<%= encodedParameterName + "_input" %>" CLASS="birtviewer_hidden_label">Input text</LABEL>
 		<INPUT CLASS="BirtViewer_parameter_dialog_Input"
+			birtParameterType="combobox"
 			TYPE="<%= parameterBean.isValueConcealed( )? "PASSWORD" : "TEXT" %>"
 			TITLE="<%= parameterBean.getToolTip( ) %>"
 			<%= !CHECKED ? "NAME=\"" + encodedParameterName + "_default\"": "" %> 
