@@ -295,7 +295,7 @@ BarChart.Txt.HelpText=ÌõĞÎÍ¼ÊÇÎª±È½ÏÊı¾İÀà±ğºÍÊı¾İ×é¶ø´´½¨µÄ¡£ÏàÍ¬Àà±ğ²»Í¬ÏµÁĞµÄ
 BarChart.Txt.SideBySideDescription=²¢ÁĞÌõĞÎÍ¼ÏÔÊ¾ÁËÏà»¥½ô¿¿µÄÏµÁĞÖĞµÄÌõĞÎ¡£\nÕâĞ©ÌõĞÎ¾­¹ıÅÅÁĞºó£¬¾ù¾ßÓĞÏàÍ¬µÄ¿í¶È¡£\nÕâĞ©ÌõĞÎµÄ¿í¶ÈÈ¡¾öÓÚ±»»æÖÆµÄÏµÁĞÊı¡£
 
 TubeChart.Txt.DefaultTubeChartTitle=¹ÜĞÎÍ¼±êÌâ
-TubeChart.Txt.DisplayName=¹ÜĞÎ
+TubeChart.Txt.DisplayName=¹ÜĞÎÍ¼
 TubeChart.SubType.Stacked=¶Ñ»ı
 TubeChart.SubType.PercentStacked=°Ù·Ö±È¶Ñ»ı
 TubeChart.SubType.Side=²¢ÅÅ
@@ -305,7 +305,7 @@ TubeChart.Txt.HelpText=¹ÜĞÎÍ¼ÊÇÎª±È½ÏÊı¾İµÄÀà»ò×é¶ø´´½¨µÄ¡£ÏàÍ¬Àà±ğ²»Í¬ÏµÁĞµÄÊı¾
 TubeChart.Txt.SideBySideDescription=²¢ÅÅ¹ÜĞÎÍ¼ÏÔÊ¾Ïà»¥½ô¿¿µÄÏµÁĞÖĞµÄ¹ÜĞÎ¡£\nÕâĞ©¹ÜĞÎ¾­¹ıÅÅÁĞºó£¬¾ù¾ßÓĞÏàÍ¬µÄ¿í¶È¡£\nÕâĞ©¹ÜĞÎµÄ¿í¶ÈÈ¡¾öÓÚ»æÖÆµÄÏµÁĞÊı¡£
 
 ConeChart.Txt.DefaultConeChartTitle=×¶ĞÎÍ¼±êÌâ
-ConeChart.Txt.DisplayName=×¶ĞÎ
+ConeChart.Txt.DisplayName=×¶ĞÎÍ¼
 ConeChart.SubType.Stacked=¶Ñ»ı
 ConeChart.SubType.PercentStacked=°Ù·Ö±È¶Ñ»ı
 ConeChart.SubType.Side=²¢ÅÅ
@@ -315,7 +315,7 @@ ConeChart.Txt.HelpText=×¶ĞÎÍ¼ÊÇÎª±È½ÏÊı¾İµÄÀà»ò×é¶ø´´½¨µÄ¡£ÏàÍ¬Àà±ğ²»Í¬ÏµÁĞµÄÊı¾
 ConeChart.Txt.SideBySideDescription=²¢ÅÅ×¶ĞÎÍ¼ÏÔÊ¾Ïà»¥½ô¿¿µÄÏµÁĞÖĞµÄ×¶ĞÎ¡£\nÕâĞ©×¶ĞÎ¾­¹ıÅÅÁĞºó£¬¾ù¾ßÓĞÏàÍ¬µÄ¿í¶È¡£\nÕâĞ©×¶ĞÎµÄ¿í¶ÈÈ¡¾öÓÚ»æÖÆµÄÏµÁĞÊı¡£
 
 PyramidChart.Txt.DefaultPyramidChartTitle=Àâ×¶Í¼±êÌâ
-PyramidChart.Txt.DisplayName=Àâ×¶
+PyramidChart.Txt.DisplayName=Àâ×¶Í¼
 PyramidChart.SubType.Stacked=¶Ñ»ı
 PyramidChart.SubType.PercentStacked=°Ù·Ö±È¶Ñ»ı
 PyramidChart.SubType.Side=²¢ÅÅ
