@@ -13,8 +13,12 @@ package org.eclipse.birt.report.engine.internal.index.v2;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.RAOutputStream;
@@ -37,36 +41,21 @@ public class IndexWriter implements IndexConstants
 
 	void add( String key, long value ) throws IOException
 	{
-		if ( entrySize < MAX_INLINE_ENTIRES )
+		if ( inlineMap.size( ) >= MAX_INLINE_ENTIRES )
 		{
-			if ( !inlineMap.containsKey( key ) )
-			{
-				inlineMap.put( key, value );
-				entrySize++;
-			}
+			flushBtree( );
+			inlineMap.clear( );
 		}
-		else
+		if ( !inlineMap.containsKey( key ) )
 		{
-			if ( inlineMap != null )
-			{
-				btree = BTreeMap.createTreeMap( archive, name );
-				for ( Map.Entry<String, Long> entry : inlineMap.entrySet( ) )
-				{
-					btree.insert( entry.getKey( ), entry.getValue( ) );
-				}
-				inlineMap = null;
-			}
-			if ( !btree.exist( key ) )
-			{
-				btree.insert( key, value );
-				entrySize++;
-			}
+			inlineMap.put( key, value );
+			entrySize++;
 		}
 	}
 
 	void close( ) throws IOException
 	{
-		if ( inlineMap != null )
+		if ( btree == null )
 		{
 			RAOutputStream stream = archive.createOutputStream( name );
 			try
@@ -80,7 +69,7 @@ public class IndexWriter implements IndexConstants
 					IOUtil.writeString( output, entry.getKey( ) );
 					IOUtil.writeLong( output, entry.getValue( ) );
 				}
-
+				inlineMap.clear( );
 			}
 			finally
 			{
@@ -89,8 +78,30 @@ public class IndexWriter implements IndexConstants
 		}
 		if ( btree != null )
 		{
+			flushBtree( );
 			btree.close( );
 		}
 	}
 
+	protected void flushBtree( ) throws IOException
+	{
+		if ( btree == null )
+		{
+			btree = BTreeMap.createTreeMap( archive, name );
+		}
+		ArrayList<Map.Entry<String, Long>> entries = new ArrayList<Map.Entry<String, Long>>(
+				inlineMap.entrySet( ) );
+		Collections.sort( entries, new Comparator<Map.Entry<String, Long>>( ) {
+
+			public int compare( Entry<String, Long> o1, Entry<String, Long> o2 )
+			{
+				return o1.getKey( ).compareTo( o2.getKey( ) );
+			}
+		} );
+
+		for ( Map.Entry<String, Long> entry : entries )
+		{
+			btree.insert( entry.getKey( ), entry.getValue( ) );
+		}
+	}
 }
