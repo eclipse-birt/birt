@@ -27,13 +27,17 @@ import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IGroupInstanceInfo;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.api.IQueryExecutionHints;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
+import org.eclipse.birt.data.engine.api.querydefn.GroupInstanceInfo;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.QueryExecutionHints;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -74,12 +78,43 @@ public class QueryDefnIOUtil
 			
 			// sub query name
 			saveSubQuery( outputStream, queryDefn.getSubqueries( ), version );
+			
+			// query execution hint
+			saveQueryExecutionHints( outputStream, queryDefn.getQueryExecutionHints( ), version );
 		}
 		catch ( IOException e )
 		{
 			throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
 		}
 		
+	}
+	
+	/**
+	 * 
+	 * @param outputStream
+	 * @param hint
+	 * @param version
+	 * @throws DataException
+	 */
+	private static void saveQueryExecutionHints( OutputStream outputStream, IQueryExecutionHints hint, int version ) throws DataException
+	{
+		if( version < VersionManager.VERSION_2_3_2_1 )
+			return;
+		try
+		{
+			IOUtil.writeBool( outputStream, hint == null? true:hint.doSortBeforeGrouping( ) );
+			List<IGroupInstanceInfo> list = hint == null? new ArrayList<IGroupInstanceInfo>():hint.getTargetGroupInstances( );
+			IOUtil.writeInt( outputStream, list.size( ) );
+			for( IGroupInstanceInfo info: list )
+			{
+				IOUtil.writeInt( outputStream, info.getGroupLevel( ) );
+				IOUtil.writeInt( outputStream, info.getRowId( ) );
+			}
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( e.getLocalizedMessage( ),e );
+		}
 	}
 	
 	/**
@@ -305,6 +340,9 @@ public class QueryDefnIOUtil
 			
 			// sub query name
 			queryDefn.getSubqueries( ).addAll( loadSubQuery( inputStream, queryDefn, version) );
+			
+			// QueryExecutionHints
+			queryDefn.setQueryExecutionHints( loadQueryExecutionHints( inputStream, version ) );
 		}
 		catch ( IOException e )
 		{
@@ -312,6 +350,37 @@ public class QueryDefnIOUtil
 		}
 	}
 	
+	/**
+	 * This method loads the query execution hints
+	 * @param inputStream
+	 * @param version
+	 * @return
+	 * @throws DataException
+	 */
+	private static IQueryExecutionHints loadQueryExecutionHints(
+			InputStream inputStream, int version ) throws DataException
+	{
+		if( version < VersionManager.VERSION_2_3_2_1 )
+			return null;
+		try
+		{
+			QueryExecutionHints hints = new QueryExecutionHints();
+			hints.setSortBeforeGrouping( IOUtil.readBool( inputStream ) );
+			
+			int groupInstanceInfoSize = IOUtil.readInt( inputStream );
+			for( int i = 0; i < groupInstanceInfoSize; i++ )
+			{
+				hints.addTargetGroupInstance( new GroupInstanceInfo( IOUtil.readInt( inputStream ), IOUtil.readInt( inputStream )) );
+			}
+
+			return hints;
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( e.getLocalizedMessage( ),e );
+		}
+	}
+
 	/**
 	 * @param outputStream
 	 * @param exprMap
