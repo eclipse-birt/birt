@@ -646,6 +646,7 @@ DataSetParameterBindingInputDialog.Label.Value=Valor:
 DataSetParametersPage.Prompt.new=<Nuevo parámetro aquí...>
 DataSetParametersPage.default.None=N/A
 DataSetParametersPage.reportParam.None=Ninguno
+DataSetParametersPage.errorMessage.LinkedReportParamNotFound=Linked report parameter "{0}" of the data set parameter "{1}" does not exist now.
 DataSetParameterPage.cell.linkToSalarParameter=&Vinculado a parámetro de informe
 DataSetParameterPage.title.ParameterInputDialog=Parámetro
 DataSetParameterPage.toolTipText.New=Nuevo parámetro
