@@ -790,7 +790,7 @@ public class HTML2Content
 			}
 			else if ( flashVars != null && !"".equals( flashVars ) )
 			{
-				flash.setAltText( ele.getAttribute( "The current format does NOT support flash variables!" ) );
+				flash.setAltText( "The current format does NOT support flash variables!" );
 			}
 		}
 	}
