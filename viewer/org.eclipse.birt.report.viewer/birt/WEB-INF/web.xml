@@ -37,10 +37,10 @@
 		<param-value>${birt.viewer.working.path}/documents</param-value>
 	</context-param>
 
-	<!-- If only access the report resources under working folder. Default is false -->
+	<!-- If only access the report resources under working folder. Default is true -->
 	<context-param>
 		<param-name>WORKING_FOLDER_ACCESS_ONLY</param-name>
-		<param-value>false</param-value>
+		<param-value>true</param-value>
 	</context-param>
 
 	<!-- Output image/chart directory. Default to ${birt home}/report/images -->
