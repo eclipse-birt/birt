@@ -44,6 +44,9 @@ public class VersionManager
 	//In version 2_3_2 the PLS_GROUPLEVEL is saved.
 	public final static int VERSION_2_3_2 = 90;
 	
+	//In version 2_3_2_1 the IQueryExecutionHints is saved.
+	public final static int VERSION_2_3_2_1 = 95;
+	
 	private DataEngineContext dataEngineContext;
 	private static Logger logger = Logger.getLogger( VersionManager.class.getName( ) );
 	
@@ -117,7 +120,7 @@ public class VersionManager
 	 */
 	public static int getLatestVersion( )
 	{
-		return VERSION_2_3_2;
+		return VERSION_2_3_2_1;
 	}
 
 }
