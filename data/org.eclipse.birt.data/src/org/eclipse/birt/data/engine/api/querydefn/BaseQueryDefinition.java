@@ -47,7 +47,7 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	//	 order might be sensitive, use LinkedHashMap instead of HashMap
 	private 	Map resultExprsMap = new LinkedHashMap( );
 	private 	Map bindingMap = new LinkedHashMap();
-	private IQueryExecutionHints queryExecutionHints;
+	private IQueryExecutionHints queryExecutionHints = new QueryExecutionHints();
 	private String name;
 	/**
 	 * Constructs an instance with parent set to the specified <code>BaseQueryDefinition</code>
