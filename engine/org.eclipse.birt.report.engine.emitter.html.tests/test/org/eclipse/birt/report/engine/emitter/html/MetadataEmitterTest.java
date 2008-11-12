@@ -64,7 +64,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 		String designFile = "org/eclipse/birt/report/engine/emitter/html/ActiveId_Test.xml";
 		String[][] bookmarksWithMetadata = {{"label", "LABEL"},
 				{"table", "TABLE"}, {"chart", "Chart"},
-				{"list", "LIST"}, {"data", "DATA"},
+				{"list", "LIST"}, {"HTML text", "TEXT"}, {"data", "DATA"},
 				{"AUTOGENBOOKMARK_1", "TEMPLATE"},
 				{"AUTOGENBOOKMARK_2", "TEMPLATE"},
 				{"AUTOGENBOOKMARK_3", "TEMPLATE"},
@@ -445,6 +445,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 		else if ( "LABEL".equals( type )
 				|| "DATA".equals( type )
 				|| "TEMPLATE".equals( type )
+				|| "TEXT".equals( type )
 				|| "STATIC_TEXT".equals( type )
 				|| "DYNAMIC_TEXT".equals( type ))
 		{
