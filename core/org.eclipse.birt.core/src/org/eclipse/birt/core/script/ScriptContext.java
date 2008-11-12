@@ -23,6 +23,7 @@ import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
+import org.mozilla.javascript.LazilyLoadedCtor;
 import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
@@ -85,6 +86,10 @@ public class ScriptContext
 			global = new ImporterTopLevel( );
 			if ( root != null )
 			{
+				//can not put this object to root, because this object will cache package and classloader information.
+				//so we need rewrite this property.
+	            new LazilyLoadedCtor( global, "Packages",
+						"org.mozilla.javascript.NativeJavaTopPackage", false );
 				global.exportAsJSClass( 3, global, false );
 				global.delete( "constructor" );
 				global.setPrototype( root );
