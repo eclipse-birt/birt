@@ -42,6 +42,15 @@ public class TOCHandler
 	 */
 	private Set bookmarks;
 	/**
+	 * The counter to indicate how many pdf outline has been created.
+	 */
+	private long counter = 0;
+	/**
+	 * The max number of pdf outline.
+	 */
+	private static final long MAX_COUNT = 70000l; 
+	
+	/**
 	 * The constructor.
 	 * @param root 			The TOC node in which need to build PDF outline 
 	 */
@@ -75,6 +84,8 @@ public class TOCHandler
 	 */
 	private void createTOC(TOCNode tocNode, PdfOutline pol, Set bookmarks)
 	{
+		if ( counter > MAX_COUNT )
+			return;
 		if (null == tocNode || null == tocNode.getChildren())
 			return;
 		for (Iterator i = tocNode.getChildren().iterator(); i.hasNext();)
@@ -84,6 +95,7 @@ public class TOCHandler
 				continue;
 			PdfOutline outline = new PdfOutline( pol, PdfAction.gotoLocalPage(
 					node.getBookmark( ), false ), node.getDisplayString( ) );
+			counter++;
 			IScriptStyle style = node.getTOCStyle( );
 			String color = style.getColor( );
 			Color awtColor = PropertyUtil.getColor( color );
