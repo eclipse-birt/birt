@@ -97,5 +97,5 @@ aggregation.InvalidQuartileArgument=Total.Quartile 函数只接受 0 和 4 之间(包括 0
 aggregation.BadAggrFuncParam=非法的聚合函数参数: {0}。
 aggregation.ResetRateGuess=用户应重置新的比率猜测值。
 aggregation.InvalidParameterType=聚合的无效参数类型: {0} 
-aggregation.InvalidParameterValue=聚合的无效参数值: {0} 
+aggregation.InvalidParameterValue=“{1}”聚合中“{0}”参数的值无效: {2}。
 aggregation.InvalidSeparator=聚合的无效分隔符: {0}

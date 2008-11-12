@@ -97,5 +97,5 @@ aggregation.InvalidQuartileArgument=La función Total.Quartile sólo acepta entero
 aggregation.BadAggrFuncParam=Parámetro no válido para la función de agregación: {0}.
 aggregation.ResetRateGuess=El usuario debe restablecer un nuevo rate guess.
 aggregation.InvalidParameterType=Tipo de parámetro de la agregación no válido: {0} 
-aggregation.InvalidParameterValue=Valor de parámetro de la agregación no válido: {0} 
+aggregation.InvalidParameterValue=El valor del parámetro "{0}" en una agregación "{1}" no es válido: {2}.
 aggregation.InvalidSeparator=Separador no válido para la agregación: {0}

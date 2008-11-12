@@ -97,5 +97,5 @@ aggregation.InvalidQuartileArgument=Total.Quartile 関数の 2 つ目の引数には、0 ～
 aggregation.BadAggrFuncParam=集計関数のパラメタが無効です : {0}
 aggregation.ResetRateGuess=新しい Rate Guess をリセットしてください。
 aggregation.InvalidParameterType=集計パラメタの型が無効です : {0} 
-aggregation.InvalidParameterValue=集計パラメタの値が無効です : {0} 
+aggregation.InvalidParameterValue="{0}" パラメタの値 ("{1}" 集計) は無効です : {2}
 aggregation.InvalidSeparator=集計の区切りが無効です : {0}

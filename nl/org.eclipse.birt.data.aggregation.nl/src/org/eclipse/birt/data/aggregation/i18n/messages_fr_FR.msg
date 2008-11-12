@@ -97,5 +97,5 @@ aggregation.InvalidQuartileArgument=La fonction Total.Quartile n'accepte que les
 aggregation.BadAggrFuncParam=Paramètre incorrect pour la fonction d'agrégation : {0}.
 aggregation.ResetRateGuess=L'utilisateur devrait définir une nouvelle estimation de taux.
 aggregation.InvalidParameterType=Type de paramètre de l'agrégation incorrect : {0} 
-aggregation.InvalidParameterValue=Valeur de paramètre de l'agrégation incorrect : {0} 
+aggregation.InvalidParameterValue=La valeur du paramètre "{0}" dans une agrégation "{1}" est incorrecte : {2}.
 aggregation.InvalidSeparator=Séparateur pour l'agrégation incorrect : {0}

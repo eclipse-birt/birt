@@ -97,5 +97,5 @@ aggregation.InvalidQuartileArgument=Total.Quartile 함수는 두 번째 인수로 0과 4사
 aggregation.BadAggrFuncParam=집계 함수에 대한 잘못된 매개 변수: {0}.
 aggregation.ResetRateGuess=새로운 rate guess를 재설정해야 합니다.
 aggregation.InvalidParameterType=잘못된 집계 매개 변수 유형: {0} 
-aggregation.InvalidParameterValue=잘못된 집계 매개 변수 값: {0} 
+aggregation.InvalidParameterValue=집계 "{1}"에 있는 매개 변수 "{0}"의 값이 잘못되었습니다. {2}
 aggregation.InvalidSeparator=잘못된 집계 구분 기호: {0}
