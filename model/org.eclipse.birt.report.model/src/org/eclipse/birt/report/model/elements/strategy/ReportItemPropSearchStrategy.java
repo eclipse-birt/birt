@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
@@ -46,16 +47,34 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 	protected final static Set listingElementDataBindingProps;
 
 	/**
+	 * Data binding properties hash code for the listing elements.
+	 */
+
+	protected final static Set<Integer> listingElementDataBindingPropsNameHash;
+
+	/**
 	 * Data binding properties for the extended elements.
 	 */
 
 	protected final static Set extendedItemDataBindingProps;
 
 	/**
+	 * Data binding properties hash code for the extended elements.
+	 */
+
+	protected final static Set extendedItemDataBindingPropsNameHash;
+
+	/**
 	 * Data binding properties for the report items.
 	 */
 
 	protected final static Set reportItemDataBindingProps;
+
+	/**
+	 * Data binding properties hash code for the report items.
+	 */
+
+	protected final static Set reportItemDataBindingPropsNameHash;
 
 	static
 	{
@@ -69,6 +88,19 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 		listingElementDataBindingProps = Collections.unmodifiableSet( tmpSet );
 
 		tmpSet = new HashSet( );
+		tmpSet.add( new Integer( IReportItemModel.PARAM_BINDINGS_PROP
+				.hashCode( ) ) );
+		tmpSet.add( new Integer( IReportItemModel.BOUND_DATA_COLUMNS_PROP
+				.hashCode( ) ) );
+		tmpSet.add( new Integer( IReportItemModel.DATA_SET_PROP.hashCode( ) ) );
+		tmpSet.add( new Integer( IReportItemModel.CUBE_PROP.hashCode( ) ) );
+		tmpSet
+				.add( new Integer( IListingElementModel.FILTER_PROP.hashCode( ) ) );
+		tmpSet.add( new Integer( IListingElementModel.SORT_PROP.hashCode( ) ) );
+		listingElementDataBindingPropsNameHash = Collections
+				.unmodifiableSet( tmpSet );
+
+		tmpSet = new HashSet( );
 		tmpSet.add( IReportItemModel.PARAM_BINDINGS_PROP );
 		tmpSet.add( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 		tmpSet.add( IReportItemModel.DATA_SET_PROP );
@@ -77,12 +109,32 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 		extendedItemDataBindingProps = Collections.unmodifiableSet( tmpSet );
 
 		tmpSet = new HashSet( );
+		tmpSet.add( new Integer( IReportItemModel.PARAM_BINDINGS_PROP
+				.hashCode( ) ) );
+		tmpSet.add( new Integer( IReportItemModel.BOUND_DATA_COLUMNS_PROP
+				.hashCode( ) ) );
+		tmpSet.add( new Integer( IReportItemModel.DATA_SET_PROP.hashCode( ) ) );
+		tmpSet.add( new Integer( IReportItemModel.CUBE_PROP.hashCode( ) ) );
+		tmpSet.add( new Integer( IExtendedItemModel.FILTER_PROP.hashCode( ) ) );
+		extendedItemDataBindingPropsNameHash = Collections
+				.unmodifiableSet( tmpSet );
+
 		tmpSet = new HashSet( );
 		tmpSet.add( IReportItemModel.PARAM_BINDINGS_PROP );
 		tmpSet.add( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 		tmpSet.add( IReportItemModel.DATA_SET_PROP );
 		tmpSet.add( IReportItemModel.CUBE_PROP );
 		reportItemDataBindingProps = Collections.unmodifiableSet( tmpSet );
+
+		tmpSet = new HashSet( );
+		tmpSet.add( new Integer( IReportItemModel.PARAM_BINDINGS_PROP
+				.hashCode( ) ) );
+		tmpSet.add( new Integer( IReportItemModel.BOUND_DATA_COLUMNS_PROP
+				.hashCode( ) ) );
+		tmpSet.add( new Integer( IReportItemModel.DATA_SET_PROP.hashCode( ) ) );
+		tmpSet.add( new Integer( IReportItemModel.CUBE_PROP.hashCode( ) ) );
+		reportItemDataBindingPropsNameHash = Collections
+				.unmodifiableSet( tmpSet );
 	}
 
 	/**
@@ -95,7 +147,8 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 
 	/**
 	 * Returns the instance of <code>ReportItemPropSearchStrategy</code> which
-	 * provide the specific property searching route for <code>ReportItem</code>.
+	 * provide the specific property searching route for <code>ReportItem</code>
+	 * .
 	 * 
 	 * @return the instance of <code>ReportItemPropSearchStrategy</code>
 	 */
@@ -130,15 +183,17 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.PropertySearchStrategy#getPropertyFromSelf(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.core.DesignElement,
-	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.PropertySearchStrategy#getPropertyFromSelf
+	 * (org.eclipse.birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.core.DesignElement,
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
 
 	protected Object getPropertyFromSelf( Module module, DesignElement element,
 			ElementPropertyDefn prop )
 	{
-		if ( !getDataBindingProperties( element ).contains( prop.getName( ) ) )
+		if ( !isDataBindingProperty( element, prop.getName( ) ) )
 			return super.getPropertyFromSelf( module, element, prop );
 
 		// the data binding reference property has high priority than local
@@ -176,5 +231,52 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 		else
 			return Collections.EMPTY_SET;
 
+	}
+
+	/**
+	 * Returns properties hash code that are bound to data related values.
+	 * 
+	 * @param tmpElement
+	 *            the design element
+	 * @return a set containing property names in string
+	 */
+
+	private static Set<Integer> getDataBindingPropertiesNameHash(
+			DesignElement tmpElement )
+	{
+
+		if ( tmpElement instanceof ListingElement )
+		{
+			return listingElementDataBindingPropsNameHash;
+		}
+		else if ( tmpElement instanceof ExtendedItem )
+		{
+			return extendedItemDataBindingPropsNameHash;
+		}
+		else if ( tmpElement instanceof ReportItem )
+			return reportItemDataBindingPropsNameHash;
+		else
+			return Collections.EMPTY_SET;
+
+	}
+
+	/**
+	 * Checks if the property is data binding property.
+	 * 
+	 * @param element
+	 *            the design element
+	 * @param propName
+	 *            the property name
+	 * @return true if this property is the data binding property, false
+	 *         otherwise
+	 */
+	public static boolean isDataBindingProperty( DesignElement element,
+			String propName )
+	{
+		if ( !( element instanceof ReportItem )
+				|| StringUtil.isBlank( propName ) )
+			return false;
+		return getDataBindingPropertiesNameHash( element ).contains(
+				new Integer( propName.hashCode( ) ) );
 	}
 }

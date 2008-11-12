@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.IStyleDeclaration;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
@@ -27,6 +28,7 @@ import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.MultiViews;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.SystemPropertyDefn;
@@ -44,14 +46,24 @@ public class ExtendedItemPropSearchStrategy
 	 * Data binding properties for the report items.
 	 */
 
-	protected final static Set<String> hostViewRelatedProps;
+	protected final static Set<Integer> hostViewRelatedProps;
 
 	static
 	{
-		Set<String> tmpSet = new HashSet<String>( );
-		tmpSet.add( IReportItemModel.TOC_PROP );
-		tmpSet.add( IReportItemModel.VISIBILITY_PROP );
-		tmpSet.add( IReportItemModel.BOOKMARK_PROP );
+		Set<Integer> tmpSet = new HashSet<Integer>( );
+		tmpSet.add( new Integer( IReportItemModel.TOC_PROP.hashCode( ) ) );
+		tmpSet
+				.add( new Integer( IReportItemModel.VISIBILITY_PROP.hashCode( ) ) );
+		tmpSet.add( new Integer( IReportItemModel.BOOKMARK_PROP.hashCode( ) ) );
+		tmpSet
+				.add( new Integer( IStyleModel.PAGE_BREAK_BEFORE_PROP
+						.hashCode( ) ) );
+		tmpSet
+				.add( new Integer( IStyleModel.PAGE_BREAK_AFTER_PROP.hashCode( ) ) );
+		tmpSet
+				.add( new Integer( IStyleModel.PAGE_BREAK_INSIDE_PROP
+						.hashCode( ) ) );
+		tmpSet.add( new Integer( IStyleModel.MASTER_PAGE_PROP.hashCode( ) ) );
 		hostViewRelatedProps = Collections.unmodifiableSet( tmpSet );
 	}
 
@@ -193,8 +205,8 @@ public class ExtendedItemPropSearchStrategy
 			return super.getPropertyFromSelf( module, element, prop );
 
 		String propName = prop.getName( );
-		if ( !getDataBindingProperties( element ).contains( propName )
-				&& !hostViewRelatedProps.contains( propName ) )
+		if ( !isDataBindingProperty( element, propName )
+				&& !isHostViewProperty( element, propName ) )
 			return super.getPropertyFromSelf( module, element, prop );
 
 		DesignElement grandContainer = element.getContainer( ).getContainer( );
@@ -212,13 +224,33 @@ public class ExtendedItemPropSearchStrategy
 	 * @return a set containing property names in string
 	 */
 
-	public static Set<String> getHostViewProperties( DesignElement tmpElement )
+	private static Set<Integer> getHostViewProperties( DesignElement tmpElement )
 	{
 		if ( tmpElement instanceof ReportItem )
 			return hostViewRelatedProps;
-		else
-			return Collections.EMPTY_SET;
 
+		return Collections.EMPTY_SET;
+
+	}
+
+	/**
+	 * Checks if the property is the host view property.
+	 * 
+	 * @param element
+	 *            the design element.
+	 * @param propName
+	 *            the property name.
+	 * @return true if the property is the host view property, otherwise return
+	 *         false.
+	 */
+	public static boolean isHostViewProperty( DesignElement element,
+			String propName )
+	{
+		if ( !( element instanceof ExtendedItem )
+				|| StringUtil.isBlank( propName ) )
+			return false;
+		return getHostViewProperties( element ).contains(
+				new Integer( propName.hashCode( ) ) );
 	}
 
 	/*

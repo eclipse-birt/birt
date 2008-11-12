@@ -35,7 +35,9 @@ public class GroupPropSearchStrategy extends PropertySearchStrategy
 
 	private final static GroupPropSearchStrategy instance = new GroupPropSearchStrategy( );
 
-	private final static Set dataBindingProps;
+	private final static Set<String> dataBindingProps;
+
+	private final static Set<Integer> dataBindingPropsNameHash;
 
 	static
 	{
@@ -49,6 +51,26 @@ public class GroupPropSearchStrategy extends PropertySearchStrategy
 		dataBindingProps.add( IGroupElementModel.INTERVAL_RANGE_PROP );
 		dataBindingProps.add( IGroupElementModel.SORT_DIRECTION_PROP );
 		dataBindingProps.add( IGroupElementModel.SORT_TYPE_PROP );
+
+		Set<Integer> tmpSet = new HashSet<Integer>( );
+		tmpSet
+				.add( new Integer( IGroupElementModel.GROUP_NAME_PROP
+						.hashCode( ) ) );
+		tmpSet
+				.add( new Integer( IGroupElementModel.KEY_EXPR_PROP.hashCode( ) ) );
+		tmpSet.add( new Integer( IGroupElementModel.FILTER_PROP.hashCode( ) ) );
+		tmpSet.add( new Integer( IGroupElementModel.SORT_PROP.hashCode( ) ) );
+		tmpSet.add( new Integer( IGroupElementModel.INTERVAL_BASE_PROP
+				.hashCode( ) ) );
+		tmpSet
+				.add( new Integer( IGroupElementModel.INTERVAL_PROP.hashCode( ) ) );
+		tmpSet.add( new Integer( IGroupElementModel.INTERVAL_RANGE_PROP
+				.hashCode( ) ) );
+		tmpSet.add( new Integer( IGroupElementModel.SORT_DIRECTION_PROP
+				.hashCode( ) ) );
+		tmpSet
+				.add( new Integer( IGroupElementModel.SORT_TYPE_PROP.hashCode( ) ) );
+		dataBindingPropsNameHash = Collections.unmodifiableSet( tmpSet );
 	}
 
 	/**
@@ -74,15 +96,17 @@ public class GroupPropSearchStrategy extends PropertySearchStrategy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.PropertySearchStrategy#getPropertyFromSelf(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.core.DesignElement,
-	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.PropertySearchStrategy#getPropertyFromSelf
+	 * (org.eclipse.birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.core.DesignElement,
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
 
 	protected Object getPropertyFromSelf( Module module, DesignElement element,
 			ElementPropertyDefn prop )
 	{
-		if ( !dataBindingProps.contains( prop.getName( ) ) )
+		if ( !isDataBindingProperty( prop ) )
 			return super.getPropertyFromSelf( module, element, prop );
 
 		GroupElement tmpGroup = findCorrespondingGroupElement( module, element );
@@ -90,6 +114,21 @@ public class GroupPropSearchStrategy extends PropertySearchStrategy
 			return super.getPropertyFromSelf( module, element, prop );
 
 		return tmpGroup.getProperty( module, prop );
+	}
+
+	/**
+	 * Checks if the property is the data binding property.
+	 * 
+	 * @param prop
+	 *            definition of the property
+	 * @return true if the property is the data binding property, otherwise
+	 *         return false.
+	 */
+	private boolean isDataBindingProperty( ElementPropertyDefn prop )
+	{
+		return dataBindingPropsNameHash.contains( new Integer( prop.getName( )
+				.hashCode( ) ) );
+
 	}
 
 	/**
