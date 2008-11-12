@@ -1353,13 +1353,19 @@ public class DataExtractionTaskV1 extends EngineTask
 	public void setStartRow( int startRow )
 	{
 		this.startRow = startRow;
-		groupMode = false;
+		if ( startRow > 0 )
+		{
+			groupMode = false;
+		}
 	}
 	
 	public void setDistinctValuesOnly( boolean distinct )
 	{
 		this.distinct = distinct;
-		groupMode = false;
+		if ( distinct )
+		{
+			groupMode = false;
+		}
 	}
 
 	protected void processQueryExtensions( IDataQueryDefinition query )
