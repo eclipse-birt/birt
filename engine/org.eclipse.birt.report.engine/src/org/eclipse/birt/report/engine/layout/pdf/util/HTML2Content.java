@@ -790,7 +790,7 @@ public class HTML2Content
 			}
 			else if ( flashVars != null && !"".equals( flashVars ) )
 			{
-				flash.setAltText( "The current format does NOT support flash variables!" );
+				flash.setAltText( "Flash Object report items with FlashVars are not supported in this report format." );
 			}
 		}
 	}
