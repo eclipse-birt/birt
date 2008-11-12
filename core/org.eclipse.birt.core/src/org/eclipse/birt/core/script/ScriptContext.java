@@ -23,6 +23,7 @@ import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
+import org.mozilla.javascript.LazilyLoadedCtor;
 import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
