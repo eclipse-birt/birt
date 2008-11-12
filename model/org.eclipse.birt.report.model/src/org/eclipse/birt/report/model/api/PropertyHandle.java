@@ -392,8 +392,8 @@ public class PropertyHandle extends SimpleValueHandle
 		else if ( element instanceof ReportItemHandle )
 		{
 			boolean containsProp = ReportItemPropSearchStrategy
-					.getDataBindingProperties( element.getElement( ) )
-					.contains( propDefn.getName( ) );
+					.isDataBindingProperty( element.getElement( ), propDefn
+							.getName( ) );
 
 			boolean retValue = containsProp
 					&& ( (ReportItem) element.getElement( ) )
@@ -404,8 +404,8 @@ public class PropertyHandle extends SimpleValueHandle
 
 			if ( !containsProp )
 				containsProp = ExtendedItemPropSearchStrategy
-						.getHostViewProperties( element.getElement( ) )
-						.contains( propDefn.getName( ) );
+						.isHostViewProperty( element.getElement( ), propDefn
+								.getName( ) );
 
 			if ( element instanceof ExtendedItemHandle )
 				return ( containsProp && ( element.getContainer( ) instanceof MultiViewsHandle ) );
