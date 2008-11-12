@@ -12,11 +12,11 @@ SampleReportsView.Action.exportSampleReport.toolTipText=選択したサンプルレポート
 SampleReportsView.Action.openSampleReport.toolTipText.ide=レポートプロジェクトを作成して、レポートをプロジェクトフォルダに配置します
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=選択したサンプルレポートを RCP 作業フォルダに直接エクスポートします
 SampleReportsView.Text.Contribute_Samples=サンプルの提供
-IDEOpenSampleReportAction.ProjectNameDialog.Label.PrjectName=Project name:
-IDEOpenSampleReportAction.ProjectNameDialog.Title.PrjectName=Project Name
-IDEOpenSampleReportAction.MessageDialog.ProjectExists.Title=Project Exists
-IDEOpenSampleReportAction.MessageDialog.ProjectExists.Message=The project already exists. Press ''{0}'' to use this project, press ''{1}'' to clear the existing project and create a new one, press ''{2}'' to cancel. 
-IDEOpenSampleReportAction.MessageDialog.ProjectExists.ButtonText=Overwrite
+IDEOpenSampleReportAction.ProjectNameDialog.Label.PrjectName=プロジェクト名 :
+IDEOpenSampleReportAction.ProjectNameDialog.Title.PrjectName=プロジェクト名
+IDEOpenSampleReportAction.MessageDialog.ProjectExists.Title=プロジェクトが存在します
+IDEOpenSampleReportAction.MessageDialog.ProjectExists.Message=すでにプロジェクトが存在します。このプロジェクトを使用するには、''{0}'' をクリックしてください。既存のプロジェクトをクリアして新しいプロジェクトを作成するには、''{1}'' をクリックしてください。キャンセルするには ''{2}'' をクリックしてください。 
+IDEOpenSampleReportAction.MessageDialog.ProjectExists.ButtonText=上書き
 
 ###########################################################
 #NewReportProjectWizard properties
