@@ -2334,7 +2334,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			{
 				htmlBookmark = bookmark;
 			}
-			writer.attribute( "onresize", htmlBookmark + ".reload()" ); //$NON-NLS-1$
+			writer.attribute( "onresize", "document.getElementById('" + htmlBookmark + "').reload()" ); //$NON-NLS-1$
 			
 			writer.attribute( HTMLTags.ATTR_TYPE, image.getMIMEType( ) );
 			writer.attribute( HTMLTags.ATTR_SRC, imgUri );			
