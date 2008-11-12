@@ -411,7 +411,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	protected void fixTransparentPNG( )
 	{
 		//FIXME: code review: does IE7 support it?
-		writer.writeCode( "<!--[if gte IE 5.5000]>" ); //$NON-NLS-1$
+		writer.writeCode( "<!--[if (gte IE 5.5000)&(lt IE 7)]>" ); //$NON-NLS-1$
 		writer
 				.writeCode( "   <script language=\"JavaScript\"> var ie55up = true </script>" ); //$NON-NLS-1$
 		writer.writeCode( "<![endif]-->" ); //$NON-NLS-1$
@@ -423,22 +423,22 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.writeCode( "      if (window.ie55up)" ); //$NON-NLS-1$
 		writer.writeCode( "         {" ); //$NON-NLS-1$
 		writer
-				.writeCode( "         var imgID = (myImage.id) ? \"id='\" + myImage.id + \"' \" : \"\"" ); //$NON-NLS-1$
+				.writeCode( "         var imgID = (myImage.id) ? \"id='\" + myImage.id + \"' \" : \"\";" ); //$NON-NLS-1$
 		writer
-				.writeCode( "         var imgClass = (myImage.className) ? \"class='\" + myImage.className + \"' \" : \"\"" ); //$NON-NLS-1$
+				.writeCode( "         var imgClass = (myImage.className) ? \"class='\" + myImage.className + \"' \" : \"\";" ); //$NON-NLS-1$
 		writer
-				.writeCode( "         var imgTitle = (myImage.title) ? \"title='\" + myImage.title + \"' \" : \"title='\" + myImage.alt + \"' \"" ); //$NON-NLS-1$
+				.writeCode( "         var imgTitle = (myImage.title) ? \"title='\" + myImage.title + \"' \" : \"title='\" + myImage.alt + \"' \";" ); //$NON-NLS-1$
 		writer
-				.writeCode( "         var imgStyle = \"display:inline-block;\" + myImage.style.cssText" ); //$NON-NLS-1$
+				.writeCode( "         var imgStyle = \"display:inline-block;\" + myImage.style.cssText;" ); //$NON-NLS-1$
 		writer
-				.writeCode( "         var strNewHTML = \"<span \" + imgID + imgClass + imgTitle" ); //$NON-NLS-1$
+				.writeCode( "         var strNewHTML = \"<span \" + imgID + imgClass + imgTitle;" ); //$NON-NLS-1$
 		writer
-				.writeCode( "         strNewHTML += \" style=\\\"\" + \"width:\" + myImage.width + \"px; height:\" + myImage.height + \"px;\" + imgStyle + \";\"" ); //$NON-NLS-1$
+				.writeCode( "         strNewHTML += \" style=\\\"\" + \"width:\" + myImage.width + \"px; height:\" + myImage.height + \"px;\" + imgStyle + \";\";" ); //$NON-NLS-1$
 		writer
-				.writeCode( "         strNewHTML += \"filter:progid:DXImageTransform.Microsoft.AlphaImageLoader\"" ); //$NON-NLS-1$
+				.writeCode( "         strNewHTML += \"filter:progid:DXImageTransform.Microsoft.AlphaImageLoader\";" ); //$NON-NLS-1$
 		writer
-				.writeCode( "         strNewHTML += \"(src=\\'\" + myImage.src + \"\\', sizingMethod='scale');\\\"></span>\"" ); //$NON-NLS-1$
-		writer.writeCode( "         myImage.outerHTML = strNewHTML" ); //$NON-NLS-1$
+				.writeCode( "         strNewHTML += \"(src=\\'\" + myImage.src + \"\\', sizingMethod='scale');\\\"></span>\";" ); //$NON-NLS-1$
+		writer.writeCode( "         myImage.outerHTML = strNewHTML;" ); //$NON-NLS-1$
 		writer.writeCode( "         }" ); //$NON-NLS-1$
 		writer.writeCode( "      }" ); //$NON-NLS-1$
 		writer.writeCode( " //]]>" ); //$NON-NLS-1$
