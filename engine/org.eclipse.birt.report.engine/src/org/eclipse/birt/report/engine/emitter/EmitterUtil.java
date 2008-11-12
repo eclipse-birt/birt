@@ -124,7 +124,7 @@ public class EmitterUtil
 			}
 		}
 	}
-
+	
 	public static Image getImage( IImageContent content )
 	{
 		Image image = null;
@@ -133,10 +133,6 @@ public class EmitterUtil
 			String uri = content.getURI( );
 			String mimeType = content.getMIMEType( );
 			String extension = content.getExtension( );
-			if ( FlashFile.isFlash( mimeType, uri, extension ) )
-			{
-				return null;
-			}
 			switch ( content.getImageSource( ) )
 			{
 				case IImageContent.IMAGE_FILE :

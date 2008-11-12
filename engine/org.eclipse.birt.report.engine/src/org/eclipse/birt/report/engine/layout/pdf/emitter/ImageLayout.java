@@ -94,9 +94,16 @@ public class ImageLayout extends Layout
 	{
 		checkObjectType( );
 		// choose the layout manager
-		Image imageObject = EmitterUtil.getImage((IImageContent)content);
+		IImageContent imageContent = (IImageContent)content;
+		Image imageObject = null;
+		boolean isFlash = FlashFile.isFlash( imageContent.getMIMEType( ), imageContent
+				.getURI( ), imageContent.getExtension( ) );
+		if ( !isFlash )
+		{
+			imageObject = EmitterUtil.getImage(imageContent);
+		}
 		if ( isOutputSupported( objectType )
-				&& imageObject != null )
+				&& ( isFlash || imageObject != null ) )
 		{
 			// the output format can display this kind of object and the object is accessible.
 			layout = new ConcreteImageLayout( context, parentLayout, content, imageObject );
@@ -104,14 +111,13 @@ public class ImageLayout extends Layout
 		else
 		{
 			// display the alt text.
-			IImageContent image = (IImageContent) content;
 			IReportContent report = context.getReport( );
 			if ( report == null )
 			{
 				return;
 			}
-			ITextContent altTextContent = report.createTextContent( image );
-			altTextContent.setText( image.getAltText( ) );
+			ITextContent altTextContent = report.createTextContent( imageContent );
+			altTextContent.setText( imageContent.getAltText( ) );
 			layout = new BlockTextLayout( context, parentLayout, altTextContent );
 			layout.initialize( );
 		}
