@@ -2296,6 +2296,11 @@ from CLASSICMODELS.CUSTOMERS</property>
             <property name="contentType">plain</property>
             <text-property name="content"><![CDATA["static text"]]></text-property>
         </text>
+        <text id="196">
+            <expression name="bookmark">"HTML text"</expression>
+            <property name="contentType">html</property>
+            <text-property name="content"><![CDATA[HTML text]]></text-property>
+        </text>
         <data id="174">
             <list-property name="boundDataColumns">
                 <structure>
