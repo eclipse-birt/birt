@@ -603,7 +603,7 @@ public class ReportQueryBuilder
 			// create user-defined generation-time helper object
 			ExtendedItemHandle handle = (ExtendedItemHandle) item.getHandle( );
 
-			ReportItemHandle referenceHandle = handle.getDataBindingReference( );
+			ReportItemHandle referenceHandle = getDataBindingReference( handle );
 			if ( referenceHandle != null )
 			{
 				IDataQueryDefinition[] queries = report
@@ -1309,8 +1309,7 @@ public class ReportQueryBuilder
 		protected void registerUnresolvedQueryReference( ReportItemDesign item )
 		{
 			ReportItemHandle itemHandle = (ReportItemHandle) item.getHandle( );
-			ReportItemHandle referenceHandle = itemHandle
-					.getDataBindingReference( );
+			ReportItemHandle referenceHandle = getDataBindingReference( itemHandle );
 			if ( unresolvedQueryReferences.containsKey( referenceHandle ) )
 			{
 				List<ReportItemDesign> items = unresolvedQueryReferences
@@ -1325,11 +1324,37 @@ public class ReportQueryBuilder
 			}
 		}
 
+		private ReportItemHandle getDataBindingReference(
+				ReportItemHandle itemHandle )
+		{
+			ReportItemHandle referenceHandle = itemHandle
+					.getDataBindingReference( );
+			if ( referenceHandle == null )
+			{
+				return null;
+			}
+			ReportItemHandle tmpHandle = (ReportItemHandle) referenceHandle
+					.getCurrentView( );
+			if ( tmpHandle != null )
+			{
+				return tmpHandle;
+			}
+
+			tmpHandle = (ReportItemHandle) referenceHandle.getHostViewHandle( );
+			if ( tmpHandle != null )
+			{
+				return tmpHandle.getCurrentView( ) == null
+						? (ReportItemHandle) tmpHandle
+						: (ReportItemHandle) tmpHandle.getCurrentView( );
+			}
+
+			return referenceHandle;
+		}
+		
 		protected IDataQueryDefinition getRefenceQuery( ReportItemDesign item )
 		{
 			ReportItemHandle itemHandle = (ReportItemHandle) item.getHandle( );
-			ReportItemHandle referenceHandle = itemHandle
-					.getDataBindingReference( );
+			ReportItemHandle referenceHandle = getDataBindingReference( itemHandle );
 			IDataQueryDefinition[] queries = report
 					.getQueryByReportHandle( referenceHandle );
 			if ( queries != null && queries.length > 0 )
