@@ -12,11 +12,11 @@ SampleReportsView.Action.exportSampleReport.toolTipText=导出选择的示例报表
 SampleReportsView.Action.openSampleReport.toolTipText.ide=创建报表项目并将报表放入项目文件夹
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=将选择的示例报表直接导出到 RCP 工作区文件夹
 SampleReportsView.Text.Contribute_Samples=提供示例
-IDEOpenSampleReportAction.ProjectNameDialog.Label.PrjectName=Project name:
-IDEOpenSampleReportAction.ProjectNameDialog.Title.PrjectName=Project Name
-IDEOpenSampleReportAction.MessageDialog.ProjectExists.Title=Project Exists
-IDEOpenSampleReportAction.MessageDialog.ProjectExists.Message=The project already exists. Press ''{0}'' to use this project, press ''{1}'' to clear the existing project and create a new one, press ''{2}'' to cancel. 
-IDEOpenSampleReportAction.MessageDialog.ProjectExists.ButtonText=Overwrite
+IDEOpenSampleReportAction.ProjectNameDialog.Label.PrjectName=项目名称:
+IDEOpenSampleReportAction.ProjectNameDialog.Title.PrjectName=项目名称
+IDEOpenSampleReportAction.MessageDialog.ProjectExists.Title=项目存在
+IDEOpenSampleReportAction.MessageDialog.ProjectExists.Message=项目已经存在。按“{0}”使用此项目，按“{1}”清除现有项目并创建新项目，按“{2}”取消。 
+IDEOpenSampleReportAction.MessageDialog.ProjectExists.ButtonText=覆盖
 
 ###########################################################
 #NewReportProjectWizard properties
