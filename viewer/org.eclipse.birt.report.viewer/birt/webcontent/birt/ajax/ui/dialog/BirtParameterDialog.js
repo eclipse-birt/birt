@@ -1094,6 +1094,26 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	},
 
 	/**
+	 * Clear the sub cascading parameter for the elements
+	 * following the given element
+	 * @param element element
+	 */
+	__clearSubCascadingParameterByName: function(parameterName)
+	{
+        for( var i = 0; i < this.__cascadingParameter.length; i++ )
+        {
+            for( var j = 0; j < this.__cascadingParameter[i].length; j++ )
+            {
+            	var paramName = this.__cascadingParameter[i][j].name;
+                if( paramName == parameterName )
+                {
+    				this.__clearSubCascadingParameter( this.__cascadingParameter[i], j );                	
+                }
+            }
+        }
+	},
+	
+	/**
 	 *	Clear the sub cascading parameter.
 	 *
 	 *  @cascadingParameterGroup
@@ -1115,7 +1135,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			for( var j = 0; j < len; j++ )
 			{
 				selection.remove( 0 );
-			}				
+			}
 		}	
 	},
 	
@@ -1155,8 +1175,8 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 					element.focus( );
 					if ( oCascadeFlag )
 					{
-						// refresh cascading elements
-						this.__refresh_cascade_text(element);
+						// refresh cascading elements (remove the "_input" suffix)
+						this.__clearSubCascadingParameterByName(element.id.substr(0, element.id.length - 6));
 					}
 				}
 				else if( oSelectElement )
@@ -1166,8 +1186,8 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 					oSelectElement.focus( );
 					if ( oCascadeFlag )
 					{
-						// refresh cascading elements
-						this.__refresh_cascade_select(oSelectElement);
+						// refresh cascading elements (remove the "_selection" suffix)
+						this.__clearSubCascadingParameterByName(oSelectElement.id.substr(0, oSelectElement.id.length - 10));
 					}
 				}
 			}
