@@ -101,7 +101,7 @@ public class TOCView implements ITOCTree
 		}
 		// the TOC id is in pre-visit ordered, the parent is less than all its
 		// children,the current node is less than the following siblings
-		for ( int i = 1; i < children.size( ); i++ )
+		for ( int i = 0; i < children.size( ); i++ )
 		{
 			TOCNode child = (TOCNode) children.get( i );
 			int result = comparator.compare( child.getNodeID( ), tocNodeId );
@@ -111,13 +111,16 @@ public class TOCView implements ITOCTree
 			}
 			if ( result > 0 )
 			{
-				TOCNode prevChild = (TOCNode) children.get( i - 1 );
-				return findTOC( prevChild, tocNodeId, comparator );
+				if ( i > 0 )
+				{
+					TOCNode prevNode = children.get( i - 1 );
+					return findTOC( prevNode, tocNodeId, comparator );
+				}
+				return null;
 			}
 		}
 
-		TOCNode lastChild = (TOCNode) children.get( children.size( ) - 1 );
-
+		TOCNode lastChild = children.get( children.size( ) - 1 );
 		return findTOC( lastChild, tocNodeId, comparator );
 	}
 
@@ -285,7 +288,7 @@ public class TOCView implements ITOCTree
 
 		return false;
 	}
-	
+
 	protected boolean isVisible( ITreeNode node )
 	{
 		if ( filter != null )

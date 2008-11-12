@@ -14,12 +14,44 @@ package org.eclipse.birt.report.engine.toc;
 import java.io.IOException;
 
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.TOCNode;
 
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 public class TOCViewTest extends TOCTestCase
 {
+
+	public void testTocFind() throws Exception
+	{
+		ITreeNode tree = createTocNormal( );
+		TOCView view = new TOCView( tree, null, ULocale.ENGLISH, TimeZone
+				.getTimeZone( "GMT+08:00" ), "html" );
+		
+		checkTocNode(view, "/", null, 4);
+		checkTocNode(view, "__TOC_0", "report header", 0);
+		checkTocNode(view, "__TOC_1", "table", 2);
+		checkTocNode(view, "__TOC_1_0", "group 1", 2);
+		checkTocNode(view, "__TOC_1_0_0", "detail 1", 0);
+		checkTocNode(view, "__TOC_1_0_1", "detail 2", 0);
+		checkTocNode(view, "__TOC_1_1", "group 2", 2);
+		checkTocNode(view, "__TOC_1_1_0", "detail 3", 0);
+		checkTocNode(view, "__TOC_1_1_1", "detail 4", 0);
+		checkTocNode(view, "__TOC_2_0", "chart 1", 0);
+		checkTocNode(view, "__TOC_2_1", "chart 2", 0);
+		assertTrue( view.findTOC( "__TOC_0_0" ) == null );
+		assertTrue( view.findTOC( "__TOC_1_1_2" ) == null );
+		assertTrue( view.findTOC( "__TOC_1_1_1_0" ) == null );
+		assertTrue( view.findTOC( "__TOC_3" ) == null );
+	}
+
+	void checkTocNode( TOCView view, String id, String label, int children )
+	{
+		TOCNode node = view.findTOC( id );
+		assertEquals(id, node.getNodeID( ));
+		assertEquals(label, node.getDisplayString( ));
+		assertEquals(children, node.getChildren( ).size( ));
+	}
 
 	public void testTocViewNormal( ) throws EngineException, IOException
 	{
