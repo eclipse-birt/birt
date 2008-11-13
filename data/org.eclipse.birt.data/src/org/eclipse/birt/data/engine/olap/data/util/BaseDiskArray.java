@@ -27,7 +27,7 @@ abstract class BaseDiskArray implements IDiskArray
 
 	private static final String fileNamePrefix = "BasicDiskList";
 	private static final int FILE_BUFFER_SIZE = 1024;
-	private static final int bufferSize = 1000;
+	private static final int bufferSize = 100;
 	
 	protected static final short NORMAL_VALUE = 0;
 	protected static final short NULL_VALUE = -1;
@@ -51,7 +51,7 @@ abstract class BaseDiskArray implements IDiskArray
 	 */
 	public BaseDiskArray( ) throws IOException
 	{
-		this.currentCacheStartIndex = -1;
+		this.currentCacheStartIndex = 0;
 		this.size = 0;
 
 		this.buffer = new Object[bufferSize];
@@ -66,6 +66,11 @@ abstract class BaseDiskArray implements IDiskArray
 	 */
 	public boolean add( Object o ) throws IOException
 	{
+		if ( size >= currentCacheStartIndex
+				&& size < ( currentCacheStartIndex + bufferSize ) )
+		{
+			buffer[size-currentCacheStartIndex] = o;
+		}
 		writeObject( o );
 		size++;
 		if ( size % bufferSize == 0 )
@@ -113,8 +118,7 @@ abstract class BaseDiskArray implements IDiskArray
 	public Object get( int index ) throws IOException
 	{
 		RangeCheck( index );
-		if ( currentCacheStartIndex < 0
-				|| index < currentCacheStartIndex
+		if ( index < currentCacheStartIndex
 				|| index > ( currentCacheStartIndex + bufferSize - 1 ) )
 		{
 			int readSize = bufferSize;
