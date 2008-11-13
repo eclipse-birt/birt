@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.2.0.v20070511 Build &lt;2.2.0.v20070511-0630></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.3.2.v20081112-0730 Build &lt;2.3.2.v20081112-0730></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
     <html-property name="description">Creates a blank report with no predefined content.</html-property>
@@ -84,7 +84,9 @@ chart13.getLegend( ).getTitle( ).getCaption( ).setValue( "Legend" )]]></method>
                 <structure>
                     <property name="operator">lt</property>
                     <expression name="expr">row["CUSTOMERNUMBER"]</expression>
-                    <expression name="value1">121</expression>
+                    <simple-property-list name="value1">
+                        <value>121</value>
+                    </simple-property-list>
                 </structure>
             </list-property>
             <structure name="cachedMetaData">
@@ -265,14 +267,28 @@ from CLASSICMODELS.CUSTOMERS</property>
         </simple-master-page>
     </page-setup>
     <body>
-        <label id="22">
-            <property name="fontSize">x-large</property>
-            <property name="fontWeight">bold</property>
-            <property name="textAlign">center</property>
-            <text-property name="text">New Simple Chart API Examples</text-property>
-        </label>
-        <extended-item extensionName="Chart" name="Chart1" id="6">
-            <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+        <grid id="25">
+            <property name="width">100%</property>
+            <column id="26">
+                <property name="width">3.0729166666666665in</property>
+            </column>
+            <column id="27"/>
+            <row id="46">
+                <cell id="47">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
+                    <label id="22">
+                        <property name="fontSize">x-large</property>
+                        <property name="fontWeight">bold</property>
+                        <property name="textAlign">center</property>
+                        <text-property name="text">New Simple Chart API Examples</text-property>
+                    </label>
+                </cell>
+            </row>
+            <row id="28">
+                <cell id="29">
+                    <extended-item extensionName="Chart" name="Chart1" id="6">
+                        <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -499,8 +515,8 @@ from CLASSICMODELS.CUSTOMERS</property>
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>432.0</Width>
-      <Height>216.0</Height>
+      <Width>216.0</Width>
+      <Height>108.0</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>
@@ -1037,7 +1053,7 @@ from CLASSICMODELS.CUSTOMERS</property>
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -1396,7 +1412,7 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Series>
       <Grouping>
         <Enabled>false</Enabled>
-        <GroupingInterval>2</GroupingInterval>
+        <GroupingInterval>2.0</GroupingInterval>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
@@ -1513,80 +1529,82 @@ from CLASSICMODELS.CUSTOMERS</property>
   <Rotation/>
 </model:ChartWithAxes>
 ]]></xml-property>
-            <property name="outputFormat">SVG</property>
-            <property name="dataSet">Data Set</property>
-            <property name="height">3in</property>
-            <property name="width">6in</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">CUSTOMERNUMBER</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CUSTOMERNAME</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTLASTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTFIRSTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">PHONE</property>
-                    <expression name="expression">dataSetRow["PHONE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE1</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE2</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CITY</property>
-                    <expression name="expression">dataSetRow["CITY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">STATE</property>
-                    <expression name="expression">dataSetRow["STATE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">POSTALCODE</property>
-                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">COUNTRY</property>
-                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">SALESREPEMPLOYEENUMBER</property>
-                    <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CREDITLIMIT</property>
-                    <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
-                    <property name="dataType">float</property>
-                </structure>
-            </list-property>
-        </extended-item>
-        <extended-item extensionName="Chart" name="Chart2" id="7">
-            <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+                        <property name="outputFormat">SVG</property>
+                        <property name="dataSet">Data Set</property>
+                        <property name="height">1.5in</property>
+                        <property name="width">3in</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">CUSTOMERNUMBER</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CUSTOMERNAME</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTLASTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTFIRSTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">PHONE</property>
+                                <expression name="expression">dataSetRow["PHONE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE1</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE2</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CITY</property>
+                                <expression name="expression">dataSetRow["CITY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">STATE</property>
+                                <expression name="expression">dataSetRow["STATE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">POSTALCODE</property>
+                                <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">COUNTRY</property>
+                                <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">SALESREPEMPLOYEENUMBER</property>
+                                <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CREDITLIMIT</property>
+                                <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                                <property name="dataType">float</property>
+                            </structure>
+                        </list-property>
+                    </extended-item>
+                </cell>
+                <cell id="30">
+                    <extended-item extensionName="Chart" name="Chart2" id="7">
+                        <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -1813,8 +1831,8 @@ from CLASSICMODELS.CUSTOMERS</property>
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>432.0</Width>
-      <Height>216.0</Height>
+      <Width>216.0</Width>
+      <Height>108.0</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>
@@ -2179,7 +2197,7 @@ from CLASSICMODELS.CUSTOMERS</property>
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -2538,7 +2556,7 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Series>
       <Grouping>
         <Enabled>false</Enabled>
-        <GroupingInterval>2</GroupingInterval>
+        <GroupingInterval>2.0</GroupingInterval>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
@@ -2655,80 +2673,84 @@ from CLASSICMODELS.CUSTOMERS</property>
   <Rotation/>
 </model:ChartWithAxes>
 ]]></xml-property>
-            <property name="outputFormat">SVG</property>
-            <property name="dataSet">Data Set</property>
-            <property name="height">3in</property>
-            <property name="width">6in</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">CUSTOMERNUMBER</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CUSTOMERNAME</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTLASTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTFIRSTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">PHONE</property>
-                    <expression name="expression">dataSetRow["PHONE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE1</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE2</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CITY</property>
-                    <expression name="expression">dataSetRow["CITY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">STATE</property>
-                    <expression name="expression">dataSetRow["STATE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">POSTALCODE</property>
-                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">COUNTRY</property>
-                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">SALESREPEMPLOYEENUMBER</property>
-                    <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CREDITLIMIT</property>
-                    <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
-                    <property name="dataType">float</property>
-                </structure>
-            </list-property>
-        </extended-item>
-        <extended-item extensionName="Chart" name="Chart3" id="8">
-            <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+                        <property name="outputFormat">SVG</property>
+                        <property name="dataSet">Data Set</property>
+                        <property name="height">1.5in</property>
+                        <property name="width">3in</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">CUSTOMERNUMBER</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CUSTOMERNAME</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTLASTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTFIRSTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">PHONE</property>
+                                <expression name="expression">dataSetRow["PHONE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE1</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE2</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CITY</property>
+                                <expression name="expression">dataSetRow["CITY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">STATE</property>
+                                <expression name="expression">dataSetRow["STATE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">POSTALCODE</property>
+                                <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">COUNTRY</property>
+                                <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">SALESREPEMPLOYEENUMBER</property>
+                                <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CREDITLIMIT</property>
+                                <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                                <property name="dataType">float</property>
+                            </structure>
+                        </list-property>
+                    </extended-item>
+                </cell>
+            </row>
+            <row id="31">
+                <cell id="32">
+                    <extended-item extensionName="Chart" name="Chart3" id="8">
+                        <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -2955,8 +2977,8 @@ from CLASSICMODELS.CUSTOMERS</property>
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>432.0</Width>
-      <Height>216.0</Height>
+      <Width>216.0</Width>
+      <Height>108.0</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>
@@ -3321,7 +3343,7 @@ from CLASSICMODELS.CUSTOMERS</property>
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -3680,7 +3702,7 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Series>
       <Grouping>
         <Enabled>false</Enabled>
-        <GroupingInterval>2</GroupingInterval>
+        <GroupingInterval>2.0</GroupingInterval>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
@@ -3797,80 +3819,82 @@ from CLASSICMODELS.CUSTOMERS</property>
   <Rotation/>
 </model:ChartWithAxes>
 ]]></xml-property>
-            <property name="outputFormat">SVG</property>
-            <property name="dataSet">Data Set</property>
-            <property name="height">3in</property>
-            <property name="width">6in</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">CUSTOMERNUMBER</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CUSTOMERNAME</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTLASTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTFIRSTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">PHONE</property>
-                    <expression name="expression">dataSetRow["PHONE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE1</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE2</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CITY</property>
-                    <expression name="expression">dataSetRow["CITY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">STATE</property>
-                    <expression name="expression">dataSetRow["STATE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">POSTALCODE</property>
-                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">COUNTRY</property>
-                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">SALESREPEMPLOYEENUMBER</property>
-                    <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CREDITLIMIT</property>
-                    <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
-                    <property name="dataType">float</property>
-                </structure>
-            </list-property>
-        </extended-item>
-        <extended-item extensionName="Chart" name="Chart4" id="12">
-            <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+                        <property name="outputFormat">SVG</property>
+                        <property name="dataSet">Data Set</property>
+                        <property name="height">1.5in</property>
+                        <property name="width">3in</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">CUSTOMERNUMBER</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CUSTOMERNAME</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTLASTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTFIRSTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">PHONE</property>
+                                <expression name="expression">dataSetRow["PHONE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE1</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE2</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CITY</property>
+                                <expression name="expression">dataSetRow["CITY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">STATE</property>
+                                <expression name="expression">dataSetRow["STATE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">POSTALCODE</property>
+                                <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">COUNTRY</property>
+                                <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">SALESREPEMPLOYEENUMBER</property>
+                                <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CREDITLIMIT</property>
+                                <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                                <property name="dataType">float</property>
+                            </structure>
+                        </list-property>
+                    </extended-item>
+                </cell>
+                <cell id="33">
+                    <extended-item extensionName="Chart" name="Chart4" id="12">
+                        <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -4097,8 +4121,8 @@ from CLASSICMODELS.CUSTOMERS</property>
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>432.0</Width>
-      <Height>216.0</Height>
+      <Width>216.0</Width>
+      <Height>108.0</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>
@@ -4463,7 +4487,7 @@ from CLASSICMODELS.CUSTOMERS</property>
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -4822,7 +4846,7 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Series>
       <Grouping>
         <Enabled>false</Enabled>
-        <GroupingInterval>2</GroupingInterval>
+        <GroupingInterval>2.0</GroupingInterval>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
@@ -4939,80 +4963,84 @@ from CLASSICMODELS.CUSTOMERS</property>
   <Rotation/>
 </model:ChartWithAxes>
 ]]></xml-property>
-            <property name="outputFormat">SVG</property>
-            <property name="dataSet">Data Set</property>
-            <property name="height">3in</property>
-            <property name="width">6in</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">CUSTOMERNUMBER</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CUSTOMERNAME</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTLASTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTFIRSTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">PHONE</property>
-                    <expression name="expression">dataSetRow["PHONE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE1</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE2</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CITY</property>
-                    <expression name="expression">dataSetRow["CITY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">STATE</property>
-                    <expression name="expression">dataSetRow["STATE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">POSTALCODE</property>
-                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">COUNTRY</property>
-                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">SALESREPEMPLOYEENUMBER</property>
-                    <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CREDITLIMIT</property>
-                    <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
-                    <property name="dataType">float</property>
-                </structure>
-            </list-property>
-        </extended-item>
-        <extended-item extensionName="Chart" name="Chart5" id="13">
-            <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+                        <property name="outputFormat">SVG</property>
+                        <property name="dataSet">Data Set</property>
+                        <property name="height">1.5in</property>
+                        <property name="width">3in</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">CUSTOMERNUMBER</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CUSTOMERNAME</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTLASTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTFIRSTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">PHONE</property>
+                                <expression name="expression">dataSetRow["PHONE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE1</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE2</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CITY</property>
+                                <expression name="expression">dataSetRow["CITY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">STATE</property>
+                                <expression name="expression">dataSetRow["STATE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">POSTALCODE</property>
+                                <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">COUNTRY</property>
+                                <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">SALESREPEMPLOYEENUMBER</property>
+                                <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CREDITLIMIT</property>
+                                <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                                <property name="dataType">float</property>
+                            </structure>
+                        </list-property>
+                    </extended-item>
+                </cell>
+            </row>
+            <row id="34">
+                <cell id="35">
+                    <extended-item extensionName="Chart" name="Chart5" id="13">
+                        <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -5239,8 +5267,8 @@ from CLASSICMODELS.CUSTOMERS</property>
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>432.0</Width>
-      <Height>216.0</Height>
+      <Width>216.0</Width>
+      <Height>108.0</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>
@@ -5608,7 +5636,7 @@ from CLASSICMODELS.CUSTOMERS</property>
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -6003,7 +6031,7 @@ from CLASSICMODELS.CUSTOMERS</property>
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -6361,7 +6389,7 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Series>
       <Grouping>
         <Enabled>false</Enabled>
-        <GroupingInterval>2</GroupingInterval>
+        <GroupingInterval>2.0</GroupingInterval>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
@@ -6485,80 +6513,82 @@ from CLASSICMODELS.CUSTOMERS</property>
   </Rotation>
 </model:ChartWithAxes>
 ]]></xml-property>
-            <property name="outputFormat">SVG</property>
-            <property name="dataSet">Data Set</property>
-            <property name="height">3in</property>
-            <property name="width">6in</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">CUSTOMERNUMBER</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CUSTOMERNAME</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTLASTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTFIRSTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">PHONE</property>
-                    <expression name="expression">dataSetRow["PHONE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE1</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE2</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CITY</property>
-                    <expression name="expression">dataSetRow["CITY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">STATE</property>
-                    <expression name="expression">dataSetRow["STATE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">POSTALCODE</property>
-                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">COUNTRY</property>
-                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">SALESREPEMPLOYEENUMBER</property>
-                    <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CREDITLIMIT</property>
-                    <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
-                    <property name="dataType">float</property>
-                </structure>
-            </list-property>
-        </extended-item>
-        <extended-item extensionName="Chart" name="Chart6" id="14">
-            <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+                        <property name="outputFormat">SVG</property>
+                        <property name="dataSet">Data Set</property>
+                        <property name="height">1.5in</property>
+                        <property name="width">3in</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">CUSTOMERNUMBER</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CUSTOMERNAME</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTLASTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTFIRSTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">PHONE</property>
+                                <expression name="expression">dataSetRow["PHONE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE1</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE2</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CITY</property>
+                                <expression name="expression">dataSetRow["CITY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">STATE</property>
+                                <expression name="expression">dataSetRow["STATE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">POSTALCODE</property>
+                                <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">COUNTRY</property>
+                                <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">SALESREPEMPLOYEENUMBER</property>
+                                <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CREDITLIMIT</property>
+                                <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                                <property name="dataType">float</property>
+                            </structure>
+                        </list-property>
+                    </extended-item>
+                </cell>
+                <cell id="36">
+                    <extended-item extensionName="Chart" name="Chart6" id="14">
+                        <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -6785,8 +6815,8 @@ from CLASSICMODELS.CUSTOMERS</property>
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>432.0</Width>
-      <Height>216.0</Height>
+      <Width>216.0</Width>
+      <Height>108.0</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>
@@ -7151,7 +7181,7 @@ from CLASSICMODELS.CUSTOMERS</property>
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -7510,7 +7540,7 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Series>
       <Grouping>
         <Enabled>false</Enabled>
-        <GroupingInterval>2</GroupingInterval>
+        <GroupingInterval>2.0</GroupingInterval>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
@@ -7627,80 +7657,84 @@ from CLASSICMODELS.CUSTOMERS</property>
   <Rotation/>
 </model:ChartWithAxes>
 ]]></xml-property>
-            <property name="outputFormat">SVG</property>
-            <property name="dataSet">Data Set</property>
-            <property name="height">3in</property>
-            <property name="width">6in</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">CUSTOMERNUMBER</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CUSTOMERNAME</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTLASTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTFIRSTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">PHONE</property>
-                    <expression name="expression">dataSetRow["PHONE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE1</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE2</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CITY</property>
-                    <expression name="expression">dataSetRow["CITY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">STATE</property>
-                    <expression name="expression">dataSetRow["STATE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">POSTALCODE</property>
-                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">COUNTRY</property>
-                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">SALESREPEMPLOYEENUMBER</property>
-                    <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CREDITLIMIT</property>
-                    <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
-                    <property name="dataType">float</property>
-                </structure>
-            </list-property>
-        </extended-item>
-        <extended-item extensionName="Chart" name="Chart7" id="15">
-            <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+                        <property name="outputFormat">SVG</property>
+                        <property name="dataSet">Data Set</property>
+                        <property name="height">1.5in</property>
+                        <property name="width">3in</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">CUSTOMERNUMBER</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CUSTOMERNAME</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTLASTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTFIRSTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">PHONE</property>
+                                <expression name="expression">dataSetRow["PHONE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE1</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE2</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CITY</property>
+                                <expression name="expression">dataSetRow["CITY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">STATE</property>
+                                <expression name="expression">dataSetRow["STATE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">POSTALCODE</property>
+                                <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">COUNTRY</property>
+                                <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">SALESREPEMPLOYEENUMBER</property>
+                                <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CREDITLIMIT</property>
+                                <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                                <property name="dataType">float</property>
+                            </structure>
+                        </list-property>
+                    </extended-item>
+                </cell>
+            </row>
+            <row id="43">
+                <cell id="44">
+                    <extended-item extensionName="Chart" name="Chart7" id="15">
+                        <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -7927,8 +7961,8 @@ from CLASSICMODELS.CUSTOMERS</property>
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>432.0</Width>
-      <Height>216.0</Height>
+      <Width>216.0</Width>
+      <Height>108.0</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>
@@ -8296,7 +8330,7 @@ from CLASSICMODELS.CUSTOMERS</property>
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -8691,7 +8725,7 @@ from CLASSICMODELS.CUSTOMERS</property>
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -9049,7 +9083,7 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Series>
       <Grouping>
         <Enabled>false</Enabled>
-        <GroupingInterval>2</GroupingInterval>
+        <GroupingInterval>2.0</GroupingInterval>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
@@ -9173,80 +9207,82 @@ from CLASSICMODELS.CUSTOMERS</property>
   </Rotation>
 </model:ChartWithAxes>
 ]]></xml-property>
-            <property name="outputFormat">SVG</property>
-            <property name="dataSet">Data Set</property>
-            <property name="height">3in</property>
-            <property name="width">6in</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">CUSTOMERNUMBER</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CUSTOMERNAME</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTLASTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTFIRSTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">PHONE</property>
-                    <expression name="expression">dataSetRow["PHONE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE1</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE2</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CITY</property>
-                    <expression name="expression">dataSetRow["CITY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">STATE</property>
-                    <expression name="expression">dataSetRow["STATE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">POSTALCODE</property>
-                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">COUNTRY</property>
-                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">SALESREPEMPLOYEENUMBER</property>
-                    <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CREDITLIMIT</property>
-                    <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
-                    <property name="dataType">float</property>
-                </structure>
-            </list-property>
-        </extended-item>
-        <extended-item extensionName="Chart" name="Chart8" id="16">
-            <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+                        <property name="outputFormat">SVG</property>
+                        <property name="dataSet">Data Set</property>
+                        <property name="height">1.5in</property>
+                        <property name="width">3in</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">CUSTOMERNUMBER</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CUSTOMERNAME</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTLASTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTFIRSTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">PHONE</property>
+                                <expression name="expression">dataSetRow["PHONE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE1</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE2</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CITY</property>
+                                <expression name="expression">dataSetRow["CITY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">STATE</property>
+                                <expression name="expression">dataSetRow["STATE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">POSTALCODE</property>
+                                <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">COUNTRY</property>
+                                <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">SALESREPEMPLOYEENUMBER</property>
+                                <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CREDITLIMIT</property>
+                                <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                                <property name="dataType">float</property>
+                            </structure>
+                        </list-property>
+                    </extended-item>
+                </cell>
+                <cell id="45">
+                    <extended-item extensionName="Chart" name="Chart8" id="16">
+                        <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -9473,8 +9509,8 @@ from CLASSICMODELS.CUSTOMERS</property>
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>432.0</Width>
-      <Height>216.0</Height>
+      <Width>216.0</Width>
+      <Height>108.0</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>
@@ -9842,7 +9878,7 @@ from CLASSICMODELS.CUSTOMERS</property>
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -10237,7 +10273,7 @@ from CLASSICMODELS.CUSTOMERS</property>
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -10595,7 +10631,7 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Series>
       <Grouping>
         <Enabled>false</Enabled>
-        <GroupingInterval>2</GroupingInterval>
+        <GroupingInterval>2.0</GroupingInterval>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
@@ -10719,80 +10755,84 @@ from CLASSICMODELS.CUSTOMERS</property>
   </Rotation>
 </model:ChartWithAxes>
 ]]></xml-property>
-            <property name="outputFormat">SVG</property>
-            <property name="dataSet">Data Set</property>
-            <property name="height">3in</property>
-            <property name="width">6in</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">CUSTOMERNUMBER</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CUSTOMERNAME</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTLASTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTFIRSTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">PHONE</property>
-                    <expression name="expression">dataSetRow["PHONE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE1</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE2</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CITY</property>
-                    <expression name="expression">dataSetRow["CITY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">STATE</property>
-                    <expression name="expression">dataSetRow["STATE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">POSTALCODE</property>
-                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">COUNTRY</property>
-                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">SALESREPEMPLOYEENUMBER</property>
-                    <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CREDITLIMIT</property>
-                    <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
-                    <property name="dataType">float</property>
-                </structure>
-            </list-property>
-        </extended-item>
-        <extended-item extensionName="Chart" name="Chart9" id="17">
-            <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+                        <property name="outputFormat">SVG</property>
+                        <property name="dataSet">Data Set</property>
+                        <property name="height">1.5in</property>
+                        <property name="width">3in</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">CUSTOMERNUMBER</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CUSTOMERNAME</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTLASTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTFIRSTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">PHONE</property>
+                                <expression name="expression">dataSetRow["PHONE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE1</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE2</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CITY</property>
+                                <expression name="expression">dataSetRow["CITY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">STATE</property>
+                                <expression name="expression">dataSetRow["STATE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">POSTALCODE</property>
+                                <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">COUNTRY</property>
+                                <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">SALESREPEMPLOYEENUMBER</property>
+                                <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CREDITLIMIT</property>
+                                <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                                <property name="dataType">float</property>
+                            </structure>
+                        </list-property>
+                    </extended-item>
+                </cell>
+            </row>
+            <row id="40">
+                <cell id="41">
+                    <extended-item extensionName="Chart" name="Chart9" id="17">
+                        <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -11019,8 +11059,8 @@ from CLASSICMODELS.CUSTOMERS</property>
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>432.0</Width>
-      <Height>216.0</Height>
+      <Width>216.0</Width>
+      <Height>108.0</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>
@@ -11388,7 +11428,7 @@ from CLASSICMODELS.CUSTOMERS</property>
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -11783,7 +11823,7 @@ from CLASSICMODELS.CUSTOMERS</property>
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -12141,7 +12181,7 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Series>
       <Grouping>
         <Enabled>false</Enabled>
-        <GroupingInterval>2</GroupingInterval>
+        <GroupingInterval>2.0</GroupingInterval>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
@@ -12265,80 +12305,82 @@ from CLASSICMODELS.CUSTOMERS</property>
   </Rotation>
 </model:ChartWithAxes>
 ]]></xml-property>
-            <property name="outputFormat">SVG</property>
-            <property name="dataSet">Data Set</property>
-            <property name="height">3in</property>
-            <property name="width">6in</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">CUSTOMERNUMBER</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CUSTOMERNAME</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTLASTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTFIRSTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">PHONE</property>
-                    <expression name="expression">dataSetRow["PHONE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE1</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE2</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CITY</property>
-                    <expression name="expression">dataSetRow["CITY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">STATE</property>
-                    <expression name="expression">dataSetRow["STATE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">POSTALCODE</property>
-                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">COUNTRY</property>
-                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">SALESREPEMPLOYEENUMBER</property>
-                    <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CREDITLIMIT</property>
-                    <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
-                    <property name="dataType">float</property>
-                </structure>
-            </list-property>
-        </extended-item>
-        <extended-item extensionName="Chart" name="Chart10" id="18">
-            <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+                        <property name="outputFormat">SVG</property>
+                        <property name="dataSet">Data Set</property>
+                        <property name="height">1.5in</property>
+                        <property name="width">3in</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">CUSTOMERNUMBER</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CUSTOMERNAME</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTLASTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTFIRSTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">PHONE</property>
+                                <expression name="expression">dataSetRow["PHONE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE1</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE2</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CITY</property>
+                                <expression name="expression">dataSetRow["CITY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">STATE</property>
+                                <expression name="expression">dataSetRow["STATE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">POSTALCODE</property>
+                                <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">COUNTRY</property>
+                                <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">SALESREPEMPLOYEENUMBER</property>
+                                <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CREDITLIMIT</property>
+                                <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                                <property name="dataType">float</property>
+                            </structure>
+                        </list-property>
+                    </extended-item>
+                </cell>
+                <cell id="42">
+                    <extended-item extensionName="Chart" name="Chart10" id="18">
+                        <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -12565,8 +12607,8 @@ from CLASSICMODELS.CUSTOMERS</property>
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>432.0</Width>
-      <Height>216.0</Height>
+      <Width>216.0</Width>
+      <Height>108.0</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>
@@ -12931,7 +12973,7 @@ from CLASSICMODELS.CUSTOMERS</property>
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -13290,7 +13332,7 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Series>
       <Grouping>
         <Enabled>false</Enabled>
-        <GroupingInterval>2</GroupingInterval>
+        <GroupingInterval>2.0</GroupingInterval>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
@@ -13407,80 +13449,84 @@ from CLASSICMODELS.CUSTOMERS</property>
   <Rotation/>
 </model:ChartWithAxes>
 ]]></xml-property>
-            <property name="outputFormat">SVG</property>
-            <property name="dataSet">Data Set</property>
-            <property name="height">3in</property>
-            <property name="width">6in</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">CUSTOMERNUMBER</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CUSTOMERNAME</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTLASTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTFIRSTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">PHONE</property>
-                    <expression name="expression">dataSetRow["PHONE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE1</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE2</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CITY</property>
-                    <expression name="expression">dataSetRow["CITY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">STATE</property>
-                    <expression name="expression">dataSetRow["STATE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">POSTALCODE</property>
-                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">COUNTRY</property>
-                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">SALESREPEMPLOYEENUMBER</property>
-                    <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CREDITLIMIT</property>
-                    <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
-                    <property name="dataType">float</property>
-                </structure>
-            </list-property>
-        </extended-item>
-        <extended-item extensionName="Chart" name="Chart11" id="19">
-            <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+                        <property name="outputFormat">SVG</property>
+                        <property name="dataSet">Data Set</property>
+                        <property name="height">1.5in</property>
+                        <property name="width">3in</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">CUSTOMERNUMBER</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CUSTOMERNAME</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTLASTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTFIRSTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">PHONE</property>
+                                <expression name="expression">dataSetRow["PHONE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE1</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE2</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CITY</property>
+                                <expression name="expression">dataSetRow["CITY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">STATE</property>
+                                <expression name="expression">dataSetRow["STATE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">POSTALCODE</property>
+                                <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">COUNTRY</property>
+                                <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">SALESREPEMPLOYEENUMBER</property>
+                                <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CREDITLIMIT</property>
+                                <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                                <property name="dataType">float</property>
+                            </structure>
+                        </list-property>
+                    </extended-item>
+                </cell>
+            </row>
+            <row id="37">
+                <cell id="38">
+                    <extended-item extensionName="Chart" name="Chart11" id="19">
+                        <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -13707,8 +13753,8 @@ from CLASSICMODELS.CUSTOMERS</property>
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>432.0</Width>
-      <Height>216.0</Height>
+      <Width>216.0</Width>
+      <Height>108.0</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>
@@ -14073,7 +14119,7 @@ from CLASSICMODELS.CUSTOMERS</property>
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -14432,7 +14478,7 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Series>
       <Grouping>
         <Enabled>false</Enabled>
-        <GroupingInterval>2</GroupingInterval>
+        <GroupingInterval>2.0</GroupingInterval>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
@@ -14549,80 +14595,82 @@ from CLASSICMODELS.CUSTOMERS</property>
   <Rotation/>
 </model:ChartWithAxes>
 ]]></xml-property>
-            <property name="outputFormat">SVG</property>
-            <property name="dataSet">Data Set</property>
-            <property name="height">3in</property>
-            <property name="width">6in</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">CUSTOMERNUMBER</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CUSTOMERNAME</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTLASTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTFIRSTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">PHONE</property>
-                    <expression name="expression">dataSetRow["PHONE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE1</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE2</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CITY</property>
-                    <expression name="expression">dataSetRow["CITY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">STATE</property>
-                    <expression name="expression">dataSetRow["STATE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">POSTALCODE</property>
-                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">COUNTRY</property>
-                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">SALESREPEMPLOYEENUMBER</property>
-                    <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CREDITLIMIT</property>
-                    <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
-                    <property name="dataType">float</property>
-                </structure>
-            </list-property>
-        </extended-item>
-        <extended-item extensionName="Chart" name="Chart12" id="20">
-            <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+                        <property name="outputFormat">SVG</property>
+                        <property name="dataSet">Data Set</property>
+                        <property name="height">1.5in</property>
+                        <property name="width">3in</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">CUSTOMERNUMBER</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CUSTOMERNAME</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTLASTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTFIRSTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">PHONE</property>
+                                <expression name="expression">dataSetRow["PHONE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE1</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE2</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CITY</property>
+                                <expression name="expression">dataSetRow["CITY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">STATE</property>
+                                <expression name="expression">dataSetRow["STATE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">POSTALCODE</property>
+                                <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">COUNTRY</property>
+                                <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">SALESREPEMPLOYEENUMBER</property>
+                                <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CREDITLIMIT</property>
+                                <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                                <property name="dataType">float</property>
+                            </structure>
+                        </list-property>
+                    </extended-item>
+                </cell>
+                <cell id="39">
+                    <extended-item extensionName="Chart" name="Chart12" id="20">
+                        <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -14849,8 +14897,8 @@ from CLASSICMODELS.CUSTOMERS</property>
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>432.0</Width>
-      <Height>216.0</Height>
+      <Width>216.0</Width>
+      <Height>108.0</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>
@@ -15215,7 +15263,7 @@ from CLASSICMODELS.CUSTOMERS</property>
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -15574,7 +15622,7 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Series>
       <Grouping>
         <Enabled>false</Enabled>
-        <GroupingInterval>2</GroupingInterval>
+        <GroupingInterval>2.0</GroupingInterval>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
@@ -15691,80 +15739,84 @@ from CLASSICMODELS.CUSTOMERS</property>
   <Rotation/>
 </model:ChartWithAxes>
 ]]></xml-property>
-            <property name="outputFormat">SVG</property>
-            <property name="dataSet">Data Set</property>
-            <property name="height">3in</property>
-            <property name="width">6in</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">CUSTOMERNUMBER</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CUSTOMERNAME</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTLASTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTFIRSTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">PHONE</property>
-                    <expression name="expression">dataSetRow["PHONE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE1</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE2</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CITY</property>
-                    <expression name="expression">dataSetRow["CITY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">STATE</property>
-                    <expression name="expression">dataSetRow["STATE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">POSTALCODE</property>
-                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">COUNTRY</property>
-                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">SALESREPEMPLOYEENUMBER</property>
-                    <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CREDITLIMIT</property>
-                    <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
-                    <property name="dataType">float</property>
-                </structure>
-            </list-property>
-        </extended-item>
-        <extended-item extensionName="Chart" name="Chart13" id="21">
-            <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+                        <property name="outputFormat">SVG</property>
+                        <property name="dataSet">Data Set</property>
+                        <property name="height">1.5in</property>
+                        <property name="width">3in</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">CUSTOMERNUMBER</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CUSTOMERNAME</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTLASTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTFIRSTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">PHONE</property>
+                                <expression name="expression">dataSetRow["PHONE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE1</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE2</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CITY</property>
+                                <expression name="expression">dataSetRow["CITY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">STATE</property>
+                                <expression name="expression">dataSetRow["STATE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">POSTALCODE</property>
+                                <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">COUNTRY</property>
+                                <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">SALESREPEMPLOYEENUMBER</property>
+                                <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CREDITLIMIT</property>
+                                <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                                <property name="dataType">float</property>
+                            </structure>
+                        </list-property>
+                    </extended-item>
+                </cell>
+            </row>
+            <row id="49">
+                <cell id="50">
+                    <extended-item extensionName="Chart" name="Chart13" id="21">
+                        <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -15991,8 +16043,8 @@ from CLASSICMODELS.CUSTOMERS</property>
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>432.0</Width>
-      <Height>216.0</Height>
+      <Width>216.0</Width>
+      <Height>108.0</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>
@@ -16357,7 +16409,7 @@ from CLASSICMODELS.CUSTOMERS</property>
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -16716,7 +16768,7 @@ from CLASSICMODELS.CUSTOMERS</property>
       </Series>
       <Grouping>
         <Enabled>false</Enabled>
-        <GroupingInterval>2</GroupingInterval>
+        <GroupingInterval>2.0</GroupingInterval>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
@@ -16833,77 +16885,81 @@ from CLASSICMODELS.CUSTOMERS</property>
   <Rotation/>
 </model:ChartWithAxes>
 ]]></xml-property>
-            <property name="outputFormat">SVG</property>
-            <property name="dataSet">Data Set</property>
-            <property name="height">3in</property>
-            <property name="width">6in</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">CUSTOMERNUMBER</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CUSTOMERNAME</property>
-                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTLASTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CONTACTFIRSTNAME</property>
-                    <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">PHONE</property>
-                    <expression name="expression">dataSetRow["PHONE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE1</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE2</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CITY</property>
-                    <expression name="expression">dataSetRow["CITY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">STATE</property>
-                    <expression name="expression">dataSetRow["STATE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">POSTALCODE</property>
-                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">COUNTRY</property>
-                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">SALESREPEMPLOYEENUMBER</property>
-                    <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CREDITLIMIT</property>
-                    <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
-                    <property name="dataType">float</property>
-                </structure>
-            </list-property>
-        </extended-item>
+                        <property name="outputFormat">SVG</property>
+                        <property name="dataSet">Data Set</property>
+                        <property name="height">1.5in</property>
+                        <property name="width">3in</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">CUSTOMERNUMBER</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CUSTOMERNAME</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTLASTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONTACTFIRSTNAME</property>
+                                <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">PHONE</property>
+                                <expression name="expression">dataSetRow["PHONE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE1</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ADDRESSLINE2</property>
+                                <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CITY</property>
+                                <expression name="expression">dataSetRow["CITY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">STATE</property>
+                                <expression name="expression">dataSetRow["STATE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">POSTALCODE</property>
+                                <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">COUNTRY</property>
+                                <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">SALESREPEMPLOYEENUMBER</property>
+                                <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CREDITLIMIT</property>
+                                <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                                <property name="dataType">float</property>
+                            </structure>
+                        </list-property>
+                    </extended-item>
+                </cell>
+                <cell id="51"/>
+            </row>
+        </grid>
     </body>
 </report>

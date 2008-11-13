@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.2" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
     <property name="author">Paul Clenahan</property>
-    <property name="createdBy">Eclipse BIRT Designer Version 1.0.0 Build &lt;20050601-0809></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.3.2.qualifier Build &lt;@BUILD@></property>
     <property name="units">in</property>
     <text-property name="title">Classic Models Top Selling Products</text-property>
     <data-sources>
@@ -101,6 +100,7 @@ GROUP BY CLASSICMODELS.PRODUCTS.PRODUCTNAME</property>
                         <property name="borderTopColor">#808080</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
+                        <property name="source">embed</property>
                         <property name="imageName">C:\Documents and Settings\pclenahan\My Documents\ClassicModels\logos\Classic-Models-Full-M.jpg</property>
                     </image>
                 </cell>
@@ -154,20 +154,7 @@ San Francisco, CA 94107<BR>
             </row>
             <row id="30">
                 <cell id="31">
-                    <extended-item extensionName="Chart" id="32">
-                        <property name="height">250pt</property>
-                        <property name="width">400pt</property>
-                        <property name="dataSet">Total Sales By Product Line</property>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">PRODUCTLINE</property>
-                                <expression name="expression">dataSetRow["PRODUCTLINE"]</expression>
-                            </structure>
-                            <structure>
-                                <property name="name">TOTALREVENUE</property>
-                                <expression name="expression">dataSetRow["TOTALREVENUE"]</expression>
-                            </structure>
-                        </list-property>
+                    <extended-item extensionName="Chart" name="NewChart" id="32">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithoutAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Pie Chart</Type>
   <SubType>Standard Pie Chart</SubType>
@@ -426,8 +413,8 @@ San Francisco, CA 94107<BR>
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>399.75</Width>
-      <Height>249.75</Height>
+      <Width>400.0</Width>
+      <Height>250.0</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>
@@ -718,7 +705,7 @@ San Francisco, CA 94107<BR>
       </Series>
       <Grouping>
         <Enabled>false</Enabled>
-        <GroupingInterval>2</GroupingInterval>
+        <GroupingInterval>2.0</GroupingInterval>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
@@ -788,7 +775,7 @@ San Francisco, CA 94107<BR>
     </Series>
     <Grouping>
       <Enabled>false</Enabled>
-      <GroupingInterval>2</GroupingInterval>
+      <GroupingInterval>2.0</GroupingInterval>
       <GroupType>Text</GroupType>
       <AggregateExpression>Sum</AggregateExpression>
     </Grouping>
@@ -796,6 +783,19 @@ San Francisco, CA 94107<BR>
 </model:ChartWithoutAxes>
 ]]></xml-property>
                         <property name="outputFormat">SVG</property>
+                        <property name="dataSet">Total Sales By Product Line</property>
+                        <property name="height">250pt</property>
+                        <property name="width">400pt</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">PRODUCTLINE</property>
+                                <expression name="expression">dataSetRow["PRODUCTLINE"]</expression>
+                            </structure>
+                            <structure>
+                                <property name="name">TOTALREVENUE</property>
+                                <expression name="expression">dataSetRow["TOTALREVENUE"]</expression>
+                            </structure>
+                        </list-property>
                     </extended-item>
                 </cell>
             </row>
@@ -843,10 +843,21 @@ San Francisco, CA 94107<BR>
                                 <expression name="expression">dataSetRow["PRODUCTNAME"]</expression>
                             </structure>
                         </list-property>
+                        <property name="pageBreakInterval">50</property>
                         <list-property name="sort">
                             <structure>
                                 <expression name="key">row["TOTALREVENUE"]</expression>
                                 <property name="direction">desc</property>
+                            </structure>
+                        </list-property>
+                        <list-property name="filter">
+                            <structure>
+                                <property name="operator">between</property>
+                                <expression name="expr">row["TOTALREVENUE"]</expression>
+                                <simple-property-list name="value1">
+                                    <value>60000</value>
+                                </simple-property-list>
+                                <expression name="value2">80000</expression>
                             </structure>
                         </list-property>
                         <column id="57">
