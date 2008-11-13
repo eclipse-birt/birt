@@ -84,6 +84,45 @@ public class BufferedStructureArrayTest extends TestCase
 		list.close( );
 	}
 	
+	public void testMemberForTest2( ) throws IOException
+	{
+		int objectNumber1 = 5401;
+		int objectNumber2 = 2000;
+		BufferedStructureArray list = new BufferedStructureArray( MemberForTest.getMemberCreator( ),200 );
+		for ( int i = 0; i < objectNumber1; i++ )
+		{
+			list.add( createMember( i ) );
+		}
+		assertEquals( list.size( ), objectNumber1 );
+		for ( int i = 0; i < objectNumber1; i++ )
+		{
+			assertEquals( list.get( i ), createMember( i ) );
+		}
+		for ( int i = 0; i < objectNumber2; i++ )
+		{
+			list.add( createMember( i ) );
+		}
+		assertEquals( list.size( ), objectNumber1 + objectNumber2 );
+		for ( int i = 0; i < objectNumber2; i++ )
+		{
+			assertEquals( list.get( objectNumber1 + i ), createMember( i ) );
+		}
+		list.close( );
+	}
+	
+	public void testMemberForTest3( ) throws IOException
+	{
+		int objectNumber = 10001;
+		BufferedStructureArray list = new BufferedStructureArray( MemberForTest.getMemberCreator( ),200 );
+		for ( int i = 0; i < objectNumber; i++ )
+		{
+			list.add( createMember( i ) );
+			assertEquals( list.size( ), i + 1 );
+			assertEquals( list.get( i ), createMember( i ) );
+		}
+		list.close( );
+	}
+	
 	public void testStress( ) throws IOException
 	{
 		long startTime = System.currentTimeMillis( );
