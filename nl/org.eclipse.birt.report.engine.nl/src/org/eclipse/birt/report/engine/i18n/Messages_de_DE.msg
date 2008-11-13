@@ -12,6 +12,7 @@ Error.NullOutputFormat=OutputFormat für Renderoption ist Null.
 Error.InvalidParameter=Einige der erforderlichen Parameterwerte sind nicht angegeben bzw. die angegebenen Werte entsprechen einem inkompatiblen Datentyp.
 Error.InvalidGroupParameter=Auswertung der Parametergruppe mit dem Namen "{0}" durch Berichts-Engine fehlgeschlagen.
 Error.ParameterTypeIsInvalid=Der Parametertyp "{0}" wird als "{1}" erwartet, nicht als "{2}".
+Error.ParamValidationFailure=The validation for parameter "{0}" fails.
 Error.ParameterValueIsNull=Der erforderliche Parameter {0} wurde nicht festgelegt.
 Error.ParameterValueIsBlank=Erforderlicher Parameter {0} ist leer.
 Error.ParamScriptValidationError=Validierungsfehler bei Skriptquelle zu Parameter "{0}".

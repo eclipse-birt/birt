@@ -12,6 +12,7 @@ Error.NullOutputFormat=レンダリングオプションの OutputFormat が null です。
 Error.InvalidParameter=いくつかの必須パラメタの値が設定されていないか、互換性のないデータ型に設定されています。
 Error.InvalidGroupParameter=レポートエンジンでは、パラメタグループ "{0}" を評価できません。
 Error.ParameterTypeIsInvalid=パラメタの型 "{0}" は、"{2}" ではなく "{1}" である必要があります。
+Error.ParamValidationFailure=The validation for parameter "{0}" fails.
 Error.ParameterValueIsNull=必須パラメタ {0} が設定されていません。
 Error.ParameterValueIsBlank=必須パラメタ {0} が空白のままです。
 Error.ParamScriptValidationError=パラメタ "{0}" のスクリプトソースの検証エラーが発生しました。
