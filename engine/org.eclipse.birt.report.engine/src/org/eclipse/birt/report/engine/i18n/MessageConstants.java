@@ -30,7 +30,7 @@ public class MessageConstants
 	public static final String  INVALID_EMITTER_ID = "Error.InvalidEmitterID";//$NON-NLS-1$
 	
 	// Parameter Exceptions
-	public static final String  PARAMETER_VALIDATION_SCRIPT_RESULT_ERROR = "Error.ParamValidationScriptResultError";
+	public static final String  PARAMETER_VALIDATION_FAILURE = "Error.ParamValidationFailure";
 	public static final String 	PARAMETER_TYPE_IS_INVALID_EXCEPTION = "Error.ParameterTypeIsInvalid";
 	public static final String  PARAMETER_IS_NULL_EXCEPTION = "Error.ParameterValueIsNull";
 	public static final String  PARAMETER_IS_BLANK_EXCEPTION = "Error.ParameterValueIsBlank";
