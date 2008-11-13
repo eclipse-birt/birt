@@ -95,13 +95,13 @@ public class ReportDocumentTest extends EngineCase
 
 	}
 
-	public void testV2_3_2( ) throws Exception
-	{
-		copyResource( REPORT_DOCUMENT_V2_3_2, REPORT_DOCUMENT );
-		doTestDocument( );
-		super.removeFile( REPORT_DOCUMENT );
-
-	}
+//	public void testV2_3_2( ) throws Exception
+//	{
+//		copyResource( REPORT_DOCUMENT_V2_3_2, REPORT_DOCUMENT );
+//		doTestDocument( );
+//		super.removeFile( REPORT_DOCUMENT );
+//
+//	}
 
 	void doTestDocument( ) throws Exception
 	{
