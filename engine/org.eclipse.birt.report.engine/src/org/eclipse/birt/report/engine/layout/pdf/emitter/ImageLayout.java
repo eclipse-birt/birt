@@ -347,8 +347,13 @@ class ConcreteImageLayout extends Layout
 			{
 				if ( !lineParent.isEmptyLine( ) )
 				{
-					boolean ret = lineParent.endLine( );
+					lineParent.endLine( );
 					layout( );
+				}
+				else
+				{
+					parent.addToRoot(root, 0);
+					return;
 				}
 			}
 			else
