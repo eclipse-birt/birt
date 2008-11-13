@@ -39,7 +39,6 @@ public class ReportExecutor extends ReportExecutorWrapper
 				default :
 					throw new EngineException( MessageConstants.UNSUPPORTED_DOCUMENT_VERSION_ERROR
 							, version );
-
 			}
 		}
 		catch ( IOException ex )

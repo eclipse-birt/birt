@@ -114,12 +114,12 @@ public class ReportExecutorWrapper implements IReportExecutor
 		int version = EXECUTOR_VERSION_UNKNOWN;
 		if ( birtVersion != null )
 		{
-			if ( ReportDocumentConstants.BIRT_ENGINE_VERSION_2_1
+			if ( ReportDocumentConstants.BIRT_ENGINE_VERSION_2_0_0
 					.equals( birtVersion ) )
 			{
 				version = EXECUTOR_VERSION_2;
 			}
-			else if ( ReportDocumentConstants.BIRT_ENGINE_VERSION_2_1_RC5
+			else if ( ReportDocumentConstants.BIRT_ENGINE_VERSION_2_1_0
 					.equals( birtVersion ) )
 			{
 				version = EXECUTOR_VERSION_3;

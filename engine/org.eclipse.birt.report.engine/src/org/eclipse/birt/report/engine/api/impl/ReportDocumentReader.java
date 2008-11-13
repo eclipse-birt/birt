@@ -568,6 +568,25 @@ public class ReportDocumentReader
 		return result;
 	}
 
+	/**
+	 * <pre>
+	 *    		TAG		CORE_V	DOC_V	ENG_V	HIGHLIGHT	VERSION
+	 * 2.0.0	x		NULL	1.0.0	NULL	FALSE		2.0.0
+	 * 2.0.1	x		NULL	1.0.0	NULL	FALSE		2.0.0
+	 * 2.0.2	x		NULL	1.0.0	NULL	FALSE		2.0.0
+	 * 2.1.0	x		NULL	2.1.0	NULL	TRUE		2.1.0
+	 * 2.1.1	x		NULL	2.1.0	NULL	TRUE		2.1.0
+	 * 2.1.2	x		NULL	2.1.0	NULL	TRUE		2.1.0
+	 * 2.1.3	x		v0		2.1.3	NULL	TRUE		2.1.3
+	 * 2.2.0	x		v0		2.1.3	NULL	TRUE		2.1.3
+	 * 2.2.1	x		v1		2.1.3	2.2.1	FALSE		2.2.1
+	 * 2.2.2	x		v1		2.1.3	2.2.1	FALSE		2.2.1
+	 * 2.3.0	x		v1		2.1.3	2.2.1	FALSE		2.2.1
+	 * 2.3.1	x		v1		2.1.3	2.2.1	FALSE		2.2.1
+	 * 2.3.2	x		v1		2.1.3	2.3.2	FALSE		2.3.2
+	 * 2.5.0	x		v1		2.1.3	2.5.0	FALSE		2.5.0
+	 * </pre>
+	 */
 	protected void checkVersion( DataInputStream di ) throws IOException
 	{
 		String tag = IOUtil.readString( di );
@@ -604,7 +623,7 @@ public class ReportDocumentReader
 		}
 
 		String[] supportedVersions = new String[]{
-				REPORT_DOCUMENT_VERSION_1_2_1, REPORT_DOCUMENT_VERSION_2_1_0,
+				REPORT_DOCUMENT_VERSION_1_0_0, REPORT_DOCUMENT_VERSION_2_1_0,
 				REPORT_DOCUMENT_VERSION_2_1_3};
 		boolean supportedVersion = false;
 		for ( int i = 0; i < supportedVersions.length; i++ )
@@ -639,15 +658,15 @@ public class ReportDocumentReader
 
 		if ( properties.get( BIRT_ENGINE_VERSION_KEY ) == null )
 		{
-			if ( REPORT_DOCUMENT_VERSION_1_2_1.equals( docVersion ) )
+			if ( REPORT_DOCUMENT_VERSION_1_0_0.equals( docVersion ) )
 			{
 				properties.put( BIRT_ENGINE_VERSION_KEY,
-						BIRT_ENGINE_VERSION_2_1 );
+						BIRT_ENGINE_VERSION_2_0_0 );
 			}
 			else if ( REPORT_DOCUMENT_VERSION_2_1_0.equals( docVersion ) )
 			{
 				properties.put( BIRT_ENGINE_VERSION_KEY,
-						BIRT_ENGINE_VERSION_2_1_RC5 );
+						BIRT_ENGINE_VERSION_2_1_0 );
 			}
 			else if ( REPORT_DOCUMENT_VERSION_2_1_3.equals( docVersion ) )
 			{
@@ -662,8 +681,8 @@ public class ReportDocumentReader
 		if ( properties.get( DATA_EXTRACTION_TASK_VERSION_KEY ) == null )
 		{
 			// check the data extraction task version
-			if ( BIRT_ENGINE_VERSION_2_1.equals( docVersion )
-					|| BIRT_ENGINE_VERSION_2_1_RC5.equals( version ) )
+			if ( BIRT_ENGINE_VERSION_2_0_0.equals( docVersion )
+					|| BIRT_ENGINE_VERSION_2_1_0.equals( version ) )
 			{
 				properties.put( DATA_EXTRACTION_TASK_VERSION_KEY,
 						DATA_EXTRACTION_TASK_VERSION_0 );
