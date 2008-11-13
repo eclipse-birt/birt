@@ -12,6 +12,7 @@ Error.NullOutputFormat=El valor OutputFormat de la opción de procesamiento es nu
 Error.InvalidParameter=Algunos parámetros de valores necesarios no están establecidos o se han establecido con un tipo de datos incompatible.
 Error.InvalidGroupParameter=El motor de informes no puede evaluar el grupo de parámetros llamado "{0}".
 Error.ParameterTypeIsInvalid=El tipo de parámetro "{0}" que se espera es "{1}", no "{2}".
+Error.ParamValidationFailure=The validation for parameter "{0}" fails.
 Error.ParameterValueIsNull=El parámetro requerido {0} no está establecido.
 Error.ParameterValueIsBlank=El parámetro requerido {0} está en blanco.
 Error.ParamScriptValidationError=Error de validación de la fuente de script del parámetro "{0}".
