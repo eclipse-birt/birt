@@ -156,12 +156,20 @@ public interface ReportDocumentConstants
 	 * the engine version used to generate the report document
 	 */
 	static final String BIRT_ENGINE_VERSION_KEY = "BIRT ENGINE VERSION";
-	static final String BIRT_ENGINE_VERSION_2_1 = "2.1";
-	static final String BIRT_ENGINE_VERSION_2_1_RC5 = "2.1RC5";
-	static final String BIRT_ENGINE_VERSION_2_1_3 = "2.1.3";
-	static final String BIRT_ENGINE_VERSION_2_2_1 = "2.2.1";
 	// all supported versions are list here...
-	static final String BIRT_ENGINE_VERSION = BIRT_ENGINE_VERSION_2_2_1;
+	/** the version value used before 2.0.0, 2.0.1, 2.0.2 */
+	static final String BIRT_ENGINE_VERSION_2_0_0 = "2.0.0";
+	/** the version value used by 2.1.0, 2.1.1, 2.1.2 */
+	static final String BIRT_ENGINE_VERSION_2_1_0 = "2.1.0";
+	/** the version value used by 2.1.3, 2.2.0 */
+	static final String BIRT_ENGINE_VERSION_2_1_3 = "2.1.3";
+	/** the version value used by 2.2.1/2.2.2/2.2.3/2.3.0/2.3.1 */
+	static final String BIRT_ENGINE_VERSION_2_2_1 = "2.2.1";
+	/** the version value used by 2.3.2 */
+	static final String BIRT_ENGINE_VERSION_2_3_2 = "2.3.2";
+
+	/** the current version */
+	static final String BIRT_ENGINE_VERSION = BIRT_ENGINE_VERSION_2_3_2;
 
 	/**
 	 * extraction task version

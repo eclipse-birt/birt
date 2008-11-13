@@ -52,7 +52,9 @@ import org.eclipse.birt.report.engine.adapter.ITotalExprBindings;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
+import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.api.impl.ResultMetaData;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IQueryContext;
@@ -1528,12 +1530,18 @@ public class ReportQueryBuilder
 
 		/**
 		 * An item needs query when it satisfies following conditions:
-		 * <li>Has column bindings.
-		 * <li>Is a table or a list.
-		 * <li>Has hightlight rules and doesn't have parent query.
+		 * 
+		 * <li>Has column bindings.</li>
+		 * 
+		 * <li>Is a table or a list.</li>
+		 * 
+		 * <li>Before BIRT 2.2.1, has highlight rules and doesn't have parent
+		 * query.</li>
 		 * 
 		 * @param item
 		 *            the item.
+		 * @param query
+		 *            the parent query
 		 * @return true if it needs query.
 		 */
 		private boolean needQuery( ReportItemDesign item,
@@ -1559,7 +1567,62 @@ public class ReportQueryBuilder
 							extHandle.getExtensionName( ) );
 				}
 			}
+
+			return needQueryIn2_1_x( item, query );
+		}
+
+		/**
+		 * Test if the item need query in BIRT version before 2.2.1.
+		 * 
+		 * In BIRT 2.1.0, 2.1.1, 2.1.2, 2.1.3, 2.2.0, the report item with
+		 * highlight also create a query
+		 * 
+		 * @param item
+		 *            item handle
+		 * @param query
+		 *            parent query
+		 * @return true if need create a query
+		 */
+		private boolean needQueryIn2_1_x( ReportItemDesign item,
+				IDataQueryDefinition query )
+		{
+			if ( isBirt2_1_x( ) )
+			{
+				HighlightDesign highlight = item.getHighlight( );
+				if ( query == null && highlight != null
+						&& highlight.getRuleCount( ) > 0 )
+				{
+					return true;
+				}
+			}
 			return false;
+		}
+
+		private Boolean isBirt2_1_x;
+
+		/**
+		 * If the BIRT version is before 2.2.1
+		 * 
+		 * @return true for version before 2.2.1, including 2.0, 2.1.0, 2.1.1,
+		 *         2.1.2, 2.1.3, 2.2.0.
+		 */
+		private boolean isBirt2_1_x( )
+		{
+			if ( isBirt2_1_x == null )
+			{
+				isBirt2_1_x = Boolean.FALSE;
+				IReportDocument document = context.getReportDocument( );
+				if ( document != null )
+				{
+					String version = document.getVersion( );
+					if ( version == ReportDocumentConstants.BIRT_ENGINE_VERSION_2_1_0
+							|| version == ReportDocumentConstants.BIRT_ENGINE_VERSION_2_1_3 )
+					{
+						isBirt2_1_x = Boolean.TRUE;
+					}
+				}
+			}
+			return isBirt2_1_x.booleanValue( );
 		}
 
 		private void addSortAndFilter( ReportItemDesign item,
