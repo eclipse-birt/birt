@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.2" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
     <property name="author">Paul Clenahan</property>
-    <property name="createdBy">Eclipse BIRT Designer Version 1.0.0 Build &lt;20050601-0809></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.3.2.qualifier Build &lt;@BUILD@></property>
     <property name="units">in</property>
     <text-property name="title">Classic Models Inc. Product Catalog (Using Sample Database)</text-property>
     <data-sources>
@@ -50,6 +49,50 @@
                 </list-property>
             </structure>
             <property name="dataSource">Classic Models</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">PRODUCTCODE</property>
+                    <property name="nativeName">PRODUCTCODE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">PRODUCTNAME</property>
+                    <property name="nativeName">PRODUCTNAME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">PRODUCTLINE</property>
+                    <property name="nativeName">PRODUCTLINE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">PRODUCTDESCRIPTION</property>
+                    <property name="nativeName">PRODUCTDESCRIPTION</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">QUANTITYINSTOCK</property>
+                    <property name="nativeName">QUANTITYINSTOCK</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">MSRP</property>
+                    <property name="nativeName">MSRP</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">PRODUCTSCALE</property>
+                    <property name="nativeName">PRODUCTSCALE</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
             <property name="queryText">select 	CLASSICMODELS.PRODUCTS.PRODUCTCODE,
 		CLASSICMODELS.PRODUCTS.PRODUCTNAME,
 		CLASSICMODELS.PRODUCTS.PRODUCTLINE,
@@ -109,6 +152,7 @@ Order By 	CLASSICMODELS.PRODUCTS.PRODUCTLINE,
                         <property name="borderTopColor">#808080</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
+                        <property name="source">embed</property>
                         <property name="imageName">C:\Documents and Settings\pclenahan\My Documents\ClassicModels\logos\Classic-Models-Full-M.jpg</property>
                     </image>
                 </cell>
@@ -170,7 +214,20 @@ San Francisco, CA 94107<BR>
                 <structure>
                     <property name="name">PRODUCTLINE</property>
                     <expression name="expression">dataSetRow["PRODUCTLINE"]</expression>
-                    <property name="aggregateOn">Product Line</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Product Line</value>
+                    </simple-property-list>
+                </structure>
+            </list-property>
+            <property name="pageBreakInterval">50</property>
+            <list-property name="filter">
+                <structure>
+                    <property name="operator">between</property>
+                    <expression name="expr">row["MSRP"]</expression>
+                    <simple-property-list name="value1">
+                        <value>95.00</value>
+                    </simple-property-list>
+                    <expression name="value2">100.00</expression>
                 </structure>
             </list-property>
             <column id="57"/>
@@ -181,6 +238,9 @@ San Francisco, CA 94107<BR>
                 <property name="interval">none</property>
                 <property name="sortDirection">asc</property>
                 <expression name="keyExpr">row["PRODUCTLINE"]</expression>
+                <structure name="toc">
+                    <expression name="expressionValue">row["PRODUCTLINE"]</expression>
+                </structure>
                 <header>
                     <row id="24">
                         <property name="height">0.1in</property>

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.6" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
     <property name="author">Paul Clenahan</property>
-    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.N20060628-1351 Build &lt;20060628-1537></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.3.2.v20081112-0730 Build &lt;2.3.2.v20081112-0730></property>
     <property name="units">in</property>
     <text-property name="title">Top Selling Products</text-property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
@@ -653,6 +652,17 @@ South San Francisco, CA 94080]]></text-property>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
+            <list-property name="filter">
+                <structure>
+                    <property name="operator">between</property>
+                    <expression name="expr">row["ORDERNUMBER"]</expression>
+                    <simple-property-list name="value1">
+                        <value>10100</value>
+                    </simple-property-list>
+                    <expression name="value2">10105</expression>
+                </structure>
+            </list-property>
             <column id="56"/>
             <column id="57"/>
             <column id="58"/>
@@ -720,6 +730,7 @@ South San Francisco, CA 94080]]></text-property>
                                     <property name="dataType">integer</property>
                                 </structure>
                             </list-property>
+                            <property name="pageBreakInterval">50</property>
                             <column id="99"/>
                             <column id="100"/>
                             <column id="101"/>
