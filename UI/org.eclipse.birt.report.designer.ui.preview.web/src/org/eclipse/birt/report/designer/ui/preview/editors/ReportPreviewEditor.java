@@ -30,7 +30,6 @@ import org.eclipse.core.runtime.Preferences.IPropertyChangeListener;
 import org.eclipse.core.runtime.Preferences.PropertyChangeEvent;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
@@ -41,6 +40,9 @@ import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.browser.TitleEvent;
 import org.eclipse.swt.browser.TitleListener;
 import org.eclipse.swt.browser.WindowEvent;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
@@ -59,7 +61,6 @@ import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.FormText;
-import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.part.EditorPart;
 
 public class ReportPreviewEditor extends EditorPart
@@ -88,8 +89,8 @@ public class ReportPreviewEditor extends EditorPart
 	 * reflecting the new dirty state (<code>PROP_DIRTY</code> property).
 	 * </p>
 	 * <p>
-	 * If the save is cancelled through user action, or for any other reason,
-	 * the part should invoke <code>setCancelled</code> on the
+	 * If the save is canceled through user action, or for any other reason, the
+	 * part should invoke <code>setCancelled</code> on the
 	 * <code>IProgressMonitor</code> to inform the caller.
 	 * </p>
 	 * <p>
@@ -142,19 +143,26 @@ public class ReportPreviewEditor extends EditorPart
 	 */
 	public void createPartControl( Composite parent )
 	{
+		final ScrolledComposite sc = new ScrolledComposite( parent,
+				SWT.H_SCROLL | SWT.V_SCROLL );
+		sc.setExpandHorizontal( true );
+		sc.setExpandVertical( true );
+
 		// Create the editor parent composite.
-		mainPane = new Composite( parent, SWT.NONE );
+		mainPane = new Composite( sc, SWT.NONE );
 		GridLayout layout = new GridLayout( 1, false );
 		layout.verticalSpacing = 0;
 		mainPane.setLayout( layout );
 		mainPane.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		final Composite buttonTray = new Composite( mainPane, SWT.NONE );
-		buttonTray.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_FILL ) );
+		GridData gData = new GridData( GridData.FILL_BOTH );
+		gData.grabExcessHorizontalSpace = true;
+		gData.grabExcessVerticalSpace = false;
+		buttonTray.setLayoutData( gData );
 
-		layout = new GridLayout( );
+		layout = new GridLayout( 2, false );
 		layout.marginWidth = 5;
-		layout.numColumns = 7;
 		layout.horizontalSpacing = 0;
 		buttonTray.setLayout( layout );
 
@@ -169,51 +177,18 @@ public class ReportPreviewEditor extends EditorPart
 			bParameter.setLayoutData( gd );
 		}
 
-		FormText note = new FormText( buttonTray, SWT.NONE );
-		note.setText( "<form><p><b>"//$NON-NLS-1$
-				+ Messages.getString( "PreviewEditor.parameter.note" )//$NON-NLS-1$
-				+ "</b></p></form>",//$NON-NLS-1$
+		final FormText note = new FormText( buttonTray, SWT.NONE );
+		note.setText( getDisplayInfoText( ViewerPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getString( WebViewer.PREVIEW_MAXROW ) ),//$NON-NLS-1$
 				true,
-				false );
+				true );
+		note.setSize( SWT.DEFAULT - 10, SWT.DEFAULT );
 		GridData gd = new GridData( );
 		gd.horizontalIndent = 20;
 		note.setLayoutData( gd );
 
-		new Label( buttonTray, SWT.NONE ).setText( "  " + Messages.getString( "PreviewEditor.parameter.info" ) + " " ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		final Label maxRoxLabel = new Label( buttonTray, SWT.NONE );
-		maxRoxLabel.setText( ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getString( WebViewer.PREVIEW_MAXROW ) );
-		ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
-				.addPropertyChangeListener( new IPropertyChangeListener( ) {
-
-					public void propertyChange( PropertyChangeEvent event )
-					{
-						if ( maxRoxLabel == null || maxRoxLabel.isDisposed( ) )
-						{
-							ViewerPlugin.getDefault( )
-									.getPluginPreferences( )
-									.removePropertyChangeListener( this );
-							return;
-						}
-						if ( WebViewer.PREVIEW_MAXROW.equals( event.getProperty( ) ) )
-						{
-							if ( !maxRoxLabel.getText( )
-									.equals( event.getNewValue( ) ) )
-							{
-								maxRoxLabel.setText( ViewerPlugin.getDefault( )
-										.getPluginPreferences( )
-										.getString( WebViewer.PREVIEW_MAXROW ) );
-								buttonTray.layout( );
-							}
-						}
-					}
-				} );
-		new Label( buttonTray, SWT.NONE ).setText( ". (" );//$NON-NLS-1$
-		Hyperlink changeLink = new Hyperlink( buttonTray, SWT.NONE );
-		changeLink.setForeground( JFaceColors.getHyperlinkText( Display.getDefault( ) ) );
-		changeLink.addHyperlinkListener( new HyperlinkAdapter( ) {
+		note.addHyperlinkListener( new HyperlinkAdapter( ) {
 
 			public void linkActivated( HyperlinkEvent e )
 			{
@@ -236,9 +211,32 @@ public class ReportPreviewEditor extends EditorPart
 			}
 
 		} );
-		changeLink.setText( Messages.getString( "PreviewEditor.parameter.change" ) );//$NON-NLS-1$
-		new Label( buttonTray, SWT.NONE ).setText( ")" );//$NON-NLS-1$
 
+		ViewerPlugin.getDefault( )
+				.getPluginPreferences( )
+				.addPropertyChangeListener( new IPropertyChangeListener( ) {
+
+					public void propertyChange( PropertyChangeEvent event )
+					{
+						if ( note == null || note.isDisposed( ) )
+						{
+							ViewerPlugin.getDefault( )
+									.getPluginPreferences( )
+									.removePropertyChangeListener( this );
+							return;
+						}
+						if ( WebViewer.PREVIEW_MAXROW.equals( event.getProperty( ) ) )
+						{
+							note.setText( getDisplayInfoText( ViewerPlugin.getDefault( )
+									.getPluginPreferences( )
+									.getString( WebViewer.PREVIEW_MAXROW ) ),//$NON-NLS-1$
+									true,
+									true );
+							buttonTray.layout( );
+						}
+					}
+				} );
+		
 		progressBar = new ProgressBar( mainPane, SWT.INDETERMINATE );
 		gd = new GridData( GridData.END, GridData.CENTER, false, false );
 		gd.heightHint = 10;
@@ -272,6 +270,29 @@ public class ReportPreviewEditor extends EditorPart
 
 			} );
 		}
+		sc.addControlListener( new ControlAdapter( ) {
+
+			public void controlResized( ControlEvent e )
+			{
+				sc.setMinSize( buttonTray.computeSize( SWT.DEFAULT,
+						SWT.DEFAULT ) );
+				mainPane.layout( );
+			}
+		} );
+		sc.setContent( mainPane );
+	}
+
+	private String getDisplayInfoText( String maxRow )
+	{
+		return "<form><p><b>"//$NON-NLS-1$
+				+ Messages.getString( "PreviewEditor.parameter.note" )//$NON-NLS-1$
+				+ "</b> " //$NON-NLS-1$
+				+ Messages.getString( "PreviewEditor.parameter.info" )//$NON-NLS-1$
+				+ " " //$NON-NLS-1$
+				+ maxRow
+				+ ". (<a>" //$NON-NLS-1$
+				+ Messages.getString( "PreviewEditor.parameter.change" )//$NON-NLS-1$
+				+ "</a>)</p></form>";//$NON-NLS-1$
 	}
 
 	private void createMainBrowser( )
