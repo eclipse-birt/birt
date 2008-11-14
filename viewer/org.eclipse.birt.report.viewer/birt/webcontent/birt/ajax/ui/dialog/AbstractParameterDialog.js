@@ -157,10 +157,19 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 				continue;
 			}
 			//find radio with textbox or select items to install event listener.
+			var flag = false;
 			for( var j = 0; j < oInput.length; j++ )
 			{
-				if( oInput[j].type == "radio" && oInput[j].getAttribute("birtParameterType") == "combobox" )					
+				if( oInput[j].type == "radio" && !flag )
 				{
+					var tempRadio = oInput[j];
+					flag = true;
+					continue;
+				}
+	  
+				if( oInput[j].type == "radio" && tempRadio != {} && oInput[j].id != tempRadio.id )
+				{
+					Event.observe( tempRadio, 'click', this.__neh_click_radio_closure, false );
 					Event.observe( oInput[j], 'click', this.__neh_click_radio_closure, false );
 				}
 			}
