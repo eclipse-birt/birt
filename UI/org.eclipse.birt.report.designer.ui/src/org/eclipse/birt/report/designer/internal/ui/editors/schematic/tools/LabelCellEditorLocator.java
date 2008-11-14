@@ -87,8 +87,13 @@ final public class LabelCellEditorLocator implements CellEditorLocator
 			wOffset = WIN_W_OFFSET;
 		}
 
-		text.setBounds( rect.x + xOffset, rect.y + yOffset, rect.width
-				+ wOffset, rect.height + hOffset );
+		// workaround for Bugzilla 255299
+		int width = rect.width + wOffset;
+		if (width < 2)
+		{
+			width  = 2;
+		}
+		text.setBounds( rect.x + xOffset, rect.y + yOffset, width, rect.height + hOffset );
 	}
 
 	/**
