@@ -1017,6 +1017,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		tablePreview.layout( );
 	}
 
+	private volatile boolean bIsGettingPreviewData = false;
+
 	private void switchDataTable( )
 	{
 		if ( isCubeMode( ) )
@@ -1033,13 +1035,20 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			 */
 			public void run( )
 			{
+				if ( bIsGettingPreviewData )
+				{
+					// to avoid collision caused by multiple refreshing
+					return;
+				}
 				ColumnBindingInfo[] headers = null;
 				List dataList = null;
 				try
 				{
 					// Get header and data in other thread.
 					headers = getDataServiceProvider( ).getPreviewHeadersInfo( );
+					bIsGettingPreviewData = true;
 					dataList = getDataServiceProvider( ).getPreviewData( );
+					bIsGettingPreviewData = false;
 					getDataServiceProvider( ).setPredefinedExpressions( headers );
 
 					final ColumnBindingInfo[] headerInfo = headers;
