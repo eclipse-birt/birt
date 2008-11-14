@@ -13,7 +13,9 @@ package org.eclipse.birt.chart.reportitem;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
@@ -147,6 +149,22 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 */
 	public static Iterator getColumnDataBindings( ReportItemHandle itemHandle )
 	{
+		return getColumnDataBindings( itemHandle, false );
+	}
+
+	/**
+	 * Gets all column bindings from handle and its container.
+	 * 
+	 * @param itemHandle
+	 * @param unique
+	 *            <code>true</code> will ignore the binding of container if it
+	 *            is duplicate between handle and its container.
+	 * @return
+	 * @since 2.3.2
+	 */
+	public static Iterator getColumnDataBindings( ReportItemHandle itemHandle,
+			boolean unique )
+	{
 		if ( itemHandle.getDataSet( ) != null || itemHandle.getCube( ) != null )
 		{
 			return itemHandle.columnBindingsIterator( );
@@ -154,11 +172,14 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		DesignElementHandle handle = getBindingHolder( itemHandle );
 		if ( handle instanceof ReportItemHandle )
 		{
+			Map bindingMap = new LinkedHashMap( );
 			ArrayList list = new ArrayList( );
 			Iterator i = ( (ReportItemHandle) handle ).columnBindingsIterator( );
 			while ( i.hasNext( ) )
 			{
-				list.add( i.next( ) );
+				ComputedColumnHandle cch = (ComputedColumnHandle) i.next( );
+				list.add( cch );
+				bindingMap.put( cch.getName( ), cch );
 			}
 			if ( handle != itemHandle )
 			{
@@ -166,10 +187,17 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 				i = itemHandle.columnBindingsIterator( );
 				while ( i.hasNext( ) )
 				{
-					list.add( i.next( ) );
+					ComputedColumnHandle cch = (ComputedColumnHandle) i.next( );
+					list.add( cch );
+					bindingMap.put( cch.getName( ), cch );
 				}
 			}
-			return list.iterator( );
+			if ( unique )
+			{
+				return bindingMap.values( ).iterator( );
+			}
+			else
+				return list.iterator( );
 		}
 		return null;
 	}

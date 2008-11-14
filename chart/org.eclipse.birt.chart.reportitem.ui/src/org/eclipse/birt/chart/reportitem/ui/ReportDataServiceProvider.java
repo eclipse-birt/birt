@@ -371,7 +371,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			IQueryResults actualResultSet = session.executeQuery( queryDefn,
 					null,
 					filtersIterator,
-					ChartReportItemUtil.getColumnDataBindings( itemHandle ) );
+					ChartReportItemUtil.getColumnDataBindings( itemHandle, true ) );
 			if ( actualResultSet != null )
 			{
 				String[] expressions = columnExpression;
@@ -1306,7 +1306,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			actualResultSet = session.executeQuery( queryDefn,
 					null,
 					filtersIterator,
-					ChartReportItemUtil.getColumnDataBindings( handle ) );
+					ChartReportItemUtil.getColumnDataBindings( handle, true ) );
 
 			if ( actualResultSet != null )
 			{
