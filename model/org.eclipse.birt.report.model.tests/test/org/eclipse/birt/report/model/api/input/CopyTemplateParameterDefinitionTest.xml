@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
+    <template-parameter-definitions>
+        <template-parameter-definition name="NewTemplateParameterDefinition1" id="113">
+            <property name="allowedType">Grid</property>
+            <default>
+                <grid id="114"/>
+            </default>
+        </template-parameter-definition>
+        <template-parameter-definition name="NewTemplateParameterDefinition3" id="154">
+            <property name="allowedType">Grid</property>
+            <default>
+                <grid id="155">
+                    <property name="refTemplateParameter">NewTemplateParameterDefinition1</property>
+                </grid>
+            </default>
+        </template-parameter-definition>
+    </template-parameter-definitions>
+</report>

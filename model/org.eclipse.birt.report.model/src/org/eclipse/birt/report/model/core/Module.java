@@ -1398,15 +1398,20 @@ public abstract class Module extends DesignElement
 						.getContent( i );
 				if ( templateParam.getClientList( ).isEmpty( ) )
 				{
+
+					// Remove the element from the ID map if we are usingIDs.
+
+					NameSpace ns = nameHelper
+							.getNameSpace( TEMPLATE_PARAMETER_NAME_SPACE );
+					ns.remove( templateParam );
+
+					module.manageId( templateParam, false );
+
 					module
 							.remove(
 									templateParam,
 									IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT );
 
-					// Remove the element from the ID map if we are using
-					// IDs.
-
-					module.manageId( templateParam, false );
 				}
 			}
 		}
