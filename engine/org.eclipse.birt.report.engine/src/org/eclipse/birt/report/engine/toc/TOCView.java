@@ -65,7 +65,14 @@ public class TOCView implements ITOCTree
 	public TOCView( ITreeNode tree, ReportDesignHandle handle, ULocale locale,
 			TimeZone timeZone, String format, ViewFilter filter )
 	{
-		this.format = format;
+		if ( "viewer".equals( format ) )
+		{
+			this.format = "html";
+		}
+		else
+		{
+			this.format = format;
+		}
 		this.filter = filter;
 		this.locale = locale;
 		this.timeZone = timeZone;
@@ -275,6 +282,11 @@ public class TOCView implements ITOCTree
 		if ( formats == null || format == null )
 		{
 			return false;
+		}
+
+		if ( formats.equals( "all" ) )
+		{
+			return true;
 		}
 
 		String[] fmts = formats.split( "," );
