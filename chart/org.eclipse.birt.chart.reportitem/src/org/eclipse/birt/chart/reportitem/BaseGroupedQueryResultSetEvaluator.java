@@ -466,6 +466,13 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 			int i = 0;
 			for ( IGroupDefinition gd : groupDefinitions )
 			{
+				// First to check if the expression is a grouping expression.
+				if ( expr.contains( gd.getKeyExpression( ) ) )
+				{
+					return i;
+				}
+				
+				// Check if expression contains a grouping expression.
 				List<IColumnBinding> expressionList = ExpressionUtil.extractColumnExpressions( gd.getKeyExpression( ) );
 				if ( expressionList == null || expressionList.size( ) == 0 )
 				{
