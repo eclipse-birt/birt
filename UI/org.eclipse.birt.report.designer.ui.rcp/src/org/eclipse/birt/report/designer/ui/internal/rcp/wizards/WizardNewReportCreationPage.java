@@ -11,7 +11,10 @@
 
 package org.eclipse.birt.report.designer.ui.internal.rcp.wizards;
 
+import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.wizards.NewReportPageSupport;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.core.runtime.IPath;
@@ -87,6 +90,17 @@ public class WizardNewReportCreationPage extends WizardPage
 		setPageComplete( validatePage( ) );
 		setErrorMessage( null );
 		setMessage( null );
+		
+		if ( getFileName( ).endsWith( IReportElementConstants.TEMPLATE_FILE_EXTENSION ) )
+		{
+			UIUtil.bindHelp( getControl( ),
+					IHelpContextIds.NEW_TEMPLATE_WIZARD_ID );
+		}
+		else if ( getFileName( ).endsWith( IReportElementConstants.DESIGN_FILE_EXTENSION ) )
+		{
+			UIUtil.bindHelp( getControl( ),
+					IHelpContextIds.NEW_REPORT_WIZARD_ID );
+		}
 	}
 
 	public String getFileName( )
