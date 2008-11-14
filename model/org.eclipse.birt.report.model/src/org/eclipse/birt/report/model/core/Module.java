@@ -259,7 +259,7 @@ public abstract class Module extends DesignElement
 	/**
 	 * The absolute path for the design file in URL format. It can be a file
 	 * directory or a network path such as HTTP, FTP, etc. It is
-	 * <code>null</code> if the file cannot be found. 
+	 * <code>null</code> if the file cannot be found.
 	 */
 
 	private URL location = null;
@@ -1398,15 +1398,20 @@ public abstract class Module extends DesignElement
 						.getContent( i );
 				if ( templateParam.getClientList( ).isEmpty( ) )
 				{
+
+					// Remove the element from the ID map if we are usingIDs.
+
+					NameSpace ns = nameHelper
+							.getNameSpace( TEMPLATE_PARAMETER_NAME_SPACE );
+					ns.remove( templateParam );
+
+					module.manageId( templateParam, false );
+
 					module
 							.remove(
 									templateParam,
 									IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT );
 
-					// Remove the element from the ID map if we are using
-					// IDs.
-
-					module.manageId( templateParam, false );
 				}
 			}
 		}
@@ -1501,10 +1506,13 @@ public abstract class Module extends DesignElement
 	 * <code>fileName</code> exists. This method takes the following search
 	 * steps:
 	 * <ul>
-	 * <li>Search file taking <code>fileName</code> as absolute file name; <li>
+	 * <li>Search file taking <code>fileName</code> as absolute file name;
+	 * <li>
 	 * Search file taking <code>fileName</code> as relative file name and basing
-	 * "base" property of module; <li>Search file with the file locator (<code>
-	 * IResourceLocator</code>) in session.
+	 * "base" property of module;
+	 * <li>Search file with the file locator (<code>
+	 * IResourceLocator</code>) in
+	 * session.
 	 * </ul>
 	 * 
 	 * @param fileName
@@ -1512,8 +1520,10 @@ public abstract class Module extends DesignElement
 	 * @param fileType
 	 *            file type. The value should be one of:
 	 *            <ul>
-	 *            <li><code>IResourceLocator.IMAGE</code> <li><code>
-	 *            IResourceLocator.LIBRARY</code> <li><code>
+	 *            <li><code>IResourceLocator.IMAGE</code>
+	 *            <li><code>
+	 *            IResourceLocator.LIBRARY</code>
+	 *            <li><code>
 	 *            IResourceLocator.MESSAGEFILE</code>
 	 *            </ul>
 	 *            Any invalid value will be treated as
@@ -2662,8 +2672,8 @@ public abstract class Module extends DesignElement
 	 * 
 	 * <ul>
 	 * <li>If the element name is required and duplicate name is found in name
-	 * space, rename the element with a new unique name. <li>If the element name
-	 * is not required, clear the name.
+	 * space, rename the element with a new unique name.
+	 * <li>If the element name is not required, clear the name.
 	 * </ul>
 	 * 
 	 * @param element
@@ -2680,8 +2690,8 @@ public abstract class Module extends DesignElement
 	 * 
 	 * <ul>
 	 * <li>If the element name is required and duplicated name is found rename
-	 * the element with a new unique name. <li>If the element name is not
-	 * required, clear the name.
+	 * the element with a new unique name.
+	 * <li>If the element name is not required, clear the name.
 	 * </ul>
 	 * 
 	 * @param container

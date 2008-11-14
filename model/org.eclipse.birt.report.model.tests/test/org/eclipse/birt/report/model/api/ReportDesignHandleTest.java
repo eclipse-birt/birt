@@ -45,6 +45,7 @@ import org.eclipse.birt.report.model.elements.FreeForm;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.SimpleMasterPage;
 import org.eclipse.birt.report.model.elements.TableItem;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.olap.Hierarchy;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.elements.olap.TabularHierarchy;
@@ -958,9 +959,9 @@ public class ReportDesignHandleTest extends BaseTestCase
 	 * cases are:
 	 * 
 	 * <ul>
-	 * <li>Uses the file path to find the relative resource.</li> <li>Uses
-	 * network protocol to find the relative resource.</li> <li>Uses the file
-	 * protcol to find the relative resource</li>
+	 * <li>Uses the file path to find the relative resource.</li>
+	 * <li>Uses network protocol to find the relative resource.</li>
+	 * <li>Uses the file protcol to find the relative resource</li>
 	 * </ul>
 	 * 
 	 * @throws Exception
@@ -1065,9 +1066,10 @@ public class ReportDesignHandleTest extends BaseTestCase
 	 * Tests <code>setFileName</code> function. Cases are
 	 * 
 	 * <ul>
-	 * <li>setFileName with HTTP protocol</li> <li>setFileName with HTTP
-	 * protocol and Chinese character.</li> <li>setFileName with unix file
-	 * schema.</li> <li>setFileName with windows file schema.</li>
+	 * <li>setFileName with HTTP protocol</li>
+	 * <li>setFileName with HTTP protocol and Chinese character.</li>
+	 * <li>setFileName with unix file schema.</li>
+	 * <li>setFileName with windows file schema.</li>
 	 * </ul>
 	 * 
 	 * @throws Exception
@@ -1119,10 +1121,12 @@ public class ReportDesignHandleTest extends BaseTestCase
 		assertEquals( new File( "1.xml" ).getAbsoluteFile( ).getParentFile( ) //$NON-NLS-1$
 				.toURL( ).toExternalForm( ), designHandle.getSystemId( )
 				.toString( ) );
-		
-		designHandle.setFileName( "bundleresource://22868/samplereports/Reporting Feature Examples/Combination Chart/CustomerOrdersFinal.rptdesign" ); //$NON-NLS-1$
-		assertEquals( "bundleresource://22868/samplereports/Reporting Feature Examples/Combination Chart/", designHandle //$NON-NLS-1$
-				.getSystemId( ).toString( ) );
+
+		designHandle
+				.setFileName( "bundleresource://22868/samplereports/Reporting Feature Examples/Combination Chart/CustomerOrdersFinal.rptdesign" ); //$NON-NLS-1$
+		assertEquals(
+				"bundleresource://22868/samplereports/Reporting Feature Examples/Combination Chart/", designHandle //$NON-NLS-1$
+						.getSystemId( ).toString( ) );
 	}
 
 	/**
@@ -1511,6 +1515,30 @@ public class ReportDesignHandleTest extends BaseTestCase
 		save( designHandle1 );
 
 		assertTrue( compareFile( "ReportDesignCopyTest_golden.xml" ) ); //$NON-NLS-1$
+
+	}
+
+	/**
+	 * Tests copy report design which contains template parameter definition.
+	 * 
+	 * @throws Exception
+	 */
+	public void testCopyTemplateParameterDefinition( ) throws Exception
+	{
+		openDesign( "CopyTemplateParameterDefinitionTest.xml" );//$NON-NLS-1$
+
+		// test the template parameter definition in the original report design.
+		SlotHandle slot = designHandle
+				.getSlot( IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT );
+		assertEquals( 1, slot.getCount( ) );
+
+		// test the template parameter definition in the copy report design.
+		ReportDesignHandle copyDesignHandle = (ReportDesignHandle) designHandle
+				.copy( ).getHandle( null );
+
+		slot = copyDesignHandle
+				.getSlot( IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT );
+		assertEquals( 0, slot.getCount( ) );
 
 	}
 
