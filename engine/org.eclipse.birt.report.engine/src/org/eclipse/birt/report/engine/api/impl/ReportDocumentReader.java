@@ -29,10 +29,12 @@ import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.script.ParameterAttribute;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
+import org.eclipse.birt.report.engine.api.impl.LinkedObjectManager.LinkedEntry;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.executor.ApplicationClassLoader;
@@ -110,6 +112,8 @@ public class ReportDocumentReader
 
 	private boolean coreStreamLoaded = false;
 
+	private LinkedEntry<ReportDocumentReader> engineCacheEntry;
+	
 	public ReportDocumentReader( ReportEngine engine,
 			IDocArchiveReader archive, boolean sharedArchive )
 			throws EngineException
@@ -775,6 +779,15 @@ public class ReportDocumentReader
 
 			extensions.clear( );
 			extensions = null;
+		}
+		if ( engineCacheEntry != null )
+		{
+			LinkedObjectManager<ReportDocumentReader> manager = engineCacheEntry
+					.getManager( );
+			synchronized(manager)
+			{
+				manager.remove( engineCacheEntry );
+			}
 		}
 	}
 
@@ -1533,5 +1546,10 @@ public class ReportDocumentReader
 		{
 			throw new EngineException( "failed to load toc tree", ex );
 		}
+	}
+
+	public void setEngineCacheEntry( LinkedEntry<ReportDocumentReader> entry )
+	{
+		this.engineCacheEntry = entry;
 	}
 }

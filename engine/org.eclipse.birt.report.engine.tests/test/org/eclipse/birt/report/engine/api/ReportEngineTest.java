@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.EngineCase;
+import org.eclipse.birt.report.engine.api.impl.ReportDocumentReader;
 import org.eclipse.birt.report.engine.api.impl.ScalarParameterDefn;
 
 /**
@@ -201,7 +202,59 @@ public class ReportEngineTest extends EngineCase
 			fail( );
 		}
 	}
+
+	public void testCloseDocument( ) throws EngineException
+	{
+		org.eclipse.birt.report.engine.api.impl.ReportEngine engine = new org.eclipse.birt.report.engine.api.impl.ReportEngine(
+				new EngineConfig( ) );
+		IReportDocument document1 = createReportDocument( engine, "reportdocument1" );
+		IReportDocument document2 = createReportDocument( engine, "reportdocument2" );
+		checkOpenedDocument( engine, document1, document2 );
+		document1.close( );
+		checkOpenedDocument( engine, document2 );
+		document2.close( );
+		checkOpenedDocument( engine );
+		IReportDocument document3 = createReportDocument( engine, "reportdocument3" );
+		checkOpenedDocument( engine, document3 );
+		engine.destroy( );
+		checkOpenedDocument( engine );
+		for( int i = 1; i <=3; i++ )
+		{
+			removeFile("reportdocument" + i);
+		}
+	}
 	
+	private void checkOpenedDocument( org.eclipse.birt.report.engine.api.impl.ReportEngine engine, IReportDocument... documents )
+	{
+		Iterator<ReportDocumentReader> iterator = engine.getOpenedDocuments( );
+		for ( int i = 0; i < documents.length; i++ )
+		{
+			assertTrue( iterator.hasNext( ) );
+			assertEquals( documents[i], iterator.next( ) );
+		}
+		assertFalse( iterator.hasNext( ) );
+	}
+	
+	private IReportDocument createReportDocument(
+			org.eclipse.birt.report.engine.api.impl.ReportEngine engine, String reportDocument ) throws EngineException
+	{
+		// open the report runnable to execute.
+		IReportRunnable report = engine.openReportDesign( REPORT_DESIGN );
+		// create an IRunTask
+		IRunTask task = engine.createRunTask( report );
+		try
+		{
+			// execute the report to create the report document.
+			task.run( reportDocument );
+			return engine.openReportDocument( reportDocument );
+		}
+		finally
+		{
+			// close the task, release the resource.
+			task.close( );
+		}
+	}
+
 	protected void initSupportedMap( )
 	{
 		String[] goldenFormats = new String[]{"html", "pdf"};

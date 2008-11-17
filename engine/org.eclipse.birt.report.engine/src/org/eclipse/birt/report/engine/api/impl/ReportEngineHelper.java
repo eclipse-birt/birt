@@ -439,6 +439,7 @@ public class ReportEngineHelper
 		
 		ReportDocumentReader reader = new ReportDocumentReader( systemId,
 				engine, archive, options);
+		engine.cacheOpenedDocument( reader );
 		
 		return reader;
 	}

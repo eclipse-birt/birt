@@ -42,6 +42,7 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.IStatusHandler;
+import org.eclipse.birt.report.engine.api.impl.LinkedObjectManager.LinkedEntry;
 import org.eclipse.birt.report.engine.executor.ScriptUtil;
 import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtension;
 import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtensionFactory;
@@ -104,6 +105,8 @@ public class ReportEngine implements IReportEngine
 		EngineConstants.PROJECT_CLASSPATH_KEY,
 		EngineConstants.WORKSPACE_CLASSPATH_KEY};
 
+	private LinkedObjectManager<ReportDocumentReader> openedDocuments;
+	
 	private EngineExtensionManager extensionManager = new EngineExtensionManager();
 	/**
 	 * Constructor. If config is null, engine derives BIRT_HOME from the
@@ -125,6 +128,7 @@ public class ReportEngine implements IReportEngine
 		logger.log( Level.FINE, "ReportEngine created. EngineConfig: {0} ",
 				config );
 		this.helper = new ReportEngineHelper( this );
+		openedDocuments = new LinkedObjectManager<ReportDocumentReader>();
 
 		setupScriptScope( );
 	}
@@ -455,6 +459,15 @@ public class ReportEngine implements IReportEngine
 		logger.fine( "ReportEngine.destroy" );
 		rootScope = null;
 		helper = null;
+		synchronized ( openedDocuments )
+		{
+			for ( ReportDocumentReader document : openedDocuments )
+			{
+				document.setEngineCacheEntry( null );
+				document.close( );
+			}
+			openedDocuments.clear( );
+		}
 		if ( config != null )
 		{
 			IStatusHandler handler = config.getStatusHandler( );
@@ -778,6 +791,17 @@ public class ReportEngine implements IReportEngine
 		return null;
 	}
 	
+	public Iterator<ReportDocumentReader> getOpenedDocuments( )
+	{
+		return openedDocuments.iterator( );
+	}
+	
+	void cacheOpenedDocument( ReportDocumentReader document )
+	{
+		LinkedEntry<ReportDocumentReader> entry = openedDocuments.add( document );
+		document.setEngineCacheEntry( entry );
+	}
+
 	private class EngineExtensionManager
 	{
 
