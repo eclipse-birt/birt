@@ -359,6 +359,15 @@ public class Connection implements IConnection
 		}
 		try
 		{
+			if ( ( jdbcConn instanceof java.sql.Connection ) )
+			{
+				Object option = this.appContext.get( IConnectionFactory.CLOSE_PASS_IN_CONNECTION );
+				boolean closePassInConnection = ( option instanceof Boolean )
+						? ( (Boolean) option ).booleanValue( ) : true;
+				if ( !closePassInConnection )
+					return;
+			}
+
 			if ( jdbcConn.isClosed( ) == false )
 				jdbcConn.close( );
 		}

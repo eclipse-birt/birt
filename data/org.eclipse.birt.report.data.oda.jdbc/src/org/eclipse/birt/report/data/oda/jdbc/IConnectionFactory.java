@@ -27,6 +27,9 @@ public interface IConnectionFactory
 	public static final String DRIVER_CLASSPATH = "OdaJDBCDriverClassPath";
 
 	public static final String PASS_IN_CONNECTION = "OdaJDBCDriverPassInConnection";
+	
+	public static final String CLOSE_PASS_IN_CONNECTION = "OdaJDBCDriverPassInConnectionCloseAfterUse";
+
 
 	/**
      * Establishes a connection to the given database URL. 
