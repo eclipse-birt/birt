@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.designer.ui.editors;
 
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
@@ -19,6 +22,9 @@ import org.eclipse.ui.PartInitException;
  * Use this class to activate RCP plug-in.
  */
 
+/**
+ * RCPMultiPageReportEditor
+ */
 public class RCPMultiPageReportEditor extends MultiPageReportEditor
 {
 
@@ -62,5 +68,27 @@ public class RCPMultiPageReportEditor extends MultiPageReportEditor
 				.getPartService( )
 				.removePartListener( this );
 	}
+	
+	public void doSave( IProgressMonitor monitor )
+	{
+		super.doSave( monitor );
+		try
+		{
+			refreshMarkers( getEditorInput( ) );
+		}
+		catch ( CoreException e )
+		{
+		}
+	}
 
+	@Override
+	public void refreshMarkers( IEditorInput input ) throws CoreException
+	{
+		ModuleHandle reportDesignHandle = getModel( );
+		if ( reportDesignHandle != null )
+		{
+			reportDesignHandle.checkReport( );
+		}
+	}
+	
 }
