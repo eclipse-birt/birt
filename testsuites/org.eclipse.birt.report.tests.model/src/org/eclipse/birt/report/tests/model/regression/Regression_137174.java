@@ -32,6 +32,7 @@ public class Regression_137174 extends BaseTestCase
 {
 
 	private String filename = "Regression_137174.xml"; //$NON-NLS-1$
+	private String filename_lib = "Regression_137174_lib.xml"; //$NON-NLS-1$
 	/**
 	 * 
 	 */
@@ -60,7 +61,7 @@ public class Regression_137174 extends BaseTestCase
 		assertNotNull( versionInfo.getLocalizedMessage( ) );
 
 		infos = ModuleUtil.checkVersion( getClassFolder( ) + "/" + INPUT_FOLDER + "/"
-				+ "Regression_141218.xml" ); //$NON-NLS-1$
+				+ filename_lib ); //$NON-NLS-1$
 		assertEquals( 1, infos.size( ) );
 	}
 
