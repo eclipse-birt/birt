@@ -351,11 +351,15 @@ public class BirtComp implements IScriptFunctionExecutor
 	private static String toPatternString( String regex )
 	{
 		String pattern = "";
+		boolean preserveFlag = false;
 		for( int i = 0; i < regex.length( ); i++ )
 		{
 			char c = regex.charAt( i );
 			if ( c == '\\' )
 			{
+				pattern = handlePreservedString( preserveFlag, pattern );
+				preserveFlag = false;
+				pattern += c;
 				i++;
 				if ( i < regex.length( ) )
 				{
@@ -364,18 +368,43 @@ public class BirtComp implements IScriptFunctionExecutor
 			}
 			else if ( c == '%' )
 			{
+				pattern = handlePreservedString( preserveFlag, pattern );
+				preserveFlag = false;
 				pattern += ".*";
 			}
 			else if ( c == '_' )
 			{
+				pattern = handlePreservedString( preserveFlag, pattern );
+				preserveFlag = false;
 				pattern += ".";
 			}
 			else
 			{
-				pattern += c;
+				if( preserveFlag )
+				{
+					pattern += c;
+				}
+				else
+				{
+					pattern = pattern + "\\Q" + c;
+					preserveFlag = true;
+				}
 			}
 		}
+		if( preserveFlag )
+		{
+			pattern += "\\E";
+		}
 		return pattern;		
+	}
+	
+	private static String handlePreservedString( boolean preserveFlag, String pattern )
+	{
+		if( preserveFlag )
+		{
+			pattern += "\\E";
+		}
+		return pattern;
 	}
 
 	private class Function_AnyOf implements IScriptFunctionExecutor
