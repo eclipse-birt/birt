@@ -132,24 +132,24 @@ public class DateFormatISO8601
 		s = s.trim( );
 		if ( s.indexOf( 'T' ) < 12 )
 		{
-			s = s.replaceFirst( "T", " " );
+			s = s.replaceFirst( "T", " " );//$NON-NLS-1$ //$NON-NLS-2$
 		}
 		
-		int zoneIndex = s.indexOf( "GMT" );
-		if( zoneIndex > 0 )
-		{
-			return s.substring( 0, zoneIndex ).trim( );
-		}
-		zoneIndex = s.indexOf( 'Z' );
+//		int zoneIndex = s.indexOf( "GMT" ); //$NON-NLS-1$
+//		if( zoneIndex > 0 )
+//		{
+//			return s.substring( 0, zoneIndex ).trim( );
+//		}
+		int zoneIndex = s.indexOf( 'Z' );
 		if ( zoneIndex == s.length( ) - 1 )
 		{
 			return s.substring( 0, zoneIndex ).trim( );
 		}
-		zoneIndex = getZoneIndex( s );
-		if ( zoneIndex > 0 )
-		{
-			return s.substring( 0, zoneIndex ).trim( );
-		}
+//		zoneIndex = getZoneIndex( s );
+//		if ( zoneIndex > 0 )
+//		{
+//			return s.substring( 0, zoneIndex ).trim( );
+//		}
 		
 		return s;
 	}
