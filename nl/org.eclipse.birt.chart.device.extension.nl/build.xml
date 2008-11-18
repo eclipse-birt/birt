@@ -36,7 +36,7 @@
  *
 -->
 
-<project name="org.eclipse.birt.chart.device.svg.nl" default="Jar" basedir=".">
+<project name="org.eclipse.birt.chart.device.extension.nl" default="Jar" basedir=".">
 	<description>NL Fragment for org.eclipse.birt.chart.device.extension</description>
 
 	<property file="META-INF/MANIFEST.MF" />
