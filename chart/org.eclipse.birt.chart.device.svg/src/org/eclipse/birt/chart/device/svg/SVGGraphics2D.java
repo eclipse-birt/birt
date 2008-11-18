@@ -1480,7 +1480,17 @@ public class SVGGraphics2D extends ChartGraphics2D
 		// for now just preserve space for text elements Bug 182159
 		elem.setAttribute( "xml:space", "preserve" ); //$NON-NLS-1$ //$NON-NLS-2$
 		elem.setAttribute( "stroke", "none" ); //$NON-NLS-1$ //$NON-NLS-2$
-		elem.setAttribute( "font-family", getFont( ).getFamily( ) ); //$NON-NLS-1$
+
+		// Here we still use Font.getName() as font-family for SVG instead of
+		// Font.getFaimly(), since if current code is running on linux and there
+		// isn't a valid font family to fit the font setting in chart model,
+		// the call of Font.getFamily() will get a default 'Dialog' font family,
+		// it will caused that the svg in client system can't correct display
+		// mulitple-characters text(Chinese, Jpanese and so on).
+		// We just need to set the original font family setting of chart model
+		// into svg document, if the font family is valid in client system
+		// and can support current text character, it will correct display.
+		elem.setAttribute( "font-family", getFont( ).getName( ) ); //$NON-NLS-1$
 		elem.setAttribute( "font-size", Integer.toString( getFont( ).getSize( ) ) ); //$NON-NLS-1$
 		String style = getRenderingStyle( RenderingHints.KEY_TEXT_ANTIALIASING );
 		if ( color != null )
