@@ -404,8 +404,8 @@
 	<target name="init">
 		<echo message="loading ${eclipse.build.configs}/../../build.properties ..."/>
 		<property file="${eclipse.build.configs}/../../build.properties"/>
-                <echo message="loading ${postingDirectory}/../dtp.output/1.6/monitor.properties ..."/>
-                <property file="${postingDirectory}/../dtp.output/1.6/monitor.properties"/>
+                <echo message="loading ${dtp.repository}/monitor.properties ..."/>
+                <property file="${dtp.repository}/monitor.properties"/>
                 <condition property="Compile.Error">
                    <equals arg1="${compileHasError}" arg2="true"/>
                 </condition>        
@@ -418,7 +418,7 @@
                 <property name="epp-dest" value="${baseLocation}/../PackageFiles/epp"/>
                 <property name="epp-linux-dest" value="${baseLocation}/../PackageFiles/epp-linux"/>
 
-		<property file="${postingDirectory}/../dtp.output/1.6/monitor.properties"/>
+		<property file="${dtp.repository}/monitor.properties"/>
                 <property name="file-version" value="${file-prefix}${timestamp}"/>
 
 		<copy tofile="${postingDirectory}/../platform/DTP/${file-version}.zip" file="${dtp.repository}/${buildId}/${file-version}.zip"/>
