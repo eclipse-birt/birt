@@ -21,7 +21,6 @@ public class LinkedObjectManager<T> implements Iterable<T>
 	private LinkedEntry<T> last;
 	private int modCount = 0;
 	
-	@Override
 	public Iterator<T> iterator( )
 	{
 		return new InternalIterator();
@@ -83,11 +82,11 @@ public class LinkedObjectManager<T> implements Iterable<T>
 
 	public void clear( )
 	{
-		LinkedEntry<T> entry = first;
 		first = null;
 		last = null;
 		modCount = 0;
 	}
+	
 	private class InternalIterator implements Iterator<T>
 	{
 		private LinkedEntry<T> next, current;
@@ -99,13 +98,11 @@ public class LinkedObjectManager<T> implements Iterable<T>
 			expectedModCount = modCount;
 		}
 		
-		@Override
 		public boolean hasNext( )
 		{
 			return next != null;
 		}
 
-		@Override
 		public T next( )
 		{
             if (modCount != expectedModCount)
@@ -119,7 +116,6 @@ public class LinkedObjectManager<T> implements Iterable<T>
 			return value;
 		}
 
-		@Override
 		public void remove( )
 		{
             if (current == null)
