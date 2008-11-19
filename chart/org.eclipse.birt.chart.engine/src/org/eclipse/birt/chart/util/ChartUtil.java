@@ -547,6 +547,33 @@ public class ChartUtil
 	}
 	
 	/**
+	 * Gets all supported output display names.
+	 * 
+	 * @return string array of output display names
+	 * @since 2.5
+	 */
+	public static String[] getSupportedOutputDisplayNames( )
+			throws ChartException
+	{
+		String[][] outputFormatArray = PluginSettings.instance( )
+				.getRegisteredOutputFormats( );
+		String[] formats = new String[outputFormatArray.length];
+		for ( int i = 0; i < formats.length; i++ )
+		{
+			if ( outputFormatArray[i][1] == null )
+			{
+				// If display name is null, use output format instead.
+				formats[i] = outputFormatArray[i][0];
+			}
+			else
+			{
+				formats[i] = outputFormatArray[i][1];
+			}
+		}
+		return formats;
+	}
+	
+	/**
 	 * Checks current output format can be supported
 	 * 
 	 * @param output

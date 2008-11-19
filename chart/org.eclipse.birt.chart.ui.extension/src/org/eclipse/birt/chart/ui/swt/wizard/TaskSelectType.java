@@ -178,6 +178,22 @@ public class TaskSelectType extends SimpleTask implements
 	private static final String LEADING_BLANKS = "  "; //$NON-NLS-1$
 
 	private static Hashtable<String, Series> htSeriesNames = null;
+	
+	private static String[] outputFormats, outputDisplayNames;
+	static
+	{
+		try
+		{
+			outputFormats = ChartUtil.getSupportedOutputFormats( );
+			outputDisplayNames = ChartUtil.getSupportedOutputDisplayNames( );
+		}
+		catch ( ChartException e )
+		{
+			WizardBase.displayException( e );
+			outputFormats = new String[0];
+			outputDisplayNames = new String[0];
+		}
+	}
 
 	protected List<TaskSelectTypeUIDescriptor> lstDescriptor = new LinkedList<TaskSelectTypeUIDescriptor>( );
 
@@ -451,12 +467,6 @@ public class TaskSelectType extends SimpleTask implements
 		addOptionalUIDescriptor( );
 
 		createUIDescriptors( cmpMisc );
-
-		// Update apply button
-		if ( container != null && container instanceof ChartWizard )
-		{
-			( (ChartWizard) container ).updateApplayButton( );
-		}
 	}
 
 	/**
@@ -597,25 +607,6 @@ public class TaskSelectType extends SimpleTask implements
 		}
 		cmpTypeButtons.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		cmpSubTypes.layout( true );
-	}
-
-	private String[] getOutputFormats( )
-	{
-		boolean bException = false;
-		try
-		{
-			return ChartUtil.getSupportedOutputFormats( );
-		}
-		catch ( ChartException e )
-		{
-			bException = true;
-			WizardBase.showException( e.getLocalizedMessage( ) );
-		}
-		if ( !bException )
-		{
-			WizardBase.removeException( );
-		}
-		return new String[0];
 	}
 
 	private void populateSeriesTypes( Collection<IChartType> allChartType,
@@ -1898,20 +1889,29 @@ public class TaskSelectType extends SimpleTask implements
 
 						public void handleEvent( Event event )
 						{
-							( (ChartWizardContext) getContext( ) ).setOutputFormat( cbOutput.getText( ) );
+							String outputFormat = outputFormats[cbOutput.getSelectionIndex( )];
+							( (ChartWizardContext) getContext( ) ).setOutputFormat( outputFormat );
+							
+							// Update apply button
+							if ( container != null && container instanceof ChartWizard )
+							{
+								( (ChartWizard) container ).updateApplyButton( );
+							}
 						}
 					} );
 				}
 
-				cbOutput.setItems( getOutputFormats( ) );
+				cbOutput.setItems( outputDisplayNames );
 
 				String sCurrentFormat = ( (ChartWizardContext) getContext( ) ).getOutputFormat( );
-				int index = cbOutput.indexOf( sCurrentFormat );
-				if ( index == -1 )
+				for ( int index = 0; index < outputFormats.length; index++ )
 				{
-					index = cbOutput.indexOf( ( (ChartWizardContext) getContext( ) ).getDefaultOutputFormat( ) );
-				}
-				cbOutput.select( index );
+					if ( outputFormats[index].equals( sCurrentFormat ) )
+					{
+						cbOutput.select( index );
+						break;
+					}
+				}				
 			}
 		} );
 	}

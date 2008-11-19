@@ -1,16 +1,21 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.birt.chart.engine">
+<schema targetNamespace="org.eclipse.birt.chart.engine" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
-      <appInfo>
+      <appinfo>
          <meta.schema plugin="org.eclipse.birt.chart.engine" id="devicerenderers" name="Contains definition of chart device renderers"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          The DeviceRenderer extension point allows custom implementations of device renderers to be plugged into the chart library to generate charts in new output formats.
       </documentation>
    </annotation>
 
    <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+      </annotation>
       <complexType>
          <sequence>
             <element ref="deviceRenderer"/>
@@ -46,21 +51,21 @@
          </documentation>
       </annotation>
       <complexType>
-         <attribute name="name" type="string">
+         <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
                   The name of the device renderer refers to a tag used to locate the device renderer implementing class. The naming convention uses a prefix of &apos;dv.&apos;. Examples of device renderer names are dv.SWT and dv.SWING
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="device" type="string">
+         <attribute name="device" type="string" use="required">
             <annotation>
                <documentation>
                   The device attribute corresponds to the fully qualified class name that represents the implementing device renderer class. An example of the fully qualified device renderer class name is &apos;org.eclipse.birt.chart.device.swt.SwtRendererImpl&apos;
                </documentation>
-               <appInfo>
+               <appinfo>
                   <meta.attribute kind="java"/>
-               </appInfo>
+               </appinfo>
             </annotation>
          </attribute>
          <attribute name="format" type="string">
@@ -77,22 +82,32 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="displayName" type="string">
+            <annotation>
+               <documentation>
+                  @Since 2.5. This is used to display name of device renderer in UI. If it&apos;s blank, display name could be &quot;format&quot; attribute value.
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="since"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          1.0.0
       </documentation>
    </annotation>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="examples"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          &lt;extension
          point=&quot;org.eclipse.birt.chart.engine.devicerenderers&quot;&gt;
@@ -130,27 +145,27 @@
    </annotation>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="apiInfo"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          Please refer to the javadocs for IDeviceRenderer in the &lt;i&gt;org.eclipse.birt.chart.device&lt;/i&gt; package.
       </documentation>
    </annotation>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="implementation"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          The &lt;i&gt;org.eclipse.birt.chart.device.extension&lt;/i&gt; plug-in provides device renderers for default supported output devices.
       </documentation>
    </annotation>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="copyright"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          Copyright (c) 2004-2005 Actuate Corporation.
 All rights reserved. This program and the accompanying materials are made available under the  terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html

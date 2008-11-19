@@ -54,7 +54,7 @@ public class ChartAdapter extends EContentAdapter
 		if ( needUpdateApply && wizardContainer instanceof ChartWizard )
 		{
 			// Update Apply button status when notification may be ignored.
-			( (ChartWizard) wizardContainer ).updateApplayButton( );
+			( (ChartWizard) wizardContainer ).updateApplyButton( );
 		}
 
 		if ( bIgnoreNotifications || notification.isTouch( ) )
@@ -83,7 +83,7 @@ public class ChartAdapter extends EContentAdapter
 		if ( !needUpdateApply && wizardContainer instanceof ChartWizard )
 		{
 			// Update Apply button status after notification
-			( (ChartWizard) wizardContainer ).updateApplayButton( );
+			( (ChartWizard) wizardContainer ).updateApplyButton( );
 		}
 		else
 		{

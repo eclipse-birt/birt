@@ -217,7 +217,7 @@ public class ChartWizard extends WizardBase
 	 * Updates Apply button with enabled status.
 	 * 
 	 */
-	public void updateApplayButton( )
+	public void updateApplyButton( )
 	{
 		List<IButtonHandler> buttonList = getCustomButtons( );
 		for ( int i = 0; i < buttonList.size( ); i++ )

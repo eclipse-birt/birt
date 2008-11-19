@@ -836,10 +836,10 @@ public final class PluginSettings
 	}
 
 	/**
-	 * Returns a list of registered device renderer output formats and
-	 * descriptions.
+	 * Returns a list of registered device renderer output formats and display
+	 * names.
 	 * 
-	 * @return
+	 * @return all registered output formats and display names
 	 * @throws ChartException
 	 */
 	public final String[][] getRegisteredOutputFormats( ) throws ChartException
@@ -849,9 +849,9 @@ public final class PluginSettings
 			String[][] formats = getPluginXmlStrings( "devicerenderers", //$NON-NLS-1$
 					"deviceRenderer", //$NON-NLS-1$
 					"format", //$NON-NLS-1$
-					"description" ); //$NON-NLS-1$
+					"displayName" ); //$NON-NLS-1$
 
-			ArrayList al = new ArrayList( );
+			ArrayList<String[]> al = new ArrayList<String[]>( );
 			for ( int i = 0; i < formats.length; i++ )
 			{
 				if ( formats[i][0] != null && formats[i][0].length( ) > 0 )
@@ -859,11 +859,11 @@ public final class PluginSettings
 					al.add( formats[i] );
 				}
 			}
-			return (String[][]) al.toArray( new String[0][0] );
+			return al.toArray( new String[0][0] );
 		}
 		else
 		{
-			ArrayList al = new ArrayList( );
+			ArrayList<String[]> al = new ArrayList<String[]>( );
 			for ( int i = 0; i < saDevices.length; i++ )
 			{
 				if ( saDevices[i][2] != null && saDevices[i][2].length( ) > 0 )
@@ -873,7 +873,7 @@ public final class PluginSettings
 					} );
 				}
 			}
-			return (String[][]) al.toArray( new String[0][0] );
+			return al.toArray( new String[0][0] );
 		}
 	}
 

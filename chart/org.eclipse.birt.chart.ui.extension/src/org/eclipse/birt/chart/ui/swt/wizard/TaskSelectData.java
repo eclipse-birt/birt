@@ -759,7 +759,7 @@ public class TaskSelectData extends SimpleTask implements
 	{
 		if ( container != null && container instanceof ChartWizard )
 		{
-			( (ChartWizard) container ).updateApplayButton( );
+			( (ChartWizard) container ).updateApplyButton( );
 		}
 	}
 
