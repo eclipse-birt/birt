@@ -71,10 +71,6 @@
 		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
 		    <arg line="-o -q org.eclipse.birt.doc_${org.eclipse.birt.doc}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/org.eclipse.birt.doc_${org.eclipse.birt.doc}" />
 		</exec>
-		<echo message="unzip org.eclipse.birt.chart.doc.isv..."/>
-		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
-		    <arg line="-o -q org.eclipse.birt.chart.doc.isv_${org.eclipse.birt.chart.doc.isv}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/org.eclipse.birt.chart.doc.isv_${org.eclipse.birt.chart.doc.isv}" />
-		</exec>
 		<echo message="unzip org.eclipse.birt.chart.cshelp..."/>
 		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
 		    <arg line="-o -q org.eclipse.birt.chart.cshelp_${org.eclipse.birt.chart.cshelp}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/org.eclipse.birt.chart.cshelp_${org.eclipse.birt.chart.cshelp}" />
@@ -83,16 +79,11 @@
 		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
 		    <arg line="-o -q org.eclipse.birt.cshelp_${org.eclipse.birt.cshelp}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/org.eclipse.birt.cshelp_${org.eclipse.birt.cshelp}" />
 		</exec>
-		<echo message="unzip org.eclipse.birt.doc.isv..."/>
-		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
-		    <arg line="-o -q org.eclipse.birt.doc.isv_${org.eclipse.birt.doc.isv}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/org.eclipse.birt.doc.isv_${org.eclipse.birt.doc.isv}" />
-		</exec>
+
 		<delete>
 			<fileset dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
 				<include name="org.eclipse.birt.doc_*.jar"/>
 				<include name="org.eclipse.birt.cshelp_*.jar"/>
-				<include name="org.eclipse.birt.doc.isv_*.jar"/>
-				<include name="org.eclipse.birt.chart.doc.isv_*.jar"/>
 				<include name="org.eclipse.birt.chart.cshelp_*.jar"/>
 				<include name="org.eclipse.birt.resources_*.jar"/>
 				<include name="org.eclipse.birt.report.engine.fonts_*.jar"/>
