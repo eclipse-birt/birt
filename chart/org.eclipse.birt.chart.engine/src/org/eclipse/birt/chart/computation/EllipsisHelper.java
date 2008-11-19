@@ -29,6 +29,7 @@ public class EllipsisHelper
 
 	public static final String ELLIPSIS_STRING = "..."; //$NON-NLS-1$
 	private int iMinCharToView = 0;
+	private int iVisChar = 0;
 	private String sText;
 	private final ILabelVisibilityTester tester;
 
@@ -43,17 +44,47 @@ public class EllipsisHelper
 		this.iMinCharToView = iMinCharToView;
 	}
 
+	public static String ellipsisString( String str, int iVisChar )
+	{
+		if ( iVisChar > 0 )
+		{
+			return str.substring( 0, iVisChar ) + ELLIPSIS_STRING;
+		}
+		else
+		{
+			return str;
+		}
+	}
+
+	/**
+	 * Returns the visible char count before the ellipsis, 0 if no ellipsis is
+	 * used. e.g. if the text is "abcd..." then 4 will be returned. if the text
+	 * is "abcdefg" then 0 will be returned.
+	 * 
+	 * @return
+	 */
+	public int getVisibleCharCount( )
+	{
+		return iVisChar;
+	}
+
 	private boolean testNthChar( int iChar, Object oPara )
 			throws ChartException
 	{
 		String newText = sText.substring( 0, iChar ) + ELLIPSIS_STRING;
-		return tester.testLabelVisible( newText, oPara );
+		boolean bResult = tester.testLabelVisible( newText, oPara );
+		if ( bResult )
+		{
+			iVisChar = iChar;
+		}
+		return bResult;
 	}
 
 	public boolean checkLabelEllipsis( String sText_, Object oPara )
 			throws ChartException
 	{
 		sText = sText_;
+		this.iVisChar = 0;
 		boolean bCanViewFullText = tester.testLabelVisible( sText, oPara );
 
 		if ( bCanViewFullText )
@@ -118,6 +149,7 @@ public class EllipsisHelper
 			}
 			else
 			{
+				iVisChar = iChar;
 				return true;
 			}
 		}

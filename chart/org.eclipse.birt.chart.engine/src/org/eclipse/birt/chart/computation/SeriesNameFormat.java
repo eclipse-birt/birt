@@ -29,7 +29,7 @@ import com.ibm.icu.util.ULocale;
  * Y-Grouping.
  */
 
-public class SeriesNameFormat
+public abstract class SeriesNameFormat
 {
 	public static SeriesNameFormat getSeriesNameFormat( SeriesDefinition sd,
 			ULocale loc )
@@ -45,7 +45,7 @@ public class SeriesNameFormat
 			}
 		}
 		
-		return new SeriesNameFormat( );
+		return null;
 	}
 
 	public String format( Object obj )

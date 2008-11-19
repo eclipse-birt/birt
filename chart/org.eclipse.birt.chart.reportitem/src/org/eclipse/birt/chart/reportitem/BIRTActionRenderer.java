@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
+import org.eclipse.birt.chart.computation.LegendItemHints;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.event.StructureType;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
@@ -352,6 +353,14 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 				else
 				{
 					tv.setText( null );
+				}
+			}
+			else if ( StructureType.LEGEND_ENTRY.equals( source.getType( ) ) )
+			{
+				LegendItemHints lih = (LegendItemHints) source.getSource( );
+				if ( tv.getText( ) == null || tv.getText( ).equals( "" ) ) //$NON-NLS-1$
+				{
+					tv.setText( lih.getItemText( ) );
 				}
 			}
 		}

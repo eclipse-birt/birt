@@ -33,6 +33,7 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.layout.Plot;
+import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.CDateTime;
 
 import com.ibm.icu.util.Calendar;
@@ -859,6 +860,29 @@ public class Methods implements IConstants
 			throws IllegalArgumentException
 	{
 		return computeBox( xs, iLabelLocation, la, dX, dY, 0 );
+	}
+
+	/**
+	 * Compute the size of a label.
+	 * 
+	 * @param xs
+	 * @param la
+	 * @return
+	 * @throws ChartException
+	 */
+	public static final BoundingBox computeLabelSize( IDisplayServer xs,
+			Label la ) throws ChartException
+	{
+		try
+		{
+			return Methods.computeBox( xs, IConstants.ABOVE, la, 0, 0 );
+		}
+		catch ( IllegalArgumentException uiex )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.RENDERING,
+					uiex );
+		}
 	}
 
 	/**

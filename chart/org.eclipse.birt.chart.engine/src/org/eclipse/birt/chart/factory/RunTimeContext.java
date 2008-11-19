@@ -16,11 +16,13 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.eclipse.birt.chart.computation.LegendItemRenderingHints;
 import org.eclipse.birt.chart.computation.LegendLayoutHints;
 import org.eclipse.birt.chart.computation.withaxes.SharedScaleContext;
 import org.eclipse.birt.chart.device.IStructureDefinitionListener;
 import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.StructureChangeEvent;
+import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.chart.script.IChartScriptContext;
 import org.eclipse.birt.chart.script.IScriptClassLoader;
@@ -86,7 +88,7 @@ public final class RunTimeContext implements Serializable
 	/**
 	 * A map holds all series renderers for current context.
 	 */
-	private transient Map seriesRenderers = null;
+	private transient Map<Series, LegendItemRenderingHints> seriesRenderers = null;
 
 	/**
 	 * A map to store user defined state object.
@@ -286,7 +288,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @param msr
 	 */
-	public void setSeriesRenderers( Map msr )
+	public void setSeriesRenderers( Map<Series, LegendItemRenderingHints> msr )
 	{
 		this.seriesRenderers = msr;
 	}
@@ -296,7 +298,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @return
 	 */
-	public Map getSeriesRenderers( )
+	public Map<Series, LegendItemRenderingHints> getSeriesRenderers( )
 	{
 		return seriesRenderers;
 	}

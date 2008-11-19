@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.render;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,6 +21,7 @@ import java.util.Map;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
+import org.eclipse.birt.chart.computation.EllipsisHelper;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.LegendEntryRenderingHints;
 import org.eclipse.birt.chart.computation.LegendItemHints;
@@ -640,22 +642,24 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			LegendItemHints lih = liha[k];
 			double itemWidth = getItemWidth( columnCache, bo, lih, bVertical );
 			
-			if ( lih.getType( ) == IConstants.LEGEND_GROUP_NAME )
+			if ( lih.getType( ) == LegendItemHints.Type.LG_GROUPNAME )
 			{
-				la.getCaption( ).setValue( lih.getText( ) );
+				la.getCaption( )
+						.setValue( EllipsisHelper.ellipsisString( lih.getItemText( ),
+								lih.getValidItemLen( ) ) );
 				renderLegendGroupName( ipr,
 						lg,
 						la,
 						dBaseX + lih.getLeft( ),
 						dBaseY + lih.getTop( ),
 						itemWidth,
-						lih.getHeight( ),
+						lih.getItemHeight( ),
 						dHorizontalSpacing );
 			}
-			else if ( ( lih.getType( ) == IConstants.LEGEND_ENTRY )
-					|| ( lih.getType( ) == IConstants.LEGEND_MINSLICE_ENTRY ) )
+			else if ( ( lih.getType( ) == LegendItemHints.Type.LG_ENTRY )
+					|| ( lih.getType( ) == LegendItemHints.Type.LG_MINSLICE ) )
 			{
-				la.getCaption( ).setValue( lih.getText( ) );
+				la.getCaption( ).setValue( lih.getItemText( ) );
 				Series se = lih.getSeries( );
 				LegendItemRenderingHints lirh = (LegendItemRenderingHints) htRenderers.get( se );
 				EList<?> elPaletteEntries = lih.getSeriesDefinition( )
@@ -667,14 +671,16 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				if ( !bPaletteByCategory && lg.isShowValue( ) )
 				{
 					valueLa = LabelImpl.copyInstance( se.getLabel( ) );
-					valueLa.getCaption( ).setValue( lih.getExtraText( ) );
+					valueLa.getCaption( )
+							.setValue( EllipsisHelper.ellipsisString( lih.getValueText( ),
+									lih.getValidValueLen( ) ) );
 					// Bugzilla #185885, make sure the label
 					// will be drawn
 					valueLa.setVisible( true );
 				}
 
 				// CYCLE THROUGH THE PALETTE
-				Fill fPaletteEntry = (Fill) elPaletteEntries.get( lih.getCategoryIndex( )
+				Fill fPaletteEntry = (Fill) elPaletteEntries.get( lih.getIndex( )
 						% iPaletteCount );
 
 				if ( !bVertical )
@@ -688,22 +694,18 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						lg,
 						la,
 						valueLa,
+						lih,
 						dBaseX + lih.getLeft( ),
 						dBaseY + lih.getTop( ) + insCA.getTop( ),
-						lih.getWidth( ),
 						dItemHeight,
-						lih.getHeight( ),
-						lih.getExtraHeight( ),
 						itemWidth,
 						insCA.getLeft( ),
 						dHorizontalSpacing,
-						se,
 						fPaletteEntry,
 						lirh,
-						lih.getCategoryIndex( ),
 						dScale );
 			}
-			else if ( lih.getType( ) == IConstants.LEGEND_SEPERATOR )
+			else if ( lih.getType( ) == LegendItemHints.Type.LG_SEPERATOR )
 			{
 				double sepratorLength;
 				Orientation sepratorOrientation;
@@ -729,7 +731,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					}
 					else
 					{
-						sepratorLength = lih.getHeight( );
+						sepratorLength = lih.getItemHeight( );
 						
 					}
 				}
@@ -1136,8 +1138,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		for ( int i = 0; i < liha.length; i++ )
 		{
 			double dWidth = liha[i].getWidth( );
-			if ( liha[i].getType( ) == IConstants.LEGEND_ENTRY
-					|| liha[i].getType( ) == IConstants.LEGEND_MINSLICE_ENTRY )
+			if ( liha[i].getType( ) == LegendItemHints.Type.LG_ENTRY
+					|| liha[i].getType( ) == LegendItemHints.Type.LG_MINSLICE )
 			{
 				dWidth = getFullLegendItemWidth( dWidth, dItemHeight, insCA );
 			}
@@ -1194,12 +1196,16 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @throws ChartException
 	 */
 	protected final void renderLegendItem( IPrimitiveRenderer ipr, Legend lg,
-			Label la, Label valueLa, double dX, double dY, double dW,
-			double dItemHeight, double dFullHeight, double dExtraHeight,
-			double dColumnWidth, double dLeftInset, double dHorizontalSpacing,
-			Series se, Fill fPaletteEntry, LegendItemRenderingHints lirh,
-			int dataIndex, double dScale ) throws ChartException
+			Label la, Label valueLa, LegendItemHints lih, double dX, double dY,
+			double dItemHeight, double dColumnWidth, double dLeftInset,
+			double dHorizontalSpacing, Fill fPaletteEntry,
+			LegendItemRenderingHints lirh, double dScale )
+			throws ChartException
 	{
+		double dFullHeight = lih.getItemHeight( );
+		double dExtraHeight = lih.getValueHeight( );
+		Series se = lih.getSeries( );
+		int dataIndex = lih.getIndex( );
 		// Copy correct font setting into current legend item label.
 		if ( la != null
 				&& la.getCaption( ) != null
@@ -1215,7 +1221,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				dataIndex,
 				fPaletteEntry );
 		ScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
-		// TODO replace with LegendEntryRenderingHints
 		ScriptHandler.callFunction( sh,
 				ScriptHandler.BEFORE_DRAW_LEGEND_ENTRY,
 				la,
@@ -1245,6 +1250,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				getRunTimeContext( ).getScriptContext( ) );
 		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_LEGEND_ITEM,
 				lerh );
+
+		// TODO: label text may be changed in script,
+		// in such the ellipsis may need to be recalculated
+		la.getCaption( )
+				.setValue( EllipsisHelper.ellipsisString( lih.getItemText( ),
+						lih.getValidItemLen( ) ) );
 
 		bo.setLeft( bo.getLeft( ) * dScale );
 		bo.setTop( bo.getTop( ) * dScale );
@@ -1333,6 +1344,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			//bidi_acgc added end
 			ipr.drawText( tre );
 		}
+
+		// restore the label caption changed due to ellipsis
+		la.getCaption( ).setValue( lih.getItemText( ) );
 
 		if ( isInteractivityEnabled( ) )
 		{
@@ -1432,14 +1446,14 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				{
 					tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
 					processTrigger( tg,
-							WrappedStructureSource.createLegendEntry( lg, lerh ) );
+							WrappedStructureSource.createLegendEntry( lg, lih ) );
 					iev.addTrigger( tg );
 				}
 
 				if ( buildinTg != null )
 				{
 					processTrigger( buildinTg,
-							WrappedStructureSource.createLegendEntry( lg, lerh ) );
+							WrappedStructureSource.createLegendEntry( lg, lih ) );
 					iev.addTrigger( buildinTg );
 				}
 
@@ -2889,7 +2903,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @return return null if no minslice applied or minslice feature is not
 	 *         supported.
 	 */
-	public int[] getFilteredMinSliceEntry( DataSetIterator dsi )
+	public Collection<Integer> getFilteredMinSliceEntry( DataSetIterator dsi )
 	{
 		// no filter by default.
 		return null;
