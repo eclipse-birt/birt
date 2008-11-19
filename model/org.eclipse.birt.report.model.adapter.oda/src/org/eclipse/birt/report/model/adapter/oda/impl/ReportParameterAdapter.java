@@ -979,15 +979,12 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		DataSetHandle setHandle = paramHandle.getDataSet( );
 		String valueExpr = paramHandle.getValueExpr( );
 		String labelExpr = paramHandle.getLabelExpr( );
-		boolean isEnabled = DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
-				.equalsIgnoreCase( paramHandle.getValueType( ) );
 
-		DynamicValuesQuery valueQuery = designFactory
-				.createDynamicValuesQuery( );
-
-		if ( setHandle instanceof OdaDataSetHandle
-				&& ( valueExpr != null || labelExpr != null ) )
+		if ( setHandle instanceof OdaDataSetHandle && valueExpr != null )
 		{
+			DynamicValuesQuery valueQuery = designFactory
+					.createDynamicValuesQuery( );
+
 			if ( dataSetDesign != null )
 			{
 				DataSetDesign targetDataSetDesign = (DataSetDesign) EcoreUtil
@@ -1005,10 +1002,13 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 			}
 			valueQuery.setDisplayNameColumn( labelExpr );
 			valueQuery.setValueColumn( valueExpr );
-		}
 
-		valueQuery.setEnabled( isEnabled );
-		inputAttrs.setDynamicValueChoices( valueQuery );
+			boolean isEnabled = DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
+					.equalsIgnoreCase( paramHandle.getValueType( ) );
+
+			valueQuery.setEnabled( isEnabled );
+			inputAttrs.setDynamicValueChoices( valueQuery );
+		}
 
 		InputElementUIHints uiHints = designFactory.createInputElementUIHints( );
 		uiHints.setPromptStyle( newPromptStyle( paramHandle.getControlType( ),
