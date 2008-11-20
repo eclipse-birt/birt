@@ -57,14 +57,14 @@ public class BackgroundImageLayout
 		this.imageSize = imageSize;
 	}
 
-	public List getImagePositions( int repeat )
+	public List<Position> getImagePositions( int repeat )
 	{
 		if ( repeat < 0 || repeat > 3 )
 		{
 			throw new IllegalArgumentException(
 					" repeat should in range 0-3 : " + repeat );
 		}
-		Set positions = new HashSet( );
+		Set<Position> positions = new HashSet<Position>( );
 		calculateRepeatX( imagePosition, repeat, positions );
 		if ( isRepeatY( repeat ) )
 		{
@@ -84,12 +84,13 @@ public class BackgroundImageLayout
 		}
 
 		// Conver set to list and sort the list.
-		List list = Arrays.asList( positions.toArray( ) );
-		Collections.sort( list );
+		List<Position> list = Arrays.asList(positions
+				.toArray(new Position[positions.size()]));
+		Collections.sort(list);
 		return list;
 	}
 
-	public List getImagePositions( String repeat )
+	public List<Position> getImagePositions( String repeat )
 	{
 		int repeatMode = REPEAT_BOTH;
 		if ( !( "repeat".equals( repeat ) ) )
@@ -111,7 +112,7 @@ public class BackgroundImageLayout
 	}
 
 	private void calculateRepeatX( Position initPosition, int repeat,
-			Set positions )
+			Set<Position> positions )
 	{
 		positions.add( initPosition );
 		if ( isRepeatX( repeat ) )

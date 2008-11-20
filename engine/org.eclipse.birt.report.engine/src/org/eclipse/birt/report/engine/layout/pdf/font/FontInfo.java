@@ -156,4 +156,11 @@ public class FontInfo
 				+ fontSize / 4f;
 	}
 
+	public String getFontName( )
+	{
+		assert bf != null;
+		String[][] familyFontNames = bf.getFamilyFontName();
+		String[] family = familyFontNames[familyFontNames.length - 1];
+		return family[family.length - 1];
+	}
 }

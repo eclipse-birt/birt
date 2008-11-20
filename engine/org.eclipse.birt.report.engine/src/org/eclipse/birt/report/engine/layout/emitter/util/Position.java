@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.engine.layout.emitter.util;
 
 
-public class Position implements Comparable
+public class Position implements Comparable<Position>
 {
 	float x, y;
 	public Position( float x, float y )
@@ -70,13 +70,12 @@ public class Position implements Comparable
 		return "( " + x + ", " + y + " )";
 	}
 
-	public int compareTo( Object o )
+	public int compareTo( Position other )
 	{
-		if ( !(o instanceof Position ))
+		if ( other == null )
 		{
 			return 0;
 		}
-		Position other = (Position)o;
 		int deltaX = getCompareResult( x - other.x ) ;
 		if (deltaX != 0 )
 		{
