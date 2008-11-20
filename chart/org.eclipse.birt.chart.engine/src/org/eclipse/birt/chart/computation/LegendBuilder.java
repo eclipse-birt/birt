@@ -875,13 +875,6 @@ public final class LegendBuilder implements IConstants
 			dsiBase = createDataSetIterator( seBase, lgData.cm );
 
 			fs = lgData.cm.getLegend( ).getFormatSpecifier( );
-			// we use the base series' format specifier for category legend
-			// before.
-			// for compatibility after the fix of #237578
-			if ( fs == null && sdBase != null )
-			{
-				fs = sdBase.getFormatSpecifier( );
-			}
 
 			boolean bDataReverse = bNeedInvert;
 			if ( lgData.cm instanceof ChartWithAxes )

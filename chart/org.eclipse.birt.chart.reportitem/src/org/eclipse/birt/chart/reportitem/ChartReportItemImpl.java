@@ -38,6 +38,7 @@ import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.DataPointComponent;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
+import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -280,6 +281,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 			try
 			{
 				cm = SerializerImpl.instance( ).fromXml( data, true );
+				doCompatibility( cm );
 
 				// This fix is only for SCR 95978, for the version 3.2.10 of
 				// report design file and previous version.
@@ -288,12 +290,29 @@ public final class ChartReportItemImpl extends ReportItem implements
 			}
 			catch ( IOException e )
 			{
-				e.printStackTrace( );
+				logger.log( e );
 				cm = null;
 			}
 		}
 	}
-
+	
+	private void doCompatibility( Chart cm )
+	{
+		// we use the base series' format specifier for category legend
+		// before.
+		// for compatibility after the fix of #237578
+		if ( cm.getLegend( ).getItemType( ) == LegendItemType.CATEGORIES_LITERAL )
+		{
+			SeriesDefinition sdBase = ChartUtil.getBaseSeriesDefinitions( cm )
+					.get( 0 );
+			if ( cm.getLegend( ).getFormatSpecifier( ) == null
+					&& sdBase.getFormatSpecifier( ) != null )
+			{
+				cm.getLegend( )
+						.setFormatSpecifier( (FormatSpecifier) EcoreUtil.copy( sdBase.getFormatSpecifier( ) ) );
+			}
+		}
+	}
 	/**
 	 * Adjust number format specifier for old version number.
 	 * 
