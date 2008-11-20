@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.model.layout.util;
 
 import java.util.List;
 
+import org.eclipse.birt.chart.model.layout.*;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
@@ -159,11 +160,11 @@ public class LayoutSwitch
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Block</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Block</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Block</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Block</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -205,11 +206,11 @@ public class LayoutSwitch
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Legend</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Legend</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Legend</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Legend</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -219,11 +220,11 @@ public class LayoutSwitch
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Plot</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Plot</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Plot</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Plot</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -249,12 +250,12 @@ public class LayoutSwitch
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch, but this is the last
 	 * case anyway. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */

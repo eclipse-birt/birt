@@ -1637,6 +1637,21 @@ public class ChartUtil
 		}
 
 	};
+	
+	public static boolean containsYOptionalGrouping(Chart chart)
+	{
+		boolean YOG = false;
+		SeriesDefinition os = ChartUtil.getAllOrthogonalSeriesDefinitions( chart )
+				.get( 0 );
+		if ( os != null
+				&& os.getQuery( ) != null
+				&& os.getQuery( ).getDefinition( ) != null
+				&& os.getQuery( ).getDefinition( ).length( ) != 0 )
+		{
+			YOG = true;
+		}
+		return YOG;
+	}
 
 	/**
 	 * XOR for boolean

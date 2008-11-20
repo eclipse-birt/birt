@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.layout.util;
 
+import org.eclipse.birt.chart.model.layout.*;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
@@ -74,7 +75,7 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl
 	}
 
 	/**
-	 * The switch the delegates to the <code>createXXX</code> methods.
+	 * The switch that delegates to the <code>createXXX</code> methods.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */

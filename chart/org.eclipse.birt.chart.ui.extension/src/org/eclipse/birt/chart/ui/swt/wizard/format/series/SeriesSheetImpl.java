@@ -740,6 +740,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			{
 				getChart( ).getLegend( )
 						.setItemType( LegendItemType.getByName( LiteralHelper.legendItemTypeSet.getNameByDisplayName( cmbColorBy.getText( ) ) ) );
+				getChart( ).getLegend( ).setFormatSpecifier( null );
 				if ( ( getChart( ).getLegend( ).getItemType( ).getValue( ) == LegendItemType.CATEGORIES )
 						&& isGroupedSeries( ) )
 				{

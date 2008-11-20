@@ -766,6 +766,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/showTotal"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/wrappingSize"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/maxPercent"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Legend/formatSpecifier"/>
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.layout.ecore#//Plot">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Plot/horizontalSpacing"/>

@@ -189,8 +189,10 @@
 								The maximal percent of space which the
 								legend can take from the chart block.
 							</xsd:documentation>
-						</xsd:annotation>
+						</xsd:annotation>
+
 					</xsd:element>
+					<xsd:element name="FormatSpecifier" type="attribute:FormatSpecifier" minOccurs="0" maxOccurs="1"></xsd:element>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>

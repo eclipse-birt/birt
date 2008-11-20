@@ -16,7 +16,6 @@ import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
@@ -30,6 +29,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -96,11 +96,12 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 			grpTxtArea.setText( Messages.getString( "MoreOptionsChartLegendSheet.Label.TextArea" ) ); //$NON-NLS-1$
 		}
 		
-		boolean isFormatEnabled = getChart( ).getLegend( ).getItemType( ) != LegendItemType.SERIES_LITERAL;
+		boolean isByCategory = getChart( ).getLegend( ).getItemType( ) != LegendItemType.SERIES_LITERAL;
+		boolean containsYOG = ChartUtil.containsYOptionalGrouping( getChart( ) );
 		Label lblFormat = new Label( grpTxtArea, SWT.NONE );
 		{
 			lblFormat.setText( Messages.getString( "DialLabelSheet.Label.Format" ) ); //$NON-NLS-1$
-			lblFormat.setEnabled( isFormatEnabled );
+			lblFormat.setEnabled( isByCategory || containsYOG );
 		}
 
 		Composite cmpFormat = new Composite( grpTxtArea, SWT.BORDER );
@@ -111,11 +112,10 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 			layout.horizontalSpacing = 0;
 			cmpFormat.setLayout( layout );
 			cmpFormat.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			if ( isFormatEnabled )
-			{
-				cmpFormat.setBackground( cmpFormat.getDisplay( )
+			cmpFormat.setBackground( cmpFormat.getDisplay( )
 						.getSystemColor( SWT.COLOR_WHITE ) );
-			}
+			cmpFormat.setEnabled( isByCategory || containsYOG );
+
 		}
 
 		fsp = new FormatSpecifierPreview( cmpFormat, SWT.NONE, false );
@@ -124,8 +124,8 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 			gd.grabExcessHorizontalSpace = true;
 			gd.horizontalAlignment = SWT.CENTER;
 			fsp.setLayoutData( gd );
-			fsp.updatePreview( getBaseSeriesDefinition( ).getFormatSpecifier( ) );
-			fsp.setEnabled( isFormatEnabled );
+			fsp.updatePreview( getChart( ).getLegend( ).getFormatSpecifier( ) );
+			fsp.setEnabled( isByCategory || containsYOG );
 		}
 
 		btnFormatSpecifier = new Button( cmpFormat, SWT.PUSH );
@@ -139,7 +139,7 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 			btnFormatSpecifier.getImage( )
 					.setBackground( btnFormatSpecifier.getBackground( ) );
 			btnFormatSpecifier.addListener( SWT.Selection, this );
-			btnFormatSpecifier.setEnabled( isFormatEnabled );
+			btnFormatSpecifier.setEnabled( isByCategory || containsYOG );
 		}
 
 		new Label( grpTxtArea, SWT.NONE ).setText( Messages.getString( "LegendTextSheet.Label.Font" ) ); //$NON-NLS-1$
@@ -237,12 +237,6 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 		return cmpContent;
 	}
 	
-	private SeriesDefinition getBaseSeriesDefinition( )
-	{
-		return (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( getChart( ) )
-				.get( 0 );
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -322,11 +316,12 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 		else if(event.widget.equals( btnFormatSpecifier ))
 		{
 			FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
-					getBaseSeriesDefinition( ).getFormatSpecifier( ),
+					getChart( ).getLegend( ).getFormatSpecifier( ),
 					Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ) ); //$NON-NLS-1$
 			if ( editor.open( ) == Window.OK )
 			{
-				getBaseSeriesDefinition( ).setFormatSpecifier( editor.getFormatSpecifier( ) );
+				getChart( ).getLegend( )
+						.setFormatSpecifier( editor.getFormatSpecifier( ) );
 				fsp.updatePreview( editor.getFormatSpecifier( ) );
 			}			
 		}

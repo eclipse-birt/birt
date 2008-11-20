@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -50,9 +51,11 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
+import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
 
 import com.ibm.icu.text.DecimalFormat;
+import com.ibm.icu.util.Calendar;
 
 /**
  * A helper class for Legend computation.
@@ -794,6 +797,15 @@ public final class LegendBuilder implements IConstants
 				df = dfCache.get( sPattern );
 			}
 
+			if ( oText instanceof Calendar )
+			{
+				oText = new CDateTime( (Calendar) oText );
+			}
+			else if ( oText instanceof Date )
+			{
+				oText = new CDateTime( (Date) oText );
+			}
+			
 			// apply user defined format if exists
 			try
 			{
@@ -858,11 +870,15 @@ public final class LegendBuilder implements IConstants
 			sdBase = ChartUtil.getBaseSeriesDefinitions( lgData.cm ).get( 0 );
 
 			// OK TO ASSUME THAT 1 BASE RUNTIME SERIES EXISTS
-			seBase = (Series) sdBase.getRunTimeSeries( ).get( 0 );
+			seBase = sdBase.getRunTimeSeries( ).get( 0 );
 
 			dsiBase = createDataSetIterator( seBase, lgData.cm );
 
-			if ( sdBase != null )
+			fs = lgData.cm.getLegend( ).getFormatSpecifier( );
+			// we use the base series' format specifier for category legend
+			// before.
+			// for compatibility after the fix of #237578
+			if ( fs == null && sdBase != null )
 			{
 				fs = sdBase.getFormatSpecifier( );
 			}
@@ -958,6 +974,10 @@ public final class LegendBuilder implements IConstants
 			this.itSed = new InvertibleIterator<SeriesDefinition>( alSed,
 					bNeedInvert );
 			this.status = Status.WAIT_SD;
+			if ( ChartUtil.containsYOptionalGrouping( lgData.cm ) )
+			{
+				fs = lgData.cm.getLegend( ).getFormatSpecifier( );
+			}
 		}
 
 		public LegendItemHints nextContent( ) throws ChartException
@@ -977,12 +997,14 @@ public final class LegendBuilder implements IConstants
 			if ( itSed.hasNext( ) )
 			{
 				sed = itSed.next( );
-				snFormat = SeriesNameFormat.getSeriesNameFormat( sed,
-						lgData.rtc.getULocale( ) );
+				if ( fs == null )
+				{
+					snFormat = SeriesNameFormat.getSeriesNameFormat( sed,
+							lgData.rtc.getULocale( ) );
+				}
 				alSeries = sed.getRunTimeSeries( );
 				itSeries = new InvertibleIterator<Series>( alSeries,
 						bNeedInvert );
-				fs = sed.getFormatSpecifier( );
 				status = Status.WAIT_SERIES;
 
 				if ( needToShowGroupName( sed ) )
