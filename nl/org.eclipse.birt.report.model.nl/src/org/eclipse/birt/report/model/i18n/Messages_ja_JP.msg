@@ -242,13 +242,13 @@ Choices.lineType.double=二重
 Choices.pageBreakBefore.auto=自動
 Choices.pageBreakBefore.always=全ページ
 Choices.pageBreakBefore.avoid=なし
-Choices.pageBreakBefore.alwaysExcludingFirst=1 ページ目を常に除外する
+Choices.pageBreakBefore.alwaysExcludingFirst=全ページ（1ページ目除く）
 
 #26.pageBreakAfter
 Choices.pageBreakAfter.auto=自動
 Choices.pageBreakAfter.always=全ページ
 Choices.pageBreakAfter.avoid=なし
-Choices.pageBreakAfter.alwaysExcludingLast=最後のページを常に除外する
+Choices.pageBreakAfter.alwaysExcludingLast=全ページ（最後のページを除く）
 
 #27.actionLinkType
 Choices.actionLinkType.none=アクションリンクの種類なし
