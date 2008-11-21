@@ -60,7 +60,7 @@
 		<mapping name="fantasy" font-family="Times-Roman" />
 	</font-aliases>
 	<search-sequences>
-		<sequence locale="cn">
+		<sequence locale="zh">
 			<catalog name="Western" />
 			<catalog name="Chinese" />
 			<catalog name="Japanese" />
@@ -72,7 +72,7 @@
 			<catalog name="Chinese" />
 			<catalog name="Korean" />
 		</sequence>
-		<sequence name="ko">
+		<sequence locale="ko">
 			<catalog name="Western" />
 			<catalog name="Korean" />
 			<catalog name="Chinese" />
