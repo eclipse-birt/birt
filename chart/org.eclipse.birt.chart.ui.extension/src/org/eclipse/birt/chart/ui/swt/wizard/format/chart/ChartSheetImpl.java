@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.wizard.format.chart;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
@@ -49,6 +50,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Spinner;
 
 /**
  * Chart Area subtask
@@ -79,6 +81,10 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 	private AxisRotationChooser yChooser;
 
 	private AxisRotationChooser zChooser;
+
+	private Spinner spnCorverage;
+
+	private Button btnCoverageAuto;
 
 	public void createControl( Composite parent )
 	{
@@ -212,6 +218,24 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 				btnResetValue.setSelection( ChartPreviewPainter.isProcessorEnabled( ) );
 				btnResetValue.addSelectionListener( this );
 			}
+		}
+		else if ( getChart( ) instanceof ChartWithoutAxes )
+		{
+			ChartWithoutAxes cwa = (ChartWithoutAxes) getChart( );
+
+			new Label( cmpBasic, SWT.NONE ).setText( Messages.getString("ChartSheetImpl.Label.Coverage") ); //$NON-NLS-1$
+			spnCorverage = new Spinner( cmpBasic, SWT.BORDER );
+			int spnValue = (int) ( cwa.getCoverage( ) * 100 );
+			spnCorverage.setValues( spnValue, 1, 100, 0, 1, 10 );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			spnCorverage.setLayoutData( gd );
+			spnCorverage.setEnabled( cwa.isSetCoverage( ) );
+			spnCorverage.addSelectionListener( this );
+
+			btnCoverageAuto = new Button( cmpBasic, SWT.CHECK );
+			btnCoverageAuto.setText( Messages.getString("ChartSheetImpl.Buttom.Auto") ); //$NON-NLS-1$
+			btnCoverageAuto.setSelection( !cwa.isSetCoverage( ) );
+			btnCoverageAuto.addSelectionListener( this );
 		}
 
 		btnEnable = new Button( cmpBasic, SWT.CHECK );
@@ -417,6 +441,30 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			yChooser.txtRotation.setValue( 45 );
 			setAxisAngle( AngleType.Z, 0 );
 			zChooser.txtRotation.setValue( 0 );
+		}
+		else if ( e.widget == btnCoverageAuto )
+		{
+			if ( getChart( ) instanceof ChartWithoutAxes )
+			{
+				ChartWithoutAxes cwa = (ChartWithoutAxes) getChart( );
+				spnCorverage.setEnabled( !btnCoverageAuto.getSelection( ) );
+				if ( btnCoverageAuto.getSelection( ) )
+				{
+					cwa.unsetCoverage( );
+				}
+				else
+				{
+					cwa.setCoverage( spnCorverage.getSelection( ) / 100d );
+				}
+			}
+		}
+		else if ( e.widget == spnCorverage )
+		{
+			if ( getChart( ) instanceof ChartWithoutAxes )
+			{
+				ChartWithoutAxes cwa = (ChartWithoutAxes) getChart( );
+				cwa.setCoverage( spnCorverage.getSelection( ) / 100d );
+			}
 		}
 	}
 
