@@ -1040,21 +1040,26 @@ public class TaskSelectType extends SimpleTask implements
 			ChartAdapter.beginIgnoreNotifications( );
 			for ( int i = 0; i < iOverlaySeriesCount; i++ )
 			{
-				Series newSeries = (Series) EcoreUtil.copy( htSeriesNames.get( cbSeriesType.getText( ) ) );
-				newSeries.translateFrom( ( (SeriesDefinition) ( (Axis) XAxis.getAssociatedAxes( )
-						.get( 1 ) ).getSeriesDefinitions( ).get( i ) ).getDesignTimeSeries( ),
-						iSeriesDefinitionIndex,
-						chartModel );
-				// ADD THE MODEL ADAPTERS TO THE NEW SERIES
-				newSeries.eAdapters( ).addAll( chartModel.eAdapters( ) );
-				// UPDATE THE SERIES DEFINITION WITH THE SERIES INSTANCE
-				( (SeriesDefinition) ( (Axis) XAxis.getAssociatedAxes( )
-						.get( 1 ) ).getSeriesDefinitions( ).get( i ) ).getSeries( )
-						.clear( );
-				( (SeriesDefinition) ( (Axis) XAxis.getAssociatedAxes( )
-						.get( 1 ) ).getSeriesDefinitions( ).get( i ) ).getSeries( )
-						.add( newSeries );
-				ChartUIUtil.setSeriesName( chartModel );
+				Series lastSeries = ( (SeriesDefinition) ( (Axis) XAxis.getAssociatedAxes( )
+						.get( 1 ) ).getSeriesDefinitions( ).get( i ) ).getDesignTimeSeries( );
+				if ( !lastSeries.getDisplayName( )
+						.equals( cbSeriesType.getText( ) ) )
+				{
+					Series newSeries = (Series) EcoreUtil.copy( htSeriesNames.get( cbSeriesType.getText( ) ) );
+					newSeries.translateFrom( lastSeries,
+							iSeriesDefinitionIndex,
+							chartModel );
+					// ADD THE MODEL ADAPTERS TO THE NEW SERIES
+					newSeries.eAdapters( ).addAll( chartModel.eAdapters( ) );
+					// UPDATE THE SERIES DEFINITION WITH THE SERIES INSTANCE
+					( (SeriesDefinition) ( (Axis) XAxis.getAssociatedAxes( )
+							.get( 1 ) ).getSeriesDefinitions( ).get( i ) ).getSeries( )
+							.clear( );
+					( (SeriesDefinition) ( (Axis) XAxis.getAssociatedAxes( )
+							.get( 1 ) ).getSeriesDefinitions( ).get( i ) ).getSeries( )
+							.add( newSeries );
+					ChartUIUtil.setSeriesName( chartModel );
+				}
 			}
 		}
 		catch ( Exception e )
