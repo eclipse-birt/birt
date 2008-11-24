@@ -867,15 +867,25 @@ public class Methods implements IConstants
 	 * 
 	 * @param xs
 	 * @param la
+	 * @param dWrapping
+	 * @param fontHeight
+	 *            , pre-computed font height
 	 * @return
 	 * @throws ChartException
 	 */
 	public static final BoundingBox computeLabelSize( IDisplayServer xs,
-			Label la ) throws ChartException
+			Label la, double dWrapping, Double fontHeight )
+			throws ChartException
 	{
 		try
 		{
-			return Methods.computeBox( xs, IConstants.ABOVE, la, 0, 0 );
+			return computeBox( xs,
+					IConstants.ABOVE,
+					la,
+					0,
+					0,
+					dWrapping,
+					fontHeight );
 		}
 		catch ( IllegalArgumentException uiex )
 		{
@@ -884,7 +894,6 @@ public class Methods implements IConstants
 					uiex );
 		}
 	}
-
 	/**
 	 * 
 	 * @param xs

@@ -97,7 +97,7 @@ public final class LegendBuilder implements IConstants
 			this.bPaletteByCategory = ( lg.getItemType( ).getValue( ) == LegendItemType.CATEGORIES );
 
 			this.la = LabelImpl.create( );
-			la.setEllipsis( 1 );
+			la.setEllipsis( lg.isSetEllipsis( ) ? lg.getEllipsis( ) : 1 );
 			la.setCaption( TextImpl.copyInstance( lg.getText( ) ) );
 
 			la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
@@ -215,9 +215,9 @@ public final class LegendBuilder implements IConstants
 
 		private final IDisplayServer xs;
 		private final RunTimeContext rtc;
-		private final ITextMetrics itm;
 		private final double maxWrappingSize;
 		private final Label la;
+		private final Double fontHeight;
 		private String text; // Text without considering about ellipsis
 		private double dEllipsisWidth;
 		private BoundingBox bb = null;
@@ -239,8 +239,10 @@ public final class LegendBuilder implements IConstants
 			this.rtc = rtc;
 			this.la = la;
 			this.maxWrappingSize = maxWrappingSize;
-			this.itm = xs.getTextMetrics( la );
-			updateEllipsisWidth( );
+			ITextMetrics itm = xs.getTextMetrics( la );
+			updateEllipsisWidth( itm );
+			fontHeight = itm.getHeight( );
+			itm.dispose( );
 			eHelper = new EllipsisHelper( this, la.getEllipsis( ) );
 		}
 
@@ -275,10 +277,6 @@ public final class LegendBuilder implements IConstants
 		 */
 		public void dispose( )
 		{
-			if ( itm != null )
-			{
-				itm.dispose( );
-			}
 		}
 
 		public void setText( String sText ) throws ChartException
@@ -366,11 +364,10 @@ public final class LegendBuilder implements IConstants
 		private void updateLabel( String strText ) throws ChartException
 		{
 			la.getCaption( ).setValue( strText );
-			itm.reuse( la, maxWrappingSize );
-			bb = Methods.computeLabelSize( xs, la );
+			bb = Methods.computeLabelSize( xs, la, maxWrappingSize, fontHeight );
 		}
 
-		private void updateEllipsisWidth( )
+		private void updateEllipsisWidth( ITextMetrics itm )
 		{
 			la.getCaption( ).setValue( EllipsisHelper.ELLIPSIS_STRING );
 			itm.reuse( la );
@@ -552,7 +549,7 @@ public final class LegendBuilder implements IConstants
 			lgTitle.getCaption( )
 					.setValue( rtc.externalizedMessage( sPreviousValue ) );
 
-			titleBounding = Methods.computeLabelSize( xs, lgTitle );
+			titleBounding = Methods.computeLabelSize( xs, lgTitle, 0, null );
 			iTitlePos = lg.getTitlePosition( ).getValue( );
 
 			// swap left/right
@@ -1045,7 +1042,7 @@ public final class LegendBuilder implements IConstants
 		private String formatItemText( Object oText ) throws ChartException
 		{
 			String str;
-			if ( snFormat != null )
+			if ( snFormat != SeriesNameFormat.DEFAULT_FORMAT )
 			{
 				str = snFormat.format( oText );
 			}
@@ -1295,7 +1292,7 @@ public final class LegendBuilder implements IConstants
 					lih.top( dY - dSepThick * 0.5 );
 					lih.width( dMaxW );
 				}
-				lgData.legendItems.add( lih );
+				columnList.add( lih );
 
 				return true;
 			}
@@ -1420,7 +1417,7 @@ public final class LegendBuilder implements IConstants
 					lih.top( dY - dSepThick * 0.5 );
 					lih.width( dMaxW - lgData.dHorizontalSpacing );
 				}
-				lgData.legendItems.add( lih );
+				columnList.add( lih );
 
 				return true;
 			}

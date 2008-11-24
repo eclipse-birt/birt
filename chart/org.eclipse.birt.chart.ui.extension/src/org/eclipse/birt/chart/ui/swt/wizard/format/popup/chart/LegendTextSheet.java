@@ -41,6 +41,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Spinner;
 
 /**
  * 
@@ -66,6 +67,8 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 	private transient FormatSpecifierPreview fsp;
 
 	private transient Button btnFormatSpecifier;
+
+	private Spinner spnEllipsis;
 
 	public LegendTextSheet( String title, ChartWizardContext context )
 	{
@@ -151,10 +154,21 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 				getLegend( ).getText( ).getColor( ),
 				false );
 		GridData gdFDCFont = new GridData( GridData.FILL_HORIZONTAL );
-		gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
+		// gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
 		gdFDCFont.grabExcessVerticalSpace = false;
 		fdcFont.setLayoutData( gdFDCFont );
 		fdcFont.addListener( this );
+
+		new Label( grpTxtArea, SWT.NONE ).setText( Messages.getString("LegendTextSheet.Label.Ellipsis") ); //$NON-NLS-1$
+		spnEllipsis = new Spinner( grpTxtArea, SWT.BORDER );
+		{
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			spnEllipsis.setLayoutData( gd );
+			spnEllipsis.setMinimum( 0 );
+			spnEllipsis.setSelection( getLegend( ).getEllipsis( ) );
+			spnEllipsis.setToolTipText( Messages.getString("LegendTextSheet.Tooltip.Ellipsis") ); //$NON-NLS-1$
+			spnEllipsis.addListener( SWT.Selection, this );
+		}
 
 		Label lblShadow = new Label( grpTxtArea, SWT.NONE );
 		GridData gdLBLShadow = new GridData( );
@@ -250,6 +264,10 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 					.setFont( (FontDefinition) ( (Object[]) event.data )[0] );
 			getLegend( ).getText( )
 					.setColor( (ColorDefinition) ( (Object[]) event.data )[1] );
+		}
+		else if ( event.widget == spnEllipsis )
+		{
+			getLegend( ).setEllipsis( spnEllipsis.getSelection( ) );
 		}
 		else if ( event.widget.equals( fccShadow ) )
 		{

@@ -1256,6 +1256,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		la.getCaption( )
 				.setValue( EllipsisHelper.ellipsisString( lih.getItemText( ),
 						lih.getValidItemLen( ) ) );
+		ITextMetrics itm = xs.getTextMetrics( la );
+		itm.reuse( la, lg.getWrappingSize( ) );
+		itm.dispose( );
 
 		bo.setLeft( bo.getLeft( ) * dScale );
 		bo.setTop( bo.getTop( ) * dScale );
