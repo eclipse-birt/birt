@@ -51,10 +51,13 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		borderStyleMap.put( CSSConstants.CSS_DOUBLE_VALUE, new Integer( 8 ) );
 	}
 
+	protected boolean htmlRtLFlag = false;
+	
 	public HTMLVisionOptimize( HTMLReportEmitter reportEmitter,
-			HTMLWriter writer, String layoutPreference )
+			HTMLWriter writer, String layoutPreference, boolean htmlRtLFlag )
 	{
 		super( reportEmitter, writer, layoutPreference );
+		this.htmlRtLFlag = htmlRtLFlag;
 	}
 	
 	/**
@@ -278,11 +281,24 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		}
 		writer.attribute( HTMLTags.ATTR_VALIGN, vAlign.getCssText( ) );
 		
+		String hAlignText = null;
 		CSSValue hAlign = rowComputedStyle.getProperty( IStyle.STYLE_TEXT_ALIGN );
 		if ( null != hAlign )
 		{
-			writer.attribute( HTMLTags.ATTR_ALIGN, hAlign.getCssText( ) );
+			hAlignText = hAlign.getCssText( );
 		}
+		if( null == hAlignText )
+		{
+			if( htmlRtLFlag )
+			{
+				hAlignText = "right";
+			}
+			else
+			{
+				hAlignText = "left";
+			}
+		}
+		writer.attribute( HTMLTags.ATTR_ALIGN, hAlignText );
 	}
 
 	/**

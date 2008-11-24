@@ -518,7 +518,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			// we will use HTMLVisionOptimize as the default emitter.
 			htmlEmitter = new HTMLVisionOptimize( this,
 					writer,
-					layoutPreference );
+					layoutPreference,
+					htmlRtLFlag );
 		}
 		
 		//build report default style
