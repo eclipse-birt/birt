@@ -27,10 +27,13 @@ import org.eclipse.birt.chart.model.layout.LayoutPackage;
 import org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl;
 import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.birt.chart.model.type.impl.TypePackageImpl;
+import org.eclipse.birt.chart.model.util.ModelValidator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
@@ -66,6 +69,20 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 	 * @generated
 	 */
 	private EClass dialChartEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType coverageTypeEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType coverageTypeObjectEDataType = null;
 
 	/**
 	 * Creates an instance of the model <b>Package </b>, registered with
@@ -120,8 +137,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 			return (ModelPackage) EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI );
 
 		// Obtain or create and register package
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( eNS_URI ) instanceof ModelPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( eNS_URI )
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( eNS_URI )
 				: new ModelPackageImpl( ) );
 
 		isInited = true;
@@ -130,20 +146,15 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 		XMLTypePackage.eINSTANCE.eClass( );
 
 		// Obtain or create and register interdependencies
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
+		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
 				: AttributePackage.eINSTANCE );
-		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
+		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
 				: DataPackage.eINSTANCE );
-		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
+		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
 				: TypePackage.eINSTANCE );
-		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
 				: ComponentPackage.eINSTANCE );
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
 				: LayoutPackage.eINSTANCE );
 
 		// Create package meta-data objects
@@ -161,6 +172,16 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 		theTypePackage.initializePackageContents( );
 		theComponentPackage.initializePackageContents( );
 		theLayoutPackage.initializePackageContents( );
+
+		// Register package validator
+		EValidator.Registry.INSTANCE.put( theModelPackage,
+				new EValidator.Descriptor( ) {
+
+					public EValidator getEValidator( )
+					{
+						return ModelValidator.INSTANCE;
+					}
+				} );
 
 		// Mark meta-data to indicate it can't be changed
 		theModelPackage.freeze( );
@@ -440,6 +461,17 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getChartWithoutAxes_Coverage( )
+	{
+		return (EAttribute) chartWithoutAxesEClass.getEStructuralFeatures( )
+				.get( 4 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getDialChart( )
 	{
 		return dialChartEClass;
@@ -453,6 +485,26 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 	public EAttribute getDialChart_DialSuperimposition( )
 	{
 		return (EAttribute) dialChartEClass.getEStructuralFeatures( ).get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getCoverageType( )
+	{
+		return coverageTypeEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getCoverageTypeObject( )
+	{
+		return coverageTypeObjectEDataType;
 	}
 
 	/**
@@ -518,9 +570,14 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 				CHART_WITHOUT_AXES__MIN_SLICE_PERCENT );
 		createEAttribute( chartWithoutAxesEClass,
 				CHART_WITHOUT_AXES__MIN_SLICE_LABEL );
+		createEAttribute( chartWithoutAxesEClass, CHART_WITHOUT_AXES__COVERAGE );
 
 		dialChartEClass = createEClass( DIAL_CHART );
 		createEAttribute( dialChartEClass, DIAL_CHART__DIAL_SUPERIMPOSITION );
+
+		// Create data types
+		coverageTypeEDataType = createEDataType( COVERAGE_TYPE );
+		coverageTypeObjectEDataType = createEDataType( COVERAGE_TYPE_OBJECT );
 	}
 
 	/**
@@ -582,7 +639,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 				"block", null, 1, 1, Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getChart_Dimension( ),
 				theAttributePackage.getChartDimension( ),
-				"dimension", "Two_Dimensional", 1, 1, Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"dimension", null, 1, 1, Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getChart_Script( ),
 				theXMLTypePackage.getString( ),
 				"script", null, 1, 1, Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
@@ -657,6 +714,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 		initEAttribute( getChartWithoutAxes_MinSliceLabel( ),
 				theXMLTypePackage.getString( ),
 				"minSliceLabel", null, 1, 1, ChartWithoutAxes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getChartWithoutAxes_Coverage( ),
+				this.getCoverageType( ),
+				"coverage", null, 1, 1, ChartWithoutAxes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( dialChartEClass,
 				DialChart.class,
@@ -664,6 +724,14 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 		initEAttribute( getDialChart_DialSuperimposition( ),
 				theXMLTypePackage.getBoolean( ),
 				"dialSuperimposition", "true", 0, 1, DialChart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+
+		// Initialize data types
+		initEDataType( coverageTypeEDataType,
+				double.class,
+				"CoverageType", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEDataType( coverageTypeObjectEDataType,
+				Double.class,
+				"CoverageTypeObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 
 		// Create resource
 		createResource( eNS_URI );
@@ -803,6 +871,20 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 						"name", "MinSliceLabel" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
+		addAnnotation( getChartWithoutAxes_Coverage( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Coverage" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( coverageTypeEDataType, source, new String[]{
+				"name", "Coverage_._type", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "http://www.eclipse.org/emf/2003/XMLType#double", //$NON-NLS-1$ //$NON-NLS-2$
+				"minInclusive", "0", //$NON-NLS-1$ //$NON-NLS-2$
+				"maxInclusive", "1" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( coverageTypeObjectEDataType, source, new String[]{
+				"name", "Coverage_._type:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "Coverage_._type" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( dialChartEClass, source, new String[]{
 				"name", "DialChart", //$NON-NLS-1$ //$NON-NLS-2$
 				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$

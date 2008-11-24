@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.model.layout;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -726,13 +727,31 @@ public interface LayoutPackage extends EPackage
 	int LEGEND__MAX_PERCENT = BLOCK_FEATURE_COUNT + 15;
 
 	/**
+	 * The feature id for the '<em><b>Title Percent</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LEGEND__TITLE_PERCENT = BLOCK_FEATURE_COUNT + 16;
+
+	/**
+	 * The feature id for the '<em><b>Ellipsis</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LEGEND__ELLIPSIS = BLOCK_FEATURE_COUNT + 17;
+
+	/**
 	 * The feature id for the '<em><b>Format Specifier</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LEGEND__FORMAT_SPECIFIER = BLOCK_FEATURE_COUNT + 16;
+	int LEGEND__FORMAT_SPECIFIER = BLOCK_FEATURE_COUNT + 18;
 
 	/**
 	 * The number of structural features of the '<em>Legend</em>' class.
@@ -740,7 +759,7 @@ public interface LayoutPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int LEGEND_FEATURE_COUNT = BLOCK_FEATURE_COUNT + 17;
+	int LEGEND_FEATURE_COUNT = BLOCK_FEATURE_COUNT + 19;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl <em>Plot</em>}' class.
@@ -1081,6 +1100,44 @@ public interface LayoutPackage extends EPackage
 	 * @ordered
 	 */
 	int TITLE_BLOCK_FEATURE_COUNT = LABEL_BLOCK_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '<em>Ellipsis Type</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getEllipsisType()
+	 * @generated
+	 */
+	int ELLIPSIS_TYPE = 6;
+
+	/**
+	 * The meta object id for the '<em>Ellipsis Type Object</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see java.lang.Integer
+	 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getEllipsisTypeObject()
+	 * @generated
+	 */
+	int ELLIPSIS_TYPE_OBJECT = 7;
+
+	/**
+	 * The meta object id for the '<em>Title Percent Type</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getTitlePercentType()
+	 * @generated
+	 */
+	int TITLE_PERCENT_TYPE = 8;
+
+	/**
+	 * The meta object id for the '<em>Title Percent Type Object</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see java.lang.Double
+	 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getTitlePercentTypeObject()
+	 * @generated
+	 */
+	int TITLE_PERCENT_TYPE_OBJECT = 9;
 
 	/**
 	 * Returns the meta object for class '
@@ -1511,6 +1568,28 @@ public interface LayoutPackage extends EPackage
 	EAttribute getLegend_MaxPercent( );
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#getTitlePercent <em>Title Percent</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Title Percent</em>'.
+	 * @see org.eclipse.birt.chart.model.layout.Legend#getTitlePercent()
+	 * @see #getLegend()
+	 * @generated
+	 */
+	EAttribute getLegend_TitlePercent( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#getEllipsis <em>Ellipsis</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Ellipsis</em>'.
+	 * @see org.eclipse.birt.chart.model.layout.Legend#getEllipsis()
+	 * @see #getLegend()
+	 * @generated
+	 */
+	EAttribute getLegend_Ellipsis( );
+
+	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.Legend#getFormatSpecifier <em>Format Specifier</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1570,6 +1649,52 @@ public interface LayoutPackage extends EPackage
 	 * @generated
 	 */
 	EClass getTitleBlock( );
+
+	/**
+	 * Returns the meta object for data type '<em>Ellipsis Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Ellipsis Type</em>'.
+	 * @model instanceClass="int"
+	 *        extendedMetaData="name='Ellipsis_._type' baseType='http://www.eclipse.org/emf/2003/XMLType#int' minInclusive='0'"
+	 * @generated
+	 */
+	EDataType getEllipsisType( );
+
+	/**
+	 * Returns the meta object for data type '{@link java.lang.Integer <em>Ellipsis Type Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Ellipsis Type Object</em>'.
+	 * @see java.lang.Integer
+	 * @model instanceClass="java.lang.Integer"
+	 *        extendedMetaData="name='Ellipsis_._type:Object' baseType='Ellipsis_._type'"
+	 * @generated
+	 */
+	EDataType getEllipsisTypeObject( );
+
+	/**
+	 * Returns the meta object for data type '<em>Title Percent Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Title Percent Type</em>'.
+	 * @model instanceClass="double"
+	 *        extendedMetaData="name='TitlePercent_._type' baseType='http://www.eclipse.org/emf/2003/XMLType#double' minInclusive='0' maxInclusive='1'"
+	 * @generated
+	 */
+	EDataType getTitlePercentType( );
+
+	/**
+	 * Returns the meta object for data type '{@link java.lang.Double <em>Title Percent Type Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Title Percent Type Object</em>'.
+	 * @see java.lang.Double
+	 * @model instanceClass="java.lang.Double"
+	 *        extendedMetaData="name='TitlePercent_._type:Object' baseType='TitlePercent_._type'"
+	 * @generated
+	 */
+	EDataType getTitlePercentTypeObject( );
 
 	/**
 	 * Returns the factory that creates the instances of the model. <!--
@@ -1940,6 +2065,22 @@ public interface LayoutPackage extends EPackage
 		EAttribute LEGEND__MAX_PERCENT = eINSTANCE.getLegend_MaxPercent( );
 
 		/**
+		 * The meta object literal for the '<em><b>Title Percent</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LEGEND__TITLE_PERCENT = eINSTANCE.getLegend_TitlePercent( );
+
+		/**
+		 * The meta object literal for the '<em><b>Ellipsis</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LEGEND__ELLIPSIS = eINSTANCE.getLegend_Ellipsis( );
+
+		/**
 		 * The meta object literal for the '<em><b>Format Specifier</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1990,6 +2131,44 @@ public interface LayoutPackage extends EPackage
 		 * @generated
 		 */
 		EClass TITLE_BLOCK = eINSTANCE.getTitleBlock( );
+
+		/**
+		 * The meta object literal for the '<em>Ellipsis Type</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getEllipsisType()
+		 * @generated
+		 */
+		EDataType ELLIPSIS_TYPE = eINSTANCE.getEllipsisType( );
+
+		/**
+		 * The meta object literal for the '<em>Ellipsis Type Object</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see java.lang.Integer
+		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getEllipsisTypeObject()
+		 * @generated
+		 */
+		EDataType ELLIPSIS_TYPE_OBJECT = eINSTANCE.getEllipsisTypeObject( );
+
+		/**
+		 * The meta object literal for the '<em>Title Percent Type</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getTitlePercentType()
+		 * @generated
+		 */
+		EDataType TITLE_PERCENT_TYPE = eINSTANCE.getTitlePercentType( );
+
+		/**
+		 * The meta object literal for the '<em>Title Percent Type Object</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see java.lang.Double
+		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getTitlePercentTypeObject()
+		 * @generated
+		 */
+		EDataType TITLE_PERCENT_TYPE_OBJECT = eINSTANCE.getTitlePercentTypeObject( );
 
 	}
 

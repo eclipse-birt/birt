@@ -182,27 +182,54 @@
 		<xsd:complexContent>
 			<xsd:extension base="Chart">
 				<xsd:sequence>
-					<xsd:element name="SeriesDefinitions" type="data:SeriesDefinition" maxOccurs="unbounded">
+					<xsd:element name="SeriesDefinitions"
+						type="data:SeriesDefinition" maxOccurs="unbounded">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							Defines the source of the series. 
+								Defines the source of the series.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="MinSlice" type="xsd:double" minOccurs="0">
+					<xsd:element name="MinSlice" type="xsd:double"
+						minOccurs="0">
 						<xsd:annotation>
-							<xsd:documentation>Defines the minimum value of a slice</xsd:documentation>
+							<xsd:documentation>
+								Defines the minimum value of a slice
+							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="MinSlicePercent" type="xsd:boolean">
+					<xsd:element name="MinSlicePercent"
+						type="xsd:boolean">
 						<xsd:annotation>
-							<xsd:documentation>Defines if the MinSlice value is a percentage value</xsd:documentation>
+							<xsd:documentation>
+								Defines if the MinSlice value is a
+								percentage value
+							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="MinSliceLabel" type="xsd:string">
+					<xsd:element name="MinSliceLabel"
+						type="xsd:string">
 						<xsd:annotation>
-							<xsd:documentation>Defines the label for MinSlice</xsd:documentation>
+							<xsd:documentation>
+								Defines the label for MinSlice
+							</xsd:documentation>
 						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Coverage">
+                        <xsd:annotation>
+                        	<xsd:documentation>
+                        		Specifies the percentage of size that the chart 
+                        		graphics (pie or dial) in client area. By default 
+                        		it's not set, which means the size will be auto 
+                        		adjusted.
+                        	</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+							<xsd:restriction base="xsd:double">
+								<xsd:minInclusive value="0"></xsd:minInclusive>
+								<xsd:maxInclusive value="1"></xsd:maxInclusive>
+							</xsd:restriction>
+						</xsd:simpleType>
 					</xsd:element>
 				</xsd:sequence>
 			</xsd:extension>

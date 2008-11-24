@@ -21,10 +21,13 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!--
@@ -94,6 +97,56 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object createFromString( EDataType eDataType, String initialValue )
+	{
+		switch ( eDataType.getClassifierID( ) )
+		{
+			case LayoutPackage.ELLIPSIS_TYPE :
+				return createEllipsisTypeFromString( eDataType, initialValue );
+			case LayoutPackage.ELLIPSIS_TYPE_OBJECT :
+				return createEllipsisTypeObjectFromString( eDataType,
+						initialValue );
+			case LayoutPackage.TITLE_PERCENT_TYPE :
+				return createTitlePercentTypeFromString( eDataType,
+						initialValue );
+			case LayoutPackage.TITLE_PERCENT_TYPE_OBJECT :
+				return createTitlePercentTypeObjectFromString( eDataType,
+						initialValue );
+			default :
+				throw new IllegalArgumentException( "The datatype '" + eDataType.getName( ) + "' is not a valid classifier" ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertToString( EDataType eDataType, Object instanceValue )
+	{
+		switch ( eDataType.getClassifierID( ) )
+		{
+			case LayoutPackage.ELLIPSIS_TYPE :
+				return convertEllipsisTypeToString( eDataType, instanceValue );
+			case LayoutPackage.ELLIPSIS_TYPE_OBJECT :
+				return convertEllipsisTypeObjectToString( eDataType,
+						instanceValue );
+			case LayoutPackage.TITLE_PERCENT_TYPE :
+				return convertTitlePercentTypeToString( eDataType,
+						instanceValue );
+			case LayoutPackage.TITLE_PERCENT_TYPE_OBJECT :
+				return convertTitlePercentTypeObjectToString( eDataType,
+						instanceValue );
+			default :
+				throw new IllegalArgumentException( "The datatype '" + eDataType.getName( ) + "' is not a valid classifier" ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -151,6 +204,102 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory
 	{
 		TitleBlockImpl titleBlock = new TitleBlockImpl( );
 		return titleBlock;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Integer createEllipsisTypeFromString( EDataType eDataType,
+			String initialValue )
+	{
+		return (Integer) XMLTypeFactory.eINSTANCE.createFromString( XMLTypePackage.Literals.INT,
+				initialValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertEllipsisTypeToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return XMLTypeFactory.eINSTANCE.convertToString( XMLTypePackage.Literals.INT,
+				instanceValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Integer createEllipsisTypeObjectFromString( EDataType eDataType,
+			String initialValue )
+	{
+		return createEllipsisTypeFromString( LayoutPackage.Literals.ELLIPSIS_TYPE,
+				initialValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertEllipsisTypeObjectToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return convertEllipsisTypeToString( LayoutPackage.Literals.ELLIPSIS_TYPE,
+				instanceValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Double createTitlePercentTypeFromString( EDataType eDataType,
+			String initialValue )
+	{
+		return (Double) XMLTypeFactory.eINSTANCE.createFromString( XMLTypePackage.Literals.DOUBLE,
+				initialValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertTitlePercentTypeToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return XMLTypeFactory.eINSTANCE.convertToString( XMLTypePackage.Literals.DOUBLE,
+				instanceValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Double createTitlePercentTypeObjectFromString( EDataType eDataType,
+			String initialValue )
+	{
+		return createTitlePercentTypeFromString( LayoutPackage.Literals.TITLE_PERCENT_TYPE,
+				initialValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertTitlePercentTypeObjectToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return convertTitlePercentTypeToString( LayoutPackage.Literals.TITLE_PERCENT_TYPE,
+				instanceValue );
 	}
 
 	/**

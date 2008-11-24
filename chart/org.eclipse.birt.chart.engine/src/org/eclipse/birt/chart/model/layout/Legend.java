@@ -50,6 +50,8 @@ import org.eclipse.birt.chart.model.component.Label;
  *   <li>{@link org.eclipse.birt.chart.model.layout.Legend#isShowTotal <em>Show Total</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.layout.Legend#getWrappingSize <em>Wrapping Size</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.layout.Legend#getMaxPercent <em>Max Percent</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.Legend#getTitlePercent <em>Title Percent</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.Legend#getEllipsis <em>Ellipsis</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.layout.Legend#getFormatSpecifier <em>Format Specifier</em>}</li>
  * </ul>
  * </p>
@@ -499,7 +501,6 @@ public interface Legend extends Block
 
 	/**
 	 * Returns the value of the '<em><b>Title Position</b></em>' attribute.
-	 * The default value is <code>"Above"</code>.
 	 * The literals are from the enumeration {@link org.eclipse.birt.chart.model.attribute.Position}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -515,7 +516,7 @@ public interface Legend extends Block
 	 * @see #unsetTitlePosition()
 	 * @see #setTitlePosition(Position)
 	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getLegend_TitlePosition()
-	 * @model default="Above" unsettable="true"
+	 * @model unsettable="true"
 	 *        extendedMetaData="kind='element' name='TitlePosition'"
 	 * @generated
 	 */
@@ -840,6 +841,122 @@ public interface Legend extends Block
 	boolean isSetMaxPercent( );
 
 	/**
+	 * Returns the value of the '<em><b>Title Percent</b></em>' attribute.
+	 * The default value is <code>"0.33333333"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 								The maximal percent of space which the
+	 * 								legend title can take from the legend
+	 * 								block. By default, it's 0.33333333.
+	 * 							
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Title Percent</em>' attribute.
+	 * @see #isSetTitlePercent()
+	 * @see #unsetTitlePercent()
+	 * @see #setTitlePercent(double)
+	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getLegend_TitlePercent()
+	 * @model default="0.33333333" unsettable="true" dataType="org.eclipse.birt.chart.model.layout.TitlePercentType" required="true"
+	 *        extendedMetaData="kind='element' name='TitlePercent'"
+	 * @generated
+	 */
+	double getTitlePercent( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getTitlePercent <em>Title Percent</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Title Percent</em>' attribute.
+	 * @see #isSetTitlePercent()
+	 * @see #unsetTitlePercent()
+	 * @see #getTitlePercent()
+	 * @generated
+	 */
+	void setTitlePercent( double value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getTitlePercent <em>Title Percent</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetTitlePercent()
+	 * @see #getTitlePercent()
+	 * @see #setTitlePercent(double)
+	 * @generated
+	 */
+	void unsetTitlePercent( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getTitlePercent <em>Title Percent</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Title Percent</em>' attribute is set.
+	 * @see #unsetTitlePercent()
+	 * @see #getTitlePercent()
+	 * @see #setTitlePercent(double)
+	 * @generated
+	 */
+	boolean isSetTitlePercent( );
+
+	/**
+	 * Returns the value of the '<em><b>Ellipsis</b></em>' attribute.
+	 * The default value is <code>"1"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 *                         		Specifies the min count of characters before 
+	 *                         		ellipsis. 0 means ellipsis won't be used. 
+	 *                         		Default value is 1.
+	 *                         	
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Ellipsis</em>' attribute.
+	 * @see #isSetEllipsis()
+	 * @see #unsetEllipsis()
+	 * @see #setEllipsis(int)
+	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getLegend_Ellipsis()
+	 * @model default="1" unsettable="true" dataType="org.eclipse.birt.chart.model.layout.EllipsisType" required="true"
+	 *        extendedMetaData="kind='element' name='Ellipsis'"
+	 * @generated
+	 */
+	int getEllipsis( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getEllipsis <em>Ellipsis</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Ellipsis</em>' attribute.
+	 * @see #isSetEllipsis()
+	 * @see #unsetEllipsis()
+	 * @see #getEllipsis()
+	 * @generated
+	 */
+	void setEllipsis( int value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getEllipsis <em>Ellipsis</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetEllipsis()
+	 * @see #getEllipsis()
+	 * @see #setEllipsis(int)
+	 * @generated
+	 */
+	void unsetEllipsis( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getEllipsis <em>Ellipsis</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Ellipsis</em>' attribute is set.
+	 * @see #unsetEllipsis()
+	 * @see #getEllipsis()
+	 * @see #setEllipsis(int)
+	 * @generated
+	 */
+	boolean isSetEllipsis( );
+
+	/**
 	 * Returns the value of the '<em><b>Format Specifier</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -848,11 +965,9 @@ public interface Legend extends Block
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Format Specifier</em>' containment reference.
-	 * @see #isSetFormatSpecifier()
-	 * @see #unsetFormatSpecifier()
 	 * @see #setFormatSpecifier(FormatSpecifier)
 	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getLegend_FormatSpecifier()
-	 * @model containment="true" unsettable="true"
+	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='FormatSpecifier'"
 	 * @generated
 	 */
@@ -863,35 +978,10 @@ public interface Legend extends Block
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Format Specifier</em>' containment reference.
-	 * @see #isSetFormatSpecifier()
-	 * @see #unsetFormatSpecifier()
 	 * @see #getFormatSpecifier()
 	 * @generated
 	 */
 	void setFormatSpecifier( FormatSpecifier value );
-
-	/**
-	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getFormatSpecifier <em>Format Specifier</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isSetFormatSpecifier()
-	 * @see #getFormatSpecifier()
-	 * @see #setFormatSpecifier(FormatSpecifier)
-	 * @generated
-	 */
-	void unsetFormatSpecifier( );
-
-	/**
-	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getFormatSpecifier <em>Format Specifier</em>}' containment reference is set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return whether the value of the '<em>Format Specifier</em>' containment reference is set.
-	 * @see #unsetFormatSpecifier()
-	 * @see #getFormatSpecifier()
-	 * @see #setFormatSpecifier(FormatSpecifier)
-	 * @generated
-	 */
-	boolean isSetFormatSpecifier( );
 
 	/**
 	 * Update the legend's block relationship in the hierarchy w.r.t. the chart model

@@ -67,6 +67,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#isShowTotal <em>Show Total</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getWrappingSize <em>Wrapping Size</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getMaxPercent <em>Max Percent</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getTitlePercent <em>Title Percent</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getEllipsis <em>Ellipsis</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
  * </ul>
  * </p>
@@ -443,6 +445,64 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected boolean maxPercentESet;
 
 	/**
+	 * The default value of the '{@link #getTitlePercent() <em>Title Percent</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTitlePercent()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final double TITLE_PERCENT_EDEFAULT = 0.33333333;
+
+	/**
+	 * The cached value of the '{@link #getTitlePercent() <em>Title Percent</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTitlePercent()
+	 * @generated
+	 * @ordered
+	 */
+	protected double titlePercent = TITLE_PERCENT_EDEFAULT;
+
+	/**
+	 * This is true if the Title Percent attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean titlePercentESet;
+
+	/**
+	 * The default value of the '{@link #getEllipsis() <em>Ellipsis</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEllipsis()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int ELLIPSIS_EDEFAULT = 1;
+
+	/**
+	 * The cached value of the '{@link #getEllipsis() <em>Ellipsis</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEllipsis()
+	 * @generated
+	 * @ordered
+	 */
+	protected int ellipsis = ELLIPSIS_EDEFAULT;
+
+	/**
+	 * This is true if the Ellipsis attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean ellipsisESet;
+
+	/**
 	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -451,15 +511,6 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * @ordered
 	 */
 	protected FormatSpecifier formatSpecifier;
-
-	/**
-	 * This is true if the Format Specifier containment reference has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean formatSpecifierESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1421,6 +1472,126 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public double getTitlePercent( )
+	{
+		return titlePercent;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTitlePercent( double newTitlePercent )
+	{
+		double oldTitlePercent = titlePercent;
+		titlePercent = newTitlePercent;
+		boolean oldTitlePercentESet = titlePercentESet;
+		titlePercentESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					LayoutPackage.LEGEND__TITLE_PERCENT,
+					oldTitlePercent,
+					titlePercent,
+					!oldTitlePercentESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetTitlePercent( )
+	{
+		double oldTitlePercent = titlePercent;
+		boolean oldTitlePercentESet = titlePercentESet;
+		titlePercent = TITLE_PERCENT_EDEFAULT;
+		titlePercentESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					LayoutPackage.LEGEND__TITLE_PERCENT,
+					oldTitlePercent,
+					TITLE_PERCENT_EDEFAULT,
+					oldTitlePercentESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetTitlePercent( )
+	{
+		return titlePercentESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getEllipsis( )
+	{
+		return ellipsis;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEllipsis( int newEllipsis )
+	{
+		int oldEllipsis = ellipsis;
+		ellipsis = newEllipsis;
+		boolean oldEllipsisESet = ellipsisESet;
+		ellipsisESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					LayoutPackage.LEGEND__ELLIPSIS,
+					oldEllipsis,
+					ellipsis,
+					!oldEllipsisESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetEllipsis( )
+	{
+		int oldEllipsis = ellipsis;
+		boolean oldEllipsisESet = ellipsisESet;
+		ellipsis = ELLIPSIS_EDEFAULT;
+		ellipsisESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					LayoutPackage.LEGEND__ELLIPSIS,
+					oldEllipsis,
+					ELLIPSIS_EDEFAULT,
+					oldEllipsisESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetEllipsis( )
+	{
+		return ellipsisESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public FormatSpecifier getFormatSpecifier( )
 	{
 		return formatSpecifier;
@@ -1436,16 +1607,13 @@ public class LegendImpl extends BlockImpl implements Legend
 	{
 		FormatSpecifier oldFormatSpecifier = formatSpecifier;
 		formatSpecifier = newFormatSpecifier;
-		boolean oldFormatSpecifierESet = formatSpecifierESet;
-		formatSpecifierESet = true;
 		if ( eNotificationRequired( ) )
 		{
 			ENotificationImpl notification = new ENotificationImpl( this,
 					Notification.SET,
 					LayoutPackage.LEGEND__FORMAT_SPECIFIER,
 					oldFormatSpecifier,
-					newFormatSpecifier,
-					!oldFormatSpecifierESet );
+					newFormatSpecifier );
 			if ( msgs == null )
 				msgs = notification;
 			else
@@ -1480,88 +1648,12 @@ public class LegendImpl extends BlockImpl implements Legend
 			if ( msgs != null )
 				msgs.dispatch( );
 		}
-		else
-		{
-			boolean oldFormatSpecifierESet = formatSpecifierESet;
-			formatSpecifierESet = true;
-			if ( eNotificationRequired( ) )
-				eNotify( new ENotificationImpl( this,
-						Notification.SET,
-						LayoutPackage.LEGEND__FORMAT_SPECIFIER,
-						newFormatSpecifier,
-						newFormatSpecifier,
-						!oldFormatSpecifierESet ) );
-		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicUnsetFormatSpecifier( NotificationChain msgs )
-	{
-		FormatSpecifier oldFormatSpecifier = formatSpecifier;
-		formatSpecifier = null;
-		boolean oldFormatSpecifierESet = formatSpecifierESet;
-		formatSpecifierESet = false;
-		if ( eNotificationRequired( ) )
-		{
-			ENotificationImpl notification = new ENotificationImpl( this,
-					Notification.UNSET,
+		else if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
 					LayoutPackage.LEGEND__FORMAT_SPECIFIER,
-					oldFormatSpecifier,
-					null,
-					oldFormatSpecifierESet );
-			if ( msgs == null )
-				msgs = notification;
-			else
-				msgs.add( notification );
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void unsetFormatSpecifier( )
-	{
-		if ( formatSpecifier != null )
-		{
-			NotificationChain msgs = null;
-			msgs = ( (InternalEObject) formatSpecifier ).eInverseRemove( this,
-					EOPPOSITE_FEATURE_BASE
-							- LayoutPackage.LEGEND__FORMAT_SPECIFIER,
-					null,
-					msgs );
-			msgs = basicUnsetFormatSpecifier( msgs );
-			if ( msgs != null )
-				msgs.dispatch( );
-		}
-		else
-		{
-			boolean oldFormatSpecifierESet = formatSpecifierESet;
-			formatSpecifierESet = false;
-			if ( eNotificationRequired( ) )
-				eNotify( new ENotificationImpl( this,
-						Notification.UNSET,
-						LayoutPackage.LEGEND__FORMAT_SPECIFIER,
-						null,
-						null,
-						oldFormatSpecifierESet ) );
-		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isSetFormatSpecifier( )
-	{
-		return formatSpecifierESet;
+					newFormatSpecifier,
+					newFormatSpecifier ) );
 	}
 
 	/**
@@ -1582,7 +1674,7 @@ public class LegendImpl extends BlockImpl implements Legend
 			case LayoutPackage.LEGEND__TITLE :
 				return basicSetTitle( null, msgs );
 			case LayoutPackage.LEGEND__FORMAT_SPECIFIER :
-				return basicUnsetFormatSpecifier( msgs );
+				return basicSetFormatSpecifier( null, msgs );
 		}
 		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
@@ -1627,6 +1719,10 @@ public class LegendImpl extends BlockImpl implements Legend
 				return new Double( getWrappingSize( ) );
 			case LayoutPackage.LEGEND__MAX_PERCENT :
 				return new Double( getMaxPercent( ) );
+			case LayoutPackage.LEGEND__TITLE_PERCENT :
+				return new Double( getTitlePercent( ) );
+			case LayoutPackage.LEGEND__ELLIPSIS :
+				return new Integer( getEllipsis( ) );
 			case LayoutPackage.LEGEND__FORMAT_SPECIFIER :
 				return getFormatSpecifier( );
 		}
@@ -1688,6 +1784,12 @@ public class LegendImpl extends BlockImpl implements Legend
 				return;
 			case LayoutPackage.LEGEND__MAX_PERCENT :
 				setMaxPercent( ( (Double) newValue ).doubleValue( ) );
+				return;
+			case LayoutPackage.LEGEND__TITLE_PERCENT :
+				setTitlePercent( ( (Double) newValue ).doubleValue( ) );
+				return;
+			case LayoutPackage.LEGEND__ELLIPSIS :
+				setEllipsis( ( (Integer) newValue ).intValue( ) );
 				return;
 			case LayoutPackage.LEGEND__FORMAT_SPECIFIER :
 				setFormatSpecifier( (FormatSpecifier) newValue );
@@ -1752,8 +1854,14 @@ public class LegendImpl extends BlockImpl implements Legend
 			case LayoutPackage.LEGEND__MAX_PERCENT :
 				unsetMaxPercent( );
 				return;
+			case LayoutPackage.LEGEND__TITLE_PERCENT :
+				unsetTitlePercent( );
+				return;
+			case LayoutPackage.LEGEND__ELLIPSIS :
+				unsetEllipsis( );
+				return;
 			case LayoutPackage.LEGEND__FORMAT_SPECIFIER :
-				unsetFormatSpecifier( );
+				setFormatSpecifier( (FormatSpecifier) null );
 				return;
 		}
 		super.eUnset( featureID );
@@ -1799,8 +1907,12 @@ public class LegendImpl extends BlockImpl implements Legend
 				return isSetWrappingSize( );
 			case LayoutPackage.LEGEND__MAX_PERCENT :
 				return isSetMaxPercent( );
+			case LayoutPackage.LEGEND__TITLE_PERCENT :
+				return isSetTitlePercent( );
+			case LayoutPackage.LEGEND__ELLIPSIS :
+				return isSetEllipsis( );
 			case LayoutPackage.LEGEND__FORMAT_SPECIFIER :
-				return isSetFormatSpecifier( );
+				return formatSpecifier != null;
 		}
 		return super.eIsSet( featureID );
 	}
@@ -1873,6 +1985,16 @@ public class LegendImpl extends BlockImpl implements Legend
 		result.append( ", maxPercent: " ); //$NON-NLS-1$
 		if ( maxPercentESet )
 			result.append( maxPercent );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", titlePercent: " ); //$NON-NLS-1$
+		if ( titlePercentESet )
+			result.append( titlePercent );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", ellipsis: " ); //$NON-NLS-1$
+		if ( ellipsisESet )
+			result.append( ellipsis );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );

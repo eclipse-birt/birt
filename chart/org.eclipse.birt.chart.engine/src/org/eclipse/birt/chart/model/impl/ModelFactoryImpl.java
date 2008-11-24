@@ -19,12 +19,15 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.ModelFactory;
 import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!--
@@ -90,6 +93,44 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object createFromString( EDataType eDataType, String initialValue )
+	{
+		switch ( eDataType.getClassifierID( ) )
+		{
+			case ModelPackage.COVERAGE_TYPE :
+				return createCoverageTypeFromString( eDataType, initialValue );
+			case ModelPackage.COVERAGE_TYPE_OBJECT :
+				return createCoverageTypeObjectFromString( eDataType,
+						initialValue );
+			default :
+				throw new IllegalArgumentException( "The datatype '" + eDataType.getName( ) + "' is not a valid classifier" ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertToString( EDataType eDataType, Object instanceValue )
+	{
+		switch ( eDataType.getClassifierID( ) )
+		{
+			case ModelPackage.COVERAGE_TYPE :
+				return convertCoverageTypeToString( eDataType, instanceValue );
+			case ModelPackage.COVERAGE_TYPE_OBJECT :
+				return convertCoverageTypeObjectToString( eDataType,
+						instanceValue );
+			default :
+				throw new IllegalArgumentException( "The datatype '" + eDataType.getName( ) + "' is not a valid classifier" ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -128,6 +169,54 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 	{
 		DialChartImpl dialChart = new DialChartImpl( );
 		return dialChart;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Double createCoverageTypeFromString( EDataType eDataType,
+			String initialValue )
+	{
+		return (Double) XMLTypeFactory.eINSTANCE.createFromString( XMLTypePackage.Literals.DOUBLE,
+				initialValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertCoverageTypeToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return XMLTypeFactory.eINSTANCE.convertToString( XMLTypePackage.Literals.DOUBLE,
+				instanceValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Double createCoverageTypeObjectFromString( EDataType eDataType,
+			String initialValue )
+	{
+		return createCoverageTypeFromString( ModelPackage.Literals.COVERAGE_TYPE,
+				initialValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertCoverageTypeObjectToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return convertCoverageTypeToString( ModelPackage.Literals.COVERAGE_TYPE,
+				instanceValue );
 	}
 
 	/**

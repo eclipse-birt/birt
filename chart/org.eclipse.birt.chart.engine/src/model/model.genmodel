@@ -721,6 +721,10 @@
   </genPackages>
   <genPackages prefix="Layout" basePackage="org.eclipse.birt.chart.model" resource="XML"
       ecorePackage="org.eclipse.birt.chart.model.layout.ecore#/">
+    <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.layout.ecore#//EllipsisType"/>
+    <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.layout.ecore#//EllipsisTypeObject"/>
+    <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.layout.ecore#//TitlePercentType"/>
+    <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.layout.ecore#//TitlePercentTypeObject"/>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.layout.ecore#//Block">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Block/children"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Block/bounds"/>
@@ -766,6 +770,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/showTotal"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/wrappingSize"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/maxPercent"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/titlePercent"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/ellipsis"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Legend/formatSpecifier"/>
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.layout.ecore#//Plot">
@@ -777,6 +783,8 @@
   </genPackages>
   <genPackages prefix="Model" basePackage="org.eclipse.birt.chart" resource="XML"
       disposableProviderFactory="true" ecorePackage="org.eclipse.birt.chart.model.ecore#/">
+    <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.ecore#//CoverageType"/>
+    <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.ecore#//CoverageTypeObject"/>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.ecore#//Chart">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.ecore#//Chart/version"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.ecore#//Chart/type"/>
@@ -807,6 +815,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.ecore#//ChartWithoutAxes/minSlice"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.ecore#//ChartWithoutAxes/minSlicePercent"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.ecore#//ChartWithoutAxes/minSliceLabel"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.ecore#//ChartWithoutAxes/coverage"/>
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.ecore#//DialChart">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.ecore#//DialChart/dialSuperimposition"/>

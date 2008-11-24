@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.model;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -564,13 +565,22 @@ public interface ModelPackage extends EPackage
 	int CHART_WITHOUT_AXES__MIN_SLICE_LABEL = CHART_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Coverage</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHART_WITHOUT_AXES__COVERAGE = CHART_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>Chart Without Axes</em>' class.
 	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CHART_WITHOUT_AXES_FEATURE_COUNT = CHART_FEATURE_COUNT + 4;
+	int CHART_WITHOUT_AXES_FEATURE_COUNT = CHART_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.impl.DialChartImpl <em>Dial Chart</em>}' class.
@@ -745,6 +755,15 @@ public interface ModelPackage extends EPackage
 	int DIAL_CHART__MIN_SLICE_LABEL = CHART_WITHOUT_AXES__MIN_SLICE_LABEL;
 
 	/**
+	 * The feature id for the '<em><b>Coverage</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_CHART__COVERAGE = CHART_WITHOUT_AXES__COVERAGE;
+
+	/**
 	 * The feature id for the '<em><b>Dial Superimposition</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -761,6 +780,25 @@ public interface ModelPackage extends EPackage
 	 * @ordered
 	 */
 	int DIAL_CHART_FEATURE_COUNT = CHART_WITHOUT_AXES_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '<em>Coverage Type</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.impl.ModelPackageImpl#getCoverageType()
+	 * @generated
+	 */
+	int COVERAGE_TYPE = 4;
+
+	/**
+	 * The meta object id for the '<em>Coverage Type Object</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see java.lang.Double
+	 * @see org.eclipse.birt.chart.model.impl.ModelPackageImpl#getCoverageTypeObject()
+	 * @generated
+	 */
+	int COVERAGE_TYPE_OBJECT = 5;
 
 	/**
 	 * Returns the meta object for class '
@@ -1051,6 +1089,17 @@ public interface ModelPackage extends EPackage
 	EAttribute getChartWithoutAxes_MinSliceLabel( );
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getCoverage <em>Coverage</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Coverage</em>'.
+	 * @see org.eclipse.birt.chart.model.ChartWithoutAxes#getCoverage()
+	 * @see #getChartWithoutAxes()
+	 * @generated
+	 */
+	EAttribute getChartWithoutAxes_Coverage( );
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.DialChart <em>Dial Chart</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1070,6 +1119,29 @@ public interface ModelPackage extends EPackage
 	 * @generated
 	 */
 	EAttribute getDialChart_DialSuperimposition( );
+
+	/**
+	 * Returns the meta object for data type '<em>Coverage Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Coverage Type</em>'.
+	 * @model instanceClass="double"
+	 *        extendedMetaData="name='Coverage_._type' baseType='http://www.eclipse.org/emf/2003/XMLType#double' minInclusive='0' maxInclusive='1'"
+	 * @generated
+	 */
+	EDataType getCoverageType( );
+
+	/**
+	 * Returns the meta object for data type '{@link java.lang.Double <em>Coverage Type Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Coverage Type Object</em>'.
+	 * @see java.lang.Double
+	 * @model instanceClass="java.lang.Double"
+	 *        extendedMetaData="name='Coverage_._type:Object' baseType='Coverage_._type'"
+	 * @generated
+	 */
+	EDataType getCoverageTypeObject( );
 
 	/**
 	 * Returns the factory that creates the instances of the model. <!--
@@ -1326,6 +1398,14 @@ public interface ModelPackage extends EPackage
 		EAttribute CHART_WITHOUT_AXES__MIN_SLICE_LABEL = eINSTANCE.getChartWithoutAxes_MinSliceLabel( );
 
 		/**
+		 * The meta object literal for the '<em><b>Coverage</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CHART_WITHOUT_AXES__COVERAGE = eINSTANCE.getChartWithoutAxes_Coverage( );
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.impl.DialChartImpl <em>Dial Chart</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1342,6 +1422,25 @@ public interface ModelPackage extends EPackage
 		 * @generated
 		 */
 		EAttribute DIAL_CHART__DIAL_SUPERIMPOSITION = eINSTANCE.getDialChart_DialSuperimposition( );
+
+		/**
+		 * The meta object literal for the '<em>Coverage Type</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.impl.ModelPackageImpl#getCoverageType()
+		 * @generated
+		 */
+		EDataType COVERAGE_TYPE = eINSTANCE.getCoverageType( );
+
+		/**
+		 * The meta object literal for the '<em>Coverage Type Object</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see java.lang.Double
+		 * @see org.eclipse.birt.chart.model.impl.ModelPackageImpl#getCoverageTypeObject()
+		 * @generated
+		 */
+		EDataType COVERAGE_TYPE_OBJECT = eINSTANCE.getCoverageTypeObject( );
 
 	}
 

@@ -27,12 +27,15 @@ import org.eclipse.birt.chart.model.layout.LayoutPackage;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
+import org.eclipse.birt.chart.model.layout.util.LayoutValidator;
 import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.birt.chart.model.type.impl.TypePackageImpl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
@@ -79,6 +82,34 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 	 * @generated
 	 */
 	private EClass titleBlockEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType ellipsisTypeEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType ellipsisTypeObjectEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType titlePercentTypeEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType titlePercentTypeObjectEDataType = null;
 
 	/**
 	 * Creates an instance of the model <b>Package </b>, registered with
@@ -133,8 +164,7 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 			return (LayoutPackage) EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI );
 
 		// Obtain or create and register package
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( eNS_URI ) instanceof LayoutPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( eNS_URI )
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( eNS_URI )
 				: new LayoutPackageImpl( ) );
 
 		isInited = true;
@@ -143,20 +173,15 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		XMLTypePackage.eINSTANCE.eClass( );
 
 		// Obtain or create and register interdependencies
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
+		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
 				: AttributePackage.eINSTANCE );
-		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
+		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
 				: DataPackage.eINSTANCE );
-		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
+		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
 				: TypePackage.eINSTANCE );
-		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
 				: ComponentPackage.eINSTANCE );
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
 				: ModelPackage.eINSTANCE );
 
 		// Create package meta-data objects
@@ -174,6 +199,16 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		theTypePackage.initializePackageContents( );
 		theComponentPackage.initializePackageContents( );
 		theModelPackage.initializePackageContents( );
+
+		// Register package validator
+		EValidator.Registry.INSTANCE.put( theLayoutPackage,
+				new EValidator.Descriptor( ) {
+
+					public EValidator getEValidator( )
+					{
+						return LayoutValidator.INSTANCE;
+					}
+				} );
 
 		// Mark meta-data to indicate it can't be changed
 		theLayoutPackage.freeze( );
@@ -572,9 +607,29 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getLegend_TitlePercent( )
+	{
+		return (EAttribute) legendEClass.getEStructuralFeatures( ).get( 16 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLegend_Ellipsis( )
+	{
+		return (EAttribute) legendEClass.getEStructuralFeatures( ).get( 17 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getLegend_FormatSpecifier( )
 	{
-		return (EReference) legendEClass.getEStructuralFeatures( ).get( 16 );
+		return (EReference) legendEClass.getEStructuralFeatures( ).get( 18 );
 	}
 
 	/**
@@ -620,6 +675,46 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 	public EClass getTitleBlock( )
 	{
 		return titleBlockEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getEllipsisType( )
+	{
+		return ellipsisTypeEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getEllipsisTypeObject( )
+	{
+		return ellipsisTypeObjectEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getTitlePercentType( )
+	{
+		return titlePercentTypeEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getTitlePercentTypeObject( )
+	{
+		return titlePercentTypeObjectEDataType;
 	}
 
 	/**
@@ -696,6 +791,8 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		createEAttribute( legendEClass, LEGEND__SHOW_TOTAL );
 		createEAttribute( legendEClass, LEGEND__WRAPPING_SIZE );
 		createEAttribute( legendEClass, LEGEND__MAX_PERCENT );
+		createEAttribute( legendEClass, LEGEND__TITLE_PERCENT );
+		createEAttribute( legendEClass, LEGEND__ELLIPSIS );
 		createEReference( legendEClass, LEGEND__FORMAT_SPECIFIER );
 
 		plotEClass = createEClass( PLOT );
@@ -704,6 +801,12 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		createEReference( plotEClass, PLOT__CLIENT_AREA );
 
 		titleBlockEClass = createEClass( TITLE_BLOCK );
+
+		// Create data types
+		ellipsisTypeEDataType = createEDataType( ELLIPSIS_TYPE );
+		ellipsisTypeObjectEDataType = createEDataType( ELLIPSIS_TYPE_OBJECT );
+		titlePercentTypeEDataType = createEDataType( TITLE_PERCENT_TYPE );
+		titlePercentTypeObjectEDataType = createEDataType( TITLE_PERCENT_TYPE_OBJECT );
 	}
 
 	/**
@@ -756,10 +859,10 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 				"bounds", null, 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getBlock_Anchor( ),
 				theAttributePackage.getAnchor( ),
-				"anchor", "North", 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"anchor", null, 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getBlock_Stretch( ),
 				theAttributePackage.getStretch( ),
-				"stretch", "Horizontal", 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"stretch", null, 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getBlock_Insets( ),
 				theAttributePackage.getInsets( ),
 				null,
@@ -852,27 +955,27 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 				"text", null, 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLegend_Orientation( ),
 				theAttributePackage.getOrientation( ),
-				"orientation", "Horizontal", 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"orientation", null, 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLegend_Direction( ),
 				theAttributePackage.getDirection( ),
-				"direction", "Left_Right", 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"direction", null, 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getLegend_Separator( ),
 				theAttributePackage.getLineAttributes( ),
 				null,
 				"separator", null, 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLegend_Position( ),
 				theAttributePackage.getPosition( ),
-				"position", "Above", 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"position", null, 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLegend_ItemType( ),
 				theAttributePackage.getLegendItemType( ),
-				"itemType", "Series", 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"itemType", null, 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getLegend_Title( ),
 				theComponentPackage.getLabel( ),
 				null,
 				"title", null, 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLegend_TitlePosition( ),
 				theAttributePackage.getPosition( ),
-				"titlePosition", "Above", 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"titlePosition", null, 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLegend_ShowValue( ),
 				theXMLTypePackage.getBoolean( ),
 				"showValue", null, 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
@@ -888,10 +991,16 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		initEAttribute( getLegend_MaxPercent( ),
 				theXMLTypePackage.getDouble( ),
 				"maxPercent", "0.33333333", 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute( getLegend_TitlePercent( ),
+				this.getTitlePercentType( ),
+				"titlePercent", "0.33333333", 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute( getLegend_Ellipsis( ),
+				this.getEllipsisType( ),
+				"ellipsis", "1", 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getLegend_FormatSpecifier( ),
 				theAttributePackage.getFormatSpecifier( ),
 				null,
-				"formatSpecifier", null, 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"formatSpecifier", null, 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( plotEClass,
 				Plot.class,
@@ -910,6 +1019,20 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		initEClass( titleBlockEClass,
 				TitleBlock.class,
 				"TitleBlock", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+
+		// Initialize data types
+		initEDataType( ellipsisTypeEDataType,
+				int.class,
+				"EllipsisType", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEDataType( ellipsisTypeObjectEDataType,
+				Integer.class,
+				"EllipsisTypeObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEDataType( titlePercentTypeEDataType,
+				double.class,
+				"TitlePercentType", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEDataType( titlePercentTypeObjectEDataType,
+				Double.class,
+				"TitlePercentTypeObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 
 		// Create resource
 		createResource( eNS_URI );
@@ -1021,6 +1144,15 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Visible" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
+		addAnnotation( ellipsisTypeEDataType, source, new String[]{
+				"name", "Ellipsis_._type", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "http://www.eclipse.org/emf/2003/XMLType#int", //$NON-NLS-1$ //$NON-NLS-2$
+				"minInclusive", "0" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( ellipsisTypeObjectEDataType, source, new String[]{
+				"name", "Ellipsis_._type:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "Ellipsis_._type" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( labelBlockEClass, source, new String[]{
 				"name", "LabelBlock", //$NON-NLS-1$ //$NON-NLS-2$
 				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
@@ -1097,6 +1229,14 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "MaxPercent" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
+		addAnnotation( getLegend_TitlePercent( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "TitlePercent" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getLegend_Ellipsis( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Ellipsis" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getLegend_FormatSpecifier( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$
@@ -1120,6 +1260,16 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		addAnnotation( titleBlockEClass, source, new String[]{
 				"name", "TitleBlock", //$NON-NLS-1$ //$NON-NLS-2$
 				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( titlePercentTypeEDataType, source, new String[]{
+				"name", "TitlePercent_._type", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "http://www.eclipse.org/emf/2003/XMLType#double", //$NON-NLS-1$ //$NON-NLS-2$
+				"minInclusive", "0", //$NON-NLS-1$ //$NON-NLS-2$
+				"maxInclusive", "1" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( titlePercentTypeObjectEDataType, source, new String[]{
+				"name", "TitlePercent_._type:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "TitlePercent_._type" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 	}
 

@@ -31,6 +31,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSlice <em>Min Slice</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.ChartWithoutAxes#isMinSlicePercent <em>Min Slice Percent</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSliceLabel <em>Min Slice Label</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getCoverage <em>Coverage</em>}</li>
  * </ul>
  * </p>
  *
@@ -63,14 +64,16 @@ public interface ChartWithoutAxes extends Chart
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Defines the minimum value of a slice
+	 * 
+	 * 								Defines the minimum value of a slice
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Min Slice</em>' attribute.
 	 * @see #isSetMinSlice()
 	 * @see #unsetMinSlice()
 	 * @see #setMinSlice(double)
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithoutAxes_MinSlice()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
 	 *        extendedMetaData="kind='element' name='MinSlice'"
 	 * @generated
 	 */
@@ -116,14 +119,17 @@ public interface ChartWithoutAxes extends Chart
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Defines if the MinSlice value is a percentage value
+	 * 
+	 * 								Defines if the MinSlice value is a
+	 * 								percentage value
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Min Slice Percent</em>' attribute.
 	 * @see #isSetMinSlicePercent()
 	 * @see #unsetMinSlicePercent()
 	 * @see #setMinSlicePercent(boolean)
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithoutAxes_MinSlicePercent()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
 	 *        extendedMetaData="kind='element' name='MinSlicePercent'"
 	 * @generated
 	 */
@@ -169,12 +175,14 @@ public interface ChartWithoutAxes extends Chart
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Defines the label for MinSlice
+	 * 
+	 * 								Defines the label for MinSlice
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Min Slice Label</em>' attribute.
 	 * @see #setMinSliceLabel(String)
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithoutAxes_MinSliceLabel()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
 	 *        extendedMetaData="kind='element' name='MinSliceLabel'"
 	 * @generated
 	 */
@@ -189,6 +197,64 @@ public interface ChartWithoutAxes extends Chart
 	 * @generated
 	 */
 	void setMinSliceLabel( String value );
+
+	/**
+	 * Returns the value of the '<em><b>Coverage</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 *                         		Specifies the percentage of size that the chart 
+	 *                         		graphics (pie or dial) in client area. By default 
+	 *                         		it's not set, which means the size will be auto 
+	 *                         		adjusted.
+	 *                         	
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Coverage</em>' attribute.
+	 * @see #isSetCoverage()
+	 * @see #unsetCoverage()
+	 * @see #setCoverage(double)
+	 * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithoutAxes_Coverage()
+	 * @model unsettable="true" dataType="org.eclipse.birt.chart.model.CoverageType" required="true"
+	 *        extendedMetaData="kind='element' name='Coverage'"
+	 * @generated
+	 */
+	double getCoverage( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getCoverage <em>Coverage</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Coverage</em>' attribute.
+	 * @see #isSetCoverage()
+	 * @see #unsetCoverage()
+	 * @see #getCoverage()
+	 * @generated
+	 */
+	void setCoverage( double value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getCoverage <em>Coverage</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetCoverage()
+	 * @see #getCoverage()
+	 * @see #setCoverage(double)
+	 * @generated
+	 */
+	void unsetCoverage( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getCoverage <em>Coverage</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Coverage</em>' attribute is set.
+	 * @see #unsetCoverage()
+	 * @see #getCoverage()
+	 * @see #setCoverage(double)
+	 * @generated
+	 */
+	boolean isSetCoverage( );
 
 	/**
 	 * 
