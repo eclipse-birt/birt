@@ -27,6 +27,7 @@ ChartReportItemViewProvider.BarChart.Text.Title=Titre du graphique à barres
 
 ChartExpressionProvider.Category.ChartVariables=Variables
 ChartExpressionProvider.ChartVariables.DataPoints=Point de données du graphique
+ChartExpressionProvider.ChartVariables.LegendItems=Chart Legend
 ChartExpressionProvider.DataPoints.BaseValue=Données de catégorie
 ChartExpressionProvider.DataPoints.OrthogonalValue=Données de valeur
 ChartExpressionProvider.ChartVariables.JavaScript=JavaScript

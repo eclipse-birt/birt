@@ -27,6 +27,7 @@ ChartReportItemViewProvider.BarChart.Text.Title=Balkendiagrammtitel:
 
 ChartExpressionProvider.Category.ChartVariables=Variablen
 ChartExpressionProvider.ChartVariables.DataPoints=Diagramm-Datenpunkt
+ChartExpressionProvider.ChartVariables.LegendItems=Chart Legend
 ChartExpressionProvider.DataPoints.BaseValue=Kategoriedaten
 ChartExpressionProvider.DataPoints.OrthogonalValue=Wertdaten
 ChartExpressionProvider.ChartVariables.JavaScript=JavaScript

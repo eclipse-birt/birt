@@ -27,6 +27,7 @@ ChartReportItemViewProvider.BarChart.Text.Title=条形图标题
 
 ChartExpressionProvider.Category.ChartVariables=变量
 ChartExpressionProvider.ChartVariables.DataPoints=图表数据点
+ChartExpressionProvider.ChartVariables.LegendItems=Chart Legend
 ChartExpressionProvider.DataPoints.BaseValue=类别数据
 ChartExpressionProvider.DataPoints.OrthogonalValue=值数据
 ChartExpressionProvider.ChartVariables.JavaScript=JavaScript

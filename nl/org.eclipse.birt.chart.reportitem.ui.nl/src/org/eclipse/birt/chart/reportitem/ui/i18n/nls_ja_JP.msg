@@ -27,6 +27,7 @@ ChartReportItemViewProvider.BarChart.Text.Title=棒グラフのタイトル
 
 ChartExpressionProvider.Category.ChartVariables=変数
 ChartExpressionProvider.ChartVariables.DataPoints=グラフのデータポイント
+ChartExpressionProvider.ChartVariables.LegendItems=Chart Legend
 ChartExpressionProvider.DataPoints.BaseValue=カテゴリデータ
 ChartExpressionProvider.DataPoints.OrthogonalValue=値データ
 ChartExpressionProvider.ChartVariables.JavaScript=JavaScript

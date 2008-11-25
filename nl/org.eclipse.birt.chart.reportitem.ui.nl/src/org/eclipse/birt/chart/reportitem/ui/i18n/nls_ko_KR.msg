@@ -27,6 +27,7 @@ ChartReportItemViewProvider.BarChart.Text.Title=막대 차트 제목
 
 ChartExpressionProvider.Category.ChartVariables=변수
 ChartExpressionProvider.ChartVariables.DataPoints=차트 데이터 요소
+ChartExpressionProvider.ChartVariables.LegendItems=Chart Legend
 ChartExpressionProvider.DataPoints.BaseValue=범주 데이터
 ChartExpressionProvider.DataPoints.OrthogonalValue=값 데이터
 ChartExpressionProvider.ChartVariables.JavaScript=JavaScript
