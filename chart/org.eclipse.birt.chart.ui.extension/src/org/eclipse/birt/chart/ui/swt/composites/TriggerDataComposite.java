@@ -1041,6 +1041,10 @@ public class TriggerDataComposite extends Composite
 		{
 			return IUIServiceProvider.COMMAND_HYPERLINK_DATAPOINTS;
 		}
+		if ( ( type & TriggerSupportMatrix.TYPE_LEGEND ) == TriggerSupportMatrix.TYPE_LEGEND )
+		{
+			return IUIServiceProvider.COMMAND_HYPERLINK_LEGEND;
+		}
 		return IUIServiceProvider.COMMAND_HYPERLINK;
 	}
 }

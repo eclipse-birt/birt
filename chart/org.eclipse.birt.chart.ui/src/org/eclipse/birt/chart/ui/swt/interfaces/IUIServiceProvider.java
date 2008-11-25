@@ -97,6 +97,11 @@ public interface IUIServiceProvider
 	 * Constant indicating a builder to input hyper-link for data points.
 	 */
 	public static final int COMMAND_HYPERLINK_DATAPOINTS = 7;
+	
+	/**
+	 * Constant indicating a builder to input hyper-link for legend.
+	 */
+	public static final int COMMAND_HYPERLINK_LEGEND = 8;
 
 	/**
 	 * This method will be used by the Chart Builder UI to invoke the expression

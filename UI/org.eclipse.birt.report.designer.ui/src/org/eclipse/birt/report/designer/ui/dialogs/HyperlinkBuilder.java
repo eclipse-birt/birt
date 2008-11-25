@@ -962,7 +962,7 @@ public class HyperlinkBuilder extends BaseDialog
 				SWT.NONE );
 
 		ExpressionCellEditor valueEditor = new ExpressionCellEditor( table );
-		valueEditor.setExpressionProvider( new ExpressionProvider( inputHandle.getElementHandle( ) ) );
+		valueEditor.setExpressionProvider( getExpressionProvider( ) );
 		paramBindingTable.setCellEditors( new CellEditor[]{
 				parameterChooser, null, null, valueEditor
 		} );
@@ -1014,7 +1014,15 @@ public class HyperlinkBuilder extends BaseDialog
 	 */
 	protected void configureExpressionBuilder( ExpressionBuilder builder )
 	{
-		builder.setExpressionProvier( new ExpressionProvider( inputHandle.getElementHandle( ) ) );
+		builder.setExpressionProvier( getExpressionProvider( ) );
+	}
+
+	/**
+	 * @return
+	 */
+	protected ExpressionProvider getExpressionProvider( )
+	{
+		return new ExpressionProvider( inputHandle.getElementHandle( ) );
 	}
 
 	private Button createBrowerButton( Composite parent, final Text text,

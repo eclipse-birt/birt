@@ -44,7 +44,14 @@ public class SimpleActionRenderer extends ActionRendererAdapter
 
 			String sa = uv.getBaseUrl( );
 			SimpleActionHandle handle = SimpleActionUtil.deserializeAction( sa );
-			uv.setBaseUrl( handle.getURI( ) );
+			String uri = handle.getURI( );
+			if ( StructureType.SERIES_DATA_POINT.equals( source.getType( ) )
+					&& evaluator != null )
+			{
+				final DataPointHints dph = (DataPointHints) source.getSource( );
+				uri = ChartUtil.stringValue( dph.getUserValue( uri ) );
+			}
+			uv.setBaseUrl( uri );
 			uv.setTarget( handle.getTargetWindow( ) );
 		}
 		else if ( ActionType.SHOW_TOOLTIP_LITERAL.equals( action.getType( ) ) )

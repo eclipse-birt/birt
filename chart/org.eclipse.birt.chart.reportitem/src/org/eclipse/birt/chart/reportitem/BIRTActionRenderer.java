@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2007, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -63,6 +63,121 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
 	/**
+	 * Used to implement IAction in various cases
+	 */
+	private abstract class ChartHyperlinkActionBase implements IAction
+	{
+
+		private ActionHandle handle;
+
+		ChartHyperlinkActionBase( ActionHandle handle )
+		{
+			this.handle = handle;
+		}
+
+		public abstract Object evaluate( String expr );
+
+		public int getType( )
+		{
+			if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
+				return IAction.ACTION_HYPERLINK;
+			if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
+				return IAction.ACTION_BOOKMARK;
+			if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( handle.getLinkType( ) ) )
+				return IAction.ACTION_DRILLTHROUGH;
+			return 0;
+		}
+
+		public String getBookmark( )
+		{
+			return ChartUtil.stringValue( evaluate( handle.getTargetBookmark( ) ) );
+		}
+
+		public String getActionString( )
+		{
+			if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
+				return ChartUtil.stringValue( evaluate( handle.getURI( ) ) );
+			if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
+				return ChartUtil.stringValue( evaluate( handle.getTargetBookmark( ) ) );
+			return null;
+		}
+
+		public String getReportName( )
+		{
+			return handle.getReportName( );
+		}
+
+		public Map getParameterBindings( )
+		{
+			Map map = new HashMap( );
+			MemberHandle params = handle.getParamBindings( );
+			// Parameters may be null except for DrillThrough
+			if ( params != null )
+			{
+				for ( Iterator itr = params.iterator( ); itr.hasNext( ); )
+				{
+					ParamBindingHandle pbh = (ParamBindingHandle) itr.next( );
+					map.put( pbh.getParamName( ),
+							evaluate( pbh.getExpression( ) ) );
+				}
+			}
+			return map;
+		}
+
+		public Map getSearchCriteria( )
+		{
+			Map map = new HashMap( );
+			MemberHandle searches = handle.getSearch( );
+			// Searches may be null except for DrillThrough
+			if ( searches != null )
+			{
+				for ( Iterator itr = searches.iterator( ); itr.hasNext( ); )
+				{
+					SearchKeyHandle skh = (SearchKeyHandle) itr.next( );
+					map.put( skh.getExpression( ),
+							evaluate( skh.getExpression( ) ) );
+				}
+			}
+			return map;
+		}
+
+		public String getTargetWindow( )
+		{
+			return handle.getTargetWindow( );
+		}
+
+		public String getFormat( )
+		{
+			return handle.getFormatType( );
+		}
+
+		public boolean isBookmark( )
+		{
+			return DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK.equals( handle.getTargetBookmarkType( ) );
+		}
+
+		public String getSystemId( )
+		{
+			ModuleHandle mod = eih.getRoot( );
+			if ( mod != null )
+			{
+				return mod.getFileName( );
+			}
+			return null;
+		}
+
+		public String getTargetFileType( )
+		{
+			return handle.getTargetFileType( );
+		}
+
+		public String getTooltip( )
+		{
+			return handle.getToolTip( );
+		}
+	}
+
+	/**
 	 * The constructor.
 	 * 
 	 * @param handler
@@ -94,246 +209,88 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 			String sa = uv.getBaseUrl( );
 			String target = null;
 
-			if ( StructureType.SERIES_DATA_POINT.equals( source.getType( ) ) )
+			try
 			{
-				final DataPointHints dph = (DataPointHints) source.getSource( );
+				final ActionHandle handle = ModuleUtil.deserializeAction( sa );
+				setTooltip( uv, handle );
+				target = handle.getTargetWindow( );
 
-				try
+				// use engine api to convert actionHandle to a final url value.
+				if ( StructureType.SERIES_DATA_POINT.equals( source.getType( ) ) )
 				{
-					final ActionHandle handle = ModuleUtil.deserializeAction( sa );
-					setTooltip( uv, handle );
+					final DataPointHints dph = (DataPointHints) source.getSource( );
 
-					target = handle.getTargetWindow( );
-					// use engine api to convert actionHandle to a final url
-					// value.
-					sa = handler.getURL( new IAction( ) {
+					sa = handler.getURL( new ChartHyperlinkActionBase( handle ) {
 
-						public int getType( )
+						public Object evaluate( String expr )
 						{
-							if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
-								return IAction.ACTION_HYPERLINK;
-							if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
-								return IAction.ACTION_BOOKMARK;
-							if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( handle.getLinkType( ) ) )
-								return IAction.ACTION_DRILLTHROUGH;
-							return 0;
-						}
-
-						public String getBookmark( )
-						{
-							return ChartUtil.stringValue( dph.getUserValue( handle.getTargetBookmark( ) ) );
-						}
-
-						public String getActionString( )
-						{
-							if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
-								return ChartUtil.stringValue( dph.getUserValue( handle.getURI( ) ) );
-							if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
-								return ChartUtil.stringValue( dph.getUserValue( handle.getTargetBookmark( ) ) );
-							return null;
-						}
-
-						public String getReportName( )
-						{
-							return handle.getReportName( );
-						}
-
-						public Map getParameterBindings( )
-						{
-							Map map = new HashMap( );
-							MemberHandle params = handle.getParamBindings( );
-							// Parameters may be null except for DrillThrough
-							if ( params != null )
-							{
-								for ( Iterator itr = params.iterator( ); itr.hasNext( ); )
-								{
-									ParamBindingHandle pbh = (ParamBindingHandle) itr.next( );
-									map.put( pbh.getParamName( ),
-											dph.getUserValue( pbh.getExpression( ) ) );
-								}
-							}
-							return map;
-						}
-
-						public Map getSearchCriteria( )
-						{
-							Map map = new HashMap( );
-							MemberHandle searches = handle.getSearch( );
-							// Searches may be null except for DrillThrough
-							if ( searches != null )
-							{
-								for ( Iterator itr = searches.iterator( ); itr.hasNext( ); )
-								{
-									SearchKeyHandle skh = (SearchKeyHandle) itr.next( );
-									map.put( skh.getExpression( ),
-											dph.getUserValue( skh.getExpression( ) ) );
-								}
-							}
-							return map;
-						}
-
-						public String getTargetWindow( )
-						{
-							return handle.getTargetWindow( );
-						}
-
-						public String getFormat( )
-						{
-							return handle.getFormatType( );
-						}
-
-						public boolean isBookmark( )
-						{
-							return DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK.equals( handle.getTargetBookmarkType( ) );
-						}
-
-						public String getSystemId( )
-						{
-							ModuleHandle mod = eih.getRoot( );
-							if ( mod != null )
-							{
-								return mod.getFileName( );
-							}
-							return null;
-						}
-
-						public String getTargetFileType( )
-						{
-							return handle.getTargetFileType( );
-						}
-
-						public String getTooltip( )
-						{
-							return handle.getToolTip( );
+							return dph.getUserValue( expr );
 						}
 					},
 							context );
 				}
-				catch ( Exception e )
+				else if ( StructureType.LEGEND_ENTRY.equals( source.getType( ) ) )
 				{
-					sa = ""; //$NON-NLS-1$
-					logger.log( e );
+					final LegendItemHints lih = (LegendItemHints) source.getSource( );
+					sa = handler.getURL( new ChartHyperlinkActionBase( handle ) {
+
+						public Object evaluate( String expr )
+						{
+							if ( expr != null )
+							{
+								// Replace special expression in Legend item
+								// before evaluation
+								if ( expr.indexOf( LEGEND_ITEM_TEXT ) >= 0 )
+								{
+									String legendItemText = wrapQuotation( lih.getItemText( ) );
+									// If simple expression, return result
+									// directly
+									if ( LEGEND_ITEM_TEXT.equals( expr.trim( ) ) )
+									{
+										return legendItemText;
+									}
+									expr = Pattern.compile( LEGEND_ITEM_TEXT,
+											Pattern.LITERAL )
+											.matcher( expr )
+											.replaceAll( legendItemText );
+								}
+								if ( expr.indexOf( LEGEND_ITEM_VALUE ) >= 0 )
+								{
+									String legendItemValue = wrapQuotation( lih.getValueText( ) );
+									// If simple expression, return result
+									// directly
+									if ( LEGEND_ITEM_VALUE.equals( expr.trim( ) ) )
+									{
+										return legendItemValue;
+									}
+									expr = Pattern.compile( LEGEND_ITEM_VALUE,
+											Pattern.LITERAL )
+											.matcher( expr )
+											.replaceAll( legendItemValue );
+								}
+							}
+							return evaluator.evaluate( expr );
+						}
+
+					},
+							context );
+				}
+				else
+				{
+					sa = handler.getURL( new ChartHyperlinkActionBase( handle ) {
+
+						public Object evaluate( String expr )
+						{
+							return evaluator.evaluate( expr );
+						}
+					},
+							context );
 				}
 			}
-			else
+			catch ( Exception e )
 			{
-				try
-				{
-					final ActionHandle handle = ModuleUtil.deserializeAction( sa );
-					setTooltip( uv, handle );
-
-					target = handle.getTargetWindow( );
-
-					// use engine api to convert actionHandle to a final url
-					// value.
-					sa = handler.getURL( new IAction( ) {
-
-						public int getType( )
-						{
-							if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
-								return IAction.ACTION_HYPERLINK;
-							if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
-								return IAction.ACTION_BOOKMARK;
-							if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( handle.getLinkType( ) ) )
-								return IAction.ACTION_DRILLTHROUGH;
-							return 0;
-						}
-
-						public String getBookmark( )
-						{
-							return ChartUtil.stringValue( evaluator.evaluate( handle.getTargetBookmark( ) ) );
-						}
-
-						public String getActionString( )
-						{
-							if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
-								return ChartUtil.stringValue( evaluator.evaluate( handle.getURI( ) ) );
-							if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
-								return ChartUtil.stringValue( evaluator.evaluate( handle.getTargetBookmark( ) ) );
-							return null;
-						}
-
-						public String getReportName( )
-						{
-							return handle.getReportName( );
-						}
-
-						public Map getParameterBindings( )
-						{
-							Map map = new HashMap( );
-							MemberHandle params = handle.getParamBindings( );
-							// Parameters may be null except for DrillThrough
-							if ( params != null )
-							{
-								for ( Iterator itr = params.iterator( ); itr.hasNext( ); )
-								{
-									ParamBindingHandle pbh = (ParamBindingHandle) itr.next( );
-									map.put( pbh.getParamName( ),
-											evaluator.evaluate( pbh.getExpression( ) ) );
-								}
-							}
-							return map;
-						}
-
-						public Map getSearchCriteria( )
-						{
-							Map map = new HashMap( );
-							MemberHandle searches = handle.getSearch( );
-							// Searches may be null except for DrillThrough
-							if ( searches != null )
-							{
-								for ( Iterator itr = searches.iterator( ); itr.hasNext( ); )
-								{
-									SearchKeyHandle skh = (SearchKeyHandle) itr.next( );
-									map.put( skh.getExpression( ),
-											evaluator.evaluate( skh.getExpression( ) ) );
-								}
-							}
-							return map;
-						}
-
-						public String getTargetWindow( )
-						{
-							return handle.getTargetWindow( );
-						}
-
-						public String getFormat( )
-						{
-							return handle.getFormatType( );
-						}
-
-						public boolean isBookmark( )
-						{
-							return DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK.equals( handle.getTargetBookmarkType( ) );
-						}
-
-						public String getSystemId( )
-						{
-							ModuleHandle mod = eih.getRoot( );
-							if ( mod != null )
-							{
-								return mod.getFileName( );
-							}
-							return null;
-						}
-
-						public String getTargetFileType( )
-						{
-							return handle.getTargetFileType( );
-						}
-
-						public String getTooltip( )
-						{
-							return handle.getToolTip( );
-						}
-					},
-							context );
-				}
-				catch ( Exception e )
-				{
-					sa = ""; //$NON-NLS-1$
-					logger.log( e );
-				}
+				sa = ""; //$NON-NLS-1$
+				logger.log( e );
 			}
 
 			uv.setBaseUrl( sa );
@@ -438,6 +395,23 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 		return script.substring( iStart, iEnd
 				+ 1
 				+ ExpressionUtil.EXPRESSION_VALUE_SUFFIX.length( ) );
+	}
+	
+	private static String wrapQuotation( String value )
+	{
+		if ( value == null )
+		{
+			return ""; //$NON-NLS-1$
+		}
+		try
+		{
+			Double.parseDouble( value );
+		}
+		catch ( RuntimeException e )
+		{
+			value = '"' + value + '"';
+		}
+		return value;
 	}
 
 }

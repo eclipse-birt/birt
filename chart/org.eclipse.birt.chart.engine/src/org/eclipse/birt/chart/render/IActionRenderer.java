@@ -22,6 +22,13 @@ public interface IActionRenderer
 {
 
 	/**
+	 * Expression evaluated in Legend trigger action.
+	 */
+	String LEGEND_ITEM_TEXT = "legendItemText"; //$NON-NLS-1$
+
+	String LEGEND_ITEM_VALUE = "legendItemValue";//$NON-NLS-1$
+
+	/**
 	 * Process the action with given source object.
 	 * 
 	 * @param action

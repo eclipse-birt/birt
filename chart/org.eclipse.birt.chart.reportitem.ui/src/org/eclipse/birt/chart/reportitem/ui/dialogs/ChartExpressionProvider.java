@@ -14,6 +14,8 @@ package org.eclipse.birt.chart.reportitem.ui.dialogs;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.chart.render.IActionRenderer;
+import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
@@ -26,19 +28,21 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 public class ChartExpressionProvider extends ExpressionProvider
 {
 
-	public static final String CHART_VARIABLES = org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartExpressionProvider.Category.ChartVariables" );//$NON-NLS-1$
+	public static final String CHART_VARIABLES = Messages.getString( "ChartExpressionProvider.Category.ChartVariables" );//$NON-NLS-1$
 
-	private static final String DATA_POINTS = org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartExpressionProvider.ChartVariables.DataPoints" );//$NON-NLS-1$
+	private static final String DATA_POINTS = Messages.getString( "ChartExpressionProvider.ChartVariables.DataPoints" );//$NON-NLS-1$
 
-	private static final String JAVASCRIPT = org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartExpressionProvider.ChartVariables.JavaScript" );//$NON-NLS-1$
+	private static final String LEGEND_ITEMS = Messages.getString( "ChartExpressionProvider.ChartVariables.LegendItems" );//$NON-NLS-1$
 
-	private static final String JAVASCRIPT_EVENT = org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartExpressionProvider.ChartVariables.Event" );//$NON-NLS-1$;
+	private static final String JAVASCRIPT = Messages.getString( "ChartExpressionProvider.ChartVariables.JavaScript" );//$NON-NLS-1$
+
+	private static final String JAVASCRIPT_EVENT = Messages.getString( "ChartExpressionProvider.ChartVariables.Event" );//$NON-NLS-1$;
 
 	private static final String JAVASCRIPT_EVENT_PARAMETER = "evt";//$NON-NLS-1$
 
 	public static final int CATEGORY_BASE = 0;
 
-	public static final int CATEGORY_WITH_CHART_VARIABLES = 1;
+	public static final int CATEGORY_WITH_DATA_POINTS = 1;
 
 	public static final int CATEGORY_WITH_BIRT_VARIABLES = 2;
 
@@ -47,6 +51,8 @@ public class ChartExpressionProvider extends ExpressionProvider
 	public static final int CATEGORY_WITH_REPORT_PARAMS = 8;
 
 	public static final int CATEGORY_WITH_JAVASCRIPT = 16;
+
+	public static final int CATEGORY_WITH_LEGEND_ITEMS = 32;
 
 	private final int _categoryStyle;
 
@@ -66,12 +72,12 @@ public class ChartExpressionProvider extends ExpressionProvider
 	private void init( )
 	{
 		// Filter categories according to the style
-		final List filteredList = new ArrayList( 3 );
-		
+		final List<Object> filteredList = new ArrayList<Object>( 3 );
+
 		// Always remove Cube since measure/dimension expression are not
 		// supported
 		filteredList.add( CURRENT_CUBE );
-		
+
 		if ( ( this._categoryStyle & CATEGORY_WITH_BIRT_VARIABLES ) != CATEGORY_WITH_BIRT_VARIABLES )
 		{
 			filteredList.add( BIRT_OBJECTS );
@@ -97,36 +103,42 @@ public class ChartExpressionProvider extends ExpressionProvider
 		}
 	}
 
-	protected List getCategoryList( )
+	protected List<Object> getCategoryList( )
 	{
-		List list = super.getCategoryList( );
-		if ( ( this._categoryStyle & CATEGORY_WITH_CHART_VARIABLES ) == CATEGORY_WITH_CHART_VARIABLES
-				|| ( this._categoryStyle & CATEGORY_WITH_JAVASCRIPT ) == CATEGORY_WITH_JAVASCRIPT )
+		List<Object> list = super.getCategoryList( );
+		if ( ( this._categoryStyle & CATEGORY_WITH_DATA_POINTS ) == CATEGORY_WITH_DATA_POINTS
+				|| ( this._categoryStyle & CATEGORY_WITH_JAVASCRIPT ) == CATEGORY_WITH_JAVASCRIPT
+				|| ( this._categoryStyle & CATEGORY_WITH_LEGEND_ITEMS ) == CATEGORY_WITH_LEGEND_ITEMS )
 		{
 			list.add( CHART_VARIABLES );
 		}
 		return list;
 	}
 
-	protected List getChildrenList( Object parent )
+	protected List<Object> getChildrenList( Object parent )
 	{
-		List list = super.getChildrenList( parent );
+		List<Object> list = super.getChildrenList( parent );
 
-		if ( DATA_POINTS.equals( parent ) )
+		if ( CHART_VARIABLES.equals( parent ) )
 		{
-
-			list.add( ScriptHandler.BASE_VALUE );
-			list.add( ScriptHandler.ORTHOGONAL_VALUE );
-			list.add( ScriptHandler.SERIES_VALUE );
-
-		}
-		else if ( CHART_VARIABLES.equals( parent ) )
-		{
-			if ( ( this._categoryStyle & CATEGORY_WITH_CHART_VARIABLES ) == CATEGORY_WITH_CHART_VARIABLES )
+			if ( ( this._categoryStyle & CATEGORY_WITH_DATA_POINTS ) == CATEGORY_WITH_DATA_POINTS )
 				list.add( DATA_POINTS );
 			if ( ( this._categoryStyle & CATEGORY_WITH_JAVASCRIPT ) == CATEGORY_WITH_JAVASCRIPT )
 				list.add( JAVASCRIPT );
+			if ( ( this._categoryStyle & CATEGORY_WITH_LEGEND_ITEMS ) == CATEGORY_WITH_LEGEND_ITEMS )
+				list.add( LEGEND_ITEMS );
 
+		}
+		else if ( DATA_POINTS.equals( parent ) )
+		{
+			list.add( ScriptHandler.BASE_VALUE );
+			list.add( ScriptHandler.ORTHOGONAL_VALUE );
+			list.add( ScriptHandler.SERIES_VALUE );
+		}
+		else if ( LEGEND_ITEMS.equals( parent ) )
+		{
+			list.add( IActionRenderer.LEGEND_ITEM_TEXT );
+			list.add( IActionRenderer.LEGEND_ITEM_VALUE );
 		}
 		else if ( JAVASCRIPT.equals( parent ) )
 		{
@@ -139,21 +151,22 @@ public class ChartExpressionProvider extends ExpressionProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getDisplayText(java.lang.Object)
+	 * @seeorg.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#
+	 * getDisplayText(java.lang.Object)
 	 */
 	public String getDisplayText( Object element )
 	{
 		if ( element.equals( ScriptHandler.BASE_VALUE ) )
 		{
-			return org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartExpressionProvider.DataPoints.BaseValue" );//$NON-NLS-1$;
+			return Messages.getString( "ChartExpressionProvider.DataPoints.BaseValue" );//$NON-NLS-1$;
 		}
 		else if ( element.equals( ScriptHandler.ORTHOGONAL_VALUE ) )
 		{
-			return org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartExpressionProvider.DataPoints.OrthogonalValue" );//$NON-NLS-1$
+			return Messages.getString( "ChartExpressionProvider.DataPoints.OrthogonalValue" );//$NON-NLS-1$
 		}
 		else if ( element.equals( ScriptHandler.SERIES_VALUE ) )
 		{
-			return org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartExpressionProvider.DataPoints.SeriesValue" );//$NON-NLS-1$
+			return Messages.getString( "ChartExpressionProvider.DataPoints.SeriesValue" );//$NON-NLS-1$
 		}
 		else if ( element.equals( JAVASCRIPT_EVENT_PARAMETER ) )
 		{

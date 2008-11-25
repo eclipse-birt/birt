@@ -515,6 +515,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		{
 			case COMMAND_HYPERLINK :
 			case COMMAND_HYPERLINK_DATAPOINTS :
+			case COMMAND_HYPERLINK_LEGEND :
 				shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
 						| SWT.RESIZE
 						| SWT.APPLICATION_MODAL );
@@ -522,10 +523,10 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 						ChartHelpContextIds.DIALOG_EDIT_URL );
 				HyperlinkBuilder hb = new HyperlinkBuilder( shell, true ) {
 
-					protected void configureExpressionBuilder(
-							ExpressionBuilder builder )
+					@Override
+					protected ExpressionProvider getExpressionProvider( )
 					{
-						builder.setExpressionProvier( ep );
+						return ep;
 					}
 
 				};
@@ -600,12 +601,12 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		}
 		else if ( builderCommand == COMMAND_EXPRESSION_CHART_DATAPOINTS )
 		{
-			return ChartExpressionProvider.CATEGORY_WITH_CHART_VARIABLES;
+			return ChartExpressionProvider.CATEGORY_WITH_DATA_POINTS;
 		}
 		else if ( builderCommand == COMMAND_EXPRESSION_SCRIPT_DATAPOINTS )
 		{
 			// Script doesn't support column binding expression.
-			return ChartExpressionProvider.CATEGORY_WITH_CHART_VARIABLES
+			return ChartExpressionProvider.CATEGORY_WITH_DATA_POINTS
 					| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS
 					| ChartExpressionProvider.CATEGORY_WITH_JAVASCRIPT;
 		}
@@ -634,6 +635,14 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			return ChartExpressionProvider.CATEGORY_WITH_BIRT_VARIABLES
 					| ChartExpressionProvider.CATEGORY_WITH_COLUMN_BINDINGS
 					| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS;
+		}
+		else if ( builderCommand == COMMAND_HYPERLINK_LEGEND )
+		{
+			// Add Legend item variables and remove column bindings
+			return ChartExpressionProvider.CATEGORY_WITH_LEGEND_ITEMS
+					| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS
+					| ChartExpressionProvider.CATEGORY_WITH_JAVASCRIPT
+					| ChartExpressionProvider.CATEGORY_WITH_BIRT_VARIABLES;
 		}
 		return ChartExpressionProvider.CATEGORY_BASE;
 	}
