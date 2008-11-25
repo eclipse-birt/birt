@@ -16,7 +16,6 @@ import java.util.logging.Level;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IEngineTask;
-import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -44,8 +43,6 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 
 	protected IReportLayoutEngine layoutEngine;
 
-	protected IPageHandler pageHandler;
-	
 	/**
 	 * @param engine
 	 *            reference to the report engine
@@ -97,9 +94,14 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			executor = new LocalizedReportExecutor(
 					executionContext, executor );
 			executionContext.setExecutor( executor );
-			if(ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ))
+			LayoutPageHandler layoutHandler = new LayoutPageHandler();
+			if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 			{
-				emitter = new PDFLayoutEmitterProxy(executor, emitter, renderOptions, executionContext.getLocale( ), 0l);
+				PDFLayoutEmitterProxy pdfLayoutEmitter = new PDFLayoutEmitterProxy(
+						executor, emitter, renderOptions, executionContext
+								.getLocale( ), 0l );
+				pdfLayoutEmitter.setPageHandler( layoutHandler );
+				emitter = pdfLayoutEmitter;
 			}
 			initializeContentEmitter( emitter, executor );
 
@@ -137,7 +139,10 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 				layoutPageHandler.addPageHandler( handle );
 				layoutPageHandler.addPageHandler( new ContextPageBreakHandler(
 						executionContext ) );
-				layoutPageHandler.addPageHandler( new LayoutPageHandler( ) );
+				if ( !ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
+				{
+					layoutPageHandler.addPageHandler( layoutHandler );
+				}
 
 				layoutEngine.setPageHandler( layoutPageHandler );
 
@@ -195,12 +200,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		executionContext.setMaxRowsPerQuery( maxRows );
 	}
 	
-	public void setPageHandler( IPageHandler callback )
-	{
-		this.pageHandler = callback;
-	}
-	
-	class LayoutPageHandler implements ILayoutPageHandler
+	private class LayoutPageHandler implements ILayoutPageHandler
 	{
 
 		public void onPage( long pageNumber, Object context )

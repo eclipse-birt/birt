@@ -24,6 +24,7 @@ import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
+import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
@@ -44,9 +45,15 @@ import org.eclipse.birt.report.engine.internal.document.ReportletExecutor;
 import org.eclipse.birt.report.engine.internal.document.v4.PageRangeIterator;
 import org.eclipse.birt.report.engine.internal.executor.dup.SuppressDuplciateReportExecutor;
 import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
+import org.eclipse.birt.report.engine.internal.presentation.ReportDocumentInfo;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.engine.layout.CompositeLayoutPageHandler;
+import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
+import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
+import org.eclipse.birt.report.engine.layout.html.HTMLReportLayoutEngine;
+import org.eclipse.birt.report.engine.layout.pdf.emitter.LayoutEngineContext;
 import org.eclipse.birt.report.engine.layout.pdf.emitter.PDFLayoutEmitterProxy;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
@@ -462,6 +469,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 					pagination, renderOptions );
 
 			layoutEngine.setLocale( executionContext.getLocale( ) );
+			LayoutPageHandler layoutPageHandler = new LayoutPageHandler(
+					( (HTMLReportLayoutEngine) layoutEngine ).getContext( ) );
+			layoutEngine.setPageHandler( layoutPageHandler );
 
 			PageRangeIterator iter = new PageRangeIterator( physicalPageSequences );
 
@@ -471,16 +481,18 @@ public class RenderTask extends EngineTask implements IRenderTask
 			{
 				if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 				{
-					OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
-							executionContext );
-					layoutEngine.setPageHandler( handle );
+					layoutEngine.setPageHandler( new OnPageBreakLayoutPageHandle(
+							executionContext ) );
 
 					CompositeContentEmitter outputEmitters = new CompositeContentEmitter(
 							format );
-					outputEmitters.addEmitter( new PDFLayoutEmitterProxy( executor,
+					PDFLayoutEmitterProxy pdfEmitter = new PDFLayoutEmitterProxy( executor,
 							emitter, renderOptions, executionContext
-									.getLocale( ), getTotalPage( ) ) );
-					outputEmitters.addEmitter( handle.getEmitter( ) );
+									.getLocale( ), getTotalPage( ) );
+					pdfEmitter.setPageHandler( layoutPageHandler );
+					outputEmitters.addEmitter( pdfEmitter );
+					outputEmitters.addEmitter( new OnPageBreakLayoutPageHandle(
+							executionContext ).getEmitter( ) );
 					emitter = outputEmitters;
 					if ( needPaginate( ) )
 					{
@@ -592,6 +604,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 			initializeContentEmitter( emitter, executor );
 			IReportLayoutEngine layoutEngine = createReportLayoutEngine(
 					pagination, renderOptions );
+			layoutEngine.setPageHandler( new LayoutPageHandler(
+					( (HTMLReportLayoutEngine) layoutEngine ).getContext( ) ) );
 
 			layoutEngine.setLocale( executionContext.getLocale( ) );
 
@@ -872,4 +886,35 @@ public class RenderTask extends EngineTask implements IRenderTask
 		return executor;
 	}
 	
+	private class LayoutPageHandler implements ILayoutPageHandler
+	{
+		private HTMLLayoutContext context;
+		
+		public LayoutPageHandler(HTMLLayoutContext context )
+		{
+			this.context = context;
+		}
+		
+		public void onPage( long pageNumber, Object context )
+		{
+			if ( pageHandler != null )
+			{
+				long totalPage = reportDocument.getPageCount( );
+				boolean finished = false;
+				if ( context instanceof HTMLLayoutContext )
+				{
+					HTMLLayoutContext layoutContext = (HTMLLayoutContext) context;
+					finished = layoutContext.isFinished( );
+				}
+				else if ( context instanceof LayoutEngineContext )
+				{
+					LayoutEngineContext layoutEngineContext = (LayoutEngineContext) context;
+					finished = this.context.isFinished( ) && layoutEngineContext.isFinished( );
+				}
+				IReportDocumentInfo reportDocumentInfo = new ReportDocumentInfo(
+						executionContext, totalPage, finished );
+				pageHandler.onPage( (int) pageNumber, false, reportDocumentInfo );
+			}
+		}
+	}
 }

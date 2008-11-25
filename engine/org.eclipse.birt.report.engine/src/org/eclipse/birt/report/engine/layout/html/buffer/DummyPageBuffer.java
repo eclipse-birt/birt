@@ -20,6 +20,7 @@ import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.ReportExecutorUtil;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
+import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.LayoutUtil;
 import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
 import org.eclipse.birt.report.engine.presentation.TableColumnHint;
@@ -56,12 +57,25 @@ public class DummyPageBuffer implements IPageBuffer
 			if ( content.getContentType( ) == IContent.PAGE_CONTENT )
 			{
 				ContentEmitterUtil.endContent( pageContent, emitter );
+				pageBreakEvent( );
 				context.clearPageHint( );
 			}
 			else
 			{
 				ContentEmitterUtil.endContent( content, emitter );
 			}
+		}
+
+	}
+
+	protected void pageBreakEvent( )
+	{
+		long pageNumber = context.getPageNumber( );
+		ILayoutPageHandler pageHandler = context.getLayoutEngine( )
+				.getPageHandler( );
+		if ( pageHandler != null )
+		{
+			pageHandler.onPage( pageNumber, context );
 		}
 
 	}

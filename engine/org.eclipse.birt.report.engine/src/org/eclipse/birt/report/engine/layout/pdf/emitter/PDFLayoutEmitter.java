@@ -37,6 +37,7 @@ import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
+import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.area.IContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
@@ -63,7 +64,8 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 	 */
 	protected boolean isFirst = true;
 
-	
+	protected ILayoutPageHandler pageHandler;
+
 	public PDFLayoutEmitter( IReportExecutor executor, IContentEmitter emitter,
 			LayoutEngineContext context )
 	{
@@ -97,7 +99,21 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 	public void end( IReportContent report )
 	{
 		resolveTotalPage( emitter );
+		if ( pageHandler != null )
+		{
+			pageHandler.onPage( context.pageNumber, context );
+		}
 		emitter.end( report );
+	}
+	
+	public ILayoutPageHandler getPageHandler( )
+	{
+		return pageHandler;
+	}
+	
+	public void setPageHandler( ILayoutPageHandler pageHandler )
+	{
+		this.pageHandler = pageHandler;
 	}
 	
 	protected void resolveTotalPage( IContentEmitter emitter )
@@ -228,31 +244,12 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 	private void _endContainer( IContent container )
 	{
 		boolean isInline = PropertyUtil.isInlineElement( container );
-		ContainerLayout layout;
-		if(isInline)
+		if ( !isInline )
 		{
-			if(current instanceof InlineStackingLayout)
+			while ( current instanceof InlineStackingLayout )
 			{
-				
-			}
-			else
-			{
-				
-			}
-		}
-		else
-		{
-			if(current instanceof InlineStackingLayout)
-			{
-				while(current instanceof InlineStackingLayout)
-				{
-					current.closeLayout( );
-					current = current.getParent( );
-				}
-			}
-			else
-			{
-				
+				current.closeLayout( );
+				current = current.getParent( );
 			}
 		}
 		current.closeLayout( );
@@ -278,13 +275,10 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 		}
 		else
 		{
-			if(current instanceof InlineStackingLayout)
+			while(current instanceof InlineStackingLayout)
 			{
-				while(current instanceof InlineStackingLayout)
-				{
-					current.closeLayout( );
-					current = current.getParent( );
-				}
+				current.closeLayout( );
+				current = current.getParent( );
 			}
 		}
 		layout = factory.createLayoutManager( current, content );
@@ -325,8 +319,6 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 
 	public void startPage( IPageContent page )
 	{
-		// TODO Auto-generated method stub
-		super.startPage( page );
 		if(!context.autoPageBreak)
 		{
 			long number = page.getPageNumber( );
@@ -335,6 +327,7 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 				context.pageNumber = number;
 			}
 		}
+		super.startPage( page );
 	}
 	
 	boolean showPageFooter( SimpleMasterPageDesign masterPage, IPageContent page )
@@ -395,15 +388,6 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 	}
 	
 	
-	public void endPage( IPageContent page )
-	{
-		// TODO Auto-generated method stub
-		super.endPage( page );
-	}
-	
-	
-		
-
 	protected void startTableContainer(IContainerContent container)
 	{
 		ContainerLayout layout = (ContainerLayout)factory.createLayoutManager( current, container );

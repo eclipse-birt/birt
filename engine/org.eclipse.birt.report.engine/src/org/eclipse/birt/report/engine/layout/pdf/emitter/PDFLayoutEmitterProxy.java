@@ -31,6 +31,7 @@ import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
+import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 
 public class PDFLayoutEmitterProxy extends LayoutEmitterAdapter
 		implements
@@ -86,6 +87,11 @@ public class PDFLayoutEmitterProxy extends LayoutEmitterAdapter
 		return layoutEmitterImpl.getOutputFormat( );
 	}
 
+	public void setPageHandler( ILayoutPageHandler pageHandler )
+	{
+		layoutEmitterImpl.setPageHandler( pageHandler );
+	}
+	
 	protected void setupLayoutOptions( IRenderOption renderOptions )
 	{
 		Map options = null;
@@ -319,4 +325,8 @@ public class PDFLayoutEmitterProxy extends LayoutEmitterAdapter
 		layoutEmitterImpl.startForeign( foreign );
 	}
 
+	public ILayoutPageHandler getPageHandler( )
+	{
+		return layoutEmitterImpl.getPageHandler( );
+	}
 }

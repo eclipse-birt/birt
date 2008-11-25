@@ -21,7 +21,6 @@ import org.eclipse.birt.core.archive.FolderArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
-import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
@@ -44,7 +43,6 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	private String documentName;
 	private IDocArchiveWriter archive;
 	private ReportDocumentWriter writer;
-	private IPageHandler pageHandler;
 	private ReportDocumentBuilder documentBuilder;
 
 	/**
@@ -58,16 +56,6 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		super( engine, runnable, IEngineTask.TASK_RUN );
 		executionContext.setFactoryMode( true );
 		executionContext.setPresentationMode( false );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.IRunTask#setPageHandler(org.eclipse.birt.report.engine.api.IPageHandler)
-	 */
-	public void setPageHandler( IPageHandler callback )
-	{
-		this.pageHandler = callback;
 	}
 
 	/*

@@ -40,11 +40,23 @@ public class LayoutEngineContext
 	
 	protected long totalPage = 0;
 	protected long pageCount = 0;
-	protected long pageNumber = 1;
+	protected long pageNumber = 0;
 	
 	protected boolean autoPageBreak = true;
 	
 	protected LayoutEmitterAdapter emitter;
+
+	protected boolean isFinished;
+	
+	public boolean isFinished( )
+	{
+		return isFinished;
+	}
+	
+	public void setFinished( boolean isFinished )
+	{
+		this.isFinished = isFinished;
+	}
 	
 	public void setEmitter( LayoutEmitterAdapter emitter )
 	{

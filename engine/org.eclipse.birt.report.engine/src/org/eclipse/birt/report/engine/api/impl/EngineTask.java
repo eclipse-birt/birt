@@ -40,6 +40,7 @@ import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IEngineConfig;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
+import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
@@ -65,6 +66,7 @@ import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.v3.ReportContentReaderV3;
+import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
@@ -165,6 +167,8 @@ public abstract class EngineTask implements IEngineTask
 	
 	private ClassLoader contextClassLoader;
 
+	protected IPageHandler pageHandler;
+	
 	/**
 	 * @param engine
 	 *            reference to report engine
@@ -1646,6 +1650,16 @@ public abstract class EngineTask implements IEngineTask
 		EngineLoggerHandler.setLogger( logger );
 		this.log = logger;
 		this.executionContext.setLogger( logger );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.IRunTask#setPageHandler(org.eclipse.birt.report.engine.api.IPageHandler)
+	 */
+	public void setPageHandler( IPageHandler callback )
+	{
+		this.pageHandler = callback;
 	}
 
 	protected void switchToOsgiClassLoader( )

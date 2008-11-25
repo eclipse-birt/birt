@@ -26,9 +26,6 @@ import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecuto
 import org.eclipse.birt.report.engine.layout.ILayoutManager;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
-import org.eclipse.birt.report.engine.layout.html.buffer.DummyPageBuffer;
-import org.eclipse.birt.report.engine.layout.html.buffer.IPageBuffer;
-import org.eclipse.birt.report.engine.layout.html.buffer.TableBreakBuffer;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 
 public class HTMLReportLayoutEngine implements IReportLayoutEngine
@@ -70,7 +67,7 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 		factory = new HTMLLayoutManagerFactory( this );
 	}
 
-	HTMLLayoutContext getContext( )
+	public HTMLLayoutContext getContext( )
 	{
 		return context;
 	}
@@ -87,7 +84,6 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 		context.setAllowPageBreak( pagination );
 		setupLayoutOptions();		
 
-		context.setFinish(  false );
 		if(pageHint!=null)
 		{
 			context.setLayoutPageHint( pageHint );
@@ -104,11 +100,6 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 		
 		pageLM.close( );
 
-		context.setFinish(  true );
-		if ( pageHandler != null )
-		{
-			pageHandler.onPage( context.getPageNumber( ), context );
-		}
 		executor.close( );
 		pageCount += context.getPageCount( );
 		context.reset( );
@@ -212,8 +203,11 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 
 	public void close( )
 	{
-		// TODO Auto-generated method stub
-		
+		context.setFinish(  true );
+		if ( pageHandler != null )
+		{
+			pageHandler.onPage( context.getPageNumber( ), context );
+		}
 	}
 
 	public void setTotalPageCount( long totalPage )

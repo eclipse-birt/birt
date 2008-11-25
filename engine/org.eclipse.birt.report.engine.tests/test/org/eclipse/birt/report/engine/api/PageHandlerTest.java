@@ -31,14 +31,19 @@ public class PageHandlerTest extends EngineCase
 		removeFile( REPORT_DOCUMENT );
 	}
 
-	long pageNumberStatus[] = new long[]{1, 2, 3, 3};
-	boolean checkPointStatus[] = new boolean[]{true, false, false, true};
-
 	class TestPageHandler implements IPageHandler
 	{
 
 		int callBackCount = 0;
+		private long[] pageNumberStatus;
+		private boolean[] checkPointStatus;
 
+		public TestPageHandler( long[] pageNumbers, boolean[] checkPointStatus)
+		{
+			this.pageNumberStatus = pageNumbers;
+			this.checkPointStatus = checkPointStatus;
+		}
+		
 		public void onPage( int pageNumber, boolean checkpoint,
 				IReportDocumentInfo doc )
 		{
@@ -46,10 +51,18 @@ public class PageHandlerTest extends EngineCase
 			assertEquals( checkPointStatus[callBackCount], checkpoint );
 			callBackCount++;
 		}
+		
+		public int getCallCount( )
+		{
+			return callBackCount;
+		}
 	}
 
-	public void testHandler( )
+	public void testHandlerOfRunTask( )
 	{
+		long pageNumberStatus[] = new long[]{1, 2, 3, 3};
+		boolean checkPointStatus[] = new boolean[]{true, false, false, true};
+
 		try
 		{
 			// open the report runnable to execute.
@@ -57,7 +70,8 @@ public class PageHandlerTest extends EngineCase
 			// create an IRunTask
 			IRunTask task = engine.createRunTask( report );
 			// execute the report to create the report document.
-			task.setPageHandler( new TestPageHandler( ) );
+			task.setPageHandler( new TestPageHandler( pageNumberStatus,
+					checkPointStatus ) );
 			task.run( REPORT_DOCUMENT );
 			// close the task, release the resource.
 			task.close( );
@@ -69,4 +83,73 @@ public class PageHandlerTest extends EngineCase
 		};
 	}
 
+	public void testHandlerOfRunAndRenderTask( )
+	{
+//		testRunAndRender( "html", 1, 2, 3, 3 );
+		testRunAndRender( "pdf", 1, 2, 3, 3 );
+	}
+
+	private void testRunAndRender( String format, long... pageNumberStatus )
+	{
+		try
+		{
+			boolean[] checkPointStatus = new boolean[pageNumberStatus.length];
+			// open the report runnable to execute.
+			IReportRunnable report = engine.openReportDesign( REPORT_DESIGN );
+			// create an IRunTask
+			IRunAndRenderTask task = engine.createRunAndRenderTask( report );
+			HTMLRenderOption options = new HTMLRenderOption();
+			options.setHtmlPagination( true );
+			options.setOutputFormat( format );
+			task.setRenderOption(options);
+			// execute the report to create the report document.
+			TestPageHandler handler = new TestPageHandler( pageNumberStatus,
+					checkPointStatus );
+			task.setPageHandler( handler );
+			task.run( );
+			assertEquals( pageNumberStatus.length, handler.getCallCount( ) );
+			// close the task, release the resource.
+			task.close( );
+		}
+		catch ( Exception ex )
+		{
+			ex.printStackTrace( );
+			fail( );
+		};
+	}
+
+	public void testHandlerOfRenderTask( )
+	{
+		testRender( "html", 1, 2, 3, 3 );
+		testRender( "pdf", 1, 2, 3, 3 );
+	}
+
+	
+	private void testRender( String format, long... pageNumberStatus )
+	{
+		try
+		{
+			// open the report runnable to execute.
+			IReportDocument document = this.createReportDocument( REPORT_DESIGN_RESOURCE );
+			// create an IRunTask
+			IRenderTask task = engine.createRenderTask( document );
+			HTMLRenderOption options = new HTMLRenderOption();
+			options.setHtmlPagination( true );
+			options.setOutputFormat( format );
+			task.setRenderOption(options);
+			// execute the report to create the report document.
+			TestPageHandler handler = new TestPageHandler( pageNumberStatus,
+					new boolean[pageNumberStatus.length] );
+			task.setPageHandler( handler );
+			task.render( );
+			// close the task, release the resource.
+			task.close( );
+			assertEquals( pageNumberStatus.length, handler.getCallCount( ) );
+		}
+		catch ( Exception ex )
+		{
+			ex.printStackTrace( );
+			fail( );
+		};
+	}
 }

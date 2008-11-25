@@ -164,4 +164,11 @@ public interface IRenderTask extends IEngineTask
 	 */
 	public abstract ITOCTree getTOCTree( ) throws EngineException;
 	
+	/**
+	 * set up event handler to be called after each page is generated
+	 * 
+	 * @param callback
+	 *            a callback function that is called after each checkpoint
+	 */
+	public void setPageHandler( IPageHandler callback );
 }

@@ -23,6 +23,7 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.PageSetupDesign;
+import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.area.IContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
@@ -65,6 +66,7 @@ public class PageLayout extends BlockStackingLayout
 		PageContext pageContext = new PageContext();
 		if(context.autoPageBreak)
 		{
+			context.pageNumber++;
 			pageContext.pageContent = createPageContent( pageContent );
 		}
 		else
@@ -310,7 +312,7 @@ public class PageLayout extends BlockStackingLayout
 	{
 		PageArea page = (PageArea) currentContext.root;
 		int overFlowType = context.getPageOverflow( );
-		
+		context.setFinished( finished );
 		if ( overFlowType == IPDFRenderOption.FIT_TO_PAGE_SIZE )
 		{
 			float scale = calculatePageScale( currentContext, page );
@@ -370,7 +372,13 @@ public class PageLayout extends BlockStackingLayout
 	
 	public void outputPage( IPageContent page )
 	{
-		context.emitter.outputPage( page );
+		LayoutEmitterAdapter emitter = context.emitter;
+		emitter.outputPage( page );
+		ILayoutPageHandler pageHandler = emitter.getPageHandler( );
+		if ( pageHandler != null )
+		{
+			pageHandler.onPage( context.pageNumber, context );
+		}
 		//context.pageNumber++;
 	}
 	
@@ -481,14 +489,12 @@ public class PageLayout extends BlockStackingLayout
 	{
 		if ( context.pageNumber == htmlPageContent.getPageNumber( ) )
 		{
-			context.pageNumber++;
 			return htmlPageContent;
 		}
 		else
 		{
 			IPageContent pageContent = createPageContent( htmlPageContent,
 					context.pageNumber, context.totalPage );
-			context.pageNumber++;
 			return pageContent;
 		}
 	}

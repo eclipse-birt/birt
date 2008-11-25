@@ -31,6 +31,7 @@ import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
+import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 
 public class WrappedPDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEmitter
 {
@@ -337,6 +338,16 @@ public class WrappedPDFLayoutEmitter extends LayoutEmitterAdapter implements ICo
 					.peek( );
 			pContent.getChildren( ).add( foreign );
 		}
+	}
+
+	public ILayoutPageHandler getPageHandler( )
+	{
+		return layoutEmitter.getPageHandler( );
+	}
+	
+	public void setPageHandler( ILayoutPageHandler pageHandler )
+	{
+		layoutEmitter.setPageHandler( pageHandler );
 	}
 	
 	/**
