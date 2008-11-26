@@ -47,6 +47,7 @@ BaseAxisDataSheetImpl.Lbl.Title=Achsentitel:
 BaseAxisDataSheetImpl.Lbl.Origin=Ursprung:
 BaseAxisDataSheetImpl.Lbl.Value=W&ert:
 BaseAxisDataSheetImpl.Lbl.YAxisCount=Anzahl der Y-Achsen:
+AbstractScaleSheet.AutoExpand=A&uto Expand
 AbstractScaleSheet.Label.Step=Schritt
 AbstractScaleSheet.Label.Auto=&Auto
 BaseAxisDataSheetImpl.Lbl.Minimum=&Min.:

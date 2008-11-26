@@ -47,6 +47,7 @@ BaseAxisDataSheetImpl.Lbl.Title=Titre de l'axe :
 BaseAxisDataSheetImpl.Lbl.Origin=Origine :
 BaseAxisDataSheetImpl.Lbl.Value=V&aleur :
 BaseAxisDataSheetImpl.Lbl.YAxisCount=Nombre d'axes Y :
+AbstractScaleSheet.AutoExpand=A&uto Expand
 AbstractScaleSheet.Label.Step=Escalier
 AbstractScaleSheet.Label.Auto=&Automatique
 BaseAxisDataSheetImpl.Lbl.Minimum=&Min :

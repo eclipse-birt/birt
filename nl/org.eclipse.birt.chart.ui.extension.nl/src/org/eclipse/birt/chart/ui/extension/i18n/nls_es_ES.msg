@@ -47,6 +47,7 @@ BaseAxisDataSheetImpl.Lbl.Title=Título del eje:
 BaseAxisDataSheetImpl.Lbl.Origin=Origen:
 BaseAxisDataSheetImpl.Lbl.Value=V&alor:
 BaseAxisDataSheetImpl.Lbl.YAxisCount=Número de ejes Y:
+AbstractScaleSheet.AutoExpand=A&uto Expand
 AbstractScaleSheet.Label.Step=Paso
 AbstractScaleSheet.Label.Auto=&Automático
 BaseAxisDataSheetImpl.Lbl.Minimum=&Mínimo:

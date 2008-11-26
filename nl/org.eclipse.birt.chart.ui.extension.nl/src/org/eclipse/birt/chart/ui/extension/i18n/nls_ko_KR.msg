@@ -47,6 +47,7 @@ BaseAxisDataSheetImpl.Lbl.Title=축 제목:
 BaseAxisDataSheetImpl.Lbl.Origin=기점(&A):
 BaseAxisDataSheetImpl.Lbl.Value=값:
 BaseAxisDataSheetImpl.Lbl.YAxisCount=Y 축 개수:
+AbstractScaleSheet.AutoExpand=A&uto Expand
 AbstractScaleSheet.Label.Step=단계형
 AbstractScaleSheet.Label.Auto=자동(&A)
 BaseAxisDataSheetImpl.Lbl.Minimum=최소(&M):

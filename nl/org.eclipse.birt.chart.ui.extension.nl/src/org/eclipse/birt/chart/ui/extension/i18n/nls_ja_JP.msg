@@ -47,6 +47,7 @@ BaseAxisDataSheetImpl.Lbl.Title=軸タイトル :
 BaseAxisDataSheetImpl.Lbl.Origin=原点 :
 BaseAxisDataSheetImpl.Lbl.Value=値 (&A):
 BaseAxisDataSheetImpl.Lbl.YAxisCount=Y 軸の数 :
+AbstractScaleSheet.AutoExpand=A&uto Expand
 AbstractScaleSheet.Label.Step=ステップグラフ
 AbstractScaleSheet.Label.Auto=自動(&A)
 BaseAxisDataSheetImpl.Lbl.Minimum=最小 (&M):

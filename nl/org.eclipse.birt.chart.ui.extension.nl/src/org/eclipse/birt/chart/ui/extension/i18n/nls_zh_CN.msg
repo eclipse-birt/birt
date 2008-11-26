@@ -47,6 +47,7 @@ BaseAxisDataSheetImpl.Lbl.Title=轴标题:
 BaseAxisDataSheetImpl.Lbl.Origin=原点:
 BaseAxisDataSheetImpl.Lbl.Value=值(&A): 
 BaseAxisDataSheetImpl.Lbl.YAxisCount=Y 轴的数量:
+AbstractScaleSheet.AutoExpand=A&uto Expand
 AbstractScaleSheet.Label.Step=步幅
 AbstractScaleSheet.Label.Auto=自动(&A)
 BaseAxisDataSheetImpl.Lbl.Minimum=最小值(&M):
