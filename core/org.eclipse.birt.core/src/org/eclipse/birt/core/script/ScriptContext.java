@@ -86,6 +86,10 @@ public class ScriptContext
 			global = new ImporterTopLevel( );
 			if ( root != null )
 			{
+				//can not put this object to root, because this object will cache package and classloader information.
+				//so we need rewrite this property.
+	            new LazilyLoadedCtor( global, "Packages",
+						"org.mozilla.javascript.NativeJavaTopPackage", false );
 				global.exportAsJSClass( 3, global, false );
 				global.delete( "constructor" );
 				global.setPrototype( root );
