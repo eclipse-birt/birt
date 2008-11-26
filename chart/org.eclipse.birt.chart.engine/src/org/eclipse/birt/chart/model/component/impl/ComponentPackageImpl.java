@@ -1113,6 +1113,16 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getScale_AutoExpand( )
+	{
+		return (EAttribute) scaleEClass.getEStructuralFeatures( ).get( 8 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1392,6 +1402,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		createEAttribute( scaleEClass, SCALE__STEP_NUMBER );
 		createEAttribute( scaleEClass, SCALE__SHOW_OUTSIDE );
 		createEAttribute( scaleEClass, SCALE__TICK_BETWEEN_CATEGORIES );
+		createEAttribute( scaleEClass, SCALE__AUTO_EXPAND );
 
 		seriesEClass = createEClass( SERIES );
 		createEAttribute( seriesEClass, SERIES__VISIBLE );
@@ -1793,6 +1804,9 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		initEAttribute( getScale_TickBetweenCategories( ),
 				theXMLTypePackage.getBoolean( ),
 				"tickBetweenCategories", "true", 0, 1, Scale.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute( getScale_AutoExpand( ),
+				theXMLTypePackage.getBoolean( ),
+				"autoExpand", "true", 1, 1, Scale.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( seriesEClass,
 				Series.class,
@@ -2246,6 +2260,10 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		addAnnotation( getScale_TickBetweenCategories( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "TickBetweenCategories" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getScale_AutoExpand( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "AutoExpand" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( seriesEClass, source, new String[]{
 				"name", "Series", //$NON-NLS-1$ //$NON-NLS-2$

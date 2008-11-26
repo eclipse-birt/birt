@@ -74,6 +74,19 @@ public class AxisScaleSheet extends AbstractScaleSheet
 			btnShowOutside.setSelection( false );
 			getScale().setShowOutside( false );
 		}
+		else
+		{
+			btnAutoExpand.setSelection( true );
+			getScale( ).setAutoExpand( true );
+		}
+
+		boolean bAxisX = ( axisAngleType == AngleType.X );
+		boolean bEnableAutoExpand = btnStepAuto.getSelection( )
+				&& bAxisX
+				&& !( getAxisForProcessing( ).getType( ) == AxisType.TEXT_LITERAL )
+				&& !( getAxisForProcessing( ).isCategoryAxis( ) );
+
+		btnAutoExpand.setEnabled( bEnableAutoExpand );
 	}
 
 }

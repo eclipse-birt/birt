@@ -74,6 +74,8 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 
 	protected Button btnShowOutside = null;
 
+	protected Button btnAutoExpand;
+
 	public AbstractScaleSheet( String title, ChartWizardContext context )
 	{
 		super( title, context, true );
@@ -184,6 +186,16 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 		lblMax.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Maximum" ) ); //$NON-NLS-1$
 
 		txtScaleMax = createValuePicker( cmpContent, getScale( ).getMax( ) );
+
+		btnAutoExpand = new Button( cmpContent, SWT.CHECK );
+		{
+			GridData gd = new GridData( );
+			gd.horizontalSpan = 4;
+			btnAutoExpand.setLayoutData( gd );
+			btnAutoExpand.setSelection( getScale( ).isAutoExpand( ) );
+			btnAutoExpand.setText( Messages.getString( "AbstractScaleSheet.AutoExpand" ) ); //$NON-NLS-1$
+			btnAutoExpand.addListener( SWT.Selection, this );
+		}
 
 		btnShowOutside = new Button( cmpContent, SWT.CHECK );
 		{
@@ -416,6 +428,10 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 		else if ( event.widget.equals( spnStepNumber ) )
 		{
 			getScale( ).setStepNumber( spnStepNumber.getSelection( ) );
+		}
+		else if ( event.widget == btnAutoExpand )
+		{
+			getScale( ).setAutoExpand( btnAutoExpand.getSelection( ) );
 		}
 	}
 

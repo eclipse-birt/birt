@@ -52,6 +52,8 @@ public class ScaleContext extends Methods
 	private boolean bStepFixed = false;
 	private boolean bMargin = false;
 
+	private boolean bExpandMinmax = true;
+
 	public ScaleContext( int iMarginPercent, int iType, int iUnit,
 			Object oMinValue, Object oMaxValue, Object oStep )
 	{
@@ -252,6 +254,20 @@ public class ScaleContext extends Methods
 				// dMaxAxis = 0;
 				// }
 			}
+			else if ( !bExpandMinmax )
+			{
+				double dMinAxis1 = ( ( dStep >= 1 ) ? Math.floor( dMinAxis
+						/ dStep )
+						: Math.round( dMinAxis / dStep ) )
+						* dStep;
+				dMinAxis = dMinAxis < dMinAxis1 ? dMinAxis1 - dStep : dMinAxis1;
+
+				double dMaxAxis1 = ( ( dStep >= 1 ) ? Math.floor( dMaxAxis
+						/ dStep )
+						: Math.round( dMaxAxis / dStep ) )
+						* dStep;
+				dMaxAxis = dMaxAxis > dMaxAxis1 ? dMaxAxis1 + dStep : dMaxAxis1;
+			}
 			else
 			{
 				// Auto adjust min and max by step if step number is not fixed
@@ -425,15 +441,28 @@ public class ScaleContext extends Methods
 		}
 		else
 		{
-			if ( !bMinimumFixed )
+			if ( bExpandMinmax )
 			{
-				cdtMinValue = cdtMinValue.backward( iUnit, iStep );
+				if ( !bMinimumFixed )
+				{
+					cdtMinValue = cdtMinValue.backward( iUnit, iStep );
+					cdtMinValue.clearBelow( iUnit );
+
+					if ( !bMaximumFixed )
+					{
+						cdtMaxValue = cdtMaxValue.forward( iUnit, 1 );
+						cdtMaxValue.clearBelow( iUnit );
+					}
+				}
+			}
+			else
+			{
 				cdtMinValue.clearBelow( iUnit );
-				
-				if (!bMaximumFixed)
+				long lMax0 = cdtMaxValue.getTimeInMillis( );
+				cdtMaxValue.clearBelow( iUnit );
+				if ( lMax0 > cdtMaxValue.getTimeInMillis( ) )
 				{
 					cdtMaxValue = cdtMaxValue.forward( iUnit, 1 );
-					cdtMaxValue.clearBelow( iUnit );
 				}
 			}
 			oMin = cdtMinValue;
@@ -494,5 +523,22 @@ public class ScaleContext extends Methods
 	public int getUnit( )
 	{
 		return iUnit;
+	}
+
+	/**
+	 * @return Returns the bExpandMinmax.
+	 */
+	public boolean isExpandMinmax( )
+	{
+		return bExpandMinmax;
+	}
+
+	/**
+	 * @param expandMinmax
+	 *            The bExpandMinmax to set.
+	 */
+	public void setExpandMinmax( boolean expandMinmax )
+	{
+		bExpandMinmax = expandMinmax;
 	}
 }

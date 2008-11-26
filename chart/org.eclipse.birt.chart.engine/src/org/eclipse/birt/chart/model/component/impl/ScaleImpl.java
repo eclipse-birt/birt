@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getStepNumber <em>Step Number</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#isShowOutside <em>Show Outside</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#isTickBetweenCategories <em>Tick Between Categories</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#isAutoExpand <em>Auto Expand</em>}</li>
  * </ul>
  * </p>
  *
@@ -51,7 +52,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * @generated
 	 * @ordered
 	 */
-	protected DataElement min = null;
+	protected DataElement min;
 
 	/**
 	 * The cached value of the '{@link #getMax() <em>Max</em>}' containment reference.
@@ -60,7 +61,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * @generated
 	 * @ordered
 	 */
-	protected DataElement max = null;
+	protected DataElement max;
 
 	/**
 	 * The default value of the '{@link #getStep() <em>Step</em>}' attribute.
@@ -87,7 +88,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean stepESet = false;
+	protected boolean stepESet;
 
 	/**
 	 * The default value of the '{@link #getUnit() <em>Unit</em>}' attribute.
@@ -114,7 +115,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean unitESet = false;
+	protected boolean unitESet;
 
 	/**
 	 * The default value of the '{@link #getMinorGridsPerUnit() <em>Minor Grids Per Unit</em>}' attribute.
@@ -141,7 +142,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean minorGridsPerUnitESet = false;
+	protected boolean minorGridsPerUnitESet;
 
 	/**
 	 * The default value of the '{@link #getStepNumber() <em>Step Number</em>}' attribute.
@@ -170,7 +171,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean stepNumberESet = false;
+	protected boolean stepNumberESet;
 
 	/**
 	 * The default value of the '{@link #isShowOutside() <em>Show Outside</em>}' attribute.
@@ -199,7 +200,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean showOutsideESet = false;
+	protected boolean showOutsideESet;
 
 	/**
 	 * The default value of the '{@link #isTickBetweenCategories() <em>Tick Between Categories</em>}' attribute.
@@ -228,7 +229,36 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean tickBetweenCategoriesESet = false;
+	protected boolean tickBetweenCategoriesESet;
+
+	/**
+	 * The default value of the '{@link #isAutoExpand() <em>Auto Expand</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isAutoExpand()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean AUTO_EXPAND_EDEFAULT = true;
+
+	/**
+	 * The cached value of the '{@link #isAutoExpand() <em>Auto Expand</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isAutoExpand()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean autoExpand = AUTO_EXPAND_EDEFAULT;
+
+	/**
+	 * This is true if the Auto Expand attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean autoExpandESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -729,6 +759,66 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isAutoExpand( )
+	{
+		return autoExpand;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAutoExpand( boolean newAutoExpand )
+	{
+		boolean oldAutoExpand = autoExpand;
+		autoExpand = newAutoExpand;
+		boolean oldAutoExpandESet = autoExpandESet;
+		autoExpandESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					ComponentPackage.SCALE__AUTO_EXPAND,
+					oldAutoExpand,
+					autoExpand,
+					!oldAutoExpandESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetAutoExpand( )
+	{
+		boolean oldAutoExpand = autoExpand;
+		boolean oldAutoExpandESet = autoExpandESet;
+		autoExpand = AUTO_EXPAND_EDEFAULT;
+		autoExpandESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					ComponentPackage.SCALE__AUTO_EXPAND,
+					oldAutoExpand,
+					AUTO_EXPAND_EDEFAULT,
+					oldAutoExpandESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetAutoExpand( )
+	{
+		return autoExpandESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -768,6 +858,8 @@ public class ScaleImpl extends EObjectImpl implements Scale
 			case ComponentPackage.SCALE__TICK_BETWEEN_CATEGORIES :
 				return isTickBetweenCategories( ) ? Boolean.TRUE
 						: Boolean.FALSE;
+			case ComponentPackage.SCALE__AUTO_EXPAND :
+				return isAutoExpand( ) ? Boolean.TRUE : Boolean.FALSE;
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -804,6 +896,9 @@ public class ScaleImpl extends EObjectImpl implements Scale
 				return;
 			case ComponentPackage.SCALE__TICK_BETWEEN_CATEGORIES :
 				setTickBetweenCategories( ( (Boolean) newValue ).booleanValue( ) );
+				return;
+			case ComponentPackage.SCALE__AUTO_EXPAND :
+				setAutoExpand( ( (Boolean) newValue ).booleanValue( ) );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -842,6 +937,9 @@ public class ScaleImpl extends EObjectImpl implements Scale
 			case ComponentPackage.SCALE__TICK_BETWEEN_CATEGORIES :
 				unsetTickBetweenCategories( );
 				return;
+			case ComponentPackage.SCALE__AUTO_EXPAND :
+				unsetAutoExpand( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -871,6 +969,8 @@ public class ScaleImpl extends EObjectImpl implements Scale
 				return isSetShowOutside( );
 			case ComponentPackage.SCALE__TICK_BETWEEN_CATEGORIES :
 				return isSetTickBetweenCategories( );
+			case ComponentPackage.SCALE__AUTO_EXPAND :
+				return isSetAutoExpand( );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -913,6 +1013,11 @@ public class ScaleImpl extends EObjectImpl implements Scale
 		result.append( ", tickBetweenCategories: " ); //$NON-NLS-1$
 		if ( tickBetweenCategoriesESet )
 			result.append( tickBetweenCategories );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", autoExpand: " ); //$NON-NLS-1$
+		if ( autoExpandESet )
+			result.append( autoExpand );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );

@@ -121,6 +121,8 @@ public final class AutoScale extends Methods implements Cloneable
 
 	private ScaleContext tmpSC;
 
+	private boolean bExpandMinMax = true;
+
 	private ChartUtil.CacheDecimalFormat cacheNumFormat = new ChartUtil.CacheDecimalFormat( );
 
 	private ChartUtil.Cache<Integer, IDateFormatWrapper> cacheDateFormat = new ChartUtil.Cache<Integer, IDateFormatWrapper>( ) {
@@ -318,6 +320,7 @@ public final class AutoScale extends Methods implements Cloneable
 		sc.iMinUnit = iMinUnit;
 		sc.hmComputedLabelText = sc.hmComputedLabelText;
 		sc.tmpSC = tmpSC;
+		sc.bExpandMinMax = bExpandMinMax;
 
 		return sc;
 	}
@@ -1200,6 +1203,7 @@ public final class AutoScale extends Methods implements Cloneable
 		{
 			sct.setFixedValue( bMinimumFixed, bMaximumFixed, oMinimum, oMaximum );
 		}
+		sct.setExpandMinmax( bExpandMinMax );
 		sct.setFixedStep( bStepFixed, oStepNumber );
 		sct.computeMinMax( );
 		updateContext( sct );
@@ -1952,6 +1956,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.bTickBetweenCategories = ax.isTickBwtweenCategories( );
 			sc.dZoomFactor = zoomFactor;
 			sc.iMarginPercent = iMarginPercent;
+			sc.bExpandMinMax = scModel.isAutoExpand( );
 			sc.setData( dsi );
 			sc.setDirection( direction );
 			sc.computeTicks( xs,
@@ -2041,6 +2046,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.dZoomFactor = zoomFactor;
 			sc.dPrecision = dPrecision;
 			sc.iMarginPercent = iMarginPercent;
+			sc.bExpandMinMax = scModel.isAutoExpand( );
 
 			// OVERRIDE MIN OR MAX IF SPECIFIED
 			setNumberMinMaxToScale( sc, oMinimum, oMaximum, rtc, ax );
@@ -2112,6 +2118,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.iMarginPercent = iMarginPercent;
 			sc.setData( dsi );
 			sc.setDirection( direction );
+			sc.bExpandMinMax = scModel.isAutoExpand( );
 
 			// OVERRIDE MIN OR MAX IF SPECIFIED
 			setNumberMinMaxToScale( sc, oMinimum, oMaximum, rtc, ax );
@@ -2218,6 +2225,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.bTickBetweenCategories = ax.isTickBwtweenCategories( );
 			sc.dZoomFactor = zoomFactor;
 			sc.iMarginPercent = iMarginPercent;
+			sc.bExpandMinMax = scModel.isAutoExpand( );
 
 			// OVERRIDE MINIMUM IF SPECIFIED
 			if ( oMinimum != null )

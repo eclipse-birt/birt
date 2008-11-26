@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.component.Scale#getStepNumber <em>Step Number</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Scale#isShowOutside <em>Show Outside</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Scale#isTickBetweenCategories <em>Tick Between Categories</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Scale#isAutoExpand <em>Auto Expand</em>}</li>
  * </ul>
  * </p>
  *
@@ -253,7 +254,9 @@ public interface Scale extends EObject
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Number of steps in the values shown on the axis.
+	 * 
+	 * 						Number of steps in the values shown on the axis.
+	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Step Number</em>' attribute.
 	 * @see #isSetStepNumber()
@@ -307,7 +310,9 @@ public interface Scale extends EObject
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Indicates if it shows values outside Axis range.
+	 * 
+	 * 						Indicates if it shows values outside Axis range.
+	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Show Outside</em>' attribute.
 	 * @see #isSetShowOutside()
@@ -361,7 +366,11 @@ public interface Scale extends EObject
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Specifes if the major tick is rendered at the category value or between two categories. This only affects the category and text style axis.
+	 * 
+	 * 						Specifes if the major tick is rendered at the
+	 * 						category value or between two categories. This
+	 * 						only affects the category and text style axis.
+	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Tick Between Categories</em>' attribute.
 	 * @see #isSetTickBetweenCategories()
@@ -408,5 +417,62 @@ public interface Scale extends EObject
 	 * @generated
 	 */
 	boolean isSetTickBetweenCategories( );
+
+	/**
+	 * Returns the value of the '<em><b>Auto Expand</b></em>' attribute.
+	 * The default value is <code>"true"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 						Specifes if min/max value should be expanded 
+	 * 						by 1 unit, by default is true.
+	 * 					
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Auto Expand</em>' attribute.
+	 * @see #isSetAutoExpand()
+	 * @see #unsetAutoExpand()
+	 * @see #setAutoExpand(boolean)
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getScale_AutoExpand()
+	 * @model default="true" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 *        extendedMetaData="kind='element' name='AutoExpand'"
+	 * @generated
+	 */
+	boolean isAutoExpand( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#isAutoExpand <em>Auto Expand</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Auto Expand</em>' attribute.
+	 * @see #isSetAutoExpand()
+	 * @see #unsetAutoExpand()
+	 * @see #isAutoExpand()
+	 * @generated
+	 */
+	void setAutoExpand( boolean value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#isAutoExpand <em>Auto Expand</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetAutoExpand()
+	 * @see #isAutoExpand()
+	 * @see #setAutoExpand(boolean)
+	 * @generated
+	 */
+	void unsetAutoExpand( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Scale#isAutoExpand <em>Auto Expand</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Auto Expand</em>' attribute is set.
+	 * @see #unsetAutoExpand()
+	 * @see #isAutoExpand()
+	 * @see #setAutoExpand(boolean)
+	 * @generated
+	 */
+	boolean isSetAutoExpand( );
 
 } // Scale
