@@ -1561,8 +1561,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		// Always cube query returned
 		IPreparedCubeQuery ipcq = session.prepare( (ICubeQueryDefinition) qd );
 
-		if ( itemHandle.getCube( ) == null && referredHandle != null ) // Sharing
-																		// case
+		// Sharing case
+		if ( referredHandle != null )
 		{
 			return new SharedCubeResultSetEvaluator( ipcq.execute( null, null ),
 					qd,
