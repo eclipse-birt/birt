@@ -892,6 +892,7 @@ ImageDialog.label.SelectImage=选择图像
 
 TextEditorComposite.Tooltip.EnterDecimalOrFractionValue=输入小数或分数值
 
+PlotClientAreaSheet.Btn.Auto=自动
 PlotClientAreaSheet.Label.HeightHint=高度提示(&N):
 PlotClientAreaSheet.Label.WidthHint=宽度提示(&T):
 

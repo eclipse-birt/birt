@@ -892,6 +892,7 @@ ImageDialog.label.SelectImage=이미지 선택
 
 TextEditorComposite.Tooltip.EnterDecimalOrFractionValue=십진 또는 분수 값을 입력합니다.
 
+PlotClientAreaSheet.Btn.Auto=자동
 PlotClientAreaSheet.Label.HeightHint=높이 힌트(&N):
 PlotClientAreaSheet.Label.WidthHint=너비 힌트(&T):
 

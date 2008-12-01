@@ -892,6 +892,7 @@ ImageDialog.label.SelectImage=Seleccionar imagen
 
 TextEditorComposite.Tooltip.EnterDecimalOrFractionValue=Introduzca un valor decimal o de fracción
 
+PlotClientAreaSheet.Btn.Auto=Automático
 PlotClientAreaSheet.Label.HeightHint=Sugerencia de a&ltura:
 PlotClientAreaSheet.Label.WidthHint=Sugerencia de a&nchura:
 

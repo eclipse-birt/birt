@@ -892,6 +892,7 @@ ImageDialog.label.SelectImage=Bild auswählen
 
 TextEditorComposite.Tooltip.EnterDecimalOrFractionValue=Dezimal- oder Bruchwert eingeben
 
+PlotClientAreaSheet.Btn.Auto=Automatisch
 PlotClientAreaSheet.Label.HeightHint=Höhenhi&nweis:
 PlotClientAreaSheet.Label.WidthHint=Brei&tenhinweis:
 

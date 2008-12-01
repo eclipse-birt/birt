@@ -892,6 +892,7 @@ ImageDialog.label.SelectImage=イメージの選択
 
 TextEditorComposite.Tooltip.EnterDecimalOrFractionValue=10進数または分数の値を入力してください。
 
+PlotClientAreaSheet.Btn.Auto=自動
 PlotClientAreaSheet.Label.HeightHint=高さのヒント (&N):
 PlotClientAreaSheet.Label.WidthHint=幅のヒント (&T):
 
