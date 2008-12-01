@@ -36,6 +36,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportCSSStyle
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportLibraryAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.ApplyStyleMenuAction;
+import org.eclipse.birt.report.designer.ui.actions.DeleteStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.EditGroupMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.EditStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
@@ -226,6 +227,7 @@ public class DesignerActionBarContributor extends
 				Messages.getString( "DesignerActionBarContributor.style.new" ) ) ); //$NON-NLS-1$
 		addRetargetAction( new RetargetAction( ApplyStyleMenuAction.ID, null ) );
 		addRetargetAction( new RetargetAction( EditStyleMenuAction.ID, null ) );
+		addRetargetAction( new RetargetAction( DeleteStyleMenuAction.ID, null ) );
 		addRetargetAction( new RetargetAction( EditGroupMenuAction.ID, null ) );
 		addRetargetAction( new RetargetAction( InsertGroupMenuAction.ID, null ) );
 
@@ -514,6 +516,8 @@ public class DesignerActionBarContributor extends
 		// add
 
 		newMenu.add( getAction( AddStyleAction.ID ) );
+		
+		newMenu.add( new Separator( ) );
 
 		// edit
 		MenuManager editStyleMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.style-rule-edit" ) ); //$NON-NLS-1$
@@ -538,6 +542,20 @@ public class DesignerActionBarContributor extends
 			}
 		} );
 		newMenu.add( applyStyleMenu );
+
+		// delete
+		MenuManager delStyleMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.style-rule-remove" ) ); //$NON-NLS-1$
+		delStyleMenu.add( NoneAction.getInstance( ) );
+		delStyleMenu.addMenuListener( new IMenuListener( ) {
+
+			public void menuAboutToShow( IMenuManager manager )
+			{
+				updateDynamicItems( DeleteStyleMenuAction.ID, manager );
+			}
+		} );
+		newMenu.add( delStyleMenu );
+		
+		newMenu.add( new Separator( ) );
 
 		newMenu.add( getAction( ImportCSSStyleAction.ID ) );
 	}
