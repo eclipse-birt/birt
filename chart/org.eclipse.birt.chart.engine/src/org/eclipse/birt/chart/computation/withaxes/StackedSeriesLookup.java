@@ -335,6 +335,20 @@ public final class StackedSeriesLookup
 								}
 							}
 						}
+						else if ( se.canShareAxisUnit( ) )
+						{
+							sg = new StackGroup( iSharedUnitIndex++ ); // NEW
+							// GROUP
+							// FOR
+							// EACH
+							// UNSTACKED
+							// SERIES
+							alSGCopies.add( sg );
+							iSharedUnitCount++;
+							ssl.htSeriesToStackGroup.put( se, sg );
+							sg.addSeries( se ); // REQUIRE REVERSE
+							// LOOKUP
+						}
 						else
 						// e.g. each custom series in its own stack (not stacked
 						// but

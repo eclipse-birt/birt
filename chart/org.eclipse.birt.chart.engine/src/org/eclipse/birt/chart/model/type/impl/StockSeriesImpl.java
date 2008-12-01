@@ -766,7 +766,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	 */
 	public boolean canShareAxisUnit( )
 	{
-		return false;
+		return true;
 	}
 
 	/**
