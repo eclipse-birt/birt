@@ -16,8 +16,8 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.designer.ui.preview.Activator;
 import org.eclipse.birt.report.designer.ui.preview.IPreviewConstants;
+import org.eclipse.birt.report.designer.ui.util.UIHelper;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -41,13 +41,31 @@ import org.eclipse.ui.forms.editor.FormEditor;
 public class PreviewCascadingMenuGroup implements
 		IWorkbenchWindowPulldownDelegate2
 {
+	private static Map typeMap = new HashMap( );
+	public static final String TYPE_DOC = "doc"; //$NON-NLS-1$
+	public static final String TYPE_HTML = "html"; //$NON-NLS-1$
+	public static final String TYPE_PDF = "pdf"; //$NON-NLS-1$
+	public static final String TYPE_PPT = "ppt"; //$NON-NLS-1$
+	public static final String TYPE_PS = "postscript"; //$NON-NLS-1$
+	public static final String TYPE_XLS = "xls"; //$NON-NLS-1$
+	public static final String IMG_FILE_DEFAULT = "icons/etool16/preview.gif"; //$NON-NLS-1$
+	public static final String IMG_FILE_WEB = "icons/etool16/preview_web.gif"; //$NON-NLS-1$
+	public static final String IMG_FILE_DOC = "icons/etool16/preview_doc.gif"; //$NON-NLS-1$
+	public static final String IMG_FILE_HTML = "icons/etool16/preview_html.gif"; //$NON-NLS-1$
+	public static final String IMG_FILE_PDF = "icons/etool16/preview_pdf.gif"; //$NON-NLS-1$
+	public static final String IMG_FILE_PPT = "icons/etool16/preview_ppt.gif"; //$NON-NLS-1$
+	public static final String IMG_FILE_PS = "icons/etool16/preview_ps.gif"; //$NON-NLS-1$
+	public static final String IMG_FILE_XLS = "icons/etool16/preview_xls.gif"; //$NON-NLS-1$
 
-	private Image previewIcon = Activator.getImageDescriptor( "icons/etool16/preview.gif" ) //$NON-NLS-1$
-			.createImage( );
-	private Image previewPDFIcon = Activator.getImageDescriptor( "icons/etool16/preview_pdf.gif" ) //$NON-NLS-1$
-			.createImage( );
-	private Image previewDOCIcon = Activator.getImageDescriptor( "icons/etool16/preview_doc.gif" ) //$NON-NLS-1$
-			.createImage( );
+	static
+	{
+		typeMap.put( TYPE_DOC, IMG_FILE_DOC );
+		typeMap.put( TYPE_HTML, IMG_FILE_HTML );
+		typeMap.put( TYPE_PDF, IMG_FILE_PDF );
+		typeMap.put( TYPE_PPT, IMG_FILE_PPT );
+		typeMap.put( TYPE_PS, IMG_FILE_PS );
+		typeMap.put( TYPE_XLS, IMG_FILE_XLS );
+	}
 
 	/**
 	 * The menu created by this action.
@@ -60,18 +78,6 @@ public class PreviewCascadingMenuGroup implements
 	public PreviewCascadingMenuGroup( )
 	{
 		super( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.actions.PreviewAction#dispose()
-	 */
-	public void dispose( )
-	{
-		previewIcon.dispose( );
-		previewPDFIcon.dispose( );
-		previewDOCIcon.dispose( );
 	}
 
 	/**
@@ -109,17 +115,16 @@ public class PreviewCascadingMenuGroup implements
 	{
 		ReportEngine engine = new ReportEngine( new EngineConfig( ) );
 		String[] supportedFormats = engine.getSupportedFormats( );
-
 		java.util.Arrays.sort( supportedFormats );
 
 		MenuItem previewWebViewer = new MenuItem( menu, SWT.PUSH );
-		previewWebViewer.setText( "&1 " + Messages.getString( "designer.preview.run.webviewer" ) ); //$NON-NLS-1$
-		previewWebViewer.setImage( previewIcon );
+		previewWebViewer.setText( "&1 " + Messages.getString( "designer.preview.run.webviewer" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		previewWebViewer.setImage( UIHelper.getImage( IMG_FILE_WEB ) );
 		previewWebViewer.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				preview( "html", true ); //$NON-NLS-1$
+				preview( TYPE_HTML, true ); //$NON-NLS-1$
 			}
 		} );
 
@@ -127,23 +132,19 @@ public class PreviewCascadingMenuGroup implements
 		{
 			final String format = supportedFormats[i];
 			MenuItem previewOption = new MenuItem( menu, SWT.PUSH );
-			String indexPrefix = i > 7 ? " " : "&" + ( i + 2 );
+			String indexPrefix = i > 7 ? " " : "&" + ( i + 2 ); //$NON-NLS-1$ //$NON-NLS-2$
 			previewOption.setText( indexPrefix
-					+ " " + Messages.getFormattedString( "designer.preview.run", //$NON-NLS-1$
+					+ " " + Messages.getFormattedString( "designer.preview.run", //$NON-NLS-1$ //$NON-NLS-2$
 							new Object[]{
 								format.toUpperCase( )
 							} ) );
-			if ( format.equals( "pdf" ) ) //$NON-NLS-1$
+			if ( typeMap.containsKey( format ) )
 			{
-				previewOption.setImage( previewPDFIcon );
-			}
-			else if ( format.equals( "doc" ) ) //$NON-NLS-1$
-			{
-				previewOption.setImage( previewDOCIcon );
+				previewOption.setImage( (Image) UIHelper.getImage( (String) typeMap.get( format ) ) );
 			}
 			else
 			{
-				previewOption.setImage( previewIcon );
+				previewOption.setImage( UIHelper.getImage( IMG_FILE_DEFAULT ) );
 			}
 			previewOption.addSelectionListener( new SelectionAdapter( ) {
 
@@ -225,7 +226,13 @@ public class PreviewCascadingMenuGroup implements
 	 */
 	public void init( IWorkbenchWindow window )
 	{
+	}
 
+	/**
+	 * @see org.eclipse.birt.report.designer.ui.actions.PreviewAction#dispose()
+	 */
+	public void dispose( )
+	{
 	}
 
 	/**

@@ -124,7 +124,6 @@ public class InputParameterHtmlDialog extends Dialog
 	protected Control createButtonBar( Composite parent )
 	{
 		return parent;
-
 	}
 
 	/**
