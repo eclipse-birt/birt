@@ -150,9 +150,9 @@ public class DataDefinitionTextManager
 			// display expression that is used as the unique id here.
 			String displayExpr = queryManager.getDisplayExpression( );
 			ChartUIUtil.setText( text, displayExpr );
-			ColorPalette.getInstance( ).putColor( displayExpr );
-			text.setBackground( ColorPalette.getInstance( )
-					.getColor( displayExpr ) );
+
+			// Bind color to this data definition
+			updateControlBackground( text, displayExpr );
 		}
 	}
 
@@ -185,13 +185,24 @@ public class DataDefinitionTextManager
 			adjustScaleData( queryManager.getQuery( ) );
 
 			// Bind color to this data definition
-			ColorPalette.getInstance( )
-					.putColor( ChartUIUtil.getText( control ) );
-			control.setBackground( ColorPalette.getInstance( )
-					.getColor( ChartUIUtil.getText( control ) ) );
+			updateControlBackground( control, ChartUIUtil.getText( control ) );
 		}
 	}
 
+	/**
+	 * Binding color to specified control.
+	 * 
+	 * @param control
+	 * @param expression
+	 * @since 2.5
+	 */
+	public void updateControlBackground( Control control, String expression )
+	{
+		ColorPalette.getInstance( ).putColor( expression );
+		control.setBackground( ColorPalette.getInstance( )
+				.getColor( expression ) );
+	}
+	
 	/**
 	 * Adjust min/max data element of scale when current expression type is
 	 * different with old expression type.

@@ -42,7 +42,9 @@ import org.eclipse.birt.chart.ui.swt.CustomPreviewTable;
 import org.eclipse.birt.chart.ui.swt.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.DefaultChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.SimpleTextTransfer;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
+import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
@@ -149,6 +151,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		this.itemHandle = itemHandle;
 		this.dataProvider = dataProvider;
 		this.iSupportedDataItems = iSupportedDataItems;
+		addListener( this );
 	}
 
 	public StandardChartDataSheet( ExtendedItemHandle itemHandle,
@@ -618,6 +621,17 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 	public void handleEvent( Event event )
 	{
+		if ( event.data instanceof ISelectDataComponent )
+		{
+			// When user select expression in drop&down list of live preview
+			// area, the event will be handled to update related column color.
+			if ( event.type == IChartDataSheet.EVENT_QUERY
+					&& event.detail == IChartDataSheet.DETAIL_UPDATE_COLOR )
+			{
+				refreshTableColor( );
+			}
+			return;
+		}
 		// Right click to display the menu. Menu display by clicking
 		// application key is triggered by os, so do nothing.
 		if ( event.type == CustomPreviewTable.MOUSE_RIGHT_CLICK_TYPE )
@@ -1110,7 +1124,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 	}
 
-	protected void manageColorAndQuery( Query query, String expr )
+	protected void manageColorAndQuery( String queryType, Query query, String expr,
+ SeriesDefinition seriesDefinition )
 	{
 		// If it's not used any more, remove color binding
 		if ( DataDefinitionTextManager.getInstance( )
@@ -1122,8 +1137,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		// Update query, if it is sharing binding case, the specified expression
 		// will be converted and set to query, else directly set specified
 		// expression to query.
-		// DataDefinitionTextManager.getInstance( ).updateQuery( query, expr );
-		query.setDefinition( getActualExpression( expr ) );
+		updateQuery( queryType, query, expr, seriesDefinition );
 
 		DataDefinitionTextManager.getInstance( ).updateText( query );
 		// Reset table column color
@@ -1132,34 +1146,37 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		DataDefinitionTextManager.getInstance( ).refreshAll( );
 	}
 
-	/**
-	 * Returns actual expression for common and sharing query case.
-	 * 
-	 * @param query
-	 * @param expr
-	 * @return
-	 */
-	private String getActualExpression( String expr )
+	private void updateQuery( String queryType, Query query, String expr,
+			SeriesDefinition seriesDefinition )
 	{
-		if ( !dataProvider.checkState( IDataServiceProvider.SHARE_QUERY ) )
-		{
-			return expr;
-		}
+		String actualExpr = expr;
 
-		// Convert to actual expression.
-		Object obj = tablePreview.getCurrentColumnHeadObject( );
-		if ( obj instanceof ColumnBindingInfo )
+		if ( dataProvider.checkState( IDataServiceProvider.SHARE_QUERY ) )
 		{
-			ColumnBindingInfo cbi = (ColumnBindingInfo) obj;
-			int type = cbi.getColumnType( );
-			if ( type == ColumnBindingInfo.GROUP_COLUMN
-					|| type == ColumnBindingInfo.AGGREGATE_COLUMN )
+			boolean isGroupOrAggr = false;
+			// Convert to actual expression.
+			Object obj = tablePreview.getCurrentColumnHeadObject( );
+			if ( obj instanceof ColumnBindingInfo )
 			{
-				return cbi.getExpression( );
+				ColumnBindingInfo cbi = (ColumnBindingInfo) obj;
+				int type = cbi.getColumnType( );
+				if ( type == ColumnBindingInfo.GROUP_COLUMN
+						|| type == ColumnBindingInfo.AGGREGATE_COLUMN )
+				{
+					actualExpr = cbi.getExpression( );
+					isGroupOrAggr = true;
+				}
+			}
+
+			// Update group state.
+			if ( seriesDefinition != null
+					&& ( queryType.equals( ChartUIConstants.QUERY_CATEGORY ) || queryType.equals( ChartUIConstants.QUERY_VALUE ) ) )
+			{
+				seriesDefinition.getGrouping( ).setEnabled( isGroupOrAggr );
 			}
 		}
 
-		return expr;
+		query.setDefinition( actualExpr );
 	}
 
 	class CategoryXAxisAction extends Action
@@ -1167,12 +1184,14 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 		Query query;
 		String expr;
+		private SeriesDefinition seriesDefintion;
 
 		CategoryXAxisAction( String expr )
 		{
 			super( getBaseSeriesTitle( getChartModel( ) ) );
-			this.query = ( (Query) ( (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) )
-					.get( 0 ) ).getDesignTimeSeries( )
+			seriesDefintion = (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) )
+					.get( 0 );
+			this.query = ( (Query) seriesDefintion.getDesignTimeSeries( )
 					.getDataDefinition( )
 					.get( 0 ) );
 			this.expr = expr;
@@ -1185,7 +1204,10 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 		public void run( )
 		{
-			manageColorAndQuery( query, expr );
+			manageColorAndQuery( ChartUIConstants.QUERY_CATEGORY,
+					query,
+					expr,
+					seriesDefintion );
 		}
 	}
 
@@ -1194,10 +1216,13 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 		Query query;
 		String expr;
+		private SeriesDefinition seriesDefinition;
 
-		GroupYSeriesAction( Query query, String expr )
+		GroupYSeriesAction( Query query, String expr,
+				SeriesDefinition seriesDefinition )
 		{
 			super( getGroupSeriesTitle( getChartModel( ) ) );
+			this.seriesDefinition = seriesDefinition;
 			this.query = query;
 			this.expr = expr;
 
@@ -1214,7 +1239,10 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			ChartUIUtil.setAllGroupingQueryExceptFirst( getChartModel( ), expr );
 			ChartAdapter.endIgnoreNotifications( );
 
-			manageColorAndQuery( query, expr );
+			manageColorAndQuery( ChartUIConstants.QUERY_OPTIONAL,
+					query,
+					expr,
+					seriesDefinition );
 		}
 	}
 
@@ -1247,7 +1275,10 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 		public void run( )
 		{
-			manageColorAndQuery( query, expr );
+			manageColorAndQuery( ChartUIConstants.QUERY_VALUE,
+					query,
+					expr,
+					null );
 		}
 	}
 
@@ -1383,7 +1414,9 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			for ( int i = 0; i < sds.size( ); i++ )
 			{
 				SeriesDefinition sd = (SeriesDefinition) sds.get( i );
-				IAction action = new GroupYSeriesAction( sd.getQuery( ), expr );
+				IAction action = new GroupYSeriesAction( sd.getQuery( ),
+						expr,
+						sd );
 				// ONLY USE FIRST GROUPING SERIES FOR CHART ENGINE SUPPORT
 				// if ( axisNum == 1 && sds.size( ) == 1 )
 				{

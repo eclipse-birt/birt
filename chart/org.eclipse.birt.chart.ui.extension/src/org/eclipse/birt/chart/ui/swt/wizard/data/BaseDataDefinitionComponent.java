@@ -229,7 +229,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 					String oldQuery = query.getDefinition( ) == null ? "" : query.getDefinition( ); //$NON-NLS-1$
 
 					// Do nothing for the same query
-					if ( cmbDefinition.getText( ).equals( oldQuery ) )
+					if ( !isTableSharedBinding( )
+							&& cmbDefinition.getText( ).equals( oldQuery ) )
 					{
 						return;
 					}
@@ -477,7 +478,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		if ( query != null )
 		{
 			Color cColor = ColorPalette.getInstance( )
-					.getColor( query.getDefinition( ) );
+					.getColor( getDisplayExpression( ) );
 			if ( getInputControl( ) != null )
 			{
 				ChartUIUtil.setBackgroundColor( getInputControl( ),
@@ -802,6 +803,26 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		}
 
 		updateQueryForSharedBinding( expression );
+		
+		// Binding color to input control by expression and refresh color of
+		// preview table.
+		String regex = "\\Qrow[\"\\E.*\\Q\"]\\E"; //$NON-NLS-1$
+		if ( expression.matches( regex ) )
+		{
+			DataDefinitionTextManager.getInstance( )
+					.updateControlBackground( getInputControl( ), expression );
+
+			Event e = new Event( );
+			e.data = BaseDataDefinitionComponent.this;
+			e.widget = getInputControl( );
+			e.type = IChartDataSheet.EVENT_QUERY;
+			e.detail = IChartDataSheet.DETAIL_UPDATE_COLOR;
+			context.getDataSheet( ).notifyListeners( e );
+		}
+		else
+		{
+			getInputControl( ).setBackground( null );
+		}
 	}
 
 	/**

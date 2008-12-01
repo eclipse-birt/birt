@@ -35,6 +35,9 @@ public interface IChartDataSheet
 	 */
 	int EVENT_QUERY = 2;
 
+	/** The field indicates the component color of query should be updated. */
+	int DETAIL_UPDATE_COLOR = 3;
+	
 	/**
 	 * Sets chart model.
 	 * 
