@@ -883,6 +883,7 @@ DesignerActionBarContributor.menu.insert=&Insérer
 DesignerActionBarContributor.menu.page=Pa&ge
 DesignerActionBarContributor.menu.style-rule-apply=A&ppliquer un style
 DesignerActionBarContributor.menu.style-rule-edit=Mo&difier le style
+DesignerActionBarContributor.menu.style-rule-remove=&Remove Style
 DesignerActionBarContributor.style.new=&Nouveau style...
 DesignerActionBarContributor.menu.data-NewParameter=Nouveau &paramètre d'état
 DesignerActionBarContributor.menu.data-NewDataSetParent=Nouveau jeu de do&nnées

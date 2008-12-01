@@ -883,6 +883,7 @@ DesignerActionBarContributor.menu.insert=E&infügen
 DesignerActionBarContributor.menu.page=Sei&te
 DesignerActionBarContributor.menu.style-rule-apply=Stil an&wenden
 DesignerActionBarContributor.menu.style-rule-edit=Stil bea&rbeiten
+DesignerActionBarContributor.menu.style-rule-remove=&Remove Style
 DesignerActionBarContributor.style.new=&Neuer Stil...
 DesignerActionBarContributor.menu.data-NewParameter=Neuer Bericht&parameter
 DesignerActionBarContributor.menu.data-NewDataSetParent=Neuer Daten&satz

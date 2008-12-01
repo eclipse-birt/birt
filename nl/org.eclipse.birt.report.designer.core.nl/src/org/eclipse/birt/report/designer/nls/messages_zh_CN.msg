@@ -883,6 +883,7 @@ DesignerActionBarContributor.menu.insert=插入(&I)
 DesignerActionBarContributor.menu.page=页面(&G)
 DesignerActionBarContributor.menu.style-rule-apply=应用样式(&P)
 DesignerActionBarContributor.menu.style-rule-edit=编辑样式(&D)
+DesignerActionBarContributor.menu.style-rule-remove=&Remove Style
 DesignerActionBarContributor.style.new=新建样式(&N)...
 DesignerActionBarContributor.menu.data-NewParameter=新建报表参数(&P)
 DesignerActionBarContributor.menu.data-NewDataSetParent=新建数据集(&S)
