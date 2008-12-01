@@ -24,6 +24,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ImageEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -206,76 +207,33 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 
 	protected void selectElement( final Object element, final boolean edit )
 	{
-		Display.getCurrent( ).asyncExec( new Runnable( ) {
-
-			public void run( )
+		if ( element instanceof ReportItemHandle )
+		{
+			IWorkbenchPart part = PlatformUI.getWorkbench( )
+					.getActiveWorkbenchWindow( )
+					.getPartService( )
+					.getActivePart( );
+			IEditorPart epart = null;
+			if ( part instanceof AbstractMultiPageEditor )
 			{
-				if ( element instanceof ReportItemHandle )
+				epart = ( (AbstractMultiPageEditor) part ).getActivePageInstance( );
+			}
+			else if ( part instanceof IReportEditor )
+			{
+				IEditorPart activeEditor = ( (IReportEditor) part ).getEditorPart( );
+				if ( activeEditor instanceof AbstractMultiPageEditor )
 				{
-					IWorkbenchPart part = PlatformUI.getWorkbench( )
-							.getActiveWorkbenchWindow( )
-							.getPartService( )
-							.getActivePart( );
-					IEditorPart epart = null;
-					if ( part instanceof AbstractMultiPageEditor )
-					{
-						epart = ( (AbstractMultiPageEditor) part ).getActivePageInstance( );
-					}
-					else if ( part instanceof IReportEditor )
-					{
-						IEditorPart activeEditor = ( (IReportEditor) part ).getEditorPart( );
-						if ( activeEditor instanceof AbstractMultiPageEditor )
-						{
-							epart = ( (AbstractMultiPageEditor) activeEditor ).getActivePageInstance( );
-						}
-					}
-
-					if ( epart instanceof GraphicalEditorWithFlyoutPalette )
-					{
-						GraphicalViewer viewer = ( (GraphicalEditorWithFlyoutPalette) epart ).getGraphicalViewer( );
-						Object cpart = viewer.getEditPartRegistry( )
-								.get( element );
-
-						if ( cpart instanceof EditPart )
-						{
-							viewer.flush( );
-							viewer.select( (EditPart) cpart );
-						}
-
-						if ( edit && cpart instanceof LabelEditPart )
-						{
-							( (LabelEditPart) cpart ).performDirectEdit( );
-						}
-						else if ( edit && cpart instanceof ImageEditPart )
-						{
-							( (ImageEditPart) cpart ).performDirectEdit( );
-						}
-						// fix bugzilla#145284
-						// TODO check extension setting here to decide if popup
-						// the builder
-						// else if ( edit
-						// && cpart instanceof ExtendedEditPart )
-						// {
-						// ( (ExtendedEditPart) cpart ).performDirectEdit( );
-						// }
-
-						// bugzilla#173221
-						else
-						{
-							List list = new ArrayList( );
-							list.add( element );
-							ReportRequest r = new ReportRequest( );
-							r.setType( ReportRequest.CREATE_ELEMENT );
-
-							r.setSelectionObject( list );
-							SessionHandleAdapter.getInstance( )
-									.getMediator( )
-									.notifyRequest( r );
-						}
-					}
+					epart = ( (AbstractMultiPageEditor) activeEditor ).getActivePageInstance( );
 				}
 			}
-		} );
+
+			if ( epart instanceof GraphicalEditorWithFlyoutPalette )
+			{
+				GraphicalViewer viewer = ( (GraphicalEditorWithFlyoutPalette) epart ).getGraphicalViewer( );
+				ReportCreationTool.selectAddedObject( element, viewer, edit );
+			}
+
+		}
 	}
 
 	/*

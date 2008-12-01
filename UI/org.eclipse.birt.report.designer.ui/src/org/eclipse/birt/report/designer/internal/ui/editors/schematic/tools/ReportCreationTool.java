@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -195,6 +198,29 @@ public class ReportCreationTool extends CreationTool
 	}
 
 	/**
+	 * @param model
+	 * @param viewer
+	 * @param edit
+	 */
+	public static void selectAddedObject( final Object model,
+			final EditPartViewer viewer, boolean  edit)
+	{
+		selectAddedObject( model,
+				viewer,
+				new Request( ReportRequest.CREATE_ELEMENT ), edit );
+	}
+	
+	/**
+	 * @param model
+	 * @param viewer
+	 * @param request
+	 */
+	public static void selectAddedObject( final Object model,
+			final EditPartViewer viewer, final Request request )
+	{
+		selectAddedObject(model, viewer, request, true);
+	}
+	/**
 	 * Selects or clicks added object
 	 * 
 	 * @param model
@@ -205,7 +231,7 @@ public class ReportCreationTool extends CreationTool
 	 *            the request sended to EditPart
 	 */
 	public static void selectAddedObject( final Object model,
-			final EditPartViewer viewer, final Request request )
+			final EditPartViewer viewer, final Request request, final boolean edit )
 	{
 		if ( model == null || viewer == null )
 			return;
@@ -221,19 +247,28 @@ public class ReportCreationTool extends CreationTool
 				{
 					viewer.flush( );
 					viewer.select( (EditPart) editpart );
+					
+					if ( edit && ( (EditPart) editpart ).understandsRequest( request ) )
+					{
+						( (EditPart) editpart ).performRequest( request );
+					}
+					
+					viewer.reveal( (EditPart) editpart );
+					
 				}
 				else
 				{
-					return;
+					List list = new ArrayList( );
+					list.add( model );
+					ReportRequest r = new ReportRequest( );
+					r.setType( ReportRequest.CREATE_ELEMENT );
+
+					r.setSelectionObject( list );
+					SessionHandleAdapter.getInstance( )
+							.getMediator( )
+							.notifyRequest( r );
 				}
-				if ( ( (EditPart) editpart ).understandsRequest( request ) )
-				{
-					( (EditPart) editpart ).performRequest( request );
-				}
-				if ( editpart != null )
-				{
-					viewer.reveal( (EditPart) editpart );
-				}
+				
 			}
 		} );
 	}

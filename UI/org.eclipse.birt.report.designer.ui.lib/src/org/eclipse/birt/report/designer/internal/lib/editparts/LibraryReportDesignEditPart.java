@@ -219,22 +219,7 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 						// .get( DesignerConstants.KEY_NEWOBJECT );
 
 						CreateCommand command = new CreateCommand(request
-								.getExtendedData()) {
-
-							public void execute() {
-								super.execute();
-								Display.getCurrent().asyncExec(new Runnable() {
-
-									public void run() {
-										SetCurrentEditModelCommand c = new SetCurrentEditModelCommand(
-												getNewObject(),
-												LibraryHandleAdapter.CREATE_ELEMENT);
-										c.execute();
-									}
-								});
-
-							}
-						};
+								.getExtendedData());
 
 						Object model = this.getHost().getModel();
 						if (model instanceof SlotHandle) {
