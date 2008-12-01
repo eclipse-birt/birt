@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
@@ -137,7 +138,8 @@ public class AddElementtoReport extends Action
 				|| transfer instanceof ParameterHandle
 				|| transfer instanceof ParameterGroupHandle
 				|| transfer instanceof CascadingParameterGroupHandle
-				|| transfer instanceof CubeHandle )
+				|| transfer instanceof CubeHandle
+				|| transfer instanceof MasterPageHandle)
 			return true;
 
 		if ( DNDUtil.handleValidateTargetCanContainMore( target,
@@ -188,6 +190,10 @@ public class AddElementtoReport extends Action
 		else if ( transfer instanceof CubeHandle )
 		{
 			target = moduleHandle.getCubes( );
+		}
+		else if ( transfer instanceof MasterPageHandle )
+		{
+			target = moduleHandle.getMasterPages( );
 		}
 
 		// When get position, change target value if need be
