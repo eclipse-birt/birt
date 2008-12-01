@@ -32,6 +32,29 @@ public class InteractivitySheet extends AbstractPopupSheet
 	private final boolean bEnableURLParameters;
 	private final boolean bEnableShowTooltipValue;
 	private final int iInteractivityType;
+	private int optionalStyle;
+
+	/**
+	 * 
+	 * @param title
+	 * @param context
+	 * @param triggers
+	 * @param iInteractivityType
+	 *            see <code>TriggerSupportMatrix</code>
+	 * @param bEnableURLParameters
+	 * @param bEnableShowTooltipValue
+	 */
+	public InteractivitySheet( String title, ChartWizardContext context,
+			EList triggers, int iInteractivityType, int optionalStyle )
+	{
+		this( title,
+				context,
+				triggers,
+				iInteractivityType,
+				( ( optionalStyle & TriggerDataComposite.ENABLE_URL_PARAMETERS ) == TriggerDataComposite.ENABLE_URL_PARAMETERS ),
+				( ( optionalStyle & TriggerDataComposite.ENABLE_SHOW_TOOLTIP_VALUE ) == TriggerDataComposite.ENABLE_SHOW_TOOLTIP_VALUE ) );
+		this.optionalStyle = optionalStyle;
+	}
 
 	/**
 	 * 
@@ -52,6 +75,14 @@ public class InteractivitySheet extends AbstractPopupSheet
 		this.bEnableURLParameters = bEnableURLParameters;
 		this.bEnableShowTooltipValue = bEnableShowTooltipValue;
 		this.iInteractivityType = iInteractivityType;
+		if ( bEnableShowTooltipValue )
+		{
+			optionalStyle |= TriggerDataComposite.ENABLE_SHOW_TOOLTIP_VALUE;
+		}
+		if ( bEnableURLParameters )
+		{
+			optionalStyle |= TriggerDataComposite.ENABLE_URL_PARAMETERS;
+		}
 	}
 
 	protected Composite getComponent( Composite parent )
@@ -62,8 +93,7 @@ public class InteractivitySheet extends AbstractPopupSheet
 				triggers,
 				getContext( ),
 				iInteractivityType,
-				bEnableURLParameters,
-				bEnableShowTooltipValue );
+				optionalStyle );
 		parent.getShell( ).addDisposeListener( new DisposeListener( ) {
 
 			public void widgetDisposed( DisposeEvent e )

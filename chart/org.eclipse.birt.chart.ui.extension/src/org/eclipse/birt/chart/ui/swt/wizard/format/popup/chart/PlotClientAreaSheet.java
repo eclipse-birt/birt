@@ -38,6 +38,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -54,6 +55,8 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 		ModifyListener,
 		SelectionListener
 {
+
+	static final int AUTO = -1;
 
 	private transient Composite cmpContent;
 
@@ -79,6 +82,10 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 
 	private transient FillChooserComposite fccShadow;
 
+	private Button btnHeight;
+
+	private Button btnWidth;
+
 	public PlotClientAreaSheet( String title, ChartWizardContext context )
 	{
 		super( title, context, true );
@@ -102,7 +109,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 
 		Composite leftComp = new Composite( grpAreaIncluding, SWT.NONE );
 		GridData gdL = new GridData( GridData.FILL_HORIZONTAL );
-		leftComp.setLayout( new GridLayout( 2, false ) );
+		leftComp.setLayout( new GridLayout( 3, false ) );
 		leftComp.setLayoutData( gdL );
 		Composite rightComp = new Composite( grpAreaIncluding, SWT.NONE );
 		GridData gdR = new GridData( GridData.FILL_HORIZONTAL );
@@ -116,6 +123,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 
 		cmbAnchor = new Combo( leftComp, SWT.DROP_DOWN | SWT.READ_ONLY );
 		GridData gdCBAnchor = new GridData( GridData.FILL_HORIZONTAL );
+		gdCBAnchor.horizontalSpan = 2;
 		cmbAnchor.setLayoutData( gdCBAnchor );
 		cmbAnchor.addSelectionListener( this );
 
@@ -129,6 +137,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 		cmbStretch = new Combo( leftComp, SWT.DROP_DOWN | SWT.READ_ONLY );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 2;
 			cmbStretch.setLayoutData( gd );
 			cmbStretch.addSelectionListener( this );
 		}
@@ -140,7 +149,9 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 		iscVSpacing = new IntegerSpinControl( leftComp,
 				SWT.NONE,
 				getBlockForProcessing( ).getVerticalSpacing( ) );
-		iscVSpacing.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		iscVSpacing.setLayoutData( gd );
 		iscVSpacing.addListener( this );
 
 		Label lblHorizontalSpacing = new Label( leftComp, SWT.NONE );
@@ -150,40 +161,41 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 		iscHSpacing = new IntegerSpinControl( leftComp,
 				SWT.NONE,
 				getBlockForProcessing( ).getHorizontalSpacing( ) );
-		iscHSpacing.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		iscHSpacing.setLayoutData( gd );
 		iscHSpacing.addListener( this );
 
 		new Label( leftComp, SWT.NONE ).setText( Messages.getString( "PlotClientAreaSheet.Label.HeightHint" ) ); //$NON-NLS-1$
 
+		btnHeight = new Button( leftComp, SWT.CHECK );
+		btnHeight.setText( Messages.getString("PlotClientAreaSheet.Btn.Auto") ); //$NON-NLS-1$
+		gd = new GridData( );
+		btnHeight.setLayoutData( gd );
+		btnHeight.addSelectionListener( this );
+
 		txtHeight = new LocalizedNumberEditorComposite( leftComp, SWT.BORDER );
 		{
 			txtHeight.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			if ( getBlockForProcessing( ).isSetHeightHint( ) )
-			{
-				txtHeight.setValue( getBlockForProcessing( ).getHeightHint( ) );
-			}
-			else
-			{
-				txtHeight.setValue( -1 );
-			}
+
 			txtHeight.addModifyListener( this );
 		}
 
 		new Label( leftComp, SWT.NONE ).setText( Messages.getString( "PlotClientAreaSheet.Label.WidthHint" ) ); //$NON-NLS-1$
 
+		btnWidth = new Button( leftComp, SWT.CHECK );
+		btnWidth.setText( Messages.getString("PlotClientAreaSheet.Btn.Auto") ); //$NON-NLS-1$
+		gd = new GridData( );
+		btnWidth.setLayoutData( gd );
+		btnWidth.addSelectionListener( this );
+
 		txtWidth = new LocalizedNumberEditorComposite( leftComp, SWT.BORDER );
 		{
 			txtWidth.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			if ( getBlockForProcessing( ).isSetWidthHint( ) )
-			{
-				txtWidth.setValue( getBlockForProcessing( ).getWidthHint( ) );
-			}
-			else
-			{
-				txtWidth.setValue( -1 );
-			}
 			txtWidth.addModifyListener( this );
 		}
+
+		updateHeightWidthHint( );
 
 		Group grpOutline = new Group( rightComp, SWT.NONE );
 		GridData gdGRPOutline = new GridData( GridData.FILL_HORIZONTAL );
@@ -212,7 +224,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 		Group grpAreaWithin = new Group( cmpContent, SWT.NONE );
 		{
 			grpAreaWithin.setLayout( new GridLayout( 4, false ) );
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd = new GridData( GridData.FILL_HORIZONTAL );
 			grpAreaWithin.setLayoutData( gd );
 			grpAreaWithin.setText( getChart( ) instanceof ChartWithAxes ? Messages.getString( "ChartPlotSheetImpl.Label.AreaWithinAxes" ) : Messages.getString( "ChartPlotSheetImpl.Label.ClientArea" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
@@ -220,6 +232,53 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 		createClientArea( grpAreaWithin );
 		populateLists( );
 		return cmpContent;
+	}
+
+	private void updateHeightWidthHint( )
+	{
+		if ( getBlockForProcessing( ).isSetHeightHint( ) )
+		{
+			double hint = getBlockForProcessing( ).getHeightHint( );
+			if ( hint == AUTO )
+			{
+				btnHeight.setSelection( true );
+				txtHeight.unsetValue( );
+				txtHeight.setEnabled( false );
+			}
+			else
+			{
+				btnHeight.setSelection( false );
+				txtHeight.setValue( hint );
+			}
+		}
+		else
+		{
+			btnHeight.setSelection( true );
+			txtHeight.unsetValue( );
+			txtHeight.setEnabled( false );
+		}
+
+		if ( getBlockForProcessing( ).isSetWidthHint( ) )
+		{
+			double hint = getBlockForProcessing( ).getWidthHint( );
+			if ( hint == AUTO )
+			{
+				btnWidth.setSelection( true );
+				txtWidth.unsetValue( );
+				txtWidth.setEnabled( false );
+			}
+			else
+			{
+				btnWidth.setSelection( false );
+				txtWidth.setValue( hint );
+			}
+		}
+		else
+		{
+			btnWidth.setSelection( true );
+			txtWidth.unsetValue( );
+			txtWidth.setEnabled( false );
+		}
 	}
 
 	private void createClientArea( Group grpAreaWithin )
@@ -431,6 +490,46 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 		else if ( oSource.equals( cmbStretch ) )
 		{
 			getBlockForProcessing( ).setStretch( Stretch.getByName( LiteralHelper.stretchSet.getNameByDisplayName( cmbStretch.getText( ) ) ) );
+		}
+		else if ( oSource == btnHeight )
+		{
+			if ( btnHeight.getSelection( ) )
+			{
+				getBlockForProcessing( ).setHeightHint( AUTO );
+				txtHeight.setEnabled( false );
+			}
+			else
+			{
+				txtHeight.setEnabled( true );
+				if ( txtHeight.isSetValue( ) )
+				{
+					getBlockForProcessing( ).setHeightHint( txtHeight.getValue( ) );
+				}
+				else
+				{
+					getBlockForProcessing( ).unsetHeightHint( );
+				}
+			}
+		}
+		else if ( oSource == btnWidth )
+		{
+			if ( btnWidth.getSelection( ) )
+			{
+				getBlockForProcessing( ).setWidthHint( AUTO );
+				txtWidth.setEnabled( false );
+			}
+			else
+			{
+				txtWidth.setEnabled( true );
+				if ( txtWidth.isSetValue( ) )
+				{
+					getBlockForProcessing( ).setWidthHint( txtWidth.getValue( ) );
+				}
+				else
+				{
+					getBlockForProcessing( ).unsetWidthHint( );
+				}
+			}
 		}
 	}
 

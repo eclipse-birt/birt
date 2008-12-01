@@ -66,6 +66,16 @@ public class TriggerDataComposite extends Composite
 			SelectionListener
 {
 
+	public static final int ENABLE_URL_PARAMETERS = 1;
+
+	public static final int DISABLE_CATEGORY_SERIES = 1 << 1;
+
+	public static final int DISABLE_VALUE_SERIES = 1 << 2;
+
+	public static final int DISABLE_VALUE_SERIES_NAME = 1 << 3;
+
+	public static final int ENABLE_SHOW_TOOLTIP_VALUE = 1 << 4;
+	
 	private Group grpValue = null;
 
 	private Composite cmpURL = null;
@@ -147,6 +157,36 @@ public class TriggerDataComposite extends Composite
 
 	private TriggerSupportMatrix triggerMatrix;
 
+	private int optionalStyle;
+
+	public TriggerDataComposite( Composite parent, int style, EList triggers,
+			ChartWizardContext wizardContext, int iInteractivityType, int optionalStyle )
+	{
+		super( parent, style );
+		this.wizardContext = wizardContext;
+		this.bEnableURLParameters = ( ( optionalStyle & ENABLE_URL_PARAMETERS ) == ENABLE_URL_PARAMETERS );
+		this.bEnableShowTooltipValue = ( ( optionalStyle & ENABLE_SHOW_TOOLTIP_VALUE ) == ENABLE_SHOW_TOOLTIP_VALUE );
+		this.optionalStyle = optionalStyle;
+		this.triggersList = triggers;
+		this.triggerMatrix = new TriggerSupportMatrix( wizardContext.getOutputFormat( ),
+				iInteractivityType );
+		init( );
+
+		placeComponents( );
+
+		addDisposeListener( new DisposeListener( ) {
+
+			public void widgetDisposed( DisposeEvent e )
+			{
+				if ( needSaveWhenDisposing )
+				{
+					// Only save when it's needed
+					updateTrigger( cmbTriggerType.getText( ) );
+				}
+			}
+		} );
+	}
+
 	public TriggerDataComposite( Composite parent, int style, EList triggers,
 			ChartWizardContext wizardContext, int iInteractivityType,
 			boolean bEnableURLParameters, boolean bEnableShowTooltipValue )
@@ -159,6 +199,7 @@ public class TriggerDataComposite extends Composite
 		this.triggerMatrix = new TriggerSupportMatrix( wizardContext.getOutputFormat( ),
 				iInteractivityType );
 		init( );
+		
 		placeComponents( );
 
 		addDisposeListener( new DisposeListener( ) {
@@ -506,7 +547,8 @@ public class TriggerDataComposite extends Composite
 		gdTXTBaseParm.horizontalSpan = 2;
 		txtBaseParm.setLayoutData( gdTXTBaseParm );
 		txtBaseParm.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.ParameterCategory" ) ); //$NON-NLS-1$
-
+		txtBaseParm.setEnabled( bEnableURLParameters
+				&& ( ( optionalStyle & DISABLE_CATEGORY_SERIES ) != DISABLE_CATEGORY_SERIES ) );
 		Label lblValueParm = new Label( grpParameters, SWT.NONE );
 		{
 			GridData gdLBLValueParm = new GridData( );
@@ -521,6 +563,8 @@ public class TriggerDataComposite extends Composite
 		gdTXTValueParm.horizontalSpan = 2;
 		txtValueParm.setLayoutData( gdTXTValueParm );
 		txtValueParm.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.ParameterValue" ) ); //$NON-NLS-1$
+		txtValueParm.setEnabled( bEnableURLParameters
+				&& ( ( optionalStyle & DISABLE_VALUE_SERIES ) != DISABLE_VALUE_SERIES ) );
 
 		Label lblSeriesParm = new Label( grpParameters, SWT.NONE );
 		{
@@ -536,6 +580,8 @@ public class TriggerDataComposite extends Composite
 		gdTXTSeriesParm.horizontalSpan = 2;
 		txtSeriesParm.setLayoutData( gdTXTSeriesParm );
 		txtSeriesParm.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.ParameterSeries" ) ); //$NON-NLS-1$
+		txtSeriesParm.setEnabled( bEnableURLParameters
+				&& ( ( optionalStyle & DISABLE_VALUE_SERIES_NAME ) != DISABLE_VALUE_SERIES_NAME ) );
 
 		populateLists( );
 	}

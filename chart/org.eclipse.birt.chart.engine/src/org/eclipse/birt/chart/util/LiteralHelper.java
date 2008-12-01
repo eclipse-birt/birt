@@ -542,7 +542,9 @@ public class LiteralHelper
 
 		return new NameSet(prefix, suffix, new String[] {
 				Anchor.EAST_LITERAL.getName(), Anchor.NORTH_LITERAL.getName(),
-				Anchor.WEST_LITERAL.getName(), Anchor.SOUTH_LITERAL.getName(), });
+				Anchor.NORTH_WEST_LITERAL.getName( ), Anchor.NORTH_EAST_LITERAL.getName( ),
+				Anchor.WEST_LITERAL.getName(), Anchor.SOUTH_LITERAL.getName(),
+				Anchor.SOUTH_WEST_LITERAL.getName( ), Anchor.SOUTH_EAST_LITERAL.getName( )});
 	}
 
 	private static String[] toStringNameArray( List objList )

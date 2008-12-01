@@ -148,9 +148,6 @@ public class DataProcessor
 				}
 			}
 		}
-		
-		
-
 	}
 
 	/**
@@ -165,10 +162,12 @@ public class DataProcessor
 	}
 
 	/**
-	 * Returns all valid trigger expressions from series.
+	 * Returns all valid trigger expressions from series, the variables or
+	 * parameters in trigger expressions will be replaced.
 	 */
 	public static String[] getSeriesTriggerExpressions( Series se,
-			IActionEvaluator iae )
+			IActionEvaluator iae, SeriesDefinition baseSD,
+			SeriesDefinition orthoSD )
 	{
 		ArrayList rt = new ArrayList( );
 
@@ -180,12 +179,19 @@ public class DataProcessor
 
 				String[] expra = iae.getActionExpressions( tg.getAction( ),
 						StructureSource.createSeries( se ) );
-
+				
 				if ( expra != null && expra.length > 0 )
 				{
 					for ( int i = 0; i < expra.length; i++ )
 					{
 						String expr = expra[i];
+						if ( baseSD != null && orthoSD != null )
+						{
+							expr = ChartVariableHelper.parseChartVariables( expr,
+								se,
+								baseSD,
+								orthoSD );
+						}
 						if ( expr != null
 								&& expr.trim( ).length( ) > 0
 								&& !rt.contains( expr ) )
@@ -202,6 +208,20 @@ public class DataProcessor
 			return (String[]) rt.toArray( new String[rt.size( )] );
 		}
 		return null;
+	}
+
+	/**
+	 * Returns the design time's trigger expressions.
+	 * 
+	 * @param se
+	 * @param iae
+	 * @return
+	 * @since 2.5
+	 */
+	public static String[] getDesignTimeStringsSeriesTriggerExpressions(
+			Series se, IActionEvaluator iae )
+	{
+		return getSeriesTriggerExpressions( se, iae, null, null );
 	}
 
 	private GroupKey[] findGroupKeys( Chart cm, GroupingLookupHelper lhmLookup )
@@ -492,7 +512,7 @@ public class DataProcessor
 //			generateRuntimeSeries( (IChartCubeResultSet) idre, cm );
 //		}
 //		else
-//		{
+		// {
 			ResultSetWrapper rsw = mapToChartResultSet( idre, cm );
 			generateRuntimeSeries( cm, rsw );
 //		}
@@ -566,14 +586,17 @@ public class DataProcessor
 
 				// Retrieve trigger expressions.
 				String[] triggerExprs = getSeriesTriggerExpressions( seOrthogonalDesignSeries,
-						iae );
+						iae,
+						sdBase,
+						sdOrthogonal );
 				String aggExp = rsw.getLookupHelper( )
 						.getOrthogonalAggregationExpression( sdOrthogonal );
 				fillSeriesDataSet( cwoa,
 						seOrthogonalRuntimeSeries,
 						rsw.getSubset( seOrthogonalDesignSeries.getDataDefinition( ),
 								aggExp ),
-						triggerExprs, // Just use trigger expression as
+						getDesignTimeStringsSeriesTriggerExpressions( seOrthogonalDesignSeries,
+								iae ), // Just use trigger expression as
 						// the key.
 						rsw.getSubset( triggerExprs, aggExp ) );
 				seOrthogonalRuntimeSeries.setSeriesIdentifier( seOrthogonalDesignSeries.getSeriesIdentifier( ) );
@@ -611,7 +634,9 @@ public class DataProcessor
 
 				// Retrieve trigger expressions.
 				String[] triggerExprs = getSeriesTriggerExpressions( seOrthogonalDesignSeries,
-						iae );
+						iae,
+						sdBase,
+						sdOrthogonal );
 				String aggExp = rsw.getLookupHelper( )
 						.getOrthogonalAggregationExpression( sdOrthogonal );
 				for ( int k = 0; k < iGroupCount; k++ )
@@ -779,7 +804,9 @@ public class DataProcessor
 
 					// Retrieve trigger expressions.
 					String[] triggerExprs = getSeriesTriggerExpressions( seOrthogonalDesignSeries,
-							iae );
+							iae,
+							sdBase,
+							sdOrthogonal );
 					String aggExp = rsw.getLookupHelper( )
 							.getOrthogonalAggregationExpression( sdOrthogonal );
 					// Add trigger to user datasets
@@ -787,7 +814,8 @@ public class DataProcessor
 							seOrthogonalRuntimeSeries,
 							rsw.getSubset( seOrthogonalDesignSeries.getDataDefinition( ),
 									aggExp ),
-							triggerExprs, // Just use trigger expression as
+							getDesignTimeStringsSeriesTriggerExpressions( seOrthogonalDesignSeries,
+									iae ), // Just use trigger expression as
 							// the key.
 							rsw.getSubset( triggerExprs, aggExp ) );
 					seOrthogonalRuntimeSeries.setSeriesIdentifier( seOrthogonalDesignSeries.getSeriesIdentifier( ) );
@@ -828,7 +856,9 @@ public class DataProcessor
 
 					// Retrieve trigger expressions.
 					String[] triggerExprs = getSeriesTriggerExpressions( seOrthogonalDesignSeries,
-							iae );
+							iae,
+							sdBase,
+							sdOrthogonal );
 					String aggExp = rsw.getLookupHelper( )
 							.getOrthogonalAggregationExpression( sdOrthogonal );
 					for ( int k = 0; k < iGroupCount; k++ )

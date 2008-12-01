@@ -623,7 +623,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			// variables. Use COMMAND_EXPRESSION_TOOLTIPS_DATAPOINTS for dp
 			return ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS
 					| ChartExpressionProvider.CATEGORY_WITH_COLUMN_BINDINGS
-					| ChartExpressionProvider.CATEGORY_WITH_JAVASCRIPT;
+					| ChartExpressionProvider.CATEGORY_WITH_JAVASCRIPT
+					| ChartExpressionProvider.CATEGORY_WITH_DATA_POINTS;
 		}
 		else if ( builderCommand == COMMAND_HYPERLINK )
 		{
@@ -634,7 +635,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		{
 			return ChartExpressionProvider.CATEGORY_WITH_BIRT_VARIABLES
 					| ChartExpressionProvider.CATEGORY_WITH_COLUMN_BINDINGS
-					| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS;
+					| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS
+					| ChartExpressionProvider.CATEGORY_WITH_DATA_POINTS;
 		}
 		else if ( builderCommand == COMMAND_HYPERLINK_LEGEND )
 		{

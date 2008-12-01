@@ -1669,7 +1669,9 @@ public final class Generator implements IGenerator
 
 			// Add orthogonal series trigger expressions.
 			String[] triggerExprs = DataProcessor.getSeriesTriggerExpressions( seOrthogonal,
-					iae );
+					iae,
+					categorySD,
+					sd );
 			if ( triggerExprs != null )
 			{
 				for ( int t = 0; t < triggerExprs.length; t++ )
@@ -1839,7 +1841,9 @@ public final class Generator implements IGenerator
 
 				// Add orthogonal series trigger expressions.
 				String[] triggerExprs = DataProcessor.getSeriesTriggerExpressions( seOrthogonal,
-						iae );
+						iae,
+						categorySD,
+						sd );
 				if ( triggerExprs != null )
 				{
 					for ( int t = 0; t < triggerExprs.length; t++ )

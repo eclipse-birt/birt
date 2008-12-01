@@ -2465,7 +2465,42 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		}
 
 		// internal processing.
-		if ( StructureType.SERIES_DATA_POINT.equals( source.getType( ) ) )
+		if ( StructureType.LEGEND_ENTRY.equals( source.getType( ) ) )
+		{
+			if ( tg.getAction( ).getType( ) == ActionType.URL_REDIRECT_LITERAL )
+			{
+				// LegendEntryRenderingHints lerh = (LegendEntryRenderingHints)
+				// source.getSource( );
+				LegendItemHints lerh = (LegendItemHints) source.getSource( );
+				// BUILD A URI
+				final URLValue uv = (URLValue) tg.getAction( ).getValue( );
+				String sBaseURL = uv.getBaseUrl( );
+				if ( sBaseURL == null )
+				{
+					sBaseURL = ""; //$NON-NLS-1$
+				}
+				final StringBuffer sb = new StringBuffer( sBaseURL );
+				char c = '?';
+				if ( sBaseURL.indexOf( c ) != -1 )
+				{
+					c = '&';
+				}
+				if ( uv.getSeriesParameterName( ) != null
+						&& uv.getSeriesParameterName( ).length( ) > 0 )
+				{
+					sb.append( c );
+					c = '&';
+					sb.append( URLValueImpl.encode( uv.getSeriesParameterName( ) ) );
+					sb.append( '=' );
+					// sb.append( URLValueImpl.encode( lerh.getLabel( )
+					// .getCaption( )
+					// .getValue( ) ) );
+					sb.append( URLValueImpl.encode( lerh.getItemText( ) ) );
+				}
+				uv.setBaseUrl( sb.toString( ) );
+			}
+		}
+		else if ( StructureType.SERIES_DATA_POINT.equals( source.getType( ) ) )
 		{
 			DataPointHints dph = (DataPointHints) source.getSource( );
 

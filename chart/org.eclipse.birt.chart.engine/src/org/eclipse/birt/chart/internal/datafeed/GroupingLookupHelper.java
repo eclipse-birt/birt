@@ -244,7 +244,7 @@ public class GroupingLookupHelper
 			lstTransformedExprs.add( expr );
 		}
 	}
-	
+
 	private void addLookupForBaseSeries( SeriesDefinition baseSD )
 			throws ChartException
 	{
@@ -387,7 +387,9 @@ public class GroupingLookupHelper
 
 			// Add orthogonal series trigger expressions.
 			String[] triggerExprs = DataProcessor.getSeriesTriggerExpressions( seOrthogonal,
-					iae );
+					iae,
+					baseSD,
+					orthoSD );
 			if ( triggerExprs != null )
 			{
 				for ( int t = 0; t < triggerExprs.length; t++ )
