@@ -80,6 +80,10 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 
 	private int angleType;
 
+	private Spinner majGridStNum;
+
+	private Label lblGridStepNum;
+
 	/**
 	 * @param title
 	 *            popup title
@@ -164,6 +168,20 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		gdCMPGeneral.grabExcessVerticalSpace = false;
 		cmpGeneral.setLayoutData( gdCMPGeneral );
 		cmpGeneral.setLayout( glGeneral );
+		
+		// Axis Orientation
+		Label lblOrientation = new Label( cmpGeneral, SWT.NONE );
+		GridData gdLBLOrientation = new GridData( GridData.FILL );
+		gdLBLOrientation.grabExcessVerticalSpace = false;
+		lblOrientation.setLayoutData( gdLBLOrientation );
+		lblOrientation.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.Orientation" ) ); //$NON-NLS-1$
+
+		cmbOrientation = new Label( cmpGeneral, SWT.SINGLE );
+		GridData gdCMBOrientation = new GridData( GridData.FILL_HORIZONTAL );
+		gdCMBOrientation.horizontalSpan = 9;
+		cmbOrientation.setLayoutData( gdCMBOrientation );
+		cmbOrientation.setText( LiteralHelper.orientationSet.getDisplayNameByName( getAxisForProcessing( ).getOrientation( )
+				.getName( ) ) );
 
 		// Axis Line Color
 		Label lblColor = new Label( cmpGeneral, SWT.NONE );
@@ -184,27 +202,27 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 				false );
 		GridData gdFCCLine = new GridData( GridData.FILL_BOTH );
 		gdFCCLine.horizontalSpan = 9;
-		gdFCCLine.widthHint = 260;
 		gdFCCLine.heightHint = fccLine.getPreferredSize( ).y;
 		gdFCCLine.grabExcessVerticalSpace = false;
 		fccLine.setLayoutData( gdFCCLine );
 		fccLine.addListener( this );
 
-		// Axis Orientation
-		Label lblOrientation = new Label( cmpGeneral, SWT.NONE );
-		GridData gdLBLOrientation = new GridData( GridData.FILL );
-		gdLBLOrientation.grabExcessVerticalSpace = false;
-		lblOrientation.setLayoutData( gdLBLOrientation );
-		lblOrientation.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.Orientation" ) ); //$NON-NLS-1$
-
-		cmbOrientation = new Label( cmpGeneral, SWT.SINGLE );
-		GridData gdCMBOrientation = new GridData( GridData.FILL_HORIZONTAL );
-		gdCMBOrientation.horizontalSpan = 4;
-		gdCMBOrientation.widthHint = 120;
-		cmbOrientation.setLayoutData( gdCMBOrientation );
-		cmbOrientation.setText( LiteralHelper.orientationSet.getDisplayNameByName( getAxisForProcessing( ).getOrientation( )
-				.getName( ) ) );
-
+		lblGridStepNum = new Label( cmpGeneral, SWT.NONE );
+		GridData gdLblGridStepNum = new GridData( GridData.FILL );
+		lblGridStepNum.setLayoutData( gdLblGridStepNum );
+		lblGridStepNum.setText( Messages.getString("BaseAxisDataSheetImpl.Lbl.MajorGridStepNum") ); //$NON-NLS-1$
+		
+		majGridStNum = new Spinner( cmpGeneral, SWT.BORDER );
+		{
+			gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 4;
+			majGridStNum.setLayoutData( gd );
+			majGridStNum.setMinimum( 1 );
+			majGridStNum.setSelection( getAxisForProcessing( ).getScale( )
+					.getMajorGridsStepNumber( ) );
+			majGridStNum.addSelectionListener( this );
+		}
+		
 		lblGridCount = new Label( cmpGeneral, SWT.NONE );
 		GridData gdLBLGridCount = new GridData( );
 		lblGridCount.setLayoutData( gdLBLGridCount );
@@ -285,6 +303,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 				axis.getOrientation( ).getValue( ) );
 		gacMinor.addListener( this );
 
+		setStateOfMajorGrid( );
 		setStateOfMinorGrid( );
 
 		return cmpContent;
@@ -335,6 +354,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 					getAxisForProcessing( ).getMajorGrid( )
 							.getLineAttributes( )
 							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					setStateOfMajorGrid( );
 					break;
 				case GridAttributesComposite.TICK_COLOR_CHANGED_EVENT :
 					getAxisForProcessing( ).getMajorGrid( )
@@ -398,14 +418,45 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 
 	private void setStateOfMinorGrid( )
 	{
-		boolean enabled = getAxisForProcessing( ).getMinorGrid( )
+		boolean enabled;
+		if ( ChartUIUtil.is3DWallFloorSet( getChart( ) ) )
+		{
+			enabled = getAxisForProcessing( ).getMinorGrid( )
 				.getLineAttributes( )
 				.isVisible( )
-				|| getAxisForProcessing( ).getMinorGrid( )
-						.getTickAttributes( )
-						.isVisible( );
+				;
+			if ( !ChartUIUtil.is3DType( getChart( ) ) )
+			{
+				enabled = enabled
+						|| getAxisForProcessing( ).getMinorGrid( )
+								.getTickAttributes( )
+								.isVisible( );
+			}
+		}
+		else
+		{
+			enabled = false;
+		}
 		lblGridCount.setEnabled( enabled );
 		iscGridCount.setEnabled( enabled );
+	}
+	
+	private void setStateOfMajorGrid( )
+	{
+		boolean enabled;
+		if ( ChartUIUtil.is3DWallFloorSet( getChart( ) ) )
+		{
+			enabled = getAxisForProcessing( ).getMajorGrid( )
+					.getLineAttributes( )
+					.isVisible( );
+		}
+		else
+		{
+			enabled = false;
+		}
+		lblGridStepNum.setEnabled( enabled );
+		majGridStNum.setEnabled( enabled );
+		
 	}
 
 	/*
@@ -432,6 +483,11 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		{
 			getAxisForProcessing( ).getScale( )
 					.setMinorGridsPerUnit( iscGridCount.getSelection( ) );
+		}
+		else if ( oSource.equals( majGridStNum ) )
+		{
+			getAxisForProcessing( ).getScale( )
+					.setMajorGridsStepNumber( majGridStNum.getSelection( ) );
 		}
 	}
 

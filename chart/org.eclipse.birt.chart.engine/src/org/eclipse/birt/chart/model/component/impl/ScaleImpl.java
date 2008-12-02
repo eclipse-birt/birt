@@ -37,6 +37,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#isShowOutside <em>Show Outside</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#isTickBetweenCategories <em>Tick Between Categories</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#isAutoExpand <em>Auto Expand</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMajorGridsStepNumber <em>Major Grids Step Number</em>}</li>
  * </ul>
  * </p>
  *
@@ -259,6 +260,35 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * @ordered
 	 */
 	protected boolean autoExpandESet;
+
+	/**
+	 * The default value of the '{@link #getMajorGridsStepNumber() <em>Major Grids Step Number</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMajorGridsStepNumber()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int MAJOR_GRIDS_STEP_NUMBER_EDEFAULT = 1;
+
+	/**
+	 * The cached value of the '{@link #getMajorGridsStepNumber() <em>Major Grids Step Number</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMajorGridsStepNumber()
+	 * @generated
+	 * @ordered
+	 */
+	protected int majorGridsStepNumber = MAJOR_GRIDS_STEP_NUMBER_EDEFAULT;
+
+	/**
+	 * This is true if the Major Grids Step Number attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean majorGridsStepNumberESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -819,6 +849,66 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getMajorGridsStepNumber( )
+	{
+		return majorGridsStepNumber;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setMajorGridsStepNumber( int newMajorGridsStepNumber )
+	{
+		int oldMajorGridsStepNumber = majorGridsStepNumber;
+		majorGridsStepNumber = newMajorGridsStepNumber;
+		boolean oldMajorGridsStepNumberESet = majorGridsStepNumberESet;
+		majorGridsStepNumberESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					ComponentPackage.SCALE__MAJOR_GRIDS_STEP_NUMBER,
+					oldMajorGridsStepNumber,
+					majorGridsStepNumber,
+					!oldMajorGridsStepNumberESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetMajorGridsStepNumber( )
+	{
+		int oldMajorGridsStepNumber = majorGridsStepNumber;
+		boolean oldMajorGridsStepNumberESet = majorGridsStepNumberESet;
+		majorGridsStepNumber = MAJOR_GRIDS_STEP_NUMBER_EDEFAULT;
+		majorGridsStepNumberESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					ComponentPackage.SCALE__MAJOR_GRIDS_STEP_NUMBER,
+					oldMajorGridsStepNumber,
+					MAJOR_GRIDS_STEP_NUMBER_EDEFAULT,
+					oldMajorGridsStepNumberESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetMajorGridsStepNumber( )
+	{
+		return majorGridsStepNumberESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -860,6 +950,8 @@ public class ScaleImpl extends EObjectImpl implements Scale
 						: Boolean.FALSE;
 			case ComponentPackage.SCALE__AUTO_EXPAND :
 				return isAutoExpand( ) ? Boolean.TRUE : Boolean.FALSE;
+			case ComponentPackage.SCALE__MAJOR_GRIDS_STEP_NUMBER :
+				return new Integer( getMajorGridsStepNumber( ) );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -899,6 +991,9 @@ public class ScaleImpl extends EObjectImpl implements Scale
 				return;
 			case ComponentPackage.SCALE__AUTO_EXPAND :
 				setAutoExpand( ( (Boolean) newValue ).booleanValue( ) );
+				return;
+			case ComponentPackage.SCALE__MAJOR_GRIDS_STEP_NUMBER :
+				setMajorGridsStepNumber( ( (Integer) newValue ).intValue( ) );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -940,6 +1035,9 @@ public class ScaleImpl extends EObjectImpl implements Scale
 			case ComponentPackage.SCALE__AUTO_EXPAND :
 				unsetAutoExpand( );
 				return;
+			case ComponentPackage.SCALE__MAJOR_GRIDS_STEP_NUMBER :
+				unsetMajorGridsStepNumber( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -971,6 +1069,8 @@ public class ScaleImpl extends EObjectImpl implements Scale
 				return isSetTickBetweenCategories( );
 			case ComponentPackage.SCALE__AUTO_EXPAND :
 				return isSetAutoExpand( );
+			case ComponentPackage.SCALE__MAJOR_GRIDS_STEP_NUMBER :
+				return isSetMajorGridsStepNumber( );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -1018,6 +1118,11 @@ public class ScaleImpl extends EObjectImpl implements Scale
 		result.append( ", autoExpand: " ); //$NON-NLS-1$
 		if ( autoExpandESet )
 			result.append( autoExpand );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", majorGridsStepNumber: " ); //$NON-NLS-1$
+		if ( majorGridsStepNumberESet )
+			result.append( majorGridsStepNumber );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );

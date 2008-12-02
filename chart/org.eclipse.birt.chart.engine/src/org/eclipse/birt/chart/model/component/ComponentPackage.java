@@ -1087,12 +1087,21 @@ public interface ComponentPackage extends EPackage
 	int SCALE__AUTO_EXPAND = 8;
 
 	/**
+	 * The feature id for the '<em><b>Major Grids Step Number</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCALE__MAJOR_GRIDS_STEP_NUMBER = 9;
+
+	/**
 	 * The number of structural features of the '<em>Scale</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCALE_FEATURE_COUNT = 9;
+	int SCALE_FEATURE_COUNT = 10;
 
 	/**
 	 * The feature id for the '<em><b>Visible</b></em>' attribute. <!--
@@ -2175,6 +2184,17 @@ public interface ComponentPackage extends EPackage
 	EAttribute getScale_AutoExpand( );
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Scale#getMajorGridsStepNumber <em>Major Grids Step Number</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Major Grids Step Number</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Scale#getMajorGridsStepNumber()
+	 * @see #getScale()
+	 * @generated
+	 */
+	EAttribute getScale_MajorGridsStepNumber( );
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.component.Series <em>Series</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Series</em>'.
@@ -3137,6 +3157,14 @@ public interface ComponentPackage extends EPackage
 		 * @generated
 		 */
 		EAttribute SCALE__AUTO_EXPAND = eINSTANCE.getScale_AutoExpand( );
+
+		/**
+		 * The meta object literal for the '<em><b>Major Grids Step Number</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SCALE__MAJOR_GRIDS_STEP_NUMBER = eINSTANCE.getScale_MajorGridsStepNumber( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl <em>Series</em>}' class.

@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.component.Scale#isShowOutside <em>Show Outside</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Scale#isTickBetweenCategories <em>Tick Between Categories</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Scale#isAutoExpand <em>Auto Expand</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Scale#getMajorGridsStepNumber <em>Major Grids Step Number</em>}</li>
  * </ul>
  * </p>
  *
@@ -474,5 +475,59 @@ public interface Scale extends EObject
 	 * @generated
 	 */
 	boolean isSetAutoExpand( );
+
+	/**
+	 * Returns the value of the '<em><b>Major Grids Step Number</b></em>' attribute.
+	 * The default value is <code>"1"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Specify the step number of axis grid lines.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Major Grids Step Number</em>' attribute.
+	 * @see #isSetMajorGridsStepNumber()
+	 * @see #unsetMajorGridsStepNumber()
+	 * @see #setMajorGridsStepNumber(int)
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getScale_MajorGridsStepNumber()
+	 * @model default="1" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
+	 *        extendedMetaData="kind='element' name='MajorGridsStepNumber'"
+	 * @generated
+	 */
+	int getMajorGridsStepNumber( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getMajorGridsStepNumber <em>Major Grids Step Number</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Major Grids Step Number</em>' attribute.
+	 * @see #isSetMajorGridsStepNumber()
+	 * @see #unsetMajorGridsStepNumber()
+	 * @see #getMajorGridsStepNumber()
+	 * @generated
+	 */
+	void setMajorGridsStepNumber( int value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getMajorGridsStepNumber <em>Major Grids Step Number</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetMajorGridsStepNumber()
+	 * @see #getMajorGridsStepNumber()
+	 * @see #setMajorGridsStepNumber(int)
+	 * @generated
+	 */
+	void unsetMajorGridsStepNumber( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getMajorGridsStepNumber <em>Major Grids Step Number</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Major Grids Step Number</em>' attribute is set.
+	 * @see #unsetMajorGridsStepNumber()
+	 * @see #getMajorGridsStepNumber()
+	 * @see #setMajorGridsStepNumber(int)
+	 * @generated
+	 */
+	boolean isSetMajorGridsStepNumber( );
 
 } // Scale

@@ -1841,6 +1841,9 @@ public abstract class AxesRenderer extends BaseRenderer
 		// RENDER MAJOR GRID LINES NEXT
 		for ( int i = 0; i < oaxa.length; i++ )
 		{
+			final int STEP_NUMBER = oaxa[i].getModelAxis( )
+					.getScale( )
+					.getMajorGridsStepNumber( );
 			lia = oaxa[i].getGrid( ).getLineAttributes( IConstants.MAJOR );
 			if ( lia == null || !lia.isSetStyle( ) || !lia.isVisible( ) ) // GRID
 			// LINE
@@ -1863,7 +1866,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						AxisTickCoordinates xa = scPrimaryBase.getTickCordinates( );
 						if ( floorFill )
 						{
-							for ( int k = 0; k < xa.size( ); k++ )
+							for ( int k = 0; k < xa.size( ); k += STEP_NUMBER )
 							{
 								lre3d.setStart3D( Location3DImpl.create( xa.getCoordinate( k ),
 										dYStart,
@@ -1882,7 +1885,7 @@ public abstract class AxesRenderer extends BaseRenderer
 
 						if ( rightWallFill )
 						{
-							for ( int k = 0; k < xa.size( ); k++ )
+							for ( int k = 0; k < xa.size( ); k += STEP_NUMBER )
 							{
 								lre3d.setStart3D( Location3DImpl.create( xa.getCoordinate( k ),
 										dYStart,
@@ -1903,7 +1906,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						AxisTickCoordinates ya = scPrimaryOrthogonal.getTickCordinates( );
 						if ( leftWallFill )
 						{
-							for ( int k = 0; k < ya.size( ); k++ )
+							for ( int k = 0; k < ya.size( ); k += STEP_NUMBER )
 							{
 								lre3d.setStart3D( Location3DImpl.create( dXStart,
 										ya.getCoordinate( k ),
@@ -1922,7 +1925,7 @@ public abstract class AxesRenderer extends BaseRenderer
 
 						if ( rightWallFill )
 						{
-							for ( int k = 0; k < ya.size( ); k++ )
+							for ( int k = 0; k < ya.size( ); k += STEP_NUMBER )
 							{
 								lre3d.setStart3D( Location3DImpl.create( dXStart,
 										ya.getCoordinate( k ),
@@ -1944,7 +1947,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						AxisTickCoordinates za = scAncillaryBase.getTickCordinates( );
 						if ( leftWallFill )
 						{
-							for ( int k = 0; k < za.size( ); k++ )
+							for ( int k = 0; k < za.size( ); k += STEP_NUMBER )
 							{
 								lre3d.setStart3D( Location3DImpl.create( dXStart,
 										dYStart,
@@ -1963,7 +1966,7 @@ public abstract class AxesRenderer extends BaseRenderer
 
 						if ( floorFill )
 						{
-							for ( int k = 0; k < za.size( ); k++ )
+							for ( int k = 0; k < za.size( ); k += STEP_NUMBER )
 							{
 								lre3d.setStart3D( Location3DImpl.create( dXStart,
 										dYStart,
@@ -2008,7 +2011,8 @@ public abstract class AxesRenderer extends BaseRenderer
 						ipr.drawLine( lre );
 					}
 				}
-				for ( int j = 0; j < da.size( ); j++ )
+				
+				for ( int j = 0; j < da.size( ); j += STEP_NUMBER )
 				{
 					 if ( j == 0 && insCA.getLeft( ) < lia.getThickness( ) )
 						continue;
@@ -2055,7 +2059,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						ipr.drawLine( lre );
 					}
 				}
-				for ( int j = 0; j < da.size( ); j++ )
+				for ( int j = 0; j < da.size( ); j += STEP_NUMBER )
 				{
 					if ( j == 0 && insCA.getBottom( ) < lia.getThickness( ) )
 						continue;

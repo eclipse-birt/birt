@@ -39,8 +39,9 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
  * end-user-doc -->
  * @generated
  */
-public class ComponentFactoryImpl extends EFactoryImpl implements
-		ComponentFactory
+public class ComponentFactoryImpl extends EFactoryImpl
+		implements
+			ComponentFactory
 {
 
 	/**

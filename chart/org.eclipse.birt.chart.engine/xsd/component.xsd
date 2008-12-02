@@ -622,6 +622,10 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element name="MajorGridsStepNumber" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation>Specify the step number of axis grid lines.</xsd:documentation>
+				</xsd:annotation></xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ChartPreferences">
