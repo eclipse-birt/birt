@@ -120,7 +120,7 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 					<xsd:documentation>Enable/Disable all interactive features, true by default</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="LegendBehavior" type="LegendBehaviorType" minOccurs="0">
+			<xsd:element name="LegendBehavior" type="LegendBehaviorType" minOccurs="0" default="None">
 				<xsd:annotation>
 					<xsd:documentation>Three possible behaviours: None, Toggle the Serie visibility, Highlight the serie.</xsd:documentation>
 				</xsd:annotation>
@@ -684,8 +684,8 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="horizontalAlignment" type="HorizontalAlignment"/>
-			<xsd:element name="verticalAlignment" type="VerticalAlignment"/>
+			<xsd:element name="horizontalAlignment" type="HorizontalAlignment" default="Left"/>
+			<xsd:element name="verticalAlignment" type="VerticalAlignment" default="Top"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="Location">
@@ -733,7 +733,7 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 			<xsd:element name="XAngle" type="xsd:double"/>
 			<xsd:element name="YAngle" type="xsd:double"/>
 			<xsd:element name="ZAngle" type="xsd:double"/>
-			<xsd:element name="Type" type="AngleType"/>
+			<xsd:element name="Type" type="AngleType" default="None"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="Rotation3D">
@@ -881,7 +881,7 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="Style" type="LineStyle">
+			<xsd:element name="Style" type="LineStyle" default="Solid">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Holds the line style.
@@ -1178,14 +1178,14 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 		<xsd:complexContent>
 			<xsd:extension base="FormatSpecifier">
 				<xsd:sequence>
-					<xsd:element name="Type" type="DateFormatType">
+					<xsd:element name="Type" type="DateFormatType" default="Long">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
 							Defines the format specifier.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="Detail" type="DateFormatDetail">
+					<xsd:element name="Detail" type="DateFormatDetail" default="Date">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
 							Species the form of the date.
@@ -1335,7 +1335,7 @@ Specifies the fixed length of the denominator when in imprecise mode.</xsd:docum
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="Type" type="IntersectionType">
+			<xsd:element name="Type" type="IntersectionType" default="Min">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Defines the type of origin. This determines whether and how the origin value is to be used.
@@ -1358,7 +1358,7 @@ Specifies the fixed length of the denominator when in imprecise mode.</xsd:docum
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="Type" type="MarkerType">
+			<xsd:element name="Type" type="MarkerType" default="Crosshair">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies the type of marker.
@@ -1435,7 +1435,7 @@ Specifies the fixed length of the denominator when in imprecise mode.</xsd:docum
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="Type" type="DataPointComponentType">
+			<xsd:element name="Type" type="DataPointComponentType" default="Base_Value">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies the type of data point component.
@@ -1463,7 +1463,7 @@ Specifies the fixed length of the denominator when in imprecise mode.</xsd:docum
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="ComponentName" type="StyledComponent">
+			<xsd:element name="ComponentName" type="StyledComponent" default="Chart_All">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies the name of a chart component that can have styles associated with it.

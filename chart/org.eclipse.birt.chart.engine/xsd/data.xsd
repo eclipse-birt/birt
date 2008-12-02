@@ -174,7 +174,7 @@
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="GroupingUnit"
-				type="attribute:GroupingUnitType">
+				type="attribute:GroupingUnitType" default="Seconds">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 						Specifies the unit of grouping.
@@ -198,7 +198,7 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="GroupType" type="attribute:DataType">
+			<xsd:element name="GroupType" type="attribute:DataType" default="Numeric">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 						Specifies the type of data to be grouped.
@@ -224,7 +224,7 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="Condition" type="attribute:TriggerCondition">
+			<xsd:element name="Condition" type="attribute:TriggerCondition" default="Mouse_Hover">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies the condition for the Trigger. This value determines when the Action is processed.
@@ -238,7 +238,7 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="TriggerFlow" type="attribute:TriggerFlow" minOccurs="0">
+			<xsd:element name="TriggerFlow" type="attribute:TriggerFlow" minOccurs="0" default="Capture">
 				<xsd:annotation>
 					<xsd:documentation>Specifies the bubbling behavior of the Trigger.</xsd:documentation>
 				</xsd:annotation>
@@ -252,7 +252,7 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="Type" type="attribute:ActionType">
+			<xsd:element name="Type" type="attribute:ActionType" default="URL_Redirect">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies the type of Action. This value determines the way the Action Value is processed.
@@ -300,7 +300,7 @@
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Sorting" type="attribute:SortOption"
-				minOccurs="0">
+				minOccurs="0" default="Ascending">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 						Defines if and how the series data is to be
@@ -330,7 +330,7 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="Type" type="attribute:RuleType"/>
+			<xsd:element name="Type" type="attribute:RuleType" default="Filter"/>
 			<xsd:element name="Value" type="xsd:string"/>
 		</xsd:sequence>
 	</xsd:complexType>

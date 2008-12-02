@@ -16,7 +16,7 @@
 		<xsd:complexContent>
 			<xsd:extension base="component:Series">
 				<xsd:sequence>
-					<xsd:element name="Riser" type="attribute:RiserType" minOccurs="0">
+					<xsd:element name="Riser" type="attribute:RiserType" minOccurs="0" default="Rectangle">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
 							Specifies the 'Riser' to be used for displaying the data values in the chart.
@@ -63,7 +63,7 @@
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="TitlePosition" type="attribute:Position">
+					<xsd:element name="TitlePosition" type="attribute:Position" default="Above">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
 							Holds the position property for a series title.
@@ -77,7 +77,7 @@
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="LeaderLineStyle" type="attribute:LeaderLineStyle">
+					<xsd:element name="LeaderLineStyle" type="attribute:LeaderLineStyle" default="Fixed_Length">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
 							Specifies how the leader lines are to be shown.
@@ -271,7 +271,7 @@ Specifies the marker to be used for displaying the start data point on the line 
 </xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="StartMarkerPosition" type="attribute:Position">
+					<xsd:element name="StartMarkerPosition" type="attribute:Position" default="Above">
 						<xsd:annotation>
 							<xsd:documentation>Specifies the position of the start marker relative to the connection line start point.</xsd:documentation>
 						</xsd:annotation>
@@ -282,7 +282,7 @@ Specifies the marker to be used for displaying the start data point on the line 
 Specifies the marker to be used for displaying the end data point on the line in the chart.</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="EndMarkerPosition" type="attribute:Position">
+					<xsd:element name="EndMarkerPosition" type="attribute:Position" default="Above">
 						<xsd:annotation>
 							<xsd:documentation>Specifies the position of the end marker relative to the connection line end point.</xsd:documentation>
 						</xsd:annotation>
@@ -317,7 +317,7 @@ Specifies the attributes for the outline used to represent this series.</xsd:doc
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="DecorationLabelPosition" type="attribute:Position">
+					<xsd:element name="DecorationLabelPosition" type="attribute:Position" default="Above">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
 							Holds the position property for the decoration label.
@@ -350,7 +350,7 @@ Specifies the attributes for the outline used to represent this series.</xsd:doc
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="AccOrientation" type="attribute:Orientation" minOccurs="0">
+					<xsd:element name="AccOrientation" type="attribute:Orientation" minOccurs="0" default="Horizontal">
 						<xsd:annotation>
 							<xsd:documentation>Specifies the orientation of the acceleration line.</xsd:documentation>
 						</xsd:annotation>
