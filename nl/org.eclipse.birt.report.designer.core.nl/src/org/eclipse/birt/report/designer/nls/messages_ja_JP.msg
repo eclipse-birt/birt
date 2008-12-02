@@ -2704,6 +2704,7 @@ ParameterDialog.ErrorMessage.EmptyName=名前が指定されていません。
 ParameterDialog.ErrorMessage.InvalidListLimit=制限値は、0 ～ {0} の範囲で指定してください。
 ParameterDialog.ErrorMessage.MismatchDataType=この値はデータ型に一致しません。
 ParameterDialog.ErrorMessage.NoAvailableColumn=使用できるカラムがありません。
+ParameterDialog.ErrorMessage.ValueColumnEmpty=Value column should be specified.
 ParameterDialog.ErrorMessage.NoDefaultValue=デフォルト値を設定してください。
 ParameterDialog.ErrorTitle.InvalidListLimit=一覧の制限が無効です。
 ParameterDialog.Flag.Default=デフォルト
@@ -4053,6 +4054,7 @@ EmbeddedImagesNodeProvider.stackMsg.insert=イメージの挿入
 ###########################################################
 #AddElementtoAction properties
 AddElementtoAction.Text=レポートに追加(&A)
+ApplyThemeAction.Text=&Apply to Report
 
 ###########################################################
 #MultiPageReportEditor properties
@@ -4133,6 +4135,9 @@ ThumbnailBuilder.Button.GenerateFromReport=レポートから生成
 ThumbnailBuilder.Button.BrowseFromFileSystem=ファイルシステムの参照
 ThumbnailBuilder.Button.ImportFromResource=共有リソースからインポート
 ThumbnailBuilder.Image.DefaultName=サムネイルのイメージ
+ThumbnailBuilder.PreviewImage.WarningDialog.Title=警告
+ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=You selected a big image(larger than 1014x768) and it may cause out of memory exception.\nWould you like to proceed?
+
 
 ###########################################################
 #FragmentResourceEntry properties

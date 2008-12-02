@@ -2704,6 +2704,7 @@ ParameterDialog.ErrorMessage.EmptyName=이름이 비어 있습니다.
 ParameterDialog.ErrorMessage.InvalidListLimit=제한 값은 0과 {0} 사이여야 합니다.
 ParameterDialog.ErrorMessage.MismatchDataType=값이 데이터 형식에 맞지 않습니다.
 ParameterDialog.ErrorMessage.NoAvailableColumn=사용할 수 있는 열이 없습니다.
+ParameterDialog.ErrorMessage.ValueColumnEmpty=Value column should be specified.
 ParameterDialog.ErrorMessage.NoDefaultValue=기본값을 설정해야 합니다.
 ParameterDialog.ErrorTitle.InvalidListLimit=잘못된 목록 제한
 ParameterDialog.Flag.Default=기본값
@@ -4053,6 +4054,7 @@ EmbeddedImagesNodeProvider.stackMsg.insert=이미지 삽입
 ###########################################################
 #AddElementtoAction properties
 AddElementtoAction.Text=보고서에 추가(&A)
+ApplyThemeAction.Text=&Apply to Report
 
 ###########################################################
 #MultiPageReportEditor properties
@@ -4133,6 +4135,9 @@ ThumbnailBuilder.Button.GenerateFromReport=보고서에서 생성
 ThumbnailBuilder.Button.BrowseFromFileSystem=파일 시스템에서 찾아보기
 ThumbnailBuilder.Button.ImportFromResource=공유 리소스에서 가져오기
 ThumbnailBuilder.Image.DefaultName=축소판 이미지
+ThumbnailBuilder.PreviewImage.WarningDialog.Title=경고
+ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=You selected a big image(larger than 1014x768) and it may cause out of memory exception.\nWould you like to proceed?
+
 
 ###########################################################
 #FragmentResourceEntry properties

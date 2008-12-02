@@ -2704,6 +2704,7 @@ ParameterDialog.ErrorMessage.EmptyName=Le nom n'est pas renseigné.
 ParameterDialog.ErrorMessage.InvalidListLimit=La valeur de limitation doit être comprise entre 0 et {0}
 ParameterDialog.ErrorMessage.MismatchDataType=La valeur ne correspond pas au type de données.
 ParameterDialog.ErrorMessage.NoAvailableColumn=Aucune colonne n'est disponible.
+ParameterDialog.ErrorMessage.ValueColumnEmpty=Value column should be specified.
 ParameterDialog.ErrorMessage.NoDefaultValue=Vous devez définir une valeur par défaut.
 ParameterDialog.ErrorTitle.InvalidListLimit=Limite de liste incorrecte
 ParameterDialog.Flag.Default=Par défaut
@@ -4053,6 +4054,7 @@ EmbeddedImagesNodeProvider.stackMsg.insert=Insérer l'image
 ###########################################################
 #AddElementtoAction properties
 AddElementtoAction.Text=&Ajouter à l'état
+ApplyThemeAction.Text=&Apply to Report
 
 ###########################################################
 #MultiPageReportEditor properties
@@ -4133,6 +4135,9 @@ ThumbnailBuilder.Button.GenerateFromReport=Générer à partir de l'état
 ThumbnailBuilder.Button.BrowseFromFileSystem=Parcourir depuis le système de fichiers
 ThumbnailBuilder.Button.ImportFromResource=Importer depuis des ressources partagées
 ThumbnailBuilder.Image.DefaultName=Image miniature
+ThumbnailBuilder.PreviewImage.WarningDialog.Title=Avertissement
+ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=You selected a big image(larger than 1014x768) and it may cause out of memory exception.\nWould you like to proceed?
+
 
 ###########################################################
 #FragmentResourceEntry properties
