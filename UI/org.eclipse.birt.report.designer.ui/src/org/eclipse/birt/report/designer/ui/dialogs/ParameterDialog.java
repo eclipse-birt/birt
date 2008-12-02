@@ -210,6 +210,8 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String ERROR_MSG_NO_AVAILABLE_COLUMN = Messages.getString( "ParameterDialog.ErrorMessage.NoAvailableColumn" ); //$NON-NLS-1$
 
+	private static final String ERROR_MSG_VALUE_COLUMN_EMPTY = Messages.getString( "ParameterDialog.ErrorMessage.ValueColumnEmpty" ); //$NON-NLS-1$
+
 	private static final String ERROR_MSG_INVALID_LIST_LIMIT = Messages.getString( "ParameterDialog.ErrorMessage.InvalidListLimit" ); //$NON-NLS-1$
 
 	private static final String FLAG_DEFAULT = Messages.getString( "ParameterDialog.Flag.Default" ); //$NON-NLS-1$
@@ -1808,14 +1810,15 @@ public class ParameterDialog extends BaseDialog
 		// columnChooser = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 		columnChooser = new Combo( composite, SWT.BORDER | SWT.DROP_DOWN );
 		columnChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		columnChooser.addSelectionListener( new SelectionAdapter( ) {
+		columnChooser.addModifyListener( new ModifyListener() {
 
-			public void widgetSelected( SelectionEvent e )
+			public void modifyText( ModifyEvent e )
 			{
-				updateButtons( );
-			}
-		} );
-
+				// TODO Auto-generated method stub
+				updateMessageLine();			
+			}			
+		});		
+		
 		valueColumnExprButton = new Button( composite, SWT.PUSH );
 		// valueColumnExprButton.setText( "..." ); //$NON-NLS-1$
 		UIUtil.setExpressionButtonImage( valueColumnExprButton );
@@ -2498,7 +2501,7 @@ public class ParameterDialog extends BaseDialog
 					&& !columnChooser.isDisposed( )
 					&& !isStatic( ) )
 			{
-				canFinish &= ( getExpression( columnChooser.getText( ) ) != null );
+				canFinish &= ( getExpression( columnChooser.getText( ) ).length( ) > 0 );
 			}
 		}
 		getOkButton( ).setEnabled( canFinish );
@@ -2529,10 +2532,16 @@ public class ParameterDialog extends BaseDialog
 			// 1. No available column error
 			if ( !isStatic( )
 					&& columnChooser != null
-					&& !columnChooser.isDisposed( )
-					&& columnChooser.getItemCount( ) == 0 )
+					&& !columnChooser.isDisposed( ) )
 			{
-				errorMessage = ERROR_MSG_NO_AVAILABLE_COLUMN;
+				if ( columnChooser.getItemCount( ) == 0 )
+				{
+					errorMessage = ERROR_MSG_NO_AVAILABLE_COLUMN;
+				}
+				else if ( columnChooser.getText( ).trim( ).length( ) == 0 )
+				{
+					errorMessage = ERROR_MSG_VALUE_COLUMN_EMPTY;
+				}
 			}
 
 			// 2. No default value error
