@@ -51,6 +51,7 @@ AbstractScaleSheet.AutoExpand=A&uto Expand
 AbstractScaleSheet.Label.Step=Escalier
 AbstractScaleSheet.Label.Auto=&Automatique
 BaseAxisDataSheetImpl.Lbl.Minimum=&Min :
+BaseAxisDataSheetImpl.Lbl.MajorGridStepNum=Major Grid Step Number:
 BaseAxisDataSheetImpl.Lbl.Maximum=Ma&x :
 AbstractScaleSheet.Label.StepSize=Taille de l'e&scalier :
 BaseAxisDataSheetImpl.Lbl.Unit=&Unité :

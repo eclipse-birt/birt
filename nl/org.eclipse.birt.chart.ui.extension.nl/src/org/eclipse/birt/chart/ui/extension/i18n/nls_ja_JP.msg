@@ -51,6 +51,7 @@ AbstractScaleSheet.AutoExpand=A&uto Expand
 AbstractScaleSheet.Label.Step=ステップグラフ
 AbstractScaleSheet.Label.Auto=自動(&A)
 BaseAxisDataSheetImpl.Lbl.Minimum=最小 (&M):
+BaseAxisDataSheetImpl.Lbl.MajorGridStepNum=Major Grid Step Number:
 BaseAxisDataSheetImpl.Lbl.Maximum=最大 (&X):
 AbstractScaleSheet.Label.StepSize=ステップのサイズ(&S) :
 BaseAxisDataSheetImpl.Lbl.Unit=単位(&U) :

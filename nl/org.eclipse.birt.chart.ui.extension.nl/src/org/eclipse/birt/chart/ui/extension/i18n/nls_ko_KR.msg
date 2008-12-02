@@ -51,6 +51,7 @@ AbstractScaleSheet.AutoExpand=A&uto Expand
 AbstractScaleSheet.Label.Step=단계형
 AbstractScaleSheet.Label.Auto=자동(&A)
 BaseAxisDataSheetImpl.Lbl.Minimum=최소(&M):
+BaseAxisDataSheetImpl.Lbl.MajorGridStepNum=Major Grid Step Number:
 BaseAxisDataSheetImpl.Lbl.Maximum=최대(&X):
 AbstractScaleSheet.Label.StepSize=단계 크기(&S):
 BaseAxisDataSheetImpl.Lbl.Unit=단위(&U):
