@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.net.URL;
 import java.util.logging.Level;
 
@@ -28,11 +29,14 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormAttachment;
@@ -402,7 +406,6 @@ public class ThumbnailBuilder extends BaseDialog
 
 		public void handleEvent( Event event )
 		{
-
 			String fileName = null;
 			FileDialog dialog = new FileDialog( getShell( ), SWT.OPEN );
 			dialog.setText( Messages.getString( "ThumbnailBuilder.FileDialog.Title" ) ); //$NON-NLS-1$
@@ -420,8 +423,13 @@ public class ThumbnailBuilder extends BaseDialog
 				return;
 			}
 
+			boolean continueSave = continueSaveImage( fileName );
+			if ( !continueSave )
+			{
+				return;
+			}
+
 			removeImage( );
-			
 
 			try
 			{
@@ -457,7 +465,7 @@ public class ThumbnailBuilder extends BaseDialog
 			}
 			URL url = getModuleHandle( ).findResource( fileName,
 					IResourceLocator.IMAGE );
-			imageName = fileName;
+			
 			try
 			{
 				fileName = DEUtil.getFilePathFormURL( url );
@@ -473,6 +481,12 @@ public class ThumbnailBuilder extends BaseDialog
 				return;
 			}
 
+			boolean continueSave = continueSaveImage( fileName );
+			if ( !continueSave )
+			{
+				return;
+			}
+
 			removeImage( );
 			try
 			{
@@ -480,6 +494,7 @@ public class ThumbnailBuilder extends BaseDialog
 				previewCanvas.loadImage( image );
 				btnRemove.setEnabled( true );
 				hasThumbnail = true;
+				imageName = fileName;
 			}
 			catch ( Exception e )
 			{
@@ -518,6 +533,52 @@ public class ThumbnailBuilder extends BaseDialog
 			}
 		}
 		return false;
+	}
+
+	private boolean continueSaveImage( String fileName )
+	{
+		final int MAX_PIXEL = 2048 * 1536;
+		final long FILE_SIZE = 1 * 1024 * 1024;
+
+		File file = new File( fileName );
+		if ( file.length( ) <= FILE_SIZE )
+		{
+			Image locImage = null;
+			try
+			{
+				locImage = new Image( null, fileName );
+				ImageData imageData = locImage.getImageData( );
+				if ( locImage != null && locImage.getImageData( ) != null )
+				{
+					int imagePixel = imageData.height * imageData.width;
+					if ( imagePixel <= MAX_PIXEL )
+					{
+						return true;
+					}
+				}
+			}
+			finally
+			{
+				if ( locImage != null )
+				{
+					locImage.dispose( );
+				}
+			}
+		}
+
+		MessageDialog dialog = new MessageDialog( UIUtil.getDefaultShell( ),
+				Messages.getString( "ThumbnailBuilder.PreviewImage.WarningDialog.Title" ),
+				null, // accept
+				Messages.getString( "ThumbnailBuilder.PreviewImage.WarningDialog.Prompt" ),
+				MessageDialog.WARNING,
+				new String[]{
+						IDialogConstants.PROCEED_LABEL,
+						IDialogConstants.CANCEL_LABEL
+				},
+				1 );
+		boolean ret = ( dialog.open( ) == 0 ) ? true : false;
+		return ret;
+
 	}
 
 }

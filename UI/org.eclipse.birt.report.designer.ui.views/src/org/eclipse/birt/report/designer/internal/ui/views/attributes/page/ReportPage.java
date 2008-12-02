@@ -43,10 +43,10 @@ public class ReportPage extends ModulePage
 
 	private TextAndTwoButtonSection prvImageSection;
 
-	public void buildUI( Composite parent  )
+	public void buildUI( Composite parent )
 	{
 		super.buildUI( parent );
-		
+
 		ComboPropertyDescriptorProvider layoutProvider = new ComboPropertyDescriptorProvider( ReportDesignHandle.LAYOUT_PREFERENCE_PROP,
 				ReportDesignConstants.REPORT_DESIGN_ELEMENT );
 		ComboSection layoutSection = new ComboSection( layoutProvider.getDisplayName( ),
@@ -56,23 +56,23 @@ public class ReportPage extends ModulePage
 		layoutSection.setWidth( 500 );
 		layoutSection.setGridPlaceholder( 2, true );
 		addSection( PageSectionId.REPORT_LAYOUT_PREFERENCE, layoutSection );
-		
+
 		/*
-		 * If BiDi support is enabled - BiDi Orientation should be added to properties view
+		 * If BiDi support is enabled - BiDi Orientation should be added to
+		 * properties view
 		 */
-		
-		ComboPropertyDescriptorProvider biDiOrientatonProvider = new ComboPropertyDescriptorProvider(
-				ReportDesignHandle.BIDI_ORIENTATION_PROP,
+
+		ComboPropertyDescriptorProvider biDiOrientatonProvider = new ComboPropertyDescriptorProvider( ReportDesignHandle.BIDI_ORIENTATION_PROP,
 				ReportDesignConstants.REPORT_DESIGN_ELEMENT );
-		ComboSection biDiOrientatonSection = new ComboSection(
-				biDiOrientatonProvider.getDisplayName( ), container, true );
+		ComboSection biDiOrientatonSection = new ComboSection( biDiOrientatonProvider.getDisplayName( ),
+				container,
+				true );
 		biDiOrientatonSection.setProvider( biDiOrientatonProvider );
 		biDiOrientatonSection.setWidth( 500 );
 		biDiOrientatonSection.setGridPlaceholder( 2, true );
 		addSection( PageSectionId.REPORT_BIDI_ORIENTATION,
 				biDiOrientatonSection );
-		
-		
+
 		TextPropertyDescriptorProvider displayProvider = new TextPropertyDescriptorProvider( ModuleHandle.DISPLAY_NAME_PROP,
 				ReportDesignConstants.REPORT_DESIGN_ELEMENT );
 		TextSection displaySection = new TextSection( displayProvider.getDisplayName( ),
@@ -86,15 +86,16 @@ public class ReportPage extends ModulePage
 		TextPropertyDescriptorProvider prvImageProvider = new TextPropertyDescriptorProvider( ReportDesignHandle.ICON_FILE_PROP,
 				ReportDesignConstants.REPORT_DESIGN_ELEMENT );
 		prvImageSection = new TextAndTwoButtonSection( prvImageProvider.getDisplayName( ),
-						container,
-						true );
+				container,
+				true );
 		prvImageSection.setProvider( prvImageProvider );
 		prvImageSection.addSecondSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
 				ThumbnailBuilder dialog = new ThumbnailBuilder( );
-				dialog.setImageName( prvImageSection.getTextControl( ).getText( ) );
+				dialog.setImageName( prvImageSection.getTextControl( )
+						.getText( ) );
 				ReportDesignHandle handle = (ReportDesignHandle) SessionHandleAdapter.getInstance( )
 						.getReportDesignHandle( );
 				dialog.setReportDesignHandle( handle );
@@ -116,7 +117,7 @@ public class ReportPage extends ModulePage
 					imageLoader.data = new ImageData[1];
 					imageLoader.data[0] = imageData;
 					ByteArrayOutputStream outputStream = new ByteArrayOutputStream( );
-					imageLoader.save( outputStream, SWT.IMAGE_BMP );
+					imageLoader.save( outputStream, SWT.IMAGE_JPEG );
 					try
 					{
 						handle.setThumbnail( outputStream.toByteArray( ) );
@@ -150,25 +151,26 @@ public class ReportPage extends ModulePage
 						}
 
 					}
-					
-					prvImageSection.setStringValue(""); //$NON-NLS-1$
+
+					prvImageSection.setStringValue( "" ); //$NON-NLS-1$
 					prvImageSection.forceFocus( );
 				}
-				
-				
+
 			}
 
 		} );
-		
+
 		prvImageSection.setWidth( 500 );
-//		prvImageSection.setFristButtonText(  Messages.getString( "ReportPage.text.Browse" ) );
+		// prvImageSection.setFristButtonText( Messages.getString(
+		// "ReportPage.text.Browse" ) );
 		prvImageSection.setSecondButtonText( "..." ); //$NON-NLS-1$
-		prvImageSection.setSecondButtonTooltipText(Messages.getString( "ReportPage.PreviewImage.Button.ToolTip")); //$NON-NLS-1$
-		
+		prvImageSection.setSecondButtonTooltipText( Messages.getString( "ReportPage.PreviewImage.Button.ToolTip" ) ); //$NON-NLS-1$
+
 		addSection( PageSectionId.REPORT_PRVIMAGE, prvImageSection );
-		
+
 		createSections( );
 		layoutSections( );
 
 	}
+
 }

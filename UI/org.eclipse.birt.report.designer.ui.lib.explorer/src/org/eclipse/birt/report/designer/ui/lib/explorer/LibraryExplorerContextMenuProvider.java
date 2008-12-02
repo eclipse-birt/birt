@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.ui.ContextMenuProvider;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddElementtoReport;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddResourceAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddSelectedLibToCurrentReportDesignAction;
+import org.eclipse.birt.report.designer.ui.lib.explorer.action.ApplyThemeAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.CopyResourceAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.DeleteResourceAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.FilterResourceAction;
@@ -107,14 +108,16 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 		newLibraryAction = new NewLibraryAction( page );
 		copyResourceAction = new CopyResourceAction( page, clipboard );
 		pasteResourceAction = new PasteResourceAction( page, clipboard );
-		
-		handleGlobalAction();
+
+		handleGlobalAction( );
 		page.addSelectionChangedListener( new ISelectionChangedListener( ) {
 
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
+			 * @see
+			 * org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged
+			 * (org.eclipse.jface.viewers.SelectionChangedEvent)
 			 */
 			public void selectionChanged( SelectionChangedEvent event )
 			{
@@ -297,6 +300,17 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 					menu.add( new Separator( ) );
 				}
 			}
+			else if ( isTheme( selected ) )
+			{
+				if ( selection.size( ) == 1 )
+				{
+					ApplyThemeAction applyThemeAction = new ApplyThemeAction( );
+					applyThemeAction.setSelectedTheme( selected );
+					menu.add( applyThemeAction );
+					menu.add( new Separator( ) );
+				}
+
+			}
 			menu.add( new Separator( ) );
 			menu.add( refreshExplorerAction );
 		}
@@ -326,6 +340,23 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 		newLibraryAction.setEnabled( newLibraryAction.isEnabled( ) );
 		copyResourceAction.setEnabled( copyResourceAction.isEnabled( ) );
 		pasteResourceAction.setEnabled( pasteResourceAction.isEnabled( ) );
+	}
+
+	protected boolean isTheme( Object transfer )
+	{
+		if ( transfer instanceof ReportResourceEntry )
+		{
+			transfer = ( (ReportResourceEntry) transfer ).getReportElement( );
+		}
+
+		if ( transfer instanceof ThemeHandle )
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	protected boolean canAddtoReport( Object transfer )
