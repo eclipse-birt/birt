@@ -1810,15 +1810,15 @@ public class ParameterDialog extends BaseDialog
 		// columnChooser = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 		columnChooser = new Combo( composite, SWT.BORDER | SWT.DROP_DOWN );
 		columnChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		columnChooser.addModifyListener( new ModifyListener() {
+		columnChooser.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
 			{
 				// TODO Auto-generated method stub
-				updateMessageLine();			
-			}			
-		});		
-		
+				updateMessageLine( );
+			}
+		} );
+
 		valueColumnExprButton = new Button( composite, SWT.PUSH );
 		// valueColumnExprButton.setText( "..." ); //$NON-NLS-1$
 		UIUtil.setExpressionButtonImage( valueColumnExprButton );
@@ -2833,10 +2833,22 @@ public class ParameterDialog extends BaseDialog
 					|| type.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL )
 					|| type.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT ) )
 			{
+				double doulbeValue = DEFAULT_PREVIEW_NUMBER;
+
+				if ( defaultValue != null )
+				{					
+					try
+					{
+						doulbeValue = Double.parseDouble( defaultValue );
+					}
+					catch ( NumberFormatException e )
+					{
+
+					}
+				}
 				previewString = new NumberFormatter( ( ParameterUtil.isCustomCategory( formatCategroy ) || ( isNumberFormat( formatCategroy ) ) ) ? formatPattern
 						: formatCategroy,
-						ULocale.getDefault( ) ).format( defaultValue == null ? DEFAULT_PREVIEW_NUMBER
-						: Double.parseDouble( defaultValue ) );
+						ULocale.getDefault( ) ).format( doulbeValue );
 			}
 			else
 			{

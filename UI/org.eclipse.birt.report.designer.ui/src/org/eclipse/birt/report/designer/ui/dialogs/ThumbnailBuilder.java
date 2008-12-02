@@ -537,7 +537,7 @@ public class ThumbnailBuilder extends BaseDialog
 
 	private boolean continueSaveImage( String fileName )
 	{
-		final int MAX_PIXEL = 2048 * 1536;
+		final int MAX_PIXEL = 1024 * 768;
 		final long FILE_SIZE = 1 * 1024 * 1024;
 
 		File file = new File( fileName );
