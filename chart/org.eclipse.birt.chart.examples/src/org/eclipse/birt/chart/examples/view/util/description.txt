@@ -25,6 +25,9 @@
 	<SampleChartName.Bar>
 	<SampleChartName.Line>
 	<SampleChartName.Area>
+	<SampleChartName.Tube3D>
+	<SampleChartName.Cone3D>
+	<SampleChartName.Pyramid3D>
 </SampleChartCategory.3DCharts>
 <SampleChartCategory.CombinationCharts>
 	<SampleChartName.BarAndLine>
