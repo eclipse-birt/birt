@@ -1124,6 +1124,65 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 	}
 
+	/**
+	 * Returns actual expression for common and sharing query case.
+	 * 
+	 * @param query
+	 * @param expr
+	 * @return
+	 */
+	private String getActualExpression( String expr )
+	{
+		if ( !dataProvider.checkState( IDataServiceProvider.SHARE_QUERY ) )
+		{
+			return expr;
+		}
+
+		// Convert to actual expression.
+		Object obj = tablePreview.getCurrentColumnHeadObject( );
+		if ( obj instanceof ColumnBindingInfo )
+		{
+			ColumnBindingInfo cbi = (ColumnBindingInfo) obj;
+			int type = cbi.getColumnType( );
+			if ( type == ColumnBindingInfo.GROUP_COLUMN
+					|| type == ColumnBindingInfo.AGGREGATE_COLUMN )
+			{
+				return cbi.getExpression( );
+			}
+		}
+
+		return expr;
+	}
+
+	protected void manageColorAndQuery( Query query, String expr )
+	{
+		// If it's not used any more, remove color binding
+		if ( DataDefinitionTextManager.getInstance( )
+				.getNumberOfSameDataDefinition( query.getDefinition( ) ) == 0 )
+		{
+			ColorPalette.getInstance( ).retrieveColor( query.getDefinition( ) );
+		}
+
+		// Update query, if it is sharing binding case, the specified expression
+		// will be converted and set to query, else directly set specified
+		// expression to query.
+		// DataDefinitionTextManager.getInstance( ).updateQuery( query, expr );
+		query.setDefinition( getActualExpression( expr ) );
+
+		DataDefinitionTextManager.getInstance( ).updateText( query );
+		// Reset table column color
+		refreshTableColor( );
+		// Refresh all data definition text
+		DataDefinitionTextManager.getInstance( ).refreshAll( );
+	}
+
+	/**
+	 * @param queryType
+	 * @param query
+	 * @param expr
+	 * @param seriesDefinition
+	 * @since 2.5
+	 */
 	protected void manageColorAndQuery( String queryType, Query query, String expr,
  SeriesDefinition seriesDefinition )
 	{
