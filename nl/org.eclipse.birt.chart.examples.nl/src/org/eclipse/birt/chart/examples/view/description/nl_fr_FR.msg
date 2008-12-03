@@ -29,6 +29,9 @@ Pyramid=Les graphiques à pyramides ressemblent aux graphiques à barres, au détai
 Bar=Graphique à barres côte à côte en 3 dimensions.
 Line=Graphique à lignes superposées en 3 dimensions.
 Area=Graphique en aires superposées en 3 dimensions.
+Tube3D=3 Dimension Side-by-side Tube Chart.
+Cone3D=3 Dimension Side-by-side Cone Chart.
+Pyramid3D=3 Dimension Side-by-side Pyramid Chart.
 
 ###########################################################
 #Combination Charts
@@ -130,6 +133,9 @@ SampleChartName.Pyramid=Pyramide
 SampleChartName.Bar=Barre
 SampleChartName.Line=Ligne
 SampleChartName.Area=Aire
+SampleChartName.Tube3D=Cylindre
+SampleChartName.Cone3D=Cône
+SampleChartName.Pyramid3D=Pyramide
 #Combination Charts
 SampleChartName.BarAndLine=Barres et lignes
 #Formatted Charts

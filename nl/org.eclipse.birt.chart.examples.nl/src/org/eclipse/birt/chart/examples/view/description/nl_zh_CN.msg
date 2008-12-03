@@ -29,6 +29,9 @@ Pyramid=棱锥图与条形图类似，其条形用棱锥表示。
 Bar=3 维并列条形图。
 Line=3 维叠加折线图。
 Area=3 维覆盖型面积图。
+Tube3D=3 Dimension Side-by-side Tube Chart.
+Cone3D=3 Dimension Side-by-side Cone Chart.
+Pyramid3D=3 Dimension Side-by-side Pyramid Chart.
 
 ###########################################################
 #Combination Charts
@@ -130,6 +133,9 @@ SampleChartName.Pyramid=棱锥图
 SampleChartName.Bar=条形图
 SampleChartName.Line=折线图
 SampleChartName.Area=面积图
+SampleChartName.Tube3D=管形图
+SampleChartName.Cone3D=锥形图
+SampleChartName.Pyramid3D=棱锥图
 #Combination Charts
 SampleChartName.BarAndLine=条形和折线
 #Formatted Charts

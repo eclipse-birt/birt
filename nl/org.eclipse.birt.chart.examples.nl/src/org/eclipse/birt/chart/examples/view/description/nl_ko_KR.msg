@@ -29,6 +29,9 @@ Pyramid=피라미드 차트는 막대형 차트와 유사하게 피라피드 모양의 막대로 표시됩니다
 Bar=3차원 연속 막대형 차트입니다.
 Line=3차원 이중 선형 차트입니다.
 Area=3차원 이중 영역형 차트입니다.
+Tube3D=3 Dimension Side-by-side Tube Chart.
+Cone3D=3 Dimension Side-by-side Cone Chart.
+Pyramid3D=3 Dimension Side-by-side Pyramid Chart.
 
 ###########################################################
 #Combination Charts
@@ -130,6 +133,9 @@ SampleChartName.Pyramid=피라미드
 SampleChartName.Bar=막대형
 SampleChartName.Line=꺽은선형
 SampleChartName.Area=영역형
+SampleChartName.Tube3D=튜브
+SampleChartName.Cone3D=원뿔
+SampleChartName.Pyramid3D=피라미드
 #Combination Charts
 SampleChartName.BarAndLine=막대 및 선
 #Formatted Charts
