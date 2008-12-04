@@ -35,7 +35,7 @@ feature@org.eclipse.birt.testhelper=r232_v20081010,:pserver:anonymous@dev.eclips
 feature@org.eclipse.birt.tests=r232_v20081103,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.tests.feature
 plugin@org.eclipse.birt.tests=v20080313,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.tests
 
-feature@org.eclipse.birt.integration.wtp=r232_v20081010,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.integration.wtp.feature
+feature@org.eclipse.birt.integration.wtp=r232_v20081204,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.integration.wtp.feature
 feature@org.eclipse.birt.chart.integration.wtp=r232_v20081010,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.integration.wtp.feature
 feature@org.eclipse.birt.integration.wtp.sdk=r232_v20081010,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.integration.wtp.sdk.feature
 feature@org.eclipse.birt.report.data.oda.jdbc.dbprofile.sqlbuilder.feature=r232_v20081010,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sqlbuilder.feature
