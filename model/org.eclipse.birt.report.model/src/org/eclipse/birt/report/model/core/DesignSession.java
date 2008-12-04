@@ -25,7 +25,6 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IAbsoluteFontSizeValueProvider;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleOption;
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.birt.report.model.api.command.ResourceChangeEvent;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
@@ -81,7 +80,7 @@ public class DesignSession
 	 * list each item is <code>Style</code>
 	 */
 
-	private static List defaultTOCStyleList = null;
+	private static List<DesignElement> defaultTOCStyleList = null;
 
 	/**
 	 * file with TOC default value.
@@ -867,11 +866,9 @@ public class DesignSession
 	 * <code>DesignChoiceConstants</code> and is one of:
 	 * 
 	 * <ul>
-	 * <li><code>UNITS_IN</code></li>
-	 * <li><code>UNITS_CM</code></li>
-	 * <li><code>UNITS_MM</code></li>
-	 * <li><code>UNITS_PT</code></li>
-	 * <li><code>UNITS_PC</code></li>
+	 * <li><code>UNITS_IN</code></li> <li><code>UNITS_CM</code></li> <li><code>
+	 * UNITS_MM</code></li> <li><code>UNITS_PT</code></li> <li><code>UNITS_PC
+	 * </code></li>
 	 * </ul>
 	 * 
 	 * @return the application units as a string
@@ -889,11 +886,9 @@ public class DesignSession
 	 * <code>DesignChoiceConstants</code> and can be one of:
 	 * 
 	 * <ul>
-	 * <li><code>UNITS_IN</code></li>
-	 * <li><code>UNITS_CM</code></li>
-	 * <li><code>UNITS_MM</code></li>
-	 * <li><code>UNITS_PT</code></li>
-	 * <li><code>UNITS_PC</code></li>
+	 * <li><code>UNITS_IN</code></li> <li><code>UNITS_CM</code></li> <li><code>
+	 * UNITS_MM</code></li> <li><code>UNITS_PT</code></li> <li><code>UNITS_PC
+	 * </code></li>
 	 * </ul>
 	 * 
 	 * @param newUnits
@@ -926,11 +921,9 @@ public class DesignSession
 	 * <code>ColorUtil</code>:
 	 * 
 	 * <ul>
-	 * <li><code>INT_FORMAT</code>
-	 * <li><code>HTML_FORMAT</code>
-	 * <li><code>JAVA_FORMAT</code>
-	 * <li><code>CSS_ABSOLUTE_FORMAT</code>
-	 * <li><code>CSS_RELATIVE_FORMAT</code>
+	 * <li><code>INT_FORMAT</code> <li><code>HTML_FORMAT</code> <li><code>
+	 * JAVA_FORMAT</code> <li><code>CSS_ABSOLUTE_FORMAT</code> <li><code>
+	 * CSS_RELATIVE_FORMAT</code>
 	 * </ul>
 	 * 
 	 * @param format
@@ -963,11 +956,9 @@ public class DesignSession
 	 * <code>ColorUtil</code>:
 	 * 
 	 * <ul>
-	 * <li><code>INT_FORMAT</code>
-	 * <li><code>HTML_FORMAT</code>
-	 * <li><code>JAVA_FORMAT</code>
-	 * <li><code>CSS_ABSOLUTE_FORMAT</code>
-	 * <li><code>CSS_RELATIVE_FORMAT</code>
+	 * <li><code>INT_FORMAT</code> <li><code>HTML_FORMAT</code> <li><code>
+	 * JAVA_FORMAT</code> <li><code>CSS_ABSOLUTE_FORMAT</code> <li><code>
+	 * CSS_RELATIVE_FORMAT</code>
 	 * </ul>
 	 * 
 	 * @return the color display preference of the application as an integer.
@@ -1068,13 +1059,10 @@ public class DesignSession
 	 * Returns the provider instance which provides the absolute dimension value
 	 * of predefined font size choice.
 	 * <ul>
-	 * <li><code>FONT_SIZE_XX_SMALL</code>
-	 * <li><code>FONT_SIZE_X_SMALL</code>
-	 * <li><code>FONT_SIZE_SMALL</code>
-	 * <li><code>FONT_SIZE_MEDIUM</code>
-	 * <li><code>FONT_SIZE_LARGE</code>
-	 * <li><code>FONT_SIZE_X_LARGE</code>
-	 * <li><code>FONT_SIZE_XX_LARGE</code>
+	 * <li><code>FONT_SIZE_XX_SMALL</code> <li><code>FONT_SIZE_X_SMALL</code>
+	 * <li><code>FONT_SIZE_SMALL</code> <li><code>FONT_SIZE_MEDIUM</code> <li>
+	 * <code>FONT_SIZE_LARGE</code> <li><code>FONT_SIZE_X_LARGE</code> <li>
+	 * <code>FONT_SIZE_XX_LARGE</code>
 	 * </ul>
 	 * 
 	 * @return the instance of <code>IAbsoluteFontSizeValueProvider</code>
@@ -1256,7 +1244,7 @@ public class DesignSession
 
 	private void initDefaultTOCStyle( )
 	{
-		defaultTOCStyleList = new ArrayList( );
+		defaultTOCStyleList = new ArrayList<DesignElement>( );
 		URL url = new DefaultResourceLocator( ).findResource( null,
 				TOC_DEFAULT_VALUE, IResourceLocator.OTHERS );
 		if ( url == null )
@@ -1280,16 +1268,12 @@ public class DesignSession
 
 		// get styles
 
-		ContainerSlot slot = tocDesign.getSlot( IReportDesignModel.STYLE_SLOT );
-		Iterator iterator = slot.iterator( );
-		while ( iterator.hasNext( ) )
+		ContainerSlot styles = tocDesign
+				.getSlot( IReportDesignModel.STYLE_SLOT );
+		for ( int i = 0; i < styles.getCount( ); i++ )
 		{
-			DesignElement tmpStyle = (DesignElement) iterator.next( );
-			StyleHandle styleHandle = (StyleHandle) tmpStyle
-					.getHandle( tocDesign );
-			defaultTOCStyleList.add( styleHandle );
+			defaultTOCStyleList.add( styles.getContent( i ) );
 		}
-
 	}
 
 	/**
@@ -1298,7 +1282,7 @@ public class DesignSession
 	 * @return list each item is <code>Style</code>
 	 */
 
-	public List getDefaultTOCStyleValue( )
+	public List<DesignElement> getDefaultTOCStyleValue( )
 	{
 		if ( isTOCStyleInitialized )
 			return Collections.unmodifiableList( defaultTOCStyleList );

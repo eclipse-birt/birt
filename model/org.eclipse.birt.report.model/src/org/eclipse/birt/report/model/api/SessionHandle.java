@@ -23,8 +23,10 @@ import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.birt.report.model.api.command.ResourceChangeEvent;
 import org.eclipse.birt.report.model.api.core.IResourceChangeListener;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.Style;
 
 import com.ibm.icu.util.ULocale;
 
@@ -101,8 +103,8 @@ public class SessionHandle
 	 * Constructs a handle for the session with the given locale.
 	 * 
 	 * @param locale
-	 *            the user's locale which is <code>ULocale</code>. If null,
-	 *            then the system locale is assumed.
+	 *            the user's locale which is <code>ULocale</code>. If null, then
+	 *            the system locale is assumed.
 	 */
 
 	public SessionHandle( ULocale locale )
@@ -251,9 +253,9 @@ public class SessionHandle
 	 * @param fileName
 	 *            name of the file to open. If <code>null</code>, the design
 	 *            will be treated as a new design, and will be saved to a
-	 *            different file. If not <code>null</code>, it may contain
-	 *            the relative/absolute path information. This name must include
-	 *            the file name with the filename extension.
+	 *            different file. If not <code>null</code>, it may contain the
+	 *            relative/absolute path information. This name must include the
+	 *            file name with the filename extension.
 	 * @param is
 	 *            stream to read the design
 	 * @return handle to the report design
@@ -274,9 +276,9 @@ public class SessionHandle
 	 * @param fileName
 	 *            name of the file to open. If <code>null</code>, the design
 	 *            will be treated as a new design, and will be saved to a
-	 *            different file. If not <code>null</code>, it may contain
-	 *            the relative/absolute path information. This name must include
-	 *            the file name with the filename extension.
+	 *            different file. If not <code>null</code>, it may contain the
+	 *            relative/absolute path information. This name must include the
+	 *            file name with the filename extension.
 	 * @param is
 	 *            stream to read the design
 	 * @param options
@@ -381,9 +383,9 @@ public class SessionHandle
 	 * @param fileName
 	 *            name of the file to open. If <code>null</code>, the library
 	 *            will be treated as a new library, and will be saved to a
-	 *            different file. If not <code>null</code>, it may contain
-	 *            the relative/absolute path information. This name must include
-	 *            the file name with the filename extension.
+	 *            different file. If not <code>null</code>, it may contain the
+	 *            relative/absolute path information. This name must include the
+	 *            file name with the filename extension.
 	 * @param is
 	 *            the stream to read the library
 	 * @return the library instance
@@ -404,9 +406,9 @@ public class SessionHandle
 	 * @param fileName
 	 *            name of the file to open. If <code>null</code>, the library
 	 *            will be treated as a new library, and will be saved to a
-	 *            different file. If not <code>null</code>, it may contain
-	 *            the relative/absolute path information. This name must include
-	 *            the file name with the filename extension.
+	 *            different file. If not <code>null</code>, it may contain the
+	 *            relative/absolute path information. This name must include the
+	 *            file name with the filename extension.
 	 * @param is
 	 *            the stream to read the library
 	 * @param options
@@ -591,15 +593,13 @@ public class SessionHandle
 	 * of those set for the design. The application and design can use the same
 	 * units, or different units. The application units are those used when
 	 * getting and setting dimension properties using double (float) values. The
-	 * possible values are defined in <code>DesignChoiceConstants</code> and
-	 * can be one of:
+	 * possible values are defined in <code>DesignChoiceConstants</code> and can
+	 * be one of:
 	 * 
 	 * <ul>
-	 * <li><code>UNITS_IN</code></li>
-	 * <li><code>UNITS_CM</code></li>
-	 * <li><code>UNITS_MM</code></li>
-	 * <li><code>UNITS_PT</code></li>
-	 * <li><code>UNITS_PC</code></li>
+	 * <li><code>UNITS_IN</code></li> <li><code>UNITS_CM</code></li> <li><code>
+	 * UNITS_MM</code></li> <li><code>UNITS_PT</code></li> <li><code>UNITS_PC
+	 * </code></li>
 	 * </ul>
 	 * 
 	 * @param units
@@ -621,11 +621,9 @@ public class SessionHandle
 	 * defined in <code>DesignChoiceConstants</code> and is one of:
 	 * 
 	 * <ul>
-	 * <li><code>UNITS_IN</code></li>
-	 * <li><code>UNITS_CM</code></li>
-	 * <li><code>UNITS_MM</code></li>
-	 * <li><code>UNITS_PT</code></li>
-	 * <li><code>UNITS_PC</code></li>
+	 * <li><code>UNITS_IN</code></li> <li><code>UNITS_CM</code></li> <li><code>
+	 * UNITS_MM</code></li> <li><code>UNITS_PT</code></li> <li><code>UNITS_PC
+	 * </code></li>
 	 * </ul>
 	 * 
 	 * @return the application units
@@ -645,11 +643,9 @@ public class SessionHandle
 	 * The rgbFormat argument is an integer value that may be the following
 	 * constants defined in <code>ColorUtil</code>:
 	 * <ul>
-	 * <li><code>INT_FORMAT</code>
-	 * <li><code>HTML_FORMAT</code>
-	 * <li><code>JAVA_FORMAT</code>
-	 * <li><code>CSS_ABSOLUTE_FORMAT</code>
-	 * <li><code>CSS_RELATIVE_FORMAT</code>
+	 * <li><code>INT_FORMAT</code> <li><code>HTML_FORMAT</code> <li><code>
+	 * JAVA_FORMAT</code> <li><code>CSS_ABSOLUTE_FORMAT</code> <li><code>
+	 * CSS_RELATIVE_FORMAT</code>
 	 * </ul>
 	 * 
 	 * @param rgbFormat
@@ -671,11 +667,9 @@ public class SessionHandle
 	 * is one of the following constants defined in <code>ColorUtil</code>:
 	 * 
 	 * <ul>
-	 * <li><code>INT_FORMAT</code>
-	 * <li><code>HTML_FORMAT</code>
-	 * <li><code>JAVA_FORMAT</code>
-	 * <li><code>CSS_ABSOLUTE_FORMAT</code>
-	 * <li><code>CSS_RELATIVE_FORMAT</code>
+	 * <li><code>INT_FORMAT</code> <li><code>HTML_FORMAT</code> <li><code>
+	 * JAVA_FORMAT</code> <li><code>CSS_ABSOLUTE_FORMAT</code> <li><code>
+	 * CSS_RELATIVE_FORMAT</code>
 	 * </ul>
 	 * 
 	 * @return application rgb color display preference
@@ -865,16 +859,16 @@ public class SessionHandle
 
 	public StyleHandle getDefaultTOCStyle( String name )
 	{
-		List result = session.getDefaultTOCStyleValue( );
+		List<DesignElement> result = session.getDefaultTOCStyleValue( );
 		if ( result == null )
 			return null;
-		Iterator iterator = result.iterator( );
+		Iterator<DesignElement> iterator = result.iterator( );
 		while ( iterator.hasNext( ) )
 		{
-			StyleHandle styleHandle = (StyleHandle) iterator.next( );
-			if ( styleHandle.getName( ).equals( name ) )
+			Style tmpStyle = (Style) iterator.next( );
+			if ( tmpStyle.getName( ).equals( name ) )
 			{
-				return styleHandle;
+				return tmpStyle.handle( tmpStyle.getRoot( ) );
 			}
 		}
 		return null;

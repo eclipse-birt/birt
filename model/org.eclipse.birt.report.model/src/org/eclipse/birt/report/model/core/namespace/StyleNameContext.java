@@ -18,7 +18,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -29,6 +28,7 @@ import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -108,7 +108,9 @@ public class StyleNameContext extends AbstractModuleNameContext
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.IModuleNameSpace#resolve(org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.core.IModuleNameSpace#resolve(org.eclipse
+	 * .birt.report.model.core.DesignElement)
 	 */
 
 	private ElementRefValue resolve( DesignElement element )
@@ -119,7 +121,9 @@ public class StyleNameContext extends AbstractModuleNameContext
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.IModuleNameSpace#resolve(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.IModuleNameSpace#resolve(java.lang
+	 * .String)
 	 */
 
 	private ElementRefValue resolve( String elementName )
@@ -171,10 +175,10 @@ public class StyleNameContext extends AbstractModuleNameContext
 		Iterator iterator = defaultTocStyle.iterator( );
 		while ( iterator.hasNext( ) )
 		{
-			StyleHandle styleHandle = (StyleHandle) iterator.next( );
-			if ( styleHandle.getName( ).equalsIgnoreCase( elementName ) )
+			Style tmpStyle = (Style) iterator.next( );
+			if ( tmpStyle.getName( ).equalsIgnoreCase( elementName ) )
 			{
-				return new ElementRefValue( null, styleHandle.getElement( ) );
+				return new ElementRefValue( null, tmpStyle );
 			}
 		}
 		// if the style is not find, return a unresolved element reference
@@ -186,8 +190,10 @@ public class StyleNameContext extends AbstractModuleNameContext
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.AbstractNameScope#resolve(org.eclipse.birt.report.model.core.DesignElement,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.AbstractNameScope#resolve
+	 * (org.eclipse.birt.report.model.core.DesignElement,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn)
 	 */
 
 	public ElementRefValue resolve( DesignElement element, PropertyDefn propDefn )
@@ -198,8 +204,9 @@ public class StyleNameContext extends AbstractModuleNameContext
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.AbstractNameScope#resolve(java.lang.String,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.AbstractNameScope#resolve
+	 * (java.lang.String, org.eclipse.birt.report.model.metadata.PropertyDefn)
 	 */
 
 	public ElementRefValue resolve( String elementName, PropertyDefn propDefn )
@@ -210,8 +217,10 @@ public class StyleNameContext extends AbstractModuleNameContext
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#findElement(java.lang.String,
-	 *      org.eclipse.birt.report.model.api.metadata.IElementDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameContext#findElement
+	 * (java.lang.String,
+	 * org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
 	public DesignElement findElement( String elementName,
 			IElementDefn elementDefn )
