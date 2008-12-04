@@ -243,6 +243,7 @@ public class EngineIRVisitor extends DesignVisitor
 		report = new Report( );
 		cssEngine = report.getCSSEngine( );
 		report.setReportDesign( handle );
+		handle.cacheValues( );
 		apply( handle );
 		return report;
 	}
