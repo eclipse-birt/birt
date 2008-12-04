@@ -2951,16 +2951,25 @@ public abstract class Module extends DesignElement
 	}
 
 	/**
-	 * Determines whether to cache the styles. True if the design file is opened
-	 * in preview mode.
+	 * Determines whether the module has cached values.
 	 * 
-	 * @return
+	 * @return <code>true</code> if values have been cached. Otherwise
+	 *         <code>false</code>.
 	 */
 
 	public boolean isCached( )
 	{
 		return isCached;
 	}
+
+	/**
+	 * Sets the cache flag. If the value is <code>true</code>, the module value
+	 * has been cached.
+	 * 
+	 * @param isCached
+	 *            <code>true</code> to cache values. Otherwise,
+	 *            <code>false</code>.
+	 */
 
 	public void setIsCached( boolean isCached )
 	{
