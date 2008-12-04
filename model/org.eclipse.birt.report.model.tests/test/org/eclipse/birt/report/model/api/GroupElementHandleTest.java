@@ -658,10 +658,10 @@ public class GroupElementHandleTest extends BaseTestCase
 	/**
 	 * Tests 'hasLocalPropertiesForExtendedElements' method.
 	 * <ul>
-	 * <li> Label has 'name' properties, can't enable restore.</li>
-	 * <li> Get label without any property inside grid element.</li>
-	 * <li> Modify one property of label and 'restore' button should be enabled.</li>
-	 * <li> Modify one property of label in grid and 'restore' button should be
+	 * <li>Label has 'name' properties, can't enable restore.</li>
+	 * <li>Get label without any property inside grid element.</li>
+	 * <li>Modify one property of label and 'restore' button should be enabled.</li>
+	 * <li>Modify one property of label in grid and 'restore' button should be
 	 * enabled.</li>
 	 * </ul>
 	 * 
@@ -1121,7 +1121,8 @@ public class GroupElementHandleTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getElement()
+		 * @see
+		 * org.eclipse.birt.report.model.api.DesignElementHandle#getElement()
 		 */
 		public DesignElement getElement( )
 		{
@@ -1167,6 +1168,7 @@ public class GroupElementHandleTest extends BaseTestCase
 
 		public MockupDesignElement( MockupElementDefn defn )
 		{
+			this.cachedDefn = defn;
 			this.defn = defn;
 		}
 

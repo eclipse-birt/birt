@@ -11,10 +11,14 @@
 
 package org.eclipse.birt.report.model.elements;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 
 /**
@@ -80,5 +84,52 @@ public class CellHelper
 		}
 
 		return null;
+	}
+
+	/**
+	 * Gets cells in the table row.
+	 * 
+	 * @param rowSlot
+	 *            the table row.
+	 * @return the cells.
+	 */
+	public static List<Cell> getCells( ContainerSlot rowSlot )
+	{
+		List<Cell> list = new ArrayList<Cell>( );
+		List<TableRow> rowList = rowSlot.getContents( );
+		for ( int i = 0; i < rowList.size( ); i++ )
+		{
+			TableRow tableRow = rowList.get( i );
+			List<Cell> cellList = tableRow.getContentsSlot( );
+			for ( int j = 0; j < cellList.size( ); j++ )
+			{
+				Cell cell = cellList.get( j );
+				list.add( cell );
+			}
+		}
+		return list;
+	}
+
+	/**
+	 * Gets the cells in the table group.
+	 * 
+	 * @param rowSlot
+	 *            the table group slot
+	 * @return the cells.
+	 */
+	public static List<Cell> getCellsInTableGroup( ContainerSlot rowSlot )
+	{
+		List<Cell> list = new ArrayList<Cell>( );
+		List<TableGroup> groupList = rowSlot.getContents( );
+		for ( int i = 0; i < groupList.size( ); i++ )
+		{
+			TableGroup group = groupList.get( i );
+			ContainerSlot slot = group.getSlot( IGroupElementModel.HEADER_SLOT );
+			list.addAll( getCells( slot ) );
+
+			slot = group.getSlot( IGroupElementModel.FOOTER_SLOT );
+			list.addAll( getCells( slot ) );
+		}
+		return list;
 	}
 }

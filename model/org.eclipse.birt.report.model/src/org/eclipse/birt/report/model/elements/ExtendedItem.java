@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.extension.PeerExtensibilityProvider;
 import org.eclipse.birt.report.model.extension.PeerExtensibilityProviderFactory;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.ContentIterator;
 
 /**
@@ -461,6 +462,11 @@ public class ExtendedItem extends ReportItem
 		extensionName = extension;
 		provider = PeerExtensibilityProviderFactory.createProvider( this,
 				extensionName );
+		ExtensionElementDefn defn = provider.getExtDefn( );
+		if ( defn != null )
+		{
+			cachedDefn = defn;
+		}
 		initSlots( );
 	}
 
@@ -472,21 +478,8 @@ public class ExtendedItem extends ReportItem
 
 	public ContainerSlot getSlot( int slot )
 	{
-		assert slot >= 0 && slot < getDefn( ).getSlotCount( );
+		assert slot >= 0 && slot < cachedDefn.getSlotCount( );
 		return slots[slot];
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getDefn()
-	 */
-	public IElementDefn getDefn( )
-	{
-		IElementDefn extDefn = getExtDefn( );
-		if ( extDefn != null )
-			return extDefn;
-		return super.getDefn( );
 	}
 
 	/**
@@ -497,7 +490,7 @@ public class ExtendedItem extends ReportItem
 
 	public IElementDefn getDefaultDefn( )
 	{
-		return super.getDefn( );
+		return MetaDataDictionary.getInstance( ).getElement( getElementName( ) );
 	}
 
 	/**

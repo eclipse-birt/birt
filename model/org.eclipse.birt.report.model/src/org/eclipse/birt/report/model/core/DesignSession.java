@@ -1290,7 +1290,6 @@ public class DesignSession
 			defaultTOCStyleList.add( styleHandle );
 		}
 
-		isTOCStyleInitialized = Boolean.TRUE;
 	}
 
 	/**
@@ -1306,7 +1305,10 @@ public class DesignSession
 		synchronized ( isTOCStyleInitialized )
 		{
 			if ( !isTOCStyleInitialized )
+			{
 				initDefaultTOCStyle( );
+				isTOCStyleInitialized = Boolean.TRUE;
+			}
 		}
 		return Collections.unmodifiableList( defaultTOCStyleList );
 	}

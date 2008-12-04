@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.model.elements;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
@@ -41,9 +43,8 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
  * <p>
  * <dl>
  * <dt><strong>Grid </strong></dt>
- * <dd>a tabular layout with a fixed set of columns and variable number of
- * rows. (Contrast this with a matrix that can have a variable number of
- * columns.)</dd>
+ * <dd>a tabular layout with a fixed set of columns and variable number of rows.
+ * (Contrast this with a matrix that can have a variable number of columns.)</dd>
  * 
  * <dt><strong>Column </strong></dt>
  * <dd>a vertical slice though the grid. Columns help organize the layout, but
@@ -69,8 +70,8 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
  * <p>
  * <dl>
  * <dt><strong>Style </strong></dt>
- * <dd>The style defines the font to use within grid cells, the border style
- * for the grid, fill color, and so on.</dd>
+ * <dd>The style defines the font to use within grid cells, the border style for
+ * the grid, fill color, and so on.</dd>
  * 
  * <dt><strong>Fixed or variable size </strong></dt>
  * <dd>A grid will normally adjust based on the available space on the page.
@@ -86,6 +87,12 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
 
 public class GridItem extends ReportItem implements IGridItemModel
 {
+
+	/**
+	 * Caches the column, the key is the cell id and the value is the column
+	 * where the cell locates in.
+	 */
+	private Map<Long, TableColumn> cachedColumn = null;
 
 	/**
 	 * Default Constructor.
@@ -113,7 +120,9 @@ public class GridItem extends ReportItem implements IGridItemModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * .report.model.elements.ElementVisitor)
 	 */
 
 	public void apply( ElementVisitor visitor )
@@ -135,7 +144,9 @@ public class GridItem extends ReportItem implements IGridItemModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse
+	 * .birt.report.model.elements.ReportDesign)
 	 */
 
 	public DesignElementHandle getHandle( Module module )
@@ -211,9 +222,58 @@ public class GridItem extends ReportItem implements IGridItemModel
 		for ( int i = 0; i < colDefnCount; i++ )
 		{
 			TableColumn col = (TableColumn) cols.getContent( i );
-			colCount += col.getIntProperty( module, ITableColumnModel.REPEAT_PROP );
+			colCount += col.getIntProperty( module,
+					ITableColumnModel.REPEAT_PROP );
 		}
 		return colCount;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ReportItem#cacheValues()
+	 */
+	public void cacheValues( )
+	{
+		ContainerSlot columnSlot = getSlot( IGridItemModel.COLUMN_SLOT );
+		if ( columnSlot.getCount( ) == 0 )
+			return;
+
+		Module module = getRoot( );
+		cachedColumn = new HashMap<Long, TableColumn>( );
+
+		// The array which caches the table column in the grid, if the column
+		// repeat this array will record accordingly.
+
+		TableColumn[] cachedColumnArray = ColumnHelper.getTableColumnArray(
+				module, columnSlot );
+
+		ContainerSlot rowSlot = getSlot( IGridItemModel.ROW_SLOT );
+
+		List<Cell> list = CellHelper.getCells( rowSlot );
+
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			Cell cell = list.get( i );
+
+			int columnNum = getCellPositionInColumn( module, cell );
+
+			assert columnNum > 0;
+
+			TableColumn column = ColumnHelper.getColumnInArray(
+					cachedColumnArray, columnNum );
+
+			// if the column could be found accroding to the column number of
+			// the cell,
+			// then cache it.
+
+			if ( column != null )
+			{
+				cachedColumn.put( new Long( cell.getID( ) ), column );
+
+			}
+
+		}
 	}
 
 	/**
@@ -237,6 +297,40 @@ public class GridItem extends ReportItem implements IGridItemModel
 				maxCols = cols;
 		}
 		return maxCols;
+	}
+
+	/**
+	 * Gets column in grid item according to the cell.
+	 * 
+	 * @param module
+	 *            the module.
+	 * @param columnSlot
+	 *            the column slot.
+	 * @param target
+	 *            the cell.
+	 * @return the column.
+	 */
+	public TableColumn getColumn( Module module, ContainerSlot columnSlot,
+			Cell target )
+	{
+		// in preview mode, we should cache the relationship between the cell
+		// and column using cell id and column number as key for performance
+		// issue. as for the UI mode, we should avoid to cache.
+
+		if ( module.isCached( ) )
+		{
+			if ( cachedColumn == null )
+				return null;
+
+			return cachedColumn.get( new Long( target.getID( ) ) );
+
+		}
+		int columnNum = getCellPositionInColumn( module, target );
+
+		assert columnNum > 0;
+
+		return ColumnHelper.findColumn( module, columnSlot, columnNum );
+
 	}
 
 	/**
@@ -284,7 +378,9 @@ public class GridItem extends ReportItem implements IGridItemModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
+	 * .birt.report.model.elements.ReportDesign)
 	 */
 
 	public List validate( Module module )
@@ -300,8 +396,9 @@ public class GridItem extends ReportItem implements IGridItemModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getDisplayLabel(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getDisplayLabel(org.
+	 * eclipse.birt.report.model.elements.ReportDesign, int)
 	 */
 
 	public String getDisplayLabel( Module module, int level )

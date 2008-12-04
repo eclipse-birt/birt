@@ -46,25 +46,22 @@ public abstract class ModelExtensibilityProvider extends ExtensibilityProvider
 		super( element );
 
 		this.extensionName = extensionName;
+
+		cachedExtDefn = (ExtensionElementDefn) MetaDataDictionary.getInstance( )
+				.getElement( extensionName );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IExtendableElement#getExtDefn()
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IExtendableElement#getExtDefn()
 	 */
 
 	public final ExtensionElementDefn getExtDefn( )
 	{
 		if ( extensionName == null )
 			return null;
-
-		if ( cachedExtDefn == null )
-		{
-			MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-			cachedExtDefn = (ExtensionElementDefn) dd
-					.getElement( extensionName );
-		}
 
 		return cachedExtDefn;
 	}

@@ -28,9 +28,9 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 	ElementRefPropertyType type = new ElementRefPropertyType( );
 	PropertyDefn propDefn = new PropertyDefnFake( );
 
-	OdaDataSource ds1 = new OdaDataSource( "ds1" ); //$NON-NLS-1$
-	OdaDataSource ds2 = new OdaDataSource( "ds2" ); //$NON-NLS-1$
-	Label label1 = new Label( "label1" ); //$NON-NLS-1$
+	OdaDataSource ds1 = null;
+	OdaDataSource ds2 = null;
+	Label label1 = null;
 
 	/*
 	 * (non-Javadoc)
@@ -48,8 +48,14 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 		ElementDefn elemDefn = (ElementDefn) MetaDataDictionary.getInstance( )
 				.getElement( ReportDesignConstants.ODA_DATA_SOURCE );
 
-		design.getNameHelper( ).getNameSpace( elemDefn.getNameSpaceID( ) ).insert( ds1 );
-		design.getNameHelper( ).getNameSpace( elemDefn.getNameSpaceID( ) ).insert( label1 );
+		ds1 = new OdaDataSource( "ds1" ); //$NON-NLS-1$
+		ds2 = new OdaDataSource( "ds2" ); //$NON-NLS-1$
+		label1 = new Label( "label1" ); //$NON-NLS-1$
+
+		design.getNameHelper( ).getNameSpace( elemDefn.getNameSpaceID( ) )
+				.insert( ds1 );
+		design.getNameHelper( ).getNameSpace( elemDefn.getNameSpaceID( ) )
+				.insert( label1 );
 	}
 
 	/*

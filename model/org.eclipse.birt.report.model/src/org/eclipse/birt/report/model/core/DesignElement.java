@@ -650,6 +650,8 @@ public abstract class DesignElement
 	public DesignElement( String theName )
 	{
 		name = theName;
+		cachedDefn = MetaDataDictionary.getInstance( ).getElement(
+				getElementName( ) );
 
 		cachedPropStrategy = PropertySearchStrategy.getInstance( );
 	}
@@ -1336,11 +1338,6 @@ public abstract class DesignElement
 
 	public IElementDefn getDefn( )
 	{
-		if ( cachedDefn == null )
-		{
-			cachedDefn = MetaDataDictionary.getInstance( ).getElement(
-					getElementName( ) );
-		}
 
 		return cachedDefn;
 	}
@@ -1359,11 +1356,11 @@ public abstract class DesignElement
 
 	public void addUserPropertyDefn( UserPropertyDefn userProp )
 	{
-		assert getDefn( ).allowsUserProperties( );
+		assert cachedDefn.allowsUserProperties( );
 		assert userProp != null;
 		String propName = userProp.getName( );
 		assert getUserPropertyDefn( propName ) == null;
-		assert getDefn( ).getProperty( propName ) == null;
+		assert cachedDefn.getProperty( propName ) == null;
 		if ( userProperties == null )
 			userProperties = new LinkedHashMap( );
 		userProperties.put( propName, userProp );
@@ -1383,7 +1380,7 @@ public abstract class DesignElement
 
 	public void dropUserPropertyDefn( UserPropertyDefn prop )
 	{
-		assert getDefn( ).allowsUserProperties( );
+		assert cachedDefn.allowsUserProperties( );
 		assert userProperties != null;
 		assert userProperties.get( prop.getName( ) ) == prop;
 		userProperties.remove( prop.getName( ) );
@@ -1540,7 +1537,7 @@ public abstract class DesignElement
 			return null;
 
 		// Look for the property defined on this element.
-		ElementPropertyDefn prop = (ElementPropertyDefn) getDefn( )
+		ElementPropertyDefn prop = (ElementPropertyDefn) cachedDefn
 				.getProperty( propName );
 		if ( prop == null )
 			prop = getUserPropertyDefn( propName );
@@ -1658,7 +1655,7 @@ public abstract class DesignElement
 		assert child != null;
 		assert child.getExtendsElement( ) == this;
 		assert !derived.contains( child );
-		assert child.getDefn( ) == getDefn( );
+		assert child.cachedDefn == cachedDefn;
 		derived.add( child );
 	}
 
@@ -1708,7 +1705,7 @@ public abstract class DesignElement
 		{
 			// The parent must be of the same type as this element.
 
-			assert base.getDefn( ) == getDefn( );
+			assert base.cachedDefn == cachedDefn;
 
 			// The name of the parent must be defined.
 
@@ -2113,7 +2110,7 @@ public abstract class DesignElement
 
 	public final List validateWithContents( Module module )
 	{
-		ElementDefn elementDefn = (ElementDefn) getDefn( );
+		ElementDefn elementDefn = (ElementDefn) cachedDefn;
 		List validatorList = ValidationExecutor.getValidationNodes( this,
 				elementDefn.getTriggerDefnSet( ), true );
 
@@ -2121,7 +2118,7 @@ public abstract class DesignElement
 		errors = executor.perform( this, validatorList );
 
 		List list = new ArrayList( errors );
-		int count = getDefn( ).getSlotCount( );
+		int count = cachedDefn.getSlotCount( );
 		for ( int i = 0; i < count; i++ )
 		{
 			Iterator iter = getSlot( i ).iterator( );
@@ -2135,7 +2132,7 @@ public abstract class DesignElement
 		// Besides elements in the slot, also need to validate elements that in
 		// the property values in which elements can reside.
 
-		List contentProps = getDefn( ).getContents( );
+		List contentProps = cachedDefn.getContents( );
 		for ( int i = 0; i < contentProps.size( ); i++ )
 		{
 			IPropertyDefn tmpContentProp = (IPropertyDefn) contentProps.get( i );
@@ -2277,7 +2274,7 @@ public abstract class DesignElement
 	public void checkExtends( DesignElement parent ) throws ExtendsException
 	{
 		String extendsName = getExtendsName( );
-		IElementDefn defn = getDefn( );
+		IElementDefn defn = cachedDefn;
 
 		if ( parent == null )
 		{
@@ -2289,7 +2286,7 @@ public abstract class DesignElement
 			throw new ExtendsForbiddenException( this, parent.getName( ),
 					ExtendsForbiddenException.DESIGN_EXCEPTION_CANT_EXTEND );
 		}
-		else if ( parent.getDefn( ) != defn )
+		else if ( parent.cachedDefn != defn )
 		{
 			throw new WrongTypeException( this, parent,
 					WrongTypeException.DESIGN_EXCEPTION_WRONG_TYPE );
@@ -2401,7 +2398,7 @@ public abstract class DesignElement
 
 	public List getPropertyDefns( )
 	{
-		List list = getDefn( ).getProperties( );
+		List list = cachedDefn.getProperties( );
 		List userProps = getUserProperties( );
 		if ( userProps != null )
 			list.addAll( userProps );
@@ -2586,7 +2583,7 @@ public abstract class DesignElement
 
 	public IObjectDefn getObjectDefn( )
 	{
-		return getDefn( );
+		return cachedDefn;
 	}
 
 	/**
@@ -2956,7 +2953,7 @@ public abstract class DesignElement
 
 		}
 		// clone slots.
-		int slotCount = getDefn( ).getSlotCount( );
+		int slotCount = cachedDefn.getSlotCount( );
 		if ( slotCount > 0 )
 		{
 			element.slots = new ContainerSlot[slotCount];
@@ -2973,7 +2970,7 @@ public abstract class DesignElement
 
 	protected final void initSlots( )
 	{
-		int slotCount = getDefn( ).getSlotCount( );
+		int slotCount = cachedDefn.getSlotCount( );
 
 		if ( slotCount == 0 )
 			return;
@@ -2981,7 +2978,7 @@ public abstract class DesignElement
 		slots = new ContainerSlot[slotCount];
 		for ( int i = 0; i < slotCount; i++ )
 		{
-			SlotDefn slot = (SlotDefn) getDefn( ).getSlot( i );
+			SlotDefn slot = (SlotDefn) cachedDefn.getSlot( i );
 			if ( slot.isMultipleCardinality( ) )
 				slots[i] = new MultiElementSlot( );
 			else
@@ -3032,7 +3029,7 @@ public abstract class DesignElement
 		if ( getFullName( ) != null )
 		{
 			StringBuffer sb = new StringBuffer( );
-			sb.append( getDefn( ).getDisplayName( ) );
+			sb.append( cachedDefn.getDisplayName( ) );
 			sb.append( "(\"" ); //$NON-NLS-1$
 			sb.append( getFullName( ) );
 			sb.append( "\")" ); //$NON-NLS-1$
@@ -3046,7 +3043,7 @@ public abstract class DesignElement
 			return "library"; //$NON-NLS-1$
 
 		if ( getContainer( ) == null )
-			return getDefn( ).getName( );
+			return cachedDefn.getName( );
 
 		IContainerDefn containerDefn = getContainerInfo( ).getContainerDefn( );
 
@@ -3204,11 +3201,11 @@ public abstract class DesignElement
 	{
 		DesignElement element = (DesignElement) super.clone( );
 
-		// handle non-simple members
+		// handle non-simple members and the element definition should not be
+		// set null.
 		element.containerInfo = null;
 		element.listeners = null;
 		element.derived = null;
-		element.cachedDefn = null;
 		element.handle = null;
 		element.propValues = new HashMap( );
 
