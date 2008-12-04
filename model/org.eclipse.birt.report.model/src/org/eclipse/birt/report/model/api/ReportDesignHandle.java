@@ -1208,6 +1208,8 @@ public class ReportDesignHandle extends ModuleHandle
 	{
 		module.setIsCached( true );
 		
+		module.cacheValues( );
+		
 		ContentIterator iter1 = new ContentIterator( module,
 				new ContainerContext( module, BODY_SLOT ) );
 		while ( iter1.hasNext( ) )

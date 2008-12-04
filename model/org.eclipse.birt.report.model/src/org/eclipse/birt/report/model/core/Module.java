@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleOption;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ResourceChangeEvent;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
@@ -2963,16 +2964,30 @@ public abstract class Module extends DesignElement
 	}
 
 	/**
-	 * Sets the cache flag. If the value is <code>true</code>, the module value
-	 * has been cached.
+	 * Sets cache status of the module. The value is set to TRUE when calling {
+	 * {@link ReportDesignHandle#cacheValues()}.
 	 * 
 	 * @param isCached
-	 *            <code>true</code> to cache values. Otherwise,
-	 *            <code>false</code>.
 	 */
-
 	public void setIsCached( boolean isCached )
 	{
 		this.isCached = isCached;
+	}
+
+	/**
+	 * Caches values for the element. The caller must be the report design.
+	 */
+
+	public void cacheValues( )
+	{
+		getNameHelper( ).getElements( Module.STYLE_NAME_SPACE,
+				IAccessControl.ARBITARY_LEVEL );
+		List libs = getAllLibraries( );
+		for ( int i = 0; i < libs.size( ); i++ )
+		{
+			Library lib = (Library) libs.get( i );
+			lib.getNameHelper( ).getElements( Module.STYLE_NAME_SPACE,
+					IAccessControl.ARBITARY_LEVEL );
+		}
 	}
 }
