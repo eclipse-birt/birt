@@ -16,7 +16,6 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.validators.ElementReferenceValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.core.ReferencableStyledElement;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
@@ -41,6 +40,7 @@ public abstract class ReportItem extends ReferencableStyledElement
 
 	public ReportItem( )
 	{
+		this( null );
 	}
 
 	/**
@@ -53,6 +53,7 @@ public abstract class ReportItem extends ReferencableStyledElement
 	public ReportItem( String theName )
 	{
 		super( theName );
+		cachedPropStrategy = ReportItemPropSearchStrategy.getInstance( );
 	}
 
 	/**
@@ -113,17 +114,6 @@ public abstract class ReportItem extends ReferencableStyledElement
 		return list;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getStrategy()
-	 */
-
-	public PropertySearchStrategy getStrategy( )
-	{
-		return ReportItemPropSearchStrategy.getInstance( );
-	}
-
 	/**
 	 * Checks whether the listing element refers to another listing element.
 	 * 
@@ -181,4 +171,12 @@ public abstract class ReportItem extends ReferencableStyledElement
 		return false;
 	}
 
+	/**
+	 * Caches values for the element. The caller must be the report design.
+	 */
+
+	public void cacheValues( )
+	{
+
+	}
 }

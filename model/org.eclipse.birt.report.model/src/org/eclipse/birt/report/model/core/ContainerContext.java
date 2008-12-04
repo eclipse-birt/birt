@@ -27,7 +27,6 @@ import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.TemplateElement;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.IContainerDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -69,6 +68,12 @@ public final class ContainerContext
 
 	/**
 	 * 
+	 */
+
+	private final SlotDefn slotDefn;
+
+	/**
+	 * 
 	 * @param theContainer
 	 * @param slotID
 	 */
@@ -82,6 +87,12 @@ public final class ContainerContext
 
 		this.container = theContainer;
 		this.containerSlotID = slotID;
+
+		IElementDefn tmpDefn = container.getDefn( );
+		if ( tmpDefn != null )
+			this.slotDefn = (SlotDefn) tmpDefn.getSlot( containerSlotID );
+		else
+			this.slotDefn = null;
 		this.isSlot = true;
 		this.containerProp = null;
 	}
@@ -100,6 +111,7 @@ public final class ContainerContext
 		this.containerProp = propName;
 		this.isSlot = false;
 		this.containerSlotID = DesignElement.NO_SLOT;
+		this.slotDefn = null;
 	}
 
 	/**
@@ -229,18 +241,12 @@ public final class ContainerContext
 
 	public String getSelector( )
 	{
-		ElementDefn defn = (ElementDefn) container.getDefn( );
-		SlotDefn slotDefn = (SlotDefn) defn.getSlot( containerSlotID );
-
 		if ( slotDefn == null )
-		{
 			return null;
-		}
+
 		String slotSelector = slotDefn.getSelector( );
 		if ( StringUtil.isBlank( slotSelector ) )
-		{
 			return null;
-		}
 
 		// specially handle for group
 		if ( container instanceof GroupElement )
@@ -623,16 +629,15 @@ public final class ContainerContext
 		return newContext;
 	}
 
-	
 	/**
 	 * @return the isSlot
 	 */
-	
+
 	public boolean isROMSlot( )
 	{
 		return isSlot;
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -667,8 +672,8 @@ public final class ContainerContext
 		 *            the slot id
 		 * @param type
 		 *            the name of the element type, like "Table", "List", etc.
-		 * @return <code>true</code> if the slot can contain the an element
-		 *         with <code>type</code> type, otherwise <code>false</code>.
+		 * @return <code>true</code> if the slot can contain the an element with
+		 *         <code>type</code> type, otherwise <code>false</code>.
 		 * 
 		 * @see #canContain(int, DesignElementHandle)
 		 */

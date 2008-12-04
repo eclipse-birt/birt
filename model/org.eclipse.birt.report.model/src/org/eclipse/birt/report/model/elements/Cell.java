@@ -16,7 +16,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.strategy.CellPropSearchStrategy;
@@ -33,6 +32,7 @@ import org.eclipse.birt.report.model.elements.strategy.CellPropSearchStrategy;
 
 public class Cell extends StyledElement implements ICellModel
 {
+
 	/**
 	 * Default Constructor.
 	 */
@@ -40,17 +40,7 @@ public class Cell extends StyledElement implements ICellModel
 	public Cell( )
 	{
 		initSlots( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getStrategy()
-	 */
-
-	public PropertySearchStrategy getStrategy( )
-	{
-		return CellPropSearchStrategy.getInstance( );
+		cachedPropStrategy = CellPropSearchStrategy.getInstance( );
 	}
 
 	/**
@@ -73,7 +63,9 @@ public class Cell extends StyledElement implements ICellModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * .report.model.elements.ElementVisitor)
 	 */
 
 	public void apply( ElementVisitor visitor )

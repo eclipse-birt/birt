@@ -109,15 +109,15 @@ public class LayoutRow
 	}
 
 	/**
-	 * Tests whether cells are occupied within the space <code>colPos</code>
-	 * and <code>colPos + colSpan - 1</code>
+	 * Tests whether cells are occupied within the space <code>colPos</code> and
+	 * <code>colPos + colSpan - 1</code>
 	 * 
 	 * @param colId
 	 *            the 0-based column position
 	 * @param colSpan
 	 *            the column span
-	 * @return a list containing <code>LayoutCells</code>s that are
-	 *         overlapped with the check area.
+	 * @return a list containing <code>LayoutCells</code>s that are overlapped
+	 *         with the check area.
 	 */
 
 	protected List checkOverlappedLayoutCells( int colId, int colSpan )
@@ -198,7 +198,7 @@ public class LayoutRow
 		for ( int i = 0; i < cells.size( ); i++ )
 		{
 			LayoutCell tmpCell = (LayoutCell) cells.get( i );
-			if ( tmpCell.isUsed( ) && cell.equals( tmpCell.getContent( ) ) )
+			if ( tmpCell.isUsed( ) && cell == tmpCell.getContent( ) )
 			{
 				assert tmpCell.isCellStartPosition( );
 				return i + 1;
@@ -284,8 +284,8 @@ public class LayoutRow
 	}
 
 	/**
-	 * Returns <code>LayoutCell</code>s in the row. Note that modifications
-	 * on the return iterator do not affect the table layout.
+	 * Returns <code>LayoutCell</code>s in the row. Note that modifications on
+	 * the return iterator do not affect the table layout.
 	 * 
 	 * @return an iterator containing <code>LayoutCell</code>s.
 	 */
@@ -296,8 +296,8 @@ public class LayoutRow
 	}
 
 	/**
-	 * Returns handles of <code>Cell</code>s in the row. Note that
-	 * modifications on the return iterator do not affect the table layout.
+	 * Returns handles of <code>Cell</code>s in the row. Note that modifications
+	 * on the return iterator do not affect the table layout.
 	 * 
 	 * @return an iterator containing <code>CellHandle</code>s.
 	 */

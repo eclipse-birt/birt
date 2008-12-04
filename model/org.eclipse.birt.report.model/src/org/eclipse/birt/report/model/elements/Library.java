@@ -62,7 +62,7 @@ public class Library extends Module implements ILibraryModel
 	}
 
 	/**
-	 * Constructos for opening library directly.
+	 * Constructor for opening library directly.
 	 * 
 	 * @param theSession
 	 *            the session in which this library is involved
@@ -322,28 +322,59 @@ public class Library extends Module implements ILibraryModel
 	 * @param host
 	 * @return
 	 */
-	
+
 	public Library contextClone( Module newHost )
 	{
 		Library cloned = null;
-		
+
 		try
 		{
 			cloned = (Library) doClone( DummyCopyPolicy.getInstance( ) );
 		}
 		catch ( CloneNotSupportedException e )
 		{
-			assert false; 
+			assert false;
 			return null;
 		}
-		
+
 		cloned.setFileName( getFileName( ) );
 		cloned.setSystemId( getSystemId( ) );
 		cloned.setNamespace( getNamespace( ) );
-		
+
 		cloned.setHost( newHost );
-		
+
 		return cloned;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.Module#needCacheStyles()
+	 */
+	public boolean isCached( )
+	{
+		if ( host == null )
+			return super.isCached( );
+
+		Module module = this;
+		while ( module != null )
+		{
+			if ( module instanceof Library )
+			{
+				Library lib = (Library) module;
+				if ( lib.getHost( ) == null )
+				{
+					return lib.isCached( );
+				}
+				module = lib.getHost( );
+			}
+			else
+			{
+				return module.isCached( );
+			}
+		}
+
+		return false;
 	}
 
 }

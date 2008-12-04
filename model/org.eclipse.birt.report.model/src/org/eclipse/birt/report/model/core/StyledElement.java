@@ -252,13 +252,14 @@ public abstract class StyledElement extends DesignElement
 
 		// Get the value from this element and its parent.
 
-		return getStrategy( ).getPropertyFromElement( module, this, prop );
+		return cachedPropStrategy.getPropertyFromElement( module, this, prop );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#clearAllProperties()
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#clearAllProperties()
 	 */
 	public void clearAllProperties( )
 	{

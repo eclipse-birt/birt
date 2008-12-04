@@ -626,12 +626,18 @@ public abstract class DesignElement
 	protected Map encryptionMap = null;
 
 	/**
+	 * Cached search strategy.
+	 */
+
+	protected PropertySearchStrategy cachedPropStrategy = null;
+
+	/**
 	 * Default constructor.
 	 */
 
 	public DesignElement( )
 	{
-		// Do nothing.
+		this( null );
 	}
 
 	/**
@@ -644,6 +650,8 @@ public abstract class DesignElement
 	public DesignElement( String theName )
 	{
 		name = theName;
+
+		cachedPropStrategy = PropertySearchStrategy.getInstance( );
 	}
 
 	/**
@@ -922,7 +930,7 @@ public abstract class DesignElement
 
 	public Object getProperty( Module module, ElementPropertyDefn prop )
 	{
-		Object value = getStrategy( ).getPropertyExceptRomDefault( module,
+		Object value = cachedPropStrategy.getPropertyExceptRomDefault( module,
 				this, prop );
 		if ( value != null )
 		{
@@ -999,7 +1007,7 @@ public abstract class DesignElement
 
 	public PropertySearchStrategy getStrategy( )
 	{
-		return PropertySearchStrategy.getInstance( );
+		return cachedPropStrategy;
 	}
 
 	/**
@@ -1332,8 +1340,6 @@ public abstract class DesignElement
 		{
 			cachedDefn = MetaDataDictionary.getInstance( ).getElement(
 					getElementName( ) );
-
-			assert cachedDefn != null;
 		}
 
 		return cachedDefn;
@@ -2642,7 +2648,9 @@ public abstract class DesignElement
 		// StyledElement class for the handling of style properties.
 
 		assert !prop.isStyleProperty( );
-		return getStrategy( ).getPropertyExceptRomDefault( module, this, prop );
+
+		return cachedPropStrategy.getPropertyExceptRomDefault( module, this,
+				prop );
 	}
 
 	/**
