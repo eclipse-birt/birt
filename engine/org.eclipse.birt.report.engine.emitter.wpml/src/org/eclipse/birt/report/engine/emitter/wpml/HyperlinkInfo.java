@@ -8,33 +8,54 @@
  * Contributors:
  *  Inetsoft Technology Corp  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.engine.emitter.wpml;
 
 public class HyperlinkInfo
 {
-	
-	
-	HyperlinkInfo ( int type, String url , String toolTip)
+
+	private int type;
+
+	private String url, bookmark;
+
+	private String tooltip;
+
+	public static int BOOKMARK = 0;
+
+	public static int HYPERLINK = 1;
+
+	public static int DRILL = 2;
+
+	public HyperlinkInfo( int type, String url, String toolTip )
 	{
-		
-		this(type, url, null , toolTip);
+		this( type, url, null, toolTip );
 	}
-	
-	HyperlinkInfo ( int type, String url, String bookmark , String toolTip)
+
+	public HyperlinkInfo( int type, String url, String bookmark, String toolTip )
 	{
 		this.type = type;
 		this.url = url;
-		this.mark = bookmark;
-		this.toolTip = toolTip;
+		this.bookmark = bookmark;
+		this.tooltip = toolTip;
 	}
-	
-	int type;
 
-	String url, mark , toolTip;
-    	
-	static int BOOKMARK = 0;
+	public String getUrl( )
+	{
+		return this.url;
+	}
 
-	static int HYPERLINK = 1;
+	public String getBookmark( )
+	{
+		return this.bookmark;
+	}
 
-	static int DRILL = 2;
+	public String getTooltip( )
+	{
+		return this.tooltip;
+	}
+
+	public int getType( )
+	{
+		return this.type;
+	}
 }

@@ -13,23 +13,51 @@ package org.eclipse.birt.report.engine.emitter.wpml;
 
 import org.eclipse.birt.report.engine.content.IStyle;
 
-
-
 public class SpanInfo
 {
-	public SpanInfo(int x, int cs, int width, boolean start, IStyle style)
+
+	private int columnId = 0;
+
+	private int columnSpan = 0;
+
+	private int cellWidth = 0;
+
+	private boolean start = false;
+
+	private IStyle style = null;
+
+	public SpanInfo( int columnId, int columnSpan, int cellWidth,
+			boolean start, IStyle style )
 	{
-		this.x = x;
-		this.cs = cs;
-		this.width = width;
+		this.columnId = columnId;
+		this.columnSpan = columnSpan;
+		this.cellWidth = cellWidth;
 		this.start = start;
-		this.style = style;		
+		this.style = style;
 	}
-	
-	int x =0 ;
-	int cs = 0;
-	int width = 0;
-	boolean start = false;
-	
-	IStyle style = null;	
+
+	public int getColumnId( )
+	{
+		return this.columnId;
+	}
+
+	public int getColumnSpan( )
+	{
+		return this.columnSpan;
+	}
+
+	public int getCellWidth( )
+	{
+		return this.cellWidth;
+	}
+
+	public boolean isStart( )
+	{
+		return this.start;
+	}
+
+	public IStyle getStyle( )
+	{
+		return this.style;
+	}
 }

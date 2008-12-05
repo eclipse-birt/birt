@@ -20,10 +20,22 @@ import java.util.Stack;
 import java.util.Vector;
 
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.emitter.wpml.SpanInfo;
 
 public class EmitterContext
 {
-	public void setLast(boolean isTable) 
+
+	private LinkedList<TableInfo> tables = new LinkedList<TableInfo>( );
+
+	private LinkedList<Integer> widthList = new LinkedList<Integer>( );
+
+	private Stack<Boolean> cellind = new Stack<Boolean>( );
+
+	private boolean isFirst = true;
+
+	private boolean lastTable = false;
+
+	public void setLastIsTable( boolean isTable )
 	{
 		this.lastTable = isTable;
 	}
@@ -35,22 +47,22 @@ public class EmitterContext
 	
 	public void startInline( )
 	{
-		inline = true;
+		isFirst = false;
 	}
 
-	public boolean isInline( )
+	public boolean isFirstInline( )
 	{
-		return inline;
+		return isFirst;
 	}
 
 	public void endInline( )
 	{
-		inline = false;
+		isFirst = true;
 	}
 
 	public void startCell( )
 	{
-		cellind.push( Boolean.TRUE );
+		cellind.push( true );
 	}
 
 	public void endCell( )
@@ -60,7 +72,7 @@ public class EmitterContext
 
 	public boolean needEmptyP( )
 	{
-		return ( (Boolean) cellind.peek( ) ).booleanValue( );
+		return cellind.peek( );
 	}
 
 	public void addContainer( boolean isContainer )
@@ -68,95 +80,93 @@ public class EmitterContext
 		if ( !cellind.isEmpty( ) )
 		{
 			cellind.pop( );
-			cellind.push( new Boolean( isContainer ) );
+			cellind.push( isContainer );
 		}
 	}
 
-	public void addWidth( int w )
+	public void addWidth( int witdh )
 	{
-		wlist.addLast( new Integer( w ) );
+		widthList.addLast( witdh );
 	}
 
 	public void resetWidth( )
 	{
-		wlist.removeAll( wlist );
+		widthList.removeAll( widthList );
 	}
 
 	public int getCurrentWidth( )
 	{
-		return ( (Integer) wlist.getLast( ) ).intValue( );
+		return widthList.getLast( );
 	}
 
 	public void removeWidth( )
 	{
-		wlist.removeLast( );
+		widthList.removeLast( );
 	}
 
-	public int[] getCurrentTblCols( )
+	public int[] getCurrentTableColmns( )
 	{
-		return ( (TableInfo) tbls.getLast( ) ).getCWidths( );
+		return tables.getLast( ).getColumnWidths( );
 	}
 
 	public void addTable( int[] cols, IStyle style )
 	{
-		tbls.addLast( new TableInfo( cols, style ) );
+		tables.addLast( new TableInfo( cols, style ) );
 	}
 
 	public IStyle getTableStyle( )
 	{
-		return ( (TableInfo) tbls.getLast( ) ).getTableStyle( );
+		return tables.getLast( ).getTableStyle( );
 	}
 
 	public void newRow( )
 	{
-		( (TableInfo) tbls.getLast( ) ).newRow( );
+		tables.getLast( ).newRow( );
 	}
 
-	public void addSpan( int col, int cs, int cw, int height, IStyle style )
+	public void addSpan( int colmunId, int columnSpan, int cellWidth,
+			int rowSpan, IStyle style )
 	{
-		( (TableInfo) tbls.getLast( ) ).addSpan( col, cs, cw, height, style );
+		tables.getLast( ).addSpan( colmunId, columnSpan, cellWidth, rowSpan,
+				style );
 	}
 
 	public void removeTable( )
 	{
-		tbls.removeLast( );
+		tables.removeLast( );
 	}
 
-	public List getSpans( int col )
+	public List<SpanInfo> getSpans( int col )
 	{
-		return ( (TableInfo) tbls.getLast( ) ).getSpans( col );
+		return tables.getLast( ).getSpans( col );
 	}
 
-	public int getCellWidth( int col, int cs )
+	public int getCellWidth( int columnId, int columnSpan )
 	{
-		int[] cols = getCurrentTblCols( );
+		int[] cols = getCurrentTableColmns( );
 
-		int w = 0;
-		
-		int colNum = Math.min( col + cs, WordEmitter.MAX_COLUMN );
+		int width = 0;
 
-		for ( int i = col; i < colNum; i++ )
+		int colNum = Math.min( columnId + columnSpan, DocEmitter.MAX_COLUMN );
+
+		for ( int i = columnId; i < colNum; i++ )
 		{
-			w += cols[i];
+			width += cols[i];
 		}
 
-		return w;
+		return width;
 	}
-	
-	private LinkedList tbls = new LinkedList( );
-
-	private boolean empty = false;
-
-	private LinkedList wlist = new LinkedList( );
-
-	private Stack cellind = new Stack( );
-
-	private boolean inline = false;
-	
-	private boolean lastTable = false;
 
 	class TableInfo
 	{
+
+		private Hashtable<Integer, List<SpanInfo>> spans = new Hashtable<Integer, List<SpanInfo>>( );
+
+		private int[] cols;
+
+		private int crow = 0;
+
+		IStyle style = null;
 
 		TableInfo( int[] cols, IStyle style )
 		{
@@ -169,54 +179,56 @@ public class EmitterContext
 			this.crow++;
 		}
 
-		void addSpan( int y, int cs, int cw, int height, IStyle style )
+		void addSpan( int columnId, int columnSpan, int cellWidth, int rowSpan,
+				IStyle style )
 		{
-			for ( int i = 1; i < height; i++ )
+			for ( int i = 1; i < rowSpan; i++ )
 			{
 				Integer key = new Integer( crow + i );
 
 				if ( spans.containsKey( key ) )
 				{
-					List rSpan = (List) spans.get( key );
-					rSpan.add( new SpanInfo( y, cs, cw, false, style ) );
-					Collections.sort( rSpan, new Comparator( ) {
+					List<SpanInfo> rSpan = spans.get( key );
+					rSpan.add( new SpanInfo( columnId, columnSpan, cellWidth,
+							false, style ) );
+					Collections.sort( rSpan, new Comparator<SpanInfo>( ) {
 
-						public int compare( Object obj1, Object obj2 )
+						public int compare( SpanInfo o1, SpanInfo o2 )
 						{
-							SpanInfo r1 = (SpanInfo) obj1;
-							SpanInfo r2 = (SpanInfo) obj2;
-
-							return r1.x - r2.x;
+							SpanInfo r1 = o1;
+							SpanInfo r2 = o2;
+							return r1.getColumnId( ) - r2.getColumnId( );
 						}
 					} );
 				}
 				else
 				{
-					Vector rSpan = new Vector( );
-					rSpan.add( new SpanInfo( y, cs, cw, false, style ) );
+					Vector<SpanInfo> rSpan = new Vector<SpanInfo>( );
+					rSpan.add( new SpanInfo( columnId, columnSpan, cellWidth,
+							false, style ) );
 					spans.put( key, rSpan );
 				}
 			}
 		}
 
-		List getSpans( int end )
+		List<SpanInfo> getSpans( int end )
 		{
-			List cSpans = (List) spans.get( new Integer( crow ) );
+			List<SpanInfo> cSpans = spans.get( new Integer( crow ) );
 
 			if ( cSpans == null )
 			{
 				return null;
 			}
 
-			Vector cList = new Vector( );
+			Vector<SpanInfo> cList = new Vector<SpanInfo>( );
 
 			int pos = -1;
 
 			for ( int i = 0; i < cSpans.size( ); i++ )
 			{
-				SpanInfo r = (SpanInfo) cSpans.get( i );
+				SpanInfo r = cSpans.get( i );
 
-				if ( ( r.x + r.cs - 1 ) <= end )
+				if ( ( r.getColumnId( ) + r.getColumnSpan( ) - 1 ) <= end )
 				{
 
 					cList.add( r );
@@ -247,7 +259,7 @@ public class EmitterContext
 			spans.remove( new Integer( crow ) );
 		}
 
-		int[] getCWidths( )
+		int[] getColumnWidths( )
 		{
 			return cols;
 		}
@@ -261,15 +273,5 @@ public class EmitterContext
 		{
 			return this.style;
 		}
-
-		private Hashtable spans = new Hashtable( );
-
-		private int[] cols;
-
-		private int crow = 0;
-
-		IStyle style = null;
 	}
-
-	
 }

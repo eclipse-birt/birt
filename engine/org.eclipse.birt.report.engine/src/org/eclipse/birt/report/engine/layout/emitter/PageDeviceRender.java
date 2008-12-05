@@ -46,12 +46,12 @@ import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TextArea;
+import org.eclipse.birt.report.engine.layout.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.layout.emitter.TableBorder.Border;
 import org.eclipse.birt.report.engine.layout.emitter.TableBorder.BorderSegment;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.util.SvgFile;
-import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.w3c.dom.css.CSSPrimitiveValue;
@@ -291,13 +291,13 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			rowStyle = (IStyle) rowStyleStack.peek( );
 			rowbc = PropertyUtil.getColor( rowStyle
 					.getProperty( StyleConstants.STYLE_BACKGROUND_COLOR ) );
-			rowImageUrl = getBackgroundImageUrl( rowStyle );
+			rowImageUrl = EmitterUtil.getBackgroundImageUrl( rowStyle,reportDesign );
 		}
 
 		IStyle style = container.getStyle( );
 		Color bc = PropertyUtil.getColor( style
 				.getProperty( StyleConstants.STYLE_BACKGROUND_COLOR ) );
-		String imageUrl = getBackgroundImageUrl( style );
+		String imageUrl = EmitterUtil.getBackgroundImageUrl( style,reportDesign );
 
 		if ( rowbc != null || rowImageUrl != null || bc != null
 				|| imageUrl != null )
@@ -520,7 +520,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		pageGraphic = pageDevice.newPage( pageWidth, pageHeight,
 				backgroundColor );
 		IStyle style = page.getStyle( );
-		String imageUrl = getBackgroundImageUrl( style );
+		String imageUrl = EmitterUtil.getBackgroundImageUrl( style ,reportDesign);
 		if ( imageUrl != null )
 		{
 			// Draws background image for the new page. if the background image
@@ -619,22 +619,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				xMode, yMode );
 	}
 	
-	protected String getBackgroundImageUrl(IStyle style)
-	{
-		String imageUri = PropertyUtil.getBackgroundImage( style
-				.getProperty( StyleConstants.STYLE_BACKGROUND_IMAGE ) );
-		if ( imageUri != null )
-		{
-			String url = getImageUrl( imageUri );
-			if(url!=null && url.length( )>0)
-			{
-				return url;
-			}
-		}
-		return null;
-	}
-
-	
 	/**
 	 * Draws a container's border, and its background color/image if there is
 	 * any.
@@ -659,7 +643,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			// color is NOT set, draws nothing.
 			Color bc = PropertyUtil.getColor( style
 					.getProperty( StyleConstants.STYLE_BACKGROUND_COLOR ) );
-			String imageUrl = getBackgroundImageUrl( style );
+			String imageUrl = EmitterUtil.getBackgroundImageUrl( style,reportDesign );
 
 			if ( bc != null || imageUrl != null )
 			{
@@ -1386,21 +1370,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		{
 			log( e, Level.WARNING );
 		}
-	}
-
-	private String getImageUrl( String imageUri )
-	{
-		String imageUrl = imageUri;
-		if ( reportDesign != null )
-		{
-			URL url = reportDesign.findResource( imageUri,
-					IResourceLocator.IMAGE );
-			if ( url != null )
-			{
-				imageUrl = url.toExternalForm( );
-			}
-		}
-		return imageUrl;
 	}
 
 	protected int getX( IArea area )

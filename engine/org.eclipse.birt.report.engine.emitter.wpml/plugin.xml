@@ -6,7 +6,7 @@
 	 	name = "Engine Word Emitters">
 
         <emitter
-              class="org.eclipse.birt.report.engine.emitter.wpml.WordEmitter"
+              class="org.eclipse.birt.report.engine.emitter.wpml.DocEmitter"
               format="doc"
               id="org.eclipse.birt.report.engine.emitter.word"
               pagination="page-break-pagination"
