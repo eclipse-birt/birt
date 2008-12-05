@@ -3,40 +3,44 @@ package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelContext;
+import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
-public class ExcelWriter
+
+public class ExcelWriter implements IExcelWriter
 {
-	private static Double temp=Double.NaN;
-	private static String NAN_STRING=temp.toString();
-	private boolean isRTLSheet = false; //bidi_acgc added
-	public static final int rightToLeftisTrue = 1; //bidi_acgc added
 
+	private static Double temp = Double.NaN;
+	private static String NAN_STRING = temp.toString( );
+	private boolean isRTLSheet = false; // bidi_acgc added
+	public static final int rightToLeftisTrue = 1; // bidi_acgc added
+	private String tempFilePath;
+	private ExcelWriter tempWriter;
 	private XMLWriterXLS writer = new XMLWriterXLS( );
-
-	private static HashSet splitChar = new HashSet( );
-
-	static
-	{
-		splitChar.add( new Character( ' ' ) );
-		splitChar.add( new Character( '\r' ) );
-		splitChar.add( new Character( '\n' ) );
-	};
+	private String pageHeader, pageFooter, orientation;
+	private ExcelLayoutEngine engine;
+	private int sheetIndex = 1;
+	private HashMap<Integer, List<BookmarkDef>> sheetIndex2DefineNames = new HashMap<Integer, List<BookmarkDef>>( );
 
 	private class XMLWriterXLS extends XMLWriter
 	{
@@ -52,7 +56,7 @@ public class ExcelWriter
 
 			StringBuffer buffer = new StringBuffer();
 
-			for ( int i = 0, max = s.length( ), delta = 0; i < max; i++ )
+			for ( int i = 0, max = s.length( ); i < max; i++ )
 			{
 				char c = s.charAt( i );
 
@@ -93,13 +97,12 @@ public class ExcelWriter
 	public ExcelWriter( OutputStream out, String encoding, ExcelContext context )
 	{
 		this.context = context;
+		tempFilePath = System.getProperty( "java.io.tmpdir" ) + File.separator
+				+ "_BIRTEMITTER_EXCEL_TEMP_FILE"
+				+ Thread.currentThread( ).getId( );
 		writer.open( out, encoding );
 	}
-	
-	// bidi_acgc added start
-	// ExcelWriter constructors are overloaded in order to set the isRTLReport
-	// parameter.
-	// isRTLReport represents the direction of the excel sheet
+
 	/**
 	 * @author bidi_acgc
 	 * @param isRTLSheet:
@@ -110,17 +113,27 @@ public class ExcelWriter
 		this.isRTLSheet = isRTLSheet;
 		writer.open( out, "UTF-8" );
 	}
+
 	/**
 	 * @author bidi_acgc
-	 * @param isRTLSheet:
-	 *            represents the direction of the excel sheet.
+	 * @param orientation
+	 * @param pageFooter
+	 * @param pageHeader
+	 * @param isRTLSheet
+	 *            : represents the direction of the excel sheet.
 	 */
 	public ExcelWriter( OutputStream out, ExcelContext context,
-			boolean isRTLSheet )
+			boolean isRTLSheet, String pageHeader, String pageFooter,
+			String orientation, ExcelLayoutEngine engine )
 	{
 		this( out, "UTF-8", context );
 		this.isRTLSheet = isRTLSheet;
+		this.pageHeader = pageHeader;
+		this.pageFooter = pageFooter;
+		this.orientation = orientation;
+		this.engine = engine;
 	}
+
 	/**
 	 * @author bidi_acgc
 	 * @param isRTLSheet:
@@ -134,36 +147,37 @@ public class ExcelWriter
 		writer.open( out, encoding );
 	}
 
-	// bidi_acgc added end
-	
-	public void writeDocumentProperties(IReportContent reportContent)
+	private void writeDocumentProperties( IReportContent reportContent )
 	{
+		ReportDesignHandle reportDesign = reportContent.getDesign( )
+				.getReportDesign( );
 		writer.openTag( "DocumentProperties" );
 		writer.attribute( "xmlns", "urn:schemas-microsoft-com:office:office" );
-		
 		writer.openTag( "Author" );
-		writer.text( reportContent.getDesign( ).getReportDesign( ).getStringProperty(IModuleModel.AUTHOR_PROP) );
+		writer
+				.text( reportDesign
+						.getStringProperty( IModuleModel.AUTHOR_PROP ) );
 		writer.closeTag( "Author" );
-		
 		writer.openTag( "Title" );
-		writer.text( reportContent.getDesign( ).getReportDesign( ).getStringProperty(IModuleModel.TITLE_PROP) );
+		writer.text( reportDesign.getStringProperty( IModuleModel.TITLE_PROP ) );
 		writer.closeTag( "Title" );
-		
 		writer.openTag( "Description" );
-		writer.text( reportContent.getDesign( ).getReportDesign( ).getStringProperty(IModuleModel.DESCRIPTION_PROP) );
+		writer.text( reportDesign
+				.getStringProperty( IModuleModel.DESCRIPTION_PROP ) );
 		writer.closeTag( "Description" );
-		
 		writer.closeTag( "DocumentProperties" );
 	}
 
 	// If possible, we can pass a format according the data type
-	public void writeText( Data d )
+	private void writeText( Data d )
 	{
 		writer.openTag( "Data" );
 
-		if ( d.getDatatype( ).equals( Data.NUMBER ) )
-		{	
-			if(d.getText( ).equals(NAN_STRING )||d.isBigNumber( )||d.isInfility( ) )
+		int type = d.getDatatype( );
+		if ( type == SheetData.NUMBER )
+		{
+			if ( d.getText( ).equals( NAN_STRING ) || d.isBigNumber( )
+					|| d.isInfility( ) )
 			{
 				writer.attribute( "ss:Type", "String" );
 			}
@@ -172,7 +186,7 @@ public class ExcelWriter
 				writer.attribute( "ss:Type", "Number" );
 			}
 		}
-		else if ( d.getDatatype( ).equals( Data.DATE ) )
+		else if ( type == SheetData.DATE )
 		{
 			writer.attribute( "ss:Type", "DateTime" );
 		}
@@ -182,20 +196,20 @@ public class ExcelWriter
 		}
 
 		d.formatTxt( );
-		String txt = d.getText( );
-		
-		if ( CSSConstants.CSS_CAPITALIZE_VALUE.equalsIgnoreCase( d
-				.getStyleEntry( ).getProperty( StyleConstant.TEXT_TRANSFORM ) ) )
+		String txt = d.getText( ).toString( );
+
+		if ( CSSConstants.CSS_CAPITALIZE_VALUE.equalsIgnoreCase( d.getStyle( )
+				.getProperty( StyleConstant.TEXT_TRANSFORM ) ) )
 		{
 			txt = capitalize( txt );
 		}
 		else if ( CSSConstants.CSS_UPPERCASE_VALUE.equalsIgnoreCase( d
-				.getStyleEntry( ).getProperty( StyleConstant.TEXT_TRANSFORM ) ) )
+				.getStyle( ).getProperty( StyleConstant.TEXT_TRANSFORM ) ) )
 		{
 			txt = txt.toUpperCase( );
 		}
 		else if ( CSSConstants.CSS_LOWERCASE_VALUE.equalsIgnoreCase( d
-				.getStyleEntry( ).getProperty( StyleConstant.TEXT_TRANSFORM ) ) )
+				.getStyle( ).getProperty( StyleConstant.TEXT_TRANSFORM ) ) )
 		{
 			txt = txt.toLowerCase( );
 		}
@@ -211,8 +225,8 @@ public class ExcelWriter
 		char[] array = text.toCharArray( );
 		for ( int i = 0; i < array.length; i++ )
 		{
-			Character c = new Character( text.charAt( i ) );
-			if ( splitChar.contains( c ) )
+			char c = text.charAt( i );
+			if ( c == ' ' || c == '\n' || c == '\r' )
 				capitalizeNextChar = true;
 			else if ( capitalizeNextChar )
 			{
@@ -233,7 +247,7 @@ public class ExcelWriter
 		writer.closeTag( "Row" );
 	}
 
-	public void startCell( int cellindex, int colspan, int rowspan,
+	private void startCell( int cellindex, int colspan, int rowspan,
 			int styleid, HyperlinkDef hyperLink )
 	{
 		writer.openTag( "Cell" );
@@ -274,8 +288,9 @@ public class ExcelWriter
 		writer.closeTag( "Cell" );
 	}
 
-	protected void writeTxtData( Data d )
+	private void writeTxtData( SheetData sheetData )
 	{
+		Data d = (Data) sheetData;
 		startCell( d.span.getCol( ), d.span.getColSpan( ), d.getRowSpan( ),
 				d.styleId, d.url );
 		writeText( d );
@@ -314,12 +329,12 @@ public class ExcelWriter
 		writer.closeTag( "Cell" );
 	}
 
-	public void endCell( )
+	private void endCell( )
 	{
 		writer.closeTag( "Cell" );
 	}
 
-	public void writeAlignment( String horizontal, String vertical,
+	private void writeAlignment( String horizontal, String vertical,
 			String direction, boolean wrapText )
 	{
 		writer.openTag( "Alignment" );
@@ -349,7 +364,7 @@ public class ExcelWriter
 		writer.closeTag( "Alignment" );
 	}
 
-	public void writeBorder( String position, String lineStyle, String weight,
+	private void writeBorder( String position, String lineStyle, String weight,
 			String color )
 	{
 		writer.openTag( "Border" );
@@ -372,7 +387,7 @@ public class ExcelWriter
 		writer.closeTag( "Border" );
 	}
 
-	public void writeFont( String fontName, String size, String bold,
+	private void writeFont( String fontName, String size, String bold,
 			String italic, String strikeThrough, String underline, String color )
 	{
 		writer.openTag( "Font" );
@@ -415,7 +430,7 @@ public class ExcelWriter
 		writer.closeTag( "Font" );
 	}
 
-	public void writeBackGroudColor( String bgColor )
+	private void writeBackGroudColor( String bgColor )
 	{
 		if ( isValid( bgColor ) )
 		{
@@ -505,9 +520,13 @@ public class ExcelWriter
 		writer.closeTag( "Style" );
 	}
 
-	public void writeDataFormat( StyleEntry style )
+	private void writeDataFormat( StyleEntry style )
 	{
-		if ( style.getProperty( StyleConstant.DATA_TYPE_PROP ) == Data.DATE
+		String typeString = style.getProperty( StyleConstant.DATA_TYPE_PROP );
+		if ( typeString == null )
+			return;
+		int type = Integer.parseInt( typeString );
+		if ( type == SheetData.DATE
 				&& style.getProperty( StyleConstant.DATE_FORMAT_PROP ) != null )
 		{
 			writer.openTag( "NumberFormat" );
@@ -517,7 +536,7 @@ public class ExcelWriter
 
 		}
 
-		if ( style.getProperty( StyleConstant.DATA_TYPE_PROP ) == Data.NUMBER
+		if ( type == Data.NUMBER
 				&& style.getProperty( StyleConstant.NUMBER_FORMAT_PROP ) != null )
 		{
 			writer.openTag( "NumberFormat" );
@@ -532,8 +551,8 @@ public class ExcelWriter
 	// here the user input can be divided into two cases :
 	// the case in the birt input like G and the Currency
 	// the case in excel format : like 0.00E00
-	
-	public void writeDeclarations( )
+
+	private void writeDeclarations( )
 	{
 		writer.startWriter( );
 		writer.getPrint( ).println( );
@@ -551,17 +570,14 @@ public class ExcelWriter
 		writer.attribute( "xmlns:html", "http://www.w3.org/TR/REC-html40" );
 	}
 
-	public void declareStyles( Map style2id )
+	private void declareStyles( Map<StyleEntry, Integer> style2id )
 	{
 		writer.openTag( "Styles" );
 
-		for ( Iterator it = style2id.entrySet( ).iterator( ); it.hasNext( ); )
+		Set<Entry<StyleEntry, Integer>> entrySet = style2id.entrySet( );
+		for ( Map.Entry<StyleEntry, Integer> entry : entrySet )
 		{
-			Map.Entry entry = (Map.Entry) it.next( );
-
-			Object style = entry.getKey( );
-			int id = ( (Integer) entry.getValue( ) ).intValue( );
-			declareStyle( (StyleEntry) style, id );
+			declareStyle( entry.getKey( ), entry.getValue( ) );
 		}
 
 		writer.closeTag( "Styles" );
@@ -569,15 +585,12 @@ public class ExcelWriter
 
 	private Set<String> bookmarkNames = new HashSet<String>();
 
-	public void defineNames( List namesRefer )
+	private void defineNames( int sheetIndex, List<BookmarkDef> namesRefer )
 	{
-		writer.openTag( "Names" );
-		for ( Iterator it = namesRefer.iterator( ); it.hasNext( ); )
+		for ( BookmarkDef bookmark : namesRefer )
 		{
-			BookmarkDef bookmark = (BookmarkDef) it.next( );
-
 			String name = bookmark.getName( );
-			String refer = bookmark.getRefer( );
+			String refer = getRefer( sheetIndex, bookmark );
 			if ( !bookmarkNames.contains( name ) )
 			{
 				defineName( name, refer );
@@ -588,8 +601,18 @@ public class ExcelWriter
 			    logger.log(Level.WARNING, "bookmark name is repeated : " + name);
 			}
 		}
-		writer.closeTag( "Names" );
 		bookmarkNames.clear( );
+	}
+
+	private String getRefer( int sheetIndex, BookmarkDef bookmark )
+	{
+		StringBuffer sb = new StringBuffer( "=Sheet" );
+		sb.append( sheetIndex );
+		sb.append( "!R" );
+		sb.append( bookmark.getRowNo( ) );
+		sb.append( "C" );
+		sb.append( bookmark.getColumnNo( ) );
+		return sb.toString( );
 	}
 
 	private void defineName( String name, String refer )
@@ -598,16 +621,6 @@ public class ExcelWriter
 		writer.attribute( "ss:Name", name );
 		writer.attribute( "ss:RefersTo", refer );
 		writer.closeTag( "NamedRange" );
-	}
-
-	public void close( boolean complete )
-	{
-		if ( complete )
-		{
-			writer.closeTag( "Workbook" );
-		}
-
-		writer.close( );
 	}
 
 	public void startSheet( String name )
@@ -622,17 +635,12 @@ public class ExcelWriter
 		// else : do nothing i.e. LTR
 	}
 
-	public void startSheet( int sheetIndex )
-	{
-		startSheet( "Sheet" + String.valueOf( sheetIndex ));
-	}
-
 	public void closeSheet( )
 	{
 		writer.closeTag( "Worksheet" );
 	}
 
-	public void startTable( int[] width )
+	public void ouputColumns( int[] width )
 	{
 		writer.openTag( "ss:Table" );
 
@@ -687,7 +695,7 @@ public class ExcelWriter
 		writer.closeTag( "Row" );
 	}
 
-	public void insertSheet( File file )
+	private void insertSheet( File file )
 	{
 		try
 		{
@@ -696,6 +704,7 @@ public class ExcelWriter
 
 			while ( line != null )
 			{
+				writer.literal( "\n" );
 				writer.literal( line );
 				line = reader.readLine( );
 			}
@@ -708,8 +717,9 @@ public class ExcelWriter
 			logger.log( Level.WARNING, e.getMessage( ), e );
 		}
 	}
-	
-	public void declareWorkSheetOptions( String orientation, String pageHeader, String pageFooter )
+
+	private void declareWorkSheetOptions( String orientation,
+			String pageHeader, String pageFooter )
 	{
 		writer.openTag( "WorksheetOptions" );
 		writer.attribute( "xmlns", "urn:schemas-microsoft-com:office:excel" );
@@ -739,5 +749,163 @@ public class ExcelWriter
 		writer.closeTag( "PageSetup" );
 		writer.closeTag( "WorksheetOptions" );
 
+	}
+
+	private void startSheet( int sheetIndex )
+	{
+		startSheet( "Sheet" + String.valueOf( sheetIndex ) );
+	}
+
+	public void outputSheet( )
+	{
+		engine.complete( );
+		List<BookmarkDef> books = engine.getBookmarks( );
+		if ( books != null )
+		{
+			sheetIndex2DefineNames.put( sheetIndex, new ArrayList<BookmarkDef>(
+					books ) );
+		}
+		try
+		{
+			if ( tempWriter == null )
+			{
+				FileOutputStream tempOut = new FileOutputStream( tempFilePath );
+				tempWriter = new ExcelWriter( tempOut, context, isRTLSheet,
+						pageHeader, pageFooter, orientation, engine );
+			}
+			tempWriter.outputCacheData( );
+			setSheetIndex( tempWriter.getSheetIndex( ) );
+		}
+		catch ( Exception e )
+		{
+			logger.log( Level.SEVERE, e.getMessage( ), e );
+		}
+
+	}
+
+	private void outputSheetData( )
+	{
+		startSheet( );
+
+		for ( int count = 0; count < engine.getRowCount( ); count++ )
+		{
+			outputData( engine.getRow( count ) );
+		}
+
+		endSheet( );
+	}
+
+	private void outputData( RowData rowData )
+	{
+		startRow( );
+		SheetData[] data = rowData.getRowdata( );
+		for ( int i = 0; i < data.length; i++ )
+		{
+			writeTxtData( data[i] );
+		}
+		endRow( );
+	}
+
+	private void startSheet( )
+	{
+		startSheet( sheetIndex );
+		ouputColumns( engine.getCoordinates( ) );
+		sheetIndex += 1;
+	}
+
+	private void endSheet( )
+	{
+		endTable( );
+		declareWorkSheetOptions( orientation, pageHeader, pageFooter );
+		closeSheet( );
+	}
+
+	public void start( IReportContent report )
+	{
+		writeDeclarations( );
+		writeDocumentProperties( report );
+		declareStyles( engine.getStyleMap( ) );
+		addDefineNames( );
+		defineNames( sheetIndex2DefineNames );
+	}
+
+	/**
+	 * @param sheetIndex2DefineNames2
+	 */
+	private void defineNames(
+			HashMap<Integer, List<BookmarkDef>> sheetIndex2DefineNames )
+	{
+		if ( !sheetIndex2DefineNames.isEmpty( ) )
+		{
+			writer.openTag( "Names" );
+			Set<Entry<Integer, List<BookmarkDef>>> sheetIndex2Bookmark = sheetIndex2DefineNames
+					.entrySet( );
+			for ( Entry<Integer, List<BookmarkDef>> index2book : sheetIndex2Bookmark )
+				defineNames( index2book );
+			writer.closeTag( "Names" );
+		}
+	}
+
+	/**
+	 * @param index2booklist
+	 */
+	private void defineNames( Entry<Integer, List<BookmarkDef>> index2booklist )
+	{
+		int sheetIndex = index2booklist.getKey( );
+		List<BookmarkDef> bookmarkList = index2booklist.getValue( );
+		defineNames( sheetIndex, bookmarkList );
+	}
+
+	/**
+	 * 
+	 */
+	private void addDefineNames( )
+	{
+		List<BookmarkDef> newBooks = engine.getBookmarks( );
+		if ( newBooks != null )
+			sheetIndex2DefineNames.put( sheetIndex, newBooks );
+
+	}
+
+	public void end( )
+	{
+		writer.closeTag( "Workbook" );
+		close( );
+
+	}
+
+	public void close( )
+	{
+		writer.endWriter( );
+		writer.close( );
+	}
+
+	public void outputCacheData( )
+	{
+		if ( tempWriter != null )
+		{
+			tempWriter.close( );
+			File file = new File( tempFilePath );
+			insertSheet( file );
+			file.delete( );
+			if ( engine.getRowCount( ) != 0 )
+			{
+				outputSheetData( );
+			}
+		}
+		else
+		{
+			outputSheetData( );
+		}
+	}
+
+	private void setSheetIndex( int sheetIndex )
+	{
+		this.sheetIndex = sheetIndex;
+	}
+
+	private int getSheetIndex( )
+	{
+		return this.sheetIndex;
 	}
 }

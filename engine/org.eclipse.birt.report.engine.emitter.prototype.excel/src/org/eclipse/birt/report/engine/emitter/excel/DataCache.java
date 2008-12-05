@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2004, 2008Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
@@ -17,7 +27,7 @@ public class DataCache
 	 * columns is an ArrayList. Its elements are each column.
 	 * Each column is also an arrayList. Its elements are the rows in the column. 
 	 */
-	private List<ArrayList<Data>> columns = new ArrayList<ArrayList<Data>>( );
+	private List<ArrayList<SheetData>> columns = new ArrayList<ArrayList<SheetData>>( );
 	//FIXME: code review: remove the colrow
 	private Map<Integer, Integer> columnId2StartRowId = new HashMap<Integer, Integer>( );// col -> start line
 	private int width;
@@ -33,7 +43,7 @@ public class DataCache
 	
 	public DataCache( int width, int height, ExcelEmitter emitter )
 	{
-		columns.add( new ArrayList<Data>( ) );
+		columns.add( new ArrayList<SheetData>( ) );
 		columnId2StartRowId.put( 0, 0 );
 		this.width = width;
 		this.height = height;
@@ -56,7 +66,7 @@ public class DataCache
 		int m_size = columnCount - m_start;
 		m_size = Math.max( 0, m_size );
 		
-		ArrayList<Data>[] mcol = (ArrayList<Data>[])new ArrayList[m_size];
+		ArrayList<SheetData>[] mcol = (ArrayList<SheetData>[]) new ArrayList[m_size];
 		Map<Integer, Integer> temp = new HashMap<Integer, Integer>( );
 		
 		for ( int i = m_start, j = 0; j < m_size; i++, j++ )
@@ -85,12 +95,12 @@ public class DataCache
 			{	
 				if (i > columns.size( ))
 				{
-					columns.add( new ArrayList<Data>( ) );
+					columns.add( new ArrayList<SheetData>( ) );
 					columnId2StartRowId.put( columns.size( ) - 1, rowCount );
 				}
 				else
 				{
-					columns.add( i, new ArrayList<Data>( ) );	
+					columns.add( i, new ArrayList<SheetData>( ) );
 					columnId2StartRowId.put( i, rowCount );
 				}
 			}	
@@ -107,7 +117,7 @@ public class DataCache
 		}	
 	}
 
-	public void addData( int col, Data data )
+	public void addData( int col, SheetData data )
 	{	
 		
 		if ( ( getStartRowId( col ) > height ) || ( col >= getColumnCount( ) ) )
@@ -116,7 +126,7 @@ public class DataCache
 			clearCachedSheetData( );
 		}
 		
-		List<Data> column = columns.get( col );
+		List<SheetData> column = columns.get( col );
 		
 		// Container info is used to check if some data is in a special row.
 		// This info only useful for last data item in the column.
@@ -145,13 +155,14 @@ public class DataCache
 	{
 		for ( int i = 0; i < getColumnCount( ); i++ )
 		{
-			columns.set( i, new ArrayList<Data>( ) );
+			columns.set( i, new ArrayList<SheetData>( ) );
 		}
 		Set<Entry<Integer, Integer>> entrySets = columnId2StartRowId.entrySet( );
 		for ( Map.Entry<Integer, Integer> entry : entrySets )
 		{
 			entry.setValue( 0 );
 		}
+		bookmarks.clear( );
 	}
 
 	public int getStartRowId( int column )
@@ -180,13 +191,13 @@ public class DataCache
 		return max;
 	}
 
-	public Data[] getRowData( int rownum )
+	public SheetData[] getRowData( int rownum )
 	{
-		List<Data> data = new ArrayList<Data>( );
+		List<SheetData> data = new ArrayList<SheetData>( );
 
 		for(int i = 0 ; i < columns.size( ); i++)
 		{
-			Data value = getData(i, rownum);
+			SheetData value = getData(i, rownum);
 			
 			if(value != null)
 			{
@@ -194,12 +205,12 @@ public class DataCache
 			}	
 		}	
 
-		Data[] row = new Data[data.size( )];
+		SheetData[] row = new SheetData[data.size( )];
 		data.toArray( row );
 		return row;
 	}
 	
-	public Data getData(int col, int row)
+	public SheetData getData(int col, int row)
 	{		
 		if(!valid(row, col))
 		{
@@ -209,7 +220,7 @@ public class DataCache
 		else
 		{
 			int start = columnId2StartRowId.get( new Integer(col) ).intValue( );
-			List<Data> data = columns.get( col );
+			List<SheetData> data = columns.get( col );
 			
 			if(data.size( ) > (row - start))
 			{	

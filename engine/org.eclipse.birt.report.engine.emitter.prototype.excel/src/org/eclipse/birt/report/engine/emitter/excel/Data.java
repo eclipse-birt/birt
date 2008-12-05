@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2004, 2008Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
@@ -5,94 +15,75 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.engine.emitter.excel.layout.ContainerSizeInfo;
 import org.eclipse.birt.report.engine.emitter.excel.layout.XlsContainer;
 
-public class Data implements Serializable, Cloneable
+
+
+public class Data extends SheetData implements Serializable, Cloneable
 {
+
 	private static final long serialVersionUID = -316995334044186083L;
 
 	private static int ID = 0;
-	public static final String DATE = "DATE";
-	public static final String NUMBER = "NUMBER";
-	public static final String STRING = "STRING";
-	public static final String CALENDAR = "CALENDAR";
-	public static final String CDATETIME = "CDATETIME";
-	
-	private XlsContainer container;
-	
-	private int rowSpanInDesign;
-	
-	//String txt;
-    Object txt;
 
-    int styleId, id;
-    
-    String datatype = Data.STRING;
-    
-	StyleEntry style;
+	// String txt;
 
-	Span span;
-	
-	int rspan = 0;
-	
-	boolean processed = false;
-	
-	ContainerSizeInfo sizeInfo;
+	int  id;
 
-	HyperlinkDef url;
-	
+
+
 	BookmarkDef bookmark;
 
 	boolean isTxtData = true;
 	
+
 	Logger log = Logger.getLogger( Data.class.getName( ) );
 
-	public Data(final Object txt, final String datatype, XlsContainer container )
+	public Data( final Object txt, final int datatype, XlsContainer container )
 	{
-	   this(txt, null, datatype, container );
+		this( txt, null, datatype, container );
 	}
-	
-	public Data( final Object txt, final StyleEntry s, final String datatype,
+
+	public Data( final Object txt, final StyleEntry s, final int datatype,
 			XlsContainer container )
 	{
-		this(txt, s, datatype, container, 0);
+		this( txt, s, datatype, container, 0 );
 	}
-	
-	public Data( final Object txt, final StyleEntry s, final String datatype,
+
+	public Data( final Object txt, final StyleEntry s, final int datatype,
 			XlsContainer container, int rowSpanOfDesign )
 	{
-		this.txt = txt;		
+		this.txt = txt;
 		this.style = s;
 		this.datatype = datatype;
 		id = ID++;
 		this.container = container;
 		this.rowSpanInDesign = 0;
 	}
-    
+
 	protected void setNotTxtData( )
 	{
 		this.isTxtData = false;
 	}
-    
-	public String getText()
+
+	public Object getText( )
 	{
-		if(txt == null)
+		if ( txt == null )
 			return " ";
-		return txt.toString( );
+		return txt;
 	}
-	
+
 	public void formatTxt( )
 	{
 		if ( txt == null )
 		{
 			return;
 		}
-		else if ( datatype.equals( Data.DATE ) )
+		else if ( datatype == SheetData.DATE )
 		{
 			txt = ExcelUtil.formatDate( txt );
 		}
-		else if ( datatype.equals( Data.NUMBER ) )
+		else if ( datatype == SheetData.NUMBER )
 		{
 			Number number = (Number) txt;
 			if ( ExcelUtil.isBigNumber( number ) )
@@ -107,56 +98,48 @@ public class Data implements Serializable, Cloneable
 				}
 				else
 				{
-					txt=ExcelUtil.formatNumberAsDecimal( number );
+					txt = ExcelUtil.formatNumberAsDecimal( number );
 				}
 			}
 		}
 	}
-	
-	public boolean isBigNumber()
+
+	public boolean isBigNumber( )
 	{
-		if(txt==null)
+		if ( txt == null )
 		{
 			return false;
 		}
-		else if(datatype.equals( Data.NUMBER ))
+		else if ( datatype == Data.NUMBER )
 		{
 			return ExcelUtil.isBigNumber( txt );
 		}
 		return false;
 	}
-	
-	public boolean isInfility()
+
+	public boolean isInfility( )
 	{
-		if(txt==null)
+		if ( txt == null )
 		{
 			return false;
 		}
-		else if(datatype.equals( Data.NUMBER ))
+		else if ( datatype == SheetData.NUMBER )
 		{
 			return ExcelUtil.isInfinity( txt );
 		}
 		return false;
 	}
-	
+
 	public Object getValue( )
 	{
 		return txt;
 	}
-	
+
 	public int hashCode( )
 	{
 		return id;
 	}
-    public void setDatatype(String type) 
-    {
-       this.datatype = type;	
-    }
-    
-    public String getDatatype()
-    {
-       return this.datatype;	
-    }
+//TODO:remove this method
 	// shallow copy is necessary and sufficient
 	protected Object clone( )
 	{
@@ -168,7 +151,7 @@ public class Data implements Serializable, Cloneable
 		catch ( final CloneNotSupportedException e )
 		{
 			log.log( Level.WARNING, "clone data failed" );
-//			e.printStackTrace( );
+			// e.printStackTrace( );
 		}
 		return o;
 	}
@@ -190,111 +173,17 @@ public class Data implements Serializable, Cloneable
 		}
 		return false;
 	}
-	
-	public void setStyleId(int id)
-	{
-		this.styleId = id;
-	}
-	
-	public int getStyleId()
-	{
-		return styleId;
-	}
-	
-	public void setStyleEntry(StyleEntry entry)
-	{
-		this.style = entry;
-	}
-	
-	public StyleEntry getStyleEntry()
-	{
-		return style;
-	}
- 
-	public HyperlinkDef getHyperlinkDef( ) {
-	   return url;
-	}
-	
-	public void setHyperlinkDef( HyperlinkDef def ) {
-	   this.url = def;
-	}
-	
-	public void setSizeInfo(ContainerSizeInfo sizeInfo)
-	{
-		this.sizeInfo = sizeInfo;
-	}
-	
-	public ContainerSizeInfo getRule()
-	{
-		return sizeInfo;
-	}
-	
-	public void setSpan(Span span)
-	{
-		this.span = span;
-	}
-	
-	public Span getSpan()
-	{
-		return span;
-	} 
-	
-	public int getRowSpan() {
-		return rspan;
-	}
-	
-	public void setRowSpan(int rs) {
-		if(rs > 0) {
-			this.rspan = rs;
-		}
-	}
-	
-	public void setProcessed(boolean pro) {
-		this.processed = pro;
-	}
-	
-	public boolean isProcessed() {
-		return processed;
-	}
-	
+
+
+
 	public BookmarkDef getBookmark( )
 	{
 		return bookmark;
 	}
 
-	
 	public void setBookmark( BookmarkDef bookmark )
 	{
 		this.bookmark = bookmark;
 	}
-	
-	public XlsContainer getContainer( )
-	{
-		return container;
-	}
 
-	public void clearContainer( )
-	{
-		container = null;
-	}
-	
-	public boolean isBlank()
-	{
-		return false;
-	}
-	
-	public int getRowSpanInDesign( )
-	{
-		return rowSpanInDesign;
-	}
-	
-	public void setRowSpanInDesign( int rowSpan )
-	{
-		this.rowSpanInDesign = rowSpan;
-	}
-	
-	public void decreasRowSpanInDesign( )
-	{
-		rowSpanInDesign--;
-	}
 }

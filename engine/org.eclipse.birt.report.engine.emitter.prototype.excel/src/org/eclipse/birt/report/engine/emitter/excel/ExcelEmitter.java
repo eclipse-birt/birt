@@ -1,8 +1,7 @@
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Iterator;
@@ -46,35 +45,37 @@ import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 
+import com.ibm.icu.util.TimeZone;
+
+
 public class ExcelEmitter extends ContentEmitterAdapter
 {
-    private String tempfilePath;
-	
+
 	protected static Logger logger = Logger.getLogger( ExcelEmitter.class
 			.getName( ) );
 
-	private static int sheetIndex = 1;
-
-	private IEmitterServices service = null;
-
-	private OutputStream out = null;
-
-	private ExcelLayoutEngine engine;	
 	
+	protected IEmitterServices service = null;
+
+	protected OutputStream out = null;
+
+	protected ExcelLayoutEngine engine;
+
 	ContentEmitterVisitor contentVisitor = new ContentEmitterVisitor( this );
-	
-	private ExcelWriter tempWriter;
-	
-	public ExcelContext context = new ExcelContext();
-	
+
+	protected IExcelWriter writer;
+
+	public ExcelContext context = new ExcelContext( );
+
 	private String orientation = null;
-	
-	private String pageHeader;
-	
-	private String pageFooter;
-	
+
+	protected String pageHeader;
+
+	protected String pageFooter;
+
 	private boolean outputInMasterPage = false;
-	
+	protected boolean isRTLSheet = false;
+
 	public String getOutputFormat( )
 	{
 		return "xls";
@@ -85,24 +86,26 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		this.service = service;
 		if ( service != null )
 		{
-			this.out = EmitterUtil.getOuputStream( service, "report.xls" );
+			this.out = EmitterUtil.getOuputStream( service, "report."
+					+ getOutputFormat( ) );
 		}
 	}
 
-	//FIXME: CODE REVIEW: create engine to startPage
 	public void start( IReportContent report )
 	{
 		setupRenderOptions( );
 		// We can the page size from the design, maybe there is a better way
 		// to get the page definition.
+
+		String reportOrientation = report.getDesign( ).getReportDesign( )
+				.getBidiOrientation( );
+		if ( "rtl".equalsIgnoreCase( reportOrientation ) )
+			isRTLSheet = true;
 		IStyle style = report.getRoot( ).getComputedStyle( );
 		SimpleMasterPageDesign master = (SimpleMasterPageDesign) report
 				.getDesign( ).getPageSetup( ).getMasterPage( 0 );
 		engine = new ExcelLayoutEngine( new PageDef( master, style ), context,
 				this );
-		tempfilePath = System.getProperty( "java.io.tmpdir" ) + File.separator
-				+ "_BIRTEMITTER_EXCEL_TEMP_FILE"
-				+ Thread.currentThread( ).getId( );
 	}
 
 	
@@ -267,11 +270,11 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			engine.addData( data.getLabelText( ).trim( ), data.getComputedStyle( ),
 					url, bookmark );
 		}
-		else if ( ExcelUtil.getType( data.getValue() ).equals( Data.STRING ) )
+		else if ( ExcelUtil.getType( data.getValue( ) ) == SheetData.STRING )
 		{
 			engine.addData( data.getText(), data.getComputedStyle( ), url, bookmark );
 		}
-		else if ( !ExcelUtil.getType( data.getValue() ).equals( Data.NUMBER ) )
+		else if ( ExcelUtil.getType( data.getValue( ) ) != Data.NUMBER )
 		{
 			engine.addDateTime( data, data.getComputedStyle( ), url, bookmark );
 		}
@@ -316,116 +319,47 @@ public class ExcelEmitter extends ContentEmitterAdapter
 				        autoText.getComputedStyle( ), link, bookmark );
 	}
 
-	public void outputSheet()
+	public void outputSheet( )
 	{
-		engine.complete( );
+		if ( writer == null )
+			writer = new ExcelWriter( out, context, isRTLSheet, pageHeader,
+					pageFooter, orientation, engine );
 		try
 		{
-			if ( tempWriter == null )
-			{
-				FileOutputStream tempOut = new FileOutputStream( tempfilePath );
-				tempWriter = new ExcelWriter( tempOut, context );
-			}
-			outputSheetData( tempWriter );
+			writer.outputSheet( );
 		}
-		catch ( Exception e )
+		catch ( IOException e )
 		{
-			logger.log( Level.SEVERE, e.getMessage( ), e );
+			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
 		}
 	}
-	
-	private void outputSheetData(ExcelWriter writer )
-	{
-		startSheet( writer );
 
-		for ( int count = 0; count < engine.getRowCount( ); count++ )
-		{
-			outputData( engine.getRow( count ), writer );
-		}
 
-		endSheet( writer );		
-	}
-	
+
 	public void end( IReportContent report )
 	{
-		//Make sure the engine already calculates all data in cache.
+		// Make sure the engine already calculates all data in cache.
 		engine.complete( );
-
-		// bidi_acgc added start
-		// Get the Report bidi Orientation property to be used for setting the
-		// excel sheet Orientation.
-		boolean isRTLSheet = false;
-		String reportOrientation = report.getDesign( ).getReportDesign( )
-				.getBidiOrientation( );
-		if ( "rtl".equalsIgnoreCase( reportOrientation ) )
-			isRTLSheet = true;
-		ExcelWriter writer = new ExcelWriter( out, context, isRTLSheet );
-		// ExcelWriter writer = new ExcelWriter( out , context); //bidi_acgc
-		// commented
-		// bidi_acgc added end
-		writer.writeDeclarations( );
-		writer.writeDocumentProperties( report );
-		writer.declareStyles( engine.getStyleMap( ) );
-		writer.defineNames( engine.getNamesRefer( ) );
+		if ( writer == null )
+		{
+			writer = new ExcelWriter( out, context, isRTLSheet, pageHeader,
+					pageFooter, orientation, engine );
+		}
+		try
+		{
+			writer.start( report );
+			writer.outputCacheData( );
+			writer.end( );
+		}
+		catch ( IOException e )
+		{
+			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
+		}
 		
-		if(tempWriter!=null)
-		{
-			tempWriter.close( false );
-			File file = new File( tempfilePath );
-			writer.insertSheet( file );
-			file.delete( );
-			if ( engine.getRowCount( ) != 0 )
-			{
-				outputCacheData( writer );
-			}
-		}
-		else
-		{
-			outputCacheData( writer );
-		}
-
-		writer.close( true );
-		sheetIndex = 1;
 	}
 
-	private void outputCacheData( ExcelWriter writer )
-	{
-		startSheet( writer );
-		for ( int count = 0; count < engine.getRowCount( ); count++ )
-		{
-			outputData( engine.getRow( count ), writer );
-		}
-		endSheet( writer );
-	}
 
-	private void startSheet( ExcelWriter writer )
-	{
-		writer.startSheet( sheetIndex );
-		writer.startTable( engine.getCoordinates( ) );
-		sheetIndex += 1;
-	}
-
-	private void endSheet( ExcelWriter writer )
-	{
-		writer.endTable( );
-		writer.declareWorkSheetOptions( orientation, pageHeader, pageFooter );
-		writer.closeSheet( );
-	}
-
-	private void outputData( Data[] row, ExcelWriter writer )
-	{
-		
-		writer.startRow( );
-
-		for ( int i = 0; i < row.length; i++ )
-		{
-			writer.writeTxtData( row[i] );
-		}
-
-		writer.endRow( );
-	}
-
-	private HyperlinkDef parseHyperLink( IContent content )
+	public HyperlinkDef parseHyperLink( IContent content )
 	{
 		IHyperlinkAction linkaction = content.getHyperlinkAction( );
 
@@ -695,10 +629,23 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		}
 		return Locale.getDefault( );
 	}
+	
+	public TimeZone getTimeZone()
+	{
+		if ( service != null )
+		{
+			IReportContext reportContext = service.getReportContext( );
+			if ( reportContext != null )
+			{
+				return reportContext.getTimeZone( );
+			}
+		}
+		return TimeZone.getDefault( );
+	}
 
 	public void endContainer( IContainerContent container )
 	{
-		engine.removeContainerStyle();
+		engine.removeContainerStyle( );
 	}
 
 	public void startContainer( IContainerContent container )

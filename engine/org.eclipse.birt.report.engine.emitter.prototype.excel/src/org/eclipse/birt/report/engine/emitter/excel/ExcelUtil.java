@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2004, 2008Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
@@ -5,10 +15,12 @@ import java.math.BigDecimal;
 import java.sql.Time;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -20,21 +32,74 @@ import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.report.engine.emitter.excel.GroupInfo.Position;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
-import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.TimeZone;
+
 public class ExcelUtil
 {
-	protected static Logger log = Logger.getLogger( ExcelUtil.class.getName( ) );
-	protected static BigDecimal MAX_DOUBLE=new BigDecimal(Double.MAX_VALUE);
-	protected static BigDecimal MIN_DOUBLE=MAX_DOUBLE.negate( ).subtract( BigDecimal.ONE );
-	protected static BigDecimal MAX_POSITIVE_DECIMAL_NUMBER = new BigDecimal(10e15).subtract( new BigDecimal("0.0000000000000001"));
-	protected static BigDecimal MIN_POSITIVE_DECIMAL_NUMBER = new BigDecimal("0.000000000000001");
-	protected static BigDecimal MIN_NEGATIVE_DECIMAL_NUMBER = new BigDecimal(-10e14).add( new BigDecimal("0.000000000000001") );
-	protected static BigDecimal MAX_NEGATIVE_DECIMAL_NUMBER = MIN_POSITIVE_DECIMAL_NUMBER.negate( );
 	
-	private static String validStr = "#.0<>()%_";
-	private static String specialStr="mMdDyYhHsSeEbBgGnN/*\"@";
-	private static String currencySymbol= "£¢€￥¥";
+	private static final double SECONDS_PER_DAY = 86400.0;
+	private static final double SECONDS_PER_MINUTE = 60.0;
+	private static final double SECONDS_PER_HOUR = 3600.0;
+	protected static final Logger log = Logger.getLogger( ExcelUtil.class.getName( ) );
+	protected static final BigDecimal MAX_DOUBLE = new BigDecimal( Double.MAX_VALUE );
+	protected static final BigDecimal MIN_DOUBLE = MAX_DOUBLE.negate( ).subtract(
+			BigDecimal.ONE );
+	protected static final BigDecimal MIN_POSITIVE_DECIMAL_NUMBER = new BigDecimal(
+			"0.000000000000001" );
+	protected static final BigDecimal MAX_POSITIVE_DECIMAL_NUMBER = new BigDecimal(
+			10e15 ).subtract( MIN_POSITIVE_DECIMAL_NUMBER );
 	
+	protected static final BigDecimal MIN_NEGATIVE_DECIMAL_NUMBER = new BigDecimal(
+			-10e14 ).add( new BigDecimal( "0.000000000000001" ) );
+	protected static final BigDecimal MAX_NEGATIVE_DECIMAL_NUMBER = MIN_POSITIVE_DECIMAL_NUMBER
+			.negate( );
+	protected static final long MILLISECS_PER_DAY = 24 * 3600 * 1000;
+	//TODO: time zone 
+	private static final long BASE_DATE_TIME;
+	private static final String validStr = "#.0<>()%_";
+	private static final String specialStr = "mMdDyYhHsSeEbBgGnN/*\"@";
+	private static final String currencySymbol = "£¢€￥¥";
+	protected static Logger logger = Logger.getLogger( ExcelUtil.class
+			.getName( ) );
+
+	private static final HashSet<Character> splitChar = new HashSet<Character>( );
+	public final static double INCH_PX;
+	static
+	{
+
+		Calendar date = Calendar
+				.getInstance( TimeZone.getTimeZone( "GMT-0:00" ) );
+		date.setTime( new Date( "1900/01/01" ) );
+		BASE_DATE_TIME = date.getTimeInMillis( );
+		
+		splitChar.add( new Character( ' ' ) );
+		splitChar.add( new Character( '\r' ) );
+		splitChar.add( new Character( '\n' ) );
+
+		double Temp_PX;
+		try
+		{
+			Temp_PX = java.awt.Toolkit.getDefaultToolkit( )
+					.getScreenResolution( );
+		}
+		catch ( Exception e )
+		{
+			Temp_PX = 96;
+		}
+		INCH_PX = Temp_PX;
+	}
+
+	public final static double INCH_PT = 72;
+
+	public final static double PT_TWIPS = 20;
+
+	public final static double INCH_TWIPS = INCH_PT * PT_TWIPS;
+
+	public final static double PX_TWIPS = INCH_TWIPS / INCH_PX;
+
+	public final static double PX_PT = INCH_PT / INCH_PX;
+
 	public static String ridQuote( String val )
 	{
 		if ( val.charAt( 0 ) == '"' && val.charAt( val.length( ) - 1 ) == '"' )
@@ -172,32 +237,32 @@ public class ExcelUtil
 		String sign = scale >= 0 ? "+" : "";
 		return prefix + number + "E" + sign + scale;
 	}
-    
-    public static String getType(Object val)
-    {
-    	if ( val instanceof Number )
-    	{
-   			return Data.NUMBER;
-    	}
-    	else if(val instanceof Date)
-    	{
-    	   return Data.DATE;	
-    	}
-    	else if (val instanceof Calendar)
-    	{
-    	   return Data.CALENDAR;	
-    	}
-//    	else if(val instanceof CDateTime)
-//    	{
-//    	   return Data.CDATETIME;	
-//    	}
-    	else 
-    	{
-    	   return Data.STRING;	
-    	}
-    }
-      
-    private static String replaceDateFormat( String pattern )
+
+	public static int getType( Object val )
+	{
+		if ( val instanceof Number )
+		{
+			return SheetData.NUMBER;
+		}
+		else if ( val instanceof Date )
+		{
+			return SheetData.DATE;
+		}
+		else if ( val instanceof Calendar )
+		{
+			return SheetData.CALENDAR;
+		}
+		// else if(val instanceof CDateTime)
+		// {
+		// return Data.CDATETIME;
+		// }
+		else
+		{
+			return SheetData.STRING;
+		}
+	}
+
+	private static String replaceDateFormat( String pattern )
 	{
 		if ( pattern == null )
 		{
@@ -368,60 +433,66 @@ public class ExcelUtil
 
 		return current;
 	}
-       
-    public static String getPattern(Object data, String val)
-    {
-    	if(val != null && data instanceof Date) {
-    	   return replaceDateFormat(val);   
-    	}
-    	else if(val == null && data instanceof Time) {
-    		return "Long Time";
-    	}
-    	else if(val == null && data instanceof java.sql.Date) 
-    	{
-    		// According to java SDK 1.4.2-16, sql.Date doesn't have
-    		// a time component.
-    		return "mmm d, yyyy";// hh:mm AM/PM";
-    	}
-    	else if(val == null && data instanceof java.util.Date) 
-    	{
-    		return "mmm d, yyyy h:mm AM/PM";
-    	}
-    	else if(val != null && data instanceof Number)
-    	{
-    	   
-    	   if(val.indexOf( "E" ) >= 0){
-    	      return "Scientific";
-    	   }
-    	   return new NumberFormatter(val).getPattern( );	
-    	}
-    	else if(val != null && data instanceof String)
-    	{
-    		return new StringFormatter(val).getPattern( );
-    	}
-    	
-    	return null;
-    }
-    
-    public static String replaceAll(String str, String old, String news) {
-        if(str == null) {
-           return str;
-        }
 
-        int begin = 0;
-        int idx = 0;
-        int len = old.length();
-        StringBuffer buf = new StringBuffer();
+	public static String getPattern( Object data, String val )
+	{
+		if ( val != null && data instanceof Date )
+		{
+			return replaceDateFormat( val );
+		}
+		else if ( val == null && data instanceof Time )
+		{
+			return "Long Time";
+		}
+		else if ( val == null && data instanceof java.sql.Date )
+		{
+			// According to java SDK 1.4.2-16, sql.Date doesn't have
+			// a time component.
+			return "mmm d, yyyy";// hh:mm AM/PM";
+		}
+		else if ( val == null && data instanceof java.util.Date )
+		{
+			return "mmm d, yyyy h:mm AM/PM";
+		}
+		else if ( val != null && data instanceof Number )
+		{
 
-        while((idx = str.indexOf(old, begin)) >= 0) {
-           buf.append(str.substring(begin, idx));
-           buf.append(news);
-           begin = idx + len;
-        }
+//			if ( val.indexOf( "E" ) >= 0 )
+//			{
+//				return "Scientific";
+//			}
+			return new NumberFormatter( val ).getPattern( );
+		}
+		else if ( val != null && data instanceof String )
+		{
+			return new StringFormatter( val ).getPattern( );
+		}
 
-        return new String(buf.append(str.substring(begin)));
-     }
-	// TODO
+		return null;
+	}
+
+	public static String replaceAll( String str, String old, String news )
+	{
+		if ( str == null )
+		{
+			return str;
+		}
+
+		int begin = 0;
+		int idx = 0;
+		int len = old.length( );
+		StringBuffer buf = new StringBuffer( );
+
+		while ( ( idx = str.indexOf( old, begin ) ) >= 0 )
+		{
+			buf.append( str.substring( begin, idx ) );
+			buf.append( news );
+			begin = idx + len;
+		}
+
+		return new String( buf.append( str.substring( begin ) ) );
+	}
+
 	public static String getValue( String val )
 	{
 		if ( val == null )
@@ -471,11 +542,29 @@ public class ExcelUtil
 		}
 	}
 
+	public static String convertColWith( int width )
+	{
+		//TODO: more study about the caculation
+		double result = 0.0;
+		if ( width < 0 )
+			return "0.0";
+//		 Convert unit from point to pixel.
+//		result = (double) width * 96 / 72;
+//		double digitalWidth = 7;
+//		 convert from pixel to number of charaters
+//		result = (int) ( ( result - 5 ) / digitalWidth * 100 + 0.5 );
+//		result = result / 100;
+//		convert from number of charaters to number for output
+//		result = (int) ( ( result * digitalWidth + 5 ) / digitalWidth * 256 );
+//		result = result / 256;
 
-	
-	// the parse method can just see if the start of the String is a number
-	// like "123 bbs"
-	// it will parse successful and returns the value of 123 in number
+		double digitalWidth = 5.25;
+		result = (int) ( width / digitalWidth * 100 + 0.5 );
+		result = result / 100;
+		return Double.toString( result );
+
+	}
+
 	public static boolean isBigNumber( Object number )
 	{
 		try
@@ -883,5 +972,190 @@ public class ExcelUtil
 		return false;
 	}
 
+	public static boolean equalsIgnoreCase( String obj1, String obj2 )
+	{
+		return obj1 == null ? obj2 == null : obj1.equalsIgnoreCase( obj2 );
+	}
+
+	/**
+	 * Excel 2007 using 1900 date base system.Date time is combined by date component and time component.
+	 * In the 1900 date base system, the lower limit of day component is January 1, 1900, which has serial value 1. 
+	 * The upper-limit is December 31, 9999, which has serial value 2,958,465.
+	 * The time component of a serial value ranges in value from 0–0.99999999, and represents times from 0:00:00 (12:00:00 AM) 
+	 * to 23:59:59 (11:59:59 P.M.), respectively.
+	 * Going forward in time, the time component of a serial value increases by 1/86,400 each second.
+	 * @param d
+	 * @param zone
+	 * @return
+	 */
+	public static String getDay( Date d, TimeZone zone )
+	{
+		Calendar currentDay = Calendar.getInstance( zone );
+		currentDay.setTime( d );
+		int hours = currentDay.get(Calendar.HOUR_OF_DAY);
+		int minutes = currentDay.get(Calendar.MINUTE);
+		int seconds = currentDay.get(Calendar.SECOND);
+		double timeComponent = ( hours * SECONDS_PER_HOUR + minutes
+				* SECONDS_PER_MINUTE + seconds )
+				/ SECONDS_PER_DAY;
+		if ( timeComponent < 0 || timeComponent > 1 )
+		{
+			logger.log( Level.WARNING, "Invalid time!" );
+			timeComponent = 0;
+		}
+		long currentTimeInMillis = currentDay.getTimeInMillis( );
+		int dayComponent = (int) ( ( currentTimeInMillis - BASE_DATE_TIME ) / MILLISECS_PER_DAY );
+		if ( dayComponent < 0 || dayComponent > 2958463 )
+		{
+			logger.log( Level.WARNING, "Invaild day" );
+			dayComponent = 0;
+		}
+		if ( dayComponent <= 59 )
+			dayComponent = dayComponent + 1;
+		else
+			dayComponent = dayComponent + 2;
+		double dateTime = dayComponent + timeComponent;
+		return Double.toString( dateTime );
+	}
+
+	public static String convertColor( String value )
+	{
+		if ( value == null || "transparent".equalsIgnoreCase( value ) )
+		{
+			return null;
+		}
+		else
+			return value.replace( "#", "FF" );
+
+	}
+
+	public static String covertBorderStyle( String style )
+	{
+		if ( style == null )
+			return null;
+		if ( style.equalsIgnoreCase( "Dot" ) )
+			return "dotted";
+		if ( style.equalsIgnoreCase( "DashDot" ) )
+			return "dashDot";
+		if ( style.equalsIgnoreCase( "Double" ) )
+			return "double";
+		if ( style.equalsIgnoreCase( "Continuous" ) )
+			return "thin";
+		return null;
+	}
+
+	public static String capitalize( String text )
+	{
+		boolean capitalizeNextChar = true;
+		char[] array = text.toCharArray( );
+		for ( int i = 0; i < array.length; i++ )
+		{
+			Character c = new Character( text.charAt( i ) );
+			if ( splitChar.contains( c ) )
+				capitalizeNextChar = true;
+			else if ( capitalizeNextChar )
+			{
+				array[i] = Character.toUpperCase( array[i] );
+				capitalizeNextChar = false;
+			}
+		}
+		return new String( array );
+	}
+
+	/**
+	 * Get cell Ref from col no. For example: 1-A 27-AA 676-YZ
+	 * 
+	 * @param row
+	 *            --row no
+	 * @param column
+	 *            -- col no
+	 * @return the cell refrence in excel
+	 */
+	public static String getRef( int row, int column )
+	{
+		Stack<Character> digits = new Stack<Character>( );
+		int dividant = column;
+		while ( dividant > 26 )
+		{
+			int remain = dividant % 26;
+			dividant = dividant / 26;
+			if ( remain == 0 )
+			{
+				remain = 26;
+				dividant--;
+			}
+			digits.push( (char) ( 'A' + remain - 1 ) );
+		}
+		digits.push( (char) ( 'A' + dividant - 1 ) );
+		StringBuffer buffer = new StringBuffer( );
+		while ( !digits.empty( ) )
+		{
+			buffer.append( digits.pop( ) );
+		}
+		if ( row >= 0 )
+			buffer.append( row );
+		return buffer.toString( );
+	}
+
+	public static double convertImageSize( DimensionType value, int ref )
+	{
+
+		if ( value == null )
+		{
+			return ref * PX_PT;
+		}
+
+		if ( DimensionType.UNITS_PX.equalsIgnoreCase( value.getUnits( ) ) )
+		{
+			return value.getMeasure( ) * PX_PT;
+		}
+		else if ( DimensionType.UNITS_PERCENTAGE.equalsIgnoreCase( value
+				.getUnits( ) ) )
+		{
+			return ( value.getMeasure( ) / 100 ) * ref * PX_PT;
+		}
+		else
+		{
+			return value.convertTo( DimensionType.UNITS_IN ) * INCH_PT;
+		}
+	}
+	public static String ZIP = "@@@@@-@@@@";
+	public static String PHONE = "(@@@)@@@-@@@@";
+	public static String SOCIAL = "@@@-@@-@@@@";
+	public static String ZIP_CODE = "00000\\-0000";
+	public static String PHONE_CODE = "[<=9999999]###\\-####;\\(###\\)\\ ###\\-####";
+	public static String SOCIALNUMBER_CODE = "000\\-00\\-0000";
+
+	public static String convertStringFormat( String property )
+	{
+		if ( property == null )
+			return null;
+		if ( ZIP.equals( property ) )
+			return ZIP_CODE;
+		if ( PHONE.equals( property ) )
+			return PHONE_CODE;
+		if ( SOCIAL.equals( property ) )
+			return SOCIALNUMBER_CODE;
+		return property;
+	}
 	
+	/**
+	 * Convert scientific format code such as 00/E00 to 00E+00 so excel 2007 can
+	 * output it correctly.
+	 * 
+	 * @param code
+	 * @return
+	 */
+	public static String convertSciFormat( String code )
+	{
+		if ( null == code )
+			return null;
+		int index = code.indexOf( 'E' );
+		if ( index != -1 )
+		{
+			return code.substring( 0, index - 1 ) + "E" + "+"
+					+ code.substring( index + 1 );
+		}
+		return code;
+	}
 }

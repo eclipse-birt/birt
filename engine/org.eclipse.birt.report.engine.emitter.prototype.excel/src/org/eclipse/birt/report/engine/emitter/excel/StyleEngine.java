@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2006 Inetsoft Technology Corp.
+ * Copyright (c) 2004, 2008Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Inetsoft Technology Corp  - Implementation
+ *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.excel;
@@ -56,7 +56,8 @@ public class StyleEngine
 		{
 			entry.setProperty( StyleConstant.DATE_FORMAT_PROP,
 					"yyyy-M-d HH:mm:ss AM/PM" );
-			entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.DATE );
+			entry.setProperty( StyleConstant.DATA_TYPE_PROP, Integer
+					.toString( SheetData.DATE ) );
 		}
 		return entry;
 	}
@@ -147,7 +148,7 @@ public class StyleEngine
 
 		for ( int i = 0; i < span; i++ )
 		{
-			Data data = engine.getData( i + col, cp );
+			SheetData data = engine.getData( i + col, cp );
 			
 			if(data == null)
 			{
@@ -198,7 +199,7 @@ public class StyleEngine
 
 		for ( int i = col; i < span + col; i++ )
 		{
-			Data data = engine.getData( i, pos );			
+			SheetData data = engine.getData( i, pos );			
 			
 			if(data == null || data.isBlank( ) )
 			{

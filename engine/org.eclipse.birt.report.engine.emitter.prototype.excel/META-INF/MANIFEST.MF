@@ -12,4 +12,5 @@ Bundle-Vendor: Eclipse.org
 Eclipse-LazyStart: true
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.excel.plugin.ExcelemitterPlugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.birt.report.engine.emitter.excel
+Export-Package: org.eclipse.birt.report.engine.emitter.excel,
+ org.eclipse.birt.report.engine.emitter.excel.layout

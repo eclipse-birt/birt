@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2004, 2008Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.excel.layout;
 
@@ -11,6 +21,7 @@ import java.util.Map;
 import java.util.Stack;
 
 import org.eclipse.birt.report.engine.content.IDataContent;
+import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.excel.BlankData;
 import org.eclipse.birt.report.engine.emitter.excel.BookmarkDef;
@@ -20,20 +31,35 @@ import org.eclipse.birt.report.engine.emitter.excel.DateTimeUtil;
 import org.eclipse.birt.report.engine.emitter.excel.ExcelEmitter;
 import org.eclipse.birt.report.engine.emitter.excel.ExcelUtil;
 import org.eclipse.birt.report.engine.emitter.excel.HyperlinkDef;
+import org.eclipse.birt.report.engine.emitter.excel.ImageData;
+import org.eclipse.birt.report.engine.emitter.excel.RowData;
+import org.eclipse.birt.report.engine.emitter.excel.SheetData;
 import org.eclipse.birt.report.engine.emitter.excel.Span;
 import org.eclipse.birt.report.engine.emitter.excel.StyleBuilder;
 import org.eclipse.birt.report.engine.emitter.excel.StyleConstant;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEngine;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEntry;
 
+
 public class ExcelLayoutEngine
 {
 	public final static String EMPTY = "";
 	
-	public final static int MAX_ROW = 65535;
+	private static final double DEFAULT_ROW_HEIGHT = 15;
+	// Excel 2007 can support 1048576 rows and 16384 columns.
+	//TODO: new 4 final static variable and 2 local variable
+	public final static int OFFICE2007_MAX_ROW=1048576;
 	
-	public static int MAX_COLUMN = 255;
+	public final static int OFFICE2007_MAX_COL=16384;
+	
+	public final static int OFFICE2003_MAX_ROW = 65535;
+	
+	public static int OFFICE2003_MAX_COLUMN = 255;
+	
+	private int maxRow = OFFICE2003_MAX_ROW;
 
+	private int maxCol = OFFICE2003_MAX_COLUMN;
+	
 	private DataCache cache;
 
 	private AxisProcessor axis;
@@ -66,16 +92,16 @@ public class ExcelLayoutEngine
 		setCacheSize();
 		
 		ContainerSizeInfo rule = new ContainerSizeInfo( 0, page.contentwidth );
-		cache = new DataCache( MAX_COLUMN, MAX_ROW, emitter );
+		cache = new DataCache( maxCol, maxRow, emitter );
 		engine = new StyleEngine( this );
 		containers.push( createContainer( rule, page.style, null ) );
 	}
 	
 	private void setCacheSize()
 	{
-		if(context.getOfficeVersion( ).equals( "office2007" ))
+		if ( context.getOfficeVersion( ).equals( "office2007" ) )
 		{
-			MAX_COLUMN = 10000;
+			maxCol = OFFICE2007_MAX_COL;
 		}
 	}
 
@@ -266,12 +292,12 @@ public class ExcelLayoutEngine
 
 			if ( rowspan > 0 )
 			{
-				Data data = null;				
-				Data upstair = cache.getData( i, last );
-                
-				if ( upstair != null && canSpan(upstair, rowContainer) )
+				SheetData data = null;				
+				SheetData upstair = cache.getData( i, last );
+				
+				if ( upstair != null && canSpan(upstair, rowContainer ) )
 				{
-					Data predata = upstair;
+					SheetData predata = upstair;
 					int rs = predata.getRowSpan( ) + rowspan;
 					predata.setRowSpan( rs );
 					BlankData blankData = new BlankData( getRealData( predata ) );
@@ -294,9 +320,9 @@ public class ExcelLayoutEngine
 		}
 	}
 
-	private boolean canSpan( Data data, XlsContainer rowContainer )
+	private boolean canSpan( SheetData data, XlsContainer rowContainer )
 	{
-		Data realData = getRealData(data);
+		SheetData realData = getRealData(data);
 		if ( realData == null )
 			return false;
 		if ( isInContainer( realData, rowContainer ) )
@@ -305,8 +331,8 @@ public class ExcelLayoutEngine
 		}
 		return realData.getRowSpanInDesign( ) > 0;
 	}
-	
-	private Data getRealData(Data data )
+
+	private SheetData getRealData( SheetData data )
 	{
 		if ( data.isBlank( ) )
 		{
@@ -314,8 +340,8 @@ public class ExcelLayoutEngine
 		}
 		return data;
 	}
-	
-	private boolean isInContainer(Data data, XlsContainer rowContainer )
+
+	private boolean isInContainer( SheetData data, XlsContainer rowContainer )
 	{
 		XlsContainer container = data.getContainer( );
 		while( container != null )
@@ -379,8 +405,28 @@ public class ExcelLayoutEngine
 		data.setHyperlinkDef( link );
 		data.setBookmark( bookmark );
 		data.setSizeInfo( rule );
-
 		addData( data );
+	}
+	public void addImageData( IImageContent image, IStyle style,
+			HyperlinkDef link )
+	{
+		XlsContainer container=getCurrentContainer();
+		ContainerSizeInfo rule = container.getSizeInfo( );
+		StyleEntry entry = engine.getStyle( style, rule );
+		ImageData data = createImageData( image, entry,container );
+		data.setHyperlinkDef( link );
+		data.setSizeInfo( rule );
+		addData( data );
+
+	}
+
+	private ImageData createImageData( IImageContent image, StyleEntry entry, XlsContainer container )
+	{
+		int type = SheetData.IMAGE;
+		entry.setProperty( StyleConstant.DATA_TYPE_PROP, Integer
+				.toString( type ) );
+		return new ImageData( image, entry, type, container);
+
 	}
 	
 	public void addDateTime(Object txt, IStyle style, HyperlinkDef link, BookmarkDef bookmark)
@@ -422,33 +468,34 @@ public class ExcelLayoutEngine
 
 	public Data createData( Object txt, StyleEntry entry )
 	{
-		String type = Data.STRING;
+		int type = SheetData.STRING;
 		Locale locale = emitter.getLocale( );
-		if ( Data.NUMBER.equals( ExcelUtil.getType( txt ) ) )
+		if ( SheetData.NUMBER==ExcelUtil.getType( txt )  )
 		{
 			String format = ExcelUtil.getPattern( txt, entry
 					.getProperty( StyleConstant.NUMBER_FORMAT_PROP ) );
 			format = ExcelUtil.formatNumberPattern( format, locale );
 			entry.setProperty( StyleConstant.NUMBER_FORMAT_PROP, format );
-			type = Data.NUMBER;
+			type = SheetData.NUMBER;
 
 		}
-		else if ( Data.DATE.equals( ExcelUtil.getType( txt )))
+		else if ( SheetData.DATE == ExcelUtil.getType( txt ) )
 		{
-			String format = ExcelUtil.getPattern( txt, 
-					entry.getProperty( StyleConstant.DATE_FORMAT_PROP ) );
-			entry.setProperty( StyleConstant.DATE_FORMAT_PROP, format );			
+			String format = ExcelUtil.getPattern( txt, entry
+					.getProperty( StyleConstant.DATE_FORMAT_PROP ) );
+			entry.setProperty( StyleConstant.DATE_FORMAT_PROP, format );
 			type = Data.DATE;
 		}
-		
-		entry.setProperty( StyleConstant.DATA_TYPE_PROP, type );
-		
+
+		entry.setProperty( StyleConstant.DATA_TYPE_PROP, Integer
+				.toString( type ) );
+
 		return new Data( txt, entry, type, getCurrentContainer( ) );
 	}
-	
-	private Data createDateData(Object txt , StyleEntry entry , String timeFormat)
+
+	private Data createDateData( Object txt, StyleEntry entry, String timeFormat )
 	{
-		Locale locale = emitter.getLocale();
+		Locale locale = emitter.getLocale( );
 		timeFormat = ExcelUtil.parse( timeFormat, locale );
 		if ( timeFormat.equals( "" ) )
 		{
@@ -473,16 +520,17 @@ public class ExcelLayoutEngine
 			timeFormat = DateTimeUtil.formatDateTime( timeFormat, locale );
 		}
 		entry.setProperty( StyleConstant.DATE_FORMAT_PROP, timeFormat );
-		entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.DATE );
-		return new Data( txt, entry, Data.DATE, getCurrentContainer( ) );
+		entry.setProperty( StyleConstant.DATA_TYPE_PROP, Integer
+				.toString( SheetData.DATE ) );
+		return new Data( txt, entry, SheetData.DATE, getCurrentContainer( ) );
 	}
 
-	private void addData( Data data )
+	private void addData( SheetData data )
 	{
 		XlsContainer container = getCurrentContainer( );
 		container.setEmpty( false );
-		int col = axis.getColumnIndexByCoordinate( data.getRule( ).getStartCoordinate( ) );
-		int span = axis.getColumnIndexByCoordinate( data.getRule( ).getEndCoordinate( ) ) - col;
+		int col = axis.getColumnIndexByCoordinate( data.getSizeInfo( ).getStartCoordinate( ) );
+		int span = axis.getColumnIndexByCoordinate( data.getSizeInfo( ).getEndCoordinate( ) ) - col;
 		addDatatoCache( col, data );
 
 		for ( int i = col + 1; i < col + span; i++ )
@@ -515,8 +563,8 @@ public class ExcelLayoutEngine
 	{
 		return engine.getStyleIDMap( );
 	}
-	
-	public List<BookmarkDef> getNamesRefer( )
+
+	public List<BookmarkDef> getBookmarks( )
 	{
 		return cache.getBookmarks( );
 	}
@@ -524,17 +572,17 @@ public class ExcelLayoutEngine
 	public int[] getCoordinates( )
 	{
 		int[] coord = axis.getColumnWidths( );
-		
-		if(coord.length <= MAX_COLUMN) 
+
+		if ( coord.length <= OFFICE2003_MAX_COLUMN )
 		{
 			return coord;
-		}	
-		else 
+		}
+		else
 		{
-			int[] ncoord = new int[MAX_COLUMN]; 
-			System.arraycopy( coord, 0, ncoord, 0, MAX_COLUMN );
+			int[] ncoord = new int[OFFICE2003_MAX_COLUMN];
+			System.arraycopy( coord, 0, ncoord, 0, OFFICE2003_MAX_COLUMN );
 			return ncoord;
-		}		
+		}
 	}
 
 	public int getRowCount( )
@@ -553,10 +601,10 @@ public class ExcelLayoutEngine
 		return cache.getStartRowId( column );
 	}
 
-	public Data getData( int col, int row )
+	public SheetData getData( int col, int row )
 	{		
 		Object object = cache.getData( col, row );
-		Data data = (Data) object;
+		SheetData data = (SheetData) object;
 		if ( data == null || data.isBlank( ) )
 		{
 			return null;
@@ -564,15 +612,15 @@ public class ExcelLayoutEngine
 		return data;
 	}
 
-	public Data[] getRow( int rownum )
+	public RowData getRow( int rownum )
 	{
-		Data[] row = cache.getRowData( rownum );
-		List<Data> data = new ArrayList<Data>( );
-		int width = Math.min( row.length, MAX_COLUMN - 1 );
-
+		SheetData[] row = cache.getRowData( rownum );
+		List<SheetData> data = new ArrayList<SheetData>( );
+		int width = Math.min( row.length, OFFICE2003_MAX_COLUMN - 1 );
+		double rowHeight = DEFAULT_ROW_HEIGHT;
 		for ( int i = 0; i < width; i++ )
 		{
-			Data d = (Data) row[i];
+			SheetData d = (SheetData) row[i];
 			if ( d.isBlank( ) )
 			{
 				continue;
@@ -585,14 +633,21 @@ public class ExcelLayoutEngine
 
 			d.setProcessed( true );
 			data.add( row[i] );
+			if ( d instanceof ImageData )
+			{
+				ImageData imagedata = (ImageData) d;
+				double height = imagedata.getHeight( );
+				if ( height > rowHeight )
+					rowHeight = height;
+			}
 		}
 
-		Data[] rowdata = new Data[data.size( )];
+		SheetData[] rowdata = new SheetData[data.size( )];
 		data.toArray( rowdata );
-		return rowdata;
+		return new RowData( rowdata, rowHeight );
 	}
 
-	private void addDatatoCache( int col, Data value )
+	private void addDatatoCache( int col, SheetData value )
 	{
 		cache.addData( col, value );
 	}
@@ -607,37 +662,44 @@ public class ExcelLayoutEngine
 
 			for ( int j = 0; j < row.length; j++ )
 			{
-				Data d = (Data) row[j];
-				if ( d.isBlank( ) )
+				SheetData data = (SheetData) row[j];
+				if ( data.isBlank( ) )
 				{
 					continue;
 				}
-
-				int styleid = engine.getStyleID( d.getStyleEntry( ) );
-				d.setStyleId( styleid );
-				ContainerSizeInfo rule = d.getRule( );
 				
-				//Excel Cell Starts From 1
-				int start = axis.getColumnIndexByCoordinate( rule.getStartCoordinate( ) ) + 1;
-				int end = axis.getColumnIndexByCoordinate( rule.getEndCoordinate( ) ) + 1;
-				
-				end = Math.min( end, MAX_COLUMN );
-				int scount = Math.max(0, end - start - 1);
-				//Excel Span Starts From 1
-				Span span = new Span( start, scount );
+					int styleid = engine.getStyleID( data.getStyle( ) );
+					data.setStyleId( styleid );
+					ContainerSizeInfo rule = data.getSizeInfo( );
 
-				HyperlinkDef link = d.getHyperlinkDef( );
+					// Excel Cell Starts From 1
+					int start = axis.getColumnIndexByCoordinate( rule
+							.getStartCoordinate( ) ) + 1;
+					int end = axis.getColumnIndexByCoordinate( rule
+							.getEndCoordinate( ) ) + 1;
 
-				if ( link != null && link.getBookmark( ) != null )
-				{
-					// Excel cell start is 1
-					links.put( link.getBookmark( ), 
-							   getCellName( i + 1,start + 1 ) );
-				}
+					end = Math.min( end, OFFICE2003_MAX_COLUMN );
+					int scount = Math.max( 0, end - start - 1 );
+					// Excel Span Starts From 1
+					Span span = new Span( start, scount );
 
-				d.setSpan( span );
+					HyperlinkDef link = data.getHyperlinkDef( );
+
+					if ( link != null && link.getBookmark( ) != null )
+					{
+						// Excel cell start is 1
+						links.put( link.getBookmark( ), getCellName( i + 1,
+								start + 1 ) );
+					}
+
+					data.setSpan( span );
 			}
 		}
+	}
+
+	public Stack<XlsTable> getTable( )
+	{
+		return tables;
 	}
 
 	private String getCellName( int row, int col )

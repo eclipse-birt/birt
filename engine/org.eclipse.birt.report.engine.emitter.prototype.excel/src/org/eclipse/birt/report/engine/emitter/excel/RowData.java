@@ -11,46 +11,36 @@
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
-
-public class BookmarkDef
+public class RowData
 {
-	private String name;
-	private int columnNo;
-	private int rowNo;
-	
-	public BookmarkDef( String name )
+
+	private SheetData[] rowdata;
+	private double height;
+
+	public RowData( SheetData[] rowdata, double height )
 	{
-		this.name = name;
-	}
-	
-	public String getName( )
-	{
-		return name;
-	}
-	
-	public void setName( String name )
-	{
-		this.name = name;
+		this.rowdata = rowdata;
+		this.height = height;
 	}
 
-	public int getColumnNo( )
+	public SheetData[] getRowdata( )
 	{
-		return columnNo;
+		return rowdata;
 	}
 
-	public void setColumnNo( int columnNo )
+	public void setRowdata( SheetData[] rowdata )
 	{
-		this.columnNo = columnNo;
-	}
-	
-	public int getRowNo( )
-	{
-		return rowNo;
+		this.rowdata = rowdata;
 	}
 
-	public void setRowNo( int rowNo )
+	public double getHeight( )
 	{
-		this.rowNo = rowNo;
+		return height;
 	}
-	
+
+	public void setHeight( double height )
+	{
+		this.height = height;
+	}
+
 }
