@@ -822,6 +822,22 @@ public class CubeGroupContent extends Composite implements Listener
 												.newTabularDimension( null );
 										input.add( CubeHandle.DIMENSIONS_PROP,
 												dimension );
+										RenameInputDialog inputDialog = createDimensionRenameDialog( dimension );
+										if ( inputDialog.open( ) == Window.OK )
+										{
+											try
+											{
+												( (DesignElementHandle) dimension ).setName( inputDialog.getValue( )
+														.trim( ) );
+											}
+											catch ( Exception e1 )
+											{
+												ExceptionHandler.handle( e1 );
+												stack.rollback( );
+											}
+										}
+										else
+											stack.rollback( );
 									}
 									else
 									{
@@ -1744,6 +1760,23 @@ public class CubeGroupContent extends Composite implements Listener
 						try
 						{
 							input.add( CubeHandle.DIMENSIONS_PROP, dimension );
+
+							RenameInputDialog inputDialog = createDimensionRenameDialog( dimension );
+							if ( inputDialog.open( ) == Window.OK )
+							{
+								try
+								{
+									( (DesignElementHandle) dimension ).setName( inputDialog.getValue( )
+											.trim( ) );
+								}
+								catch ( Exception e1 )
+								{
+									ExceptionHandler.handle( e1 );
+									stack.rollback( );
+								}
+							}
+							else
+								stack.rollback( );
 						}
 						catch ( SemanticException e )
 						{
@@ -1969,6 +2002,18 @@ public class CubeGroupContent extends Composite implements Listener
 
 			}
 		}
+	}
+
+	private RenameInputDialog createDimensionRenameDialog(
+			DimensionHandle dimension )
+	{
+		RenameInputDialog inputDialog = new RenameInputDialog( getShell( ),
+				Messages.getString( "CubeGroupContent.Group.Add.Title" ), //$NON-NLS-1$
+				Messages.getString( "CubeGroupContent.Group.Add.Message" ), //$NON-NLS-1$
+				( (DesignElementHandle) dimension ).getName( ),
+				null );
+		inputDialog.create( );
+		return inputDialog;
 	}
 
 	private boolean checkColumnDataType( ResultSetColumnHandle dataField )
