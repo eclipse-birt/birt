@@ -1219,8 +1219,10 @@ public final class LegendBuilder implements IConstants
 				{
 					laiValue.dispose( );
 				}
-				Label laValue = LabelImpl.copyInstance( lih.getSeriesDefinition( )
-						.getDesignTimeSeries( )
+				Series series = (Series) lih.getSeriesDefinition( )
+							.getSeries( )
+							.get( 0 );
+				Label laValue = LabelImpl.copyInstance( series
 						.getLabel( ) );
 				laValue.setEllipsis( 1 );
 				this.laiValue = new LabelItem( lgData.xs,
