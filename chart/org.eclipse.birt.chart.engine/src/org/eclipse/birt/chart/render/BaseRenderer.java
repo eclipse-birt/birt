@@ -1696,7 +1696,14 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 				RectangleRenderEvent.class );
 		rre.updateFrom( b, dScale );
-		ipr.fillRectangle( rre );
+		try
+		{
+			ipr.fillRectangle( rre );
+		}
+		catch ( Exception e )
+		{
+			logger.log( e );
+		}
 		ipr.drawRectangle( rre );
 
 		if ( isInteractivityEnabled( ) )
