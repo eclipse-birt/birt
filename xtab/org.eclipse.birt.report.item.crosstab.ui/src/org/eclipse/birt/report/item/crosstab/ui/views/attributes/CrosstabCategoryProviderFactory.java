@@ -11,17 +11,10 @@
 
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes;
 
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AdvancePropertyPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BookMarkExpressionPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BordersPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.CommentsPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FontPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ItemMarginPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.NamedExpressionsPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.TOCExpressionPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.UserPropertiesPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.VisibilityPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.CategoryProvider;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributesUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.CategoryProviderFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProvider;
@@ -33,16 +26,14 @@ import org.eclipse.birt.report.item.crosstab.ui.views.attributes.page.CrosstabSe
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.page.EmptyRowColumnPage;
 
 /**
- * @author Administrator
- * 
+ * CrosstabCategoryProviderFactory
  */
 public class CrosstabCategoryProviderFactory extends CategoryProviderFactory
 {
 
-	private static ICategoryProviderFactory instance = new CrosstabCategoryProviderFactory( );
+	private static final String CATEGORY_KEY_EMPTYROWCOLUMN = "EmptyRowColumn"; //$NON-NLS-1$
 
-	public static final String CATEGORY_KEY_EVENTHANDLER = "EventHandler";
-	// //$NON-NLS-1$
+	private static ICategoryProviderFactory instance = new CrosstabCategoryProviderFactory( );
 
 	protected CrosstabCategoryProviderFactory( )
 	{
@@ -60,69 +51,57 @@ public class CrosstabCategoryProviderFactory extends CategoryProviderFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProviderFactory#getCategoryProvider(java.lang.Object)
+	 * @seeorg.eclipse.birt.report.designer.ui.views.attributes.providers.
+	 * ICategoryProviderFactory#getCategoryProvider(java.lang.Object)
 	 */
 	public ICategoryProvider getCategoryProvider( Object input )
 	{
-		CategoryProvider provider = new CategoryProvider( new String[]{
-				CategoryProviderFactory.CATEGORY_KEY_GENERAL,
-				CategoryProviderFactory.CATEGORY_KEY_MARGIN,
-				CategoryProviderFactory.CATEGORY_KEY_FONT,
-				CategoryProviderFactory.CATEGORY_KEY_BORDERS,
-				CategoryProviderFactory.CATEGORY_KEY_SECTION,
-				CategoryProviderFactory.CATEGORY_KEY_VISIBILITY,
-				CategoryProviderFactory.CATEGORY_KEY_TOC,
-				CategoryProviderFactory.CATEGORY_KEY_BOOKMARK,
-				CategoryProviderFactory.CATEGORY_KEY_COMMENTS,
-				CategoryProviderFactory.CATEGORY_KEY_USERPROPERTIES,
-				CategoryProviderFactory.CATEGORY_KEY_NAMEDEXPRESSIONS,
-				CategoryProviderFactory.CATEGORY_KEY_ADVANCEPROPERTY,
-		}, new String[]{
-				"CrosstabPageGenerator.List.General", //$NON-NLS-1$
-				"CrosstabPageGenerator.List.Margin", //$NON-NLS-1$
-				"CrosstabPageGenerator.List.Font", //$NON-NLS-1$
-				"CrosstabPageGenerator.List.Borders", //$NON-NLS-1$
-				"CrosstabPageGenerator.List.Section", //$NON-NLS-1$
-				"CrosstabPageGenerator.List.Visibility", //$NON-NLS-1$
-				"CrosstabPageGenerator.List.TOC", //$NON-NLS-1$
-				"CrosstabPageGenerator.List.Bookmark", //$NON-NLS-1$
-				"ReportPageGenerator.List.Comments", //$NON-NLS-1$
-				"CrosstabPageGenerator.List.UserProperties", //$NON-NLS-1$
-				"CrosstabPageGenerator.List.NamedExpressions", //$NON-NLS-1$
-				"CrosstabPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
-		}, new Class[]{
-				CrosstabGeneralPage.class,
-				ItemMarginPage.class,
-				FontPage.class,
-				BordersPage.class,
-				CrosstabSectionPage.class,
-				VisibilityPage.class,
-				TOCExpressionPage.class,
-				BookMarkExpressionPage.class,
-				CommentsPage.class,
-				UserPropertiesPage.class,
-				NamedExpressionsPage.class,
-				AdvancePropertyPage.class,
-		} );
-		// Because model has not implemented eventhandle, mark the code as
-		// comment first.
-		// if ( AttributesUtil.containCategory( AttributesUtil.EVENTHANDLER ) )
-		// {
-		// provider.addCategory( CATEGORY_KEY_EVENTHANDLER,
-		// AttributesUtil.getCategoryDisplayName( AttributesUtil.EVENTHANDLER ),
-		// CrosstabEventHandlerPage.class );
-		// }
-		provider.addCategory( "EmptyRowColumn",
-				Messages.getString( "CrosstabPageGenerator.List.EmptyRowColumn"),
-				EmptyRowColumnPage.class,
-				provider.getCategoryIndex( CategoryProviderFactory.CATEGORY_KEY_TOC ) );
+		CategoryHolder customHolder = new CategoryHolder( new String[]{
+				CATEGORY_KEY_GENERAL,
+				CATEGORY_KEY_SECTION,
+				CATEGORY_KEY_EMPTYROWCOLUMN,
+		},
+				new String[]{
+						Messages.getString( "CrosstabPageGenerator.List.General" ), //$NON-NLS-1$
+						Messages.getString( "CrosstabPageGenerator.List.Section" ), //$NON-NLS-1$
+						Messages.getString( "CrosstabPageGenerator.List.EmptyRowColumn" ), //$NON-NLS-1$
+				},
+				new Class[]{
+						CrosstabGeneralPage.class,
+						CrosstabSectionPage.class,
+						EmptyRowColumnPage.class,
+				} );
+
+		List<String> categories = new ArrayList<String>( Arrays.asList( new String[]{
+				null,
+				CATEGORY_KEY_MARGIN,
+				CATEGORY_KEY_FONT,
+				CATEGORY_KEY_BORDERS,
+				null,
+				CATEGORY_KEY_VISIBILITY,
+				null,
+				CATEGORY_KEY_TOC,
+				CATEGORY_KEY_BOOKMARK,
+				CATEGORY_KEY_COMMENTS,
+				CATEGORY_KEY_USERPROPERTIES,
+				CATEGORY_KEY_NAMEDEXPRESSIONS,
+				CATEGORY_KEY_ADVANCEPROPERTY,
+		} ) );
+
 		if ( AttributesUtil.containCategory( AttributesUtil.EVENTHANDLER ) )
 		{
-			provider.addCategory( CATEGORY_KEY_EVENTHANDLER,
+			customHolder.insertBefore( null,
+					AttributesUtil.EVENTHANDLER,
 					AttributesUtil.getCategoryDisplayName( AttributesUtil.EVENTHANDLER ),
-					CrosstabEventHandlerPage.class,
-					provider.getCategoryIndex( CategoryProviderFactory.CATEGORY_KEY_ADVANCEPROPERTY ) );
+					CrosstabEventHandlerPage.class );
+
+			categories.add( categories.size( ) - 1, null );
 		}
-		return provider;
+
+		return AttributesUtil.createCategoryProvider( categories.toArray( new String[categories.size( )] ),
+				customHolder.getKeys( ),
+				customHolder.getLabels( ),
+				customHolder.getClasses( ) );
+
 	}
 }

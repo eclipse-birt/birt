@@ -16,15 +16,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.CategoryPage;
-import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.ICategoryPage;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProvider;
-import org.eclipse.jface.text.Assert;
 
 /**
- * 
+ * CategoryProvider
  */
-
 public class CategoryProvider implements ICategoryProvider
 {
 
@@ -45,13 +42,13 @@ public class CategoryProvider implements ICategoryProvider
 	public CategoryProvider( String[] categoryKeys, String[] categories,
 			Class[] pageClasses )
 	{
-		Assert.isLegal( categories.length == pageClasses.length );
+		assert categories.length == pageClasses.length;
+
 		this.categories = new ICategoryPage[categories.length];
 		for ( int i = 0; i < categories.length; i++ )
 		{
-			String displayLabel = Messages.getString( categories[i] );
 			this.categories[i] = new CategoryPage( categoryKeys[i],
-					displayLabel,
+					categories[i],
 					pageClasses[i] );
 		}
 	}

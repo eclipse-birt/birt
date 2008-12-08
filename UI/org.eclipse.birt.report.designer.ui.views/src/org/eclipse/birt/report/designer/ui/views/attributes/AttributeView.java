@@ -1,3 +1,4 @@
+
 package org.eclipse.birt.report.designer.ui.views.attributes;
 
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -11,9 +12,9 @@ import org.eclipse.ui.part.MessagePage;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.part.PageBookView;
 
-
 public class AttributeView extends PageBookView
 {
+
 	/**
 	 * AttributeView ID
 	 */
@@ -21,30 +22,30 @@ public class AttributeView extends PageBookView
 
 	private String defaultText = Messages.getString( "AttributeView.defaultText.noAttributeView" ); //$NON-NLS-1$
 
+	private String defaultPartName = null;
+
 	public AttributeView( )
 	{
 		super( );
 	}
-	
+
 	protected IPage createDefaultPage( PageBook book )
 	{
 		MessagePage page = new MessagePage( );
 		initPage( page );
 		page.createControl( book );
 		page.setMessage( defaultText );
-		if(defaultPartName == null)defaultPartName = getPartName( );
+		if ( defaultPartName == null )
+		{
+			defaultPartName = getPartName( );
+		}
 		return page;
 	}
-	
-	private String defaultPartName = null;
-	public void setPartName(String name){
+
+	public void setPartName( String name )
+	{
 		super.setPartName( name );
 	}
-	
-
-	
-
-	
 
 	/**
 	 * Creates a new page in the pagebook for a particular part. This page will
@@ -69,8 +70,6 @@ public class AttributeView extends PageBookView
 		}
 		return null;
 	}
-	
-
 
 	/**
 	 * Destroys a page in the pagebook for a particular part. This page was
@@ -107,9 +106,10 @@ public class AttributeView extends PageBookView
 	{
 		IWorkbenchPage page = getSite( ).getPage( );
 		if ( page != null )
+		{
 			return page.getActiveEditor( );
-		else
-			return null;
+		}
+		return null;
 	}
 
 	/**
@@ -117,8 +117,8 @@ public class AttributeView extends PageBookView
 	 * 
 	 * @param part
 	 *            the input part
-	 * @return <code>true</code> if the part is relevant, and
-	 *         <code>false</code> otherwise
+	 * @return <code>true</code> if the part is relevant, and <code>false</code>
+	 *         otherwise
 	 */
 	protected boolean isImportant( IWorkbenchPart part )
 	{
@@ -133,6 +133,7 @@ public class AttributeView extends PageBookView
 	public Object getAdapter( Class key )
 	{
 		if ( key == IContributedContentsView.class )
+		{
 			return new IContributedContentsView( ) {
 
 				public IWorkbenchPart getContributingPart( )
@@ -140,21 +141,29 @@ public class AttributeView extends PageBookView
 					return getCurrentContributingPart( );
 				}
 			};
+		}
 		return super.getAdapter( key );
 	}
-	
-	public void partClosed(IWorkbenchPart part) {
+
+	public void partClosed( IWorkbenchPart part )
+	{
 		super.partClosed( part );
-		if(defaultPartName!=null)setPartName( defaultPartName );
+		if ( defaultPartName != null )
+		{
+			setPartName( defaultPartName );
+		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.part.PageBookView#partBroughtToTop(org.eclipse.ui.IWorkbenchPart)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.ui.part.PageBookView#partBroughtToTop(org.eclipse.ui.
+	 * IWorkbenchPart)
 	 */
 	public void partBroughtToTop( IWorkbenchPart part )
 	{
 		super.partBroughtToTop( part );
-        partActivated(part);
+		partActivated( part );
 	}
 
 }

@@ -11,20 +11,14 @@
 
 package org.eclipse.birt.chart.reportitem.ui.views.attributes;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.page.ChartAlterPage;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.page.ChartEventHandlerPage;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.page.ChartGeneralPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AdvancePropertyPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BookMarkExpressionPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BordersPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.CommentsPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ItemMarginPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.NamedExpressionsPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.SectionPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.TOCExpressionPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.UserPropertiesPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.VisibilityPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.CategoryProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributesUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.CategoryProviderFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProvider;
@@ -38,8 +32,6 @@ public class ChartCategoryProviderFactory extends CategoryProviderFactory
 {
 
 	private static ICategoryProviderFactory instance = new ChartCategoryProviderFactory( );
-
-	public static final String CATEGORY_KEY_EVENTHANDLER = "EventHandler"; //$NON-NLS-1$
 
 	protected ChartCategoryProviderFactory( )
 	{
@@ -57,57 +49,48 @@ public class ChartCategoryProviderFactory extends CategoryProviderFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProviderFactory#getCategoryProvider(java.lang.Object)
+	 * @seeorg.eclipse.birt.report.designer.ui.views.attributes.providers.
+	 * ICategoryProviderFactory#getCategoryProvider(java.lang.Object)
 	 */
 	public ICategoryProvider getCategoryProvider( Object input )
 	{
-		CategoryProvider provider = new CategoryProvider( new String[]{
-				CategoryProviderFactory.CATEGORY_KEY_GENERAL,
-				CategoryProviderFactory.CATEGORY_KEY_BORDERS,
-				CategoryProviderFactory.CATEGORY_KEY_MARGIN,
-				CategoryProviderFactory.CATEGORY_KEY_ALTTEXT,
-				CategoryProviderFactory.CATEGORY_KEY_SECTION,
-				CategoryProviderFactory.CATEGORY_KEY_VISIBILITY,
-				CategoryProviderFactory.CATEGORY_KEY_TOC,
-				CategoryProviderFactory.CATEGORY_KEY_BOOKMARK,
-				CategoryProviderFactory.CATEGORY_KEY_COMMENTS,
-				CategoryProviderFactory.CATEGORY_KEY_USERPROPERTIES,
-				CategoryProviderFactory.CATEGORY_KEY_NAMEDEXPRESSIONS,
-				CategoryProviderFactory.CATEGORY_KEY_ADVANCEPROPERTY,
+		CategoryHolder customHolder = new CategoryHolder( new String[]{
+				CATEGORY_KEY_GENERAL, CATEGORY_KEY_ALTTEXT,
 		}, new String[]{
-				"DataPageGenerator.List.General", //$NON-NLS-1$
-				"DataPageGenerator.List.Borders", //$NON-NLS-1$
-				"DataPageGenerator.List.Margin", //$NON-NLS-1$
-				"ImagePageGenerator.List.AltText", //$NON-NLS-1$
-				"DataPageGenerator.List.Section", //$NON-NLS-1$
-				"DataPageGenerator.List.Visibility", //$NON-NLS-1$
-				"DataPageGenerator.List.TOC", //$NON-NLS-1$
-				"DataPageGenerator.List.Bookmark", //$NON-NLS-1$
-				"ReportPageGenerator.List.Comments", //$NON-NLS-1$
-				"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
-				"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
-				"ReportPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
+				Messages.getString( "ChartPageGenerator.List.General" ), //$NON-NLS-1$
+				Messages.getString( "ChartPageGenerator.List.AltText" ), //$NON-NLS-1$
 		}, new Class[]{
-				ChartGeneralPage.class,
-				BordersPage.class,
-				ItemMarginPage.class,
-				ChartAlterPage.class,
-				SectionPage.class,
-				VisibilityPage.class,
-				TOCExpressionPage.class,
-				BookMarkExpressionPage.class,
-				CommentsPage.class,
-				UserPropertiesPage.class,
-				NamedExpressionsPage.class,
-				AdvancePropertyPage.class,
+				ChartGeneralPage.class, ChartAlterPage.class,
 		} );
+
+		List<String> categories = new ArrayList<String>( Arrays.asList( new String[]{
+				null,
+				CATEGORY_KEY_BORDERS,
+				CATEGORY_KEY_MARGIN,
+				null,
+				CATEGORY_KEY_SECTION,
+				CATEGORY_KEY_VISIBILITY,
+				CATEGORY_KEY_TOC,
+				CATEGORY_KEY_BOOKMARK,
+				CATEGORY_KEY_COMMENTS,
+				CATEGORY_KEY_USERPROPERTIES,
+				CATEGORY_KEY_NAMEDEXPRESSIONS,
+				CATEGORY_KEY_ADVANCEPROPERTY,
+		} ) );
+
 		if ( AttributesUtil.containCategory( AttributesUtil.EVENTHANDLER ) )
 		{
-			provider.addCategory( CATEGORY_KEY_EVENTHANDLER,
+			customHolder.insertBefore( null,
+					AttributesUtil.EVENTHANDLER,
 					AttributesUtil.getCategoryDisplayName( AttributesUtil.EVENTHANDLER ),
-					ChartEventHandlerPage.class,
-					provider.getCategoryIndex( CategoryProviderFactory.CATEGORY_KEY_ADVANCEPROPERTY ) );
+					ChartEventHandlerPage.class );
+
+			categories.add( categories.size( ) - 1, null );
 		}
-		return provider;
+
+		return AttributesUtil.createCategoryProvider( categories.toArray( new String[categories.size( )] ),
+				customHolder.getKeys( ),
+				customHolder.getLabels( ),
+				customHolder.getClasses( ) );
 	}
 }

@@ -66,13 +66,11 @@ import org.eclipse.ui.part.Page;
 /**
  * Attribute view shows the attributes of the selected control. If no control is
  * selected, it will show no attributes and a sentence describing there is
- * nothing to show for the selected object.
- * </p>
- * Multi-selection of control of the same type will normally show the same UI as
- * if only one control was selected. Some of the values may be gray or blank if
- * the selected controls have different attributes. If the controls have
- * different type, nothing will be shown in the attributes view.
- * </P>
+ * nothing to show for the selected object. </p> Multi-selection of control of
+ * the same type will normally show the same UI as if only one control was
+ * selected. Some of the values may be gray or blank if the selected controls
+ * have different attributes. If the controls have different type, nothing will
+ * be shown in the attributes view. </P>
  */
 public class AttributeViewPage extends Page implements
 		INullSelectionListener,
@@ -84,7 +82,7 @@ public class AttributeViewPage extends Page implements
 	 * WorkbenchPart ID list that attribute view interests in selection changing
 	 * occupied in these WorkbenchParts.
 	 */
-	protected List PART_IDS = Arrays.asList( new String[]{
+	protected List<String> PART_IDS = Arrays.asList( new String[]{
 			"org.eclipse.birt.report.designer.ui.editors.ReportEditor",//$NON-NLS-1$
 			"org.eclipse.birt.report.designer.ui.editors.LibraryReportEditor",//$NON-NLS-1$
 			"org.eclipse.birt.report.designer.ui.editors.TemplateEditor",//$NON-NLS-1$
@@ -131,7 +129,7 @@ public class AttributeViewPage extends Page implements
 								Messages.getString( "AttributeView.dialg.Message.Yes" ),//$NON-NLS-1$
 								Messages.getString( "AttributeView.dialg.Message.No" )//$NON-NLS-1$
 						},
-						0 );//$NON-NLS-1$
+						0 );
 				int ret = prefDialog.open( );
 
 				if ( !( ret == 2 ) )
@@ -184,12 +182,10 @@ public class AttributeViewPage extends Page implements
 	 * <ol>
 	 * <li>Create one or more controls within the parent.</li>
 	 * <li>Set the parent layout as needed.</li>
-	 * <li>Register any global actions with the <code>IActionService</code>.
-	 * </li>
-	 * <li>Register any popup menus with the <code>IActionService</code>.
-	 * </li>
-	 * <li>Register a selection provider with the
-	 * <code>ISelectionService</code> (optional).</li>
+	 * <li>Register any global actions with the <code>IActionService</code>.</li>
+	 * <li>Register any popup menus with the <code>IActionService</code>.</li>
+	 * <li>Register a selection provider with the <code>ISelectionService</code>
+	 * (optional).</li>
 	 * </ol>
 	 * </p>
 	 * 
@@ -243,16 +239,14 @@ public class AttributeViewPage extends Page implements
 	private void setPartName( )
 	{
 		String typeInfo = builder.getTypeInfo( );
-		IViewPart view = UIUtil.getView( "org.eclipse.birt.report.designer.ui.attributes.AttributeView" ); //$NON-NLS-1$
+		IViewPart view = UIUtil.getView( AttributeView.ID );
 		if ( view != null && typeInfo != null )
 			( (AttributeView) view ).setPartName( typeInfo );
 	}
 
 	private boolean hasLocalProperties( ISelection selection )
 	{
-		GroupElementHandle groupHandle = DEUtil.getGroupElementHandle( getModelList( selection ) );
-
-		return groupHandle.hasLocalPropertiesForExtendedElements( );
+		return hasLocalProperties( getModelList( selection ) );
 	}
 
 	private boolean hasLocalProperties( List modelList )
@@ -312,9 +306,9 @@ public class AttributeViewPage extends Page implements
 	 * <p>
 	 * This method is called when the selection changes from one to a
 	 * <code>non-null</code> value, but not when the selection changes to
-	 * <code>null</code>. If there is a requirement to be notified in the
-	 * latter scenario, implement <code>INullSelectionListener</code>. The
-	 * event will be posted through this method.
+	 * <code>null</code>. If there is a requirement to be notified in the latter
+	 * scenario, implement <code>INullSelectionListener</code>. The event will
+	 * be posted through this method.
 	 * </p>
 	 * 
 	 * @param part
@@ -368,7 +362,7 @@ public class AttributeViewPage extends Page implements
 
 		// remove the mediator listener
 		ReportMediator.removeGlobalColleague( this );
-		
+
 		super.dispose( );
 	}
 
@@ -443,7 +437,7 @@ public class AttributeViewPage extends Page implements
 					if ( numParams == 0 )
 					{
 						// This is a no-argument selectAll method.
-						methodToExecute.invoke( focusControl, null );
+						methodToExecute.invoke( focusControl, (Object[]) null );
 						focusControl.notifyListeners( SWT.Selection, null );
 
 					}
@@ -453,7 +447,7 @@ public class AttributeViewPage extends Page implements
 						final Method textLimitAccessor = focusControl.getClass( )
 								.getMethod( "getTextLimit", NO_PARAMETERS ); //$NON-NLS-1$
 						final Integer textLimit = (Integer) textLimitAccessor.invoke( focusControl,
-								null );
+								(Object[]) null );
 						final Object[] parameters = {
 							new Point( 0, textLimit.intValue( ) )
 						};
@@ -533,12 +527,12 @@ public class AttributeViewPage extends Page implements
 				try
 				{
 					final Class focusManagerClass = Class.forName( "javax.swing.FocusManager" ); //$NON-NLS-1$
-					final Method focusManagerGetCurrentManagerMethod = focusManagerClass.getMethod( "getCurrentManager", null ); //$NON-NLS-1$
+					final Method focusManagerGetCurrentManagerMethod = focusManagerClass.getMethod( "getCurrentManager", (Class[]) null ); //$NON-NLS-1$
 					final Object focusManager = focusManagerGetCurrentManagerMethod.invoke( focusManagerClass,
-							null );
-					final Method focusManagerGetFocusOwner = focusManagerClass.getMethod( "getFocusOwner", null ); //$NON-NLS-1$
+							(Object[]) null );
+					final Method focusManagerGetFocusOwner = focusManagerClass.getMethod( "getFocusOwner", (Class[]) null ); //$NON-NLS-1$
 					final Object focusComponent = focusManagerGetFocusOwner.invoke( focusManager,
-							null );
+							(Object[]) null );
 					final Class clazz = focusComponent.getClass( );
 
 					try
@@ -578,7 +572,11 @@ public class AttributeViewPage extends Page implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest(org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest)
+	 * @see
+	 * org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest
+	 * (
+	 * org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
+	 * )
 	 */
 	List requesList = Collections.EMPTY_LIST;
 
@@ -622,9 +620,9 @@ public class AttributeViewPage extends Page implements
 	 * <p>
 	 * This method is called when the selection changes from one to a
 	 * <code>non-null</code> value, but not when the selection changes to
-	 * <code>null</code>. If there is a requirement to be notified in the
-	 * latter scenario, implement <code>INullSelectionListener</code>. The
-	 * event will be posted through this method.
+	 * <code>null</code>. If there is a requirement to be notified in the latter
+	 * scenario, implement <code>INullSelectionListener</code>. The event will
+	 * be posted through this method.
 	 * </p>
 	 * 
 	 * @param part
@@ -720,8 +718,8 @@ public class AttributeViewPage extends Page implements
 		{
 			if ( groupElementHandle.getElements( ).get( 0 ) instanceof DesignElementHandle )
 			{
-				return DEUtil.getDisplayLabel( ( (DesignElementHandle) groupElementHandle.getElements( )
-						.get( 0 ) ) );
+				return DEUtil.getDisplayLabel( groupElementHandle.getElements( )
+						.get( 0 ) );
 			}
 			return "";//$NON-NLS-1$
 		}

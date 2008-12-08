@@ -14,12 +14,10 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.views.attributes.ICategoryPage;
 import org.eclipse.birt.report.designer.ui.views.attributes.TabPage;
-import org.eclipse.jface.util.Assert;
 
 /**
- * 
+ * CategoryPage
  */
-
 public class CategoryPage implements ICategoryPage
 {
 
@@ -27,11 +25,14 @@ public class CategoryPage implements ICategoryPage
 	private Class pageClass;
 	private String categoryKey;
 
-	public CategoryPage( String categoryKey,String displayLabel, Class pageClass )
+	public CategoryPage( String categoryKey, String displayLabel,
+			Class pageClass )
 	{
 		this.categoryKey = categoryKey;
 		this.displayLabel = displayLabel;
-		Assert.isLegal( TabPage.class.isAssignableFrom( pageClass ) );
+
+		assert TabPage.class.isAssignableFrom( pageClass );
+
 		this.pageClass = pageClass;
 	}
 
@@ -47,7 +48,7 @@ public class CategoryPage implements ICategoryPage
 	 * @see org.eclipse.birt.report.designer.ui.views.attributes.ICategoryPage#createPage(org.eclipse.swt.widgets.Composite,
 	 *      int)
 	 */
-	public TabPage createPage(  )
+	public TabPage createPage( )
 	{
 		try
 		{
@@ -61,7 +62,6 @@ public class CategoryPage implements ICategoryPage
 		}
 	}
 
-	
 	public String getCategoryKey( )
 	{
 		return categoryKey;

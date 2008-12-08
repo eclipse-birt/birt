@@ -11,11 +11,9 @@
 
 package org.eclipse.birt.report.designer.ui.views.attributes;
 
-
 /**
- * 
+ * Represents for the page for each category
  */
-
 public interface ICategoryPage
 {
 
@@ -38,7 +36,10 @@ public interface ICategoryPage
 	 */
 
 	public TabPage createPage( );
-	
+
+	/**
+	 * @return Returns the category key name
+	 */
 	public String getCategoryKey( );
 
 }

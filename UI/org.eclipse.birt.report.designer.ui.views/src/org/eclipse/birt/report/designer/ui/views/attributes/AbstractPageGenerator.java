@@ -2,7 +2,6 @@
 package org.eclipse.birt.report.designer.ui.views.attributes;
 
 import java.util.HashMap;
-import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
@@ -11,15 +10,14 @@ import org.eclipse.swt.widgets.Composite;
 public class AbstractPageGenerator extends CategoryPageGenerator
 {
 
-	protected List input;
-	protected HashMap itemMap = new HashMap( );
+	protected HashMap<CTabItem, Object> itemMap = new HashMap<CTabItem, Object>( );
 
 	protected void createTabItem( int index, String itemKey )
 	{
 		if ( tabFolder.getItemCount( ) <= index )
 		{
 			CTabItem tabItem = new CTabItem( tabFolder, SWT.NONE );
-			tabItem.setText( itemKey ); //$NON-NLS-1$
+			tabItem.setText( itemKey );
 			itemMap.put( tabItem, null );
 		}
 	}
@@ -31,7 +29,7 @@ public class AbstractPageGenerator extends CategoryPageGenerator
 		CTabItem tabItem = new CTabItem( tabFolder,
 				SWT.NONE,
 				getItemIndex( getItemIndex ) + 1 );
-		tabItem.setText( itemKey ); //$NON-NLS-1$
+		tabItem.setText( itemKey );
 		itemMap.put( tabItem, null );
 	}
 
