@@ -50,4 +50,12 @@ public interface IDataPointEntry
 	 */
 	String getFormattedString( String type, FormatSpecifier formatter,
 			ULocale locale );
+
+	/**
+	 * Returns if the DataPointEntry is valid.
+	 * 
+	 * @return
+	 * @since 2.5.0
+	 */
+	boolean isValid( );
 }
