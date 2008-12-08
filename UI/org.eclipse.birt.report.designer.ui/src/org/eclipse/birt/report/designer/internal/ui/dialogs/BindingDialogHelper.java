@@ -290,11 +290,11 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 						isAggregate( ) ? DEFAULT_AGGREGATION_NAME
 								: DEFAULT_ITEM_NAME );
 				setName( this.newBinding.getName( ) );
-			}
 
-			if ( !isAggregate( ) )
-			{
-				setTypeSelect( getDataTypeDisplayName( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) );
+				if ( !isAggregate( ) )
+				{
+					setTypeSelect( getDataTypeDisplayName( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) );
+				}
 			}
 		}
 		else
@@ -361,7 +361,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		{
 			if ( isRef )
 			{
-				this.cmbName.setEnabled( false );
+				this.cmbName.setEnabled( true );
 			}
 			else
 			{

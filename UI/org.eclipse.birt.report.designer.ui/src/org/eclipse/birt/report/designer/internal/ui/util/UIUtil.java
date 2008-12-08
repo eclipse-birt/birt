@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.runtime.GUIException;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.DeleteWarningDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportLibraryDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
@@ -75,7 +76,10 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ParameterGroupHandle;
+import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
@@ -87,6 +91,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
+import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.core.resources.IFile;
@@ -2015,4 +2020,122 @@ public class UIUtil
 			}
 		}
 	}
+	
+	
+	public static final String CONFIRM_PARAM_DELETE_TITLE = Messages.getString( "DefaultNodeProvider.ParameterGroup.ConfirmTitle" ); //$NON-NLS-1$
+
+	public static final String CONFIRM_PARAM_DELETE_MESSAGE = Messages.getString( "DefaultNodeProvider.ParameterGroup.ConfirmMessage" ); //$NON-NLS-1$
+
+	public static final String DLG_CONFIRM_MSG = Messages.getString( "DefaultNodeProvider.Dlg.Confirm" ); //$NON-NLS-1$
+
+	public static final String DLG_HAS_FOLLOWING_CLIENTS_MSG = Messages.getString( "DefaultNodeProvider.Tree.Clients" ); //$NON-NLS-1$
+
+	public static final String DLG_REFERENCE_FOUND_TITLE = Messages.getString( "DefaultNodeProvider.Tree.Reference" ); //$NON-NLS-1$
+
+	
+	/**
+	 * Test if the passed object can be delete.
+	 * This method will check whether the deleted elements are referenced by others, 
+	 * if is, a confirm dialog will popup.
+	 * 
+	 * From DeleteHandler.
+	 * 
+	 * @param object
+	 * @return
+	 */
+	public static boolean canDelete( Object object )
+	{
+		if ( object instanceof IStructuredSelection )
+		{
+			for ( Iterator itor = ( (IStructuredSelection) object ).iterator( ); itor.hasNext( ); )
+			{
+				Object obj = itor.next( );
+				if ( !canDelete( obj ) )
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+		else if ( object instanceof List )
+		{
+			for ( Iterator itor = ( (List) object ).iterator( ); itor.hasNext( ); )
+			{
+				Object obj = itor.next( );
+				if ( !canDelete( obj ) )
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+		else if ( object instanceof EditPart )
+		{
+			return canDelete( ((EditPart)object).getModel() );
+		}
+		else if ( object instanceof DesignElementHandle )
+		{
+			DesignElementHandle handle = (DesignElementHandle) object;
+			if ( handle instanceof ParameterGroupHandle )
+			{
+				if ( ( (ParameterGroupHandle) handle ).getParameters( )
+						.getCount( ) > 0 )
+				{
+					if ( !MessageDialog.openQuestion( PlatformUI.getWorkbench( )
+							.getDisplay( )
+							.getActiveShell( ),
+							CONFIRM_PARAM_DELETE_TITLE,
+							CONFIRM_PARAM_DELETE_MESSAGE ) )
+					{
+						return false;
+					}
+					for ( Iterator iter = ( (ParameterGroupHandle) handle ).getParameters( )
+							.iterator( ); iter.hasNext( ); )
+					{
+						Object obj = iter.next( );
+						if ( obj instanceof ParameterHandle )
+						{
+							ParameterHandle parameter = (ParameterHandle) obj;
+							ConfigVariable cv = parameter.getModuleHandle( )
+									.findConfigVariable( parameter.getName( ) );
+							try
+							{
+								if ( cv != null )
+								{
+									parameter.getModuleHandle( )
+											.getPropertyHandle( ReportDesignHandle.CONFIG_VARS_PROP )
+											.removeItem( cv );
+								}
+							}
+							catch ( SemanticException e )
+							{
+								ExceptionHandler.handle( e );
+							}
+						}
+					}
+				}
+			}
+			ArrayList referenceList = new ArrayList( );
+			for ( Iterator itor = handle.clientsIterator( ); itor.hasNext( ); )
+			{
+				referenceList.add( itor.next( ) );
+			}
+			if ( !referenceList.isEmpty( ) )
+			{
+				DeleteWarningDialog dialog = new DeleteWarningDialog( PlatformUI.getWorkbench( )
+						.getDisplay( )
+						.getActiveShell( ),
+						DLG_REFERENCE_FOUND_TITLE,
+						referenceList );
+				dialog.setPreString( DEUtil.getDisplayLabel( handle )
+						+ DLG_HAS_FOLLOWING_CLIENTS_MSG );
+				dialog.setSufString( DLG_CONFIRM_MSG );
+				return dialog.open( ) != Dialog.CANCEL;
+			}
+			return true;
+		}
+		return true;
+	}
+
+
 }

@@ -16,9 +16,19 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
+import org.eclipse.birt.report.designer.internal.ui.command.DeleteHandler;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.DeleteWarningDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ParameterGroupHandle;
+import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditDomain;
@@ -61,6 +71,7 @@ import org.eclipse.gef.ui.views.palette.PaletteViewerPage;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
@@ -272,7 +283,9 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.gef.ui.palette.PaletteViewerProvider#createPaletteViewer(org.eclipse.swt.widgets.Composite)
+			 * @see
+			 * org.eclipse.gef.ui.palette.PaletteViewerProvider#createPaletteViewer
+			 * (org.eclipse.swt.widgets.Composite)
 			 */
 			public PaletteViewer createPaletteViewer( Composite parent )
 			{
@@ -325,6 +338,14 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 				}
 				return new DeleteCommand( list.toArray( ) );
 			}
+
+			@Override
+			public void run( )
+			{
+				if ( UIUtil.canDelete( getSelectedObjects( ) ) )
+					super.run( );
+			}
+
 		} );
 
 		SaveAction saveAction = new SaveAction( this );
@@ -624,8 +645,8 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	}
 
 	/**
-	 * Adds an action to this editor's <code>ActionRegistry</code>. (This is
-	 * a helper method.)
+	 * Adds an action to this editor's <code>ActionRegistry</code>. (This is a
+	 * helper method.)
 	 * 
 	 * @param action
 	 *            the action to add.
@@ -670,8 +691,8 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	 * Adds an <code>CommandStack</code> action to this editor.
 	 * 
 	 * <p>
-	 * <code>CommandStack</code> actions are actions that depend and work on
-	 * the <code>CommandStack</code>.
+	 * <code>CommandStack</code> actions are actions that depend and work on the
+	 * <code>CommandStack</code>.
 	 * 
 	 * @param action
 	 *            the <code>CommandStack</code> action
