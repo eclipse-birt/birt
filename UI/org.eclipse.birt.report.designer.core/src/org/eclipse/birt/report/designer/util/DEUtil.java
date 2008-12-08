@@ -114,9 +114,9 @@ public class DEUtil
 	 */
 	public static final String ELEMENT_LABELCONTENT_PROPERTY = "labelContent"; //$NON-NLS-1$
 
-	private static HashMap propertiesMap = new HashMap( );
+	private static HashMap<String, String> propertiesMap = new HashMap<String, String>( );
 
-	private static ArrayList notSupportList = new ArrayList( );
+	private static ArrayList<IElementDefn> notSupportList = new ArrayList<IElementDefn>( );
 
 	private static int defaultFontSite = -1;
 
@@ -647,7 +647,7 @@ public class DEUtil
 	{
 		if ( key != null )
 		{
-			return (String) propertiesMap.get( key );
+			return propertiesMap.get( key );
 		}
 		return null;
 	}

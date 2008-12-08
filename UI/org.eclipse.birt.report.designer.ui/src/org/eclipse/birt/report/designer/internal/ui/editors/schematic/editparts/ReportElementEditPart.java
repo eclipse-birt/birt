@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.ReportDesignHandleAdapter;
@@ -34,8 +33,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.util.ColorManager;
-import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.designer.util.ImageManager;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
@@ -64,7 +61,6 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.requests.SelectionRequest;
 import org.eclipse.gef.tools.DragEditPartsTracker;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
@@ -145,7 +141,6 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 			}
 			catch ( RuntimeException e )
 			{
-				// TODO Auto-generated catch block
 				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 			setEdited( false );
@@ -608,8 +603,6 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		IReportElementFigure figure = (IReportElementFigure) getFigure( );
 
 		String backGroundImage = getBackgroundImage( handle );
-		Object[] backGroundPosition = getBackgroundPosition( handle );
-		int backGroundRepeat = getBackgroundRepeat( handle );
 
 		if ( backGroundImage == null )
 		{
@@ -637,6 +630,9 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 			}
 
 			figure.setImage( image );
+
+			Object[] backGroundPosition = getBackgroundPosition( handle );
+			int backGroundRepeat = getBackgroundRepeat( handle );
 
 			figure.setRepeat( backGroundRepeat );
 

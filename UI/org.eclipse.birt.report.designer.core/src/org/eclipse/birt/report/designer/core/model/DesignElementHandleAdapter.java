@@ -298,7 +298,6 @@ public abstract class DesignElementHandleAdapter
 	public int getForegroundColor( DesignElementHandle handle )
 	{
 		Object obj = handle.getProperty( StyleHandle.COLOR_PROP );
-		int color = handle.getPropertyHandle( StyleHandle.COLOR_PROP ).getIntValue( );
 
 		if ( obj == null )
 		{
@@ -306,6 +305,9 @@ public abstract class DesignElementHandleAdapter
 			return SWT.COLOR_LIST_FOREGROUND;
 		}
 
+		//TODO optimize to not get value twice
+		int color = handle.getPropertyHandle( StyleHandle.COLOR_PROP ).getIntValue( );
+		
 //		if ( obj instanceof String )
 //		{
 //			return ColorUtil.parseColor( (String) obj );
@@ -325,7 +327,6 @@ public abstract class DesignElementHandleAdapter
 	public int getBackgroundColor( DesignElementHandle handle )
 	{
 		Object obj = handle.getProperty( StyleHandle.BACKGROUND_COLOR_PROP );
-		int color = handle.getPropertyHandle( StyleHandle.BACKGROUND_COLOR_PROP ).getIntValue( );
 		
 		if ( obj == null )
 		{
@@ -333,6 +334,9 @@ public abstract class DesignElementHandleAdapter
 			return SWT.COLOR_LIST_BACKGROUND;
 		}
 
+		//TODO optimize to not get value twice
+		int color = handle.getPropertyHandle( StyleHandle.BACKGROUND_COLOR_PROP ).getIntValue( );
+		
 //		if ( obj instanceof String )
 //		{
 //			return ColorUtil.parseColor( (String) obj );
