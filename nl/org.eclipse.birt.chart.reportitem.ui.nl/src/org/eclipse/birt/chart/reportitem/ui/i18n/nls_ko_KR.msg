@@ -2,6 +2,9 @@ ChartAggregationCellViewProvider.Chart.DisplayName=차트
 ChartDataSetBindingSheetImpl.Lbl.SelectDataBinding=데이터 바인딩 선택:
 ChartDataSetBindingSheetImpl.Title.SheetTitle=데이터 - 데이터 집합 선택
 
+ChartPageGenerator.List.General=General
+ChartPageGenerator.List.AltText=Alt Text
+
 ChartDataBindingPage.Lbl.Parameter=매개 변수
 ChartDataBindingPage.Lbl.DataType=데이터 형식
 ChartDataBindingPage.Lbl.Value=값

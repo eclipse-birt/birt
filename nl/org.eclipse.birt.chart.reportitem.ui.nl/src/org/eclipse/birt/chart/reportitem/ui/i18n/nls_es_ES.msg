@@ -2,6 +2,9 @@ ChartAggregationCellViewProvider.Chart.DisplayName=Diagrama
 ChartDataSetBindingSheetImpl.Lbl.SelectDataBinding=Seleccionar enlace de datos:
 ChartDataSetBindingSheetImpl.Title.SheetTitle=Datos - Seleccionar conjunto de datos
 
+ChartPageGenerator.List.General=General
+ChartPageGenerator.List.AltText=Alt Text
+
 ChartDataBindingPage.Lbl.Parameter=Parámetros
 ChartDataBindingPage.Lbl.DataType=Tipo de datos
 ChartDataBindingPage.Lbl.Value=Valor

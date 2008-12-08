@@ -2,6 +2,9 @@ ChartAggregationCellViewProvider.Chart.DisplayName=图表
 ChartDataSetBindingSheetImpl.Lbl.SelectDataBinding=选择数据绑定:
 ChartDataSetBindingSheetImpl.Title.SheetTitle=数据 - 选择数据集
 
+ChartPageGenerator.List.General=General
+ChartPageGenerator.List.AltText=Alt Text
+
 ChartDataBindingPage.Lbl.Parameter=参数
 ChartDataBindingPage.Lbl.DataType=数据类型
 ChartDataBindingPage.Lbl.Value=值

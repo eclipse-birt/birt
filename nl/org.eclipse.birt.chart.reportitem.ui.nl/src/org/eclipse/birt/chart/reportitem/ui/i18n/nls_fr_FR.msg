@@ -2,6 +2,9 @@ ChartAggregationCellViewProvider.Chart.DisplayName=Graphique
 ChartDataSetBindingSheetImpl.Lbl.SelectDataBinding=Sélectionner la liaison de données :
 ChartDataSetBindingSheetImpl.Title.SheetTitle=Données - Sélectionner un jeu de données
 
+ChartPageGenerator.List.General=General
+ChartPageGenerator.List.AltText=Alt Text
+
 ChartDataBindingPage.Lbl.Parameter=Paramètres
 ChartDataBindingPage.Lbl.DataType=Type de données
 ChartDataBindingPage.Lbl.Value=Valeur
