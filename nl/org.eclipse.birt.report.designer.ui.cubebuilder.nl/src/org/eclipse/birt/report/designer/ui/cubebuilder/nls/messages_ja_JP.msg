@@ -141,6 +141,7 @@ NewCubeAction.DataCube=データキューブ
 ###########################################################
 #CubePageGenerator properties
 PrimaryDatasetDescriptorProvider.Display.Primary.Dataset.Name=プライマリデータセット :
+CubePageGenerator.List.General=General
 
 ############################################################
 #FilterListDialog properties

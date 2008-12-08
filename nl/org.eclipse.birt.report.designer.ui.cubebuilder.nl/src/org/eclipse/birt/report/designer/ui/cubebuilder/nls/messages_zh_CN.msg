@@ -141,6 +141,7 @@ NewCubeAction.DataCube=多维数据集
 ###########################################################
 #CubePageGenerator properties
 PrimaryDatasetDescriptorProvider.Display.Primary.Dataset.Name=主数据集:
+CubePageGenerator.List.General=General
 
 ############################################################
 #FilterListDialog properties
