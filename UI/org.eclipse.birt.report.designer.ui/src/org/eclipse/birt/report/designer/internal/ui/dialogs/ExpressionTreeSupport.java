@@ -320,9 +320,9 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 		{
 			Object obj = iter.next( );
 
-			if ( obj instanceof ExpressionFilter )
+			if ( obj instanceof org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter )
 			{
-				if ( !( (ExpressionFilter) obj ).select( this, treeName ) )
+				if ( !( (org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter) obj ).select( this, treeName ) )
 				{
 					return false;
 				}

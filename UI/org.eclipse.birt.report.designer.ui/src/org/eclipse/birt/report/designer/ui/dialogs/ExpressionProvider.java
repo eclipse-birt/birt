@@ -27,12 +27,12 @@ import org.eclipse.birt.core.script.functionservice.impl.FunctionProvider;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.data.ui.aggregation.AggregationUtil;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IIndexInfo;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.designer.ui.expressions.ISortableExpressionProvider;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.INodeProvider;
@@ -61,8 +61,8 @@ import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * The default implementation of IExpressionProvider.
- * <br><p>
+ * The default implementation of IExpressionProvider. <br>
+ * <p>
  * NOTE: This class should not be extended for those expression provider user
  * extensions. Instead, they should extend
  * <code>org.eclipse.birt.report.designer.ui.expressions.AbstractExpressionProvider</code>
@@ -1221,6 +1221,11 @@ public class ExpressionProvider implements ISortableExpressionProvider
 	 */
 	public void addFilter( ExpressionFilter filter )
 	{
+		if ( filter == null )
+		{
+			return;
+		}
+
 		if ( filterList == null )
 		{
 			filterList = new ArrayList<ExpressionFilter>( );

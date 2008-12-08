@@ -26,6 +26,9 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
+/**
+ * DataColumnBindingDialog
+ */
 public class DataColumnBindingDialog extends BaseDialog
 {
 
@@ -111,6 +114,13 @@ public class DataColumnBindingDialog extends BaseDialog
 
 		dialogHelper = (IBindingDialogHelper) ElementAdapterManager.getAdapter( DEUtil.getBindingHolder( bindingObject ),
 				IBindingDialogHelper.class );
+
+		if ( dialogHelper == null )
+		{
+			// use default helper.
+			dialogHelper = new BindingDialogHelper( );
+		}
+
 		if ( !bindSelf )
 			dialogHelper.setBindingHolder( DEUtil.getBindingHolder( bindingObject ) );
 		else

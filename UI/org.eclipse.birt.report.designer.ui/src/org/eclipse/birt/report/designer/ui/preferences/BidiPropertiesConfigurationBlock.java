@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.designer.ui.preferences;
 
-import org.eclipse.birt.report.designer.internal.ui.util.PixelConverter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.util.PixelConverter;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;

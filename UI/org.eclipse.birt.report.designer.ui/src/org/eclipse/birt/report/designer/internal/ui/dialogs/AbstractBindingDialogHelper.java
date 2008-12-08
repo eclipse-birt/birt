@@ -17,9 +17,8 @@ import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 
 /**
- * 
+ * AbstractBindingDialogHelper
  */
-
 public abstract class AbstractBindingDialogHelper implements
 		IBindingDialogHelper
 {

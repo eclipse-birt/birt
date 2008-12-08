@@ -217,7 +217,7 @@ public class ImageBuilder extends BaseDialog
 		if ( inputImage == null )
 		{
 			inputImage = DesignElementFactory.getInstance( getModuleHandle( ) ).newImage( null );
-			setOKLabel( DLG_INSERT_BUTTON_MSG );
+			setOkButtonText( DLG_INSERT_BUTTON_MSG );
 		}
 
 		Composite topCompostie = (Composite) super.createDialogArea( parent );
@@ -695,7 +695,7 @@ public class ImageBuilder extends BaseDialog
 		inputImage = (ImageHandle) input;
 		if ( DesignChoiceConstants.IMAGE_REF_TYPE_NONE.equals( inputImage.getSource( ) ) )
 		{
-			setOKLabel( DLG_INSERT_BUTTON_MSG );
+			setOkButtonText( DLG_INSERT_BUTTON_MSG );
 		}
 	}
 

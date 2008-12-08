@@ -830,11 +830,11 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		{
 			if ( cmbName.getText( ) == null || cmbName.getText( ).equals( "" ) ) //$NON-NLS-1$
 			{
-				dialog.getOkButton( ).setEnabled( false );
+				dialog.setCanFinish( false );
 			}
 			else
 			{
-				dialog.getOkButton( ).setEnabled( true );
+				dialog.setCanFinish( true );
 			}
 			return;
 		}
@@ -844,14 +844,13 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 						.trim( )
 						.equals( "" ) ) ) //$NON-NLS-1$
 		{
-			if ( dialog.getOkButton( ) != null )
-				dialog.getOkButton( ).setEnabled( false );
+			dialog.setCanFinish( false );
 			return;
 		}
 
 		if ( cmbType.getText( ) == null || cmbType.getText( ).equals( "" ) )
 		{
-			dialog.getOkButton( ).setEnabled( false );
+			dialog.setCanFinish( false );
 			return;
 		}
 
@@ -864,8 +863,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				ComputedColumnHandle computedColumn = (ComputedColumnHandle) iterator.next( );
 				if ( computedColumn.getName( ).equals( txtName.getText( ) ) )
 				{
-					if ( dialog.getOkButton( ) != null )
-						dialog.getOkButton( ).setEnabled( false );
+					dialog.setCanFinish( false );
 					this.messageLine.setText( Messages.getFormattedString( "BindingDialogHelper.error.nameduplicate", //$NON-NLS-1$
 							new Object[]{
 								txtName.getText( )
@@ -884,11 +882,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 						.trim( )
 						.equals( "" ) ) ) //$NON-NLS-1$
 		{
-			if ( dialog.getOkButton( ) != null )
-			{
-				dialog.getOkButton( ).setEnabled( false );
-				return;
-			}
+			dialog.setCanFinish( false );
+			return;
 		}
 
 		// check non optional parameter is not empty
@@ -917,10 +912,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 								paramValue = ( (Combo) control ).getText( );
 							}
 							if ( paramValue == null
-									|| paramValue.trim( ).equals( "" ) //$NON-NLS-1$
-									&& dialog.getOkButton( ) != null )
+									|| paramValue.trim( ).equals( "" ) ) //$NON-NLS-1$
 							{
-								dialog.getOkButton( ).setEnabled( false );
+								dialog.setCanFinish( false );
 								return;
 							}
 						}
@@ -932,8 +926,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				// TODO show error message in message panel
 			}
 		}
-		if ( dialog.getOkButton( ) != null )
-			dialog.getOkButton( ).setEnabled( true );
+		dialog.setCanFinish( true );
 	}
 
 	/**

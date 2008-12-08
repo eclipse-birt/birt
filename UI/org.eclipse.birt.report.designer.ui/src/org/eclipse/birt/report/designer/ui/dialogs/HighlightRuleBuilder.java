@@ -19,8 +19,8 @@ import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
+import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
+import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.PreviewLabel;
 import org.eclipse.birt.report.designer.internal.ui.extension.IUseCubeQueryList;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.MultiValueCombo;
@@ -29,12 +29,12 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.HighlightHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.AttributeConstant;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.HighlightHandleProvider;
 import org.eclipse.birt.report.designer.ui.widget.ColorBuilder;
 import org.eclipse.birt.report.designer.ui.widget.FontSizeBuilder;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
@@ -106,7 +106,6 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Dialog for adding or editing highlight Rule.
  */
-
 public class HighlightRuleBuilder extends BaseDialog
 {
 
@@ -259,7 +258,6 @@ public class HighlightRuleBuilder extends BaseDialog
 
 	private Combo operator;
 
-	// private ExpressionValue value1, value2;
 	protected Composite valueListComposite;
 	protected MultiValueCombo addExpressionValue;
 	protected Button addBtn, editBtn, delBtn, delAllBtn;

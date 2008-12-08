@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.util;
 
+import org.eclipse.birt.report.designer.ui.widget.WidgetConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
@@ -26,49 +27,8 @@ import org.eclipse.swt.widgets.Text;
  * WidgetUtil defines constant values to custom control size and provides common
  * layout mechanism.
  */
-public class WidgetUtil
+public class WidgetUtil implements WidgetConstants
 {
-
-	/**
-	 * Default height of Text control
-	 */
-	public final static int TEXT_HEIGHT = 12;
-
-	/**
-	 * Default width of Text control
-	 */
-	public final static int TEXT_WIDTH = 40;
-
-	/**
-	 * Default Height of Combo control
-	 */
-	public final static int COMBO_HEIGHT = 8;
-
-	/**
-	 * Default width of Combo control
-	 */
-	public final static int COMBO_WIDTH = 18;
-
-	/**
-	 * The number of pixels between the edge of one control and the edge of its
-	 * neighbouring control.
-	 */
-	public final static int SPACING = 8;
-
-	/**
-	 * The height of margin.
-	 */
-	public final static int MARGIN_HEIGHT = 7;
-
-	/**
-	 * The width of margin.
-	 */
-	public final static int MARGIN_WIDTH = 7;
-
-	/**
-	 * The minimum width for a text control
-	 */
-	public final static int MIN_TEXT_WIDTH = 80;
 
 	/**
 	 * Creates a default GridLayout layout Manager.
@@ -80,10 +40,10 @@ public class WidgetUtil
 	public static GridLayout createGridLayout( int columns )
 	{
 		GridLayout layout = new GridLayout( columns, false );
-		layout.marginHeight = WidgetUtil.MARGIN_HEIGHT;
-		layout.marginWidth = WidgetUtil.MARGIN_WIDTH;
-		layout.horizontalSpacing = WidgetUtil.SPACING;
-		layout.verticalSpacing = WidgetUtil.SPACING;
+		layout.marginHeight = MARGIN_HEIGHT;
+		layout.marginWidth = MARGIN_WIDTH;
+		layout.horizontalSpacing = SPACING;
+		layout.verticalSpacing = SPACING;
 		return layout;
 	}
 
@@ -136,9 +96,9 @@ public class WidgetUtil
 	public static FormLayout createFormLayout( )
 	{
 		FormLayout layout = new FormLayout( );
-		layout.marginHeight = WidgetUtil.MARGIN_HEIGHT;
-		layout.marginWidth = WidgetUtil.MARGIN_WIDTH;
-		layout.spacing = WidgetUtil.SPACING;
+		layout.marginHeight = MARGIN_HEIGHT;
+		layout.marginWidth = MARGIN_WIDTH;
+		layout.spacing = SPACING;
 		return layout;
 	}
 

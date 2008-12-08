@@ -194,18 +194,23 @@ public class UIUtil
 	}
 
 	/**
-	 * Returns the maximum length in pixels of given strings in a control.
+	 * Returns the maximum length in pixels of given strings in a control. The
+	 * string value in the array should not be null.
 	 * 
 	 * @return the length in pixels
 	 */
 	public static int getMaxStringWidth( String[] strArray, Control control )
 	{
 		int maxWidth = 0;
+		GC gc = new GC( control );
+
 		for ( int i = 0; i < strArray.length; i++ )
 		{
-			int width = getStringWidth( strArray[i], control );
+			int width = gc.textExtent( strArray[i] ).x;
 			maxWidth = maxWidth >= width ? maxWidth : width;
 		}
+
+		gc.dispose( );
 		return maxWidth;
 	}
 
@@ -473,7 +478,6 @@ public class UIUtil
 		}
 		if ( shell == null )
 		{
-			// XXX potential resource leak problem, should never reach here
 			return new Shell( );
 		}
 		return shell;

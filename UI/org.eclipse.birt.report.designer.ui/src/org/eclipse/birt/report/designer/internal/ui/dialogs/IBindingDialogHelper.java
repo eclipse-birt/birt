@@ -20,12 +20,21 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * A dialog helper to create binding dialog
  */
-
 public interface IBindingDialogHelper
 {
 
+	/**
+	 * Set the binding holder
+	 * 
+	 * @param bindingHolder
+	 */
 	void setBindingHolder( ReportItemHandle bindingHolder );
 
+	/**
+	 * Set the binding content.
+	 * 
+	 * @param binding
+	 */
 	void setBinding( ComputedColumnHandle binding );
 
 	/**

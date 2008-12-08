@@ -267,12 +267,12 @@ public class ExceptionHandler
 	 * @param style
 	 *            the style of the message box
 	 */
-	public static void openMessageBox( String title, String message, int style )
+	public static int openMessageBox( String title, String message, int style )
 	{
 		MessageBox box = new MessageBox( UIUtil.getDefaultShell( ), style );
 		box.setText( title );
 		box.setMessage( message );
-		box.open( );
+		return box.open( );
 	}
 
 	/**
@@ -284,9 +284,9 @@ public class ExceptionHandler
 	 * @param errorMessage
 	 *            the message displayed in the message box
 	 */
-	public static void openErrorMessageBox( String title, String errorMessage )
+	public static int openErrorMessageBox( String title, String errorMessage )
 	{
-		openMessageBox( title, errorMessage, SWT.ICON_ERROR );
+		return openMessageBox( title, errorMessage, SWT.ICON_ERROR );
 	}
 
 }

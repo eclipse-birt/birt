@@ -1451,7 +1451,7 @@ public class TextEditor extends BaseDialog
 		}
 	}
 
-	protected boolean remLastSize( )
+	protected boolean needRememberLastSize( )
 	{
 		return true;
 	}

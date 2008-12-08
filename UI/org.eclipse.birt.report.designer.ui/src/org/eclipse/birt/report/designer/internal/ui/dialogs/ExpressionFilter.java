@@ -11,67 +11,15 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
-import java.util.ArrayList;
-
 /**
- * A filter is used by a structure to extract a subset of elements
+ * A filter that used by expression provider to extract a subset of elements
  * 
+ * @deprecated Use
+ *             {@link org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter}
+ *             instead
  */
-
-public abstract class ExpressionFilter
+public abstract class ExpressionFilter extends
+		org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter
 {
 
-	public static final String CATEGORY = "Category"; //$NON-NLS-1$
-
-	/**
-	 * Creates a new filter.
-	 */
-	public ExpressionFilter( )
-	{
-	}
-
-	/**
-	 * Filters the given elements for the given viewer. The input array is not
-	 * modified.
-	 * <p>
-	 * The default implementation of this method calls <code>select</code> on
-	 * each element in the array, and returns only those elements for which
-	 * <code>select</code> returns <code>true</code>.
-	 * </p>
-	 * 
-	 * @param parent
-	 *            the parent element
-	 * @param elements
-	 *            the elements to filter
-	 * @return the filtered elements
-	 */
-
-	public Object[] filter( Object parent, Object[] elements )
-	{
-		int size = elements.length;
-		ArrayList out = new ArrayList( size );
-		for ( int i = 0; i < size; ++i )
-		{
-			Object element = elements[i];
-			if ( select( parent, element ) )
-			{
-				out.add( element );
-			}
-		}
-		return out.toArray( );
-	}
-
-	/**
-	 * Returns whether the given element makes it through this filter.
-	 * 
-	 * @param parentElement
-	 *            the parent element,or CATEGORY if want to filter the categroy
-	 *            list
-	 * @param element
-	 *            the element
-	 * @return <code>true</code> if element is included in the filtered set,
-	 *         and <code>false</code> if excluded
-	 */
-
-	public abstract boolean select( Object parentElement, Object element );
 }
