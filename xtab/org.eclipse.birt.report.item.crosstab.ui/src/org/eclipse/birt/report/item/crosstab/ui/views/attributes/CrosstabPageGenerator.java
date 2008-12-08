@@ -19,9 +19,9 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Previe
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormPropertyDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.HighlightPropertyDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.MapPropertyDescriptor;
-import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.HighlightHandleProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.MapHandleProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.AbstractPageGenerator;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.HighlightHandleProvider;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.MapHandleProvider;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.page.CrosstabBindingPage;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabFilterHandleProvider;

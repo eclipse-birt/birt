@@ -18,7 +18,6 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.NewSectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.internal.ui.processor.ElementProcessorFactory;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
@@ -26,9 +25,11 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteAction;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
@@ -87,11 +88,11 @@ public class CrossTabCellNodeProvider extends DefaultNodeProvider
 									.getName( ) );
 				}
 				else if ( cell.getContainer( ) instanceof LevelViewHandle
-						|| cell.getContainer( ) instanceof CrosstabViewHandle )
+						|| cell.getContainer( ) instanceof CrosstabViewHandle
+						|| cell.getContainer( ) instanceof CrosstabReportItemHandle )
 				{
 					return cell.getContainer( ).getModelHandle( );
 				}
-
 			}
 		}
 		catch ( ExtendedElementException e )
@@ -155,7 +156,7 @@ public class CrossTabCellNodeProvider extends DefaultNodeProvider
 			List supportList = UIUtil.getUIElementSupportList( propertyHandle );
 			if ( supportList.size( ) == 0 )
 			{
-				ExceptionHandler.openMessageBox( WARNING_DIALOG_TITLE,
+				ExceptionUtil.openMessage( WARNING_DIALOG_TITLE,
 						WARNING_DIALOG_MESSAGE_EMPTY_LIST,
 						SWT.ICON_WARNING );
 				return false;
