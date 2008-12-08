@@ -28,7 +28,6 @@ import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.RenderOption;
-import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IBandContent;
@@ -699,49 +698,27 @@ public abstract class AbstractEmitterImpl
 
 	protected HyperlinkInfo getHyperlink( IContent content )
 	{
-		IHyperlinkAction linkaction = content.getHyperlinkAction( );
-
 		HyperlinkInfo hyperlink = null;
-
-		if ( linkaction != null )
+		IHyperlinkAction linkAction = content.getHyperlinkAction( );
+		if ( linkAction != null )
 		{
-			String toolTip = linkaction.getTooltip( );
-			if ( linkaction.getType( ) == IHyperlinkAction.ACTION_BOOKMARK )
+			String tooltip = linkAction.getTooltip( );
+			String bookmark = linkAction.getBookmark( );
+			switch ( linkAction.getType( ) )
 			{
-				String bookmark = linkaction.getBookmark( ).replaceAll( " ",
-						"_" );
-				hyperlink = new HyperlinkInfo( HyperlinkInfo.BOOKMARK,
-						bookmark, toolTip );
-			}
-			else if ( linkaction.getType( ) == IHyperlinkAction.ACTION_HYPERLINK )
-			{
-				hyperlink = new HyperlinkInfo( HyperlinkInfo.HYPERLINK,
-						linkaction.getHyperlink( ), toolTip );
-			}
-			else if ( linkaction.getType( ) == IHyperlinkAction.ACTION_DRILLTHROUGH )
-			{
-				String systemId = null;
-				if ( null != reportRunnable )
-				{
-					systemId = reportRunnable.getReportName( );
-				}
-				Action action = new Action( systemId, linkaction );
-				if ( actionHandler != null )
-				{
-					String url = actionHandler.getURL( action, reportContext );
-
-					if ( action.getBookmark( ) == null )
-					{
-						hyperlink = new HyperlinkInfo( HyperlinkInfo.HYPERLINK,
-								url, toolTip );
-					}
-					else
-					{
-						hyperlink = new HyperlinkInfo( HyperlinkInfo.HYPERLINK,
-								url, action.getBookmark( ) );
-					}
-
-				}
+				case IHyperlinkAction.ACTION_BOOKMARK :
+					bookmark = bookmark.replaceAll( " ", "_" );
+					hyperlink = new HyperlinkInfo( HyperlinkInfo.BOOKMARK,
+							bookmark, tooltip );
+					break;
+				case IHyperlinkAction.ACTION_HYPERLINK :
+				case IHyperlinkAction.ACTION_DRILLTHROUGH :
+					String url = org.eclipse.birt.report.engine.layout.emitter.EmitterUtil
+							.getHyperlinkUrl( linkAction, reportRunnable,
+									actionHandler, reportContext );
+					hyperlink = new HyperlinkInfo( HyperlinkInfo.HYPERLINK,
+							url, tooltip );
+					break;
 			}
 		}
 		return hyperlink;

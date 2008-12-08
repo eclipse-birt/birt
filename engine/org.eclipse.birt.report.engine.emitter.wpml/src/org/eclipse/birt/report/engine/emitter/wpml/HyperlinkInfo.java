@@ -20,11 +20,11 @@ public class HyperlinkInfo
 
 	private String tooltip;
 
-	public static int BOOKMARK = 0;
+	public static final int BOOKMARK = 0;
 
-	public static int HYPERLINK = 1;
+	public static final int HYPERLINK = 1;
 
-	public static int DRILL = 2;
+	public static final int DRILL = 2;
 
 	public HyperlinkInfo( int type, String url, String toolTip )
 	{
