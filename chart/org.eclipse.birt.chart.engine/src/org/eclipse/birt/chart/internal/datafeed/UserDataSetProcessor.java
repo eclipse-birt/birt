@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2007, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.impl.DateTimeDataSetImpl;
+import org.eclipse.birt.chart.model.data.impl.NullDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
@@ -77,10 +78,29 @@ public class UserDataSetProcessor
 						break;
 
 					default :
-						throw new ChartException( ChartEnginePlugin.ID,
-								ChartException.DATA_SET,
-								"exception.unknown.trigger.datatype", //$NON-NLS-1$
-								Messages.getResourceBundle( ) );
+						boolean allNullValues = true;
+						while ( rsds.hasNext( ) )
+						{
+							if ( rsds.next( )[k] != null )
+							{
+								allNullValues = false;
+								break;
+							}
+						}
+						// TODO need to reset result set here? How to reset?
+						if ( !allNullValues )
+						{
+							// if can't determine applicable data type
+							throw new ChartException( ChartEnginePlugin.ID,
+									ChartException.DATA_SET,
+									"exception.unknown.trigger.datatype", //$NON-NLS-1$
+									Messages.getResourceBundle( ) );
+						}
+						else
+						{
+							// create a dummy dataset which represents null
+							ds[k] = NullDataSetImpl.create( (int) lRowCount );
+						}
 				}
 			}
 
