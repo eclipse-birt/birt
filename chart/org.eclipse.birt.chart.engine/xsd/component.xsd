@@ -622,7 +622,7 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="MajorGridsStepNumber" type="xsd:int">
+			<xsd:element name="MajorGridsStepNumber" type="xsd:int" default="1">
 				<xsd:annotation>
 					<xsd:documentation>Specify the step number of axis grid lines.</xsd:documentation>
 				</xsd:annotation></xsd:element>
