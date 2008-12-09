@@ -30,8 +30,7 @@ import org.eclipse.birt.report.model.api.core.IModuleModel;
 public class ExcelWriter implements IExcelWriter
 {
 
-	private static Double temp = Double.NaN;
-	private static String NAN_STRING = temp.toString( );
+	private static Double NaN = Double.NaN;
 	private boolean isRTLSheet = false; // bidi_acgc added
 	public static final int rightToLeftisTrue = 1; // bidi_acgc added
 	private String tempFilePath;
@@ -176,7 +175,7 @@ public class ExcelWriter implements IExcelWriter
 		int type = d.getDatatype( );
 		if ( type == SheetData.NUMBER )
 		{
-			if ( d.getText( ).equals( NAN_STRING ) || d.isBigNumber( )
+			if ( d.getText( ).equals( NaN ) || d.isBigNumber( )
 					|| d.isInfility( ) )
 			{
 				writer.attribute( "ss:Type", "String" );
