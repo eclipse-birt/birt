@@ -991,10 +991,10 @@
 
 	<zip destfile="${OutputDir}/${wtp.integration.zip.name}">
 		<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
-			<include name="org.eclipse.birt.integration.wtp.source*/**" />
 			<include name="org.eclipse.birt.chart.integration.wtp.ui_*/**" />
-			<include name="org.eclipse.birt.chart.integration.wtp.source*/**" />
+			<include name="org.eclipse.birt.chart.integration.wtp.ui.source_*.jar" />
 			<include name="org.eclipse.birt.integration.wtp.ui_*/**" />
+			<include name="org.eclipse.birt.integration.wtp.ui.source_*.jar" />
 		</zipfileset>
 		<zipfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
 			<include name="org.eclipse.birt.integration.wtp*/*" />
