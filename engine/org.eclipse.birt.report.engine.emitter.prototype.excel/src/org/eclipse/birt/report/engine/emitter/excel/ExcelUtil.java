@@ -1158,4 +1158,17 @@ public class ExcelUtil
 		}
 		return code;
 	}
+
+	public static boolean isNaN( Object number )
+	{
+		try
+		{
+			return Double.isNaN( (Double) number );
+		}
+		catch ( Exception e )
+		{
+			return false;
+		}
+	}
+
 }

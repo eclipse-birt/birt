@@ -129,6 +129,19 @@ public class Data extends SheetData implements Serializable, Cloneable
 		}
 		return false;
 	}
+	
+	public boolean isNaN( )
+	{
+		if ( txt == null )
+		{
+			return false;
+		}
+		else if ( datatype == SheetData.NUMBER )
+		{
+			return ExcelUtil.isNaN( txt );
+		}
+		return false;
+	}
 
 	public Object getValue( )
 	{
