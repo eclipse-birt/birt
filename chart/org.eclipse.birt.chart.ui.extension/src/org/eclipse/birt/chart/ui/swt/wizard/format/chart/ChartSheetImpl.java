@@ -224,14 +224,28 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			ChartWithoutAxes cwa = (ChartWithoutAxes) getChart( );
 
 			new Label( cmpBasic, SWT.NONE ).setText( Messages.getString("ChartSheetImpl.Label.Coverage") ); //$NON-NLS-1$
-			spnCorverage = new Spinner( cmpBasic, SWT.BORDER );
-			int spnValue = (int) ( cwa.getCoverage( ) * 100 );
-			spnCorverage.setValues( spnValue, 1, 100, 0, 1, 10 );
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			spnCorverage.setLayoutData( gd );
-			spnCorverage.setEnabled( cwa.isSetCoverage( ) );
-			spnCorverage.addSelectionListener( this );
+			
+			Composite cmpCoverage = new Composite( cmpBasic, SWT.NONE );
+			{
+				cmpCoverage.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+				GridLayout layout = new GridLayout( 2, false );
+				layout.verticalSpacing = 0;
+				layout.marginHeight = 0;
+				layout.marginWidth = 0;
+				cmpCoverage.setLayout( layout );
+			}
 
+			spnCorverage = new Spinner( cmpCoverage, SWT.BORDER );
+			{
+				int spnValue = (int) ( cwa.getCoverage( ) * 100 );
+				spnCorverage.setValues( spnValue, 1, 100, 0, 1, 10 );
+				spnCorverage.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+				spnCorverage.setEnabled( cwa.isSetCoverage( ) );
+				spnCorverage.addSelectionListener( this );
+			}
+
+			new Label( cmpCoverage, SWT.NONE ).setText( "%" ); //$NON-NLS-1$
+			
 			btnCoverageAuto = new Button( cmpBasic, SWT.CHECK );
 			btnCoverageAuto.setText( Messages.getString("ChartSheetImpl.Buttom.Auto") ); //$NON-NLS-1$
 			btnCoverageAuto.setSelection( !cwa.isSetCoverage( ) );
