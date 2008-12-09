@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 
+import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -166,5 +167,30 @@ public class ReportRootFigure extends ReportElementFigure
 	public void setShowMargin( boolean showMargin )
 	{
 		this.showMargin = showMargin;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.draw2d.Figure#findMouseEventTargetInDescendantsAt(int, int)
+	 */
+	protected IFigure findMouseEventTargetInDescendantsAt(int x, int y) {
+		PRIVATE_POINT.setLocation(x, y);
+		translateFromParent(PRIVATE_POINT);
+
+		if (!getBounds( ).contains(PRIVATE_POINT))
+			return null;
+
+		IFigure fig;
+		List children = getChildren( );
+		for (int i = children.size(); i > 0;) {
+			i--;
+			fig = (IFigure)children.get(i);
+			if (fig.isVisible() && fig.isEnabled()) {
+				if (fig.containsPoint(PRIVATE_POINT.x, PRIVATE_POINT.y)) {
+					fig = fig.findMouseEventTargetAt(PRIVATE_POINT.x, PRIVATE_POINT.y);
+					return fig;
+				}
+			}
+		}
+		return null;
 	}
 }
