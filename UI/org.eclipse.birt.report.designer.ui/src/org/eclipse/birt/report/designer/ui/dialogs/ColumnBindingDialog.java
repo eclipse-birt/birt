@@ -672,7 +672,7 @@ public class ColumnBindingDialog extends BaseDialog
 				// update data displayed in table
 				setSortDirection( dir );
 				table.setSortDirection( dir );
-				bindingTable.refresh( );
+				refreshBindingTable( );
 				if ( modelPos > -1 )
 				{
 					table.setSelection( getShowIndex( modelPos ) );
