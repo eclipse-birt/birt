@@ -255,6 +255,11 @@ public class SortingFormPage extends Composite implements Listener
 
 			public void handleEvent( Event e )
 			{
+				int modelPos = -1;
+				if ( table.getSelectionIndex( ) > -1 )
+				{
+					modelPos = provider.getOriginalIndex( table.getSelectionIndex( ) );
+				}
 				// determine new sort column and direction
 				TableColumn sortColumn = table.getSortColumn( );
 				TableColumn currentColumn = (TableColumn) e.widget;
@@ -280,6 +285,11 @@ public class SortingFormPage extends Composite implements Listener
 				provider.setSortDirection( dir );
 				table.setSortDirection( dir );
 				tableViewer.refresh( );
+
+				if ( modelPos > -1 )
+				{
+					table.setSelection( provider.getShowIndex( modelPos ) );
+				}
 			}
 
 		};

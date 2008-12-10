@@ -263,6 +263,12 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 
 			public void handleEvent( Event e )
 			{
+				int modelPos = -1;
+				if ( table.getSelectionIndex( ) > -1 )
+				{
+					modelPos = ( (AbstractSortingFormHandleProvider) getDescriptorProvider( ) ).getOriginalIndex( table.getSelectionIndex( ) );
+				}
+
 				// determine new sort column and direction
 				TableColumn sortColumn = table.getSortColumn( );
 				TableColumn currentColumn = (TableColumn) e.widget;
@@ -287,7 +293,13 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 				// update data displayed in table
 				( (AbstractSortingFormHandleProvider) getDescriptorProvider( ) ).setSortDirection( dir );
 				table.setSortDirection( dir );
+
 				tableViewer.refresh( );
+
+				if ( modelPos > -1 )
+				{
+					table.setSelection( ( (AbstractSortingFormHandleProvider) getDescriptorProvider( ) ).getShowIndex( modelPos ) );
+				}
 			}
 
 		};

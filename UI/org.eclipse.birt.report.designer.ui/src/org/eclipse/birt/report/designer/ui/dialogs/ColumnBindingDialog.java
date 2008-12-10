@@ -23,7 +23,6 @@ import java.util.Map;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.IBindingDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
@@ -644,6 +643,11 @@ public class ColumnBindingDialog extends BaseDialog
 
 			public void handleEvent( Event e )
 			{
+				int modelPos = -1;
+				if ( table.getSelectionIndex( ) > -1 )
+				{
+					modelPos = getOriginalIndex( table.getSelectionIndex( ) );
+				}
 				// determine new sort column and direction
 				TableColumn sortColumn = table.getSortColumn( );
 				TableColumn currentColumn = (TableColumn) e.widget;
@@ -669,6 +673,10 @@ public class ColumnBindingDialog extends BaseDialog
 				setSortDirection( dir );
 				table.setSortDirection( dir );
 				bindingTable.refresh( );
+				if ( modelPos > -1 )
+				{
+					table.setSelection( getShowIndex( modelPos ) );
+				}
 			}
 
 		};
