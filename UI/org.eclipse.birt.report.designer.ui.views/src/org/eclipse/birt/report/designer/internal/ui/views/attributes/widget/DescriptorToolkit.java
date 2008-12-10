@@ -100,6 +100,13 @@ public class DescriptorToolkit
 		FormPropertyDescriptor descriptor = new FormPropertyDescriptor( formStyle );
 		return descriptor;
 	}
+	
+	public static SortingFormPropertyDescriptor createSortingFormPropertyDescriptor(
+			boolean formStyle )
+	{
+		SortingFormPropertyDescriptor descriptor = new SortingFormPropertyDescriptor( formStyle );
+		return descriptor;
+	}
 
 	public static FontAlignPropertyDescriptor createFontAlignPropertyDescriptor( )
 	{

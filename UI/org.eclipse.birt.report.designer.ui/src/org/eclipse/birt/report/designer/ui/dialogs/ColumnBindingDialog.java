@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -205,8 +207,9 @@ public class ColumnBindingDialog extends BaseDialog
 		public Object[] getElements( Object inputElement )
 		{
 			List elementsList = getBindingList( (DesignElementHandle) inputElement );
-			// elementsList.add( dummyChoice );
-			return elementsList.toArray( );
+			Object[] arrays = elementsList.toArray( );
+			Arrays.sort( arrays, new BindingComparator( ) );
+			return arrays;
 		}
 
 		public void inputChanged( Viewer viewer, Object oldInput,
@@ -214,6 +217,52 @@ public class ColumnBindingDialog extends BaseDialog
 		{
 		}
 	};
+
+	private class BindingComparator implements Comparator
+	{
+
+		public int compare( Object o1, Object o2 )
+		{
+			ComputedColumnHandle binding1 = (ComputedColumnHandle) o1;
+			ComputedColumnHandle binding2 = (ComputedColumnHandle) o2;
+			String columnText1 = labelProvider.getColumnText( binding1,
+					sortingColumnIndex );
+			String columnText2 = labelProvider.getColumnText( binding2,
+					sortingColumnIndex );
+			int result = ( columnText1 == null ? "" : columnText1 ).compareTo( ( columnText2 == null ? ""
+					: columnText2 ) );
+			if ( sortDirection == SWT.UP )
+				return result;
+			else
+				return 0 - result;
+		}
+	}
+
+	protected int getOriginalIndex( int pos )
+	{
+		List children = new ArrayList( );
+		for ( Iterator iter = getBindingList( (DesignElementHandle) inputElement ).iterator( ); iter.hasNext( ); )
+		{
+			children.add( iter.next( ) );
+		}
+
+		Object[] arrays = children.toArray( );
+		Arrays.sort( arrays, new BindingComparator( ) );
+		return children.indexOf( Arrays.asList( arrays ).get( pos ) );
+	}
+
+	protected int getShowIndex( int pos )
+	{
+		List children = new ArrayList( );
+		for ( Iterator iter = getBindingList( (DesignElementHandle) inputElement ).iterator( ); iter.hasNext( ); )
+		{
+			children.add( iter.next( ) );
+		}
+
+		Object[] arrays = children.toArray( );
+		Arrays.sort( arrays, new BindingComparator( ) );
+		return Arrays.asList( arrays ).indexOf( children.get( pos ) );
+	}
 
 	private Combo datasetCombo;
 
@@ -590,11 +639,46 @@ public class ColumnBindingDialog extends BaseDialog
 		table.setLayoutData( gd );
 		table.setLinesVisible( true );
 		table.setHeaderVisible( true );
+
+		Listener sortListener = new Listener( ) {
+
+			public void handleEvent( Event e )
+			{
+				// determine new sort column and direction
+				TableColumn sortColumn = table.getSortColumn( );
+				TableColumn currentColumn = (TableColumn) e.widget;
+				int dir = table.getSortDirection( );
+				if ( sortColumn == currentColumn )
+				{
+					dir = dir == SWT.UP ? SWT.DOWN : SWT.UP;
+				}
+				else
+				{
+					table.setSortColumn( currentColumn );
+					dir = SWT.UP;
+					for ( int i = 0; i < table.getColumnCount( ); i++ )
+					{
+						if ( currentColumn == table.getColumn( i ) )
+						{
+							setSortingColumnIndex( i );
+							break;
+						}
+					}
+				}
+				// update data displayed in table
+				setSortDirection( dir );
+				table.setSortDirection( dir );
+				bindingTable.refresh( );
+			}
+
+		};
+
 		// table.addKeyListener( new KeyAdapter( ) {
 		//
 		// /**
 		// * @see
-		// org.eclipse.swt.events.KeyAdapter#keyReleased(org.eclipse.swt.events.KeyEvent)
+		// org.eclipse.swt.events.KeyAdapter#keyReleased(org.eclipse.swt.events.
+		// KeyEvent)
 		// */
 		// public void keyReleased( KeyEvent e )
 		// {
@@ -708,13 +792,17 @@ public class ColumnBindingDialog extends BaseDialog
 		for ( int i = 0; i < columns.length; i++ )
 		{
 			TableColumn column = new TableColumn( table, SWT.LEFT );
+			if ( i == 0 )
+				table.setSortColumn( column );
 			column.setResizable( columns[i] != null );
 			if ( columns[i] != null )
 			{
 				column.setText( columns[i] );
 			}
 			column.setWidth( columnWidth[i] );
+			column.addListener( SWT.Selection, sortListener );
 		}
+		table.setSortDirection( SWT.UP );
 
 		if ( canSelect )
 		{
@@ -779,7 +867,7 @@ public class ColumnBindingDialog extends BaseDialog
 				handleAddEvent( );
 				refreshBindingTable( );
 				if ( table.getItemCount( ) > 0 )
-					selectIndex = ( table.getItemCount( ) - 1 );
+					selectIndex = getShowIndex( table.getItemCount( ) - 1 );
 				updateButtons( );
 			}
 
@@ -1051,8 +1139,6 @@ public class ColumnBindingDialog extends BaseDialog
 			if ( bindingTable != null )
 			{
 				refreshBindingTable( );
-				bindingTable.getTable( ).setSelection( bindingTable.getTable( )
-						.getItemCount( ) - 1 );
 			}
 		}
 
@@ -1063,6 +1149,7 @@ public class ColumnBindingDialog extends BaseDialog
 		if ( !btnDel.isEnabled( ) )
 			return;
 		int pos = bindingTable.getTable( ).getSelectionIndex( );
+		pos = getOriginalIndex( pos );
 		if ( pos > -1 )
 		{
 			try
@@ -1094,6 +1181,7 @@ public class ColumnBindingDialog extends BaseDialog
 		if ( !btnEdit.isEnabled( ) )
 			return;
 		ComputedColumnHandle bindingHandle = null;
+		bindingIndex = getOriginalIndex( bindingIndex );
 		if ( bindingIndex > -1 )
 		{
 			bindingHandle = (ComputedColumnHandle) ( DEUtil.getBindingHolder( inputElement ) ).getColumnBindings( )
@@ -1114,8 +1202,9 @@ public class ColumnBindingDialog extends BaseDialog
 					&& selectedColumnName.equals( bindingName ) )
 				selectedColumnName = bindingHandle.getName( );
 		}
+		selectIndex = getShowIndex( bindingIndex );
 	}
-	
+
 	protected void setDialogInput( DataColumnBindingDialog dialog,
 			ComputedColumnHandle bindingHandle )
 	{
@@ -1642,10 +1731,24 @@ public class ColumnBindingDialog extends BaseDialog
 			}
 		}
 	}
-	
+
 	protected Button getAggregationButton( )
 	{
 		return btnAddAggr;
+	}
+
+	private int sortingColumnIndex;
+
+	public void setSortingColumnIndex( int index )
+	{
+		this.sortingColumnIndex = index;
+	}
+
+	private int sortDirection = SWT.UP;
+
+	public void setSortDirection( int dir )
+	{
+		sortDirection = dir;
 	}
 
 }

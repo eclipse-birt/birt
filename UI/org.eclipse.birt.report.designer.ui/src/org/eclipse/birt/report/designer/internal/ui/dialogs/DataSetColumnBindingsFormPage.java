@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.Composite;
  * Data set binding page.
  */
 
-public class DataSetColumnBindingsFormPage extends FormPage
+public class DataSetColumnBindingsFormPage extends SortingFormPage
 {
 
 	private Button btnAddAggr;
@@ -60,8 +60,6 @@ public class DataSetColumnBindingsFormPage extends FormPage
 		// createRemoveUnusedColumnButton( );
 		super.createControl( );
 
-		btnUp.setVisible( false );
-		btnDown.setVisible( false );
 		if ( ( (DataSetColumnBindingsFormHandleProvider) provider ).canAggregation( ) )
 		{
 			btnAddAggr = new Button( this, SWT.PUSH );

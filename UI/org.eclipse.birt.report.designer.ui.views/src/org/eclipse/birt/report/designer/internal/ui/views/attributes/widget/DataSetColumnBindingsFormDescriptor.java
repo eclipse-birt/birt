@@ -29,7 +29,8 @@ import org.eclipse.swt.widgets.Control;
  * Data set binding page.
  */
 
-public class DataSetColumnBindingsFormDescriptor extends FormPropertyDescriptor
+public class DataSetColumnBindingsFormDescriptor extends
+		SortingFormPropertyDescriptor
 {
 
 	private DataSetColumnBindingsFormHandleProvider provider;
@@ -51,7 +52,9 @@ public class DataSetColumnBindingsFormDescriptor extends FormPropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage#createControl()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage
+	 * #createControl()
 	 */
 
 	protected Button btnRefresh;
@@ -78,8 +81,6 @@ public class DataSetColumnBindingsFormDescriptor extends FormPropertyDescriptor
 		btnRefresh.setEnabled( true );
 		fullLayout( );
 
-		btnUp.setVisible( false );
-		btnDown.setVisible( false );
 		return control;
 	}
 
@@ -91,7 +92,9 @@ public class DataSetColumnBindingsFormDescriptor extends FormPropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage#fullLayout()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage
+	 * #fullLayout()
 	 */
 	protected void fullLayout( )
 	{
@@ -124,8 +127,10 @@ public class DataSetColumnBindingsFormDescriptor extends FormPropertyDescriptor
 			Object element = DEUtil.getInputFirstElement( object );
 			setBindingObject( (ReportElementHandle) element );
 		}
-		if(provider.isEnable( ) && provider.isEditable( ))btnRefresh.setEnabled( true );
-		else btnRefresh.setEnabled( false );
+		if ( provider.isEnable( ) && provider.isEditable( ) )
+			btnRefresh.setEnabled( true );
+		else
+			btnRefresh.setEnabled( false );
 
 	}
 

@@ -22,7 +22,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Ag
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BindingGroupDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.BindingGroupSection;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FormSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SortingFormSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.AggregateOnBindingsFormDescriptor;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 
@@ -35,8 +35,8 @@ public class ChartBindingPage extends BindingPage
 		bindingProvider.setRefrenceSection( ( (BindingGroupSection) getSection( PageSectionId.BINDING_GROUP ) ) );
 		( (BindingGroupSection) getSection( PageSectionId.BINDING_GROUP ) ).setProvider( bindingProvider );
 		AggregateOnBindingsFormHandleProvider dataSetFormProvider = createDataSetFormProvider();
-		( (FormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setCustomForm( new AggregateOnBindingsFormDescriptor( true ) );
-		( (FormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setProvider( dataSetFormProvider );
+		( (SortingFormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setCustomForm( new AggregateOnBindingsFormDescriptor( true ) );
+		( (SortingFormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setProvider( dataSetFormProvider );
 		if ( ( (BindingGroupSection) getSection( PageSectionId.BINDING_GROUP ) ).getProvider( ) != null )
 		{
 			IDescriptorProvider dataSetProvider = ( (BindingGroupSection) getSection( PageSectionId.BINDING_GROUP ) ).getProvider( );

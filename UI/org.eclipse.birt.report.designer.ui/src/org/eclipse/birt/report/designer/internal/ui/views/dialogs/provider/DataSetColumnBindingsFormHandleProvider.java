@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -26,7 +27,6 @@ import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
@@ -44,20 +44,17 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
-import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.SWT;
 
 /**
  * 
  */
 
 public class DataSetColumnBindingsFormHandleProvider implements
-		IFormHandleProvider
+		ISortingFormHandleProvider
 {
 
 	protected static Logger logger = Logger.getLogger( DataSetColumnBindingsFormHandleProvider.class.getName( ) );
@@ -67,16 +64,8 @@ public class DataSetColumnBindingsFormHandleProvider implements
 
 	private String[] columnNames;
 
-	private CellEditor[] editors;
-
 	// object to add data binding.
 	private ReportElementHandle bindingObject;
-
-	private static final IChoice[] DATA_TYPE_CHOICES = DEUtil.getMetaDataDictionary( )
-			.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
-			.getMember( ComputedColumn.DATA_TYPE_MEMBER )
-			.getAllowedChoices( )
-			.getChoices( );
 
 	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
 			.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
@@ -174,33 +163,15 @@ public class DataSetColumnBindingsFormHandleProvider implements
 			return true;
 	}
 
-	public CellEditor[] getEditors( Table table )
-	{
-		if ( editors == null )
-		{
-			editors = new CellEditor[columnNames.length];
-
-			for ( int i = 0; i < editors.length; i++ )
-			{
-				editors[i] = new TextCellEditor( table );
-			}
-		}
-		return editors;
-	}
-
-	public boolean doMoveItem( int oldPos, int newPos ) throws Exception
-	{
-		return false;
-	}
-
 	public boolean doDeleteItem( int pos ) throws Exception
 	{
-		if ( pos > -1 )
+		int modelPos = getOriginalIndex( pos );
+		if ( modelPos > -1 )
 		{
 			if ( bindingObject instanceof ReportItemHandle )
 			{
 				( (ReportItemHandle) bindingObject ).getColumnBindings( )
-						.getAt( pos )
+						.getAt( modelPos )
 						.drop( );
 				if ( viewer != null )
 				{
@@ -216,48 +187,13 @@ public class DataSetColumnBindingsFormHandleProvider implements
 				}
 				return true;
 			}
-			// if ( bindingObject instanceof GroupHandle )
-			// {
-			// ( (GroupHandle) bindingObject ).getColumnBindings( )
-			// .getAt( pos )
-			// .drop( );
-			// return true;
-			// }
 		}
 		return false;
 	}
 
 	public boolean doAddItem( int pos ) throws Exception
 	{
-		/*
-		 * ComputedColumn bindingColumn = StructureFactory.newComputedColumn(
-		 * bindingObject, Messages.getString(
-		 * "DataSetColumnBindingsFormHandleProvider.NewBinding" ) );
-		 * //$NON-NLS-1$
-		 * 
-		 * bindingColumn.setExpression( "" ); String groupType =
-		 * DEUtil.getGroupControlType( bindingObject ); if (
-		 * ExpressionUtil.hasAggregation( bindingColumn.getExpression( ) ) ) {
-		 * if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
-		 * bindingColumn.setAggregrateOn( ( (GroupHandle) groupList.get( 0 )
-		 * ).getName( ) ); else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
-		 * bindingColumn.setAggregrateOn( null ); } ExpressionBuilder dialog =
-		 * new ExpressionBuilder( UIUtil.getDefaultShell( ), "" );
-		 * dialog.setExpressionProvier( expressionProvider ); if ( dialog.open( ) ==
-		 * Dialog.OK ) { String newValue = dialog.getResult( ); if (
-		 * !newValue.equals( "" ) ) { bindingColumn.setExpression( newValue ); } }
-		 * 
-		 * if ( bindingObject instanceof ReportItemHandle ) { (
-		 * (ReportItemHandle) bindingObject ).addColumnBinding( bindingColumn,
-		 * false ); if ( viewer != null ) viewer.editElement(
-		 * viewer.getElementAt( viewer.getTable( ) .getItemCount( ) - 1 ), 0 );
-		 * return true; } if ( bindingObject instanceof GroupHandle ) { (
-		 * (GroupHandle) bindingObject ).addColumnBinding( bindingColumn, false );
-		 * if ( viewer != null ) viewer.editElement( viewer.getElementAt(
-		 * viewer.getTable( ) .getItemCount( ) - 1 ), 0 ); return true; } return
-		 * false;
-		 * 
-		 */
+
 		DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
 		dialog.setInput( (ReportItemHandle) bindingObject );
 
@@ -268,14 +204,6 @@ public class DataSetColumnBindingsFormHandleProvider implements
 				viewer.refresh( true );
 				return true;
 			}
-			/*
-			 * if ( bindingObject instanceof ReportItemHandle ) { if ( viewer !=
-			 * null )viewer.refresh( true ); viewer.editElement(
-			 * viewer.getElementAt( viewer.getTable( ) .getItemCount( ) - 1 ), 0 );
-			 * return true; } if ( bindingObject instanceof GroupHandle ) { if (
-			 * viewer != null ) viewer.editElement( viewer.getElementAt(
-			 * viewer.getTable( ) .getItemCount( ) - 1 ), 0 ); return true; }
-			 */
 		}
 		return false;
 
@@ -284,6 +212,7 @@ public class DataSetColumnBindingsFormHandleProvider implements
 	public boolean doEditItem( int pos )
 	{
 		ComputedColumnHandle bindingHandle = null;
+		pos = getOriginalIndex( pos );
 		if ( pos > -1 )
 		{
 			if ( bindingObject instanceof ReportItemHandle )
@@ -291,12 +220,6 @@ public class DataSetColumnBindingsFormHandleProvider implements
 				bindingHandle = (ComputedColumnHandle) ( (ReportItemHandle) bindingObject ).getColumnBindings( )
 						.getAt( pos );
 			}
-			// if ( bindingObject instanceof GroupHandle )
-			// {
-			// bindingHandle = (ComputedColumnHandle) ( (GroupHandle)
-			// bindingObject ).getColumnBindings( )
-			// .getAt( pos );
-			// }
 		}
 		if ( bindingHandle == null )
 			return false;
@@ -330,15 +253,36 @@ public class DataSetColumnBindingsFormHandleProvider implements
 				viewer.refresh( true );
 				return true;
 			}
-			/*
-			 * if ( bindingObject instanceof ReportItemHandle ) { if ( viewer !=
-			 * null ) viewer.editElement( viewer.getElementAt( pos ), 0 );
-			 * return true; } if ( bindingObject instanceof GroupHandle ) { if (
-			 * viewer != null ) viewer.editElement( viewer.getElementAt( pos ),
-			 * 0 ); return true; }
-			 */
 		}
 		return false;
+	}
+
+	public int getOriginalIndex( int pos )
+	{
+		List children = new ArrayList( );
+		for ( Iterator iter = ( (ReportItemHandle) bindingObject ).getColumnBindings( )
+				.iterator( ); iter.hasNext( ); )
+		{
+			children.add( iter.next( ) );
+		}
+
+		Object[] arrays = children.toArray( );
+		Arrays.sort( arrays, new BindingComparator( ) );
+		return children.indexOf( Arrays.asList( arrays ).get( pos ) );
+	}
+
+	public int getShowIndex( int pos )
+	{
+		List children = new ArrayList( );
+		for ( Iterator iter = ( (ReportItemHandle) bindingObject ).getColumnBindings( )
+				.iterator( ); iter.hasNext( ); )
+		{
+			children.add( iter.next( ) );
+		}
+
+		Object[] arrays = children.toArray( );
+		Arrays.sort( arrays, new BindingComparator( ) );
+		return Arrays.asList( arrays ).indexOf( children.get( pos ) );
 	}
 
 	public String getColumnText( Object element, int columnIndex )
@@ -434,27 +378,29 @@ public class DataSetColumnBindingsFormHandleProvider implements
 					children.add( iter.next( ) );
 				}
 			}
-			return children.toArray( );
+			Object[] arrays = children.toArray( );
+			Arrays.sort( arrays, new BindingComparator( ) );
+			return arrays;
 		}
-		// if ( inputElement instanceof GroupHandle )
-		// {
-		// GroupHandle groupHandle = (GroupHandle) inputElement;
-		// this.bindingObject = groupHandle;
-		// List children = new ArrayList( );
-		// for ( Iterator iter = groupHandle.getColumnBindings( ).iterator( );
-		// iter.hasNext( ); )
-		// {
-		// children.add( iter.next( ) );
-		// }
-		// return children.toArray( new ComputedColumnHandle[children.size( )]
-		// );
-		// }
 		return new Object[]{};
 	}
 
-	public boolean canModify( Object element, String property )
+	private class BindingComparator implements Comparator
 	{
-		return false;
+
+		public int compare( Object o1, Object o2 )
+		{
+			ComputedColumnHandle binding1 = (ComputedColumnHandle) o1;
+			ComputedColumnHandle binding2 = (ComputedColumnHandle) o2;
+			String columnText1 = getColumnText( binding1, sortingColumnIndex );
+			String columnText2 = getColumnText( binding2, sortingColumnIndex );
+			int result = ( columnText1 == null ? "" : columnText1 ).compareTo( ( columnText2 == null ? ""
+					: columnText2 ) );
+			if ( sortDirection == SWT.UP )
+				return result;
+			else
+				return 0 - result;
+		}
 	}
 
 	public Object getValue( Object element, String property )
@@ -463,76 +409,6 @@ public class DataSetColumnBindingsFormHandleProvider implements
 
 		String columnText = getColumnText( element, index );
 		return columnText;
-	}
-
-	public boolean modify( Object data, String property, Object value )
-			throws Exception
-	{
-		// if ( value == null )
-		// return false;
-		// int index = Arrays.asList( columnNames ).indexOf( property );
-		// switch ( index )
-		// {
-		// case 0 :
-		// if ( !( ( (ComputedColumnHandle) data ).getName( ) != null && (
-		// (ComputedColumnHandle) data ).getName( )
-		// .equals( value.toString( ).trim( ) ) ) )
-		// {
-		// ( (ComputedColumnHandle) data ).setName( value.toString( ) );
-		// }
-		// break;
-		// case 1 :
-		// ( (ComputedColumnHandle) data ).setDataType( getDataType(
-		// value.toString( ) ) );
-		// break;
-		// case 2 :
-		// if ( !( ( (ComputedColumnHandle) data ).getExpression( ) != null && (
-		// (ComputedColumnHandle) data ).getExpression( )
-		// .equals( (String) value ) ) )
-		// {
-		// ( (ComputedColumnHandle) data ).setExpression( value.toString( ) );
-		// String groupType = DEUtil.getGroupControlType( bindingObject );
-		// if ( ExpressionUtil.hasAggregation( ( (ComputedColumnHandle) data
-		// ).getExpression( ) ) )
-		// {
-		// if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
-		// ( (ComputedColumnHandle) data ).setAggregateOn( ( (GroupHandle)
-		// DEUtil.getGroups( bindingObject )
-		// .get( 0 ) ).getName( ) );
-		// else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
-		// ( (ComputedColumnHandle) data ).setAggregateOn( null );
-		// }
-		// if ( !ExpressionUtil.hasAggregation( ( (ComputedColumnHandle) data
-		// ).getExpression( ) )
-		// || groupType.equals( DEUtil.TYPE_GROUP_NONE ) )
-		// {
-		// ( (ComputedColumnHandle) data ).setAggregateOn( null );
-		// }
-		// }
-		// break;
-		// case 3 :
-		// if ( ALL.equals( value.toString( ) ) )
-		// ( (ComputedColumnHandle) data ).setAggregateOn( null );
-		// else
-		// ( (ComputedColumnHandle) data ).setAggregateOn( value.toString( ) );
-		// break;
-		// default :
-		// break;
-		// }
-		return false;
-	}
-
-	private String getDataType( String value )
-	{
-		for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
-		{
-			IChoice choice = DATA_TYPE_CHOICES[i];
-			if ( choice.getDisplayName( ).equals( value ) )
-			{
-				return choice.getName( );
-			}
-		}
-		return value;
 	}
 
 	public boolean needRefreshed( NotificationEvent event )
@@ -648,41 +524,6 @@ public class DataSetColumnBindingsFormHandleProvider implements
 		}
 	}
 
-	private boolean isExpressionExisit( String expression )
-	{
-		if ( bindingObject != null )
-		{
-			if ( bindingObject instanceof ReportItemHandle )
-			{
-				for ( Iterator iter = ( (ReportItemHandle) bindingObject ).getColumnBindings( )
-						.iterator( ); iter.hasNext( ); )
-				{
-					if ( expression.equals( ( (ComputedColumnHandle) iter.next( ) ).getExpression( ) ) )
-						return true;
-				}
-			}
-			// if ( bindingObject instanceof GroupHandle )
-			// {
-			// for ( Iterator iter = ( (GroupHandle) bindingObject
-			// ).getColumnBindings( )
-			// .iterator( ); iter.hasNext( ); )
-			// {
-			// if ( expression.equals( ( (ComputedColumnHandle) iter.next( )
-			// ).getExpression( ) ) )
-			// return true;
-			// }
-			// }
-		}
-		return false;
-	}
-
-	private IExpressionProvider expressionProvider;
-
-	public void setExpressionProvider( IExpressionProvider expressionProvider )
-	{
-		this.expressionProvider = expressionProvider;
-	}
-
 	private TableViewer viewer;
 
 	public void setTableViewer( TableViewer viewer )
@@ -738,6 +579,20 @@ public class DataSetColumnBindingsFormHandleProvider implements
 	protected CommandStack getActionStack( )
 	{
 		return SessionHandleAdapter.getInstance( ).getCommandStack( );
+	}
+
+	private int sortingColumnIndex;
+
+	public void setSortingColumnIndex( int index )
+	{
+		this.sortingColumnIndex = index;
+	}
+
+	private int sortDirection = SWT.UP;
+
+	public void setSortDirection( int dir )
+	{
+		sortDirection = dir;
 	}
 
 }

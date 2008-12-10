@@ -45,6 +45,7 @@ public class AggregateOnBindingsFormHandleProvider extends
 	public boolean doEditItem( int pos )
 	{
 		ComputedColumnHandle bindingHandle = null;
+		pos = getOriginalIndex( pos );
 		if ( pos > -1 )
 		{
 			if ( getBindingObject( ) instanceof ReportItemHandle )

@@ -15,7 +15,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Aggreg
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PageSectionId;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AggregateOnBindingsFormHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FormSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SortingFormSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.AggregateOnBindingsFormDescriptor;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabSimpleComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.section.CrosstabSimpleComboSection;
@@ -44,7 +44,7 @@ public class CrosstabBindingPage extends AggregateOnBindingPage
 		addSection( PageSectionId.BINDING_GROUP, cubeSection );
 
 		AggregateOnBindingsFormHandleProvider dataSetFormProvider = new AggregateOnBindingsFormHandleProvider( );
-		( (FormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setCustomForm( new AggregateOnBindingsFormDescriptor( true ) {
+		( (SortingFormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setCustomForm( new AggregateOnBindingsFormDescriptor( true ) {
 
 			public Control createControl( Composite parent )
 			{
@@ -53,7 +53,7 @@ public class CrosstabBindingPage extends AggregateOnBindingPage
 				return control;
 			}
 		} );
-		( (FormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setProvider( dataSetFormProvider );
+		( (SortingFormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setProvider( dataSetFormProvider );
 
 		if ( ( (CrosstabSimpleComboSection) getSection( PageSectionId.BINDING_GROUP ) ).getProvider( ) != null )
 		{

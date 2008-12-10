@@ -15,7 +15,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.SortMap;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BindingGroupDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.DataSetColumnBindingsFormHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.BindingGroupSection;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FormSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SortingFormSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.DataSetColumnBindingsFormDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormPropertyDescriptor;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -40,7 +40,7 @@ public class BindingPage extends AttributePage
 
 	private DataSetColumnBindingsFormHandleProvider dataSetFormProvider;
 
-	private FormSection dataSetFormSection;
+	private SortingFormSection dataSetFormSection;
 
 	private Composite composite;
 
@@ -101,7 +101,7 @@ public class BindingPage extends AttributePage
 		}
 
 		dataSetFormProvider = new DataSetColumnBindingsFormHandleProvider( );
-		dataSetFormSection = new FormSection( dataSetFormProvider.getDisplayName( ),
+		dataSetFormSection = new SortingFormSection( dataSetFormProvider.getDisplayName( ),
 				composite,
 				true );
 		dataSetFormSection.setCustomForm( new DataSetColumnBindingsFormDescriptor( true ) );
@@ -158,7 +158,7 @@ public class BindingPage extends AttributePage
 		super.setInput( input );
 	}
 
-	private boolean checkControl( FormSection form )
+	private boolean checkControl( SortingFormSection form )
 	{
 		return form != null
 				&& form.getFormControl( ) != null
