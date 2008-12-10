@@ -362,16 +362,7 @@ public class CrosstabAdaptUtil
 					false,
 					null,
 					null );
-			if ( msgDlg.getReturnCode( ) == IDialogConstants.YES_ID )
-			{
-				return true;
-				//removeInvalidBindings( handle );
-			}
-			else if ( msgDlg.getReturnCode( ) == IDialogConstants.NO_ID )
-			{
-				return false;
-				// dothing
-			}
+			
 			if(msgDlg.getToggleState( ))
 			{
 				String value = "";
@@ -387,6 +378,16 @@ public class CrosstabAdaptUtil
 				.getPreferences( CrosstabPlugin.getDefault( ) )
 				.setValue( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS,
 						value );
+			}
+			if ( msgDlg.getReturnCode( ) == IDialogConstants.YES_ID )
+			{
+				return true;
+				//removeInvalidBindings( handle );
+			}
+			else if ( msgDlg.getReturnCode( ) == IDialogConstants.NO_ID )
+			{
+				return false;
+				// dothing
 			}
 
 		}
