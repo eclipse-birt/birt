@@ -41,13 +41,19 @@ public class URIUtilImpl
 	public static final String JAR_SCHEMA = "jar"; //$NON-NLS-1$
 
 	/**
-	 * URL with JAR protocol.
+	 * URL with http protocol.
 	 */
 
 	public static final String HTTP_SCHEMA = "http"; //$NON-NLS-1$
 
 	/**
-	 * URL with JAR protocol.
+	 * URL with https protocol.
+	 */
+
+	public static final String HTTPS_SCHEMA = "https"; //$NON-NLS-1$
+	
+	/**
+	 * URL with FTP protocol.
 	 */
 
 	public static final String FTP_SCHEMA = "ftp"; //$NON-NLS-1$

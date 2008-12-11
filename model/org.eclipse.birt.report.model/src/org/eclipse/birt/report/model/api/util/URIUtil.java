@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.util.URIUtilImpl;
 /**
  * Utility class to handle URI.
  */
+
 public class URIUtil
 {
 
@@ -29,36 +30,6 @@ public class URIUtil
 	 */
 
 	public static final String FILE_SCHEMA = "file"; //$NON-NLS-1$
-
-	/**
-	 * URL with JAR protocol.
-	 */
-
-	public static final String JAR_SCHEMA = "jar"; //$NON-NLS-1$
-
-	/**
-	 * URL with JAR protocol.
-	 */
-
-	public static final String HTTP_SCHEMA = "http"; //$NON-NLS-1$
-
-	/**
-	 * URL with JAR protocol.
-	 */
-
-	public static final String FTP_SCHEMA = "ftp"; //$NON-NLS-1$
-
-	/**
-	 * URL with bundle resource protocol.
-	 */
-
-	public static final String BUNDLE_RESOURCE_SCHEMA = "bundle"; //$NON-NLS-1$
-
-	/**
-	 * File with jar extention name.
-	 */
-
-	public static final String JAR_EXTENTION = ".jar"; //$NON-NLS-1$
 
 	/**
 	 * The defautl separator for url schema.

@@ -215,13 +215,16 @@ public class DefaultResourceLocator implements IResourceLocator
 
 	private boolean isGlobalResource( URL url )
 	{
-		if ( URIUtil.FTP_SCHEMA.equalsIgnoreCase( url.getProtocol( ) )
-				|| URIUtil.HTTP_SCHEMA.equalsIgnoreCase( url.getProtocol( ) ) )
+		if ( URIUtilImpl.FTP_SCHEMA.equalsIgnoreCase( url.getProtocol( ) )
+				|| URIUtilImpl.HTTP_SCHEMA
+						.equalsIgnoreCase( url.getProtocol( ) )
+				|| URIUtilImpl.HTTPS_SCHEMA
+						.equalsIgnoreCase( url.getProtocol( ) ) )
 			return true;
 
-		if ( url.getFile( ).toLowerCase( ).startsWith( URIUtil.FTP_SCHEMA )
+		if ( url.getFile( ).toLowerCase( ).startsWith( URIUtilImpl.FTP_SCHEMA )
 				|| url.getFile( ).toLowerCase( ).startsWith(
-						URIUtil.HTTP_SCHEMA ) )
+						URIUtilImpl.HTTP_SCHEMA ) )
 			return true;
 
 		return false;
