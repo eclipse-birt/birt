@@ -2064,6 +2064,7 @@ InputParameterDailog.dialog.title.required=Parámetro necesario: debe tener un va
 InputParameterDailog.dialog.title=Introducir parámetros
 InputParameterDailog.parameter.noparameter=No hay ningún parámetro asociado a este informe.
 InputParameterDialog.ErrorMessage.InvalidFile=El informe contiene errores.
+ParameterDialog.ErrorMessage.ValueColumnEmpty=Value column should be specified.
 InputParameterDailog.parameter.null=Valor nulo
 InputParameterDialog.ErrorTitle.Error=Error
 

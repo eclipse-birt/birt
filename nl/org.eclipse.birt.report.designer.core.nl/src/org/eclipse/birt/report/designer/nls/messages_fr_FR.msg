@@ -2064,6 +2064,7 @@ InputParameterDailog.dialog.title.required=Le paramètre requis doit contenir une
 InputParameterDailog.dialog.title=Entrer les paramètres
 InputParameterDailog.parameter.noparameter=Aucun paramètre associé à cet état.
 InputParameterDialog.ErrorMessage.InvalidFile=Cet état contient une erreur.
+ParameterDialog.ErrorMessage.ValueColumnEmpty=Value column should be specified.
 InputParameterDailog.parameter.null=Valeur nulle
 InputParameterDialog.ErrorTitle.Error=Erreur
 

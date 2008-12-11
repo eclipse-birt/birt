@@ -2064,6 +2064,7 @@ InputParameterDailog.dialog.title.required=ÇÊ¼ö ¸Å°³ º¯¼ö - ¹Ýµå½Ã °ªÀÌ ÀÖ¾î¾ß Ç
 InputParameterDailog.dialog.title=¸Å°³ º¯¼ö ÀÔ·Â
 InputParameterDailog.parameter.noparameter=ÀÌ º¸°í¼­¿Í °ü·ÃµÈ ¸Å°³ º¯¼ö°¡ ¾ø½À´Ï´Ù.
 InputParameterDialog.ErrorMessage.InvalidFile=º¸°í¼­¿¡ ¿À·ù°¡ ÀÖ½À´Ï´Ù.
+ParameterDialog.ErrorMessage.ValueColumnEmpty=Value column should be specified.
 InputParameterDailog.parameter.null=³Î(null) °ª
 InputParameterDialog.ErrorTitle.Error=¿À·ù
 

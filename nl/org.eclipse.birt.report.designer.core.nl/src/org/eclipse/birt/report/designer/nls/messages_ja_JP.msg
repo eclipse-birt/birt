@@ -2064,6 +2064,7 @@ InputParameterDailog.dialog.title.required=必須パラメタ (値を指定してください)
 InputParameterDailog.dialog.title=パラメタの入力
 InputParameterDailog.parameter.noparameter=このレポートには、パラメタが関連付けられていません。
 InputParameterDialog.ErrorMessage.InvalidFile=このレポートにはエラーがあります。
+ParameterDialog.ErrorMessage.ValueColumnEmpty=Value column should be specified.
 InputParameterDailog.parameter.null=NULL 値
 InputParameterDialog.ErrorTitle.Error=エラー
 
