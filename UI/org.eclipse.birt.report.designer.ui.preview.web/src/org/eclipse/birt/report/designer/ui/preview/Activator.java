@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.designer.ui.preview;
 
-import org.eclipse.ui.plugin.*;
+import org.eclipse.birt.report.designer.util.ImageManager;
+import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -40,6 +42,17 @@ public class Activator extends AbstractUIPlugin
 	public void start( BundleContext context ) throws Exception
 	{
 		super.start( context );
+		
+		// ensure viewer plugin already started
+		ViewerPlugin dummy = ViewerPlugin.getDefault( );
+
+		// set the URI root path to ImageManager
+		String appRootPath = System.getProperty( ViewerPlugin.BIRT_VIEWER_ROOT_PATH );
+		if ( appRootPath != null )
+		{
+			ImageManager.getInstance( ).setURIRootPath( appRootPath );
+		}
+
 	}
 
 	/**
