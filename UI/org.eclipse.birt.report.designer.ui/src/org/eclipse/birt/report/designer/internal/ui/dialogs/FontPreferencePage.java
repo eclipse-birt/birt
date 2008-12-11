@@ -320,7 +320,8 @@ public class FontPreferencePage extends BaseStylePreferencePage
 			boolean italic = false;
 			String fontStyle = style.getValueForName( style.getComboBoxControl( getFieldEditorParent( ) )
 					.getText( ) );
-			if ( DesignChoiceConstants.FONT_STYLE_ITALIC.equals( fontStyle ) )
+			if ( DesignChoiceConstants.FONT_STYLE_ITALIC.equals( fontStyle )
+					|| DesignChoiceConstants.FONT_STYLE_OBLIQUE.equals( fontStyle ) )
 			{
 				italic = true;
 			}
