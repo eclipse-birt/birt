@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Complex property command to handle all list related operations, such as,
@@ -94,7 +95,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		// for the new structure, establish the context for its nested
 		// structures.
 
-		setupStructureContext( struct );
+		ModelUtil.setupStructureContext( struct );
 
 		PropertyDefn propDefn = ref.getPropDefn( );
 		assert propDefn != null;

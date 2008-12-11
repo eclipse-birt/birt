@@ -52,10 +52,10 @@ public class ExtendedItemPropSearchStrategy
 	static
 	{
 		Set<Integer> tmpSet = new HashSet<Integer>( );
-		tmpSet.add( new Integer( IReportItemModel.TOC_PROP.hashCode( ) ) );
-		tmpSet
-				.add( new Integer( IReportItemModel.VISIBILITY_PROP.hashCode( ) ) );
-		tmpSet.add( new Integer( IReportItemModel.BOOKMARK_PROP.hashCode( ) ) );
+
+		// add all section style properties
+		tmpSet.add( new Integer( IStyleModel.DISPLAY_PROP.hashCode( ) ) );
+		tmpSet.add( new Integer( IStyleModel.MASTER_PAGE_PROP.hashCode( ) ) );
 		tmpSet
 				.add( new Integer( IStyleModel.PAGE_BREAK_BEFORE_PROP
 						.hashCode( ) ) );
@@ -64,7 +64,24 @@ public class ExtendedItemPropSearchStrategy
 		tmpSet
 				.add( new Integer( IStyleModel.PAGE_BREAK_INSIDE_PROP
 						.hashCode( ) ) );
-		tmpSet.add( new Integer( IStyleModel.MASTER_PAGE_PROP.hashCode( ) ) );
+		tmpSet.add( new Integer( IStyleModel.SHOW_IF_BLANK_PROP.hashCode( ) ) );
+
+		// add: toc, bookmark
+		tmpSet.add( new Integer( IReportItemModel.TOC_PROP.hashCode( ) ) );
+		tmpSet.add( new Integer( IReportItemModel.BOOKMARK_PROP.hashCode( ) ) );
+
+		// add: visibility rules
+		tmpSet
+				.add( new Integer( IReportItemModel.VISIBILITY_PROP.hashCode( ) ) );
+
+		// add: allExport
+		tmpSet
+				.add( new Integer( IReportItemModel.ALLOW_EXPORT_PROP
+						.hashCode( ) ) );
+
+		// add: zIndex
+		tmpSet.add( new Integer( IReportItemModel.Z_INDEX_PROP.hashCode( ) ) );
+
 		hostViewRelatedProps = Collections.unmodifiableSet( tmpSet );
 	}
 

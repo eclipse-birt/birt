@@ -45,8 +45,8 @@ import org.eclipse.birt.report.model.util.ContentIterator;
  * allows third-party developers to create report items that work within BIRT
  * virtually identically to BIRT-defined items. Extended items can use the
  * user-properties discussed above to define properties, can use a
- * ��black-box�� approach, or a combination of the two. Extended items are
- * defined in a Java plug-in that contributes behavior to the Eclipse Report
+ * ��black-box�� approach, or a combination of the two. Extended items
+ * are defined in a Java plug-in that contributes behavior to the Eclipse Report
  * Developer, to the Factory and to the Presentation Engine. The extended item
  * can fully participate with the other BIRT extension facilities, meaning that
  * report developers can additional properties and scripts to an extended item,
@@ -95,12 +95,6 @@ public class ExtendedItem extends ReportItem
 	 */
 
 	protected PeerExtensibilityProvider provider = null;
-
-	/**
-	 * The methods for the extension element.
-	 */
-
-	private List methods = null;
 
 	/**
 	 * Default constructor.
@@ -431,10 +425,7 @@ public class ExtendedItem extends ReportItem
 	 */
 	public List getMethods( )
 	{
-		if ( methods == null )
-			methods = provider.getModelMethodDefns( );
-
-		return methods;
+		return provider.getModelMethodDefns( );
 	}
 
 	/**
