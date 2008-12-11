@@ -38,6 +38,7 @@ import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.ISeriesRenderer;
+import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.Context;
@@ -601,6 +602,9 @@ public final class ScriptHandler extends ScriptableObject
 		ClassLoader oldLoader = cx.getApplicationClassLoader( );
 		ClassLoader appLader = ScriptHandler.class.getClassLoader( );
 		cx.setApplicationClassLoader( appLader );
+
+		// Initialize BIRT functions, register them into current script context.
+		new CoreJavaScriptInitializer( ).initialize( cx, scope );
 
 		try
 		{
