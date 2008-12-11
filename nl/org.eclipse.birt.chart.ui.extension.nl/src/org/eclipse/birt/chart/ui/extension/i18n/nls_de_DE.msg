@@ -427,6 +427,7 @@ TitleBlockAttributeSheetImpl.Title.SheetTitle=Layout > Titelblock - Diagrammtite
 LegendAttributeSheetImpl.Lbl.GeneralProperties=Allgemeine Eigenschaften - Bereich um Legende
 LegendAttributeSheetImpl.Lbl.ClientAreaProperties=Client-Flächeneigenschaften - Bereich für Legende
 LegendAttributeSheetImpl.Title.SheetTitle=Layout > Legende - Bereich für Legende formatieren
+LegendLayoutSheet.Label.TitlePercent=&Title Percent
 LegendLayoutSheet.Label.MaxPercent=&Max. Prozentsatz:
 LegendLayoutSheet.Label.WrappingWidth=&Umbruchbreite:
 SampleDataSheetImpl.Lbl.XSeries=X-Datenreihe

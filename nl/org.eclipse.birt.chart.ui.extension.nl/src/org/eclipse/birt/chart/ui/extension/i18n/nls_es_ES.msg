@@ -427,6 +427,7 @@ TitleBlockAttributeSheetImpl.Title.SheetTitle=Diseño > Bloque de título - Format
 LegendAttributeSheetImpl.Lbl.GeneralProperties=Propiedades generales - Leyenda alrededor del área
 LegendAttributeSheetImpl.Lbl.ClientAreaProperties=Propiedades del área del cliente  - Área de leyenda
 LegendAttributeSheetImpl.Title.SheetTitle=Diseño > Leyenda - Formato del área de leyendas
+LegendLayoutSheet.Label.TitlePercent=&Title Percent
 LegendLayoutSheet.Label.MaxPercent=&Porcentaje máximo:
 LegendLayoutSheet.Label.WrappingWidth=&Ancho del autoajuste:
 SampleDataSheetImpl.Lbl.XSeries=Serie X
