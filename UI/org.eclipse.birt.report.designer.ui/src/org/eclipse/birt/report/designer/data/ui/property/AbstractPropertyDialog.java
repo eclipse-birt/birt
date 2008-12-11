@@ -65,7 +65,7 @@ import com.ibm.icu.util.StringTokenizer;
  * {@link #addPageTo(String, String, String, Image, IPropertyPage) addPageTo}
  * method.
  * 
- * @version $Revision: 1.12 $ $Date: 2008/01/25 08:38:00 $
+ * @version $Revision: 1.13 $ $Date: 2008/06/12 08:05:56 $
  */
 
 public abstract class AbstractPropertyDialog extends BaseDialog
@@ -854,7 +854,14 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 			{
 				titleImage.setVisible( true );
 			}
-			messageArea.updateText( message, messageType );
+			if ( message == null && messageType == IMessageProvider.ERROR )
+			{
+				messageArea.updateText( "", messageType );
+			}
+			else
+			{
+				messageArea.updateText( message, messageType );
+			}
 		}
 	}
 
