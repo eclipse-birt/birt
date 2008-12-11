@@ -1536,7 +1536,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		IBaseCubeQueryDefinition qd = null;
 
 		ReportItemHandle referredHandle = ChartReportItemUtil.getReportItemReference( itemHandle );
-		if ( referredHandle != null )
+		boolean isChartCubeReference = ChartReportItemUtil.isChartReportItemHandle( referredHandle );
+		if ( referredHandle != null && !isChartCubeReference )
 		{
 			// If it is 'sharing' case, include sharing crosstab and multiple
 			// view, we just invokes referred crosstab handle to create query.
@@ -1561,8 +1562,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		// Always cube query returned
 		IPreparedCubeQuery ipcq = session.prepare( (ICubeQueryDefinition) qd );
 
-		if ( itemHandle.getCube( ) == null && referredHandle != null ) // Sharing
-																		// case
+		// Sharing case
+		if ( referredHandle != null && !isChartCubeReference )
 		{
 			return new SharedCubeResultSetEvaluator( ipcq.execute( null, null ),
 					qd,

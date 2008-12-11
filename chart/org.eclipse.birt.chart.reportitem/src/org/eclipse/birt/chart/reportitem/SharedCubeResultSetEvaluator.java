@@ -49,6 +49,7 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 
 	private CursorPositionNode fMainPositionNodes;
 	private CursorPositionNode fSubPositionNodes;
+	private boolean fIsColEdgeAsMainCursor;
 
 	/**
 	 * Constructor.
@@ -105,6 +106,16 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 				{
 					fRowInnerLevelIndex = findInnerLevelIndex( categoryExprs[0],
 							rowLevelNames );
+					if ( fRowInnerLevelIndex < 0 && colED != null )
+					{
+						// Row level isn't find on row edge, find it on column
+						// edge.
+						rowLevelNames = getLevelNames( colED );
+						fRowInnerLevelIndex = findInnerLevelIndex( categoryExprs[0],
+								rowLevelNames );
+						fIsColEdgeAsMainCursor = true;
+						return;
+					}
 				}
 			}
 
@@ -112,12 +123,14 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 			{
 				if ( rowED == null && fRowInnerLevelIndex < 0 )
 				{
+					// Only column edge is defined on xtab, find row level index
+					// on column edge.
 					rowLevelNames = getLevelNames( colED );
-
 					if ( categoryExprs != null && categoryExprs.length > 0 )
 					{
 						fRowInnerLevelIndex = findInnerLevelIndex( categoryExprs[0],
 								rowLevelNames );
+						fIsColEdgeAsMainCursor = true;
 					}
 				}
 				else
@@ -200,6 +213,7 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 
 	protected void initCubeCursor( ) throws OLAPException, BirtException
 	{
+		// Find row and column edge cursor.
 		if ( cubeCursor == null )
 		{
 			if ( rs != null )
@@ -228,6 +242,23 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 				this.mainEdgeCursor = (EdgeCursor) edges.get( 0 );
 				this.subEdgeCursor = (EdgeCursor) edges.get( 1 );
 			}
+		}
+
+		// It means the shared xtab has defined row and column edges, but chart
+		// just select row or column edge. The edge cursor should be adjusted
+		// for chart to evaluate expressions.
+		if ( fRowInnerLevelIndex >= 0
+				&& fColInnerLevelIndex < 0
+				&& subEdgeCursor != null )
+		{
+			if ( !fIsColEdgeAsMainCursor )
+			{
+				// Row edge is not used by chart, set subEdgeCursor(column edge)
+				// to mainEdgeCursor.
+				mainEdgeCursor = subEdgeCursor;
+			}
+
+			subEdgeCursor = null;
 		}
 
 		// Map dimension cursor, find out the right row dimension cursor and

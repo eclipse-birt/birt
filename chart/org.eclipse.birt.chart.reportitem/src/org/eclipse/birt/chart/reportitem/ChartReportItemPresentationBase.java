@@ -549,7 +549,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			// Fixed ED 28
 			// Sharing case/Multiple view case
 			ReportItemHandle itemHandle = ChartReportItemUtil.getReportItemReference( handle );
-			if ( itemHandle != null )
+			boolean isChartCubeReference = ChartReportItemUtil.isChartReportItemHandle( itemHandle );
+			if ( itemHandle != null && !isChartCubeReference )
 			{
 				return new SharedCubeResultSetEvaluator( (ICubeResultSet) set,
 						cm );
