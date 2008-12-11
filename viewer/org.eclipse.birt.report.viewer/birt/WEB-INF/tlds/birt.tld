@@ -692,6 +692,15 @@
             </description>
         </attribute>
         <attribute>
+            <name>delim</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>
+            	Specifies the delimiter for multiple values.
+            	Defaults to pipe "|".
+            </description>
+        </attribute>
+        <attribute>
             <name>isLocale</name>
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
@@ -699,7 +708,34 @@
             	Specifies whether the report parameter value is a locale/format related string.
             </description>
         </attribute>
-                     
+     </tag>   
+
+    <!--**********************************************-->
+    <!--             Report Parameter Value Tag       -->
+    <!--**********************************************-->
+     <tag>
+        <name>value</name>
+        <tag-class>org.eclipse.birt.report.taglib.ParamValueTag</tag-class>        
+        <body-content>JSP</body-content>
+        <description>
+        	The param value tag specifies multiple values for a given param tag.
+        </description>
+        <attribute>
+            <name>value</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>
+            	Specifies the report parameter value. If doesn't set, value is null.
+            </description>
+        </attribute>
+        <attribute>
+            <name>displayText</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>
+            	Specifies the report parameter display text.
+            </description>
+        </attribute>
      </tag>   
      
     <!--**********************************************-->

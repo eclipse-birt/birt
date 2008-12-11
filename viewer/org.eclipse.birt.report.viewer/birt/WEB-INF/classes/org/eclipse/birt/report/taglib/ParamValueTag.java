@@ -17,13 +17,12 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.eclipse.birt.report.taglib.component.ParamValueField;
-import org.eclipse.birt.report.taglib.component.ParameterField;
 
 /**
  * This tag is used to specify the report parameter.
  * 
  */
-public class ParamTag extends BodyTagSupport
+public class ParamValueTag extends BodyTagSupport
 {
 
 	/**
@@ -32,9 +31,9 @@ public class ParamTag extends BodyTagSupport
 	private static final long serialVersionUID = 4881711038987308895L;
 
 	/**
-	 * Parameter Definition
+	 * Parameter value fields
 	 */
-	private ParameterField param;
+	private ParamValueField param;
 
 	/**
 	 * Initialize pageContext
@@ -44,7 +43,7 @@ public class ParamTag extends BodyTagSupport
 	public void setPageContext( PageContext context )
 	{
 		super.setPageContext( context );
-		param = new ParameterField( );
+		param = new ParamValueField( );
 	}
 
 	/**
@@ -54,35 +53,32 @@ public class ParamTag extends BodyTagSupport
 	 */
 	public int doEndTag( ) throws JspException
 	{
-		if ( param.validate( ) )
+		// included in viewer tag
+		ParamTag paramTag = (ParamTag) TagSupport
+				.findAncestorWithClass( this, ParamTag.class );
+		if ( paramTag != null )
 		{
-			// included in viewer tag
-			AbstractViewerTag viewerTag = (AbstractViewerTag) TagSupport
-					.findAncestorWithClass( this, AbstractViewerTag.class );
-			if ( viewerTag != null )
-				viewerTag.addParameter( param );
+			if ( bodyContent != null )
+			{
+				String bodyString = bodyContent.getString( );
+				if ( bodyString != null )
+				{
+					bodyString = bodyString.trim( );
+					if ( !"".equals(bodyString) )
+					{
+						// replace the value attribute with the content, if empty
+						if ( param.getValue() == null || "".equals(param.getValue()) )
+						{
+							param.setValue( bodyString );
+						}
+					}
+				}
+			}
+			paramTag.addValue( param );
 		}
 		return super.doEndTag( );
 	}
-
-	/**
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName( String name )
-	{
-		param.setName( name );
-	}
-
-	/**
-	 * @param pattern
-	 *            the pattern to set
-	 */
-	public void setPattern( String pattern )
-	{
-		param.setPattern( pattern );
-	}
-
+	
 	/**
 	 * @param value
 	 *            the value to set
@@ -101,25 +97,4 @@ public class ParamTag extends BodyTagSupport
 		param.setDisplayText( displayText );
 	}
 
-	/**
-	 * @param isLocale
-	 *            the isLocale to set
-	 */
-	public void setIsLocale( String isLocale )
-	{
-		param.setLocale( isLocale );
-	}
-	
-	/**
-	 *  @param delim delimiter
-	 */
-	public void setDelim( String delim )
-	{
-		param.setDelim( delim );
-	}
-
-	public void addValue( ParamValueField valueField )
-	{
-		param.addValue( valueField );		
-	}
 }

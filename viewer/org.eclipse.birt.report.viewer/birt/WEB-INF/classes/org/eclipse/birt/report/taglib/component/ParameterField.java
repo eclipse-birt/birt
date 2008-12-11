@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2004 Actuate Corporation and others.
+ * Copyright (c) 2004-2008 Actuate Corporation and others.
  * All rights reserved. This program and the accompanying materials 
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,12 @@
 package org.eclipse.birt.report.taglib.component;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Specifies the report parameter.
@@ -24,7 +30,7 @@ import java.io.Serializable;
  * <li>displayText</li>
  * </ol>
  */
-public class ParameterField implements Serializable
+public class ParameterField extends ParamValueField implements Serializable
 {
 
 	/**
@@ -32,12 +38,42 @@ public class ParameterField implements Serializable
 	 */
 	private static final long serialVersionUID = -8597978146893976259L;
 
+	public static final String DEFAULT_DELIMITER = "|"; //$NON-NLS-1$
+	
 	private String name;
 	private String pattern;
-	private Object value;
-	private String displayText;
 	private String isLocale;
+	private String delimiter;
+	
+	/**
+	 * Values specified through addValue().
+	 */
+	private List<Object> externalValues;
 
+	/**
+	 * Values specified through addValue().
+	 */
+	private List<String> externalDisplayTexts;
+	
+	/**
+	 * Values specified through the value attribute.
+	 */
+	private List<Object> attributeValues;
+
+	/**
+	 * Values specified through the displayText attribute.
+	 */
+	private List<String> attributeDisplayTexts;
+	
+	public ParameterField()
+	{
+		externalValues = new ArrayList<Object>();
+		externalDisplayTexts = new ArrayList<String>();
+		attributeValues = null;
+		attributeDisplayTexts = null;
+		delimiter = DEFAULT_DELIMITER;
+	}
+	
 	/**
 	 * validate parameter
 	 * 
@@ -83,40 +119,6 @@ public class ParameterField implements Serializable
 	}
 
 	/**
-	 * @return the value
-	 */
-	public Object getValue( )
-	{
-		return value;
-	}
-
-	/**
-	 * @param value
-	 *            the value to set
-	 */
-	public void setValue( Object value )
-	{
-		this.value = value;
-	}
-
-	/**
-	 * @return the displayText
-	 */
-	public String getDisplayText( )
-	{
-		return displayText;
-	}
-
-	/**
-	 * @param displayText
-	 *            the displayText to set
-	 */
-	public void setDisplayText( String displayText )
-	{
-		this.displayText = displayText;
-	}
-
-	/**
 	 * @return the isLocale
 	 */
 	public boolean isLocale( )
@@ -141,4 +143,153 @@ public class ParameterField implements Serializable
 		this.isLocale = isLocale;
 	}
 
+	/**
+	 * Sets the delimiters when specifying multiple values. 
+	 * @param delim delimiter
+	 */
+	public void setDelim( String delim )
+	{		
+		this.delimiter = ( delim == null || delim.length( ) < 1 )?DEFAULT_DELIMITER:delim; 
+	}
+	
+	/**
+	 * @return delimiter
+	 */
+	public String getDelim()
+	{
+		return this.delimiter;
+	}
+	
+	/**
+	 * Adds a value to the value list.
+	 * @param value
+	 */
+	public void addValue( ParamValueField valueField )
+	{
+		// adding external values will override the attribute ones
+		attributeValues = null;
+		attributeDisplayTexts = null;
+		externalValues.add( valueField.getValue( ) );
+		externalDisplayTexts.add( valueField.getDisplayText( ) );
+	}
+	
+	/**
+	 * Returns the values.
+	 * The values added by addValue() have priority over the ones
+	 * defined by setValue().
+	 * @return values collection
+	 */
+	public Collection<Object> getValues()
+	{
+		if ( !externalValues.isEmpty( ) )
+		{
+			return externalValues;
+		}
+		else
+		{
+			if ( attributeValues == null )
+			{		
+				attributeValues = extractValues(getValue());
+			}
+			return attributeValues;
+		}
+	}
+	
+	/**
+	 * Returns the display texts.
+	 * The display texts added by addValue() have priority over the ones
+	 * defined by setDisplayText().
+	 * @return display texts collection
+	 */
+	public Collection<String> getDisplayTexts()
+	{
+		if ( !externalDisplayTexts.isEmpty( ) )
+		{
+			return externalDisplayTexts;
+		}
+		else
+		{
+			if ( attributeDisplayTexts == null )
+			{		
+				attributeDisplayTexts = extractStringValues(getDisplayText());
+			}
+			return attributeDisplayTexts;
+		}		
+	}
+	
+	/**
+	 * @see org.eclipse.birt.report.taglib.component.ParamValueField#setDisplayText(java.lang.String)
+	 */
+	@Override
+	public void setDisplayText( String displayText )
+	{
+		attributeDisplayTexts = null;
+		super.setDisplayText( displayText );
+	}
+
+	/**
+	 * @see org.eclipse.birt.report.taglib.component.ParamValueField#setValue(java.lang.Object)
+	 */
+	@Override
+	public void setValue( Object value )
+	{
+		attributeValues = null;
+		super.setValue( value );
+	}
+	
+	/**
+	 * Extract values from the given value object.
+	 * If the value object is already a collection, return it.
+	 * If the value object is a string, split using the delimiter.
+	 * Else, consider the object as a single value.
+	 * @param value value object
+	 * @return collection based on the value object
+	 */
+	private List<Object> extractValues( Object value )
+	{
+		if ( value instanceof List )
+		{
+			return (List<Object>)value;
+		}
+		else if ( value instanceof Object[] )
+		{
+			return Arrays.asList((Object[])value);
+		}
+		else if ( value instanceof String )
+		{
+			String valueString = (String)value;
+			return Arrays.asList( (Object[])valueString.split( Pattern.quote( getDelim() ) ) );
+		}
+		else
+		// single value
+		{
+			return Collections.singletonList( value );
+		}		
+	}
+
+	/**
+	 * Same as extractValues() but only with strings.
+	 * @see #extractValues(Object)
+	 */	
+	private List<String> extractStringValues( Object value )
+	{
+		if ( value instanceof List )
+		{
+			return (List<String>)value;
+		}
+		else if ( value instanceof String[] )
+		{
+			return Arrays.asList((String[])value);
+		}
+		else if ( value instanceof String )
+		{
+			String valueString = (String)value;
+			return Arrays.asList( (String[])valueString.split( Pattern.quote( getDelim() ) ) );
+		}
+		else
+		// single value
+		{
+			return Collections.singletonList( (String)value );
+		}		
+	}	
 }
