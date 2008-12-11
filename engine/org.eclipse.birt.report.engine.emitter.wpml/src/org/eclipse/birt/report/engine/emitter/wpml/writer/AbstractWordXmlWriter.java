@@ -201,6 +201,8 @@ public abstract class AbstractWordXmlWriter
 		writer.attribute( "w:bottom", bottomMargin );
 		writer.attribute( "w:left", leftMargin );
 		writer.attribute( "w:right", rightMargin );
+		writer.attribute( "w:header", topMargin );
+		writer.attribute( "w:footer", bottomMargin );
 		writer.closeTag( "w:pgMar" );
 	}
 
