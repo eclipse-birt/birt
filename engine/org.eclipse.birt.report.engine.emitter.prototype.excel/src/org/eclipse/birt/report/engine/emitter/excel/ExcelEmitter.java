@@ -13,6 +13,8 @@ import java.util.logging.Logger;
 import org.eclipse.birt.report.engine.api.IExcelRenderOption;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IRenderOption;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
@@ -424,56 +426,43 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	private HyperlinkDef parseHyperLink( IContent content )
 	{
-		IHyperlinkAction linkaction = content.getHyperlinkAction( );
+		HyperlinkDef hyperlink = null;
+		IHyperlinkAction linkAction = content.getHyperlinkAction( );
 
-		if ( linkaction != null )
+		if ( linkAction != null )
 		{
-			String toolTip = linkaction.getTooltip( );
-			if ( linkaction.getType( ) == IHyperlinkAction.ACTION_BOOKMARK )
+			String tooltip = linkAction.getTooltip( );
+			String bookmark = linkAction.getBookmark( );
+			IReportRunnable reportRunnable = service.getReportRunnable( );
+			IReportContext reportContext = service.getReportContext( );
+			IHTMLActionHandler actionHandler = (IHTMLActionHandler) service
+					.getOption( RenderOption.ACTION_HANDLER );
+			switch ( linkAction.getType( ) )
 			{
-				String bookmark = linkaction.getBookmark( );
-				
-				if (ExcelUtil.isValidBookmarkName( bookmark ))
-				{
-					return new HyperlinkDef(  linkaction.getBookmark( ), 
-							IHyperlinkAction.ACTION_BOOKMARK, null ,toolTip );	
-				}
-				else
-				{
-					return null;
-				}
-				
-			}
-			else if ( linkaction.getType( ) == IHyperlinkAction.ACTION_HYPERLINK )
-			{
-				return new HyperlinkDef( linkaction.getHyperlink( ),
-						IHyperlinkAction.ACTION_HYPERLINK, null , toolTip);
-			}
-			else if ( linkaction.getType( ) == IHyperlinkAction.ACTION_DRILLTHROUGH )
-			{
-				Action act = new Action( linkaction );
-				IHTMLActionHandler actionHandler = null;
-				Object ac = service.getOption( IRenderOption.ACTION_HANDLER );
-
-				if ( ac != null && ac instanceof IHTMLActionHandler )
-				{
-					actionHandler = (IHTMLActionHandler) ac;
-					String url = actionHandler.getURL( act, service
-							.getReportContext( ) );
-					if ( null != url && url.length( ) > 0 )
+				case IHyperlinkAction.ACTION_BOOKMARK :
+					if ( ExcelUtil.isValidBookmarkName( bookmark ) )
 					{
-						return new HyperlinkDef( url,
-								IHyperlinkAction.ACTION_DRILLTHROUGH, null,
-								toolTip );
+						hyperlink = new HyperlinkDef( bookmark,
+								IHyperlinkAction.ACTION_BOOKMARK, null, tooltip );
 					}
-					else
-					{
-						return null;
-					}
-				}
+					break;
+				case IHyperlinkAction.ACTION_HYPERLINK :
+					String url = org.eclipse.birt.report.engine.layout.emitter.EmitterUtil
+							.getHyperlinkUrl( linkAction, reportRunnable,
+									actionHandler, reportContext );
+					hyperlink = new HyperlinkDef( url,
+							IHyperlinkAction.ACTION_HYPERLINK, null, tooltip );
+					break;
+				case IHyperlinkAction.ACTION_DRILLTHROUGH :
+					url = org.eclipse.birt.report.engine.layout.emitter.EmitterUtil
+							.getHyperlinkUrl( linkAction, reportRunnable,
+									actionHandler, reportContext );
+					hyperlink = new HyperlinkDef( url,
+							IHyperlinkAction.ACTION_DRILLTHROUGH, null, tooltip );
+					break;
 			}
 		}
-		return null;
+		return hyperlink;
 	}
 
 	private BookmarkDef getBookmark( IContent content )
