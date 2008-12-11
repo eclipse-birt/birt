@@ -294,7 +294,7 @@ public class WizardTemplateChoicePage extends WizardPage
 			{
 				continue;
 			}
-			if ( i <= predefinedCount )
+			if ( i < predefinedCount )
 			{
 				String displayName = ( (ReportDesignHandle) templates.get( i ) ).getDisplayName( );
 				if ( displayName != null )
