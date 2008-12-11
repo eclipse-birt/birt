@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.taglib;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
@@ -183,24 +184,17 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 			String encParamName = ParameterAccessor
 					.htmlEncode( param.getName( ) );
 
-			Object[] values;
-			Object valueObj = param.getValue( );
+			Collection<Object> values = param.getValues( );
 
-			// support multi-value parameter
-			if ( valueObj != null && valueObj instanceof Object[] )
+			boolean allValuesAreStrings = true;
+			for ( Object value : values )
 			{
-				values = (Object[]) valueObj;
-			}
-			else
-			{
-				values = new Object[1];
-				values[0] = valueObj;
-			}
-
-			for ( int i = 0; i < values.length; i++ )
-			{
+				if ( !(value instanceof String) )
+				{
+					allValuesAreStrings = false;
+				}
 				// parse parameter object as standard format
-				String paramValue = DataUtil.getDisplayValue( values[i], timeZone );
+				String paramValue = DataUtil.getDisplayValue( value, timeZone );
 
 				// set NULL parameter
 				if ( paramValue == null )
@@ -218,9 +212,8 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 			}
 
 			// if value is string/string[], check whether set isLocale flag
-			if ( valueObj != null
-					&& param.isLocale( )
-					&& ( valueObj instanceof String || valueObj instanceof String[] ) )
+			if ( !values.isEmpty( )
+					&& allValuesAreStrings )
 			{
 
 				writer
@@ -237,11 +230,11 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 			}
 
 			// set parameter display text
-			if ( param.getDisplayText( ) != null )
+			for ( String displayText : param.getDisplayTexts( ) )
 			{
 				writer
-						.write( "<input type = 'hidden' name=\"" + ParameterAccessor.PREFIX_DISPLAY_TEXT + encParamName + "\" \n" ); //$NON-NLS-1$ //$NON-NLS-2$
-				writer.write( " value=\"" + param.getDisplayText( ) + "\">\n" ); //$NON-NLS-1$//$NON-NLS-2$
+				.write( "<input type = 'hidden' name=\"" + ParameterAccessor.PREFIX_DISPLAY_TEXT + encParamName + "\" \n" ); //$NON-NLS-1$ //$NON-NLS-2$
+				writer.write( " value=\"" + displayText + "\">\n" ); //$NON-NLS-1$//$NON-NLS-2$				
 			}
 		}
 
