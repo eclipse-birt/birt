@@ -906,14 +906,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 		if ( bRenderLegendTitle )
 		{
-			lgTitle = LabelImpl.copyInstance( lgTitle );
-
-			// handle external resource string
-			final String sPreviousValue = lgTitle.getCaption( ).getValue( );
-			lgTitle.getCaption( )
-					.setValue( rtc.externalizedMessage( sPreviousValue ) );
-
 			// use cached value
+			lgTitle = lilh.getLaTitle( );
 			Size titleSize = lilh.getTitleSize( );
 
 			lgTitleWidth = titleSize.getWidth( );
@@ -1254,7 +1248,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		// TODO: label text may be changed in script,
 		// in such the ellipsis may need to be recalculated
 		la.getCaption( )
-				.setValue( EllipsisHelper.ellipsisString( lih.getItemText( ),
+				.setValue( EllipsisHelper.ellipsisString( la.getCaption( )
+						.getValue( ),
 						lih.getValidItemLen( ) ) );
 		ITextMetrics itm = xs.getTextMetrics( la );
 		itm.reuse( la, lg.getWrappingSize( ) );

@@ -525,7 +525,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 				if ( bIntegralZoom )
 				{
-					double dPower = Math.log( dStep ) / LOG_10;
+					double dPower = Math.log10( dStep );
 
 					if ( dPower < 0 )
 					{
@@ -1722,7 +1722,7 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 
 	private class CateLabVisTester implements
-			EllipsisHelper.ILabelVisibilityTester
+			EllipsisHelper.ITester
 	{
 
 		private RotatedRectangle rrPrev;
@@ -1786,6 +1786,18 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 			}
 			return false;
+		}
+
+		public double getHeight( )
+		{
+			// not implemented
+			return 0;
+		}
+
+		public double getWidth( )
+		{
+			// not implemented
+			return 0;
 		}
 	}
 

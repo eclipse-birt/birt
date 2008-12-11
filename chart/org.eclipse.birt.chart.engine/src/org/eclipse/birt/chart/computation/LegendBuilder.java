@@ -22,6 +22,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+import org.eclipse.birt.chart.datafeed.IDataPointEntry;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -85,6 +86,7 @@ public final class LegendBuilder implements IConstants
 		private final double dVerticalSpacing;
 		private final double dSafeSpacing;
 		private final double dHorizonalReservedSpace;
+		private final double dShadowness;
 
 		public LegendData( IDisplayServer xs, Chart cm,
 				SeriesDefinition[] seda, RunTimeContext rtc )
@@ -117,6 +119,7 @@ public final class LegendBuilder implements IConstants
 			dHorizontalSpacing = 3 * dScale;
 			dVerticalSpacing = 3 * dScale;
 			dSafeSpacing = 3 * dScale;
+			this.dShadowness = 3 * dScale;
 
 			dHorizonalReservedSpace = insCa.getLeft( )
 					+ insCa.getRight( )
@@ -131,6 +134,7 @@ public final class LegendBuilder implements IConstants
 		private double dAvailableHeight;
 		private List<LegendItemHints> legendItems = new ArrayList<LegendItemHints>( );
 		private String sMinSliceLabel;
+		private Label laTitle;
 
 	}
 
@@ -210,7 +214,7 @@ public final class LegendBuilder implements IConstants
 	}
 
 	public static class LabelItem implements
-			EllipsisHelper.ILabelVisibilityTester
+ EllipsisHelper.ITester
 	{
 
 		private final IDisplayServer xs;
@@ -341,12 +345,12 @@ public final class LegendBuilder implements IConstants
 			return rst;
 		}
 
-		public double getWidth( )
+		public double getWidth( ) throws ChartException
 		{
 			return bb.getWidth( );
 		}
 
-		public double getHeight( )
+		public double getHeight( ) throws ChartException
 		{
 			return bb.getHeight( );
 		}
@@ -469,6 +473,56 @@ public final class LegendBuilder implements IConstants
 
 	}
 
+	/*
+	 * Return the size of legend title. Note: lgData will be modified!
+	 */
+	private static Size getTitleSize( LegendData lgData ) throws ChartException
+	{
+		Size size = null;
+		Label laTitle = lgData.lg.getTitle( );
+
+		if ( laTitle != null && laTitle.isSetVisible( ) && laTitle.isVisible( ) )
+		{
+			laTitle = LabelImpl.copyInstance( laTitle );
+			String sTitle = laTitle.getCaption( ).getValue( );
+			laTitle.getCaption( )
+					.setValue( lgData.rtc.externalizedMessage( sTitle ) );
+			int iTitlePos = lgData.lg.getTitlePosition( ).getValue( );
+			double shadow = lgData.dShadowness;
+			double space = 2 * shadow;
+			double percent = lgData.lg.getTitlePercent( );
+
+			if ( iTitlePos == Position.ABOVE || iTitlePos == Position.BELOW )
+			{
+				double dMaxTWidth = lgData.dAvailableWidth - shadow;
+				double dMaxTHeight = lgData.dAvailableHeight * percent - space;
+				Size maxTitleSize = SizeImpl.create( dMaxTWidth, dMaxTHeight );
+				size = Methods.computeLimitedLabelSize( lgData.xs,
+						laTitle,
+						maxTitleSize,
+						null );
+				lgData.dAvailableHeight -= size.getHeight( ) + space;
+			}
+			else
+			{
+				double dMaxTWidth = lgData.dAvailableWidth * percent - space;
+				double dMaxTHeight = lgData.dAvailableHeight - shadow;
+				Size maxTitleSize = SizeImpl.create( dMaxTWidth, dMaxTHeight );
+				size = Methods.computeLimitedLabelSize( lgData.xs,
+						laTitle,
+						maxTitleSize,
+						null );
+				lgData.dAvailableWidth -= size.getWidth( ) + space;
+			}
+
+			size.setWidth( size.getWidth( ) + space );
+			size.setHeight( size.getHeight( ) + space );
+		}
+
+		lgData.laTitle = laTitle;
+		return size;
+	}
+
 	/**
 	 * Computes the size of the legend. Note the computation relies on the title
 	 * size, so the title block must be layouted first before this.
@@ -502,10 +556,10 @@ public final class LegendBuilder implements IConstants
 					Messages.getResourceBundle( xs.getULocale( ) ) );
 		}
 
-		LegendData legendData = new LegendData( xs, cm, seda, rtc );
+		LegendData lgData = new LegendData( xs, cm, seda, rtc );
 
 		// Get maximum block width/height available
-		initAvailableSize( legendData );
+		initAvailableSize( lgData );
 
 		// Calculate if minSlice applicable.
 		boolean bMinSliceDefined = false;
@@ -513,85 +567,35 @@ public final class LegendBuilder implements IConstants
 		if ( cm instanceof ChartWithoutAxes )
 		{
 			bMinSliceDefined = ( (ChartWithoutAxes) cm ).isSetMinSlice( );
-			legendData.sMinSliceLabel = ( (ChartWithoutAxes) cm ).getMinSliceLabel( );
-			if ( legendData.sMinSliceLabel == null
-					|| legendData.sMinSliceLabel.length( ) == 0 )
+			lgData.sMinSliceLabel = ( (ChartWithoutAxes) cm ).getMinSliceLabel( );
+			if ( lgData.sMinSliceLabel == null
+					|| lgData.sMinSliceLabel.length( ) == 0 )
 			{
-				legendData.sMinSliceLabel = IConstants.UNDEFINED_STRING;
+				lgData.sMinSliceLabel = IConstants.UNDEFINED_STRING;
 			}
 			else
 			{
-				legendData.sMinSliceLabel = rtc.externalizedMessage( legendData.sMinSliceLabel );
+				lgData.sMinSliceLabel = rtc.externalizedMessage( lgData.sMinSliceLabel );
 			}
 		}
 
 		// calculate if need an extra legend item when minSlice defined.
 		if ( bMinSliceDefined
-				&& legendData.bPaletteByCategory
+				&& lgData.bPaletteByCategory
 				&& cm instanceof ChartWithoutAxes )
 		{
-			calculateExtraLegend( cm, rtc, legendData );
+			calculateExtraLegend( cm, rtc, lgData );
 		}
 
 		// consider legend title size.
-		Label lgTitle = lg.getTitle( );
 
-		Size titleSize = null;
-		BoundingBox titleBounding = null;
-		int iTitlePos = -1;
+		Size titleSize = getTitleSize( lgData );
 
-		if ( lgTitle != null && lgTitle.isSetVisible( ) && lgTitle.isVisible( ) )
-		{
-			lgTitle = LabelImpl.copyInstance( lgTitle );
-
-			// handle external resource string
-			final String sPreviousValue = lgTitle.getCaption( ).getValue( );
-			lgTitle.getCaption( )
-					.setValue( rtc.externalizedMessage( sPreviousValue ) );
-
-			titleBounding = Methods.computeLabelSize( xs, lgTitle, 0, null );
-			iTitlePos = lg.getTitlePosition( ).getValue( );
-
-			// swap left/right
-			if ( rtc.isRightToLeft( ) )
-			{
-				if ( iTitlePos == Position.LEFT )
-				{
-					iTitlePos = Position.RIGHT;
-				}
-				else if ( iTitlePos == Position.RIGHT )
-				{
-					iTitlePos = Position.LEFT;
-				}
-			}
-
-			double shadowness = 3 * legendData.dScale;
-
-			switch ( iTitlePos )
-			{
-				case Position.ABOVE :
-				case Position.BELOW :
-					legendData.dAvailableHeight -= titleBounding.getHeight( )
-							+ 2
-							* shadowness;
-					break;
-				case Position.LEFT :
-				case Position.RIGHT :
-					legendData.dAvailableWidth -= titleBounding.getWidth( )
-							+ 2
-							* shadowness;
-					break;
-			}
-
-			titleSize = SizeImpl.create( titleBounding.getWidth( )
-					+ 2
-					* shadowness, titleBounding.getHeight( ) + 2 * shadowness );
-		}
 		double[] size = null;
 		// COMPUTATIONS HERE MUST BE IN SYNC WITH THE ACTUAL RENDERER
 
-		ContentProvider cProvider = ContentProvider.newInstance( legendData );
-		ContentPlacer cPlacer = ContentPlacer.newInstance( legendData );
+		ContentProvider cProvider = ContentProvider.newInstance( lgData );
+		ContentPlacer cPlacer = ContentPlacer.newInstance( lgData );
 		LegendItemHints lih;
 
 		while ( ( lih = cProvider.nextContent( ) ) != null )
@@ -611,41 +615,39 @@ public final class LegendBuilder implements IConstants
 		}
 
 		double dWidth = size[0], dHeight = size[1];
-		if ( iTitlePos != -1 )
+
+		if ( titleSize != null )
 		{
+			int iTitlePos = lgData.lg.getTitlePosition( ).getValue( );
 
-			double shadowness = 3 * legendData.dScale;
-
-			switch ( iTitlePos )
+			if ( iTitlePos == Position.ABOVE || iTitlePos == Position.BELOW )
 			{
-				case Position.ABOVE :
-				case Position.BELOW :
-					dHeight += titleBounding.getHeight( ) + 2 * shadowness;
-					dWidth = Math.max( dWidth, titleBounding.getWidth( )
-							+ 2
-							* shadowness );
-					break;
-				case Position.LEFT :
-				case Position.RIGHT :
-					dWidth += titleBounding.getWidth( ) + 2 * shadowness;
-					dHeight = Math.max( dHeight, titleBounding.getHeight( )
-							+ 2
-							* shadowness );
-					break;
+				dWidth = Math.max( dWidth, titleSize.getWidth( ) );
+				dHeight = dHeight + titleSize.getHeight( );
+				// dHeight = Math.max( dHeight, titleSize.getHeight( )
+				// / lgData.lg.getTitlePercent( ) );
+			}
+			else
+			{
+				dWidth = dWidth + titleSize.getWidth( );
+				dHeight = Math.max( dHeight, titleSize.getHeight( ) );
+				// dWidth = Math.max( dWidth, titleSize.getWidth( )
+				// / lgData.lg.getTitlePercent( ) );
 			}
 		}
 
 		if ( rtc != null )
 		{
-			List<LegendItemHints> legendItems = legendData.legendItems;
+			List<LegendItemHints> legendItems = lgData.legendItems;
 			LegendItemHints[] liha = legendItems.toArray( new LegendItemHints[legendItems.size( )] );
 
 			// update context hints here.
 			LegendLayoutHints lilh = new LegendLayoutHints( SizeImpl.create( dWidth,
 					dHeight ),
 					titleSize,
-					legendData.bMinSliceApplied,
-					legendData.sMinSliceLabel,
+					lgData.laTitle,
+					lgData.bMinSliceApplied,
+					lgData.sMinSliceLabel,
 					liha );
 
 			rtc.setLegendLayoutHints( lilh );
@@ -1220,10 +1222,9 @@ public final class LegendBuilder implements IConstants
 					laiValue.dispose( );
 				}
 				Series series = (Series) lih.getSeriesDefinition( )
-							.getSeries( )
-							.get( 0 );
-				Label laValue = LabelImpl.copyInstance( series
-						.getLabel( ) );
+						.getSeries( )
+						.get( 0 );
+				Label laValue = LabelImpl.copyInstance( series.getLabel( ) );
 				laValue.setEllipsis( 1 );
 				this.laiValue = new LabelItem( lgData.xs,
 						lgData.rtc,
@@ -1452,6 +1453,7 @@ public final class LegendBuilder implements IConstants
 		}
 
 		private boolean placeContentWithSize( LegendItemHints lih, Point size )
+				throws ChartException
 		{
 			if ( !hasPlaceForOneItem( size, lgData ) )
 			{
@@ -1620,13 +1622,17 @@ public final class LegendBuilder implements IConstants
 		{
 			return false;
 		}
-		if ( obj instanceof Double )
+		else if ( obj instanceof Double )
 		{
 			return !( (Double) obj ).isNaN( ) && !( (Double) obj ).isInfinite( );
 		}
-		if ( obj instanceof String )
+		else if ( obj instanceof String )
 		{
 			return ( (String) obj ).length( ) != 0;
+		}
+		else if ( obj instanceof IDataPointEntry )
+		{
+			return ( (IDataPointEntry) obj ).isValid( );
 		}
 		return true;
 	}

@@ -12,16 +12,26 @@
 package org.eclipse.birt.chart.computation;
 
 import org.eclipse.birt.chart.device.IDisplayServer;
-import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.component.Label;
-import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 
+/**
+ * Provides a helper class to shorten a string with ellipsis. EllipsisHelper
+ */
 public class EllipsisHelper
 {
 
-	public interface ILabelVisibilityTester
+	/**
+	 * 
+	 * ITester
+	 */
+	public interface ITester
 	{
+
+		public double getWidth( ) throws ChartException;
+
+		public double getHeight( ) throws ChartException;
 
 		public boolean testLabelVisible( String strNew, Object oPara )
 				throws ChartException;
@@ -31,12 +41,17 @@ public class EllipsisHelper
 	private int iMinCharToView = 0;
 	private int iVisChar = 0;
 	private String sText;
-	private final ILabelVisibilityTester tester;
+	private final ITester tester;
 
-	public EllipsisHelper( ILabelVisibilityTester tester_, int iMinCharToView )
+	public EllipsisHelper( ITester tester_, int iMinCharToView )
 	{
 		tester = tester_;
 		this.iMinCharToView = iMinCharToView;
+	}
+
+	public ITester getTester( )
+	{
+		return this.tester;
 	}
 
 	public void setIMinCharToView( int iMinCharToView )
@@ -155,52 +170,78 @@ public class EllipsisHelper
 		}
 	}
 
-	public static ILabelVisibilityTester createSimpleTester(
-			IDisplayServer xs, Label la, double maxWidth, double maxHeight,
-			double maxWrappingSize )
+	public static ITester createSimpleTester( IDisplayServer xs, Label la,
+			double dWrapping, Double fontHeight )
 	{
-		return new SimpleTester( xs, la, maxWidth, maxHeight, maxWrappingSize );
+		return new SimpleTester( xs, la, dWrapping, fontHeight );
 	}
 
-}
-
-class SimpleTester implements EllipsisHelper.ILabelVisibilityTester
-{
-	private final IDisplayServer xs;
-	private final Label la;
-	private final double maxWidth;
-	private final double maxHeight;
-	private final ITextMetrics itm;
-	private final double maxWrappingSize;
-
-	public SimpleTester( IDisplayServer xs, Label la, double maxWidth,
-			double maxHeight, double maxWrappingSize )
+	public static EllipsisHelper simpleInstance( IDisplayServer xs, Label la,
+			double dWrapping, Double fontHeight )
 	{
-		this.xs = xs;
-		this.la = la;
-		this.itm = xs.getTextMetrics( la );
-		this.maxWidth = maxWidth;
-		this.maxHeight = maxHeight;
-		this.maxWrappingSize = maxWrappingSize;
+		return new EllipsisHelper( createSimpleTester( xs,
+				la,
+				dWrapping,
+				fontHeight ), 1 );
 	}
 
-	public boolean testLabelVisible( String strNew, Object para )
-			throws ChartException
+	/**
+	 * A simple implementation of EllipsisHelper.ITester SimpleTester
+	 */
+	private static class SimpleTester implements
+			EllipsisHelper.ITester
 	{
-		la.getCaption( ).setValue( strNew );
-		itm.reuse( la, maxWrappingSize );
 
-		try
+		private final IDisplayServer xs;
+		private final Label la;
+		private final double dWrapping;
+		private final Double fontHeight;
+		private BoundingBox bb = null;
+
+		public SimpleTester( IDisplayServer xs, Label la, double dWrapping,
+				Double fontHeight )
 		{
-			BoundingBox bb = Methods.computeBox( xs, IConstants.ABOVE, la, 0, 0 );
-			return bb.getWidth( ) <= maxWidth && bb.getHeight( ) <= maxHeight;
+			this.xs = xs;
+			this.la = la;
+			this.dWrapping = dWrapping;
+			this.fontHeight = fontHeight;
 		}
-		catch ( IllegalArgumentException uiex )
+
+		private void computeSize( ) throws ChartException
 		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.RENDERING,
-					uiex );
+			bb = Methods.computeLabelSize( xs, la, dWrapping, fontHeight );
 		}
+
+		public boolean testLabelVisible( String strNew, Object para )
+				throws ChartException
+		{
+			Size size = (Size) para;
+			la.getCaption( ).setValue( strNew );
+			computeSize( );
+			return bb.getWidth( ) <= size.getWidth( )
+					&& bb.getHeight( ) <= size.getHeight( );
+		}
+
+		public double getHeight( ) throws ChartException
+		{
+			if ( bb == null )
+			{
+				computeSize( );
+			}
+			return bb.getHeight( );
+		}
+
+		public double getWidth( ) throws ChartException
+		{
+			if ( bb == null )
+			{
+				computeSize( );
+			}
+			return bb.getWidth( );
+		}
+
 	}
 	
+
 }
+
