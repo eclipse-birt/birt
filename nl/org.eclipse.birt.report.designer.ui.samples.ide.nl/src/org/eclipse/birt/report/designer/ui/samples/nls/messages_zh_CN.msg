@@ -7,7 +7,7 @@ SampleReportsView.Text.Description=说明
 SampleReportsView.MessageDialog.Title=问题
 SampleReportsView.MessageDialog.Message=“{0}”已存在。要替换它吗?
 SampleReportsView.Action.exportSampleReport=保存
-SampleReportsView.Action.openSampleReport=打开
+SampleReportsView.Action.openSampleReport=&Open
 SampleReportsView.Action.exportSampleReport.toolTipText=导出选择的示例报表
 SampleReportsView.Action.openSampleReport.toolTipText.ide=创建报表项目并将报表放入项目文件夹
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=将选择的示例报表直接导出到 RCP 工作区文件夹
@@ -16,7 +16,7 @@ IDEOpenSampleReportAction.ProjectNameDialog.Label.PrjectName=项目名称:
 IDEOpenSampleReportAction.ProjectNameDialog.Title.PrjectName=项目名称
 IDEOpenSampleReportAction.MessageDialog.ProjectExists.Title=项目存在
 IDEOpenSampleReportAction.MessageDialog.ProjectExists.Message=项目已经存在。按“{0}”使用此项目，按“{1}”清除现有项目并创建新项目，按“{2}”取消。 
-IDEOpenSampleReportAction.MessageDialog.ProjectExists.ButtonText=覆盖
+IDEOpenSampleReportAction.MessageDialog.ProjectExists.ButtonText=&Overwrite
 
 ###########################################################
 #NewReportProjectWizard properties
