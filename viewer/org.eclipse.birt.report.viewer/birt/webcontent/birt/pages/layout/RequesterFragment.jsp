@@ -105,6 +105,8 @@
 		<script src="birt/ajax/ui/dialog/AbstractBaseDialog.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/dialog/AbstractParameterDialog.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/dialog/BirtParameterDialog.js" type="text/javascript"></script>
+		<script src="birt/ajax/ui/dialog/AbstractExceptionDialog.js" type="text/javascript"></script>
+		<script src="birt/ajax/ui/dialog/BirtExceptionDialog.js" type="text/javascript"></script>
 		
 		<SCRIPT SRC="birt/ajax/utility/BirtPosition.js" type="text/javascript"></script>
 
@@ -179,22 +181,8 @@
 		var birtProgressBar = new BirtProgressBar( 'progressBar' );
 		var birtReportDocument = new BirtReportDocument( "Document" );
 		
-		<%
-		//FIXME: workaround for Jetty
-		String servletPath = (String)request.getAttribute( "ServletPath" );
-		if ( "/parameter".equalsIgnoreCase( servletPath ) )
-		{
-		%>
-			var birtParameterDialog = new BirtParameterDialog( 'parameterDialog', 'parameter' );
-		<%
-		}
-		else
-		{
-		%>
-			var birtParameterDialog = new BirtParameterDialog( 'parameterDialog', 'preview' );
-		<%
-		}
-		%>
+		var birtParameterDialog = new BirtParameterDialog( 'parameterDialog' );
+		var birtExceptionDialog = new BirtExceptionDialog( 'exceptionDialog' );
 		
 		function init( )
 		{					

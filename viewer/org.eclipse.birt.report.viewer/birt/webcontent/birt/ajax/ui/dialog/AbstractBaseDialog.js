@@ -449,6 +449,17 @@ AbstractBaseDialog.prototype =
 	},
 	
 	/**
+	 * Shows or hide the title bar.
+	 * @param visible visibility flag
+	 */
+	__setTitleBarVisibile : function(visible)
+	{
+		// Hide dialog title bar if embedded in designer.
+		var titleBar = $( this.htmlId + 'dialogTitleBar' );
+		titleBar.style.display = visible?'inline':'none';			
+	},
+	
+	/**
 	@returns html id attribute of associated html element for this dialog
 	*/
 	getHtmlId: function()

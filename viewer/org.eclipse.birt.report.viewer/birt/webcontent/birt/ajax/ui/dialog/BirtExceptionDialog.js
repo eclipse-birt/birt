@@ -40,7 +40,13 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 	 */
 	initialize : function( id )
 	{
-		this.__initBase( id, "600px" );
+		var dialogWidth = (Constants.request.servletPath == Constants.SERVLET_PARAMETER)?500:600;
+		if ( BrowserUtility.isIE && !BrowserUtility.isIE7 )
+		{
+			dialogWidth -= 55;
+		}
+		
+		this.__initBase( id, dialogWidth + "px" );
 		this.__allowSelection = true; // allow selecting text with the mouse
 		
 		// it looks like IE 6 handles the width differently
@@ -48,22 +54,31 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 		var faultStringContainer = $("faultStringContainer");
 		if ( BrowserUtility.isIE && !BrowserUtility.isIE7 )
 		{
-			this.__setFaultContainersWidth( "580px" );
+			this.__setFaultContainersWidth( ( dialogWidth - 20 ) + "px" );
 			faultStringContainer.style.overflowX = "auto";
 			faultStringContainer.style.paddingBottom = "20px";
-			faultDetailContainer.parentNode.style.width = "570px";
+			faultDetailContainer.parentNode.style.width = ( dialogWidth - 30 ) + "px";
 			faultDetailContainer.style.width = "100%";
 		}
 		else
 		{
-			this.__setFaultContainersWidth( "520px" );
+			this.__setFaultContainersWidth( ( dialogWidth - 80 ) + "px" );
 			faultStringContainer.style.overflow = "auto";
 		}
 
-		// Bugzilla 225924: Fix overflow issue in the stack trace container		
-		if ( BrowserUtility.isSafari || BrowserUtility.isIE7 || BrowserUtility.isFirefox3 )
+		// Bugzilla 225924: Fix overflow issue in the stack trace container
+		if ( BrowserUtility.isSafari || BrowserUtility.isIE7 || ( BrowserUtility.isGecko && !BrowserUtility.isFirefox2 ) )
 		{
-			faultDetailContainer.parentNode.style.width = "510px";	
+			faultDetailContainer.parentNode.style.width = (dialogWidth - 90 ) + "px";
+		}
+	
+		if ( Constants.request.servletPath == Constants.SERVLET_PARAMETER )
+		{
+			// Hide dialog title bar if embedded in designer.
+			this.__setTitleBarVisibile(false);
+			// expand the dialog's height 
+			var contentContainer = $( id + "dialogContentContainer");
+			contentContainer.style.height = "355px";
 		}
 		
 		this.__z_index = 300;
@@ -98,6 +113,12 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 		
 		// refresh the dialog size (Mozilla/Firefox element resize bug)
 		birtUtility.refreshElement(this.__instance);
+		
+		if ( Constants.request.servletPath == Constants.SERVLET_PARAMETER )
+		{
+			// in designer mode, recenter the dialog
+			BirtPosition.center( this.__instance );
+		}
 	},
 		
 	/**

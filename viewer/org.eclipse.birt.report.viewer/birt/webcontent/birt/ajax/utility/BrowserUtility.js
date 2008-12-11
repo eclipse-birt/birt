@@ -33,6 +33,7 @@ BrowserUtility.prototype = {
 
 		this.isMozilla = this.__isMozilla();
 		this.isFirefox = this.__isFirefox();
+		this.isGecko = this.__isGecko();
 		this.isSafari = this.__isSafari();
 		this.isKHTML = this.__isKHTML();
 		this.isOpera = this.__isOpera();
@@ -118,6 +119,12 @@ BrowserUtility.prototype = {
 	{
 		var userAgent = navigator.userAgent.toLowerCase();
 		return (userAgent.indexOf('firefox') > -1);
+	},
+
+	__isGecko : function()
+	{
+		var userAgent = navigator.userAgent.toLowerCase();
+		return (userAgent.indexOf('gecko') > -1);
 	},
 	
 	useIFrame: function()
