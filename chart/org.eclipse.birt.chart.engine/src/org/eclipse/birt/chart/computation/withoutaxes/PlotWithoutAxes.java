@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.DataPointComponent;
@@ -104,6 +105,16 @@ public final class PlotWithoutAxes
 		}
 
 		iRows = ( iSeries - 1 ) / iColumns + 1;
+
+		if ( cwoa instanceof DialChart )
+		{
+			DialChart dcw = (DialChart) cwoa;
+			if ( dcw.isDialSuperimposition( ) )
+			{
+				iColumns = 1;
+				iRows = 1;
+			}
+		}
 
 		szCell = SizeImpl.create( boPlot.getWidth( ) / iColumns,
 				boPlot.getHeight( ) / iRows );
