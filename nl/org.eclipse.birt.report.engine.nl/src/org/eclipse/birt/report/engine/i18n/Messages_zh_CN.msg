@@ -102,3 +102,7 @@ Error.ResultsetExtractError = 未找到结果集
 
 ###########################################################
 PDFCreator = 使用 iText {1} 的 BIRT 报表引擎 {0}。
+
+###########################################################
+Error.FlashObjectNotSupported = "Flash Object report items are not supported in this report format."
+

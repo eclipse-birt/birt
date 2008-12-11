@@ -102,3 +102,7 @@ Error.ResultsetExtractError = 결과 집합을 찾을 수 없음
 
 ###########################################################
 PDFCreator = iText {1}을(를) 사용하는 BIRT 보고서 엔진 {0}
+
+###########################################################
+Error.FlashObjectNotSupported = "Flash Object report items are not supported in this report format."
+

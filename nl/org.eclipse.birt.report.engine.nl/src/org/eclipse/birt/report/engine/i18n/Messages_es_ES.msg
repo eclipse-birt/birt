@@ -102,3 +102,7 @@ Error.ResultsetExtractError = No se ha encontrado el conjunto de resultados
 
 ###########################################################
 PDFCreator = Motor de informes de BIRT {0} usando iText {1}.
+
+###########################################################
+Error.FlashObjectNotSupported = "Flash Object report items are not supported in this report format."
+
