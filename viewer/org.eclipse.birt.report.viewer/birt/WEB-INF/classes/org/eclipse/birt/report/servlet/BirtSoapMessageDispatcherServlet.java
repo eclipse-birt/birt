@@ -109,6 +109,9 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 		if ( req.getCharacterEncoding( ) == null )
 			req.setCharacterEncoding( IBirtConstants.DEFAULT_ENCODE );
 
+		// workaround for Jetty
+		req.setAttribute( "ServletPath", ((HttpServletRequest)req).getServletPath( ) ); //$NON-NLS-1$		
+		
 		super.service( req, res );
 	}
 
