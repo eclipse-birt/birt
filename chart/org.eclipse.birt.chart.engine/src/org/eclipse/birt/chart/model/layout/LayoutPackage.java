@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.model.layout;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -34,7 +35,8 @@ import org.eclipse.emf.ecore.EReference;
  * @see org.eclipse.birt.chart.model.layout.LayoutFactory
  * @generated
  */
-public interface LayoutPackage extends EPackage {
+public interface LayoutPackage extends EPackage
+{
 
 	/**
 	 * The package name.
@@ -63,8 +65,7 @@ public interface LayoutPackage extends EPackage {
 	 * end-user-doc -->
 	 * @generated
 	 */
-	LayoutPackage eINSTANCE = org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl
-			.init();
+	LayoutPackage eINSTANCE = org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl.init( );
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl <em>Block</em>}' class.
@@ -726,12 +727,21 @@ public interface LayoutPackage extends EPackage {
 	int LEGEND__MAX_PERCENT = BLOCK_FEATURE_COUNT + 15;
 
 	/**
+	 * The feature id for the '<em><b>Title Percent</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LEGEND__TITLE_PERCENT = BLOCK_FEATURE_COUNT + 16;
+
+	/**
 	 * The number of structural features of the '<em>Legend</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LEGEND_FEATURE_COUNT = BLOCK_FEATURE_COUNT + 16;
+	int LEGEND_FEATURE_COUNT = BLOCK_FEATURE_COUNT + 17;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl <em>Plot</em>}' class.
@@ -1074,6 +1084,25 @@ public interface LayoutPackage extends EPackage {
 	int TITLE_BLOCK_FEATURE_COUNT = LABEL_BLOCK_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '<em>Title Percent Type</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getTitlePercentType()
+	 * @generated
+	 */
+	int TITLE_PERCENT_TYPE = 6;
+
+	/**
+	 * The meta object id for the '<em>Title Percent Type Object</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see java.lang.Double
+	 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getTitlePercentTypeObject()
+	 * @generated
+	 */
+	int TITLE_PERCENT_TYPE_OBJECT = 7;
+
+	/**
 	 * Returns the meta object for class '
 	 * {@link org.eclipse.birt.chart.model.layout.Block <em>Block</em>}'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -1082,7 +1111,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see org.eclipse.birt.chart.model.layout.Block
 	 * @generated
 	 */
-	EClass getBlock();
+	EClass getBlock( );
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.layout.Block#getChildren <em>Children</em>}'.
@@ -1092,7 +1121,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getBlock()
 	 * @generated
 	 */
-	EReference getBlock_Children();
+	EReference getBlock_Children( );
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.Block#getBounds <em>Bounds</em>}'.
@@ -1102,7 +1131,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getBlock()
 	 * @generated
 	 */
-	EReference getBlock_Bounds();
+	EReference getBlock_Bounds( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Block#getAnchor <em>Anchor</em>}'.
@@ -1112,7 +1141,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getBlock()
 	 * @generated
 	 */
-	EAttribute getBlock_Anchor();
+	EAttribute getBlock_Anchor( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Block#getStretch <em>Stretch</em>}'.
@@ -1122,7 +1151,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getBlock()
 	 * @generated
 	 */
-	EAttribute getBlock_Stretch();
+	EAttribute getBlock_Stretch( );
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.Block#getInsets <em>Insets</em>}'.
@@ -1132,7 +1161,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getBlock()
 	 * @generated
 	 */
-	EReference getBlock_Insets();
+	EReference getBlock_Insets( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Block#getRow <em>Row</em>}'.
@@ -1142,7 +1171,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getBlock()
 	 * @generated
 	 */
-	EAttribute getBlock_Row();
+	EAttribute getBlock_Row( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Block#getColumn <em>Column</em>}'.
@@ -1152,7 +1181,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getBlock()
 	 * @generated
 	 */
-	EAttribute getBlock_Column();
+	EAttribute getBlock_Column( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Block#getRowspan <em>Rowspan</em>}'.
@@ -1162,7 +1191,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getBlock()
 	 * @generated
 	 */
-	EAttribute getBlock_Rowspan();
+	EAttribute getBlock_Rowspan( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Block#getColumnspan <em>Columnspan</em>}'.
@@ -1172,7 +1201,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getBlock()
 	 * @generated
 	 */
-	EAttribute getBlock_Columnspan();
+	EAttribute getBlock_Columnspan( );
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.Block#getMinSize <em>Min Size</em>}'.
@@ -1182,7 +1211,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getBlock()
 	 * @generated
 	 */
-	EReference getBlock_MinSize();
+	EReference getBlock_MinSize( );
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.Block#getOutline <em>Outline</em>}'.
@@ -1192,7 +1221,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getBlock()
 	 * @generated
 	 */
-	EReference getBlock_Outline();
+	EReference getBlock_Outline( );
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.Block#getBackground <em>Background</em>}'.
@@ -1202,7 +1231,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getBlock()
 	 * @generated
 	 */
-	EReference getBlock_Background();
+	EReference getBlock_Background( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Block#isVisible <em>Visible</em>}'.
@@ -1212,7 +1241,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getBlock()
 	 * @generated
 	 */
-	EAttribute getBlock_Visible();
+	EAttribute getBlock_Visible( );
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.layout.Block#getTriggers <em>Triggers</em>}'.
@@ -1222,7 +1251,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getBlock()
 	 * @generated
 	 */
-	EReference getBlock_Triggers();
+	EReference getBlock_Triggers( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Block#getWidthHint <em>Width Hint</em>}'.
@@ -1233,7 +1262,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getBlock()
 	 * @generated
 	 */
-	EAttribute getBlock_WidthHint();
+	EAttribute getBlock_WidthHint( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Block#getHeightHint <em>Height Hint</em>}'.
@@ -1244,7 +1273,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getBlock()
 	 * @generated
 	 */
-	EAttribute getBlock_HeightHint();
+	EAttribute getBlock_HeightHint( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.layout.ClientArea <em>Client Area</em>}'.
@@ -1253,7 +1282,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see org.eclipse.birt.chart.model.layout.ClientArea
 	 * @generated
 	 */
-	EClass getClientArea();
+	EClass getClientArea( );
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.ClientArea#getBackground <em>Background</em>}'.
@@ -1263,7 +1292,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getClientArea()
 	 * @generated
 	 */
-	EReference getClientArea_Background();
+	EReference getClientArea_Background( );
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.ClientArea#getOutline <em>Outline</em>}'.
@@ -1273,7 +1302,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getClientArea()
 	 * @generated
 	 */
-	EReference getClientArea_Outline();
+	EReference getClientArea_Outline( );
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.ClientArea#getShadowColor <em>Shadow Color</em>}'.
@@ -1283,7 +1312,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getClientArea()
 	 * @generated
 	 */
-	EReference getClientArea_ShadowColor();
+	EReference getClientArea_ShadowColor( );
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.ClientArea#getInsets <em>Insets</em>}'.
@@ -1293,7 +1322,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getClientArea()
 	 * @generated
 	 */
-	EReference getClientArea_Insets();
+	EReference getClientArea_Insets( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.ClientArea#isVisible <em>Visible</em>}'.
@@ -1304,7 +1333,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getClientArea()
 	 * @generated
 	 */
-	EAttribute getClientArea_Visible();
+	EAttribute getClientArea_Visible( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.layout.LabelBlock <em>Label Block</em>}'.
@@ -1313,7 +1342,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see org.eclipse.birt.chart.model.layout.LabelBlock
 	 * @generated
 	 */
-	EClass getLabelBlock();
+	EClass getLabelBlock( );
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.LabelBlock#getLabel <em>Label</em>}'.
@@ -1323,7 +1352,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getLabelBlock()
 	 * @generated
 	 */
-	EReference getLabelBlock_Label();
+	EReference getLabelBlock_Label( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.layout.Legend <em>Legend</em>}'.
@@ -1332,7 +1361,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see org.eclipse.birt.chart.model.layout.Legend
 	 * @generated
 	 */
-	EClass getLegend();
+	EClass getLegend( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#getHorizontalSpacing <em>Horizontal Spacing</em>}'.
@@ -1342,7 +1371,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getLegend()
 	 * @generated
 	 */
-	EAttribute getLegend_HorizontalSpacing();
+	EAttribute getLegend_HorizontalSpacing( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#getVerticalSpacing <em>Vertical Spacing</em>}'.
@@ -1352,7 +1381,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getLegend()
 	 * @generated
 	 */
-	EAttribute getLegend_VerticalSpacing();
+	EAttribute getLegend_VerticalSpacing( );
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.Legend#getClientArea <em>Client Area</em>}'.
@@ -1362,7 +1391,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getLegend()
 	 * @generated
 	 */
-	EReference getLegend_ClientArea();
+	EReference getLegend_ClientArea( );
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.Legend#getText <em>Text</em>}'.
@@ -1372,7 +1401,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getLegend()
 	 * @generated
 	 */
-	EReference getLegend_Text();
+	EReference getLegend_Text( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#getOrientation <em>Orientation</em>}'.
@@ -1382,7 +1411,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getLegend()
 	 * @generated
 	 */
-	EAttribute getLegend_Orientation();
+	EAttribute getLegend_Orientation( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#getDirection <em>Direction</em>}'.
@@ -1392,7 +1421,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getLegend()
 	 * @generated
 	 */
-	EAttribute getLegend_Direction();
+	EAttribute getLegend_Direction( );
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.Legend#getSeparator <em>Separator</em>}'.
@@ -1402,7 +1431,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getLegend()
 	 * @generated
 	 */
-	EReference getLegend_Separator();
+	EReference getLegend_Separator( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#getPosition <em>Position</em>}'.
@@ -1412,7 +1441,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getLegend()
 	 * @generated
 	 */
-	EAttribute getLegend_Position();
+	EAttribute getLegend_Position( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#getItemType <em>Item Type</em>}'.
@@ -1422,7 +1451,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getLegend()
 	 * @generated
 	 */
-	EAttribute getLegend_ItemType();
+	EAttribute getLegend_ItemType( );
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.Legend#getTitle <em>Title</em>}'.
@@ -1433,7 +1462,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getLegend()
 	 * @generated
 	 */
-	EReference getLegend_Title();
+	EReference getLegend_Title( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#getTitlePosition <em>Title Position</em>}'.
@@ -1444,7 +1473,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getLegend()
 	 * @generated
 	 */
-	EAttribute getLegend_TitlePosition();
+	EAttribute getLegend_TitlePosition( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#isShowValue <em>Show Value</em>}'.
@@ -1455,7 +1484,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getLegend()
 	 * @generated
 	 */
-	EAttribute getLegend_ShowValue();
+	EAttribute getLegend_ShowValue( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#isShowPercent <em>Show Percent</em>}'.
@@ -1466,7 +1495,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getLegend()
 	 * @generated
 	 */
-	EAttribute getLegend_ShowPercent();
+	EAttribute getLegend_ShowPercent( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#isShowTotal <em>Show Total</em>}'.
@@ -1477,7 +1506,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getLegend()
 	 * @generated
 	 */
-	EAttribute getLegend_ShowTotal();
+	EAttribute getLegend_ShowTotal( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#getWrappingSize <em>Wrapping Size</em>}'.
@@ -1488,7 +1517,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getLegend()
 	 * @generated
 	 */
-	EAttribute getLegend_WrappingSize();
+	EAttribute getLegend_WrappingSize( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#getMaxPercent <em>Max Percent</em>}'.
@@ -1499,7 +1528,18 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getLegend()
 	 * @generated
 	 */
-	EAttribute getLegend_MaxPercent();
+	EAttribute getLegend_MaxPercent( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#getTitlePercent <em>Title Percent</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Title Percent</em>'.
+	 * @see org.eclipse.birt.chart.model.layout.Legend#getTitlePercent()
+	 * @see #getLegend()
+	 * @generated
+	 */
+	EAttribute getLegend_TitlePercent( );
 
 	/**
 	 * Returns the meta object for class '
@@ -1510,7 +1550,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see org.eclipse.birt.chart.model.layout.Plot
 	 * @generated
 	 */
-	EClass getPlot();
+	EClass getPlot( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Plot#getHorizontalSpacing <em>Horizontal Spacing</em>}'.
@@ -1520,7 +1560,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getPlot()
 	 * @generated
 	 */
-	EAttribute getPlot_HorizontalSpacing();
+	EAttribute getPlot_HorizontalSpacing( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Plot#getVerticalSpacing <em>Vertical Spacing</em>}'.
@@ -1530,7 +1570,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getPlot()
 	 * @generated
 	 */
-	EAttribute getPlot_VerticalSpacing();
+	EAttribute getPlot_VerticalSpacing( );
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.Plot#getClientArea <em>Client Area</em>}'.
@@ -1540,7 +1580,7 @@ public interface LayoutPackage extends EPackage {
 	 * @see #getPlot()
 	 * @generated
 	 */
-	EReference getPlot_ClientArea();
+	EReference getPlot_ClientArea( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.layout.TitleBlock <em>Title Block</em>}'.
@@ -1549,7 +1589,30 @@ public interface LayoutPackage extends EPackage {
 	 * @see org.eclipse.birt.chart.model.layout.TitleBlock
 	 * @generated
 	 */
-	EClass getTitleBlock();
+	EClass getTitleBlock( );
+
+	/**
+	 * Returns the meta object for data type '<em>Title Percent Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Title Percent Type</em>'.
+	 * @model instanceClass="double"
+	 *        extendedMetaData="name='TitlePercent_._type' baseType='http://www.eclipse.org/emf/2003/XMLType#double' minInclusive='0' maxInclusive='1'"
+	 * @generated
+	 */
+	EDataType getTitlePercentType( );
+
+	/**
+	 * Returns the meta object for data type '{@link java.lang.Double <em>Title Percent Type Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Title Percent Type Object</em>'.
+	 * @see java.lang.Double
+	 * @model instanceClass="java.lang.Double"
+	 *        extendedMetaData="name='TitlePercent_._type:Object' baseType='TitlePercent_._type'"
+	 * @generated
+	 */
+	EDataType getTitlePercentTypeObject( );
 
 	/**
 	 * Returns the factory that creates the instances of the model. <!--
@@ -1558,7 +1621,7 @@ public interface LayoutPackage extends EPackage {
 	 * @return the factory that creates the instances of the model.
 	 * @generated
 	 */
-	LayoutFactory getLayoutFactory();
+	LayoutFactory getLayoutFactory( );
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1572,7 +1635,8 @@ public interface LayoutPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	interface Literals {
+	interface Literals
+	{
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl <em>Block</em>}' class.
@@ -1582,7 +1646,7 @@ public interface LayoutPackage extends EPackage {
 		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getBlock()
 		 * @generated
 		 */
-		EClass BLOCK = eINSTANCE.getBlock();
+		EClass BLOCK = eINSTANCE.getBlock( );
 
 		/**
 		 * The meta object literal for the '<em><b>Children</b></em>' containment reference list feature.
@@ -1590,7 +1654,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference BLOCK__CHILDREN = eINSTANCE.getBlock_Children();
+		EReference BLOCK__CHILDREN = eINSTANCE.getBlock_Children( );
 
 		/**
 		 * The meta object literal for the '<em><b>Bounds</b></em>' containment reference feature.
@@ -1598,7 +1662,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference BLOCK__BOUNDS = eINSTANCE.getBlock_Bounds();
+		EReference BLOCK__BOUNDS = eINSTANCE.getBlock_Bounds( );
 
 		/**
 		 * The meta object literal for the '<em><b>Anchor</b></em>' attribute feature.
@@ -1606,7 +1670,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute BLOCK__ANCHOR = eINSTANCE.getBlock_Anchor();
+		EAttribute BLOCK__ANCHOR = eINSTANCE.getBlock_Anchor( );
 
 		/**
 		 * The meta object literal for the '<em><b>Stretch</b></em>' attribute feature.
@@ -1614,7 +1678,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute BLOCK__STRETCH = eINSTANCE.getBlock_Stretch();
+		EAttribute BLOCK__STRETCH = eINSTANCE.getBlock_Stretch( );
 
 		/**
 		 * The meta object literal for the '<em><b>Insets</b></em>' containment reference feature.
@@ -1622,7 +1686,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference BLOCK__INSETS = eINSTANCE.getBlock_Insets();
+		EReference BLOCK__INSETS = eINSTANCE.getBlock_Insets( );
 
 		/**
 		 * The meta object literal for the '<em><b>Row</b></em>' attribute feature.
@@ -1630,7 +1694,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute BLOCK__ROW = eINSTANCE.getBlock_Row();
+		EAttribute BLOCK__ROW = eINSTANCE.getBlock_Row( );
 
 		/**
 		 * The meta object literal for the '<em><b>Column</b></em>' attribute feature.
@@ -1638,7 +1702,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute BLOCK__COLUMN = eINSTANCE.getBlock_Column();
+		EAttribute BLOCK__COLUMN = eINSTANCE.getBlock_Column( );
 
 		/**
 		 * The meta object literal for the '<em><b>Rowspan</b></em>' attribute feature.
@@ -1646,7 +1710,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute BLOCK__ROWSPAN = eINSTANCE.getBlock_Rowspan();
+		EAttribute BLOCK__ROWSPAN = eINSTANCE.getBlock_Rowspan( );
 
 		/**
 		 * The meta object literal for the '<em><b>Columnspan</b></em>' attribute feature.
@@ -1654,7 +1718,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute BLOCK__COLUMNSPAN = eINSTANCE.getBlock_Columnspan();
+		EAttribute BLOCK__COLUMNSPAN = eINSTANCE.getBlock_Columnspan( );
 
 		/**
 		 * The meta object literal for the '<em><b>Min Size</b></em>' containment reference feature.
@@ -1662,7 +1726,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference BLOCK__MIN_SIZE = eINSTANCE.getBlock_MinSize();
+		EReference BLOCK__MIN_SIZE = eINSTANCE.getBlock_MinSize( );
 
 		/**
 		 * The meta object literal for the '<em><b>Outline</b></em>' containment reference feature.
@@ -1670,7 +1734,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference BLOCK__OUTLINE = eINSTANCE.getBlock_Outline();
+		EReference BLOCK__OUTLINE = eINSTANCE.getBlock_Outline( );
 
 		/**
 		 * The meta object literal for the '<em><b>Background</b></em>' containment reference feature.
@@ -1678,7 +1742,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference BLOCK__BACKGROUND = eINSTANCE.getBlock_Background();
+		EReference BLOCK__BACKGROUND = eINSTANCE.getBlock_Background( );
 
 		/**
 		 * The meta object literal for the '<em><b>Visible</b></em>' attribute feature.
@@ -1686,7 +1750,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute BLOCK__VISIBLE = eINSTANCE.getBlock_Visible();
+		EAttribute BLOCK__VISIBLE = eINSTANCE.getBlock_Visible( );
 
 		/**
 		 * The meta object literal for the '<em><b>Triggers</b></em>' containment reference list feature.
@@ -1694,7 +1758,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference BLOCK__TRIGGERS = eINSTANCE.getBlock_Triggers();
+		EReference BLOCK__TRIGGERS = eINSTANCE.getBlock_Triggers( );
 
 		/**
 		 * The meta object literal for the '<em><b>Width Hint</b></em>' attribute feature.
@@ -1702,7 +1766,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute BLOCK__WIDTH_HINT = eINSTANCE.getBlock_WidthHint();
+		EAttribute BLOCK__WIDTH_HINT = eINSTANCE.getBlock_WidthHint( );
 
 		/**
 		 * The meta object literal for the '<em><b>Height Hint</b></em>' attribute feature.
@@ -1710,7 +1774,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute BLOCK__HEIGHT_HINT = eINSTANCE.getBlock_HeightHint();
+		EAttribute BLOCK__HEIGHT_HINT = eINSTANCE.getBlock_HeightHint( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl <em>Client Area</em>}' class.
@@ -1720,7 +1784,7 @@ public interface LayoutPackage extends EPackage {
 		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getClientArea()
 		 * @generated
 		 */
-		EClass CLIENT_AREA = eINSTANCE.getClientArea();
+		EClass CLIENT_AREA = eINSTANCE.getClientArea( );
 
 		/**
 		 * The meta object literal for the '<em><b>Background</b></em>' containment reference feature.
@@ -1728,8 +1792,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CLIENT_AREA__BACKGROUND = eINSTANCE
-				.getClientArea_Background();
+		EReference CLIENT_AREA__BACKGROUND = eINSTANCE.getClientArea_Background( );
 
 		/**
 		 * The meta object literal for the '<em><b>Outline</b></em>' containment reference feature.
@@ -1737,7 +1800,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CLIENT_AREA__OUTLINE = eINSTANCE.getClientArea_Outline();
+		EReference CLIENT_AREA__OUTLINE = eINSTANCE.getClientArea_Outline( );
 
 		/**
 		 * The meta object literal for the '<em><b>Shadow Color</b></em>' containment reference feature.
@@ -1745,8 +1808,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CLIENT_AREA__SHADOW_COLOR = eINSTANCE
-				.getClientArea_ShadowColor();
+		EReference CLIENT_AREA__SHADOW_COLOR = eINSTANCE.getClientArea_ShadowColor( );
 
 		/**
 		 * The meta object literal for the '<em><b>Insets</b></em>' containment reference feature.
@@ -1754,7 +1816,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CLIENT_AREA__INSETS = eINSTANCE.getClientArea_Insets();
+		EReference CLIENT_AREA__INSETS = eINSTANCE.getClientArea_Insets( );
 
 		/**
 		 * The meta object literal for the '<em><b>Visible</b></em>' attribute feature.
@@ -1762,7 +1824,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute CLIENT_AREA__VISIBLE = eINSTANCE.getClientArea_Visible();
+		EAttribute CLIENT_AREA__VISIBLE = eINSTANCE.getClientArea_Visible( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.layout.impl.LabelBlockImpl <em>Label Block</em>}' class.
@@ -1772,7 +1834,7 @@ public interface LayoutPackage extends EPackage {
 		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getLabelBlock()
 		 * @generated
 		 */
-		EClass LABEL_BLOCK = eINSTANCE.getLabelBlock();
+		EClass LABEL_BLOCK = eINSTANCE.getLabelBlock( );
 
 		/**
 		 * The meta object literal for the '<em><b>Label</b></em>' containment reference feature.
@@ -1780,7 +1842,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference LABEL_BLOCK__LABEL = eINSTANCE.getLabelBlock_Label();
+		EReference LABEL_BLOCK__LABEL = eINSTANCE.getLabelBlock_Label( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl <em>Legend</em>}' class.
@@ -1790,7 +1852,7 @@ public interface LayoutPackage extends EPackage {
 		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getLegend()
 		 * @generated
 		 */
-		EClass LEGEND = eINSTANCE.getLegend();
+		EClass LEGEND = eINSTANCE.getLegend( );
 
 		/**
 		 * The meta object literal for the '<em><b>Horizontal Spacing</b></em>' attribute feature.
@@ -1798,8 +1860,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute LEGEND__HORIZONTAL_SPACING = eINSTANCE
-				.getLegend_HorizontalSpacing();
+		EAttribute LEGEND__HORIZONTAL_SPACING = eINSTANCE.getLegend_HorizontalSpacing( );
 
 		/**
 		 * The meta object literal for the '<em><b>Vertical Spacing</b></em>' attribute feature.
@@ -1807,8 +1868,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute LEGEND__VERTICAL_SPACING = eINSTANCE
-				.getLegend_VerticalSpacing();
+		EAttribute LEGEND__VERTICAL_SPACING = eINSTANCE.getLegend_VerticalSpacing( );
 
 		/**
 		 * The meta object literal for the '<em><b>Client Area</b></em>' containment reference feature.
@@ -1816,7 +1876,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference LEGEND__CLIENT_AREA = eINSTANCE.getLegend_ClientArea();
+		EReference LEGEND__CLIENT_AREA = eINSTANCE.getLegend_ClientArea( );
 
 		/**
 		 * The meta object literal for the '<em><b>Text</b></em>' containment reference feature.
@@ -1824,7 +1884,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference LEGEND__TEXT = eINSTANCE.getLegend_Text();
+		EReference LEGEND__TEXT = eINSTANCE.getLegend_Text( );
 
 		/**
 		 * The meta object literal for the '<em><b>Orientation</b></em>' attribute feature.
@@ -1832,7 +1892,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute LEGEND__ORIENTATION = eINSTANCE.getLegend_Orientation();
+		EAttribute LEGEND__ORIENTATION = eINSTANCE.getLegend_Orientation( );
 
 		/**
 		 * The meta object literal for the '<em><b>Direction</b></em>' attribute feature.
@@ -1840,7 +1900,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute LEGEND__DIRECTION = eINSTANCE.getLegend_Direction();
+		EAttribute LEGEND__DIRECTION = eINSTANCE.getLegend_Direction( );
 
 		/**
 		 * The meta object literal for the '<em><b>Separator</b></em>' containment reference feature.
@@ -1848,7 +1908,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference LEGEND__SEPARATOR = eINSTANCE.getLegend_Separator();
+		EReference LEGEND__SEPARATOR = eINSTANCE.getLegend_Separator( );
 
 		/**
 		 * The meta object literal for the '<em><b>Position</b></em>' attribute feature.
@@ -1856,7 +1916,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute LEGEND__POSITION = eINSTANCE.getLegend_Position();
+		EAttribute LEGEND__POSITION = eINSTANCE.getLegend_Position( );
 
 		/**
 		 * The meta object literal for the '<em><b>Item Type</b></em>' attribute feature.
@@ -1864,7 +1924,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute LEGEND__ITEM_TYPE = eINSTANCE.getLegend_ItemType();
+		EAttribute LEGEND__ITEM_TYPE = eINSTANCE.getLegend_ItemType( );
 
 		/**
 		 * The meta object literal for the '<em><b>Title</b></em>' containment reference feature.
@@ -1872,7 +1932,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference LEGEND__TITLE = eINSTANCE.getLegend_Title();
+		EReference LEGEND__TITLE = eINSTANCE.getLegend_Title( );
 
 		/**
 		 * The meta object literal for the '<em><b>Title Position</b></em>' attribute feature.
@@ -1880,7 +1940,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute LEGEND__TITLE_POSITION = eINSTANCE.getLegend_TitlePosition();
+		EAttribute LEGEND__TITLE_POSITION = eINSTANCE.getLegend_TitlePosition( );
 
 		/**
 		 * The meta object literal for the '<em><b>Show Value</b></em>' attribute feature.
@@ -1888,7 +1948,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute LEGEND__SHOW_VALUE = eINSTANCE.getLegend_ShowValue();
+		EAttribute LEGEND__SHOW_VALUE = eINSTANCE.getLegend_ShowValue( );
 
 		/**
 		 * The meta object literal for the '<em><b>Show Percent</b></em>' attribute feature.
@@ -1896,7 +1956,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute LEGEND__SHOW_PERCENT = eINSTANCE.getLegend_ShowPercent();
+		EAttribute LEGEND__SHOW_PERCENT = eINSTANCE.getLegend_ShowPercent( );
 
 		/**
 		 * The meta object literal for the '<em><b>Show Total</b></em>' attribute feature.
@@ -1904,7 +1964,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute LEGEND__SHOW_TOTAL = eINSTANCE.getLegend_ShowTotal();
+		EAttribute LEGEND__SHOW_TOTAL = eINSTANCE.getLegend_ShowTotal( );
 
 		/**
 		 * The meta object literal for the '<em><b>Wrapping Size</b></em>' attribute feature.
@@ -1912,7 +1972,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute LEGEND__WRAPPING_SIZE = eINSTANCE.getLegend_WrappingSize();
+		EAttribute LEGEND__WRAPPING_SIZE = eINSTANCE.getLegend_WrappingSize( );
 
 		/**
 		 * The meta object literal for the '<em><b>Max Percent</b></em>' attribute feature.
@@ -1920,7 +1980,15 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute LEGEND__MAX_PERCENT = eINSTANCE.getLegend_MaxPercent();
+		EAttribute LEGEND__MAX_PERCENT = eINSTANCE.getLegend_MaxPercent( );
+
+		/**
+		 * The meta object literal for the '<em><b>Title Percent</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LEGEND__TITLE_PERCENT = eINSTANCE.getLegend_TitlePercent( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl <em>Plot</em>}' class.
@@ -1930,7 +1998,7 @@ public interface LayoutPackage extends EPackage {
 		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getPlot()
 		 * @generated
 		 */
-		EClass PLOT = eINSTANCE.getPlot();
+		EClass PLOT = eINSTANCE.getPlot( );
 
 		/**
 		 * The meta object literal for the '<em><b>Horizontal Spacing</b></em>' attribute feature.
@@ -1938,8 +2006,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PLOT__HORIZONTAL_SPACING = eINSTANCE
-				.getPlot_HorizontalSpacing();
+		EAttribute PLOT__HORIZONTAL_SPACING = eINSTANCE.getPlot_HorizontalSpacing( );
 
 		/**
 		 * The meta object literal for the '<em><b>Vertical Spacing</b></em>' attribute feature.
@@ -1947,7 +2014,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PLOT__VERTICAL_SPACING = eINSTANCE.getPlot_VerticalSpacing();
+		EAttribute PLOT__VERTICAL_SPACING = eINSTANCE.getPlot_VerticalSpacing( );
 
 		/**
 		 * The meta object literal for the '<em><b>Client Area</b></em>' containment reference feature.
@@ -1955,7 +2022,7 @@ public interface LayoutPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PLOT__CLIENT_AREA = eINSTANCE.getPlot_ClientArea();
+		EReference PLOT__CLIENT_AREA = eINSTANCE.getPlot_ClientArea( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.layout.impl.TitleBlockImpl <em>Title Block</em>}' class.
@@ -1965,7 +2032,26 @@ public interface LayoutPackage extends EPackage {
 		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getTitleBlock()
 		 * @generated
 		 */
-		EClass TITLE_BLOCK = eINSTANCE.getTitleBlock();
+		EClass TITLE_BLOCK = eINSTANCE.getTitleBlock( );
+
+		/**
+		 * The meta object literal for the '<em>Title Percent Type</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getTitlePercentType()
+		 * @generated
+		 */
+		EDataType TITLE_PERCENT_TYPE = eINSTANCE.getTitlePercentType( );
+
+		/**
+		 * The meta object literal for the '<em>Title Percent Type Object</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see java.lang.Double
+		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getTitlePercentTypeObject()
+		 * @generated
+		 */
+		EDataType TITLE_PERCENT_TYPE_OBJECT = eINSTANCE.getTitlePercentTypeObject( );
 
 	}
 
