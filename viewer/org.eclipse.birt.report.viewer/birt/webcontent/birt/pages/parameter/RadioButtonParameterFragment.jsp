@@ -13,7 +13,9 @@
 <%@ page import="org.eclipse.birt.report.context.ScalarParameterBean,
 				 org.eclipse.birt.report.context.BaseAttributeBean,
 				 org.eclipse.birt.report.service.api.ParameterSelectionChoice,
-				 org.eclipse.birt.report.utility.ParameterAccessor" %>
+				 org.eclipse.birt.report.utility.ParameterAccessor,
+				 org.eclipse.birt.report.utility.DataUtil,
+				 org.eclipse.birt.report.IBirtConstants" %>
 
 <%-----------------------------------------------------------------------------
 	Expected java beans
@@ -61,15 +63,16 @@
 			ParameterSelectionChoice selectionItem = ( ParameterSelectionChoice )parameterBean.getSelectionList( ).get( i );						
 			String label = selectionItem.getLabel( );
 			String value = ( String ) selectionItem.getValue( );
+			String encodedValue = ParameterAccessor.htmlEncode(( value == null )?IBirtConstants.NULL_VALUE:value);
 			
-			CHECKED = ( parameterBean.getValue( ) != null && parameterBean.getValue( ).equals( value ) 
+			CHECKED = ( DataUtil.equals( parameterBean.getValue( ), value )
 						&& ( !isDisplayTextInList || ( isDisplayTextInList && label.equals( parameterBean.getDisplayText( ) ) ) ) );						
 %>
 	<INPUT TYPE="RADIO"
 		NAME="<%= encodedParameterName %>"
 		ID="<%= encodedParameterName + i %>" 
 		TITLE="<%= parameterBean.getToolTip( ) %>"
-		VALUE="<%= ParameterAccessor.htmlEncode( value ) %>"
+		VALUE="<%= encodedValue %>"
 		<%= !isSelected && CHECKED ? "CHECKED" : "" %>>
 		<LABEL ID="<%= (encodedParameterName + i) + "_label" %>" 
 		   TITLE="<%= ParameterAccessor.htmlEncode( label ) %>" 
@@ -82,20 +85,6 @@
 		}
 	}	
 
-	if ( !parameterBean.isRequired( ) )
-	{
-%>
-	<INPUT TYPE="RADIO"
-		NAME="<%= encodedParameterName %>"
-		ID="<%= encodedParameterName + "_null" %>" 
-		TITLE="<%= parameterBean.getToolTip( ) %>"
-		VALUE=""
-		<%= ( parameterBean.getValue( ) == null )? "CHECKED" : "" %>>
-		<LABEL FOR="<%= encodedParameterName + "_null" %>">Null Value</LABEL>
-	</INPUT>
-	<BR>
-<%
-	}
 %>
 	</TD>
 </TR>

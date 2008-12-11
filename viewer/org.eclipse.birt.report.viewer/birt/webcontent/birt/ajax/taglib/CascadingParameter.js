@@ -109,7 +109,7 @@ CascadingParameter.prototype =
 			if( !$( radioSelectId ) || $( radioSelectId ).checked )
 			{
 				var label = $( id ).text;
-				if( label == "Null Value" )
+				if( label == Constants.nullValue )
 				{
 					this.__data[i].name = Constants.PARAM_ISNULL;
 					this.__data[i].value = this.__paramNames[i];	

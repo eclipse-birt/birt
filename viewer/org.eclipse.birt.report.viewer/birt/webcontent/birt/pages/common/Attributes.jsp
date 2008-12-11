@@ -1,8 +1,12 @@
-<%@ page import="org.eclipse.birt.report.utility.ParameterAccessor" %>
+<%@ page import="org.eclipse.birt.report.utility.ParameterAccessor,
+				 org.eclipse.birt.report.IBirtConstants" %>
 
 <%-- Map Java attributes to Javascript constants --%>
 <script type="text/javascript">
-// <![CDATA[	
+// <![CDATA[
+            
+    Constants.nullValue = '<%= IBirtConstants.NULL_VALUE %>';
+    
 	// Request attributes
 	if ( !Constants.request )
 	{

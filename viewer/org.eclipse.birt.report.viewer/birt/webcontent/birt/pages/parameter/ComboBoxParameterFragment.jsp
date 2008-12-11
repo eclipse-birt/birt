@@ -91,32 +91,6 @@
 			<%= !CHECKED ? "DISABLED='true'" : "" %> 
 			<%=  allowMultiValue? "multiple='true'" : "" %> >
 <%
-
-	if ( !parameterBean.isRequired( ) )
-	{
-		if( allowMultiValue )
-		{
-			if( DataUtil.contain( values, null, true ) )
-			{
-	%>
-		<OPTION VALUE="" TITLE="<%= IBirtConstants.NULL_VALUE %>" SELECTED ><%= IBirtConstants.NULL_VALUE %></OPTION>
-	<%			
-			}
-			else
-			{
-	%>
-		<OPTION VALUE="" TITLE="<%= IBirtConstants.NULL_VALUE %>"><%= IBirtConstants.NULL_VALUE %></OPTION>
-	<%				
-			}
-		}
-		else
-		{
-	%>
-		<OPTION VALUE="" TITLE="<%= IBirtConstants.NULL_VALUE %>" <%= ( paramValue == null )? "SELECTED" : ""%> ><%= IBirtConstants.NULL_VALUE %></OPTION>
-	<%
-		}
-	}
-
 	if ( parameterBean.getSelectionList( ) != null )
 	{
 		if( !parameterBean.isRequired( ) || ( parameterBean.isCascade( ) && DataUtil.trimString( defaultValue ).length( )<=0 ) )
@@ -164,43 +138,45 @@
 			ParameterSelectionChoice selectionItem = ( ParameterSelectionChoice )parameterBean.getSelectionList( ).get( i );						
 			String label = selectionItem.getLabel( );
 			String value = ( String ) selectionItem.getValue( );
+			String outputValue = ParameterAccessor.htmlEncode(( value == null)?IBirtConstants.NULL_VALUE:value);
+			String outputLabel = ParameterAccessor.htmlEncode(( label == null)?IBirtConstants.NULL_VALUE_DISPLAY:label);
 
 			if( allowMultiValue )
 			{
 				if( DataUtil.contain( values, value, true ) )
 				{
 %>
-			<OPTION VALUE="<%= ParameterAccessor.htmlEncode( value ) %>"
-			        TITLE="<%= ParameterAccessor.htmlEncode( label ) %>"
-			        SELECTED><%= ParameterAccessor.htmlEncode( label ) %></OPTION>
+			<OPTION VALUE="<%= outputValue %>"
+			        TITLE="<%= outputLabel %>"
+			        SELECTED><%= outputLabel %></OPTION>
 <%
 					
 				}
 				else
 				{
 %>
-			<OPTION VALUE="<%= ParameterAccessor.htmlEncode( value ) %>"
-			        TITLE="<%= ParameterAccessor.htmlEncode( label ) %>"><%= ParameterAccessor.htmlEncode( label ) %></OPTION>
+			<OPTION VALUE="<%= outputValue %>"
+			        TITLE="<%= outputLabel %>"><%= outputLabel %></OPTION>
 <%					
 				}
 			}
 			else
 			{
-				if ( !isSelected && paramValue != null && paramValue.equals( value ) 
-					 && ( !isDisplayTextInList || ( isDisplayTextInList && label.equals( displayText ) ) ) )
+				if ( !isSelected && DataUtil.equals( paramValue, value ) 
+					 && ( !isDisplayTextInList || ( isDisplayTextInList && DataUtil.equals(label, displayText ) )))
 				{
 					isSelected = true;				
 %>
-			<OPTION VALUE="<%= ParameterAccessor.htmlEncode( value ) %>" 
-			        TITLE="<%= ParameterAccessor.htmlEncode( label ) %>"
-			        SELECTED><%= ParameterAccessor.htmlEncode( label ) %></OPTION>
+			<OPTION VALUE="<%= outputValue %>" 
+			        TITLE="<%= outputLabel %>"
+			        SELECTED><%= outputLabel %></OPTION>
 <%
 				}
 				else
 				{
 %>
-			<OPTION VALUE="<%= ParameterAccessor.htmlEncode( value ) %>"
-			        TITLE="<%= ParameterAccessor.htmlEncode( label ) %>"><%= ParameterAccessor.htmlEncode( label ) %></OPTION>
+			<OPTION VALUE="<%= outputValue %>"
+			        TITLE="<%= outputLabel %>"><%= outputLabel %></OPTION>
 <%
 				}
 			}

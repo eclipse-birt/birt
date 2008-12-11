@@ -24,6 +24,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.DateFormatISO8601;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.exception.CoreException;
+import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.exception.ViewerValidationException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -161,8 +162,11 @@ public class DataUtil
 			String format, String value, Locale locale, TimeZone timeZone, boolean isLocale )
 			throws ViewerValidationException
 	{
-		if ( paramName == null || value == null )
+		if ( paramName == null || value == null
+				|| IBirtConstants.NULL_VALUE.equals( value ) )
+		{
 			return null;
+		}
 
 		if ( !DesignChoiceConstants.PARAM_TYPE_STRING
 				.equalsIgnoreCase( dataType )
@@ -204,8 +208,10 @@ public class DataUtil
 			String dataType, String format, String value, Locale locale, TimeZone timeZone,
 			boolean isLocale ) throws ViewerValidationException
 	{
-		if ( paramName == null )
+		if ( paramName == null || IBirtConstants.NULL_VALUE.equals(value))
+		{
 			return null;
+		}
 
 		try
 		{
@@ -239,8 +245,10 @@ public class DataUtil
 			throws ValidationValueException
 	{
 		Object obj = null;
-		if ( value == null )
-			return obj;
+		if ( value == null || IBirtConstants.NULL_VALUE.equals(value) )
+		{
+			return null;
+		}		
 
 		// if parameter value equals display text, should use local/format to
 		// format parameter value first
@@ -276,8 +284,10 @@ public class DataUtil
 			throws ValidationValueException
 	{
 		Object obj = null;
-		if ( value == null )
-			return obj;
+		if ( value == null || IBirtConstants.NULL_VALUE.equals(value) )
+		{
+			return null;
+		}		
 
 		// if parameter value equals display text, should use local/format to
 		// format parameter value first
@@ -312,9 +322,11 @@ public class DataUtil
 			String value, Locale locale, TimeZone timeZone ) throws ValidationValueException
 	{
 		Object obj = null;
-		if ( value == null )
-			return obj;
-
+		if ( value == null || IBirtConstants.NULL_VALUE.equals(value) )
+		{
+			return null;
+		}		
+		
 		try
 		{
 			if ( format == null )
@@ -656,5 +668,32 @@ public class DataUtil
 		}
 
 		return false;
+	}
+	
+	/**
+	 * Compare two strings that could be null and return true if they are
+	 * equal.
+	 * @param s1 first string
+	 * @param s2 second string
+	 * @return true if the strings are equal, or both are null
+	 */
+	public static boolean equals( String s1, String s2 )
+	{
+		// s2 is null or equal to s1
+		if ( s1 != null )
+		{
+			return s1.equals(s2);
+		}
+		// s1 is null or equal to s2
+		else if ( s2 != null )
+		{
+			// s1 is null, but not s2
+			return s2.equals(s1);
+		}
+		// both are null
+		else
+		{
+			return true;
+		}
 	}
 }

@@ -12,12 +12,14 @@
 package org.eclipse.birt.report.taglib.util;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.JspWriter;
 
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
@@ -265,5 +267,45 @@ public class BirtTagUtil
 		options.put( IModuleOption.RESOURCE_FOLDER_KEY, resourceFolder );
 		options.put( IModuleOption.PARSER_SEMANTIC_CHECK_KEY, Boolean.FALSE );
 		return options;
+	}
+
+	public static void writeScript(JspWriter writer, String content ) throws IOException
+	{
+		writer.write( "\n<script language=\"JavaScript\">\n" ); //$NON-NLS-1$
+		writer.write( content );
+		writer.write( "</script>\n" ); //$NON-NLS-1$
+	}
+	
+	public static void writeExtScript(JspWriter writer, String fileName ) throws IOException
+	{
+		writer
+		.write( "<script src=\"" //$NON-NLS-1$
+				+ fileName
+				+ "\" type=\"text/javascript\"></script>\n" ); //$NON-NLS-1$		
+	}
+
+	public static void writeExtScripts( JspWriter writer, String baseUrl,
+			String[] files ) throws IOException
+	{
+		for ( int i = 0; i < files.length; i++ )
+		{
+			writeExtScript(writer, baseUrl + files[i]);
+		}		
+	}
+
+	public static void writeOption(JspWriter writer, String label, String value, boolean selected ) 
+		throws IOException
+	{
+		writer.write( "<option " ); //$NON-NLS-1$
+		writer
+				.write( " value=\"" + ParameterAccessor.htmlEncode( value ) + "\" " ); //$NON-NLS-1$ //$NON-NLS-2$
+		if ( selected )
+		{
+			writer.write( " selected " ); //$NON-NLS-1$
+		}
+		writer.write( ">"); //$NON-NLS-1$
+		writer.write( ParameterAccessor
+				.htmlEncode( label )
+				+ "</option>\n" ); //$NON-NLS-1$
 	}	
 }
