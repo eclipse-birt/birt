@@ -44,12 +44,12 @@ import org.eclipse.birt.report.model.util.ContentIterator;
  * This class represents an extended item element. The extended report item
  * allows third-party developers to create report items that work within BIRT
  * virtually identically to BIRT-defined items. Extended items can use the
- * user-properties discussed above to define properties, can use a ��black-box��
- * approach, or a combination of the two. Extended items are defined in a Java
- * plug-in that contributes behavior to the Eclipse Report Developer, to the
- * Factory and to the Presentation Engine. The extended item can fully
- * participate with the other BIRT extension facilities, meaning that report
- * developers can additional properties and scripts to an extended item,
+ * user-properties discussed above to define properties, can use a
+ * ��black-box�� approach, or a combination of the two. Extended items are
+ * defined in a Java plug-in that contributes behavior to the Eclipse Report
+ * Developer, to the Factory and to the Presentation Engine. The extended item
+ * can fully participate with the other BIRT extension facilities, meaning that
+ * report developers can additional properties and scripts to an extended item,
  * providing a very powerful way to create application-specific functionality.
  * An extended item is defined by a plug-in. The plug-in is specific to BIRT,
  * and is different from an Eclipse plug-in. Each item plug-in has four parts:
@@ -480,17 +480,6 @@ public class ExtendedItem extends ReportItem
 	{
 		assert slot >= 0 && slot < cachedDefn.getSlotCount( );
 		return slots[slot];
-	}
-
-	/**
-	 * Gets the default element definition of this extended-item.
-	 * 
-	 * @return the default element definition
-	 */
-
-	public IElementDefn getDefaultDefn( )
-	{
-		return MetaDataDictionary.getInstance( ).getElement( getElementName( ) );
 	}
 
 	/**
