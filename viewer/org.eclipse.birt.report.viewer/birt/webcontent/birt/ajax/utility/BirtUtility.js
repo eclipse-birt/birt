@@ -1,5 +1,5 @@
 /******************************************************************************
- *	Copyright (c) 2004 Actuate Corporation and others.
+ *	Copyright (c) 2004-2008 Actuate Corporation and others.
  *	All rights reserved. This program and the accompanying materials 
  *	are made available under the terms of the Eclipse Public License v1.0
  *	which accompanies this distribution, and is available at
@@ -640,18 +640,19 @@ BirtUtility.prototype =
 		if( !str )
 			return null;
 		
-		str = str.replace( "&#09;", "\t" );
-		str = str.replace( "<br>", "\n" );
-		str = str.replace( "&#13;", "\r" );
-		str = str.replace( "&#32;", " " );
-		str = str.replace( "&#34;", "\"" );
-		str = str.replace( "&#39;", "'" );
-		str = str.replace( "&#60;", "<" );
-		str = str.replace( "&#62;", ">" );
-		str = str.replace( "&#96;", "`" );
-		str = str.replace( "&#38;", "&" );
-		str = str.replace( "&#92;", "\\" );
-		str = str.replace( "&#47;", "/" );
+		// Replaces all HTML encoded string with original character. 
+		str = str.replace( /&#09;/g, "\t" );
+		str = str.replace( /<br>/g, "\n" );
+		str = str.replace( /&#13;/g, "\r" );
+		str = str.replace( /&#32;/g, " " );
+		str = str.replace( /&#34;/g, "\"" );
+		str = str.replace( /&#39;/g, "'" );
+		str = str.replace( /&#60;/g, "<" );
+		str = str.replace( /&#62;/g, ">" );
+		str = str.replace( /&#96;/g, "`" );
+		str = str.replace( /&#38;/g, "&" );
+		str = str.replace( /&#92;/g, "\\" );
+		str = str.replace( /&#47;/g, "/" );
 
 		return str;
 	},
