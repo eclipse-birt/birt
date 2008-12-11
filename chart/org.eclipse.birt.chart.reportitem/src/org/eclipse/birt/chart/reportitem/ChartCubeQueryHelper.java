@@ -647,9 +647,10 @@ public class ChartCubeQueryHelper
 		}
 	}
 
-	private List<FilterConditionElementHandle> getCubeFiltersFromHandle( )
+	private List<FilterConditionElementHandle> getCubeFiltersFromHandle(
+			ReportItemHandle itemHandle )
 	{
-		PropertyHandle propHandle = handle.getPropertyHandle( ChartReportItemConstants.PROPERTY_CUBE_FILTER );
+		PropertyHandle propHandle = itemHandle.getPropertyHandle( ChartReportItemConstants.PROPERTY_CUBE_FILTER );
 		if ( propHandle == null )
 		{
 			return Collections.EMPTY_LIST;
@@ -686,14 +687,18 @@ public class ChartCubeQueryHelper
 				// In xtab cell
 				CrosstabCellHandle cell = (CrosstabCellHandle) xtabHandle.getReportItem( );
 				filters = getFiltersFromXtab( cell.getCrosstab( ) );
-				filters.addAll( getCubeFiltersFromHandle( ) );
+				filters.addAll( getCubeFiltersFromHandle( handle ) );
 			}
 		}
 		else if ( ChartReportItemUtil.getReportItemReference( handle ) != null )
 		{
 			// It is shaing crosstab case.
 			ReportItemHandle rih = ChartReportItemUtil.getReportItemReference( handle );
-			if ( rih instanceof ExtendedItemHandle )
+			if ( ChartReportItemUtil.isChartReportItemHandle( rih ) )
+			{
+				filters = getCubeFiltersFromHandle( rih );
+			}
+			else
 			{
 				CrosstabReportItemHandle crossTab = (CrosstabReportItemHandle) ( (ExtendedItemHandle) rih ).getReportItem( );
 				filters = getFiltersFromXtab( crossTab );
@@ -702,7 +707,7 @@ public class ChartCubeQueryHelper
 		
 		if ( filters == null )
 		{
-			filters = getCubeFiltersFromHandle( );
+			filters = getCubeFiltersFromHandle( handle );
 		}
 		for ( FilterConditionElementHandle filterCon : filters )
 		{
