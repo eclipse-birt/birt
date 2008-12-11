@@ -1,5 +1,5 @@
 <%-----------------------------------------------------------------------------
-	Copyright (c) 2004 Actuate Corporation and others.
+	Copyright (c) 2004-2008 Actuate Corporation and others.
 	All rights reserved. This program and the accompanying materials 
 	are made available under the terms of the Eclipse Public License v1.0
 	which accompanies this distribution, and is available at
@@ -39,6 +39,8 @@
 		<TITLE>PARAMETER SELECTION PAGE</TITLE>
 		<BASE href="<%= baseHref %>" >
 		
+		<!-- Mimics Internet Explorer 7, it just works on IE8. -->
+		<META HTTP-EQUIV="X-UA-Compatible" CONTENT="IE=EmulateIE7">
 		<META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=utf-8">
 		<LINK REL="stylesheet" HREF="birt/styles/style.css" TYPE="text/css">
 		<%

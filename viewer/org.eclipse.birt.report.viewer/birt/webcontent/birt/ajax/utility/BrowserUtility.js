@@ -1,4 +1,4 @@
-// Copyright 1994-2006, Actuate Software Corp., All rights reserved.
+// Copyright 1994-2008, Actuate Software Corp., All rights reserved.
 
 BrowserUtility = Class.create();
 
@@ -9,15 +9,25 @@ BrowserUtility.prototype = {
 		this.isIE = this.__isIE();
 		if ( this.isIE )
 		{
-			if ( window.XMLHttpRequest )
+			this.isIE6 = false;
+			this.isIE7 = false;
+			this.isIE8 = false;
+			if (document.documentMode) {
+				if (document.documentMode >= 8) {
+					this.isIE8 = true;
+				} else if (document.documentMode >= 7) {
+					this.isIE7 = true;
+				} else {
+					this.isIE6 = true;
+				}
+			}
+			else if ( window.XMLHttpRequest )
 			{
-				this.isIE6 = false;
 				this.isIE7 = true;
 			}
 			else
 			{
 				this.isIE6 = true;
-				this.isIE7 = false;
 			}
 		}
 
@@ -113,5 +123,43 @@ BrowserUtility.prototype = {
 	useIFrame: function()
 	{
 		return this.isIE;
+	},
+	
+	_getScrollBarWidth : function(container, viewportWidth, viewportHeight)
+	{
+		var defaultWidth = 20;
+		
+		if (this.scrollBarWidth) {
+			return this.scrollBarWidth;
+		}
+		else if (container != null && viewportWidth > 0 && viewportHeight < container.offsetHeight)
+		{
+			var oldWidth = container.style.width;
+			var oldHeight = container.style.height;
+			var oldOverflowX = container.style.overflowX;
+			var oldOverflowY = container.style.overflowY;
+			var oldPosition = container.style.position;
+			
+			// Sets report container's styles to calculate scroll bar's width.
+			container.style.width = "";
+			container.style.height = "";
+			container.style.overflowX = "scroll";
+			container.style.overflowY = "hidden";
+			container.style.position = "relative";
+
+			this.scrollBarWidth = viewportWidth - container.offsetWidth;
+			if (this.scrollBarWidth <= 0){
+				this.scrollBarWidth = defaultWidth;
+			}
+
+			// Restors report container's old styles.
+			container.style.width = oldWidth;
+			container.style.height = oldHeight;
+			container.style.overflowX = oldOverflowX;
+			container.style.overflowY = oldOverflowY;
+			container.style.position = oldPosition;
+			return this.scrollBarWidth;
+		}
+		return defaultWidth;
 	}
 }

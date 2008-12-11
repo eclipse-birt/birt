@@ -1,5 +1,5 @@
 /******************************************************************************
- *	Copyright (c) 2004 Actuate Corporation and others.
+ *	Copyright (c) 2004-2008 Actuate Corporation and others.
  *	All rights reserved. This program and the accompanying materials 
  *	are made available under the terms of the Eclipse Public License v1.0
  *	which accompanies this distribution, and is available at
@@ -153,6 +153,23 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 			this.__instance.style.height = height + "px";		
 		
 		this.__instance.style.left = containerLeft + "px";
+
+		if (BrowserUtility.isIE) {
+			var reportContainer = this.__instance.firstChild;
+
+			if (reportContainer != null) {
+				var scrollBarWidth = BrowserUtility._getScrollBarWidth(reportContainer, width, height);
+				var containerWidth = "100%";
+
+				if (height < reportContainer.offsetHeight && width > scrollBarWidth) {
+					containerWidth = (width - scrollBarWidth) + "px";
+				}
+				reportContainer.style.overflowX = "visible";
+				reportContainer.style.overflowY = "visible";
+				reportContainer.style.position = "relative";
+				reportContainer.style.width = containerWidth;
+			}
+		}
 	},
 	
 	/**
