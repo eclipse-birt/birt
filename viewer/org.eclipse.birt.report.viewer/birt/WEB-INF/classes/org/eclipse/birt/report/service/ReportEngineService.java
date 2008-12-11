@@ -381,7 +381,7 @@ public class ReportEngineService
 			String systemId = report;
 			try
 			{
-				systemId = file.toURL( ).toString( );
+				systemId = file.toURI( ).toURL( ).toString( );
 			}
 			catch ( MalformedURLException ue )
 			{

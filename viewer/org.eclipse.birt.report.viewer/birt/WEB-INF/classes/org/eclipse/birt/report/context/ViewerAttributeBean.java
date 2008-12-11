@@ -349,6 +349,14 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				.getConfigFileName( this.reportDesignName );
 		if ( reportConfigName == null )
 			return;
+		
+		File configFile = new File( reportConfigName );
+
+		// check if config file existed
+		if ( !configFile.exists( ) || !configFile.isFile( ) )
+		{
+			return;
+		}
 
 		// Generate the session handle
 		SessionHandle sessionHandle = new DesignEngine( null )
