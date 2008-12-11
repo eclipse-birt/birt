@@ -41,16 +41,23 @@ public class ReportState extends ModuleState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * .lang.String)
 	 */
 
 	public AbstractParseState startElement( String tagName )
 	{
+		if ( handler.isReadOnlyModuleProperties )
+		{
+			return super.startElement( tagName );
+		}
+
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TRANSLATIONS_TAG ) )
 			return new TranslationsState( );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PARAMETERS_TAG ) )
 			return new ParametersState( handler, getElement( ),
-					IModuleModel.PARAMETER_SLOT  );
+					IModuleModel.PARAMETER_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DATA_SOURCES_TAG ) )
 			return new DataSourcesState( handler, getElement( ),
 					IModuleModel.DATA_SOURCE_SLOT );
@@ -67,7 +74,7 @@ public class ReportState extends ModuleState
 			return new ComponentsState( handler, getElement( ),
 					IModuleModel.COMPONENT_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.BODY_TAG ) )
-			return new BodyState(  handler, getElement( ),
+			return new BodyState( handler, getElement( ),
 					IReportDesignModel.BODY_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.SCRATCH_PAD_TAG ) )
 			return new ComponentsState( handler, getElement( ),
@@ -94,7 +101,9 @@ public class ReportState extends ModuleState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
 		 */
 
 		protected BodyState( ModuleParserHandler handler,
@@ -106,7 +115,9 @@ public class ReportState extends ModuleState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
 		 */
 
 		public AbstractParseState startElement( String tagName )
@@ -128,9 +139,11 @@ public class ReportState extends ModuleState
 				return new TableItemState( handler, container,
 						ReportDesign.BODY_SLOT );
 			if ( ParserSchemaConstants.LABEL_TAG == tagValue )
-				return new LabelState( handler, container, ReportDesign.BODY_SLOT );
+				return new LabelState( handler, container,
+						ReportDesign.BODY_SLOT );
 			if ( ParserSchemaConstants.IMAGE_TAG == tagValue )
-				return new ImageState( handler, container, ReportDesign.BODY_SLOT );
+				return new ImageState( handler, container,
+						ReportDesign.BODY_SLOT );
 			if ( ParserSchemaConstants.DATA_TAG == tagValue )
 				return new DataItemState( handler, container,
 						ReportDesign.BODY_SLOT );
@@ -141,8 +154,8 @@ public class ReportState extends ModuleState
 			if ( ParserSchemaConstants.EXTENDED_ITEM_TAG == tagValue )
 				return new ExtendedItemState( handler, container,
 						ReportDesign.BODY_SLOT );
-			if ( ParserSchemaConstants.MULTI_LINE_DATA_TAG == tagValue ||
-					ParserSchemaConstants.TEXT_DATA_TAG == tagValue )
+			if ( ParserSchemaConstants.MULTI_LINE_DATA_TAG == tagValue
+					|| ParserSchemaConstants.TEXT_DATA_TAG == tagValue )
 				return new TextDataItemState( handler, container,
 						ReportDesign.BODY_SLOT );
 			if ( ParserSchemaConstants.TEMPLATE_REPORT_ITEM_TAG == tagValue )
@@ -162,7 +175,9 @@ public class ReportState extends ModuleState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
 		 */
 
 		protected StylesState( ModuleParserHandler handler,
@@ -171,11 +186,12 @@ public class ReportState extends ModuleState
 			super( handler, container, slot );
 		}
 
-		
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
 		 */
 
 		public AbstractParseState startElement( String tagName )
@@ -197,7 +213,9 @@ public class ReportState extends ModuleState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
 		 */
 
 		public AbstractParseState startElement( String tagName )

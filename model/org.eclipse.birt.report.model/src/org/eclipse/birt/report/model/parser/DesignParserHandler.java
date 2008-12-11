@@ -58,7 +58,7 @@ public class DesignParserHandler extends ModuleParserHandler
 		URL location = ModelUtil.getURLPresentation( fileName );
 		module.setLocation( location );
 		
-		initLineNumberMarker( options );
+		buildModuleOptions( options );
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class DesignParserHandler extends ModuleParserHandler
 		module.setSystemId( url );
 		module.setOptions( options );
 
-		initLineNumberMarker( options );
+		buildModuleOptions( options );
 	}
 
 	/*

@@ -63,7 +63,7 @@ public class LibraryParserHandler extends ModuleParserHandler
 				.getURLPresentation( fileName.toExternalForm( ) );
 		module.setLocation( location );
 
-		initLineNumberMarker( options );
+		buildModuleOptions( options );
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class LibraryParserHandler extends ModuleParserHandler
 		URL location = ModelUtil.getURLPresentation( fileName );
 		module.setLocation( location );
 
-		initLineNumberMarker( options );
+		buildModuleOptions( options );
 	}
 
 	/**
@@ -133,8 +133,8 @@ public class LibraryParserHandler extends ModuleParserHandler
 
 		URL location = ModelUtil.getURLPresentation( fileName );
 		module.setLocation( location );
-		
-		initLineNumberMarker( options );
+
+		buildModuleOptions( options );
 	}
 
 	/**
@@ -160,7 +160,7 @@ public class LibraryParserHandler extends ModuleParserHandler
 		module.setSystemId( systemId );
 		module.setOptions( options );
 
-		initLineNumberMarker( options );
+		buildModuleOptions( options );
 	}
 
 	/*

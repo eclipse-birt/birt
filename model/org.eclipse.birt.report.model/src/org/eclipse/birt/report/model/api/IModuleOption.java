@@ -63,4 +63,12 @@ public interface IModuleOption
 	 * which contains nothing.
 	 */
 	String BLANK_CREATION_KEY = "blankCreation"; //$NON-NLS-1$
+
+	/**
+	 * Key to indicate that the design file will be simply parsed to read only
+	 * that simple property for the root element(report design or library)
+	 * rather than the whole design tree. The result report/library will be
+	 * read-only and can not do any changes.
+	 */
+	String READ_ONLY_MODULE_PROPERTIES = "readOnlyModuleProperties"; //$NON-NLS-1$
 }

@@ -63,7 +63,9 @@ public abstract class ModuleState extends DesignParseState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * xml.sax.Attributes)
 	 */
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -117,6 +119,38 @@ public abstract class ModuleState extends DesignParseState
 		super.parseAttrs( attrs );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * .lang.String)
+	 */
+
+	public AbstractParseState startElement( String tagName )
+	{
+		if ( handler.isReadOnlyModuleProperties )
+		{
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+			if ( ParserSchemaConstants.PROPERTY_TAG == tagValue )
+				return new PropertyState( handler, getElement( ) );
+			if ( ParserSchemaConstants.EXPRESSION_TAG == tagValue )
+				return new ExpressionState( handler, getElement( ) );
+			if ( ParserSchemaConstants.XML_PROPERTY_TAG == tagValue )
+				return new XmlPropertyState( handler, getElement( ) );
+			if ( ParserSchemaConstants.METHOD_TAG == tagValue )
+				return new PropertyState( handler, getElement( ) );
+			if ( ParserSchemaConstants.TEXT_PROPERTY_TAG == tagValue )
+				return new TextPropertyState( handler, getElement( ) );
+			if ( ParserSchemaConstants.HTML_PROPERTY_TAG == tagValue )
+				return new TextPropertyState( handler, getElement( ) );
+			if ( ParserSchemaConstants.ENCRYPTED_PROPERTY_TAG == tagValue )
+				return new EncryptedPropertyState( handler, getElement( ) );
+			return new AnyElementState( handler );
+		}
+		return super.startElement( tagName );
+	}
+
 	/**
 	 * Convenience class for the inner classes used to parse parts of the Report
 	 * tag.
@@ -141,7 +175,9 @@ public abstract class ModuleState extends DesignParseState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
 		 */
 
 		protected DataSourcesState( ModuleParserHandler handler,
@@ -174,7 +210,9 @@ public abstract class ModuleState extends DesignParseState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
 		 */
 
 		protected DataSetsState( ModuleParserHandler handler,
@@ -186,7 +224,9 @@ public abstract class ModuleState extends DesignParseState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
 		 */
 
 		public AbstractParseState startElement( String tagName )
@@ -216,7 +256,9 @@ public abstract class ModuleState extends DesignParseState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
 		 */
 
 		public AbstractParseState startElement( String tagName )
@@ -239,7 +281,9 @@ public abstract class ModuleState extends DesignParseState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
+		 * org.xml.sax.Attributes)
 		 */
 
 		public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -262,7 +306,9 @@ public abstract class ModuleState extends DesignParseState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
 		 */
 
 		public AbstractParseState startElement( String tagName )
@@ -293,7 +339,9 @@ public abstract class ModuleState extends DesignParseState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
+		 * org.xml.sax.Attributes)
 		 */
 
 		public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -342,7 +390,9 @@ public abstract class ModuleState extends DesignParseState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
 		 */
 
 		protected PageSetupState( ModuleParserHandler handler,
@@ -354,7 +404,9 @@ public abstract class ModuleState extends DesignParseState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
 		 */
 
 		public AbstractParseState startElement( String tagName )
@@ -381,7 +433,9 @@ public abstract class ModuleState extends DesignParseState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
 		 */
 
 		protected ComponentsState( ModuleParserHandler handler,
@@ -393,7 +447,9 @@ public abstract class ModuleState extends DesignParseState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
 		 */
 
 		public AbstractParseState startElement( String tagName )
@@ -447,7 +503,9 @@ public abstract class ModuleState extends DesignParseState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
 		 */
 
 		protected CubesState( ModuleParserHandler handler,
@@ -459,7 +517,9 @@ public abstract class ModuleState extends DesignParseState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
 		 */
 
 		public AbstractParseState startElement( String tagName )
