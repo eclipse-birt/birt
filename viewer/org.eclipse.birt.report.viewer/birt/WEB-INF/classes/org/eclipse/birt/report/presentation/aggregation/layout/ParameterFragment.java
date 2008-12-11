@@ -14,6 +14,7 @@ package org.eclipse.birt.report.presentation.aggregation.layout;
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.presentation.aggregation.control.ProgressBarFragment;
 import org.eclipse.birt.report.presentation.aggregation.dialog.DialogContainerFragment;
+import org.eclipse.birt.report.presentation.aggregation.dialog.ExceptionDialogFragment;
 import org.eclipse.birt.report.presentation.aggregation.dialog.ParameterDialogFragment;
 
 /**
@@ -30,5 +31,6 @@ public class ParameterFragment extends BirtBaseFragment
 	{
 		addChild( new ProgressBarFragment( ) );
 		addChild( new DialogContainerFragment( new ParameterDialogFragment( ) ) );
+		addChild( new DialogContainerFragment( new ExceptionDialogFragment( ) ) );
 	}
 }

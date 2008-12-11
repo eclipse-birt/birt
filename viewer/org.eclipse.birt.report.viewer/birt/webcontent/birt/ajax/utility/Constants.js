@@ -91,6 +91,9 @@ var Constants = {
 	// Servlet patterns
 	SERVLET_OUTPUT : 'output',
 	SERVLET_EXTRACT : 'extract',
+	SERVLET_FRAMESET : 'frameset',
+	SERVLET_PARAMETER : 'parameter',
+	SERVLET_PREVIEW : 'preview',
 	
 	// Output formats
 	FORMAT_POSTSCRIPT : 'postscript',

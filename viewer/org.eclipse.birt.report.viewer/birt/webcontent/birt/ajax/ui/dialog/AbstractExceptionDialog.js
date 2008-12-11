@@ -36,7 +36,7 @@ AbstractExceptionDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		{
 			return "";
 		}
-		return data.replace(/\r?\n/g,"<br/>").replace(/[\s]{1}at/g,"&nbsp;&nbsp;&nbsp;at");
+		return data.replace(/\r?\n/g,"<br/>").replace(/[\s]{1}at/g,"&nbsp;&nbsp;&nbsp;at");		
 	},
 	
 	/**
@@ -79,26 +79,21 @@ AbstractExceptionDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	 				{
 	 					detailSpan.appendChild( document.createElement("hr") );
 	 				}
-	 				var detailElement = document.createElement("span");	 				
- 					detailElement.style.whiteSpace = "pre";
-	 				if ( BrowserUtility.isIE )
-	 				{
-	 					detailElement.innerHTML = "";
-	 				}
+	 				var detailElement = document.createElement("div");	 				
+ 					detailElement.style.whiteSpace = "nowrap";
+ 					if ( detailIndex > 0 )
+ 					{
+ 						detailElement.style.borderTopStyle = "solid";
+ 						detailElement.style.borderTopWidth = "1px";
+ 					}
 	 				
 	 				for ( var textIndex = 0; textIndex < detailNodes.length; textIndex++ )
 	 				{
 		 				var stackTrace = detailNodes[textIndex].data;
-		 				
-		 				if ( BrowserUtility.isIE )
-		 				{
-		 					detailElement.innerHTML += this.__formatStackTrace( stackTrace );
-		 				}
-		 				else
-		 				{
-		 					detailElement.appendChild( document.createTextNode( stackTrace ) );
-		 				}
-		 				
+		 				stackTrace = this.__formatStackTrace( stackTrace )
+		 				var stackTraceElement = document.createElement("span");
+		 				stackTraceElement.innerHTML = stackTrace;
+		 				detailElement.appendChild( stackTraceElement );		 				
 		 				detailSpan.appendChild(detailElement);
 	 				}
 	 			}

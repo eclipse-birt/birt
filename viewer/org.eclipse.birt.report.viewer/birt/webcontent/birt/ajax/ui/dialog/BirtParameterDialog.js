@@ -21,7 +21,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 *	Parameter dialog working state. Whether embedded inside
 	 *	designer dialog.
 	 */
-	__mode : 'frameset',
+	__mode : Constants.SERVLET_FRAMESET,
 
 	/**
 	 *	Identify the parameter is null.
@@ -117,20 +117,13 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 *	Initialization routine required by "ProtoType" lib.
 	 *	@return, void
 	 */
-	initialize : function( id, mode )
+	initialize : function( id )
 	{
-		this.__mode = mode;
+		this.__mode = Constants.request.servletPath;
 		this.preVisible = false;
 
 		this._hint = document.getElementById( "birt_hint" );
 		
-		if ( this.__mode == 'parameter' )
-		{
-			// Hide dialog title bar if embedded in designer.
-			var paramDialogTitleBar = $( id + 'dialogTitleBar' );
-			paramDialogTitleBar.style.display = 'none';			
-		}
-
 		// Change event for parameter text field
 		this.__neh_change_cascade_text_closure = this.__neh_change_cascade_text.bindAsEventListener( this );
 		this.__neh_change_select_closure = this.__neh_change_select.bindAsEventListener( this );
@@ -148,6 +141,13 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		}
 			    
 	    this.initializeBase( id );
+	    
+		if ( this.__mode == Constants.SERVLET_PARAMETER )
+		{
+			// Hide dialog title bar if embedded in designer.
+			this.__setTitleBarVisibile(false);
+		}
+	    
 	    this.__local_installEventHandlers_extend( id );
 	},
 
@@ -1352,7 +1352,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		{
 			// workaround for Bugzilla Bug 146566. 
 			// If change parameter and re-generate docuemnt file, close TOC panel.
-			if ( this.__mode == 'frameset' )
+			if ( this.__mode == Constants.SERVLET_FRAMESET )
 			{
 				var oToc = $( 'display0' );
 				var oDoc = $( 'Document' );
@@ -1366,7 +1366,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		
 			var action = soapURL.toLowerCase( );
 			
-			if ( this.__mode == 'parameter' )
+			if ( this.__mode == Constants.SERVLET_PARAMETER )
 			{
 				// check whether set __nocache setting in URL
 				if ( this.__ifCache( action ) )
@@ -1380,7 +1380,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			}
 			else
 			{
-				if( this.__mode == 'frameset' )
+				if( this.__mode == Constants.SERVLET_FRAMESET )
 				{
 					var targetPage = "1";					
 					var bookmark = birtUtility.getURLParameter(soapURL, "bookmark");
@@ -1425,7 +1425,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			this.__pendingCascadingCalls = 0;			
 		}
 		
-		if ( this.__mode == 'parameter' )
+		if ( this.__mode == Constants.SERVLET_PARAMETER )
 		{
 			this.__cancel();
 		}
