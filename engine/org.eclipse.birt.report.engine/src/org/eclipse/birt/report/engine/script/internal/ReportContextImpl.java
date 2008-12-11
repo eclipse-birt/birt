@@ -151,7 +151,8 @@ public class ReportContextImpl implements IReportContext
 		String msg = context.getDesign( ).getMessage( key, locale );
 		if ( msg == null )
 			return "";
-		return MessageFormat.format( msg, params );
+		MessageFormat formatter = new MessageFormat( msg, locale );
+		return formatter.format( params, new StringBuffer(), null ).toString();
 	}
 
 	public String getParameterDisplayText( String name )
