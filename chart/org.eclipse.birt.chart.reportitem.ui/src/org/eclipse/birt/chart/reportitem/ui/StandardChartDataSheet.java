@@ -1662,6 +1662,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			String[] dataRefs = getDataServiceProvider( ).getAllReportItemReferences( );
 			if ( dataRefs.length > 0 )
 			{
+				int curSize = items.size( );
 				if ( isDataItemSupported( SELECT_NEXT ) )
 				{
 					items.add( Messages.getString( "StandardChartDataSheet.Combo.ReportItems" ) ); //$NON-NLS-1$
@@ -1669,8 +1670,24 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				}
 				for ( int i = 0; i < dataRefs.length; i++ )
 				{
+					// if cube is not supported, do not list the report item
+					// consuming a cube
+					if ( !isDataItemSupported( SELECT_DATA_CUBE ) )
+					{
+						if ( ( (ReportItemHandle) getDataServiceProvider( ).getReportDesignHandle( )
+								.findElement( dataRefs[i] ) ).getCube( ) != null )
+						{
+							continue;
+						}
+					}
 					items.add( dataRefs[i] );
 					selectDataTypes.add( new Integer( SELECT_REPORT_ITEM ) );
+				}
+				// didn't add any reportitem reference
+				if ( items.size( ) == curSize + 1 )
+				{
+					items.remove( curSize );
+					selectDataTypes.remove( curSize );
 				}
 			}
 		}
