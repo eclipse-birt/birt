@@ -29,11 +29,6 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	__isnull : '__isnull',
 
 	/**
-	 *	Identify display text for a null value.
-	 */
-	__display_null : 'Null Value',
-	
-	/**
 	 *	Prefix that identify the parameter is to set Display Text for "select" parameter
 	 */
 	__isdisplay : '__isdisplay__',
@@ -300,8 +295,19 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 				{
 					matrix[m] = {};
 				}
-				matrix[m].name = oSelect[0].id.substr( 0, oSelect[0].id.length - 10 );
-				matrix[m++].value = oSelect[0].value;
+				
+				var name = oSelect[0].id.substr( 0, oSelect[0].id.length - 10 )
+				var value = oSelect[0].value;
+				if ( value == Constants.nullValue )
+				{
+					matrix[m].name = this.__isnull;
+					matrix[m++].value = name;
+				}
+				else
+				{
+					matrix[m].name = name;
+					matrix[m++].value = oSelect[0].value;
+				}
 			}
 		}
 		
@@ -606,7 +612,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 								return false;									
 							}
 							
-							if( tempText == this.__display_null && tempValue == '' )
+							if( tempValue == Constants.nullValue )
 								continue;
 								
 							// check if allow blank
@@ -634,7 +640,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 						}
 
 						// Check if select 'Null Value' option for single parameter
-						if( tempText == this.__display_null && tempValue == '' )
+						if( tempValue == Constants.nullValue )
 						{
 							this.__parameter[k].name = this.__isnull;
 							this.__parameter[k].value = paramName;
@@ -746,7 +752,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 							var tempValue = options[l].value;
 							
 							// Check if select 'Null Value' option
-							if( tempText == this.__display_null && tempValue == '' )
+							if( tempValue == Constants.nullValue )
 							{
 								if( !this.__parameter[k] )
 								{
@@ -1036,16 +1042,16 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
                 {
                 	var tempText = element.options[element.selectedIndex].text;
 					var tempValue = element.options[element.selectedIndex].value;
-					                	
-                	if( tempValue == '' )
+					 
+            		// Null Value Parameter
+					if ( tempValue == Constants.nullValue )
+					{
+            			this.__cascadingParameter[i][j].name = this.__isnull;
+            			this.__cascadingParameter[i][j].value = paramName;
+					}					
+					else if( tempValue == '' )
                 	{
-                		// Null Value Parameter
-                		if( tempText == this.__display_null )
-                		{
-                			this.__cascadingParameter[i][j].name = this.__isnull;
-                			this.__cascadingParameter[i][j].value = paramName;
-                		}
-                		else if( tempText == "" )
+                		if( tempText == "" )
                 		{
                 			var target = element;
 							target = target.parentNode;

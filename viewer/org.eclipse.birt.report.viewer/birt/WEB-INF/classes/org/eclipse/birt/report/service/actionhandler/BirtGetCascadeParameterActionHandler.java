@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.IContext;
+import org.eclipse.birt.report.context.ScalarParameterBean;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
@@ -46,6 +46,7 @@ import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
 import org.eclipse.birt.report.utility.DataUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
+import org.eclipse.birt.report.utility.ParameterUtility;
 
 public class BirtGetCascadeParameterActionHandler
 		extends
@@ -169,7 +170,6 @@ public class BirtGetCascadeParameterActionHandler
 		if ( params == null || params.size( ) == 0 )
 			return new HashMap( );
 
-		List paramList = null;
 		Map ret = new HashMap( );
 		List remainingParamNames = new ArrayList( );
 
@@ -242,7 +242,7 @@ public class BirtGetCascadeParameterActionHandler
 						&& lastParamDefValue.equals( lastParamValue ) )
 					keepDefValue = true;
 
-				paramList = doQueryCascadeParameterSelectionList(
+				List<SelectItemChoice> paramList = doQueryCascadeParameterSelectionList(
 						remainingParamNames.get( 0 ).toString( ), design, group
 								.getName( ), keyValue, options, attrBean,
 						keepDefValue );
@@ -263,73 +263,6 @@ public class BirtGetCascadeParameterActionHandler
 	}
 
 	/**
-	 * Prepare handle cascading parameter list
-	 * 
-	 * @param parameter
-	 * @param defaultValue
-	 * @param defaultLabel
-	 * @return
-	 * @throws RemoteException
-	 * @throws ReportServiceException
-	 */
-	private List preHandleCascadeParameterSelectionList(
-			ParameterDefinition parameter, String defaultValue,
-			String defaultLabel ) throws RemoteException,
-			ReportServiceException
-	{
-		int index = 0;
-		List selectionList = new ArrayList( );
-		
-		/*
-		if ( defaultValue != null )
-		{
-			// add default value item
-			selectionList.add( index++, new SelectItemChoice( defaultValue,
-					defaultLabel ) );
-
-			if ( !parameter.isRequired( ) )
-			{
-				if ( defaultValue.trim( ).length( ) > 0 )
-				{
-					// if default value isn't blank string, add blank value item
-					selectionList.add( index++, new SelectItemChoice( "", "" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-				}
-
-				// add null value item
-				selectionList.add( index++, new SelectItemChoice( "", //$NON-NLS-1$
-						IBirtConstants.NULL_VALUE ) );
-			}
-		}
-		else
-		{
-			if ( !parameter.isRequired( ) )
-			{
-				selectionList.add( index++, new SelectItemChoice( "", //$NON-NLS-1$
-						IBirtConstants.NULL_VALUE ) );
-				selectionList.add( index++, new SelectItemChoice( "", "" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-			}
-			else
-			{
-				selectionList.add( index++, new SelectItemChoice( "", "" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-			}
-		}
-		*/
-		
-		if ( !parameter.isRequired( ) )
-		{
-			selectionList.add( index++, new SelectItemChoice( "", //$NON-NLS-1$
-					IBirtConstants.NULL_VALUE ) );
-			selectionList.add( index++, new SelectItemChoice( "", "" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		else
-		{
-			selectionList.add( index++, new SelectItemChoice( "", "" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-
-		return selectionList;
-	}
-
-	/**
 	 * Returns the cascading parameter selection list
 	 * 
 	 * @param paramName
@@ -343,7 +276,7 @@ public class BirtGetCascadeParameterActionHandler
 	 * @throws RemoteException
 	 * @throws ReportServiceException
 	 */
-	private List doQueryCascadeParameterSelectionList( String paramName,
+	private List<SelectItemChoice> doQueryCascadeParameterSelectionList( String paramName,
 			IViewerReportDesignHandle design, String groupName,
 			Object[] groupKeys, InputOptions options,
 			ViewerAttributeBean attrBean, boolean keepDefValue )
@@ -367,75 +300,15 @@ public class BirtGetCascadeParameterActionHandler
 			}
 		}
 
-		// Add default value
-		List selectionList = preHandleCascadeParameterSelectionList( parameter,
-				defaultValue, defaultLabel );
-		int index = selectionList.size( );
-
-		Collection list = getReportService( )
+		Collection<ParameterSelectionChoice> list = getReportService( )
 				.getSelectionListForCascadingGroup( design, groupName,
 						groupKeys, options );
-
-		if ( list != null && list.size( ) > 0 )
-		{
-			Iterator iList = list.iterator( );
-			while ( iList != null && iList.hasNext( ) )
-			{
-				ParameterSelectionChoice item = (ParameterSelectionChoice) iList
-						.next( );
-
-				if ( item == null )
-					continue;
-
-				Object value = item.getValue( );
-				try
-				{
-					// try convert value to parameter definition data type
-					value = DataUtil.convert( value, parameter.getDataType( ) );
-				}
-				catch ( Exception e )
-				{
-					value = null;
-				}
-
-				// Convert parameter value using standard format
-				String displayValue = DataUtil.getDisplayValue( value, attrBean.getTimeZone( ) );
-				if ( displayValue == null )
-					continue;
-
-				String label = item.getLabel( );
-				if ( label == null || label.length( ) <= 0 )
-				{
-					// If label is null or blank, then use the format
-					// parameter value for display
-					label = DataUtil.getDisplayValue( null,
-							parameter.getPattern( ), value, attrBean
-									.getLocale( ), attrBean.getTimeZone( ) );
-				}
-
-				if ( label != null )
-				{
-					/*
-					// Now doesn't keep default value.
-					// check whether equal to default value
-					if ( keepDefValue )
-					{
-						if ( displayValue.equals( defaultValue )
-								&& ( label.equals( defaultLabel ) || parameter
-										.isDistinct( ) ) )
-							continue;
-					}
-					*/
-					
-					SelectItemChoice selectItemChoice = new SelectItemChoice( );
-					selectItemChoice.setLabel( label );
-					selectItemChoice.setValue( displayValue );
-					selectionList.add( index++, selectItemChoice );
-				}
-			}
-		}
-
-		return selectionList;
+		ScalarParameterBean parameterBean = new ScalarParameterBean( parameter );
+		List<ParameterSelectionChoice> selectionList = ParameterUtility.makeSelectionList( list,
+				parameterBean, attrBean.getLocale( ), attrBean.getTimeZone( ),
+				false );
+		// TODO: find out a better way to directly create selection items
+		return ParameterUtility.toSelectItemChoice( selectionList );
 	}
 
 	protected void handleUpdate( CascadeParameter cascadeParameter )

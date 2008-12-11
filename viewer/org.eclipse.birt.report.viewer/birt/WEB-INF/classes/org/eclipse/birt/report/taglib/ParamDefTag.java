@@ -647,9 +647,9 @@ public class ParamDefTag extends BodyTagSupport
 			writer.write( " >" ); //$NON-NLS-1$
 			writer
 					.write( "<label id=\"" + ( radioNullValueId + "_label" ) + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			writer.write( " title=\"" + IBirtConstants.NULL_VALUE + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write( " title=\"" + IBirtConstants.NULL_VALUE_DISPLAY + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 			writer.write( " for=\"" + radioNullValueId + "\">" ); //$NON-NLS-1$//$NON-NLS-2$
-			writer.write( IBirtConstants.NULL_VALUE );
+			writer.write( IBirtConstants.NULL_VALUE_DISPLAY );
 			writer.write( "</label>" ); //$NON-NLS-1$
 			writer.write( "</input>\n" ); //$NON-NLS-1$
 		}
@@ -686,65 +686,28 @@ public class ParamDefTag extends BodyTagSupport
 						+ "birt/styles/style.css\" TYPE=\"text/css\">\n" ); //$NON-NLS-1$
 
 				// lib files
-				writer
-						.write( "\n<script src=\"" //$NON-NLS-1$
-								+ baseURL
-								+ "birt/ajax/lib/prototype.js\" type=\"text/javascript\"></script>\n" ); //$NON-NLS-1$
-
-				writer
-						.write( "<script src=\"" //$NON-NLS-1$
-								+ baseURL
-								+ "birt/ajax/utility/Debug.js\" type=\"text/javascript\"></script>\n" ); //$NON-NLS-1$
-				writer
-						.write( "<script src=\"" //$NON-NLS-1$
-								+ baseURL
-								+ "birt/ajax/utility/Constants.js\" type=\"text/javascript\"></script>\n" ); //$NON-NLS-1$
-				writer
-						.write( "<script src=\"" //$NON-NLS-1$
-								+ baseURL
-								+ "birt/ajax/utility/BirtUtility.js\" type=\"text/javascript\"></script>\n" ); //$NON-NLS-1$
-				writer
-						.write( "<script src=\"" //$NON-NLS-1$
-								+ baseURL
-								+ "birt/ajax/utility/BirtPosition.js\" type=\"text/javascript\"></script>\n" ); //$NON-NLS-1$
-
-				writer
-						.write( "<script src=\"" //$NON-NLS-1$
-								+ baseURL
-								+ "birt/ajax/core/BirtSoapRequest.js\" type=\"text/javascript\"></script>\n" ); //$NON-NLS-1$
-				writer
-						.write( "<script src=\"" //$NON-NLS-1$
-								+ baseURL
-								+ "birt/ajax/core/BirtEvent.js\" type=\"text/javascript\"></script>\n" ); //$NON-NLS-1$
-
-				writer
-						.write( "<script src=\"" //$NON-NLS-1$
-								+ baseURL
-								+ "birt/ajax/taglib/CascadingParameter.js\" type=\"text/javascript\"></script>\n" ); //$NON-NLS-1$
-				writer
-						.write( "<script src=\"" //$NON-NLS-1$
-								+ baseURL
-								+ "birt/ajax/taglib/ParameterGroup.js\" type=\"text/javascript\"></script>\n" ); //$NON-NLS-1$
-				writer
-						.write( "<script src=\"" //$NON-NLS-1$
-								+ baseURL
-								+ "birt/ajax/taglib/ParameterDefinition.js\" type=\"text/javascript\"></script>\n" ); //$NON-NLS-1$
-				writer
-						.write( "<script src=\"" //$NON-NLS-1$
-								+ baseURL
-								+ "birt/ajax/taglib/SoapResponseHelper.js\" type=\"text/javascript\"></script>\n" ); //$NON-NLS-1$
-				writer
-						.write( "<script src=\"" //$NON-NLS-1$
-								+ baseURL
-								+ "birt/ajax/taglib/ProgressBar.js\" type=\"text/javascript\"></script>\n" ); //$NON-NLS-1$
+				BirtTagUtil.writeExtScripts(writer, baseURL + "birt/ajax/", //$NON-NLS-1$
+						new String[] {
+						"lib/prototype.js", //$NON-NLS-1$
+						"utility/Debug.js", //$NON-NLS-1$
+						"utility/Constants.js", //$NON-NLS-1$
+						"utility/BirtUtility.js", //$NON-NLS-1$
+						"utility/BirtPosition.js", //$NON-NLS-1$
+						"core/BirtSoapRequest.js", //$NON-NLS-1$
+						"core/BirtEvent.js", //$NON-NLS-1$						
+						"taglib/CascadingParameter.js", //$NON-NLS-1$
+						"taglib/ParameterGroup.js", //$NON-NLS-1$
+						"taglib/ParameterDefinition.js", //$NON-NLS-1$
+						"taglib/SoapResponseHelper.js", //$NON-NLS-1$
+						"taglib/ProgressBar.js"}); //$NON-NLS-1$
 
 				// create ProgressBar div
 				this.__createProgressBar( baseURL );
 
-				writer.write( "<script language=\"JavaScript\">\n" ); //$NON-NLS-1$				
-				writer
-						.write( "var progressBar = new ProgressBar( \"progressBar\",\"mask\" );" ); //$NON-NLS-1$
-				writer.write( "</script>\n" ); //$NON-NLS-1$
+				BirtTagUtil.writeScript(writer,
+					"var progressBar = new ProgressBar( \"progressBar\",\"mask\" );" + //$NON-NLS-1$
+					"Constants.nullValue = \"" + IBirtConstants.NULL_VALUE + "\";\n" //$NON-NLS-1$ //$NON-NLS-2$
+					);
 
 				pageContext.setAttribute( IMPORT_FILES_ATTR, Boolean.TRUE );
 			}
@@ -787,7 +750,7 @@ public class ParamDefTag extends BodyTagSupport
 	protected void __createProgressBar( String baseURL ) throws Exception
 	{
 		JspWriter writer = pageContext.getOut( );
-
+		
 		writer
 				.write( "<DIV ID=\"mask\" STYLE=\"display:none;position:absolute;z-index:200\">\n" ); //$NON-NLS-1$
 		writer.write( "</DIV>\n" ); //$NON-NLS-1$
@@ -854,72 +817,65 @@ public class ParamDefTag extends BodyTagSupport
 				+ encParamName;
 
 		// function for handling select onchange
-		writer.write( "\n<script language=\"JavaScript\">\n" ); //$NON-NLS-1$
-		writer.write( "function handleParam" + encParamId + "( oCtl )\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-		writer.write( "{\n" ); //$NON-NLS-1$
-		writer.write( "  if( !oCtl ) return;\n" ); //$NON-NLS-1$
-		writer
-				.write( "  var container = document.getElementById(\"" + containerId + "\");\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-		writer.write( " while( container.childNodes.length > 0)\n" ); //$NON-NLS-1$
-		writer.write( "{\n" ); //$NON-NLS-1$
-		writer.write( "  container.removeChild(container.firstChild);\n" ); //$NON-NLS-1$		
-		writer.write( "}\n" ); //$NON-NLS-1$
-		writer.write( "\n" ); //$NON-NLS-1$
-		writer.write( "  var options = oCtl.options;\n" ); //$NON-NLS-1$			
-		writer.write( "  for( var i = 0; i < options.length; i++ )\n" ); //$NON-NLS-1$
-		writer.write( "  {\n" ); //$NON-NLS-1$
-		writer.write( "    if( !options[i].selected ) continue;\n" ); //$NON-NLS-1$
-		writer.write( "\n" ); //$NON-NLS-1$
-		writer.write( "    var text = options[i].text;\n" ); //$NON-NLS-1$
-		writer.write( "    var value = options[i].value;\n" ); //$NON-NLS-1$
+		String content =
+		 "function handleParam" + encParamId + "( oCtl )\n" + //$NON-NLS-1$ //$NON-NLS-2$
+		 "{\n" + //$NON-NLS-1$
+		 "  if( !oCtl ) return;\n" + //$NON-NLS-1$
+		 "  var container = document.getElementById(\"" + containerId + "\");\n" + //$NON-NLS-1$ //$NON-NLS-2$
+		 " while( container.childNodes.length > 0)\n" + //$NON-NLS-1$
+		 "{\n" + //$NON-NLS-1$
+		 "  container.removeChild(container.firstChild);\n" + //$NON-NLS-1$		
+		 "}\n" + //$NON-NLS-1$
+		 "\n" + //$NON-NLS-1$
+		 "  var options = oCtl.options;\n" + //$NON-NLS-1$			
+		 "  for( var i = 0; i < options.length; i++ )\n" + //$NON-NLS-1$
+		 "  {\n" + //$NON-NLS-1$
+		 "    if( !options[i].selected ) continue;\n" + //$NON-NLS-1$
+		 "\n" + //$NON-NLS-1$
+		 "    var text = options[i].text;\n" + //$NON-NLS-1$
+		 "    var value = options[i].value;\n" + //$NON-NLS-1$
 
 		// null value
-		writer.write( "\n" ); //$NON-NLS-1$
-		writer
-				.write( "  if( value == '' && text == '" + IBirtConstants.NULL_VALUE + "')\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-		writer.write( "    {\n" ); //$NON-NLS-1$
-		writer
-				.write( "      var oInput = document.createElement( 'input' );\n" ); //$NON-NLS-1$
-		writer.write( "      oInput.type = 'hidden';\n" ); //$NON-NLS-1$
-		writer
-				.write( "      oInput.name = '" + ParameterAccessor.PARAM_ISNULL + "';\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-		writer.write( "      oInput.value = \"" + encParamName + "\";\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-		writer.write( "      container.appendChild( oInput );\n" ); //$NON-NLS-1$
-		writer.write( "    }\n" ); //$NON-NLS-1$
+		 "\n" + //$NON-NLS-1$
+		 "  if( value == '" + IBirtConstants.NULL_VALUE + "')\n" + //$NON-NLS-1$ //$NON-NLS-2$
+		 "    {\n" + //$NON-NLS-1$
+		 "      var oInput = document.createElement( 'input' );\n" + //$NON-NLS-1$
+		 "      oInput.type = 'hidden';\n" + //$NON-NLS-1$
+		 "      oInput.name = '" + ParameterAccessor.PARAM_ISNULL + "';\n" + //$NON-NLS-1$ //$NON-NLS-2$
+		 "      oInput.value = \"" + encParamName + "\";\n" + //$NON-NLS-1$ //$NON-NLS-2$
+		 "      container.appendChild( oInput );\n" + //$NON-NLS-1$
+		 "    }\n" + //$NON-NLS-1$
 
 		// parameter value
-		writer.write( "\n" ); //$NON-NLS-1$
-		writer.write( "    var oInput = document.createElement( 'input' );\n" ); //$NON-NLS-1$
-		writer.write( "    oInput.type = 'hidden';\n" ); //$NON-NLS-1$
-		writer.write( "    oInput.name = \"" + encParamName + "\";\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-		writer.write( "    oInput.value = value;\n" ); //$NON-NLS-1$
-		writer.write( "    container.appendChild( oInput );\n" ); //$NON-NLS-1$
+		 "\n" + //$NON-NLS-1$
+		 "    var oInput = document.createElement( 'input' );\n" + //$NON-NLS-1$
+		 "    oInput.type = 'hidden';\n" + //$NON-NLS-1$
+		 "    oInput.name = \"" + encParamName + "\";\n" + //$NON-NLS-1$ //$NON-NLS-2$
+		 "    oInput.value = value;\n" + //$NON-NLS-1$
+		 "    container.appendChild( oInput );\n" + //$NON-NLS-1$
 
 		// display text
-		writer.write( "\n" ); //$NON-NLS-1$
-		writer.write( "    var oInput = document.createElement( 'input' );\n" ); //$NON-NLS-1$
-		writer.write( "    oInput.type = 'hidden';\n" ); //$NON-NLS-1$
-		writer.write( "    oInput.name = \"" + displayTextName + "\";\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-		writer.write( "    oInput.value = text;\n" ); //$NON-NLS-1$
-		writer.write( "    container.appendChild( oInput );\n" ); //$NON-NLS-1$				
-		writer.write( "  }\n" ); //$NON-NLS-1$
+		 "\n" + //$NON-NLS-1$
+		 "    var oInput = document.createElement( 'input' );\n" + //$NON-NLS-1$
+		 "    oInput.type = 'hidden';\n" + //$NON-NLS-1$
+		 "    oInput.name = \"" + displayTextName + "\";\n" + //$NON-NLS-1$ //$NON-NLS-2$
+		 "    oInput.value = text;\n" + //$NON-NLS-1$
+		 "    container.appendChild( oInput );\n" + //$NON-NLS-1$				
+		 "  }\n"; //$NON-NLS-1$
 
 		// isLocale
 		if ( this.isLocale )
 		{
-			writer.write( "\n" ); //$NON-NLS-1$
-			writer
-					.write( "  var oInput = document.createElement( 'input' );\n" ); //$NON-NLS-1$
-			writer.write( "  oInput.type = 'hidden';\n" ); //$NON-NLS-1$
-			writer
-					.write( "  oInput.name = \"" + ParameterAccessor.PARAM_ISLOCALE + "\";\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-			writer.write( "  oInput.value = \"" + encParamName + "\";\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-			writer.write( "  container.appendChild( oInput );\n" ); //$NON-NLS-1$			
+			content += "\n" + //$NON-NLS-1$
+			"  var oInput = document.createElement( 'input' );\n" + //$NON-NLS-1$
+			"  oInput.type = 'hidden';\n" + //$NON-NLS-1$
+			"  oInput.name = \"" + ParameterAccessor.PARAM_ISLOCALE + "\";\n" + //$NON-NLS-1$ //$NON-NLS-2$
+			"  oInput.value = \"" + encParamName + "\";\n" + //$NON-NLS-1$ //$NON-NLS-2$
+			"  container.appendChild( oInput );\n"; //$NON-NLS-1$
 		}
 
-		writer.write( "}\n" ); //$NON-NLS-1$
-
-		writer.write( "</script>\n" ); //$NON-NLS-1$
+		content += "}\n"; //$NON-NLS-1$
+		BirtTagUtil.writeScript(writer, content);
 
 		String onChange = "handleParam" + encParamId + "( this )"; //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -935,17 +891,39 @@ public class ParamDefTag extends BodyTagSupport
 		writer.write( " multiple='true'" ); //$NON-NLS-1$
 		writer.write( " >\n" ); //$NON-NLS-1$
 
+		makeOption( writer, selectionList, this.valueStringList );
+
+		writer.write( "</select>\n" ); //$NON-NLS-1$
+
+		BirtTagUtil.writeScript(writer,
+			 "var selectCtl = document.getElementById(\"" //$NON-NLS-1$
+					+ encParamId + "\");\n" + //$NON-NLS-1$
+			 "if( selectCtl.options.length > 8 )\n" + //$NON-NLS-1$
+			 "  selectCtl.size = 8;\n" + //$NON-NLS-1$
+			 "else\n" + //$NON-NLS-1$
+			 "  selectCtl.size = selectCtl.options.length;\n" + //$NON-NLS-1$
+			 "handleParam" + encParamId + "( selectCtl );\n" //$NON-NLS-1$ //$NON-NLS-2$
+			 );
+	}
+
+	/**
+	 * @param writer
+	 * @param items
+	 * @throws IOException
+	 */
+	private void makeOption( JspWriter writer, Collection items,
+			List selectedItems ) throws IOException
+	{
+		boolean nullValueFound = false;
 		// blank item
 		if ( !paramDef.isRequired( ) )
 		{
-			writer.write( "<option value='' " ); //$NON-NLS-1$
-			if ( DataUtil.contain( this.valueStringList, "", true ) ) //$NON-NLS-1$
-				writer.write( " selected " ); //$NON-NLS-1$
-			writer.write( "></option>\n" ); //$NON-NLS-1$
+			BirtTagUtil.writeOption( writer, "", "", DataUtil.contain(  //$NON-NLS-1$//$NON-NLS-2$
+					this.valueStringList, "", true ) ); //$NON-NLS-1$
 		}
 
 		// selection list
-		for ( Iterator iter = selectionList.iterator( ); iter.hasNext( ); )
+		for ( Iterator iter = items.iterator( ); iter.hasNext( ); )
 		{
 			ParameterSelectionChoice selectionItem = (ParameterSelectionChoice) iter
 					.next( );
@@ -963,47 +941,33 @@ public class ParamDefTag extends BodyTagSupport
 
 			// Convert parameter value using standard format
 			String displayValue = DataUtil.getDisplayValue( value, timeZone );
-			if ( displayValue == null )
-				continue;
+			if ( value == null )
+			{
+				nullValueFound = true;
+			}
 
 			// If label is null or blank, then use the format parameter
 			// value for display
 			String label = selectionItem.getLabel( );
 			if ( label == null || label.length( ) <= 0 )
-				label = DataUtil.getDisplayValue( null,
-						this.pattern, value, this.locale, this.timeZone );
+				label = DataUtil.getDisplayValue( null, this.pattern, value,
+						this.locale, this.timeZone );
 
 			label = label != null ? label : ""; //$NON-NLS-1$
-			writer.write( "<option value=\"" //$NON-NLS-1$
-					+ ParameterAccessor.htmlEncode( displayValue ) + "\"" ); //$NON-NLS-1$
-			if ( DataUtil.contain( this.valueStringList, displayValue, true ) )
-				writer.write( " selected" ); //$NON-NLS-1$
-			writer.write( ">" ); //$NON-NLS-1$
-			writer.write( ParameterAccessor.htmlEncode( label ) );
-			writer.write( "</option>\n" ); //$NON-NLS-1$
+
+			BirtTagUtil.writeOption( writer, label, ( displayValue == null )
+					? IBirtConstants.NULL_VALUE
+					: displayValue, DataUtil.contain( selectedItems,
+					displayValue, true ) );
 		}
 
 		// null value item
-		if ( !paramDef.isRequired( ) )
+		if ( !paramDef.isRequired( ) && !nullValueFound )
 		{
-			writer.write( "<option value=''" ); //$NON-NLS-1$
-			if ( DataUtil.contain( this.valueStringList, null, true ) )
-				writer.write( " selected" ); //$NON-NLS-1$					
-			writer.write( " >" ); //$NON-NLS-1$
-			writer.write( IBirtConstants.NULL_VALUE + "</option>\n" ); //$NON-NLS-1$
+			BirtTagUtil.writeOption( writer, IBirtConstants.NULL_VALUE_DISPLAY,
+					IBirtConstants.NULL_VALUE, DataUtil.contain( selectedItems,
+							null, true ) );
 		}
-
-		writer.write( "</select>\n" ); //$NON-NLS-1$
-
-		writer.write( "\n<script language=\"JavaScript\">\n" ); //$NON-NLS-1$
-		writer.write( "var selectCtl = document.getElementById(\"" //$NON-NLS-1$
-				+ encParamId + "\");\n" ); //$NON-NLS-1$
-		writer.write( "if( selectCtl.options.length > 8 )\n" ); //$NON-NLS-1$
-		writer.write( "  selectCtl.size = 8;\n" ); //$NON-NLS-1$
-		writer.write( "else\n" ); //$NON-NLS-1$
-		writer.write( "  selectCtl.size = selectCtl.options.length;\n" ); //$NON-NLS-1$
-		writer.write( "handleParam" + encParamId + "( selectCtl );\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-		writer.write( "</script>\n" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -1040,146 +1004,120 @@ public class ParamDefTag extends BodyTagSupport
 
 		if ( !paramDef.mustMatch( ) )
 		{
-			writer.write( "\n<script language=\"JavaScript\">\n" ); //$NON-NLS-1$
-
+			BirtTagUtil.writeScript(writer,
 			// function for updating controls status
-			writer.write( "function updateParam" + encParamId + "( flag )\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-			writer.write( "{\n" ); //$NON-NLS-1$
-			writer
-					.write( "var radioSelectCtl = document.getElementById(\"" + radioSelectId + "\");\n" ); //$NON-NLS-1$//$NON-NLS-2$
-			writer
-					.write( "if( radioSelectCtl ) radioSelectCtl.checked = flag;\n" ); //$NON-NLS-1$
-			writer
-					.write( "var radioTextCtl = document.getElementById(\"" + radioTextId + "\");\n" ); //$NON-NLS-1$//$NON-NLS-2$
-			writer.write( "if( radioTextCtl ) radioTextCtl.checked = !flag;\n" ); //$NON-NLS-1$
-			writer
-					.write( "var selectCtl = document.getElementById(\"" + encParamId + "\");\n" ); //$NON-NLS-1$//$NON-NLS-2$
-			writer.write( "if( selectCtl ) selectCtl.disabled = !flag;\n" ); //$NON-NLS-1$
-			writer
-					.write( "var inputCtl = document.getElementById(\"" + inputTextId + "\");\n" ); //$NON-NLS-1$//$NON-NLS-2$
-			writer.write( "if( inputCtl ) inputCtl.disabled = flag;\n" ); //$NON-NLS-1$			
+			 "function updateParam" + encParamId + "( flag )\n"  + //$NON-NLS-1$ //$NON-NLS-2$
+			 "{\n"  + //$NON-NLS-1$
+			"var radioSelectCtl = document.getElementById(\"" + radioSelectId + "\");\n"  + //$NON-NLS-1$//$NON-NLS-2$
+			 "if( radioSelectCtl ) radioSelectCtl.checked = flag;\n"  + //$NON-NLS-1$
+			"var radioTextCtl = document.getElementById(\"" + radioTextId + "\");\n"  + //$NON-NLS-1$//$NON-NLS-2$
+			 "if( radioTextCtl ) radioTextCtl.checked = !flag;\n"  + //$NON-NLS-1$
+			 "var selectCtl = document.getElementById(\"" + encParamId + "\");\n"  + //$NON-NLS-1$//$NON-NLS-2$
+			 "if( selectCtl ) selectCtl.disabled = !flag;\n"  + //$NON-NLS-1$
+			"var inputCtl = document.getElementById(\"" + inputTextId + "\");\n"  + //$NON-NLS-1$//$NON-NLS-2$
+			 "if( inputCtl ) inputCtl.disabled = flag;\n"  + //$NON-NLS-1$			
 
 			// If input parameter in text field,enable locale control
-			writer
-					.write( "var localeCtl = document.getElementById(\"" + isLocaleId + "\");\n" ); //$NON-NLS-1$//$NON-NLS-2$
-			writer.write( "if( localeCtl )\n" ); //$NON-NLS-1$
-			writer.write( "{\n" ); //$NON-NLS-1$
-			writer.write( "  if( flag )\n" ); //$NON-NLS-1$
-			writer.write( "    localeCtl.name = '';\n" ); //$NON-NLS-1$
-			writer.write( "  else\n" ); //$NON-NLS-1$
-			writer.write( "    localeCtl.name = \"" //$NON-NLS-1$
-					+ ParameterAccessor.PARAM_ISLOCALE + "\";\n" ); //$NON-NLS-1$
-			writer.write( "}\n" ); //$NON-NLS-1$
+			"var localeCtl = document.getElementById(\"" + isLocaleId + "\");\n"  + //$NON-NLS-1$//$NON-NLS-2$
+			 "if( localeCtl )\n"  + //$NON-NLS-1$
+			 "{\n"  + //$NON-NLS-1$
+			 "  if( flag )\n"  + //$NON-NLS-1$
+			 "    localeCtl.name = '';\n"  + //$NON-NLS-1$
+			 "  else\n"  + //$NON-NLS-1$
+			 "    localeCtl.name = \"" //$NON-NLS-1$
+					+ ParameterAccessor.PARAM_ISLOCALE + "\";\n"  + //$NON-NLS-1$
+			 "}\n"  + //$NON-NLS-1$
 
-			writer.write( "if( flag )\n" ); //$NON-NLS-1$
-			writer.write( "{\n" ); //$NON-NLS-1$
-			writer.write( "  if( selectCtl.selectedIndex >= 0 )\n" ); //$NON-NLS-1$
-			writer
-					.write( "    handleParam" + encParamId + "( selectCtl.options[selectCtl.selectedIndex] );\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-			writer.write( "  else\n" ); //$NON-NLS-1$
-			writer.write( "  {\n" ); //$NON-NLS-1$
-			writer
-					.write( "    var nullCtl = document.getElementById(\"" + nullValueId + "\");\n" ); //$NON-NLS-1$//$NON-NLS-2$
-			writer
-					.write( "    if( nullCtl ) nullCtl.name=\"" + ParameterAccessor.PARAM_ISNULL //$NON-NLS-1$
-							+ "\";\n" ); //$NON-NLS-1$
-			writer
-					.write( "    var valCtl = document.getElementById(\"" + valueId //$NON-NLS-1$
-							+ "\");\n" ); //$NON-NLS-1$
-			writer.write( "    if( valCtl ) valCtl.name = '';\n" ); //$NON-NLS-1$
-			writer.write( "    if( valCtl ) valCtl.value = '';\n" ); //$NON-NLS-1$
-			writer.write( "    var displayCtl = document.getElementById(\"" //$NON-NLS-1$
-					+ displayTextId + "\");\n" ); //$NON-NLS-1$			
-			writer.write( "    if( displayCtl ) displayCtl.value = '';\n" ); //$NON-NLS-1$
-			writer.write( "    if( displayCtl ) displayCtl.name = '';\n" ); //$NON-NLS-1$
-			writer.write( "  }\n" ); //$NON-NLS-1$
-			writer.write( "}\n" ); //$NON-NLS-1$
-			writer.write( "else\n" ); //$NON-NLS-1$
-			writer.write( "{\n" ); //$NON-NLS-1$
-			writer.write( "  handleTextParam" + encParamId + "( );\n" ); //$NON-NLS-1$ //$NON-NLS-2$			
-			writer.write( "}\n" ); //$NON-NLS-1$
+			 "if( flag )\n"  + //$NON-NLS-1$
+			 "{\n"  + //$NON-NLS-1$
+			 "  if( selectCtl.selectedIndex >= 0 )\n"  + //$NON-NLS-1$
+			"    handleParam" + encParamId + "( selectCtl.options[selectCtl.selectedIndex] );\n"  + //$NON-NLS-1$ //$NON-NLS-2$
+			 "  else\n"  + //$NON-NLS-1$
+			 "  {\n"  + //$NON-NLS-1$
+			"    var nullCtl = document.getElementById(\"" + nullValueId + "\");\n"  + //$NON-NLS-1$//$NON-NLS-2$
+			"    if( nullCtl ) nullCtl.name=\"" + ParameterAccessor.PARAM_ISNULL //$NON-NLS-1$
+							+ "\";\n"  + //$NON-NLS-1$
+			"    var valCtl = document.getElementById(\"" + valueId //$NON-NLS-1$
+							+ "\");\n"  + //$NON-NLS-1$
+			 "    if( valCtl ) valCtl.name = '';\n"  + //$NON-NLS-1$
+			 "    if( valCtl ) valCtl.value = '';\n"  + //$NON-NLS-1$
+			 "    var displayCtl = document.getElementById(\"" //$NON-NLS-1$
+					+ displayTextId + "\");\n"  + //$NON-NLS-1$			
+			 "    if( displayCtl ) displayCtl.value = '';\n"  + //$NON-NLS-1$
+			 "    if( displayCtl ) displayCtl.name = '';\n"  + //$NON-NLS-1$
+			 "  }\n"  + //$NON-NLS-1$
+			 "}\n"  + //$NON-NLS-1$
+			 "else\n"  + //$NON-NLS-1$
+			 "{\n"  + //$NON-NLS-1$
+			 "  handleTextParam" + encParamId + "( );\n"  + //$NON-NLS-1$ //$NON-NLS-2$			
+			 "}\n"  + //$NON-NLS-1$
 
-			writer.write( "}\n" ); //$NON-NLS-1$
+			 "}\n"  + //$NON-NLS-1$
 
 			// function for handling text input
-			writer.write( "function handleTextParam" + encParamId + "( )\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-			writer.write( "{\n" ); //$NON-NLS-1$
-			writer
-					.write( "var inputCtl = document.getElementById(\"" + inputTextId //$NON-NLS-1$
-							+ "\");\n" ); //$NON-NLS-1$			
+			 "function handleTextParam" + encParamId + "( )\n"  + //$NON-NLS-1$ //$NON-NLS-2$
+			 "{\n"  + //$NON-NLS-1$
+			"var inputCtl = document.getElementById(\"" + inputTextId //$NON-NLS-1$
+							+ "\");\n"  + //$NON-NLS-1$		
 
-			writer.write( "var valCtl = document.getElementById(\"" + valueId //$NON-NLS-1$
-					+ "\");\n" ); //$NON-NLS-1$
-			writer
-					.write( "if( valCtl ) valCtl.name = \"" + encParamName + "\";\n" ); //$NON-NLS-1$//$NON-NLS-2$		
-			writer.write( "if( valCtl ) valCtl.value = inputCtl.value;\n" ); //$NON-NLS-1$
+			 "var valCtl = document.getElementById(\"" + valueId //$NON-NLS-1$
+					+ "\");\n"  + //$NON-NLS-1$
+			"if( valCtl ) valCtl.name = \"" + encParamName + "\";\n"  + //$NON-NLS-1$//$NON-NLS-2$		
+			 "if( valCtl ) valCtl.value = inputCtl.value;\n"  + //$NON-NLS-1$
 
-			writer.write( "var displayCtl = document.getElementById(\"" //$NON-NLS-1$
-					+ displayTextId + "\");\n" ); //$NON-NLS-1$
-			writer
-					.write( "if( displayCtl ) displayCtl.name = \"" + displayTextName + "\";\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-			writer
-					.write( "if( displayCtl ) displayCtl.value = inputCtl.value;\n" ); //$NON-NLS-1$
+			 "var displayCtl = document.getElementById(\"" //$NON-NLS-1$
+					+ displayTextId + "\");\n"  + //$NON-NLS-1$
+			"if( displayCtl ) displayCtl.name = \"" + displayTextName + "\";\n"  + //$NON-NLS-1$ //$NON-NLS-2$
+			"if( displayCtl ) displayCtl.value = inputCtl.value;\n"  + //$NON-NLS-1$
 
-			writer
-					.write( "var nullCtl = document.getElementById(\"" + nullValueId + "\");\n" ); //$NON-NLS-1$//$NON-NLS-2$
-			writer.write( "if( nullCtl ) nullCtl.name='';\n" ); //$NON-NLS-1$
+			"var nullCtl = document.getElementById(\"" + nullValueId + "\");\n"  + //$NON-NLS-1$//$NON-NLS-2$
+			 "if( nullCtl ) nullCtl.name='';\n"  + //$NON-NLS-1$
 
-			writer
-					.write( "var localeCtl = document.getElementById(\"" + isLocaleId + "\");\n" ); //$NON-NLS-1$//$NON-NLS-2$
-			writer
-					.write( "if( localeCtl ) localeCtl.name = \"" + ParameterAccessor.PARAM_ISLOCALE + "\";\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+			"var localeCtl = document.getElementById(\"" + isLocaleId + "\");\n"  + //$NON-NLS-1$//$NON-NLS-2$
+			"if( localeCtl ) localeCtl.name = \"" + ParameterAccessor.PARAM_ISLOCALE + "\";\n"  + //$NON-NLS-1$ //$NON-NLS-2$
 
-			writer.write( "}\n" ); //$NON-NLS-1$
+			 "}\n"  + //$NON-NLS-1$
 
-			writer.write( "function changeTextParam" + encParamId + "( )\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-			writer.write( "{\n" ); //$NON-NLS-1$
-			writer
-					.write( "var patternCtl = document.getElementById(\"" + patternId + "\");\n" ); //$NON-NLS-1$//$NON-NLS-2$
-			writer
-					.write( "if( patternCtl ) patternCtl.name = \"" + patternName + "\";\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-			writer.write( "  handleTextParam" + encParamId + "( );\n" ); //$NON-NLS-1$ //$NON-NLS-2$		
-			writer.write( "}\n" ); //$NON-NLS-1$
-			writer.write( "</script>\n" ); //$NON-NLS-1$
+			 "function changeTextParam" + encParamId + "( )\n"  + //$NON-NLS-1$ //$NON-NLS-2$
+			 "{\n"  + //$NON-NLS-1$
+			"var patternCtl = document.getElementById(\"" + patternId + "\");\n"  + //$NON-NLS-1$//$NON-NLS-2$
+			"if( patternCtl ) patternCtl.name = \"" + patternName + "\";\n"  + //$NON-NLS-1$ //$NON-NLS-2$
+			 "  handleTextParam" + encParamId + "( );\n"  + //$NON-NLS-1$ //$NON-NLS-2$		
+			 "}\n"); //$NON-NLS-1$
 		}
 
-		// onchange script
-		writer.write( "\n<script language=\"JavaScript\">\n" ); //$NON-NLS-1$
-		writer.write( "function handleParam" + encParamId + "( option )\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-		writer.write( "{\n" ); //$NON-NLS-1$
-		writer.write( "if( !option ) return;\n" ); //$NON-NLS-1$
-
-		writer.write( "var valCtl = document.getElementById(\"" + valueId //$NON-NLS-1$
-				+ "\");\n" ); //$NON-NLS-1$
-		writer.write( "var displayCtl = document.getElementById(\"" //$NON-NLS-1$
-				+ displayTextId + "\");\n" ); //$NON-NLS-1$
-		writer
-				.write( "var nullCtl = document.getElementById(\"" + nullValueId + "\");\n" ); //$NON-NLS-1$//$NON-NLS-2$
-		writer.write( "var label = option.text;\n" ); //$NON-NLS-1$
-		writer.write( "var value = option.value;\n" ); //$NON-NLS-1$
-		writer.write( "if( label == \"" + IBirtConstants.NULL_VALUE + "\")\n" ); //$NON-NLS-1$//$NON-NLS-2$
-		writer.write( "{\n" ); //$NON-NLS-1$
-		writer
-				.write( "  if( nullCtl ) nullCtl.name=\"" + ParameterAccessor.PARAM_ISNULL //$NON-NLS-1$
-						+ "\";\n" ); //$NON-NLS-1$
-		writer.write( "  if( valCtl ) valCtl.name = '';\n" ); //$NON-NLS-1$
-		writer.write( "  if( valCtl ) valCtl.value = '';\n" ); //$NON-NLS-1$
-		writer.write( "  if( displayCtl ) displayCtl.value = '';\n" ); //$NON-NLS-1$
-		writer.write( "  if( displayCtl ) displayCtl.name = '';\n" ); //$NON-NLS-1$
-		writer.write( "}\n" ); //$NON-NLS-1$
-		writer.write( "else\n" ); //$NON-NLS-1$
-		writer.write( "{\n" ); //$NON-NLS-1$
-		writer.write( "  if( nullCtl ) nullCtl.name='';\n" ); //$NON-NLS-1$
-		writer
-				.write( "  if( valCtl ) valCtl.name = \"" + encParamName + "\";\n" ); //$NON-NLS-1$//$NON-NLS-2$
-		writer.write( "  if( valCtl ) valCtl.value = value;\n" ); //$NON-NLS-1$		
-		writer
-				.write( "  if( displayCtl ) displayCtl.name = \"" + displayTextName + "\";\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-		writer.write( "  if( displayCtl ) displayCtl.value = label;\n" ); //$NON-NLS-1$
-		writer.write( "}\n" ); //$NON-NLS-1$
-
-		writer.write( "}\n" ); //$NON-NLS-1$
-		writer.write( "</script>\n" ); //$NON-NLS-1$
+		BirtTagUtil.writeScript(writer,
+			// onchange script
+			 "function handleParam" + encParamId + "( option )\n"  + //$NON-NLS-1$ //$NON-NLS-2$
+			 "{\n"  + //$NON-NLS-1$
+			 "if( !option ) return;\n"  + //$NON-NLS-1$
+	
+			 "var valCtl = document.getElementById(\"" + valueId //$NON-NLS-1$
+					+ "\");\n"  + //$NON-NLS-1$
+			 "var displayCtl = document.getElementById(\"" //$NON-NLS-1$
+					+ displayTextId + "\");\n"  + //$NON-NLS-1$
+			 "var nullCtl = document.getElementById(\"" + nullValueId + "\");\n"  + //$NON-NLS-1$//$NON-NLS-2$
+			 "var label = option.text;\n"  + //$NON-NLS-1$
+			 "var value = option.value;\n"  + //$NON-NLS-1$
+			 "if( value == \"" + IBirtConstants.NULL_VALUE + "\")\n"  + //$NON-NLS-1$//$NON-NLS-2$
+			 "{\n"  + //$NON-NLS-1$
+			 "  if( nullCtl ) nullCtl.name=\"" + ParameterAccessor.PARAM_ISNULL //$NON-NLS-1$
+							+ "\";\n"  + //$NON-NLS-1$
+			 "  if( valCtl ) valCtl.name = '';\n"  + //$NON-NLS-1$
+			 "  if( valCtl ) valCtl.value = '';\n"  + //$NON-NLS-1$
+			 "  if( displayCtl ) displayCtl.value = '';\n"  + //$NON-NLS-1$
+			 "  if( displayCtl ) displayCtl.name = '';\n"  + //$NON-NLS-1$
+			 "}\n"  + //$NON-NLS-1$
+			 "else\n"  + //$NON-NLS-1$
+			 "{\n"  + //$NON-NLS-1$
+			 "  if( nullCtl ) nullCtl.name='';\n"  + //$NON-NLS-1$
+			 "  if( valCtl ) valCtl.name = \"" + encParamName + "\";\n"  + //$NON-NLS-1$//$NON-NLS-2$
+			 "  if( valCtl ) valCtl.value = value;\n"  + //$NON-NLS-1$		
+			 "  if( displayCtl ) displayCtl.name = \"" + displayTextName + "\";\n"  + //$NON-NLS-1$ //$NON-NLS-2$
+			 "  if( displayCtl ) displayCtl.value = label;\n"  + //$NON-NLS-1$
+			 "}\n"  + //$NON-NLS-1$
+				"}\n"//$NON-NLS-1$
+			);
 
 		String onChange = "handleParam" + encParamId + "( this.options[this.selectedIndex] )"; //$NON-NLS-1$ //$NON-NLS-2$
 		if ( !paramDef.mustMatch( ) )
@@ -1201,16 +1139,15 @@ public class ParamDefTag extends BodyTagSupport
 		// blank item
 		if ( !paramDef.isRequired( ) )
 		{
-			writer.write( "<option value='' " ); //$NON-NLS-1$
 			if ( param.getValue( ) != null
 					&& DataUtil.getString( param.getValue( ) ).length( ) <= 0 )
 			{
-				writer.write( " selected " ); //$NON-NLS-1$
 				isSelected = true;
 			}
-			writer.write( "></option>\n" ); //$NON-NLS-1$
+			BirtTagUtil.writeOption( writer, "", "", isSelected);
 		}
 
+		boolean nullValueFound = false;
 		for ( Iterator iter = selectionList.iterator( ); iter.hasNext( ); )
 		{
 			ParameterSelectionChoice selectionItem = (ParameterSelectionChoice) iter
@@ -1229,9 +1166,12 @@ public class ParamDefTag extends BodyTagSupport
 
 			// Convert parameter value using standard format
 			String displayValue = DataUtil.getDisplayValue( value, timeZone );
-			if ( displayValue == null )
-				continue;
 
+			if ( value == null )
+			{
+				nullValueFound = true;				
+			}
+			
 			// If label is null or blank, then use the format parameter
 			// value for display
 			String label = selectionItem.getLabel( );
@@ -1240,11 +1180,11 @@ public class ParamDefTag extends BodyTagSupport
 						this.pattern, value, this.locale, this.timeZone );
 
 			label = label != null ? label : ""; //$NON-NLS-1$
-			writer.write( "<option value=\"" //$NON-NLS-1$
-					+ ParameterAccessor.htmlEncode( displayValue ) + "\"" ); //$NON-NLS-1$
-			if ( displayValue.equals( DataUtil.getDisplayValue( param
+			boolean selected = false;
+			if ( DataUtil.equals( displayValue, DataUtil.getDisplayValue( param
 					.getValue( ), timeZone ) ) )
 			{
+				selected = true;
 				isSelected = true;
 				writer.write( " selected" ); //$NON-NLS-1$
 				if ( param.getDisplayText( ) == null )
@@ -1256,9 +1196,10 @@ public class ParamDefTag extends BodyTagSupport
 					label = param.getDisplayText( );
 				}
 			}
-			writer.write( ">" ); //$NON-NLS-1$
-			writer.write( ParameterAccessor.htmlEncode( label ) );
-			writer.write( "</option>\n" ); //$NON-NLS-1$
+			
+			BirtTagUtil.writeOption( writer, label, ( displayValue == null )
+					? IBirtConstants.NULL_VALUE
+					: displayValue, selected );
 		}
 
 		String defaultValueText = null;
@@ -1287,28 +1228,17 @@ public class ParamDefTag extends BodyTagSupport
 					if ( defaultDisplayText != null )
 						this.displayTextString = defaultDisplayText;
 
-					writer.write( "<option " ); //$NON-NLS-1$
-					writer
-							.write( " value=\"" + ParameterAccessor.htmlEncode( this.valueString ) + "\" " ); //$NON-NLS-1$ //$NON-NLS-2$					
-					writer.write( " selected >" ); //$NON-NLS-1$
-					writer.write( ParameterAccessor
-							.htmlEncode( this.displayTextString )
-							+ "</option>\n" ); //$NON-NLS-1$
-
+					BirtTagUtil.writeOption(writer, this.displayTextString, this.valueString, true);
 					isSelected = true;
 				}
 			}
 		}
 
 		// null value item
-		if ( !paramDef.isRequired( ) )
+		if ( !paramDef.isRequired( ) && !nullValueFound )
 		{
-			writer.write( "<option value=''" ); //$NON-NLS-1$
-			if ( isNullValue )
-				writer.write( " selected" ); //$NON-NLS-1$					
-			writer.write( " >" ); //$NON-NLS-1$
-			writer.write( IBirtConstants.NULL_VALUE + "</option>\n" ); //$NON-NLS-1$
-
+			BirtTagUtil.writeOption( writer, IBirtConstants.NULL_VALUE_DISPLAY,
+					IBirtConstants.NULL_VALUE, isNullValue );
 			isSelected = true;
 		}
 
@@ -1418,13 +1348,11 @@ public class ParamDefTag extends BodyTagSupport
 
 		JspWriter writer = pageContext.getOut( );
 
-		writer.write( "\n<script language=\"JavaScript\">\n" ); //$NON-NLS-1$
-		writer
-				.write( "var param = new ParameterDefinition(\"" + encParamId + "\",\"" + encParamName + "\");\n" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		writer.write( "param.setRequired(" + paramDef.isRequired( ) + ");\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-		writer.write( this.groupObjName + ".addParameter( param );\n" ); //$NON-NLS-1$
-		writer.write( "</script>\n" ); //$NON-NLS-1$
-
+		BirtTagUtil.writeScript( writer, 
+			"var param = new ParameterDefinition(\"" + encParamId + "\",\"" + encParamName + "\");\n" + //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			"param.setRequired(" + paramDef.isRequired( ) + ");\n" + //$NON-NLS-1$ //$NON-NLS-2$
+			this.groupObjName + ".addParameter( param );\n"  //$NON-NLS-1$
+			);
 		ParameterGroupDefinition group = (ParameterGroupDefinition) paramDef
 				.getGroup( );
 		int index = group.getParameters( ).indexOf( paramDef );
@@ -1659,9 +1587,9 @@ public class ParamDefTag extends BodyTagSupport
 			writer.write( " >\n" ); //$NON-NLS-1$
 			writer
 					.write( "<label id=\"" + ( radioNullValueId + "_label" ) + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			writer.write( " title=\"" + IBirtConstants.NULL_VALUE + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write( " title=\"" + IBirtConstants.NULL_VALUE_DISPLAY + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 			writer.write( " for=\"" + radioNullValueId + "\">" ); //$NON-NLS-1$//$NON-NLS-2$
-			writer.write( IBirtConstants.NULL_VALUE );
+			writer.write( IBirtConstants.NULL_VALUE_DISPLAY );
 			writer.write( "</label>" ); //$NON-NLS-1$
 			writer.write( "</input>" ); //$NON-NLS-1$
 		}

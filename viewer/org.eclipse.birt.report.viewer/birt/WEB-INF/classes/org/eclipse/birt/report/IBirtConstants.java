@@ -140,7 +140,8 @@ public interface IBirtConstants
 	public static final String VAR_OFF = "OFF"; //$NON-NLS-1$
 
 	// Null Value
-	public static final String NULL_VALUE = "Null Value"; //$NON-NLS-1$
+	public static final String NULL_VALUE = "$${{((null))}}$$"; //$NON-NLS-1$
+	public static final String NULL_VALUE_DISPLAY = "Null Value"; //$NON-NLS-1$
 
 	// System property name
 	public static final String SYS_PROP_WORKING_PATH = "birt.viewer.working.path"; //$NON-NLS-1$

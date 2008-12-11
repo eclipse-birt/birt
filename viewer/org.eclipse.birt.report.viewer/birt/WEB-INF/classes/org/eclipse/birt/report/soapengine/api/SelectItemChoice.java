@@ -7,10 +7,17 @@
 
 package org.eclipse.birt.report.soapengine.api;
 
+import org.eclipse.birt.report.IBirtConstants;
+
 public class SelectItemChoice  implements java.io.Serializable {
     private java.lang.String value;
     private java.lang.String label;
 
+    public static final SelectItemChoice NULL_VALUE = new SelectItemChoice(
+			IBirtConstants.NULL_VALUE, IBirtConstants.NULL_VALUE_DISPLAY );
+    public static final SelectItemChoice EMPTY_VALUE = new SelectItemChoice(
+			"", "" );  //$NON-NLS-1$//$NON-NLS-2$
+    
     public SelectItemChoice() {
     }
 

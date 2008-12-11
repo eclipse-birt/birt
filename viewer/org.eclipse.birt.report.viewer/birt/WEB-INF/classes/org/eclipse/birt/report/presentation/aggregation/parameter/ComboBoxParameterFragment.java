@@ -29,7 +29,7 @@ import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ParameterGroupDefinition;
 import org.eclipse.birt.report.service.api.ParameterSelectionChoice;
 import org.eclipse.birt.report.service.api.ReportServiceException;
-import org.eclipse.birt.report.utility.DataUtil;
+import org.eclipse.birt.report.utility.ParameterUtility;
 
 /**
  * Fragment help rendering scalar parameter.
@@ -70,7 +70,7 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
 
-		Collection selectionList = null;
+		Collection<ParameterSelectionChoice> selectionList = null;
 		ParameterDefinition paramDef = parameterBean.getParameter( );
 		if ( paramDef.getGroup( ) != null && paramDef.getGroup( ).cascade( ) )
 		{
@@ -94,92 +94,8 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 			parameterBean.setCascade( false );
 		}
 
-		parameterBean.setValueInList( false );
-		if ( selectionList != null )
-		{
-			boolean isDisplayTextInList = false;
-			for ( Iterator iter = selectionList.iterator( ); iter.hasNext( ); )
-			{
-				ParameterSelectionChoice selectionItem = (ParameterSelectionChoice) iter
-						.next( );
-
-				Object value = selectionItem.getValue( );
-				try
-				{
-					// try convert value to parameter definition data type
-					value = DataUtil.convert( value, paramDef.getDataType( ) );
-				}
-				catch ( Exception e )
-				{
-					value = null;
-				}
-
-				// Convert parameter value using standard format
-				String displayValue = DataUtil.getDisplayValue( value, timeZone );
-				if ( displayValue == null )
-					continue;
-
-				String label = selectionItem.getLabel( );
-				if ( label == null || label.length( ) <= 0 )
-				{
-					// If label is null or blank, then use the format parameter
-					// value for display
-					label = DataUtil.getDisplayValue( null,
-							paramDef.getPattern( ), value, locale, timeZone );
-				}
-
-				if ( label == null )
-					continue;
-
-				selectionItem.setLabel( label );
-				selectionItem.setValue( displayValue );
-				parameterBean.getSelectionList( ).add( selectionItem );
-
-				// If parameter value is in the selection list
-				if ( !paramDef.isMultiValue( )
-						&& displayValue.equals( parameterBean.getValue( ) ) )
-				{
-					parameterBean.setValueInList( true );
-
-					// check whether parameter display text is in the label list
-					if ( !label.equals( parameterBean.getDisplayText( ) ) )
-					{
-						if ( parameterBean.getParameter( ).isDistinct( )
-								&& parameterBean.isDisplayTextInReq( ) )
-						{
-							selectionItem.setLabel( parameterBean
-									.getDisplayText( ) );
-							isDisplayTextInList = true;
-						}
-					}
-					else
-					{
-						isDisplayTextInList = true;
-					}
-				}
-
-				// If parameter default value is in the selection list
-				if ( displayValue.equals( parameterBean.getDefaultValue( ) ) )
-				{
-					parameterBean.setDefaultValueInList( true );
-				}
-			}
-
-			// add new item
-			if ( parameterBean.isValueInList( )
-					&& parameterBean.isDisplayTextInReq( )
-					&& !isDisplayTextInList )
-			{
-				parameterBean.getSelectionList( )
-						.add(
-								new ParameterSelectionChoice( parameterBean
-										.getDisplayText( ), parameterBean
-										.getValue( ) ) );
-				isDisplayTextInList = true;
-			}
-
-			parameterBean.setDisplayTextInList( isDisplayTextInList );
-		}
+		ParameterUtility.makeSelectionList( selectionList, parameterBean, locale,
+				timeZone, true );
 	}
 
 	private Collection getParameterSelectionListForCascadingGroup(
