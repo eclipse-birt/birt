@@ -44,7 +44,7 @@ public class ScriptFunction implements IScriptFunction
 	 * @param desc
 	 * @param executor
 	 */
-	ScriptFunction( String name, IScriptFunctionCategory category, IScriptFunctionArgument[] argument, String dataType, String desc, IScriptFunctionExecutor executor, boolean allowVarArguments, boolean isStatic,  boolean isConstructor )
+	public ScriptFunction( String name, IScriptFunctionCategory category, IScriptFunctionArgument[] argument, String dataType, String desc, IScriptFunctionExecutor executor, boolean allowVarArguments, boolean isStatic,  boolean isConstructor )
 	{
 		this.name = name;
 		this.category = category;

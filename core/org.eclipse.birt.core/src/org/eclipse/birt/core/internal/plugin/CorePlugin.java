@@ -13,9 +13,12 @@ package org.eclipse.birt.core.internal.plugin;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.framework.eclipse.EclipsePlatform;
+import org.eclipse.birt.core.internal.function.impl.FunctionProviderImpl;
 import org.eclipse.birt.core.plugin.BIRTPlugin;
+import org.eclipse.birt.core.script.functionservice.impl.FunctionProvider;
 import org.osgi.framework.BundleContext;
 
 public class CorePlugin extends BIRTPlugin
@@ -38,6 +41,7 @@ public class CorePlugin extends BIRTPlugin
 				} );
 
 		Platform.setContextClassLoader( contextClassLoader );
+		FunctionProvider.setFunctionProvider( new FunctionProviderImpl());
 	}
 
 	/**
@@ -48,5 +52,6 @@ public class CorePlugin extends BIRTPlugin
 		super.stop( context );
 		Platform.setPlatform( null );
 		Platform.setContextClassLoader( null );
+		FunctionProvider.setFunctionProvider( null );
 	}
 }
