@@ -197,7 +197,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			createAggregationItem( cmpTop );
 		}
 
-		Object[] predefinedQuery = context.getPredefinedQuery( queryType );
+		final Object[] predefinedQuery = context.getPredefinedQuery( queryType );
 		if ( predefinedQuery != null )
 		{
 			cmbDefinition = new CCombo( cmpTop,
@@ -214,13 +214,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			{
 				populateExprComboItems( predefinedQuery );
 			}
-			else if ( context.getDataServiceProvider( )
-					.checkState( IDataServiceProvider.SHARE_QUERY ) )
+			else if ( getQuery( ).getDefinition( ) == null
+					|| getQuery( ).getDefinition( ).equals( "" ) )
 			{
-				// The sharing binding case only allow valid expressions, so
-				// disable the component if not have valid expressions.
 				cmbDefinition.setEnabled( false );
-			}			
+			}
 
 			cmbDefinition.addListener( SWT.Selection, new Listener( ) {
 
@@ -280,6 +278,13 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 							&& context.getModel( ) instanceof ChartWithAxes )
 					{
 						( (ChartWithAxes) context.getModel( ) ).setTransposed( cmbDefinition.getSelectionIndex( ) > 0 );
+					}
+
+					if ( predefinedQuery.length == 0
+							&& ( getQuery( ).getDefinition( ) == null || getQuery( ).getDefinition( )
+									.equals( "" ) ) )
+					{
+						cmbDefinition.setEnabled( false );
 					}
 				}
 			} );
