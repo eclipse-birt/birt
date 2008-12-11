@@ -33,13 +33,10 @@
       <import plugin="org.eclipse.jdt.core"/>
       <import feature="org.eclipse.emf.common" version="2.3" match="greaterOrEqual"/>
       <import feature="org.eclipse.emf.ecore" version="2.3" match="greaterOrEqual"/>
-      <import feature="org.eclipse.wst.common_ui.feature" version="1.0.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.wst.web_ui.feature" version="1.0.0" match="greaterOrEqual"/>
-      <import feature="org.eclipse.jst.common_core.feature" version="1.0.0" match="greaterOrEqual"/>
+      <import feature="org.eclipse.jst.common.fproj.enablement.jdt" version="1.0.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.jst.enterprise_ui.feature" version="1.0.0" match="greaterOrEqual"/>
-      <import feature="org.eclipse.jst.web_core.feature" version="1.0.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.jst.web_ui.feature" version="1.0.0" match="greaterOrEqual"/>
-      <import feature="org.eclipse.wst.common_core.feature" version="1.0.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
