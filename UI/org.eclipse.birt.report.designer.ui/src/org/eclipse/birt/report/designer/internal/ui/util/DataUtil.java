@@ -72,15 +72,20 @@ public class DataUtil
 				DataSetUIUtil.updateColumnCache( handle );
 				meta = handle.getCachedMetaDataHandle( );
 			}
-			MemberHandle resultSet = meta.getResultSet( );
-
-			if ( resultSet.getListValue( ) != null )
+			
+			if(meta != null)
 			{
-				for ( int i = 0; i < resultSet.getListValue( ).size( ); i++ )
+				MemberHandle resultSet = meta.getResultSet( );
+
+				if ( resultSet.getListValue( ) != null )
 				{
-					result.add( resultSet.getAt( i ) );
+					for ( int i = 0; i < resultSet.getListValue( ).size( ); i++ )
+					{
+						result.add( resultSet.getAt( i ) );
+					}
 				}
 			}
+
 		}
 		return result;
 	}

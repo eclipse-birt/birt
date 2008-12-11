@@ -169,10 +169,10 @@ public class WizardSelectCssStylePage extends WizardPage
 		GridLayout layout = new GridLayout( 2, false );
 		layout.marginWidth = 0;
 		styleComposite.setLayout( layout );
-		styleComposite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		styleComposite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		title = new Label( styleComposite, SWT.NULL );
-		GridData data = new GridData( GridData.FILL_BOTH );
+		GridData data = new GridData( GridData.FILL_HORIZONTAL );
 		data.horizontalSpan = 2;
 		title.setLayoutData( data );
 		title.setText( "" ); //$NON-NLS-1$
@@ -189,7 +189,7 @@ public class WizardSelectCssStylePage extends WizardPage
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
 		styleComposite.setLayout( layout );
-		styleComposite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		styleComposite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		stylesTable = new Table( styleComposite, SWT.SINGLE
 				| SWT.FULL_SELECTION
@@ -238,8 +238,8 @@ public class WizardSelectCssStylePage extends WizardPage
 		notificationsTable = new Table( styleComposite, SWT.SINGLE
 				| SWT.FULL_SELECTION
 				| SWT.BORDER );
-		data = new GridData( GridData.FILL_HORIZONTAL );
-		data.heightHint = 60;
+		data = new GridData( GridData.FILL_BOTH );
+		data.minimumHeight = 60;
 		notificationsTable.setLayoutData( data );
 
 	}
