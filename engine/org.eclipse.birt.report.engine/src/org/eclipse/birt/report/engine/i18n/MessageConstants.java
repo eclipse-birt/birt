@@ -115,7 +115,9 @@ public class MessageConstants
     
     // Engine Version Info
     public static final String	PDF_CREATOR = "PDFCreator";
-
+    
+    // Report Items Not Supported Prompt
+    public static final String  FLASH_OBJECT_NOT_SUPPORTED_PROMPT = "Error.FlashObjectNotSupported";
 }
 
 

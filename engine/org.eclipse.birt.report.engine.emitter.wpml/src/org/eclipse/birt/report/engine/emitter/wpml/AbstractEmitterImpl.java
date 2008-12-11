@@ -57,6 +57,8 @@ import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
+import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
@@ -70,6 +72,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.w3c.dom.css.CSSValue;
 
+import com.ibm.icu.util.ULocale;
 import com.lowagie.text.pdf.BaseFont;
 
 public abstract class AbstractEmitterImpl
@@ -535,6 +538,17 @@ public abstract class AbstractEmitterImpl
 
 		if ( FlashFile.isFlash( mimeType, uri, extension ) )
 		{
+			if ( null == altText )
+			{
+				if ( null != reportContext ) 
+				{
+					ULocale locale = ULocale.forLocale( reportContext
+							.getLocale( ) );
+					EngineResourceHandle handle = new EngineResourceHandle( locale );
+					altText = handle
+							.getMessage( MessageConstants.FLASH_OBJECT_NOT_SUPPORTED_PROMPT );
+				}	
+			}
 			wordWriter.drawImage( null, 0.0, 0.0, null, style, inlineFlag,
 					altText, uri );
 			return;
