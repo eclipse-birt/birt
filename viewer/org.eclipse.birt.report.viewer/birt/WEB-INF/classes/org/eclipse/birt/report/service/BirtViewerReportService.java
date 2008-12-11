@@ -161,8 +161,15 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		catch ( RemoteException e )
 		{
-			throw new ReportServiceException( e.getLocalizedMessage( ), e
+			if ( e.getCause() instanceof ReportServiceException )
+			{
+				throw (ReportServiceException)e.getCause();
+			}			
+			else
+			{
+				throw new ReportServiceException( e.getLocalizedMessage( ), e
 					.getCause( ) );
+			}
 		}
 		return outputDocName;
 	}
@@ -578,67 +585,65 @@ public class BirtViewerReportService implements IViewerReportService
 	public ToC getTOC( String docName, String tocId, InputOptions options )
 			throws ReportServiceException
 	{
+		ToC tableOfContents = null;
 		IReportDocument doc = null;
 		try
 		{
 			doc = openReportDocument( docName, options );
-		}
-		catch ( ReportServiceException e )
-		{
+			TOCNode node = null;
 			if ( doc != null )
-				doc.close( );
-			throw e;
-		}
-
-		TOCNode node = null;
-		if ( doc != null )
-		{
-			Locale locale = null;
-			TimeZone timeZone = null;
-			if ( options != null )
 			{
-				locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
-				timeZone = (TimeZone) options.getOption( InputOptions.OPT_TIMEZONE );
-			}
-			if ( locale == null )
-				locale = Locale.getDefault( );
-			ITOCTree tocTree = null;
-			if ( timeZone != null )
-			{
-				tocTree = doc.getTOCTree(
-					DesignChoiceConstants.FORMAT_TYPE_VIEWER, ULocale
-							.forLocale( locale ), BirtUtility.toICUTimeZone( timeZone ) );
-			}
-			else
-			{
-				tocTree = doc.getTOCTree(
+				Locale locale = null;
+				TimeZone timeZone = null;
+				if ( options != null )
+				{
+					locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
+					timeZone = (TimeZone) options.getOption( InputOptions.OPT_TIMEZONE );
+				}
+				if ( locale == null )
+					locale = Locale.getDefault( );
+				ITOCTree tocTree = null;
+				if ( timeZone != null )
+				{
+					tocTree = doc.getTOCTree(
 						DesignChoiceConstants.FORMAT_TYPE_VIEWER, ULocale
-								.forLocale( locale ));			
+								.forLocale( locale ), BirtUtility.toICUTimeZone( timeZone ) );
+				}
+				else
+				{
+					tocTree = doc.getTOCTree(
+							DesignChoiceConstants.FORMAT_TYPE_VIEWER, ULocale
+									.forLocale( locale ));			
+				}
+
+				if ( tocId != null )
+				{
+					node = tocTree.findTOC( tocId );
+
+				}
+				else
+				{
+					node = tocTree.findTOC( null );
+				}
 			}
 
-			if ( tocId != null )
+			if ( node == null )
 			{
-				node = tocTree.findTOC( tocId );
+				throw new ReportServiceException(
+						BirtResources
+								.getMessage( ResourceConstants.REPORT_SERVICE_EXCEPTION_INVALID_TOC ) );
+			}
 
-			}
-			else
-			{
-				node = tocTree.findTOC( null );
-			}
+			tableOfContents = transformTOCNode( node );			
 		}
-
-		if ( node == null )
+		finally
 		{
 			if ( doc != null )
-				doc.close( );
-			throw new ReportServiceException(
-					BirtResources
-							.getMessage( ResourceConstants.REPORT_SERVICE_EXCEPTION_INVALID_TOC ) );
+			{
+				doc.close();
+			}
 		}
-
-		if ( doc != null )
-			doc.close( );
-		return transformTOCNode( node );
+		return tableOfContents;
 	}
 
 	/**
