@@ -249,4 +249,20 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 				expression );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent
+	 * #handleBuilderAction()
+	 */
+	@Override
+	protected void handleBuilderAction( )
+	{
+		super.handleBuilderAction( );
+
+		ChartUIUtil.setAllGroupingQueryExceptFirst( context.getModel( ),
+				query.getDefinition( ) );
+	}
+
 }

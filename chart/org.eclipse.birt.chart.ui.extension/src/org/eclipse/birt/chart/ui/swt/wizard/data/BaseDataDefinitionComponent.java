@@ -552,7 +552,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	/**
 	 * Handle builder dialog action.
 	 */
-	private void handleBuilderAction( )
+	protected void handleBuilderAction( )
 	{
 		try
 		{
