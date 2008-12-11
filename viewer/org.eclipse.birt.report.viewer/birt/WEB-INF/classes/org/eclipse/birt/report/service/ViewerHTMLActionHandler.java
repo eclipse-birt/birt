@@ -711,8 +711,6 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 					if ( baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_PREVIEW ) > 0
 							|| IBirtConstants.PDF_RENDER_FORMAT.equalsIgnoreCase( format ) )
 					{
-						link.append( "#" ); //$NON-NLS-1$
-
 						// use TOC to find bookmark, only link to document file
 						if ( !action.isBookmark( )
 								&& reportName.toLowerCase( )
@@ -727,8 +725,12 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 											options );
 						}
 
-						link.append( URLEncoder.encode( bookmark,
+						if ( bookmark != null )
+						{
+							link.append( "#" ); //$NON-NLS-1$
+							link.append( URLEncoder.encode( bookmark,
 								ParameterAccessor.UTF_8_ENCODE ) );
+						}
 					}
 					else
 					{
