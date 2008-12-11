@@ -225,16 +225,17 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				public void handleEvent( Event event )
 				{
 					String oldQuery = query.getDefinition( ) == null ? "" : query.getDefinition( ); //$NON-NLS-1$
+					// Combo may be disposed, so cache the text first
+					String text = cmbDefinition.getText( );
 
 					// Do nothing for the same query
-					if ( !isTableSharedBinding( )
-							&& cmbDefinition.getText( ).equals( oldQuery ) )
+					if ( !isTableSharedBinding( ) && text.equals( oldQuery ) )
 					{
 						return;
 					}
 
 					Object checkResult = context.getDataServiceProvider( )
-							.checkData( queryType, cmbDefinition.getText( ) );
+							.checkData( queryType, text );
 					if ( checkResult != null && checkResult instanceof Boolean )
 					{
 						if ( !( (Boolean) checkResult ).booleanValue( ) )
@@ -251,16 +252,15 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 						}
 					}
 
-					updateQuery( cmbDefinition.getText( ) );
+					updateQuery( text );
 
 					// Set category/Y optional expression by value series
 					// expression if it is crosstab sharing.
-					if ( !oldQuery.equals( cmbDefinition.getText( ) )
+					if ( !oldQuery.equals( text )
 							&& queryType == ChartUIConstants.QUERY_VALUE )
 					{
 						if ( context.getDataServiceProvider( )
-								.update( ChartUIConstants.QUERY_VALUE,
-										cmbDefinition.getText( ) ) )
+								.update( ChartUIConstants.QUERY_VALUE, text ) )
 						{
 							Event e = new Event( );
 							e.data = BaseDataDefinitionComponent.this;
@@ -720,7 +720,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 	private void createAggregationItem( Composite composite )
 	{
-		SeriesDefinition baseSD = (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
+		SeriesDefinition baseSD = ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
 				.get( 0 );
 		boolean enabled = ChartUIUtil.isGroupingSupported( context )
 				&& ( PluginSettings.instance( ).inEclipseEnv( ) || baseSD.getGrouping( )
