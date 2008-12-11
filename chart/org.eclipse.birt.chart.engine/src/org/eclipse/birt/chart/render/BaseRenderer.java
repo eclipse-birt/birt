@@ -1191,7 +1191,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @param i
 	 *            data row index
 	 * 
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	protected final void renderLegendItem( IPrimitiveRenderer ipr, Legend lg,
 			Label la, Label valueLa, double dX, double dY, double dW,
@@ -2080,7 +2080,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @param dSeriesThickness
 	 *            The thickness or the extrusion level (for 2.5D or 3D)
 	 * 
-	 * @throws RenderingException
+	 * @throws ChartException
 	 */
 	protected final void renderPlane( IPrimitiveRenderer ipr, Object oSource,
 			Location[] loaFront, Fill f, LineAttributes lia, ChartDimension cd,
@@ -2711,9 +2711,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @param ll
 	 * @return
 	 */
-	protected List filterNull( List ll )
+	protected List<double[]> filterNull( List<double[]> ll )
 	{
-		ArrayList al = new ArrayList( );
+		List<double[]> al = new ArrayList<double[]>( );
 		for ( int i = 0; i < ll.size( ); i++ )
 		{
 			double[] obj = (double[]) ll.get( i );

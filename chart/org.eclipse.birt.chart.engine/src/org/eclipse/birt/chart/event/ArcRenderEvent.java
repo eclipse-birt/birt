@@ -20,7 +20,7 @@ import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.birt.chart.util.FillUtil;
 
 /**
  * A rendering event type for rendering Arc object.
@@ -470,7 +470,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 
 		if ( ifBackground != null )
 		{
-			are.setBackground( (Fill) EcoreUtil.copy( ifBackground ) );
+			are.setBackground( FillUtil.copyOf( ifBackground ) );
 		}
 
 		if ( loTopLeft != null )

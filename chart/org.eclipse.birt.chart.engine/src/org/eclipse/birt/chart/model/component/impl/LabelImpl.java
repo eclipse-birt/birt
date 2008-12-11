@@ -26,13 +26,13 @@ import org.eclipse.birt.chart.model.component.ComponentFactory;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.chart.util.FillUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -135,7 +135,7 @@ public class LabelImpl extends EObjectImpl implements Label
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int ELLIPSIS_EDEFAULT = 0; //$NON-NLS-1$
+	protected static final int ELLIPSIS_EDEFAULT = 0;
 
 	/**
 	 * The cached value of the '{@link #getEllipsis() <em>Ellipsis</em>}' attribute.
@@ -840,7 +840,7 @@ public class LabelImpl extends EObjectImpl implements Label
 		LabelImpl lb = new LabelImpl( );
 		if ( src.getBackground( ) != null )
 		{
-			lb.background = (Fill) EcoreUtil.copy( src.getBackground( ) );
+			lb.background = FillUtil.copyOf( src.getBackground( ) );
 		}
 		lb.caption = TextImpl.copyInstance( src.getCaption( ) );
 		lb.insets = InsetsImpl.copyInstance( src.getInsets( ) );
@@ -876,7 +876,7 @@ public class LabelImpl extends EObjectImpl implements Label
 		// TODO remove more unused attrbutes.
 		if ( src.getBackground( ) != null )
 		{
-			lb.background = (Fill) EcoreUtil.copy( src.getBackground( ) );
+			lb.background = FillUtil.copyOf( src.getBackground( ) );
 		}
 		lb.caption = TextImpl.copyInstance( src.getCaption( ) );
 		lb.insets = InsetsImpl.copyInstance( src.getInsets( ) );

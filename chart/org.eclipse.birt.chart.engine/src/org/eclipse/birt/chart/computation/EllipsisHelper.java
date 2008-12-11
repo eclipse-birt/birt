@@ -11,7 +11,11 @@
 
 package org.eclipse.birt.chart.computation;
 
+import org.eclipse.birt.chart.device.IDisplayServer;
+import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 
 public class EllipsisHelper
 {
@@ -26,7 +30,7 @@ public class EllipsisHelper
 	public static final String ELLIPSIS_STRING = "..."; //$NON-NLS-1$
 	private int iMinCharToView = 0;
 	private String sText;
-	private ILabelVisibilityTester tester;
+	private final ILabelVisibilityTester tester;
 
 	public EllipsisHelper( ILabelVisibilityTester tester_, int iMinCharToView )
 	{
@@ -119,4 +123,52 @@ public class EllipsisHelper
 		}
 	}
 
+	public static ILabelVisibilityTester createSimpleTester(
+			IDisplayServer xs, Label la, double maxWidth, double maxHeight,
+			double maxWrappingSize )
+	{
+		return new SimpleTester( xs, la, maxWidth, maxHeight, maxWrappingSize );
+	}
+
+}
+
+class SimpleTester implements EllipsisHelper.ILabelVisibilityTester
+{
+	private final IDisplayServer xs;
+	private final Label la;
+	private final double maxWidth;
+	private final double maxHeight;
+	private final ITextMetrics itm;
+	private final double maxWrappingSize;
+
+	public SimpleTester( IDisplayServer xs, Label la, double maxWidth,
+			double maxHeight, double maxWrappingSize )
+	{
+		this.xs = xs;
+		this.la = la;
+		this.itm = xs.getTextMetrics( la );
+		this.maxWidth = maxWidth;
+		this.maxHeight = maxHeight;
+		this.maxWrappingSize = maxWrappingSize;
+	}
+
+	public boolean testLabelVisible( String strNew, Object para )
+			throws ChartException
+	{
+		la.getCaption( ).setValue( strNew );
+		itm.reuse( la, maxWrappingSize );
+
+		try
+		{
+			BoundingBox bb = Methods.computeBox( xs, IConstants.ABOVE, la, 0, 0 );
+			return bb.getWidth( ) <= maxWidth && bb.getHeight( ) <= maxHeight;
+		}
+		catch ( IllegalArgumentException uiex )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.RENDERING,
+					uiex );
+		}
+	}
+	
 }

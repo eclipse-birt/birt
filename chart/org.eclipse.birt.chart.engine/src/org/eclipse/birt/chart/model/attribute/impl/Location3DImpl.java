@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Location3DImpl.java,v 1.1 2006/12/28 03:49:30 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.attribute.impl;
@@ -13,7 +13,6 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -44,6 +43,16 @@ public class Location3DImpl extends LocationImpl implements Location3D
 		lo.setY( y );
 		lo.setZ( z );
 		return lo;
+	}
+
+	/**
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static Location3D copyInstance( Location3D src )
+	{
+		return create( src.getX( ), src.getY( ), src.getZ( ) );
 	}
 
 	/**

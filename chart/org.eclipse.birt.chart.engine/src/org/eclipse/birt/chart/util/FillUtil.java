@@ -297,4 +297,25 @@ public class FillUtil
 		}
 		return newColor < 255 ? newColor : 255;
 	}
+
+	/**
+	 * The purpose of the Method is to make faster copy of Fill for rendering,
+	 * in the moment only copying of ColorDefinition is improved, which is the
+	 * most commonest case.
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static Fill copyOf( Fill src )
+	{
+		if ( src instanceof ColorDefinition )
+		{
+			return ColorDefinitionImpl.copyInstance( (ColorDefinition) src );
+		}
+		else
+		{
+			return (Fill) EcoreUtil.copy( src );
+		}
+	}
+
 }

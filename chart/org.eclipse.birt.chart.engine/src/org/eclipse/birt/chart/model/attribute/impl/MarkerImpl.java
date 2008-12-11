@@ -623,4 +623,46 @@ public class MarkerImpl extends EObjectImpl implements Marker
 		return marker;
 	}
 
+	/**
+	 * For accelerating graphic purpose make a fast copy of a Marker without
+	 * iconPalette, which is obsolete, and the fill, which will be changed in
+	 * many cases. Using the setFillSimple to set the fill faster.
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static final Marker copyInstanceNoFill( Marker src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		MarkerImpl mk = new MarkerImpl( );
+		mk.type = src.getType( );
+
+		mk.size = src.getSize( );
+		mk.sizeESet = src.isSetSize( );
+
+		mk.visible = src.isVisible( );
+		mk.visibleESet = src.isSetVisible( );
+
+		return mk;
+	}
+
+	/**
+	 * To set the fill without EMF notifying for accelerating graphic purpose.
+	 * 
+	 * @param marker
+	 * @param fill
+	 */
+	public static final void setFillSimple( Marker marker, Fill fill )
+	{
+		if ( marker instanceof MarkerImpl )
+		{
+			( (MarkerImpl) marker ).fill = fill;
+		}
+
+	}
+
 } // MarkerImpl

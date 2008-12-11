@@ -351,7 +351,7 @@ public final class AxesRenderHelper
 
 							if ( iv != null
 									&& iDimension == IConstants.TWO_5_D
-									&& iv.getType( ) == IntersectionValue.VALUE )
+									&& iv.getType( ) == IConstants.VALUE )
 							{
 								lre.setStart( LocationImpl.create( context.dX,
 										y ) );
@@ -395,7 +395,7 @@ public final class AxesRenderHelper
 
 								if ( iv != null
 										&& iDimension == IConstants.TWO_5_D
-										&& iv.getType( ) == IntersectionValue.VALUE )
+										&& iv.getType( ) == IConstants.VALUE )
 								{
 									lre.getStart( ).set( x, context.dY );
 									lre.getEnd( ).set( x + dSeriesThickness,
@@ -656,11 +656,21 @@ public final class AxesRenderHelper
 
 		final double x = ( iLabelLocation == IConstants.LEFT ) ? context.dTick1 - 1
 				: context.dTick2 + 1;
+
+		int yLast = Integer.MIN_VALUE;
+		Location loMinorStart = LocationImpl.create( 0, 0 );
+		Location loMinorEnd = LocationImpl.create( 0, 0 );
 		for ( int i = 0; i < length; i++ )
 		{
 			computation.handlePreEachTick( i );
 
 			int y = (int) da.getCoordinate( i );
+			boolean bSkipTickLine = ( yLast == y );
+			if ( !bSkipTickLine )
+			{
+				yLast = y;
+			}
+
 			if ( bRendering3D )
 			{
 				context.y3d = (int) da3D.getCoordinate( i );
@@ -684,30 +694,45 @@ public final class AxesRenderHelper
 						}
 						else
 						{
-							LineRenderEvent lreMinor = null;
-							for ( int k = 0; k < daMinor.length - 1; k++ )
+							if ( !bSkipTickLine )
 							{
-								if ( computation instanceof LinearAxisTypeComputation )
+								LineRenderEvent lreMinor = null;
+								int minorStep = (int) ( 1d / da.getStep( ) );
+								if ( minorStep < 1 )
 								{
-									// Special case for linear type
-									if ( ( iDirection == -1 && y - daMinor[k] <= da.getCoordinate( i + 1 ) )
-											|| ( iDirection == 1 && y
-													+ daMinor[k] >= da.getCoordinate( i + 1 ) ) )
-									{
-										// if current minor tick exceed
-										// the range of current unit, skip
-										continue;
-									}
+									minorStep = 1;
 								}
+								for ( int k = 0; k < daMinor.length - 1; k += minorStep )
+								{
+									if ( computation instanceof LinearAxisTypeComputation )
+									{
+										// Special case for linear type
+										if ( ( iDirection == -1 && y
+												- daMinor[k] <= da.getCoordinate( i + 1 ) )
+												|| ( iDirection == 1 && y
+														+ daMinor[k] >= da.getCoordinate( i + 1 ) ) )
+										{
+											// if current minor tick exceed
+											// the range of current unit, skip
+											continue;
+										}
+									}
 
-								lreMinor = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-										LineRenderEvent.class );
-								lreMinor.setLineAttributes( liaMinorTick );
-								lreMinor.setStart( LocationImpl.create( dXMinorTick1,
-										y + iDirection * daMinor[k] ) );
-								lreMinor.setEnd( LocationImpl.create( dXMinorTick2,
-										y + iDirection * daMinor[k] ) );
-								ipr.drawLine( lreMinor );
+									lreMinor = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+											LineRenderEvent.class );
+									lreMinor.setLineAttributes( liaMinorTick );
+									loMinorStart.set( dXMinorTick1, y
+											+ iDirection
+											* daMinor[k] );
+									lreMinor.setStart( loMinorStart );
+
+									loMinorEnd.set( dXMinorTick2, y
+											+ iDirection
+											* daMinor[k] );
+									lreMinor.setEnd( loMinorEnd );
+
+									ipr.drawLine( lreMinor );
+								}
 							}
 						}
 					}
@@ -720,7 +745,7 @@ public final class AxesRenderHelper
 					continue;
 				}
 
-				if ( context.dTick1 != context.dTick2 )
+				if ( !bSkipTickLine && context.dTick1 != context.dTick2 )
 				{
 					if ( bRenderOrthogonal3DAxis )
 					{
@@ -736,7 +761,7 @@ public final class AxesRenderHelper
 
 					if ( iv != null
 							&& iDimension == IConstants.TWO_5_D
-							&& iv.getType( ) == IntersectionValue.VALUE )
+							&& iv.getType( ) == IConstants.VALUE )
 					{
 						lre.setStart( LocationImpl.create( context.dX, y ) );
 						lre.setEnd( LocationImpl.create( context.dX
@@ -866,12 +891,23 @@ public final class AxesRenderHelper
 		double y = ( iLabelLocation == IConstants.ABOVE ) ? ( bRendering3D ? context.dTick1 + 1
 				: context.dTick1 - 1 )
 				: ( bRendering3D ? context.dTick2 - 1 : context.dTick2 + 1 );
+
+		int xLast = Integer.MIN_VALUE;
+		Location loMinorStart = LocationImpl.create( 0, 0 );
+		Location loMinorEnd = LocationImpl.create( 0, 0 );
 		for ( int i = 0; i < length; i++ )
 		{
 
 			computation.handlePreEachTick( i );
 
 			int x = (int) da.getCoordinate( i );
+
+			boolean bSkipTickLine = ( x == xLast );
+			if ( !bSkipTickLine )
+			{
+				xLast = x;
+			}
+
 			if ( bRendering3D )
 			{
 				context.x3d = (int) da3D.getCoordinate( i );
@@ -903,32 +939,43 @@ public final class AxesRenderHelper
 						}
 						else
 						{
-							LineRenderEvent lreMinor = null;
-							for ( int k = 0; k < daMinor.length - 1; k++ )
+							if ( !bSkipTickLine )
 							{
-								// Special case for linear type
-								if ( computation instanceof LinearAxisTypeComputation )
+								LineRenderEvent lreMinor = null;
+								int minorStep = (int) ( 1d / da.getStep( ) );
+								if ( minorStep < 1 )
 								{
-									if ( ( iDirection == 1 && x + daMinor[k] >= da.getCoordinate( i + 1 ) )
-											|| ( iDirection == -1 && x
-													- daMinor[k] <= da.getCoordinate( i + 1 ) ) )
-									{
-										// if current minor tick exceed the
-										// range of current unit, skip
-										continue;
-									}
+									minorStep = 1;
 								}
+								for ( int k = 0; k < daMinor.length - 1; k += minorStep )
+								{
+									// Special case for linear type
+									if ( computation instanceof LinearAxisTypeComputation )
+									{
+										if ( ( iDirection == 1 && x
+												+ daMinor[k] >= da.getCoordinate( i + 1 ) )
+												|| ( iDirection == -1 && x
+														- daMinor[k] <= da.getCoordinate( i + 1 ) ) )
+										{
+											// if current minor tick exceed the
+											// range of current unit, skip
+											continue;
+										}
+									}
 
-								lreMinor = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-										LineRenderEvent.class );
-								lreMinor.setLineAttributes( liaMinorTick );
-								lreMinor.setStart( LocationImpl.create( x
-										+ iDirection
-										* daMinor[k], dYMinorTick1 ) );
-								lreMinor.setEnd( LocationImpl.create( x
-										+ iDirection
-										* daMinor[k], dYMinorTick2 ) );
-								ipr.drawLine( lreMinor );
+									lreMinor = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+											LineRenderEvent.class );
+									lreMinor.setLineAttributes( liaMinorTick );
+
+									loMinorStart.set( x
+											+ iDirection
+											* daMinor[k], dYMinorTick1 );
+									lreMinor.setStart( loMinorStart );
+									loMinorEnd.set( x + iDirection * daMinor[k],
+											dYMinorTick2 );
+									lreMinor.setEnd( loMinorEnd );
+									ipr.drawLine( lreMinor );
+								}
 							}
 						}
 					}
@@ -941,7 +988,7 @@ public final class AxesRenderHelper
 					continue;
 				}
 
-				if ( context.dTick1 != context.dTick2 )
+				if ( !bSkipTickLine && context.dTick1 != context.dTick2 )
 				{
 					if ( bRenderBase3DAxis )
 					{
@@ -961,7 +1008,7 @@ public final class AxesRenderHelper
 
 					if ( iv != null
 							&& iDimension == IConstants.TWO_5_D
-							&& iv.getType( ) == IntersectionValue.VALUE )
+							&& iv.getType( ) == IConstants.VALUE )
 					{
 						lre.getStart( ).set( x, context.dY );
 						lre.getEnd( ).set( x + dSeriesThickness,
@@ -1110,7 +1157,7 @@ public final class AxesRenderHelper
 			t3dre = (Text3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 					Text3DRenderEvent.class );
 			t3dre.setLabel( la );
-			t3dre.setAction( Text3DRenderEvent.RENDER_TEXT_AT_LOCATION );
+			t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 			t3dre.setTextPosition( iLabelLocation );
 			t3dre.setLocation3D( lo3d );
 
@@ -1137,7 +1184,7 @@ public final class AxesRenderHelper
 			}
 
 			if ( iv != null
-					&& iv.getType( ) == IntersectionValue.MAX
+					&& iv.getType( ) == IConstants.MAX
 					&& iDimension == IConstants.TWO_5_D )
 			{
 				trae.setTransform( TransformationEvent.TRANSLATE );
@@ -1186,7 +1233,7 @@ public final class AxesRenderHelper
 
 						if ( !elTriggers.isEmpty( ) )
 						{
-							ArrayList cachedTriggers = null;
+							ArrayList<Trigger> cachedTriggers = null;
 							Location3D[] loaHotspot = new Location3D[4];
 							Polygon3DRenderEvent pre3d = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 									Polygon3DRenderEvent.class );
@@ -1217,7 +1264,7 @@ public final class AxesRenderHelper
 							{
 								final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 										InteractionEvent.class );
-								cachedTriggers = new ArrayList( );
+								cachedTriggers = new ArrayList<Trigger>( );
 								for ( int t = 0; t < elTriggers.size( ); t++ )
 								{
 									tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
@@ -1264,7 +1311,7 @@ public final class AxesRenderHelper
 
 								if ( cachedTriggers == null )
 								{
-									cachedTriggers = new ArrayList( );
+									cachedTriggers = new ArrayList<Trigger>( );
 									for ( int t = 0; t < elTriggers.size( ); t++ )
 									{
 										tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
@@ -1359,7 +1406,7 @@ public final class AxesRenderHelper
 					}
 
 					if ( iv != null
-							&& iv.getType( ) == IntersectionValue.VALUE
+							&& iv.getType( ) == IConstants.VALUE
 							&& iDimension == IConstants.TWO_5_D )
 					{
 						final Location[] loa = new Location[4];
@@ -1595,8 +1642,8 @@ public final class AxesRenderHelper
 								zPosition ) );
 
 						t3dre.setLabel( la );
-						t3dre.setTextPosition( Text3DRenderEvent.LEFT );
-						t3dre.setAction( Text3DRenderEvent.RENDER_TEXT_AT_LOCATION );
+						t3dre.setTextPosition( TextRenderEvent.LEFT );
+						t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 						renderAxisTitleWith3DTextevent( bb );
 
 						t3dre = (Text3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
@@ -1626,8 +1673,8 @@ public final class AxesRenderHelper
 								yCenter,
 								zPosition ) );
 						t3dre.setLabel( la );
-						t3dre.setTextPosition( Text3DRenderEvent.RIGHT );
-						t3dre.setAction( Text3DRenderEvent.RENDER_TEXT_AT_LOCATION );
+						t3dre.setTextPosition( TextRenderEvent.RIGHT );
+						t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 						renderAxisTitleWith3DTextevent( bb );
 					}
 					else
@@ -1686,7 +1733,7 @@ public final class AxesRenderHelper
 			la = LabelImpl.copyInstance( ax.getLabel( ) );
 
 			if ( iv != null
-					&& iv.getType( ) == IntersectionValue.MAX
+					&& iv.getType( ) == IConstants.MAX
 					&& iDimension == IConstants.TWO_5_D )
 			{
 				trae.setTranslation( -dSeriesThickness, dSeriesThickness );
@@ -1723,7 +1770,7 @@ public final class AxesRenderHelper
 
 			if ( iv != null
 					&& iDimension == IConstants.TWO_5_D
-					&& ( ( bTransposed && renderer.isRightToLeft( ) && iv.getType( ) == IntersectionValue.MIN ) || ( !renderer.isRightToLeft( ) && iv.getType( ) == IntersectionValue.MAX ) ) )
+					&& ( ( bTransposed && renderer.isRightToLeft( ) && iv.getType( ) == IConstants.MIN ) || ( !renderer.isRightToLeft( ) && iv.getType( ) == IConstants.MAX ) ) )
 			{
 				trae.setTransform( TransformationEvent.TRANSLATE );
 				trae.setTranslation( dSeriesThickness, -dSeriesThickness );
@@ -1867,7 +1914,7 @@ public final class AxesRenderHelper
 					}
 
 					if ( iv != null
-							&& iv.getType( ) == IntersectionValue.VALUE
+							&& iv.getType( ) == IConstants.VALUE
 							&& iDimension == IConstants.TWO_5_D )
 					{
 						// Zero plane.
@@ -2034,7 +2081,7 @@ public final class AxesRenderHelper
 									: da.size( );
 
 							OneAxis axxPB = pwa.getAxes( ).getPrimaryBase( );
-							double xLabelThickness = AutoScale.computeHeight( xs,
+							double xLabelThickness = Methods.computeHeight( xs,
 									axxPB.getLabel( ) );
 
 							int xStart = (int) da3D.getCoordinate( 0 );
@@ -2052,14 +2099,14 @@ public final class AxesRenderHelper
 							double yAngle = a3D.getYAngle( ) % 360;
 							if ( yAngle > 0 && yAngle <= 180 )
 							{
-								t3dre.setTextPosition( Text3DRenderEvent.LEFT );
+								t3dre.setTextPosition( TextRenderEvent.LEFT );
 							}
 							else
 							{
-								t3dre.setTextPosition( Text3DRenderEvent.RIGHT );
+								t3dre.setTextPosition( TextRenderEvent.RIGHT );
 							}
 
-							t3dre.setAction( Text3DRenderEvent.RENDER_TEXT_AT_LOCATION );
+							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 						}
 						else
 						{
@@ -2077,14 +2124,14 @@ public final class AxesRenderHelper
 							double angle = a3D.getZAngle( ) % 360;
 							if ( angle >= 0 && angle < 180 )
 							{
-								t3dre.setTextPosition( Text3DRenderEvent.RIGHT );
+								t3dre.setTextPosition( TextRenderEvent.RIGHT );
 							}
 							else
 							{
-								t3dre.setTextPosition( Text3DRenderEvent.LEFT );
+								t3dre.setTextPosition( TextRenderEvent.LEFT );
 							}
 
-							t3dre.setAction( Text3DRenderEvent.RENDER_TEXT_AT_LOCATION );
+							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 						}
 
 						renderAxisTitleWith3DTextevent( bb );
@@ -2138,7 +2185,7 @@ public final class AxesRenderHelper
 
 			if ( iv != null
 					&& iDimension == IConstants.TWO_5_D
-					&& ( ( bTransposed && renderer.isRightToLeft( ) && iv.getType( ) == IntersectionValue.MIN ) || ( !renderer.isRightToLeft( ) && iv.getType( ) == IntersectionValue.MAX ) ) )
+					&& ( ( bTransposed && renderer.isRightToLeft( ) && iv.getType( ) == IConstants.MIN ) || ( !renderer.isRightToLeft( ) && iv.getType( ) == IConstants.MAX ) ) )
 			{
 				trae.setTranslation( -dSeriesThickness, dSeriesThickness );
 				ipr.applyTransformation( trae );

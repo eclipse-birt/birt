@@ -144,4 +144,9 @@ public class TextAdapter implements ITextMetrics
 	{
 		this.lcl = lcl;
 	}
+
+	public double getFullHeight( double fontHeight )
+	{
+		return 0;
+	}
 }

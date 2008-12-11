@@ -65,6 +65,8 @@ public interface ITextMetrics
 	 */
 	double getFullHeight( );
 
+	double getFullHeight( double fontHeight );
+
 	/**
 	 * Returns the max width of the widest line of text using the font defined
 	 * in the contained label

@@ -18,7 +18,7 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.birt.chart.util.FillUtil;
 
 /**
  * A rendering event type for rendering Oval object.
@@ -114,7 +114,7 @@ public class OvalRenderEvent extends PrimitiveRenderEvent
 
 		if ( _ifBackground != null )
 		{
-			ore.setBackground( (Fill) EcoreUtil.copy( _ifBackground ) );
+			ore.setBackground( FillUtil.copyOf( _ifBackground ) );
 		}
 		return ore;
 	}

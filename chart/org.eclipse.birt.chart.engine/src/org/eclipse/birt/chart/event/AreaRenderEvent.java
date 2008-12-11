@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.event;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -23,7 +24,7 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.birt.chart.util.FillUtil;
 
 /**
  * A rendering event type for rendering Area object.
@@ -33,7 +34,7 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 
 	private static final long serialVersionUID = 4924819106091024348L;
 
-	protected final ArrayList alLinesAndArcs = new ArrayList( );
+	protected final List<PrimitiveRenderEvent> alLinesAndArcs = new ArrayList<PrimitiveRenderEvent>( );
 
 	protected Fill fill;
 
@@ -92,7 +93,7 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 	 * 
 	 * @return
 	 */
-	public final Iterator iterator( )
+	public final Iterator<PrimitiveRenderEvent> iterator( )
 	{
 		return alLinesAndArcs.iterator( );
 	}
@@ -218,7 +219,7 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 
 		if ( fill != null )
 		{
-			are.setBackground( (Fill) EcoreUtil.copy( fill ) );
+			are.setBackground( FillUtil.copyOf( fill ) );
 		}
 
 		if ( lia != null )
@@ -226,9 +227,9 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 			are.setOutline( LineAttributesImpl.copyInstance( lia ) );
 		}
 
-		for ( Iterator itr = alLinesAndArcs.iterator( ); itr.hasNext( ); )
+		for ( Iterator<PrimitiveRenderEvent> itr = alLinesAndArcs.iterator( ); itr.hasNext( ); )
 		{
-			are.add( ( (PrimitiveRenderEvent) itr.next( ) ).copy( ) );
+			are.add( itr.next( ).copy( ) );
 		}
 
 		return are;
