@@ -97,12 +97,6 @@ public class ExtendedItem extends ReportItem
 	protected PeerExtensibilityProvider provider = null;
 
 	/**
-	 * The methods for the extension element.
-	 */
-
-	private List methods = null;
-
-	/**
 	 * Default constructor.
 	 */
 
@@ -430,10 +424,7 @@ public class ExtendedItem extends ReportItem
 	 */
 	public List getMethods( )
 	{
-		if ( methods == null )
-			methods = provider.getModelMethodDefns( );
-
-		return methods;
+		return provider.getModelMethodDefns( );
 	}
 
 	/**

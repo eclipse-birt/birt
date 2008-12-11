@@ -436,7 +436,7 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 				list = (List) ModelUtil.copyValue( propDefn, inherited );
 
 				// establish context when add items.
-				if( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
+				if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 					setupStructureContext( list );
 			}
 			else
@@ -472,7 +472,7 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 		{
 			IStructure copy = inherited.copy( );
 
-			setupStructureContext( (Structure) copy );
+			ModelUtil.setupStructureContext( (Structure) copy );
 			PropertyRecord propRecord = new PropertyRecord( element, propDefn,
 					copy );
 			getActivityStack( ).execute( propRecord );
@@ -485,45 +485,6 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 	}
 
 	/**
-	 * @param struct
-	 */
-
-	protected static void setupStructureContext( Structure struct )
-	{
-		Iterator members = struct.getDefn( ).getPropertyIterator( );
-		while ( members.hasNext( ) )
-		{
-			IPropertyDefn member = (IPropertyDefn) members.next( );
-			if ( member.getTypeCode( ) != IPropertyType.STRUCT_TYPE )
-				continue;
-
-			Object tmpValue = struct.getLocalProperty( null,
-					(PropertyDefn) member );
-			if ( tmpValue == null )
-				continue;
-			if ( tmpValue instanceof List )
-			{
-				List tmpList = (List) tmpValue;
-				for ( int i = 0; i < tmpList.size( ); i++ )
-				{
-					Structure child = (Structure) tmpList.get( i );
-					child.setContext( new StructureContext( struct, member
-							.getName( ) ) );
-					setupStructureContext( child );
-				}
-
-				continue;
-			}
-
-			Structure child = (Structure) tmpValue;
-			child
-					.setContext( new StructureContext( struct, member.getName( ) ) );
-			setupStructureContext( child );
-		}
-
-	}
-
-	/**
 	 * @param values
 	 */
 
@@ -532,7 +493,7 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 		for ( int i = 0; i < values.size( ); i++ )
 		{
 			Structure child = (Structure) values.get( i );
-			setupStructureContext( child );
+			ModelUtil.setupStructureContext( child );
 		}
 	}
 

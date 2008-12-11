@@ -1744,13 +1744,55 @@ public class ModelUtil
 				Structure item = (Structure) values.get( i );
 				item.setContext( new StructureContext( element, propDefn
 						.getName( ) ) );
+				setupStructureContext( item );
 			}
 		}
 		else
 		{
 			( (Structure) clonedValue ).setContext( new StructureContext(
 					element, propDefn.getName( ) ) );
+			setupStructureContext( (Structure) clonedValue );
 		}
 	}
 
+	/**
+	 * @param struct
+	 */
+
+	public static void setupStructureContext( Structure struct )
+	{
+		if ( struct == null )
+			return;
+		Iterator members = struct.getDefn( ).getPropertyIterator( );
+		while ( members.hasNext( ) )
+		{
+			IPropertyDefn member = (IPropertyDefn) members.next( );
+			if ( member.getTypeCode( ) != IPropertyType.STRUCT_TYPE )
+				continue;
+
+			Object tmpValue = struct.getLocalProperty( null,
+					(PropertyDefn) member );
+			if ( tmpValue == null )
+				continue;
+			if ( tmpValue instanceof List )
+			{
+				List tmpList = (List) tmpValue;
+				for ( int i = 0; i < tmpList.size( ); i++ )
+				{
+					Structure child = (Structure) tmpList.get( i );
+					child.setContext( new StructureContext( struct, member
+							.getName( ) ) );
+					setupStructureContext( child );
+				}
+
+				continue;
+			}
+
+			Structure child = (Structure) tmpValue;
+			child
+					.setContext( new StructureContext( struct, member.getName( ) ) );
+			setupStructureContext( child );
+		}
+
+	}
 }

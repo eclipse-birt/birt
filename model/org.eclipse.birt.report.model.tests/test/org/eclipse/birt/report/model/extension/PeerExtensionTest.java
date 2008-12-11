@@ -58,6 +58,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
@@ -98,6 +99,7 @@ public class PeerExtensionTest extends BaseTestCase
 	private static final String FILE_NAME_7 = "PeerExtensionTest_7.xml"; //$NON-NLS-1$
 	private static final String FILE_NAME_10 = "PeerExtensionTest_10.xml"; //$NON-NLS-1$
 	private static final String FILE_NAME_11 = "PeerExtensionTest_11.xml"; //$NON-NLS-1$
+	private static final String FILE_NAME_9 = "PeerExtensionTest_9.xml"; //$NON-NLS-1$
 	private static final String POINTS_PROP_NAME = "points"; //$NON-NLS-1$
 
 	private static final String TESTING_TABLE_NAME = "TestingTable"; //$NON-NLS-1$
@@ -1162,6 +1164,28 @@ public class PeerExtensionTest extends BaseTestCase
 
 		tmpPropDefn = tmpDefn.getProperty( StyleHandle.COLOR_PROP );
 		assertTrue( ( (ElementPropertyDefn) tmpPropDefn ).enableContextSearch( ) );
+	}
+
+	/**
+	 * Tests the case that we set up the structure context for the extended
+	 * structure type property when clone the extended element.
+	 * 
+	 * @throws Exception
+	 */
+	public void testCloneWithExtendedStructureProp( ) throws Exception
+	{
+		openDesign( FILE_NAME_9 );
+
+		ExtendedItemHandle itemHandle = (ExtendedItemHandle) designHandle
+				.findElement( "testBox" ); //$NON-NLS-1$
+		DesignElementHandle copiedHandle = itemHandle.copy( )
+				.getHandle( design );
+		designHandle.rename( copiedHandle );
+		designHandle.getBody( ).paste( copiedHandle );
+
+		Structure action = (Structure) copiedHandle.getElement( ).getProperty(
+				design, "action" ); //$NON-NLS-1$
+		assertNotNull( action.getContext( ) );
 	}
 
 	private static class MyListener implements Listener

@@ -731,6 +731,10 @@ public abstract class PeerExtensibilityProvider
 			if ( valueToSet == null )
 				continue;
 
+			if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
+			{
+				ModelUtil.setStructureContext( propDefn, valueToSet, element );
+			}
 			extensionPropValues.put( propName, valueToSet );
 		}
 	}
