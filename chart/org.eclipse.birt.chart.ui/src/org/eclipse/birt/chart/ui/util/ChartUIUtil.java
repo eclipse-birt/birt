@@ -1714,10 +1714,10 @@ public class ChartUIUtil
 	 * @param dataServiceProvider
 	 * @since BIRT 2.3
 	 */
-	public static void prepareLivePreview( Chart cm,
+	public static List<String> prepareLivePreview( Chart cm,
 			IDataServiceProvider dataServiceProvider )
 	{
-		prepareLivePreview( cm, dataServiceProvider, null );
+		return prepareLivePreview( cm, dataServiceProvider, null );
 	}
 
 	/**
@@ -1727,9 +1727,10 @@ public class ChartUIUtil
 	 * @param dataServiceProvider
 	 * @since BIRT 2.3
 	 */
-	public static void prepareLivePreview( Chart cm,
+	public static List<String> prepareLivePreview( Chart cm,
 			IDataServiceProvider dataServiceProvider, IActionEvaluator iae )
 	{
+		List<String> errorMsgs = new ArrayList<String>( 2 );
 		if ( dataServiceProvider.isLivePreviewEnabled( )
 				&& ChartUIUtil.checkDataBinding( cm ) )
 		{
@@ -1763,6 +1764,7 @@ public class ChartUIUtil
 					hasOtherException = true;
 					ChartPreviewPainter.activateLivePreview( false );
 					WizardBase.showException( e.getLocalizedMessage( ) );
+					errorMsgs.add( e.getLocalizedMessage( ) );
 				}
 			}
 			if ( !hasOtherException )
@@ -1776,6 +1778,8 @@ public class ChartUIUtil
 			// Disable live preview
 			ChartPreviewPainter.activateLivePreview( false );
 		}
+
+		return errorMsgs;
 	}
 
 	public static String getText( Control control )
