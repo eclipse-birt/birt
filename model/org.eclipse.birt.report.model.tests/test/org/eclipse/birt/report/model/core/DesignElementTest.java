@@ -987,8 +987,8 @@ public class DesignElementTest extends BaseTestCase
 	 * <p>
 	 * Test Cases:
 	 * <ul>
-	 * <li>set element and their relationships , all elements subscribe
-	 * listener</li>
+	 * <li>set element and their relationships , all elements subscribe listener
+	 * </li>
 	 * <li>check property of element</li>
 	 * <li>broadcast all elements and check property of element</li>
 	 * </ul>
@@ -2101,8 +2101,8 @@ public class DesignElementTest extends BaseTestCase
 	 * <ul>
 	 * <li>text1 has resource-key ,text name and value of display-name</li>
 	 * <li>text2 just has text name</li>
-	 * <li>text3 has resource-key and text name but hasnot value of
-	 * display-name</li>
+	 * <li>text3 has resource-key and text name but hasnot value of display-name
+	 * </li>
 	 * <li>this text hasnot text name but has resource-key and value of
 	 * display-name</li>
 	 * <li>this text hasnot text name and value of display-name, just has
@@ -2308,8 +2308,8 @@ public class DesignElementTest extends BaseTestCase
 	 * <ul>
 	 * <li>grid1 has resource-key ,grid name and value of display-name</li>
 	 * <li>grid2 just has label name</li>
-	 * <li>grid3 has resource-key and grid name but hasnot value of
-	 * display-name</li>
+	 * <li>grid3 has resource-key and grid name but hasnot value of display-name
+	 * </li>
 	 * <li>this grid hasnot grid name but has resource-key and value of
 	 * display-name</li>
 	 * <li>this grid hasnot grid name and value of display-name, just has
@@ -2492,8 +2492,8 @@ public class DesignElementTest extends BaseTestCase
 	 * <ul>
 	 * <li>list1 has resource-key ,list name and value of display-name</li>
 	 * <li>list2 just has label name</li>
-	 * <li>list3 has resource-key and list name but hasnot value of
-	 * display-name</li>
+	 * <li>list3 has resource-key and list name but hasnot value of display-name
+	 * </li>
 	 * <li>this list hasnot list name but has resource-key and value of
 	 * display-name</li>
 	 * <li>this list hasnot list name and value of display-name, just has
@@ -2684,8 +2684,8 @@ public class DesignElementTest extends BaseTestCase
 	 * <ul>
 	 * <li>data1 has resource-key ,data name and value of display-name</li>
 	 * <li>data2 just has label name</li>
-	 * <li>data3 has resource-key and data name but hasnot value of
-	 * display-name</li>
+	 * <li>data3 has resource-key and data name but hasnot value of display-name
+	 * </li>
 	 * <li>this data hasnot data name but has resource-key and value of
 	 * display-name</li>
 	 * <li>this data hasnot data name and value of display-name, just has
@@ -2703,8 +2703,7 @@ public class DesignElementTest extends BaseTestCase
 	 * <li>the first six steps are the same as Test for USER_LABEL</li>
 	 * <li>this data has value-expr attribute and data name</li>
 	 * <li>this data has value-expr attribute</li>
-	 * <li>this data has value-expr attribute and value-expr more than 30 chars
-	 * </li>
+	 * <li>this data has value-expr attribute and value-expr more than 30 chars</li>
 	 * </ul>
 	 * </li>
 	 * </ul>
@@ -2902,10 +2901,8 @@ public class DesignElementTest extends BaseTestCase
 	 * <li>this image has image-name attribute</li>
 	 * <li>this image has value-expr attribute</li>
 	 * <li>this image has uri attribute and length more than 30 chars</li>
-	 * <li>this image has image-name attribute and length more than 30 chars
-	 * </li>
-	 * <li>this image has value-expr attribute and length more than 30 chars
-	 * </li>
+	 * <li>this image has image-name attribute and length more than 30 chars</li>
+	 * <li>this image has value-expr attribute and length more than 30 chars</li>
 	 * </ul>
 	 * </li>
 	 * </ul>
@@ -3122,8 +3119,8 @@ public class DesignElementTest extends BaseTestCase
 	 * <li>the first six steps are the same as Test for USER_LABEL</li>
 	 * <li>this table has data-set attribute</li>
 	 * <li>this table has data-set attribute but hasnot name</li>
-	 * <li>this table has data-set attribute and length of data-set is more
-	 * than 30 characters
+	 * <li>this table has data-set attribute and length of data-set is more than
+	 * 30 characters
 	 * </ul>
 	 * </li>
 	 * </ul>
@@ -3725,6 +3722,25 @@ public class DesignElementTest extends BaseTestCase
 	}
 
 	/**
+	 * Tests the local style property values.
+	 */
+	public void testStyleLocalPropertyValues( ) throws Exception
+	{
+		openDesign( "LocalStylePropertyValuesTest.xml" );//$NON-NLS-1$
+
+		// the label in the report design contains one style and its parent in
+		// the library contains different style.
+		DesignElementHandle label1 = designHandle.findElement( "NewLabel" ); //$NON-NLS-1$
+		assertTrue( label1.hasLocalProperties( ) );
+
+		// the label in the report design does not contain one style and its
+		// parent in the library contains one style.
+		DesignElementHandle label2 = designHandle.findElement( "NewLabel1" ); //$NON-NLS-1$
+		assertFalse( label2.hasLocalProperties( ) );
+
+	}
+
+	/**
 	 * Tests the display lable of the ROM defined selector.
 	 * 
 	 * @throws Exception
@@ -3755,8 +3771,10 @@ public class DesignElementTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt.report.model.core.DesignElement,
-		 *      org.eclipse.birt.report.model.activity.NotificationEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
+		 * .report.model.core.DesignElement,
+		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
 		public void elementChanged( DesignElementHandle focus,
 				NotificationEvent ev )

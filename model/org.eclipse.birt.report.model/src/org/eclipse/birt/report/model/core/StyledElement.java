@@ -195,6 +195,21 @@ public abstract class StyledElement extends DesignElement
 		style = new ElementRefValue( null, theName );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#hasLocalPropertyValues()
+	 */
+	public boolean hasLocalPropertyValues( )
+	{
+		if ( super.hasLocalPropertyValues( ) )
+			return true;
+
+		return style != null;
+
+	}
+
 	/**
 	 * Returns the value of an intrinsic property.If the property name is
 	 * <code>style</code> then return the style element.
