@@ -883,7 +883,7 @@ DesignerActionBarContributor.menu.insert=삽입(&I)
 DesignerActionBarContributor.menu.page=페이지(&G)
 DesignerActionBarContributor.menu.style-rule-apply=스타일 적용(&P)
 DesignerActionBarContributor.menu.style-rule-edit=스타일 편집(&D)
-DesignerActionBarContributor.menu.style-rule-remove=스타일 제거(&R)
+DesignerActionBarContributor.menu.style-rule-remove=스타일 삭제(&R)
 DesignerActionBarContributor.style.new=새 스타일(&N)...
 DesignerActionBarContributor.menu.data-NewParameter=새 보고서 매개 변수(&P)
 DesignerActionBarContributor.menu.data-NewDataSetParent=새 데이터 집합(&S)
@@ -2704,7 +2704,7 @@ ParameterDialog.ErrorMessage.EmptyName=이름이 비어 있습니다.
 ParameterDialog.ErrorMessage.InvalidListLimit=제한 값은 0과 {0} 사이여야 합니다.
 ParameterDialog.ErrorMessage.MismatchDataType=값이 데이터 형식에 맞지 않습니다.
 ParameterDialog.ErrorMessage.NoAvailableColumn=사용할 수 있는 열이 없습니다.
-ParameterDialog.ErrorMessage.ValueColumnEmpty=Value column should be specified.
+ParameterDialog.ErrorMessage.ValueColumnEmpty=값 열을 지정해야 합니다.
 ParameterDialog.ErrorMessage.NoDefaultValue=기본값을 설정해야 합니다.
 ParameterDialog.ErrorTitle.InvalidListLimit=잘못된 목록 제한
 ParameterDialog.Flag.Default=기본값
@@ -4054,7 +4054,7 @@ EmbeddedImagesNodeProvider.stackMsg.insert=이미지 삽입
 ###########################################################
 #AddElementtoAction properties
 AddElementtoAction.Text=보고서에 추가(&A)
-ApplyThemeAction.Text=&Apply to Report
+ApplyThemeAction.Text=보고서에 적용(&A)
 
 ###########################################################
 #MultiPageReportEditor properties
@@ -4136,7 +4136,7 @@ ThumbnailBuilder.Button.BrowseFromFileSystem=파일 시스템에서 찾아보기
 ThumbnailBuilder.Button.ImportFromResource=공유 리소스에서 가져오기
 ThumbnailBuilder.Image.DefaultName=축소판 이미지
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=경고
-ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=You selected a big image(larger than 1014x768) and it may cause out of memory exception.\nWould you like to proceed?
+ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=너무 큰 이미지(1014x768 이상)를 선택하여 메모리 부족 예외가 발생할 수 있습니다.\n계속하시겠습니까?
 
 
 ###########################################################

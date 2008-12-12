@@ -2,8 +2,8 @@ ChartAggregationCellViewProvider.Chart.DisplayName=图表
 ChartDataSetBindingSheetImpl.Lbl.SelectDataBinding=选择数据绑定:
 ChartDataSetBindingSheetImpl.Title.SheetTitle=数据 - 选择数据集
 
-ChartPageGenerator.List.General=General
-ChartPageGenerator.List.AltText=Alt Text
+ChartPageGenerator.List.General=常规
+ChartPageGenerator.List.AltText=Alt 文本
 
 ChartDataBindingPage.Lbl.Parameter=参数
 ChartDataBindingPage.Lbl.DataType=数据类型
@@ -30,7 +30,7 @@ ChartReportItemViewProvider.BarChart.Text.Title=条形图标题
 
 ChartExpressionProvider.Category.ChartVariables=变量
 ChartExpressionProvider.ChartVariables.DataPoints=图表数据点
-ChartExpressionProvider.ChartVariables.LegendItems=Chart Legend
+ChartExpressionProvider.ChartVariables.LegendItems=图表图例
 ChartExpressionProvider.DataPoints.BaseValue=类别数据
 ChartExpressionProvider.DataPoints.OrthogonalValue=值数据
 ChartExpressionProvider.ChartVariables.JavaScript=JavaScript

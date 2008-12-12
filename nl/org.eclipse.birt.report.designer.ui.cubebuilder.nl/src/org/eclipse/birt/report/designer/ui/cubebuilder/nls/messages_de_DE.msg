@@ -141,7 +141,7 @@ NewCubeAction.DataCube=Datenquader
 ###########################################################
 #CubePageGenerator properties
 PrimaryDatasetDescriptorProvider.Display.Primary.Dataset.Name=Primärer Datensatz:
-CubePageGenerator.List.General=General
+CubePageGenerator.List.General=Allgemein
 
 ############################################################
 #FilterListDialog properties

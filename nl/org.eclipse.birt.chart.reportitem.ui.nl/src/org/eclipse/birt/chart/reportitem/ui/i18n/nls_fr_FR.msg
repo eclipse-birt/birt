@@ -2,8 +2,8 @@ ChartAggregationCellViewProvider.Chart.DisplayName=Graphique
 ChartDataSetBindingSheetImpl.Lbl.SelectDataBinding=Sélectionner la liaison de données :
 ChartDataSetBindingSheetImpl.Title.SheetTitle=Données - Sélectionner un jeu de données
 
-ChartPageGenerator.List.General=General
-ChartPageGenerator.List.AltText=Alt Text
+ChartPageGenerator.List.General=Général
+ChartPageGenerator.List.AltText=Texte de légende
 
 ChartDataBindingPage.Lbl.Parameter=Paramètres
 ChartDataBindingPage.Lbl.DataType=Type de données
@@ -30,7 +30,7 @@ ChartReportItemViewProvider.BarChart.Text.Title=Titre du graphique à barres
 
 ChartExpressionProvider.Category.ChartVariables=Variables
 ChartExpressionProvider.ChartVariables.DataPoints=Point de données du graphique
-ChartExpressionProvider.ChartVariables.LegendItems=Chart Legend
+ChartExpressionProvider.ChartVariables.LegendItems=Légende du graphique
 ChartExpressionProvider.DataPoints.BaseValue=Données de catégorie
 ChartExpressionProvider.DataPoints.OrthogonalValue=Données de valeur
 ChartExpressionProvider.ChartVariables.JavaScript=JavaScript

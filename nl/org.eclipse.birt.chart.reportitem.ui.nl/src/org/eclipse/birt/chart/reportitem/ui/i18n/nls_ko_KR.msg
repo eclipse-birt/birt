@@ -2,8 +2,8 @@ ChartAggregationCellViewProvider.Chart.DisplayName=차트
 ChartDataSetBindingSheetImpl.Lbl.SelectDataBinding=데이터 바인딩 선택:
 ChartDataSetBindingSheetImpl.Title.SheetTitle=데이터 - 데이터 집합 선택
 
-ChartPageGenerator.List.General=General
-ChartPageGenerator.List.AltText=Alt Text
+ChartPageGenerator.List.General=일반
+ChartPageGenerator.List.AltText=ALT 텍스트
 
 ChartDataBindingPage.Lbl.Parameter=매개 변수
 ChartDataBindingPage.Lbl.DataType=데이터 형식
@@ -30,7 +30,7 @@ ChartReportItemViewProvider.BarChart.Text.Title=막대 차트 제목
 
 ChartExpressionProvider.Category.ChartVariables=변수
 ChartExpressionProvider.ChartVariables.DataPoints=차트 데이터 요소
-ChartExpressionProvider.ChartVariables.LegendItems=Chart Legend
+ChartExpressionProvider.ChartVariables.LegendItems=차트 범례
 ChartExpressionProvider.DataPoints.BaseValue=범주 데이터
 ChartExpressionProvider.DataPoints.OrthogonalValue=값 데이터
 ChartExpressionProvider.ChartVariables.JavaScript=JavaScript

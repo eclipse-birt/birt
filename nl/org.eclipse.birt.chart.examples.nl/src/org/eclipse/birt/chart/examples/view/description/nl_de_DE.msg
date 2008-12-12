@@ -29,9 +29,9 @@ Pyramid=Pyramidendiagramme sind ähnlich wie Balkendiagramme, wobei die Balken al
 Bar=Dreidimensionales gruppiertes Balkendiagramm.
 Line=Dreidimensionales überlagertes Liniendiagramm.
 Area=Dreidimensionales überlagertes Flächendiagramm.
-Tube3D=3 Dimension Side-by-side Tube Chart.
-Cone3D=3 Dimension Side-by-side Cone Chart.
-Pyramid3D=3 Dimension Side-by-side Pyramid Chart.
+Tube3D=Dreidimensionales gruppiertes Röhrendiagramm.
+Cone3D=Dreidimensionales gruppiertes Kegeldiagramm.
+Pyramid3D=Dreidimensionales gruppiertes Pyramidendiagramm.
 
 ###########################################################
 #Combination Charts

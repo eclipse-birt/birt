@@ -2704,7 +2704,7 @@ ParameterDialog.ErrorMessage.EmptyName=名称为空。
 ParameterDialog.ErrorMessage.InvalidListLimit=限制值应介于 0 和 {0} 之间
 ParameterDialog.ErrorMessage.MismatchDataType=值与数据类型不匹配。
 ParameterDialog.ErrorMessage.NoAvailableColumn=没有可用的列。
-ParameterDialog.ErrorMessage.ValueColumnEmpty=Value column should be specified.
+ParameterDialog.ErrorMessage.ValueColumnEmpty=应指定值列。
 ParameterDialog.ErrorMessage.NoDefaultValue=必须设置默认值。
 ParameterDialog.ErrorTitle.InvalidListLimit=无效列表限制
 ParameterDialog.Flag.Default=默认
@@ -4054,7 +4054,7 @@ EmbeddedImagesNodeProvider.stackMsg.insert=插入图像
 ###########################################################
 #AddElementtoAction properties
 AddElementtoAction.Text=添加到报表(&A)
-ApplyThemeAction.Text=&Apply to Report
+ApplyThemeAction.Text=应用于报表(&A)
 
 ###########################################################
 #MultiPageReportEditor properties
@@ -4136,7 +4136,7 @@ ThumbnailBuilder.Button.BrowseFromFileSystem=从文件系统浏览
 ThumbnailBuilder.Button.ImportFromResource=从共享资源导入
 ThumbnailBuilder.Image.DefaultName=缩略图
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=警告
-ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=You selected a big image(larger than 1014x768) and it may cause out of memory exception.\nWould you like to proceed?
+ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=您选择了大图像(大于 1014x768)，可能导致内存不足异常。\n是否继续?
 
 
 ###########################################################

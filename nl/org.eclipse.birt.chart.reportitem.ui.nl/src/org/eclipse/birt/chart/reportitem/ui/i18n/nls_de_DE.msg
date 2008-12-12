@@ -2,8 +2,8 @@ ChartAggregationCellViewProvider.Chart.DisplayName=Diagramm
 ChartDataSetBindingSheetImpl.Lbl.SelectDataBinding=Datenbindung auswählen:
 ChartDataSetBindingSheetImpl.Title.SheetTitle=Daten - Datensatz auswählen
 
-ChartPageGenerator.List.General=General
-ChartPageGenerator.List.AltText=Alt Text
+ChartPageGenerator.List.General=Allgemein
+ChartPageGenerator.List.AltText=Alternativer Text
 
 ChartDataBindingPage.Lbl.Parameter=Parameter
 ChartDataBindingPage.Lbl.DataType=Datentyp
@@ -30,7 +30,7 @@ ChartReportItemViewProvider.BarChart.Text.Title=Balkendiagrammtitel:
 
 ChartExpressionProvider.Category.ChartVariables=Variablen
 ChartExpressionProvider.ChartVariables.DataPoints=Diagramm-Datenpunkt
-ChartExpressionProvider.ChartVariables.LegendItems=Chart Legend
+ChartExpressionProvider.ChartVariables.LegendItems=Diagrammlegende
 ChartExpressionProvider.DataPoints.BaseValue=Kategoriedaten
 ChartExpressionProvider.DataPoints.OrthogonalValue=Wertdaten
 ChartExpressionProvider.ChartVariables.JavaScript=JavaScript

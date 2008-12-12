@@ -3,7 +3,7 @@ ChartDataSetBindingSheetImpl.Lbl.SelectDataBinding=Seleccionar enlace de datos:
 ChartDataSetBindingSheetImpl.Title.SheetTitle=Datos - Seleccionar conjunto de datos
 
 ChartPageGenerator.List.General=General
-ChartPageGenerator.List.AltText=Alt Text
+ChartPageGenerator.List.AltText=Texto alternativo
 
 ChartDataBindingPage.Lbl.Parameter=Parámetros
 ChartDataBindingPage.Lbl.DataType=Tipo de datos
@@ -30,7 +30,7 @@ ChartReportItemViewProvider.BarChart.Text.Title=Título del diagrama de barras
 
 ChartExpressionProvider.Category.ChartVariables=Variables
 ChartExpressionProvider.ChartVariables.DataPoints=Punto de datos de diagrama
-ChartExpressionProvider.ChartVariables.LegendItems=Chart Legend
+ChartExpressionProvider.ChartVariables.LegendItems=Leyendas de diagrama
 ChartExpressionProvider.DataPoints.BaseValue=Datos de categoría
 ChartExpressionProvider.DataPoints.OrthogonalValue=Datos de valor
 ChartExpressionProvider.ChartVariables.JavaScript=JavaScript

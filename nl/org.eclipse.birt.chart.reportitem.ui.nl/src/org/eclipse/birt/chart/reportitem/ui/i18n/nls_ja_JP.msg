@@ -2,8 +2,8 @@ ChartAggregationCellViewProvider.Chart.DisplayName=グラフ
 ChartDataSetBindingSheetImpl.Lbl.SelectDataBinding=データバインドの選択 :
 ChartDataSetBindingSheetImpl.Title.SheetTitle=データ - データセットの選択
 
-ChartPageGenerator.List.General=General
-ChartPageGenerator.List.AltText=Alt Text
+ChartPageGenerator.List.General=全般
+ChartPageGenerator.List.AltText=代替テキスト
 
 ChartDataBindingPage.Lbl.Parameter=パラメタ
 ChartDataBindingPage.Lbl.DataType=データ型
@@ -30,7 +30,7 @@ ChartReportItemViewProvider.BarChart.Text.Title=棒グラフのタイトル
 
 ChartExpressionProvider.Category.ChartVariables=変数
 ChartExpressionProvider.ChartVariables.DataPoints=グラフのデータポイント
-ChartExpressionProvider.ChartVariables.LegendItems=Chart Legend
+ChartExpressionProvider.ChartVariables.LegendItems=グラフの凡例
 ChartExpressionProvider.DataPoints.BaseValue=カテゴリデータ
 ChartExpressionProvider.DataPoints.OrthogonalValue=値データ
 ChartExpressionProvider.ChartVariables.JavaScript=JavaScript

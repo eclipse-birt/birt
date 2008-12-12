@@ -29,9 +29,9 @@ Pyramid=Los diagramas de pirámides se parecen a los diagramas de barras, pero co
 Bar=Diagramas de barras laterales en 3 dimensiones.
 Line=Diagramas de líneas superpuestas en 3 dimensiones.
 Area=Diagramas de áreas superpuestas en 3 dimensiones.
-Tube3D=3 Dimension Side-by-side Tube Chart.
-Cone3D=3 Dimension Side-by-side Cone Chart.
-Pyramid3D=3 Dimension Side-by-side Pyramid Chart.
+Tube3D=Diagrama de tubos laterales en 3 dimensiones.
+Cone3D=Diagrama de conos laterales en 3 dimensiones.
+Pyramid3D=Diagrama de pirámides laterales en 3 dimensiones.
 
 ###########################################################
 #Combination Charts

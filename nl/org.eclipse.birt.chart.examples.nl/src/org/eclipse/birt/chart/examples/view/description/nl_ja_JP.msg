@@ -29,9 +29,9 @@ Pyramid=ピラミッドグラフは、棒グラフをピラミッドで示したものです。
 Bar=立体並列棒グラフ。
 Line=立体オーバーレイ線グラフ。
 Area=立体オーバーレイ面積グラフ。
-Tube3D=3 Dimension Side-by-side Tube Chart.
-Cone3D=3 Dimension Side-by-side Cone Chart.
-Pyramid3D=3 Dimension Side-by-side Pyramid Chart.
+Tube3D=立体並列円筒グラフ。
+Cone3D=立体並列円錐グラフ。
+Pyramid3D=立体並列ピラミッドグラフ。
 
 ###########################################################
 #Combination Charts
