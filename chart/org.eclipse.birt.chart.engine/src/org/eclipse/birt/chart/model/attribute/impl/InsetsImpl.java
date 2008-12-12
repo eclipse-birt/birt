@@ -631,4 +631,64 @@ public class InsetsImpl extends EObjectImpl implements Insets
 		return ins;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode( )
+	{
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits( bottom );
+		result = prime * result + (int) ( temp ^ ( temp >>> 32 ) );
+		result = prime * result + ( bottomESet ? 1231 : 1237 );
+		temp = Double.doubleToLongBits( left );
+		result = prime * result + (int) ( temp ^ ( temp >>> 32 ) );
+		result = prime * result + ( leftESet ? 1231 : 1237 );
+		temp = Double.doubleToLongBits( right );
+		result = prime * result + (int) ( temp ^ ( temp >>> 32 ) );
+		result = prime * result + ( rightESet ? 1231 : 1237 );
+		temp = Double.doubleToLongBits( top );
+		result = prime * result + (int) ( temp ^ ( temp >>> 32 ) );
+		result = prime * result + ( topESet ? 1231 : 1237 );
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals( Object obj )
+	{
+		if ( this == obj )
+			return true;
+		if ( obj == null )
+			return false;
+		if ( getClass( ) != obj.getClass( ) )
+			return false;
+		InsetsImpl other = (InsetsImpl) obj;
+		if ( Double.doubleToLongBits( bottom ) != Double.doubleToLongBits( other.bottom ) )
+			return false;
+		if ( bottomESet != other.bottomESet )
+			return false;
+		if ( Double.doubleToLongBits( left ) != Double.doubleToLongBits( other.left ) )
+			return false;
+		if ( leftESet != other.leftESet )
+			return false;
+		if ( Double.doubleToLongBits( right ) != Double.doubleToLongBits( other.right ) )
+			return false;
+		if ( rightESet != other.rightESet )
+			return false;
+		if ( Double.doubleToLongBits( top ) != Double.doubleToLongBits( other.top ) )
+			return false;
+		if ( topESet != other.topESet )
+			return false;
+		return true;
+	}
+
 } // InsetsImpl
