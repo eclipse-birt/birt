@@ -25,7 +25,6 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IAbsoluteFontSizeValueProvider;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleOption;
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.birt.report.model.api.command.ResourceChangeEvent;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
@@ -81,7 +80,7 @@ public class DesignSession
 	 * list each item is <code>Style</code>
 	 */
 
-	private static List defaultTOCStyleList = null;
+	private static List<DesignElement> defaultTOCStyleList = null;
 
 	/**
 	 * file with TOC default value.
@@ -1256,7 +1255,7 @@ public class DesignSession
 
 	private void initDefaultTOCStyle( )
 	{
-		defaultTOCStyleList = new ArrayList( );
+		defaultTOCStyleList = new ArrayList<DesignElement>( );
 		URL url = new DefaultResourceLocator( ).findResource( null,
 				TOC_DEFAULT_VALUE, IResourceLocator.OTHERS );
 		if ( url == null )
@@ -1280,17 +1279,12 @@ public class DesignSession
 
 		// get styles
 
-		ContainerSlot slot = tocDesign.getSlot( IReportDesignModel.STYLE_SLOT );
-		Iterator iterator = slot.iterator( );
-		while ( iterator.hasNext( ) )
+		ContainerSlot styles = tocDesign
+				.getSlot( IReportDesignModel.STYLE_SLOT );
+		for ( int i = 0; i < styles.getCount( ); i++ )
 		{
-			DesignElement tmpStyle = (DesignElement) iterator.next( );
-			StyleHandle styleHandle = (StyleHandle) tmpStyle
-					.getHandle( tocDesign );
-			defaultTOCStyleList.add( styleHandle );
+			defaultTOCStyleList.add( styles.getContent( i ) );
 		}
-
-		isTOCStyleInitialized = Boolean.TRUE;
 	}
 
 	/**
@@ -1299,14 +1293,17 @@ public class DesignSession
 	 * @return list each item is <code>Style</code>
 	 */
 
-	public List getDefaultTOCStyleValue( )
+	public List<DesignElement> getDefaultTOCStyleValue( )
 	{
 		if ( isTOCStyleInitialized )
 			return Collections.unmodifiableList( defaultTOCStyleList );
 		synchronized ( isTOCStyleInitialized )
 		{
 			if ( !isTOCStyleInitialized )
+			{
 				initDefaultTOCStyle( );
+				isTOCStyleInitialized = Boolean.TRUE;
+			}
 		}
 		return Collections.unmodifiableList( defaultTOCStyleList );
 	}

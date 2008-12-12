@@ -16,7 +16,6 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.elements.Cell;
-import org.eclipse.birt.report.model.elements.ColumnHelper;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableGroup;
@@ -136,7 +135,7 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 	 * @return the value of a style property
 	 */
 
-	protected Object getPropertyFromColumn( Module module, TableItem table,
+	private Object getPropertyFromColumn( Module module, TableItem table,
 			Cell target, ElementPropertyDefn prop )
 	{
 		assert prop.isStyleProperty( );
@@ -145,23 +144,9 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 		if ( columnSlot.getCount( ) == 0 )
 			return null;
 
-		int columnNum = target.getColumn( module );
-		if ( columnNum == 0 )
-			columnNum = table.getColumnPosition4Cell( module, target );
+		TableColumn column = table.getColumn( module, columnSlot, target );
 
-		// if the layout still not updated yet.
-
-		if ( columnNum == 0 )
-			return null;
-
-		TableColumn column = ColumnHelper.findColumn( module, columnSlot,
-				columnNum );
-
-		if ( column != null )
-			return column.getStrategy( ).getPropertyFromElement( module,
-					column, prop );
-
-		return null;
+		return getPropertyFromColumn( module, column, prop );
 	}
 
 	/**
@@ -189,17 +174,9 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 		if ( columnSlot.getCount( ) == 0 )
 			return null;
 
-		int columnNum = grid.getCellPositionInColumn( module, target );
+		TableColumn column = grid.getColumn( module, columnSlot, target );
 
-		assert columnNum > 0;
-		TableColumn column = ColumnHelper.findColumn( module, columnSlot,
-				columnNum );
-
-		if ( column != null )
-			return column.getStrategy( ).getPropertyFromElement( module,
-					column, prop );
-
-		return null;
+		return getPropertyFromColumn( module, column, prop );
 	}
 
 	/**
@@ -264,5 +241,26 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 			return null;
 
 		return getPropertyFromSelector( module, prop, selector );
+	}
+
+	/**
+	 * Gets the the style property defined on the column.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param column
+	 *            the column
+	 * @param prop
+	 *            the property definition
+	 */
+	private Object getPropertyFromColumn( Module module, TableColumn column,
+			ElementPropertyDefn prop )
+	{
+		if ( column != null )
+		{
+			return column.getStrategy( ).getPropertyFromElement( module,
+					column, prop );
+		}
+		return null;
 	}
 }

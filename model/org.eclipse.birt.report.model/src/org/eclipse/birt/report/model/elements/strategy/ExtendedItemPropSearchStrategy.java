@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.SystemPropertyDefn;
 
 /**
@@ -139,8 +140,9 @@ public class ExtendedItemPropSearchStrategy
 			return value;
 
 		// find the "extended-item" selector
-		String selector = ( (ElementDefn) extendedItem.getDefaultDefn( ) )
-				.getSelector( );
+		ElementDefn defn = (ElementDefn) MetaDataDictionary.getInstance( )
+				.getElement( element.getElementName( ) );
+		String selector = defn.getSelector( );
 
 		return getPropertyFromSelector( module, prop, selector );
 	}

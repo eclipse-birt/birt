@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.model.elements;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
@@ -86,6 +88,12 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
 
 public class GridItem extends ReportItem implements IGridItemModel
 {
+
+	/**
+	 * Caches the column, the key is the cell id and the value is the column
+	 * where the cell locates in.
+	 */
+	private Map<Long, TableColumn> cachedColumn = null;
 
 	/**
 	 * Default Constructor.
@@ -216,6 +224,54 @@ public class GridItem extends ReportItem implements IGridItemModel
 		return colCount;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ReportItem#cacheValues()
+	 */
+	public void cacheValues( )
+	{
+		ContainerSlot columnSlot = getSlot( IGridItemModel.COLUMN_SLOT );
+		if ( columnSlot.getCount( ) == 0 )
+			return;
+
+		Module module = getRoot( );
+		cachedColumn = new HashMap<Long, TableColumn>( );
+
+		// The array which caches the table column in the grid, if the column
+		// repeat this array will record accordingly.
+
+		TableColumn[] cachedColumnArray = ColumnHelper.getTableColumnArray(
+				module, columnSlot );
+
+		ContainerSlot rowSlot = getSlot( IGridItemModel.ROW_SLOT );
+
+		List<Cell> list = CellHelper.getCells( rowSlot );
+
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			Cell cell = list.get( i );
+
+			int columnNum = getCellPositionInColumn( module, cell );
+
+			assert columnNum > 0;
+
+			TableColumn column = ColumnHelper.getColumnInArray(
+					cachedColumnArray, columnNum );
+
+			// if the column could be found accroding to the column number of
+			// the cell,
+			// then cache it.
+
+			if ( column != null )
+			{
+				cachedColumn.put( new Long( cell.getID( ) ), column );
+
+			}
+
+		}
+	}
+
 	/**
 	 * Finds the maximum column width for this grid.
 	 * 
@@ -237,6 +293,40 @@ public class GridItem extends ReportItem implements IGridItemModel
 				maxCols = cols;
 		}
 		return maxCols;
+	}
+
+	/**
+	 * Gets column in grid item according to the cell.
+	 * 
+	 * @param module
+	 *            the module.
+	 * @param columnSlot
+	 *            the column slot.
+	 * @param target
+	 *            the cell.
+	 * @return the column.
+	 */
+	public TableColumn getColumn( Module module, ContainerSlot columnSlot,
+			Cell target )
+	{
+		// in preview mode, we should cache the relationship between the cell
+		// and column using cell id and column number as key for performance
+		// issue. as for the UI mode, we should avoid to cache.
+
+		if ( module.isCached( ) )
+		{
+			if ( cachedColumn == null )
+				return null;
+
+			return cachedColumn.get( new Long( target.getID( ) ) );
+
+		}
+		int columnNum = getCellPositionInColumn( module, target );
+
+		assert columnNum > 0;
+
+		return ColumnHelper.findColumn( module, columnSlot, columnNum );
+
 	}
 
 	/**

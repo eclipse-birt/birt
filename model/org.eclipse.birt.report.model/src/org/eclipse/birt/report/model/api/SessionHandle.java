@@ -23,8 +23,10 @@ import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.birt.report.model.api.command.ResourceChangeEvent;
 import org.eclipse.birt.report.model.api.core.IResourceChangeListener;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.Style;
 
 import com.ibm.icu.util.ULocale;
 
@@ -865,16 +867,16 @@ public class SessionHandle
 
 	public StyleHandle getDefaultTOCStyle( String name )
 	{
-		List result = session.getDefaultTOCStyleValue( );
+		List<DesignElement> result = session.getDefaultTOCStyleValue( );
 		if ( result == null )
 			return null;
-		Iterator iterator = result.iterator( );
+		Iterator<DesignElement> iterator = result.iterator( );
 		while ( iterator.hasNext( ) )
 		{
-			StyleHandle styleHandle = (StyleHandle) iterator.next( );
-			if ( styleHandle.getName( ).equals( name ) )
+			Style tmpStyle = (Style) iterator.next( );
+			if ( tmpStyle.getName( ).equals( name ) )
 			{
-				return styleHandle;
+				return tmpStyle.handle( tmpStyle.getRoot( ) );
 			}
 		}
 		return null;

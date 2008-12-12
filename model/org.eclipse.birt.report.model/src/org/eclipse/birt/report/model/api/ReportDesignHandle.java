@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.css.CssStyleSheetHandleAdapter;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
@@ -1196,5 +1197,30 @@ public class ReportDesignHandle extends ModuleHandle
 		}
 
 		return ret;
+	}
+
+	/**
+	 * Caches values for all elements, styles, etc. The caller must guarantee
+	 * this method runs in single thread and have no synchronization issue.
+	 * Whenever the user changes element values, should recall this method.
+	 */
+
+	public synchronized void cacheValues( )
+	{
+		module.setIsCached( true );
+		
+		module.cacheValues( );
+		
+		ContentIterator iter1 = new ContentIterator( module,
+				new ContainerContext( module, BODY_SLOT ) );
+		while ( iter1.hasNext( ) )
+		{
+			DesignElement tmpElement = (DesignElement) iter1.next( );
+			if ( !( tmpElement instanceof ReportItem ) )
+				continue;
+
+			( (ReportItem) tmpElement ).cacheValues( );
+		}
+
 	}
 }

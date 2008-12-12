@@ -346,4 +346,35 @@ public class Library extends Module implements ILibraryModel
 		return cloned;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.Module#needCacheStyles()
+	 */
+	public boolean isCached( )
+	{
+		if ( host == null )
+			return super.isCached( );
+
+		Module module = this;
+		while ( module != null )
+		{
+			if ( module instanceof Library )
+			{
+				Library lib = (Library) module;
+				if ( lib.getHost( ) == null )
+				{
+					return lib.isCached( );
+				}
+				module = lib.getHost( );
+			}
+			else
+			{
+				return module.isCached( );
+			}
+		}
+
+		return false;
+	}
+
 }

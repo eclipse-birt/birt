@@ -11,6 +11,11 @@
 
 package org.eclipse.birt.report.model.core;
 
+import java.util.List;
+
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.command.ContentElementInfo;
+import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
@@ -190,7 +195,7 @@ public class PropertySearchStrategy
 
 		if ( isInheritableProperty( element, prop ) || prop.isStyleProperty( ) )
 		{
-			value = getPropertyFromParent( element, prop );
+			value = getPropertyFromParent( module, element, prop );
 
 			if ( value != null )
 				return value;
@@ -245,7 +250,10 @@ public class PropertySearchStrategy
 
 		Object value = element.getLocalProperty( module, prop );
 		if ( value != null )
+		{
+			updateContainerForContentElement( module, element, prop, value );
 			return value;
+		}
 
 		// 2). Does the style provide the value of this property ?
 
@@ -274,8 +282,8 @@ public class PropertySearchStrategy
 	 * @return property value, or <code>null</code> if no value is set.
 	 */
 
-	protected Object getPropertyFromParent( DesignElement element,
-			ElementPropertyDefn prop )
+	protected Object getPropertyFromParent( Module module,
+			DesignElement element, ElementPropertyDefn prop )
 	{
 		Object value = null;
 		DesignElement e = element;
@@ -304,13 +312,75 @@ public class PropertySearchStrategy
 
 				value = getPropertyFromSelf( currentRoot, e, prop );
 				if ( value != null )
+				{
+					updateContainerForContentElement( module, element, prop,
+							value );
 					return value;
+				}
 
 			}
 
 		} while ( e != null );
 
 		return value;
+	}
+
+	/**
+	 * Updates the container information for the content element.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param prop
+	 *            definition of the property to get
+	 * @param value
+	 *            the property value, or null if no value is set.
+	 */
+
+	private void updateContainerForContentElement( Module module,
+			DesignElement element, ElementPropertyDefn prop, Object value )
+	{
+		if ( prop.getTypeCode( ) != IPropertyType.CONTENT_ELEMENT_TYPE
+				&& prop.getSubTypeCode( ) != IPropertyType.CONTENT_ELEMENT_TYPE )
+			return;
+
+		ContentElementInfo info = null;
+		if ( element instanceof ContentElement )
+			info = ( (ContentElement) element ).getValueContainer( );
+		else if ( prop.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE
+				|| prop.getSubTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE )
+			info = new ContentElementInfo( element, prop );
+
+		if ( value instanceof ContentElement )
+		{
+			Module root = ( (ContentElement) value ).getRoot( );
+
+			ContentElementInfo tmpInfo = null;
+			if ( root != module )
+			{
+				tmpInfo = info;
+			}
+			( (ContentElement) value ).setValueContainer( tmpInfo );
+		}
+		else if ( value instanceof List )
+		{
+			List items = (List) value;
+			Module root = null;
+
+			ContentElementInfo tmpInfo = null;
+
+			for ( int i = 0; i < items.size( ); i++ )
+			{
+				ContentElement item = (ContentElement) items.get( i );
+
+				if ( root == null )
+				{
+					root = item.getRoot( );
+					if ( root != module )
+						tmpInfo = info;
+				}
+				item.setValueContainer( tmpInfo );
+			}
+		}
 	}
 
 	/**

@@ -17,7 +17,6 @@ import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.strategy.GroupPropSearchStrategy;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -52,6 +51,7 @@ public abstract class GroupElement extends DesignElement
 	public GroupElement( )
 	{
 		initSlots( );
+		cachedPropStrategy = GroupPropSearchStrategy.getInstance( );
 	}
 
 	/*
@@ -133,17 +133,6 @@ public abstract class GroupElement extends DesignElement
 			return super.getFactoryProperty( module, prop );
 
 		return getStrategy( ).getPropertyFromElement( module, this, prop );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getStrategy()
-	 */
-
-	public PropertySearchStrategy getStrategy( )
-	{
-		return GroupPropSearchStrategy.getInstance( );
 	}
 
 	/*

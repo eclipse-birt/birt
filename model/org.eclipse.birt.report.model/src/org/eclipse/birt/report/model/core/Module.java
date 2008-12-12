@@ -341,6 +341,8 @@ public abstract class Module extends DesignElement
 	 */
 	private Map bundles = null;
 
+	private boolean isCached = false;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -2946,5 +2948,45 @@ public abstract class Module extends DesignElement
 
 		return (List) bundles.get( fileName );
 
+	}
+
+	/**
+	 * Determines whether the module has cached values.
+	 * 
+	 * @return <code>true</code> if values have been cached. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	public boolean isCached( )
+	{
+		return isCached;
+	}
+
+	/**
+	 * Sets cache status of the module. The value is set to TRUE when calling {
+	 * {@link ReportDesignHandle#cacheValues()}.
+	 * 
+	 * @param isCached
+	 */
+	public void setIsCached( boolean isCached )
+	{
+		this.isCached = isCached;
+	}
+
+	/**
+	 * Caches values for the element. The caller must be the report design.
+	 */
+
+	public void cacheValues( )
+	{
+		getNameHelper( ).getElements( Module.STYLE_NAME_SPACE,
+				IAccessControl.ARBITARY_LEVEL );
+		List libs = getAllLibraries( );
+		for ( int i = 0; i < libs.size( ); i++ )
+		{
+			Library lib = (Library) libs.get( i );
+			lib.getNameHelper( ).getElements( Module.STYLE_NAME_SPACE,
+					IAccessControl.ARBITARY_LEVEL );
+		}
 	}
 }

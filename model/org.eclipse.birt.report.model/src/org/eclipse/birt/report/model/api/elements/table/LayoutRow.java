@@ -198,7 +198,7 @@ public class LayoutRow
 		for ( int i = 0; i < cells.size( ); i++ )
 		{
 			LayoutCell tmpCell = (LayoutCell) cells.get( i );
-			if ( tmpCell.isUsed( ) && cell.equals( tmpCell.getContent( ) ) )
+			if ( tmpCell.isUsed( ) && cell == tmpCell.getContent( ) )
 			{
 				assert tmpCell.isCellStartPosition( );
 				return i + 1;

@@ -267,7 +267,7 @@ public abstract class StyledElement extends DesignElement
 
 		// Get the value from this element and its parent.
 
-		return getStrategy( ).getPropertyFromElement( module, this, prop );
+		return cachedPropStrategy.getPropertyFromElement( module, this, prop );
 	}
 
 	/*

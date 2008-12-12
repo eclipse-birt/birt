@@ -1167,6 +1167,7 @@ public class GroupElementHandleTest extends BaseTestCase
 
 		public MockupDesignElement( MockupElementDefn defn )
 		{
+			this.cachedDefn = defn;
 			this.defn = defn;
 		}
 

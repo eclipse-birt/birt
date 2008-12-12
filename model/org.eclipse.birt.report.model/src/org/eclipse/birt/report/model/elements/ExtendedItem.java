@@ -23,12 +23,10 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
 import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
-import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.elements.strategy.ExtendedItemPropSearchStrategy;
@@ -102,7 +100,7 @@ public class ExtendedItem extends ReportItem
 
 	public ExtendedItem( )
 	{
-		provider = new DummyPeerExtensibilityProvider( this, null );
+		this( null );
 	}
 
 	/**
@@ -116,6 +114,7 @@ public class ExtendedItem extends ReportItem
 	{
 		super( theName );
 		provider = new DummyPeerExtensibilityProvider( this, null );
+		cachedPropStrategy = ExtendedItemPropSearchStrategy.getInstance( );
 	}
 
 	/*
@@ -439,17 +438,6 @@ public class ExtendedItem extends ReportItem
 		return defn == null ? null : defn.getName( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getStrategy()
-	 */
-
-	public PropertySearchStrategy getStrategy( )
-	{
-		return ExtendedItemPropSearchStrategy.getInstance( );
-	}
-
 	/**
 	 * Sets the extension name for this extended item. At the same time,
 	 * initialize the extension provider and slot.
@@ -463,6 +451,11 @@ public class ExtendedItem extends ReportItem
 		extensionName = extension;
 		provider = PeerExtensibilityProviderFactory.createProvider( this,
 				extensionName );
+		ExtensionElementDefn defn = provider.getExtDefn( );
+		if ( defn != null )
+		{
+			cachedDefn = defn;
+		}
 		initSlots( );
 	}
 
@@ -474,32 +467,8 @@ public class ExtendedItem extends ReportItem
 
 	public ContainerSlot getSlot( int slot )
 	{
-		assert slot >= 0 && slot < getDefn( ).getSlotCount( );
+		assert slot >= 0 && slot < cachedDefn.getSlotCount( );
 		return slots[slot];
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getDefn()
-	 */
-	public IElementDefn getDefn( )
-	{
-		IElementDefn extDefn = getExtDefn( );
-		if ( extDefn != null )
-			return extDefn;
-		return super.getDefn( );
-	}
-
-	/**
-	 * Gets the default element definition of this extended-item.
-	 * 
-	 * @return the default element definition
-	 */
-
-	public IElementDefn getDefaultDefn( )
-	{
-		return super.getDefn( );
 	}
 
 	/**
