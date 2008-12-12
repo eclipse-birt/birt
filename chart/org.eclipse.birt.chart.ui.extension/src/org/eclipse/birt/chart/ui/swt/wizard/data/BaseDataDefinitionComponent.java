@@ -61,6 +61,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
@@ -215,7 +216,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				populateExprComboItems( predefinedQuery );
 			}
 			else if ( getQuery( ).getDefinition( ) == null
-					|| getQuery( ).getDefinition( ).equals( "" ) )
+					|| getQuery( ).getDefinition( ).equals( "" ) ) //$NON-NLS-1$
 			{
 				cmbDefinition.setEnabled( false );
 			}
@@ -282,7 +283,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 					if ( predefinedQuery.length == 0
 							&& ( getQuery( ).getDefinition( ) == null || getQuery( ).getDefinition( )
-									.equals( "" ) ) )
+									.equals( "" ) ) ) //$NON-NLS-1$
 					{
 						cmbDefinition.setEnabled( false );
 					}
@@ -817,12 +818,20 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			DataDefinitionTextManager.getInstance( )
 					.updateControlBackground( getInputControl( ), expression );
 
-			Event e = new Event( );
+			final Event e = new Event( );
 			e.data = BaseDataDefinitionComponent.this;
 			e.widget = getInputControl( );
 			e.type = IChartDataSheet.EVENT_QUERY;
 			e.detail = IChartDataSheet.DETAIL_UPDATE_COLOR;
-			context.getDataSheet( ).notifyListeners( e );
+			
+			// Use async thread to update UI to prevent control disposed
+			Display.getCurrent( ).asyncExec( new Runnable( ) {
+
+				public void run( )
+				{
+					context.getDataSheet( ).notifyListeners( e );
+				}
+			} );			
 		}
 		else
 		{
