@@ -245,7 +245,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			throw new EngineException(
 					MessageConstants.RENDERTASK_NOT_FINISHED_ERROR );
 		}
-		return outputPageCount;
+		return Math.max( outputPageCount, executionContext.getPageCount( ) );
 	}
 
 	/*
@@ -477,9 +477,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 					CompositeContentEmitter outputEmitters = new CompositeContentEmitter(
 							format );
-					outputEmitters.addEmitter( new PDFLayoutEmitterProxy( executor,
-							emitter, renderOptions, executionContext
-									.getLocale( ), getTotalPage( ) ) );
+					outputEmitters.addEmitter( new PDFLayoutEmitterProxy(
+							executor, emitter, renderOptions, executionContext,
+							getTotalPage( ) ) );
 					outputEmitters.addEmitter( handle.getEmitter( ) );
 					emitter = outputEmitters;
 					if ( needPaginate( ) )
@@ -605,7 +605,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 				CompositeContentEmitter outputEmitters = new CompositeContentEmitter(
 						format );
 				outputEmitters.addEmitter( new PDFLayoutEmitterProxy( executor,
-						emitter, renderOptions, executionContext.getLocale( ),
+						emitter, renderOptions, executionContext,
 						getTotalPage( ) ) );
 				outputEmitters.addEmitter( handle.getEmitter( ) );
 				emitter = outputEmitters;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.16" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.3.0.qualifier Build &lt;@BUILD@></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.3.1.v20080827-0630 Build &lt;2.3.1.v20080827-0630></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2007 &lt;&lt;Your Company Name here>></property>
     <html-property name="description">Creates a blank report with no predefined content.</html-property>
@@ -55,7 +55,7 @@
                 <cell id="24">
                     <label id="27">
                         <property name="pageBreakAfter">always</property>
-                        <text-property name="text">label 1</text-property>
+                        <text-property name="text">page 1</text-property>
                     </label>
                 </cell>
             </row>
@@ -63,14 +63,14 @@
                 <cell id="26">
                     <label id="28">
                         <property name="pageBreakAfter">always</property>
-                        <text-property name="text">label 2</text-property>
+                        <text-property name="text">page 2</text-property>
                     </label>
                 </cell>
             </row>
             <row id="29">
                 <cell id="30">
                     <label id="31">
-                        <text-property name="text">label 3</text-property>
+                        <text-property name="text">page 3</text-property>
                     </label>
                 </cell>
             </row>
@@ -78,7 +78,114 @@
         <label id="12">
             <property name="pageBreakAfter">always</property>
             <expression name="bookmark">"page3"</expression>
-            <text-property name="text">page 4</text-property>
+            <text-property name="text">page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4
+page 4</text-property>
         </label>
     </body>
 </report>

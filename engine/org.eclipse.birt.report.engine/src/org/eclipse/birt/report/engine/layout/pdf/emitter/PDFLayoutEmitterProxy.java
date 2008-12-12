@@ -30,6 +30,7 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 
 public class PDFLayoutEmitterProxy extends LayoutEmitterAdapter
@@ -41,10 +42,11 @@ public class PDFLayoutEmitterProxy extends LayoutEmitterAdapter
 	private IContentEmitter outputEmitter = null;
 	private IReportExecutor executor;
 	private LayoutEngineContext context;
+	private ExecutionContext executionContext;
 
 	public PDFLayoutEmitterProxy( IReportExecutor executor,
 			IContentEmitter emitter, IRenderOption renderOptions,
-			Locale locale, long totalPage )
+			ExecutionContext executionContext, long totalPage )
 	{
 		this.executor = executor;
 		this.outputEmitter = emitter;
@@ -56,10 +58,11 @@ public class PDFLayoutEmitterProxy extends LayoutEmitterAdapter
 			String format = renderOptions.getOutputFormat( );
 			context.setFormat( format );
 		}
-		context.setLocale( locale );
+		context.setLocale( executionContext.getLocale( ) );
 		context.totalPage = totalPage;
 		createLayoutEmitterImpl( context );
 		context.setEmitter( layoutEmitterImpl );
+		this.executionContext = executionContext;
 	}
 
 	public void initialize( IEmitterServices service )
@@ -211,6 +214,7 @@ public class PDFLayoutEmitterProxy extends LayoutEmitterAdapter
 
 	public void end( IReportContent report )
 	{
+		executionContext.setPageCount( context.pageCount );
 		layoutEmitterImpl.end( report );
 	}
 	

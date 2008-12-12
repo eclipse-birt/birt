@@ -99,7 +99,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			executionContext.setExecutor( executor );
 			if(ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ))
 			{
-				emitter = new PDFLayoutEmitterProxy(executor, emitter, renderOptions, executionContext.getLocale( ), 0l);
+				emitter = new PDFLayoutEmitterProxy(executor, emitter, renderOptions, executionContext, 0l);
 			}
 			initializeContentEmitter( emitter, executor );
 

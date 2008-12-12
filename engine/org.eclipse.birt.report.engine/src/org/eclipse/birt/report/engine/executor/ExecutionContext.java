@@ -244,6 +244,8 @@ public class ExecutionContext
 	private long filteredTotalPage;
 	private long filteredPageNumber;
 
+	private long pageCount;
+
 	/**
 	 * A list of script errors found in onPrepare. These will be added to the
 	 * IReportContent, when one is available
@@ -326,6 +328,7 @@ public class ExecutionContext
 		locale = Locale.getDefault( );
 		
 		timeZone = TimeZone.getDefault( );
+		pageCount = 0;
 	}
 
 	private void initializeScriptContext( )
@@ -2041,6 +2044,16 @@ public class ExecutionContext
 	public int getMaxRowsPerQuery( )
 	{
 		return maxRowsPerQuery;
+	}
+	
+	public long getPageCount( )
+	{
+		return pageCount;
+	}
+	
+	public void setPageCount( long pageCount )
+	{
+		this.pageCount = pageCount;
 	}
 
 	private String[] engineExts;

@@ -203,6 +203,27 @@ public class RenderTaskTest extends EngineCase
 		IReportDocument document = createReportDocument( design );
 		test( document, "pdf" );
 		test( document, "html" );
+
+		renderAllPages( document, "html", 4 );
+		renderAllPages( document, "pdf", 5 );
+		renderAllPages( document, "doc", 4 );
+		renderAllPages( document, "xls", 1 );
+	}
+
+	private void renderAllPages( IReportDocument document, String format,
+			int pageCount ) throws EngineException
+	{
+		testRenderPageCount( document, pageCount, format, new RenderItemSetter( ) {
+
+			public void setRenderItem( IRenderTask task )
+					throws EngineException
+			{
+				HTMLRenderOption option = (HTMLRenderOption)task.getRenderOption( );
+				option.setOption( PDFRenderOption.PAGE_OVERFLOW,
+						PDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES );
+				task.setPageRange( "all" );
+			}
+		} );
 	}
 
 	private void test( IReportDocument document, String format )
@@ -230,14 +251,6 @@ public class RenderTaskTest extends EngineCase
 					throws EngineException
 			{
 				task.setPageRange( "1,3" );
-			}
-		} );
-		testRenderPageCount( document, 4, format, new RenderItemSetter( ) {
-
-			public void setRenderItem( IRenderTask task )
-					throws EngineException
-			{
-				task.setPageRange( "all" );
 			}
 		} );
 	}
