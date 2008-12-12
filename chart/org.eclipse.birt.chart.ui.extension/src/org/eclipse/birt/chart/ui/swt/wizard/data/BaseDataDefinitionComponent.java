@@ -235,24 +235,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 						return;
 					}
 
-					Object checkResult = context.getDataServiceProvider( )
-							.checkData( queryType, text );
-					if ( checkResult != null && checkResult instanceof Boolean )
-					{
-						if ( !( (Boolean) checkResult ).booleanValue( ) )
-						{
-							// Can't select expressions of one dimension to set
-							// on category series and Y optional at one time.
-							WizardBase.showException( Messages.getString( "BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden" ) ); //$NON-NLS-1$
-							cmbDefinition.setText( oldQuery );
-							return;
-						}
-						else
-						{
-							WizardBase.removeException( );
-						}
-					}
-
 					updateQuery( text );
 
 					// Set category/Y optional expression by value series
@@ -569,7 +551,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 							context.getExtendedItem( ),
 							sTitle );
 			boolean isSuccess = setUIText( getInputControl( ), sExpr );
-			query.setDefinition( sExpr );
+			updateQuery( sExpr );
 
 			if ( !isSuccess )
 			{
@@ -802,6 +784,30 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	 */
 	public void updateQuery( String expression )
 	{
+		if ( getInputControl( ) instanceof CCombo )
+		{
+			String oldQuery = query.getDefinition( ) == null
+					? "" : query.getDefinition( ); //$NON-NLS-1$
+
+			Object checkResult = context.getDataServiceProvider( )
+					.checkData( queryType, expression );
+			if ( checkResult != null && checkResult instanceof Boolean )
+			{
+				if ( !( (Boolean) checkResult ).booleanValue( ) )
+				{
+					// Can't select expressions of one dimension to set
+					// on category series and Y optional at one time.
+					WizardBase.showException( Messages.getString( "BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden" ) ); //$NON-NLS-1$
+					setUIText( getInputControl( ), oldQuery );
+					return;
+				}
+				else
+				{
+					WizardBase.removeException( );
+				}
+			}
+		}
+		
 		if ( !isTableSharedBinding( ) )
 		{
 			setQueryExpression( expression );
