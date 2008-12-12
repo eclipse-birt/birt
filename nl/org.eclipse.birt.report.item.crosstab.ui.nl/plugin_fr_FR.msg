@@ -12,4 +12,8 @@
 preference.crosstabPage=Tableau croisé
 crosstab.menu=Tableau cr&oisé
 Crosstab.desc=Insérez un tableau croisé pour afficher des données agrégées sous forme de lignes et de colonnes.
-newcube.menu=Nouveau cube de données
+newcube.menu=New Data &Cube
+paletteEntry.label.crosstab = Cross Tab
+command.name.createCrosstab = Create Crosstab
+command.name.createCube = Create Cube
+command.mnemonic.c = C

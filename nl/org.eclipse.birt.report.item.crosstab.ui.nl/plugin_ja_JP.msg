@@ -12,4 +12,8 @@
 preference.crosstabPage=クロスタブ
 crosstab.menu=クロスタブ(&O)
 Crosstab.desc=クロスタブを挿入すると、列と行で集計データが表示されます。
-newcube.menu=データキューブの新規作成
+newcube.menu=New Data &Cube
+paletteEntry.label.crosstab = Cross Tab
+command.name.createCrosstab = Create Crosstab
+command.name.createCube = Create Cube
+command.mnemonic.c = C
