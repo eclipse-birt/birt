@@ -773,7 +773,7 @@ public class ElementExporterTest extends BaseTestCase
 
 		StyleHandle style1 = designHandle.findStyle( "style1" ); //$NON-NLS-1$
 		assertFalse( ElementExportUtil.canExport( style1, libraryHandle, false ) );
-		assertFalse( ElementExportUtil.canExport( style1 ) );
+		assertTrue( ElementExportUtil.canExport( style1 ) );
 
 		// group cannot be exported.
 
@@ -954,5 +954,58 @@ public class ElementExporterTest extends BaseTestCase
 		save( libraryHandle );
 
 		assertTrue( compareFile( "ElementExporterTestLibrary_golden_16.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests export master page.
+	 * 
+	 * @throws Exception
+	 */
+	public void testExportMasterPage( ) throws Exception
+	{
+		openDesign( "ExportMasterPageTest.xml" ); //$NON-NLS-1$
+		openLibrary( "ExportMasterPageTestLibrary.xml" ); //$NON-NLS-1$
+
+		// test export master page to library which has the same master page
+		// name.
+		DesignElementHandle handle = designHandle
+				.findMasterPage( "NewSimpleMasterPage" );//$NON-NLS-1$
+		assertFalse( ElementExportUtil.canExport( handle, libraryHandle, false ) );
+
+		// test export master page to library which does not have the same
+		// master page name.
+		handle = designHandle.findMasterPage( "Simple MasterPage" );//$NON-NLS-1$
+		assertTrue( ElementExportUtil.canExport( handle, libraryHandle, false ) );
+
+		ElementExportUtil.exportElement( handle, libraryHandle, true );
+		save( libraryHandle );
+
+		assertTrue( compareFile( "ExportMasterPageTest_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests export style element.
+	 * 
+	 * @throws Exception
+	 */
+	public void testExportStyle( ) throws Exception
+	{
+		openDesign( "ExportStyleTest.xml" ); //$NON-NLS-1$
+		openLibrary( "ExportStyleTestLibrary.xml" ); //$NON-NLS-1$
+
+		// test export style to library which has the same style name.
+
+		DesignElementHandle handle = designHandle.findStyle( "crosstab" ); //$NON-NLS-1$
+		assertFalse( ElementExportUtil.canExport( handle, libraryHandle, false ) );
+
+		// test export style to library which does not have the same style name.
+
+		handle = designHandle.findStyle( "report" ); //$NON-NLS-1$
+		assertTrue( ElementExportUtil.canExport( handle, libraryHandle, false ) );
+
+		ElementExportUtil.exportElement( handle, libraryHandle, true );
+		save( libraryHandle );
+
+		assertTrue( compareFile( "ExportStyleTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 }

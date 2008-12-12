@@ -12,11 +12,13 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
@@ -532,6 +534,22 @@ public class ElementExportUtil
 			return targetLibraryHandle.findParameter( name ) == null;
 		}
 
+		if ( elementToExport instanceof MasterPageHandle )
+		{
+			if ( canOverride )
+				return true;
+
+			return targetLibraryHandle.findMasterPage( name ) == null;
+		}
+
+		if ( elementToExport instanceof StyleHandle )
+		{
+			if ( canOverride )
+				return true;
+
+			return targetLibraryHandle.findStyle( name ) == null;
+		}
+
 		return false;
 	}
 
@@ -686,6 +704,16 @@ public class ElementExportUtil
 		}
 
 		if ( elementToExport instanceof ReportItemHandle )
+		{
+			return true;
+		}
+
+		if ( elementToExport instanceof MasterPageHandle )
+		{
+			return true;
+		}
+
+		if ( elementToExport instanceof StyleHandle )
 		{
 			return true;
 		}
