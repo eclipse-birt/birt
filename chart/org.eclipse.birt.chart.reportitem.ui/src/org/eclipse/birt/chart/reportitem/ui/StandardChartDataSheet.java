@@ -1031,7 +1031,10 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		tablePreview.layout( );
 	}
 
-	private volatile boolean bIsGettingPreviewData = false;
+	private synchronized List<?> getPreviewData( ) throws ChartException
+	{
+		return getDataServiceProvider( ).getPreviewData( );
+	}
 
 	private void switchDataTable( )
 	{
@@ -1049,24 +1052,17 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			 */
 			public void run( )
 			{
-				if ( bIsGettingPreviewData )
-				{
-					// to avoid collision caused by multiple refreshing
-					return;
-				}
 				ColumnBindingInfo[] headers = null;
-				List dataList = null;
+				List<?> dataList = null;
 				try
 				{
 					// Get header and data in other thread.
 					headers = getDataServiceProvider( ).getPreviewHeadersInfo( );
-					bIsGettingPreviewData = true;
-					dataList = getDataServiceProvider( ).getPreviewData( );
-					bIsGettingPreviewData = false;
+					dataList = getPreviewData( );
 					getDataServiceProvider( ).setPredefinedExpressions( headers );
 
 					final ColumnBindingInfo[] headerInfo = headers;
-					final List data = dataList;
+					final List<?> data = dataList;
 					// Execute UI operation in UI thread.
 					Display.getDefault( ).syncExec( new Runnable( ) {
 
