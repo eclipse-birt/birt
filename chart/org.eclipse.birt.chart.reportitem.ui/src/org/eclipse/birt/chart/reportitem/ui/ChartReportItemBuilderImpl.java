@@ -393,7 +393,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 	 */
 	public final String[] validate( Chart cm, Object oContext )
 	{
-		final ArrayList alProblems = new ArrayList( 4 );
+		final ArrayList<String> alProblems = new ArrayList<String>( 4 );
 
 		// CHECK FOR UNBOUND DATASET
 		final ExtendedItemHandle eih = (ExtendedItemHandle) oContext;
@@ -405,7 +405,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 
 		// CHECK FOR UNDEFINED SERIES QUERIES (DO NOT NEED THE RUNTIME CONTEXT)
 		final QueryUIHelper.SeriesQueries[] qsqa = new QueryUIHelper( ).getSeriesQueryDefinitions( cm );
-		Collection co;
+		Collection<String> co;
 		for ( int i = 0; i < qsqa.length; i++ )
 		{
 			co = qsqa[i].validate( );
@@ -415,7 +415,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			}
 		}
 
-		return (String[]) alProblems.toArray( new String[alProblems.size( )] );
+		return alProblems.toArray( new String[alProblems.size( )] );
 	}
 
 	/*

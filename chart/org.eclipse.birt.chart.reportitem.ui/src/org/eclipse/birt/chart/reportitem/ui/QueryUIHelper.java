@@ -67,12 +67,12 @@ public final class QueryUIHelper
 	 */
 	final SeriesQueries[] getSeriesQueryDefinitions( ChartWithAxes cwa )
 	{
-		final ArrayList alSeriesQueries = new ArrayList( 4 );
+		final ArrayList<SeriesQueries> alSeriesQueries = new ArrayList<SeriesQueries>( 4 );
 		final Axis axPrimaryBase = cwa.getPrimaryBaseAxes( )[0];
 		EList elSD = axPrimaryBase.getSeriesDefinitions( );
 		if ( elSD.size( ) != 1 )
 		{
-			return (SeriesQueries[]) alSeriesQueries.toArray( new SeriesQueries[alSeriesQueries.size( )] );
+			return alSeriesQueries.toArray( new SeriesQueries[alSeriesQueries.size( )] );
 		}
 
 		// DON'T CARE ABOUT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES
@@ -133,7 +133,7 @@ public final class QueryUIHelper
 				alSeriesQueries.add( sqd );
 			}
 		}
-		return (SeriesQueries[]) alSeriesQueries.toArray( new SeriesQueries[alSeriesQueries.size( )] );
+		return alSeriesQueries.toArray( new SeriesQueries[alSeriesQueries.size( )] );
 	}
 
 	/**
@@ -142,11 +142,11 @@ public final class QueryUIHelper
 	 */
 	final SeriesQueries[] getSeriesQueryDefinitions( ChartWithoutAxes cwoa )
 	{
-		final ArrayList alSeriesQueries = new ArrayList( 4 );
+		final ArrayList<SeriesQueries> alSeriesQueries = new ArrayList<SeriesQueries>( 4 );
 		EList elSD = cwoa.getSeriesDefinitions( );
 		if ( elSD.size( ) != 1 )
 		{
-			return (SeriesQueries[]) alSeriesQueries.toArray( new SeriesQueries[alSeriesQueries.size( )] );
+			return alSeriesQueries.toArray( new SeriesQueries[alSeriesQueries.size( )] );
 		}
 
 		// DON'T CARE ABOUT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES
@@ -197,7 +197,7 @@ public final class QueryUIHelper
 			}
 			alSeriesQueries.add( sqd );
 		}
-		return (SeriesQueries[]) alSeriesQueries.toArray( new SeriesQueries[alSeriesQueries.size( )] );
+		return alSeriesQueries.toArray( new SeriesQueries[alSeriesQueries.size( )] );
 	}
 
 	/**
@@ -227,25 +227,38 @@ public final class QueryUIHelper
 			this.qua = qua;
 		}
 
-		public Collection validate( )
+		public Collection<String> validate( )
 		{
-			ArrayList al = null;
-			for ( int i = 0; i < qua.length; i++ )
-			{
-				if ( !qua[i].isDefined( ) )
-				{
-					if ( al == null )
-					{
-						al = new ArrayList( qua.length );
-					}
-					al.add( Messages.getString( "SeriesQueries.dataDefnUndefined", sSeriesType ) ); //$NON-NLS-1$
-				}
-			}
+			ArrayList<String> al = null;
 			if ( qua.length == 0 )
 			{
-				al = new ArrayList( qua.length );
+				al = new ArrayList<String>( qua.length );
 				al.add( Messages.getString( "SeriesQueries.NoDataDefinitionFor", sSeriesType ) ); //$NON-NLS-1$
 			}
+			else
+			{
+				Object seriesName = ( (Series) qua[0].eContainer( ) ).getSeriesIdentifier( );
+				String nameExt = ""; //$NON-NLS-1$
+				if ( seriesName != null && seriesName.toString( ).length( ) > 0 )
+				{
+					nameExt = "(" + seriesName.toString( ) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+				}
+
+				for ( int i = 0; i < qua.length; i++ )
+				{
+					if ( !qua[i].isDefined( ) )
+					{
+						
+						if ( al == null )
+						{
+							al = new ArrayList<String>( qua.length );
+						}
+						al.add( Messages.getString( "SeriesQueries.dataDefnUndefined", //$NON-NLS-1$
+								sSeriesType + nameExt ) ); 
+					}
+				}
+			}
+
 			return al;
 		}
 	}
@@ -260,7 +273,7 @@ public final class QueryUIHelper
 	 * Returns query definitions of chart.
 	 * 
 	 * @param cm
-	 * @return
+	 * @return query definition
 	 * @see ChartUIConstants#QUERY_CATEGORY
 	 * @see ChartUIConstants#QUERY_OPTIONAL
 	 * @see ChartUIConstants#QUERY_VALUE
