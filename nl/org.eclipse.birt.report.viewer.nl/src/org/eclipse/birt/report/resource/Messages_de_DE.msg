@@ -32,6 +32,10 @@ birt.viewer.error.generatereportfirst=Berichtdokument muss zuerst generiert werd
 birt.viewer.error.parameterrequired=Der Parameter "{0}" ist erforderlich.
 birt.viewer.error.parameternotallowblank=Der Parameter "{0}" darf nicht leer sein.
 birt.viewer.error.parameternotselected=Wählen Sie den Wert für den Parameter "{0}" aus.
+birt.viewer.error.noviewingsession=The viewing session is not available or has expired.
+birt.viewer.error.viewingsessionexpired=The viewing session has expired.
+birt.viewer.error.viewingsessionlocked=The viewing session is locked and can't be terminated.
+birt.viewer.error.viewingsessionmaxreached=The maximum number of viewing sessions has been reached.
 
 birt.viewer.message.taskcanceled=Der aktuelle Vorgang wurde abgebrochen.
 
