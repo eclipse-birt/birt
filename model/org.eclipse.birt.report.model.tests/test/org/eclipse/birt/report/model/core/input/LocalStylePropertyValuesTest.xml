@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">LocalStylePropertyValuesTest_Lib.xml</property>
+            <property name="namespace">new_library</property>
+        </structure>
+    </list-property>
+    <styles>
+        <style name="NewStyle1" id="11">
+            <property name="color">#FFFF00</property>
+        </style>
+    </styles>
+    <body>
+        <label name="NewLabel" id="18" extends="new_library.NewLabel">
+            <property name="style">NewStyle1</property>
+        </label>
+        <label name="NewLabel1" id="19" extends="new_library.NewLabel1"/>
+    </body>
+</report>
