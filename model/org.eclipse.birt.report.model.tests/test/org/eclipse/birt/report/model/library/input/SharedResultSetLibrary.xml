@@ -6,6 +6,15 @@
         </table>       
         <table name="table2">
         	<property name="dataBindingRef">table1</property>
-        </table>      
+        </table>
+        <grid name="NewGrid" id="73">
+            <row id="81">
+                <cell id="82">
+                    <table name="NewTable1" id="89">
+                        <property name="dataBindingRef">table1</property>
+                    </table>
+                </cell>
+            </row>
+        </grid>      
     </components>
 </library>
