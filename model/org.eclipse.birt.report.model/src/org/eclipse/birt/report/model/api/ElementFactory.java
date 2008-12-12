@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.command.ExtendsException;
-import org.eclipse.birt.report.model.api.command.ExtendsForbiddenException;
 import org.eclipse.birt.report.model.api.command.InvalidParentException;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.OdaCubeHandle;
@@ -53,7 +52,6 @@ import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
 import org.eclipse.birt.report.model.elements.RectangleItem;
-import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.ScriptDataSet;
 import org.eclipse.birt.report.model.elements.ScriptDataSource;
@@ -948,16 +946,11 @@ public class ElementFactory
 						InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_FOUND );
 			}
 
-			if ( base instanceof ReportItem
-					&& ( (ReportItem) base ).isDataBindingReferring( lib ) )
-			{
-				throw new ExtendsForbiddenException(
-						null,
-						base,
-						ExtendsForbiddenException.DESIGN_EXCEPTION_RESULT_SET_SHARED_CANT_EXTEND );
-			}
-
-			return newElementFrom( name, base.getHandle( lib ) );
+			DesignElementHandle newHandle = newElementFrom( name, base
+					.getHandle( lib ) );
+			DesignElement newElement = newHandle.getElement( );
+			newElement.checkExtends( base );
+			return newHandle;
 		}
 
 		// if the root element is report design, return null

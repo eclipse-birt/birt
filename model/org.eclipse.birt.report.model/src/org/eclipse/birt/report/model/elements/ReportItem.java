@@ -13,6 +13,8 @@ package org.eclipse.birt.report.model.elements;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.command.ExtendsException;
+import org.eclipse.birt.report.model.api.command.ExtendsForbiddenException;
 import org.eclipse.birt.report.model.api.validators.ElementReferenceValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -21,6 +23,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.util.ContentIterator;
 
 /**
  * Base class for all report items. Represents anything that can be placed in a
@@ -178,5 +181,51 @@ public abstract class ReportItem extends ReferencableStyledElement
 	public void cacheValues( )
 	{
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#checkExtends(org.eclipse
+	 * .birt.report.model.core.DesignElement)
+	 */
+	public void checkExtends( DesignElement parent ) throws ExtendsException
+	{
+		super.checkExtends( parent );
+		Module lib = parent.getRoot( );
+		checkDataBindingReferring( lib, parent );
+
+		ContentIterator iter = new ContentIterator( lib, parent );
+		while ( iter.hasNext( ) )
+		{
+			DesignElement element = (DesignElement) iter.next( );
+			checkDataBindingReferring( lib, element );
+		}
+
+	}
+
+	/**
+	 * Checks whether the report item refers to another report item.
+	 * 
+	 * @param lib
+	 *            the library.
+	 * @param element
+	 *            the design element.
+	 * @throws ExtendsException
+	 *             if the listing element shares data with other listing
+	 *             element.
+	 */
+	private void checkDataBindingReferring( Module lib, DesignElement element )
+			throws ExtendsException
+	{
+		if ( element instanceof ReportItem
+				&& ( (ReportItem) element ).isDataBindingReferring( lib ) )
+		{
+			throw new ExtendsForbiddenException(
+					null,
+					element,
+					ExtendsForbiddenException.DESIGN_EXCEPTION_RESULT_SET_SHARED_CANT_EXTEND );
+		}
 	}
 }

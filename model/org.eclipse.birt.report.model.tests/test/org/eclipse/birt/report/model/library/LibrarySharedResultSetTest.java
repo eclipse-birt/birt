@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.library;
 
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
@@ -64,6 +65,23 @@ public class LibrarySharedResultSetTest extends BaseTestCase
 		{
 			designHandle.getElementFactory( ).newElementFrom( table2,
 					"newTable2" ); //$NON-NLS-1$
+			fail( );
+		}
+		catch ( ExtendsException e )
+		{
+			assertEquals(
+					ExtendsForbiddenException.DESIGN_EXCEPTION_RESULT_SET_SHARED_CANT_EXTEND,
+					e.getErrorCode( ) );
+		}
+
+		// tests extend report item which contains an result set shared report
+		// item.
+
+		DesignElementHandle grid = libraryHandle.findElement( "NewGrid" );//$NON-NLS-1$
+
+		try
+		{
+			designHandle.getElementFactory( ).newElementFrom( grid, "newGrid" ); //$NON-NLS-1$
 			fail( );
 		}
 		catch ( ExtendsException e )
