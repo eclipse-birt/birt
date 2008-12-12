@@ -37,7 +37,8 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 public class ReportItemDataRefTest extends BaseTestCase
 {
 
-	private static final String FILE_NAME = "DataGroupRef_1.xml"; //$NON-NLS-1$ 
+	private static final String FILE_NAME = "ReportItemDataRefTest.xml"; //$NON-NLS-1$ 
+	private static final String FILE_NAME_1 = "ReportItemDataRefTest_1.xml"; //$NON-NLS-1$ 
 
 	/**
 	 * Tests the function for adding bound data columns.
@@ -442,8 +443,8 @@ public class ReportItemDataRefTest extends BaseTestCase
 		{
 
 			assertEquals(
-					SemanticError.DESIGN_EXCEPTION_INVALID_DATA_BINDING_REF,
-					e.getErrorCode( ) );
+					SemanticError.DESIGN_EXCEPTION_INVALID_DATA_BINDING_REF, e
+							.getErrorCode( ) );
 		}
 
 	}
@@ -464,5 +465,24 @@ public class ReportItemDataRefTest extends BaseTestCase
 
 		save( );
 		assertTrue( compareFile( "ReportItemDataRefTest_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests the handle for the localization of column bindings. If the two
+	 * items have different element type, the binding with aggregation will not
+	 * be added.
+	 * 
+	 * @throws Exception
+	 */
+	public void testLocalizeColumnBindingWithAggregation( ) throws Exception
+	{
+		openDesign( FILE_NAME_1 );
+		TableHandle table1 = (TableHandle) designHandle
+				.findElement( "myTable1" ); //$NON-NLS-1$
+		table1.dropAndClear( );
+
+		save( );
+		System.out.println( os );
+		assertTrue( compareFile( "ReportItemDataRefTest_golden_1.xml" ) ); //$NON-NLS-1$
 	}
 }

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,6 +29,7 @@ import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
 import org.eclipse.birt.report.model.api.elements.structures.OdaLevelAttribute;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
@@ -643,6 +645,13 @@ public class PropertyCommand extends AbstractPropertyCommand
 			Object value = targetElement.getStrategy( )
 					.getPropertyExceptRomDefault( module, targetElement,
 							propDefn );
+
+			// do some special handle for column bindings
+			if ( IReportItemModel.BOUND_DATA_COLUMNS_PROP.equals( propName ) )
+			{
+				value = getValidColumnBindings( source, targetElement,
+						(List<ComputedColumn>) value );
+			}
 			value = ModelUtil.copyValue( propDefn, value );
 
 			// Set the list value on the element itself.
@@ -651,6 +660,31 @@ public class PropertyCommand extends AbstractPropertyCommand
 					value );
 			getActivityStack( ).execute( propRecord );
 		}
+	}
+
+	private List<ComputedColumn> getValidColumnBindings( DesignElement source,
+			DesignElement target, List<ComputedColumn> value )
+	{
+		// if two elements are both listing element, then do nothing
+		if ( source instanceof ListingElement
+				&& target instanceof ListingElement )
+			return value;
+
+		// if two element are the same type, then do nothing
+		if ( source.getDefn( ) == target.getDefn( ) )
+			return value;
+
+		List<ComputedColumn> retValue = new ArrayList<ComputedColumn>( );
+		if ( value != null )
+		{
+			for ( int i = 0; i < value.size( ); i++ )
+			{
+				ComputedColumn binding = value.get( i );
+				if ( binding.getAggregateOn( ) == null )
+					retValue.add( binding );
+			}
+		}
+		return retValue;
 	}
 
 	/**
@@ -929,14 +963,13 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 		// if the element is the container or the content of the input
 		// element throws exception
-		if ( IReportItemModel.DATA_BINDING_REF_PROP.equals( propDefn
-				.getName( ) )
+		if ( IReportItemModel.DATA_BINDING_REF_PROP
+				.equals( propDefn.getName( ) )
 				&& refValue.isResolved( )
 				&& ModelUtil.checkContainerOrContent( element, refValue
 						.getElement( ) ) )
-			throw new SemanticError(
-					element,
-					new String[]{element.getName( ), refValue.getName( )},
+			throw new SemanticError( element, new String[]{element.getName( ),
+					refValue.getName( )},
 					SemanticError.DESIGN_EXCEPTION_INVALID_DATA_BINDING_REF );
 	}
 }

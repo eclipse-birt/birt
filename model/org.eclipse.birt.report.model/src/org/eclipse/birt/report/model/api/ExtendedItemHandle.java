@@ -148,8 +148,6 @@ public class ExtendedItemHandle extends ReportItemHandle
 	 * methods defined within the extension model property inside.
 	 * 
 	 * @return the list of methods
-	 * 
-	 * @deprecated by {@link #getMethods(String)}
 	 */
 
 	public List getMethods( )
