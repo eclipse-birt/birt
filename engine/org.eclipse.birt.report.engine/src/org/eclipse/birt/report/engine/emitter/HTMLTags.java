@@ -92,6 +92,7 @@ public class HTMLTags
     public static final String ATTR_IMAGE = "img" ; //$NON-NLS-1$
     public static final String ATTR_STYLE = "style" ; //$NON-NLS-1$
     public static final String ATTR_SRC = "src" ; //$NON-NLS-1$
+    public static final String ATTR_DATA = "data" ; //$NON-NLS-1$
     public static final String ATTR_USEMAP = "usemap" ; //$NON-NLS-1$
     public static final String ATTR_ALT = "alt" ; //$NON-NLS-1$
     public static final String ATTR_TITLE = "title" ; //$NON-NLS-1$
@@ -114,9 +115,10 @@ public class HTMLTags
     //tags in html
     public static final String TAG_IMAGE = "img" ; //$NON-NLS-1$
     public static final String TAG_EMBED = "embed" ; //$NON-NLS-1$
+    public static final String TAG_OBJECT = "object" ; //$NON-NLS-1$
     public static final String TAG_MAP = "map" ; //$NON-NLS-1$
     public static final String TAG_HTML = "html" ; //$NON-NLS-1$
-    public static final String TAG_META = "META" ; //$NON-NLS-1$
+    public static final String TAG_META = "meta" ; //$NON-NLS-1$
     public static final String TAG_HEAD = "head" ; //$NON-NLS-1$
     public static final String TAG_TITLE = "title" ; //$NON-NLS-1$
     public static final String TAG_STYLE = "style" ; //$NON-NLS-1$

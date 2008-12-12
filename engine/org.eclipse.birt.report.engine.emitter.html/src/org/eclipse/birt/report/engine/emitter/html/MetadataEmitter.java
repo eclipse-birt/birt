@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -28,6 +28,7 @@ import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
+import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.emitter.HTMLTags;
@@ -36,11 +37,13 @@ import org.eclipse.birt.report.engine.internal.util.HTMLUtil;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
+import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 
@@ -63,7 +66,7 @@ public class MetadataEmitter
 	private boolean displayFilterIcon;
 	private boolean displayGroupIcon;
 	private boolean wrapTemplateTable;
-	private IDGenerator idGenerator;
+	private MetadataIDGenerator idGenerator = new MetadataIDGenerator( );
 	private List ouputInstanceIDs;
 	private String imagePath;
 	private String htmlIDNamespace;
@@ -73,15 +76,24 @@ public class MetadataEmitter
 	 */
 	private InstanceID wrapperTableIID = null;
 	
+	protected String attrType, attrRowType, attrElementType, attrIID;
+	
+	/**
+	 * 
+	 * @param writer
+	 * @param htmlOption
+	 * @param idGenerator
+	 * @param attrNamePrefix
+	 *            : the prefix of the attribute name.
+	 */
 	public MetadataEmitter( HTMLWriter writer, HTMLRenderOption htmlOption,
-			IDGenerator idGenerator )
+			String attrNamePrefix )
 	{
 		this.writer = writer;
 		this.displayFilterIcon = htmlOption.getDisplayFilterIcon( );
 		this.displayGroupIcon = htmlOption.getDisplayGroupIcon( );
 		this.wrapTemplateTable = htmlOption.getWrapTemplateTable( );
 		this.ouputInstanceIDs = htmlOption.getInstanceIDs( );
-		this.idGenerator = idGenerator;
 		this.imagePath = htmlOption.getAppBaseURL( );
 		if ( imagePath != null )
 		{
@@ -93,6 +105,31 @@ public class MetadataEmitter
 		else
 		{
 			imagePath = "";
+		}
+		initializeAttrName( attrNamePrefix );
+	}
+	
+	/**
+	 * Initialize the attribute name for metadata.
+	 * 
+	 * @param prefix
+	 *            : the prefix of the attribute name.
+	 */
+	public void initializeAttrName( String prefix )
+	{
+		if ( prefix == null )
+		{
+			attrType = HTMLTags.ATTR_TYPE;
+			attrRowType = HTMLTags.ATTR_ROW_TYPE;
+			attrElementType = "element_type";
+			attrIID = "iid";
+		}
+		else
+		{
+			attrType = prefix + HTMLTags.ATTR_TYPE;
+			attrRowType = prefix + HTMLTags.ATTR_ROW_TYPE;
+			attrElementType = prefix + "element_type";
+			attrIID = prefix + "iid";
 		}
 	}
 
@@ -155,6 +192,54 @@ public class MetadataEmitter
 				state.isStartOfDetail = true;
 				state.hasOutput = true;
 			}
+		}
+		outputRowMetaData( row );
+	}
+	
+	protected void outputRowMetaData( IRowContent rowContent )
+	{
+		Object parent = rowContent.getParent( );
+		if ( parent instanceof ITableBandContent )
+		{
+			ITableBandContent bandContent = (ITableBandContent) parent;
+			IGroupContent group = rowContent.getGroup( );
+			String groupId = rowContent.getGroupId( );
+			if ( groupId != null )
+			{
+				writer.attribute( HTMLTags.ATTR_GOURP_ID, groupId );
+			}
+			String rowType = null;
+			String metaType = null;
+
+			int bandType = bandContent.getBandType( );
+			if ( bandType == ITableBandContent.BAND_HEADER )
+			{
+				metaType = "wrth";
+				rowType = "header";
+			}
+			else if ( bandType == ITableBandContent.BAND_FOOTER )
+			{
+				metaType = "wrtf";
+				rowType = "footer";
+			}
+			else if ( bandType == ITableBandContent.BAND_GROUP_HEADER )
+			{
+				rowType = "group-header";
+				if ( group != null )
+				{
+					metaType = "wrgh" + group.getGroupLevel( );
+				}
+			}
+			else if ( bandType == ITableBandContent.BAND_GROUP_FOOTER )
+			{
+				rowType = "group-footer";
+				if ( group != null )
+				{
+					metaType = "wrgf" + group.getGroupLevel( );
+				}
+			}
+			writer.attribute( attrType, metaType );
+			writer.attribute( attrRowType, rowType );
 		}
 	}
 
@@ -289,13 +374,9 @@ public class MetadataEmitter
 		if ( image.getGenerateBy( ) instanceof ExtendedItemDesign )
 		{
 			// If the image is a chart, add it to active id list, and output type ��iid to html
-			String bookmark = image.getBookmark( );				
-			if ( bookmark == null )
-			{
-				bookmark = idGenerator.generateUniqueID( );
-				image.setBookmark( bookmark );
-			}
-			setActiveIDTypeIID( image);				
+			String bookmark = image.getBookmark( );
+			assert bookmark != null;
+			setActiveIDTypeIID( image, bookmark );
 			HTMLEmitterUtil.setBookmark(  writer, HTMLTags.ATTR_IMAGE, htmlIDNamespace, bookmark ); //$NON-NLS-1$
 			return true;
 		}
@@ -311,17 +392,136 @@ public class MetadataEmitter
 	 * @param elementId
 	 */
 	private void setActiveIDTypeIID( String bookmark, String type,
-			InstanceID iid, int elementId )
+			InstanceID iid, long elementId )
 	{
-		HTMLEmitterUtil.setActiveIDTypeIID( writer, ouputInstanceIDs,
-				htmlIDNamespace, bookmark, type, iid, elementId );
+		String htmlBookmark;
+		if ( null != htmlIDNamespace )
+		{
+			htmlBookmark = htmlIDNamespace + bookmark;
+		}
+		else
+		{
+			htmlBookmark = bookmark;
+		}
+		exportElementID( ouputInstanceIDs, htmlBookmark, type, elementId );
+		
+		// type
+		writer.attribute( attrElementType, type );
+		if ( iid != null )
+		{
+			if ( type != TYPE_LABEL
+					&& type != TYPE_TEMPLATE && type != TYPE_DATA
+					&& type != TYPE_TEXT && type != TYPE_UNKNOWN )
+			{
+				writer.attribute( attrIID, iid.toUniqueString( ) );
+			}
+			else
+			{
+				writer.attribute( attrIID, iid.toString( ) );
+			}
+		}
+	}
+	
+	private void exportElementID( List ouputInstanceIDs, String bookmark,
+			String type, long componentID )
+	{
+		if ( ouputInstanceIDs != null )
+		{
+			if ( bookmark != null )
+			{
+				assert type != null;
+				StringBuffer buffer = new StringBuffer();
+				buffer.append(bookmark);
+				buffer.append(",");
+				buffer.append(type);
+				buffer.append(",");
+				buffer.append(componentID);
+				ouputInstanceIDs.add( buffer.toString() );
+			}
+		}
 	}
 
-	private void setActiveIDTypeIID( IContent content )
+	public void setActiveIDTypeIID( IContent content )
 	{
-		HTMLEmitterUtil.setActiveIDTypeIID( writer, ouputInstanceIDs, htmlIDNamespace, content );
+		setActiveIDTypeIID( content, content.getBookmark( ) );
 	}
 
+	private void setActiveIDTypeIID( IContent content, String bookmark )
+	{
+		// If content is generated by LabelItemDesign or TemplateDesign,
+		// ExtendedItemDesign, TableItemDesign
+		// add it to active id list, and output type & iid to html
+		String type = getActiveIdType( content );
+		if ( type != null )
+		{
+			// Instance ID
+			InstanceID iid = content.getInstanceID( );
+			long componentID = ( iid != null ) ? iid.getComponentID( ) : 0;
+			setActiveIDTypeIID( bookmark, type, iid, componentID );
+		}
+	}
+	
+	static final String TYPE_LABEL = "LABEL";
+	static final String TYPE_TEMPLATE = "TEMPLATE";
+	static final String TYPE_EXTENDED = "EXTENDED";
+	static final String TYPE_TABLE = "TABLE";
+	static final String TYPE_LIST = "LIST";
+	static final String TYPE_DATA = "DATA";
+	static final String TYPE_TEXT = "TEXT";
+	static final String TYPE_UNKNOWN = null;
+
+	private static String getActiveIdType( IContent content )
+	{
+		Object genBy = content.getGenerateBy( );
+		if ( genBy instanceof LabelItemDesign )
+		{
+			return TYPE_LABEL;
+		}
+		if ( genBy instanceof TemplateDesign )
+		{
+			return TYPE_TEMPLATE;
+		}
+
+		if ( genBy instanceof ExtendedItemDesign )
+		{
+			DesignElementHandle handle = ( (ExtendedItemDesign) genBy ).getHandle( );
+			if ( handle instanceof ExtendedItemHandle )
+			{
+				return ( (ExtendedItemHandle) handle ).getExtensionName( );
+			}
+			return TYPE_EXTENDED;
+		}
+		if ( genBy instanceof TableItemDesign )
+		{
+			return TYPE_TABLE;
+		}
+		if ( genBy instanceof ListItemDesign )
+		{
+			return TYPE_LIST;
+		}
+		if ( genBy instanceof DataItemDesign )
+		{
+			return TYPE_DATA;
+		}
+		if ( genBy instanceof TextItemDesign )
+		{
+			return TYPE_TEXT;
+		}
+		return TYPE_UNKNOWN;
+	}
+	
+	public void outputColumnIID( IColumn column )
+	{
+		if ( null != column )
+		{
+			// Instance ID
+			InstanceID iid = column.getInstanceID( );
+			if ( iid != null )
+			{
+				writer.attribute( attrIID, iid.toString( ) );
+			}
+		}
+	}
 
 	/**
 	 * Output instance id and bookmark for a content.
@@ -332,12 +532,13 @@ public class MetadataEmitter
 	 */
 	private void startContent( IContent content, String tag )
 	{
-		if ( content.getBookmark( ) == null )
+		String bookmark = content.getBookmark( );
+		if ( bookmark == null )
 		{
-			content.setBookmark( idGenerator.generateUniqueID( ) );
+			bookmark = idGenerator.generateUniqueID( );
 		}
-		setActiveIDTypeIID( content );
-		HTMLEmitterUtil.setBookmark( writer, tag, htmlIDNamespace, content.getBookmark( ) );
+		setActiveIDTypeIID( content, bookmark );
+		HTMLEmitterUtil.setBookmark( writer, tag, htmlIDNamespace, bookmark );
 	}
 
 	/**
@@ -788,5 +989,19 @@ class DetailRowState
 		this.isStartOfDetail = isStartOfDetail;
 		this.hasOutput = hasOutput;
 		this.isTable = isTable;
+	}
+}
+
+class MetadataIDGenerator
+{
+	protected int bookmarkId = 0;
+	MetadataIDGenerator( )
+	{
+		this.bookmarkId = 0;
+	}
+	protected String generateUniqueID( )
+	{
+		bookmarkId ++;
+		return "AUTOGENMETADATABOOKMARK_" + bookmarkId;
 	}
 }

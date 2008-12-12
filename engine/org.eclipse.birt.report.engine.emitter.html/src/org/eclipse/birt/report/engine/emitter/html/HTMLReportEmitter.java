@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 , 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -35,7 +35,6 @@ import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
 import org.eclipse.birt.report.engine.api.IImage;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.api.impl.Image;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
@@ -283,16 +282,16 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	protected ContentEmitterVisitor contentVisitor;
 
-	private MetadataEmitter metadataEmitter;
+	protected MetadataEmitter metadataEmitter;
 	
-	private IDGenerator idGenerator = new IDGenerator( );
+	protected IDGenerator idGenerator = new IDGenerator( );
 	
 	private String layoutPreference;
 	private boolean enableAgentStyleEngine;
 	private boolean outputMasterPageMargins;
-	private String htmlIDNamespace;
+	protected String htmlIDNamespace;
 	
-	private HTMLEmitter htmlEmitter;
+	protected HTMLEmitter htmlEmitter;
 	protected Stack tableDIVWrapedFlagStack = new Stack( );
 	
 	/**
@@ -346,7 +345,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		renderOption = services.getRenderOption( );
 		runnable = services.getReportRunnable( );
-		writer = new HTMLWriter( );
+		writer = creatWriter( );
 		if ( renderOption != null )
 		{
 			HTMLRenderOption htmlOption = new HTMLRenderOption( renderOption );
@@ -367,7 +366,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			//htmlRtLFlag = htmlOption.getHtmlRtLFlag( );
 			enableMetadata = htmlOption.getEnableMetadata( );
 			ouputInstanceIDs = htmlOption.getInstanceIDs( );
-			metadataEmitter = new MetadataEmitter( writer, htmlOption, idGenerator );
+			metadataEmitter = creatMetadataEmitter( writer, htmlOption );
 			layoutPreference = htmlOption.getLayoutPreference( );
 			enableAgentStyleEngine = htmlOption.getEnableAgentStyleEngine( );
 			outputMasterPageMargins = htmlOption.getOutputMasterPageMargins( );
@@ -385,6 +384,17 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				}
 			}
 		}
+	}
+	
+	protected HTMLWriter creatWriter( )
+	{
+		return new HTMLWriter( );
+	}
+	
+	protected MetadataEmitter creatMetadataEmitter( HTMLWriter writer,
+			HTMLRenderOption htmlOption )
+	{
+		return new MetadataEmitter( writer, htmlOption, null );
 	}
 
 	/**
@@ -411,36 +421,47 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	protected void fixTransparentPNG( )
 	{
-		//FIXME: code review: does IE7 support it?
+		// Because the IE 7 start to support the transparent PNG directly, this
+		// function only be needed for the IE5.5 and IE6.
 		writer.writeCode( "<!--[if (gte IE 5.5000)&(lt IE 7)]>" ); //$NON-NLS-1$
-		writer
-				.writeCode( "   <script language=\"JavaScript\"> var ie55up = true </script>" ); //$NON-NLS-1$
+		writer.writeCode( "   <script  type=\"text/javascript\">" ); //$NON-NLS-1$
+		writer.writeCode( "    //<![CDATA" ); //$NON-NLS-1$
+		if ( htmlIDNamespace == null )
+		{
+			writer.writeCode( "      var ie55up = true;" ); //$NON-NLS-1$
+		}
+		else
+		{
+			writer.writeCode( "      var " + htmlIDNamespace + "ie55up = true;" ); //$NON-NLS-1$
+		}
+		writer.writeCode( "    //]]>" ); //$NON-NLS-1$
+		writer.writeCode( "   </script>" ); //$NON-NLS-1$
 		writer.writeCode( "<![endif]-->" ); //$NON-NLS-1$
-		writer.writeCode( "<script language=\"JavaScript\">" ); //$NON-NLS-1$
+		writer.writeCode( "<script type=\"text/javascript\">" ); //$NON-NLS-1$
 		writer.writeCode( " //<![CDATA[" ); //$NON-NLS-1$
-		writer
-				.writeCode( "   function fixPNG(myImage) // correctly handle PNG transparency in Win IE 5.5 or higher." ); //$NON-NLS-1$
-		writer.writeCode( "      {" ); //$NON-NLS-1$
-		writer.writeCode( "      if (window.ie55up)" ); //$NON-NLS-1$
-		writer.writeCode( "         {" ); //$NON-NLS-1$
-		writer
-				.writeCode( "         var imgID = (myImage.id) ? \"id='\" + myImage.id + \"' \" : \"\";" ); //$NON-NLS-1$
-		writer
-				.writeCode( "         var imgClass = (myImage.className) ? \"class='\" + myImage.className + \"' \" : \"\";" ); //$NON-NLS-1$
-		writer
-				.writeCode( "         var imgTitle = (myImage.title) ? \"title='\" + myImage.title + \"' \" : \"title='\" + myImage.alt + \"' \";" ); //$NON-NLS-1$
-		writer
-				.writeCode( "         var imgStyle = \"display:inline-block;\" + myImage.style.cssText;" ); //$NON-NLS-1$
-		writer
-				.writeCode( "         var strNewHTML = \"<span \" + imgID + imgClass + imgTitle;" ); //$NON-NLS-1$
-		writer
-				.writeCode( "         strNewHTML += \" style=\\\"\" + \"width:\" + myImage.width + \"px; height:\" + myImage.height + \"px;\" + imgStyle + \";\";" ); //$NON-NLS-1$
-		writer
-				.writeCode( "         strNewHTML += \"filter:progid:DXImageTransform.Microsoft.AlphaImageLoader\";" ); //$NON-NLS-1$
-		writer
-				.writeCode( "         strNewHTML += \"(src=\\'\" + myImage.src + \"\\', sizingMethod='scale');\\\"></span>\";" ); //$NON-NLS-1$
-		writer.writeCode( "         myImage.outerHTML = strNewHTML;" ); //$NON-NLS-1$
-		writer.writeCode( "         }" ); //$NON-NLS-1$
+		if ( null == htmlIDNamespace )
+		{
+			writer.writeCode( "   function fixPNG(myImage) // correctly handle PNG transparency in Win IE 5.5 or IE 6." ); //$NON-NLS-1$
+			writer.writeCode( "      {" ); //$NON-NLS-1$
+			writer.writeCode( "       if ( window.ie55up )" ); //$NON-NLS-1$
+		}
+		else
+		{
+			writer.writeCode( "   function " + htmlIDNamespace + "fixPNG(myImage) // correctly handle PNG transparency in Win IE 5.5 or higher." ); //$NON-NLS-1$
+			writer.writeCode( "      {" ); //$NON-NLS-1$
+			writer.writeCode( "       if ( window." + htmlIDNamespace + "ie55up )" ); //$NON-NLS-1$
+		}
+		writer.writeCode( "          {" ); //$NON-NLS-1$
+		writer.writeCode( "           var imgID = (myImage.id) ? \"id='\" + myImage.id + \"' \" : \"\";" ); //$NON-NLS-1$
+		writer.writeCode( "           var imgClass = (myImage.className) ? \"class='\" + myImage.className + \"' \" : \"\";" ); //$NON-NLS-1$
+		writer.writeCode( "           var imgTitle = (myImage.title) ? \"title='\" + myImage.title + \"' \" : \"title='\" + myImage.alt + \"' \";" ); //$NON-NLS-1$
+		writer.writeCode( "           var imgStyle = \"display:inline-block;\" + myImage.style.cssText;" ); //$NON-NLS-1$
+		writer.writeCode( "           var strNewHTML = \"<span \" + imgID + imgClass + imgTitle;" ); //$NON-NLS-1$
+		writer.writeCode( "           strNewHTML += \" style=\\\"\" + \"width:\" + myImage.width + \"px; height:\" + myImage.height + \"px;\" + imgStyle + \";\";" ); //$NON-NLS-1$
+		writer.writeCode( "           strNewHTML += \"filter:progid:DXImageTransform.Microsoft.AlphaImageLoader\";" ); //$NON-NLS-1$
+		writer.writeCode( "           strNewHTML += \"(src=\\'\" + myImage.src + \"\\', sizingMethod='scale');\\\"></span>\";" ); //$NON-NLS-1$
+		writer.writeCode( "           myImage.outerHTML = strNewHTML;" ); //$NON-NLS-1$
+		writer.writeCode( "          }" ); //$NON-NLS-1$
 		writer.writeCode( "      }" ); //$NON-NLS-1$
 		writer.writeCode( " //]]>" ); //$NON-NLS-1$
 		writer.writeCode( "</script>" ); //$NON-NLS-1$
@@ -451,24 +472,33 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	protected void fixRedirect( )
 	{
-		writer.writeCode( "<script language=\"javascript\">" ); //$NON-NLS-1$
-		writer.writeCode( "          function redirect(target, url){\n" ); //$NON-NLS-1$
-		writer.writeCode( "                          if (target =='_blank'){\n" ); //$NON-NLS-1$
-		writer.writeCode( "                                          open(url);\n" ); //$NON-NLS-1$
-		writer.writeCode( "                          }\n" ); //$NON-NLS-1$
-		writer.writeCode( "                          else if (target == '_top'){\n" ); //$NON-NLS-1$
-		writer.writeCode( "          window.top.location.href=url;\n" ); //$NON-NLS-1$                                                                                                                                         
-		writer.writeCode( "                          }\n" ); //$NON-NLS-1$
-		writer.writeCode( "                          else if (target == '_parent'){\n" ); //$NON-NLS-1$
-		writer.writeCode( "          location.href=url;\n" ); //$NON-NLS-1$                                                                                                                                    
-		writer.writeCode( "                          }\n" ); //$NON-NLS-1$
-		writer.writeCode( "                          else if (target == '_self'){\n" );//$NON-NLS-1$
-		writer.writeCode( "          location.href =url;\n" ); //$NON-NLS-1$                                                                                                                                   
-		writer.writeCode( "                          }\n" ); //$NON-NLS-1$                                    
-		writer.writeCode( "                          else{\n" );//$NON-NLS-1$
-		writer.writeCode( "                                          open(url);\n" ); //$NON-NLS-1$
-		writer.writeCode( "                          }\n" ); //$NON-NLS-1$
-		writer.writeCode( "          }\n" ); //$NON-NLS-1$  
+		writer.writeCode( "<script type=\"text/javascript\">" ); //$NON-NLS-1$
+		writer.writeCode( " //<![CDATA[" ); //$NON-NLS-1$
+		if ( htmlIDNamespace == null )
+		{
+			writer.writeCode( "   function redirect(target, url){" ); //$NON-NLS-1$
+		}
+		else
+		{
+			writer.writeCode( "   function " + htmlIDNamespace + "redirect(target, url){" ); //$NON-NLS-1$
+		}
+		writer.writeCode( "       if (target =='_blank'){" ); //$NON-NLS-1$
+		writer.writeCode( "           open(url);" ); //$NON-NLS-1$
+		writer.writeCode( "       }" ); //$NON-NLS-1$
+		writer.writeCode( "       else if (target == '_top'){" ); //$NON-NLS-1$
+		writer.writeCode( "           window.top.location.href=url;" ); //$NON-NLS-1$                                                                                                                                         
+		writer.writeCode( "       }" ); //$NON-NLS-1$
+		writer.writeCode( "       else if (target == '_parent'){" ); //$NON-NLS-1$
+		writer.writeCode( "           location.href=url;" ); //$NON-NLS-1$                                                                                                                                    
+		writer.writeCode( "       }" ); //$NON-NLS-1$
+		writer.writeCode( "       else if (target == '_self'){" );//$NON-NLS-1$
+		writer.writeCode( "           location.href =url;" ); //$NON-NLS-1$                                                                                                                                   
+		writer.writeCode( "       }" ); //$NON-NLS-1$                                    
+		writer.writeCode( "       else{" );//$NON-NLS-1$
+		writer.writeCode( "           open(url);" ); //$NON-NLS-1$
+		writer.writeCode( "       }" ); //$NON-NLS-1$
+		writer.writeCode( "      }" ); //$NON-NLS-1$
+		writer.writeCode( " //]]>" ); //$NON-NLS-1$
 		writer.writeCode( "</script>" ); //$NON-NLS-1$
 	}
 
@@ -543,7 +573,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			fixTransparentPNG( );
 			fixRedirect( );
 
-			writer.openTag( HTMLTags.TAG_DIV );
+			openRootTag( );
 
 			// bidi_hcg start
 			// RTL attribute is required at HTML or BODY level for the correct
@@ -561,8 +591,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			return;
 		}
 
-		writer.startWriter( );
-		writer.openTag( HTMLTags.TAG_HTML );
+		openRootTag( );
 		// bidi_hcg start
 		if ( htmlRtLFlag )
 		{
@@ -573,30 +602,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.openTag( HTMLTags.TAG_HEAD );
 		
 		// write the title of the report in html.
-		if ( designHandle != null )
-		{
-			String title = designHandle.getStringProperty(  IModuleModel.TITLE_PROP );
-			if ( title == null )
-			{
-				// set the default title
-				if ( renderOption != null )
-				{
-					HTMLRenderOption htmlOption = new HTMLRenderOption(
-							renderOption );
-					title = htmlOption.getHtmlTitle( );
-				}
-			}
-			if ( title != null )
-			{
-				writer.openTag( HTMLTags.TAG_TITLE );
-				writer.text( title );
-				writer.closeTag( HTMLTags.TAG_TITLE );
-			}
-		}
+		outputReportTitle( designHandle );
 				
 		writer.openTag( HTMLTags.TAG_META );
 		writer.attribute( HTMLTags.ATTR_HTTP_EQUIV, "Content-Type" ); //$NON-NLS-1$ 
-		writer.attribute( HTMLTags.ATTR_CONTENT, "text/html; charset=UTF-8" ); //$NON-NLS-1$ 
+		writer.attribute( HTMLTags.ATTR_CONTENT, "text/html; charset=utf-8" ); //$NON-NLS-1$ 
 		writer.closeTag( HTMLTags.TAG_META );
 
 		outputCSSStyles( defaultStyleName, defaultStyleBuffer, reportDesign, designHandle );
@@ -616,6 +626,51 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			// remove the default margin of the html body
 			writer.attribute( HTMLTags.ATTR_STYLE, " margin:0px;" );
+		}
+	}
+	
+	/**
+	 * open the report root tag.
+	 */
+	protected void openRootTag( )
+	{
+		if ( isEmbeddable )
+		{
+			writer.openTag( HTMLTags.TAG_DIV );
+		}
+		else
+		{
+			//The document type must be output before open the "html" tag.
+			writer.outputDoctype( );
+			writer.openTag( HTMLTags.TAG_HTML );
+		}
+	}
+	
+	/**
+	 * output the report title.
+	 */
+	protected void outputReportTitle( ReportDesignHandle designHandle )
+	{
+		// write the title of the report in HTML.
+		String title = null;
+		if ( designHandle != null )
+		{
+			title = designHandle.getStringProperty( IModuleModel.TITLE_PROP );
+		}
+		if ( title == null )
+		{
+			// set the default title
+			if ( renderOption != null )
+			{
+				HTMLRenderOption htmlOption = new HTMLRenderOption( renderOption );
+				title = htmlOption.getHtmlTitle( );
+			}
+		}
+		if ( title != null )
+		{
+			writer.openTag( HTMLTags.TAG_TITLE );
+			writer.text( title );
+			writer.closeTag( HTMLTags.TAG_TITLE );
 		}
 	}
 	
@@ -1349,6 +1404,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		tableDIVWrapedFlagStack.push( new Boolean( DIVWrap ) );
 		
 		logger.log( Level.FINE, "[HTMLTableEmitter] Start table" ); //$NON-NLS-1$
+		//FIXME: code review: use "metadataEmitter != null" to instead of enableMetadata.
 		if ( enableMetadata )
 		{
 			metadataEmitter.startWrapTable( table );
@@ -1377,7 +1433,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		if ( enableMetadata )
 		{
 			// Add it to active id list, and output type ��iid to html
-			HTMLEmitterUtil.setActiveIDTypeIID( writer, ouputInstanceIDs, htmlIDNamespace, table );
+			metadataEmitter.setActiveIDTypeIID( table );
 		}
 
 		//table summary
@@ -1431,14 +1487,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			
 			if ( enableMetadata )
 			{
-				// Instance ID
-				InstanceID iid = column.getInstanceID( );			
-				if ( iid != null )
-				{
-					//FIXME: code review: remove the iid ouputing to metadataEmitter.
-					//FIXME: code review: Test case needs be fixed too.
-					writer.attribute( "iid", iid.toString( ) );
-				}
+				metadataEmitter.outputColumnIID( column );
 			}
 			
 			writer.closeTag( HTMLTags.TAG_COL );
@@ -1603,8 +1652,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		if ( enableMetadata )
 		{
 			metadataEmitter.startRow( row );
-			//FIXME: code review: move the outputRowMetaData to metadataEmitter.
-			outputRowMetaData( row );
 		}
 
 		// output class attribute.
@@ -1630,53 +1677,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 			HTMLEmitterUtil.setBookmark(  writer, null, htmlIDNamespace, bookmark );
 			startedGroups.remove( group );
-		}
-	}
-	
-	protected void outputRowMetaData( IRowContent rowContent )
-	{
-		Object parent = rowContent.getParent( );
-		if ( parent instanceof ITableBandContent )
-		{
-			ITableBandContent bandContent = (ITableBandContent) parent;
-			IGroupContent group = rowContent.getGroup( );
-			String groupId = rowContent.getGroupId( );
-			if ( groupId != null )
-			{
-				writer.attribute( HTMLTags.ATTR_GOURP_ID, groupId );
-			}
-			String rowType = null;
-			String metaType = null;
-
-			int bandType = bandContent.getBandType( );
-			if ( bandType == ITableBandContent.BAND_HEADER )
-			{
-				metaType = "wrth";
-				rowType = "header";
-			}
-			else if ( bandType == ITableBandContent.BAND_FOOTER )
-			{
-				metaType = "wrtf";
-				rowType = "footer";
-			}
-			else if ( bandType == ITableBandContent.BAND_GROUP_HEADER )
-			{
-				rowType = "group-header";
-				if ( group != null )
-				{
-					metaType = "wrgh" + group.getGroupLevel( );
-				}
-			}
-			else if ( bandType == ITableBandContent.BAND_GROUP_FOOTER )
-			{
-				rowType = "group-footer";
-				if ( group != null )
-				{
-					metaType = "wrgf" + group.getGroupLevel( );
-				}
-			}
-			writer.attribute( HTMLTags.ATTR_TYPE, metaType );
-			writer.attribute( HTMLTags.ATTR_ROW_TYPE, rowType );
 		}
 	}
 	
@@ -1848,10 +1848,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		
 		if ( enableMetadata )
 		{
-			HTMLEmitterUtil.setActiveIDTypeIID( writer,
-					ouputInstanceIDs,
-					htmlIDNamespace,
-					container );
+			metadataEmitter.setActiveIDTypeIID( container );
 		}
 
 		StringBuffer styleBuffer = new StringBuffer( );
@@ -2279,7 +2276,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		StringBuffer styleBuffer = new StringBuffer( );
 		int display = checkElementType( image.getX( ), image.getY( ),
 				mergedStyle, styleBuffer );
-		boolean isSelectHandleTableChart = false;
 
 		// In HTML the default display value of image is inline. We use the tag
 		// <div> to implement the block of the image.
@@ -2288,7 +2284,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		// action
 		boolean hasAction = handleAction( image.getHyperlinkAction( ) );
 
-		String imgUri = getImageURI( image );
+		//Image must have a bookmark.
+		if ( image.getBookmark( ) == null )
+		{
+			image.setBookmark( idGenerator.generateUniqueID( ) );
+		}
+		
 		boolean useSVG = ( "image/svg+xml".equalsIgnoreCase( image.getMIMEType( ) ) ) //$NON-NLS-1$
 				|| ( ".svg".equalsIgnoreCase( image.getExtension( ) ) ) //$NON-NLS-1$
 				|| ( ( image.getURI( ) != null ) && image.getURI( )
@@ -2302,83 +2303,22 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		if ( useSVG || useSWT )
 		{ // use svg
-			writer.openTag( HTMLTags.TAG_EMBED );
-			
-			if ( enableMetadata )
-			{
-				isSelectHandleTableChart = metadataEmitter.startImage( image );
-			}
-			
-			// output class attribute.
-			String styleClass = image.getStyleClass( );
-			setStyleName( styleClass, image );
-
-			// bookmark
-			String bookmark = image.getBookmark( );				
-			
-			if ( !isSelectHandleTableChart )
-			{
-				if ( bookmark == null )
-				{
-					bookmark = idGenerator.generateUniqueID( );
-					image.setBookmark( bookmark );
-				}
-				outputBookmark( image, HTMLTags.ATTR_IMAGE ); //$NON-NLS-1$
-			}
-
-			// onresize gives the SVG a change to change its content
-			String htmlBookmark;
-			if ( null != htmlIDNamespace )
-			{
-				htmlBookmark = htmlIDNamespace + bookmark;
-			}
-			else
-			{
-				htmlBookmark = bookmark;
-			}
-			writer.attribute( "onresize", "document.getElementById('" + htmlBookmark + "').reload()" ); //$NON-NLS-1$
-			
-			writer.attribute( HTMLTags.ATTR_TYPE, image.getMIMEType( ) );
-			writer.attribute( HTMLTags.ATTR_SRC, imgUri );			
-
-			// alternative text
-			String altText = image.getAltText( );
-			if ( altText == null )
-			{
-				writer.attributeAllowEmpty( HTMLTags.ATTR_ALT, "" );
-			}
-			else
-			{
-				writer.attribute( HTMLTags.ATTR_ALT, altText );
-			}
-			
-			if ( enableMetadata )
-			{
-				writer.attribute( "wmode", "transparent" );
-			}
-			
-			// build style
-			htmlEmitter.buildImageStyle( image, styleBuffer, display );
-			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
-			writer.closeTag( HTMLTags.TAG_EMBED );
+			outputSVGImage( image, styleBuffer, display );
 		}
 		else
 		{ // use img
 
 			// write image map if necessary
 			Object imageMapObject = image.getImageMap( );
-			// use imgUri as the image ID. As we know only the CHART can have
-			// image maps and each chart
-			// will have differnt URI, so it is safe for CHART. (If the named
-			// image also support image
-			// map, then we must use another way to get the image ID.
-			String imageMapId = imgUri;
+			String imageMapId = null;
 			boolean hasImageMap = ( imageMapObject != null )
 					&& ( imageMapObject instanceof String )
 					&& ( ( (String) imageMapObject ).length( ) > 0 );
 			if ( hasImageMap )
 			{
+				imageMapId = idGenerator.generateUniqueID( );
 				writer.openTag( HTMLTags.TAG_MAP );
+				writer.attribute( HTMLTags.ATTR_ID, imageMapId );
 				writer.attribute( HTMLTags.ATTR_NAME, imageMapId );
 				writer.text( (String) imageMapObject, true, false );
 				writer.closeTag( HTMLTags.TAG_MAP );
@@ -2386,6 +2326,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 			writer.openTag( HTMLTags.TAG_IMAGE ); //$NON-NLS-1$
 			
+			boolean isSelectHandleTableChart = false;
 			if ( enableMetadata  )
 			{
 				isSelectHandleTableChart = metadataEmitter.startImage( image );
@@ -2396,18 +2337,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			setStyleName( styleClass ,image);
 			
 			// bookmark
-			String bookmark = image.getBookmark( );				
 			if ( !isSelectHandleTableChart )
 			{
-				if ( bookmark == null )
-				{
-					bookmark = idGenerator.generateUniqueID( );
-					image.setBookmark( bookmark );
-				}
 				outputBookmark( image, HTMLTags.ATTR_IMAGE ); //$NON-NLS-1$
 			}
 
 			String ext = image.getExtension( );
+			
+			String imgUri = getImageURI( image );
 			// FIXME special process, such as encoding etc
 			writer.attribute( HTMLTags.ATTR_SRC, imgUri );
 
@@ -2418,58 +2355,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				// maps.
 				if ( !hasAction )
 				{
-					//FIXME: code review: put these codes into a new method resetborder????
-					// disable the border, if the user defines border with the
-					// image, it will be overided by the following style setting
-					IStyle style = image.getStyle( );
-					if ( style.getBorderTopStyle( ) == null )
-					{
-						// user doesn't define the border, remove it.
-						styleBuffer.append( "border-top-style:none;" );
-					}
-					else
-					{
-						// use define the border-style, but not define the
-						// border color, use the default
-						// color.
-						if ( style.getBorderTopColor( ) == null )
-						{
-							styleBuffer.append( "border-top-color:black" );
-						}
-					}
-					if ( style.getBorderBottomStyle( ) == null )
-					{
-						styleBuffer.append( "border-bottom-style:none;" );
-					}
-					else
-					{
-						if ( style.getBorderBottomColor( ) == null )
-						{
-							styleBuffer.append( "border-bottom-color:black" );
-						}
-					}
-					if ( style.getBorderLeftStyle( ) == null )
-					{
-						styleBuffer.append( "border-left-style:none;" );
-					}
-					else
-					{
-						if ( style.getBorderLeftColor( ) == null )
-						{
-							styleBuffer.append( "border-left-color:black" );
-						}
-					}
-					if ( style.getBorderRightStyle( ) == null )
-					{
-						styleBuffer.append( "border-right-style:none;" );
-					}
-					else
-					{
-						if ( style.getBorderRightColor( ) == null )
-						{
-							styleBuffer.append( "border-right-color:black" );
-						}
-					}
+					resetImageDefaultBorders( image, styleBuffer );
 				}
 				writer.attribute( HTMLTags.ATTR_USEMAP, "#" + imageMapId ); //$NON-NLS-1$ //$NON-NLS-2$
 			}
@@ -2478,7 +2364,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			String altText = image.getAltText( );
 			if ( altText == null )
 			{
-				//FIXME: code review: Why we must output an empty alt string?
 				writer.attributeAllowEmpty( HTMLTags.ATTR_ALT, "" );
 			}
 			else
@@ -2495,7 +2380,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 			if ( ".PNG".equalsIgnoreCase( ext ) && imageHandler != null ) //$NON-NLS-1$
 			{
-				writer.attribute( HTMLTags.ATTR_ONLOAD, "fixPNG(this)" ); //$NON-NLS-1$
+				if ( null == htmlIDNamespace )
+				{
+					writer.attribute( HTMLTags.ATTR_ONLOAD, "fixPNG(this)" ); //$NON-NLS-1$
+				}
+				else
+				{
+					writer.attribute( HTMLTags.ATTR_ONLOAD, htmlIDNamespace
+							+ "fixPNG(this)" ); //$NON-NLS-1$
+				}
 			}
 
 			writer.closeTag( HTMLTags.TAG_IMAGE );
@@ -2507,6 +2400,128 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 
 		writer.closeTag( tag );
+	}
+	
+	/**
+	 * output the svg image
+	 * @param image
+	 * @param styleBuffer
+	 */
+	protected void outputSVGImage( IImageContent image, StringBuffer styleBuffer,int display )
+	{
+		writer.openTag( HTMLTags.TAG_EMBED );
+		
+		boolean isSelectHandleTableChart = false;
+		if ( enableMetadata )
+		{
+			isSelectHandleTableChart = metadataEmitter.startImage( image );
+		}
+		
+		// output class attribute.
+		String styleClass = image.getStyleClass( );
+		setStyleName( styleClass, image );
+
+		if ( !isSelectHandleTableChart )
+		{
+			outputBookmark( image, HTMLTags.ATTR_IMAGE ); //$NON-NLS-1$
+		}
+
+		// onresize gives the SVG a change to change its content
+		String htmlBookmark;
+		if ( null != htmlIDNamespace )
+		{
+			htmlBookmark = htmlIDNamespace + image.getBookmark( );
+		}
+		else
+		{
+			htmlBookmark = image.getBookmark( );
+		}
+		writer.attribute( "onresize", "document.getElementById('" + htmlBookmark + "').reload()" ); //$NON-NLS-1$
+		
+		writer.attribute( HTMLTags.ATTR_TYPE, image.getMIMEType( ) );
+		writer.attribute( HTMLTags.ATTR_SRC, getImageURI( image ) );
+
+		// alternative text
+		String altText = image.getAltText( );
+		if ( altText == null )
+		{
+			writer.attributeAllowEmpty( HTMLTags.ATTR_ALT, "" );
+		}
+		else
+		{
+			writer.attribute( HTMLTags.ATTR_ALT, altText );
+		}
+		
+		if ( enableMetadata )
+		{
+			writer.attribute( "wmode", "transparent" );
+		}
+		
+		// build style
+		htmlEmitter.buildImageStyle( image, styleBuffer, display );
+		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+		writer.closeTag( HTMLTags.TAG_EMBED );
+	}
+	
+	/**
+	 * 
+	 * @param image
+	 * @param styleBuffer
+	 */
+	protected void resetImageDefaultBorders( IImageContent image,
+			StringBuffer styleBuffer )
+	{
+		// disable the border, if the user defines border with the
+		// image, it will be overided by the following style setting
+		IStyle style = image.getStyle( );
+		if ( style.getBorderTopStyle( ) == null )
+		{
+			// user doesn't define the border, remove it.
+			styleBuffer.append( "border-top-style:none;" );
+		}
+		else
+		{
+			// use define the border-style, but not define the
+			// border color, use the default
+			// color.
+			if ( style.getBorderTopColor( ) == null )
+			{
+				styleBuffer.append( "border-top-color:black" );
+			}
+		}
+		if ( style.getBorderBottomStyle( ) == null )
+		{
+			styleBuffer.append( "border-bottom-style:none;" );
+		}
+		else
+		{
+			if ( style.getBorderBottomColor( ) == null )
+			{
+				styleBuffer.append( "border-bottom-color:black" );
+			}
+		}
+		if ( style.getBorderLeftStyle( ) == null )
+		{
+			styleBuffer.append( "border-left-style:none;" );
+		}
+		else
+		{
+			if ( style.getBorderLeftColor( ) == null )
+			{
+				styleBuffer.append( "border-left-color:black" );
+			}
+		}
+		if ( style.getBorderRightStyle( ) == null )
+		{
+			styleBuffer.append( "border-right-style:none;" );
+		}
+		else
+		{
+			if ( style.getBorderRightColor( ) == null )
+			{
+				styleBuffer.append( "border-right-color:black" );
+			}
+		}
 	}
 	
 	/**

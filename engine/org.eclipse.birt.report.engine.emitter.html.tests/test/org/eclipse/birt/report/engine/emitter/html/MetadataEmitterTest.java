@@ -112,13 +112,13 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 	{
 		String designFile = "org/eclipse/birt/report/engine/emitter/html/dataItemWithoutBookmarkMetadata_Test.xml";
 		String[][] bookmarksWithMetadata = {
-				{"AUTOGENBOOKMARK_1", "DATA", "176"},
-				{"AUTOGENBOOKMARK_3", "DATA", "192"},
-				{"AUTOGENBOOKMARK_5", "DATA", "204"},
-				{"AUTOGENBOOKMARK_6", "DATA", "190"},
-				{"AUTOGENBOOKMARK_9", "DATA", "214"},
-				{"AUTOGENBOOKMARK_10", "DATA", "191"},
-				{"AUTOGENBOOKMARK_11", "DATA", "193"}};
+				{"AUTOGENMETADATABOOKMARK_1", "DATA", "176"},
+				{"AUTOGENMETADATABOOKMARK_2", "DATA", "192"},
+				{"AUTOGENMETADATABOOKMARK_3", "DATA", "204"},
+				{"AUTOGENMETADATABOOKMARK_4", "DATA", "190"},
+				{"AUTOGENMETADATABOOKMARK_5", "DATA", "214"},
+				{"AUTOGENMETADATABOOKMARK_6", "DATA", "191"},
+				{"AUTOGENMETADATABOOKMARK_7", "DATA", "193"}};
 		String[][] bookmarksWithoutMetadata = {};
 		checkAllTask( designFile, bookmarksWithMetadata,
 				bookmarksWithoutMetadata );
