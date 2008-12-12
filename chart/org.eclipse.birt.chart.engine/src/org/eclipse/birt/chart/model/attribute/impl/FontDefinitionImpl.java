@@ -1064,4 +1064,97 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 		return fd;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode( )
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime
+				* result
+				+ ( ( alignment == null ) ? 0 : alignment.hashCode( ) );
+		result = prime * result + ( bold ? 1231 : 1237 );
+		result = prime * result + ( boldESet ? 1231 : 1237 );
+		result = prime * result + ( italic ? 1231 : 1237 );
+		result = prime * result + ( italicESet ? 1231 : 1237 );
+		result = prime * result + ( ( name == null ) ? 0 : name.hashCode( ) );
+		long temp;
+		temp = Double.doubleToLongBits( rotation );
+		result = prime * result + (int) ( temp ^ ( temp >>> 32 ) );
+		result = prime * result + ( rotationESet ? 1231 : 1237 );
+		result = prime * result + Float.floatToIntBits( size );
+		result = prime * result + ( sizeESet ? 1231 : 1237 );
+		result = prime * result + ( strikethrough ? 1231 : 1237 );
+		result = prime * result + ( strikethroughESet ? 1231 : 1237 );
+		result = prime * result + ( underline ? 1231 : 1237 );
+		result = prime * result + ( underlineESet ? 1231 : 1237 );
+		result = prime * result + ( wordWrap ? 1231 : 1237 );
+		result = prime * result + ( wordWrapESet ? 1231 : 1237 );
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals( Object obj )
+	{
+		if ( this == obj )
+			return true;
+		if ( obj == null )
+			return false;
+		if ( getClass( ) != obj.getClass( ) )
+			return false;
+		FontDefinitionImpl other = (FontDefinitionImpl) obj;
+		if ( alignment == null )
+		{
+			if ( other.alignment != null )
+				return false;
+		}
+		else if ( !alignment.equals( other.alignment ) )
+			return false;
+		if ( bold != other.bold )
+			return false;
+		if ( boldESet != other.boldESet )
+			return false;
+		if ( italic != other.italic )
+			return false;
+		if ( italicESet != other.italicESet )
+			return false;
+		if ( name == null )
+		{
+			if ( other.name != null )
+				return false;
+		}
+		else if ( !name.equals( other.name ) )
+			return false;
+		if ( Double.doubleToLongBits( rotation ) != Double.doubleToLongBits( other.rotation ) )
+			return false;
+		if ( rotationESet != other.rotationESet )
+			return false;
+		if ( Float.floatToIntBits( size ) != Float.floatToIntBits( other.size ) )
+			return false;
+		if ( sizeESet != other.sizeESet )
+			return false;
+		if ( strikethrough != other.strikethrough )
+			return false;
+		if ( strikethroughESet != other.strikethroughESet )
+			return false;
+		if ( underline != other.underline )
+			return false;
+		if ( underlineESet != other.underlineESet )
+			return false;
+		if ( wordWrap != other.wordWrap )
+			return false;
+		if ( wordWrapESet != other.wordWrapESet )
+			return false;
+		return true;
+	}
+
 } // FontDefinitionImpl

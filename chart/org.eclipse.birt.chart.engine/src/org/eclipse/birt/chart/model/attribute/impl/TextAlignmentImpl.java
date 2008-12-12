@@ -361,4 +361,63 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 		return ta;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode( )
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime
+				* result
+				+ ( ( horizontalAlignment == null ) ? 0
+						: horizontalAlignment.hashCode( ) );
+		result = prime * result + ( horizontalAlignmentESet ? 1231 : 1237 );
+		result = prime
+				* result
+				+ ( ( verticalAlignment == null ) ? 0
+						: verticalAlignment.hashCode( ) );
+		result = prime * result + ( verticalAlignmentESet ? 1231 : 1237 );
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals( Object obj )
+	{
+		if ( this == obj )
+			return true;
+		if ( obj == null )
+			return false;
+		if ( getClass( ) != obj.getClass( ) )
+			return false;
+		TextAlignmentImpl other = (TextAlignmentImpl) obj;
+		if ( horizontalAlignment == null )
+		{
+			if ( other.horizontalAlignment != null )
+				return false;
+		}
+		else if ( !horizontalAlignment.equals( other.horizontalAlignment ) )
+			return false;
+		if ( horizontalAlignmentESet != other.horizontalAlignmentESet )
+			return false;
+		if ( verticalAlignment == null )
+		{
+			if ( other.verticalAlignment != null )
+				return false;
+		}
+		else if ( !verticalAlignment.equals( other.verticalAlignment ) )
+			return false;
+		if ( verticalAlignmentESet != other.verticalAlignmentESet )
+			return false;
+		return true;
+	}
+
 } // TextAlignmentImpl

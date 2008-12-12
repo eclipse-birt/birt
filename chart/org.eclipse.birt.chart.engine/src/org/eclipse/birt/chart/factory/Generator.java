@@ -152,7 +152,7 @@ public final class Generator implements IGenerator
 	public final void prepareStyles( Chart model,
 			IStyleProcessor externalProcessor )
 	{
-		Stack token = new Stack( );
+		Stack<StyledComponent> token = new Stack<StyledComponent>( );
 
 		token.push( StyledComponent.CHART_ALL_LITERAL );
 
@@ -162,7 +162,7 @@ public final class Generator implements IGenerator
 
 	}
 
-	private void prepareComponent( Chart model, Stack token, Object component,
+	private void prepareComponent( Chart model, Stack<StyledComponent> token, Object component,
 			IStyleProcessor externalProcessor )
 	{
 		// check and apply styles
