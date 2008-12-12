@@ -20,7 +20,7 @@
                description="%Crosstab.desc"
                icon="icons/pal/crosstab.gif"
                itemName="Crosstab"
-               label="Cross Tab"
+               label="%paletteEntry.label.crosstab"
                largeIcon="icons/pal/crosstab.gif"
                menuLabel="%crosstab.menu">
          </paletteEntry></reportItemEditPart>
@@ -37,12 +37,12 @@
       <command
             defaultHandler="org.eclipse.birt.report.item.crosstab.internal.ui.CreateCrosstabHandler"
             id="org.eclipse.birt.report.item.crosstab.ui.createCrosstab"
-            name="Create Crosstab">
+            name="%command.name.createCrosstab">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.item.crosstab.internal.ui.CreateCubeHandler"
             id="org.eclipse.birt.report.item.crosstab.ui.createCube"
-            name="Create Cube">
+            name="%command.name.createCube">
       </command>
    </extension>
    <extension
@@ -331,7 +331,7 @@
             <command
                   commandId="org.eclipse.birt.report.item.crosstab.ui.createCube"
                   label="%newcube.menu"
-                  mnemonic="C"
+                  mnemonic="%command.mnemonic.c"
                   style="push">
             </command>
       </menuContribution>
