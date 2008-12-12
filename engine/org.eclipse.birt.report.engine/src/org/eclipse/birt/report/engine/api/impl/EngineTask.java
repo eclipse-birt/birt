@@ -513,6 +513,20 @@ public abstract class EngineTask implements IEngineTask
 		return null;
 	}
 
+	protected Object convertToType( Object value, String type, String paramType )
+	{
+		value = convertToType( value, type);
+		if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE
+				.equals( paramType ) )
+		{
+			if ( value != null )
+			{
+				value = new Object[]{value};
+			}
+		}
+		return value;
+	}
+	
 	public static Object convertParameterType( Object value, String type )
 			throws BirtException
 	{
@@ -1138,7 +1152,7 @@ public abstract class EngineTask implements IEngineTask
 				if ( !inputValues.containsKey( name ) )
 				{
 					Object value = convertToType( param.getDefaultValue( ),
-							param.getDataType( ) );
+							param.getDataType( ), param.getParamType() );
 					executionContext.setParameterValue( name, value );
 					runValues.put( name, value );
 				}
