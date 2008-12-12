@@ -117,9 +117,9 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 *	Initialization routine required by "ProtoType" lib.
 	 *	@return, void
 	 */
-	initialize : function( id )
+	initialize : function( id, mode )
 	{
-		this.__mode = Constants.request.servletPath;
+		this.__mode = mode || Constants.request.servletPath;
 		this.preVisible = false;
 
 		this._hint = document.getElementById( "birt_hint" );

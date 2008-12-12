@@ -180,8 +180,18 @@
 
 		var birtProgressBar = new BirtProgressBar( 'progressBar' );
 		var birtReportDocument = new BirtReportDocument( "Document" );
+
+		var parameterMode;
+		if ( Constants.request.servletPath == Constants.SERVLET_PARAMETER )
+		{
+			parameterMode = Constants.SERVLET_PARAMETER;
+		}
+		else
+		{
+			parameterMode = Constants.SERVLET_PREVIEW;
+		}
 		
-		var birtParameterDialog = new BirtParameterDialog( 'parameterDialog' );
+		var birtParameterDialog = new BirtParameterDialog( 'parameterDialog', parameterMode );
 		var birtExceptionDialog = new BirtExceptionDialog( 'exceptionDialog' );
 		
 		function init( )
