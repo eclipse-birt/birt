@@ -24,8 +24,12 @@ import org.apache.axis.transport.http.AxisServlet;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.IContext;
+import org.eclipse.birt.report.exception.ViewerException;
 import org.eclipse.birt.report.presentation.aggregation.IFragment;
 import org.eclipse.birt.report.resource.BirtResources;
+import org.eclipse.birt.report.resource.ResourceConstants;
+import org.eclipse.birt.report.session.IViewingSession;
+import org.eclipse.birt.report.session.ViewingSessionUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 abstract public class BaseReportEngineServlet extends AxisServlet
@@ -134,6 +138,28 @@ abstract public class BaseReportEngineServlet extends AxisServlet
 		try
 		{
 
+			// refresh the current BIRT viewing session by accessing it
+			String requestType = request.getHeader( ParameterAccessor.HEADER_REQUEST_TYPE );
+			boolean isSoapRequest = ParameterAccessor.HEADER_REQUEST_TYPE_SOAP
+				.equalsIgnoreCase( requestType );
+			// refresh the current BIRT viewing session by accessing it
+			IViewingSession session = ViewingSessionUtil.getSession( request );
+			if ( session == null && !isSoapRequest && 
+					!ParameterAccessor.isGetImageOperator( request ) )
+			{
+				if ( ViewingSessionUtil.getSessionId(request) == null )
+				{
+					session = ViewingSessionUtil.createSession( request );
+				}
+				else
+				{
+					// if session id passed through the URL, it means this request
+					// was expected to run using a session that has already expired 
+					throw new ViewerException( BirtResources.getMessage(
+							ResourceConstants.GENERAL_ERROR_NO_VIEWING_SESSION ) );
+				}
+			}
+			
 			IContext context = __getContext( request, response );
 
 			if ( context.getBean( ).getException( ) != null )
@@ -143,20 +169,33 @@ abstract public class BaseReportEngineServlet extends AxisServlet
 			}
 			else
 			{
-				String requestType = request
-						.getHeader( ParameterAccessor.HEADER_REQUEST_TYPE );
-				if ( ParameterAccessor.HEADER_REQUEST_TYPE_SOAP
-						.equalsIgnoreCase( requestType ) )
+				session.lock();
+				try
 				{
-					// Workaround for using axis bundle to invoke SOAP request
-					Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
-					
-					super.doPost( request, response );
+					if ( isSoapRequest )
+					{
+						// Workaround for using axis bundle to invoke SOAP request
+						Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
+						
+						super.doPost( request, response );
+					}
+					else
+					{
+	
+						__doGet( context );
+					}
 				}
-				else
+				finally
 				{
-
-					__doGet( context );
+					session.unlock( );
+					if ( !session.isLocked( ) && !context.getBean( ).isShowParameterPage( )
+							&& ( ParameterAccessor.isServlet( request,
+									IBirtConstants.SERVLET_PATH_DOCUMENT ))
+							)
+					{
+						// clean cached files
+						session.invalidate( );
+					}
 				}
 			}
 

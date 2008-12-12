@@ -209,7 +209,7 @@
 		var Mask =  new Mask(false); //create mask using "div"
 		var BrowserUtility = new BrowserUtility();
 		DragDrop = new BirtDndManager();
-		
+
 		var birtToolbar = new BirtToolbar( 'toolbar' );
 		var navigationBar = new BirtNavigationBar( 'navigationBar' );
 		var birtToc = new BirtToc( 'display0' );
@@ -229,7 +229,9 @@
 		Mask.setBaseElements( new Array( birtToolbar.__instance, navigationBar.__instance, birtReportDocument.__instance) );
 		
 		function init()
-		{		
+		{
+			soapURL = birtUtility.initSessionId( soapURL );
+			
 		<%
 		if ( attributeBean.isShowParameterPage( ) )
 		{

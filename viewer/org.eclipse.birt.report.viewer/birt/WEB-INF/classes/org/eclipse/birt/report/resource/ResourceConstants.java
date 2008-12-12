@@ -31,6 +31,10 @@ public interface ResourceConstants
 	// errors
 	public static final String GENERAL_ERROR_PARAMETER_INVALID = "birt.viewer.error.parameter.invalid"; //$NON-NLS-1$
 	public static final String GENERAL_ERROR_PARAMETER_NOTBLANK = "birt.viewer.error.parameternotallowblank"; //$NON-NLS-1$
+	public static final String GENERAL_ERROR_NO_VIEWING_SESSION = "birt.viewer.error.noviewingsession"; //$NON-NLS-1$
+	public static final String GENERAL_ERROR_VIEWING_SESSION_EXPIRED = "birt.viewer.error.viewingsessionexpired"; //$NON-NLS-1$
+	public static final String GENERAL_ERROR_VIEWING_SESSION_LOCKED = "birt.viewer.error.viewingsessionlocked"; //$NON-NLS-1$
+	public static final String GENERAL_ERROR_VIEWING_SESSION_MAX_REACHED = "birt.viewer.error.viewingsessionmaxreached"; //$NON-NLS-1$
 	
 	// general exception
 	public static final String GENERAL_EXCEPTION_DOCUMENT_FILE_ERROR = "birt.viewer.generalException.DOCUMENT_FILE_ERROR"; //$NON-NLS-1$

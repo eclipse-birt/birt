@@ -196,6 +196,7 @@
 		
 		function init( )
 		{					
+			soapURL = birtUtility.initSessionId( soapURL );
 			birtParameterDialog.__cb_bind( );
 		}
 		

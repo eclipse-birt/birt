@@ -28,6 +28,7 @@ import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.IContext;
+import org.eclipse.birt.report.exception.ViewerException;
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
@@ -39,6 +40,9 @@ import org.eclipse.birt.report.service.actionhandler.BirtRenderImageActionHandle
 import org.eclipse.birt.report.service.actionhandler.BirtRenderReportActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtRunAndRenderActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtRunReportActionHandler;
+import org.eclipse.birt.report.session.IViewingSession;
+import org.eclipse.birt.report.session.ViewingSessionManager;
+import org.eclipse.birt.report.session.ViewingSessionUtil;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.utility.BirtUtility;
@@ -149,6 +153,22 @@ public class EngineFragment extends BirtBaseFragment
 
 			if ( !ParameterAccessor.isGetImageOperator( request ) )
 			{
+				if ( ParameterAccessor.PARAM_FORMAT_HTML.equals( ParameterAccessor.getFormat( request ) ) )
+				{
+					try
+					{
+						// create a new session for the images
+						IViewingSession session = ViewingSessionUtil.getSession( context.getRequest( ) );
+						if ( session == null )
+						{
+							session = ViewingSessionUtil.createSession( context.getRequest( ) );
+						}
+					}
+					catch ( ViewerException e )
+					{
+						throw new ServletException(e);
+					}
+				}
 				String filename = ParameterAccessor.getExportFilename( context, format, emitterId );
 				response
 						.setHeader(
@@ -306,19 +326,36 @@ public class EngineFragment extends BirtBaseFragment
 				}
 			}
 		}
+		catch ( ViewerException e )		
+		{
+			handleException( request, response, e );
+		}
 		catch ( RemoteException e )
 		{
-			// if get image don't write exception into output stream.
-			if ( ParameterAccessor.isGetImageOperator( request ) )
-			{
-				response.sendError( HttpServletResponse.SC_NOT_FOUND );
-				e.printStackTrace();
-			}
-			else
-			{
-				response.setContentType( "text/html; charset=utf-8" ); //$NON-NLS-1$
-				BirtUtility.appendErrorMessage( response.getOutputStream( ), e );
-			}
+			handleException( request, response, e );
+		}
+	}
+
+	/**
+	 * @param request
+	 * @param response
+	 * @param e
+	 * @throws IOException
+	 */
+	private void handleException( HttpServletRequest request,
+			HttpServletResponse response, Exception e )
+			throws IOException
+	{
+		// if get image don't write exception into output stream.
+		if ( ParameterAccessor.isGetImageOperator( request ) )
+		{
+			response.sendError( HttpServletResponse.SC_NOT_FOUND );
+			e.printStackTrace();
+		}
+		else
+		{
+			response.setContentType( "text/html; charset=utf-8" ); //$NON-NLS-1$
+			BirtUtility.appendErrorMessage( response.getOutputStream( ), e );
 		}
 	}
 

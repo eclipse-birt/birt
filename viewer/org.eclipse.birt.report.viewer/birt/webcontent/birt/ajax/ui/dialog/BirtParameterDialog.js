@@ -1503,6 +1503,13 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			}
 		}
 		
+		if ( Constants.viewingSessionId )
+		{
+			// append sub session in the POST part
+			birtUtility.addHiddenFormField(formObj, Constants.PARAM_SESSION_ID, Constants.viewingSessionId);
+			action = birtUtility.deleteURLParameter(action, Constants.PARAM_SESSION_ID);
+		}
+		
 		// replace __parameterpage setting
 		var reg = new RegExp( "([&|?]{1})(__parameterpage\s*=[^&|^#]*)","gi" );
 		if ( action.search( reg ) > -1 )

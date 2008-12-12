@@ -85,6 +85,8 @@ import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.service.api.ReportServiceException;
+import org.eclipse.birt.report.session.IViewingSession;
+import org.eclipse.birt.report.session.ViewingSessionUtil;
 import org.eclipse.birt.report.soapengine.api.Column;
 import org.eclipse.birt.report.soapengine.api.ResultSet;
 import org.eclipse.birt.report.utility.BirtUtility;
@@ -130,11 +132,6 @@ public class ReportEngineService
 	private EngineConfig config = null;
 
 	/**
-	 * URL accesses images.
-	 */
-	private String imageBaseUrl = null;
-
-	/**
 	 * Image handler instance.
 	 */
 	private HTMLServerImageHandler imageHandler = null;
@@ -165,10 +162,6 @@ public class ReportEngineService
 		imageHandler = new HTMLServerImageHandler( );
 		emitterConfig.setImageHandler( imageHandler );
 		config.getEmitterConfigs( ).put( "html", emitterConfig ); //$NON-NLS-1$
-
-		// Prepare image base url.
-		imageBaseUrl = IBirtConstants.SERVLET_PATH_PREVIEW
-				+ "?" + ParameterAccessor.PARAM_IMAGEID + "="; //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Prepare log level.
 		String logLevel = ParameterAccessor.logLevel;
@@ -501,8 +494,7 @@ public class ReportEngineService
 		{
 			// TODO: remove RemoteException in the method signature and
 			// throw ReportServiceException directly
-			throw new DummyRemoteException( new ReportServiceException( e
-					.getLocalizedMessage( ), e ) );
+			throwDummyException(e);
 		}
 
 		return document;
@@ -523,17 +515,26 @@ public class ReportEngineService
 
 		try
 		{
-			this.imageHandler.getImage( outputStream, ParameterAccessor
-					.getImageTempFolder( request ), imageId );
+			IViewingSession session = ViewingSessionUtil.getSession( request );
+			if ( session != null )
+			{
+				this.imageHandler.getImage( outputStream, session
+						.getImageTempFolder( ), imageId );
+			}
+			else
+			{
+				throw new ReportServiceException( BirtResources.getMessage(
+						ResourceConstants.GENERAL_ERROR_NO_VIEWING_SESSION ) );
+			}
 		}
-		catch ( EngineException e )
+		catch ( BirtException e )
 		{
-			// TODO: remove RemoteException in the method signature and
-			// throw ReportServiceException directly
-			throw new DummyRemoteException( new ReportServiceException( e
-					.getLocalizedMessage( ), e ) );
+			throwDummyException( e );
 		}
-
+		catch ( ReportServiceException e )
+		{
+			throwDummyException( e );
+		}
 	}
 
 	/**
@@ -543,9 +544,10 @@ public class ReportEngineService
 	 * @param servletPath
 	 * @param request
 	 * @return HTML render option from the given arguments
+	 * @throws ReportServiceException 
 	 */
 	private HTMLRenderOption createHTMLRenderOption( boolean svgFlag,
-			String servletPath, HttpServletRequest request )
+			String servletPath, HttpServletRequest request, IViewingSession session ) 
 	{
 		String baseURL = null;
 
@@ -574,10 +576,9 @@ public class ReportEngineService
 		// append application context path
 		baseURL += request.getContextPath( );
 
-		HTMLRenderOption renderOption = new HTMLRenderOption( );
-		renderOption.setImageDirectory( ParameterAccessor
-				.getImageTempFolder( request ) );
-		renderOption.setBaseImageURL( baseURL + imageBaseUrl );
+		HTMLRenderOption renderOption = new HTMLRenderOption( );		
+		renderOption.setImageDirectory( session.getImageTempFolder() );
+		renderOption.setBaseImageURL( createBaseImageUrl( session, baseURL ) );
 		if ( servletPath != null && servletPath.length( ) > 0 )
 		{
 			renderOption.setBaseURL( baseURL + servletPath );
@@ -591,6 +592,26 @@ public class ReportEngineService
 		renderOption.setSupportedImageFormats( svgFlag
 				? "PNG;GIF;JPG;BMP;SWF;SVG" : "PNG;GIF;JPG;BMP;SWF" ); //$NON-NLS-1$ //$NON-NLS-2$
 		return renderOption;
+	}
+
+	/**
+	 * Creates a base image URL based on the current BIRT viewing session.
+	 * @param session BIRT viewing session
+	 * @param baseURL base URL
+	 */
+	private String createBaseImageUrl( IViewingSession session,
+			String baseURL )
+	{
+		String sessionIdPart = ""; //$NON-NLS-1$
+		// Prepare image base url.
+		if ( session != null )
+		{
+			sessionIdPart = ParameterAccessor.PARAM_VIEWING_SESSION_ID
+					+ "=" + session.getId( ) + "&"; //$NON-NLS-1$ //$NON-NLS-2$
+		}
+
+		return baseURL + IBirtConstants.SERVLET_PATH_PREVIEW
+				+ "?" + sessionIdPart + ParameterAccessor.PARAM_IMAGEID + "="; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
@@ -824,6 +845,66 @@ public class ReportEngineService
 			Integer maxRows ) throws RemoteException
 	{
 		assert runnable != null;
+
+		IRunAndRenderTask runAndRenderTask = null;
+		try
+		{
+			runAndRenderTask = createRunAndRenderTask(
+				runnable,
+				outputStream,
+				inputOptions,
+				parameters, 
+				embeddable,
+				activeIds,
+				aRenderOption,
+				displayTexts, 
+				reportTitle,
+				maxRows
+				);
+		}
+		catch ( ReportServiceException e )
+		{
+			// TODO: remove RemoteException in the method signature and throw
+			// ReportServiceException directly
+			throwDummyException( e );
+		}
+		
+		boolean isDesigner = isDesigner( inputOptions );
+		HttpServletRequest request = (HttpServletRequest) inputOptions
+			.getOption( InputOptions.OPT_REQUEST );
+		
+		// add task into session
+		BirtUtility.addTask( request, runAndRenderTask );
+
+		try
+		{
+			runAndRenderTask.run( );
+		}
+		catch ( BirtException e )
+		{
+			// TODO: remove RemoteException in the method signature and
+			// throw ReportServiceException directly
+			throwDummyException( e );
+		}
+		finally
+		{
+			// Remove task from http session
+			BirtUtility.removeTask( request );
+
+			// Append errors
+			if ( isDesigner )
+				BirtUtility.error( request, runAndRenderTask.getErrors( ) );
+
+			runAndRenderTask.close( );
+		}
+	}
+	
+	private IRunAndRenderTask createRunAndRenderTask(IReportRunnable runnable,
+			OutputStream outputStream, InputOptions inputOptions,
+			Map parameters, Boolean embeddable, List activeIds,
+			RenderOption aRenderOption, Map displayTexts, String reportTitle,
+			Integer maxRows) throws ReportServiceException
+	{
 		RenderOption renderOption = aRenderOption;
 
 		HttpServletRequest request = (HttpServletRequest) inputOptions
@@ -885,6 +966,29 @@ public class ReportEngineService
 		Map context = BirtUtility.getAppContext( request );
 		runAndRenderTask.setAppContext( context );
 
+		ViewerHTMLActionHandler handler = new ViewerHTMLActionHandler( locale,
+				timeZone, rtl, masterPage, format, new Boolean( svgFlag ),
+				Boolean.toString( isDesigner ) );
+		handler.setPageOverflow( Integer.toString( pageOverflow ) );
+
+		String resourceFolder = ParameterAccessor.getParameter( request,
+				ParameterAccessor.PARAM_RESOURCE_FOLDER );
+		handler.setResourceFolder( resourceFolder );
+		
+		IViewingSession session = ViewingSessionUtil.getSession( request );
+		if ( !ParameterAccessor.isPDFLayout( format ) )
+		{
+			if ( session != null )
+			{
+				handler.setViewingSessionId( session.getId( ) );				
+			}
+			else
+			{
+				throw new IllegalStateException( BirtResources.getMessage(
+						ResourceConstants.GENERAL_ERROR_NO_VIEWING_SESSION ) );
+			}
+		}		
+		
 		// Render options
 		if ( renderOption == null )
 		{
@@ -901,7 +1005,7 @@ public class ReportEngineService
 					svgFlag = false;
 
 				renderOption = createHTMLRenderOption( svgFlag, servletPath,
-						request );
+						request, session );
 			}
 		}
 
@@ -912,16 +1016,6 @@ public class ReportEngineService
 				.valueOf( masterPage ) );
 		renderOption.setOption( IHTMLRenderOption.HTML_RTL_FLAG, Boolean
 				.valueOf( rtl ) );
-
-		ViewerHTMLActionHandler handler = new ViewerHTMLActionHandler( locale,
-				timeZone, rtl, masterPage, format, new Boolean( svgFlag ),
-				Boolean.toString( isDesigner ) );
-		handler.setPageOverflow( Integer.toString( pageOverflow ) );
-
-		String resourceFolder = ParameterAccessor.getParameter( request,
-				ParameterAccessor.PARAM_RESOURCE_FOLDER );
-		handler.setResourceFolder( resourceFolder );
-
 		renderOption.setActionHandler( handler );
 
 		if ( reportTitle != null )
@@ -945,31 +1039,25 @@ public class ReportEngineService
 		initializeEmitterConfigs( request, renderOption.getOptions( ) );
 
 		runAndRenderTask.setRenderOption( renderOption );
+		
+		return runAndRenderTask;
+	}
 
-		// add task into session
-		BirtUtility.addTask( request, runAndRenderTask );
-
-		try
+	/**
+	 * @param e
+	 * @throws DummyRemoteException
+	 */
+	private void throwDummyException( Exception e )
+			throws DummyRemoteException
+	{
+		if ( e instanceof ReportServiceException )
 		{
-			runAndRenderTask.run( );
+			throw new DummyRemoteException(e);
 		}
-		catch ( BirtException e )
+		else
 		{
-			// TODO: remove RemoteException in the method signature and
-			// throw ReportServiceException directly
 			throw new DummyRemoteException( new ReportServiceException( e
-					.getLocalizedMessage( ), e ) );
-		}
-		finally
-		{
-			// Remove task from http session
-			BirtUtility.removeTask( request );
-
-			// Append errors
-			if ( isDesigner )
-				BirtUtility.error( request, runAndRenderTask.getErrors( ) );
-
-			runAndRenderTask.close( );
+				.getLocalizedMessage( ), e ) );
 		}
 	}
 
@@ -1170,10 +1258,7 @@ public class ReportEngineService
 			if ( doc != null )
 				doc.delete( );
 
-			// TODO: remove RemoteException in the method signature and
-			// throw ReportServiceException directly
-			throw new DummyRemoteException( new ReportServiceException( e
-					.getLocalizedMessage( ), e ) );
+			throwDummyException( e );
 		}
 		finally
 		{
@@ -1339,7 +1424,7 @@ public class ReportEngineService
 		{
 			// TODO: remove RemoteException in the method signature and throw
 			// ReportServiceException directly
-			throw new DummyRemoteException( e );
+			throwDummyException(e);
 		}
 
 		// get servlet path
@@ -1368,8 +1453,7 @@ public class ReportEngineService
 		{
 			// TODO: remove RemoteException in the method signature and
 			// throw ReportServiceException directly
-			throw new DummyRemoteException( new ReportServiceException( e
-					.getLocalizedMessage( ), e ) );
+			throwDummyException(e);
 		}
 		finally
 		{
@@ -1398,10 +1482,12 @@ public class ReportEngineService
 	 * @param activeIds
 	 *            active IDs
 	 * @return configured render task
+	 * @throws ViewingSessionExpiredException 
 	 */
 	private IRenderTask createRenderTask( OutputStream out,
 			IReportDocument reportDocument, InputOptions inputOptions,
-			long pageNumber, List activeIds ) throws ReportServiceException
+			long pageNumber, List activeIds ) 
+				throws ReportServiceException
 	{
 		HttpServletRequest request = (HttpServletRequest) inputOptions
 				.getOption( InputOptions.OPT_REQUEST );
@@ -1465,8 +1551,14 @@ public class ReportEngineService
 			if ( !IBirtConstants.HTML_RENDER_FORMAT.equalsIgnoreCase( format ) )
 				svgFlag = false;
 
+			IViewingSession session = ViewingSessionUtil.getSession( request );
+			if ( session == null )
+			{
+				throw new IllegalStateException( BirtResources.getMessage(
+						ResourceConstants.GENERAL_ERROR_NO_VIEWING_SESSION ) );
+			}
 			renderOption = createHTMLRenderOption( svgFlag, servletPath,
-					request );
+					request, session );
 		}
 
 		// If not excel format, set HTMLPagination to true.
@@ -1508,8 +1600,17 @@ public class ReportEngineService
 			handler = new ViewerHTMLActionHandler( reportDocument, pageNumber,
 					locale, timeZone, isEmbeddable, rtl, masterPage, format,
 					new Boolean( svgFlag ), Boolean.toString( isDesigner ) );
+			
+			IViewingSession session = ViewingSessionUtil.getSession( request );
+			if ( session == null )
+			{
+				throw new ReportServiceException( BirtResources.getMessage(
+						ResourceConstants.GENERAL_ERROR_NO_VIEWING_SESSION ) );
+			}
+			handler.setViewingSessionId( session.getId( ) );
 		}
 		handler.setPageOverflow( Integer.toString( pageOverflow ) );
+		
 		String resourceFolder = ParameterAccessor.getParameter( request,
 				ParameterAccessor.PARAM_RESOURCE_FOLDER );
 		handler.setResourceFolder( resourceFolder );
@@ -1684,7 +1785,7 @@ public class ReportEngineService
 		{
 			// TODO: remove RemoteException in the method signature and
 			// throw ReportServiceException directly
-			throw new DummyRemoteException( e );
+			throwDummyException(e);
 		}
 
 		// Render designated page.
@@ -1706,8 +1807,7 @@ public class ReportEngineService
 		{
 			// TODO: remove RemoteException in the method signature and
 			// throw ReportServiceException directly
-			throw new DummyRemoteException( new ReportServiceException( e
-					.getLocalizedMessage( ), e ) );
+			throwDummyException(e);
 		}
 		finally
 		{
@@ -1785,8 +1885,7 @@ public class ReportEngineService
 		{
 			// TODO: remove RemoteException in the method signature and
 			// throw ReportServiceException directly
-			throw new DummyRemoteException( new ReportServiceException( e
-					.getLocalizedMessage( ), e ) );
+			throwDummyException(e);
 		}
 		finally
 		{
@@ -1876,10 +1975,7 @@ public class ReportEngineService
 		}
 		catch ( BirtException e )
 		{
-			// TODO: remove RemoteException in the method signature and
-			// throw ReportServiceException directly
-			throw new DummyRemoteException( new ReportServiceException( e
-					.getLocalizedMessage( ), e ) );
+			throwDummyException( e );
 		}
 		finally
 		{

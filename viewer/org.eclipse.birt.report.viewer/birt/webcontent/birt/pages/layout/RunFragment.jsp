@@ -175,7 +175,8 @@
 		var birtExceptionDialog = new BirtExceptionDialog( 'exceptionDialog' );
 		
 		function init()
-		{			
+		{
+			soapURL = birtUtility.initSessionId( soapURL );
 		<%
 		if ( attributeBean.isShowParameterPage( ) )
 		{
