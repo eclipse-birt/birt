@@ -103,6 +103,11 @@ public interface IBirtConstants
 
 	// Attribute Bean
 	public static final String ATTRIBUTE_BEAN = "attributeBean"; //$NON-NLS-1$
+	
+	// BIRT viewing sessions
+	public static final String ATTRIBUTE_VIEWING_SESSION_MANAGER = "viewingSessionManager"; //$NON-NLS-1$
+	
+	public static final String SESSION_ID_DATE_FORMAT = "yyyyMMdd_HHmmss_SSS"; //$NON-NLS-1$
 
 	// If Cascade parameter
 	public static final String IS_CASCADE = "isCascade"; //$NON-NLS-1$
@@ -169,4 +174,8 @@ public interface IBirtConstants
 	public static final int PAGE_OVERFLOW_FITTOPAGE = 2;
 	
 	public static final String DOC_PROPERTY_RTL = "docRtl";
+	/**
+	 * Suffix of report document.
+	 */
+	public static final String SUFFIX_REPORT_DOCUMENT = ".rptdocument"; //$NON-NLS-1$
 }

@@ -189,6 +189,13 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 				action = action.replace( reg, "$1=" + pagebreakonly );
 			}				
 			*/
+
+			if ( Constants.viewingSessionId )
+			{
+				// append sub session in the POST part
+				birtUtility.addHiddenFormField(formObj, Constants.PARAM_SESSION_ID, Constants.viewingSessionId);
+				action = birtUtility.deleteURLParameter(action, Constants.PARAM_SESSION_ID);
+			}
 			
 			// Force "__overwrite" as false
 			reg = new RegExp( "([&|?]{1}" + Constants.PARAM_OVERWRITE + "\s*)=([^&|^#]*)", "gi" );

@@ -230,9 +230,6 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			throw new ViewerException(
 					ResourceConstants.GENERAL_EXCEPTION_NO_REPORT_DESIGN );
 
-		// set clean flag
-		ParameterAccessor.setClean( request );
-
 		// Initialize report parameters.
 		__initParameters( request );
 	}

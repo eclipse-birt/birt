@@ -115,6 +115,11 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	protected String pageOverflow = null;
 
 	/**
+	 * BIRT viewing session id
+	 */
+	protected String viewingSessionId = null;
+	
+	/**
 	 * Constructor.
 	 */
 	public ViewerHTMLActionHandler( )
@@ -507,7 +512,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		{
 			params.put( ParameterAccessor.PARAM_RTL, String.valueOf( isRtl ) );
 		}
-
+		
 		// append resource folder setting
 		if ( resourceFolder != null )
 		{
@@ -517,6 +522,11 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			}
 			
 			params.put( ParameterAccessor.PARAM_RESOURCE_FOLDER, resourceFolder );
+		}
+		
+		if ( viewingSessionId != null )
+		{
+			params.put( ParameterAccessor.PARAM_VIEWING_SESSION_ID, viewingSessionId );
 		}
 
 		return UrlUtility.buildUrl( baseURL, params, anchor );
@@ -636,7 +646,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 
 				// Adding overwrite.
 				if ( !reportName.toLowerCase( )
-						.endsWith( ParameterAccessor.SUFFIX_REPORT_DOCUMENT )
+						.endsWith( IBirtConstants.SUFFIX_REPORT_DOCUMENT )
 						&& baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_FRAMESET ) > 0 )
 				{
 					link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_OVERWRITE,
@@ -888,5 +898,25 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	public void setPageOverflow( String pageOverflow )
 	{
 		this.pageOverflow = pageOverflow;
+	}
+
+	
+	/**
+	 * Returns the viewing session ID.
+	 * @return the viewing session ID
+	 */
+	public String getViewingSessionId( )
+	{
+		return viewingSessionId;
+	}
+
+	
+	/**
+	 * Sets the viewing session ID.
+	 * @param viewingSessionId the viewing session id
+	 */
+	public void setViewingSessionId( String viewingSessionId )
+	{
+		this.viewingSessionId = viewingSessionId;
 	}
 }

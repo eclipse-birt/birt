@@ -14,7 +14,6 @@ package org.eclipse.birt.report.taglib;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.rmi.RemoteException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -40,6 +39,8 @@ import org.eclipse.birt.report.service.ReportEngineService;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
+import org.eclipse.birt.report.session.IViewingSession;
+import org.eclipse.birt.report.session.ViewingSessionUtil;
 import org.eclipse.birt.report.taglib.component.ParameterField;
 import org.eclipse.birt.report.taglib.util.BirtTagUtil;
 import org.eclipse.birt.report.utility.BirtUtility;
@@ -152,58 +153,67 @@ public class ReportTag extends AbstractViewerTag
 		HttpServletRequest request = (HttpServletRequest) pageContext
 				.getRequest( );
 
-		// Create Input Options
-		this.options = new InputOptions( );
-		options.setOption( InputOptions.OPT_REQUEST, request );
-		options.setOption( InputOptions.OPT_LOCALE, this.locale );
-		options.setOption( InputOptions.OPT_TIMEZONE, this.timeZone );
-		options.setOption( InputOptions.OPT_RTL, Boolean.valueOf( viewer
-				.getRtl( ) ) );
-		options.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT, Boolean
-				.valueOf( viewer.getAllowMasterPage( ) ) );
-		options.setOption( InputOptions.OPT_SVG_FLAG, Boolean.valueOf( viewer
-				.getSvg( ) ) );
-		options.setOption( InputOptions.OPT_FORMAT, outputFormat );
-		options.setOption( InputOptions.OPT_EMITTER_ID, emitterId );
-		options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean( false ) );
-		options.setOption( InputOptions.OPT_SERVLET_PATH,
-				IBirtConstants.SERVLET_PATH_PREVIEW );
-		options.setOption( InputOptions.OPT_PAGE_OVERFLOW, viewer.getPageOverflow( ) );
-
-		// get report design handle
-		reportDesignHandle = BirtTagUtil.getDesignHandle( request, viewer );
-
-		if ( viewer.isHostPage( ) )
+		IViewingSession session = ViewingSessionUtil.createSession( request );
+		session.lock();
+		try
 		{
-			// if set isHostPage is true, output report directly
-			HttpServletResponse response = (HttpServletResponse) pageContext
-					.getResponse( );
-			__handleOutputReport( response.getOutputStream( ) );
+			// Create Input Options
+			this.options = new InputOptions( );
+			options.setOption( InputOptions.OPT_REQUEST, request );
+			options.setOption( InputOptions.OPT_LOCALE, this.locale );
+			options.setOption( InputOptions.OPT_TIMEZONE, this.timeZone );
+			options.setOption( InputOptions.OPT_RTL, Boolean.valueOf( viewer
+					.getRtl( ) ) );
+			options.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT, Boolean
+					.valueOf( viewer.getAllowMasterPage( ) ) );
+			options.setOption( InputOptions.OPT_SVG_FLAG, Boolean.valueOf( viewer
+					.getSvg( ) ) );
+			options.setOption( InputOptions.OPT_FORMAT, outputFormat );
+			options.setOption( InputOptions.OPT_EMITTER_ID, emitterId );
+			options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean( false ) );
+			options.setOption( InputOptions.OPT_SERVLET_PATH,
+					IBirtConstants.SERVLET_PATH_PREVIEW );
+			options.setOption( InputOptions.OPT_PAGE_OVERFLOW, viewer.getPageOverflow( ) );
+	
+			// get report design handle
+			reportDesignHandle = BirtTagUtil.getDesignHandle( request, viewer );
+	
+			if ( viewer.isHostPage( ) )
+			{
+				// if set isHostPage is true, output report directly
+				HttpServletResponse response = (HttpServletResponse) pageContext
+						.getResponse( );
+				__handleOutputReport( response.getOutputStream( ), session );
+			}
+			else
+			{
+	
+				// output to byte array
+				ByteArrayOutputStream out = new ByteArrayOutputStream( );
+				__handleOutputReport( out, session );
+				String content = out.toString( );
+	
+				JspWriter writer = pageContext.getOut( );
+	
+				// write style
+				writer.write( __handleStyle( content ) );
+	
+				// write script
+				writer.write( __handleScript( content ) );
+	
+				// use <div> to control report content display
+				writer.write( "<div id='" + viewer.getId( ) + "'" //$NON-NLS-1$ //$NON-NLS-2$
+						+ __handleDivAppearance( ) + ">\n" ); //$NON-NLS-1$
+				writer.write( "<div class='" + __handleBodyStyle( content ) //$NON-NLS-1$
+						+ "'>\n" ); //$NON-NLS-1$
+				writer.write( __handleBody( content ) + "\n" ); //$NON-NLS-1$
+				writer.write( "</div>\n" ); //$NON-NLS-1$
+				writer.write( "</div>\n" ); //$NON-NLS-1$
+			}
 		}
-		else
+		finally
 		{
-
-			// output to byte array
-			ByteArrayOutputStream out = new ByteArrayOutputStream( );
-			__handleOutputReport( out );
-			String content = out.toString( );
-
-			JspWriter writer = pageContext.getOut( );
-
-			// write style
-			writer.write( __handleStyle( content ) );
-
-			// write script
-			writer.write( __handleScript( content ) );
-
-			// use <div> to control report content display
-			writer.write( "<div id='" + viewer.getId( ) + "'" //$NON-NLS-1$ //$NON-NLS-2$
-					+ __handleDivAppearance( ) + ">\n" ); //$NON-NLS-1$
-			writer.write( "<div class='" + __handleBodyStyle( content ) //$NON-NLS-1$
-					+ "'>\n" ); //$NON-NLS-1$
-			writer.write( __handleBody( content ) + "\n" ); //$NON-NLS-1$
-			writer.write( "</div>\n" ); //$NON-NLS-1$
-			writer.write( "</div>\n" ); //$NON-NLS-1$
+			session.unlock();
 		}
 	}
 
@@ -486,7 +496,7 @@ public class ReportTag extends AbstractViewerTag
 	 * @param out
 	 * @throws Exception
 	 */
-	protected void __handleOutputReport( OutputStream out ) throws Exception
+	protected void __handleOutputReport( OutputStream out, IViewingSession session ) throws Exception
 	{
 		if ( viewer.isDocumentInUrl( ) )
 		{
@@ -494,7 +504,7 @@ public class ReportTag extends AbstractViewerTag
 		}
 		else
 		{
-			__renderReport( out );
+			__renderReport( out, session );
 		}
 	}
 
@@ -554,7 +564,7 @@ public class ReportTag extends AbstractViewerTag
 	 * @param out
 	 * @throws Exception
 	 */
-	private void __renderReport( OutputStream out ) throws Exception
+	private void __renderReport( OutputStream out, IViewingSession session ) throws Exception
 	{
 		HttpServletRequest request = (HttpServletRequest) pageContext
 				.getRequest( );
@@ -595,8 +605,7 @@ public class ReportTag extends AbstractViewerTag
 			.getOption( InputOptions.OPT_TIMEZONE );
 			
 			// preview reportlet
-			String documentName = ParameterAccessor.getReportDocument( request,
-					viewer.getReportDesign( ), viewer.getId( ) );
+			String documentName = session.getCachedReportDocument( viewer.getReportDesign( ), viewer.getId( ) );
 			List<Exception> errors = ReportEngineService.getInstance( ).runReport( request, runnable,
 					documentName, locale, timeZone, params, displayTexts,
 					new Integer( viewer.getMaxRowsOfRecords( ) ) );

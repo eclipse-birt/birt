@@ -20,13 +20,20 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.axis.transport.http.AxisServlet;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.IContext;
+import org.eclipse.birt.report.exception.ViewerException;
 import org.eclipse.birt.report.presentation.aggregation.IFragment;
 import org.eclipse.birt.report.resource.BirtResources;
+import org.eclipse.birt.report.resource.ResourceConstants;
+import org.eclipse.birt.report.session.IViewingSession;
+import org.eclipse.birt.report.session.ViewingSessionUtil;
+import org.eclipse.birt.report.session.ViewingCache;
+import org.eclipse.birt.report.utility.BirtUtility;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
@@ -41,7 +48,7 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 	 * Versioning.
 	 */
 	protected static boolean openSource = true;
-
+	
 	/**
 	 * Viewer fragment references.
 	 */
@@ -136,17 +143,26 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 
 		try
 		{
-
-			IContext context = __getContext( request, response );
-
-			if ( context.getBean( ).getException( ) != null )
+			// create new session
+			IViewingSession session = ViewingSessionUtil.createSession( request );
+			session.lock();
+			try
 			{
-				__handleNonSoapException( request, response, context.getBean( )
-						.getException( ) );
+				IContext context = __getContext( request, response );
+	
+				if ( context.getBean( ).getException( ) != null )
+				{
+					__handleNonSoapException( request, response, context.getBean( )
+							.getException( ) );
+				}
+				else
+				{
+					__doGet( context );
+				}
 			}
-			else
+			finally
 			{
-				__doGet( context );
+				session.unlock();
 			}
 		}
 		catch ( BirtException e )
@@ -199,11 +215,31 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 
 		request.setAttribute( "SoapURL", soapURL ); //$NON-NLS-1$
 
+		String requestType = request.getHeader( ParameterAccessor.HEADER_REQUEST_TYPE );
+		boolean isSoapRequest = ParameterAccessor.HEADER_REQUEST_TYPE_SOAP
+			.equalsIgnoreCase( requestType );
+		// refresh the current BIRT viewing session by accessing it
+		IViewingSession session;
+		
 		// init context
 		IContext context = null;
 		try
 		{
-
+			session = ViewingSessionUtil.getSession( request );
+			if ( session == null && !isSoapRequest )
+			{
+				if ( ViewingSessionUtil.getSessionId(request) == null )
+				{
+					session = ViewingSessionUtil.createSession( request );
+				}
+				else
+				{
+					// if session id passed through the URL, it means this request
+					// was expected to run using a session that has already expired 
+					throw new ViewerException( BirtResources.getMessage(
+							ResourceConstants.GENERAL_ERROR_NO_VIEWING_SESSION ) );
+				}
+			}
 			context = __getContext( request, response );
 		}
 		catch ( BirtException e )
@@ -215,12 +251,13 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 
 		try
 		{
+			if ( session != null )
+			{
+				session.lock();
+			}
 			__doPost( context );
 
-			String requestType = request
-					.getHeader( ParameterAccessor.HEADER_REQUEST_TYPE );
-			if ( ParameterAccessor.HEADER_REQUEST_TYPE_SOAP
-					.equalsIgnoreCase( requestType ) )
+			if ( isSoapRequest )
 			{
 				// Workaround for using axis bundle to invoke SOAP request
 				Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
@@ -229,12 +266,34 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 			}
 			else
 			{
-				doGet( request, response );
+				try
+				{
+					if ( context.getBean( ).getException( ) != null )
+					{
+						__handleNonSoapException( request, response, context.getBean( )
+								.getException( ) );
+					}
+					else
+					{
+						__doGet( context );
+					}
+				}
+				catch ( BirtException e )
+				{
+					__handleNonSoapException( request, response, e );
+				}
 			}
 		}
 		catch ( BirtException e )
 		{
 			e.printStackTrace( );
+		}
+		finally
+		{
+			if ( session != null && !session.isExpired() )
+			{
+				session.unlock();
+			}
 		}
 	}
 }

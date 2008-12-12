@@ -44,8 +44,16 @@ import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.engine.api.DataExtractionFormatInfo;
 import org.eclipse.birt.report.engine.api.EmitterInfo;
+import org.eclipse.birt.report.exception.ViewerException;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
+import org.eclipse.birt.report.service.api.ReportServiceException;
+import org.eclipse.birt.report.session.IViewingSession;
+import org.eclipse.birt.report.session.ViewingSessionConfig;
+import org.eclipse.birt.report.session.ViewingSessionManager;
+import org.eclipse.birt.report.session.ViewingSessionUtil;
+import org.eclipse.birt.report.session.ViewingCache;
+import org.eclipse.birt.report.session.ViewingSessionConfig.ViewingSessionPolicy;
 import org.eclipse.birt.report.utility.filename.DefaultFilenameGenerator;
 import org.eclipse.birt.report.utility.filename.IFilenameGenerator;
 import org.eclipse.birt.report.utility.filename.IFilenameGeneratorFactory;
@@ -285,11 +293,6 @@ public class ParameterAccessor {
 	public static final String PARAM_DPI = "__dpi"; //$NON-NLS-1$
 
 	/**
-	 * URL parameter name to indicate whether clean session files.
-	 */
-	public static final String PARAM_CLEAN_SESSION = "__clean"; //$NON-NLS-1$
-
-	/**
 	 * URL parameter name to indicate if force optimized HTML output.
 	 */
 	public static final String PARAM_AGENTSTYLE_ENGINE = "__agentstyle"; //$NON-NLS-1$
@@ -479,34 +482,10 @@ public class ParameterAccessor {
 	public static final String EQUALS_OPERATOR = "="; //$NON-NLS-1$
 
 	/**
-	 * Suffix of report document.
-	 */
-	public static final String SUFFIX_REPORT_DOCUMENT = ".rptdocument"; //$NON-NLS-1$
-
-	/**
-	 * Prefix of sub document folder
-	 */
-	public static final String PREFIX_SUB_DOC_FOLDER = "BIRTDOC"; //$NON-NLS-1$
-
-	/**
-	 * Prefix of sub image folder
-	 */
-	public static final String PREFIX_SUB_IMAGE_FOLDER = "BIRTIMG"; //$NON-NLS-1$
-
-	/**
 	 * Report working folder.
 	 */
 	public static String workingFolder = null;
 
-	/**
-	 * Document folder to put the report files and created documents.
-	 */
-	public static String documentFolder = null;
-
-	/**
-	 * Image folder to put the image files
-	 */
-	public static String imageFolder = null;
 
 	/**
 	 * Log folder to put the generated log files
@@ -578,6 +557,11 @@ public class ParameterAccessor {
 	 * Application Context Attribute value
 	 */
 	public static final String ATTR_APPCONTEXT_VALUE = "AppContextValue"; //$NON-NLS-1$
+
+	/**
+	 * Attribute for the BIRT viewing session. 
+	 */
+	public static final String ATTR_VIEWING_SESSION = "ViewingSession"; //$NON-NLS-1$
 	
 	/**
 	 * The initialized properties map
@@ -595,6 +579,13 @@ public class ParameterAccessor {
 	 */
 	public static final String PROP_BASE_URL = "base_url"; //$NON-NLS-1$
 
+	
+	/**
+	 * Session id, defines a session id based on the HTTP session id.
+	 * It is used to split sub-sessions inside an HTTP session.
+	 */
+	public static final String PARAM_VIEWING_SESSION_ID = "__sessionId"; //$NON-NLS-1$	
+	
 	/**
 	 * Engine supported output formats
 	 */
@@ -617,11 +608,6 @@ public class ParameterAccessor {
 	public static boolean isSupportedPrintOnServer = true;
 
 	/**
-	 * Flag that indicated if clean session files.
-	 */
-	public static boolean isCleanSessionFiles = true;
-
-	/**
 	 * Optimized HTML output flag
 	 */
 	public static boolean isAgentStyle = true;
@@ -635,7 +621,7 @@ public class ParameterAccessor {
 	 * Export filename generator instance.
 	 */
 	public static IFilenameGenerator exportFilenameGenerator = null;
-	
+
 	/**
 	 * Get bookmark. If page exists, ignore bookmark.
 	 * 
@@ -1036,9 +1022,10 @@ public class ParameterAccessor {
 	 * @param filePath
 	 * @param isCreated
 	 * @return
+	 * @throws ViewerException 
 	 */
 	public static String getReportDocument(HttpServletRequest request,
-			String filePath, boolean isCreated) {
+			String filePath, boolean isCreated) throws ViewerException {
 		if (filePath == null) {
 			filePath = DataUtil.trimString(getParameter(request,
 					PARAM_REPORT_DOCUMENT));
@@ -1049,34 +1036,27 @@ public class ParameterAccessor {
 		if (filePath.length() <= 0 && !isCreated)
 			return null;
 
-		if (filePath.length() <= 0) {
-			filePath = generateDocumentFromReport(request);
-			filePath = createDocumentPath(filePath, request);
-		} else {
-			filePath = getRealPathOnWorkingFolder(filePath, request);
+		if ( filePath.length( ) <= 0 )
+		{
+			// use an existing BIRT viewing session, if available, else create one
+			IViewingSession session = ViewingSessionUtil.getSession( request );
+			if ( session == null )
+			{
+				throw new ViewerException( BirtResources.getMessage(
+						ResourceConstants.GENERAL_ERROR_NO_VIEWING_SESSION ) );
+			}
+			// return the cached document file path
+			return session.getCachedReportDocument(
+					getReport( request, null ),
+					null
+					);
+		}
+		else
+		{
+			filePath = getRealPathOnWorkingFolder( filePath, request );
 		}
 
 		return filePath;
-
-	}
-
-	/**
-	 * Return the document file according to report name
-	 * 
-	 * @param request
-	 * @param reportFile
-	 * @param id
-	 * @return
-	 */
-	public static String getReportDocument(HttpServletRequest request,
-			String reportFile, String id) {
-		if (reportFile == null)
-			return null;
-
-		String documentFile = generateDocumentFromReport(reportFile, id);
-		documentFile = createDocumentPath(documentFile, request);
-
-		return documentFile;
 
 	}
 
@@ -1112,90 +1092,6 @@ public class ParameterAccessor {
 		return filePath;
 	}
 
-	/**
-	 * Create the file path of the the document. The document will be put under
-	 * the document folder based on different session id.
-	 * 
-	 * @param filePath
-	 *            the document path cretaed from the report design file.
-	 * @param request
-	 *            Http request, used to get the session Id.
-	 * @return
-	 */
-	protected static String createDocumentPath(String filePath,
-			HttpServletRequest request) {
-
-		String documentName = null;
-
-		if ((filePath == null) || (filePath.length() == 0))
-			return ""; //$NON-NLS-1$
-
-		String sessionId = request.getSession().getId();
-		String fileSeparator = "\\"; //$NON-NLS-1$
-
-		if (filePath.lastIndexOf(fileSeparator) == -1)
-			fileSeparator = "/"; //$NON-NLS-1$
-
-		// parse document file name
-		if (filePath.lastIndexOf(fileSeparator) != -1) {
-
-			documentName = filePath.substring(filePath
-					.lastIndexOf(fileSeparator) + 1);
-		} else {
-			documentName = filePath;
-		}
-
-		String hashCode = Integer.toHexString(filePath.hashCode());
-		return documentFolder + File.separator
-				+ (PREFIX_SUB_DOC_FOLDER + sessionId) + File.separator
-				+ hashCode + File.separator + documentName;
-	}
-
-	/**
-	 * Clears the report document/image files which had been created last time
-	 * the server starts up.
-	 */
-	protected static void clearTempFiles() {
-		// clear the document files
-		File file = new File(documentFolder);
-		if (file != null && file.isDirectory()) {
-			String[] children = file.list();
-			for (int i = 0; i < children.length; i++) {
-				if (children[i].startsWith(PREFIX_SUB_DOC_FOLDER))
-					deleteDir(new File(file, children[i]));
-			}
-		}
-
-		// clear image files
-		file = new File(imageFolder);
-		if (file != null && file.isDirectory()) {
-			String[] children = file.list();
-			for (int i = 0; i < children.length; i++) {
-				if (children[i].startsWith(PREFIX_SUB_IMAGE_FOLDER))
-					deleteDir(new File(file, children[i]));
-			}
-		}
-	}
-
-	/**
-	 * Deletes all files and subdirectories under dir. Returns true if all
-	 * deletions were successful. If a deletion fails, the method stops
-	 * attempting to delete and returns false.
-	 */
-
-	protected static boolean deleteDir(File dir) {
-		if (dir.isDirectory()) {
-			String[] children = dir.list();
-			for (int i = 0; i < children.length; i++) {
-				boolean success = deleteDir(new File(dir, children[i]));
-				if (!success) {
-					return false;
-				}
-			}
-		}
-		// The directory is now empty so delete it
-		return dir.delete();
-	}
 
 	/**
 	 * Get report parameter by given name.
@@ -1473,7 +1369,7 @@ public class ParameterAccessor {
 		if (isDesigner && initDocumentFolder == null)
 			initDocumentFolder = workingPath
 					+ IBirtConstants.DEFAULT_DOCUMENT_FOLDER;
-		documentFolder = processRealPath(context, initDocumentFolder,
+		String documentFolder = processRealPath(context, initDocumentFolder,
 				IBirtConstants.DEFAULT_DOCUMENT_FOLDER, true);
 
 		// Image folder setting
@@ -1481,7 +1377,7 @@ public class ParameterAccessor {
 				.getInitParameter(ParameterAccessor.INIT_PARAM_IMAGE_DIR);
 		if (isDesigner && initImageFolder == null)
 			initImageFolder = workingPath + IBirtConstants.DEFAULT_IMAGE_FOLDER;
-		imageFolder = processRealPath(context, initImageFolder,
+		String imageFolder = processRealPath(context, initImageFolder,
 				IBirtConstants.DEFAULT_IMAGE_FOLDER, true);
 
 		// Log folder setting
@@ -1657,11 +1553,65 @@ public class ParameterAccessor {
 			exportFilenameGenerator = new DefaultFilenameGenerator();
 		}
 		
-		// clear temp files
-		clearTempFiles();
-
+		initViewingSessionConfig( documentFolder, imageFolder );
+		
 		// Finish init context
 		isInitContext = true;
+	}
+
+	/**
+	 * Initializes the viewing session configuration.
+	 * @param documentFolder
+	 * @param imageFolder
+	 */
+	private static void initViewingSessionConfig( String documentFolder,
+			String imageFolder )
+	{
+		// instantiate viewing cache and configure the viewing session utility
+		// class
+		ViewingSessionUtil.viewingCache = new ViewingCache( documentFolder,
+				imageFolder );
+		ViewingSessionUtil.defaultConfig = new ViewingSessionConfig();
+		long sessionTimeout = getLongInitProp( "viewer.session.timeout" ); //$NON-NLS-1$
+		if ( sessionTimeout <= 0l )
+		{
+			sessionTimeout = 0l;
+		}
+		ViewingSessionUtil.defaultConfig.setSessionTimeout( sessionTimeout );
+		
+		float sessionCountThresholdFactor = getFloatInitProp( "viewer.session.loadFactor" ); //$NON-NLS-1$
+		if ( sessionCountThresholdFactor >= 0.1f )
+		{
+			ViewingSessionUtil.defaultConfig
+					.setSessionCountThresholdFactor( sessionCountThresholdFactor );
+		}
+
+		int minimumSessionCountThreshold = getIntegerInitProp( "viewer.session.minimumThreshold" ); //$NON-NLS-1$
+		if ( minimumSessionCountThreshold > 0 )
+		{
+			ViewingSessionUtil.defaultConfig
+					.setMinimumSessionCountThreshold( minimumSessionCountThreshold );
+		}
+
+		int maximumSessionCount = getIntegerInitProp( "viewer.session.maximumSessionCount" ); //$NON-NLS-1$
+		if ( maximumSessionCount >= 0 )
+		{
+			ViewingSessionUtil.defaultConfig
+					.setMaximumSessionCount( maximumSessionCount );
+		}
+
+		int maximumSessionCountPolicy = getIntegerInitProp( "viewer.session.maximumSessionCountPolicy" ); //$NON-NLS-1$
+		switch ( maximumSessionCountPolicy )
+		{
+			case 0 :
+				ViewingSessionUtil.defaultConfig
+						.setMaxSessionCountPolicy( ViewingSessionPolicy.SESSION_POLICY_DISCARD_NEW );
+				break;
+			case 1 :
+				ViewingSessionUtil.defaultConfig
+						.setMaxSessionCountPolicy( ViewingSessionPolicy.SESSION_POLICY_DISCARD_OLDEST );
+				break;
+		}
 	}
 
 	/**
@@ -1690,6 +1640,17 @@ public class ParameterAccessor {
 		return imageName != null && imageName.length() > 0;
 	}
 
+	/**
+	 * Returns whether the current servlet is the given servlet.
+	 * @param request request
+ 	 * @param servlet servlet to check
+	 * @return true if the servlet path matches
+	 */
+	public static boolean isServlet(HttpServletRequest request, String servlet)
+	{
+		return servlet.equalsIgnoreCase( request.getServletPath( ) );
+	}
+	
 	/**
 	 * Check whether the request is to get reportlet.
 	 * 
@@ -1857,60 +1818,7 @@ public class ParameterAccessor {
 		}
 
 		return true;
-	}
-
-	/**
-	 * Generate document name according to report name.
-	 * 
-	 * @param request
-	 * @return document name.
-	 */
-
-	protected static String generateDocumentFromReport(
-			HttpServletRequest request) {
-		String fileName = getReport(request, null);
-		if (fileName.indexOf('.') >= 0) {
-			fileName = fileName.substring(0, fileName.lastIndexOf('.'));
-		}
-
-		// Get viewer id
-		String id = getParameter(request, PARAM_ID);
-		if (id != null && id.length() > 0) {
-			fileName = fileName + id + SUFFIX_REPORT_DOCUMENT;
-		} else {
-			fileName = fileName + SUFFIX_REPORT_DOCUMENT;
-		}
-
-		return fileName;
-	}
-
-	/**
-	 * Generate document name according to report name.
-	 * 
-	 * @param reportName
-	 * @param id
-	 * @return document name.
-	 */
-
-	protected static String generateDocumentFromReport(String reportName,
-			String id) {
-		if (reportName == null)
-			return null;
-
-		String documentFile = reportName;
-		if (reportName.indexOf('.') >= 0) {
-			documentFile = reportName.substring(0, reportName.lastIndexOf('.'));
-		}
-
-		// Get viewer id
-		if (id != null && id.length() > 0) {
-			documentFile = documentFile + id + SUFFIX_REPORT_DOCUMENT;
-		} else {
-			documentFile = documentFile + SUFFIX_REPORT_DOCUMENT;
-		}
-
-		return documentFile;
-	}
+	}	
 
 	/**
 	 * Gets a named parameter from the http request.
@@ -2375,6 +2283,72 @@ public class ParameterAccessor {
 	}
 
 	/**
+	 * Returns the property by name from initialized properties map
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public static int getIntegerInitProp(String key) {
+		String value = getInitProp(key);
+		if ( value == null )
+		{
+			return 0;
+		}
+		try
+		{
+			return Integer.parseInt(value);
+		}
+		catch ( NumberFormatException e )
+		{
+			return 0;
+		}
+	}
+	
+	/**
+	 * Returns the property by name from initialized properties map
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public static long getLongInitProp(String key) {
+		String value = getInitProp(key);
+		if ( value == null )
+		{
+			return 0l;
+		}
+		try
+		{
+			return Long.parseLong(value);
+		}
+		catch ( NumberFormatException e )
+		{
+			return 0l;
+		}
+	}
+	
+	/**
+	 * Returns the property by name from initialized properties map
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public static float getFloatInitProp(String key) {
+		String value = getInitProp(key);
+		if ( value == null )
+		{
+			return 0.0f;
+		}
+		try
+		{
+			return Float.parseFloat(value);
+		}
+		catch ( NumberFormatException e )
+		{
+			return 0.0f;
+		}
+	}
+	
+	/**
 	 * Returns the extension name according to format
 	 * 
 	 * @param format
@@ -2592,45 +2566,7 @@ public class ParameterAccessor {
 		return true;
 	}
 
-	/**
-	 * Returns the temp image folder with session id
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public static String getImageTempFolder(HttpServletRequest request) {
-		String tempFolder = imageFolder;
 
-		// get session id
-		String sessionId = request.getSession().getId();
-		if (sessionId != null)
-			tempFolder = tempFolder + File.separator
-					+ (PREFIX_SUB_IMAGE_FOLDER + sessionId);
-
-		return tempFolder;
-	}
-
-	/**
-	 * Clear the temp files when session is expired
-	 * 
-	 * @param sessionId
-	 */
-	public static void clearSessionFiles(String sessionId) {
-		if (sessionId == null)
-			return;
-
-		// clear document folder
-		String tempFolder = documentFolder + File.separator
-				+ (PREFIX_SUB_DOC_FOLDER + sessionId);
-		File file = new File(tempFolder);
-		deleteDir(file);
-
-		// clear image folder
-		tempFolder = imageFolder + File.separator
-				+ (PREFIX_SUB_IMAGE_FOLDER + sessionId);
-		file = new File(tempFolder);
-		deleteDir(file);
-	}
 
 	/**
 	 * Returns the overflow mode
@@ -2710,19 +2646,6 @@ public class ParameterAccessor {
 			return null;
 
 		return Integer.valueOf(dpi);
-	}
-
-	/**
-	 * Set isCleanSessionFiles
-	 * 
-	 * @param request
-	 */
-	public static void setClean(HttpServletRequest request) {
-		String isClean = getParameter(request, PARAM_CLEAN_SESSION);
-		if ("false".equalsIgnoreCase(isClean)) //$NON-NLS-1$
-			isCleanSessionFiles = false;
-		else if ("true".equalsIgnoreCase(isClean)) //$NON-NLS-1$
-			isCleanSessionFiles = true;
 	}
 
 	/**
@@ -3154,5 +3077,5 @@ public class ParameterAccessor {
 		}
 	
 		return fileName;
-	}	
+	}
 }
