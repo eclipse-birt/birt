@@ -45,8 +45,6 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.SimpleListValidator;
 import org.eclipse.birt.report.model.api.validators.StructureListValidator;
 import org.eclipse.birt.report.model.api.validators.UnsupportedElementValidator;
-import org.eclipse.birt.report.model.command.ContentElementInfo;
-import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -940,7 +938,7 @@ public abstract class DesignElement
 		}
 
 		return prop.getDefault( );
-	}	
+	}
 
 	/**
 	 * Gets the search strategy for this element.
@@ -2171,6 +2169,22 @@ public abstract class DesignElement
 	}
 
 	/**
+	 * Gets the element selector list.
+	 * 
+	 * @return the selector list of the element.
+	 */
+	public List<String> getElementSelectors( )
+	{
+		List<String> list = new ArrayList<String>( );
+
+		String selector = ( (ElementDefn) cachedDefn ).getSelector( );
+		if ( selector != null )
+			list.add( selector );
+
+		return list;
+	}
+
+	/**
 	 * Checks all structures in the specific property whose type is structure
 	 * list property type. This method is used in command. If any error is
 	 * found, the exception will be thrown.
@@ -2671,11 +2685,12 @@ public abstract class DesignElement
 	 * Returns the display label of this element. To get the display label of an
 	 * element, the following step should be done:
 	 * <ul>
-	 * <li>The localized display name of this element if set</li> <li>The
-	 * display property value of this element if set</li> <li>The name of
-	 * element if set</li> <li>The localized display name of this kind of
-	 * element, which is defined in metadata, if set</li> <li>The name of this
-	 * kind of element, which is also defined in metadata </li>
+	 * <li>The localized display name of this element if set</li>
+	 * <li>The display property value of this element if set</li>
+	 * <li>The name of element if set</li>
+	 * <li>The localized display name of this kind of element, which is defined
+	 * in metadata, if set</li>
+	 * <li>The name of this kind of element, which is also defined in metadata</li>
 	 * </ul>
 	 * <p>
 	 * User can also decide at which detail level the display label should be

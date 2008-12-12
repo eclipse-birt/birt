@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.elements.strategy;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -18,7 +20,6 @@ import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.TableColumn;
-import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
@@ -216,33 +217,17 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 	{
 		assert element instanceof Cell;
 
-		TableRow row = (TableRow) element.getContainer( );
-		if ( row == null )
-			return null;
+		List<String> list = element.getElementSelectors( );
 
-		DesignElement rowContainer = row.getContainer( );
-		if ( rowContainer == null )
-			return null;
-
-		String selector = "cell"; //$NON-NLS-1$
-		if ( rowContainer instanceof TableItem )
+		for ( int i = 0; i < list.size( ); i++ )
 		{
-			selector = "table-" //$NON-NLS-1$
-					+ rowContainer.getDefn( ).getSlot(
-							row.getContainerInfo( ).getSlotID( ) ).getName( )
-					+ "-" + selector; //$NON-NLS-1$
+			String selector = list.get( i );
+			Object value = getPropertyFromSelector( module, prop, selector );
+			if ( value != null )
+				return value;
 		}
-		else if ( rowContainer instanceof TableGroup )
-		{
-			selector = "table-group-" //$NON-NLS-1$
-					+ rowContainer.getDefn( ).getSlot(
-							row.getContainerInfo( ).getSlotID( ) ).getName( )
-					+ "-" + selector; //$NON-NLS-1$
-		}
-		else
-			return null;
 
-		return getPropertyFromSelector( module, prop, selector );
+		return null;
 	}
 
 	/**

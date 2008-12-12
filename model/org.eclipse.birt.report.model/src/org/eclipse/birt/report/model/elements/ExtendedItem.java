@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
 import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
-import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.extension.IStyleDeclaration;
 import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -35,9 +35,9 @@ import org.eclipse.birt.report.model.extension.DummyPeerExtensibilityProvider;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.extension.PeerExtensibilityProvider;
 import org.eclipse.birt.report.model.extension.PeerExtensibilityProviderFactory;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.ContentIterator;
 
 /**
@@ -45,8 +45,8 @@ import org.eclipse.birt.report.model.util.ContentIterator;
  * allows third-party developers to create report items that work within BIRT
  * virtually identically to BIRT-defined items. Extended items can use the
  * user-properties discussed above to define properties, can use a
- * ��black-box�� approach, or a combination of the two. Extended items
- * are defined in a Java plug-in that contributes behavior to the Eclipse Report
+ * ��black-box�� approach, or a combination of the two. Extended items are
+ * defined in a Java plug-in that contributes behavior to the Eclipse Report
  * Developer, to the Factory and to the Presentation Engine. The extended item
  * can fully participate with the other BIRT extension facilities, meaning that
  * report developers can additional properties and scripts to an extended item,
@@ -741,6 +741,45 @@ public class ExtendedItem extends ReportItem
 		clonedElement.provider.copyFromWithNonElementType( provider );
 
 		return clonedElement;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getElementSelector()
+	 */
+	public List<String> getElementSelectors( )
+	{
+		List<String> list = new ArrayList<String>( );
+
+		String selector = null;
+
+		// get extension element definition of the extended item.
+
+		ElementDefn elementDefn = getExtDefn( );
+		if ( elementDefn != null )
+			selector = elementDefn.getSelector( );
+
+		if ( selector != null )
+			list.add( selector );
+
+		List tmpSelectors = getReportItemDefinedSelectors( getRoot( ) );
+		for ( int i = 0; i < tmpSelectors.size( ); i++ )
+		{
+			Object styleObject = tmpSelectors.get( i );
+
+			if ( styleObject instanceof IStyleDeclaration )
+				selector = ( (IStyleDeclaration) styleObject ).getName( );
+			else
+				selector = (String) styleObject;
+
+			if ( selector != null )
+				list.add( selector );
+
+		}
+
+		return list;
 	}
 
 }

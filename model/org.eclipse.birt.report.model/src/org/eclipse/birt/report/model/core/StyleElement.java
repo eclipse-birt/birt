@@ -19,8 +19,6 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.NameEvent;
 import org.eclipse.birt.report.model.api.command.StyleEvent;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
-import org.eclipse.birt.report.model.api.extension.IStyleDeclaration;
-import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
@@ -64,7 +62,9 @@ public abstract class StyleElement extends ReferenceableElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.ReferenceableElement#setDeliveryPath(org.eclipse.birt.report.model.activity.NotificationEvent)
+	 * @see
+	 * org.eclipse.birt.report.model.core.ReferenceableElement#setDeliveryPath
+	 * (org.eclipse.birt.report.model.activity.NotificationEvent)
 	 */
 
 	protected void adjustDeliveryPath( NotificationEvent ev )
@@ -150,8 +150,10 @@ public abstract class StyleElement extends ReferenceableElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.ReferenceableElement#broadcastToClients(org.eclipse.birt.report.model.activity.NotificationEvent,
-	 *      org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.ReferenceableElement#broadcastToClients
+	 * (org.eclipse.birt.report.model.activity.NotificationEvent,
+	 * org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
 	protected void broadcastToClients( NotificationEvent ev, Module module )
@@ -183,7 +185,7 @@ public abstract class StyleElement extends ReferenceableElement
 		{
 			return;
 		}
-		
+
 		DesignElement tmpContainer = getContainer( );
 		List modules = new ArrayList( );
 
@@ -284,8 +286,21 @@ public abstract class StyleElement extends ReferenceableElement
 			// Broadcast the element which is selected by this style
 			event = new StyleEvent( element );
 			event.setDeliveryPath( NotificationEvent.STYLE_CLIENT );
-			String selector = getMatchedElementSelector( element, selectorName,
-					module );
+
+			List<String> list = element.getElementSelectors( );
+
+			String selector = null;
+
+			for ( int i = 0; i < list.size( ); i++ )
+			{
+				String tmpSelector = list.get( i );
+				if ( tmpSelector.equalsIgnoreCase( selectorName ) )
+				{
+					selector = tmpSelector;
+					break;
+				}
+			}
+
 			if ( selector != null )
 			{
 				element.broadcast( event, module );
@@ -315,72 +330,6 @@ public abstract class StyleElement extends ReferenceableElement
 						selectorName );
 			}
 		}
-	}
-
-	/**
-	 * Returns the element selector if its selector matches the given
-	 * <code>selectorName</code>.
-	 * 
-	 * @param element
-	 *            the design element
-	 * @param selectorName
-	 *            the name to match
-	 * @return the matched selector name or null if not matched.
-	 */
-
-	private String getMatchedElementSelector( DesignElement element,
-			String selectorName, Module module )
-	{
-		String selector = null;
-
-		// get extension defined style
-
-		if ( element instanceof ExtendedItem )
-		{
-			String tmpSelector = null;
-
-			// get extension element definition of the extended item.
-
-			ElementDefn elementDefn = ( (ExtendedItem) element ).getExtDefn( );
-			if ( elementDefn != null )
-				tmpSelector = elementDefn.getSelector( );
-
-			if ( tmpSelector != null
-					&& tmpSelector.equalsIgnoreCase( selectorName ) )
-				selector = tmpSelector;
-			else
-			{
-				// get IReportItem.getPredefinedStyles()
-
-				List tmpSelectors = ( (ExtendedItem) element )
-						.getReportItemDefinedSelectors( module );
-				for ( int i = 0; i < tmpSelectors.size( ); i++ )
-				{
-					Object styleObject = tmpSelectors.get( i );
-
-					if ( styleObject instanceof IStyleDeclaration )
-						tmpSelector = ( (IStyleDeclaration) styleObject )
-								.getName( );
-					else
-						tmpSelector = (String) styleObject;
-					if ( selectorName.equalsIgnoreCase( tmpSelector ) )
-					{
-						selector = tmpSelector;
-						break;
-					}
-				}
-			}
-		}
-
-		// get ROM defined style
-
-		if ( selector == null )
-			selector = ( (ElementDefn) element.getDefn( ) ).getSelector( );
-
-		if ( selector != null && selector.equalsIgnoreCase( selectorName ) )
-			return selector;
-
-		return null;
 	}
 
 	private boolean checkSlotSelector( DesignElement element,
