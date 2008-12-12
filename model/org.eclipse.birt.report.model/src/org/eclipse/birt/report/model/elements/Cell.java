@@ -11,10 +11,15 @@
 
 package org.eclipse.birt.report.model.elements;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.ContainerSlot;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
@@ -62,7 +67,9 @@ public class Cell extends StyledElement implements ICellModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * .report.model.elements.ElementVisitor)
 	 */
 
 	public void apply( ElementVisitor visitor )
@@ -152,6 +159,50 @@ public class Cell extends StyledElement implements ICellModel
 	public int getColumn( Module module )
 	{
 		return getIntProperty( module, COLUMN_PROP );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getElementSelector()
+	 */
+	public List<String> getElementSelectors( )
+	{
+
+		TableRow row = (TableRow) getContainer( );
+		if ( row == null )
+			return Collections.EMPTY_LIST;
+
+		DesignElement rowContainer = row.getContainer( );
+		if ( rowContainer == null )
+			return Collections.EMPTY_LIST;
+
+		String cellSelector = null;
+		if ( rowContainer instanceof TableItem )
+		{
+			cellSelector = "table-" //$NON-NLS-1$
+					+ rowContainer.getDefn( ).getSlot(
+							row.getContainerInfo( ).getSlotID( ) ).getName( )
+					+ "-cell"; //$NON-NLS-1$
+		}
+		else if ( rowContainer instanceof TableGroup )
+		{
+			cellSelector = "table-group-" //$NON-NLS-1$
+					+ rowContainer.getDefn( ).getSlot(
+							row.getContainerInfo( ).getSlotID( ) ).getName( )
+					+ "-cell"; //$NON-NLS-1$
+		}
+
+		if ( cellSelector != null )
+		{
+			List<String> list = new ArrayList<String>( );
+			list.add( cellSelector );
+			return list;
+		}
+
+		return Collections.EMPTY_LIST;
+
 	}
 
 }

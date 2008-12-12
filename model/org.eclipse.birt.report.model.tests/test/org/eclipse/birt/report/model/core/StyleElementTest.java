@@ -17,7 +17,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
@@ -29,8 +28,10 @@ import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.ExtendsEvent;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.Listener;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
@@ -101,7 +102,6 @@ public class StyleElementTest extends BaseTestCase
 	StyleHandle tableSelector = null;
 	StyleHandle listSelector = null;
 	SessionHandle sessionHandle = null;
-	ReportDesignHandle designHandle = null;
 
 	/*
 	 * @see TestCase#setUp()
@@ -110,7 +110,8 @@ public class StyleElementTest extends BaseTestCase
 	{
 		super.setUp( );
 
-		SessionHandle sessionHandle = new DesignEngine( new DesignConfig( )).newSessionHandle( (ULocale) null );
+		SessionHandle sessionHandle = new DesignEngine( new DesignConfig( ) )
+				.newSessionHandle( (ULocale) null );
 		designHandle = sessionHandle.createDesign( );
 
 		DesignElementHandle handle = designHandle.getElementFactory( )
@@ -148,19 +149,19 @@ public class StyleElementTest extends BaseTestCase
 		label1.setStyle( style );
 		label2.setStyle( style );
 		assertEquals( 2, style.getClientList( ).size( ) );
-		assertEquals( label1,
-				( (BackRef) style.getClientList( ).get( 0 ) ).getElement( ) );
-		assertEquals( label2,
-				( (BackRef) style.getClientList( ).get( 1 ) ).getElement( ) );
+		assertEquals( label1, ( (BackRef) style.getClientList( ).get( 0 ) )
+				.getElement( ) );
+		assertEquals( label2, ( (BackRef) style.getClientList( ).get( 1 ) )
+				.getElement( ) );
 
 		style.dropClient( label1 );
 		assertEquals( 1, style.getClientList( ).size( ) );
 		assertFalse( style.getClientList( ).contains( label1 ) );
 		assertEquals( style, label1.getStyle( ) );
 
-		style.addClient( label1, (String)null );
-		assertEquals( label1,
-				( (BackRef) style.getClientList( ).get( 1 ) ).getElement( ) );
+		style.addClient( label1, (String) null );
+		assertEquals( label1, ( (BackRef) style.getClientList( ).get( 1 ) )
+				.getElement( ) );
 
 	}
 
@@ -175,8 +176,8 @@ public class StyleElementTest extends BaseTestCase
 	 * Excepted:
 	 * <ul>
 	 * <li>contain listener</li>
-	 * <li>the listener registered to style is notified, and those registered
-	 * to its clients are also notified.</li>
+	 * <li>the listener registered to style is notified, and those registered to
+	 * its clients are also notified.</li>
 	 * </ul>
 	 */
 	public void testBroadcast( )
@@ -338,7 +339,8 @@ public class StyleElementTest extends BaseTestCase
 			NameException
 	{
 
-		sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle( (ULocale) null );
+		sessionHandle = new DesignEngine( new DesignConfig( ) )
+				.newSessionHandle( (ULocale) null );
 		designHandle = sessionHandle.createDesign( );
 
 		tableSelector = designHandle.getElementFactory( ).newStyle( "table" ); //$NON-NLS-1$
@@ -572,6 +574,60 @@ public class StyleElementTest extends BaseTestCase
 	}
 
 	/**
+	 * Tests broadcast when predefined style of the table header cell is
+	 * modified.
+	 * 
+	 * @throws Exception
+	 */
+	public void testBroadcastPredefinedStyle( ) throws Exception
+	{
+		openDesign( "BroadcastPredefinedStyleTest.xml" ); //$NON-NLS-1$
+
+		DesignElementHandle style = designHandle
+				.findStyle( "table-header-cell" );//$NON-NLS-1$
+
+		DesignElementHandle cellInHeader = designHandle.getElementByID( 10 );
+		DesignElementHandle cellInGroupHeader = designHandle
+				.getElementByID( 125 );
+
+		MyActionListener styleListener = new MyActionListener( );
+		MyActionListener clientListener1 = new MyActionListener( );
+		MyActionListener clientListener2 = new MyActionListener( );
+
+		style.addListener( styleListener );
+		cellInHeader.addListener( clientListener1 );
+		cellInGroupHeader.addListener( clientListener2 );
+
+		style.setProperty( IStyleModel.FONT_STYLE_PROP,
+				DesignChoiceConstants.FONT_STYLE_ITALIC );
+
+		// the style property was changed, the style and the cell in table
+		// header should be notified.
+		assertTrue( styleListener.done );
+		assertEquals( NotificationEvent.DIRECT, styleListener.path );
+
+		assertTrue( clientListener1.done );
+		assertEquals( NotificationEvent.STYLE_CLIENT, clientListener1.path );
+
+		// the style property was changed,the cell in table group
+		// header should not be notified.
+		assertFalse( clientListener2.done );
+
+		style = designHandle.findStyle( "table-group-header-cell" );//$NON-NLS-1$
+		style.setProperty( IStyleModel.FONT_STYLE_PROP,
+				DesignChoiceConstants.FONT_STYLE_ITALIC );
+
+		// the style property was changed, the style and the cell in table group
+		// header should be notified.
+		assertTrue( styleListener.done );
+		assertEquals( NotificationEvent.DIRECT, styleListener.path );
+
+		assertTrue( clientListener2.done );
+		assertEquals( NotificationEvent.STYLE_CLIENT, clientListener2.path );
+
+	}
+
+	/**
 	 * Mock up the listener.
 	 */
 
@@ -584,8 +640,10 @@ public class StyleElementTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt.report.model.core.DesignElement,
-		 *      org.eclipse.birt.report.model.activity.NotificationEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
+		 * .report.model.core.DesignElement,
+		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
 		public void elementChanged( DesignElementHandle focus,
 				NotificationEvent ev )

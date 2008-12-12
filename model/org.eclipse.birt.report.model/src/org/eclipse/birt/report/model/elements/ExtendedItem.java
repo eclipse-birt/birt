@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
 import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
+import org.eclipse.birt.report.model.api.extension.IStyleDeclaration;
 import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -34,6 +35,7 @@ import org.eclipse.birt.report.model.extension.DummyPeerExtensibilityProvider;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.extension.PeerExtensibilityProvider;
 import org.eclipse.birt.report.model.extension.PeerExtensibilityProviderFactory;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.util.ContentIterator;
@@ -740,4 +742,44 @@ public class ExtendedItem extends ReportItem
 
 		return clonedElement;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getElementSelector()
+	 */
+	public List<String> getElementSelectors( )
+	{
+		List<String> list = new ArrayList<String>( );
+
+		String selector = null;
+
+		// get extension element definition of the extended item.
+
+		ElementDefn elementDefn = getExtDefn( );
+		if ( elementDefn != null )
+			selector = elementDefn.getSelector( );
+
+		if ( selector != null )
+			list.add( selector );
+
+		List tmpSelectors = getReportItemDefinedSelectors( getRoot( ) );
+		for ( int i = 0; i < tmpSelectors.size( ); i++ )
+		{
+			Object styleObject = tmpSelectors.get( i );
+
+			if ( styleObject instanceof IStyleDeclaration )
+				selector = ( (IStyleDeclaration) styleObject ).getName( );
+			else
+				selector = (String) styleObject;
+
+			if ( selector != null )
+				list.add( selector );
+
+		}
+
+		return list;
+	}
+
 }

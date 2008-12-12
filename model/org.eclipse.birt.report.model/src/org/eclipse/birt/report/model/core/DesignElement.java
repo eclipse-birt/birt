@@ -2169,6 +2169,22 @@ public abstract class DesignElement
 	}
 
 	/**
+	 * Gets the element selector list.
+	 * 
+	 * @return the selector list of the element.
+	 */
+	public List<String> getElementSelectors( )
+	{
+		List<String> list = new ArrayList<String>( );
+
+		String selector = ( (ElementDefn) cachedDefn ).getSelector( );
+		if ( selector != null )
+			list.add( selector );
+
+		return list;
+	}
+
+	/**
 	 * Checks all structures in the specific property whose type is structure
 	 * list property type. This method is used in command. If any error is
 	 * found, the exception will be thrown.
