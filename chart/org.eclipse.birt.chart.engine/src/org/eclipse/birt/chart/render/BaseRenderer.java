@@ -1801,6 +1801,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			{
 				itm.reuse( b.getLabel( ), dWrapping );
 			}
+			itm.dispose( );
 		}
 		renderLabel( ipr, b, StructureSource.createTitle( b ) );
 
