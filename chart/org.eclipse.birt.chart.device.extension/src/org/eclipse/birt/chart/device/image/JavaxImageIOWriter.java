@@ -161,9 +161,11 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			String coords = shape2polyCoords( sa.getShape( ) );
 			if ( coords != null )
 			{
-				HTMLTag tag = new HTMLTag( "AREA" ); //$NON-NLS-1$
+				HTMLTag tag = new HTMLTag( "area" ); //$NON-NLS-1$
 				tag.addAttribute( HTMLAttribute.SHAPE, POLY_SHAPE );
 				tag.addAttribute( HTMLAttribute.COORDS, coords );
+				// #258627 "area" must has a "alt" value.
+				tag.addAttribute( HTMLAttribute.ALT, "" ); //$NON-NLS-1$
 
 				boolean changed = false;
 				changed |= processOnFocus( sa, tag );
@@ -205,8 +207,13 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 						// only click event uses href to redirect
 						tag.addAttribute( HTMLAttribute.HREF,
 								eval2HTML( uv.getBaseUrl( ) ) );
-						tag.addAttribute( HTMLAttribute.TARGET,
-								eval2HTML( uv.getTarget( ) ) );
+						// #258627: "target" can't be a empty String. You
+						// shouldn't output target when it's empty.
+						if ( uv.getTarget( ) != null )
+						{
+							tag.addAttribute( HTMLAttribute.TARGET,
+									eval2HTML( uv.getTarget( ) ) );
+						}
 					}
 					else
 					{
