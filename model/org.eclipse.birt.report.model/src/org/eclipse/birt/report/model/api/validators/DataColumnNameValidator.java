@@ -127,7 +127,7 @@ public class DataColumnNameValidator extends AbstractElementValidator
 	private static boolean hasCorrespondingColumnBinding( Module module,
 			DesignElement target, String columnBindingName )
 	{
-		if ( isTemplateParameterDefinition( target ) )
+		if ( isInTemplateParameterDefinitionSlot( target ) )
 			return true;
 
 		List columns = null;
