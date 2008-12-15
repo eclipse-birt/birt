@@ -2932,4 +2932,17 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	}
 
+	/**
+	 * Checks whether the given element is contained by one of template
+	 * parameter definition.
+	 * 
+	 * @return <code>true</code> if the element is in the template parameter
+	 *         definition. Otherwise, <code>false</code>.
+	 */
+	public boolean isInTemplateParameter( )
+	{
+		DesignElement element = getElement( );
+
+		return element.isInTemplateParameterDefinitionSlot( );
+	}
 }

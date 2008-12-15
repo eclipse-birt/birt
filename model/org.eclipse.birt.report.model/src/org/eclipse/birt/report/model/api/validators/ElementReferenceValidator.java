@@ -73,7 +73,7 @@ public class ElementReferenceValidator extends AbstractPropertyValidator
 
 	public List validate( Module module, DesignElement element, String propName )
 	{
-		boolean flag = isTemplateParameterDefinition( element );
+		boolean flag = isInTemplateParameterDefinitionSlot( element );
 		if ( flag )
 			return Collections.EMPTY_LIST;
 

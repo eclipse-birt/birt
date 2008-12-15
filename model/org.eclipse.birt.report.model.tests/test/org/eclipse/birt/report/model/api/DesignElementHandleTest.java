@@ -1628,6 +1628,23 @@ public class DesignElementHandleTest extends BaseTestCase
 		TableHandle tabl1 = (TableHandle) designHandle.findElement( "My table" ); //$NON-NLS-1$
 		assertTrue( tabl1.isDirectionRTL( ) );
 	}
+	
+
+	/**
+	 * Tests if the report item locates in template parameter definition.
+	 * 
+	 * @throws Exception
+	 */
+	public void testInTemplateParameterDefinition( ) throws Exception
+	{
+
+		openDesign( "DesignElementHandleTest_2.xml" );//$NON-NLS-1$
+
+		DesignElementHandle table = designHandle.getElementByID( 41 );
+		assertTrue( table.isInTemplateParameter( ) );
+
+	}
+
 
 	/**
 	 * The listener modifies the <code>listeners</code> of a design element.

@@ -50,6 +50,7 @@ import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITemplateParameterDefinitionModel;
 import org.eclipse.birt.report.model.elements.strategy.CopyForPastePolicy;
 import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
@@ -3589,5 +3590,34 @@ public abstract class DesignElement
 		else
 			encryptionMap.put( propDefn.getName( ), id );
 
+	}
+
+	/**
+	 * Checks whether the given element is contained by one of template
+	 * parameter definition.
+	 * 
+	 * @return <code>true</code> if the element is in the template parameter
+	 *         definition. Otherwise, <code>false</code>.
+	 */
+	public boolean isInTemplateParameterDefinitionSlot( )
+	{
+
+		DesignElement tmpContainer = getContainer( );
+		ContainerContext containerInfo = null;
+
+		while ( tmpContainer != null && !( tmpContainer instanceof Module ) )
+		{
+			containerInfo = tmpContainer.getContainerInfo( );
+			tmpContainer = tmpContainer.getContainer( );
+		}
+
+		int slot = containerInfo == null
+				? IDesignElementModel.NO_SLOT
+				: containerInfo.getSlotID( );
+
+		if ( IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT == slot )
+			return true;
+
+		return false;
 	}
 }
