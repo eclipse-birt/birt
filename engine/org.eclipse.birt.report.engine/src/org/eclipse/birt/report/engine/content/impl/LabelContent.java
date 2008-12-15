@@ -31,10 +31,11 @@ public class LabelContent extends TextContent implements ILabelContent
 	LabelContent(ILabelContent label)
 	{
 		super(label);
-		this.helpText = label.getHelpText( );
-		this.labelTextKey = label.getHelpKey( );
-		this.helpTextKey = label.getHelpKey( );
-		this.labelText = label.getLabelText( );
+		LabelContent originalLabel = (LabelContent)label;
+		this.helpText = originalLabel.helpText;
+		this.labelTextKey = originalLabel.labelTextKey;
+		this.helpTextKey = originalLabel.helpTextKey;
+		this.labelText = originalLabel.labelText;
 	}
 
 	public int getContentType( )
