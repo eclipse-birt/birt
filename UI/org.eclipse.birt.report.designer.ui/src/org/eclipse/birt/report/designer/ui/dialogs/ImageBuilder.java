@@ -216,7 +216,8 @@ public class ImageBuilder extends BaseDialog
 	{
 		if ( inputImage == null )
 		{
-			inputImage = DesignElementFactory.getInstance( getModuleHandle( ) ).newImage( null );
+			inputImage = DesignElementFactory.getInstance( getModuleHandle( ) )
+					.newImage( null );
 			setOkButtonText( DLG_INSERT_BUTTON_MSG );
 		}
 
@@ -604,8 +605,17 @@ public class ImageBuilder extends BaseDialog
 
 		try
 		{
-			Image image = ImageManager.getInstance( )
-					.loadImage( inputImage.getModuleHandle( ), uri );
+			Image image;
+			if ( selectedType == URI_TYPE )
+			{
+				image = ImageManager.getInstance( )
+						.getURIImage( inputImage.getModuleHandle( ), uri );
+			}
+			else
+			{
+				image = ImageManager.getInstance( )
+						.loadImage( inputImage.getModuleHandle( ), uri );
+			}
 			previewCanvas.loadImage( image );
 		}
 		catch ( Exception e )
@@ -691,7 +701,7 @@ public class ImageBuilder extends BaseDialog
 	public void setInput( Object input )
 	{
 		assert input instanceof ImageHandle;
-		
+
 		inputImage = (ImageHandle) input;
 		if ( DesignChoiceConstants.IMAGE_REF_TYPE_NONE.equals( inputImage.getSource( ) ) )
 		{
