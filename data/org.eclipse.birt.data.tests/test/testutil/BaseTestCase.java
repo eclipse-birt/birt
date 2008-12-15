@@ -41,6 +41,11 @@ abstract public class BaseTestCase extends TestCase
 	private static final String OUTPUT_FOLDER = "DtETestTempDataoutput";
 	private static final String INPUT_FOLDER = "input";
 	private static final String GOLDEN_FOLDER = "golden";
+	
+	{
+		deleteFile( getOutputFolder() );
+	}
+	
 	//private String classFolder;
 
 	/*
@@ -87,15 +92,15 @@ abstract public class BaseTestCase extends TestCase
 	}
 	
 	/** return output folder */
-	protected File getOutputFolder()
+	protected static File getOutputFolder()
 	{
 		return new File( new File(System.getProperty("java.io.tmpdir")),
 				OUTPUT_FOLDER );
 	}
 
-	protected String getTempDir()
+	protected static String getTempDir()
 	{
-		return this.getOutputFolder( ).getAbsolutePath( ) + File.separator + "DataEngineSessionTemp" + File.separator;
+		return getOutputFolder( ).getAbsolutePath( ) + File.separator + "DataEngineSessionTemp" + File.separator;
 	}
 	/** return golder folder *//*
 	private File getGoldenFolder( )
@@ -263,6 +268,20 @@ abstract public class BaseTestCase extends TestCase
 		System.out.println(str);
 		if ( testOut != null )
 			testOut.println( str );
+	}
+	
+	public static void deleteFile ( File f )
+	{
+		if ( f.isDirectory() )
+		{
+			String[] children = f.list();
+			for ( String child : children )
+			{
+				deleteFile( new File( f, child ));
+			}
+		}
+		f.delete();
+		f.deleteOnExit();
 	}
 	
 }

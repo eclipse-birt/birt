@@ -54,10 +54,14 @@ public abstract class RDTestCase extends APITestCase
 		super.setUp( );
 		
 		index++;
-		fileName = getOutputPath( ) + this.getName( ) + File.separator  + "RptDocumentTemp" + File.separator + "testData_" + index;
+		fileName = getOutputPath( ) + this.getClass().getSimpleName() + File.separator + this.getName( ) + File.separator  + "RptDocumentTemp" + File.separator + "testData_" + index;
 		index++;
-		fileName2 = getOutputPath( ) + this.getName( ) + File.separator + "RptDocumentTemp" + File.separator + "testData_" + index;
-
+		fileName2 = getOutputPath( )+ this.getClass().getSimpleName() + File.separator + this.getName( ) + File.separator + "RptDocumentTemp" + File.separator + "testData_" + index;
+		
+		//make sure these 2 files are fresh
+		deleteFile( new File( fileName ));
+		deleteFile( new File( fileName2 ));
+		
 		DataEngineContext deContext1 = newContext( DataEngineContext.MODE_GENERATION,
 				fileName,
 				fileName2 );
@@ -102,20 +106,6 @@ public abstract class RDTestCase extends APITestCase
 				e.printStackTrace();
 			}
 		}
-		if ( fileName != null )
-		{
-			File file = new File( fileName );
-			if( !file.delete( ))
-				file.deleteOnExit( );
-		}
-
-		if ( fileName2 != null )
-		{
-			File file = new File( fileName2 );
-			file.delete( );
-			if( !file.delete( ))
-				file.deleteOnExit( );
-		}
 		if ( myGenDataEngine != null )
 		{
 			myGenDataEngine.shutdown( );
@@ -130,6 +120,15 @@ public abstract class RDTestCase extends APITestCase
 		{
 			myPreDataEngine2.shutdown( );
 			myPreDataEngine2 = null;
+		}
+		if ( fileName != null )
+		{
+			deleteFile( new File( fileName ));
+		}
+
+		if ( fileName2 != null )
+		{
+			deleteFile( new File( fileName ));
 		}
 	}
 	
@@ -279,4 +278,5 @@ public abstract class RDTestCase extends APITestCase
 			}
 	}
 	
+
 }
