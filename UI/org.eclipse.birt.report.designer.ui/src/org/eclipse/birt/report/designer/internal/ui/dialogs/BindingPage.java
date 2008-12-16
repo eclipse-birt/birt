@@ -117,7 +117,8 @@ public class BindingPage extends Composite implements Listener
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage#buildUI()
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * AttributePage#buildUI()
 	 */
 	protected void buildUI( )
 	{
@@ -362,7 +363,8 @@ public class BindingPage extends Composite implements Listener
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage#refreshValues(java.util.Set)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * AttributePage#refreshValues(java.util.Set)
 	 */
 	/*
 	 * protected void refreshValues( ) { // Binding Not support multi-selection.
@@ -376,8 +378,8 @@ public class BindingPage extends Composite implements Listener
 	 * ChoiceSetFactory.getDataSets( ); String[] newList = new
 	 * String[dataSets.length + 1]; newList[0] = NONE; System.arraycopy(
 	 * dataSets, 0, newList, 1, dataSets.length ); if ( !Arrays.asList( oldList
-	 * ).equals( Arrays.asList( newList ) ) ) { datasetCombo.setItems( newList );
-	 * datasetCombo.setText( selectedDataSetName ); } String dataSetName =
+	 * ).equals( Arrays.asList( newList ) ) ) { datasetCombo.setItems( newList
+	 * ); datasetCombo.setText( selectedDataSetName ); } String dataSetName =
 	 * getDataSetName( ); if ( !dataSetName.equals( selectedDataSetName ) ) {
 	 * datasetCombo.deselectAll( ); datasetCombo.setText( dataSetName ); }
 	 * bindingButton.setEnabled( !dataSetName.equals( NONE ) ); //
@@ -403,8 +405,10 @@ public class BindingPage extends Composite implements Listener
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.model.core.Listener#elementChanged(org.eclipse.birt.model.api.DesignElementHandle,
-	 *      org.eclipse.birt.model.activity.NotificationEvent)
+	 * @see
+	 * org.eclipse.birt.model.core.Listener#elementChanged(org.eclipse.birt.
+	 * model.api.DesignElementHandle,
+	 * org.eclipse.birt.model.activity.NotificationEvent)
 	 */
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
 	{
@@ -755,7 +759,7 @@ public class BindingPage extends Composite implements Listener
 						MessageDialog prefDialog = new MessageDialog( UIUtil.getDefaultShell( ),
 								Messages.getString( "dataBinding.title.changeDataSet" ),//$NON-NLS-1$
 								null,
-								Messages.getString( "dataBinding.message.changeDataSet" ),//$NON-NLS-1$
+								Messages.getString( "dataBinding.message.changeReference" ),//$NON-NLS-1$
 								MessageDialog.QUESTION,
 								new String[]{
 										Messages.getString( "AttributeView.dialg.Message.Yes" ),//$NON-NLS-1$
@@ -768,7 +772,7 @@ public class BindingPage extends Composite implements Listener
 					{
 						// Clear binding info
 						case 0 :
-							resetReference( value, true );
+							resetReference( value );
 							break;
 						// Cancel.
 						case 1 :
@@ -814,7 +818,7 @@ public class BindingPage extends Composite implements Listener
 		load( );
 	}
 
-	private void resetReference( Object value, boolean clearHistory )
+	private void resetReference( Object value )
 	{
 		try
 		{

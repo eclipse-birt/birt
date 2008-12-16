@@ -1447,7 +1447,7 @@ public class ColumnBindingDialog extends BaseDialog
 						MessageDialog prefDialog = new MessageDialog( UIUtil.getDefaultShell( ),
 								Messages.getString( "dataBinding.title.changeDataSet" ),//$NON-NLS-1$
 								null,
-								Messages.getString( "dataBinding.message.changeDataSet" ),//$NON-NLS-1$
+								Messages.getString( "dataBinding.message.changeReference" ),//$NON-NLS-1$
 								MessageDialog.QUESTION,
 								new String[]{
 										Messages.getString( "AttributeView.dialg.Message.Yes" ),//$NON-NLS-1$

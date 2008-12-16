@@ -190,7 +190,7 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 						MessageDialog prefDialog = new MessageDialog( UIUtil.getDefaultShell( ),
 								Messages.getString( "dataBinding.title.changeDataSet" ),//$NON-NLS-1$
 								null,
-								Messages.getString( "dataBinding.message.changeDataSet" ),//$NON-NLS-1$
+								Messages.getString( "dataBinding.message.changeReference" ),//$NON-NLS-1$
 								MessageDialog.QUESTION,
 								new String[]{
 										Messages.getString( "AttributeView.dialg.Message.Yes" ),//$NON-NLS-1$
@@ -202,7 +202,7 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 					{
 						// Clear binding info
 						case 0 :
-							resetReference( value, true );
+							resetReference( value );
 							break;
 						// Cancel.
 						case 1 :
@@ -340,7 +340,7 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 		section.load( );
 	}
 
-	private void resetReference( Object value, boolean clearHistory )
+	private void resetReference( Object value )
 	{
 		try
 		{
