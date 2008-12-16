@@ -761,8 +761,13 @@ public class TaskSelectType extends SimpleTask implements
 						}
 						if ( lastOrientation == null )
 						{
+							Orientation currentOrientation = this.orientation;
 							this.orientation = htTypes.get( sType )
 									.getDefaultOrientation( );
+							if ( currentOrientation != this.orientation )
+							{
+								this.rotateAxisTitle( (ChartWithAxes) chartModel );
+							}
 						}
 					}
 				}
