@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -353,7 +354,7 @@ public class ParameterAccessor
 	 * Parameter that indicates that the paths used in common URL parameters are
 	 * encoded.
 	 */
-	public static final String PARAM_ENCODED_PATHS = "__encodedPaths";
+	public static final String PARAM_ENCODED_PATHS = "__encodedPaths"; //$NON-NLS-1$
 
 	/**
 	 * Context parameter name that gives the default locale of the BIRT viewer.
@@ -1121,12 +1122,14 @@ public class ParameterAccessor
 			return filePath;
 		}
 
-		// if file path is an absolute file, return it directly
-		if ( !isRelativePath( filePath ) )
+		// if file path is a non-relative path, return it directly
+		if ( isUniversalPath( filePath ) )
+		{
 			return filePath;
+		}
 
 		// relative to working folder
-		if ( isRelativePath( workingFolder ) )
+		if ( !isUniversalPath( workingFolder ) )
 		{
 			filePath = getRealPath( workingFolder + "/" + filePath, request //$NON-NLS-1$
 			.getSession( )
@@ -1134,7 +1137,7 @@ public class ParameterAccessor
 		}
 		else
 		{
-			filePath = workingFolder + File.separator + filePath;
+			filePath = workingFolder + "/" + filePath; //$NON-NLS-1$
 		}
 
 		return filePath;
@@ -1482,7 +1485,7 @@ public class ParameterAccessor
 			webAppLocale = Locale.getDefault( );
 
 		webAppTimeZone = getTimeZoneFromString( context.getInitParameter( INIT_PARAM_TIMEZONE ) );
-		if ( "".equals( webAppTimeZone ) )
+		if ( "".equals( webAppTimeZone ) ) //$NON-NLS-1$
 		{
 			// use default
 			webAppTimeZone = null;
@@ -1827,7 +1830,8 @@ public class ParameterAccessor
 	}
 
 	/**
-	 * Checks if a given file name is a relative path.
+	 * Checks if a given file name is a relative path. This will only check for
+	 * local file path.
 	 * 
 	 * @param fileName
 	 *            The file name.
@@ -1843,6 +1847,40 @@ public class ParameterAccessor
 		}
 
 		return !new File( fileName ).isAbsolute( );
+	}
+
+	/**
+	 * Check if the given file path is a universal path, it could be either an
+	 * absolute file path or a valid url path. This will check for both local
+	 * file path and global url path like "http://", "jndi://", etc.
+	 * 
+	 * @param fileName
+	 * @return
+	 */
+	public static boolean isUniversalPath( String fileName )
+	{
+		if ( fileName == null )
+		{
+			return false;
+		}
+
+		File f = new File( fileName );
+
+		if ( f.isAbsolute( ) )
+		{
+			return true;
+		}
+
+		try
+		{
+			new URL( fileName );
+			return true;
+		}
+		catch ( MalformedURLException e )
+		{
+		}
+
+		return false;
 	}
 
 	/**
@@ -1891,6 +1929,8 @@ public class ParameterAccessor
 
 		if ( isWorkingFolderAccessOnly )
 		{
+			// TODO check non-file path case
+
 			File docFile = new File( filePath );
 			if ( !docFile.isAbsolute( ) )
 			{
@@ -2631,7 +2671,7 @@ public class ParameterAccessor
 	 * @param canWrite
 	 * @return
 	 */
-	public static String processRealPath( ServletContext context, String path,
+	private static String processRealPath( ServletContext context, String path,
 			String defaultPath, boolean canWrite )
 	{
 		String realPath = null;
@@ -2710,26 +2750,40 @@ public class ParameterAccessor
 		String realPath = null;
 		try
 		{
+			String orginalPath = path;
+
 			if ( !path.startsWith( "/" ) ) //$NON-NLS-1$
+			{
 				path = "/" + path; //$NON-NLS-1$
+			}
 
 			realPath = context.getRealPath( path );
 			if ( realPath == null )
 			{
 				// try to get root path from system properties
 				String rootPath = System.getProperty( IBirtConstants.SYS_PROP_ROOT_PATH );
-				if ( rootPath != null && !isRelativePath( rootPath ) )
+				if ( rootPath != null && isUniversalPath( rootPath ) )
 				{
 					path = path.substring( 1 );
-					realPath = DataUtil.trimSepEnd( rootPath )
-							+ File.separator
-							+ path;
+					realPath = DataUtil.trimSepEnd( rootPath ) + "/" + path; //$NON-NLS-1$
 				}
 				else
 				{
 					URL url = context.getResource( "/" ); //$NON-NLS-1$
 					if ( url != null )
-						realPath = DataUtil.trimString( url.getFile( ) ) + path;
+					{
+						// for other url protocals, e.g. path in an unpacked
+						// war, or other global urls
+						String urlRoot = DataUtil.trimString( url.toExternalForm( ) );
+						if ( orginalPath.startsWith( urlRoot ) )
+						{
+							realPath = orginalPath;
+						}
+						else
+						{
+							realPath = urlRoot + "/" + orginalPath; //$NON-NLS-1$
+						}
+					}
 				}
 			}
 		}

@@ -600,21 +600,39 @@ public class BirtUtility
 			URL url = null;
 			try
 			{
-				designFile = ParameterAccessor.workingFolder + "/" //$NON-NLS-1$
-						+ ParameterAccessor.getParameter( request,
-								ParameterAccessor.PARAM_REPORT );
-				if ( !designFile.startsWith( "/" ) ) //$NON-NLS-1$
-					designFile = "/" + designFile; //$NON-NLS-1$
+				if ( !ParameterAccessor.isUniversalPath( designFile ) )
+				{
+					designFile = ParameterAccessor.workingFolder + "/" //$NON-NLS-1$
+							+ ParameterAccessor.getParameter( request,
+									ParameterAccessor.PARAM_REPORT );
+				}
+
+				// try detect as resource path first
+				String resoureFile = designFile;
+				if ( !resoureFile.startsWith( "/" ) ) //$NON-NLS-1$
+				{
+					resoureFile = "/" + resoureFile; //$NON-NLS-1$
+				}
 
 				url = request.getSession( )
 						.getServletContext( )
-						.getResource( designFile );
+						.getResource( resoureFile );
 				if ( url != null )
+				{
 					is = url.openStream( );
+				}
+				else
+				{
+					// try handle the design file path as url directly
+					url = new URL( designFile );
+					is = url.openStream( );
+				}
 
 				if ( is != null )
+				{
 					reportRunnable = ReportEngineService.getInstance( )
 							.openReportDesign( url.toString( ), is, options );
+				}
 
 			}
 			catch ( Exception e )
