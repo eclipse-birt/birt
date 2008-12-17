@@ -110,13 +110,21 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 					}
 	
 					var oOption = document.createElement( "OPTION" );
-					var oLabel = selections[i].getElementsByTagName( 'Label' )[0].firstChild;
+					var oLabel = selections[i].getElementsByTagName( 'Label' )
+					if ( oLabel && oLabel.length > 0 )
+					{
+						oLabel = oLabel[0].firstChild;
+					}
 					if( oLabel )
 						oOption.text = oLabel.data;
 					else
 						oOption.text = "";
 
-					var oValue = selections[i].getElementsByTagName( 'Value' )[0].firstChild;
+					var oValue = selections[i].getElementsByTagName( 'Value' );
+					if ( oValue && oValue.length > 0 )
+					{
+						oValue = oValue[0].firstChild;
+					}
 					if( oValue )
 						oOption.value = oValue.data;
 					else
