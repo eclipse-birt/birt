@@ -40,6 +40,8 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -221,10 +223,20 @@ public class GroupSortingDialog extends TrayDialog
 		Label lblSortExpr = new Label( cmpSortArea, SWT.NONE );
 		lblSortExpr.setText( Messages.getString( "BaseGroupSortingDialog.Label.SortOn" ) ); //$NON-NLS-1$
 
-		cmbSortExpr = new Combo( cmpSortArea, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbSortExpr = new Combo( cmpSortArea, SWT.DROP_DOWN );
 		GridData gdCMBSortExpr = new GridData( GridData.FILL_HORIZONTAL );
 		cmbSortExpr.setLayoutData( gdCMBSortExpr );
 		cmbSortExpr.addListener( SWT.Selection, this );
+		cmbSortExpr.addFocusListener( new FocusAdapter( ) {
+
+			public void focusLost( FocusEvent e )
+			{
+				String sExpr = cmbSortExpr.getText( );
+				registerSortKey( sExpr );
+				getSeriesDefinitionForProcessing( ).getSortKey( )
+						.setDefinition( sExpr );
+			}
+		} );
 
 		if ( fHasExprBuilder )
 		{
@@ -333,20 +345,7 @@ public class GroupSortingDialog extends TrayDialog
 								wizardContext.getExtendedItem( ),
 								"" ); //$NON-NLS-1$
 
-				String items[] = cmbSortExpr.getItems( );
-				boolean contains = false;
-				for ( int i = 0; i < items.length; i++ )
-				{
-					if ( items[i].equals( sExpr ) )
-					{
-						contains = true;
-						break;
-					}
-				}
-				if ( !contains )
-				{
-					cmbSortExpr.add( sExpr );
-				}
+				registerSortKey( sExpr );
 				cmbSortExpr.setText( sExpr );
 
 				getSeriesDefinitionForProcessing( ).getSortKey( )
@@ -356,6 +355,24 @@ public class GroupSortingDialog extends TrayDialog
 			{
 				WizardBase.displayException( e1 );
 			}
+		}
+	}
+
+	private void registerSortKey( String sExpr )
+	{
+		String items[] = cmbSortExpr.getItems( );
+		boolean contains = false;
+		for ( int i = 0; i < items.length; i++ )
+		{
+			if ( items[i].equals( sExpr ) )
+			{
+				contains = true;
+				break;
+			}
+		}
+		if ( !contains )
+		{
+			cmbSortExpr.add( sExpr );
 		}
 	}
 
