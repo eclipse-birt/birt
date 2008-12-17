@@ -163,8 +163,8 @@ public class ChartCubeQueryHelper
 						Messages.getString( "ChartCubeQueryHelper.Error.MustBindCube" ) ); //$NON-NLS-1$
 			}
 
-			// Do not support sub query in Live preview.
-			if ( !bSingleChart )
+			// Do not support sub query without parent
+			if ( parent instanceof ICubeQueryDefinition )
 			{
 				ISubCubeQueryDefinition subQuery = createSubCubeQuery( );
 				if ( subQuery != null )
@@ -178,6 +178,9 @@ public class ChartCubeQueryHelper
 					}
 					return subQuery;
 				}
+				
+				// If single chart in xtab, use parent to render directly
+				return (ICubeQueryDefinition) parent;
 			}
 		}
 
