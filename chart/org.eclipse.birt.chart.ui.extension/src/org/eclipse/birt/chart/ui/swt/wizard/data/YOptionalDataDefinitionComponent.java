@@ -83,7 +83,7 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 				context,
 				sdBackup,
 				false,
-				false );
+				true );
 	}
 	
 	protected void handleGroupAction( )

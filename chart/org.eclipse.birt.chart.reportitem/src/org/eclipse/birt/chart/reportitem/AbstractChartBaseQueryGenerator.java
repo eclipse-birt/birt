@@ -575,26 +575,43 @@ public abstract class AbstractChartBaseQueryGenerator
 							e );
 				}
 
-				// Get aggregate func.
-				String aggFunc = getAggFunExpr( sortKey,
-						categorySD,
-						orthAxisArray );
-				if ( aggFunc != null )
+				// Check if sort key is Y series expression.
+				String[] vsExprs = ChartUtil.getValueSeriesExpressions( fChartModel );
+				boolean isYSeriesExpression = false;
+				for ( int i = 0; i < vsExprs.length; i++ )
 				{
-					binding.setAggrFunction( ChartReportItemUtil.convertToDtEAggFunction( aggFunc ) );
-
-					IAggregateFunction aFunc = PluginSettings.instance( )
-							.getAggregateFunction( aggFunc );
-					if ( aFunc.getParametersCount( ) > 0 )
+					if ( vsExprs[i].equals( sortKey ) )
 					{
-						Object[] parameters = ChartUtil.getAggFunParameters( orthSD,
-								categorySD );
+						isYSeriesExpression = true;
+						break;
+					}
+				}
 
-						for ( int i = 0; i < parameters.length &&
-								i < aFunc.getParametersCount( ); i++ )
+				if ( isYSeriesExpression )
+				{
+					// Get aggregate function.
+					String aggFunc = getAggFunExpr( sortKey,
+							categorySD,
+							orthAxisArray );
+					if ( aggFunc != null )
+					{
+						// If the related Y series expression is set aggregate,
+						// then using the aggregate result as sort key.
+						binding.setAggrFunction( ChartReportItemUtil.convertToDtEAggFunction( aggFunc ) );
+
+						IAggregateFunction aFunc = PluginSettings.instance( )
+								.getAggregateFunction( aggFunc );
+						if ( aFunc.getParametersCount( ) > 0 )
 						{
-							String param = (String) parameters[i];
-							binding.addArgument( new ScriptExpression( param ) );
+							Object[] parameters = ChartUtil.getAggFunParameters( orthSD,
+									categorySD );
+
+							for ( int i = 0; i < parameters.length
+									&& i < aFunc.getParametersCount( ); i++ )
+							{
+								String param = (String) parameters[i];
+								binding.addArgument( new ScriptExpression( param ) );
+							}
 						}
 					}
 				}
