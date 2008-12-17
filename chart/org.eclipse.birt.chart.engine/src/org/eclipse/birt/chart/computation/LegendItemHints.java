@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,142 +17,131 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 /**
  * LegendItemHints
  */
-public class LegendItemHints implements IConstants
+public final class LegendItemHints
 {
 
-	private final Point location;
-	private final double width;
-	private double height;
-	private final String text;
-	private final String extraText;
-	private final double extraHeight;
-	private final int type;
-	private final int categoryIndex;
-	private final SeriesDefinition seriesDefinition;
-	private final Series series;
+	public static enum Type {
+		LG_GROUPNAME, LG_ENTRY, LG_MINSLICE, LG_SEPERATOR
+	};
+	private final Type type;
+	private int index = -1;
+	private SeriesDefinition sed = null;
+	private Series series = null;
 
-	public LegendItemHints( int type, Point loc, double width, double height,
-			String text, int categoryIndex, SeriesDefinition seriesDefinition,
-			Series series )
-	{
-		this( type,
-				loc,
-				width,
-				height,
-				text,
-				0,
-				null,
-				categoryIndex,
-				seriesDefinition,
-				series );
-	}
+	private String sItem = null;
+	private int validItemLen;
 
-	public LegendItemHints( int type, Point loc, double width, double height,
-			String text, double extraHeight, String extraText )
-	{
-		// not using the category index when color by series.
-		this( type,
-				loc,
-				width,
-				height,
-				text,
-				extraHeight,
-				extraText,
-				0,
-				null,
-				null );
-	}
+	private String sValue = null;
+	private int validValueLen;
 
-	// for group name
-	public LegendItemHints( int type, Point loc, double width, double height,
-			String text )
-	{
-		this( type, loc, width, height, text, 0, null, 0, null, null );
-	}
+	private double left = 0;
+	private double top = 0;
+	private double width = 0d;
+	private double itemHeight;
+	private double valueHeight = 0d;
 
-	public LegendItemHints( int type, Point loc, double width, double height,
-			String text, double extraHeight, String extraText,
-			int categoryIndex, SeriesDefinition seriesDefinition, Series series )
+	private LegendItemHints( Type type, String sItem )
 	{
 		this.type = type;
-		this.location = loc;
-		this.width = width;
-		this.height = height;
-		this.text = text;
-		this.extraText = extraText;
-		this.extraHeight = extraHeight;
-		this.categoryIndex = categoryIndex;
-		this.series = series;
-		this.seriesDefinition = seriesDefinition;
+		this.sItem = sItem;
 	}
 
-	public int getType( )
+	private LegendItemHints( Type type, String sItem, String sValue,
+			SeriesDefinition sed, Series series, int index )
+	{
+		this.type = type;
+		this.sItem = sItem;
+		this.sValue = sValue;
+		this.sed = sed;
+		this.series = series;
+		this.index = index;
+	}
+
+	public static LegendItemHints newGroupNameEntry( String name )
+	{
+		return new LegendItemHints( Type.LG_GROUPNAME, name );
+	}
+
+	public static LegendItemHints newEntry( String sItem, String sValue,
+			SeriesDefinition sed, Series se, int index )
+	{
+		return new LegendItemHints( Type.LG_ENTRY,
+				sItem,
+				sValue,
+				sed,
+				se,
+				index );
+	}
+
+	public static LegendItemHints newCategoryEntry( String sItem,
+			SeriesDefinition sed, Series se, int index )
+	{
+		return new LegendItemHints( Type.LG_ENTRY, sItem, null, sed, se, index );
+	}
+
+	public static LegendItemHints newMinSliceEntry( String sItem,
+			SeriesDefinition sed, Series se, int index )
+	{
+		return new LegendItemHints( Type.LG_MINSLICE,
+				sItem,
+				null,
+				sed,
+				se,
+				index );
+	}
+
+	public static LegendItemHints createSeperator( )
+	{
+		return new LegendItemHints( Type.LG_SEPERATOR, null );
+	}
+
+	public LegendItemHints left( double left )
+	{
+		this.left = left;
+		return this;
+	}
+
+	public LegendItemHints top( double top )
+	{
+		this.top = top;
+		return this;
+	}
+
+	public LegendItemHints validItemLen( int validItemLen )
+	{
+		this.validItemLen = validItemLen;
+		return this;
+	}
+
+	public LegendItemHints validValueLen( int validValueLen )
+	{
+		this.validValueLen = validValueLen;
+		return this;
+	}
+
+	public LegendItemHints width( double width )
+	{
+		this.width = width;
+		return this;
+	}
+
+	public LegendItemHints itemHeight( double itemHeight )
+	{
+		this.itemHeight = itemHeight;
+		return this;
+	}
+
+	public LegendItemHints valueHeight( double valueHeight )
+	{
+		this.valueHeight = valueHeight;
+		return this;
+	}
+
+	public Type getType( )
 	{
 		return type;
 	}
 
-	/**
-	 * This location is relative to the legend bound area (not include the
-	 * legend title).
-	 * 
-	 * @return
-	 */
-	public Point getLocation( )
-	{
-		return location;
-	}
-
-	public double getWidth( )
-	{
-		return width;
-	}
-
-	public double getHeight( )
-	{
-		return height;
-	}
-
-	public double getLeft( )
-	{
-		if ( location != null )
-		{
-			return location.getX( );
-		}
-
-		return 0;
-	}
-
-	public double getTop( )
-	{
-		if ( location != null )
-		{
-			return location.getY( );
-		}
-
-		return 0;
-	}
-
-	public String getText( )
-	{
-		return text;
-	}
-
-	public String getExtraText( )
-	{
-		return extraText;
-	}
-
-	public double getExtraHeight( )
-	{
-		return extraHeight;
-	}
-
-	public int getCategoryIndex( )
-	{
-		return categoryIndex;
-	}
-
-	
 	/**
 	 * @return Returns the series.
 	 */
@@ -161,23 +150,111 @@ public class LegendItemHints implements IConstants
 		return series;
 	}
 
-	
 	/**
 	 * @return Returns the seriesDefinition.
 	 */
 	public SeriesDefinition getSeriesDefinition( )
 	{
-		return seriesDefinition;
+		return sed;
 	}
 
-	
 	/**
-	 * @param height
-	 *            The height to set.
+	 * @return Returns the index.
 	 */
-	void setHeight( double height )
+	public int getIndex( )
 	{
-		this.height = height;
+		return index;
+	}
+
+	/**
+	 * @return Returns the sItem.
+	 */
+	public String getItemText( )
+	{
+		return sItem;
+	}
+
+	/**
+	 * Set the item text.
+	 * 
+	 * @param itemText
+	 */
+	public void setItemText( String itemText )
+	{
+		this.sItem = itemText;
+	}
+
+	/**
+	 * @return Returns the sValue.
+	 */
+	public String getValueText( )
+	{
+		return sValue;
+	}
+
+	/**
+	 * @param series
+	 *            The series to set.
+	 */
+	public void setSeries( Series series )
+	{
+		this.series = series;
+	}
+
+	/**
+	 * @return Returns the left.
+	 */
+	public final double getLeft( )
+	{
+		return left;
+	}
+
+	/**
+	 * @return Returns the top.
+	 */
+	public final double getTop( )
+	{
+		return top;
+	}
+
+	/**
+	 * @return Returns the width.
+	 */
+	public final double getWidth( )
+	{
+		return width;
+	}
+
+	/**
+	 * @return Returns the itemHeight.
+	 */
+	public final double getItemHeight( )
+	{
+		return itemHeight;
+	}
+
+	/**
+	 * @return Returns the valueHeight.
+	 */
+	public final double getValueHeight( )
+	{
+		return valueHeight;
+	}
+
+	/**
+	 * @return Returns the validItemLen.
+	 */
+	public final int getValidItemLen( )
+	{
+		return validItemLen;
+	}
+
+	/**
+	 * @return Returns the validValueLen.
+	 */
+	public final int getValidValueLen( )
+	{
+		return validValueLen;
 	}
 
 }

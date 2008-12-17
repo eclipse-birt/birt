@@ -271,7 +271,7 @@ public interface SeriesDefinition extends EObject
 	 * 
 	 * @return The runtime-time series' associated with the series definition
 	 */
-	List getRunTimeSeries( );
+	List<Series> getRunTimeSeries( );
 
 	/**
 	 * 

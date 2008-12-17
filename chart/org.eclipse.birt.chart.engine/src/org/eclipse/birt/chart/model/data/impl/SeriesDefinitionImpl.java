@@ -814,9 +814,9 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * 
 	 * @see org.eclipse.birt.chart.model.data.SeriesDefinition#getRunTimeSeries()
 	 */
-	public final List getRunTimeSeries( )
+	public final List<Series> getRunTimeSeries( )
 	{
-		final ArrayList alRTS = new ArrayList( );
+		final List<Series> alRTS = new ArrayList<Series>( );
 		final EList el = getSeries( );
 		Series se;
 		for ( int i = 0; i < el.size( ); i++ )

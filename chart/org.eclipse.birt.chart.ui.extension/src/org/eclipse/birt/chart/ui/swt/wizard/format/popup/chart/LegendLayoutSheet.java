@@ -46,6 +46,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Spinner;
 
 /**
  * Legend - Layout
@@ -66,10 +67,6 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 
 	private transient InsetsComposite icLegend;
 
-	// private transient IntegerSpinControl iscVSpacing;
-	//
-	// private transient IntegerSpinControl iscHSpacing;
-
 	private transient Combo cmbOrientation;
 
 	private transient Combo cmbPosition;
@@ -79,12 +76,6 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 	private transient Combo cmbDirection;
 
 	private transient LocalizedNumberEditorComposite txtWrapping;
-
-	private transient LocalizedNumberEditorComposite txtMaxPercent;
-
-	// private transient Label lblHorizontalSpacing;
-	//
-	// private transient Label lblVerticalSpacing;
 
 	private transient Label lblDirection;
 
@@ -96,11 +87,13 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 
 	private transient Label lblPosition;
 
-	private transient Label lblMaxPercent;
-
 	private transient Label lblOrientation;
 
 	private transient Label lblWrapping;
+
+	private Spinner spnMaxPercent;
+
+	private Spinner spnTitlePercent;
 
 	public LegendLayoutSheet( String title, ChartWizardContext context )
 	{
@@ -150,6 +143,23 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		populateLists( );
 
 		return cmpContent;
+	}
+
+	private Spinner createSpinner( Composite cmp, String sCaption,
+			double dValue, boolean bEnableUI )
+	{
+		new Label( cmp, SWT.NONE ).setText( sCaption );
+
+		Spinner spn = new Spinner( cmp, SWT.BORDER );
+		{
+			int spnValue = (int) ( dValue * 100 );
+			spn.setValues( spnValue, 1, 100, 0, 1, 10 );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			spn.setLayoutData( gd );
+			spn.setEnabled( bEnableUI );
+			spn.addListener( SWT.Selection, this );
+		}
+		return spn;
 	}
 
 	private void getComponentLegendLeftArea( Composite cmpLegLeft )
@@ -235,41 +245,15 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 			txtWrapping.setEnabled( bEnableUI );
 		}
 
-		lblMaxPercent = new Label( cmpLegLeft, SWT.NONE );
-		lblMaxPercent.setText( Messages.getString( "LegendLayoutSheet.Label.MaxPercent" ) ); //$NON-NLS-1$
-		lblMaxPercent.setEnabled( bEnableUI );
+		spnMaxPercent = createSpinner( cmpLegLeft,
+				Messages.getString( "LegendLayoutSheet.Label.MaxPercent" ), //$NON-NLS-1$
+				getBlockForProcessing( ).getMaxPercent( ),
+				bEnableUI );
 
-		txtMaxPercent = new LocalizedNumberEditorComposite( cmpLegLeft,
-				SWT.BORDER | SWT.SINGLE );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			txtMaxPercent.setLayoutData( gd );
-			txtMaxPercent.setValue( getBlockForProcessing( ).getMaxPercent( ) );
-			txtMaxPercent.addModifyListener( this );
-			txtMaxPercent.setEnabled( bEnableUI );
-		}
-
-		// lblVerticalSpacing = new Label( cmpLegLeft, SWT.NONE );
-		// lblVerticalSpacing.setText( Messages.getString(
-		// "BlockAttributeComposite.Lbl.VerticalSpacing" ) ); //$NON-NLS-1$
-		//
-		// iscVSpacing = new IntegerSpinControl( cmpLegLeft,
-		// SWT.NONE,
-		// getBlockForProcessing( ).getVerticalSpacing( ) );
-		// GridData gdISCVSpacing = new GridData( GridData.FILL_HORIZONTAL );
-		// iscVSpacing.setLayoutData( gdISCVSpacing );
-		// iscVSpacing.addListener( this );
-		//
-		// lblHorizontalSpacing = new Label( cmpLegLeft, SWT.NONE );
-		// lblHorizontalSpacing.setText( Messages.getString(
-		// "BlockAttributeComposite.Lbl.HorizontalSpacing" ) ); //$NON-NLS-1$
-		//
-		// iscHSpacing = new IntegerSpinControl( cmpLegLeft,
-		// SWT.NONE,
-		// getBlockForProcessing( ).getHorizontalSpacing( ) );
-		// GridData gdISCHSpacing = new GridData( GridData.FILL_HORIZONTAL );
-		// iscHSpacing.setLayoutData( gdISCHSpacing );
-		// iscHSpacing.addListener( this );
+		spnTitlePercent = createSpinner( cmpLegLeft,
+				Messages.getString( "LegendLayoutSheet.Label.TitlePercent" ), //$NON-NLS-1$
+				getBlockForProcessing( ).getTitlePercent( ),
+				bEnableUI );
 	}
 
 	private void getComponentLegendRightArea( Composite cmpLegRight )
@@ -349,13 +333,6 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		{
 			getBlockForProcessing( ).setWrappingSize( txtWrapping.getValue( ) );
 		}
-		else if ( e.widget.equals( txtMaxPercent ) )
-		{
-			if ( e.data != null && ( (Boolean) e.data ).booleanValue( ) )
-			{
-				getBlockForProcessing( ).setMaxPercent( txtMaxPercent.getValue( ) );
-			}
-		}
 	}
 
 	/*
@@ -395,16 +372,15 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		{
 			getBlockForProcessing( ).setInsets( (Insets) event.data );
 		}
-		// else if ( event.widget.equals( iscHSpacing ) )
-		// {
-		// getBlockForProcessing( ).setHorizontalSpacing( ( (Integer) event.data
-		// ).intValue( ) );
-		// }
-		// else if ( event.widget.equals( iscVSpacing ) )
-		// {
-		// getBlockForProcessing( ).setVerticalSpacing( ( (Integer) event.data
-		// ).intValue( ) );
-		// }
+		else if ( event.widget == spnMaxPercent )
+		{
+			getBlockForProcessing( ).setMaxPercent( spnMaxPercent.getSelection( ) / 100d );
+		}
+		else if ( event.widget == spnTitlePercent )
+		{
+			getBlockForProcessing( ).setTitlePercent( spnTitlePercent.getSelection( ) / 100d );
+
+		}
 	}
 
 	/*

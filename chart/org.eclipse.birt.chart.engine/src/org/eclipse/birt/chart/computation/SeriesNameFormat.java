@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.util.CDateTime;
 
 import com.ibm.icu.text.DateFormat;
+import com.ibm.icu.text.DecimalFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.ULocale;
@@ -31,6 +32,14 @@ import com.ibm.icu.util.ULocale;
 
 public class SeriesNameFormat
 {
+
+	public static SeriesNameFormat DEFAULT_FORMAT = new SeriesNameFormat( );
+
+	private SeriesNameFormat( )
+	{
+		// disable public construactor
+	}
+
 	public static SeriesNameFormat getSeriesNameFormat( SeriesDefinition sd,
 			ULocale loc )
 	{
@@ -45,7 +54,7 @@ public class SeriesNameFormat
 			}
 		}
 		
-		return new SeriesNameFormat( );
+		return DEFAULT_FORMAT;
 	}
 
 	public String format( Object obj )
@@ -54,7 +63,18 @@ public class SeriesNameFormat
 		
 		if ( obj != null )
 		{
-			str = obj.toString( );
+			if ( obj instanceof Number )
+			{
+				// TODO: use format cache to improve performance
+				double d = ( (Number) obj ).doubleValue( );
+				String sPattern = ValueFormatter.getNumericPattern( d );
+				DecimalFormat df = new DecimalFormat( sPattern );
+				str = df.format( d );
+			}
+			else
+			{
+				str = obj.toString( );
+			}
 		}
 		
 		return str;

@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.computation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -33,13 +35,11 @@ import org.eclipse.birt.chart.model.attribute.Direction;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
-import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
-import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
@@ -51,7 +51,6 @@ import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
 import org.eclipse.birt.chart.util.ChartUtil;
-import org.eclipse.emf.common.util.EList;
 
 import com.ibm.icu.text.DecimalFormat;
 
@@ -67,35 +66,85 @@ public final class LegendBuilder implements IConstants
 	private class LegendData
 	{
 
+		private final IDisplayServer xs;
+		private final Chart cm;
+		private final Legend lg;
+		private final SeriesDefinition[] seda;
+		private final RunTimeContext rtc;
+		private final boolean bPaletteByCategory;
+		private final double dItemHeight;
+		private final Label la;
+		private final double dSeparatorThickness;
+		private final double dScale;
+		private final Insets insCa;
+		private final double maxWrappingSize;
+		private final double dHorizontalSpacing;
+		private final double dVerticalSpacing;
+		private final double dSafeSpacing;
+		private final double dHorizonalReservedSpace;
+		private final double dShadowness;
+
+		public LegendData( IDisplayServer xs, Chart cm,
+				SeriesDefinition[] seda, RunTimeContext rtc )
+		{
+			this.xs = xs;
+			this.cm = cm;
+			this.lg = cm.getLegend( );
+			this.seda = seda;
+			this.rtc = rtc;
+			this.bPaletteByCategory = ( lg.getItemType( ).getValue( ) == LegendItemType.CATEGORIES );
+
+			this.la = LabelImpl.create( );
+			la.setEllipsis( 1 );
+			la.setCaption( TextImpl.copyInstance( lg.getText( ) ) );
+
+			la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
+			ITextMetrics itm = xs.getTextMetrics( la );
+			this.dItemHeight = itm.getFullHeight( );
+			itm.dispose( );
+
+			ClientArea ca = lg.getClientArea( );
+			dSeparatorThickness = lg.getSeparator( ) != null ? lg.getSeparator( )
+					.getThickness( )
+					: ca.getOutline( ).getThickness( );
+
+			dScale = xs.getDpiResolution( ) / 72d;
+			insCa = ca.getInsets( ).scaledInstance( dScale );
+			maxWrappingSize = lg.getWrappingSize( ) * dScale;
+
+			dHorizontalSpacing = 3 * dScale;
+			dVerticalSpacing = 3 * dScale;
+			dSafeSpacing = 3 * dScale;
+			this.dShadowness = 3 * dScale;
+
+			dHorizonalReservedSpace = insCa.getLeft( )
+					+ insCa.getRight( )
+					+ 1.5
+					* dItemHeight
+					+ dHorizontalSpacing;
+		}
+
 		private boolean bMinSliceApplied;
-		private int[] filteredMinSliceEntry;
-		private double maxWrappingSize;
-		private double dHorizonalReservedSpace;
+		private Collection<Integer> filteredMinSliceEntry = Collections.emptySet( );
 		private double dAvailableWidth;
 		private double dAvailableHeight;
-		private double dItemHeight;
-		private double dVerticalSpacing;
-		private double dHorizontalSpacing;
-		private double dScale;
-		private double dSeparatorThickness;
-		private double dSafeSpacing;
 		private List<LegendItemHints> legendItems = new ArrayList<LegendItemHints>( );
-		private Insets insCa;
 		private String sMinSliceLabel;
+		private Label laTitle;
 
 	}
 
-	private class InvertibleIterator implements Iterator<Object>
+	private static class InvertibleIterator<T> implements Iterator<T>
 	{
 
 		private boolean isInverse_ = false;
-		private ListIterator<?> lit_ = null;
+		private ListIterator<T> lit_ = null;
 		private int index_ = -1;
 
 		/**
 		 * The constructor.
 		 */
-		public InvertibleIterator( List<?> tList, boolean isInverse, int index )
+		public InvertibleIterator( List<T> tList, boolean isInverse, int index )
 		{
 			lit_ = tList.listIterator( index );
 			isInverse_ = isInverse;
@@ -109,7 +158,7 @@ public final class LegendBuilder implements IConstants
 			}
 		}
 
-		public InvertibleIterator( List<?> tList, boolean isInverse )
+		public InvertibleIterator( List<T> tList, boolean isInverse )
 		{
 			this( tList, isInverse, isInverse ? tList.size( ) : 0 );
 		}
@@ -122,7 +171,7 @@ public final class LegendBuilder implements IConstants
 			return isInverse_ ? lit_.hasPrevious( ) : lit_.hasNext( );
 		}
 
-		public final Object next( ) throws NoSuchElementException
+		public final T next( ) throws NoSuchElementException
 		{
 			if ( isInverse_ )
 			{
@@ -160,52 +209,54 @@ public final class LegendBuilder implements IConstants
 
 	}
 
-	private class LabelItem implements EllipsisHelper.ILabelVisibilityTester
+	public static class LabelItem implements
+ EllipsisHelper.ITester
 	{
 
-		public static final String ELLIPSIS_STRING = "..."; //$NON-NLS-1$
-		private IDisplayServer xs;
-		private RunTimeContext rtc;
-		private ITextMetrics itm;
-		private Label la;
+		private final IDisplayServer xs;
+		private final RunTimeContext rtc;
+		private final double maxWrappingSize;
+		private final Label la;
+		private final Double fontHeight;
 		private String text; // Text without considering about ellipsis
-		private double maxWrappingSize = 0;
 		private double dEllipsisWidth;
-		BoundingBox bb = null;
-		EllipsisHelper eHelper;
+		private BoundingBox bb = null;
+		private EllipsisHelper eHelper = null;
+		private int iValidLen = 0;
 
 		/**
 		 * constructor
 		 * 
-		 * @param xs_
-		 * @param rtc_
-		 * @param itm_
-		 * @param la_
+		 * @param xs
+		 * @param rtc
+		 * @param itm
+		 * @param la
 		 */
-		public LabelItem( IDisplayServer xs_, RunTimeContext rtc_,
-				ITextMetrics itm_, Label la_, double maxWrappingSize_ )
+		public LabelItem( IDisplayServer xs, RunTimeContext rtc, Label la,
+				double maxWrappingSize )
 		{
-			xs = xs_;
-			rtc = rtc_;
-			itm = itm_;
-			la = la_;
-			maxWrappingSize = maxWrappingSize_;
-			updateEllipsisWidth( );
-			eHelper = new EllipsisHelper( this, la_.getEllipsis( ) );
+			this.xs = xs;
+			this.rtc = rtc;
+			this.la = la;
+			this.maxWrappingSize = maxWrappingSize;
+			ITextMetrics itm = xs.getTextMetrics( la );
+			updateEllipsisWidth( itm );
+			fontHeight = itm.getHeight( );
+			itm.dispose( );
+			eHelper = new EllipsisHelper( this, la.getEllipsis( ) );
 		}
 
 		/**
 		 * constructor
 		 * 
-		 * @param xs_
-		 * @param rtc_
-		 * @param itm_
-		 * @param la_
+		 * @param xs
+		 * @param rtc
+		 * @param itm
+		 * @param la
 		 */
-		public LabelItem( IDisplayServer xs_, RunTimeContext rtc_,
-				ITextMetrics itm_, Label la_ )
+		public LabelItem( IDisplayServer xs, RunTimeContext rtc, Label la )
 		{
-			this( xs_, rtc_, itm_, la_, 0 );
+			this( xs, rtc, la, 0 );
 		}
 
 		/**
@@ -213,80 +264,37 @@ public final class LegendBuilder implements IConstants
 		 * 
 		 * @param original
 		 */
-		public LabelItem( LabelItem original )
+		public static LabelItem copyOf( LabelItem original )
 		{
-			xs = original.xs;
-			rtc = original.rtc;
-			itm = original.itm;
-			la = original.la;
-			text = original.text;
-			maxWrappingSize = original.maxWrappingSize;
-			dEllipsisWidth = original.dEllipsisWidth;
-			bb = original.bb;
-			eHelper = new EllipsisHelper( this, la.getEllipsis( ) );
+			return new LabelItem( original.xs,
+					original.rtc,
+					LabelImpl.copyInstance( original.la ),
+					original.maxWrappingSize );
 		}
 
 		/**
-		 * set the label text
-		 * @param oText
-		 * @param fs
-		 * @throws ChartException
-		 */
-		public void setText( Object oText, FormatSpecifier fs )
-			throws ChartException
-		{
-			// Format numerical category data with default pattern if no format
-			// specified
-			DecimalFormat df = null;
-			if ( fs == null && oText instanceof Number )
-			{
-				df = new DecimalFormat( ValueFormatter.getNumericPattern( ( (Number) oText ).doubleValue( ) ) );
-			}
-
-			// apply user defined format if exists
-			try
-			{
-				text = ValueFormatter.format( oText, fs, rtc.getULocale( ), df );
-			}
-			catch ( ChartException e )
-			{
-				// ignore, use original text.
-				text = oText.toString( );
-			}
-		
-			updateLabel( text );
-		}
-
-		public void restoreOriginalText( FormatSpecifier fs )
-				throws ChartException
-		{
-			setText( text, fs );
-		}
-
-		/**
-		 * set the label and text
 		 * 
-		 * @param la_
-		 * @param text_
-		 * @param fs
-		 * @throws ChartException
 		 */
-		public void setLabel( Label la_, String text_, FormatSpecifier fs )
-				throws ChartException
+		public void dispose( )
 		{
-			la = la_;
-			updateEllipsisWidth( );
-			setText( text_, fs );
 		}
 
-		public void setLabel( Label la_, String text_, FormatSpecifier fs,
-				ITextMetrics itm_ ) throws ChartException
+		public void setText( String sText ) throws ChartException
 		{
-			itm = itm_;
-			setLabel( la_, text_, fs );
+			text = sText;
+			updateLabel( sText );
 		}
-		
-		
+
+		public String getFullText( )
+		{
+			return this.text;
+		}
+
+		public int getValidTextLen( )
+		{
+			return this.iValidLen;
+		}
+
 		public boolean testLabelVisible( String strNew, Object oPara )
 				throws ChartException
 		{
@@ -308,6 +316,7 @@ public final class LegendBuilder implements IConstants
 		{
 			if ( dWidthLimit < dEllipsisWidth )
 			{
+				iValidLen = 0;
 				return false;
 			}
 
@@ -315,18 +324,29 @@ public final class LegendBuilder implements IConstants
 
 			if ( dWidth <= dWidthLimit )
 			{
+				iValidLen = 0;
 				return true;
 			}
 
-			return eHelper.checkLabelEllipsis( text, new Double( dWidthLimit ) );
+			boolean rst = eHelper.checkLabelEllipsis( text,
+					new Double( dWidthLimit ) );
+			if ( !rst )
+			{
+				/*
+				 * Fail to short it with ellipsis, so restore the fulltext.
+				 */
+				updateLabel( text );
+			}
+			iValidLen = eHelper.getVisibleCharCount( );
+			return rst;
 		}
 
-		public double getWidth( )
+		public double getWidth( ) throws ChartException
 		{
 			return bb.getWidth( );
 		}
 
-		public double getHeight( )
+		public double getHeight( ) throws ChartException
 		{
 			return bb.getHeight( );
 		}
@@ -344,27 +364,12 @@ public final class LegendBuilder implements IConstants
 		private void updateLabel( String strText ) throws ChartException
 		{
 			la.getCaption( ).setValue( strText );
-			itm.reuse( la, maxWrappingSize );
-			updateSize( );
+			bb = Methods.computeLabelSize( xs, la, maxWrappingSize, fontHeight );
 		}
 
-		private void updateSize( ) throws ChartException
+		private void updateEllipsisWidth( ITextMetrics itm )
 		{
-			try
-			{
-				bb = Methods.computeBox( xs, IConstants.ABOVE, la, 0, 0 );
-			}
-			catch ( IllegalArgumentException uiex )
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.RENDERING,
-						uiex );
-			}
-		}
-
-		private void updateEllipsisWidth( )
-		{
-			la.getCaption( ).setValue( ELLIPSIS_STRING );
+			la.getCaption( ).setValue( EllipsisHelper.ELLIPSIS_STRING );
 			itm.reuse( la );
 			dEllipsisWidth = itm.getFullWidth( );
 		}
@@ -372,29 +377,28 @@ public final class LegendBuilder implements IConstants
 	}
 
 	private Size sz;
-	
+
 	/**
 	 * initialize the dAvailableWidth/Height in legendData
 	 * 
-	 * @param legendData
+	 * @param lgData
 	 * @param cm
 	 */
-	private void initAvailableSize( LegendData legendData, final IDisplayServer xs, final Chart cm ) throws ChartException
+	private void initAvailableSize( LegendData lgData ) throws ChartException
 	{
-		final Legend lg = cm.getLegend( );
-		final Block bl = cm.getBlock( );
-		final Position lgPosition = lg.getPosition( );
-		final Bounds boFull = bl.getBounds( )
-				.scaledInstance( legendData.dScale );
-		final Insets ins = bl.getInsets( ).scaledInstance( legendData.dScale );
-		final Insets lgIns = lg.getInsets( ).scaledInstance( legendData.dScale );
+		final Block bl = lgData.cm.getBlock( );
+		final Position lgPosition = lgData.lg.getPosition( );
+		final Bounds boFull = bl.getBounds( ).scaledInstance( lgData.dScale );
+		final Insets ins = bl.getInsets( ).scaledInstance( lgData.dScale );
+		final Insets lgIns = lgData.lg.getInsets( )
+				.scaledInstance( lgData.dScale );
 
 		int titleWPos = 0;
 		int titleHPos = 0;
 
-		final TitleBlock titleBlock = cm.getTitle( );
+		final TitleBlock titleBlock = lgData.cm.getTitle( );
 		final Bounds titleBounds = titleBlock.getBounds( )
-				.scaledInstance( legendData.dScale );
+				.scaledInstance( lgData.dScale );
 
 		if ( titleBlock.isVisible( ) )
 		{
@@ -415,32 +419,32 @@ public final class LegendBuilder implements IConstants
 			}
 		}
 
-		legendData.dAvailableWidth = boFull.getWidth( ) -
-				ins.getLeft( ) -
-				ins.getRight( ) -
-				lgIns.getLeft( ) -
-				lgIns.getRight( ) -
-				titleBounds.getWidth( ) *
-				titleWPos;
+		lgData.dAvailableWidth = boFull.getWidth( )
+				- ins.getLeft( )
+				- ins.getRight( )
+				- lgIns.getLeft( )
+				- lgIns.getRight( )
+				- titleBounds.getWidth( )
+				* titleWPos;
 
-		legendData.dAvailableHeight = boFull.getHeight( ) -
-				ins.getTop( ) -
-				ins.getBottom( ) -
-				lgIns.getTop( ) -
-				lgIns.getBottom( ) -
-				titleBounds.getHeight( ) *
-				titleHPos;
+		lgData.dAvailableHeight = boFull.getHeight( )
+				- ins.getTop( )
+				- ins.getBottom( )
+				- lgIns.getTop( )
+				- lgIns.getBottom( )
+				- titleBounds.getHeight( )
+				* titleHPos;
 
-		double dMaxPercent = lg.getMaxPercent( );
+		double dMaxPercent = lgData.lg.getMaxPercent( );
 		if ( dMaxPercent < 0 || dMaxPercent > 1 )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.GENERATION,
-					Messages.getString("exception.legend.orientation.InvalidMaxPercent"), //$NON-NLS-1$
-					Messages.getResourceBundle( xs.getULocale( ) ) );
+					Messages.getString( "exception.legend.orientation.InvalidMaxPercent" ), //$NON-NLS-1$
+					Messages.getResourceBundle( lgData.xs.getULocale( ) ) );
 
 		}
-		
+
 		double dMaxLegendWidth = boFull.getWidth( ) * dMaxPercent;
 		double dMaxLegendHeight = boFull.getHeight( ) * dMaxPercent;
 
@@ -449,21 +453,74 @@ public final class LegendBuilder implements IConstants
 			case Position.LEFT :
 			case Position.RIGHT :
 			case Position.OUTSIDE :
-				if ( legendData.dAvailableWidth > dMaxLegendWidth )
+				if ( lgData.dAvailableWidth > dMaxLegendWidth )
 				{
-					legendData.dAvailableWidth = dMaxLegendWidth;
+					lgData.dAvailableWidth = dMaxLegendWidth;
 				}
 				break;
 			case Position.ABOVE :
 			case Position.BELOW :
-				if ( legendData.dAvailableHeight > dMaxLegendHeight )
+				if ( lgData.dAvailableHeight > dMaxLegendHeight )
 				{
-					legendData.dAvailableHeight = dMaxLegendHeight;
+					lgData.dAvailableHeight = dMaxLegendHeight;
 				}
 				break;
 		}
 
 	}
+	
+
+	/*
+	 * Return the size of legend title. Note: lgData will be modified!
+	 */
+	private static Size getTitleSize( LegendData lgData ) throws ChartException
+	{
+		Size size = null;
+		Label laTitle = lgData.lg.getTitle( );
+
+		if ( laTitle != null && laTitle.isSetVisible( ) && laTitle.isVisible( ) )
+		{
+			laTitle = LabelImpl.copyInstance( laTitle );
+			String sTitle = laTitle.getCaption( ).getValue( );
+			laTitle.getCaption( )
+					.setValue( lgData.rtc.externalizedMessage( sTitle ) );
+			int iTitlePos = lgData.lg.getTitlePosition( ).getValue( );
+			double shadow = lgData.dShadowness;
+			double space = 2 * shadow;
+			double percent = lgData.lg.getTitlePercent( );
+
+			if ( iTitlePos == Position.ABOVE || iTitlePos == Position.BELOW )
+			{
+				double dMaxTWidth = lgData.dAvailableWidth - shadow;
+				double dMaxTHeight = lgData.dAvailableHeight * percent - space;
+				Size maxTitleSize = SizeImpl.create( dMaxTWidth, dMaxTHeight );
+				size = Methods.computeLimitedLabelSize( lgData.xs,
+						laTitle,
+						maxTitleSize,
+						null );
+				lgData.dAvailableHeight -= size.getHeight( ) + space;
+			}
+			else
+			{
+				double dMaxTWidth = lgData.dAvailableWidth * percent - space;
+				double dMaxTHeight = lgData.dAvailableHeight - shadow;
+				Size maxTitleSize = SizeImpl.create( dMaxTWidth, dMaxTHeight );
+				size = Methods.computeLimitedLabelSize( lgData.xs,
+						laTitle,
+						maxTitleSize,
+						null );
+				lgData.dAvailableWidth -= size.getWidth( ) + space;
+			}
+
+			size.setWidth( size.getWidth( ) + space );
+			size.setHeight( size.getHeight( ) + space );
+		}
+
+		lgData.laTitle = laTitle;
+		return size;
+	}
+
+	
 
 	/**
 	 * Computes the size of the legend. Note the computation relies on the title
@@ -472,327 +529,130 @@ public final class LegendBuilder implements IConstants
 	 * @param lg
 	 * @param sea
 	 * 
-	 * @throws GenerationException
+	 * @throws ChartException
 	 */
 	public final Size compute( IDisplayServer xs, Chart cm,
 			SeriesDefinition[] seda, RunTimeContext rtc ) throws ChartException
 	{
-		ITextMetrics itm = null;
-		try
+		// THREE CASES:
+		// 1. ALL SERIES IN ONE ARRAYLIST
+		// 2. ONE SERIES PER ARRAYLIST
+		// 3. ALL OTHERS
+
+		final Legend lg = cm.getLegend( );
+		if ( !lg.isSetOrientation( ) )
 		{
-			// THREE CASES:
-			// 1. ALL SERIES IN ONE ARRAYLIST
-			// 2. ONE SERIES PER ARRAYLIST
-			// 3. ALL OTHERS
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
+					"exception.legend.orientation.horzvert", //$NON-NLS-1$
+					Messages.getResourceBundle( xs.getULocale( ) ) );
+		}
+		if ( !lg.isSetDirection( ) )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
+					"exception.legend.direction.tblr", //$NON-NLS-1$
+					Messages.getResourceBundle( xs.getULocale( ) ) );
+		}
 
-			final Legend lg = cm.getLegend( );
-			LegendData legendData = new LegendData( );
-			if ( !lg.isSetOrientation( ) )
+		LegendData lgData = new LegendData( xs, cm, seda, rtc );
+
+		// Get maximum block width/height available
+		initAvailableSize( lgData );
+
+		// Calculate if minSlice applicable.
+		boolean bMinSliceDefined = false;
+
+		if ( cm instanceof ChartWithoutAxes )
+		{
+			bMinSliceDefined = ( (ChartWithoutAxes) cm ).isSetMinSlice( );
+			lgData.sMinSliceLabel = ( (ChartWithoutAxes) cm ).getMinSliceLabel( );
+			if ( lgData.sMinSliceLabel == null
+					|| lgData.sMinSliceLabel.length( ) == 0 )
 			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.GENERATION,
-						"exception.legend.orientation.horzvert", //$NON-NLS-1$
-						Messages.getResourceBundle( xs.getULocale( ) ) );
-			}
-			if ( !lg.isSetDirection( ) )
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.GENERATION,
-						"exception.legend.direction.tblr", //$NON-NLS-1$
-						Messages.getResourceBundle( xs.getULocale( ) ) );
-			}
-
-			// INITIALIZATION OF VARS USED IN FOLLOWING LOOPS
-			final Orientation orientation = lg.getOrientation( );
-			final Direction direction = lg.getDirection( );
-//			final Position lgPosition = lg.getPosition( );
-			final boolean bPaletteByCategory = ( lg.getItemType( ).getValue( ) == LegendItemType.CATEGORIES );
-
-			Label la = LabelImpl.create( );
-			la.setEllipsis( 1 );
-			la.setCaption( TextImpl.copyInstance( lg.getText( ) ) );
-
-			ClientArea ca = lg.getClientArea( );
-			LineAttributes lia = ca.getOutline( );
-			legendData.dSeparatorThickness = lia.getThickness( );
-			la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
-			itm = xs.getTextMetrics( la );
-			legendData.dItemHeight = itm.getFullHeight( );
-
-			legendData.dScale = xs.getDpiResolution( ) / 72d;
-			legendData.insCa = ca.getInsets( )
-					.scaledInstance( legendData.dScale );
-
-			legendData.maxWrappingSize = lg.getWrappingSize( )
-					* legendData.dScale;
-
-			legendData.dHorizontalSpacing = 3 * legendData.dScale;
-			legendData.dVerticalSpacing = 3 * legendData.dScale;
-
-			legendData.dSafeSpacing = 3 * legendData.dScale;
-
-			legendData.dHorizonalReservedSpace = legendData.insCa.getLeft( )
-					+ legendData.insCa.getRight( )
-					+ ( 3 * legendData.dItemHeight ) / 2
-					+ legendData.dHorizontalSpacing;
-
-			
-			// Get maximum block width/height available
-			initAvailableSize(legendData, xs, cm);
-			
-			// Calculate if minSlice applicable.
-			boolean bMinSliceDefined = false;
-
-			if ( cm instanceof ChartWithoutAxes )
-			{
-				bMinSliceDefined = ( (ChartWithoutAxes) cm ).isSetMinSlice( );
-				legendData.sMinSliceLabel = ( (ChartWithoutAxes) cm ).getMinSliceLabel( );
-				if ( legendData.sMinSliceLabel == null
-						|| legendData.sMinSliceLabel.length( ) == 0 )
-				{
-					legendData.sMinSliceLabel = IConstants.UNDEFINED_STRING;
-				}
-				else
-				{
-					legendData.sMinSliceLabel = rtc.externalizedMessage( legendData.sMinSliceLabel );
-				}
-			}
-
-			// calculate if need an extra legend item when minSlice defined.
-			if ( bMinSliceDefined
-					&& bPaletteByCategory && cm instanceof ChartWithoutAxes )
-			{
-				calculateExtraLegend( cm, rtc, legendData );
-			}
-
-			// consider legend title size.
-			Label lgTitle = lg.getTitle( );
-
-			Size titleSize = null;
-			BoundingBox titleBounding = null;
-			int iTitlePos = -1;
-
-			if ( lgTitle != null
-					&& lgTitle.isSetVisible( ) && lgTitle.isVisible( ) )
-			{
-				lgTitle = LabelImpl.copyInstance( lgTitle );
-
-				// handle external resource string
-				final String sPreviousValue = lgTitle.getCaption( ).getValue( );
-				lgTitle.getCaption( )
-						.setValue( rtc.externalizedMessage( sPreviousValue ) );
-
-				try
-				{
-					titleBounding = Methods.computeBox( xs,
-							IConstants.ABOVE,
-							lgTitle,
-							0,
-							0 );
-				}
-				catch ( IllegalArgumentException uiex )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.RENDERING,
-							uiex );
-				}
-
-				iTitlePos = lg.getTitlePosition( ).getValue( );
-
-				// swap left/right
-				if ( rtc.isRightToLeft( ) )
-				{
-					if ( iTitlePos == Position.LEFT )
-					{
-						iTitlePos = Position.RIGHT;
-					}
-					else if ( iTitlePos == Position.RIGHT )
-					{
-						iTitlePos = Position.LEFT;
-					}
-				}
-
-				double shadowness = 3 * legendData.dScale;
-
-				switch ( iTitlePos )
-				{
-					case Position.ABOVE :
-					case Position.BELOW :
-						legendData.dAvailableHeight -= titleBounding.getHeight( )
-								+ 2 * shadowness;
-						break;
-					case Position.LEFT :
-					case Position.RIGHT :
-						legendData.dAvailableWidth -= titleBounding.getWidth( )
-								+ 2 * shadowness;
-						break;
-				}
-
-				titleSize = SizeImpl.create( titleBounding.getWidth( )
-						+ 2 * shadowness, titleBounding.getHeight( )
-						+ 2 * shadowness );
-			}
-			double[] size = null;
-			// COMPUTATIONS HERE MUST BE IN SYNC WITH THE ACTUAL RENDERER
-			boolean bNeedInvert = needInvert( bPaletteByCategory, cm, seda );
-			rtc.putState( "[Legend]bNeedInvert", Boolean.toString( bNeedInvert ) ); //$NON-NLS-1$
-
-			if ( orientation.getValue( ) == Orientation.VERTICAL )
-			{
-
-				if ( bPaletteByCategory )
-				{
-					size = computeVerticalByCategory( xs,
-							cm,
-							rtc,
-							itm,
-							la,
-							legendData,
-							bNeedInvert );
-				}
-				else if ( direction.getValue( ) == Direction.TOP_BOTTOM )
-				{
-					size = computeVerticalByValue( xs,
-							cm,
-							seda,
-							rtc,
-							itm,
-							la,
-							legendData,
-							bNeedInvert,
-							false );
-				}
-				else if ( direction.getValue( ) == Direction.LEFT_RIGHT )
-				{
-					size = computeVerticalByValue( xs,
-							cm,
-							seda,
-							rtc,
-							itm,
-							la,
-							legendData,
-							bNeedInvert,
-							true );
-				}
-				else
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.GENERATION,
-							"exception.illegal.rendering.direction", //$NON-NLS-1$
-							new Object[]{
-								direction.getName( )
-							},
-							Messages.getResourceBundle( xs.getULocale( ) ) );
-				}
-			}
-			else if ( orientation.getValue( ) == Orientation.HORIZONTAL )
-			{
-				if ( bPaletteByCategory )
-				{
-					size = computeHorizalByCategory( xs,
-							cm,
-							rtc,
-							itm,
-							la,
-							legendData,
-							bNeedInvert );
-				}
-				else if ( direction.getValue( ) == Direction.TOP_BOTTOM )
-				{
-					size = computeHorizalByValue( xs,
-							cm,
-							seda,
-							rtc,
-							itm,
-							la,
-							legendData,
-							bNeedInvert,
-							false );
-				}
-				else if ( direction.getValue( ) == Direction.LEFT_RIGHT )
-				{
-					size = computeHorizalByValue( xs,
-							cm,
-							seda,
-							rtc,
-							itm,
-							la,
-							legendData,
-							bNeedInvert,
-							true );
-				}
-				else
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.GENERATION,
-							"exception.illegal.rendering.direction", //$NON-NLS-1$
-							new Object[]{
-								direction
-							},
-							Messages.getResourceBundle( xs.getULocale( ) ) );
-				}
+				lgData.sMinSliceLabel = IConstants.UNDEFINED_STRING;
 			}
 			else
 			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.GENERATION,
-						"exception.illegal.rendering.orientation", //$NON-NLS-1$
-						new Object[]{
-							orientation
-						},
-						Messages.getResourceBundle( xs.getULocale( ) ) );
+				lgData.sMinSliceLabel = rtc.externalizedMessage( lgData.sMinSliceLabel );
 			}
-			if ( size == null )
-			{
-				return SizeImpl.create( 0, 0 );
-			}
-
-			double dWidth = size[0], dHeight = size[1];
-			if ( iTitlePos != -1 )
-			{
-
-				double shadowness = 3 * legendData.dScale;
-
-				switch ( iTitlePos )
-				{
-					case Position.ABOVE :
-					case Position.BELOW :
-						dHeight += titleBounding.getHeight( ) + 2 * shadowness;
-						dWidth = Math.max( dWidth, titleBounding.getWidth( )
-								+ 2 * shadowness );
-						break;
-					case Position.LEFT :
-					case Position.RIGHT :
-						dWidth += titleBounding.getWidth( ) + 2 * shadowness;
-						dHeight = Math.max( dHeight, titleBounding.getHeight( )
-								+ 2 * shadowness );
-						break;
-				}
-			}
-
-			if ( rtc != null )
-			{
-				List<LegendItemHints> legendItems = legendData.legendItems;
-				LegendItemHints[] liha = legendItems.toArray( new LegendItemHints[legendItems.size( )] );
-
-				// update context hints here.
-				LegendLayoutHints lilh = new LegendLayoutHints( SizeImpl.create( dWidth,
-						dHeight ),
-						titleSize,
-						legendData.bMinSliceApplied,
-						legendData.sMinSliceLabel,
-						liha );
-
-				rtc.setLegendLayoutHints( lilh );
-			}
-
-			sz = SizeImpl.create( dWidth, dHeight );
-
 		}
-		finally
+
+		// calculate if need an extra legend item when minSlice defined.
+		if ( bMinSliceDefined
+				&& lgData.bPaletteByCategory
+				&& cm instanceof ChartWithoutAxes )
 		{
-			itm.dispose( ); // DISPOSE RESOURCE AFTER USE
+			calculateExtraLegend( cm, rtc, lgData );
 		}
+
+		// consider legend title size.
+
+		Size titleSize = getTitleSize( lgData );
+
+		double[] size = null;
+		// COMPUTATIONS HERE MUST BE IN SYNC WITH THE ACTUAL RENDERER
+
+		ContentProvider cProvider = ContentProvider.newInstance( lgData );
+		ContentPlacer cPlacer = ContentPlacer.newInstance( lgData );
+		LegendItemHints lih;
+
+		while ( ( lih = cProvider.nextContent( ) ) != null )
+		{
+			if ( !cPlacer.placeContent( lih ) )
+			{
+				break;
+			}
+		}
+
+		cPlacer.finishPlacing( );
+		size = cPlacer.getSize( );
+
+		if ( size == null )
+		{
+			return SizeImpl.create( 0, 0 );
+		}
+
+		double dWidth = size[0], dHeight = size[1];
+
+		if ( titleSize != null )
+		{
+			int iTitlePos = lgData.lg.getTitlePosition( ).getValue( );
+
+			if ( iTitlePos == Position.ABOVE || iTitlePos == Position.BELOW )
+			{
+				dWidth = Math.max( dWidth, titleSize.getWidth( ) );
+				dHeight = dHeight + titleSize.getHeight( );
+				// dHeight = Math.max( dHeight, titleSize.getHeight( )
+				// / lgData.lg.getTitlePercent( ) );
+			}
+			else
+			{
+				dWidth = dWidth + titleSize.getWidth( );
+				dHeight = Math.max( dHeight, titleSize.getHeight( ) );
+				// dWidth = Math.max( dWidth, titleSize.getWidth( )
+				// / lgData.lg.getTitlePercent( ) );
+			}
+		}
+
+		if ( rtc != null )
+		{
+			List<LegendItemHints> legendItems = lgData.legendItems;
+			LegendItemHints[] liha = legendItems.toArray( new LegendItemHints[legendItems.size( )] );
+
+			// update context hints here.
+			LegendLayoutHints lilh = new LegendLayoutHints( SizeImpl.create( dWidth,
+					dHeight ),
+					titleSize,
+					lgData.laTitle,
+					lgData.bMinSliceApplied,
+					lgData.sMinSliceLabel,
+					liha );
+
+			rtc.setLegendLayoutHints( lilh );
+		}
+
+		sz = SizeImpl.create( dWidth, dHeight );
 
 		return sz;
 	}
@@ -801,46 +661,34 @@ public final class LegendBuilder implements IConstants
 	private void calculateExtraLegend( Chart cm, RunTimeContext rtc,
 			LegendData legendData ) throws ChartException
 	{
-		Map renders = rtc.getSeriesRenderers( );
+		Map<Series, LegendItemRenderingHints> renders = rtc.getSeriesRenderers( );
 
 		if ( renders != null
 				&& !( (ChartWithoutAxes) cm ).getSeriesDefinitions( ).isEmpty( ) )
 		{
-			// OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
-			SeriesDefinition sdBase = (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
-					.get( 0 );
-			EList sdA = sdBase.getSeriesDefinitions( );
-			SeriesDefinition[] sdOrtho = (SeriesDefinition[]) sdA.toArray( new SeriesDefinition[sdA.size( )] );
-
-			DataSetIterator dsiOrtho = null;
-			BaseRenderer br;
+			List<SeriesDefinition> sedList = ChartUtil.getAllOrthogonalSeriesDefinitions( cm );
 			boolean started = false;
 
-			ENTRANCE: for ( int i = 0; i < sdOrtho.length; i++ )
+			for ( SeriesDefinition sed : sedList )
 			{
-				List sdRuntimeSA = sdOrtho[i].getRunTimeSeries( );
-				Series[] alRuntimeSeries = (Series[]) sdRuntimeSA.toArray( new Series[sdRuntimeSA.size( )] );
+				List<Series> sdRuntimeSA = sed.getRunTimeSeries( );
 
-				for ( int j = 0; j < alRuntimeSeries.length; j++ )
+				for ( Series seRuntime : sdRuntimeSA )
 				{
 					try
 					{
-						dsiOrtho = new DataSetIterator( alRuntimeSeries[j].getDataSet( ) );
-
-						LegendItemRenderingHints lirh = (LegendItemRenderingHints) renders.get( alRuntimeSeries[j] );
+						DataSetIterator dsiOrtho = new DataSetIterator( seRuntime.getDataSet( ) );
+						LegendItemRenderingHints lirh = (LegendItemRenderingHints) renders.get( seRuntime );
 
 						if ( lirh == null )
 						{
-							legendData.filteredMinSliceEntry = null;
-							break ENTRANCE;
+							return;
 						}
 
-						br = lirh.getRenderer( );
+						BaseRenderer br = lirh.getRenderer( );
+						Collection<Integer> fsa = br.getFilteredMinSliceEntry( dsiOrtho );
 
-						// ask each render for filtered min slice info
-						int[] fsa = br.getFilteredMinSliceEntry( dsiOrtho );
-
-						if ( fsa != null && fsa.length > 0 )
+						if ( fsa.size( ) > 0 )
 						{
 							legendData.bMinSliceApplied = true;
 						}
@@ -852,15 +700,11 @@ public final class LegendBuilder implements IConstants
 						}
 						else
 						{
-							// get duplicate indices for all renderers
-							legendData.filteredMinSliceEntry = getDuplicateIndices( fsa,
-									legendData.filteredMinSliceEntry );
+							legendData.filteredMinSliceEntry.retainAll( fsa );
 
-							if ( legendData.filteredMinSliceEntry == null
-									|| legendData.filteredMinSliceEntry.length == 0 )
+							if ( legendData.filteredMinSliceEntry.size( ) == 0 )
 							{
-								legendData.filteredMinSliceEntry = null;
-								break ENTRANCE;
+								return;
 							}
 						}
 					}
@@ -874,193 +718,6 @@ public final class LegendBuilder implements IConstants
 			}
 		}
 
-		// assign a zero-length array for successive convenience
-		if ( legendData.filteredMinSliceEntry == null )
-		{
-			legendData.filteredMinSliceEntry = new int[0];
-		}
-	}
-
-	private double[] computeVerticalByCategory( IDisplayServer xs, Chart cm,
-			RunTimeContext rtc, ITextMetrics itm, Label la,
-			LegendData legendData, boolean bNeedInvert ) throws ChartException
-	{
-		double dX = 0, dY = 0;
-		double dW = 0, dH = 0;
-		double dMaxW = 0, dMaxH = 0;
-		ArrayList<LegendItemHints> columnList = new ArrayList<LegendItemHints>( );
-
-		LabelItem laiLegend = new LabelItem( xs,
-				rtc,
-				itm,
-				la,
-				legendData.maxWrappingSize );
-
-		SeriesDefinition sdBase = null;
-		if ( cm instanceof ChartWithAxes ) 
-		{
-			// ONLY SUPPORT 1 BASE AXIS FOR NOW
-			final Axis axPrimaryBase = ( (ChartWithAxes) cm ).getBaseAxes( )[0];
-			if ( axPrimaryBase.getSeriesDefinitions( ).isEmpty( ) )
-			{
-				return null;
-			}
-			// OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
-			sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions( )
-					.get( 0 );
-		}
-		else if ( cm instanceof ChartWithoutAxes )
-		{
-			if ( ( (ChartWithoutAxes) cm ).getSeriesDefinitions( ).isEmpty( ) )
-			{
-				return null;
-			}
-			// OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
-			sdBase = (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
-					.get( 0 );
-		}
-		// OK TO ASSUME THAT 1 BASE RUNTIME SERIES EXISTS
-		Series seBase;
-		if ( sdBase.getRunTimeSeries( ).size( ) == 0 )
-		{
-			return new double[]{
-					0, 0
-			};
-		}
-		else
-		{
-			seBase = (Series) sdBase.getRunTimeSeries( ).get( 0 );
-		}
-
-		DataSetIterator dsiBase = createDataSetIterator( seBase, cm );
-
-		FormatSpecifier fs = null;
-		if ( sdBase != null )
-		{
-			fs = sdBase.getFormatSpecifier( );
-		}
-
-		int pos = -1;
-		boolean bDataReverse = bNeedInvert;
-		if ( cm instanceof ChartWithAxes )
-		{
-			ChartWithAxes cwa = (ChartWithAxes) cm;
-			bDataReverse = ChartUtil.XOR( bNeedInvert, cwa.isReverseCategory( ) );
-		}
-		dsiBase.reverse( bDataReverse );
-
-		boolean bHasMoreData = true;
-		all: while ( bHasMoreData )
-		{
-			int categoryIndex;
-
-			if ( dsiBase.hasNext( ) )
-			{
-				Object obj = dsiBase.next( );
-
-				// Replace with one space char if it is null, and it can be
-				// dispalyed normally with empty label. - Henry
-				obj = getNonEmptyValue( obj, IConstants.ONE_SPACE );
-
-				// Skip invalid data
-				while ( !isValidValue( obj ) && dsiBase.hasNext( ) )
-				{
-					obj = dsiBase.next( );
-				}
-
-				pos++;
-
-				// filter the not-used legend.
-				if ( legendData.bMinSliceApplied
-						&& Arrays.binarySearch( legendData.filteredMinSliceEntry,
-								pos ) >= 0 )
-				{
-					continue;
-				}
-
-				laiLegend.setText( obj, fs );
-				//lgtext = String.valueOf( obj );
-				categoryIndex = LEGEND_ENTRY;
-			}
-			else if ( legendData.bMinSliceApplied )
-			{
-				laiLegend.setText( legendData.sMinSliceLabel, null );
-				//lgtext = legendData.sMinSliceLabel;
-				categoryIndex = LEGEND_MINSLICE_ENTRY;
-				bHasMoreData = false;
-				pos++;
-
-			}
-			else
-			{
-				break;
-			}
-
-			// check available bounds
-			boolean bRedo = true;
-			// Here, add loop limit to prevent potential endless loop.
-			for ( int iLoopLimit = 2; bRedo && iLoopLimit > 0; iLoopLimit-- )
-			{
-				// compute the size
-				double[] dsize = getItemSizeCata( laiLegend, legendData, dX );
-				dW = dsize[0];
-				dH = dsize[1];
-
-				if (!hasPlaceForOneItem(dW, dH, legendData))
-				{
-					break all;
-				}
-
-				if ( dX + dW > legendData.dAvailableWidth
-						+ legendData.dSafeSpacing )
-				{
-					columnList.clear( );
-					break all;
-				}
-				else
-				{
-					if ( dY + dH > legendData.dAvailableHeight +
-							legendData.dSafeSpacing )
-					{
-						legendData.legendItems.addAll( columnList );
-						columnList.clear( );
-						dX += dMaxW;
-
-						dMaxH = Math.max( dMaxH, dY );
-						dY = 0;
-						dMaxW = 0;
-						bRedo = true;
-					}
-					else
-					{
-						dMaxW = Math.max( dW, dMaxW );
-						dY += dH;
-						bRedo = false;
-					}
-				}
-			}
-
-			columnList.add( new LegendItemHints( categoryIndex,
-					new Point( dX, dY - dH ),
-					dW - legendData.dHorizonalReservedSpace,
-					laiLegend.getHeight( ),
-					laiLegend.getCaption( ),
-					bNeedInvert ? dsiBase.size( ) - 1 - pos : pos,
-					sdBase,
-					seBase ) );
-
-		}
-
-		// add the rest itmes
-		legendData.legendItems.addAll( columnList );
-		columnList.clear( );
-
-		double dWidth = dX + dMaxW;
-		double dHeight = Math.max( dMaxH, dY );
-
-		return new double[]{
-				dWidth, dHeight
-		};
 	}
 
 	/**
@@ -1073,7 +730,7 @@ public final class LegendBuilder implements IConstants
 	 *            default return value.
 	 * @return a non empty value.
 	 */
-	private Object getNonEmptyValue( Object value, Object defaultValue )
+	private static Object getNonEmptyValue( Object value, Object defaultValue )
 	{
 		if ( value == null || value.toString( ).length( ) == 0 )
 		{
@@ -1082,27 +739,313 @@ public final class LegendBuilder implements IConstants
 
 		return value;
 	}
-	
-	
-	private static class LegendGroupNameProvider
-	{
-		private boolean bProvided = false;
-		private Object oGroupName = null;
 
-		public LegendGroupNameProvider( SeriesDefinition[] seda,
-				SeriesDefinition sed )
+	private static abstract class ContentProvider
+	{
+
+		private ChartUtil.CacheDecimalFormat dfCache = new ChartUtil.CacheDecimalFormat( );
+		protected final LegendData lgData;
+		protected final boolean bNeedInvert;
+		protected FormatSpecifier fs = null;
+
+		protected ContentProvider( LegendData lgData )
 		{
-			if ( needToShowGroupName( seda, sed ) )
+			this.lgData = lgData;
+			this.bNeedInvert = needInvert( lgData.bPaletteByCategory,
+					lgData.cm,
+					lgData.seda );
+
+		}
+
+		public static ContentProvider newInstance( LegendData lgData )
+				throws ChartException
+		{
+			LegendItemType itemType = lgData.lg.getItemType( );
+			if ( itemType.getValue( ) == LegendItemType.CATEGORIES )
 			{
-				oGroupName = getGroupName( sed );
+				return new CategoryContentProvider( lgData );
+			}
+			else if ( itemType.getValue( ) == LegendItemType.SERIES )
+			{
+				return new ValueContentProvider( lgData );
+			}
+			else
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						"exception.illegal.rendering.legend.itemtype", //$NON-NLS-1$
+						new Object[]{
+							itemType
+						},
+						Messages.getResourceBundle( lgData.rtc.getULocale( ) ) );
+			}
+
+		}
+
+		public abstract LegendItemHints nextContent( ) throws ChartException;
+
+		protected String format( Object oText ) throws ChartException
+		{
+			// Format numerical category data with default pattern if no format
+			// specified
+			DecimalFormat df = null;
+			if ( fs == null && oText instanceof Number )
+			{
+				String sPattern = ValueFormatter.getNumericPattern( ( (Number) oText ).doubleValue( ) );
+				df = dfCache.get( sPattern );
+			}
+
+			// apply user defined format if exists
+			try
+			{
+				return ValueFormatter.format( oText,
+						fs,
+						lgData.rtc.getULocale( ),
+						df );
+			}
+			catch ( ChartException e )
+			{
+				// ignore, use original text.
+				return oText.toString( );
+			}
+
+		}
+
+		/**
+		 * Check if the legend items need display in a inverted order (Stack
+		 * Bar)
+		 */
+		private static boolean needInvert( final boolean bPaletteByCategory,
+				final Chart cm, final SeriesDefinition[] seda )
+		{
+			boolean bNeedInvert = false; // return value
+
+			if ( !( cm instanceof ChartWithAxes ) )
+			{
+				return false;
+			}
+
+			boolean bIsStacked = isStacked( seda );
+			boolean bIsFliped = ( (ChartWithAxes) cm ).isTransposed( );
+
+			if ( bPaletteByCategory )
+			{ // by Category
+				bNeedInvert = bIsFliped;
+			}
+			else
+			{ // by Value
+				bNeedInvert = ( bIsStacked && !bIsFliped )
+						|| ( !bIsStacked && bIsFliped );
+			}
+
+			return bNeedInvert;
+		}
+
+	}
+
+	private static class CategoryContentProvider extends ContentProvider
+	{
+
+		private SeriesDefinition sdBase = null;
+		private DataSetIterator dsiBase = null;
+		private Series seBase = null;
+		private int pos = -1;
+		private boolean bMinSliceCreated = false;
+
+		protected CategoryContentProvider( LegendData lgData )
+				throws ChartException
+		{
+			super( lgData );
+			sdBase = ChartUtil.getBaseSeriesDefinitions( lgData.cm ).get( 0 );
+
+			// OK TO ASSUME THAT 1 BASE RUNTIME SERIES EXISTS
+			seBase = (Series) sdBase.getRunTimeSeries( ).get( 0 );
+
+			dsiBase = createDataSetIterator( seBase, lgData.cm );
+
+			if ( sdBase != null )
+			{
+				fs = sdBase.getFormatSpecifier( );
+			}
+
+			boolean bDataReverse = bNeedInvert;
+			if ( lgData.cm instanceof ChartWithAxes )
+			{
+				ChartWithAxes cwa = (ChartWithAxes) lgData.cm;
+				bDataReverse = ChartUtil.XOR( bNeedInvert,
+						cwa.isReverseCategory( ) );
+			}
+			dsiBase.reverse( bDataReverse );
+
+		}
+
+		@Override
+		public LegendItemHints nextContent( ) throws ChartException
+		{
+			if ( dsiBase.hasNext( ) )
+			{
+				Object obj = dsiBase.next( );
+
+				obj = getNonEmptyValue( obj, IConstants.ONE_SPACE );
+
+				// Skip invalid data
+				while ( !isValidValue( obj ) && dsiBase.hasNext( ) )
+				{
+					obj = dsiBase.next( );
+				}
+
+				pos++;
+
+				// filter the not-used legend.
+				if ( lgData.bMinSliceApplied
+						&& lgData.filteredMinSliceEntry.contains( pos ) )
+				{
+					return nextContent( );
+				}
+				else
+				{
+					int index = bNeedInvert ? dsiBase.size( ) - 1 - pos : pos;
+					return LegendItemHints.newCategoryEntry( format( obj ),
+							sdBase,
+							seBase,
+							index );
+				}
+
+			}
+			else if ( lgData.bMinSliceApplied && !bMinSliceCreated )
+			{
+				pos++;
+				int index = bNeedInvert ? dsiBase.size( ) - 1 - pos : pos;
+				bMinSliceCreated = true;
+				return LegendItemHints.newMinSliceEntry( lgData.sMinSliceLabel,
+						sdBase,
+						seBase,
+						index );
+			}
+			else
+			{
+				return null;
 			}
 		}
 
-		private static boolean needToShowGroupName( SeriesDefinition[] seda,
-				SeriesDefinition sed )
+
+	}
+
+	private static class ValueContentProvider extends ContentProvider
+	{
+
+		private static enum Status {
+			WAIT_SD, WAIT_SERIES;
+		}
+
+		private final boolean bShowValue;
+		private final boolean bSeparator;
+		private List<SeriesDefinition> alSed = null;
+		private Iterator<SeriesDefinition> itSed = null;
+		private List<Series> alSeries = null;
+		private InvertibleIterator<Series> itSeries = null;
+		private SeriesDefinition sed = null;
+		private SeriesNameFormat snFormat = SeriesNameFormat.DEFAULT_FORMAT;
+		private Status status;
+
+		protected ValueContentProvider( LegendData lgData )
 		{
-			if ( seda == null
-					|| seda.length <= 1
+			super( lgData );
+			Legend lg = lgData.cm.getLegend( );
+			this.bSeparator = lg.getSeparator( ) == null
+					|| lg.getSeparator( ).isVisible( );
+			this.alSed = Arrays.asList( lgData.seda );
+			this.bShowValue = lg.isShowValue( );
+			this.itSed = new InvertibleIterator<SeriesDefinition>( alSed,
+					bNeedInvert );
+			this.status = Status.WAIT_SD;
+		}
+
+		public LegendItemHints nextContent( ) throws ChartException
+		{
+			switch ( status )
+			{
+				case WAIT_SD :
+					return visitSed( );
+				case WAIT_SERIES :
+					return visitSeries( );
+			}
+			return null;
+		}
+
+		private LegendItemHints visitSed( ) throws ChartException
+		{
+			if ( itSed.hasNext( ) )
+			{
+				sed = itSed.next( );
+				snFormat = SeriesNameFormat.getSeriesNameFormat( sed,
+						lgData.rtc.getULocale( ) );
+				alSeries = sed.getRunTimeSeries( );
+				itSeries = new InvertibleIterator<Series>( alSeries,
+						bNeedInvert );
+				fs = sed.getFormatSpecifier( );
+				status = Status.WAIT_SERIES;
+
+				if ( needToShowGroupName( sed ) )
+				{
+					return LegendItemHints.newGroupNameEntry( getGroupName( sed ) );
+				}
+				else
+				{
+					return visitSeries( );
+				}
+			}
+
+			return null;
+		}
+
+		private LegendItemHints visitSeries( ) throws ChartException
+		{
+			if ( itSeries.hasNext( ) )
+			{
+				Series se = itSeries.next( );
+				String sItem = formatItemText( se.getSeriesIdentifier( ) );
+				String sValue = bShowValue ? getValueText( lgData.cm, se )
+						: null;
+				return LegendItemHints.newEntry( sItem,
+						sValue,
+						sed,
+						se,
+						itSeries.getIndex( ) );
+			}
+			else
+			{
+				this.status = Status.WAIT_SD;
+				if ( bSeparator && alSeries.size( ) > 0 && itSed.hasNext( ) )
+				{
+					return LegendItemHints.createSeperator( );
+				}
+				else
+				{
+					return visitSed( );
+				}
+			}
+
+		}
+
+		private String formatItemText( Object oText ) throws ChartException
+		{
+			String str;
+			if ( snFormat != SeriesNameFormat.DEFAULT_FORMAT )
+			{
+				str = snFormat.format( oText );
+			}
+			else
+			{
+				str = format( oText );
+			}
+			return lgData.rtc.externalizedMessage( str );
+		}
+
+		private boolean needToShowGroupName( SeriesDefinition sed )
+		{
+			if ( alSed == null
+					|| alSed.size( ) <= 1
 					|| sed.getQuery( ) == null
 					|| sed.getQuery( ).getDefinition( ) == null
 					|| sed.getQuery( ).getDefinition( ).trim( ) == "" ) //$NON-NLS-1$
@@ -1118,757 +1061,452 @@ public final class LegendBuilder implements IConstants
 
 			Series seDesign = sed.getDesignTimeSeries( );
 			Series seRun = (Series) alRun.get( 0 );
-			
-			if (seDesign==null || alRun.size( )>1)
+
+			if ( seDesign == null || alRun.size( ) > 1 )
 			{
 				return true;
 			}
-			
+
 			return !seDesign.getSeriesIdentifier( )
 					.equals( seRun.getSeriesIdentifier( ) );
-			
+
 		}
 
-		private static Object getGroupName( SeriesDefinition sed )
+		private String getGroupName( SeriesDefinition sed )
+				throws ChartException
 		{
-			Object sGN = ""; //$NON-NLS-1$
-			if ( sed.getDesignTimeSeries( ) != null )
+			String sGN = ""; //$NON-NLS-1$
+			Series seDesign = sed.getDesignTimeSeries( );
+			if ( seDesign != null )
 			{
-				sGN = sed.getDesignTimeSeries( ).getSeriesIdentifier( );
+				sGN = formatItemText( seDesign.getSeriesIdentifier( ) );
 			}
 			return sGN;
 		}
 
-		public Object getGroupName( )
-		{
-			if ( !bProvided )
-			{
-				bProvided = true;
-				return oGroupName;
-			}
-			return null;
-		}
-		
 	}
-	
-	private double[] computeVerticalByValue( IDisplayServer xs, Chart cm,
-			SeriesDefinition[] seda, RunTimeContext rtc, ITextMetrics itm,
-			Label la, LegendData legendData, boolean bNeedInvert,
-			boolean bIsLeftRight ) throws ChartException
+
+	private static abstract class ContentPlacer
 	{
-		double dX = 0, dY = 0;
-		double dMaxW = 0, dMaxH = 0;
-		ArrayList<LegendItemHints> columnList = new ArrayList<LegendItemHints>( );
 
-		LabelItem laiLegend = new LabelItem( xs,
-				rtc,
-				itm,
-				la,
-				legendData.maxWrappingSize );
-		LabelItem laiValue = new LabelItem( laiLegend );
-
-		// a seperated itm for value text
-		ITextMetrics itm_v = xs.getTextMetrics( la );
-		// boolean bIsShowValue = cm.getLegend( ).isShowValue( );
-
-		// (VERTICAL => TB)
-		double dSeparatorThickness = legendData.dSeparatorThickness
-				+ ( bIsLeftRight ? legendData.dHorizontalSpacing
-						: legendData.dVerticalSpacing );
-
-		all: for ( int j = 0; j < seda.length; j++ )
+		public static ContentPlacer newInstance( LegendData legendData )
+				throws ChartException
 		{
-			int iSedaId = bNeedInvert ? seda.length - 1 - j : j;
-			SeriesNameFormat snFormat = SeriesNameFormat.getSeriesNameFormat( seda[iSedaId],
-					rtc.getULocale( ) );
-			List al = seda[iSedaId].getRunTimeSeries( );
-			FormatSpecifier fs = seda[iSedaId].getFormatSpecifier( );
-
-			boolean oneVisibleSerie = false;
-			boolean isGroupName;
-			
-			LegendGroupNameProvider gnProvider = new LegendGroupNameProvider( seda,
-					seda[iSedaId] );
-
-			InvertibleIterator it = new InvertibleIterator( al, bNeedInvert );
-
-			Object oGN;
-			while ( ( oGN = gnProvider.getGroupName( ) ) != null
-					|| it.hasNext( ) )
+			Orientation orientation = legendData.lg.getOrientation( );
+			if ( orientation.getValue( ) == Orientation.VERTICAL )
 			{
-				isGroupName = ( oGN != null );
-				boolean bIsShowValue = cm.getLegend( ).isShowValue( )
-						&& !isGroupName;
-				
-				Series se = isGroupName ? null : (Series) it.next( );
-
-				if ( isGroupName || se.isVisible( ) )
-				{
-					oneVisibleSerie = true;
-				}
-				else
-				{
-					continue;
-				}
-				
-				Object obj;
-				String lgtext = null;
-				String strExtText = null;
-
-				if ( isGroupName )
-				{
-					obj = oGN;
-					lgtext = rtc.externalizedMessage( snFormat.format( obj ) );
-				}
-				else
-				{
-					// legend text
-					obj = se.getSeriesIdentifier( );
-					lgtext = rtc.externalizedMessage( snFormat.format( obj ) );
-					// value text
-					strExtText = getValueText( cm, se );
-				}
-
-				{
-					double dW = 0, dH = 0;
-					laiLegend.setText( lgtext, fs );
-
-					double dExtHeight = 0d;
-					if ( bIsShowValue )
-					{
-						Label seLabel = LabelImpl.copyInstance( se.getLabel( ) );
-						laiValue.setLabel( seLabel, strExtText, fs, itm_v );
-					}
-
-					// check available bounds
-					boolean bRedo = true;
-					// Here, add loop limit to prevent potential endless loop.
-					for ( int iLoopLimit = 2; bRedo && iLoopLimit > 0; iLoopLimit-- )
-					{
-						// compute the size
-						double[] dsize;
-						if ( isGroupName )
-						{
-							dsize = getItemSizeGN( laiLegend,
-								legendData,
-								dX );
-						}
-						else
-						{
-							dsize = getItemSize( laiLegend,
-								laiValue,
-								bIsShowValue,
-								legendData,
-								dX );
-						}
-						dW = dsize[0];
-						dH = dsize[1];
-						
-						if (!hasPlaceForOneItem(dW, dH, legendData))
-						{
-							break all;
-						}
-
-						if ( dX + dW > legendData.dAvailableWidth
-								+ legendData.dSafeSpacing )
-						{
-							columnList.clear( );
-							break all;
-						}
-						else
-						{
-							if ( dY + dH > legendData.dAvailableHeight +
-									legendData.dSafeSpacing )
-							{
-								legendData.legendItems.addAll( columnList );
-								columnList.clear( );
-								dX += dMaxW;
-
-								dMaxH = Math.max( dMaxH, dY );
-								dY = 0;
-								dMaxW = 0;
-								bRedo = true;
-							}
-							else
-							{
-								dMaxW = Math.max( dW, dMaxW );
-								dY += dH;
-								bRedo = false;
-							}
-						}
-					}
-
-					if ( bIsShowValue )
-					{
-						dExtHeight = laiValue.getHeight( );
-						strExtText = laiValue.getCaption( );
-					}
-					
-					if ( isGroupName )
-					{
-						columnList.add( new LegendItemHints( LEGEND_GROUP_NAME,
-								new Point( dX, dY
-										- dH
-										+ legendData.insCa.getTop( ) ),
-								dW,
-								laiLegend.getHeight( ),
-								laiLegend.getCaption( ) ) );
-					}
-					else
-					{
-						columnList.add( new LegendItemHints( LEGEND_ENTRY,
-								new Point( dX, dY - dH ),
-								dW - legendData.dHorizonalReservedSpace,
-								laiLegend.getHeight( ),
-								laiLegend.getCaption( ),
-								dExtHeight,
-								strExtText,
-								it.getIndex( ),
-								seda[iSedaId],
-								se ) );
-					}
-
-				}
+				return new VerticalPlacer( legendData );
 			}
-
-			// add the rest itmes
-			legendData.legendItems.addAll( columnList );
-			columnList.clear( );
-
-			boolean bNotLastSeda = ( j < seda.length - 1 );
-			if ( bIsLeftRight )
+			else if ( orientation.getValue( ) == Orientation.HORIZONTAL )
 			{
-				if ( oneVisibleSerie )
-				{
-					dX += dMaxW;
-					dMaxW = 0;
-					dMaxH = Math.max( dMaxH, dY );
-					// SETUP VERTICAL SEPARATOR SPACING
-					if ( bNotLastSeda && needSeparator( cm ) )
-					{
-						dX += dSeparatorThickness;
-
-						legendData.legendItems.add( new LegendItemHints( LEGEND_SEPERATOR,
-								new Point( dX - dSeparatorThickness / 2, 0 ),
-								0,
-								dMaxH,
-								null,
-								0,
-								null ) );
-					}
-				}
-
-				dY = 0;
+				return new HorizontalPlacer( legendData );
 			}
 			else
-			{
-				// SETUP HORIZONTAL SEPARATOR SPACING
-				if ( oneVisibleSerie && bNotLastSeda && needSeparator( cm ) )
-				{
-					dY += dSeparatorThickness;
-
-					legendData.legendItems.add( new LegendItemHints( LEGEND_SEPERATOR,
-							new Point( dX, dY - dSeparatorThickness / 2 ),
-							dMaxW - legendData.dHorizontalSpacing,
-							0,
-							null,
-							0,
-							null ) );
-				}
-			}
-
-		}
-		columnList.clear( );
-
-		// LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING + MAX
-		// ITEM WIDTH + RIGHT INSETS
-		double dWidth = bIsLeftRight ? dX : dX + dMaxW;
-		double dHeight = Math.max( dMaxH, dY );
-
-		return new double[]{
-				dWidth, dHeight
-		};
-
-	}
-
-	private double[] computeHorizalByCategory( IDisplayServer xs, Chart cm,
-			RunTimeContext rtc, ITextMetrics itm, Label la,
-			LegendData legendData, boolean bNeedInvert ) throws ChartException
-	{
-		double dX = 0, dY = 0;
-		double dW = 0, dH = 0;
-		double dMaxW = 0, dMaxH = 0;
-		ArrayList<LegendItemHints> columnList = new ArrayList<LegendItemHints>( );
-
-		LabelItem laiLegend = new LabelItem( xs,
-				rtc,
-				itm,
-				la,
-				legendData.maxWrappingSize );
-
-		SeriesDefinition sdBase = null;
-		if ( cm instanceof ChartWithAxes )
-		{
-			// ONLY SUPPORT 1 BASE AXIS FOR NOW
-			final Axis axPrimaryBase = ( (ChartWithAxes) cm ).getBaseAxes( )[0];
-			if ( axPrimaryBase.getSeriesDefinitions( ).isEmpty( ) )
 			{
 				throw new ChartException( ChartEnginePlugin.ID,
 						ChartException.GENERATION,
-						"exception.base.axis.no.series.definitions", //$NON-NLS-1$ 
-						Messages.getResourceBundle( xs.getULocale( ) ) );
+						"exception.illegal.rendering.orientation", //$NON-NLS-1$
+						new Object[]{
+							orientation
+						},
+						Messages.getResourceBundle( legendData.rtc.getULocale( ) ) );
 			}
-			// OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
-			sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions( )
-					.get( 0 );
+
 		}
-		else if ( cm instanceof ChartWithoutAxes )
+
+		protected LabelItem laiItem = null;
+		protected LabelItem laiValue = null;
+		protected final LegendData lgData;
+		protected final boolean bIsShowValue;
+		protected final boolean bIsLeftRight;
+		protected double dSepThick = 0;
+		protected final boolean bCategory;
+
+		protected double dX = 0;
+		protected double dY = 0;
+		protected double dMaxW = 0;
+		protected double dMaxH = 0;
+		protected List<LegendItemHints> columnList = new ArrayList<LegendItemHints>( );
+		protected List<LegendItemHints> gnList = new ArrayList<LegendItemHints>( );
+
+		private SeriesDefinition sed = null;
+
+		protected ContentPlacer( LegendData lgData )
 		{
-			if ( ( (ChartWithoutAxes) cm ).getSeriesDefinitions( ).isEmpty( ) )
+			this.lgData = lgData;
+			this.bCategory = ( lgData.lg.getItemType( ).getValue( ) == LegendItemType.CATEGORIES );
+			this.bIsShowValue = !bCategory && lgData.lg.isShowValue( );
+			this.bIsLeftRight = ( lgData.lg.getDirection( ).getValue( ) == Direction.LEFT_RIGHT );
+			this.laiItem = new LabelItem( lgData.xs,
+					lgData.rtc,
+					lgData.la,
+					lgData.maxWrappingSize );
+			if ( !bCategory )
 			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.GENERATION,
-						"exception.base.axis.no.series.definitions", //$NON-NLS-1$
-						Messages.getResourceBundle( xs.getULocale( ) ) );
+				this.dSepThick = lgData.dSeparatorThickness
+						+ ( bIsLeftRight ? lgData.dHorizontalSpacing
+								: lgData.dVerticalSpacing );
 			}
-			// OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
-			sdBase = (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
-					.get( 0 );
+
 		}
-		// OK TO ASSUME THAT 1 BASE RUNTIME SERIES EXISTS
-		Series seBase = (Series) sdBase.getRunTimeSeries( ).get( 0 );
 
-		DataSetIterator dsiBase = createDataSetIterator( seBase, cm );
-
-		FormatSpecifier fs = null;
-		if ( sdBase != null )
+		public void dispose( )
 		{
-			fs = sdBase.getFormatSpecifier( );
+			if ( laiItem != null )
+			{
+				laiItem.dispose( );
+			}
+			if ( laiValue != null )
+			{
+				laiValue.dispose( );
+			}
 		}
 
-		int pos = -1;
-		boolean bDataReverse = bNeedInvert;
-		if ( cm instanceof ChartWithAxes )
+		public abstract boolean placeContent( LegendItemHints lih )
+				throws ChartException;
+
+		public abstract void finishPlacing( );
+
+		public abstract double[] getSize( );
+
+		protected Point computeContentSize( LegendItemHints lih )
+				throws ChartException
 		{
-			ChartWithAxes cwa = (ChartWithAxes) cm;
-			bDataReverse = ChartUtil.XOR( bNeedInvert, cwa.isReverseCategory( ) );
-		}
-		dsiBase.reverse( bDataReverse );
+			Point size = null;
 
-		boolean bHasMoreData = true;
-		all: while ( bHasMoreData )
+			if ( lih.getType( ) == LegendItemHints.Type.LG_GROUPNAME )
+			{
+				laiItem.setText( lih.getItemText( ) );
+				double[] dsize = getItemSizeGN( laiItem, lgData, dX );
+				size = new Point( dsize[0], dsize[1] );
+			}
+			else if ( lih.getType( ) == LegendItemHints.Type.LG_ENTRY
+					|| lih.getType( ) == LegendItemHints.Type.LG_MINSLICE )
+			{
+				laiItem.setText( lih.getItemText( ) );
+				if ( bIsShowValue )
+				{
+					checkValueLabel( lih );
+					laiValue.setText( lih.getValueText( ) );
+				}
+				double[] dsize = getItemSize( laiItem,
+						laiValue,
+						bIsShowValue,
+						lgData,
+						dX );
+				size = new Point( dsize[0], dsize[1] );
+			}
+			return size;
+
+		}
+
+		private void checkValueLabel( LegendItemHints lih )
 		{
-			int categoryIndex;
-
-			if ( dsiBase.hasNext( ) )
+			if ( sed != lih.getSeriesDefinition( ) )
 			{
-				Object obj = dsiBase.next( );
-
-				obj = getNonEmptyValue( obj, IConstants.ONE_SPACE );
-
-				// Skip invalid data
-				while ( !isValidValue( obj ) && dsiBase.hasNext( ) )
+				if ( laiValue != null )
 				{
-					obj = dsiBase.next( );
+					laiValue.dispose( );
 				}
-
-				pos++;
-
-				// filter the not-used legend.
-				if ( legendData.bMinSliceApplied
-						&& Arrays.binarySearch( legendData.filteredMinSliceEntry,
-								pos ) >= 0 )
-				{
-					continue;
-				}
-
-				laiLegend.setText( obj, fs );
-				categoryIndex = LEGEND_ENTRY;
+				Series series = (Series) lih.getSeriesDefinition( )
+						.getSeries( )
+						.get( 0 );
+				Label laValue = LabelImpl.copyInstance( series.getLabel( ) );
+				laValue.setEllipsis( 1 );
+				this.laiValue = new LabelItem( lgData.xs,
+						lgData.rtc,
+						laValue,
+						lgData.maxWrappingSize );
 			}
-			else if ( legendData.bMinSliceApplied )
-			{
-				laiLegend.setText( legendData.sMinSliceLabel, null );
-				categoryIndex = LEGEND_MINSLICE_ENTRY;
-				bHasMoreData = false;
-				pos++;
-
-			}
-			else
-			{
-				break;
-			}
-
-			// check available bounds
-			boolean bRedo = true;
-			// Here, add loop limit to prevent potential endless loop.
-			for ( int iLoopLimit = 2; bRedo && iLoopLimit > 0; iLoopLimit-- )
-			{
-				// compute the size
-				double[] dsize = getItemSizeCata( laiLegend, legendData, dX );
-				dW = dsize[0];
-				dH = dsize[1];
-
-				if (!hasPlaceForOneItem(dW, dH, legendData))
-				{
-					break all;
-				}
-
-				if ( dY + dH > legendData.dAvailableHeight
-						+ legendData.dSafeSpacing )
-				{
-					columnList.clear( );
-					break all;
-				}
-				else
-				{
-					if ( dX + dW > legendData.dAvailableWidth +
-							legendData.dSafeSpacing )
-					{
-						legendData.legendItems.addAll( columnList );
-						columnList.clear( );
-
-						dY += dMaxH;
-						dMaxH = 0;
-						dMaxW = Math.max( dMaxW, dX );
-						dX = 0;
-						laiLegend.restoreOriginalText( fs );
-						bRedo = true;
-					}
-					else
-					{
-						dMaxH = Math.max( dH, dMaxH );
-						dX += dW;
-						bRedo = false;
-					}
-
-				}
-			}
-
-			columnList.add( new LegendItemHints( categoryIndex,
-					new Point( dX - dW, dY ),
-					dW - legendData.dHorizonalReservedSpace,
-					laiLegend.getHeight( ),
-					laiLegend.getCaption( ),
-					bNeedInvert ? dsiBase.size( ) - 1 - pos : pos,
-					sdBase,
-					seBase ) );
-
 		}
 
-		legendData.legendItems.addAll( columnList );
-		columnList.clear( );
-
-		double dHeight = dMaxH + dY;
-		double dWidth = Math.max( dMaxW, dX );
-
-		return new double[]{
-				dWidth, dHeight
-		};
+		/**
+		 * Check if the available size of legend can contain at least one legend
+		 * item
+		 * 
+		 * @param itemSize
+		 * @param legendData
+		 * @return
+		 */
+		protected static boolean hasPlaceForOneItem( Point itemSize,
+				LegendData legendData )
+		{
+			return itemSize.getX( ) <= legendData.dAvailableWidth
+					&& itemSize.getY( ) <= legendData.dAvailableHeight;
+		}
 
 	}
 
-	private double[] computeHorizalByValue( IDisplayServer xs, Chart cm,
-			SeriesDefinition[] seda, RunTimeContext rtc, ITextMetrics itm,
-			Label la, LegendData legendData, boolean bNeedInvert,
-			boolean bIsLeftRight ) throws ChartException
+	private static class HorizontalPlacer extends ContentPlacer
 	{
-		double dX = 0, dY = 0;
-		double dMaxH = 0, dMaxW = 0;
-		ArrayList<LegendItemHints> columnList = new ArrayList<LegendItemHints>( );
 
-		LabelItem laiLegend = new LabelItem( xs,
-				rtc,
-				itm,
-				la,
-				legendData.maxWrappingSize );
-		LabelItem laiValue = new LabelItem( laiLegend );
-
-		// a seperated itm for value text
-		ITextMetrics itm_v = xs.getTextMetrics( la );
-		// (HORIZONTAL => LR)
-
-		double dSeparatorThickness = legendData.dSeparatorThickness
-				+ ( bIsLeftRight ? legendData.dHorizontalSpacing
-						: legendData.dVerticalSpacing );
-
-		LegendItemHints lihLastGN = null;
-		all: for ( int j = 0; j < seda.length; j++ )
+		public HorizontalPlacer( LegendData legendData )
 		{
-			int iSedaId = bNeedInvert ? seda.length - 1 - j : j;
-			SeriesNameFormat snFormat = SeriesNameFormat.getSeriesNameFormat( seda[iSedaId],
-					rtc.getULocale( ) );
-			List al = seda[iSedaId].getRunTimeSeries( );
-			FormatSpecifier fs = seda[iSedaId].getFormatSpecifier( );
-			
-			boolean oneVisibleSerie = false;
-			boolean isGroupName;
+			super( legendData );
+		}
 
-			LegendGroupNameProvider gnProvider = new LegendGroupNameProvider( seda,
-					seda[iSedaId] );
+		@Override
+		public void finishPlacing( )
+		{
+			flushColumnList( );
+		}
 
-			InvertibleIterator it = new InvertibleIterator( al, bNeedInvert );
+		@Override
+		public double[] getSize( )
+		{
+			double dHeight = bIsLeftRight ? dMaxH + dY : dY;
+			double dWidth = Math.max( dMaxW, dX );
 
-			Object oGN;
-			while ( ( oGN = gnProvider.getGroupName( ) ) != null
-					|| it.hasNext( ) )
+			return new double[]{
+					dWidth, dHeight
+			};
+		}
+
+		@Override
+		public boolean placeContent( LegendItemHints lih )
+				throws ChartException
+		{
+			if ( lih.getType( ) == LegendItemHints.Type.LG_SEPERATOR )
 			{
-				isGroupName = ( oGN != null );
-				boolean bIsShowValue = cm.getLegend( ).isShowValue( )
-						&& !isGroupName;
-
-				Series se = isGroupName ? null : (Series) it.next( );
-
-				if ( isGroupName || se.isVisible( ) )
+				if ( bIsLeftRight )
 				{
-					oneVisibleSerie = true;
+					dX += dSepThick;
+					lih.left( dX - dSepThick * 0.5 );
+					lih.top( dY );
+					lih.itemHeight( dMaxH - lgData.dVerticalSpacing );
 				}
 				else
 				{
-					continue;
+					flushColumnList( );
+					dY += dSepThick;
+					lih.top( dY - dSepThick * 0.5 );
+					lih.width( dMaxW );
 				}
+				columnList.add( lih );
 
-				Object obj;
-				String lgtext = null;
-				String strExtText = null;
-
-				if ( isGroupName )
-				{
-					obj = oGN;
-					lgtext = rtc.externalizedMessage( snFormat.format( obj ) );
-				}
-				else
-				{
-					// legend text
-					obj = se.getSeriesIdentifier( );
-					lgtext = rtc.externalizedMessage( snFormat.format( obj ) );
-					// value text
-					strExtText = getValueText( cm, se );
-				}
-
-				// {
-				double dW = 0, dH = 0;
-				laiLegend.setText( lgtext, fs );
-
-				double dExtHeight = 0d;
-				if ( bIsShowValue )
-				{
-					Label seLabel = LabelImpl.copyInstance( se.getLabel( ) );
-					laiValue.setLabel( seLabel, strExtText, fs, itm_v );
-				}
-
-				// check available bounds
-				boolean bRedo = true;
-				// Here, add loop limit to prevent potential endless loop.
-				for ( int iLoopLimit = 2; bRedo && iLoopLimit > 0; iLoopLimit-- )
-				{
-					// compute the size
-					double[] dsize;
-					if ( isGroupName )
-					{
-						dsize = getItemSizeGN( laiLegend, legendData, dX );
-					}
-					else
-					{
-						dsize = getItemSize( laiLegend,
-							laiValue,
-							bIsShowValue,
-							legendData,
-							dX );
-					}
-					dW = dsize[0];
-					dH = dsize[1];
-
-					if (!hasPlaceForOneItem(dW, dH, legendData))
-					{
-						break all;
-					}
-
-					if ( dY + dH > legendData.dAvailableHeight
-							+ legendData.dSafeSpacing )
-					{
-						columnList.clear( );
-						break all;
-					}
-					else
-					{
-						if ( dX + dW > legendData.dAvailableWidth +
-								legendData.dSafeSpacing )
-						{
-							if ( lihLastGN != null )
-							{
-								lihLastGN.setHeight( dMaxH );
-								lihLastGN = null;
-							}
-							legendData.legendItems.addAll( columnList );
-							columnList.clear( );
-
-							dY += dMaxH;
-							dMaxH = 0;
-							dMaxW = Math.max( dMaxW, dX );
-							dX = 0;
-							laiLegend.restoreOriginalText( fs );
-							if ( bIsShowValue )
-							{
-								laiValue.restoreOriginalText( fs );
-							}
-							bRedo = true;
-						}
-						else
-						{
-							dMaxH = Math.max( dH, dMaxH );
-							dX += dW;
-							bRedo = false;
-						}
-
-					}
-
-				}
-
-				if ( bIsShowValue )
-				{
-					dExtHeight = laiValue.getHeight( );
-					strExtText = laiValue.getCaption( );
-				}
-
-				if ( isGroupName )
-				{
-					lihLastGN = new LegendItemHints( LEGEND_GROUP_NAME,
-							new Point( dX - dW, dY ),
-							dW,
-							dH - legendData.dVerticalSpacing,
-							laiLegend.getCaption( ) );
-					columnList.add( lihLastGN );
-				}
-				else
-				{
-					columnList.add( new LegendItemHints( LEGEND_ENTRY,
-							new Point( dX - dW, dY ),
-							dW - legendData.dHorizonalReservedSpace,
-							laiLegend.getHeight( ),
-							laiLegend.getCaption( ),
-							dExtHeight,
-							strExtText,
-							it.getIndex( ),
-							seda[iSedaId],
-							se ) );
-				}
-			}
-
-			if ( lihLastGN != null )
-			{
-				lihLastGN.setHeight( dMaxH );
-				lihLastGN = null;
-			}
-			
-			legendData.legendItems.addAll( columnList );
-			columnList.clear( );
-
-			if ( bIsLeftRight )
-			{
-				// SETUP VERTICAL SEPARATOR SPACING
-				if ( oneVisibleSerie
-						&& j < seda.length - 1 && needSeparator( cm ) )
-				{
-					dX += dSeparatorThickness;
-
-					legendData.legendItems.add( new LegendItemHints( LEGEND_SEPERATOR,
-							new Point( dX - dSeparatorThickness / 2, dY ),
-							0,
-							dMaxH - legendData.dVerticalSpacing,
-							null,
-							0,
-							null ) );
-
-				}
+				return true;
 			}
 			else
 			{
+				Point size = computeContentSize( lih );
+				return placeContentWithSize( lih, size );
+			}
+
+		}
+
+		private boolean placeContentWithSize( LegendItemHints lih, Point size )
+				throws ChartException
+		{
+			if ( !hasPlaceForOneItem( size, lgData ) )
+			{
+				return false;
+			}
+
+			if ( dY + size.getY( ) > lgData.dAvailableHeight
+					+ lgData.dSafeSpacing )
+			{
+				columnList.clear( );
+				return false;
+			}
+			else
+			{
+				if ( dX + size.getX( ) > lgData.dAvailableWidth
+						+ lgData.dSafeSpacing )
+				{
+					flushColumnList( );
+					size = computeContentSize( lih );
+					return placeContentWithSize( lih, size );
+				}
+				else
+				{
+					dMaxH = Math.max( size.getY( ), dMaxH );
+					dX += size.getX( );
+
+					lih.validItemLen( laiItem.getValidTextLen( ) );
+					lih.left( dX - size.getX( ) );
+					lih.top( dY );
+
+					if ( lih.getType( ) == LegendItemHints.Type.LG_GROUPNAME )
+					{
+						gnList.add( lih );
+						lih.width( size.getX( ) );
+						lih.itemHeight( size.getY( ) - lgData.dVerticalSpacing );
+					}
+					else
+					{
+						lih.width( size.getX( )
+								- lgData.dHorizonalReservedSpace );
+						lih.itemHeight( laiItem.getHeight( ) );
+
+						if ( bIsShowValue )
+						{
+							lih.valueHeight( laiValue.getHeight( ) );
+							lih.validValueLen( laiValue.getValidTextLen( ) );
+						}
+					}
+					columnList.add( lih );
+
+					return true;
+				}
+
+			}
+
+		}
+
+		private void flushColumnList( )
+		{
+			if ( columnList.size( ) > 0 )
+			{
+				lgData.legendItems.addAll( columnList );
+				processColumnList( );
+				columnList.clear( );
+
 				dMaxW = Math.max( dMaxW, dX );
-				if ( oneVisibleSerie )
-				{
-					dY += dMaxH;
-
-					// SETUP HORIZONTAL SEPARATOR SPACING
-					if ( j < seda.length - 1 && needSeparator( cm ) )
-					{
-						dY += legendData.dSeparatorThickness;
-
-						legendData.legendItems.add( new LegendItemHints( LEGEND_SEPERATOR,
-								new Point( 0, dY
-										- legendData.dSeparatorThickness / 2 ),
-								dMaxW,
-								0,
-								null,
-								0,
-								null ) );
-					}
-					
-					dX = 0;
-				}
-
+				dY += dMaxH;
+				dMaxH = 0;
+				dX = 0;
 			}
-
 		}
 
-		columnList.clear( );
-		double dHeight = bIsLeftRight ? dMaxH + dY : dY;
-		double dWidth = Math.max( dMaxW, dX );
-
-		return new double[]{
-				dWidth, dHeight
-		};
+		private void processColumnList( )
+		{
+			for ( LegendItemHints lih : gnList )
+			{
+				lih.itemHeight( dMaxH );
+			}
+			gnList.clear( );
+		}
 
 	}
-	
-	private static int[] getDuplicateIndices( int[] a1, int[] a2 )
+
+	private static class VerticalPlacer extends ContentPlacer
 	{
-		if ( a1 == null || a2 == null || a1.length == 0 || a2.length == 0 )
+
+		public VerticalPlacer( LegendData legendData )
 		{
-			return null;
+			super( legendData );
 		}
 
-		// sort first.
-		Arrays.sort( a1 );
-		Arrays.sort( a2 );
-
-		if ( a1[a1.length - 1] < a2[0] || a1[0] > a2[a2.length - 1] )
+		@Override
+		public boolean placeContent( LegendItemHints lih )
+				throws ChartException
 		{
-			return null;
-		}
-
-		// swap to keep a1 have the min length.
-		if ( a1.length > a2.length )
-		{
-			int[] tmp = a1;
-			a1 = a2;
-			a2 = tmp;
-		}
-
-		List dup = new ArrayList( );
-
-		// check duplicate
-		for ( int i = 0; i < a1.length; i++ )
-		{
-			if ( Arrays.binarySearch( a2, a1[i] ) >= 0 )
+			if ( lih.getType( ) == LegendItemHints.Type.LG_SEPERATOR )
 			{
-				dup.add( new Integer( a1[i] ) );
+				if ( bIsLeftRight )
+				{
+					flushColumnList( );
+					dX += dSepThick;
+					lih.left( dX - dSepThick * 0.5 );
+					lih.itemHeight( dMaxH );
+				}
+				else
+				{
+					dY += dSepThick;
+					lih.left( dX );
+					lih.top( dY - dSepThick * 0.5 );
+					lih.width( dMaxW - lgData.dHorizontalSpacing );
+				}
+				columnList.add( lih );
+
+				return true;
+			}
+			else
+			{
+				Point size = computeContentSize( lih );
+				return placeContentWithSize( lih, size );
+			}
+
+		}
+
+		private void flushColumnList( )
+		{
+			if ( columnList.size( ) > 0 )
+			{
+				lgData.legendItems.addAll( columnList );
+				columnList.clear( );
+
+				dMaxH = Math.max( dMaxH, dY );
+				dX += dMaxW;
+				dY = 0;
+				dMaxW = 0;
 			}
 		}
 
-		if ( dup.size( ) == 0 )
+		@Override
+		public void finishPlacing( )
 		{
-			return null;
+			flushColumnList( );
 		}
-		else
-		{
-			int[] pia = new int[dup.size( )];
 
-			for ( int i = 0; i < pia.length; i++ )
+		private boolean placeContentWithSize( LegendItemHints lih, Point size )
+				throws ChartException
+		{
+			if ( !hasPlaceForOneItem( size, lgData ) )
 			{
-				pia[i] = ( (Integer) dup.get( i ) ).intValue( );
+				return false;
 			}
-			return pia;
+
+			if ( dX + size.getX( ) > lgData.dAvailableWidth
+					+ lgData.dSafeSpacing )
+			{
+				columnList.clear( );
+				return false;
+			}
+			else
+			{
+				if ( dY + size.getY( ) > lgData.dAvailableHeight
+						+ lgData.dSafeSpacing )
+				{
+					flushColumnList( );
+					return placeContentWithSize( lih, size );
+				}
+				else
+				{
+					dMaxW = Math.max( size.getX( ), dMaxW );
+					dY += size.getY( );
+
+					lih.validItemLen( laiItem.getValidTextLen( ) );
+					lih.left( dX );
+					lih.itemHeight( laiItem.getHeight( ) );
+
+					if ( lih.getType( ) == LegendItemHints.Type.LG_GROUPNAME )
+					{
+						gnList.add( lih );
+						lih.top( dY - size.getY( ) + lgData.insCa.getTop( ) );
+						lih.width( size.getX( ) );
+					}
+					else
+					{
+						lih.top( dY - size.getY( ) );
+						lih.width( size.getX( )
+								- lgData.dHorizonalReservedSpace );
+						if ( bIsShowValue )
+						{
+							lih.valueHeight( laiValue.getHeight( ) )
+									.validValueLen( laiValue.getValidTextLen( ) );
+						}
+
+					}
+					columnList.add( lih );
+
+					return true;
+				}
+			}
+
 		}
+
+		@Override
+		public double[] getSize( )
+		{
+			double dWidth = dX;
+			double dHeight = Math.max( dMaxH, dY );
+
+			return new double[]{
+					dWidth, dHeight
+			};
+		}
+
 	}
 
 	/**
@@ -1880,33 +1518,17 @@ public final class LegendBuilder implements IConstants
 	{
 		return sz;
 	}
-	
-	
-	/**
-	 * Check if the available size of legend can cantain at 
-	 * least one legend item
-	 * @param dItemWidth
-	 * @param dItemHeight
-	 * @param legendData
-	 * @return
-	 */
-	private static boolean hasPlaceForOneItem( double dItemWidth,
-			double dItemHeight, LegendData legendData )
-	{
-		return dItemWidth <= legendData.dAvailableWidth &&
-				dItemHeight <= legendData.dAvailableHeight;
-	}
-
 
 	/**
-	 * return the extra value text, if it exsists and is visible
+	 * return the extra value text, if it exists and is visible
 	 * 
 	 * @param cm
 	 * @param se
 	 * @return Value Text
 	 * @throws ChartException
 	 */
-	private String getValueText( Chart cm, Series se ) throws ChartException
+	private static String getValueText( Chart cm, Series se )
+			throws ChartException
 	{
 		String strValueText = null;
 
@@ -1933,9 +1555,9 @@ public final class LegendBuilder implements IConstants
 		return strValueText;
 	}
 
-	private double[] getItemSize( LabelItem laiLegend, LabelItem laiValue,
-			boolean bIsShowValue, LegendData legendData, double dX )
-			throws ChartException
+	private static double[] getItemSize( LabelItem laiLegend,
+			LabelItem laiValue, boolean bIsShowValue, LegendData legendData,
+			double dX ) throws ChartException
 	{
 		double dWidth = 0, dHeight = 0;
 
@@ -1943,7 +1565,8 @@ public final class LegendBuilder implements IConstants
 
 		dWidth = laiLegend.getWidth( ) + legendData.dHorizonalReservedSpace;
 		dHeight = legendData.insCa.getTop( )
-				+ laiLegend.getHeight( ) + legendData.insCa.getBottom( );
+				+ laiLegend.getHeight( )
+				+ legendData.insCa.getBottom( );
 
 		if ( bIsShowValue )
 		{
@@ -1958,9 +1581,8 @@ public final class LegendBuilder implements IConstants
 		};
 	}
 
-	private double[] getItemSizeGN( LabelItem laiLegend, LegendData legendData,
-			double dX )
-			throws ChartException
+	private static double[] getItemSizeGN( LabelItem laiLegend,
+			LegendData legendData, double dX ) throws ChartException
 	{
 		double dWidth = 0, dHeight = 0;
 
@@ -1974,24 +1596,6 @@ public final class LegendBuilder implements IConstants
 		};
 	}
 
-	private double[] getItemSizeCata( LabelItem laiLegend,
-			LegendData legendData, double dX ) throws ChartException
-	{
-		double dWidth = 0, dHeight = 0;
-
-		laiLegend.checkEllipsis( getWidthLimit( dX, legendData ) );
-
-		dWidth = laiLegend.getWidth( );
-		dHeight = legendData.insCa.getTop( )
-				+ laiLegend.getHeight( ) + legendData.insCa.getBottom( );
-
-		dWidth += legendData.dHorizonalReservedSpace;
-
-		return new double[]{
-				dWidth, dHeight
-		};
-	}
-
 	private static double getWidthLimit( double dX, LegendData legendData )
 	{
 		return legendData.dAvailableWidth
@@ -1999,7 +1603,7 @@ public final class LegendBuilder implements IConstants
 				- dX;
 	}
 
-	private boolean isValidValue( Object obj )
+	private static boolean isValidValue( Object obj )
 	{
 		if ( obj == null )
 		{
@@ -2019,7 +1623,7 @@ public final class LegendBuilder implements IConstants
 	/**
 	 * Check if the legend items need display in a inverted order (Stack Bar)
 	 */
-	private boolean isStacked( final SeriesDefinition[] seda )
+	private static boolean isStacked( final SeriesDefinition[] seda )
 	{
 		boolean bIsStack = true;
 
@@ -2028,10 +1632,9 @@ public final class LegendBuilder implements IConstants
 			if ( bIsStack )
 			{
 				// check if the chart is stacked
-				// TODO the logic of series stack may be changed.
-				for ( Iterator iter = seda[i].getSeries( ).iterator( ); iter.hasNext( ); )
+				for ( Iterator<Series> iter = seda[i].getSeries( ).iterator( ); iter.hasNext( ); )
 				{
-					Series series = (Series) iter.next( );
+					Series series = iter.next( );
 					if ( !series.isStacked( ) )
 					{
 						bIsStack = false;
@@ -2044,42 +1647,8 @@ public final class LegendBuilder implements IConstants
 		return bIsStack;
 	}
 
-	/**
-	 * Check if the legend items need display in a inverted order (Stack Bar)
-	 */
-	private boolean needInvert( final boolean bPaletteByCategory,
-			final Chart cm, final SeriesDefinition[] seda )
-	{
-		boolean bNeedInvert = false; // return value
 
-		if ( !( cm instanceof ChartWithAxes ) )
-		{
-			return false;
-		}
-
-		boolean bIsStacked = isStacked( seda );
-		boolean bIsFliped = ( (ChartWithAxes) cm ).isTransposed( );
-
-		if ( bPaletteByCategory )
-		{ // by Category
-			bNeedInvert = bIsFliped;
-		}
-		else
-		{ // by Value
-			bNeedInvert = ( bIsStacked && !bIsFliped )
-					|| ( !bIsStacked && bIsFliped );
-		}
-
-		return bNeedInvert;
-	}
-
-	private static boolean needSeparator( final Chart cm )
-	{
-		return cm.getLegend( ).getSeparator( ) == null
-				|| cm.getLegend( ).getSeparator( ).isVisible( );
-	}
-
-	private DataSetIterator createDataSetIterator( Series se, Chart cm )
+	private static DataSetIterator createDataSetIterator( Series se, Chart cm )
 			throws ChartException
 	{
 		DataSetIterator dsi = null;
@@ -2100,4 +1669,5 @@ public final class LegendBuilder implements IConstants
 		}
 		return dsi;
 	}
+
 }

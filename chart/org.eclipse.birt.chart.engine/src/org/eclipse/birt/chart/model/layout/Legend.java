@@ -839,13 +839,14 @@ public interface Legend extends Block
 
 	/**
 	 * Returns the value of the '<em><b>Title Percent</b></em>' attribute.
+	 * The default value is <code>"0.6"</code>.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
 	 * 								The maximal percent of space which the
 	 * 								legend title can take from the legend
-	 * 								block. By default, it's 0.33333333.
+	 * 								block. By default, it's 0.6.
 	 * 
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Title Percent</em>' attribute.
@@ -853,7 +854,7 @@ public interface Legend extends Block
 	 * @see #unsetTitlePercent()
 	 * @see #setTitlePercent(double)
 	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getLegend_TitlePercent()
-	 * @model unsettable="true" dataType="org.eclipse.birt.chart.model.layout.TitlePercentType" required="true"
+	 * @model default="0.6" unsettable="true" dataType="org.eclipse.birt.chart.model.layout.TitlePercentType" required="true"
 	 *        extendedMetaData="kind='element' name='TitlePercent'"
 	 * @generated
 	 */
