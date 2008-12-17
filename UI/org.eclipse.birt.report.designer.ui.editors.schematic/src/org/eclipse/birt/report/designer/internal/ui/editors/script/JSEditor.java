@@ -56,6 +56,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
@@ -1081,8 +1082,68 @@ public class JSEditor extends EditorPart implements IColleague
 				sel = new StructuredSelection( propDefn );
 			}
 		}
-		cmbExprListViewer.setSelection( sel );
+		
+		cmbExprListViewer.setSelection( getNewSelection( sel ) );
 		return;
+	}
+	
+	private ISelection getNewSelection(ISelection selection)
+	{
+		
+		if (!(getModel() instanceof DesignElementHandle))
+		{
+			return selection;
+		}
+		
+		DesignElementHandle model = (DesignElementHandle)getModel();
+		if (!(selection instanceof IStructuredSelection))
+		{
+			return selection;
+		}
+		List temp = new ArrayList();
+		List list = ((IStructuredSelection)selection).toList( );
+		for (int i=0; i<list.size( ); i++)
+		{
+			if (list.get( i ) instanceof IElementPropertyDefn)
+			{
+				String name = ((IElementPropertyDefn)list.get( i )).getName( );
+				Object obj = findData( name );
+				if (obj != null)
+				{
+					temp.add(obj);
+				}
+				else
+				{
+					temp.add( list.get( i ));
+				}
+			}
+			else
+			{
+				temp.add( list.get( i ) );
+			}
+		}
+		
+		return new StructuredSelection(temp);
+	}
+	
+	private Object findData(String name)
+	{
+		if (cmbExprListViewer.getCombo( ).getItemCount( ) <= 0 )
+		{
+			return null;
+		}
+		//cmbExprListViewer.get
+		int count = cmbExprListViewer.getCombo( ).getItemCount( );
+		for (int i=0; i<count; i++)
+		{
+			Object obj = cmbExprListViewer.getElementAt( i );
+			if (obj instanceof IElementPropertyDefn && 
+					((IElementPropertyDefn)obj).getName( ).equals( name ))
+			{
+				return obj;
+			}
+		}
+		return null;
 	}
 
 	// /**
