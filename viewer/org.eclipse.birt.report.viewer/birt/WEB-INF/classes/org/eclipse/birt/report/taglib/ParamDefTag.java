@@ -1167,11 +1167,6 @@ public class ParamDefTag extends BodyTagSupport
 			// Convert parameter value using standard format
 			String displayValue = DataUtil.getDisplayValue( value, timeZone );
 
-			if ( value == null )
-			{
-				nullValueFound = true;				
-			}
-			
 			// If label is null or blank, then use the format parameter
 			// value for display
 			String label = selectionItem.getLabel( );
@@ -1179,6 +1174,15 @@ public class ParamDefTag extends BodyTagSupport
 				label = DataUtil.getDisplayValue( null,
 						this.pattern, value, this.locale, this.timeZone );
 
+			if ( value == null )
+			{
+				nullValueFound = true;
+				if ( label == null )
+				{
+					label = IBirtConstants.NULL_VALUE_DISPLAY;
+				}				
+			}
+			
 			label = label != null ? label : ""; //$NON-NLS-1$
 			boolean selected = false;
 			if ( DataUtil.equals( displayValue, DataUtil.getDisplayValue( param

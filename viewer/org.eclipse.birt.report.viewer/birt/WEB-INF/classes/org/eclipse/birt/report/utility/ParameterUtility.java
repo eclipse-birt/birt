@@ -95,6 +95,10 @@ public class ParameterUtility
 				if ( value == null )
 				{
 					nullValueFound = true;
+					if ( label == null )
+					{
+						label = IBirtConstants.NULL_VALUE_DISPLAY;
+					}
 				}
 				
 				// TODO: warning, replacing values in the same list!
