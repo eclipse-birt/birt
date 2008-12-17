@@ -952,7 +952,7 @@ public final class LegendBuilder implements IConstants
 		private List<Series> alSeries = null;
 		private InvertibleIterator<Series> itSeries = null;
 		private SeriesDefinition sed = null;
-		private SeriesNameFormat snFormat = null;
+		private SeriesNameFormat snFormat = SeriesNameFormat.DEFAULT_FORMAT;
 		private Status status;
 
 		protected ValueContentProvider( LegendData lgData )
