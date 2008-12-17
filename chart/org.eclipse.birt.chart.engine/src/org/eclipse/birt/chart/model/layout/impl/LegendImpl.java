@@ -452,7 +452,7 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * @generated
 	 * @ordered
 	 */
-	protected static final double TITLE_PERCENT_EDEFAULT = 0.33333333;
+	protected static final double TITLE_PERCENT_EDEFAULT = 0.6;
 
 	/**
 	 * The cached value of the '{@link #getTitlePercent() <em>Title Percent</em>}' attribute.
