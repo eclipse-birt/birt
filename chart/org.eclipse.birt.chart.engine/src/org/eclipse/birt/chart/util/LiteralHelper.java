@@ -37,7 +37,7 @@ import org.eclipse.birt.chart.model.attribute.Stretch;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.UnitsOfMeasurement;
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * This class helps to get the localized formats for enumerator attributes in
@@ -561,9 +561,9 @@ public class LiteralHelper
 		{
 			Object obj = itr.next( );
 
-			if ( obj instanceof AbstractEnumerator )
+			if ( obj instanceof Enumerator )
 			{
-				rt[i++] = ( (AbstractEnumerator) obj ).getName( );
+				rt[i++] = ( (Enumerator) obj ).getName( );
 			}
 			else
 			{

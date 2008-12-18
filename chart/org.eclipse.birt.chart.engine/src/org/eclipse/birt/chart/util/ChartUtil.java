@@ -1173,7 +1173,9 @@ public class ChartUtil
 	{
 		if ( chart instanceof ChartWithAxes )
 		{
-			return ( (Axis) ( (ChartWithAxes) chart ).getAxes( ).get( 0 ) ).getSeriesDefinitions( );
+			return ( (ChartWithAxes) chart ).getAxes( )
+					.get( 0 )
+					.getSeriesDefinitions( );
 		}
 		else if ( chart instanceof ChartWithoutAxes )
 		{
@@ -1674,6 +1676,7 @@ public class ChartUtil
 	 * 
 	 * @param <T>
 	 * @param src
+	 * @since 2.5.0
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
