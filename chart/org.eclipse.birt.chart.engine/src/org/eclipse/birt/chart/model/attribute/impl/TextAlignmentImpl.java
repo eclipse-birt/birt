@@ -62,7 +62,7 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean horizontalAlignmentESet = false;
+	protected boolean horizontalAlignmentESet;
 
 	/**
 	 * The default value of the '{@link #getVerticalAlignment() <em>Vertical Alignment</em>}' attribute.
@@ -89,7 +89,7 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean verticalAlignmentESet = false;
+	protected boolean verticalAlignmentESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -104,6 +104,7 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.TEXT_ALIGNMENT;
@@ -126,8 +127,8 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 			HorizontalAlignment newHorizontalAlignment )
 	{
 		HorizontalAlignment oldHorizontalAlignment = horizontalAlignment;
-		horizontalAlignment = newHorizontalAlignment == null
-				? HORIZONTAL_ALIGNMENT_EDEFAULT : newHorizontalAlignment;
+		horizontalAlignment = newHorizontalAlignment == null ? HORIZONTAL_ALIGNMENT_EDEFAULT
+				: newHorizontalAlignment;
 		boolean oldHorizontalAlignmentESet = horizontalAlignmentESet;
 		horizontalAlignmentESet = true;
 		if ( eNotificationRequired( ) )
@@ -183,8 +184,8 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 	public void setVerticalAlignment( VerticalAlignment newVerticalAlignment )
 	{
 		VerticalAlignment oldVerticalAlignment = verticalAlignment;
-		verticalAlignment = newVerticalAlignment == null
-				? VERTICAL_ALIGNMENT_EDEFAULT : newVerticalAlignment;
+		verticalAlignment = newVerticalAlignment == null ? VERTICAL_ALIGNMENT_EDEFAULT
+				: newVerticalAlignment;
 		boolean oldVerticalAlignmentESet = verticalAlignmentESet;
 		verticalAlignmentESet = true;
 		if ( eNotificationRequired( ) )
@@ -228,6 +229,7 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -244,6 +246,7 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -262,6 +265,7 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -280,6 +284,7 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -296,6 +301,7 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

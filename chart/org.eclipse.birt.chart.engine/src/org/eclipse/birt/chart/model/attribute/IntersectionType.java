@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
@@ -30,8 +30,46 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class IntersectionType extends AbstractEnumerator
-{
+public enum IntersectionType implements Enumerator {
+	/**
+	 * The '<em><b>Min</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Min</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #MIN
+	 * @generated
+	 * @ordered
+	 */
+	MIN_LITERAL(0, "Min", "Min"),
+	/**
+	 * The '<em><b>Max</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Max</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #MAX
+	 * @generated
+	 * @ordered
+	 */
+	MAX_LITERAL(1, "Max", "Max"),
+	/**
+	 * The '<em><b>Value</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Value</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #VALUE
+	 * @generated
+	 * @ordered
+	 */
+	VALUE_LITERAL(2, "Value", "Value");
 
 	/**
 	 * The '<em><b>Min</b></em>' literal value.
@@ -67,51 +105,6 @@ public final class IntersectionType extends AbstractEnumerator
 	public static final int VALUE = 2;
 
 	/**
-	 * The '<em><b>Min</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Min</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #MIN
-	 * @generated
-	 * @ordered
-	 */
-	public static final IntersectionType MIN_LITERAL = new IntersectionType( MIN,
-			"Min", "Min" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Max</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Max</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #MAX
-	 * @generated
-	 * @ordered
-	 */
-	public static final IntersectionType MAX_LITERAL = new IntersectionType( MAX,
-			"Max", "Max" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Value</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Value</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #VALUE
-	 * @generated
-	 * @ordered
-	 */
-	public static final IntersectionType VALUE_LITERAL = new IntersectionType( VALUE,
-			"Value", "Value" ); //$NON-NLS-1$
-
-	/**
 	 * An array of all the '<em><b>Intersection Type</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -125,7 +118,7 @@ public final class IntersectionType extends AbstractEnumerator
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<IntersectionType> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
 	 * Returns the '<em><b>Intersection Type</b></em>' literal with the specified literal value.
@@ -184,6 +177,27 @@ public final class IntersectionType extends AbstractEnumerator
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final int value;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String name;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String literal;
+
+	/**
 	 * Only this class can construct instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -191,7 +205,50 @@ public final class IntersectionType extends AbstractEnumerator
 	 */
 	private IntersectionType( int value, String name, String literal )
 	{
-		super( value, name, literal );
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
 	}
 
-} //IntersectionType
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getValue( )
+	{
+		return value;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName( )
+	{
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLiteral( )
+	{
+		return literal;
+	}
+
+	/**
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString( )
+	{
+		return literal;
+	}
+}

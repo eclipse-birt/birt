@@ -59,6 +59,7 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
 	 * @return whether this factory is applicable for the type of the object.
 	 * @generated
 	 */
+	@Override
 	public boolean isFactoryForType( Object object )
 	{
 		if ( object == modelPackage )
@@ -77,29 +78,34 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ModelSwitch modelSwitch = new ModelSwitch( ) {
+	protected ModelSwitch<Adapter> modelSwitch = new ModelSwitch<Adapter>( ) {
 
-		public Object caseChart( Chart object )
+		@Override
+		public Adapter caseChart( Chart object )
 		{
 			return createChartAdapter( );
 		}
 
-		public Object caseChartWithAxes( ChartWithAxes object )
+		@Override
+		public Adapter caseChartWithAxes( ChartWithAxes object )
 		{
 			return createChartWithAxesAdapter( );
 		}
 
-		public Object caseChartWithoutAxes( ChartWithoutAxes object )
+		@Override
+		public Adapter caseChartWithoutAxes( ChartWithoutAxes object )
 		{
 			return createChartWithoutAxesAdapter( );
 		}
 
-		public Object caseDialChart( DialChart object )
+		@Override
+		public Adapter caseDialChart( DialChart object )
 		{
 			return createDialChartAdapter( );
 		}
 
-		public Object defaultCase( EObject object )
+		@Override
+		public Adapter defaultCase( EObject object )
 		{
 			return createEObjectAdapter( );
 		}
@@ -112,9 +118,10 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
 	 */
+	@Override
 	public Adapter createAdapter( Notifier target )
 	{
-		return (Adapter) modelSwitch.doSwitch( (EObject) target );
+		return modelSwitch.doSwitch( (EObject) target );
 	}
 
 	/**

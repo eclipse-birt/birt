@@ -88,7 +88,7 @@ public class DialImpl extends EObjectImpl implements Dial
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean startAngleESet = false;
+	protected boolean startAngleESet;
 
 	/**
 	 * The default value of the '{@link #getStopAngle() <em>Stop Angle</em>}' attribute.
@@ -115,7 +115,7 @@ public class DialImpl extends EObjectImpl implements Dial
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean stopAngleESet = false;
+	protected boolean stopAngleESet;
 
 	/**
 	 * The default value of the '{@link #getRadius() <em>Radius</em>}' attribute.
@@ -142,7 +142,7 @@ public class DialImpl extends EObjectImpl implements Dial
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean radiusESet = false;
+	protected boolean radiusESet;
 
 	/**
 	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}' containment reference.
@@ -151,7 +151,7 @@ public class DialImpl extends EObjectImpl implements Dial
 	 * @generated
 	 * @ordered
 	 */
-	protected LineAttributes lineAttributes = null;
+	protected LineAttributes lineAttributes;
 
 	/**
 	 * The cached value of the '{@link #getFill() <em>Fill</em>}' containment reference.
@@ -160,7 +160,7 @@ public class DialImpl extends EObjectImpl implements Dial
 	 * @generated
 	 * @ordered
 	 */
-	protected Fill fill = null;
+	protected Fill fill;
 
 	/**
 	 * The cached value of the '{@link #getDialRegions() <em>Dial Regions</em>}' containment reference list.
@@ -169,7 +169,7 @@ public class DialImpl extends EObjectImpl implements Dial
 	 * @generated
 	 * @ordered
 	 */
-	protected EList dialRegions = null;
+	protected EList<DialRegion> dialRegions;
 
 	/**
 	 * The cached value of the '{@link #getMajorGrid() <em>Major Grid</em>}' containment reference.
@@ -178,7 +178,7 @@ public class DialImpl extends EObjectImpl implements Dial
 	 * @generated
 	 * @ordered
 	 */
-	protected Grid majorGrid = null;
+	protected Grid majorGrid;
 
 	/**
 	 * The cached value of the '{@link #getMinorGrid() <em>Minor Grid</em>}' containment reference.
@@ -187,7 +187,7 @@ public class DialImpl extends EObjectImpl implements Dial
 	 * @generated
 	 * @ordered
 	 */
-	protected Grid minorGrid = null;
+	protected Grid minorGrid;
 
 	/**
 	 * The cached value of the '{@link #getScale() <em>Scale</em>}' containment reference.
@@ -196,7 +196,7 @@ public class DialImpl extends EObjectImpl implements Dial
 	 * @generated
 	 * @ordered
 	 */
-	protected Scale scale = null;
+	protected Scale scale;
 
 	/**
 	 * The default value of the '{@link #isInverseScale() <em>Inverse Scale</em>}' attribute.
@@ -225,7 +225,7 @@ public class DialImpl extends EObjectImpl implements Dial
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean inverseScaleESet = false;
+	protected boolean inverseScaleESet;
 
 	/**
 	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
@@ -234,7 +234,7 @@ public class DialImpl extends EObjectImpl implements Dial
 	 * @generated
 	 * @ordered
 	 */
-	protected Label label = null;
+	protected Label label;
 
 	/**
 	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}' containment reference.
@@ -243,7 +243,7 @@ public class DialImpl extends EObjectImpl implements Dial
 	 * @generated
 	 * @ordered
 	 */
-	protected FormatSpecifier formatSpecifier = null;
+	protected FormatSpecifier formatSpecifier;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -258,6 +258,7 @@ public class DialImpl extends EObjectImpl implements Dial
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return ComponentPackage.Literals.DIAL;
@@ -564,11 +565,11 @@ public class DialImpl extends EObjectImpl implements Dial
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getDialRegions( )
+	public EList<DialRegion> getDialRegions( )
 	{
 		if ( dialRegions == null )
 		{
-			dialRegions = new EObjectContainmentEList( DialRegion.class,
+			dialRegions = new EObjectContainmentEList<DialRegion>( DialRegion.class,
 					this,
 					ComponentPackage.DIAL__DIAL_REGIONS );
 		}
@@ -966,6 +967,7 @@ public class DialImpl extends EObjectImpl implements Dial
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -976,7 +978,7 @@ public class DialImpl extends EObjectImpl implements Dial
 			case ComponentPackage.DIAL__FILL :
 				return basicSetFill( null, msgs );
 			case ComponentPackage.DIAL__DIAL_REGIONS :
-				return ( (InternalEList) getDialRegions( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getDialRegions( ) ).basicRemove( otherEnd,
 						msgs );
 			case ComponentPackage.DIAL__MAJOR_GRID :
 				return basicSetMajorGrid( null, msgs );
@@ -997,6 +999,7 @@ public class DialImpl extends EObjectImpl implements Dial
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -1034,6 +1037,8 @@ public class DialImpl extends EObjectImpl implements Dial
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -1055,7 +1060,7 @@ public class DialImpl extends EObjectImpl implements Dial
 				return;
 			case ComponentPackage.DIAL__DIAL_REGIONS :
 				getDialRegions( ).clear( );
-				getDialRegions( ).addAll( (Collection) newValue );
+				getDialRegions( ).addAll( (Collection<? extends DialRegion>) newValue );
 				return;
 			case ComponentPackage.DIAL__MAJOR_GRID :
 				setMajorGrid( (Grid) newValue );
@@ -1084,6 +1089,7 @@ public class DialImpl extends EObjectImpl implements Dial
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -1133,6 +1139,7 @@ public class DialImpl extends EObjectImpl implements Dial
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -1169,6 +1176,7 @@ public class DialImpl extends EObjectImpl implements Dial
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

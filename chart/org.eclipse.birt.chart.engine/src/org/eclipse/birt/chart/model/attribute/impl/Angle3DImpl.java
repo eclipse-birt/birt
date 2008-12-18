@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Angle3DImpl.java,v 1.1 2006/12/28 03:49:30 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.attribute.impl;
@@ -111,7 +111,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean xAngleESet = false;
+	protected boolean xAngleESet;
 
 	/**
 	 * The default value of the '{@link #getYAngle() <em>YAngle</em>}' attribute.
@@ -138,7 +138,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean yAngleESet = false;
+	protected boolean yAngleESet;
 
 	/**
 	 * The default value of the '{@link #getZAngle() <em>ZAngle</em>}' attribute.
@@ -165,7 +165,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean zAngleESet = false;
+	protected boolean zAngleESet;
 
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
@@ -192,7 +192,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean typeESet = false;
+	protected boolean typeESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -207,6 +207,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.ANGLE3_D;
@@ -441,6 +442,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -462,6 +464,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -487,6 +490,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -512,6 +516,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -532,6 +537,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

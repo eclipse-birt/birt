@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id$
+ * $Id: LayoutValidator.java,v 1.1 2008/11/24 03:38:30 ywang1 Exp $
  */
 
 package org.eclipse.birt.chart.model.layout.util;
@@ -13,6 +13,7 @@ import org.eclipse.birt.chart.model.layout.*;
 
 import org.eclipse.emf.common.util.DiagnosticChain;
 
+import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.EObjectValidator;
@@ -89,6 +90,7 @@ public class LayoutValidator extends EObjectValidator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EPackage getEPackage( )
 	{
 		return LayoutPackage.eINSTANCE;
@@ -100,8 +102,9 @@ public class LayoutValidator extends EObjectValidator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected boolean validate( int classifierID, Object value,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		switch ( classifierID )
 		{
@@ -150,7 +153,7 @@ public class LayoutValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateBlock( Block block, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( block, diagnostics, context );
 	}
@@ -161,7 +164,7 @@ public class LayoutValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateClientArea( ClientArea clientArea,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( clientArea,
 				diagnostics,
@@ -174,7 +177,7 @@ public class LayoutValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateLabelBlock( LabelBlock labelBlock,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( labelBlock,
 				diagnostics,
@@ -187,7 +190,7 @@ public class LayoutValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateLegend( Legend legend, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( legend, diagnostics, context );
 	}
@@ -198,7 +201,7 @@ public class LayoutValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validatePlot( Plot plot, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( plot, diagnostics, context );
 	}
@@ -209,7 +212,7 @@ public class LayoutValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateTitleBlock( TitleBlock titleBlock,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( titleBlock,
 				diagnostics,
@@ -222,7 +225,7 @@ public class LayoutValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateEllipsisType( int ellipsisType,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		boolean result = validateEllipsisType_Min( ellipsisType,
 				diagnostics,
@@ -245,7 +248,7 @@ public class LayoutValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateEllipsisType_Min( int ellipsisType,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		boolean result = ellipsisType >= ELLIPSIS_TYPE__MIN__VALUE;
 		if ( !result && diagnostics != null )
@@ -264,7 +267,7 @@ public class LayoutValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateEllipsisTypeObject( Integer ellipsisTypeObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		boolean result = validateEllipsisType_Min( ellipsisTypeObject.intValue( ),
 				diagnostics,
@@ -278,7 +281,7 @@ public class LayoutValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateTitlePercentType( double titlePercentType,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		boolean result = validateTitlePercentType_Min( titlePercentType,
 				diagnostics,
@@ -305,7 +308,7 @@ public class LayoutValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateTitlePercentType_Min( double titlePercentType,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		boolean result = titlePercentType >= TITLE_PERCENT_TYPE__MIN__VALUE;
 		if ( !result && diagnostics != null )
@@ -333,7 +336,7 @@ public class LayoutValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateTitlePercentType_Max( double titlePercentType,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		boolean result = titlePercentType <= TITLE_PERCENT_TYPE__MAX__VALUE;
 		if ( !result && diagnostics != null )
@@ -353,7 +356,7 @@ public class LayoutValidator extends EObjectValidator
 	 */
 	public boolean validateTitlePercentTypeObject(
 			Double titlePercentTypeObject, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		boolean result = validateTitlePercentType_Min( titlePercentTypeObject.doubleValue( ),
 				diagnostics,
@@ -363,6 +366,21 @@ public class LayoutValidator extends EObjectValidator
 					diagnostics,
 					context );
 		return result;
+	}
+
+	/**
+	 * Returns the resource locator that will be used to fetch messages for this validator's diagnostics.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public ResourceLocator getResourceLocator( )
+	{
+		// TODO
+		// Specialize this to return a resource locator for messages specific to this validator.
+		// Ensure that you remove @generated or mark it @generated NOT
+		return super.getResourceLocator( );
 	}
 
 } //LayoutValidator

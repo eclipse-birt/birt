@@ -70,7 +70,7 @@ public interface Query extends EObject
 	 *        extendedMetaData="kind='element' name='Rules'"
 	 * @deprecated only reserved for compatibility
 	 */
-	EList getRules( );
+	EList<Rule> getRules( );
 
 	/**
 	 * Returns the value of the '<em><b>Grouping</b></em>' containment reference.

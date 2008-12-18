@@ -50,7 +50,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 	 * @generated
 	 * @ordered
 	 */
-	protected EList baseSampleData = null;
+	protected EList<BaseSampleData> baseSampleData;
 
 	/**
 	 * The cached value of the '{@link #getOrthogonalSampleData() <em>Orthogonal Sample Data</em>}' containment reference list.
@@ -59,7 +59,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 	 * @generated
 	 * @ordered
 	 */
-	protected EList orthogonalSampleData = null;
+	protected EList<OrthogonalSampleData> orthogonalSampleData;
 
 	/**
 	 * The cached value of the '{@link #getAncillarySampleData() <em>Ancillary Sample Data</em>}' containment reference list.
@@ -69,7 +69,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 	 * @generated
 	 * @ordered
 	 */
-	protected EList ancillarySampleData = null;
+	protected EList<BaseSampleData> ancillarySampleData;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -84,6 +84,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return DataPackage.Literals.SAMPLE_DATA;
@@ -93,11 +94,11 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getBaseSampleData( )
+	public EList<BaseSampleData> getBaseSampleData( )
 	{
 		if ( baseSampleData == null )
 		{
-			baseSampleData = new EObjectContainmentEList( BaseSampleData.class,
+			baseSampleData = new EObjectContainmentEList<BaseSampleData>( BaseSampleData.class,
 					this,
 					DataPackage.SAMPLE_DATA__BASE_SAMPLE_DATA );
 		}
@@ -108,11 +109,11 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getOrthogonalSampleData( )
+	public EList<OrthogonalSampleData> getOrthogonalSampleData( )
 	{
 		if ( orthogonalSampleData == null )
 		{
-			orthogonalSampleData = new EObjectContainmentEList( OrthogonalSampleData.class,
+			orthogonalSampleData = new EObjectContainmentEList<OrthogonalSampleData>( OrthogonalSampleData.class,
 					this,
 					DataPackage.SAMPLE_DATA__ORTHOGONAL_SAMPLE_DATA );
 		}
@@ -124,11 +125,11 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getAncillarySampleData( )
+	public EList<BaseSampleData> getAncillarySampleData( )
 	{
 		if ( ancillarySampleData == null )
 		{
-			ancillarySampleData = new EObjectContainmentEList( BaseSampleData.class,
+			ancillarySampleData = new EObjectContainmentEList<BaseSampleData>( BaseSampleData.class,
 					this,
 					DataPackage.SAMPLE_DATA__ANCILLARY_SAMPLE_DATA );
 		}
@@ -140,19 +141,20 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
 		switch ( featureID )
 		{
 			case DataPackage.SAMPLE_DATA__BASE_SAMPLE_DATA :
-				return ( (InternalEList) getBaseSampleData( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getBaseSampleData( ) ).basicRemove( otherEnd,
 						msgs );
 			case DataPackage.SAMPLE_DATA__ORTHOGONAL_SAMPLE_DATA :
-				return ( (InternalEList) getOrthogonalSampleData( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getOrthogonalSampleData( ) ).basicRemove( otherEnd,
 						msgs );
 			case DataPackage.SAMPLE_DATA__ANCILLARY_SAMPLE_DATA :
-				return ( (InternalEList) getAncillarySampleData( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getAncillarySampleData( ) ).basicRemove( otherEnd,
 						msgs );
 		}
 		return super.eInverseRemove( otherEnd, featureID, msgs );
@@ -163,6 +165,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -182,21 +185,23 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
 		{
 			case DataPackage.SAMPLE_DATA__BASE_SAMPLE_DATA :
 				getBaseSampleData( ).clear( );
-				getBaseSampleData( ).addAll( (Collection) newValue );
+				getBaseSampleData( ).addAll( (Collection<? extends BaseSampleData>) newValue );
 				return;
 			case DataPackage.SAMPLE_DATA__ORTHOGONAL_SAMPLE_DATA :
 				getOrthogonalSampleData( ).clear( );
-				getOrthogonalSampleData( ).addAll( (Collection) newValue );
+				getOrthogonalSampleData( ).addAll( (Collection<? extends OrthogonalSampleData>) newValue );
 				return;
 			case DataPackage.SAMPLE_DATA__ANCILLARY_SAMPLE_DATA :
 				getAncillarySampleData( ).clear( );
-				getAncillarySampleData( ).addAll( (Collection) newValue );
+				getAncillarySampleData( ).addAll( (Collection<? extends BaseSampleData>) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -207,6 +212,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -229,6 +235,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )

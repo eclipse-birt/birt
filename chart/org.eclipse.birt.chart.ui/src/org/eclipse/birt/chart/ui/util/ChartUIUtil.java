@@ -60,6 +60,7 @@ import org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl;
 import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
+import org.eclipse.birt.chart.ui.swt.ChartPreviewPainterBase;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
@@ -395,7 +396,7 @@ public class ChartUIUtil
 		for ( int i = 0; i < sdList.size( ); i++ )
 		{
 			Series series = sdList.get( i ).getDesignTimeSeries( );
-			EList ddList = series.getDataDefinition( );
+			EList<Query> ddList = series.getDataDefinition( );
 			if ( ddList.size( ) == 0 )
 			{
 				return false;
@@ -408,7 +409,7 @@ public class ChartUIUtil
 				int vi = validIndex[j];
 				if ( vi >= 0 && vi < ddList.size( ) )
 				{
-					String query = ( (Query) ddList.get( vi ) ).getDefinition( );
+					String query = ddList.get( vi ).getDefinition( );
 					if ( query == null || query.length( ) == 0 )
 					{
 						return false;
@@ -447,7 +448,7 @@ public class ChartUIUtil
 
 			for ( int i = 0; i < axa.length; i++ )
 			{
-				EList elSD = axa[i].getSeriesDefinitions( );
+				EList<SeriesDefinition> elSD = axa[i].getSeriesDefinitions( );
 				for ( int j = 0; j < elSD.size( ); j++ )
 				{
 					SeriesDefinition sd = (SeriesDefinition) elSD.get( j );
@@ -468,26 +469,29 @@ public class ChartUIUtil
 			// SYNC ALL ORTHOGONAL SERIES
 			for ( int i = 0; i < axa.length; i++ )
 			{
-				for ( Iterator itr = axa[i].getSeriesDefinitions( ).iterator( ); itr.hasNext( ); )
+				for ( Iterator<SeriesDefinition> itr = axa[i].getSeriesDefinitions( )
+						.iterator( ); itr.hasNext( ); )
 				{
-					SeriesDefinition sdOrthogonal = (SeriesDefinition) itr.next( );
+					SeriesDefinition sdOrthogonal = itr.next( );
 					Series seDesignOrthogonal = sdOrthogonal.getDesignTimeSeries( );
 
-					List seRuntimes = sdOrthogonal.getRunTimeSeries( );
+					List<Series> seRuntimes = sdOrthogonal.getRunTimeSeries( );
 
 					sdOrthogonal.getSeries( ).removeAll( seRuntimes );
 
 					for ( int j = 0; j < seRuntimes.size( ); j++ )
 					{
-						Series seRuntimeOrthogonal = (Series) EcoreUtil.copy( seDesignOrthogonal );
-						seRuntimeOrthogonal.setDataSet( ( (Series) seRuntimes.get( j ) ).getDataSet( ) );
+						Series seRuntimeOrthogonal = ChartUtil.eCopy( seDesignOrthogonal );
+						seRuntimeOrthogonal.setDataSet( seRuntimes.get( j )
+								.getDataSet( ) );
 						if ( iOrthogonalSeriesDefinitionCount < 1 )
 						{
 							seRuntimeOrthogonal.setSeriesIdentifier( seDesignOrthogonal.getSeriesIdentifier( ) );
 						}
 						else
 						{
-							seRuntimeOrthogonal.setSeriesIdentifier( ( (Series) seRuntimes.get( j ) ).getSeriesIdentifier( ) );
+							seRuntimeOrthogonal.setSeriesIdentifier( seRuntimes.get( j )
+									.getSeriesIdentifier( ) );
 						}
 						sdOrthogonal.getSeries( ).add( seRuntimeOrthogonal );
 					}
@@ -498,11 +502,11 @@ public class ChartUIUtil
 		{
 			ChartWithoutAxes cwoa = (ChartWithoutAxes) chart;
 
-			final SeriesDefinition sdBase = (SeriesDefinition) cwoa.getSeriesDefinitions( )
+			final SeriesDefinition sdBase = cwoa.getSeriesDefinitions( )
 					.get( 0 );
 			int iOrthogonalSeriesDefinitionCount = 0;
 
-			EList elSD = sdBase.getSeriesDefinitions( );
+			EList<SeriesDefinition> elSD = sdBase.getSeriesDefinitions( );
 			for ( int j = 0; j < elSD.size( ); j++ )
 			{
 				SeriesDefinition sd = (SeriesDefinition) elSD.get( j );
@@ -520,18 +524,18 @@ public class ChartUIUtil
 			}
 
 			// SYNC ALL ORTHOGONAL SERIES
-			for ( Iterator itr = elSD.iterator( ); itr.hasNext( ); )
+			for ( Iterator<SeriesDefinition> itr = elSD.iterator( ); itr.hasNext( ); )
 			{
-				SeriesDefinition sdOrthogonal = (SeriesDefinition) itr.next( );
+				SeriesDefinition sdOrthogonal = itr.next( );
 				Series seDesignOrthogonal = sdOrthogonal.getDesignTimeSeries( );
 
-				List seRuntimes = sdOrthogonal.getRunTimeSeries( );
+				List<Series> seRuntimes = sdOrthogonal.getRunTimeSeries( );
 
 				sdOrthogonal.getSeries( ).removeAll( seRuntimes );
 
 				for ( int j = 0; j < seRuntimes.size( ); j++ )
 				{
-					Series seRuntimeOrthogonal = (Series) EcoreUtil.copy( seDesignOrthogonal );
+					Series seRuntimeOrthogonal = ChartUtil.eCopy( seDesignOrthogonal );
 					seRuntimeOrthogonal.setDataSet( ( (Series) seRuntimes.get( j ) ).getDataSet( ) );
 					if ( iOrthogonalSeriesDefinitionCount < 1 )
 					{
@@ -539,7 +543,8 @@ public class ChartUIUtil
 					}
 					else
 					{
-						seRuntimeOrthogonal.setSeriesIdentifier( ( (Series) seRuntimes.get( j ) ).getSeriesIdentifier( ) );
+						seRuntimeOrthogonal.setSeriesIdentifier( seRuntimes.get( j )
+								.getSeriesIdentifier( ) );
 					}
 					sdOrthogonal.getSeries( ).add( seRuntimeOrthogonal );
 				}
@@ -782,12 +787,12 @@ public class ChartUIUtil
 	 */
 	public static void setSeriesName( Chart chart )
 	{
-		List seriesDefinitions = getAllOrthogonalSeriesDefinitions( chart );
+		List<SeriesDefinition> seriesDefinitions = getAllOrthogonalSeriesDefinitions( chart );
 		String seriesText = Messages.getString( "ChartUIUtil.SeriesLabel" ); //$NON-NLS-1$
 		SeriesDefinition sd;
 		for ( int i = 0; i < seriesDefinitions.size( ); i++ )
 		{
-			sd = (SeriesDefinition) seriesDefinitions.get( i );
+			sd = seriesDefinitions.get( i );
 			if ( needSeriesName( sd.getDesignTimeSeries( )
 					.getSeriesIdentifier( )
 					.toString( ), seriesText ) )
@@ -991,7 +996,7 @@ public class ChartUIUtil
 		// Data definition
 		if ( oldSeries.eIsSet( ComponentPackage.eINSTANCE.getSeries_DataDefinition( ) ) )
 		{
-			Object query = oldSeries.getDataDefinition( ).get( 0 );
+			Query query = oldSeries.getDataDefinition( ).get( 0 );
 			newSeries.getDataDefinition( ).clear( );
 			if ( newSeries instanceof StockSeries )
 			{
@@ -999,16 +1004,16 @@ public class ChartUIUtil
 				{
 					// For High value
 					newSeries.getDataDefinition( )
-							.add( EcoreUtil.copy( (Query) query ) );
+							.add( ChartUtil.eCopy( query ) );
 					// For Low value
 					newSeries.getDataDefinition( )
-							.add( EcoreUtil.copy( (Query) query ) );
+							.add( ChartUtil.eCopy( query ) );
 					// For Open value
 					newSeries.getDataDefinition( )
-							.add( EcoreUtil.copy( (Query) query ) );
+							.add( ChartUtil.eCopy( query ) );
 					// For Close value
 					newSeries.getDataDefinition( )
-							.add( EcoreUtil.copy( (Query) query ) );
+							.add( ChartUtil.eCopy( query ) );
 				}
 				else
 				{
@@ -1022,10 +1027,10 @@ public class ChartUIUtil
 				{
 					// For value
 					newSeries.getDataDefinition( )
-							.add( EcoreUtil.copy( (Query) query ) );
+							.add( ChartUtil.eCopy( query ) );
 					// For Size
 					newSeries.getDataDefinition( )
-							.add( EcoreUtil.copy( (Query) query ) );
+							.add( ChartUtil.eCopy( query ) );
 				}
 				else
 				{
@@ -1038,9 +1043,9 @@ public class ChartUIUtil
 				if ( oldSeries.getDataDefinition( ).size( ) != 2 )
 				{
 					newSeries.getDataDefinition( )
-							.add( EcoreUtil.copy( (Query) query ) );
+							.add( ChartUtil.eCopy( query ) );
 					newSeries.getDataDefinition( )
-							.add( EcoreUtil.copy( (Query) query ) );
+							.add( ChartUtil.eCopy( query ) );
 				}
 				else
 				{
@@ -1054,13 +1059,13 @@ public class ChartUIUtil
 				{
 					// For start
 					newSeries.getDataDefinition( )
-							.add( EcoreUtil.copy( (Query) query ) );
+							.add( ChartUtil.eCopy( query ) );
 					// For end
 					newSeries.getDataDefinition( )
-							.add( EcoreUtil.copy( (Query) query ) );
+							.add( ChartUtil.eCopy( query ) );
 					// For Label
 					newSeries.getDataDefinition( )
-							.add( EcoreUtil.copy( (Query) query ) );
+							.add( ChartUtil.eCopy( query ) );
 				}
 				else
 				{
@@ -1380,10 +1385,10 @@ public class ChartUIUtil
 		SeriesDefinition[] sds = currentChart.getSeriesForLegend( );
 		for ( int i = 0; i < sds.length; i++ )
 		{
-			EList seriesList = sds[i].getSeries( );
-			for ( java.util.Iterator iter = seriesList.iterator( ); iter.hasNext( ); )
+			EList<Series> seriesList = sds[i].getSeries( );
+			for ( Iterator<Series> iter = seriesList.iterator( ); iter.hasNext( ); )
 			{
-				Series series = (Series) iter.next( );
+				Series series = iter.next( );
 				if ( series instanceof BarSeries )
 				{
 					String stackedCase = ChartUIConstants.NON_STACKED_TYPE;
@@ -1656,7 +1661,7 @@ public class ChartUIUtil
 	{
 		boolean isValidAgg = true;
 
-		for ( Iterator iter = ChartUIUtil.getOrthogonalSeriesDefinitions( context.getModel( ),
+		for ( Iterator<SeriesDefinition> iter = ChartUIUtil.getOrthogonalSeriesDefinitions( context.getModel( ),
 				0 )
 				.iterator( ); iter.hasNext( ); )
 		{
@@ -1665,7 +1670,7 @@ public class ChartUIUtil
 				return;
 			}
 
-			SeriesDefinition orthSD = (SeriesDefinition) iter.next( );
+			SeriesDefinition orthSD = iter.next( );
 			if ( orthSD.getGrouping( ) != null
 					&& orthSD.getGrouping( ).isEnabled( ) )
 			{
@@ -1677,7 +1682,7 @@ public class ChartUIUtil
 
 		if ( isValidAgg )
 		{
-			SeriesDefinition baseSD = (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
+			SeriesDefinition baseSD = ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
 					.get( 0 );
 			if ( baseSD.getGrouping( ) != null
 					&& baseSD.getGrouping( ).isEnabled( ) )
@@ -1737,7 +1742,7 @@ public class ChartUIUtil
 				&& ChartUIUtil.checkDataBinding( cm ) )
 		{
 			// Enable live preview
-			ChartPreviewPainter.activateLivePreview( true );
+			ChartPreviewPainterBase.activateLivePreview( true );
 			// Make sure not affect model changed
 			ChartAdapter.beginIgnoreNotifications( );
 			boolean hasOtherException = false;
@@ -1750,7 +1755,7 @@ public class ChartUIUtil
 			catch ( Exception e )
 			{
 				// Enable sample data instead
-				ChartPreviewPainter.activateLivePreview( false );
+				ChartPreviewPainterBase.activateLivePreview( false );
 
 				// Zero dataset message will not display, it will use sample
 				// data to do live preview.
@@ -1764,7 +1769,7 @@ public class ChartUIUtil
 				if ( !isZeroDataset )
 				{
 					hasOtherException = true;
-					ChartPreviewPainter.activateLivePreview( false );
+					ChartPreviewPainterBase.activateLivePreview( false );
 					WizardBase.showException( e.getLocalizedMessage( ) );
 					errorMsgs.add( e.getLocalizedMessage( ) );
 				}
@@ -1778,7 +1783,7 @@ public class ChartUIUtil
 		else
 		{
 			// Disable live preview
-			ChartPreviewPainter.activateLivePreview( false );
+			ChartPreviewPainterBase.activateLivePreview( false );
 		}
 
 		return errorMsgs;

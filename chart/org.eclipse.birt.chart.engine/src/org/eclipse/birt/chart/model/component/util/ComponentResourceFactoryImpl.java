@@ -39,6 +39,7 @@ public class ComponentResourceFactoryImpl extends ResourceFactoryImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Resource createResource( URI uri )
 	{
 		XMLResource result = new ComponentResourceImpl( uri );

@@ -36,9 +36,8 @@ import com.ibm.icu.util.ULocale;
  *
  * @generated
  */
-public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl
-		implements
-			JavaNumberFormatSpecifier
+public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implements
+		JavaNumberFormatSpecifier
 {
 
 	/**
@@ -84,7 +83,7 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean multiplierESet = false;
+	protected boolean multiplierESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -99,6 +98,7 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.JAVA_NUMBER_FORMAT_SPECIFIER;
@@ -190,6 +190,7 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -207,6 +208,7 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -226,6 +228,7 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -245,6 +248,7 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -262,6 +266,7 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

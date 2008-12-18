@@ -64,6 +64,7 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return DataPackage.Literals.DATA_SET;
@@ -99,6 +100,7 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -114,12 +116,13 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
 		{
 			case DataPackage.DATA_SET__VALUES :
-				setValues( (Object) newValue );
+				setValues( newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -130,6 +133,7 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -146,6 +150,7 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -161,6 +166,7 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

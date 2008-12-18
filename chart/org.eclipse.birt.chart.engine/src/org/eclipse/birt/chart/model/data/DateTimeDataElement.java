@@ -52,7 +52,7 @@ public interface DateTimeDataElement extends DataElement
 	 * @see #unsetValue()
 	 * @see #setValue(long)
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getDateTimeDataElement_Value()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Long" required="true"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Long" required="true"
 	 *        extendedMetaData="kind='element' name='Value'"
 	 * @generated
 	 */

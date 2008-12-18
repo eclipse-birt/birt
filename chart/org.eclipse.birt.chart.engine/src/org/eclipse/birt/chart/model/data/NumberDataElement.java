@@ -48,7 +48,7 @@ public interface NumberDataElement extends DataElement
 	 * @see #unsetValue()
 	 * @see #setValue(double)
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getNumberDataElement_Value()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
 	 *        extendedMetaData="kind='element' name='Value'"
 	 * @generated
 	 */

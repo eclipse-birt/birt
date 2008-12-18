@@ -43,7 +43,7 @@ public interface DialRegion extends MarkerRange
 	 * @see #unsetInnerRadius()
 	 * @see #setInnerRadius(double)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDialRegion_InnerRadius()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
 	 *        extendedMetaData="kind='element' name='InnerRadius'"
 	 * @generated
 	 */
@@ -96,7 +96,7 @@ public interface DialRegion extends MarkerRange
 	 * @see #unsetOuterRadius()
 	 * @see #setOuterRadius(double)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDialRegion_OuterRadius()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
 	 *        extendedMetaData="kind='element' name='OuterRadius'"
 	 * @generated
 	 */

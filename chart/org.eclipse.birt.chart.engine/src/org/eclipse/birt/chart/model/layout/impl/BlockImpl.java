@@ -84,7 +84,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @generated
 	 * @ordered
 	 */
-	protected EList children = null;
+	protected EList<Block> children;
 
 	/**
 	 * The cached value of the '{@link #getBounds() <em>Bounds</em>}' containment reference.
@@ -93,7 +93,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @generated
 	 * @ordered
 	 */
-	protected Bounds bounds = null;
+	protected Bounds bounds;
 
 	/**
 	 * The default value of the '{@link #getAnchor() <em>Anchor</em>}' attribute.
@@ -120,7 +120,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean anchorESet = false;
+	protected boolean anchorESet;
 
 	/**
 	 * The default value of the '{@link #getStretch() <em>Stretch</em>}' attribute.
@@ -147,7 +147,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean stretchESet = false;
+	protected boolean stretchESet;
 
 	/**
 	 * The cached value of the '{@link #getInsets() <em>Insets</em>}' containment reference.
@@ -156,7 +156,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @generated
 	 * @ordered
 	 */
-	protected Insets insets = null;
+	protected Insets insets;
 
 	/**
 	 * The default value of the '{@link #getRow() <em>Row</em>}' attribute.
@@ -183,7 +183,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean rowESet = false;
+	protected boolean rowESet;
 
 	/**
 	 * The default value of the '{@link #getColumn() <em>Column</em>}' attribute.
@@ -210,7 +210,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean columnESet = false;
+	protected boolean columnESet;
 
 	/**
 	 * The default value of the '{@link #getRowspan() <em>Rowspan</em>}' attribute.
@@ -237,7 +237,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean rowspanESet = false;
+	protected boolean rowspanESet;
 
 	/**
 	 * The default value of the '{@link #getColumnspan() <em>Columnspan</em>}' attribute.
@@ -264,7 +264,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean columnspanESet = false;
+	protected boolean columnspanESet;
 
 	/**
 	 * The cached value of the '{@link #getMinSize() <em>Min Size</em>}' containment reference.
@@ -273,7 +273,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @generated
 	 * @ordered
 	 */
-	protected Size minSize = null;
+	protected Size minSize;
 
 	/**
 	 * The cached value of the '{@link #getOutline() <em>Outline</em>}' containment reference.
@@ -282,7 +282,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @generated
 	 * @ordered
 	 */
-	protected LineAttributes outline = null;
+	protected LineAttributes outline;
 
 	/**
 	 * The cached value of the '{@link #getBackground() <em>Background</em>}' containment reference.
@@ -291,7 +291,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @generated
 	 * @ordered
 	 */
-	protected Fill background = null;
+	protected Fill background;
 
 	/**
 	 * The default value of the '{@link #isVisible() <em>Visible</em>}' attribute.
@@ -318,7 +318,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean visibleESet = false;
+	protected boolean visibleESet;
 
 	/**
 	 * The cached value of the '{@link #getTriggers() <em>Triggers</em>}' containment reference list.
@@ -327,7 +327,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @generated
 	 * @ordered
 	 */
-	protected EList triggers = null;
+	protected EList<Trigger> triggers;
 
 	/**
 	 * The default value of the '{@link #getWidthHint() <em>Width Hint</em>}' attribute.
@@ -356,7 +356,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean widthHintESet = false;
+	protected boolean widthHintESet;
 
 	/**
 	 * The default value of the '{@link #getHeightHint() <em>Height Hint</em>}' attribute.
@@ -385,7 +385,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean heightHintESet = false;
+	protected boolean heightHintESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -400,6 +400,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return LayoutPackage.Literals.BLOCK;
@@ -409,11 +410,11 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getChildren( )
+	public EList<Block> getChildren( )
 	{
 		if ( children == null )
 		{
-			children = new EObjectContainmentEList( Block.class,
+			children = new EObjectContainmentEList<Block>( Block.class,
 					this,
 					LayoutPackage.BLOCK__CHILDREN );
 		}
@@ -1138,11 +1139,11 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getTriggers( )
+	public EList<Trigger> getTriggers( )
 	{
 		if ( triggers == null )
 		{
-			triggers = new EObjectContainmentEList( Trigger.class,
+			triggers = new EObjectContainmentEList<Trigger>( Trigger.class,
 					this,
 					LayoutPackage.BLOCK__TRIGGERS );
 		}
@@ -1274,13 +1275,14 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
 		switch ( featureID )
 		{
 			case LayoutPackage.BLOCK__CHILDREN :
-				return ( (InternalEList) getChildren( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getChildren( ) ).basicRemove( otherEnd,
 						msgs );
 			case LayoutPackage.BLOCK__BOUNDS :
 				return basicSetBounds( null, msgs );
@@ -1293,7 +1295,7 @@ public class BlockImpl extends EObjectImpl implements Block
 			case LayoutPackage.BLOCK__BACKGROUND :
 				return basicSetBackground( null, msgs );
 			case LayoutPackage.BLOCK__TRIGGERS :
-				return ( (InternalEList) getTriggers( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getTriggers( ) ).basicRemove( otherEnd,
 						msgs );
 		}
 		return super.eInverseRemove( otherEnd, featureID, msgs );
@@ -1304,6 +1306,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -1349,13 +1352,15 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
 		{
 			case LayoutPackage.BLOCK__CHILDREN :
 				getChildren( ).clear( );
-				getChildren( ).addAll( (Collection) newValue );
+				getChildren( ).addAll( (Collection<? extends Block>) newValue );
 				return;
 			case LayoutPackage.BLOCK__BOUNDS :
 				setBounds( (Bounds) newValue );
@@ -1395,7 +1400,7 @@ public class BlockImpl extends EObjectImpl implements Block
 				return;
 			case LayoutPackage.BLOCK__TRIGGERS :
 				getTriggers( ).clear( );
-				getTriggers( ).addAll( (Collection) newValue );
+				getTriggers( ).addAll( (Collection<? extends Trigger>) newValue );
 				return;
 			case LayoutPackage.BLOCK__WIDTH_HINT :
 				setWidthHint( ( (Double) newValue ).doubleValue( ) );
@@ -1412,6 +1417,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -1473,6 +1479,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -1517,6 +1524,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

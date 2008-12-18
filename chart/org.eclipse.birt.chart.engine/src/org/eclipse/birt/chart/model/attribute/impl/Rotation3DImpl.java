@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Rotation3DImpl.java,v 1.1 2006/12/28 03:49:30 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.attribute.impl;
@@ -49,7 +49,7 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 	 * @generated
 	 * @ordered
 	 */
-	protected EList angles = null;
+	protected EList<Angle3D> angles;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -64,6 +64,7 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.ROTATION3_D;
@@ -73,11 +74,11 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getAngles( )
+	public EList<Angle3D> getAngles( )
 	{
 		if ( angles == null )
 		{
-			angles = new EObjectContainmentEList( Angle3D.class,
+			angles = new EObjectContainmentEList<Angle3D>( Angle3D.class,
 					this,
 					AttributePackage.ROTATION3_D__ANGLES );
 		}
@@ -89,13 +90,14 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
 		switch ( featureID )
 		{
 			case AttributePackage.ROTATION3_D__ANGLES :
-				return ( (InternalEList) getAngles( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getAngles( ) ).basicRemove( otherEnd,
 						msgs );
 		}
 		return super.eInverseRemove( otherEnd, featureID, msgs );
@@ -106,6 +108,7 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -121,13 +124,15 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
 		{
 			case AttributePackage.ROTATION3_D__ANGLES :
 				getAngles( ).clear( );
-				getAngles( ).addAll( (Collection) newValue );
+				getAngles( ).addAll( (Collection<? extends Angle3D>) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -138,6 +143,7 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -154,6 +160,7 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )

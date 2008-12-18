@@ -38,9 +38,8 @@ import com.ibm.icu.util.ULocale;
  *
  * @generated
  */
-public class NumberFormatSpecifierImpl extends FormatSpecifierImpl
-		implements
-			NumberFormatSpecifier
+public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
+		NumberFormatSpecifier
 {
 
 	/**
@@ -104,7 +103,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean multiplierESet = false;
+	protected boolean multiplierESet;
 
 	/**
 	 * The default value of the '
@@ -135,7 +134,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean fractionDigitsESet = false;
+	protected boolean fractionDigitsESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -150,6 +149,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.NUMBER_FORMAT_SPECIFIER;
@@ -322,6 +322,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -343,6 +344,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -368,6 +370,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -393,6 +396,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -415,6 +419,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )
@@ -468,21 +473,21 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl
 			df.setMinimumFractionDigits( getFractionDigits( ) );
 			df.setMaximumFractionDigits( getFractionDigits( ) );
 		}
-		
+
 		df.applyLocalizedPattern( df.toLocalizedPattern( ) );
-		
+
 		final StringBuffer sb = new StringBuffer( );
 		if ( getPrefix( ) != null )
 		{
 			sb.append( getPrefix( ) );
 		}
-		sb.append(  isSetMultiplier( ) ? df.format( dValue * getMultiplier( ) )
+		sb.append( isSetMultiplier( ) ? df.format( dValue * getMultiplier( ) )
 				: df.format( dValue ) );
 		if ( getSuffix( ) != null )
 		{
 			sb.append( getSuffix( ) );
 		}
-		
+
 		return sb.toString( );
 	}
 } // NumberFormatSpecifierImpl

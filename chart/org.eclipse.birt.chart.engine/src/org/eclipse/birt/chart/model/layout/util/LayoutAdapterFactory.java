@@ -61,6 +61,7 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl
 	 * @return whether this factory is applicable for the type of the object.
 	 * @generated
 	 */
+	@Override
 	public boolean isFactoryForType( Object object )
 	{
 		if ( object == modelPackage )
@@ -79,39 +80,46 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected LayoutSwitch modelSwitch = new LayoutSwitch( ) {
+	protected LayoutSwitch<Adapter> modelSwitch = new LayoutSwitch<Adapter>( ) {
 
-		public Object caseBlock( Block object )
+		@Override
+		public Adapter caseBlock( Block object )
 		{
 			return createBlockAdapter( );
 		}
 
-		public Object caseClientArea( ClientArea object )
+		@Override
+		public Adapter caseClientArea( ClientArea object )
 		{
 			return createClientAreaAdapter( );
 		}
 
-		public Object caseLabelBlock( LabelBlock object )
+		@Override
+		public Adapter caseLabelBlock( LabelBlock object )
 		{
 			return createLabelBlockAdapter( );
 		}
 
-		public Object caseLegend( Legend object )
+		@Override
+		public Adapter caseLegend( Legend object )
 		{
 			return createLegendAdapter( );
 		}
 
-		public Object casePlot( Plot object )
+		@Override
+		public Adapter casePlot( Plot object )
 		{
 			return createPlotAdapter( );
 		}
 
-		public Object caseTitleBlock( TitleBlock object )
+		@Override
+		public Adapter caseTitleBlock( TitleBlock object )
 		{
 			return createTitleBlockAdapter( );
 		}
 
-		public Object defaultCase( EObject object )
+		@Override
+		public Adapter defaultCase( EObject object )
 		{
 			return createEObjectAdapter( );
 		}
@@ -124,9 +132,10 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
 	 */
+	@Override
 	public Adapter createAdapter( Notifier target )
 	{
-		return (Adapter) modelSwitch.doSwitch( (EObject) target );
+		return modelSwitch.doSwitch( (EObject) target );
 	}
 
 	/**

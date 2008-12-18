@@ -67,7 +67,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean conditionESet = false;
+	protected boolean conditionESet;
 
 	/**
 	 * The cached value of the '{@link #getAction() <em>Action</em>}' containment reference.
@@ -76,7 +76,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 	 * @generated
 	 * @ordered
 	 */
-	protected Action action = null;
+	protected Action action;
 
 	/**
 	 * The default value of the '{@link #getTriggerFlow() <em>Trigger Flow</em>}' attribute.
@@ -103,7 +103,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean triggerFlowESet = false;
+	protected boolean triggerFlowESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -118,6 +118,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return DataPackage.Literals.TRIGGER;
@@ -304,6 +305,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -319,6 +321,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -337,6 +340,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -358,6 +362,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -379,6 +384,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -397,6 +403,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

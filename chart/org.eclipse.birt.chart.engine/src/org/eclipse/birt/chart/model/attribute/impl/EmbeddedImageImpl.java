@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: EmbeddedImageImpl.java,v 1.1 2006/12/28 03:49:30 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.attribute.impl;
@@ -65,6 +65,7 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.EMBEDDED_IMAGE;
@@ -100,6 +101,7 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -115,6 +117,7 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -131,6 +134,7 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -147,6 +151,7 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -162,6 +167,7 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

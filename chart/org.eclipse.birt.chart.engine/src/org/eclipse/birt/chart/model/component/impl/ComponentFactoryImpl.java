@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.eclipse.birt.chart.model.component.*;
 
+import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ChartPreferences;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
@@ -39,9 +40,8 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
  * end-user-doc -->
  * @generated
  */
-public class ComponentFactoryImpl extends EFactoryImpl
-		implements
-			ComponentFactory
+public class ComponentFactoryImpl extends EFactoryImpl implements
+		ComponentFactory
 {
 
 	/**
@@ -82,6 +82,7 @@ public class ComponentFactoryImpl extends EFactoryImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject create( EClass eClass )
 	{
 		switch ( eClass.getClassifierID( ) )
@@ -245,7 +246,7 @@ public class ComponentFactoryImpl extends EFactoryImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Map.Entry createEStringToDataSetMapEntry( )
+	public Map.Entry<String, DataSet> createEStringToDataSetMapEntry( )
 	{
 		EStringToDataSetMapEntryImpl eStringToDataSetMapEntry = new EStringToDataSetMapEntryImpl( );
 		return eStringToDataSetMapEntry;
@@ -265,6 +266,7 @@ public class ComponentFactoryImpl extends EFactoryImpl
 	 * @deprecated
 	 * @generated
 	 */
+	@Deprecated
 	public static ComponentPackage getPackage( )
 	{
 		return ComponentPackage.eINSTANCE;

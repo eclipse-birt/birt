@@ -78,7 +78,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean delayESet = false;
+	protected boolean delayESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -93,6 +93,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.TOOLTIP_VALUE;
@@ -184,6 +185,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -201,6 +203,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -220,6 +223,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -239,6 +243,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -256,6 +261,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

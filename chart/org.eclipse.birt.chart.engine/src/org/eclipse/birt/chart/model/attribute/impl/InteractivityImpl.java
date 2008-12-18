@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: InteractivityImpl.java,v 1.1 2006/12/28 03:49:30 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.attribute.impl;
@@ -61,7 +61,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean enableESet = false;
+	protected boolean enableESet;
 
 	/**
 	 * The default value of the '{@link #getLegendBehavior() <em>Legend Behavior</em>}' attribute.
@@ -88,7 +88,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean legendBehaviorESet = false;
+	protected boolean legendBehaviorESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -103,6 +103,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.INTERACTIVITY;
@@ -226,6 +227,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -243,6 +245,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -262,6 +265,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -281,6 +285,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -297,6 +302,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

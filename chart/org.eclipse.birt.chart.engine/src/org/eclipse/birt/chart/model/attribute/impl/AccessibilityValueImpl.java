@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: AccessibilityValueImpl.java,v 1.1 2006/12/28 03:49:30 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.attribute.impl;
@@ -30,9 +30,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class AccessibilityValueImpl extends ActionValueImpl
-		implements
-			AccessibilityValue
+public class AccessibilityValueImpl extends ActionValueImpl implements
+		AccessibilityValue
 {
 
 	/**
@@ -90,6 +89,7 @@ public class AccessibilityValueImpl extends ActionValueImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.ACCESSIBILITY_VALUE;
@@ -154,6 +154,7 @@ public class AccessibilityValueImpl extends ActionValueImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -171,6 +172,7 @@ public class AccessibilityValueImpl extends ActionValueImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -190,6 +192,7 @@ public class AccessibilityValueImpl extends ActionValueImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -209,6 +212,7 @@ public class AccessibilityValueImpl extends ActionValueImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -228,6 +232,7 @@ public class AccessibilityValueImpl extends ActionValueImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

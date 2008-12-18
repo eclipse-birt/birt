@@ -49,7 +49,7 @@ public class NeedleImpl extends EObjectImpl implements Needle
 	 * @generated
 	 * @ordered
 	 */
-	protected LineAttributes lineAttributes = null;
+	protected LineAttributes lineAttributes;
 
 	/**
 	 * The default value of the '{@link #getDecorator() <em>Decorator</em>}' attribute.
@@ -76,7 +76,7 @@ public class NeedleImpl extends EObjectImpl implements Needle
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean decoratorESet = false;
+	protected boolean decoratorESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -91,6 +91,7 @@ public class NeedleImpl extends EObjectImpl implements Needle
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return ComponentPackage.Literals.NEEDLE;
@@ -223,6 +224,7 @@ public class NeedleImpl extends EObjectImpl implements Needle
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -239,6 +241,7 @@ public class NeedleImpl extends EObjectImpl implements Needle
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -256,6 +259,7 @@ public class NeedleImpl extends EObjectImpl implements Needle
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -275,6 +279,7 @@ public class NeedleImpl extends EObjectImpl implements Needle
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -294,6 +299,7 @@ public class NeedleImpl extends EObjectImpl implements Needle
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -310,6 +316,7 @@ public class NeedleImpl extends EObjectImpl implements Needle
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

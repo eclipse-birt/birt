@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GroupingUnitType.java,v 1.6 2007/11/12 06:20:27 yulin Exp $
+ * $Id: GroupingUnitType.java,v 1.7 2007/12/24 07:43:33 yulin Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
@@ -27,8 +27,127 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class GroupingUnitType extends AbstractEnumerator
-{
+public enum GroupingUnitType implements Enumerator {
+	/**
+	 * The '<em><b>Seconds</b></em>' literal object.
+	 * <!-- begin-user-doc
+	 * -->
+	 * <p>
+	 * If the meaning of '<em><b>Seconds</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #SECONDS
+	 * @generated
+	 * @ordered
+	 */
+	SECONDS_LITERAL(0, "Seconds", "Seconds"),
+	/**
+	 * The '<em><b>Minutes</b></em>' literal object.
+	 * <!-- begin-user-doc
+	 * -->
+	 * <p>
+	 * If the meaning of '<em><b>Minutes</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #MINUTES
+	 * @generated
+	 * @ordered
+	 */
+	MINUTES_LITERAL(1, "Minutes", "Minutes"),
+	/**
+	 * The '<em><b>Hours</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Hours</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #HOURS
+	 * @generated
+	 * @ordered
+	 */
+	HOURS_LITERAL(2, "Hours", "Hours"),
+	/**
+	 * The '<em><b>Days</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Days</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DAYS
+	 * @generated
+	 * @ordered
+	 */
+	DAYS_LITERAL(3, "Days", "Days"),
+	/**
+	 * The '<em><b>Weeks</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Weeks</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #WEEKS
+	 * @generated
+	 * @ordered
+	 */
+	WEEKS_LITERAL(4, "Weeks", "Weeks"),
+	/**
+	 * The '<em><b>Months</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Months</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #MONTHS
+	 * @generated
+	 * @ordered
+	 */
+	MONTHS_LITERAL(5, "Months", "Months"),
+	/**
+	 * The '<em><b>Quarters</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #QUARTERS
+	 * @generated
+	 * @ordered
+	 */
+	QUARTERS_LITERAL(6, "Quarters", "Quarters"),
+	/**
+	 * The '<em><b>Years</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Years</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #YEARS
+	 * @generated
+	 * @ordered
+	 */
+	YEARS_LITERAL(7, "Years", "Years"),
+	/**
+	 * The '<em><b>String</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #STRING
+	 * @generated
+	 * @ordered
+	 */
+	STRING_LITERAL(8, "String", "String"),
+	/**
+	 * The '<em><b>String Prefix</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #STRING_PREFIX
+	 * @generated
+	 * @ordered
+	 */
+	STRING_PREFIX_LITERAL(9, "StringPrefix", "StringPrefix");
 
 	/**
 	 * The '<em><b>Seconds</b></em>' literal value.
@@ -153,146 +272,6 @@ public final class GroupingUnitType extends AbstractEnumerator
 	public static final int STRING_PREFIX = 9;
 
 	/**
-	 * The '<em><b>Seconds</b></em>' literal object.
-	 * <!-- begin-user-doc
-	 * -->
-	 * <p>
-	 * If the meaning of '<em><b>Seconds</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #SECONDS
-	 * @generated
-	 * @ordered
-	 */
-	public static final GroupingUnitType SECONDS_LITERAL = new GroupingUnitType( SECONDS,
-			"Seconds", "Seconds" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Minutes</b></em>' literal object.
-	 * <!-- begin-user-doc
-	 * -->
-	 * <p>
-	 * If the meaning of '<em><b>Minutes</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #MINUTES
-	 * @generated
-	 * @ordered
-	 */
-	public static final GroupingUnitType MINUTES_LITERAL = new GroupingUnitType( MINUTES,
-			"Minutes", "Minutes" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Hours</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Hours</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #HOURS
-	 * @generated
-	 * @ordered
-	 */
-	public static final GroupingUnitType HOURS_LITERAL = new GroupingUnitType( HOURS,
-			"Hours", "Hours" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Days</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Days</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #DAYS
-	 * @generated
-	 * @ordered
-	 */
-	public static final GroupingUnitType DAYS_LITERAL = new GroupingUnitType( DAYS,
-			"Days", "Days" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Weeks</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Weeks</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #WEEKS
-	 * @generated
-	 * @ordered
-	 */
-	public static final GroupingUnitType WEEKS_LITERAL = new GroupingUnitType( WEEKS,
-			"Weeks", "Weeks" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Months</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Months</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #MONTHS
-	 * @generated
-	 * @ordered
-	 */
-	public static final GroupingUnitType MONTHS_LITERAL = new GroupingUnitType( MONTHS,
-			"Months", "Months" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Quarters</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #QUARTERS
-	 * @generated
-	 * @ordered
-	 */
-	public static final GroupingUnitType QUARTERS_LITERAL = new GroupingUnitType( QUARTERS,
-			"Quarters", "Quarters" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-	/**
-	 * The '<em><b>Years</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Years</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #YEARS
-	 * @generated
-	 * @ordered
-	 */
-	public static final GroupingUnitType YEARS_LITERAL = new GroupingUnitType( YEARS,
-			"Years", "Years" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>String</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #STRING
-	 * @generated
-	 * @ordered
-	 */
-	public static final GroupingUnitType STRING_LITERAL = new GroupingUnitType( STRING,
-			"String", "String" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-	/**
-	 * The '<em><b>String Prefix</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #STRING_PREFIX
-	 * @generated
-	 * @ordered
-	 */
-	public static final GroupingUnitType STRING_PREFIX_LITERAL = new GroupingUnitType( STRING_PREFIX,
-			"StringPrefix", "StringPrefix" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-	/**
 	 * An array of all the '<em><b>Grouping Unit Type</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -315,7 +294,7 @@ public final class GroupingUnitType extends AbstractEnumerator
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<GroupingUnitType> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
 	 * Returns the '<em><b>Grouping Unit Type</b></em>' literal with the specified literal value.
@@ -388,6 +367,27 @@ public final class GroupingUnitType extends AbstractEnumerator
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final int value;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String name;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String literal;
+
+	/**
 	 * Only this class can construct instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -395,7 +395,51 @@ public final class GroupingUnitType extends AbstractEnumerator
 	 */
 	private GroupingUnitType( int value, String name, String literal )
 	{
-		super( value, name, literal );
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getValue( )
+	{
+		return value;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName( )
+	{
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLiteral( )
+	{
+		return literal;
+	}
+
+	/**
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString( )
+	{
+		return literal;
 	}
 
 	/**
@@ -413,23 +457,23 @@ public final class GroupingUnitType extends AbstractEnumerator
 		}
 		else if ( dataType == DataType.DATE_TIME_LITERAL )
 		{
-			List valuesList = new ArrayList(YEARS);
-			for (int i = 0; i <= YEARS; i++)
+			List valuesList = new ArrayList( YEARS );
+			for ( int i = 0; i <= YEARS; i++ )
 			{
-				valuesList.add( VALUES_ARRAY[i]);
+				valuesList.add( VALUES_ARRAY[i] );
 			}
 			return valuesList;
 		}
 		else if ( dataType == DataType.TEXT_LITERAL )
 		{
 			List valuesList = new ArrayList( );
-			for ( int i = STRING; i <= STRING_PREFIX; i ++ )
+			for ( int i = STRING; i <= STRING_PREFIX; i++ )
 			{
 				valuesList.add( VALUES_ARRAY[i] );
 			}
 			return valuesList;
 		}
-		
+
 		return null;
 	}
-} //GroupingUnitType
+}

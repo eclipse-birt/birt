@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
@@ -32,8 +32,163 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class TriggerCondition extends AbstractEnumerator
-{
+public enum TriggerCondition implements Enumerator {
+	/**
+	 * The '<em><b>Mouse Hover</b></em>' literal object. <!--
+	 * begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Mouse Hover</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * 
+	 * @see #MOUSE_HOVER
+	 * @generated
+	 * @ordered
+	 * @deprecated use ONMOUSEOVER_LITERAL instead.
+	 */
+	MOUSE_HOVER_LITERAL(0, "MouseHover", "Mouse_Hover"),
+	/**
+	 * The '<em><b>Mouse Click</b></em>' literal object. <!--
+	 * begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Mouse Click</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * 
+	 * @see #MOUSE_CLICK
+	 * @generated
+	 * @ordered
+	 * @deprecated use ONCLICK_LITERAL instead.
+	 */
+	MOUSE_CLICK_LITERAL(1, "MouseClick", "Mouse_Click"),
+	/**
+	 * The '<em><b>Onclick</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #ONCLICK
+	 * @generated
+	 * @ordered
+	 */
+	ONCLICK_LITERAL(2, "onclick", "onclick"),
+	/**
+	 * The '<em><b>Ondblclick</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #ONDBLCLICK
+	 * @generated
+	 * @ordered
+	 */
+	ONDBLCLICK_LITERAL(3, "ondblclick", "ondblclick"),
+	/**
+	 * The '<em><b>Onmousedown</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #ONMOUSEDOWN
+	 * @generated
+	 * @ordered
+	 */
+	ONMOUSEDOWN_LITERAL(4, "onmousedown", "onmousedown"),
+	/**
+	 * The '<em><b>Onmouseup</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #ONMOUSEUP
+	 * @generated
+	 * @ordered
+	 */
+	ONMOUSEUP_LITERAL(5, "onmouseup", "onmouseup"),
+	/**
+	 * The '<em><b>Onmouseover</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #ONMOUSEOVER
+	 * @generated
+	 * @ordered
+	 */
+	ONMOUSEOVER_LITERAL(6, "onmouseover", "onmouseover"),
+	/**
+	 * The '<em><b>Onmousemove</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #ONMOUSEMOVE
+	 * @generated
+	 * @ordered
+	 */
+	ONMOUSEMOVE_LITERAL(7, "onmousemove", "onmousemove"),
+	/**
+	 * The '<em><b>Onmouseout</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #ONMOUSEOUT
+	 * @generated
+	 * @ordered
+	 */
+	ONMOUSEOUT_LITERAL(8, "onmouseout", "onmouseout"),
+	/**
+	 * The '<em><b>Onfocus</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #ONFOCUS
+	 * @generated
+	 * @ordered
+	 */
+	ONFOCUS_LITERAL(9, "onfocus", "onfocus"),
+	/**
+	 * The '<em><b>Onblur</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #ONBLUR
+	 * @generated
+	 * @ordered
+	 */
+	ONBLUR_LITERAL(10, "onblur", "onblur"),
+	/**
+	 * The '<em><b>Onkeydown</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #ONKEYDOWN
+	 * @generated
+	 * @ordered
+	 */
+	ONKEYDOWN_LITERAL(11, "onkeydown", "onkeydown"),
+	/**
+	 * The '<em><b>Onkeypress</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #ONKEYPRESS
+	 * @generated
+	 * @ordered
+	 */
+	ONKEYPRESS_LITERAL(12, "onkeypress", "onkeypress"),
+	/**
+	 * The '<em><b>Onkeyup</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #ONKEYUP
+	 * @generated
+	 * @ordered
+	 */
+	ONKEYUP_LITERAL(13, "onkeyup", "onkeyup"),
+	/**
+	 * The '<em><b>Accessibility</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #ACCESSIBILITY
+	 * @generated
+	 * @ordered
+	 */
+	ACCESSIBILITY_LITERAL(14, "accessibility", "accessibility"),
+	/**
+	 * The '<em><b>Onload</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #ONLOAD
+	 * @generated
+	 * @ordered
+	 */
+	ONLOAD_LITERAL(15, "onload", "onload");
 
 	/**
 	 * The '<em><b>Mouse Hover</b></em>' literal value.
@@ -274,194 +429,6 @@ public final class TriggerCondition extends AbstractEnumerator
 	public static final int ONLOAD = 15;
 
 	/**
-	 * The '<em><b>Mouse Hover</b></em>' literal object. <!--
-	 * begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Mouse Hover</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * 
-	 * @see #MOUSE_HOVER
-	 * @generated
-	 * @ordered
-	 * @deprecated use ONMOUSEOVER_LITERAL instead.
-	 */
-	public static final TriggerCondition MOUSE_HOVER_LITERAL = new TriggerCondition( MOUSE_HOVER,
-			"MouseHover", "Mouse_Hover" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Mouse Click</b></em>' literal object. <!--
-	 * begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Mouse Click</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * 
-	 * @see #MOUSE_CLICK
-	 * @generated
-	 * @ordered
-	 * @deprecated use ONCLICK_LITERAL instead.
-	 */
-	public static final TriggerCondition MOUSE_CLICK_LITERAL = new TriggerCondition( MOUSE_CLICK,
-			"MouseClick", "Mouse_Click" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Onclick</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #ONCLICK
-	 * @generated
-	 * @ordered
-	 */
-	public static final TriggerCondition ONCLICK_LITERAL = new TriggerCondition( ONCLICK,
-			"onclick", "onclick" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Ondblclick</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #ONDBLCLICK
-	 * @generated
-	 * @ordered
-	 */
-	public static final TriggerCondition ONDBLCLICK_LITERAL = new TriggerCondition( ONDBLCLICK,
-			"ondblclick", "ondblclick" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Onmousedown</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #ONMOUSEDOWN
-	 * @generated
-	 * @ordered
-	 */
-	public static final TriggerCondition ONMOUSEDOWN_LITERAL = new TriggerCondition( ONMOUSEDOWN,
-			"onmousedown", "onmousedown" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Onmouseup</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #ONMOUSEUP
-	 * @generated
-	 * @ordered
-	 */
-	public static final TriggerCondition ONMOUSEUP_LITERAL = new TriggerCondition( ONMOUSEUP,
-			"onmouseup", "onmouseup" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Onmouseover</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #ONMOUSEOVER
-	 * @generated
-	 * @ordered
-	 */
-	public static final TriggerCondition ONMOUSEOVER_LITERAL = new TriggerCondition( ONMOUSEOVER,
-			"onmouseover", "onmouseover" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Onmousemove</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #ONMOUSEMOVE
-	 * @generated
-	 * @ordered
-	 */
-	public static final TriggerCondition ONMOUSEMOVE_LITERAL = new TriggerCondition( ONMOUSEMOVE,
-			"onmousemove", "onmousemove" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Onmouseout</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #ONMOUSEOUT
-	 * @generated
-	 * @ordered
-	 */
-	public static final TriggerCondition ONMOUSEOUT_LITERAL = new TriggerCondition( ONMOUSEOUT,
-			"onmouseout", "onmouseout" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Onfocus</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #ONFOCUS
-	 * @generated
-	 * @ordered
-	 */
-	public static final TriggerCondition ONFOCUS_LITERAL = new TriggerCondition( ONFOCUS,
-			"onfocus", "onfocus" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Onblur</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #ONBLUR
-	 * @generated
-	 * @ordered
-	 */
-	public static final TriggerCondition ONBLUR_LITERAL = new TriggerCondition( ONBLUR,
-			"onblur", "onblur" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Onkeydown</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #ONKEYDOWN
-	 * @generated
-	 * @ordered
-	 */
-	public static final TriggerCondition ONKEYDOWN_LITERAL = new TriggerCondition( ONKEYDOWN,
-			"onkeydown", "onkeydown" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Onkeypress</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #ONKEYPRESS
-	 * @generated
-	 * @ordered
-	 */
-	public static final TriggerCondition ONKEYPRESS_LITERAL = new TriggerCondition( ONKEYPRESS,
-			"onkeypress", "onkeypress" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Onkeyup</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #ONKEYUP
-	 * @generated
-	 * @ordered
-	 */
-	public static final TriggerCondition ONKEYUP_LITERAL = new TriggerCondition( ONKEYUP,
-			"onkeyup", "onkeyup" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Accessibility</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #ACCESSIBILITY
-	 * @generated
-	 * @ordered
-	 */
-	public static final TriggerCondition ACCESSIBILITY_LITERAL = new TriggerCondition( ACCESSIBILITY,
-			"accessibility", "accessibility" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-	/**
-	 * The '<em><b>Onload</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #ONLOAD
-	 * @generated
-	 * @ordered
-	 */
-	public static final TriggerCondition ONLOAD_LITERAL = new TriggerCondition( ONLOAD,
-			"onload", "onload" ); //$NON-NLS-1$
-
-	/**
 	 * An array of all the '<em><b>Trigger Condition</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -490,7 +457,7 @@ public final class TriggerCondition extends AbstractEnumerator
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<TriggerCondition> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
 	 * Returns the '<em><b>Trigger Condition</b></em>' literal with the specified literal value.
@@ -575,6 +542,27 @@ public final class TriggerCondition extends AbstractEnumerator
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final int value;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String name;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String literal;
+
+	/**
 	 * Only this class can construct instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -582,7 +570,50 @@ public final class TriggerCondition extends AbstractEnumerator
 	 */
 	private TriggerCondition( int value, String name, String literal )
 	{
-		super( value, name, literal );
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
 	}
 
-} //TriggerCondition
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getValue( )
+	{
+		return value;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName( )
+	{
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLiteral( )
+	{
+		return literal;
+	}
+
+	/**
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString( )
+	{
+		return literal;
+	}
+}

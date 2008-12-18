@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.eclipse.birt.chart.model.component.*;
 
+import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ChartPreferences;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
@@ -66,6 +67,7 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl
 	 * @return whether this factory is applicable for the type of the object.
 	 * @generated
 	 */
+	@Override
 	public boolean isFactoryForType( Object object )
 	{
 		if ( object == modelPackage )
@@ -84,74 +86,89 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ComponentSwitch modelSwitch = new ComponentSwitch( ) {
+	protected ComponentSwitch<Adapter> modelSwitch = new ComponentSwitch<Adapter>( ) {
 
-		public Object caseAxis( Axis object )
+		@Override
+		public Adapter caseAxis( Axis object )
 		{
 			return createAxisAdapter( );
 		}
 
-		public Object caseChartPreferences( ChartPreferences object )
+		@Override
+		public Adapter caseChartPreferences( ChartPreferences object )
 		{
 			return createChartPreferencesAdapter( );
 		}
 
-		public Object caseCurveFitting( CurveFitting object )
+		@Override
+		public Adapter caseCurveFitting( CurveFitting object )
 		{
 			return createCurveFittingAdapter( );
 		}
 
-		public Object caseDial( Dial object )
+		@Override
+		public Adapter caseDial( Dial object )
 		{
 			return createDialAdapter( );
 		}
 
-		public Object caseDialRegion( DialRegion object )
+		@Override
+		public Adapter caseDialRegion( DialRegion object )
 		{
 			return createDialRegionAdapter( );
 		}
 
-		public Object caseEStringToDataSetMapEntry( Map.Entry object )
+		@Override
+		public Adapter caseEStringToDataSetMapEntry(
+				Map.Entry<String, DataSet> object )
 		{
 			return createEStringToDataSetMapEntryAdapter( );
 		}
 
-		public Object caseGrid( Grid object )
+		@Override
+		public Adapter caseGrid( Grid object )
 		{
 			return createGridAdapter( );
 		}
 
-		public Object caseLabel( Label object )
+		@Override
+		public Adapter caseLabel( Label object )
 		{
 			return createLabelAdapter( );
 		}
 
-		public Object caseMarkerLine( MarkerLine object )
+		@Override
+		public Adapter caseMarkerLine( MarkerLine object )
 		{
 			return createMarkerLineAdapter( );
 		}
 
-		public Object caseMarkerRange( MarkerRange object )
+		@Override
+		public Adapter caseMarkerRange( MarkerRange object )
 		{
 			return createMarkerRangeAdapter( );
 		}
 
-		public Object caseNeedle( Needle object )
+		@Override
+		public Adapter caseNeedle( Needle object )
 		{
 			return createNeedleAdapter( );
 		}
 
-		public Object caseScale( Scale object )
+		@Override
+		public Adapter caseScale( Scale object )
 		{
 			return createScaleAdapter( );
 		}
 
-		public Object caseSeries( Series object )
+		@Override
+		public Adapter caseSeries( Series object )
 		{
 			return createSeriesAdapter( );
 		}
 
-		public Object defaultCase( EObject object )
+		@Override
+		public Adapter defaultCase( EObject object )
 		{
 			return createEObjectAdapter( );
 		}
@@ -164,9 +181,10 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
 	 */
+	@Override
 	public Adapter createAdapter( Notifier target )
 	{
-		return (Adapter) modelSwitch.doSwitch( (EObject) target );
+		return modelSwitch.doSwitch( (EObject) target );
 	}
 
 	/**

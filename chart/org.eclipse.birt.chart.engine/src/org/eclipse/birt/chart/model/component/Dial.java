@@ -66,7 +66,7 @@ public interface Dial extends EObject
 	 * @see #unsetStartAngle()
 	 * @see #setStartAngle(double)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDial_StartAngle()
-	 * @model default="0" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 * @model default="0" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
 	 *        extendedMetaData="kind='element' name='StartAngle'"
 	 * @generated
 	 */
@@ -120,7 +120,7 @@ public interface Dial extends EObject
 	 * @see #unsetStopAngle()
 	 * @see #setStopAngle(double)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDial_StopAngle()
-	 * @model default="180" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 * @model default="180" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
 	 *        extendedMetaData="kind='element' name='StopAngle'"
 	 * @generated
 	 */
@@ -173,7 +173,7 @@ public interface Dial extends EObject
 	 * @see #unsetRadius()
 	 * @see #setRadius(double)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDial_Radius()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
 	 *        extendedMetaData="kind='element' name='Radius'"
 	 * @generated
 	 */
@@ -277,11 +277,11 @@ public interface Dial extends EObject
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Dial Regions</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDial_DialRegions()
-	 * @model type="org.eclipse.birt.chart.model.component.DialRegion" containment="true"
+	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='DialRegions'"
 	 * @generated
 	 */
-	EList getDialRegions( );
+	EList<DialRegion> getDialRegions( );
 
 	/**
 	 * Returns the value of the '<em><b>Major Grid</b></em>' containment reference.
@@ -374,7 +374,7 @@ public interface Dial extends EObject
 	 * @see #unsetInverseScale()
 	 * @see #setInverseScale(boolean)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDial_InverseScale()
-	 * @model default="false" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 * @model default="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
 	 *        extendedMetaData="kind='element' name='InverseScale'"
 	 * @generated
 	 */

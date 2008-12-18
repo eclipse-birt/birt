@@ -76,7 +76,7 @@ public class PaletteImpl extends EObjectImpl implements Palette
 	 * @generated
 	 * @ordered
 	 */
-	protected EList entries = null;
+	protected EList<Fill> entries;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/model.attribute.impl" ); //$NON-NLS-1$
 
@@ -115,11 +115,11 @@ public class PaletteImpl extends EObjectImpl implements Palette
 		colorLib.add( ColorDefinitionImpl.create( 128, 128, 128 ) );
 		colorLib.add( ColorDefinitionImpl.create( 255, 128, 255 ) );
 		colorLib.add( ColorDefinitionImpl.create( 0, 64, 0 ) );
-		colorLib.add( ColorDefinitionImpl.create( 0, 0, 0 ) );		
+		colorLib.add( ColorDefinitionImpl.create( 0, 0, 0 ) );
 		colorLib.add( ColorDefinitionImpl.create( 255, 255, 255 ) );
 		colorLib.add( ColorDefinitionImpl.create( 255, 128, 0 ) );
 	}
-	
+
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -133,6 +133,7 @@ public class PaletteImpl extends EObjectImpl implements Palette
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.PALETTE;
@@ -167,11 +168,11 @@ public class PaletteImpl extends EObjectImpl implements Palette
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getEntries( )
+	public EList<Fill> getEntries( )
 	{
 		if ( entries == null )
 		{
-			entries = new EObjectContainmentEList( Fill.class,
+			entries = new EObjectContainmentEList<Fill>( Fill.class,
 					this,
 					AttributePackage.PALETTE__ENTRIES );
 		}
@@ -183,13 +184,14 @@ public class PaletteImpl extends EObjectImpl implements Palette
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
 		switch ( featureID )
 		{
 			case AttributePackage.PALETTE__ENTRIES :
-				return ( (InternalEList) getEntries( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getEntries( ) ).basicRemove( otherEnd,
 						msgs );
 		}
 		return super.eInverseRemove( otherEnd, featureID, msgs );
@@ -200,6 +202,7 @@ public class PaletteImpl extends EObjectImpl implements Palette
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -217,6 +220,8 @@ public class PaletteImpl extends EObjectImpl implements Palette
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -226,7 +231,7 @@ public class PaletteImpl extends EObjectImpl implements Palette
 				return;
 			case AttributePackage.PALETTE__ENTRIES :
 				getEntries( ).clear( );
-				getEntries( ).addAll( (Collection) newValue );
+				getEntries( ).addAll( (Collection<? extends Fill>) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -237,6 +242,7 @@ public class PaletteImpl extends EObjectImpl implements Palette
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -256,6 +262,7 @@ public class PaletteImpl extends EObjectImpl implements Palette
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -273,6 +280,7 @@ public class PaletteImpl extends EObjectImpl implements Palette
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )
@@ -473,6 +481,5 @@ public class PaletteImpl extends EObjectImpl implements Palette
 			el.add( ColorDefinitionImpl.copyInstance( (ColorDefinition) colorLib.get( i ) ) );
 		}
 	}
-	
 
 } // PaletteImpl

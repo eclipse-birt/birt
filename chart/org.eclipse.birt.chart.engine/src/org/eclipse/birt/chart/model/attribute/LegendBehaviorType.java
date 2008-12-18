@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LegendBehaviorType.java,v 1.1 2006/12/28 03:49:24 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,11 +23,38 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * 			This type defines the allowed values for Legend behaviors.
  * <!-- end-model-doc -->
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getLegendBehaviorType()
- * @model
+ * @model extendedMetaData="name='LegendBehaviorType'"
  * @generated
  */
-public final class LegendBehaviorType extends AbstractEnumerator
-{
+public enum LegendBehaviorType implements Enumerator {
+	/**
+	 * The '<em><b>None</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #NONE
+	 * @generated
+	 * @ordered
+	 */
+	NONE_LITERAL(0, "None", "None"),
+	/**
+	 * The '<em><b>Toggle Serie Visibility</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #TOGGLE_SERIE_VISIBILITY
+	 * @generated
+	 * @ordered
+	 */
+	TOGGLE_SERIE_VISIBILITY_LITERAL(1, "ToggleSerieVisibility",
+			"ToggleSerieVisibility"),
+	/**
+	 * The '<em><b>Highlight Serie</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #HIGHLIGHT_SERIE
+	 * @generated
+	 * @ordered
+	 */
+	HIGHLIGHT_SERIE_LITERAL(2, "HighlightSerie", "HighlightSerie");
 
 	/**
 	 * The '<em><b>None</b></em>' literal value.
@@ -75,39 +102,6 @@ public final class LegendBehaviorType extends AbstractEnumerator
 	public static final int HIGHLIGHT_SERIE = 2;
 
 	/**
-	 * The '<em><b>None</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #NONE
-	 * @generated
-	 * @ordered
-	 */
-	public static final LegendBehaviorType NONE_LITERAL = new LegendBehaviorType( NONE,
-			"None", "None" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Toggle Serie Visibility</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #TOGGLE_SERIE_VISIBILITY
-	 * @generated
-	 * @ordered
-	 */
-	public static final LegendBehaviorType TOGGLE_SERIE_VISIBILITY_LITERAL = new LegendBehaviorType( TOGGLE_SERIE_VISIBILITY,
-			"ToggleSerieVisibility", "ToggleSerieVisibility" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Highlight Serie</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #HIGHLIGHT_SERIE
-	 * @generated
-	 * @ordered
-	 */
-	public static final LegendBehaviorType HIGHLIGHT_SERIE_LITERAL = new LegendBehaviorType( HIGHLIGHT_SERIE,
-			"HighlightSerie", "HighlightSerie" ); //$NON-NLS-1$
-
-	/**
 	 * An array of all the '<em><b>Legend Behavior Type</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -125,7 +119,7 @@ public final class LegendBehaviorType extends AbstractEnumerator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<LegendBehaviorType> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
 	 * Returns the '<em><b>Legend Behavior Type</b></em>' literal with the specified literal value.
@@ -186,6 +180,27 @@ public final class LegendBehaviorType extends AbstractEnumerator
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final int value;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String name;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String literal;
+
+	/**
 	 * Only this class can construct instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -193,7 +208,50 @@ public final class LegendBehaviorType extends AbstractEnumerator
 	 */
 	private LegendBehaviorType( int value, String name, String literal )
 	{
-		super( value, name, literal );
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
 	}
 
-} //LegendBehaviorType
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getValue( )
+	{
+		return value;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName( )
+	{
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLiteral( )
+	{
+		return literal;
+	}
+
+	/**
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString( )
+	{
+		return literal;
+	}
+}

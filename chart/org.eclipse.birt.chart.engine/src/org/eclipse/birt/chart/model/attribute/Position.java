@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
@@ -30,8 +30,86 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class Position extends AbstractEnumerator
-{
+public enum Position implements Enumerator {
+	/**
+	 * The '<em><b>Above</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Above</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #ABOVE
+	 * @generated
+	 * @ordered
+	 */
+	ABOVE_LITERAL(0, "Above", "Above"),
+	/**
+	 * The '<em><b>Below</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Below</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #BELOW
+	 * @generated
+	 * @ordered
+	 */
+	BELOW_LITERAL(1, "Below", "Below"),
+	/**
+	 * The '<em><b>Left</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Left</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #LEFT
+	 * @generated
+	 * @ordered
+	 */
+	LEFT_LITERAL(2, "Left", "Left"),
+	/**
+	 * The '<em><b>Right</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Right</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #RIGHT
+	 * @generated
+	 * @ordered
+	 */
+	RIGHT_LITERAL(3, "Right", "Right"),
+	/**
+	 * The '<em><b>Inside</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Inside</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #INSIDE
+	 * @generated
+	 * @ordered
+	 */
+	INSIDE_LITERAL(4, "Inside", "Inside"),
+	/**
+	 * The '<em><b>Outside</b></em>' literal object.
+	 * <!-- begin-user-doc
+	 * -->
+	 * <p>
+	 * If the meaning of '<em><b>Outside</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #OUTSIDE
+	 * @generated
+	 * @ordered
+	 */
+	OUTSIDE_LITERAL(5, "Outside", "Outside");
 
 	/**
 	 * The '<em><b>Above</b></em>' literal value.
@@ -100,97 +178,6 @@ public final class Position extends AbstractEnumerator
 	public static final int OUTSIDE = 5;
 
 	/**
-	 * The '<em><b>Above</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Above</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #ABOVE
-	 * @generated
-	 * @ordered
-	 */
-	public static final Position ABOVE_LITERAL = new Position( ABOVE,
-			"Above", "Above" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Below</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Below</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #BELOW
-	 * @generated
-	 * @ordered
-	 */
-	public static final Position BELOW_LITERAL = new Position( BELOW,
-			"Below", "Below" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Left</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Left</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #LEFT
-	 * @generated
-	 * @ordered
-	 */
-	public static final Position LEFT_LITERAL = new Position( LEFT,
-			"Left", "Left" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Right</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Right</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #RIGHT
-	 * @generated
-	 * @ordered
-	 */
-	public static final Position RIGHT_LITERAL = new Position( RIGHT,
-			"Right", "Right" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Inside</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Inside</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #INSIDE
-	 * @generated
-	 * @ordered
-	 */
-	public static final Position INSIDE_LITERAL = new Position( INSIDE,
-			"Inside", "Inside" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Outside</b></em>' literal object.
-	 * <!-- begin-user-doc
-	 * -->
-	 * <p>
-	 * If the meaning of '<em><b>Outside</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #OUTSIDE
-	 * @generated
-	 * @ordered
-	 */
-	public static final Position OUTSIDE_LITERAL = new Position( OUTSIDE,
-			"Outside", "Outside" ); //$NON-NLS-1$
-
-	/**
 	 * An array of all the '<em><b>Position</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -210,7 +197,7 @@ public final class Position extends AbstractEnumerator
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<Position> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
 	 * Returns the '<em><b>Position</b></em>' literal with the specified literal value.
@@ -275,6 +262,27 @@ public final class Position extends AbstractEnumerator
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final int value;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String name;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String literal;
+
+	/**
 	 * Only this class can construct instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -282,7 +290,50 @@ public final class Position extends AbstractEnumerator
 	 */
 	private Position( int value, String name, String literal )
 	{
-		super( value, name, literal );
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
 	}
 
-} //Position
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getValue( )
+	{
+		return value;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName( )
+	{
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLiteral( )
+	{
+		return literal;
+	}
+
+	/**
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString( )
+	{
+		return literal;
+	}
+}

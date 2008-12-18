@@ -22,7 +22,6 @@ import java.util.Map;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
-import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Palette;
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
@@ -296,20 +295,19 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 					index -= paletteSize;
 				}
 				sdTmp.getSeriesPalette( ).getEntries( ).add( i,
-						EcoreUtil.copy( (Fill) pa.getEntries( ).get( index ) ) );
+						ChartUtil.eCopy( pa.getEntries( ).get( index ) ) );
 			}
 			sdTmp.getSeriesPalette( ).getEntries( ).remove( pa.getEntries( )
 					.size( ) );
-			sdTmp.getSeries( )
-					.add( EcoreUtil.copy( ( seriesDefns.get( 0 ) ).getDesignTimeSeries( ) ) );
+			sdTmp.getSeries( ).add( ChartUtil.eCopy( seriesDefns.get( 0 )
+					.getDesignTimeSeries( ) ) );
 			// Add grouping query of the first series definition
-			sdTmp.setQuery( (Query) EcoreUtil.copy( ( seriesDefns.get( 0 ) ).getQuery( ) ) );
+			sdTmp.setQuery( ChartUtil.eCopy( seriesDefns.get( 0 ).getQuery( ) ) );
 			cleanDataDefinition( sdTmp );
-			//clean the possible series name
+			// clean the possible series name
 			sdTmp.getDesignTimeSeries( ).setSeriesIdentifier( "" ); //$NON-NLS-1$
-			sdTmp.eAdapters( )
-					.addAll( ( seriesDefns.get( 0 ) ).eAdapters( ) );						
-			
+			sdTmp.eAdapters( ).addAll( seriesDefns.get( 0 ).eAdapters( ) );
+
 			int firstIndex = getFirstIndexOfSameAxis( );
 			EList list = getChart( ).getSampleData( ).getOrthogonalSampleData( );
 

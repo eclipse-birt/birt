@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: FractionNumberFormatSpecifierImpl.java,v 1.1 2006/12/28 03:49:30 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.attribute.impl;
@@ -37,9 +37,8 @@ import com.ibm.icu.util.ULocale;
  *
  * @generated
  */
-public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
-		implements
-			FractionNumberFormatSpecifier
+public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl implements
+		FractionNumberFormatSpecifier
 {
 
 	/**
@@ -67,7 +66,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean preciseESet = false;
+	protected boolean preciseESet;
 
 	/**
 	 * The default value of the '{@link #getFractionDigits() <em>Fraction Digits</em>}' attribute.
@@ -94,7 +93,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean fractionDigitsESet = false;
+	protected boolean fractionDigitsESet;
 
 	/**
 	 * The default value of the '{@link #getNumerator() <em>Numerator</em>}' attribute.
@@ -121,7 +120,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean numeratorESet = false;
+	protected boolean numeratorESet;
 
 	/**
 	 * The default value of the '{@link #getPrefix() <em>Prefix</em>}' attribute.
@@ -184,7 +183,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean delimiterESet = false;
+	protected boolean delimiterESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -199,6 +198,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.FRACTION_NUMBER_FORMAT_SPECIFIER;
@@ -482,6 +482,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -506,6 +507,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -536,6 +538,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -566,6 +569,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -592,6 +596,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

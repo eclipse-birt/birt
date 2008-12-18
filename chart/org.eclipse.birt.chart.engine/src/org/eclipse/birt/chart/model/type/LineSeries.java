@@ -67,7 +67,7 @@ public interface LineSeries extends Series
 	 *        extendedMetaData="kind='element' name='Markers'"
 	 * @generated
 	 */
-	EList getMarkers( );
+	EList<Marker> getMarkers( );
 
 	/**
 	 * Returns the value of the '<em><b>Marker</b></em>' containment

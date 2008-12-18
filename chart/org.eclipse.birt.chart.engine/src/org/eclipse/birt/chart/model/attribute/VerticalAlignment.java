@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
@@ -30,8 +30,46 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class VerticalAlignment extends AbstractEnumerator
-{
+public enum VerticalAlignment implements Enumerator {
+	/**
+	 * The '<em><b>Top</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Top</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #TOP
+	 * @generated
+	 * @ordered
+	 */
+	TOP_LITERAL(0, "Top", "Top"),
+	/**
+	 * The '<em><b>Center</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Center</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #CENTER
+	 * @generated
+	 * @ordered
+	 */
+	CENTER_LITERAL(1, "Center", "Center"),
+	/**
+	 * The '<em><b>Bottom</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Bottom</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #BOTTOM
+	 * @generated
+	 * @ordered
+	 */
+	BOTTOM_LITERAL(2, "Bottom", "Bottom");
 
 	/**
 	 * The '<em><b>Top</b></em>' literal value.
@@ -67,51 +105,6 @@ public final class VerticalAlignment extends AbstractEnumerator
 	public static final int BOTTOM = 2;
 
 	/**
-	 * The '<em><b>Top</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Top</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #TOP
-	 * @generated
-	 * @ordered
-	 */
-	public static final VerticalAlignment TOP_LITERAL = new VerticalAlignment( TOP,
-			"Top", "Top" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Center</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Center</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #CENTER
-	 * @generated
-	 * @ordered
-	 */
-	public static final VerticalAlignment CENTER_LITERAL = new VerticalAlignment( CENTER,
-			"Center", "Center" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Bottom</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Bottom</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #BOTTOM
-	 * @generated
-	 * @ordered
-	 */
-	public static final VerticalAlignment BOTTOM_LITERAL = new VerticalAlignment( BOTTOM,
-			"Bottom", "Bottom" ); //$NON-NLS-1$
-
-	/**
 	 * An array of all the '<em><b>Vertical Alignment</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -125,7 +118,7 @@ public final class VerticalAlignment extends AbstractEnumerator
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<VerticalAlignment> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
 	 * Returns the '<em><b>Vertical Alignment</b></em>' literal with the specified literal value.
@@ -184,6 +177,27 @@ public final class VerticalAlignment extends AbstractEnumerator
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final int value;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String name;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String literal;
+
+	/**
 	 * Only this class can construct instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -191,7 +205,50 @@ public final class VerticalAlignment extends AbstractEnumerator
 	 */
 	private VerticalAlignment( int value, String name, String literal )
 	{
-		super( value, name, literal );
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
 	}
 
-} //VerticalAlignment
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getValue( )
+	{
+		return value;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName( )
+	{
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLiteral( )
+	{
+		return literal;
+	}
+
+	/**
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString( )
+	{
+		return literal;
+	}
+}

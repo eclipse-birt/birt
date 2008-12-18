@@ -154,7 +154,7 @@ public interface Plot extends Block
 	 * @return the value of the '<em>Client Area</em>' containment reference.
 	 * @see #setClientArea(ClientArea)
 	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getPlot_ClientArea()
-	 * @model containment="true" resolveProxies="false" required="true"
+	 * @model containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='ClientArea'"
 	 * @generated
 	 */

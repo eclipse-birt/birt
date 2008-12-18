@@ -48,10 +48,10 @@ public interface MultipleFill extends Fill
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Fills</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getMultipleFill_Fills()
-	 * @model type="org.eclipse.birt.chart.model.attribute.Fill" containment="true"
+	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='Fills'"
 	 * @generated
 	 */
-	EList getFills( );
+	EList<Fill> getFills( );
 
 } // MultipleFill

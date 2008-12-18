@@ -55,7 +55,7 @@ public interface SampleData extends EObject
 	 *        required="true"
 	 * @generated
 	 */
-	EList getBaseSampleData( );
+	EList<BaseSampleData> getBaseSampleData( );
 
 	/**
 	 * Returns the value of the '<em><b>Orthogonal Sample Data</b></em>' containment reference list. The list
@@ -72,7 +72,7 @@ public interface SampleData extends EObject
 	 *        required="true"
 	 * @generated
 	 */
-	EList getOrthogonalSampleData( );
+	EList<OrthogonalSampleData> getOrthogonalSampleData( );
 
 	/**
 	 * Returns the value of the '<em><b>Ancillary Sample Data</b></em>' containment reference list.
@@ -85,10 +85,10 @@ public interface SampleData extends EObject
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ancillary Sample Data</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getSampleData_AncillarySampleData()
-	 * @model type="org.eclipse.birt.chart.model.data.BaseSampleData" containment="true" required="true"
+	 * @model containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='AncillarySampleData'"
 	 * @generated
 	 */
-	EList getAncillarySampleData( );
+	EList<BaseSampleData> getAncillarySampleData( );
 
 } // SampleData

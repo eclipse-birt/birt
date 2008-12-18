@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: StyleImpl.java,v 1.1 2006/12/28 03:49:30 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.attribute.impl;
@@ -48,7 +48,7 @@ public class StyleImpl extends EObjectImpl implements Style
 	 * @generated
 	 * @ordered
 	 */
-	protected FontDefinition font = null;
+	protected FontDefinition font;
 
 	/**
 	 * The cached value of the '{@link #getColor() <em>Color</em>}' containment reference.
@@ -57,7 +57,7 @@ public class StyleImpl extends EObjectImpl implements Style
 	 * @generated
 	 * @ordered
 	 */
-	protected ColorDefinition color = null;
+	protected ColorDefinition color;
 
 	/**
 	 * The cached value of the '{@link #getBackgroundColor() <em>Background Color</em>}' containment reference.
@@ -66,7 +66,7 @@ public class StyleImpl extends EObjectImpl implements Style
 	 * @generated
 	 * @ordered
 	 */
-	protected ColorDefinition backgroundColor = null;
+	protected ColorDefinition backgroundColor;
 
 	/**
 	 * The cached value of the '{@link #getBackgroundImage() <em>Background Image</em>}' containment reference.
@@ -75,7 +75,7 @@ public class StyleImpl extends EObjectImpl implements Style
 	 * @generated
 	 * @ordered
 	 */
-	protected Image backgroundImage = null;
+	protected Image backgroundImage;
 
 	/**
 	 * The cached value of the '{@link #getPadding() <em>Padding</em>}' containment reference.
@@ -84,7 +84,7 @@ public class StyleImpl extends EObjectImpl implements Style
 	 * @generated
 	 * @ordered
 	 */
-	protected Insets padding = null;
+	protected Insets padding;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -99,6 +99,7 @@ public class StyleImpl extends EObjectImpl implements Style
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.STYLE;
@@ -435,6 +436,7 @@ public class StyleImpl extends EObjectImpl implements Style
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -459,6 +461,7 @@ public class StyleImpl extends EObjectImpl implements Style
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -482,6 +485,7 @@ public class StyleImpl extends EObjectImpl implements Style
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -510,6 +514,7 @@ public class StyleImpl extends EObjectImpl implements Style
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -538,6 +543,7 @@ public class StyleImpl extends EObjectImpl implements Style
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )

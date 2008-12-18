@@ -14,14 +14,14 @@ package org.eclipse.birt.chart.model.data;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Null Data Set</b></em>'.
  * <!-- end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
  * 
- * This type holds the null data associated with a series.
- * 
+ * 			This type holds the null data associated with a series.
+ * 			
  * <!-- end-model-doc -->
- * 
- * 
+ *
+ *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getNullDataSet()
  * @model extendedMetaData="name='NullDataSet' kind='elementOnly'"
  * @generated

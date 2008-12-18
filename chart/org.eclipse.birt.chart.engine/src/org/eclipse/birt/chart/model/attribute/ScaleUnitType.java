@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
@@ -30,8 +30,100 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class ScaleUnitType extends AbstractEnumerator
-{
+public enum ScaleUnitType implements Enumerator {
+	/**
+	 * The '<em><b>Seconds</b></em>' literal object.
+	 * <!-- begin-user-doc
+	 * -->
+	 * <p>
+	 * If the meaning of '<em><b>Seconds</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #SECONDS
+	 * @generated
+	 * @ordered
+	 */
+	SECONDS_LITERAL(0, "Seconds", "Seconds"),
+	/**
+	 * The '<em><b>Minutes</b></em>' literal object.
+	 * <!-- begin-user-doc
+	 * -->
+	 * <p>
+	 * If the meaning of '<em><b>Minutes</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #MINUTES
+	 * @generated
+	 * @ordered
+	 */
+	MINUTES_LITERAL(1, "Minutes", "Minutes"),
+	/**
+	 * The '<em><b>Hours</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Hours</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #HOURS
+	 * @generated
+	 * @ordered
+	 */
+	HOURS_LITERAL(2, "Hours", "Hours"),
+	/**
+	 * The '<em><b>Days</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Days</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DAYS
+	 * @generated
+	 * @ordered
+	 */
+	DAYS_LITERAL(3, "Days", "Days"),
+	/**
+	 * The '<em><b>Weeks</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Weeks</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #WEEKS
+	 * @generated
+	 * @ordered
+	 */
+	WEEKS_LITERAL(4, "Weeks", "Weeks"),
+	/**
+	 * The '<em><b>Months</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Months</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #MONTHS
+	 * @generated
+	 * @ordered
+	 */
+	MONTHS_LITERAL(5, "Months", "Months"),
+	/**
+	 * The '<em><b>Years</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Years</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #YEARS
+	 * @generated
+	 * @ordered
+	 */
+	YEARS_LITERAL(6, "Years", "Years");
 
 	/**
 	 * The '<em><b>Seconds</b></em>' literal value.
@@ -111,113 +203,6 @@ public final class ScaleUnitType extends AbstractEnumerator
 	public static final int YEARS = 6;
 
 	/**
-	 * The '<em><b>Seconds</b></em>' literal object.
-	 * <!-- begin-user-doc
-	 * -->
-	 * <p>
-	 * If the meaning of '<em><b>Seconds</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #SECONDS
-	 * @generated
-	 * @ordered
-	 */
-	public static final ScaleUnitType SECONDS_LITERAL = new ScaleUnitType( SECONDS,
-			"Seconds", "Seconds" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Minutes</b></em>' literal object.
-	 * <!-- begin-user-doc
-	 * -->
-	 * <p>
-	 * If the meaning of '<em><b>Minutes</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #MINUTES
-	 * @generated
-	 * @ordered
-	 */
-	public static final ScaleUnitType MINUTES_LITERAL = new ScaleUnitType( MINUTES,
-			"Minutes", "Minutes" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Hours</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Hours</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #HOURS
-	 * @generated
-	 * @ordered
-	 */
-	public static final ScaleUnitType HOURS_LITERAL = new ScaleUnitType( HOURS,
-			"Hours", "Hours" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Days</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Days</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #DAYS
-	 * @generated
-	 * @ordered
-	 */
-	public static final ScaleUnitType DAYS_LITERAL = new ScaleUnitType( DAYS,
-			"Days", "Days" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Weeks</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Weeks</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #WEEKS
-	 * @generated
-	 * @ordered
-	 */
-	public static final ScaleUnitType WEEKS_LITERAL = new ScaleUnitType( WEEKS,
-			"Weeks", "Weeks" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Months</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Months</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #MONTHS
-	 * @generated
-	 * @ordered
-	 */
-	public static final ScaleUnitType MONTHS_LITERAL = new ScaleUnitType( MONTHS,
-			"Months", "Months" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Years</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Years</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #YEARS
-	 * @generated
-	 * @ordered
-	 */
-	public static final ScaleUnitType YEARS_LITERAL = new ScaleUnitType( YEARS,
-			"Years", "Years" ); //$NON-NLS-1$
-
-	/**
 	 * An array of all the '<em><b>Scale Unit Type</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -237,7 +222,7 @@ public final class ScaleUnitType extends AbstractEnumerator
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<ScaleUnitType> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
 	 * Returns the '<em><b>Scale Unit Type</b></em>' literal with the specified literal value.
@@ -304,6 +289,27 @@ public final class ScaleUnitType extends AbstractEnumerator
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final int value;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String name;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String literal;
+
+	/**
 	 * Only this class can construct instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -311,7 +317,50 @@ public final class ScaleUnitType extends AbstractEnumerator
 	 */
 	private ScaleUnitType( int value, String name, String literal )
 	{
-		super( value, name, literal );
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
 	}
 
-} //ScaleUnitType
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getValue( )
+	{
+		return value;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName( )
+	{
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLiteral( )
+	{
+		return literal;
+	}
+
+	/**
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString( )
+	{
+		return literal;
+	}
+}

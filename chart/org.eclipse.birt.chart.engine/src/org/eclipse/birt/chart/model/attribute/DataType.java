@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DataType.java,v 1.1 2006/12/28 03:49:24 anonymous Exp $
+ * $Id: DataType.java,v 1.5 2007/02/02 03:15:57 yulin Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
@@ -27,8 +27,48 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class DataType extends AbstractEnumerator
-{
+public enum DataType implements Enumerator {
+	/**
+	 * The '<em><b>Numeric</b></em>' literal object.
+	 * <!-- begin-user-doc
+	 * -->
+	 * <p>
+	 * If the meaning of '<em><b>Numeric</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #NUMERIC
+	 * @generated
+	 * @ordered
+	 */
+	NUMERIC_LITERAL(0, "Numeric", "Numeric"),
+	/**
+	 * The '<em><b>Date Time</b></em>' literal object.
+	 * <!-- begin-user-doc
+	 * -->
+	 * <p>
+	 * If the meaning of '<em><b>Date Time</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DATE_TIME
+	 * @generated
+	 * @ordered
+	 */
+	DATE_TIME_LITERAL(1, "DateTime", "DateTime"),
+	/**
+	 * The '<em><b>Text</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Text</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #TEXT
+	 * @generated
+	 * @ordered
+	 */
+	TEXT_LITERAL(2, "Text", "Text");
 
 	/**
 	 * The '<em><b>Numeric</b></em>' literal value.
@@ -64,53 +104,6 @@ public final class DataType extends AbstractEnumerator
 	public static final int TEXT = 2;
 
 	/**
-	 * The '<em><b>Numeric</b></em>' literal object.
-	 * <!-- begin-user-doc
-	 * -->
-	 * <p>
-	 * If the meaning of '<em><b>Numeric</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #NUMERIC
-	 * @generated
-	 * @ordered
-	 */
-	public static final DataType NUMERIC_LITERAL = new DataType( NUMERIC,
-			"Numeric", "Numeric" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Date Time</b></em>' literal object.
-	 * <!-- begin-user-doc
-	 * -->
-	 * <p>
-	 * If the meaning of '<em><b>Date Time</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #DATE_TIME
-	 * @generated
-	 * @ordered
-	 */
-	public static final DataType DATE_TIME_LITERAL = new DataType( DATE_TIME,
-			"DateTime", "DateTime" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Text</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Text</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #TEXT
-	 * @generated
-	 * @ordered
-	 */
-	public static final DataType TEXT_LITERAL = new DataType( TEXT,
-			"Text", "Text" ); //$NON-NLS-1$
-
-	/**
 	 * An array of all the '<em><b>Data Type</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -125,7 +118,7 @@ public final class DataType extends AbstractEnumerator
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<DataType> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
 	 * Returns the '<em><b>Data Type</b></em>' literal with the specified literal value.
@@ -184,6 +177,27 @@ public final class DataType extends AbstractEnumerator
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final int value;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String name;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String literal;
+
+	/**
 	 * Only this class can construct instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -191,7 +205,50 @@ public final class DataType extends AbstractEnumerator
 	 */
 	private DataType( int value, String name, String literal )
 	{
-		super( value, name, literal );
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
 	}
 
-} //DataType
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getValue( )
+	{
+		return value;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName( )
+	{
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLiteral( )
+	{
+		return literal;
+	}
+
+	/**
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString( )
+	{
+		return literal;
+	}
+}

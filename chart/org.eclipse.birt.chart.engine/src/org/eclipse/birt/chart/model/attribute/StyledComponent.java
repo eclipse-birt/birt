@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '<em><b>Styled Component</b></em>',
@@ -29,8 +29,146 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class StyledComponent extends AbstractEnumerator
-{
+public enum StyledComponent implements Enumerator {
+	/**
+	 * The '<em><b>Chart All</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #CHART_ALL
+	 * @generated
+	 * @ordered
+	 */
+	CHART_ALL_LITERAL(0, "ChartAll", "Chart_All"),
+	/**
+	 * The '<em><b>Chart Title</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Chart Title</b></em>' literal object isn't clear, there really should be more of a
+	 * description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #CHART_TITLE
+	 * @generated
+	 * @ordered
+	 */
+	CHART_TITLE_LITERAL(1, "ChartTitle", "Chart_Title"),
+	/**
+	 * The '<em><b>Chart Background</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Chart Background</b></em>' literal object isn't clear, there really should be more
+	 * of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #CHART_BACKGROUND
+	 * @generated
+	 * @ordered
+	 */
+	CHART_BACKGROUND_LITERAL(2, "ChartBackground", "Chart_Background"),
+	/**
+	 * The '<em><b>Plot Background</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Plot Background</b></em>' literal object isn't clear, there really should be more
+	 * of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #PLOT_BACKGROUND
+	 * @generated
+	 * @ordered
+	 */
+	PLOT_BACKGROUND_LITERAL(3, "PlotBackground", "Plot_Background"),
+	/**
+	 * The '<em><b>Legend Background</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Legend Background</b></em>' literal object isn't clear, there really should be
+	 * more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #LEGEND_BACKGROUND
+	 * @generated
+	 * @ordered
+	 */
+	LEGEND_BACKGROUND_LITERAL(4, "LegendBackground", "Legend_Background"),
+	/**
+	 * The '<em><b>Legend Label</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Legend Label</b></em>' literal object isn't clear, there really should be more of
+	 * a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #LEGEND_LABEL
+	 * @generated
+	 * @ordered
+	 */
+	LEGEND_LABEL_LITERAL(5, "LegendLabel", "Legend_Label"),
+	/**
+	 * The '<em><b>Axis Title</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Axis Title</b></em>' literal object isn't clear, there really should be more of a
+	 * description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #AXIS_TITLE
+	 * @generated
+	 * @ordered
+	 */
+	AXIS_TITLE_LITERAL(6, "AxisTitle", "Axis_Title"),
+	/**
+	 * The '<em><b>Axis Label</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Axis Label</b></em>' literal object isn't clear, there really should be more of a
+	 * description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #AXIS_LABEL
+	 * @generated
+	 * @ordered
+	 */
+	AXIS_LABEL_LITERAL(7, "AxisLabel", "Axis_Label"),
+	/**
+	 * The '<em><b>Axis Line</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Axis Line</b></em>' literal object isn't clear, there really should be more of a
+	 * description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #AXIS_LINE
+	 * @generated
+	 * @ordered
+	 */
+	AXIS_LINE_LITERAL(8, "AxisLine", "Axis_Line"),
+	/**
+	 * The '<em><b>Series Title</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Series Title</b></em>' literal object isn't clear, there really should be more of
+	 * a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #SERIES_TITLE
+	 * @generated
+	 * @ordered
+	 */
+	SERIES_TITLE_LITERAL(9, "SeriesTitle", "Series_Title"),
+	/**
+	 * The '<em><b>Series Label</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Series Label</b></em>' literal object isn't clear, there really should be more of
+	 * a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #SERIES_LABEL
+	 * @generated
+	 * @ordered
+	 */
+	SERIES_LABEL_LITERAL(10, "SeriesLabel", "Series_Label");
 
 	/**
 	 * The '<em><b>Chart All</b></em>' literal value.
@@ -148,167 +286,6 @@ public final class StyledComponent extends AbstractEnumerator
 	public static final int SERIES_LABEL = 10;
 
 	/**
-	 * The '<em><b>Chart All</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #CHART_ALL
-	 * @generated
-	 * @ordered
-	 */
-	public static final StyledComponent CHART_ALL_LITERAL = new StyledComponent( CHART_ALL,
-			"ChartAll", "Chart_All" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Chart Title</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Chart Title</b></em>' literal object isn't clear, there really should be more of a
-	 * description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #CHART_TITLE
-	 * @generated
-	 * @ordered
-	 */
-	public static final StyledComponent CHART_TITLE_LITERAL = new StyledComponent( CHART_TITLE,
-			"ChartTitle", "Chart_Title" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Chart Background</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Chart Background</b></em>' literal object isn't clear, there really should be more
-	 * of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #CHART_BACKGROUND
-	 * @generated
-	 * @ordered
-	 */
-	public static final StyledComponent CHART_BACKGROUND_LITERAL = new StyledComponent( CHART_BACKGROUND,
-			"ChartBackground", "Chart_Background" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Plot Background</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Plot Background</b></em>' literal object isn't clear, there really should be more
-	 * of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #PLOT_BACKGROUND
-	 * @generated
-	 * @ordered
-	 */
-	public static final StyledComponent PLOT_BACKGROUND_LITERAL = new StyledComponent( PLOT_BACKGROUND,
-			"PlotBackground", "Plot_Background" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Legend Background</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Legend Background</b></em>' literal object isn't clear, there really should be
-	 * more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #LEGEND_BACKGROUND
-	 * @generated
-	 * @ordered
-	 */
-	public static final StyledComponent LEGEND_BACKGROUND_LITERAL = new StyledComponent( LEGEND_BACKGROUND,
-			"LegendBackground", "Legend_Background" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Legend Label</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Legend Label</b></em>' literal object isn't clear, there really should be more of
-	 * a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #LEGEND_LABEL
-	 * @generated
-	 * @ordered
-	 */
-	public static final StyledComponent LEGEND_LABEL_LITERAL = new StyledComponent( LEGEND_LABEL,
-			"LegendLabel", "Legend_Label" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Axis Title</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Axis Title</b></em>' literal object isn't clear, there really should be more of a
-	 * description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #AXIS_TITLE
-	 * @generated
-	 * @ordered
-	 */
-	public static final StyledComponent AXIS_TITLE_LITERAL = new StyledComponent( AXIS_TITLE,
-			"AxisTitle", "Axis_Title" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Axis Label</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Axis Label</b></em>' literal object isn't clear, there really should be more of a
-	 * description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #AXIS_LABEL
-	 * @generated
-	 * @ordered
-	 */
-	public static final StyledComponent AXIS_LABEL_LITERAL = new StyledComponent( AXIS_LABEL,
-			"AxisLabel", "Axis_Label" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Axis Line</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Axis Line</b></em>' literal object isn't clear, there really should be more of a
-	 * description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #AXIS_LINE
-	 * @generated
-	 * @ordered
-	 */
-	public static final StyledComponent AXIS_LINE_LITERAL = new StyledComponent( AXIS_LINE,
-			"AxisLine", "Axis_Line" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Series Title</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Series Title</b></em>' literal object isn't clear, there really should be more of
-	 * a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #SERIES_TITLE
-	 * @generated
-	 * @ordered
-	 */
-	public static final StyledComponent SERIES_TITLE_LITERAL = new StyledComponent( SERIES_TITLE,
-			"SeriesTitle", "Series_Title" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Series Label</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Series Label</b></em>' literal object isn't clear, there really should be more of
-	 * a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #SERIES_LABEL
-	 * @generated
-	 * @ordered
-	 */
-	public static final StyledComponent SERIES_LABEL_LITERAL = new StyledComponent( SERIES_LABEL,
-			"SeriesLabel", "Series_Label" ); //$NON-NLS-1$
-
-	/**
 	 * An array of all the '<em><b>Styled Component</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
@@ -334,7 +311,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<StyledComponent> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
 	 * Returns the '<em><b>Styled Component</b></em>' literal with the specified literal value.
@@ -411,6 +388,27 @@ public final class StyledComponent extends AbstractEnumerator
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final int value;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String name;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String literal;
+
+	/**
 	 * Only this class can construct instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -418,7 +416,50 @@ public final class StyledComponent extends AbstractEnumerator
 	 */
 	private StyledComponent( int value, String name, String literal )
 	{
-		super( value, name, literal );
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
 	}
 
-} //StyledComponent
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getValue( )
+	{
+		return value;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName( )
+	{
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLiteral( )
+	{
+		return literal;
+	}
+
+	/**
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString( )
+	{
+		return literal;
+	}
+}

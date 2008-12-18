@@ -51,7 +51,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 	 * @generated
 	 * @ordered
 	 */
-	protected LineAttributes lineAttributes = null;
+	protected LineAttributes lineAttributes;
 
 	/**
 	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
@@ -60,7 +60,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 	 * @generated
 	 * @ordered
 	 */
-	protected Label label = null;
+	protected Label label;
 
 	/**
 	 * The default value of the '{@link #getLabelAnchor() <em>Label Anchor</em>}' attribute.
@@ -87,7 +87,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean labelAnchorESet = false;
+	protected boolean labelAnchorESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -114,6 +114,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return ComponentPackage.Literals.CURVE_FITTING;
@@ -313,6 +314,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -331,6 +333,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -350,6 +353,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -372,6 +376,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -394,6 +399,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -412,6 +418,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

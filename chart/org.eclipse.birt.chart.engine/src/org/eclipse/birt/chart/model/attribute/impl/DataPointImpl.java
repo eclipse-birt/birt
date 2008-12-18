@@ -54,7 +54,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 	 * @generated
 	 * @ordered
 	 */
-	protected EList components = null;
+	protected EList<DataPointComponent> components;
 
 	/**
 	 * The default value of the '{@link #getPrefix() <em>Prefix</em>}' attribute.
@@ -123,6 +123,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.DATA_POINT;
@@ -132,11 +133,11 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getComponents( )
+	public EList<DataPointComponent> getComponents( )
 	{
 		if ( components == null )
 		{
-			components = new EObjectContainmentEList( DataPointComponent.class,
+			components = new EObjectContainmentEList<DataPointComponent>( DataPointComponent.class,
 					this,
 					AttributePackage.DATA_POINT__COMPONENTS );
 		}
@@ -223,13 +224,14 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
 		switch ( featureID )
 		{
 			case AttributePackage.DATA_POINT__COMPONENTS :
-				return ( (InternalEList) getComponents( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getComponents( ) ).basicRemove( otherEnd,
 						msgs );
 		}
 		return super.eInverseRemove( otherEnd, featureID, msgs );
@@ -240,6 +242,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -261,13 +264,15 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
 		{
 			case AttributePackage.DATA_POINT__COMPONENTS :
 				getComponents( ).clear( );
-				getComponents( ).addAll( (Collection) newValue );
+				getComponents( ).addAll( (Collection<? extends DataPointComponent>) newValue );
 				return;
 			case AttributePackage.DATA_POINT__PREFIX :
 				setPrefix( (String) newValue );
@@ -287,6 +292,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -312,6 +318,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -335,6 +342,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

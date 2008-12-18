@@ -64,7 +64,7 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean innerRadiusESet = false;
+	protected boolean innerRadiusESet;
 
 	/**
 	 * The default value of the '{@link #getOuterRadius() <em>Outer Radius</em>}' attribute.
@@ -91,7 +91,7 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean outerRadiusESet = false;
+	protected boolean outerRadiusESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -106,6 +106,7 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return ComponentPackage.Literals.DIAL_REGION;
@@ -228,6 +229,7 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -245,6 +247,7 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -264,6 +267,7 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -283,6 +287,7 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -299,6 +304,7 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

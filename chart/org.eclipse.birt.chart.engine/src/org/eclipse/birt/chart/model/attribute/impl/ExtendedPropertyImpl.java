@@ -32,9 +32,8 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class ExtendedPropertyImpl extends EObjectImpl
-		implements
-			ExtendedProperty
+public class ExtendedPropertyImpl extends EObjectImpl implements
+		ExtendedProperty
 {
 
 	/**
@@ -86,6 +85,7 @@ public class ExtendedPropertyImpl extends EObjectImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.EXTENDED_PROPERTY;
@@ -146,6 +146,7 @@ public class ExtendedPropertyImpl extends EObjectImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -163,6 +164,7 @@ public class ExtendedPropertyImpl extends EObjectImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -182,6 +184,7 @@ public class ExtendedPropertyImpl extends EObjectImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -201,6 +204,7 @@ public class ExtendedPropertyImpl extends EObjectImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -219,6 +223,7 @@ public class ExtendedPropertyImpl extends EObjectImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

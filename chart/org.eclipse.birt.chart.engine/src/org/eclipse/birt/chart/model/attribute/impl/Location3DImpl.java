@@ -141,7 +141,7 @@ public class Location3DImpl extends LocationImpl implements Location3D
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean zESet = false;
+	protected boolean zESet;
 
 	private Vector vector;
 
@@ -158,6 +158,7 @@ public class Location3DImpl extends LocationImpl implements Location3D
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.LOCATION3_D;
@@ -224,6 +225,7 @@ public class Location3DImpl extends LocationImpl implements Location3D
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -239,6 +241,7 @@ public class Location3DImpl extends LocationImpl implements Location3D
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -255,6 +258,7 @@ public class Location3DImpl extends LocationImpl implements Location3D
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -271,6 +275,7 @@ public class Location3DImpl extends LocationImpl implements Location3D
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -285,6 +290,7 @@ public class Location3DImpl extends LocationImpl implements Location3D
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MultipleFillImpl.java,v 1.1 2006/12/28 03:49:30 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.attribute.impl;
@@ -46,7 +46,7 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill
 	 * @generated
 	 * @ordered
 	 */
-	protected EList fills = null;
+	protected EList<Fill> fills;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -61,6 +61,7 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.MULTIPLE_FILL;
@@ -70,11 +71,11 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getFills( )
+	public EList<Fill> getFills( )
 	{
 		if ( fills == null )
 		{
-			fills = new EObjectContainmentEList( Fill.class,
+			fills = new EObjectContainmentEList<Fill>( Fill.class,
 					this,
 					AttributePackage.MULTIPLE_FILL__FILLS );
 		}
@@ -85,13 +86,14 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
 		switch ( featureID )
 		{
 			case AttributePackage.MULTIPLE_FILL__FILLS :
-				return ( (InternalEList) getFills( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getFills( ) ).basicRemove( otherEnd,
 						msgs );
 		}
 		return super.eInverseRemove( otherEnd, featureID, msgs );
@@ -101,6 +103,7 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -115,13 +118,15 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
 		{
 			case AttributePackage.MULTIPLE_FILL__FILLS :
 				getFills( ).clear( );
-				getFills( ).addAll( (Collection) newValue );
+				getFills( ).addAll( (Collection<? extends Fill>) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -131,6 +136,7 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -146,6 +152,7 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )

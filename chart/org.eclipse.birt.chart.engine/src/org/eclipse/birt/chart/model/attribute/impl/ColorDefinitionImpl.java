@@ -65,7 +65,7 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean transparencyESet = false;
+	protected boolean transparencyESet;
 
 	/**
 	 * The default value of the '{@link #getRed() <em>Red</em>}' attribute.
@@ -92,7 +92,7 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean redESet = false;
+	protected boolean redESet;
 
 	/**
 	 * The default value of the '{@link #getGreen() <em>Green</em>}' attribute.
@@ -119,7 +119,7 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean greenESet = false;
+	protected boolean greenESet;
 
 	/**
 	 * The default value of the '{@link #getBlue() <em>Blue</em>}' attribute.
@@ -146,7 +146,7 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean blueESet = false;
+	protected boolean blueESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -198,6 +198,7 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.COLOR_DEFINITION;
@@ -375,6 +376,7 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -395,6 +397,7 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -419,6 +422,7 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -443,6 +447,7 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -519,6 +524,7 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

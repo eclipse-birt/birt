@@ -75,6 +75,7 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject create( EClass eClass )
 	{
 		switch ( eClass.getClassifierID( ) )
@@ -222,6 +223,7 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
 	 * @deprecated
 	 * @generated
 	 */
+	@Deprecated
 	public static TypePackage getPackage( )
 	{
 		return TypePackage.eINSTANCE;

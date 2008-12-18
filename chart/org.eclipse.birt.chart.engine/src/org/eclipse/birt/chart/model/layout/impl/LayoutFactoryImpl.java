@@ -75,6 +75,7 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject create( EClass eClass )
 	{
 		switch ( eClass.getClassifierID( ) )
@@ -101,6 +102,7 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object createFromString( EDataType eDataType, String initialValue )
 	{
 		switch ( eDataType.getClassifierID( ) )
@@ -126,6 +128,7 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String convertToString( EDataType eDataType, Object instanceValue )
 	{
 		switch ( eDataType.getClassifierID( ) )
@@ -316,6 +319,7 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory
 	 * @deprecated
 	 * @generated
 	 */
+	@Deprecated
 	public static LayoutPackage getPackage( )
 	{
 		return LayoutPackage.eINSTANCE;

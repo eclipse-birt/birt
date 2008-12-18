@@ -3249,6 +3249,10 @@ public class AttributePackageImpl extends EPackageImpl implements
 		XMLTypePackage theXMLTypePackage = (XMLTypePackage) EPackage.Registry.INSTANCE.getEPackage( XMLTypePackage.eNS_URI );
 		DataPackage theDataPackage = (DataPackage) EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI );
 
+		// Create type parameters
+
+		// Set bounds for type parameters
+
 		// Add supertypes to classes
 		accessibilityValueEClass.getESuperTypes( ).add( this.getActionValue( ) );
 		callBackValueEClass.getESuperTypes( ).add( this.getActionValue( ) );

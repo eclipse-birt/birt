@@ -110,7 +110,7 @@ public interface SeriesDefinition extends EObject
 	 *        extendedMetaData="kind='element' name='SeriesDefinitions'"
 	 * @generated
 	 */
-	EList getSeriesDefinitions( );
+	EList<SeriesDefinition> getSeriesDefinitions( );
 
 	/**
 	 * Returns the value of the '<em><b>Format Specifier</b></em>' containment reference.
@@ -150,7 +150,7 @@ public interface SeriesDefinition extends EObject
 	 *        containment="true" resolveProxies="false" required="true"
 	 * @generated
 	 */
-	EList getSeries( );
+	EList<Series> getSeries( );
 
 	/**
 	 * Returns the value of the '<em><b>Grouping</b></em>' containment

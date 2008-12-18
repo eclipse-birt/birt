@@ -154,7 +154,7 @@ public interface Gradient extends Fill
 	 * @see #unsetCyclic()
 	 * @see #setCyclic(boolean)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getGradient_Cyclic()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
 	 *        extendedMetaData="kind='element' name='Cyclic'"
 	 * @generated
 	 */

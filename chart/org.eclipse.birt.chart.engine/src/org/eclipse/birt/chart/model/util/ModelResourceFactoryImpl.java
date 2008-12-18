@@ -61,6 +61,7 @@ public class ModelResourceFactoryImpl extends ResourceFactoryImpl
 	 * end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Resource createResource( URI uri )
 	{
 		XMLResource result = new ModelResourceImpl( uri );

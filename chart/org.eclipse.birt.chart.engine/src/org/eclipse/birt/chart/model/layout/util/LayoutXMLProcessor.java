@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LayoutXMLProcessor.java,v 1.1 2006/12/28 03:49:31 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.layout.util;
@@ -13,6 +13,7 @@ import org.eclipse.birt.chart.model.layout.LayoutPackage;
 
 import org.eclipse.emf.ecore.EPackage;
 
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.util.XMLProcessor;
 
 /**
@@ -42,7 +43,8 @@ public class LayoutXMLProcessor extends XMLProcessor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected Map getRegistrations( )
+	@Override
+	protected Map<String, Resource.Factory> getRegistrations( )
 	{
 		if ( registrations == null )
 		{

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: UnitsOfMeasurement.java,v 1.1 2006/12/28 03:49:25 anonymous Exp $
+ * $Id: UnitsOfMeasurement.java,v 1.5 2007/02/02 03:15:57 yulin Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
@@ -26,8 +26,60 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class UnitsOfMeasurement extends AbstractEnumerator
-{
+public enum UnitsOfMeasurement implements Enumerator {
+	/**
+	 * The '<em><b>Pixels</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Pixels</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #PIXELS
+	 * @generated
+	 * @ordered
+	 */
+	PIXELS_LITERAL(0, "Pixels", "Pixels"),
+	/**
+	 * The '<em><b>Points</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Points</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #POINTS
+	 * @generated
+	 * @ordered
+	 */
+	POINTS_LITERAL(1, "Points", "Points"),
+	/**
+	 * The '<em><b>Inches</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Inches</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #INCHES
+	 * @generated
+	 * @ordered
+	 */
+	INCHES_LITERAL(2, "Inches", "Inches"),
+	/**
+	 * The '<em><b>Centimeters</b></em>' literal object. <!--
+	 * begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Centimeters</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * 
+	 * @see #CENTIMETERS
+	 * @generated
+	 * @ordered
+	 */
+	CENTIMETERS_LITERAL(3, "Centimeters", "Centimeters");
 
 	/**
 	 * The '<em><b>Pixels</b></em>' literal value.
@@ -74,67 +126,6 @@ public final class UnitsOfMeasurement extends AbstractEnumerator
 	public static final int CENTIMETERS = 3;
 
 	/**
-	 * The '<em><b>Pixels</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Pixels</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #PIXELS
-	 * @generated
-	 * @ordered
-	 */
-	public static final UnitsOfMeasurement PIXELS_LITERAL = new UnitsOfMeasurement( PIXELS,
-			"Pixels", "Pixels" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Points</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Points</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #POINTS
-	 * @generated
-	 * @ordered
-	 */
-	public static final UnitsOfMeasurement POINTS_LITERAL = new UnitsOfMeasurement( POINTS,
-			"Points", "Points" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Inches</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Inches</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #INCHES
-	 * @generated
-	 * @ordered
-	 */
-	public static final UnitsOfMeasurement INCHES_LITERAL = new UnitsOfMeasurement( INCHES,
-			"Inches", "Inches" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Centimeters</b></em>' literal object. <!--
-	 * begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Centimeters</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * 
-	 * @see #CENTIMETERS
-	 * @generated
-	 * @ordered
-	 */
-	public static final UnitsOfMeasurement CENTIMETERS_LITERAL = new UnitsOfMeasurement( CENTIMETERS,
-			"Centimeters", "Centimeters" ); //$NON-NLS-1$
-
-	/**
 	 * An array of all the '<em><b>Units Of Measurement</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -151,7 +142,7 @@ public final class UnitsOfMeasurement extends AbstractEnumerator
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<UnitsOfMeasurement> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
 	 * Returns the '<em><b>Units Of Measurement</b></em>' literal with the specified literal value.
@@ -212,6 +203,27 @@ public final class UnitsOfMeasurement extends AbstractEnumerator
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final int value;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String name;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String literal;
+
+	/**
 	 * Only this class can construct instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -219,7 +231,50 @@ public final class UnitsOfMeasurement extends AbstractEnumerator
 	 */
 	private UnitsOfMeasurement( int value, String name, String literal )
 	{
-		super( value, name, literal );
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
 	}
 
-} //UnitsOfMeasurement
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getValue( )
+	{
+		return value;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName( )
+	{
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLiteral( )
+	{
+		return literal;
+	}
+
+	/**
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString( )
+	{
+		return literal;
+	}
+}

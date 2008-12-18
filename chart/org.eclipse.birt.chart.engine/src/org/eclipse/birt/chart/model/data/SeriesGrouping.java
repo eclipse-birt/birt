@@ -321,6 +321,6 @@ public interface SeriesGrouping extends EObject
 	 *        extendedMetaData="kind='element' name='AggregateParameters'"
 	 * @generated
 	 */
-	EList getAggregateParameters( );
+	EList<String> getAggregateParameters( );
 
 } // SeriesGrouping

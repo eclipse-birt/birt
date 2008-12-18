@@ -66,7 +66,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	 * @generated
 	 * @ordered
 	 */
-	protected LineAttributes lineAttributes = null;
+	protected LineAttributes lineAttributes;
 
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' containment reference.
@@ -75,7 +75,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	 * @generated
 	 * @ordered
 	 */
-	protected DataElement value = null;
+	protected DataElement value;
 
 	/**
 	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
@@ -84,7 +84,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	 * @generated
 	 * @ordered
 	 */
-	protected Label label = null;
+	protected Label label;
 
 	/**
 	 * The default value of the '
@@ -113,7 +113,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean labelAnchorESet = false;
+	protected boolean labelAnchorESet;
 
 	/**
 	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}' containment reference.
@@ -122,7 +122,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	 * @generated
 	 * @ordered
 	 */
-	protected FormatSpecifier formatSpecifier = null;
+	protected FormatSpecifier formatSpecifier;
 
 	/**
 	 * The cached value of the '{@link #getTriggers() <em>Triggers</em>}' containment reference list.
@@ -132,7 +132,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	 * @generated
 	 * @ordered
 	 */
-	protected EList triggers = null;
+	protected EList<Trigger> triggers;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -147,6 +147,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return ComponentPackage.Literals.MARKER_LINE;
@@ -478,11 +479,11 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getTriggers( )
+	public EList<Trigger> getTriggers( )
 	{
 		if ( triggers == null )
 		{
-			triggers = new EObjectContainmentEList( Trigger.class,
+			triggers = new EObjectContainmentEList<Trigger>( Trigger.class,
 					this,
 					ComponentPackage.MARKER_LINE__TRIGGERS );
 		}
@@ -494,6 +495,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -508,7 +510,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 			case ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER :
 				return basicSetFormatSpecifier( null, msgs );
 			case ComponentPackage.MARKER_LINE__TRIGGERS :
-				return ( (InternalEList) getTriggers( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getTriggers( ) ).basicRemove( otherEnd,
 						msgs );
 		}
 		return super.eInverseRemove( otherEnd, featureID, msgs );
@@ -519,6 +521,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -544,6 +547,8 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -565,7 +570,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 				return;
 			case ComponentPackage.MARKER_LINE__TRIGGERS :
 				getTriggers( ).clear( );
-				getTriggers( ).addAll( (Collection) newValue );
+				getTriggers( ).addAll( (Collection<? extends Trigger>) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -576,6 +581,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -607,6 +613,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -631,6 +638,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )
@@ -664,7 +672,8 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	 * @param de
 	 * @param lineColor
 	 */
-	public static final MarkerLine create( Axis ax, DataElement de, ColorDefinition lineColor )
+	public static final MarkerLine create( Axis ax, DataElement de,
+			ColorDefinition lineColor )
 	{
 		final MarkerLine ml = ComponentFactory.eINSTANCE.createMarkerLine( );
 		ml.setLineAttributes( LineAttributesImpl.create( lineColor,

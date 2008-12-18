@@ -68,7 +68,6 @@ public interface Needle extends EObject
 
 	/**
 	 * Returns the value of the '<em><b>Decorator</b></em>' attribute.
-	 * The default value is <code>"Arrow"</code>.
 	 * The literals are from the enumeration {@link org.eclipse.birt.chart.model.attribute.LineDecorator}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -81,7 +80,7 @@ public interface Needle extends EObject
 	 * @see #unsetDecorator()
 	 * @see #setDecorator(LineDecorator)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getNeedle_Decorator()
-	 * @model default="Arrow" unique="false" unsettable="true" required="true"
+	 * @model unsettable="true" required="true"
 	 *        extendedMetaData="kind='element' name='Decorator'"
 	 * @generated
 	 */

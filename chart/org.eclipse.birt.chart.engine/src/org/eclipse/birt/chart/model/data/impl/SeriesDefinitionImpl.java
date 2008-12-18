@@ -85,7 +85,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected EList seriesDefinitions;
+	protected EList<SeriesDefinition> seriesDefinitions;
 
 	/**
 	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}' containment reference.
@@ -103,7 +103,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected EList series;
+	protected EList<Series> series;
 
 	/**
 	 * The cached value of the '{@link #getGrouping() <em>Grouping</em>}' containment reference.
@@ -164,6 +164,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return DataPackage.Literals.SERIES_DEFINITION;
@@ -305,11 +306,11 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getSeriesDefinitions( )
+	public EList<SeriesDefinition> getSeriesDefinitions( )
 	{
 		if ( seriesDefinitions == null )
 		{
-			seriesDefinitions = new EObjectContainmentEList( SeriesDefinition.class,
+			seriesDefinitions = new EObjectContainmentEList<SeriesDefinition>( SeriesDefinition.class,
 					this,
 					DataPackage.SERIES_DEFINITION__SERIES_DEFINITIONS );
 		}
@@ -386,11 +387,11 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getSeries( )
+	public EList<Series> getSeries( )
 	{
 		if ( series == null )
 		{
-			series = new EObjectContainmentEList( Series.class,
+			series = new EObjectContainmentEList<Series>( Series.class,
 					this,
 					DataPackage.SERIES_DEFINITION__SERIES );
 		}
@@ -593,6 +594,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -603,12 +605,12 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 			case DataPackage.SERIES_DEFINITION__SERIES_PALETTE :
 				return basicSetSeriesPalette( null, msgs );
 			case DataPackage.SERIES_DEFINITION__SERIES_DEFINITIONS :
-				return ( (InternalEList) getSeriesDefinitions( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getSeriesDefinitions( ) ).basicRemove( otherEnd,
 						msgs );
 			case DataPackage.SERIES_DEFINITION__FORMAT_SPECIFIER :
 				return basicSetFormatSpecifier( null, msgs );
 			case DataPackage.SERIES_DEFINITION__SERIES :
-				return ( (InternalEList) getSeries( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getSeries( ) ).basicRemove( otherEnd,
 						msgs );
 			case DataPackage.SERIES_DEFINITION__GROUPING :
 				return basicSetGrouping( null, msgs );
@@ -623,6 +625,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -652,6 +655,8 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -664,14 +669,14 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 				return;
 			case DataPackage.SERIES_DEFINITION__SERIES_DEFINITIONS :
 				getSeriesDefinitions( ).clear( );
-				getSeriesDefinitions( ).addAll( (Collection) newValue );
+				getSeriesDefinitions( ).addAll( (Collection<? extends SeriesDefinition>) newValue );
 				return;
 			case DataPackage.SERIES_DEFINITION__FORMAT_SPECIFIER :
 				setFormatSpecifier( (FormatSpecifier) newValue );
 				return;
 			case DataPackage.SERIES_DEFINITION__SERIES :
 				getSeries( ).clear( );
-				getSeries( ).addAll( (Collection) newValue );
+				getSeries( ).addAll( (Collection<? extends Series>) newValue );
 				return;
 			case DataPackage.SERIES_DEFINITION__GROUPING :
 				setGrouping( (SeriesGrouping) newValue );
@@ -691,6 +696,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -728,6 +734,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -757,6 +764,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

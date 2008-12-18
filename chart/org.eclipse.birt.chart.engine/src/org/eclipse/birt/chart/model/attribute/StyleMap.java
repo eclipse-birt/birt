@@ -53,7 +53,7 @@ public interface StyleMap extends EObject
 	 * @see #unsetComponentName()
 	 * @see #setComponentName(StyledComponent)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getStyleMap_ComponentName()
-	 * @model default="Chart_All" unique="false" unsettable="true" required="true"
+	 * @model default="Chart_All" unsettable="true" required="true"
 	 *        extendedMetaData="kind='element' name='ComponentName'"
 	 * @generated
 	 */

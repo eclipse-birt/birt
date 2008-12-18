@@ -46,7 +46,7 @@ public interface Location extends EObject
 	 * @see #unsetX()
 	 * @see #setX(double)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getLocation_X()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
 	 *        extendedMetaData="kind='element' name='x'"
 	 * @generated
 	 */
@@ -95,7 +95,7 @@ public interface Location extends EObject
 	 * @see #unsetY()
 	 * @see #setY(double)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getLocation_Y()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
 	 *        extendedMetaData="kind='element' name='y'"
 	 * @generated
 	 */

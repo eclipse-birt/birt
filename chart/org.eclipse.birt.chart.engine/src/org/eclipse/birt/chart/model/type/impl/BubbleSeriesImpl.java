@@ -48,7 +48,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected LineAttributes accLineAttributes = null;
+	protected LineAttributes accLineAttributes;
 
 	/**
 	 * The default value of the '{@link #getAccOrientation() <em>Acc Orientation</em>}' attribute.
@@ -75,7 +75,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean accOrientationESet = false;
+	protected boolean accOrientationESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -90,6 +90,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return TypePackage.Literals.BUBBLE_SERIES;
@@ -222,6 +223,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -237,6 +239,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -253,6 +256,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -271,6 +275,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -289,6 +294,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -305,6 +311,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

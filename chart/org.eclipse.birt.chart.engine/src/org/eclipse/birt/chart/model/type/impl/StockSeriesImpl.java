@@ -72,7 +72,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected Fill fill = null;
+	protected Fill fill;
 
 	/**
 	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}' containment reference.
@@ -81,7 +81,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected LineAttributes lineAttributes = null;
+	protected LineAttributes lineAttributes;
 
 	/**
 	 * The default value of the '{@link #isShowAsBarStick() <em>Show As Bar Stick</em>}' attribute.
@@ -110,7 +110,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean showAsBarStickESet = false;
+	protected boolean showAsBarStickESet;
 
 	/**
 	 * The default value of the '{@link #getStickLength() <em>Stick Length</em>}' attribute.
@@ -139,7 +139,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean stickLengthESet = false;
+	protected boolean stickLengthESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -154,6 +154,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return TypePackage.Literals.STOCK_SERIES;
@@ -413,6 +414,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -431,6 +433,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -452,6 +455,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -477,6 +481,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -502,6 +507,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -523,6 +529,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

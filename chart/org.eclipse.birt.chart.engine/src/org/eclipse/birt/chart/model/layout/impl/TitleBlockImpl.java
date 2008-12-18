@@ -73,6 +73,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return LayoutPackage.Literals.TITLE_BLOCK;
@@ -89,30 +90,25 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
 		( (TitleBlockImpl) tb ).initialize( );
 		return tb;
 	}
-	
+
 	protected BoundingBox computeBox( IDisplayServer xs, RunTimeContext rtc )
 			throws ChartException
 	{
 		Label la = LabelImpl.copyInstance( getLabel( ) );
 		final String sPreviousValue = la.getCaption( ).getValue( );
-		la.getCaption( )
-				.setValue( rtc.externalizedMessage( sPreviousValue ) );
-		
+		la.getCaption( ).setValue( rtc.externalizedMessage( sPreviousValue ) );
+
 		double dWrapping = 0;
 		EObject container = eContainer( );
 		if ( container instanceof Block )
 		{
 			dWrapping = ( (Block) container ).getBounds( ).getWidth( )
-					/ 72 * xs.getDpiResolution( );
+					/ 72
+					* xs.getDpiResolution( );
 		}
 		try
 		{
-			return Methods.computeBox( xs,
-					IConstants.TOP,
-					la,
-					0,
-					0,
-					dWrapping );
+			return Methods.computeBox( xs, IConstants.TOP, la, 0, 0, dWrapping );
 		}
 		catch ( IllegalArgumentException uiex )
 		{
@@ -120,7 +116,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
 					ChartException.GENERATION,
 					uiex );
 		}
-		
+
 		// Do not set the text back because of wrapping
 	}
 } //TitleBlockImpl

@@ -57,7 +57,7 @@ public interface Trigger extends EObject
 	 * @see #unsetCondition()
 	 * @see #setCondition(TriggerCondition)
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getTrigger_Condition()
-	 * @model default="Mouse_Hover" unique="false" unsettable="true" required="true"
+	 * @model default="Mouse_Hover" unsettable="true" required="true"
 	 *        extendedMetaData="kind='element' name='Condition'"
 	 * @generated
 	 */
@@ -138,7 +138,7 @@ public interface Trigger extends EObject
 	 * @see #unsetTriggerFlow()
 	 * @see #setTriggerFlow(TriggerFlow)
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getTrigger_TriggerFlow()
-	 * @model default="Capture" unique="false" unsettable="true"
+	 * @model default="Capture" unsettable="true"
 	 *        extendedMetaData="kind='element' name='TriggerFlow'"
 	 * @generated
 	 */

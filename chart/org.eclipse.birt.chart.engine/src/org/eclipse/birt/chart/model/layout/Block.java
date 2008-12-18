@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.Stretch;
+import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
@@ -78,11 +79,11 @@ public interface Block extends EObject
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Children</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getBlock_Children()
-	 * @model type="org.eclipse.birt.chart.model.layout.Block" containment="true" resolveProxies="false" required="true"
+	 * @model containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='Children'"
 	 * @generated
 	 */
-	EList getChildren( );
+	EList<Block> getChildren( );
 
 	/**
 	 * Returns the value of the '<em><b>Bounds</b></em>' containment
@@ -604,7 +605,7 @@ public interface Block extends EObject
 	 *        containment="true" resolveProxies="false"
 	 * @generated
 	 */
-	EList getTriggers( );
+	EList<Trigger> getTriggers( );
 
 	/**
 	 * Returns the value of the '<em><b>Width Hint</b></em>' attribute.
@@ -619,7 +620,7 @@ public interface Block extends EObject
 	 * @see #unsetWidthHint()
 	 * @see #setWidthHint(double)
 	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getBlock_WidthHint()
-	 * @model default="-1" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 * @model default="-1" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
 	 *        extendedMetaData="kind='element' name='WidthHint'"
 	 * @generated
 	 */
@@ -673,7 +674,7 @@ public interface Block extends EObject
 	 * @see #unsetHeightHint()
 	 * @see #setHeightHint(double)
 	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getBlock_HeightHint()
-	 * @model default="-1" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 * @model default="-1" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
 	 *        extendedMetaData="kind='element' name='HeightHint'"
 	 * @generated
 	 */

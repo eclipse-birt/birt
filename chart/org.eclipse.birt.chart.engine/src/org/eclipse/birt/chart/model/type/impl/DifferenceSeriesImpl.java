@@ -54,7 +54,7 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected EList negativeMarkers = null;
+	protected EList<Marker> negativeMarkers;
 
 	/**
 	 * The cached value of the '{@link #getNegativeLineAttributes() <em>Negative Line Attributes</em>}' containment reference.
@@ -63,7 +63,7 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected LineAttributes negativeLineAttributes = null;
+	protected LineAttributes negativeLineAttributes;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -78,6 +78,7 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return TypePackage.Literals.DIFFERENCE_SERIES;
@@ -87,11 +88,11 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getNegativeMarkers( )
+	public EList<Marker> getNegativeMarkers( )
 	{
 		if ( negativeMarkers == null )
 		{
-			negativeMarkers = new EObjectContainmentEList( Marker.class,
+			negativeMarkers = new EObjectContainmentEList<Marker>( Marker.class,
 					this,
 					TypePackage.DIFFERENCE_SERIES__NEGATIVE_MARKERS );
 		}
@@ -170,13 +171,14 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
 		switch ( featureID )
 		{
 			case TypePackage.DIFFERENCE_SERIES__NEGATIVE_MARKERS :
-				return ( (InternalEList) getNegativeMarkers( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getNegativeMarkers( ) ).basicRemove( otherEnd,
 						msgs );
 			case TypePackage.DIFFERENCE_SERIES__NEGATIVE_LINE_ATTRIBUTES :
 				return basicSetNegativeLineAttributes( null, msgs );
@@ -188,6 +190,7 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -204,13 +207,15 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
 		{
 			case TypePackage.DIFFERENCE_SERIES__NEGATIVE_MARKERS :
 				getNegativeMarkers( ).clear( );
-				getNegativeMarkers( ).addAll( (Collection) newValue );
+				getNegativeMarkers( ).addAll( (Collection<? extends Marker>) newValue );
 				return;
 			case TypePackage.DIFFERENCE_SERIES__NEGATIVE_LINE_ATTRIBUTES :
 				setNegativeLineAttributes( (LineAttributes) newValue );
@@ -223,6 +228,7 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -241,6 +247,7 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -293,7 +300,7 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements
 	protected void initialize( )
 	{
 		super.initialize( );
-		
+
 		// Set curve line by default
 		setCurve( true );
 

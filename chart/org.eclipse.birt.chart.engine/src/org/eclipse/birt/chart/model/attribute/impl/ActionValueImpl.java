@@ -39,6 +39,7 @@ public class ActionValueImpl extends EObjectImpl implements ActionValue
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.ACTION_VALUE;

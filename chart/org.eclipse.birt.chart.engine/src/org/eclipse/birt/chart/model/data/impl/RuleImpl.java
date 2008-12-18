@@ -61,7 +61,7 @@ public class RuleImpl extends EObjectImpl implements Rule
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean typeESet = false;
+	protected boolean typeESet;
 
 	/**
 	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
@@ -94,6 +94,7 @@ public class RuleImpl extends EObjectImpl implements Rule
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return DataPackage.Literals.RULE;
@@ -185,6 +186,7 @@ public class RuleImpl extends EObjectImpl implements Rule
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -202,6 +204,7 @@ public class RuleImpl extends EObjectImpl implements Rule
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -221,6 +224,7 @@ public class RuleImpl extends EObjectImpl implements Rule
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -240,6 +244,7 @@ public class RuleImpl extends EObjectImpl implements Rule
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -257,6 +262,7 @@ public class RuleImpl extends EObjectImpl implements Rule
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

@@ -63,7 +63,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean leftESet = false;
+	protected boolean leftESet;
 
 	/**
 	 * The default value of the '{@link #getTop() <em>Top</em>}' attribute.
@@ -90,7 +90,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean topESet = false;
+	protected boolean topESet;
 
 	/**
 	 * The default value of the '{@link #getWidth() <em>Width</em>}' attribute.
@@ -117,7 +117,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean widthESet = false;
+	protected boolean widthESet;
 
 	/**
 	 * The default value of the '{@link #getHeight() <em>Height</em>}' attribute.
@@ -144,7 +144,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean heightESet = false;
+	protected boolean heightESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -159,6 +159,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.BOUNDS;
@@ -392,6 +393,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -412,6 +414,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -436,6 +439,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -460,6 +464,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -480,6 +485,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )
@@ -650,8 +656,10 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	public void adjust( Insets ins )
 	{
 		set( getLeft( ) + ins.getLeft( ), getTop( ) + ins.getTop( ), getWidth( )
-				- ins.getLeft( ) - ins.getRight( ), getHeight( )
-				- ins.getTop( ) - ins.getBottom( ) );
+				- ins.getLeft( )
+				- ins.getRight( ), getHeight( )
+				- ins.getTop( )
+				- ins.getBottom( ) );
 	}
 
 	/*

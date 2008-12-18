@@ -169,6 +169,7 @@ public class LabelImpl extends EObjectImpl implements Label
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return ComponentPackage.Literals.LABEL;
@@ -218,14 +219,14 @@ public class LabelImpl extends EObjectImpl implements Label
 			NotificationChain msgs = null;
 			if ( caption != null )
 				msgs = ( (InternalEObject) caption ).eInverseRemove( this,
-						EOPPOSITE_FEATURE_BASE -
-								ComponentPackage.LABEL__CAPTION,
+						EOPPOSITE_FEATURE_BASE
+								- ComponentPackage.LABEL__CAPTION,
 						null,
 						msgs );
 			if ( newCaption != null )
 				msgs = ( (InternalEObject) newCaption ).eInverseAdd( this,
-						EOPPOSITE_FEATURE_BASE -
-								ComponentPackage.LABEL__CAPTION,
+						EOPPOSITE_FEATURE_BASE
+								- ComponentPackage.LABEL__CAPTION,
 						null,
 						msgs );
 			msgs = basicSetCaption( newCaption, msgs );
@@ -284,14 +285,14 @@ public class LabelImpl extends EObjectImpl implements Label
 			NotificationChain msgs = null;
 			if ( background != null )
 				msgs = ( (InternalEObject) background ).eInverseRemove( this,
-						EOPPOSITE_FEATURE_BASE -
-								ComponentPackage.LABEL__BACKGROUND,
+						EOPPOSITE_FEATURE_BASE
+								- ComponentPackage.LABEL__BACKGROUND,
 						null,
 						msgs );
 			if ( newBackground != null )
 				msgs = ( (InternalEObject) newBackground ).eInverseAdd( this,
-						EOPPOSITE_FEATURE_BASE -
-								ComponentPackage.LABEL__BACKGROUND,
+						EOPPOSITE_FEATURE_BASE
+								- ComponentPackage.LABEL__BACKGROUND,
 						null,
 						msgs );
 			msgs = basicSetBackground( newBackground, msgs );
@@ -350,14 +351,14 @@ public class LabelImpl extends EObjectImpl implements Label
 			NotificationChain msgs = null;
 			if ( outline != null )
 				msgs = ( (InternalEObject) outline ).eInverseRemove( this,
-						EOPPOSITE_FEATURE_BASE -
-								ComponentPackage.LABEL__OUTLINE,
+						EOPPOSITE_FEATURE_BASE
+								- ComponentPackage.LABEL__OUTLINE,
 						null,
 						msgs );
 			if ( newOutline != null )
 				msgs = ( (InternalEObject) newOutline ).eInverseAdd( this,
-						EOPPOSITE_FEATURE_BASE -
-								ComponentPackage.LABEL__OUTLINE,
+						EOPPOSITE_FEATURE_BASE
+								- ComponentPackage.LABEL__OUTLINE,
 						null,
 						msgs );
 			msgs = basicSetOutline( newOutline, msgs );
@@ -416,14 +417,14 @@ public class LabelImpl extends EObjectImpl implements Label
 			NotificationChain msgs = null;
 			if ( shadowColor != null )
 				msgs = ( (InternalEObject) shadowColor ).eInverseRemove( this,
-						EOPPOSITE_FEATURE_BASE -
-								ComponentPackage.LABEL__SHADOW_COLOR,
+						EOPPOSITE_FEATURE_BASE
+								- ComponentPackage.LABEL__SHADOW_COLOR,
 						null,
 						msgs );
 			if ( newShadowColor != null )
 				msgs = ( (InternalEObject) newShadowColor ).eInverseAdd( this,
-						EOPPOSITE_FEATURE_BASE -
-								ComponentPackage.LABEL__SHADOW_COLOR,
+						EOPPOSITE_FEATURE_BASE
+								- ComponentPackage.LABEL__SHADOW_COLOR,
 						null,
 						msgs );
 			msgs = basicSetShadowColor( newShadowColor, msgs );
@@ -622,6 +623,7 @@ public class LabelImpl extends EObjectImpl implements Label
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -645,6 +647,7 @@ public class LabelImpl extends EObjectImpl implements Label
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -671,6 +674,7 @@ public class LabelImpl extends EObjectImpl implements Label
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -704,6 +708,7 @@ public class LabelImpl extends EObjectImpl implements Label
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -737,6 +742,7 @@ public class LabelImpl extends EObjectImpl implements Label
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -763,6 +769,7 @@ public class LabelImpl extends EObjectImpl implements Label
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

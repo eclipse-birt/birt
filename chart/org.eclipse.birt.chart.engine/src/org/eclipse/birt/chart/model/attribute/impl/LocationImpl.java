@@ -61,7 +61,7 @@ public class LocationImpl extends EObjectImpl implements Location
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean xESet = false;
+	protected boolean xESet;
 
 	/**
 	 * The default value of the '{@link #getY() <em>Y</em>}' attribute. <!--
@@ -90,7 +90,7 @@ public class LocationImpl extends EObjectImpl implements Location
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean yESet = false;
+	protected boolean yESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -105,6 +105,7 @@ public class LocationImpl extends EObjectImpl implements Location
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.LOCATION;
@@ -226,6 +227,7 @@ public class LocationImpl extends EObjectImpl implements Location
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -242,6 +244,7 @@ public class LocationImpl extends EObjectImpl implements Location
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -260,6 +263,7 @@ public class LocationImpl extends EObjectImpl implements Location
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -278,6 +282,7 @@ public class LocationImpl extends EObjectImpl implements Location
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -294,6 +299,7 @@ public class LocationImpl extends EObjectImpl implements Location
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

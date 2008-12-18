@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model;
 
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.emf.common.util.EList;
 
@@ -57,7 +58,7 @@ public interface ChartWithoutAxes extends Chart
 	 *        required="true"
 	 * @generated
 	 */
-	EList getSeriesDefinitions( );
+	EList<SeriesDefinition> getSeriesDefinitions( );
 
 	/**
 	 * Returns the value of the '<em><b>Min Slice</b></em>' attribute.

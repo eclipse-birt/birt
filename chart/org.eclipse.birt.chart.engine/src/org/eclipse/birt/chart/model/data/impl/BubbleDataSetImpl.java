@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BubbleDataSetImpl.java,v 1.1 2006/12/28 03:49:27 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.data.impl;
@@ -17,7 +17,7 @@ import org.eclipse.emf.ecore.EClass;
  * <!-- end-user-doc -->
  * <p>
  * </p>
- * 
+ *
  * @generated
  */
 public class BubbleDataSetImpl extends DataSetImpl implements BubbleDataSet
@@ -25,7 +25,6 @@ public class BubbleDataSetImpl extends DataSetImpl implements BubbleDataSet
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected BubbleDataSetImpl( )
@@ -35,9 +34,9 @@ public class BubbleDataSetImpl extends DataSetImpl implements BubbleDataSet
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return DataPackage.Literals.BUBBLE_DATA_SET;

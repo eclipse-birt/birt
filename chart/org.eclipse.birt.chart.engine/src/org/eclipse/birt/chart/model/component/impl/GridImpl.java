@@ -48,7 +48,7 @@ public class GridImpl extends EObjectImpl implements Grid
 	 * @generated
 	 * @ordered
 	 */
-	protected LineAttributes lineAttributes = null;
+	protected LineAttributes lineAttributes;
 
 	/**
 	 * The default value of the '{@link #getTickStyle() <em>Tick Style</em>}' attribute.
@@ -75,7 +75,7 @@ public class GridImpl extends EObjectImpl implements Grid
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean tickStyleESet = false;
+	protected boolean tickStyleESet;
 
 	/**
 	 * The cached value of the '{@link #getTickAttributes() <em>Tick Attributes</em>}' containment reference.
@@ -84,7 +84,7 @@ public class GridImpl extends EObjectImpl implements Grid
 	 * @generated
 	 * @ordered
 	 */
-	protected LineAttributes tickAttributes = null;
+	protected LineAttributes tickAttributes;
 
 	/**
 	 * The default value of the '{@link #getTickSize() <em>Tick Size</em>}' attribute.
@@ -111,7 +111,7 @@ public class GridImpl extends EObjectImpl implements Grid
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean tickSizeESet = false;
+	protected boolean tickSizeESet;
 
 	/**
 	 * The default value of the '{@link #getTickCount() <em>Tick Count</em>}' attribute.
@@ -138,7 +138,7 @@ public class GridImpl extends EObjectImpl implements Grid
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean tickCountESet = false;
+	protected boolean tickCountESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -153,6 +153,7 @@ public class GridImpl extends EObjectImpl implements Grid
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return ComponentPackage.Literals.GRID;
@@ -463,6 +464,7 @@ public class GridImpl extends EObjectImpl implements Grid
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -481,6 +483,7 @@ public class GridImpl extends EObjectImpl implements Grid
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -504,6 +507,7 @@ public class GridImpl extends EObjectImpl implements Grid
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -532,6 +536,7 @@ public class GridImpl extends EObjectImpl implements Grid
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -560,6 +565,7 @@ public class GridImpl extends EObjectImpl implements Grid
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -582,6 +588,7 @@ public class GridImpl extends EObjectImpl implements Grid
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

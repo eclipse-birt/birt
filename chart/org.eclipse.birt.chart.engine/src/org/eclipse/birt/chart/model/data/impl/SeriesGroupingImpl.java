@@ -110,12 +110,12 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * @since BIRT 2.3
 	 */
 	protected static final int DEFAULT_GROUPING_INTERVAL = 1;
-	
+
 	/**
 	 * @since BIRT 2.3
 	 */
 	protected static final String DEFAULT_AGGREGATE_EXPRESSION = "Sum"; //$NON-NLS-1$
-	
+
 	/**
 	 * The cached value of the '{@link #getGroupingOrigin() <em>Grouping Origin</em>}' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -205,7 +205,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * @generated
 	 * @ordered
 	 */
-	protected EList aggregateParameters;
+	protected EList<String> aggregateParameters;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -220,6 +220,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return DataPackage.Literals.SERIES_GROUPING;
@@ -547,11 +548,11 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getAggregateParameters( )
+	public EList<String> getAggregateParameters( )
 	{
 		if ( aggregateParameters == null )
 		{
-			aggregateParameters = new EDataTypeEList( String.class,
+			aggregateParameters = new EDataTypeEList<String>( String.class,
 					this,
 					DataPackage.SERIES_GROUPING__AGGREGATE_PARAMETERS );
 		}
@@ -563,6 +564,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -579,6 +581,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -606,6 +609,8 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -630,7 +635,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 				return;
 			case DataPackage.SERIES_GROUPING__AGGREGATE_PARAMETERS :
 				getAggregateParameters( ).clear( );
-				getAggregateParameters( ).addAll( (Collection) newValue );
+				getAggregateParameters( ).addAll( (Collection<? extends String>) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -641,6 +646,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -675,6 +681,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -703,6 +710,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

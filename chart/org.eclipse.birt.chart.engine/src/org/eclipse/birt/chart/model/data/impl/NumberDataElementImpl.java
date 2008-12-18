@@ -59,7 +59,7 @@ public class NumberDataElementImpl extends DataElementImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean valueESet = false;
+	protected boolean valueESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -74,6 +74,7 @@ public class NumberDataElementImpl extends DataElementImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return DataPackage.Literals.NUMBER_DATA_ELEMENT;
@@ -140,6 +141,7 @@ public class NumberDataElementImpl extends DataElementImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -155,6 +157,7 @@ public class NumberDataElementImpl extends DataElementImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -171,6 +174,7 @@ public class NumberDataElementImpl extends DataElementImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -187,6 +191,7 @@ public class NumberDataElementImpl extends DataElementImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -201,6 +206,7 @@ public class NumberDataElementImpl extends DataElementImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

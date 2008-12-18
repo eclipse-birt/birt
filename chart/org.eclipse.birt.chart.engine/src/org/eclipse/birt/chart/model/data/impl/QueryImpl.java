@@ -70,7 +70,7 @@ public class QueryImpl extends EObjectImpl implements Query
 	 * @generated
 	 * @ordered
 	 */
-	protected EList rules;
+	protected EList<Rule> rules;
 
 	/**
 	 * The cached value of the '{@link #getGrouping() <em>Grouping</em>}' containment reference.
@@ -95,6 +95,7 @@ public class QueryImpl extends EObjectImpl implements Query
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return DataPackage.Literals.QUERY;
@@ -129,11 +130,11 @@ public class QueryImpl extends EObjectImpl implements Query
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getRules( )
+	public EList<Rule> getRules( )
 	{
 		if ( rules == null )
 		{
-			rules = new EObjectContainmentEList( Rule.class,
+			rules = new EObjectContainmentEList<Rule>( Rule.class,
 					this,
 					DataPackage.QUERY__RULES );
 		}
@@ -212,13 +213,14 @@ public class QueryImpl extends EObjectImpl implements Query
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
 		switch ( featureID )
 		{
 			case DataPackage.QUERY__RULES :
-				return ( (InternalEList) getRules( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getRules( ) ).basicRemove( otherEnd,
 						msgs );
 			case DataPackage.QUERY__GROUPING :
 				return basicSetGrouping( null, msgs );
@@ -231,6 +233,7 @@ public class QueryImpl extends EObjectImpl implements Query
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -250,6 +253,8 @@ public class QueryImpl extends EObjectImpl implements Query
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -259,7 +264,7 @@ public class QueryImpl extends EObjectImpl implements Query
 				return;
 			case DataPackage.QUERY__RULES :
 				getRules( ).clear( );
-				getRules( ).addAll( (Collection) newValue );
+				getRules( ).addAll( (Collection<? extends Rule>) newValue );
 				return;
 			case DataPackage.QUERY__GROUPING :
 				setGrouping( (SeriesGrouping) newValue );
@@ -273,6 +278,7 @@ public class QueryImpl extends EObjectImpl implements Query
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -295,6 +301,7 @@ public class QueryImpl extends EObjectImpl implements Query
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -314,6 +321,7 @@ public class QueryImpl extends EObjectImpl implements Query
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

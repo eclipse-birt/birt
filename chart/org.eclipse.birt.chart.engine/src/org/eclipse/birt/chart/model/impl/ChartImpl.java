@@ -118,7 +118,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean versionESet = false;
+	protected boolean versionESet;
 
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
@@ -163,7 +163,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * @generated
 	 * @ordered
 	 */
-	protected Text description = null;
+	protected Text description;
 
 	/**
 	 * The cached value of the '{@link #getBlock() <em>Block</em>}' containment reference.
@@ -172,7 +172,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * @generated
 	 * @ordered
 	 */
-	protected Block block = null;
+	protected Block block;
 
 	/**
 	 * The default value of the '{@link #getDimension() <em>Dimension</em>}' attribute.
@@ -199,7 +199,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean dimensionESet = false;
+	protected boolean dimensionESet;
 
 	/**
 	 * The default value of the '{@link #getScript() <em>Script</em>}' attribute.
@@ -266,7 +266,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean seriesThicknessESet = false;
+	protected boolean seriesThicknessESet;
 
 	/**
 	 * The default value of the '{@link #getGridColumnCount() <em>Grid Column Count</em>}' attribute.
@@ -293,7 +293,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean gridColumnCountESet = false;
+	protected boolean gridColumnCountESet;
 
 	/**
 	 * The cached value of the '{@link #getExtendedProperties() <em>Extended Properties</em>}' containment reference list.
@@ -302,7 +302,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * @generated
 	 * @ordered
 	 */
-	protected EList extendedProperties = null;
+	protected EList<ExtendedProperty> extendedProperties;
 
 	/**
 	 * The cached value of the '{@link #getSampleData() <em>Sample Data</em>}' containment reference.
@@ -311,7 +311,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * @generated
 	 * @ordered
 	 */
-	protected SampleData sampleData = null;
+	protected SampleData sampleData;
 
 	/**
 	 * The cached value of the '{@link #getStyles() <em>Styles</em>}' containment reference list.
@@ -320,7 +320,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * @generated
 	 * @ordered
 	 */
-	protected EList styles = null;
+	protected EList<StyleMap> styles;
 
 	/**
 	 * The cached value of the '{@link #getInteractivity() <em>Interactivity</em>}' containment reference.
@@ -329,7 +329,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * @generated
 	 * @ordered
 	 */
-	protected Interactivity interactivity = null;
+	protected Interactivity interactivity;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -344,6 +344,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return ModelPackage.Literals.CHART;
@@ -807,11 +808,11 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getExtendedProperties( )
+	public EList<ExtendedProperty> getExtendedProperties( )
 	{
 		if ( extendedProperties == null )
 		{
-			extendedProperties = new EObjectContainmentEList( ExtendedProperty.class,
+			extendedProperties = new EObjectContainmentEList<ExtendedProperty>( ExtendedProperty.class,
 					this,
 					ModelPackage.CHART__EXTENDED_PROPERTIES );
 		}
@@ -888,11 +889,11 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getStyles( )
+	public EList<StyleMap> getStyles( )
 	{
 		if ( styles == null )
 		{
-			styles = new EObjectContainmentEList( StyleMap.class,
+			styles = new EObjectContainmentEList<StyleMap>( StyleMap.class,
 					this,
 					ModelPackage.CHART__STYLES );
 		}
@@ -969,6 +970,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -979,12 +981,12 @@ public class ChartImpl extends EObjectImpl implements Chart
 			case ModelPackage.CHART__BLOCK :
 				return basicSetBlock( null, msgs );
 			case ModelPackage.CHART__EXTENDED_PROPERTIES :
-				return ( (InternalEList) getExtendedProperties( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getExtendedProperties( ) ).basicRemove( otherEnd,
 						msgs );
 			case ModelPackage.CHART__SAMPLE_DATA :
 				return basicSetSampleData( null, msgs );
 			case ModelPackage.CHART__STYLES :
-				return ( (InternalEList) getStyles( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getStyles( ) ).basicRemove( otherEnd,
 						msgs );
 			case ModelPackage.CHART__INTERACTIVITY :
 				return basicSetInteractivity( null, msgs );
@@ -996,6 +998,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -1036,6 +1039,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -1072,14 +1077,14 @@ public class ChartImpl extends EObjectImpl implements Chart
 				return;
 			case ModelPackage.CHART__EXTENDED_PROPERTIES :
 				getExtendedProperties( ).clear( );
-				getExtendedProperties( ).addAll( (Collection) newValue );
+				getExtendedProperties( ).addAll( (Collection<? extends ExtendedProperty>) newValue );
 				return;
 			case ModelPackage.CHART__SAMPLE_DATA :
 				setSampleData( (SampleData) newValue );
 				return;
 			case ModelPackage.CHART__STYLES :
 				getStyles( ).clear( );
-				getStyles( ).addAll( (Collection) newValue );
+				getStyles( ).addAll( (Collection<? extends StyleMap>) newValue );
 				return;
 			case ModelPackage.CHART__INTERACTIVITY :
 				setInteractivity( (Interactivity) newValue );
@@ -1092,6 +1097,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -1146,6 +1152,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -1191,6 +1198,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

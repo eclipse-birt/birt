@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
@@ -30,8 +30,59 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class DataPointComponentType extends AbstractEnumerator
-{
+public enum DataPointComponentType implements Enumerator {
+	/**
+	 * The '<em><b>Base Value</b></em>' literal object.
+	 * <!-- begin-user-doc
+	 * -->
+	 * <p>
+	 * If the meaning of '<em><b>Base Value</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #BASE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	BASE_VALUE_LITERAL(0, "BaseValue", "Base_Value"),
+	/**
+	 * The '<em><b>Orthogonal Value</b></em>' literal object. <!--
+	 * begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Orthogonal Value</b></em>' literal object
+	 * isn't clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * 
+	 * @see #ORTHOGONAL_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	ORTHOGONAL_VALUE_LITERAL(1, "OrthogonalValue", "Orthogonal_Value"),
+	/**
+	 * The '<em><b>Series Value</b></em>' literal object. <!--
+	 * begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Series Value</b></em>' literal object
+	 * isn't clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * 
+	 * @see #SERIES_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	SERIES_VALUE_LITERAL(2, "SeriesValue", "Series_Value"),
+	/**
+	 * The '<em><b>Percentile Orthogonal Value</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #PERCENTILE_ORTHOGONAL_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	PERCENTILE_ORTHOGONAL_VALUE_LITERAL(3, "PercentileOrthogonalValue",
+			"Percentile_Orthogonal_Value");
 
 	/**
 	 * The '<em><b>Base Value</b></em>' literal value.
@@ -82,65 +133,6 @@ public final class DataPointComponentType extends AbstractEnumerator
 	public static final int PERCENTILE_ORTHOGONAL_VALUE = 3;
 
 	/**
-	 * The '<em><b>Base Value</b></em>' literal object.
-	 * <!-- begin-user-doc
-	 * -->
-	 * <p>
-	 * If the meaning of '<em><b>Base Value</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #BASE_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	public static final DataPointComponentType BASE_VALUE_LITERAL = new DataPointComponentType( BASE_VALUE,
-			"BaseValue", "Base_Value" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-	/**
-	 * The '<em><b>Orthogonal Value</b></em>' literal object. <!--
-	 * begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Orthogonal Value</b></em>' literal object
-	 * isn't clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * 
-	 * @see #ORTHOGONAL_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	public static final DataPointComponentType ORTHOGONAL_VALUE_LITERAL = new DataPointComponentType( ORTHOGONAL_VALUE,
-			"OrthogonalValue", "Orthogonal_Value" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-	/**
-	 * The '<em><b>Series Value</b></em>' literal object. <!--
-	 * begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Series Value</b></em>' literal object
-	 * isn't clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * 
-	 * @see #SERIES_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	public static final DataPointComponentType SERIES_VALUE_LITERAL = new DataPointComponentType( SERIES_VALUE,
-			"SeriesValue", "Series_Value" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-	/**
-	 * The '<em><b>Percentile Orthogonal Value</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #PERCENTILE_ORTHOGONAL_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	public static final DataPointComponentType PERCENTILE_ORTHOGONAL_VALUE_LITERAL = new DataPointComponentType( PERCENTILE_ORTHOGONAL_VALUE,
-			"PercentileOrthogonalValue", "Percentile_Orthogonal_Value" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-	/**
 	 * An array of all the '<em><b>Data Point Component Type</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -159,7 +151,7 @@ public final class DataPointComponentType extends AbstractEnumerator
 	 * 
 	 * @generated
 	 */
-	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<DataPointComponentType> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
 	 * Returns the '<em><b>Data Point Component Type</b></em>' literal with the specified literal value.
@@ -220,6 +212,27 @@ public final class DataPointComponentType extends AbstractEnumerator
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final int value;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String name;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String literal;
+
+	/**
 	 * Only this class can construct instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -227,7 +240,50 @@ public final class DataPointComponentType extends AbstractEnumerator
 	 */
 	private DataPointComponentType( int value, String name, String literal )
 	{
-		super( value, name, literal );
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
 	}
 
-} //DataPointComponentType
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getValue( )
+	{
+		return value;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName( )
+	{
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLiteral( )
+	{
+		return literal;
+	}
+
+	/**
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString( )
+	{
+		return literal;
+	}
+}

@@ -68,7 +68,7 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean typeESet = false;
+	protected boolean typeESet;
 
 	/**
 	 * The default value of the '{@link #getSize() <em>Size</em>}' attribute.
@@ -95,7 +95,7 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean sizeESet = false;
+	protected boolean sizeESet;
 
 	/**
 	 * The default value of the '{@link #isVisible() <em>Visible</em>}' attribute.
@@ -122,7 +122,7 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean visibleESet = false;
+	protected boolean visibleESet;
 
 	/**
 	 * The cached value of the '{@link #getFill() <em>Fill</em>}' containment reference.
@@ -132,7 +132,7 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	 * @generated
 	 * @ordered
 	 */
-	protected Fill fill = null;
+	protected Fill fill;
 
 	/**
 	 * The cached value of the '{@link #getIconPalette() <em>Icon Palette</em>}' containment reference.
@@ -142,7 +142,7 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	 * @generated
 	 * @ordered
 	 */
-	protected Palette iconPalette = null;
+	protected Palette iconPalette;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -157,6 +157,7 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.MARKER;
@@ -470,6 +471,7 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -488,6 +490,7 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -511,6 +514,7 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -539,6 +543,7 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -567,6 +572,7 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -589,6 +595,7 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

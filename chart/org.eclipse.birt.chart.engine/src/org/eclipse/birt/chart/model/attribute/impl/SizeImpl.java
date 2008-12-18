@@ -60,7 +60,7 @@ public class SizeImpl extends EObjectImpl implements Size
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean heightESet = false;
+	protected boolean heightESet;
 
 	/**
 	 * The default value of the '{@link #getWidth() <em>Width</em>}' attribute.
@@ -87,7 +87,7 @@ public class SizeImpl extends EObjectImpl implements Size
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean widthESet = false;
+	protected boolean widthESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -117,6 +117,7 @@ public class SizeImpl extends EObjectImpl implements Size
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.SIZE;
@@ -238,6 +239,7 @@ public class SizeImpl extends EObjectImpl implements Size
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -254,6 +256,7 @@ public class SizeImpl extends EObjectImpl implements Size
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -272,6 +275,7 @@ public class SizeImpl extends EObjectImpl implements Size
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -290,6 +294,7 @@ public class SizeImpl extends EObjectImpl implements Size
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -306,6 +311,7 @@ public class SizeImpl extends EObjectImpl implements Size
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

@@ -55,7 +55,7 @@ public interface DataPoint extends EObject
 	 *        required="true"
 	 * @generated
 	 */
-	EList getComponents( );
+	EList<DataPointComponent> getComponents( );
 
 	/**
 	 * Returns the value of the '<em><b>Prefix</b></em>' attribute.
@@ -68,7 +68,7 @@ public interface DataPoint extends EObject
 	 * @return the value of the '<em>Prefix</em>' attribute.
 	 * @see #setPrefix(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getDataPoint_Prefix()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
 	 *        extendedMetaData="kind='element' name='Prefix'"
 	 * @generated
 	 */
@@ -94,7 +94,7 @@ public interface DataPoint extends EObject
 	 * @return the value of the '<em>Suffix</em>' attribute.
 	 * @see #setSuffix(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getDataPoint_Suffix()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
 	 *        extendedMetaData="kind='element' name='Suffix'"
 	 * @generated
 	 */

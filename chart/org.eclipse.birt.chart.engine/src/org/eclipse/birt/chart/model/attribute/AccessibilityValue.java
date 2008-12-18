@@ -45,7 +45,7 @@ public interface AccessibilityValue extends ActionValue
 	 * @return the value of the '<em>Text</em>' attribute.
 	 * @see #setText(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getAccessibilityValue_Text()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String"
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
 	 *        extendedMetaData="kind='element' name='Text'"
 	 * @generated
 	 */
@@ -71,7 +71,7 @@ public interface AccessibilityValue extends ActionValue
 	 * @return the value of the '<em>Accessibility</em>' attribute.
 	 * @see #setAccessibility(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getAccessibilityValue_Accessibility()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String"
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
 	 *        extendedMetaData="kind='element' name='Accessibility'"
 	 * @generated
 	 */

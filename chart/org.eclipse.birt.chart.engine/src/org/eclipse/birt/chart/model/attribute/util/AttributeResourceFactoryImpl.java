@@ -42,6 +42,7 @@ public class AttributeResourceFactoryImpl extends ResourceFactoryImpl
 	 * end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Resource createResource( URI uri )
 	{
 		XMLResource result = new AttributeResourceImpl( uri );

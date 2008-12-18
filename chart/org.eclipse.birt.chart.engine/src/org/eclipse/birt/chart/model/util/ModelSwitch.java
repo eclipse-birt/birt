@@ -30,7 +30,7 @@ import org.eclipse.emf.ecore.EObject;
  * @see org.eclipse.birt.chart.model.ModelPackage
  * @generated
  */
-public class ModelSwitch
+public class ModelSwitch<T>
 {
 
 	/**
@@ -59,7 +59,7 @@ public class ModelSwitch
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	public Object doSwitch( EObject theEObject )
+	public T doSwitch( EObject theEObject )
 	{
 		return doSwitch( theEObject.eClass( ), theEObject );
 	}
@@ -70,7 +70,7 @@ public class ModelSwitch
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected Object doSwitch( EClass theEClass, EObject theEObject )
+	protected T doSwitch( EClass theEClass, EObject theEObject )
 	{
 		if ( theEClass.eContainer( ) == modelPackage )
 		{
@@ -78,9 +78,9 @@ public class ModelSwitch
 		}
 		else
 		{
-			List eSuperTypes = theEClass.getESuperTypes( );
+			List<EClass> eSuperTypes = theEClass.getESuperTypes( );
 			return eSuperTypes.isEmpty( ) ? defaultCase( theEObject )
-					: doSwitch( (EClass) eSuperTypes.get( 0 ), theEObject );
+					: doSwitch( eSuperTypes.get( 0 ), theEObject );
 		}
 	}
 
@@ -90,14 +90,14 @@ public class ModelSwitch
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected Object doSwitch( int classifierID, EObject theEObject )
+	protected T doSwitch( int classifierID, EObject theEObject )
 	{
 		switch ( classifierID )
 		{
 			case ModelPackage.CHART :
 			{
 				Chart chart = (Chart) theEObject;
-				Object result = caseChart( chart );
+				T result = caseChart( chart );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -105,7 +105,7 @@ public class ModelSwitch
 			case ModelPackage.CHART_WITH_AXES :
 			{
 				ChartWithAxes chartWithAxes = (ChartWithAxes) theEObject;
-				Object result = caseChartWithAxes( chartWithAxes );
+				T result = caseChartWithAxes( chartWithAxes );
 				if ( result == null )
 					result = caseChart( chartWithAxes );
 				if ( result == null )
@@ -115,7 +115,7 @@ public class ModelSwitch
 			case ModelPackage.CHART_WITHOUT_AXES :
 			{
 				ChartWithoutAxes chartWithoutAxes = (ChartWithoutAxes) theEObject;
-				Object result = caseChartWithoutAxes( chartWithoutAxes );
+				T result = caseChartWithoutAxes( chartWithoutAxes );
 				if ( result == null )
 					result = caseChart( chartWithoutAxes );
 				if ( result == null )
@@ -125,7 +125,7 @@ public class ModelSwitch
 			case ModelPackage.DIAL_CHART :
 			{
 				DialChart dialChart = (DialChart) theEObject;
-				Object result = caseDialChart( dialChart );
+				T result = caseDialChart( dialChart );
 				if ( result == null )
 					result = caseChartWithoutAxes( dialChart );
 				if ( result == null )
@@ -148,7 +148,7 @@ public class ModelSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseChart( Chart object )
+	public T caseChart( Chart object )
 	{
 		return null;
 	}
@@ -164,7 +164,7 @@ public class ModelSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseChartWithAxes( ChartWithAxes object )
+	public T caseChartWithAxes( ChartWithAxes object )
 	{
 		return null;
 	}
@@ -180,7 +180,7 @@ public class ModelSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseChartWithoutAxes( ChartWithoutAxes object )
+	public T caseChartWithoutAxes( ChartWithoutAxes object )
 	{
 		return null;
 	}
@@ -196,7 +196,7 @@ public class ModelSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseDialChart( DialChart object )
+	public T caseDialChart( DialChart object )
 	{
 		return null;
 	}
@@ -211,7 +211,7 @@ public class ModelSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
-	public Object defaultCase( EObject object )
+	public T defaultCase( EObject object )
 	{
 		return null;
 	}

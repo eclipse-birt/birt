@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
@@ -30,8 +30,46 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class HorizontalAlignment extends AbstractEnumerator
-{
+public enum HorizontalAlignment implements Enumerator {
+	/**
+	 * The '<em><b>Left</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Left</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #LEFT
+	 * @generated
+	 * @ordered
+	 */
+	LEFT_LITERAL(0, "Left", "Left"),
+	/**
+	 * The '<em><b>Center</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Center</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #CENTER
+	 * @generated
+	 * @ordered
+	 */
+	CENTER_LITERAL(1, "Center", "Center"),
+	/**
+	 * The '<em><b>Right</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Right</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #RIGHT
+	 * @generated
+	 * @ordered
+	 */
+	RIGHT_LITERAL(2, "Right", "Right");
 
 	/**
 	 * The '<em><b>Left</b></em>' literal value.
@@ -67,51 +105,6 @@ public final class HorizontalAlignment extends AbstractEnumerator
 	public static final int RIGHT = 2;
 
 	/**
-	 * The '<em><b>Left</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Left</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #LEFT
-	 * @generated
-	 * @ordered
-	 */
-	public static final HorizontalAlignment LEFT_LITERAL = new HorizontalAlignment( LEFT,
-			"Left", "Left" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Center</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Center</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #CENTER
-	 * @generated
-	 * @ordered
-	 */
-	public static final HorizontalAlignment CENTER_LITERAL = new HorizontalAlignment( CENTER,
-			"Center", "Center" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Right</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Right</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #RIGHT
-	 * @generated
-	 * @ordered
-	 */
-	public static final HorizontalAlignment RIGHT_LITERAL = new HorizontalAlignment( RIGHT,
-			"Right", "Right" ); //$NON-NLS-1$
-
-	/**
 	 * An array of all the '<em><b>Horizontal Alignment</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -125,7 +118,7 @@ public final class HorizontalAlignment extends AbstractEnumerator
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<HorizontalAlignment> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
 	 * Returns the '<em><b>Horizontal Alignment</b></em>' literal with the specified literal value.
@@ -184,6 +177,27 @@ public final class HorizontalAlignment extends AbstractEnumerator
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final int value;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String name;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String literal;
+
+	/**
 	 * Only this class can construct instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -191,7 +205,50 @@ public final class HorizontalAlignment extends AbstractEnumerator
 	 */
 	private HorizontalAlignment( int value, String name, String literal )
 	{
-		super( value, name, literal );
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
 	}
 
-} //HorizontalAlignment
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getValue( )
+	{
+		return value;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName( )
+	{
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLiteral( )
+	{
+		return literal;
+	}
+
+	/**
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString( )
+	{
+		return literal;
+	}
+}

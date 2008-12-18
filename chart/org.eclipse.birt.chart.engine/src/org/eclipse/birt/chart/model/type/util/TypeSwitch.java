@@ -33,7 +33,7 @@ import org.eclipse.emf.ecore.EObject;
  * @see org.eclipse.birt.chart.model.type.TypePackage
  * @generated
  */
-public class TypeSwitch
+public class TypeSwitch<T>
 {
 
 	/**
@@ -62,7 +62,7 @@ public class TypeSwitch
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	public Object doSwitch( EObject theEObject )
+	public T doSwitch( EObject theEObject )
 	{
 		return doSwitch( theEObject.eClass( ), theEObject );
 	}
@@ -73,7 +73,7 @@ public class TypeSwitch
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected Object doSwitch( EClass theEClass, EObject theEObject )
+	protected T doSwitch( EClass theEClass, EObject theEObject )
 	{
 		if ( theEClass.eContainer( ) == modelPackage )
 		{
@@ -81,9 +81,9 @@ public class TypeSwitch
 		}
 		else
 		{
-			List eSuperTypes = theEClass.getESuperTypes( );
+			List<EClass> eSuperTypes = theEClass.getESuperTypes( );
 			return eSuperTypes.isEmpty( ) ? defaultCase( theEObject )
-					: doSwitch( (EClass) eSuperTypes.get( 0 ), theEObject );
+					: doSwitch( eSuperTypes.get( 0 ), theEObject );
 		}
 	}
 
@@ -93,14 +93,14 @@ public class TypeSwitch
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected Object doSwitch( int classifierID, EObject theEObject )
+	protected T doSwitch( int classifierID, EObject theEObject )
 	{
 		switch ( classifierID )
 		{
 			case TypePackage.AREA_SERIES :
 			{
 				AreaSeries areaSeries = (AreaSeries) theEObject;
-				Object result = caseAreaSeries( areaSeries );
+				T result = caseAreaSeries( areaSeries );
 				if ( result == null )
 					result = caseLineSeries( areaSeries );
 				if ( result == null )
@@ -112,7 +112,7 @@ public class TypeSwitch
 			case TypePackage.BAR_SERIES :
 			{
 				BarSeries barSeries = (BarSeries) theEObject;
-				Object result = caseBarSeries( barSeries );
+				T result = caseBarSeries( barSeries );
 				if ( result == null )
 					result = caseSeries( barSeries );
 				if ( result == null )
@@ -122,7 +122,7 @@ public class TypeSwitch
 			case TypePackage.BUBBLE_SERIES :
 			{
 				BubbleSeries bubbleSeries = (BubbleSeries) theEObject;
-				Object result = caseBubbleSeries( bubbleSeries );
+				T result = caseBubbleSeries( bubbleSeries );
 				if ( result == null )
 					result = caseScatterSeries( bubbleSeries );
 				if ( result == null )
@@ -136,7 +136,7 @@ public class TypeSwitch
 			case TypePackage.DIAL_SERIES :
 			{
 				DialSeries dialSeries = (DialSeries) theEObject;
-				Object result = caseDialSeries( dialSeries );
+				T result = caseDialSeries( dialSeries );
 				if ( result == null )
 					result = caseSeries( dialSeries );
 				if ( result == null )
@@ -146,7 +146,7 @@ public class TypeSwitch
 			case TypePackage.DIFFERENCE_SERIES :
 			{
 				DifferenceSeries differenceSeries = (DifferenceSeries) theEObject;
-				Object result = caseDifferenceSeries( differenceSeries );
+				T result = caseDifferenceSeries( differenceSeries );
 				if ( result == null )
 					result = caseAreaSeries( differenceSeries );
 				if ( result == null )
@@ -160,7 +160,7 @@ public class TypeSwitch
 			case TypePackage.GANTT_SERIES :
 			{
 				GanttSeries ganttSeries = (GanttSeries) theEObject;
-				Object result = caseGanttSeries( ganttSeries );
+				T result = caseGanttSeries( ganttSeries );
 				if ( result == null )
 					result = caseSeries( ganttSeries );
 				if ( result == null )
@@ -170,7 +170,7 @@ public class TypeSwitch
 			case TypePackage.LINE_SERIES :
 			{
 				LineSeries lineSeries = (LineSeries) theEObject;
-				Object result = caseLineSeries( lineSeries );
+				T result = caseLineSeries( lineSeries );
 				if ( result == null )
 					result = caseSeries( lineSeries );
 				if ( result == null )
@@ -180,7 +180,7 @@ public class TypeSwitch
 			case TypePackage.PIE_SERIES :
 			{
 				PieSeries pieSeries = (PieSeries) theEObject;
-				Object result = casePieSeries( pieSeries );
+				T result = casePieSeries( pieSeries );
 				if ( result == null )
 					result = caseSeries( pieSeries );
 				if ( result == null )
@@ -190,7 +190,7 @@ public class TypeSwitch
 			case TypePackage.SCATTER_SERIES :
 			{
 				ScatterSeries scatterSeries = (ScatterSeries) theEObject;
-				Object result = caseScatterSeries( scatterSeries );
+				T result = caseScatterSeries( scatterSeries );
 				if ( result == null )
 					result = caseLineSeries( scatterSeries );
 				if ( result == null )
@@ -202,7 +202,7 @@ public class TypeSwitch
 			case TypePackage.STOCK_SERIES :
 			{
 				StockSeries stockSeries = (StockSeries) theEObject;
-				Object result = caseStockSeries( stockSeries );
+				T result = caseStockSeries( stockSeries );
 				if ( result == null )
 					result = caseSeries( stockSeries );
 				if ( result == null )
@@ -215,17 +215,17 @@ public class TypeSwitch
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Area Series</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Area Series</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Area Series</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Area Series</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseAreaSeries( AreaSeries object )
+	public T caseAreaSeries( AreaSeries object )
 	{
 		return null;
 	}
@@ -241,71 +241,71 @@ public class TypeSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseBarSeries( BarSeries object )
+	public T caseBarSeries( BarSeries object )
 	{
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Bubble Series</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Bubble Series</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Bubble Series</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Bubble Series</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseBubbleSeries( BubbleSeries object )
+	public T caseBubbleSeries( BubbleSeries object )
 	{
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Dial Series</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Dial Series</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Dial Series</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Dial Series</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseDialSeries( DialSeries object )
+	public T caseDialSeries( DialSeries object )
 	{
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Difference Series</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Difference Series</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Difference Series</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Difference Series</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseDifferenceSeries( DifferenceSeries object )
+	public T caseDifferenceSeries( DifferenceSeries object )
 	{
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Gantt Series</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Gantt Series</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Gantt Series</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Gantt Series</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseGanttSeries( GanttSeries object )
+	public T caseGanttSeries( GanttSeries object )
 	{
 		return null;
 	}
@@ -321,7 +321,7 @@ public class TypeSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseLineSeries( LineSeries object )
+	public T caseLineSeries( LineSeries object )
 	{
 		return null;
 	}
@@ -337,7 +337,7 @@ public class TypeSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object casePieSeries( PieSeries object )
+	public T casePieSeries( PieSeries object )
 	{
 		return null;
 	}
@@ -353,7 +353,7 @@ public class TypeSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseScatterSeries( ScatterSeries object )
+	public T caseScatterSeries( ScatterSeries object )
 	{
 		return null;
 	}
@@ -369,36 +369,36 @@ public class TypeSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseStockSeries( StockSeries object )
+	public T caseStockSeries( StockSeries object )
 	{
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Series</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Series</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Series</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Series</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseSeries( Series object )
+	public T caseSeries( Series object )
 	{
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch, but this is the last
 	 * case anyway. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
-	public Object defaultCase( EObject object )
+	public T defaultCase( EObject object )
 	{
 		return null;
 	}

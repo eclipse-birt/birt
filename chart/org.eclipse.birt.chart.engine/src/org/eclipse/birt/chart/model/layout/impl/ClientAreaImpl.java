@@ -54,7 +54,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 	 * @generated
 	 * @ordered
 	 */
-	protected Fill background = null;
+	protected Fill background;
 
 	/**
 	 * The cached value of the '{@link #getOutline() <em>Outline</em>}' containment reference.
@@ -64,7 +64,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 	 * @generated
 	 * @ordered
 	 */
-	protected LineAttributes outline = null;
+	protected LineAttributes outline;
 
 	/**
 	 * The cached value of the '{@link #getShadowColor() <em>Shadow Color</em>}' containment reference. <!--
@@ -74,7 +74,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 	 * @generated
 	 * @ordered
 	 */
-	protected ColorDefinition shadowColor = null;
+	protected ColorDefinition shadowColor;
 
 	/**
 	 * The cached value of the '{@link #getInsets() <em>Insets</em>}' containment reference.
@@ -84,7 +84,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 	 * @generated
 	 * @ordered
 	 */
-	protected Insets insets = null;
+	protected Insets insets;
 
 	/**
 	 * The default value of the '{@link #isVisible() <em>Visible</em>}' attribute.
@@ -113,7 +113,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean visibleESet = false;
+	protected boolean visibleESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -128,6 +128,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return LayoutPackage.Literals.CLIENT_AREA;
@@ -462,6 +463,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -484,6 +486,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -507,6 +510,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -535,6 +539,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -563,6 +568,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -586,6 +592,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

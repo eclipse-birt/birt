@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Rotation3D.java,v 1.1 2006/12/28 03:49:25 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -45,10 +45,10 @@ public interface Rotation3D extends EObject
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Angles</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getRotation3D_Angles()
-	 * @model type="org.eclipse.birt.chart.model.attribute.Angle3D" containment="true"
+	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='Angles'"
 	 * @generated
 	 */
-	EList getAngles( );
+	EList<Angle3D> getAngles( );
 
 } // Rotation3D

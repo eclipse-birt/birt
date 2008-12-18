@@ -43,7 +43,7 @@ public interface DialChart extends ChartWithoutAxes
 	 * @see #unsetDialSuperimposition()
 	 * @see #setDialSuperimposition(boolean)
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getDialChart_DialSuperimposition()
-	 * @model default="true" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 * @model default="true" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
 	 *        extendedMetaData="kind='element' name='DialSuperimposition'"
 	 * @generated
 	 */

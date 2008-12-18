@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
@@ -30,8 +30,47 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @deprecated only reserved for compatibility
  */
-public final class RuleType extends AbstractEnumerator
-{
+public enum RuleType implements Enumerator {
+	/**
+	 * The '<em><b>Filter</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Filter</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #FILTER
+	 * @generated
+	 * @ordered
+	 */
+	FILTER_LITERAL(0, "Filter", "Filter"),
+	/**
+	 * The '<em><b>Suppress</b></em>' literal object.
+	 * <!-- begin-user-doc
+	 * -->
+	 * <p>
+	 * If the meaning of '<em><b>Suppress</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #SUPPRESS
+	 * @generated
+	 * @ordered
+	 */
+	SUPPRESS_LITERAL(1, "Suppress", "Suppress"),
+	/**
+	 * The '<em><b>Link</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Link</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #LINK
+	 * @generated
+	 * @ordered
+	 */
+	LINK_LITERAL(2, "Link", "Link");
 
 	/**
 	 * The '<em><b>Filter</b></em>' literal value.
@@ -67,52 +106,6 @@ public final class RuleType extends AbstractEnumerator
 	public static final int LINK = 2;
 
 	/**
-	 * The '<em><b>Filter</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Filter</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #FILTER
-	 * @generated
-	 * @ordered
-	 */
-	public static final RuleType FILTER_LITERAL = new RuleType( FILTER,
-			"Filter", "Filter" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Suppress</b></em>' literal object.
-	 * <!-- begin-user-doc
-	 * -->
-	 * <p>
-	 * If the meaning of '<em><b>Suppress</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #SUPPRESS
-	 * @generated
-	 * @ordered
-	 */
-	public static final RuleType SUPPRESS_LITERAL = new RuleType( SUPPRESS,
-			"Suppress", "Suppress" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Link</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Link</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #LINK
-	 * @generated
-	 * @ordered
-	 */
-	public static final RuleType LINK_LITERAL = new RuleType( LINK,
-			"Link", "Link" ); //$NON-NLS-1$
-
-	/**
 	 * An array of all the '<em><b>Rule Type</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -127,7 +120,7 @@ public final class RuleType extends AbstractEnumerator
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<RuleType> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
 	 * Returns the '<em><b>Rule Type</b></em>' literal with the specified literal value.
@@ -186,6 +179,27 @@ public final class RuleType extends AbstractEnumerator
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final int value;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String name;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String literal;
+
+	/**
 	 * Only this class can construct instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -193,7 +207,50 @@ public final class RuleType extends AbstractEnumerator
 	 */
 	private RuleType( int value, String name, String literal )
 	{
-		super( value, name, literal );
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
 	}
 
-} //RuleType
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getValue( )
+	{
+		return value;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName( )
+	{
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLiteral( )
+	{
+		return literal;
+	}
+
+	/**
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString( )
+	{
+		return literal;
+	}
+}

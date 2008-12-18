@@ -46,6 +46,7 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return TypePackage.Literals.AREA_SERIES;

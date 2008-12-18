@@ -39,6 +39,7 @@ public class DataElementImpl extends EObjectImpl implements DataElement
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return DataPackage.Literals.DATA_ELEMENT;

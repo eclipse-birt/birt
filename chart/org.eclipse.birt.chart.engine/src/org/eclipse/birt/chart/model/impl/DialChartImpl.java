@@ -59,7 +59,7 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean dialSuperimpositionESet = false;
+	protected boolean dialSuperimpositionESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -74,6 +74,7 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return ModelPackage.Literals.DIAL_CHART;
@@ -140,6 +141,7 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -155,6 +157,7 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -171,6 +174,7 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -187,6 +191,7 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -201,6 +206,7 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

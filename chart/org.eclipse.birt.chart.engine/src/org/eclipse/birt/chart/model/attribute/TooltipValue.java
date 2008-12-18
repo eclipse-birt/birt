@@ -47,7 +47,7 @@ public interface TooltipValue extends ActionValue
 	 * @return the value of the '<em>Text</em>' attribute.
 	 * @see #setText(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getTooltipValue_Text()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
 	 *        extendedMetaData="kind='element' name='Text'"
 	 * @generated
 	 */
@@ -75,7 +75,7 @@ public interface TooltipValue extends ActionValue
 	 * @see #unsetDelay()
 	 * @see #setDelay(int)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getTooltipValue_Delay()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
 	 *        extendedMetaData="kind='element' name='Delay'"
 	 * @generated
 	 */

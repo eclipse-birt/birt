@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Angle3D.java,v 1.1 2006/12/28 03:49:25 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -210,7 +210,7 @@ public interface Angle3D extends EObject
 	 * @see #unsetType()
 	 * @see #setType(AngleType)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getAngle3D_Type()
-	 * @model default="None" unique="false" unsettable="true" required="true"
+	 * @model default="None" unsettable="true" required="true"
 	 *        extendedMetaData="kind='element' name='Type'"
 	 * @generated
 	 */

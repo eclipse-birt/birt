@@ -65,7 +65,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean typeESet = false;
+	protected boolean typeESet;
 
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' containment reference.
@@ -74,7 +74,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
 	 * @generated
 	 * @ordered
 	 */
-	protected DataElement value = null;
+	protected DataElement value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -89,6 +89,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.AXIS_ORIGIN;
@@ -221,6 +222,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -237,6 +239,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -254,6 +257,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -273,6 +277,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -292,6 +297,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -308,6 +314,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

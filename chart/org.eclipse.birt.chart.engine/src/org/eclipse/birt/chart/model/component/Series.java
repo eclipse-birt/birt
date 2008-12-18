@@ -15,6 +15,8 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.data.DataSet;
+import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 
@@ -152,7 +154,7 @@ public interface Series extends EObject
 	 *        containment="true" resolveProxies="false" required="true"
 	 * @generated
 	 */
-	EList getDataDefinition( );
+	EList<Query> getDataDefinition( );
 
 	/**
 	 * Returns the value of the '<em><b>Series Identifier</b></em>'
@@ -226,7 +228,7 @@ public interface Series extends EObject
 	 *        extendedMetaData="kind='element' name='DataSets'"
 	 * @generated
 	 */
-	EMap getDataSets( );
+	EMap<String, DataSet> getDataSets( );
 
 	/**
 	 * Returns the value of the '<em><b>Label Position</b></em>' attribute.
@@ -355,7 +357,7 @@ public interface Series extends EObject
 	 *        containment="true" resolveProxies="false"
 	 * @generated
 	 */
-	EList getTriggers( );
+	EList<Trigger> getTriggers( );
 
 	/**
 	 * Returns the value of the '<em><b>Translucent</b></em>' attribute.
@@ -518,7 +520,7 @@ public interface Series extends EObject
 	 * @return
 	 */
 	DataSet getDataSet( String userkey );
-	
+
 	/**
 	 * The method indicates if painting requests of series should be added to a
 	 * single cache.

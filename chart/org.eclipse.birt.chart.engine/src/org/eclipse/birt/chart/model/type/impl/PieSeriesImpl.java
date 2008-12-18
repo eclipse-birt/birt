@@ -284,6 +284,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return TypePackage.Literals.PIE_SERIES;
@@ -573,8 +574,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	public void setLeaderLineStyle( LeaderLineStyle newLeaderLineStyle )
 	{
 		LeaderLineStyle oldLeaderLineStyle = leaderLineStyle;
-		leaderLineStyle = newLeaderLineStyle == null
-				? LEADER_LINE_STYLE_EDEFAULT : newLeaderLineStyle;
+		leaderLineStyle = newLeaderLineStyle == null ? LEADER_LINE_STYLE_EDEFAULT
+				: newLeaderLineStyle;
 		boolean oldLeaderLineStyleESet = leaderLineStyleESet;
 		leaderLineStyleESet = true;
 		if ( eNotificationRequired( ) )
@@ -861,6 +862,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -881,6 +883,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -914,6 +917,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -957,6 +961,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -1000,6 +1005,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -1007,8 +1013,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 			case TypePackage.PIE_SERIES__EXPLOSION :
 				return isSetExplosion( );
 			case TypePackage.PIE_SERIES__EXPLOSION_EXPRESSION :
-				return EXPLOSION_EXPRESSION_EDEFAULT == null
-						? explosionExpression != null
+				return EXPLOSION_EXPRESSION_EDEFAULT == null ? explosionExpression != null
 						: !EXPLOSION_EXPRESSION_EDEFAULT.equals( explosionExpression );
 			case TypePackage.PIE_SERIES__TITLE :
 				return title != null;
@@ -1034,6 +1039,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

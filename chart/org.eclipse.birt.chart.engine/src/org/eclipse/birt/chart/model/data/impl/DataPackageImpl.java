@@ -975,6 +975,10 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		XMLTypePackage theXMLTypePackage = (XMLTypePackage) EPackage.Registry.INSTANCE.getEPackage( XMLTypePackage.eNS_URI );
 		ComponentPackage theComponentPackage = (ComponentPackage) EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI );
 
+		// Create type parameters
+
+		// Set bounds for type parameters
+
 		// Add supertypes to classes
 		bubbleDataSetEClass.getESuperTypes( ).add( this.getDataSet( ) );
 		dateTimeDataElementEClass.getESuperTypes( )

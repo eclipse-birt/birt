@@ -87,6 +87,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 	 * @return whether this factory is applicable for the type of the object.
 	 * @generated
 	 */
+	@Override
 	public boolean isFactoryForType( Object object )
 	{
 		if ( object == modelPackage )
@@ -106,207 +107,247 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 	 * 
 	 * @generated
 	 */
-	protected AttributeSwitch modelSwitch = new AttributeSwitch( ) {
+	protected AttributeSwitch<Adapter> modelSwitch = new AttributeSwitch<Adapter>( ) {
 
-		public Object caseAccessibilityValue( AccessibilityValue object )
+		@Override
+		public Adapter caseAccessibilityValue( AccessibilityValue object )
 		{
 			return createAccessibilityValueAdapter( );
 		}
 
-		public Object caseActionValue( ActionValue object )
+		@Override
+		public Adapter caseActionValue( ActionValue object )
 		{
 			return createActionValueAdapter( );
 		}
 
-		public Object caseAngle3D( Angle3D object )
+		@Override
+		public Adapter caseAngle3D( Angle3D object )
 		{
 			return createAngle3DAdapter( );
 		}
 
-		public Object caseAxisOrigin( AxisOrigin object )
+		@Override
+		public Adapter caseAxisOrigin( AxisOrigin object )
 		{
 			return createAxisOriginAdapter( );
 		}
 
-		public Object caseBounds( Bounds object )
+		@Override
+		public Adapter caseBounds( Bounds object )
 		{
 			return createBoundsAdapter( );
 		}
 
-		public Object caseCallBackValue( CallBackValue object )
+		@Override
+		public Adapter caseCallBackValue( CallBackValue object )
 		{
 			return createCallBackValueAdapter( );
 		}
 
-		public Object caseColorDefinition( ColorDefinition object )
+		@Override
+		public Adapter caseColorDefinition( ColorDefinition object )
 		{
 			return createColorDefinitionAdapter( );
 		}
 
-		public Object caseDataPoint( DataPoint object )
+		@Override
+		public Adapter caseDataPoint( DataPoint object )
 		{
 			return createDataPointAdapter( );
 		}
 
-		public Object caseDataPointComponent( DataPointComponent object )
+		@Override
+		public Adapter caseDataPointComponent( DataPointComponent object )
 		{
 			return createDataPointComponentAdapter( );
 		}
 
-		public Object caseDateFormatSpecifier( DateFormatSpecifier object )
+		@Override
+		public Adapter caseDateFormatSpecifier( DateFormatSpecifier object )
 		{
 			return createDateFormatSpecifierAdapter( );
 		}
 
-		public Object caseEmbeddedImage( EmbeddedImage object )
+		@Override
+		public Adapter caseEmbeddedImage( EmbeddedImage object )
 		{
 			return createEmbeddedImageAdapter( );
 		}
 
-		public Object caseExtendedProperty( ExtendedProperty object )
+		@Override
+		public Adapter caseExtendedProperty( ExtendedProperty object )
 		{
 			return createExtendedPropertyAdapter( );
 		}
 
-		public Object caseFill( Fill object )
+		@Override
+		public Adapter caseFill( Fill object )
 		{
 			return createFillAdapter( );
 		}
 
-		public Object caseFontDefinition( FontDefinition object )
+		@Override
+		public Adapter caseFontDefinition( FontDefinition object )
 		{
 			return createFontDefinitionAdapter( );
 		}
 
-		public Object caseFormatSpecifier( FormatSpecifier object )
+		@Override
+		public Adapter caseFormatSpecifier( FormatSpecifier object )
 		{
 			return createFormatSpecifierAdapter( );
 		}
 
-		public Object caseFractionNumberFormatSpecifier(
+		@Override
+		public Adapter caseFractionNumberFormatSpecifier(
 				FractionNumberFormatSpecifier object )
 		{
 			return createFractionNumberFormatSpecifierAdapter( );
 		}
 
-		public Object caseGradient( Gradient object )
+		@Override
+		public Adapter caseGradient( Gradient object )
 		{
 			return createGradientAdapter( );
 		}
 
-		public Object caseImage( Image object )
+		@Override
+		public Adapter caseImage( Image object )
 		{
 			return createImageAdapter( );
 		}
 
-		public Object caseInsets( Insets object )
+		@Override
+		public Adapter caseInsets( Insets object )
 		{
 			return createInsetsAdapter( );
 		}
 
-		public Object caseInteractivity( Interactivity object )
+		@Override
+		public Adapter caseInteractivity( Interactivity object )
 		{
 			return createInteractivityAdapter( );
 		}
 
-		public Object caseJavaDateFormatSpecifier(
+		@Override
+		public Adapter caseJavaDateFormatSpecifier(
 				JavaDateFormatSpecifier object )
 		{
 			return createJavaDateFormatSpecifierAdapter( );
 		}
 
-		public Object caseJavaNumberFormatSpecifier(
+		@Override
+		public Adapter caseJavaNumberFormatSpecifier(
 				JavaNumberFormatSpecifier object )
 		{
 			return createJavaNumberFormatSpecifierAdapter( );
 		}
 
-		public Object caseLineAttributes( LineAttributes object )
+		@Override
+		public Adapter caseLineAttributes( LineAttributes object )
 		{
 			return createLineAttributesAdapter( );
 		}
 
-		public Object caseLocation( Location object )
+		@Override
+		public Adapter caseLocation( Location object )
 		{
 			return createLocationAdapter( );
 		}
 
-		public Object caseLocation3D( Location3D object )
+		@Override
+		public Adapter caseLocation3D( Location3D object )
 		{
 			return createLocation3DAdapter( );
 		}
 
-		public Object caseMarker( Marker object )
+		@Override
+		public Adapter caseMarker( Marker object )
 		{
 			return createMarkerAdapter( );
 		}
 
-		public Object caseMultipleFill( MultipleFill object )
+		@Override
+		public Adapter caseMultipleFill( MultipleFill object )
 		{
 			return createMultipleFillAdapter( );
 		}
 
-		public Object caseNumberFormatSpecifier( NumberFormatSpecifier object )
+		@Override
+		public Adapter caseNumberFormatSpecifier( NumberFormatSpecifier object )
 		{
 			return createNumberFormatSpecifierAdapter( );
 		}
 
-		public Object casePalette( Palette object )
+		@Override
+		public Adapter casePalette( Palette object )
 		{
 			return createPaletteAdapter( );
 		}
 
-		public Object caseRotation3D( Rotation3D object )
+		@Override
+		public Adapter caseRotation3D( Rotation3D object )
 		{
 			return createRotation3DAdapter( );
 		}
 
-		public Object caseScriptValue( ScriptValue object )
+		@Override
+		public Adapter caseScriptValue( ScriptValue object )
 		{
 			return createScriptValueAdapter( );
 		}
 
-		public Object caseSeriesValue( SeriesValue object )
+		@Override
+		public Adapter caseSeriesValue( SeriesValue object )
 		{
 			return createSeriesValueAdapter( );
 		}
 
-		public Object caseSize( Size object )
+		@Override
+		public Adapter caseSize( Size object )
 		{
 			return createSizeAdapter( );
 		}
 
-		public Object caseStyle( Style object )
+		@Override
+		public Adapter caseStyle( Style object )
 		{
 			return createStyleAdapter( );
 		}
 
-		public Object caseStyleMap( StyleMap object )
+		@Override
+		public Adapter caseStyleMap( StyleMap object )
 		{
 			return createStyleMapAdapter( );
 		}
 
-		public Object caseText( Text object )
+		@Override
+		public Adapter caseText( Text object )
 		{
 			return createTextAdapter( );
 		}
 
-		public Object caseTextAlignment( TextAlignment object )
+		@Override
+		public Adapter caseTextAlignment( TextAlignment object )
 		{
 			return createTextAlignmentAdapter( );
 		}
 
-		public Object caseTooltipValue( TooltipValue object )
+		@Override
+		public Adapter caseTooltipValue( TooltipValue object )
 		{
 			return createTooltipValueAdapter( );
 		}
 
-		public Object caseURLValue( URLValue object )
+		@Override
+		public Adapter caseURLValue( URLValue object )
 		{
 			return createURLValueAdapter( );
 		}
 
-		public Object defaultCase( EObject object )
+		@Override
+		public Adapter defaultCase( EObject object )
 		{
 			return createEObjectAdapter( );
 		}
@@ -320,9 +361,10 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
 	 */
+	@Override
 	public Adapter createAdapter( Notifier target )
 	{
-		return (Adapter) modelSwitch.doSwitch( (EObject) target );
+		return modelSwitch.doSwitch( (EObject) target );
 	}
 
 	/**

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: FractionNumberFormatSpecifier.java,v 1.1 2006/12/28 03:49:24 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -53,7 +53,7 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier
 	 * @see #unsetPrecise()
 	 * @see #setPrecise(boolean)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getFractionNumberFormatSpecifier_Precise()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
 	 *        extendedMetaData="kind='element' name='Precise'"
 	 * @generated
 	 */
@@ -107,7 +107,7 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier
 	 * @see #unsetFractionDigits()
 	 * @see #setFractionDigits(int)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getFractionNumberFormatSpecifier_FractionDigits()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
 	 *        extendedMetaData="kind='element' name='FractionDigits'"
 	 * @generated
 	 */
@@ -160,7 +160,7 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier
 	 * @see #unsetNumerator()
 	 * @see #setNumerator(double)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getFractionNumberFormatSpecifier_Numerator()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
 	 *        extendedMetaData="kind='element' name='Numerator'"
 	 * @generated
 	 */
@@ -211,7 +211,7 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier
 	 * @return the value of the '<em>Prefix</em>' attribute.
 	 * @see #setPrefix(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getFractionNumberFormatSpecifier_Prefix()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
 	 *        extendedMetaData="kind='element' name='Prefix'"
 	 * @generated
 	 */
@@ -237,7 +237,7 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier
 	 * @return the value of the '<em>Suffix</em>' attribute.
 	 * @see #setSuffix(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getFractionNumberFormatSpecifier_Suffix()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
 	 *        extendedMetaData="kind='element' name='Suffix'"
 	 * @generated
 	 */
@@ -266,7 +266,7 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier
 	 * @see #unsetDelimiter()
 	 * @see #setDelimiter(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getFractionNumberFormatSpecifier_Delimiter()
-	 * @model default="/" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model default="/" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
 	 *        extendedMetaData="kind='element' name='Delimiter'"
 	 * @generated
 	 */

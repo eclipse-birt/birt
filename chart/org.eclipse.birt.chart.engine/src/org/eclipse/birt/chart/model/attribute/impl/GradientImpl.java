@@ -48,7 +48,7 @@ public class GradientImpl extends FillImpl implements Gradient
 	 * @generated
 	 * @ordered
 	 */
-	protected ColorDefinition startColor = null;
+	protected ColorDefinition startColor;
 
 	/**
 	 * The cached value of the '{@link #getEndColor() <em>End Color</em>}' containment reference.
@@ -57,7 +57,7 @@ public class GradientImpl extends FillImpl implements Gradient
 	 * @generated
 	 * @ordered
 	 */
-	protected ColorDefinition endColor = null;
+	protected ColorDefinition endColor;
 
 	/**
 	 * The default value of the '{@link #getDirection() <em>Direction</em>}' attribute.
@@ -84,7 +84,7 @@ public class GradientImpl extends FillImpl implements Gradient
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean directionESet = false;
+	protected boolean directionESet;
 
 	/**
 	 * The default value of the '{@link #isCyclic() <em>Cyclic</em>}' attribute.
@@ -111,7 +111,7 @@ public class GradientImpl extends FillImpl implements Gradient
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean cyclicESet = false;
+	protected boolean cyclicESet;
 
 	/**
 	 * The default value of the '
@@ -142,7 +142,7 @@ public class GradientImpl extends FillImpl implements Gradient
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean transparencyESet = false;
+	protected boolean transparencyESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -157,6 +157,7 @@ public class GradientImpl extends FillImpl implements Gradient
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.GRADIENT;
@@ -467,6 +468,7 @@ public class GradientImpl extends FillImpl implements Gradient
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -485,6 +487,7 @@ public class GradientImpl extends FillImpl implements Gradient
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -508,6 +511,7 @@ public class GradientImpl extends FillImpl implements Gradient
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -536,6 +540,7 @@ public class GradientImpl extends FillImpl implements Gradient
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -564,6 +569,7 @@ public class GradientImpl extends FillImpl implements Gradient
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -586,6 +592,7 @@ public class GradientImpl extends FillImpl implements Gradient
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

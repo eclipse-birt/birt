@@ -68,7 +68,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	 * @generated
 	 * @ordered
 	 */
-	protected LineAttributes outline = null;
+	protected LineAttributes outline;
 
 	/**
 	 * The cached value of the '{@link #getFill() <em>Fill</em>}' containment reference.
@@ -77,7 +77,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	 * @generated
 	 * @ordered
 	 */
-	protected Fill fill = null;
+	protected Fill fill;
 
 	/**
 	 * The cached value of the '{@link #getStartValue() <em>Start Value</em>}' containment reference.
@@ -86,7 +86,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	 * @generated
 	 * @ordered
 	 */
-	protected DataElement startValue = null;
+	protected DataElement startValue;
 
 	/**
 	 * The cached value of the '{@link #getEndValue() <em>End Value</em>}' containment reference.
@@ -95,7 +95,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	 * @generated
 	 * @ordered
 	 */
-	protected DataElement endValue = null;
+	protected DataElement endValue;
 
 	/**
 	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
@@ -104,7 +104,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	 * @generated
 	 * @ordered
 	 */
-	protected Label label = null;
+	protected Label label;
 
 	/**
 	 * The default value of the '
@@ -133,7 +133,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean labelAnchorESet = false;
+	protected boolean labelAnchorESet;
 
 	/**
 	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}' containment reference.
@@ -142,7 +142,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	 * @generated
 	 * @ordered
 	 */
-	protected FormatSpecifier formatSpecifier = null;
+	protected FormatSpecifier formatSpecifier;
 
 	/**
 	 * The cached value of the '{@link #getTriggers() <em>Triggers</em>}' containment reference list.
@@ -152,7 +152,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	 * @generated
 	 * @ordered
 	 */
-	protected EList triggers = null;
+	protected EList<Trigger> triggers;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -167,6 +167,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return ComponentPackage.Literals.MARKER_RANGE;
@@ -629,11 +630,11 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getTriggers( )
+	public EList<Trigger> getTriggers( )
 	{
 		if ( triggers == null )
 		{
-			triggers = new EObjectContainmentEList( Trigger.class,
+			triggers = new EObjectContainmentEList<Trigger>( Trigger.class,
 					this,
 					ComponentPackage.MARKER_RANGE__TRIGGERS );
 		}
@@ -645,6 +646,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -663,7 +665,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 			case ComponentPackage.MARKER_RANGE__FORMAT_SPECIFIER :
 				return basicSetFormatSpecifier( null, msgs );
 			case ComponentPackage.MARKER_RANGE__TRIGGERS :
-				return ( (InternalEList) getTriggers( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getTriggers( ) ).basicRemove( otherEnd,
 						msgs );
 		}
 		return super.eInverseRemove( otherEnd, featureID, msgs );
@@ -674,6 +676,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -703,6 +706,8 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -730,7 +735,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 				return;
 			case ComponentPackage.MARKER_RANGE__TRIGGERS :
 				getTriggers( ).clear( );
-				getTriggers( ).addAll( (Collection) newValue );
+				getTriggers( ).addAll( (Collection<? extends Trigger>) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -741,6 +746,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -778,6 +784,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -806,6 +813,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )
@@ -834,7 +842,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	{
 		return create( ax, deStart, deEnd, fillColor, null );
 	}
-	
+
 	/**
 	 * A convenience method provided to add a marker range instance to an axis
 	 * 
@@ -845,7 +853,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	 * @param outlineColor outline color.
 	 */
 	public static final MarkerRange create( Axis ax, DataElement deStart,
-			DataElement deEnd, Fill fillColor , ColorDefinition outlineColor )
+			DataElement deEnd, Fill fillColor, ColorDefinition outlineColor )
 	{
 		final MarkerRange mr = ComponentFactory.eINSTANCE.createMarkerRange( );
 		final LineAttributes liaOutline = LineAttributesImpl.create( outlineColor,

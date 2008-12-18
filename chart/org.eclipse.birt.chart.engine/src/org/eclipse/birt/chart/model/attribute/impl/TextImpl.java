@@ -66,7 +66,7 @@ public class TextImpl extends EObjectImpl implements Text
 	 * @generated
 	 * @ordered
 	 */
-	protected FontDefinition font = null;
+	protected FontDefinition font;
 
 	/**
 	 * The cached value of the '{@link #getColor() <em>Color</em>}' containment reference.
@@ -75,7 +75,7 @@ public class TextImpl extends EObjectImpl implements Text
 	 * @generated
 	 * @ordered
 	 */
-	protected ColorDefinition color = null;
+	protected ColorDefinition color;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -90,6 +90,7 @@ public class TextImpl extends EObjectImpl implements Text
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.TEXT;
@@ -252,6 +253,7 @@ public class TextImpl extends EObjectImpl implements Text
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -269,6 +271,7 @@ public class TextImpl extends EObjectImpl implements Text
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -287,6 +290,7 @@ public class TextImpl extends EObjectImpl implements Text
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -308,6 +312,7 @@ public class TextImpl extends EObjectImpl implements Text
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -329,6 +334,7 @@ public class TextImpl extends EObjectImpl implements Text
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -348,6 +354,7 @@ public class TextImpl extends EObjectImpl implements Text
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

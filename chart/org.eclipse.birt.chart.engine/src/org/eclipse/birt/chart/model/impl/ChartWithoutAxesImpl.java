@@ -57,7 +57,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	 * @generated
 	 * @ordered
 	 */
-	protected EList seriesDefinitions;
+	protected EList<SeriesDefinition> seriesDefinitions;
 
 	/**
 	 * The default value of the '{@link #getMinSlice() <em>Min Slice</em>}' attribute.
@@ -173,6 +173,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return ModelPackage.Literals.CHART_WITHOUT_AXES;
@@ -182,11 +183,11 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getSeriesDefinitions( )
+	public EList<SeriesDefinition> getSeriesDefinitions( )
 	{
 		if ( seriesDefinitions == null )
 		{
-			seriesDefinitions = new EObjectContainmentEList( SeriesDefinition.class,
+			seriesDefinitions = new EObjectContainmentEList<SeriesDefinition>( SeriesDefinition.class,
 					this,
 					ModelPackage.CHART_WITHOUT_AXES__SERIES_DEFINITIONS );
 		}
@@ -395,13 +396,14 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
 		switch ( featureID )
 		{
 			case ModelPackage.CHART_WITHOUT_AXES__SERIES_DEFINITIONS :
-				return ( (InternalEList) getSeriesDefinitions( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getSeriesDefinitions( ) ).basicRemove( otherEnd,
 						msgs );
 		}
 		return super.eInverseRemove( otherEnd, featureID, msgs );
@@ -412,6 +414,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -435,13 +438,15 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
 		{
 			case ModelPackage.CHART_WITHOUT_AXES__SERIES_DEFINITIONS :
 				getSeriesDefinitions( ).clear( );
-				getSeriesDefinitions( ).addAll( (Collection) newValue );
+				getSeriesDefinitions( ).addAll( (Collection<? extends SeriesDefinition>) newValue );
 				return;
 			case ModelPackage.CHART_WITHOUT_AXES__MIN_SLICE :
 				setMinSlice( ( (Double) newValue ).doubleValue( ) );
@@ -464,6 +469,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -492,6 +498,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -516,6 +523,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

@@ -49,7 +49,7 @@ public interface ExtendedProperty extends EObject
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getExtendedProperty_Name()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
 	 *        extendedMetaData="kind='element' name='Name'"
 	 * @generated
 	 */
@@ -75,7 +75,7 @@ public interface ExtendedProperty extends EObject
 	 * @return the value of the '<em>Value</em>' attribute.
 	 * @see #setValue(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getExtendedProperty_Value()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
 	 *        extendedMetaData="kind='element' name='Value'"
 	 * @generated
 	 */

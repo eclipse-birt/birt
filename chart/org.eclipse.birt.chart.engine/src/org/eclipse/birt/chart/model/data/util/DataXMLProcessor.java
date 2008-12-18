@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DataXMLProcessor.java,v 1.1 2006/12/28 03:49:33 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.data.util;
@@ -13,6 +13,7 @@ import org.eclipse.birt.chart.model.data.DataPackage;
 
 import org.eclipse.emf.ecore.EPackage;
 
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.util.XMLProcessor;
 
 /**
@@ -42,7 +43,8 @@ public class DataXMLProcessor extends XMLProcessor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected Map getRegistrations( )
+	@Override
+	protected Map<String, Resource.Factory> getRegistrations( )
 	{
 		if ( registrations == null )
 		{

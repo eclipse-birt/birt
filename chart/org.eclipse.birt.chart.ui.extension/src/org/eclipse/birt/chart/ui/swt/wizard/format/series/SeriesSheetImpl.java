@@ -19,7 +19,6 @@ import java.util.List;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
@@ -42,10 +41,10 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesPaletteShe
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -209,7 +208,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			lblTranslucent.setText( Messages.getString( "SeriesSheetImpl.Label.Translucent" ) ); //$NON-NLS-1$
 		}
 
-		List seriesDefns = ChartUIUtil.getBaseSeriesDefinitions( getChart( ) );
+		List<SeriesDefinition> seriesDefns = ChartUIUtil.getBaseSeriesDefinitions( getChart( ) );
 		int treeIndex = 0;
 
 		if ( getValueSeriesDefinition( )[0].getSeries( ).get( 0 ) instanceof PieSeries )
@@ -224,7 +223,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			}
 		}
 
-		List allSeriesDefns = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) );
+		List<SeriesDefinition> allSeriesDefns = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) );
 
 		String text = getChart( ) instanceof ChartWithAxes ? Messages.getString( "SeriesSheetImpl.Label.ValueYSeries" ) : Messages.getString( "SeriesSheetImpl.Label.ValueOrthogonalSeries" ); //$NON-NLS-1$ //$NON-NLS-2$
 		boolean canStack;
@@ -236,7 +235,9 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 					i );
 			for ( int j = 0; j < seriesDefns.size( ); j++ )
 			{
-				if ( !( ( (SeriesDefinition) seriesDefns.get( j ) ).getDesignTimeSeries( ) ).canBeStacked( ) )
+				if ( !seriesDefns.get( j )
+						.getDesignTimeSeries( )
+						.canBeStacked( ) )
 				{
 					canStack = false;
 					break;
@@ -366,7 +367,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				linkSeries.addSelectionListener( this );
 			}
 
-			List keys = null;
+			List<String> keys = null;
 			if ( getContext( ).getUIServiceProvider( ) != null )
 			{
 				keys = getContext( ).getUIServiceProvider( )
@@ -658,7 +659,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				}
 				else
 				{
-					List seriesDefns;
+					List<SeriesDefinition> seriesDefns;
 					if ( getContext( ).isMoreAxesSupported( )
 							|| ChartUIUtil.getOrthogonalAxisNumber( getChart( ) ) > 2 )
 					{
@@ -670,7 +671,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 						seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions( getChart( ),
 								axisIndex );
 					}
-					Series s = ( (SeriesDefinition) seriesDefns.get( 0 ) ).getDesignTimeSeries( );
+					Series s = seriesDefns.get( 0 ).getDesignTimeSeries( );
 					if ( s != seriesDefn.getDesignTimeSeries( ) )
 					{
 						cmbTypes.setEnabled( true );
@@ -696,9 +697,9 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			ChartDimension cd = getChart( ).getDimension( );
 			if ( ( cd == ChartDimension.TWO_DIMENSIONAL_LITERAL || cd == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL ) )
 			{
-				List seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions( getChart( ),
+				List<SeriesDefinition> seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions( getChart( ),
 						axisIndex );
-				Series s = ( (SeriesDefinition) seriesDefns.get( 0 ) ).getDesignTimeSeries( );
+				Series s = seriesDefns.get( 0 ).getDesignTimeSeries( );
 				if ( s.getDisplayName( )
 						.equals( seriesDefn.getDesignTimeSeries( )
 								.getDisplayName( ) ) )
@@ -751,12 +752,10 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 					bsd.getSeriesPalette( ).shift( 0 );
 					for ( int i = 0; i < osds.length; i++ )
 					{
-						bsd.getSeriesPalette( )
-								.getEntries( )
-								.set( i,
-										EcoreUtil.copy( (Fill) osds[i].getSeriesPalette( )
-												.getEntries( )
-												.get( 0 ) ) );
+						bsd.getSeriesPalette( ).getEntries( ).set( i,
+								ChartUtil.eCopy( osds[i].getSeriesPalette( )
+										.getEntries( )
+										.get( 0 ) ) );
 					}
 					( (SeriesPaletteSheet) popup ).setCategorySeries( bsd );
 

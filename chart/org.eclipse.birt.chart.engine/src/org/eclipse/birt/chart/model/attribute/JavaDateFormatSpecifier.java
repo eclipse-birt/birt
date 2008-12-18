@@ -51,7 +51,7 @@ public interface JavaDateFormatSpecifier extends FormatSpecifier
 	 * @return the value of the '<em>Pattern</em>' attribute.
 	 * @see #setPattern(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getJavaDateFormatSpecifier_Pattern()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
 	 *        extendedMetaData="kind='element' name='Pattern'"
 	 * @generated
 	 */

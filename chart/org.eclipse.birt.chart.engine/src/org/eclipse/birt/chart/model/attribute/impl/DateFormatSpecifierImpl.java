@@ -41,9 +41,8 @@ import com.ibm.icu.util.ULocale;
  *
  * @generated
  */
-public class DateFormatSpecifierImpl extends FormatSpecifierImpl
-		implements
-			DateFormatSpecifier
+public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
+		DateFormatSpecifier
 {
 
 	/**
@@ -71,7 +70,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean typeESet = false;
+	protected boolean typeESet;
 
 	/**
 	 * The default value of the '{@link #getDetail() <em>Detail</em>}' attribute.
@@ -98,7 +97,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean detailESet = false;
+	protected boolean detailESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -113,6 +112,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.DATE_FORMAT_SPECIFIER;
@@ -122,6 +122,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )
@@ -286,6 +287,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -303,6 +305,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -322,6 +325,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -341,6 +345,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )

@@ -40,6 +40,7 @@ public class FormatSpecifierImpl extends EObjectImpl implements FormatSpecifier
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.FORMAT_SPECIFIER;

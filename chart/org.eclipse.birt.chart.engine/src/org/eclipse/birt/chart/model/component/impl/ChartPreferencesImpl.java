@@ -49,7 +49,7 @@ public class ChartPreferencesImpl extends EObjectImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected EList labels = null;
+	protected EList<Label> labels;
 
 	/**
 	 * The cached value of the '{@link #getBlocks() <em>Blocks</em>}' containment reference list.
@@ -58,7 +58,7 @@ public class ChartPreferencesImpl extends EObjectImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected EList blocks = null;
+	protected EList<Block> blocks;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -73,6 +73,7 @@ public class ChartPreferencesImpl extends EObjectImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return ComponentPackage.Literals.CHART_PREFERENCES;
@@ -82,11 +83,11 @@ public class ChartPreferencesImpl extends EObjectImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getLabels( )
+	public EList<Label> getLabels( )
 	{
 		if ( labels == null )
 		{
-			labels = new EObjectContainmentEList( Label.class,
+			labels = new EObjectContainmentEList<Label>( Label.class,
 					this,
 					ComponentPackage.CHART_PREFERENCES__LABELS );
 		}
@@ -97,11 +98,11 @@ public class ChartPreferencesImpl extends EObjectImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getBlocks( )
+	public EList<Block> getBlocks( )
 	{
 		if ( blocks == null )
 		{
-			blocks = new EObjectContainmentEList( Block.class,
+			blocks = new EObjectContainmentEList<Block>( Block.class,
 					this,
 					ComponentPackage.CHART_PREFERENCES__BLOCKS );
 		}
@@ -113,16 +114,17 @@ public class ChartPreferencesImpl extends EObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
 		switch ( featureID )
 		{
 			case ComponentPackage.CHART_PREFERENCES__LABELS :
-				return ( (InternalEList) getLabels( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getLabels( ) ).basicRemove( otherEnd,
 						msgs );
 			case ComponentPackage.CHART_PREFERENCES__BLOCKS :
-				return ( (InternalEList) getBlocks( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getBlocks( ) ).basicRemove( otherEnd,
 						msgs );
 		}
 		return super.eInverseRemove( otherEnd, featureID, msgs );
@@ -133,6 +135,7 @@ public class ChartPreferencesImpl extends EObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -150,17 +153,19 @@ public class ChartPreferencesImpl extends EObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
 		{
 			case ComponentPackage.CHART_PREFERENCES__LABELS :
 				getLabels( ).clear( );
-				getLabels( ).addAll( (Collection) newValue );
+				getLabels( ).addAll( (Collection<? extends Label>) newValue );
 				return;
 			case ComponentPackage.CHART_PREFERENCES__BLOCKS :
 				getBlocks( ).clear( );
-				getBlocks( ).addAll( (Collection) newValue );
+				getBlocks( ).addAll( (Collection<? extends Block>) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -171,6 +176,7 @@ public class ChartPreferencesImpl extends EObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -190,6 +196,7 @@ public class ChartPreferencesImpl extends EObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )

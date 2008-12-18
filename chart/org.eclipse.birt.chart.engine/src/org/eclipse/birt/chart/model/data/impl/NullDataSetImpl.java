@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EClass;
  * <!-- end-user-doc -->
  * <p>
  * </p>
- * 
+ *
  * @generated
  */
 public class NullDataSetImpl extends DataSetImpl implements NullDataSet
@@ -29,7 +29,6 @@ public class NullDataSetImpl extends DataSetImpl implements NullDataSet
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected NullDataSetImpl( )
@@ -39,9 +38,9 @@ public class NullDataSetImpl extends DataSetImpl implements NullDataSet
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return DataPackage.Literals.NULL_DATA_SET;

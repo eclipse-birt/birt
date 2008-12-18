@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
@@ -31,8 +31,61 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class AxisType extends AbstractEnumerator
-{
+public enum AxisType implements Enumerator {
+	/**
+	 * The '<em><b>Linear</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Linear</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #LINEAR
+	 * @generated
+	 * @ordered
+	 */
+	LINEAR_LITERAL(0, "Linear", "Linear"),
+	/**
+	 * The '<em><b>Logarithmic</b></em>' literal object. <!--
+	 * begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Logarithmic</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * 
+	 * @see #LOGARITHMIC
+	 * @generated
+	 * @ordered
+	 */
+	LOGARITHMIC_LITERAL(1, "Logarithmic", "Logarithmic"),
+	/**
+	 * The '<em><b>Text</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Text</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #TEXT
+	 * @generated
+	 * @ordered
+	 */
+	TEXT_LITERAL(2, "Text", "Text"),
+	/**
+	 * The '<em><b>Date Time</b></em>' literal object.
+	 * <!-- begin-user-doc
+	 * -->
+	 * <p>
+	 * If the meaning of '<em><b>Date Time</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DATE_TIME
+	 * @generated
+	 * @ordered
+	 */
+	DATE_TIME_LITERAL(3, "DateTime", "DateTime");
 
 	/**
 	 * The '<em><b>Linear</b></em>' literal value.
@@ -79,68 +132,6 @@ public final class AxisType extends AbstractEnumerator
 	public static final int DATE_TIME = 3;
 
 	/**
-	 * The '<em><b>Linear</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Linear</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #LINEAR
-	 * @generated
-	 * @ordered
-	 */
-	public static final AxisType LINEAR_LITERAL = new AxisType( LINEAR,
-			"Linear", "Linear" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Logarithmic</b></em>' literal object. <!--
-	 * begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Logarithmic</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * 
-	 * @see #LOGARITHMIC
-	 * @generated
-	 * @ordered
-	 */
-	public static final AxisType LOGARITHMIC_LITERAL = new AxisType( LOGARITHMIC,
-			"Logarithmic", "Logarithmic" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Text</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Text</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #TEXT
-	 * @generated
-	 * @ordered
-	 */
-	public static final AxisType TEXT_LITERAL = new AxisType( TEXT,
-			"Text", "Text" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Date Time</b></em>' literal object.
-	 * <!-- begin-user-doc
-	 * -->
-	 * <p>
-	 * If the meaning of '<em><b>Date Time</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #DATE_TIME
-	 * @generated
-	 * @ordered
-	 */
-	public static final AxisType DATE_TIME_LITERAL = new AxisType( DATE_TIME,
-			"DateTime", "DateTime" ); //$NON-NLS-1$
-
-	/**
 	 * An array of all the '<em><b>Axis Type</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -158,7 +149,7 @@ public final class AxisType extends AbstractEnumerator
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<AxisType> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
 	 * Returns the '<em><b>Axis Type</b></em>' literal with the specified literal value.
@@ -219,6 +210,27 @@ public final class AxisType extends AbstractEnumerator
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final int value;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String name;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String literal;
+
+	/**
 	 * Only this class can construct instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -226,7 +238,50 @@ public final class AxisType extends AbstractEnumerator
 	 */
 	private AxisType( int value, String name, String literal )
 	{
-		super( value, name, literal );
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
 	}
 
-} //AxisType
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getValue( )
+	{
+		return value;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName( )
+	{
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLiteral( )
+	{
+		return literal;
+	}
+
+	/**
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString( )
+	{
+		return literal;
+	}
+}

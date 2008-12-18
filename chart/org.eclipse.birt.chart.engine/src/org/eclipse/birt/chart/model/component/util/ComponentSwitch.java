@@ -17,6 +17,7 @@ import java.util.Map;
 
 import org.eclipse.birt.chart.model.component.*;
 
+import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ChartPreferences;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
@@ -37,7 +38,7 @@ import org.eclipse.emf.ecore.EObject;
  * @see org.eclipse.birt.chart.model.component.ComponentPackage
  * @generated
  */
-public class ComponentSwitch
+public class ComponentSwitch<T>
 {
 
 	/**
@@ -66,7 +67,7 @@ public class ComponentSwitch
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	public Object doSwitch( EObject theEObject )
+	public T doSwitch( EObject theEObject )
 	{
 		return doSwitch( theEObject.eClass( ), theEObject );
 	}
@@ -77,7 +78,7 @@ public class ComponentSwitch
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected Object doSwitch( EClass theEClass, EObject theEObject )
+	protected T doSwitch( EClass theEClass, EObject theEObject )
 	{
 		if ( theEClass.eContainer( ) == modelPackage )
 		{
@@ -85,9 +86,9 @@ public class ComponentSwitch
 		}
 		else
 		{
-			List eSuperTypes = theEClass.getESuperTypes( );
+			List<EClass> eSuperTypes = theEClass.getESuperTypes( );
 			return eSuperTypes.isEmpty( ) ? defaultCase( theEObject )
-					: doSwitch( (EClass) eSuperTypes.get( 0 ), theEObject );
+					: doSwitch( eSuperTypes.get( 0 ), theEObject );
 		}
 	}
 
@@ -97,14 +98,14 @@ public class ComponentSwitch
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected Object doSwitch( int classifierID, EObject theEObject )
+	protected T doSwitch( int classifierID, EObject theEObject )
 	{
 		switch ( classifierID )
 		{
 			case ComponentPackage.AXIS :
 			{
 				Axis axis = (Axis) theEObject;
-				Object result = caseAxis( axis );
+				T result = caseAxis( axis );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -112,7 +113,7 @@ public class ComponentSwitch
 			case ComponentPackage.CHART_PREFERENCES :
 			{
 				ChartPreferences chartPreferences = (ChartPreferences) theEObject;
-				Object result = caseChartPreferences( chartPreferences );
+				T result = caseChartPreferences( chartPreferences );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -120,7 +121,7 @@ public class ComponentSwitch
 			case ComponentPackage.CURVE_FITTING :
 			{
 				CurveFitting curveFitting = (CurveFitting) theEObject;
-				Object result = caseCurveFitting( curveFitting );
+				T result = caseCurveFitting( curveFitting );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -128,7 +129,7 @@ public class ComponentSwitch
 			case ComponentPackage.DIAL :
 			{
 				Dial dial = (Dial) theEObject;
-				Object result = caseDial( dial );
+				T result = caseDial( dial );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -136,7 +137,7 @@ public class ComponentSwitch
 			case ComponentPackage.DIAL_REGION :
 			{
 				DialRegion dialRegion = (DialRegion) theEObject;
-				Object result = caseDialRegion( dialRegion );
+				T result = caseDialRegion( dialRegion );
 				if ( result == null )
 					result = caseMarkerRange( dialRegion );
 				if ( result == null )
@@ -145,8 +146,9 @@ public class ComponentSwitch
 			}
 			case ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY :
 			{
-				Map.Entry eStringToDataSetMapEntry = (Map.Entry) theEObject;
-				Object result = caseEStringToDataSetMapEntry( eStringToDataSetMapEntry );
+				@SuppressWarnings("unchecked")
+				Map.Entry<String, DataSet> eStringToDataSetMapEntry = (Map.Entry<String, DataSet>) theEObject;
+				T result = caseEStringToDataSetMapEntry( eStringToDataSetMapEntry );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -154,7 +156,7 @@ public class ComponentSwitch
 			case ComponentPackage.GRID :
 			{
 				Grid grid = (Grid) theEObject;
-				Object result = caseGrid( grid );
+				T result = caseGrid( grid );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -162,7 +164,7 @@ public class ComponentSwitch
 			case ComponentPackage.LABEL :
 			{
 				Label label = (Label) theEObject;
-				Object result = caseLabel( label );
+				T result = caseLabel( label );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -170,7 +172,7 @@ public class ComponentSwitch
 			case ComponentPackage.MARKER_LINE :
 			{
 				MarkerLine markerLine = (MarkerLine) theEObject;
-				Object result = caseMarkerLine( markerLine );
+				T result = caseMarkerLine( markerLine );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -178,7 +180,7 @@ public class ComponentSwitch
 			case ComponentPackage.MARKER_RANGE :
 			{
 				MarkerRange markerRange = (MarkerRange) theEObject;
-				Object result = caseMarkerRange( markerRange );
+				T result = caseMarkerRange( markerRange );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -186,7 +188,7 @@ public class ComponentSwitch
 			case ComponentPackage.NEEDLE :
 			{
 				Needle needle = (Needle) theEObject;
-				Object result = caseNeedle( needle );
+				T result = caseNeedle( needle );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -194,7 +196,7 @@ public class ComponentSwitch
 			case ComponentPackage.SCALE :
 			{
 				Scale scale = (Scale) theEObject;
-				Object result = caseScale( scale );
+				T result = caseScale( scale );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -202,7 +204,7 @@ public class ComponentSwitch
 			case ComponentPackage.SERIES :
 			{
 				Series series = (Series) theEObject;
-				Object result = caseSeries( series );
+				T result = caseSeries( series );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -221,7 +223,7 @@ public class ComponentSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseAxis( Axis object )
+	public T caseAxis( Axis object )
 	{
 		return null;
 	}
@@ -237,7 +239,7 @@ public class ComponentSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseChartPreferences( ChartPreferences object )
+	public T caseChartPreferences( ChartPreferences object )
 	{
 		return null;
 	}
@@ -253,7 +255,7 @@ public class ComponentSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCurveFitting( CurveFitting object )
+	public T caseCurveFitting( CurveFitting object )
 	{
 		return null;
 	}
@@ -269,7 +271,7 @@ public class ComponentSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseDial( Dial object )
+	public T caseDial( Dial object )
 	{
 		return null;
 	}
@@ -285,7 +287,7 @@ public class ComponentSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseDialRegion( DialRegion object )
+	public T caseDialRegion( DialRegion object )
 	{
 		return null;
 	}
@@ -299,7 +301,7 @@ public class ComponentSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseGrid( Grid object )
+	public T caseGrid( Grid object )
 	{
 		return null;
 	}
@@ -313,7 +315,7 @@ public class ComponentSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseLabel( Label object )
+	public T caseLabel( Label object )
 	{
 		return null;
 	}
@@ -329,7 +331,7 @@ public class ComponentSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseMarkerLine( MarkerLine object )
+	public T caseMarkerLine( MarkerLine object )
 	{
 		return null;
 	}
@@ -345,7 +347,7 @@ public class ComponentSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseMarkerRange( MarkerRange object )
+	public T caseMarkerRange( MarkerRange object )
 	{
 		return null;
 	}
@@ -361,7 +363,7 @@ public class ComponentSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseNeedle( Needle object )
+	public T caseNeedle( Needle object )
 	{
 		return null;
 	}
@@ -375,7 +377,7 @@ public class ComponentSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseScale( Scale object )
+	public T caseScale( Scale object )
 	{
 		return null;
 	}
@@ -389,7 +391,7 @@ public class ComponentSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseSeries( Series object )
+	public T caseSeries( Series object )
 	{
 		return null;
 	}
@@ -405,7 +407,7 @@ public class ComponentSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseEStringToDataSetMapEntry( Map.Entry object )
+	public T caseEStringToDataSetMapEntry( Map.Entry<String, DataSet> object )
 	{
 		return null;
 	}
@@ -420,7 +422,7 @@ public class ComponentSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
-	public Object defaultCase( EObject object )
+	public T defaultCase( EObject object )
 	{
 		return null;
 	}

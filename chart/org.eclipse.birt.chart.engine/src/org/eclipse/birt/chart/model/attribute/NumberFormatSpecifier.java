@@ -53,7 +53,7 @@ public interface NumberFormatSpecifier extends FormatSpecifier
 	 * @return the value of the '<em>Prefix</em>' attribute.
 	 * @see #setPrefix(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getNumberFormatSpecifier_Prefix()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
 	 *        extendedMetaData="kind='element' name='Prefix'"
 	 * @generated
 	 */
@@ -82,7 +82,7 @@ public interface NumberFormatSpecifier extends FormatSpecifier
 	 * @return the value of the '<em>Suffix</em>' attribute.
 	 * @see #setSuffix(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getNumberFormatSpecifier_Suffix()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
 	 *        extendedMetaData="kind='element' name='Suffix'"
 	 * @generated
 	 */

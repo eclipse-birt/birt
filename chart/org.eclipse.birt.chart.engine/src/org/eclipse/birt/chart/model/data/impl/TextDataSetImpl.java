@@ -40,6 +40,7 @@ public class TextDataSetImpl extends DataSetImpl implements TextDataSet
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return DataPackage.Literals.TEXT_DATA_SET;

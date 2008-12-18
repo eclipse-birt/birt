@@ -76,7 +76,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected EList markers = null;
+	protected EList<Marker> markers;
 
 	/**
 	 * The cached value of the '{@link #getMarker() <em>Marker</em>}' containment reference.
@@ -85,7 +85,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected Marker marker = null;
+	protected Marker marker;
 
 	/**
 	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}' containment reference.
@@ -94,7 +94,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected LineAttributes lineAttributes = null;
+	protected LineAttributes lineAttributes;
 
 	/**
 	 * The default value of the '{@link #isPaletteLineColor() <em>Palette Line Color</em>}' attribute.
@@ -121,7 +121,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean paletteLineColorESet = false;
+	protected boolean paletteLineColorESet;
 
 	/**
 	 * The default value of the '{@link #isCurve() <em>Curve</em>}' attribute.
@@ -148,7 +148,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean curveESet = false;
+	protected boolean curveESet;
 
 	/**
 	 * The cached value of the '{@link #getShadowColor() <em>Shadow Color</em>}' containment reference.
@@ -157,7 +157,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected ColorDefinition shadowColor = null;
+	protected ColorDefinition shadowColor;
 
 	/**
 	 * The default value of the '{@link #isConnectMissingValue() <em>Connect Missing Value</em>}' attribute.
@@ -184,7 +184,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean connectMissingValueESet = false;
+	protected boolean connectMissingValueESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -199,6 +199,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return TypePackage.Literals.LINE_SERIES;
@@ -208,11 +209,11 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getMarkers( )
+	public EList<Marker> getMarkers( )
 	{
 		if ( markers == null )
 		{
-			markers = new EObjectContainmentEList( Marker.class,
+			markers = new EObjectContainmentEList<Marker>( Marker.class,
 					this,
 					TypePackage.LINE_SERIES__MARKERS );
 		}
@@ -573,13 +574,14 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
 		switch ( featureID )
 		{
 			case TypePackage.LINE_SERIES__MARKERS :
-				return ( (InternalEList) getMarkers( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getMarkers( ) ).basicRemove( otherEnd,
 						msgs );
 			case TypePackage.LINE_SERIES__MARKER :
 				return basicSetMarker( null, msgs );
@@ -595,6 +597,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -621,13 +624,15 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
 		{
 			case TypePackage.LINE_SERIES__MARKERS :
 				getMarkers( ).clear( );
-				getMarkers( ).addAll( (Collection) newValue );
+				getMarkers( ).addAll( (Collection<? extends Marker>) newValue );
 				return;
 			case TypePackage.LINE_SERIES__MARKER :
 				setMarker( (Marker) newValue );
@@ -655,6 +660,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -688,6 +694,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -714,6 +721,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

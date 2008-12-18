@@ -88,7 +88,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean sizeESet = false;
+	protected boolean sizeESet;
 
 	/**
 	 * The default value of the '{@link #isBold() <em>Bold</em>}' attribute.
@@ -115,7 +115,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean boldESet = false;
+	protected boolean boldESet;
 
 	/**
 	 * The default value of the '{@link #isItalic() <em>Italic</em>}' attribute.
@@ -142,7 +142,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean italicESet = false;
+	protected boolean italicESet;
 
 	/**
 	 * The default value of the '
@@ -173,7 +173,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean strikethroughESet = false;
+	protected boolean strikethroughESet;
 
 	/**
 	 * The default value of the '{@link #isUnderline() <em>Underline</em>}' attribute.
@@ -200,7 +200,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean underlineESet = false;
+	protected boolean underlineESet;
 
 	/**
 	 * The default value of the '{@link #isWordWrap() <em>Word Wrap</em>}' attribute.
@@ -227,7 +227,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean wordWrapESet = false;
+	protected boolean wordWrapESet;
 
 	/**
 	 * The cached value of the '{@link #getAlignment() <em>Alignment</em>}' containment reference.
@@ -236,7 +236,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	 * @generated
 	 * @ordered
 	 */
-	protected TextAlignment alignment = null;
+	protected TextAlignment alignment;
 
 	/**
 	 * The default value of the '{@link #getRotation() <em>Rotation</em>}' attribute.
@@ -263,7 +263,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean rotationESet = false;
+	protected boolean rotationESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -294,6 +294,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.FONT_DEFINITION;
@@ -786,6 +787,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -801,6 +803,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -831,6 +834,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -870,6 +874,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -909,6 +914,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -940,6 +946,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DifferenceDataSetImpl.java,v 1.1 2006/12/28 03:49:28 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.data.impl;
@@ -17,7 +17,7 @@ import org.eclipse.emf.ecore.EClass;
  * <!-- end-user-doc -->
  * <p>
  * </p>
- * 
+ *
  * @generated
  */
 public class DifferenceDataSetImpl extends DataSetImpl implements
@@ -26,7 +26,6 @@ public class DifferenceDataSetImpl extends DataSetImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected DifferenceDataSetImpl( )
@@ -36,9 +35,9 @@ public class DifferenceDataSetImpl extends DataSetImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return DataPackage.Literals.DIFFERENCE_DATA_SET;

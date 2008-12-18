@@ -53,7 +53,7 @@ public interface TextAlignment extends EObject
 	 * @see #unsetHorizontalAlignment()
 	 * @see #setHorizontalAlignment(HorizontalAlignment)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getTextAlignment_HorizontalAlignment()
-	 * @model default="Left" unique="false" unsettable="true" required="true"
+	 * @model default="Left" unsettable="true" required="true"
 	 *        extendedMetaData="kind='element' name='horizontalAlignment'"
 	 * @generated
 	 */
@@ -104,7 +104,7 @@ public interface TextAlignment extends EObject
 	 * @see #unsetVerticalAlignment()
 	 * @see #setVerticalAlignment(VerticalAlignment)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getTextAlignment_VerticalAlignment()
-	 * @model default="Top" unique="false" unsettable="true" required="true"
+	 * @model default="Top" unsettable="true" required="true"
 	 *        extendedMetaData="kind='element' name='verticalAlignment'"
 	 * @generated
 	 */

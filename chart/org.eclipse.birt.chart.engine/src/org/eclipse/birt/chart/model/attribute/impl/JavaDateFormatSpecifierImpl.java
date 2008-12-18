@@ -36,9 +36,8 @@ import com.ibm.icu.util.ULocale;
  *
  * @generated
  */
-public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl
-		implements
-			JavaDateFormatSpecifier
+public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
+		JavaDateFormatSpecifier
 {
 
 	/**
@@ -72,6 +71,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.JAVA_DATE_FORMAT_SPECIFIER;
@@ -107,6 +107,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -122,6 +123,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -138,6 +140,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -154,6 +157,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -169,6 +173,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

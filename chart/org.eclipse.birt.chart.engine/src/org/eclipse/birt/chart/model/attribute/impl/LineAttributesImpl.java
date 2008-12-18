@@ -66,7 +66,7 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean styleESet = false;
+	protected boolean styleESet;
 
 	/**
 	 * The default value of the '{@link #getThickness() <em>Thickness</em>}' attribute.
@@ -93,7 +93,7 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean thicknessESet = false;
+	protected boolean thicknessESet;
 
 	/**
 	 * The cached value of the '{@link #getColor() <em>Color</em>}' containment reference.
@@ -102,7 +102,7 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	 * @generated
 	 * @ordered
 	 */
-	protected ColorDefinition color = null;
+	protected ColorDefinition color;
 
 	/**
 	 * The default value of the '{@link #isVisible() <em>Visible</em>}' attribute.
@@ -129,7 +129,7 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean visibleESet = false;
+	protected boolean visibleESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -144,6 +144,7 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.LINE_ATTRIBUTES;
@@ -387,6 +388,7 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -402,6 +404,7 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -422,6 +425,7 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -446,6 +450,7 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -470,6 +475,7 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -490,6 +496,7 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

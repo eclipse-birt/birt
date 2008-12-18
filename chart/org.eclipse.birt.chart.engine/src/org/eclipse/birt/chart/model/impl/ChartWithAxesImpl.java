@@ -69,7 +69,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * @generated
 	 * @ordered
 	 */
-	protected EList axes = null;
+	protected EList<Axis> axes;
 
 	/**
 	 * The cached value of the '{@link #getWallFill() <em>Wall Fill</em>}' containment reference.
@@ -78,7 +78,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * @generated
 	 * @ordered
 	 */
-	protected Fill wallFill = null;
+	protected Fill wallFill;
 
 	/**
 	 * The cached value of the '{@link #getFloorFill() <em>Floor Fill</em>}' containment reference.
@@ -87,7 +87,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * @generated
 	 * @ordered
 	 */
-	protected Fill floorFill = null;
+	protected Fill floorFill;
 
 	/**
 	 * The default value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
@@ -114,7 +114,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean orientationESet = false;
+	protected boolean orientationESet;
 
 	/**
 	 * The default value of the '
@@ -143,7 +143,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean unitSpacingESet = false;
+	protected boolean unitSpacingESet;
 
 	/**
 	 * The cached value of the '{@link #getRotation() <em>Rotation</em>}' containment reference.
@@ -152,7 +152,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * @generated
 	 * @ordered
 	 */
-	protected Rotation3D rotation = null;
+	protected Rotation3D rotation;
 
 	/**
 	 * The default value of the '{@link #isReverseCategory() <em>Reverse Category</em>}' attribute.
@@ -181,7 +181,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean reverseCategoryESet = false;
+	protected boolean reverseCategoryESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -196,6 +196,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return ModelPackage.Literals.CHART_WITH_AXES;
@@ -205,11 +206,11 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getAxes( )
+	public EList<Axis> getAxes( )
 	{
 		if ( axes == null )
 		{
-			axes = new EObjectContainmentEList( Axis.class,
+			axes = new EObjectContainmentEList<Axis>( Axis.class,
 					this,
 					ModelPackage.CHART_WITH_AXES__AXES );
 		}
@@ -591,13 +592,14 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
 		switch ( featureID )
 		{
 			case ModelPackage.CHART_WITH_AXES__AXES :
-				return ( (InternalEList) getAxes( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getAxes( ) ).basicRemove( otherEnd,
 						msgs );
 			case ModelPackage.CHART_WITH_AXES__WALL_FILL :
 				return basicSetWallFill( null, msgs );
@@ -613,6 +615,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -639,13 +642,15 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
 		{
 			case ModelPackage.CHART_WITH_AXES__AXES :
 				getAxes( ).clear( );
-				getAxes( ).addAll( (Collection) newValue );
+				getAxes( ).addAll( (Collection<? extends Axis>) newValue );
 				return;
 			case ModelPackage.CHART_WITH_AXES__WALL_FILL :
 				setWallFill( (Fill) newValue );
@@ -673,6 +678,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -706,6 +712,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -732,6 +739,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

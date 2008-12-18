@@ -50,7 +50,7 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected Dial dial = null;
+	protected Dial dial;
 
 	/**
 	 * The cached value of the '{@link #getNeedle() <em>Needle</em>}' containment reference.
@@ -59,7 +59,7 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected Needle needle = null;
+	protected Needle needle;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -74,6 +74,7 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return TypePackage.Literals.DIAL_SERIES;
@@ -213,6 +214,7 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -231,6 +233,7 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -248,6 +251,7 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -267,6 +271,7 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -286,6 +291,7 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )

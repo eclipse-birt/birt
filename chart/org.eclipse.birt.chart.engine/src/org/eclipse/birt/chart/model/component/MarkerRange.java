@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.data.DataElement;
+import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
@@ -270,10 +271,10 @@ public interface MarkerRange extends EObject
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Triggers</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerRange_Triggers()
-	 * @model type="org.eclipse.birt.chart.model.data.Trigger" containment="true"
+	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='Triggers'"
 	 * @generated
 	 */
-	EList getTriggers( );
+	EList<Trigger> getTriggers( );
 
 } // MarkerRange

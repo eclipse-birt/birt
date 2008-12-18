@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: EmbeddedImage.java,v 1.1 2006/12/28 03:49:25 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -42,7 +42,7 @@ public interface EmbeddedImage extends Image
 	 * @return the value of the '<em>Data</em>' attribute.
 	 * @see #setData(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getEmbeddedImage_Data()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
 	 *        extendedMetaData="kind='element' name='Data'"
 	 * @generated
 	 */

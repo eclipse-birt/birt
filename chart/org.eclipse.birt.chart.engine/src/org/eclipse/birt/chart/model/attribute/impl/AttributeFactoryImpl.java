@@ -100,9 +100,8 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  * end-user-doc -->
  * @generated
  */
-public class AttributeFactoryImpl extends EFactoryImpl
-		implements
-			AttributeFactory
+public class AttributeFactoryImpl extends EFactoryImpl implements
+		AttributeFactory
 {
 
 	/**
@@ -143,6 +142,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject create( EClass eClass )
 	{
 		switch ( eClass.getClassifierID( ) )
@@ -234,6 +234,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object createFromString( EDataType eDataType, String initialValue )
 	{
 		switch ( eDataType.getClassifierID( ) )
@@ -420,6 +421,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String convertToString( EDataType eDataType, Object instanceValue )
 	{
 		switch ( eDataType.getClassifierID( ) )
@@ -1834,7 +1836,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public ActionType createActionTypeObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (ActionType) createActionTypeFromString( AttributePackage.Literals.ACTION_TYPE,
+		return createActionTypeFromString( AttributePackage.Literals.ACTION_TYPE,
 				initialValue );
 	}
 
@@ -1856,7 +1858,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public Anchor createAnchorObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (Anchor) createAnchorFromString( AttributePackage.Literals.ANCHOR,
+		return createAnchorFromString( AttributePackage.Literals.ANCHOR,
 				initialValue );
 	}
 
@@ -1879,7 +1881,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public AngleType createAngleTypeObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (AngleType) createAngleTypeFromString( AttributePackage.Literals.ANGLE_TYPE,
+		return createAngleTypeFromString( AttributePackage.Literals.ANGLE_TYPE,
 				initialValue );
 	}
 
@@ -1902,7 +1904,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public AxisType createAxisTypeObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (AxisType) createAxisTypeFromString( AttributePackage.Literals.AXIS_TYPE,
+		return createAxisTypeFromString( AttributePackage.Literals.AXIS_TYPE,
 				initialValue );
 	}
 
@@ -1924,7 +1926,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public ChartDimension createChartDimensionObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (ChartDimension) createChartDimensionFromString( AttributePackage.Literals.CHART_DIMENSION,
+		return createChartDimensionFromString( AttributePackage.Literals.CHART_DIMENSION,
 				initialValue );
 	}
 
@@ -1946,7 +1948,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public ChartType createChartTypeObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (ChartType) createChartTypeFromString( AttributePackage.Literals.CHART_TYPE,
+		return createChartTypeFromString( AttributePackage.Literals.CHART_TYPE,
 				initialValue );
 	}
 
@@ -1968,7 +1970,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public DataPointComponentType createDataPointComponentTypeObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (DataPointComponentType) createDataPointComponentTypeFromString( AttributePackage.Literals.DATA_POINT_COMPONENT_TYPE,
+		return createDataPointComponentTypeFromString( AttributePackage.Literals.DATA_POINT_COMPONENT_TYPE,
 				initialValue );
 	}
 
@@ -1990,7 +1992,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public DataType createDataTypeObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (DataType) createDataTypeFromString( AttributePackage.Literals.DATA_TYPE,
+		return createDataTypeFromString( AttributePackage.Literals.DATA_TYPE,
 				initialValue );
 	}
 
@@ -2012,7 +2014,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public DateFormatDetail createDateFormatDetailObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (DateFormatDetail) createDateFormatDetailFromString( AttributePackage.Literals.DATE_FORMAT_DETAIL,
+		return createDateFormatDetailFromString( AttributePackage.Literals.DATE_FORMAT_DETAIL,
 				initialValue );
 	}
 
@@ -2034,7 +2036,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public DateFormatType createDateFormatTypeObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (DateFormatType) createDateFormatTypeFromString( AttributePackage.Literals.DATE_FORMAT_TYPE,
+		return createDateFormatTypeFromString( AttributePackage.Literals.DATE_FORMAT_TYPE,
 				initialValue );
 	}
 
@@ -2056,7 +2058,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public Direction createDirectionObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (Direction) createDirectionFromString( AttributePackage.Literals.DIRECTION,
+		return createDirectionFromString( AttributePackage.Literals.DIRECTION,
 				initialValue );
 	}
 
@@ -2078,7 +2080,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public GroupingUnitType createGroupingUnitTypeObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (GroupingUnitType) createGroupingUnitTypeFromString( AttributePackage.Literals.GROUPING_UNIT_TYPE,
+		return createGroupingUnitTypeFromString( AttributePackage.Literals.GROUPING_UNIT_TYPE,
 				initialValue );
 	}
 
@@ -2100,7 +2102,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public HorizontalAlignment createHorizontalAlignmentObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (HorizontalAlignment) createHorizontalAlignmentFromString( AttributePackage.Literals.HORIZONTAL_ALIGNMENT,
+		return createHorizontalAlignmentFromString( AttributePackage.Literals.HORIZONTAL_ALIGNMENT,
 				initialValue );
 	}
 
@@ -2142,7 +2144,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public IntersectionType createIntersectionTypeObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (IntersectionType) createIntersectionTypeFromString( AttributePackage.Literals.INTERSECTION_TYPE,
+		return createIntersectionTypeFromString( AttributePackage.Literals.INTERSECTION_TYPE,
 				initialValue );
 	}
 
@@ -2164,7 +2166,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public LeaderLineStyle createLeaderLineStyleObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (LeaderLineStyle) createLeaderLineStyleFromString( AttributePackage.Literals.LEADER_LINE_STYLE,
+		return createLeaderLineStyleFromString( AttributePackage.Literals.LEADER_LINE_STYLE,
 				initialValue );
 	}
 
@@ -2187,7 +2189,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public LegendBehaviorType createLegendBehaviorTypeObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (LegendBehaviorType) createLegendBehaviorTypeFromString( AttributePackage.Literals.LEGEND_BEHAVIOR_TYPE,
+		return createLegendBehaviorTypeFromString( AttributePackage.Literals.LEGEND_BEHAVIOR_TYPE,
 				initialValue );
 	}
 
@@ -2210,7 +2212,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public LegendItemType createLegendItemTypeObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (LegendItemType) createLegendItemTypeFromString( AttributePackage.Literals.LEGEND_ITEM_TYPE,
+		return createLegendItemTypeFromString( AttributePackage.Literals.LEGEND_ITEM_TYPE,
 				initialValue );
 	}
 
@@ -2232,7 +2234,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public LineDecorator createLineDecoratorObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (LineDecorator) createLineDecoratorFromString( AttributePackage.Literals.LINE_DECORATOR,
+		return createLineDecoratorFromString( AttributePackage.Literals.LINE_DECORATOR,
 				initialValue );
 	}
 
@@ -2254,7 +2256,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public LineStyle createLineStyleObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (LineStyle) createLineStyleFromString( AttributePackage.Literals.LINE_STYLE,
+		return createLineStyleFromString( AttributePackage.Literals.LINE_STYLE,
 				initialValue );
 	}
 
@@ -2276,7 +2278,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public MarkerType createMarkerTypeObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (MarkerType) createMarkerTypeFromString( AttributePackage.Literals.MARKER_TYPE,
+		return createMarkerTypeFromString( AttributePackage.Literals.MARKER_TYPE,
 				initialValue );
 	}
 
@@ -2298,7 +2300,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public Orientation createOrientationObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (Orientation) createOrientationFromString( AttributePackage.Literals.ORIENTATION,
+		return createOrientationFromString( AttributePackage.Literals.ORIENTATION,
 				initialValue );
 	}
 
@@ -2342,7 +2344,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public Double createPercentageObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (Double) createPercentageFromString( AttributePackage.Literals.PERCENTAGE,
+		return createPercentageFromString( AttributePackage.Literals.PERCENTAGE,
 				initialValue );
 	}
 
@@ -2364,7 +2366,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public Position createPositionObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (Position) createPositionFromString( AttributePackage.Literals.POSITION,
+		return createPositionFromString( AttributePackage.Literals.POSITION,
 				initialValue );
 	}
 
@@ -2408,7 +2410,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public Integer createRGBValueObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (Integer) createRGBValueFromString( AttributePackage.Literals.RGB_VALUE,
+		return createRGBValueFromString( AttributePackage.Literals.RGB_VALUE,
 				initialValue );
 	}
 
@@ -2430,7 +2432,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public RiserType createRiserTypeObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (RiserType) createRiserTypeFromString( AttributePackage.Literals.RISER_TYPE,
+		return createRiserTypeFromString( AttributePackage.Literals.RISER_TYPE,
 				initialValue );
 	}
 
@@ -2452,7 +2454,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public RuleType createRuleTypeObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (RuleType) createRuleTypeFromString( AttributePackage.Literals.RULE_TYPE,
+		return createRuleTypeFromString( AttributePackage.Literals.RULE_TYPE,
 				initialValue );
 	}
 
@@ -2474,7 +2476,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public ScaleUnitType createScaleUnitTypeObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (ScaleUnitType) createScaleUnitTypeFromString( AttributePackage.Literals.SCALE_UNIT_TYPE,
+		return createScaleUnitTypeFromString( AttributePackage.Literals.SCALE_UNIT_TYPE,
 				initialValue );
 	}
 
@@ -2496,7 +2498,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public SortOption createSortOptionObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (SortOption) createSortOptionFromString( AttributePackage.Literals.SORT_OPTION,
+		return createSortOptionFromString( AttributePackage.Literals.SORT_OPTION,
 				initialValue );
 	}
 
@@ -2518,7 +2520,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public Stretch createStretchObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (Stretch) createStretchFromString( AttributePackage.Literals.STRETCH,
+		return createStretchFromString( AttributePackage.Literals.STRETCH,
 				initialValue );
 	}
 
@@ -2540,7 +2542,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public StyledComponent createStyledComponentObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (StyledComponent) createStyledComponentFromString( AttributePackage.Literals.STYLED_COMPONENT,
+		return createStyledComponentFromString( AttributePackage.Literals.STYLED_COMPONENT,
 				initialValue );
 	}
 
@@ -2562,7 +2564,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public TickStyle createTickStyleObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (TickStyle) createTickStyleFromString( AttributePackage.Literals.TICK_STYLE,
+		return createTickStyleFromString( AttributePackage.Literals.TICK_STYLE,
 				initialValue );
 	}
 
@@ -2584,7 +2586,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public TriggerCondition createTriggerConditionObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (TriggerCondition) createTriggerConditionFromString( AttributePackage.Literals.TRIGGER_CONDITION,
+		return createTriggerConditionFromString( AttributePackage.Literals.TRIGGER_CONDITION,
 				initialValue );
 	}
 
@@ -2607,7 +2609,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public TriggerFlow createTriggerFlowObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (TriggerFlow) createTriggerFlowFromString( AttributePackage.Literals.TRIGGER_FLOW,
+		return createTriggerFlowFromString( AttributePackage.Literals.TRIGGER_FLOW,
 				initialValue );
 	}
 
@@ -2630,7 +2632,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public UnitsOfMeasurement createUnitsOfMeasurementObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (UnitsOfMeasurement) createUnitsOfMeasurementFromString( AttributePackage.Literals.UNITS_OF_MEASUREMENT,
+		return createUnitsOfMeasurementFromString( AttributePackage.Literals.UNITS_OF_MEASUREMENT,
 				initialValue );
 	}
 
@@ -2652,7 +2654,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public VerticalAlignment createVerticalAlignmentObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (VerticalAlignment) createVerticalAlignmentFromString( AttributePackage.Literals.VERTICAL_ALIGNMENT,
+		return createVerticalAlignmentFromString( AttributePackage.Literals.VERTICAL_ALIGNMENT,
 				initialValue );
 	}
 
@@ -2681,6 +2683,7 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	 * @deprecated
 	 * @generated
 	 */
+	@Deprecated
 	public static AttributePackage getPackage( )
 	{
 		return AttributePackage.eINSTANCE;

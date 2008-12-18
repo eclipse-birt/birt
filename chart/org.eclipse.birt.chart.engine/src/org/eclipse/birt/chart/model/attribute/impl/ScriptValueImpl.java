@@ -64,6 +64,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.SCRIPT_VALUE;
@@ -99,6 +100,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -114,6 +116,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -130,6 +133,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -146,6 +150,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -161,6 +166,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

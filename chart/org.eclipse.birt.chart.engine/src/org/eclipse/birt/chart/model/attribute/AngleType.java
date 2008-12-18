@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: AngleType.java,v 1.1 2006/12/28 03:49:25 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,11 +23,46 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * 			This type defines the angle type of an Angle3D
  * <!-- end-model-doc -->
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getAngleType()
- * @model
+ * @model extendedMetaData="name='AngleType'"
  * @generated
  */
-public final class AngleType extends AbstractEnumerator
-{
+public enum AngleType implements Enumerator {
+	/**
+	 * The '<em><b>None</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #NONE
+	 * @generated
+	 * @ordered
+	 */
+	NONE_LITERAL(0, "None", "None"),
+	/**
+	 * The '<em><b>X</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #X
+	 * @generated
+	 * @ordered
+	 */
+	X_LITERAL(1, "X", "X"),
+	/**
+	 * The '<em><b>Y</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #Y
+	 * @generated
+	 * @ordered
+	 */
+	Y_LITERAL(2, "Y", "Y"),
+	/**
+	 * The '<em><b>Z</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #Z
+	 * @generated
+	 * @ordered
+	 */
+	Z_LITERAL(3, "Z", "Z");
 
 	/**
 	 * The '<em><b>None</b></em>' literal value.
@@ -90,47 +125,6 @@ public final class AngleType extends AbstractEnumerator
 	public static final int Z = 3;
 
 	/**
-	 * The '<em><b>None</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #NONE
-	 * @generated
-	 * @ordered
-	 */
-	public static final AngleType NONE_LITERAL = new AngleType( NONE,
-			"None", "None" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>X</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #X
-	 * @generated
-	 * @ordered
-	 */
-	public static final AngleType X_LITERAL = new AngleType( X, "X", "X" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Y</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #Y
-	 * @generated
-	 * @ordered
-	 */
-	public static final AngleType Y_LITERAL = new AngleType( Y, "Y", "Y" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Z</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #Z
-	 * @generated
-	 * @ordered
-	 */
-	public static final AngleType Z_LITERAL = new AngleType( Z, "Z", "Z" ); //$NON-NLS-1$
-
-	/**
 	 * An array of all the '<em><b>Angle Type</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -146,7 +140,7 @@ public final class AngleType extends AbstractEnumerator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<AngleType> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
 	 * Returns the '<em><b>Angle Type</b></em>' literal with the specified literal value.
@@ -209,6 +203,27 @@ public final class AngleType extends AbstractEnumerator
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final int value;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String name;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String literal;
+
+	/**
 	 * Only this class can construct instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -216,7 +231,50 @@ public final class AngleType extends AbstractEnumerator
 	 */
 	private AngleType( int value, String name, String literal )
 	{
-		super( value, name, literal );
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
 	}
 
-} //AngleType
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getValue( )
+	{
+		return value;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName( )
+	{
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLiteral( )
+	{
+		return literal;
+	}
+
+	/**
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString( )
+	{
+		return literal;
+	}
+}

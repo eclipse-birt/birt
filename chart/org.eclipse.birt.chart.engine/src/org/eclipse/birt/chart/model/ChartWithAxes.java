@@ -63,7 +63,7 @@ public interface ChartWithAxes extends Chart
 	 * @model type="org.eclipse.birt.chart.model.component.Axis" containment="true" resolveProxies="false" lower="2"
 	 * @generated
 	 */
-	EList getAxes( );
+	EList<Axis> getAxes( );
 
 	/**
 	 * Returns the value of the '<em><b>Wall Fill</b></em>' containment reference. <!-- begin-user-doc --> <!--

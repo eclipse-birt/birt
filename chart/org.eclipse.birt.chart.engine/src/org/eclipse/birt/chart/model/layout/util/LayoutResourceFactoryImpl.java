@@ -39,6 +39,7 @@ public class LayoutResourceFactoryImpl extends ResourceFactoryImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Resource createResource( URI uri )
 	{
 		XMLResource result = new LayoutResourceImpl( uri );

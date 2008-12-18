@@ -96,7 +96,7 @@ public interface Rule extends EObject
 	 * @return the value of the '<em>Value</em>' attribute.
 	 * @see #setValue(String)
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getRule_Value()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
 	 *        extendedMetaData="kind='element' name='Value'"
 	 * @generated
 	 */

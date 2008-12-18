@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
@@ -27,11 +27,37 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * 
  * <!-- end-model-doc -->
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getTriggerFlow()
- * @model
+ * @model extendedMetaData="name='TriggerFlow'"
  * @generated
  */
-public final class TriggerFlow extends AbstractEnumerator
-{
+public enum TriggerFlow implements Enumerator {
+	/**
+	 * The '<em><b>Capture</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #CAPTURE
+	 * @generated
+	 * @ordered
+	 */
+	CAPTURE_LITERAL(0, "Capture", "Capture"),
+	/**
+	 * The '<em><b>Bubble</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #BUBBLE
+	 * @generated
+	 * @ordered
+	 */
+	BUBBLE_LITERAL(1, "Bubble", "Bubble"),
+	/**
+	 * The '<em><b>Bubble And Stop</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #BUBBLE_AND_STOP
+	 * @generated
+	 * @ordered
+	 */
+	BUBBLE_AND_STOP_LITERAL(2, "BubbleAndStop", "BubbleAndStop");
 
 	/**
 	 * The '<em><b>Capture</b></em>' literal value.
@@ -79,39 +105,6 @@ public final class TriggerFlow extends AbstractEnumerator
 	public static final int BUBBLE_AND_STOP = 2;
 
 	/**
-	 * The '<em><b>Capture</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #CAPTURE
-	 * @generated
-	 * @ordered
-	 */
-	public static final TriggerFlow CAPTURE_LITERAL = new TriggerFlow( CAPTURE,
-			"Capture", "Capture" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Bubble</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #BUBBLE
-	 * @generated
-	 * @ordered
-	 */
-	public static final TriggerFlow BUBBLE_LITERAL = new TriggerFlow( BUBBLE,
-			"Bubble", "Bubble" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Bubble And Stop</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #BUBBLE_AND_STOP
-	 * @generated
-	 * @ordered
-	 */
-	public static final TriggerFlow BUBBLE_AND_STOP_LITERAL = new TriggerFlow( BUBBLE_AND_STOP,
-			"BubbleAndStop", "BubbleAndStop" ); //$NON-NLS-1$
-
-	/**
 	 * An array of all the '<em><b>Trigger Flow</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -127,7 +120,7 @@ public final class TriggerFlow extends AbstractEnumerator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<TriggerFlow> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
 	 * Returns the '<em><b>Trigger Flow</b></em>' literal with the specified literal value.
@@ -188,6 +181,27 @@ public final class TriggerFlow extends AbstractEnumerator
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final int value;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String name;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String literal;
+
+	/**
 	 * Only this class can construct instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -195,7 +209,50 @@ public final class TriggerFlow extends AbstractEnumerator
 	 */
 	private TriggerFlow( int value, String name, String literal )
 	{
-		super( value, name, literal );
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
 	}
 
-} //TriggerFlow
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getValue( )
+	{
+		return value;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName( )
+	{
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLiteral( )
+	{
+		return literal;
+	}
+
+	/**
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString( )
+	{
+		return literal;
+	}
+}

@@ -46,7 +46,7 @@ public interface ScriptValue extends ActionValue
 	 * @return the value of the '<em>Script</em>' attribute.
 	 * @see #setScript(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getScriptValue_Script()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
 	 *        extendedMetaData="kind='element' name='Script'"
 	 * @generated
 	 */

@@ -611,6 +611,10 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 		DataPackage theDataPackage = (DataPackage) EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI );
 		ComponentPackage theComponentPackage = (ComponentPackage) EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI );
 
+		// Create type parameters
+
+		// Set bounds for type parameters
+
 		// Add supertypes to classes
 		chartWithAxesEClass.getESuperTypes( ).add( this.getChart( ) );
 		chartWithoutAxesEClass.getESuperTypes( ).add( this.getChart( ) );

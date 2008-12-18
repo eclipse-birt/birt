@@ -39,6 +39,7 @@ public class TypeResourceFactoryImpl extends ResourceFactoryImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Resource createResource( URI uri )
 	{
 		XMLResource result = new TypeResourceImpl( uri );

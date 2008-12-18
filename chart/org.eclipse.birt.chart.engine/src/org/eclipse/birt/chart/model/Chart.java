@@ -12,7 +12,9 @@
 package org.eclipse.birt.chart.model;
 
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.Interactivity;
+import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -457,7 +459,7 @@ public interface Chart extends EObject
 	 *        required="true"
 	 * @generated
 	 */
-	EList getExtendedProperties( );
+	EList<ExtendedProperty> getExtendedProperties( );
 
 	/**
 	 * Returns the value of the '<em><b>Sample Data</b></em>' containment reference. <!-- begin-user-doc --> Gets
@@ -495,11 +497,11 @@ public interface Chart extends EObject
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Styles</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getChart_Styles()
-	 * @model type="org.eclipse.birt.chart.model.attribute.StyleMap" containment="true" resolveProxies="false"
+	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='Styles'"
 	 * @generated
 	 */
-	EList getStyles( );
+	EList<StyleMap> getStyles( );
 
 	/**
 	 * Returns the value of the '<em><b>Interactivity</b></em>' containment reference.
@@ -511,7 +513,7 @@ public interface Chart extends EObject
 	 * @return the value of the '<em>Interactivity</em>' containment reference.
 	 * @see #setInteractivity(Interactivity)
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getChart_Interactivity()
-	 * @model containment="true" resolveProxies="false" required="true"
+	 * @model containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='Interactivity'"
 	 * @generated
 	 */

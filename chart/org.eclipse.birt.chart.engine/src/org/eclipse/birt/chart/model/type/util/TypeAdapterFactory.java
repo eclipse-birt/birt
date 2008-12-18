@@ -62,6 +62,7 @@ public class TypeAdapterFactory extends AdapterFactoryImpl
 	 * @return whether this factory is applicable for the type of the object.
 	 * @generated
 	 */
+	@Override
 	public boolean isFactoryForType( Object object )
 	{
 		if ( object == modelPackage )
@@ -76,68 +77,80 @@ public class TypeAdapterFactory extends AdapterFactoryImpl
 	}
 
 	/**
-	 * The switch the delegates to the <code>createXXX</code> methods.
+	 * The switch that delegates to the <code>createXXX</code> methods.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected TypeSwitch modelSwitch = new TypeSwitch( ) {
+	protected TypeSwitch<Adapter> modelSwitch = new TypeSwitch<Adapter>( ) {
 
-		public Object caseAreaSeries( AreaSeries object )
+		@Override
+		public Adapter caseAreaSeries( AreaSeries object )
 		{
 			return createAreaSeriesAdapter( );
 		}
 
-		public Object caseBarSeries( BarSeries object )
+		@Override
+		public Adapter caseBarSeries( BarSeries object )
 		{
 			return createBarSeriesAdapter( );
 		}
 
-		public Object caseBubbleSeries( BubbleSeries object )
+		@Override
+		public Adapter caseBubbleSeries( BubbleSeries object )
 		{
 			return createBubbleSeriesAdapter( );
 		}
 
-		public Object caseDialSeries( DialSeries object )
+		@Override
+		public Adapter caseDialSeries( DialSeries object )
 		{
 			return createDialSeriesAdapter( );
 		}
 
-		public Object caseDifferenceSeries( DifferenceSeries object )
+		@Override
+		public Adapter caseDifferenceSeries( DifferenceSeries object )
 		{
 			return createDifferenceSeriesAdapter( );
 		}
 
-		public Object caseGanttSeries( GanttSeries object )
+		@Override
+		public Adapter caseGanttSeries( GanttSeries object )
 		{
 			return createGanttSeriesAdapter( );
 		}
 
-		public Object caseLineSeries( LineSeries object )
+		@Override
+		public Adapter caseLineSeries( LineSeries object )
 		{
 			return createLineSeriesAdapter( );
 		}
 
-		public Object casePieSeries( PieSeries object )
+		@Override
+		public Adapter casePieSeries( PieSeries object )
 		{
 			return createPieSeriesAdapter( );
 		}
 
-		public Object caseScatterSeries( ScatterSeries object )
+		@Override
+		public Adapter caseScatterSeries( ScatterSeries object )
 		{
 			return createScatterSeriesAdapter( );
 		}
 
-		public Object caseStockSeries( StockSeries object )
+		@Override
+		public Adapter caseStockSeries( StockSeries object )
 		{
 			return createStockSeriesAdapter( );
 		}
 
-		public Object caseSeries( Series object )
+		@Override
+		public Adapter caseSeries( Series object )
 		{
 			return createSeriesAdapter( );
 		}
 
-		public Object defaultCase( EObject object )
+		@Override
+		public Adapter defaultCase( EObject object )
 		{
 			return createEObjectAdapter( );
 		}
@@ -150,9 +163,10 @@ public class TypeAdapterFactory extends AdapterFactoryImpl
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
 	 */
+	@Override
 	public Adapter createAdapter( Notifier target )
 	{
-		return (Adapter) modelSwitch.doSwitch( (EObject) target );
+		return modelSwitch.doSwitch( (EObject) target );
 	}
 
 	/**

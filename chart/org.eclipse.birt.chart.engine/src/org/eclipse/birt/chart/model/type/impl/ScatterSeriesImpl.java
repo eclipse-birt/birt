@@ -44,6 +44,7 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return TypePackage.Literals.SCATTER_SERIES;

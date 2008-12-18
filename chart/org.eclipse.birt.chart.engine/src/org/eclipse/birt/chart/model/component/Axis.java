@@ -18,6 +18,8 @@ import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
@@ -275,7 +277,7 @@ public interface Axis extends EObject
 	 * @model type="org.eclipse.birt.chart.model.component.Axis" containment="true" resolveProxies="false"
 	 * @generated
 	 */
-	EList getAssociatedAxes( );
+	EList<Axis> getAssociatedAxes( );
 
 	/**
 	 * Returns the value of the '<em><b>Ancillary Axes</b></em>' containment reference list.
@@ -290,11 +292,11 @@ public interface Axis extends EObject
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Ancillary Axes</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_AncillaryAxes()
-	 * @model type="org.eclipse.birt.chart.model.component.Axis" containment="true"
+	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='AncillaryAxes'"
 	 * @generated
 	 */
-	EList getAncillaryAxes( );
+	EList<Axis> getAncillaryAxes( );
 
 	/**
 	 * Returns the value of the '<em><b>Series Definitions</b></em>' containment reference list. The list contents
@@ -311,7 +313,7 @@ public interface Axis extends EObject
 	 *        required="true"
 	 * @generated
 	 */
-	EList getSeriesDefinitions( );
+	EList<SeriesDefinition> getSeriesDefinitions( );
 
 	/**
 	 * Returns the value of the '<em><b>Gap Width</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
@@ -679,11 +681,11 @@ public interface Axis extends EObject
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Marker Lines</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_MarkerLines()
-	 * @model type="org.eclipse.birt.chart.model.component.MarkerLine" containment="true"
+	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='MarkerLines'"
 	 * @generated
 	 */
-	EList getMarkerLines( );
+	EList<MarkerLine> getMarkerLines( );
 
 	/**
 	 * Returns the value of the '<em><b>Marker Ranges</b></em>' containment reference list. The list contents are
@@ -700,7 +702,7 @@ public interface Axis extends EObject
 	 * @model type="org.eclipse.birt.chart.model.component.MarkerRange" containment="true" resolveProxies="false"
 	 * @generated
 	 */
-	EList getMarkerRanges( );
+	EList<MarkerRange> getMarkerRanges( );
 
 	/**
 	 * Returns the value of the '<em><b>Triggers</b></em>' containment reference list.
@@ -714,11 +716,11 @@ public interface Axis extends EObject
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Triggers</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_Triggers()
-	 * @model type="org.eclipse.birt.chart.model.data.Trigger" containment="true"
+	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='Triggers'"
 	 * @generated
 	 */
-	EList getTriggers( );
+	EList<Trigger> getTriggers( );
 
 	/**
 	 * Returns the value of the '<em><b>Major Grid</b></em>' containment reference. <!-- begin-user-doc --> <!--

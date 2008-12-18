@@ -75,6 +75,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject create( EClass eClass )
 	{
 		switch ( eClass.getClassifierID( ) )
@@ -97,6 +98,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object createFromString( EDataType eDataType, String initialValue )
 	{
 		switch ( eDataType.getClassifierID( ) )
@@ -116,6 +118,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String convertToString( EDataType eDataType, Object instanceValue )
 	{
 		switch ( eDataType.getClassifierID( ) )
@@ -233,6 +236,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 	 * @deprecated
 	 * @generated
 	 */
+	@Deprecated
 	public static ModelPackage getPackage( )
 	{
 		return ModelPackage.eINSTANCE;

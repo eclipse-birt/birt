@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CallBackValue.java,v 1.1 2006/12/28 03:49:25 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -41,7 +41,7 @@ public interface CallBackValue extends ActionValue
 	 * @return the value of the '<em>Identifier</em>' attribute.
 	 * @see #setIdentifier(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getCallBackValue_Identifier()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
 	 *        extendedMetaData="kind='element' name='Identifier'"
 	 * @generated
 	 */

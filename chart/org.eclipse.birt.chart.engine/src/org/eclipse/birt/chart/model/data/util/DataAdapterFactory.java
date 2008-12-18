@@ -73,6 +73,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl
 	 * @return whether this factory is applicable for the type of the object.
 	 * @generated
 	 */
+	@Override
 	public boolean isFactoryForType( Object object )
 	{
 		if ( object == modelPackage )
@@ -87,118 +88,140 @@ public class DataAdapterFactory extends AdapterFactoryImpl
 	}
 
 	/**
-	 * The switch the delegates to the <code>createXXX</code> methods.
+	 * The switch that delegates to the <code>createXXX</code> methods.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected DataSwitch modelSwitch = new DataSwitch( ) {
+	protected DataSwitch<Adapter> modelSwitch = new DataSwitch<Adapter>( ) {
 
-		public Object caseAction( Action object )
+		@Override
+		public Adapter caseAction( Action object )
 		{
 			return createActionAdapter( );
 		}
 
-		public Object caseBaseSampleData( BaseSampleData object )
+		@Override
+		public Adapter caseBaseSampleData( BaseSampleData object )
 		{
 			return createBaseSampleDataAdapter( );
 		}
 
-		public Object caseBubbleDataSet( BubbleDataSet object )
+		@Override
+		public Adapter caseBubbleDataSet( BubbleDataSet object )
 		{
 			return createBubbleDataSetAdapter( );
 		}
 
-		public Object caseDataElement( DataElement object )
+		@Override
+		public Adapter caseDataElement( DataElement object )
 		{
 			return createDataElementAdapter( );
 		}
 
-		public Object caseDataSet( DataSet object )
+		@Override
+		public Adapter caseDataSet( DataSet object )
 		{
 			return createDataSetAdapter( );
 		}
 
-		public Object caseDateTimeDataElement( DateTimeDataElement object )
+		@Override
+		public Adapter caseDateTimeDataElement( DateTimeDataElement object )
 		{
 			return createDateTimeDataElementAdapter( );
 		}
 
-		public Object caseDateTimeDataSet( DateTimeDataSet object )
+		@Override
+		public Adapter caseDateTimeDataSet( DateTimeDataSet object )
 		{
 			return createDateTimeDataSetAdapter( );
 		}
 
-		public Object caseDifferenceDataSet( DifferenceDataSet object )
+		@Override
+		public Adapter caseDifferenceDataSet( DifferenceDataSet object )
 		{
 			return createDifferenceDataSetAdapter( );
 		}
 
-		public Object caseGanttDataSet( GanttDataSet object )
+		@Override
+		public Adapter caseGanttDataSet( GanttDataSet object )
 		{
 			return createGanttDataSetAdapter( );
 		}
 
-		public Object caseNullDataSet( NullDataSet object )
+		@Override
+		public Adapter caseNullDataSet( NullDataSet object )
 		{
 			return createNullDataSetAdapter( );
 		}
 
-		public Object caseNumberDataElement( NumberDataElement object )
+		@Override
+		public Adapter caseNumberDataElement( NumberDataElement object )
 		{
 			return createNumberDataElementAdapter( );
 		}
 
-		public Object caseNumberDataSet( NumberDataSet object )
+		@Override
+		public Adapter caseNumberDataSet( NumberDataSet object )
 		{
 			return createNumberDataSetAdapter( );
 		}
 
-		public Object caseOrthogonalSampleData( OrthogonalSampleData object )
+		@Override
+		public Adapter caseOrthogonalSampleData( OrthogonalSampleData object )
 		{
 			return createOrthogonalSampleDataAdapter( );
 		}
 
-		public Object caseQuery( Query object )
+		@Override
+		public Adapter caseQuery( Query object )
 		{
 			return createQueryAdapter( );
 		}
 
-		public Object caseRule( Rule object )
+		@Override
+		public Adapter caseRule( Rule object )
 		{
 			return createRuleAdapter( );
 		}
 
-		public Object caseSampleData( SampleData object )
+		@Override
+		public Adapter caseSampleData( SampleData object )
 		{
 			return createSampleDataAdapter( );
 		}
 
-		public Object caseSeriesDefinition( SeriesDefinition object )
+		@Override
+		public Adapter caseSeriesDefinition( SeriesDefinition object )
 		{
 			return createSeriesDefinitionAdapter( );
 		}
 
-		public Object caseSeriesGrouping( SeriesGrouping object )
+		@Override
+		public Adapter caseSeriesGrouping( SeriesGrouping object )
 		{
 			return createSeriesGroupingAdapter( );
 		}
 
-		public Object caseStockDataSet( StockDataSet object )
+		@Override
+		public Adapter caseStockDataSet( StockDataSet object )
 		{
 			return createStockDataSetAdapter( );
 		}
 
-		public Object caseTextDataSet( TextDataSet object )
+		@Override
+		public Adapter caseTextDataSet( TextDataSet object )
 		{
 			return createTextDataSetAdapter( );
 		}
 
-		public Object caseTrigger( Trigger object )
+		@Override
+		public Adapter caseTrigger( Trigger object )
 		{
 			return createTriggerAdapter( );
 		}
 
-		public Object defaultCase( EObject object )
+		@Override
+		public Adapter defaultCase( EObject object )
 		{
 			return createEObjectAdapter( );
 		}
@@ -211,9 +234,10 @@ public class DataAdapterFactory extends AdapterFactoryImpl
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
 	 */
+	@Override
 	public Adapter createAdapter( Notifier target )
 	{
-		return (Adapter) modelSwitch.doSwitch( (EObject) target );
+		return modelSwitch.doSwitch( (EObject) target );
 	}
 
 	/**

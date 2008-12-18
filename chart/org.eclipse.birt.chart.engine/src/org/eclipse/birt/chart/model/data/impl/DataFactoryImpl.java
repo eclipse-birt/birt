@@ -90,6 +90,7 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject create( EClass eClass )
 	{
 		switch ( eClass.getClassifierID( ) )
@@ -146,6 +147,7 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object createFromString( EDataType eDataType, String initialValue )
 	{
 		switch ( eDataType.getClassifierID( ) )
@@ -162,6 +164,7 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String convertToString( EDataType eDataType, Object instanceValue )
 	{
 		switch ( eDataType.getClassifierID( ) )
@@ -394,7 +397,7 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 	 */
 	public Object createDataFromString( EDataType eDataType, String initialValue )
 	{
-		return (Object) super.createFromString( eDataType, initialValue );
+		return super.createFromString( eDataType, initialValue );
 	}
 
 	/**
@@ -421,6 +424,7 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 	 * @deprecated
 	 * @generated
 	 */
+	@Deprecated
 	public static DataPackage getPackage( )
 	{
 		return DataPackage.eINSTANCE;

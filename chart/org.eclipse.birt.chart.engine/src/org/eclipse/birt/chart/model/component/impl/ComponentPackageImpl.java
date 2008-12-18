@@ -49,9 +49,8 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  * end-user-doc -->
  * @generated
  */
-public class ComponentPackageImpl extends EPackageImpl
-		implements
-			ComponentPackage
+public class ComponentPackageImpl extends EPackageImpl implements
+		ComponentPackage
 {
 
 	/**
@@ -189,8 +188,7 @@ public class ComponentPackageImpl extends EPackageImpl
 			return (ComponentPackage) EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI );
 
 		// Obtain or create and register package
-		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( eNS_URI ) instanceof ComponentPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( eNS_URI )
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( eNS_URI )
 				: new ComponentPackageImpl( ) );
 
 		isInited = true;
@@ -199,20 +197,15 @@ public class ComponentPackageImpl extends EPackageImpl
 		XMLTypePackage.eINSTANCE.eClass( );
 
 		// Obtain or create and register interdependencies
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
+		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
 				: AttributePackage.eINSTANCE );
-		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
+		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
 				: DataPackage.eINSTANCE );
-		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
+		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
 				: TypePackage.eINSTANCE );
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
 				: LayoutPackage.eINSTANCE );
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
 				: ModelPackage.eINSTANCE );
 
 		// Create package meta-data objects
@@ -1465,6 +1458,10 @@ public class ComponentPackageImpl extends EPackageImpl
 		DataPackage theDataPackage = (DataPackage) EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI );
 		XMLTypePackage theXMLTypePackage = (XMLTypePackage) EPackage.Registry.INSTANCE.getEPackage( XMLTypePackage.eNS_URI );
 		LayoutPackage theLayoutPackage = (LayoutPackage) EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI );
+
+		// Create type parameters
+
+		// Set bounds for type parameters
 
 		// Add supertypes to classes
 		dialRegionEClass.getESuperTypes( ).add( this.getMarkerRange( ) );

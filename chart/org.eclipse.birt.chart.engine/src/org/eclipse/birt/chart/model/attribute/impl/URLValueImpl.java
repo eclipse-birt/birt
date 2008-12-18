@@ -162,6 +162,7 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.URL_VALUE;
@@ -324,6 +325,7 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -349,6 +351,7 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -380,6 +383,7 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -411,6 +415,7 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -441,6 +446,7 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

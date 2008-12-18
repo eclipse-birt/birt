@@ -57,7 +57,7 @@ public interface Marker extends EObject
 	 * @see #unsetType()
 	 * @see #setType(MarkerType)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getMarker_Type()
-	 * @model default="Crosshair" unique="false" unsettable="true" required="true"
+	 * @model default="Crosshair" unsettable="true" required="true"
 	 *        extendedMetaData="kind='element' name='Type'"
 	 * @generated
 	 */

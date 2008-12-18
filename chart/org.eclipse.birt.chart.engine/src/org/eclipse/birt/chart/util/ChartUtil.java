@@ -56,6 +56,7 @@ import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.ibm.icu.text.DecimalFormat;
 import com.ibm.icu.text.NumberFormat;
@@ -1073,13 +1074,14 @@ public class ChartUtil
 	 *            (will be changed)
 	 * @since 2.3
 	 */
-	private static void pruneInvisibleSedsFromEList( EList elSed )
+	private static void pruneInvisibleSedsFromEList(
+			EList<SeriesDefinition> elSed )
 	{
-		Iterator itSed = elSed.iterator( );
+		Iterator<SeriesDefinition> itSed = elSed.iterator( );
 
 		while ( itSed.hasNext( ) )
 		{
-			SeriesDefinition sed = (SeriesDefinition) itSed.next( );
+			SeriesDefinition sed = itSed.next( );
 			// Design time series may be null in API test
 			Series ds = sed.getDesignTimeSeries( );
 			if ( ds != null && !ds.isVisible( ) )
@@ -1118,11 +1120,8 @@ public class ChartUtil
 		else if ( cm instanceof ChartWithoutAxes )
 		{
 			ChartWithoutAxes cmNoAxes = (ChartWithoutAxes) cm;
-			Iterator itCata = cmNoAxes.getSeriesDefinitions( ).iterator( );
-
-			while ( itCata.hasNext( ) )
+			for ( SeriesDefinition sedCata : cmNoAxes.getSeriesDefinitions( ) )
 			{
-				SeriesDefinition sedCata = (SeriesDefinition) itCata.next( );
 				pruneInvisibleSedsFromEList( sedCata.getSeriesDefinitions( ) );
 			}
 		}
@@ -1199,17 +1198,19 @@ public class ChartUtil
 		List<SeriesDefinition> seriesList = new ArrayList<SeriesDefinition>( );
 		if ( chart instanceof ChartWithAxes )
 		{
-			EList axisList = ( (Axis) ( (ChartWithAxes) chart ).getAxes( )
-					.get( 0 ) ).getAssociatedAxes( );
+			EList<Axis> axisList = ( (ChartWithAxes) chart ).getAxes( )
+					.get( 0 )
+					.getAssociatedAxes( );
 			for ( int i = 0; i < axisList.size( ); i++ )
 			{
-				seriesList.addAll( ( (Axis) axisList.get( i ) ).getSeriesDefinitions( ) );
+				seriesList.addAll( axisList.get( i ).getSeriesDefinitions( ) );
 			}
 		}
 		else if ( chart instanceof ChartWithoutAxes )
 		{
-			seriesList.addAll( ( (SeriesDefinition) ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
-					.get( 0 ) ).getSeriesDefinitions( ) );
+			seriesList.addAll( ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
+					.get( 0 )
+					.getSeriesDefinitions( ) );
 		}
 		return seriesList;
 	}
@@ -1268,7 +1269,7 @@ public class ChartUtil
 				'\\'
 		};
 		
-		List specialList = new ArrayList( );
+		List<Character> specialList = new ArrayList<Character>( );
 		for ( int i = 0; i < specialSymbol.length; i++ )
 		{
 			specialList.add( new Character( specialSymbol[i] ) );
@@ -1281,7 +1282,7 @@ public class ChartUtil
 			if ( index < 0 ) {
 				continue;
 			}
-			if ( ( (Character) specialList.get( index ) ).charValue( ) == '\\' )
+			if ( specialList.get( index ).charValue( ) == '\\' )
 			{
 				sb.insert( i++, '\\' );
 				sb.insert( i++, '\\' );
@@ -1300,7 +1301,7 @@ public class ChartUtil
 	 */
 	public static String[] getValueSeriesExpressions( Chart cm )
 	{
-		Set<String> valueExprs = new LinkedHashSet( );
+		Set<String> valueExprs = new LinkedHashSet<String>( );
 		List<SeriesDefinition> orthSDs = ChartUtil.getAllOrthogonalSeriesDefinitions( cm );
 		for ( SeriesDefinition sd : orthSDs )
 		{
@@ -1554,13 +1555,15 @@ public class ChartUtil
 	 * 
 	 * @param vOSD: vector of all orthogonal SeriesDefinitions
 	 */
-	public static String getNewAncillarySampleData( Vector vOSD )
+	public static String getNewAncillarySampleData(
+			Vector<SeriesDefinition> vOSD )
 	{
 		StringBuffer sb = new StringBuffer( );
 
 		for ( int i = 0; i < vOSD.size( ); i++ )
 		{
-			sb.append( ( (SeriesDefinition) vOSD.get( i ) ).getDesignTimeSeries( )
+			sb.append( vOSD.get( i )
+					.getDesignTimeSeries( )
 					.getSeriesIdentifier( ) );
 			if ( i < vOSD.size( ) - 1 )
 			{
@@ -1569,7 +1572,6 @@ public class ChartUtil
 		}
 		return sb.toString( );
 	}
-	
 	
 	/**
 	 * backtraces the chart model from a given series
@@ -1665,4 +1667,18 @@ public class ChartUtil
 		return ( !b0 && b1 ) || ( b0 && !b1 );
 	}
 
+	/**
+	 * Convenient to use EcoreUtil.copy without explicit casting. But please
+	 * note that EcoreUtil.copy is costly, in general we should only use it in
+	 * ui code.
+	 * 
+	 * @param <T>
+	 * @param src
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T extends EObject> T eCopy( T src )
+	{
+		return (T) EcoreUtil.copy( src );
+	}
 }

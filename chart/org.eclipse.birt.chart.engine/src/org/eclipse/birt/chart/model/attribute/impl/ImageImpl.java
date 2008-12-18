@@ -65,6 +65,7 @@ public class ImageImpl extends FillImpl implements Image
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.IMAGE;
@@ -100,6 +101,7 @@ public class ImageImpl extends FillImpl implements Image
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -115,6 +117,7 @@ public class ImageImpl extends FillImpl implements Image
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -131,6 +134,7 @@ public class ImageImpl extends FillImpl implements Image
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -147,6 +151,7 @@ public class ImageImpl extends FillImpl implements Image
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -162,6 +167,7 @@ public class ImageImpl extends FillImpl implements Image
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

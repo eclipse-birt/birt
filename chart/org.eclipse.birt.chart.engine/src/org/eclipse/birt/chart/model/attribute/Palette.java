@@ -49,7 +49,7 @@ public interface Palette extends EObject
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getPalette_Name()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
 	 *        extendedMetaData="kind='element' name='Name'"
 	 * @generated
 	 */
@@ -79,7 +79,7 @@ public interface Palette extends EObject
 	 *        required="true"
 	 * @generated
 	 */
-	EList getEntries( );
+	EList<Fill> getEntries( );
 
 	/**
 	 * This convenience method updates the content of a palette with a library
@@ -101,7 +101,7 @@ public interface Palette extends EObject
 	 * @param f
 	 */
 	void update( Fill f );
-	
+
 	/**
 	 * Shifts the colors in palette with the steps.
 	 * 

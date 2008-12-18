@@ -102,7 +102,7 @@ public interface Insets extends EObject
 	 * @see #unsetLeft()
 	 * @see #setLeft(double)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getInsets_Left()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
 	 *        extendedMetaData="kind='element' name='Left'"
 	 * @generated
 	 */
@@ -153,7 +153,7 @@ public interface Insets extends EObject
 	 * @see #unsetBottom()
 	 * @see #setBottom(double)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getInsets_Bottom()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
 	 *        extendedMetaData="kind='element' name='Bottom'"
 	 * @generated
 	 */
@@ -206,7 +206,7 @@ public interface Insets extends EObject
 	 * @see #unsetRight()
 	 * @see #setRight(double)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getInsets_Right()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
 	 *        extendedMetaData="kind='element' name='Right'"
 	 * @generated
 	 */

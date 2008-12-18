@@ -38,9 +38,8 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class DataPointComponentImpl extends EObjectImpl
-		implements
-			DataPointComponent
+public class DataPointComponentImpl extends EObjectImpl implements
+		DataPointComponent
 {
 
 	/**
@@ -68,7 +67,7 @@ public class DataPointComponentImpl extends EObjectImpl
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean typeESet = false;
+	protected boolean typeESet;
 
 	/**
 	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}' containment reference.
@@ -77,7 +76,7 @@ public class DataPointComponentImpl extends EObjectImpl
 	 * @generated
 	 * @ordered
 	 */
-	protected FormatSpecifier formatSpecifier = null;
+	protected FormatSpecifier formatSpecifier;
 
 	/**
 	 * The default value of the '{@link #getOrthogonalType() <em>Orthogonal Type</em>}' attribute.
@@ -106,7 +105,7 @@ public class DataPointComponentImpl extends EObjectImpl
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean orthogonalTypeESet = false;
+	protected boolean orthogonalTypeESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -121,6 +120,7 @@ public class DataPointComponentImpl extends EObjectImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.DATA_POINT_COMPONENT;
@@ -313,6 +313,7 @@ public class DataPointComponentImpl extends EObjectImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -329,6 +330,7 @@ public class DataPointComponentImpl extends EObjectImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -348,6 +350,7 @@ public class DataPointComponentImpl extends EObjectImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -370,6 +373,7 @@ public class DataPointComponentImpl extends EObjectImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -392,6 +396,7 @@ public class DataPointComponentImpl extends EObjectImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -410,6 +415,7 @@ public class DataPointComponentImpl extends EObjectImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
@@ -30,8 +30,59 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class DateFormatType extends AbstractEnumerator
-{
+public enum DateFormatType implements Enumerator {
+	/**
+	 * The '<em><b>Long</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Long</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #LONG
+	 * @generated
+	 * @ordered
+	 */
+	LONG_LITERAL(0, "Long", "Long"),
+	/**
+	 * The '<em><b>Short</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Short</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #SHORT
+	 * @generated
+	 * @ordered
+	 */
+	SHORT_LITERAL(1, "Short", "Short"),
+	/**
+	 * The '<em><b>Medium</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Medium</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #MEDIUM
+	 * @generated
+	 * @ordered
+	 */
+	MEDIUM_LITERAL(2, "Medium", "Medium"),
+	/**
+	 * The '<em><b>Full</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Full</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #FULL
+	 * @generated
+	 * @ordered
+	 */
+	FULL_LITERAL(3, "Full", "Full");
 
 	/**
 	 * The '<em><b>Long</b></em>' literal value.
@@ -78,66 +129,6 @@ public final class DateFormatType extends AbstractEnumerator
 	public static final int FULL = 3;
 
 	/**
-	 * The '<em><b>Long</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Long</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #LONG
-	 * @generated
-	 * @ordered
-	 */
-	public static final DateFormatType LONG_LITERAL = new DateFormatType( LONG,
-			"Long", "Long" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Short</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Short</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #SHORT
-	 * @generated
-	 * @ordered
-	 */
-	public static final DateFormatType SHORT_LITERAL = new DateFormatType( SHORT,
-			"Short", "Short" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Medium</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Medium</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #MEDIUM
-	 * @generated
-	 * @ordered
-	 */
-	public static final DateFormatType MEDIUM_LITERAL = new DateFormatType( MEDIUM,
-			"Medium", "Medium" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Full</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Full</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #FULL
-	 * @generated
-	 * @ordered
-	 */
-	public static final DateFormatType FULL_LITERAL = new DateFormatType( FULL,
-			"Full", "Full" ); //$NON-NLS-1$
-
-	/**
 	 * An array of all the '<em><b>Date Format Type</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -151,7 +142,7 @@ public final class DateFormatType extends AbstractEnumerator
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<DateFormatType> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
 	 * Returns the '<em><b>Date Format Type</b></em>' literal with the specified literal value.
@@ -212,6 +203,27 @@ public final class DateFormatType extends AbstractEnumerator
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final int value;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String name;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String literal;
+
+	/**
 	 * Only this class can construct instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -219,7 +231,50 @@ public final class DateFormatType extends AbstractEnumerator
 	 */
 	private DateFormatType( int value, String name, String literal )
 	{
-		super( value, name, literal );
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
 	}
 
-} //DateFormatType
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getValue( )
+	{
+		return value;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName( )
+	{
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLiteral( )
+	{
+		return literal;
+	}
+
+	/**
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString( )
+	{
+		return literal;
+	}
+}

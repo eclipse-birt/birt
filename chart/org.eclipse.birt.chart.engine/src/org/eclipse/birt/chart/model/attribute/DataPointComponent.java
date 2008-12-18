@@ -132,7 +132,7 @@ public interface DataPointComponent extends EObject
 	 * @see #unsetOrthogonalType()
 	 * @see #setOrthogonalType(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getDataPointComponent_OrthogonalType()
-	 * @model default="" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model default="" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
 	 *        extendedMetaData="kind='element' name='OrthogonalType'"
 	 * @generated
 	 */

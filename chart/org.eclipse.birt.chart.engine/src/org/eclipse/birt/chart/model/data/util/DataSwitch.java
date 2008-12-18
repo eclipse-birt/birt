@@ -44,7 +44,7 @@ import org.eclipse.emf.ecore.EObject;
  * @see org.eclipse.birt.chart.model.data.DataPackage
  * @generated
  */
-public class DataSwitch
+public class DataSwitch<T>
 {
 
 	/**
@@ -73,7 +73,7 @@ public class DataSwitch
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	public Object doSwitch( EObject theEObject )
+	public T doSwitch( EObject theEObject )
 	{
 		return doSwitch( theEObject.eClass( ), theEObject );
 	}
@@ -84,7 +84,7 @@ public class DataSwitch
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected Object doSwitch( EClass theEClass, EObject theEObject )
+	protected T doSwitch( EClass theEClass, EObject theEObject )
 	{
 		if ( theEClass.eContainer( ) == modelPackage )
 		{
@@ -92,9 +92,9 @@ public class DataSwitch
 		}
 		else
 		{
-			List eSuperTypes = theEClass.getESuperTypes( );
+			List<EClass> eSuperTypes = theEClass.getESuperTypes( );
 			return eSuperTypes.isEmpty( ) ? defaultCase( theEObject )
-					: doSwitch( (EClass) eSuperTypes.get( 0 ), theEObject );
+					: doSwitch( eSuperTypes.get( 0 ), theEObject );
 		}
 	}
 
@@ -104,14 +104,14 @@ public class DataSwitch
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected Object doSwitch( int classifierID, EObject theEObject )
+	protected T doSwitch( int classifierID, EObject theEObject )
 	{
 		switch ( classifierID )
 		{
 			case DataPackage.ACTION :
 			{
 				Action action = (Action) theEObject;
-				Object result = caseAction( action );
+				T result = caseAction( action );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -119,7 +119,7 @@ public class DataSwitch
 			case DataPackage.BASE_SAMPLE_DATA :
 			{
 				BaseSampleData baseSampleData = (BaseSampleData) theEObject;
-				Object result = caseBaseSampleData( baseSampleData );
+				T result = caseBaseSampleData( baseSampleData );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -127,7 +127,7 @@ public class DataSwitch
 			case DataPackage.BUBBLE_DATA_SET :
 			{
 				BubbleDataSet bubbleDataSet = (BubbleDataSet) theEObject;
-				Object result = caseBubbleDataSet( bubbleDataSet );
+				T result = caseBubbleDataSet( bubbleDataSet );
 				if ( result == null )
 					result = caseDataSet( bubbleDataSet );
 				if ( result == null )
@@ -137,7 +137,7 @@ public class DataSwitch
 			case DataPackage.DATA_ELEMENT :
 			{
 				DataElement dataElement = (DataElement) theEObject;
-				Object result = caseDataElement( dataElement );
+				T result = caseDataElement( dataElement );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -145,7 +145,7 @@ public class DataSwitch
 			case DataPackage.DATA_SET :
 			{
 				DataSet dataSet = (DataSet) theEObject;
-				Object result = caseDataSet( dataSet );
+				T result = caseDataSet( dataSet );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -153,7 +153,7 @@ public class DataSwitch
 			case DataPackage.DATE_TIME_DATA_ELEMENT :
 			{
 				DateTimeDataElement dateTimeDataElement = (DateTimeDataElement) theEObject;
-				Object result = caseDateTimeDataElement( dateTimeDataElement );
+				T result = caseDateTimeDataElement( dateTimeDataElement );
 				if ( result == null )
 					result = caseDataElement( dateTimeDataElement );
 				if ( result == null )
@@ -163,7 +163,7 @@ public class DataSwitch
 			case DataPackage.DATE_TIME_DATA_SET :
 			{
 				DateTimeDataSet dateTimeDataSet = (DateTimeDataSet) theEObject;
-				Object result = caseDateTimeDataSet( dateTimeDataSet );
+				T result = caseDateTimeDataSet( dateTimeDataSet );
 				if ( result == null )
 					result = caseDataSet( dateTimeDataSet );
 				if ( result == null )
@@ -173,7 +173,7 @@ public class DataSwitch
 			case DataPackage.DIFFERENCE_DATA_SET :
 			{
 				DifferenceDataSet differenceDataSet = (DifferenceDataSet) theEObject;
-				Object result = caseDifferenceDataSet( differenceDataSet );
+				T result = caseDifferenceDataSet( differenceDataSet );
 				if ( result == null )
 					result = caseDataSet( differenceDataSet );
 				if ( result == null )
@@ -183,7 +183,7 @@ public class DataSwitch
 			case DataPackage.GANTT_DATA_SET :
 			{
 				GanttDataSet ganttDataSet = (GanttDataSet) theEObject;
-				Object result = caseGanttDataSet( ganttDataSet );
+				T result = caseGanttDataSet( ganttDataSet );
 				if ( result == null )
 					result = caseDataSet( ganttDataSet );
 				if ( result == null )
@@ -193,7 +193,7 @@ public class DataSwitch
 			case DataPackage.NULL_DATA_SET :
 			{
 				NullDataSet nullDataSet = (NullDataSet) theEObject;
-				Object result = caseNullDataSet( nullDataSet );
+				T result = caseNullDataSet( nullDataSet );
 				if ( result == null )
 					result = caseDataSet( nullDataSet );
 				if ( result == null )
@@ -203,7 +203,7 @@ public class DataSwitch
 			case DataPackage.NUMBER_DATA_ELEMENT :
 			{
 				NumberDataElement numberDataElement = (NumberDataElement) theEObject;
-				Object result = caseNumberDataElement( numberDataElement );
+				T result = caseNumberDataElement( numberDataElement );
 				if ( result == null )
 					result = caseDataElement( numberDataElement );
 				if ( result == null )
@@ -213,7 +213,7 @@ public class DataSwitch
 			case DataPackage.NUMBER_DATA_SET :
 			{
 				NumberDataSet numberDataSet = (NumberDataSet) theEObject;
-				Object result = caseNumberDataSet( numberDataSet );
+				T result = caseNumberDataSet( numberDataSet );
 				if ( result == null )
 					result = caseDataSet( numberDataSet );
 				if ( result == null )
@@ -223,7 +223,7 @@ public class DataSwitch
 			case DataPackage.ORTHOGONAL_SAMPLE_DATA :
 			{
 				OrthogonalSampleData orthogonalSampleData = (OrthogonalSampleData) theEObject;
-				Object result = caseOrthogonalSampleData( orthogonalSampleData );
+				T result = caseOrthogonalSampleData( orthogonalSampleData );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -231,7 +231,7 @@ public class DataSwitch
 			case DataPackage.QUERY :
 			{
 				Query query = (Query) theEObject;
-				Object result = caseQuery( query );
+				T result = caseQuery( query );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -239,7 +239,7 @@ public class DataSwitch
 			case DataPackage.RULE :
 			{
 				Rule rule = (Rule) theEObject;
-				Object result = caseRule( rule );
+				T result = caseRule( rule );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -247,7 +247,7 @@ public class DataSwitch
 			case DataPackage.SAMPLE_DATA :
 			{
 				SampleData sampleData = (SampleData) theEObject;
-				Object result = caseSampleData( sampleData );
+				T result = caseSampleData( sampleData );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -255,7 +255,7 @@ public class DataSwitch
 			case DataPackage.SERIES_DEFINITION :
 			{
 				SeriesDefinition seriesDefinition = (SeriesDefinition) theEObject;
-				Object result = caseSeriesDefinition( seriesDefinition );
+				T result = caseSeriesDefinition( seriesDefinition );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -263,7 +263,7 @@ public class DataSwitch
 			case DataPackage.SERIES_GROUPING :
 			{
 				SeriesGrouping seriesGrouping = (SeriesGrouping) theEObject;
-				Object result = caseSeriesGrouping( seriesGrouping );
+				T result = caseSeriesGrouping( seriesGrouping );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -271,7 +271,7 @@ public class DataSwitch
 			case DataPackage.STOCK_DATA_SET :
 			{
 				StockDataSet stockDataSet = (StockDataSet) theEObject;
-				Object result = caseStockDataSet( stockDataSet );
+				T result = caseStockDataSet( stockDataSet );
 				if ( result == null )
 					result = caseDataSet( stockDataSet );
 				if ( result == null )
@@ -281,7 +281,7 @@ public class DataSwitch
 			case DataPackage.TEXT_DATA_SET :
 			{
 				TextDataSet textDataSet = (TextDataSet) theEObject;
-				Object result = caseTextDataSet( textDataSet );
+				T result = caseTextDataSet( textDataSet );
 				if ( result == null )
 					result = caseDataSet( textDataSet );
 				if ( result == null )
@@ -291,7 +291,7 @@ public class DataSwitch
 			case DataPackage.TRIGGER :
 			{
 				Trigger trigger = (Trigger) theEObject;
-				Object result = caseTrigger( trigger );
+				T result = caseTrigger( trigger );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -302,15 +302,15 @@ public class DataSwitch
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Action</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Action</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Action</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Action</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseAction( Action object )
+	public T caseAction( Action object )
 	{
 		return null;
 	}
@@ -326,51 +326,51 @@ public class DataSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseBaseSampleData( BaseSampleData object )
+	public T caseBaseSampleData( BaseSampleData object )
 	{
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Bubble Data Set</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Bubble Data Set</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Bubble Data Set</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Bubble Data Set</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseBubbleDataSet( BubbleDataSet object )
+	public T caseBubbleDataSet( BubbleDataSet object )
 	{
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Element</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Element</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Element</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseDataElement( DataElement object )
+	public T caseDataElement( DataElement object )
 	{
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Set</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Set</em>'.
 	 * <!-- begin-user-doc --> This
 	 * implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Set</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Set</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseDataSet( DataSet object )
+	public T caseDataSet( DataSet object )
 	{
 		return null;
 	}
@@ -386,7 +386,7 @@ public class DataSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseDateTimeDataElement( DateTimeDataElement object )
+	public T caseDateTimeDataElement( DateTimeDataElement object )
 	{
 		return null;
 	}
@@ -402,55 +402,55 @@ public class DataSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseDateTimeDataSet( DateTimeDataSet object )
+	public T caseDateTimeDataSet( DateTimeDataSet object )
 	{
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Difference Data Set</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Difference Data Set</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Difference Data Set</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Difference Data Set</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseDifferenceDataSet( DifferenceDataSet object )
+	public T caseDifferenceDataSet( DifferenceDataSet object )
 	{
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Gantt Data Set</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Gantt Data Set</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Gantt Data Set</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Gantt Data Set</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseGanttDataSet( GanttDataSet object )
+	public T caseGanttDataSet( GanttDataSet object )
 	{
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Null Data Set</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Null Data Set</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Null Data Set</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Null Data Set</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseNullDataSet( NullDataSet object )
+	public T caseNullDataSet( NullDataSet object )
 	{
 		return null;
 	}
@@ -466,7 +466,7 @@ public class DataSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseNumberDataElement( NumberDataElement object )
+	public T caseNumberDataElement( NumberDataElement object )
 	{
 		return null;
 	}
@@ -482,7 +482,7 @@ public class DataSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseNumberDataSet( NumberDataSet object )
+	public T caseNumberDataSet( NumberDataSet object )
 	{
 		return null;
 	}
@@ -498,35 +498,35 @@ public class DataSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseOrthogonalSampleData( OrthogonalSampleData object )
+	public T caseOrthogonalSampleData( OrthogonalSampleData object )
 	{
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Query</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Query</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Query</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Query</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseQuery( Query object )
+	public T caseQuery( Query object )
 	{
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Rule</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Rule</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Rule</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Rule</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseRule( Rule object )
+	public T caseRule( Rule object )
 	{
 		return null;
 	}
@@ -542,7 +542,7 @@ public class DataSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseSampleData( SampleData object )
+	public T caseSampleData( SampleData object )
 	{
 		return null;
 	}
@@ -558,7 +558,7 @@ public class DataSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseSeriesDefinition( SeriesDefinition object )
+	public T caseSeriesDefinition( SeriesDefinition object )
 	{
 		return null;
 	}
@@ -574,7 +574,7 @@ public class DataSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseSeriesGrouping( SeriesGrouping object )
+	public T caseSeriesGrouping( SeriesGrouping object )
 	{
 		return null;
 	}
@@ -590,7 +590,7 @@ public class DataSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseStockDataSet( StockDataSet object )
+	public T caseStockDataSet( StockDataSet object )
 	{
 		return null;
 	}
@@ -606,36 +606,36 @@ public class DataSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseTextDataSet( TextDataSet object )
+	public T caseTextDataSet( TextDataSet object )
 	{
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Trigger</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Trigger</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Trigger</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Trigger</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseTrigger( Trigger object )
+	public T caseTrigger( Trigger object )
 	{
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch, but this is the last
 	 * case anyway. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
-	public Object defaultCase( EObject object )
+	public T defaultCase( EObject object )
 	{
 		return null;
 	}

@@ -56,7 +56,7 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
 	 * @generated
 	 * @ordered
 	 */
-	protected Label label = null;
+	protected Label label;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -71,6 +71,7 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return LayoutPackage.Literals.LABEL_BLOCK;
@@ -147,6 +148,7 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -163,6 +165,7 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -178,6 +181,7 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -194,6 +198,7 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -210,6 +215,7 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -259,16 +265,16 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
 		sz.scale( 72d / xs.getDpiResolution( ) );
 		final Insets ins = getInsets( );
 		sz.setHeight( sz.getHeight( ) + ins.getTop( ) + ins.getBottom( ) );
-		sz.setWidth( sz.getWidth( ) + ins.getLeft( ) + ins.getRight( ) );		
+		sz.setWidth( sz.getWidth( ) + ins.getLeft( ) + ins.getRight( ) );
 		return sz;
 	}
-	
-	protected BoundingBox computeBox( IDisplayServer xs,RunTimeContext rtc ) throws ChartException
+
+	protected BoundingBox computeBox( IDisplayServer xs, RunTimeContext rtc )
+			throws ChartException
 	{
 		Label la = LabelImpl.copyInstance( getLabel( ) );
 		final String sPreviousValue = getLabel( ).getCaption( ).getValue( );
-		la.getCaption( )
-				.setValue( rtc.externalizedMessage( sPreviousValue ) );
+		la.getCaption( ).setValue( rtc.externalizedMessage( sPreviousValue ) );
 		try
 		{
 			return Methods.computeBox( xs, IConstants.TOP, la, 0, 0 );

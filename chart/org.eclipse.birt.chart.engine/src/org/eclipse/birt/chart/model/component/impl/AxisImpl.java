@@ -177,7 +177,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected EList associatedAxes;
+	protected EList<Axis> associatedAxes;
 
 	/**
 	 * The cached value of the '{@link #getAncillaryAxes() <em>Ancillary Axes</em>}' containment reference list.
@@ -186,7 +186,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected EList ancillaryAxes;
+	protected EList<Axis> ancillaryAxes;
 
 	/**
 	 * The cached value of the '{@link #getSeriesDefinitions() <em>Series Definitions</em>}' containment reference list.
@@ -195,7 +195,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected EList seriesDefinitions;
+	protected EList<SeriesDefinition> seriesDefinitions;
 
 	/**
 	 * The default value of the '{@link #getGapWidth() <em>Gap Width</em>}' attribute.
@@ -372,7 +372,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected EList markerLines;
+	protected EList<MarkerLine> markerLines;
 
 	/**
 	 * The cached value of the '{@link #getMarkerRanges() <em>Marker Ranges</em>}' containment reference list.
@@ -381,7 +381,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected EList markerRanges;
+	protected EList<MarkerRange> markerRanges;
 
 	/**
 	 * The cached value of the '{@link #getTriggers() <em>Triggers</em>}' containment reference list.
@@ -391,7 +391,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected EList triggers;
+	protected EList<Trigger> triggers;
 
 	/**
 	 * The cached value of the '{@link #getMajorGrid() <em>Major Grid</em>}' containment reference.
@@ -618,6 +618,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return ComponentPackage.Literals.AXIS;
@@ -870,11 +871,11 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getAssociatedAxes( )
+	public EList<Axis> getAssociatedAxes( )
 	{
 		if ( associatedAxes == null )
 		{
-			associatedAxes = new EObjectContainmentEList( Axis.class,
+			associatedAxes = new EObjectContainmentEList<Axis>( Axis.class,
 					this,
 					ComponentPackage.AXIS__ASSOCIATED_AXES );
 		}
@@ -885,11 +886,11 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getAncillaryAxes( )
+	public EList<Axis> getAncillaryAxes( )
 	{
 		if ( ancillaryAxes == null )
 		{
-			ancillaryAxes = new EObjectContainmentEList( Axis.class,
+			ancillaryAxes = new EObjectContainmentEList<Axis>( Axis.class,
 					this,
 					ComponentPackage.AXIS__ANCILLARY_AXES );
 		}
@@ -900,11 +901,11 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getSeriesDefinitions( )
+	public EList<SeriesDefinition> getSeriesDefinitions( )
 	{
 		if ( seriesDefinitions == null )
 		{
-			seriesDefinitions = new EObjectContainmentEList( SeriesDefinition.class,
+			seriesDefinitions = new EObjectContainmentEList<SeriesDefinition>( SeriesDefinition.class,
 					this,
 					ComponentPackage.AXIS__SERIES_DEFINITIONS );
 		}
@@ -1397,11 +1398,11 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getMarkerLines( )
+	public EList<MarkerLine> getMarkerLines( )
 	{
 		if ( markerLines == null )
 		{
-			markerLines = new EObjectContainmentEList( MarkerLine.class,
+			markerLines = new EObjectContainmentEList<MarkerLine>( MarkerLine.class,
 					this,
 					ComponentPackage.AXIS__MARKER_LINES );
 		}
@@ -1412,11 +1413,11 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getMarkerRanges( )
+	public EList<MarkerRange> getMarkerRanges( )
 	{
 		if ( markerRanges == null )
 		{
-			markerRanges = new EObjectContainmentEList( MarkerRange.class,
+			markerRanges = new EObjectContainmentEList<MarkerRange>( MarkerRange.class,
 					this,
 					ComponentPackage.AXIS__MARKER_RANGES );
 		}
@@ -1428,11 +1429,11 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getTriggers( )
+	public EList<Trigger> getTriggers( )
 	{
 		if ( triggers == null )
 		{
-			triggers = new EObjectContainmentEList( Trigger.class,
+			triggers = new EObjectContainmentEList<Trigger>( Trigger.class,
 					this,
 					ComponentPackage.AXIS__TRIGGERS );
 		}
@@ -2052,6 +2053,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -2062,13 +2064,13 @@ public class AxisImpl extends EObjectImpl implements Axis
 			case ComponentPackage.AXIS__SUB_TITLE :
 				return basicSetSubTitle( null, msgs );
 			case ComponentPackage.AXIS__ASSOCIATED_AXES :
-				return ( (InternalEList) getAssociatedAxes( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getAssociatedAxes( ) ).basicRemove( otherEnd,
 						msgs );
 			case ComponentPackage.AXIS__ANCILLARY_AXES :
-				return ( (InternalEList) getAncillaryAxes( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getAncillaryAxes( ) ).basicRemove( otherEnd,
 						msgs );
 			case ComponentPackage.AXIS__SERIES_DEFINITIONS :
-				return ( (InternalEList) getSeriesDefinitions( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getSeriesDefinitions( ) ).basicRemove( otherEnd,
 						msgs );
 			case ComponentPackage.AXIS__LINE_ATTRIBUTES :
 				return basicSetLineAttributes( null, msgs );
@@ -2077,13 +2079,13 @@ public class AxisImpl extends EObjectImpl implements Axis
 			case ComponentPackage.AXIS__FORMAT_SPECIFIER :
 				return basicSetFormatSpecifier( null, msgs );
 			case ComponentPackage.AXIS__MARKER_LINES :
-				return ( (InternalEList) getMarkerLines( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getMarkerLines( ) ).basicRemove( otherEnd,
 						msgs );
 			case ComponentPackage.AXIS__MARKER_RANGES :
-				return ( (InternalEList) getMarkerRanges( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getMarkerRanges( ) ).basicRemove( otherEnd,
 						msgs );
 			case ComponentPackage.AXIS__TRIGGERS :
-				return ( (InternalEList) getTriggers( ) ).basicRemove( otherEnd,
+				return ( (InternalEList<?>) getTriggers( ) ).basicRemove( otherEnd,
 						msgs );
 			case ComponentPackage.AXIS__MAJOR_GRID :
 				return basicSetMajorGrid( null, msgs );
@@ -2102,6 +2104,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -2171,6 +2174,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -2189,15 +2194,15 @@ public class AxisImpl extends EObjectImpl implements Axis
 				return;
 			case ComponentPackage.AXIS__ASSOCIATED_AXES :
 				getAssociatedAxes( ).clear( );
-				getAssociatedAxes( ).addAll( (Collection) newValue );
+				getAssociatedAxes( ).addAll( (Collection<? extends Axis>) newValue );
 				return;
 			case ComponentPackage.AXIS__ANCILLARY_AXES :
 				getAncillaryAxes( ).clear( );
-				getAncillaryAxes( ).addAll( (Collection) newValue );
+				getAncillaryAxes( ).addAll( (Collection<? extends Axis>) newValue );
 				return;
 			case ComponentPackage.AXIS__SERIES_DEFINITIONS :
 				getSeriesDefinitions( ).clear( );
-				getSeriesDefinitions( ).addAll( (Collection) newValue );
+				getSeriesDefinitions( ).addAll( (Collection<? extends SeriesDefinition>) newValue );
 				return;
 			case ComponentPackage.AXIS__GAP_WIDTH :
 				setGapWidth( ( (Double) newValue ).doubleValue( ) );
@@ -2225,15 +2230,15 @@ public class AxisImpl extends EObjectImpl implements Axis
 				return;
 			case ComponentPackage.AXIS__MARKER_LINES :
 				getMarkerLines( ).clear( );
-				getMarkerLines( ).addAll( (Collection) newValue );
+				getMarkerLines( ).addAll( (Collection<? extends MarkerLine>) newValue );
 				return;
 			case ComponentPackage.AXIS__MARKER_RANGES :
 				getMarkerRanges( ).clear( );
-				getMarkerRanges( ).addAll( (Collection) newValue );
+				getMarkerRanges( ).addAll( (Collection<? extends MarkerRange>) newValue );
 				return;
 			case ComponentPackage.AXIS__TRIGGERS :
 				getTriggers( ).clear( );
-				getTriggers( ).addAll( (Collection) newValue );
+				getTriggers( ).addAll( (Collection<? extends Trigger>) newValue );
 				return;
 			case ComponentPackage.AXIS__MAJOR_GRID :
 				setMajorGrid( (Grid) newValue );
@@ -2274,6 +2279,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -2371,6 +2377,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -2440,6 +2447,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

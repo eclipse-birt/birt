@@ -86,6 +86,7 @@ import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.attribute.UnitsOfMeasurement;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.emf.common.util.DiagnosticChain;
+import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
@@ -158,18 +159,20 @@ public class AttributeValidator extends EObjectValidator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EPackage getEPackage( )
 	{
 		return AttributePackage.eINSTANCE;
 	}
 
 	/**
-	 * Calls <code>validateXXX</code> for the corresonding classifier of the model.
+	 * Calls <code>validateXXX</code> for the corresponding classifier of the model.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected boolean validate( int classifierID, Object value,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		switch ( classifierID )
 		{
@@ -583,7 +586,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateAccessibilityValue(
 			AccessibilityValue accessibilityValue, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( accessibilityValue,
 				diagnostics,
@@ -595,7 +598,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateActionValue( ActionValue actionValue,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( actionValue,
 				diagnostics,
@@ -607,7 +610,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateAngle3D( Angle3D angle3D,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( angle3D, diagnostics, context );
 	}
@@ -617,7 +620,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateAxisOrigin( AxisOrigin axisOrigin,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( axisOrigin,
 				diagnostics,
@@ -629,7 +632,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateBounds( Bounds bounds, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( bounds, diagnostics, context );
 	}
@@ -640,7 +643,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateCallBackValue( CallBackValue callBackValue,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( callBackValue,
 				diagnostics,
@@ -652,7 +655,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateColorDefinition( ColorDefinition colorDefinition,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( colorDefinition,
 				diagnostics,
@@ -664,7 +667,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateDataPoint( DataPoint dataPoint,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( dataPoint, diagnostics, context );
 	}
@@ -675,7 +678,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateDataPointComponent(
 			DataPointComponent dataPointComponent, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( dataPointComponent,
 				diagnostics,
@@ -688,7 +691,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateDateFormatSpecifier(
 			DateFormatSpecifier dateFormatSpecifier,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( dateFormatSpecifier,
 				diagnostics,
@@ -701,7 +704,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateEmbeddedImage( EmbeddedImage embeddedImage,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( embeddedImage,
 				diagnostics,
@@ -713,7 +716,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateExtendedProperty( ExtendedProperty extendedProperty,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( extendedProperty,
 				diagnostics,
@@ -725,7 +728,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateFill( Fill fill, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( fill, diagnostics, context );
 	}
@@ -735,7 +738,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateFontDefinition( FontDefinition fontDefinition,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( fontDefinition,
 				diagnostics,
@@ -747,7 +750,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateFormatSpecifier( FormatSpecifier formatSpecifier,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( formatSpecifier,
 				diagnostics,
@@ -761,7 +764,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateFractionNumberFormatSpecifier(
 			FractionNumberFormatSpecifier fractionNumberFormatSpecifier,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( fractionNumberFormatSpecifier,
 				diagnostics,
@@ -773,7 +776,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateGradient( Gradient gradient,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( gradient, diagnostics, context );
 	}
@@ -783,7 +786,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateImage( Image image, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( image, diagnostics, context );
 	}
@@ -793,7 +796,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateInsets( Insets insets, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( insets, diagnostics, context );
 	}
@@ -804,7 +807,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateInteractivity( Interactivity interactivity,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( interactivity,
 				diagnostics,
@@ -817,7 +820,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateJavaDateFormatSpecifier(
 			JavaDateFormatSpecifier javaDateFormatSpecifier,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( javaDateFormatSpecifier,
 				diagnostics,
@@ -830,7 +833,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateJavaNumberFormatSpecifier(
 			JavaNumberFormatSpecifier javaNumberFormatSpecifier,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( javaNumberFormatSpecifier,
 				diagnostics,
@@ -842,7 +845,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateLineAttributes( LineAttributes lineAttributes,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( lineAttributes,
 				diagnostics,
@@ -854,7 +857,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateLocation( Location location,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( location, diagnostics, context );
 	}
@@ -864,7 +867,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateLocation3D( Location3D location3D,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( location3D,
 				diagnostics,
@@ -876,7 +879,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateMarker( Marker marker, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( marker, diagnostics, context );
 	}
@@ -887,7 +890,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateMultipleFill( MultipleFill multipleFill,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( multipleFill,
 				diagnostics,
@@ -900,7 +903,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateNumberFormatSpecifier(
 			NumberFormatSpecifier numberFormatSpecifier,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( numberFormatSpecifier,
 				diagnostics,
@@ -912,7 +915,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validatePalette( Palette palette,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( palette, diagnostics, context );
 	}
@@ -922,7 +925,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateRotation3D( Rotation3D rotation3D,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( rotation3D,
 				diagnostics,
@@ -934,7 +937,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateScriptValue( ScriptValue scriptValue,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( scriptValue,
 				diagnostics,
@@ -946,7 +949,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateSeriesValue( SeriesValue seriesValue,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( seriesValue,
 				diagnostics,
@@ -958,7 +961,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateSize( Size size, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( size, diagnostics, context );
 	}
@@ -968,7 +971,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateStyle( Style style, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( style, diagnostics, context );
 	}
@@ -978,7 +981,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateStyleMap( StyleMap styleMap,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( styleMap, diagnostics, context );
 	}
@@ -988,7 +991,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateText( Text text, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( text, diagnostics, context );
 	}
@@ -998,7 +1001,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateTextAlignment( TextAlignment textAlignment,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( textAlignment,
 				diagnostics,
@@ -1010,7 +1013,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateTooltipValue( TooltipValue tooltipValue,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( tooltipValue,
 				diagnostics,
@@ -1022,7 +1025,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateURLValue( URLValue urlValue,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( urlValue, diagnostics, context );
 	}
@@ -1033,7 +1036,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateActionType( ActionType actionType,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1044,7 +1047,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateAnchor( Anchor anchor, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1055,7 +1058,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateAngleType( AngleType angleType,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1066,7 +1069,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateAxisType( AxisType axisType,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1077,7 +1080,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateChartDimension( ChartDimension chartDimension,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1088,7 +1091,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateChartType( ChartType chartType,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1100,7 +1103,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateDataPointComponentType(
 			DataPointComponentType dataPointComponentType,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1111,7 +1114,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateDataType( DataType dataType,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1122,7 +1125,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateDateFormatDetail( DateFormatDetail dateFormatDetail,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1133,7 +1136,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateDateFormatType( DateFormatType dateFormatType,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1144,7 +1147,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateDirection( Direction direction,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1155,7 +1158,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateGroupingUnitType( GroupingUnitType groupingUnitType,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1167,7 +1170,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateHorizontalAlignment(
 			HorizontalAlignment horizontalAlignment,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1178,7 +1181,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateIntersectionType( IntersectionType intersectionType,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1189,7 +1192,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateLeaderLineStyle( LeaderLineStyle leaderLineStyle,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1201,7 +1204,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateLegendBehaviorType(
 			LegendBehaviorType legendBehaviorType, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1212,7 +1215,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateLegendItemType( LegendItemType legendItemType,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1223,7 +1226,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateLineDecorator( LineDecorator lineDecorator,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1234,7 +1237,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateLineStyle( LineStyle lineStyle,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1245,7 +1248,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateMarkerType( MarkerType markerType,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1256,7 +1259,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateOrientation( Orientation orientation,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1267,7 +1270,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validatePosition( Position position,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1278,7 +1281,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateRiserType( RiserType riserType,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1289,7 +1292,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateRuleType( RuleType ruleType,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1300,7 +1303,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateScaleUnitType( ScaleUnitType scaleUnitType,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1311,7 +1314,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateSortOption( SortOption sortOption,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1322,7 +1325,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateStretch( Stretch stretch,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1333,7 +1336,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateStyledComponent( StyledComponent styledComponent,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1344,7 +1347,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateTickStyle( TickStyle tickStyle,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1355,7 +1358,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateTriggerCondition( TriggerCondition triggerCondition,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1366,7 +1369,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateTriggerFlow( TriggerFlow triggerFlow,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1378,7 +1381,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateUnitsOfMeasurement(
 			UnitsOfMeasurement unitsOfMeasurement, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1390,7 +1393,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateVerticalAlignment(
 			VerticalAlignment verticalAlignment, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1400,7 +1403,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateActionTypeObject( ActionType actionTypeObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1410,7 +1413,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateAnchorObject( Anchor anchorObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1420,7 +1423,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateAngleTypeObject( AngleType angleTypeObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1430,7 +1433,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateAxisTypeObject( AxisType axisTypeObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1441,7 +1444,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateChartDimensionObject(
 			ChartDimension chartDimensionObject, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1451,7 +1454,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateChartTypeObject( ChartType chartTypeObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1462,7 +1465,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateDataPointComponentTypeObject(
 			DataPointComponentType dataPointComponentTypeObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1472,7 +1475,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateDataTypeObject( DataType dataTypeObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1483,7 +1486,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateDateFormatDetailObject(
 			DateFormatDetail dateFormatDetailObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1494,7 +1497,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateDateFormatTypeObject(
 			DateFormatType dateFormatTypeObject, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1504,7 +1507,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateDirectionObject( Direction directionObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1515,7 +1518,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateGroupingUnitTypeObject(
 			GroupingUnitType groupingUnitTypeObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1526,7 +1529,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateHorizontalAlignmentObject(
 			HorizontalAlignment horizontalAlignmentObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1536,7 +1539,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateID( String id, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		boolean result = validateID_Pattern( id, diagnostics, context );
 		return result;
@@ -1560,7 +1563,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateID_Pattern( String id, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return validatePattern( AttributePackage.Literals.ID,
 				id,
@@ -1575,7 +1578,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateIntersectionTypeObject(
 			IntersectionType intersectionTypeObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1586,7 +1589,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateLeaderLineStyleObject(
 			LeaderLineStyle leaderLineStyleObject, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1598,7 +1601,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateLegendBehaviorTypeObject(
 			LegendBehaviorType legendBehaviorTypeObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1609,7 +1612,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateLegendItemTypeObject(
 			LegendItemType legendItemTypeObject, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1620,7 +1623,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateLineDecoratorObject(
 			LineDecorator lineDecoratorObject, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1630,7 +1633,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateLineStyleObject( LineStyle lineStyleObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1640,7 +1643,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateMarkerTypeObject( MarkerType markerTypeObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1650,7 +1653,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateOrientationObject( Orientation orientationObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1660,7 +1663,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validatePercentage( double percentage,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		boolean result = validatePercentage_Min( percentage,
 				diagnostics,
@@ -1684,7 +1687,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validatePercentage_Min( double percentage,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		boolean result = percentage >= PERCENTAGE__MIN__VALUE;
 		if ( !result && diagnostics != null )
@@ -1711,7 +1714,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validatePercentage_Max( double percentage,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		boolean result = percentage <= PERCENTAGE__MAX__VALUE;
 		if ( !result && diagnostics != null )
@@ -1729,7 +1732,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validatePercentageObject( Double percentageObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		boolean result = validatePercentage_Min( percentageObject.doubleValue( ),
 				diagnostics,
@@ -1746,7 +1749,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validatePositionObject( Position positionObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1756,7 +1759,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateRGBValue( int rgbValue, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		boolean result = validateRGBValue_Min( rgbValue, diagnostics, context );
 		if ( result || diagnostics != null )
@@ -1778,7 +1781,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateRGBValue_Min( int rgbValue,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		boolean result = rgbValue >= RGB_VALUE__MIN__VALUE;
 		if ( !result && diagnostics != null )
@@ -1805,7 +1808,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateRGBValue_Max( int rgbValue,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		boolean result = rgbValue <= RGB_VALUE__MAX__VALUE;
 		if ( !result && diagnostics != null )
@@ -1823,7 +1826,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateRGBValueObject( Integer rgbValueObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		boolean result = validateRGBValue_Min( rgbValueObject.intValue( ),
 				diagnostics,
@@ -1840,7 +1843,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateRiserTypeObject( RiserType riserTypeObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1850,7 +1853,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateRuleTypeObject( RuleType ruleTypeObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1861,7 +1864,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateScaleUnitTypeObject(
 			ScaleUnitType scaleUnitTypeObject, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1871,7 +1874,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateSortOptionObject( SortOption sortOptionObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1881,7 +1884,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateStretchObject( Stretch stretchObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1892,7 +1895,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateStyledComponentObject(
 			StyledComponent styledComponentObject, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1902,7 +1905,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateTickStyleObject( TickStyle tickStyleObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1913,7 +1916,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateTriggerConditionObject(
 			TriggerCondition triggerConditionObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1924,7 +1927,7 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateTriggerFlowObject( TriggerFlow triggerFlowObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1935,7 +1938,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateUnitsOfMeasurementObject(
 			UnitsOfMeasurement unitsOfMeasurementObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1946,9 +1949,24 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateVerticalAlignmentObject(
 			VerticalAlignment verticalAlignmentObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;
+	}
+
+	/**
+	 * Returns the resource locator that will be used to fetch messages for this validator's diagnostics.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public ResourceLocator getResourceLocator( )
+	{
+		// TODO
+		// Specialize this to return a resource locator for messages specific to this validator.
+		// Ensure that you remove @generated or mark it @generated NOT
+		return super.getResourceLocator( );
 	}
 
 } // AttributeValidator

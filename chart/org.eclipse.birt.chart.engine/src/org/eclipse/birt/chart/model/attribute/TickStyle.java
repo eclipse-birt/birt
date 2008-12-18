@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
@@ -30,8 +30,72 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class TickStyle extends AbstractEnumerator
-{
+public enum TickStyle implements Enumerator {
+	/**
+	 * The '<em><b>Left</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Left</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #LEFT
+	 * @generated
+	 * @ordered
+	 */
+	LEFT_LITERAL(0, "Left", "Left"),
+	/**
+	 * The '<em><b>Right</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Right</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #RIGHT
+	 * @generated
+	 * @ordered
+	 */
+	RIGHT_LITERAL(1, "Right", "Right"),
+	/**
+	 * The '<em><b>Above</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Above</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #ABOVE
+	 * @generated
+	 * @ordered
+	 */
+	ABOVE_LITERAL(2, "Above", "Above"),
+	/**
+	 * The '<em><b>Below</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Below</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #BELOW
+	 * @generated
+	 * @ordered
+	 */
+	BELOW_LITERAL(3, "Below", "Below"),
+	/**
+	 * The '<em><b>Across</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Across</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #ACROSS
+	 * @generated
+	 * @ordered
+	 */
+	ACROSS_LITERAL(4, "Across", "Across");
 
 	/**
 	 * The '<em><b>Left</b></em>' literal value.
@@ -89,81 +153,6 @@ public final class TickStyle extends AbstractEnumerator
 	public static final int ACROSS = 4;
 
 	/**
-	 * The '<em><b>Left</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Left</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #LEFT
-	 * @generated
-	 * @ordered
-	 */
-	public static final TickStyle LEFT_LITERAL = new TickStyle( LEFT,
-			"Left", "Left" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Right</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Right</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #RIGHT
-	 * @generated
-	 * @ordered
-	 */
-	public static final TickStyle RIGHT_LITERAL = new TickStyle( RIGHT,
-			"Right", "Right" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Above</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Above</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #ABOVE
-	 * @generated
-	 * @ordered
-	 */
-	public static final TickStyle ABOVE_LITERAL = new TickStyle( ABOVE,
-			"Above", "Above" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Below</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Below</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #BELOW
-	 * @generated
-	 * @ordered
-	 */
-	public static final TickStyle BELOW_LITERAL = new TickStyle( BELOW,
-			"Below", "Below" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Across</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Across</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #ACROSS
-	 * @generated
-	 * @ordered
-	 */
-	public static final TickStyle ACROSS_LITERAL = new TickStyle( ACROSS,
-			"Across", "Across" ); //$NON-NLS-1$
-
-	/**
 	 * An array of all the '<em><b>Tick Style</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -182,7 +171,7 @@ public final class TickStyle extends AbstractEnumerator
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<TickStyle> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
 	 * Returns the '<em><b>Tick Style</b></em>' literal with the specified literal value.
@@ -245,6 +234,27 @@ public final class TickStyle extends AbstractEnumerator
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final int value;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String name;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String literal;
+
+	/**
 	 * Only this class can construct instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -252,7 +262,50 @@ public final class TickStyle extends AbstractEnumerator
 	 */
 	private TickStyle( int value, String name, String literal )
 	{
-		super( value, name, literal );
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
 	}
 
-} //TickStyle
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getValue( )
+	{
+		return value;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName( )
+	{
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLiteral( )
+	{
+		return literal;
+	}
+
+	/**
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString( )
+	{
+		return literal;
+	}
+}

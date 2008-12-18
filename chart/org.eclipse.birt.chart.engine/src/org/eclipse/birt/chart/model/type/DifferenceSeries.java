@@ -2,13 +2,14 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DifferenceSeries.java,v 1.1 2006/12/28 03:49:26 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.type;
 
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 
+import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -41,11 +42,11 @@ public interface DifferenceSeries extends AreaSeries
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Negative Markers</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getDifferenceSeries_NegativeMarkers()
-	 * @model type="org.eclipse.birt.chart.model.attribute.Marker" containment="true"
+	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='NegativeMarkers'"
 	 * @generated
 	 */
-	EList getNegativeMarkers( );
+	EList<Marker> getNegativeMarkers( );
 
 	/**
 	 * Returns the value of the '<em><b>Negative Line Attributes</b></em>' containment reference.

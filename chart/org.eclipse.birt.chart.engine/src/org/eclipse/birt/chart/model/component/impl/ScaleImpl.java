@@ -303,6 +303,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return ComponentPackage.Literals.SCALE;
@@ -909,6 +910,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -927,6 +929,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -961,6 +964,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -1004,6 +1008,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -1047,6 +1052,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -1079,6 +1085,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

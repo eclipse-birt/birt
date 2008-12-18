@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GanttDataSetImpl.java,v 1.1 2006/12/28 03:49:28 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.data.impl;
@@ -17,7 +17,7 @@ import org.eclipse.emf.ecore.EClass;
  * <!-- end-user-doc -->
  * <p>
  * </p>
- * 
+ *
  * @generated
  */
 public class GanttDataSetImpl extends DataSetImpl implements GanttDataSet
@@ -25,7 +25,6 @@ public class GanttDataSetImpl extends DataSetImpl implements GanttDataSet
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected GanttDataSetImpl( )
@@ -35,9 +34,9 @@ public class GanttDataSetImpl extends DataSetImpl implements GanttDataSet
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return DataPackage.Literals.GANTT_DATA_SET;

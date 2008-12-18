@@ -65,7 +65,7 @@ public class PlotImpl extends BlockImpl implements Plot
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean horizontalSpacingESet = false;
+	protected boolean horizontalSpacingESet;
 
 	/**
 	 * The default value of the '
@@ -96,7 +96,7 @@ public class PlotImpl extends BlockImpl implements Plot
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean verticalSpacingESet = false;
+	protected boolean verticalSpacingESet;
 
 	/**
 	 * The cached value of the '{@link #getClientArea() <em>Client Area</em>}' containment reference.
@@ -105,7 +105,7 @@ public class PlotImpl extends BlockImpl implements Plot
 	 * @generated
 	 * @ordered
 	 */
-	protected ClientArea clientArea = null;
+	protected ClientArea clientArea;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -120,6 +120,7 @@ public class PlotImpl extends BlockImpl implements Plot
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return LayoutPackage.Literals.PLOT;
@@ -308,6 +309,7 @@ public class PlotImpl extends BlockImpl implements Plot
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -324,6 +326,7 @@ public class PlotImpl extends BlockImpl implements Plot
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -343,6 +346,7 @@ public class PlotImpl extends BlockImpl implements Plot
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -365,6 +369,7 @@ public class PlotImpl extends BlockImpl implements Plot
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -387,6 +392,7 @@ public class PlotImpl extends BlockImpl implements Plot
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -405,6 +411,7 @@ public class PlotImpl extends BlockImpl implements Plot
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id$
+ * $Id: ModelValidator.java,v 1.1 2008/11/24 03:38:28 ywang1 Exp $
  */
 
 package org.eclipse.birt.chart.model.util;
@@ -13,6 +13,7 @@ import org.eclipse.birt.chart.model.*;
 
 import org.eclipse.emf.common.util.DiagnosticChain;
 
+import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.EObjectValidator;
@@ -89,6 +90,7 @@ public class ModelValidator extends EObjectValidator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EPackage getEPackage( )
 	{
 		return ModelPackage.eINSTANCE;
@@ -100,8 +102,9 @@ public class ModelValidator extends EObjectValidator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected boolean validate( int classifierID, Object value,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		switch ( classifierID )
 		{
@@ -138,7 +141,7 @@ public class ModelValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateChart( Chart chart, DiagnosticChain diagnostics,
-			Map context )
+			Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( chart, diagnostics, context );
 	}
@@ -149,7 +152,7 @@ public class ModelValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateChartWithAxes( ChartWithAxes chartWithAxes,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( chartWithAxes,
 				diagnostics,
@@ -162,7 +165,7 @@ public class ModelValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateChartWithoutAxes( ChartWithoutAxes chartWithoutAxes,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( chartWithoutAxes,
 				diagnostics,
@@ -175,7 +178,7 @@ public class ModelValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateDialChart( DialChart dialChart,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( dialChart, diagnostics, context );
 	}
@@ -186,7 +189,7 @@ public class ModelValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateCoverageType( double coverageType,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		boolean result = validateCoverageType_Min( coverageType,
 				diagnostics,
@@ -213,7 +216,7 @@ public class ModelValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateCoverageType_Min( double coverageType,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		boolean result = coverageType >= COVERAGE_TYPE__MIN__VALUE;
 		if ( !result && diagnostics != null )
@@ -241,7 +244,7 @@ public class ModelValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateCoverageType_Max( double coverageType,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		boolean result = coverageType <= COVERAGE_TYPE__MAX__VALUE;
 		if ( !result && diagnostics != null )
@@ -260,7 +263,7 @@ public class ModelValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateCoverageTypeObject( Double coverageTypeObject,
-			DiagnosticChain diagnostics, Map context )
+			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		boolean result = validateCoverageType_Min( coverageTypeObject.doubleValue( ),
 				diagnostics,
@@ -270,6 +273,21 @@ public class ModelValidator extends EObjectValidator
 					diagnostics,
 					context );
 		return result;
+	}
+
+	/**
+	 * Returns the resource locator that will be used to fetch messages for this validator's diagnostics.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public ResourceLocator getResourceLocator( )
+	{
+		// TODO
+		// Specialize this to return a resource locator for messages specific to this validator.
+		// Ensure that you remove @generated or mark it @generated NOT
+		return super.getResourceLocator( );
 	}
 
 } //ModelValidator

@@ -40,6 +40,7 @@ public class NumberDataSetImpl extends DataSetImpl implements NumberDataSet
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return DataPackage.Literals.NUMBER_DATA_SET;

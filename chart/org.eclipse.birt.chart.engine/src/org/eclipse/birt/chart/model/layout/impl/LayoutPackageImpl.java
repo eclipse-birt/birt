@@ -839,6 +839,10 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		DataPackage theDataPackage = (DataPackage) EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI );
 		ComponentPackage theComponentPackage = (ComponentPackage) EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI );
 
+		// Create type parameters
+
+		// Set bounds for type parameters
+
 		// Add supertypes to classes
 		labelBlockEClass.getESuperTypes( ).add( this.getBlock( ) );
 		legendEClass.getESuperTypes( ).add( this.getBlock( ) );

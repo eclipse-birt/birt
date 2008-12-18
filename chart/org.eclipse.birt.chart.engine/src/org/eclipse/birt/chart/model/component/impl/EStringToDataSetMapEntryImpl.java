@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: EStringToDataSetMapEntryImpl.java,v 1.2 2007/01/16 03:37:34 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.component.impl;
@@ -36,9 +36,8 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class EStringToDataSetMapEntryImpl extends EObjectImpl
-		implements
-			BasicEMap.Entry
+public class EStringToDataSetMapEntryImpl extends EObjectImpl implements
+		BasicEMap.Entry<String, DataSet>
 {
 
 	/**
@@ -69,7 +68,7 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl
 	 * @generated
 	 * @ordered
 	 */
-	protected DataSet value = null;
+	protected DataSet value;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -86,6 +85,7 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return ComponentPackage.Literals.ESTRING_TO_DATA_SET_MAP_ENTRY;
@@ -192,6 +192,7 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -208,6 +209,7 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -225,6 +227,7 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -244,6 +247,7 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -263,6 +267,7 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -281,6 +286,7 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )
@@ -330,7 +336,7 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object getKey( )
+	public String getKey( )
 	{
 		return getTypedKey( );
 	}
@@ -340,9 +346,9 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setKey( Object key )
+	public void setKey( String key )
 	{
-		setTypedKey( (String) key );
+		setTypedKey( key );
 	}
 
 	/**
@@ -350,7 +356,7 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object getValue( )
+	public DataSet getValue( )
 	{
 		return getTypedValue( );
 	}
@@ -360,10 +366,10 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object setValue( Object value )
+	public DataSet setValue( DataSet value )
 	{
-		Object oldValue = getValue( );
-		setTypedValue( (DataSet) value );
+		DataSet oldValue = getValue( );
+		setTypedValue( value );
 		return oldValue;
 	}
 
@@ -372,11 +378,12 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EMap getEMap( )
+	@SuppressWarnings("unchecked")
+	public EMap<String, DataSet> getEMap( )
 	{
 		EObject container = eContainer( );
 		return container == null ? null
-				: (EMap) container.eGet( eContainmentFeature( ) );
+				: (EMap<String, DataSet>) container.eGet( eContainmentFeature( ) );
 	}
 
 } //EStringToDataSetMapEntryImpl

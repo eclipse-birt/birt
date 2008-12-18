@@ -40,6 +40,7 @@ public class DateTimeDataSetImpl extends DataSetImpl implements DateTimeDataSet
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return DataPackage.Literals.DATE_TIME_DATA_SET;

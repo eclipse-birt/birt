@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Interactivity.java,v 1.1 2006/12/28 03:49:25 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -47,7 +47,7 @@ public interface Interactivity extends EObject
 	 * @see #unsetEnable()
 	 * @see #setEnable(boolean)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getInteractivity_Enable()
-	 * @model default="true" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 * @model default="true" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
 	 *        extendedMetaData="kind='element' name='Enable'"
 	 * @generated
 	 */
@@ -103,7 +103,7 @@ public interface Interactivity extends EObject
 	 * @see #unsetLegendBehavior()
 	 * @see #setLegendBehavior(LegendBehaviorType)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getInteractivity_LegendBehavior()
-	 * @model default="None" unique="false" unsettable="true"
+	 * @model default="None" unsettable="true"
 	 *        extendedMetaData="kind='element' name='LegendBehavior'"
 	 * @generated
 	 */

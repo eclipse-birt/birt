@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GanttSeriesImpl.java,v 1.1 2006/12/28 03:49:32 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.type.impl;
@@ -36,39 +36,37 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getStartMarker <em>Start Marker</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getStartMarkerPosition <em>Start Marker Position</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getEndMarker <em>End Marker</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getEndMarkerPosition <em>End Marker Position</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getConnectionLine <em>Connection Line</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getOutline <em>Outline</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getOutlineFill <em>Outline Fill</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#isUseDecorationLabelValue <em>Use Decoration Label Value</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getDecorationLabel <em>Decoration Label</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getDecorationLabelPosition <em>Decoration Label Position</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#isPaletteLineColor <em>Palette Line Color</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getStartMarker <em>Start Marker</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getStartMarkerPosition <em>Start Marker Position</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getEndMarker <em>End Marker</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getEndMarkerPosition <em>End Marker Position</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getConnectionLine <em>Connection Line</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getOutline <em>Outline</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getOutlineFill <em>Outline Fill</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#isUseDecorationLabelValue <em>Use Decoration Label Value</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getDecorationLabel <em>Decoration Label</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getDecorationLabelPosition <em>Decoration Label Position</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#isPaletteLineColor <em>Palette Line Color</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 {
 
 	/**
-	 * The cached value of the '{@link #getStartMarker() <em>Start Marker</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getStartMarker() <em>Start Marker</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getStartMarker()
 	 * @generated
 	 * @ordered
 	 */
-	protected Marker startMarker = null;
+	protected Marker startMarker;
 
 	/**
-	 * The default value of the '{@link #getStartMarkerPosition() <em>Start Marker Position</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getStartMarkerPosition() <em>Start Marker Position</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getStartMarkerPosition()
 	 * @generated
 	 * @ordered
@@ -76,9 +74,8 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 	protected static final Position START_MARKER_POSITION_EDEFAULT = Position.ABOVE_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getStartMarkerPosition() <em>Start Marker Position</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getStartMarkerPosition() <em>Start Marker Position</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getStartMarkerPosition()
 	 * @generated
 	 * @ordered
@@ -92,22 +89,20 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean startMarkerPositionESet = false;
+	protected boolean startMarkerPositionESet;
 
 	/**
-	 * The cached value of the '{@link #getEndMarker() <em>End Marker</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getEndMarker() <em>End Marker</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getEndMarker()
 	 * @generated
 	 * @ordered
 	 */
-	protected Marker endMarker = null;
+	protected Marker endMarker;
 
 	/**
-	 * The default value of the '{@link #getEndMarkerPosition() <em>End Marker Position</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getEndMarkerPosition() <em>End Marker Position</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getEndMarkerPosition()
 	 * @generated
 	 * @ordered
@@ -115,9 +110,8 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 	protected static final Position END_MARKER_POSITION_EDEFAULT = Position.ABOVE_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getEndMarkerPosition() <em>End Marker Position</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getEndMarkerPosition() <em>End Marker Position</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getEndMarkerPosition()
 	 * @generated
 	 * @ordered
@@ -131,42 +125,38 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean endMarkerPositionESet = false;
+	protected boolean endMarkerPositionESet;
 
 	/**
-	 * The cached value of the '{@link #getConnectionLine() <em>Connection Line</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getConnectionLine() <em>Connection Line</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getConnectionLine()
 	 * @generated
 	 * @ordered
 	 */
-	protected LineAttributes connectionLine = null;
+	protected LineAttributes connectionLine;
 
 	/**
-	 * The cached value of the '{@link #getOutline() <em>Outline</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getOutline() <em>Outline</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getOutline()
 	 * @generated
 	 * @ordered
 	 */
-	protected LineAttributes outline = null;
+	protected LineAttributes outline;
 
 	/**
-	 * The cached value of the '{@link #getOutlineFill() <em>Outline Fill</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getOutlineFill() <em>Outline Fill</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getOutlineFill()
 	 * @generated
 	 * @ordered
 	 */
-	protected Fill outlineFill = null;
+	protected Fill outlineFill;
 
 	/**
-	 * The default value of the '{@link #isUseDecorationLabelValue() <em>Use Decoration Label Value</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #isUseDecorationLabelValue() <em>Use Decoration Label Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isUseDecorationLabelValue()
 	 * @generated
 	 * @ordered
@@ -174,9 +164,8 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 	protected static final boolean USE_DECORATION_LABEL_VALUE_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isUseDecorationLabelValue() <em>Use Decoration Label Value</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #isUseDecorationLabelValue() <em>Use Decoration Label Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isUseDecorationLabelValue()
 	 * @generated
 	 * @ordered
@@ -186,26 +175,23 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 	/**
 	 * This is true if the Use Decoration Label Value attribute has been set.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean useDecorationLabelValueESet = false;
+	protected boolean useDecorationLabelValueESet;
 
 	/**
-	 * The cached value of the '{@link #getDecorationLabel() <em>Decoration Label</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getDecorationLabel() <em>Decoration Label</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDecorationLabel()
 	 * @generated
 	 * @ordered
 	 */
-	protected Label decorationLabel = null;
+	protected Label decorationLabel;
 
 	/**
-	 * The default value of the '{@link #getDecorationLabelPosition() <em>Decoration Label Position</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getDecorationLabelPosition() <em>Decoration Label Position</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDecorationLabelPosition()
 	 * @generated
 	 * @ordered
@@ -213,9 +199,8 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 	protected static final Position DECORATION_LABEL_POSITION_EDEFAULT = Position.ABOVE_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getDecorationLabelPosition() <em>Decoration Label Position</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getDecorationLabelPosition() <em>Decoration Label Position</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDecorationLabelPosition()
 	 * @generated
 	 * @ordered
@@ -225,16 +210,14 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 	/**
 	 * This is true if the Decoration Label Position attribute has been set.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean decorationLabelPositionESet = false;
+	protected boolean decorationLabelPositionESet;
 
 	/**
-	 * The default value of the '{@link #isPaletteLineColor() <em>Palette Line Color</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #isPaletteLineColor() <em>Palette Line Color</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isPaletteLineColor()
 	 * @generated
 	 * @ordered
@@ -242,9 +225,8 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 	protected static final boolean PALETTE_LINE_COLOR_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isPaletteLineColor() <em>Palette Line Color</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #isPaletteLineColor() <em>Palette Line Color</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isPaletteLineColor()
 	 * @generated
 	 * @ordered
@@ -258,11 +240,10 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean paletteLineColorESet = false;
+	protected boolean paletteLineColorESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected GanttSeriesImpl( )
@@ -272,9 +253,9 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return TypePackage.Literals.GANTT_SERIES;
@@ -282,7 +263,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Marker getStartMarker( )
@@ -292,7 +272,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetStartMarker( Marker newStartMarker,
@@ -317,7 +296,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setStartMarker( Marker newStartMarker )
@@ -351,7 +329,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Position getStartMarkerPosition( )
@@ -361,7 +338,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setStartMarkerPosition( Position newStartMarkerPosition )
@@ -382,7 +358,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetStartMarkerPosition( )
@@ -402,7 +377,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetStartMarkerPosition( )
@@ -412,7 +386,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Marker getEndMarker( )
@@ -422,7 +395,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetEndMarker( Marker newEndMarker,
@@ -447,7 +419,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setEndMarker( Marker newEndMarker )
@@ -481,7 +452,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Position getEndMarkerPosition( )
@@ -491,7 +461,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setEndMarkerPosition( Position newEndMarkerPosition )
@@ -512,7 +481,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetEndMarkerPosition( )
@@ -532,7 +500,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetEndMarkerPosition( )
@@ -542,7 +509,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public LineAttributes getConnectionLine( )
@@ -552,7 +518,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetConnectionLine(
@@ -577,7 +542,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setConnectionLine( LineAttributes newConnectionLine )
@@ -611,7 +575,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public LineAttributes getOutline( )
@@ -621,7 +584,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetOutline( LineAttributes newOutline,
@@ -646,7 +608,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setOutline( LineAttributes newOutline )
@@ -680,7 +641,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Fill getOutlineFill( )
@@ -690,7 +650,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetOutlineFill( Fill newOutlineFill,
@@ -715,7 +674,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setOutlineFill( Fill newOutlineFill )
@@ -749,7 +707,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isUseDecorationLabelValue( )
@@ -759,7 +716,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setUseDecorationLabelValue( boolean newUseDecorationLabelValue )
@@ -779,7 +735,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetUseDecorationLabelValue( )
@@ -799,7 +754,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetUseDecorationLabelValue( )
@@ -809,7 +763,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Label getDecorationLabel( )
@@ -819,7 +772,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetDecorationLabel( Label newDecorationLabel,
@@ -844,7 +796,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setDecorationLabel( Label newDecorationLabel )
@@ -878,7 +829,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Position getDecorationLabelPosition( )
@@ -888,7 +838,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setDecorationLabelPosition( Position newDecorationLabelPosition )
@@ -909,7 +858,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetDecorationLabelPosition( )
@@ -929,7 +877,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetDecorationLabelPosition( )
@@ -939,7 +886,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isPaletteLineColor( )
@@ -949,7 +895,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setPaletteLineColor( boolean newPaletteLineColor )
@@ -969,7 +914,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetPaletteLineColor( )
@@ -989,7 +933,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetPaletteLineColor( )
@@ -999,9 +942,9 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -1025,9 +968,9 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -1061,9 +1004,9 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -1107,9 +1050,9 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -1153,9 +1096,9 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -1188,9 +1131,9 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )
@@ -1258,7 +1201,7 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 		setEndMarkerPosition( Position.ABOVE_LITERAL );
 
 		setLabelPosition( Position.ABOVE_LITERAL );
-		
+
 		LineAttributes la = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
 				LineStyle.SOLID_LITERAL,
 				8 );

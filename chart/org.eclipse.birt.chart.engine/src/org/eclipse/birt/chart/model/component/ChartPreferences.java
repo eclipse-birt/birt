@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.component;
 
+import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
@@ -54,7 +55,7 @@ public interface ChartPreferences extends EObject
 	 *        required="true"
 	 * @generated
 	 */
-	EList getLabels( );
+	EList<Label> getLabels( );
 
 	/**
 	 * Returns the value of the '<em><b>Blocks</b></em>' containment reference list. The list contents are of type
@@ -70,6 +71,6 @@ public interface ChartPreferences extends EObject
 	 * @model type="org.eclipse.birt.chart.model.layout.Block" containment="true" resolveProxies="false" required="true"
 	 * @generated
 	 */
-	EList getBlocks( );
+	EList<Block> getBlocks( );
 
 } // ChartPreferences

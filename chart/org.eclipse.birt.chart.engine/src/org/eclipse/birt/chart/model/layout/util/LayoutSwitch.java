@@ -32,7 +32,7 @@ import org.eclipse.emf.ecore.EObject;
  * @see org.eclipse.birt.chart.model.layout.LayoutPackage
  * @generated
  */
-public class LayoutSwitch
+public class LayoutSwitch<T>
 {
 
 	/**
@@ -61,7 +61,7 @@ public class LayoutSwitch
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	public Object doSwitch( EObject theEObject )
+	public T doSwitch( EObject theEObject )
 	{
 		return doSwitch( theEObject.eClass( ), theEObject );
 	}
@@ -72,7 +72,7 @@ public class LayoutSwitch
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected Object doSwitch( EClass theEClass, EObject theEObject )
+	protected T doSwitch( EClass theEClass, EObject theEObject )
 	{
 		if ( theEClass.eContainer( ) == modelPackage )
 		{
@@ -80,9 +80,9 @@ public class LayoutSwitch
 		}
 		else
 		{
-			List eSuperTypes = theEClass.getESuperTypes( );
+			List<EClass> eSuperTypes = theEClass.getESuperTypes( );
 			return eSuperTypes.isEmpty( ) ? defaultCase( theEObject )
-					: doSwitch( (EClass) eSuperTypes.get( 0 ), theEObject );
+					: doSwitch( eSuperTypes.get( 0 ), theEObject );
 		}
 	}
 
@@ -92,14 +92,14 @@ public class LayoutSwitch
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected Object doSwitch( int classifierID, EObject theEObject )
+	protected T doSwitch( int classifierID, EObject theEObject )
 	{
 		switch ( classifierID )
 		{
 			case LayoutPackage.BLOCK :
 			{
 				Block block = (Block) theEObject;
-				Object result = caseBlock( block );
+				T result = caseBlock( block );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -107,7 +107,7 @@ public class LayoutSwitch
 			case LayoutPackage.CLIENT_AREA :
 			{
 				ClientArea clientArea = (ClientArea) theEObject;
-				Object result = caseClientArea( clientArea );
+				T result = caseClientArea( clientArea );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -115,7 +115,7 @@ public class LayoutSwitch
 			case LayoutPackage.LABEL_BLOCK :
 			{
 				LabelBlock labelBlock = (LabelBlock) theEObject;
-				Object result = caseLabelBlock( labelBlock );
+				T result = caseLabelBlock( labelBlock );
 				if ( result == null )
 					result = caseBlock( labelBlock );
 				if ( result == null )
@@ -125,7 +125,7 @@ public class LayoutSwitch
 			case LayoutPackage.LEGEND :
 			{
 				Legend legend = (Legend) theEObject;
-				Object result = caseLegend( legend );
+				T result = caseLegend( legend );
 				if ( result == null )
 					result = caseBlock( legend );
 				if ( result == null )
@@ -135,7 +135,7 @@ public class LayoutSwitch
 			case LayoutPackage.PLOT :
 			{
 				Plot plot = (Plot) theEObject;
-				Object result = casePlot( plot );
+				T result = casePlot( plot );
 				if ( result == null )
 					result = caseBlock( plot );
 				if ( result == null )
@@ -145,7 +145,7 @@ public class LayoutSwitch
 			case LayoutPackage.TITLE_BLOCK :
 			{
 				TitleBlock titleBlock = (TitleBlock) theEObject;
-				Object result = caseTitleBlock( titleBlock );
+				T result = caseTitleBlock( titleBlock );
 				if ( result == null )
 					result = caseLabelBlock( titleBlock );
 				if ( result == null )
@@ -168,7 +168,7 @@ public class LayoutSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseBlock( Block object )
+	public T caseBlock( Block object )
 	{
 		return null;
 	}
@@ -184,7 +184,7 @@ public class LayoutSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseClientArea( ClientArea object )
+	public T caseClientArea( ClientArea object )
 	{
 		return null;
 	}
@@ -200,7 +200,7 @@ public class LayoutSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseLabelBlock( LabelBlock object )
+	public T caseLabelBlock( LabelBlock object )
 	{
 		return null;
 	}
@@ -214,7 +214,7 @@ public class LayoutSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseLegend( Legend object )
+	public T caseLegend( Legend object )
 	{
 		return null;
 	}
@@ -228,7 +228,7 @@ public class LayoutSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object casePlot( Plot object )
+	public T casePlot( Plot object )
 	{
 		return null;
 	}
@@ -244,7 +244,7 @@ public class LayoutSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseTitleBlock( TitleBlock object )
+	public T caseTitleBlock( TitleBlock object )
 	{
 		return null;
 	}
@@ -259,7 +259,7 @@ public class LayoutSwitch
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
-	public Object defaultCase( EObject object )
+	public T defaultCase( EObject object )
 	{
 		return null;
 	}

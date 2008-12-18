@@ -79,7 +79,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean riserESet = false;
+	protected boolean riserESet;
 
 	/**
 	 * The cached value of the '{@link #getRiserOutline() <em>Riser Outline</em>}' containment reference.
@@ -88,7 +88,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected ColorDefinition riserOutline = null;
+	protected ColorDefinition riserOutline;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -103,6 +103,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return TypePackage.Literals.BAR_SERIES;
@@ -235,6 +236,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -251,6 +253,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -268,6 +271,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -287,6 +291,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -306,6 +311,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -322,6 +328,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )
@@ -511,17 +518,17 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 	{
 		switch ( this.getRiser( ).getValue( ) )
 		{
-			case RiserType.TRIANGLE: 
+			case RiserType.TRIANGLE :
 				return Messages.getString( "BarSeriesImpl.pyramidDisplayName" ); //$NON-NLS-1$
-			case RiserType.CONE:
+			case RiserType.CONE :
 				return Messages.getString( "BarSeriesImpl.coneDisplayName" ); //$NON-NLS-1$
-			case RiserType.TUBE:
+			case RiserType.TUBE :
 				return Messages.getString( "BarSeriesImpl.tubeDisplayName" ); //$NON-NLS-1$
-			default:
+			default :
 				return Messages.getString( "BarSeriesImpl.displayName" ); //$NON-NLS-1$
 		}
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.chart.model.component.Series#isSingleCache()
 	 */

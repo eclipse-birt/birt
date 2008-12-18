@@ -62,7 +62,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean topESet = false;
+	protected boolean topESet;
 
 	/**
 	 * The default value of the '{@link #getLeft() <em>Left</em>}' attribute.
@@ -89,7 +89,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean leftESet = false;
+	protected boolean leftESet;
 
 	/**
 	 * The default value of the '{@link #getBottom() <em>Bottom</em>}' attribute.
@@ -116,7 +116,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean bottomESet = false;
+	protected boolean bottomESet;
 
 	/**
 	 * The default value of the '{@link #getRight() <em>Right</em>}' attribute.
@@ -143,7 +143,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean rightESet = false;
+	protected boolean rightESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -158,6 +158,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass( )
 	{
 		return AttributePackage.Literals.INSETS;
@@ -391,6 +392,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -411,6 +413,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet( int featureID, Object newValue )
 	{
 		switch ( featureID )
@@ -435,6 +438,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset( int featureID )
 	{
 		switch ( featureID )
@@ -459,6 +463,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet( int featureID )
 	{
 		switch ( featureID )
@@ -479,6 +484,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString( )
 	{
 		if ( eIsProxy( ) )
@@ -574,7 +580,8 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	public boolean areLessThan( double dValue )
 	{
 		return getTop( ) < dValue
-				&& getBottom( ) < dValue && getLeft( ) < dValue
+				&& getBottom( ) < dValue
+				&& getLeft( ) < dValue
 				&& getRight( ) < dValue;
 	}
 

@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
@@ -31,8 +31,50 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class ChartDimension extends AbstractEnumerator
-{
+public enum ChartDimension implements Enumerator {
+	/**
+	 * The '<em><b>Two Dimensional</b></em>' literal object. <!--
+	 * begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Two Dimensional</b></em>' literal object
+	 * isn't clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * 
+	 * @see #TWO_DIMENSIONAL
+	 * @generated
+	 * @ordered
+	 */
+	TWO_DIMENSIONAL_LITERAL(0, "TwoDimensional", "Two_Dimensional"),
+	/**
+	 * The '<em><b>Two Dimensional With Depth</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Two Dimensional With Depth</b></em>'
+	 * literal object isn't clear, there really should be more of a description
+	 * here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #TWO_DIMENSIONAL_WITH_DEPTH
+	 * @generated
+	 * @ordered
+	 */
+	TWO_DIMENSIONAL_WITH_DEPTH_LITERAL(1, "TwoDimensionalWithDepth",
+			"Two_Dimensional_With_Depth"),
+	/**
+	 * The '<em><b>Three Dimensional</b></em>' literal object. <!--
+	 * begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Three Dimensional</b></em>' literal object
+	 * isn't clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * 
+	 * @see #THREE_DIMENSIONAL
+	 * @generated
+	 * @ordered
+	 */
+	THREE_DIMENSIONAL_LITERAL(2, "ThreeDimensional", "Three_Dimensional");
 
 	/**
 	 * The '<em><b>Two Dimensional</b></em>' literal value. <!--
@@ -68,54 +110,6 @@ public final class ChartDimension extends AbstractEnumerator
 	public static final int THREE_DIMENSIONAL = 2;
 
 	/**
-	 * The '<em><b>Two Dimensional</b></em>' literal object. <!--
-	 * begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Two Dimensional</b></em>' literal object
-	 * isn't clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * 
-	 * @see #TWO_DIMENSIONAL
-	 * @generated
-	 * @ordered
-	 */
-	public static final ChartDimension TWO_DIMENSIONAL_LITERAL = new ChartDimension( TWO_DIMENSIONAL,
-			"TwoDimensional", "Two_Dimensional" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Two Dimensional With Depth</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Two Dimensional With Depth</b></em>'
-	 * literal object isn't clear, there really should be more of a description
-	 * here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #TWO_DIMENSIONAL_WITH_DEPTH
-	 * @generated
-	 * @ordered
-	 */
-	public static final ChartDimension TWO_DIMENSIONAL_WITH_DEPTH_LITERAL = new ChartDimension( TWO_DIMENSIONAL_WITH_DEPTH,
-			"TwoDimensionalWithDepth", "Two_Dimensional_With_Depth" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Three Dimensional</b></em>' literal object. <!--
-	 * begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Three Dimensional</b></em>' literal object
-	 * isn't clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * 
-	 * @see #THREE_DIMENSIONAL
-	 * @generated
-	 * @ordered
-	 */
-	public static final ChartDimension THREE_DIMENSIONAL_LITERAL = new ChartDimension( THREE_DIMENSIONAL,
-			"ThreeDimensional", "Three_Dimensional" ); //$NON-NLS-1$
-
-	/**
 	 * An array of all the '<em><b>Chart Dimension</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -131,7 +125,7 @@ public final class ChartDimension extends AbstractEnumerator
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<ChartDimension> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
 	 * Returns the '<em><b>Chart Dimension</b></em>' literal with the specified literal value.
@@ -190,6 +184,27 @@ public final class ChartDimension extends AbstractEnumerator
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final int value;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String name;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String literal;
+
+	/**
 	 * Only this class can construct instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -197,7 +212,50 @@ public final class ChartDimension extends AbstractEnumerator
 	 */
 	private ChartDimension( int value, String name, String literal )
 	{
-		super( value, name, literal );
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
 	}
 
-} //ChartDimension
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getValue( )
+	{
+		return value;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName( )
+	{
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLiteral( )
+	{
+		return literal;
+	}
+
+	/**
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString( )
+	{
+		return literal;
+	}
+}

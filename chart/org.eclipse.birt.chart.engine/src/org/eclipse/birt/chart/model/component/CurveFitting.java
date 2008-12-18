@@ -97,7 +97,6 @@ public interface CurveFitting extends EObject
 
 	/**
 	 * Returns the value of the '<em><b>Label Anchor</b></em>' attribute.
-	 * The default value is <code>"North"</code>.
 	 * The literals are from the enumeration {@link org.eclipse.birt.chart.model.attribute.Anchor}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -111,7 +110,7 @@ public interface CurveFitting extends EObject
 	 * @see #unsetLabelAnchor()
 	 * @see #setLabelAnchor(Anchor)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getCurveFitting_LabelAnchor()
-	 * @model default="North" unique="false" unsettable="true"
+	 * @model unsettable="true"
 	 *        extendedMetaData="kind='element' name='LabelAnchor'"
 	 * @generated
 	 */

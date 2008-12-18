@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
@@ -31,8 +31,160 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class MarkerType extends AbstractEnumerator
-{
+public enum MarkerType implements Enumerator {
+	/**
+	 * The '<em><b>Crosshair</b></em>' literal object.
+	 * <!-- begin-user-doc
+	 * -->
+	 * <p>
+	 * If the meaning of '<em><b>Crosshair</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #CROSSHAIR
+	 * @generated
+	 * @ordered
+	 */
+	CROSSHAIR_LITERAL(0, "Crosshair", "Crosshair"),
+	/**
+	 * The '<em><b>Triangle</b></em>' literal object.
+	 * <!-- begin-user-doc
+	 * -->
+	 * <p>
+	 * If the meaning of '<em><b>Triangle</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #TRIANGLE
+	 * @generated
+	 * @ordered
+	 */
+	TRIANGLE_LITERAL(1, "Triangle", "Triangle"),
+	/**
+	 * The '<em><b>Box</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Box</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #BOX
+	 * @generated
+	 * @ordered
+	 */
+	BOX_LITERAL(2, "Box", "Box"),
+	/**
+	 * The '<em><b>Circle</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Circle</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #CIRCLE
+	 * @generated
+	 * @ordered
+	 */
+	CIRCLE_LITERAL(3, "Circle", "Circle"),
+	/**
+	 * The '<em><b>Icon</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #ICON
+	 * @generated
+	 * @ordered
+	 */
+	ICON_LITERAL(4, "Icon", "Icon"),
+	/**
+	 * The '<em><b>Nabla</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #NABLA
+	 * @generated
+	 * @ordered
+	 */
+	NABLA_LITERAL(5, "Nabla", "Nabla"),
+	/**
+	 * The '<em><b>Diamond</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DIAMOND
+	 * @generated
+	 * @ordered
+	 */
+	DIAMOND_LITERAL(6, "Diamond", "Diamond"),
+	/**
+	 * The '<em><b>Four Diamonds</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #FOUR_DIAMONDS
+	 * @generated
+	 * @ordered
+	 */
+	FOUR_DIAMONDS_LITERAL(7, "FourDiamonds", "Four_Diamonds"),
+	/**
+	 * The '<em><b>Ellipse</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #ELLIPSE
+	 * @generated
+	 * @ordered
+	 */
+	ELLIPSE_LITERAL(8, "Ellipse", "Ellipse"),
+	/**
+	 * The '<em><b>Semi Circle</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #SEMI_CIRCLE
+	 * @generated
+	 * @ordered
+	 */
+	SEMI_CIRCLE_LITERAL(9, "SemiCircle", "Semi_Circle"),
+	/**
+	 * The '<em><b>Hexagon</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #HEXAGON
+	 * @generated
+	 * @ordered
+	 */
+	HEXAGON_LITERAL(10, "Hexagon", "Hexagon"),
+	/**
+	 * The '<em><b>Rectangle</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #RECTANGLE
+	 * @generated
+	 * @ordered
+	 */
+	RECTANGLE_LITERAL(11, "Rectangle", "Rectangle"),
+	/**
+	 * The '<em><b>Star</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #STAR
+	 * @generated
+	 * @ordered
+	 */
+	STAR_LITERAL(12, "Star", "Star"),
+	/**
+	 * The '<em><b>Column</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #COLUMN
+	 * @generated
+	 * @ordered
+	 */
+	COLUMN_LITERAL(13, "Column", "Column"),
+	/**
+	 * The '<em><b>Cross</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #CROSS
+	 * @generated
+	 * @ordered
+	 */
+	CROSS_LITERAL(14, "Cross", "Cross");
 
 	/**
 	 * The '<em><b>Crosshair</b></em>' literal value.
@@ -244,189 +396,6 @@ public final class MarkerType extends AbstractEnumerator
 	public static final int CROSS = 14;
 
 	/**
-	 * The '<em><b>Crosshair</b></em>' literal object.
-	 * <!-- begin-user-doc
-	 * -->
-	 * <p>
-	 * If the meaning of '<em><b>Crosshair</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #CROSSHAIR
-	 * @generated
-	 * @ordered
-	 */
-	public static final MarkerType CROSSHAIR_LITERAL = new MarkerType( CROSSHAIR,
-			"Crosshair", "Crosshair" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-	/**
-	 * The '<em><b>Triangle</b></em>' literal object.
-	 * <!-- begin-user-doc
-	 * -->
-	 * <p>
-	 * If the meaning of '<em><b>Triangle</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #TRIANGLE
-	 * @generated
-	 * @ordered
-	 */
-	public static final MarkerType TRIANGLE_LITERAL = new MarkerType( TRIANGLE,
-			"Triangle", "Triangle" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-	/**
-	 * The '<em><b>Box</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Box</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #BOX
-	 * @generated
-	 * @ordered
-	 */
-	public static final MarkerType BOX_LITERAL = new MarkerType( BOX,
-			"Box", "Box" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-	/**
-	 * The '<em><b>Circle</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Circle</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #CIRCLE
-	 * @generated
-	 * @ordered
-	 */
-	public static final MarkerType CIRCLE_LITERAL = new MarkerType( CIRCLE,
-			"Circle", "Circle" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-	/**
-	 * The '<em><b>Icon</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #ICON
-	 * @generated
-	 * @ordered
-	 */
-	public static final MarkerType ICON_LITERAL = new MarkerType( ICON,
-			"Icon", "Icon" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-	/**
-	 * The '<em><b>Nabla</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #NABLA
-	 * @generated
-	 * @ordered
-	 */
-	public static final MarkerType NABLA_LITERAL = new MarkerType( NABLA,
-			"Nabla", "Nabla" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-	/**
-	 * The '<em><b>Diamond</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #DIAMOND
-	 * @generated
-	 * @ordered
-	 */
-	public static final MarkerType DIAMOND_LITERAL = new MarkerType( DIAMOND,
-			"Diamond", "Diamond" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-	/**
-	 * The '<em><b>Four Diamonds</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #FOUR_DIAMONDS
-	 * @generated
-	 * @ordered
-	 */
-	public static final MarkerType FOUR_DIAMONDS_LITERAL = new MarkerType( FOUR_DIAMONDS,
-			"FourDiamonds", "Four_Diamonds" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-	/**
-	 * The '<em><b>Ellipse</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #ELLIPSE
-	 * @generated
-	 * @ordered
-	 */
-	public static final MarkerType ELLIPSE_LITERAL = new MarkerType( ELLIPSE,
-			"Ellipse", "Ellipse" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-	/**
-	 * The '<em><b>Semi Circle</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #SEMI_CIRCLE
-	 * @generated
-	 * @ordered
-	 */
-	public static final MarkerType SEMI_CIRCLE_LITERAL = new MarkerType( SEMI_CIRCLE,
-			"SemiCircle", "Semi_Circle" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-	/**
-	 * The '<em><b>Hexagon</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #HEXAGON
-	 * @generated
-	 * @ordered
-	 */
-	public static final MarkerType HEXAGON_LITERAL = new MarkerType( HEXAGON,
-			"Hexagon", "Hexagon" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-	/**
-	 * The '<em><b>Rectangle</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #RECTANGLE
-	 * @generated
-	 * @ordered
-	 */
-	public static final MarkerType RECTANGLE_LITERAL = new MarkerType( RECTANGLE,
-			"Rectangle", "Rectangle" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-	/**
-	 * The '<em><b>Star</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #STAR
-	 * @generated
-	 * @ordered
-	 */
-	public static final MarkerType STAR_LITERAL = new MarkerType( STAR,
-			"Star", "Star" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-	/**
-	 * The '<em><b>Column</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #COLUMN
-	 * @generated
-	 * @ordered
-	 */
-	public static final MarkerType COLUMN_LITERAL = new MarkerType( COLUMN,
-			"Column", "Column" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-	/**
-	 * The '<em><b>Cross</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #CROSS
-	 * @generated
-	 * @ordered
-	 */
-	public static final MarkerType CROSS_LITERAL = new MarkerType( CROSS,
-			"Cross", "Cross" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-	/**
 	 * An array of all the '<em><b>Marker Type</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -455,7 +424,7 @@ public final class MarkerType extends AbstractEnumerator
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<MarkerType> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
 	 * Returns the '<em><b>Marker Type</b></em>' literal with the specified literal value.
@@ -538,6 +507,27 @@ public final class MarkerType extends AbstractEnumerator
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final int value;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String name;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String literal;
+
+	/**
 	 * Only this class can construct instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -545,7 +535,50 @@ public final class MarkerType extends AbstractEnumerator
 	 */
 	private MarkerType( int value, String name, String literal )
 	{
-		super( value, name, literal );
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
 	}
 
-} //MarkerType
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getValue( )
+	{
+		return value;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName( )
+	{
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLiteral( )
+	{
+		return literal;
+	}
+
+	/**
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString( )
+	{
+		return literal;
+	}
+}
