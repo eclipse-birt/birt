@@ -31,6 +31,7 @@ public class DiskDataSetCacheObject implements IDataSetCacheObject
 {
 	//
 	private String cacheDir;
+	private static Integer count = new Integer( 0 );
 	
 	//the most row count this cache can save
 	private int cacheCapability;
@@ -46,11 +47,31 @@ public class DiskDataSetCacheObject implements IDataSetCacheObject
 	public DiskDataSetCacheObject( String cacheDir, int cacheCapability )
 	{
 		assert cacheCapability > 0;
-		this.cacheDir = cacheDir + File.separator + "DataSetCacheObject_" + this.hashCode( ) ;
-		(new File( this.cacheDir )).mkdirs( );
+		if( cacheDir.endsWith( File.separator ))
+		{
+			this.cacheDir = cacheDir + "DataSetCacheObject_" + this.hashCode( ) + "_" + getCount() ;	
+		}
+		else
+		{
+			this.cacheDir = cacheDir + File.separator + "DataSetCacheObject_" + this.hashCode( ) + "_" + getCount();
+		}
+		new File( this.cacheDir ).mkdirs( );
+			
 		this.cacheCapability = cacheCapability;
 	}
-
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private int getCount()
+	{
+		synchronized( count )
+		{
+			count = (count + 1) % 100000;
+			return count.intValue( );
+		}
+	}
 	
 	/**
 	 * 

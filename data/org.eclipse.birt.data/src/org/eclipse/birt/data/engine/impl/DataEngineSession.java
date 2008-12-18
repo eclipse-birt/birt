@@ -39,6 +39,8 @@ import org.mozilla.javascript.Scriptable;
 
 public class DataEngineSession
 {
+	private static Integer count = new Integer( 0 );
+	
 	private Map context;
 	private Scriptable scope;
 	private DataSetCacheManager dataSetCacheManager;
@@ -79,7 +81,7 @@ public class DataEngineSession
 				.getScriptContext( )
 				.getContext( ), scope );
 		tempDir = engine.getContext( ).getTmpdir( ) +
-				"DataEngine_" + engine.hashCode( ) + File.separator;
+				"DataEngine_" + engine.hashCode( ) + "_" + getCount( ) + File.separator;
 
 		this.dataSetCacheManager = new DataSetCacheManager( this );
 		
@@ -95,6 +97,19 @@ public class DataEngineSession
 		engine.addShutdownListener( new ReportDocumentShutdownListener( this ) );
 		this.queryResultIDUtil = new QueryResultIDUtil();
 		logger.exiting( DataEngineSession.class.getName( ), "DataEngineSession" );
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private int getCount()
+	{
+		synchronized( count )
+		{
+			count = (count + 1) % 100000;
+			return count.intValue( );
+		}
 	}
 	
 	/**
