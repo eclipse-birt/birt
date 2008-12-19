@@ -414,11 +414,6 @@ final class PreparedQuery
 						reg );
 			}
 		}
-	    else
-	    {
-	    	// Should never get here
-	    	assert false;
-	    }
 	}
 
 	/**
