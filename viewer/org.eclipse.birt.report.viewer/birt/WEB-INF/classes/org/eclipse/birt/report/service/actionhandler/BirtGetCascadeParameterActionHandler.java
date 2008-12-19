@@ -304,6 +304,8 @@ public class BirtGetCascadeParameterActionHandler
 				.getSelectionListForCascadingGroup( design, groupName,
 						groupKeys, options );
 		ScalarParameterBean parameterBean = new ScalarParameterBean( parameter );
+		// parameterBean doesn't automatically inherit the values from parameter
+		parameterBean.setRequired( parameter.isRequired( ) );
 		List<ParameterSelectionChoice> selectionList = ParameterUtility.makeSelectionList( list,
 				parameterBean, attrBean.getLocale( ), attrBean.getTimeZone( ),
 				false );

@@ -44,6 +44,7 @@ public class ParameterUtility
 			ScalarParameterBean parameterBean,
 			Locale locale, TimeZone timeZone, boolean processDefault )
 	{
+		// TODO: refactor according to the code path which depends on processDefault
 		boolean nullValueFound = false;
 		List<ParameterSelectionChoice> processedList = parameterBean.getSelectionList();
 		ParameterDefinition paramDef = parameterBean.getParameter( );
