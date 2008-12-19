@@ -544,22 +544,30 @@ public class DataExtractionTaskV1 extends EngineTask
 
 	public IExtractionResults extract( ) throws EngineException
 	{
+		IExtractionResults results = null;
 		try
 		{
 			prepareMetaData( );
 			if ( resultSetName != null )
 			{
-				return extractByResultSetName( resultSetName );
+				results = extractByResultSetName( resultSetName );
 			}
 			if ( instanceId != null )
 			{
-				return extractByInstanceID( instanceId );
+				results = extractByInstanceID( instanceId );
 			}
-			return null;
+			return results;
 		}
 		catch ( BirtException ex )
 		{
 			throw new EngineException( ex );
+		}
+		finally
+		{
+			if ( executionContext.isCanceled( ) )
+			{
+				return null;
+			}
 		}
 	}
 	
@@ -717,6 +725,10 @@ public class DataExtractionTaskV1 extends EngineTask
 
 				IQueryResults qryRS = executeQuery( rsID,
 						(QueryDefinition) query );
+				if( qryRS == null )
+				{
+					return null;
+				}
 				parent = new QueryResultSet( executionContext
 						.getDataEngine( ), executionContext,
 						(IQueryDefinition) query, qryRS );
@@ -740,6 +752,10 @@ public class DataExtractionTaskV1 extends EngineTask
 					assert rsID != null;
 					IQueryResults qryRS = executeQuery( rsID,
 							(QueryDefinition) query );
+					if( qryRS == null )
+					{
+						return null;
+					}
 					parent = new QueryResultSet( executionContext
 							.getDataEngine( ), executionContext, parent,
 							(IQueryDefinition) query, qryRS );
@@ -789,7 +805,15 @@ public class DataExtractionTaskV1 extends EngineTask
 		// prepare the query
 		processQueryExtensions( query );
 
+		if( dataSession == null )
+		{
+			return null;
+		}
 		IPreparedQuery pQuery = dataSession.prepare( query, appContext );
+		if( pQuery == null )
+		{
+			return null;
+		}
 		return pQuery.execute( scope );
 	}
 
@@ -836,7 +860,15 @@ public class DataExtractionTaskV1 extends EngineTask
 			// execute query
 			Scriptable scope = executionContext.getSharedScope( );
 			processQueryExtensions( newQuery );
+			if ( dataSession == null )
+			{
+				return null;
+			}
 			IPreparedQuery preparedQuery = dataSession.prepare( newQuery );
+			if ( preparedQuery == null )
+			{
+				return null;
+			}
 			results = preparedQuery.execute( scope );
 			if ( null != results )
 			{
@@ -887,6 +919,10 @@ public class DataExtractionTaskV1 extends EngineTask
 				QueryDefinition cloned = cloneQuery( (QueryDefinition) query );
 				updatePlanFully( plan, cloned );
 				QueryResultSet rset = executePlan( plan, 0 );
+				if ( rset == null )
+				{
+					return null;
+				}
 				( (QueryDefinition) cloned ).setQueryResultsID( rset
 						.getQueryResultsID( ) );
 				newQuery.setSourceQuery( cloned );
@@ -910,6 +946,10 @@ public class DataExtractionTaskV1 extends EngineTask
 					index++;
 				}
 				QueryResultSet rset = executePlan( plan, index );
+				if( rset == null )
+				{
+					return null;
+				}
 				( (QueryDefinition) topSubquery.getParentQuery( ) )
 						.setQueryResultsID( rset.getQueryResultsID( ) );
 				newQuery.setSourceQuery( clonedSubquery );
@@ -919,9 +959,17 @@ public class DataExtractionTaskV1 extends EngineTask
 
 			DataRequestSession dataSession = executionContext.getDataEngine( )
 					.getDTESession( );
+			if( dataSession == null )
+			{
+				return null;
+			}
 			Scriptable scope = executionContext.getSharedScope( );
 			processQueryExtensions( newQuery );
 			IPreparedQuery preparedQuery = dataSession.prepare( newQuery );
+			if( preparedQuery == null )
+			{
+				return null;
+			}
 			queryResults = preparedQuery.execute( scope );
 		}
 		if ( queryResults != null )
@@ -1301,7 +1349,15 @@ public class DataExtractionTaskV1 extends EngineTask
 		{
 			dataExtraction.initilize( executionContext.getReportContext( ),
 					extractOption );
-			dataExtraction.output( extract( ) );
+			IExtractionResults results = extract( );
+			if ( executionContext.isCanceled( ) )
+			{
+				return;
+			}
+			else
+			{
+				dataExtraction.output( results );
+			}
 		}
 		finally
 		{
