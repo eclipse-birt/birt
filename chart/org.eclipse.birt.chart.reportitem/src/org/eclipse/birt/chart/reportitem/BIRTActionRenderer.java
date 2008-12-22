@@ -239,16 +239,12 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 							if ( expr != null )
 							{
 								// Replace special expression in Legend item
-								// before evaluation
+								// before evaluation.
+								// Note that according to #259469, string are
+								// not with quotation sign.
 								if ( expr.indexOf( LEGEND_ITEM_TEXT ) >= 0 )
 								{
 									String legendItemText = wrapQuotation( lih.getItemText( ) );
-									// If simple expression, return result
-									// directly
-									if ( LEGEND_ITEM_TEXT.equals( expr.trim( ) ) )
-									{
-										return legendItemText;
-									}
 									expr = Pattern.compile( LEGEND_ITEM_TEXT,
 											Pattern.LITERAL )
 											.matcher( expr )
@@ -257,12 +253,6 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 								if ( expr.indexOf( LEGEND_ITEM_VALUE ) >= 0 )
 								{
 									String legendItemValue = wrapQuotation( lih.getValueText( ) );
-									// If simple expression, return result
-									// directly
-									if ( LEGEND_ITEM_VALUE.equals( expr.trim( ) ) )
-									{
-										return legendItemValue;
-									}
 									expr = Pattern.compile( LEGEND_ITEM_VALUE,
 											Pattern.LITERAL )
 											.matcher( expr )
