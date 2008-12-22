@@ -429,6 +429,7 @@ CutAction.trans=要素の切り取り
 
 dataBinding.label.selectBinding=データバインドの選択
 dataBinding.message.changeDataSet=要素のデータバインドを変更しようとしています。\n\n既存のデータフィールド情報をすべて削除しますか ?
+dataBinding.message.changeReference=You are about to change the element's data binding.  \n\nDo you wish to do the operation?
 dataBinding.title.changeDataSet=データセットを変更しますか ?
 dataBinding.title=データバインド
 

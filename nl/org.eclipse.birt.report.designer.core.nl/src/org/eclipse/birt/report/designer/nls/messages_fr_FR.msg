@@ -429,6 +429,7 @@ CutAction.trans=Couper les éléments
 
 dataBinding.label.selectBinding=Sélectionner la liaison de données :
 dataBinding.message.changeDataSet=Vous allez modifier la liaison des données de l'élément.  \n\nVoulez-vous effacer toutes les informations des champs de données ?
+dataBinding.message.changeReference=You are about to change the element's data binding.  \n\nDo you wish to do the operation?
 dataBinding.title.changeDataSet=Modifier le jeu de données ?
 dataBinding.title=Liaison de données
 

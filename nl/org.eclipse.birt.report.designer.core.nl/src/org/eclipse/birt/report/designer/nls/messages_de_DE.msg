@@ -429,6 +429,7 @@ CutAction.trans=Elemente ausschneiden
 
 dataBinding.label.selectBinding=Datenbindung auswählen:
 dataBinding.message.changeDataSet=Sie sind im Begriff, die Datenbindung des Elements zu ändern.\n\nMöchten Sie alle bestehenden Datenfeldinformationen löschen?
+dataBinding.message.changeReference=You are about to change the element's data binding.  \n\nDo you wish to do the operation?
 dataBinding.title.changeDataSet=Datensatz ändern?
 dataBinding.title=Datenbindung
 
