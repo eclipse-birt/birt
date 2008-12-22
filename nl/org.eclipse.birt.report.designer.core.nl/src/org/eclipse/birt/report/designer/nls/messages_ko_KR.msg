@@ -429,6 +429,7 @@ CutAction.trans=요소 자르기
 
 dataBinding.label.selectBinding=데이터 바인딩 선택:
 dataBinding.message.changeDataSet=요소 데이터 바인딩을 변경하려고 합니다.  \n\n기존의 데이터 필드 정보를 모두 지우시겠습니까?
+dataBinding.message.changeReference=You are about to change the element's data binding.  \n\nDo you wish to do the operation?
 dataBinding.title.changeDataSet=데이터 집합을 변경하시겠습니까?
 dataBinding.title=데이터 바인딩
 

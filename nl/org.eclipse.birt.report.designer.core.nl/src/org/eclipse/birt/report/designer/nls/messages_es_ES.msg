@@ -429,6 +429,7 @@ CutAction.trans=Cortar elementos
 
 dataBinding.label.selectBinding=Seleccionar enlace de datos:
 dataBinding.message.changeDataSet=Va a cambiar el enlace de datos del elemento. \n\n¿Desea borrar toda la información del campo de datos existente?
+dataBinding.message.changeReference=You are about to change the element's data binding.  \n\nDo you wish to do the operation?
 dataBinding.title.changeDataSet=¿Desea cambiar el conjunto de datos?
 dataBinding.title=Enlace de datos
 

@@ -429,6 +429,7 @@ CutAction.trans=剪切元素
 
 dataBinding.label.selectBinding=选择数据绑定:
 dataBinding.message.changeDataSet=您将要更改元素的数据绑定。\n\n是否要清除全部现有的数据字段信息?
+dataBinding.message.changeReference=You are about to change the element's data binding.  \n\nDo you wish to do the operation?
 dataBinding.title.changeDataSet=是否更改数据集？
 dataBinding.title=数据绑定
 
