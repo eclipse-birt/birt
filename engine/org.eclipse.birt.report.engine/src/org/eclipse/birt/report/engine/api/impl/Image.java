@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * Copyright (c) 2004,2008 Actuate Corporation. All rights reserved. This program and
  * the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
@@ -73,29 +73,19 @@ public class Image extends ReportPart implements IImage
 	{
 		if ( uri == null || uri.length( ) == 0 )
 		{
-			return;
+			throw new IllegalArgumentException( "null or empty uri" );
 		}
 
-		id = uri;
+		this.id = uri;
 		if ( !FileUtil.isLocalResource( uri ) )
 		{
-			extension = FileUtil.getExtFromFileName( uri );
 			this.source = IImage.URL_IMAGE;
-			return;
 		}
-
-		this.source = IImage.FILE_IMAGE;
-		try
+		else
 		{
-			new URL( uri );
-			extension = FileUtil.getExtFromFileName( uri );
-			return;
+			this.source = IImage.FILE_IMAGE;
 		}
-		catch ( MalformedURLException e )
-		{
-		}
-
-		extension = FileUtil.getExtFromFileName( uri );
+		this.extension = FileUtil.getExtFromFileName( uri );
 	}
 
 	/**
