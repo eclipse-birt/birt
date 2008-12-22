@@ -18,7 +18,6 @@ import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.RGBColorValue;
 import org.eclipse.birt.report.engine.css.engine.value.StringValue;
@@ -29,8 +28,6 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
 import com.lowagie.text.Font;
-
-
 
 public class PropertyUtil
 {
@@ -315,6 +312,11 @@ public class PropertyUtil
     		}
     	}
     	return 0.0f;
+    }
+    
+    public static boolean isWhiteSpaceNoWrap( CSSValue value )
+    {
+    	return IStyle.CSS_NOWRAP_VALUE.equals( value.getCssText( ) );
     }
     
 }

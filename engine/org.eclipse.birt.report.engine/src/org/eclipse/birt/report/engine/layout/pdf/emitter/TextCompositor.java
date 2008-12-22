@@ -77,19 +77,23 @@ public class TextCompositor
 		this.bidiProcessing = bidiProcessing;
 		this.fontSubstitution = fontSubstitution;
 		this.hyphenation = hyphenation;
-		this.textWrapping = textWrapping;
 		this.locale = locale;
 		IStyle style = textContent.getComputedStyle( );
 		letterSpacing = PropertyUtil.getDimensionValue( style
 				.getProperty( StyleConstants.STYLE_LETTER_SPACING ) );
 		wordSpacing = PropertyUtil.getDimensionValue( style
 				.getProperty( StyleConstants.STYLE_WORD_SPACING ) );
+		this.textWrapping = textWrapping
+				&& !PropertyUtil.isWhiteSpaceNoWrap( style
+						.getProperty( StyleConstants.STYLE_WHITE_SPACE ) );
 		remainChunks = new ChunkGenerator( fontManager, textContent, bidiProcessing,
 				fontSubstitution );
 	}
 
 	public boolean hasNextArea( )
 	{
+		// if the text need not be wrapped, and need switch to a new line, just
+		// ignore the subsequence text.
 		if ( !textWrapping && hasLineBreak )
 		{
 			return false;
@@ -194,15 +198,6 @@ public class TextCompositor
 	 */
 	private void addWordsIntoTextArea( TextArea textArea, IWordRecognizer words )
 	{
-//		if ( remainWord != null )
-//		{
-//			addWordIntoTextArea( textArea, remainWord );
-//			remainWord = null;
-//			if ( textArea.isLineBreak( ) )
-//			{
-//				return;
-//			}
-//		}
 		while ( words.hasWord( ) )
 		{
 			Word word = words.getNextWord( );
