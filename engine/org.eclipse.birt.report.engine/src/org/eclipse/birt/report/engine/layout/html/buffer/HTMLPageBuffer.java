@@ -201,11 +201,11 @@ public class HTMLPageBuffer implements IPageBuffer
 		}
 		else
 		{
-			/*if ( finished )
+			if ( finished )
 			{
 				currentNode.start( );
 				currentNode.end( );
-			}*/
+			}
 		}
 		currentNode = currentNode.getParent( );
 	}

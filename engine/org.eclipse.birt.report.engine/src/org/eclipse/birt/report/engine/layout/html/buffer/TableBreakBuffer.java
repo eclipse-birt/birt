@@ -292,7 +292,7 @@ public class TableBreakBuffer implements IPageBuffer
 					int pageIndex = needPageBreak( (ICellContent) content );
 					if ( pageIndex >= 0 )
 					{
-						currentBuffer.endContainer( content, false, emitter,
+						currentBuffer.endContainer( content, finished, emitter,
 								visible );
 						for ( int i = currentIndex + 1; i < pageIndex; i++ )
 						{
