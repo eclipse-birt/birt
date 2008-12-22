@@ -12,16 +12,18 @@
 package org.eclipse.birt.report.engine.script.internal;
 
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Locale;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineConstants;
-import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
+import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.impl.Image;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -183,6 +185,29 @@ public class ReportContextImpl implements IReportContext
 	public URL getResource( String resourceName )
 	{
 		return context.getResource( resourceName );
+	}
+
+	public String getResourceRenderURL( String resourceName )
+	{
+		IRenderOption option = context.getRenderOption( );
+		if ( option != null )
+		{
+			IHTMLImageHandler imageHandler = option.getImageHandler( );
+			if ( imageHandler != null )
+			{
+				URL resourceUrl = context.getResource( resourceName );
+				if ( resourceUrl != null )
+				{
+					Image image = new Image( resourceUrl.toExternalForm( ) );
+					if ( image.getSource( ) == Image.FILE_IMAGE )
+					{
+						return imageHandler.onFileImage( image, this );
+					}
+					return imageHandler.onURLImage( image, this );
+				}
+			}
+		}
+		return resourceName;
 	}
 
 	public Object evaluate( String script ) throws BirtException

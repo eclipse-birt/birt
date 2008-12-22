@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2005,2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -213,7 +213,25 @@ public interface IReportContext
 	 */
 	ReportDesignHandle getDesignHandle( );
 	
+	/**
+	 * get the URL for the resource.
+	 * 
+	 * The url can only be used in the server side.
+	 * 
+	 * @param resourceName
+	 *            resource name
+	 * @return resource URL
+	 */
 	URL getResource( String resourceName );
+
+	/**
+	 * get the render URL for a resource.
+	 * 
+	 * @param resourceName
+	 *            resource name
+	 * @return the URL which can be used in the client side.
+	 */
+	String getResourceRenderURL( String resourceName );
 	
 	Object evaluate(String script) throws BirtException;
 }
