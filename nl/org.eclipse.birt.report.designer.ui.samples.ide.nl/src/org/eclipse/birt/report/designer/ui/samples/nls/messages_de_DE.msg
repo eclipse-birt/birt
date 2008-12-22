@@ -7,7 +7,7 @@ SampleReportsView.Text.Description=Beschreibung
 SampleReportsView.MessageDialog.Title=Frage
 SampleReportsView.MessageDialog.Message=''{0}'' ist bereits vorhanden. Ersetzen?
 SampleReportsView.Action.exportSampleReport=Speichern
-SampleReportsView.Action.openSampleReport=&Open
+SampleReportsView.Action.openSampleReport=Ö&ffnen
 SampleReportsView.Action.exportSampleReport.toolTipText=Ausgewählten Beispielbericht exportieren
 SampleReportsView.Action.openSampleReport.toolTipText.ide=Berichtprojekt erstellen und Bericht im Projektordner aufnehmen
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=Ausgewählten Beispielbericht direkt in den Ordner des RCP-Arbeitsbereichs exportieren
@@ -16,7 +16,7 @@ IDEOpenSampleReportAction.ProjectNameDialog.Label.PrjectName=Projektname:
 IDEOpenSampleReportAction.ProjectNameDialog.Title.PrjectName=Projektname
 IDEOpenSampleReportAction.MessageDialog.ProjectExists.Title=Projekt bereits vorhanden.
 IDEOpenSampleReportAction.MessageDialog.ProjectExists.Message=Das Projekt ist bereits vorhanden. Drücken Sie '{0}', um dieses Projekt zu verwenden, '{1}', um das vorhandene Projekt zu löschen und ein neues zu erstellen, oder '{2}', um den Vorgang abzubrechen. 
-IDEOpenSampleReportAction.MessageDialog.ProjectExists.ButtonText=&Overwrite
+IDEOpenSampleReportAction.MessageDialog.ProjectExists.ButtonText=Ü&berschreiben
 
 ###########################################################
 #NewReportProjectWizard properties

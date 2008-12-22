@@ -104,5 +104,5 @@ Error.ResultsetExtractError = Jeu de résultats introuvable
 PDFCreator = Moteur d'états BIRT {0} utilisant iText ({1}).
 
 ###########################################################
-Error.FlashObjectNotSupported = "Flash Object report items are not supported in this report format."
+Error.FlashObjectNotSupported = "Les éléments d'état d'objet Flash ne sont pas pris en charge par ce format."
 

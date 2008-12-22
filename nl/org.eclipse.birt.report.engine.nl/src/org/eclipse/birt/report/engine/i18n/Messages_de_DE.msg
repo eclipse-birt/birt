@@ -104,5 +104,5 @@ Error.ResultsetExtractError = Ergebnis nicht gefunden.
 PDFCreator = BIRT-Berichtengine {0} mit iText {1}.
 
 ###########################################################
-Error.FlashObjectNotSupported = "Flash Object report items are not supported in this report format."
+Error.FlashObjectNotSupported = "Berichtobjekte aus Flash-Objekten werden in diesem Berichtformat nicht unterstützt."
 

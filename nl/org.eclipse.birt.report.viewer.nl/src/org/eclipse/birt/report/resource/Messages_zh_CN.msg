@@ -32,10 +32,10 @@ birt.viewer.error.generatereportfirst=应首先生成报表文档。
 birt.viewer.error.parameterrequired=参数“{0}”是必需的。
 birt.viewer.error.parameternotallowblank=参数“{0}”不能为空白。
 birt.viewer.error.parameternotselected=请为参数“{0}”选择值。
-birt.viewer.error.noviewingsession=The viewing session is not available or has expired.
-birt.viewer.error.viewingsessionexpired=The viewing session has expired.
-birt.viewer.error.viewingsessionlocked=The viewing session is locked and can't be terminated.
-birt.viewer.error.viewingsessionmaxreached=The maximum number of viewing sessions has been reached.
+birt.viewer.error.noviewingsession=查看会话不可用或已过期。
+birt.viewer.error.viewingsessionexpired=查看会话已过期。
+birt.viewer.error.viewingsessionlocked=查看会话被锁定，不能终止。
+birt.viewer.error.viewingsessionmaxreached=已达到查看会话最大数量。
 
 birt.viewer.message.taskcanceled=当前操作已取消。
 

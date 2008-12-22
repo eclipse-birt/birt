@@ -7,7 +7,7 @@ SampleReportsView.Text.Description=설명
 SampleReportsView.MessageDialog.Title=질문
 SampleReportsView.MessageDialog.Message=''{0}''이(가) 이미 있습니다. 바꾸시겠습니까?
 SampleReportsView.Action.exportSampleReport=저장
-SampleReportsView.Action.openSampleReport=&Open
+SampleReportsView.Action.openSampleReport=열기(&O)
 SampleReportsView.Action.exportSampleReport.toolTipText=선택된 샘플 보고서 내보내기
 SampleReportsView.Action.openSampleReport.toolTipText.ide=보고서 프로젝트를 생성하여 보고서를 프로젝트 폴더에 배치
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=선택된 샘플 보고서를 작업 영역 폴더에 직접 내보내기
@@ -16,7 +16,7 @@ IDEOpenSampleReportAction.ProjectNameDialog.Label.PrjectName=프로젝트 이름:
 IDEOpenSampleReportAction.ProjectNameDialog.Title.PrjectName=프로젝트 이름
 IDEOpenSampleReportAction.MessageDialog.ProjectExists.Title=프로젝트가 있습니다.
 IDEOpenSampleReportAction.MessageDialog.ProjectExists.Message=프로젝트가 이미 있습니다. 이 프로젝트를 사용하려면 ''{0}''을(를), 기존 프로젝트를 지우고 새 프로젝트를 만들려면 ''{1}''을(를), 취소하려면 ''{2}''을(를) 누르십시오. 
-IDEOpenSampleReportAction.MessageDialog.ProjectExists.ButtonText=&Overwrite
+IDEOpenSampleReportAction.MessageDialog.ProjectExists.ButtonText=덮어쓰기(&O)
 
 ###########################################################
 #NewReportProjectWizard properties

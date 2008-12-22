@@ -32,10 +32,10 @@ birt.viewer.error.generatereportfirst=보고서 문서가 먼저 생성되어야 합니다.
 birt.viewer.error.parameterrequired=매개변수 "{0}"이(가) 필요합니다.
 birt.viewer.error.parameternotallowblank=매개변수 "{0}"은(는) 비워둘 수 없습니다.
 birt.viewer.error.parameternotselected=매개변수 "{0}" 값을 선택하십시오.
-birt.viewer.error.noviewingsession=The viewing session is not available or has expired.
-birt.viewer.error.viewingsessionexpired=The viewing session has expired.
-birt.viewer.error.viewingsessionlocked=The viewing session is locked and can't be terminated.
-birt.viewer.error.viewingsessionmaxreached=The maximum number of viewing sessions has been reached.
+birt.viewer.error.noviewingsession=보기 세션을 사용할 수 없거나 세션이 만료되었습니다.
+birt.viewer.error.viewingsessionexpired=보기 세션이 만료되었습니다.
+birt.viewer.error.viewingsessionlocked=보기 세션이 잠겨 있어 종료할 수 없습니다.
+birt.viewer.error.viewingsessionmaxreached=최대 보기 세션 수에 도달했습니다.
 
 birt.viewer.message.taskcanceled=현재 작업이 취소되었습니다.
 

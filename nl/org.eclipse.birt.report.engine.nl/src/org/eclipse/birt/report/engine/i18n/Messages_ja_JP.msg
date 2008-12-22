@@ -104,5 +104,5 @@ Error.ResultsetExtractError = 結果セットが見つかりません。
 PDFCreator = BIRT レポートエンジン {0} (iText {1} を使用)
 
 ###########################################################
-Error.FlashObjectNotSupported = "Flash Object report items are not supported in this report format."
+Error.FlashObjectNotSupported = "このレポート形式では、Flash オブジェクトのレポート項目はサポートされていません。"
 

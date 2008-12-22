@@ -12,8 +12,8 @@
 preference.crosstabPage=Kreuztabelle
 crosstab.menu=Kr&euztabelle
 Crosstab.desc=Fügen Sie eine Kreuztabelle ein, um aggregierte Daten im Zeilen-/Spalten-Format anzuzeigen.
-newcube.menu=New Data &Cube
-paletteEntry.label.crosstab = Cross Tab
-command.name.createCrosstab = Create Crosstab
-command.name.createCube = Create Cube
+newcube.menu=Neuer Datenq&uader
+paletteEntry.label.crosstab = Kreuztabelle
+command.name.createCrosstab = Kreuztabelle erstellen
+command.name.createCube = Quader erstellen
 command.mnemonic.c = C

@@ -7,7 +7,7 @@ SampleReportsView.Text.Description=Description
 SampleReportsView.MessageDialog.Title=Question
 SampleReportsView.MessageDialog.Message=''{0}'' existe déjà. Voulez-vous le remplacer ?
 SampleReportsView.Action.exportSampleReport=Enregistrer
-SampleReportsView.Action.openSampleReport=&Open
+SampleReportsView.Action.openSampleReport=&Ouvrir
 SampleReportsView.Action.exportSampleReport.toolTipText=Exporter l'exemple d'état sélectionné
 SampleReportsView.Action.openSampleReport.toolTipText.ide=Créer un projet d'état et placer l'état dans le dossier de projet
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=Exporter directement l'exemple d'état sélectionné dans le dossier de l'espace de travail RCP
@@ -16,7 +16,7 @@ IDEOpenSampleReportAction.ProjectNameDialog.Label.PrjectName=Nom du projet :
 IDEOpenSampleReportAction.ProjectNameDialog.Title.PrjectName=Nom du projet
 IDEOpenSampleReportAction.MessageDialog.ProjectExists.Title=Le projet existe.
 IDEOpenSampleReportAction.MessageDialog.ProjectExists.Message=Le projet existe déjà. Appuyez sur ''{0}'' pour utiliser ce projet, appuyez sur ''{1}'' pour supprimer le projet existant et en créer un nouveau, appuyez sur ''{2}'' pour annuler. 
-IDEOpenSampleReportAction.MessageDialog.ProjectExists.ButtonText=&Overwrite
+IDEOpenSampleReportAction.MessageDialog.ProjectExists.ButtonText=&Ecraser
 
 ###########################################################
 #NewReportProjectWizard properties

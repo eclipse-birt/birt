@@ -32,10 +32,10 @@ birt.viewer.error.generatereportfirst=L'état doit être généré en premier.
 birt.viewer.error.parameterrequired=Le paramètre "{0}" est nécessaire.
 birt.viewer.error.parameternotallowblank=Le paramètre "{0}" doit être renseigné.
 birt.viewer.error.parameternotselected=Veuillez sélectionner une valeur pour le paramètre "{0}".
-birt.viewer.error.noviewingsession=The viewing session is not available or has expired.
-birt.viewer.error.viewingsessionexpired=The viewing session has expired.
-birt.viewer.error.viewingsessionlocked=The viewing session is locked and can't be terminated.
-birt.viewer.error.viewingsessionmaxreached=The maximum number of viewing sessions has been reached.
+birt.viewer.error.noviewingsession=La session de visualisation n'est pas disponible ou a expiré.
+birt.viewer.error.viewingsessionexpired=La session de visualisation a expiré.
+birt.viewer.error.viewingsessionlocked=La session de visualisation est verrouillée et ne peut pas être arrêtée.
+birt.viewer.error.viewingsessionmaxreached=Vous avez atteint le nombre maximum de sessions de visualisation.
 
 birt.viewer.message.taskcanceled=L'opération en cours a été annulée.
 
