@@ -2065,7 +2065,7 @@ InputParameterDailog.dialog.title.required=Erforderlicher Parameter – muss einen
 InputParameterDailog.dialog.title=Parameter eingeben
 InputParameterDailog.parameter.noparameter=Mit diesem Bericht ist kein Parameter verknüpft.
 InputParameterDialog.ErrorMessage.InvalidFile=Der Bericht ist fehlerhaft.
-ParameterDialog.ErrorMessage.ValueColumnEmpty=Value column should be specified.
+ParameterDialog.ErrorMessage.ValueColumnEmpty=Wertespalte muss angegeben werden.
 InputParameterDailog.parameter.null=Null-Wert
 InputParameterDialog.ErrorTitle.Error=Fehler
 

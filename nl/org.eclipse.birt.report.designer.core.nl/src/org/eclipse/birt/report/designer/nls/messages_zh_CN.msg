@@ -2065,7 +2065,7 @@ InputParameterDailog.dialog.title.required=所需的参数 - 必须具有值
 InputParameterDailog.dialog.title=输入参数
 InputParameterDailog.parameter.noparameter=没有与此报表相关联的参数。
 InputParameterDialog.ErrorMessage.InvalidFile=报表包含错误。
-ParameterDialog.ErrorMessage.ValueColumnEmpty=Value column should be specified.
+ParameterDialog.ErrorMessage.ValueColumnEmpty=应指定值列。
 InputParameterDailog.parameter.null=空值
 InputParameterDialog.ErrorTitle.Error=错误
 
