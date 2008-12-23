@@ -12,8 +12,8 @@
 preference.crosstabPage=交叉表
 crosstab.menu=交叉表(&O)
 Crosstab.desc=插入交叉表以按行和列格式显示聚合数据。
-newcube.menu=New Data &Cube
-paletteEntry.label.crosstab = Cross Tab
-command.name.createCrosstab = Create Crosstab
-command.name.createCube = Create Cube
+newcube.menu=新建数据和多维数据集
+paletteEntry.label.crosstab = 交叉表
+command.name.createCrosstab = 创建交叉表
+command.name.createCube = 创建多维数据集
 command.mnemonic.c = C
