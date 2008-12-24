@@ -49,7 +49,7 @@ public class EditableComboFieldEditor extends AbstractFieldEditor
 	 * @param labelText
 	 *            the label text of the field editor
 	 * @param entryNamesAndValues
-	 *            the entyr name and value choices of the combox of the field
+	 *            the entry name and value choices of the combox of the field
 	 *            editor
 	 * @param parent
 	 *            the parent of the field editor's control
@@ -148,7 +148,8 @@ public class EditableComboFieldEditor extends AbstractFieldEditor
 		setOldValue( value );
 		for ( int i = 0; i < fEntryNamesAndValues.length; i++ )
 		{
-			if ( fEntryNamesAndValues[i][1].equals( value ) )
+			if ( ( fEntryNamesAndValues[i][1] != null && fEntryNamesAndValues[i][1].equals( value ) )
+					|| ( fEntryNamesAndValues[i][1] == null && value == null ) )
 			{
 				fCombo.setText( fEntryNamesAndValues[i][0] );
 				return;
