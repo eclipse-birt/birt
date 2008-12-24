@@ -91,6 +91,11 @@ public class TransientReportDocument implements IInternalReportDocument
 	{
 		return document.getReportRunnable( );
 	}
+	
+	public IReportRunnable getPreparedRunnable( )
+	{
+		return document.getPreparedRunnable( );
+	}
 
 	public Map getParameterValues( )
 	{
@@ -219,4 +224,6 @@ public class TransientReportDocument implements IInternalReportDocument
 	{
 		return null;
 	}
+
+	
 }

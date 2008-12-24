@@ -832,6 +832,7 @@ public class ReportDocumentReader
 			{
 				reportRunnable = (ReportRunnable) engine.openReportDesign(
 						name, stream, moduleOptions );
+				reportRunnable.setPrepared( !isOriginal );
 				stream.close( );
 			}
 			catch ( Exception ex )
@@ -867,6 +868,15 @@ public class ReportDocumentReader
 			reportRunnable = getReportRunnable( true, systemId );
 		}
 		return reportRunnable.cloneRunnable( );
+	}
+	
+	public synchronized IReportRunnable getPreparedRunnable( )
+	{
+		if ( preparedRunnable == null )
+		{
+			preparedRunnable = getReportRunnable( false, systemId );
+		}
+		return preparedRunnable.cloneRunnable( );
 	}
 
 	public Map getParameterValues( )
@@ -1534,4 +1544,6 @@ public class ReportDocumentReader
 			throw new EngineException( "failed to load toc tree", ex );
 		}
 	}
+
+	
 }

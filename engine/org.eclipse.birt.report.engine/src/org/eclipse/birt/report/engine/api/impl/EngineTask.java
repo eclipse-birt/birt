@@ -1330,20 +1330,25 @@ public abstract class EngineTask implements IEngineTask
 
 	protected void prepareDesign( )
 	{
-		ReportDesignHandle reportDesign = executionContext.getDesign( );
-		ScriptedDesignSearcher searcher = new ScriptedDesignSearcher(
-				reportDesign );
-		searcher.apply( reportDesign );
-		boolean hasOnprepare = searcher.hasOnPrepareScript( );
-		if ( hasOnprepare )
+		ReportRunnable runnable = executionContext.getRunnable( );
+		if( !runnable.prepared)
 		{
-			ReportRunnable newRunnable = executionContext.getRunnable( )
-					.cloneRunnable( );
-			ReportDesignHandle newDesign = newRunnable.designHandle;
-			ScriptedDesignVisitor visitor = new ScriptedDesignHandler(
-					newDesign, executionContext );
-			visitor.apply( newDesign.getRoot( ) );
-			executionContext.updateRunnable( newRunnable );
+			ReportDesignHandle reportDesign = executionContext.getDesign( );
+			ScriptedDesignSearcher searcher = new ScriptedDesignSearcher(
+					reportDesign );
+			searcher.apply( reportDesign );
+			boolean hasOnprepare = searcher.hasOnPrepareScript( );			
+			if ( hasOnprepare)
+			{
+				ReportRunnable newRunnable = executionContext.getRunnable( )
+						.cloneRunnable( );
+				ReportDesignHandle newDesign = newRunnable.designHandle;
+				ScriptedDesignVisitor visitor = new ScriptedDesignHandler(
+						newDesign, executionContext );
+				visitor.apply( newDesign.getRoot( ) );
+				newRunnable.setPrepared( true );
+				executionContext.updateRunnable( newRunnable );
+			}
 		}
 	}
 

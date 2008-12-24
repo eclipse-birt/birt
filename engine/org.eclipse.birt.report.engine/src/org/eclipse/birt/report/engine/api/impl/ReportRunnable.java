@@ -41,6 +41,8 @@ public class ReportRunnable implements IReportRunnable
 	 */
 	protected String reportName;
 	
+	protected boolean prepared = false;
+	
 	/**
 	 * reference to report engine
 	 */
@@ -48,6 +50,11 @@ public class ReportRunnable implements IReportRunnable
 	
 	protected Hashtable<String, Script> cachedScripts = new Hashtable<String, Script>();
 
+	public void setPrepared(boolean prepared)
+	{
+		this.prepared = prepared;
+	}
+	
 	public Map<String, Script> getScriptCache()
 	{
 		return cachedScripts;
@@ -204,6 +211,7 @@ public class ReportRunnable implements IReportRunnable
 		ReportRunnable newRunnable = new ReportRunnable(newDesign);
 		newRunnable.setReportName( reportName );
 		newRunnable.setReportEngine( engine );
+		newRunnable.setPrepared( prepared );
 		return newRunnable;
 	}
 	
