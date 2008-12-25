@@ -201,7 +201,7 @@ public class HTMLPageBuffer implements IPageBuffer
 		}
 		else
 		{
-			if ( finished )
+			if ( finished && !isRepeated )
 			{
 				currentNode.start( );
 				currentNode.end( );
