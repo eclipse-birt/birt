@@ -1893,17 +1893,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			textValue = " "; //$NON-NLS-1$
 		}
 
-		int display;
-		// If the item is multi-line, we should check if it can be inline-block
-		if ( textValue != null && textValue.indexOf( '\n' ) >= 0 )
-		{
-			display = getElementType( x, y, width, height, mergedStyle );
-		}
-		else
-		{
-			display = getElementType( x, y, null, null, mergedStyle );
-		}
-
+		int display = htmlEmitter.getTextElementType( x, y, width, height, mergedStyle );
 		// action
 		String tagName = openTagByType( display, DISPLAY_FLAG_ALL );
 

@@ -270,6 +270,62 @@ public abstract class HTMLEmitter
 	}
 	
 	/**
+	 * Checks whether the element is block, inline or inline-block level. In
+	 * BIRT, the absolute positioning model is used and a box is explicitly
+	 * offset with respect to its containing block. When an element's x or y is
+	 * set, it will be treated as a block level element regardless of the
+	 * 'Display' property set in style. When designating width or height value
+	 * to an inline element, it will be treated as inline-block.
+	 * 
+	 * @param x
+	 *            Specifies how far a box's left margin edge is offset to the
+	 *            right of the left edge of the box's containing block.
+	 * @param y
+	 *            Specifies how far an absolutely positioned box's top margin
+	 *            edge is offset below the top edge of the box's containing
+	 *            block.
+	 * @param width
+	 *            The width of the element.
+	 * @param height
+	 *            The height of the element.
+	 * @param style
+	 *            The <code>IStyle</code> object.
+	 * @return The display type of the element.
+	 */
+	public int getTextElementType( DimensionType x, DimensionType y,
+			DimensionType width, DimensionType height, IStyle style )
+	{
+		int type = 0;
+		String display = null;
+		if ( style != null )
+		{
+			display = style.getDisplay( );
+		}
+
+		if ( EngineIRConstants.DISPLAY_NONE.equalsIgnoreCase( display ) )
+		{
+			type |= HTMLEmitterUtil.DISPLAY_NONE;
+		}
+
+		if ( x != null || y != null )
+		{
+			return type | HTMLEmitterUtil.DISPLAY_BLOCK;
+		}
+		else if ( EngineIRConstants.DISPLAY_INLINE.equalsIgnoreCase( display ) )
+		{
+			type |= HTMLEmitterUtil.DISPLAY_INLINE;
+			//Inline text doesn't support height.
+			if ( width != null )
+			{
+				type |= HTMLEmitterUtil.DISPLAY_INLINE_BLOCK;
+			}
+			return type;
+		}
+
+		return type | HTMLEmitterUtil.DISPLAY_BLOCK;
+	}
+	
+	/**
 	 * adds the default table styles
 	 * 
 	 * @param styleBuffer
@@ -423,6 +479,57 @@ public abstract class HTMLEmitter
 		else if ( ( type & HTMLEmitterUtil.DISPLAY_INLINE ) > 0 )
 		{
 			buildSize( styleBuffer, HTMLTags.ATTR_HEIGHT, height );
+			if ( !canShrink )
+			{
+				buildSize( styleBuffer, HTMLTags.ATTR_MIN_WIDTH, width );
+			}
+
+		}
+		else
+		{
+			assert false;
+		}
+		return canShrink;
+	}
+	
+	/**
+	 * Checks the 'CanShrink' property and sets the width and height according
+	 * @param type
+	 *            The display type of the element.
+	 * @param style
+	 *            The style of an element.
+	 * @param height
+	 *            The height property.
+	 * @param width
+	 *            The width property.
+	 * @param styleBuffer
+	 *            The <code>StringBuffer</code> object that returns 'style'
+	 *            content.
+	 * @return A <code>boolean</code> value indicating 'Can-Shrink' property
+	 *         is set to <code>true</code> or not.
+	 */
+	protected boolean handleTextShrink( int type, IStyle style,
+			DimensionType height, DimensionType width, StringBuffer styleBuffer )
+	{
+		boolean canShrink = style != null
+				&& "true".equalsIgnoreCase( style.getCanShrink( ) ); //$NON-NLS-1$
+
+		if ( ( type & HTMLEmitterUtil.DISPLAY_BLOCK ) > 0 )
+		{
+			buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, width );
+			if ( !canShrink )
+			{
+				buildSize( styleBuffer, HTMLTags.ATTR_MIN_HEIGHT, height );
+			}
+		}
+		else if ( ( type & HTMLEmitterUtil.DISPLAY_INLINE ) > 0 )
+		{
+			//Inline text doesn't support height. Inline-block text supports height.
+			//The user can use line height to implement the height effect of inline text.
+			if ( ( type & HTMLEmitterUtil.DISPLAY_INLINE_BLOCK ) > 0 )
+			{
+				buildSize( styleBuffer, HTMLTags.ATTR_HEIGHT, height );
+			}
 			if ( !canShrink )
 			{
 				buildSize( styleBuffer, HTMLTags.ATTR_MIN_WIDTH, width );

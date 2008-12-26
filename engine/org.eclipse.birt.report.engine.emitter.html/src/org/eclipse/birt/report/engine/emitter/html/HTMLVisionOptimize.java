@@ -476,7 +476,7 @@ public class HTMLVisionOptimize extends HTMLEmitter
 	{
 		IStyle style = text.getStyle( );
 		// check 'can-shrink' property
-		handleShrink( display,
+		handleTextShrink( display,
 				style,
 				text.getHeight( ),
 				text.getWidth( ),
