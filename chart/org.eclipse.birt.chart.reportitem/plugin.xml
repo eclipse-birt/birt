@@ -41,11 +41,11 @@
     		name="sort" 
     		type="structure"/>
          <overrideProperty
-               allowedUnits="in,cm,mm,pt,px"
+               allowedUnits="in,cm,mm,pt,px,pc"
                propertyName="width">
          </overrideProperty>
          <overrideProperty
-               allowedUnits="in,cm,mm,pt,px"
+               allowedUnits="in,cm,mm,pt,px,pc"
                propertyName="height">
          </overrideProperty>
          <property
