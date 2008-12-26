@@ -47,6 +47,7 @@ public interface IResultMetaData
 	 * @return			The alias of the specified column.
 	 * 					Null if none is defined.
 	 * @throws BirtException	if given index is invalid.
+	 * @deprecated it's not supported now
 	 */
 	public String getColumnAlias( int index ) throws BirtException;
 	
