@@ -159,48 +159,49 @@ public class ScriptExecutor
 	protected static void addClassCastException( ExecutionContext context,
 			Exception e, DesignElementHandle handle, Class requiredInterface )
 	{
-		addException( context, e, handle,
+		EngineException ex = new EngineException(
 				MessageConstants.SCRIPT_CLASS_CAST_ERROR, new Object[]{
 						handle.getEventHandlerClass( ),
-						requiredInterface.getName( )} );
+						requiredInterface.getName( )}, e );
+		
+		log.log( Level.WARNING, e.getMessage( ), e );
+		if ( context == null )
+			return;
+		
+		context.addException( handle, ex );
 	}
 
 	protected static void addException( ExecutionContext context, Exception e )
 	{
-		addException( context, e, MessageConstants.UNHANDLED_SCRIPT_ERROR, null );
+		addException( context, e, null );
 	}
 	
 	protected static void addException( ExecutionContext context, Exception e,
 			DesignElementHandle handle )
 	{
-		addException( context, e, handle,
-				MessageConstants.UNHANDLED_SCRIPT_ERROR, null );
-	}
-
-	private static void addException( ExecutionContext context, Exception e,
-			String errorType, Object[] args )
-	{
-		log.log( Level.WARNING, e.getMessage( ), e );
+		EngineException eex = null;
+		if ( e instanceof EngineException )
+			eex = (EngineException) e;
+		else if ( e instanceof BirtException )
+		{
+			eex = new EngineException( (BirtException) e );
+		}
+		else
+		{
+			eex = new EngineException( MessageConstants.UNHANDLED_SCRIPT_ERROR,
+					e );
+		}
+		
+		log.log( Level.WARNING, eex.getMessage( ), eex );
 		if ( context == null )
 			return;
-		if ( args == null )
-			context.addException( new EngineException( errorType, e ) );
+		
+		if( handle == null )
+			context.addException( eex );
 		else
-			context.addException( new EngineException( errorType, args, e ) );
+			context.addException( handle, eex );
 	}
 	
-	private static void addException( ExecutionContext context, Exception e,
-			DesignElementHandle handle, String errorType, Object[] args)
-	{
-		log.log( Level.WARNING, e.getMessage( ), e );
-		if ( context == null )
-			return;
-		if ( args == null )
-			context.addException( handle, new EngineException( errorType, e ) );
-		else
-			context.addException( handle, new EngineException( errorType, args, e ) );
-	}
-
 	protected static class JSScriptStatus
 	{
 		private boolean didRun;
