@@ -51,12 +51,12 @@ public class LibraryState extends ModuleState
 
 	public void end( ) throws SAXException
 	{
-		if (handler.versionNumber >= VersionUtil.VERSION_3_2_16)
+		if ( handler.versionNumber >= VersionUtil.VERSION_3_2_16 )
 		{
 			super.end( );
 			return;
 		}
-		
+
 		Library library = (Library) getElement( );
 
 		Object themeObj = getElement( ).getLocalProperty( module,
@@ -85,9 +85,9 @@ public class LibraryState extends ModuleState
 			theme = new Theme( ModelMessages
 					.getMessage( IThemeModel.DEFAULT_THEME_NAME ) );
 			ModelUtil.insertCompatibleThemeToLibrary( library, theme );
-			
+
 			handler.unhandleIDElements.add( theme );
-			
+
 			library.setProperty( IModuleModel.THEME_PROP, new ElementRefValue(
 					null, theme ) );
 		}
@@ -98,11 +98,18 @@ public class LibraryState extends ModuleState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * .lang.String)
 	 */
 
 	public AbstractParseState startElement( String tagName )
 	{
+		if ( handler.isReadOnlyModuleProperties )
+		{
+			return super.startElement( tagName );
+		}
+
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TRANSLATIONS_TAG ) )
 			return new TranslationsState( );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PARAMETERS_TAG ) )
@@ -131,6 +138,7 @@ public class LibraryState extends ModuleState
 			return new CubesState( handler, getElement( ),
 					ILibraryModel.CUBE_SLOT );
 		return super.startElement( tagName );
+
 	}
 
 	/**
@@ -144,7 +152,9 @@ public class LibraryState extends ModuleState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
 		 */
 
 		public AbstractParseState startElement( String tagName )

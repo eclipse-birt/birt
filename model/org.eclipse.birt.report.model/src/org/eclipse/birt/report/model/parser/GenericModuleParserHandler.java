@@ -99,7 +99,7 @@ public class GenericModuleParserHandler extends ModuleParserHandler
 				module.setOptions( options );
 				module.setLocation( location );
 
-				initLineNumberMarker( options );
+				buildModuleOptions( options );
 				if ( markLineNumber )
 					tempLineNumbers.put( module, new Integer( locator
 							.getLineNumber( ) ) );
@@ -114,7 +114,7 @@ public class GenericModuleParserHandler extends ModuleParserHandler
 				module.setLocation( location );
 
 				module.setOptions( options );
-				initLineNumberMarker( options );
+				buildModuleOptions( options );
 				if ( markLineNumber )
 					tempLineNumbers.put( module, new Integer( locator
 							.getLineNumber( ) ) );

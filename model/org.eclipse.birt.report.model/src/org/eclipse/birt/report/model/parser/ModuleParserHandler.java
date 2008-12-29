@@ -133,6 +133,12 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	protected Map<String, Library> reloadLibs = new HashMap<String, Library>( );
 
 	/**
+	 * Status identifying whether to only read simple property in report root
+	 * element or to parse the whole design file.
+	 */
+	protected boolean isReadOnlyModuleProperties = false;
+
+	/**
 	 * Constructs the module parser handler with the design session.
 	 * 
 	 * @param theSession
@@ -523,18 +529,39 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	 *            the options set for this module
 	 */
 
-	final protected void initLineNumberMarker( ModuleOption options )
+	final protected void buildModuleOptions( ModuleOption options )
 	{
 		assert module != null;
-		if ( options == null || options.markLineNumber( ) )
+		if ( options == null )
 		{
-			// lazy initialization.
 			markLineNumber = true;
+			isReadOnlyModuleProperties = false;
+		}
+		else
+		{
+			markLineNumber = options.markLineNumber( );
+			Boolean isSimple = (Boolean) options
+					.getProperty( ModuleOption.READ_ONLY_MODULE_PROPERTIES );
+			if ( isSimple != null && isSimple.booleanValue( ) )
+			{
+				isReadOnlyModuleProperties = true;
+				// if in simple parser, need not do semantic check
+				options.setSemanticCheck( false );
+			}
+			else
+				isReadOnlyModuleProperties = false;
+
+		}
+
+		if ( markLineNumber )
+		{
 			module.initLineNoMap( );
 			tempLineNumbers = new HashMap( );
 		}
-		else
-			markLineNumber = false;
+
+		// if read-only key is set to TRUE, then the module must be read-only
+		if ( isReadOnlyModuleProperties )
+			module.setReadOnly( );
 	}
 
 	/**

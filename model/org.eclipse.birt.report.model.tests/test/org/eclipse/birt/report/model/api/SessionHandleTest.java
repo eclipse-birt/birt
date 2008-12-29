@@ -41,11 +41,9 @@ import com.ibm.icu.util.ULocale;
  * <code>DesignSession</code>.
  * 
  * <p>
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: collapse" 
- * bordercolor="#111111">
- * <th width="20%">Method</th>
- * <th width="40%">Test Case</th>
- * <th width="40%">Expected</th>
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: collapse" * bordercolor="#111111">
+ * <th width="20%">Method</th> <th width="40%">Test Case</th> <th
+ * width="40%">Expected</th>
  * 
  * <tr>
  * <td>{@link #testCreateOpenAndClose()}</td>
@@ -103,8 +101,7 @@ import com.ibm.icu.util.ULocale;
  * 
  * <tr>
  * <td>{@link #testOpenWithWrongTag()}</td>
- * <td>Tests opening the design file with the tag which is not defined
- * in DE.</td>
+ * <td>Tests opening the design file with the tag which is not defined in DE.</td>
  * <td>Exception with SYNTAX_ERROR should be thrown.</td>
  * </tr>
  * 
@@ -117,23 +114,22 @@ import com.ibm.icu.util.ULocale;
  * 
  * <tr>
  * <td>{@link #testOpenWithUnmatchedTagError()}</td>
- * <td>Tests opening the design file with the tag which does not match
- * the end one.</td>
+ * <td>Tests opening the design file with the tag which does not match the end
+ * one.</td>
  * <td>Exception with SAX_EXCEPTION should be thrown.</td>
  * </tr>
  * 
  * <tr>
  * <td>{@link #testOpenWithInvalidAttrError()}</td>
- * <td>Tests opening the design file with the attribue which is not
- * defined in DE.</td>
- * <td>No error will be found for this invalid attribute will be
- * ignored.</td>
+ * <td>Tests opening the design file with the attribue which is not defined in
+ * DE.</td>
+ * <td>No error will be found for this invalid attribute will be ignored.</td>
  * </tr>
  * 
  * <tr>
  * <td>{@link #testOpenWithSemanticError()}</td>
- * <td>Tests whether the design is valid after opening a design file 
- * with semantic error</td>
+ * <td>Tests whether the design is valid after opening a design file with
+ * semantic error</td>
  * <td>The design should be invalid</td>
  * </tr>
  * 
@@ -330,8 +326,8 @@ public class SessionHandleTest extends BaseTestCase
 		try
 		{
 			designHandle = session.openDesign( getResource( INPUT_FOLDER )
-					.toString( ) +
-					notExistedFileName );
+					.toString( )
+					+ notExistedFileName );
 			fail( );
 		}
 		catch ( DesignFileException e )
@@ -728,8 +724,7 @@ public class SessionHandleTest extends BaseTestCase
 		// file.
 
 		URL tmpUrl = getResource( "/org/eclipse/birt/report/model/library/" //$NON-NLS-1$
-				+
-				INPUT_FOLDER );
+				+ INPUT_FOLDER );
 
 		assertTrue( tmpUrl.sameFile( libHandle.getSystemId( ) ) );
 	}
@@ -830,8 +825,10 @@ public class SessionHandleTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.api.core.IDisposeListener#elementDisposed(org.eclipse.birt.report.model.api.ModuleHandle,
-		 *      org.eclipse.birt.report.model.api.core.DisposeEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.api.core.IDisposeListener#elementDisposed
+		 * (org.eclipse.birt.report.model.api.ModuleHandle,
+		 * org.eclipse.birt.report.model.api.core.DisposeEvent)
 		 */
 		public void resourceChanged( ModuleHandle targetElement,
 				ResourceChangeEvent ev )
@@ -858,8 +855,10 @@ public class SessionHandleTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.api.core.IDisposeListener#elementDisposed(org.eclipse.birt.report.model.api.ModuleHandle,
-		 *      org.eclipse.birt.report.model.api.core.DisposeEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.api.core.IDisposeListener#elementDisposed
+		 * (org.eclipse.birt.report.model.api.ModuleHandle,
+		 * org.eclipse.birt.report.model.api.core.DisposeEvent)
 		 */
 		public void resourceChanged( ModuleHandle targetElement,
 				ResourceChangeEvent ev )
@@ -934,7 +933,7 @@ public class SessionHandleTest extends BaseTestCase
 		ModuleOption options = new ModuleOption( );
 		options.setSemanticCheck( false );
 		options.setMarkLineNumber( true );
-		
+
 		designHandle = session
 				.openDesign(
 						getResource( INPUT_FOLDER + "SessionHandleTest_11.xml" ).toString( ), options ); //$NON-NLS-1$
@@ -979,6 +978,42 @@ public class SessionHandleTest extends BaseTestCase
 		{
 			assertEquals( ReadOnlyActivityStack.MESSAGE, e.getMessage( ) );
 		}
+
+	}
+
+	/**
+	 * Tests the function of simple parser. Only read simple properties set in
+	 * report root rather than the whole design tree. Neither do the semantic
+	 * check.
+	 * 
+	 * @throws Exception
+	 */
+	public void testOpenForSimpleParser( ) throws Exception
+	{
+		ModuleOption options = new ModuleOption( );
+		options.setProperty( ModuleOption.READ_ONLY_MODULE_PROPERTIES,
+				Boolean.TRUE );
+		designHandle = session
+				.openDesign(
+						getResource( INPUT_FOLDER + "SessionHandleTest_10.xml" ).toString( ), options ); //$NON-NLS-1$
+
+		// the module is read-only
+		assertTrue( designHandle.getModule( ).isReadOnly( ) );
+
+		// simple property is read properly
+		assertEquals(
+				"Eclipse BIRT Designer Version 2.1.0.qualifier Build <@BUILD@>", //$NON-NLS-1$
+				designHandle.getCreatedBy( ) );
+
+		// other element is not parsed
+		assertEquals( 0, designHandle.getMasterPages( ).getCount( ) );
+
+		// complicated properties in report design is not read either
+		assertEquals( 0, designHandle.getLibraries( ).size( ) );
+
+		// not semantic check: for there is no master page, if check there will
+		// be one error
+		assertEquals( 0, designHandle.getModule( ).getErrorList( ).size( ) );
 
 	}
 }
