@@ -66,7 +66,9 @@ public class MemberForTest implements IComparableStructure
 		{
 			return false;
 		}
-		if ( !this.bigDecimalField.equals( other.bigDecimalField ) )
+		
+		if ( ( this.bigDecimalField != null && !this.bigDecimalField.equals( other.bigDecimalField ) )
+				|| ( this.bigDecimalField == null && other.bigDecimalField != null ) )
 		{
 			return false;
 		}
@@ -74,14 +76,18 @@ public class MemberForTest implements IComparableStructure
 		{
 			return false;
 		}
-		if ( !this.dateField.equals( other.dateField ) )
+		if ( ( this.dateField != null && !this.dateField.equals( other.dateField ) )
+				|| ( this.dateField == null && other.dateField != null ) )
 		{
 			return false;
 		}
-		if ( !this.stringField.equals( other.stringField ) )
+		
+		if ( ( this.stringField != null && !this.stringField.equals( other.stringField ) )
+				|| ( this.stringField == null && other.stringField != null ) )
 		{
 			return false;
 		}
+		
 		if ( this.doubleField != other.doubleField )
 		{
 			return false;

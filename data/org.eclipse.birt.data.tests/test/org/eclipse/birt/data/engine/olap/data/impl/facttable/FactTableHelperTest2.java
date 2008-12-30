@@ -732,17 +732,17 @@ public class FactTableHelperTest2 extends BaseTestCase
 		iterator.setLevelMember( 2, FactTable2.L3Col );
 		
 		ILevelDefn[] levelDefs = new ILevelDefn[3];
-		levelDefs[0] = new CubeElementFactory( ).createLevelDefinition( "level11",
+		levelDefs[0] = CubeElementFactory.createLevelDefinition( "level11",
 				new String[]{
 					"level11"
 				},
 				null );
-		levelDefs[1] = new CubeElementFactory( ).createLevelDefinition( "level12",
+		levelDefs[1] = CubeElementFactory.createLevelDefinition( "level12",
 				new String[]{
 					"level12"
 				},
 				null );
-		levelDefs[2] = new CubeElementFactory( ).createLevelDefinition( "level13",
+		levelDefs[2] = CubeElementFactory.createLevelDefinition( "level13",
 				new String[]{
 					"level13"
 				},

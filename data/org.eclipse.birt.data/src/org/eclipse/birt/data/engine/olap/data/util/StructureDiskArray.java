@@ -22,8 +22,8 @@ public class StructureDiskArray extends BaseDiskArray
 {
 
 	private IStructureCreator creator;
-	private IObjectWriter[] fieldWriters;
-	private IObjectReader[] fieldReaders;
+	private ObjectWriter[] fieldWriters;
+	private ObjectReader[] fieldReaders;
 
 	/**
 	 * @throws IOException 
@@ -54,7 +54,7 @@ public class StructureDiskArray extends BaseDiskArray
 		randomAccessFile.writeShort( (short) objects.length );
 		if ( fieldWriters == null )
 		{
-			createReaderAndWriter( objects );
+			createReadersAndWriters( objects.length );
 		}
 		for ( int i = 0; i < objects.length; i++ )
 		{
@@ -63,18 +63,21 @@ public class StructureDiskArray extends BaseDiskArray
 		}
 	}
 
-	private void createReaderAndWriter( Object[] objects )
+	/**
+	 * 
+	 * @param size
+	 */
+	private void createReadersAndWriters( int size )
 	{
-		fieldWriters = new IObjectWriter[objects.length];
-		fieldReaders = new IObjectReader[objects.length];
-		for ( int i = 0; i < objects.length; i++ )
+		fieldWriters = new ObjectWriter[size];
+		fieldReaders = new ObjectReader[size];
+		for ( int i = 0; i < size; i++ )
 		{
-			assert objects[i] != null;
-			fieldWriters[i] = IOUtil.getRandomWriter( DataType.getDataType( objects[i].getClass( ) ) );
-			fieldReaders[i] = IOUtil.getRandomReader( DataType.getDataType( objects[i].getClass( ) ) );
+			fieldWriters[i] = new ObjectWriter( );
+			fieldReaders[i] = new ObjectReader( );
 		}
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -90,6 +93,8 @@ public class StructureDiskArray extends BaseDiskArray
 		Object[] objects = new Object[fieldCount];
 		for ( int i = 0; i < objects.length; i++ )
 		{
+			if ( fieldReaders[i].getDataType( ) != fieldWriters[i].getDataType( ) )
+				fieldReaders[i].setDataType( fieldWriters[i].getDataType( ) );
 			objects[i] = fieldReaders[i].read( randomAccessFile );
 		}
 		return creator.createInstance( objects );

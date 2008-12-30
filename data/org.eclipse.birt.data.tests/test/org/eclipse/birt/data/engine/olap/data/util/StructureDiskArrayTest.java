@@ -60,6 +60,27 @@ public class StructureDiskArrayTest extends TestCase
 		array.close( );
 	}
 	
+	public void testMemberForTest1( ) throws IOException
+	{
+		int objectNumber = 1001;
+		StructureDiskArray array = new StructureDiskArray( MemberForTest.getMemberCreator( ) );
+		for ( int i = 0; i < objectNumber; i++ )
+		{
+			if( i == 100 )
+			{
+				i = i + 1 - 1;
+			}
+			array.add( createMember1( i ) );
+		}
+		assertEquals( array.size( ), objectNumber );
+		for ( int i = 0; i < objectNumber; i++ )
+		{
+			System.out.println( i );
+			assertEquals( array.get( i ), createMember1( i ) );
+		}
+		array.close( );
+	}
+	
 	public void testMemberForTest2( ) throws IOException
 	{
 		int objectNumber = 1001;
@@ -91,6 +112,29 @@ public class StructureDiskArrayTest extends TestCase
 		BigDecimal bigDecimalField = new BigDecimal( "1010101010100101010110"
 				+ i );
 		boolean booleanField = ( i % 2 == 0 ? true : false );
+		return new MemberForTest( iField,
+				dateField,
+				stringField,
+				doubleField,
+				bigDecimalField,
+				booleanField );
+	}
+	
+	static private MemberForTest createMember1( int i )
+	{
+		int iField = i;
+		Date dateField = new Date( 190001000 + i * 1000 );
+		String stringField = "string" + i;
+		double doubleField = i + 10.0;
+		BigDecimal bigDecimalField = new BigDecimal( "1010101010100101010110"
+				+ i );
+		boolean booleanField = ( i % 2 == 0 ? true : false );
+		if( i < 200 )
+		{
+			dateField = null;
+			stringField = null;
+			bigDecimalField = null;
+		}
 		return new MemberForTest( iField,
 				dateField,
 				stringField,
