@@ -107,6 +107,15 @@
 		          <objectClass name="org.eclipse.core.resources.IFile"/>
 	 	         <objectState name="extension" value="rptdocument"/>
 	 	      </and>
+         <and>
+            <objectClass
+                  name="org.eclipse.core.resources.IFile">
+            </objectClass>
+            <objectState
+                  name="extension"
+                  value="rpttemplate">
+            </objectState>
+         </and>
 	 	   </or>
 		 </visibility>		
 	   </viewerContribution>
@@ -121,10 +130,26 @@
 	            label="%Action.RunReport"
 	            menubarPath="org.eclipse.birt.report.designer.ui.ide.Report/report"/>
 	      <visibility>
-	         <and>
-	            <objectClass name="org.eclipse.core.resources.IFile"/>
-	            <objectState name="extension" value="rptdesign"/>
-	         </and>
+             <or>
+                <and>
+                   <objectClass
+                         name="org.eclipse.core.resources.IFile">
+                   </objectClass>
+                   <objectState
+                         name="extension"
+                         value="rptdesign">
+                   </objectState>
+                </and>
+                <and>
+                   <objectClass
+                         name="org.eclipse.core.resources.IFile">
+                   </objectClass>
+                   <objectState
+                         name="extension"
+                         value="rpttemplate">
+                   </objectState>
+                </and>
+             </or>
 	      </visibility>
 	   </viewerContribution>
 	   <viewerContribution
@@ -156,6 +181,7 @@
              menubarPath="org.eclipse.birt.report.designer.ui.ide.Report/report">
        </action>
        <visibility>
+           <or>
           <and>
              <objectClass
                    name="org.eclipse.core.resources.IFile">
@@ -165,6 +191,16 @@
                    value="rptdesign">
              </objectState>
           </and>
+          <and>
+             <objectClass
+                   name="org.eclipse.core.resources.IFile">
+             </objectClass>
+             <objectState
+                   name="extension"
+                   value="rpttemplate">
+             </objectState>
+          </and>
+             </or>
        </visibility>
     </viewerContribution>
 	 
