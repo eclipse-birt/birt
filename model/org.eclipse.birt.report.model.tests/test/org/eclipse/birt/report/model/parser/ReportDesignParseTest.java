@@ -150,6 +150,7 @@ public class ReportDesignParseTest extends BaseTestCase
 
 		assertEquals(
 				"W.C. Fields", designHandle.getStringProperty( ReportDesign.AUTHOR_PROP ) ); //$NON-NLS-1$
+		assertEquals( "subject", designHandle.getSubject( ) );//$NON-NLS-1$
 		assertEquals(
 				"http://company.com/reportHelp.html", design.getStringProperty( design, ReportDesign.HELP_GUIDE_PROP ) ); //$NON-NLS-1$
 		assertEquals(
@@ -374,6 +375,7 @@ public class ReportDesignParseTest extends BaseTestCase
 		openDesign( fileName, ULocale.ENGLISH );
 
 		designHandle.setProperty( ReportDesign.AUTHOR_PROP, "Report Author" ); //$NON-NLS-1$
+		designHandle.setSubject( "Report Subject" ); //$NON-NLS-1$
 		designHandle.setProperty( ReportDesign.HELP_GUIDE_PROP, "Help guide" ); //$NON-NLS-1$
 		designHandle.setProperty( ReportDesign.CREATED_BY_PROP,
 				"Report Creator" ); //$NON-NLS-1$
