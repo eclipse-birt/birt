@@ -14,12 +14,12 @@ import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IDataRow;
 import org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle;
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IDataSetEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IScriptedDataSetEventHandler;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.script.internal.instance.DataSetInstance;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 public class DataSetScriptExecutor extends DtEScriptExecutor implements
@@ -79,7 +79,8 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 		{
 			if ( !this.useBeforeOpenEventHandler )
 			{
-				JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
+				Scriptable scope = getScriptScope( dataSet );
+				JSScriptStatus status = handleJS( scope,
 						dataSet.getName( ),
 						BEFORE_OPEN,
 						dataSetHandle.getBeforeOpen( ) );
@@ -103,7 +104,8 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 		{
 			if ( !this.useBeforeCloseEventHandler )
 			{
-				JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
+				Scriptable scope = getScriptScope( dataSet );
+				JSScriptStatus status = handleJS( scope,
 						dataSet.getName( ),
 						BEFORE_CLOSE,
 						dataSetHandle.getBeforeClose( ) );
@@ -127,7 +129,8 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 		{
 			if ( !this.useAfterOpenEventHandler )
 			{
-				JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
+				Scriptable scope = getScriptScope( dataSet );
+				JSScriptStatus status = handleJS(  scope ,
 						dataSet.getName( ),
 						AFTER_OPEN,
 						dataSetHandle.getAfterOpen( ) );
@@ -143,6 +146,21 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 		}
 	}
 
+	/**
+	 * 
+	 * @param dataSet
+	 * @return
+	 */
+	private Scriptable getScriptScope( IDataSetInstanceHandle dataSet )
+	{
+		Scriptable shared = this.context.getSharedScope( );
+		Scriptable scope = (Scriptable) Context.javaToJS( new DataSetInstance( dataSet ),
+				shared);
+		scope.setParentScope( shared );
+		scope.setPrototype( shared );
+		return scope;
+	}
+
 	public void handleAfterClose( IDataSetInstanceHandle dataSet )
 	{
 		if ( reportContext == null )
@@ -151,7 +169,8 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 		{
 			if ( !this.useAfterCloseEventHandler )
 			{
-				JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
+				Scriptable scope = getScriptScope( dataSet );
+				JSScriptStatus status = handleJS( scope,
 						dataSet.getName( ),
 						AFTER_CLOSE,
 						dataSetHandle.getAfterClose( ) );
@@ -174,7 +193,8 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 		{
 			if ( !this.useOnFetchEventHandler )
 			{
-				JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
+				Scriptable scope = getScriptScope( dataSet );
+				JSScriptStatus status = handleJS( scope,
 						dataSet.getName( ),
 						ON_FETCH,
 						dataSetHandle.getOnFetch( ) );
