@@ -1221,8 +1221,11 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 			}
 		}
 
+		DataSourceDesign tmpDesign = (DataSourceDesign) EcoreUtil.copy( design );
+		tmpDesign.setHostResourceIdentifiers( null );
+		
 		return new EcoreUtil.EqualityHelper( )
-				.equals( designFromHandle, design );
+				.equals( designFromHandle, tmpDesign );
 	}
 
 	/*
