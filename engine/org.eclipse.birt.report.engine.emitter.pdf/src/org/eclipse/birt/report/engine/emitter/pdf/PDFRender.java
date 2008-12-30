@@ -54,11 +54,11 @@ public class PDFRender extends PageDeviceRender
 		initialize( services );
 	}
 	
-	public IPageDevice createPageDevice( String title, String author,
+	public IPageDevice createPageDevice( String title, String author, String subject,
 			String comments, IReportContext context, IReportContent report )
 			throws Exception
 	{
-		currentPageDevice = new PDFPageDevice( output, title, author, comments,
+		currentPageDevice = new PDFPageDevice( output, title, author, subject, comments,
 				context, report );
 		return currentPageDevice;
 	}

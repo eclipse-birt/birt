@@ -111,7 +111,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 */
 	public abstract String getOutputFormat( );
 
-	public abstract IPageDevice createPageDevice( String title, String author,
+	public abstract IPageDevice createPageDevice( String title, String author, String subject,
 			String comments, IReportContext context, IReportContent report )
 			throws Exception;
 
@@ -128,9 +128,10 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		String author = designHandle.getAuthor( );
 		String description = designHandle
 				.getStringProperty( IModuleModel.DESCRIPTION_PROP );
+		String subject = designHandle.getSubject( );
 		try
 		{
-			pageDevice = createPageDevice( title, author, description, context,
+			pageDevice = createPageDevice( title, author, subject, description, context,
 					rc );
 		}
 		catch ( Exception e )
