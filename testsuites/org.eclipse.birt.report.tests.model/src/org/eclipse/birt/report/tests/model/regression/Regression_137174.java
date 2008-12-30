@@ -42,6 +42,7 @@ public class Regression_137174 extends BaseTestCase
 		super.setUp();
 		removeResource();
 		copyInputToFile(INPUT_FOLDER+"/"+filename);
+		copyInputToFile(INPUT_FOLDER+"/"+filename);
 	}
 
 	protected void tearDown() 
@@ -60,7 +61,7 @@ public class Regression_137174 extends BaseTestCase
 		assertEquals( "1", versionInfo.getDesignFileVersion( ) ); //$NON-NLS-1$
 		assertNotNull( versionInfo.getLocalizedMessage( ) );
 
-		infos = ModuleUtil.checkVersion( getClassFolder( ) + "/" + INPUT_FOLDER + "/"
+		infos = ModuleUtil.checkVersion( getTempFolder( ) + "/" + INPUT_FOLDER + "/"
 				+ filename_lib ); //$NON-NLS-1$
 		assertEquals( 1, infos.size( ) );
 	}
