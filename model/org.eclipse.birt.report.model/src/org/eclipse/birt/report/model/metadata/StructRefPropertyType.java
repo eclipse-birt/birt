@@ -71,7 +71,8 @@ public class StructRefPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyType#getTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IPropertyType#getTypeCode()
 	 */
 
 	public int getTypeCode( )
@@ -93,9 +94,10 @@ public class StructRefPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org
+	 * .eclipse.birt.report.model.elements.ReportDesign,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 
 	public Object validateValue( Module module, PropertyDefn defn, Object value )
@@ -103,29 +105,24 @@ public class StructRefPropertyType extends PropertyType
 	{
 		if ( value == null )
 		{
-			logger.log( Level.WARNING,
-					"The value of the structure property is null" ); //$NON-NLS-1$
 			return null;
 		}
 		if ( value instanceof String )
 		{
-			logger.log( Level.INFO,
-					"The value of the structure property is a string" ); //$NON-NLS-1$
 			String name = StringUtil.trimString( (String) value );
 			return StructureRefUtil.resolve( module, defn, name );
 		}
 		if ( value instanceof Structure )
 		{
-			logger
-					.log( Level.INFO,
-							"The value of the structure is a structure" ); //$NON-NLS-1$
 			Structure target = (Structure) value;
 			return StructureRefUtil.resolve( module, defn, target );
 		}
 
 		// Invalid property value.
-		logger.log( Level.INFO,
-				"The value of the structure property is invalid type" ); //$NON-NLS-1$
+		logger
+				.log(
+						Level.SEVERE,
+						"The value of the structure property: " + defn.getName( ) + " is invalid type" ); //$NON-NLS-1$ //$NON-NLS-2$ 
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 				IPropertyType.ELEMENT_REF_TYPE );
@@ -134,9 +131,10 @@ public class StructRefPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyType#toString(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyType#toString(org.eclipse
+	 * .birt.report.model.elements.ReportDesign,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 
 	public String toString( Module module, PropertyDefn defn, Object value )
