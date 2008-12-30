@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.4" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.qualifier Build &lt;@BUILD@></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.3.1.v20080827-0630 Build &lt;2.3.1.v20080827-0630></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
     <page-setup>
@@ -23,6 +22,10 @@
             <property name="source">embed</property>
             <property name="imageName">img.jpg</property>
         </image>
+        <label id="6">
+            <method name="onPrepare"><![CDATA[this.text = "after onPrepare";]]></method>
+            <text-property name="text">before onPrepare</text-property>
+        </label>
     </body>
     <list-property name="images">
         <structure>
