@@ -1278,6 +1278,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
 				.getID( ) ).toString( ) );
 		property( obj, IModuleModel.AUTHOR_PROP );
+		property( obj, IModuleModel.SUBJECT_PROP );
 		property( obj, IModuleModel.HELP_GUIDE_PROP );
 		property( obj, IModuleModel.CREATED_BY_PROP );
 		property( obj, IModuleModel.UNITS_PROP );

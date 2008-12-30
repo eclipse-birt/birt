@@ -160,10 +160,16 @@ public interface IModuleModel
 	 */
 
 	public static final String PROPERTY_BINDINGS_PROP = "propertyBindings"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the "scriptLibs" property.
 	 */
 
 	public static final String SCRIPTLIBS_PROP = "scriptLibs"; //$NON-NLS-1$
+
+	/**
+	 * Name of the "subject" property.Typically, the subject will be represented
+	 * using keywords, key phrases, or classification codes.
+	 */
+	public static final String SUBJECT_PROP = "subject"; //$NON-NLS-1$
 }

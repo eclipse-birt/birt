@@ -897,6 +897,28 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
+	 * Gets the subject of the module.
+	 * 
+	 * @return the subject of the module.
+	 */
+	public String getSubject( )
+	{
+		return getStringProperty( SUBJECT_PROP );
+	}
+
+	/**
+	 * Sets the subject of the module.
+	 * 
+	 * @param subject
+	 *            the subject of the module.
+	 * @throws SemanticException
+	 */
+	public void setSubject( String subject ) throws SemanticException
+	{
+		setStringProperty( SUBJECT_PROP, subject );
+	}
+
+	/**
 	 * Returns the command stack that manages undo/redo operations for the
 	 * design.
 	 * 
