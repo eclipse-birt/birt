@@ -200,9 +200,10 @@ public class EdgeAxis
 			DimLevel level = this.rs.getLevel( levelIndex );
 			for ( int i = 0; i < this.sortList.size( ); i++ )
 			{
-				if ( level.equals( aggrSortDefn.getTargetLevel( ) ) )
+				AggrSortDefinition defn = (AggrSortDefinition) sortList.get( i );
+				if ( level.equals( defn.getTargetLevel( ) ) )
 				{
-					aggrSortDefn = (AggrSortDefinition) sortList.get( i );
+					aggrSortDefn = defn;
 					break;
 				}
 			}
