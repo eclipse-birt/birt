@@ -34,6 +34,10 @@ public interface IReportGraphicConstants
 	public final static String ICON_NEW_FOLDER = "New folder"; //$NON-NLS-1$
 
 	public final static String ICON_REPORT_FILE = "Report"; //$NON-NLS-1$
+	
+	public final static String ICON_REPORT_LOCK = "Report Lock"; //$NON-NLS-1$
+	
+	public final static String ICON_LOCK_MENU = "Report Menu"; //$NON-NLS-1$
 
 	public final static String ICON_QUIK_EDIT = "Quick edit"; //$NON-NLS-1$
 
