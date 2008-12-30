@@ -648,6 +648,9 @@ public class ReportDocumentBuilder
 					{
 						IDocArchiveWriter archive = document.getArchive( );
 						writeTotalPage( pageNumber );
+						document
+								.savePersistentObjects( ReportDocumentBuilder.this.executionContext
+										.getGlobalBeans( ) );
 						document.saveCoreStreams( );
 						archive.flush( );
 					}
