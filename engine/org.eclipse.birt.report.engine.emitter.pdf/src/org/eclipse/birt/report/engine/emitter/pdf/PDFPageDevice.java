@@ -58,7 +58,7 @@ public class PDFPageDevice implements IPageDevice
 	
 	private PdfTemplate totalPageTemplate = null;
 	
-	public PDFPageDevice( OutputStream output, String title, String author,
+	public PDFPageDevice( OutputStream output, String title, String author, String subject, 
 			String description, IReportContext context, IReportContent report )
 	{
 		this.context = context;
@@ -85,12 +85,19 @@ public class PDFPageDevice implements IPageDevice
 			{
 				doc.addAuthor( author );
 			}
+			if ( null != title )
+			{
+				doc.addTitle( title );
+			}
+			if ( null != subject )
+			{
+				doc.addSubject( subject );
+				doc.addKeywords( subject );	
+			}
 			if ( description != null )
 			{
 				doc.addHeader( "Description", description );
 			}
-			if ( null != title )
-				doc.addTitle( title );
 		}
 		catch( DocumentException de )
 		{
