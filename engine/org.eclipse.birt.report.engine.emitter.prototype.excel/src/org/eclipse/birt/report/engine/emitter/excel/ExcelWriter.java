@@ -95,8 +95,7 @@ public class ExcelWriter implements IExcelWriter
 	public ExcelWriter( OutputStream out, String encoding, ExcelContext context )
 	{
 		this.context = context;
-		tempFilePath = System.getProperty( "java.io.tmpdir" ) + File.separator
-				+ "_BIRTEMITTER_EXCEL_TEMP_FILE"
+		tempFilePath = context.getTempFileDir( ) + "_BIRTEMITTER_EXCEL_TEMP_FILE"
 				+ Thread.currentThread( ).getId( );
 		writer.open( out, encoding );
 	}

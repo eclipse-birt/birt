@@ -90,6 +90,8 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			this.out = EmitterUtil.getOuputStream( service, "report."
 					+ getOutputFormat( ) );
 		}
+		context.setTempFileDir( service.getReportEngine( ).getConfig( )
+				.getTempDir( ) );
 	}
 
 	public void start( IReportContent report )

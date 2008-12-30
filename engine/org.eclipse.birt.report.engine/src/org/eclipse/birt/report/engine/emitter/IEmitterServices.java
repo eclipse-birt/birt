@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.emitter;
 import java.util.HashMap;
 
 import org.eclipse.birt.report.engine.api.IRenderOption;
+import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 
@@ -60,4 +61,6 @@ public interface IEmitterServices
 	public Object getOption( String name );
 
 	public IReportContext getReportContext( );
+	
+	public IReportEngine getReportEngine( );
 }

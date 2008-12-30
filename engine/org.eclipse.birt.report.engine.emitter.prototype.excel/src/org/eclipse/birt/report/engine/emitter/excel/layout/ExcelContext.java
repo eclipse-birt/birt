@@ -18,6 +18,8 @@ public class ExcelContext
 	
 	private String officeVersion = "office2003";
 	
+	private String tempFileDir;
+	
 	public void setWrappingText(boolean wrappingText)
 	{
 		this.wrappingText = wrappingText;
@@ -38,4 +40,13 @@ public class ExcelContext
 		return officeVersion;
 	}
 	
+	public void setTempFileDir( String tempFileDir )
+	{
+		this.tempFileDir = tempFileDir;
+	}
+
+	public String getTempFileDir( )
+	{
+		return this.tempFileDir;
+	}
 }
