@@ -117,6 +117,9 @@ public class ReportDesignNodeProvider extends DefaultNodeProvider
 	 */
 	public String getIconName( Object model )
 	{
+		if(model instanceof ReportDesignHandle && ((ReportDesignHandle)model).isEnableACL( )){
+			return IReportGraphicConstants.ICON_REPORT_LOCK;
+		}
 		return IReportGraphicConstants.ICON_REPORT_FILE;
 	}
 
