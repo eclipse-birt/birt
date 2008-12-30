@@ -146,6 +146,8 @@ public class StyleBuilder
 		entry.setProperty( StyleConstant.DIRECTION_PROP, style
 				.getDirection( ) );
 
+		entry.setProperty( StyleConstant.WHITE_SPACE, style.getWhiteSpace( ) );
+
 		return entry;
 	}
 

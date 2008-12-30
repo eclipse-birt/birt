@@ -445,6 +445,12 @@ public class ExcelWriter implements IExcelWriter
 	private void declareStyle( StyleEntry style, int id )
 	{
 		boolean wrapText = context.getWrappingText( );
+		String whiteSpace = style.getProperty( StyleConstant.WHITE_SPACE );
+		if ( CSSConstants.CSS_NOWRAP_VALUE.equals( whiteSpace ) )
+		{
+			wrapText = false;
+		}
+		
 		writer.openTag( "Style" );
 		writer.attribute( "ss:ID", id );
 

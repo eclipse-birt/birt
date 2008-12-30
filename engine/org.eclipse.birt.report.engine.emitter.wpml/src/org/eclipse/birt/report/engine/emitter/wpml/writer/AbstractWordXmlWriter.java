@@ -788,6 +788,9 @@ public abstract class AbstractWordXmlWriter
 			writeAttrTag( "w:vAlign", WordUtil
 					.parseVerticalAlign( verticalAlign ) );
 		}
+		String noWrap = CSSConstants.CSS_NOWRAP_VALUE.equalsIgnoreCase( style
+				.getWhiteSpace( ) ) ? "on" : "off";
+		writeAttrTag( "w:noWrap", noWrap );
 	}
 
 	private void writeCellBorders( IStyle style )
