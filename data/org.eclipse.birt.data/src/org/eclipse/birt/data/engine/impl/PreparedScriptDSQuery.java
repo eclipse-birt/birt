@@ -31,6 +31,7 @@ import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.odaconsumer.DataTypeUtil;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IDataSource;
@@ -169,8 +170,8 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 					ResultFieldMetadata columnMetaData = new ResultFieldMetadata( j + 1,
 							columnDefn.getColumnName( ),
 							columnDefn.getColumnName( ),
-							DataType.getClass( columnDefn.getDataType( ) ),
-							null /* nativeTypeName */, 
+							DataTypeUtil.toTypeClass( DataTypeUtil.toOdaType( DataType.getClass( columnDefn.getDataType( ) ) ) ),
+							null /* nativeTypeName */,
 							true );
 					columnsList.add( columnMetaData );
 					columnMetaData.setAlias( columnDefn.getAlias( ) );
@@ -187,7 +188,7 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 			    		++count,
 						compColumn.getName(),
 						compColumn.getName(),
-						DataType.getClass( compColumn.getDataType() ),
+						DataTypeUtil.toTypeClass( DataTypeUtil.toOdaType( DataType.getClass( compColumn.getDataType( ) ) ) ),
 						null /* nativeTypeName */, 
 						true );
 			    columnsList.add( columnMetaData );
