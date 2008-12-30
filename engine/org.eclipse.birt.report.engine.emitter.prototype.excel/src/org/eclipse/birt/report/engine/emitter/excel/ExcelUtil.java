@@ -15,7 +15,6 @@ import java.math.BigDecimal;
 import java.sql.Time;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -32,6 +31,7 @@ import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.report.engine.emitter.excel.GroupInfo.Position;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
+import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.TimeZone;
 
@@ -167,10 +167,10 @@ public class ExcelUtil
 		return true;
 	}
 	
-    public static String formatDate( Object data )
+	public static String formatDate( Object data )
 	{
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
-				"yyyy-MM-dd'T'HH:mm:ss" );
+				"yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH );
 		Date date = getDate( data );
 		if(date == null) {
 			return null;
