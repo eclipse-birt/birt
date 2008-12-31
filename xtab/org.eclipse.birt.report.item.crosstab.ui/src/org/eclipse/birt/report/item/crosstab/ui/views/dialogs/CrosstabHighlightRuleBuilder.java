@@ -28,6 +28,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.HighlightRuleBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.SelectValueDialog;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.CrosstabBindingExpressionProvider;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
@@ -39,6 +40,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -74,21 +76,21 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				if ( expression.getText( ).equals( VALUE_OF_THIS_DATA_ITEM )
+				if ( getExpression().equals( VALUE_OF_THIS_DATA_ITEM )
 						&& designHandle instanceof DataItemHandle )
 				{
-					expression.setText( DEUtil.getDataExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
+					setExpression( DEUtil.getDataExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
 				}
 				else
 				{
-					String newValue = expression.getText( );
+					String newValue = getExpression();
 					Object computedColumn = getResultSetColumn( newValue );
 					if ( computedColumn != null )
 					{
 						String value = DEUtil.getDataExpression( ( (ComputedColumnHandle) computedColumn ).getName( ) );
 						if ( value != null )
 							newValue = value;
-						expression.setText( newValue );
+						setExpression( newValue );
 					}
 				}
 				updateButtons( );
@@ -266,7 +268,7 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 		}
 		if ( cube == null
 				|| ( !( cube instanceof TabularCubeHandle ) )
-				|| expression.getText( ).length( ) == 0 )
+				|| getExpression().length( ) == 0 )
 		{
 			return new ArrayList( );
 		}
@@ -281,7 +283,7 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 			cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
 			iter = session.getCubeQueryUtil( )
 					.getMemberValueIterator( (TabularCubeHandle) cube,
-							expression.getText( ),
+							getExpression(),
 							cubeQueryDefn );
 		}
 		catch ( Exception e )
@@ -479,5 +481,79 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 			}
 		};
 
+	}
+	
+	protected int getHighlightExpCtrType( DesignElementHandle handle)
+	{
+		if(handle instanceof ExtendedItemHandle )
+		{
+			try
+			{
+				Object obj = ((ExtendedItemHandle)handle).getReportItem( );
+				if(obj instanceof CrosstabReportItemHandle)
+				{
+					return EXPRESSION_CONTROL_TEXT;
+				}
+			}
+			catch ( ExtendedElementException e )
+			{
+				// TODO Auto-generated catch block
+				return EXPRESSION_CONTROL_COMBO;
+			}
+			
+			return EXPRESSION_CONTROL_COMBO;
+			
+		}else
+		{
+			return EXPRESSION_CONTROL_COMBO;
+		}
+	}
+	
+	
+	protected void initilizeDlgDescription( DesignElementHandle handle )
+	{
+		if(!(handle instanceof ExtendedItemHandle))
+		{
+			super.initilizeDlgDescription( handle );
+			return;
+		}
+
+		Class classList[] = new Class[]{
+				CrosstabReportItemHandle.class,CrosstabCellHandle.class,
+		};
+		String desList[] = new String[]{
+				Messages.getString( "CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstab" ),
+				Messages.getString( "CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstabcell" ),
+		};
+		
+		try
+		{
+			IReportItem reportItem = ((ExtendedItemHandle)handle).getReportItem( );
+			Class handleClass = reportItem.getClass( );
+			for ( int i = 0; i < classList.length; i++ )
+			{
+				if ( classList[i] == handleClass )
+				{
+					dlgDescription = desList[i];
+					break;
+				}
+			}
+			if ( dlgDescription == null || dlgDescription.length( ) == 0 )
+			{
+				dlgDescription = Messages.getString( "CrosstabHighlightRuleBuilderDialog.text.Description.Element.ReportElement" );
+			}
+
+			dlgDescription = Messages.getFormattedString( "CrosstabHighlightRuleBuilderDialog.text.Description",
+					new Object[]{
+						dlgDescription
+					} );
+			
+		}
+		catch ( ExtendedElementException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }
