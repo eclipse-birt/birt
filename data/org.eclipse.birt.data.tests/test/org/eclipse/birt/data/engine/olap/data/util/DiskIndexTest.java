@@ -84,6 +84,8 @@ public class DiskIndexTest extends TestCase
 			assertEquals( key.getOffset(), iValue * 4 );
 		}
 		assertEquals( indexTree.findFirst(  new Object[]{getBytes( 120 )} ), null );
+		keyList.clear( );
+		keyList.close( );
 	}
 	
 	private Bytes getBytes( int i )
@@ -137,6 +139,8 @@ public class DiskIndexTest extends TestCase
 		}
 		assertEquals( indexTree.findFirst(  new Object[]{new Date( -200 )} ), null );
 		assertEquals( indexTree.findFirst(  new Object[]{new Date( keyNumber )} ), null );
+		keyList.clear( );
+		keyList.close( );
 		
 	}
 	
@@ -182,6 +186,8 @@ public class DiskIndexTest extends TestCase
 		assertEquals( indexTree.findFirst(  new Object[]{new Integer( keyNumber + 200 )} ), null );
 		System.out.println( "search finished   :"
 				+ System.currentTimeMillis( ) / 100 );
+		keyList.clear( );
+		keyList.close( );
 	}
 	
 	public void testDiskIndexInteger1( ) throws IOException, DataException
@@ -229,6 +235,8 @@ public class DiskIndexTest extends TestCase
 		}
 		assertEquals( indexTree.findFirst(  new Object[]{new Integer( -100 )} ), null );
 		assertEquals( indexTree.findFirst(  new Object[]{new Integer( keyNumber )} ), null );
+		keyList.clear( );
+		keyList.close( );
 	}
 
 	public void testDiskIndexInteger2( ) throws IOException, DataException
@@ -305,9 +313,11 @@ public class DiskIndexTest extends TestCase
 				false );
 		list = indexTree.find( selections );
 		assertTrue( list == null);
-
+		keyList.clear( );
+		keyList.close( );
 		System.out.println( "search finished   :"
 				+ System.currentTimeMillis( ) / 100 );
+		
 	}
 	
 	public void testDiskIndexInteger3( ) throws IOException, DataException
@@ -365,7 +375,10 @@ public class DiskIndexTest extends TestCase
 			assertEquals( key.getDimensionPos(), resultObjs[i] );
 			assertEquals( key.getOffset(), ( resultObjs[i] ) * 4 );
 		}
-
+		list.clear( );
+		list.close( );
+		keyList.clear( );
+		keyList.close( );
 		System.out.println( "search finished   :"
 				+ System.currentTimeMillis( ) / 100 );
 	}
@@ -480,7 +493,10 @@ public class DiskIndexTest extends TestCase
 			assertEquals( key.getDimensionPos(), resultObjs2[i] );
 			assertEquals( key.getOffset(), ( resultObjs2[i] ) * 4 );
 		}
-		
+		list.clear( );
+		list.close( );
+		keyList.clear( );
+		keyList.close( );
 	}
 	
 	public void testDiskIndexInteger5( ) throws IOException, DataException
@@ -546,7 +562,10 @@ public class DiskIndexTest extends TestCase
 		assertEquals( key.getKey()[0], new Integer( 81 ) );
 		assertEquals( key.getDimensionPos(), keyNumber );
 		assertEquals( key.getOffset(), ( key.getDimensionPos() ) * 4 );
-		
+		list.clear( );
+		list.close( );
+		keyList.clear( );
+		keyList.close( );
 	}
 	
 	public void testDiskIndexTopBottom( ) throws IOException, DataException
@@ -645,7 +664,10 @@ public class DiskIndexTest extends TestCase
 		assertEquals( key.getKey()[0], new Integer( 2 ) );
 		assertEquals( key.getDimensionPos(), 2 );
 		assertEquals( key.getOffset(), ( key.getDimensionPos() ) * 4 );
-		
+		list.clear( );
+		list.close( );
+		keyList.clear( );
+		keyList.close( );
 	}
 	
 	
@@ -744,6 +766,9 @@ public class DiskIndexTest extends TestCase
 			assertEquals( key.getDimensionPos(), resultObjs2[i] );
 			assertEquals( key.getOffset(), ( resultObjs2[i] ) * 4 );
 		}
-		
+		list.clear( );
+		list.close( );
+		keyList.clear( );
+		keyList.close( );
 	}
 }

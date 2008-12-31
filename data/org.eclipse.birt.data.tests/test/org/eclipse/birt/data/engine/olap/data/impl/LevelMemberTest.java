@@ -60,6 +60,8 @@ public class LevelMemberTest extends TestCase
 			assertEquals( member1.getAttributes()[0], member2.getAttributes()[0] );
 			assertEquals( member1.getAttributes()[1], member2.getAttributes()[1] );
 		}
+		bufferedStructureArray.clear( );
+		bufferedStructureArray.close( );
 	}
 	
 	private Member create( int i )

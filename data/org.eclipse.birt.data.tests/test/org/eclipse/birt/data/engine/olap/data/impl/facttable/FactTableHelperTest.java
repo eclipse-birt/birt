@@ -226,6 +226,7 @@ public class FactTableHelperTest extends TestCase
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		testFactTableSaveAndLoad1( documentManager );
+		documentManager.close( );
 	}
 	
 
@@ -336,6 +337,7 @@ public class FactTableHelperTest extends TestCase
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		testFactTableSaveAndLoad2( documentManager );
+		documentManager.close( );
 	}
 	
 
@@ -445,6 +447,7 @@ public class FactTableHelperTest extends TestCase
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		testFactTableSaveAndLoad3( documentManager );
+		documentManager.close( );
 	}
 	
 

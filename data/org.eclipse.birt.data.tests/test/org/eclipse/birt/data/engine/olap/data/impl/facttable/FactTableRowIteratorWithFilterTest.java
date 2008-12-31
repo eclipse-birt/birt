@@ -89,6 +89,7 @@ public class FactTableRowIteratorWithFilterTest extends TestCase
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		testFactTableSaveAndLoad1( documentManager );
+		documentManager.close( );
 	}
 	
 	private void testFactTableSaveAndLoad1( IDocumentManager documentManager ) throws IOException, BirtException

@@ -56,6 +56,8 @@ public class DimensionKeyTest extends TestCase
 		{
 			assertEquals( bufferedStructureArray.get( i ), create(i) );
 		}
+		bufferedStructureArray.clear( );
+		bufferedStructureArray.close( );
 	}
 	
 	private DimensionKey create( int i )

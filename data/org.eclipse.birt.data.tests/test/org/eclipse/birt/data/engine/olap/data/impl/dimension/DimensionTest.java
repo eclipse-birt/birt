@@ -70,6 +70,7 @@ public class DimensionTest extends TestCase
 		
 		testDimensionCreate( documentManager );
 		testDimensionFind( documentManager );
+		documentManager.close( );
 	}
 	
 
@@ -166,6 +167,7 @@ public class DimensionTest extends TestCase
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		
 		testDimensionCreateAndFind1( documentManager );
+		documentManager.close( );
 	}
 	
 
@@ -252,6 +254,7 @@ public class DimensionTest extends TestCase
 		
 		testDimensionCreate2( documentManager );
 		testDimensionFind2( documentManager );
+		documentManager.close( );
 	}
 
 	private void testDimensionCreate2( IDocumentManager documentManager ) throws IOException, BirtException, DataException
@@ -425,6 +428,7 @@ public class DimensionTest extends TestCase
 		
 		testDimensionCreate3( documentManager );
 		testDimensionFind3( documentManager );
+		documentManager.close( );
 	}
 
 
@@ -597,6 +601,7 @@ public class DimensionTest extends TestCase
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		testDimensionCreateAndFind4( documentManager );
+		documentManager.close( );
 
 	}
 	
@@ -710,6 +715,7 @@ public class DimensionTest extends TestCase
 		
 		testDimensionCreate5( documentManager );
 		testDimensionFind5( documentManager );
+		documentManager.close( );
 	}
 	
 
@@ -845,6 +851,7 @@ public class DimensionTest extends TestCase
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		testDimensionCreateAndFind6( documentManager );
+		documentManager.close( );
 	}
 	
 	private void testDimensionCreateAndFind6( IDocumentManager documentManager ) throws IOException, BirtException, DataException
@@ -936,6 +943,7 @@ public class DimensionTest extends TestCase
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		testDimensionCreateAndFind7( documentManager );
+		documentManager.close( );
 	}
 	
 
@@ -994,6 +1002,7 @@ public class DimensionTest extends TestCase
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		
 		testDimensionCreateAndFind8( documentManager );
+		documentManager.close( );
 	}
 	
 
@@ -1081,6 +1090,7 @@ public class DimensionTest extends TestCase
 			assertEquals( dimRow.getMembers()[3].getKeyValues()[0],
 					FourLevelDataset.Level4Col[i] );
 		}
+		documentManager.close( );
 	}
 }
 

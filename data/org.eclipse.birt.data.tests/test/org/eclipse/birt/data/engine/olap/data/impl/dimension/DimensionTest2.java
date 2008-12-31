@@ -71,6 +71,7 @@ public class DimensionTest2 extends TestCase
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		testDimensionCreateAndFind( documentManager );
+		documentManager.close( );
 	}
 	
 
@@ -211,6 +212,7 @@ public class DimensionTest2 extends TestCase
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		testDimensionCreateAndFind2( documentManager );
+		documentManager.close( );
 	}
 	
 	/**
@@ -230,6 +232,7 @@ public class DimensionTest2 extends TestCase
 		{
 			
 		}
+		documentManager.close( );
 	}
 	
 	private void testDimensionCreateAndFind3( IDocumentManager documentManager ) throws IOException, BirtException, DataException
@@ -245,6 +248,7 @@ public class DimensionTest2 extends TestCase
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		testDimensionIterator( documentManager );
+		documentManager.close( );
 	}
 
 
