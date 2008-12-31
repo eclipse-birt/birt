@@ -15,7 +15,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
+import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
@@ -27,6 +31,8 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDial
 import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
 import org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
@@ -50,44 +56,31 @@ public class SubTotalProvider extends TotalProvider implements
 	TableViewer viewer;
 	
 	private String[] comboItems = null;
-//	private IAggregationCellViewProvider[] providers;
 	private String[] viewNames;
 
 	private CrosstabReportItemHandle crosstab;
-	private AggregationCellProviderWrapper cellProviderWrapper;
+	private AggregationCellProviderWrapper cellProviderWrapper;	
 	
-//	private void initialization( )
-//	{
-//
-//		String firstItem = Messages.getString( "SubTotalProvider.Column.ViewStatus" ); //$NON-NLS-1$
-//		List viewNameList = new ArrayList( );
-//		List itemList = new ArrayList( );
-//
-//		itemList.add( firstItem );
-//		viewNameList.add( "" ); //$NON-NLS-1$
-//
-//		Object obj = ElementAdapterManager.getAdapters( crosstab.getModelHandle( ),
-//				IAggregationCellViewProvider.class );
-//		if ( obj instanceof Object[] )
-//		{
-//			Object arrays[] = (Object[]) obj;
-//			providers = new IAggregationCellViewProvider[arrays.length + 1];
-//			providers[0] = null;
-//			for ( int i = 0; i < arrays.length; i++ )
-//			{
-//				IAggregationCellViewProvider tmp = (IAggregationCellViewProvider) arrays[i];
-//				String viewName = tmp.getViewName( );
-//				viewNameList.add( viewName );
-//				providers[i + 1] = tmp;
-//				itemList.add( Messages.getString( "SubTotalProvider.ShowAs", viewName ) ); //$NON-NLS-1$
-//			}
-//		}
-//
-//		comboItems = (String[]) itemList.toArray( new String[itemList.size( )] );
-//		viewNames = (String[]) viewNameList.toArray( new String[viewNameList.size( )] );
-//
-//	}
-	
+	private static String[] positionItems = null;
+	private static String[] positionValues = null;
+	private static IChoiceSet choiceSet;
+	static
+	{
+		choiceSet = ChoiceSetFactory.getElementChoiceSet( ICrosstabConstants.LEVEL_VIEW_EXTENSION_NAME,
+				ILevelViewConstants.AGGREGATION_HEADER_LOCATION_PROP );
+		
+		IChoice[] choices = choiceSet.getChoices( new AlphabeticallyComparator( ) );
+
+		positionItems = new String[choices.length];
+		positionValues = new String[choices.length];
+		for ( int i = 0; i < choices.length; i++ )
+		{
+			positionValues[i] = choices[i].getName( );
+			positionItems[i] = choices[i].getDisplayName( );
+		}		
+
+	}
+
 	private void initializeItems(SubTotalInfo subTotalInfo)
 	{
 		String firstItem = Messages.getString( "GrandTotalProvider.ViewStatus" ); //$NON-NLS-1$
@@ -132,7 +125,7 @@ public class SubTotalProvider extends TotalProvider implements
 		this.viewer = viewer;
 		this.crosstab = crosstab;
 		this.axis = axis;
-//		initialization();
+
 		cellProviderWrapper = new AggregationCellProviderWrapper(crosstab);
 	}
 
@@ -144,27 +137,12 @@ public class SubTotalProvider extends TotalProvider implements
 
 	//private CellEditor[] editors;
 	private String[] columnNames = new String[]{
-			"", Messages.getString("SubTotalProvider.Column.AggregateOn"),//Messages.getString("SubTotalProvider.Column.DataField"), Messages.getString("SubTotalProvider.Column.Function") //$NON-NLS-1$ //$NON-NLS-2$ 
-			Messages.getString( "SubTotalProvider.Column.View" ) //$NON-NLS-1$
+			"", Messages.getString("SubTotalProvider.Column.AggregateOn"),//$NON-NLS-2$ 
+			Messages.getString( "SubTotalProvider.Column.View" ), //$NON-NLS-1$
+			Messages.getString( "SubTotalProvider.Column.Position" ) //$NON-NLS-1$
 	};
 
-	/*
-	public CellEditor[] getEditors( Table table )
-	{
-		if ( editors == null )
-		{
-			editors = new CellEditor[columnNames.length];
 
-			editors[3] = new ComboBoxCellEditor( table,
-					new String[0],
-					SWT.READ_ONLY );
-			String[] items = getFunctionDisplayNames( );
-			( (ComboBoxCellEditor) editors[3] ).setItems( items );
-
-		}
-		return editors;
-	}
-*/
 
 
 	public Image getColumnImage( Object element, int columnIndex )
@@ -199,6 +177,18 @@ public class SubTotalProvider extends TotalProvider implements
 					info.setExpectedView( viewNames[index] );
 				}
 				return comboItems[index];
+			case 3:
+				String position = info.getPosition( );
+				if(position == null)
+				{
+					position = "";
+				}
+				int posIndex = Arrays.asList( positionValues ).indexOf( position );
+				if(posIndex <= 0)
+				{
+					info.setExpectedView( positionValues[0] );
+				}
+				return positionItems[posIndex];
 			default :
 				break;
 		}
@@ -221,7 +211,8 @@ public class SubTotalProvider extends TotalProvider implements
 		}
 		
 		ComboBoxCellEditor comboCell = new ComboBoxCellEditor(viewer.getTable( ),new String[0],SWT.READ_ONLY);
-		cellEditor = new CellEditor[]{null, null, comboCell};
+		ComboBoxCellEditor positionCell = new ComboBoxCellEditor(viewer.getTable( ),positionItems,SWT.READ_ONLY);
+		cellEditor = new CellEditor[]{null, null, comboCell, positionCell };
 		return cellEditor;
 	}
 
@@ -233,14 +224,14 @@ public class SubTotalProvider extends TotalProvider implements
 	public int[] columnWidths( )
 	{
 		return new int[]{
-				20,210,120
+				20,210,120,120
 		};
 	}
 
 	public boolean canModify( Object element, String property )
 	{
 		// TODO Auto-generated method stub
-		if ( Arrays.asList( columnNames ).indexOf( property ) == 2 )
+		if ( Arrays.asList( columnNames ).indexOf( property ) == 2 || Arrays.asList( columnNames ).indexOf( property ) == 3)
 		{
 			if(viewer instanceof CheckboxTableViewer)
 			{
@@ -280,6 +271,14 @@ public class SubTotalProvider extends TotalProvider implements
 				int sel = Arrays.asList( viewNames ).indexOf( expectedView );
 				value = sel <= 0 ? new Integer(0) : new Integer(sel);
 				break;
+			case 3:
+				String pos = ( (SubTotalInfo) (element )).getPosition( );
+				if(pos == null || pos.length( ) == 0)
+				{
+					return new Integer(0);
+				}
+				int posIndex = Arrays.asList( positionValues  ).indexOf( pos );
+				value = posIndex <= 0 ? new Integer(0) : new Integer(posIndex);
 			default:
 		}
 		return value;
@@ -310,6 +309,10 @@ public class SubTotalProvider extends TotalProvider implements
 					( (SubTotalInfo) element ).setExpectedView( viewNames[sel] );
 				}
 				break;
+			case 3:
+				int posIndex = ((Integer)value).intValue( );
+				( (SubTotalInfo) element ).setPosition( positionValues[posIndex] );
+				
 			default:
 		}
 		viewer.refresh( );

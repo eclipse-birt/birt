@@ -131,4 +131,16 @@ public class Messages
 			return '!' + key + '!';
 		}
 	}
+
+	/**
+	 * Gets formatted translation for current local
+	 * 
+	 * @param key
+	 *            the key
+	 * @return translated value string
+	 */
+	public static String getFormattedString( String key, Object[] arguments )
+	{
+		return MessageFormat.format( getString( key ), arguments );
+	}
 }
