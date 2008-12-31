@@ -1446,7 +1446,7 @@ public abstract class EngineTask implements IEngineTask
 					format = RenderOption.OUTPUT_FORMAT_HTML;
 					renderOptions.setOutputFormat( format );
 				}
-				emitterID = engine.getConfig( ).getDefualtEmitterID(format);
+				emitterID = engine.getConfig( ).getDefualtEmitter(format);
 			}
 			if(emitterID!=null)
 			{
