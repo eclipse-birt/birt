@@ -1439,10 +1439,18 @@ public abstract class EngineTask implements IEngineTask
 		{
 			format = renderOptions.getOutputFormat( );
 			emitterID = renderOptions.getEmitterID( );
+			if ( emitterID == null )
+			{
+				if ( format == null )
+				{
+					format = RenderOption.OUTPUT_FORMAT_HTML;
+					renderOptions.setOutputFormat( format );
+				}
+				emitterID = engine.getConfig( ).getDefualtEmitterID(format);
+			}
 			if(emitterID!=null)
 			{
-				boolean validEmitterID = extManager.isValidEmitterID( emitterID );
-				if(!validEmitterID)
+				if(!extManager.isValidEmitterID( emitterID ))
 				{
 					log.log( Level.SEVERE, MessageConstants.INVALID_EMITTER_ID, emitterID);
 					throw new EngineException( MessageConstants.INVALID_EMITTER_ID, emitterID );
