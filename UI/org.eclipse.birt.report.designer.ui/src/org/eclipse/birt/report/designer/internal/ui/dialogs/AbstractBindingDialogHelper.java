@@ -15,6 +15,10 @@ import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * AbstractBindingDialogHelper
@@ -108,5 +112,11 @@ public abstract class AbstractBindingDialogHelper implements
 		if ( bindingHolder != null && bindingHolder instanceof ListingHandle )
 			return true;
 		return false;
+	}
+
+	protected void setContentSize( Composite composite )
+	{
+		Point size = composite.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		composite.setSize( Math.max( size.x, 400 ),Math.max( size.y, isAggregate( ) ? 250 : 50 ) );
 	}
 }

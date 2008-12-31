@@ -23,8 +23,13 @@ import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * DataColumnBindingDialog
@@ -172,12 +177,25 @@ public class DataColumnBindingDialog extends BaseDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
+		
 		Composite composite = (Composite) super.createDialogArea( parent );
+		ScrolledComposite sc = new ScrolledComposite(composite, SWT.V_SCROLL);
+		sc.setAlwaysShowScrollBars( false );
+		sc.setExpandHorizontal( true );
+		sc.setLayoutData( new GridData(GridData.FILL_BOTH) );
+		
+		Composite content = new Composite(sc, SWT.NONE);
+		sc.setContent( content );
+		content.setLayout( new GridLayout() );
 
+//		sc.setBackground( Display.getCurrent( ).getSystemColor( SWT.COLOR_BLACK ) );
+//		content.setBackground( Display.getCurrent( ).getSystemColor( SWT.COLOR_BLUE ) );
+//		composite.setBackground( Display.getCurrent( ).getSystemColor( SWT.COLOR_RED ) );
+		
 		dialogHelper.setExpressionProvider( expressionProvider );
-		dialogHelper.createContent( composite );
-		UIUtil.bindHelp( composite, IHelpContextIds.DATA_COLUMN_BINDING_DIALOG );
-		return composite;
+		dialogHelper.createContent( content );
+		UIUtil.bindHelp( content, IHelpContextIds.DATA_COLUMN_BINDING_DIALOG );
+		return content;
 	}
 
 	protected void okPressed( )

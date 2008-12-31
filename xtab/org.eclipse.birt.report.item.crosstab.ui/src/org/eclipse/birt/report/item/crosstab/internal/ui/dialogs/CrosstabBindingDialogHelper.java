@@ -58,6 +58,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -123,6 +124,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
+		gd.widthHint = 200;
 		txtName.setLayoutData( gd );
 		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
@@ -157,20 +159,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		createMessageSection( composite );
 
-		gd = new GridData( GridData.FILL_HORIZONTAL );
-
-		int width = composite.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
-		int height = composite.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y;
-		gd.minimumWidth = width > 380 ? width : 380;
-		if ( isAggregate( ) )
-		{
-			gd.heightHint = height > 320 ? height : 320;
-		}
-		else
-		{
-			gd.heightHint = height > 150 ? height : 150;
-		}
+		gd = new GridData( GridData.FILL_BOTH );
 		composite.setLayoutData( gd );
+		setContentSize(composite);
 	}
 
 	public void initDialog( )
@@ -782,7 +773,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		paramsComposite.layout( );
 		composite.layout( );
-		dialog.getShell( ).layout( );
+		setContentSize(composite);
 	}
 
 	private void createExpressionButton( final Composite parent, final Text text )
@@ -1103,4 +1094,5 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		return true;
 	}
+	
 }
