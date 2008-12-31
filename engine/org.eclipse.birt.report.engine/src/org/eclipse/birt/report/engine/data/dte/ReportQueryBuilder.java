@@ -772,14 +772,8 @@ public class ReportQueryBuilder
 							(GroupHandle) groupsSlot.get( i ), query );
 				}
 
-				BandDesign detail = list.getDetail( );
-				if ( !baseQuery.cacheQueryResults( ) )
-				{
-					if ( detail == null || detail.getContentCount( ) == 0 )
-					{
-						baseQuery.setUsesDetails( false );
-					}
-				}
+				BandDesign detail = list.getDetail();
+				setUsesDetails(detail, baseQuery);
 				handleListingBand( detail, baseQuery, false, null );
 
 				handleListingBand( list.getFooter( ), baseQuery, true, null );
@@ -923,14 +917,8 @@ public class ReportQueryBuilder
 							(GroupHandle) groupsSlot.get( i ), baseQuery );
 				}
 
-				BandDesign detail = table.getDetail( );
-				if ( !baseQuery.cacheQueryResults( ) )
-				{
-					if ( detail == null || detail.getContentCount( ) == 0 )
-					{
-						baseQuery.setUsesDetails( false );
-					}
-				}
+				BandDesign detail = table.getDetail(); 
+				setUsesDetails(detail, baseQuery);
 				handleListingBand( detail, baseQuery, false, null );
 
 				handleListingBand( table.getFooter( ), baseQuery, true, null );
@@ -944,6 +932,19 @@ public class ReportQueryBuilder
 				context.addException( table.getHandle( ), ex );
 			}
 			return getResultQuery( query, value );
+		}
+
+		private void setUsesDetails(BandDesign detail,
+				BaseQueryDefinition baseQuery) {
+			if (detail == null || detail.getContentCount() == 0)
+			{
+				if ( !baseQuery.cacheQueryResults() )
+					baseQuery.setUsesDetails(false);
+			}
+			else
+			{
+				baseQuery.setUsesDetails(true);
+			}
 		}
 
 		private void handleListingQuery( ListingDesign design,
