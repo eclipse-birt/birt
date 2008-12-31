@@ -19,8 +19,10 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.swt.SWT;
@@ -322,7 +324,7 @@ public class AggregationDialog extends BaseDialog
 			table.setHeaderVisible( true );
 
 			GridData gd = new GridData( GridData.FILL_BOTH );
-			gd.minimumHeight = 150;
+			gd.minimumHeight = 200;
 			table.setLayoutData( gd );
 
 			grandTableViewer = new CheckboxTableViewer( table );
@@ -371,7 +373,7 @@ public class AggregationDialog extends BaseDialog
 			table.setHeaderVisible( true );
 
 			GridData gd = new GridData( GridData.FILL_BOTH );
-			gd.minimumHeight = 150;
+			gd.minimumHeight = 200;
 			table.setLayoutData( gd );
 
 			subTableViewer = new CheckboxTableViewer( table );
@@ -400,12 +402,11 @@ public class AggregationDialog extends BaseDialog
 	 * SubTotalInfo
 	 */
 	public static class SubTotalInfo
-	{
-
+	{		
 		private String expectedView = ""; //$NON-NLS-1$
 		private LevelHandle level;
+		private LevelViewHandle levelView;
 		
-//		private MeasureHandle measure;
 		private String measureQualifiedName = "";
 		private String measureDisplayName = "";
 		
@@ -418,11 +419,10 @@ public class AggregationDialog extends BaseDialog
 		public SubTotalInfo copy( )
 		{
 			SubTotalInfo retValue = new SubTotalInfo( );
-//			retValue.setAggregateOnMeasure( getAggregateOnMeasure( ) );
 			
 			retValue.setAggregationOn( isAggregationOn( ) );
 			retValue.setFunction( getFunction( ) );
-			retValue.setLevel( getLevel( ) );
+			retValue.setLevelView( getLevelView( ) );
 			retValue.setAssociation( isAssociation( ) );
 			retValue.setExpectedView( expectedView );
 			retValue.setAggregateOnMeasureName( getAggregateOnMeasureName( ) );
@@ -430,6 +430,24 @@ public class AggregationDialog extends BaseDialog
 			return retValue;
 		}
 
+		public String getPosition( )
+		{
+			return levelView.getAggregationHeaderLocation( );
+		}
+		
+		public void setPosition(String pos)
+		{
+			try
+			{
+				levelView.setAggregationHeaderLocation( pos );
+			}
+			catch ( SemanticException e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		public String getExpectedView( )
 		{
 			return expectedView;
@@ -440,10 +458,6 @@ public class AggregationDialog extends BaseDialog
 			this.expectedView = new String(expectedView);
 		}
 
-//		public MeasureHandle getAggregateOnMeasure( )
-//		{
-//			return measure;
-//		}
 
 		public String getAggregateOnMeasureName( )
 		{
@@ -465,6 +479,11 @@ public class AggregationDialog extends BaseDialog
 			return level;
 		}
 
+		public LevelViewHandle getLevelView()
+		{
+			return levelView;
+		}
+		
 		public boolean isAggregationOn( )
 		{
 			return aggregationOn;
@@ -490,9 +509,11 @@ public class AggregationDialog extends BaseDialog
 			this.function = function;
 		}
 
-		public void setLevel( LevelHandle level )
+		
+		public void setLevelView( LevelViewHandle levelView )
 		{
-			this.level = level;
+			this.levelView = levelView;
+			this.level = levelView.getCubeLevel( );
 		}
 
 		public boolean isSameInfo( Object obj )
@@ -517,7 +538,8 @@ public class AggregationDialog extends BaseDialog
 					&& temp.getAggregateOnMeasureName( ).equals( measureQualifiedName )
 					&& temp.getFunction( ) == function
 					&& temp.isAggregationOn( ) == aggregationOn
-			&&( (temp == null && expectedView == null )|| temp.getExpectedView( ).equals(expectedView));
+			&&( (temp == null && expectedView == null )|| temp.getExpectedView( ).equals(expectedView))
+			&& temp.getPosition( ).equals( levelView.getAggregationHeaderLocation( ));
 		}
 
 		public boolean isAssociation( )

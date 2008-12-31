@@ -137,6 +137,10 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 				{
 					 providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.SWITCH_VIEW_TYPE );
 				}
+			}else
+			{
+				rollBack( );
+				return;
 			}
 		}
 		catch ( SemanticException e )
@@ -478,7 +482,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 				subTotal.setExpectedView( expectedView );
 				// subTotal.setAggregateOnMeasure( tmpMeasure );
 				subTotal.setAggregateOnMeasureName( tmpMeasureName );
-				subTotal.setLevel( levelView.getCubeLevel( ) );
+				subTotal.setLevelView( levelView );
 				swtichCellInfo.setIsNew( isNew );
 				swtichCellInfo.setSubTotalInfo( subTotal );
 
@@ -503,29 +507,6 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		}
 	}
 
-	// private void updateShowStatus( AggregationCellHandle cell,
-	// String expectedView )
-	// {
-	// if ( expectedView == null || expectedView.length( ) == 0 )
-	// {
-	// return;
-	// }
-	//
-	// IAggregationCellViewProvider provider = providerWrapper.getMatchProvider(
-	// cell );
-	// if(provider != null)
-	// {
-	// // if current view is the same view with the expected one, then don't
-	// restore
-	// if(! provider.getViewName( ).equals( expectedView ))
-	// {
-	// provider.restoreView( cell );
-	// }
-	// }
-	//		
-	// providerWrapper.switchView( expectedView, cell );
-	//
-	// }
 
 	private void processOperation( SubOpration oriOperation,
 			SubOpration newOperation ) throws SemanticException
@@ -811,7 +792,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 						continue;
 					}
 					AggregationDialog.SubTotalInfo info = new AggregationDialog.SubTotalInfo( );
-					info.setLevel( tempHandle );
+					info.setLevelView( tempViewHandle );
 					// info.setAggregateOnMeasure( reportHandle.getMeasure( j )
 					// .getCubeMeasure( ) );
 					if ( reportHandle.getMeasure( j ).getCubeMeasure( ) != null )
@@ -848,7 +829,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 
 					MeasureHandle tempMeasureHandle = ( (MeasureViewHandle) measures.get( j ) ).getCubeMeasure( );
 					AggregationDialog.SubTotalInfo info = new AggregationDialog.SubTotalInfo( );
-					info.setLevel( tempHandle );
+					info.setLevelView( tempViewHandle );
 					// info.setAggregateOnMeasure( tempMeasureHandle );
 					if ( tempMeasureHandle != null )
 					{
