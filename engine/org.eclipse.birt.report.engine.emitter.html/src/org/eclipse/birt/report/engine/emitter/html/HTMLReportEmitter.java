@@ -10,6 +10,7 @@
 
 package org.eclipse.birt.report.engine.emitter.html;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -76,6 +77,8 @@ import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
+import org.eclipse.birt.report.engine.util.FileUtil;
+import org.eclipse.birt.report.engine.util.SvgFile;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
@@ -2197,7 +2200,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				buffer.append( ":" );
 				if ( "background-image".equalsIgnoreCase( key ) )
 				{
-					String valueTrue = handleStyleImage( value );
+					String valueTrue = handleStyleImage( value, true );
 					if ( valueTrue != null )
 					{
 						value = valueTrue;
@@ -2783,10 +2786,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		return null;
 	}
 
-	// FIXME: code review: this function needs be handled in the ENGINE( after
-	// render , in the localize)? We should calculate the imgUri in the engine
-	// part and put the imgUri into the image style. Then we can use the imagUri
-	// directly here
 	/**
 	 * handle style image
 	 * 
@@ -2796,6 +2795,24 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public String handleStyleImage( String uri )
 	{
+		return handleStyleImage( uri, false );
+	}
+		
+	// FIXME: code review: this function needs be handled in the ENGINE( after
+	// render , in the localize)? We should calculate the imgUri in the engine
+	// part and put the imgUri into the image style. Then we can use the imagUri
+	// directly here
+	/**
+	 * handle style image
+	 * 
+	 * @param uri
+	 *            uri in style image
+	 * @param isBackground
+	 *            Is this image a used for a background?
+	 * @return
+	 */
+	public String handleStyleImage( String uri, boolean isBackground )
+	{
 		ReportDesignHandle design = (ReportDesignHandle) runnable
 				.getDesignHandle( );
 		URL url = design.findResource( uri, IResourceLocator.IMAGE );
@@ -2804,7 +2821,23 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			return uri;
 		}
 		uri = url.toExternalForm( );
-		Image image = new Image( uri );
+		Image image = null;
+		if ( isBackground && SvgFile.isSvg( uri ) )
+		{
+			try
+			{
+				byte[] buffer = SvgFile.transSvgToArray( uri );
+				image = new Image( buffer, uri, ".jpg" );
+			}
+			catch ( IOException e )
+			{
+				image = new Image( uri );
+			}
+		}
+		else
+		{
+			image = new Image( uri );
+		}
 		image.setReportRunnable( runnable );
 		image.setRenderOption( renderOption );
 		String imgUri = null;
@@ -2821,6 +2854,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					imgUri = imageHandler.onFileImage( image, reportContext );
 					break;
 
+				case IImage.CUSTOM_IMAGE :
+					imgUri = imageHandler.onCustomImage( image, reportContext );
+					break;
+					
 				case IImage.INVALID_IMAGE :
 					break;
 

@@ -47,9 +47,15 @@ public class SvgFile
 	
 	public static byte[] transSvgToArray( String uri ) throws IOException
 	{
-		InputStream in = null;
-		in = new URL( uri ).openStream( );
-		return transSvgToArray( in );
+		InputStream in = new URL( uri ).openStream( );
+		try
+		{
+			return transSvgToArray( in );
+		}
+		finally
+		{
+			in.close( );
+		}
 	}
 
 	public static byte[] transSvgToArray( InputStream inputStream )

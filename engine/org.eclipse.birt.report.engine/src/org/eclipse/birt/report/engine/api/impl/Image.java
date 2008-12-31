@@ -104,6 +104,26 @@ public class Image extends ReportPart implements IImage
 		this.data = data;
 		this.source = IImage.CUSTOM_IMAGE;
 	}
+	
+	/**
+	 * 
+	 * @param data
+	 * @param name
+	 * @param postfix
+	 */
+	public Image( byte[] data, String name, String postfix )
+	{
+		if ( data == null )
+		{
+			return;
+		}
+
+		id = name;
+		this.data = data;
+		this.source = IImage.CUSTOM_IMAGE;
+		extension = postfix;
+		mimeType = FileUtil.getTypeFromExt( extension );
+	}
 
 	public Image( IImageContent content )
 	{

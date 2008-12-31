@@ -111,7 +111,7 @@ public class AttributeBuilder
 			return;
 		}
 
-		image = emitter.handleStyleImage( image );
+		image = emitter.handleStyleImage( image, true );
 		if ( image != null && image.length( ) > 0 )
 		{
 			buildURLProperty( styleBuffer, HTMLTags.ATTR_BACKGROUND_IMAGE, image );
