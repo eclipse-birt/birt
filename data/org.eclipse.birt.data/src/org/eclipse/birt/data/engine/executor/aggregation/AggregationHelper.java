@@ -341,7 +341,7 @@ public class AggregationHelper implements IAggrValueHolder
 					}
 					else
 					{
-						evaluateArgsValue( aggrIndex, aggrInfo, i, argDefs[i].isOptional( ) );
+						evaluateArgsValue( aggrIndex, aggrInfo, i, argDefs[i] );
 					}
 				}
 
@@ -450,7 +450,7 @@ public class AggregationHelper implements IAggrValueHolder
 	 * @param i
 	 * @throws DataException
 	 */
-	private void evaluateArgsValue( int aggrIndex, IAggrInfo aggrInfo, int i, boolean isOptional )
+	private void evaluateArgsValue( int aggrIndex, IAggrInfo aggrInfo, int i, IParameterDefn paramDefn )
 			throws DataException
 	{
 		if( i >= aggrInfo.getArgument( ).length )
@@ -458,9 +458,16 @@ public class AggregationHelper implements IAggrValueHolder
 			return;
 		}
 		IBaseExpression argExpr = aggrInfo.getArgument( )[i];
-		if ( !isOptional )
+		if ( !paramDefn.isOptional( ) )
 		{
-			checkExpression( aggrInfo, argExpr );
+			if ( !isFunctionCount( aggrInfo )
+					&& isEmptyScriptExpression( argExpr ) )
+			{
+				throw new DataException( ResourceConstants.AGGREGATION_ARGUMENT_CANNOT_BE_BLANK,
+						new Object[]{
+								paramDefn.getName( ), aggrInfo.getName( )
+						} );
+			}
 		}
 		else if ( argExpr == null
 				|| ( (IScriptExpression) argExpr ).getText( ) == null
@@ -494,21 +501,6 @@ public class AggregationHelper implements IAggrValueHolder
 		invalidAggrMsg.put( new Integer( aggrIndex ), e );
 	}
 
-	/**
-	 * 
-	 * @param aggrInfo
-	 * @param argExpr
-	 * @throws DataException
-	 */
-	private void checkExpression( IAggrInfo aggrInfo, IBaseExpression argExpr )
-			throws DataException
-	{
-		if ( !isFunctionCount( aggrInfo ) && isEmptyScriptExpression( argExpr ) )
-		{
-			throw new DataException( ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK );
-		}
-	}
-	
 	/**
 	 * Checks whether the ScriptExpression has empty expression text
 	 * 

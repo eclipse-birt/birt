@@ -84,6 +84,7 @@ public class ResourceConstants
 	
 	public final static String UNSUPPORTTED_COND_OPERATOR = "data.engine.UnsupportedCondOp";
 	public final static String EXPRESSION_CANNOT_BE_NULL_OR_BLANK = "data.engine.EmptyExpression";	
+	public final static String AGGREGATION_ARGUMENT_CANNOT_BE_BLANK = "data.engine.AggregationBinding.EmptyArgument";
 			
 	public final static String INVALID_JOIN_TYPE="data.engine.InvalidJoinType";
 	public final static String INVALID_JOIN_OPERATOR="data.engine.InvalidJoinOperator";
