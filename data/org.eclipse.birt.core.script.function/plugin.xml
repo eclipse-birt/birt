@@ -20,14 +20,14 @@
    			<DataType value="%dataType.String"></DataType></Argument>
    		<DataType value="%dataType.String"></DataType></Function>
    	<Function
-          desc="Searches for target in the string source and returns the index of first occurrence of pattern. Search starts at position start. All index values are 0-based.If start is omitted, a value of 0 is assumed. String search is case sensitive."
+          desc="Searches for target in the string source and returns the index of first occurrence of pattern. &#xa;Search starts at position start. All index values are 0-based.&#xa;If start is omitted, a value of 0 is assumed. String search is case sensitive."
           name="indexOf">
    		<Argument name="source"></Argument>
    		<Argument name="target"></Argument>
    		<Argument isOptional="true" name="start"></Argument>
    		<DataType value="%dataType.Integer"></DataType></Function>
    	<Function
-          desc="Returns the first n characters of the string str. If n is 0, an empty string is returned. If n is greater than the length of str, the entire string is returned. If n is omitted, a value of 1 is used."
+          desc="Returns the first n characters of the string str. &#xa;If n is 0, an empty string is returned. &#xa;If n is greater than the length of str, the entire string is returned. &amp;#xa;If n is omitted, a value of 1 is used."
           name="left">
    		<Argument name="source">
    			<DataType value="%dataType.String"></DataType></Argument>
@@ -35,7 +35,7 @@
    			<DataType value="%dataType.Integer"></DataType></Argument>
    		<DataType value="%dataType.String"></DataType></Function>
    	<Function
-          desc="Returns the last n characters of the string str. If n is 0, an empty string is returned. If n is greater than the length of str, the entire string is returned. If n is omitted, a value of 1 is used."
+          desc="Returns the last n characters of the string str. &#xa;If n is 0, an empty string is returned. If n is greater than the length of str, the entire string is returned. &amp;#xa;If n is omitted, a value of 1 is used."
           name="right">
    		<Argument name="source">
    			<DataType value="%dataType.String"></DataType></Argument>
@@ -43,7 +43,7 @@
    			<DataType value="%dataType.Integer"></DataType></Argument>
    		<DataType value="%dataType.String"></DataType></Function>
    	<Function
-          desc="Similar to indexOf function, except that: (1) string comparison is case-insensitive (2) pattern string can contain wildcard characters: * matches any sequence of characters (including empty); ? matches any * matches any sequence of characters (including empty); ? matches any * matches any sequence of characters (including empty); ? matches any single character. "
+          desc="Similar to indexOf function, except that: &amp;#xa;(1) string comparison is case-insensitive &#xa;(2) pattern string can contain wildcard characters: &#xa;* matches any sequence of characters (including empty); ? matches any * matches any sequence of characters (including empty); ? matches any * matches any sequence of characters (including empty); ? matches any single character. "
           name="search">
    		<Argument name="pattern">
    			<DataType value="%dataType.String"></DataType></Argument>
@@ -67,7 +67,7 @@
    		<DataType value="%dataType.String"></DataType>
    	</Function>
    	<Function
-          desc="Removes all leading and trailing blank characters (space, TAB etc.).Also, all consecutive blank characters are consolidated into one. "
+          desc="Removes all leading and trailing blank characters (space, TAB etc.).&#xa;Also, all consecutive blank characters are consolidated into one. "
           name="trim">
    		<Argument name="source">
    			<DataType value="%dataType.String"></DataType></Argument>
@@ -245,7 +245,7 @@
    		<Argument name="divisor">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
    	<Function
-          desc="Rounds a number to the specified number of digits. dec is an integer and can be negative. Default value for dec is 0 when omitted"
+          desc="Rounds a number to the specified number of digits. &#xa;dec is an integer and can be negative. &#xa;Default value for dec is 0 when omitted"
           name="round">
    		<DataType value="%dataType.Number"></DataType>
    		<Argument name="number">
@@ -255,7 +255,7 @@
    			<DataType value="%dataType.Number"></DataType>
    		</Argument></Function>
    	<Function
-          desc="Rounds a number up, away from 0, to the specified number of digits. Default for dec is 0."
+          desc="Rounds a number up, away from 0, to the specified number of digits. &#xa;Default for dec is 0."
           name="roundUp">
    		<DataType value="%dataType.Number"></DataType>
    		<Argument name="number">
@@ -265,7 +265,7 @@
    			<DataType value="%dataType.Number"></DataType>
    		</Argument></Function>
    	<Function
-          desc="Rounds a number down, away from 0, to the specified number of digits. Default for dec is 0."
+          desc="Rounds a number down, away from 0, to the specified number of digits. &#xa;Default for dec is 0."
           name="roundDown">
    		<DataType value="%dataType.Number"></DataType>
    		<Argument name="n">
@@ -291,7 +291,7 @@
    		<Argument name="divisor">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
    	<Function
-          desc="If the result from the dividend divided by the divisor is not zero or infinite then returns the result. Otherwise returns the given ifZero."
+          desc="If the result from the dividend divided by the divisor is not zero or infinite then returns the result. &#xa;Otherwise returns the given ifZero."
           name="safeDivide">
    		<DataType value="%dataType.Number"></DataType>
    		<Argument name="dividend">
@@ -318,11 +318,18 @@
    		<Argument name="date">
    			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
    	<Function
-          desc="Month of date/time value d. Option is an integer value:1 (default): return month number (1-12);2: return full month name as per user locale (e.g., January to December for English locale);3: return short month name as per user locale (e.g., Jan to Dec for English locale)"
+          desc="Month of date/time value. Option is an integer value:&#xa;1 (default): return month number (1-12);&#xa;2: return full month name as per user locale (e.g., January to December for English locale);&#xa;3: return short month name as per user locale (e.g., Jan to Dec for English locale)"
           name="month">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="date">
-   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+       <Argument
+            isOptional="true"
+            name="option">
+         <DataType
+               value="Integer">
+         </DataType>
+      </Argument></Function>
    	<Function
           desc="Week number of the year (1 to 52) of date/time value d."
           name="week">
@@ -336,11 +343,18 @@
    		<Argument name="date">
    			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
    	<Function
-          desc="Day the week. Option is an integer value:1: return a number 1 (Sunday) to 7 (Saturday);2: return a number 1 (Monday) to 7 (Sunday);3: return a number 0 (Monday) to 6 (Sunday);4: return the weekday name as per user locale (e.g., Sunday – Saturday for English);5: return the abbreviated weekday name as per user locale (e.g., Sun – Sat for English)"
+          desc="Day the week. Option is an integer value:&#xa;1: return a number 1 (Sunday) to 7 (Saturday);&#xa;2: return a number 1 (Monday) to 7 (Sunday);&#xa;3: return a number 0 (Monday) to 6 (Sunday);&#xa;4: return the weekday name as per user locale (e.g., Sunday – Saturday for English);&#xa;5: return the abbreviated weekday name as per user locale (e.g., Sun – Sat for English)"
           name="weekDay">
    		<DataType value="%dataType.String"></DataType>
    		<Argument name="date">
-   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+       <Argument
+           isOptional="true"
+           name="option">
+         <DataType
+              value="Integer">
+         </DataType>
+     </Argument></Function>
    	<Function
           desc="Returns a timestamp value which is midnight of the current date."
           name="today">
@@ -508,7 +522,7 @@
    		</Argument>
    	</Function>
    	   	<Function
-              desc="the future value of an annuity based on periodic , constant payments,and on an unvarying interest rate."
+              desc="the future value of an annuity based on periodic , constant payments, and on an unvarying interest rate."
               name="fv">
    		<DataType value="%dataType.Double"></DataType>
    		<Argument name="rate">
@@ -529,7 +543,7 @@
    	</Function>
   
    	   	<Function
-              desc="The interest payment for a given period of an annuity, based on periodic , constant payments, and on an unvarying interest rate."
+              desc="The interest payment for a given period of an annuity, &#xa;based on periodic , constant payments, and on an unvarying interest rate."
               name="ipmt">
    		<DataType value="%dataType.Double"></DataType>
    		<Argument name="rate">
