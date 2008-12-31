@@ -179,5 +179,6 @@ public class BufferedRandomAccessFileTest extends TestCase
 		assertEquals( file.readUTF( ), "testString" );
 		assertEquals( file.readShort( ), 1300 );
 		assertEquals( file.readLong( ), 300000111l );
+		file.close( );
 	}
 }

@@ -100,6 +100,8 @@ public class FactTableHelperTest2 extends BaseTestCase
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		
 		testFactTableSaveAndLoad( documentManager );
+		
+		documentManager.close( );
 	}
 	
 
@@ -252,6 +254,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		
 		testFactTableSaveAndLoad2( documentManager );
+		documentManager.close( );
 	}
 	
 
@@ -384,6 +387,8 @@ public class FactTableHelperTest2 extends BaseTestCase
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		
 		testFactTableSaveAndLoad3( documentManager );
+		
+		documentManager.close( );
 	}
 	
 	private void testFactTableSaveAndLoad3( IDocumentManager documentManager ) throws IOException, BirtException, DataException
@@ -554,6 +559,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		resultSet[1].seek( 7 );
 		assertEquals( resultSet[1].getLevelKeyValue( 0 )[0], new Integer(8) );
 		assertEquals( resultSet[1].getAggregationValue( 0 ), new Double(7) );
+		closeResultSets( resultSet );
 	}
 	
 	/**
@@ -566,6 +572,8 @@ public class FactTableHelperTest2 extends BaseTestCase
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		
 		testFactTableSaveAndLoad4( documentManager );
+		
+		documentManager.close( );
 	}
 	
 	private void testFactTableSaveAndLoad4( IDocumentManager documentManager ) throws IOException, BirtException
@@ -695,6 +703,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		resultSet[1].seek( 7 );
 		assertEquals( resultSet[1].getLevelKeyValue( 0 )[0], new Integer(8) );
 		assertEquals( resultSet[1].getAggregationValue( 0 ), new Double(7) );
+		closeResultSets( resultSet );
 	}
 	
 	/**
@@ -732,17 +741,17 @@ public class FactTableHelperTest2 extends BaseTestCase
 		iterator.setLevelMember( 2, FactTable2.L3Col );
 		
 		ILevelDefn[] levelDefs = new ILevelDefn[3];
-		levelDefs[0] = new CubeElementFactory( ).createLevelDefinition( "level11",
+		levelDefs[0] = CubeElementFactory.createLevelDefinition( "level11",
 				new String[]{
 					"level11"
 				},
 				null );
-		levelDefs[1] = new CubeElementFactory( ).createLevelDefinition( "level12",
+		levelDefs[1] = CubeElementFactory.createLevelDefinition( "level12",
 				new String[]{
 					"level12"
 				},
 				null );
-		levelDefs[2] = new CubeElementFactory( ).createLevelDefinition( "level13",
+		levelDefs[2] = CubeElementFactory.createLevelDefinition( "level13",
 				new String[]{
 					"level13"
 				},
@@ -868,6 +877,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		resultSet[1].seek( 7 );
 		assertEquals( resultSet[1].getLevelKeyValue( 0 )[0], new Integer(8) );
 		assertEquals( resultSet[1].getAggregationValue( 0 ), new Double(7) );
+		closeResultSets( resultSet );
 	}
 	
 	public void testMaxAggregation() throws IOException, BirtException
@@ -875,6 +885,8 @@ public class FactTableHelperTest2 extends BaseTestCase
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		
 		testMaxAggregation( documentManager );
+		
+		documentManager.close( );
 	}
 	
 	private void testMaxAggregation( IDocumentManager documentManager ) throws IOException, BirtException, DataException
@@ -985,6 +997,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		
 		resultSet[0].seek( 0 );
 		assertEquals( resultSet[0].getAggregationValue( 0 ), 11 );
+		closeResultSets( resultSet );
 	}
 	
 	/**
@@ -997,6 +1010,16 @@ public class FactTableHelperTest2 extends BaseTestCase
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		
 		testNestAggregation( documentManager );
+		
+		documentManager.close( );
+	}
+	
+	private void closeResultSets( IAggregationResultSet[] resultSets ) throws IOException
+	{
+		for ( IAggregationResultSet rs : resultSets )
+		{
+			rs.close( );
+		}
 	}
 	
 	private void testNestAggregation( IDocumentManager documentManager ) throws IOException, BirtException, DataException
@@ -1179,6 +1202,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		resultSet[0].seek( 2 );
 		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], new Integer(3) );
 		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(38) );
+		closeResultSets( resultSet );
 	}
 }
 

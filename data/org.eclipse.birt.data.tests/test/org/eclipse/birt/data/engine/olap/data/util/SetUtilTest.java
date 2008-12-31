@@ -84,6 +84,11 @@ public class SetUtilTest extends TestCase
 		IDiskArray result = SetUtil.getIntersection( stacks );
 		assertEquals( result.size( ), 1 );
 		assertEquals( result.get( 0 ), new Integer( 13 ) );
+		result.close( );
+		for ( PrimitiveDiskSortedStack s : stacks )
+		{
+			s.close( );
+		}
 	}
 	
 	public void testintersect2( ) throws IOException
@@ -124,6 +129,11 @@ public class SetUtilTest extends TestCase
 		IDiskArray result = SetUtil.getIntersection( lists );
 		assertEquals( result.size( ), 1 );
 		assertEquals( result.get( 0 ), new Integer( 13 ) );
+		result.close( );
+		for ( BufferedPrimitiveDiskArray s : lists )
+		{
+			s.close( );
+		}
 	}
 	
 	public void testintersect3( ) throws IOException
@@ -191,6 +201,11 @@ public class SetUtilTest extends TestCase
 		lists[3].add( new Integer(10) );
 		IDiskArray result = SetUtil.getIntersection( lists );
 		assertEquals( result.size( ), 0 );
+		result.close( );
+		for ( BufferedPrimitiveDiskArray s : lists )
+		{
+			s.close( );
+		}
 	}
 	
 	public void testintersect5( ) throws IOException
@@ -218,5 +233,10 @@ public class SetUtilTest extends TestCase
 		lists[3].add( new Integer(12) );
 		IDiskArray result = SetUtil.getIntersection( lists );
 		assertEquals( result.size( ), 0 );
+		result.close( );
+		for ( BufferedPrimitiveDiskArray s : lists )
+		{
+			s.close( );
+		}
 	}
 }

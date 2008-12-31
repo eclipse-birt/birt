@@ -121,6 +121,14 @@ public class FileDocumentManagerTest extends TestCase
 
 		return bytes;
 	}
+	
+	private void closeDocumentObjects( IDocumentObject[] dos ) throws IOException
+	{
+		for ( IDocumentObject ido : dos )
+		{
+			ido.close( );
+		}
+	}
 
 	protected int generateRandomInt( int limits )
 	{
@@ -145,6 +153,7 @@ public class FileDocumentManagerTest extends TestCase
 		{
 			assertTrue( e instanceof EOFException );
 		}
+		closeDocumentObjects( docObjs );
 	}
 
 	public void testZero( ) throws IOException
@@ -166,7 +175,7 @@ public class FileDocumentManagerTest extends TestCase
 			assertTrue( e instanceof EOFException );
 		}
 
-		docObjs[0].close( );
+		closeDocumentObjects( docObjs );
 	}
 
 	public void testMinusOne( ) throws IOException
@@ -177,7 +186,7 @@ public class FileDocumentManagerTest extends TestCase
 		docObjs[0].writeInt( ints[1] );
 		assertEquals( -1, docObjs[0].read( in, 0, in.length ) );
 
-		docObjs[0].close( );
+		closeDocumentObjects( docObjs );
 	}
 
 	public void testDouble( ) throws IOException
@@ -193,7 +202,7 @@ public class FileDocumentManagerTest extends TestCase
 		for ( int i = 0; i < doubles.length; i++ )
 			assertEquals( docObjs[0].readDouble( ), doubles[i], 2 );
 
-		docObjs[0].close( );
+		closeDocumentObjects( docObjs );
 	}
 
 	public void testInt( ) throws IOException
@@ -209,7 +218,7 @@ public class FileDocumentManagerTest extends TestCase
 		for ( int i = 0; i < ints.length; i++ )
 			assertEquals( docObjs[0].readInt( ), ints[i] );
 
-		docObjs[0].close( );
+		closeDocumentObjects( docObjs );
 	}
 
 	public void testString( ) throws IOException
@@ -225,7 +234,7 @@ public class FileDocumentManagerTest extends TestCase
 		for ( int i = 0; i < strings.length; i++ )
 			assertEquals( docObjs[0].readString( ), strings[i] );
 
-		docObjs[0].close( );
+		closeDocumentObjects( docObjs );
 	}
 
 	public void testBoolean( ) throws IOException
@@ -241,7 +250,7 @@ public class FileDocumentManagerTest extends TestCase
 		for ( int i = 0; i < booleans.length; i++ )
 			assertEquals( docObjs[0].readBoolean( ), booleans[i] );
 
-		docObjs[0].close( );
+		closeDocumentObjects( docObjs );
 	}
 
 	public void testDate( ) throws IOException
@@ -257,7 +266,7 @@ public class FileDocumentManagerTest extends TestCase
 		for ( int i = 0; i < dates.length; i++ )
 			assertEquals( docObjs[0].readDate( ), dates[i] );
 
-		docObjs[0].close( );
+		closeDocumentObjects( docObjs );
 
 	}
 
@@ -274,7 +283,7 @@ public class FileDocumentManagerTest extends TestCase
 		for ( int i = 0; i < bigDecimals.length; i++ )
 			assertEquals( docObjs[0].readBigDecimal( ), bigDecimals[i] );
 
-		docObjs[0].close( );
+		closeDocumentObjects( docObjs );
 
 	}
 
@@ -291,7 +300,7 @@ public class FileDocumentManagerTest extends TestCase
 		for ( int i = 0; i < bytes.length; i++ )
 			assertEquals( docObjs[0].readBytes( ), bytes[i] );
 
-		docObjs[0].close( );
+		closeDocumentObjects( docObjs );
 	}
 
 	public void testShort( ) throws IOException
@@ -307,7 +316,7 @@ public class FileDocumentManagerTest extends TestCase
 		for ( int i = 0; i < ints.length; i++ )
 			assertEquals( docObjs[0].readShort( ), ints[i] );
 
-		docObjs[0].close( );
+		closeDocumentObjects( docObjs );
 	}
 
 	public void testMixed( ) throws IOException
@@ -341,7 +350,7 @@ public class FileDocumentManagerTest extends TestCase
 			assertEquals( docObjs[0].readString( ), strings[i] );
 		}
 
-		docObjs[0].close( );
+		closeDocumentObjects( docObjs );
 	}
 
 	public void testFilePointer( ) throws IOException
@@ -355,7 +364,7 @@ public class FileDocumentManagerTest extends TestCase
 		docObjs[0].write( out, 0, 25 );
 		assertEquals( 1048, docObjs[0].getFilePointer( ) );
 
-		docObjs[0].close( );
+		closeDocumentObjects( docObjs );
 	}
 
 	public void testBuffer( ) throws IOException
@@ -384,7 +393,7 @@ public class FileDocumentManagerTest extends TestCase
 		for ( int i = 0; i < out.length; i++ )
 			assertEquals( docObjs[1].readByte( ), out[i] );
 
-		docObjs[1].close( );
+		closeDocumentObjects( docObjs );
 	}
 
 	public void testChunk( ) throws IOException
@@ -408,8 +417,7 @@ public class FileDocumentManagerTest extends TestCase
 		for ( int i = 0; i < out.length; i++ )
 			assertEquals( docObjs[1].readByte( ), out[i] );
 
-		docObjs[0].close( );
-		docObjs[1].close( );
+		closeDocumentObjects( docObjs );
 	}
 
 	public void testStressVariable( ) throws IOException
@@ -473,6 +481,7 @@ public class FileDocumentManagerTest extends TestCase
 		documentManager = DocumentManagerFactory.loadFileDocumentManager( );
 		obj = documentManager.openDocumentObject( DOCUMENT_OBJECT );
 		assertTrue( obj.readBoolean( ) );
+		obj.close( );
 	}
 
 }

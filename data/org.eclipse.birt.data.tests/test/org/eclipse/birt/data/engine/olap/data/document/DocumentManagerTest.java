@@ -71,6 +71,7 @@ public class DocumentManagerTest extends TestCase
 		assertTrue( documentObject != null );
 		testDocumentObject4( documentObject );
 		documentObject.close( );
+		documentManager.close( );
 	}
 
 	public void testFilesDocumentManager2( ) throws IOException, DataException
@@ -82,6 +83,8 @@ public class DocumentManagerTest extends TestCase
 		documentObject.writeInt( 4 );
 		byte[] b = new byte[10];
 		assertEquals( documentObject.read( b, 0, b.length ), -1 );
+		documentObject.close( );
+		documentManager.close( );
 	}
 	
 	public void testFilesDocumentManager3( ) throws IOException, DataException
@@ -93,6 +96,8 @@ public class DocumentManagerTest extends TestCase
 		documentObject.writeInt( 4 );
 		byte[] b = new byte[10];
 		assertEquals( documentObject.read( b, 0, b.length ), -1 );
+		documentObject.close( );
+		documentManager.close( );
 	}
 	
 	public void testFilesDocumentManager4( ) throws IOException, DataException
@@ -103,6 +108,8 @@ public class DocumentManagerTest extends TestCase
 		assertTrue( documentObject != null );
 		byte[] b = new byte[100000];
 		documentObject.write( b, 0 , b.length );
+		documentObject.close( );
+		documentManager.close( );
 		
 	}
 	

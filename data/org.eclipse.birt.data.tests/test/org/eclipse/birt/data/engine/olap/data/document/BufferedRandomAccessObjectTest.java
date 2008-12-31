@@ -54,6 +54,7 @@ public class BufferedRandomAccessObjectTest extends TestCase
 	 */
 	protected void tearDown( ) throws Exception
 	{
+		documentManager.close( );
 		super.tearDown( );
 	}
 	

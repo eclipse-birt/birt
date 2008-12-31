@@ -27,11 +27,6 @@ public class AllTests
 	{
 		TestSuite suite = new TestSuite( "Test for org.eclipse.birt.data.engine" );
 		
-		suite.addTestSuite( org.eclipse.birt.data.engine.olap.cursor.CursorNavigatorTest.class );
-		suite.addTestSuite( org.eclipse.birt.data.engine.olap.cursor.CursorModelTest.class );
-		suite.addTestSuite( org.eclipse.birt.data.engine.olap.cursor.MirrorCursorModelTest.class );
-		suite.addTestSuite( org.eclipse.birt.data.engine.olap.cursor.MirrorCursorNavigatorTest.class );
-		
 		/* in package: org.eclipse.birt.data.engine.aggregation */
 		suite.addTestSuite( org.eclipse.birt.data.engine.aggregation.FinanceTest.class );
 		suite.addTestSuite( org.eclipse.birt.data.engine.aggregation.TotalTest.class );
@@ -162,7 +157,10 @@ public class AllTests
 		
 		/* in package org.eclipse.birt.data.engine.olap.cursor */
 
-
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.cursor.CursorNavigatorTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.cursor.CursorModelTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.cursor.MirrorCursorModelTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.cursor.MirrorCursorNavigatorTest.class );
 		
 		/* in package org.eclipse.birt.data.engine.olap.util */
 		suite.addTestSuite( org.eclipse.birt.data.engine.olap.util.OlapExpressionUtilTest.class );

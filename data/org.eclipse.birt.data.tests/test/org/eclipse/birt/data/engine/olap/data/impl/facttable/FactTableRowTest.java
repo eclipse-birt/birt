@@ -59,6 +59,7 @@ public class FactTableRowTest extends TestCase
 		{
 			checkEquals( (FactTableRow) result.pop( ), createRow( i ) );
 		}
+		result.close( );
 	}
 	
 	public void testSaveAndLoad2() throws IOException
@@ -76,6 +77,7 @@ public class FactTableRowTest extends TestCase
 		{
 			checkEquals( (FactTableRow) result.pop( ), createRow2( i ) );
 		}
+		result.close( );
 	}
 	
 	private void checkEquals( FactTableRow factTableRow1,
