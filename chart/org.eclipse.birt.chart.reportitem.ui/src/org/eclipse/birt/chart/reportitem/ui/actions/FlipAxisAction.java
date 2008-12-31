@@ -16,9 +16,7 @@ import java.util.List;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
-import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
-import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
@@ -109,15 +107,19 @@ public class FlipAxisAction extends Action
 				ChartWithAxes cmOld = (ChartWithAxes) reportItem.getProperty( ChartReportItemConstants.PROPERTY_CHART );
 				ChartWithAxes cmNew = (ChartWithAxes) EcoreUtil.copy( cmOld );
 				List<String> exprs = ChartXTabUtil.getAllLevelsBindingExpression( containerCell.getCrosstab( ) );
-				Query query = (Query) ( (SeriesDefinition) ( (Axis) cmNew.getAxes( )
-						.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( )
+				Query query = cmNew.getAxes( )
+						.get( 0 )
+						.getSeriesDefinitions( )
+						.get( 0 )
+						.getDesignTimeSeries( )
 						.getDataDefinition( )
 						.get( 0 );
 				eih.getRoot( ).getCommandStack( ).startTrans( getText( ) );
 				if ( cmNew.isTransposed( ) )
 				{
 					cmNew.setTransposed( false );
-					// To resolve potential wrong axis type issue when flipping axes
+					// To resolve potential wrong axis type issue when flipping
+					// axes
 					cmNew.getBaseAxes( )[0].setType( AxisType.TEXT_LITERAL );
 					query.setDefinition( exprs.get( 0 ) );
 					ChartXTabUIUtil.updateXTabForAxis( containerCell,
@@ -128,7 +130,8 @@ public class FlipAxisAction extends Action
 				else
 				{
 					cmNew.setTransposed( true );
-					// To resolve potential wrong axis type issue when flipping axes
+					// To resolve potential wrong axis type issue when flipping
+					// axes
 					cmNew.getBaseAxes( )[0].setType( AxisType.TEXT_LITERAL );
 					query.setDefinition( exprs.get( 1 ) );
 					ChartXTabUIUtil.updateXTabForAxis( containerCell,
@@ -136,6 +139,7 @@ public class FlipAxisAction extends Action
 							false,
 							cmNew );
 				}
+				cmNew.setReverseCategory( cmNew.isTransposed( ) );
 				reportItem.executeSetModelCommand( eih, cmOld, cmNew );
 			}
 			eih.getRoot( ).getCommandStack( ).commit( );

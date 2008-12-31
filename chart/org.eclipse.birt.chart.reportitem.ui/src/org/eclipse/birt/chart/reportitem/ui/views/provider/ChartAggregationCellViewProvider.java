@@ -140,8 +140,10 @@ public class ChartAggregationCellViewProvider extends
 			// If it's axis chart, only remove axis in chart model
 			if ( ChartXTabUtil.isAxisChart( chartHandle ) )
 			{
-				Axis yAxis = (Axis) ( (Axis) ( (ChartWithAxes) cm ).getAxes( )
-						.get( 0 ) ).getAssociatedAxes( ).get( 0 );
+				Axis yAxis = ( (ChartWithAxes) cm ).getAxes( )
+						.get( 0 )
+						.getAssociatedAxes( )
+						.get( 0 );
 				yAxis.getLineAttributes( ).setVisible( false );
 				yAxis.getLabel( ).setVisible( false );
 				yAxis.getMajorGrid( ).getTickAttributes( ).setVisible( false );
@@ -205,6 +207,7 @@ public class ChartAggregationCellViewProvider extends
 		if ( checkTransposed( cell ) )
 		{
 			cm.setTransposed( true );
+			cm.setReverseCategory( true );
 
 			// Get the row dimension binding name as Category expression
 			Object content = ChartXTabUtil.getFirstContent( ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
@@ -312,9 +315,9 @@ public class ChartAggregationCellViewProvider extends
 
 		if ( exprCategory != null )
 		{
-			SeriesDefinition sdCategory = (SeriesDefinition) cm.getBaseAxes( )[0].getSeriesDefinitions( )
+			SeriesDefinition sdCategory = cm.getBaseAxes( )[0].getSeriesDefinitions( )
 					.get( 0 );
-			Query queryCategory = (Query) sdCategory.getDesignTimeSeries( )
+			Query queryCategory = sdCategory.getDesignTimeSeries( )
 					.getDataDefinition( )
 					.get( 0 );
 			queryCategory.setDefinition( ExpressionUtil.createJSDataExpression( exprCategory ) );
@@ -322,9 +325,9 @@ public class ChartAggregationCellViewProvider extends
 
 		if ( exprMeasure != null )
 		{
-			SeriesDefinition sdValue = (SeriesDefinition) cm.getOrthogonalAxes( cm.getBaseAxes( )[0],
+			SeriesDefinition sdValue = cm.getOrthogonalAxes( cm.getBaseAxes( )[0],
 					true )[0].getSeriesDefinitions( ).get( 0 );
-			Query queryValue = (Query) sdValue.getDesignTimeSeries( )
+			Query queryValue = sdValue.getDesignTimeSeries( )
 					.getDataDefinition( )
 					.get( 0 );
 			queryValue.setDefinition( ExpressionUtil.createJSDataExpression( exprMeasure ) );
@@ -475,6 +478,7 @@ public class ChartAggregationCellViewProvider extends
 						cmNew.setTransposed( cell.getCrosstab( )
 								.getMeasureDirection( )
 								.equals( ICrosstabConstants.MEASURE_DIRECTION_HORIZONTAL ) );
+						cmNew.setReverseCategory( cmNew.isTransposed( ) );
 					}
 					updateChartQueries( cmNew, cell );
 
