@@ -85,19 +85,10 @@ public class ResultIterator implements IResultIterator
 	protected RowIDUtil 				rowIDUtil;
 	
 	// used for evaluate binding column value
-	private int 					lastRowIndex = -1;
 	private Map 					boundColumnValueMap = new HashMap( );
 	private BindingColumnsEvalUtil 	bindingColumnsEvalUtil;
 	
-	private int state = NOT_STARTED;
-	
-	private static final int NOT_STARTED = 0;
-	private static final int BEFORE_FIRST_ROW = 1;
-	private static final int ON_ROW = 2;
-	private static final int AFTER_LAST_ROW = 3;
-	private static final int CLOSED = -1;
-	
-	private boolean isFirstRowPepared = true;
+	private boolean isFirstNext = true;
 	
 	private OutputStream metaOutputStream = null;
 	private DataOutputStream rowOutputStream = null;
@@ -145,7 +136,7 @@ public class ResultIterator implements IResultIterator
 				|| rService.getSession( ).getEngineContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
 			this.validateManualBindingExpressions( this.resultService.getQueryDefn( )
 					.getBindings( ) );
-		if( needCache() )
+		if( needCache() && !this.isEmpty( ) )
 		{
 			try 
 			{
@@ -158,6 +149,20 @@ public class ResultIterator implements IResultIterator
 				throw new DataException( ResourceConstants.CREATE_CACHE_TEMPFILE_ERROR );
 			}
 		}
+		addEngineShutdownListener( );
+		
+		this.start( );
+		prepareBindingColumnsEvalUtil( );
+		prepareCurrentRow();
+		
+		logger.exiting( ResultIterator.class.getName( ), "ResultIterator" );
+	}
+
+	/**
+	 * 
+	 */
+	private void addEngineShutdownListener( )
+	{
 		listener = new IShutdownListener( ) {
 
 			public void dataEngineShutdown( )
@@ -174,11 +179,20 @@ public class ResultIterator implements IResultIterator
 		this.resultService.getSession( )
 				.getEngine( )
 				.addShutdownListener( listener );
-		
-		this.start( );
-		logger.exiting( ResultIterator.class.getName( ), "ResultIterator" );
 	}
 
+	/**
+	 * 
+	 * @param rdSaveHelper
+	 * @throws DataException
+	 */
+	public void setRdSaveHelper( RDSaveHelper rdSaveHelper ) throws DataException
+	{
+		this.rdSaveHelper = rdSaveHelper;
+		prepareBindingColumnsEvalUtil( );
+		prepareCurrentRow();
+	}
+	
 	/**
 	 * 
 	 * @throws FileNotFoundException
@@ -333,11 +347,8 @@ public class ResultIterator implements IResultIterator
 	 */
 	private void start( ) throws DataException
 	{
-		assert state == NOT_STARTED;
-
 		// Note that the odiResultIterator currently has its cursor located AT
 		// its first row. This iterator starts out with cursor BEFORE first row.
-		state = BEFORE_FIRST_ROW;
 		this.getRdSaveHelper( ).doSaveStart( );
 	}
 	
@@ -347,7 +358,7 @@ public class ResultIterator implements IResultIterator
 	 */
 	private void checkStarted( ) throws DataException
 	{
-		if ( state == NOT_STARTED || state == CLOSED )
+		if ( this.odiResult == null )
 		{
 			DataException e = new DataException( ResourceConstants.RESULT_CLOSED );
 			logger.logp( Level.FINE,
@@ -376,41 +387,32 @@ public class ResultIterator implements IResultIterator
 	public boolean next( ) throws BirtException
 	{
 		checkStarted( );
-		clear( );
-
+		
 		if ( this.isEmpty( ) )
 		{
-			if ( this.isFirstRowPepared )
-			{
-				this.lastRowIndex = odiResult.getCurrentResultIndex( ) - 1;
-				this.prepareCurrentRow( );
-				this.isFirstRowPepared = false;
-			}
 			return false;
 		}
-		
-		boolean hasNext = false;
 		
 		// This behavior does not follow the convention of JDBC. That is before
 		// next is called, there is no current row. but from below code, it can
 		// be seen that it is not true in our case.
-		if ( state == BEFORE_FIRST_ROW )
+		if ( this.isFirstNext )
 		{
-			state = ON_ROW;
-			hasNext = odiResult.getCurrentResult( ) != null;
+			this.isFirstNext = false;
+			return odiResult.getCurrentResult( ) != null;
 		}
 		else
 		{
-			hasNext = hasNextRow( );
+			if ( hasNextRow( ) )
+			{
+				this.prepareCurrentRow( );
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
-		
-		if ( hasNext )
-			this.prepareCurrentRow( );
-		
-		if ( ! hasNext )
-			state = AFTER_LAST_ROW;
-		
-		return hasNext;
 	}
 
 	/**
@@ -430,7 +432,7 @@ public class ResultIterator implements IResultIterator
 	 */
 	private void saveCurrentRow( ) throws IOException, BirtException
 	{
-		if( isFirstRowPepared )
+		if( columnList == null )
 		{
 			columnList = new ArrayList( );
 			Iterator keyIterator = boundColumnValueMap.keySet().iterator();
@@ -522,11 +524,9 @@ public class ResultIterator implements IResultIterator
 	{
 		checkStarted( );
 		
-		if ( state == BEFORE_FIRST_ROW )
+		if ( this.isFirstNext )
 		{
-			clear( );
-			this.prepareCurrentRow( );
-			state = ON_ROW;
+			next( );
 		}
 
 		int currRowIndex = odiResult.getCurrentResultIndex( );
@@ -584,26 +584,13 @@ public class ResultIterator implements IResultIterator
 				"getValue",
 				"get of value binding column: " + LogUtil.toString( exprName ) );
 		
-		// Actually below code is not correct, it is only back compatibility.
-		// the API of IResultIterator is a little different from JDBC that
-		// before the next is called, the cursor is in the first row, instead
-		// before the first row. This should be revised for consistency.
-		// Another issue is even if there is no row in result set, total Value
-		// is also available.
-		if ( this.isFirstRowPepared )
-		{
-			if ( this.isEmpty() )
-				this.next();
-			else
-				this.prepareCurrentRow( );
-		}
 		if ( !this.boundColumnValueMap.containsKey( exprName ) )
 		{
 			// If there is no value for this specified binding name, evaluate it
 			// firstly if resultService contains this binding column
 			if ( this.resultService.getBindingExpr( exprName ) != null )
 			{
-				return prepareBindingColumn( exprName );				
+				return prepareBindingColumn( exprName );
 			}
 			throw new DataException( ResourceConstants.INVALID_BOUND_COLUMN_NAME,
 					exprName );
@@ -645,47 +632,36 @@ public class ResultIterator implements IResultIterator
 	 */
 	private void prepareCurrentRow( ) throws DataException
 	{
-		// currRowIndex value will be changed driven by this.next method.
-		int currRowIndex = this.odiResult.getCurrentResultIndex( );
-		prepareBindingColumnsEvalUtil( );
+		clear( );
 		
-		if ( lastRowIndex < currRowIndex )
+		bindingColumnsEvalUtil.getColumnsValue( boundColumnValueMap );
+
+		if ( needCache( ) && !this.isEmpty( ) )
 		{
-			lastRowIndex = currRowIndex;
-			bindingColumnsEvalUtil.getColumnsValue( boundColumnValueMap );
-			
-			if ( needCache() && !this.isEmpty( ))
+			try
 			{
-				try 
-				{
-					saveCurrentRow( );
-				} 
-				catch (IOException e) 
-				{
-					throw new DataException( ResourceConstants.WRITE_CACHE_TEMPFILE_ERROR );
-				} 
-				catch (BirtException e) 
-				{
-					throw DataException.wrap(e);
-				}
+				saveCurrentRow( );
 			}
-			
-			this.isFirstRowPepared = false;
+			catch ( IOException e )
+			{
+				throw new DataException( ResourceConstants.WRITE_CACHE_TEMPFILE_ERROR );
+			}
+			catch ( BirtException e )
+			{
+				throw DataException.wrap( e );
+			}
 		}
 		
 	}
 
 	protected void prepareBindingColumnsEvalUtil( ) throws DataException
 	{
-		if( bindingColumnsEvalUtil == null )
-		{
-			this.bindingColumnsEvalUtil = new BindingColumnsEvalUtil( this.odiResult,
-					this.scope,
-					this.resultService.getSession( ).getEngineContext( ).getScriptContext( ),
-					this.getRdSaveHelper( ),
-					this.resultService.getAllBindingExprs( ),
-					this.resultService.getAllAutoBindingExprs( ) );
-		}
+		this.bindingColumnsEvalUtil = new BindingColumnsEvalUtil( this.odiResult,
+				this.scope,
+				this.resultService.getSession( ).getEngineContext( ).getScriptContext( ),
+				this.getRdSaveHelper( ),
+				this.resultService.getAllBindingExprs( ),
+				this.resultService.getAllAutoBindingExprs( ) );
 	}
 	
 	/*
@@ -776,11 +752,7 @@ public class ResultIterator implements IResultIterator
 	{
 		//try to keep all gap row when doing skip
 		while ( groupLevel < odiResult.getEndingGroupLevel( )
-				&& odiResult.getEndingGroupLevel( ) != 0 && odiResult.next( ) )
-		{
-			clear( );
-			this.prepareCurrentRow( );
-		}
+				&& odiResult.getEndingGroupLevel( ) != 0 && next( ) );
 	}
 
 	/*
@@ -859,7 +831,7 @@ public class ResultIterator implements IResultIterator
 	 */
 	public void close( ) throws BirtException
 	{
-		if ( state == CLOSED )
+		if ( odiResult == null )
 			return;
 		
 		this.resultService.getSession( ).getEngine( ).removeListener( listener );
@@ -873,7 +845,7 @@ public class ResultIterator implements IResultIterator
 
 		if ( needCache() && !this.isEmpty( ))
 		{
-			while( this.next() ){}
+			while( this.next() );
 			closeCacheOutputStream( );
 		}
 		if ( odiResult != null )
@@ -881,7 +853,6 @@ public class ResultIterator implements IResultIterator
 
 		odiResult = null;
 		resultService = null;
-		state = CLOSED;
 		logger.logp( Level.FINE,
 				ResultIterator.class.getName( ),
 				"close",
@@ -1013,13 +984,13 @@ public class ResultIterator implements IResultIterator
 				if ( fieldValue.getClass( )
 						.equals( groupKeyValues[i].getClass( ) ) )
 				{
-					retValue = isTwoObjectEqual( fieldValue, groupKeyValues[i] );
+					retValue = equal( fieldValue, groupKeyValues[i] );
 				}
 				else
 				{
 					Object convertedOb = DataTypeUtil.convert( groupKeyValues[i],
 							fieldValue.getClass( ) );
-					retValue = isTwoObjectEqual( fieldValue, convertedOb );
+					retValue = equal( fieldValue, convertedOb );
 				}
 			}
 
@@ -1031,7 +1002,7 @@ public class ResultIterator implements IResultIterator
 		 * @param value2
 		 * @return
 		 */
-		private boolean isTwoObjectEqual( Object value1, Object value2 )
+		private boolean equal( Object value1, Object value2 )
 		{
 			//The Date object should be processed individually 
 			if( value1 instanceof Date && value2 instanceof Date)
@@ -1180,7 +1151,7 @@ public class ResultIterator implements IResultIterator
 		 */
 		private boolean needsSaveToDoc( )
 		{
-			if ( state == NOT_STARTED || state == CLOSED )
+			if ( this.odiResult == null )
 				return false;
 			
 			if ( context == null
@@ -1212,29 +1183,29 @@ public class ResultIterator implements IResultIterator
 
 			if ( ( (ISubqueryDefinition) resultIt.resultService.getQueryDefn( ) ).applyOnGroup( ) )
 				// init RDSave util of sub query
-				resultIt.rdSaveHelper = new RDSaveHelper( resultIt.resultService.getSession().getEngineContext(),
+				resultIt.setRdSaveHelper( new RDSaveHelper( resultIt.resultService.getSession().getEngineContext(),
 						resultIt.resultService.getQueryDefn( ),
 						resultIt.odiResult,
 						new IDInfo( resultIt.getQueryResults( ).getID( ),
 								subQueryName,
 								results.getGroupLevel( ),
 								odiResult.getCurrentGroupIndex( results.getGroupLevel( ) ),
-								odiResult.getGroupStartAndEndIndex( results.getGroupLevel( ) ) ) );
+								odiResult.getGroupStartAndEndIndex( results.getGroupLevel( ) ) ) ) );
 			else
-				resultIt.rdSaveHelper = new RDSaveHelper( resultIt.resultService.getSession().getEngineContext(),
+				resultIt.setRdSaveHelper( new RDSaveHelper( resultIt.resultService.getSession().getEngineContext(),
 						resultIt.resultService.getQueryDefn( ),
 						resultIt.odiResult,
 						new IDInfo( resultIt.getQueryResults( ).getID( ),
 								subQueryName,
 								1,
 								odiResult.getCurrentResultIndex( ),
-								IDInfo.getSpecialSubQueryInfo( odiResult.getRowCount( ) ) ) );
+								IDInfo.getSpecialSubQueryInfo( odiResult.getRowCount( ) ) ) ) );
 		}
 	}
 
 	public boolean isBeforeFirst( ) throws BirtException
 	{
-		return !isEmpty( ) && state == BEFORE_FIRST_ROW;
+		return !isEmpty( ) && this.isFirstNext;
 	}
 
 	public boolean isFirst( ) throws BirtException
