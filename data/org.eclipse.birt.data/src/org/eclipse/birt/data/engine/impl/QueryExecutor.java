@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -603,7 +604,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 				temporaryComputedColumns.add( new ComputedColumn( "_{$TEMP_SORT_"
 						+ i + "$}_",
 						sortKey,
-						DataType.ANY_TYPE ) );
+						getExpressionDataTypeOfSortKey( sortKey ) ) );
 				sortIndex = -1;
 				sortKey = String.valueOf( "_{$TEMP_SORT_" + i + "$}_");
 
@@ -614,6 +615,36 @@ public abstract class QueryExecutor implements IQueryExecutor
 				sortSpecs[i] = dest;
 			}
 			odiQuery.setOrdering( Arrays.asList( sortSpecs ) );
+		}
+	}
+
+	/**
+	 * 
+	 * @param expression
+	 * @return
+	 * @throws DataException
+	 */
+	private int getExpressionDataTypeOfSortKey( String expression ) throws DataException
+	{
+		try
+		{
+			if( expression == null )
+				return DataType.ANY_TYPE;
+			String bindingName = ExpressionUtil.getColumnBindingName( expression );
+			if( bindingName == null )
+				return DataType.ANY_TYPE;
+			Object binding = this.baseQueryDefn.getBindings( ).get( bindingName );
+			if( binding == null )
+				return DataType.ANY_TYPE;
+			int dataType = ( (IBinding) binding ).getDataType( );
+			if( dataType != DataType.UNKNOWN_TYPE )
+				return dataType;
+			else
+				return DataType.ANY_TYPE;
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
 		}
 	}
 	
