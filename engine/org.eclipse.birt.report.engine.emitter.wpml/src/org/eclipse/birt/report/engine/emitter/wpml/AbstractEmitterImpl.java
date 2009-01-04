@@ -156,6 +156,8 @@ public abstract class AbstractEmitterImpl
 	private IHTMLActionHandler actionHandler;
 
 	private IReportContext reportContext;
+	
+	private String messageFlashObjectNotSupported;
 
 	public void initialize( IEmitterServices service )
 	{
@@ -166,7 +168,20 @@ public abstract class AbstractEmitterImpl
 			this.reportRunnable = service.getReportRunnable( );
 			this.actionHandler = (IHTMLActionHandler) service
 					.getOption( RenderOption.ACTION_HANDLER );
-			this.reportContext = service.getReportContext( );
+			reportContext = service.getReportContext( );
+			ULocale locale = null;
+			if ( reportContext != null )
+			{
+				locale = ULocale.forLocale( reportContext.getLocale( ) );
+			}
+			if ( locale == null )
+			{
+				locale = ULocale.getDefault( );
+			}
+			EngineResourceHandle resourceHandle = new EngineResourceHandle(
+					locale );
+			messageFlashObjectNotSupported = resourceHandle
+					.getMessage( MessageConstants.FLASH_OBJECT_NOT_SUPPORTED_PROMPT );
 		}
 		context = new EmitterContext( );
 	}
@@ -538,16 +553,9 @@ public abstract class AbstractEmitterImpl
 
 		if ( FlashFile.isFlash( mimeType, uri, extension ) )
 		{
-			if ( null == altText )
+			if ( altText == null )
 			{
-				if ( null != reportContext ) 
-				{
-					ULocale locale = ULocale.forLocale( reportContext
-							.getLocale( ) );
-					EngineResourceHandle handle = new EngineResourceHandle( locale );
-					altText = handle
-							.getMessage( MessageConstants.FLASH_OBJECT_NOT_SUPPORTED_PROMPT );
-				}	
+				altText = messageFlashObjectNotSupported;
 			}
 			wordWriter.drawImage( null, 0.0, 0.0, null, style, inlineFlag,
 					altText, uri );

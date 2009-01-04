@@ -39,7 +39,12 @@ import org.eclipse.birt.report.engine.emitter.excel.StyleBuilder;
 import org.eclipse.birt.report.engine.emitter.excel.StyleConstant;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEngine;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEntry;
+import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.layout.emitter.EmitterUtil;
+import org.eclipse.birt.report.engine.util.FlashFile;
+
+import com.ibm.icu.util.ULocale;
 
 
 public class ExcelLayoutEngine
@@ -75,13 +80,23 @@ public class ExcelLayoutEngine
 
 	private Hashtable<String, String> links = new Hashtable<String, String>( );
 	
-	ExcelContext context = null;
+	private ExcelContext context = null;
 
+	private String messageFlashObjectNotSupported;
+	
 	public ExcelLayoutEngine( PageDef page, ExcelContext context,
 			ExcelEmitter emitter )
 	{
 		this.context = context;
 		this.emitter = emitter;
+		ULocale locale = context.getLocale( );
+		if ( locale == null )
+		{
+			locale = ULocale.getDefault( );
+		}
+		EngineResourceHandle resourceHandle = new EngineResourceHandle( locale );
+		messageFlashObjectNotSupported = resourceHandle
+				.getMessage( MessageConstants.FLASH_OBJECT_NOT_SUPPORTED_PROMPT );
 		initalize( page );
 	}
 	
@@ -426,6 +441,19 @@ public class ExcelLayoutEngine
 		int type = SheetData.IMAGE;
 		entry.setProperty( StyleConstant.DATA_TYPE_PROP, Integer
 				.toString( type ) );
+		String uri = image.getURI( );
+		String mimeType = image.getMIMEType( );
+		String extension = image.getExtension( );
+		String altText = image.getAltText( );
+		if ( FlashFile.isFlash( mimeType, uri, extension ) )
+		{
+			if ( null == altText )
+			{
+				altText = messageFlashObjectNotSupported; 
+			}
+			return createData( altText, entry);
+		}
+
 		byte[] imageData = EmitterUtil.parseImage( image, image.getImageSource( ), image.getURI( ),image.getMIMEType( ) ,
 				image.getExtension( ) );
 		if ( imageData != null )
@@ -438,7 +466,7 @@ public class ExcelLayoutEngine
 		}
 
 	}
-	
+
 	public void addDateTime(Object txt, IStyle style, HyperlinkDef link, BookmarkDef bookmark)
 	{
 		ContainerSizeInfo rule = getCurrentContainer( ).getSizeInfo( );

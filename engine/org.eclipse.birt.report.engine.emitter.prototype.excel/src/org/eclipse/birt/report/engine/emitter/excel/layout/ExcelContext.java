@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.emitter.excel.layout;
 
+import com.ibm.icu.util.ULocale;
+
 
 public class ExcelContext
 {
@@ -19,6 +21,8 @@ public class ExcelContext
 	private String officeVersion = "office2003";
 	
 	private String tempFileDir;
+
+	private ULocale locale;
 	
 	public void setWrappingText(boolean wrappingText)
 	{
@@ -48,5 +52,15 @@ public class ExcelContext
 	public String getTempFileDir( )
 	{
 		return this.tempFileDir;
+	}
+
+	public ULocale getLocale( )
+	{
+		return this.locale;
+	}
+
+	public void setLocale( ULocale locale )
+	{
+		this.locale = locale;
 	}
 }

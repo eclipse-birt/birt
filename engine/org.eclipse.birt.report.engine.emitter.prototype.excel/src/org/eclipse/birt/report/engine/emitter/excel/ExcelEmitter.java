@@ -47,6 +47,7 @@ import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 
 import com.ibm.icu.util.TimeZone;
+import com.ibm.icu.util.ULocale;
 
 
 public class ExcelEmitter extends ContentEmitterAdapter
@@ -92,6 +93,13 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		}
 		context.setTempFileDir( service.getReportEngine( ).getConfig( )
 				.getTempDir( ) );
+		IReportContext reportContext = service.getReportContext( );
+		if ( reportContext != null )
+		{
+			Locale locale = reportContext.getLocale( );
+			if ( locale != null )
+				context.setLocale( ULocale.forLocale( locale ) );
+		}
 	}
 
 	public void start( IReportContent report )
