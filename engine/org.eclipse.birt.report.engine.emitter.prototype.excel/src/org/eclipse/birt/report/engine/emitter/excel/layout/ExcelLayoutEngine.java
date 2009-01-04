@@ -39,6 +39,7 @@ import org.eclipse.birt.report.engine.emitter.excel.StyleBuilder;
 import org.eclipse.birt.report.engine.emitter.excel.StyleConstant;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEngine;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEntry;
+import org.eclipse.birt.report.engine.layout.emitter.EmitterUtil;
 
 
 public class ExcelLayoutEngine
@@ -413,19 +414,28 @@ public class ExcelLayoutEngine
 		XlsContainer container=getCurrentContainer();
 		ContainerSizeInfo rule = container.getSizeInfo( );
 		StyleEntry entry = engine.getStyle( style, rule );
-		ImageData data = createImageData( image, entry,container );
+		SheetData data = createImageData( image, entry,container );
 		data.setHyperlinkDef( link );
 		data.setSizeInfo( rule );
 		addData( data );
 
 	}
 
-	private ImageData createImageData( IImageContent image, StyleEntry entry, XlsContainer container )
+	private SheetData createImageData( IImageContent image, StyleEntry entry, XlsContainer container )
 	{
 		int type = SheetData.IMAGE;
 		entry.setProperty( StyleConstant.DATA_TYPE_PROP, Integer
 				.toString( type ) );
-		return new ImageData( image, entry, type, container);
+		byte[] imageData = EmitterUtil.parseImage( image, image.getImageSource( ), image.getURI( ),image.getMIMEType( ) ,
+				image.getExtension( ) );
+		if ( imageData != null )
+		{
+			return new ImageData( image, entry, type, imageData, container);
+		}
+		else
+		{
+			return createData( image.getAltText( ), entry );
+		}
 
 	}
 	

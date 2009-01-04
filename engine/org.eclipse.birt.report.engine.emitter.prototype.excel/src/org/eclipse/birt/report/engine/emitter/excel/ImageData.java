@@ -25,7 +25,7 @@ public class ImageData extends SheetData
 	private byte[] imageData;
 
 	public ImageData( IImageContent image, StyleEntry style, int datatype,
-			XlsContainer currentContainer )
+			byte[] imageData, XlsContainer currentContainer )
 	{
 		super( );
 		this.style = style;
@@ -35,8 +35,7 @@ public class ImageData extends SheetData
 				.getWidth( ) );
 		altText = image.getAltText( );
 		imageUrl = image.getURI( );
-		imageData = EmitterUtil.parseImage( image, image.getImageSource( ), image.getURI( ),image.getMIMEType( ) ,
-				image.getExtension( ) );
+		this.imageData = imageData;
 		container = currentContainer;
 		rowSpanInDesign = 0;
 	}
