@@ -123,6 +123,8 @@ public final class AutoScale extends Methods implements Cloneable
 
 	private boolean bExpandMinMax = true;
 
+	private boolean bAlignZero = false;
+
 	private ChartUtil.CacheDecimalFormat cacheNumFormat = new ChartUtil.CacheDecimalFormat( );
 
 	private ChartUtil.Cache<Integer, IDateFormatWrapper> cacheDateFormat = new ChartUtil.Cache<Integer, IDateFormatWrapper>( ) {
@@ -321,6 +323,7 @@ public final class AutoScale extends Methods implements Cloneable
 		sc.hmComputedLabelText = sc.hmComputedLabelText;
 		sc.tmpSC = tmpSC;
 		sc.bExpandMinMax = bExpandMinMax;
+		sc.bAlignZero = bAlignZero;
 
 		return sc;
 	}
@@ -1205,7 +1208,7 @@ public final class AutoScale extends Methods implements Cloneable
 		}
 		sct.setExpandMinmax( bExpandMinMax );
 		sct.setFixedStep( bStepFixed, oStepNumber );
-		sct.computeMinMax( );
+		sct.computeMinMax( bAlignZero );
 		updateContext( sct );
 
 		// Temperory scale for later used in shared scale
@@ -1969,6 +1972,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.dZoomFactor = zoomFactor;
 			sc.iMarginPercent = iMarginPercent;
 			sc.bExpandMinMax = scModel.isAutoExpand( );
+			sc.bAlignZero = ax.getModelAxis( ).isSetAligned( );
 			sc.setData( dsi );
 			sc.setDirection( direction );
 			sc.computeTicks( xs,
@@ -2059,6 +2063,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.dPrecision = dPrecision;
 			sc.iMarginPercent = iMarginPercent;
 			sc.bExpandMinMax = scModel.isAutoExpand( );
+			sc.bAlignZero = ax.getModelAxis( ).isSetAligned( );
 
 			// OVERRIDE MIN OR MAX IF SPECIFIED
 			setNumberMinMaxToScale( sc, oMinimum, oMaximum, rtc, ax );
@@ -2131,6 +2136,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.setData( dsi );
 			sc.setDirection( direction );
 			sc.bExpandMinMax = scModel.isAutoExpand( );
+			sc.bAlignZero = ax.getModelAxis( ).isSetAligned( );
 
 			// OVERRIDE MIN OR MAX IF SPECIFIED
 			setNumberMinMaxToScale( sc, oMinimum, oMaximum, rtc, ax );
@@ -2238,6 +2244,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.dZoomFactor = zoomFactor;
 			sc.iMarginPercent = iMarginPercent;
 			sc.bExpandMinMax = scModel.isAutoExpand( );
+			sc.bAlignZero = ax.getModelAxis( ).isSetAligned( );
 
 			// OVERRIDE MINIMUM IF SPECIFIED
 			if ( oMinimum != null )

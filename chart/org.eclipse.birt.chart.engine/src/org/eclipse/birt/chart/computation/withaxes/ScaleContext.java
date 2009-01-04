@@ -176,9 +176,14 @@ public class ScaleContext extends Methods
 
 	public void computeMinMax( )
 	{
+		computeMinMax( false );
+	}
+
+	public void computeMinMax( boolean bAlignZero )
+	{
 		if ( ( iType & LINEAR ) == LINEAR )
 		{
-			computeLinearMinMax( );
+			computeLinearMinMax( bAlignZero );
 		}
 		else if ( ( iType & DATE_TIME ) == DATE_TIME )
 		{
@@ -190,7 +195,7 @@ public class ScaleContext extends Methods
 		}
 	}
 
-	private void computeLinearMinMax( )
+	private void computeLinearMinMax( boolean bAlignZero )
 	{
 		// These min/max is the value for the real boundary. If users
 		// set the fixed value, to clip it.
@@ -375,6 +380,14 @@ public class ScaleContext extends Methods
 				dMinAxis = -100;
 			}
 		}
+
+		if ( bAlignZero && dMinAxis < 0 && dMaxAxis > 0 )
+		{
+			double abs = Math.max( Math.abs( dMinAxis ), Math.abs( dMaxAxis ) );
+			dMinAxis = -abs;
+			dMaxAxis = abs;
+		}
+
 		if ( !bMaximumFixed )
 		{
 			oMax = new Double( dMaxAxis );
