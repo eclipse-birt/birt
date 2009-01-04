@@ -12,8 +12,8 @@ package org.eclipse.birt.data.engine.olap.cursor;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
 
@@ -324,17 +324,18 @@ public class RowDataAccessor implements IRowDataAccessor
 
 		Vector v = this.dimAxis[dimAxisIndex].getDisctinctValue( );
 		v.removeAll( collection );
+		Iterator iter = collection.iterator( );
+
 		if ( sortType == IDimensionSortDefn.SORT_ASC )
 		{
 			for ( int i = 0, startSize = v.size( ); i < collection.size( ); i++ )
 			{
-				v.insertElementAt( collection.iterator( ).next( ), startSize );
+				v.insertElementAt( iter.next( ), startSize );
 				startSize++;
 			}
 		}
 		else
 		{
-			Iterator iter = collection.iterator( );
 			int index = 0;
 			while ( iter.hasNext( ) )
 			{
@@ -354,14 +355,26 @@ public class RowDataAccessor implements IRowDataAccessor
 	private Collection fetchValueCollectionInEdgeInfo( int dimAxisIndex )
 			throws IOException
 	{
-		Set value = new HashSet( );
-		int edgeStart = this.getEdgeStart( this.mirrorStartPosition - 1 );
-		int edgeEnd = this.getEdgeEnd( this.mirrorStartPosition - 1 );
-		while ( edgeStart <= edgeEnd )
+		Set value = new LinkedHashSet( );
+		EdgeInfo info = this.dimTraverse.findCurrentEdgeInfo( this.mirrorStartPosition - 1 );
+		int index = this.edgeDimensRelation.currentRelation[this.mirrorStartPosition - 1].indexOf( info );
+		EdgeInfo nextEdgeInfo = null;
+		if ( index < this.edgeDimensRelation.currentRelation[this.mirrorStartPosition - 1].size( ) - 1 )
 		{
-			this.rs.seek( edgeStart );
-			value.add( this.rs.getLevelKeyValue( dimAxisIndex )[this.rs.getLevelKeyColCount( dimAxisIndex ) - 1] );
-			edgeStart++;
+			nextEdgeInfo = (EdgeInfo) this.edgeDimensRelation.currentRelation[this.mirrorStartPosition - 1].get( index + 1 );
+		}
+
+		int edgeStart = info == null ? this.rs.length( )-1 : info.firstChild;
+		int edgeEnd = nextEdgeInfo == null ? this.rs.length( )-1
+				: nextEdgeInfo.firstChild;
+		if ( edgeStart >= 0 )
+		{
+			while ( edgeStart <= edgeEnd )
+			{
+				this.rs.seek( edgeStart );
+				value.add( this.rs.getLevelKeyValue( dimAxisIndex )[this.rs.getLevelKeyColCount( dimAxisIndex ) - 1] );
+				edgeStart++;
+			}
 		}
 		return value;
 	}

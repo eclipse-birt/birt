@@ -671,7 +671,7 @@ class DimensionTraverse
 	 * @param dimensionAxis
 	 * @return
 	 */
-	private EdgeInfo findCurrentEdgeInfo( int dimensionAxis )
+	EdgeInfo findCurrentEdgeInfo( int dimensionAxis )
 	{
 		if ( dimensionAxis < 0 || dimensionAxis > this.dimAxis.length )
 		{
