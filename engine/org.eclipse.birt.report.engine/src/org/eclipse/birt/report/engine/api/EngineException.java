@@ -44,7 +44,7 @@ public class EngineException extends BirtException {
 
 	public EngineException( BirtException ex)
 	{
-		super(ex.getErrorCode( ), (ResourceBundle)null, ex);
+		super( pluginId, ex.getErrorCode( ), (ResourceBundle) null, ex );
 		birtException = ex;
 	}
 	

@@ -32,6 +32,8 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 public class EngineConfig extends PlatformConfig implements IEngineConfig
 {
 
+	private Map<String, String> defaultEmitterIdsOfFormats = new HashMap<String, String>( );
+	
 	/**
 	 * constructor
 	 */
@@ -438,6 +440,32 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 			return ( (Integer) maxRows ).intValue( );
 		}
 		return 0;
+	}
+
+	/**
+	 * Sets default emitter for an output format.
+	 * 
+	 * @param format
+	 *            the format.
+	 * @param emitterId
+	 *            the id of the default emitter.
+	 */
+	public void setDefualtEmitter( String format, String emitterId )
+	{
+		defaultEmitterIdsOfFormats.put( format, emitterId );
+	}
+
+	/**
+	 * Gets default emitter id of an output format.
+	 * 
+	 * @param format
+	 *            the format.
+	 * @return the id of the default emitter of this output format, "null" is
+	 *         returned if default emitter is not set for this format.
+	 */
+	public String getDefualtEmitter( String format )
+	{
+		return defaultEmitterIdsOfFormats.get( format );
 	}
 	
 	/**
