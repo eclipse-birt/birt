@@ -1439,7 +1439,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				}
 				final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( source,
 						InteractionEvent.class );
-
+				iev.setCursor( lg.getCursor( ) );
+				
 				for ( int t = 0; t < elTriggers.size( ); t++ )
 				{
 					tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
@@ -1720,6 +1721,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			{
 				final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createChartBlock( b ),
 						InteractionEvent.class );
+				iev.setCursor( b.getCursor( ) );
+				
 				for ( int t = 0; t < elTriggers.size( ); t++ )
 				{
 					tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
@@ -1847,6 +1850,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			{
 				final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createTitle( b ),
 						InteractionEvent.class );
+				iev.setCursor( b.getCursor( ) );
+				
 				for ( int t = 0; t < elTriggers.size( ); t++ )
 				{
 					tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
@@ -3041,6 +3046,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				final InteractionEvent iev = createEvent( iSource,
 						elTriggers,
 						ipr );
+				iev.setCursor( getSeries( ).getCursor( ) );
+				
 				iev.setHotSpot( pre );
 				ipr.enableInteraction( iev );
 			}

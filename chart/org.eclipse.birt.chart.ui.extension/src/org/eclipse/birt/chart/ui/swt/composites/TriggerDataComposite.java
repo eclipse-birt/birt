@@ -18,11 +18,16 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
+import org.eclipse.birt.chart.model.attribute.Cursor;
+import org.eclipse.birt.chart.model.attribute.CursorType;
+import org.eclipse.birt.chart.model.attribute.Fill;
+import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.ScriptValue;
 import org.eclipse.birt.chart.model.attribute.SeriesValue;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
+import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl;
 import org.eclipse.birt.chart.model.attribute.impl.URLValueImpl;
 import org.eclipse.birt.chart.model.data.Action;
@@ -38,6 +43,9 @@ import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.core.ui.swt.custom.TextCombo;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.custom.StyleRange;
@@ -140,6 +148,8 @@ public class TriggerDataComposite extends Composite
 
 	private EList triggersList;
 
+	private EObject cursorContainer;
+	
 	private Map triggersMap;
 
 	private String lastTriggerType;
@@ -159,7 +169,11 @@ public class TriggerDataComposite extends Composite
 
 	private int optionalStyle;
 
-	public TriggerDataComposite( Composite parent, int style, EList triggers,
+	private Combo cmbCursorType = null;
+
+	private Button btnCursorImage;
+
+	public TriggerDataComposite( Composite parent, int style, EList triggers, EObject cursorContainer,
 			ChartWizardContext wizardContext, int iInteractivityType, int optionalStyle )
 	{
 		super( parent, style );
@@ -168,6 +182,7 @@ public class TriggerDataComposite extends Composite
 		this.bEnableShowTooltipValue = ( ( optionalStyle & ENABLE_SHOW_TOOLTIP_VALUE ) == ENABLE_SHOW_TOOLTIP_VALUE );
 		this.optionalStyle = optionalStyle;
 		this.triggersList = triggers;
+		this.cursorContainer = cursorContainer;
 		this.triggerMatrix = new TriggerSupportMatrix( wizardContext.getOutputFormat( ),
 				iInteractivityType );
 		init( );
@@ -187,7 +202,7 @@ public class TriggerDataComposite extends Composite
 		} );
 	}
 
-	public TriggerDataComposite( Composite parent, int style, EList triggers,
+	public TriggerDataComposite( Composite parent, int style, EList triggers, EObject cursorContainer,
 			ChartWizardContext wizardContext, int iInteractivityType,
 			boolean bEnableURLParameters, boolean bEnableShowTooltipValue )
 	{
@@ -196,6 +211,7 @@ public class TriggerDataComposite extends Composite
 		this.bEnableURLParameters = bEnableURLParameters;
 		this.bEnableShowTooltipValue = bEnableShowTooltipValue;
 		this.triggersList = triggers;
+		this.cursorContainer = cursorContainer;
 		this.triggerMatrix = new TriggerSupportMatrix( wizardContext.getOutputFormat( ),
 				iInteractivityType );
 		init( );
@@ -234,7 +250,7 @@ public class TriggerDataComposite extends Composite
 	{
 		// Layout for the content composite
 		GridLayout glCMPTrigger = new GridLayout( );
-		glCMPTrigger.numColumns = 2;
+		glCMPTrigger.numColumns = 3;
 		glCMPTrigger.horizontalSpacing = 16;
 		glCMPTrigger.verticalSpacing = 5;
 
@@ -266,6 +282,7 @@ public class TriggerDataComposite extends Composite
 
 		cmbTriggerType = new TextCombo( this, SWT.NONE );
 		GridData gdCMBTriggerType = new GridData( GridData.FILL_HORIZONTAL );
+		gdCMBTriggerType.horizontalSpan = 2;
 		cmbTriggerType.setLayoutData( gdCMBTriggerType );
 		cmbTriggerType.addListener( TextCombo.SELECTION_EVENT, new Listener( ) {
 
@@ -297,13 +314,32 @@ public class TriggerDataComposite extends Composite
 
 		cmbActionType = new Combo( this, SWT.DROP_DOWN | SWT.READ_ONLY );
 		GridData gdCMBActionType = new GridData( GridData.FILL_HORIZONTAL );
+		gdCMBActionType.horizontalSpan = 2;
 		cmbActionType.setLayoutData( gdCMBActionType );
 		cmbActionType.addSelectionListener( this );
 		cmbActionType.setVisibleItemCount( 10 );
 
+		Label lblCursorType = new Label( this, SWT.NONE );
+		GridData gdLBLCursorType = new GridData( );
+		gdLBLCursorType.horizontalIndent = 4;
+		lblCursorType.setLayoutData( gdLBLCursorType );
+		lblCursorType.setText( "Cursor:" );
+
+		cmbCursorType = new Combo( this, SWT.DROP_DOWN | SWT.READ_ONLY );
+		GridData gdCMBCursorType = new GridData( GridData.FILL_HORIZONTAL );
+		cmbCursorType.setLayoutData( gdCMBCursorType );
+		cmbCursorType.addSelectionListener( this );
+		
+		btnCursorImage = new Button( this, SWT.NONE );
+		btnCursorImage.setText( "Image" );
+		GridData gdBTNCursorImage = new GridData( );
+		btnCursorImage.setLayoutData( gdBTNCursorImage );
+		btnCursorImage.addSelectionListener( this );
+		btnCursorImage.setEnabled( false );
+		
 		grpValue = new Group( this, SWT.NONE );
 		GridData gdGRPValue = new GridData( GridData.FILL_BOTH );
-		gdGRPValue.horizontalSpan = 2;
+		gdGRPValue.horizontalSpan = 3;
 		grpValue.setLayoutData( gdGRPValue );
 		grpValue.setText( Messages.getString( "TriggerDataComposite.Lbl.ActionDetails" ) ); //$NON-NLS-1$
 		grpValue.setLayout( slValues );
@@ -631,6 +667,9 @@ public class TriggerDataComposite extends Composite
 			slValues.topControl = cmpDefault;
 		}
 
+		// Initializes the cursor type list.
+		updateCursorTypeItems( );
+		updateImageButtonState( );
 	}
 
 	/**
@@ -644,9 +683,22 @@ public class TriggerDataComposite extends Composite
 		// Add extra item for NONE
 		// #234902
 		cmbActionType.add( Messages.getString( "TriggerDataComposite.Lbl.None." + condition.getName( ) ), 0 ); //$NON-NLS-1$
-
 	}
 
+	private void updateCursorTypeItems( )
+	{
+		cmbCursorType.setItems( LiteralHelper.cursorSet.getDisplayNames( ) );
+		Cursor c = getMouseCursor();
+		if ( c != null && c.getType( ) != null )
+		{
+			cmbCursorType.select( c.getType( ).getValue( ) );
+		}
+		else if ( cmbCursorType.getSelectionIndex( ) < 0 )
+		{
+			cmbCursorType.select( 0 );
+		}
+	}
+	
 	/**
 	 * Provides a mapper method to switch trigger Combo text to fixed index
 	 * constants.
@@ -1000,6 +1052,30 @@ public class TriggerDataComposite extends Composite
 				WizardBase.displayException( e1 );
 			}
 		}
+		else if ( e.getSource( ) == cmbCursorType )
+		{
+			int index = cmbCursorType.getSelectionIndex( );
+			setMouseCursor( CursorType.get( index ) );
+			updateImageButtonState();
+		}
+		else if ( e.getSource( ) == btnCursorImage )
+		{
+			Cursor c = getMouseCursor();
+
+			CursorImageDialog  idlg  = new CursorImageDialog( this.getShell( ), wizardContext, c );
+			idlg.open( );
+		}
+	}
+
+	private void updateImageButtonState( )
+	{
+		Cursor c = getMouseCursor( );
+		if ( c != null && c.getType() == CursorType.CUSTOM )
+		{
+			btnCursorImage.setEnabled( true );
+			return;
+		}
+		btnCursorImage.setEnabled( false );
 	}
 
 	/*
@@ -1093,4 +1169,25 @@ public class TriggerDataComposite extends Composite
 		}
 		return IUIServiceProvider.COMMAND_HYPERLINK;
 	}
+	
+	private Cursor getMouseCursor( )
+	{
+		EStructuralFeature esf = cursorContainer.eClass( ).getEStructuralFeature( "cursor" );
+		return (Cursor) cursorContainer.eGet( esf );
+	}
+	
+	private void setMouseCursor( CursorType type )
+	{
+		Cursor c = getMouseCursor();
+		if ( c == null )
+		{
+			EStructuralFeature esf = cursorContainer.eClass( ).getEStructuralFeature( "cursor" );
+			c = AttributeFactory.eINSTANCE.createCursor( );
+			cursorContainer.eSet( esf, c );
+			c.eAdapters( ).addAll( cursorContainer.eAdapters( ) );
+		}
+		
+		c.setType( type ); 
+	}
 }
+

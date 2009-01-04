@@ -73,6 +73,7 @@ public class NeedleSheetImpl extends SubtaskSheetImpl implements
 				getContext( ),
 				getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
 						.getTriggers( ),
+				getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ),
 				TriggerSupportMatrix.TYPE_DATAPOINT,
 				true,
 				false );

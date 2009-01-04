@@ -1179,13 +1179,15 @@ public class SwtRendererImpl extends DeviceAdapter
 															// CONDITIONS
 					_lhmAllTriggers.put( tc, al );
 				}
-				al.add( new RegionAction( iev.getStructureSource( ),
+				RegionAction ra = new RegionAction( iev.getStructureSource( ),
 						loa,
 						tga[i].getAction( ),
 						dTranslateX,
 						dTranslateY,
 						dScale,
-						clipping ) );
+						clipping );
+				ra.setCursor( iev.getCursor( ) );
+				al.add( ra );
 			}
 		}
 		else if ( pre instanceof RectangleRenderEvent )
@@ -1202,13 +1204,15 @@ public class SwtRendererImpl extends DeviceAdapter
 															// CONDITIONS
 					_lhmAllTriggers.put( tc, al );
 				}
-				al.add( new RegionAction( iev.getStructureSource( ),
+				RegionAction ra = new RegionAction( iev.getStructureSource( ),
 						bo,
 						tga[i].getAction( ),
 						dTranslateX,
 						dTranslateY,
 						dScale,
-						clipping ) );
+						clipping );
+				ra.setCursor( iev.getCursor( ) );
+				al.add( ra );
 			}
 		}
 		else if ( pre instanceof OvalRenderEvent )
@@ -1227,13 +1231,15 @@ public class SwtRendererImpl extends DeviceAdapter
 				}
 
 				// using rectangle to simulate the oval due to swt limitation.
-				al.add( new RegionAction( iev.getStructureSource( ),
-						boEllipse,
-						tga[i].getAction( ),
-						dTranslateX,
-						dTranslateY,
-						dScale,
-						clipping ) );
+				RegionAction ra = new RegionAction( iev.getStructureSource( ),
+							boEllipse,
+							tga[i].getAction( ),
+							dTranslateX,
+							dTranslateY,
+							dScale,
+							clipping );
+				ra.setCursor( iev.getCursor( ) );
+				al.add( ra );
 			}
 		}
 		else if ( pre instanceof ArcRenderEvent )
@@ -1256,7 +1262,7 @@ public class SwtRendererImpl extends DeviceAdapter
 				}
 
 				// using rectangle to simulate the arc due to swt limitation.
-				al.add( new RegionAction( iev.getStructureSource( ),
+				RegionAction ra = new RegionAction( iev.getStructureSource( ),
 						boEllipse,
 						dStart,
 						dExtent,
@@ -1265,7 +1271,9 @@ public class SwtRendererImpl extends DeviceAdapter
 						dTranslateX,
 						dTranslateY,
 						dScale,
-						clipping ) );
+						clipping );
+				ra.setCursor( iev.getCursor( ) );
+				al.add( ra );
 			}
 		}
 		else if ( pre instanceof AreaRenderEvent )
@@ -1282,13 +1290,15 @@ public class SwtRendererImpl extends DeviceAdapter
 															// CONDITIONS
 					_lhmAllTriggers.put( tc, al );
 				}
-				al.add( new RegionAction( iev.getStructureSource( ),
+				RegionAction ra = new RegionAction( iev.getStructureSource( ),
 						bo,
 						tga[i].getAction( ),
 						dTranslateX,
 						dTranslateY,
 						dScale,
-						clipping ) );
+						clipping );
+				ra.setCursor( iev.getCursor( ) );
+				al.add( ra );
 			}
 		}
 

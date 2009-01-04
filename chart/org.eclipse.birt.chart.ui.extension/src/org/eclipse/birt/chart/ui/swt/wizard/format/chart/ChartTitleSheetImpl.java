@@ -191,6 +191,7 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl
 		popup = new InteractivitySheet( Messages.getString( "ChartTitleSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
 				getContext( ),
 				getChart( ).getTitle( ).getTriggers( ),
+				getChart( ).getTitle( ),
 				TriggerSupportMatrix.TYPE_CHARTTITLE,
 				false,
 				true );

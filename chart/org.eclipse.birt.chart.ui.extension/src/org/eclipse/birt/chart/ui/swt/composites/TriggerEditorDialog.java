@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
@@ -34,6 +35,8 @@ public class TriggerEditorDialog extends TrayDialog
 {
 
 	private final EList triggers;
+	
+	private final EObject cursorContainer;
 
 	private final Collection vOriginalTriggers;
 
@@ -60,13 +63,14 @@ public class TriggerEditorDialog extends TrayDialog
 	 * @param bEnableURLParameters
 	 * @param bEnableShowTooltipValue
 	 */
-	public TriggerEditorDialog( Shell shellParent, EList triggers,
+	public TriggerEditorDialog( Shell shellParent, EList triggers, EObject cursorContainer,
 			ChartWizardContext wizardContext, String sTitle,
 			int iInteractivityType, boolean bEnableURLParameters,
 			boolean bEnableShowTooltipValue )
 	{
 		super( shellParent );
 		this.triggers = triggers;
+		this.cursorContainer = cursorContainer;
 		this.wizardContext = wizardContext;
 		this.bEnableURLParameters = bEnableURLParameters;
 		this.bEnableShowTooltipValue = bEnableShowTooltipValue;
@@ -93,6 +97,7 @@ public class TriggerEditorDialog extends TrayDialog
 		triggerUI = new TriggerDataComposite( parent,
 				SWT.NONE,
 				triggers,
+				cursorContainer,
 				wizardContext,
 				iInteractivityType,
 				bEnableURLParameters,

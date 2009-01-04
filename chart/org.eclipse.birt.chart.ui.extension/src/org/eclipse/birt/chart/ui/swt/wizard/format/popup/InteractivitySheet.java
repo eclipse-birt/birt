@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -29,6 +30,7 @@ public class InteractivitySheet extends AbstractPopupSheet
 {
 
 	private final EList triggers;
+	private final EObject cursorContainer;
 	private final boolean bEnableURLParameters;
 	private final boolean bEnableShowTooltipValue;
 	private final int iInteractivityType;
@@ -45,11 +47,12 @@ public class InteractivitySheet extends AbstractPopupSheet
 	 * @param bEnableShowTooltipValue
 	 */
 	public InteractivitySheet( String title, ChartWizardContext context,
-			EList triggers, int iInteractivityType, int optionalStyle )
+			EList triggers, EObject cursorContainer, int iInteractivityType, int optionalStyle )
 	{
 		this( title,
 				context,
 				triggers,
+				cursorContainer,
 				iInteractivityType,
 				( ( optionalStyle & TriggerDataComposite.ENABLE_URL_PARAMETERS ) == TriggerDataComposite.ENABLE_URL_PARAMETERS ),
 				( ( optionalStyle & TriggerDataComposite.ENABLE_SHOW_TOOLTIP_VALUE ) == TriggerDataComposite.ENABLE_SHOW_TOOLTIP_VALUE ) );
@@ -67,11 +70,12 @@ public class InteractivitySheet extends AbstractPopupSheet
 	 * @param bEnableShowTooltipValue
 	 */
 	public InteractivitySheet( String title, ChartWizardContext context,
-			EList triggers, int iInteractivityType,
+			EList triggers, EObject cursorContainer, int iInteractivityType,
 			boolean bEnableURLParameters, boolean bEnableShowTooltipValue )
 	{
 		super( title, context, false );
 		this.triggers = triggers;
+		this.cursorContainer = cursorContainer;
 		this.bEnableURLParameters = bEnableURLParameters;
 		this.bEnableShowTooltipValue = bEnableShowTooltipValue;
 		this.iInteractivityType = iInteractivityType;
@@ -91,6 +95,7 @@ public class InteractivitySheet extends AbstractPopupSheet
 		final TriggerDataComposite triggerUI = new TriggerDataComposite( parent,
 				SWT.NONE,
 				triggers,
+				cursorContainer,
 				getContext( ),
 				iInteractivityType,
 				optionalStyle );

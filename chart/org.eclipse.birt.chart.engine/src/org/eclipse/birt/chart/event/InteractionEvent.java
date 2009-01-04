@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.Trigger;
@@ -32,6 +33,7 @@ public final class InteractionEvent extends ChartEvent
 
 	private final LinkedHashMap _lhmTriggers = new LinkedHashMap( );
 
+	private Cursor cursor = null;
 	/**
 	 * The constructor.
 	 */
@@ -122,5 +124,26 @@ public final class InteractionEvent extends ChartEvent
 	{
 		source = oNewSource;
 		_lhmTriggers.clear( );
+	}
+	
+	/**
+	 * Returns mouse cursor.
+	 * 
+	 * @return
+	 */
+	public Cursor getCursor( )
+	{
+		return cursor;
+	}
+
+	
+	/**
+	 * Set mouse cursor.
+	 * 
+	 * @param cursor
+	 */
+	public void setCursor( Cursor cursor )
+	{
+		this.cursor = cursor;
 	}
 }

@@ -41,6 +41,7 @@ import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.device.swing.ShapedAction;
 import org.eclipse.birt.chart.device.swing.SwingRendererImpl;
+import org.eclipse.birt.chart.device.util.CSSHelper;
 import org.eclipse.birt.chart.device.util.HTMLAttribute;
 import org.eclipse.birt.chart.device.util.HTMLTag;
 import org.eclipse.birt.chart.device.util.ScriptUtil;
@@ -50,6 +51,7 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.CursorType;
 import org.eclipse.birt.chart.model.attribute.ScriptValue;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
@@ -81,7 +83,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	private final static String POLY_SHAPE = "poly"; //$NON-NLS-1$
 
 	// Use this registry to make sure one callback method only be added once
-	private Map callbackMethodsRegistry = new HashMap( 5 );
+	private Map<String, Boolean> callbackMethodsRegistry = new HashMap<String, Boolean>( 5 );
 	
 	/**
 	 * Returns the output format string for this writer.
@@ -144,7 +146,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	 */
 	public String getImageMap( )
 	{
-		List saList = getShapeActions( );
+		List<ShapedAction> saList = getShapeActions( );
 
 		if ( saList == null || saList.size( ) == 0 )
 		{
@@ -153,11 +155,11 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 		// Generate image map using associated trigger list.
 		StringBuffer sb = new StringBuffer( );
-		for ( Iterator iter = saList.iterator( ); iter.hasNext( ); )
+		for ( Iterator<ShapedAction> iter = saList.iterator( ); iter.hasNext( ); )
 		{
-			ShapedAction sa = (ShapedAction) iter.next( );
+			ShapedAction sa = iter.next( );
 			userCallback( sa, sb );
-
+			
 			String coords = shape2polyCoords( sa.getShape( ) );
 			if ( coords != null )
 			{
@@ -166,7 +168,10 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 				tag.addAttribute( HTMLAttribute.COORDS, coords );
 				// #258627 "area" must has a "alt" value.
 				tag.addAttribute( HTMLAttribute.ALT, "" ); //$NON-NLS-1$
-
+				
+				// Update cursor.
+				setCursorAttribute( tag, sa );
+				
 				boolean changed = false;
 				changed |= processOnFocus( sa, tag );
 				changed |= processOnBlur( sa, tag );
@@ -184,6 +189,20 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 	}
 	
+	private void setCursorAttribute( HTMLTag tag, ShapedAction sa )
+	{
+		if ( sa.getCursor( ) == null || sa.getCursor( ).getType( ) == CursorType.AUTO )
+		{
+			return;
+		}
+		
+		String value = CSSHelper.getCSSCursorValue( sa.getCursor( ) );
+		if ( value != null )
+		{
+			tag.addAttribute( HTMLAttribute.STYLE,  value );
+		}
+	}
+
 	private boolean processCommonEvent( ShapedAction sa, HTMLTag tag,
 			TriggerCondition condition, HTMLAttribute htmlAttr )
 	{
@@ -363,7 +382,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			return null;
 		}
 
-		ArrayList al = new ArrayList( );
+		ArrayList<Double> al = new ArrayList<Double>( );
 
 		FlatteningPathIterator pitr = new FlatteningPathIterator( shape.getPathIterator( null ),
 				1 );
@@ -444,7 +463,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		String s = getFormat( );
 		if ( s != null )
 		{
-			Iterator it = ImageIO.getImageWritersByFormatName( s );
+			Iterator<ImageWriter> it = ImageIO.getImageWritersByFormatName( s );
 			if ( it.hasNext( ) )
 			{
 				supported = true;
@@ -457,7 +476,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			s = getMimeType( );
 			if ( s != null )
 			{
-				Iterator it = ImageIO.getImageWritersByMIMEType( s );
+				Iterator<ImageWriter> it = ImageIO.getImageWritersByMIMEType( s );
 				if ( it.hasNext( ) )
 				{
 					supported = true;
@@ -537,7 +556,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		{
 
 			// SEARCH FOR WRITER USING FORMAT
-			Iterator it = null;
+			Iterator<ImageWriter> it = null;
 			String s = getFormat( );
 			if ( s != null )
 			{

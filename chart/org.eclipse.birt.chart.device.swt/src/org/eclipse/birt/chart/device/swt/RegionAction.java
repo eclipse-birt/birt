@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.device.swt;
 
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.data.Action;
@@ -31,6 +32,8 @@ public final class RegionAction
 {
 
 	private final StructureSource _oSource;
+
+	private Cursor cursor = null;
 
 	/**
 	 * the bounding box used to describe the RegionAction's working area
@@ -273,5 +276,27 @@ public final class RegionAction
 		}
 
 		return true;
+	}
+	
+	
+	/**
+	 * Returns mouse cursor of the region.
+	 * 
+	 * @return
+	 */
+	public Cursor getCursor( )
+	{
+		return cursor;
+	}
+
+	
+	/**
+	 * Set mouse cursor of the region.
+	 * 
+	 * @param cursor
+	 */
+	public void setCursor( Cursor cursor )
+	{
+		this.cursor = cursor;
 	}
 }

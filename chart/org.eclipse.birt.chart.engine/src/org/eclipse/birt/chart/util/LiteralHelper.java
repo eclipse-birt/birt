@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.AxisType;
+import org.eclipse.birt.chart.model.attribute.CursorType;
 import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.DateFormatDetail;
@@ -177,6 +178,11 @@ public class LiteralHelper
 	 */
 	public static final NameSet titleAnchorSet = getTitleAnchorSet( );
 
+	/**
+	 * The set contains all available cursor names and display names.
+	 */
+	public static final NameSet cursorSet = getCursorSet( );
+	
 	private LiteralHelper( )
 	{
 		// no instance.
@@ -547,6 +553,35 @@ public class LiteralHelper
 				Anchor.SOUTH_WEST_LITERAL.getName( ), Anchor.SOUTH_EAST_LITERAL.getName( )});
 	}
 
+	/**
+	 * Returns available cursor names and display names.
+	 * 
+	 * @return
+	 */
+	private static NameSet getCursorSet( ) {
+		String prefix = "Cursor.";
+		String suffix = ".displayName";
+	
+		return new NameSet( prefix, suffix, new String[]{
+				CursorType.AUTO.getName( ),
+				CursorType.CROSSHAIR.getName( ),
+				CursorType.DEFAULT.getName( ),
+				CursorType.POINTER.getName( ),
+				CursorType.MOVE.getName( ),
+				CursorType.TEXT.getName( ),
+				CursorType.WAIT.getName( ),
+				CursorType.ERESIZE.getName( ),
+				CursorType.NE_RESIZE.getName( ),
+				CursorType.NW_RESIZE.getName( ),
+				CursorType.NRESIZE.getName( ),
+				CursorType.SE_RESIZE.getName( ),
+				CursorType.SW_RESIZE.getName( ),
+				CursorType.SRESIZE.getName( ),
+				CursorType.WRESIZE.getName( ),
+				CursorType.CUSTOM.getName( )
+		} );
+	}
+	
 	private static String[] toStringNameArray( List objList )
 	{
 		if ( objList == null )

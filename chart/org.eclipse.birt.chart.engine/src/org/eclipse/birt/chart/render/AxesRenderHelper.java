@@ -1264,6 +1264,7 @@ public final class AxesRenderHelper
 							{
 								final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 										InteractionEvent.class );
+								iev.setCursor( axModel.getCursor( )  );
 								cachedTriggers = new ArrayList<Trigger>( );
 								for ( int t = 0; t < elTriggers.size( ); t++ )
 								{
@@ -1308,7 +1309,8 @@ public final class AxesRenderHelper
 							{
 								final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 										InteractionEvent.class );
-
+								iev.setCursor( axModel.getCursor( ) );
+								
 								if ( cachedTriggers == null )
 								{
 									cachedTriggers = new ArrayList<Trigger>( );
@@ -1368,7 +1370,8 @@ public final class AxesRenderHelper
 							{
 								final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 										InteractionEvent.class );
-
+								iev.setCursor( axModel.getCursor( ) );
+								
 								if ( cachedTriggers == null )
 								{
 									for ( int t = 0; t < elTriggers.size( ); t++ )
@@ -1441,6 +1444,8 @@ public final class AxesRenderHelper
 						{
 							final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 									InteractionEvent.class );
+							iev.setCursor( axModel.getCursor( ) );
+							
 							for ( int t = 0; t < elTriggers.size( ); t++ )
 							{
 								tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
@@ -1826,6 +1831,8 @@ public final class AxesRenderHelper
 							{
 								final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 										InteractionEvent.class );
+								iev.setCursor( axModel.getCursor( ) );
+								
 								for ( int t = 0; t < elTriggers.size( ); t++ )
 								{
 									tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
@@ -1887,6 +1894,8 @@ public final class AxesRenderHelper
 							{
 								final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 										InteractionEvent.class );
+								iev.setCursor( axModel.getCursor( ) );
+								
 								for ( int t = 0; t < elTriggers.size( ); t++ )
 								{
 									tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
@@ -1950,6 +1959,8 @@ public final class AxesRenderHelper
 						{
 							final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 									InteractionEvent.class );
+							iev.setCursor( axModel.getCursor( ) );
+							
 							for ( int t = 0; t < elTriggers.size( ); t++ )
 							{
 								tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );

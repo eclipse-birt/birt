@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.chart.device.svg;
 
-import org.eclipse.birt.chart.event.InteractionEvent;
 import org.eclipse.birt.chart.event.StructureSource;
+import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.w3c.dom.Element;
 
@@ -26,12 +26,14 @@ public class CacheEvent
 	private Element elm;
 	private StructureSource src;
 	private Trigger[] triggers;
-
-	public CacheEvent( Element elm, StructureSource src, Trigger[] triggers )
+	private Cursor cursor;
+	
+	public CacheEvent( Element elm, StructureSource src, Trigger[] triggers, Cursor cursor )
 	{
 		this.elm = elm;
 		this.src = src;
 		this.triggers = triggers;
+		this.cursor = cursor;
 	}
 
 	public Trigger[] getTriggers( )
@@ -49,5 +51,14 @@ public class CacheEvent
 		// TODO Auto-generated method stub
 		return src;
 	}
-
+	
+	/**
+	 * Returns cursor.
+	 * 
+	 * @return
+	 */
+	public Cursor getCursor( )
+	{
+		return cursor;
+	}
 }

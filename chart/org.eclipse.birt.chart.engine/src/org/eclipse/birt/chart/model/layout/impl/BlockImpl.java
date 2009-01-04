@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -69,6 +70,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getTriggers <em>Triggers</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getWidthHint <em>Width Hint</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getHeightHint <em>Height Hint</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getCursor <em>Cursor</em>}</li>
  * </ul>
  * </p>
  *
@@ -386,6 +388,16 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @ordered
 	 */
 	protected boolean heightHintESet;
+
+	/**
+	 * The cached value of the '{@link #getCursor() <em>Cursor</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCursor()
+	 * @generated
+	 * @ordered
+	 */
+	protected Cursor cursor;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1275,6 +1287,73 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Cursor getCursor( )
+	{
+		return cursor;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetCursor( Cursor newCursor,
+			NotificationChain msgs )
+	{
+		Cursor oldCursor = cursor;
+		cursor = newCursor;
+		if ( eNotificationRequired( ) )
+		{
+			ENotificationImpl notification = new ENotificationImpl( this,
+					Notification.SET,
+					LayoutPackage.BLOCK__CURSOR,
+					oldCursor,
+					newCursor );
+			if ( msgs == null )
+				msgs = notification;
+			else
+				msgs.add( notification );
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCursor( Cursor newCursor )
+	{
+		if ( newCursor != cursor )
+		{
+			NotificationChain msgs = null;
+			if ( cursor != null )
+				msgs = ( (InternalEObject) cursor ).eInverseRemove( this,
+						EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__CURSOR,
+						null,
+						msgs );
+			if ( newCursor != null )
+				msgs = ( (InternalEObject) newCursor ).eInverseAdd( this,
+						EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__CURSOR,
+						null,
+						msgs );
+			msgs = basicSetCursor( newCursor, msgs );
+			if ( msgs != null )
+				msgs.dispatch( );
+		}
+		else if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					LayoutPackage.BLOCK__CURSOR,
+					newCursor,
+					newCursor ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
@@ -1297,6 +1376,8 @@ public class BlockImpl extends EObjectImpl implements Block
 			case LayoutPackage.BLOCK__TRIGGERS :
 				return ( (InternalEList<?>) getTriggers( ) ).basicRemove( otherEnd,
 						msgs );
+			case LayoutPackage.BLOCK__CURSOR :
+				return basicSetCursor( null, msgs );
 		}
 		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
@@ -1343,6 +1424,8 @@ public class BlockImpl extends EObjectImpl implements Block
 				return new Double( getWidthHint( ) );
 			case LayoutPackage.BLOCK__HEIGHT_HINT :
 				return new Double( getHeightHint( ) );
+			case LayoutPackage.BLOCK__CURSOR :
+				return getCursor( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -1408,6 +1491,9 @@ public class BlockImpl extends EObjectImpl implements Block
 			case LayoutPackage.BLOCK__HEIGHT_HINT :
 				setHeightHint( ( (Double) newValue ).doubleValue( ) );
 				return;
+			case LayoutPackage.BLOCK__CURSOR :
+				setCursor( (Cursor) newValue );
+				return;
 		}
 		super.eSet( featureID, newValue );
 	}
@@ -1470,6 +1556,9 @@ public class BlockImpl extends EObjectImpl implements Block
 			case LayoutPackage.BLOCK__HEIGHT_HINT :
 				unsetHeightHint( );
 				return;
+			case LayoutPackage.BLOCK__CURSOR :
+				setCursor( (Cursor) null );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -1516,6 +1605,8 @@ public class BlockImpl extends EObjectImpl implements Block
 				return isSetWidthHint( );
 			case LayoutPackage.BLOCK__HEIGHT_HINT :
 				return isSetHeightHint( );
+			case LayoutPackage.BLOCK__CURSOR :
+				return cursor != null;
 		}
 		return super.eIsSet( featureID );
 	}

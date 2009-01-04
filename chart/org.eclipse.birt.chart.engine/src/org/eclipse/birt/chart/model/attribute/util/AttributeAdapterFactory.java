@@ -152,6 +152,12 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 		}
 
 		@Override
+		public Adapter caseCursor( Cursor object )
+		{
+			return createCursorAdapter( );
+		}
+
+		@Override
 		public Adapter caseDataPoint( DataPoint object )
 		{
 			return createDataPointAdapter( );
@@ -464,6 +470,21 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	public Adapter createColorDefinitionAdapter( )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.attribute.Cursor <em>Cursor</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.attribute.Cursor
+	 * @generated
+	 */
+	public Adapter createCursorAdapter( )
 	{
 		return null;
 	}

@@ -372,6 +372,16 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getBlock_Cursor( )
+	{
+		return (EReference) blockEClass.getEStructuralFeatures( ).get( 16 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -763,6 +773,7 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		createEReference( blockEClass, BLOCK__TRIGGERS );
 		createEAttribute( blockEClass, BLOCK__WIDTH_HINT );
 		createEAttribute( blockEClass, BLOCK__HEIGHT_HINT );
+		createEReference( blockEClass, BLOCK__CURSOR );
 
 		clientAreaEClass = createEClass( CLIENT_AREA );
 		createEReference( clientAreaEClass, CLIENT_AREA__BACKGROUND );
@@ -908,6 +919,10 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		initEAttribute( getBlock_HeightHint( ),
 				theXMLTypePackage.getDouble( ),
 				"heightHint", "-1", 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+		initEReference( getBlock_Cursor( ),
+				theAttributePackage.getCursor( ),
+				null,
+				"cursor", null, 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( clientAreaEClass,
 				ClientArea.class,
@@ -1123,6 +1138,10 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		addAnnotation( getBlock_HeightHint( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "HeightHint" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getBlock_Cursor( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Cursor" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( clientAreaEClass, source, new String[]{
 				"name", "ClientArea", //$NON-NLS-1$ //$NON-NLS-2$

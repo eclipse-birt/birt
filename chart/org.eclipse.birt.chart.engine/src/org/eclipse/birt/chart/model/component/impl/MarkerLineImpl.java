@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.model.component.impl;
 import java.util.Collection;
 
 import org.eclipse.birt.chart.model.attribute.Anchor;
+import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -51,6 +52,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl#getLabelAnchor <em>Label Anchor</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl#getTriggers <em>Triggers</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl#getCursor <em>Cursor</em>}</li>
  * </ul>
  * </p>
  *
@@ -133,6 +135,16 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	 * @ordered
 	 */
 	protected EList<Trigger> triggers;
+
+	/**
+	 * The cached value of the '{@link #getCursor() <em>Cursor</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCursor()
+	 * @generated
+	 * @ordered
+	 */
+	protected Cursor cursor;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -495,6 +507,75 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Cursor getCursor( )
+	{
+		return cursor;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetCursor( Cursor newCursor,
+			NotificationChain msgs )
+	{
+		Cursor oldCursor = cursor;
+		cursor = newCursor;
+		if ( eNotificationRequired( ) )
+		{
+			ENotificationImpl notification = new ENotificationImpl( this,
+					Notification.SET,
+					ComponentPackage.MARKER_LINE__CURSOR,
+					oldCursor,
+					newCursor );
+			if ( msgs == null )
+				msgs = notification;
+			else
+				msgs.add( notification );
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCursor( Cursor newCursor )
+	{
+		if ( newCursor != cursor )
+		{
+			NotificationChain msgs = null;
+			if ( cursor != null )
+				msgs = ( (InternalEObject) cursor ).eInverseRemove( this,
+						EOPPOSITE_FEATURE_BASE
+								- ComponentPackage.MARKER_LINE__CURSOR,
+						null,
+						msgs );
+			if ( newCursor != null )
+				msgs = ( (InternalEObject) newCursor ).eInverseAdd( this,
+						EOPPOSITE_FEATURE_BASE
+								- ComponentPackage.MARKER_LINE__CURSOR,
+						null,
+						msgs );
+			msgs = basicSetCursor( newCursor, msgs );
+			if ( msgs != null )
+				msgs.dispatch( );
+		}
+		else if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					ComponentPackage.MARKER_LINE__CURSOR,
+					newCursor,
+					newCursor ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
@@ -512,6 +593,8 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 			case ComponentPackage.MARKER_LINE__TRIGGERS :
 				return ( (InternalEList<?>) getTriggers( ) ).basicRemove( otherEnd,
 						msgs );
+			case ComponentPackage.MARKER_LINE__CURSOR :
+				return basicSetCursor( null, msgs );
 		}
 		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
@@ -538,6 +621,8 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 				return getFormatSpecifier( );
 			case ComponentPackage.MARKER_LINE__TRIGGERS :
 				return getTriggers( );
+			case ComponentPackage.MARKER_LINE__CURSOR :
+				return getCursor( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -572,6 +657,9 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 				getTriggers( ).clear( );
 				getTriggers( ).addAll( (Collection<? extends Trigger>) newValue );
 				return;
+			case ComponentPackage.MARKER_LINE__CURSOR :
+				setCursor( (Cursor) newValue );
+				return;
 		}
 		super.eSet( featureID, newValue );
 	}
@@ -604,6 +692,9 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 			case ComponentPackage.MARKER_LINE__TRIGGERS :
 				getTriggers( ).clear( );
 				return;
+			case ComponentPackage.MARKER_LINE__CURSOR :
+				setCursor( (Cursor) null );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -630,6 +721,8 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 				return formatSpecifier != null;
 			case ComponentPackage.MARKER_LINE__TRIGGERS :
 				return triggers != null && !triggers.isEmpty( );
+			case ComponentPackage.MARKER_LINE__CURSOR :
+				return cursor != null;
 		}
 		return super.eIsSet( featureID );
 	}

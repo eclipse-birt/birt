@@ -24,6 +24,7 @@ public class HTMLAttribute
 	public static final HTMLAttribute HREF = new HTMLAttribute("href"); //$NON-NLS-1$
 	public static final HTMLAttribute ALT = new HTMLAttribute("alt"); //$NON-NLS-1$
 	public static final HTMLAttribute TITLE = new HTMLAttribute("title"); //$NON-NLS-1$
+	public static final HTMLAttribute STYLE = new HTMLAttribute("style"); //$NON-NLS-1$
 	
 	protected String name;
 	

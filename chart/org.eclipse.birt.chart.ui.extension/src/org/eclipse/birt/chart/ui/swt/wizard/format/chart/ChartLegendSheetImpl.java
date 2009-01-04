@@ -282,6 +282,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		popup = new InteractivitySheet( Messages.getString( "ChartLegendSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
 				getContext( ),
 				getChart( ).getLegend( ).getTriggers( ),
+				getChart( ).getLegend( ),
 				TriggerSupportMatrix.TYPE_LEGEND,
 				TriggerDataComposite.ENABLE_URL_PARAMETERS
 						| TriggerDataComposite.DISABLE_CATEGORY_SERIES

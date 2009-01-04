@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.model.component;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
 import org.eclipse.birt.chart.model.attribute.AxisType;
+import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Orientation;
@@ -63,6 +64,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#isLabelWithinAxes <em>Label Within Axes</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#isAligned <em>Aligned</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#isSideBySide <em>Side By Side</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getCursor <em>Cursor</em>}</li>
  * </ul>
  * </p>
  *
@@ -1042,8 +1044,9 @@ public interface Axis extends EObject
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 						Specifies whether the zero point of this axis is to be 
-	 * 						aligned with other axes whose "Aligned" is true.
+	 * 						Specifies whether the zero point of this axis is
+	 * 						to be aligned with other axes whose "Aligned" is
+	 * 						true.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Aligned</em>' attribute.
@@ -1099,9 +1102,10 @@ public interface Axis extends EObject
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 						Specifies whether the data points of this axis is to be 
-	 * 						placed side by side instead of overlayed with those
-	 * 						of other axes whose "SideBySide" is true.
+	 * 						Specifies whether the data points of this axis
+	 * 						is to be placed side by side instead of
+	 * 						overlayed with those of other axes whose
+	 * 						"SideBySide" is true.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Side By Side</em>' attribute.
@@ -1149,6 +1153,32 @@ public interface Axis extends EObject
 	 * @generated
 	 */
 	boolean isSetSideBySide( );
+
+	/**
+	 * Returns the value of the '<em><b>Cursor</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The element represents a cursor for axis area.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Cursor</em>' containment reference.
+	 * @see #setCursor(Cursor)
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_Cursor()
+	 * @model containment="true"
+	 *        extendedMetaData="kind='element' name='Cursor'"
+	 * @generated
+	 */
+	Cursor getCursor( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getCursor <em>Cursor</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Cursor</em>' containment reference.
+	 * @see #getCursor()
+	 * @generated
+	 */
+	void setCursor( Cursor value );
 
 	/**
 	 * 

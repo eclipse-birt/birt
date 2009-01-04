@@ -27,6 +27,8 @@ import org.eclipse.birt.chart.model.attribute.CallBackValue;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ChartType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.Cursor;
+import org.eclipse.birt.chart.model.attribute.CursorType;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.DataPointComponent;
 import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
@@ -159,6 +161,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EClass colorDefinitionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass cursorEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -397,6 +406,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 	private EEnum chartTypeEEnum = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum cursorTypeEEnum = null;
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -596,6 +612,20 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EDataType chartTypeObjectEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType cursorTypeObjectEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType cursorURIEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1117,6 +1147,36 @@ public class AttributePackageImpl extends EPackageImpl implements
 	{
 		return (EAttribute) colorDefinitionEClass.getEStructuralFeatures( )
 				.get( 3 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getCursor( )
+	{
+		return cursorEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCursor_Type( )
+	{
+		return (EAttribute) cursorEClass.getEStructuralFeatures( ).get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCursor_URI( )
+	{
+		return (EAttribute) cursorEClass.getEStructuralFeatures( ).get( 1 );
 	}
 
 	/**
@@ -2307,6 +2367,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getCursorType( )
+	{
+		return cursorTypeEEnum;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -2622,6 +2692,26 @@ public class AttributePackageImpl extends EPackageImpl implements
 	public EDataType getChartTypeObject( )
 	{
 		return chartTypeObjectEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getCursorTypeObject( )
+	{
+		return cursorTypeObjectEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getCursorURI( )
+	{
+		return cursorURIEDataType;
 	}
 
 	/**
@@ -2975,6 +3065,10 @@ public class AttributePackageImpl extends EPackageImpl implements
 		createEAttribute( colorDefinitionEClass, COLOR_DEFINITION__GREEN );
 		createEAttribute( colorDefinitionEClass, COLOR_DEFINITION__BLUE );
 
+		cursorEClass = createEClass( CURSOR );
+		createEAttribute( cursorEClass, CURSOR__TYPE );
+		createEAttribute( cursorEClass, CURSOR__URI );
+
 		dataPointEClass = createEClass( DATA_POINT );
 		createEReference( dataPointEClass, DATA_POINT__COMPONENTS );
 		createEAttribute( dataPointEClass, DATA_POINT__PREFIX );
@@ -3152,6 +3246,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		axisTypeEEnum = createEEnum( AXIS_TYPE );
 		chartDimensionEEnum = createEEnum( CHART_DIMENSION );
 		chartTypeEEnum = createEEnum( CHART_TYPE );
+		cursorTypeEEnum = createEEnum( CURSOR_TYPE );
 		dataPointComponentTypeEEnum = createEEnum( DATA_POINT_COMPONENT_TYPE );
 		dataTypeEEnum = createEEnum( DATA_TYPE );
 		dateFormatDetailEEnum = createEEnum( DATE_FORMAT_DETAIL );
@@ -3187,6 +3282,8 @@ public class AttributePackageImpl extends EPackageImpl implements
 		axisTypeObjectEDataType = createEDataType( AXIS_TYPE_OBJECT );
 		chartDimensionObjectEDataType = createEDataType( CHART_DIMENSION_OBJECT );
 		chartTypeObjectEDataType = createEDataType( CHART_TYPE_OBJECT );
+		cursorTypeObjectEDataType = createEDataType( CURSOR_TYPE_OBJECT );
+		cursorURIEDataType = createEDataType( CURSOR_URI );
 		dataPointComponentTypeObjectEDataType = createEDataType( DATA_POINT_COMPONENT_TYPE_OBJECT );
 		dataTypeObjectEDataType = createEDataType( DATA_TYPE_OBJECT );
 		dateFormatDetailObjectEDataType = createEDataType( DATE_FORMAT_DETAIL_OBJECT );
@@ -3357,6 +3454,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 		initEAttribute( getColorDefinition_Blue( ),
 				this.getRGBValue( ),
 				"blue", null, 1, 1, ColorDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+
+		initEClass( cursorEClass,
+				Cursor.class,
+				"Cursor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEAttribute( getCursor_Type( ),
+				this.getCursorType( ),
+				"type", null, 1, 1, Cursor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getCursor_URI( ),
+				this.getCursorURI( ),
+				"uRI", null, 0, -1, Cursor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( dataPointEClass,
 				DataPoint.class,
@@ -3815,6 +3922,24 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addEEnumLiteral( chartTypeEEnum, ChartType.SCATTER_LITERAL );
 		addEEnumLiteral( chartTypeEEnum, ChartType.STOCK_LITERAL );
 
+		initEEnum( cursorTypeEEnum, CursorType.class, "CursorType" ); //$NON-NLS-1$
+		addEEnumLiteral( cursorTypeEEnum, CursorType.AUTO );
+		addEEnumLiteral( cursorTypeEEnum, CursorType.CROSSHAIR );
+		addEEnumLiteral( cursorTypeEEnum, CursorType.DEFAULT );
+		addEEnumLiteral( cursorTypeEEnum, CursorType.POINTER );
+		addEEnumLiteral( cursorTypeEEnum, CursorType.MOVE );
+		addEEnumLiteral( cursorTypeEEnum, CursorType.TEXT );
+		addEEnumLiteral( cursorTypeEEnum, CursorType.WAIT );
+		addEEnumLiteral( cursorTypeEEnum, CursorType.ERESIZE );
+		addEEnumLiteral( cursorTypeEEnum, CursorType.NE_RESIZE );
+		addEEnumLiteral( cursorTypeEEnum, CursorType.NW_RESIZE );
+		addEEnumLiteral( cursorTypeEEnum, CursorType.NRESIZE );
+		addEEnumLiteral( cursorTypeEEnum, CursorType.SE_RESIZE );
+		addEEnumLiteral( cursorTypeEEnum, CursorType.SW_RESIZE );
+		addEEnumLiteral( cursorTypeEEnum, CursorType.SRESIZE );
+		addEEnumLiteral( cursorTypeEEnum, CursorType.WRESIZE );
+		addEEnumLiteral( cursorTypeEEnum, CursorType.CUSTOM );
+
 		initEEnum( dataPointComponentTypeEEnum,
 				DataPointComponentType.class,
 				"DataPointComponentType" ); //$NON-NLS-1$
@@ -4087,6 +4212,12 @@ public class AttributePackageImpl extends EPackageImpl implements
 		initEDataType( chartTypeObjectEDataType,
 				ChartType.class,
 				"ChartTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEDataType( cursorTypeObjectEDataType,
+				CursorType.class,
+				"CursorTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEDataType( cursorURIEDataType,
+				String.class,
+				"CursorURI", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( dataPointComponentTypeObjectEDataType,
 				DataPointComponentType.class,
 				"DataPointComponentTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
@@ -4343,6 +4474,29 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addAnnotation( getColorDefinition_Blue( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Blue" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( cursorEClass, source, new String[]{
+				"name", "Cursor", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getCursor_Type( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Type" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getCursor_URI( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "URI" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( cursorTypeEEnum, source, new String[]{
+				"name", "CursorType" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( cursorTypeObjectEDataType, source, new String[]{
+				"name", "CursorType:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "CursorType" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( cursorURIEDataType, source, new String[]{
+				"name", "CursorURI", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "http://www.eclipse.org/emf/2003/XMLType#string" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( dataPointEClass, source, new String[]{
 				"name", "DataPoint", //$NON-NLS-1$ //$NON-NLS-2$

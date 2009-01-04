@@ -161,6 +161,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return createCallBackValue( );
 			case AttributePackage.COLOR_DEFINITION :
 				return createColorDefinition( );
+			case AttributePackage.CURSOR :
+				return createCursor( );
 			case AttributePackage.DATA_POINT :
 				return createDataPoint( );
 			case AttributePackage.DATA_POINT_COMPONENT :
@@ -251,6 +253,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return createChartDimensionFromString( eDataType, initialValue );
 			case AttributePackage.CHART_TYPE :
 				return createChartTypeFromString( eDataType, initialValue );
+			case AttributePackage.CURSOR_TYPE :
+				return createCursorTypeFromString( eDataType, initialValue );
 			case AttributePackage.DATA_POINT_COMPONENT_TYPE :
 				return createDataPointComponentTypeFromString( eDataType,
 						initialValue );
@@ -328,6 +332,11 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 						initialValue );
 			case AttributePackage.CHART_TYPE_OBJECT :
 				return createChartTypeObjectFromString( eDataType, initialValue );
+			case AttributePackage.CURSOR_TYPE_OBJECT :
+				return createCursorTypeObjectFromString( eDataType,
+						initialValue );
+			case AttributePackage.CURSOR_URI :
+				return createCursorURIFromString( eDataType, initialValue );
 			case AttributePackage.DATA_POINT_COMPONENT_TYPE_OBJECT :
 				return createDataPointComponentTypeObjectFromString( eDataType,
 						initialValue );
@@ -438,6 +447,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return convertChartDimensionToString( eDataType, instanceValue );
 			case AttributePackage.CHART_TYPE :
 				return convertChartTypeToString( eDataType, instanceValue );
+			case AttributePackage.CURSOR_TYPE :
+				return convertCursorTypeToString( eDataType, instanceValue );
 			case AttributePackage.DATA_POINT_COMPONENT_TYPE :
 				return convertDataPointComponentTypeToString( eDataType,
 						instanceValue );
@@ -515,6 +526,11 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 						instanceValue );
 			case AttributePackage.CHART_TYPE_OBJECT :
 				return convertChartTypeObjectToString( eDataType, instanceValue );
+			case AttributePackage.CURSOR_TYPE_OBJECT :
+				return convertCursorTypeObjectToString( eDataType,
+						instanceValue );
+			case AttributePackage.CURSOR_URI :
+				return convertCursorURIToString( eDataType, instanceValue );
 			case AttributePackage.DATA_POINT_COMPONENT_TYPE_OBJECT :
 				return convertDataPointComponentTypeObjectToString( eDataType,
 						instanceValue );
@@ -675,6 +691,17 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	{
 		ColorDefinitionImpl colorDefinition = new ColorDefinitionImpl( );
 		return colorDefinition;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Cursor createCursor( )
+	{
+		CursorImpl cursor = new CursorImpl( );
+		return cursor;
 	}
 
 	/**
@@ -1149,6 +1176,31 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	 * @generated
 	 */
 	public String convertChartTypeToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CursorType createCursorTypeFromString( EDataType eDataType,
+			String initialValue )
+	{
+		CursorType result = CursorType.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertCursorTypeToString( EDataType eDataType,
 			Object instanceValue )
 	{
 		return instanceValue == null ? null : instanceValue.toString( );
@@ -1960,6 +2012,54 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 			Object instanceValue )
 	{
 		return convertChartTypeToString( AttributePackage.Literals.CHART_TYPE,
+				instanceValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CursorType createCursorTypeObjectFromString( EDataType eDataType,
+			String initialValue )
+	{
+		return createCursorTypeFromString( AttributePackage.Literals.CURSOR_TYPE,
+				initialValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertCursorTypeObjectToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return convertCursorTypeToString( AttributePackage.Literals.CURSOR_TYPE,
+				instanceValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String createCursorURIFromString( EDataType eDataType,
+			String initialValue )
+	{
+		return (String) XMLTypeFactory.eINSTANCE.createFromString( XMLTypePackage.Literals.STRING,
+				initialValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertCursorURIToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return XMLTypeFactory.eINSTANCE.convertToString( XMLTypePackage.Literals.STRING,
 				instanceValue );
 	}
 

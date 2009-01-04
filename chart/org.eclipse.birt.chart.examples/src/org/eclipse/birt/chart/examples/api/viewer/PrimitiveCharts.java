@@ -25,10 +25,14 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.Serializer;
+import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
+import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.Cursor;
+import org.eclipse.birt.chart.model.attribute.CursorType;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.Fill;
@@ -45,6 +49,8 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.RiserType;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
+import org.eclipse.birt.chart.model.attribute.TooltipValue;
+import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl;
@@ -66,12 +72,14 @@ import org.eclipse.birt.chart.model.component.impl.DialRegionImpl;
 import org.eclipse.birt.chart.model.component.impl.MarkerLineImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.BubbleDataSet;
+import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DateTimeDataSet;
 import org.eclipse.birt.chart.model.data.DifferenceDataSet;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.StockDataSet;
 import org.eclipse.birt.chart.model.data.TextDataSet;
+import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.data.impl.BubbleDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.DateTimeDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.DifferenceDataSetImpl;
@@ -135,8 +143,9 @@ public final class PrimitiveCharts
 				"Stock Chart",//$NON-NLS-1$
 				"Area Chart",//$NON-NLS-1$
 				"Difference Chart",//$NON-NLS-1$
-				"Bubble Chart" //$NON-NLS-1$
+				"Bubble Chart", //$NON-NLS-1$
 				// "Open Chart File" //$NON-NLS-1$
+				"Cursor Example" //$NON-NLS-1$
 		};
 	}
 
@@ -188,6 +197,9 @@ public final class PrimitiveCharts
 			// case 9 :
 			// cm = PrimitiveCharts.openChart( );
 			//				break;
+			case 11 :
+				cm = PrimitiveCharts.createBarChartWithCursorExample( );
+				break;
 		}
 		return cm;
 	}
@@ -255,7 +267,7 @@ public final class PrimitiveCharts
 		bs.setRiserOutline( null );
 		bs.getLabel( ).setVisible( true );
 		bs.setLabelPosition( Position.INSIDE_LITERAL );
-
+		
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 		sdY.getSeries( ).add( bs );
@@ -263,6 +275,136 @@ public final class PrimitiveCharts
 		return cwaBar;
 	}
 
+	/**
+	 * Creates a simple bar chart model and set cursors.
+	 * 
+	 * @return An instance of the simulated runtime chart model (containing
+	 *         filled datasets)
+	 */
+	public static final Chart createBarChartWithCursorExample( )
+	{
+		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+
+		// Plot
+		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
+		cwaBar.getBlock( ).getOutline( ).setVisible( true );
+		Plot p = cwaBar.getPlot( );
+		p.getClientArea( ).setBackground( ColorDefinitionImpl.create( 255,
+				255,
+				225 ) );
+		p.getOutline( ).setVisible( false );
+
+		// Title
+		cwaBar.getTitle( ).getLabel( ).getCaption( ).setValue( "Bar Chart" ); //$NON-NLS-1$
+		
+		// Add triggers and cursor to title.
+		Trigger t = DataFactory.eINSTANCE.createTrigger( );
+		t.setCondition( TriggerCondition.ONMOUSEOVER_LITERAL );
+		t.setAction( DataFactory.eINSTANCE.createAction( ) );
+		t.getAction( ).setType( ActionType.SHOW_TOOLTIP_LITERAL );
+		t.getAction( ).setValue( AttributeFactory.eINSTANCE.createTooltipValue( ) );
+		((TooltipValue)t.getAction( ).getValue( )).setText( "Chart Title, Cursor: Move." );//$NON-NLS-1$
+		cwaBar.getTitle( ).getTriggers( ).add( t );
+		Cursor c = AttributeFactory.eINSTANCE.createCursor();
+		c.setType( CursorType.MOVE );
+		cwaBar.getTitle( ).setCursor( c );
+
+		// Legend
+		Legend lg = cwaBar.getLegend( );
+		lg.getText( ).getFont( ).setSize( 16 );
+		lg.setItemType( LegendItemType.CATEGORIES_LITERAL );
+
+		// Add triggers and cursor to Legend.
+		t = DataFactory.eINSTANCE.createTrigger( );
+		t.setCondition( TriggerCondition.ONMOUSEOVER_LITERAL );
+		t.setAction( DataFactory.eINSTANCE.createAction( ) );
+		t.getAction( ).setType( ActionType.SHOW_TOOLTIP_LITERAL );
+		t.getAction( ).setValue( AttributeFactory.eINSTANCE.createTooltipValue( ) );
+		((TooltipValue)t.getAction( ).getValue( )).setText( "Chart Legend, Cursor: Crosshair." );//$NON-NLS-1$
+		lg.getTriggers( ).add( t );
+		c = AttributeFactory.eINSTANCE.createCursor();
+		c.setType( CursorType.CROSSHAIR );
+		lg.setCursor( c );
+		
+		// X-Axis
+		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
+		
+		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
+		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
+		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
+		xAxisPrimary.getTitle( ).setVisible( true );
+		
+		// Add triggers and cursor to X axis.
+		t = DataFactory.eINSTANCE.createTrigger( );
+		t.setCondition( TriggerCondition.ONMOUSEOVER_LITERAL );
+		t.setAction( DataFactory.eINSTANCE.createAction( ) );
+		t.getAction( ).setType( ActionType.SHOW_TOOLTIP_LITERAL );
+		t.getAction( ).setValue( AttributeFactory.eINSTANCE.createTooltipValue( ) );
+		((TooltipValue)t.getAction( ).getValue( )).setText( "X axis, Cursor: Wait." );//$NON-NLS-1$
+		xAxisPrimary.getTriggers( ).add( t );
+		c = AttributeFactory.eINSTANCE.createCursor();
+		c.setType( CursorType.WAIT );
+		xAxisPrimary.setCursor( c );
+
+		// Y-Axis
+		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );
+		yAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
+		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
+		yAxisPrimary.getLabel( ).getCaption( ).getFont( ).setRotation( 90 );
+
+		// Add triggers and cursor to Y axis.
+		t = DataFactory.eINSTANCE.createTrigger( );
+		t.setCondition( TriggerCondition.ONMOUSEOVER_LITERAL );
+		t.setAction( DataFactory.eINSTANCE.createAction( ) );
+		t.getAction( ).setType( ActionType.SHOW_TOOLTIP_LITERAL );
+		t.getAction( ).setValue( AttributeFactory.eINSTANCE.createTooltipValue( ) );
+		((TooltipValue)t.getAction( ).getValue( )).setText( "Y axis, Cursor: Text." );//$NON-NLS-1$
+		yAxisPrimary.getTriggers( ).add( t );
+		c = AttributeFactory.eINSTANCE.createCursor();
+		c.setType( CursorType.TEXT );
+		yAxisPrimary.setCursor( c );
+		
+		// Data Set
+		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
+				"Item 1", "Item 2", "Item 3"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		NumberDataSet orthoValues = NumberDataSetImpl.create( new double[]{
+				25, 35, 15
+		} );
+
+		// X-Series
+		Series seCategory = SeriesImpl.create( );
+		seCategory.setDataSet( categoryValues );
+
+		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
+		sdX.getSeriesPalette( ).shift( 0 );
+		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
+		sdX.getSeries( ).add( seCategory );
+
+		// Y-Series
+		BarSeries bs = (BarSeries) BarSeriesImpl.create( );
+		bs.setDataSet( orthoValues );
+		bs.setRiserOutline( null );
+		bs.getLabel( ).setVisible( true );
+		bs.setLabelPosition( Position.INSIDE_LITERAL );
+		
+		// Add trigger and cursor to value series.
+		t = DataFactory.eINSTANCE.createTrigger( );
+		t.setCondition( TriggerCondition.ONMOUSEOVER_LITERAL );
+		t.setAction( DataFactory.eINSTANCE.createAction( ) );
+		t.getAction( ).setType( ActionType.SHOW_TOOLTIP_LITERAL );
+		t.getAction( ).setValue( AttributeFactory.eINSTANCE.createTooltipValue( ) );
+		((TooltipValue)t.getAction( ).getValue( )).setText( "Y Series Values, Cursor:Pointer(hand)" );//$NON-NLS-1$
+		bs.getTriggers( ).add( t );
+		c = AttributeFactory.eINSTANCE.createCursor();
+		c.setType( CursorType.POINTER );
+		bs.setCursor( c );
+		
+		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
+		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
+		sdY.getSeries( ).add( bs );
+
+		return cwaBar;
+	}
 	/**
 	 * Creates a bar chart model with mutiple Y-series as a reference
 	 * implementation

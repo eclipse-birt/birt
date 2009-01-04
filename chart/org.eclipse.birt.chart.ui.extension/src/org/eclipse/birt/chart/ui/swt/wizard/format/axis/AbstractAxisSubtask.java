@@ -430,6 +430,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		popup = new InteractivitySheet( Messages.getString( "AbstractAxisSubtask.Label.Interactivity" ), //$NON-NLS-1$
 				getContext( ),
 				getAxisForProcessing( ).getTriggers( ),
+				getAxisForProcessing( ),
 				TriggerSupportMatrix.TYPE_AXIS,
 				false,
 				true );

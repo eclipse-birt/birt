@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -57,6 +58,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.layout.Block#getTriggers <em>Triggers</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.layout.Block#getWidthHint <em>Width Hint</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.layout.Block#getHeightHint <em>Height Hint</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.Block#getCursor <em>Cursor</em>}</li>
  * </ul>
  * </p>
  *
@@ -74,7 +76,7 @@ public interface Block extends EObject
 	 * --> Gets the blocks contained within this block. <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 					Specifies the block's children.
+	 * 						Specifies the block's children.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Children</em>' containment reference list.
@@ -613,7 +615,9 @@ public interface Block extends EObject
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Specifies a hinted width for the block.
+	 * 
+	 * 						Specifies a hinted width for the block.
+	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Width Hint</em>' attribute.
 	 * @see #isSetWidthHint()
@@ -667,7 +671,9 @@ public interface Block extends EObject
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Specifies a hinted height for the block.
+	 * 
+	 * 						Specifies a hinted height for the block.
+	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Height Hint</em>' attribute.
 	 * @see #isSetHeightHint()
@@ -714,6 +720,32 @@ public interface Block extends EObject
 	 * @generated
 	 */
 	boolean isSetHeightHint( );
+
+	/**
+	 * Returns the value of the '<em><b>Cursor</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The element represents cursor for the block.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Cursor</em>' containment reference.
+	 * @see #setCursor(Cursor)
+	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getBlock_Cursor()
+	 * @model containment="true"
+	 *        extendedMetaData="kind='element' name='Cursor'"
+	 * @generated
+	 */
+	Cursor getCursor( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getCursor <em>Cursor</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Cursor</em>' containment reference.
+	 * @see #getCursor()
+	 * @generated
+	 */
+	void setCursor( Cursor value );
 
 	/**
 	 * @param bRecursive

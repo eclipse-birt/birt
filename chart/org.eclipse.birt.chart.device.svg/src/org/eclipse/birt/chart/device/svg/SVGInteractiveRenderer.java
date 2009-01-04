@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.device.svg.i18n.Messages;
+import org.eclipse.birt.chart.device.util.CSSHelper;
 import org.eclipse.birt.chart.device.util.ScriptUtil;
 import org.eclipse.birt.chart.event.InteractionEvent;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
@@ -37,6 +38,8 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.AccessibilityValue;
 import org.eclipse.birt.chart.model.attribute.ActionType;
+import org.eclipse.birt.chart.model.attribute.Cursor;
+import org.eclipse.birt.chart.model.attribute.CursorType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.ScriptValue;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
@@ -60,24 +63,26 @@ import com.ibm.icu.util.ULocale;
 public class SVGInteractiveRenderer
 {
 
-	private Map labelPrimitives = new Hashtable( );
-	private List scripts = new Vector( );
+	private Map<Series, List<String>> labelPrimitives = new Hashtable<Series, List<String>>( );
+	private List<String> scripts = new Vector<String>( );
 	/**
 	 * Element that represents the hot spot layer
 	 */
 	protected Element hotspotLayer;
-	private Map componentPrimitives = new Hashtable( );
+	private Map<Object, List<String>> componentPrimitives = new Hashtable<Object, List<String>>( );
 	private IUpdateNotifier _iun;
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.svg/trace" ); //$NON-NLS-1$
 	SVGGraphics2D svg_g2d;
 	private ULocale locale;
-	private List cacheEvents = new ArrayList( );
+	private List<CacheEvent> cacheEvents = new ArrayList<CacheEvent>( );
 	
+	private String defaultCursor = "cursor:pointer"; //$NON-NLS-1$
+		
 	/**
 	 * Indicates if onload method of data points has been added. This map is
 	 * used for saving states of multiple series and data points.
 	 */
-	private Map mapOnloadAdded = new HashMap( );
+	private Map<Object, Boolean> mapOnloadAdded = new HashMap<Object, Boolean>( );
 	
 	private int iFirstDataPointIndex = -1;
 
@@ -163,10 +168,10 @@ public class SVGInteractiveRenderer
 				if ( drawText )
 				{
 					String id = Integer.toString( pre.hashCode( ) );
-					List components = (List) labelPrimitives.get( seDT );
+					List<String> components = labelPrimitives.get( seDT );
 					if ( components == null )
 					{
-						components = new ArrayList( );
+						components = new ArrayList<String>( );
 						labelPrimitives.put( seDT, components );
 					}
 
@@ -189,10 +194,10 @@ public class SVGInteractiveRenderer
 				// Non-text
 				{
 					String id = Integer.toString( pre.hashCode( ) );
-					List components = (List) componentPrimitives.get( seDT );
+					List<String> components = componentPrimitives.get( seDT );
 					if ( components == null )
 					{
-						components = new ArrayList( );
+						components = new ArrayList<String>( );
 						componentPrimitives.put( seDT, components );
 					}
 
@@ -243,10 +248,10 @@ public class SVGInteractiveRenderer
 				{
 					String groupIdentifier = String.valueOf( designObject.hashCode( ) );
 					String id = Integer.toString( pre.hashCode( ) );
-					List components = (List) componentPrimitives.get( designObject );
+					List<String> components = componentPrimitives.get( designObject );
 					if ( components == null )
 					{
-						components = new ArrayList( );
+						components = new ArrayList<String>( );
 						componentPrimitives.put( designObject, components );
 					}
 
@@ -400,7 +405,8 @@ public class SVGInteractiveRenderer
 		{
 			cacheEvents.add( new CacheEvent( elm,
 					ie.getStructureSource( ),
-					triggers ) );
+					triggers,
+					ie.getCursor( ) ) );
 		}
 	}
 	
@@ -471,12 +477,13 @@ public class SVGInteractiveRenderer
 	 */
 	public void addInteractivity( )
 	{
-		for ( Iterator iter = cacheEvents.iterator( ); iter.hasNext( ); )
+		for ( Iterator<CacheEvent> iter = cacheEvents.iterator( ); iter.hasNext( ); )
 		{
-			CacheEvent cEvent = ( (CacheEvent) iter.next( ) );
+			CacheEvent cEvent = iter.next( );
 			addEventHandling( cEvent.getElement( ),
 					cEvent.getSource( ),
-					cEvent.getTriggers( ) );
+					cEvent.getTriggers( ),
+					cEvent.getCursor( ) );
 		}
 	}
 
@@ -484,10 +491,15 @@ public class SVGInteractiveRenderer
 	 * Add event handling to the hotspot
 	 */
 	private void addEventHandling( Element elm, StructureSource src,
-			Trigger[] triggers )
+			Trigger[] triggers, Cursor cursor )
 	{
 		if ( elm != null )
 		{
+			if ( triggers != null && triggers.length > 0 )
+			{
+				setCursorAttribute( elm, cursor, defaultCursor );
+			}
+			
 			// Need to check if we have a url redirect trigger. We handle the
 			// interaction differently
 			boolean redirect = false;
@@ -584,7 +596,6 @@ public class SVGInteractiveRenderer
 												"top.document.location.hash='" //$NON-NLS-1$
 														+ urlValue.getBaseUrl( )
 														+ "';" ) ); //$NON-NLS-1$
-								elm.setAttribute( "style", "cursor:pointer" ); //$NON-NLS-1$ //$NON-NLS-2$
 							}
 							// check if this is a javascript call
 							else if ( urlValue.getBaseUrl( )
@@ -593,7 +604,6 @@ public class SVGInteractiveRenderer
 								elm.setAttribute( scriptEvent,
 										wrapJS( bDblClick,
 												urlValue.getBaseUrl( ) ) );
-								elm.setAttribute( "style", "cursor:pointer" ); //$NON-NLS-1$ //$NON-NLS-2$
 							}
 							else
 							{
@@ -658,8 +668,8 @@ public class SVGInteractiveRenderer
 
 								StringBuffer callbackFunction = new StringBuffer( "callback" );//$NON-NLS-1$
 								callbackFunction.append( Math.abs( script.hashCode( ) ) );
-								callbackFunction.append( "(evt," );
-								callbackFunction.append(  src.getSource( ).hashCode( ) );//$NON-NLS-1$ 
+								callbackFunction.append( "(evt," ); //$NON-NLS-1$
+								callbackFunction.append(  src.getSource( ).hashCode( ) ); 
 
 								if ( StructureType.SERIES_DATA_POINT.equals( src.getType( ) ) )
 								{
@@ -671,7 +681,6 @@ public class SVGInteractiveRenderer
 								elm.setAttribute( scriptEvent,
 										wrapJS( bDblClick,
 												callbackFunction.toString() ) );
-								setCursor( elm );
 								if ( !( scripts.contains( script ) ) )
 								{
 									svg_g2d.addScript( "function callback" + Math.abs( script.hashCode( ) ) + "(evt,source,categoryData,valueData,valueSeriesName)" + "{" + script + "}" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -745,7 +754,8 @@ public class SVGInteractiveRenderer
 			Axis[] axaBase = cwaRT.getPrimaryBaseAxes( );
 			Axis axBase = axaBase[0];
 			Axis[] axaOrthogonal = cwaRT.getOrthogonalAxes( axBase, true );
-			EList elSD, elSE;
+			EList<SeriesDefinition> elSD;
+			EList<Series> elSE;
 			SeriesDefinition sd;
 			Series se = null;
 			int i = -1, j = 0, k = 0;
@@ -754,11 +764,11 @@ public class SVGInteractiveRenderer
 			elSD = axaBase[0].getSeriesDefinitions( );
 			for ( j = 0; j < elSD.size( ); j++ )
 			{
-				sd = (SeriesDefinition) elSD.get( j );
+				sd = elSD.get( j );
 				elSE = sd.getSeries( );
 				for ( k = 0; k < elSE.size( ); k++ )
 				{
-					se = (Series) elSE.get( k );
+					se = elSE.get( k );
 					if ( seRT == se )
 					{
 						bFound = true;
@@ -780,11 +790,11 @@ public class SVGInteractiveRenderer
 					elSD = axaOrthogonal[i].getSeriesDefinitions( );
 					for ( j = 0; j < elSD.size( ); j++ )
 					{
-						sd = (SeriesDefinition) elSD.get( j );
+						sd = elSD.get( j );
 						elSE = sd.getSeries( );
 						for ( k = 0; k < elSE.size( ); k++ )
 						{
-							se = (Series) elSE.get( k );
+							se = elSE.get( k );
 							if ( seRT == se )
 							{
 								bFound = true;
@@ -828,16 +838,17 @@ public class SVGInteractiveRenderer
 			{
 				elSD = axaOrthogonal[i].getSeriesDefinitions( );
 			}
-			sd = (SeriesDefinition) elSD.get( j );
+			sd = elSD.get( j );
 			elSE = sd.getSeries( );
-			seDT = (Series) elSE.get( k );
+			seDT = elSE.get( k );
 		}
 		else if ( cmDT instanceof ChartWithoutAxes )
 		{
 			final ChartWithoutAxes cwoaRT = (ChartWithoutAxes) cmRT;
 			final ChartWithoutAxes cwoaDT = (ChartWithoutAxes) cmDT;
 
-			EList elSD, elSE;
+			EList<SeriesDefinition> elSD;
+			EList<Series> elSE;
 			SeriesDefinition sd;
 			Series se = null;
 			int i = -1, j = 0, k = 0;
@@ -846,11 +857,11 @@ public class SVGInteractiveRenderer
 			elSD = cwoaRT.getSeriesDefinitions( );
 			for ( j = 0; j < elSD.size( ); j++ )
 			{
-				sd = (SeriesDefinition) elSD.get( j );
+				sd = elSD.get( j );
 				elSE = sd.getSeries( );
 				for ( k = 0; k < elSE.size( ); k++ )
 				{
-					se = (Series) elSE.get( k );
+					se = elSE.get( k );
 					if ( seRT == se )
 					{
 						bFound = true;
@@ -871,11 +882,11 @@ public class SVGInteractiveRenderer
 
 				for ( j = 0; j < elSD.size( ); j++ )
 				{
-					sd = (SeriesDefinition) elSD.get( j );
+					sd = elSD.get( j );
 					elSE = sd.getSeries( );
 					for ( k = 0; k < elSE.size( ); k++ )
 					{
-						se = (Series) elSE.get( k );
+						se = elSE.get( k );
 						if ( seRT == se )
 						{
 							bFound = true;
@@ -909,9 +920,9 @@ public class SVGInteractiveRenderer
 				elSD = ( (SeriesDefinition) cwoaDT.getSeriesDefinitions( )
 						.get( 0 ) ).getSeriesDefinitions( );
 			}
-			sd = (SeriesDefinition) elSD.get( j );
+			sd = elSD.get( j );
 			elSE = sd.getSeries( );
-			seDT = (Series) elSE.get( k );
+			seDT = elSE.get( k );
 		}
 
 		return seDT;
@@ -956,14 +967,9 @@ public class SVGInteractiveRenderer
 
 	}
 
-	protected void setCursor( Element currentElement )
+	protected void setCursor( Element currentElement, Cursor cursor, String defaultCursor )
 	{
-		String style = currentElement.getAttribute( "style" ); //$NON-NLS-1$
-		if ( style == null )
-		{
-			style = ""; //$NON-NLS-1$
-		}
-		currentElement.setAttribute( "style", style + "cursor:pointer;" ); //$NON-NLS-1$ //$NON-NLS-2$
+		setCursorAttribute( currentElement, cursor, defaultCursor );
 	}
 
 	public void clear( )
@@ -1030,7 +1036,7 @@ public class SVGInteractiveRenderer
 				}
 				groupIdentifier = String.valueOf( seDT.hashCode( ) );
 			}
-			List components = (List) componentPrimitives.get( seDT );
+			List<String> components = componentPrimitives.get( seDT );
 			//return the first element
 			if ((components != null) && (components.size()>0)){
 				return "'"+groupIdentifier+"_"+components.get(0)+"'";  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
@@ -1111,10 +1117,10 @@ public class SVGInteractiveRenderer
 
 				sb.append( ",new Array(" ); //$NON-NLS-1$
 
-				List labelComponents = (List) labelPrimitives.get( seDT );
-				List components = (List) componentPrimitives.get( seDT );
+				List<String> labelComponents = labelPrimitives.get( seDT );
+				List<String> components = componentPrimitives.get( seDT );
 
-				Iterator iter = null;
+				Iterator<String> iter = null;
 				// Apply action to graphics
 				if ( includeGraphics && components != null )
 				{
@@ -1142,7 +1148,6 @@ public class SVGInteractiveRenderer
 					elm.setAttribute( "onmouseout", //$NON-NLS-1$
 							jsFunction + sb.toString( ) + ")" ); //$NON-NLS-1$		
 				}
-				setCursor( elm );
 			}
 		}
 		else
@@ -1185,9 +1190,9 @@ public class SVGInteractiveRenderer
 					return;
 				}
 
-				List components = (List) componentPrimitives.get( designObject );
+				List<String> components = componentPrimitives.get( designObject );
 
-				Iterator iter = null;
+				Iterator<String> iter = null;
 				// Apply action to graphics
 				if ( components != null )
 				{
@@ -1209,14 +1214,13 @@ public class SVGInteractiveRenderer
 						elm.setAttribute( "onmouseout", //$NON-NLS-1$
 								jsFunction + sb.toString( ) + ")" ); //$NON-NLS-1$		
 					}
-					setCursor( elm );
 				}
 			}
 
 		}
 	}
 
-	private void appendArguments( StringBuffer sb, Iterator iter )
+	private void appendArguments( StringBuffer sb, Iterator<String> iter )
 	{
 		if ( iter != null )
 		{
@@ -1236,5 +1240,28 @@ public class SVGInteractiveRenderer
 			return js;
 		}
 		return "if ( evt.detail==2 ){" + js + "}";  //$NON-NLS-1$//$NON-NLS-2$
+	}
+	
+	private void setCursorAttribute( Element elm, Cursor cursor, String defaultValue )
+	{
+		String style = elm.getAttribute( "style" ); //$NON-NLS-1$
+		if ( style == null )
+		{
+			style = ""; //$NON-NLS-1$
+		}
+		
+		if ( cursor == null || cursor.getType( ) == CursorType.AUTO ) {
+			return;
+		}
+		
+		String value = style + CSSHelper.getCSSCursorValue( cursor );
+		if ( value == null )
+		{
+			elm.setAttribute( "style", style + defaultValue );//$NON-NLS-1$
+		}
+		else
+		{
+			elm.setAttribute( "style", style + value );//$NON-NLS-1$
+		}
 	}
 }

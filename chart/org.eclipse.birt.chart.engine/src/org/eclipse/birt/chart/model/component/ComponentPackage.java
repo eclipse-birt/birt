@@ -311,12 +311,21 @@ public interface ComponentPackage extends EPackage
 	int AXIS__SIDE_BY_SIDE = 27;
 
 	/**
+	 * The feature id for the '<em><b>Cursor</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AXIS__CURSOR = 28;
+
+	/**
 	 * The number of structural features of the '<em>Axis</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS_FEATURE_COUNT = 28;
+	int AXIS_FEATURE_COUNT = 29;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl <em>Chart Preferences</em>}' class.
@@ -636,12 +645,21 @@ public interface ComponentPackage extends EPackage
 	int MARKER_RANGE__TRIGGERS = 7;
 
 	/**
+	 * The feature id for the '<em><b>Cursor</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKER_RANGE__CURSOR = 8;
+
+	/**
 	 * The number of structural features of the '<em>Marker Range</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER_RANGE_FEATURE_COUNT = 8;
+	int MARKER_RANGE_FEATURE_COUNT = 9;
 
 	/**
 	 * The feature id for the '<em><b>Outline</b></em>' containment reference.
@@ -714,6 +732,15 @@ public interface ComponentPackage extends EPackage
 	 * @ordered
 	 */
 	int DIAL_REGION__TRIGGERS = MARKER_RANGE__TRIGGERS;
+
+	/**
+	 * The feature id for the '<em><b>Cursor</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_REGION__CURSOR = MARKER_RANGE__CURSOR;
 
 	/**
 	 * The feature id for the '<em><b>Inner Radius</b></em>' attribute.
@@ -974,12 +1001,21 @@ public interface ComponentPackage extends EPackage
 	int MARKER_LINE__TRIGGERS = 5;
 
 	/**
+	 * The feature id for the '<em><b>Cursor</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKER_LINE__CURSOR = 6;
+
+	/**
 	 * The number of structural features of the '<em>Marker Line</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER_LINE_FEATURE_COUNT = 6;
+	int MARKER_LINE_FEATURE_COUNT = 7;
 
 	/**
 	 * The feature id for the '<em><b>Line Attributes</b></em>' containment reference.
@@ -1197,12 +1233,21 @@ public interface ComponentPackage extends EPackage
 	int SERIES__CURVE_FITTING = 10;
 
 	/**
+	 * The feature id for the '<em><b>Cursor</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERIES__CURSOR = 11;
+
+	/**
 	 * The number of structural features of the '<em>Series</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SERIES_FEATURE_COUNT = 11;
+	int SERIES_FEATURE_COUNT = 12;
 
 	/**
 	 * Returns the meta object for class '
@@ -1500,6 +1545,17 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 */
 	EAttribute getAxis_SideBySide( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Axis#getCursor <em>Cursor</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Cursor</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Axis#getCursor()
+	 * @see #getAxis()
+	 * @generated
+	 */
+	EReference getAxis_Cursor( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.component.ChartPreferences <em>Chart Preferences</em>}'.
@@ -1959,6 +2015,17 @@ public interface ComponentPackage extends EPackage
 	EReference getMarkerLine_Triggers( );
 
 	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.MarkerLine#getCursor <em>Cursor</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Cursor</em>'.
+	 * @see org.eclipse.birt.chart.model.component.MarkerLine#getCursor()
+	 * @see #getMarkerLine()
+	 * @generated
+	 */
+	EReference getMarkerLine_Cursor( );
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.component.MarkerRange <em>Marker Range</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Marker Range</em>'.
@@ -2047,6 +2114,17 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 */
 	EReference getMarkerRange_Triggers( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.MarkerRange#getCursor <em>Cursor</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Cursor</em>'.
+	 * @see org.eclipse.birt.chart.model.component.MarkerRange#getCursor()
+	 * @see #getMarkerRange()
+	 * @generated
+	 */
+	EReference getMarkerRange_Cursor( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.component.Needle <em>Needle</em>}'.
@@ -2314,6 +2392,17 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 */
 	EReference getSeries_CurveFitting( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Series#getCursor <em>Cursor</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Cursor</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Series#getCursor()
+	 * @see #getSeries()
+	 * @generated
+	 */
+	EReference getSeries_Cursor( );
 
 	/**
 	 * Returns the meta object for class '{@link java.util.Map.Entry <em>EString To Data Set Map Entry</em>}'.
@@ -2609,6 +2698,14 @@ public interface ComponentPackage extends EPackage
 		 * @generated
 		 */
 		EAttribute AXIS__SIDE_BY_SIDE = eINSTANCE.getAxis_SideBySide( );
+
+		/**
+		 * The meta object literal for the '<em><b>Cursor</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference AXIS__CURSOR = eINSTANCE.getAxis_Cursor( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl <em>Chart Preferences</em>}' class.
@@ -2977,6 +3074,14 @@ public interface ComponentPackage extends EPackage
 		EReference MARKER_LINE__TRIGGERS = eINSTANCE.getMarkerLine_Triggers( );
 
 		/**
+		 * The meta object literal for the '<em><b>Cursor</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MARKER_LINE__CURSOR = eINSTANCE.getMarkerLine_Cursor( );
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl <em>Marker Range</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3049,6 +3154,14 @@ public interface ComponentPackage extends EPackage
 		 * @generated
 		 */
 		EReference MARKER_RANGE__TRIGGERS = eINSTANCE.getMarkerRange_Triggers( );
+
+		/**
+		 * The meta object literal for the '<em><b>Cursor</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MARKER_RANGE__CURSOR = eINSTANCE.getMarkerRange_Cursor( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.NeedleImpl <em>Needle</em>}' class.
@@ -3263,6 +3376,14 @@ public interface ComponentPackage extends EPackage
 		 * @generated
 		 */
 		EReference SERIES__CURVE_FITTING = eINSTANCE.getSeries_CurveFitting( );
+
+		/**
+		 * The meta object literal for the '<em><b>Cursor</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERIES__CURSOR = eINSTANCE.getSeries_Cursor( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.EStringToDataSetMapEntryImpl <em>EString To Data Set Map Entry</em>}' class.

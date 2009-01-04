@@ -268,114 +268,138 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="Children" type="Block" maxOccurs="unbounded">
+			<xsd:element name="Children" type="Block"
+				maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the block's children.
+						Specifies the block's children.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Bounds" type="attribute:Bounds" minOccurs="0">
+			<xsd:element name="Bounds" type="attribute:Bounds"
+				minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Defines the position and size of the block. (These will usually be relative to the top left corner of the container block.
+						Defines the position and size of the block.
+						(These will usually be relative to the top left
+						corner of the container block.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Anchor" type="attribute:Anchor" minOccurs="0">
+			<xsd:element name="Anchor" type="attribute:Anchor"
+				minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies where the content of the block is anchored.
+						Specifies where the content of the block is
+						anchored.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Stretch" type="attribute:Stretch" minOccurs="0">
+			<xsd:element name="Stretch" type="attribute:Stretch"
+				minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies how the content of the block fills up available space.
+						Specifies how the content of the block fills up
+						available space.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Insets" type="attribute:Insets" minOccurs="0">
+			<xsd:element name="Insets" type="attribute:Insets"
+				minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Defines the insets to be used for this block's contents.
+						Defines the insets to be used for this block's
+						contents.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Row" type="xsd:int">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Defines the row index for the block.
+						Defines the row index for the block.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Column" type="xsd:int">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Defines the column index for the block.
+						Defines the column index for the block.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Rowspan" type="xsd:int">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Defines the rowspan value for the block.
+						Defines the rowspan value for the block.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Columnspan" type="xsd:int">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Defines the columnspan value for the block.
+						Defines the columnspan value for the block.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="MinSize" type="attribute:Size">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Defines the minimum size for the block.
+						Defines the minimum size for the block.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Outline" type="attribute:LineAttributes">
+			<xsd:element name="Outline"
+				type="attribute:LineAttributes">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Defines the outline for the chart element.
+						Defines the outline for the chart element.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Background" type="attribute:Fill" minOccurs="0">
+			<xsd:element name="Background" type="attribute:Fill"
+				minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Background for the Block...Can be transparent, a solid color, a gradient OR image
+						Background for the Block...Can be transparent, a
+						solid color, a gradient OR image
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Visible" type="xsd:boolean">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies whether the block is visible.
+						Specifies whether the block is visible.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Triggers" type="data:Trigger" minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="Triggers" type="data:Trigger"
+				minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Holds the actions for the block.
+						Holds the actions for the block.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="WidthHint" type="xsd:double" default="-1" minOccurs="0">
+			<xsd:element name="WidthHint" type="xsd:double" default="-1"
+				minOccurs="0">
 				<xsd:annotation>
-					<xsd:documentation>Specifies a hinted width for the block.</xsd:documentation>
+					<xsd:documentation>
+						Specifies a hinted width for the block.
+					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="HeightHint" type="xsd:double" default="-1" minOccurs="0">
+			<xsd:element name="HeightHint" type="xsd:double"
+				default="-1" minOccurs="0">
 				<xsd:annotation>
-					<xsd:documentation>Specifies a hinted height for the block.</xsd:documentation>
+					<xsd:documentation>
+						Specifies a hinted height for the block.
+					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element name="Cursor" type="attribute:Cursor" maxOccurs="1" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>The element represents cursor for the block.</xsd:documentation>
+				</xsd:annotation></xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ClientArea">

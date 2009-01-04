@@ -89,6 +89,15 @@ public interface AttributeFactory extends EFactory
 	ColorDefinition createColorDefinition( );
 
 	/**
+	 * Returns a new object of class '<em>Cursor</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Cursor</em>'.
+	 * @generated
+	 */
+	Cursor createCursor( );
+
+	/**
 	 * Returns a new object of class '<em>Data Point</em>'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return a new object of class '<em>Data Point</em>'.

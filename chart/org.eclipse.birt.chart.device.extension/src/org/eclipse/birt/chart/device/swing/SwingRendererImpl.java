@@ -98,12 +98,12 @@ public class SwingRendererImpl extends DeviceAdapter
 	/**
 	 * KEY = TRIGGER_CONDITION VAL = COLLECTION OF SHAPE-ACTION INSTANCES
 	 */
-	private final Map _lhmAllTriggers = new HashMap( );
+	private final Map<TriggerCondition, List<ShapedAction>> _lhmAllTriggers = new HashMap<TriggerCondition, List<ShapedAction>>( );
 	/**
 	 * key = ShapeAction, val = collection of trigger conditions
 	 */
-	private final List _allShapes = new LinkedList( );
-	private final Map _htLineStyles = new HashMap( );
+	private final List<ShapedAction> _allShapes = new LinkedList<ShapedAction>( );
+	private final Map<LineAttributes, Stroke> _htLineStyles = new HashMap<LineAttributes, Stroke>( );
 
 	protected Graphics2D _g2d;
 
@@ -1638,10 +1638,10 @@ public class SwingRendererImpl extends DeviceAdapter
 			tc = tga[i].getCondition( );
 			ac = tga[i].getAction( );
 			sa.add( tc, ac );
-			List al = (List) _lhmAllTriggers.get( tc );
+			List<ShapedAction> al = _lhmAllTriggers.get( tc );
 			if ( al == null )
 			{
-				al = new ArrayList( 4 ); // UNDER NORMAL CONDITIONS
+				al = new ArrayList<ShapedAction>( 4 ); // UNDER NORMAL CONDITIONS
 				_lhmAllTriggers.put( tc, al );
 			}
 			al.add( sa );
@@ -1671,7 +1671,8 @@ public class SwingRendererImpl extends DeviceAdapter
 
 		// Get the shape Action for the event
 		ShapedAction sa = getShapedAction( iev );
-
+		sa.setCursor( iev.getCursor( ) );
+		
 		if ( sa != null )
 		{
 			// Register the triggers in the shape and renderer.
@@ -2069,12 +2070,12 @@ public class SwingRendererImpl extends DeviceAdapter
 	 * 
 	 * @return
 	 */
-	protected Map getTriggers( )
+	protected Map<TriggerCondition, List<ShapedAction>> getTriggers( )
 	{
 		return _lhmAllTriggers;
 	}
 
-	protected List getShapeActions( )
+	protected List<ShapedAction> getShapeActions( )
 	{
 		return _allShapes;
 	}
@@ -2125,16 +2126,16 @@ public class SwingRendererImpl extends DeviceAdapter
 		( (SwingDisplayServer) _ids ).getImageCache( ).flush( );
 	}
 
-	private static Set sLocalFontFamilyNamesSet = new HashSet( );
+	private static Set<String> sLocalFontFamilyNamesSet = new HashSet<String>( );
 
 	static
 	{
 		String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment( )
 				.getAvailableFontFamilyNames( );
-		sLocalFontFamilyNamesSet = new HashSet( Arrays.asList( fonts ) );
+		sLocalFontFamilyNamesSet = new HashSet<String>( Arrays.asList( fonts ) );
 	}
 
-	private static Map<String, String> sLogicFontNameMap = new HashMap( );
+	private static Map<String, String> sLogicFontNameMap = new HashMap<String, String>( );
 
 	static
 	{

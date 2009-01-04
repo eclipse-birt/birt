@@ -11,6 +11,11 @@
 
 package org.eclipse.birt.chart.device.swt;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -27,11 +32,13 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.CallBackValue;
+import org.eclipse.birt.chart.model.attribute.CursorType;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.render.InteractiveRenderer;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
@@ -43,6 +50,7 @@ import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -65,7 +73,7 @@ class SwtEventHandler
 
 	private final Cursor hand_cursor;
 
-	private final LinkedHashMap lhmAllTriggers;
+	private final LinkedHashMap<TriggerCondition, List<RegionAction>> lhmAllTriggers;
 
 	private final IUpdateNotifier iun;
 
@@ -92,7 +100,7 @@ class SwtEventHandler
 	 * @param _jc
 	 * @param _lcl
 	 */
-	SwtEventHandler(InteractiveRenderer iv, LinkedHashMap _lhmAllTriggers, IUpdateNotifier _jc,
+	SwtEventHandler(InteractiveRenderer iv, LinkedHashMap<TriggerCondition, List<RegionAction>>  _lhmAllTriggers, IUpdateNotifier _jc,
 			ULocale _lcl )
 	{
 
@@ -105,18 +113,18 @@ class SwtEventHandler
 		
 	}
 
-	private final List getActionsForConditions( TriggerCondition[] tca )
+	private final List<RegionAction> getActionsForConditions( TriggerCondition[] tca )
 	{
 		if ( tca == null || tca.length == 0 )
 		{
 			return null;
 		}
 
-		ArrayList al = new ArrayList( );
+		List<RegionAction> al = new ArrayList<RegionAction>( );
 
 		for ( int i = 0; i < tca.length; i++ )
 		{
-			ArrayList tal = (ArrayList) lhmAllTriggers.get( tca[i] );
+			List<RegionAction> tal = lhmAllTriggers.get( tca[i] );
 
 			if ( tal != null )
 			{
@@ -142,14 +150,10 @@ class SwtEventHandler
 		handleAction( tgArray, event, true );
 	}
 	
-
-	
-
-
 	private synchronized void handleAction( TriggerCondition[] tgArray, Object event,
 			boolean cleanState )
 	{
-		List al = getActionsForConditions( tgArray );
+		List<RegionAction> al = getActionsForConditions( tgArray );
 		
 		if ( al == null || event == null )
 		{
@@ -176,7 +180,7 @@ class SwtEventHandler
 		// POLL EACH EVENT REGISTERED
 		LOOP: for ( int i = 0; i < al.size( ); i++ )
 		{
-			ra = (RegionAction) al.get( i );
+			ra = al.get( i );
 			if ( p == null || ra.contains( p, _gc ) )
 			{
 				ac = ra.getAction( );
@@ -268,20 +272,20 @@ class SwtEventHandler
 
 
 
-	protected Set getActionTypesForConditions( TriggerCondition[] tca )
+	protected Set<ActionType> getActionTypesForConditions( TriggerCondition[] tca )
 	{
 		if ( tca == null || tca.length == 0 )
 		{
 			return null;
 		}
-		Set set = new HashSet( );
+		Set<ActionType> set = new HashSet<ActionType>( );
 		
 		for ( int i = 0; i < tca.length; i++ )
 		{
-			List tal = (List) lhmAllTriggers.get( tca[i] );
+			List<RegionAction> tal = lhmAllTriggers.get( tca[i] );
 			if ( tal == null )
 				continue;
-			for ( Iterator iter = tal.iterator( ); iter.hasNext( ); )
+			for ( Iterator<RegionAction> iter = tal.iterator( ); iter.hasNext( ); )
 			{
 				RegionAction rg = (RegionAction) iter.next( );
 				ActionType actionType = rg.getAction( ).getType( );
@@ -294,12 +298,12 @@ class SwtEventHandler
 
 	// if the event was fired without new action disable the previous action
 	
-	private void disableActions( Set actions  )
+	private void disableActions( Set<ActionType> actions  )
 	{
 		if ( actions == null )
 			return;
 		
-		for ( Iterator iter = actions.iterator( ); iter.hasNext( ); )
+		for ( Iterator<ActionType> iter = actions.iterator( ); iter.hasNext( ); )
 		{
 			ActionType action = (ActionType)iter.next();
 			if ( action == null )
@@ -458,10 +462,12 @@ class SwtEventHandler
 	public void mouseMove( MouseEvent e )
 	{
 		// 1. CHECK FOR MOUSE-CLICK TRIGGERS
-		List al = getActionsForConditions( new TriggerCondition[]{
+		List<RegionAction> al = getActionsForConditions( new TriggerCondition[]{
 			TriggerCondition.ONCLICK_LITERAL,
 			TriggerCondition.ONMOUSEDOWN_LITERAL,
-			TriggerCondition.MOUSE_CLICK_LITERAL
+			TriggerCondition.MOUSE_CLICK_LITERAL,
+			TriggerCondition.ONMOUSEMOVE_LITERAL,
+			TriggerCondition.ONMOUSEOVER_LITERAL
 		} );
 
 		if ( al != null )
@@ -472,10 +478,10 @@ class SwtEventHandler
 			boolean bFound = false;
 			for ( int i = 0; i < al.size( ); i++ )
 			{
-				ra = (RegionAction) al.get( i );
+				ra = al.get( i );
 				if ( ra.contains( e.x, e.y, _gc ) )
 				{
-					( (Composite) iun.peerInstance( ) ).setCursor( hand_cursor );
+					setCursor( (Composite) iun.peerInstance( ), ra.getCursor( ), hand_cursor ) ;
 					bFound = true;
 					break;
 				}
@@ -483,7 +489,7 @@ class SwtEventHandler
 
 			if ( !bFound )
 			{
-				( (Composite) iun.peerInstance( ) ).setCursor( null );
+				setCursor( (Composite) iun.peerInstance( ), null, null );
 			}
 		}
 
@@ -495,9 +501,6 @@ class SwtEventHandler
 
 		if ( tgArray != null )
 			handleAction( tgArray, e, false );
-
-		
-		
 	}
 
 
@@ -598,10 +601,51 @@ class SwtEventHandler
 		( (Composite) iun.peerInstance( ) ).setToolTipText( s );
 	}
 
+	private void setCursor( Composite composite, org.eclipse.birt.chart.model.attribute.Cursor cursor, Cursor defaultCursor )
+	{
+		if ( cursor == null || cursor.getType( ) == CursorType.AUTO )
+		{
+			composite.setCursor( defaultCursor );
+			return;
+		}
+		else if ( cursor.getType( ) == CursorType.CUSTOM )
+		{
+			// Find the first valid image as custom cursor.
+			EList<String> uris = cursor.getURI( );
+			for ( String uri : uris )
+			{
+				try
+				{
+					File f = new File( new URI( uri ) );
+					ImageData id;
+				
+					id = new ImageData( new FileInputStream( f ) );
+					composite.setCursor( new Cursor( composite.getDisplay( ),
+							id,
+							0,
+							0 ) );
+					return;
+				}
+				catch ( FileNotFoundException e )
+				{
+					// Do not process exception here.
+				}
+				catch ( URISyntaxException e )
+				{
+					// Do not process exception here.
+				}
+			}
+
+			// No valid image is found, set default cursor.
+			composite.setCursor( defaultCursor );
+			return;
+		}
+		
+		composite.setCursor( new Cursor( Display.getDefault( ), SwtUtil.CURSOR_MAP.get( cursor.getType( ) ).intValue( ) ) );
+	}
+	
 	public final void dispose( )
 	{
-	
-
 		hand_cursor.dispose( );
 		_gc.dispose( );
 	}

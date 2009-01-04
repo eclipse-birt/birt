@@ -214,12 +214,21 @@ public interface LayoutPackage extends EPackage
 	int BLOCK__HEIGHT_HINT = 15;
 
 	/**
+	 * The feature id for the '<em><b>Cursor</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BLOCK__CURSOR = 16;
+
+	/**
 	 * The number of structural features of the '<em>Block</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BLOCK_FEATURE_COUNT = 16;
+	int BLOCK_FEATURE_COUNT = 17;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl <em>Client Area</em>}' class.
@@ -426,6 +435,15 @@ public interface LayoutPackage extends EPackage
 	int LABEL_BLOCK__HEIGHT_HINT = BLOCK__HEIGHT_HINT;
 
 	/**
+	 * The feature id for the '<em><b>Cursor</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_BLOCK__CURSOR = BLOCK__CURSOR;
+
+	/**
 	 * The feature id for the '<em><b>Label</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -586,6 +604,15 @@ public interface LayoutPackage extends EPackage
 	 * @ordered
 	 */
 	int LEGEND__HEIGHT_HINT = BLOCK__HEIGHT_HINT;
+
+	/**
+	 * The feature id for the '<em><b>Cursor</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LEGEND__CURSOR = BLOCK__CURSOR;
 
 	/**
 	 * The feature id for the '<em><b>Horizontal Spacing</b></em>' attribute.
@@ -908,6 +935,15 @@ public interface LayoutPackage extends EPackage
 	int PLOT__HEIGHT_HINT = BLOCK__HEIGHT_HINT;
 
 	/**
+	 * The feature id for the '<em><b>Cursor</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PLOT__CURSOR = BLOCK__CURSOR;
+
+	/**
 	 * The feature id for the '<em><b>Horizontal Spacing</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -1084,6 +1120,15 @@ public interface LayoutPackage extends EPackage
 	 * @ordered
 	 */
 	int TITLE_BLOCK__HEIGHT_HINT = LABEL_BLOCK__HEIGHT_HINT;
+
+	/**
+	 * The feature id for the '<em><b>Cursor</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TITLE_BLOCK__CURSOR = LABEL_BLOCK__CURSOR;
 
 	/**
 	 * The feature id for the '<em><b>Label</b></em>' containment reference.
@@ -1311,6 +1356,17 @@ public interface LayoutPackage extends EPackage
 	 * @generated
 	 */
 	EAttribute getBlock_HeightHint( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.Block#getCursor <em>Cursor</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Cursor</em>'.
+	 * @see org.eclipse.birt.chart.model.layout.Block#getCursor()
+	 * @see #getBlock()
+	 * @generated
+	 */
+	EReference getBlock_Cursor( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.layout.ClientArea <em>Client Area</em>}'.
@@ -1857,6 +1913,14 @@ public interface LayoutPackage extends EPackage
 		 * @generated
 		 */
 		EAttribute BLOCK__HEIGHT_HINT = eINSTANCE.getBlock_HeightHint( );
+
+		/**
+		 * The meta object literal for the '<em><b>Cursor</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BLOCK__CURSOR = eINSTANCE.getBlock_Cursor( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl <em>Client Area</em>}' class.

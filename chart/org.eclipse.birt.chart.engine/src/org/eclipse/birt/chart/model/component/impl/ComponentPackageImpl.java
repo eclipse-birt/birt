@@ -498,6 +498,16 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAxis_Cursor( )
+	{
+		return (EReference) axisEClass.getEStructuralFeatures( ).get( 28 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -917,6 +927,16 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMarkerLine_Cursor( )
+	{
+		return (EReference) markerLineEClass.getEStructuralFeatures( ).get( 6 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -996,6 +1016,16 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	public EReference getMarkerRange_Triggers( )
 	{
 		return (EReference) markerRangeEClass.getEStructuralFeatures( ).get( 7 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMarkerRange_Cursor( )
+	{
+		return (EReference) markerRangeEClass.getEStructuralFeatures( ).get( 8 );
 	}
 
 	/**
@@ -1246,6 +1276,16 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getSeries_Cursor( )
+	{
+		return (EReference) seriesEClass.getEStructuralFeatures( ).get( 11 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getEStringToDataSetMapEntry( )
 	{
 		return eStringToDataSetMapEntryEClass;
@@ -1331,6 +1371,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		createEAttribute( axisEClass, AXIS__LABEL_WITHIN_AXES );
 		createEAttribute( axisEClass, AXIS__ALIGNED );
 		createEAttribute( axisEClass, AXIS__SIDE_BY_SIDE );
+		createEReference( axisEClass, AXIS__CURSOR );
 
 		chartPreferencesEClass = createEClass( CHART_PREFERENCES );
 		createEReference( chartPreferencesEClass, CHART_PREFERENCES__LABELS );
@@ -1388,6 +1429,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		createEAttribute( markerLineEClass, MARKER_LINE__LABEL_ANCHOR );
 		createEReference( markerLineEClass, MARKER_LINE__FORMAT_SPECIFIER );
 		createEReference( markerLineEClass, MARKER_LINE__TRIGGERS );
+		createEReference( markerLineEClass, MARKER_LINE__CURSOR );
 
 		markerRangeEClass = createEClass( MARKER_RANGE );
 		createEReference( markerRangeEClass, MARKER_RANGE__OUTLINE );
@@ -1398,6 +1440,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		createEAttribute( markerRangeEClass, MARKER_RANGE__LABEL_ANCHOR );
 		createEReference( markerRangeEClass, MARKER_RANGE__FORMAT_SPECIFIER );
 		createEReference( markerRangeEClass, MARKER_RANGE__TRIGGERS );
+		createEReference( markerRangeEClass, MARKER_RANGE__CURSOR );
 
 		needleEClass = createEClass( NEEDLE );
 		createEReference( needleEClass, NEEDLE__LINE_ATTRIBUTES );
@@ -1427,6 +1470,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		createEReference( seriesEClass, SERIES__TRIGGERS );
 		createEAttribute( seriesEClass, SERIES__TRANSLUCENT );
 		createEReference( seriesEClass, SERIES__CURVE_FITTING );
+		createEReference( seriesEClass, SERIES__CURSOR );
 	}
 
 	/**
@@ -1569,6 +1613,10 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		initEAttribute( getAxis_SideBySide( ),
 				theXMLTypePackage.getBoolean( ),
 				"sideBySide", "false", 1, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+		initEReference( getAxis_Cursor( ),
+				theAttributePackage.getCursor( ),
+				null,
+				"cursor", null, 0, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( chartPreferencesEClass,
 				ChartPreferences.class,
@@ -1743,6 +1791,10 @@ public class ComponentPackageImpl extends EPackageImpl implements
 				theDataPackage.getTrigger( ),
 				null,
 				"triggers", null, 0, -1, MarkerLine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getMarkerLine_Cursor( ),
+				theAttributePackage.getCursor( ),
+				null,
+				"cursor", null, 0, 1, MarkerLine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( markerRangeEClass,
 				MarkerRange.class,
@@ -1778,6 +1830,10 @@ public class ComponentPackageImpl extends EPackageImpl implements
 				theDataPackage.getTrigger( ),
 				null,
 				"triggers", null, 0, -1, MarkerRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getMarkerRange_Cursor( ),
+				theAttributePackage.getCursor( ),
+				null,
+				"cursor", null, 0, 1, MarkerRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( needleEClass,
 				Needle.class,
@@ -1868,6 +1924,10 @@ public class ComponentPackageImpl extends EPackageImpl implements
 				this.getCurveFitting( ),
 				null,
 				"curveFitting", null, 0, 1, Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getSeries_Cursor( ),
+				theAttributePackage.getCursor( ),
+				null,
+				"cursor", null, 0, 1, Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		// Create resource
 		createResource( eNS_URI );
@@ -2002,6 +2062,10 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		addAnnotation( getAxis_SideBySide( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "SideBySide" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getAxis_Cursor( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Cursor" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( chartPreferencesEClass, source, new String[]{
 				"name", "ChartPreferences", //$NON-NLS-1$ //$NON-NLS-2$
@@ -2195,6 +2259,10 @@ public class ComponentPackageImpl extends EPackageImpl implements
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Triggers" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
+		addAnnotation( getMarkerLine_Cursor( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Cursor" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( markerRangeEClass, source, new String[]{
 				"name", "MarkerRange", //$NON-NLS-1$ //$NON-NLS-2$
 				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
@@ -2230,6 +2298,10 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		addAnnotation( getMarkerRange_Triggers( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Triggers" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getMarkerRange_Cursor( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Cursor" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( needleEClass, source, new String[]{
 				"name", "Needle", //$NON-NLS-1$ //$NON-NLS-2$
@@ -2334,6 +2406,10 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		addAnnotation( getSeries_CurveFitting( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "CurveFitting" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getSeries_Cursor( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Cursor" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 	}
 

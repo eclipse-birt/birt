@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.model.component;
 
 import org.eclipse.birt.chart.model.attribute.Anchor;
+import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -266,7 +267,7 @@ public interface MarkerRange extends EObject
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 					Holds the triggers for the marker range.
+	 * 						Holds the triggers for the marker range.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Triggers</em>' containment reference list.
@@ -276,5 +277,31 @@ public interface MarkerRange extends EObject
 	 * @generated
 	 */
 	EList<Trigger> getTriggers( );
+
+	/**
+	 * Returns the value of the '<em><b>Cursor</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The element represents a cursor for marker range.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Cursor</em>' containment reference.
+	 * @see #setCursor(Cursor)
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerRange_Cursor()
+	 * @model containment="true"
+	 *        extendedMetaData="kind='element' name='Cursor'"
+	 * @generated
+	 */
+	Cursor getCursor( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerRange#getCursor <em>Cursor</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Cursor</em>' containment reference.
+	 * @see #getCursor()
+	 * @generated
+	 */
+	void setCursor( Cursor value );
 
 } // MarkerRange

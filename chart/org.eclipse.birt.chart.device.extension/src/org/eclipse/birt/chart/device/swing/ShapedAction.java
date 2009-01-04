@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.data.Action;
@@ -36,9 +37,10 @@ public final class ShapedAction
 
 	private final Shape _sh;
 
-	private final Map _triggers = new HashMap();
+	private final Map<TriggerCondition, Action> _triggers = new HashMap<TriggerCondition, Action>();
 
-
+	private Cursor cursor;
+	
 	/**
 	 * This constructor supports polygon shapes Future shapes (and corresponding
 	 * constructors) will be added later
@@ -168,5 +170,25 @@ public final class ShapedAction
 	{
 		_triggers.put( tc, ac );
 		
+	}
+
+	/**
+	 * Returns cursor.
+	 * 
+	 * @return
+	 */
+	public Cursor getCursor( )
+	{
+		return cursor;
+	}
+	
+	/**
+	 * Sets cursor.
+	 * 
+	 * @param cursor
+	 */
+	public void setCursor( Cursor cursor )
+	{
+		this.cursor = cursor;
 	}
 }

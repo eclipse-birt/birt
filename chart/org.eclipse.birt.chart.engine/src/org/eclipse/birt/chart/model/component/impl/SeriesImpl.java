@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.model.component.impl;
 
 import java.util.Collection;
 
+import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.Chart;
@@ -61,6 +62,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getTriggers <em>Triggers</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#isTranslucent <em>Translucent</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getCurveFitting <em>Curve Fitting</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getCursor <em>Cursor</em>}</li>
  * </ul>
  * </p>
  *
@@ -252,6 +254,16 @@ public class SeriesImpl extends EObjectImpl implements Series
 	 * @ordered
 	 */
 	protected CurveFitting curveFitting;
+
+	/**
+	 * The cached value of the '{@link #getCursor() <em>Cursor</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCursor()
+	 * @generated
+	 * @ordered
+	 */
+	protected Cursor cursor;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -810,6 +822,75 @@ public class SeriesImpl extends EObjectImpl implements Series
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Cursor getCursor( )
+	{
+		return cursor;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetCursor( Cursor newCursor,
+			NotificationChain msgs )
+	{
+		Cursor oldCursor = cursor;
+		cursor = newCursor;
+		if ( eNotificationRequired( ) )
+		{
+			ENotificationImpl notification = new ENotificationImpl( this,
+					Notification.SET,
+					ComponentPackage.SERIES__CURSOR,
+					oldCursor,
+					newCursor );
+			if ( msgs == null )
+				msgs = notification;
+			else
+				msgs.add( notification );
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCursor( Cursor newCursor )
+	{
+		if ( newCursor != cursor )
+		{
+			NotificationChain msgs = null;
+			if ( cursor != null )
+				msgs = ( (InternalEObject) cursor ).eInverseRemove( this,
+						EOPPOSITE_FEATURE_BASE
+								- ComponentPackage.SERIES__CURSOR,
+						null,
+						msgs );
+			if ( newCursor != null )
+				msgs = ( (InternalEObject) newCursor ).eInverseAdd( this,
+						EOPPOSITE_FEATURE_BASE
+								- ComponentPackage.SERIES__CURSOR,
+						null,
+						msgs );
+			msgs = basicSetCursor( newCursor, msgs );
+			if ( msgs != null )
+				msgs.dispatch( );
+		}
+		else if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					ComponentPackage.SERIES__CURSOR,
+					newCursor,
+					newCursor ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
@@ -831,6 +912,8 @@ public class SeriesImpl extends EObjectImpl implements Series
 						msgs );
 			case ComponentPackage.SERIES__CURVE_FITTING :
 				return basicSetCurveFitting( null, msgs );
+			case ComponentPackage.SERIES__CURSOR :
+				return basicSetCursor( null, msgs );
 		}
 		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
@@ -870,6 +953,8 @@ public class SeriesImpl extends EObjectImpl implements Series
 				return isTranslucent( ) ? Boolean.TRUE : Boolean.FALSE;
 			case ComponentPackage.SERIES__CURVE_FITTING :
 				return getCurveFitting( );
+			case ComponentPackage.SERIES__CURSOR :
+				return getCursor( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -920,6 +1005,9 @@ public class SeriesImpl extends EObjectImpl implements Series
 			case ComponentPackage.SERIES__CURVE_FITTING :
 				setCurveFitting( (CurveFitting) newValue );
 				return;
+			case ComponentPackage.SERIES__CURSOR :
+				setCursor( (Cursor) newValue );
+				return;
 		}
 		super.eSet( featureID, newValue );
 	}
@@ -967,6 +1055,9 @@ public class SeriesImpl extends EObjectImpl implements Series
 			case ComponentPackage.SERIES__CURVE_FITTING :
 				setCurveFitting( (CurveFitting) null );
 				return;
+			case ComponentPackage.SERIES__CURSOR :
+				setCursor( (Cursor) null );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -1004,6 +1095,8 @@ public class SeriesImpl extends EObjectImpl implements Series
 				return isSetTranslucent( );
 			case ComponentPackage.SERIES__CURVE_FITTING :
 				return curveFitting != null;
+			case ComponentPackage.SERIES__CURSOR :
+				return cursor != null;
 		}
 		return super.eIsSet( featureID );
 	}

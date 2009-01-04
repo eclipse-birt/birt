@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.component;
 
+import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.Position;
@@ -46,6 +47,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.component.Series#getTriggers <em>Triggers</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Series#isTranslucent <em>Translucent</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Series#getCurveFitting <em>Curve Fitting</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Series#getCursor <em>Cursor</em>}</li>
  * </ul>
  * </p>
  *
@@ -435,6 +437,32 @@ public interface Series extends EObject
 	 * @generated
 	 */
 	void setCurveFitting( CurveFitting value );
+
+	/**
+	 * Returns the value of the '<em><b>Cursor</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The element represents cursor for series area.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Cursor</em>' containment reference.
+	 * @see #setCursor(Cursor)
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getSeries_Cursor()
+	 * @model containment="true"
+	 *        extendedMetaData="kind='element' name='Cursor'"
+	 * @generated
+	 */
+	Cursor getCursor( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Series#getCursor <em>Cursor</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Cursor</em>' containment reference.
+	 * @see #getCursor()
+	 * @generated
+	 */
+	void setCursor( Cursor value );
 
 	/**
 	 * Indicates if this series type may be rendered stacked with other series

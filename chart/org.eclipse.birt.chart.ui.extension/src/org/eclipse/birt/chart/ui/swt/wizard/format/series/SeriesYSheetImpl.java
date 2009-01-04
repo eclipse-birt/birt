@@ -313,6 +313,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 					getContext( ),
 					getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
 							.getTriggers( ),
+					getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ),							
 					TriggerSupportMatrix.TYPE_DATAPOINT,
 					true,
 					false );

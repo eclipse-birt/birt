@@ -227,23 +227,31 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Aligned" type="xsd:boolean" default="false">
+			<xsd:element name="Aligned" type="xsd:boolean"
+				default="false">
 				<xsd:annotation>
 					<xsd:documentation>
-						Specifies whether the zero point of this axis is to be 
-						aligned with other axes whose "Aligned" is true.
+						Specifies whether the zero point of this axis is
+						to be aligned with other axes whose "Aligned" is
+						true.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="SideBySide" type="xsd:boolean" default="false">
+			<xsd:element name="SideBySide" type="xsd:boolean"
+				default="false">
 				<xsd:annotation>
 					<xsd:documentation>
-						Specifies whether the data points of this axis is to be 
-						placed side by side instead of overlayed with those
-						of other axes whose "SideBySide" is true.
+						Specifies whether the data points of this axis
+						is to be placed side by side instead of
+						overlayed with those of other axes whose
+						"SideBySide" is true.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element name="Cursor" type="attribute:Cursor" maxOccurs="1" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>The element represents a cursor for axis area.</xsd:documentation>
+				</xsd:annotation></xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="Series">
@@ -253,81 +261,104 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="Visible" type="xsd:boolean" default="true" minOccurs="0">
+			<xsd:element name="Visible" type="xsd:boolean"
+				default="true" minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Determines visibility of the series.
+						Determines visibility of the series.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Label" type="Label">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Holds the properties for the Series data points.
+						Holds the properties for the Series data points.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="DataDefinition" type="data:Query" maxOccurs="unbounded">
+			<xsd:element name="DataDefinition" type="data:Query"
+				maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Defines the source of the data for the series. (e.g. Database field which will provide the values for the series). 
+						Defines the source of the data for the series.
+						(e.g. Database field which will provide the
+						values for the series).
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="SeriesIdentifier" type="xsd:anySimpleType">
+			<xsd:element name="SeriesIdentifier"
+				type="xsd:anySimpleType">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies an identifier to link the series with its definition at runtime. 
+						Specifies an identifier to link the series with
+						its definition at runtime.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="DataPoint" type="attribute:DataPoint">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies what (and how) information is shown in the data label.
+						Specifies what (and how) information is shown in
+						the data label.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="DataSets" type="EStringToDataSetMapEntry" maxOccurs="unbounded">
+			<xsd:element name="DataSets" type="EStringToDataSetMapEntry"
+				maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Holds the runtime data for the series.
+						Holds the runtime data for the series.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="LabelPosition" type="attribute:Position" minOccurs="0">
+			<xsd:element name="LabelPosition" type="attribute:Position"
+				minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies where the data label for the series should be displayed.
+						Specifies where the data label for the series
+						should be displayed.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Stacked" type="xsd:boolean" minOccurs="0">
+			<xsd:element name="Stacked" type="xsd:boolean"
+				minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies whether the series is to be rendered stacked.
+						Specifies whether the series is to be rendered
+						stacked.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Triggers" type="data:Trigger" minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="Triggers" type="data:Trigger"
+				minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Holds the triggers for the series.
+						Holds the triggers for the series.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Translucent" type="xsd:boolean">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies whether the series elements are to be rendered translucent. This setting is only applicable for elements with solid color fills.
+						Specifies whether the series elements are to be
+						rendered translucent. This setting is only
+						applicable for elements with solid color fills.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="CurveFitting" type="CurveFitting" minOccurs="0">
+			<xsd:element name="CurveFitting" type="CurveFitting"
+				minOccurs="0">
 				<xsd:annotation>
-					<xsd:documentation>Specifies the curve fitting attributes for the series.</xsd:documentation>
+					<xsd:documentation>
+						Specifies the curve fitting attributes for the
+						series.
+					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element name="Cursor" type="attribute:Cursor" maxOccurs="1" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>The element represents cursor for series area.</xsd:documentation>
+				</xsd:annotation></xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="Label">
@@ -393,48 +424,59 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="LineAttributes" type="attribute:LineAttributes">
+			<xsd:element name="LineAttributes"
+				type="attribute:LineAttributes">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specify the line properties.
+						Specify the line properties.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Value" type="data:DataElement">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Defines where this line is to be positioned w.r.t the axis. (Can be a value on the axis or a category name).
+						Defines where this line is to be positioned
+						w.r.t the axis. (Can be a value on the axis or a
+						category name).
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Label" type="Label">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the label associated with this line.
+						Specifies the label associated with this line.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="LabelAnchor" type="attribute:Anchor">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies where the label associated with this line is to be positioned with respect to the line itself.
+						Specifies where the label associated with this
+						line is to be positioned with respect to the
+						line itself.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="FormatSpecifier" type="attribute:FormatSpecifier" minOccurs="0">
+			<xsd:element name="FormatSpecifier"
+				type="attribute:FormatSpecifier" minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the formatting for marker line labels.
+						Specifies the formatting for marker line labels.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Triggers" type="data:Trigger" minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="Triggers" type="data:Trigger"
+				minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Holds the triggers for the marker line.
+						Holds the triggers for the marker line.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element name="Cursor" type="attribute:Cursor" maxOccurs="1" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>The element represents a cursor for marker line.</xsd:documentation>
+				</xsd:annotation></xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="MarkerRange">
@@ -444,62 +486,75 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="Outline" type="attribute:LineAttributes">
+			<xsd:element name="Outline"
+				type="attribute:LineAttributes">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specify the outline properties for the marker range.
+						Specify the outline properties for the marker
+						range.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Fill" type="attribute:Fill">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specify the background for the marker range.
+						Specify the background for the marker range.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="StartValue" type="data:DataElement">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Defines where this area starts relative to the axis scale.
+						Defines where this area starts relative to the
+						axis scale.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="EndValue" type="data:DataElement">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Defines where this area is ends relative to the axis scale.
+						Defines where this area is ends relative to the
+						axis scale.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Label" type="Label">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the label associated with this area.
+						Specifies the label associated with this area.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="LabelAnchor" type="attribute:Anchor">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies where the label associated with this line is to be positioned within respect to the marker range itself.
+						Specifies where the label associated with this
+						line is to be positioned within respect to the
+						marker range itself.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="FormatSpecifier" type="attribute:FormatSpecifier" minOccurs="0">
+			<xsd:element name="FormatSpecifier"
+				type="attribute:FormatSpecifier" minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the formatting for marker range labels.
+						Specifies the formatting for marker range
+						labels.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Triggers" type="data:Trigger" minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="Triggers" type="data:Trigger"
+				minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Holds the triggers for the marker range.
+						Holds the triggers for the marker range.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element name="Cursor" type="attribute:Cursor" maxOccurs="1" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>The element represents a cursor for marker range.</xsd:documentation>
+				</xsd:annotation></xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="Grid">

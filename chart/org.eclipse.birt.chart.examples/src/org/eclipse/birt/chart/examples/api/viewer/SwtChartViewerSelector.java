@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.examples.api.viewer;
 
 import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
+import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.examples.api.script.JavaScriptViewer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
@@ -61,7 +62,8 @@ import org.eclipse.swt.widgets.Shell;
 public final class SwtChartViewerSelector extends Composite
 		implements
 			PaintListener,
-			SelectionListener
+		SelectionListener,
+		IUpdateNotifier
 {
 
 	private IDeviceRenderer idr = null;
@@ -189,6 +191,7 @@ public final class SwtChartViewerSelector extends Composite
 		Image imgChart = new Image( this.getDisplay( ), d );
 		GC gcImage = new GC( imgChart );
 		idr.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, gcImage );
+		idr.setProperty( IDeviceRenderer.UPDATE_NOTIFIER, this );
 
 		Bounds bo = BoundsImpl.create( 0, 0, d.width, d.height );
 		bo.scale( 72d / idr.getDisplayServer( ).getDpiResolution( ) );
@@ -393,5 +396,55 @@ public final class SwtChartViewerSelector extends Composite
 			y += fm.getHeight( );
 		}
 		fo.dispose( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getDesignTimeModel()
+	 */
+	public Chart getDesignTimeModel( )
+	{
+		return cm;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getRunTimeModel()
+	 */
+	public Chart getRunTimeModel( )
+	{
+		return gcs.getChartModel( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#peerInstance()
+	 */
+	public Object peerInstance( )
+	{
+		return this;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#regenerateChart()
+	 */
+	public void regenerateChart( )
+	{
+		redraw( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#repaintChart()
+	 */
+	public void repaintChart( )
+	{
+		redraw( );
 	}
 }

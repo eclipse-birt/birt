@@ -17,6 +17,7 @@ import java.util.Collection;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
 import org.eclipse.birt.chart.model.attribute.AxisType;
+import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
@@ -86,6 +87,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isLabelWithinAxes <em>Label Within Axes</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isAligned <em>Aligned</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isSideBySide <em>Side By Side</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getCursor <em>Cursor</em>}</li>
  * </ul>
  * </p>
  *
@@ -600,6 +602,16 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @ordered
 	 */
 	protected boolean sideBySideESet;
+
+	/**
+	 * The cached value of the '{@link #getCursor() <em>Cursor</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCursor()
+	 * @generated
+	 * @ordered
+	 */
+	protected Cursor cursor;
 
 	/*
 	 * private static int iLastID = Integer.MIN_VALUE; private final int iID;
@@ -2053,6 +2065,73 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Cursor getCursor( )
+	{
+		return cursor;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetCursor( Cursor newCursor,
+			NotificationChain msgs )
+	{
+		Cursor oldCursor = cursor;
+		cursor = newCursor;
+		if ( eNotificationRequired( ) )
+		{
+			ENotificationImpl notification = new ENotificationImpl( this,
+					Notification.SET,
+					ComponentPackage.AXIS__CURSOR,
+					oldCursor,
+					newCursor );
+			if ( msgs == null )
+				msgs = notification;
+			else
+				msgs.add( notification );
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCursor( Cursor newCursor )
+	{
+		if ( newCursor != cursor )
+		{
+			NotificationChain msgs = null;
+			if ( cursor != null )
+				msgs = ( (InternalEObject) cursor ).eInverseRemove( this,
+						EOPPOSITE_FEATURE_BASE - ComponentPackage.AXIS__CURSOR,
+						null,
+						msgs );
+			if ( newCursor != null )
+				msgs = ( (InternalEObject) newCursor ).eInverseAdd( this,
+						EOPPOSITE_FEATURE_BASE - ComponentPackage.AXIS__CURSOR,
+						null,
+						msgs );
+			msgs = basicSetCursor( newCursor, msgs );
+			if ( msgs != null )
+				msgs.dispatch( );
+		}
+		else if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					ComponentPackage.AXIS__CURSOR,
+					newCursor,
+					newCursor ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
@@ -2095,6 +2174,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 				return basicSetScale( null, msgs );
 			case ComponentPackage.AXIS__ORIGIN :
 				return basicSetOrigin( null, msgs );
+			case ComponentPackage.AXIS__CURSOR :
+				return basicSetCursor( null, msgs );
 		}
 		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
@@ -2165,6 +2246,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 				return isAligned( ) ? Boolean.TRUE : Boolean.FALSE;
 			case ComponentPackage.AXIS__SIDE_BY_SIDE :
 				return isSideBySide( ) ? Boolean.TRUE : Boolean.FALSE;
+			case ComponentPackage.AXIS__CURSOR :
+				return getCursor( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -2270,6 +2353,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 			case ComponentPackage.AXIS__SIDE_BY_SIDE :
 				setSideBySide( ( (Boolean) newValue ).booleanValue( ) );
 				return;
+			case ComponentPackage.AXIS__CURSOR :
+				setCursor( (Cursor) newValue );
+				return;
 		}
 		super.eSet( featureID, newValue );
 	}
@@ -2368,6 +2454,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 			case ComponentPackage.AXIS__SIDE_BY_SIDE :
 				unsetSideBySide( );
 				return;
+			case ComponentPackage.AXIS__CURSOR :
+				setCursor( (Cursor) null );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -2439,6 +2528,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 				return isSetAligned( );
 			case ComponentPackage.AXIS__SIDE_BY_SIDE :
 				return isSetSideBySide( );
+			case ComponentPackage.AXIS__CURSOR :
+				return cursor != null;
 		}
 		return super.eIsSet( featureID );
 	}

@@ -200,6 +200,8 @@ public class AttributeValidator extends EObjectValidator
 				return validateColorDefinition( (ColorDefinition) value,
 						diagnostics,
 						context );
+			case AttributePackage.CURSOR :
+				return validateCursor( (Cursor) value, diagnostics, context );
 			case AttributePackage.DATA_POINT :
 				return validateDataPoint( (DataPoint) value,
 						diagnostics,
@@ -322,6 +324,10 @@ public class AttributeValidator extends EObjectValidator
 						context );
 			case AttributePackage.CHART_TYPE :
 				return validateChartType( (ChartType) value,
+						diagnostics,
+						context );
+			case AttributePackage.CURSOR_TYPE :
+				return validateCursorType( (CursorType) value,
 						diagnostics,
 						context );
 			case AttributePackage.DATA_POINT_COMPONENT_TYPE :
@@ -448,6 +454,12 @@ public class AttributeValidator extends EObjectValidator
 				return validateChartTypeObject( (ChartType) value,
 						diagnostics,
 						context );
+			case AttributePackage.CURSOR_TYPE_OBJECT :
+				return validateCursorTypeObject( (CursorType) value,
+						diagnostics,
+						context );
+			case AttributePackage.CURSOR_URI :
+				return validateCursorURI( (String) value, diagnostics, context );
 			case AttributePackage.DATA_POINT_COMPONENT_TYPE_OBJECT :
 				return validateDataPointComponentTypeObject( (DataPointComponentType) value,
 						diagnostics,
@@ -660,6 +672,17 @@ public class AttributeValidator extends EObjectValidator
 		return validate_EveryDefaultConstraint( colorDefinition,
 				diagnostics,
 				context );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateCursor( Cursor cursor, DiagnosticChain diagnostics,
+			Map<Object, Object> context )
+	{
+		return validate_EveryDefaultConstraint( cursor, diagnostics, context );
 	}
 
 	/**
@@ -1101,6 +1124,17 @@ public class AttributeValidator extends EObjectValidator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean validateCursorType( CursorType cursorType,
+			DiagnosticChain diagnostics, Map<Object, Object> context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public boolean validateDataPointComponentType(
 			DataPointComponentType dataPointComponentType,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
@@ -1454,6 +1488,28 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateChartTypeObject( ChartType chartTypeObject,
+			DiagnosticChain diagnostics, Map<Object, Object> context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateCursorTypeObject( CursorType cursorTypeObject,
+			DiagnosticChain diagnostics, Map<Object, Object> context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateCursorURI( String cursorURI,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;

@@ -341,6 +341,68 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Cursor">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="The type represents cursor being displayed in chart.When mouse is moving over the hotspot area, mouse cursor will become the specified cursor."/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="Cursor"/>
+      <details key="kind" value="elementOnly"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//CursorType"
+        unsettable="true">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="Type"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uRI" unique="false" upperBound="-1"
+        eType="#//CursorURI">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="URI"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CursorType">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="The cursor type defines standard cursor types which are supported by all devices, including SWT, Swing, SVG and HTML/Image."/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="CursorType"/>
+    </eAnnotations>
+    <eLiterals name="Auto"/>
+    <eLiterals name="Crosshair" value="1"/>
+    <eLiterals name="Default" value="2"/>
+    <eLiterals name="Pointer" value="3"/>
+    <eLiterals name="Move" value="4"/>
+    <eLiterals name="Text" value="5"/>
+    <eLiterals name="Wait" value="6"/>
+    <eLiterals name="EResize" value="7" literal="E-Resize"/>
+    <eLiterals name="NEResize" value="8" literal="NE-Resize"/>
+    <eLiterals name="NWResize" value="9" literal="NW-Resize"/>
+    <eLiterals name="NResize" value="10" literal="N-Resize"/>
+    <eLiterals name="SEResize" value="11" literal="SE-Resize"/>
+    <eLiterals name="SWResize" value="12" literal="SW-Resize"/>
+    <eLiterals name="SResize" value="13" literal="S-Resize"/>
+    <eLiterals name="WResize" value="14" literal="W-Resize"/>
+    <eLiterals name="Custom" value="15"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="CursorTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="CursorType:Object"/>
+      <details key="baseType" value="CursorType"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="CursorURI" instanceClassName="java.lang.String">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="The type defines the vaue of custom cursor URI."/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="CursorURI"/>
+      <details key="baseType" value="http://www.eclipse.org/emf/2003/XMLType#string"/>
+    </eAnnotations>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DataPoint">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type represents the data value being displayed in the plot area for each data value.&#xD;&#xA;&#x9;&#x9;&#x9;"/>

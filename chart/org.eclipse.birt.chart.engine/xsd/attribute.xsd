@@ -1545,4 +1545,48 @@ Specifies the fixed length of the denominator when in imprecise mode.</xsd:docum
 			<xsd:enumeration value="None"/>
 		</xsd:restriction>
 	</xsd:simpleType>
+
+	<xsd:simpleType name="CursorType">
+        <xsd:annotation>
+        	<xsd:documentation>The cursor type defines standard cursor types which are supported by all devices, including SWT, Swing, SVG and HTML/Image.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+
+			<xsd:enumeration value="Auto"></xsd:enumeration>
+			<xsd:enumeration value="Crosshair"></xsd:enumeration>
+			<xsd:enumeration value="Default"></xsd:enumeration>
+			<xsd:enumeration value="Pointer"></xsd:enumeration>
+			<xsd:enumeration value="Move"></xsd:enumeration>
+			<xsd:enumeration value="Text"></xsd:enumeration>
+			<xsd:enumeration value="Wait"></xsd:enumeration>
+			<xsd:enumeration value="E-Resize"></xsd:enumeration>
+			<xsd:enumeration value="NE-Resize"></xsd:enumeration>
+			<xsd:enumeration value="NW-Resize"></xsd:enumeration>
+			<xsd:enumeration value="N-Resize"></xsd:enumeration>
+			<xsd:enumeration value="SE-Resize"></xsd:enumeration>
+			<xsd:enumeration value="SW-Resize"></xsd:enumeration>
+			<xsd:enumeration value="S-Resize"></xsd:enumeration>
+			<xsd:enumeration value="W-Resize"></xsd:enumeration>
+			<xsd:enumeration value="Custom"></xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="CursorURI">
+        <xsd:annotation>
+        	<xsd:documentation>The type defines the vaue of custom cursor URI.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string"></xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="Cursor">
+        <xsd:annotation>
+        	<xsd:documentation>The type represents cursor being displayed in chart.When mouse is moving over the hotspot area, mouse cursor will become the specified cursor.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+			<xsd:element name="Type" type="CursorType" maxOccurs="1"
+				minOccurs="1">
+			</xsd:element>
+			<xsd:element name="URI" type="CursorURI" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
 </xsd:schema>

@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.device.swing;
 
 import java.awt.Cursor;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ComponentEvent;
 import java.awt.event.FocusEvent;
@@ -21,6 +22,9 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -38,11 +42,13 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.CallBackValue;
+import org.eclipse.birt.chart.model.attribute.CursorType;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.render.InteractiveRenderer;
+import org.eclipse.emf.common.util.EList;
 
 import com.ibm.icu.util.ULocale;
 
@@ -64,7 +70,7 @@ public final class SwingEventHandler
 
 	private ShapedAction saHighlighted = null;
 
-	private final Map lhmAllTriggers;
+	private final Map<TriggerCondition, List<ShapedAction>> lhmAllTriggers;
 
 	private final IUpdateNotifier iun;
 
@@ -85,7 +91,7 @@ public final class SwingEventHandler
 	 * @param _jc
 	 * @param _lcl
 	 */
-	SwingEventHandler( InteractiveRenderer iv, Map _lhmAllTriggers, IUpdateNotifier _jc,
+	SwingEventHandler( InteractiveRenderer iv, Map<TriggerCondition, List<ShapedAction>> _lhmAllTriggers, IUpdateNotifier _jc,
 			ULocale _lcl )
 	{
 		lhmAllTriggers = _lhmAllTriggers;
@@ -107,14 +113,14 @@ public final class SwingEventHandler
 		}
 		for ( int i = 0; i < tca.length; i++ )
 		{
-			List tal = (List) lhmAllTriggers.get( tca[i] );
+			List<ShapedAction> tal = lhmAllTriggers.get( tca[i] );
 
 			if ( tal != null )
 			{
 				// iterate backwards to get the latest painted shape
 				for ( int j = tal.size( ) - 1; j >= 0; j-- )
 				{
-					ShapedAction sa = (ShapedAction)tal.get( j );
+					ShapedAction sa = tal.get( j );
 					if ( p == null || sa.getShape( ).contains(  p ) )
 					{
 						return sa;
@@ -255,12 +261,12 @@ public final class SwingEventHandler
 	}
 // if the event was fired without new action disable the previous action
 	
-	private void disableActions( Set actions  )
+	private void disableActions( Set<ActionType> actions  )
 	{
 		if ( actions == null )
 			return;
 		
-		for ( Iterator iter = actions.iterator( ); iter.hasNext( ); )
+		for ( Iterator<ActionType> iter = actions.iterator( ); iter.hasNext( ); )
 		{
 			ActionType action = (ActionType)iter.next();
 			if ( action == null )
@@ -444,16 +450,18 @@ public final class SwingEventHandler
 		ShapedAction sa = getShapedActionForConditionPoint( new TriggerCondition[]{
 				TriggerCondition.MOUSE_CLICK_LITERAL,
 				TriggerCondition.ONCLICK_LITERAL,
-				TriggerCondition.ONMOUSEDOWN_LITERAL
+				TriggerCondition.ONMOUSEDOWN_LITERAL,
+				TriggerCondition.ONMOUSEOVER_LITERAL,
+				TriggerCondition.ONMOUSEMOVE_LITERAL
 		}, p );
 
 		if ( sa != null )
 		{
-			( (JComponent) iun.peerInstance( ) ).setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+			setCursor( (JComponent) iun.peerInstance( ), sa.getCursor( ), Cursor.getDefaultCursor( ) );
 		}
 		else
 		{
-				( (JComponent) iun.peerInstance( ) ).setCursor( Cursor.getDefaultCursor( ) );
+			setCursor( (JComponent) iun.peerInstance( ), null, Cursor.getDefaultCursor( ) );
 		}
 
 		// 2. CHECK FOR MOUSE-HOVER CONDITION
@@ -535,20 +543,20 @@ public final class SwingEventHandler
 		( (JComponent) iun.peerInstance( ) ).setToolTipText( tooltip );
 	}
 
-	protected Set getActionTypesForConditions( TriggerCondition[] tca )
+	protected Set<ActionType> getActionTypesForConditions( TriggerCondition[] tca )
 	{
 		if ( tca == null || tca.length == 0 )
 		{
 			return null;
 		}
-		Set set = new HashSet( );
+		Set<ActionType> set = new HashSet<ActionType>( );
 		
 		for ( int i = 0; i < tca.length; i++ )
 		{
-			List tal = (List) lhmAllTriggers.get( tca[i] );
+			List<ShapedAction> tal = lhmAllTriggers.get( tca[i] );
 			if ( tal == null )
 				continue;
-			for ( Iterator iter = tal.iterator( ); iter.hasNext( ); )
+			for ( Iterator<ShapedAction> iter = tal.iterator( ); iter.hasNext( ); )
 			{
 				ShapedAction sa = (ShapedAction) iter.next( );
 				ActionType actionType = sa.getActionForCondition( tca[i] ).getType( );
@@ -559,4 +567,41 @@ public final class SwingEventHandler
 			
 	}
 
+	private void setCursor( JComponent composite, org.eclipse.birt.chart.model.attribute.Cursor cursor, Cursor defaultCursor )
+	{
+		if ( cursor == null || cursor.getType( ) == CursorType.AUTO )
+		{
+			composite.setCursor( defaultCursor );
+			return;
+		}
+		else if ( cursor.getType( ) == CursorType.CUSTOM )
+		{
+			// Find the first valid image as custom cursor.
+			EList<String> uris = cursor.getURI( );
+			for ( String uri: uris )
+			{
+				try
+				{
+					URI u = new URI( uri );
+					Image image = composite.getToolkit( ).createImage( u.toURL( ) );
+					composite.setCursor( composite.getToolkit( ).createCustomCursor( image, new Point(0, 0), "" ) );//$NON-NLS-1$
+					return;
+				}
+				catch ( URISyntaxException e )
+				{
+					// Do not process exception here.
+				}
+				catch ( MalformedURLException e )
+				{
+					// Do not process exception here.
+				}
+			}
+			
+			// No valid image is found, set default cursor.
+			composite.setCursor( defaultCursor );
+			return;
+		}
+		
+		composite.setCursor( Cursor.getPredefinedCursor( SwingHelper.CURSOR_MAP.get( cursor.getType( ) ).intValue( ) ) );
+	}
 }

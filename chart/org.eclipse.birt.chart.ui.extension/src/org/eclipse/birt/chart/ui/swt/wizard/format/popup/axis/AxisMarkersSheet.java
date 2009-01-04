@@ -824,6 +824,8 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 			new TriggerEditorDialog( cmpContent.getShell( ),
 					( (MarkerLine) getAxisForProcessing( ).getMarkerLines( )
 							.get( getMarkerIndex( ) ) ).getTriggers( ),
+					( (MarkerLine) getAxisForProcessing( ).getMarkerLines( )
+									.get( getMarkerIndex( ) ) ),
 					getContext( ),
 					Messages.getString( "AxisMarkersSheet.Title.MarkerLine" ), TriggerSupportMatrix.TYPE_MARKERLINE, false, true ).open( ); //$NON-NLS-1$
 		}
@@ -832,6 +834,8 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 			new TriggerEditorDialog( cmpContent.getShell( ),
 					( (MarkerRange) getAxisForProcessing( ).getMarkerRanges( )
 							.get( getMarkerIndex( ) ) ).getTriggers( ),
+					( (MarkerRange) getAxisForProcessing( ).getMarkerRanges( )
+									.get( getMarkerIndex( ) ) ),
 					getContext( ),
 					Messages.getString( "AxisMarkersSheet.Title.MarkerRange" ), TriggerSupportMatrix.TYPE_MARKERRANGE, false, true ).open( ); //$NON-NLS-1$
 		}

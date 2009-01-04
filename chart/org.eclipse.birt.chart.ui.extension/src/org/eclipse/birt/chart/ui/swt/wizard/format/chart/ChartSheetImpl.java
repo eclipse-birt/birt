@@ -364,6 +364,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		popup = new InteractivitySheet( Messages.getString( "ChartSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
 				getContext( ),
 				getChart( ).getBlock( ).getTriggers( ),
+				getChart( ).getBlock( ),
 				TriggerSupportMatrix.TYPE_CHARTAREA,
 				false,
 				true );

@@ -1173,6 +1173,8 @@ public abstract class AxesRenderer extends BaseRenderer
 					{
 						final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) idr ).getEventObject( StructureSource.createMarkerRange( mr ),
 								InteractionEvent.class );
+						iev.setCursor( mr.getCursor( ) );
+						
 						for ( int t = 0; t < elTriggers.size( ); t++ )
 						{
 							tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
@@ -2443,6 +2445,7 @@ public abstract class AxesRenderer extends BaseRenderer
 									dph ) );
 					final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( iSource,
 							InteractionEvent.class );
+					iev.setCursor( se.getCursor( ) );
 					Trigger tg;
 					for ( int t = 0; t < elTriggers.size( ); t++ )
 					{
@@ -2837,6 +2840,8 @@ public abstract class AxesRenderer extends BaseRenderer
 					{
 						final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) idr ).getEventObject( StructureSource.createMarkerLine( ml ),
 								InteractionEvent.class );
+						iev.setCursor( ml.getCursor( ) );
+						
 						for ( int t = 0; t < elTriggers.size( ); t++ )
 						{
 							tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
@@ -3564,6 +3569,8 @@ public abstract class AxesRenderer extends BaseRenderer
 					dph) ;
 			final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( iSource,
 					InteractionEvent.class );
+			iev.setCursor( se.getCursor( ) );
+			
 			Trigger tg;
 			for ( int t = 0; t < elTriggers.size( ); t++ )
 			{
