@@ -55,6 +55,10 @@ public abstract class AbstractWordXmlWriter
 	protected abstract void writeFontSize( IStyle style );
 
 	protected abstract void writeFont( String fontFamily );
+	
+	protected abstract void writeFontStyle( IStyle style );
+	
+	protected abstract void writeFontWeight(IStyle style);
 
 	protected abstract void openHyperlink( HyperlinkInfo info );
 
@@ -516,41 +520,6 @@ public abstract class AbstractWordXmlWriter
 				.parseSpacing( ( (FloatValue) letterSpacing ).getFloatValue( ) ) );
 	}
 
-	private void writeFontStyle( IStyle style )
-	{
-		// Font style
-		String val = WordUtil.removeQuote( style.getTextUnderline( ) );
-		if ( !"none".equalsIgnoreCase( val ) )
-		{
-			writeAttrTag( "w:u", "single" );
-		}
-
-		val = WordUtil.removeQuote( style.getTextLineThrough( ) );
-		if ( !"none".equalsIgnoreCase( val ) )
-		{
-			writeAttrTag( "w:strike", "on" );
-		}
-
-		val = WordUtil.removeQuote( style.getFontStyle( ) );
-		if ( !"normal".equalsIgnoreCase( val ) )
-		{
-			writeAttrTag( "w:i", "on" );
-		}
-
-		val = WordUtil.removeQuote( style.getFontWeight( ) );
-		if ( !"normal".equalsIgnoreCase( val ) )
-		{
-			writeAttrTag( "w:b", "on" );
-		}
-
-		// Text Color
-		val = WordUtil.parseColor( style.getColor( ) );
-		if ( val != null )
-		{
-			writeAttrTag( "w:color", val );
-		}
-	}
-
 	private void writeHyperlinkStyle( boolean isHyperlink )
 	{
 		// deal with hyperlink
@@ -977,7 +946,43 @@ public abstract class AbstractWordXmlWriter
 		writeFont( fontFamily );
 		writeFontSize( style );
 		writeLetterSpacing( style );
+		writeTextUnderline( style );
+		writeTextLineThrough( style );
 		writeFontStyle( style );
+		writeFontWeight( style );
+		writeTextColor( style );
 		writeHyperlinkStyle( ishyperlink );
+	}
+
+	private void writeTextColor( IStyle style )
+	{
+		String val;
+		// Text Color
+		val = WordUtil.parseColor( style.getColor( ) );
+		if ( val != null )
+		{
+			writeAttrTag( "w:color", val );
+		}
+	}
+
+	private void writeTextUnderline( IStyle style )
+	{
+		// Font style
+		String val = WordUtil.removeQuote( style.getTextUnderline( ) );
+		if ( !"none".equalsIgnoreCase( val ) )
+		{
+			writeAttrTag( "w:u", "single" );
+		}
+	}
+
+	private void writeTextLineThrough( IStyle style )
+	{
+		String val;
+
+		val = WordUtil.removeQuote( style.getTextLineThrough( ) );
+		if ( !"none".equalsIgnoreCase( val ) )
+		{
+			writeAttrTag( "w:strike", "on" );
+		}
 	}
 }

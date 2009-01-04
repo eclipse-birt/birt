@@ -303,6 +303,26 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 		writer.attribute( "w:cs", fontFamily );
 		writer.closeTag( "w:rFonts" );
 	}
+	
+	protected void writeFontStyle( IStyle style )
+	{
+		String val = WordUtil.removeQuote( style.getFontStyle( ) );
+		if ( !"normal".equalsIgnoreCase( val ) )
+		{
+			writeAttrTag( "w:i", "on" );
+			writeAttrTag( "w:i-cs", "on" );
+		}
+	}
+
+	protected void writeFontWeight( IStyle style )
+	{
+		String val = WordUtil.removeQuote( style.getFontWeight( ) );
+		if ( !"normal".equalsIgnoreCase( val ) )
+		{
+			writeAttrTag( "w:b", "on" );
+			writeAttrTag( "w:b-cs", "on" );
+		}
+	}
 
 	public void drawDocumentBackground( String bgcolor,
 			String backgroundImageUrl )
