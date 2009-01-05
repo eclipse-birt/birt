@@ -1020,7 +1020,8 @@ public class ExcelUtil
 
 	public static String convertColor( String value )
 	{
-		if ( value == null || "transparent".equalsIgnoreCase( value ) )
+		if ( value == null || "transparent".equalsIgnoreCase( value )
+				|| "null".equalsIgnoreCase( value ) )
 		{
 			return null;
 		}
