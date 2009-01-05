@@ -1823,9 +1823,6 @@ public abstract class EngineTask implements IEngineTask
 		if ( runnable == null )
 			return;
 
-		Report report = executionContext.getReport( );
-		AbstractStyle rootStyle = (AbstractStyle) report.getStyles( ).get(
-				report.getRootStyleName( ) );
 		ReportDesignHandle handle = (ReportDesignHandle) runnable
 				.getDesignHandle( );
 		if ( handle != null )
@@ -1845,7 +1842,13 @@ public abstract class EngineTask implements IEngineTask
 				try
 				{
 					handle.setBidiOrientation( bidiOrientation );
-					rootStyle.setDirection( bidiOrientation );
+					Report report = executionContext.getReport( );
+					AbstractStyle rootStyle = (AbstractStyle) report
+							.getStyles( ).get( report.getRootStyleName( ) );
+					if ( rootStyle != null )
+					{
+						rootStyle.setDirection( bidiOrientation );
+					}
 				}
 				catch ( SemanticException e )
 				{
