@@ -1036,10 +1036,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		returnObj[0] = new Boolean( false );
 		String columnName = getQueryStringForProcessing( expression );
 
-		Iterator iterator = ChartReportItemUtil.getAllColumnBindingsIterator( itemHandle );
+		Iterator<ComputedColumnHandle> iterator = ChartReportItemUtil.getAllColumnBindingsIterator( itemHandle );
 		while ( iterator.hasNext( ) )
 		{
-			ComputedColumnHandle cc = (ComputedColumnHandle) iterator.next( );
+			ComputedColumnHandle cc = iterator.next( );
 			if ( cc.getName( ).equalsIgnoreCase( columnName ) )
 			{
 				String dataType = cc.getDataType( );
@@ -1047,7 +1047,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				{
 					continue;
 				}
-				if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) )
+				if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING )
+						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB ) )
 				{
 					returnObj[0] = new Boolean( true );
 					returnObj[1] = DataType.TEXT_LITERAL;
