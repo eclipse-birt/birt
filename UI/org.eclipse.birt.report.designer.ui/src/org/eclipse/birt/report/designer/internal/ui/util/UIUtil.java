@@ -30,6 +30,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.runtime.GUIException;
@@ -2141,5 +2144,24 @@ public class UIUtil
 		return true;
 	}
 
+	/**
+	 * Check if the name of a group/dimension level is allowed.
+	 * 
+	 * @return allowed
+	 */
+	public static boolean validateDimensionName( String name )
+	{
+		DataRequestSession session = null;
+		ICubeQueryUtil cubeQueryUtil = null;
+		try
+		{
+			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+			cubeQueryUtil = session.getCubeQueryUtil( );
+		}
+		catch ( Exception e )
+		{
+		}
+		return cubeQueryUtil.isValidDimensionName( name );
+	}
 
 }

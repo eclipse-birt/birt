@@ -1323,11 +1323,22 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			{
 				if ( getButton( IDialogConstants.OK_ID ) != null )
 					getButton( IDialogConstants.OK_ID ).setEnabled( false );
+				setMessage( null );
+				setErrorMessage( Messages.getString( "LevelPropertyDialog.Message.BlankName" ) ); //$NON-NLS-1$
+			}
+			else if ( !UIUtil.validateDimensionName( nameText.getText( ) ) )
+			{
+				if ( getButton( IDialogConstants.OK_ID ) != null )
+					getButton( IDialogConstants.OK_ID ).setEnabled( false );
+				setMessage( null );
+				setErrorMessage( Messages.getString( "LevelPropertyDialog.Message.NumericName" ) ); //$NON-NLS-1$
 			}
 			else
 			{
 				if ( getButton( IDialogConstants.OK_ID ) != null )
 					getButton( IDialogConstants.OK_ID ).setEnabled( true );
+				setErrorMessage( null );
+				setMessage( Messages.getString( "LevelPropertyDialog.Message" ) ); //$NON-NLS-1$
 			}
 		}
 		else
@@ -1338,11 +1349,22 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			{
 				if ( getButton( IDialogConstants.OK_ID ) != null )
 					getButton( IDialogConstants.OK_ID ).setEnabled( false );
+				setMessage( null );
+				setErrorMessage( Messages.getString( "LevelPropertyDialog.Message.BlankName" ) ); //$NON-NLS-1$	
+			}
+			else if ( !UIUtil.validateDimensionName( staticNameText.getText( ) ) )
+			{
+				if ( getButton( IDialogConstants.OK_ID ) != null )
+					getButton( IDialogConstants.OK_ID ).setEnabled( false );
+				setMessage( null );
+				setErrorMessage( Messages.getString( "LevelPropertyDialog.Message.NumericName" ) ); //$NON-NLS-1$
 			}
 			else
 			{
 				if ( getButton( IDialogConstants.OK_ID ) != null )
 					getButton( IDialogConstants.OK_ID ).setEnabled( true );
+				setErrorMessage( null );
+				setMessage( Messages.getString( "LevelPropertyDialog.Message" ) ); //$NON-NLS-1$
 			}
 		}
 	}

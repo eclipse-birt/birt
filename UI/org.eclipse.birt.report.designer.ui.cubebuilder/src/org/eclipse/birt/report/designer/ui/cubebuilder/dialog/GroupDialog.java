@@ -62,6 +62,7 @@ public class GroupDialog extends TitleAreaDialog
 	public GroupDialog( boolean isNew )
 	{
 		super( UIUtil.getDefaultShell( ) );
+		setShellStyle( getShellStyle( ) | SWT.RESIZE | SWT.MAX );
 		this.isNew = isNew;
 	}
 
@@ -145,6 +146,7 @@ public class GroupDialog extends TitleAreaDialog
 			dateButton.setSelection( false );
 			levelViewer.getTree( ).setVisible( false );
 			setMessage( "" ); //$NON-NLS-1$
+			isRegularButton = true;
 		}
 		else
 		{
@@ -160,6 +162,7 @@ public class GroupDialog extends TitleAreaDialog
 				levelViewer.getTree( ).setVisible( false );
 				setMessage( "" ); //$NON-NLS-1$
 			}
+			isRegularButton = false;
 		}
 		checkOKButtonStatus( );
 	}
@@ -489,7 +492,7 @@ public class GroupDialog extends TitleAreaDialog
 	private CheckboxTreeViewer levelViewer;
 	private Button regularButton;
 	private Button dateButton;
-
+	private boolean isRegularButton = false;
 	private void createContentArea( Composite parent )
 	{
 		Composite content = new Composite( parent, SWT.NONE );
@@ -541,7 +544,6 @@ public class GroupDialog extends TitleAreaDialog
 				checkItem( item );
 			}
 		} );
-
 	}
 
 	protected void checkOKButtonStatus( )
@@ -550,6 +552,15 @@ public class GroupDialog extends TitleAreaDialog
 		{
 			if ( getButton( IDialogConstants.OK_ID ) != null )
 				getButton( IDialogConstants.OK_ID ).setEnabled( false );
+			setMessage( null );
+			setErrorMessage( Messages.getString( "DateGroupDialog.Message.BlankName" ) ); //$NON-NLS-1$
+		}
+		else if ( !UIUtil.validateDimensionName( nameText.getText( ) ) )
+		{
+			if ( getButton( IDialogConstants.OK_ID ) != null )
+				getButton( IDialogConstants.OK_ID ).setEnabled( false );
+			setMessage( null );
+			setErrorMessage( Messages.getString( "DateGroupDialog.Message.NumericName" ) ); //$NON-NLS-1$
 		}
 		else
 		{
@@ -558,10 +569,26 @@ public class GroupDialog extends TitleAreaDialog
 					&& ( isNew || dataField != null ) )
 			{
 				if ( getButton( IDialogConstants.OK_ID ) != null )
+				
 					getButton( IDialogConstants.OK_ID ).setEnabled( false );
+				setErrorMessage( null );
+				setMessage( Messages.getString( "DateGroupDialog.Message" ) ); //$NON-NLS-1$
+				
 			}
 			else if ( getButton( IDialogConstants.OK_ID ) != null )
+			{
 				getButton( IDialogConstants.OK_ID ).setEnabled( true );
+				if(isRegularButton)
+				{
+					setErrorMessage( null );
+					setMessage( Messages.getString( "DateGroupDialog.Message.Regular" ) ); //$NON-NLS-1$
+				}
+				else
+				{
+					setErrorMessage( null );
+					setMessage( Messages.getString( "DateGroupDialog.Message" ) ); //$NON-NLS-1$
+				}
+			}
 		}
 	}
 

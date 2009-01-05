@@ -20,7 +20,6 @@ import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -32,40 +31,39 @@ import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.resource.JFaceColors;
+import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-public class MeasureDialog extends BaseDialog
+public class MeasureDialog extends TitleAreaDialog
 {
-
+	private boolean isEdit = false;
+	private Combo typeCombo;
+	private Text expressionText;
+	private Combo functionCombo;
+	private Button expressionButton;
+	
 	private TabularMeasureHandle input;
 	private TabularCubeHandle cube;
 	private Text nameText;
@@ -74,7 +72,15 @@ public class MeasureDialog extends BaseDialog
 			.getProperty( IMeasureModel.DATA_TYPE_PROP )
 			.getAllowedChoices( )
 			.getChoices( );
+	private Object result;
 
+	public MeasureDialog( boolean newOrEdit )
+	{
+		super( UIUtil.getDefaultShell( ) );
+		setShellStyle( getShellStyle( ) | SWT.RESIZE | SWT.MAX );
+		this.isEdit = !newOrEdit;
+	}
+	
 	private String[] getDataTypeNames( )
 	{
 		IChoice[] choices = dataTypes;
@@ -172,12 +178,6 @@ public class MeasureDialog extends BaseDialog
 		}
 	}
 
-	public MeasureDialog( boolean newOrEdit )
-	{
-		super( Messages.getString( "MeasureDialog.Title" ) ); //$NON-NLS-1$
-		this.isEdit = !newOrEdit;
-	}
-
 	public void setInput( TabularCubeHandle cube, TabularMeasureHandle input )
 	{
 		this.input = input;
@@ -189,10 +189,12 @@ public class MeasureDialog extends BaseDialog
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
-		createTitleArea( parent );
 		UIUtil.bindHelp( parent, IHelpContextIds.MEASURE_DIALOG );
+		setTitle( Messages.getString( "MeasureDialog.Title.Property" ) );
+		
+		Composite area = (Composite) super.createDialogArea( parent );
 
-		Composite contents = new Composite( parent, SWT.NONE );
+		Composite contents = new Composite( area, SWT.NONE );
 		GridLayout layout = new GridLayout( );
 		layout.verticalSpacing = 0;
 		layout.marginWidth = 20;
@@ -245,8 +247,6 @@ public class MeasureDialog extends BaseDialog
 		}
 
 	}
-
-	private Object result;
 
 	public Object getResult( )
 	{
@@ -303,6 +303,7 @@ public class MeasureDialog extends BaseDialog
 
 	private Composite createMeasureArea( Composite parent )
 	{
+		getShell( ).setText( Messages.getString( "MeasureDialog.Title.Property" ) );
 		Group group = new Group( parent, SWT.NONE );
 		GridData gd = new GridData( );
 		gd.grabExcessHorizontalSpace = true;
@@ -443,9 +444,21 @@ public class MeasureDialog extends BaseDialog
 				|| functionCombo.getSelectionIndex( ) == -1
 				|| typeCombo.getSelectionIndex( ) == -1 )
 		{
-			if ( getOkButton( ) != null )
+			if ( getButton( IDialogConstants.OK_ID ) != null )
 			{
-				getOkButton( ).setEnabled( false );
+				getButton( IDialogConstants.OK_ID ).setEnabled( false );
+				setMessage( null );
+				setErrorMessage( Messages.getString( "MeasureDialog.Message.BlankName" ) ); //$NON-NLS-1$
+				return;
+			}
+		}
+		else if ( !UIUtil.validateDimensionName( nameText.getText( ) ) )
+		{
+			if ( getButton( IDialogConstants.OK_ID ) != null )
+			{
+				getButton( IDialogConstants.OK_ID ).setEnabled( false );
+				setMessage( null );
+				setErrorMessage( Messages.getString( "MeasureDialog.Message.NumericName" ) ); //$NON-NLS-1$
 				return;
 			}
 		}
@@ -460,19 +473,23 @@ public class MeasureDialog extends BaseDialog
 				if ( expressionText.getText( ) == null
 						|| expressionText.getText( ).trim( ).length( ) == 0 )
 				{
-					if ( getOkButton( ) != null )
+					if ( getButton( IDialogConstants.OK_ID ) != null )
 					{
-						getOkButton( ).setEnabled( false );
+						getButton( IDialogConstants.OK_ID ).setEnabled( false );
+						setErrorMessage( null );
+						setMessage( null );
 						return;
 					}
 				}
-
 			}
 		}
 
-		if ( getOkButton( ) != null )
-			getOkButton( ).setEnabled( true );
-
+		if ( getButton( IDialogConstants.OK_ID ) != null )
+		{
+			getButton( IDialogConstants.OK_ID ).setEnabled( true );
+			setErrorMessage( null );
+			setMessage( null );
+		}
 	}
 
 	private void openExpression( )
@@ -485,56 +502,4 @@ public class MeasureDialog extends BaseDialog
 			expressionText.setText( expressionBuilder.getResult( ) );
 		}
 	}
-
-	private Composite createTitleArea( Composite parent )
-	{
-		Composite contents = new Composite( parent, SWT.NONE );
-		contents.setLayout( new GridLayout( ) );
-		GridData data = new GridData( GridData.FILL_HORIZONTAL );
-		contents.setLayoutData( data );
-
-		int heightMargins = 3;
-		int widthMargins = 8;
-		final Composite titleArea = new Composite( contents, SWT.NONE );
-		FormLayout layout = new FormLayout( );
-		layout.marginHeight = heightMargins;
-		layout.marginWidth = widthMargins;
-		titleArea.setLayout( layout );
-
-		Display display = parent.getDisplay( );
-		Color background = JFaceColors.getBannerBackground( display );
-		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
-		layoutData.heightHint = 20 + ( heightMargins * 2 );
-		titleArea.setLayoutData( layoutData );
-		titleArea.setBackground( background );
-
-		titleArea.addPaintListener( new PaintListener( ) {
-
-			public void paintControl( PaintEvent e )
-			{
-				e.gc.setForeground( titleArea.getDisplay( )
-						.getSystemColor( SWT.COLOR_WIDGET_NORMAL_SHADOW ) );
-				Rectangle bounds = titleArea.getClientArea( );
-				bounds.height = bounds.height - 2;
-				bounds.width = bounds.width - 1;
-				e.gc.drawRectangle( bounds );
-			}
-		} );
-
-		Label label = new Label( titleArea, SWT.NONE );
-		label.setBackground( background );
-		label.setFont( FontManager.getFont( label.getFont( ).toString( ),
-				10,
-				SWT.BOLD ) );
-		label.setText( Messages.getString( "MeasureDialog.Title.Property" ) ); //$NON-NLS-1$
-		return titleArea;
-
-	}
-
-	private boolean isEdit = false;
-	private Combo typeCombo;
-	private Text expressionText;
-	private Combo functionCombo;
-	private Button expressionButton;
-
 }

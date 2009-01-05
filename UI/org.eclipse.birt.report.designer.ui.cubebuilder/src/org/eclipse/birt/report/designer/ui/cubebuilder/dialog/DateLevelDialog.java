@@ -171,6 +171,7 @@ public class DateLevelDialog extends TitleAreaDialog
 	public DateLevelDialog( )
 	{
 		super( UIUtil.getDefaultShell( ) );
+		setShellStyle( getShellStyle( ) | SWT.RESIZE | SWT.MAX );
 	}
 
 	public void setInput( TabularLevelHandle level )
@@ -355,11 +356,22 @@ public class DateLevelDialog extends TitleAreaDialog
 		{
 			if ( getButton( IDialogConstants.OK_ID ) != null )
 				getButton( IDialogConstants.OK_ID ).setEnabled( false );
+			setMessage( null );
+			setErrorMessage( Messages.getString( "DateLevelDialog.Message.BlankName" ) ); //$NON-NLS-1$
+		}
+		else if ( !UIUtil.validateDimensionName( nameText.getText( ) ) )
+		{
+			if ( getButton( IDialogConstants.OK_ID ) != null )
+				getButton( IDialogConstants.OK_ID ).setEnabled( false );
+			setMessage( null );
+			setErrorMessage( Messages.getString( "LevelPropertyDialog.Message.NumericName" ) ); //$NON-NLS-1$
 		}
 		else
 		{
 			if ( getButton( IDialogConstants.OK_ID ) != null )
 				getButton( IDialogConstants.OK_ID ).setEnabled( true );
+			setErrorMessage( null );
+			setMessage( Messages.getString( "DateLevelDialog.Message" ) ); //$NON-NLS-1$
 		}
 	}
 
