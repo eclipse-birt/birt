@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
@@ -39,6 +38,7 @@ import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.CompatibilityUtil;
+
 
 /**
  * One note is the relationship between resultSet, columnHints and
@@ -298,15 +298,23 @@ public class DataSetMetaDataHelper
 			boolean holdEvent ) throws BirtException
 	{
 		IResultMetaData rsMeta = null;
-		BirtException e = null;
-
 		try
 		{
 			rsMeta = this.getDataSetMetaData( dataSetHandle, false );
 		}
 		catch ( BirtException e1 )
 		{
-			e = e1;
+			//clear cache meta data
+			if ( holdEvent || !dataSetHandle.canEdit( ) )
+			{
+				CompatibilityUtil.updateResultSetinCachedMetaData( dataSetHandle,
+						new ArrayList( ) );
+			}
+			else
+			{
+				dataSetHandle.setCachedMetaData( StructureFactory.createCachedMetaData( ) );
+			}
+			throw e1;
 		}
 
 		if ( needsSetCachedMetaData( dataSetHandle, rsMeta ) )
@@ -332,6 +340,30 @@ public class DataSetMetaDataHelper
 			}
 			else
 			{
+				if ( dataSetHandle.getCachedMetaDataHandle( ) != null )
+				{
+					List resultSetColumnHandles = getResultSetColumnHandles( dataSetHandle.getCachedMetaDataHandle( ) );
+					if ( resultSetColumnHandles.size( ) == columnList.size( ) )
+					{
+						//update if needed, avoid writing "any" type to Model if old report contains "any" type
+						for ( int i=0; i<resultSetColumnHandles.size( ); i++)
+						{
+							ResultSetColumnHandle rsh = (ResultSetColumnHandle)resultSetColumnHandles.get( i );
+							ResultSetColumn rsc = (ResultSetColumn)columnList.get( i );
+							if ( !rsh.getColumnName( ).equals( rsc.getColumnName( ) ))
+							{
+								rsh.setColumnName( rsc.getColumnName( ) );
+							}
+							if ( !rsh.getDataType( ).equals( rsc.getDataType( ) ))
+							{
+								rsh.setDataType( rsc.getDataType( ) );
+							}
+						}
+						return rsMeta;
+					}
+				}
+				
+				//update totally
 				dataSetHandle.setCachedMetaData( StructureFactory.createCachedMetaData( ) );
 
 				for ( int i = 0; i < columnList.size( ); i++ )
@@ -342,10 +374,6 @@ public class DataSetMetaDataHelper
 				}
 			}
 		}
-
-		if ( e != null )
-			throw e;
-
 		return rsMeta;
 	}
 
@@ -363,13 +391,7 @@ public class DataSetMetaDataHelper
 				|| rsMeta == null || rsMeta.getColumnCount( ) == 0 )
 			return true;
 
-		List list = new ArrayList( );
-		for ( Iterator iter = dataSetHandle.getCachedMetaDataHandle( )
-				.getResultSet( )
-				.iterator( ); iter.hasNext( ); )
-		{
-			list.add( iter.next( ) );
-		}
+		List list = getResultSetColumnHandles( dataSetHandle.getCachedMetaDataHandle( ) );
 
 		if ( list.size( ) != rsMeta.getColumnCount( ) )
 			return true;
@@ -387,6 +409,19 @@ public class DataSetMetaDataHelper
 		}
 
 		return false;
+	}
+	
+	private List getResultSetColumnHandles( CachedMetaDataHandle cmdh )
+	{
+		
+		List list = new ArrayList( );
+		for ( Iterator iter = cmdh
+				.getResultSet( )
+				.iterator( ); iter.hasNext( ); )
+		{
+			list.add( iter.next( ) );
+		}
+		return list;
 	}
 
 
