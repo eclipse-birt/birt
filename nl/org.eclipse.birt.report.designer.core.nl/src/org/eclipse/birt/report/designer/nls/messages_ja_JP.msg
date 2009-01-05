@@ -647,6 +647,7 @@ DataSetParameterBindingInputDialog.Label.Value=値 :
 DataSetParametersPage.Prompt.new=<ここに新しいパラメタを入力してください...>
 DataSetParametersPage.default.None=N/A
 DataSetParametersPage.reportParam.None=なし
+DataSetParametersPage.errorMessage.LinkedReportParamNotFound=データセットパラメタ "{1}" のリンクされているレポートパラメタ "{0}" は存在しません。
 DataSetParameterPage.cell.linkToSalarParameter=リンク先のレポートパラメタ(&L)
 DataSetParameterPage.title.ParameterInputDialog=パラメタ
 DataSetParameterPage.toolTipText.New=パラメタの新規作成
@@ -883,6 +884,7 @@ DesignerActionBarContributor.menu.insert=挿入(&I)
 DesignerActionBarContributor.menu.page=ページ(&G)
 DesignerActionBarContributor.menu.style-rule-apply=スタイルの適用(&P)
 DesignerActionBarContributor.menu.style-rule-edit=スタイルの編集(&D)
+DesignerActionBarContributor.menu.style-rule-remove=スタイルの削除(&R)
 DesignerActionBarContributor.style.new=スタイルの新規作成(&N)...
 DesignerActionBarContributor.menu.data-NewParameter=レポートパラメタの新規作成(&P)
 DesignerActionBarContributor.menu.data-NewDataSetParent=新規データセット(&S)
@@ -1810,12 +1812,10 @@ HighlightRuleBuilderDialog.text.Any=次の値のいずれか
 HighlightRuleBuilderDialog.text.BackgroundColor=背景色 :
 HighlightRuleBuilderDialog.text.Between=値に挟まれる
 HighlightRuleBuilderDialog.text.Color=カラー :
-HighlightRuleBuilderDialog.text.Condition=次の条件が True の場合 : 
 HighlightRuleBuilderDialog.text.Default=自動
 HighlightRuleBuilderDialog.text.ET=次の値に等しい
 HighlightRuleBuilderDialog.text.False=False
 HighlightRuleBuilderDialog.text.Font=フォント名 :
-HighlightRuleBuilderDialog.text.Format=次の書式を適用 : 
 HighlightRuleBuilderDialog.text.GE=次の値以上
 HighlightRuleBuilderDialog.text.GT=次の値より大きい
 HighlightRuleBuilderDialog.text.LE=次の値以下
@@ -1828,15 +1828,26 @@ HighlightRuleBuilderDialog.text.Null=Null
 HighlightRuleBuilderDialog.text.Preview=プレビュー :
 HighlightRuleBuilderDialog.text.PreviewContent=Aaあぁアァ亜宇
 HighlightRuleBuilderDialog.text.Size=サイズ :
-HighlightRuleBuilderDialog.text.Title=ハイライトの規則の追加と編集
+HighlightRuleBuilderDialog.text.Title=Highlight
 HighlightRuleBuilderDialog.text.True=True
 HighlightRuleBuilderDialog.tooltip.ExpBuilder=式ビルダを開く
 HighlightRuleBuilderDialog.tooltip.Bold=太字
 HighlightRuleBuilderDialog.tooltip.Italic=斜体
 HighlightRuleBuilderDialog.tooltip.Underline=下線
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=テキストの取り消し線
-HighlightRuleBuilderDialog.text.applyStyle=スタイルの書式設定を使用する :
+HighlightRuleBuilderDialog.text.applyStyle=Apply Style:
 HighlightRuleBuilderDialog.displayText.None=なし
+HighlightRuleBuilderDialog.text.Description=Apply conditional formatting to {0}. Specify the conditional expression and the format.\nThe format will be applied if the expression evaluates to true.
+HighlightRuleBuilderDialog.text.Description.Element.Table=table
+HighlightRuleBuilderDialog.text.Description.Element.Grid=grid
+HighlightRuleBuilderDialog.text.Description.Element.List=list
+HighlightRuleBuilderDialog.text.Description.Element.Row=row
+HighlightRuleBuilderDialog.text.Description.Element.Column=column
+HighlightRuleBuilderDialog.text.Description.Element.DataItem=data item
+HighlightRuleBuilderDialog.text.Description.Element.Cell=cell
+HighlightRuleBuilderDialog.text.Group.Condition=条件
+HighlightRuleBuilderDialog.text.Group.Format=書式
+HighlightRuleBuilderDialog.text.Description.Element.ReportElement=report element
 
 ###########################################################
 #HighlightsPage properties
@@ -2065,7 +2076,6 @@ InputParameterDailog.dialog.title.required=必須パラメタ (値を指定してください)
 InputParameterDailog.dialog.title=パラメタの入力
 InputParameterDailog.parameter.noparameter=このレポートには、パラメタが関連付けられていません。
 InputParameterDialog.ErrorMessage.InvalidFile=このレポートにはエラーがあります。
-ParameterDialog.ErrorMessage.ValueColumnEmpty=値列を指定する必要があります。
 InputParameterDailog.parameter.null=NULL 値
 InputParameterDialog.ErrorTitle.Error=エラー
 
@@ -2704,6 +2714,7 @@ ParameterDialog.ErrorMessage.EmptyName=名前が指定されていません。
 ParameterDialog.ErrorMessage.InvalidListLimit=制限値は、0 ～ {0} の範囲で指定してください。
 ParameterDialog.ErrorMessage.MismatchDataType=この値はデータ型に一致しません。
 ParameterDialog.ErrorMessage.NoAvailableColumn=使用できるカラムがありません。
+ParameterDialog.ErrorMessage.ValueColumnEmpty=値列を指定する必要があります。
 ParameterDialog.ErrorMessage.NoDefaultValue=デフォルト値を設定してください。
 ParameterDialog.ErrorTitle.InvalidListLimit=一覧の制限が無効です。
 ParameterDialog.Flag.Default=デフォルト
@@ -4053,6 +4064,7 @@ EmbeddedImagesNodeProvider.stackMsg.insert=イメージの挿入
 ###########################################################
 #AddElementtoAction properties
 AddElementtoAction.Text=レポートに追加(&A)
+ApplyThemeAction.Text=レポートに適用(&A)
 
 ###########################################################
 #MultiPageReportEditor properties
@@ -4133,6 +4145,9 @@ ThumbnailBuilder.Button.GenerateFromReport=レポートから生成
 ThumbnailBuilder.Button.BrowseFromFileSystem=ファイルシステムの参照
 ThumbnailBuilder.Button.ImportFromResource=共有リソースからインポート
 ThumbnailBuilder.Image.DefaultName=サムネイルのイメージ
+ThumbnailBuilder.PreviewImage.WarningDialog.Title=警告
+ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=サイズの大きいイメージ (1014x768 以上) を選択しました。これによりメモリ不足の例外が発生する可能性があります。\n続けますか ?
+
 
 ###########################################################
 #FragmentResourceEntry properties

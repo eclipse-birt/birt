@@ -647,6 +647,7 @@ DataSetParameterBindingInputDialog.Label.Value=值:
 DataSetParametersPage.Prompt.new=<此处为新参数...>
 DataSetParametersPage.default.None=不适用
 DataSetParametersPage.reportParam.None=无
+DataSetParametersPage.errorMessage.LinkedReportParamNotFound=数据集参数“{1}”的链接报表参数“{0}”现在不存在。
 DataSetParameterPage.cell.linkToSalarParameter=链接到报表参数(&L)
 DataSetParameterPage.title.ParameterInputDialog=参数
 DataSetParameterPage.toolTipText.New=新建参数
@@ -883,6 +884,7 @@ DesignerActionBarContributor.menu.insert=插入(&I)
 DesignerActionBarContributor.menu.page=页面(&G)
 DesignerActionBarContributor.menu.style-rule-apply=应用样式(&P)
 DesignerActionBarContributor.menu.style-rule-edit=编辑样式(&D)
+DesignerActionBarContributor.menu.style-rule-remove=删除样式(&R)
 DesignerActionBarContributor.style.new=新建样式(&N)...
 DesignerActionBarContributor.menu.data-NewParameter=新建报表参数(&P)
 DesignerActionBarContributor.menu.data-NewDataSetParent=新建数据集(&S)
@@ -1810,12 +1812,10 @@ HighlightRuleBuilderDialog.text.Any=任意
 HighlightRuleBuilderDialog.text.BackgroundColor=背景色:
 HighlightRuleBuilderDialog.text.Between=介于
 HighlightRuleBuilderDialog.text.Color=颜色:
-HighlightRuleBuilderDialog.text.Condition=如果以下条件为真: 
 HighlightRuleBuilderDialog.text.Default=自动
 HighlightRuleBuilderDialog.text.ET=等于
 HighlightRuleBuilderDialog.text.False=为假
 HighlightRuleBuilderDialog.text.Font=字体:
-HighlightRuleBuilderDialog.text.Format=则应用以下格式: 
 HighlightRuleBuilderDialog.text.GE=大于或等于
 HighlightRuleBuilderDialog.text.GT=大于
 HighlightRuleBuilderDialog.text.LE=小于或等于
@@ -1828,15 +1828,26 @@ HighlightRuleBuilderDialog.text.Null=为 NULL
 HighlightRuleBuilderDialog.text.Preview=预览:
 HighlightRuleBuilderDialog.text.PreviewContent=AaBbCcYyZz
 HighlightRuleBuilderDialog.text.Size=大小:
-HighlightRuleBuilderDialog.text.Title=添加/编辑突出显示规则
+HighlightRuleBuilderDialog.text.Title=Highlight
 HighlightRuleBuilderDialog.text.True=为真
 HighlightRuleBuilderDialog.tooltip.ExpBuilder=打开表达式生成器
 HighlightRuleBuilderDialog.tooltip.Bold=粗体
 HighlightRuleBuilderDialog.tooltip.Italic=斜体
 HighlightRuleBuilderDialog.tooltip.Underline=下划线
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=文本删除线
-HighlightRuleBuilderDialog.text.applyStyle=使用样式中的格式:
+HighlightRuleBuilderDialog.text.applyStyle=Apply Style:
 HighlightRuleBuilderDialog.displayText.None=无
+HighlightRuleBuilderDialog.text.Description=Apply conditional formatting to {0}. Specify the conditional expression and the format.\nThe format will be applied if the expression evaluates to true.
+HighlightRuleBuilderDialog.text.Description.Element.Table=table
+HighlightRuleBuilderDialog.text.Description.Element.Grid=grid
+HighlightRuleBuilderDialog.text.Description.Element.List=list
+HighlightRuleBuilderDialog.text.Description.Element.Row=row
+HighlightRuleBuilderDialog.text.Description.Element.Column=column
+HighlightRuleBuilderDialog.text.Description.Element.DataItem=data item
+HighlightRuleBuilderDialog.text.Description.Element.Cell=cell
+HighlightRuleBuilderDialog.text.Group.Condition=条件
+HighlightRuleBuilderDialog.text.Group.Format=格式
+HighlightRuleBuilderDialog.text.Description.Element.ReportElement=report element
 
 ###########################################################
 #HighlightsPage properties
@@ -2065,7 +2076,6 @@ InputParameterDailog.dialog.title.required=所需的参数 - 必须具有值
 InputParameterDailog.dialog.title=输入参数
 InputParameterDailog.parameter.noparameter=没有与此报表相关联的参数。
 InputParameterDialog.ErrorMessage.InvalidFile=报表包含错误。
-ParameterDialog.ErrorMessage.ValueColumnEmpty=应指定值列。
 InputParameterDailog.parameter.null=空值
 InputParameterDialog.ErrorTitle.Error=错误
 
@@ -2704,6 +2714,7 @@ ParameterDialog.ErrorMessage.EmptyName=名称为空。
 ParameterDialog.ErrorMessage.InvalidListLimit=限制值应介于 0 和 {0} 之间
 ParameterDialog.ErrorMessage.MismatchDataType=值与数据类型不匹配。
 ParameterDialog.ErrorMessage.NoAvailableColumn=没有可用的列。
+ParameterDialog.ErrorMessage.ValueColumnEmpty=应指定值列。
 ParameterDialog.ErrorMessage.NoDefaultValue=必须设置默认值。
 ParameterDialog.ErrorTitle.InvalidListLimit=无效列表限制
 ParameterDialog.Flag.Default=默认
@@ -4053,6 +4064,7 @@ EmbeddedImagesNodeProvider.stackMsg.insert=插入图像
 ###########################################################
 #AddElementtoAction properties
 AddElementtoAction.Text=添加到报表(&A)
+ApplyThemeAction.Text=应用于报表(&A)
 
 ###########################################################
 #MultiPageReportEditor properties
@@ -4133,6 +4145,9 @@ ThumbnailBuilder.Button.GenerateFromReport=从报表生成
 ThumbnailBuilder.Button.BrowseFromFileSystem=从文件系统浏览
 ThumbnailBuilder.Button.ImportFromResource=从共享资源导入
 ThumbnailBuilder.Image.DefaultName=缩略图
+ThumbnailBuilder.PreviewImage.WarningDialog.Title=警告
+ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=您选择了大图像(大于 1014x768)，可能导致内存不足异常。\n是否继续?
+
 
 ###########################################################
 #FragmentResourceEntry properties

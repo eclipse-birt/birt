@@ -647,6 +647,7 @@ DataSetParameterBindingInputDialog.Label.Value=°ª:
 DataSetParametersPage.Prompt.new=<¿©±â¿¡ »õ ¸Å°³ º¯¼ö ÀÔ·Â>
 DataSetParametersPage.default.None=ÇØ´ç ¾øÀ½
 DataSetParametersPage.reportParam.None=¾øÀ½
+DataSetParametersPage.errorMessage.LinkedReportParamNotFound=ÇöÀç µ¥ÀÌÅÍ ÁýÇÕ ¸Å°³ º¯¼ö "{1}"ÀÇ ¿¬°áµÈ º¸°í¼­ ¸Å°³ º¯¼ö "{0}"ÀÌ(°¡) ¾ø½À´Ï´Ù.
 DataSetParameterPage.cell.linkToSalarParameter=º¸°í¼­ ¸Å°³ º¯¼ö¿¡ ¿¬°áµÊ(&L)
 DataSetParameterPage.title.ParameterInputDialog=¸Å°³ º¯¼ö
 DataSetParameterPage.toolTipText.New=»õ ¸Å°³ º¯¼ö
@@ -883,6 +884,7 @@ DesignerActionBarContributor.menu.insert=»ðÀÔ(&I)
 DesignerActionBarContributor.menu.page=ÆäÀÌÁö(&G)
 DesignerActionBarContributor.menu.style-rule-apply=½ºÅ¸ÀÏ Àû¿ë(&P)
 DesignerActionBarContributor.menu.style-rule-edit=½ºÅ¸ÀÏ ÆíÁý(&D)
+DesignerActionBarContributor.menu.style-rule-remove=½ºÅ¸ÀÏ »èÁ¦(&R)
 DesignerActionBarContributor.style.new=»õ ½ºÅ¸ÀÏ(&N)...
 DesignerActionBarContributor.menu.data-NewParameter=»õ º¸°í¼­ ¸Å°³ º¯¼ö(&P)
 DesignerActionBarContributor.menu.data-NewDataSetParent=»õ µ¥ÀÌÅÍ ÁýÇÕ(&S)
@@ -1810,12 +1812,10 @@ HighlightRuleBuilderDialog.text.Any=¸ðµÎ
 HighlightRuleBuilderDialog.text.BackgroundColor=¹è°æ»ö:
 HighlightRuleBuilderDialog.text.Between=»çÀÌ¿¡ ÀÖÀ½
 HighlightRuleBuilderDialog.text.Color=»ö»ó:
-HighlightRuleBuilderDialog.text.Condition=´ÙÀ½ Á¶°ÇÀÌ ÂüÀÎ °æ¿ì: 
 HighlightRuleBuilderDialog.text.Default=ÀÚµ¿
 HighlightRuleBuilderDialog.text.ET=°°À½
 HighlightRuleBuilderDialog.text.False=°ÅÁþ
 HighlightRuleBuilderDialog.text.Font=±Û²Ã:
-HighlightRuleBuilderDialog.text.Format=´ÙÀ½ ¼­½Ä Àû¿ë: 
 HighlightRuleBuilderDialog.text.GE=Å©°Å³ª °°À½
 HighlightRuleBuilderDialog.text.GT=Å­
 HighlightRuleBuilderDialog.text.LE=ÀÛ°Å³ª °°À½
@@ -1828,15 +1828,26 @@ HighlightRuleBuilderDialog.text.Null=³Î(null)ÀÓ
 HighlightRuleBuilderDialog.text.Preview=¹Ì¸® º¸±â:
 HighlightRuleBuilderDialog.text.PreviewContent=AaBbCcYyZz
 HighlightRuleBuilderDialog.text.Size=Å©±â:
-HighlightRuleBuilderDialog.text.Title=°­Á¶ ±ÔÄ¢ Ãß°¡/ÆíÁý
+HighlightRuleBuilderDialog.text.Title=Highlight
 HighlightRuleBuilderDialog.text.True=Âü
 HighlightRuleBuilderDialog.tooltip.ExpBuilder=½Ä ºô´õ ¿­±â
 HighlightRuleBuilderDialog.tooltip.Bold=±½°Ô
 HighlightRuleBuilderDialog.tooltip.Italic=±â¿ïÀÓ²Ã
 HighlightRuleBuilderDialog.tooltip.Underline=¹ØÁÙ
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=ÅØ½ºÆ® °¡¿îµ¥ ¼± ±ß±â
-HighlightRuleBuilderDialog.text.applyStyle=½ºÅ¸ÀÏ¿¡¼­ ¼­½Ä ÁöÁ¤À» »ç¿ëÇÏ½Ê½Ã¿À:
+HighlightRuleBuilderDialog.text.applyStyle=Apply Style:
 HighlightRuleBuilderDialog.displayText.None=¾øÀ½
+HighlightRuleBuilderDialog.text.Description=Apply conditional formatting to {0}. Specify the conditional expression and the format.\nThe format will be applied if the expression evaluates to true.
+HighlightRuleBuilderDialog.text.Description.Element.Table=table
+HighlightRuleBuilderDialog.text.Description.Element.Grid=grid
+HighlightRuleBuilderDialog.text.Description.Element.List=list
+HighlightRuleBuilderDialog.text.Description.Element.Row=row
+HighlightRuleBuilderDialog.text.Description.Element.Column=column
+HighlightRuleBuilderDialog.text.Description.Element.DataItem=data item
+HighlightRuleBuilderDialog.text.Description.Element.Cell=cell
+HighlightRuleBuilderDialog.text.Group.Condition=Á¶°Ç
+HighlightRuleBuilderDialog.text.Group.Format=Çü½Ä
+HighlightRuleBuilderDialog.text.Description.Element.ReportElement=report element
 
 ###########################################################
 #HighlightsPage properties
@@ -2065,7 +2076,6 @@ InputParameterDailog.dialog.title.required=ÇÊ¼ö ¸Å°³ º¯¼ö - ¹Ýµå½Ã °ªÀÌ ÀÖ¾î¾ß Ç
 InputParameterDailog.dialog.title=¸Å°³ º¯¼ö ÀÔ·Â
 InputParameterDailog.parameter.noparameter=ÀÌ º¸°í¼­¿Í °ü·ÃµÈ ¸Å°³ º¯¼ö°¡ ¾ø½À´Ï´Ù.
 InputParameterDialog.ErrorMessage.InvalidFile=º¸°í¼­¿¡ ¿À·ù°¡ ÀÖ½À´Ï´Ù.
-ParameterDialog.ErrorMessage.ValueColumnEmpty=°ª ¿­À» ÁöÁ¤ÇØ¾ß ÇÕ´Ï´Ù.
 InputParameterDailog.parameter.null=³Î(null) °ª
 InputParameterDialog.ErrorTitle.Error=¿À·ù
 
@@ -2704,6 +2714,7 @@ ParameterDialog.ErrorMessage.EmptyName=ÀÌ¸§ÀÌ ºñ¾î ÀÖ½À´Ï´Ù.
 ParameterDialog.ErrorMessage.InvalidListLimit=Á¦ÇÑ °ªÀº 0°ú {0} »çÀÌ¿©¾ß ÇÕ´Ï´Ù.
 ParameterDialog.ErrorMessage.MismatchDataType=°ªÀÌ µ¥ÀÌÅÍ Çü½Ä¿¡ ¸ÂÁö ¾Ê½À´Ï´Ù.
 ParameterDialog.ErrorMessage.NoAvailableColumn=»ç¿ëÇÒ ¼ö ÀÖ´Â ¿­ÀÌ ¾ø½À´Ï´Ù.
+ParameterDialog.ErrorMessage.ValueColumnEmpty=°ª ¿­À» ÁöÁ¤ÇØ¾ß ÇÕ´Ï´Ù.
 ParameterDialog.ErrorMessage.NoDefaultValue=±âº»°ªÀ» ¼³Á¤ÇØ¾ß ÇÕ´Ï´Ù.
 ParameterDialog.ErrorTitle.InvalidListLimit=Àß¸øµÈ ¸ñ·Ï Á¦ÇÑ
 ParameterDialog.Flag.Default=±âº»°ª
@@ -4053,6 +4064,7 @@ EmbeddedImagesNodeProvider.stackMsg.insert=ÀÌ¹ÌÁö »ðÀÔ
 ###########################################################
 #AddElementtoAction properties
 AddElementtoAction.Text=º¸°í¼­¿¡ Ãß°¡(&A)
+ApplyThemeAction.Text=º¸°í¼­¿¡ Àû¿ë(&A)
 
 ###########################################################
 #MultiPageReportEditor properties
@@ -4133,6 +4145,9 @@ ThumbnailBuilder.Button.GenerateFromReport=º¸°í¼­¿¡¼­ »ý¼º
 ThumbnailBuilder.Button.BrowseFromFileSystem=ÆÄÀÏ ½Ã½ºÅÛ¿¡¼­ Ã£¾Æº¸±â
 ThumbnailBuilder.Button.ImportFromResource=°øÀ¯ ¸®¼Ò½º¿¡¼­ °¡Á®¿À±â
 ThumbnailBuilder.Image.DefaultName=Ãà¼ÒÆÇ ÀÌ¹ÌÁö
+ThumbnailBuilder.PreviewImage.WarningDialog.Title=°æ°í
+ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=³Ê¹« Å« ÀÌ¹ÌÁö(1014x768 ÀÌ»ó)¸¦ ¼±ÅÃÇÏ¿© ¸Þ¸ð¸® ºÎÁ· ¿¹¿Ü°¡ ¹ß»ýÇÒ ¼ö ÀÖ½À´Ï´Ù.\n°è¼ÓÇÏ½Ã°Ú½À´Ï±î?
+
 
 ###########################################################
 #FragmentResourceEntry properties

@@ -647,6 +647,7 @@ DataSetParameterBindingInputDialog.Label.Value=Valeur :
 DataSetParametersPage.Prompt.new=<Nouveau paramètre ici...>
 DataSetParametersPage.default.None=N/A
 DataSetParametersPage.reportParam.None=Aucun
+DataSetParametersPage.errorMessage.LinkedReportParamNotFound=Le paramètre d'état lié "{0}" du paramètre du jeu de données "{1}" n'existe pas actuellement.
 DataSetParameterPage.cell.linkToSalarParameter=&Lié au paramètre d'état
 DataSetParameterPage.title.ParameterInputDialog=Paramètre
 DataSetParameterPage.toolTipText.New=Nouveau paramètre
@@ -883,6 +884,7 @@ DesignerActionBarContributor.menu.insert=&Insérer
 DesignerActionBarContributor.menu.page=Pa&ge
 DesignerActionBarContributor.menu.style-rule-apply=A&ppliquer un style
 DesignerActionBarContributor.menu.style-rule-edit=Mo&difier le style
+DesignerActionBarContributor.menu.style-rule-remove=Supp&rimer le style
 DesignerActionBarContributor.style.new=&Nouveau style...
 DesignerActionBarContributor.menu.data-NewParameter=Nouveau &paramètre d'état
 DesignerActionBarContributor.menu.data-NewDataSetParent=Nouveau jeu de do&nnées
@@ -1810,12 +1812,10 @@ HighlightRuleBuilderDialog.text.Any=est indifféremment
 HighlightRuleBuilderDialog.text.BackgroundColor=Couleur d'arrière-plan :
 HighlightRuleBuilderDialog.text.Between=Est compris entre
 HighlightRuleBuilderDialog.text.Color=Couleur :
-HighlightRuleBuilderDialog.text.Condition=Si la condition suivante est vraie : 
 HighlightRuleBuilderDialog.text.Default=Auto
 HighlightRuleBuilderDialog.text.ET=est égal à
 HighlightRuleBuilderDialog.text.False=est faux
 HighlightRuleBuilderDialog.text.Font=Police :
-HighlightRuleBuilderDialog.text.Format=Alors appliquer le formatage suivant : 
 HighlightRuleBuilderDialog.text.GE=est supérieur ou égal à
 HighlightRuleBuilderDialog.text.GT=est supérieur à
 HighlightRuleBuilderDialog.text.LE=est inférieur ou égal à
@@ -1828,15 +1828,26 @@ HighlightRuleBuilderDialog.text.Null=est nul
 HighlightRuleBuilderDialog.text.Preview=Aperçu :
 HighlightRuleBuilderDialog.text.PreviewContent=AaBbCcYyZz
 HighlightRuleBuilderDialog.text.Size=Taille :
-HighlightRuleBuilderDialog.text.Title=Ajouter/Modifier la règle de surbrillance
+HighlightRuleBuilderDialog.text.Title=Highlight
 HighlightRuleBuilderDialog.text.True=est vrai
 HighlightRuleBuilderDialog.tooltip.ExpBuilder=Ouvrir le Générateur d'expression
 HighlightRuleBuilderDialog.tooltip.Bold=Gras
 HighlightRuleBuilderDialog.tooltip.Italic=Italique
 HighlightRuleBuilderDialog.tooltip.Underline=Texte souligné
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=Ligne de texte barré
-HighlightRuleBuilderDialog.text.applyStyle=Utiliser le formatage à partir du style :
+HighlightRuleBuilderDialog.text.applyStyle=Apply Style:
 HighlightRuleBuilderDialog.displayText.None=Aucun
+HighlightRuleBuilderDialog.text.Description=Apply conditional formatting to {0}. Specify the conditional expression and the format.\nThe format will be applied if the expression evaluates to true.
+HighlightRuleBuilderDialog.text.Description.Element.Table=table
+HighlightRuleBuilderDialog.text.Description.Element.Grid=grid
+HighlightRuleBuilderDialog.text.Description.Element.List=list
+HighlightRuleBuilderDialog.text.Description.Element.Row=row
+HighlightRuleBuilderDialog.text.Description.Element.Column=column
+HighlightRuleBuilderDialog.text.Description.Element.DataItem=data item
+HighlightRuleBuilderDialog.text.Description.Element.Cell=cell
+HighlightRuleBuilderDialog.text.Group.Condition=Condition
+HighlightRuleBuilderDialog.text.Group.Format=Format
+HighlightRuleBuilderDialog.text.Description.Element.ReportElement=report element
 
 ###########################################################
 #HighlightsPage properties
@@ -2065,7 +2076,6 @@ InputParameterDailog.dialog.title.required=Le paramètre requis doit contenir une
 InputParameterDailog.dialog.title=Entrer les paramètres
 InputParameterDailog.parameter.noparameter=Aucun paramètre associé à cet état.
 InputParameterDialog.ErrorMessage.InvalidFile=Cet état contient une erreur.
-ParameterDialog.ErrorMessage.ValueColumnEmpty=La colonne de valeurs doit être spécifiée.
 InputParameterDailog.parameter.null=Valeur nulle
 InputParameterDialog.ErrorTitle.Error=Erreur
 
@@ -2704,6 +2714,7 @@ ParameterDialog.ErrorMessage.EmptyName=Le nom n'est pas renseigné.
 ParameterDialog.ErrorMessage.InvalidListLimit=La valeur de limitation doit être comprise entre 0 et {0}
 ParameterDialog.ErrorMessage.MismatchDataType=La valeur ne correspond pas au type de données.
 ParameterDialog.ErrorMessage.NoAvailableColumn=Aucune colonne n'est disponible.
+ParameterDialog.ErrorMessage.ValueColumnEmpty=La colonne de valeurs doit être spécifiée.
 ParameterDialog.ErrorMessage.NoDefaultValue=Vous devez définir une valeur par défaut.
 ParameterDialog.ErrorTitle.InvalidListLimit=Limite de liste incorrecte
 ParameterDialog.Flag.Default=Par défaut
@@ -4053,6 +4064,7 @@ EmbeddedImagesNodeProvider.stackMsg.insert=Insérer l'image
 ###########################################################
 #AddElementtoAction properties
 AddElementtoAction.Text=&Ajouter à l'état
+ApplyThemeAction.Text=&Appliquer à l'état
 
 ###########################################################
 #MultiPageReportEditor properties
@@ -4133,6 +4145,9 @@ ThumbnailBuilder.Button.GenerateFromReport=Générer à partir de l'état
 ThumbnailBuilder.Button.BrowseFromFileSystem=Parcourir depuis le système de fichiers
 ThumbnailBuilder.Button.ImportFromResource=Importer depuis des ressources partagées
 ThumbnailBuilder.Image.DefaultName=Image miniature
+ThumbnailBuilder.PreviewImage.WarningDialog.Title=Avertissement
+ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=Vous avez sélectionné une image volumineuse (supérieure à 1 014 x 768). Ceci peut entraîner la génération d'une exception de type "Mémoire insuffisante".\nSouhaitez-vous continuer ?
+
 
 ###########################################################
 #FragmentResourceEntry properties
