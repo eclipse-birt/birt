@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.CSSUtil;
 import org.eclipse.birt.report.designer.util.ColorManager;
@@ -393,23 +394,27 @@ public class FontPreferencePage extends BaseStylePreferencePage
 				new AlphabeticallyComparator( ) );
 
 		String[] sf = DEUtil.getSystemFontNames( );
+		
+		String[] af = {
+				ChoiceSetFactory.CHOICE_AUTO, null
+		};
 
-		String[][] rt = new String[fca.length + sf.length][2];
+		String[][] rt = new String[fca.length + sf.length + 1][2];
 
-		for ( int i = 0; i < rt.length; i++ )
+		rt[0] = af;
+		for ( int i = 0; i < rt.length - 1; i++ )
 		{
 			if ( i < fca.length )
 			{
-				rt[i][0] = fca[i][0];
-				rt[i][1] = fca[i][1];
+				rt[i + 1][0] = fca[i][0];
+				rt[i + 1][1] = fca[i][1];
 			}
 			else
 			{
-				rt[i][0] = sf[i - fca.length];
-				rt[i][1] = sf[i - fca.length];
+				rt[i + 1][0] = sf[i - fca.length];
+				rt[i + 1][1] = sf[i - fca.length];
 			}
 		}
-
 		return rt;
 	}
 
