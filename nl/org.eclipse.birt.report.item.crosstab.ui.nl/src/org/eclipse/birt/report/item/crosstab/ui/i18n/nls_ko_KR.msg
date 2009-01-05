@@ -55,6 +55,7 @@ SubTotalProvider.Column.Function=함수
 SubTotalProvider.Column.AggregateOn=집계 대상:
 SubTotalProvider.Column.ViewStatus=현재 보기 유지
 SubTotalProvider.Column.View=보기
+SubTotalProvider.Column.Position=Position
 SubTotalProvider.ShowAs={0}(으)로 표시
 LevelViewDialog.Title=그룹 수준 표시/숨기기
 LevelViewDialog.Label.Info=크로스 탭에 표시할 수준 선택:
@@ -313,3 +314,11 @@ MapRuleBuilderDialog.MsgDlg.Title=경고
 MapRuleBuilderDialog.MsgDlg.Msg=값을 입력해야 합니다.
 
 LevelHandleDropAdapter.ActionText=차원 추가
+
+
+###########################################################
+#CrosstabHighlightRuleBuilder properties
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstab=crosstab
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstabcell=crosstab cell
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.ReportElement=report element
+CrosstabHighlightRuleBuilderDialog.text.Description=Apply conditional formatting to {0}. Specify the conditional expression and the format.\nThe format will be applied if the expression evaluates to true.

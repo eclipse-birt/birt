@@ -55,6 +55,7 @@ SubTotalProvider.Column.Function=関数
 SubTotalProvider.Column.AggregateOn=集計条件
 SubTotalProvider.Column.ViewStatus=現在のビューの保存
 SubTotalProvider.Column.View=ビュー
+SubTotalProvider.Column.Position=Position
 SubTotalProvider.ShowAs={0} として表示
 LevelViewDialog.Title=グループレベルの表示/非表示
 LevelViewDialog.Label.Info=クロスタブに表示するレベルの選択 :
@@ -313,3 +314,11 @@ MapRuleBuilderDialog.MsgDlg.Title=警告
 MapRuleBuilderDialog.MsgDlg.Msg=値は空にできません。
 
 LevelHandleDropAdapter.ActionText=ディメンジョンの追加
+
+
+###########################################################
+#CrosstabHighlightRuleBuilder properties
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstab=crosstab
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstabcell=crosstab cell
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.ReportElement=report element
+CrosstabHighlightRuleBuilderDialog.text.Description=Apply conditional formatting to {0}. Specify the conditional expression and the format.\nThe format will be applied if the expression evaluates to true.
