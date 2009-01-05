@@ -2227,6 +2227,7 @@ Element.DataGroup=データグループ
 
 # Module ( Prefix = Element.Module )
 Element.Module.author=作成者 :
+Element.Module.subject=Subject
 Element.Module.helpGuide=ヘルプガイド :
 Element.Module.createdBy=作成者 : 
 Element.Module.title=タイトル :
