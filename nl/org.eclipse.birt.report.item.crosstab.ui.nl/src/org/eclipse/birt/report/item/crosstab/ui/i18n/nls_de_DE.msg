@@ -55,6 +55,7 @@ SubTotalProvider.Column.Function=Funktionen
 SubTotalProvider.Column.AggregateOn=Aggregat in
 SubTotalProvider.Column.ViewStatus=Aktuelle Ansicht beibehalten
 SubTotalProvider.Column.View=Anzeigen
+SubTotalProvider.Column.Position=Position
 SubTotalProvider.ShowAs=Anzeigen als {0}
 LevelViewDialog.Title=Gruppenebenen einblenden/ausblenden
 LevelViewDialog.Label.Info=Ebenen zum Anzeigen in Kreuztabelle auswählen:
@@ -313,3 +314,11 @@ MapRuleBuilderDialog.MsgDlg.Title=Warnung
 MapRuleBuilderDialog.MsgDlg.Msg=Der Wert darf nicht leer sein.
 
 LevelHandleDropAdapter.ActionText=Dimension hinzufügen
+
+
+###########################################################
+#CrosstabHighlightRuleBuilder properties
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstab=crosstab
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstabcell=crosstab cell
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.ReportElement=report element
+CrosstabHighlightRuleBuilderDialog.text.Description=Apply conditional formatting to {0}. Specify the conditional expression and the format.\nThe format will be applied if the expression evaluates to true.

@@ -55,6 +55,7 @@ SubTotalProvider.Column.Function=Fonctions
 SubTotalProvider.Column.AggregateOn=Regrouper par
 SubTotalProvider.Column.ViewStatus=Conserver la Vue actuelle
 SubTotalProvider.Column.View=Affichage
+SubTotalProvider.Column.Position=Position
 SubTotalProvider.ShowAs=Afficher sous {0}
 LevelViewDialog.Title=Afficher/Masquer les niveaux de groupe
 LevelViewDialog.Label.Info=Sélectionner les niveaux à afficher sur le tableau croisé :
@@ -313,3 +314,11 @@ MapRuleBuilderDialog.MsgDlg.Title=Avertissement
 MapRuleBuilderDialog.MsgDlg.Msg=La valeur ne peut pas être vierge.
 
 LevelHandleDropAdapter.ActionText=Ajouter une dimension
+
+
+###########################################################
+#CrosstabHighlightRuleBuilder properties
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstab=crosstab
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstabcell=crosstab cell
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.ReportElement=report element
+CrosstabHighlightRuleBuilderDialog.text.Description=Apply conditional formatting to {0}. Specify the conditional expression and the format.\nThe format will be applied if the expression evaluates to true.
