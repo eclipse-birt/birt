@@ -1344,7 +1344,29 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		Image img = null;
 		try
 		{
-			img = Image.getInstance( new URL( imageURI ) );
+			try
+			{
+				img = Image.getInstance( new URL( imageURI ) );
+			}
+			catch ( IOException e )
+			{
+				if ( SvgFile.isSvg( imageURI ) )
+				{
+					try
+					{
+						img = Image
+								.getInstance( SvgFile.transSvgToArray( imageURI ) );
+					}
+					catch ( IOException ex )
+					{
+						throw ex;
+					}
+				}
+				else
+				{
+					throw e;
+				}
+			}
 			int absPosX, absPosY;
 			if ( xMode )
 			{

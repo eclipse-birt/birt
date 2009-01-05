@@ -24,6 +24,7 @@ import org.eclipse.birt.report.engine.layout.emitter.AbstractPage;
 import org.eclipse.birt.report.engine.layout.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.util.FlashFile;
+import org.eclipse.birt.report.engine.util.SvgFile;
 import org.w3c.dom.css.CSSValue;
 
 import com.lowagie.text.BadElementException;
@@ -132,7 +133,29 @@ public class PDFPage extends AbstractPage
 		Image img = null;
 		try
 		{
-			img = Image.getInstance( new URL(imageUrl) );
+			try
+			{
+				img = Image.getInstance( new URL( imageUrl ) );
+			}
+			catch ( IOException e )
+			{
+				if ( SvgFile.isSvg( imageUrl ) )
+				{
+					try
+					{
+						img = Image
+								.getInstance( SvgFile.transSvgToArray( imageUrl ) );
+					}
+					catch ( IOException ex )
+					{
+						throw ex;
+					}
+				}
+				else
+				{
+					throw e;
+				}
+			}
 			if ( "no-repeat".equalsIgnoreCase( repeat ) ) //$NON-NLS-1$
 			{
 				TplValueTriple triple = computeTplHorizontalValPair( absPosX,
