@@ -84,6 +84,7 @@ data.engine.InvalidTopBottomPercentArgument=Bei den Argumenten der Filter für "T
 
 data.engine.UnsupportedCondOp=Bedingter Operator wird nicht unterstützt: {0}.
 data.engine.EmptyExpression=Der Ausdruck darf nicht leer oder gleich Null sein.
+data.engine.AggregationBinding.EmptyArgument=The argument "{0}" is required by the aggregation binding "{1}".
 
 data.engine.InvalidJoinType=Ungültige Knotenpunktart
 data.engine.InvalidJoinOperator=Ungültiger Knotenpunkt-Operator
