@@ -2324,6 +2324,13 @@ public abstract class AxesRenderer extends BaseRenderer
 			DataPointHints dph, Integer markerSize, boolean bDeferred,
 			boolean bConsiderTranspostion ) throws ChartException
 	{
+		// If data point is invalid, simply return.
+		if ( dph != null
+				&& ( isNaN( dph.getOrthogonalValue( ) ) || dph.isOutside( ) ) )
+		{
+			return;
+		}
+		
 		Fill markerFill = m.getFill( );
 		m = MarkerImpl.copyInstanceNoFill( m );
 
@@ -2356,11 +2363,6 @@ public abstract class AxesRenderer extends BaseRenderer
 				getRunTimeContext( ).getScriptContext( ));
 		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_MARKER,
 				m );
-		if ( dph != null
-				&& ( isNaN( dph.getOrthogonalValue( ) ) || dph.isOutside( ) ) )
-		{
-			return;
-		}
 
 		Series se = getSeries( );
 
