@@ -345,6 +345,24 @@ LegendBehaviorType.None.displayName=Aucun
 LegendBehaviorType.ToggleSerieVisibility.displayName=Basculer l'affichage des séries
 LegendBehaviorType.HighlightSerie.displayName=Mettre les séries en surbrillance
 
+# Defines cursor display names.
+Cursor.Auto.displayName=Auto
+Cursor.Crosshair.displayName=Réticule
+Cursor.Default.displayName=Default
+Cursor.Pointer.displayName=Hand
+Cursor.Move.displayName=Move
+Cursor.Text.displayName=Texte
+Cursor.Wait.displayName=Wait
+Cursor.EResize.displayName=East
+Cursor.NEResize.displayName=North-East
+Cursor.NWResize.displayName=North-West
+Cursor.NResize.displayName=North
+Cursor.SEResize.displayName=South-East 
+Cursor.SWResize.displayName=South-West
+Cursor.SResize.displayName=South
+Cursor.WResize.displayName=West
+Cursor.Custom.displayName=Custom
+
 # End of Attributes
 ##################################################
 

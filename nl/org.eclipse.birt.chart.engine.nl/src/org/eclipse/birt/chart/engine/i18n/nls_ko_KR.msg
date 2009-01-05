@@ -345,6 +345,24 @@ LegendBehaviorType.None.displayName=없음
 LegendBehaviorType.ToggleSerieVisibility.displayName=계열 표시 유형 전환
 LegendBehaviorType.HighlightSerie.displayName=계열 강조
 
+# Defines cursor display names.
+Cursor.Auto.displayName=Auto
+Cursor.Crosshair.displayName=십자 기호
+Cursor.Default.displayName=Default
+Cursor.Pointer.displayName=Hand
+Cursor.Move.displayName=Move
+Cursor.Text.displayName=텍스트
+Cursor.Wait.displayName=Wait
+Cursor.EResize.displayName=East
+Cursor.NEResize.displayName=North-East
+Cursor.NWResize.displayName=North-West
+Cursor.NResize.displayName=North
+Cursor.SEResize.displayName=South-East 
+Cursor.SWResize.displayName=South-West
+Cursor.SResize.displayName=South
+Cursor.WResize.displayName=West
+Cursor.Custom.displayName=Custom
+
 # End of Attributes
 ##################################################
 

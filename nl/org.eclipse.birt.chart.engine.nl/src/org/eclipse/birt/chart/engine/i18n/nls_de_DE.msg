@@ -345,6 +345,24 @@ LegendBehaviorType.None.displayName=Keine
 LegendBehaviorType.ToggleSerieVisibility.displayName=Sichtbarkeit der Datenreihe ein/aus
 LegendBehaviorType.HighlightSerie.displayName=Datenreihe markieren
 
+# Defines cursor display names.
+Cursor.Auto.displayName=Auto
+Cursor.Crosshair.displayName=Fadenkreuz
+Cursor.Default.displayName=Default
+Cursor.Pointer.displayName=Hand
+Cursor.Move.displayName=Move
+Cursor.Text.displayName=Text
+Cursor.Wait.displayName=Wait
+Cursor.EResize.displayName=East
+Cursor.NEResize.displayName=North-East
+Cursor.NWResize.displayName=North-West
+Cursor.NResize.displayName=North
+Cursor.SEResize.displayName=South-East 
+Cursor.SWResize.displayName=South-West
+Cursor.SResize.displayName=South
+Cursor.WResize.displayName=West
+Cursor.Custom.displayName=Custom
+
 # End of Attributes
 ##################################################
 

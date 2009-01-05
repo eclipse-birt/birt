@@ -345,6 +345,24 @@ LegendBehaviorType.None.displayName=なし
 LegendBehaviorType.ToggleSerieVisibility.displayName=系列の表示と非表示を切り替える
 LegendBehaviorType.HighlightSerie.displayName=系列を強調表示する
 
+# Defines cursor display names.
+Cursor.Auto.displayName=Auto
+Cursor.Crosshair.displayName=十字線
+Cursor.Default.displayName=Default
+Cursor.Pointer.displayName=Hand
+Cursor.Move.displayName=Move
+Cursor.Text.displayName=テキスト
+Cursor.Wait.displayName=Wait
+Cursor.EResize.displayName=East
+Cursor.NEResize.displayName=North-East
+Cursor.NWResize.displayName=North-West
+Cursor.NResize.displayName=North
+Cursor.SEResize.displayName=South-East 
+Cursor.SWResize.displayName=South-West
+Cursor.SResize.displayName=South
+Cursor.WResize.displayName=West
+Cursor.Custom.displayName=Custom
+
 # End of Attributes
 ##################################################
 
