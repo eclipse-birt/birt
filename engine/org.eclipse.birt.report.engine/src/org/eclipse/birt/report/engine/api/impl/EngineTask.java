@@ -1843,13 +1843,11 @@ public abstract class EngineTask implements IEngineTask
 				{
 					handle.setBidiOrientation( bidiOrientation );
 					Report report = executionContext.getReport( );
-					AbstractStyle rootStyle = (AbstractStyle) report.getStyles( ).get(
-							report.getRootStyleName( ) );
+					AbstractStyle rootStyle = (AbstractStyle) report
+							.getStyles( ).get( report.getRootStyleName( ) );
+					if ( rootStyle != null )
 					{
-						if(rootStyle!=null)
-						{
-							rootStyle.setDirection( bidiOrientation );
-						}
+						rootStyle.setDirection( bidiOrientation );
 					}
 				}
 				catch ( SemanticException e )
