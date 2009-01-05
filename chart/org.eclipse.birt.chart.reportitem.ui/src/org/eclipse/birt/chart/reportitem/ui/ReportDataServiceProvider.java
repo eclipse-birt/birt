@@ -2826,5 +2826,47 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		return null;
 	}
+	
+	/**
+	 * Calculate the number of expressions binded to category series, value
+	 * series or y-optional grouping .
+	 * 
+	 * @param expr
+	 * @return count number
+	 */
+	int getNumberOfSameDataDefinition( String expr )
+	{
+		if(expr == null)
+		{
+			return 0;
+		}
+		int count = 0;
+		Chart chart = context.getModel( );
+		String[] expres = ChartUtil.getCategoryExpressions( chart );
+		for(String s:expres)
+		{
+			if(expr.equals( s ))
+			{
+				count++;
+			}
+		}
+		expres = ChartUtil.getValueSeriesExpressions( chart );
+		for(String s:expres)
+		{
+			if ( expr.equals( s ) )
+			{
+				count++;
+			}
+		}
+		expres = ChartUtil.getYOptoinalExpressions( chart );
+		for ( String s : expres )
+		{
+			if ( expr.equals( s ) )
+			{
+				count++;
+			}
+		}
+		return count;
+	}
 
 }

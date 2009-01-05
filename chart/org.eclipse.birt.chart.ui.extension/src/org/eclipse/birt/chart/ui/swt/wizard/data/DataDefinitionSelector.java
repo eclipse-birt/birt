@@ -33,6 +33,7 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
@@ -43,7 +44,6 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -53,6 +53,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
@@ -263,7 +265,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 			refreshSeriesCombo( );
 			cmbSeriesSelect.select( 0 );
 		}
-		return (SeriesDefinition) seriesDefns.get( cmbSeriesSelect.getSelectionIndex( ) );
+		return seriesDefns.get( cmbSeriesSelect.getSelectionIndex( ) );
 	}
 
 	private int getFirstIndexOfSameAxis( )
@@ -309,10 +311,11 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 			sdTmp.eAdapters( ).addAll( seriesDefns.get( 0 ).eAdapters( ) );
 
 			int firstIndex = getFirstIndexOfSameAxis( );
-			EList list = getChart( ).getSampleData( ).getOrthogonalSampleData( );
+			EList<OrthogonalSampleData> list = getChart( ).getSampleData( )
+					.getOrthogonalSampleData( );
 
 			// Create a new OrthogonalSampleData instance from the existing one
-			OrthogonalSampleData sdOrthogonal = (OrthogonalSampleData) EcoreUtil.copy( (EObject) list.get( firstIndex ) );
+			OrthogonalSampleData sdOrthogonal = (OrthogonalSampleData) EcoreUtil.copy( list.get( firstIndex ) );
 			if ( axisIndex == -1 )
 			{
 				sdOrthogonal.setSeriesDefinitionIndex( seriesDefns.size( ) );
@@ -329,7 +332,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 
 			// Update the Sample Data.
 			int sdIndex = sdOrthogonal.getSeriesDefinitionIndex( );
-			ArrayList al = new ArrayList( );
+			ArrayList<OrthogonalSampleData> al = new ArrayList<OrthogonalSampleData>( );
 			if ( sdIndex >= list.size( ) )
 			{
 				list.add( sdOrthogonal );
@@ -344,11 +347,12 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 				for ( int i = 1; i < al.size( ); i++ )
 				{
 					list.set( i + sdIndex, al.get( i - 1 ) );
-					( (OrthogonalSampleData) list.get( i + sdIndex ) ).setSeriesDefinitionIndex( i
+					list.get( i + sdIndex ).setSeriesDefinitionIndex( i
 							+ sdIndex );
 				}
 				list.add( al.get( al.size( ) - 1 ) );
-				( (OrthogonalSampleData) list.get( list.size( ) - 1 ) ).setSeriesDefinitionIndex( list.size( ) - 1 );
+				list.get( list.size( ) - 1 )
+						.setSeriesDefinitionIndex( list.size( ) - 1 );
 			}
 		}
 		else
@@ -418,10 +422,10 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 
 	private void cleanDataDefinition( SeriesDefinition sd )
 	{
-		EList dds = sd.getDesignTimeSeries( ).getDataDefinition( );
+		EList<Query> dds = sd.getDesignTimeSeries( ).getDataDefinition( );
 		for ( int i = 0; i < dds.size( ); i++ )
 		{
-			( (Query) dds.get( i ) ).setDefinition( "" ); //$NON-NLS-1$
+			dds.get( i ).setDefinition( "" ); //$NON-NLS-1$
 		}
 	}
 
@@ -438,7 +442,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		{
 			if ( i != removedIndex )
 			{
-				( (SeriesDefinition) seriesDefns.get( i ) ).getSeriesPalette( )
+				seriesDefns.get( i ).getSeriesPalette( )
 						.shift( -j++ );
 			}
 		}
@@ -449,12 +453,13 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		boolean isNotificaionIgnored = ChartAdapter.isNotificationIgnored( );
 		ChartAdapter.ignoreNotifications( true );
 		int firstIndex = getFirstIndexOfSameAxis( );
-		EList list = getChart( ).getSampleData( ).getOrthogonalSampleData( );
+		EList<OrthogonalSampleData> list = getChart( ).getSampleData( )
+				.getOrthogonalSampleData( );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			// Check each entry if it is associated with the series
 			// definition to be removed
-			if ( ( (OrthogonalSampleData) list.get( i ) ).getSeriesDefinitionIndex( ) == ( firstIndex + cmbSeriesSelect.getSelectionIndex( ) ) )
+			if ( list.get( i ).getSeriesDefinitionIndex( ) == ( firstIndex + cmbSeriesSelect.getSelectionIndex( ) ) )
 			{
 				list.remove( i );
 				break;
@@ -618,31 +623,33 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 	 */
 	private void updateColorRegistry( int seriesIndex )
 	{
-		List dataDefinitions = null;
+		List<Query> dataDefinitions = null;
 		if ( seriesIndex > -1 )
 		{
-			dataDefinitions = ( (SeriesDefinition) seriesDefns.get( seriesIndex ) ).getDesignTimeSeries( )
+			dataDefinitions = seriesDefns.get( seriesIndex )
+					.getDesignTimeSeries( )
 					.getDataDefinition( );
 		}
 		else
 		{
-			List allSeriesDefns = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) );
-			dataDefinitions = new ArrayList( );
+			List<SeriesDefinition> allSeriesDefns = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) );
+			dataDefinitions = new ArrayList<Query>( );
 			for ( int i = 0; i < allSeriesDefns.size( ); i++ )
 			{
-				dataDefinitions.addAll( ( (SeriesDefinition) allSeriesDefns.get( i ) ).getDesignTimeSeries( )
+				dataDefinitions.addAll( allSeriesDefns.get( i )
+						.getDesignTimeSeries( )
 						.getDataDefinition( ) );
 			}
 		}
 
 		// Count each expression
-		Map queryMap = new HashMap( );
+		Map<String, Integer> queryMap = new HashMap<String, Integer>( );
 		for ( int i = 0; i < dataDefinitions.size( ); i++ )
 		{
-			String expression = ( (Query) dataDefinitions.get( i ) ).getDefinition( );
+			String expression = dataDefinitions.get( i ).getDefinition( );
 			if ( queryMap.containsKey( expression ) )
 			{
-				int expCount = ( (Integer) queryMap.get( expression ) ).intValue( );
+				int expCount = queryMap.get( expression ).intValue( );
 				queryMap.put( expression, new Integer( expCount++ ) );
 			}
 			else
@@ -652,24 +659,32 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		}
 		// If the expression count is the same to the count of all, delete this
 		// color registry of the expression
-		for ( Iterator iterator = queryMap.keySet( ).iterator( ); iterator.hasNext( ); )
+		for ( Iterator<String> iterator = queryMap.keySet( ).iterator( ); iterator.hasNext( ); )
 		{
-			String expression = (String) iterator.next( );
+			String expression = iterator.next( );
 			if ( DataDefinitionTextManager.getInstance( )
-					.getNumberOfSameDataDefinition( expression ) == ( (Integer) queryMap.get( expression ) ).intValue( ) )
+					.getNumberOfSameDataDefinition( expression ) == queryMap.get( expression )
+					.intValue( ) )
 			{
 				ColorPalette.getInstance( ).retrieveColor( expression );
 			}
 		}
+		
+		
+		// refresh table color
+		final Event e = new Event( );
+		e.data = DataDefinitionSelector.this;
+		e.type = IChartDataSheet.EVENT_QUERY;
+		e.detail = IChartDataSheet.DETAIL_UPDATE_COLOR;
 
-		//TODO to update color by other means
-//		// Refresh table color
-//		for ( int i = 0; i < getCustomTable( ).getColumnNumber( ); i++ )
-//		{
-//			getCustomTable( ).setColumnColor( i,
-//					ColorPalette.getInstance( )
-//							.getColor( ChartUIUtil.getExpressionString( getCustomTable( ).getColumnHeading( i ) ) ) );
-//		}
+		// Use async thread to update UI to prevent control disposed
+		Display.getCurrent( ).asyncExec( new Runnable( ) {
+
+			public void run( )
+			{
+				wizardContext.getDataSheet( ).notifyListeners( e );
+			}
+		} );
 	}
 
 	private void setSelectedSeriesIndex( )
@@ -721,7 +736,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 
 	private void refreshSeriesCombo( Combo cmbSeriesSelect )
 	{
-		ArrayList itemList = new ArrayList( );
+		ArrayList<String> itemList = new ArrayList<String>( );
 		int seriesSize = seriesDefns.size( );
 		for ( int i = 1; i <= seriesSize; i++ )
 		{
@@ -732,7 +747,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 			itemList.add( Messages.getString( "DataDefinitionSelector.Text.NewSeries" ) ); //$NON-NLS-1$
 		}
 		cmbSeriesSelect.removeAll( );
-		cmbSeriesSelect.setItems( (String[]) itemList.toArray( new String[seriesSize] ) );
+		cmbSeriesSelect.setItems( itemList.toArray( new String[seriesSize] ) );
 	}
 
 	private boolean isPartChart( )
@@ -742,7 +757,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 
 	private void refreshAxisCombo( )
 	{
-		ArrayList itemList = new ArrayList( );
+		ArrayList<String> itemList = new ArrayList<String>( );
 		int axisNum = ChartUIUtil.getOrthogonalAxisNumber( getChart( ) );
 		for ( int i = 1; i <= axisNum; i++ )
 		{
@@ -750,7 +765,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		}
 		itemList.add( Messages.getString( "DataDefinitionSelector.Text.NewAxis" ) ); //$NON-NLS-1$
 		cmbAxisSelect.removeAll( );
-		cmbAxisSelect.setItems( (String[]) itemList.toArray( new String[axisNum] ) );
+		cmbAxisSelect.setItems( itemList.toArray( new String[axisNum] ) );
 	}
 
 	private ISelectDataComponent getDataDefinitionComponent(

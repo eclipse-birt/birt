@@ -1154,7 +1154,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	{
 		// If it's not used any more, remove color binding
 		if ( DataDefinitionTextManager.getInstance( )
-				.getNumberOfSameDataDefinition( query.getDefinition( ) ) == 0 )
+				.getNumberOfSameDataDefinition( query.getDefinition( ) ) == 1 )
 		{
 			ColorPalette.getInstance( ).retrieveColor( query.getDefinition( ) );
 		}
@@ -1183,8 +1183,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
  SeriesDefinition seriesDefinition )
 	{
 		// If it's not used any more, remove color binding
-		if ( DataDefinitionTextManager.getInstance( )
-				.getNumberOfSameDataDefinition( query.getDefinition( ) ) == 0 )
+		if ( dataProvider.getNumberOfSameDataDefinition( query.getDefinition( ) ) == 1 )
 		{
 			ColorPalette.getInstance( ).retrieveColor( query.getDefinition( ) );
 		}
@@ -1194,6 +1193,11 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		// expression to query.
 		updateQuery( queryType, query, expr, seriesDefinition );
 
+		// 236018--add the logic of register color with display expression
+		// as it does in the input text refreshing, since the text may not be
+		// shown at current.
+		ColorPalette.getInstance( ).putColor( expr );
+		
 		DataDefinitionTextManager.getInstance( ).updateText( query );
 		// Reset table column color
 		refreshTableColor( );
