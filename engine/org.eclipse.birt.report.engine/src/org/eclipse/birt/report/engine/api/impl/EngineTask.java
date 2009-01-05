@@ -53,6 +53,7 @@ import org.eclipse.birt.report.engine.api.UnsupportedFormatException;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
+import org.eclipse.birt.report.engine.css.dom.AbstractStyle;
 import org.eclipse.birt.report.engine.data.dte.DocumentDataSource;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -66,6 +67,7 @@ import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.v3.ReportContentReaderV3;
+import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
@@ -1814,26 +1816,43 @@ public abstract class EngineTask implements IEngineTask
 
 	protected void updateRtLFlag( ) throws EngineException
 	{
-		//get RtL flag from renderOptions
+		// get RtL flag from renderOptions
 		if ( renderOptions == null )
 			return;
 		IReportRunnable runnable = executionContext.getRunnable( );
 		if ( runnable == null )
 			return;
-		ReportDesignHandle handle = (ReportDesignHandle) runnable.getDesignHandle( );
+
+		Report report = executionContext.getReport( );
+		AbstractStyle rootStyle = (AbstractStyle) report.getStyles( ).get(
+				report.getRootStyleName( ) );
+		ReportDesignHandle handle = (ReportDesignHandle) runnable
+				.getDesignHandle( );
 		if ( handle != null )
 		{
 			Object bidiFlag = renderOptions.getOption( IRenderOption.RTL_FLAG );
-			if ( Boolean.TRUE.equals( bidiFlag ) )
+			String bidiOrientation = null;
+			if ( bidiFlag != null )
 			{
+				if ( Boolean.TRUE.equals( bidiFlag ) )
+				{
+					bidiOrientation = DesignChoiceConstants.BIDI_DIRECTION_RTL;
+				}
+				else
+				{
+					bidiOrientation = DesignChoiceConstants.BIDI_DIRECTION_LTR;
+				}
 				try
 				{
-					handle.setBidiOrientation( DesignChoiceConstants.BIDI_DIRECTION_RTL );
+					handle.setBidiOrientation( bidiOrientation );
+					rootStyle.setDirection( bidiOrientation );
 				}
 				catch ( SemanticException e )
 				{
-					log.log( Level.WARNING,
-							"An error happened while running the report. Cause:", e ); //$NON-NLS-1$
+					log
+							.log(
+									Level.WARNING,
+									"An error happened while running the report. Cause:", e ); //$NON-NLS-1$
 					throw new EngineException( "Failed to update RtL flag." );//$NON-NLS-1$
 				}
 			}

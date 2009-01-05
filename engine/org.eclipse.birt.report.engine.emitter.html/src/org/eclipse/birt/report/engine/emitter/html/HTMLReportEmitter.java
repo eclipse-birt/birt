@@ -577,17 +577,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			fixRedirect( );
 
 			openRootTag( );
-
-			// bidi_hcg start
-			// RTL attribute is required at HTML or BODY level for the correct
-			// scroll bar position.
-			if ( htmlRtLFlag )
-			{
-				writer.attribute( HTMLTags.ATTR_HTML_DIR, CSSConstants
-						.CSS_RTL_VALUE );
-			}
-			// bidi_hcg end
-			
+            writeBidiFlag( );
 			//output the report default style
 			writer.attribute( HTMLTags.ATTR_STYLE,
 					defaultStyleBuffer.toString( ) );
@@ -595,13 +585,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 
 		openRootTag( );
-		// bidi_hcg start
-		if ( htmlRtLFlag )
-		{
-			writer.attribute( HTMLTags.ATTR_HTML_DIR, CSSConstants
-					.CSS_RTL_VALUE );
-		}
-		// bidi_hcg end
+        writeBidiFlag( );
 		writer.openTag( HTMLTags.TAG_HEAD );
 		
 		// write the title of the report in html.
@@ -1061,10 +1045,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	private void outputPageBand( IPageContent page, IContent band )
 	{
 		writer.openTag( HTMLTags.TAG_TD );
-		if ( htmlRtLFlag )
-		{
-			writer.attribute( HTMLTags.ATTR_HTML_DIR, "RTL" );
-		}
+		writeBidiFlag( );
 		StringBuffer styleBuffer = new StringBuffer( );
 		htmlEmitter.buildPageBandStyle( styleBuffer, page.getStyle( ) );
 		// output the page header attribute
@@ -1309,11 +1290,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		writer.openTag( HTMLTags.TAG_TD );
 		writer.attribute( "valign", "top" );
-		if ( htmlRtLFlag )
-		{
-			writer.attribute( HTMLTags.ATTR_HTML_DIR, CSSConstants
-					.CSS_RTL_VALUE );
-		}
+		writeBidiFlag( );
 	}
 
 	/*
@@ -3010,6 +2987,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.openTag( HTMLTags.TAG_SPAN );
 		HTMLEmitterUtil.setBookmark(  writer, null, htmlIDNamespace, bookmark );
 		writer.closeTag( HTMLTags.TAG_SPAN );
+	}
+	
+	private void writeBidiFlag( )
+	{
+		// bidi_hcg start
+		// RTL attribute is required at HTML or BODY level for the correct
+		// scroll bar position.
+		if ( htmlRtLFlag )
+		{
+			writer.attribute( HTMLTags.ATTR_HTML_DIR,
+					CSSConstants.CSS_RTL_VALUE );
+		}
+		// bidi_hcg end
 	}
 
 	/**
