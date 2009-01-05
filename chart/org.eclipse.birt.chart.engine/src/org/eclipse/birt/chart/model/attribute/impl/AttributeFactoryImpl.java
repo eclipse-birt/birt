@@ -335,8 +335,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 			case AttributePackage.CURSOR_TYPE_OBJECT :
 				return createCursorTypeObjectFromString( eDataType,
 						initialValue );
-			case AttributePackage.CURSOR_URI :
-				return createCursorURIFromString( eDataType, initialValue );
 			case AttributePackage.DATA_POINT_COMPONENT_TYPE_OBJECT :
 				return createDataPointComponentTypeObjectFromString( eDataType,
 						initialValue );
@@ -529,8 +527,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 			case AttributePackage.CURSOR_TYPE_OBJECT :
 				return convertCursorTypeObjectToString( eDataType,
 						instanceValue );
-			case AttributePackage.CURSOR_URI :
-				return convertCursorURIToString( eDataType, instanceValue );
 			case AttributePackage.DATA_POINT_COMPONENT_TYPE_OBJECT :
 				return convertDataPointComponentTypeObjectToString( eDataType,
 						instanceValue );
@@ -2036,30 +2032,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 			Object instanceValue )
 	{
 		return convertCursorTypeToString( AttributePackage.Literals.CURSOR_TYPE,
-				instanceValue );
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String createCursorURIFromString( EDataType eDataType,
-			String initialValue )
-	{
-		return (String) XMLTypeFactory.eINSTANCE.createFromString( XMLTypePackage.Literals.STRING,
-				initialValue );
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String convertCursorURIToString( EDataType eDataType,
-			Object instanceValue )
-	{
-		return XMLTypeFactory.eINSTANCE.convertToString( XMLTypePackage.Literals.STRING,
 				instanceValue );
 	}
 

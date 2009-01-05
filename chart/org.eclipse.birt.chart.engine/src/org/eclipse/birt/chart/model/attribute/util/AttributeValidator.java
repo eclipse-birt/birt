@@ -458,8 +458,6 @@ public class AttributeValidator extends EObjectValidator
 				return validateCursorTypeObject( (CursorType) value,
 						diagnostics,
 						context );
-			case AttributePackage.CURSOR_URI :
-				return validateCursorURI( (String) value, diagnostics, context );
 			case AttributePackage.DATA_POINT_COMPONENT_TYPE_OBJECT :
 				return validateDataPointComponentTypeObject( (DataPointComponentType) value,
 						diagnostics,
@@ -1499,17 +1497,6 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateCursorTypeObject( CursorType cursorTypeObject,
-			DiagnosticChain diagnostics, Map<Object, Object> context )
-	{
-		return true;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateCursorURI( String cursorURI,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;

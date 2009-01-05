@@ -430,13 +430,15 @@
     <nested inputs="../../xsd/attribute.xsd#//CursorType;XSDSimpleTypeDefinition=36/XSDEnumerationFacet=15"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//CursorType/Custom"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//CursorURI;XSDSimpleTypeDefinition=37"
-      outputs="org.eclipse.birt.chart.model.attribute.ecore#//CursorURI"/>
+  <nested inputs="../../xsd/attribute.xsd#//Image;XSDComplexTypeDefinition=23" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Image">
+    <nested inputs="../../xsd/attribute.xsd#//Image;XSDComplexTypeDefinition=23/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//Image/uRL"/>
+  </nested>
   <nested inputs="../../xsd/attribute.xsd#//Cursor;XSDComplexTypeDefinition=39" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Cursor">
     <nested inputs="../../xsd/attribute.xsd#//Cursor;XSDComplexTypeDefinition=39/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Cursor/type"/>
     <nested inputs="../../xsd/attribute.xsd#//Cursor;XSDComplexTypeDefinition=39/XSDParticle/XSDModelGroup/XSDParticle=1"
-        outputs="org.eclipse.birt.chart.model.attribute.ecore#//Cursor/uRI"/>
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//Cursor/image"/>
   </nested>
   <nested inputs="../../xsd/component.xsd#//Series;XSDComplexTypeDefinition=1" outputs="org.eclipse.birt.chart.model.component.ecore#//Series">
     <nested inputs="../../xsd/component.xsd#//Series;XSDComplexTypeDefinition=1/XSDParticle/XSDModelGroup/XSDParticle"
@@ -903,10 +905,6 @@
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//StyledComponent/SeriesTitle"/>
     <nested inputs="../../xsd/attribute.xsd#//StyledComponent;XSDSimpleTypeDefinition=27/XSDEnumerationFacet=10"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//StyledComponent/SeriesLabel"/>
-  </nested>
-  <nested inputs="../../xsd/attribute.xsd#//Image;XSDComplexTypeDefinition=23" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Image">
-    <nested inputs="../../xsd/attribute.xsd#//Image;XSDComplexTypeDefinition=23/XSDParticle/XSDModelGroup/XSDParticle"
-        outputs="org.eclipse.birt.chart.model.attribute.ecore#//Image/uRL"/>
   </nested>
   <nested inputs="../../xsd/attribute.xsd#//Style;XSDComplexTypeDefinition=37" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Style">
     <nested inputs="../../xsd/attribute.xsd#//Style;XSDComplexTypeDefinition=37/XSDParticle/XSDModelGroup/XSDParticle"

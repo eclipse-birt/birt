@@ -55,6 +55,7 @@ import org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl;
 import org.eclipse.birt.chart.model.attribute.impl.DataPointImpl;
+import org.eclipse.birt.chart.model.attribute.impl.EmbeddedImageImpl;
 import org.eclipse.birt.chart.model.attribute.impl.GradientImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
@@ -393,10 +394,11 @@ public final class PrimitiveCharts
 		t.setAction( DataFactory.eINSTANCE.createAction( ) );
 		t.getAction( ).setType( ActionType.SHOW_TOOLTIP_LITERAL );
 		t.getAction( ).setValue( AttributeFactory.eINSTANCE.createTooltipValue( ) );
-		((TooltipValue)t.getAction( ).getValue( )).setText( "Y Series Values, Cursor:Pointer(hand)" );//$NON-NLS-1$
+		((TooltipValue)t.getAction( ).getValue( )).setText( "Y Series Values, Custom cursor, embedded image cursor." );//$NON-NLS-1$
 		bs.getTriggers( ).add( t );
 		c = AttributeFactory.eINSTANCE.createCursor();
-		c.setType( CursorType.POINTER );
+		c.setType( CursorType.CUSTOM );
+		c.getImage( ).add( EmbeddedImageImpl.create( "Crosshair.gif", "R0lGODlhCAAIALMAAGbNM2bMM2XJM2XGM2TDMmTBM2K2MmKxM2CtM16gMl6cMl2XMl2WMl2VMv///wAAACH5BAEAAA4ALAAAAAAIAAgAAAQc0MkQpHWhXEmQDcBwKM2yAIKRMOZiLczmsLJpRQA7" ) );
 		bs.setCursor( c );
 		
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );

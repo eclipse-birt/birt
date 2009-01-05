@@ -268,7 +268,6 @@
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//ChartDimensionObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//ChartTypeObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//CursorTypeObject"/>
-    <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//CursorURI"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//DataPointComponentTypeObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//DataTypeObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//DateFormatDetailObject"/>
@@ -333,7 +332,7 @@
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.attribute.ecore#//Cursor">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//Cursor/type"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//Cursor/uRI"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.attribute.ecore#//Cursor/image"/>
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.attribute.ecore#//DataPoint">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.attribute.ecore#//DataPoint/components"/>

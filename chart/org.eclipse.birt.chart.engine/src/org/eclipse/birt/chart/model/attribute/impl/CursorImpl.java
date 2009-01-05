@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id$
+ * $Id: CursorImpl.java,v 1.1 2009/01/04 10:05:06 heli Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute.impl;
@@ -13,15 +13,20 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.CursorType;
 
+import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 /**
@@ -32,7 +37,7 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.CursorImpl#getType <em>Type</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.CursorImpl#getURI <em>URI</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.CursorImpl#getImage <em>Image</em>}</li>
  * </ul>
  * </p>
  *
@@ -71,14 +76,14 @@ public class CursorImpl extends EObjectImpl implements Cursor
 	protected boolean typeESet;
 
 	/**
-	 * The cached value of the '{@link #getURI() <em>URI</em>}' attribute list.
+	 * The cached value of the '{@link #getImage() <em>Image</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getURI()
+	 * @see #getImage()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<String> uRI;
+	protected EList<Image> image;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -166,15 +171,33 @@ public class CursorImpl extends EObjectImpl implements Cursor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<String> getURI( )
+	public EList<Image> getImage( )
 	{
-		if ( uRI == null )
+		if ( image == null )
 		{
-			uRI = new EDataTypeEList<String>( String.class,
+			image = new EObjectContainmentEList<Image>( Image.class,
 					this,
-					AttributePackage.CURSOR__URI );
+					AttributePackage.CURSOR__IMAGE );
 		}
-		return uRI;
+		return image;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove( InternalEObject otherEnd,
+			int featureID, NotificationChain msgs )
+	{
+		switch ( featureID )
+		{
+			case AttributePackage.CURSOR__IMAGE :
+				return ( (InternalEList<?>) getImage( ) ).basicRemove( otherEnd,
+						msgs );
+		}
+		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
 
 	/**
@@ -189,8 +212,8 @@ public class CursorImpl extends EObjectImpl implements Cursor
 		{
 			case AttributePackage.CURSOR__TYPE :
 				return getType( );
-			case AttributePackage.CURSOR__URI :
-				return getURI( );
+			case AttributePackage.CURSOR__IMAGE :
+				return getImage( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -209,9 +232,9 @@ public class CursorImpl extends EObjectImpl implements Cursor
 			case AttributePackage.CURSOR__TYPE :
 				setType( (CursorType) newValue );
 				return;
-			case AttributePackage.CURSOR__URI :
-				getURI( ).clear( );
-				getURI( ).addAll( (Collection<? extends String>) newValue );
+			case AttributePackage.CURSOR__IMAGE :
+				getImage( ).clear( );
+				getImage( ).addAll( (Collection<? extends Image>) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -230,8 +253,8 @@ public class CursorImpl extends EObjectImpl implements Cursor
 			case AttributePackage.CURSOR__TYPE :
 				unsetType( );
 				return;
-			case AttributePackage.CURSOR__URI :
-				getURI( ).clear( );
+			case AttributePackage.CURSOR__IMAGE :
+				getImage( ).clear( );
 				return;
 		}
 		super.eUnset( featureID );
@@ -249,8 +272,8 @@ public class CursorImpl extends EObjectImpl implements Cursor
 		{
 			case AttributePackage.CURSOR__TYPE :
 				return isSetType( );
-			case AttributePackage.CURSOR__URI :
-				return uRI != null && !uRI.isEmpty( );
+			case AttributePackage.CURSOR__IMAGE :
+				return image != null && !image.isEmpty( );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -272,8 +295,6 @@ public class CursorImpl extends EObjectImpl implements Cursor
 			result.append( type );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ", uRI: " ); //$NON-NLS-1$
-		result.append( uRI );
 		result.append( ')' );
 		return result.toString( );
 	}

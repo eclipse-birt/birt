@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.CursorType;
+import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -62,18 +63,18 @@ public class CSSHelper
 		else
 		{
 			// Custom cursors.
-			EList<String> cursorURIs = cursor.getURI( );
+			EList<Image> cursorImages = cursor.getImage( );
 			int i = 0;
-			for ( String uri : cursorURIs )
+			for ( Image uri : cursorImages )
 			{
 				if ( i != 0 )
 				{
 					value += ","; //$NON-NLS-1$
 				}
-				value += "url(" + uri + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+				value += "url(" + uri.getURL( ) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 				i++;
 			}
-			if ( cursorURIs.size( ) > 0 )
+			if ( cursorImages.size( ) > 0 )
 			{
 				value += ",auto;"; //$NON-NLS-1$
 			}

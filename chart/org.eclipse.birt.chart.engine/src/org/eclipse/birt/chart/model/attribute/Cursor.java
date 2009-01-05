@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id$
+ * $Id: Cursor.java,v 1.1 2009/01/04 10:05:02 heli Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.Cursor#getType <em>Type</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.Cursor#getURI <em>URI</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Cursor#getImage <em>Image</em>}</li>
  * </ul>
  * </p>
  *
@@ -44,6 +44,9 @@ public interface Cursor extends EObject
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The type attribute indicates the cursor type.
+	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Type</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.CursorType
 	 * @see #isSetType()
@@ -93,20 +96,19 @@ public interface Cursor extends EObject
 	boolean isSetType( );
 
 	/**
-	 * Returns the value of the '<em><b>URI</b></em>' attribute list.
-	 * The list contents are of type {@link java.lang.String}.
+	 * Returns the value of the '<em><b>Image</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.birt.chart.model.attribute.Image}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>URI</em>' attribute list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>URI</em>' attribute list.
-	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getCursor_URI()
-	 * @model unique="false" dataType="org.eclipse.birt.chart.model.attribute.CursorURI"
-	 *        extendedMetaData="kind='element' name='URI'"
+	 * <!-- begin-model-doc -->
+	 * The attribute stores custom cursor images, it might be image uri or embedded image.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Image</em>' containment reference list.
+	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getCursor_Image()
+	 * @model containment="true"
+	 *        extendedMetaData="kind='element' name='Image'"
 	 * @generated
 	 */
-	EList<String> getURI( );
+	EList<Image> getImage( );
 
 } // Cursor

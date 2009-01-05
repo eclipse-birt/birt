@@ -1571,22 +1571,23 @@ Specifies the fixed length of the denominator when in imprecise mode.</xsd:docum
 		</xsd:restriction>
 	</xsd:simpleType>
 
-	<xsd:simpleType name="CursorURI">
-        <xsd:annotation>
-        	<xsd:documentation>The type defines the vaue of custom cursor URI.</xsd:documentation>
-        </xsd:annotation>
-        <xsd:restriction base="xsd:string"></xsd:restriction>
-	</xsd:simpleType>
 
 	<xsd:complexType name="Cursor">
         <xsd:annotation>
         	<xsd:documentation>The type represents cursor being displayed in chart.When mouse is moving over the hotspot area, mouse cursor will become the specified cursor.</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
-			<xsd:element name="Type" type="CursorType" maxOccurs="1"
-				minOccurs="1">
-			</xsd:element>
-			<xsd:element name="URI" type="CursorURI" maxOccurs="unbounded" minOccurs="0"></xsd:element>
-		</xsd:sequence>
+        	<xsd:element name="Type" type="CursorType" maxOccurs="1"
+        		minOccurs="1">
+                <xsd:annotation>
+                	<xsd:documentation>The type attribute indicates the cursor type.</xsd:documentation>
+                </xsd:annotation>
+        	</xsd:element>
+
+        	<xsd:element name="Image" type="Image" maxOccurs="unbounded" minOccurs="0">
+        		<xsd:annotation>
+        			<xsd:documentation>The attribute stores custom cursor images, it might be image uri or embedded image.</xsd:documentation>
+        		</xsd:annotation></xsd:element>
+        </xsd:sequence>
 	</xsd:complexType>
 </xsd:schema>

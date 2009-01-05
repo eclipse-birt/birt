@@ -15,10 +15,10 @@ import java.net.URI;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Cursor;
+import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
-import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
@@ -75,7 +75,7 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener
 	protected Control createContents( Composite parent )
 	{
 		Control ct = super.createContents( parent );
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.DIALOG_COLOR_IMAGE );
+//		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.DIALOG_COLOR_IMAGE );
 		initDialog( );
 		return ct;
 	}
@@ -132,6 +132,9 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener
 		});
 
 		btnUriBuilder = new Button( inputArea, SWT.PUSH );
+		gd = new GridData( );
+		ChartUIUtil.setChartImageButtonSizeByPlatform( gd );
+		btnUriBuilder.setLayoutData( gd );
 		btnUriBuilder.setImage( UIHelper.getImage( "icons/obj16/expressionbuilder.gif" ) ); //$NON-NLS-1$
 		btnUriBuilder.addSelectionListener( this );
 	}
@@ -161,11 +164,11 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener
 
 	protected void okPressed( )
 	{
-		if ( cursor.getURI( ).size( ) > 0 )
+		if ( cursor.getImage( ).size( ) > 0 )
 		{
-			cursor.getURI( ).clear( );
+			cursor.getImage( ).clear( );
 		}
-		cursor.getURI( ).add( 0, txtUriEditor.getText() );
+		cursor.getImage( ).add( 0, ImageImpl.create( txtUriEditor.getText() ) );
 		
 		super.okPressed( );
 	}
@@ -182,9 +185,9 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener
 	private void initURIEditor( )
 	{
 		String uri = ""; //$NON-NLS-1$
-		if ( cursor.getURI( ).size( ) > 0 )
+		if ( cursor.getImage( ).size( ) > 0 )
 		{
-			uri = cursor.getURI( ).get( 0 );
+			uri = cursor.getImage( ).get( 0 ).getURL( );
 		}
 		
 		txtUriEditor.setText( uri );

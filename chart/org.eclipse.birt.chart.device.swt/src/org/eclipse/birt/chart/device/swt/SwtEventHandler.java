@@ -11,9 +11,12 @@
 
 package org.eclipse.birt.chart.device.swt;
 
+import java.awt.Image;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -23,16 +26,21 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.ImageIcon;
+
+import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.device.ICallBackNotifier;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.device.swt.i18n.Messages;
 import org.eclipse.birt.chart.device.swt.util.SwtUtil;
 import org.eclipse.birt.chart.event.StructureSource;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.CallBackValue;
 import org.eclipse.birt.chart.model.attribute.CursorType;
+import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
@@ -611,15 +619,26 @@ class SwtEventHandler
 		else if ( cursor.getType( ) == CursorType.CUSTOM )
 		{
 			// Find the first valid image as custom cursor.
-			EList<String> uris = cursor.getURI( );
-			for ( String uri : uris )
+			EList<org.eclipse.birt.chart.model.attribute.Image> uris = cursor.getImage( );
+			for ( org.eclipse.birt.chart.model.attribute.Image uri: uris )
 			{
 				try
-				{
-					File f = new File( new URI( uri ) );
-					ImageData id;
-				
-					id = new ImageData( new FileInputStream( f ) );
+				{ 
+					ImageData id = null;
+					if ( uri instanceof EmbeddedImage )
+					{
+						ByteArrayInputStream bis = new ByteArrayInputStream( Base64.decodeBase64( ( (EmbeddedImage) uri ).getData( )
+									.getBytes( ) ) );
+
+						id = new org.eclipse.swt.graphics.Image( Display.getDefault( ),
+									bis ).getImageData( );
+					}
+					else
+					{
+						File f = new File( new URI( uri.getURL( ) ) );
+						id = new ImageData( new FileInputStream( f ) );
+					}
+					
 					composite.setCursor( new Cursor( composite.getDisplay( ),
 							id,
 							0,
@@ -634,6 +653,11 @@ class SwtEventHandler
 				{
 					// Do not process exception here.
 				}
+				catch ( Exception e )
+				{
+					// Do not process exception here.
+				}
+			
 			}
 
 			// No valid image is found, set default cursor.

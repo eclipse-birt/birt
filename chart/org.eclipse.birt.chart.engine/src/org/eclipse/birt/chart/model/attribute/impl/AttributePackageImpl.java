@@ -621,13 +621,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 	private EDataType cursorTypeObjectEDataType = null;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EDataType cursorURIEDataType = null;
-
-	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1174,9 +1167,9 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCursor_URI( )
+	public EReference getCursor_Image( )
 	{
-		return (EAttribute) cursorEClass.getEStructuralFeatures( ).get( 1 );
+		return (EReference) cursorEClass.getEStructuralFeatures( ).get( 1 );
 	}
 
 	/**
@@ -2705,16 +2698,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EDataType getCursorURI( )
-	{
-		return cursorURIEDataType;
-	}
-
-	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -3067,7 +3050,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 		cursorEClass = createEClass( CURSOR );
 		createEAttribute( cursorEClass, CURSOR__TYPE );
-		createEAttribute( cursorEClass, CURSOR__URI );
+		createEReference( cursorEClass, CURSOR__IMAGE );
 
 		dataPointEClass = createEClass( DATA_POINT );
 		createEReference( dataPointEClass, DATA_POINT__COMPONENTS );
@@ -3283,7 +3266,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 		chartDimensionObjectEDataType = createEDataType( CHART_DIMENSION_OBJECT );
 		chartTypeObjectEDataType = createEDataType( CHART_TYPE_OBJECT );
 		cursorTypeObjectEDataType = createEDataType( CURSOR_TYPE_OBJECT );
-		cursorURIEDataType = createEDataType( CURSOR_URI );
 		dataPointComponentTypeObjectEDataType = createEDataType( DATA_POINT_COMPONENT_TYPE_OBJECT );
 		dataTypeObjectEDataType = createEDataType( DATA_TYPE_OBJECT );
 		dateFormatDetailObjectEDataType = createEDataType( DATE_FORMAT_DETAIL_OBJECT );
@@ -3461,9 +3443,10 @@ public class AttributePackageImpl extends EPackageImpl implements
 		initEAttribute( getCursor_Type( ),
 				this.getCursorType( ),
 				"type", null, 1, 1, Cursor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
-		initEAttribute( getCursor_URI( ),
-				this.getCursorURI( ),
-				"uRI", null, 0, -1, Cursor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getCursor_Image( ),
+				this.getImage( ),
+				null,
+				"image", null, 0, -1, Cursor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( dataPointEClass,
 				DataPoint.class,
@@ -4215,9 +4198,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 		initEDataType( cursorTypeObjectEDataType,
 				CursorType.class,
 				"CursorTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
-		initEDataType( cursorURIEDataType,
-				String.class,
-				"CursorURI", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( dataPointComponentTypeObjectEDataType,
 				DataPointComponentType.class,
 				"DataPointComponentTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
@@ -4483,9 +4463,9 @@ public class AttributePackageImpl extends EPackageImpl implements
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Type" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
-		addAnnotation( getCursor_URI( ), source, new String[]{
+		addAnnotation( getCursor_Image( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
-				"name", "URI" //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Image" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( cursorTypeEEnum, source, new String[]{
 				"name", "CursorType" //$NON-NLS-1$ //$NON-NLS-2$
@@ -4493,10 +4473,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addAnnotation( cursorTypeObjectEDataType, source, new String[]{
 				"name", "CursorType:Object", //$NON-NLS-1$ //$NON-NLS-2$
 				"baseType", "CursorType" //$NON-NLS-1$ //$NON-NLS-2$
-		} );
-		addAnnotation( cursorURIEDataType, source, new String[]{
-				"name", "CursorURI", //$NON-NLS-1$ //$NON-NLS-2$
-				"baseType", "http://www.eclipse.org/emf/2003/XMLType#string" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( dataPointEClass, source, new String[]{
 				"name", "DataPoint", //$NON-NLS-1$ //$NON-NLS-2$

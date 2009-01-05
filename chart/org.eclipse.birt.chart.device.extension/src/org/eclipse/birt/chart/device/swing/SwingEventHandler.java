@@ -31,18 +31,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
+import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.device.ICallBackNotifier;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
+import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.device.util.DeviceUtil;
 import org.eclipse.birt.chart.event.StructureSource;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.CallBackValue;
 import org.eclipse.birt.chart.model.attribute.CursorType;
+import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
@@ -577,15 +582,37 @@ public final class SwingEventHandler
 		else if ( cursor.getType( ) == CursorType.CUSTOM )
 		{
 			// Find the first valid image as custom cursor.
-			EList<String> uris = cursor.getURI( );
-			for ( String uri: uris )
+			EList<org.eclipse.birt.chart.model.attribute.Image> uris = cursor.getImage( );
+			for ( org.eclipse.birt.chart.model.attribute.Image uri: uris )
 			{
 				try
 				{
-					URI u = new URI( uri );
-					Image image = composite.getToolkit( ).createImage( u.toURL( ) );
-					composite.setCursor( composite.getToolkit( ).createCustomCursor( image, new Point(0, 0), "" ) );//$NON-NLS-1$
-					return;
+					Image image = null;
+					if ( uri instanceof EmbeddedImage )
+					{
+						try
+						{
+							byte[] data = Base64.decodeBase64( ( (EmbeddedImage) uri ).getData( )
+									.getBytes( ) );
+
+							image = new ImageIcon( data ).getImage( );
+						}
+						catch ( Exception ilex )
+						{
+							logger.log( ilex );
+						}
+					}
+					else
+					{
+						URI u = new URI( uri.getURL( ) );
+						image = composite.getToolkit( ).createImage( u.toURL( ) );
+					}
+					
+					if ( image != null )
+					{
+						composite.setCursor( composite.getToolkit( ).createCustomCursor( image, new Point(0, 0), "" ) );//$NON-NLS-1$
+						return;
+					}
 				}
 				catch ( URISyntaxException e )
 				{
