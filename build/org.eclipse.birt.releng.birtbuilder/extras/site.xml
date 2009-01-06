@@ -21,6 +21,18 @@
         <feature url="features/org.eclipse.birt.sdk_@FEATURE.BIRT.SDK@.jar" id="org.eclipse.birt.sdk" version="@FEATURE.BIRT.SDK@">
                 <category name="BIRT" />
         </feature>
+        <feature url="features/org.eclipse.birt.doc_@FEATURE.BIRT.DOC@.jar" id="org.eclipse.birt.doc" version="@FEATURE.BIRT.DOC@">
+                <category name="BIRT" />
+        </feature>
+        <feature url="features/org.eclipse.birt.integration.wtp.sdk_@FEATURE.BIRT.WTP.SDK@.jar" id="org.eclipse.birt.integration.wtp.sdk" version="@FEATURE.BIRT.WTP.SDK@">
+                <category name="BIRT" />
+        </feature>
+        <feature url="features/org.eclipse.birt.chart.integration.wtp_@FEATURE.CHART.WTP@.jar" id="org.eclipse.birt.chart.integration.wtp" version="@FEATURE.CHART.WTP@">
+                <category name="BIRT" />
+        </feature>
+        <feature url="features/oorg.eclipse.birt.integration.wtp_@FEATURE.BIRT.WTP@.jar" id="org.eclipse.birt.integration.wtp" version="@FEATURE.BIRT.WTP@">
+                <category name="BIRT" />
+        </feature>
         <category-def label="BIRT - BIRT Team Provider" name="BIRT">
         </category-def>
 </site>

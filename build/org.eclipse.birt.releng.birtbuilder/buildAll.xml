@@ -359,14 +359,25 @@
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.w3c.sac}" token="@FEATURE.W3C@"/>
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt}" token="@FEATURE.BIRT@"/>
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.sdk}" token="@FEATURE.BIRT.SDK@"/>
-		
+		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.doc}" token="@FEATURE.BIRT.DOC@"/>
+		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.integration.wtp.sdk}" token="@FEATURE.BIRT.WTP.SDK@"/>
+		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.integration.wtp}" token="@FEATURE.BIRT.WTP@"/>
+		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.integration.wtp}" token="@FEATURE.CHART.WTP@"/>	
 		<!-- push update site to output directory -->
-		<mkdir dir="${postingDirectory}/${buildId}/UpdateSite"/>
-		<copy todir="${postingDirectory}/${buildId}/UpdateSite">
-			<fileset dir="${updateJarWorkingDir}/eclipse">
+		<mkdir dir="${postingDirectory}/${buildId}/UpdateSite/plugins"/>
+		<mkdir dir="${postingDirectory}/${buildId}/UpdateSite/features"/>
+		<copy todir="${postingDirectory}/${buildId}/UpdateSite/plugins">
+			<fileset dir="${updateJarWorkingDir}/eclipse/plugins">
 				<include name="**"/>
 			</fileset>
 		</copy>
+		<copy todir="${postingDirectory}/${buildId}/UpdateSite/features">
+			<fileset dir="${updateJarWorkingDir}/eclipse/features">
+				<include name="**"/>
+			</fileset>
+		</copy>
+		<copy tofile="${postingDirectory}/${buildId}/UpdateSite/site.xml" file="${updateJarWorkingDir}/site/site.xml" overwrite="true"/>
+
 		<!-- clean last content -->
 		<delete failonerror="false">
 			<fileset dir="${postingDirectory}/../../../UpdateSite/${package.version}">
