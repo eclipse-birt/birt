@@ -11,12 +11,22 @@ package org.eclipse.birt.report.designer.data.ui.dataset;
 
 import java.sql.Types;
 
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+
 /**
  * The data set item used in data UI.
  *  
  */
 public class DataSetViewData
 {
+	private static IChoice[] dataTypes = DEUtil.getMetaDataDictionary( )
+		.getStructure( ResultSetColumn.RESULT_SET_COLUMN_STRUCT )
+		.getMember( ResultSetColumn.DATA_TYPE_MEMBER )
+		.getAllowedChoices( )
+		.getChoices( ); 
+	
 	private transient String dataSetColumnName = null;
 
 	private transient String name = null;
@@ -60,6 +70,15 @@ public class DataSetViewData
 	public final String getDataTypeName( )
 	{
 		return dataTypeName;
+	}
+	
+
+	/**
+	 * @return
+	 */
+	public final String getDataTypeDisplayName( )
+	{
+		return getDataTypeDisplayName( this.getDataTypeName( ) );
 	}
 
 	/**
@@ -265,4 +284,14 @@ public class DataSetViewData
 		this.displayNameKey = displayNameKey;
 	}
 
+	public static String getDataTypeDisplayName( String typeName )
+	{
+		String displayName = dataTypes[0].getDisplayName( );
+		for ( int i = 0; i < dataTypes.length; i++ )
+		{
+			if ( dataTypes[i].getName( ).equals( typeName ) )
+				return dataTypes[i].getDisplayName( );
+		}
+		return displayName;
+	}
 }
