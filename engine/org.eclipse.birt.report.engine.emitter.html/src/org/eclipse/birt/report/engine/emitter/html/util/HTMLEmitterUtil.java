@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.emitter.html.util;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.HTMLTags;
-import org.eclipse.birt.report.engine.emitter.html.HTMLWriter;
+import org.eclipse.birt.report.engine.emitter.HTMLWriter;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 

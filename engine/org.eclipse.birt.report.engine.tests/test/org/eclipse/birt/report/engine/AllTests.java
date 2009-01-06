@@ -81,6 +81,7 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.engine.data.dte.ReportQueryBuilderTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.emitter.EmbeddedHyperlinkProcessorTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.emitter.XMLWriterTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.emitter.HTMLWriterTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.executor.DataItemExecutorTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.executor.ExecutorManagerTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.executor.GridItemExecutorTest.class );
