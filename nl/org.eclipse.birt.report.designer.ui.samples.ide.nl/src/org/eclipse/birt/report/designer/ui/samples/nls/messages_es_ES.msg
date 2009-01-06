@@ -7,7 +7,7 @@ SampleReportsView.Text.Description=Descripción
 SampleReportsView.MessageDialog.Title=Pregunta
 SampleReportsView.MessageDialog.Message=El ''{0}'' ya existe. ¿Desea sustituirlo?
 SampleReportsView.Action.exportSampleReport=Guardar
-SampleReportsView.Action.openSampleReport=Abrir
+SampleReportsView.Action.openSampleReport=&Abrir
 SampleReportsView.Action.exportSampleReport.toolTipText=Exportar el informe de muestras seleccionado
 SampleReportsView.Action.openSampleReport.toolTipText.ide=Crear un proyecto de informe y colocar el informe en la carpeta del proyecto
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=Exportar el informe de muestra seleccionado directamente a la carpeta del área de trabajo RCP
@@ -16,7 +16,7 @@ IDEOpenSampleReportAction.ProjectNameDialog.Label.PrjectName=Nombre de proyecto:
 IDEOpenSampleReportAction.ProjectNameDialog.Title.PrjectName=Nombre de proyecto
 IDEOpenSampleReportAction.MessageDialog.ProjectExists.Title=El proyecto ya existe
 IDEOpenSampleReportAction.MessageDialog.ProjectExists.Message=El proyecto ya existe. Pulse ''{0}'' para utilizar este proyecto, pulse ''{1}'' para  borrar el proyecto existente y crear uno nuevo o pulse ''{2}'' para cancelar. 
-IDEOpenSampleReportAction.MessageDialog.ProjectExists.ButtonText=Sobrescribir
+IDEOpenSampleReportAction.MessageDialog.ProjectExists.ButtonText=S&obrescribir
 
 ###########################################################
 #NewReportProjectWizard properties
