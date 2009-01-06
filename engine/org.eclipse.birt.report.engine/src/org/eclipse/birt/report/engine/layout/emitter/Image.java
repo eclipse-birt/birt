@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.emitter;
 
+import java.io.ByteArrayInputStream;
 import java.io.DataInput;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,6 +39,13 @@ public class Image
 	private DataInput dataIn;
 	private int heightDpi;
 	private int widthDpi;
+	private byte[] data;
+
+	
+	public void setData( byte[] data )
+	{
+		this.data = data;
+	}
 
 	public boolean check( )
 	{
@@ -324,6 +332,11 @@ public class Image
 		return -1.0f;
 	}
 
+	public byte[] getData( )
+	{
+		return data;
+	}
+
 	private static int getShortBigEndian( byte[] a, int offs )
 	{
 		return ( a[offs] & 0xff ) << 8 | ( a[offs + 1] & 0xff );
@@ -368,6 +381,12 @@ public class Image
 	{
 		this.dataIn = din;
 		this.in = null;
+	}
+
+	public void setInput( byte[] data )
+	{
+		this.data = data;
+		setInput( new ByteArrayInputStream( data ) );
 	}
 
 	public void setInput( InputStream in )

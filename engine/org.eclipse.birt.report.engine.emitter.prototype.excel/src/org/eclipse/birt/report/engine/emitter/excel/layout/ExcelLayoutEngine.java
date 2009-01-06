@@ -454,11 +454,12 @@ public class ExcelLayoutEngine
 			return createData( altText, entry);
 		}
 
-		byte[] imageData = EmitterUtil.parseImage( image, image.getImageSource( ), image.getURI( ),image.getMIMEType( ) ,
+		org.eclipse.birt.report.engine.layout.emitter.Image imageInfo= EmitterUtil.parseImage( image, image.getImageSource( ), image.getURI( ),image.getMIMEType( ) ,
 				image.getExtension( ) );
-		if ( imageData != null )
+		byte[] data=imageInfo.getData( );
+		if ( data != null )
 		{
-			return new ImageData( image, entry, type, imageData, container);
+			return new ImageData( image, entry, type, imageInfo, container);
 		}
 		else
 		{

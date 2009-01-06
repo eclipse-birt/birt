@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.emitter.wpml;
 
-import java.awt.Image;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -61,6 +59,7 @@ import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
+import org.eclipse.birt.report.engine.layout.emitter.Image;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManager;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManagerFactory;
@@ -562,9 +561,10 @@ public abstract class AbstractEmitterImpl
 			return;
 		}
 
-		byte[] data = org.eclipse.birt.report.engine.layout.emitter.EmitterUtil
+		Image imageInfo = org.eclipse.birt.report.engine.layout.emitter.EmitterUtil
 				.parseImage( image, image.getImageSource( ), uri, mimeType,
 						extension );
+		byte[] data=imageInfo.getData( );
 		if ( data == null || data.length == 0 )
 		{
 			wordWriter.drawImage( null, 0.0, 0.0, null, style, inlineFlag,
@@ -572,28 +572,10 @@ public abstract class AbstractEmitterImpl
 			return;
 		}
 
-		int defaultW = 0;
-		int defaultH = 0;
-		try
-		{
-			Image imageData = javax.imageio.ImageIO
-					.read( new ByteArrayInputStream( data ) );
-
-			if ( imageData != null )
-			{
-				defaultW = imageData.getWidth( null );// pix
-
-				defaultH = imageData.getHeight( null );
-			}
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.WARNING, e.getMessage( ), e );
-		}
-
-		double height = WordUtil
-				.convertImageSize( image.getHeight( ), defaultH );
-		double width = WordUtil.convertImageSize( image.getWidth( ), defaultW );
+		double height = WordUtil.convertImageSize( image.getHeight( ),
+				imageInfo.getHeight( ) );
+		double width = WordUtil.convertImageSize( image.getWidth( ), imageInfo
+				.getWidth( ) );
 
 		writeBookmark( image );
 		writeToc( image );

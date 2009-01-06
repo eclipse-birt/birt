@@ -13,9 +13,7 @@ package org.eclipse.birt.report.engine.emitter.excel;
 
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.emitter.excel.layout.XlsContainer;
-import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.layout.emitter.EmitterUtil;
-
+import org.eclipse.birt.report.engine.layout.emitter.Image;
 public class ImageData extends SheetData
 {
 
@@ -23,30 +21,23 @@ public class ImageData extends SheetData
 	private double height, width;
 	private String altText, imageUrl;
 	private byte[] imageData;
+	private Image imageInfo;
 
 	public ImageData( IImageContent image, StyleEntry style, int datatype,
-			byte[] imageData, XlsContainer currentContainer )
+			Image imageInfo, XlsContainer currentContainer )
 	{
 		super( );
 		this.style = style;
 		this.datatype = datatype;
-		height = ExcelUtil.convertImageSize( image.getHeight( ), 0 );
-		width = minWidth( currentContainer.getSizeInfo( ).getWidth( ), image
-				.getWidth( ) );
+		height = imageInfo.getHeight( );
+		double imageWidth = imageInfo.getWidth( ) * ExcelUtil.PX_PT;
+		width = Math.min( currentContainer.getSizeInfo( ).getWidth( ), imageWidth);
 		altText = image.getAltText( );
 		imageUrl = image.getURI( );
-		this.imageData = imageData;
+		this.imageData = imageInfo.getData( );
 		container = currentContainer;
 		rowSpanInDesign = 0;
-	}
-
-	private double minWidth( int containerWidth, DimensionType imageWidth )
-	{
-		double imageWid = ExcelUtil.convertImageSize( imageWidth, 0 );
-		if ( imageWid >= containerWidth )
-			return containerWidth;
-		return imageWid;
-
+		this.imageInfo = imageInfo;
 	}
 
 	public double getHeight( )
@@ -119,4 +110,8 @@ public class ImageData extends SheetData
 		this.colNo = colno;
 	}
 
+	public Image getImageInfo( )
+	{
+		return imageInfo;
+	}
 }
