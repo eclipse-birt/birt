@@ -170,7 +170,7 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 					ResultFieldMetadata columnMetaData = new ResultFieldMetadata( j + 1,
 							columnDefn.getColumnName( ),
 							columnDefn.getColumnName( ),
-							DataTypeUtil.toTypeClass( DataTypeUtil.toOdaType( DataType.getClass( columnDefn.getDataType( ) ) ) ),
+							DataType.getClass( columnDefn.getDataType( ) ),
 							null /* nativeTypeName */,
 							true );
 					columnsList.add( columnMetaData );
@@ -188,7 +188,7 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 			    		++count,
 						compColumn.getName(),
 						compColumn.getName(),
-						DataTypeUtil.toTypeClass( DataTypeUtil.toOdaType( DataType.getClass( compColumn.getDataType( ) ) ) ),
+						DataType.getClass( compColumn.getDataType( ) ),
 						null /* nativeTypeName */, 
 						true );
 			    columnsList.add( columnMetaData );

@@ -35,8 +35,6 @@ import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
-import org.eclipse.datatools.connectivity.oda.IBlob;
-import org.eclipse.datatools.connectivity.oda.IClob;
 
 /**
  * Utility class for ResultObject for serialize and deserialize. Since available
