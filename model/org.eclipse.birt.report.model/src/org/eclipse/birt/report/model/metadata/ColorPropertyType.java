@@ -196,8 +196,8 @@ public class ColorPropertyType extends PropertyType
 	 * Validate a color property value. A color property can be:
 	 * <ul>
 	 * <li>Null or blank String meaning to clear the property value.</li>
-	 * <li>A string with a value of the form 0xhhhhhh that follows the rules
-	 * for a Java hexadecimal constant.</li>
+	 * <li>A string with a value of the form 0xhhhhhh that follows the rules for
+	 * a Java hexadecimal constant.</li>
 	 * <li>A string with a value #hhhhhh that follows the rules of HTML color
 	 * codes.</li>
 	 * <li>A string with a value #hhh that follows the rules of HTML RGB color
@@ -211,8 +211,7 @@ public class ColorPropertyType extends PropertyType
 	 * <li>An integer with a valid RGB color value.</li>
 	 * </ul>
 	 * <p>
-	 * Colors recognized as names should include those supported by <a
-	 * href="http://msdn.microsoft.com/library/default.asp?url=/workshop/author/dhtml/reference/colors/colors.asp"
+	 * Colors recognized as names should include those supported by <a href="http://msdn.microsoft.com/library/default.asp?url=/workshop/author/dhtml/reference/colors/colors.asp"
 	 * Internet Explorer </a> and <a
 	 * href="http://www.w3.org/TR/html401/types.html#h-6.5">HTML </a>.
 	 * 
@@ -226,8 +225,6 @@ public class ColorPropertyType extends PropertyType
 	{
 		if ( value == null )
 		{
-			logger.log( Level.FINE,
-					"The value of color property is null or a blank string." ); //$NON-NLS-1$
 			return null;
 		}
 
@@ -239,8 +236,6 @@ public class ColorPropertyType extends PropertyType
 
 			if ( intValue >= 0 && intValue <= 0xFFFFFF )
 			{
-				logger.log( Level.FINE,
-						"the validated color value " + value ); //$NON-NLS-1$
 				return value;
 			}
 		}
@@ -266,16 +261,12 @@ public class ColorPropertyType extends PropertyType
 		value = StringUtil.trimString( value );
 		if ( value == null )
 		{
-			logger.log( Level.FINE,
-					"The value of color property is null or a blank string." ); //$NON-NLS-1$
 			return null;
 		}
 
 		Object validValue = validateColor( module, value );
 		if ( validValue != null )
 		{
-			logger.log( Level.FINE,
-					"The validated color property value " + validValue ); //$NON-NLS-1$
 			return validValue;
 		}
 
@@ -291,7 +282,8 @@ public class ColorPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
 	public int getTypeCode( )
@@ -302,7 +294,8 @@ public class ColorPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
 	public String getName( )
@@ -435,11 +428,11 @@ public class ColorPropertyType extends PropertyType
 
 	/**
 	 * Returns a localized display string for the color. If the
-	 * <code>value</code> is one of the pre-defined colors, display name of
-	 * the color choice will be returned; If the <code>value</code> is from
-	 * customer color pallete, then display name of the <code>CustomColor</code>
-	 * will be returned; If the <code>value</code> is an integer, then the RGB
-	 * value in default format set on the design session will be returned.
+	 * <code>value</code> is one of the pre-defined colors, display name of the
+	 * color choice will be returned; If the <code>value</code> is from customer
+	 * color pallete, then display name of the <code>CustomColor</code> will be
+	 * returned; If the <code>value</code> is an integer, then the RGB value in
+	 * default format set on the design session will be returned.
 	 * 
 	 * @return the display string for the color.
 	 */
@@ -496,8 +489,8 @@ public class ColorPropertyType extends PropertyType
 	/**
 	 * Validate a color value in locale-dependent way. The possible color valid
 	 * values are the same to
-	 * {@link #validateValue(Module, PropertyDefn, Object)}except that the
-	 * input <code>value</code> is a String.
+	 * {@link #validateValue(Module, PropertyDefn, Object)}except that the input
+	 * <code>value</code> is a String.
 	 * 
 	 * @see #validateValue(Module, PropertyDefn, Object)
 	 */
@@ -508,14 +501,12 @@ public class ColorPropertyType extends PropertyType
 		value = StringUtil.trimString( value );
 		if ( value == null )
 		{
-			logger.log( Level.FINE, "empty color value" ); //$NON-NLS-1$
 			return null;
 		}
 
 		Object validValue = validateColor( module, value );
 		if ( validValue != null )
 		{
-			logger.log( Level.FINE, "The validated color " + validValue ); //$NON-NLS-1$
 			return validValue;
 		}
 
@@ -528,9 +519,6 @@ public class ColorPropertyType extends PropertyType
 			IChoice color = choices.findChoiceByDisplayName( value );
 			if ( color != null )
 			{
-				logger.log( Level.FINE,
-						"Returns the color internal name for the color " //$NON-NLS-1$
-								+ value );
 				return color.getName( );
 			}
 		}
@@ -553,8 +541,7 @@ public class ColorPropertyType extends PropertyType
 	 * "0xRRGGBB"</li>
 	 * <li>A decimal number: "16711680"</li>
 	 * <li>A CSS color name: "Red", "Green".</li>
-	 * <li>CSS absolute or relative format: {rgb(r,g,b)} or {rgb(r%,g%,b%)}
-	 * </li>
+	 * <li>CSS absolute or relative format: {rgb(r,g,b)} or {rgb(r%,g%,b%)}</li>
 	 * <li>A custom defined color.</li>
 	 * </ul>
 	 * 

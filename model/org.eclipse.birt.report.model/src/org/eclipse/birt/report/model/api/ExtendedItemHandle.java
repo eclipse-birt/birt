@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -294,15 +295,18 @@ public class ExtendedItemHandle extends ReportItemHandle
 			IMethodInfo tmpInfo = info[i];
 			if ( tmpInfo == null )
 			{
-				logger.warning( "The method info " + i //$NON-NLS-1$
-						+ " in the methods are null." ); //$NON-NLS-1$
+				logger.log( Level.WARNING,
+						"The method info " + i + " in the methods are null." ); //$NON-NLS-1$ //$NON-NLS-2$
+
 				continue;
 			}
 			String tmpContext = tmpInfo.getName( );
 			if ( StringUtil.isBlank( tmpContext ) )
 			{
-				logger.warning( "The name of the method info " + i //$NON-NLS-1$
-						+ " is empty or null." ); //$NON-NLS-1$
+				logger
+						.log(
+								Level.WARNING,
+								"The name of the method info " + i + " is empty or null." ); //$NON-NLS-1$//$NON-NLS-2$
 				continue;
 			}
 			returnList.add( tmpInfo );

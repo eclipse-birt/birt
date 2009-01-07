@@ -17,7 +17,6 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
@@ -47,12 +46,6 @@ import com.ibm.icu.util.ULocale;
 
 public class DefaultResourceLocator implements IResourceLocator
 {
-
-	/**
-	 * the logger
-	 */
-	protected static Logger logger = Logger
-			.getLogger( DefaultResourceLocator.class.getName( ) );
 
 	/*
 	 * (non-Javadoc)

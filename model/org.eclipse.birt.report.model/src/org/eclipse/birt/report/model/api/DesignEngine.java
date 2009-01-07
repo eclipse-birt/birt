@@ -74,7 +74,7 @@ public final class DesignEngine implements IDesignEngine
 		}
 		catch ( BirtException e )
 		{
-			errorLogger.log( Level.INFO,
+			errorLogger.log( Level.SEVERE,
 					"Error occurs while start the platform", e ); //$NON-NLS-1$
 		}
 
@@ -159,11 +159,11 @@ public final class DesignEngine implements IDesignEngine
 	}
 
 	/**
-	 * Registers a <code>IMetaLogger</code> to record initialization errors.
-	 * The logger will be notified of the errors during meta-data
-	 * initialization. The meta-data system will be initialized once (and only
-	 * once). Loggers should be registered before the first time a session is
-	 * created so that it can be notified of the logging actions.
+	 * Registers a <code>IMetaLogger</code> to record initialization errors. The
+	 * logger will be notified of the errors during meta-data initialization.
+	 * The meta-data system will be initialized once (and only once). Loggers
+	 * should be registered before the first time a session is created so that
+	 * it can be notified of the logging actions.
 	 * 
 	 * @param newLogger
 	 *            the <code>MetaLogger</code> to be registered.
@@ -185,8 +185,8 @@ public final class DesignEngine implements IDesignEngine
 	 * 
 	 * @param logger
 	 *            the <code>MetaLogger</code> to be removed.
-	 * @return <code>true</code> if this logger manager contained the
-	 *         specified logger.
+	 * @return <code>true</code> if this logger manager contained the specified
+	 *         logger.
 	 * 
 	 * @see #registerMetaLogger(IMetaLogger)
 	 */

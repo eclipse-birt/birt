@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.metadata;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.Module;
@@ -27,12 +26,6 @@ import org.eclipse.birt.report.model.core.Module;
 public class ListPropertyType extends PropertyType
 {
 
-	/**
-	 * Logger instance.
-	 */
-
-	private static Logger logger = Logger.getLogger( ListPropertyType.class
-			.getName( ) );
 	/**
 	 * Display name key.
 	 */
@@ -73,9 +66,10 @@ public class ListPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org
+	 * .eclipse.birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 
 	public Object validateValue( Module module, PropertyDefn defn, Object value )
@@ -111,9 +105,10 @@ public class ListPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyType#toString(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyType#toString(org.eclipse
+	 * .birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 
 	public String toString( Module module, PropertyDefn defn, Object value )
@@ -147,8 +142,9 @@ public class ListPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyType#toInteger(org.eclipse.birt.report.model.core.Module,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyType#toInteger(org.eclipse
+	 * .birt.report.model.core.Module, java.lang.Object)
 	 */
 
 	public int toInteger( Module module, Object value )

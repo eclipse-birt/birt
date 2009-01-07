@@ -33,8 +33,8 @@ public class ContentElementPropertyType extends PropertyType
 	 * Logger instance.
 	 */
 
-	private static Logger logger = Logger.getLogger( ContentElementPropertyType.class
-			.getName( ) );
+	private static Logger logger = Logger
+			.getLogger( ContentElementPropertyType.class.getName( ) );
 	/**
 	 * Display name key.
 	 */
@@ -73,9 +73,10 @@ public class ContentElementPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org
+	 * .eclipse.birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 	public Object validateValue( Module module, PropertyDefn defn, Object value )
 			throws PropertyValueException
@@ -107,8 +108,10 @@ public class ContentElementPropertyType extends PropertyType
 		}
 
 		// exception
-		logger.log( Level.WARNING,
-				"The value of this element property is not a valid type" ); //$NON-NLS-1$
+		logger
+				.log(
+						Level.SEVERE,
+						"The value of this element property: " + defn.getName( ) + " is not a valid type" ); //$NON-NLS-1$ //$NON-NLS-2$
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 				CONTENT_ELEMENT_TYPE );
@@ -117,9 +120,10 @@ public class ContentElementPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyType#toString(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyType#toString(org.eclipse
+	 * .birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 	public String toString( Module module, PropertyDefn defn, Object value )
 	{
@@ -132,8 +136,9 @@ public class ContentElementPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyType#toInteger(org.eclipse.birt.report.model.core.Module,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyType#toInteger(org.eclipse
+	 * .birt.report.model.core.Module, java.lang.Object)
 	 */
 	public int toInteger( Module module, Object value )
 	{

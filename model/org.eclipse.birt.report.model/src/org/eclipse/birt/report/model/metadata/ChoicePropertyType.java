@@ -61,8 +61,8 @@ public class ChoicePropertyType extends PropertyType
 	 * @return object of type String, Returns <code>null</code> if the
 	 *         <code>value</code> parameter is null.
 	 * @throws PropertyValueException
-	 *             if <code>value</code> is not found in the predefined
-	 *             choices, or it is not a valid localized choice name.
+	 *             if <code>value</code> is not found in the predefined choices,
+	 *             or it is not a valid localized choice name.
 	 */
 
 	public Object validateValue( Module module, PropertyDefn defn, Object value )
@@ -70,7 +70,6 @@ public class ChoicePropertyType extends PropertyType
 	{
 		if ( value == null )
 		{
-			logger.log( Level.FINE, "Input choice property object is null" ); //$NON-NLS-1$
 			return null;
 		}
 
@@ -79,7 +78,7 @@ public class ChoicePropertyType extends PropertyType
 			return validateInputString( module, defn, (String) value );
 		}
 
-		logger.log( Level.WARNING, "Invalid choice value type:" + value ); //$NON-NLS-1$
+		logger.log( Level.SEVERE, "Invalid choice value type:" + value ); //$NON-NLS-1$
 
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
@@ -103,7 +102,6 @@ public class ChoicePropertyType extends PropertyType
 		value = StringUtil.trimString( value );
 		if ( value == null )
 		{
-			logger.log( Level.FINE, "The choice value is null or blank" ); //$NON-NLS-1$
 			return null;
 		}
 
@@ -118,7 +116,6 @@ public class ChoicePropertyType extends PropertyType
 		IChoice choice = allowedChoices.findChoice( value );
 		if ( choice != null )
 		{
-			logger.log( Level.FINE, "return internal name for choice " + value ); //$NON-NLS-1$
 			return choice.getName( );
 		}
 
@@ -127,15 +124,15 @@ public class ChoicePropertyType extends PropertyType
 		{
 			// The is in the whole choice set, but not in the allowed list.
 
-			logger.log( Level.WARNING, "Not allowed choice " + value ); //$NON-NLS-1$
+			logger.log( Level.SEVERE, "Not allowed choice " + value ); //$NON-NLS-1$
 
 			throw new PropertyValueException( value,
 					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED,
 					getTypeCode( ) );
 		}
 
-		logger.log( Level.WARNING, "Not found choice: " + value ); //$NON-NLS-1$
-		
+		logger.log( Level.SEVERE, "Not found choice: " + value ); //$NON-NLS-1$
+
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND,
 				getTypeCode( ) );
@@ -144,7 +141,8 @@ public class ChoicePropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
 	public int getTypeCode( )
@@ -166,9 +164,9 @@ public class ChoicePropertyType extends PropertyType
 	/**
 	 * Converts the choice property value to a locale-independent string. The
 	 * <code>value</code> should be in the predefined choice list. If
-	 * <code>value</code> is <code>null</code>, the return will be null, if
-	 * the <code>value</code> is in the predefined choice list, the value will
-	 * be returned as a String.
+	 * <code>value</code> is <code>null</code>, the return will be null, if the
+	 * <code>value</code> is in the predefined choice list, the value will be
+	 * returned as a String.
 	 * 
 	 * @return the value as a string if it is in the predefined choice list,
 	 *         return null if the value is null;
@@ -210,9 +208,6 @@ public class ChoicePropertyType extends PropertyType
 		{
 			// Return localized choice name.
 
-			logger
-					.log( Level.FINE,
-							"Returns a localized choice display name according to its internal name." ); //$NON-NLS-1$ 
 			return choice.getDisplayName( );
 		}
 
@@ -227,9 +222,9 @@ public class ChoicePropertyType extends PropertyType
 	 * locale-dependent way, the <code>name</code> can be either an internal
 	 * choice name or it can be a localized choice name.
 	 * 
-	 * @return the internal choice name, if the <code>name</code> is an
-	 *         internal choice name or a localized choice name, return
-	 *         <code>null</code> if <code>name</code> is null.
+	 * @return the internal choice name, if the <code>name</code> is an internal
+	 *         choice name or a localized choice name, return <code>null</code>
+	 *         if <code>name</code> is null.
 	 * @throws PropertyValueException
 	 *             if the <code>name</code> is not valid.
 	 */
@@ -240,7 +235,6 @@ public class ChoicePropertyType extends PropertyType
 		name = StringUtil.trimString( name );
 		if ( name == null )
 		{
-			logger.log( Level.FINE, "The choice name is null." ); //$NON-NLS-1$
 			return null;
 		}
 
@@ -255,8 +249,6 @@ public class ChoicePropertyType extends PropertyType
 		IChoice choice = allowedChoices.findChoice( name );
 		if ( choice != null )
 		{
-			logger.log( Level.FINE,
-					"Return internal name of the choice " + name ); //$NON-NLS-1$
 			return choice.getName( );
 		}
 
@@ -271,8 +263,6 @@ public class ChoicePropertyType extends PropertyType
 
 		if ( choice != null )
 		{
-			logger.log( Level.FINE,
-					"Return the internal name of the choice " + name ); //$NON-NLS-1$
 			return choice.getName( );
 		}
 
@@ -281,14 +271,14 @@ public class ChoicePropertyType extends PropertyType
 		{
 			// The is in the whole choice set, but not in the allowed list.
 
-			logger.log( Level.WARNING, "Not allowed choice " + name ); //$NON-NLS-1$
+			logger.log( Level.SEVERE, "Not allowed choice " + name ); //$NON-NLS-1$
 
 			throw new PropertyValueException( name,
 					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED,
 					getTypeCode( ) );
 		}
 
-		logger.log( Level.WARNING, "Invalid choice:" + name ); //$NON-NLS-1$
+		logger.log( Level.SEVERE, "Invalid choice:" + name ); //$NON-NLS-1$
 
 		throw new PropertyValueException( name,
 				PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND,

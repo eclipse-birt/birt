@@ -68,11 +68,11 @@ import org.eclipse.birt.report.model.core.Module;
  * Some parts of the application will find it easier to work with specific
  * physical units. For example, the layout editor may choose to work in units in
  * millimeters. In this case, the application specifies its
- * <em>application units</em> in the design session. If the application
- * requests the dimension property as a double, this class converts the property
- * into the desired application units, taking into consideration the unit suffix
- * (if any) for the property and the design's default units (if the property
- * value has no unit suffix.)
+ * <em>application units</em> in the design session. If the application requests
+ * the dimension property as a double, this class converts the property into the
+ * desired application units, taking into consideration the unit suffix (if any)
+ * for the property and the design's default units (if the property value has no
+ * unit suffix.)
  * 
  * @see DimensionValue
  * @see org.eclipse.birt.report.model.api.util.DimensionUtil
@@ -114,9 +114,9 @@ public class DimensionPropertyType extends PropertyType
 	 * units specifier. Units can be any of the recognized BIRT units: in, cm,
 	 * mm, pt, pc, px, em, ex or % . If the unit specifier is omitted, use the
 	 * default for the design.</li>
-	 * <li>An <code>Integer</code>,<code>Float</code>,
-	 * <code>Double</code> or <code>BigDecimal</code>. Assume that the
-	 * units are specified by the design default.</li>
+	 * <li>An <code>Integer</code>,<code>Float</code>, <code>Double</code> or
+	 * <code>BigDecimal</code>. Assume that the units are specified by the
+	 * design default.</li>
 	 * </ul>
 	 * 
 	 * @return object is of type <code>DimensionValue</code> or null.
@@ -127,7 +127,6 @@ public class DimensionPropertyType extends PropertyType
 	{
 		if ( value == null )
 		{
-			logger.log( Level.FINE, "The input value object is null." ); //$NON-NLS-1$
 			return null;
 		}
 
@@ -137,15 +136,8 @@ public class DimensionPropertyType extends PropertyType
 		{
 			if ( !StringUtil.isBlank( ( (DimensionValue) value ).getUnits( ) ) )
 			{
-				logger
-						.log(
-								Level.FINE,
-								"Validate the dimension value with defined unit " + value ); //$NON-NLS-1$
 				return value;
 			}
-
-			logger.log( Level.FINE,
-					"return dimension value with default unit " + value ); //$NON-NLS-1$
 
 			return new DimensionValue(
 					( (DimensionValue) value ).getMeasure( ), getDefaultUnit(
@@ -229,23 +221,14 @@ public class DimensionPropertyType extends PropertyType
 		DimensionValue dim = DimensionValue.parse( value );
 		if ( dim == null )
 		{
-			logger.log( Level.FINE,
-					"The input string may be a blank string or without measure." //$NON-NLS-1$
-							+ value );
 			return null;
 		}
 
 		validateUnits( module, defn, dim );
 		if ( !DimensionValue.DEFAULT_UNIT.equalsIgnoreCase( dim.getUnits( ) ) )
 		{
-			logger.log( Level.FINE,
-					"return dimension value with user defined unit " //$NON-NLS-1$
-							+ dim.toString( ) );
 			return dim;
 		}
-
-		logger.log( Level.FINE, "return dimension value with default unit " //$NON-NLS-1$
-				+ dim.getMeasure( ) );
 
 		return new DimensionValue( dim.getMeasure( ), getDefaultUnit( module,
 				defn ) );
@@ -275,33 +258,26 @@ public class DimensionPropertyType extends PropertyType
 		DimensionValue dim = DimensionValue.parseInput( value );
 		if ( dim == null )
 		{
-			logger.log( Level.FINE,
-					"The input string may be a blank string or without measure." //$NON-NLS-1$
-							+ value );
 			return null;
 		}
 
 		validateUnits( module, defn, dim );
 		if ( !DimensionValue.DEFAULT_UNIT.equalsIgnoreCase( dim.getUnits( ) ) )
 		{
-			logger.log( Level.FINE, "return dimension with user-defined unit " //$NON-NLS-1$
-					+ dim.toString( ) );
 			return dim;
 		}
 
 		dim = new DimensionValue( dim.getMeasure( ), getDefaultUnit( module,
 				defn ) );
 
-		logger.log( Level.FINE,
-				"return dimension with default unit " + dim.toString( ) ); //$NON-NLS-1$
 		return dim;
 	}
 
 	/**
 	 * Converts the value into a locale-dependent string. The measure part of
-	 * the <code>DimensionValue</code> will be formatted in the current
-	 * locale, e.g: 12,000,000.123 for US locale while in German the value it
-	 * will be 12.000.000,123. The unit will be attached after the measure.
+	 * the <code>DimensionValue</code> will be formatted in the current locale,
+	 * e.g: 12,000,000.123 for US locale while in German the value it will be
+	 * 12.000.000,123. The unit will be attached after the measure.
 	 */
 
 	public String toDisplayString( Module module, PropertyDefn defn,
@@ -361,7 +337,8 @@ public class DimensionPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
 	public int getTypeCode( )
@@ -372,7 +349,8 @@ public class DimensionPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
 	public String getName( )

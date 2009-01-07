@@ -59,19 +59,6 @@ public abstract class StyleElement extends ReferenceableElement
 		super( theName );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.ReferenceableElement#setDeliveryPath
-	 * (org.eclipse.birt.report.model.activity.NotificationEvent)
-	 */
-
-	protected void adjustDeliveryPath( NotificationEvent ev )
-	{
-		ev.setDeliveryPath( NotificationEvent.STYLE_CLIENT );
-	}
-
 	/**
 	 * Returns true if the element is style.
 	 * 

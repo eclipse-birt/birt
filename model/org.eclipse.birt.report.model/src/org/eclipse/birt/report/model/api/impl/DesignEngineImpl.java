@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.api.impl;
 
 import java.io.InputStream;
-import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -41,13 +40,6 @@ import com.ibm.icu.util.ULocale;
 
 public class DesignEngineImpl implements IDesignEngine
 {
-
-	/**
-	 * The logger for errors.
-	 */
-
-	protected static Logger errorLogger = Logger
-			.getLogger( DesignEngineImpl.class.getName( ) );
 
 	/**
 	 * The file name of ROM.DEF

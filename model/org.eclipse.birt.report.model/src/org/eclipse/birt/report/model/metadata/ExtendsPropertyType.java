@@ -98,8 +98,6 @@ public class ExtendsPropertyType extends PropertyType
 			String name = StringUtil.trimString( (String) value );
 			if ( name == null )
 			{
-				logger.log( Level.SEVERE,
-						"The value of the extends property is an empty string" ); //$NON-NLS-1$
 				return null;
 			}
 

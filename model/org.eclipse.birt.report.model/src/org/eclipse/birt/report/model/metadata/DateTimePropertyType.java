@@ -87,12 +87,10 @@ public class DateTimePropertyType extends PropertyType
 
 		if ( value == null )
 		{
-			logger.log( Level.FINE, "Blank date value." ); //$NON-NLS-1$
 			return null;
 		}
 		if ( value instanceof Date )
 		{
-			logger.log( Level.FINE, "Validate the value as a date " + value ); //$NON-NLS-1$
 			return value;
 		}
 		if ( value instanceof String )
@@ -120,14 +118,12 @@ public class DateTimePropertyType extends PropertyType
 		value = StringUtil.trimString( value );
 		if ( value == null )
 		{
-			logger.log( Level.FINE, "Blank date value." ); //$NON-NLS-1$
 			return null;
 		}
 
 		// fixed xml format.
 		try
 		{
-			logger.log( Level.FINE, "Valid date value:" + value ); //$NON-NLS-1$
 			return formatter.parse( value );
 		}
 		catch ( ParseException e )
@@ -163,7 +159,8 @@ public class DateTimePropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
 	public int getTypeCode( )
@@ -174,7 +171,8 @@ public class DateTimePropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
 	public String getName( )
@@ -195,7 +193,6 @@ public class DateTimePropertyType extends PropertyType
 	{
 		if ( StringUtil.isBlank( value ) )
 		{
-			logger.log( Level.FINE, "Blank date value" ); //$NON-NLS-1$
 			return null;
 		}
 
@@ -205,7 +202,6 @@ public class DateTimePropertyType extends PropertyType
 				ThreadResources.getLocale( ) );
 		try
 		{
-			logger.log( Level.FINE, "Valid data value:" + value ); //$NON-NLS-1$
 			return formatter.parse( value );
 		}
 		catch ( ParseException e )

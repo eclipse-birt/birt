@@ -16,7 +16,6 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.util.StringUtil;
 
@@ -70,11 +69,6 @@ public class URIUtilImpl
 
 	private static final String URL_SIGNATURE = "://"; //$NON-NLS-1$
 
-	/**
-	 * the logger
-	 */
-	protected static Logger logger = Logger.getLogger( URIUtilImpl.class
-			.getName( ) );
 
 	/**
 	 * Returns the URL object of the given string. If the input value is in URL

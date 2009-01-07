@@ -54,7 +54,8 @@ public class StructPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
 	public int getTypeCode( )
@@ -65,7 +66,8 @@ public class StructPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
 	public String getName( )
@@ -121,8 +123,8 @@ public class StructPropertyType extends PropertyType
 		}
 
 		// exception
-		logger.log( Level.WARNING,
-				"The value of this structure property is not a valid type" ); //$NON-NLS-1$
+		logger.log( Level.SEVERE,
+						"The value of this structure property: " + defn.getName( ) + " is not a valid type" ); //$NON-NLS-1$ //$NON-NLS-2$
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 				STRUCT_TYPE );

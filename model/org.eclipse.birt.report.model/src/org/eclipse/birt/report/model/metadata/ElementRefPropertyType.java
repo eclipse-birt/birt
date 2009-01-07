@@ -111,17 +111,11 @@ public class ElementRefPropertyType extends PropertyType
 		ElementDefn targetDefn = (ElementDefn) defn.getTargetElementType( );
 		if ( value instanceof String )
 		{
-			logger.log( Level.FINE,
-					"Validate the value of the element reference property as a string: " //$NON-NLS-1$
-							+ value );
 			return validateStringValue( module, targetDefn, defn,
 					(String) value );
 		}
 		if ( value instanceof DesignElement )
 		{
-			logger.log( Level.FINE,
-					"Validate the value of the element reference property as a DesignElement " //$NON-NLS-1$
-							+ ( (DesignElement) value ).getFullName( ) );
 			DesignElement target = (DesignElement) value;
 			return validateElementValue( module, targetDefn, defn, target );
 		}

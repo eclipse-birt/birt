@@ -19,7 +19,6 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Date;
-import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
 import org.eclipse.birt.report.model.util.SecurityUtil;
@@ -46,12 +45,6 @@ class FileMetaLogger implements IMetaLogger
 	 */
 
 	protected final static String DEFAULT_ENCODING = "UTF-8"; //$NON-NLS-1$
-
-	/**
-	 * the logger
-	 */
-	protected static Logger logger = Logger.getLogger( FileMetaLogger.class
-			.getName( ) );
 
 	/**
 	 * The writer that does the actual writing to disk.
