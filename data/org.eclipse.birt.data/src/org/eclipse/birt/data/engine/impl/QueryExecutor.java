@@ -604,7 +604,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 				temporaryComputedColumns.add( new ComputedColumn( "_{$TEMP_SORT_"
 						+ i + "$}_",
 						sortKey,
-						getExpressionDataTypeOfSortKey( sortKey ) ) );
+						getExpressionDataType( sortKey ) ) );
 				sortIndex = -1;
 				sortKey = String.valueOf( "_{$TEMP_SORT_" + i + "$}_");
 
@@ -624,7 +624,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 * @return
 	 * @throws DataException
 	 */
-	private int getExpressionDataTypeOfSortKey( String expression ) throws DataException
+	private int getExpressionDataType( String expression ) throws DataException
 	{
 		try
 		{
@@ -634,9 +634,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 			if( bindingName == null )
 				return DataType.ANY_TYPE;
 			if ( bindingName.equals( ScriptConstants.ROW_NUM_KEYWORD ) )
-			{
 				return DataType.INTEGER_TYPE;
-			}
 			Object binding = this.baseQueryDefn.getBindings( ).get( bindingName );
 			if( binding == null )
 				return DataType.ANY_TYPE;
