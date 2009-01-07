@@ -633,6 +633,10 @@ public abstract class QueryExecutor implements IQueryExecutor
 			String bindingName = ExpressionUtil.getColumnBindingName( expression );
 			if( bindingName == null )
 				return DataType.ANY_TYPE;
+			if ( bindingName.equals( ScriptConstants.ROW_NUM_KEYWORD ) )
+			{
+				return DataType.INTEGER_TYPE;
+			}
 			Object binding = this.baseQueryDefn.getBindings( ).get( bindingName );
 			if( binding == null )
 				return DataType.ANY_TYPE;
@@ -745,8 +749,10 @@ public abstract class QueryExecutor implements IQueryExecutor
 		{
 			return DataType.UNKNOWN_TYPE;
 		}
-
-		return ( (IBinding) baseExpr ).getExpression( ).getDataType( );
+		int dataType = ( (IBinding) baseExpr ).getExpression( ).getDataType( );
+		if( dataType == DataType.UNKNOWN_TYPE )
+			return DataType.ANY_TYPE;
+		return dataType;
 	}
 	
 	/**
