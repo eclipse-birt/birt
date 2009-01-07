@@ -76,7 +76,9 @@ public abstract class SheetData
 	boolean processed;
 
 	HyperlinkDef url;
-
+	
+	BookmarkDef bookmark;
+	
 	public StyleEntry getStyle( )
 	{
 		return style;
@@ -201,5 +203,15 @@ public abstract class SheetData
 	public void decreasRowSpanInDesign( )
 	{
 		rowSpanInDesign--;
+	}
+	
+	public BookmarkDef getBookmark( )
+	{
+		return bookmark;
+	}
+
+	public void setBookmark( BookmarkDef bookmark )
+	{
+		this.bookmark = bookmark;
 	}
 }

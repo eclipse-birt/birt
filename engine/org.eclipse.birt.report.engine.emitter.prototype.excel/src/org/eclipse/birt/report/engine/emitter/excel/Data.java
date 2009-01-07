@@ -26,17 +26,10 @@ public class Data extends SheetData implements Serializable, Cloneable
 
 	private static int ID = 0;
 
-	// String txt;
-
 	int  id;
-
-
-
-	BookmarkDef bookmark;
 
 	boolean isTxtData = true;
 	
-
 	Logger log = Logger.getLogger( Data.class.getName( ) );
 
 	public Data( final Object txt, final int datatype, XlsContainer container )
@@ -186,17 +179,4 @@ public class Data extends SheetData implements Serializable, Cloneable
 		}
 		return false;
 	}
-
-
-
-	public BookmarkDef getBookmark( )
-	{
-		return bookmark;
-	}
-
-	public void setBookmark( BookmarkDef bookmark )
-	{
-		this.bookmark = bookmark;
-	}
-
 }

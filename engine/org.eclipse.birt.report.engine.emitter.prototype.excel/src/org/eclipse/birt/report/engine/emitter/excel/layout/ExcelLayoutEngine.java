@@ -424,13 +424,14 @@ public class ExcelLayoutEngine
 		addData( data );
 	}
 	public void addImageData( IImageContent image, IStyle style,
-			HyperlinkDef link )
+			HyperlinkDef link, BookmarkDef bookmark )
 	{
 		XlsContainer container=getCurrentContainer();
 		ContainerSizeInfo rule = container.getSizeInfo( );
 		StyleEntry entry = engine.getStyle( style, rule );
 		SheetData data = createImageData( image, entry,container );
 		data.setHyperlinkDef( link );
+		data.setBookmark( bookmark );
 		data.setSizeInfo( rule );
 		addData( data );
 

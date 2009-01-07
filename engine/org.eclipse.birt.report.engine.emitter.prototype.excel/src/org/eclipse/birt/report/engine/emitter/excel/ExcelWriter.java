@@ -8,7 +8,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -38,7 +37,7 @@ public class ExcelWriter implements IExcelWriter
 	private String pageHeader, pageFooter, orientation;
 	private ExcelLayoutEngine engine;
 	private int sheetIndex = 1;
-	private HashMap<Integer, List<BookmarkDef>> sheetIndex2DefineNames = new HashMap<Integer, List<BookmarkDef>>( );
+	private HashMap<String, BookmarkDef> bookmarkList = new HashMap<String, BookmarkDef>( );
 
 	private class XMLWriterXLS extends XMLWriter
 	{
@@ -255,9 +254,13 @@ public class ExcelWriter implements IExcelWriter
 			String urlAddress = hyperLink.getUrl( );
 			if ( hyperLink.getType( ) == IHyperlinkAction.ACTION_BOOKMARK )
 			{
-
-				urlAddress = "#" + urlAddress;
-
+				BookmarkDef bookmark=bookmarkList.get( urlAddress );
+				if(bookmark==null)
+				{
+					logger.log( Level.WARNING, "The bookmark: {" + urlAddress + "} is not defined!" );
+					return;
+				}
+				urlAddress = "#" + bookmark.getValidName( );
 			}
 			if ( urlAddress.length( ) >= 255 )
 			{
@@ -587,21 +590,20 @@ public class ExcelWriter implements IExcelWriter
 
 	private Set<String> bookmarkNames = new HashSet<String>();
 
-	private void defineNames( int sheetIndex, List<BookmarkDef> namesRefer )
+	private void defineNames( Entry<String, BookmarkDef> bookmarkEntry )
 	{
-		for ( BookmarkDef bookmark : namesRefer )
+		BookmarkDef bookmark=bookmarkEntry.getValue( );
+		
+		String name = bookmark.getValidName( );
+		String refer = getRefer( sheetIndex, bookmark );
+		if ( !bookmarkNames.contains( name ) )
 		{
-			String name = bookmark.getName( );
-			String refer = getRefer( sheetIndex, bookmark );
-			if ( !bookmarkNames.contains( name ) )
-			{
-				defineName( name, refer );
-				bookmarkNames.add( name );
-			}
-			else
-			{
-			    logger.log(Level.WARNING, "bookmark name is repeated : " + name);
-			}
+			defineName( name, refer );
+			bookmarkNames.add( name );
+		}
+		else
+		{
+			logger.log( Level.WARNING, "bookmark name is repeated : " + name );
 		}
 		bookmarkNames.clear( );
 	}
@@ -761,12 +763,7 @@ public class ExcelWriter implements IExcelWriter
 	public void outputSheet( )
 	{
 		engine.complete( );
-		List<BookmarkDef> books = engine.getBookmarks( );
-		if ( books != null )
-		{
-			sheetIndex2DefineNames.put( sheetIndex, new ArrayList<BookmarkDef>(
-					books ) );
-		}
+		addDefineNames( );
 		try
 		{
 			if ( tempWriter == null )
@@ -828,45 +825,38 @@ public class ExcelWriter implements IExcelWriter
 		writeDocumentProperties( report );
 		declareStyles( engine.getStyleMap( ) );
 		addDefineNames( );
-		defineNames( sheetIndex2DefineNames );
+		outputBookmarks(  );
 	}
 
-	/**
-	 * @param sheetIndex2DefineNames2
-	 */
-	private void defineNames(
-			HashMap<Integer, List<BookmarkDef>> sheetIndex2DefineNames )
+
+	private void outputBookmarks( )
 	{
-		if ( !sheetIndex2DefineNames.isEmpty( ) )
+		if ( !bookmarkList.isEmpty( ) )
 		{
 			writer.openTag( "Names" );
-			Set<Entry<Integer, List<BookmarkDef>>> sheetIndex2Bookmark = sheetIndex2DefineNames
+			Set<Entry<String, BookmarkDef>> bookmarkEntry = bookmarkList
 					.entrySet( );
-			for ( Entry<Integer, List<BookmarkDef>> index2book : sheetIndex2Bookmark )
-				defineNames( index2book );
+			for ( Entry<String, BookmarkDef> bookmark : bookmarkEntry )
+				defineNames( bookmark );
 			writer.closeTag( "Names" );
 		}
 	}
 
-	/**
-	 * @param index2booklist
-	 */
-	private void defineNames( Entry<Integer, List<BookmarkDef>> index2booklist )
-	{
-		int sheetIndex = index2booklist.getKey( );
-		List<BookmarkDef> bookmarkList = index2booklist.getValue( );
-		defineNames( sheetIndex, bookmarkList );
-	}
 
 	/**
 	 * 
 	 */
 	private void addDefineNames( )
 	{
-		List<BookmarkDef> newBooks = engine.getBookmarks( );
-		if ( newBooks != null )
-			sheetIndex2DefineNames.put( sheetIndex, newBooks );
-
+		List<BookmarkDef> bookmarks = engine.getBookmarks( );
+		if ( bookmarks != null )
+		{
+			for ( BookmarkDef bookmark : bookmarks )
+			{
+				bookmark.setSheetIndex( sheetIndex );
+				bookmarkList.put( bookmark.getName( ), bookmark );
+			}
+		}
 	}
 
 	public void end( )

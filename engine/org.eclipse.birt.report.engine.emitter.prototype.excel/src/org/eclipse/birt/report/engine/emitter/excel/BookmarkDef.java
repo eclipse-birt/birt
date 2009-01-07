@@ -11,23 +11,35 @@
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
-
 public class BookmarkDef
 {
+
 	private String name;
 	private int columnNo;
 	private int rowNo;
-	
+	private int sheetIndex;
+	private String generatedName;
+
+	public String getValidName( )
+	{
+		return generatedName == null ? name : generatedName;
+	}
+
+	public void setGeneratedName( String generatedName )
+	{
+		this.generatedName = generatedName;
+	}
+
 	public BookmarkDef( String name )
 	{
 		this.name = name;
 	}
-	
+
 	public String getName( )
 	{
 		return name;
 	}
-	
+
 	public void setName( String name )
 	{
 		this.name = name;
@@ -42,7 +54,7 @@ public class BookmarkDef
 	{
 		this.columnNo = columnNo;
 	}
-	
+
 	public int getRowNo( )
 	{
 		return rowNo;
@@ -52,5 +64,14 @@ public class BookmarkDef
 	{
 		this.rowNo = rowNo;
 	}
-	
+
+	public int getSheetIndex( )
+	{
+		return this.sheetIndex;
+	}
+
+	public void setSheetIndex( int sheetIndex )
+	{
+		this.sheetIndex = sheetIndex;
+	}
 }

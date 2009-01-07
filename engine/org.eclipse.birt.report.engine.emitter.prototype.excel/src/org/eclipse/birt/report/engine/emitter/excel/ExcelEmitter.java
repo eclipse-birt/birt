@@ -53,6 +53,12 @@ import com.ibm.icu.util.ULocale;
 public class ExcelEmitter extends ContentEmitterAdapter
 {
 
+	/**
+	 * 
+	 */
+	private static final String AUTO_GENERATED_BOOKMARK = "auto_generated_bookmark_";
+
+
 	protected static Logger logger = Logger.getLogger( ExcelEmitter.class
 			.getName( ) );
 
@@ -77,6 +83,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	private boolean outputInMasterPage = false;
 	protected boolean isRTLSheet = false;
+	private int autoBookmarkIndex = 0;
 
 	public String getOutputFormat( )
 	{
@@ -386,11 +393,9 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			switch ( linkAction.getType( ) )
 			{
 				case IHyperlinkAction.ACTION_BOOKMARK :
-					if ( ExcelUtil.isValidBookmarkName( bookmark ) )
-					{
 						hyperlink = new HyperlinkDef( bookmark,
 								IHyperlinkAction.ACTION_BOOKMARK, null, tooltip );
-					}
+
 					break;
 				case IHyperlinkAction.ACTION_HYPERLINK :
 					String url = org.eclipse.birt.report.engine.layout.emitter.EmitterUtil
@@ -411,21 +416,30 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		return hyperlink;
 	}
 
-	private BookmarkDef getBookmark( IContent content )
+	protected BookmarkDef getBookmark( IContent content )
 	{
-		String bookmark = content.getBookmark( );
-		if (bookmark == null)
+		String bookmarkName = content.getBookmark( );
+		if (bookmarkName == null)
 			return null;
 		
-		if ( !ExcelUtil.isValidBookmarkName( bookmark ) )
+		BookmarkDef bookmark=new BookmarkDef(content.getBookmark( ));
+		if ( !ExcelUtil.isValidBookmarkName( bookmarkName )
+				|| bookmarkName.startsWith( AUTO_GENERATED_BOOKMARK ) )
 		{
-			logger.log( Level.WARNING, "Invalid bookmark name for Excel!" );
-			return null;
+			bookmark.setGeneratedName( getGenerateBookmark( ) );
 		}
 		
 		// !( content.getBookmark( ).startsWith( "__TOC" ) ) )
 		// bookmark starting with "__TOC" is not OK?
-		return new BookmarkDef( content.getBookmark( ) );
+		return bookmark;
+	}
+
+	/**
+	 * @return
+	 */
+	private String getGenerateBookmark( )
+	{
+		return AUTO_GENERATED_BOOKMARK + autoBookmarkIndex++;
 	}
 
 	public String capitalize( String orientation )

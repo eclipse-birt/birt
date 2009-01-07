@@ -136,19 +136,16 @@ public class DataCache
 			column.get( size - 1 ).clearContainer( );
 		}
 		column.add( data );
-		if ( data instanceof Data )
+		BookmarkDef bookmark = data.getBookmark( );
+		if ( bookmark == null )
 		{
-			BookmarkDef bookmark = ( (Data) data ).getBookmark( );
-			if ( null == bookmark )
-			{
-				return;
-			}
-			int rowNo = columnId2StartRowId.get( new Integer( col ) ).intValue( )
-					+ getStartRowId( col );
-			bookmark.setColumnNo( col + 1 );
-			bookmark.setRowNo( rowNo );
-			bookmarks.add( bookmark );
+			return;
 		}
+		int rowNo = columnId2StartRowId.get( new Integer( col ) ).intValue( )
+				+ getStartRowId( col );
+		bookmark.setColumnNo( col + 1 );
+		bookmark.setRowNo( rowNo );
+		bookmarks.add( bookmark );
 	}
 
 	private void clearCachedSheetData( )
