@@ -25,7 +25,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * the content of report document.
  * 
  */
-public interface IContent extends IElement, CSSStylableElement
+public interface IContent extends IElement, CSSStylableElement, IStyledElement
 {
 	final static int SERIALIZE_CONTENT = -1;
 	final static int CELL_CONTENT = 1;
@@ -118,10 +118,6 @@ public interface IContent extends IElement, CSSStylableElement
 	IStyle getInlineStyle( );
 
 	void setInlineStyle( IStyle style );
-
-	String getStyleClass( );
-
-	void setStyleClass( String styleClass );
 
 	/**
 	 * use visitor to process the object.

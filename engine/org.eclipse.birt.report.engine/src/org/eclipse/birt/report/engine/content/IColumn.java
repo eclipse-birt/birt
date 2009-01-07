@@ -19,7 +19,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * 
  * 
  */
-public interface IColumn
+public interface IColumn extends IStyledElement
 {
 	/**
 	 * @return Return this column is a column header or not.
@@ -31,8 +31,6 @@ public interface IColumn
 	 */
 	public DimensionType getWidth( );
 
-	public String getStyleClass();
-	
 	/**
 	 * get the instance id of the column.
 	 * the instance id is the unique id of the content.
@@ -46,8 +44,6 @@ public interface IColumn
 	 * @return inline style
 	 */
 	IStyle getInlineStyle( );
-
-	IStyle getStyle( );
 
 	void setInlineStyle( IStyle style );
 	

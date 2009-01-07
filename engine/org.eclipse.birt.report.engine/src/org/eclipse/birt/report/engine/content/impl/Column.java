@@ -350,4 +350,9 @@ public class Column implements IColumn
 		this.isRepeated = isRepeated;
 		
 	}
+
+	public IStyle getComputedStyle( )
+	{
+		return getStyle( );
+	}
 }
