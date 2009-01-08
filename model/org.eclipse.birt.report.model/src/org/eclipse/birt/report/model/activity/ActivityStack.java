@@ -842,7 +842,10 @@ public class ActivityStack implements CommandStack
 
 		if ( listeners != null )
 		{
-			Iterator<ActivityStackListener> iter = listeners.iterator( );
+			List<ActivityStackListener> tmpList = new ArrayList<ActivityStackListener>( );
+			tmpList.addAll( listeners );
+
+			Iterator<ActivityStackListener> iter = tmpList.iterator( );
 			while ( iter.hasNext( ) )
 			{
 				ActivityStackListener listener = iter.next( );

@@ -86,7 +86,8 @@ public class AllApiTests
 		test.addTestSuite( MemberValueHandleTest.class );
 		test.addTestSuite( ReportItemDataRefTest.class );
 		test.addTestSuite( MultiViewHandleTest.class );
-
+		test.addTestSuite( ReportDesignCacheTest.class );
+		
 		return test;
 	}
 }

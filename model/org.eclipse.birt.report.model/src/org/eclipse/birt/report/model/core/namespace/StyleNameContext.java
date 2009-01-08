@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.model.core.namespace;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -36,21 +37,6 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  */
 public class StyleNameContext extends AbstractModuleNameContext
 {
-
-	/**
-	 * Map of the styles that can be resolved by calling resolve(String).
-	 */
-	protected Map<String, DesignElement> cachedStyles = new HashMap<String, DesignElement>( );
-
-	/**
-	 * Cached default toc map.
-	 */
-	protected Map<String, StyleElement> cachedTOCStyles = new HashMap<String, StyleElement>( );
-
-	/**
-	 * Status identifying whether the caching work is ok or not.
-	 */
-	protected boolean isCacheOk = false;
 
 	/**
 	 * Constructs one style element name space.
@@ -64,13 +50,6 @@ public class StyleNameContext extends AbstractModuleNameContext
 		super( module, Module.STYLE_NAME_SPACE );
 	}
 
-	private void buildTOCStyles( )
-	{
-		List<DesignElement> defaultTocStyle = module.getSession( )
-				.getDefaultTOCStyleValue( );
-		addAllStyles( cachedTOCStyles, defaultTocStyle );
-	}
-
 	/**
 	 * Returns all elements in the module this module namespace is associated
 	 * and those in the included modules. For the style name scope, the depth of
@@ -81,20 +60,12 @@ public class StyleNameContext extends AbstractModuleNameContext
 
 	public List<DesignElement> getElements( int level )
 	{
-		if ( isCacheOk )
-			return new ArrayList<DesignElement>( cachedStyles.values( ) );
-
 		Map<String, StyleElement> elements = new LinkedHashMap<String, StyleElement>( );
 
 		Theme theme = module.getTheme( module );
 
 		if ( theme == null && module instanceof Library )
 		{
-			if ( module.isCached( ) )
-			{
-				cachedStyles.putAll( elements );
-				isCacheOk = true;
-			}
 			return new ArrayList<DesignElement>( elements.values( ) );
 		}
 
@@ -106,11 +77,6 @@ public class StyleNameContext extends AbstractModuleNameContext
 
 		if ( module instanceof Library )
 		{
-			if ( module.isCached( ) )
-			{
-				cachedStyles.putAll( elements );
-				isCacheOk = true;
-			}
 			return new ArrayList<DesignElement>( elements.values( ) );
 		}
 
@@ -126,11 +92,6 @@ public class StyleNameContext extends AbstractModuleNameContext
 		List<DesignElement> styles = ns.getElements( );
 		addAllStyles( elements, styles );
 
-		if ( module.isCached( ) )
-		{
-			cachedStyles.putAll( elements );
-			isCacheOk = true;
-		}
 		return new ArrayList<DesignElement>( elements.values( ) );
 	}
 
@@ -172,23 +133,6 @@ public class StyleNameContext extends AbstractModuleNameContext
 
 	private ElementRefValue resolve( String elementName )
 	{
-		if ( isCacheOk )
-		{
-			DesignElement style = cachedStyles.get( elementName );
-
-			// firstly, find it in the cached style list
-			if ( style != null )
-				return new ElementRefValue( null, style );
-
-			// if not found, find it in default TOC styles
-			if ( cachedTOCStyles.isEmpty( ) )
-				buildTOCStyles( );
-			style = cachedTOCStyles.get( elementName );
-			if ( style != null )
-				return new ElementRefValue( null, style );
-			return new ElementRefValue( null, elementName );
-		}
-
 		// this name is not cached, so find it directly
 		Theme theme = module.getTheme( module );
 
@@ -239,12 +183,18 @@ public class StyleNameContext extends AbstractModuleNameContext
 		}
 
 		// find style in toc default style
-		if ( cachedTOCStyles.isEmpty( ) )
-			buildTOCStyles( );
-		DesignElement tocStyle = cachedTOCStyles.get( elementName );
-		if ( tocStyle != null )
-			return new ElementRefValue( null, tocStyle );
-
+		
+		List<DesignElement> defaultTocStyle = module.getSession( )
+				.getDefaultTOCStyleValue( );
+		Iterator<DesignElement> iterator = defaultTocStyle.iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			Style tmpStyle = (Style) iterator.next( );
+			if ( tmpStyle.getName( ).equalsIgnoreCase( elementName ) )
+			{
+				return new ElementRefValue( null, tmpStyle );
+			}
+		}
 		// if the style is not find, return a unresolved element reference
 		// value.
 

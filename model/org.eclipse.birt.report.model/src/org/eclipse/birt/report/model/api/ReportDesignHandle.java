@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
@@ -37,6 +38,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.ContentIterator;
+import org.eclipse.birt.report.model.util.DisableCachingListener;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
@@ -1208,6 +1210,9 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public synchronized void cacheValues( )
 	{
+		ActivityStackListener tmpListener = new DisableCachingListener( module );
+		module.getActivityStack( ).addListener( tmpListener );
+
 		module.setIsCached( true );
 
 		module.cacheValues( );
