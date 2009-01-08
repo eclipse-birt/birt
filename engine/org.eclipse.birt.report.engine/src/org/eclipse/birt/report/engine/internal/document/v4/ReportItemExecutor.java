@@ -406,7 +406,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 					for ( int i = 0; i < queries.length; i++ )
 					{
 						rsets[i] = context.executeQuery( prset, queries[i],
-								useCache );
+								design.getHandle( ), useCache );
 					}
 					context.setResultSets( rsets );
 					rsetEmpty = true;

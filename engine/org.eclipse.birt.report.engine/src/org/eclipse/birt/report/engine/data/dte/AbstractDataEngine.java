@@ -36,6 +36,7 @@ import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.data.IDataEngine;
+import org.eclipse.birt.report.engine.data.optimize.QueryCache;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
@@ -88,6 +89,10 @@ public abstract class AbstractDataEngine implements IDataEngine
 	 */
 	protected HashMap queryMap = new HashMap( );
 
+	/**
+	 * an utility to optimize the caching of queries
+	 */
+	protected QueryCache queryCache = new QueryCache( );
 	/**
 	 * the logger
 	 */
@@ -217,7 +222,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	 */
 	public IBaseResultSet execute( IDataQueryDefinition query ) throws BirtException
 	{
-		return execute( null, query, false );
+		return execute( null, query, null, false );
 	}
 
 	/*
@@ -225,7 +230,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	 *      org.eclipse.birt.data.engine.api.IBaseQueryDefinition)
 	 */
 	public IBaseResultSet execute( IBaseResultSet parent,
-			IDataQueryDefinition query, boolean useCache ) throws BirtException
+			IDataQueryDefinition query, Object queryOwner, boolean useCache ) throws BirtException
 	{
 		// FIXME: DTE may provide an API to get the query type.
 		if ( query instanceof ISubqueryDefinition )
@@ -246,12 +251,12 @@ public abstract class AbstractDataEngine implements IDataEngine
 		else if ( query instanceof IQueryDefinition )
 		{
 			return doExecuteQuery( parent, (IQueryDefinition) query,
-					useCache );
+					queryOwner, useCache );
 		}
 		else if ( query instanceof ICubeQueryDefinition )
 		{
 			return doExecuteCube( parent, (ICubeQueryDefinition) query,
-					useCache );
+					queryOwner, useCache );
 		}
 		else if ( query instanceof ISubCubeQueryDefinition )
 		{
@@ -263,10 +268,10 @@ public abstract class AbstractDataEngine implements IDataEngine
 	}
 
 	abstract protected IBaseResultSet doExecuteQuery( IBaseResultSet parent,
-			IQueryDefinition query, boolean useCache ) throws BirtException;
+			IQueryDefinition query, Object queryOwner, boolean useCache ) throws BirtException;
 	
 	abstract protected IBaseResultSet doExecuteCube( IBaseResultSet parent,
-			ICubeQueryDefinition query, boolean useCache ) throws BirtException;
+			ICubeQueryDefinition query, Object queryOwner, boolean useCache ) throws BirtException;
 
 	/**
 	 * get the sub cube query result from the current query.
@@ -326,6 +331,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	public void shutdown( )
 	{
 		dteSession.shutdown( );
+		queryCache.close( );
 	}
 
 	public DataRequestSession getDTESession( )
@@ -354,7 +360,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 			IBaseQueryDefinition query, IBaseResultSet outer )
 			throws BirtException
 	{
-		Object rsetId = cachedQueryToResults.get( query );
+		Object rsetId = queryCache.getCachedQuery( query );
 
 		if ( rsetId != null )
 		{
@@ -373,7 +379,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	{
 		if ( query.cacheQueryResults( ) )
 		{
-			cachedQueryToResults.put( query, id );
+			queryCache.putCachedQuery( query, id );
 		}
 	}
 	

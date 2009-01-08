@@ -201,7 +201,7 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor
 				else
 				{
 					rsets[i] = dataEngine
-							.execute( parent, queries[i], useCache );
+							.execute( parent, queries[i], extItem.getHandle( ), useCache );
 				}
 			}
 			if ( rsets[0] instanceof IQueryResultSet )

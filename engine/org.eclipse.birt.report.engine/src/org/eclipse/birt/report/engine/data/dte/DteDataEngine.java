@@ -91,7 +91,7 @@ public class DteDataEngine extends AbstractDataEngine
 	}
 
 	protected IBaseResultSet doExecuteQuery( IBaseResultSet parentResultSet,
-			IQueryDefinition query, boolean useCache ) throws BirtException
+			IQueryDefinition query, Object queryOwner, boolean useCache ) throws BirtException
 	{
 		IPreparedQuery pQuery = (IPreparedQuery) queryMap.get( query );
 		if ( pQuery == null )
@@ -102,7 +102,8 @@ public class DteDataEngine extends AbstractDataEngine
 		Scriptable scope = context.getSharedScope( );
 
 		IBaseQueryResults dteResults = null; // the dteResults of this query
-		if ( useCache )
+		boolean needExecute = queryCache.needExecute( query, queryOwner, useCache );
+		if ( !needExecute )
 		{
 			dteResults = getCachedQueryResult( query, parentResultSet );
 		}
@@ -142,7 +143,7 @@ public class DteDataEngine extends AbstractDataEngine
 	}
 
 	protected IBaseResultSet doExecuteCube( IBaseResultSet parentResultSet,
-			ICubeQueryDefinition query, boolean useCache ) throws BirtException
+			ICubeQueryDefinition query, Object queryOwner, boolean useCache ) throws BirtException
 	{
 		if ( useCache )
 		{
