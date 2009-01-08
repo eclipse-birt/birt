@@ -110,11 +110,11 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.util.CubeUtil;
-import org.eclipse.birt.report.model.metadata.PredefinedStyle;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.EList;
 
@@ -799,16 +799,16 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			newItems = new String[]{};
 		}
 
-		List preStyles = new DesignEngine( new DesignConfig( ) ).getMetaData( )
+		List<IPredefinedStyle> preStyles = new DesignEngine( new DesignConfig( ) ).getMetaData( )
 				.getPredefinedStyles( );
-		List preStyleNames = new ArrayList( );
+		List<String> preStyleNames = new ArrayList<String>( );
 
 		for ( int i = 0; i < preStyles.size( ); i++ )
 		{
-			preStyleNames.add( ( (PredefinedStyle) preStyles.get( i ) ).getName( ) );
+			preStyleNames.add( preStyles.get( i ).getName( ) );
 		}
 
-		List sytleNames = new ArrayList( );
+		List<String> sytleNames = new ArrayList<String>( );
 		for ( int i = 0; i < newItems.length; i++ )
 		{
 			if ( preStyleNames.indexOf( newItems[i] ) == -1 )
@@ -817,8 +817,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 		}
 
-		return (String[]) ( sytleNames.toArray( new String[]{} ) );
-
+		return sytleNames.toArray( new String[]{} );
 	}
 
 	/*

@@ -13,7 +13,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
-import org.eclipse.birt.report.model.metadata.PredefinedStyle;
+import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 
 
 public class ChoicePropertyDescriptorProvider extends
@@ -23,7 +23,6 @@ public class ChoicePropertyDescriptorProvider extends
 	public ChoicePropertyDescriptorProvider( String property, String element )
 	{
 		super( property, element );
-		// TODO Auto-generated constructor stub
 	}
 	
 	String[] values = null;
@@ -60,20 +59,21 @@ public class ChoicePropertyDescriptorProvider extends
 	private String[] filterPreStyles( String items[] )
 	{
 		String[] newItems = items;
-		if ( items == null ) {
+		if ( items == null )
+		{
 			newItems = new String[]{};
 		}
-		
-		List preStyles = new DesignEngine( new DesignConfig( ) ).getMetaData( )
+
+		List<IPredefinedStyle> preStyles = new DesignEngine( new DesignConfig( ) ).getMetaData( )
 				.getPredefinedStyles( );
-		List preStyleNames = new ArrayList( );
+		List<String> preStyleNames = new ArrayList<String>( );
 
 		for ( int i = 0; i < preStyles.size( ); i++ )
 		{
-			preStyleNames.add( ( (PredefinedStyle) preStyles.get( i ) ).getName( ) );
+			preStyleNames.add( preStyles.get( i ).getName( ) );
 		}
 
-		List sytleNames = new ArrayList( );
+		List<String> sytleNames = new ArrayList<String>( );
 		for ( int i = 0; i < newItems.length; i++ )
 		{
 			if ( preStyleNames.indexOf( newItems[i] ) == -1 )
@@ -82,8 +82,7 @@ public class ChoicePropertyDescriptorProvider extends
 			}
 		}
 
-		return (String[]) ( sytleNames.toArray( new String[]{} ) );
-
+		return sytleNames.toArray( new String[]{} );
 	}
 	
 	public String[] getValues(){
