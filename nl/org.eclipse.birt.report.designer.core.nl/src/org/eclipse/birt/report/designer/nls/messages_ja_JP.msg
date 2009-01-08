@@ -642,6 +642,8 @@ DataSetParameterBindingInputDialog.Title=ƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^‚ÌƒoƒCƒ“ƒh‚ğ•ÒW‚µ‚
 DataSetParametersPage.ErrorTitle.InvalidInput=“ü—ÍƒGƒ‰[B
 DataSetParameterBindingInputDialog.Label.Name=ƒpƒ‰ƒƒ^–¼ :
 DataSetParametersPage.ErrorMessage.CanootBeNull=’l‚Í null ‚É‚Å‚«‚Ü‚¹‚ñB
+DataSetParameterBindingInputDialog.Title.NewParameter=ƒpƒ‰ƒƒ^‚ÌV‹Kì¬
+DataSetParameterBindingInputDialog.Title.EditParameter=ƒpƒ‰ƒƒ^‚Ì•ÒW
 DataSetParameterBindingInputDialog.Label.DataType=ƒf[ƒ^Œ^ :
 DataSetParameterBindingInputDialog.Label.Value=’l :
 DataSetParametersPage.Prompt.new=<‚±‚±‚ÉV‚µ‚¢ƒpƒ‰ƒƒ^‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢...>
@@ -656,6 +658,7 @@ DataSetParameterPage.toolTipText.Remove=ƒpƒ‰ƒƒ^‚Ìíœ
 DataSetParameterPage.toolTipText.Up=ƒpƒ‰ƒƒ^‚ğã‚ÉˆÚ“®
 DataSetParameterPage.toolTipText.Down=ƒpƒ‰ƒƒ^‚ğ‰º‚ÉˆÚ“®
 DataSetParameterPage.WarningMessage.updatePosition=ˆê•”‚Ü‚½‚Í‚·‚×‚Ä‚Ìƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^‚ÌˆÊ’u‚Ì’l‚ª–³Œø‚Å‚·Bƒpƒ‰ƒƒ^‚Ì‡˜‚É]‚Á‚ÄˆÊ’u‚ğXV‚µ‚Ä‚¢‚Ü‚·B
+DataSetParameterPage.warning.UnmatchedParamDataType=Data set parameter type does not match the linked report parameter type.
 
 ###########################################################
 #PropertyBindingpage properties

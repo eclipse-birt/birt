@@ -642,6 +642,8 @@ DataSetParameterBindingInputDialog.Title=Modifier la liaison de paramètre du jeu
 DataSetParametersPage.ErrorTitle.InvalidInput=Entrée non valide.
 DataSetParameterBindingInputDialog.Label.Name=Nom du paramètre :
 DataSetParametersPage.ErrorMessage.CanootBeNull=La valeur ne peut pas être nulle.
+DataSetParameterBindingInputDialog.Title.NewParameter=Nouveau paramètre
+DataSetParameterBindingInputDialog.Title.EditParameter=Modifier le paramètre
 DataSetParameterBindingInputDialog.Label.DataType=Type de données :
 DataSetParameterBindingInputDialog.Label.Value=Valeur :
 DataSetParametersPage.Prompt.new=<Nouveau paramètre ici...>
@@ -656,6 +658,7 @@ DataSetParameterPage.toolTipText.Remove=Supprimer le paramètre
 DataSetParameterPage.toolTipText.Up=Déplacer le paramètre vers le haut
 DataSetParameterPage.toolTipText.Down=Déplacer le paramètre vers le bas
 DataSetParameterPage.WarningMessage.updatePosition=Les valeurs de position de la totalité ou d'une partie des paramètres du jeu de données sont incorrectes. Mise à jour de leurs positions selon leur séquence.
+DataSetParameterPage.warning.UnmatchedParamDataType=Data set parameter type does not match the linked report parameter type.
 
 ###########################################################
 #PropertyBindingpage properties

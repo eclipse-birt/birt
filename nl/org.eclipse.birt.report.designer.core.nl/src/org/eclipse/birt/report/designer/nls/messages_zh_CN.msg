@@ -642,6 +642,8 @@ DataSetParameterBindingInputDialog.Title=编辑数据集参数绑定。
 DataSetParametersPage.ErrorTitle.InvalidInput=无效输入。
 DataSetParameterBindingInputDialog.Label.Name=参数名称:
 DataSetParametersPage.ErrorMessage.CanootBeNull=该值不能为 null。
+DataSetParameterBindingInputDialog.Title.NewParameter=新建参数
+DataSetParameterBindingInputDialog.Title.EditParameter=编辑参数
 DataSetParameterBindingInputDialog.Label.DataType=数据类型:
 DataSetParameterBindingInputDialog.Label.Value=值:
 DataSetParametersPage.Prompt.new=<此处为新参数...>
@@ -656,6 +658,7 @@ DataSetParameterPage.toolTipText.Remove=删除参数
 DataSetParameterPage.toolTipText.Up=参数上移
 DataSetParameterPage.toolTipText.Down=参数下移
 DataSetParameterPage.WarningMessage.updatePosition=某些或所有数据集参数具有无效的位置值。正在根据其序列更新其位置。
+DataSetParameterPage.warning.UnmatchedParamDataType=Data set parameter type does not match the linked report parameter type.
 
 ###########################################################
 #PropertyBindingpage properties
