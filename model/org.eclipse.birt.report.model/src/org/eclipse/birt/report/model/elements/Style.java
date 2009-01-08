@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -33,7 +34,6 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
-import org.eclipse.birt.report.model.metadata.PredefinedStyle;
 
 /**
  * This class represents a shared style.
@@ -168,7 +168,7 @@ public class Style extends StyleElement implements IStyleModel
 	public String getDisplayLabel( Module module, int level )
 	{
 		MetaDataDictionary meta = MetaDataDictionary.getInstance( );
-		PredefinedStyle selector = meta.getPredefinedStyle( name );
+		IPredefinedStyle selector = meta.getPredefinedStyle( name );
 		if ( selector == null )
 			return super.getDisplayLabel( module, level );
 

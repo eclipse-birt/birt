@@ -173,7 +173,7 @@ public interface IMetaDataDictionary
 	 * @return the predefined style list.
 	 */
 
-	public List getPredefinedStyles( );
+	public List<IPredefinedStyle> getPredefinedStyles( );
 
 	/**
 	 * Returns the class list. Each one is the instance of

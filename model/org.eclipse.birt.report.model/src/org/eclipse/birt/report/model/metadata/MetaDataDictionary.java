@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
+import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
@@ -176,7 +177,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * Contents are of type PredefinedStyle.
 	 */
 
-	private HashMap<String, PredefinedStyle> predefinedStyles = new HashMap<String, PredefinedStyle>( );
+	private HashMap<String, IPredefinedStyle> predefinedStyles = new HashMap<String, IPredefinedStyle>( );
 
 	/**
 	 * Map of property value validators, holding the validator name as key. Each
@@ -274,15 +275,13 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		return instance;
 	}
 
-	/**
-	 * Finds the element definition by its internal name.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param name
-	 *            The internal element definition name.
-	 * @return The element definition, or null if the name was not found in the
-	 *         dictionary.
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary#getElement
+	 * (java.lang.String)
 	 */
-
 	public IElementDefn getElement( String name )
 	{
 		return elementNameMap.get( name ) == null ? ExtensionManager
@@ -338,7 +337,8 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 			ElementDefn tmpDefn = (ElementDefn) iter.next( );
 			String tmpXmlName = tmpDefn.getXmlName( );
 
-			// TODO: also check the validation of the element XML name and whether it
+			// TODO: also check the validation of the element XML name and
+			// whether it
 			// is an extended item. If it is ROM elements, throw exception.
 			// Otherwise, just ignore extension XML name.
 
@@ -444,26 +444,24 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		}
 	}
 
-	/**
-	 * Gets the metadata for a property type.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param type
-	 *            numeric type code
-	 * @return property type definition
+	 * @seeorg.eclipse.birt.report.model.api.metadata.IMetaDataDictionary#
+	 * getPropertyType(int)
 	 */
-
 	public PropertyType getPropertyType( int type )
 	{
 		assert type >= 0 && type < propertyTypes.length;
 		return propertyTypes[type];
 	}
 
-	/**
-	 * Gets a list of rom-defined property types.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return a list of rom-defined property types.
+	 * @seeorg.eclipse.birt.report.model.api.metadata.IMetaDataDictionary#
+	 * getPropertyTypes()
 	 */
-
 	public List<IPropertyType> getPropertyTypes( )
 	{
 		List<IPropertyType> values = new ArrayList<IPropertyType>( );
@@ -471,15 +469,12 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		return values;
 	}
 
-	/**
-	 * Gets the metadata for a property type given the type's XML name.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param xmlName
-	 *            XML name for the property type
-	 * 
-	 * @return property type definition
+	 * @seeorg.eclipse.birt.report.model.api.metadata.IMetaDataDictionary#
+	 * getPropertyType(java.lang.String)
 	 */
-
 	public PropertyType getPropertyType( String xmlName )
 	{
 		for ( int i = 0; i < propertyTypes.length; i++ )
@@ -489,12 +484,12 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		return null;
 	}
 
-	/**
-	 * Returns the meta-data element that defines the style element.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return the definition of the style element
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary#getStyle()
 	 */
-
 	public IElementDefn getStyle( )
 	{
 		return style;
@@ -534,21 +529,23 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		elementNameMap.put( name, type );
 	}
 
-	/**
-	 * Enables the use of element IDs.
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.api.metadata.IMetaDataDictionary#
+	 * enableElementID()
 	 */
-
 	public void enableElementID( )
 	{
 		useElementID = true;
 	}
 
-	/**
-	 * Reports whether element IDs are in use.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return True if new elements should use element IDs.
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary#useID()
 	 */
-
 	public boolean useID( )
 	{
 		return useElementID;
@@ -586,17 +583,17 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * @return the predefined style, or null if the style is not defined
 	 */
 
-	public PredefinedStyle getPredefinedStyle( String name )
+	public IPredefinedStyle getPredefinedStyle( String name )
 	{
 		return predefinedStyles.get( name );
 	}
 
-	/**
-	 * Determines if the meta data dictionary is empty (uninitialized).
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return true if empty, false if it contains content
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary#isEmpty()
 	 */
-
 	public boolean isEmpty( )
 	{
 		return elementNameMap.isEmpty( ) && predefinedStyles.isEmpty( );
@@ -627,14 +624,13 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		choiceSets.put( name, choiceSet );
 	}
 
-	/**
-	 * Finds a choice set by name.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param choiceSetName
-	 *            the name of the choice set
-	 * @return the choice set, or null if the choice set was not found
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary#getChoiceSet
+	 * (java.lang.String)
 	 */
-
 	public IChoiceSet getChoiceSet( String choiceSetName )
 	{
 		// for the backward compatibility issue
@@ -670,75 +666,72 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		structures.put( name, struct );
 	}
 
-	/**
-	 * Finds a structure definition by name.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param name
-	 *            the structure name
-	 * @return the structure, or null if the structure is not found
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary#getStructure
+	 * (java.lang.String)
 	 */
-
 	public IStructureDefn getStructure( String name )
 	{
 		return structures.get( name );
 	}
 
-	/**
-	 * Returns the element list. Each one is the instance of
-	 * <code>IElementDefn</code>.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return the element list.
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary#getElements
+	 * ()
 	 */
-
 	public List<IElementDefn> getElements( )
 	{
 		return new ArrayList<IElementDefn>( elementNameMap.values( ) );
 	}
 
-	/**
-	 * Returns the structure list. Each one is the instance of
-	 * <code>IStructureDefn</code>.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return the structure list.
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary#getStructures
+	 * ()
 	 */
-
 	public List<IStructureDefn> getStructures( )
 	{
 		return new ArrayList<IStructureDefn>( structures.values( ) );
 	}
 
-	/**
-	 * Gets the predefined style list. Each one is the instance of
-	 * <code>PredefinedStyle</code>;
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return the predefined style list.
+	 * @seeorg.eclipse.birt.report.model.api.metadata.IMetaDataDictionary#
+	 * getPredefinedStyles()
 	 */
-
-	public List<PredefinedStyle> getPredefinedStyles( )
+	public List<IPredefinedStyle> getPredefinedStyles( )
 	{
-		return new ArrayList<PredefinedStyle>( predefinedStyles.values( ) );
+		return new ArrayList<IPredefinedStyle>( predefinedStyles.values( ) );
 	}
 
-	/**
-	 * Returns the class list. Each one is the instance of
-	 * <code>ClassInfo</code>.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return the class list.
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary#getClasses
+	 * ()
 	 */
-
 	public List<IClassInfo> getClasses( )
 	{
 		return new ArrayList<IClassInfo>( classes.values( ) );
 	}
 
-	/**
-	 * Returns the class definition given the class name.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param name
-	 *            name of the class to get.
-	 * @return the class definition if found.
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary#getClass
+	 * (java.lang.String)
 	 */
-
 	public IClassInfo getClass( String name )
 	{
 		return classes.get( name );
@@ -767,27 +760,25 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 	}
 
-	/**
-	 * Returns the extension list. Each one is the instance of
-	 * {@link IElementDefn}.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return the extension definition list. Return empty list if no extension
-	 *         is found.
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary#getExtensions
+	 * ()
 	 */
-
 	public List<IElementDefn> getExtensions( )
 	{
 		return ExtensionManager.getInstance( ).getExtensions( );
 	}
 
-	/**
-	 * Returns the extension definition given the extension name.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param name
-	 *            name of the extension to get
-	 * @return the extension definition if found
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary#getExtension
+	 * (java.lang.String)
 	 */
-
 	public IElementDefn getExtension( String name )
 	{
 		return ExtensionManager.getInstance( ).getElement( name );
