@@ -46,11 +46,11 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
-import org.eclipse.birt.report.model.metadata.PredefinedStyle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.resource.JFaceColors;
@@ -232,7 +232,7 @@ public class GroupDialog extends BaseDialog
 
 		for ( int i = 0; i < preStyles.size( ); i++ )
 		{
-			preStyleNames.add( ( (PredefinedStyle) preStyles.get( i ) ).getName( ) );
+			preStyleNames.add( ( (IPredefinedStyle) preStyles.get( i ) ).getName( ) );
 		}
 
 		List sytleNames = new ArrayList( );

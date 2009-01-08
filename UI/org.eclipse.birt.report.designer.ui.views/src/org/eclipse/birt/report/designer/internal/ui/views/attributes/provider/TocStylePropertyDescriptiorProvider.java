@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.TOCHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.metadata.PredefinedStyle;
+import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 
 /**
  * @author Administrator
@@ -65,7 +65,7 @@ public class TocStylePropertyDescriptiorProvider extends
 		List preStyleNames = new ArrayList();
 
 		for (int i = 0; i < preStyles.size(); i++) {
-			preStyleNames.add(((PredefinedStyle) preStyles.get(i)).getName());
+			preStyleNames.add(((IPredefinedStyle) preStyles.get(i)).getName());
 		}
 
 		List sytleNames = new ArrayList();

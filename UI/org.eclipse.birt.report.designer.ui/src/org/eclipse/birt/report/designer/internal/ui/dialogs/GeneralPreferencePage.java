@@ -23,7 +23,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
-import org.eclipse.birt.report.model.metadata.PredefinedStyle;
+import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
@@ -215,7 +215,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		String[] names = new String[preStyles.size( )];
 		for ( int i = 0; i < preStyles.size( ); i++ )
 		{
-			names[i] = ( (PredefinedStyle) preStyles.get( i ) ).getName( );
+			names[i] = ( (IPredefinedStyle) preStyles.get( i ) ).getName( );
 		}
 		Arrays.sort( names );
 		return names;

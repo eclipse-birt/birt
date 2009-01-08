@@ -31,7 +31,7 @@ import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.css.StyleSheetException;
-import org.eclipse.birt.report.model.metadata.PredefinedStyle;
+import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 
 public class SimpleComboPropertyDescriptorProvider extends
 		PropertyDescriptorProvider
@@ -69,7 +69,7 @@ public class SimpleComboPropertyDescriptorProvider extends
 
 		for ( int i = 0; i < preStyles.size( ); i++ )
 		{
-			preStyleNames.add( ( (PredefinedStyle) preStyles.get( i ) ).getName( ) );
+			preStyleNames.add( ( (IPredefinedStyle) preStyles.get( i ) ).getName( ) );
 		}
 
 		List<String> sytleNames = new ArrayList<String>( );

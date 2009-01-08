@@ -31,10 +31,10 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.PredefinedStyle;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -381,7 +381,7 @@ public class PropertyEditorFactory
 
 		for ( int i = 0; i < preStyles.size( ); i++ )
 		{
-			preStyleNames.add( ( (PredefinedStyle) preStyles.get( i ) ).getName( ) );
+			preStyleNames.add( ( (IPredefinedStyle) preStyles.get( i ) ).getName( ) );
 		}
 
 		List sytleNames = new ArrayList( );
