@@ -53,7 +53,6 @@ import org.eclipse.birt.report.engine.api.UnsupportedFormatException;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
-import org.eclipse.birt.report.engine.css.dom.AbstractStyle;
 import org.eclipse.birt.report.engine.data.dte.DocumentDataSource;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -67,8 +66,6 @@ import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.v3.ReportContentReaderV3;
-import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
@@ -1828,27 +1825,13 @@ public abstract class EngineTask implements IEngineTask
 		if ( handle != null )
 		{
 			Object bidiFlag = renderOptions.getOption( IRenderOption.RTL_FLAG );
-			String bidiOrientation = null;
-			if ( bidiFlag != null )
+			if ( Boolean.TRUE.equals( bidiFlag ) )
 			{
-				if ( Boolean.TRUE.equals( bidiFlag ) )
-				{
-					bidiOrientation = DesignChoiceConstants.BIDI_DIRECTION_RTL;
-				}
-				else
-				{
-					bidiOrientation = DesignChoiceConstants.BIDI_DIRECTION_LTR;
-				}
+				String bidiOrientation = DesignChoiceConstants.BIDI_DIRECTION_RTL;
 				try
 				{
 					handle.setBidiOrientation( bidiOrientation );
-					Report report = executionContext.getReport( );
-					AbstractStyle rootStyle = (AbstractStyle) report
-							.getStyles( ).get( report.getRootStyleName( ) );
-					if ( rootStyle != null )
-					{
-						rootStyle.setDirection( bidiOrientation );
-					}
+					updateBidiStyle( bidiOrientation );
 				}
 				catch ( SemanticException e )
 				{
@@ -1877,6 +1860,10 @@ public abstract class EngineTask implements IEngineTask
 				}
 			}
 		}
+	}
+	
+	protected void updateBidiStyle( String bidiOrientation )
+	{
 	}
 
 	protected IReportExecutor createReportExtensionExecutor(
