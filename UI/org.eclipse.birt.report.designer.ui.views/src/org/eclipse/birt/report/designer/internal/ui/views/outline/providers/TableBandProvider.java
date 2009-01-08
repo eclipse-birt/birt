@@ -55,7 +55,7 @@ public class TableBandProvider extends DefaultNodeProvider
 		if ( !( object instanceof SlotHandle ) )
 			return;
 		SlotHandle model = (SlotHandle) object;
-		if ( ( (ReportElementHandle) model.getElementHandle( ) ).isValidReferenceForCompoundElement( ) )
+		if ( ( (ReportElementHandle) model.getElementHandle( ) ).isValidLayoutForCompoundElement( ) )
 		{
 			if ( model.getElementHandle( ) instanceof TableHandle
 					&& model.getSlotID( ) == TableHandle.GROUP_SLOT )

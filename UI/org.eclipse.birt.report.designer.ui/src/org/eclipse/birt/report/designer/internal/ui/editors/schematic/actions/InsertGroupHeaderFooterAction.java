@@ -91,7 +91,7 @@ public class InsertGroupHeaderFooterAction extends Action
 				&& slotHandle.getCount( ) == 0 )
 		{
 			SlotHandle model =  slotHandle;
-			if ( ( (ReportElementHandle) model.getElementHandle( ) ).isValidReferenceForCompoundElement( ) )
+			if ( ( (ReportElementHandle) model.getElementHandle( ) ).isValidLayoutForCompoundElement() )
 			{
 				insertAction = new InsertAction( model, "", //$NON-NLS-1$
 						ReportDesignConstants.ROW_ELEMENT );

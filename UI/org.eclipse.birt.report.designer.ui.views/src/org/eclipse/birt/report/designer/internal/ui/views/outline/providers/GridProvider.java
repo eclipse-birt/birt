@@ -46,7 +46,7 @@ public class GridProvider extends DefaultNodeProvider
 	public void createContextMenu( TreeViewer sourceViewer, Object object,
 			IMenuManager menu )
 	{
-		if ( ( (ReportElementHandle) object ).isValidReferenceForCompoundElement( ) )
+		if ( ( (ReportElementHandle) object ).isValidLayoutForCompoundElement( ) )
 		{
 			menu.add( new InsertAction( object,
 					Messages.getString( "GridProvider.action.text" ), //$NON-NLS-1$
