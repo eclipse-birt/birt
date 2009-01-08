@@ -34,9 +34,12 @@ public class Image
 
 	private int width;
 	private int height;
+	private int bitsPerPixel;
+	private boolean progressive;
 	private int format;
 	private InputStream in;
 	private DataInput dataIn;
+	private boolean collectComments = true;
 	private int heightDpi;
 	private int widthDpi;
 	private byte[] data;
@@ -52,6 +55,7 @@ public class Image
 		format = -1;
 		width = -1;
 		height = -1;
+		bitsPerPixel = -1;
 		heightDpi = -1;
 		widthDpi = -1;
 		try
@@ -86,7 +90,7 @@ public class Image
 		if ( width < 1 || height < 1 )
 			return false;
 
-		int bitsPerPixel = getShortLittleEndian( array, 26 );
+		bitsPerPixel = getShortLittleEndian( array, 26 );
 		if ( bitsPerPixel != 1 && bitsPerPixel != 4 && bitsPerPixel != 8
 				&& bitsPerPixel != 16 && bitsPerPixel != 24
 				&& bitsPerPixel != 32 )
@@ -121,6 +125,7 @@ public class Image
 		width = getShortLittleEndian( array, 4 );
 		height = getShortLittleEndian( array, 6 );
 		int flags = array[8] & 0xff;
+		bitsPerPixel = ( ( flags >> 4 ) & 0x07 ) + 1;
 		if ( ( flags & 0x80 ) != 0 )
 		{
 			int tableSize = ( 1 << ( ( flags & 7 ) + 1 ) ) * 3;
@@ -138,13 +143,17 @@ public class Image
 						return false;
 					}
 					flags = array[8] & 0xff;
+					progressive = ( flags & 0x40 ) != 0;
 					int localBitsPerPixel = ( flags & 0x07 ) + 1;
+					if ( localBitsPerPixel > bitsPerPixel )
+					{
+						bitsPerPixel = localBitsPerPixel;
+					}
 					if ( ( flags & 0x80 ) != 0 )
 					{
 						skip( ( 1 << localBitsPerPixel ) * 3 );
 					}
 					skip( 1 );
-				case ( 0x21 ) :
 					int n;
 					do
 					{
@@ -158,6 +167,50 @@ public class Image
 							return false;
 						}
 					} while ( n > 0 );
+					break;
+				case ( 0x21 ) : 
+					int extensionType = read( );
+					if ( collectComments && extensionType == 0xfe )
+					{
+						StringBuffer sb = new StringBuffer( );
+						int n1;
+						do
+						{
+							n1 = read( );
+							if ( n1 == -1 )
+							{
+								return false;
+							}
+							if ( n1 > 0 )
+							{
+								for ( int i = 0; i < n1; i++ )
+								{
+									int ch = read( );
+									if ( ch == -1 )
+									{
+										return false;
+									}
+									sb.append( (char) ch );
+								}
+							}
+						} while ( n1 > 0 );
+					}
+					else
+					{
+						int m;
+						do
+						{
+							m = read( );
+							if ( m > 0 )
+							{
+								skip( m );
+							}
+							else if ( m == -1 )
+							{
+								return false;
+							}
+						} while ( m > 0 );
+					}
 					break;
 				case ( 0x3b ) :
 					break;
@@ -212,6 +265,17 @@ public class Image
 				}
 				skip( size - 14 );
 			}
+			else if ( collectComments && size > 2 && marker == 0xfffe )
+			{ // comment
+				size -= 2;
+				byte[] chars = new byte[size];
+				if ( read( chars, 0, size ) != size )
+				{
+					return false;
+				}
+				String comment = new String( chars, "iso-8859-1" );
+				comment = comment.trim( );
+			}
 			else if ( marker >= 0xffc0 && marker <= 0xffcf && marker != 0xffc4
 					&& marker != 0xffc8 )
 			{
@@ -220,6 +284,9 @@ public class Image
 					return false;
 				}
 				format = FORMAT_JPEG;
+				bitsPerPixel = ( data[0] & 0xff ) * ( data[5] & 0xff );
+				progressive = marker == 0xffc2 || marker == 0xffc6
+						|| marker == 0xffca || marker == 0xffce;
 				width = getShortBigEndian( array, 3 );
 				height = getShortBigEndian( array, 1 );
 				return true;
@@ -246,6 +313,13 @@ public class Image
 		format = FORMAT_PNG;
 		width = getIntBigEndian( array, 14 );
 		height = getIntBigEndian( array, 18 );
+		bitsPerPixel = array[22] & 0xff;
+		int colorType = array[23] & 0xff;
+		if ( colorType == 2 || colorType == 6 )
+		{
+			bitsPerPixel *= 3;
+		}
+		progressive = ( array[26] & 0xff ) != 0;
 		return true;
 	}
 
@@ -260,6 +334,11 @@ public class Image
 			}
 		}
 		return true;
+	}
+
+	public int getBitsPerPixel( )
+	{
+		return bitsPerPixel;
 	}
 
 	public int getFormat( )
@@ -297,11 +376,16 @@ public class Image
 	{
 		if ( format >= 0 && format < MIME_TYPE_STRINGS.length )
 		{
-			return format == FORMAT_JPEG
-					? "image/pjpeg"
-					: MIME_TYPE_STRINGS[format];
+			if ( format == FORMAT_JPEG && progressive )
+			{
+				return "image/pjpeg";
+			}
+			return MIME_TYPE_STRINGS[format];
 		}
-		return null;
+		else
+		{
+			return null;
+		}
 	}
 
 	public int getPhysicalHeightDpi( )
