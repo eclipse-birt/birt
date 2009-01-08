@@ -1,6 +1,7 @@
 
 package org.eclipse.birt.report.engine.layout.pdf;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IElement;
@@ -37,7 +38,7 @@ public class PDFListGroupLM extends PDFGroupLM
 	
 	
 
-	protected void repeatHeader( )
+	protected void repeatHeader( ) throws BirtException
 	{
 		if ( isFirst )
 		{
@@ -80,7 +81,7 @@ public class PDFListGroupLM extends PDFGroupLM
 		}
 	}
 	
-	protected void initialize( )
+	protected void initialize( ) throws BirtException
 	{
 		if(root==null && keepWithCache.isEmpty( ) && !isFirst)
 		{

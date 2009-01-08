@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.emitter;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 
 /**
@@ -47,7 +48,7 @@ public class BufferedReportEmitter extends ContentEmitterAdapter
 		return events.isEmpty( );
 	}
 
-	public void flush( )
+	public void flush( ) throws BirtException
 	{
 		if ( emitter instanceof BufferedReportEmitter )
 		{

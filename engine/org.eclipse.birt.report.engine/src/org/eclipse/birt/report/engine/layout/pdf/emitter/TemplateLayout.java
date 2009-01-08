@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
@@ -41,7 +42,7 @@ public class TemplateLayout extends Layout
 
 	}
 
-	public void layout( )
+	public void layout( ) throws BirtException
 	{
 		boolean isInline = parent instanceof IInlineStackingLayout;
 		if ( isInline )

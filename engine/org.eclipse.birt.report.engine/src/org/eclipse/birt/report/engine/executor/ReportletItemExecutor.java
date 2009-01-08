@@ -39,7 +39,7 @@ public class ReportletItemExecutor extends ReportItemExecutor
 		reportletQuery = new ReportletQuery( context, instanceID2 );
 	}
 
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		try
 		{

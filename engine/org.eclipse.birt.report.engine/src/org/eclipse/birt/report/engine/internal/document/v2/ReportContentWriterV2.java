@@ -21,13 +21,14 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.RAOutputStream;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.content.ContentVisitorAdapter;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
-import org.eclipse.birt.report.engine.internal.document.IReportContentWriter;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
+import org.eclipse.birt.report.engine.internal.document.IReportContentWriter;
 
 public class ReportContentWriterV2 implements IReportContentWriter
 {
@@ -162,7 +163,8 @@ public class ReportContentWriterV2 implements IReportContentWriter
 	 * @return the offset of this content object.
 	 * @throws IOException
 	 */
-	public long writeFullContent( IContent content ) throws IOException
+	public long writeFullContent( IContent content ) throws IOException,
+			BirtException
 	{
 		ContentWriterVisitor writer = new ContentWriterVisitor( );
 		writer.write( content, this );
@@ -194,6 +196,7 @@ public class ReportContentWriterV2 implements IReportContentWriter
 		 * 
 		 */
 		public void write( IContent content, IReportContentWriter writer )
+				throws BirtException
 		{
 			visit( content, writer );
 		}

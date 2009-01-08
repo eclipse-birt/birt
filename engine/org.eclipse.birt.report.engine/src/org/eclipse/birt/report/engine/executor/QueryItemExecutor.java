@@ -102,7 +102,7 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 	{
 	}
 
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		rset = null;
 		rsetEmpty = false;

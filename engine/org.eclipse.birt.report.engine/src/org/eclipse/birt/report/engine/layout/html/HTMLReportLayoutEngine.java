@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.layout.html;
 import java.util.HashMap;
 import java.util.Locale;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.impl.EngineTask;
@@ -77,7 +78,8 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 		return factory;
 	}
 
-	public void layout( IReportExecutor executor, IReportContent report, IContentEmitter emitter, boolean pagination )
+	public void layout( IReportExecutor executor, IReportContent report,
+			IContentEmitter emitter, boolean pagination ) throws BirtException
 	{
 		this.executor = executor;
 		
@@ -106,7 +108,8 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 		pageHint = null;
 	}
 
-	public void layout( ILayoutManager parent, IReportItemExecutor executor, IContentEmitter emitter )
+	public void layout( ILayoutManager parent, IReportItemExecutor executor,
+			IContentEmitter emitter ) throws BirtException
 	{
 		IContent content = executor.execute( );
 		ILayoutManager layoutManager = factory.createLayoutManager(
@@ -119,7 +122,8 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 		layoutManager.close( );
 	}
 
-	public void layout( ILayoutManager parent, IContent content, IContentEmitter output )
+	public void layout( ILayoutManager parent, IContent content,
+			IContentEmitter output ) throws BirtException
 	{
 		IReportItemExecutor executor = new DOMReportItemExecutor( content );
 		layout( parent, executor, output );
@@ -128,7 +132,7 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 
 	ILayoutManager createLayoutManager( HTMLAbstractLM parent,
 			IContent content, IReportItemExecutor executor,
-			IContentEmitter emitter )
+			IContentEmitter emitter ) throws BirtException
 	{
 		return factory.createLayoutManager( parent, content, executor, emitter );
 	}

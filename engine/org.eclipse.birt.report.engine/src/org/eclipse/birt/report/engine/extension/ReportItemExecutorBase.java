@@ -1,6 +1,7 @@
 
 package org.eclipse.birt.report.engine.extension;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 
 public abstract class ReportItemExecutorBase implements IReportItemExecutor
@@ -67,7 +68,7 @@ public abstract class ReportItemExecutorBase implements IReportItemExecutor
 		return null;
 	}
 
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		executorContext = null;
 		parent = null;

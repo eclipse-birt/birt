@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -45,7 +46,7 @@ public class HTMLPageBuffer implements IPageBuffer
 	}
 
 	public void startContainer( IContent content, boolean isFirst,
-			IContentEmitter emitter, boolean visible )
+			IContentEmitter emitter, boolean visible ) throws BirtException
 	{
 		int type = content.getContentType( );
 		switch ( type )
@@ -96,7 +97,7 @@ public class HTMLPageBuffer implements IPageBuffer
 	}
 
 	public void startContent( IContent content, IContentEmitter emitter,
-			boolean visible )
+			boolean visible ) throws BirtException
 	{
 		if ( isRepeated || ( !visible && !currentNode.isStarted( ) ) )
 		{
@@ -121,7 +122,7 @@ public class HTMLPageBuffer implements IPageBuffer
 	}
 
 	public void endContainer( IContent content, boolean finished,
-			IContentEmitter emitter, boolean visible )
+			IContentEmitter emitter, boolean visible ) throws BirtException
 	{
 		int type = content.getContentType( );
 		switch ( type )
@@ -146,7 +147,7 @@ public class HTMLPageBuffer implements IPageBuffer
 	}
 
 	private void _endContainer( IContent content, boolean finished,
-			IContentEmitter emitter, boolean visible )
+			IContentEmitter emitter, boolean visible ) throws BirtException
 	{
 		( (AbstractNode) currentNode ).setFinished( finished );
 		if ( currentNode.isStarted( ) )
@@ -183,7 +184,7 @@ public class HTMLPageBuffer implements IPageBuffer
 	}
 
 	protected void endCell( IContent content, boolean finished,
-			IContentEmitter emitter, boolean visible )
+			IContentEmitter emitter, boolean visible ) throws BirtException
 	{
 		AbstractNode current = (AbstractNode) currentNode ;
 		//Fix 213900
@@ -211,7 +212,7 @@ public class HTMLPageBuffer implements IPageBuffer
 	}
 
 	public void endPage( IContent content, boolean finished,
-			IContentEmitter emitter )
+			IContentEmitter emitter ) throws BirtException
 	{
 		( (AbstractNode) currentNode ).setFinished( finished );
 		if ( currentNode.isStarted( ) )
@@ -296,7 +297,7 @@ public class HTMLPageBuffer implements IPageBuffer
 		this.isRepeated = isRepeated;
 	}
 
-	public void flush( )
+	public void flush( ) throws BirtException
 	{
 
 	}
@@ -306,7 +307,7 @@ public class HTMLPageBuffer implements IPageBuffer
 		return finished;
 	}
 
-	public void closePage( INode[] nodeList )
+	public void closePage( INode[] nodeList ) throws BirtException
 	{
 		int length = nodeList.length;
 		if ( length > 0 )
@@ -320,7 +321,7 @@ public class HTMLPageBuffer implements IPageBuffer
 		finished = true;
 	}
 
-	public void openPage( INode[] nodeList )
+	public void openPage( INode[] nodeList ) throws BirtException
 	{
 		int length = nodeList.length;
 		if ( length > 0 )

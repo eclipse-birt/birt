@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.pdf;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
@@ -36,7 +37,7 @@ public class PDFBlockContainerLM extends PDFBlockStackingLM
 				isFirst, true );
 	}
 
-	protected boolean traverseSingleChild( )
+	protected boolean traverseSingleChild( ) throws BirtException
 	{
 		if ( child != null )
 		{

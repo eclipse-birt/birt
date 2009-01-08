@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.layout.html;
 
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
@@ -75,6 +76,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 
 	public void initialize( HTMLAbstractLM parent, IContent content,
 			IReportItemExecutor executor, IContentEmitter emitter )
+			throws BirtException
 	{
 		this.parent = parent;
 		this.content = content;
@@ -89,9 +91,9 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 		return parent;
 	}
 
-	protected abstract void start( boolean isFirst );
+	protected abstract void start( boolean isFirst ) throws BirtException;
 
-	protected abstract void end( boolean finished );
+	protected abstract void end( boolean finished ) throws BirtException;
 
 	/**
 	 * layout the content and its children.
@@ -105,7 +107,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 	 * 3. end, the last time it is called. In this status, it means all the
 	 * content has been layout, it is the time to handle the page-break-after.
 	 */
-	public boolean layout( )
+	public boolean layout( ) throws BirtException
 	{
 		switch ( status )
 		{
@@ -158,9 +160,9 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 		return false;
 	}
 
-	protected abstract boolean layoutChildren( );
+	protected abstract boolean layoutChildren( ) throws BirtException;
 	
-	protected abstract boolean isChildrenFinished();
+	protected abstract boolean isChildrenFinished( ) throws BirtException;
 
 	public boolean isFinished( )
 	{
@@ -335,7 +337,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 	}
 	
 
-	protected boolean handleVisibility( )
+	protected boolean handleVisibility( ) throws BirtException
 	{
 		assert content != null;
 		assert executor != null;
@@ -348,7 +350,8 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 		return false;
 	}
 	
-	protected void startHiddenContent(IContentEmitter emitter, IContent content)
+	protected void startHiddenContent( IContentEmitter emitter, IContent content )
+			throws BirtException
 	{
 		if(content!=null)
 		{
@@ -367,7 +370,8 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 		}
 	}
 	
-	protected void endHiddenContent(IContentEmitter emitter, IContent content)
+	protected void endHiddenContent( IContentEmitter emitter, IContent content )
+			throws BirtException
 	{
 		if(content!=null)
 		{
@@ -392,6 +396,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 	 * @param executor
 	 */
 	private void traverse( IReportItemExecutor executor, IContent content )
+			throws BirtException
 	{
 		assert executor != null;
 		IContentEmitter emitter = getEmitter();
@@ -423,6 +428,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 	 * @param executor
 	 */
 	protected void execute( IContent content, IReportItemExecutor executor )
+			throws BirtException
 	{
 		assert executor != null;
 		
@@ -445,7 +451,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 		}
 	}
 
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		engine.getFactory( ).releaseLayoutManager( this );
 	}

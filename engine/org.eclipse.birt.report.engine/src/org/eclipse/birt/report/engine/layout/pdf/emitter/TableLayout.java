@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.layout.pdf.emitter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
@@ -31,7 +32,6 @@ import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
-import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
@@ -110,7 +110,7 @@ public class TableLayout extends RepeatableLayout
 		return 0;
 	}
 	
-	protected void checkInlineBlock()
+	protected void checkInlineBlock( ) throws BirtException
 	{
 		if(PropertyUtil.isInlineElement(tableContent))
 		{
@@ -126,7 +126,7 @@ public class TableLayout extends RepeatableLayout
 		}
 	}
 
-	protected void initialize( )
+	protected void initialize( ) throws BirtException
 	{
 		checkInlineBlock();
 		currentContext = new TableContext( );
@@ -754,7 +754,7 @@ public class TableLayout extends RepeatableLayout
 		return row;
 	}
 	
-	protected void repeatHeader()
+	protected void repeatHeader( ) throws BirtException
 	{
 		if ( bandStatus == IBandContent.BAND_HEADER )
 		{
@@ -797,7 +797,7 @@ public class TableLayout extends RepeatableLayout
 	}
 	
 	
-	protected void addCaption( String caption )
+	protected void addCaption( String caption ) throws BirtException
 	{
 		if ( caption == null || "".equals( caption ) ) //$NON-NLS-1$
 		{

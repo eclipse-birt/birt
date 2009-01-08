@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.pdf;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
@@ -39,7 +40,7 @@ public abstract class PDFGroupLM extends PDFBlockStackingLM
 	}
 	
 	
-	protected boolean traverseChildren( )
+	protected boolean traverseChildren( ) throws BirtException
 	{
 		repeatHeader();
 		boolean hasNextPage = super.traverseChildren( );
@@ -51,7 +52,7 @@ public abstract class PDFGroupLM extends PDFBlockStackingLM
 		return ( (IGroupContent) content ).isHeaderRepeat( );
 	}
 
-	protected abstract void repeatHeader( );
+	protected abstract void repeatHeader( ) throws BirtException;
 
 	protected boolean isRootEmpty( )
 	{

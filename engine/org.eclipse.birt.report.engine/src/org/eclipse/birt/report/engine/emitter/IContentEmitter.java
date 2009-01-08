@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.emitter;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
@@ -40,86 +41,86 @@ public interface IContentEmitter
 
 	String getOutputFormat( );
 
-	void initialize( IEmitterServices service );
+	void initialize( IEmitterServices service ) throws BirtException;
 
-	void start( IReportContent report );
+	void start( IReportContent report ) throws BirtException;
 
-	void end( IReportContent report );
+	void end( IReportContent report ) throws BirtException;
 
 	/**
 	 * start a page
 	 * 
 	 * @param page
 	 */
-	void startPage( IPageContent page );
+	void startPage( IPageContent page ) throws BirtException;
 	
 	/**
 	 * page end
 	 * 
 	 * @param page
 	 */
-	void endPage( IPageContent page );
+	void endPage( IPageContent page ) throws BirtException;
 
 	/**
 	 * table started
 	 * 
 	 * @param table
 	 */
-	void startTable( ITableContent table );
+	void startTable( ITableContent table ) throws BirtException;
 
 	/**
 	 * table end
 	 */
-	void endTable( ITableContent table );
+	void endTable( ITableContent table ) throws BirtException;
 
-	void startTableBand( ITableBandContent band );
+	void startTableBand( ITableBandContent band ) throws BirtException;
 
-	void endTableBand( ITableBandContent band );
+	void endTableBand( ITableBandContent band ) throws BirtException;
 
-	void startRow( IRowContent row );
+	void startRow( IRowContent row ) throws BirtException;
 
-	void endRow( IRowContent row );
+	void endRow( IRowContent row ) throws BirtException;
 
-	void startCell( ICellContent cell );
+	void startCell( ICellContent cell ) throws BirtException;
 
-	void endCell( ICellContent cell );
+	void endCell( ICellContent cell ) throws BirtException;
 	
-	void startList( IListContent list );
+	void startList( IListContent list ) throws BirtException;
 
-	void endList( IListContent list );
+	void endList( IListContent list ) throws BirtException;
 
-	void startListBand( IListBandContent listBand );
+	void startListBand( IListBandContent listBand ) throws BirtException;
 
-	void endListBand( IListBandContent listBand );
+	void endListBand( IListBandContent listBand ) throws BirtException;
 
-	void startContainer( IContainerContent container );
+	void startContainer( IContainerContent container ) throws BirtException;
 
-	void endContainer( IContainerContent container );
+	void endContainer( IContainerContent container ) throws BirtException;
 
-	void startText( ITextContent text );
+	void startText( ITextContent text ) throws BirtException;
 
-	void startData( IDataContent data );
+	void startData( IDataContent data ) throws BirtException;
 
-	void startLabel( ILabelContent label );
+	void startLabel( ILabelContent label ) throws BirtException;
 	
-	void startAutoText ( IAutoTextContent autoText );
+	void startAutoText ( IAutoTextContent autoText ) throws BirtException;
 
-	void startForeign( IForeignContent foreign );
+	void startForeign( IForeignContent foreign ) throws BirtException;
 
-	void startImage( IImageContent image );
+	void startImage( IImageContent image ) throws BirtException;
 
-	void startContent( IContent content );
-	void endContent( IContent content);
+	void startContent( IContent content ) throws BirtException;
+	void endContent( IContent content) throws BirtException;
 	
-	void startGroup( IGroupContent group );
+	void startGroup( IGroupContent group ) throws BirtException;
 
-	void endGroup( IGroupContent group );
+	void endGroup( IGroupContent group ) throws BirtException;
 
-	void startTableGroup( ITableGroupContent group );
+	void startTableGroup( ITableGroupContent group ) throws BirtException;
 
-	void endTableGroup( ITableGroupContent group );
+	void endTableGroup( ITableGroupContent group ) throws BirtException;
 
-	void startListGroup( IListGroupContent group );
+	void startListGroup( IListGroupContent group ) throws BirtException;
 
-	void endListGroup( IListGroupContent group );
+	void endListGroup( IListGroupContent group ) throws BirtException;
 }

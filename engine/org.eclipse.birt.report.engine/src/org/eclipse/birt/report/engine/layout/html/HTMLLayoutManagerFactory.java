@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.html;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.ContentVisitorAdapter;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -44,7 +45,7 @@ public class HTMLLayoutManagerFactory
 
 	public HTMLAbstractLM createLayoutManager( HTMLAbstractLM parent,
 			IContent content, IReportItemExecutor executor,
-			IContentEmitter emitter )
+			IContentEmitter emitter ) throws BirtException
 	{
 		HTMLAbstractLM layout = getLayoutManager( content );
 		layout.initialize( parent, content, executor, emitter );
@@ -92,6 +93,7 @@ public class HTMLLayoutManagerFactory
 	}
 
 	private HTMLAbstractLM getLayoutManager( IContent content )
+			throws BirtException
 	{
 		HTMLAbstractLM layoutManager = (HTMLAbstractLM) visitor.visit( content,
 				null );
@@ -101,6 +103,7 @@ public class HTMLLayoutManagerFactory
 	private IContentVisitor visitor = new ContentVisitorAdapter( ) {
 
 		public Object visit( IContent content, Object value )
+				throws BirtException
 		{
 			return content.accept( this, value );
 		}

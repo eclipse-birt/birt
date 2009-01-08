@@ -22,6 +22,8 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.InstanceID;
@@ -158,7 +160,7 @@ public abstract class AbstractEmitterImpl
 	
 	private String messageFlashObjectNotSupported;
 
-	public void initialize( IEmitterServices service )
+	public void initialize( IEmitterServices service ) throws EngineException
 	{
 		if ( service != null )
 		{
@@ -190,7 +192,8 @@ public abstract class AbstractEmitterImpl
 		this.reportContent = report;
 	}
 
-	public void startPage( IPageContent page ) throws IOException
+	public void startPage( IPageContent page ) throws IOException,
+			BirtException
 	{
 		if ( previousPage != null )
 		{
@@ -224,14 +227,14 @@ public abstract class AbstractEmitterImpl
 		wordWriter.startPage( );
 	}
 
-	private void outputPrePageProperties( ) throws IOException
+	private void outputPrePageProperties( ) throws IOException, BirtException
 	{
 		adjustInline( );
 		writeSectionInP( );
 		wordWriter.endPage( );
 	}
 
-	public void end( IReportContent report ) throws IOException
+	public void end( IReportContent report ) throws IOException, BirtException
 	{
 		adjustInline( );
 		writeSectionInBody( );
@@ -251,7 +254,8 @@ public abstract class AbstractEmitterImpl
 
 	public abstract void endTable( ITableContent table );
 
-	public abstract void startForeign( IForeignContent foreign );
+	public abstract void startForeign( IForeignContent foreign )
+			throws BirtException;
 
 	protected abstract void writeContent( int type, String txt, IContent content );
 
@@ -622,7 +626,7 @@ public abstract class AbstractEmitterImpl
 		}
 	}
 
-	protected void writeSectionInP( ) throws IOException
+	protected void writeSectionInP( ) throws IOException, BirtException
 	{
 		wordWriter.startSectionInParagraph( );
 		writeHeaderFooter( );
@@ -632,7 +636,7 @@ public abstract class AbstractEmitterImpl
 		wordWriter.endSectionInParagraph( );
 	}
 
-	protected void writeSectionInBody( ) throws IOException
+	protected void writeSectionInBody( ) throws IOException, BirtException
 	{
 		wordWriter.startSection( );
 		writeHeaderFooter( );
@@ -885,7 +889,7 @@ public abstract class AbstractEmitterImpl
 				|| "transparent".equalsIgnoreCase( cssText );
 	}
 
-	private void writeHeaderFooter( ) throws IOException
+	private void writeHeaderFooter( ) throws IOException, BirtException
 	{
 		if ( previousPage.getPageHeader( ) != null )
 		{

@@ -2,6 +2,7 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IListGroupContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
@@ -15,7 +16,7 @@ public class ListGroupExecutor extends GroupExecutor
 		super( manager, ExecutorManager.LISTGROUPITEM );
 	}
 
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		handlePageBreakAfterExclusingLast( );
 		handlePageBreakAfter( );

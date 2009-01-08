@@ -47,7 +47,7 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor
 		this.itemGeneration = itemGeneration;
 	}
 	
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		closeQueries( );
 		super.close( );

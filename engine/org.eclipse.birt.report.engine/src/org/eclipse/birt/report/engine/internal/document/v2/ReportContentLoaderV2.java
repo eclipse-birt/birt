@@ -170,7 +170,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	 * @param emitter
 	 */
 	public void loadPage( long pageNumber, int paginationType,
-			IContentEmitter emitter )
+			IContentEmitter emitter ) throws BirtException
 	{
 		boolean bodyOnly = paginationType == IReportContentLoader.NO_PAGE
 				|| paginationType == IReportContentLoader.SINGLE_PAGE; 
@@ -193,6 +193,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	}
 
 	public void loadReportlet( long offset, IContentEmitter emitter )
+			throws BirtException
 	{
 		emitter.start( reportContent );
 		this.emitter = emitter;
@@ -241,6 +242,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	 *            only output the page body.
 	 */
 	private void excutePage( long pageNumber, boolean bodyOnly )
+			throws BirtException
 	{
 		IPageHint pageHint = loadPageHint( pageNumber );
 		if ( pageHint == null )
@@ -324,7 +326,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	 * @param bodyOnly
 	 *            only output the page body.
 	 */
-	private void excuteReportlet( long offset )
+	private void excuteReportlet( long offset ) throws BirtException
 	{
 		try
 		{
@@ -390,7 +392,8 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	 * @param end
 	 * @throws IOException
 	 */
-	private void outputPageRegion( long start, long end ) throws IOException
+	private void outputPageRegion( long start, long end ) throws IOException,
+			BirtException
 	{
 		long offset = start;
 		reader.setOffset( offset );
@@ -434,7 +437,8 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	 * 
 	 * @param content
 	 */
-	private void outputParent( IContent content ) throws IOException
+	private void outputParent( IContent content ) throws IOException,
+			BirtException
 	{
 		IContent parent = (IContent) content.getParent( );
 		if ( parent != null && parent != dummyReportContent  )
@@ -499,7 +503,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	 * @param emitter
 	 */
 	public void loadPageRange( List pageList, int paginationType,
-			IContentEmitter emitter )
+			IContentEmitter emitter ) throws BirtException
 	{
 		boolean bodyOnly = paginationType == IReportContentLoader.NO_PAGE
 				|| paginationType == IReportContentLoader.SINGLE_PAGE;
@@ -535,7 +539,8 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	 * @return
 	 * @throws IOException
 	 */
-	protected IPageContent loadPageContent( long offset ) throws IOException
+	protected IPageContent loadPageContent( long offset ) throws IOException,
+			BirtException
 	{
 		pageReader.setOffset( offset );
 		IPageContent pageContent = (IPageContent) pageReader.readContent( );
@@ -582,7 +587,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	 * @return the next content after the root. NULL if at the end of stream.
 	 */
 	protected IContent loadFullContent( IContent root,
-			ReportContentReaderV2 reader )
+			ReportContentReaderV2 reader ) throws BirtException
 	{
 		IContentEmitter emitter = new DOMBuilderEmitter( root );
 		IContent parent = root;
@@ -783,6 +788,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	 *            output content
 	 */
 	protected void startContent( IContent content, IContentEmitter emitter )
+			throws BirtException
 	{
 		// open the query used by the content, locate the resource
 		try
@@ -803,6 +809,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	 *            output content
 	 */
 	protected void endContent( IContent content, IContentEmitter emitter )
+			throws BirtException
 	{
 		outputEndVisitor.visit( content, emitter );
 		// close the query used by the content
@@ -812,11 +819,13 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	protected IContentVisitor outputStartVisitor = new IContentVisitor( ) {
 
 		public Object visit( IContent content, Object value )
+				throws BirtException
 		{
 			return content.accept( this, value );
 		}
 
 		public Object visitContent( IContent content, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startContent( content );
@@ -824,6 +833,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitPage( IPageContent page, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startPage( page );
@@ -831,6 +841,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitContainer( IContainerContent container, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startContainer( container );
@@ -838,6 +849,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitTable( ITableContent table, Object value )
+				throws BirtException
 		{
 			int colCount = table.getColumnCount( );
 			for ( int i = 0; i < colCount; i++ )
@@ -858,6 +870,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitTableBand( ITableBandContent tableBand, Object value )
+				throws BirtException
 		{
 			setupGroupBand(tableBand);
 			IContentEmitter emitter = (IContentEmitter) value;
@@ -866,6 +879,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitRow( IRowContent row, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startRow( row );
@@ -873,6 +887,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitCell( ICellContent cell, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startCell( cell );
@@ -880,6 +895,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitText( ITextContent text, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startText( text );
@@ -887,6 +903,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitLabel( ILabelContent label, Object value )
+				throws BirtException
 		{
 			if ( label.getGenerateBy( ) instanceof TemplateDesign )
 			{
@@ -900,6 +917,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 		
 		public Object visitAutoText( IAutoTextContent autoText, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			if(autoText.getType()==IAutoTextContent.TOTAL_PAGE)
@@ -911,6 +929,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitData( IDataContent data, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			if (data.getGenerateBy( ) instanceof DataItemDesign)
@@ -940,6 +959,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitImage( IImageContent image, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startImage( image );
@@ -947,6 +967,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitForeign( IForeignContent content, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startForeign( content );
@@ -954,6 +975,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitList( IListContent list, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startList( list );
@@ -961,6 +983,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitListBand( IListBandContent listBand, Object value )
+				throws BirtException
 		{
 			setupGroupBand(listBand);
 			IContentEmitter emitter = (IContentEmitter) value;
@@ -969,10 +992,12 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 		
 		protected void setupGroupBand( IBandContent bandContent )
+				throws BirtException
 		{
 		}
 
 		public Object visitGroup( IGroupContent group, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startGroup( group );
@@ -980,6 +1005,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitListGroup( IListGroupContent group, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startListGroup( group );
@@ -987,6 +1013,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitTableGroup( ITableGroupContent group, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startTableGroup( group );
@@ -998,11 +1025,13 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	protected IContentVisitor outputEndVisitor = new IContentVisitor( ) {
 
 		public Object visit( IContent content, Object value )
+				throws BirtException
 		{
 			return content.accept( this, value );
 		}
 
 		public Object visitContent( IContent content, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endContent( content );
@@ -1010,6 +1039,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitPage( IPageContent page, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endPage( page );
@@ -1017,6 +1047,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitContainer( IContainerContent container, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endContainer( container );
@@ -1024,6 +1055,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitTable( ITableContent table, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endTable( table );
@@ -1031,6 +1063,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitTableBand( ITableBandContent tableBand, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endTableBand( tableBand );
@@ -1038,6 +1071,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitRow( IRowContent row, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endRow( row );
@@ -1045,6 +1079,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitCell( ICellContent cell, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endCell( cell );
@@ -1082,6 +1117,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitList( IListContent list, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endList( list );
@@ -1089,6 +1125,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitListBand( IListBandContent listBand, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endListBand( listBand );
@@ -1096,6 +1133,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitGroup( IGroupContent group, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endGroup( group );
@@ -1103,6 +1141,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitListGroup( IListGroupContent group, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endListGroup( group );
@@ -1110,6 +1149,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 
 		public Object visitTableGroup( ITableGroupContent group, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endTableGroup( group );

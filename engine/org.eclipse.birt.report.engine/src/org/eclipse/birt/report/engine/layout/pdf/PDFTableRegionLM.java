@@ -11,13 +11,13 @@
 
 package org.eclipse.birt.report.engine.layout.pdf;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.pdf.cache.TableAreaLayout;
-import org.eclipse.birt.report.engine.layout.pdf.cache.TableAreaLayout.Row;
 
 public class PDFTableRegionLM extends PDFTableLM
 		implements
@@ -44,7 +44,7 @@ public class PDFTableRegionLM extends PDFTableLM
 		this.groupLevel = groupLevel;
 	}
 	
-	public void initialize( ITableBandContent content )
+	public void initialize( ITableBandContent content ) throws BirtException
 	{
 		this.executor = new DOMReportItemExecutor( content );
 		this.executor.execute( );

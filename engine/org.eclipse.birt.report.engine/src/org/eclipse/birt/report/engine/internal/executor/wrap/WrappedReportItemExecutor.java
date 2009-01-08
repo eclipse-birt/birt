@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.internal.executor.wrap;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
@@ -34,13 +35,13 @@ public class WrappedReportItemExecutor implements IReportItemExecutor
 		this.executor = executor;
 	}
 
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		executor.close( );
 		reportExecutor.closeWrappedExecutor( this );
 	}
 
-	public IContent execute( )
+	public IContent execute( ) throws BirtException
 	{
 		return executor.execute( );
 	}
@@ -60,7 +61,7 @@ public class WrappedReportItemExecutor implements IReportItemExecutor
 		return executor.getModelObject( );
 	}
 
-	public IReportItemExecutor getNextChild( )
+	public IReportItemExecutor getNextChild( ) throws BirtException
 	{
 		IReportItemExecutor child = executor.getNextChild( );
 		if ( child != null )
@@ -80,7 +81,7 @@ public class WrappedReportItemExecutor implements IReportItemExecutor
 		return executor.getQueryResults( );
 	}
 
-	public boolean hasNextChild( )
+	public boolean hasNextChild( ) throws BirtException
 	{
 		return executor.hasNextChild( );
 	}

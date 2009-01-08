@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.layout.pdf.emitter;
 import java.util.HashMap;
 import java.util.Stack;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
@@ -50,7 +51,7 @@ public class WrappedPDFLayoutEmitter extends LayoutEmitterAdapter implements ICo
 //		layoutEmitter.context.setCachedHeaderMap( cachedTableHeaders, cachedGroupHeaders );
 //	}
 	
-	public void initialize( IEmitterServices service )
+	public void initialize( IEmitterServices service ) throws BirtException
 	{
 		layoutEmitter.initialize( service );
 	}
@@ -60,22 +61,24 @@ public class WrappedPDFLayoutEmitter extends LayoutEmitterAdapter implements ICo
 		return layoutEmitter.getOutputFormat( );
 	}
 
-	public void start( IReportContent report )
+	public void start( IReportContent report ) throws BirtException
 	{
 		layoutEmitter.start( report );
 	}
 	
-	public void end( IReportContent report )
+	public void end( IReportContent report ) throws BirtException
 	{
 		layoutEmitter.end( report );
 	}
 	
 	protected void resolveTotalPage( IContentEmitter emitter )
+			throws BirtException
 	{
 		layoutEmitter.resolveTotalPage( emitter );
 	}
 	
 	public void startContainer( IContainerContent container )
+			throws BirtException
 	{
 		layoutEmitter.startContainer( container );
 		if ( isInHeader( ) )
@@ -85,6 +88,7 @@ public class WrappedPDFLayoutEmitter extends LayoutEmitterAdapter implements ICo
 	}
 	
 	public void endContainer( IContainerContent container )
+			throws BirtException
 	{
 		layoutEmitter.endContainer( container );
 		if ( isInHeader( ) )
@@ -93,7 +97,7 @@ public class WrappedPDFLayoutEmitter extends LayoutEmitterAdapter implements ICo
 		}
 	}
 
-	public void startContent( IContent content )
+	public void startContent( IContent content ) throws BirtException
 	{
 		layoutEmitter.startContent( content );
 		if ( isInHeader( ) )
@@ -122,7 +126,7 @@ public class WrappedPDFLayoutEmitter extends LayoutEmitterAdapter implements ICo
 		}
 	}
 	
-	public void startTable( ITableContent table )
+	public void startTable( ITableContent table ) throws BirtException
 	{
 		layoutEmitter.startTable( table );
 		if ( isInHeader( ) )
@@ -131,7 +135,7 @@ public class WrappedPDFLayoutEmitter extends LayoutEmitterAdapter implements ICo
 		}
 	}
 
-	public void endTable( ITableContent table )
+	public void endTable( ITableContent table ) throws BirtException
 	{
 		layoutEmitter.endTable( table );
 		InstanceID tableID = table.getInstanceID( );
@@ -162,6 +166,7 @@ public class WrappedPDFLayoutEmitter extends LayoutEmitterAdapter implements ICo
 	}
 	
 	public void startListGroup( IListGroupContent listGroup )
+			throws BirtException
 	{
 		layoutEmitter.startListGroup( listGroup );
 		if ( isInHeader( ) )
@@ -179,17 +184,17 @@ public class WrappedPDFLayoutEmitter extends LayoutEmitterAdapter implements ICo
 		}
 	}
 
-	public void startPage( IPageContent page )
+	public void startPage( IPageContent page ) throws BirtException
 	{
 		layoutEmitter.startPage( page );
 	}
 	
-	public void outputPage( IPageContent page )
+	public void outputPage( IPageContent page ) throws BirtException
 	{
 		layoutEmitter.outputPage( page );
 	}
 	
-	public void endPage( IPageContent page )
+	public void endPage( IPageContent page ) throws BirtException
 	{
 		layoutEmitter.endPage( page );
 	}
@@ -217,7 +222,7 @@ public class WrappedPDFLayoutEmitter extends LayoutEmitterAdapter implements ICo
 //		}
 //	}
 	
-	public void startRow( IRowContent row )
+	public void startRow( IRowContent row ) throws BirtException
 	{
 		layoutEmitter.startRow( row );
 		if ( isInHeader( ) )
@@ -226,7 +231,7 @@ public class WrappedPDFLayoutEmitter extends LayoutEmitterAdapter implements ICo
 		}
 	}
 
-	public void endRow( IRowContent row )
+	public void endRow( IRowContent row ) throws BirtException
 	{
 		layoutEmitter.endRow( row );
 		if ( isInHeader( ) )
@@ -235,7 +240,7 @@ public class WrappedPDFLayoutEmitter extends LayoutEmitterAdapter implements ICo
 		}
 	}
 	
-	public void startTableBand( ITableBandContent band )
+	public void startTableBand( ITableBandContent band ) throws BirtException
 	{
 		layoutEmitter.startTableBand( band );
 		
@@ -270,7 +275,7 @@ public class WrappedPDFLayoutEmitter extends LayoutEmitterAdapter implements ICo
 		
 	}
 
-	public void endTableBand( ITableBandContent band )
+	public void endTableBand( ITableBandContent band ) throws BirtException
 	{
 		layoutEmitter.endTableBand( band );
 		if ( isInHeader( ) )
@@ -288,6 +293,7 @@ public class WrappedPDFLayoutEmitter extends LayoutEmitterAdapter implements ICo
 	}
 	
 	public void startTableGroup( ITableGroupContent group )
+			throws BirtException
 	{
 		layoutEmitter.startTableGroup( group );
 		if ( isInHeader( ) )
@@ -296,7 +302,7 @@ public class WrappedPDFLayoutEmitter extends LayoutEmitterAdapter implements ICo
 		}
 	}
 
-	public void endTableGroup( ITableGroupContent group )
+	public void endTableGroup( ITableGroupContent group ) throws BirtException
 	{
 		layoutEmitter.endTableGroup( group );
 		removeCachedGroupHeader( group.getInstanceID( ) );
@@ -306,7 +312,7 @@ public class WrappedPDFLayoutEmitter extends LayoutEmitterAdapter implements ICo
 		}
 	}
 	
-	public void startCell( ICellContent cell )
+	public void startCell( ICellContent cell ) throws BirtException
 	{
 		layoutEmitter.startCell( cell );
 		if ( isInHeader( ) )
@@ -315,7 +321,7 @@ public class WrappedPDFLayoutEmitter extends LayoutEmitterAdapter implements ICo
 		}
 	}
 	
-	public void endCell(ICellContent cell)
+	public void endCell( ICellContent cell ) throws BirtException
 	{
 		layoutEmitter.endCell( cell );
 		if ( isInHeader( ) )
@@ -329,7 +335,7 @@ public class WrappedPDFLayoutEmitter extends LayoutEmitterAdapter implements ICo
 //		layoutEmitter.visitContent( content, emitter );
 //	}
 
-	public void startForeign( IForeignContent foreign )
+	public void startForeign( IForeignContent foreign ) throws BirtException
 	{
 		layoutEmitter.startForeign( foreign );
 		if ( isInHeader( ) )

@@ -1,6 +1,7 @@
 
 package org.eclipse.birt.report.engine.extension;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 
 public interface IReportItemExecutor
@@ -41,8 +42,10 @@ public interface IReportItemExecutor
 
 	/**
 	 * execute the report item
+	 * 
+	 * @throws BirtException
 	 */
-	IContent execute( );
+	IContent execute( ) throws BirtException;
 	
 	/**
 	 * get QueryResults of the executor
@@ -58,18 +61,23 @@ public interface IReportItemExecutor
 	 * does the executor has child executor
 	 * 
 	 * @return
+	 * @throws BirtException
 	 */
-	boolean hasNextChild( );
+	boolean hasNextChild( ) throws BirtException;
 
 	/**
 	 * return the next child's executor
+	 * 
+	 * @throws BirtException
 	 */
-	IReportItemExecutor getNextChild( );
+	IReportItemExecutor getNextChild( ) throws BirtException;
 
 	/**
 	 * close the executor, if the executor is closed, all sub executor will be
 	 * terminate also.
+	 * 
+	 * @throws BirtException
 	 */
-	void close( );
+	void close( ) throws BirtException;
 
 }

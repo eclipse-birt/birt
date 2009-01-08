@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.html;
 
-import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.core.exception.BirtException;
 
 public abstract class HTMLStackingLM extends HTMLAbstractLM
 {
@@ -22,7 +21,7 @@ public abstract class HTMLStackingLM extends HTMLAbstractLM
 		super( factory );
 	}
 		
-	protected boolean layoutChildren()
+	protected boolean layoutChildren( ) throws BirtException
 	{
 		boolean hasNext = layoutNodes();
 		if(hasNext)
@@ -36,7 +35,7 @@ public abstract class HTMLStackingLM extends HTMLAbstractLM
 		return hasNext;
 	}
 	
-	protected void end( boolean finished )
+	protected void end( boolean finished ) throws BirtException
 	{
 		if(emitter!=null)
 		{
@@ -44,7 +43,7 @@ public abstract class HTMLStackingLM extends HTMLAbstractLM
 		}
 	}
 
-	protected void start( boolean isFirst )
+	protected void start( boolean isFirst ) throws BirtException
 	{
 		if(emitter!=null)
 		{
@@ -52,5 +51,5 @@ public abstract class HTMLStackingLM extends HTMLAbstractLM
 		}
 	}
 
-	protected abstract boolean layoutNodes();
+	protected abstract boolean layoutNodes( ) throws BirtException;
 }

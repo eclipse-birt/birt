@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.layout.emitter;
 
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
@@ -29,18 +30,19 @@ public abstract class PageEmitter extends ContentEmitterAdapter
 	
 	protected PageDeviceRender render;
 	
-	public abstract PageDeviceRender createRender( IEmitterServices service );
-	
+	public abstract PageDeviceRender createRender( IEmitterServices service )
+			throws EngineException;
+
 	public String getOutputFormat( )
 	{
 		return render.getOutputFormat( );
 	}
 
-	public void initialize( IEmitterServices service )
+	public void initialize( IEmitterServices service ) throws EngineException
 	{
 		render = createRender( service );
 	}
-	
+
 	public void startPage( IPageContent page )
 	{
 		PageArea pageArea = (PageArea)page.getExtension( IContent.LAYOUT_EXTENSION );

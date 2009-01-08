@@ -13,15 +13,12 @@ package org.eclipse.birt.report.engine.layout.pdf;
 
 import java.util.Iterator;
 
-import org.eclipse.birt.core.format.NumberFormatter;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
-import org.eclipse.birt.report.engine.content.Dimension;
-import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
-import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.ReportExecutorUtil;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
@@ -30,16 +27,12 @@ import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
-import org.eclipse.birt.report.engine.layout.PDFConstants;
-import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.IContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.LogicContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.layout.content.BlockStackingExecutor;
-import org.eclipse.birt.report.engine.layout.pdf.text.Chunk;
-import org.eclipse.birt.report.engine.layout.pdf.text.ChunkGenerator;
 
 /**
  * 
@@ -81,7 +74,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 		this.emitter = emitter;
 	}
 
-	protected void initialize( )
+	protected void initialize( ) throws BirtException
 	{
 		createRoot( );
 		context.setMaxHeight( page.getRoot( ).getHeight( ) );
@@ -153,7 +146,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 	 * layout page header area
 	 * 
 	 */
-	protected void layoutHeader( )
+	protected void layoutHeader( ) throws BirtException
 	{
 		IContent headerContent = pageContent.getPageHeader( );
 		IReportItemExecutor headerExecutor = new DOMReportItemExecutor(
@@ -171,7 +164,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 	 * layout page footer area
 	 * 
 	 */
-	protected void layoutFooter( )
+	protected void layoutFooter( ) throws BirtException
 	{
 		IContent footerContent = pageContent.getPageFooter( );
 		IReportItemExecutor footerExecutor = new DOMReportItemExecutor(
@@ -208,7 +201,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 		}
 	}
 
-	public boolean layout( )
+	public boolean layout( ) throws BirtException
 	{
 		if ( !context.isCancel( ) )
 		{
@@ -238,7 +231,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 		}
 	}
 
-	protected void startPage( )
+	protected void startPage( ) throws BirtException
 	{
 		MasterPageDesign pageDesign = getMasterPage( report );
 		pageContent = ReportExecutorUtil.executeMasterPage( reportExecutor,
@@ -246,7 +239,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 		this.content = pageContent;
 	}
 
-	protected void endPage( )
+	protected void endPage( ) throws BirtException
 	{
 		if ( context.isAutoPageBreak( ) )
 		{

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -24,7 +25,7 @@ public class ReportExecutorUtil
 {
 
 	public static void execute( IReportExecutor executor,
-			IContentEmitter emitter )
+			IContentEmitter emitter ) throws BirtException
 	{
 		IReportContent report = executor.execute( );
 		emitter.start( report );
@@ -41,7 +42,7 @@ public class ReportExecutorUtil
 	}
 
 	public static void execute( IReportItemExecutor executor,
-			IContentEmitter emitter )
+			IContentEmitter emitter ) throws BirtException
 	{
 		IContent content = executor.execute( );
 		if ( content != null )
@@ -57,7 +58,7 @@ public class ReportExecutorUtil
 	}
 
 	public static IPageContent executeMasterPage( IReportExecutor executor,
-			long pageNumber, MasterPageDesign pageDesign )
+			long pageNumber, MasterPageDesign pageDesign ) throws BirtException
 	{
 		IReportItemExecutor pageExecutor = executor.createPageExecutor(
 				pageNumber, pageDesign );
@@ -76,7 +77,7 @@ public class ReportExecutorUtil
 	}
 
 	static protected void executeAll( IReportItemExecutor executor,
-			IContentEmitter emitter )
+			IContentEmitter emitter ) throws BirtException
 	{
 		while ( executor.hasNextChild( ) )
 		{

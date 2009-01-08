@@ -15,7 +15,7 @@ package org.eclipse.birt.report.engine.layout.pdf.emitter;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.dom.AbstractStyle;
@@ -27,7 +27,6 @@ import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
-import org.eclipse.birt.report.engine.layout.area.impl.InlineContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TextArea;
 import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
 import org.w3c.dom.css.CSSPrimitiveValue;
@@ -120,7 +119,7 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 		}
 	}
 	
-	public boolean endLine()
+	public boolean endLine( ) throws BirtException
 	{
 		closeLayout( false );
 		initialize( );
@@ -157,13 +156,13 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 		parent.addArea( currentContext.root, index );
 	}*/
 	
-	protected void closeLayout()
+	protected void closeLayout( ) throws BirtException
 	{
 		closeLayout( true );
 	}
 	
 	
-	protected void closeLayout( boolean isLastLine )
+	protected void closeLayout( boolean isLastLine ) throws BirtException
 	{
 		int size = contextList.size( );
 		if ( size == 1 )

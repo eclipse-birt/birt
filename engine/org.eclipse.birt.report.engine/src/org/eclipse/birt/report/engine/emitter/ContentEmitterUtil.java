@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.emitter;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
@@ -38,6 +39,7 @@ public class ContentEmitterUtil
 	static IContentVisitor ender = new EndContentVisitor( );
 
 	static public void startContent( IContent content, IContentEmitter emitter )
+			throws BirtException
 	{
 		switch ( content.getContentType( ) )
 		{
@@ -92,6 +94,7 @@ public class ContentEmitterUtil
 	}
 
 	static public void endContent( IContent content, IContentEmitter emitter )
+			throws BirtException
 	{
 		switch ( content.getContentType( ) )
 		{
@@ -138,11 +141,13 @@ public class ContentEmitterUtil
 	{
 
 		public Object visit( IContent content, Object value )
+				throws BirtException
 		{
 			return content.accept( this, value );
 		}
 
 		public Object visitContent( IContent content, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startContent( content );
@@ -150,6 +155,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitPage( IPageContent page, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startPage( page );
@@ -157,6 +163,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitContainer( IContainerContent container, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startContainer( container );
@@ -164,6 +171,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitTable( ITableContent table, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startTable( table );
@@ -171,6 +179,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitTableBand( ITableBandContent tableBand, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startTableBand( tableBand );
@@ -178,6 +187,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitRow( IRowContent row, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startRow( row );
@@ -185,6 +195,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitCell( ICellContent cell, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startCell( cell );
@@ -192,6 +203,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitText( ITextContent text, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startText( text );
@@ -199,6 +211,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitLabel( ILabelContent label, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startLabel( label );
@@ -206,6 +219,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitAutoText( IAutoTextContent autoText, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startAutoText( autoText );
@@ -213,6 +227,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitData( IDataContent data, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startData( data );
@@ -220,6 +235,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitImage( IImageContent image, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startImage( image );
@@ -227,6 +243,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitForeign( IForeignContent content, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startForeign( content );
@@ -234,6 +251,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitList( IListContent list, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startList( list );
@@ -241,6 +259,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitListBand( IListBandContent listBand, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startListBand( listBand );
@@ -248,6 +267,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitGroup( IGroupContent group, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startGroup( group );
@@ -255,6 +275,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitListGroup( IListGroupContent group, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startListGroup( group );
@@ -262,6 +283,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitTableGroup( ITableGroupContent group, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startTableGroup( group );
@@ -273,11 +295,13 @@ public class ContentEmitterUtil
 	{
 
 		public Object visit( IContent content, Object value )
+				throws BirtException
 		{
 			return content.accept( this, value );
 		}
 
 		public Object visitContent( IContent content, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endContent( content );
@@ -285,6 +309,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitPage( IPageContent page, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endPage( page );
@@ -292,6 +317,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitContainer( IContainerContent container, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endContainer( container );
@@ -299,6 +325,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitTable( ITableContent table, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endTable( table );
@@ -306,6 +333,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitTableBand( ITableBandContent tableBand, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endTableBand( tableBand );
@@ -313,6 +341,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitRow( IRowContent row, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endRow( row );
@@ -320,6 +349,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitCell( ICellContent cell, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endCell( cell );
@@ -357,6 +387,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitList( IListContent list, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endList( list );
@@ -364,6 +395,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitListBand( IListBandContent listBand, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endListBand( listBand );
@@ -371,6 +403,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitGroup( IGroupContent group, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endGroup( group );
@@ -378,6 +411,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitListGroup( IListGroupContent group, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endListGroup( group );
@@ -385,6 +419,7 @@ public class ContentEmitterUtil
 		}
 
 		public Object visitTableGroup( ITableGroupContent group, Object value )
+				throws BirtException
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endTableGroup( group );

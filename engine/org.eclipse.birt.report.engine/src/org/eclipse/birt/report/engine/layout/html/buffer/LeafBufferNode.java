@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.html.buffer;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 
@@ -29,7 +30,7 @@ public class LeafBufferNode extends AbstractNode implements INode
 		
 	}
 
-	public void flush( )
+	public void flush( ) throws BirtException
 	{
 		if ( !isStarted )
 		{

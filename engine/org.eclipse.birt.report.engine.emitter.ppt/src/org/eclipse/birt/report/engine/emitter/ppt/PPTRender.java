@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.emitter.ppt;
 import java.io.OutputStream;
 import java.util.logging.Level;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.RenderOption;
@@ -44,7 +45,7 @@ public class PPTRender extends PageDeviceRender
 	/** The default output PPT file name. */
 	public static final String REPORT_FILE = "Report.ppt"; //$NON-NLS-1$
 
-	public PPTRender( IEmitterServices services )
+	public PPTRender( IEmitterServices services ) throws EngineException
 	{
 		initialize( services );
 	}
@@ -79,8 +80,9 @@ public class PPTRender extends PageDeviceRender
 	 * 
 	 * @param services
 	 *            the emitter services object.
+	 * @throws EngineException 
 	 */
-	public void initialize( IEmitterServices services )
+	public void initialize( IEmitterServices services ) throws EngineException
 	{
 		this.services = services;
 		IReportRunnable reportRunnable = services.getReportRunnable( );

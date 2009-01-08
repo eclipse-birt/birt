@@ -11,13 +11,15 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.ITextContent;
 
 
 
 public interface IInlineStackingLayout
 {
-	boolean endLine( );
+
+	boolean endLine( ) throws BirtException;
 
 	boolean isEmptyLine( );
 	

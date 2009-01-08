@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -25,8 +26,8 @@ import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
+import org.eclipse.birt.report.engine.ir.TableItemDesign;
 
 /**
  * 
@@ -97,6 +98,7 @@ public class TableContent extends AbstractContent implements ITableContent
 	}
 
 	public Object accept( IContentVisitor visitor, Object value )
+			throws BirtException
 	{
 		return visitor.visitTable( this, value );
 	}

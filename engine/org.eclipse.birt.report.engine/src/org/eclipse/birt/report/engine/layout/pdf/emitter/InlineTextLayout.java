@@ -11,6 +11,7 @@
  
  package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 
 
@@ -22,7 +23,7 @@ public class InlineTextLayout extends InlineStackingLayout
 		super( context, parentContext, content );
 	}
 
-	public void layout()
+	public void layout( ) throws BirtException
 	{
 		ContainerLayout inlineTextContainer = null;
 		if ( parent instanceof LineLayout )

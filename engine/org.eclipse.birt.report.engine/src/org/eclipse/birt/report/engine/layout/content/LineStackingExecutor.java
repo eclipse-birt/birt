@@ -1,5 +1,6 @@
 package org.eclipse.birt.report.engine.layout.content;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.ReportItemExecutorBase;
@@ -27,7 +28,7 @@ public class LineStackingExecutor extends ReportItemExecutorBase
 		return null;
 	}
 
-	public IReportItemExecutor getNextChild( )
+	public IReportItemExecutor getNextChild( ) throws BirtException
 	{
 		current = next;
 		if(executor!=null && executor instanceof BlockStackingExecutor)

@@ -1611,7 +1611,7 @@ public abstract class EngineTask implements IEngineTask
 	}
 
 	protected void initializeContentEmitter( IContentEmitter emitter,
-			IReportExecutor executor )
+			IReportExecutor executor ) throws BirtException
 	{
 		// create the emitter services object that is needed in the emitters.
 		HashMap configs = engine.getConfig( ).getEmitterConfigs( );

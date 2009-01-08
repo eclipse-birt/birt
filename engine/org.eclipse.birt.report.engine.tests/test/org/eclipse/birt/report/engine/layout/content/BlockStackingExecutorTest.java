@@ -2,6 +2,7 @@ package org.eclipse.birt.report.engine.layout.content;
 
 import junit.framework.TestCase;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
@@ -13,7 +14,7 @@ import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecuto
 public class BlockStackingExecutorTest extends TestCase
 {
 	
-	public void testBlockStacking()
+	public void testBlockStacking( ) throws BirtException
 	{
 		IReportContent report = ContentFactory.createReportContent();
 		IContainerContent container = report.createContainerContent( );

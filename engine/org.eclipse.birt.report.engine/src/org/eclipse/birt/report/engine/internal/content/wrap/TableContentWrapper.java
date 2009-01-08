@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.internal.content.wrap;
 
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
@@ -57,6 +58,7 @@ public class TableContentWrapper extends AbstractContentWrapper
 	}
 
 	public Object accept( IContentVisitor visitor, Object value )
+			throws BirtException
 	{
 		return visitor.visitTable( this, value );
 	}

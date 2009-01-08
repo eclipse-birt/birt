@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.layout.html.buffer;
 
 import java.util.ArrayList;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -30,7 +31,7 @@ public class ContainerBufferNode extends AbstractNode implements IContainerNode
 	
 	
 
-	protected void flushChildren( )
+	protected void flushChildren( ) throws BirtException
 	{
 		int size = children.size( );
 		for ( int i = 0; i < size; i++ )
@@ -40,7 +41,7 @@ public class ContainerBufferNode extends AbstractNode implements IContainerNode
 		}
 	}
 	
-	public void flush( )
+	public void flush( ) throws BirtException
 	{
 		if ( !isStarted )
 		{
@@ -51,7 +52,7 @@ public class ContainerBufferNode extends AbstractNode implements IContainerNode
 
 	}
 	
-	protected void flushUnStartedChildren( )
+	protected void flushUnStartedChildren( ) throws BirtException
 	{
 		int flushSize = children.size( ) - 1;
 		if ( flushSize > 0 )
@@ -67,7 +68,7 @@ public class ContainerBufferNode extends AbstractNode implements IContainerNode
 		}
 	}
 
-	public void start( )
+	public void start( ) throws BirtException
 	{
 		if(isStarted)
 		{

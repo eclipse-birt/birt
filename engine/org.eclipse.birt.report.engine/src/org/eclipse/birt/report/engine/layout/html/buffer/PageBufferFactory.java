@@ -12,6 +12,7 @@ package org.eclipse.birt.report.engine.layout.html.buffer;
 
 import java.util.LinkedList;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
 
 
@@ -39,7 +40,7 @@ public class PageBufferFactory
 		return buffer;
 	}
 	
-	public void refresh()
+	public void refresh( ) throws BirtException
 	{
 		while(!pages.isEmpty( ))
 		{
@@ -57,7 +58,7 @@ public class PageBufferFactory
 		
 	}
 	
-	public void close()
+	public void close( ) throws BirtException
 	{
 		while(!pages.isEmpty( ))
 		{

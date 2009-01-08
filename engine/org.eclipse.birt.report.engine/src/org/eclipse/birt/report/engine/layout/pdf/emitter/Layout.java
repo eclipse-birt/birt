@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
@@ -48,16 +49,18 @@ public abstract class Layout
 		this.content = content;
 	}
 
-	public abstract void layout( );
+	public abstract void layout( ) throws BirtException;
 
-	protected abstract void initialize( );
+	protected abstract void initialize( ) throws BirtException;
 
 	/**
 	 * end current area if it is the last area of content, add bottom box
 	 * property
 	 * 
+	 * @throws BirtException
+	 * 
 	 */
-	protected abstract void closeLayout( );
+	protected abstract void closeLayout( ) throws BirtException;
 
 	protected void calculateSpecifiedWidth( )
 	{
@@ -360,7 +363,8 @@ public abstract class Layout
 		}
 	}
 	
-	protected void visitContent(IContent content, IContentEmitter emitter)
+	protected void visitContent( IContent content, IContentEmitter emitter )
+			throws BirtException
 	{
 		ContentEmitterUtil.startContent( content, emitter );
 		java.util.Collection children = content.getChildren( );

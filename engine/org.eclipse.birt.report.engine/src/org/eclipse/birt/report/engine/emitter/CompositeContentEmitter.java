@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.emitter;
 
 import java.util.ArrayList;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
@@ -57,7 +58,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 		emitters.add(emitter);
 	}
 
-	public void end( IReportContent report )
+	public void end( IReportContent report ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
@@ -65,7 +66,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void endGroup( IGroupContent group )
+	public void endGroup( IGroupContent group ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size( ); i++)
 		{
@@ -74,7 +75,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 	}
 
 
-	public void endList( IListContent list )
+	public void endList( IListContent list ) throws BirtException
 	{
 		for ( int i = 0; i < emitters.size( ); i++ )
 		{
@@ -83,7 +84,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 	}
 
 
-	public void endListGroup( IListGroupContent group )
+	public void endListGroup( IListGroupContent group ) throws BirtException
 	{
 		for ( int i = 0; i < emitters.size( ); i++ )
 		{
@@ -92,7 +93,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 	}
 
 
-	public void endTableGroup( ITableGroupContent group )
+	public void endTableGroup( ITableGroupContent group ) throws BirtException
 	{
 		for ( int i = 0; i < emitters.size( ); i++ )
 		{
@@ -101,7 +102,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 	}
 
 
-	public void startAutoText( IAutoTextContent autoText )
+	public void startAutoText( IAutoTextContent autoText ) throws BirtException
 	{
 		for ( int i = 0; i < emitters.size( ); i++ )
 		{
@@ -110,7 +111,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 	}
 
 
-	public void startGroup( IGroupContent group )
+	public void startGroup( IGroupContent group ) throws BirtException
 	{
 		for ( int i = 0; i < emitters.size( ); i++ )
 		{
@@ -119,7 +120,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 	}
 
 
-	public void startListGroup( IListGroupContent group )
+	public void startListGroup( IListGroupContent group ) throws BirtException
 	{
 		for ( int i = 0; i < emitters.size( ); i++ )
 		{
@@ -129,6 +130,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 
 
 	public void startTableGroup( ITableGroupContent group )
+			throws BirtException
 	{
 		for ( int i = 0; i < emitters.size( ); i++ )
 		{
@@ -137,7 +139,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 	}
 
 
-	public void endCell( ICellContent cell )
+	public void endCell( ICellContent cell ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
@@ -146,6 +148,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 	}
 
 	public void endContainer( IContainerContent container )
+			throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
@@ -153,7 +156,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void endContent( IContent content )
+	public void endContent( IContent content ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
@@ -161,7 +164,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void endPage( IPageContent page )
+	public void endPage( IPageContent page ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
@@ -169,14 +172,15 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void endRow( IRowContent row )
+	public void endRow( IRowContent row ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
 			((IContentEmitter)emitters.get(i)).endRow(row);
 		}
 	}
-	public void startTableBand( ITableBandContent band )
+
+	public void startTableBand( ITableBandContent band ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
@@ -184,14 +188,15 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 		}
 	}
 	
-	public void endTableBand( ITableBandContent band )
+	public void endTableBand( ITableBandContent band ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
 			((IContentEmitter)emitters.get(i)).endTableBand(band);
 		}
 	}
-	public void endTable( ITableContent table )
+
+	public void endTable( ITableContent table ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
@@ -205,7 +210,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 		return format;
 	}
 
-	public void initialize( IEmitterServices service )
+	public void initialize( IEmitterServices service ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
@@ -213,7 +218,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void start( IReportContent report )
+	public void start( IReportContent report ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
@@ -221,7 +226,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void startCell( ICellContent cell )
+	public void startCell( ICellContent cell ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
@@ -230,6 +235,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 	}
 
 	public void startContainer( IContainerContent container )
+			throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
@@ -237,7 +243,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void startContent( IContent content )
+	public void startContent( IContent content ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
@@ -245,7 +251,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void startData( IDataContent data )
+	public void startData( IDataContent data ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
@@ -253,7 +259,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void startForeign( IForeignContent foreign )
+	public void startForeign( IForeignContent foreign ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
@@ -261,7 +267,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void startImage( IImageContent image )
+	public void startImage( IImageContent image ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
@@ -269,7 +275,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void startLabel( ILabelContent label )
+	public void startLabel( ILabelContent label ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
@@ -277,7 +283,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void startPage( IPageContent page )
+	public void startPage( IPageContent page ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
@@ -285,7 +291,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void startRow( IRowContent row )
+	public void startRow( IRowContent row ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
@@ -293,7 +299,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void startTable( ITableContent table )
+	public void startTable( ITableContent table ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
@@ -301,14 +307,15 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void startListBand( IListBandContent band )
+	public void startListBand( IListBandContent band ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
 			((IContentEmitter)emitters.get(i)).startListBand(band);
 		}
 	}
-	public void endListBand( IListBandContent band )
+
+	public void endListBand( IListBandContent band ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
@@ -316,7 +323,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void startList( IListContent list )
+	public void startList( IListContent list ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{
@@ -324,7 +331,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void startText( ITextContent text )
+	public void startText( ITextContent text ) throws BirtException
 	{
 		for (int i = 0; i < emitters.size(); i++)
 		{

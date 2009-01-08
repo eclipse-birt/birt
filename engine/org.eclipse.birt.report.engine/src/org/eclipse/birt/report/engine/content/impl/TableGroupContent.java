@@ -1,5 +1,6 @@
 package org.eclipse.birt.report.engine.content.impl;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -26,6 +27,7 @@ public class TableGroupContent extends GroupContent
 	}
 	
 	public Object accept( IContentVisitor visitor, Object value )
+			throws BirtException
 	{
 		return visitor.visitTableGroup(this, value);
 	}

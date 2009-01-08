@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
@@ -61,7 +62,7 @@ public class PageLayout extends BlockStackingLayout
 		report = pageContent.getReportContent();
 	}
 	
-	protected void initialize( )
+	protected void initialize( ) throws BirtException
 	{
 		PageContext pageContext = new PageContext();
 		if(context.autoPageBreak)
@@ -145,7 +146,7 @@ public class PageLayout extends BlockStackingLayout
 	 * layout page header area
 	 * 
 	 */
-	protected void layoutHeader(PageArea page )
+	protected void layoutHeader( PageArea page ) throws BirtException
 	{
 		IContent headerContent = ((PageContext)currentContext).pageContent.getPageHeader( );
 		Layout regionLayout = new RegionLayout(context, headerContent, page.getHeader( ));
@@ -157,7 +158,7 @@ public class PageLayout extends BlockStackingLayout
 	 * layout page footer area
 	 * 
 	 */
-	protected void layoutFooter( PageArea page )
+	protected void layoutFooter( PageArea page ) throws BirtException
 	{
 		IContent footerContent = ((PageContext)currentContext).pageContent.getPageFooter( );
 		Layout regionLayout = new RegionLayout(context, footerContent, page.getFooter( ));
@@ -308,7 +309,8 @@ public class PageLayout extends BlockStackingLayout
 	}
 
 
-	protected void closeLayout( ContainerContext currentContext, int index, boolean finished )
+	protected void closeLayout( ContainerContext currentContext, int index,
+			boolean finished ) throws BirtException
 	{
 		PageArea page = (PageArea) currentContext.root;
 		int overFlowType = context.getPageOverflow( );
@@ -370,7 +372,7 @@ public class PageLayout extends BlockStackingLayout
 		}
 	}*/
 	
-	public void outputPage( IPageContent page )
+	public void outputPage( IPageContent page ) throws BirtException
 	{
 		LayoutEmitterAdapter emitter = context.emitter;
 		emitter.outputPage( page );

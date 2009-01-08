@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
@@ -22,5 +23,5 @@ public abstract class LayoutEmitterAdapter extends ContentEmitterAdapter
 	
 	public abstract void setPageHandler( ILayoutPageHandler pageHandler );
 
-	public abstract void outputPage( IPageContent page );
+	public abstract void outputPage( IPageContent page ) throws BirtException;
 }

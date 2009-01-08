@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.layout.pdf.emitter;
 import java.util.HashSet;
 import java.util.logging.Level;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
@@ -95,12 +96,12 @@ public class TextAreaLayout extends ContainerLayout
 		
 	}
 
-	public void layout( )
+	public void layout( ) throws BirtException
 	{
 		while(layoutChildren());
 	}
 
-	protected boolean layoutChildren( )
+	protected boolean layoutChildren( ) throws BirtException
 	{
 		if ( null == textContent )
 			return false;
@@ -138,7 +139,7 @@ public class TextAreaLayout extends ContainerLayout
 	/**
 	 * true if succeed to new a line.
 	 */
-	public boolean newLine( )
+	public boolean newLine( ) throws BirtException
 	{
 		return parentLM.endLine( );
 	}

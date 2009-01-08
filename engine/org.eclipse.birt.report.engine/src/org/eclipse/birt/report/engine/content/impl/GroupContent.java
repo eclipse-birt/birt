@@ -6,6 +6,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -123,6 +124,7 @@ public class GroupContent extends AbstractContent implements IGroupContent
 	}
 
 	public Object accept( IContentVisitor visitor, Object value )
+			throws BirtException
 	{
 		return visitor.visitGroup( this, value );
 	}

@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.html;
 
-import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.layout.ILayoutManager;
 
 public class HTMLLeafItemLM extends HTMLAbstractLM implements ILayoutManager
@@ -43,7 +42,7 @@ public class HTMLLeafItemLM extends HTMLAbstractLM implements ILayoutManager
 
 	}
 
-	protected void start( boolean isFirst )
+	protected void start( boolean isFirst ) throws BirtException
 	{
 		if(emitter!=null)
 		{

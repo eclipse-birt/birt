@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.layout.pdf;
 import java.util.HashMap;
 import java.util.Locale;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.content.Dimension;
@@ -28,7 +29,6 @@ import org.eclipse.birt.report.engine.layout.ILayoutManager;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
-import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.pdf.text.Chunk;
@@ -65,6 +65,7 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 
 	protected void layoutReport( IReportContent report,
 			IReportExecutor executor, IContentEmitter output )
+			throws BirtException
 	{
 		if ( output == null )
 		{
@@ -76,7 +77,8 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 
 	}
 
-	public void layout( IReportExecutor executor, IReportContent report, IContentEmitter output, boolean pagination )
+	public void layout( IReportExecutor executor, IReportContent report,
+			IContentEmitter output, boolean pagination ) throws BirtException
 	{
 		context.setAllowPageBreak(pagination);
 		this.executor = executor;
@@ -103,6 +105,7 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 	}
 	
 	protected void resolveTotalPage( IContentEmitter emitter )
+			throws BirtException
 	{
 		IContent con = context.getUnresolvedContent( );
 		if ( !( con instanceof IAutoTextContent ) )
@@ -143,7 +146,8 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 	/**
 	 * @deprecated
 	 */
-	public void layout( ILayoutManager parent, IReportItemExecutor executor, IContentEmitter emitter )
+	public void layout( ILayoutManager parent, IReportItemExecutor executor,
+			IContentEmitter emitter ) throws BirtException
 	{
 		IContent content = executor.execute( );
 		PDFAbstractLM layoutManager = factory.createLayoutManager( (PDFStackingLM) parent,
@@ -155,7 +159,8 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 	/**
 	 * @deprecated
 	 */
-	public void layout(ILayoutManager parent, IContent content, IContentEmitter output )
+	public void layout( ILayoutManager parent, IContent content,
+			IContentEmitter output ) throws BirtException
 	{
 		IReportItemExecutor executor = new DOMReportItemExecutor( content );
 		layout( parent, executor, output );
@@ -280,7 +285,7 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 		return pageCount;
 	}
 
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		resolveTotalPage( emitter );
 	}

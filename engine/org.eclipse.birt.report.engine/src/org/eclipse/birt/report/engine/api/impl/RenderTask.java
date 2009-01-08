@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IEngineTask;
@@ -48,7 +49,6 @@ import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExec
 import org.eclipse.birt.report.engine.internal.presentation.ReportDocumentInfo;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.layout.CompositeLayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
@@ -650,30 +650,30 @@ public class RenderTask extends EngineTask implements IRenderTask
 			this.reportExecutor = reportExecutor;
 		}
 
-		public void close( )
+		public void close( ) throws BirtException
 		{
 			executor.close( );
 
 		}
 
 		public IReportItemExecutor createPageExecutor( long pageNumber,
-				MasterPageDesign pageDesign )
+				MasterPageDesign pageDesign ) throws BirtException
 		{
 			return reportExecutor.createPageExecutor( pageNumber, pageDesign );
 		}
 
-		public IReportContent execute( )
+		public IReportContent execute( ) throws BirtException
 		{
 			// FIXME: create the report content only once.
 			return reportExecutor.execute( );
 		}
 
-		public IReportItemExecutor getNextChild( )
+		public IReportItemExecutor getNextChild( ) throws BirtException
 		{
 			return executor.getNextChild( );
 		}
 
-		public boolean hasNextChild( )
+		public boolean hasNextChild( ) throws BirtException
 		{
 			return executor.hasNextChild( );
 		}

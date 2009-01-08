@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Stack;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.engine.content.Dimension;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
@@ -80,23 +81,23 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 		factory = new LayoutContextFactory(null, context);
 	}
 	
-	public void initialize( IEmitterServices service )
+	public void initialize( IEmitterServices service ) throws BirtException
 	{
 		emitter.initialize( service );
 	}
-	
+
 	public String getOutputFormat( )
 	{
 		return emitter.getOutputFormat( );
 	}
 
-	public void start( IReportContent report )
+	public void start( IReportContent report ) throws BirtException
 	{
 		emitter.start( report );
 		context.setReport( report );
 	}
 	
-	public void end( IReportContent report )
+	public void end( IReportContent report ) throws BirtException
 	{
 		resolveTotalPage( emitter );
 		if ( pageHandler != null )
@@ -117,6 +118,7 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 	}
 	
 	protected void resolveTotalPage( IContentEmitter emitter )
+			throws BirtException
 	{
 		IContent con = context.getUnresolvedContent( );
 		if ( !( con instanceof IAutoTextContent ) )
@@ -196,11 +198,12 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 	}
 	
 	public void startContainer( IContainerContent container )
+			throws BirtException
 	{
 		_startContainer( container );
 	}
 
-	public void _startContainer( IContent container )
+	public void _startContainer( IContent container ) throws BirtException
 	{
 		boolean isInline = PropertyUtil.isInlineElement( container );
 		Layout layout;
@@ -237,11 +240,12 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 	}
 	
 	public void endContainer( IContainerContent container )
+			throws BirtException
 	{
 		_endContainer( container );
 	}
 
-	private void _endContainer( IContent container )
+	private void _endContainer( IContent container ) throws BirtException
 	{
 		boolean isInline = PropertyUtil.isInlineElement( container );
 		if ( !isInline )
@@ -256,7 +260,7 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 		current = current.getParent( );
 	}
 
-	public void startContent( IContent content )
+	public void startContent( IContent content ) throws BirtException
 	{
 		boolean isInline = PropertyUtil.isInlineElement( content );
 		Layout layout;
@@ -303,7 +307,8 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 		}
 	}
 	
-	public void startListGroup(IListGroupContent listGroup)
+	public void startListGroup( IListGroupContent listGroup )
+			throws BirtException
 	{
 		if(current instanceof RepeatableLayout)
 		{
@@ -317,7 +322,7 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 		
 	}
 
-	public void startPage( IPageContent page )
+	public void startPage( IPageContent page ) throws BirtException
 	{
 		if(!context.autoPageBreak)
 		{
@@ -343,7 +348,7 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 		return showFooter;
 	}
 	
-	public void outputPage(IPageContent page)
+	public void outputPage( IPageContent page ) throws BirtException
 	{
 		MasterPageDesign mp = (MasterPageDesign) page.getGenerateBy( );
 
@@ -388,30 +393,32 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 	}
 	
 	
-	protected void startTableContainer(IContainerContent container)
+	protected void startTableContainer( IContainerContent container )
+			throws BirtException
 	{
 		ContainerLayout layout = (ContainerLayout)factory.createLayoutManager( current, container );
 		current = layout;
 		current.initialize( );
 	}
 	
-	protected void endTableContainer(IContainerContent container)
+	protected void endTableContainer( IContainerContent container )
+			throws BirtException
 	{
 		current.closeLayout( );
 		current = current.getParent( );
 	}
 	
-	public void startRow( IRowContent row )
+	public void startRow( IRowContent row ) throws BirtException
 	{
 		startTableContainer(row);
 	}
 
-	public void endRow( IRowContent row )
+	public void endRow( IRowContent row ) throws BirtException
 	{
 		endTableContainer(row);
 	}
 
-	public void startTableBand( ITableBandContent band )
+	public void startTableBand( ITableBandContent band ) throws BirtException
 	{
 		if(current instanceof RepeatableLayout)
 		{
@@ -422,6 +429,7 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 
 
 	public void startTableGroup( ITableGroupContent group )
+			throws BirtException
 	{
 		if(current instanceof RepeatableLayout)
 		{
@@ -430,29 +438,30 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 		startTableContainer(group);
 	}
 
-	public void endTableBand( ITableBandContent band )
+	public void endTableBand( ITableBandContent band ) throws BirtException
 	{
 		endTableContainer(band);
 	}
 
 
-	public void endTableGroup( ITableGroupContent group )
+	public void endTableGroup( ITableGroupContent group ) throws BirtException
 	{
 		endTableContainer(group);
 	}
 
 
-	public void startCell( ICellContent cell )
+	public void startCell( ICellContent cell ) throws BirtException
 	{
 		startTableContainer(cell);
 	}
 	
-	public void endCell(ICellContent cell)
+	public void endCell( ICellContent cell ) throws BirtException
 	{
 		endContainer( cell );
 	}
 	
-	protected void visitContent( IContent content, IContentEmitter emitter)
+	protected void visitContent( IContent content, IContentEmitter emitter )
+			throws BirtException
 	{
 		ContentEmitterUtil.startContent( content, emitter );
 		java.util.Collection children = content.getChildren( );
@@ -468,7 +477,7 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 		ContentEmitterUtil.endContent(  content, emitter );
 	}
 
-	public void startForeign( IForeignContent foreign )
+	public void startForeign( IForeignContent foreign ) throws BirtException
 	{
 		if ( IForeignContent.HTML_TYPE.equals( foreign.getRawType( ) ) )
 		{

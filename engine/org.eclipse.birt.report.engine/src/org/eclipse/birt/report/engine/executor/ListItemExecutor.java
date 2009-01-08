@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
@@ -91,7 +92,7 @@ public class ListItemExecutor extends ListingElementExecutor
 		return listContent;
 	}
 	
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		finishTOCEntry( );
 		closeQuery( );

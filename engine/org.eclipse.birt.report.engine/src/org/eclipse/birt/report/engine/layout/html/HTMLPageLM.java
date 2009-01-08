@@ -12,8 +12,8 @@
 package org.eclipse.birt.report.engine.layout.html;
 
 import java.util.ArrayList;
-import java.util.Stack;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -58,12 +58,12 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 				return pageContent;
 			}
 
-			public IReportItemExecutor getNextChild( )
+			public IReportItemExecutor getNextChild( ) throws BirtException
 			{
 				return reportExecutor.getNextChild( );
 			}
 
-			public boolean hasNextChild( )
+			public boolean hasNextChild( ) throws BirtException
 			{
 				return reportExecutor.hasNextChild( );
 			}
@@ -78,7 +78,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 	boolean isLastPage = false;
 	boolean isFirstPage = true;
 
-	public boolean layout( )
+	public boolean layout( ) throws BirtException
 	{
 		if ( context.getCancelFlag( ) )
 		{
@@ -104,7 +104,8 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		return isLastPage;
 	}
 
-	protected void layoutPageContent(IPageContent pageContent)
+	protected void layoutPageContent( IPageContent pageContent )
+			throws BirtException
 	{
 		IContent header = pageContent.getPageHeader( );
 		if(header!=null)
@@ -119,7 +120,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		
 	}
 	
-	protected IContent layoutContent(IContent content)
+	protected IContent layoutContent( IContent content ) throws BirtException
 	{
 		if(content==null)
 		{
@@ -138,7 +139,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 	}
 	
 	
-	protected void start( boolean isFirst )
+	protected void start( boolean isFirst ) throws BirtException
 	{
 		context.getBufferFactory( ).refresh( );
 		context.setPageBufferManager( createPageBuffer() );
@@ -175,7 +176,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		return bufferMgr;
 	}
 	
-	protected void end( boolean finished )
+	protected void end( boolean finished ) throws BirtException
 	{
 		if ( emitter != null  )
 		{
@@ -278,7 +279,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 
 
 		public void endContainer( IContent content, boolean finished,
-				IContentEmitter emitter, boolean visible )
+				IContentEmitter emitter, boolean visible ) throws BirtException
 		{
 			if(content!=null && visible)
 			{
@@ -287,7 +288,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		}
 
 		public void startContainer( IContent content, boolean isFirst,
-				IContentEmitter emitter, boolean visible )
+				IContentEmitter emitter, boolean visible ) throws BirtException
 		{
 			if(content!=null && visible)
 			{
@@ -297,7 +298,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		}
 
 		public void startContent( IContent content, IContentEmitter emitter,
-				boolean visible )
+				boolean visible ) throws BirtException
 		{
 			if(content!=null && visible)
 			{

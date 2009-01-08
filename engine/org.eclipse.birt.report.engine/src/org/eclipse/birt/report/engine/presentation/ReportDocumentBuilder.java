@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.RAOutputStream;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
@@ -198,7 +199,7 @@ public class ReportDocumentBuilder
 		return contentEmitter;
 	}
 
-	public void build( )
+	public void build( ) throws BirtException
 	{
 		IReportExecutor executor = executionContext.getExecutor( );
 		engine = LayoutEngineFactory

@@ -12,6 +12,7 @@ package org.eclipse.birt.report.engine.internal.document;
 
 import java.io.IOException;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 
 /**
@@ -28,5 +29,6 @@ public interface IReportContentWriter
 
 	public long writeContent( IContent content ) throws IOException;
 	
-	public long writeFullContent(IContent content) throws IOException;
+	public long writeFullContent( IContent content ) throws IOException,
+			BirtException;
 }

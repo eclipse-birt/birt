@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.internal.executor.dup;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.ContentVisitorAdapter;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
@@ -44,7 +45,7 @@ public class SuppressDuplciateReportExecutor extends WrappedReportExecutor
 		this.visitor = new SuppressDuplicateVisitor( );
 	}
 
-	public IReportContent execute( )
+	public IReportContent execute( ) throws BirtException
 	{
 		if ( report == null )
 		{
@@ -54,7 +55,7 @@ public class SuppressDuplciateReportExecutor extends WrappedReportExecutor
 	}
 
 	public IReportItemExecutor createPageExecutor( long pageNumber,
-			MasterPageDesign pageDesign )
+			MasterPageDesign pageDesign ) throws BirtException
 	{
 		return reportExecutor.createPageExecutor( pageNumber, pageDesign );
 	}
@@ -81,7 +82,7 @@ public class SuppressDuplciateReportExecutor extends WrappedReportExecutor
 		executors.add( executor );
 	}
 
-	IContent suppressDuplicate( IContent content )
+	IContent suppressDuplicate( IContent content ) throws BirtException
 	{
 		switch ( content.getContentType( ) )
 		{

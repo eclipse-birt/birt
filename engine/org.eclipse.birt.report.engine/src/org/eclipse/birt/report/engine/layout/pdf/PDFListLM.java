@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.pdf;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IListContent;
@@ -36,7 +37,7 @@ public class PDFListLM extends PDFBlockStackingLM
 		repeat = isRepeatHeader( );
 	}
 
-	protected void initialize( )
+	protected void initialize( ) throws BirtException
 	{
 		if(root==null && keepWithCache.isEmpty( ) &&!isFirst)
 		{
@@ -70,7 +71,7 @@ public class PDFListLM extends PDFBlockStackingLM
 		}
 	}
 
-	protected void repeatHeader( )
+	protected void repeatHeader( ) throws BirtException
 	{
 		if ( isFirst )
 		{
@@ -104,7 +105,7 @@ public class PDFListLM extends PDFBlockStackingLM
 		needRepeat = false;
 	}
 
-	protected boolean traverseChildren( )
+	protected boolean traverseChildren( ) throws BirtException
 	{
 		repeatHeader( );
 		return super.traverseChildren( );

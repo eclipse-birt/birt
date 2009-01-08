@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 
 
@@ -23,7 +24,7 @@ public class BlockTextLayout extends BlockStackingLayout
 		super( context, parent, content );
 	}
 
-	public void layout()
+	public void layout( ) throws BirtException
 	{
 		LineLayout line = new LineLayout(context, this);
 		line.initialize( );

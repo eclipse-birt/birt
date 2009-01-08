@@ -2,6 +2,7 @@ package org.eclipse.birt.report.engine.layout.content;
 
 import java.util.Collection;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
@@ -53,7 +54,7 @@ public class ListContainerExecutor extends BlockStackingExecutor
 			this.executor = executor;
 		}
 		
-		public void close( )
+		public void close( ) throws BirtException
 		{
 			if(currentRunIn!=null)
 			{
@@ -67,7 +68,7 @@ public class ListContainerExecutor extends BlockStackingExecutor
 			return content;
 		}
 
-		public IReportItemExecutor getNextChild( )
+		public IReportItemExecutor getNextChild( ) throws BirtException
 		{
 			if(childContent!=null)
 			{
@@ -89,7 +90,7 @@ public class ListContainerExecutor extends BlockStackingExecutor
 			
 		}
 
-		public boolean hasNextChild( )
+		public boolean hasNextChild( ) throws BirtException
 		{
 			if(!needUpdate)
 			{
@@ -154,7 +155,8 @@ public class ListContainerExecutor extends BlockStackingExecutor
 			return hasNext;
 		}
 		
-		protected void execute(IReportItemExecutor executor, IContent content)
+		protected void execute( IReportItemExecutor executor, IContent content )
+				throws BirtException
 		{
 			while(executor.hasNextChild( ))
 			{
@@ -169,7 +171,8 @@ public class ListContainerExecutor extends BlockStackingExecutor
 			}
 		}
 		
-		protected void executeHeader(IReportItemExecutor executor, IContent content)
+		protected void executeHeader( IReportItemExecutor executor,
+				IContent content ) throws BirtException
 		{
 			while(executor.hasNextChild( ))
 			{

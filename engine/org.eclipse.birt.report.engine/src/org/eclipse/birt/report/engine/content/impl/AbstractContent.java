@@ -15,6 +15,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -174,6 +175,7 @@ abstract public class AbstractContent extends AbstractElement
 	}
 
 	public Object accept( IContentVisitor visitor, Object value )
+			throws BirtException
 	{
 		return visitor.visitContent( this, value );
 	}

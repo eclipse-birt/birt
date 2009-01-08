@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.internal.content.wrap;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 
@@ -37,6 +38,7 @@ public class TableBandContentWrapper extends AbstractContentWrapper
 	 * @see org.eclipse.birt.report.engine.content.ReportElementContent#accept(org.eclipse.birt.report.engine.content.ReportContentVisitor)
 	 */
 	public Object accept( IContentVisitor visitor, Object value )
+			throws BirtException
 	{
 		return visitor.visitTableBand( this, value );
 	}

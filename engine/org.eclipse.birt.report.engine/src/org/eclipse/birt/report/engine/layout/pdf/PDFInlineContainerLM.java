@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.layout.pdf;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
@@ -70,7 +71,7 @@ public class PDFInlineContainerLM extends PDFInlineStackingLM
 		root = (ContainerArea)AreaFactory.createInlineContainer( content );
 	}
 
-	protected boolean traverseChildren( )
+	protected boolean traverseChildren( ) throws BirtException
 	{
 
 		boolean hasNextPage = false;
@@ -102,6 +103,7 @@ public class PDFInlineContainerLM extends PDFInlineStackingLM
 	}
 	
 	private boolean layoutChildNode( IReportItemExecutor childExecutor )
+			throws BirtException
 	{
 		boolean hasNextPage = false;
 		IContent childContent = childExecutor.execute( );

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.layout.pdf.emitter;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
@@ -48,7 +49,7 @@ public abstract class ContainerLayout extends Layout
 		}
 	}
 	
-	public void layout()
+	public void layout( ) throws BirtException
 	{
 		
 	}
@@ -157,7 +158,7 @@ public abstract class ContainerLayout extends Layout
 		return true;
 	}
 	
-	public void autoPageBreak( )
+	public void autoPageBreak( ) throws BirtException
 	{
 		if ( parent != null )
 		{
@@ -288,14 +289,14 @@ public abstract class ContainerLayout extends Layout
 		}
 	}
 	
-	protected void closeExcludingLast()
+	protected void closeExcludingLast( ) throws BirtException
 	{
 		//Current layout should be in block stacking.
 		int size = contextList.size( );
 		closeFirstN( size - 1 );
 	}
 	
-	protected void closeFirstN(int size)
+	protected void closeFirstN( int size ) throws BirtException
 	{
 		for ( int i = 0; i < size; i++ )
 		{
@@ -308,7 +309,7 @@ public abstract class ContainerLayout extends Layout
 		}
 	}
 	
-	protected void closeLayout( )
+	protected void closeLayout( ) throws BirtException
 	{
 		int size = contextList.size( );
 		if ( isInline )
@@ -361,7 +362,8 @@ public abstract class ContainerLayout extends Layout
 	}
 	
 	
-	protected  abstract void closeLayout(ContainerContext currentContext, int index, boolean finished);
+	protected abstract void closeLayout( ContainerContext currentContext,
+			int index, boolean finished ) throws BirtException;
 	
 	protected void align( ContainerArea container )
 	{

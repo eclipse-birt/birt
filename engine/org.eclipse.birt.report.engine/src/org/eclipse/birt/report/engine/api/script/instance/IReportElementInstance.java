@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.api.script.instance;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 
@@ -81,15 +82,20 @@ public interface IReportElementInstance
 	void setUserPropertyValue( String name, Object value )
 			throws ScriptException;
 
-	/** Get the parent (container) of this element
+	/**
+	 * Get the parent (container) of this element
+	 * 
+	 * @throws BirtException
 	 * 
 	 */
-	IReportElementInstance getParent( );
-	
+	IReportElementInstance getParent( ) throws BirtException;
+
 	/**
-	 * Get the row data used to create the instance. 
-	 * The row data is defined by the column binding.
+	 * Get the row data used to create the instance. The row data is defined by
+	 * the column binding.
+	 * 
+	 * @throws BirtException
 	 */
-	IRowData getRowData( );
+	IRowData getRowData( ) throws BirtException;
 
 }

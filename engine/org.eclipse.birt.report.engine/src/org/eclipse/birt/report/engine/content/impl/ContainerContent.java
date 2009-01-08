@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
@@ -36,6 +37,7 @@ public class ContainerContent extends AbstractContent
 	}
 
 	public Object accept( IContentVisitor visitor, Object value )
+			throws BirtException
 	{
 		return visitor.visitContainer( this, value );
 	}

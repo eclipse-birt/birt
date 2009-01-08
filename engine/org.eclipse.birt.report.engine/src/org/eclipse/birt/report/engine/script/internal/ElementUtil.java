@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.script.element.IDesignElement;
 import org.eclipse.birt.report.engine.api.script.instance.IReportElementInstance;
 import org.eclipse.birt.report.engine.content.ContentVisitorAdapter;
@@ -83,6 +84,7 @@ public class ElementUtil
 	static IContentVisitor instanceBuilder = new ContentVisitorAdapter( ) {
 
 		public Object visit( IContent content, Object value )
+				throws BirtException
 		{
 			return content.accept( this, value );
 		}
@@ -160,7 +162,7 @@ public class ElementUtil
 	};
 
 	public static IReportElementInstance getInstance( IElement element,
-			ExecutionContext context )
+			ExecutionContext context ) throws BirtException
 	{
 		if ( element == null )
 			return null;

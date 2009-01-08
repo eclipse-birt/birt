@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.pdf;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
@@ -136,7 +137,7 @@ public abstract class PDFStackingLM extends PDFAbstractLM
 		}
 	}
 
-	protected boolean layoutChildren( )
+	protected boolean layoutChildren( ) throws BirtException
 	{
 		initialize( );
 		boolean hasNextPage = false;
@@ -169,7 +170,7 @@ public abstract class PDFStackingLM extends PDFAbstractLM
 		return !( root != null && root.getChildrenCount( ) > 0 );
 	}
 
-	protected abstract boolean traverseChildren( );
+	protected abstract boolean traverseChildren( ) throws BirtException;
 	
 	/**
 	 * submit the current layout result 
@@ -212,13 +213,15 @@ public abstract class PDFStackingLM extends PDFAbstractLM
 	/**
 	 * initialize dynamic layout information
 	 * <ul>
-	 * <li> create root area </li>
-	 * <li> set MaxAvaHeight and MaxAvaWidth</li>
-	 * <li> set OffsetX and OffsetY </li>
-	 * <li> set CurrentIP and CurrentBP </li>
+	 * <li>create root area</li>
+	 * <li>set MaxAvaHeight and MaxAvaWidth</li>
+	 * <li>set OffsetX and OffsetY</li>
+	 * <li>set CurrentIP and CurrentBP</li>
 	 * </ul>
+	 * 
+	 * @throws BirtException
 	 */
-	protected abstract void initialize( );
+	protected abstract void initialize( ) throws BirtException;
 
 	/**
 	 * end current area if it is the last area of content, add bottom box

@@ -115,7 +115,7 @@ public class DynamicTextItemExecutor extends QueryItemExecutor
 		return textContent;
 	}
 	
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		finishTOCEntry( );
 		closeQuery( );

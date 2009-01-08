@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.html.buffer;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -24,7 +25,7 @@ public class PageNode extends ContainerBufferNode implements IContainerNode
 		super( content, emitter, generator, isVisible );
 	}
 
-	public void end( )
+	public void end( ) throws BirtException
 	{
 		flushUnStartedChildren( );
 		if( isVisible )
@@ -33,7 +34,7 @@ public class PageNode extends ContainerBufferNode implements IContainerNode
 		}
 	}
 
-	public void start( )
+	public void start( ) throws BirtException
 	{
 		if(isStarted)
 		{

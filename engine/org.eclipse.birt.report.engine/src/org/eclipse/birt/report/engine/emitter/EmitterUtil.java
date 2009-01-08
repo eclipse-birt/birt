@@ -25,9 +25,10 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.content.IImageContent;
-import org.eclipse.birt.report.engine.util.FlashFile;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.util.SvgFile;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -41,7 +42,7 @@ public class EmitterUtil
 			.getName( ) );
 
 	public static OutputStream getOuputStream( IEmitterServices services,
-			String defaultOutputFile )
+			String defaultOutputFile ) throws EngineException
 	{
 		OutputStream out = null;
 		Object fd = services.getOption( RenderOption.OUTPUT_FILE_NAME );
@@ -61,7 +62,8 @@ public class EmitterUtil
 		}
 		catch ( FileNotFoundException e )
 		{
-			logger.log( Level.WARNING, e.getMessage( ), e );
+			throw new EngineException(
+					MessageConstants.FAILED_TO_INITIALIZE_EMITTER, e );
 		}
 
 		if ( out == null )
@@ -84,20 +86,19 @@ public class EmitterUtil
 			{
 				try
 				{
-					// FIXME
 					file = new File( defaultOutputFile );
 					out = new BufferedOutputStream( new FileOutputStream( file ) );
 				}
 				catch ( FileNotFoundException e )
 				{
-					// FIXME
-					logger.log( Level.SEVERE, e.getMessage( ), e );
+					throw new EngineException(
+							MessageConstants.FAILED_TO_INITIALIZE_EMITTER, e );
 				}
 			}
 		}
 		return out;
 	}
-	
+
 	private static class EmitterOutputStream extends FilterOutputStream
 	{
 		private boolean closeOutputStreamOnExit;

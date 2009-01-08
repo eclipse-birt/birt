@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
@@ -33,7 +34,7 @@ public class BlockStackingLayout extends ContainerLayout
 		isInline = false;
 	}
 	
-	protected void initialize( )
+	protected void initialize( ) throws BirtException
 	{
 		currentContext = new ContainerContext( );
 		contextList.add( currentContext );
@@ -60,7 +61,8 @@ public class BlockStackingLayout extends ContainerLayout
 
 	}
 	
-	protected void closeLayout(ContainerContext currentContext, int index, boolean finished )
+	protected void closeLayout( ContainerContext currentContext, int index,
+			boolean finished ) throws BirtException
 	{
 		if ( currentContext.root == null )
 		{

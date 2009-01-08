@@ -25,7 +25,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 		super( manager, type );
 	}
 
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		endOfGroup = false;
 		hiddenDetail = false;

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -47,6 +48,7 @@ public class TableBandContent extends AbstractBandContent
 	 * @see org.eclipse.birt.report.engine.content.ReportElementContent#accept(org.eclipse.birt.report.engine.content.ReportContentVisitor)
 	 */
 	public Object accept( IContentVisitor visitor, Object value )
+			throws BirtException
 	{
 		return visitor.visitTableBand( this, value );
 

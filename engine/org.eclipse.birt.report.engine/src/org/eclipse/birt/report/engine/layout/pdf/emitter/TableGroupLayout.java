@@ -13,12 +13,11 @@ package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
-import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
-import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.layout.pdf.emitter.TableLayout.TableContext;
 
@@ -34,7 +33,7 @@ public class TableGroupLayout extends RepeatableLayout
 		bandStatus = IBandContent.BAND_GROUP_HEADER;
 	}
 	
-	protected void repeatHeader( )
+	protected void repeatHeader( ) throws BirtException
 	{
 		if( bandStatus == IBandContent.BAND_GROUP_HEADER )   
 		{

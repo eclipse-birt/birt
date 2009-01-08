@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
@@ -132,7 +133,7 @@ public class InlineStackingLayout extends ContainerLayout implements IInlineStac
 		
 	}
 
-	public boolean endLine( )
+	public boolean endLine( ) throws BirtException
 	{
 		// TODO Auto-generated method stub
 		return false;

@@ -15,6 +15,7 @@ import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.logging.Level;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.impl.Action;
@@ -49,7 +50,7 @@ public class PDFRender extends PageDeviceRender
 	
 	private HashSet bookmarks = new HashSet();
 	
-	public PDFRender( IEmitterServices services )
+	public PDFRender( IEmitterServices services ) throws EngineException
 	{
 		initialize( services );
 	}
@@ -135,8 +136,9 @@ public class PDFRender extends PageDeviceRender
 	 * 
 	 * @param services
 	 *            the emitter svervices object.
+	 * @throws EngineException 
 	 */
-	private void initialize( IEmitterServices services )
+	private void initialize( IEmitterServices services ) throws EngineException
 	{
 		this.services = services;
 		// Gets the output file name from RenderOptionBase.OUTPUT_FILE_NAME.

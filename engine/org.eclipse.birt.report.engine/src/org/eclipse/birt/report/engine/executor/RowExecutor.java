@@ -1,6 +1,7 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
@@ -90,7 +91,7 @@ public class RowExecutor extends QueryItemExecutor
 		}
 	}
 
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		finishTOCEntry( );
 		closeQuery( );

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.internal.document;
 
 import java.io.IOException;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -37,6 +38,7 @@ public class ReportExecutorWrapper implements IReportExecutor
 	protected IReportExecutor executor;
 
 	public IPageContent createPage( long pageNumber, MasterPageDesign pageDesign )
+			throws BirtException
 	{
 		IReportItemExecutor executor = createPageExecutor( pageNumber,
 				pageDesign );
@@ -62,7 +64,7 @@ public class ReportExecutorWrapper implements IReportExecutor
 	}
 
 	protected void executeAll( IReportItemExecutor executor,
-			IContentEmitter emitter )
+			IContentEmitter emitter )throws BirtException
 	{
 		while ( executor.hasNextChild( ) )
 		{
@@ -83,27 +85,27 @@ public class ReportExecutorWrapper implements IReportExecutor
 	}
 
 	public IReportItemExecutor createPageExecutor( long pageNumber,
-			MasterPageDesign pageDesign )
+			MasterPageDesign pageDesign ) throws BirtException
 	{
 		return executor.createPageExecutor( pageNumber, pageDesign );
 	}
 
-	public IReportContent execute( )
+	public IReportContent execute( ) throws BirtException
 	{
 		return executor.execute( );
 	}
 
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		executor.close( );
 	}
 
-	public IReportItemExecutor getNextChild( )
+	public IReportItemExecutor getNextChild( ) throws BirtException
 	{
 		return executor.getNextChild( );
 	}
 
-	public boolean hasNextChild( )
+	public boolean hasNextChild( ) throws BirtException
 	{
 		return executor.hasNextChild( );
 	}

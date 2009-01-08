@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.emitter;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.ContentVisitorAdapter;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
@@ -45,12 +46,14 @@ public class ContentDOMVisitor extends ContentVisitorAdapter
 	}
 
 	public void emit( IContent content, IContentEmitter emitter )
+			throws BirtException
 	{
 		this.emitter = emitter;
 		visit( content, null );
 	}
 
 	public Object visitPage( IPageContent page, Object value )
+			throws BirtException
 	{
 		emitter.startPage( page );
 		visitChildren( page.getPageBody( ), value );
@@ -59,6 +62,7 @@ public class ContentDOMVisitor extends ContentVisitorAdapter
 	}
 
 	public Object visitContainer( IContainerContent container, Object value )
+			throws BirtException
 	{
 		emitter.startContainer( container );
 		visitChildren( container, value );
@@ -67,6 +71,7 @@ public class ContentDOMVisitor extends ContentVisitorAdapter
 	}
 
 	public Object visitTable( ITableContent table, Object value )
+			throws BirtException
 	{
 		emitter.startTable( table );
 		visitChildren( table, value );
@@ -74,7 +79,8 @@ public class ContentDOMVisitor extends ContentVisitorAdapter
 		return value;
 	}
 
-	public Object visitTableGroup(ITableGroupContent group, Object value)
+	public Object visitTableGroup( ITableGroupContent group, Object value )
+			throws BirtException
 	{
 		emitter.startTableGroup( group );
 		visitChildren(group, value);
@@ -83,6 +89,7 @@ public class ContentDOMVisitor extends ContentVisitorAdapter
 	}
 	
 	public Object visitTableBand( ITableBandContent tableBand, Object value )
+			throws BirtException
 	{
 		emitter.startTableBand( tableBand );
 		visitChildren( tableBand, value );
@@ -91,6 +98,7 @@ public class ContentDOMVisitor extends ContentVisitorAdapter
 	}
 
 	public Object visitRow( IRowContent row, Object value )
+			throws BirtException
 	{
 		emitter.startRow( row );
 		visitChildren( row, value );
@@ -99,6 +107,7 @@ public class ContentDOMVisitor extends ContentVisitorAdapter
 	}
 
 	public Object visitCell( ICellContent cell, Object value )
+			throws BirtException
 	{
 		emitter.startCell( cell );
 		visitChildren( cell, value );
@@ -107,6 +116,7 @@ public class ContentDOMVisitor extends ContentVisitorAdapter
 	}
 
 	public Object visitList( IListContent list, Object value )
+			throws BirtException
 	{
 		emitter.startList( list );
 		visitChildren( list, value );
@@ -114,7 +124,8 @@ public class ContentDOMVisitor extends ContentVisitorAdapter
 		return value;
 	}
 
-	public Object visitListGroup(IListGroupContent group, Object value)
+	public Object visitListGroup( IListGroupContent group, Object value )
+			throws BirtException
 	{
 		emitter.startListGroup( group );
 		visitChildren(group, value);
@@ -123,6 +134,7 @@ public class ContentDOMVisitor extends ContentVisitorAdapter
 	}
 
 	public Object visitListBand( IListBandContent listBand, Object value )
+			throws BirtException
 	{
 		emitter.startListBand( listBand );
 		visitChildren( listBand, value );
@@ -131,36 +143,42 @@ public class ContentDOMVisitor extends ContentVisitorAdapter
 	}
 	
 	public Object visitText( ITextContent text, Object value )
+			throws BirtException
 	{
 		emitter.startText( text );
 		return value;
 	}
 
 	public Object visitLabel( ILabelContent label, Object value )
+			throws BirtException
 	{
 		emitter.startLabel( label );
 		return value;
 	}
 
 	public Object visitData( IDataContent data, Object value )
+			throws BirtException
 	{
 		emitter.startData( data );
 		return value;
 	}
 
 	public Object visitImage( IImageContent image, Object value )
+			throws BirtException
 	{
 		emitter.startImage( image );
 		return value;
 	}
 
 	public Object visitForeign( IForeignContent content, Object value )
+			throws BirtException
 	{
 		emitter.startForeign( content );
 		return value;
 	}
 
 	protected void visitChildren( IContent container, Object value )
+			throws BirtException
 	{
 		Iterator iter = container.getChildren( ).iterator( );
 		while ( iter.hasNext( ) )

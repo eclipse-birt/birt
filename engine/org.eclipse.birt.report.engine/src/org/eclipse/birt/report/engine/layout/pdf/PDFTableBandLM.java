@@ -12,6 +12,7 @@
  ***********************************************************************/
 package org.eclipse.birt.report.engine.layout.pdf;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IElement;
@@ -35,6 +36,7 @@ public class PDFTableBandLM extends PDFBlockStackingLM
 
 	public PDFTableBandLM( PDFLayoutEngineContext context,
 			PDFStackingLM parent, IContent content, IReportItemExecutor executor )
+			throws BirtException
 	{
 		super( context, parent, content, executor );
 		tbl = getTableLayoutManager( );
@@ -86,7 +88,7 @@ public class PDFTableBandLM extends PDFBlockStackingLM
 		return availableSpace;
 	}*/
 
-	protected boolean traverseChildren( )
+	protected boolean traverseChildren( ) throws BirtException
 	{
 		if ( isFirst && groupLevel >= 0
 				&& type == IBandContent.BAND_GROUP_FOOTER )

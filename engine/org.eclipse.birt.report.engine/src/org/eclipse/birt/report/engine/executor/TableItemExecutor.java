@@ -13,11 +13,11 @@ package org.eclipse.birt.report.engine.executor;
 
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.impl.Column;
-import org.eclipse.birt.report.engine.data.dte.BlankResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
@@ -101,7 +101,7 @@ public class TableItemExecutor extends ListingElementExecutor
 		return tableContent;
 	}
 	
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		finishTOCEntry( );
 		closeQuery( );

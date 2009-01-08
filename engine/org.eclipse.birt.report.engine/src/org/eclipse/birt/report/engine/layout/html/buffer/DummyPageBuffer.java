@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.html.buffer;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
@@ -41,7 +42,7 @@ public class DummyPageBuffer implements IPageBuffer
 	}
 
 	public void endContainer( IContent content, boolean finished,
-			IContentEmitter emitter, boolean visible )
+			IContentEmitter emitter, boolean visible ) throws BirtException
 	{
 		if( !visible )
 		{
@@ -81,7 +82,7 @@ public class DummyPageBuffer implements IPageBuffer
 	}
 
 	public void startContainer( IContent content, boolean isFirst,
-			IContentEmitter emitter, boolean visible )
+			IContentEmitter emitter, boolean visible ) throws BirtException
 	{
 		if( !visible )
 		{
@@ -107,7 +108,8 @@ public class DummyPageBuffer implements IPageBuffer
 		}
 	}
 	
-	public void startContent( IContent content, IContentEmitter emitter, boolean visible )
+	public void startContent( IContent content, IContentEmitter emitter,
+			boolean visible ) throws BirtException
 	{
 		if( !visible )
 		{
@@ -137,6 +139,7 @@ public class DummyPageBuffer implements IPageBuffer
 	}
 
 	protected void startPageContent( IContent firstContent )
+			throws BirtException
 	{
 		String masterPage = null;
 		IStyle style = firstContent.getStyle( );

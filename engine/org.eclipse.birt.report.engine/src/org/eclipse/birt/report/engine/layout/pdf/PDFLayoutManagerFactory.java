@@ -12,6 +12,7 @@ package org.eclipse.birt.report.engine.layout.pdf;
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
@@ -60,6 +61,7 @@ public class PDFLayoutManagerFactory
 
 	public PDFAbstractLM createLayoutManager( PDFStackingLM parent,
 			IContent content, IReportItemExecutor executor )
+			throws BirtException
 	{
 		this.parent = parent;
 		this.executor = executor;
@@ -125,6 +127,7 @@ public class PDFLayoutManagerFactory
 		}
 
 		public Object visitTableBand( ITableBandContent tableBand, Object value )
+				throws BirtException
 		{
 			return new PDFTableBandLM( context, parent, tableBand, executor );
 		}
@@ -161,6 +164,7 @@ public class PDFLayoutManagerFactory
 		}
 
 		public Object visitForeign( IForeignContent foreign, Object value )
+				throws BirtException
 		{
 			if ( IForeignContent.HTML_TYPE.equals( foreign.getRawType( ) ) )
 			{

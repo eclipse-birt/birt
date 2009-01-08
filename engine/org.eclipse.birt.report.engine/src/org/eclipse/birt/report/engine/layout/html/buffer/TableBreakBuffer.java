@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -55,7 +56,7 @@ public class TableBreakBuffer implements IPageBuffer
 	}
 
 	public void startContainer( IContent content, boolean isFirst,
-			IContentEmitter emitter, boolean visible )
+			IContentEmitter emitter, boolean visible ) throws BirtException
 	{
 		switch ( content.getContentType( ) )
 		{
@@ -175,7 +176,7 @@ public class TableBreakBuffer implements IPageBuffer
 		}
 	}
 	
-	protected void repeatCells( IContentEmitter emitter )
+	protected void repeatCells( IContentEmitter emitter ) throws BirtException
 	{
 		int size = repeatEvent.size( );
 		if(size>1)
@@ -194,6 +195,7 @@ public class TableBreakBuffer implements IPageBuffer
 	}
 	
 	void visitEvent( ContentEvent event, IContentEmitter emitter )
+			throws BirtException
 	{
 		switch ( event.eventType )
 		{
@@ -212,7 +214,7 @@ public class TableBreakBuffer implements IPageBuffer
 	}
 
 	protected void startContainerInPages( IContent content, boolean isFirst,
-			IContentEmitter emitter, boolean visible )
+			IContentEmitter emitter, boolean visible ) throws BirtException
 	{
 		buffers[0].startContainer( content, isFirst, emitter, visible );
 		for ( int i = 1; i < buffers.length; i++ )
@@ -222,7 +224,7 @@ public class TableBreakBuffer implements IPageBuffer
 	}
 
 	public void startContent( IContent content, IContentEmitter emitter,
-			boolean visible )
+			boolean visible ) throws BirtException
 	{
 		currentBuffer.startContent( content, emitter, visible );
 		if(isRepeatStatus)
@@ -232,7 +234,7 @@ public class TableBreakBuffer implements IPageBuffer
 	}
 
 	public void endContainer( IContent content, boolean finished,
-			IContentEmitter emitter, boolean visible )
+			IContentEmitter emitter, boolean visible ) throws BirtException
 	{
 		switch ( content.getContentType( ) )
 		{
@@ -344,7 +346,7 @@ public class TableBreakBuffer implements IPageBuffer
 	}
 
 	protected void endContainerInPages( IContent content, boolean finished,
-			IContentEmitter emitter, boolean visible )
+			IContentEmitter emitter, boolean visible ) throws BirtException
 	{
 		if ( currentTableIndex == nestCount && currentTableIndex > 0 )
 		{
@@ -361,7 +363,7 @@ public class TableBreakBuffer implements IPageBuffer
 		}
 	}
 
-	public void flush( )
+	public void flush( ) throws BirtException
 	{
 		for ( int i = 0; i < buffers.length; i++ )
 		{
@@ -527,13 +529,13 @@ public class TableBreakBuffer implements IPageBuffer
 		return currentBuffer.finished( );
 	}
 
-	public void closePage( INode[] nodeList )
+	public void closePage( INode[] nodeList ) throws BirtException
 	{
 		currentBuffer.closePage( nodeList );
 		nestCount--;
 	}
 
-	public void openPage( INode[] nodeList )
+	public void openPage( INode[] nodeList ) throws BirtException
 	{
 		currentBuffer.openPage( nodeList );
 		nestCount++;

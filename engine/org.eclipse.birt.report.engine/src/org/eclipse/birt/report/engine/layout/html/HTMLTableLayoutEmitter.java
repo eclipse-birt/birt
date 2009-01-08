@@ -13,10 +13,10 @@ package org.eclipse.birt.report.engine.layout.html;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Stack;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -86,7 +86,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		this.context = context;
 	}
 	
-	public void end( IReportContent report )
+	public void end( IReportContent report ) throws BirtException
 	{
 		emitter.end( report );
 	}
@@ -96,12 +96,12 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		return emitter.getOutputFormat( );
 	}
 
-	public void initialize( IEmitterServices service )
+	public void initialize( IEmitterServices service ) throws BirtException
 	{
 		emitter.initialize( service );
 	}
 
-	public void start( IReportContent report )
+	public void start( IReportContent report ) throws BirtException
 	{
 		emitter.start( report );
 	}
@@ -133,7 +133,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		return false;
 	}
 
-	public void startContent( IContent content )
+	public void startContent( IContent content ) throws BirtException
 	{
 		if ( cellEmitter != null )
 		{
@@ -145,7 +145,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void endContent( IContent content )
+	public void endContent( IContent content ) throws BirtException
 	{
 		if ( cellEmitter != null )
 		{
@@ -282,7 +282,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		}
 	}
 	
-	public void flush( )
+	public void flush( ) throws BirtException
 	{
 		if ( hasDropCell( ) )
 		{
@@ -317,6 +317,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 	}
 	
 	protected void flushRow( int rowId, int colId, boolean withStart )
+			throws BirtException
 	{
 		int colCount = layout.getColCount( );
 		int columnId = layout.getColumnId( colId );
@@ -365,7 +366,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		return nestTableCount > 1;
 	}
 
-	public void startTable( ITableContent table )
+	public void startTable( ITableContent table ) throws BirtException
 	{
 		nestTableCount++;
 		if ( cellEmitter != null )
@@ -414,7 +415,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		}
 	}
 	
-	public void endTable( ITableContent table )
+	public void endTable( ITableContent table ) throws BirtException
 	{
 		if ( cellEmitter != null )
 		{
@@ -437,6 +438,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 	}
 
 	public void startTableGroup( ITableGroupContent group )
+			throws BirtException
 	{
 		if ( cellEmitter != null )
 		{
@@ -460,7 +462,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 	}
 	
 
-	public void endTableGroup( ITableGroupContent group )
+	public void endTableGroup( ITableGroupContent group ) throws BirtException
 	{
 		if ( cellEmitter != null )
 		{
@@ -489,7 +491,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void startTableBand( ITableBandContent band )
+	public void startTableBand( ITableBandContent band ) throws BirtException
 	{
 		if ( cellEmitter != null )
 		{
@@ -516,7 +518,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void endTableBand( ITableBandContent band )
+	public void endTableBand( ITableBandContent band ) throws BirtException
 	{
 		if ( cellEmitter != null )
 		{
@@ -547,7 +549,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void startRow( IRowContent row )
+	public void startRow( IRowContent row ) throws BirtException
 	{
 		if ( cellEmitter != null )
 		{
@@ -601,7 +603,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void endRow( IRowContent row )
+	public void endRow( IRowContent row ) throws BirtException
 	{
 		if ( cellEmitter != null )
 		{
@@ -634,7 +636,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void startCell( ICellContent cell )
+	public void startCell( ICellContent cell ) throws BirtException
 	{
 		if ( cellEmitter != null )
 		{
@@ -693,7 +695,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void endCell( ICellContent cell )
+	public void endCell( ICellContent cell ) throws BirtException
 	{
 		if ( !isNestTable( ) )
 		{

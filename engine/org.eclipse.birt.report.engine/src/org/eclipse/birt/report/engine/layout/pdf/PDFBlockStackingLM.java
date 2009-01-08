@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.layout.pdf;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
@@ -22,7 +23,6 @@ import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.content.BlockStackingExecutor;
-import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.w3c.dom.css.CSSValue;
 
 /**
@@ -57,7 +57,7 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 		super( context, parent, content, executor );
 	}
 
-	protected boolean traverseChildren( )
+	protected boolean traverseChildren( ) throws BirtException
 	{
 		boolean hasNextPage = false;
 		if ( child != null )
@@ -98,6 +98,7 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 	}
 
 	private boolean layoutChildNode( IReportItemExecutor childExecutor )
+			throws BirtException
 	{
 		boolean hasNextPage = false;
 		IContent childContent = childExecutor.execute( );
@@ -115,7 +116,7 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 		return hasNextPage;
 	}
 
-	protected void initialize( )
+	protected void initialize( ) throws BirtException
 	{
 		if(root==null)
 		{
@@ -264,14 +265,15 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 		return null;
 	}
 
-	protected void cancelChildren( )
+	protected void cancelChildren( ) throws BirtException
 	{
 		if ( child != null )
 		{
 			child.cancel( );
 		}
 	}
-	protected boolean hasNextChild()
+
+	protected boolean hasNextChild( ) throws BirtException
 	{
 		if(child==null && (blockExecutor!=null && !blockExecutor.hasNextChild( )))
 		{

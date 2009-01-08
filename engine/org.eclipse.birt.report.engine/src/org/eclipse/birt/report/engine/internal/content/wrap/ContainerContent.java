@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.internal.content.wrap;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 
@@ -24,6 +25,7 @@ public class ContainerContent extends AbstractContentWrapper
 	}
 
 	public Object accept( IContentVisitor visitor, Object value )
+			throws BirtException
 	{
 		return visitor.visitContainer( this, value );
 	}

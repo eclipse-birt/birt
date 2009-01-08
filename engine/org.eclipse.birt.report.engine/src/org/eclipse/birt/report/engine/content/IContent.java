@@ -15,6 +15,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
 import org.eclipse.birt.report.engine.ir.DimensionType;
@@ -123,8 +124,9 @@ public interface IContent extends IElement, CSSStylableElement, IStyledElement
 	 * use visitor to process the object.
 	 * 
 	 * @param visitor
+	 * @throws BirtException
 	 */
-	Object accept( IContentVisitor visitor, Object value );
+	Object accept( IContentVisitor visitor, Object value ) throws BirtException;
 
 	/**
 	 * @return the bookmark value

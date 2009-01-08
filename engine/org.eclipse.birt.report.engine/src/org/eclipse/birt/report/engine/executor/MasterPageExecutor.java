@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.executor;
 
 import java.util.ArrayList;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
@@ -61,7 +62,7 @@ public class MasterPageExecutor extends ReportItemExecutor
 		return content;
 	}
 
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		context.setExecutingMasterPage( false );
 		// reenable the TOC

@@ -93,7 +93,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 * <li> create the footer.
 	 * <li> call the onFinish event.
 	 */
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		if( pageBreakInterval != -1 )
 		{

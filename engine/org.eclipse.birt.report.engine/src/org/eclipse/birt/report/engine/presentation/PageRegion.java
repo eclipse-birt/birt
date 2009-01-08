@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.presentation;
 
 import java.util.ArrayList;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
@@ -30,7 +31,7 @@ public class PageRegion extends ContentEmitterAdapter
 		emitter = page.getEmitter( );
 	}
 
-	public void open( IContent content )
+	public void open( IContent content ) throws BirtException
 	{
 		if ( content != null )
 		{
@@ -44,7 +45,7 @@ public class PageRegion extends ContentEmitterAdapter
 		}
 	}
 
-	public void close( IContent content )
+	public void close( IContent content ) throws BirtException
 	{
 		if ( content != null )
 		{
@@ -70,7 +71,7 @@ public class PageRegion extends ContentEmitterAdapter
 		return list;
 	}
 	
-	public void end( IReportContent report )
+	public void end( IReportContent report ) throws BirtException
 	{
 		emitter.end( report );
 	}
@@ -80,22 +81,22 @@ public class PageRegion extends ContentEmitterAdapter
 		return emitter.getOutputFormat( );
 	}
 
-	public void initialize( IEmitterServices service )
+	public void initialize( IEmitterServices service ) throws BirtException
 	{
 		emitter.initialize( service );
 	}
 
-	public void start( IReportContent report )
+	public void start( IReportContent report ) throws BirtException
 	{
 		emitter.start( report );
 	}
 
-	public void startContent( IContent content )
+	public void startContent( IContent content ) throws BirtException
 	{
 		ContentEmitterUtil.startContent( content, emitter );
 	}
 
-	public void endContent( IContent content )
+	public void endContent( IContent content ) throws BirtException
 	{
 		ContentEmitterUtil.endContent( content, emitter );
 	}

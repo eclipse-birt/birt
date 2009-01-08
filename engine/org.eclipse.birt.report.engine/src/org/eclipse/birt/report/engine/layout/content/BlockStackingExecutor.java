@@ -1,5 +1,6 @@
 package org.eclipse.birt.report.engine.layout.content;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.ReportItemExecutorBase;
@@ -21,7 +22,7 @@ public class BlockStackingExecutor extends ReportItemExecutorBase
 		this.executor = executor;
 	}
 
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		executor.close( );
 	}
@@ -31,7 +32,7 @@ public class BlockStackingExecutor extends ReportItemExecutorBase
 		return content;
 	}
 
-	public IReportItemExecutor getNextChild( )
+	public IReportItemExecutor getNextChild( ) throws BirtException
 	{
 		IReportItemExecutor ret = null;
 		if(childContent!=null)
@@ -64,7 +65,7 @@ public class BlockStackingExecutor extends ReportItemExecutorBase
 		return ret;
 	}
 
-	public boolean hasNextChild( )
+	public boolean hasNextChild( ) throws BirtException
 	{
 		if(needUpdate)
 		{
@@ -81,7 +82,7 @@ public class BlockStackingExecutor extends ReportItemExecutorBase
 		return hasNext;
 	}
 	
-	public IReportItemExecutor nextInline()
+	public IReportItemExecutor nextInline( ) throws BirtException
 	{
 		if(executor.hasNextChild( ))
 		{

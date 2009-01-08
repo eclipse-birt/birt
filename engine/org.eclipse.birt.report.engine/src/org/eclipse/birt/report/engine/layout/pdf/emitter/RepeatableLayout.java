@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 
@@ -26,12 +27,12 @@ public abstract class RepeatableLayout extends BlockStackingLayout
 		super( context, parent, content );
 	}
 	
-	protected void initialize()
+	protected void initialize( ) throws BirtException
 	{
 		super.initialize();
 		repeatHeader();
 	}
 	
-	protected abstract void repeatHeader();
+	protected abstract void repeatHeader( ) throws BirtException;
 
 }

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.internal.content.wrap;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IImageContent;
 
@@ -25,6 +26,7 @@ public class ImageContent extends AbstractContentWrapper implements IImageConten
 
 
 	public Object accept( IContentVisitor visitor, Object value )
+			throws BirtException
 	{
 		return visitor.visitImage( this, value );
 	}

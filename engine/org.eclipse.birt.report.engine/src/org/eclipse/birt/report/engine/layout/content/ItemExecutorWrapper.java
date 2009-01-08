@@ -1,5 +1,6 @@
 package org.eclipse.birt.report.engine.layout.content;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.ReportItemExecutorBase;
@@ -15,7 +16,8 @@ public class ItemExecutorWrapper extends ReportItemExecutorBase
 		this.executor = executor;
 		this.content = content;
 	}
-	public void close( )
+
+	public void close( ) throws BirtException
 	{
 		executor.close( );
 	}
@@ -25,12 +27,12 @@ public class ItemExecutorWrapper extends ReportItemExecutorBase
 		return content;
 	}
 
-	public IReportItemExecutor getNextChild( )
+	public IReportItemExecutor getNextChild( ) throws BirtException
 	{
 		return executor.getNextChild( );
 	}
 
-	public boolean hasNextChild( )
+	public boolean hasNextChild( ) throws BirtException
 	{
 		return executor.hasNextChild( );
 	}

@@ -15,6 +15,7 @@ import java.io.IOException;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
@@ -35,7 +36,6 @@ import org.eclipse.birt.report.engine.internal.document.PageHintReader;
 import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentReaderV3;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.toc.ITOCReader;
 import org.eclipse.birt.report.engine.toc.ITreeNode;
 
 abstract public class AbstractReportExecutor implements IReportExecutor
@@ -146,7 +146,7 @@ abstract public class AbstractReportExecutor implements IReportExecutor
 	}
 
 	protected void executeAll( IReportItemExecutor executor,
-			IContentEmitter emitter )
+			IContentEmitter emitter ) throws BirtException
 	{
 		while ( executor.hasNextChild( ) )
 		{
@@ -179,6 +179,7 @@ abstract public class AbstractReportExecutor implements IReportExecutor
 	}
 
 	public IPageContent createPage( long pageNumber, MasterPageDesign pageDesign )
+			throws BirtException
 	{
 		IReportItemExecutor pageExecutor = createPageExecutor( pageNumber,
 				pageDesign );

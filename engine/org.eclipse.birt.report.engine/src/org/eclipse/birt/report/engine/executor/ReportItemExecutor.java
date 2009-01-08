@@ -215,23 +215,26 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	 * does the executor has child executor
 	 * 
 	 * @return
+	 * @throws BirtException
 	 */
-	public boolean hasNextChild( )
+	public boolean hasNextChild( ) throws BirtException
 	{
 		return false;
 	}
 
-	public IReportItemExecutor getNextChild( )
+	public IReportItemExecutor getNextChild( ) throws BirtException
 	{
 		return null;
 	}
-	
+
 	/**
 	 * reset the state of the report item executor. This operation will reset
 	 * all property of this object
 	 * 
+	 * @throws BirtException
+	 * 
 	 */
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		this.executorContext = null;
 		this.parent = null;

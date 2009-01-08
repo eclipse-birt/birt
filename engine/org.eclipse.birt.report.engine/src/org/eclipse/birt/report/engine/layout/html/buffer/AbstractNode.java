@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.html.buffer;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -61,7 +62,7 @@ public abstract class AbstractNode implements INode
 		return isStarted;
 	}
 
-	public void end( )
+	public void end( ) throws BirtException
 	{
 		if( isVisible )
 		{
@@ -81,7 +82,7 @@ public abstract class AbstractNode implements INode
 		return parent;
 	}
 
-	public void start( )
+	public void start( ) throws BirtException
 	{
 		if(isStarted)
 		{

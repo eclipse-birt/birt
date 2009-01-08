@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.internal.content.wrap;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 
@@ -30,6 +31,7 @@ public class LabelContent extends TextContent implements ILabelContent
 	 * @see org.eclipse.birt.report.engine.content.impl.AbstractContent#accept(org.eclipse.birt.report.engine.content.IContentVisitor)
 	 */
 	public Object accept( IContentVisitor visitor, Object value )
+			throws BirtException
 	{
 		return visitor.visitLabel( this, value );
 	}

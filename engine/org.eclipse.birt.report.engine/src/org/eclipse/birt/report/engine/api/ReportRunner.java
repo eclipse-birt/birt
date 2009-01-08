@@ -336,7 +336,7 @@ public class ReportRunner
 			task.close( );
 			return 0;
 		}
-		catch ( org.eclipse.birt.report.engine.api.EngineException e )
+		catch ( BirtException e )
 		{
 			logger.log( Level.SEVERE, e.getMessage( ), e );
 			return -1;

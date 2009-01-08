@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
@@ -34,8 +36,8 @@ import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
-import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 import org.eclipse.birt.report.engine.internal.content.wrap.TableContentWrapper;
+import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 
 public class DocEmitter extends ContentEmitterAdapter
 {
@@ -64,7 +66,7 @@ public class DocEmitter extends ContentEmitterAdapter
 		emitterImplement = new DocEmitterImpl( contentVisitor );
 	}
 	
-	public void initialize( IEmitterServices service )
+	public void initialize( IEmitterServices service ) throws EngineException
 	{
 		emitterImplement.initialize( service );
 	}
@@ -74,7 +76,7 @@ public class DocEmitter extends ContentEmitterAdapter
 		return emitterImplement.getOutputFormat( );
 	}
 	
-	public void startPage( IPageContent page )
+	public void startPage( IPageContent page ) throws BirtException
 	{
 		try
 		{
@@ -86,7 +88,7 @@ public class DocEmitter extends ContentEmitterAdapter
 		}
 	}
 	
-	public void end( IReportContent report )
+	public void end( IReportContent report ) throws BirtException
 	{
 		try
 		{
@@ -271,7 +273,7 @@ public class DocEmitter extends ContentEmitterAdapter
 		emitterImplement.startData( data );
 	}
 
-	public void startForeign( IForeignContent foreign )
+	public void startForeign( IForeignContent foreign ) throws BirtException
 	{
 		if(isClipped)
 		{

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.html;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IListContent;
@@ -35,12 +36,13 @@ public class HTMLListLM extends HTMLBlockStackingLM
 
 	public void initialize( HTMLAbstractLM parent, IContent content,
 			IReportItemExecutor executor, IContentEmitter emitter )
+			throws BirtException
 	{
 		super.initialize( parent, content, executor, emitter );
 		isFirstLayout = true;
 	}
 
-	protected void repeatHeader( )
+	protected void repeatHeader( ) throws BirtException
 	{
 		if ( !isFirstLayout )
 		{
@@ -64,7 +66,7 @@ public class HTMLListLM extends HTMLBlockStackingLM
 		isFirstLayout = false;
 	}
 
-	protected boolean layoutChildren( )
+	protected boolean layoutChildren( ) throws BirtException
 	{
 		repeatHeader( );
 		boolean hasNext = super.layoutChildren( );

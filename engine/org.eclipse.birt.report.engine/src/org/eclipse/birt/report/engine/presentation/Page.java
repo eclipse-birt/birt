@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.presentation;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 
@@ -38,12 +39,12 @@ public class Page
 		return this.emitter;
 	}
 
-	public void open( )
+	public void open( ) throws BirtException
 	{
 		emitter.startPage( pageContent );
 	}
 
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		emitter.endPage( pageContent );
 	}

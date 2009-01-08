@@ -12,10 +12,10 @@ package org.eclipse.birt.report.engine.layout;
 
 import java.util.Locale;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
-import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
@@ -25,11 +25,14 @@ public interface IReportLayoutEngine
 {
 	void setPageHandler( ILayoutPageHandler handle );
 	
-	void layout(IReportExecutor executor, IReportContent report, IContentEmitter output, boolean pagination);
+	void layout( IReportExecutor executor, IReportContent report,
+			IContentEmitter output, boolean pagination ) throws BirtException;
 	
-	void layout(ILayoutManager parent, IContent content, IContentEmitter output);
+	void layout( ILayoutManager parent, IContent content, IContentEmitter output )
+			throws BirtException;
 	
-	void layout(ILayoutManager parent, IReportItemExecutor executor, IContentEmitter output);
+	void layout( ILayoutManager parent, IReportItemExecutor executor,
+			IContentEmitter output ) throws BirtException;
 	
 	void cancel();
 	
@@ -45,5 +48,5 @@ public interface IReportLayoutEngine
 	
 	void setTotalPageCount( long totalPage );
 	
-	void close( );
+	void close( ) throws BirtException;
 }

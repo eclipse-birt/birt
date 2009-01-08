@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
@@ -20,7 +21,6 @@ import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
-import org.eclipse.birt.report.engine.layout.pdf.emitter.ContainerLayout.ContainerContext;
 
 
 public class InlineContainerLayout extends InlineStackingLayout
@@ -101,7 +101,7 @@ public class InlineContainerLayout extends InlineStackingLayout
 		currentContext.currentIP = currentContext.root.getContentX( );
 	}
 
-	public boolean endLine( )
+	public boolean endLine( ) throws BirtException
 	{
 		lineCount++;
 		boolean ret = true;

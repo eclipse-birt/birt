@@ -10,7 +10,6 @@
 
 package org.eclipse.birt.report.engine.emitter.html;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -29,6 +28,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
@@ -78,7 +78,6 @@ import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
-import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.engine.util.SvgFile;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -316,7 +315,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * 
 	 * @see org.eclipse.birt.report.engine.emitter.IContentEmitter#initialize(org.eclipse.birt.report.engine.emitter.IEmitterServices)
 	 */
-	public void initialize( IEmitterServices services )
+	public void initialize( IEmitterServices services ) throws EngineException
 	{
 		this.services = services;
 
@@ -1044,6 +1043,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	}
 
 	private void outputPageBand( IPageContent page, IContent band )
+			throws BirtException
 	{
 		writer.openTag( HTMLTags.TAG_TD );
 		writeBidiFlag( );
@@ -1175,7 +1175,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * </tr>
 	 * </table>
 	 */
-	public void startPage( IPageContent page )
+	public void startPage( IPageContent page ) throws BirtException
 	{
 		pageNo++;
 
@@ -1299,7 +1299,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * 
 	 * @see org.eclipse.birt.report.engine.emitter.IContentEmitter#endPage(org.eclipse.birt.report.engine.content.IPageContent)
 	 */
-	public void endPage( IPageContent page )
+	public void endPage( IPageContent page ) throws BirtException
 	{
 
 		logger.log( Level.FINE, "[HTMLReportEmitter] End page." ); //$NON-NLS-1$

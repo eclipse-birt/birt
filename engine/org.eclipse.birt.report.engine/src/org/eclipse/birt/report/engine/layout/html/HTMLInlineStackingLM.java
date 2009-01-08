@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.layout.html;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
@@ -47,12 +48,13 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 
 	public void initialize( HTMLAbstractLM parent, IContent content,
 			IReportItemExecutor executor, IContentEmitter emitter )
+			throws BirtException
 	{
 		super.initialize( parent, content, executor, emitter );
 		initializedChildren = false;
 	}
 
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		childrenLayouts.clear( );
 		childrenExecutors.clear( );
@@ -60,7 +62,7 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 		super.close( );
 	}
 
-	private void initalizeChildren( )
+	private void initalizeChildren( ) throws BirtException
 	{
 		while ( executor.hasNextChild( ) )
 		{
@@ -87,7 +89,7 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 	 * new page after this layout.
 	 * @return
 	 */
-	protected boolean resumeLayout( )
+	protected boolean resumeLayout( ) throws BirtException
 	{
 		boolean hasNextPage = false;
 		int length = childrenLayouts.size( );
@@ -143,7 +145,7 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 		return true;
 	}
 	
-	protected boolean layoutNodes( )
+	protected boolean layoutNodes( ) throws BirtException
 	{
 		if ( !initializedChildren )
 		{

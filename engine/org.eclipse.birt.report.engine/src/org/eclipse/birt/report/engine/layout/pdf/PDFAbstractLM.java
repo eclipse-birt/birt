@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.Dimension;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -105,7 +106,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 	 * content has been layout, it is the time to handle the page-break-after.
 	 * </ol>
 	 */
-	public boolean layout( )
+	public boolean layout( ) throws BirtException
 	{
 		boolean hasNextPage = false;
 		switch ( status )
@@ -156,9 +157,9 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		return hasNextPage;
 	}
 
-	protected abstract boolean hasNextChild();
+	protected abstract boolean hasNextChild( ) throws BirtException;
 	
-	protected void closeExecutor( )
+	protected void closeExecutor( ) throws BirtException
 	{
 		if ( executor != null )
 		{
@@ -167,7 +168,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 	}
 
 
-	protected abstract boolean layoutChildren( );
+	protected abstract boolean layoutChildren( ) throws BirtException;
 
 	public boolean isFinished( )
 	{
@@ -349,7 +350,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		return null;
 	}
 
-	protected boolean handleVisibility( )
+	protected boolean handleVisibility( ) throws BirtException
 	{
 		if ( isHidden( ) )
 		{
@@ -362,7 +363,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		}
 	}
 
-	private void traverse( IReportItemExecutor executor )
+	private void traverse( IReportItemExecutor executor ) throws BirtException
 	{
 		if ( executor != null )
 		{
@@ -382,9 +383,9 @@ public abstract class PDFAbstractLM implements ILayoutManager
 	
 	public abstract void autoPageBreak();
 	
-	protected abstract void cancelChildren( );
+	protected abstract void cancelChildren( ) throws BirtException;
 
-	public void cancel( )
+	public void cancel( ) throws BirtException
 	{
 		if ( executor != null && status != STATUS_END )
 		{
@@ -394,6 +395,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 	}
 
 	protected void execute( IReportItemExecutor executor, IContent content )
+			throws BirtException
 	{
 		if ( executor != null )
 		{
@@ -422,7 +424,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 			this.executor = executor;
 		}
 
-		public void close( )
+		public void close( ) throws BirtException
 		{
 			executor.close( );
 		}
@@ -432,12 +434,12 @@ public abstract class PDFAbstractLM implements ILayoutManager
 			return null;
 		}
 
-		public IReportItemExecutor getNextChild( )
+		public IReportItemExecutor getNextChild( ) throws BirtException
 		{
 			return executor.getNextChild( );
 		}
 
-		public boolean hasNextChild( )
+		public boolean hasNextChild( ) throws BirtException
 		{
 			return executor.hasNextChild( );
 		}

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Stack;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
@@ -29,7 +30,6 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
-import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.CellDesign;
@@ -110,7 +110,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		columnNumber = tableContent.getColumnCount( );
 	}
 
-	protected boolean traverseChildren( )
+	protected boolean traverseChildren( ) throws BirtException
 	{
 		if ( isNewArea )
 		{
@@ -127,7 +127,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		return true;
 	}
 
-	protected void repeat( )
+	protected void repeat( ) throws BirtException
 	{
 		addCaption( tableContent.getCaption( ) );
 		repeatHeader( );
@@ -895,7 +895,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		
 	}
 
-	protected void repeatHeader( )
+	protected void repeatHeader( ) throws BirtException
 	{
 		if ( isFirst )
 		{
@@ -950,7 +950,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		tableContent.setExtension( IContent.LAYOUT_EXTENSION, null );
 	}
 
-	protected void addCaption( String caption )
+	protected void addCaption( String caption ) throws BirtException
 	{
 		if ( caption == null || "".equals( caption ) ) //$NON-NLS-1$
 		{

@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -135,7 +136,7 @@ public class ReportExecutor implements IReportExecutor
 		return reportContent;
 	}
 
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		TOCBuilder builder = context.getTOCBuilder( );
 		if ( builder != null )
@@ -210,7 +211,7 @@ public class ReportExecutor implements IReportExecutor
 	}
 
 	public IReportItemExecutor createPageExecutor( long pageNumber,
-			MasterPageDesign pageDesign )
+			MasterPageDesign pageDesign ) throws BirtException
 	{
 		//only execute once for the same page design
 		IPageContent pageContent = (IPageContent)pages.get( pageDesign );

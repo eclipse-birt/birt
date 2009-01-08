@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
@@ -47,7 +48,7 @@ public abstract class PDFInlineStackingLM extends PDFStackingLM
 		this.child = child;
 	}
 
-	protected void cancelChildren( )
+	protected void cancelChildren( ) throws BirtException
 	{
 		for ( int i = 0; i < this.children.size( ); i++ )
 		{

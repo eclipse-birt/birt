@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.engine.layout.pdf;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
@@ -21,8 +21,6 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
-import org.eclipse.birt.report.engine.layout.area.IArea;
-import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
@@ -44,7 +42,7 @@ public class PDFTableGroupLM extends PDFGroupLM
 		tableLM.startGroup( (IGroupContent) content );
 	}
 
-	protected boolean traverseChildren( )
+	protected boolean traverseChildren( ) throws BirtException
 	{
 
 		boolean childBreak = super.traverseChildren( );
@@ -65,7 +63,7 @@ public class PDFTableGroupLM extends PDFGroupLM
 		}
 	}
 
-	protected void initialize( )
+	protected void initialize( ) throws BirtException
 	{
 		if ( root == null && keepWithCache.isEmpty( ) && !isFirst )
 		{
@@ -76,7 +74,7 @@ public class PDFTableGroupLM extends PDFGroupLM
 
 	}
 
-	private void repeat( )
+	private void repeat( ) throws BirtException
 	{
 		if ( isFirst || tableLM.isFirst )
 		{
@@ -148,7 +146,7 @@ public class PDFTableGroupLM extends PDFGroupLM
 	}
 	
 
-	protected void repeatHeader( )
+	protected void repeatHeader( ) throws BirtException
 	{
 		repeat( );
 		skipCachedRow( );

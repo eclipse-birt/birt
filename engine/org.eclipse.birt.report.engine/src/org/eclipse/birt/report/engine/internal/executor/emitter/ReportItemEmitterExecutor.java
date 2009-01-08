@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.internal.executor.emitter;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -31,7 +32,7 @@ public class ReportItemEmitterExecutor extends WrappedReportItemExecutor
 		this.emitter = reportExecutor.emitter;
 	}
 
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		if ( content != null )
 		{
@@ -40,7 +41,7 @@ public class ReportItemEmitterExecutor extends WrappedReportItemExecutor
 		super.close( );
 	}
 
-	public IContent execute( )
+	public IContent execute( ) throws BirtException
 	{
 		content = super.execute( );
 		if ( content != null )

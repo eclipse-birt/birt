@@ -2,6 +2,7 @@ package org.eclipse.birt.report.engine.layout.content;
 
 import junit.framework.TestCase;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.IListBandContent;
@@ -15,7 +16,8 @@ import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecuto
 
 public class ListContainerExecutorTest extends TestCase
 {
-	public void testListStacking()
+
+	public void testListStacking( ) throws BirtException
 	{
 		IReportContent report = ContentFactory.createReportContent();
 		IListContent list = report.createListContent( );

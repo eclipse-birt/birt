@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 
@@ -50,7 +51,7 @@ public class InlineBlockLayout extends ContainerLayout
 		return false;
 	}
 	
-	protected void closeLayout( )
+	protected void closeLayout( ) throws BirtException
 	{
 		super.closeLayout( );
 		parent.gotoFirstPage();

@@ -12,6 +12,7 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.layout.area.IContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
@@ -47,7 +48,7 @@ public class RegionLayout extends BlockStackingLayout
 		currentContext.maxAvaHeight = Integer.MAX_VALUE;
 	}
 	
-	public void layout()
+	public void layout( ) throws BirtException
 	{
 		initialize( );
 		PDFLayoutEmitter emitter = new PDFLayoutEmitter( context );

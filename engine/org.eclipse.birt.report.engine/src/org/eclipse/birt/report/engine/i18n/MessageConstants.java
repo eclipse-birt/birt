@@ -112,6 +112,7 @@ public class MessageConstants
     public static final String  REPORT_ARCHIVE_OPEN_ERROR = "Error.ReportArchiveOpenError";
     public static final String  SKIP_ERROR = "Error.SkipError";
     public static final String  RESULTSET_EXTRACT_ERROR = "Error.ResultsetExtractError";
+    public static final String  FAILED_TO_INITIALIZE_EMITTER = "Error.FailedToInitializeEmitter";
     
     // Engine Version Info
     public static final String	PDF_CREATOR = "PDFCreator";

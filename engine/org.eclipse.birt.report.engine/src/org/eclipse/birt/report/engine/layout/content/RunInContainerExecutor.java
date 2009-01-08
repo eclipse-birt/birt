@@ -3,9 +3,8 @@ package org.eclipse.birt.report.engine.layout.content;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import org.eclipse.birt.report.engine.content.IBandContent;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.ReportItemExecutorBase;
@@ -22,7 +21,8 @@ public class RunInContainerExecutor extends ReportItemExecutorBase
 	protected IContent content;
 	protected LinkedList children = new LinkedList();
 	
-	public RunInContainerExecutor(IReportItemExecutor executor, IContent content)
+	public RunInContainerExecutor( IReportItemExecutor executor,
+			IContent content ) throws BirtException
 	{
 		this.executor = executor;
 		this.content = content;
@@ -54,7 +54,7 @@ public class RunInContainerExecutor extends ReportItemExecutorBase
 		}
 	}
 	
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		executor.close( );
 	}
@@ -64,7 +64,7 @@ public class RunInContainerExecutor extends ReportItemExecutorBase
 		return content;
 	}
 
-	public IReportItemExecutor getNextChild( )
+	public IReportItemExecutor getNextChild( ) throws BirtException
 	{
 		if(children.size()>0)
 		{
@@ -101,12 +101,13 @@ public class RunInContainerExecutor extends ReportItemExecutorBase
 		
 	}
 
-	public boolean hasNextChild( )
+	public boolean hasNextChild( ) throws BirtException
 	{
 		return children.size( )>0 || executor.hasNextChild( );
 	}
 	
-	protected void execute(IReportItemExecutor executor, IContent content)
+	protected void execute( IReportItemExecutor executor, IContent content )
+			throws BirtException
 	{
 		while(executor.hasNextChild( ))
 		{

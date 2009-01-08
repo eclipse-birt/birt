@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
@@ -20,7 +21,6 @@ import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
-import org.eclipse.birt.report.engine.layout.pdf.cache.CursorableList;
 import org.eclipse.birt.report.engine.layout.pdf.emitter.TableAreaLayout.Row;
 import org.eclipse.birt.report.engine.layout.pdf.emitter.TableLayout.TableContext;
 
@@ -43,7 +43,7 @@ public class RowLayout extends ContainerLayout
 		currentContext.root = AreaFactory.createRowArea( (IRowContent) content );
 	}
 
-	protected void initialize( )
+	protected void initialize( ) throws BirtException
 	{
 		calculateSpecifiedHeight( );
 		if ( specifiedHeight > parent.getCurrentMaxContentHeight( ) )
@@ -76,7 +76,7 @@ public class RowLayout extends ContainerLayout
 	}*/
 	
 	
-	protected void closeLayout( )
+	protected void closeLayout( ) throws BirtException
 	{
 		int size = contextList.size( );
 		for(int i=0; i<size; i++)
@@ -134,14 +134,14 @@ public class RowLayout extends ContainerLayout
 		}
 	}
 	
-	protected void closeExcludingLast( )
+	protected void closeExcludingLast( ) throws BirtException
 	{
 		// Current layout should be in block stacking.
 		int size = contextList.size( );
 		closeFirstN( size - 1 );
 	}
 	
-	protected void closeFirstN(int size)
+	protected void closeFirstN( int size ) throws BirtException
 	{
 		int rowSize = contextList.size( );
 		for ( int i = 0; i < size; i++ )

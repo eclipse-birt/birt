@@ -143,7 +143,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		}
 	}
 	
-	public IContent localize(IContent content)
+	public IContent localize( IContent content ) throws BirtException
 	{
 		IStyle style = content.getInlineStyle( );
 		processBackgroundImage( style );
@@ -152,6 +152,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	}
 	
 	protected IContent localizeAllChildren( IContent content )
+			throws BirtException
 	{
 		ArrayList children = (ArrayList) content.getChildren( );
 		if ( children != null )
@@ -167,6 +168,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	}
 
 	public Object visitPage( IPageContent page, Object value )
+			throws BirtException
 	{
 		boolean isExecutingMasterPage = context.isExecutingMasterPage( );
 		context.setExecutingMasterPage( true );

@@ -74,7 +74,7 @@ public class TextItemExecutor extends QueryItemExecutor
 		}
 	}
 
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		finishTOCEntry( );
 		closeQuery( );

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.layout.pdf;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
@@ -28,7 +29,6 @@ import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.InlineContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TextArea;
-import org.eclipse.birt.report.engine.layout.pdf.emitter.BlockStackingLayout;
 import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
 import org.w3c.dom.css.CSSPrimitiveValue;
 
@@ -90,7 +90,7 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 
 	}
 
-	protected boolean traverseChildren( )
+	protected boolean traverseChildren( ) throws BirtException
 	{
 		if ( last != null )
 		{
@@ -163,6 +163,7 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 	}
 
 	protected boolean handleChild( IReportItemExecutor childExecutor )
+			throws BirtException
 	{
 		// child should be inline element
 		boolean childBreak = false;

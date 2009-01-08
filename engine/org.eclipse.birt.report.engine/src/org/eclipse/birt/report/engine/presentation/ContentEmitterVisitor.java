@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.presentation;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
@@ -45,18 +46,20 @@ public class ContentEmitterVisitor implements IContentVisitor
 		this.emitter = emitter;
 	}
 
-	public Object visit( IContent content, Object value )
+	public Object visit( IContent content, Object value ) throws BirtException
 	{
 		return content.accept( this, value );
 	}
 
 	public Object visitContent( IContent content, Object value )
+			throws BirtException
 	{
 		emitter.startContent( content );
 		return value;
 	}
 
 	public Object visitPage( IPageContent page, Object value )
+			throws BirtException
 	{
 		// emitter.startPage( page );
 		// emitter.endPage( page );
@@ -64,6 +67,7 @@ public class ContentEmitterVisitor implements IContentVisitor
 	}
 
 	public Object visitContainer( IContainerContent container, Object value )
+			throws BirtException
 	{
 		emitter.startContainer( container );
 		visitChildren( container, value );
@@ -72,6 +76,7 @@ public class ContentEmitterVisitor implements IContentVisitor
 	}
 
 	public Object visitTable( ITableContent table, Object value )
+			throws BirtException
 	{
 		emitter.startTable( table );
 		visitChildren( table, value );
@@ -80,6 +85,7 @@ public class ContentEmitterVisitor implements IContentVisitor
 	}
 
 	public Object visitTableBand( ITableBandContent tableBand, Object value )
+			throws BirtException
 	{
 		emitter.startTableBand( tableBand );
 		visitChildren( tableBand, value );
@@ -88,6 +94,7 @@ public class ContentEmitterVisitor implements IContentVisitor
 	}
 
 	public Object visitRow( IRowContent row, Object value )
+			throws BirtException
 	{
 		emitter.startRow( row );
 		visitChildren( row, value );
@@ -96,6 +103,7 @@ public class ContentEmitterVisitor implements IContentVisitor
 	}
 
 	public Object visitCell( ICellContent cell, Object value )
+			throws BirtException
 	{
 		emitter.startCell( cell );
 		visitChildren( cell, value );
@@ -104,42 +112,49 @@ public class ContentEmitterVisitor implements IContentVisitor
 	}
 
 	public Object visitText( ITextContent text, Object value )
+			throws BirtException
 	{
 		emitter.startText( text );
 		return value;
 	}
 
 	public Object visitLabel( ILabelContent label, Object value )
+			throws BirtException
 	{
 		emitter.startLabel( label );
 		return value;
 	}
 	
 	public Object visitAutoText( IAutoTextContent autoText, Object value )
+			throws BirtException
 	{
 		emitter.startAutoText( autoText );
 		return value;
 	}
 
 	public Object visitData( IDataContent data, Object value )
+			throws BirtException
 	{
 		emitter.startData( data );
 		return value;
 	}
 
 	public Object visitImage( IImageContent image, Object value )
+			throws BirtException
 	{
 		emitter.startImage( image );
 		return value;
 	}
 
 	public Object visitForeign( IForeignContent foreign, Object value )
+			throws BirtException
 	{
 		emitter.startForeign( foreign );
 		return value;
 	}
 
 	public Object visitChildren( IContent content, Object value )
+			throws BirtException
 	{
 		Collection list = content.getChildren( );
 		if ( list == null )
@@ -160,6 +175,7 @@ public class ContentEmitterVisitor implements IContentVisitor
 	}
 
 	public Object visitList( IListContent list, Object value )
+			throws BirtException
 	{
 		emitter.startList( list );
 		visitChildren( list, value );
@@ -168,6 +184,7 @@ public class ContentEmitterVisitor implements IContentVisitor
 	}
 
 	public Object visitListBand( IListBandContent listBand, Object value )
+			throws BirtException
 	{
 		emitter.startListBand( listBand );
 		visitChildren( listBand, value );
@@ -176,6 +193,7 @@ public class ContentEmitterVisitor implements IContentVisitor
 	}
 
 	public Object visitGroup( IGroupContent group, Object value )
+			throws BirtException
 	{
 		emitter.startGroup( group );
 		visitChildren(group, value);
@@ -184,6 +202,7 @@ public class ContentEmitterVisitor implements IContentVisitor
 	}
 
 	public Object visitListGroup( IListGroupContent group, Object value )
+			throws BirtException
 	{
 		emitter.startListGroup( group );
 		visitChildren(group, value);
@@ -192,6 +211,7 @@ public class ContentEmitterVisitor implements IContentVisitor
 	}
 
 	public Object visitTableGroup( ITableGroupContent group, Object value )
+			throws BirtException
 	{
 		emitter.startTableGroup( group );
 		visitChildren(group, value);

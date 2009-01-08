@@ -136,7 +136,7 @@ public class DataItemExecutor extends QueryItemExecutor
 		return content;
 	}
 
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		finishTOCEntry( );
 		closeQuery( );

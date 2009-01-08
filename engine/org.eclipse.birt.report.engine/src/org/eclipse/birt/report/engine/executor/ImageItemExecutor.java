@@ -119,7 +119,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 		return imageContent;
 	}
 	
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		finishTOCEntry( );
 		closeQuery( );

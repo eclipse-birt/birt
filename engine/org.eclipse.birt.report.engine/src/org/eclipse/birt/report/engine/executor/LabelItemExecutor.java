@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -74,7 +75,7 @@ public class LabelItemExecutor extends QueryItemExecutor
 		return labelContent;
 	}
 	
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		finishTOCEntry( );
 		closeQuery( );

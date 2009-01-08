@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.html;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IRowContent;
 
 
@@ -26,7 +27,7 @@ public class HTMLRowLM extends HTMLInlineStackingLM
 		return LAYOUT_MANAGER_ROW;
 	}
 
-	protected boolean handleVisibility( )
+	protected boolean handleVisibility( ) throws BirtException
 	{
 		//handle visibility in table layout
 		boolean ret = super.handleVisibility( );

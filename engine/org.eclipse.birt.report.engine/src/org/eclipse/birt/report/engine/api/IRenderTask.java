@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.api;
 
+
 /**
  * An engine task that renders a Report Document to one of the output formats
  * supported by the engine.
@@ -46,7 +47,8 @@ public interface IRenderTask extends IEngineTask
      * @param pageNumber number of the page.
 	 * @throws EngineException if <code>pageNumber</code> is invalid.
      */
-    public abstract void setPageNumber(long pageNumber) throws EngineException;
+	public abstract void setPageNumber( long pageNumber )
+			throws EngineException;
 
     /**
      * Sets id of instance. If instance id is set, render method will render 
@@ -55,7 +57,7 @@ public interface IRenderTask extends IEngineTask
      * @param iid id of the instance.
 	 * @throws EngineException if <code>iid</code> is invalid.
      */
-    public abstract void setInstanceID(InstanceID iid) throws EngineException;
+	public abstract void setInstanceID( InstanceID iid ) throws EngineException;
 
     /**
 	 * Sets id of instance which is a string type. If instance id is set, render
@@ -66,7 +68,7 @@ public interface IRenderTask extends IEngineTask
 	 * @throws EngineException
 	 *             if <code>iid</code> is invalid.
 	 */
-    public abstract void setInstanceID(String iid) throws EngineException;
+	public abstract void setInstanceID( String iid ) throws EngineException;
 
     /**
      * Sets range of the pages to be rendered.
@@ -74,7 +76,8 @@ public interface IRenderTask extends IEngineTask
      * @param pageRange range of the pages.
 	 * @throws EngineException if <code>pageRange</code> is invalid.
      */
-    public abstract void setPageRange(String pageRange) throws EngineException;
+	public abstract void setPageRange( String pageRange )
+			throws EngineException;
 
     /**
      * Sets bookmark. If bookmark is set, render method will render 
@@ -83,7 +86,7 @@ public interface IRenderTask extends IEngineTask
      * @param bookmark the bookmark.
 	 * @throws EngineException if <code>bookmark</code> is invalid.
      */
-    public abstract void setBookmark(String bookmark) throws EngineException;
+	public abstract void setBookmark( String bookmark ) throws EngineException;
 
     /**
 	 * Sets reportlet by bookmark. The reportlet represented by the bookmark
@@ -94,7 +97,7 @@ public interface IRenderTask extends IEngineTask
 	 * @throws EngineException
 	 *             if <code>bookmark</code> is invalid.
 	 */
-    public abstract void setReportlet(String bookmark) throws EngineException;
+	public abstract void setReportlet( String bookmark ) throws EngineException;
 
     /**
 	 * render the whole report document or an output format
@@ -121,7 +124,7 @@ public interface IRenderTask extends IEngineTask
 	 * 				&nbsp;&nbsp;&nbsp;&nbsp;<code>setPageRange( pageRange );</code><br>
 	 * 				&nbsp;&nbsp;&nbsp;&nbsp;<code>render( );</code>
 	 */
-	public abstract void render(String pageRange) throws EngineException;
+	public abstract void render( String pageRange ) throws EngineException;
 	
 	/**
 	 * Render the Reportlet whose container is identified by iid. Useful for
@@ -155,7 +158,8 @@ public interface IRenderTask extends IEngineTask
 	 *            bookmark name
 	 * @return the page number that the instance appears first
 	 */
-	public abstract long getPageNumber( String bookmark ) throws EngineException;
+	public abstract long getPageNumber( String bookmark )
+			throws EngineException;
 
 	/**
 	 * Get the TOC tree

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.html;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IElement;
@@ -38,6 +39,7 @@ public class HTMLTableBandLM extends HTMLListingBandLM
 
 	public void initialize( HTMLAbstractLM parent, IContent content,
 			IReportItemExecutor executor, IContentEmitter emitter )
+			throws BirtException
 	{
 		super.initialize( parent, content, executor, emitter );
 		ITableBandContent tableBand = (ITableBandContent) content;
@@ -51,7 +53,7 @@ public class HTMLTableBandLM extends HTMLListingBandLM
 		dropDetailResolved = false;
 	}
 
-	protected boolean layoutChildren( )
+	protected boolean layoutChildren( ) throws BirtException
 	{
 
 /*		if ( bandType == IBandContent.BAND_GROUP_FOOTER )

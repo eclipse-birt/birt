@@ -13,9 +13,9 @@ package org.eclipse.birt.report.engine.layout.pdf;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IInlineStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.ILayoutManager;
@@ -73,7 +73,7 @@ public class PDFRowLM extends PDFInlineStackingLM
 		hasNext = false;
 	}
 
-	protected boolean traverseChildren( )
+	protected boolean traverseChildren( ) throws BirtException
 	{
 
 		// first loop

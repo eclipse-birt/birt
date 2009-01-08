@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.executor;
 
 import java.util.ArrayList;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -31,7 +32,7 @@ public class PageBandExecutor extends ReportItemExecutor
 		nextItem = 0;
 	}
 
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		nextItem = 0;
 		contents = null;

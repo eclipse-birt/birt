@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -34,14 +35,14 @@ public class ReportExtensionExecutor extends WrappedReportExecutor
 		this.processors = processors;
 	}
 
-	public IReportContent execute( )
+	public IReportContent execute( ) throws BirtException
 	{
 		reportContent = reportExecutor.execute( );
 		startReportProcess( reportContent );
 		return reportContent;
 	}
 
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		endReportProcess( reportContent );
 		super.close( );
@@ -63,14 +64,14 @@ public class ReportExtensionExecutor extends WrappedReportExecutor
 			super( ReportExtensionExecutor.this, executor );
 		}
 
-		public IContent execute( )
+		public IContent execute( ) throws BirtException
 		{
 			content = super.execute( );
 			startItemProcess( content );
 			return content;
 		}
 
-		public void close( )
+		public void close( ) throws BirtException
 		{
 			endItemProcess( content );
 			super.close( );

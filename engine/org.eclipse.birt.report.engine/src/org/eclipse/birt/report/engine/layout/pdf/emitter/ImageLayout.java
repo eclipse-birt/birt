@@ -11,17 +11,15 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.Dimension;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -40,9 +38,6 @@ import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ImageArea;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.util.FlashFile;
-import org.eclipse.birt.report.engine.util.SvgFile;
-import org.eclipse.birt.report.model.api.IResourceLocator;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Image;
@@ -74,7 +69,7 @@ public class ImageLayout extends Layout
 		parentLayout = parentContext;
 	}
 	
-	public void layout( )
+	public void layout( ) throws BirtException
 	{
 		if ( layout != null )
 		{
@@ -82,7 +77,7 @@ public class ImageLayout extends Layout
 		}
 	}
 	
-	protected void closeLayout( )
+	protected void closeLayout( ) throws BirtException
 	{
 		if ( layout != null )
 		{
@@ -90,7 +85,7 @@ public class ImageLayout extends Layout
 		}
 	}
 
-	protected void initialize( )
+	protected void initialize( ) throws BirtException
 	{
 		checkObjectType( );
 		// choose the layout manager
@@ -329,7 +324,7 @@ class ConcreteImageLayout extends Layout
 		return dim;
 	}
 
-	public void layout( )
+	public void layout( ) throws BirtException
 	{
 		init( );
 		// For inline image, the hierarchy is

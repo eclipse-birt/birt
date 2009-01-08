@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.layout.html;
 
 import java.util.Collection;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IElement;
@@ -42,13 +43,14 @@ public class HTMLListingBandLM extends HTMLBlockStackingLM
 
 	public void initialize( HTMLAbstractLM parent, IContent content,
 			IReportItemExecutor executor, IContentEmitter emitter )
+			throws BirtException
 	{
 		super.initialize( parent, content, executor, emitter );
 		repeatHeader = false;
 		intializeHeaderContent( );
 	}
 
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		if ( repeatHeader )
 		{
@@ -58,7 +60,7 @@ public class HTMLListingBandLM extends HTMLBlockStackingLM
 		super.close( );
 	}
 
-	private void intializeHeaderContent( )
+	private void intializeHeaderContent( ) throws BirtException
 	{
 		assert content != null;
 		IElement pContent = content.getParent( );

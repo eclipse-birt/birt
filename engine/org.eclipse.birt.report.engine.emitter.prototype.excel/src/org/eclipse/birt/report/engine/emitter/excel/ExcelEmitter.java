@@ -9,6 +9,8 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IExcelRenderOption;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IRenderOption;
@@ -90,7 +92,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		return "xls";
 	}
 	
-	public void initialize( IEmitterServices service )
+	public void initialize( IEmitterServices service ) throws EngineException
 	{
 		this.service = service;
 		if ( service != null )
@@ -153,7 +155,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	public void startPage( IPageContent page )
+	public void startPage( IPageContent page ) throws BirtException
 	{
 		if ( orientation == null )
 		{
@@ -172,7 +174,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		
 	}
 
-	public void endPage( IPageContent page )
+	public void endPage( IPageContent page ) throws BirtException
 	{
 		if(!outputInMasterPage && page.getPageFooter( ) != null)
 		{
@@ -256,7 +258,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		engine.endTable( );
 	}
 
-	public void startForeign( IForeignContent foreign )
+	public void startForeign( IForeignContent foreign ) throws BirtException
 	{
 		if ( IForeignContent.HTML_TYPE.equalsIgnoreCase( foreign.getRawType( ) ) )
 		{

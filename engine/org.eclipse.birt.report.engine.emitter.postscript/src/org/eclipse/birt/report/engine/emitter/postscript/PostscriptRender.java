@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.emitter.postscript;
 import java.io.OutputStream;
 import java.util.logging.Level;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -29,7 +30,7 @@ public class PostscriptRender extends PageDeviceRender
 {
 	private OutputStream output = null;
 	
-	public PostscriptRender( IEmitterServices services )
+	public PostscriptRender( IEmitterServices services ) throws EngineException
 	{
 		initialize( services );
 	}
@@ -63,8 +64,9 @@ public class PostscriptRender extends PageDeviceRender
 	 * 
 	 * @param services
 	 *            the emitter svervices object.
+	 * @throws EngineException 
 	 */
-	private void initialize( IEmitterServices services )
+	private void initialize( IEmitterServices services ) throws EngineException
 	{
 		this.services = services;
 		// Gets the output file name from RenderOptionBase.OUTPUT_FILE_NAME.

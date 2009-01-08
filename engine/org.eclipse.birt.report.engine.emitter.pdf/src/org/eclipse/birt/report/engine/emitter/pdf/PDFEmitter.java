@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.emitter.pdf;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.layout.emitter.PageDeviceRender;
 import org.eclipse.birt.report.engine.layout.emitter.PageEmitter;
@@ -18,7 +19,9 @@ import org.eclipse.birt.report.engine.layout.emitter.PageEmitter;
 
 public class PDFEmitter extends PageEmitter
 {
+
 	public PageDeviceRender createRender( IEmitterServices services )
+			throws EngineException
 	{
 		return new PDFRender( services );
 	}

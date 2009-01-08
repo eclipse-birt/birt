@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.layout.pdf.emitter;
 import java.util.Locale;
 import java.util.Map;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.content.ICellContent;
@@ -63,7 +64,7 @@ public class PDFLayoutEmitterProxy extends LayoutEmitterAdapter
 		context.setEmitter( layoutEmitterImpl );
 	}
 
-	public void initialize( IEmitterServices service )
+	public void initialize( IEmitterServices service ) throws BirtException
 	{
 		layoutEmitterImpl.initialize( service );
 	}
@@ -210,117 +211,121 @@ public class PDFLayoutEmitterProxy extends LayoutEmitterAdapter
 		}
 	}
 
-	public void start( IReportContent report )
+	public void start( IReportContent report ) throws BirtException
 	{
 		layoutEmitterImpl.start( report );
 	}
 
-	public void end( IReportContent report )
+	public void end( IReportContent report ) throws BirtException
 	{
 		layoutEmitterImpl.end( report );
 	}
 	
-	public void startTable( ITableContent table )
+	public void startTable( ITableContent table ) throws BirtException
 	{
 		layoutEmitterImpl.startTable( table );
 	}
 
-	public void endTable( ITableContent table )
+	public void endTable( ITableContent table ) throws BirtException
 	{
 		layoutEmitterImpl.endTable( table );
 	}
 
 	public void startContainer( IContainerContent container )
+			throws BirtException
 	{
 		layoutEmitterImpl.startContainer( container );
 	}
 
 	public void endContainer( IContainerContent container )
+			throws BirtException
 	{
 		layoutEmitterImpl.endContainer( container );
 	}
 
-	public void startContent( IContent content )
+	public void startContent( IContent content ) throws BirtException
 	{
 		layoutEmitterImpl.startContent( content );
 	}
 
-	public void endContent( IContent content )
+	public void endContent( IContent content ) throws BirtException
 	{
 		layoutEmitterImpl.endContent( content );
 	}
 
-	public void startListBand( IListBandContent listBand )
+	public void startListBand( IListBandContent listBand ) throws BirtException
 	{
 		layoutEmitterImpl.startListBand( listBand );
 	}
 
 	public void startListGroup( IListGroupContent listGroup )
+			throws BirtException
 	{
 		layoutEmitterImpl.startListGroup( listGroup );
 	}
 
-	public void endListBand( IListBandContent listBand )
+	public void endListBand( IListBandContent listBand ) throws BirtException
 	{
 		layoutEmitterImpl.endListBand( listBand );
 	}
 	
-	public void outputPage( IPageContent page )
+	public void outputPage( IPageContent page ) throws BirtException
 	{
 		layoutEmitterImpl.outputPage( page );
 	}
 
-	public void startPage( IPageContent page )
+	public void startPage( IPageContent page ) throws BirtException
 	{
 		layoutEmitterImpl.startPage( page );
 	}
 
-	public void endPage( IPageContent page )
+	public void endPage( IPageContent page ) throws BirtException
 	{
 		layoutEmitterImpl.endPage( page );
 	}
 
-	public void startRow( IRowContent row )
+	public void startRow( IRowContent row ) throws BirtException
 	{
 		layoutEmitterImpl.startRow( row );
 	}
 
-	public void endRow( IRowContent row )
+	public void endRow( IRowContent row ) throws BirtException
 	{
 		layoutEmitterImpl.endRow( row );
 	}
 
-	public void startTableBand( ITableBandContent band )
+	public void startTableBand( ITableBandContent band ) throws BirtException
 	{
 		layoutEmitterImpl.startTableBand( band );
 	}
 
 	public void startTableGroup( ITableGroupContent group )
+			throws BirtException
 	{
 		layoutEmitterImpl.startTableGroup( group );
 	}
 
-	public void endTableBand( ITableBandContent band )
+	public void endTableBand( ITableBandContent band ) throws BirtException
 	{
 		layoutEmitterImpl.endTableBand( band );
 	}
 
-	public void endTableGroup( ITableGroupContent group )
+	public void endTableGroup( ITableGroupContent group ) throws BirtException
 	{
 		layoutEmitterImpl.endTableGroup( group );
 	}
 
-	public void startCell( ICellContent cell )
+	public void startCell( ICellContent cell ) throws BirtException
 	{
 		layoutEmitterImpl.startCell( cell );
 	}
 
-	public void endCell( ICellContent cell )
+	public void endCell( ICellContent cell ) throws BirtException
 	{
 		layoutEmitterImpl.endCell( cell );
 	}
 
-	public void startForeign( IForeignContent foreign )
+	public void startForeign( IForeignContent foreign ) throws BirtException
 	{
 		layoutEmitterImpl.startForeign( foreign );
 	}

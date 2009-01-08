@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
@@ -49,7 +50,7 @@ public class PDFTextBlockContainerLM extends PDFBlockContainerLM
 		orphans = getOrphans();
 	}
 
-	protected boolean traverseChildren( )
+	protected boolean traverseChildren( ) throws BirtException
 	{
 		//To support widows/orphans, we need cache all lines.
 		if(!finished)

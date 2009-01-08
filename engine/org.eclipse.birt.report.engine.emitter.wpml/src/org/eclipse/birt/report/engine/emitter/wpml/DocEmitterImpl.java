@@ -13,6 +13,8 @@ package org.eclipse.birt.report.engine.emitter.wpml;
 
 import java.util.Stack;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
@@ -41,7 +43,7 @@ public class DocEmitterImpl extends AbstractEmitterImpl
 		this.contentVisitor = contentVisitor;
 	}
 
-	public void initialize( IEmitterServices service )
+	public void initialize( IEmitterServices service ) throws EngineException
 	{
 		super.initialize( service );
 		wordWriter = new DocWriter( out );
@@ -139,7 +141,7 @@ public class DocEmitterImpl extends AbstractEmitterImpl
 		decreaseTOCLevel( table );
 	}
 
-	public void startForeign( IForeignContent foreign )
+	public void startForeign( IForeignContent foreign ) throws BirtException
 	{
 		if ( IForeignContent.HTML_TYPE.equalsIgnoreCase( foreign.getRawType( ) ) )
 		{

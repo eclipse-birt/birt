@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
@@ -39,7 +40,7 @@ public class ExtendedItemExecutor extends ReportItemExecutor
 		super( manager, ExecutorManager.EXTENDEDITEM );
 	}
 
-	public IContent execute( )
+	public IContent execute( ) throws BirtException
 	{
 		// create user-defined generation-time helper object
 
@@ -119,7 +120,7 @@ public class ExtendedItemExecutor extends ReportItemExecutor
 		return content;
 	}
 
-	public boolean hasNextChild( )
+	public boolean hasNextChild( ) throws BirtException
 	{
 		if ( executor != null )
 		{
@@ -128,7 +129,7 @@ public class ExtendedItemExecutor extends ReportItemExecutor
 		return false;
 	}
 
-	public IReportItemExecutor getNextChild( )
+	public IReportItemExecutor getNextChild( ) throws BirtException
 	{
 		if ( executor != null )
 		{
@@ -159,7 +160,7 @@ public class ExtendedItemExecutor extends ReportItemExecutor
 		return null;
 	}
 
-	public void close( )
+	public void close( ) throws BirtException
 	{
 		if ( executor != null )
 		{

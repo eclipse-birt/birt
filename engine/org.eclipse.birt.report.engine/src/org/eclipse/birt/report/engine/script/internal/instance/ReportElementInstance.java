@@ -126,7 +126,7 @@ public class ReportElementInstance implements IReportElementInstance
 		}
 	}
 
-	public IReportElementInstance getParent( )
+	public IReportElementInstance getParent( ) throws BirtException
 	{
 		return ElementUtil.getInstance( content.getParent( ), context );
 	}
@@ -211,7 +211,7 @@ public class ReportElementInstance implements IReportElementInstance
 		content.setHeight( DimensionType.parserUnit( height ) );
 	}
 
-	public IRowData getRowData( )
+	public IRowData getRowData( ) throws BirtException
 	{
 		if ( rowData != null )
 		{

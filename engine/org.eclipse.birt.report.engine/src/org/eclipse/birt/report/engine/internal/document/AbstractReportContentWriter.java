@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.ContentVisitorAdapter;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
@@ -32,7 +33,8 @@ abstract public class AbstractReportContentWriter
 	protected static Logger logger = Logger
 			.getLogger( IReportContentWriter.class.getName( ) );
 
-	public long writeFullContent( IContent content ) throws IOException
+	public long writeFullContent( IContent content ) throws IOException,
+			BirtException
 	{
 		long offset = getOffset();
 		new ContentWriterVisitor( ).write( content, this );
@@ -47,6 +49,7 @@ abstract public class AbstractReportContentWriter
 	{
 
 		public void write( IContent content, IReportContentWriter writer )
+				throws BirtException
 		{
 			visit( content, writer );
 		}

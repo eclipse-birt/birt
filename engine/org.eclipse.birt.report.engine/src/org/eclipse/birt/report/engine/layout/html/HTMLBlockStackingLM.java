@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.html;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.ILayoutManager;
@@ -31,12 +32,12 @@ public class HTMLBlockStackingLM extends HTMLStackingLM
 		return LAYOUT_MANAGER_BLOCK;
 	}
 
-	protected boolean isChildrenFinished()
+	protected boolean isChildrenFinished( ) throws BirtException
 	{
 		return childExecutor == null && !executor.hasNextChild( );
 	}
 	
-	protected boolean layoutNodes( )
+	protected boolean layoutNodes( ) throws BirtException
 	{
 		boolean hasNext = false;
 		

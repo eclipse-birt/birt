@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IListGroupContent;
@@ -27,7 +28,7 @@ public class ListGroupLayout extends RepeatableLayout
 		bandStatus = IBandContent.BAND_GROUP_HEADER;
 	}
 
-	protected void repeatHeader( )
+	protected void repeatHeader( ) throws BirtException
 	{
 		if ( bandStatus == IBandContent.BAND_GROUP_HEADER )
 		{
