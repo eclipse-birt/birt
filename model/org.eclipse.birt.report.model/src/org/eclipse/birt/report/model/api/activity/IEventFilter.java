@@ -9,10 +9,6 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-/**
- * TODO:javadoc
- */
-
 package org.eclipse.birt.report.model.api.activity;
 
 import java.util.List;

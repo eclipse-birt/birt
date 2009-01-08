@@ -70,6 +70,12 @@ public class ExtensionException extends MetaDataException
 	public static final String DESIGN_EXCEPTION_DEFAULT_ENCRYPTION_EXIST = "DEFAULT_ENCRYPTION_EXIST"; //$NON-NLS-1$
 
 	/**
+	 * Error code indicating that The defaultStyle for extension element should
+	 * not be empty.
+	 */
+	public static final String DESIGN_EXCEPTION_EMPTY_STYLE_NAME = "DEFAULT_EMPTY_STYLE_NAME"; //$NON-NLS-1$
+
+	/**
 	 * Constructs an extension exception with error code.
 	 * 
 	 * @param params

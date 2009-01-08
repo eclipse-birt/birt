@@ -1324,8 +1324,6 @@ public class ModelUtil
 		if ( refValue == null )
 			return true;
 
-		// TODO resolve the element later. NO such case right now.
-
 		if ( element.getDefn( ).isContainer( ) && !refValue.isResolved( ) )
 			return false;
 

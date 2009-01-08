@@ -162,8 +162,6 @@ class ColumnBandInsertPasteAction extends ColumnBandCopyAction
 		{
 			CellContextInfo contextInfo = (CellContextInfo) cells.get( i );
 			rowCount += contextInfo.getRowSpan( );
-
-			// TODO dropping effects
 		}
 
 		assert rowCount <= numOfRows;

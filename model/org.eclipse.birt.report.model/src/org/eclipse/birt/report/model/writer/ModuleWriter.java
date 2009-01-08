@@ -2067,7 +2067,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ICellModel.DIAGONAL_THICKNESS_PROP );
 		property( obj, ICellModel.ANTIDIAGONAL_NUMBER_PROP );
 		property( obj, ICellModel.ANTIDIAGONAL_STYLE_PROP );
-		property( obj, ICellModel.ANTIDIAGONAL_THICKNESS_PROP );
+		property( obj, ICellModel.ANTIDIAGONAL_THICKNESS_PROP );		
 		property( obj, IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
 		property( obj, ICellModel.ON_PREPARE_METHOD );
 		property( obj, ICellModel.ON_CREATE_METHOD );
@@ -3260,55 +3260,14 @@ public abstract class ModuleWriter extends ElementVisitor
 		assert slot == IGridItemModel.COLUMN_SLOT
 				|| slot == ITableItemModel.COLUMN_SLOT;
 
-		// TODO: UI requires the column to keep the table layout information, so
-		// the unnecessary columns can not be remove this moment. The related
-		// SCR is SRC#74095.
+		// UI requires the column to keep the table layout information, so
+		// the unnecessary columns can not be remove this moment. 
 
-		boolean revert = true;
-		if ( revert )
-		{
-			writeContents( obj, slot, null );
-			return;
-		}
-
-		List<DesignElement> list = obj.getSlot( slot ).getContents( );
+		List list = obj.getSlot( slot ).getContents( );
 		if ( list.isEmpty( ) )
 			return;
 
-		// If there is no column with any value, columns will not be written.
-
-		boolean needWrite = false;
-
-		Iterator<DesignElement> iter = list.iterator( );
-		while ( iter.hasNext( ) && !needWrite )
-		{
-			DesignElement column = iter.next( );
-			List<IElementPropertyDefn> propDefns = column.getPropertyDefns( );
-
-			Iterator<IElementPropertyDefn> iterDefn = propDefns.iterator( );
-			while ( iterDefn.hasNext( ) && !needWrite )
-			{
-				PropertyDefn propDefn = (PropertyDefn) iterDefn.next( );
-				if ( column
-						.getLocalProperty( getModule( ), propDefn.getName( ) ) != null )
-				{
-					needWrite = true;
-				}
-			}
-		}
-
-		if ( needWrite )
-		{
-			// Iterate over the contents using this visitor to write each one.
-			// Note that this may result in a recursive call back into this
-			// method as we do a depth-first traversal of the design tree.
-
-			iter = list.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				( iter.next( ) ).apply( this );
-			}
-		}
+		writeContents( obj, slot, null );
 	}
 
 	/**

@@ -955,8 +955,6 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		if ( StringUtil.isBlank( xmlName ) )
 			throw new MetaDataException( new String[]{name},
 					MetaDataException.DESIGN_EXCEPTION_MISSING_XML_NAME );
-
-		// TODO: checks the unique of the name
 	}
 
 	/**

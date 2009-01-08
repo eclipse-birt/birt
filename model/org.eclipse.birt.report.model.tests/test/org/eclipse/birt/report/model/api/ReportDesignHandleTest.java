@@ -23,7 +23,6 @@ import java.util.Map;
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CssException;
-import org.eclipse.birt.report.model.api.command.CustomMsgException;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
 import org.eclipse.birt.report.model.api.core.IAttributeListener;
@@ -769,114 +768,6 @@ public class ReportDesignHandleTest extends BaseTestCase
 		design.getActivityStack( ).undo( );
 
 		assertFalse( designHandle.needsSave( ) );
-
-	}
-
-	/**
-	 * Tests translations on a report design.
-	 * 
-	 * @throws Exception
-	 *             if any exception.
-	 */
-
-	public void testTranslations( ) throws Exception
-	{
-		openDesign( "ReportDesignHandleTest.xml", ULocale.CHINA ); //$NON-NLS-1$
-
-		List translations = designHandle.getTranslations( );
-		assertTrue( translations.size( ) == 4 );
-
-		TranslationHandle translation = (TranslationHandle) translations
-				.get( 0 );
-
-		assertEquals( "ResourceKey.ReportDesign.Title", translation //$NON-NLS-1$
-				.getResourceKey( ) );
-		assertEquals( null, translation.getLocale( ) );
-		assertEquals( "My Sample design(default)", translation.getText( ) ); //$NON-NLS-1$
-
-		TranslationHandle handle = designHandle.getTranslation(
-				"ResourceKey.ReportDesign.Title", null ); //$NON-NLS-1$
-		assertEquals( "My Sample design(default)", handle.getText( ) ); //$NON-NLS-1$
-
-		translation = (TranslationHandle) translations.get( 1 );
-
-		assertEquals( "ResourceKey.ReportDesign.Title", translation //$NON-NLS-1$
-				.getResourceKey( ) );
-		assertEquals( "zh_CN", translation.getLocale( ) ); //$NON-NLS-1$
-		assertEquals( "zh_CN:\u7B80\u5355\u62A5\u8868.", translation.getText( ) ); //$NON-NLS-1$
-
-		String[] keys = designHandle.getTranslationKeys( );
-		assertEquals( 2, keys.length );
-
-		String str = design
-				.getMessage(
-						"ResourceKey.ReportDesign.Title", new ULocale( "zh", "CN", "tai" ) ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		assertEquals( "zh_CN:\u7B80\u5355\u62A5\u8868.", str ); //$NON-NLS-1$
-	}
-
-	/**
-	 * Tests adding translation.
-	 * 
-	 * @throws DesignFileException
-	 * @throws CustomMsgException
-	 */
-	public void testAddTranslation( ) throws DesignFileException,
-			CustomMsgException
-	{
-		openDesign( "ReportDesignHandleTest.xml", ULocale.CHINA ); //$NON-NLS-1$
-
-		List translations = designHandle.getTranslations( );
-		assertTrue( translations.size( ) == 4 );
-
-		designHandle.addTranslation( "resourceKey.test1", "en", "text1" ); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
-
-		translations = designHandle.getTranslations( );
-		assertTrue( translations.size( ) == 5 );
-
-		try
-		{
-			designHandle.addTranslation( "resourceKey.test1", "en", "text2" ); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
-			fail( );
-		}
-		catch ( CustomMsgException e )
-		{
-			assertEquals( CustomMsgException.DESIGN_EXCEPTION_DUPLICATE_LOCALE,
-					e.getErrorCode( ) );
-		}
-	}
-
-	/**
-	 * Tests dropping translation.
-	 * 
-	 * @throws DesignFileException
-	 *             if failed to open design file.
-	 * @throws CustomMsgException
-	 *             if any translation operation error.
-	 */
-
-	public void testDropTranslation( ) throws DesignFileException,
-			CustomMsgException
-	{
-		openDesign( "ReportDesignHandleTest.xml", ULocale.CHINA ); //$NON-NLS-1$
-
-		List translations = designHandle.getTranslations( );
-		assertTrue( translations.size( ) == 4 );
-
-		designHandle.dropTranslation( "ResourceKey.ReportDesign.Title", null ); //$NON-NLS-1$
-		translations = designHandle.getTranslations( );
-		assertTrue( translations.size( ) == 3 );
-
-		try
-		{
-			designHandle.dropTranslation( "resourceKey.unknown", "unknow" ); //$NON-NLS-1$//$NON-NLS-2$
-			fail( );
-		}
-		catch ( CustomMsgException e )
-		{
-			assertEquals(
-					CustomMsgException.DESIGN_EXCEPTION_TRANSLATION_NOT_FOUND,
-					e.getErrorCode( ) );
-		}
 
 	}
 

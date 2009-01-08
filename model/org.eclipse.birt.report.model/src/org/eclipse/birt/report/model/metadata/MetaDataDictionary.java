@@ -326,7 +326,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * definition.
 	 */
 
-	private void buildXmlNameMaps( )
+	private void buildXmlNameMaps( ) throws MetaDataException
 	{
 		// Build the element metadata.
 
@@ -336,7 +336,13 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		while ( iter.hasNext( ) )
 		{
 			ElementDefn tmpDefn = (ElementDefn) iter.next( );
-			elementXmlNameMap.put( tmpDefn.getXmlName( ), tmpDefn );
+			String tmpXmlName = tmpDefn.getXmlName( );
+
+			// TODO: also check the validation of the element XML name and whether it
+			// is an extended item. If it is ROM elements, throw exception.
+			// Otherwise, just ignore extension XML name.
+
+			elementXmlNameMap.put( tmpXmlName, tmpDefn );
 		}
 	}
 

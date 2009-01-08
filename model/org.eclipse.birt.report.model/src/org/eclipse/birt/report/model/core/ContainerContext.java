@@ -80,8 +80,7 @@ public final class ContainerContext
 	 */
 	public ContainerContext( DesignElement theContainer, int slotID )
 	{
-		// TODO: we will do the conversion from int to string if wanna remove
-		// all slot definition in rom.def
+
 		if ( theContainer == null )
 			throw new IllegalArgumentException(
 					"The container of ContainerInfo should not be null" ); //$NON-NLS-1$
@@ -202,7 +201,7 @@ public final class ContainerContext
 	/**
 	 * 
 	 * @param content
-	 * @return TODO: this method should be removed if not support slot
+	 * @return the 0-based position
 	 */
 	public int indexOf( DesignElement content )
 	{

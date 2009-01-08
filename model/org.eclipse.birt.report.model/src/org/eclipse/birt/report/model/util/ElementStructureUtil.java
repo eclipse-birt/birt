@@ -116,7 +116,7 @@ public class ElementStructureUtil
 
 	/**
 	 * Scatters overridden values to virtual elements in the given design
-	 * element.
+	 * element. The caller should add names into name spaces.
 	 * 
 	 * @param module
 	 * 
@@ -152,8 +152,6 @@ public class ElementStructureUtil
 			{
 				Property prop = (Property) values.get( i );
 				Object value = prop.getValue( );
-
-				// TODO if the name is set, add it to name space.
 
 				// the intrinsic style property must use setStyle().
 
@@ -470,6 +468,8 @@ public class ElementStructureUtil
 	 * properties of the contents will all be cleared.Please note that the
 	 * containment relationship is kept while property values of the content
 	 * elements are not copied.
+	 * <p>
+	 * The caller should add names into name spaces.
 	 * 
 	 * @param module
 	 *            the module
@@ -554,7 +554,7 @@ public class ElementStructureUtil
 	 * properties values of the given element on the element locally. The
 	 * following properties will be set:
 	 * <ul>
-	 * <li>Properties set on element itself <li>Inherited from style or 
+	 * <li>Properties set on element itself <li>Inherited from style or
 	 * element's selector style <li>Inherited from parent
 	 * </ul>
 	 * 

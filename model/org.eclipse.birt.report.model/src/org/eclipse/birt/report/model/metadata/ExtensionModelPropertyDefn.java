@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.metadata;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.birt.report.model.api.extension.IChoiceDefinition;
 import org.eclipse.birt.report.model.api.extension.IMessages;
@@ -289,26 +288,8 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	{
 		if ( details instanceof StructureDefn )
 			return (StructureDefn) details;
-		List<IPropertyDefinition> members = extProperty.getMembers( );
-		if ( members == null )
-			return null;
-		StructureDefn struct = new StructureDefn( );
-		Iterator<IPropertyDefinition> iter = members.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			IPropertyDefinition prop = iter.next( );
-			try
-			{
-				struct.addProperty( new ExtensionStructPropertyDefn( prop ) );
-			}
-			catch ( MetaDataException e )
-			{
-				assert false;
-				return null;
-			}
-		}
-		details = struct;
-		return struct;
+		
+		return null;
 	}
 
 	/*

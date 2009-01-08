@@ -159,8 +159,6 @@ public class ContentNode implements Cloneable
 	 */
 	public boolean isCDATASection( )
 	{
-		// TODO XML and method must be written in CDATA.
-
 		if ( DesignSchemaConstants.XML_PROPERTY_TAG.equalsIgnoreCase( name )
 				|| DesignSchemaConstants.METHOD_TAG.equalsIgnoreCase( name ) )
 			return true;

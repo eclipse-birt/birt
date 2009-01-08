@@ -334,9 +334,9 @@ public class PeerExtensionLoader extends ExtensionLoader
 
 						if ( StringUtil.isBlank( styleName ) )
 						{
-							// TODO: do the i18n for this error message.
-							handleError( "The defaultStyle for extension element: " //$NON-NLS-1$
-									+ extensionName + " should not be empty." ); //$NON-NLS-1$
+							handleError( new ExtensionException(
+									new String[]{extensionName},
+									ExtensionException.DESIGN_EXCEPTION_EMPTY_STYLE_NAME ) );
 							continue;
 						}
 
@@ -388,7 +388,6 @@ public class PeerExtensionLoader extends ExtensionLoader
 				}
 				catch ( PropertyValueException e )
 				{
-					// TODO: do the i18n for this error message.
 					handleError( e.getLocalizedMessage( ) );
 				}
 

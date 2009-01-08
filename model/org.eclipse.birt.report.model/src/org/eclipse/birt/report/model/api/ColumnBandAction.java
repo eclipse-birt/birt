@@ -76,8 +76,6 @@ abstract class ColumnBandAction
 				return false;
 
 			rowCount += contextInfo.getRowSpan( );
-
-			// TODO dropping effects
 		}
 
 		assert rowCount <= numOfRows;

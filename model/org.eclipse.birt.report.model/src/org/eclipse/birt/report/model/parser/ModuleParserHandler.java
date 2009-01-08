@@ -417,7 +417,6 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 				}
 			}
 			else
-				// TODO only need for the compound element
 				module.manageId( element, true );
 		}
 	}

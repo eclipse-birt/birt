@@ -318,7 +318,9 @@ public class StructureRefUtil
 					IPropertyType.STRUCT_REF_TYPE );
 
 		// TODO: target need the root namespace now
-
+		// must pass two modules into this method. Otherwise, the element
+		// context is lost.
+		
 		return resolve( module, defn, target.getReferencableProperty( ) );
 	}
 }

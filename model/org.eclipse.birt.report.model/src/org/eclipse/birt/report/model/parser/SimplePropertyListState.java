@@ -225,7 +225,7 @@ public class SimplePropertyListState extends AbstractPropertyState
 			else
 			{
 				setProperty( name, values );
-				// TODO:
+
 				PropertyDefn defn = element.getPropertyDefn( name );
 				if ( defn.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 				{

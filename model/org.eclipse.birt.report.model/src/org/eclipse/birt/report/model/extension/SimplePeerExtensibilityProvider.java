@@ -27,8 +27,6 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.parser.treebuild.ContentTree;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
-import com.sun.java_cup.internal.lalr_item;
-
 /**
  * 
  */

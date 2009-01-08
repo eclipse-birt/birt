@@ -82,7 +82,6 @@ import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
-import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
@@ -1239,35 +1238,6 @@ public class ReportDesignSerializer extends ElementVisitor
 		localizeIncludeResourceValues( source, design );
 
 		localizeScriptLibValues( source, design );
-
-		// handle local translation table
-		String[] resourceKeys = source.getTranslationResourceKeys( );
-		if ( resourceKeys != null )
-		{
-			for ( int i = 0; i < resourceKeys.length; i++ )
-			{
-				String key = resourceKeys[i];
-				List<Translation> transList = source.getTranslations( key );
-				if ( transList != null )
-				{
-					try
-					{
-						for ( int j = 0; j < transList.size( ); j++ )
-						{
-							Translation trans = transList.get( j );
-							design
-									.addTranslation( (Translation) trans
-											.clone( ) );
-						}
-					}
-					catch ( CloneNotSupportedException e )
-					{
-						assert false;
-					}
-				}
-
-			}
-		}
 
 		// css style sheet must be treated here. It is different from other
 		// elements and property values.
