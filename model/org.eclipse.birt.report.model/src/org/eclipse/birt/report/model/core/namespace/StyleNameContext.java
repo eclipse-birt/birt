@@ -12,17 +12,11 @@
 package org.eclipse.birt.report.model.core.namespace;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import javax.swing.text.Style;
-
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -33,6 +27,7 @@ import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -42,21 +37,6 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  */
 public class StyleNameContext extends AbstractModuleNameContext
 {
-
-	/**
-	 * Map of the styles that can be resolved by calling resolve(String).
-	 */
-	protected Map<String, DesignElement> cachedStyles = new HashMap<String, DesignElement>( );
-
-	/**
-	 * Cached default toc map.
-	 */
-	protected Map<String, DesignElement> cachedTOCStyles = new HashMap<String, DesignElement>( );
-
-	/**
-	 * Status identifying whether the caching work is ok or not.
-	 */
-	protected boolean isCacheOk = false;
 
 	/**
 	 * Constructs one style element name space.
@@ -70,12 +50,6 @@ public class StyleNameContext extends AbstractModuleNameContext
 		super( module, Module.STYLE_NAME_SPACE );
 	}
 
-	private void buildTOCStyles( )
-	{
-		List defaultTocStyle = module.getSession( ).getDefaultTOCStyleValue( );
-		addAllStyles( cachedTOCStyles, defaultTocStyle );
-	}
-
 	/**
 	 * Returns all elements in the module this module namespace is assocaited
 	 * and those in the included modules. For the style name scope, the depth of
@@ -86,8 +60,6 @@ public class StyleNameContext extends AbstractModuleNameContext
 
 	public List getElements( int level )
 	{
-		if ( isCacheOk )
-			return new ArrayList( cachedStyles.values( ) );
 
 		Map elements = new LinkedHashMap<String, StyleElement>( );
 
@@ -95,11 +67,6 @@ public class StyleNameContext extends AbstractModuleNameContext
 
 		if ( theme == null && module instanceof Library )
 		{
-			if ( module.isCached( ) )
-			{
-				cachedStyles.putAll( elements );
-				isCacheOk = true;
-			}
 			return new ArrayList( elements.values( ) );
 		}
 
@@ -111,11 +78,6 @@ public class StyleNameContext extends AbstractModuleNameContext
 
 		if ( module instanceof Library )
 		{
-			if ( module.isCached( ) )
-			{
-				cachedStyles.putAll( elements );
-				isCacheOk = true;
-			}
 			return new ArrayList( elements.values( ) );
 		}
 
@@ -131,11 +93,6 @@ public class StyleNameContext extends AbstractModuleNameContext
 		List styles = ns.getElements( );
 		addAllStyles( elements, styles );
 
-		if ( module.isCached( ) )
-		{
-			cachedStyles.putAll( elements );
-			isCacheOk = true;
-		}
 		return new ArrayList( elements.values( ) );
 	}
 
@@ -157,7 +114,9 @@ public class StyleNameContext extends AbstractModuleNameContext
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.IModuleNameSpace#resolve(org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.core.IModuleNameSpace#resolve(org.eclipse
+	 * .birt.report.model.core.DesignElement)
 	 */
 
 	private ElementRefValue resolve( DesignElement element )
@@ -168,28 +127,13 @@ public class StyleNameContext extends AbstractModuleNameContext
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.IModuleNameSpace#resolve(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.IModuleNameSpace#resolve(java.lang
+	 * .String)
 	 */
 
 	private ElementRefValue resolve( String elementName )
 	{
-		if ( isCacheOk )
-		{
-			DesignElement style = cachedStyles.get( elementName );
-
-			// firstly, find it in the cached style list
-			if ( style != null )
-				return new ElementRefValue( null, style );
-
-			// if not found, find it in default TOC styles
-			if ( cachedTOCStyles.isEmpty( ) )
-				buildTOCStyles( );
-			style = cachedTOCStyles.get( elementName );
-			if ( style != null )
-				return new ElementRefValue( null, style );
-			return new ElementRefValue( null, elementName );
-		}
-
 		// this name is not cached, so find it directly
 		Theme theme = module.getTheme( module );
 
@@ -234,12 +178,16 @@ public class StyleNameContext extends AbstractModuleNameContext
 			return new ElementRefValue( null, libraryStyle );
 
 		// find style in toc default style
-		if ( cachedTOCStyles.isEmpty( ) )
-			buildTOCStyles( );
-		DesignElement tocStyle = cachedTOCStyles.get( elementName );
-		if ( tocStyle != null )
-			return new ElementRefValue( null, tocStyle );
-
+		List defaultTocStyle = module.getSession( ).getDefaultTOCStyleValue( );
+		Iterator iterator = defaultTocStyle.iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			Style tmpStyle = (Style) iterator.next( );
+			if ( tmpStyle.getName( ).equalsIgnoreCase( elementName ) )
+			{
+				return new ElementRefValue( null, tmpStyle );
+			}
+		}
 		// if the style is not find, return a unresolved element reference
 		// value.
 
@@ -249,8 +197,10 @@ public class StyleNameContext extends AbstractModuleNameContext
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.AbstractNameScope#resolve(org.eclipse.birt.report.model.core.DesignElement,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.AbstractNameScope#resolve
+	 * (org.eclipse.birt.report.model.core.DesignElement,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn)
 	 */
 
 	public ElementRefValue resolve( DesignElement element, PropertyDefn propDefn )
@@ -261,8 +211,9 @@ public class StyleNameContext extends AbstractModuleNameContext
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.AbstractNameScope#resolve(java.lang.String,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.AbstractNameScope#resolve
+	 * (java.lang.String, org.eclipse.birt.report.model.metadata.PropertyDefn)
 	 */
 
 	public ElementRefValue resolve( String elementName, PropertyDefn propDefn )
@@ -273,8 +224,10 @@ public class StyleNameContext extends AbstractModuleNameContext
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#findElement(java.lang.String,
-	 *      org.eclipse.birt.report.model.api.metadata.IElementDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameContext#findElement
+	 * (java.lang.String,
+	 * org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
 	public DesignElement findElement( String elementName,
 			IElementDefn elementDefn )

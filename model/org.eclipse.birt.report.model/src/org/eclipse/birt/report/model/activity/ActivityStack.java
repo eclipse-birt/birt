@@ -155,10 +155,10 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
  * <p>
  * As a convenience for the application, the compound record implementation is
  * abstracted into the concept of a <em>transaction</em>. The application simply
- * calls startTrans( null ) to start a series of operations to be treated as atomic,
- * and calls commit( ) to complete the series. For convenience, transactions can
- * nest to any depth. Only the outermost transaction shows up as a an undoable
- * or redoable record in the UI.
+ * calls startTrans( null ) to start a series of operations to be treated as
+ * atomic, and calls commit( ) to complete the series. For convenience,
+ * transactions can nest to any depth. Only the outermost transaction shows up
+ * as a an undoable or redoable record in the UI.
  * <p>
  * It is important to understand when records execute within a transaction.
  * Records execute during the call to execute( ) on the record stack. That is,
@@ -635,7 +635,7 @@ public class ActivityStack implements CommandStack
 		assert label != null;
 		return label;
 	}
-	
+
 	/**
 	 * Starts a transaction. The application provides the message ID for a label
 	 * to associate with the transaction.
@@ -842,7 +842,10 @@ public class ActivityStack implements CommandStack
 
 		if ( listeners != null )
 		{
-			Iterator iter = listeners.iterator( );
+			List tmpList = new ArrayList( );
+			tmpList.addAll( listeners );
+
+			Iterator iter = tmpList.iterator( );
 			while ( iter.hasNext( ) )
 			{
 				ActivityStackListener listener = ( (ActivityStackListener) iter
