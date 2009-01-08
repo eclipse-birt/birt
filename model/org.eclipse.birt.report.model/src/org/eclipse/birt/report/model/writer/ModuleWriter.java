@@ -40,6 +40,7 @@ import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.UserChoice;
@@ -621,14 +622,15 @@ public abstract class ModuleWriter extends ElementVisitor
 	 *            the tag name for Extended property list.
 	 */
 
-	protected void writeExtendedProperties( List properties, String propName )
+	protected void writeExtendedProperties( List<Object> properties,
+			String propName )
 	{
 		if ( properties != null && properties.size( ) != 0 )
 		{
 			writer.startElement( DesignSchemaConstants.LIST_PROPERTY_TAG );
 			writer.attribute( DesignSchemaConstants.NAME_ATTRIB, propName );
 
-			Iterator iter = properties.iterator( );
+			Iterator<Object> iter = properties.iterator( );
 			while ( iter.hasNext( ) )
 			{
 				ExtendedProperty property = (ExtendedProperty) iter.next( );
@@ -1165,7 +1167,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	protected void writeUserPropertyDefns( DesignElement obj )
 	{
-		List props = obj.getLocalUserProperties( );
+		List<UserPropertyDefn> props = obj.getLocalUserProperties( );
 		if ( props == null || props.size( ) == 0 )
 			return;
 
@@ -1173,10 +1175,10 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.attribute( DesignSchemaConstants.NAME_ATTRIB,
 				IDesignElementModel.USER_PROPERTIES_PROP );
 
-		Iterator iter = props.iterator( );
+		Iterator<UserPropertyDefn> iter = props.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			UserPropertyDefn propDefn = (UserPropertyDefn) iter.next( );
+			UserPropertyDefn propDefn = iter.next( );
 			writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
 
 			property( propDefn, UserPropertyDefn.NAME_MEMBER );
@@ -1243,14 +1245,14 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	protected void writeUserPropertyValues( DesignElement obj )
 	{
-		List userProps = obj.getUserProperties( );
+		List<UserPropertyDefn> userProps = obj.getUserProperties( );
 		if ( userProps == null || userProps.size( ) == 0 )
 			return;
 
-		Iterator iter = userProps.iterator( );
+		Iterator<UserPropertyDefn> iter = userProps.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			UserPropertyDefn propDefn = (UserPropertyDefn) iter.next( );
+			UserPropertyDefn propDefn = iter.next( );
 
 			property( obj, propDefn.getName( ) );
 		}
@@ -1379,13 +1381,13 @@ public abstract class ModuleWriter extends ElementVisitor
 				writer.attribute( DesignSchemaConstants.KEY_ATTRIB,
 						resourceKeys[i] );
 
-				List translations = obj.getTranslations( resourceKeys[i] );
+				List<Translation> translations = obj
+						.getTranslations( resourceKeys[i] );
 				for ( int j = 0; j < translations.size( ); j++ )
 				{
 					writer.startElement( DesignSchemaConstants.TRANSLATION_TAG );
 
-					Translation translation = (Translation) translations
-							.get( j );
+					Translation translation = translations.get( j );
 
 					writer.attribute( DesignSchemaConstants.LOCALE_ATTRIB,
 							translation.getLocale( ) );
@@ -1513,7 +1515,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		}
 
-		List list = extDefn.getLocalProperties( );
+		List<IElementPropertyDefn> list = extDefn.getLocalProperties( );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			PropertyDefn prop = (PropertyDefn) list.get( i );
@@ -1710,7 +1712,7 @@ public abstract class ModuleWriter extends ElementVisitor
 					.getID( ) ).toString( ) );
 
 			// write all other properties
-			List props = extDefn.getProperties( );
+			List<IElementPropertyDefn> props = extDefn.getProperties( );
 			for ( int i = 0; i < props.size( ); i++ )
 			{
 				ElementPropertyDefn prop = (ElementPropertyDefn) props.get( i );
@@ -2065,7 +2067,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ICellModel.DIAGONAL_THICKNESS_PROP );
 		property( obj, ICellModel.ANTIDIAGONAL_NUMBER_PROP );
 		property( obj, ICellModel.ANTIDIAGONAL_STYLE_PROP );
-		property( obj, ICellModel.ANTIDIAGONAL_THICKNESS_PROP );		
+		property( obj, ICellModel.ANTIDIAGONAL_THICKNESS_PROP );
 		property( obj, IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
 		property( obj, ICellModel.ON_PREPARE_METHOD );
 		property( obj, ICellModel.ON_CREATE_METHOD );
@@ -2595,7 +2597,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	private void writeContents( ContainerContext containerInfor, String tag )
 	{
 		assert containerInfor != null;
-		List list = containerInfor.getContents( getModule( ) );
+		List<DesignElement> list = containerInfor.getContents( getModule( ) );
 		if ( list.isEmpty( ) )
 			return;
 
@@ -2622,10 +2624,10 @@ public abstract class ModuleWriter extends ElementVisitor
 		// Note that this may result in a recursive call back into this
 		// method as we do a depth-first traversal of the design tree.
 
-		Iterator iter = list.iterator( );
+		Iterator<DesignElement> iter = list.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			( (DesignElement) iter.next( ) ).apply( this );
+			( iter.next( ) ).apply( this );
 		}
 		if ( tag != null )
 			writer.endElement( );
@@ -2682,14 +2684,14 @@ public abstract class ModuleWriter extends ElementVisitor
 	protected void writeArrangedContents( DesignElement obj, int slot,
 			String tag )
 	{
-		List list = obj.getSlot( slot ).getContents( );
+		List<DesignElement> list = obj.getSlot( slot ).getContents( );
 		if ( list.isEmpty( ) )
 			return;
-		LinkedList newList = new LinkedList( );
-		Iterator iter = list.iterator( );
+		LinkedList<DesignElement> newList = new LinkedList<DesignElement>( );
+		Iterator<DesignElement> iter = list.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			DesignElement element = (DesignElement) iter.next( );
+			DesignElement element = iter.next( );
 			DesignElement parent = element.getExtendsElement( );
 			if ( !newList.contains( element ) )
 			{
@@ -2720,7 +2722,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		iter = newList.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			( (DesignElement) iter.next( ) ).apply( this );
+			( iter.next( ) ).apply( this );
 		}
 		if ( tag != null )
 			writer.endElement( );
@@ -3231,7 +3233,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeOdaDesignerState( obj, IOdaDataSetModel.DESIGNER_STATE_PROP );
 		propertyCDATA( obj, IOdaDataSetModel.DESIGNER_VALUES_PROP );
 
-		List properties = (List) obj.getLocalProperty( getModule( ),
+		List<Object> properties = (List) obj.getLocalProperty( getModule( ),
 				IOdaDataSetModel.PRIVATE_DRIVER_PROPERTIES_PROP );
 		writeExtendedProperties( properties,
 				IOdaDataSetModel.PRIVATE_DRIVER_PROPERTIES_PROP );
@@ -3269,7 +3271,7 @@ public abstract class ModuleWriter extends ElementVisitor
 			return;
 		}
 
-		List list = obj.getSlot( slot ).getContents( );
+		List<DesignElement> list = obj.getSlot( slot ).getContents( );
 		if ( list.isEmpty( ) )
 			return;
 
@@ -3277,13 +3279,13 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		boolean needWrite = false;
 
-		Iterator iter = list.iterator( );
+		Iterator<DesignElement> iter = list.iterator( );
 		while ( iter.hasNext( ) && !needWrite )
 		{
-			DesignElement column = (DesignElement) iter.next( );
-			List propDefns = column.getPropertyDefns( );
+			DesignElement column = iter.next( );
+			List<IElementPropertyDefn> propDefns = column.getPropertyDefns( );
 
-			Iterator iterDefn = propDefns.iterator( );
+			Iterator<IElementPropertyDefn> iterDefn = propDefns.iterator( );
 			while ( iterDefn.hasNext( ) && !needWrite )
 			{
 				PropertyDefn propDefn = (PropertyDefn) iterDefn.next( );
@@ -3304,7 +3306,7 @@ public abstract class ModuleWriter extends ElementVisitor
 			iter = list.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				( (DesignElement) iter.next( ) ).apply( this );
+				( iter.next( ) ).apply( this );
 			}
 		}
 	}
@@ -3326,10 +3328,10 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer
 				.conditionalStartElement( DesignSchemaConstants.OVERRIDDEN_VALUES_TAG );
 
-		Iterator iter = new ContentIterator( getModule( ), obj );
+		Iterator<DesignElement> iter = new ContentIterator( getModule( ), obj );
 		while ( iter.hasNext( ) ) // for each virtual element in the child
 		{
-			DesignElement virtualElement = (DesignElement) iter.next( );
+			DesignElement virtualElement = iter.next( );
 
 			writer
 					.conditionalStartElement( DesignSchemaConstants.REF_ENTRY_TAG );
@@ -3350,7 +3352,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 			assert virtualElement.getExtendsElement( ) == null;
 
-			List propDefns = null;
+			List<IElementPropertyDefn> propDefns = null;
 			if ( virtualElement instanceof ExtendedItem )
 			{
 				propDefns = ( (ExtendedItem) virtualElement ).getExtDefn( )
@@ -3484,10 +3486,10 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		if ( tree == null || tree.isEmpty( ) )
 			return;
-		List children = tree.getChildren( );
+		List<ContentNode> children = tree.getChildren( );
 		for ( int i = 0; i < children.size( ); i++ )
 		{
-			ContentNode node = (ContentNode) children.get( i );
+			ContentNode node = children.get( i );
 			writeContentNode( node );
 		}
 	}
@@ -3507,18 +3509,18 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.startElement( tagName );
 
 		// attributes
-		Map attributes = node.getAttributes( );
-		Iterator keys = attributes.keySet( ).iterator( );
+		Map<String, Object> attributes = node.getAttributes( );
+		Iterator<String> keys = attributes.keySet( ).iterator( );
 		while ( keys.hasNext( ) )
 		{
-			String key = (String) keys.next( );
+			String key = keys.next( );
 			String attr = (String) attributes.get( key );
 			writer.attribute( key, attr );
 		}
 
 		// write the value or the children
 		String value = node.getValue( );
-		List children = node.getChildren( );
+		List<ContentNode> children = node.getChildren( );
 		assert StringUtil.isBlank( value ) || children.isEmpty( );
 		if ( !StringUtil.isBlank( value ) )
 		{
@@ -3531,7 +3533,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		{
 			for ( int i = 0; i < children.size( ); i++ )
 			{
-				ContentNode child = (ContentNode) children.get( i );
+				ContentNode child = children.get( i );
 				writeContentNode( child );
 			}
 		}

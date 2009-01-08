@@ -157,6 +157,7 @@ public class ReportDesignHandle extends ModuleHandle
 		implements
 			IReportDesignModel
 {
+
 	/**
 	 * Constructs a handle with the given design. The application generally does
 	 * not create handles directly. Instead, it uses one of the navigation
@@ -1185,11 +1186,12 @@ public class ReportDesignHandle extends ModuleHandle
 		for ( int i = 0; i < themeList.size( ); i++ )
 		{
 			themeHandle = themeList.get( i );
-			Iterator<IncludedCssStyleSheetHandle> iter = themeHandle
-					.getPropertyHandle( ThemeHandle.CSSES_PROP ).iterator( );
+			Iterator<Object> iter = themeHandle.getPropertyHandle(
+					ThemeHandle.CSSES_PROP ).iterator( );
 			while ( iter.hasNext( ) )
 			{
-				IncludedCssStyleSheetHandle sheetHandle = iter.next( );
+				IncludedCssStyleSheetHandle sheetHandle = (IncludedCssStyleSheetHandle) iter
+						.next( );
 				if ( sheetHandle.getExternalCssURI( ) != null )
 					ret.add( sheetHandle );
 			}
@@ -1207,14 +1209,14 @@ public class ReportDesignHandle extends ModuleHandle
 	public synchronized void cacheValues( )
 	{
 		module.setIsCached( true );
-		
+
 		module.cacheValues( );
-		
+
 		ContentIterator iter1 = new ContentIterator( module,
 				new ContainerContext( module, BODY_SLOT ) );
 		while ( iter1.hasNext( ) )
 		{
-			DesignElement tmpElement = (DesignElement) iter1.next( );
+			DesignElement tmpElement = iter1.next( );
 			if ( !( tmpElement instanceof ReportItem ) )
 				continue;
 

@@ -26,8 +26,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * Four types of error are defined:
  * <dl>
  * <dd>Design file is not found. <dn><code>INVALID_XML</code> </dn>
- * <dd>Design file is not a valid xml file. <dn><code>SYNTAX_ERROR</code>
- * </dn>
+ * <dd>Design file is not a valid xml file. <dn><code>SYNTAX_ERROR</code> </dn>
  * <dd>Design file has something conflicting MetaData definition. <dn>
  * <code>SEMANTIC_ERROR</code> </dn>
  * <dd>Design file is opened with semantic error.
@@ -50,7 +49,7 @@ public class DesignFileException extends ModelException
 	 * The list containing errors encountered when opening the design file.
 	 */
 
-	private List exceptionList = new ArrayList( );
+	private List<Exception> exceptionList = new ArrayList<Exception>( );
 
 	/**
 	 * The file name with the error.
@@ -119,7 +118,8 @@ public class DesignFileException extends ModelException
 	 *            exception list, each of them is the syntax error.
 	 */
 
-	public DesignFileException( String fileName, List errList )
+	public DesignFileException( String fileName,
+			List<? extends Exception> errList )
 	{
 		super( DESIGN_EXCEPTION_SYNTAX_ERROR );
 		this.fileName = fileName;
@@ -142,7 +142,8 @@ public class DesignFileException extends ModelException
 	 * 
 	 */
 
-	public DesignFileException( String fileName, List errList, Exception ex )
+	public DesignFileException( String fileName,
+			List<? extends Exception> errList, Exception ex )
 	{
 		super( DESIGN_EXCEPTION_INVALID_XML, null, ex );
 		this.fileName = fileName;
@@ -152,19 +153,19 @@ public class DesignFileException extends ModelException
 	}
 
 	/**
-	 * Returns the error list. Each item in the list is an instance of
-	 * <code>ErrorDetail</code>.
+	 * Returns the error list. Each item in the list is an instance of <code>
+	 * ErrorDetail</code>.
 	 * 
 	 * @return the error list.
 	 */
 
-	public List getErrorList( )
+	public List<ErrorDetail> getErrorList( )
 	{
-		List errorList = new ArrayList( );
-		Iterator iter = exceptionList.iterator( );
+		List<ErrorDetail> errorList = new ArrayList<ErrorDetail>( );
+		Iterator<Exception> iter = exceptionList.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			Exception e = (Exception) iter.next( );
+			Exception e = iter.next( );
 
 			errorList.add( new ErrorDetail( e ) );
 		}
@@ -179,7 +180,7 @@ public class DesignFileException extends ModelException
 	 * @return the exception list.
 	 */
 
-	public List getExceptionList( )
+	public List<Exception> getExceptionList( )
 	{
 		return exceptionList;
 	}
@@ -224,16 +225,15 @@ public class DesignFileException extends ModelException
 	/**
 	 * Returns a string representation of the exception. If the exception type
 	 * is SYNTAX_ERROR or INVALID_XML, this method checks all errors in the
-	 * <code>errorList</code> and assemble them into a string. The return
-	 * string is assembled in the ways:
+	 * <code>errorList</code> and assemble them into a string. The return string
+	 * is assembled in the ways:
 	 * 
 	 * <table border="1">
-	 * <th width="20%">Error Type</th>
-	 * <th width="40%">Message</th>
+	 * <th width="20%">Error Type</th> <th width="40%">Message</th>
 	 * 
 	 * <tr>
-	 * <td>SYNTAX_ERROR and INVALID_XML</td>
-	 * <td><code>[errorType]</code>- [numOfErrors] errors found. <br>
+	 * <td>SYNTAX_ERROR and INVALID_XML</td> <td><code>[errorType]</code>-
+	 * [numOfErrors] errors found. <br>
 	 * 1.) [detail messages.] <br>
 	 * 2.) [detail messages.] <br>
 	 * ... <br>
@@ -241,8 +241,7 @@ public class DesignFileException extends ModelException
 	 * </tr>
 	 * 
 	 * <tr>
-	 * <td>SEMANTIC_ERROR</td>
-	 * <td>Impossible to occur.</td>
+	 * <td>SEMANTIC_ERROR</td> <td>Impossible to occur.</td>
 	 * </tr>
 	 * 
 	 * </table>
@@ -265,17 +264,17 @@ public class DesignFileException extends ModelException
 		if ( sResourceKey == DESIGN_EXCEPTION_SYNTAX_ERROR
 				|| sResourceKey == DESIGN_EXCEPTION_INVALID_XML )
 		{
-			List errorList = getErrorList( );
+			List<ErrorDetail> errorList = getErrorList( );
 			if ( errorList != null )
 			{
 				sb.append( errorList.size( ) );
 				sb.append( " errors found! \n" ); //$NON-NLS-1$
 
 				int i = 1;
-				Iterator iter = errorList.iterator( );
+				Iterator<ErrorDetail> iter = errorList.iterator( );
 				while ( iter.hasNext( ) )
 				{
-					ErrorDetail e = (ErrorDetail) iter.next( );
+					ErrorDetail e = iter.next( );
 
 					sb.append( i++ );
 					sb.append( ".) " ); //$NON-NLS-1$

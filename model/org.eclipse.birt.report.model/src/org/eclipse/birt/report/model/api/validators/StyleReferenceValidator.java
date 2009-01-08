@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.StyleException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -27,13 +28,11 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * Validates the style reference value for <code>StyledElement</code>. If the
  * value can refer to an actual style, it will be resolved after validation.
  * 
- * <h3>Rule</h3>
- * The rule is that the style reference value should refer to an actual style in
- * the same report.
+ * <h3>Rule</h3> The rule is that the style reference value should refer to an
+ * actual style in the same report.
  * 
- * <h3>Applicability</h3>
- * This validator is only applied to the <code>StyledElement.STYLE_PROP</code>
- * value of <code>StyledElement</code>.
+ * <h3>Applicability</h3> This validator is only applied to the
+ * <code>StyledElement.STYLE_PROP</code> value of <code>StyledElement</code>.
  * 
  */
 
@@ -70,17 +69,19 @@ public class StyleReferenceValidator extends AbstractElementValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( Module module, DesignElement element )
+	public List<SemanticException> validate( Module module,
+			DesignElement element )
 	{
 		if ( !( element instanceof StyledElement ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		return doValidate( module, (StyledElement) element );
 	}
 
-	private List doValidate( Module module, StyledElement toValidate )
+	private List<SemanticException> doValidate( Module module,
+			StyledElement toValidate )
 	{
-		List list = new ArrayList( );
+		List<SemanticException> list = new ArrayList<SemanticException>( );
 
 		String styleName = toValidate.getStyleName( );
 		StyleElement style = toValidate.getStyle( );

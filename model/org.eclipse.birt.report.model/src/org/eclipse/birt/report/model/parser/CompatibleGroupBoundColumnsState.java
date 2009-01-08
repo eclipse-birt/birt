@@ -24,9 +24,9 @@ import org.xml.sax.SAXException;
  * Parses the ComputedColumn structure tag for compatibility.
  * <p>
  * Provide back-compatibility for original "boundDataColumns" member for
- * <code>GroupElement</code>.Delete 'boundDataColumns' property in
- * ListingGroup, when parsing design file if there is 'boundDataColumn' property
- * in ListingGroup in the old design file, bind the members of 'boundDataColumn'
+ * <code>GroupElement</code>.Delete 'boundDataColumns' property in ListingGroup,
+ * when parsing design file if there is 'boundDataColumn' property in
+ * ListingGroup in the old design file, bind the members of 'boundDataColumn'
  * property with the container of ListingGroup , either a Table or List.
  * <p>
  * The compatible version is equals or less than 3.2.1.
@@ -53,6 +53,7 @@ public class CompatibleGroupBoundColumnsState
 	 * @param element
 	 *            the element which holds this property, in this place it must
 	 *            be a Table or a List.
+	 * @param group
 	 */
 
 	CompatibleGroupBoundColumnsState( ModuleParserHandler theHandler,
@@ -110,7 +111,9 @@ public class CompatibleGroupBoundColumnsState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.ListPropertyState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.parser.ListPropertyState#startElement(java
+	 * .lang.String)
 	 */
 
 	public AbstractParseState startElement( String tagName )

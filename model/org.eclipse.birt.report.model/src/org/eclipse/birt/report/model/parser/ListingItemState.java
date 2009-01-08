@@ -60,11 +60,11 @@ public abstract class ListingItemState extends ReportItemState
 	 * report items.
 	 * 
 	 * @param handler
-	 * 		the design file parser handler
+	 *            the design file parser handler
 	 * @param theContainer
-	 * 		the element that contains this one
+	 *            the element that contains this one
 	 * @param slot
-	 * 		the slot in which this element appears
+	 *            the slot in which this element appears
 	 */
 
 	public ListingItemState( ModuleParserHandler handler,
@@ -79,11 +79,11 @@ public abstract class ListingItemState extends ReportItemState
 	 * element.
 	 * 
 	 * @param handler
-	 * 		the design file parser handler
+	 *            the design file parser handler
 	 * @param theContainer
-	 * 		the element that contains this one
+	 *            the element that contains this one
 	 * @param prop
-	 * 		the slot in which this element appears
+	 *            the slot in which this element appears
 	 */
 
 	public ListingItemState( ModuleParserHandler handler,
@@ -183,9 +183,9 @@ public abstract class ListingItemState extends ReportItemState
 	 * equals to the input column.
 	 * 
 	 * @param columns
-	 * 		the bound column list
+	 *            the bound column list
 	 * @param column
-	 * 		the input bound column
+	 *            the input bound column
 	 * @return the matched bound column
 	 */
 
@@ -228,9 +228,9 @@ public abstract class ListingItemState extends ReportItemState
 	 * Creates a unique bound column name in the column bound list.
 	 * 
 	 * @param columns
-	 * 		the bound column list
+	 *            the bound column list
 	 * @param checkColumn
-	 * 		the column of which name to check
+	 *            the column of which name to check
 	 * @return the newly created column name
 	 */
 
@@ -260,9 +260,9 @@ public abstract class ListingItemState extends ReportItemState
 	 * be resetted.
 	 * 
 	 * @param group
-	 * 		the group element
+	 *            the group element
 	 * @param columns
-	 * 		the bound column list
+	 *            the bound column list
 	 */
 
 	private void reCheckResultSetColumnName( GroupElement group, List columns )
@@ -277,7 +277,7 @@ public abstract class ListingItemState extends ReportItemState
 				handler.module, group, level );
 		while ( contentIter.hasNext( ) )
 		{
-			DesignElement item = (DesignElement) contentIter.next( );
+			DesignElement item = contentIter.next( );
 			if ( !( item instanceof DataItem ) )
 				continue;
 
@@ -307,13 +307,13 @@ public abstract class ListingItemState extends ReportItemState
 	 * features.
 	 * 
 	 * @param columns
-	 * 		bound columns to add
+	 *            bound columns to add
 	 * @param tmpList
-	 * 		bound column values of the listing container
+	 *            bound column values of the listing container
 	 * @param group
-	 * 		the list/table group
+	 *            the list/table group
 	 * @param groupName
-	 * 		the group name
+	 *            the group name
 	 */
 
 	public void addCachedListWithAggregateOnToListing( List columns,
@@ -348,13 +348,13 @@ public abstract class ListingItemState extends ReportItemState
 	 * feature and the group defined the bound column properties.
 	 * 
 	 * @param columns
-	 * 		bound columns to add
+	 *            bound columns to add
 	 * @param tmpList
-	 * 		bound column values of the listing container
+	 *            bound column values of the listing container
 	 * @param group
-	 * 		the list/table group
+	 *            the list/table group
 	 * @param groupName
-	 * 		the group name
+	 *            the group name
 	 */
 
 	public void addCachedListToListing( List columns, List tmpList,

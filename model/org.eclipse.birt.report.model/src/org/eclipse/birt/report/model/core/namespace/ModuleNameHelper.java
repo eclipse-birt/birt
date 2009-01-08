@@ -55,14 +55,14 @@ public class ModuleNameHelper extends AbstractNameHelper
 	 * used again to avoid the duplicate. This may be used when some extensions
 	 * is not well-parsed or other reasons.
 	 */
-	private List cachedContentNames[] = new ArrayList[Module.NAME_SPACE_COUNT];
+	private List<String> cachedContentNames[] = new ArrayList[Module.NAME_SPACE_COUNT];
 
 	/**
 	 * This map to store all level elements for the backward compatibility after
 	 * convert level name to local unique in dimension. It just used in parser.
 	 * After parser, we will clear it.
 	 */
-	private Map cachedLevelNames = new HashMap( );
+	private Map<String, DesignElement> cachedLevelNames = new HashMap( );
 
 	/**
 	 * 
@@ -78,7 +78,9 @@ public class ModuleNameHelper extends AbstractNameHelper
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.AbstractNameHelper#initialize()
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.AbstractNameHelper#initialize
+	 * ()
 	 */
 	protected void initialize( )
 	{
@@ -95,7 +97,9 @@ public class ModuleNameHelper extends AbstractNameHelper
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#getNameSpaceCount()
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getNameSpaceCount
+	 * ()
 	 */
 	public int getNameSpaceCount( )
 	{
@@ -105,7 +109,9 @@ public class ModuleNameHelper extends AbstractNameHelper
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#getUniqueName(org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getUniqueName
+	 * (org.eclipse.birt.report.model.core.DesignElement)
 	 */
 	public String getUniqueName( DesignElement element )
 	{
@@ -145,7 +151,7 @@ public class ModuleNameHelper extends AbstractNameHelper
 			return null;
 
 		if ( module instanceof Library && element instanceof StyleElement
-				&& element.getContainer( ) == null && name != null  )
+				&& element.getContainer( ) == null && name != null )
 		{
 			return name;
 		}
@@ -153,7 +159,7 @@ public class ModuleNameHelper extends AbstractNameHelper
 		// If the element already has a unique name, return it.
 		int nameSpaceID = eDefn.getNameSpaceID( );
 		NameSpace nameSpace = getCachedNameSpace( nameSpaceID );
-		List cachedContentNames = getCachedContentNames( nameSpaceID );
+		List<String> cachedContentNames = getCachedContentNames( nameSpaceID );
 		NameSpace moduleNameSpace = nameContexts[nameSpaceID].getNameSpace( );
 		if ( name != null && isValidInNameSpace( nameSpace, element, name )
 				&& isValidInNameSpace( moduleNameSpace, element, name )
@@ -219,11 +225,13 @@ public class ModuleNameHelper extends AbstractNameHelper
 
 		return name;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#makeUniqueName(org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameHelper#makeUniqueName
+	 * (org.eclipse.birt.report.model.core.DesignElement)
 	 */
 	public void makeUniqueName( DesignElement element )
 	{
@@ -247,7 +255,7 @@ public class ModuleNameHelper extends AbstractNameHelper
 	 *            the name space id to get
 	 * @return the cached content name list with the given id
 	 */
-	List getCachedContentNames( int id )
+	List<String> getCachedContentNames( int id )
 	{
 		assert id >= 0 && id < Module.NAME_SPACE_COUNT;
 		return cachedContentNames[id];
@@ -256,7 +264,9 @@ public class ModuleNameHelper extends AbstractNameHelper
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#dropElement(org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameHelper#dropElement(
+	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 	public void dropElement( DesignElement element )
 	{
@@ -366,8 +376,9 @@ public class ModuleNameHelper extends AbstractNameHelper
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#addContentName(int,
-	 *      java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameHelper#addContentName
+	 * (int, java.lang.String)
 	 */
 	public void addContentName( int id, String name )
 	{
@@ -381,7 +392,8 @@ public class ModuleNameHelper extends AbstractNameHelper
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#getElement()
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getElement()
 	 */
 	public DesignElement getElement( )
 	{
@@ -391,7 +403,7 @@ public class ModuleNameHelper extends AbstractNameHelper
 	/**
 	 * 
 	 * @param level
-	 * @return
+	 * @return true if level is correctly added, otherwise false
 	 */
 	public boolean addCachedLevel( DesignElement level )
 	{
@@ -412,7 +424,7 @@ public class ModuleNameHelper extends AbstractNameHelper
 	 * Finds a level by the given qualified name.
 	 * 
 	 * @param elementName
-	 * @return
+	 * @return the level if found, otherwise null
 	 */
 	public Level findCachedLevel( String elementName )
 	{
@@ -434,12 +446,12 @@ public class ModuleNameHelper extends AbstractNameHelper
 	public void clearCachedLevels( )
 	{
 		cachedLevelNames = null;
-		List libs = module.getAllLibraries( );
+		List<Library> libs = module.getAllLibraries( );
 		if ( libs == null )
 			return;
 		for ( int i = 0; i < libs.size( ); i++ )
 		{
-			Library lib = (Library) libs.get( i );
+			Library lib = libs.get( i );
 			( (ModuleNameHelper) lib.getNameHelper( ) ).cachedLevelNames = null;
 		}
 	}

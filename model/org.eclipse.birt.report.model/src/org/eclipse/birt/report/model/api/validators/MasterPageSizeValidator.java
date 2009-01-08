@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.util.Point;
 import org.eclipse.birt.report.model.api.util.Rectangle;
@@ -26,16 +27,15 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 /**
  * Validates the page size is invalid.
  * 
- * <h3>Rule</h3>
- * The rule is that
+ * <h3>Rule</h3> The rule is that
  * <ul>
  * <li>the <code>MasterPage.HEIGHT_PROP</code> and
  * <code>MasterPage.WIDTH_PROP</code> must be larger than or equals zero.
  * <li>the margin space shouldn't occupy all page space.
  * </ul>
  * 
- * <h3>Applicability</h3>
- * This validator is only applied to <code>MasterPage</code>.
+ * <h3>Applicability</h3> This validator is only applied to
+ * <code>MasterPage</code>.
  */
 
 public class MasterPageSizeValidator extends AbstractElementValidator
@@ -66,17 +66,19 @@ public class MasterPageSizeValidator extends AbstractElementValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( Module module, DesignElement element )
+	public List<SemanticException> validate( Module module,
+			DesignElement element )
 	{
 		if ( !( element instanceof MasterPage ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		return doValidate( module, (MasterPage) element );
 	}
 
-	private List doValidate( Module module, MasterPage toValidate )
+	private List<SemanticException> doValidate( Module module,
+			MasterPage toValidate )
 	{
-		List list = new ArrayList( );
+		List<SemanticException> list = new ArrayList<SemanticException>( );
 
 		// Validate the size. Must be positive in both dimensions.
 

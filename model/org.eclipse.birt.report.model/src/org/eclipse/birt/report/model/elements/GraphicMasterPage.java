@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GraphicMasterPageHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.validators.MasterPageMultiColumnValidator;
 import org.eclipse.birt.report.model.api.validators.MasterPageTypeValidator;
@@ -112,11 +113,11 @@ public class GraphicMasterPage extends MasterPage
 	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( Module module )
+	public List<SemanticException> validate( Module module )
 	{
-		List list = super.validate( module );
+		List<SemanticException> list = super.validate( module );
 
-		List pageSizeErrors = MasterPageTypeValidator.getInstance( ).validate(
+		List<SemanticException> pageSizeErrors = MasterPageTypeValidator.getInstance( ).validate(
 				module, this );
 		if ( pageSizeErrors.isEmpty( ) )
 		{

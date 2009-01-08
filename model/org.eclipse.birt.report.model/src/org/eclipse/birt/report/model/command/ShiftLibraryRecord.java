@@ -64,23 +64,23 @@ public class ShiftLibraryRecord extends AbstractLibraryRecord
 
 	protected void perform( boolean undo )
 	{
-		library = (Library) module.getLibraries( ).get(
-				undo ? newPosn : oldPosn );
+		library = module.getLibraries( ).get( undo ? newPosn : oldPosn );
 		assert library != null;
 
 		module.dropLibrary( library );
 		module.insertLibrary( library, undo ? oldPosn : newPosn );
 
-		List librariesToUpdate = module.getLibraries( ).subList(
+		List<Library> librariesToUpdate = module.getLibraries( ).subList(
 				Math.min( oldPosn, newPosn ), Math.max( oldPosn, newPosn ) );
 
-		updateReferenceableClients( librariesToUpdate );
+		updateReferenceableClients( librariesToUpdate.size( ) );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
+	 * @see
+	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
 
 	public DesignElement getTarget( )
@@ -91,7 +91,8 @@ public class ShiftLibraryRecord extends AbstractLibraryRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
+	 * @see
+	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
 	 */
 
 	public NotificationEvent getEvent( )

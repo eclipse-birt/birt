@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.api.validators;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -23,12 +24,11 @@ import org.eclipse.birt.report.model.validators.AbstractPropertyValidator;
 /**
  * Validates the property value is required.
  * 
- * <h3>Rule</h3>
- * The rule is that the value should be provided for one required property.
+ * <h3>Rule</h3> The rule is that the value should be provided for one required
+ * property.
  * 
- * <h3>Applicability</h3>
- * This validator is only applied to the required properties of
- * <code>DesignElement</code>.
+ * <h3>Applicability</h3> This validator is only applied to the required
+ * properties of <code>DesignElement</code>.
  */
 
 public class ValueRequiredValidator extends AbstractPropertyValidator
@@ -66,10 +66,10 @@ public class ValueRequiredValidator extends AbstractPropertyValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( Module module, DesignElement element,
-			String propName )
+	public List<SemanticException> validate( Module module,
+			DesignElement element, String propName )
 	{
-		List list = new ArrayList( );
+		List<SemanticException> list = new ArrayList<SemanticException>( );
 
 		Object value = element.getProperty( module, propName );
 		if ( value == null

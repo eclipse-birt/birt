@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.activity.LayoutRecordTask;
 import org.eclipse.birt.report.model.activity.RecordTask;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.IVersionInfo;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -119,7 +120,7 @@ public class ModelUtil
 	 * 
 	 * @param module
 	 * @param cssStyleHandle
-	 * @return
+	 * @return the shared style handle from the css style handle
 	 */
 	public static SharedStyleHandle TransferCssStyleToSharedStyle(
 			Module module, SharedStyleHandle cssStyleHandle )
@@ -142,11 +143,12 @@ public class ModelUtil
 	 * @return if exist return true; else return false;
 	 */
 
-	public static int getStylePosition( List styleList, String name )
+	public static int getStylePosition( List<? extends StyleElement> styleList,
+			String name )
 	{
 		for ( int i = 0; i < styleList.size( ); ++i )
 		{
-			StyleElement style = (StyleElement) styleList.get( i );
+			StyleElement style = styleList.get( i );
 			String styleName = style.getName( );
 
 			boolean isSelector = MetaDataDictionary.getInstance( )
@@ -242,7 +244,7 @@ public class ModelUtil
 	 *            handle of the destination element
 	 * @param onlyFactoryProperty
 	 *            indicate whether only factory property values are duplicated.
-	 * @param removeNamespace
+	 * @param removeNameSpace
 	 *            indicate whether the name space of the extended item property
 	 *            should be removed.
 	 */
@@ -273,7 +275,7 @@ public class ModelUtil
 
 			if ( valueToSet != null )
 			{
-				Iterator iter = ( (List) valueToSet ).iterator( );
+				Iterator<Object> iter = ( (List) valueToSet ).iterator( );
 				while ( iter.hasNext( ) )
 				{
 					UserPropertyDefn userPropDefn = (UserPropertyDefn) iter
@@ -288,7 +290,7 @@ public class ModelUtil
 			duplicateExtensionIdentifier( source.getElement( ), destination
 					.getElement( ), source.getModule( ) );
 
-		Iterator iter = source.getPropertyIterator( );
+		Iterator<Object> iter = source.getPropertyIterator( );
 
 		while ( iter.hasNext( ) )
 		{
@@ -341,7 +343,7 @@ public class ModelUtil
 			else if ( IModuleModel.IMAGES_PROP.equals( propName ) )
 			{
 				// Copy the embedded images
-				Iterator images = source.getPropertyHandle(
+				Iterator<Object> images = source.getPropertyHandle(
 						IModuleModel.IMAGES_PROP ).iterator( );
 				while ( images.hasNext( ) )
 				{
@@ -449,7 +451,7 @@ public class ModelUtil
 	 * @return The cloned structure list.
 	 */
 
-	private static ArrayList cloneStructList( List list )
+	public static ArrayList cloneStructList( List list )
 	{
 		if ( list == null )
 			return null;
@@ -605,14 +607,14 @@ public class ModelUtil
 	 * @return a list contained filtrated table layout tasks
 	 */
 
-	public static List filterLayoutTasks( List tasks )
+	public static List<RecordTask> filterLayoutTasks( List<RecordTask> tasks )
 	{
-		List retList = new ArrayList( );
-		Set elements = new LinkedHashSet( );
+		List<RecordTask> retList = new ArrayList<RecordTask>( );
+		Set<DesignElement> elements = new LinkedHashSet<DesignElement>( );
 
 		for ( int i = 0; i < tasks.size( ); i++ )
 		{
-			RecordTask task = (RecordTask) tasks.get( i );
+			RecordTask task = tasks.get( i );
 
 			if ( task instanceof LayoutRecordTask )
 			{
@@ -639,12 +641,12 @@ public class ModelUtil
 	 * @return the fatal exception, otherwise, return null.
 	 */
 
-	public static Exception getFirstFatalException( List list )
+	public static Exception getFirstFatalException( List<Exception> list )
 	{
-		Iterator iter = list.iterator( );
+		Iterator<Exception> iter = list.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			Exception ex = (Exception) iter.next( );
+			Exception ex = iter.next( );
 			if ( ex instanceof XMLParserException )
 			{
 				XMLParserException parserException = (XMLParserException) ex;
@@ -726,7 +728,8 @@ public class ModelUtil
 	 *         display name.
 	 */
 
-	public static List sortPropertiesByLocalizedName( List propDefns )
+	public static List<IPropertyDefn> sortPropertiesByLocalizedName(
+			List<IPropertyDefn> propDefns )
 	{
 		// Use the static factory method, getInstance, to obtain the appropriate
 		// Collator object for the current
@@ -751,7 +754,7 @@ public class ModelUtil
 			collator.setStrength( Collator.PRIMARY );
 		}
 
-		final Map keysMap = new HashMap( );
+		final Map<PropertyDefn, CollationKey> keysMap = new HashMap<PropertyDefn, CollationKey>( );
 		for ( int i = 0; i < propDefns.size( ); i++ )
 		{
 			PropertyDefn propDefn = (PropertyDefn) propDefns.get( i );
@@ -765,15 +768,15 @@ public class ModelUtil
 			keysMap.put( propDefn, key );
 		}
 
-		Collections.sort( propDefns, new Comparator( ) {
+		Collections.sort( propDefns, new Comparator<IPropertyDefn>( ) {
 
-			public int compare( Object o1, Object o2 )
+			public int compare( IPropertyDefn o1, IPropertyDefn o2 )
 			{
 				PropertyDefn p1 = (PropertyDefn) o1;
 				PropertyDefn p2 = (PropertyDefn) o2;
-
-				CollationKey key1 = (CollationKey) keysMap.get( p1 );
-				CollationKey key2 = (CollationKey) keysMap.get( p2 );
+				
+				CollationKey key1 = keysMap.get( p1 );
+				CollationKey key2 = keysMap.get( p2 );
 
 				// Comparing two CollationKeys returns the relative order of the
 				// Strings they represent. Using CollationKeys to compare
@@ -794,18 +797,17 @@ public class ModelUtil
 	 * @return a sorted list of element.
 	 */
 
-	public static List sortElementsByName( List elements )
+	public static List<DesignElementHandle> sortElementsByName(
+			List<DesignElementHandle> elements )
 	{
-		List temp = new ArrayList( elements );
-		Collections.sort( temp, new Comparator( ) {
+		List<DesignElementHandle> temp = new ArrayList<DesignElementHandle>(
+				elements );
+		Collections.sort( temp, new Comparator<DesignElementHandle>( ) {
 
-			public int compare( Object o1, Object o2 )
+			public int compare( DesignElementHandle o1, DesignElementHandle o2 )
 			{
-				DesignElementHandle handle1 = (DesignElementHandle) o1;
-				DesignElementHandle handle2 = (DesignElementHandle) o2;
-
-				String name1 = handle1.getName( );
-				String name2 = handle2.getName( );
+				String name1 = o1.getName( );
+				String name2 = o2.getName( );
 
 				if ( null == name1 )
 				{
@@ -880,22 +882,23 @@ public class ModelUtil
 	public static void reviseNameSpace( Module module, DesignElement content,
 			String nameSpace )
 	{
-		Iterator propNames = content.propertyWithLocalValueIterator( );
+		Iterator<String> propNames = content.propertyWithLocalValueIterator( );
 		IElementDefn defn = content.getDefn( );
 
 		while ( propNames.hasNext( ) )
 		{
-			String propName = (String) propNames.next( );
+			String propName = propNames.next( );
 
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) defn
 					.getProperty( propName );
 			revisePropertyNameSpace( module, content, propDefn, nameSpace );
 		}
 
-		Iterator iter = new LevelContentIterator( module, content, 1 );
+		Iterator<DesignElement> iter = new LevelContentIterator( module,
+				content, 1 );
 		while ( iter.hasNext( ) )
 		{
-			DesignElement item = (DesignElement) iter.next( );
+			DesignElement item = iter.next( );
 			reviseNameSpace( module, item, nameSpace );
 		}
 	}
@@ -956,10 +959,10 @@ public class ModelUtil
 
 		// Check contents.
 
-		Iterator iter = new ContentIterator( module, element );
+		Iterator<DesignElement> iter = new ContentIterator( module, element );
 		while ( iter.hasNext( ) )
 		{
-			DesignElement e = (DesignElement) iter.next( );
+			DesignElement e = iter.next( );
 			IElementDefn targetDefn = e.getDefn( );
 			if ( targetDefn.isKindOf( defn ) )
 				return true;
@@ -1182,11 +1185,12 @@ public class ModelUtil
 	{
 		String reportLocation = targetLibraryHandle.getModule( ).getLocation( );
 
-		List libList = designToExport.getModule( ).getAllLibraries( );
+		List<Library> libList = designToExport.getModule( ).getAllLibraries( );
 
-		for ( Iterator libIter = libList.iterator( ); libIter.hasNext( ); )
+		for ( Iterator<Library> libIter = libList.iterator( ); libIter
+				.hasNext( ); )
 		{
-			Library library = (Library) libIter.next( );
+			Library library = libIter.next( );
 			String libLocation = library.getRoot( ).getLocation( );
 
 			if ( reportLocation.equals( libLocation ) )
@@ -1208,9 +1212,9 @@ public class ModelUtil
 	 * @return a list containing <code>IVersionInfo</code>
 	 */
 
-	public static List checkVersion( String version )
+	public static List<IVersionInfo> checkVersion( String version )
 	{
-		List rtnList = new ArrayList( );
+		List<IVersionInfo> rtnList = new ArrayList<IVersionInfo>( );
 
 		int versionNo = -1;
 
@@ -1431,12 +1435,12 @@ public class ModelUtil
 		if ( reference == referred )
 			return true;
 
-		List backRefs = referred.getClientList( );
+		List<BackRef> backRefs = referred.getClientList( );
 
-		List referenceElements = new ArrayList( );
+		List<DesignElement> referenceElements = new ArrayList<DesignElement>( );
 		for ( int i = 0; i < backRefs.size( ); i++ )
 		{
-			BackRef backRef = (BackRef) backRefs.get( i );
+			BackRef backRef = backRefs.get( i );
 			DesignElement tmpElement = backRef.getElement( );
 
 			if ( tmpElement == reference )
@@ -1645,6 +1649,7 @@ public class ModelUtil
 	 * 
 	 * @param module
 	 *            the module
+	 * @param styleSheet
 	 * @param fileName
 	 *            the css file name
 	 * @param sheetException
@@ -1763,10 +1768,11 @@ public class ModelUtil
 	{
 		if ( struct == null )
 			return;
-		Iterator members = struct.getDefn( ).getPropertyIterator( );
+		Iterator<IPropertyDefn> members = struct.getDefn( )
+				.getPropertyIterator( );
 		while ( members.hasNext( ) )
 		{
-			IPropertyDefn member = (IPropertyDefn) members.next( );
+			IPropertyDefn member = members.next( );
 			if ( member.getTypeCode( ) != IPropertyType.STRUCT_TYPE )
 				continue;
 

@@ -28,5 +28,5 @@ public interface IValidatorProvider
 	 * @return the provided validator list
 	 */
 
-	public List getValidators( );
+	public List<ValidationNode> getValidators( );
 }

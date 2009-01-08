@@ -44,8 +44,8 @@ public class SlotHandle extends ElementDetailHandle
 	/**
 	 * Constructs a handle for the slot with the given design element handle and
 	 * the id of the slot. The application generally does not create a slot
-	 * handle directly. Instead, it calls the <code>getSlot( )</code> method
-	 * on an element handle, or one of the specific methods on the handle for an
+	 * handle directly. Instead, it calls the <code>getSlot( )</code> method on
+	 * an element handle, or one of the specific methods on the handle for an
 	 * element that is a container.
 	 * 
 	 * @param element
@@ -195,7 +195,8 @@ public class SlotHandle extends ElementDetailHandle
 			return Collections.EMPTY_LIST;
 		add( content.getHandle( getModule( ) ) );
 
-		return getElementHandle( ).checkPostPasteErrors( (DesignElement) content);
+		return getElementHandle( ).checkPostPasteErrors(
+				(DesignElement) content );
 	}
 
 	/**
@@ -246,7 +247,8 @@ public class SlotHandle extends ElementDetailHandle
 			return Collections.EMPTY_LIST;
 		add( content.getHandle( getModule( ) ), newPos );
 
-		return getElementHandle( ).checkPostPasteErrors( (DesignElement) content );
+		return getElementHandle( ).checkPostPasteErrors(
+				(DesignElement) content );
 
 	}
 
@@ -515,8 +517,8 @@ public class SlotHandle extends ElementDetailHandle
 
 	/**
 	 * Determines if the slot can contain an element with the type of
-	 * <code>type</code>. Even return value is <code>true</code>, doesn't
-	 * mean the element can be added/moved without exceptions.
+	 * <code>type</code>. Even return value is <code>true</code>, doesn't mean
+	 * the element can be added/moved without exceptions.
 	 * 
 	 * @param type
 	 *            the name of the element type, like "Table", "List", etc.
@@ -531,16 +533,16 @@ public class SlotHandle extends ElementDetailHandle
 	}
 
 	/**
-	 * Determines if the given slot can contain the <code>content</code>.
-	 * Even return value is <code>true</code>, doesn't mean the element can
-	 * be added/moved without exceptions.
+	 * Determines if the given slot can contain the <code>content</code>. Even
+	 * return value is <code>true</code>, doesn't mean the element can be
+	 * added/moved without exceptions.
 	 * 
 	 * @param content
 	 *            the design element handle to check
 	 * 
-	 * @return <code>true</code> if the slot with the given
-	 *         <code>slotId</code> can contain the <code>content</code>,
-	 *         otherwise <code>false</code>.
+	 * @return <code>true</code> if the slot with the given <code>slotId</code>
+	 *         can contain the <code>content</code>, otherwise
+	 *         <code>false</code>.
 	 */
 
 	public boolean canContain( DesignElementHandle content )

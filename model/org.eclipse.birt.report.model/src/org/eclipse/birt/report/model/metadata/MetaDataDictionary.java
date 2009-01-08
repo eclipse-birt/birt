@@ -458,9 +458,11 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * @return a list of rom-defined property types.
 	 */
 
-	public List<PropertyType> getPropertyTypes( )
+	public List<IPropertyType> getPropertyTypes( )
 	{
-		return Arrays.asList( propertyTypes );
+		List<IPropertyType> values = new ArrayList<IPropertyType>( );
+		values.addAll( Arrays.asList( propertyTypes ) );
+		return values;
 	}
 
 	/**
@@ -913,7 +915,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	/**
 	 * Gets all the encryption helpers.
 	 * 
-	 * @return
+	 * @return the list of all the encryption helpers
 	 */
 	public List<IEncryptionHelper> getEncryptionHelpers( )
 	{
@@ -936,7 +938,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	/**
 	 * Gets the default encryption id.
 	 * 
-	 * @return
+	 * @return the ID of the default encryption helper
 	 */
 	public String getDefaultEncryptionHelperID( )
 	{

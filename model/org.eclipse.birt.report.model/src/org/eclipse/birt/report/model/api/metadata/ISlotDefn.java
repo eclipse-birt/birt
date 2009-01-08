@@ -20,8 +20,8 @@ import org.eclipse.birt.report.model.metadata.IContainerDefn;
  * Interface for the definition of a slot within an element. It defines methods
  * to get Meta-data information about a slot within an element. Elements can act
  * as a <em>container</em>, that is one that can contain other elements. A
- * container has one or more <em>slots</em>. Many elements have just one
- * slot, but some (such as the design) have several.
+ * container has one or more <em>slots</em>. Many elements have just one slot,
+ * but some (such as the design) have several.
  */
 
 public interface ISlotDefn extends IContainerDefn
@@ -74,7 +74,7 @@ public interface ISlotDefn extends IContainerDefn
 	 * @return the list of content elements.
 	 */
 
-	public List getContentElements( );
+	public List<IElementDefn> getContentElements( );
 
 	/**
 	 * Returns the set of element types that can appear in the slot. Each object
@@ -84,7 +84,7 @@ public interface ISlotDefn extends IContainerDefn
 	 * @return the list of content elements.
 	 */
 
-	public List getContentExtendedElements( );
+	public List<IElementDefn> getContentExtendedElements( );
 
 	/**
 	 * Determines if this slot can contain an element of the given type.
@@ -113,26 +113,25 @@ public interface ISlotDefn extends IContainerDefn
 	 * @return version in which the slot was introduced.
 	 * 
 	 */
-	
+
 	public String getSince( );
 
 	/**
-	 * Return the XML element used to hold slot contents. If blank,
-	 * then the slot is anonymous (its contents appear directly inside
-	 * the container.)
+	 * Return the XML element used to hold slot contents. If blank, then the
+	 * slot is anonymous (its contents appear directly inside the container.)
 	 * 
 	 * @return the XML element used to hold slot contents
 	 */
-	
+
 	public String getXmlName( );
-	
+
 	/**
-	 * Returns the selector associated with the slot. Some selectors end
-	 * with -n. In this case, the n represents the number 1 though 9, depending
-	 * on the slot location.
+	 * Returns the selector associated with the slot. Some selectors end with
+	 * -n. In this case, the n represents the number 1 though 9, depending on
+	 * the slot location.
 	 * 
 	 * @return the default style for this slot.
 	 */
-	
+
 	public String getSelector( );
 }

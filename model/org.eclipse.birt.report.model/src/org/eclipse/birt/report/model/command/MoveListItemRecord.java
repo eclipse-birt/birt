@@ -45,7 +45,7 @@ public class MoveListItemRecord extends SimpleRecord
 	 * The list that contains the item.
 	 */
 
-	protected List list = null;
+	protected List<Object> list = null;
 
 	/**
 	 * The old position of the item.
@@ -74,8 +74,8 @@ public class MoveListItemRecord extends SimpleRecord
 	 *            the new position of the item
 	 */
 
-	public MoveListItemRecord( DesignElement obj, MemberRef ref, List theList,
-			int from, int to )
+	public MoveListItemRecord( DesignElement obj, MemberRef ref,
+			List<Object> theList, int from, int to )
 	{
 		assert obj != null;
 		assert ref != null;

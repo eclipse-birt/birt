@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.elements;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.validators.DataSetResultSetValidator;
 import org.eclipse.birt.report.model.api.validators.ElementReferenceValidator;
 import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
@@ -65,12 +66,14 @@ public abstract class SimpleDataSet extends DataSet
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
+	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( Module module )
+	public List<SemanticException> validate( Module module )
 	{
-		List list = super.validate( module );
+		List<SemanticException> list = super.validate( module );
 
 		// Check the data source value is required
 
@@ -89,9 +92,6 @@ public abstract class SimpleDataSet extends DataSet
 		list.addAll( validateStructureList( module, COMPUTED_COLUMNS_PROP ) );
 		list.addAll( validateStructureList( module, COLUMN_HINTS_PROP ) );
 		list.addAll( validateStructureList( module, FILTER_PROP ) );
-
-		list.addAll( DataSetResultSetValidator.getInstance( ).validate( module,
-				this ) );
 
 		return list;
 	}

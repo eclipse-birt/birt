@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.LayoutRecordTask;
+import org.eclipse.birt.report.model.activity.RecordTask;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ExtensionPropertyDefinitionEvent;
@@ -32,6 +33,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
+import org.eclipse.birt.report.model.validators.ValidationNode;
 
 /**
  * Changes the value of a property. The caller must have previously validated
@@ -141,7 +143,7 @@ public class PropertyRecord extends SimpleRecord
 	{
 		if ( localValue instanceof List )
 		{
-			ArrayList newValue = new ArrayList( );
+			ArrayList<Object> newValue = new ArrayList<Object>( );
 			newValue.addAll( (List) localValue );
 			return newValue;
 		}
@@ -319,7 +321,7 @@ public class PropertyRecord extends SimpleRecord
 	 * @see
 	 * org.eclipse.birt.report.model.validators.IValidatable#getValidators()
 	 */
-	public List getValidators( )
+	public List<ValidationNode> getValidators( )
 	{
 		return ValidationExecutor.getValidationNodes( element, propDefn
 				.getTriggerDefnSet( ), false );
@@ -342,9 +344,9 @@ public class PropertyRecord extends SimpleRecord
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
 	 */
 
-	protected List getPostTasks( )
+	protected List<RecordTask> getPostTasks( )
 	{
-		List retValue = new ArrayList( );
+		List<RecordTask> retValue = new ArrayList<RecordTask>( );
 		retValue.addAll( super.getPostTasks( ) );
 
 		if ( !( element instanceof Cell ) )

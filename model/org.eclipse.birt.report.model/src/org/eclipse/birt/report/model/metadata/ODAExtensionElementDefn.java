@@ -30,7 +30,7 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 public final class ODAExtensionElementDefn extends ExtensionElementDefn
 {
 
-	private List hidePrivateProps = null;
+	private List<IElementPropertyDefn> hidePrivateProps = null;
 
 	/**
 	 * Constructs the add-on extension element definition with element
@@ -134,22 +134,22 @@ public final class ODAExtensionElementDefn extends ExtensionElementDefn
 		if ( propVisibilites == null )
 			return;
 
-		Iterator propNames = propVisibilites.keySet( ).iterator( );
+		Iterator<String> propNames = propVisibilites.keySet( ).iterator( );
 		while ( propNames.hasNext( ) )
 		{
-			String propName = (String) propNames.next( );
+			String propName = propNames.next( );
 			IElementPropertyDefn propDefn = getProperty( propName );
 
 			if ( propDefn.getValueType( ) != IPropertyDefn.ODA_PROPERTY )
 				continue;
 
-			String visibility = (String) propVisibilites.get( propName );
+			String visibility = propVisibilites.get( propName );
 			if ( !DesignChoiceConstants.PROPERTY_MASK_TYPE_HIDE
 					.equalsIgnoreCase( visibility ) )
 				continue;
 
 			if ( hidePrivateProps == null )
-				hidePrivateProps = new ArrayList( );
+				hidePrivateProps = new ArrayList<IElementPropertyDefn>( );
 
 			hidePrivateProps.add( getProperty( propName ) );
 			cachedProperties.remove( propName );
@@ -166,16 +166,15 @@ public final class ODAExtensionElementDefn extends ExtensionElementDefn
 	 * @return a list containing private driver property names
 	 */
 
-	public List getODAPrivateDriverPropertyNames( )
+	public List<String> getODAPrivateDriverPropertyNames( )
 	{
 		if ( hidePrivateProps == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
-		List retList = new ArrayList( );
+		List<String> retList = new ArrayList<String>( );
 		for ( int i = 0; i < hidePrivateProps.size( ); i++ )
 		{
-			IElementPropertyDefn propDefn = (IElementPropertyDefn) hidePrivateProps
-					.get( i );
+			IElementPropertyDefn propDefn = hidePrivateProps.get( i );
 			retList.add( propDefn.getName( ) );
 		}
 		return Collections.unmodifiableList( retList );

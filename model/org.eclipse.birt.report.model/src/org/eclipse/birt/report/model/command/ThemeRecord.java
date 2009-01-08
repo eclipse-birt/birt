@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.api.command.ThemeEvent;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -129,7 +129,7 @@ public class ThemeRecord extends SimpleRecord
 
 	private void updateStyles( ElementRefValue theme )
 	{
-		// if the old theme is empty of not resolved. Do not need to unresolv.
+		// if the old theme is empty of not resolved. Do not need to unresolve.
 
 		if ( theme == null )
 			return;
@@ -138,11 +138,11 @@ public class ThemeRecord extends SimpleRecord
 			return;
 
 		Theme t = (Theme) theme.getElement( );
-		List styles = t.getAllStyles( );
-		Iterator iter = styles.iterator( );
+		List<StyleElement> styles = t.getAllStyles( );
+		Iterator<StyleElement> iter = styles.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			Style style = (Style) iter.next( );
+			StyleElement style = iter.next( );
 			style.updateClientReferences( );
 		}
 	}

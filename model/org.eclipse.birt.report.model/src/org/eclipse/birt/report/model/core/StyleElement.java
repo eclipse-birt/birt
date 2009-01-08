@@ -19,13 +19,13 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.NameEvent;
 import org.eclipse.birt.report.model.api.command.StyleEvent;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * Represents an element that defines a style. An element that uses this style
@@ -149,7 +149,7 @@ public abstract class StyleElement extends ReferenceableElement
 
 		// Broad the event to the elements selected by selector style.
 
-		List selectors = new ArrayList( );
+		List<String> selectors = new ArrayList<String>( );
 
 		if ( ev instanceof NameEvent )
 		{
@@ -174,23 +174,23 @@ public abstract class StyleElement extends ReferenceableElement
 		}
 
 		DesignElement tmpContainer = getContainer( );
-		List modules = new ArrayList( );
+		List<Module> modules = new ArrayList<Module>( );
 
 		if ( getContainer( ) instanceof Theme )
 		{
 			Theme containerTheme = (Theme) tmpContainer;
 			if ( containerTheme.hasReferences( ) )
 			{
-				List refs = ( (Theme) tmpContainer ).getClientList( );
+				List<BackRef> refs = ( (Theme) tmpContainer ).getClientList( );
 				for ( int i = 0; i < refs.size( ); i++ )
-					modules.add( ( (BackRef) refs.get( i ) ).getElement( ) );
+					modules.add( (Module) refs.get( i ).getElement( ) );
 			}
 		}
 		else
 			modules.add( module );
 
 		for ( int i = 0; i < modules.size( ); i++ )
-			broadcastToModule( (Module) modules.get( i ), selectors );
+			broadcastToModule( modules.get( i ), selectors );
 	}
 
 	/**
@@ -200,16 +200,16 @@ public abstract class StyleElement extends ReferenceableElement
 	 *            the selector name
 	 */
 
-	private void broadcastToModule( Module module, List selectorList )
+	private void broadcastToModule( Module module, List<String> selectorList )
 	{
 		assert !selectorList.isEmpty( );
 
 		// Work around for renaming selector style.
 
-		Iterator iter = selectorList.iterator( );
+		Iterator<String> iter = selectorList.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			String selectorName = (String) iter.next( );
+			String selectorName = iter.next( );
 
 			if ( REPORT_SELECTOR.equals( selectorName ) )
 			{
@@ -262,13 +262,14 @@ public abstract class StyleElement extends ReferenceableElement
 	private void broadcastToSelectedElementsInSlot( Module module,
 			ContainerContext containerInfor, String selectorName )
 	{
-		Iterator iter = containerInfor.getContents( module ).iterator( );
+		Iterator<DesignElement> iter = containerInfor.getContents( module )
+				.iterator( );
 
 		NotificationEvent event = null;
 
 		while ( iter.hasNext( ) )
 		{
-			DesignElement element = (DesignElement) iter.next( );
+			DesignElement element = iter.next( );
 
 			// Broadcast the element which is selected by this style
 			event = new StyleEvent( element );
@@ -308,10 +309,10 @@ public abstract class StyleElement extends ReferenceableElement
 				broadcastToSelectedElementsInSlot( module,
 						new ContainerContext( element, i ), selectorName );
 			}
-			List properties = elementDefn.getContents( );
+			List<IElementPropertyDefn> properties = elementDefn.getContents( );
 			for ( int i = 0; i < properties.size( ); i++ )
 			{
-				PropertyDefn propDefn = (PropertyDefn) properties.get( i );
+				IElementPropertyDefn propDefn = properties.get( i );
 				broadcastToSelectedElementsInSlot( module,
 						new ContainerContext( element, propDefn.getName( ) ),
 						selectorName );

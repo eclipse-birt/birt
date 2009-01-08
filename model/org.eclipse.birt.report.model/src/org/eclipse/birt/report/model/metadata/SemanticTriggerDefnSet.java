@@ -29,7 +29,7 @@ public class SemanticTriggerDefnSet
 	 * List of the definitions for semantic validator applied to this property.
 	 */
 
-	protected List triggerList = null;
+	protected List<SemanticTriggerDefn> triggerList = null;
 
 	/**
 	 * Adds the definition for semantic validator.
@@ -41,7 +41,7 @@ public class SemanticTriggerDefnSet
 	void add( SemanticTriggerDefn validatorDefn )
 	{
 		if ( triggerList == null )
-			triggerList = new ArrayList( );
+			triggerList = new ArrayList<SemanticTriggerDefn>( );
 
 		triggerList.add( validatorDefn );
 	}
@@ -56,10 +56,11 @@ public class SemanticTriggerDefnSet
 	{
 		if ( triggers != null && triggers.triggerList != null )
 		{
-			Iterator iter = triggers.triggerList.iterator( );
+			Iterator<SemanticTriggerDefn> iter = triggers.triggerList
+					.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				SemanticTriggerDefn trigger = (SemanticTriggerDefn) iter.next( );
+				SemanticTriggerDefn trigger = iter.next( );
 
 				add( trigger );
 			}
@@ -73,7 +74,7 @@ public class SemanticTriggerDefnSet
 	 * @return the list of semantic validator's definitions.
 	 */
 
-	public List getTriggerList( )
+	public List<SemanticTriggerDefn> getTriggerList( )
 	{
 		return triggerList;
 	}
@@ -89,11 +90,10 @@ public class SemanticTriggerDefnSet
 	{
 		if ( triggerList != null )
 		{
-			Iterator iter = triggerList.iterator( );
+			Iterator<SemanticTriggerDefn> iter = triggerList.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				SemanticTriggerDefn validatorDefn = (SemanticTriggerDefn) iter
-						.next( );
+				SemanticTriggerDefn validatorDefn = iter.next( );
 
 				if ( validatorDefn.getValidator( ) == null )
 				{
@@ -129,11 +129,10 @@ public class SemanticTriggerDefnSet
 			return false;
 
 		assert validatorName != null;
-		
+
 		for ( int i = 0; i < triggerList.size( ); i++ )
 		{
-			SemanticTriggerDefn tmpDefn = (SemanticTriggerDefn) triggerList
-					.get( i );
+			SemanticTriggerDefn tmpDefn = triggerList.get( i );
 			if ( validatorName.equalsIgnoreCase( tmpDefn.getValidatorName( ) ) )
 				return true;
 		}

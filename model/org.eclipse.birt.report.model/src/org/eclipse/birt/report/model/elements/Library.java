@@ -319,8 +319,8 @@ public class Library extends Module implements ILibraryModel
 	}
 
 	/**
-	 * @param host
-	 * @return
+	 * @param newHost
+	 * @return the library with the context cloned
 	 */
 
 	public Library contextClone( Module newHost )

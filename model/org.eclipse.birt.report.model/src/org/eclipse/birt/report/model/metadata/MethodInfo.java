@@ -54,7 +54,7 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 	 * 
 	 */
 
-	private List arguments;
+	private List<IArgumentInfoList> arguments;
 
 	private String javaDoc;
 
@@ -87,7 +87,7 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 	public void addArgumentList( IArgumentInfoList argumentList )
 	{
 		if ( arguments == null )
-			arguments = new ArrayList( );
+			arguments = new ArrayList<IArgumentInfoList>( );
 
 		arguments.add( argumentList );
 	}
@@ -99,7 +99,7 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 	 * @return iterator of argument definition.
 	 */
 
-	public Iterator argumentListIterator( )
+	public Iterator<IArgumentInfoList> argumentListIterator( )
 	{
 		if ( arguments == null )
 			return Collections.EMPTY_LIST.iterator( );
@@ -267,7 +267,9 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.IMethodInfo#getClassReturnType()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IMethodInfo#getClassReturnType
+	 * ()
 	 */
 
 	public IClassInfo getClassReturnType( )

@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -151,7 +152,7 @@ public class ExtendedItemState extends ReportItemState
 			IElementDefn levelDefn = MetaDataDictionary.getInstance( )
 					.getElement( ReportDesignConstants.LEVEL_ELEMENT );
 			IElementDefn eDefn = element.getDefn( );
-			List properties = eDefn.getProperties( );
+			List<IElementPropertyDefn> properties = eDefn.getProperties( );
 			for ( int i = 0; i < properties.size( ); i++ )
 			{
 				ElementPropertyDefn defn = (ElementPropertyDefn) properties

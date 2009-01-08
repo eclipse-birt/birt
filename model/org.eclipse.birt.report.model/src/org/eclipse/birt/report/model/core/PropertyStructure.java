@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
@@ -36,7 +37,7 @@ public abstract class PropertyStructure extends Structure
 	 * contents are of type Object.
 	 */
 
-	protected HashMap propValues = new HashMap( );
+	protected HashMap<String, Object> propValues = new HashMap<String, Object>( );
 
 	/**
 	 * Gets the locale value of a property.
@@ -67,8 +68,9 @@ public abstract class PropertyStructure extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#getLocalProperty(org.eclipse.birt.report.model.core.Module,
-	 *      java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getLocalProperty(org.eclipse
+	 * .birt.report.model.core.Module, java.lang.String)
 	 */
 
 	public Object getLocalProperty( Module module, String memberName )
@@ -107,7 +109,9 @@ public abstract class PropertyStructure extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
+	 * .lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -119,8 +123,9 @@ public abstract class PropertyStructure extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
+	 * .lang.String, java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
@@ -139,11 +144,12 @@ public abstract class PropertyStructure extends Structure
 	public Object clone( ) throws CloneNotSupportedException
 	{
 		PropertyStructure clone = (PropertyStructure) super.clone( );
-		clone.propValues = new HashMap( );
+		clone.propValues = new HashMap<String, Object>( );
 
-		for ( Iterator iter = propValues.keySet( ).iterator( ); iter.hasNext( ); )
+		for ( Iterator<String> iter = propValues.keySet( ).iterator( ); iter
+				.hasNext( ); )
 		{
-			String memberName = (String) iter.next( );
+			String memberName = iter.next( );
 			IPropertyDefn memberDefn = getDefn( ).getMember( memberName );
 
 			Object value = null;
@@ -151,7 +157,7 @@ public abstract class PropertyStructure extends Structure
 			{
 				if ( memberDefn.isList( ) )
 				{
-					value = cloneStructList( (ArrayList) propValues
+					value = ModelUtil.cloneStructList( (ArrayList) propValues
 							.get( memberName ) );
 				}
 				else
@@ -179,34 +185,4 @@ public abstract class PropertyStructure extends Structure
 
 		return clone;
 	}
-
-	/**
-	 * Clone the structure list, a list value contains a list of structures.
-	 * 
-	 * @param list
-	 *            The structure list to be cloned.
-	 * @return The cloned structure list.
-	 */
-
-	private ArrayList cloneStructList( ArrayList list )
-	{
-		if ( list == null )
-			return null;
-
-		ArrayList returnList = new ArrayList( );
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			Object item = list.get( i );
-			if ( item instanceof Structure )
-			{
-				returnList.add( ( (Structure) item ).copy( ) );
-			}
-			else
-			{
-				assert false;
-			}
-		}
-		return returnList;
-	}
-
 }

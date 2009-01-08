@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 public class CrosstabArgumentInfoList implements IArgumentInfoList
 {
 
-	private List<CrosstabArgumentInfo> arguments;
+	private List<IArgumentInfo> arguments;
 
 	CrosstabArgumentInfoList( Class<?>[] paramTypes, String[] paramNames )
 	{
@@ -35,13 +35,13 @@ public class CrosstabArgumentInfoList implements IArgumentInfoList
 					paramNames[i] );
 			if ( arguments == null )
 			{
-				arguments = new ArrayList<CrosstabArgumentInfo>( );
+				arguments = new ArrayList<IArgumentInfo>( );
 			}
 			arguments.add( argument );
 		}
 	}
 
-	public Iterator<CrosstabArgumentInfo> argumentsIterator( )
+	public Iterator<IArgumentInfo> argumentsIterator( )
 	{
 		if ( arguments == null )
 		{
@@ -58,7 +58,7 @@ public class CrosstabArgumentInfoList implements IArgumentInfoList
 			return null;
 		}
 
-		for ( Iterator<CrosstabArgumentInfo> itr = arguments.iterator( ); itr.hasNext( ); )
+		for ( Iterator<IArgumentInfo> itr = arguments.iterator( ); itr.hasNext( ); )
 		{
 			IArgumentInfo argument = itr.next( );
 

@@ -60,5 +60,6 @@ public abstract class RecordTask
 	 *            the current transaction stack
 	 */
 
-	public abstract void doTask( ActivityRecord record, Stack transStack );
+	public abstract void doTask( ActivityRecord record,
+			Stack<CompoundRecord> transStack );
 }

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
@@ -34,12 +35,11 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * Validates the table/list is not allowed to appear in header/footer/contents
  * slot of master page in any level.
  * 
- * <h3>Rule</h3>
- * The rule is that whether the table/list can recursively resides in the
- * header/footer/contents slot of master page.
+ * <h3>Rule</h3> The rule is that whether the table/list can recursively resides
+ * in the header/footer/contents slot of master page.
  * 
- * <h3>Applicability</h3>
- * This validator is only applied to <code>MasterPage</code> currently.
+ * <h3>Applicability</h3> This validator is only applied to
+ * <code>MasterPage</code> currently.
  * 
  */
 
@@ -74,17 +74,18 @@ public class MasterPageContextContainmentValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( Module module, DesignElement element )
+	public List<SemanticException> validate( Module module,
+			DesignElement element )
 	{
 		if ( !( element instanceof MasterPage ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		return doValidate( module, element, false );
 	}
 
 	/**
-	 * Checks whether the <code>toValidate</code> is or is in the table
-	 * element and its slotId is <code>TableItem.HEADER_SLOT</code>.
+	 * Checks whether the <code>toValidate</code> is or is in the table element
+	 * and its slotId is <code>TableItem.HEADER_SLOT</code>.
 	 * 
 	 * @param module
 	 *            the module
@@ -98,8 +99,8 @@ public class MasterPageContextContainmentValidator
 	 *         of its child is a listing element.
 	 */
 
-	private List doValidate( Module module, DesignElement toValidate,
-			boolean isAddListing )
+	private List<SemanticException> doValidate( Module module,
+			DesignElement toValidate, boolean isAddListing )
 	{
 		DesignElement container = toValidate;
 		MasterPage page = null;
@@ -114,9 +115,9 @@ public class MasterPageContextContainmentValidator
 		}
 
 		if ( page == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
-		List list = new ArrayList( );
+		List<SemanticException> list = new ArrayList<SemanticException>( );
 
 		if ( ModelUtil.containElement( module, page,
 				ReportDesignConstants.LISTING_ITEM )
@@ -146,7 +147,7 @@ public class MasterPageContextContainmentValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validateForAdding( Module module,
+	public List<SemanticException> validateForAdding( Module module,
 			ContainerContext containerInfo, DesignElement toAdd )
 	{
 		boolean isAddListing = false;
@@ -156,8 +157,8 @@ public class MasterPageContextContainmentValidator
 						ReportDesignConstants.LISTING_ITEM ) )
 			isAddListing = true;
 
-		List errors = doValidate( module, containerInfo.getElement( ),
-				isAddListing );
+		List<SemanticException> errors = doValidate( module, containerInfo
+				.getElement( ), isAddListing );
 		if ( !errors.isEmpty( ) )
 		{
 			errors.clear( );
@@ -190,8 +191,8 @@ public class MasterPageContextContainmentValidator
 	 *             {@link #validateForAdding(Module, ContainerContext, DesignElement)}
 	 */
 
-	public List validateForAdding( Module module, DesignElement element,
-			int slotId, DesignElement toAdd )
+	public List<SemanticException> validateForAdding( Module module,
+			DesignElement element, int slotId, DesignElement toAdd )
 	{
 		boolean isAddListing = false;
 		if ( toAdd instanceof ListingElement
@@ -200,7 +201,8 @@ public class MasterPageContextContainmentValidator
 						ReportDesignConstants.LISTING_ITEM ) )
 			isAddListing = true;
 
-		List errors = doValidate( module, element, isAddListing );
+		List<SemanticException> errors = doValidate( module, element,
+				isAddListing );
 		if ( !errors.isEmpty( ) )
 		{
 			errors.clear( );
@@ -229,8 +231,8 @@ public class MasterPageContextContainmentValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validateForAdding( Module module, DesignElement element,
-			IElementDefn toAdd )
+	public List<SemanticException> validateForAdding( Module module,
+			DesignElement element, IElementDefn toAdd )
 	{
 		IElementDefn ListingDefn = MetaDataDictionary.getInstance( )
 				.getElement( ReportDesignConstants.LISTING_ITEM );
@@ -239,7 +241,8 @@ public class MasterPageContextContainmentValidator
 		if ( isAddListing )
 			return doValidate( module, element, isAddListing );
 
-		//see bugzilla 188196. chart and crosstab can't be inserted into master page
+		// see bugzilla 188196. chart and crosstab can't be inserted into master
+		// page
 		// now every extended item is forbidden
 		IElementDefn extendedItemDefn = MetaDataDictionary.getInstance( )
 				.getExtension( toAdd.getName( ) );

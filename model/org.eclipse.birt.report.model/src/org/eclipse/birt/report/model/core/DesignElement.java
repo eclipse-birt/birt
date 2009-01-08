@@ -24,6 +24,7 @@ import java.util.Map;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CircularExtendsException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.ExtendsForbiddenException;
@@ -37,8 +38,8 @@ import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
-import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -67,6 +68,7 @@ import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
+import org.eclipse.birt.report.model.validators.ValidationNode;
 
 /**
  * Base class for all design elements in BIRT. This class provides a number of
@@ -537,21 +539,21 @@ public abstract class DesignElement
 	 * are of type Listener. Created only when needed.
 	 */
 
-	protected ArrayList listeners = null;
+	protected ArrayList<Listener> listeners = null;
 
 	/**
 	 * Values for non-intrinsic property values. The contents are of type
 	 * Object.
 	 */
 
-	protected Map propValues = new HashMap( );
+	protected Map<String, Object> propValues = new HashMap<String, Object>( );
 
 	/**
 	 * Definitions for user-defined properties. Contents are of type
 	 * UserPropertyDefn.
 	 */
 
-	protected HashMap userProperties = null;
+	protected HashMap<String, UserPropertyDefn> userProperties = null;
 
 	/**
 	 * Class to store all container relation ship related information.
@@ -577,7 +579,7 @@ public abstract class DesignElement
 	 * are extended, so we create this list only when needed.
 	 */
 
-	protected ArrayList derived = null;
+	protected ArrayList<DesignElement> derived = null;
 
 	/**
 	 * The unique ID assigned to this element when it is added to the design.
@@ -610,7 +612,7 @@ public abstract class DesignElement
 	 * <code>SemanticException</code>.
 	 */
 
-	protected List errors;
+	protected List<SemanticException> errors;
 
 	/**
 	 * Support for id inheritance. If it is set, base id must be larger than
@@ -622,7 +624,7 @@ public abstract class DesignElement
 	/**
 	 * Map that stores pair of propName/encryptionID.
 	 */
-	protected Map encryptionMap = null;
+	protected Map<String, String> encryptionMap = null;
 
 	/**
 	 * Cached search strategy.
@@ -668,7 +670,7 @@ public abstract class DesignElement
 	public void addListener( Listener obj )
 	{
 		if ( listeners == null )
-			listeners = new ArrayList( );
+			listeners = new ArrayList<Listener>( );
 		if ( obj != null && !listeners.contains( obj ) )
 			listeners.add( obj );
 	}
@@ -783,13 +785,13 @@ public abstract class DesignElement
 
 		if ( listeners != null )
 		{
-			ArrayList tmpListeners = new ArrayList( listeners );
+			ArrayList<Listener> tmpListeners = new ArrayList<Listener>(
+					listeners );
 
-			Iterator iter = tmpListeners.iterator( );
+			Iterator<Listener> iter = tmpListeners.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				( (Listener) iter.next( ) ).elementChanged(
-						getHandle( module ), ev );
+				( iter.next( ) ).elementChanged( getHandle( module ), ev );
 			}
 		}
 
@@ -812,10 +814,10 @@ public abstract class DesignElement
 			if ( ev.getDeliveryPath( ) != NotificationEvent.STYLE_CLIENT )
 				ev.setDeliveryPath( NotificationEvent.DESCENDENT );
 
-			Iterator iter = derived.iterator( );
+			Iterator<DesignElement> iter = derived.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				( (DesignElement) iter.next( ) ).broadcast( ev, module );
+				( iter.next( ) ).broadcast( ev, module );
 			}
 		}
 
@@ -1218,8 +1220,9 @@ public abstract class DesignElement
 
 		do
 		{
-			ArrayList masks = (ArrayList) e.getLocalProperty( module,
-					IDesignElementModel.PROPERTY_MASKS_PROP );
+			List<? extends Object> masks = (List<? extends Object>) e
+					.getLocalProperty( module,
+							IDesignElementModel.PROPERTY_MASKS_PROP );
 
 			if ( masks != null )
 			{
@@ -1301,7 +1304,7 @@ public abstract class DesignElement
 		assert getUserPropertyDefn( propName ) == null;
 		assert cachedDefn.getProperty( propName ) == null;
 		if ( userProperties == null )
-			userProperties = new LinkedHashMap( );
+			userProperties = new LinkedHashMap<String, UserPropertyDefn>( );
 		userProperties.put( propName, userProp );
 	}
 
@@ -1339,7 +1342,7 @@ public abstract class DesignElement
 	{
 		if ( userProperties == null )
 			return null;
-		return (UserPropertyDefn) userProperties.get( propName );
+		return userProperties.get( propName );
 	}
 
 	/**
@@ -1423,7 +1426,7 @@ public abstract class DesignElement
 	 * partly, such as the level name is unique in the dimension container. And
 	 * therefore, its full name is dimensionName/levelName.
 	 * 
-	 * @return
+	 * @return the full name of this element
 	 */
 	public String getFullName( )
 	{
@@ -1590,7 +1593,7 @@ public abstract class DesignElement
 	public void addDerived( DesignElement child )
 	{
 		if ( derived == null )
-			derived = new ArrayList( );
+			derived = new ArrayList<DesignElement>( );
 		assert child != null;
 		assert child.getExtendsElement( ) == this;
 		assert !derived.contains( child );
@@ -1683,18 +1686,18 @@ public abstract class DesignElement
 	}
 
 	/**
-	 * Returns a list of the descendents of this element. The descendents
+	 * Returns a list of the descendants of this element. The descendants
 	 * include elements that directly extend from this one, along with elements
 	 * that extend from those, and so on recursively.
 	 * <p>
 	 * Part of: Inheritance system.
 	 * 
-	 * @return The list of descendents.
+	 * @return The list of descendants.
 	 */
 
-	public List getDescendents( )
+	public List<DesignElement> getDescendents( )
 	{
-		ArrayList list = new ArrayList( );
+		ArrayList<DesignElement> list = new ArrayList<DesignElement>( );
 		gatherDescendents( list );
 		return list;
 	}
@@ -1706,16 +1709,16 @@ public abstract class DesignElement
 	 * Part of: Inheritance system.
 	 * 
 	 * @param list
-	 *            The list of descendents.
+	 *            The list of descendants.
 	 */
 
-	public void gatherDescendents( ArrayList list )
+	public void gatherDescendents( ArrayList<DesignElement> list )
 	{
 		if ( derived == null )
 			return;
 		for ( int i = 0; i < derived.size( ); i++ )
 		{
-			DesignElement child = (DesignElement) derived.get( i );
+			DesignElement child = derived.get( i );
 			list.add( child );
 			child.gatherDescendents( list );
 		}
@@ -1750,7 +1753,7 @@ public abstract class DesignElement
 	 * @return an iterator for property names.
 	 */
 
-	public Iterator propertyWithLocalValueIterator( )
+	public Iterator<String> propertyWithLocalValueIterator( )
 	{
 		return propValues.keySet( ).iterator( );
 	}
@@ -1779,13 +1782,13 @@ public abstract class DesignElement
 	 * @return The list of user properties.
 	 */
 
-	public List getUserProperties( )
+	public List<UserPropertyDefn> getUserProperties( )
 	{
-		List props = new ArrayList( );
+		List<UserPropertyDefn> props = new ArrayList<UserPropertyDefn>( );
 		DesignElement e = this;
 		while ( e != null )
 		{
-			List prop = e.getLocalUserProperties( );
+			List<UserPropertyDefn> prop = e.getLocalUserProperties( );
 			if ( prop != null )
 			{
 				props.addAll( prop );
@@ -1802,12 +1805,12 @@ public abstract class DesignElement
 	 * @return The list of user properties.
 	 */
 
-	public List getLocalUserProperties( )
+	public List<UserPropertyDefn> getLocalUserProperties( )
 	{
 		if ( userProperties == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
-		return new ArrayList( userProperties.values( ) );
+		return new ArrayList<UserPropertyDefn>( userProperties.values( ) );
 	}
 
 	/**
@@ -2047,34 +2050,34 @@ public abstract class DesignElement
 	 *         <code>SemanticException</code> object.
 	 */
 
-	public final List validateWithContents( Module module )
+	public final List<SemanticException> validateWithContents( Module module )
 	{
 		ElementDefn elementDefn = (ElementDefn) cachedDefn;
-		List validatorList = ValidationExecutor.getValidationNodes( this,
-				elementDefn.getTriggerDefnSet( ), true );
+		List<ValidationNode> validatorList = ValidationExecutor
+				.getValidationNodes( this, elementDefn.getTriggerDefnSet( ),
+						true );
 
 		ValidationExecutor executor = module.getValidationExecutor( );
 		errors = executor.perform( this, validatorList );
 
-		List list = new ArrayList( errors );
+		List<SemanticException> list = new ArrayList<SemanticException>( errors );
 		int count = cachedDefn.getSlotCount( );
 		for ( int i = 0; i < count; i++ )
 		{
-			Iterator iter = getSlot( i ).iterator( );
+			Iterator<DesignElement> iter = getSlot( i ).iterator( );
 			while ( iter.hasNext( ) )
 			{
-				list.addAll( ( (DesignElement) iter.next( ) )
-						.validateWithContents( module ) );
+				list.addAll( iter.next( ).validateWithContents( module ) );
 			}
 		}
 
 		// Besides elements in the slot, also need to validate elements that in
 		// the property values in which elements can reside.
 
-		List contentProps = cachedDefn.getContents( );
+		List<IElementPropertyDefn> contentProps = cachedDefn.getContents( );
 		for ( int i = 0; i < contentProps.size( ); i++ )
 		{
-			IPropertyDefn tmpContentProp = (IPropertyDefn) contentProps.get( i );
+			IElementPropertyDefn tmpContentProp = contentProps.get( i );
 			Object tmpElements = getLocalProperty( module,
 					(ElementPropertyDefn) tmpContentProp );
 
@@ -2088,11 +2091,11 @@ public abstract class DesignElement
 			}
 			else if ( tmpElements instanceof List )
 			{
-				Iterator iter = ( (List) tmpElements ).iterator( );
+				Iterator<DesignElement> iter = ( (List<DesignElement>) tmpElements )
+						.iterator( );
 				while ( iter.hasNext( ) )
 				{
-					list.addAll( ( (DesignElement) iter.next( ) )
-							.validateWithContents( module ) );
+					list.addAll( iter.next( ).validateWithContents( module ) );
 				}
 			}
 		}
@@ -2111,35 +2114,23 @@ public abstract class DesignElement
 	 *         <code>SemanticException</code> object.
 	 */
 
-	public List validate( Module module )
+	public List<SemanticException> validate( Module module )
 	{
-		errors = new ArrayList( );
+		errors = new ArrayList<SemanticException>( );
 
 		// Check whether this element is unsupported element.
 
 		errors.addAll( UnsupportedElementValidator.getInstance( ).validate(
 				module, this ) );
 
-		// String elementName = getElementName( );
-		//
-		// for ( int i = 0; i < unSupportedElements.length; i++ )
-		// {
-		// if ( unSupportedElements[i].equalsIgnoreCase( elementName ) )
-		// {
-		// errors.add( new SemanticError( this,
-		// SemanticError.DESIGN_EXCEPTION_UNSUPPORTED_ELEMENT,
-		// SemanticError.WARNING ) );
-		// }
-		// }
-
 		// check property masks.
 
-		ArrayList propMasks = (ArrayList) getLocalProperty( module,
-				PROPERTY_MASKS_PROP );
+		List<? extends Object> propMasks = (List<Object>) getLocalProperty(
+				module, PROPERTY_MASKS_PROP );
 
 		if ( propMasks != null )
 		{
-			ListIterator masks = propMasks.listIterator( );
+			ListIterator<? extends Object> masks = propMasks.listIterator( );
 			while ( masks.hasNext( ) )
 			{
 				PropertyMask mask = (PropertyMask) masks.next( );
@@ -2163,7 +2154,8 @@ public abstract class DesignElement
 	 *         <code>SemanticException</code> object.
 	 */
 
-	protected List validateStructureList( Module module, String propName )
+	protected List<SemanticException> validateStructureList( Module module,
+			String propName )
 	{
 		return StructureListValidator.getInstance( ).validate( module, this,
 				propName );
@@ -2205,10 +2197,11 @@ public abstract class DesignElement
 	 */
 
 	public void checkStructureList( Module module, PropertyDefn propDefn,
-			List list, IStructure toAdd ) throws PropertyValueException
+			List<Object> list, IStructure toAdd ) throws PropertyValueException
 	{
-		List errorList = StructureListValidator.getInstance( )
-				.validateForAdding( getHandle( module ), propDefn, list, toAdd );
+		List<SemanticException> errorList = StructureListValidator
+				.getInstance( ).validateForAdding( getHandle( module ),
+						propDefn, list, toAdd );
 		if ( errorList.size( ) > 0 )
 		{
 			throw (PropertyValueException) errorList.get( 0 );
@@ -2332,13 +2325,13 @@ public abstract class DesignElement
 	 *         is not set or the value is not a list
 	 */
 
-	public List getListProperty( Module module, String propName )
+	public List<Object> getListProperty( Module module, String propName )
 	{
 		Object value = getProperty( module, propName );
 		if ( value == null )
 			return null;
 		if ( value instanceof ArrayList )
-			return (ArrayList) value;
+			return (ArrayList<Object>) value;
 		return null;
 	}
 
@@ -2351,10 +2344,10 @@ public abstract class DesignElement
 	 * @return a list of property definitions
 	 */
 
-	public List getPropertyDefns( )
+	public List<IElementPropertyDefn> getPropertyDefns( )
 	{
-		List list = cachedDefn.getProperties( );
-		List userProps = getUserProperties( );
+		List<IElementPropertyDefn> list = cachedDefn.getProperties( );
+		List<UserPropertyDefn> userProps = getUserProperties( );
 		if ( userProps != null )
 			list.addAll( userProps );
 		return list;
@@ -2431,7 +2424,7 @@ public abstract class DesignElement
 	public boolean canDrop( Module module )
 	{
 		// if the root of element is included by report/library. Do not allow
-		// drop; if module is read-only, forbide drop too
+		// drop; if module is read-only, forbid drop too
 		if ( isRootIncludedByModule( )
 				|| ( module != null && module.isReadOnly( ) ) )
 			return false;
@@ -2443,7 +2436,7 @@ public abstract class DesignElement
 			return false;
 
 		// if the element is in the default slot of template parameter
-		// definition, then the drop operarion is forbidden
+		// definition, then the drop operation is forbidden
 
 		if ( getContainer( ) instanceof TemplateParameterDefinition )
 		{
@@ -2458,7 +2451,7 @@ public abstract class DesignElement
 		DesignElement element = this;
 		if ( element instanceof TemplateParameterDefinition )
 		{
-			List clients = ( (TemplateParameterDefinition) element )
+			List<BackRef> clients = ( (TemplateParameterDefinition) element )
 					.getClientList( );
 			if ( clients.size( ) != 0 )
 				return false;
@@ -2494,10 +2487,10 @@ public abstract class DesignElement
 	 * @return a list containing exceptions.
 	 */
 
-	public List checkContent( Module module, ContainerContext containerInfo,
-			DesignElement content )
+	public List<SemanticException> checkContent( Module module,
+			ContainerContext containerInfo, DesignElement content )
 	{
-		return new ArrayList( );
+		return new ArrayList<SemanticException>( );
 	}
 
 	/**
@@ -2514,10 +2507,10 @@ public abstract class DesignElement
 	 * @return a list containing exceptions.
 	 */
 
-	public List checkContent( Module module, ContainerContext containerInfo,
-			IElementDefn defn )
+	public List<SemanticException> checkContent( Module module,
+			ContainerContext containerInfo, IElementDefn defn )
 	{
-		return new ArrayList( );
+		return new ArrayList<SemanticException>( );
 	}
 
 	/**
@@ -2644,11 +2637,11 @@ public abstract class DesignElement
 	 * @return the list of elements. The list is always non-null.
 	 */
 
-	public List getDerived( )
+	public List<DesignElement> getDerived( )
 	{
 		if ( derived != null )
-			return new ArrayList( derived );
-		return new ArrayList( );
+			return new ArrayList<DesignElement>( derived );
+		return new ArrayList<DesignElement>( );
 	}
 
 	/**
@@ -2686,12 +2679,11 @@ public abstract class DesignElement
 	 * Returns the display label of this element. To get the display label of an
 	 * element, the following step should be done:
 	 * <ul>
-	 * <li>The localized display name of this element if set</li>
-	 * <li>The display property value of this element if set</li>
-	 * <li>The name of element if set</li>
-	 * <li>The localized display name of this kind of element, which is defined
-	 * in metadata, if set</li>
-	 * <li>The name of this kind of element, which is also defined in metadata</li>
+	 * <li>The localized display name of this element if set</li> <li>The
+	 * display property value of this element if set</li> <li>The name of
+	 * element if set</li> <li>The localized display name of this kind of
+	 * element, which is defined in metadata, if set</li> <li>The name of this
+	 * kind of element, which is also defined in metadata</li>
 	 * </ul>
 	 * <p>
 	 * User can also decide at which detail level the display label should be
@@ -2870,10 +2862,10 @@ public abstract class DesignElement
 
 		// handle property value
 
-		Iterator iter = propValues.keySet( ).iterator( );
+		Iterator<String> iter = propValues.keySet( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
-			String key = (String) iter.next( );
+			String key = iter.next( );
 			PropertyDefn propDefn = getPropertyDefn( key );
 
 			// if the property is element type, then set-up the container
@@ -2895,7 +2887,7 @@ public abstract class DesignElement
 
 			if ( propDefn.isList( ) )
 			{
-				List values = (List) clonedValue;
+				List<Object> values = (List<Object>) clonedValue;
 				for ( int i = 0; i < values.size( ); i++ )
 				{
 					DesignElement item = (DesignElement) values.get( i );
@@ -2949,10 +2941,10 @@ public abstract class DesignElement
 	 * @return the validation error list.
 	 */
 
-	public List getErrors( )
+	public List<SemanticException> getErrors( )
 	{
 		if ( errors == null )
-			return new ArrayList( );
+			return new ArrayList<SemanticException>( );
 
 		return errors;
 	}
@@ -3136,10 +3128,10 @@ public abstract class DesignElement
 	 */
 
 	public void checkSimpleList( Module module, PropertyDefn propDefn,
-			List list, Object toAdd ) throws PropertyValueException
+			List<Object> list, Object toAdd ) throws PropertyValueException
 	{
-		List errorList = SimpleListValidator.getInstance( ).validateForAdding(
-				getHandle( module ), propDefn, list, toAdd );
+		List<SemanticException> errorList = SimpleListValidator.getInstance( )
+				.validateForAdding( getHandle( module ), propDefn, list, toAdd );
 		if ( errorList.size( ) > 0 )
 		{
 			throw (PropertyValueException) errorList.get( 0 );
@@ -3163,12 +3155,12 @@ public abstract class DesignElement
 		element.listeners = null;
 		element.derived = null;
 		element.handle = null;
-		element.propValues = new HashMap( );
+		element.propValues = new HashMap<String, Object>( );
 
 		// handle encryption map
 		if ( encryptionMap != null && !encryptionMap.isEmpty( ) )
 		{
-			element.encryptionMap = new HashMap( );
+			element.encryptionMap = new HashMap<String, String>( );
 			element.encryptionMap.putAll( encryptionMap );
 		}
 
@@ -3177,18 +3169,18 @@ public abstract class DesignElement
 			element.extendsRef = (ElementRefValue) this.extendsRef.copy( );
 
 		// handle user property definitions
-		Iterator iter = null;
+		Iterator<String> iter = null;
 		if ( !isVirtualElement( ) && userProperties != null )
 		{
-			element.userProperties = new LinkedHashMap( );
+			element.userProperties = new LinkedHashMap<String, UserPropertyDefn>( );
 
 			iter = userProperties.keySet( ).iterator( );
 			while ( iter.hasNext( ) )
 			{
-				Object key = iter.next( );
-				UserPropertyDefn uDefn = (UserPropertyDefn) userProperties
-						.get( key );
-				element.userProperties.put( key, uDefn.copy( ) );
+				String key = iter.next( );
+				UserPropertyDefn uDefn = userProperties.get( key );
+				element.userProperties.put( key, (UserPropertyDefn) uDefn
+						.copy( ) );
 			}
 		}
 
@@ -3196,7 +3188,7 @@ public abstract class DesignElement
 		iter = propValues.keySet( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
-			String key = (String) iter.next( );
+			String key = iter.next( );
 			PropertyDefn propDefn = getPropertyDefn( key );
 			Object value = propValues.get( key );
 			if ( value == null )
@@ -3316,9 +3308,10 @@ public abstract class DesignElement
 		{
 			if ( defn.isList( ) )
 			{
-				List values = (List) getLocalProperty( module, propName );
+				List<DesignElement> values = (List<DesignElement>) getLocalProperty(
+						module, propName );
 				if ( values == null )
-					values = new ArrayList( );
+					values = new ArrayList<DesignElement>( );
 				if ( !values.contains( content ) )
 					values.add( content );
 				setProperty( propName, values );
@@ -3348,9 +3341,10 @@ public abstract class DesignElement
 		{
 			if ( defn.isList( ) )
 			{
-				List values = (List) getLocalProperty( module, propName );
+				List<DesignElement> values = (List<DesignElement>) getLocalProperty(
+						module, propName );
 				if ( values == null )
-					values = new ArrayList( );
+					values = new ArrayList<DesignElement>( );
 				if ( !values.contains( content ) )
 					values.add( posn, content );
 				setProperty( propName, values );
@@ -3382,7 +3376,8 @@ public abstract class DesignElement
 		{
 			if ( defn.isList( ) )
 			{
-				List values = (List) getLocalProperty( module, propName );
+				List<DesignElement> values = (List<DesignElement>) getLocalProperty(
+						module, propName );
 				if ( values != null )
 				{
 					values.remove( content );
@@ -3409,7 +3404,7 @@ public abstract class DesignElement
 	 *         tried to resolve
 	 */
 
-	public List resolveElementReferenceList( Module module,
+	public List<ElementRefValue> resolveElementReferenceList( Module module,
 			ElementPropertyDefn prop )
 	{
 		Object value = propValues.get( prop.getName( ) );
@@ -3421,11 +3416,11 @@ public abstract class DesignElement
 		if ( value == null )
 			return null;
 
-		List valueList = (List) value;
+		List<ElementRefValue> valueList = (List<ElementRefValue>) value;
 		for ( int i = 0; i < valueList.size( ); i++ )
 		{
 			// try to resolve every
-			ElementRefValue item = (ElementRefValue) valueList.get( i );
+			ElementRefValue item = valueList.get( i );
 			ReferenceValueUtil.resolveElementReference( module, this, prop,
 					item );
 		}
@@ -3507,17 +3502,17 @@ public abstract class DesignElement
 	}
 
 	/**
+	 * Gets the local-set encryption id for the specialized property.
 	 * 
 	 * @param propDefn
-	 * @return
+	 * @return the local encryption id for the given property definition
 	 */
 	public String getLocalEncryptionID( ElementPropertyDefn propDefn )
 	{
 		if ( encryptionMap != null
 				&& encryptionMap.get( propDefn.getName( ) ) != null )
 		{
-			String encryptionID = (String) encryptionMap.get( propDefn
-					.getName( ) );
+			String encryptionID = encryptionMap.get( propDefn.getName( ) );
 			return encryptionID;
 		}
 		return null;
@@ -3527,7 +3522,7 @@ public abstract class DesignElement
 	 * Gets the effective encryption id for the given property.
 	 * 
 	 * @param propDefn
-	 * @return
+	 * @return the effective encryption id
 	 */
 	public String getEncryptionID( ElementPropertyDefn propDefn )
 	{
@@ -3544,9 +3539,11 @@ public abstract class DesignElement
 	}
 
 	/**
+	 * Justifies whether this element has set local value for the specialized
+	 * property.
 	 * 
 	 * @param propDefn
-	 * @return
+	 * @return true if the element sets the local value, otherwise false
 	 */
 	protected boolean hasLocalValue( ElementPropertyDefn propDefn )
 	{
@@ -3585,7 +3582,7 @@ public abstract class DesignElement
 		String id = StringUtil.trimString( encryptionID );
 
 		if ( encryptionMap == null )
-			encryptionMap = new HashMap( );
+			encryptionMap = new HashMap<String, String>( );
 		if ( id == null )
 			encryptionMap.remove( propDefn.getName( ) );
 		else

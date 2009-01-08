@@ -25,10 +25,9 @@ import org.eclipse.birt.report.model.validators.ISemanticTriggerDefnSetProvider;
 
 /**
  * Meta-data about a slot within an element. Elements can act as a
- * <em>container</em>, that is one that can contain other elements. A
- * container has one or more <em>slots</em>. Many elements have just one
- * slot, but some (such as the design) have several. This class describes a
- * single slot.
+ * <em>container</em>, that is one that can contain other elements. A container
+ * has one or more <em>slots</em>. Many elements have just one slot, but some
+ * (such as the design) have several. This class describes a single slot.
  * <p>
  * A slot has the following attributes:
  * <p>
@@ -82,13 +81,13 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 	 * can hold.
 	 */
 
-	protected ArrayList contentElements = new ArrayList( );
+	protected ArrayList<IElementDefn> contentElements = new ArrayList<IElementDefn>( );
 
 	/**
 	 * List of one or more element type names that the slot can hold.
 	 */
 
-	protected ArrayList contentTypes = new ArrayList( );
+	protected ArrayList<String> contentTypes = new ArrayList<String>( );
 
 	/**
 	 * Predefined style for elements in this slot. Null means that the slot does
@@ -211,9 +210,9 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 	 * @return the list of content elements.
 	 */
 
-	public List getContentElements( )
+	public List<IElementDefn> getContentElements( )
 	{
-		return new ArrayList( contentElements );
+		return new ArrayList<IElementDefn>( contentElements );
 	}
 
 	/**
@@ -223,13 +222,13 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 	 * @return the list of content elements.
 	 */
 
-	public List getContentExtendedElements( )
+	public List<IElementDefn> getContentExtendedElements( )
 	{
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 		IElementDefn extendItem = dd
 				.getElement( ReportDesignConstants.EXTENDED_ITEM );
 
-		ArrayList contentsWithExtensions = new ArrayList( );
+		ArrayList<IElementDefn> contentsWithExtensions = new ArrayList<IElementDefn>( );
 		contentsWithExtensions.addAll( contentElements );
 
 		if ( contentElements.contains( extendItem ) )
@@ -275,10 +274,10 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 		contentElements.clear( );
-		Iterator iter = contentTypes.iterator( );
+		Iterator<String> iter = contentTypes.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			String name = (String) iter.next( );
+			String name = iter.next( );
 			ElementDefn type = (ElementDefn) dd.getElement( name );
 			if ( type == null )
 				throw new MetaDataException( new String[]{name, this.name},
@@ -302,7 +301,7 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 		if ( type == null )
 			return false;
 
-		Iterator iter = contentElements.iterator( );
+		Iterator<IElementDefn> iter = contentElements.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			ElementDefn element = (ElementDefn) iter.next( );
@@ -431,7 +430,8 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.ISemanticTriggerProvider#getTriggerDefnSet()
+	 * @seeorg.eclipse.birt.report.model.metadata.ISemanticTriggerProvider#
+	 * getTriggerDefnSet()
 	 */
 
 	public SemanticTriggerDefnSet getTriggerDefnSet( )
@@ -531,9 +531,11 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.IContainerDefn#getAllowedElements()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.IContainerDefn#getAllowedElements
+	 * ()
 	 */
-	public List getAllowedElements( )
+	public List<IElementDefn> getAllowedElements( )
 	{
 		return getAllowedElements( true );
 	}
@@ -541,9 +543,11 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.IContainerDefn#getAllowedElements(boolean)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.IContainerDefn#getAllowedElements
+	 * (boolean)
 	 */
-	public List getAllowedElements( boolean extractExtensions )
+	public List<IElementDefn> getAllowedElements( boolean extractExtensions )
 	{
 		if ( extractExtensions )
 			return getContentExtendedElements( );

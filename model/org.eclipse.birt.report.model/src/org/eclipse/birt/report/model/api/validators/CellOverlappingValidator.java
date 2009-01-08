@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -29,12 +30,12 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 /**
  * Validates all cells in one row don't overlap each other.
  * 
- * <h3>Rule</h3>
- * The rule is that all cells in the given row shouldn't overlap each other.
+ * <h3>Rule</h3> The rule is that all cells in the given row shouldn't overlap
+ * each other.
  * 
- * <h3>Applicability</h3>
- * This validator is only applied to <code>TableRow</code>.
- *  
+ * <h3>Applicability</h3> This validator is only applied to
+ * <code>TableRow</code>.
+ * 
  */
 
 public class CellOverlappingValidator extends AbstractElementValidator
@@ -64,20 +65,22 @@ public class CellOverlappingValidator extends AbstractElementValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( Module module, DesignElement element )
+	public List<SemanticException> validate( Module module,
+			DesignElement element )
 	{
 		if ( !( element instanceof TableRow ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		if ( element.getContainer( ) == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		return doValidate( module, (TableRow) element );
 	}
 
-	private List doValidate( Module module, TableRow toValidate )
+	private List<SemanticException> doValidate( Module module,
+			TableRow toValidate )
 	{
-		List list = new ArrayList( );
+		List<SemanticException> list = new ArrayList<SemanticException>( );
 
 		// Get the slot containing this row
 
@@ -133,17 +136,16 @@ public class CellOverlappingValidator extends AbstractElementValidator
 			if ( container instanceof TableGroup )
 			{
 				// get the table containing the table group
-				
+
 				container = container.getContainer( );
 			}
 			else
 			{
 				assert container instanceof TableItem
-						|| container instanceof GridItem;				
+						|| container instanceof GridItem;
 			}
 			list.add( new SemanticError( toValidate, new String[]{
-					container.getElementName( ),
-					container.getFullName( )},
+					container.getElementName( ), container.getFullName( )},
 					SemanticError.DESIGN_EXCEPTION_OVERLAPPING_CELLS ) );
 		}
 
@@ -162,8 +164,7 @@ public class CellOverlappingValidator extends AbstractElementValidator
 	 * @return whether the horizontal overlap exists
 	 */
 
-	private boolean checkColSpan( boolean cols[], int colPosn,
-			int colSpan )
+	private boolean checkColSpan( boolean cols[], int colPosn, int colSpan )
 	{
 		boolean ok = true;
 

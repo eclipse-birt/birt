@@ -85,8 +85,8 @@ public class ListPropertyType extends PropertyType
 		assert type != null;
 		if ( value instanceof List )
 		{
-			List items = (List) value;
-			List validatedItems = new ArrayList( );
+			List<Object> items = (List<Object>) value;
+			List<Object> validatedItems = new ArrayList<Object>( );
 			for ( int i = 0; i < items.size( ); i++ )
 			{
 				Object item = items.get( i );
@@ -96,7 +96,7 @@ public class ListPropertyType extends PropertyType
 			return validatedItems;
 		}
 
-		List listValue = new ArrayList( );
+		List<Object> listValue = new ArrayList<Object>( );
 		Object validatedValue = type.validateValue( module, defn, value );
 		listValue.add( validatedValue );
 		return listValue;
@@ -118,7 +118,7 @@ public class ListPropertyType extends PropertyType
 
 		assert value instanceof List;
 
-		List valueList = (List) value;
+		List<Object> valueList = (List<Object>) value;
 		if ( valueList.isEmpty( ) )
 			return null;
 
@@ -153,7 +153,7 @@ public class ListPropertyType extends PropertyType
 
 		if ( value == null )
 			return 0;
-		return ( (ArrayList) value ).size( );
+		return ( (ArrayList<Object>) value ).size( );
 	}
 
 }

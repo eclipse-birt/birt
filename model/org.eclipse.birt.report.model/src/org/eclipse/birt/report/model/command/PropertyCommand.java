@@ -291,7 +291,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 		stack.startTrans( record.getLabel( ) );
 		ContentCommand cmd = new ContentCommand( module, context );
 
-		List contents = context.getContents( module );
+		List<DesignElement> contents = context.getContents( module );
 		try
 		{
 			// clear all the original contents and add the new value content
@@ -299,7 +299,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 			{
 				for ( int i = 0; i < contents.size( ); i++ )
 				{
-					DesignElement content = (DesignElement) contents.get( i );
+					DesignElement content = contents.get( i );
 					cmd.remove( content );
 				}
 			}
@@ -591,16 +591,16 @@ public class PropertyCommand extends AbstractPropertyCommand
 			return;
 
 		ListingElement listing = (ListingElement) reportItem;
-		List listingGroups = listing.getGroups( );
+		List<DesignElement> listingGroups = listing.getGroups( );
 
 		ListingElement targetListing = (ListingElement) targetElement;
-		List targetGroups = targetListing.getGroups( );
+		List<DesignElement> targetGroups = targetListing.getGroups( );
 
 		int size = Math.min( listingGroups.size( ), targetGroups.size( ) );
 		for ( int i = 0; i < size; i++ )
 		{
-			recoverReferredReportItem( (GroupElement) listingGroups.get( i ),
-					(GroupElement) targetGroups.get( i ) );
+			recoverReferredReportItem( listingGroups.get( i ), targetGroups
+					.get( i ) );
 		}
 	}
 
@@ -613,7 +613,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 	private void recoverReferredReportItem( DesignElement source,
 			DesignElement targetElement ) throws SemanticException
 	{
-		Iterator propNames = null;
+		Iterator<String> propNames = null;
 
 		if ( targetElement instanceof ReportItem )
 		{
@@ -633,7 +633,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 		while ( propNames.hasNext( ) )
 		{
-			String propName = (String) propNames.next( );
+			String propName = propNames.next( );
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) targetElement
 					.getDefn( ).getProperty( propName );
 			if ( propDefn == null )
@@ -833,7 +833,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 		{
 			DesignElement tmpContainer = element.getContainer( );
 
-			List errors = GroupNameValidator.getInstance( )
+			List<SemanticException> errors = GroupNameValidator.getInstance( )
 					.validateForRenamingGroup(
 							(ListingHandle) tmpContainer.getHandle( module ),
 							(GroupHandle) element.getHandle( module ),
@@ -922,11 +922,12 @@ public class PropertyCommand extends AbstractPropertyCommand
 		stack.execute( record );
 
 		Structure structure = ref.getStructure( module, element );
-		List semanticList = structure.validate( module, element );
+		List<SemanticException> semanticList = structure.validate( module,
+				element );
 		if ( semanticList.size( ) > 0 )
 		{
 			stack.rollback( );
-			throw (SemanticException) semanticList.get( 0 );
+			throw semanticList.get( 0 );
 		}
 
 		stack.commit( );

@@ -30,7 +30,7 @@ import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
 public class CssStyleSheetAdapter implements ICssStyleSheetOperation
 {
 
-	private List csses = null;
+	private List<CssStyleSheet> csses = null;
 
 	/**
 	 * Gets css style sheet by location. Compare two absolute path of file.
@@ -39,13 +39,14 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation
 	 *            module
 	 * @param csses
 	 *            list each item is <code>CssStyleSheet</code>
+	 * @param url
 	 * @param location
 	 *            absolute location
 	 * @return css style sheet.
 	 */
 
 	public static CssStyleSheet getCssStyleSheetByLocation( Module module,
-			List csses, URL url )
+			List<CssStyleSheet> csses, URL url )
 	{
 		if ( url == null || csses == null )
 			return null;
@@ -57,7 +58,7 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation
 
 		for ( int i = 0; i < csses.size( ); ++i )
 		{
-			CssStyleSheet css = (CssStyleSheet) csses.get( i );
+			CssStyleSheet css = csses.get( i );
 			String tmpFileName = css.getFileName( );
 			URL tmpurl = locator.findResource( (ModuleHandle) module
 					.getHandle( module ), tmpFileName,
@@ -83,8 +84,8 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation
 	 * @return css style sheet.
 	 */
 
-	public static int getPositionOfCssStyleSheet( Module module, List csses,
-			String location )
+	public static int getPositionOfCssStyleSheet( Module module,
+			List<CssStyleSheet> csses, String location )
 	{
 		if ( location == null || csses == null )
 			return -1;
@@ -99,7 +100,7 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation
 
 		for ( int i = 0; i < csses.size( ); ++i )
 		{
-			CssStyleSheet css = (CssStyleSheet) csses.get( i );
+			CssStyleSheet css = csses.get( i );
 			String tmpFileName = css.getFileName( );
 
 			if ( targetUrl != null )
@@ -149,7 +150,7 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation
 	public void addCss( CssStyleSheet css )
 	{
 		if ( csses == null )
-			csses = new ArrayList( );
+			csses = new ArrayList<CssStyleSheet>( );
 
 		csses.add( css );
 	}
@@ -164,22 +165,23 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation
 	public void insertCss( CssStyleSheet css, int index )
 	{
 		if ( csses == null )
-			csses = new ArrayList( );
+			csses = new ArrayList<CssStyleSheet>( );
 		if ( index < 0 || index > csses.size( ) )
 			return;
 		csses.add( index, css );
 	}
 
-	/**
-	 * Returns only csses this module includes directly.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return list of csses. each item is <code>CssStyleSheet</code>
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ICssStyleSheetOperation#getCsses()
 	 */
 
-	public List getCsses( )
+	public List<CssStyleSheet> getCsses( )
 	{
 		if ( csses == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		return Collections.unmodifiableList( csses );
 	}
 

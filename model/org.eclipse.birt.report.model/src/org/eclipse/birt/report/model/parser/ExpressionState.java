@@ -40,17 +40,17 @@ class ExpressionState extends PropertyState
 {
 
 	private static final int HIGHLIGHT_TEST_EXPR = "highlightTestExpr" //$NON-NLS-1$
-			.toLowerCase( ).hashCode( );
-	private static final int VALUE_EXPR = "valueExpr".toLowerCase( ).hashCode( );  //$NON-NLS-1$
+	.toLowerCase( ).hashCode( );
+	private static final int VALUE_EXPR = "valueExpr".toLowerCase( ).hashCode( ); //$NON-NLS-1$
 	private static final int IMAGE_NAME_PROP = ImageItem.IMAGE_NAME_PROP
 			.toLowerCase( ).hashCode( );
 
 	private static final int EXPRESSION_MEMBER = ComputedColumn.EXPRESSION_MEMBER
 			.toLowerCase( ).hashCode( );
 
-	private static final int CONTENT_TYPE_EXPR = "contentTypeExpr"
-			.toLowerCase( ).hashCode( );
-	private static final int MAP_TEST_EXPR = "mapTestExpr".toLowerCase( )
+	private static final int CONTENT_TYPE_EXPR = "contentTypeExpr" //$NON-NLS-1$
+	.toLowerCase( ).hashCode( );
+	private static final int MAP_TEST_EXPR = "mapTestExpr".toLowerCase( ) //$NON-NLS-1$
 			.hashCode( );
 	private static final int TOC_PROP = IReportItemModel.TOC_PROP.toLowerCase( )
 			.hashCode( );
@@ -71,9 +71,9 @@ class ExpressionState extends PropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#AbstractPropertyState(DesignParserHandler
-	 *      theHandler, DesignElement element, String propName, IStructure
-	 *      struct)
+	 * @seeorg.eclipse.birt.report.model.parser.AbstractPropertyState#
+	 * AbstractPropertyState(DesignParserHandler theHandler, DesignElement
+	 * element, String propName, IStructure struct)
 	 */
 
 	ExpressionState( ModuleParserHandler theHandler, DesignElement element,
@@ -85,7 +85,9 @@ class ExpressionState extends PropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * xml.sax.Attributes)
 	 */
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -96,7 +98,9 @@ class ExpressionState extends PropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo()
+	 * @see
+	 * org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo
+	 * ()
 	 */
 
 	protected AbstractParseState generalJumpTo( )
@@ -119,7 +123,8 @@ class ExpressionState extends PropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#versionConditionalJumpTo()
+	 * @seeorg.eclipse.birt.report.model.parser.AbstractPropertyState#
+	 * versionConditionalJumpTo()
 	 */
 
 	protected AbstractParseState versionConditionalJumpTo( )

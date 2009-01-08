@@ -58,7 +58,7 @@ public class ShiftLibraryCommand extends AbstractElementCommand
 	public void shiftLibrary( Library library, int newPosn )
 			throws SemanticException
 	{
-		List libraries = module.getLibraries( );
+		List<Library> libraries = module.getLibraries( );
 		assert !libraries.isEmpty( );
 
 		if ( !libraries.contains( library ) )

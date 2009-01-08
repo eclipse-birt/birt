@@ -33,7 +33,6 @@ import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -121,7 +120,7 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 	 * @param propDefn
 	 *            the property definition
 	 * @param memberDefn
-	 *            the structure member defintion. It should be
+	 *            the structure member definition. It should be
 	 *            ref.getMemeberDefn().
 	 * @param items
 	 *            an array list containing structures that will be added
@@ -129,21 +128,25 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 	 */
 
 	private void checkItems( PropertyDefn propDefn, PropertyDefn memberDefn,
-			List items ) throws SemanticException
+			List<Object> items ) throws SemanticException
 	{
 		if ( items == null )
 			return;
 
-		List currentList = new ArrayList( );
+		List<Object> currentList = new ArrayList<Object>( );
 
 		for ( int i = 0; i < items.size( ); i++ )
 		{
 			IStructure struct = (IStructure) items.get( i );
 			checkItem( propDefn, (StructPropertyDefn) memberDefn, struct );
 
-			StructureListValidator.getInstance( ).validateForAdding(
-					element.getHandle( module ), memberDefn, currentList,
-					struct );
+			List<SemanticException> errors = StructureListValidator
+					.getInstance( ).validateForAdding(
+							element.getHandle( module ), memberDefn,
+							currentList, struct );
+
+			if ( !errors.isEmpty( ) )
+				throw errors.get( 0 );
 
 			currentList.add( struct );
 		}
@@ -189,8 +192,8 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 			currentDefn = memberDefn;
 		}
 
-		for ( Iterator iter = item.getDefn( ).propertiesIterator( ); iter
-				.hasNext( ); )
+		for ( Iterator<IPropertyDefn> iter = item.getDefn( )
+				.propertiesIterator( ); iter.hasNext( ); )
 		{
 			PropertyDefn tmpMemberDefn = (PropertyDefn) iter.next( );
 			if ( ReferencableStructure.LIB_REFERENCE_MEMBER
@@ -220,7 +223,8 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 				if ( tmpMemberDefn.isList( )
 						&& tmpMemberDefn.getStructDefn( ) != null )
 				{
-					checkItems( currentDefn, tmpMemberDefn, (List) value );
+					checkItems( currentDefn, tmpMemberDefn,
+							(List<Object>) value );
 				}
 				else
 					value = tmpMemberDefn.validateValue( module, value );
@@ -231,10 +235,11 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 
 		if ( item instanceof Structure )
 		{
-			List errorList = ( (Structure) item ).validate( module, element );
-			if ( errorList.size( ) > 0 )
+			List<SemanticException> errorList = ( (Structure) item ).validate(
+					module, element );
+			if ( !errorList.isEmpty( ) )
 			{
-				throw (SemanticException) errorList.get( 0 );
+				throw errorList.get( 0 );
 			}
 		}
 
@@ -260,12 +265,12 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 		if ( !struct.hasReferences( ) )
 			return;
 
-		List clients = new ArrayList( struct.getClientList( ) );
+		List<BackRef> clients = new ArrayList<BackRef>( struct.getClientList( ) );
 
-		Iterator iter = clients.iterator( );
+		Iterator<BackRef> iter = clients.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			BackRef ref = (BackRef) iter.next( );
+			BackRef ref = iter.next( );
 			DesignElement client = ref.getElement( );
 
 			BackRefRecord record = new StructBackRefRecord( module, struct,
@@ -324,12 +329,12 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 
 		Structure structure = memberRef.getStructure( module, element );
 
-		List errors = StructureListValidator.getInstance( )
+		List<SemanticException> errors = StructureListValidator.getInstance( )
 				.validateForRenaming( element.getHandle( module ), propDefn,
 						memberRef.getList( module, element ), structure,
 						memberRef.getMemberDefn( ), newName );
 
-		if ( errors.size( ) > 0 )
+		if ( !errors.isEmpty( ) )
 		{
 			throw (PropertyValueException) errors.get( 0 );
 		}
@@ -350,6 +355,7 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 	 * 
 	 * @param referred
 	 *            the element to be deleted
+	 * @param memberRef
 	 * @param unresolveReference
 	 *            the flag indicating the reference property should be
 	 *            unresolved, instead of cleared
@@ -364,7 +370,7 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 			MemberRef memberRef )
 	{
 		IStructureDefn structDefn = referred.getDefn( );
-		Iterator memberDefns = structDefn.getPropertyIterator( );
+		Iterator<IPropertyDefn> memberDefns = structDefn.getPropertyIterator( );
 
 		while ( memberDefns.hasNext( ) )
 		{
@@ -500,10 +506,13 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 	/**
 	 * Validates the values of the item members.
 	 * 
+	 * @param prop
+	 * 
 	 * @param ref
 	 *            reference to a list.
 	 * @param item
 	 *            the item to check
+	 * @return the validated item
 	 * @throws PropertyValueException
 	 *             if the item has any member with invalid value or if the given
 	 *             structure is not of a valid type that can be contained in the

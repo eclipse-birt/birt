@@ -52,13 +52,13 @@ public class FilterEventsCompoundRecord extends CompoundRecord
 	/**
 	 * Builds the options for this transaction.
 	 */
-	
+
 	protected void buildOption( )
 	{
 		if ( !isOutermostFilterTrans )
 			return;
 		options = new TransactionOption( );
-		List conds = new ArrayList( );
+		List<IFilterCondition> conds = new ArrayList<IFilterCondition>( );
 		conds
 				.add( FilterConditionFactory
 						.createFilterCondition( FilterConditionFactory.ELEMENT_ADDED_FILTER_CONDITION ) );
@@ -71,15 +71,17 @@ public class FilterEventsCompoundRecord extends CompoundRecord
 		IEventFilter filter = new EventFilter( conds );
 		options.setEventfilter( filter );
 		options.setSendTime( TransactionOption.OUTMOST_TRANSACTION_SEND_TIME );
-	}	
+	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#sendNotifcations(java.util.Stack)
+	 * @see
+	 * org.eclipse.birt.report.model.activity.ActivityRecord#sendNotifcations
+	 * (java.util.Stack)
 	 */
 
-	protected void performPostTasks( Stack transStack )
+	protected void performPostTasks( Stack<CompoundRecord> transStack )
 	{
 		// The current transaction is started as hold events. Checks all its
 		// outer transactions, if any of them is started as hold events, the
@@ -89,9 +91,8 @@ public class FilterEventsCompoundRecord extends CompoundRecord
 
 		if ( !isOutermostFilterTrans )
 			return;
-	
+
 		super.performPostTasks( transStack );
 	}
 
-	
 }

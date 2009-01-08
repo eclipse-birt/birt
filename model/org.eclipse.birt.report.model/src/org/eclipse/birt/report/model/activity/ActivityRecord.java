@@ -17,13 +17,14 @@ import java.util.Stack;
 
 import org.eclipse.birt.report.model.api.activity.IActivityRecord;
 import org.eclipse.birt.report.model.validators.IValidatorProvider;
+import org.eclipse.birt.report.model.validators.ValidationNode;
 
 /**
  * The base activity record provides the mechanism for performing a low-level
  * change to the model. See the
- * {@link org.eclipse.birt.report.model.activity.ActivityStack ActivityRecord Stack}
- * class for additional background information including a description of the
- * <em>initial</em> and <em>final</em> states for a record.
+ * {@link org.eclipse.birt.report.model.activity.ActivityStack ActivityRecord
+ * Stack} class for additional background information including a description of
+ * the <em>initial</em> and <em>final</em> states for a record.
  * <p>
  * The activity stack (often called a "command stack") records changes made to
  * the model. We call it an activity stack because each UI "command" can give
@@ -65,7 +66,8 @@ import org.eclipse.birt.report.model.validators.IValidatorProvider;
  * 
  * Records support the following valid state transitions.
  * <p>
- * <table><thead>
+ * <table>
+ * <thead>
  * <th>Operation</th>
  * <th>From state</th>
  * <th>To state</th>
@@ -108,8 +110,8 @@ import org.eclipse.birt.report.model.validators.IValidatorProvider;
  * Model elements provide notification of changes. Notifications depend on the
  * specific action performed.
  * <p>
- * Most records have a <em>target element</em>. This is the element affected
- * by the record. A well-defined record affects exactly one element. If an
+ * Most records have a <em>target element</em>. This is the element affected by
+ * the record. A well-defined record affects exactly one element. If an
  * operation must affect multiple elements, then the application should create a
  * {@link CompoundRecord compound command}that will hold a series of records,
  * each of which operate on a single element.
@@ -143,17 +145,17 @@ import org.eclipse.birt.report.model.validators.IValidatorProvider;
  * 
  * <h3>Saving Model State with Mementos</h3>
  * 
- * Records must often cache information in the form of a <em>memento</em>.
- * The memento gathers information needed to undo or redo the record. If a
- * record deletes an element E, then it must cache element E so that it can
- * restore the element. This means that a logical "delete" operation is
- * implemented by "detaching" the element from the model. In some cases, the
- * required information may be quite complex. In such cases, the record should
- * create a memento object that can gather up the information. The memento is
- * passed to the model when performing the operation, so that the model can
- * record information needed to reverse the command. This pattern keeps the
- * model from depending on the record, and keeps the command from having
- * inappropriately deep knowledge of the model.
+ * Records must often cache information in the form of a <em>memento</em>. The
+ * memento gathers information needed to undo or redo the record. If a record
+ * deletes an element E, then it must cache element E so that it can restore the
+ * element. This means that a logical "delete" operation is implemented by
+ * "detaching" the element from the model. In some cases, the required
+ * information may be quite complex. In such cases, the record should create a
+ * memento object that can gather up the information. The memento is passed to
+ * the model when performing the operation, so that the model can record
+ * information needed to reverse the command. This pattern keeps the model from
+ * depending on the record, and keeps the command from having inappropriately
+ * deep knowledge of the model.
  * 
  * <h3>Error Management</h3>
  * 
@@ -178,10 +180,10 @@ import org.eclipse.birt.report.model.validators.IValidatorProvider;
  * general, there are multiple activity records for each user-level operation.
  * The user- level operations generally don't exactly map to activity records.
  * As a result, the application should specify a (localized) label when calling
- * the <code>startTrans( null )</code> method on the activity stack. That label is
- * then cached in the activity record. Each activity record provides a default
- * label, but that label is often not the best one for the overall application
- * operation.
+ * the <code>startTrans( null )</code> method on the activity stack. That label
+ * is then cached in the activity record. Each activity record provides a
+ * default label, but that label is often not the best one for the overall
+ * application operation.
  */
 
 public abstract class ActivityRecord
@@ -223,7 +225,6 @@ public abstract class ActivityRecord
 	 */
 
 	public static final int DISCARD_STATE = 4;
-
 
 	/**
 	 * Record state. Used to verify the record life-cycle, and to send the
@@ -442,19 +443,20 @@ public abstract class ActivityRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.validators.core.IValidatorProvider#getValidators()
+	 * @seeorg.eclipse.birt.report.model.validators.core.IValidatorProvider#
+	 * getValidators()
 	 */
 
-	public List getValidators( )
+	public List<ValidationNode> getValidators( )
 	{
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList( );
 	}
 
 	/**
 	 * Justifies whether the record is undoable or persistent when the
 	 * application calls <code>rollback</code> or <code>rollbackAll</code>.
 	 * 
-	 * @return true if the record is persisten, otherwise false
+	 * @return true if the record is persistent, otherwise false
 	 */
 
 	public boolean isPersistent( )
@@ -490,9 +492,9 @@ public abstract class ActivityRecord
 	 * @return a list containing tasks
 	 */
 
-	protected List getPostTasks( )
+	protected List<RecordTask> getPostTasks( )
 	{
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -502,13 +504,13 @@ public abstract class ActivityRecord
 	 *            the transaction stack.
 	 */
 
-	protected void performPostTasks( Stack transStack )
+	protected void performPostTasks( Stack<CompoundRecord> transStack )
 	{
-		List tasks = getPostTasks( );
+		List<RecordTask> tasks = getPostTasks( );
 
 		for ( int i = 0; i < tasks.size( ); i++ )
 		{
-			RecordTask subTask = (RecordTask) tasks.get( i );
+			RecordTask subTask = tasks.get( i );
 			subTask.doTask( this, transStack );
 		}
 	}

@@ -11,7 +11,10 @@
 
 package org.eclipse.birt.report.model.api.extension;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 /**
  * Class that records some status after the report item checks the
@@ -27,19 +30,19 @@ public class CompatibilityStatus
 	public static final int OK_TYPE = 0;
 
 	/**
-	 * Status that indicates the report item has some compatibilities to do.
+	 * Status that indicates the version of the report item is not supported.
 	 */
 	public static final int NOT_SUPPORTED_TYPE = 1;
 
 	/**
-	 * Status that indicates the version of the report item is not supported.
+	 * Status that indicates the report item has some compatibilities to do.
 	 */
 	public static final int CONVERT_COMPATIBILITY_TYPE = 2;
 
 	/**
 	 * List of the errors after checking compatibilities.
 	 */
-	protected List errors = null;
+	protected List<SemanticException> errors = null;
 
 	/**
 	 * Type of the status.
@@ -60,9 +63,11 @@ public class CompatibilityStatus
 	 * @param errors
 	 * @param type
 	 */
-	public CompatibilityStatus( List errors, int type )
+	public CompatibilityStatus( List<? extends SemanticException> errors,
+			int type )
 	{
-		this.errors = errors;
+		this.errors = new ArrayList<SemanticException>( );
+		this.errors.addAll( errors );
 		setStatusType( type );
 	}
 
@@ -72,7 +77,7 @@ public class CompatibilityStatus
 	 * 
 	 * @return the errors
 	 */
-	public List getErrors( )
+	public List<SemanticException> getErrors( )
 	{
 		return errors;
 	}
@@ -83,7 +88,7 @@ public class CompatibilityStatus
 	 * @param errors
 	 *            the errors to set
 	 */
-	public void setErrors( List errors )
+	public void setErrors( List<SemanticException> errors )
 	{
 		this.errors = errors;
 	}

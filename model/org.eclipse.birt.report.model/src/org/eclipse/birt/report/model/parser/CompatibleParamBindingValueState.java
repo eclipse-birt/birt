@@ -38,6 +38,8 @@ public class CompatibleParamBindingValueState
 	 *            the handler to parse the design file.
 	 * @param element
 	 *            the data item
+	 * @param propDefn
+	 * @param struct
 	 */
 
 	CompatibleParamBindingValueState( ModuleParserHandler theHandler,

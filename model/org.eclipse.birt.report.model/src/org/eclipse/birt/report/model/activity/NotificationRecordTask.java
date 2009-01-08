@@ -144,22 +144,22 @@ public class NotificationRecordTask extends RecordTask
 	}
 
 	/**
-	 * Returns <code>true</code> if need to hold the event at this time. We
-	 * need to hold the event if it is sent inside a transaction that declared
-	 * to filter notification events( <code>FilterEventsCompoundRecord</code>).
+	 * Returns <code>true</code> if need to hold the event at this time. We need
+	 * to hold the event if it is sent inside a transaction that declared to
+	 * filter notification events( <code>FilterEventsCompoundRecord</code>).
 	 * 
 	 * @param transStack
 	 *            the transaction stack.
-	 * @return <code>true</code> if need to hold the event at this time,
-	 *         returns <code>false</code> otherwise.
+	 * @return <code>true</code> if need to hold the event at this time, returns
+	 *         <code>false</code> otherwise.
 	 */
 
 	protected final boolean holdNotificationForFilterEventRecord(
-			Stack transStack )
+			Stack<CompoundRecord> transStack )
 	{
 		if ( transStack != null && !transStack.isEmpty( ) )
 		{
-			CompoundRecord cr = (CompoundRecord) transStack.peek( );
+			CompoundRecord cr = transStack.peek( );
 			if ( cr instanceof FilterEventsCompoundRecord )
 				return true;
 		}
@@ -181,7 +181,7 @@ public class NotificationRecordTask extends RecordTask
 	 */
 
 	protected final boolean holdNotification( ActivityRecord record,
-			Stack transStack )
+			Stack<CompoundRecord> transStack )
 	{
 		if ( record instanceof AbstractElementRecord )
 		{
@@ -190,7 +190,7 @@ public class NotificationRecordTask extends RecordTask
 				// if the record is a simple one, then peek the nearest
 				// transaction in the stack and see the options
 
-				CompoundRecord cr = (CompoundRecord) transStack.peek( );
+				CompoundRecord cr = transStack.peek( );
 				TransactionOption options = cr.getOptions( );
 				if ( options != null
 						&& options.getSendTime( ) != TransactionOption.INSTANTANEOUS_SEND_TIME )
@@ -220,8 +220,7 @@ public class NotificationRecordTask extends RecordTask
 				{
 					for ( int i = transStack.size( ) - 1; i >= 0; i-- )
 					{
-						CompoundRecord trans = (CompoundRecord) transStack
-								.get( i );
+						CompoundRecord trans = transStack.get( i );
 						options = trans.getOptions( );
 						if ( options != null
 								&& options.getSendTime( ) != TransactionOption.INSTANTANEOUS_SEND_TIME )
@@ -236,12 +235,14 @@ public class NotificationRecordTask extends RecordTask
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.IInterceptorTask#doTask(org.eclipse.birt.report.model.activity.ActivityRecord)
+	 * @see
+	 * org.eclipse.birt.report.model.api.activity.IInterceptorTask#doTask(org
+	 * .eclipse.birt.report.model.activity.ActivityRecord)
 	 */
 
-	public void doTask( ActivityRecord record, Stack transStack )
+	public void doTask( ActivityRecord record, Stack<CompoundRecord> transStack )
 	{
-		// check there is filterEventCompoundRecord, if yes, the notifcations
+		// check there is filterEventCompoundRecord, if yes, the notifications
 		// will not be send
 
 		if ( holdNotificationForFilterEventRecord( transStack ) )

@@ -19,6 +19,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.validators.MasterPageRequiredValidator;
@@ -81,7 +82,9 @@ public class ReportDesign extends Module
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * .report.model.elements.ElementVisitor)
 	 */
 
 	public void apply( ElementVisitor visitor )
@@ -92,12 +95,14 @@ public class ReportDesign extends Module
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
+	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( Module module )
+	public List<SemanticException> validate( Module module )
 	{
-		List list = super.validate( module );
+		List<SemanticException> list = super.validate( module );
 
 		// Must there is more than one master page in setup page
 
@@ -128,7 +133,9 @@ public class ReportDesign extends Module
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse
+	 * .birt.report.model.elements.ReportDesign)
 	 */
 
 	public DesignElementHandle getHandle( Module module )
@@ -154,7 +161,9 @@ public class ReportDesign extends Module
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getIntrinsicProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getIntrinsicProperty
+	 * (java.lang.String)
 	 */
 
 	/**
@@ -162,13 +171,13 @@ public class ReportDesign extends Module
 	 * 
 	 * @param fileName
 	 *            the script file name
-	 * @return the defined include script that matches, or <code>null</code>
-	 *         if the file name was not found in the include scripts list.
+	 * @return the defined include script that matches, or <code>null</code> if
+	 *         the file name was not found in the include scripts list.
 	 */
 
 	public IncludeScript findIncludeScript( String fileName )
 	{
-		ArrayList list = (ArrayList) getLocalProperty( null,
+		List<Object> list = (ArrayList) getLocalProperty( null,
 				INCLUDE_SCRIPTS_PROP );
 		if ( list == null )
 			return null;
@@ -215,15 +224,15 @@ public class ReportDesign extends Module
 	 * @return all TOCs or bookmarks defined in the slot of the module.
 	 */
 
-	public List collectPropValues( int slotId, String propName )
+	public List<Object> collectPropValues( int slotId, String propName )
 	{
-		List rtnList = new ArrayList( );
+		List<Object> rtnList = new ArrayList<Object>( );
 		ContentIterator contents = new ContentIterator( this,
 				new ContainerContext( this, slotId ) );
 
 		while ( contents.hasNext( ) )
 		{
-			DesignElement ele = (DesignElement) contents.next( );
+			DesignElement ele = contents.next( );
 			Object obj = ele.getProperty( this, propName );
 			if ( obj != null )
 				rtnList.add( obj );
@@ -277,7 +286,7 @@ public class ReportDesign extends Module
 
 	public int dropCss( CssStyleSheet css )
 	{
-		if( operation == null )
+		if ( operation == null )
 			return -1;
 		return operation.dropCss( css );
 	}
@@ -291,21 +300,22 @@ public class ReportDesign extends Module
 
 	public void addCss( CssStyleSheet css )
 	{
-		if( operation == null )
-			operation = new CssStyleSheetAdapter() ;
+		if ( operation == null )
+			operation = new CssStyleSheetAdapter( );
 		operation.addCss( css );
 	}
-	
+
 	/**
 	 * Insert the given css to the given position
+	 * 
 	 * @param css
 	 * @param index
 	 */
-	
-	public void insertCss( CssStyleSheet css , int index )
+
+	public void insertCss( CssStyleSheet css, int index )
 	{
-		if( operation == null )
-			operation = new CssStyleSheetAdapter() ;
+		if ( operation == null )
+			operation = new CssStyleSheetAdapter( );
 		operation.insertCss( css, index );
 	}
 
@@ -315,13 +325,11 @@ public class ReportDesign extends Module
 	 * @return list of csses. each item is <code>CssStyleSheet</code>
 	 */
 
-	public List getCsses( )
+	public List<CssStyleSheet> getCsses( )
 	{
-		if( operation == null )
-			return Collections.EMPTY_LIST;
+		if ( operation == null )
+			return Collections.emptyList( );
 		return operation.getCsses( );
 	}
 
 }
-
-

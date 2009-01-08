@@ -88,7 +88,7 @@ public final class StyleSheetLoader
 	 * The warning list during the loading.
 	 */
 
-	private List warnings = null;
+	private List<StyleSheetParserException> warnings = null;
 
 	/**
 	 * The logger to record the warning.
@@ -107,7 +107,7 @@ public final class StyleSheetLoader
 		parser = new CssParser( );
 		this.module = null;
 		this.source = null;
-		warnings = new ArrayList( );
+		warnings = new ArrayList<StyleSheetParserException>( );
 	}
 
 	/**
@@ -122,7 +122,7 @@ public final class StyleSheetLoader
 		parser = new CssParser( );
 		this.module = null;
 		this.source = null;
-		warnings = new ArrayList( );
+		warnings = new ArrayList<StyleSheetParserException>( );
 	}
 
 	/**
@@ -144,9 +144,9 @@ public final class StyleSheetLoader
 	 *         from an external style sheet, otherwise null
 	 * @throws StyleSheetException
 	 *             if the resource is not found, or the given
-	 *             <code>String</code> is malformed to URL specification, or
-	 *             the style sheet resource has some syntax errors colliding
-	 *             with CSS2 grammar
+	 *             <code>String</code> is malformed to URL specification, or the
+	 *             style sheet resource has some syntax errors colliding with
+	 *             CSS2 grammar
 	 */
 
 	public CssStyleSheet load( Module module, URL url, String spec )
@@ -195,9 +195,9 @@ public final class StyleSheetLoader
 	 *         from an external style sheet, otherwise null
 	 * @throws StyleSheetException
 	 *             if the resource is not found, or the given
-	 *             <code>String</code> is malformed to URL specification, or
-	 *             the style sheet resource has some syntax errors colliding
-	 *             with CSS2 grammar
+	 *             <code>String</code> is malformed to URL specification, or the
+	 *             style sheet resource has some syntax errors colliding with
+	 *             CSS2 grammar
 	 */
 
 	public CssStyleSheet load( Module module, String spec )
@@ -293,10 +293,10 @@ public final class StyleSheetLoader
 
 		CssStyleSheet styleSheet = new CssStyleSheet( );
 
-		List rules = ss.getRules( );
+		List<CSSRule> rules = ss.getRules( );
 		for ( int i = 0; i < rules.size( ); i++ )
 		{
-			CSSRule rule = (CSSRule) rules.get( i );
+			CSSRule rule = rules.get( i );
 			loadStyle( styleSheet, rule );
 		}
 
@@ -335,8 +335,8 @@ public final class StyleSheetLoader
 				StyleRule sr = (StyleRule) rule;
 				SelectorList selectionList = sr.getSelectorList( );
 				CSSStyleDeclaration declaration = sr.getStyle( );
-				LinkedHashMap properties = null;
-				List errors = new ArrayList( );
+				LinkedHashMap<String, ? extends Object> properties = null;
+				List<StyleSheetParserException> errors = new ArrayList<StyleSheetParserException>( );
 				boolean buildProperties = false;
 				for ( int i = 0; i < selectionList.getLength( ); i++ )
 				{
@@ -426,10 +426,11 @@ public final class StyleSheetLoader
 
 					addProperties( style, properties );
 					assert styleSheet.findStyle( name ) == null;
-					List ret = styleSheet.getWarnings( name );
+					List<StyleSheetParserException> ret = styleSheet
+							.getWarnings( name );
 					if ( ret == null )
 					{
-						List localErrors = new ArrayList( );
+						List<StyleSheetParserException> localErrors = new ArrayList<StyleSheetParserException>( );
 						localErrors.addAll( errors );
 						styleSheet.addWarnings( name, localErrors );
 					}
@@ -457,7 +458,7 @@ public final class StyleSheetLoader
 
 	/**
 	 * Gets all the name/value pairs from a CSS declaration and puts them into a
-	 * <code>LinkedHashMap</code>.
+	 * <code>LinkedHashMap</code>. All the name and value is of string type.
 	 * 
 	 * @param declaration
 	 *            the declaration of the style rule
@@ -466,9 +467,11 @@ public final class StyleSheetLoader
 	 * @return all the supported name/value pairs
 	 */
 
-	LinkedHashMap buildProperties( CSSStyleDeclaration declaration, List errors )
+	LinkedHashMap<String, ? extends Object> buildProperties(
+			CSSStyleDeclaration declaration,
+			List<StyleSheetParserException> errors )
 	{
-		LinkedHashMap properties = new LinkedHashMap( );
+		LinkedHashMap<String, String> properties = new LinkedHashMap<String, String>( );
 		for ( int i = 0; i < declaration.getLength( ); i++ )
 		{
 			String cssName = declaration.item( i );
@@ -497,17 +500,19 @@ public final class StyleSheetLoader
 	 * @return the name/value pairs in BIRT defined format
 	 */
 
-	LinkedHashMap buildProperties( LinkedHashMap cssProperties, List errors )
+	LinkedHashMap<String, ? extends Object> buildProperties(
+			LinkedHashMap<String, String> cssProperties,
+			List<StyleSheetParserException> errors )
 	{
 		if ( cssProperties.isEmpty( ) )
 			return cssProperties;
 
-		LinkedHashMap properties = new LinkedHashMap( );
-		Iterator iter = cssProperties.keySet( ).iterator( );
+		LinkedHashMap<String, Object> properties = new LinkedHashMap<String, Object>( );
+		Iterator<String> iter = cssProperties.keySet( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
-			String cssName = (String) iter.next( );
-			String cssValue = (String) cssProperties.get( cssName );
+			String cssName = iter.next( );
+			String cssValue = cssProperties.get( cssName );
 
 			assert !StringUtil.isBlank( cssName );
 			assert !StringUtil.isBlank( cssValue );
@@ -518,9 +523,10 @@ public final class StyleSheetLoader
 				if ( cssName
 						.equalsIgnoreCase( CssPropertyConstants.ATTR_BACKGROUND_POSITION ) )
 				{
-					List ret = handleBackgroundPosition( cssValue, properties );
+					List<StyleSheetParserException> ret = handleBackgroundPosition(
+							cssValue, properties );
 					if ( !ret.isEmpty( ) )
-						errors.add( ret );
+						errors.addAll( ret );
 				}
 				else if ( cssName
 						.equalsIgnoreCase( CssPropertyConstants.ATTR_TEXT_DECORATION ) )
@@ -533,10 +539,10 @@ public final class StyleSheetLoader
 					PropertyParser parser = new PropertyParser( cssValue );
 
 					parser.parseBorderBottom( );
-					LinkedHashMap shortHand = parser.getCssProperties( );
+					LinkedHashMap<String, String> shortHand = parser
+							.getCssProperties( );
 					shortHand = trimProperties( shortHand );
-					shortHand = buildProperties( shortHand, errors );
-					properties.putAll( shortHand );
+					properties.putAll( buildProperties( shortHand, errors ) );
 				}
 				else if ( cssName
 						.equalsIgnoreCase( CssPropertyConstants.ATTR_BORDER_LEFT ) )
@@ -544,10 +550,10 @@ public final class StyleSheetLoader
 					PropertyParser parser = new PropertyParser( cssValue );
 
 					parser.parseBorderLeft( );
-					LinkedHashMap shortHand = parser.getCssProperties( );
+					LinkedHashMap<String, String> shortHand = parser
+							.getCssProperties( );
 					shortHand = trimProperties( shortHand );
-					shortHand = buildProperties( shortHand, errors );
-					properties.putAll( shortHand );
+					properties.putAll( buildProperties( shortHand, errors ) );
 
 				}
 				else if ( cssName
@@ -556,10 +562,10 @@ public final class StyleSheetLoader
 					PropertyParser parser = new PropertyParser( cssValue );
 
 					parser.parseBorderRight( );
-					LinkedHashMap shortHand = parser.getCssProperties( );
+					LinkedHashMap<String, String> shortHand = parser
+							.getCssProperties( );
 					shortHand = trimProperties( shortHand );
-					shortHand = buildProperties( shortHand, errors );
-					properties.putAll( shortHand );
+					properties.putAll( buildProperties( shortHand, errors ) );
 				}
 				else if ( cssName
 						.equalsIgnoreCase( CssPropertyConstants.ATTR_BORDER_TOP ) )
@@ -567,10 +573,10 @@ public final class StyleSheetLoader
 					PropertyParser parser = new PropertyParser( cssValue );
 
 					parser.parseBorderTop( );
-					LinkedHashMap shortHand = parser.getCssProperties( );
+					LinkedHashMap<String, String> shortHand = parser
+							.getCssProperties( );
 					shortHand = trimProperties( shortHand );
-					shortHand = buildProperties( shortHand, errors );
-					properties.putAll( shortHand );
+					properties.putAll( buildProperties( shortHand, errors ) );
 				}
 				else if ( cssName
 						.equalsIgnoreCase( CssPropertyConstants.ATTR_BORDER ) )
@@ -578,10 +584,10 @@ public final class StyleSheetLoader
 					PropertyParser parser = new PropertyParser( cssValue );
 
 					parser.parseBorder( );
-					LinkedHashMap shortHand = parser.getCssProperties( );
+					LinkedHashMap<String, String> shortHand = parser
+							.getCssProperties( );
 					shortHand = trimProperties( shortHand );
-					shortHand = buildProperties( shortHand, errors );
-					properties.putAll( shortHand );
+					properties.putAll( buildProperties( shortHand, errors ) );
 				}
 				else if ( cssName
 						.equalsIgnoreCase( CssPropertyConstants.ATTR_BORDER_WIDTH ) )
@@ -589,10 +595,10 @@ public final class StyleSheetLoader
 					PropertyParser parser = new PropertyParser( cssValue );
 
 					parser.parseBorderWidth( );
-					LinkedHashMap shortHand = parser.getCssProperties( );
+					LinkedHashMap<String, String> shortHand = parser
+							.getCssProperties( );
 					shortHand = trimProperties( shortHand );
-					shortHand = buildProperties( shortHand, errors );
-					properties.putAll( shortHand );
+					properties.putAll( buildProperties( shortHand, errors ) );
 				}
 				else if ( cssName
 						.equalsIgnoreCase( CssPropertyConstants.ATTR_BORDER_COLOR ) )
@@ -600,10 +606,10 @@ public final class StyleSheetLoader
 					PropertyParser parser = new PropertyParser( cssValue );
 
 					parser.parseBorderColor( );
-					LinkedHashMap shortHand = parser.getCssProperties( );
+					LinkedHashMap<String, String> shortHand = parser
+							.getCssProperties( );
 					shortHand = trimProperties( shortHand );
-					shortHand = buildProperties( shortHand, errors );
-					properties.putAll( shortHand );
+					properties.putAll( buildProperties( shortHand, errors ) );
 				}
 				else if ( cssName
 						.equalsIgnoreCase( CssPropertyConstants.ATTR_BORDER_STYLE ) )
@@ -611,10 +617,10 @@ public final class StyleSheetLoader
 					PropertyParser parser = new PropertyParser( cssValue );
 
 					parser.parseBorderStyle( );
-					LinkedHashMap shortHand = parser.getCssProperties( );
+					LinkedHashMap<String, String> shortHand = parser
+							.getCssProperties( );
 					shortHand = trimProperties( shortHand );
-					shortHand = buildProperties( shortHand, errors );
-					properties.putAll( shortHand );
+					properties.putAll( buildProperties( shortHand, errors ) );
 				}
 				else if ( cssName
 						.equalsIgnoreCase( CssPropertyConstants.ATTR_FONT ) )
@@ -622,10 +628,10 @@ public final class StyleSheetLoader
 					PropertyParser parser = new PropertyParser( cssValue );
 
 					parser.parseFont( );
-					LinkedHashMap shortHand = parser.getCssProperties( );
+					LinkedHashMap<String, String> shortHand = parser
+							.getCssProperties( );
 					shortHand = trimProperties( shortHand );
-					shortHand = buildProperties( shortHand, errors );
-					properties.putAll( shortHand );
+					properties.putAll( buildProperties( shortHand, errors ) );
 				}
 				else if ( cssName
 						.equalsIgnoreCase( CssPropertyConstants.ATTR_BACKGROUND ) )
@@ -633,10 +639,10 @@ public final class StyleSheetLoader
 					PropertyParser parser = new PropertyParser( cssValue );
 
 					parser.parseBackground( );
-					LinkedHashMap shortHand = parser.getCssProperties( );
+					LinkedHashMap<String, String> shortHand = parser
+							.getCssProperties( );
 					shortHand = trimProperties( shortHand );
-					shortHand = buildProperties( shortHand, errors );
-					properties.putAll( shortHand );
+					properties.putAll( buildProperties( shortHand, errors ) );
 				}
 				else if ( cssName
 						.equalsIgnoreCase( CssPropertyConstants.ATTR_MARGIN ) )
@@ -644,10 +650,10 @@ public final class StyleSheetLoader
 					PropertyParser parser = new PropertyParser( cssValue );
 
 					parser.parseMargin( );
-					LinkedHashMap shortHand = parser.getCssProperties( );
+					LinkedHashMap<String, String> shortHand = parser
+							.getCssProperties( );
 					shortHand = trimProperties( shortHand );
-					shortHand = buildProperties( shortHand, errors );
-					properties.putAll( shortHand );
+					properties.putAll( buildProperties( shortHand, errors ) );
 				}
 				else if ( cssName
 						.equalsIgnoreCase( CssPropertyConstants.ATTR_PADDING ) )
@@ -655,10 +661,10 @@ public final class StyleSheetLoader
 					PropertyParser parser = new PropertyParser( cssValue );
 
 					parser.parsePadding( );
-					LinkedHashMap shortHand = parser.getCssProperties( );
+					LinkedHashMap<String, String> shortHand = parser
+							.getCssProperties( );
 					shortHand = trimProperties( shortHand );
-					shortHand = buildProperties( shortHand, errors );
-					properties.putAll( shortHand );
+					properties.putAll( buildProperties( shortHand, errors ) );
 				}
 				else
 				{
@@ -738,10 +744,11 @@ public final class StyleSheetLoader
 	 * @return the error list during the parse
 	 */
 
-	List handleBackgroundPosition( String cssValue, LinkedHashMap properties )
+	List<StyleSheetParserException> handleBackgroundPosition( String cssValue,
+			LinkedHashMap<String, Object> properties )
 	{
 		assert cssValue != null;
-		List errors = new ArrayList( );
+		List<StyleSheetParserException> errors = new ArrayList<StyleSheetParserException>( );
 
 		String[] values = cssValue.split( "[\\s]" ); //$NON-NLS-1$
 		String positionX = null;
@@ -816,7 +823,8 @@ public final class StyleSheetLoader
 		return errors;
 	}
 
-	void handleTextDecoration( String cssValue, LinkedHashMap properties )
+	private void handleTextDecoration( String cssValue,
+			LinkedHashMap<String, Object> properties )
 	{
 		assert cssValue != null;
 		cssValue = cssValue.toLowerCase( );
@@ -848,13 +856,14 @@ public final class StyleSheetLoader
 	 *            the values to add
 	 */
 
-	void addProperties( DesignElement style, LinkedHashMap properties )
+	void addProperties( DesignElement style,
+			LinkedHashMap<String, ? extends Object> properties )
 	{
-		Set keys = properties.keySet( );
-		Iterator iter = keys.iterator( );
+		Set<String> keys = properties.keySet( );
+		Iterator<String> iter = keys.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			String name = (String) iter.next( );
+			String name = iter.next( );
 			Object value = properties.get( name );
 			style.setProperty( name, value );
 		}
@@ -868,15 +877,16 @@ public final class StyleSheetLoader
 	 * @return the trimmed property values
 	 */
 
-	LinkedHashMap trimProperties( LinkedHashMap properties )
+	LinkedHashMap<String, String> trimProperties(
+			LinkedHashMap<String, String> properties )
 	{
 		assert properties != null;
-		LinkedHashMap ret = new LinkedHashMap( );
-		Iterator keys = properties.keySet( ).iterator( );
+		LinkedHashMap<String, String> ret = new LinkedHashMap<String, String>( );
+		Iterator<String> keys = properties.keySet( ).iterator( );
 		while ( keys.hasNext( ) )
 		{
-			String key = (String) keys.next( );
-			String value = (String) properties.get( key );
+			String key = keys.next( );
+			String value = properties.get( key );
 			if ( !StringUtil.isBlank( value ) )
 				ret.put( key, value );
 		}

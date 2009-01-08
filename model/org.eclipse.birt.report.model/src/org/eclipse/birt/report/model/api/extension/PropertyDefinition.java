@@ -31,7 +31,9 @@ abstract public class PropertyDefinition implements IPropertyDefinition
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getGroupNameID()
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getGroupNameID
+	 * ()
 	 */
 
 	public String getGroupNameID( )
@@ -42,14 +44,17 @@ abstract public class PropertyDefinition implements IPropertyDefinition
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getName()
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getName()
 	 */
 	abstract public String getName( );
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getDisplayNameID()
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getDisplayNameID
+	 * ()
 	 */
 
 	public String getDisplayNameID( )
@@ -60,7 +65,8 @@ abstract public class PropertyDefinition implements IPropertyDefinition
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getType()
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getType()
 	 */
 
 	abstract public int getType( );
@@ -79,10 +85,11 @@ abstract public class PropertyDefinition implements IPropertyDefinition
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getChoices()
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getChoices()
 	 */
 
-	public List getChoices( )
+	public List<IChoiceDefinition> getChoices( )
 	{
 		return null;
 	}
@@ -90,7 +97,8 @@ abstract public class PropertyDefinition implements IPropertyDefinition
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getMembers()
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getMembers()
 	 */
 	public IMethodInfo getMethodInfo( )
 	{
@@ -100,41 +108,53 @@ abstract public class PropertyDefinition implements IPropertyDefinition
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getDefaultValue()
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getDefaultValue
+	 * ()
 	 */
-	
+
 	public Object getDefaultValue( )
 	{
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.extension.IPropertyDefinition#getMembers()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.IPropertyDefinition#getMembers
+	 * ()
 	 */
-	
-	public List getMembers( )
+
+	public List<IPropertyDefinition> getMembers( )
 	{
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.extension.IPropertyDefinition#isReadOnly()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.IPropertyDefinition#isReadOnly
+	 * ()
 	 */
-	
+
 	public boolean isReadOnly( )
 	{
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.extension.IPropertyDefinition#isVisible()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.IPropertyDefinition#isVisible
+	 * ()
 	 */
-	
+
 	public boolean isVisible( )
 	{
 		return true;
 	}
-	
-	
 
 }

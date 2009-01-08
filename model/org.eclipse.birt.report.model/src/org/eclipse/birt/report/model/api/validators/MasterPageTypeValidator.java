@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -27,14 +28,14 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 /**
  * Validates the page size against page type.
  * 
- * <h3>Rule</h3>
- * The rule is that if the value of <code>MasterPage.TYPE_PROP</code> is
+ * <h3>Rule</h3> The rule is that if the value of
+ * <code>MasterPage.TYPE_PROP</code> is
  * <code>DesignChoiceConstants.PAGE_SIZE_CUSTOM</code>, the
  * <code>MasterPage.HEIGHT_PROP</code> and <code>MasterPage.WIDTH_PROP</code>
  * must be set; otherwise, they should be empty.
  * 
- * <h3>Applicability</h3>
- * This validator is only applied to <code>MasterPage</code>.
+ * <h3>Applicability</h3> This validator is only applied to
+ * <code>MasterPage</code>.
  */
 
 public class MasterPageTypeValidator extends AbstractElementValidator
@@ -65,23 +66,26 @@ public class MasterPageTypeValidator extends AbstractElementValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( Module module, DesignElement element )
+	public List<SemanticException> validate( Module module,
+			DesignElement element )
 	{
-		if ( ! ( element instanceof MasterPage ) )
-			return Collections.EMPTY_LIST;
-		
+		if ( !( element instanceof MasterPage ) )
+			return Collections.emptyList( );
+
 		return doValidate( module, (MasterPage) element );
 	}
 
-	private List doValidate( Module module, MasterPage toValidate )
+	private List<SemanticException> doValidate( Module module,
+			MasterPage toValidate )
 	{
-		List list = new ArrayList( );
-	
-		String type = toValidate.getStringProperty( module, IMasterPageModel.TYPE_PROP );
+		List<SemanticException> list = new ArrayList<SemanticException>( );
+
+		String type = toValidate.getStringProperty( module,
+				IMasterPageModel.TYPE_PROP );
 		String height = toValidate.getStringProperty( module,
 				IMasterPageModel.HEIGHT_PROP );
-		String width = toValidate
-				.getStringProperty( module, IMasterPageModel.WIDTH_PROP );
+		String width = toValidate.getStringProperty( module,
+				IMasterPageModel.WIDTH_PROP );
 
 		// if type is CUSTOM type, height and width must be specified.
 

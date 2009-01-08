@@ -92,7 +92,7 @@ public class ContentElementPropertyType extends PropertyType
 		{
 			if ( value instanceof List )
 			{
-				if ( ( (List) value ).isEmpty( ) )
+				if ( ( (List<Object>) value ).isEmpty( ) )
 				{
 					return value;
 				}
@@ -147,7 +147,7 @@ public class ContentElementPropertyType extends PropertyType
 		if ( value == null )
 			return 0;
 		if ( value instanceof ArrayList )
-			return ( (ArrayList) value ).size( );
+			return ( (ArrayList<Object>) value ).size( );
 		return 1;
 	}
 

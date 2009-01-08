@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -71,13 +72,13 @@ public class ElementReferenceValidator extends AbstractPropertyValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( Module module, DesignElement element, String propName )
+	public List<SemanticException> validate( Module module, DesignElement element, String propName )
 	{
 		boolean flag = isInTemplateParameterDefinitionSlot( element );
 		if ( flag )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
-		List list = new ArrayList( );
+		List<SemanticException> list = new ArrayList<SemanticException>( );
 
 		ElementPropertyDefn prop = element.getPropertyDefn( propName );
 
@@ -95,14 +96,15 @@ public class ElementReferenceValidator extends AbstractPropertyValidator
 		else if ( prop.getTypeCode( ) == IPropertyType.LIST_TYPE
 				&& prop.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 		{
-			List valueList = element.resolveElementReferenceList( module, prop );
+			List<ElementRefValue> valueList = element
+					.resolveElementReferenceList( module, prop );
 			if ( valueList != null )
 			{
 				for ( int i = 0; i < valueList.size( ); i++ )
 				{
 					// check each reference value in the list
 
-					ElementRefValue item = (ElementRefValue) valueList.get( i );
+					ElementRefValue item = valueList.get( i );
 					if ( !item.isResolved( ) )
 					{
 						list

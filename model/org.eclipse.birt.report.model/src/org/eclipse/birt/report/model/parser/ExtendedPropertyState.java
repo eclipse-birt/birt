@@ -23,12 +23,18 @@ import org.xml.sax.Attributes;
  * Parses the "ex-property" tag. We use the "ex-property" tag if the element
  * property or structure member is an extended property mostly for use with ODA
  * property.
- *  
+ * 
  */
 
 public class ExtendedPropertyState extends StructureState
 {
 
+	/**
+	 * 
+	 * @param theHandler
+	 * @param element
+	 * @param propDefn
+	 */
 	ExtendedPropertyState( ModuleParserHandler theHandler,
 			DesignElement element, PropertyDefn propDefn )
 	{
@@ -41,14 +47,19 @@ public class ExtendedPropertyState extends StructureState
 				.equalsIgnoreCase( propDefn.getName( ) ) )
 			struct = new ExtendedProperty( );
 		else
-			handler.getErrorHandler( ).semanticError( new DesignParserException(
-					DesignParserException.DESIGN_EXCEPTION_WRONG_EXTENDED_PROPERTY_TYPE ) );
+			handler
+					.getErrorHandler( )
+					.semanticError(
+							new DesignParserException(
+									DesignParserException.DESIGN_EXCEPTION_WRONG_EXTENDED_PROPERTY_TYPE ) );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * .lang.String)
 	 */
 
 	public AbstractParseState startElement( String tagName )
@@ -56,9 +67,9 @@ public class ExtendedPropertyState extends StructureState
 		assert struct instanceof ExtendedProperty;
 
 		int tagValue = tagName.toLowerCase( ).hashCode( );
-		if (  ParserSchemaConstants.NAME_ATTRIB == tagValue )
+		if ( ParserSchemaConstants.NAME_ATTRIB == tagValue )
 			return new TextState( handler, struct, ExtendedProperty.NAME_MEMBER );
-		if (  ParserSchemaConstants.VALUE_TAG == tagValue )
+		if ( ParserSchemaConstants.VALUE_TAG == tagValue )
 			return new TextState( handler, struct,
 					ExtendedProperty.VALUE_MEMBER );
 
@@ -68,7 +79,9 @@ public class ExtendedPropertyState extends StructureState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * xml.sax.Attributes)
 	 */
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException

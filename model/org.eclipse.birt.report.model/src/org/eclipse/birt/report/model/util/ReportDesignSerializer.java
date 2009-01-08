@@ -43,6 +43,8 @@ import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -57,6 +59,7 @@ import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.ReferencableStyledElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StructureContext;
+import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.css.CssStyle;
@@ -136,14 +139,17 @@ public class ReportDesignSerializer extends ElementVisitor
 	 * container/content relationship.
 	 */
 
-	private Stack elements = new Stack( );
+	private Stack<DesignElement> elements = new Stack<DesignElement>( );
 
 	/**
 	 * Elements are not directly in source design. Hence, it should be created
-	 * with new names and added to the target design.
+	 * with new names and added to the target design. The key is the original
+	 * element that is read in library by directly or indirectly referred by
+	 * design element. The value is the newly created and will be inserted to
+	 * design.
 	 */
 
-	private Map externalElements = new LinkedHashMap( );
+	private Map<DesignElement, DesignElement> externalElements = new LinkedHashMap<DesignElement, DesignElement>( );
 
 	/**
 	 * Structures are not directly in source design. Hence, it should be created
@@ -151,19 +157,19 @@ public class ReportDesignSerializer extends ElementVisitor
 	 * with embedded images.
 	 */
 
-	private Map externalStructs = new LinkedHashMap( );
+	private Map<IStructure, IStructure> externalStructs = new LinkedHashMap<IStructure, IStructure>( );
 
 	/**
 	 * Cubes that need to build the dimension condition. It stores
 	 * newCube/oldCube pair.
 	 */
-	private Map cubes = new LinkedHashMap( );
+	private Map<Cube, Cube> cubes = new LinkedHashMap<Cube, Cube>( );
 
 	/**
 	 * Dimensions that need to build the 'defaultHierarchy'. It stores
 	 * newDimension/oldDimension pair.
 	 */
-	private Map dimensions = new LinkedHashMap( );
+	private Map<Dimension, Dimension> dimensions = new LinkedHashMap<Dimension, Dimension>( );
 
 	/**
 	 * The element is on process.
@@ -175,7 +181,7 @@ public class ReportDesignSerializer extends ElementVisitor
 	 * Saves all property bindings.
 	 */
 
-	private List propertyBindings = new ArrayList( );
+	private List<PropertyBinding> propertyBindings = new ArrayList<PropertyBinding>( );
 
 	/**
 	 * Returns the newly created report design.
@@ -260,7 +266,7 @@ public class ReportDesignSerializer extends ElementVisitor
 			int slotCount = elementDefn.getSlotCount( );
 			if ( slotCount > 0 )
 				visitSlots( obj, newElement, slotCount );
-			List properties = elementDefn.getContents( );
+			List<IElementPropertyDefn> properties = elementDefn.getContents( );
 			if ( properties.size( ) > 0 )
 				visitContainerProperties( obj, newElement, properties );
 		}
@@ -275,15 +281,16 @@ public class ReportDesignSerializer extends ElementVisitor
 
 	private void addExternalStructures( )
 	{
-		List images = (List) targetDesign.getLocalProperty( targetDesign,
-				IModuleModel.IMAGES_PROP );
+		List<IStructure> images = (List) targetDesign.getLocalProperty(
+				targetDesign, IModuleModel.IMAGES_PROP );
 		if ( images == null )
 		{
-			images = new ArrayList( );
+			images = new ArrayList<IStructure>( );
 			targetDesign.setProperty( IModuleModel.IMAGES_PROP, images );
 		}
 
-		Iterator embeddedImages = externalStructs.values( ).iterator( );
+		Iterator<IStructure> embeddedImages = externalStructs.values( )
+				.iterator( );
 		while ( embeddedImages.hasNext( ) )
 		{
 			EmbeddedImage image = (EmbeddedImage) embeddedImages.next( );
@@ -301,19 +308,19 @@ public class ReportDesignSerializer extends ElementVisitor
 
 	private void addExternalElements( )
 	{
-		List tmpElements = new ArrayList( );
+		List<DesignElement> tmpElements = new ArrayList<DesignElement>( );
 		tmpElements.addAll( externalElements.keySet( ) );
 
-		List processedElements = new ArrayList( );
+		List<DesignElement> processedElements = new ArrayList<DesignElement>( );
 		int index = 0;
 
 		// need to collect old names here for OLAP elements like measures,
 		// dimensions, levels.
 
-		Map<DesignElement, List<?>> tmpOLAPNames = new HashMap( );
+		Map<DesignElement, List<String>> tmpOLAPNames = new HashMap<DesignElement, List<String>>( );
 		for ( int i = 0; i < tmpElements.size( ); i++ )
 		{
-			DesignElement tmpElement = (DesignElement) tmpElements.get( i );
+			DesignElement tmpElement = tmpElements.get( i );
 
 			if ( tmpElement instanceof Cube )
 			{
@@ -324,8 +331,7 @@ public class ReportDesignSerializer extends ElementVisitor
 
 		while ( processedElements.size( ) < externalElements.size( ) )
 		{
-			DesignElement originalElement = (DesignElement) tmpElements
-					.get( index++ );
+			DesignElement originalElement = tmpElements.get( index++ );
 			addExternalElement( tmpElements, processedElements, originalElement );
 		}
 
@@ -333,15 +339,14 @@ public class ReportDesignSerializer extends ElementVisitor
 		// dimensions, levels. And performs renaming procedure to make sure
 		// column binding expression and aggregate on list are correct.
 
-		Iterator iter1 = tmpOLAPNames.keySet( ).iterator( );
+		Iterator<DesignElement> iter1 = tmpOLAPNames.keySet( ).iterator( );
 		while ( iter1.hasNext( ) )
 		{
 			Cube originalElement = (Cube) iter1.next( );
 			Cube newCube = (Cube) externalElements.get( originalElement );
 
 			List<String> newNames = collectOLAPNames( targetDesign, newCube );
-			List<String> oldNames = (List<String>) tmpOLAPNames
-					.get( originalElement );
+			List<String> oldNames = tmpOLAPNames.get( originalElement );
 
 			updateReferredOLAPColumnBinding( targetDesign, newCube,
 					buildOLAPNameMap( oldNames, newNames ) );
@@ -360,8 +365,8 @@ public class ReportDesignSerializer extends ElementVisitor
 	 *            the corresponding element in the source design
 	 */
 
-	private void addExternalElement( List elements, List processedElements,
-			DesignElement originalElement )
+	private void addExternalElement( List<DesignElement> elements,
+			List<DesignElement> processedElements, DesignElement originalElement )
 	{
 		if ( processedElements.contains( originalElement ) )
 			return;
@@ -374,8 +379,7 @@ public class ReportDesignSerializer extends ElementVisitor
 
 		processedElements.add( originalElement );
 
-		DesignElement tmpElement = (DesignElement) externalElements
-				.get( originalElement );
+		DesignElement tmpElement = externalElements.get( originalElement );
 
 		DesignElement tmpContainer = getTargetContainer( originalElement,
 				tmpElement, processedElements );
@@ -444,7 +448,7 @@ public class ReportDesignSerializer extends ElementVisitor
 		LevelContentIterator iter = new LevelContentIterator( module, cube, 3 );
 		while ( iter.hasNext( ) )
 		{
-			DesignElement innerElement = (DesignElement) iter.next( );
+			DesignElement innerElement = iter.next( );
 			if ( innerElement instanceof Dimension
 					|| innerElement instanceof Measure )
 				retMap.add( innerElement.getName( ) );
@@ -466,9 +470,10 @@ public class ReportDesignSerializer extends ElementVisitor
 	 *         name.
 	 */
 
-	private Map buildOLAPNameMap( List<String> oldNames, List<String> newNames )
+	private Map<String, String> buildOLAPNameMap( List<String> oldNames,
+			List<String> newNames )
 	{
-		Map retMap = new HashMap( );
+		Map<String, String> retMap = new HashMap<String, String>( );
 		for ( int i = 0; i < oldNames.size( ); i++ )
 		{
 			String oldName = oldNames.get( i );
@@ -493,15 +498,15 @@ public class ReportDesignSerializer extends ElementVisitor
 	 */
 
 	private void updateReferredOLAPColumnBinding( Module module, Cube cube,
-			Map nameMap )
+			Map<String, String> nameMap )
 	{
-		List clients = cube.getClientList( );
+		List<BackRef> clients = cube.getClientList( );
 		for ( int i = 0; i < clients.size( ); i++ )
 		{
-			BackRef ref = (BackRef) clients.get( i );
+			BackRef ref = clients.get( i );
 			DesignElement client = ref.getElement( );
-			List columnBindings = (List) client.getLocalProperty( module,
-					IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+			List<Object> columnBindings = (List) client.getLocalProperty(
+					module, IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 
 			if ( columnBindings == null || columnBindings.isEmpty( ) )
 				return;
@@ -528,7 +533,8 @@ public class ReportDesignSerializer extends ElementVisitor
 	 *            the name map
 	 */
 
-	private void updateBindingExpr( ComputedColumn binding, Map nameMap )
+	private void updateBindingExpr( ComputedColumn binding,
+			Map<String, String> nameMap )
 	{
 
 		String expr = binding.getExpression( );
@@ -548,7 +554,7 @@ public class ReportDesignSerializer extends ElementVisitor
 
 		if ( measureName != null )
 		{
-			String newName = (String) nameMap.get( measureName );
+			String newName = nameMap.get( measureName );
 			if ( newName != null )
 				binding.setExpression( expr.replaceAll( measureName, newName ) );
 
@@ -574,7 +580,7 @@ public class ReportDesignSerializer extends ElementVisitor
 		{
 			IDimLevel tmpObj = dimLevels.next( );
 
-			String newName = (String) nameMap.get( tmpObj.getDimensionName( ) );
+			String newName = nameMap.get( tmpObj.getDimensionName( ) );
 			if ( newName == null )
 				continue;
 
@@ -595,14 +601,15 @@ public class ReportDesignSerializer extends ElementVisitor
 	 *            the name map
 	 */
 
-	private void updateAggregateOnList( ComputedColumn binding, Map nameMap )
+	private void updateAggregateOnList( ComputedColumn binding,
+			Map<String, String> nameMap )
 	{
 
 		List<String> aggreOnList = binding.getAggregateOnList( );
 		for ( int i = 0; i < aggreOnList.size( ); i++ )
 		{
 			String levelFullName = aggreOnList.get( i );
-			String newName = (String) nameMap.get( levelFullName );
+			String newName = nameMap.get( levelFullName );
 
 			if ( newName == null )
 				continue;
@@ -636,7 +643,7 @@ public class ReportDesignSerializer extends ElementVisitor
 		ContentIterator iter = new ContentIterator( module, content );
 		while ( iter.hasNext( ) )
 		{
-			DesignElement child = (DesignElement) iter.next( );
+			DesignElement child = iter.next( );
 			addElement2NameSpace( child );
 		}
 	}
@@ -754,7 +761,7 @@ public class ReportDesignSerializer extends ElementVisitor
 		// property search path. 1. for element private value; 2. for shared
 		// style value; 3. for values defined on extends parent, 4. for selector
 
-		Set notEmptyProperties = new HashSet( );
+		Set<String> notEmptyProperties = new HashSet<String>( );
 
 		// first step to localize private style properties.
 		// handle values defined on virtual/extends parents.
@@ -784,7 +791,7 @@ public class ReportDesignSerializer extends ElementVisitor
 		}
 
 		Module tmpRoot = theme.getRoot( );
-		List styles = theme.getAllStyles( );
+		List<StyleElement> styles = theme.getAllStyles( );
 		for ( int i = 0; i < styles.size( ); i++ )
 		{
 			Style tmpStyle = (Style) styles.get( i );
@@ -811,7 +818,7 @@ public class ReportDesignSerializer extends ElementVisitor
 	 */
 
 	private void localizeSelfStyleProperties( StyledElement target,
-			StyledElement source, Set notEmptyProperties )
+			StyledElement source, Set<String> notEmptyProperties )
 	{
 		StyledElement tmpElement = source;
 
@@ -861,7 +868,7 @@ public class ReportDesignSerializer extends ElementVisitor
 	 */
 
 	private void localizePrivateStyleProperties( DesignElement target,
-			DesignElement source, Module root, Set notEmptyProperties )
+			DesignElement source, Module root, Set<String> notEmptyProperties )
 	{
 		if ( !source.hasLocalPropertyValues( ) )
 			return;
@@ -869,12 +876,12 @@ public class ReportDesignSerializer extends ElementVisitor
 		// copy all the local values in the style
 
 		IElementDefn defn = source.getDefn( );
-		Iterator iter = source.propertyWithLocalValueIterator( );
+		Iterator<String> iter = source.propertyWithLocalValueIterator( );
 
 		while ( iter.hasNext( ) )
 		{
 			ElementPropertyDefn prop = (ElementPropertyDefn) defn
-					.getProperty( (String) iter.next( ) );
+					.getProperty( iter.next( ) );
 
 			// the property may be user-defined property. So, the value may be
 			// null.
@@ -1067,7 +1074,7 @@ public class ReportDesignSerializer extends ElementVisitor
 	 * @param properties
 	 */
 	private void visitContainerProperties( DesignElement obj,
-			DesignElement newElement, List properties )
+			DesignElement newElement, List<IElementPropertyDefn> properties )
 	{
 		elements.push( newElement );
 		for ( int i = 0; i < properties.size( ); i++ )
@@ -1093,7 +1100,7 @@ public class ReportDesignSerializer extends ElementVisitor
 		ContainerContext sourceContainment = element.getContainerInfo( );
 
 		ContainerContext containment = null;
-		DesignElement container = (DesignElement) elements.peek( );
+		DesignElement container = elements.peek( );
 		String containmentProp = sourceContainment.getPropertyName( );
 		if ( containmentProp != null )
 			containment = new ContainerContext( container, containmentProp );
@@ -1106,7 +1113,7 @@ public class ReportDesignSerializer extends ElementVisitor
 		// if the element is an external element. do not add to the design now.
 		// should be added in the end by addExternalElements.
 
-		Set externalOriginalElements = externalElements.keySet( );
+		Set<DesignElement> externalOriginalElements = externalElements.keySet( );
 		if ( externalOriginalElements.contains( element ) )
 			return newElement;
 
@@ -1182,9 +1189,9 @@ public class ReportDesignSerializer extends ElementVisitor
 			DesignElement newElement )
 	{
 		DesignElementHandle tmpElementHandle = element.getHandle( sourceDesign );
-		List elementBindings = tmpElementHandle.getPropertyBindings( );
+		List<Object> elementBindings = tmpElementHandle.getPropertyBindings( );
 
-		List newList = new ArrayList( );
+		List<PropertyBinding> newList = new ArrayList<PropertyBinding>( );
 		long newID = newElement.getID( );
 
 		for ( int i = 0; i < elementBindings.size( ); i++ )
@@ -1240,14 +1247,14 @@ public class ReportDesignSerializer extends ElementVisitor
 			for ( int i = 0; i < resourceKeys.length; i++ )
 			{
 				String key = resourceKeys[i];
-				List transList = source.getTranslations( key );
+				List<Translation> transList = source.getTranslations( key );
 				if ( transList != null )
 				{
 					try
 					{
 						for ( int j = 0; j < transList.size( ); j++ )
 						{
-							Translation trans = (Translation) transList.get( j );
+							Translation trans = transList.get( j );
 							design
 									.addTranslation( (Translation) trans
 											.clone( ) );
@@ -1277,9 +1284,9 @@ public class ReportDesignSerializer extends ElementVisitor
 	 * @return the script library names of root element.
 	 */
 
-	private List getRootScriptLibsName( List scriptLibList )
+	private List<Object> getRootScriptLibsName( List<Object> scriptLibList )
 	{
-		List scriptLibsPath = new ArrayList( );
+		List<Object> scriptLibsPath = new ArrayList<Object>( );
 
 		for ( int i = 0; i < scriptLibsPath.size( ); i++ )
 		{
@@ -1298,11 +1305,11 @@ public class ReportDesignSerializer extends ElementVisitor
 	 * @return the script library of root element.
 	 */
 
-	private List getRootScriptLibs( ReportDesign root )
+	private List<Object> getRootScriptLibs( ReportDesign root )
 	{
 		Object obj = root.getProperty( root, IModuleModel.SCRIPTLIBS_PROP );
 		if ( obj == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		return (List) obj;
 	}
@@ -1320,25 +1327,25 @@ public class ReportDesignSerializer extends ElementVisitor
 			ReportDesign target )
 	{
 
-		List libs = source.getAllLibraries( );
+		List<Library> libs = source.getAllLibraries( );
 
-		List targetValueList = new ArrayList( );
+		List<Object> targetValueList = new ArrayList<Object>( );
 		targetValueList.addAll( getRootScriptLibs( source ) );
-		List relativePathList = getRootScriptLibsName( targetValueList );
+		List<Object> relativePathList = getRootScriptLibsName( targetValueList );
 
 		ElementPropertyDefn propDefn = source
 				.getPropertyDefn( IModuleModel.SCRIPTLIBS_PROP );
 
 		for ( int i = 0; i < libs.size( ); i++ )
 		{
-			Library lib = (Library) libs.get( i );
+			Library lib = libs.get( i );
 
 			Object obj = lib.getProperty( lib, propDefn );
 
 			if ( obj == null )
 				continue;
 
-			List sourceValueList = (List) obj;
+			List<Object> sourceValueList = (List) obj;
 
 			for ( int j = 0; j < sourceValueList.size( ); j++ )
 			{
@@ -1375,25 +1382,25 @@ public class ReportDesignSerializer extends ElementVisitor
 
 	void localizeIncludeResourceValues( ReportDesign source, ReportDesign target )
 	{
-		List libs = source.getAllLibraries( );
+		List<Library> libs = source.getAllLibraries( );
 
 		ElementPropertyDefn propDefn = source
 				.getPropertyDefn( IModuleModel.INCLUDE_RESOURCE_PROP );
 
 		Object obj = source.getProperty( source, propDefn );
-		List newValues = new ArrayList( );
+		List<Object> newValues = new ArrayList<Object>( );
 		if ( obj != null )
 			newValues.addAll( (List) obj );
 
 		for ( int i = 0; i < libs.size( ); i++ )
 		{
-			Library lib = (Library) libs.get( i );
+			Library lib = libs.get( i );
 			Object libObj = lib.getProperty( lib, propDefn );
 
 			if ( libObj == null )
 				continue;
 
-			List libIncludedResourceList = (List) libObj;
+			List<Object> libIncludedResourceList = (List) libObj;
 
 			for ( int j = 0; j < libIncludedResourceList.size( ); j++ )
 			{
@@ -1421,10 +1428,10 @@ public class ReportDesignSerializer extends ElementVisitor
 
 	private void visitCssStyleSheets( ReportDesign source, ReportDesign target )
 	{
-		List sheets = source.getCsses( );
+		List<CssStyleSheet> sheets = source.getCsses( );
 		for ( int i = 0; i < sheets.size( ); i++ )
 		{
-			CssStyleSheet sheet = (CssStyleSheet) sheets.get( i );
+			CssStyleSheet sheet = sheets.get( i );
 			CssStyleSheet newSheet = visitCssStyleSheet( sheet );
 
 			newSheet.setContainer( target );
@@ -1443,10 +1450,10 @@ public class ReportDesignSerializer extends ElementVisitor
 		CssStyleSheet newSheet = new CssStyleSheet( );
 
 		newSheet.setFileName( sheet.getFileName( ) );
-		List styles = sheet.getStyles( );
+		List<CssStyle> styles = sheet.getStyles( );
 		for ( int i = 0; i < styles.size( ); i++ )
 		{
-			CssStyle style = (CssStyle) styles.get( i );
+			CssStyle style = styles.get( i );
 			CssStyle newStyle = visitCssStyle( style );
 			newStyle.setCssStyleSheet( newSheet );
 
@@ -1465,7 +1472,7 @@ public class ReportDesignSerializer extends ElementVisitor
 	{
 		CssStyle newStyle = new CssStyle( style.getName( ) );
 		localizePrivateStyleProperties( newStyle, style, (Module) style
-				.getContainer( ), new HashSet( ) );
+				.getContainer( ), new HashSet<String>( ) );
 
 		return newStyle;
 	}
@@ -1498,7 +1505,7 @@ public class ReportDesignSerializer extends ElementVisitor
 			int slotCount = elementDefn.getSlotCount( );
 			if ( slotCount > 0 )
 				visitExternalSlots( element, newElement, slotCount );
-			List properties = elementDefn.getContents( );
+			List<IElementPropertyDefn> properties = elementDefn.getContents( );
 			if ( properties.size( ) > 0 )
 				visitExternalContainerProperties( element, newElement,
 						properties );
@@ -1640,7 +1647,7 @@ public class ReportDesignSerializer extends ElementVisitor
 
 		while ( iter1.hasNext( ) )
 		{
-			DesignElement tmpElement = (DesignElement) iter1.next( );
+			DesignElement tmpElement = iter1.next( );
 			if ( tmpElement.getBaseId( ) == virtualParent.getID( ) )
 				return tmpElement;
 		}
@@ -1657,7 +1664,7 @@ public class ReportDesignSerializer extends ElementVisitor
 	 */
 
 	private void visitExternalContainerProperties( DesignElement obj,
-			DesignElement newElement, List properties )
+			DesignElement newElement, List<IElementPropertyDefn> properties )
 	{
 		elements.push( newElement );
 		for ( int i = 0; i < properties.size( ); i++ )
@@ -1681,13 +1688,13 @@ public class ReportDesignSerializer extends ElementVisitor
 
 	private void visitExternalContents( Module module, ContainerContext context )
 	{
-		List contents = context.getContents( module );
-		Iterator iter = contents.iterator( );
+		List<DesignElement> contents = context.getContents( module );
+		Iterator<DesignElement> iter = contents.iterator( );
 
-		DesignElement tmpContainer = (DesignElement) elements.peek( );
+		DesignElement tmpContainer = elements.peek( );
 		while ( iter.hasNext( ) )
 		{
-			DesignElement tmpElement = (DesignElement) iter.next( );
+			DesignElement tmpElement = iter.next( );
 			DesignElement cachedExternalElement = getCache( tmpElement );
 			if ( cachedExternalElement != null )
 			{
@@ -1737,10 +1744,10 @@ public class ReportDesignSerializer extends ElementVisitor
 			return;
 		}
 
-		Iterator iter1 = element.propertyWithLocalValueIterator( );
+		Iterator<String> iter1 = element.propertyWithLocalValueIterator( );
 		while ( iter1.hasNext( ) )
 		{
-			String elem = (String) iter1.next( );
+			String elem = iter1.next( );
 
 			if ( sourceDesignStyle.getLocalProperty( targetDesign, elem ) != null )
 				continue;
@@ -1762,7 +1769,7 @@ public class ReportDesignSerializer extends ElementVisitor
 	private void localizeUserPropDefn( DesignElement element,
 			DesignElement newElement )
 	{
-		Iterator iter = null;
+		Iterator<UserPropertyDefn> iter = null;
 		DesignElement current = element;
 		if ( current.isVirtualElement( ) )
 			return;
@@ -1774,7 +1781,7 @@ public class ReportDesignSerializer extends ElementVisitor
 				iter = current.getLocalUserProperties( ).iterator( );
 				while ( iter.hasNext( ) )
 				{
-					UserPropertyDefn uDefn = (UserPropertyDefn) iter.next( );
+					UserPropertyDefn uDefn = iter.next( );
 					if ( newElement.getLocalUserPropertyDefn( uDefn.getName( ) ) != null )
 						continue;
 					newElement.addUserPropertyDefn( (UserPropertyDefn) uDefn
@@ -1811,7 +1818,8 @@ public class ReportDesignSerializer extends ElementVisitor
 
 		// get properties from ascendants.
 
-		Iterator iter = element.getPropertyDefns( ).iterator( );
+		Iterator<IElementPropertyDefn> iter = element.getPropertyDefns( )
+				.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) iter.next( );
@@ -1934,14 +1942,14 @@ public class ReportDesignSerializer extends ElementVisitor
 	{
 		if ( cubes.isEmpty( ) )
 			return;
-		Iterator iter = cubes.keySet( ).iterator( );
+		Iterator<Cube> iter = cubes.keySet( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
-			Cube newCube = (Cube) iter.next( );
-			Cube srcCube = (Cube) cubes.get( newCube );
-			List dimensionConditionList = (List) srcCube.getProperty(
+			Cube newCube = iter.next( );
+			Cube srcCube = cubes.get( newCube );
+			List<Object> dimensionConditionList = (List) srcCube.getProperty(
 					sourceDesign, ITabularCubeModel.DIMENSION_CONDITIONS_PROP );
-			List newValueList = new ArrayList( );
+			List<Object> newValueList = new ArrayList<Object>( );
 			newCube.setProperty( ITabularCubeModel.DIMENSION_CONDITIONS_PROP,
 					newValueList );
 
@@ -1984,13 +1992,13 @@ public class ReportDesignSerializer extends ElementVisitor
 							new ElementRefValue( null, newHierarchy ) );
 
 					// handle all the join conditions
-					List joinConditionList = (List) dimensionCond.getProperty(
-							sourceDesign,
-							DimensionCondition.JOIN_CONDITIONS_MEMBER );
+					List<Object> joinConditionList = (List) dimensionCond
+							.getProperty( sourceDesign,
+									DimensionCondition.JOIN_CONDITIONS_MEMBER );
 					if ( joinConditionList == null
 							|| joinConditionList.isEmpty( ) )
 						continue;
-					List newJoinConditionList = (List) newDimensionCond
+					List<Object> newJoinConditionList = (List) newDimensionCond
 							.getProperty( targetDesign,
 									DimensionCondition.JOIN_CONDITIONS_MEMBER );
 					for ( int j = 0; j < joinConditionList.size( ); j++ )
@@ -2051,11 +2059,11 @@ public class ReportDesignSerializer extends ElementVisitor
 	{
 		if ( dimensions.isEmpty( ) )
 			return;
-		Iterator iter = dimensions.keySet( ).iterator( );
+		Iterator<Dimension> iter = dimensions.keySet( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
-			Dimension newDimension = (Dimension) iter.next( );
-			Dimension srcDimension = (Dimension) dimensions.get( newDimension );
+			Dimension newDimension = iter.next( );
+			Dimension srcDimension = dimensions.get( newDimension );
 
 			// handle default hierarchy by the index
 			ModelUtil.duplicateDefaultHierarchy( newDimension, srcDimension );
@@ -2133,15 +2141,15 @@ public class ReportDesignSerializer extends ElementVisitor
 				&& IModuleModel.IMAGES_PROP.equalsIgnoreCase( propDefn
 						.getName( ) ) )
 		{
-			List images = newElement.getListProperty( targetDesign,
+			List<Object> images = newElement.getListProperty( targetDesign,
 					IModuleModel.IMAGES_PROP );
 			if ( images == null )
 			{
-				images = new ArrayList( );
+				images = new ArrayList<Object>( );
 				newElement.setProperty( propDefn, images );
 			}
 
-			localizeEmbeddedImage( (List) valueList, images );
+			localizeEmbeddedImage( (List<Object>) valueList, images );
 		}
 		else
 		{
@@ -2201,7 +2209,8 @@ public class ReportDesignSerializer extends ElementVisitor
 	{
 		Structure newStruct = (Structure) struct.copy( );
 
-		Iterator iter = struct.getObjectDefn( ).propertiesIterator( );
+		Iterator<IPropertyDefn> iter = struct.getObjectDefn( )
+				.propertiesIterator( );
 		while ( iter.hasNext( ) )
 		{
 			StructPropertyDefn memberDefn = (StructPropertyDefn) iter.next( );
@@ -2278,14 +2287,14 @@ public class ReportDesignSerializer extends ElementVisitor
 	 */
 
 	private void handleElementRefValueList( DesignElement newElement,
-			PropertyDefn propDefn, List valueList )
+			PropertyDefn propDefn, List<ElementRefValue> valueList )
 	{
-		List values = new ArrayList( );
+		List<ElementRefValue> values = new ArrayList<ElementRefValue>( );
 		for ( int i = 0; i < valueList.size( ); i++ )
 		{
 			// try to resolve every
 
-			ElementRefValue item = (ElementRefValue) valueList.get( i );
+			ElementRefValue item = valueList.get( i );
 			DesignElement refElement = item.getElement( );
 			if ( refElement != null && refElement.getRoot( ) != sourceDesign )
 			{
@@ -2331,44 +2340,6 @@ public class ReportDesignSerializer extends ElementVisitor
 		else
 			newElement.setProperty( propDefn, ModelUtil.copyValue( propDefn,
 					value ) );
-	}
-
-	/**
-	 * Localize values if the property type is element reference value.
-	 * 
-	 * @param newElement
-	 *            the target element
-	 * @param propDefn
-	 *            the property definition
-	 * @param value
-	 *            the original property value
-	 */
-
-	private void handleElementRefValue( DesignElement newElement,
-			PropertyDefn propDefn, ElementRefValue value )
-	{
-		DesignElement refElement = value.getElement( );
-
-		// handle only when the data set is not local but
-		// library resource
-
-		if ( refElement != null && refElement.getRoot( ) != sourceDesign )
-		{
-			DesignElement newRefEelement = getCache( refElement );
-			if ( newRefEelement == null )
-			{
-				newRefEelement = visitExternalElement( refElement );
-			}
-
-			// if it is theme, newRefElement can be null.
-
-			if ( newRefEelement != null )
-				newElement.setProperty( propDefn, new ElementRefValue( null,
-						newRefEelement ) );
-		}
-		else
-			newElement.setProperty( propDefn, new ElementRefValue( value
-					.getLibraryNamespace( ), value.getName( ) ) );
 	}
 
 	/**
@@ -2431,8 +2402,8 @@ public class ReportDesignSerializer extends ElementVisitor
 	 *            the target images
 	 */
 
-	private void localizeEmbeddedImage( List sourceEmbeddedImage,
-			List targetEmeddedImage )
+	private void localizeEmbeddedImage( List<Object> sourceEmbeddedImage,
+			List<Object> targetEmeddedImage )
 	{
 
 		for ( int i = 0; i < sourceEmbeddedImage.size( ); i++ )
@@ -2525,12 +2496,12 @@ public class ReportDesignSerializer extends ElementVisitor
 
 	private IStructure getCache( IStructure sourceStruct )
 	{
-		return (IStructure) externalStructs.get( sourceStruct );
+		return externalStructs.get( sourceStruct );
 	}
 
 	private DesignElement getCache( DesignElement sourceElement )
 	{
-		return (DesignElement) externalElements.get( sourceElement );
+		return externalElements.get( sourceElement );
 	}
 
 	/**
@@ -2571,7 +2542,7 @@ public class ReportDesignSerializer extends ElementVisitor
 
 		DesignElement tmpContainer = null;
 
-		tmpContainer = (DesignElement) externalElements.get( sourceContainer );
+		tmpContainer = externalElements.get( sourceContainer );
 		if ( tmpContainer == null )
 			tmpContainer = targetDesign.getElementByID( containerId );
 

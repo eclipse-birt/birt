@@ -173,11 +173,11 @@ public class Cell extends StyledElement implements ICellModel
 
 		TableRow row = (TableRow) getContainer( );
 		if ( row == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		DesignElement rowContainer = row.getContainer( );
 		if ( rowContainer == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		String cellSelector = null;
 		if ( rowContainer instanceof TableItem )
@@ -202,7 +202,7 @@ public class Cell extends StyledElement implements ICellModel
 			return list;
 		}
 
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList( );
 
 	}
 

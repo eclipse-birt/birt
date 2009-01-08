@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.PropertyMaskHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -27,8 +28,7 @@ import org.eclipse.birt.report.model.core.Structure;
 
 /**
  * This class provides property masks of system or user defined properties. Name
- * and Value members in <code>PropertyMask</code> are all intrinsic
- * properties.
+ * and Value members in <code>PropertyMask</code> are all intrinsic properties.
  * 
  * Choices for the mask value are defined in <code>DesignChoiceConstants</code>.
  * 
@@ -91,7 +91,9 @@ public class PropertyMask extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
+	 * .lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -108,8 +110,9 @@ public class PropertyMask extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
+	 * .lang.String, java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
@@ -154,8 +157,9 @@ public class PropertyMask extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * report.model.api.SimpleValueHandle, int)
 	 */
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
 	{
@@ -196,18 +200,20 @@ public class PropertyMask extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
+	 * .report.model.elements.ReportDesign,
+	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
-	public List validate( Module module, DesignElement element )
+	public List<SemanticException> validate( Module module,
+			DesignElement element )
 	{
-		ArrayList list = new ArrayList( );
+		ArrayList<SemanticException> list = new ArrayList<SemanticException>( );
 
 		if ( StringUtil.isBlank( getName( ) ) )
 		{
-			list.add( new PropertyValueException( element,
-					 getDefn( ) .getMember( NAME_MEMBER ),
-					null,
+			list.add( new PropertyValueException( element, getDefn( )
+					.getMember( NAME_MEMBER ), null,
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 		else if ( element.getPropertyDefn( getName( ) ) == null )

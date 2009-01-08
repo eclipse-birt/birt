@@ -22,10 +22,10 @@ public interface INameContainer
 	/**
 	 * Gets the name helper for this name container.
 	 * 
-	 * @return
+	 * @return the name helper of this container
 	 */
 	public INameHelper getNameHelper( );
-	
+
 	/**
 	 * Checks the element name in this name container.
 	 * 
@@ -40,7 +40,7 @@ public interface INameContainer
 	 */
 
 	public void rename( DesignElement element );
-	
+
 	/**
 	 * Makes a unique name for this element.
 	 * 

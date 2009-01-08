@@ -42,7 +42,7 @@ public class ChoiceSet implements Cloneable, IChoiceSet
 	 * The set of valid choices.
 	 */
 
-	protected ArrayList choices = null;
+	protected ArrayList<IChoice> choices = null;
 
 	/**
 	 * Constructor.
@@ -68,7 +68,7 @@ public class ChoiceSet implements Cloneable, IChoiceSet
 		if ( choices != null )
 		{
 			for ( int i = 0; i < choices.size( ); i++ )
-				set.choices.add( ( (IChoice) choices.get( i ) ).copy( ) );
+				set.choices.add( ( choices.get( i ) ).copy( ) );
 		}
 		return set;
 	}
@@ -120,7 +120,7 @@ public class ChoiceSet implements Cloneable, IChoiceSet
 	public void setChoices( IChoice[] choiceArray )
 	{
 		if ( choices == null )
-			choices = new ArrayList( );
+			choices = new ArrayList<IChoice>( );
 
 		for ( int i = 0; i < choiceArray.length; i++ )
 			choices.add( choiceArray[i] );
@@ -157,10 +157,12 @@ public class ChoiceSet implements Cloneable, IChoiceSet
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.IChoiceSet#getChoices(java.util.Comparator)
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IChoiceSet#getChoices(java
+	 * .util.Comparator)
 	 */
 
-	public IChoice[] getChoices( Comparator c )
+	public IChoice[] getChoices( Comparator<Object> c )
 	{
 		if ( choices == null || choices.isEmpty( ) )
 			return null;
@@ -187,7 +189,7 @@ public class ChoiceSet implements Cloneable, IChoiceSet
 		IChoice choice = null;
 		for ( int i = 0; i < choices.size( ); i++ )
 		{
-			choice = (IChoice) choices.get( i );
+			choice = choices.get( i );
 
 			if ( choice.getName( ).equalsIgnoreCase( name ) )
 			{
@@ -199,8 +201,8 @@ public class ChoiceSet implements Cloneable, IChoiceSet
 	}
 
 	/**
-	 * Finds a Choice in the <code>ChoiceSet</code> for its display name. For
-	 * a user defined choice, the display name can be <code>null</code>.
+	 * Finds a Choice in the <code>ChoiceSet</code> for its display name. For a
+	 * user defined choice, the display name can be <code>null</code>.
 	 * 
 	 * @param name
 	 *            display name of a Choice.
@@ -213,7 +215,7 @@ public class ChoiceSet implements Cloneable, IChoiceSet
 		IChoice choice = null;
 		for ( int i = 0; i < choices.size( ); i++ )
 		{
-			choice = (IChoice) choices.get( i );
+			choice = choices.get( i );
 
 			String displayName = choice.getDisplayName( );
 
@@ -228,8 +230,8 @@ public class ChoiceSet implements Cloneable, IChoiceSet
 	}
 
 	/**
-	 * Finds a Choice in the <code>ChoiceSet</code> for its display name. For
-	 * a user defined choice, the display name can be <code>null</code>.
+	 * Finds a Choice in the <code>ChoiceSet</code> for its display name. For a
+	 * user defined choice, the display name can be <code>null</code>.
 	 * 
 	 * @param module
 	 *            the report design

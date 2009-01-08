@@ -100,14 +100,14 @@ public abstract class SimpleRecord extends AbstractElementRecord
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
 	 */
 
-	protected List getPostTasks( )
+	protected List<RecordTask> getPostTasks( )
 	{
 		DesignElement element = getTarget( );
 		assert element != null;
 		if ( element.getRoot( ) == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
-		List retList = new ArrayList( );
+		List<RecordTask> retList = new ArrayList<RecordTask>( );
 		retList.addAll( super.getPostTasks( ) );
 		retList.add( new ValidationRecordTask( element.getRoot( ) ) );
 		return retList;

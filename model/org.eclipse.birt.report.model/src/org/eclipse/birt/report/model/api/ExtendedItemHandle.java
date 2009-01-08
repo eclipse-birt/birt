@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.elements.IReportItemMethodContext;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.IllegalContentInfo;
+import org.eclipse.birt.report.model.api.extension.UndefinedPropertyInfo;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -322,12 +323,12 @@ public class ExtendedItemHandle extends ReportItemHandle
 	 * 
 	 * @return map of invalid property value or undefined property
 	 */
-	public Map getUndefinedProperties( )
+	public Map<String, UndefinedPropertyInfo> getUndefinedProperties( )
 	{
 		PeerExtensibilityProvider provider = ( (ExtendedItem) getElement( ) )
 				.getExtensibilityProvider( );
 
-		Map propMap = new HashMap( );
+		Map<String, UndefinedPropertyInfo> propMap = new HashMap<String, UndefinedPropertyInfo>( );
 		propMap.putAll( provider.getInvalidPropertyValueMap( ) );
 		propMap.putAll( provider.getUndefinedPropertyMap( ) );
 		return propMap;
@@ -341,27 +342,27 @@ public class ExtendedItemHandle extends ReportItemHandle
 	 * 
 	 * @return
 	 */
-	public Map getIllegalContents( )
+	public Map<String, List<IllegalContentInfo>> getIllegalContents( )
 	{
 		PeerExtensibilityProvider provider = ( (ExtendedItem) getElement( ) )
 				.getExtensibilityProvider( );
-		Map illegalChildren = provider.getIllegalContents( );
+		Map<String, List<UndefinedChildInfo>> illegalChildren = provider
+				.getIllegalContents( );
 		if ( illegalChildren == null || illegalChildren.isEmpty( ) )
-			return Collections.EMPTY_MAP;
+			return Collections.emptyMap( );
 
-		Map transMap = new HashMap( );
-		Iterator iter = illegalChildren.keySet( ).iterator( );
+		Map<String, List<IllegalContentInfo>> transMap = new HashMap<String, List<IllegalContentInfo>>( );
+		Iterator<String> iter = illegalChildren.keySet( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
-			String propName = (String) iter.next( );
-			List childList = (List) illegalChildren.get( propName );
+			String propName = iter.next( );
+			List<UndefinedChildInfo> childList = illegalChildren.get( propName );
 			if ( childList != null && !childList.isEmpty( ) )
 			{
-				List transChildren = new ArrayList( );
+				List<IllegalContentInfo> transChildren = new ArrayList<IllegalContentInfo>( );
 				for ( int i = 0; i < childList.size( ); i++ )
 				{
-					UndefinedChildInfo infor = (UndefinedChildInfo) childList
-							.get( i );
+					UndefinedChildInfo infor = childList.get( i );
 					transChildren.add( new IllegalContentInfo( infor, module ) );
 				}
 				transMap.put( propName, transChildren );
@@ -374,7 +375,7 @@ public class ExtendedItemHandle extends ReportItemHandle
 	/**
 	 * Gets the extension version of this element.
 	 * 
-	 * @return
+	 * @return extension version of this element
 	 */
 	public String getExtensionVersion( )
 	{

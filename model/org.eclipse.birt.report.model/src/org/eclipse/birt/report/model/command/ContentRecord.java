@@ -17,12 +17,14 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.activity.LayoutRecordTask;
 import org.eclipse.birt.report.model.activity.NotificationRecordTask;
+import org.eclipse.birt.report.model.activity.RecordTask;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.ElementDeletedEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.ContainerContext;
@@ -50,6 +52,7 @@ import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
+import org.eclipse.birt.report.model.validators.ValidationNode;
 
 /**
  * Records adding a content into a container, or removing content from a
@@ -259,12 +262,13 @@ public class ContentRecord extends SimpleRecord
 
 	private void adjustReferenceClients( IReferencableElement referred )
 	{
-		List clients = new ArrayList( referred.getClientList( ) );
+		List<BackRef> clients = new ArrayList<BackRef>( referred
+				.getClientList( ) );
 
-		Iterator iter = clients.iterator( );
+		Iterator<BackRef> iter = clients.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			BackRef ref = (BackRef) iter.next( );
+			BackRef ref = iter.next( );
 			DesignElement client = ref.getElement( );
 
 			if ( client != null )
@@ -278,7 +282,7 @@ public class ContentRecord extends SimpleRecord
 
 	private void adjustReferredClients( DesignElement element )
 	{
-		List propDefns = element.getPropertyDefns( );
+		List<IElementPropertyDefn> propDefns = element.getPropertyDefns( );
 
 		StyleElement style = element.getStyle( module );
 		if ( style != null )
@@ -286,7 +290,8 @@ public class ContentRecord extends SimpleRecord
 			ElementBackRefRecord.unresolveBackRef( module, element, style,
 					IStyledElementModel.STYLE_PROP );
 		}
-		for ( Iterator iter = propDefns.iterator( ); iter.hasNext( ); )
+		for ( Iterator<IElementPropertyDefn> iter = propDefns.iterator( ); iter
+				.hasNext( ); )
 		{
 			PropertyDefn propDefn = (PropertyDefn) iter.next( );
 
@@ -324,8 +329,8 @@ public class ContentRecord extends SimpleRecord
 			else if ( propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE
 					&& propDefn.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 			{
-				List valueList = (List) element.getLocalProperty( module,
-						(ElementPropertyDefn) propDefn );
+				List<Object> valueList = (List) element.getLocalProperty(
+						module, (ElementPropertyDefn) propDefn );
 				if ( valueList != null )
 				{
 					for ( int i = valueList.size( ) - 1; i >= 0; i-- )
@@ -367,11 +372,11 @@ public class ContentRecord extends SimpleRecord
 	 * getValidators()
 	 */
 
-	public List getValidators( )
+	public List<ValidationNode> getValidators( )
 	{
-		List list = ValidationExecutor.getValidationNodes( this.containerInfo
-				.getElement( ), containerInfo.getTriggerSetForContainerDefn( ),
-				false );
+		List<ValidationNode> list = ValidationExecutor.getValidationNodes(
+				this.containerInfo.getElement( ), containerInfo
+						.getTriggerSetForContainerDefn( ), false );
 
 		// Validate the content.
 
@@ -391,9 +396,9 @@ public class ContentRecord extends SimpleRecord
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
 	 */
 
-	protected List getPostTasks( )
+	protected List<RecordTask> getPostTasks( )
 	{
-		List retValue = new ArrayList( );
+		List<RecordTask> retValue = new ArrayList<RecordTask>( );
 		retValue.addAll( super.getPostTasks( ) );
 
 		DesignElement container = containerInfo.getElement( );

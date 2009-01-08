@@ -83,7 +83,8 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.ElementPropertyDefn#canInherit()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn#canInherit()
 	 */
 
 	public boolean canInherit( )
@@ -96,7 +97,8 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	 * resource key and <code> IMessages </code> . Otherwise, return <code> null
 	 * </code> .
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.ElementPropertyDefn#getGroupName()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn#getGroupName()
 	 */
 
 	public String getGroupName( )
@@ -111,7 +113,9 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.ElementPropertyDefn#getGroupNameKey()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn#getGroupNameKey
+	 * ()
 	 */
 
 	public String getGroupNameKey( )
@@ -122,7 +126,9 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.ElementPropertyDefn#getMethodInfo()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn#getMethodInfo
+	 * ()
 	 */
 
 	public IMethodInfo getMethodInfo( )
@@ -136,7 +142,9 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.ElementPropertyDefn#isStyleProperty()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn#isStyleProperty
+	 * ()
 	 */
 
 	public boolean isStyleProperty( )
@@ -150,7 +158,9 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.ElementPropertyDefn#setCanInherit(boolean)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn#setCanInherit
+	 * (boolean)
 	 */
 
 	void setCanInherit( boolean flag )
@@ -161,7 +171,9 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.ElementPropertyDefn#setGroupNameKey(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn#setGroupNameKey
+	 * (java.lang.String)
 	 */
 
 	void setGroupNameKey( String id )
@@ -172,7 +184,8 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#getAllowedChoices()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn#getAllowedChoices()
 	 */
 
 	public IChoiceSet getAllowedChoices( )
@@ -188,17 +201,17 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 
 	public IChoiceSet getChoices( )
 	{
-		Collection choices = extProperty.getChoices( );
+		Collection<IChoiceDefinition> choices = extProperty.getChoices( );
 		if ( choices == null )
 			return null;
 		if ( choices.size( ) == 0 )
 			return null;
 		Choice[] choiceArray = new Choice[choices.size( )];
-		Iterator iter = choices.iterator( );
+		Iterator<IChoiceDefinition> iter = choices.iterator( );
 		int i = 0;
 		while ( iter.hasNext( ) )
 		{
-			IChoiceDefinition choice = (IChoiceDefinition) iter.next( );
+			IChoiceDefinition choice = iter.next( );
 			ExtensionChoice extChoice = new ExtensionChoice( choice, messages );
 			choiceArray[i] = extChoice;
 			i++;
@@ -246,7 +259,8 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#getDisplayNameID()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn#getDisplayNameID()
 	 */
 
 	public String getDisplayNameID( )
@@ -275,14 +289,14 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	{
 		if ( details instanceof StructureDefn )
 			return (StructureDefn) details;
-		List members = extProperty.getMembers( );
+		List<IPropertyDefinition> members = extProperty.getMembers( );
 		if ( members == null )
 			return null;
 		StructureDefn struct = new StructureDefn( );
-		Iterator iter = members.iterator( );
+		Iterator<IPropertyDefinition> iter = members.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			IPropertyDefinition prop = (IPropertyDefinition) iter.next( );
+			IPropertyDefinition prop = iter.next( );
 			try
 			{
 				struct.addProperty( new ExtensionStructPropertyDefn( prop ) );
@@ -300,7 +314,9 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#getTargetElementType()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn#getTargetElementType
+	 * ()
 	 */
 
 	public IElementDefn getTargetElementType( )
@@ -363,7 +379,9 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#setAllowedChoices(org.eclipse.birt.report.model.metadata.ChoiceSet)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn#setAllowedChoices
+	 * (org.eclipse.birt.report.model.metadata.ChoiceSet)
 	 */
 
 	void setAllowedChoices( ChoiceSet allowedChoices )
@@ -374,7 +392,9 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#setDefault(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn#setDefault(java.lang
+	 * .Object)
 	 */
 
 	protected void setDefault( Object value )
@@ -385,7 +405,9 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#setDisplayNameID(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn#setDisplayNameID(
+	 * java.lang.String)
 	 */
 
 	public void setDisplayNameID( String id )
@@ -396,7 +418,8 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#setIntrinsic(boolean)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn#setIntrinsic(boolean)
 	 */
 
 	void setIntrinsic( boolean flag )
@@ -407,7 +430,8 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#setIsList(boolean)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn#setIsList(boolean)
 	 */
 
 	protected void setIsList( boolean isList )
@@ -418,7 +442,9 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#setName(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn#setName(java.lang
+	 * .String)
 	 */
 
 	public void setName( String theName )
@@ -429,7 +455,9 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#setType(org.eclipse.birt.report.model.metadata.PropertyType)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn#setType(org.eclipse
+	 * .birt.report.model.metadata.PropertyType)
 	 */
 
 	public void setType( PropertyType typeDefn )
@@ -440,7 +468,8 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyDefn#isReadOnly()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IPropertyDefn#isReadOnly()
 	 */
 
 	public boolean isReadOnly( )

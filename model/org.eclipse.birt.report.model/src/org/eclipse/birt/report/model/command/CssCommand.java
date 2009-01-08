@@ -284,7 +284,7 @@ public class CssCommand extends AbstractElementCommand
 	private CssStyleSheet getCssStyleSheetByLocation( String location )
 	{
 		ICssStyleSheetOperation sheet = (ICssStyleSheetOperation) element;
-		List csses = sheet.getCsses( );
+		List<CssStyleSheet> csses = sheet.getCsses( );
 
 		URL url = module.findResource( location,
 				IResourceLocator.CASCADING_STYLE_SHEET );
@@ -312,15 +312,16 @@ public class CssCommand extends AbstractElementCommand
 			return null;
 
 		ICssStyleSheetOperation sheet = (ICssStyleSheetOperation) element;
-		List csses = sheet.getCsses( );
+		List<CssStyleSheet> csses = sheet.getCsses( );
 		int position = CssStyleSheetAdapter.getPositionOfCssStyleSheet( module,
 				csses, location );
 
 		if ( position == -1 )
 			return null;
-		csses = element.getListProperty( module, IReportDesignModel.CSSES_PROP );
+		List<Object> cssStructs = element.getListProperty( module,
+				IReportDesignModel.CSSES_PROP );
 
-		return (IncludedCssStyleSheet) csses.get( position );
+		return (IncludedCssStyleSheet) cssStructs.get( position );
 	}
 
 	/**
@@ -397,11 +398,12 @@ public class CssCommand extends AbstractElementCommand
 
 	private int findIncludedCssStyleSheetPosition( CssStyleSheet sheet )
 	{
-		List<IncludedCssStyleSheet> includedCss = element.getListProperty(
-				module, IReportDesignModel.CSSES_PROP );
+		List<Object> includedCss = element.getListProperty( module,
+				IReportDesignModel.CSSES_PROP );
 		for ( int i = 0; i < includedCss.size( ); i++ )
 		{
-			IncludedCssStyleSheet oneCss = includedCss.get( i );
+			IncludedCssStyleSheet oneCss = (IncludedCssStyleSheet) includedCss
+					.get( i );
 			assert oneCss.getFileName( ) != null;
 			if ( oneCss.getFileName( ).equalsIgnoreCase( sheet.getFileName( ) ) )
 				return i;
@@ -418,12 +420,12 @@ public class CssCommand extends AbstractElementCommand
 	 */
 	private IncludedCssStyleSheet findIncludedCssStyleSheet( CssStyleSheet sheet )
 	{
-		List<IncludedCssStyleSheet> includedCss = element.getListProperty(
-				module, IReportDesignModel.CSSES_PROP );
+		List<Object> includedCss = element.getListProperty( module,
+				IReportDesignModel.CSSES_PROP );
 		int posn = findIncludedCssStyleSheetPosition( sheet );
 		if ( posn == APPEND_POS )
 			return null;
-		return includedCss.get( posn );
+		return (IncludedCssStyleSheet) includedCss.get( posn );
 	}
 
 	/**
@@ -434,11 +436,12 @@ public class CssCommand extends AbstractElementCommand
 
 	private int findIncludedCssStyleSheetPosition( String fileName )
 	{
-		List<IncludedCssStyleSheet> includedCss = element.getListProperty(
-				module, IReportDesignModel.CSSES_PROP );
+		List<Object> includedCss = element.getListProperty( module,
+				IReportDesignModel.CSSES_PROP );
 		for ( int i = 0; i < includedCss.size( ); i++ )
 		{
-			IncludedCssStyleSheet oneCss = includedCss.get( i );
+			IncludedCssStyleSheet oneCss = (IncludedCssStyleSheet) includedCss
+					.get( i );
 			assert oneCss.getFileName( ) != null;
 			if ( oneCss.getFileName( ).equalsIgnoreCase( fileName ) )
 				return i;
@@ -487,6 +490,7 @@ public class CssCommand extends AbstractElementCommand
 	 *            the new file name.
 	 * @return the matched included css style sheet structure with the same
 	 *         location of <code>newFileName</code>
+	 * @throws CssException
 	 * 
 	 */
 	public IncludedCssStyleSheet checkRenameCss(

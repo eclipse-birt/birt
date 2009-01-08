@@ -20,6 +20,7 @@ import java.util.Set;
 
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -33,14 +34,13 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 /**
  * Validates the ducplicat group name in one table with data set.
  * 
- * <h3>Rule</h3>
- * The rule is that one listing element with data set doesn't allow duplicate
- * group name to appear in this element and its content listing element without
- * data set. But if the content listing element has data set, the group name can
- * be duplicate with that in container.
+ * <h3>Rule</h3> The rule is that one listing element with data set doesn't
+ * allow duplicate group name to appear in this element and its content listing
+ * element without data set. But if the content listing element has data set,
+ * the group name can be duplicate with that in container.
  * 
- * <h3>Applicability</h3>
- * This validator is only applied to <code>ListingElement</code>.
+ * <h3>Applicability</h3> This validator is only applied to
+ * <code>ListingElement</code>.
  * 
  */
 
@@ -72,9 +72,10 @@ public class GroupNameValidator extends AbstractElementValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validateForAddingGroup( ListingHandle element, String groupName )
+	public List<SemanticException> validateForAddingGroup(
+			ListingHandle element, String groupName )
 	{
-		List groupList = Collections.EMPTY_LIST;
+		List<GroupElement> groupList = Collections.emptyList( );
 
 		// Collect all groups in this element.
 
@@ -92,7 +93,7 @@ public class GroupNameValidator extends AbstractElementValidator
 					targetElement );
 		}
 
-		List list = new ArrayList( );
+		List<SemanticException> list = new ArrayList<SemanticException>( );
 
 		// Check whether the given group name is in the group list.
 
@@ -120,26 +121,26 @@ public class GroupNameValidator extends AbstractElementValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validateForRenamingGroup( ListingHandle element,
-			GroupHandle group, String groupName )
+	public List<SemanticException> validateForRenamingGroup(
+			ListingHandle element, GroupHandle group, String groupName )
 	{
 		if ( group.getName( ) == groupName
 				|| ( groupName != null && groupName.equals( group.getName( ) ) ) )
 		{
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		}
 
 		ListingElement targetElement = getListingElement( element.getModule( ),
 				(ListingElement) element.getElement( ) );
 		if ( targetElement == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		// Collect all group name in this element.
 
-		List groupList = getGroupsWithContents( element.getModule( ),
-				targetElement );
+		List<GroupElement> groupList = getGroupsWithContents( element
+				.getModule( ), targetElement );
 
-		List list = new ArrayList( );
+		List<SemanticException> list = new ArrayList<SemanticException>( );
 
 		// Check whether the given group name is in the group name list.
 
@@ -167,17 +168,19 @@ public class GroupNameValidator extends AbstractElementValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( Module module, DesignElement element )
+	public List<SemanticException> validate( Module module,
+			DesignElement element )
 	{
 		if ( !( element instanceof ListingElement ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		return doValidate( module, (ListingElement) element );
 	}
 
-	private List doValidate( Module module, ListingElement toValidate )
+	private List<SemanticException> doValidate( Module module,
+			ListingElement toValidate )
 	{
-		List list = new ArrayList( );
+		List<SemanticException> list = new ArrayList<SemanticException>( );
 
 		ListingElement targetElement = getListingElement( module, toValidate );
 		if ( targetElement == null )
@@ -185,15 +188,16 @@ public class GroupNameValidator extends AbstractElementValidator
 
 		// Collect all group name in this element.
 
-		List groupList = getGroupsWithContents( module, toValidate );
+		List<GroupElement> groupList = getGroupsWithContents( module,
+				toValidate );
 
 		// Check whether the duplicate group name exists in the group name list.
 
-		Set duplicateNames = null;
+		Set<String> duplicateNames = null;
 		int size = groupList.size( );
 		for ( int i = 0; i < size - 1; i++ )
 		{
-			GroupElement group1 = (GroupElement) groupList.get( i );
+			GroupElement group1 = groupList.get( i );
 			String groupName1 = group1.getStringProperty( module,
 					IGroupElementModel.GROUP_NAME_PROP );
 			assert groupName1 != null;
@@ -208,7 +212,7 @@ public class GroupNameValidator extends AbstractElementValidator
 
 			for ( int j = i + 1; j < size; j++ )
 			{
-				GroupElement group2 = (GroupElement) groupList.get( j );
+				GroupElement group2 = groupList.get( j );
 				String groupName2 = group2.getStringProperty( module,
 						IGroupElementModel.GROUP_NAME_PROP );
 				assert groupName2 != null;
@@ -216,7 +220,7 @@ public class GroupNameValidator extends AbstractElementValidator
 				if ( groupName1.equalsIgnoreCase( groupName2 ) )
 				{
 					if ( duplicateNames == null )
-						duplicateNames = new HashSet( );
+						duplicateNames = new HashSet<String>( );
 
 					duplicateNames.add( groupName1 );
 
@@ -242,7 +246,7 @@ public class GroupNameValidator extends AbstractElementValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( ListingHandle element )
+	public List<SemanticException> validate( ListingHandle element )
 	{
 		return validate( element.getModule( ), element.getElement( ) );
 	}
@@ -281,16 +285,16 @@ public class GroupNameValidator extends AbstractElementValidator
 	 * @param module
 	 *            the module
 	 * @param element
-	 *            the listing element from which the group names are retrived.
+	 *            the listing element from which the group names are retrieved.
 	 * 
 	 * @return list of group names.
 	 */
 
-	private List getGroups( Module module, ListingElement element )
+	private List<GroupElement> getGroups( Module module, ListingElement element )
 	{
-		List list = new ArrayList( );
+		List<GroupElement> list = new ArrayList<GroupElement>( );
 
-		Iterator iter = element.getGroups( ).iterator( );
+		Iterator<DesignElement> iter = element.getGroups( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
 			GroupElement group = (GroupElement) iter.next( );
@@ -314,14 +318,15 @@ public class GroupNameValidator extends AbstractElementValidator
 	 * @param module
 	 *            the module
 	 * @param element
-	 *            the listing element from which the group names are retrived.
+	 *            the listing element from which the group names are retrieved.
 	 * 
 	 * @return list of group names.
 	 */
 
-	private List getGroupsWithContents( Module module, DesignElement element )
+	private List<GroupElement> getGroupsWithContents( Module module,
+			DesignElement element )
 	{
-		List list = new ArrayList( );
+		List<GroupElement> list = new ArrayList<GroupElement>( );
 
 		// Get group names from the given element.
 
@@ -340,17 +345,17 @@ public class GroupNameValidator extends AbstractElementValidator
 	 *            the group name list
 	 * @param groupName
 	 *            the group name to check
-	 * @return <code>true</code> if the given group name duplicates.
-	 *         Otherwise, return <code>false</code>.
+	 * @return <code>true</code> if the given group name duplicates. Otherwise,
+	 *         return <code>false</code>.
 	 */
 
-	private boolean isDuplicateGroupName( Module module, List groupNameList,
-			String groupName )
+	private boolean isDuplicateGroupName( Module module,
+			List<GroupElement> groupNameList, String groupName )
 	{
-		Iterator iter = groupNameList.iterator( );
+		Iterator<GroupElement> iter = groupNameList.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			GroupElement group = (GroupElement) iter.next( );
+			GroupElement group = iter.next( );
 			String tmpName = group.getStringProperty( module,
 					IGroupElementModel.GROUP_NAME_PROP );
 			assert tmpName != null;

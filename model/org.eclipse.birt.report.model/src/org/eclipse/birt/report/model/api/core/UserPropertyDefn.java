@@ -40,9 +40,9 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
  * and element C extends E, then element C also has all the user-defined
  * properties defined on element E.
  * <p>
- * The user property definition implements the <code>IStructure</code>
- * interface so that it can be accessed generically, and changes can be done
- * though the command mechanism to allow undo/redo of style changes.
+ * The user property definition implements the <code>IStructure</code> interface
+ * so that it can be accessed generically, and changes can be done though the
+ * command mechanism to allow undo/redo of style changes.
  * 
  */
 
@@ -115,16 +115,16 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	 * structRef, structure are not supported.
 	 */
 
-	private static List allowedTypes = null;
+	private static List<IPropertyType> allowedTypes = null;
 
 	static
 	{
-		allowedTypes = new ArrayList( );
-		Iterator iter = MetaDataDictionary.getInstance( ).getPropertyTypes( )
-				.iterator( );
+		allowedTypes = new ArrayList<IPropertyType>( );
+		Iterator<IPropertyType> iter = MetaDataDictionary.getInstance( )
+				.getPropertyTypes( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
-			PropertyType propType = (PropertyType) iter.next( );
+			IPropertyType propType = iter.next( );
 			int type = propType.getTypeCode( );
 			switch ( type )
 			{
@@ -160,7 +160,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	 * @return the list of allowed property types for user property.
 	 */
 
-	public static List getAllowedTypes( )
+	public static List<IPropertyType> getAllowedTypes( )
 	{
 		return allowedTypes;
 	}
@@ -464,9 +464,9 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 		// reference.
 
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-		if ( dd.getPropertyType( getTypeCode( ) ) == null ||
-				getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE ||
-				getTypeCode( ) == IPropertyType.STRUCT_TYPE )
+		if ( dd.getPropertyType( getTypeCode( ) ) == null
+				|| getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE
+				|| getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 			throw new UserPropertyException( element, name,
 					UserPropertyException.DESIGN_EXCEPTION_INVALID_TYPE );
 
@@ -531,8 +531,10 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.IStructure#getLocalProperty(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.IStructure#getLocalProperty(org.eclipse
+	 * .birt.report.model.elements.ReportDesign,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn)
 	 */
 
 	public Object getLocalProperty( Module module, PropertyDefn propDefn )
@@ -555,8 +557,9 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.core.IStructure#getProperty(org.eclipse.birt.report.model.core.Module,
-	 *      java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.core.IStructure#getProperty(org.eclipse
+	 * .birt.report.model.core.Module, java.lang.String)
 	 */
 
 	public Object getProperty( Module module, String memberName )
@@ -582,7 +585,9 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#setDefault(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn#setDefault(java.lang
+	 * .Object)
 	 */
 
 	public void setDefault( Object value )
@@ -629,10 +634,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 		{
 			return isVisible.booleanValue( );
 		}
-		else
-		{
-			return true;
-		}
+		return true;
 	}
 
 	/**

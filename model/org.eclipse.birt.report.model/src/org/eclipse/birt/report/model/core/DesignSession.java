@@ -118,13 +118,13 @@ public class DesignSession
 	 * The list of open designs for the user.
 	 */
 
-	protected List designs = new ArrayList( );
+	protected List<ReportDesign> designs = new ArrayList<ReportDesign>( );
 
 	/**
 	 * The list of open libraries for the user.
 	 */
 
-	protected List libraries = new ArrayList( );
+	protected List<Library> libraries = new ArrayList<Library>( );
 
 	/**
 	 * The user's locale.
@@ -154,13 +154,13 @@ public class DesignSession
 	 * The application-specific default values of style properties.
 	 */
 
-	private HashMap defaultValues = new HashMap( );
+	private HashMap<String, Object> defaultValues = new HashMap<String, Object>( );
 
 	/**
 	 * Resource change listener list to handle the resource change events.
 	 */
 
-	private List resourceChangeListeners = null;
+	private List<IResourceChangeListener> resourceChangeListeners = null;
 
 	/**
 	 * The flag to determine whether the TOC style has been initialized.
@@ -419,9 +419,9 @@ public class DesignSession
 		assert module instanceof Library || module instanceof ReportDesign;
 
 		if ( module instanceof ReportDesign )
-			designs.add( module );
+			designs.add( (ReportDesign) module );
 		else
-			libraries.add( module );
+			libraries.add( (Library) module );
 
 		return module;
 	}
@@ -466,9 +466,9 @@ public class DesignSession
 		assert module instanceof Library || module instanceof ReportDesign;
 
 		if ( module instanceof ReportDesign )
-			designs.add( module );
+			designs.add( (ReportDesign) module );
 		else
-			libraries.add( module );
+			libraries.add( (Library) module );
 
 		return module;
 	}
@@ -722,16 +722,16 @@ public class DesignSession
 	 * @return a list containing style elements
 	 */
 
-	private List findToAddExtensionDefaultStyle( ReportDesign design )
+	private List<Style> findToAddExtensionDefaultStyle( ReportDesign design )
 	{
-		List retList = new ArrayList( );
+		List<Style> retList = new ArrayList<Style>( );
 
-		List defaultStyles = MetaDataDictionary.getInstance( )
+		List<Style> defaultStyles = MetaDataDictionary.getInstance( )
 				.getExtensionFactoryStyles( );
 
 		for ( int i = 0; i < defaultStyles.size( ); i++ )
 		{
-			Style style = (Style) defaultStyles.get( i );
+			Style style = defaultStyles.get( i );
 			assert style.getName( ) != null;
 
 			if ( design.findStyle( style.getName( ) ) != null )
@@ -750,11 +750,11 @@ public class DesignSession
 
 	private void addExtensionDefaultStyles( ReportDesign design )
 	{
-		List tmpStyles = findToAddExtensionDefaultStyle( design );
+		List<Style> tmpStyles = findToAddExtensionDefaultStyle( design );
 
 		for ( int i = 0; i < tmpStyles.size( ); i++ )
 		{
-			Style style = (Style) tmpStyles.get( i );
+			Style style = tmpStyles.get( i );
 
 			Style tmpStyle = null;
 			try
@@ -808,7 +808,7 @@ public class DesignSession
 	 * @return an iterator over the designs
 	 */
 
-	public Iterator getDesignIterator( )
+	public Iterator<ReportDesign> getDesignIterator( )
 	{
 		return designs.iterator( );
 	}
@@ -819,7 +819,7 @@ public class DesignSession
 	 * @return an iterator over the libraries
 	 */
 
-	public Iterator getLibraryIterator( )
+	public Iterator<Library> getLibraryIterator( )
 	{
 		return libraries.iterator( );
 	}
@@ -830,9 +830,9 @@ public class DesignSession
 	 * @return an iterator over the open libraries and designs
 	 */
 
-	public Iterator getModuleIterator( )
+	public Iterator<Module> getModuleIterator( )
 	{
-		List roots = new ArrayList( );
+		List<Module> roots = new ArrayList<Module>( );
 
 		roots.addAll( designs );
 		roots.addAll( libraries );
@@ -1115,10 +1115,10 @@ public class DesignSession
 			return;
 
 		String path = url.toExternalForm( );
-		Iterator iter = getModuleIterator( );
+		Iterator<Module> iter = getModuleIterator( );
 		while ( iter.hasNext( ) )
 		{
-			Module module = (Module) iter.next( );
+			Module module = iter.next( );
 			if ( module.getLocation( ).equalsIgnoreCase( path )
 					|| module.getLibraryByLocation( path,
 							IAccessControl.ARBITARY_LEVEL ) != null )
@@ -1145,7 +1145,7 @@ public class DesignSession
 	public void addResourceChangeListener( IResourceChangeListener listener )
 	{
 		if ( resourceChangeListeners == null )
-			resourceChangeListeners = new ArrayList( );
+			resourceChangeListeners = new ArrayList<IResourceChangeListener>( );
 
 		if ( !resourceChangeListeners.contains( listener ) )
 			resourceChangeListeners.add( listener );
@@ -1183,12 +1183,12 @@ public class DesignSession
 				|| resourceChangeListeners.isEmpty( ) )
 			return;
 
-		List temp = new ArrayList( resourceChangeListeners );
-		Iterator iter = temp.iterator( );
+		List<IResourceChangeListener> temp = new ArrayList<IResourceChangeListener>(
+				resourceChangeListeners );
+		Iterator<IResourceChangeListener> iter = temp.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			IResourceChangeListener listener = (IResourceChangeListener) iter
-					.next( );
+			IResourceChangeListener listener = iter.next( );
 			listener.resourceChanged( null, event );
 		}
 	}
@@ -1299,7 +1299,7 @@ public class DesignSession
 
 	/**
 	 * @param location
-	 * @return
+	 * @return the opened module at the specified location
 	 */
 
 	public Module getOpenedModule( String location )
@@ -1307,13 +1307,13 @@ public class DesignSession
 		if ( location == null )
 			return null;
 
-		List modules = new ArrayList( );
+		List<Module> modules = new ArrayList<Module>( );
 		modules.addAll( designs );
 		modules.addAll( libraries );
 
 		for ( int i = 0; i < modules.size( ); i++ )
 		{
-			Module tmpModule = (Module) modules.get( i );
+			Module tmpModule = modules.get( i );
 			if ( location.equalsIgnoreCase( tmpModule.getLocation( ) ) )
 				return tmpModule;
 		}

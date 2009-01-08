@@ -16,12 +16,12 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 
-
 /**
  *
  */
 public interface IContainerDefn
 {
+
 	/**
 	 * Returns the internal name for the property.
 	 * 
@@ -29,7 +29,7 @@ public interface IContainerDefn
 	 */
 
 	public String getName( );
-	
+
 	/**
 	 * Returns the display name for the property.
 	 * 
@@ -37,7 +37,7 @@ public interface IContainerDefn
 	 */
 
 	public String getDisplayName( );
-	
+
 	/**
 	 * Determines if this property can contain an element of the given type.
 	 * 
@@ -58,28 +58,29 @@ public interface IContainerDefn
 	 */
 
 	public boolean canContain( DesignElement content );
-	
-	/**
-	 * Returns list of allowed element types if property is of element-type.
-	 * Each item in the list is instanceof <code>IElementDefn</code>. It
-	 * gives the same result as <code>getAllowedElements(true)</code>;
-	 * 
-	 * @return list of allowed element definitions if property is of
-	 *         element-type, otherwise return empty list
-	 */
-	public List getAllowedElements( );
 
 	/**
 	 * Returns list of allowed element types if property is of element-type.
-	 * Each item in the list is instanceof <code>IElementDefn</code>. If
-	 * "extractExtensions" is true, then the return list will contains the real
-	 * extension definitions(for example, <code>Chart</code>) rather than
-	 * <code>ExtendedItem</code>; Otherwise return what are set in the
-	 * property definition itself.
-	 * @param extractExtensions 
+	 * Each item in the list is instance of <code>IElementDefn</code>. It gives
+	 * the same result as <code>getAllowedElements(true)</code>;
 	 * 
 	 * @return list of allowed element definitions if property is of
 	 *         element-type, otherwise return empty list
 	 */
-	public List getAllowedElements( boolean extractExtensions );
+	public List<IElementDefn> getAllowedElements( );
+
+	/**
+	 * Returns list of allowed element types if property is of element-type.
+	 * Each item in the list is instance of <code>IElementDefn</code>. If
+	 * "extractExtensions" is true, then the return list will contains the real
+	 * extension definitions(for example, <code>Chart</code>) rather than
+	 * <code>ExtendedItem</code>; Otherwise return what are set in the property
+	 * definition itself.
+	 * 
+	 * @param extractExtensions
+	 * 
+	 * @return list of allowed element definitions if property is of
+	 *         element-type, otherwise return empty list
+	 */
+	public List<IElementDefn> getAllowedElements( boolean extractExtensions );
 }

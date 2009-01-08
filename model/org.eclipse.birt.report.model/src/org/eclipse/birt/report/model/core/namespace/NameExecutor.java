@@ -24,6 +24,9 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 public class NameExecutor
 {
 
+	/**
+	 * The core design element that this executor focus on.
+	 */
 	protected DesignElement focus;
 
 	/**
@@ -45,21 +48,22 @@ public class NameExecutor
 	/**
 	 * 
 	 * @param module
-	 * @return
+	 * @return the name helper for this executor
 	 */
 	public INameHelper getNameHelper( Module module )
 	{
-		return getNameHelper( module , focus );
+		return getNameHelper( module, focus );
 	}
 
 	/**
 	 * Get name helper of element.
 	 * 
+	 * @param module
+	 * 
 	 * @param container
-	 * @return <code>ModuleNameHelper</code> or
-	 *         <code>DimensionNameHelper</code>
+	 * @return <code>ModuleNameHelper</code> or <code>DimensionNameHelper</code>
 	 */
-	public INameHelper getNameHelper( Module module , DesignElement container )
+	public INameHelper getNameHelper( Module module, DesignElement container )
 	{
 		DesignElement e = container;
 		ElementDefn elementDefn = (ElementDefn) focus.getDefn( );
@@ -94,7 +98,7 @@ public class NameExecutor
 	 * Gets the name space where the name of this element resides.
 	 * 
 	 * @param module
-	 * @return
+	 * @return the namespace instance for this executor
 	 */
 	public NameSpace getNameSpace( Module module )
 	{

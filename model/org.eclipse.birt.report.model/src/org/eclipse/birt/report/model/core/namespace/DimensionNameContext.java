@@ -46,11 +46,13 @@ public class DimensionNameContext extends AbstractNameContext
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#getElements(int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameContext#getElements
+	 * (int)
 	 */
-	public List getElements( int level )
+	public List<DesignElement> getElements( int level )
 	{
-		List elements = new ArrayList( );
+		List<DesignElement> elements = new ArrayList<DesignElement>( );
 
 		if ( level == NATIVE_LEVEL )
 		{
@@ -89,10 +91,10 @@ public class DimensionNameContext extends AbstractNameContext
 		String namespace = StringUtil.extractNamespace( elementName );
 		String name = StringUtil.extractName( elementName );
 
-		List elements = getElements( NATIVE_LEVEL );
+		List<DesignElement> elements = getElements( NATIVE_LEVEL );
 		for ( int i = 0; i < elements.size( ); i++ )
 		{
-			DesignElement tmpElement = (DesignElement) elements.get( i );
+			DesignElement tmpElement = elements.get( i );
 			if ( tmpElement.getFullName( ).equals( name ) )
 			{
 				return new ElementRefValue( namespace, tmpElement );
@@ -123,8 +125,8 @@ public class DimensionNameContext extends AbstractNameContext
 
 	/**
 	 * Resolves <code>element</code> in the given <code>elements</code>. If
-	 * <code>element</code> is not in the list, a unresolved reference value
-	 * is returned.
+	 * <code>element</code> is not in the list, a unresolved reference value is
+	 * returned.
 	 * <p>
 	 * The namespace information may be lost.
 	 * 
@@ -132,14 +134,14 @@ public class DimensionNameContext extends AbstractNameContext
 	 * @param element
 	 */
 
-	private ElementRefValue doResolveElement( List elements,
+	private ElementRefValue doResolveElement( List<DesignElement> elements,
 			DesignElement element )
 	{
 		boolean isFound = false;
 
 		for ( int i = 0; i < elements.size( ); i++ )
 		{
-			DesignElement tmpElement = (DesignElement) elements.get( i );
+			DesignElement tmpElement = elements.get( i );
 			if ( tmpElement == element )
 			{
 				isFound = true;
@@ -165,8 +167,10 @@ public class DimensionNameContext extends AbstractNameContext
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.IModuleNameSpace#resolve(org.eclipse.birt.report.model.core.DesignElement,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.IModuleNameSpace#resolve
+	 * (org.eclipse.birt.report.model.core.DesignElement,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn)
 	 */
 
 	public ElementRefValue resolve( DesignElement element, PropertyDefn propDefn )
@@ -182,8 +186,9 @@ public class DimensionNameContext extends AbstractNameContext
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.IModuleNameSpace#resolveNative(java.lang.String,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.IModuleNameSpace#resolveNative
+	 * (java.lang.String, org.eclipse.birt.report.model.metadata.PropertyDefn)
 	 */
 
 	public ElementRefValue resolve( String elementName, PropertyDefn propDefn )
@@ -199,8 +204,10 @@ public class DimensionNameContext extends AbstractNameContext
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#findElement(java.lang.String,
-	 *      org.eclipse.birt.report.model.api.metadata.IElementDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameContext#findElement
+	 * (java.lang.String,
+	 * org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
 	public DesignElement findElement( String elementName,
 			IElementDefn elementDefn )
@@ -211,7 +218,8 @@ public class DimensionNameContext extends AbstractNameContext
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#getElement()
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameContext#getElement()
 	 */
 	public DesignElement getElement( )
 	{
@@ -221,7 +229,9 @@ public class DimensionNameContext extends AbstractNameContext
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#getNameSpaceID()
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameContext#getNameSpaceID
+	 * ()
 	 */
 	public int getNameSpaceID( )
 	{

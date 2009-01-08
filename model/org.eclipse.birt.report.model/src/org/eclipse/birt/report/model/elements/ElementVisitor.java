@@ -509,10 +509,10 @@ public class ElementVisitor
 
 	public void visitContents( Module module, ContainerContext context )
 	{
-		List contents = context.getContents( module );
-		Iterator iter = contents.iterator( );
+		List<DesignElement> contents = context.getContents( module );
+		Iterator<DesignElement> iter = contents.iterator( );
 		while ( iter.hasNext( ) )
-			( (DesignElement) iter.next( ) ).apply( this );
+			( iter.next( ) ).apply( this );
 	}
 
 	/**

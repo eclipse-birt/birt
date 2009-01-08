@@ -37,7 +37,7 @@ public interface IElementDefn extends IObjectDefn
 	 *         elements.
 	 */
 
-	public List getProperties( );
+	public List<IElementPropertyDefn> getProperties( );
 
 	/**
 	 * Returns properties definitions as a list. Each object in the list is
@@ -46,7 +46,7 @@ public interface IElementDefn extends IObjectDefn
 	 * @return list of locally-defined properties.
 	 */
 
-	public List getLocalProperties( );
+	public List<IElementPropertyDefn> getLocalProperties( );
 
 	/**
 	 * Gets a property definition given a property name.
@@ -67,7 +67,7 @@ public interface IElementDefn extends IObjectDefn
 	 * @return the method definition list.
 	 */
 
-	public List getMethods( );
+	public List<IElementPropertyDefn> getMethods( );
 
 	/**
 	 * Returns the method definition list of this element definition. Each
@@ -76,7 +76,7 @@ public interface IElementDefn extends IObjectDefn
 	 * @return the method definition list.
 	 */
 
-	public List getLocalMethods( );
+	public List<IElementPropertyDefn> getLocalMethods( );
 
 	/**
 	 * Returns the expression property definition list of this element
@@ -86,7 +86,7 @@ public interface IElementDefn extends IObjectDefn
 	 * @return the expression property definition list.
 	 */
 
-	public List getExpressions( );
+	public List<IElementPropertyDefn> getExpressions( );
 
 	/**
 	 * Returns the expression property definition list of this element
@@ -96,7 +96,7 @@ public interface IElementDefn extends IObjectDefn
 	 * @return the expression property definition list.
 	 */
 
-	public List getLocalExpressions( );
+	public List<IElementPropertyDefn> getLocalExpressions( );
 
 	/**
 	 * Returns a list of the localized property group names defined by this
@@ -109,7 +109,7 @@ public interface IElementDefn extends IObjectDefn
 	 *         element, the list will has no content.
 	 */
 
-	public List getGroupNames( );
+	public List<String> getGroupNames( );
 
 	/**
 	 * Determines if this element allows user properties.
@@ -164,9 +164,9 @@ public interface IElementDefn extends IObjectDefn
 	 * Returns the property definitions for this element that can hold other
 	 * elements. Each one in the list is instance of <code>IPropertyDefn</code>.
 	 * 
-	 * @return
+	 * @return the list of the property definition that can hold other elements
 	 */
-	public List getContents( );
+	public List<IElementPropertyDefn> getContents( );
 
 	/**
 	 * Reports whether the given slot can contain elements of the given type.

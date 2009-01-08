@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 /**
  * Definition of a property structure: an object that is "managed" by the model
  * to allow generic member access and undo/redo support for updates.
- *  
+ * 
  */
 
 public class StructureDefn extends ObjectDefn implements IStructureDefn
@@ -39,7 +39,7 @@ public class StructureDefn extends ObjectDefn implements IStructureDefn
 
 	/**
 	 * Default constructor.
-	 *  
+	 * 
 	 */
 	protected StructureDefn( )
 	{
@@ -69,7 +69,7 @@ public class StructureDefn extends ObjectDefn implements IStructureDefn
 	protected void build( ) throws MetaDataException
 	{
 		buildDefn( );
-		Iterator iter = properties.values( ).iterator( );
+		Iterator<IPropertyDefn> iter = properties.values( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
 			PropertyDefn prop = (PropertyDefn) iter.next( );
@@ -87,11 +87,10 @@ public class StructureDefn extends ObjectDefn implements IStructureDefn
 	{
 		// if it is a structure definition for extension
 		// then there is no name, displayname and .. for it
-		
+
 		if ( displayNameKey == null )
 			return null;
 		return super.getDisplayName( );
-		
 
 	}
 }

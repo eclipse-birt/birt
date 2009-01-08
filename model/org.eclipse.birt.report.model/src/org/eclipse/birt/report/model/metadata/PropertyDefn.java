@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
@@ -55,7 +56,7 @@ public abstract class PropertyDefn
 	 * Supported sub-types for list property type.
 	 */
 
-	public static List supportedSubTypes = null;
+	public static List<IPropertyType> supportedSubTypes = null;
 
 	/**
 	 * Where the property is defined.
@@ -104,16 +105,16 @@ public abstract class PropertyDefn
 	 * <p>
 	 * <dl>
 	 * <dt><strong>Choice set </strong></dt>
-	 * <dd>details holds an object of type <code>ChoiceSet</code> that holds
-	 * the list of available choices.</dd>
+	 * <dd>details holds an object of type <code>ChoiceSet</code> that holds the
+	 * list of available choices.</dd>
 	 * 
 	 * <dt><strong>Extended Choice set </strong></dt>
-	 * <dd>details holds an object of type <code>ChoiceSet</code> that holds
-	 * the list of available extended choices.</dd>
+	 * <dd>details holds an object of type <code>ChoiceSet</code> that holds the
+	 * list of available extended choices.</dd>
 	 * 
 	 * <dt><strong>User Defined Choice set </strong></dt>
-	 * <dd>details holds an object of type <code>ChoiceSet</code> that holds
-	 * the list of user defined choices.</dd>
+	 * <dd>details holds an object of type <code>ChoiceSet</code> that holds the
+	 * list of user defined choices.</dd>
 	 * 
 	 * <dt><strong>Element Reference </strong></dt>
 	 * <dd>details holds an object of type <code>ElementDefn</code> that
@@ -155,7 +156,7 @@ public abstract class PropertyDefn
 	 */
 
 	protected ChoiceSet allowedUnits = null;
-	
+
 	/**
 	 * Indicates if this whether this property is a list. This property is
 	 * useful only when the property type is a structure type.
@@ -399,11 +400,11 @@ public abstract class PropertyDefn
 
 				IElementDefn report = dd
 						.getElement( ReportDesignConstants.REPORT_DESIGN_ELEMENT );
-				List properties = report.getProperties( );
+				List<IElementPropertyDefn> properties = report.getProperties( );
 				boolean isFound = false;
 				for ( int i = 0; i < properties.size( ); i++ )
 				{
-					IPropertyDefn property = (IPropertyDefn) properties.get( i );
+					IPropertyDefn property = properties.get( i );
 					if ( property.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 					{
 						if ( property.getStructDefn( ) == getStructDefn( ) )
@@ -471,15 +472,15 @@ public abstract class PropertyDefn
 					throw new MetaDataException(
 							new String[]{name, type.getName( )},
 							MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_TYPE );
-				List elementNames = (List) details;
+				List<String> elementNames = (List<String>) details;
 				if ( elementNames.isEmpty( ) )
 					throw new MetaDataException(
 							new String[]{name, type.getName( )},
 							MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_TYPE );
-				List elementTypes = new ArrayList( );
+				List<ElementDefn> elementTypes = new ArrayList<ElementDefn>( );
 				for ( int i = 0; i < elementNames.size( ); i++ )
 				{
-					String elementName = (String) elementNames.get( i );
+					String elementName = elementNames.get( i );
 					ElementDefn type = (ElementDefn) dd
 							.getElement( elementName );
 					if ( type == null )
@@ -692,8 +693,8 @@ public abstract class PropertyDefn
 
 	/**
 	 * Checks whether <code>value</code> exists in the choice set for an
-	 * extended choice property type. If <code>value</code> exists in the
-	 * choice set, return this value. Otherwise, return null.
+	 * extended choice property type. If <code>value</code> exists in the choice
+	 * set, return this value. Otherwise, return null.
 	 * 
 	 * @param value
 	 *            the candidate value
@@ -899,14 +900,12 @@ public abstract class PropertyDefn
 	 * Sets the detailed information for the property.
 	 * <p>
 	 * <ul>
-	 * <li>Choice: details holds an object of type <code>ChoiceSet</code>
-	 * that holds the list of available choices.</li>
-	 * <li>Element Ref: details holds an object of type
-	 * <code>ElementDefn</code> that identifies the type of element that can
-	 * be referenced.</li>
+	 * <li>Choice: details holds an object of type <code>ChoiceSet</code> that
+	 * holds the list of available choices.</li>
+	 * <li>Element Ref: details holds an object of type <code>ElementDefn</code>
+	 * that identifies the type of element that can be referenced.</li>
 	 * <li>Structure List: details holds an object of type
-	 * <code>StructureDefn</code> that defines the structures in the list.
-	 * </li>
+	 * <code>StructureDefn</code> that defines the structures in the list.</li>
 	 * </ul>
 	 * 
 	 * @param obj
@@ -1190,7 +1189,7 @@ public abstract class PropertyDefn
 	{
 		this.allowedUnits = allowedUnits;
 	}
-	
+
 	/**
 	 * Returns the allowed choices for this property. It contains allowed
 	 * choices for a choice type, or containing an allowed units set for a
@@ -1210,7 +1209,7 @@ public abstract class PropertyDefn
 		return MetaDataDictionary.getInstance( ).getChoiceSet(
 				DesignChoiceConstants.CHOICE_UNITS );
 	}
-	
+
 	/**
 	 * Set a validator.
 	 * 
@@ -1262,7 +1261,8 @@ public abstract class PropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.ISemanticTriggerProvider#getTriggerDefnSet()
+	 * @seeorg.eclipse.birt.report.model.metadata.ISemanticTriggerProvider#
+	 * getTriggerDefnSet()
 	 */
 	public SemanticTriggerDefnSet getTriggerDefnSet( )
 	{
@@ -1331,7 +1331,8 @@ public abstract class PropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyDefn#isEncrypted()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IPropertyDefn#isEncrypted()
 	 */
 
 	public boolean isEncryptable( )
@@ -1465,17 +1466,17 @@ public abstract class PropertyDefn
 	 * @return all the supported sub-types for the list property type
 	 */
 
-	public static final List getSupportedSubTypes( )
+	public static final List<IPropertyType> getSupportedSubTypes( )
 	{
 		if ( supportedSubTypes != null && !supportedSubTypes.isEmpty( ) )
 			return supportedSubTypes;
 
-		supportedSubTypes = new ArrayList( );
-		Iterator iter = MetaDataDictionary.getInstance( ).getPropertyTypes( )
-				.iterator( );
+		supportedSubTypes = new ArrayList<IPropertyType>( );
+		Iterator<IPropertyType> iter = MetaDataDictionary.getInstance( )
+				.getPropertyTypes( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
-			PropertyType propType = (PropertyType) iter.next( );
+			IPropertyType propType = iter.next( );
 			int type = propType.getTypeCode( );
 			switch ( type )
 			{
@@ -1537,9 +1538,11 @@ public abstract class PropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyDefn#getAllowedElements()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IPropertyDefn#getAllowedElements
+	 * ()
 	 */
-	public List getAllowedElements( )
+	public List<IElementDefn> getAllowedElements( )
 	{
 		return getAllowedElements( true );
 	}
@@ -1547,23 +1550,26 @@ public abstract class PropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyDefn#getAllowedElements(boolean)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.IContainerDefn#getAllowedElements
+	 * (boolean)
 	 */
-	public List getAllowedElements( boolean extractExtensions )
+	public List<IElementDefn> getAllowedElements( boolean extractExtensions )
 	{
 		if ( details instanceof List && isElementType( ) )
 		{
 			// if not extract extension definitions, return details directly
 			if ( !extractExtensions )
-				return Collections.unmodifiableList( (List) details );
+				return Collections
+						.unmodifiableList( (List<IElementDefn>) details );
 
 			// extract is true, then build extension definitions
-			List allowedElements = (List) details;
+			List<IElementDefn> allowedElements = (List<IElementDefn>) details;
 			MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 			IElementDefn extendItem = dd
 					.getElement( ReportDesignConstants.EXTENDED_ITEM );
 
-			ArrayList contentsWithExtensions = new ArrayList( );
+			ArrayList<IElementDefn> contentsWithExtensions = new ArrayList<IElementDefn>( );
 			contentsWithExtensions.addAll( allowedElements );
 
 			if ( allowedElements.contains( extendItem ) )
@@ -1585,7 +1591,7 @@ public abstract class PropertyDefn
 			return Collections.unmodifiableList( contentsWithExtensions );
 		}
 
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -1601,9 +1607,9 @@ public abstract class PropertyDefn
 		if ( type == null )
 			return false;
 
-		List contentElements = getAllowedElements( );
+		List<IElementDefn> contentElements = getAllowedElements( );
 		assert contentElements != null;
-		Iterator iter = contentElements.iterator( );
+		Iterator<IElementDefn> iter = contentElements.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			ElementDefn element = (ElementDefn) iter.next( );
@@ -1671,7 +1677,7 @@ public abstract class PropertyDefn
 
 		return false;
 	}
-	
+
 	/**
 	 * Checks whether the property type is a kind of element types.
 	 * 
@@ -1681,10 +1687,10 @@ public abstract class PropertyDefn
 
 	public final boolean isListType( )
 	{
-		if (isList)
+		if ( isList )
 			return true;
-		
+
 		int typeCode = type.getTypeCode( );
-		return  typeCode == IPropertyType.LIST_TYPE;
+		return typeCode == IPropertyType.LIST_TYPE;
 	}
 }

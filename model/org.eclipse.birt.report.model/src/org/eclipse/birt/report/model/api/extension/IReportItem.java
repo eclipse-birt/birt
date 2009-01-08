@@ -16,6 +16,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 
@@ -152,7 +153,7 @@ public interface IReportItem
 	 * @return List List contains ExtendedElementException.
 	 */
 
-	public List validate( );
+	public List<SemanticException> validate( );
 
 	/**
 	 * Creates deep copy of the IReportItem and return the new element.
@@ -201,7 +202,7 @@ public interface IReportItem
 	 * 
 	 * @return
 	 */
-	public List getPredefinedStyles( );
+	public List<Object> getPredefinedStyles( );
 
 	/**
 	 * Returns the interface for script operations. If the extension element

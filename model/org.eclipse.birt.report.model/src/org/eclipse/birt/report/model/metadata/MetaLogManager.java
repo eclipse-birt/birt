@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.metadata;
 
@@ -19,12 +19,13 @@ import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
  * Meta-data logger manager class. The class holds a list of
  * <code>IMetaLogger</code> that is interested in the error message during the
  * meta-data initialization. The registered <code>IMetaLogger</code> will be
- * notified of the errors during meta-data initialization. There will be a default 
- * logger that is statically registered to the manager which will log the error into 
- * a "meta.log" file.
+ * notified of the errors during meta-data initialization. There will be a
+ * default logger that is statically registered to the manager which will log
+ * the error into a "meta.log" file.
  * <p>
- * The dictionary loader calls {@link #shutDown()} after reading of meta-data file. This
- * method is responsible for cleaning up of all the registered loggers.
+ * The dictionary loader calls {@link #shutDown()} after reading of meta-data
+ * file. This method is responsible for cleaning up of all the registered
+ * loggers.
  * <p>
  * Note that the application will load the meta-data once and only once, so
  * there is no need for the log manager to be resumable. This means when it is
@@ -39,7 +40,7 @@ public final class MetaLogManager
 	 * registered.
 	 */
 
-	private static ArrayList loggers = new ArrayList( );
+	private static ArrayList<IMetaLogger> loggers = new ArrayList<IMetaLogger>( );
 
 	static
 	{
@@ -103,13 +104,13 @@ public final class MetaLogManager
 	{
 		for ( int i = 0; i < loggers.size( ); i++ )
 		{
-			( (IMetaLogger) loggers.get( i ) ).log( message, t );
+			( loggers.get( i ) ).log( message, t );
 		}
 	}
 
 	/**
-	 * Log a message object to all the registered <code>IMetaLogger</code>.
-	 * This log method just dispatch the logging process to all the registered
+	 * Log a message object to all the registered <code>IMetaLogger</code>. This
+	 * log method just dispatch the logging process to all the registered
 	 * <code>IMetaLogger</code>.
 	 * 
 	 * @param message
@@ -121,7 +122,7 @@ public final class MetaLogManager
 	{
 		for ( int i = 0; i < loggers.size( ); i++ )
 		{
-			( (IMetaLogger) loggers.get( i ) ).log( message );
+			( loggers.get( i ) ).log( message );
 		}
 	}
 
@@ -130,19 +131,17 @@ public final class MetaLogManager
 	 * Call to this method will do 2 things: first is to iterate over the
 	 * registered loggers and call {@link IMetaLogger#close()}; second is to
 	 * remove all the registered loggers from the manager.
-	 *  
+	 * 
 	 */
 
 	public static void shutDown( )
 	{
 		for ( int i = 0; i < loggers.size( ); i++ )
 		{
-			( (IMetaLogger) loggers.get( i ) ).close( );
+			( loggers.get( i ) ).close( );
 		}
 
 		loggers.clear( );
 	}
 
 }
-
-

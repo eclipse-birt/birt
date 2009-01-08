@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.api.validators;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -24,12 +25,12 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * Validates whether the element is unsupported in the current release. This
  * validator is only used for semantic check after opening a design file.
  * 
- * <h3>Rule</h3>
- * The rule is that the element in the unsupported list is unsupported now.
+ * <h3>Rule</h3> The rule is that the element in the unsupported list is
+ * unsupported now.
  * 
- * <h3>Applicability</h3>
- * This validator is applied to <code>DesignElement</code>.
- *  
+ * <h3>Applicability</h3> This validator is applied to
+ * <code>DesignElement</code>.
+ * 
  */
 
 public class UnsupportedElementValidator extends AbstractElementValidator
@@ -63,17 +64,20 @@ public class UnsupportedElementValidator extends AbstractElementValidator
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.validators.core.AbstractElementValidator#validate(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.validators.core.AbstractElementValidator
+	 * #validate(org.eclipse.birt.report.model.elements.ReportDesign,
+	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
-	
-	public List validate( Module module, DesignElement element )
+
+	public List<SemanticException> validate( Module module,
+			DesignElement element )
 	{
 		// Check whether this element is unsupported element.
 
 		String elementName = element.getElementName( );
 
-		List list = new ArrayList( );
+		List<SemanticException> list = new ArrayList<SemanticException>( );
 		for ( int i = 0; i < unSupportedElements.length; i++ )
 		{
 			if ( unSupportedElements[i].equalsIgnoreCase( elementName ) )

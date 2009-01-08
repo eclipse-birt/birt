@@ -26,7 +26,7 @@ public class MetaDataParserException extends XMLParserException
 	/**
 	 * Comment for <code>serialVersionUID</code>.
 	 */
-	
+
 	private static final long serialVersionUID = 6591085093091880807L;
 
 	/**
@@ -202,13 +202,13 @@ public class MetaDataParserException extends XMLParserException
 	/**
 	 * The default unit can only be set on the dimension property type.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_DEFAULT_UNIT_NOT_ALLOWED = "DEFAULT_UNIT_NOT_ALLOWED"; //$NON-NLS-1$
-	
+
 	/**
 	 * Sub-type is required for list type property.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_MISSING_SUB_TYPE = "MISSING_SUB_TYPE"; //$NON-NLS-1$
 
 	/**
@@ -256,15 +256,15 @@ public class MetaDataParserException extends XMLParserException
 	/**
 	 * Constructor.
 	 * 
-	 * @param errors list of errors
+	 * @param errors
+	 *            list of errors
 	 */
-	
-	public MetaDataParserException( List errors )
+
+	public MetaDataParserException( List<XMLParserException> errors )
 	{
 		super( errors );
 	}
 
-	
 	/**
 	 * Sets the file name.
 	 * 

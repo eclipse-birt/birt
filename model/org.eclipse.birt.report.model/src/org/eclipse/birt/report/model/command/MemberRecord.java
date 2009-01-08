@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.NotificationRecordTask;
+import org.eclipse.birt.report.model.activity.RecordTask;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
@@ -178,9 +179,9 @@ public class MemberRecord extends SimpleRecord
 	 * org.eclipse.birt.report.model.activity.ActivityRecord#getEventChain()
 	 */
 
-	protected List getPostTasks( )
+	protected List<RecordTask> getPostTasks( )
 	{
-		List retList = new ArrayList( );
+		List<RecordTask> retList = new ArrayList<RecordTask>( );
 		retList.addAll( super.getPostTasks( ) );
 
 		NotificationEvent ev = getEvent( );

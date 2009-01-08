@@ -19,6 +19,7 @@ import java.util.Stack;
 
 import org.eclipse.birt.report.model.api.activity.IEventFilter;
 import org.eclipse.birt.report.model.api.activity.TransactionOption;
+import org.eclipse.birt.report.model.validators.ValidationNode;
 
 /**
  * A compound record represents an atomic operation made up of a series of other
@@ -31,7 +32,7 @@ import org.eclipse.birt.report.model.api.activity.TransactionOption;
  * equivalent.
  * <p>
  * The application normally creates a compound record using the
- * {@link org.eclipse.birt.report.model.activity.ActivityStack#startTrans( String )}
+ * {@link org.eclipse.birt.report.model.activity.ActivityStack#startTrans(String )}
  * method.
  * 
  * A compound record has a label. The system provides a default label. The
@@ -46,7 +47,7 @@ public class CompoundRecord extends ActivityRecord
 	 * The list of child records. Contents are of type ActivityRecord.
 	 */
 
-	private List recordList = new ArrayList( );
+	private List<ActivityRecord> recordList = new ArrayList<ActivityRecord>( );
 
 	/**
 	 * Options set for this transaction.
@@ -88,7 +89,7 @@ public class CompoundRecord extends ActivityRecord
 	 * @return the record list within the compound record.
 	 */
 
-	public List getRecords( )
+	public List<ActivityRecord> getRecords( )
 	{
 		return recordList;
 	}
@@ -124,12 +125,12 @@ public class CompoundRecord extends ActivityRecord
 		// <code>recordList</code> only need to know the compound record they
 		// reside in. That is, "this".
 
-		Stack stack = new Stack( );
+		Stack<CompoundRecord> stack = new Stack<CompoundRecord>( );
 		stack.push( this );
 
 		for ( int i = recordList.size( ) - 1; i >= 0; i-- )
 		{
-			ActivityRecord record = (ActivityRecord) recordList.get( i );
+			ActivityRecord record = recordList.get( i );
 			assert record.getState( ) == ActivityRecord.DONE_STATE
 					|| record.getState( ) == ActivityRecord.REDONE_STATE;
 			record.undo( );
@@ -155,12 +156,12 @@ public class CompoundRecord extends ActivityRecord
 		// <code>recordList</code> only need to know the compound record they
 		// reside in. That is, "this".
 
-		Stack stack = new Stack( );
+		Stack<CompoundRecord> stack = new Stack<CompoundRecord>( );
 		stack.push( this );
 
 		for ( int i = 0; i < recordList.size( ); i++ )
 		{
-			ActivityRecord record = (ActivityRecord) recordList.get( i );
+			ActivityRecord record = recordList.get( i );
 			assert record.getState( ) == ActivityRecord.UNDONE_STATE;
 			record.redo( );
 			record.setState( ActivityRecord.REDONE_STATE );
@@ -179,10 +180,10 @@ public class CompoundRecord extends ActivityRecord
 
 	private boolean checkState( int state )
 	{
-		Iterator iter = recordList.iterator( );
+		Iterator<ActivityRecord> iter = recordList.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			ActivityRecord cmd = (ActivityRecord) iter.next( );
+			ActivityRecord cmd = iter.next( );
 			if ( cmd.getState( ) != state )
 				return false;
 		}
@@ -198,9 +199,10 @@ public class CompoundRecord extends ActivityRecord
 
 	public boolean canUndo( )
 	{
-		for ( Iterator records = recordList.listIterator( ); records.hasNext( ); )
+		for ( Iterator<ActivityRecord> records = recordList.listIterator( ); records
+				.hasNext( ); )
 		{
-			ActivityRecord record = (ActivityRecord) records.next( );
+			ActivityRecord record = records.next( );
 			if ( !record.canUndo( ) )
 			{
 				return false;
@@ -218,9 +220,10 @@ public class CompoundRecord extends ActivityRecord
 
 	public boolean canRedo( )
 	{
-		for ( Iterator records = recordList.listIterator( ); records.hasNext( ); )
+		for ( Iterator<ActivityRecord> records = recordList.listIterator( ); records
+				.hasNext( ); )
 		{
-			ActivityRecord record = (ActivityRecord) records.next( );
+			ActivityRecord record = records.next( );
 			if ( !record.canRedo( ) )
 			{
 				return false;
@@ -233,7 +236,8 @@ public class CompoundRecord extends ActivityRecord
 	 * Appends a record to the compound record. The record must have been
 	 * executed already. The application should not call this method directly.
 	 * Instead, the record should be executed via the usual call to
-	 * {@link org.eclipse.birt.report.model.activity.ActivityStack#execute(org.eclipse.birt.report.model.api.activity.IActivityRecord) ActivityStack.execute( )}.
+	 * {@link org.eclipse.birt.report.model.activity.ActivityStack#execute(org.eclipse.birt.report.model.api.activity.IActivityRecord)
+	 * ActivityStack.execute( )}.
 	 * 
 	 * @param record
 	 *            the record to be added.
@@ -255,16 +259,16 @@ public class CompoundRecord extends ActivityRecord
 	 * @return List list contains the collected persistent records.
 	 */
 
-	public List getDonePersistentTrans( )
+	public List<ActivityRecord> getDonePersistentTrans( )
 	{
-		List allDonePersistentRecords = new ArrayList( );
+		List<ActivityRecord> allDonePersistentRecords = new ArrayList<ActivityRecord>( );
 		ActivityRecord record = null;
 
 		for ( int i = 0; i < this.recordList.size( ); i++ )
 		{
-			record = (ActivityRecord) recordList.get( i );
+			record = recordList.get( i );
 
-			if ( ( record.isPersistent     )
+			if ( ( record.isPersistent )
 					&& ( record.state == ActivityRecord.DONE_STATE ) )
 				allDonePersistentRecords.add( record );
 
@@ -272,7 +276,8 @@ public class CompoundRecord extends ActivityRecord
 			{
 				if ( ( record instanceof CompoundRecord ) )
 				{
-					allDonePersistentRecords.addAll( ( (CompoundRecord) record ).getDonePersistentTrans( ) );
+					allDonePersistentRecords.addAll( ( (CompoundRecord) record )
+							.getDonePersistentTrans( ) );
 				}
 			}
 		}
@@ -296,7 +301,8 @@ public class CompoundRecord extends ActivityRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getEventChain()
+	 * @see
+	 * org.eclipse.birt.report.model.activity.ActivityRecord#getEventChain()
 	 */
 
 	/**
@@ -320,22 +326,23 @@ public class CompoundRecord extends ActivityRecord
 	{
 		if ( recordList.isEmpty( ) )
 			return null;
-		return (ActivityRecord) recordList.remove( recordList.size( ) - 1 );
+		return recordList.remove( recordList.size( ) - 1 );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.validators.IValidatable#getValidators()
+	 * @see
+	 * org.eclipse.birt.report.model.validators.IValidatable#getValidators()
 	 */
 
-	public List getValidators( )
+	public List<ValidationNode> getValidators( )
 	{
-		List list = new ArrayList( );
-		Iterator iter = recordList.iterator( );
+		List<ValidationNode> list = new ArrayList<ValidationNode>( );
+		Iterator<ActivityRecord> iter = recordList.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			ActivityRecord record = (ActivityRecord) iter.next( );
+			ActivityRecord record = iter.next( );
 			list.addAll( record.getValidators( ) );
 		}
 		return list;
@@ -344,7 +351,9 @@ public class CompoundRecord extends ActivityRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#rollback(org.eclipse.birt.report.model.activity.ActivityStack)
+	 * @see
+	 * org.eclipse.birt.report.model.activity.ActivityRecord#rollback(org.eclipse
+	 * .birt.report.model.activity.ActivityStack)
 	 */
 
 	public void rollback( )
@@ -356,12 +365,12 @@ public class CompoundRecord extends ActivityRecord
 		// <code>recordList</code> only need to know the compound record they
 		// reside in. That is, "this".
 
-		Stack stack = new Stack( );
+		Stack<CompoundRecord> stack = new Stack<CompoundRecord>( );
 		stack.push( this );
 
 		for ( int i = recordList.size( ) - 1; i >= 0; i-- )
 		{
-			ActivityRecord record = (ActivityRecord) recordList.get( i );
+			ActivityRecord record = recordList.get( i );
 			if ( !record.isPersistent( ) )
 			{
 				record.rollback( );
@@ -377,13 +386,13 @@ public class CompoundRecord extends ActivityRecord
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
 	 */
 
-	protected List getPostTasks( )
+	protected List<RecordTask> getPostTasks( )
 	{
-		List retList = new ArrayList( );
+		List<RecordTask> retList = new ArrayList<RecordTask>( );
 
 		for ( int i = recordList.size( ) - 1; i >= 0; i-- )
 		{
-			ActivityRecord record = (ActivityRecord) recordList.get( i );
+			ActivityRecord record = recordList.get( i );
 			retList.addAll( record.getPostTasks( ) );
 
 		}
@@ -393,16 +402,18 @@ public class CompoundRecord extends ActivityRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#performPostTasks(java.util.Stack)
+	 * @see
+	 * org.eclipse.birt.report.model.activity.ActivityRecord#performPostTasks
+	 * (java.util.Stack)
 	 */
 
-	protected void performPostTasks( Stack transStack )
+	protected void performPostTasks( Stack<CompoundRecord> transStack )
 	{
-		List simpleTasks = getPostTasks( );
-		List validationTasks = new ArrayList( );
+		List<RecordTask> simpleTasks = getPostTasks( );
+		List<RecordTask> validationTasks = new ArrayList<RecordTask>( );
 		for ( int i = 0; i < simpleTasks.size( ); i++ )
 		{
-			RecordTask task = (RecordTask) simpleTasks.get( i );
+			RecordTask task = simpleTasks.get( i );
 			if ( task instanceof ValidationRecordTask )
 				validationTasks.add( task );
 		}
@@ -419,8 +430,8 @@ public class CompoundRecord extends ActivityRecord
 			assert options != null;
 			IEventFilter filter = options.getEventFilter( );
 			assert filter != null;
-			doTasks( transStack,
-					filter.filter( getNotificationTask( simpleTasks ) ) );
+			doTasks( transStack, filter
+					.filter( getNotificationTask( simpleTasks ) ) );
 
 		}
 		else if ( options != null
@@ -434,7 +445,7 @@ public class CompoundRecord extends ActivityRecord
 		// do the validation task in the end
 
 		if ( !validationTasks.isEmpty( ) )
-			( (RecordTask) validationTasks.get( 0 ) ).doTask( this, transStack );
+			( validationTasks.get( 0 ) ).doTask( this, transStack );
 	}
 
 	/**
@@ -443,12 +454,12 @@ public class CompoundRecord extends ActivityRecord
 	 * @return the filtered notification tasks
 	 */
 
-	private List getFilterNotificationTask( )
+	private List<RecordTask> getFilterNotificationTask( )
 	{
-		List events = new ArrayList( );
+		List<RecordTask> events = new ArrayList<RecordTask>( );
 		for ( int i = 0; i < recordList.size( ); i++ )
 		{
-			ActivityRecord record = (ActivityRecord) recordList.get( i );
+			ActivityRecord record = recordList.get( i );
 			if ( record instanceof AbstractElementRecord )
 				events.addAll( getNotificationTask( record.getPostTasks( ) ) );
 			else if ( record instanceof CompoundRecord )
@@ -492,18 +503,18 @@ public class CompoundRecord extends ActivityRecord
 	 * 
 	 * @param tasks
 	 *            the post task list to retrieve
-	 * @return the <code>NotificationRecordTask</code> list if exists,
-	 *         otherwise <code>EMPTY_LIST</code>
+	 * @return the <code>NotificationRecordTask</code> list if exists, otherwise
+	 *         <code>EMPTY_LIST</code>
 	 */
 
-	private List getNotificationTask( List tasks )
+	private List<RecordTask> getNotificationTask( List<RecordTask> tasks )
 	{
 		if ( tasks == null || tasks.isEmpty( ) )
-			return Collections.EMPTY_LIST;
-		List events = new ArrayList( );
+			return Collections.emptyList( );
+		List<RecordTask> events = new ArrayList<RecordTask>( );
 		for ( int i = 0; i < tasks.size( ); i++ )
 		{
-			RecordTask task = (RecordTask) tasks.get( i );
+			RecordTask task = tasks.get( i );
 			if ( task instanceof NotificationRecordTask )
 				events.add( task );
 		}
@@ -517,14 +528,15 @@ public class CompoundRecord extends ActivityRecord
 	 * @param tasks
 	 */
 
-	protected void doTasks( Stack transStack, List tasks )
+	protected void doTasks( Stack<CompoundRecord> transStack,
+			List<? extends RecordTask> tasks )
 	{
 		if ( tasks == null || tasks.isEmpty( ) )
 			return;
 
 		for ( int i = 0; i < tasks.size( ); i++ )
 		{
-			RecordTask task = (RecordTask) tasks.get( i );
+			RecordTask task = tasks.get( i );
 			task.doTask( this, transStack );
 		}
 	}

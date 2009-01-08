@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
@@ -55,7 +56,7 @@ public abstract class Structure implements IStructure
 		if ( struct.getDefn( ) != getDefn( ) )
 			return false;
 
-		Iterator iter = getDefn( ).getPropertyIterator( );
+		Iterator<IPropertyDefn> iter = getDefn( ).getPropertyIterator( );
 		while ( iter.hasNext( ) )
 		{
 			PropertyDefn defn = (PropertyDefn) iter.next( );
@@ -145,8 +146,10 @@ public abstract class Structure implements IStructure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.IPropertySet#getProperty(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.IPropertySet#getProperty(org.eclipse
+	 * .birt.report.model.elements.ReportDesign,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn)
 	 */
 
 	public Object getProperty( Module module, PropertyDefn propDefn )
@@ -231,8 +234,9 @@ public abstract class Structure implements IStructure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.IPropertySet#setProperty(org.eclipse.birt.report.model.metadata.PropertyDefn,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.core.IPropertySet#setProperty(org.eclipse
+	 * .birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 
 	public void setProperty( PropertyDefn prop, Object value )
@@ -353,9 +357,10 @@ public abstract class Structure implements IStructure
 	 * @return the semantic error list
 	 */
 
-	public List validate( Module module, DesignElement element )
+	public List<SemanticException> validate( Module module,
+			DesignElement element )
 	{
-		return new ArrayList( );
+		return new ArrayList<SemanticException>( );
 	}
 
 	/**
@@ -480,7 +485,7 @@ public abstract class Structure implements IStructure
 	}
 
 	/**
-	 * @return
+	 * @return the element where the top structure resides
 	 */
 
 	public DesignElement getElement( )
@@ -503,7 +508,7 @@ public abstract class Structure implements IStructure
 		StructureContext tmpContext = context;
 
 		int index[] = new int[]{-1, -1, -1};
-		List propDefns = new ArrayList( );
+		List<IPropertyDefn> propDefns = new ArrayList<IPropertyDefn>( );
 
 		Structure tmpStruct = this;
 		int i = 0;
@@ -520,8 +525,8 @@ public abstract class Structure implements IStructure
 				parentStruct = (Structure) valueContainer;
 				if ( propDefn.isList( ) )
 				{
-					List list = (List) parentStruct.getLocalProperty( null,
-							(PropertyDefn) propDefn );
+					List<Structure> list = (List<Structure>) parentStruct
+							.getLocalProperty( null, (PropertyDefn) propDefn );
 					int tmpIndex = list.indexOf( tmpStruct );
 					index[i] = tmpIndex;
 				}
@@ -531,8 +536,9 @@ public abstract class Structure implements IStructure
 				DesignElement tmpElement = (DesignElement) valueContainer;
 				if ( propDefn.isList( ) )
 				{
-					List list = (List) tmpElement.getLocalProperty( null,
-							(ElementPropertyDefn) propDefn );
+					List<Structure> list = (List<Structure>) tmpElement
+							.getLocalProperty( null,
+									(ElementPropertyDefn) propDefn );
 					int tmpIndex = list.indexOf( tmpStruct );
 					index[i] = tmpIndex;
 				}
@@ -552,7 +558,7 @@ public abstract class Structure implements IStructure
 		{
 			int tmpIndex = index[j];
 
-			IPropertyDefn tmpPropDefn = (IPropertyDefn) propDefns.get( j - 1 );
+			IPropertyDefn tmpPropDefn = propDefns.get( j - 1 );
 
 			if ( tmpIndex > 0 )
 			{

@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
- * Describle where to send out the event.
+ * Describes where to send out the event.
  * 
  */
 
@@ -31,7 +31,7 @@ public class ContentElementInfo
 
 	private PropertyDefn propDefn;
 
-	private List path = null;
+	private List<Step> path = null;
 
 	private boolean enablePath = false;
 
@@ -60,7 +60,7 @@ public class ContentElementInfo
 	public ContentElementInfo( boolean enablePath )
 	{
 		this.enablePath = enablePath;
-		path = new ArrayList( );
+		path = new ArrayList<Step>( );
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class ContentElementInfo
 		if ( path.isEmpty( ) )
 			return null;
 
-		Step topStep = (Step) path.get( path.size( ) - 1 );
+		Step topStep = path.get( path.size( ) - 1 );
 		propDefn = topStep.stepPropDefn;
 		return propDefn.getName( );
 
@@ -125,13 +125,13 @@ public class ContentElementInfo
 	/**
 	 * Returns the iterator for the steps.
 	 * 
-	 * @return
+	 * @return the list of the step
 	 */
 
-	public List stepIterator( )
+	public List<Step> stepIterator( )
 	{
 		if ( path == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		return path;
 	}
@@ -158,7 +158,14 @@ public class ContentElementInfo
 	static class Step
 	{
 
+		/**
+		 * The property definition or member definition.
+		 */
 		protected PropertyDefn stepPropDefn;
+
+		/**
+		 * The index position where the content resides in the list.
+		 */
 		protected int index = -1;
 
 		/**

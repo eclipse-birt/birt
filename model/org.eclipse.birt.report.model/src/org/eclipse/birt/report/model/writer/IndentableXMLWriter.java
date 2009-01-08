@@ -48,7 +48,7 @@ public class IndentableXMLWriter extends XMLWriter
 	 * The indents which are cached for writing.
 	 */
 
-	protected ArrayList cachedIndents = new ArrayList( );
+	protected ArrayList<String> cachedIndents = new ArrayList<String>( );
 
 	/**
 	 * The name of the tag that is being written.
@@ -118,7 +118,7 @@ public class IndentableXMLWriter extends XMLWriter
 	 *            the unicode signature of the design file
 	 * @param signature
 	 *            the unicode signature of the design file
-	 * @param needMarkLineNumber 
+	 * @param needMarkLineNumber
 	 * @throws IOException
 	 *             if write error occurs
 	 */
@@ -132,7 +132,9 @@ public class IndentableXMLWriter extends XMLWriter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.XMLWriter#emitStartTag(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.XMLWriter#emitStartTag(java.lang.String
+	 * )
 	 */
 
 	protected IndentableXMLWriter( )
@@ -163,7 +165,7 @@ public class IndentableXMLWriter extends XMLWriter
 		// Get the tag name from the top of stack
 
 		if ( !elementStack.isEmpty( ) )
-			tagName = (String) elementStack.peek( );
+			tagName = elementStack.peek( );
 
 		// No indent for the leaf nodes on the desing tree. Like <property
 		// name="height">x</property>, <freeform name="freeform1"/>
@@ -203,13 +205,13 @@ public class IndentableXMLWriter extends XMLWriter
 		}
 		else if ( cachedIndents.size( ) <= level )
 		{
-			indent = (String) cachedIndents.get( cachedIndents.size( ) - 1 );
+			indent = cachedIndents.get( cachedIndents.size( ) - 1 );
 			indent += TAB;
 			cachedIndents.add( indent );
 		}
 		else
 		{
-			indent = (String) cachedIndents.get( level );
+			indent = cachedIndents.get( level );
 		}
 
 		return indent;
@@ -226,7 +228,7 @@ public class IndentableXMLWriter extends XMLWriter
 		if ( cachedIndents.size( ) == 0 )
 			return ""; //$NON-NLS-1$
 
-		String indent = (String) cachedIndents.get( elementStack.size( ) - 1 );
+		String indent = cachedIndents.get( elementStack.size( ) - 1 );
 		return indent;
 	}
 

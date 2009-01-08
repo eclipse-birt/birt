@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -59,7 +60,7 @@ public abstract class ListingElement extends ReportItem
 	 * Constructs the listing element with an optional name.
 	 * 
 	 * @param theName
-	 * 		the optional name
+	 *            the optional name
 	 */
 
 	public ListingElement( String theName )
@@ -76,10 +77,10 @@ public abstract class ListingElement extends ReportItem
 	 * modifications.
 	 * 
 	 * @return the list of groups. The list contains <code>ListingGroup</code>
-	 * 	elements.
+	 *         elements.
 	 */
 
-	public List getGroups( )
+	public List<DesignElement> getGroups( )
 	{
 		return slots[GROUP_SLOT].getContents( );
 	}
@@ -128,9 +129,9 @@ public abstract class ListingElement extends ReportItem
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( Module module )
+	public List<SemanticException> validate( Module module )
 	{
-		List list = super.validate( module );
+		List<SemanticException> list = super.validate( module );
 
 		list.addAll( validateStructureList( module, SORT_PROP ) );
 		list.addAll( validateStructureList( module, FILTER_PROP ) );
@@ -164,10 +165,11 @@ public abstract class ListingElement extends ReportItem
 	 * org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
 
-	public List checkContent( Module module, ContainerContext containerInfo,
-			IElementDefn defn )
+	public List<SemanticException> checkContent( Module module,
+			ContainerContext containerInfo, IElementDefn defn )
 	{
-		List errors = super.checkContent( module, containerInfo, defn );
+		List<SemanticException> errors = super.checkContent( module,
+				containerInfo, defn );
 		if ( !errors.isEmpty( ) )
 			return errors;
 
@@ -203,10 +205,11 @@ public abstract class ListingElement extends ReportItem
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List checkContent( Module module, ContainerContext containerInfo,
-			DesignElement content )
+	public List<SemanticException> checkContent( Module module,
+			ContainerContext containerInfo, DesignElement content )
 	{
-		List errors = super.checkContent( module, containerInfo, content );
+		List<SemanticException> errors = super.checkContent( module,
+				containerInfo, content );
 		if ( !errors.isEmpty( ) )
 			return errors;
 
@@ -244,19 +247,19 @@ public abstract class ListingElement extends ReportItem
 	 * Returns listing elements that refers to this listing element directly.
 	 * 
 	 * @param module
-	 * 		the root of the listing element
+	 *            the root of the listing element
 	 * 
 	 * @return a list containing listing elements.
 	 */
 
-	public List findReferredListingElements( Module module )
+	public List<DesignElement> findReferredListingElements( Module module )
 	{
-		List returnList = new ArrayList( );
+		List<DesignElement> returnList = new ArrayList<DesignElement>( );
 
-		List clients = getClientList( );
+		List<BackRef> clients = getClientList( );
 		for ( int i = 0; i < clients.size( ); i++ )
 		{
-			BackRef ref = (BackRef) clients.get( i );
+			BackRef ref = clients.get( i );
 			DesignElement refElement = ref.getElement( );
 			if ( !IReportItemModel.DATA_BINDING_REF_PROP.equalsIgnoreCase( ref
 					.getPropertyName( ) ) )

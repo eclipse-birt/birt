@@ -68,14 +68,15 @@ public class LayoutCompoundRecord extends FilterEventsCompoundRecord
 	 * (java.util.Stack)
 	 */
 
-	protected void performPostTasks( Stack transStack )
+	protected void performPostTasks( Stack<CompoundRecord> transStack )
 	{
 		if ( !isOutermostFilterTrans )
 			return;
 
 		// do the layout tasks
 
-		List layoutTasks = ModelUtil.filterLayoutTasks( getPostTasks( ) );
+		List<RecordTask> layoutTasks = ModelUtil
+				.filterLayoutTasks( getPostTasks( ) );
 		doTasks( transStack, layoutTasks );
 
 		super.performPostTasks( transStack );
@@ -96,7 +97,7 @@ public class LayoutCompoundRecord extends FilterEventsCompoundRecord
 	{
 		for ( int i = getRecords( ).size( ) - 1; i >= 0; i-- )
 		{
-			ActivityRecord record = (ActivityRecord) getRecords( ).get( i );
+			ActivityRecord record = getRecords( ).get( i );
 			assert record.getState( ) == ActivityRecord.DONE_STATE
 					|| record.getState( ) == ActivityRecord.REDONE_STATE;
 
@@ -125,7 +126,7 @@ public class LayoutCompoundRecord extends FilterEventsCompoundRecord
 	{
 		for ( int i = 0; i < getRecords( ).size( ); i++ )
 		{
-			ActivityRecord record = (ActivityRecord) getRecords( ).get( i );
+			ActivityRecord record = getRecords( ).get( i );
 			assert record.getState( ) == ActivityRecord.UNDONE_STATE;
 
 			// Can not be a CompoundRecord.
@@ -150,7 +151,7 @@ public class LayoutCompoundRecord extends FilterEventsCompoundRecord
 	{
 		for ( int i = getRecords( ).size( ) - 1; i >= 0; i-- )
 		{
-			ActivityRecord record = (ActivityRecord) getRecords( ).get( i );
+			ActivityRecord record = getRecords( ).get( i );
 			assert record.getClass( ) != CompoundRecord.class;
 
 			if ( record.isPersistent( ) )

@@ -83,16 +83,17 @@ public interface IPropertyDefinition
 	 * @return a list of {@link IChoiceDefinition}objects
 	 */
 
-	List getChoices( );
+	List<IChoiceDefinition> getChoices( );
 
 	/**
 	 * Returns a list of member definitions if the property is a structure (type
 	 * is TBD). Should return null for non-structure properties.
 	 * 
-	 * @return the list of members as a collection of IPropertyDefn objects
+	 * @return the list of members as a collection of
+	 *         {@link IPropertyDefinition} objects
 	 */
 
-	List getMembers( );
+	List<IPropertyDefinition> getMembers( );
 
 	/**
 	 * Returns the default value for the property. Needed only if the element
@@ -103,17 +104,16 @@ public interface IPropertyDefinition
 	 */
 
 	Object getDefaultValue( );
-	
-	
+
 	/**
 	 * Returns the method information of this property.
 	 * 
 	 * @return the method information of this property. Return null, if this
 	 *         property is not a method property.
 	 */
-	
-	IMethodInfo getMethodInfo();
-	
+
+	IMethodInfo getMethodInfo( );
+
 	/**
 	 * Determines whether this property is read-only or not. If this property is
 	 * read only and can not been edited, return true; otherwise return false.

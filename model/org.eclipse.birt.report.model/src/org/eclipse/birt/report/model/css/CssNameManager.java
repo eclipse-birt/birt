@@ -40,19 +40,19 @@ public class CssNameManager
 	 * @return list each item is <code>CssStyle</code>
 	 */
 
-	public static List getStyles( ICssStyleSheetOperation operation )
+	public static List<CssStyle> getStyles( ICssStyleSheetOperation operation )
 	{
-		Map stylesMap = new HashMap( );
-		List styles = new ArrayList( );
+		Map<String, CssStyle> stylesMap = new HashMap<String, CssStyle>( );
+		List<CssStyle> styles = new ArrayList<CssStyle>( );
 
-		List csses = operation.getCsses( );
+		List<CssStyleSheet> csses = operation.getCsses( );
 		for ( int i = csses.size( ) - 1; i >= 0; --i )
 		{
-			CssStyleSheet sheet = (CssStyleSheet) csses.get( i );
-			List tmpstyles = sheet.getStyles( );
+			CssStyleSheet sheet = csses.get( i );
+			List<CssStyle> tmpstyles = sheet.getStyles( );
 			for ( int j = 0; j < tmpstyles.size( ); ++j )
 			{
-				CssStyle tmpStyle = (CssStyle) tmpstyles.get( j );
+				CssStyle tmpStyle = tmpstyles.get( j );
 				if ( stylesMap.get( tmpStyle.getName( ) ) == null )
 				{
 					stylesMap.put( tmpStyle.getName( ), tmpStyle );
@@ -77,14 +77,14 @@ public class CssNameManager
 	{
 		assert styleName != null;
 
-		List csses = operation.getCsses( );
+		List<CssStyleSheet> csses = operation.getCsses( );
 		for ( int i = csses.size( ) - 1; i >= 0; --i )
 		{
-			CssStyleSheet sheet = (CssStyleSheet) csses.get( i );
-			List tmpstyles = sheet.getStyles( );
+			CssStyleSheet sheet = csses.get( i );
+			List<CssStyle> tmpstyles = sheet.getStyles( );
 			for ( int j = 0; j < tmpstyles.size( ); ++j )
 			{
-				CssStyle tmpStyle = (CssStyle) tmpstyles.get( j );
+				CssStyle tmpStyle = tmpstyles.get( j );
 				if ( styleName.equalsIgnoreCase( tmpStyle.getName( ) ) )
 				{
 					return tmpStyle;
@@ -103,11 +103,11 @@ public class CssNameManager
 
 	public static void adjustStylesForRemove( CssStyleSheet css )
 	{
-		List styles = css.getStyles( );
-		Iterator iter = styles.iterator( );
+		List<CssStyle> styles = css.getStyles( );
+		Iterator<CssStyle> iter = styles.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			CssStyle style = (CssStyle) iter.next( );
+			CssStyle style = iter.next( );
 			// unresolve styles itself first
 			style.updateClientReferences( );
 		}
@@ -116,10 +116,11 @@ public class CssNameManager
 	/**
 	 * Resloves style element in design element.
 	 * <tr>
-	 * <td> First adjust styles in itself, if lower precedence , should
-	 * unresolve style's back-reference.
+	 * <td>First adjust styles in itself, if lower precedence , should unresolve
+	 * style's back-reference.
 	 * <td>Second if element is report design , should unresolve theme style's
-	 * back-reference. </tr>
+	 * back-reference.
+	 * </tr>
 	 * 
 	 * @param module
 	 * @param cssOperation
@@ -133,17 +134,17 @@ public class CssNameManager
 	{
 		// element is theme or report design.
 
-		List csses = cssOperation.getCsses( );
+		List<CssStyleSheet> csses = cssOperation.getCsses( );
 
 		// position decide precedence
 		for ( int i = 0; i < position; ++i )
 		{
-			CssStyleSheet tmpSheet = (CssStyleSheet) csses.get( i );
-			List tmpStyles = tmpSheet.getStyles( );
+			CssStyleSheet tmpSheet = csses.get( i );
+			List<CssStyle> tmpStyles = tmpSheet.getStyles( );
 
 			for ( int j = 0; j < tmpStyles.size( ); ++j )
 			{
-				CssStyle cssStyle = (CssStyle) tmpStyles.get( j );
+				CssStyle cssStyle = tmpStyles.get( j );
 				if ( sheet.findStyle( cssStyle.getName( ) ) != null )
 				{
 					// unresolved all the client elements
@@ -164,12 +165,12 @@ public class CssNameManager
 
 			for ( int i = 0; i < csses.size( ); ++i )
 			{
-				CssStyleSheet tmpSheet = (CssStyleSheet) csses.get( i );
-				List tmpStyles = tmpSheet.getStyles( );
+				CssStyleSheet tmpSheet = csses.get( i );
+				List<CssStyle> tmpStyles = tmpSheet.getStyles( );
 
 				for ( int j = 0; j < tmpStyles.size( ); ++j )
 				{
-					CssStyle cssStyle = (CssStyle) tmpStyles.get( j );
+					CssStyle cssStyle = tmpStyles.get( j );
 					if ( sheet.findStyle( cssStyle.getName( ) ) != null )
 					{
 						// unresolved all the client elements

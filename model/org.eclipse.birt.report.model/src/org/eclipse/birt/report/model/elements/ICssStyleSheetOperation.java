@@ -17,10 +17,11 @@ import org.eclipse.birt.report.model.css.CssStyleSheet;
 
 /**
  * Interface of operating css style sheet.
- *
+ * 
  */
 public interface ICssStyleSheetOperation
 {
+
 	/**
 	 * Drops the given css from css list.
 	 * 
@@ -46,13 +47,14 @@ public interface ICssStyleSheetOperation
 	 * @return list of csses. each item is <code>CssStyleSheet</code>
 	 */
 
-	public List getCsses( );
-	
+	public List<CssStyleSheet> getCsses( );
+
 	/**
 	 * Insert the given css to the given position
+	 * 
 	 * @param css
 	 * @param index
 	 */
-	
-	public void insertCss( CssStyleSheet css , int index );
+
+	public void insertCss( CssStyleSheet css, int index );
 }

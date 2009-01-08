@@ -99,7 +99,7 @@ public class ContentNodeState extends AbstractParseState
 	 */
 
 	public ContentNodeState( String tagName, ModuleParserHandler theHandler,
-			ContentNode parent, Map attributes )
+			ContentNode parent, Map<String, Object> attributes )
 	{
 		this.nodeName = tagName;
 		handler = theHandler;
@@ -122,7 +122,9 @@ public class ContentNodeState extends AbstractParseState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * xml.sax.Attributes)
 	 */
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
@@ -183,7 +185,9 @@ public class ContentNodeState extends AbstractParseState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * .lang.String)
 	 */
 
 	public AbstractParseState startElement( String tagName )
@@ -207,7 +211,9 @@ public class ContentNodeState extends AbstractParseState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#setIsCDataSection(boolean)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#setIsCDataSection
+	 * (boolean)
 	 */
 
 	public void setIsCDataSection( boolean isCDataSection )

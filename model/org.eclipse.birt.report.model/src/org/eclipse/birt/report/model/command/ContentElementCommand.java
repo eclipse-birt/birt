@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.activity.NotificationRecordTask;
+import org.eclipse.birt.report.model.activity.RecordTask;
 import org.eclipse.birt.report.model.api.activity.IEventFilter;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -334,12 +335,12 @@ class ContentElementCommand extends AbstractContentCommand
 
 	private DesignElement matchElement( DesignElement topElement )
 	{
-		List steps = eventTarget.stepIterator( );
+		List<Step> steps = eventTarget.stepIterator( );
 
 		DesignElement tmpElement = topElement;
 		for ( int i = steps.size( ) - 1; i >= 0; i-- )
 		{
-			Step step = (Step) steps.get( i );
+			Step step = steps.get( i );
 			PropertyDefn stepPropDefn = step.stepPropDefn;
 			int index = step.index;
 
@@ -481,9 +482,9 @@ class ContentElementCommand extends AbstractContentCommand
 		 * .util.List)
 		 */
 
-		public List filter( List events )
+		public List<RecordTask> filter( List<RecordTask> events )
 		{
-			List retList = new ArrayList( );
+			List<RecordTask> retList = new ArrayList<RecordTask>( );
 			retList.add( new NotificationRecordTask( ev.getTarget( ), ev ) );
 			return retList;
 		}

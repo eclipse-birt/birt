@@ -12,10 +12,12 @@
 /**
  * TODO:javadoc
  */
+
 package org.eclipse.birt.report.model.api.activity;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.activity.RecordTask;
 
 /**
  * Class provides a event filter logic for a transaction.
@@ -23,6 +25,7 @@ import java.util.List;
 
 public interface IEventFilter
 {
+
 	/**
 	 * Apply filter conditions to the chain of events. The notifications that
 	 * should be filtered is flagged as "filtered"
@@ -33,7 +36,5 @@ public interface IEventFilter
 	 *         is flagged as "filtered"
 	 */
 
-	public List filter( List events );
+	public List<RecordTask> filter( List<RecordTask> events );
 }
-
-

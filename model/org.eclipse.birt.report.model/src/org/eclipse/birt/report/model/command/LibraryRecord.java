@@ -51,7 +51,7 @@ class LibraryRecord extends AbstractLibraryRecord
 	/**
 	 * The cached overridden values when removing one library.
 	 */
-	protected Map overriddenValues = null;
+	protected Map<Long, Map<Long, List<Object>>> overriddenValues = null;
 
 	/**
 	 * Constructs the library record.
@@ -82,7 +82,8 @@ class LibraryRecord extends AbstractLibraryRecord
 	 *            the cached overridden values when removing a library
 	 */
 
-	LibraryRecord( Module module, Library library, Map values )
+	LibraryRecord( Module module, Library library,
+			Map<Long, Map<Long, List<Object>>> values )
 	{
 		this( module, library, true );
 
@@ -103,7 +104,8 @@ class LibraryRecord extends AbstractLibraryRecord
 	 *            the cached overridden values when removing a library
 	 */
 
-	LibraryRecord( Module module, Library library, Map values, int posn )
+	LibraryRecord( Module module, Library library,
+			Map<Long, Map<Long, List<Object>>> values, int posn )
 	{
 		this( module, library, true );
 
@@ -146,9 +148,7 @@ class LibraryRecord extends AbstractLibraryRecord
 			// One library is added, and the style in it can override the
 			// previous one.
 
-			List librariesToUpdate = module.getLibraries( ).subList( 0,
-					toUpdateLibraryCount );
-			updateReferenceableClients( librariesToUpdate );
+			updateReferenceableClients( toUpdateLibraryCount );
 		}
 		else
 		{
@@ -223,7 +223,7 @@ class LibraryRecord extends AbstractLibraryRecord
 
 		while ( contentIter.hasNext( ) )
 		{
-			DesignElement tmpElement = (DesignElement) contentIter.next( );
+			DesignElement tmpElement = contentIter.next( );
 			ElementDefn elementDefn = (ElementDefn) tmpElement.getDefn( );
 			if ( !elementDefn.canExtend( ) || !elementDefn.isContainer( ) )
 				continue;
@@ -251,7 +251,7 @@ class LibraryRecord extends AbstractLibraryRecord
 				continue;
 
 			Long idObj = new Long( tmpElement.getID( ) );
-			Map values = (Map) overriddenValues.get( idObj );
+			Map<Long, List<Object>> values = overriddenValues.get( idObj );
 			ElementStructureUtil.distributeValues( module, tmpElement, values );
 		}
 	}

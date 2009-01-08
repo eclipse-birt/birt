@@ -18,9 +18,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -33,12 +35,10 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 /**
  * Validates the ducplicat style name in the theme.
  * 
- * <h3>Rule</h3>
- * The rule is that one theme element doesn't allow duplicate style name to
- * appear in this element.
+ * <h3>Rule</h3> The rule is that one theme element doesn't allow duplicate
+ * style name to appear in this element.
  * 
- * <h3>Applicability</h3>
- * This validator is only applied to <code>Theme</code>.
+ * <h3>Applicability</h3> This validator is only applied to <code>Theme</code>.
  * 
  */
 
@@ -66,11 +66,12 @@ public class ThemeStyleNameValidator extends AbstractElementValidator
 	 * @return
 	 */
 
-	private List getSameNameStyles( ThemeHandle themeHandle, String styleName )
+	private List<StyleHandle> getSameNameStyles( ThemeHandle themeHandle,
+			String styleName )
 	{
 		SlotHandle slot = themeHandle.getSlot( ThemeHandle.STYLES_SLOT );
-		Iterator iterator = slot.iterator( );
-		List sameNameList = new ArrayList( );
+		Iterator<DesignElementHandle> iterator = slot.iterator( );
+		List<StyleHandle> sameNameList = new ArrayList<StyleHandle>( );
 
 		while ( iterator.hasNext( ) )
 		{
@@ -95,9 +96,10 @@ public class ThemeStyleNameValidator extends AbstractElementValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validateForAddingStyle( ThemeHandle theme, String styleName )
+	public List<SemanticException> validateForAddingStyle( ThemeHandle theme,
+			String styleName )
 	{
-		List list = new ArrayList( );
+		List<SemanticException> list = new ArrayList<SemanticException>( );
 
 		if ( getSameNameStyles( theme, styleName ).size( ) > 1 )
 			list.add( new NameException( theme.getElement( ), styleName,
@@ -119,14 +121,14 @@ public class ThemeStyleNameValidator extends AbstractElementValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validateForRenamingStyle( ThemeHandle theme, StyleHandle style,
-			String styleName )
+	public List<SemanticException> validateForRenamingStyle( ThemeHandle theme,
+			StyleHandle style, String styleName )
 	{
 		// Specially deal with style name in theme.
 
-		List list = new ArrayList( );
+		List<SemanticException> list = new ArrayList<SemanticException>( );
 
-		List sameNameStyles = getSameNameStyles( theme, styleName );
+		List<StyleHandle> sameNameStyles = getSameNameStyles( theme, styleName );
 
 		// style is in theme slot, so if duplicate there must be two style
 		// instance with same style name
@@ -138,7 +140,7 @@ public class ThemeStyleNameValidator extends AbstractElementValidator
 		// style is not in theme slot, just check name is unique or not
 		else if ( sameNameStyles.size( ) == 1 )
 		{
-			StyleHandle tempStyle = (StyleHandle) sameNameStyles.get( 0 );
+			StyleHandle tempStyle = sameNameStyles.get( 0 );
 			if ( tempStyle != style )
 				list.add( new NameException( theme.getElement( ), styleName,
 						NameException.DESIGN_EXCEPTION_DUPLICATE ) );
@@ -150,22 +152,25 @@ public class ThemeStyleNameValidator extends AbstractElementValidator
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.validators.AbstractElementValidator#validate(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.validators.AbstractElementValidator#validate
+	 * (org.eclipse.birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List validate( Module module, DesignElement element )
+	public List<SemanticException> validate( Module module,
+			DesignElement element )
 	{
 		if ( !( element instanceof Theme ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		Theme theme = (Theme) element;
 		ContainerSlot slot = theme.getSlot( IThemeModel.STYLES_SLOT );
 
-		List list = new ArrayList( );
-		Set set = new HashSet( );
+		List<SemanticException> list = new ArrayList<SemanticException>( );
+		Set<String> set = new HashSet<String>( );
 
-		for ( Iterator iter = slot.iterator( ); iter.hasNext( ); )
+		for ( Iterator<DesignElement> iter = slot.iterator( ); iter.hasNext( ); )
 		{
 			StyleElement style = (StyleElement) iter.next( );
 			String styleName = style.getFullName( );

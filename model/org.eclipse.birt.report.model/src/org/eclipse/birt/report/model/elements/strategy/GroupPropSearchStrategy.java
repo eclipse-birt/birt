@@ -41,7 +41,7 @@ public class GroupPropSearchStrategy extends PropertySearchStrategy
 
 	static
 	{
-		dataBindingProps = new HashSet( );
+		dataBindingProps = new HashSet<String>( );
 		dataBindingProps.add( IGroupElementModel.GROUP_NAME_PROP );
 		dataBindingProps.add( IGroupElementModel.KEY_EXPR_PROP );
 		dataBindingProps.add( IGroupElementModel.FILTER_PROP );
@@ -176,7 +176,7 @@ public class GroupPropSearchStrategy extends PropertySearchStrategy
 		int index = element.getContainerInfo( ).indexOf( element );
 
 		ListingElement listing = (ListingElement) target;
-		List groups = listing.getGroups( );
+		List<DesignElement> groups = listing.getGroups( );
 
 		if ( groups.isEmpty( ) || groups.size( ) <= index )
 			return null;
@@ -185,10 +185,11 @@ public class GroupPropSearchStrategy extends PropertySearchStrategy
 	}
 
 	/**
-	 * @return
+	 * @return the set of all the data binding related property name for group
+	 *         element
 	 */
 
-	public static Set getDataBindingPropties( )
+	public static Set<String> getDataBindingPropties( )
 	{
 		return Collections.unmodifiableSet( dataBindingProps );
 	}

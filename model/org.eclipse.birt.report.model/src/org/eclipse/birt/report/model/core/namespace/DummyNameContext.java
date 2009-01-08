@@ -34,12 +34,16 @@ public class DummyNameContext implements INameContext
 		return false;
 	}
 
-	/**
+	/*
+	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameContext#getElements
+	 * (int)
 	 */
-	public List getElements( int level )
+	public List<DesignElement> getElements( int level )
 	{
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -61,16 +65,21 @@ public class DummyNameContext implements INameContext
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#getNameSpace()
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameContext#getNameSpace()
 	 */
 	public NameSpace getNameSpace( )
 	{
-		return new NameSpace();
+		return new NameSpace( );
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#findElement(java.lang.String, org.eclipse.birt.report.model.api.metadata.IElementDefn)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameContext#findElement
+	 * (java.lang.String,
+	 * org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
 	public DesignElement findElement( String elementName,
 			IElementDefn elementDefn )

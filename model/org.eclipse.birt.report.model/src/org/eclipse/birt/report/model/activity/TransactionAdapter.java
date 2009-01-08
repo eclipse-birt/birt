@@ -9,7 +9,6 @@
 
 package org.eclipse.birt.report.model.activity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -61,7 +60,7 @@ class TransactionAdapter
 	 * 
 	 */
 
-	protected Stack needUndoPersistentRecords = new Stack( );
+	protected Stack<List<ActivityRecord>> needUndoPersistentRecords = new Stack<List<ActivityRecord>>( );
 
 	/**
 	 * Constructor.
@@ -107,17 +106,16 @@ class TransactionAdapter
 	{
 		if ( !needUndoPersistentRecords.isEmpty( ) )
 		{
-			ArrayList needToUndoRecords = null;
+			List<ActivityRecord> needToUndoRecords = null;
 
 			while ( !needUndoPersistentRecords.isEmpty( ) )
 			{
-				needToUndoRecords = (ArrayList) needUndoPersistentRecords.pop( );
+				needToUndoRecords = needUndoPersistentRecords.pop( );
 				for ( int j = 0; j < needToUndoRecords.size( ); j++ )
 				{
-					( (ActivityRecord) needToUndoRecords.get( j ) )
-							.setTransNo( stack.increaseTransCount( ) );
-					undoStack
-							.push( (ActivityRecord) needToUndoRecords.get( j ) );
+					( needToUndoRecords.get( j ) ).setTransNo( stack
+							.increaseTransCount( ) );
+					undoStack.push( needToUndoRecords.get( j ) );
 				}
 			}
 
@@ -136,7 +134,7 @@ class TransactionAdapter
 	protected void handleRollback( CompoundRecord record )
 	{
 		Stack<CompoundRecord> transStack = stack.transStack;
-		List persistentRecord = record.getDonePersistentTrans( );
+		List<ActivityRecord> persistentRecord = record.getDonePersistentTrans( );
 		Stack<ActivityRecord> undoStack = stack.undoStack;
 
 		if ( persistentRecord.size( ) != 0 )
@@ -149,9 +147,9 @@ class TransactionAdapter
 			{
 				for ( int i = 0; i < persistentRecord.size( ); i++ )
 				{
-					( (ActivityRecord) persistentRecord.get( i ) )
-							.setTransNo( stack.increaseTransCount( ) );
-					undoStack.push( (ActivityRecord) persistentRecord.get( i ) );
+					( persistentRecord.get( i ) ).setTransNo( stack
+							.increaseTransCount( ) );
+					undoStack.push( persistentRecord.get( i ) );
 				}
 
 				stack.trimUndoStack( );

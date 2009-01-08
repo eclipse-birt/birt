@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -31,16 +32,14 @@ import org.eclipse.birt.report.model.validators.AbstractPropertyValidator;
  * Validates one list property of element. The property type should be simple
  * value list, not structure list.
  * 
- * <h3>Rule</h3>
- * The rule is that
+ * <h3>Rule</h3> The rule is that
  * <ul>
  * <li>all items in this list property should be valid.
  * <li>the value in this list should be unique.
  * </ul>
  * 
- * <h3>Applicability</h3>
- * This validator is only applied to the property whose type is list of one
- * <code>DesignElement</code>.
+ * <h3>Applicability</h3> This validator is only applied to the property whose
+ * type is list of one <code>DesignElement</code>.
  */
 
 public class SimpleListValidator extends AbstractPropertyValidator
@@ -80,16 +79,17 @@ public class SimpleListValidator extends AbstractPropertyValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validateForAdding( DesignElementHandle element,
-			IPropertyDefn propDefn, List list, Object toAdd )
+	public List<SemanticException> validateForAdding(
+			DesignElementHandle element, IPropertyDefn propDefn,
+			List<Object> list, Object toAdd )
 	{
 		return doCheckPropertyList( element.getModule( ),
 				element.getElement( ), propDefn, list, toAdd );
 	}
 
 	/**
-	 * Validates whether the list property specified by <code>propName</code>
-	 * is invalid.
+	 * Validates whether the list property specified by <code>propName</code> is
+	 * invalid.
 	 * 
 	 * @param module
 	 *            the module
@@ -102,13 +102,15 @@ public class SimpleListValidator extends AbstractPropertyValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( Module module, DesignElement element, String propName )
+	public List<SemanticException> validate( Module module,
+			DesignElement element, String propName )
 	{
 		ElementPropertyDefn propDefn = element.getPropertyDefn( propName );
 
 		assert propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE;
 
-		List list = (List) element.getLocalProperty( module, propDefn );
+		List<Object> list = (List<Object>) element.getLocalProperty( module,
+				propDefn );
 
 		return doCheckPropertyList( module, element, propDefn, list, null );
 
@@ -132,8 +134,9 @@ public class SimpleListValidator extends AbstractPropertyValidator
 	 * @return the error list
 	 */
 
-	private List doCheckPropertyList( Module module, DesignElement element,
-			IPropertyDefn propDefn, List list, Object toAdd )
+	private List<SemanticException> doCheckPropertyList( Module module,
+			DesignElement element, IPropertyDefn propDefn, List<Object> list,
+			Object toAdd )
 	{
 		assert propDefn != null;
 		assert propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE;
@@ -141,15 +144,15 @@ public class SimpleListValidator extends AbstractPropertyValidator
 		if ( list == null
 				|| list.size( ) == 0
 				|| ( (PropertyDefn) propDefn ).getSubTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
-		List errorList = new ArrayList( );
+		List<SemanticException> errorList = new ArrayList<SemanticException>( );
 
 		// Get the unique member whose value should be unique in the
 		// structure list. The type of unique member is name property type.
 		// Note: The first unique member is considered.
 
-		HashSet values = new HashSet( );
+		HashSet<String> values = new HashSet<String>( );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			ElementRefValue item = (ElementRefValue) list.get( i );

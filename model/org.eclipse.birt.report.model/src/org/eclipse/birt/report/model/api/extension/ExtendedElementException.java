@@ -60,7 +60,7 @@ public class ExtendedElementException extends SemanticException
 	 * Hash map for the extended element exception properties
 	 */
 
-	protected HashMap properties = new HashMap( );
+	protected HashMap<String, Object> properties = new HashMap<String, Object>( );
 
 	/**
 	 * Constructs a new model exception with no cause object.

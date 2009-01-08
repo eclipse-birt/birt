@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -54,8 +55,8 @@ public class ValidationExecutor
 
 	/**
 	 * Performs all validation in the given validation node list. Each of the
-	 * list is the instance of <code>ValidationNode</code>. This method is
-	 * used for element's semantic check.
+	 * list is the instance of <code>ValidationNode</code>. This method is used
+	 * for element's semantic check.
 	 * 
 	 * @param targetElement
 	 *            the target element on which the validation is performed.
@@ -65,16 +66,17 @@ public class ValidationExecutor
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List perform( DesignElement targetElement, List nodes )
+	public List<SemanticException> perform( DesignElement targetElement,
+			List<ValidationNode> nodes )
 	{
-		List exceptionList = new ArrayList( );
+		List<SemanticException> exceptionList = new ArrayList<SemanticException>( );
 
-		Iterator iter = reorganize( nodes ).iterator( );
+		Iterator<ValidationNode> iter = reorganize( nodes ).iterator( );
 		while ( iter.hasNext( ) )
 		{
-			ValidationNode node = (ValidationNode) iter.next( );
+			ValidationNode node = iter.next( );
 
-			List errors = node.perform( module, false );
+			List<SemanticException> errors = node.perform( module, false );
 			if ( targetElement == node.getElement( ) )
 				exceptionList.addAll( errors );
 
@@ -103,16 +105,17 @@ public class ValidationExecutor
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List perform( List nodes, boolean sendEvent )
+	public List<SemanticException> perform( List<ValidationNode> nodes,
+			boolean sendEvent )
 	{
-		List allErrors = new ArrayList( );
+		List<SemanticException> allErrors = new ArrayList<SemanticException>( );
 
-		Iterator iter = reorganize( nodes ).iterator( );
+		Iterator<ValidationNode> iter = reorganize( nodes ).iterator( );
 		while ( iter.hasNext( ) )
 		{
-			ValidationNode node = (ValidationNode) iter.next( );
+			ValidationNode node = iter.next( );
 
-			List errors = node.perform( module, sendEvent );
+			List<SemanticException> errors = node.perform( module, sendEvent );
 
 			allErrors.addAll( errors );
 
@@ -143,15 +146,15 @@ public class ValidationExecutor
 	 * @return the reorganized nodes
 	 */
 
-	private List reorganize( List nodes )
+	private List<ValidationNode> reorganize( List<ValidationNode> nodes )
 	{
-		List newList = new ArrayList( );
-		Iterator iter = nodes.iterator( );
+		List<ValidationNode> newList = new ArrayList<ValidationNode>( );
+		Iterator<ValidationNode> iter = nodes.iterator( );
 
-		Set validationIDs = new HashSet( );
+		Set<String> validationIDs = new HashSet<String>( );
 		while ( iter.hasNext( ) )
 		{
-			ValidationNode node = (ValidationNode) iter.next( );
+			ValidationNode node = iter.next( );
 			String id = node.getTriggerDefn( ).getValidationID( );
 
 			if ( !validationIDs.contains( id ) )
@@ -176,26 +179,27 @@ public class ValidationExecutor
 	 * @param triggers
 	 *            the validation triggers
 	 * @param onlyOnSelf
-	 *            whether the validator is applied on the given element itself
+	 *            whether the validation is applied on the given element itself
 	 * @return the list of validation nodes
 	 */
 
-	public static List getValidationNodes( DesignElement element,
-			SemanticTriggerDefnSet triggers, boolean onlyOnSelf )
+	public static List<ValidationNode> getValidationNodes(
+			DesignElement element, SemanticTriggerDefnSet triggers,
+			boolean onlyOnSelf )
 	{
 		if ( triggers == null )
-			return Collections.EMPTY_LIST;
-		List nodes = new ArrayList( );
+			return Collections.emptyList( );
+		List<ValidationNode> nodes = new ArrayList<ValidationNode>( );
 
-		List validatorDefns = triggers.getTriggerList( );
+		List<SemanticTriggerDefn> validatorDefns = triggers.getTriggerList( );
 
 		if ( validatorDefns == null || validatorDefns.isEmpty( ) )
 			return nodes;
 
-		Iterator iter = validatorDefns.iterator( );
+		Iterator<SemanticTriggerDefn> iter = validatorDefns.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			SemanticTriggerDefn triggerDefn = (SemanticTriggerDefn) iter.next( );
+			SemanticTriggerDefn triggerDefn = iter.next( );
 			String targetName = triggerDefn.getTargetElement( );
 
 			if ( StringUtil.isBlank( targetName ) )

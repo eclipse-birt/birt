@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.extension.CompatibilityStatus;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -24,6 +25,7 @@ import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
 import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.IStyleDeclaration;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -45,8 +47,8 @@ import org.eclipse.birt.report.model.util.ContentIterator;
  * allows third-party developers to create report items that work within BIRT
  * virtually identically to BIRT-defined items. Extended items can use the
  * user-properties discussed above to define properties, can use a
- * ��black-box�� approach, or a combination of the two. Extended items are
- * defined in a Java plug-in that contributes behavior to the Eclipse Report
+ * ��black-box�� approach, or a combination of the two. Extended items
+ * are defined in a Java plug-in that contributes behavior to the Eclipse Report
  * Developer, to the Factory and to the Presentation Engine. The extended item
  * can fully participate with the other BIRT extension facilities, meaning that
  * report developers can additional properties and scripts to an extended item,
@@ -264,7 +266,7 @@ public class ExtendedItem extends ReportItem
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyDefns()
 	 */
 
-	public List getPropertyDefns( )
+	public List<IElementPropertyDefn> getPropertyDefns( )
 	{
 		return provider.getPropertyDefns( );
 	}
@@ -365,9 +367,9 @@ public class ExtendedItem extends ReportItem
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( Module module )
+	public List<SemanticException> validate( Module module )
 	{
-		List list = super.validate( module );
+		List<SemanticException> list = super.validate( module );
 
 		list
 				.addAll( ExtensionValidator.getInstance( ).validate( module,
@@ -423,7 +425,7 @@ public class ExtendedItem extends ReportItem
 	 * 
 	 * @return the method list
 	 */
-	public List getMethods( )
+	public List<IElementPropertyDefn> getMethods( )
 	{
 		return provider.getModelMethodDefns( );
 	}
@@ -494,7 +496,7 @@ public class ExtendedItem extends ReportItem
 	 * @return a list containing predefined selectors in string
 	 */
 
-	public List getReportItemDefinedSelectors( Module module )
+	public List<Object> getReportItemDefinedSelectors( Module module )
 	{
 		IReportItem reportItem = getExtendedElement( );
 		try
@@ -509,7 +511,7 @@ public class ExtendedItem extends ReportItem
 		{
 		}
 		if ( reportItem == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		return reportItem.getPredefinedStyles( );
 	}
@@ -593,14 +595,14 @@ public class ExtendedItem extends ReportItem
 	 * Checks the compatibilities for this extended item.
 	 * 
 	 * @param module
-	 * @return
+	 * @return the status infor for compatibility
 	 */
 	public StatusInfo checkCompatibility( Module module )
 	{
 
 		// check this element itself
 		StatusInfo status = doCheck( module );
-		List errors = new ArrayList( );
+		List<SemanticException> errors = new ArrayList<SemanticException>( );
 		boolean hasCompatibilities = false;
 		if ( status != null )
 		{
@@ -614,7 +616,7 @@ public class ExtendedItem extends ReportItem
 			ContentIterator iter = new ContentIterator( module, this );
 			while ( iter.hasNext( ) )
 			{
-				DesignElement content = (DesignElement) iter.next( );
+				DesignElement content = iter.next( );
 				if ( content instanceof ExtendedItem )
 				{
 					status = ( (ExtendedItem) content ).doCheck( module );
@@ -634,14 +636,14 @@ public class ExtendedItem extends ReportItem
 	private StatusInfo doCheck( Module module )
 	{
 		if ( !provider.needCheckCompatibility( ) )
-			return new StatusInfo( Collections.EMPTY_LIST, false );
+			return new StatusInfo( new ArrayList<SemanticException>( ), false );
 		try
 		{
 			initializeReportItem( module );
 		}
 		catch ( ExtendedElementException e )
 		{
-			return new StatusInfo( Collections.EMPTY_LIST, false );
+			return new StatusInfo( new ArrayList<SemanticException>( ), false );
 		}
 		IReportItem item = getExtendedElement( );
 
@@ -650,7 +652,7 @@ public class ExtendedItem extends ReportItem
 			CompatibilityStatus status = ( (ICompatibleReportItem) item )
 					.checkCompatibility( );
 			boolean hasCompatibilities = false;
-			List errors = Collections.EMPTY_LIST;
+			List<SemanticException> errors = Collections.emptyList( );
 			if ( status != null )
 			{
 				errors = status.getErrors( );
@@ -661,7 +663,7 @@ public class ExtendedItem extends ReportItem
 			return new StatusInfo( errors, hasCompatibilities );
 		}
 
-		return new StatusInfo( Collections.EMPTY_LIST, false );
+		return new StatusInfo( new ArrayList<SemanticException>( ), false );
 	}
 
 	/**
@@ -670,7 +672,7 @@ public class ExtendedItem extends ReportItem
 	public class StatusInfo
 	{
 
-		private List errors;
+		private List<SemanticException> errors;
 		private boolean hasCompatibilities = false;
 
 		/**
@@ -680,7 +682,8 @@ public class ExtendedItem extends ReportItem
 		 * @param errors
 		 * @param hasCompatibilities
 		 */
-		public StatusInfo( List errors, boolean hasCompatibilities )
+		public StatusInfo( List<SemanticException> errors,
+				boolean hasCompatibilities )
 		{
 			this.errors = errors;
 			this.hasCompatibilities = hasCompatibilities;
@@ -690,9 +693,11 @@ public class ExtendedItem extends ReportItem
 		 * 
 		 * @return
 		 */
-		public List getErrors( )
+		public List<SemanticException> getErrors( )
 		{
-			return this.errors == null ? Collections.EMPTY_LIST : errors;
+			return (List<SemanticException>) ( this.errors == null
+					? Collections.emptyList( )
+					: errors );
 		}
 
 		/**

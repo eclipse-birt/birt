@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * is not.
  */
 
-public class Choice implements Cloneable, IChoice, Comparable
+public class Choice implements Cloneable, IChoice, Comparable<Object>
 {
 
 	/**

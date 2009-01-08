@@ -39,6 +39,9 @@ import org.xml.sax.SAXException;
 class MetaDataHandler extends XMLParserHandler
 {
 
+	/**
+	 * Cache the singleton instance of the meta-data dictionary.
+	 */
 	MetaDataDictionary dictionary = MetaDataDictionary.getInstance( );
 
 	private static final String ROOT_TAG = "ReportMetaData"; //$NON-NLS-1$ 
@@ -117,7 +120,7 @@ class MetaDataHandler extends XMLParserHandler
 	protected SlotDefn slotDefn = null;
 	protected SystemPropertyDefn propDefn = null;
 	protected StructureDefn struct = null;
-	protected ArrayList choices = new ArrayList( );
+	protected ArrayList<Choice> choices = new ArrayList<Choice>( );
 
 	/**
 	 * Constructor.
@@ -171,7 +174,7 @@ class MetaDataHandler extends XMLParserHandler
 	{
 		Choice[] choiceArray = new Choice[choices.size( )];
 		for ( int i = 0; i < choices.size( ); i++ )
-			choiceArray[i] = (Choice) choices.get( i );
+			choiceArray[i] = choices.get( i );
 		return choiceArray;
 	}
 
@@ -774,7 +777,7 @@ class MetaDataHandler extends XMLParserHandler
 	class PropertyState extends InnerParseState
 	{
 
-		List propertyTypes = new ArrayList( );
+		List<String> propertyTypes = new ArrayList<String>( );
 
 		public void parseAttrs( Attributes attrs )
 		{
@@ -1078,7 +1081,7 @@ class MetaDataHandler extends XMLParserHandler
 			}
 
 			ChoiceSet allowedChoices = new ChoiceSet( );
-			ArrayList allowedList = new ArrayList( );
+			ArrayList<IChoice> allowedList = new ArrayList<IChoice>( );
 
 			String choicesStr = StringUtil.trimString( text.toString( ) );
 
@@ -1142,8 +1145,7 @@ class MetaDataHandler extends XMLParserHandler
 
 			}
 
-			allowedChoices.setChoices( (Choice[]) allowedList
-					.toArray( new Choice[0] ) );
+			allowedChoices.setChoices( allowedList.toArray( new Choice[0] ) );
 
 			tmpPropDefn.setAllowedChoices( allowedChoices );
 		}
@@ -1178,7 +1180,7 @@ class MetaDataHandler extends XMLParserHandler
 			}
 
 			ChoiceSet allowedChoices = new ChoiceSet( );
-			ArrayList allowedList = new ArrayList( );
+			ArrayList<IChoice> allowedList = new ArrayList<IChoice>( );
 
 			String choicesStr = StringUtil.trimString( text.toString( ) );
 
@@ -1214,8 +1216,7 @@ class MetaDataHandler extends XMLParserHandler
 				}
 			}
 
-			allowedChoices.setChoices( (Choice[]) allowedList
-					.toArray( new Choice[0] ) );
+			allowedChoices.setChoices( allowedList.toArray( new Choice[0] ) );
 
 			tmpPropDefn.setAllowedUnits( allowedChoices );
 		}
@@ -1227,7 +1228,9 @@ class MetaDataHandler extends XMLParserHandler
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
 		 */
 		public AbstractParseState startElement( String tagName )
 		{
@@ -1245,7 +1248,9 @@ class MetaDataHandler extends XMLParserHandler
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
+		 * org.xml.sax.Attributes)
 		 */
 
 		public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -1271,7 +1276,7 @@ class MetaDataHandler extends XMLParserHandler
 
 			try
 			{
-				Class c = Class.forName( className );
+				Class<? extends Object> c = Class.forName( className );
 				SimpleValueValidator validator = (SimpleValueValidator) c
 						.newInstance( );
 				validator.setName( name );
@@ -1304,7 +1309,9 @@ class MetaDataHandler extends XMLParserHandler
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
+		 * org.xml.sax.Attributes)
 		 */
 
 		public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -1330,7 +1337,7 @@ class MetaDataHandler extends XMLParserHandler
 
 			try
 			{
-				Class c = Class.forName( className );
+				Class<? extends Object> c = Class.forName( className );
 				Method m = c.getMethod( "getInstance", (Class[]) null ); //$NON-NLS-1$
 				AbstractSemanticValidator validator = (AbstractSemanticValidator) m
 						.invoke( null, (Object[]) null );
@@ -1416,10 +1423,10 @@ class MetaDataHandler extends XMLParserHandler
 				Choice choice = new Choice( xmlName, displayNameID );
 
 				boolean found = false;
-				Iterator iter = choices.iterator( );
+				Iterator<Choice> iter = choices.iterator( );
 				while ( iter.hasNext( ) )
 				{
-					Choice tmpChoice = (Choice) iter.next( );
+					Choice tmpChoice = iter.next( );
 					if ( tmpChoice.getName( ).equalsIgnoreCase(
 							choice.getName( ) ) )
 					{
@@ -1533,7 +1540,7 @@ class MetaDataHandler extends XMLParserHandler
 	class PropertyTypeState extends InnerParseState
 	{
 
-		protected List types = null;
+		protected List<String> types = null;
 
 		/**
 		 * Constructs the property type state with a list to hold all the type
@@ -1541,7 +1548,7 @@ class MetaDataHandler extends XMLParserHandler
 		 * 
 		 * @param propertyTypes
 		 */
-		public PropertyTypeState( List propertyTypes )
+		public PropertyTypeState( List<String> propertyTypes )
 		{
 			this.types = propertyTypes;
 		}
@@ -1601,7 +1608,8 @@ class MetaDataHandler extends XMLParserHandler
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.metadata.MetaDataHandler.AbstractMethodState#getMethodInfo()
+		 * @seeorg.eclipse.birt.report.model.metadata.MetaDataHandler.
+		 * AbstractMethodState#getMethodInfo()
 		 */
 
 		MethodInfo getMethodInfo( String name )
@@ -1625,7 +1633,8 @@ class MetaDataHandler extends XMLParserHandler
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.metadata.MetaDataHandler.AbstractMethodState#addDefnTo()
+		 * @seeorg.eclipse.birt.report.model.metadata.MetaDataHandler.
+		 * AbstractMethodState#addDefnTo()
 		 */
 
 		void addDefnTo( )
@@ -1669,7 +1678,8 @@ class MetaDataHandler extends XMLParserHandler
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.metadata.MetaDataHandler.AbstractMethodState#getMethodInfo()
+		 * @seeorg.eclipse.birt.report.model.metadata.MetaDataHandler.
+		 * AbstractMethodState#getMethodInfo()
 		 */
 
 		MethodInfo getMethodInfo( String name )
@@ -1685,7 +1695,9 @@ class MetaDataHandler extends XMLParserHandler
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
+		 * org.xml.sax.Attributes)
 		 */
 		public void parseAttrs( Attributes attrs )
 		{
@@ -1700,7 +1712,8 @@ class MetaDataHandler extends XMLParserHandler
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.metadata.MetaDataHandler.AbstractMethodState#addDefnTo()
+		 * @seeorg.eclipse.birt.report.model.metadata.MetaDataHandler.
+		 * AbstractMethodState#addDefnTo()
 		 */
 
 		void addDefnTo( )
@@ -1775,7 +1788,7 @@ class MetaDataHandler extends XMLParserHandler
 		}
 
 		/**
-		 * Addes method information to the ElementDefn or ClassInfo.
+		 * Adds method information to the ElementDefn or ClassInfo.
 		 */
 
 		abstract void addDefnTo( );
@@ -2026,7 +2039,9 @@ class MetaDataHandler extends XMLParserHandler
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
+		 * org.xml.sax.Attributes)
 		 */
 		public void parseAttrs( Attributes attrs ) throws XMLParserException
 		{

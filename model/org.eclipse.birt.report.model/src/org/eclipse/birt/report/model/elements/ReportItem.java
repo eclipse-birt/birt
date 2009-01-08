@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.elements;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.ExtendsForbiddenException;
 import org.eclipse.birt.report.model.api.validators.ElementReferenceValidator;
@@ -103,9 +104,9 @@ public abstract class ReportItem extends ReferencableStyledElement
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( Module module )
+	public List<SemanticException> validate( Module module )
 	{
-		List list = super.validate( module );
+		List<SemanticException> list = super.validate( module );
 
 		// Check the element reference of dataSet property
 
@@ -199,7 +200,7 @@ public abstract class ReportItem extends ReferencableStyledElement
 		ContentIterator iter = new ContentIterator( lib, parent );
 		while ( iter.hasNext( ) )
 		{
-			DesignElement element = (DesignElement) iter.next( );
+			DesignElement element = iter.next( );
 			checkDataBindingReferring( lib, element );
 		}
 

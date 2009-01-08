@@ -28,6 +28,10 @@ public class MethodInfo implements IMethodInfo
 
 	private String displayName;
 
+	/**
+	 * 
+	 * @param isConstructor
+	 */
 	public MethodInfo( boolean isConstructor )
 	{
 		methodInfo = new org.eclipse.birt.report.model.metadata.MethodInfo(
@@ -56,7 +60,7 @@ public class MethodInfo implements IMethodInfo
 	 * @return iterator of argument definition.
 	 */
 
-	public Iterator argumentListIterator( )
+	public Iterator<IArgumentInfoList> argumentListIterator( )
 	{
 		return methodInfo.argumentListIterator( );
 	}
@@ -113,7 +117,9 @@ public class MethodInfo implements IMethodInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName
+	 * ()
 	 */
 
 	public String getDisplayName( )
@@ -136,7 +142,9 @@ public class MethodInfo implements IMethodInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayNameKey()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayNameKey
+	 * ()
 	 */
 
 	public String getDisplayNameKey( )
@@ -148,7 +156,8 @@ public class MethodInfo implements IMethodInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getName()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getName()
 	 */
 
 	public String getName( )
@@ -195,7 +204,8 @@ public class MethodInfo implements IMethodInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.IMethodInfo#getReturnType()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IMethodInfo#getReturnType()
 	 */
 
 	public String getReturnType( )
@@ -206,7 +216,8 @@ public class MethodInfo implements IMethodInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.IMethodInfo#isConstructor()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IMethodInfo#isConstructor()
 	 */
 	public boolean isConstructor( )
 	{
@@ -224,18 +235,30 @@ public class MethodInfo implements IMethodInfo
 		return methodInfo.isStatic( );
 	}
 
+	/**
+	 * @param javaDoc
+	 * 
+	 */
 	public void setJavaDoc( String javaDoc )
 	{
 		( (org.eclipse.birt.report.model.metadata.MethodInfo) methodInfo )
 				.setJavaDoc( javaDoc );
 	}
 
+	/**
+	 * 
+	 * @param returnType
+	 */
 	protected void setReturnType( String returnType )
 	{
 		( (org.eclipse.birt.report.model.metadata.MethodInfo) methodInfo )
 				.setReturnType( returnType );
 	}
 
+	/**
+	 * 
+	 * @param isStatic
+	 */
 	protected void setStatic( boolean isStatic )
 	{
 		( (org.eclipse.birt.report.model.metadata.MethodInfo) methodInfo )
@@ -245,7 +268,9 @@ public class MethodInfo implements IMethodInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.IMethodInfo#getClassReturnType()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IMethodInfo#getClassReturnType
+	 * ()
 	 */
 
 	public IClassInfo getClassReturnType( )

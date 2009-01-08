@@ -99,15 +99,15 @@ public class BundleHelper
 	 *         files.
 	 */
 
-	public Collection getMessageKeys( ULocale locale )
+	public Collection<String> getMessageKeys( ULocale locale )
 	{
-		Set keys = new LinkedHashSet( );
-		Iterator bundleIter = gatherMessageBundles( locale ).iterator( );
+		Set<String> keys = new LinkedHashSet<String>( );
+		Iterator<PropertyResourceBundle> bundleIter = gatherMessageBundles(
+				locale ).iterator( );
 		while ( bundleIter.hasNext( ) )
 		{
-			PropertyResourceBundle bundle = (PropertyResourceBundle) bundleIter
-					.next( );
-			Enumeration enumeration = bundle.getKeys( );
+			PropertyResourceBundle bundle = bundleIter.next( );
+			Enumeration<String> enumeration = bundle.getKeys( );
 			while ( enumeration.hasMoreElements( ) )
 			{
 				keys.add( enumeration.nextElement( ) );
@@ -135,11 +135,12 @@ public class BundleHelper
 
 	public String getMessage( String resourceKey, ULocale locale )
 	{
-		Iterator bundleIter = gatherMessageBundles( locale ).iterator( );
+		Iterator<PropertyResourceBundle> bundleIter = gatherMessageBundles(
+				locale ).iterator( );
 		while ( bundleIter.hasNext( ) )
 		{
-			String translation = (String) ( (PropertyResourceBundle) bundleIter
-					.next( ) ).handleGetObject( resourceKey );
+			String translation = (String) bundleIter.next( ).handleGetObject(
+					resourceKey );
 			if ( translation != null )
 				return translation;
 		}
@@ -161,17 +162,17 @@ public class BundleHelper
 	 * @return a message file list for the given locale.
 	 */
 
-	private List gatherMessageBundles( ULocale locale )
+	private List<PropertyResourceBundle> gatherMessageBundles( ULocale locale )
 	{
-		List bundleHierarchy = module
+		List<PropertyResourceBundle> bundleHierarchy = module
 				.getCachePropertyResourceBundles( baseName );
 
 		if ( bundleHierarchy != null )
 			return bundleHierarchy;
 
-		bundleHierarchy = new ArrayList( );
+		bundleHierarchy = new ArrayList<PropertyResourceBundle>( );
 
-		List bundleNames = getMessageFilenames( locale );
+		List<String> bundleNames = getMessageFilenames( locale );
 
 		URL cachedURL = null;
 		String cachedBundleName = null;
@@ -180,7 +181,7 @@ public class BundleHelper
 		for ( int i = 0; i < bundleNames.size( ); i++ )
 		{
 			boolean isIntegrated = false;
-			String bundleName = (String) bundleNames.get( i );
+			String bundleName = bundleNames.get( i );
 			if ( cachedURL != null && cachedBundleName != null )
 			{
 				String url = cachedURL.toString( );
@@ -255,12 +256,12 @@ public class BundleHelper
 	 * @return a message file list for the given locale.
 	 */
 
-	public List getMessageFilenames( ULocale locale )
+	public List<String> getMessageFilenames( ULocale locale )
 	{
 		if ( locale == null )
 			locale = ThreadResources.getLocale( );
 
-		List bundleNames = new ArrayList( );
+		List<String> bundleNames = new ArrayList<String>( );
 
 		if ( this.baseName == null )
 			return bundleNames;

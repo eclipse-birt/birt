@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
@@ -94,7 +95,7 @@ public class StructPropertyType extends PropertyType
 		{
 			if ( value instanceof List )
 			{
-				if ( ( (List) value ).isEmpty( ) )
+				if ( ( (List<Structure>) value ).isEmpty( ) )
 				{
 					return value;
 				}
@@ -106,7 +107,7 @@ public class StructPropertyType extends PropertyType
 
 		if ( value instanceof Structure )
 		{
-			Iterator iter = ( (Structure) value ).getDefn( )
+			Iterator<IPropertyDefn> iter = ( (Structure) value ).getDefn( )
 					.propertiesIterator( );
 			while ( iter.hasNext( ) )
 			{

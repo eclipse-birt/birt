@@ -18,6 +18,7 @@ import java.util.Map;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ElementLocalizeEvent;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
@@ -63,10 +64,10 @@ public class ElementLocalizeRecord extends SimpleRecord
 	private long baseId;
 
 	/**
-	 * Map used to catch all the overriden properties of the child element.
+	 * Map used to catch all the overridden properties of the child element.
 	 */
 
-	private Map propValues = new HashMap( );
+	private Map<String, Object> propValues = new HashMap<String, Object>( );
 
 	/**
 	 * Constructor.
@@ -94,7 +95,7 @@ public class ElementLocalizeRecord extends SimpleRecord
 	}
 
 	/**
-	 * Collect all the overriden properties of the child element, catch the
+	 * Collect all the overridden properties of the child element, catch the
 	 * values in a hash map.
 	 * 
 	 */
@@ -103,7 +104,8 @@ public class ElementLocalizeRecord extends SimpleRecord
 	{
 		assert element != null;
 
-		Iterator iter = element.getPropertyDefns( ).iterator( );
+		Iterator<IElementPropertyDefn> iter = element.getPropertyDefns( )
+				.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			PropertyDefn propDefn = (PropertyDefn) iter.next( );
@@ -135,7 +137,8 @@ public class ElementLocalizeRecord extends SimpleRecord
 
 	private void localizeElement( DesignElement from, DesignElement to )
 	{
-		Iterator iter = from.getDefn( ).getProperties( ).iterator( );
+		Iterator<IElementPropertyDefn> iter = from.getDefn( ).getProperties( )
+				.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) iter.next( );
@@ -150,7 +153,8 @@ public class ElementLocalizeRecord extends SimpleRecord
 
 			if ( IStyledElementModel.STYLE_PROP.equals( propName )
 					|| IDesignElementModel.EXTENDS_PROP.equals( propName )
-					|| IDesignElementModel.USER_PROPERTIES_PROP.equals( propName ) )
+					|| IDesignElementModel.USER_PROPERTIES_PROP
+							.equals( propName ) )
 				continue;
 
 			Object localValue = to.getLocalProperty( module, propDefn );
@@ -167,7 +171,7 @@ public class ElementLocalizeRecord extends SimpleRecord
 
 	/**
 	 * Recover the element to the original virtual element state. The original
-	 * cached properties will be recoverred.
+	 * cached properties will be recovered.
 	 * 
 	 * @param obj
 	 *            the element to recover.
@@ -179,12 +183,12 @@ public class ElementLocalizeRecord extends SimpleRecord
 
 		obj.clearAllProperties( );
 
-		// recover the original overriden properties.
+		// recover the original overridden properties.
 
-		Iterator propNames = propValues.keySet( ).iterator( );
+		Iterator<String> propNames = propValues.keySet( ).iterator( );
 		while ( propNames.hasNext( ) )
 		{
-			String propName = (String) propNames.next( );
+			String propName = propNames.next( );
 			assert !IDesignElementModel.EXTENDS_PROP.equals( propName );
 
 			if ( IStyledElementModel.STYLE_PROP.equals( propName ) )
@@ -230,7 +234,8 @@ public class ElementLocalizeRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
+	 * @see
+	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
 
 	public DesignElement getTarget( )
@@ -241,7 +246,8 @@ public class ElementLocalizeRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
+	 * @see
+	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
 	 */
 
 	public NotificationEvent getEvent( )

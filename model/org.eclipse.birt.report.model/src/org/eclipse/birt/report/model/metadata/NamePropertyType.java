@@ -41,7 +41,8 @@ public class NamePropertyType extends TextualPropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
 	public int getTypeCode( )
@@ -52,7 +53,8 @@ public class NamePropertyType extends TextualPropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
 	public String getName( )
@@ -63,9 +65,10 @@ public class NamePropertyType extends TextualPropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org
+	 * .eclipse.birt.report.model.elements.ReportDesign,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 
 	public Object validateValue( Module module, PropertyDefn defn, Object value )
@@ -109,9 +112,10 @@ public class NamePropertyType extends TextualPropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyType#validateXml(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn,
-	 *      java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyType#validateXml(org.eclipse
+	 * .birt.report.model.elements.ReportDesign,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.String)
 	 */
 
 	public Object validateXml( Module module, PropertyDefn defn, String value )
@@ -135,8 +139,8 @@ public class NamePropertyType extends TextualPropertyType
 		for ( int i = 0; i < value.length( ); i++ )
 		{
 			char c = value.charAt( i );
-			if ( c == '/' || c == '\\' || c == '.' || c == '!'
-					|| c == ';' || c == ',' )
+			if ( c == '/' || c == '\\' || c == '.' || c == '!' || c == ';'
+					|| c == ',' )
 				return false;
 		}
 		return true;
@@ -146,7 +150,7 @@ public class NamePropertyType extends TextualPropertyType
 	 * Validates the name. Replace all the illegal chars with '_'.
 	 * 
 	 * @param name
-	 * @return
+	 * @return the validated name
 	 */
 	public static String validateName( String name )
 	{

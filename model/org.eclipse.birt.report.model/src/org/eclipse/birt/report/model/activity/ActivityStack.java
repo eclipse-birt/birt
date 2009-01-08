@@ -155,10 +155,10 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
  * <p>
  * As a convenience for the application, the compound record implementation is
  * abstracted into the concept of a <em>transaction</em>. The application simply
- * calls startTrans( null ) to start a series of operations to be treated as atomic,
- * and calls commit( ) to complete the series. For convenience, transactions can
- * nest to any depth. Only the outermost transaction shows up as a an undoable
- * or redoable record in the UI.
+ * calls startTrans( null ) to start a series of operations to be treated as
+ * atomic, and calls commit( ) to complete the series. For convenience,
+ * transactions can nest to any depth. Only the outermost transaction shows up
+ * as a an undoable or redoable record in the UI.
  * <p>
  * It is important to understand when records execute within a transaction.
  * Records execute during the call to execute( ) on the record stack. That is,
@@ -253,19 +253,19 @@ public class ActivityStack implements CommandStack
 	 * The undo stack. Entries are of type ActivityRecord.
 	 */
 
-	protected Stack undoStack = new Stack( );
+	protected Stack<ActivityRecord> undoStack = new Stack<ActivityRecord>( );
 
 	/**
 	 * The redo stack. Entries are of type ActivityRecord.
 	 */
 
-	protected Stack redoStack = new Stack( );
+	protected Stack<ActivityRecord> redoStack = new Stack<ActivityRecord>( );
 
 	/**
 	 * The active transaction stack. Entries are of type CompoundCommand.
 	 */
 
-	protected Stack transStack = new Stack( );
+	protected Stack<CompoundRecord> transStack = new Stack<CompoundRecord>( );
 
 	/**
 	 * The adapter for the specified compound records.
@@ -293,7 +293,7 @@ public class ActivityStack implements CommandStack
 	 * are of type Listener. Created only when needed.
 	 */
 
-	protected ArrayList listeners = null;
+	protected ArrayList<ActivityStackListener> listeners = null;
 
 	/**
 	 * Default constructor.
@@ -368,7 +368,7 @@ public class ActivityStack implements CommandStack
 		}
 		else
 		{
-			CompoundRecord trans = (CompoundRecord) transStack.lastElement( );
+			CompoundRecord trans = transStack.lastElement( );
 			trans.append( record );
 		}
 
@@ -394,7 +394,7 @@ public class ActivityStack implements CommandStack
 
 		// Redo the record.
 
-		ActivityRecord record = (ActivityRecord) undoStack.pop( );
+		ActivityRecord record = undoStack.pop( );
 		assert record.getState( ) == ActivityRecord.DONE_STATE
 				|| record.getState( ) == ActivityRecord.REDONE_STATE;
 		record.undo( );
@@ -426,7 +426,7 @@ public class ActivityStack implements CommandStack
 
 		// Redo the record.
 
-		ActivityRecord record = (ActivityRecord) redoStack.pop( );
+		ActivityRecord record = redoStack.pop( );
 		assert record.getState( ) == ActivityRecord.UNDONE_STATE;
 		record.redo( );
 		record.setState( ActivityRecord.REDONE_STATE );
@@ -464,7 +464,7 @@ public class ActivityStack implements CommandStack
 			return false;
 		else
 		{
-			ActivityRecord record = (ActivityRecord) undoStack.lastElement( );
+			ActivityRecord record = undoStack.lastElement( );
 			return record.canUndo( );
 		}
 	}
@@ -488,7 +488,7 @@ public class ActivityStack implements CommandStack
 			return false;
 		else
 		{
-			ActivityRecord record = (ActivityRecord) redoStack.lastElement( );
+			ActivityRecord record = redoStack.lastElement( );
 			return record.canUndo( );
 		}
 	}
@@ -501,7 +501,7 @@ public class ActivityStack implements CommandStack
 	{
 		while ( undoStack.size( ) > stackLimit )
 		{
-			ActivityRecord cmd = (ActivityRecord) undoStack.remove( 0 );
+			ActivityRecord cmd = undoStack.remove( 0 );
 			assert cmd.getState( ) != ActivityRecord.DISCARD_STATE;
 			cmd.destroy( );
 			cmd.setState( ActivityRecord.DISCARD_STATE );
@@ -524,12 +524,12 @@ public class ActivityStack implements CommandStack
 	 * @param stack
 	 */
 
-	private void destroyRecords( Stack stack )
+	private void destroyRecords( Stack<ActivityRecord> stack )
 	{
-		Iterator iter = stack.iterator( );
+		Iterator<ActivityRecord> iter = stack.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			ActivityRecord cmd = (ActivityRecord) iter.next( );
+			ActivityRecord cmd = iter.next( );
 			assert cmd.getState( ) != ActivityRecord.DISCARD_STATE;
 			cmd.destroy( );
 			cmd.setState( ActivityRecord.DISCARD_STATE );
@@ -562,7 +562,7 @@ public class ActivityStack implements CommandStack
 
 	public Object[] getRecords( )
 	{
-		List records = new ArrayList( undoStack );
+		List<ActivityRecord> records = new ArrayList<ActivityRecord>( undoStack );
 		for ( int i = redoStack.size( ) - 1; i >= 0; i-- )
 		{
 			records.add( redoStack.get( i ) );
@@ -579,7 +579,7 @@ public class ActivityStack implements CommandStack
 
 	public IActivityRecord getRedoRecord( )
 	{
-		return redoStack.isEmpty( ) ? null : (ActivityRecord) redoStack.peek( );
+		return redoStack.isEmpty( ) ? null : redoStack.peek( );
 	}
 
 	/**
@@ -591,7 +591,7 @@ public class ActivityStack implements CommandStack
 
 	public IActivityRecord getUndoRecord( )
 	{
-		return undoStack.isEmpty( ) ? null : (ActivityRecord) undoStack.peek( );
+		return undoStack.isEmpty( ) ? null : undoStack.peek( );
 	}
 
 	/**
@@ -635,7 +635,7 @@ public class ActivityStack implements CommandStack
 		assert label != null;
 		return label;
 	}
-	
+
 	/**
 	 * Starts a transaction. The application provides the message ID for a label
 	 * to associate with the transaction.
@@ -671,7 +671,7 @@ public class ActivityStack implements CommandStack
 	{
 		startTrans( label );
 
-		CompoundRecord tmpRecord = (CompoundRecord) transStack.peek( );
+		CompoundRecord tmpRecord = transStack.peek( );
 		tmpRecord.setOptions( options );
 	}
 
@@ -688,7 +688,7 @@ public class ActivityStack implements CommandStack
 	public void commit( )
 	{
 		assert ( !transStack.empty( ) );
-		CompoundRecord transaction = (CompoundRecord) transStack.pop( );
+		CompoundRecord transaction = transStack.pop( );
 
 		// If the compound record is empty, then we have a null
 		// transaction. Just ignore this transaction, don't put it
@@ -728,7 +728,7 @@ public class ActivityStack implements CommandStack
 			// This is a nested transaction. Add it to the parent
 			// transaction.
 
-			CompoundRecord outer = (CompoundRecord) transStack.lastElement( );
+			CompoundRecord outer = transStack.lastElement( );
 			outer.append( record );
 
 		}
@@ -743,7 +743,7 @@ public class ActivityStack implements CommandStack
 	public void rollback( )
 	{
 		assert transStack.size( ) > 0;
-		CompoundRecord trans = (CompoundRecord) transStack.pop( );
+		CompoundRecord trans = transStack.pop( );
 
 		// silent task do not perform tasks here since values on elements
 		// are not changed.
@@ -788,7 +788,7 @@ public class ActivityStack implements CommandStack
 	{
 		if ( undoStack.isEmpty( ) )
 			return 0;
-		return ( (ActivityRecord) undoStack.lastElement( ) ).getTransNo( );
+		return ( undoStack.lastElement( ) ).getTransNo( );
 	}
 
 	/**
@@ -804,7 +804,7 @@ public class ActivityStack implements CommandStack
 	public void addListener( ActivityStackListener obj )
 	{
 		if ( listeners == null )
-			listeners = new ArrayList( );
+			listeners = new ArrayList<ActivityStackListener>( );
 		if ( obj != null && !listeners.contains( obj ) )
 			listeners.add( obj );
 	}
@@ -842,11 +842,10 @@ public class ActivityStack implements CommandStack
 
 		if ( listeners != null )
 		{
-			Iterator iter = listeners.iterator( );
+			Iterator<ActivityStackListener> iter = listeners.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				ActivityStackListener listener = ( (ActivityStackListener) iter
-						.next( ) );
+				ActivityStackListener listener = iter.next( );
 
 				listener.stackChanged( event );
 			}
@@ -910,6 +909,7 @@ public class ActivityStack implements CommandStack
 	 * 
 	 * @param label
 	 *            localized label for the transaction
+	 * @param filterAll
 	 */
 
 	protected void startSilentTrans( String label, boolean filterAll )

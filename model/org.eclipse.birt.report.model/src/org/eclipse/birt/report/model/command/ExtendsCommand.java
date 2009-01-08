@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -231,13 +232,13 @@ public class ExtendsCommand extends AbstractElementCommand
 		DesignElement ancestor = element.getExtendsElement( );
 		while ( ancestor != null && ancestor != parent )
 		{
-			Collection props = ancestor.getUserProperties( );
+			Collection<UserPropertyDefn> props = ancestor.getUserProperties( );
 			if ( props != null )
 			{
-				Iterator iter = props.iterator( );
+				Iterator<UserPropertyDefn> iter = props.iterator( );
 				while ( iter.hasNext( ) )
 				{
-					UserPropertyDefn prop = (UserPropertyDefn) iter.next( );
+					UserPropertyDefn prop = iter.next( );
 					if ( element.getLocalProperty( module, prop ) != null )
 					{
 						PropertyRecord record = new PropertyRecord( element,
@@ -340,8 +341,8 @@ public class ExtendsCommand extends AbstractElementCommand
 		while ( parentIter.hasNext( ) )
 		{
 			assert childIter.hasNext( );
-			DesignElement e1 = (DesignElement) parentIter.next( );
-			DesignElement e2 = (DesignElement) childIter.next( );
+			DesignElement e1 = parentIter.next( );
+			DesignElement e2 = childIter.next( );
 
 			assert e1.getDefn( ) == e2.getDefn( );
 			assert e2.getBaseId( ) == e1.getID( );
@@ -359,11 +360,11 @@ public class ExtendsCommand extends AbstractElementCommand
 		{
 			if ( parent.getDefn( ).allowsUserProperties( ) )
 			{
-				Iterator iter = parent.getUserProperties( ).iterator( );
+				Iterator<UserPropertyDefn> iter = parent.getUserProperties( )
+						.iterator( );
 				while ( iter.hasNext( ) )
 				{
-					UserPropertyDefn userPropDefn = (UserPropertyDefn) iter
-							.next( );
+					UserPropertyDefn userPropDefn = iter.next( );
 					UserPropertyCommand command = new UserPropertyCommand(
 							module, element );
 					command.addUserProperty( userPropDefn );
@@ -372,7 +373,8 @@ public class ExtendsCommand extends AbstractElementCommand
 
 			// Other properties.
 
-			Iterator iter = parent.getDefn( ).getProperties( ).iterator( );
+			Iterator<IElementPropertyDefn> iter = parent.getDefn( )
+					.getProperties( ).iterator( );
 			while ( iter.hasNext( ) )
 			{
 				ElementPropertyDefn propDefn = (ElementPropertyDefn) iter
@@ -432,8 +434,8 @@ public class ExtendsCommand extends AbstractElementCommand
 
 		while ( parentIter.hasNext( ) )
 		{
-			DesignElement e1 = (DesignElement) parentIter.next( );
-			DesignElement e2 = (DesignElement) childIter.next( );
+			DesignElement e1 = parentIter.next( );
+			DesignElement e2 = childIter.next( );
 
 			ElementLocalizeRecord record = new ElementLocalizeRecord( module,
 					e2, e1 );

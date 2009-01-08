@@ -61,7 +61,7 @@ public class XMLWriter
 	 * The stack of open tags.
 	 */
 
-	protected Stack elementStack = new Stack( );
+	protected Stack<String> elementStack = new Stack<String>( );
 
 	/**
 	 * Flag to indicate if a tag is currently "active": the &ltTag portion has
@@ -82,7 +82,7 @@ public class XMLWriter
 	 * something.
 	 */
 
-	protected Stack pendingElementStack = new Stack( );
+	protected Stack<String> pendingElementStack = new Stack<String>( );
 
 	/**
 	 * Protected constructor
@@ -306,7 +306,7 @@ public class XMLWriter
 		while ( !pendingElementStack.isEmpty( ) )
 		{
 			closeTag( );
-			emitStartTag( (String) pendingElementStack.remove( 0 ) );
+			emitStartTag( pendingElementStack.remove( 0 ) );
 		}
 	}
 
@@ -439,7 +439,7 @@ public class XMLWriter
 		// Close a tag for which the start tag was written.
 
 		assert elementStack.size( ) > 0;
-		String tagName = (String) elementStack.pop( );
+		String tagName = elementStack.pop( );
 		if ( elementActive )
 		{
 			out.print( "/>" ); //$NON-NLS-1$ 
@@ -490,8 +490,8 @@ public class XMLWriter
 				if ( i - 2 >= 0 && text.charAt( i - 1 ) == ']'
 						&& text.charAt( i - 2 ) == ']' )
 					out.print( "&gt;" ); //$NON-NLS-1$
-				else 
-					out.print( c ); 
+				else
+					out.print( c );
 			}
 			else if ( c == '\n' )
 			{

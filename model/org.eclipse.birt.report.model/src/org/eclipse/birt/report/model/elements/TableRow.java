@@ -15,9 +15,11 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.validators.CellOverlappingValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
@@ -59,7 +61,7 @@ public class TableRow extends StyledElement implements ITableRowModel
 	 * @return the contents as an array
 	 */
 
-	public List getContentsSlot( )
+	public List<DesignElement> getContentsSlot( )
 	{
 		return slots[CONTENT_SLOT].getContents( );
 	}
@@ -67,7 +69,9 @@ public class TableRow extends StyledElement implements ITableRowModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * .report.model.elements.ElementVisitor)
 	 */
 
 	public void apply( ElementVisitor visitor )
@@ -89,7 +93,9 @@ public class TableRow extends StyledElement implements ITableRowModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.element.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse
+	 * .birt.report.model.element.ReportDesign)
 	 */
 
 	public DesignElementHandle getHandle( Module module )
@@ -150,12 +156,14 @@ public class TableRow extends StyledElement implements ITableRowModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
+	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( Module module )
+	public List<SemanticException> validate( Module module )
 	{
-		List list = super.validate( module );
+		List<SemanticException> list = super.validate( module );
 
 		list.addAll( CellOverlappingValidator.getInstance( ).validate( module,
 				this ) );

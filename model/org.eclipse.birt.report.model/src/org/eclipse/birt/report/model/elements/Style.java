@@ -17,10 +17,12 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IllegalOperationException;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -64,7 +66,9 @@ public class Style extends StyleElement implements IStyleModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * .report.model.elements.ElementVisitor)
 	 */
 
 	public void apply( ElementVisitor visitor )
@@ -86,7 +90,9 @@ public class Style extends StyleElement implements IStyleModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse
+	 * .birt.report.model.elements.ReportDesign)
 	 */
 
 	public DesignElementHandle getHandle( Module module )
@@ -115,12 +121,14 @@ public class Style extends StyleElement implements IStyleModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
+	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( Module module )
+	public List<SemanticException> validate( Module module )
 	{
-		List list = super.validate( module );
+		List<SemanticException> list = super.validate( module );
 
 		list.addAll( validateStyleProperties( module, this ) );
 
@@ -138,12 +146,13 @@ public class Style extends StyleElement implements IStyleModel
 	 *         <code>SemanticException</code> object.
 	 */
 
-	public static List validateStyleProperties( Module module,
-			DesignElement element )
+	public static List<SemanticException> validateStyleProperties(
+			Module module, DesignElement element )
 	{
-		List list = new ArrayList( );
+		List<SemanticException> list = new ArrayList<SemanticException>( );
 
-		List rules = element.getListProperty( module, HIGHLIGHT_RULES_PROP );
+		List<Object> rules = element.getListProperty( module,
+				HIGHLIGHT_RULES_PROP );
 		if ( rules != null )
 		{
 			for ( int i = 0; i < rules.size( ); i++ )
@@ -165,8 +174,8 @@ public class Style extends StyleElement implements IStyleModel
 
 		// must scan all extension definition to found the corresponding element
 		// definition.
-		
-		List elementDefns = meta.getExtensions( );
+
+		List<IElementDefn> elementDefns = meta.getExtensions( );
 		ElementDefn elementDefn = null;
 		for ( int i = 0; i < elementDefns.size( ); i++ )
 		{

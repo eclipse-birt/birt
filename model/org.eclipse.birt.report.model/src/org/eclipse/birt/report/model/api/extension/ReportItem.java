@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 
 /**
@@ -117,9 +118,9 @@ public class ReportItem
 	 * @see org.eclipse.birt.report.model.extension.IReportItem#validate()
 	 */
 
-	public List validate( )
+	public List<SemanticException> validate( )
 	{
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList( );
 	}
 
 	/*

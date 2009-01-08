@@ -29,7 +29,7 @@ public interface IClassInfo extends ILocalizableInfo
 	 * @return a list of method definitions
 	 */
 
-	public List getMethods( );
+	public List<IMethodInfo> getMethods( );
 
 	/**
 	 * Get the method definition given the method name.
@@ -47,7 +47,7 @@ public interface IClassInfo extends ILocalizableInfo
 	 * @return the list of member definitions
 	 */
 
-	public List getMembers( );
+	public List<IMemberInfo> getMembers( );
 
 	/**
 	 * Returns the member definition given method name.
@@ -70,8 +70,8 @@ public interface IClassInfo extends ILocalizableInfo
 	/**
 	 * Returns whether a class object is native.
 	 * 
-	 * @return <code>true</code> if an object of this class is native,
-	 *         otherwise <code>false</code>
+	 * @return <code>true</code> if an object of this class is native, otherwise
+	 *         <code>false</code>
 	 */
 
 	public boolean isNative( );

@@ -51,7 +51,7 @@ public class ObjectDefn implements IObjectDefn
 	 * Property definitions.
 	 */
 
-	protected Map properties = new LinkedHashMap( );
+	protected Map<String, IPropertyDefn> properties = new LinkedHashMap<String, IPropertyDefn>( );
 
 	/**
 	 * The BIRT release when this object was introduced.
@@ -175,7 +175,7 @@ public class ObjectDefn implements IObjectDefn
 	public IPropertyDefn findProperty( String propName )
 	{
 		assert propName != null;
-		return (PropertyDefn) properties.get( propName );
+		return properties.get( propName );
 	}
 
 	/**
@@ -186,9 +186,10 @@ public class ObjectDefn implements IObjectDefn
 	 * @return an iterator over the property definitions.
 	 */
 
-	public Iterator getPropertyIterator( )
+	public Iterator<IPropertyDefn> getPropertyIterator( )
 	{
-		List propDefns = new ArrayList( properties.values( ) );
+		List<IPropertyDefn> propDefns = new ArrayList<IPropertyDefn>(
+				properties.values( ) );
 
 		return ModelUtil.sortPropertiesByLocalizedName( propDefns ).iterator( );
 
@@ -201,9 +202,9 @@ public class ObjectDefn implements IObjectDefn
 	 * @return an iterator over the property definitions.
 	 */
 
-	public Iterator propertiesIterator( )
+	public Iterator<IPropertyDefn> propertiesIterator( )
 	{
-		return new ArrayList( properties.values( ) ).iterator( );
+		return new ArrayList<IPropertyDefn>( properties.values( ) ).iterator( );
 	}
 
 	/**

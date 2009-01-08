@@ -155,7 +155,7 @@ public class VersionInfo implements IVersionInfo
 
 	/**
 	 * 
-	 * @return
+	 * @return information code
 	 */
 	public int getInfoCode( )
 	{

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.util.Point;
 import org.eclipse.birt.report.model.api.util.Rectangle;
@@ -26,12 +27,11 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
  * Validates the multiple columns and content width should be consistent. This
- * validator should be performed after <code>MasterPageTypeValidator</code>
- * and <code>MasterPageSizeValidator</code>.
+ * validator should be performed after <code>MasterPageTypeValidator</code> and
+ * <code>MasterPageSizeValidator</code>.
  * 
- * <h3>Rule</h3>
- * The rule is that the width occupied by column spacing is less than the
- * content width.
+ * <h3>Rule</h3> The rule is that the width occupied by column spacing is less
+ * than the content width.
  * <p>
  * column spacing width = (COLUMNS_PROP - 1) * COLUMN_SPACING_PROP
  * <p>
@@ -73,17 +73,19 @@ public class MasterPageMultiColumnValidator extends AbstractElementValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( Module module, DesignElement element )
+	public List<SemanticException> validate( Module module,
+			DesignElement element )
 	{
 		if ( !( element instanceof GraphicMasterPage ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		return doValidate( module, (GraphicMasterPage) element );
 	}
 
-	private List doValidate( Module module, GraphicMasterPage toValidate )
+	private List<SemanticException> doValidate( Module module,
+			GraphicMasterPage toValidate )
 	{
-		List list = new ArrayList( );
+		List<SemanticException> list = new ArrayList<SemanticException>( );
 
 		// Check margins. Must start on the page and not be of negative
 		// size.

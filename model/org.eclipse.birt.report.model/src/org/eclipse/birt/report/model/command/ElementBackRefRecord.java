@@ -174,7 +174,7 @@ public class ElementBackRefRecord extends BackRefRecord
 		}
 		else if ( value instanceof List )
 		{
-			List listValue = (List) value;
+			List<Object> listValue = (List) value;
 			for ( int i = 0; i < listValue.size( ); i++ )
 			{
 				ElementRefValue item = (ElementRefValue) listValue.get( i );
@@ -193,6 +193,13 @@ public class ElementBackRefRecord extends BackRefRecord
 		return target;
 	}
 
+	/**
+	 * 
+	 * @param module
+	 * @param reference
+	 * @param referred
+	 * @param propName
+	 */
 	static void unresolveBackRef( Module module, Object reference,
 			IReferencableElement referred, String propName )
 	{

@@ -27,6 +27,8 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.parser.treebuild.ContentTree;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
+import com.sun.java_cup.internal.lalr_item;
+
 /**
  * 
  */
@@ -37,12 +39,12 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 	 * Map to store the invalid extension name/value pairs. Only invalid
 	 * extensible value is recorded not including rom-defined properties.
 	 */
-	private LinkedHashMap invalidValueMap = null;
+	private LinkedHashMap<String, UndefinedPropertyInfo> invalidValueMap = null;
 
 	/**
 	 * Map to store the undefined property name/value pairs.
 	 */
-	private LinkedHashMap undefinedPropertyMap = null;
+	private LinkedHashMap<String, UndefinedPropertyInfo> undefinedPropertyMap = null;
 
 	/**
 	 * Map to store the undefined children map. The key is the container
@@ -51,7 +53,7 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 	 * the xml design file. The item in the list is instance of
 	 * <code>UndefinedChildInfo</code>.
 	 */
-	private Map illegalChildrenMap = null;
+	private Map<String, List<UndefinedChildInfo>> illegalChildrenMap = null;
 
 	/**
 	 * 
@@ -67,8 +69,8 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#handleInvalidPropertyValue(java.lang.String,
-	 *      java.lang.Object)
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * handleInvalidPropertyValue(java.lang.String, java.lang.Object)
 	 */
 	public void handleInvalidPropertyValue( String propName, Object value )
 	{
@@ -79,7 +81,7 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 		if ( defn.isExtended( ) )
 		{
 			if ( invalidValueMap == null )
-				invalidValueMap = new LinkedHashMap( );
+				invalidValueMap = new LinkedHashMap<String, UndefinedPropertyInfo>( );
 			String extensionVersion = element.getStringProperty( element
 					.getRoot( ), IExtendedItemModel.EXTENSION_VERSION_PROP );
 			UndefinedPropertyInfo infor = new UndefinedPropertyInfo( propName,
@@ -91,8 +93,9 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#handleUndefinedChildren(java.lang.String,
-	 *      org.eclipse.birt.report.model.core.DesignElement)
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * handleUndefinedChildren(java.lang.String,
+	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 	public void handleIllegalChildren( String propName, DesignElement child )
 	{
@@ -100,13 +103,13 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 		assert propDefn != null;
 		assert child != null;
 		if ( illegalChildrenMap == null )
-			illegalChildrenMap = new HashMap( );
-		List childList = (List) illegalChildrenMap.get( propName );
+			illegalChildrenMap = new HashMap<String, List<UndefinedChildInfo>>( );
+		List<UndefinedChildInfo> childList = illegalChildrenMap.get( propName );
 		if ( childList == null )
-			childList = new ArrayList( );
+			childList = new ArrayList<UndefinedChildInfo>( );
 
 		int count = childList.size( );
-		List contents = (List) element.getProperty( null, propDefn );
+		List<Object> contents = (List) element.getProperty( null, propDefn );
 		count += contents == null ? 0 : contents.size( );
 		UndefinedChildInfo infor = new UndefinedChildInfo( child, count );
 		childList.add( infor );
@@ -117,8 +120,8 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#handleUndefinedProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * handleUndefinedProperty(java.lang.String, java.lang.Object)
 	 */
 	public void handleUndefinedProperty( String propName, Object value )
 	{
@@ -126,7 +129,7 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 		assert value != null;
 
 		if ( undefinedPropertyMap == null )
-			undefinedPropertyMap = new LinkedHashMap( );
+			undefinedPropertyMap = new LinkedHashMap<String, UndefinedPropertyInfo>( );
 
 		String extensionVersion = element.getStringProperty(
 				element.getRoot( ), IExtendedItemModel.EXTENSION_VERSION_PROP );
@@ -141,7 +144,9 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.treebuild.IContentHandler#getContentTree()
+	 * @see
+	 * org.eclipse.birt.report.model.parser.treebuild.IContentHandler#getContentTree
+	 * ()
 	 */
 	public ContentTree getContentTree( )
 	{
@@ -151,13 +156,14 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#copyFrom(org.eclipse.birt.report.model.extension.PeerExtensibilityProvider)
+	 * @see
+	 * org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#copyFrom
+	 * (org.eclipse.birt.report.model.extension.PeerExtensibilityProvider)
 	 */
-	
+
 	public void copyFromWithNonElementType( PeerExtensibilityProvider source )
 	{
 		super.copyFromWithNonElementType( source );
-
 
 		SimplePeerExtensibilityProvider provider = (SimplePeerExtensibilityProvider) source;
 		invalidValueMap = null;
@@ -168,11 +174,12 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 		if ( provider.invalidValueMap != null
 				&& !provider.invalidValueMap.isEmpty( ) )
 		{
-			invalidValueMap = new LinkedHashMap( );
-			Iterator iter = provider.invalidValueMap.keySet( ).iterator( );
+			invalidValueMap = new LinkedHashMap<String, UndefinedPropertyInfo>( );
+			Iterator<String> iter = provider.invalidValueMap.keySet( )
+					.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				UndefinedPropertyInfo infor = (UndefinedPropertyInfo) provider.invalidValueMap
+				UndefinedPropertyInfo infor = provider.invalidValueMap
 						.get( iter.next( ) );
 				if ( infor != null )
 				{
@@ -189,14 +196,15 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 		if ( provider.undefinedPropertyMap != null
 				&& !provider.undefinedPropertyMap.isEmpty( ) )
 		{
-			undefinedPropertyMap = new LinkedHashMap( );
+			undefinedPropertyMap = new LinkedHashMap<String, UndefinedPropertyInfo>( );
 
 			// now the value is simple type, so do this simple handle; otherwise
 			// we will handle complex type to do deep clone
-			Iterator iter = provider.undefinedPropertyMap.keySet( ).iterator( );
+			Iterator<String> iter = provider.undefinedPropertyMap.keySet( )
+					.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				UndefinedPropertyInfo infor = (UndefinedPropertyInfo) provider.undefinedPropertyMap
+				UndefinedPropertyInfo infor = provider.undefinedPropertyMap
 						.get( iter.next( ) );
 				if ( infor != null )
 				{
@@ -221,26 +229,27 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 	 * Gets a deep cloned map for illegal contents.
 	 * 
 	 * @param illegalContentsMap
-	 * @return
+	 * @return cloned map
 	 */
-	public static Map getCopiedIllegalContents( Map illegalContentsMap )
+	public static Map<String, List<UndefinedChildInfo>> getCopiedIllegalContents(
+			Map<String, List<UndefinedChildInfo>> illegalContentsMap )
 	{
 		if ( illegalContentsMap == null || illegalContentsMap.isEmpty( ) )
-			return Collections.EMPTY_MAP;
+			return Collections.emptyMap( );
 
-		Map ret = new HashMap( );
-		Iterator iter = illegalContentsMap.keySet( ).iterator( );
+		Map<String, List<UndefinedChildInfo>> ret = new HashMap<String, List<UndefinedChildInfo>>( );
+		Iterator<String> iter = illegalContentsMap.keySet( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
-			String propName = (String) iter.next( );
-			List childList = (List) illegalContentsMap.get( propName );
+			String propName = iter.next( );
+			List<UndefinedChildInfo> childList = illegalContentsMap
+					.get( propName );
 			if ( childList != null && !childList.isEmpty( ) )
 			{
-				List clonedList = new ArrayList( );
+				List<UndefinedChildInfo> clonedList = new ArrayList<UndefinedChildInfo>( );
 				for ( int i = 0; i < childList.size( ); i++ )
 				{
-					UndefinedChildInfo infor = (UndefinedChildInfo) childList
-							.get( i );
+					UndefinedChildInfo infor = childList.get( i );
 					UndefinedChildInfo clonedInfor = new UndefinedChildInfo(
 							null, -1 );
 					clonedInfor.copyFrom( infor );
@@ -258,119 +267,41 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#getIllegalChildren()
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * getIllegalChildren()
 	 */
-	public Map getIllegalContents( )
+	public Map<String, List<UndefinedChildInfo>> getIllegalContents( )
 	{
-		return illegalChildrenMap == null
-				? Collections.EMPTY_MAP
-				: illegalChildrenMap;
+		return (Map<String, List<UndefinedChildInfo>>) ( illegalChildrenMap == null
+				? Collections.emptyMap( )
+				: illegalChildrenMap );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#getInvalidPropertyValueMap()
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * getInvalidPropertyValueMap()
 	 */
-	public Map getInvalidPropertyValueMap( )
+	public Map<String,UndefinedPropertyInfo> getInvalidPropertyValueMap( )
 	{
-		return this.invalidValueMap == null
-				? Collections.EMPTY_MAP
-				: invalidValueMap;
+		return (Map<String, UndefinedPropertyInfo>) ( this.invalidValueMap == null
+				? Collections.emptyMap( )
+				: invalidValueMap );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#getUndefinedPropertyMap()
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * getUndefinedPropertyMap()
 	 */
-	public Map getUndefinedPropertyMap( )
+	public Map<String, UndefinedPropertyInfo> getUndefinedPropertyMap( )
 	{
-		return this.undefinedPropertyMap == null
-				? Collections.EMPTY_MAP
-				: undefinedPropertyMap;
+		return (Map<String, UndefinedPropertyInfo>) ( this.undefinedPropertyMap == null
+				? Collections.emptyMap( )
+				: undefinedPropertyMap );
 	}
-
-//	private Map getMergedUndefinedProperty( )
-//	{
-//		Map ret = new HashMap( );
-//		if ( this.undefinedPropertyMap != null )
-//			ret.putAll( undefinedPropertyMap );
-//
-//		// search all the inheritances
-//		DesignElement e = element.getExtendsElement( ) == null ? element
-//				.getVirtualParent( ) : element.getExtendsElement( );
-//		while ( e != null )
-//		{
-//			assert e instanceof ExtendedItem;
-//			PeerExtensibilityProvider provider = ( (ExtendedItem) e )
-//					.getExtensibilityProvider( );
-//			Map tempMap = provider.getLocalUndefinedPropertyMap( );
-//			if ( tempMap != null && !tempMap.isEmpty( ) )
-//			{
-//				Iterator iter = tempMap.keySet( ).iterator( );
-//				while ( iter.hasNext( ) )
-//				{
-//					String propName = (String) iter.next( );
-//					// if this property is not re-set in the child, then add it
-//					// to the result
-//					if ( ret.get( propName ) == null )
-//					{
-//						Object infor = tempMap.get( propName );
-//						if ( infor != null )
-//							ret.put( propName, infor );
-//					}
-//				}
-//			}
-//
-//			e = e.getExtendsElement( ) == null ? e.getVirtualParent( ) : e
-//					.getExtendsElement( );
-//		}
-//
-//		return ret;
-//	}
-//
-//	private Map getMergedInvalidProperty( )
-//	{
-//		Map ret = new HashMap( );
-//		if ( this.invalidValueMap != null )
-//			ret.putAll( invalidValueMap );
-//
-//		// search all the inheritances
-//		DesignElement e = element.getExtendsElement( ) == null ? element
-//				.getVirtualParent( ) : element.getExtendsElement( );
-//		while ( e != null )
-//		{
-//			assert e instanceof ExtendedItem;
-//			PeerExtensibilityProvider provider = ( (ExtendedItem) e )
-//					.getExtensibilityProvider( );
-//			Map tempMap = provider.getLocalInvalidPropertyValueMap( );
-//			if ( tempMap != null && !tempMap.isEmpty( ) )
-//			{
-//				Iterator iter = tempMap.keySet( ).iterator( );
-//				while ( iter.hasNext( ) )
-//				{
-//					String propName = (String) iter.next( );
-//					// if this property is not re-set in the child( including
-//					// both valid value and invalid value), then add it to the
-//					// result
-//					if ( ret.get( propName ) == null
-//							&& element.getLocalProperty( element.getRoot( ),
-//									propName ) == null )
-//					{
-//						Object infor = tempMap.get( propName );
-//						if ( infor != null )
-//							ret.put( propName, infor );
-//					}
-//				}
-//			}
-//
-//			e = e.getExtendsElement( ) == null ? e.getVirtualParent( ) : e
-//					.getExtendsElement( );
-//		}
-//
-//		return ret;
-//	}
 
 	/**
 	 * 

@@ -43,7 +43,7 @@ public class Theme extends ReferenceableElement
 			ICssStyleSheetOperation
 {
 
-	private List cachedStyleNames = new ArrayList( );
+	private List<String> cachedStyleNames = new ArrayList<String>( );
 
 	private ICssStyleSheetOperation operation = null;
 
@@ -73,7 +73,9 @@ public class Theme extends ReferenceableElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * .report.model.elements.ElementVisitor)
 	 */
 
 	public void apply( ElementVisitor visitor )
@@ -95,7 +97,9 @@ public class Theme extends ReferenceableElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse
+	 * .birt.report.model.core.Module)
 	 */
 
 	public DesignElementHandle getHandle( Module module )
@@ -139,9 +143,9 @@ public class Theme extends ReferenceableElement
 	 * @return all styles
 	 */
 
-	public List getAllStyles( )
+	public List<StyleElement> getAllStyles( )
 	{
-		List styleList = new ArrayList( );
+		List<StyleElement> styleList = new ArrayList<StyleElement>( );
 
 		// add style in css file
 
@@ -180,10 +184,10 @@ public class Theme extends ReferenceableElement
 	{
 		if ( styleName == null )
 			return null;
-		List styles = getAllStyles( );
+		List<StyleElement> styles = getAllStyles( );
 		for ( int i = 0; i < styles.size( ); ++i )
 		{
-			StyleElement style = (StyleElement) styles.get( i );
+			StyleElement style = styles.get( i );
 			if ( styleName.equals( style.getFullName( ) ) )
 			{
 				return style;
@@ -241,10 +245,10 @@ public class Theme extends ReferenceableElement
 	 * @return list of csses. each item is <code>CssStyleSheet</code>
 	 */
 
-	public List getCsses( )
+	public List<CssStyleSheet> getCsses( )
 	{
 		if ( operation == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		return operation.getCsses( );
 	}
 
@@ -275,8 +279,8 @@ public class Theme extends ReferenceableElement
 			name = ModelMessages.getMessage( "New." //$NON-NLS-1$
 					+ element.getDefn( ).getName( ) ).trim( );
 
-		List styles = slots[STYLES_SLOT].getContents( );
-		List ns = new ArrayList( styles.size( ) );
+		List<DesignElement> styles = slots[STYLES_SLOT].getContents( );
+		List<String> ns = new ArrayList<String>( styles.size( ) );
 		for ( int i = 0; i < styles.size( ); i++ )
 			ns.add( ( (StyleElement) styles.get( i ) ).getName( ) );
 

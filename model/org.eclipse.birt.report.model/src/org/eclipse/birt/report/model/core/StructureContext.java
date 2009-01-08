@@ -93,14 +93,14 @@ public class StructureContext
 		{
 			if ( values == null )
 			{
-				values = new ArrayList( );
+				values = new ArrayList<Object>( );
 				setValue( values );
 			}
 
 			if ( index == -1 )
-				index = ( (List) values ).size( );
+				index = ( (List<Object>) values ).size( );
 
-			( (List) values ).add( index, struct );
+			( (List<Object>) values ).add( index, struct );
 		}
 		else
 		{
@@ -110,7 +110,7 @@ public class StructureContext
 
 			setValue( struct );
 		}
-		
+
 		struct.setContext( this );
 	}
 
@@ -129,7 +129,7 @@ public class StructureContext
 
 		if ( propDefn.isList( ) )
 		{
-			List list = (List) values;
+			List<Object> list = (List<Object>) values;
 			int index = list.indexOf( struct );
 			assert index != -1;
 
@@ -153,7 +153,7 @@ public class StructureContext
 	 * @param index
 	 *            the position
 	 */
-	
+
 	public void remove( int index )
 	{
 		Object values = getLocalValue( );
@@ -239,7 +239,7 @@ public class StructureContext
 	/**
 	 * Returns the element that contains this context.
 	 * 
-	 * @return
+	 * @return the element where the top level structure resides
 	 */
 
 	public DesignElement getElement( )

@@ -93,38 +93,38 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	 * elements.
 	 */
 
-	protected HashMap tempLineNumbers = null;
+	protected HashMap<Object, Integer> tempLineNumbers = null;
 
 	/**
 	 * The temporary value for parser compatible.
 	 */
 
-	protected HashMap tempValue = new HashMap( );
+	protected HashMap<Object, Object> tempValue = new HashMap<Object, Object>( );
 
 	/**
 	 * Cached element list whose id is not handle and added to the id map.
 	 */
 
-	protected List unhandleIDElements = new ArrayList( );
+	protected List<DesignElement> unhandleIDElements = new ArrayList<DesignElement>( );
 
 	/**
 	 * Lists of those extended-item whose name is not allocated.
 	 */
 
-	private List unnamedReportItems = new ArrayList( );
+	private List<DesignElement> unnamedReportItems = new ArrayList<DesignElement>( );
 
 	/**
-	 * Lists of those extended-item whose name is not allocated.
+	 * Lists of those listing element whose group need to be recovered.
 	 */
 
-	private List unresolvedListingElements = new ArrayList( );
+	private List<ListingElement> unresolvedListingElements = new ArrayList<ListingElement>( );
 
 	/**
 	 * Lists of all the extended items. In the endDocument we will handle
 	 * extension parser compatibilities.
 	 */
 
-	private List extendedItemList = new ArrayList( );
+	private List<DesignElement> extendedItemList = new ArrayList<DesignElement>( );
 
 	/**
 	 * The map contains libraries that have been reload.
@@ -161,6 +161,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	 *            the design session that is to own this module
 	 * @param fileName
 	 *            name of the module file
+	 * @param reloadLibs
 	 */
 
 	protected ModuleParserHandler( DesignSession theSession, String fileName,
@@ -254,7 +255,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 
 		if ( versionNumber < VersionUtil.VERSION_3_2_13 )
 		{
-			List handledExceptions = handleInvalidName( getErrorHandler( )
+			List<Exception> handledExceptions = handleInvalidName( getErrorHandler( )
 					.getErrors( ) );
 			getErrorHandler( ).getErrors( ).removeAll( handledExceptions );
 		}
@@ -267,12 +268,12 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 
 		// Check whether duplicate library namespace exists.
 
-		List libraries = module.getAllLibraries( );
+		List<Library> libraries = module.getAllLibraries( );
 		{
-			Iterator iter = libraries.iterator( );
+			Iterator<Library> iter = libraries.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				Library library = (Library) iter.next( );
+				Library library = iter.next( );
 
 				if ( !library.isValid( ) )
 				{
@@ -301,7 +302,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 			// recovered.
 
 			module.setValid( false );
-			List allExceptions = new ArrayList( );
+			List<Exception> allExceptions = new ArrayList<Exception>( );
 			allExceptions.addAll( module.getAllExceptions( ) );
 			allExceptions.addAll( errorHandler.getWarnings( ) );
 
@@ -368,7 +369,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	{
 		assert !module.isReadOnly( );
 
-		List errorList = module.getAllExceptions( );
+		List<Exception> errorList = module.getAllExceptions( );
 		boolean hasCompatibilities = false;
 		for ( int i = 0; i < extendedItemList.size( ); i++ )
 		{
@@ -404,7 +405,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	{
 		for ( int i = 0; i < unhandleIDElements.size( ); i++ )
 		{
-			DesignElement element = (DesignElement) unhandleIDElements.get( i );
+			DesignElement element = unhandleIDElements.get( i );
 
 			if ( element.getExtendsElement( ) == null )
 			{
@@ -430,7 +431,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	{
 		for ( int i = 0; i < unnamedReportItems.size( ); i++ )
 		{
-			DesignElement element = (DesignElement) unnamedReportItems.get( i );
+			DesignElement element = unnamedReportItems.get( i );
 			ModelUtil.addElement2NameSpace( module, element );
 		}
 	}
@@ -440,14 +441,15 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	 * 
 	 */
 
-	private List handleInvalidName( List exceptions )
+	private List<Exception> handleInvalidName(
+			List<? extends Exception> exceptions )
 	{
-		List handledExceptions = new ArrayList( );
-		List processElements = new ArrayList( );
+		List<Exception> handledExceptions = new ArrayList<Exception>( );
+		List<DesignElement> processElements = new ArrayList<DesignElement>( );
 
 		for ( int i = 0; i < exceptions.size( ); i++ )
 		{
-			Exception tmpObj = (Exception) exceptions.get( i );
+			Exception tmpObj = exceptions.get( i );
 			if ( !( tmpObj instanceof XMLParserException ) )
 				continue;
 
@@ -500,8 +502,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	{
 		for ( int i = 0; i < unresolvedListingElements.size( ); i++ )
 		{
-			ListingElement tmpElement = (ListingElement) unresolvedListingElements
-					.get( i );
+			ListingElement tmpElement = unresolvedListingElements.get( i );
 			RecoverDataGroupUtil.checkListingGroup( tmpElement, this );
 		}
 	}
@@ -556,7 +557,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 		if ( markLineNumber )
 		{
 			module.initLineNoMap( );
-			tempLineNumbers = new HashMap( );
+			tempLineNumbers = new HashMap<Object, Integer>( );
 		}
 
 		// if read-only key is set to TRUE, then the module must be read-only

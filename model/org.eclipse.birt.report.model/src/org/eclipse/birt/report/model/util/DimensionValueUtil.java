@@ -124,6 +124,7 @@ public class DimensionValueUtil
 	 * @param localeDependent
 	 *            <code>true</code> means that the string needs to be parsed in
 	 *            locale-dependent way.
+	 * @param locale
 	 * @return a dimension object representing the dimension string.
 	 * @throws PropertyValueException
 	 *             if the string is not valid

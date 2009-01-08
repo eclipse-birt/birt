@@ -28,7 +28,7 @@ public class MultiElementSlot extends ContainerSlot
 	 * The ordered list of contents.
 	 */
 
-	public ArrayList contents = new ArrayList( );
+	public ArrayList<DesignElement> contents = new ArrayList<DesignElement>( );
 
 	/**
 	 * Makes a clone for this slot. The cloned slot contains all of the cloned
@@ -42,15 +42,16 @@ public class MultiElementSlot extends ContainerSlot
 	 * 
 	 * @see java.lang.Object#clone()
 	 */
-	
-	public Object doClone( CopyPolicy policy ) throws CloneNotSupportedException
+
+	public Object doClone( CopyPolicy policy )
+			throws CloneNotSupportedException
 	{
 		MultiElementSlot slot = (MultiElementSlot) super.clone( );
-		slot.contents = new ArrayList( );
+		slot.contents = new ArrayList<DesignElement>( );
 		for ( int i = 0; i < contents.size( ); i++ )
 		{
-			DesignElement e = (DesignElement) contents.get( i );
-			slot.contents.add( e.doClone( policy ) );
+			DesignElement e = contents.get( i );
+			slot.contents.add( (DesignElement) e.doClone( policy ) );
 		}
 		return slot;
 	}
@@ -142,7 +143,7 @@ public class MultiElementSlot extends ContainerSlot
 	 * @return the contents list which were stored in the slot.
 	 */
 
-	public List getContents( )
+	public List<DesignElement> getContents( )
 	{
 		return contents;
 	}
@@ -177,7 +178,7 @@ public class MultiElementSlot extends ContainerSlot
 		if ( from == to )
 			return;
 
-		Object obj = contents.remove( from );
+		DesignElement obj = contents.remove( from );
 		contents.add( to, obj );
 	}
 
@@ -207,7 +208,7 @@ public class MultiElementSlot extends ContainerSlot
 	public DesignElement getContent( int posn )
 	{
 		assert posn >= 0 && posn < contents.size( );
-		return (DesignElement) contents.get( posn );
+		return contents.get( posn );
 	}
 
 	/*

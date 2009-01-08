@@ -25,15 +25,21 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 public class ExtensionSlotDefn extends SlotDefn
 {
 
+	/**
+	 * Implementation for the localization of message.
+	 */
 	protected IMessages messages = null;
 
+	/**
+	 * Display name for the default set.
+	 */
 	protected String defaultDisplayName = null;
 
 	/**
 	 * Constructs the extension slot definition with <code>IMessages</code>.
 	 * 
 	 * @param messages
-	 *            the message inteface to do the I18n work for extension
+	 *            the message interface to do the I18n work for extension
 	 */
 
 	public ExtensionSlotDefn( IMessages messages )
@@ -96,10 +102,10 @@ public class ExtensionSlotDefn extends SlotDefn
 
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 		contentElements.clear( );
-		Iterator iter = contentTypes.iterator( );
+		Iterator<String> iter = contentTypes.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			String name = (String) iter.next( );
+			String name = iter.next( );
 			IElementDefn type = dd.getElement( name );
 			if ( type == null )
 				type = dd.getExtension( name );

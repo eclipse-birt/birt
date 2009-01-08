@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.NotificationRecordTask;
+import org.eclipse.birt.report.model.activity.RecordTask;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
@@ -63,7 +64,7 @@ public class PropertyReplaceRecord extends SimpleRecord
 	 * The list itself.
 	 */
 
-	protected List list = null;
+	protected List<Object> list = null;
 
 	/**
 	 * The position of the old item in the structure list.
@@ -176,9 +177,9 @@ public class PropertyReplaceRecord extends SimpleRecord
 	 * ()
 	 */
 
-	protected List getPostTasks( )
+	protected List<RecordTask> getPostTasks( )
 	{
-		List retList = new ArrayList( );
+		List<RecordTask> retList = new ArrayList<RecordTask>( );
 		retList.addAll( super.getPostTasks( ) );
 
 		retList.add( new NotificationRecordTask( element, getEvent( ) ) );

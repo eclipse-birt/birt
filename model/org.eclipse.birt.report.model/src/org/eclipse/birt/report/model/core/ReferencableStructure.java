@@ -16,8 +16,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructRefPropertyType;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
@@ -44,7 +46,7 @@ public abstract class ReferencableStructure extends Structure
 	 * The list of cached clients.
 	 */
 
-	protected ArrayList clients = new ArrayList( );
+	protected ArrayList<BackRef> clients = new ArrayList<BackRef>( );
 
 	/**
 	 * The library reference of this structure. It consists of namespace and
@@ -56,10 +58,10 @@ public abstract class ReferencableStructure extends Structure
 	/**
 	 * The list of the cached reference structures. TODO all the issues about
 	 * this clients list : add structure, drop structure, replace structure,
-	 * broadcase event and so on.
+	 * broadcast event and so on.
 	 */
 
-	protected ArrayList clientStructures = new ArrayList( );
+	protected ArrayList<Structure> clientStructures = new ArrayList<Structure>( );
 
 	/*
 	 * (non-Javadoc)
@@ -75,8 +77,9 @@ public abstract class ReferencableStructure extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.IReferencable#addClient(org.eclipse.birt.report.model.core.DesignElement,
-	 *      java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.IReferencable#addClient(org.eclipse
+	 * .birt.report.model.core.DesignElement, java.lang.String)
 	 */
 	public void addClient( DesignElement client, String propName )
 	{
@@ -86,13 +89,15 @@ public abstract class ReferencableStructure extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.IReferencable#dropClient(org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.core.IReferencable#dropClient(org.eclipse
+	 * .birt.report.model.core.DesignElement)
 	 */
 	public void dropClient( DesignElement client )
 	{
 		for ( int i = 0; i < clients.size( ); i++ )
 		{
-			if ( ( (BackRef) clients.get( i ) ).getElement( ) == client )
+			if ( clients.get( i ).getElement( ) == client )
 			{
 				clients.remove( i );
 				return;
@@ -107,7 +112,7 @@ public abstract class ReferencableStructure extends Structure
 	 * @see org.eclipse.birt.report.model.core.IReferencable#getClientList()
 	 */
 
-	public List getClientList( )
+	public List<BackRef> getClientList( )
 	{
 		return clients;
 	}
@@ -136,7 +141,7 @@ public abstract class ReferencableStructure extends Structure
 		ev.setDeliveryPath( NotificationEvent.STRUCTURE_CLIENT );
 		for ( int i = 0; i < clients.size( ); i++ )
 		{
-			( (BackRef) clients.get( i ) ).getElement( ).broadcast( ev );
+			clients.get( i ).getElement( ).broadcast( ev );
 		}
 	}
 
@@ -155,7 +160,9 @@ public abstract class ReferencableStructure extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
+	 * .lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -169,8 +176,10 @@ public abstract class ReferencableStructure extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#getProperty(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getProperty(org.eclipse.
+	 * birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn)
 	 */
 
 	public Object getProperty( Module module, PropertyDefn propDefn )
@@ -212,8 +221,10 @@ public abstract class ReferencableStructure extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#getLocalProperty(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getLocalProperty(org.eclipse
+	 * .birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn)
 	 */
 
 	public Object getLocalProperty( Module module, PropertyDefn propDefn )
@@ -239,8 +250,9 @@ public abstract class ReferencableStructure extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
+	 * .lang.String, java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
@@ -292,13 +304,16 @@ public abstract class ReferencableStructure extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
+	 * .report.model.core.Module,
+	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List validate( Module module, DesignElement element )
+	public List<SemanticException> validate( Module module,
+			DesignElement element )
 	{
-		List errors = new ArrayList( );
+		List<SemanticException> errors = new ArrayList<SemanticException>( );
 
 		// if the library reference is un-resolved, fire an error
 
@@ -328,15 +343,15 @@ public abstract class ReferencableStructure extends Structure
 	{
 		ReferencableStructure struct = (ReferencableStructure) super.clone( );
 		struct.libReference = null;
-		struct.clients = new ArrayList( );
-		struct.clientStructures = new ArrayList( );
+		struct.clients = new ArrayList<BackRef>( );
+		struct.clientStructures = new ArrayList<Structure>( );
 
 		if ( libReference == null )
 			return struct;
 
 		// retrieve the member value from the lib reference
 
-		Iterator propIter = getDefn( ).getPropertyIterator( );
+		Iterator<IPropertyDefn> propIter = getDefn( ).getPropertyIterator( );
 		while ( propIter.hasNext( ) )
 		{
 			PropertyDefn prop = (PropertyDefn) propIter.next( );
@@ -407,7 +422,7 @@ public abstract class ReferencableStructure extends Structure
 	 * @return all the client structures
 	 */
 
-	public List getClientStructures( )
+	public List<Structure> getClientStructures( )
 	{
 		return clientStructures;
 	}

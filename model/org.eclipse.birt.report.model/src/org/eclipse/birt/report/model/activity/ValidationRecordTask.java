@@ -47,10 +47,11 @@ public class ValidationRecordTask extends RecordTask
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.IInterceptorTask#doTask(org.eclipse.birt.report.model.activity.ActivityRecord)
+	 * @see
+	 * org.eclipse.birt.report.model.activity.RecordTask#doTask(org.eclipse.
+	 * birt.report.model.activity.ActivityRecord, java.util.Stack)
 	 */
-
-	public void doTask( ActivityRecord record, Stack transStack )
+	public void doTask( ActivityRecord record, Stack<CompoundRecord> transStack )
 	{
 		assert validationExecutor != null;
 

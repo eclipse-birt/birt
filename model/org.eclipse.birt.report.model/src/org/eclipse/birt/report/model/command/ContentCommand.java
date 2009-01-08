@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.BackRef;
@@ -245,10 +246,11 @@ public class ContentCommand extends AbstractContentCommand
 	private void checkContainmentContext( DesignElement content )
 			throws NameException, ContentException
 	{
-		List errors = focus.checkContainmentContext( module, content );
+		List<SemanticException> errors = focus.checkContainmentContext( module,
+				content );
 		if ( !errors.isEmpty( ) )
 		{
-			SemanticException e = (SemanticException) errors.get( 0 );
+			SemanticException e = errors.get( 0 );
 			assert e instanceof NameException || e instanceof ContentException;
 
 			if ( e instanceof NameException )
@@ -287,10 +289,11 @@ public class ContentCommand extends AbstractContentCommand
 		ElementDefn defn = (ElementDefn) content.getDefn( );
 		if ( defn.isContainer( ) )
 		{
-			Iterator iter = new LevelContentIterator( module, content, 1 );
+			Iterator<DesignElement> iter = new LevelContentIterator( module,
+					content, 1 );
 			while ( iter.hasNext( ) )
 			{
-				DesignElement tmpElement = (DesignElement) iter.next( );
+				DesignElement tmpElement = iter.next( );
 				addElementNames( tmpElement );
 			}
 		}
@@ -355,15 +358,15 @@ public class ContentCommand extends AbstractContentCommand
 	{
 		// Skip if this element does not have derived elements.
 
-		Collection derived = obj.getDerived( );
+		Collection<DesignElement> derived = obj.getDerived( );
 		if ( derived.isEmpty( ) )
 			return;
 
 		DesignElement parent = obj.getExtendsElement( );
-		Iterator iter = derived.iterator( );
+		Iterator<DesignElement> iter = derived.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			DesignElement child = (DesignElement) iter.next( );
+			DesignElement child = iter.next( );
 			ExtendsCommand childCmd = new ExtendsCommand( module, child );
 			childCmd.setExtendsElement( parent );
 		}
@@ -397,12 +400,13 @@ public class ContentCommand extends AbstractContentCommand
 	private void adjustReferenceClients( IReferencableElement referred )
 			throws SemanticException
 	{
-		List clients = new ArrayList( referred.getClientList( ) );
+		List<BackRef> clients = new ArrayList<BackRef>( referred
+				.getClientList( ) );
 
-		Iterator iter = clients.iterator( );
+		Iterator<BackRef> iter = clients.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			BackRef ref = (BackRef) iter.next( );
+			BackRef ref = iter.next( );
 			DesignElement client = ref.getElement( );
 			if ( unresolveReference )
 			{
@@ -481,7 +485,7 @@ public class ContentCommand extends AbstractContentCommand
 		assert propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE
 				&& propDefn.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE;
 
-		List values = (List) client.getProperty( module, propDefn );
+		List<Object> values = (List) client.getProperty( module, propDefn );
 		if ( values == null || values.isEmpty( ) )
 			return;
 
@@ -515,9 +519,10 @@ public class ContentCommand extends AbstractContentCommand
 
 	private void adjustReferredClients( DesignElement element )
 	{
-		List propDefns = element.getPropertyDefns( );
+		List<IElementPropertyDefn> propDefns = element.getPropertyDefns( );
 
-		for ( Iterator iter = propDefns.iterator( ); iter.hasNext( ); )
+		for ( Iterator<IElementPropertyDefn> iter = propDefns.iterator( ); iter
+				.hasNext( ); )
 		{
 			PropertyDefn propDefn = (PropertyDefn) iter.next( );
 
@@ -560,8 +565,8 @@ public class ContentCommand extends AbstractContentCommand
 			else if ( propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE
 					&& propDefn.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 			{
-				List valueList = (List) element.getLocalProperty( module,
-						(ElementPropertyDefn) propDefn );
+				List<Object> valueList = (List) element.getLocalProperty(
+						module, (ElementPropertyDefn) propDefn );
 				if ( valueList != null )
 				{
 					CachedMemberRef tmpMemberRef = new CachedMemberRef(
@@ -606,14 +611,14 @@ public class ContentCommand extends AbstractContentCommand
 	private void dropUserProperties( DesignElement obj )
 			throws UserPropertyException
 	{
-		Collection props = obj.getLocalUserProperties( );
+		Collection<UserPropertyDefn> props = obj.getLocalUserProperties( );
 		if ( props != null )
 		{
 			UserPropertyCommand propCmd = new UserPropertyCommand( module, obj );
-			Iterator iter = props.iterator( );
+			Iterator<UserPropertyDefn> iter = props.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				UserPropertyDefn prop = (UserPropertyDefn) iter.next( );
+				UserPropertyDefn prop = iter.next( );
 				propCmd.dropUserProperty( prop.getName( ) );
 			}
 		}
@@ -702,12 +707,12 @@ public class ContentCommand extends AbstractContentCommand
 		if ( element instanceof ReportDesign
 				&& focus.getSlotID( ) == IModuleModel.COMPONENT_SLOT )
 		{
-			List derived = content.getDerived( );
+			List<DesignElement> derived = content.getDerived( );
 			// ContainerSlot slot = element.getSlot( slotID );
-			Iterator iter = derived.iterator( );
+			Iterator<DesignElement> iter = derived.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				DesignElement child = (DesignElement) iter.next( );
+				DesignElement child = iter.next( );
 				if ( focus.contains( module, child ) )
 				{
 					// if content has child before the new position
@@ -959,11 +964,11 @@ public class ContentCommand extends AbstractContentCommand
 
 		// Drop the property binding
 
-		List propertyBindings = module.getPropertyBindings( content );
+		List<PropertyBinding> propertyBindings = module
+				.getPropertyBindings( content );
 		for ( int i = 0; i < propertyBindings.size( ); i++ )
 		{
-			PropertyBinding propBinding = (PropertyBinding) propertyBindings
-					.get( i );
+			PropertyBinding propBinding = propertyBindings.get( i );
 			ElementPropertyDefn propDefn = module
 					.getPropertyDefn( IModuleModel.PROPERTY_BINDINGS_PROP );
 			ComplexPropertyCommand propCommand = new ComplexPropertyCommand(

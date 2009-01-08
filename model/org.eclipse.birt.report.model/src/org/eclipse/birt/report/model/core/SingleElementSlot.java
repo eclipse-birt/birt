@@ -40,7 +40,8 @@ public class SingleElementSlot extends ContainerSlot
 	 * @see java.lang.Object#clone()
 	 */
 
-	public Object doClone( CopyPolicy policy ) throws CloneNotSupportedException
+	public Object doClone( CopyPolicy policy )
+			throws CloneNotSupportedException
 	{
 		SingleElementSlot slot = (SingleElementSlot) super.clone( );
 		if ( content != null )
@@ -139,9 +140,9 @@ public class SingleElementSlot extends ContainerSlot
 	 * 
 	 */
 
-	public List getContents( )
+	public List<DesignElement> getContents( )
 	{
-		ArrayList list = new ArrayList( );
+		ArrayList<DesignElement> list = new ArrayList<DesignElement>( );
 		if ( content != null )
 			list.add( content );
 		return list;

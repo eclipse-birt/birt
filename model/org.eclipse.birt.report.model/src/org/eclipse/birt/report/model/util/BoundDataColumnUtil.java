@@ -73,7 +73,7 @@ public class BoundDataColumnUtil
 		private static final String IMAGE_END_TAG = "</image>";//$NON-NLS-1$
 
 		private StringBuffer buffer;
-		private Map updatedValues;
+		private Map<Object, String> updatedValues;
 		private TextTemplate template;
 
 		/**
@@ -83,7 +83,8 @@ public class BoundDataColumnUtil
 		 * @param updatedValues
 		 */
 
-		public ContentVisitor( TextTemplate template, Map updatedValues )
+		public ContentVisitor( TextTemplate template,
+				Map<Object, String> updatedValues )
 		{
 			this.updatedValues = updatedValues;
 			this.template = template;
@@ -93,8 +94,9 @@ public class BoundDataColumnUtil
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.core.template.TextTemplate.Visitor#visitText(org.eclipse.birt.core.template.TextTemplate.TextNode,
-		 *      java.lang.Object)
+		 * @see
+		 * org.eclipse.birt.core.template.TextTemplate.Visitor#visitText(org
+		 * .eclipse.birt.core.template.TextTemplate.TextNode, java.lang.Object)
 		 */
 
 		public Object visitText( TextTemplate.TextNode node, Object value )
@@ -107,18 +109,19 @@ public class BoundDataColumnUtil
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.core.template.TextTemplate.Visitor#visitValue(org.eclipse.birt.core.template.TextTemplate.ValueNode,
-		 *      java.lang.Object)
+		 * @see
+		 * org.eclipse.birt.core.template.TextTemplate.Visitor#visitValue(org
+		 * .eclipse.birt.core.template.TextTemplate.ValueNode, java.lang.Object)
 		 */
 
 		public Object visitValue( TextTemplate.ValueNode node, Object value )
 		{
 
-			String updatedValue = (String) updatedValues.get( value );
+			String updatedValue = updatedValues.get( value );
 			if ( updatedValue != null )
 			{
-				buffer.append( VALUE_OF_START_TAG + updatedValue +
-						VALUE_OF_END_TAG );
+				buffer.append( VALUE_OF_START_TAG + updatedValue
+						+ VALUE_OF_END_TAG );
 				return updatedValue;
 			}
 
@@ -128,13 +131,14 @@ public class BoundDataColumnUtil
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.core.template.TextTemplate.Visitor#visitImage(org.eclipse.birt.core.template.TextTemplate.ImageNode,
-		 *      java.lang.Object)
+		 * @see
+		 * org.eclipse.birt.core.template.TextTemplate.Visitor#visitImage(org
+		 * .eclipse.birt.core.template.TextTemplate.ImageNode, java.lang.Object)
 		 */
 
 		public Object visitImage( TextTemplate.ImageNode node, Object value )
 		{
-			String updatedValue = (String) updatedValues.get( value );
+			String updatedValue = updatedValues.get( value );
 			if ( updatedValue != null )
 			{
 				buffer.append( IMAGE_START_TAG + updatedValue + IMAGE_END_TAG );
@@ -197,15 +201,16 @@ public class BoundDataColumnUtil
 	 * @return the bound column name
 	 */
 
-	public static String getColumnName( List columns, String expression )
+	public static String getColumnName( List<ComputedColumn> columns,
+			String expression )
 	{
-		if ( ( columns == null ) || ( columns.size( ) == 0 ) ||
-				expression == null )
+		if ( ( columns == null ) || ( columns.size( ) == 0 )
+				|| expression == null )
 			return null;
 
 		for ( int i = 0; i < columns.size( ); i++ )
 		{
-			ComputedColumn column = (ComputedColumn) columns.get( i );
+			ComputedColumn column = columns.get( i );
 			if ( expression.equals( column.getExpression( ) ) )
 				return column.getName( );
 		}
@@ -226,26 +231,26 @@ public class BoundDataColumnUtil
 	 * @return the bound column
 	 */
 
-	public static ComputedColumn getColumn( List columns, String expression,
-			String function, List aggregateOnList )
+	public static ComputedColumn getColumn( List<ComputedColumn> columns,
+			String expression, String function, List<String> aggregateOnList )
 	{
 		if ( ( columns == null ) || ( columns.size( ) == 0 ) )
 			return null;
 
 		for ( int i = 0; i < columns.size( ); i++ )
 		{
-			ComputedColumn column = (ComputedColumn) columns.get( i );
+			ComputedColumn column = columns.get( i );
 			if ( ( ( expression == null && column.getExpression( ) == null ) || ( expression != null && expression
-					.equals( column.getExpression( ) ) ) ) &&
-					( ( function != null && function.equals( column
+					.equals( column.getExpression( ) ) ) )
+					&& ( ( function != null && function.equals( column
 							.getAggregateFunction( ) ) ) || ( function == null && column
 							.getAggregateFunction( ) == null ) ) )
 			{
 				List tempAggregateOnList = column.getAggregateOnList( );
-				boolean isEmptyA = aggregateOnList == null ||
-						aggregateOnList.isEmpty( );
-				boolean isEmptyB = tempAggregateOnList == null ||
-						tempAggregateOnList.isEmpty( );
+				boolean isEmptyA = aggregateOnList == null
+						|| aggregateOnList.isEmpty( );
+				boolean isEmptyB = tempAggregateOnList == null
+						|| tempAggregateOnList.isEmpty( );
 
 				// if two is empty list, return this
 				if ( isEmptyA && isEmptyB )
@@ -264,9 +269,9 @@ public class BoundDataColumnUtil
 				for ( int j = 0; j < tempAggregateOnList.size( ); j++ )
 				{
 					String aggregationA = (String) tempAggregateOnList.get( j );
-					String aggregationB = (String) aggregateOnList.get( j );
-					if ( !aggregateOnList.contains( aggregationA ) ||
-							!tempAggregateOnList.contains( aggregationB ) )
+					String aggregationB = aggregateOnList.get( j );
+					if ( !aggregateOnList.contains( aggregationA )
+							|| !tempAggregateOnList.contains( aggregationB ) )
 					{
 						isMatch = false;
 						break;
@@ -324,8 +329,8 @@ public class BoundDataColumnUtil
 		String newName = columnName;
 
 		String foundName = getColumnName( columns, expression );
-		if ( ( foundName == null ) &&
-				( DataColumnNameValidator.getColumn( columns, newName ) == null ) )
+		if ( ( foundName == null )
+				&& ( DataColumnNameValidator.getColumn( columns, newName ) == null ) )
 		{
 			ComputedColumn column = StructureFactory.createComputedColumn( );
 			columns.add( column );
@@ -387,8 +392,8 @@ public class BoundDataColumnUtil
 
 		while ( tmpElement != null && tmpOuterLevel < outerLevel )
 		{
-			if ( !( tmpElement instanceof GroupElement ||
-					tmpElement instanceof ReportItem || tmpElement instanceof ScalarParameter ) )
+			if ( !( tmpElement instanceof GroupElement
+					|| tmpElement instanceof ReportItem || tmpElement instanceof ScalarParameter ) )
 			{
 				tmpElement = tmpElement.getContainer( );
 				continue;
@@ -409,9 +414,9 @@ public class BoundDataColumnUtil
 			if ( retElement == null )
 				retElement = tmpElement;
 
-			if ( tmpElement instanceof ListingElement ||
-					tmpElement instanceof GroupElement ||
-					tmpElement instanceof ExtendedItem )
+			if ( tmpElement instanceof ListingElement
+					|| tmpElement instanceof GroupElement
+					|| tmpElement instanceof ExtendedItem )
 			{
 				retElement = tmpElement;
 				tmpOuterLevel++;
@@ -486,7 +491,7 @@ public class BoundDataColumnUtil
 	{
 		// Check value of itself.
 
-		Set columnNames = new HashSet( );
+		Set<ComputedColumn> columnNames = new HashSet<ComputedColumn>( );
 
 		if ( element instanceof ListingHandle )
 		{
@@ -499,8 +504,8 @@ public class BoundDataColumnUtil
 			// report item hasn't column binding or data set, The column name is
 			// unique in the scope of it's listing container.
 
-			if ( ( (ReportItemHandle) element ).getDataSet( ) != null ||
-					element
+			if ( ( (ReportItemHandle) element ).getDataSet( ) != null
+					|| element
 							.getProperty( IReportItemModel.BOUND_DATA_COLUMNS_PROP ) != null )
 			{
 				addColumnNamesToSet( element, columnNames );
@@ -527,7 +532,7 @@ public class BoundDataColumnUtil
 		String trimmedName = name.trim( );
 		String retName = trimmedName;
 
-		List columns = new ArrayList( );
+		List<ComputedColumn> columns = new ArrayList<ComputedColumn>( );
 		columns.addAll( columnNames );
 
 		while ( true )
@@ -556,7 +561,7 @@ public class BoundDataColumnUtil
 	 */
 
 	private static void addColumnNamesToSet( DesignElementHandle element,
-			Set columnNames )
+			Set<ComputedColumn> columnNames )
 	{
 		if ( element == null )
 			return;
@@ -758,8 +763,8 @@ public class BoundDataColumnUtil
 				ITextItemModel.CONTENT_TYPE_PROP );
 
 		if ( DesignChoiceConstants.TEXT_CONTENT_TYPE_AUTO
-				.equalsIgnoreCase( contentType ) ||
-				( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML
+				.equalsIgnoreCase( contentType )
+				|| ( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML
 						.equalsIgnoreCase( contentType ) ) )
 		{
 
@@ -782,8 +787,8 @@ public class BoundDataColumnUtil
 						expression = ( (TextTemplate.ImageNode) obj ).getExpr( );
 					}
 
-					if ( !StringUtil.isBlank( expression ) &&
-							!exprs.contains( expression ) )
+					if ( !StringUtil.isBlank( expression )
+							&& !exprs.contains( expression ) )
 					{
 						exprs.add( expression );
 						expression = null;

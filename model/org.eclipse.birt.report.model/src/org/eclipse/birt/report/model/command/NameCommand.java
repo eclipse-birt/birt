@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -308,7 +309,7 @@ public class NameCommand extends AbstractElementCommand
 			DesignElement tmpContainer = element.getContainer( );
 			if ( tmpContainer instanceof Theme )
 			{
-				List errors = ThemeStyleNameValidator
+				List<SemanticException> errors = ThemeStyleNameValidator
 						.getInstance( )
 						.validateForRenamingStyle(
 								(ThemeHandle) tmpContainer.getHandle( module ),

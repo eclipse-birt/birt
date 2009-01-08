@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.elements;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -33,8 +34,8 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 /**
  * This class represents a Master Page element in the report design. This class
  * provides methods to access the most common properties. Use the
- * {@link org.eclipse.birt.report.model.api.MasterPageHandle}class to change
- * the properties.
+ * {@link org.eclipse.birt.report.model.api.MasterPageHandle}class to change the
+ * properties.
  * 
  */
 
@@ -194,15 +195,17 @@ public abstract class MasterPage extends StyledElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
+	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( Module module )
+	public List<SemanticException> validate( Module module )
 	{
-		List list = super.validate( module );
+		List<SemanticException> list = super.validate( module );
 
-		List pageSizeErrors = MasterPageTypeValidator.getInstance( ).validate(
-				module, this );
+		List<SemanticException> pageSizeErrors = MasterPageTypeValidator
+				.getInstance( ).validate( module, this );
 		if ( !pageSizeErrors.isEmpty( ) )
 		{
 			list.addAll( pageSizeErrors );
@@ -218,14 +221,17 @@ public abstract class MasterPage extends StyledElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.core.ContainerInfo,
-	 *      org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse
+	 * .birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.core.ContainerInfo,
+	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
-	public List checkContent( Module module, ContainerContext containerInfo,
-			DesignElement content )
+	public List<SemanticException> checkContent( Module module,
+			ContainerContext containerInfo, DesignElement content )
 	{
-		List errors = super.checkContent( module, containerInfo, content );
+		List<SemanticException> errors = super.checkContent( module,
+				containerInfo, content );
 		if ( !errors.isEmpty( ) )
 			return errors;
 
@@ -238,15 +244,18 @@ public abstract class MasterPage extends StyledElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse.birt.report.model.elements.Module,
-	 *      org.eclipse.birt.report.model.core.DesignElement, int,
-	 *      org.eclipse.birt.report.model.metadata.IElementDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse
+	 * .birt.report.model.elements.Module,
+	 * org.eclipse.birt.report.model.core.DesignElement, int,
+	 * org.eclipse.birt.report.model.metadata.IElementDefn)
 	 */
 
-	public List checkContent( Module module, ContainerContext containerInfo,
-			IElementDefn defn )
+	public List<SemanticException> checkContent( Module module,
+			ContainerContext containerInfo, IElementDefn defn )
 	{
-		List errors = super.checkContent( module, containerInfo, defn );
+		List<SemanticException> errors = super.checkContent( module,
+				containerInfo, defn );
 		if ( !errors.isEmpty( ) )
 			return errors;
 
@@ -275,8 +284,7 @@ public abstract class MasterPage extends StyledElement
 	 * @return the height or width in <code>DimensionValue</code>.
 	 * @throws PropertyValueException
 	 *             if <code>predefinedWidth</code> or
-	 *             <code>predefinedHeight</code> is not a valid dimension
-	 *             value.
+	 *             <code>predefinedHeight</code> is not a valid dimension value.
 	 */
 
 	private DimensionValue getPredefinedDimension( String propName,
@@ -309,8 +317,10 @@ public abstract class MasterPage extends StyledElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getProperty(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getProperty(org.eclipse
+	 * .birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
 
 	public Object getProperty( Module module, ElementPropertyDefn prop )

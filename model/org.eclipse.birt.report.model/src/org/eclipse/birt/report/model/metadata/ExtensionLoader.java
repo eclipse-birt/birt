@@ -177,6 +177,7 @@ public abstract class ExtensionLoader
 		 *            the required attribute name
 		 * @param value
 		 *            the attribute value
+		 * @return true if the attribute is valid, otherwise false
 		 * @throws ExtensionException
 		 *             if the value is empty
 		 */

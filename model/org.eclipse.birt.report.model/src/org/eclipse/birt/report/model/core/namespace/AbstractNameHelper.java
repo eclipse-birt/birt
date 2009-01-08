@@ -44,7 +44,8 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	/**
 	 * The array of name spaces to cache some element names. The meanings of
 	 * each name space is defined in
-	 * {@link org.eclipse.birt.report.model.api.metadata.MetaDataConstants MetaDataConstants}.
+	 * {@link org.eclipse.birt.report.model.api.metadata.MetaDataConstants
+	 * MetaDataConstants}.
 	 */
 
 	protected NameSpace cachedNameSpaces[] = null;
@@ -77,7 +78,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 
 	/**
 	 * 
-	 * @return
+	 * @return count of all the name space
 	 */
 	abstract int getNameSpaceCount( );
 
@@ -85,7 +86,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * Gets the name context with the given id.
 	 * 
 	 * @param nameSpaceID
-	 * @return
+	 * @return the name context for specified id
 	 */
 	public INameContext getNameContext( int nameSpaceID )
 	{
@@ -122,7 +123,9 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#rename(org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameHelper#rename(org.eclipse
+	 * .birt.report.model.core.DesignElement)
 	 */
 	public void rename( DesignElement element )
 	{
@@ -153,7 +156,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 				.getRoot( ), element, 1 );
 		while ( iter.hasNext( ) )
 		{
-			DesignElement innerElement = (DesignElement) iter.next( );
+			DesignElement innerElement = iter.next( );
 			rename( innerElement );
 		}
 
@@ -162,7 +165,9 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#getNameSpace(int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getNameSpace
+	 * (int)
 	 */
 	public NameSpace getNameSpace( int nameSpaceID )
 	{
@@ -172,7 +177,9 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#makeUniqueName(org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameHelper#makeUniqueName
+	 * (org.eclipse.birt.report.model.core.DesignElement)
 	 */
 	public void makeUniqueName( DesignElement element )
 	{
@@ -198,7 +205,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 
 		NameSpace nameSpace = getCachedNameSpace( eDefn.getNameSpaceID( ) );
 		DesignElement cachedElement = nameSpace.getElement( name );
-		if(  cachedElement  == null )
+		if ( cachedElement == null )
 		{
 			element.setName( name.trim( ) );
 			nameSpace.insert( element );
@@ -208,9 +215,10 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#resolve(java.lang.String,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn,
-	 *      org.eclipse.birt.report.model.api.metadata.IElementDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameHelper#resolve(java
+	 * .lang.String, org.eclipse.birt.report.model.metadata.PropertyDefn,
+	 * org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
 	public final ElementRefValue resolve( String elementName,
 			PropertyDefn propDefn, IElementDefn elementDefn )
@@ -247,9 +255,11 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#resolve(org.eclipse.birt.report.model.core.DesignElement,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn,
-	 *      org.eclipse.birt.report.model.api.metadata.IElementDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameHelper#resolve(org.
+	 * eclipse.birt.report.model.core.DesignElement,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn,
+	 * org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
 	public final ElementRefValue resolve( DesignElement element,
 			PropertyDefn propDefn, IElementDefn elementDefn )
@@ -302,8 +312,9 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#canContain(int,
-	 *      java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameHelper#canContain(int,
+	 * java.lang.String)
 	 */
 	public boolean canContain( int nameSpaceID, String elementName )
 	{
@@ -313,16 +324,17 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#getElements(int,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getElements(int,
+	 * int)
 	 */
-	public List getElements( int nameSpaceID, int level )
+	public List<DesignElement> getElements( int nameSpaceID, int level )
 	{
 		return getNameContext( nameSpaceID ).getElements( level );
 	}
 
 	/**
-	 * Gets the root resolve infor elementName/elementDefn pair.
+	 * Gets the root resolve information elementName/elementDefn pair.
 	 * 
 	 * @param elementName
 	 * @param targetDefn
@@ -441,12 +453,12 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 				return false;
 		}
 	}
-	
+
 	/**
 	 * @param namespace
 	 * @param element
 	 * @param name
-	 * @return
+	 * @return true if the name is unique, otherwise false
 	 */
 
 	protected static boolean isValidInNameSpace( NameSpace namespace,

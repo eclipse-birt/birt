@@ -37,6 +37,8 @@ class RenameInNameSpaceRecord extends SimpleRecord
 	/**
 	 * Constructs the record for renaming element in name space.
 	 * 
+	 * @param module
+	 * 
 	 * @param element
 	 *            the element for renaming
 	 * @param oldName
@@ -49,7 +51,7 @@ class RenameInNameSpaceRecord extends SimpleRecord
 			String oldName, String newName )
 	{
 		this.element = element;
-		this.nameHelper = new NameExecutor( element).getNameHelper( module );
+		this.nameHelper = new NameExecutor( element ).getNameHelper( module );
 		this.oldName = oldName;
 		this.newName = newName;
 		this.nameSpaceID = ( (ElementDefn) element.getDefn( ) )
@@ -61,7 +63,7 @@ class RenameInNameSpaceRecord extends SimpleRecord
 	 * 
 	 * @see org.eclipse.birt.report.model.activity.SimpleRecord#perform(boolean)
 	 */
-	
+
 	protected void perform( boolean undo )
 	{
 		NameSpace ns = nameHelper.getNameSpace( nameSpaceID );
@@ -79,9 +81,10 @@ class RenameInNameSpaceRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
+	 * @see
+	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
-	
+
 	public DesignElement getTarget( )
 	{
 		return nameHelper.getElement( );
@@ -90,9 +93,10 @@ class RenameInNameSpaceRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
+	 * @see
+	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
 	 */
-	
+
 	public NotificationEvent getEvent( )
 	{
 		return new NameEvent( element, oldName, newName );

@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.activity.LayoutRecordTask;
 import org.eclipse.birt.report.model.activity.NotificationRecordTask;
+import org.eclipse.birt.report.model.activity.RecordTask;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
@@ -36,6 +37,7 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
+import org.eclipse.birt.report.model.validators.ValidationNode;
 
 /**
  * Moves a content element within its container.
@@ -202,14 +204,14 @@ public class MoveContentRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seeorg.eclipse.birt.report.model.validators.core.IValidatorProvider#
-	 * getValidators()
+	 * @see
+	 * org.eclipse.birt.report.model.activity.ActivityRecord#getValidators()
 	 */
 
-	public List getValidators( )
+	public List<ValidationNode> getValidators( )
 	{
-		List list = ValidationExecutor.getValidationNodes( from.getElement( ),
-				from.getTriggerSetForContainerDefn( ), false );
+		List<ValidationNode> list = ValidationExecutor.getValidationNodes( from
+				.getElement( ), from.getTriggerSetForContainerDefn( ), false );
 		if ( to != from )
 			list.addAll( ValidationExecutor.getValidationNodes(
 					to.getElement( ), to.getTriggerSetForContainerDefn( ),
@@ -229,11 +231,11 @@ public class MoveContentRecord extends SimpleRecord
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
 	 */
 
-	protected List getPostTasks( )
+	protected List<RecordTask> getPostTasks( )
 	{
 		if ( from == to )
 		{
-			List retValue = new ArrayList( );
+			List<RecordTask> retValue = new ArrayList<RecordTask>( );
 			retValue.addAll( super.getPostTasks( ) );
 			NotificationEvent event = null;
 
@@ -265,7 +267,7 @@ public class MoveContentRecord extends SimpleRecord
 		}
 
 		// now the source and destination container context is different
-		List retValue = new ArrayList( );
+		List<RecordTask> retValue = new ArrayList<RecordTask>( );
 		retValue.addAll( super.getPostTasks( ) );
 
 		// if the element works like properties, return property event
@@ -305,7 +307,7 @@ public class MoveContentRecord extends SimpleRecord
 		int action = isDo ? ContentEvent.REMOVE : ContentEvent.ADD;
 
 		event = new ContentEvent( from, content, action );
-		// if undo, then the 'from' recieve content add notification, therefore,
+		// if undo, then the 'from' receive content add notification, therefore,
 		// the style selector should be this event
 		if ( !isDo )
 			styleSelectorEvent = event;
@@ -315,7 +317,7 @@ public class MoveContentRecord extends SimpleRecord
 		// if do or redo, send content add to 'from', otherwise the reverse
 		action = isDo ? ContentEvent.ADD : ContentEvent.REMOVE;
 		event = new ContentEvent( to, content, action );
-		// if do or redo, then the 'to' recieve content add notification,
+		// if do or redo, then the 'to' receive content add notification,
 		// therefore, the style selector should be this event
 		if ( isDo )
 			styleSelectorEvent = event;
@@ -355,7 +357,7 @@ public class MoveContentRecord extends SimpleRecord
 	/**
 	 * Determines the record is done or undone.
 	 * 
-	 * @return
+	 * @return true if record is done or redone, otherwise false
 	 */
 	boolean isDo( )
 	{

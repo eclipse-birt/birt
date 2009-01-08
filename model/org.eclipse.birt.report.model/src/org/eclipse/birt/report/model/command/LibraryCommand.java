@@ -162,14 +162,14 @@ public class LibraryCommand extends AbstractElementCommand
 				if ( slotID == ILibraryModel.THEMES_SLOT )
 					continue;
 
-				for ( Iterator iter = library.getSlot( slotID ).iterator( ); iter
-						.hasNext( ); )
+				for ( Iterator<DesignElement> iter = library.getSlot( slotID )
+						.iterator( ); iter.hasNext( ); )
 				{
-					DesignElement element = (DesignElement) iter.next( );
-					List derived = element.getDerived( );
+					DesignElement element = iter.next( );
+					List<DesignElement> derived = element.getDerived( );
 					for ( int i = 0; i < derived.size( ); i++ )
 					{
-						DesignElement child = (DesignElement) derived.get( i );
+						DesignElement child = derived.get( i );
 						if ( child.getRoot( ) == getModule( ) )
 						{
 							ExtendsCommand command = new ExtendsCommand(
@@ -208,7 +208,7 @@ public class LibraryCommand extends AbstractElementCommand
 	 *            not drop library when the module has element reference to this
 	 *            library.
 	 * @throws SemanticException
-	 *             if failed to remove <code>IncludeLibrary</code> strcutre
+	 *             if failed to remove <code>IncludeLibrary</code> structure
 	 */
 
 	public void dropLibrary( Library library ) throws SemanticException
@@ -222,7 +222,7 @@ public class LibraryCommand extends AbstractElementCommand
 					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND );
 		}
 
-		// library has decendents in the current module. And check the inForce
+		// library has dependents in the current module. And check the inForce
 		// flag.
 
 		dealAllElementDecendents( library, SIMPLE_ACTION );
@@ -286,20 +286,21 @@ public class LibraryCommand extends AbstractElementCommand
 	 *             if error occurs during removing virtual elements.
 	 */
 
-	private Map dealElementDecendents( Module library, DesignElement parent,
-			int actionCode ) throws SemanticException
+	private Map<Long, Map<Long, List<Object>>> dealElementDecendents(
+			Module library, DesignElement parent, int actionCode )
+			throws SemanticException
 	{
 		if ( !parent.hasDerived( ) )
-			return Collections.EMPTY_MAP;
+			return Collections.emptyMap( );
 
-		List allDescendents = new ArrayList( );
+		List<DesignElement> allDescendents = new ArrayList<DesignElement>( );
 		getAllDescdents( parent, allDescendents );
 
-		Map overriddenValues = new HashMap( );
+		Map<Long, Map<Long, List<Object>>> overriddenValues = new HashMap<Long, Map<Long, List<Object>>>( );
 
 		for ( int i = 0; i < allDescendents.size( ); i++ )
 		{
-			DesignElement child = (DesignElement) allDescendents.get( i );
+			DesignElement child = allDescendents.get( i );
 			Module tmpModule = child.getRoot( );
 
 			if ( child.hasDerived( ) )
@@ -310,7 +311,8 @@ public class LibraryCommand extends AbstractElementCommand
 
 			if ( actionCode == RELOAD_ACTION )
 			{
-				Map values = unresolveElementDescendent( module, child );
+				Map<Long, List<Object>> values = unresolveElementDescendent(
+						module, child );
 				overriddenValues.put( new Long( child.getID( ) ), values );
 			}
 			else if ( actionCode == SIMPLE_ACTION )
@@ -379,7 +381,7 @@ public class LibraryCommand extends AbstractElementCommand
 				.getNamespace( ) );
 		int removePosn = host.getIncludedLibraries( ).indexOf( tmpIncludedLib );
 
-		Map overriddenValues = new HashMap( );
+		Map<Long, Map<Long, List<Object>>> overriddenValues = new HashMap<Long, Map<Long, List<Object>>>( );
 		ActivityStack activityStack = getActivityStack( );
 		activityStack.startSilentTrans( true );
 
@@ -531,23 +533,24 @@ public class LibraryCommand extends AbstractElementCommand
 	 *             if there is any extends reference.
 	 */
 
-	private Map dealAllElementDecendents( Library library, int actionCode )
-			throws SemanticException
+	private Map<Long, Map<Long, List<Object>>> dealAllElementDecendents(
+			Library library, int actionCode ) throws SemanticException
 	{
 		// library has decendents in the current module. And check the inForce
 		// flag.
 
-		Map overriddenValues = new HashMap( );
+		Map<Long, Map<Long, List<Object>>> overriddenValues = new HashMap<Long, Map<Long, List<Object>>>( );
 
 		LevelContentIterator contentIter = new LevelContentIterator( library,
 				library, 1 );
 		while ( contentIter.hasNext( ) )
 		{
-			DesignElement tmpElement = (DesignElement) contentIter.next( );
+			DesignElement tmpElement = contentIter.next( );
 			if ( !tmpElement.getDefn( ).canExtend( ) )
 				continue;
 
-			Map values = dealElementDecendents( library, tmpElement, actionCode );
+			Map<Long, Map<Long, List<Object>>> values = dealElementDecendents(
+					library, tmpElement, actionCode );
 			if ( actionCode == RELOAD_ACTION )
 				overriddenValues.putAll( values );
 		}
@@ -610,8 +613,9 @@ public class LibraryCommand extends AbstractElementCommand
 	 */
 
 	private void doReloadLibrary( Library toReload, String includedLibPath,
-			Map overriddenValues, Map<String, Library> reloadLibs,
-			int removePosn ) throws SemanticException, DesignFileException
+			Map<Long, Map<Long, List<Object>>> overriddenValues,
+			Map<String, Library> reloadLibs, int removePosn )
+			throws SemanticException, DesignFileException
 	{
 		String namespace = toReload.getNamespace( );
 		URL fileURL = module.findResource( includedLibPath,
@@ -727,8 +731,8 @@ public class LibraryCommand extends AbstractElementCommand
 	 *             if error occurs during removing virtual elements.
 	 */
 
-	private Map unresolveElementDescendent( Module module, DesignElement child )
-			throws SemanticException
+	private Map<Long, List<Object>> unresolveElementDescendent( Module module,
+			DesignElement child ) throws SemanticException
 	{
 		ElementRefValue value = (ElementRefValue) child.getLocalProperty(
 				module, IDesignElementModel.EXTENDS_PROP );
@@ -755,11 +759,11 @@ public class LibraryCommand extends AbstractElementCommand
 			parent.dropDerived( child );
 			value.unresolved( value.getName( ) );
 
-			return Collections.EMPTY_MAP;
+			return Collections.emptyMap( );
 		}
 
-		Map overriddenValues = ElementStructureUtil.collectPropertyValues(
-				module, child );
+		Map<Long, List<Object>> overriddenValues = ElementStructureUtil
+				.collectPropertyValues( module, child );
 
 		// remove virtual elements in the element
 
@@ -771,7 +775,7 @@ public class LibraryCommand extends AbstractElementCommand
 				child, 1 );
 		while ( contentIter.hasNext( ) )
 		{
-			DesignElement tmpElement = (DesignElement) contentIter.next( );
+			DesignElement tmpElement = contentIter.next( );
 			ContentCommand command = new ContentCommand( module, tmpElement
 					.getContainerInfo( ), true, true );
 			command.remove( tmpElement );
@@ -796,14 +800,15 @@ public class LibraryCommand extends AbstractElementCommand
 	 *            the result list containing all the children.
 	 */
 
-	private void getAllDescdents( DesignElement tmpElement, List results )
+	private void getAllDescdents( DesignElement tmpElement,
+			List<DesignElement> results )
 	{
-		List descends = tmpElement.getDerived( );
+		List<DesignElement> descends = tmpElement.getDerived( );
 		results.addAll( descends );
 
 		for ( int i = 0; i < descends.size( ); i++ )
 		{
-			getAllDescdents( (DesignElement) descends.get( i ), results );
+			getAllDescdents( descends.get( i ), results );
 		}
 	}
 
@@ -859,7 +864,7 @@ public class LibraryCommand extends AbstractElementCommand
 
 	private Library getLibraryByStruct( IncludedLibrary includedLib )
 	{
-		List<IncludedLibrary> includedLibs = module.getListProperty( module,
+		List<Object> includedLibs = module.getListProperty( module,
 				IModuleModel.LIBRARIES_PROP );
 		if ( includedLibs == null )
 			return null;
@@ -868,7 +873,7 @@ public class LibraryCommand extends AbstractElementCommand
 		if ( index == -1 )
 			return null;
 
-		Library retLib = (Library) module.getLibraries( ).get( index );
+		Library retLib = module.getLibraries( ).get( index );
 		if ( retLib.getNamespace( ).equalsIgnoreCase(
 				includedLib.getNamespace( ) ) )
 			return retLib;

@@ -186,7 +186,8 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getEventChain()
+	 * @see
+	 * org.eclipse.birt.report.model.activity.ActivityRecord#getEventChain()
 	 */
 
 	public void rollback( )
@@ -201,12 +202,12 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
 	 */
 
-	protected List getPostTasks( )
+	protected List<RecordTask> getPostTasks( )
 	{
 		if ( element == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
-		List retList = new ArrayList( );
+		List<RecordTask> retList = new ArrayList<RecordTask>( );
 		retList.add( new NotificationRecordTask( element, getEvent( ) ) );
 		return retList;
 	}

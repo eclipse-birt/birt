@@ -61,7 +61,8 @@ public class StructureRefUtil
 
 		if ( defn.isList( ) )
 		{
-			List list = module.getListProperty( module, defn.getName( ) );
+			List<Object> list = module
+					.getListProperty( module, defn.getName( ) );
 			if ( list == null )
 				return null;
 			for ( int i = 0; i < list.size( ); i++ )
@@ -281,12 +282,10 @@ public class StructureRefUtil
 
 			return new StructRefValue( namespace, structName );
 		}
-		else
-		{
-			StructRefValue refValue = (StructRefValue) resolveStructureWithName(
-					module, targetDefn, name );
-			return refValue;
-		}
+		StructRefValue refValue = (StructRefValue) resolveStructureWithName(
+				module, targetDefn, name );
+		return refValue;
+
 	}
 
 	/**

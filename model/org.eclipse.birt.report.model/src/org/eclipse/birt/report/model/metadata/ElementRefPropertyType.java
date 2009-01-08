@@ -69,7 +69,8 @@ public class ElementRefPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
 	public int getTypeCode( )
@@ -80,7 +81,8 @@ public class ElementRefPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
 	public String getName( )
@@ -151,7 +153,7 @@ public class ElementRefPropertyType extends PropertyType
 		if ( name == null )
 			return null;
 
-		// special case for theme property since it can be direcly referred.
+		// special case for theme property since it can be directly referred.
 		ElementRefValue refValue = module.getNameHelper( ).resolve( name,
 				propDefn, targetDefn );
 

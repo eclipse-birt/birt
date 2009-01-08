@@ -37,7 +37,7 @@ class CompatibleIncludeResourceState extends CompatiblePropertyState
 	 * @param element
 	 *            the element to be parsed
 	 */
-	
+
 	public CompatibleIncludeResourceState( ModuleParserHandler theHandler,
 			DesignElement element )
 	{
@@ -57,7 +57,7 @@ class CompatibleIncludeResourceState extends CompatiblePropertyState
 		if ( StringUtil.isEmpty( value ) )
 			return;
 
-		List resoureLit = new ArrayList( );
+		List<Object> resoureLit = new ArrayList<Object>( );
 		resoureLit.add( value );
 		element.setProperty( IModuleModel.INCLUDE_RESOURCE_PROP, resoureLit );
 	}

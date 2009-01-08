@@ -161,11 +161,11 @@ public class CssRecord extends SimpleRecord
 		if ( sheet == null )
 			return;
 		sheet.setContainer( element );
-		List styles = sheet.getStyles( );
-		Iterator iter = styles.iterator( );
+		List<CssStyle> styles = sheet.getStyles( );
+		Iterator<CssStyle> iter = styles.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			CssStyle style = (CssStyle) iter.next( );
+			CssStyle style = iter.next( );
 			style.setCssStyleSheet( sheet );
 		}
 	}
@@ -173,7 +173,8 @@ public class CssRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
+	 * @see
+	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
 	 */
 
 	public NotificationEvent getEvent( )
@@ -187,7 +188,8 @@ public class CssRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
+	 * @see
+	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
 
 	public DesignElement getTarget( )

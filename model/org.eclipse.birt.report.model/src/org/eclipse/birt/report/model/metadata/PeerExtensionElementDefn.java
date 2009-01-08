@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.scripts.IScriptableObjectClassInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
@@ -59,7 +60,7 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 	 * <code>OverridePropertyInfo</code>.
 	 */
 
-	protected Map overridePropertyInfoMap = new HashMap( );
+	protected Map<String, OverridePropertyInfo> overridePropertyInfoMap = new HashMap<String, OverridePropertyInfo>( );
 
 	/**
 	 * The factory to create scriptable classes.
@@ -141,7 +142,7 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 			ElementDefn extendedItem = (ElementDefn) MetaDataDictionary
 					.getInstance( ).getElement(
 							ReportDesignConstants.EXTENDED_ITEM );
-			PropertyDefn extensionName = (PropertyDefn) extendedItem
+			IElementPropertyDefn extensionName = extendedItem
 					.getProperty( IExtendedItemModel.EXTENSION_NAME_PROP );
 			if ( getProperty( IExtendedItemModel.EXTENSION_NAME_PROP ) == null )
 			{
@@ -155,7 +156,7 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 			}
 
 			// extensions must have 'extensionVersion' property
-			PropertyDefn extensionVersion = (PropertyDefn) extendedItem
+			IElementPropertyDefn extensionVersion = extendedItem
 					.getProperty( IExtendedItemModel.EXTENSION_VERSION_PROP );
 			if ( getProperty( IExtendedItemModel.EXTENSION_VERSION_PROP ) == null )
 			{
@@ -197,11 +198,11 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 				continue;
 			}
 
-			Iterator iterator = tmpPeerDefn.overridePropertyInfoMap.keySet( )
-					.iterator( );
+			Iterator<String> iterator = tmpPeerDefn.overridePropertyInfoMap
+					.keySet( ).iterator( );
 			while ( iterator.hasNext( ) )
 			{
-				String propName = (String) iterator.next( );
+				String propName = iterator.next( );
 				cachedProperties.put( propName, tmpDefn.cachedProperties
 						.get( propName ) );
 			}
@@ -209,11 +210,11 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 		}
 
 		// set override property value
-		Set set = overridePropertyInfoMap.keySet( );
-		Iterator iterator = set.iterator( );
+		Set<String> set = overridePropertyInfoMap.keySet( );
+		Iterator<String> iterator = set.iterator( );
 		while ( iterator.hasNext( ) )
 		{
-			String propName = (String) iterator.next( );
+			String propName = iterator.next( );
 
 			// don't support override local property.
 
@@ -225,7 +226,7 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 					continue;
 			}
 
-			OverridePropertyInfo propInfo = (OverridePropertyInfo) overridePropertyInfoMap
+			OverridePropertyInfo propInfo = overridePropertyInfoMap
 					.get( propName );
 
 			if ( propInfo == null )
@@ -284,7 +285,7 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 
 	private ChoiceSet buildChoiceSet( IChoiceSet romSet, String units )
 	{
-		List choiceList = new ArrayList( );
+		List<IChoice> choiceList = new ArrayList<IChoice>( );
 		if ( units != null && units.length( ) > 0 )
 		{
 			String[] eachUnit = units.split( "," ); //$NON-NLS-1$
@@ -316,11 +317,11 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 	}
 
 	/**
-	 * Reflects to clone new instance of property defn.
+	 * Reflects to clone new instance of property definition.
 	 * 
 	 * @param defn
-	 *            property defn
-	 * @return shadow cloned property defn.
+	 *            property definition
+	 * @return shadow cloned property definition.
 	 */
 
 	private PropertyDefn reflectClass( PropertyDefn defn )
@@ -330,11 +331,11 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 		String className = defn.getClass( ).getName( );
 		try
 		{
-			Class clazz = Class.forName( className );
+			Class<? extends Object> clazz = Class.forName( className );
 			retDefn = (ElementPropertyDefn) clazz.newInstance( );
 
-			Class ownerClass = defn.getClass( );
-			Class clonedClass = retDefn.getClass( );
+			Class<? extends Object> ownerClass = defn.getClass( );
+			Class<? extends Object> clonedClass = retDefn.getClass( );
 
 			shadowCopyProperties( defn, retDefn, ownerClass, clonedClass );
 		}
@@ -358,20 +359,21 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 	}
 
 	/**
-	 * Shadow copy all properties to cloned property defn instance.
+	 * Shadow copy all properties to cloned property definition instance.
 	 * 
 	 * @param defn
 	 *            property definition
 	 * @param clonedDefn
 	 *            cloned property definition
 	 * @param ownerClass
-	 *            property defn class
+	 *            property definition class
 	 * @param clonedClass
-	 *            cloned property defn class
+	 *            cloned property definition class
 	 */
 
 	private void shadowCopyProperties( PropertyDefn defn,
-			PropertyDefn clonedDefn, Class ownerClass, Class clonedClass )
+			PropertyDefn clonedDefn, Class<? extends Object> ownerClass,
+			Class<? extends Object> clonedClass )
 	{
 		if ( ownerClass == null || clonedClass == null )
 			return;
@@ -457,7 +459,8 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.ElementDefn#buildTriggerDefnSet()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.ElementDefn#buildTriggerDefnSet()
 	 */
 
 	protected void buildTriggerDefnSet( )

@@ -88,12 +88,12 @@ public class ValidationNode
 	 *         <code>SemanticException</code>.
 	 */
 
-	final List perform( Module module, boolean sendEvent )
+	final List<SemanticException> perform( Module module, boolean sendEvent )
 	{
 		AbstractSemanticValidator validator = triggerDefn.getValidator( );
 		if ( module instanceof ReportDesign && !validator.canApplyToDesign( )
 				|| module instanceof Library && !validator.canApplyToLibrary( ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		// Locate the target element of validation.
 
@@ -118,11 +118,11 @@ public class ValidationNode
 		// usually for the element which is not added into report.
 
 		if ( toValidate == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		// Perform validation.
 
-		List errors = null;
+		List<SemanticException> errors = null;
 		if ( validator instanceof AbstractPropertyValidator )
 		{
 			errors = ( (AbstractPropertyValidator) validator ).validate(
@@ -141,12 +141,12 @@ public class ValidationNode
 		if ( !sendEvent )
 			return errors;
 
-		List errorDetailList = new ArrayList( );
+		List<ErrorDetail> errorDetailList = new ArrayList<ErrorDetail>( );
 
-		Iterator iter = errors.iterator( );
+		Iterator<SemanticException> iter = errors.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			SemanticException e = (SemanticException) iter.next( );
+			SemanticException e = iter.next( );
 
 			ErrorDetail errorDetail = new ErrorDetail( e );
 			errorDetail.setValidationID( triggerDefn.getValidationID( ) );
@@ -192,7 +192,7 @@ public class ValidationNode
 			sb.append( "[null]" ); //$NON-NLS-1$
 		sb.append( ", " ); //$NON-NLS-1$
 		sb.append( "id=" ); //$NON-NLS-1$
-		sb.append( element.toString( ) ); 
+		sb.append( element.toString( ) );
 
 		sb.append( ", " ); //$NON-NLS-1$
 		sb.append( "validator=" ); //$NON-NLS-1$

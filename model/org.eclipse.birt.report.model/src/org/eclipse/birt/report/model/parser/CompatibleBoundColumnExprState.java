@@ -40,6 +40,8 @@ public class CompatibleBoundColumnExprState
 	 *            the handler to parse the design file.
 	 * @param element
 	 *            the data item
+	 * @param propDefn
+	 * @param struct
 	 */
 
 	CompatibleBoundColumnExprState( ModuleParserHandler theHandler,

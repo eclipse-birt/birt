@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.elements;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -88,12 +89,14 @@ public abstract class GroupElement extends DesignElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
+	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( Module module )
+	public List<SemanticException> validate( Module module )
 	{
-		List list = super.validate( module );
+		List<SemanticException> list = super.validate( module );
 
 		list.addAll( validateStructureList( module, SORT_PROP ) );
 		list.addAll( validateStructureList( module, FILTER_PROP ) );
@@ -107,7 +110,8 @@ public abstract class GroupElement extends DesignElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getNameForDisplayLabel()
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getNameForDisplayLabel()
 	 */
 
 	protected String getNameForDisplayLabel( )
@@ -123,8 +127,10 @@ public abstract class GroupElement extends DesignElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getFactoryProperty(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getFactoryProperty(org
+	 * .eclipse.birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
 
 	public Object getFactoryProperty( Module module, ElementPropertyDefn prop )
@@ -138,7 +144,9 @@ public abstract class GroupElement extends DesignElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#canDrop(org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#canDrop(org.eclipse.
+	 * birt.report.model.core.Module)
 	 */
 
 	public boolean canDrop( Module module )

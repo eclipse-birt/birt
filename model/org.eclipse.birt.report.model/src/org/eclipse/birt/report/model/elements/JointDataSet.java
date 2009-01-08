@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IJointDataSetModel;
@@ -56,7 +57,9 @@ public class JointDataSet extends DataSet implements IJointDataSetModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * .report.model.elements.ElementVisitor)
 	 */
 
 	public void apply( ElementVisitor visitor )
@@ -78,7 +81,9 @@ public class JointDataSet extends DataSet implements IJointDataSetModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse
+	 * .birt.report.model.core.Module)
 	 */
 
 	public DesignElementHandle getHandle( Module module )
@@ -107,12 +112,14 @@ public class JointDataSet extends DataSet implements IJointDataSetModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.DataSet#validate(org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.DataSet#validate(org.eclipse.birt
+	 * .report.model.core.Module)
 	 */
 
-	public List validate( Module module )
+	public List<SemanticException> validate( Module module )
 	{
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -124,15 +131,15 @@ public class JointDataSet extends DataSet implements IJointDataSetModel
 	 * @return a list of names of data sets in this joint data set.
 	 */
 
-	public List getDataSetNames( Module module )
+	public List<String> getDataSetNames( Module module )
 	{
-		List dataSetsReferences = getListProperty( module,
+		List<Object> dataSetsReferences = getListProperty( module,
 				IJointDataSetModel.DATA_SETS_PROP );
 		if ( dataSetsReferences == null )
 		{
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		}
-		List results = new ArrayList( );
+		List<String> results = new ArrayList<String>( );
 		for ( int i = 0; i < dataSetsReferences.size( ); i++ )
 		{
 			results.add( ( (ElementRefValue) dataSetsReferences.get( i ) )

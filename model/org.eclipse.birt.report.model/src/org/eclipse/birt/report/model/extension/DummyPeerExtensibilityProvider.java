@@ -16,12 +16,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.api.ModelException;
+import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
+import org.eclipse.birt.report.model.api.extension.UndefinedPropertyInfo;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.extension.SimplePeerExtensibilityProvider.UndefinedChildInfo;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.parser.treebuild.ContentTree;
 
@@ -51,8 +55,8 @@ public final class DummyPeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#handleInvalidPropertyValue(java.lang.String,
-	 *      java.lang.Object)
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * handleInvalidPropertyValue(java.lang.String, java.lang.Object)
 	 */
 	public void handleInvalidPropertyValue( String propName, Object value )
 	{
@@ -62,8 +66,9 @@ public final class DummyPeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#handleUndefinedChildren(java.lang.String,
-	 *      org.eclipse.birt.report.model.core.DesignElement)
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * handleUndefinedChildren(java.lang.String,
+	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 	public void handleIllegalChildren( String propName, DesignElement child )
 	{
@@ -74,8 +79,8 @@ public final class DummyPeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#handleUndefinedProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * handleUndefinedProperty(java.lang.String, java.lang.Object)
 	 */
 	public void handleUndefinedProperty( String propName, Object value )
 	{
@@ -85,7 +90,8 @@ public final class DummyPeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.treebuild.IContentHandler#getTree()
+	 * @see
+	 * org.eclipse.birt.report.model.parser.treebuild.IContentHandler#getTree()
 	 */
 
 	public ContentTree getContentTree( )
@@ -106,9 +112,11 @@ public final class DummyPeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#copyFrom(org.eclipse.birt.report.model.extension.PeerExtensibilityProvider)
+	 * @see
+	 * org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#copyFrom
+	 * (org.eclipse.birt.report.model.extension.PeerExtensibilityProvider)
 	 */
-	
+
 	public void copyFromWithNonElementType( PeerExtensibilityProvider source )
 	{
 		super.copyFromWithNonElementType( source );
@@ -130,7 +138,8 @@ public final class DummyPeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#getExtensionProperty(java.lang.String)
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * getExtensionProperty(java.lang.String)
 	 */
 	public Object getExtensionProperty( String propName )
 	{
@@ -140,8 +149,10 @@ public final class DummyPeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#setExtensionProperty(org.eclipse.birt.report.model.metadata.ElementPropertyDefn,
-	 *      java.lang.Object)
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * setExtensionProperty
+	 * (org.eclipse.birt.report.model.metadata.ElementPropertyDefn,
+	 * java.lang.Object)
 	 */
 	public void setExtensionProperty( ElementPropertyDefn prop, Object value )
 	{
@@ -151,7 +162,8 @@ public final class DummyPeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#getPropertyDefn(java.lang.String)
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * getPropertyDefn(java.lang.String)
 	 */
 	public IPropertyDefn getPropertyDefn( String propName )
 	{
@@ -161,9 +173,10 @@ public final class DummyPeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#getModelMethodDefns()
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * getModelMethodDefns()
 	 */
-	public List getModelMethodDefns( )
+	public List<IElementPropertyDefn> getModelMethodDefns( )
 	{
 		return element.getDefn( ).getMethods( );
 	}
@@ -171,7 +184,8 @@ public final class DummyPeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#getScriptPropertyDefinition()
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * getScriptPropertyDefinition()
 	 */
 	public IPropertyDefinition getScriptPropertyDefinition( )
 	{
@@ -181,12 +195,13 @@ public final class DummyPeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#getPropertyDefns()
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * getPropertyDefns()
 	 */
-	public List getPropertyDefns( )
+	public List<IElementPropertyDefn> getPropertyDefns( )
 	{
-		List list = element.getDefn( ).getProperties( );
-		List userProps = element.getUserProperties( );
+		List<IElementPropertyDefn> list = element.getDefn( ).getProperties( );
+		List<UserPropertyDefn> userProps = element.getUserProperties( );
 		if ( userProps != null )
 			list.addAll( userProps );
 		return list;
@@ -195,7 +210,8 @@ public final class DummyPeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#hasLocalPropertyValues()
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * hasLocalPropertyValues()
 	 */
 	public boolean hasLocalPropertyValues( )
 	{
@@ -205,7 +221,8 @@ public final class DummyPeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#hasLocalPropertyValuesOnOwnModel()
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * hasLocalPropertyValuesOnOwnModel()
 	 */
 	public boolean hasLocalPropertyValuesOnOwnModel( )
 	{
@@ -215,7 +232,8 @@ public final class DummyPeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#initializeReportItem(org.eclipse.birt.report.model.core.Module)
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * initializeReportItem(org.eclipse.birt.report.model.core.Module)
 	 */
 	public void initializeReportItem( Module module )
 			throws ExtendedElementException
@@ -231,7 +249,8 @@ public final class DummyPeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#isExtensionModelProperty(java.lang.String)
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * isExtensionModelProperty(java.lang.String)
 	 */
 	public boolean isExtensionModelProperty( String propName )
 	{
@@ -241,7 +260,8 @@ public final class DummyPeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#isExtensionXMLProperty(java.lang.String)
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * isExtensionXMLProperty(java.lang.String)
 	 */
 	public boolean isExtensionXMLProperty( String propName )
 	{
@@ -251,8 +271,10 @@ public final class DummyPeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#setEncryptionHelper(org.eclipse.birt.report.model.metadata.ElementPropertyDefn,
-	 *      java.lang.String)
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * setEncryptionHelper
+	 * (org.eclipse.birt.report.model.metadata.ElementPropertyDefn,
+	 * java.lang.String)
 	 */
 	public void setEncryptionHelper( ElementPropertyDefn propDefn,
 			String encryptionID )
@@ -263,30 +285,33 @@ public final class DummyPeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#getIllegalChildren()
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * getIllegalChildren()
 	 */
-	public Map getIllegalContents( )
+	public Map<String, List<UndefinedChildInfo>> getIllegalContents( )
 	{
-		return Collections.EMPTY_MAP;
+		return Collections.emptyMap( );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#getInvalidPropertyValueMap()
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * getInvalidPropertyValueMap()
 	 */
-	public Map getInvalidPropertyValueMap( )
+	public Map<String, UndefinedPropertyInfo> getInvalidPropertyValueMap( )
 	{
-		return Collections.EMPTY_MAP;
+		return Collections.emptyMap( );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#getUndefinedPropertyMap()
+	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
+	 * getUndefinedPropertyMap()
 	 */
-	public Map getUndefinedPropertyMap( )
+	public Map<String, UndefinedPropertyInfo> getUndefinedPropertyMap( )
 	{
-		return Collections.EMPTY_MAP;
+		return Collections.emptyMap( );
 	}
 }

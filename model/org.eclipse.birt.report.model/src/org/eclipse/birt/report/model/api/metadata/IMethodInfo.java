@@ -29,7 +29,7 @@ public interface IMethodInfo extends ILocalizableInfo
 	 * @return iterator of argument definition.
 	 */
 
-	public Iterator argumentListIterator( );
+	public Iterator<IArgumentInfoList> argumentListIterator( );
 
 	/**
 	 * Returns the script type for return.

@@ -30,42 +30,47 @@ public class EventFilter implements IEventFilter
 	 * A list of filter condition instance.
 	 */
 
-	private List conditions = new ArrayList( );
+	private List<IFilterCondition> conditions = new ArrayList<IFilterCondition>( );
 
 	/**
 	 * Constructs the event filter with filter condition list.
+	 * 
 	 * @param conds
 	 */
-	
-	public EventFilter( List conds )
+
+	public EventFilter( List<IFilterCondition> conds )
 	{
 		this.conditions = conds;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.activity.IEventFilter#filter(java.util.List)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.activity.IEventFilter#filter(java.util
+	 * .List)
 	 */
-	
-	public List filter( List events )
+
+	public List<RecordTask> filter( List<RecordTask> events )
 	{
-		// do some boudary checks
+		// do some boundary checks
 
 		if ( events == null || events.isEmpty( ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		if ( conditions == null || conditions.isEmpty( ) )
 			return events;
 
-		List filteredEvents = new ArrayList( events );
+		List<RecordTask> filteredEvents = new ArrayList<RecordTask>( events );
 
 		int size = filteredEvents.size( );
 
 		if ( size == 1 )
 			return events;
 
-		for ( Iterator iter = conditions.iterator( ); iter.hasNext( ); )
+		for ( Iterator<IFilterCondition> iter = conditions.iterator( ); iter
+				.hasNext( ); )
 		{
-			IFilterCondition filter = (IFilterCondition) iter.next( );
+			IFilterCondition filter = iter.next( );
 
 			if ( filter == null )
 				continue;
@@ -98,7 +103,7 @@ public class EventFilter implements IEventFilter
 			}
 		}
 
-		return new ArrayList( filteredEvents );
+		return new ArrayList<RecordTask>( filteredEvents );
 	}
 
 	/**

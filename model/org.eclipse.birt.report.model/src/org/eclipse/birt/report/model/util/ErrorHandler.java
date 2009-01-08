@@ -34,13 +34,13 @@ public abstract class ErrorHandler
 	 * The list contains errors encountered when parsing a XML file.
 	 */
 
-	protected List errors = new ArrayList( );
+	protected List<XMLParserException> errors = new ArrayList<XMLParserException>( );
 
 	/**
 	 * The list contains warnings encountered when parsing a XML file.
 	 */
 
-	protected List warnings = new ArrayList( );
+	protected List<XMLParserException> warnings = new ArrayList<XMLParserException>( );
 
 	/**
 	 * SAX <code>Locator</code> for reporting errors.
@@ -54,7 +54,7 @@ public abstract class ErrorHandler
 	 * @return the errors
 	 */
 
-	public List getErrors( )
+	public List<XMLParserException> getErrors( )
 	{
 		return errors;
 	}
@@ -65,7 +65,7 @@ public abstract class ErrorHandler
 	 * @return the warnings
 	 */
 
-	public List getWarnings( )
+	public List<XMLParserException> getWarnings( )
 	{
 		return this.warnings;
 	}

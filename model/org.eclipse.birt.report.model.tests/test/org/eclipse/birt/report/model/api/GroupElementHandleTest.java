@@ -658,11 +658,10 @@ public class GroupElementHandleTest extends BaseTestCase
 	/**
 	 * Tests 'hasLocalPropertiesForExtendedElements' method.
 	 * <ul>
-	 * <li>Label has 'name' properties, can't enable restore.</li>
-	 * <li>Get label without any property inside grid element.</li>
-	 * <li>Modify one property of label and 'restore' button should be enabled.</li>
-	 * <li>Modify one property of label in grid and 'restore' button should be
-	 * enabled.</li>
+	 * <li>Label has 'name' properties, can't enable restore.</li> <li>Get label
+	 * without any property inside grid element.</li> <li>Modify one property of
+	 * label and 'restore' button should be enabled.</li> <li>Modify one
+	 * property of label in grid and 'restore' button should be enabled.</li>
 	 * </ul>
 	 * 
 	 * @throws Exception
@@ -1150,10 +1149,10 @@ public class GroupElementHandleTest extends BaseTestCase
 			ElementDefn tmpDefn = this;
 			while ( tmpDefn != null )
 			{
-				List props = tmpDefn.getLocalProperties( );
+				List<IElementPropertyDefn> props = tmpDefn.getLocalProperties( );
 				for ( int i = 0; i < props.size( ); i++ )
 				{
-					PropertyDefn propDefn = (PropertyDefn) props.get( i );
+					IElementPropertyDefn propDefn = props.get( i );
 					cachedProperties.put( propDefn.getName( ), propDefn );
 				}
 				tmpDefn = (ElementDefn) tmpDefn.getParent( );

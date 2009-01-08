@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -31,12 +32,11 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * Validates the extension is valid, which is provided by
  * <code>IReportItem</code>.
  * 
- * <h3>Rule</h3>
- * The rule is defined by
+ * <h3>Rule</h3> The rule is defined by
  * {@link org.eclipse.birt.report.model.api.extension.IReportItem#validate()}.
  * 
- * <h3>Applicability</h3>
- * This validator is only applied to <code>TableItem</code>.
+ * <h3>Applicability</h3> This validator is only applied to
+ * <code>TableItem</code>.
  */
 
 public class ExtensionValidator extends AbstractElementValidator
@@ -72,16 +72,18 @@ public class ExtensionValidator extends AbstractElementValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( Module module, DesignElement element )
+	public List<SemanticException> validate( Module module,
+			DesignElement element )
 	{
 		if ( element instanceof IOdaExtendableElementModel )
 			return doValidate( module, element );
 		if ( element instanceof ExtendedItem )
 			return doValidate( module, (ExtendedItem) element );
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList( );
 	}
 
-	private List doValidate( Module module, DesignElement toValidate )
+	private List<SemanticException> doValidate( Module module,
+			DesignElement toValidate )
 	{
 		ODAProvider provider = null;
 		boolean hasValidManifest = true;
@@ -99,18 +101,19 @@ public class ExtensionValidator extends AbstractElementValidator
 		}
 		if ( !hasValidManifest )
 		{
-			List error = new ArrayList( );
+			List<SemanticException> error = new ArrayList<SemanticException>( );
 			error.add( new SemanticError( toValidate,
 					SemanticError.DESIGN_EXCEPTION_INVALID_MANIFEST ) );
 			return error;
 		}
 
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList( );
 	}
 
-	private List doValidate( Module module, ExtendedItem toValidate )
+	private List<SemanticException> doValidate( Module module,
+			ExtendedItem toValidate )
 	{
-		List list = new ArrayList( );
+		List<SemanticException> list = new ArrayList<SemanticException>( );
 
 		// if the module is a library and not includded by any report, it is not
 		// necessary to initialized it
@@ -135,7 +138,8 @@ public class ExtensionValidator extends AbstractElementValidator
 
 		if ( toValidate.getExtendedElement( ) != null )
 		{
-			List exceptions = toValidate.getExtendedElement( ).validate( );
+			List<? extends SemanticException> exceptions = toValidate
+					.getExtendedElement( ).validate( );
 
 			if ( exceptions != null )
 				list.addAll( exceptions );

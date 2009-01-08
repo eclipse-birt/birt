@@ -15,17 +15,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
-import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * Iterate content elements within the given level.
  */
 
-public class LevelContentIterator implements Iterator
+public class LevelContentIterator implements Iterator<DesignElement>
 {
 
 	/**
@@ -38,7 +38,7 @@ public class LevelContentIterator implements Iterator
 	 * List of content elements.
 	 */
 
-	List elementContents = null;
+	List<DesignElement> elementContents = null;
 
 	/**
 	 * Current iteration position.
@@ -62,7 +62,7 @@ public class LevelContentIterator implements Iterator
 	{
 		assert element != null;
 
-		elementContents = new ArrayList( );
+		elementContents = new ArrayList<DesignElement>( );
 		buildContentsList( module, element, level );
 	}
 
@@ -78,12 +78,12 @@ public class LevelContentIterator implements Iterator
 	 *            the depth of elements to iterate.
 	 */
 
-	public LevelContentIterator( Module module, ContainerContext containerInfor,
-			int level )
+	public LevelContentIterator( Module module,
+			ContainerContext containerInfor, int level )
 	{
 		assert containerInfor != null;
 
-		elementContents = new ArrayList( );
+		elementContents = new ArrayList<DesignElement>( );
 
 		buildContentsList( module, containerInfor, level );
 	}
@@ -106,15 +106,16 @@ public class LevelContentIterator implements Iterator
 		// build slot
 		for ( int i = 0; i < defn.getSlotCount( ); i++ )
 		{
-			buildContentsList( module, new ContainerContext( element, i ), level );
+			buildContentsList( module, new ContainerContext( element, i ),
+					level );
 		}
 
 		// build properties
-		List properties = defn.getContents( );
+		List<IElementPropertyDefn> properties = defn.getContents( );
 		for ( int i = 0; i < properties.size( ); i++ )
 		{
 			buildContentsList( module, new ContainerContext( element,
-					( (PropertyDefn) properties.get( i ) ).getName( ) ), level );
+					properties.get( i ).getName( ) ), level );
 		}
 	}
 
@@ -134,11 +135,12 @@ public class LevelContentIterator implements Iterator
 		if ( level <= 0 )
 			return;
 
-		List contents = containerInfor.getContents( module );
+		List<DesignElement> contents = containerInfor.getContents( module );
 
-		for ( Iterator iter = contents.iterator( ); iter.hasNext( ); )
+		for ( Iterator<DesignElement> iter = contents.iterator( ); iter
+				.hasNext( ); )
 		{
-			DesignElement e = (DesignElement) iter.next( );
+			DesignElement e = iter.next( );
 			elementContents.add( e );
 
 			buildContentsList( module, e, level - 1 );
@@ -171,7 +173,7 @@ public class LevelContentIterator implements Iterator
 	 * @see java.util.Iterator#next()
 	 */
 
-	public Object next( )
+	public DesignElement next( )
 	{
 		return elementContents.get( posn++ );
 	}

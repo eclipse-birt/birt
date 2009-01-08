@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.command.ExtendsException;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
@@ -47,7 +48,9 @@ public class OdaDummyProvider implements ODAProvider, IContentHandler
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#checkExtends(org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.extension.oda.ODAProvider#checkExtends(
+	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 	public void checkExtends( DesignElement parent ) throws ExtendsException
 	{
@@ -67,7 +70,9 @@ public class OdaDummyProvider implements ODAProvider, IContentHandler
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#getPropertyDefn(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.extension.oda.ODAProvider#getPropertyDefn
+	 * (java.lang.String)
 	 */
 	public IPropertyDefn getPropertyDefn( String propName )
 	{
@@ -77,17 +82,21 @@ public class OdaDummyProvider implements ODAProvider, IContentHandler
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#getPropertyDefns()
+	 * @see
+	 * org.eclipse.birt.report.model.extension.oda.ODAProvider#getPropertyDefns
+	 * ()
 	 */
-	public List getPropertyDefns( )
+	public List<IElementPropertyDefn> getPropertyDefns( )
 	{
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList( );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#isValidExtensionID()
+	 * @see
+	 * org.eclipse.birt.report.model.extension.oda.ODAProvider#isValidExtensionID
+	 * ()
 	 */
 	public boolean isValidExtensionID( )
 	{
@@ -97,7 +106,9 @@ public class OdaDummyProvider implements ODAProvider, IContentHandler
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#convertExtensionID()
+	 * @see
+	 * org.eclipse.birt.report.model.extension.oda.ODAProvider#convertExtensionID
+	 * ()
 	 */
 	public String convertExtensionID( )
 	{
@@ -107,7 +118,8 @@ public class OdaDummyProvider implements ODAProvider, IContentHandler
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.treebuild.IContentHandler#getTree()
+	 * @see
+	 * org.eclipse.birt.report.model.parser.treebuild.IContentHandler#getTree()
 	 */
 
 	public ContentTree getContentTree( )
@@ -118,7 +130,7 @@ public class OdaDummyProvider implements ODAProvider, IContentHandler
 	/**
 	 * Initializes the content tree.
 	 */
-	
+
 	private void initializeContentTree( )
 	{
 		if ( contentTree == null )

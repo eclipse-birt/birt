@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -25,13 +26,12 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 /**
  * Validates the result set of the given data set has at least one column.
  * 
- * <h3>Rule</h3>
- * The rule is that the result set of the given data set has at least one
- * column.
+ * <h3>Rule</h3> The rule is that the result set of the given data set has at
+ * least one column.
  * 
- * <h3>Applicability</h3>
- * This validator is only applied to <code>DataSet</code>.
- *  
+ * <h3>Applicability</h3> This validator is only applied to <code>DataSet</code>
+ * .
+ * 
  * @deprecated since birt 2.2
  */
 
@@ -63,20 +63,22 @@ public class DataSetResultSetValidator extends AbstractElementValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( Module module, DesignElement element )
+	public List<SemanticException> validate( Module module,
+			DesignElement element )
 	{
 		if ( !( element instanceof SimpleDataSet ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		return doValidate( module, (SimpleDataSet) element );
 	}
 
-	private List doValidate( Module module, SimpleDataSet toValidate )
+	private List<SemanticException> doValidate( Module module,
+			SimpleDataSet toValidate )
 	{
 
-		List list = new ArrayList( );
+		List<SemanticException> list = new ArrayList<SemanticException>( );
 
-		List columns = (List) toValidate.getProperty( module,
+		List<Object> columns = (List) toValidate.getProperty( module,
 				IDataSetModel.RESULT_SET_PROP );
 		if ( columns != null && columns.size( ) == 0 )
 		{

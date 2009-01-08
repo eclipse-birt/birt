@@ -46,7 +46,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 public class UnusedBoundColumnsMgr extends BoundColumnsMgr
 {
 
-	private Set boundColumnNames = new HashSet( );
+	private Set<String> boundColumnNames = new HashSet<String>( );
 
 	private DesignElement element;
 
@@ -78,7 +78,7 @@ public class UnusedBoundColumnsMgr extends BoundColumnsMgr
 		if ( propValue == null )
 			return;
 
-		List newExprs = null;
+		List<IColumnBinding> newExprs = null;
 
 		try
 		{
@@ -93,7 +93,7 @@ public class UnusedBoundColumnsMgr extends BoundColumnsMgr
 		{
 			for ( int i = 0; i < newExprs.size( ); i++ )
 			{
-				IColumnBinding column = (IColumnBinding) newExprs.get( i );
+				IColumnBinding column = newExprs.get( i );
 				boundColumnNames.add( column.getResultSetColumnName( ) );
 			}
 		}
@@ -193,7 +193,7 @@ public class UnusedBoundColumnsMgr extends BoundColumnsMgr
 		if ( currentList == null || currentList.isEmpty( ) )
 			return;
 
-		List unusedList = new ArrayList( );
+		List<ComputedColumn> unusedList = new ArrayList<ComputedColumn>( );
 		for ( int i = 0; i < currentList.size( ); i++ )
 		{
 			ComputedColumn column = (ComputedColumn) currentList.get( i );
@@ -211,7 +211,7 @@ public class UnusedBoundColumnsMgr extends BoundColumnsMgr
 		{
 			for ( int i = 0; i < unusedList.size( ); i++ )
 			{
-				propHandle.removeItem( (ComputedColumn) unusedList.get( i ) );
+				propHandle.removeItem( unusedList.get( i ) );
 			}
 		}
 		catch ( SemanticException e )

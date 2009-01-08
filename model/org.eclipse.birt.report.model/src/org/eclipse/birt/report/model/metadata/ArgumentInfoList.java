@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 
 /**
  * Represents an optional argument list of a method.
- *  
+ * 
  */
 
 public class ArgumentInfoList implements IArgumentInfoList
@@ -31,7 +31,7 @@ public class ArgumentInfoList implements IArgumentInfoList
 	 * The list contains a set of arguments.
 	 */
 
-	private List arguments = null;
+	private List<IArgumentInfo> arguments = null;
 
 	/**
 	 * Constructs a default <code>ArgumentInfoList</code>.
@@ -53,7 +53,7 @@ public class ArgumentInfoList implements IArgumentInfoList
 	public void addArgument( IArgumentInfo argument ) throws MetaDataException
 	{
 		if ( arguments == null )
-			arguments = new ArrayList( );
+			arguments = new ArrayList<IArgumentInfo>( );
 
 		if ( getArgument( argument.getName( ) ) != null )
 		{
@@ -77,10 +77,10 @@ public class ArgumentInfoList implements IArgumentInfoList
 		if ( arguments == null )
 			return null;
 
-		for ( Iterator iter = ( (ArrayList) arguments ).iterator( ); iter
+		for ( Iterator<IArgumentInfo> iter = arguments.iterator( ); iter
 				.hasNext( ); )
 		{
-			IArgumentInfo argument = (IArgumentInfo) iter.next( );
+			IArgumentInfo argument = iter.next( );
 
 			if ( argument.getName( ).equalsIgnoreCase( argumentName ) )
 				return argument;
@@ -96,7 +96,7 @@ public class ArgumentInfoList implements IArgumentInfoList
 	 * @return iterator of argument definition.
 	 */
 
-	public Iterator argumentsIterator( )
+	public Iterator<IArgumentInfo> argumentsIterator( )
 	{
 		if ( arguments == null )
 			return Collections.EMPTY_LIST.iterator( );

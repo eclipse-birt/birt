@@ -84,7 +84,7 @@ public class ClassInfo implements IClassInfo
 	 * @return a list of method definitions
 	 */
 
-	public List getMethods( )
+	public List<IMethodInfo> getMethods( )
 	{
 		return classInfo.getMethods( );
 	}
@@ -108,7 +108,7 @@ public class ClassInfo implements IClassInfo
 	 * @return the list of member definitions
 	 */
 
-	public List getMembers( )
+	public List<IMemberInfo> getMembers( )
 	{
 		return classInfo.getMembers( );
 	}
@@ -163,8 +163,8 @@ public class ClassInfo implements IClassInfo
 	/**
 	 * Returns whether a class object is native.
 	 * 
-	 * @return <code>true</code> if an object of this class is native,
-	 *         otherwise <code>false</code>
+	 * @return <code>true</code> if an object of this class is native, otherwise
+	 *         <code>false</code>
 	 */
 
 	public boolean isNative( )
@@ -189,7 +189,9 @@ public class ClassInfo implements IClassInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayNameKey()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayNameKey
+	 * ()
 	 */
 
 	public String getDisplayNameKey( )
@@ -201,7 +203,8 @@ public class ClassInfo implements IClassInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getName()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getName()
 	 */
 
 	public String getName( )
@@ -212,7 +215,9 @@ public class ClassInfo implements IClassInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getToolTipKey()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getToolTipKey
+	 * ()
 	 */
 	public String getToolTipKey( )
 	{
@@ -261,9 +266,11 @@ public class ClassInfo implements IClassInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName
+	 * ()
 	 */
-	
+
 	public String getDisplayName( )
 	{
 		return displayName;
@@ -272,9 +279,11 @@ public class ClassInfo implements IClassInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName
+	 * ()
 	 */
-	
+
 	public String getToolTip( )
 	{
 		return toolTip;
@@ -287,7 +296,7 @@ public class ClassInfo implements IClassInfo
 	 *            the user-visible, localized display name for the tool tip of
 	 *            this method.
 	 */
-	
+
 	protected void setToolTip( String toolTip )
 	{
 		this.toolTip = toolTip;

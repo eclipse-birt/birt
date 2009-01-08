@@ -99,7 +99,7 @@ public interface INameHelper
 	/**
 	 * Gets the holder element of this name helper.
 	 * 
-	 * @return
+	 * @return the focus element that holds the name
 	 */
 	public DesignElement getElement( );
 
@@ -108,18 +108,17 @@ public interface INameHelper
 	 * 
 	 * @param nameSpaceID
 	 * 
-	 * @return
+	 * @return the namespce instance with the specified id
 	 */
 	public NameSpace getNameSpace( int nameSpaceID );
 
 	/**
 	 * Resolves the given element name to element reference value.
-	 * <code>propDefn</code> gives the resolver information that how to
-	 * resolve the <code>elementName</code>. For example,
-	 * <code>extends</code> and <code>theme</code> property definitions must
-	 * check elements in the included libraries. Other properties are not
-	 * required such checks. The returned reference value might be resolved or
-	 * unresolved.
+	 * <code>propDefn</code> gives the resolver information that how to resolve
+	 * the <code>elementName</code>. For example, <code>extends</code> and
+	 * <code>theme</code> property definitions must check elements in the
+	 * included libraries. Other properties are not required such checks. The
+	 * returned reference value might be resolved or unresolved.
 	 * 
 	 * 
 	 * @param elementName
@@ -135,15 +134,14 @@ public interface INameHelper
 
 	/**
 	 * Resolves the given element name to element reference value.
-	 * <code>propDefn</code> gives the resolver information that how to
-	 * resolve the <code>elementName</code>. For example,
-	 * <code>extends</code> and <code>theme</code> property definitions must
-	 * check elements in the included libraries. Other properties are not
-	 * required such checks. The returned reference value might be resolved or
-	 * unresolved.
+	 * <code>propDefn</code> gives the resolver information that how to resolve
+	 * the <code>elementName</code>. For example, <code>extends</code> and
+	 * <code>theme</code> property definitions must check elements in the
+	 * included libraries. Other properties are not required such checks. The
+	 * returned reference value might be resolved or unresolved.
 	 * <p>
-	 * If the <code>element</code> is not invaild in the current resolve
-	 * scope, the return reference value is unresolved.
+	 * If the <code>element</code> is not invalid in the current resolve scope,
+	 * the return reference value is unresolved.
 	 * <p>
 	 * The namespace information may be lost.
 	 * 
@@ -159,9 +157,10 @@ public interface INameHelper
 			PropertyDefn propDefn, IElementDefn elementDefn );
 
 	/**
-	 * Returns all elements in the module this module namespace is assocaited
+	 * Returns all elements in the module this module namespace is associated
 	 * and those in the included modules.
-	 * @param nameSpaceID 
+	 * 
+	 * @param nameSpaceID
 	 * 
 	 * @param level
 	 *            the depth of included libraries
@@ -169,12 +168,13 @@ public interface INameHelper
 	 * @return all element in this namespace.
 	 */
 
-	public List getElements( int nameSpaceID, int level );
+	public List<DesignElement> getElements( int nameSpaceID, int level );
 
 	/**
 	 * Checks whether the given element name is acceptable in this module name
 	 * space.
-	 * @param nameSpaceID 
+	 * 
+	 * @param nameSpaceID
 	 * 
 	 * @param elementName
 	 *            the element name

@@ -35,25 +35,28 @@ public final class CssStyleSheet
 	 * All the external styles the style sheet contains.
 	 */
 
-	protected LinkedHashMap styles = new LinkedHashMap( );
+	protected LinkedHashMap<String, CssStyle> styles = new LinkedHashMap<String, CssStyle>( );
 
 	/**
 	 * All the collected warnings during the loading.
 	 */
 
-	private ArrayList warnings = new ArrayList( );
+	private ArrayList<StyleSheetParserException> warnings = new ArrayList<StyleSheetParserException>( );
 
 	/**
-	 * The name list of all the unsupported styles.
+	 * The map of the all the style name that is not supported for the given
+	 * StyleSheetParserException.
 	 */
 
-	private HashMap unsupportedStyles = new HashMap( );
+	private HashMap<String, StyleSheetParserException> unsupportedStyles = new HashMap<String, StyleSheetParserException>( );
 
 	/**
-	 * All the errors for each style.
+	 * All the errors for each style. Key is the name of the style and value is
+	 * all the StyleSheetParserException that is fired when loading and parsing
+	 * this style.
 	 */
 
-	private HashMap warningsForStyles = new HashMap( );
+	private HashMap<String, List<StyleSheetParserException>> warningsForStyles = new HashMap<String, List<StyleSheetParserException>>( );
 
 	/**
 	 * The error handler for the CSS parser.
@@ -97,7 +100,7 @@ public final class CssStyleSheet
 
 	public StyleElement findStyle( String name )
 	{
-		return (StyleElement) styles.get( name );
+		return styles.get( name );
 	}
 
 	/**
@@ -110,7 +113,8 @@ public final class CssStyleSheet
 	public void addStyle( DesignElement style )
 	{
 		assert styles.get( style.getName( ) ) == null;
-		styles.put( style.getName( ), style );
+		assert style instanceof CssStyle;
+		styles.put( style.getName( ), (CssStyle) style );
 	}
 
 	/**
@@ -133,9 +137,9 @@ public final class CssStyleSheet
 	 * @return all the styles in the style sheet
 	 */
 
-	public List getStyles( )
+	public List<CssStyle> getStyles( )
 	{
-		return new ArrayList( styles.values( ) );
+		return new ArrayList<CssStyle>( styles.values( ) );
 	}
 
 	/**
@@ -145,9 +149,9 @@ public final class CssStyleSheet
 	 *            the warning list to add
 	 */
 
-	public void addWarning( List warnings )
+	public void addWarning( List<StyleSheetParserException> warnings )
 	{
-		warnings.addAll( warnings );
+		this.warnings.addAll( warnings );
 	}
 
 	/**
@@ -156,9 +160,9 @@ public final class CssStyleSheet
 	 * @return the warning list
 	 */
 
-	public List getWarnings( )
+	public List<StyleSheetParserException> getWarnings( )
 	{
-		return this.warnings;
+		return warnings;
 	}
 
 	/**
@@ -182,9 +186,9 @@ public final class CssStyleSheet
 	 * @return the list of the unsupported style name
 	 */
 
-	public List getUnsupportedStyle( )
+	public List<String> getUnsupportedStyle( )
 	{
-		List styles = new ArrayList( );
+		List<String> styles = new ArrayList<String>( );
 		styles.addAll( this.unsupportedStyles.keySet( ) );
 		return styles;
 	}
@@ -199,7 +203,8 @@ public final class CssStyleSheet
 	 *            the error list
 	 */
 
-	public void addWarnings( String styleName, List errors )
+	public void addWarnings( String styleName,
+			List<StyleSheetParserException> errors )
 	{
 		this.warningsForStyles.put( styleName, errors );
 	}
@@ -212,9 +217,9 @@ public final class CssStyleSheet
 	 * @return the error list of the given style, otherwise null
 	 */
 
-	public List getWarnings( String styleName )
+	public List<StyleSheetParserException> getWarnings( String styleName )
 	{
-		return (List) this.warningsForStyles.get( styleName );
+		return this.warningsForStyles.get( styleName );
 	}
 
 	/**
@@ -263,9 +268,10 @@ public final class CssStyleSheet
 	}
 
 	/**
-	 * Gets container element.
+	 * Gets container element. The container is the element that imports this
+	 * style sheet. It can be either report design or library theme.
 	 * 
-	 * @return
+	 * @return the container of this style sheet.
 	 */
 
 	public DesignElement getContainer( )
@@ -282,10 +288,10 @@ public final class CssStyleSheet
 	public void setContainer( DesignElement container )
 	{
 		this.container = container;
-		List tmpStyles = getStyles( );
+		List<CssStyle> tmpStyles = getStyles( );
 		for ( int i = 0; i < tmpStyles.size( ); i++ )
 		{
-			CssStyle tmpStyle = (CssStyle) tmpStyles.get( i );
+			CssStyle tmpStyle = tmpStyles.get( i );
 			tmpStyle.setContainer( container );
 		}
 	}

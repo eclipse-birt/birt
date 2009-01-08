@@ -27,16 +27,17 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
+import org.eclipse.birt.report.model.api.extension.UndefinedPropertyInfo;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
+import org.eclipse.birt.report.model.extension.SimplePeerExtensibilityProvider.UndefinedChildInfo;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
@@ -89,12 +90,12 @@ public abstract class PeerExtensibilityProvider
 	 * extension definition file.
 	 */
 
-	HashMap extensionPropValues = new HashMap( );
+	HashMap<String, Object> extensionPropValues = new HashMap<String, Object>( );
 
 	/**
 	 * 
 	 */
-	Map encryptionMap = null;
+	Map<String, String> encryptionMap = null;
 
 	/**
 	 * Constructs the peer extensibility provider with the extensible element
@@ -123,9 +124,9 @@ public abstract class PeerExtensibilityProvider
 	 *         if there is no property defined.
 	 */
 
-	public List getPropertyDefns( )
+	public List<IElementPropertyDefn> getPropertyDefns( )
 	{
-		List props = super.getPropertyDefns( );
+		List<IElementPropertyDefn> props = super.getPropertyDefns( );
 
 		PeerExtensionElementDefn extDefn = (PeerExtensionElementDefn) getExtDefn( );
 
@@ -159,7 +160,7 @@ public abstract class PeerExtensibilityProvider
 	 * @return the method list
 	 */
 
-	public List getModelMethodDefns( )
+	public List<IElementPropertyDefn> getModelMethodDefns( )
 	{
 
 		// collect the methods defined in the extension plugin.xml, and
@@ -167,9 +168,9 @@ public abstract class PeerExtensibilityProvider
 
 		PeerExtensionElementDefn extDefn = (PeerExtensionElementDefn) getExtDefn( );
 		if ( extDefn == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
-		List methods = new ArrayList( );
+		List<IElementPropertyDefn> methods = new ArrayList<IElementPropertyDefn>( );
 
 		if ( extDefn.getMethods( ) != null )
 			methods.addAll( extDefn.getMethods( ) );
@@ -251,9 +252,9 @@ public abstract class PeerExtensibilityProvider
 	 * @return the list of the style masks
 	 */
 
-	protected List getStyleMasks( )
+	protected List<String> getStyleMasks( )
 	{
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -504,7 +505,8 @@ public abstract class PeerExtensibilityProvider
 
 		reportItem = elementFactory.newReportItem( element.getHandle( module ) );
 
-		List localPropDefns = extDefn.getLocalProperties( );
+		List<IElementPropertyDefn> localPropDefns = extDefn
+				.getLocalProperties( );
 		for ( int i = 0; i < localPropDefns.size( ); i++ )
 		{
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) localPropDefns
@@ -527,7 +529,7 @@ public abstract class PeerExtensibilityProvider
 					// hashmap or the reporItem
 					PeerExtensibilityProvider parentProvider = parent
 							.getExtensibilityProvider( );
-					HashMap propValues = parentProvider.extensionPropValues;
+					HashMap<String, Object> propValues = parentProvider.extensionPropValues;
 					value = propValues.get( propName );
 					if ( value == null )
 					{
@@ -638,15 +640,16 @@ public abstract class PeerExtensibilityProvider
 	 * 
 	 * @param source
 	 *            the source peer extensibility provider
+	 * @param policy
 	 */
 
 	public void copyFromWithElementType( PeerExtensibilityProvider source,
 			CopyPolicy policy )
 	{
-		Iterator it = source.extensionPropValues.keySet( ).iterator( );
+		Iterator<String> it = source.extensionPropValues.keySet( ).iterator( );
 		while ( it.hasNext( ) )
 		{
-			String propName = (String) it.next( );
+			String propName = it.next( );
 			PropertyDefn propDefn = element.getPropertyDefn( propName );
 			if ( !propDefn.isElementType( ) )
 				continue;
@@ -704,7 +707,7 @@ public abstract class PeerExtensibilityProvider
 		if ( source.encryptionMap != null && !source.encryptionMap.isEmpty( ) )
 		{
 			if ( encryptionMap == null )
-				encryptionMap = new HashMap( );
+				encryptionMap = new HashMap<String, String>( );
 			encryptionMap.putAll( source.encryptionMap );
 		}
 
@@ -712,12 +715,12 @@ public abstract class PeerExtensibilityProvider
 		// no need to new again.
 
 		if ( extensionPropValues == null )
-			extensionPropValues = new HashMap( );
+			extensionPropValues = new HashMap<String, Object>( );
 
-		Iterator it = source.extensionPropValues.keySet( ).iterator( );
+		Iterator<String> it = source.extensionPropValues.keySet( ).iterator( );
 		while ( it.hasNext( ) )
 		{
-			String propName = (String) it.next( );
+			String propName = it.next( );
 			PropertyDefn propDefn = element.getPropertyDefn( propName );
 			if ( propDefn.isElementType( ) )
 				continue;
@@ -799,7 +802,8 @@ public abstract class PeerExtensibilityProvider
 
 	public boolean hasLocalPropertyValuesOnOwnModel( )
 	{
-		List localPropDefns = getExtDefn( ).getLocalProperties( );
+		List<IElementPropertyDefn> localPropDefns = getExtDefn( )
+				.getLocalProperties( );
 		for ( int i = 0; i < localPropDefns.size( ); i++ )
 		{
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) localPropDefns
@@ -884,7 +888,7 @@ public abstract class PeerExtensibilityProvider
 	 * Gets the default encryption helper for the extension property.
 	 * 
 	 * @param propDefn
-	 * @return
+	 * @return encryption id for the given property definition
 	 */
 	public final String getEncryptionHelperID( ElementPropertyDefn propDefn )
 	{
@@ -893,8 +897,7 @@ public abstract class PeerExtensibilityProvider
 		if ( encryptionMap != null
 				&& encryptionMap.get( propDefn.getName( ) ) != null )
 		{
-			String encryptionID = (String) encryptionMap.get( propDefn
-					.getName( ) );
+			String encryptionID = encryptionMap.get( propDefn.getName( ) );
 			return encryptionID;
 		}
 		return null;
@@ -911,7 +914,7 @@ public abstract class PeerExtensibilityProvider
 	{
 		String id = StringUtil.trimString( encryptionID );
 		if ( encryptionMap == null )
-			encryptionMap = new HashMap( );
+			encryptionMap = new HashMap<String, String>( );
 		if ( id == null )
 			encryptionMap.remove( propDefn.getName( ) );
 		else
@@ -949,27 +952,27 @@ public abstract class PeerExtensibilityProvider
 	/**
 	 * Returns the map for properties that has invalid values.
 	 * 
-	 * @return
+	 * @return the map of all invalid property value
 	 */
-	abstract public Map getInvalidPropertyValueMap( );
+	abstract public Map<String, UndefinedPropertyInfo> getInvalidPropertyValueMap( );
 
 	/**
 	 * 
-	 * @return
+	 * @return the map of all undefined property
 	 */
 
-	abstract public Map getUndefinedPropertyMap( );
+	abstract public Map<String, UndefinedPropertyInfo> getUndefinedPropertyMap( );
 
 	/**
 	 * 
-	 * @return
+	 * @return the map of all illegal children content
 	 */
-	abstract public Map getIllegalContents( );
+	abstract public Map<String, List<UndefinedChildInfo>> getIllegalContents( );
 
 	/**
 	 * Determines whether this children needs to do parser compatibility.
 	 * 
-	 * @return
+	 * @return true if need check this extension, otherwise false
 	 */
 	public boolean needCheckCompatibility( )
 	{

@@ -33,11 +33,11 @@ public class StyleSheet implements CSSStyleSheet
 	 * The list to store all the rules.
 	 */
 
-	private List rules = new ArrayList( );
+	private List<CSSRule> rules = new ArrayList<CSSRule>( );
 
 	/**
 	 * Default constructor.
-	 *  
+	 * 
 	 */
 
 	public StyleSheet( )
@@ -51,7 +51,7 @@ public class StyleSheet implements CSSStyleSheet
 	 * @return the rule list
 	 */
 
-	public List getRules( )
+	public List<CSSRule> getRules( )
 	{
 		return rules;
 	}
@@ -180,7 +180,7 @@ public class StyleSheet implements CSSStyleSheet
 	 * 
 	 * @see org.w3c.dom.stylesheets.StyleSheet#getTitle()
 	 */
-	
+
 	public String getTitle( )
 	{
 		return null;
@@ -191,7 +191,7 @@ public class StyleSheet implements CSSStyleSheet
 	 * 
 	 * @see org.w3c.dom.stylesheets.StyleSheet#getType()
 	 */
-	
+
 	public String getType( )
 	{
 		return null;
@@ -202,7 +202,7 @@ public class StyleSheet implements CSSStyleSheet
 	 * 
 	 * @see org.w3c.dom.stylesheets.StyleSheet#getOwnerNode()
 	 */
-	
+
 	public Node getOwnerNode( )
 	{
 		return null;
@@ -213,7 +213,7 @@ public class StyleSheet implements CSSStyleSheet
 	 * 
 	 * @see org.w3c.dom.stylesheets.StyleSheet#getMedia()
 	 */
-	
+
 	public MediaList getMedia( )
 	{
 		return null;
@@ -224,7 +224,7 @@ public class StyleSheet implements CSSStyleSheet
 	 * 
 	 * @see org.w3c.dom.stylesheets.StyleSheet#getParentStyleSheet()
 	 */
-	
+
 	public org.w3c.dom.stylesheets.StyleSheet getParentStyleSheet( )
 	{
 		return null;

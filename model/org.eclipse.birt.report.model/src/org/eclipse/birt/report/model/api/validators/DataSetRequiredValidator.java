@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.core.ContainerContext;
@@ -30,16 +31,14 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 /**
  * Validates the data set of some special elements should be provided.
  * 
- * <h3>Rule</h3>
- * The rule is that the <code>ListingElement.DATA_SET_PROP</code> should be
- * set on the element itself or its container which is also a listing element;
- * the <code>ICubeModel.DATA_SET_PROP</code> should be set in the cube
- * element; the <code>IReportItemModel.DATA_SET_PROP</code> should be set in
- * the extended items.
+ * <h3>Rule</h3> The rule is that the <code>ListingElement.DATA_SET_PROP</code>
+ * should be set on the element itself or its container which is also a listing
+ * element; the <code>ICubeModel.DATA_SET_PROP</code> should be set in the cube
+ * element; the <code>IReportItemModel.DATA_SET_PROP</code> should be set in the
+ * extended items.
  * 
- * <h3>Applicability</h3>
- * This validator is applied to <code>ListingElement</code>,
- * <code>Cube</code> and <code>ExtendedItem</code>.
+ * <h3>Applicability</h3> This validator is applied to
+ * <code>ListingElement</code>, <code>Cube</code> and <code>ExtendedItem</code>.
  */
 
 public class DataSetRequiredValidator extends AbstractElementValidator
@@ -69,17 +68,19 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( Module module, DesignElement element )
+	public List<SemanticException> validate( Module module,
+			DesignElement element )
 	{
 		if ( !( element instanceof ListingElement || element instanceof Cube ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		return doValidate( module, element );
 	}
 
-	private List doValidate( Module module, DesignElement toValidate )
+	private List<SemanticException> doValidate( Module module,
+			DesignElement toValidate )
 	{
-		List list = new ArrayList( );
+		List<SemanticException> list = new ArrayList<SemanticException>( );
 
 		DesignElement container = toValidate;
 		ContainerContext containerInfo = null;
@@ -140,9 +141,10 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 		int slot = containerInfo == null
 				? IDesignElementModel.NO_SLOT
 				: containerInfo.getSlotID( );
-		if ( !dataSetFound && IModuleModel.COMPONENT_SLOT != slot &&
-				IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT != slot &&
-				!isDataBindingRef )
+		if ( !dataSetFound
+				&& IModuleModel.COMPONENT_SLOT != slot
+				&& IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT != slot
+				&& !isDataBindingRef )
 		{
 			list.add( new SemanticError( toValidate,
 					SemanticError.DESIGN_EXCEPTION_MISSING_DATA_SET ) );

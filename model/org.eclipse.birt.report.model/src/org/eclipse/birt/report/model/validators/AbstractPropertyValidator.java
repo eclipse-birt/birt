@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.validators;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 
@@ -39,7 +40,7 @@ public abstract class AbstractPropertyValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public abstract List validate( Module module, DesignElement element,
-			String propName );
+	public abstract List<SemanticException> validate( Module module,
+			DesignElement element, String propName );
 
 }

@@ -382,7 +382,7 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 				1 );
 		while ( iter.hasNext( ) )
 		{
-			DesignElement tmpContent = (DesignElement) iter.next( );
+			DesignElement tmpContent = iter.next( );
 			AbstractContentCommand cmd = null;
 			if ( this instanceof ContentCommand )
 				cmd = new ContentCommand( module,

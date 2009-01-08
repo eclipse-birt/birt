@@ -18,9 +18,11 @@ import java.util.Map;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.validators.InconsistentColumnsValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
@@ -356,9 +358,9 @@ public class GridItem extends ReportItem implements IGridItemModel
 		pos = 1;
 
 		TableRow row = (TableRow) target.getContainer( );
-		List list = row.getContentsSlot( );
+		List<DesignElement> list = row.getContentsSlot( );
 
-		for ( Iterator iter = list.iterator( ); iter.hasNext( ); )
+		for ( Iterator<DesignElement> iter = list.iterator( ); iter.hasNext( ); )
 		{
 			Cell cell = (Cell) iter.next( );
 			int cellPos = cell.getColumn( module );
@@ -383,9 +385,9 @@ public class GridItem extends ReportItem implements IGridItemModel
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( Module module )
+	public List<SemanticException> validate( Module module )
 	{
-		List list = super.validate( module );
+		List<SemanticException> list = super.validate( module );
 
 		list.addAll( InconsistentColumnsValidator.getInstance( ).validate(
 				module, this ) );

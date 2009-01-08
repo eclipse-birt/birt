@@ -18,6 +18,8 @@ import java.util.Properties;
 
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.WrongTypeException;
+import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
@@ -72,13 +74,13 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 	 * @see org.eclipse.birt.report.model.extension.ExtensibilityProvider#getPropertyDefns()
 	 */
 
-	public List getPropertyDefns( )
+	public List<IElementPropertyDefn> getPropertyDefns( )
 	{
 		if ( getExtDefn( ) == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
-		List list = getExtDefn( ).getProperties( );
-		List userProps = element.getUserProperties( );
+		List<IElementPropertyDefn> list = getExtDefn( ).getProperties( );
+		List<UserPropertyDefn> userProps = element.getUserProperties( );
 		if ( userProps != null )
 			list.addAll( userProps );
 		
@@ -178,7 +180,7 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 
 					if ( visibilities != null )
 					{
-						for ( Iterator iter = visibilities.keySet( ).iterator( ); iter
+						for ( Iterator<Object> iter = visibilities.keySet( ).iterator( ); iter
 								.hasNext( ); )
 						{
 							String key = (String) iter.next( );

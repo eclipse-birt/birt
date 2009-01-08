@@ -49,21 +49,21 @@ public class LayoutRecordTask extends RecordTask
 	}
 
 	/**
-	 * Returns <code>true</code> if need to hold the event at this time. We
-	 * need to hold the event if it is sent inside a transaction that declared
-	 * to filter notification events( <code>LayoutCompoundRecord</code>).
+	 * Returns <code>true</code> if need to hold the event at this time. We need
+	 * to hold the event if it is sent inside a transaction that declared to
+	 * filter notification events( <code>LayoutCompoundRecord</code>).
 	 * 
 	 * @param transStack
 	 *            the transaction stack.
-	 * @return <code>true</code> if need to hold the event at this time,
-	 *         returns <code>false</code> otherwise.
+	 * @return <code>true</code> if need to hold the event at this time, returns
+	 *         <code>false</code> otherwise.
 	 */
 
-	protected final boolean holdTask( Stack transStack )
+	protected final boolean holdTask( Stack<CompoundRecord> transStack )
 	{
 		if ( transStack != null && !transStack.isEmpty( ) )
 		{
-			CompoundRecord cr = (CompoundRecord) transStack.peek( );
+			CompoundRecord cr = transStack.peek( );
 			if ( cr instanceof LayoutCompoundRecord )
 				return true;
 		}
@@ -74,10 +74,12 @@ public class LayoutRecordTask extends RecordTask
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.IInterceptorTask#doTask(org.eclipse.birt.report.model.activity.ActivityRecord)
+	 * @see
+	 * org.eclipse.birt.report.model.api.activity.IInterceptorTask#doTask(org
+	 * .eclipse.birt.report.model.activity.ActivityRecord)
 	 */
 
-	public void doTask( ActivityRecord record, Stack transStack )
+	public void doTask( ActivityRecord record, Stack<CompoundRecord> transStack )
 	{
 		if ( holdTask( transStack ) )
 			return;

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -33,13 +34,11 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * Validates the element is not allowed to appear in the specific slot of the
  * given container type in any level.
  * 
- * <h3>Rule</h3>
- * The rule is that whether the given element can recursively resides in the
- * specific slot of specific container type.
+ * <h3>Rule</h3> The rule is that whether the given element can recursively
+ * resides in the specific slot of specific container type.
  * 
- * <h3>Applicability</h3>
- * This validator is only applied to <code>TableItem</code> and
- * <code>ListItem</code> currently.
+ * <h3>Applicability</h3> This validator is only applied to
+ * <code>TableItem</code> and <code>ListItem</code> currently.
  * 
  */
 
@@ -74,18 +73,19 @@ public class TableHeaderContextContainmentValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( Module module, DesignElement element )
+	public List<SemanticException> validate( Module module,
+			DesignElement element )
 	{
 		if ( !( element instanceof ListingElement ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		return doValidate( module, new ContainerContext( element,
 				IDesignElementModel.NO_SLOT ) );
 	}
 
 	/**
-	 * Checks whether the <code>toValidate</code> is or is in the table
-	 * element and its slotId is <code>TableItem.HEADER_SLOT</code>.
+	 * Checks whether the <code>toValidate</code> is or is in the table element
+	 * and its slotId is <code>TableItem.HEADER_SLOT</code>.
 	 * 
 	 * @param module
 	 *            the module
@@ -93,15 +93,16 @@ public class TableHeaderContextContainmentValidator
 	 *            the element to validate
 	 * @param slotId
 	 *            the slot id
-	 * @return <code>true</code> if <code>toValidate</code> is a table item
-	 *         or nested in the table item and the table slot is
+	 * @return <code>true</code> if <code>toValidate</code> is a table item or
+	 *         nested in the table item and the table slot is
 	 *         <code>TableItem.HEADER_SLOT</code>.
 	 */
 
-	private List doValidate( Module module, ContainerContext containerInfo )
+	private List<SemanticException> doValidate( Module module,
+			ContainerContext containerInfo )
 	{
 		assert containerInfo != null;
-		List list = new ArrayList( );
+		List<SemanticException> list = new ArrayList<SemanticException>( );
 
 		// DesignElement curContainer = toValidate;
 		// int curSlotID = slotId;
@@ -151,13 +152,13 @@ public class TableHeaderContextContainmentValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validateForAdding( Module module, ContainerContext containerInfo,
-			DesignElement toAdd )
+	public List<SemanticException> validateForAdding( Module module,
+			ContainerContext containerInfo, DesignElement toAdd )
 	{
 		if ( !( toAdd instanceof ListingElement )
 				&& !( ModelUtil.containElement( module, toAdd,
 						ReportDesignConstants.LISTING_ITEM ) ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		return doValidate( module, containerInfo );
 	}
@@ -181,13 +182,13 @@ public class TableHeaderContextContainmentValidator
 	 *             {@link #validateForAdding(Module, ContainerContext, DesignElement)}
 	 */
 
-	public List validateForAdding( Module module, DesignElement element,
-			int slotId, DesignElement toAdd )
+	public List<SemanticException> validateForAdding( Module module,
+			DesignElement element, int slotId, DesignElement toAdd )
 	{
 		if ( !( toAdd instanceof ListingElement )
 				&& !( ModelUtil.containElement( module, toAdd,
 						ReportDesignConstants.LISTING_ITEM ) ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		return doValidate( module, new ContainerContext( element, slotId ) );
 	}
@@ -207,13 +208,13 @@ public class TableHeaderContextContainmentValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validateForAdding( Module module, DesignElement element,
-			IElementDefn toAdd )
+	public List<SemanticException> validateForAdding( Module module,
+			DesignElement element, IElementDefn toAdd )
 	{
 		ElementDefn listingDefn = (ElementDefn) MetaDataDictionary
 				.getInstance( ).getElement( ReportDesignConstants.LISTING_ITEM );
 		if ( !toAdd.isKindOf( listingDefn ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		return doValidate( module, new ContainerContext( element,
 				IDesignElementModel.NO_SLOT ) );

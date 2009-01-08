@@ -52,8 +52,9 @@ public class DocumentXMLWriter extends XMLWriter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.XMLWriter#attribute(java.lang.String,
-	 *      java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.XMLWriter#attribute(java.lang.String,
+	 * java.lang.String)
 	 */
 	public void attribute( String attrName, String value )
 	{
@@ -94,7 +95,9 @@ public class DocumentXMLWriter extends XMLWriter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.XMLWriter#emitStartTag(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.XMLWriter#emitStartTag(java.lang.String
+	 * )
 	 */
 	protected void emitStartTag( String tagName )
 	{
@@ -123,7 +126,7 @@ public class DocumentXMLWriter extends XMLWriter
 		// Close a tag for which the start tag was written.
 
 		assert elementStack.size( ) > 0;
-		String tagName = (String) elementStack.pop( );
+		String tagName = elementStack.pop( );
 		if ( elementActive )
 		{
 			out.print( "/>" ); //$NON-NLS-1$
@@ -140,7 +143,8 @@ public class DocumentXMLWriter extends XMLWriter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.XMLWriter#literal(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.XMLWriter#literal(java.lang.String)
 	 */
 	public void literal( String text )
 	{
@@ -187,7 +191,8 @@ public class DocumentXMLWriter extends XMLWriter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.XMLWriter#textCDATA(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.XMLWriter#textCDATA(java.lang.String)
 	 */
 	public void textCDATA( String text )
 	{

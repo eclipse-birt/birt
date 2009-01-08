@@ -27,7 +27,7 @@ public interface IReferencableElement
 
 	/**
 	 * Adds a client. Should be called only from
-	 * {@link DesignElement#setProperty( ElementPropertyDefn, Object )}.
+	 * {@link DesignElement#setProperty(ElementPropertyDefn, Object )}.
 	 * 
 	 * @param client
 	 *            The client to add.
@@ -39,7 +39,7 @@ public interface IReferencableElement
 
 	/**
 	 * Adds a client. Should be called only from
-	 * {@link DesignElement#setProperty( ElementPropertyDefn, Object )}.
+	 * {@link DesignElement#setProperty(ElementPropertyDefn, Object )}.
 	 * 
 	 * @param struct
 	 *            The client to add.
@@ -52,7 +52,7 @@ public interface IReferencableElement
 
 	/**
 	 * Drops a client. Should be called only from
-	 * {@link DesignElement#setProperty( ElementPropertyDefn, Object )}.
+	 * {@link DesignElement#setProperty(ElementPropertyDefn, Object )}.
 	 * 
 	 * @param client
 	 *            The client to drop.
@@ -88,7 +88,7 @@ public interface IReferencableElement
 	 * @return The list of clients.
 	 */
 
-	List getClientList( );
+	List<BackRef> getClientList( );
 
 	/**
 	 * Checks whether the element is referred by other elements.

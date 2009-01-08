@@ -46,7 +46,7 @@ public abstract class XMLParserHandler extends DefaultHandler
 	 * active elements.
 	 */
 
-	protected Stack stateStack = new Stack( );
+	protected Stack<AbstractParseState> stateStack = new Stack<AbstractParseState>( );
 
 	/**
 	 * The error handler of the XML parser.
@@ -57,9 +57,9 @@ public abstract class XMLParserHandler extends DefaultHandler
 	/**
 	 * 
 	 */
-	
+
 	protected AbstractParseState topState;
-	
+
 	/**
 	 * Constructs the parser handler with the error handler.
 	 * 
@@ -135,10 +135,10 @@ public abstract class XMLParserHandler extends DefaultHandler
 	private AbstractParseState popState( )
 	{
 		assert !stateStack.isEmpty( );
-		AbstractParseState state = (AbstractParseState) stateStack.pop( );
+		AbstractParseState state = stateStack.pop( );
 		if ( stateStack.size( ) > 0 )
 		{
-			topState = (AbstractParseState) stateStack.lastElement( );
+			topState = stateStack.lastElement( );
 			topState.endElement( state );
 		}
 		return state;

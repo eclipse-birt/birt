@@ -29,8 +29,9 @@ public class ElementPropertyState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#AbstractPropertyState(DesignParserHandler
-	 *      theHandler, DesignElement element, )
+	 * @seeorg.eclipse.birt.report.model.parser.AbstractPropertyState#
+	 * AbstractPropertyState(DesignParserHandler theHandler, DesignElement
+	 * element, )
 	 */
 
 	public ElementPropertyState( ModuleParserHandler theHandler,
@@ -42,18 +43,19 @@ public class ElementPropertyState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * .lang.String)
 	 */
 	public AbstractParseState startElement( String tagName )
 	{
 		if ( valid )
 		{
 			PropertyDefn propDefn = element.getPropertyDefn( name );
-			List allowedElements = propDefn.getAllowedElements( );
+			List<IElementDefn> allowedElements = propDefn.getAllowedElements( );
 			for ( int i = 0; i < allowedElements.size( ); i++ )
 			{
-				IElementDefn elementDefn = (IElementDefn) allowedElements
-						.get( i );
+				IElementDefn elementDefn = allowedElements.get( i );
 				AbstractParseState state = ParseStateFactory.createParseState(
 						tagName, elementDefn, handler, element, propDefn );
 				if ( state != null )

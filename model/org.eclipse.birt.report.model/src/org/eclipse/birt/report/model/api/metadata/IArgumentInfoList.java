@@ -37,6 +37,6 @@ public interface IArgumentInfoList
 	 * @return iterator of argument definition.
 	 */
 
-	public Iterator argumentsIterator( );
+	public Iterator<IArgumentInfo> argumentsIterator( );
 
 }

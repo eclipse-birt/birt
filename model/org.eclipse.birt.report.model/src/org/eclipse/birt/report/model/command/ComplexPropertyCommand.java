@@ -634,7 +634,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	 *            the old position of the item.
 	 * @param newPosn
 	 *            new position of the item. Note that the range of
-	 *            <code>to</code> is from 0 to the number of strucutres in the
+	 *            <code>to</code> is from 0 to the number of structures in the
 	 *            list.
 	 * 
 	 * @throws PropertyValueException

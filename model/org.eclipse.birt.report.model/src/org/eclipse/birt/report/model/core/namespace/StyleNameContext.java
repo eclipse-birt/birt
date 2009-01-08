@@ -13,16 +13,10 @@ package org.eclipse.birt.report.model.core.namespace;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import javax.swing.text.Style;
-
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -51,7 +45,7 @@ public class StyleNameContext extends AbstractModuleNameContext
 	/**
 	 * Cached default toc map.
 	 */
-	protected Map<String, DesignElement> cachedTOCStyles = new HashMap<String, DesignElement>( );
+	protected Map<String, StyleElement> cachedTOCStyles = new HashMap<String, StyleElement>( );
 
 	/**
 	 * Status identifying whether the caching work is ok or not.
@@ -72,7 +66,8 @@ public class StyleNameContext extends AbstractModuleNameContext
 
 	private void buildTOCStyles( )
 	{
-		List defaultTocStyle = module.getSession( ).getDefaultTOCStyleValue( );
+		List<DesignElement> defaultTocStyle = module.getSession( )
+				.getDefaultTOCStyleValue( );
 		addAllStyles( cachedTOCStyles, defaultTocStyle );
 	}
 
@@ -84,12 +79,12 @@ public class StyleNameContext extends AbstractModuleNameContext
 	 * @see org.eclipse.birt.report.model.core.namespace.IModuleNameScope#getElements(int)
 	 */
 
-	public List getElements( int level )
+	public List<DesignElement> getElements( int level )
 	{
 		if ( isCacheOk )
-			return new ArrayList( cachedStyles.values( ) );
+			return new ArrayList<DesignElement>( cachedStyles.values( ) );
 
-		Map elements = new LinkedHashMap<String, StyleElement>( );
+		Map<String, StyleElement> elements = new LinkedHashMap<String, StyleElement>( );
 
 		Theme theme = module.getTheme( module );
 
@@ -100,12 +95,12 @@ public class StyleNameContext extends AbstractModuleNameContext
 				cachedStyles.putAll( elements );
 				isCacheOk = true;
 			}
-			return new ArrayList( elements.values( ) );
+			return new ArrayList<DesignElement>( elements.values( ) );
 		}
 
 		if ( theme != null )
 		{
-			List allStyles = theme.getAllStyles( );
+			List<StyleElement> allStyles = theme.getAllStyles( );
 			addAllStyles( elements, allStyles );
 		}
 
@@ -116,19 +111,19 @@ public class StyleNameContext extends AbstractModuleNameContext
 				cachedStyles.putAll( elements );
 				isCacheOk = true;
 			}
-			return new ArrayList( elements.values( ) );
+			return new ArrayList<DesignElement>( elements.values( ) );
 		}
 
 		// find in css file
 
-		List csses = CssNameManager
+		List<CssStyle> csses = CssNameManager
 				.getStyles( (ICssStyleSheetOperation) module );
 		addAllStyles( elements, csses );
 
 		// find all styles in report design.
 
 		NameSpace ns = module.getNameHelper( ).getNameSpace( nameSpaceID );
-		List styles = ns.getElements( );
+		List<DesignElement> styles = ns.getElements( );
 		addAllStyles( elements, styles );
 
 		if ( module.isCached( ) )
@@ -136,11 +131,11 @@ public class StyleNameContext extends AbstractModuleNameContext
 			cachedStyles.putAll( elements );
 			isCacheOk = true;
 		}
-		return new ArrayList( elements.values( ) );
+		return new ArrayList<DesignElement>( elements.values( ) );
 	}
 
-	private void addAllStyles( Map<String, DesignElement> styleMap,
-			List<DesignElement> styleList )
+	private void addAllStyles( Map<String, StyleElement> styleMap,
+			List<? extends DesignElement> styleList )
 	{
 		assert styleMap != null;
 		if ( styleList != null )
@@ -148,7 +143,7 @@ public class StyleNameContext extends AbstractModuleNameContext
 			for ( int i = 0; i < styleList.size( ); i++ )
 			{
 				DesignElement style = styleList.get( i );
-				styleMap.put( style.getName( ), style );
+				styleMap.put( style.getName( ), (StyleElement) style );
 			}
 		}
 
@@ -218,11 +213,11 @@ public class StyleNameContext extends AbstractModuleNameContext
 
 			// find in css file
 
-			List csses = CssNameManager
+			List<CssStyle> csses = CssNameManager
 					.getStyles( (ICssStyleSheetOperation) module );
 			for ( int i = 0; csses != null && i < csses.size( ); ++i )
 			{
-				CssStyle s = (CssStyle) csses.get( i );
+				CssStyle s = csses.get( i );
 				if ( elementName.equalsIgnoreCase( s.getFullName( ) ) )
 				{
 					return new ElementRefValue( null, s );

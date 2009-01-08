@@ -43,6 +43,8 @@ public class ElementFactoryUtil
 	 * the meta-data system. The created element should not be renamed as unique
 	 * name.
 	 * 
+	 * @param module
+	 * 
 	 * @param elementTypeName
 	 *            the element type name
 	 * @param name
@@ -132,12 +134,12 @@ public class ElementFactoryUtil
 
 		try
 		{
-			Class c = Class.forName( javaClass );
+			Class<? extends Object> c = Class.forName( javaClass );
 			DesignElement element = null;
 
 			try
 			{
-				Constructor constructor = c
+				Constructor<? extends Object> constructor = c
 						.getConstructor( new Class[]{String.class} );
 				element = (DesignElement) constructor
 						.newInstance( new String[]{name} );
@@ -178,8 +180,8 @@ public class ElementFactoryUtil
 	 *         definition name is not a valid element type name.
 	 */
 
-	public static DesignElement newElementExceptExtensionElement( Module module,
-			String elementTypeName, String name, boolean reName )
+	public static DesignElement newElementExceptExtensionElement(
+			Module module, String elementTypeName, String name, boolean reName )
 	{
 		DesignElement element = newElement( elementTypeName, name );
 		if ( element != null && module != null && reName )

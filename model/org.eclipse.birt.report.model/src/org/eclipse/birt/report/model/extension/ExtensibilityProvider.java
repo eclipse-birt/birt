@@ -15,6 +15,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.command.ExtendsException;
+import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
@@ -61,7 +63,7 @@ public abstract class ExtensibilityProvider implements IExtendableElement
 	 *         if there is no property defined.
 	 */
 
-	public List getPropertyDefns( )
+	public List<IElementPropertyDefn> getPropertyDefns( )
 	{
 		ExtensionElementDefn extDefn = getExtDefn( );
 
@@ -70,15 +72,15 @@ public abstract class ExtensibilityProvider implements IExtendableElement
 
 		if ( extDefn != null && extDefn.getProperties( ) != null )
 		{
-			List props = extDefn.getProperties( );
-			List userProps = element.getUserProperties( );
+			List<IElementPropertyDefn> props = extDefn.getProperties( );
+			List<UserPropertyDefn> userProps = element.getUserProperties( );
 			if ( userProps != null )
 				props.addAll( userProps );
 
 			return props;
 		}
 
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -137,11 +139,11 @@ public abstract class ExtensibilityProvider implements IExtendableElement
 			throws ExtendsException;
 
 	/**
-	 * Returns <code>true</code> if the extended item has local property,
-	 * return <code>false</code> otherwise;
+	 * Returns <code>true</code> if the extended item has local property, return
+	 * <code>false</code> otherwise;
 	 * 
-	 * @return <code>true</code> if the extended item has local property,
-	 *         return <code>false</code> otherwise;
+	 * @return <code>true</code> if the extended item has local property, return
+	 *         <code>false</code> otherwise;
 	 */
 
 	public boolean hasLocalPropertyValues( )

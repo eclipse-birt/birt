@@ -38,7 +38,7 @@ public interface INameContext
 	 * @return all element in this namespace.
 	 */
 
-	public List getElements( int level );
+	public List<DesignElement> getElements( int level );
 
 	/**
 	 * Checks whether the given element name is acceptable in this module name
@@ -53,12 +53,11 @@ public interface INameContext
 
 	/**
 	 * Resolves the given element name to element reference value.
-	 * <code>propDefn</code> gives the resolver information that how to
-	 * resolve the <code>elementName</code>. For example,
-	 * <code>extends</code> and <code>theme</code> property definitions must
-	 * check elements in the included libraries. Other properties are not
-	 * required such checks. The returned reference value might be resolved or
-	 * unresolved.
+	 * <code>propDefn</code> gives the resolver information that how to resolve
+	 * the <code>elementName</code>. For example, <code>extends</code> and
+	 * <code>theme</code> property definitions must check elements in the
+	 * included libraries. Other properties are not required such checks. The
+	 * returned reference value might be resolved or unresolved.
 	 * 
 	 * 
 	 * @param elementName
@@ -72,15 +71,14 @@ public interface INameContext
 
 	/**
 	 * Resolves the given element name to element reference value.
-	 * <code>propDefn</code> gives the resolver information that how to
-	 * resolve the <code>elementName</code>. For example,
-	 * <code>extends</code> and <code>theme</code> property definitions must
-	 * check elements in the included libraries. Other properties are not
-	 * required such checks. The returned reference value might be resolved or
-	 * unresolved.
+	 * <code>propDefn</code> gives the resolver information that how to resolve
+	 * the <code>elementName</code>. For example, <code>extends</code> and
+	 * <code>theme</code> property definitions must check elements in the
+	 * included libraries. Other properties are not required such checks. The
+	 * returned reference value might be resolved or unresolved.
 	 * <p>
-	 * If the <code>element</code> is not invaild in the current resolve
-	 * scope, the return reference value is unresolved.
+	 * If the <code>element</code> is not invalid in the current resolve scope,
+	 * the return reference value is unresolved.
 	 * <p>
 	 * The namespace information may be lost.
 	 * 
@@ -96,19 +94,19 @@ public interface INameContext
 	/**
 	 * Gets the namespace of this context.
 	 * 
-	 * @return
+	 * @return the name space
 	 */
 	public NameSpace getNameSpace( );
 
 	/**
-	 * Finds a elemet whose name is the specified and definition is kind of the
-	 * given type.
+	 * Finds an element whose name is the specified and definition is kind of
+	 * the given type.
 	 * 
 	 * @param elementName
-	 *            the qualifed name of the element, such as lib.dimension,
+	 *            the qualified name of the element, such as lib.dimension,
 	 *            hierarchy, lib.dimensionA/levelA
 	 * @param elementDefn
-	 * @return
+	 * @return the element with the specified name
 	 */
 	public DesignElement findElement( String elementName,
 			IElementDefn elementDefn );
@@ -116,14 +114,14 @@ public interface INameContext
 	/**
 	 * Gets the design element where this name context effects.
 	 * 
-	 * @return
+	 * @return the focus element
 	 */
 	public DesignElement getElement( );
 
 	/**
 	 * Gets the identifier of this name context in its host design element.
 	 * 
-	 * @return
+	 * @return the name space id
 	 */
 	public int getNameSpaceID( );
 }

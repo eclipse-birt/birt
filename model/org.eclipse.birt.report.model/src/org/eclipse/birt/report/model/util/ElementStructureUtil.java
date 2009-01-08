@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -106,7 +107,8 @@ public class ElementStructureUtil
 		if ( child.getExtendsElement( ) != parent )
 			return false;
 
-		Map overriddenValues = collectPropertyValues( childModule, child );
+		Map<Long, List<Object>> overriddenValues = collectPropertyValues(
+				childModule, child );
 		boolean retValue = duplicateStructure( parent, child, childModule );
 		distributeValues( childModule, child, overriddenValues );
 		return retValue;
@@ -127,7 +129,7 @@ public class ElementStructureUtil
 	 */
 
 	public static void distributeValues( Module module, DesignElement element,
-			Map overriddenValues )
+			Map<Long, List<Object>> overriddenValues )
 	{
 		if ( element == null )
 			return;
@@ -136,13 +138,13 @@ public class ElementStructureUtil
 
 		while ( contentIterator.hasNext( ) )
 		{
-			DesignElement content = (DesignElement) contentIterator.next( );
+			DesignElement content = contentIterator.next( );
 			Long baseId = new Long( content.getBaseId( ) );
 
 			if ( overriddenValues == null || overriddenValues.isEmpty( ) )
 				continue;
 
-			List values = (List) overriddenValues.get( baseId );
+			List<Object> values = overriddenValues.get( baseId );
 			if ( values == null || values.isEmpty( ) )
 				continue;
 
@@ -182,30 +184,30 @@ public class ElementStructureUtil
 	 *         property name/value pair.
 	 */
 
-	public static Map collectPropertyValues( Module module,
+	public static Map<Long, List<Object>> collectPropertyValues( Module module,
 			DesignElement element )
 	{
 		if ( element == null )
-			return Collections.EMPTY_MAP;
+			return Collections.emptyMap( );
 
-		Map map = new HashMap( );
+		Map<Long, List<Object>> map = new HashMap<Long, List<Object>>( );
 		Module root = element.getRoot( );
 
 		ContentIterator contentIterator = new ContentIterator( module, element );
 
 		while ( contentIterator.hasNext( ) )
 		{
-			DesignElement content = (DesignElement) contentIterator.next( );
+			DesignElement content = contentIterator.next( );
 			Long baseId = new Long( content.getBaseId( ) );
 
-			List values = (List) map.get( baseId );
+			List<Object> values = map.get( baseId );
 			if ( values == null )
 			{
-				values = new ArrayList( );
+				values = new ArrayList<Object>( );
 				map.put( baseId, values );
 			}
 
-			List propDefns = null;
+			List<IElementPropertyDefn> propDefns = null;
 			if ( content instanceof ExtendedItem )
 			{
 				if ( !( (ExtendedItem) content )
@@ -213,7 +215,7 @@ public class ElementStructureUtil
 				{
 					( (ExtendedItem) content ).getExtensibilityProvider( )
 							.clearOwnModel( );
-					propDefns = new ArrayList( );
+					propDefns = new ArrayList<IElementPropertyDefn>( );
 				}
 				else
 				{
@@ -297,10 +299,10 @@ public class ElementStructureUtil
 		}
 
 		// copy top level properties
-		List properties = defn.getContents( );
+		List<IElementPropertyDefn> properties = defn.getContents( );
 		for ( int i = 0; i < properties.size( ); i++ )
 		{
-			PropertyDefn propDefn = (PropertyDefn) properties.get( i );
+			IElementPropertyDefn propDefn = properties.get( i );
 			duplicateStructure( new ContainerContext( source, propDefn
 					.getName( ) ), new ContainerContext( target, propDefn
 					.getName( ) ), targetModule );
@@ -424,10 +426,10 @@ public class ElementStructureUtil
 			new ContainerContext( element, i ).clearContents( );
 		}
 
-		List properties = defn.getContents( );
+		List<IElementPropertyDefn> properties = defn.getContents( );
 		for ( int i = 0; i < properties.size( ); i++ )
 		{
-			PropertyDefn propDefn = (PropertyDefn) properties.get( i );
+			IElementPropertyDefn propDefn = properties.get( i );
 			new ContainerContext( element, propDefn.getName( ) )
 					.clearContents( );
 		}
@@ -445,17 +447,19 @@ public class ElementStructureUtil
 	public static void addTheVirualElementsToNamesapce( DesignElement element,
 			Module module )
 	{
-		Iterator contentIter = new ContentIterator( module, element );
+		Iterator<DesignElement> contentIter = new ContentIterator( module,
+				element );
 
 		while ( contentIter.hasNext( ) )
 		{
-			DesignElement virtualElement = (DesignElement) contentIter.next( );
+			DesignElement virtualElement = contentIter.next( );
 
 			if ( virtualElement.getName( ) == null )
 				continue;
 
 			module.makeUniqueName( virtualElement );
-			NameSpace ns = new NameExecutor( virtualElement ).getNameSpace( module );
+			NameSpace ns = new NameExecutor( virtualElement )
+					.getNameSpace( module );
 			if ( ns != null )
 				ns.insert( virtualElement );
 		}
@@ -513,7 +517,8 @@ public class ElementStructureUtil
 	 * @return a map to store the base id and the corresponding child element.
 	 */
 
-	public static Map getIdMap( Module module, DesignElement element )
+	public static Map<Long, DesignElement> getIdMap( Module module,
+			DesignElement element )
 	{
 		assert element != null;
 
@@ -521,16 +526,18 @@ public class ElementStructureUtil
 
 		DesignElement parent = element.getExtendsElement( );
 		if ( parent == null )
-			return Collections.EMPTY_MAP;
+			return Collections.emptyMap( );
 
-		Map idMap = new HashMap( );
+		Map<Long, DesignElement> idMap = new HashMap<Long, DesignElement>( );
 
-		Iterator parentIter = new ContentIterator( module, parent );
-		Iterator childIter = new ContentIterator( module, element );
+		Iterator<DesignElement> parentIter = new ContentIterator( module,
+				parent );
+		Iterator<DesignElement> childIter = new ContentIterator( module,
+				element );
 		while ( childIter.hasNext( ) )
 		{
-			DesignElement virtualParent = (DesignElement) parentIter.next( );
-			DesignElement virtualChild = (DesignElement) childIter.next( );
+			DesignElement virtualParent = parentIter.next( );
+			DesignElement virtualChild = childIter.next( );
 
 			assert virtualChild.getDefn( ).getName( ) == virtualChild.getDefn( )
 					.getName( );
@@ -547,9 +554,8 @@ public class ElementStructureUtil
 	 * properties values of the given element on the element locally. The
 	 * following properties will be set:
 	 * <ul>
-	 * <li>Properties set on element itself
-	 * <li>Inherited from style or element's selector style
-	 * <li>Inherited from parent
+	 * <li>Properties set on element itself <li>Inherited from style or 
+	 * element's selector style <li>Inherited from parent
 	 * </ul>
 	 * 
 	 * @param module
@@ -572,8 +578,8 @@ public class ElementStructureUtil
 
 		while ( iter1.hasNext( ) )
 		{
-			DesignElement virtualParent = (DesignElement) iter1.next( );
-			DesignElement virtualChild = (DesignElement) iter2.next( );
+			DesignElement virtualParent = iter1.next( );
+			DesignElement virtualChild = iter2.next( );
 
 			duplicateProperties( virtualParent, virtualChild );
 		}
@@ -593,15 +599,17 @@ public class ElementStructureUtil
 	{
 		if ( from.getDefn( ).allowsUserProperties( ) )
 		{
-			Iterator iter = from.getUserProperties( ).iterator( );
+			Iterator<UserPropertyDefn> iter = from.getUserProperties( )
+					.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				UserPropertyDefn userPropDefn = (UserPropertyDefn) iter.next( );
+				UserPropertyDefn userPropDefn = iter.next( );
 				to.addUserPropertyDefn( userPropDefn );
 			}
 		}
 
-		Iterator iter = from.getDefn( ).getProperties( ).iterator( );
+		Iterator<IElementPropertyDefn> iter = from.getDefn( ).getProperties( )
+				.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) iter.next( );

@@ -43,7 +43,7 @@ public final class NameSpace implements Cloneable
 	 * The actual name space.
 	 */
 
-	private HashMap names = new LinkedHashMap( );
+	private HashMap<String, DesignElement> names = new LinkedHashMap<String, DesignElement>( );
 
 	/**
 	 * Constructor.
@@ -136,7 +136,7 @@ public final class NameSpace implements Cloneable
 
 	public DesignElement getElement( String name )
 	{
-		return (DesignElement) names.get( name );
+		return names.get( name );
 	}
 
 	/**
@@ -156,16 +156,16 @@ public final class NameSpace implements Cloneable
 	 * @return the element list
 	 */
 
-	public List getElements( )
+	public List<DesignElement> getElements( )
 	{
-		return new ArrayList( names.values( ) );
+		return new ArrayList<DesignElement>( names.values( ) );
 	}
 
 	public Object clone( ) throws CloneNotSupportedException
 	{
 
 		NameSpace ns = (NameSpace) super.clone( );
-		ns.names = new LinkedHashMap( );
+		ns.names = new LinkedHashMap<String, DesignElement>( );
 
 		return ns;
 	}

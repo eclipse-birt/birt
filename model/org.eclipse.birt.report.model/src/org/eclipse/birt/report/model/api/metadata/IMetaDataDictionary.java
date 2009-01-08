@@ -21,9 +21,9 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
  * designs share the same BIRT-provided set of design elements. See the
  * {@link IElementDefn}class for more detailed information.
  * 
- * <h2>Meta-data Information</h2>
- * The application must first populate the elements from a meta-data XML file
- * using a parser. The meta-data defined here includes:
+ * <h2>Meta-data Information</h2> The application must first populate the
+ * elements from a meta-data XML file using a parser. The meta-data defined here
+ * includes:
  * 
  * <p>
  * <dl>
@@ -53,16 +53,17 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
 
 public interface IMetaDataDictionary
 {
+
 	/**
 	 * Name of the class for 'Total'.
 	 */
 	String TOTAL_CLASS_NAME = "Total"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the class for 'Finance'.
 	 */
 	String FINANCE_CLASS_NAME = "Finance"; //$NON-NLS-1$
-	
+
 	/**
 	 * Finds the element definition by its internal name.
 	 * 
@@ -73,7 +74,7 @@ public interface IMetaDataDictionary
 	 */
 
 	public IElementDefn getElement( String name );
-	
+
 	/**
 	 * Gets the metadata for a property type.
 	 * 
@@ -105,6 +106,7 @@ public interface IMetaDataDictionary
 
 	/**
 	 * Enables the use of element IDs.
+	 * 
 	 * @deprecated
 	 */
 
@@ -153,7 +155,7 @@ public interface IMetaDataDictionary
 	 * @return the element list.
 	 */
 
-	public List getElements( );
+	public List<IElementDefn> getElements( );
 
 	/**
 	 * Returns the structure list. Each one is the instance of
@@ -162,7 +164,7 @@ public interface IMetaDataDictionary
 	 * @return the structure list.
 	 */
 
-	public List getStructures( );
+	public List<IStructureDefn> getStructures( );
 
 	/**
 	 * Gets the predefined style list. Each one is the instance of
@@ -180,7 +182,7 @@ public interface IMetaDataDictionary
 	 * @return the class list.
 	 */
 
-	public List getClasses( );
+	public List<IClassInfo> getClasses( );
 
 	/**
 	 * Returns the class definition given the class name.
@@ -200,7 +202,7 @@ public interface IMetaDataDictionary
 	 *         is found.
 	 */
 
-	public List getExtensions( );
+	public List<IElementDefn> getExtensions( );
 
 	/**
 	 * Returns the extension definition given the extension name.
@@ -211,15 +213,15 @@ public interface IMetaDataDictionary
 	 */
 
 	public IElementDefn getExtension( String name );
-	
-	/**
-     * Gets a list of rom-defined property types.
-     * 
-     * @return a list of rom-defined property types.
-     */
 
-	public List getPropertyTypes( );
-	
+	/**
+	 * Gets a list of rom-defined property types.
+	 * 
+	 * @return a list of rom-defined property types.
+	 */
+
+	public List<IPropertyType> getPropertyTypes( );
+
 	/**
 	 * Returns the function list. Each one is the instance of
 	 * <code>IMethodInfo</code>.
@@ -227,5 +229,5 @@ public interface IMetaDataDictionary
 	 * @return the method list.
 	 */
 
-	public List getFunctions( );
+	public List<IMethodInfo> getFunctions( );
 }

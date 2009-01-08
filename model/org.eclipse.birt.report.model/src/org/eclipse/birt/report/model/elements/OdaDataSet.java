@@ -15,9 +15,11 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.WrongTypeException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -77,7 +79,9 @@ public class OdaDataSet extends SimpleDataSet
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * .report.model.elements.ElementVisitor)
 	 */
 	public void apply( ElementVisitor visitor )
 	{
@@ -97,7 +101,9 @@ public class OdaDataSet extends SimpleDataSet
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse
+	 * .birt.report.model.elements.ReportDesign)
 	 */
 	public DesignElementHandle getHandle( Module module )
 	{
@@ -143,7 +149,7 @@ public class OdaDataSet extends SimpleDataSet
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyDefns()
 	 */
 
-	public List getPropertyDefns( )
+	public List<IElementPropertyDefn> getPropertyDefns( )
 	{
 		if ( provider != null && !( provider instanceof OdaDummyProvider ) )
 			return provider.getPropertyDefns( );
@@ -154,7 +160,9 @@ public class OdaDataSet extends SimpleDataSet
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyDefn(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getPropertyDefn(java
+	 * .lang.String)
 	 */
 
 	public ElementPropertyDefn getPropertyDefn( String propName )
@@ -174,7 +182,9 @@ public class OdaDataSet extends SimpleDataSet
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getIntrinsicProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getIntrinsicProperty
+	 * (java.lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -188,8 +198,9 @@ public class OdaDataSet extends SimpleDataSet
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#setIntrinsicProperty
+	 * (java.lang.String, java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
@@ -223,7 +234,9 @@ public class OdaDataSet extends SimpleDataSet
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#checkExtends(org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#checkExtends(org.eclipse
+	 * .birt.report.model.core.DesignElement)
 	 */
 
 	public void checkExtends( DesignElement parent ) throws ExtendsException
@@ -255,12 +268,14 @@ public class OdaDataSet extends SimpleDataSet
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
+	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( Module module )
+	public List<SemanticException> validate( Module module )
 	{
-		List list = super.validate( module );
+		List<SemanticException> list = super.validate( module );
 
 		list
 				.addAll( ExtensionValidator.getInstance( ).validate( module,

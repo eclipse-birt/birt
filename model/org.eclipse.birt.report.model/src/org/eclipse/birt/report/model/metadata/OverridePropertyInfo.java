@@ -27,7 +27,7 @@ public class OverridePropertyInfo
 	/**
 	 * Get allowedUnits. for example : in,mm,pt
 	 * 
-	 * @return
+	 * @return the allowed units
 	 */
 
 	public String getAllowedUnits( )
@@ -49,7 +49,7 @@ public class OverridePropertyInfo
 	/**
 	 * Get allowedUnits. for example : in,mm,pt
 	 * 
-	 * @return
+	 * @return the allowed choices by the overridden definition
 	 */
 
 	public String getAllowedChoices( )
@@ -58,9 +58,9 @@ public class OverridePropertyInfo
 	}
 
 	/**
-	 * Sets allowedUnits.
+	 * Sets allowedChoices.
 	 * 
-	 * @param allowedUnits
+	 * @param allowedChoices
 	 */
 
 	void setAllowedChoices( String allowedChoices )
@@ -71,7 +71,7 @@ public class OverridePropertyInfo
 	/**
 	 * @return the enableExtraSearch
 	 */
-	
+
 	public boolean useOwnSearch( )
 	{
 		return enableExtraSearch;
@@ -81,7 +81,7 @@ public class OverridePropertyInfo
 	 * @param enableExtraSearch
 	 *            the enableExtraSearch to set
 	 */
-	
+
 	void setUseOwnSearch( boolean enableExtraSearch )
 	{
 		this.enableExtraSearch = enableExtraSearch;

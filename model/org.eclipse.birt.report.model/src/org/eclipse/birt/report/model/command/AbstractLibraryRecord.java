@@ -55,12 +55,23 @@ abstract class AbstractLibraryRecord extends SimpleRecord
 
 	protected Library library;
 
+	/**
+	 * Constructs the library record.
+	 * 
+	 * @param module
+	 * @param library
+	 */
 	AbstractLibraryRecord( Module module, Library library )
 	{
 		this.module = module;
 		this.library = library;
 	}
 
+	/**
+	 * Constructs the library record.
+	 * 
+	 * @param module
+	 */
 	AbstractLibraryRecord( Module module )
 	{
 		this.module = module;
@@ -69,7 +80,8 @@ abstract class AbstractLibraryRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
+	 * @see
+	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
 
 	public DesignElement getTarget( )
@@ -80,19 +92,17 @@ abstract class AbstractLibraryRecord extends SimpleRecord
 	/**
 	 * Updates the style reference using the element in the given library list.
 	 * 
-	 * @param librariesToUpdate
-	 *            library list
+	 * @param updateSize
+	 *            the size of the library that needs to be updated
 	 */
 
-	public void updateReferenceableClients( List librariesToUpdate )
+	public void updateReferenceableClients( int updateSize )
 	{
-		int size = librariesToUpdate.size( );
+		List<Library> libraries = module.getLibraries( );
 
-		List libraries = module.getLibraries( );
-
-		for ( int i = 0; i < size; i++ )
+		for ( int i = 0; i < updateSize; i++ )
 		{
-			updateReferenceableClients( (Library) libraries.get( i ) );
+			updateReferenceableClients( libraries.get( i ) );
 		}
 	}
 
@@ -110,7 +120,7 @@ abstract class AbstractLibraryRecord extends SimpleRecord
 
 		// update clients of embedded images
 
-		List images = library.getListProperty( library,
+		List<Object> images = library.getListProperty( library,
 				IModuleModel.IMAGES_PROP );
 		if ( images == null || images.isEmpty( ) )
 			return;
@@ -118,12 +128,12 @@ abstract class AbstractLibraryRecord extends SimpleRecord
 		for ( int i = 0; i < images.size( ); i++ )
 		{
 			EmbeddedImage image = (EmbeddedImage) images.get( i );
-			List clients = image.getClientStructures( );
+			List<Structure> clients = image.getClientStructures( );
 			if ( clients == null || clients.isEmpty( ) )
 				continue;
 			for ( int j = 0; j < clients.size( ); j++ )
 			{
-				Structure client = (Structure) clients.get( j );
+				Structure client = clients.get( j );
 				StructRefValue value = (StructRefValue) client
 						.getLocalProperty( module,
 								ReferencableStructure.LIB_REFERENCE_MEMBER );
@@ -133,12 +143,12 @@ abstract class AbstractLibraryRecord extends SimpleRecord
 				sendEvent = true;
 			}
 
-			clients = image.getClientList( );
-			if ( clients == null || clients.isEmpty( ) )
+			List<BackRef> clientsRef = image.getClientList( );
+			if ( clientsRef == null || clientsRef.isEmpty( ) )
 				continue;
-			for ( int j = 0; j < clients.size( ); j++ )
+			for ( int j = 0; j < clientsRef.size( ); j++ )
 			{
-				BackRef client = (BackRef) clients.get( j );
+				BackRef client = clientsRef.get( j );
 				DesignElement element = client.getElement( );
 
 				StructRefValue value = (StructRefValue) element
@@ -170,10 +180,10 @@ abstract class AbstractLibraryRecord extends SimpleRecord
 	private void updateReferenceableClients( DesignElement target, int slotId )
 	{
 		ContainerSlot slot = target.getSlot( slotId );
-		Iterator iter = slot.iterator( );
+		Iterator<DesignElement> iter = slot.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			DesignElement element = (DesignElement) iter.next( );
+			DesignElement element = iter.next( );
 			assert element instanceof IReferencableElement;
 
 			IReferencableElement referenceableElement = (IReferencableElement) element;
@@ -189,21 +199,20 @@ abstract class AbstractLibraryRecord extends SimpleRecord
 				updateReferenceableClients(
 						(DesignElement) referenceableElement,
 						IThemeModel.STYLES_SLOT );
-				
+
 				// removes references of css styles in the theme. for bugzilla
 				// 192171
-				List csses = ( (ICssStyleSheetOperation) referenceableElement )
+				List<CssStyleSheet> csses = ( (ICssStyleSheetOperation) referenceableElement )
 						.getCsses( );
-				Iterator cssIterator = csses.iterator( );
+				Iterator<CssStyleSheet> cssIterator = csses.iterator( );
 				while ( cssIterator.hasNext( ) )
 				{
-					CssStyleSheet styleSheet = (CssStyleSheet) cssIterator
-							.next( );
-					List styles = styleSheet.getStyles( );
-					Iterator styleIterator = styles.iterator( );
+					CssStyleSheet styleSheet = cssIterator.next( );
+					List<CssStyle> styles = styleSheet.getStyles( );
+					Iterator<CssStyle> styleIterator = styles.iterator( );
 					while ( styleIterator.hasNext( ) )
 					{
-						CssStyle cssStyle = (CssStyle) styleIterator.next( );
+						CssStyle cssStyle = styleIterator.next( );
 						cssStyle.updateClientReferences( );
 					}
 				}

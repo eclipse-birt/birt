@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -128,8 +129,9 @@ public final class ContainerContext
 	}
 
 	/**
+	 * Gets the container element of this information.
 	 * 
-	 * @return
+	 * @return the container element
 	 */
 	public DesignElement getElement( )
 	{
@@ -137,8 +139,10 @@ public final class ContainerContext
 	}
 
 	/**
+	 * Gets the slot id of this information.
 	 * 
-	 * @return
+	 * @return the slot id of this information if slot definition is valid,
+	 *         otherwise <code>-1</code>
 	 */
 	public int getSlotID( )
 	{
@@ -146,8 +150,10 @@ public final class ContainerContext
 	}
 
 	/**
+	 * Gets the property name of this container information.
 	 * 
-	 * @return
+	 * @return the property name of this information if property definition is
+	 *         valid, otherwise <code>null</code>>
 	 */
 	public String getPropertyName( )
 	{
@@ -157,8 +163,11 @@ public final class ContainerContext
 	}
 
 	/**
+	 * Gets the container definition of this information. The returned value can
+	 * be either <code>ISlotDen</code>> or <code>IPropertyDefn</code>>.
 	 * 
-	 * @return
+	 * @return the container definition of this information if slot definition
+	 *         is valid or property definition is valid, otherwise null
 	 */
 	public IContainerDefn getContainerDefn( )
 	{
@@ -171,10 +180,12 @@ public final class ContainerContext
 	}
 
 	/**
+	 * Finds the position where the specialized content resides in this
+	 * container information.
 	 * 
 	 * @param module
 	 * @param content
-	 * @return
+	 * @return 0-based position index if found, otherwise -1
 	 */
 	public int indexOf( Module module, DesignElement content )
 	{
@@ -184,7 +195,7 @@ public final class ContainerContext
 		if ( value == content )
 			return 0;
 		if ( value instanceof List )
-			return ( (List) value ).indexOf( content );
+			return ( (List<Object>) value ).indexOf( content );
 		return -1;
 	}
 
@@ -261,10 +272,12 @@ public final class ContainerContext
 	}
 
 	/**
-	 * Checks
+	 * Checks the validity whether the specialized element type can be inserted
+	 * in this container information in ROM.def.
 	 * 
 	 * @param defn
-	 * @return
+	 * @return true if the element type is legal to be held by this container,
+	 *         otherwise false.
 	 */
 	public boolean canContainInRom( IElementDefn defn )
 	{
@@ -275,8 +288,9 @@ public final class ContainerContext
 	}
 
 	/**
+	 * Justifies whether this container is multiple cardinality or not.
 	 * 
-	 * @return
+	 * @return true if the container is multiple cardinality, otherwise false
 	 */
 	public boolean isContainerMultipleCardinality( )
 	{
@@ -289,14 +303,16 @@ public final class ContainerContext
 	}
 
 	/**
+	 * The list of all the contents that reside in this container information.
+	 * If no element is in, returned value is empty list.
 	 * 
 	 * @param module
-	 * @return
+	 * @return the list of the contents
 	 */
-	public List getContents( Module module )
+	public List<DesignElement> getContents( Module module )
 	{
 		if ( getContainerDefn( ) == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		if ( isSlot )
 		{
 			return container.getSlot( containerSlotID ).getContents( );
@@ -305,21 +321,24 @@ public final class ContainerContext
 		ElementPropertyDefn defn = container.getPropertyDefn( containerProp );
 		Object value = container.getLocalProperty( module, defn );
 		if ( defn == null || value == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		if ( defn.isList( ) )
 		{
-			return (List) value;
+			return (List<DesignElement>) value;
 		}
-		List result = new ArrayList( );
-		result.add( value );
+		List<DesignElement> result = new ArrayList<DesignElement>( );
+		result.add( (DesignElement) value );
 		return result;
 	}
 
 	/**
+	 * Gets the content in the specialized position of this container. If the
+	 * given index is out of range, returned value is <code>null</code>.
 	 * 
 	 * @param module
 	 * @param posn
-	 * @return
+	 *            0-based position index
+	 * @return the content if found, otherwise null
 	 */
 	public DesignElement getContent( Module module, int posn )
 	{
@@ -342,7 +361,7 @@ public final class ContainerContext
 			return null;
 		if ( defn.isList( ) )
 		{
-			List value = container.getListProperty( module, propName );
+			List<Object> value = container.getListProperty( module, propName );
 			return (DesignElement) ( value == null ? null : value.get( posn ) );
 		}
 		return (DesignElement) ( posn == 0 ? container.getProperty( module,
@@ -350,9 +369,10 @@ public final class ContainerContext
 	}
 
 	/**
+	 * The count of all the contents that reside in this container information.
 	 * 
 	 * @param module
-	 * @return
+	 * @return the count of all the contents
 	 */
 	public int getContentCount( Module module )
 	{
@@ -375,7 +395,7 @@ public final class ContainerContext
 			return 0;
 		if ( defn.isList( ) )
 		{
-			List value = container.getListProperty( module, propName );
+			List<Object> value = container.getListProperty( module, propName );
 			return value == null ? 0 : value.size( );
 		}
 		return container.getProperty( module, defn ) == null ? 0 : 1;
@@ -386,6 +406,7 @@ public final class ContainerContext
 	 * @param module
 	 * @param content
 	 * @param posn
+	 *            0-based position index
 	 */
 	public void add( Module module, DesignElement content, int posn )
 	{
@@ -425,7 +446,8 @@ public final class ContainerContext
 	 * 
 	 * @param module
 	 * @param content
-	 * @return
+	 * @return true if the content resides in this container information,
+	 *         otherwise false
 	 */
 	public boolean contains( Module module, DesignElement content )
 	{
@@ -538,8 +560,8 @@ public final class ContainerContext
 	 * @return a list containing exceptions.
 	 */
 
-	public final List checkContainmentContext( Module module,
-			DesignElement element )
+	public final List<SemanticException> checkContainmentContext(
+			Module module, DesignElement element )
 	{
 		return new ContainerContextProvider( this ).checkContainmentContext(
 				module, element );
@@ -576,7 +598,7 @@ public final class ContainerContext
 
 		assert defn.isList( )
 				&& defn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE;
-		List items = container.getListProperty( module, propName );
+		List<Object> items = container.getListProperty( module, propName );
 		assert items != null;
 		assert from >= 0 && from < items.size( );
 		assert to >= 0 && to < items.size( );
@@ -702,7 +724,8 @@ public final class ContainerContext
 			if ( module != null && module.isReadOnly( ) )
 				return false;
 
-			List errors = checkContainmentContext( module, element );
+			List<SemanticException> errors = checkContainmentContext( module,
+					element );
 			if ( !errors.isEmpty( ) )
 				return false;
 
@@ -756,8 +779,8 @@ public final class ContainerContext
 				if ( container instanceof ListingElement
 						|| container instanceof MasterPage )
 				{
-					List errors = container.checkContent( module, this.focus,
-							defn );
+					List<SemanticException> errors = container.checkContent(
+							module, this.focus, defn );
 					return errors.isEmpty( );
 				}
 
@@ -777,11 +800,11 @@ public final class ContainerContext
 		 * @return a list containing exceptions.
 		 */
 
-		public final List checkContainmentContext( Module module,
-				DesignElement element )
+		public final List<SemanticException> checkContainmentContext(
+				Module module, DesignElement element )
 		{
 			if ( element == null )
-				return Collections.EMPTY_LIST;
+				return Collections.emptyList( );
 
 			boolean retValue = canContainInRom( element.getDefn( ) );
 			ContentException e = ContentExceptionFactory
@@ -790,7 +813,7 @@ public final class ContainerContext
 							element,
 							ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT );
 
-			List errors = new ArrayList( );
+			List<SemanticException> errors = new ArrayList<SemanticException>( );
 			if ( !retValue )
 			{
 				errors.add( e );
@@ -799,10 +822,8 @@ public final class ContainerContext
 
 			// if this element can not be contained in the module, return false;
 			// such as, template elements can not be contained in the libraries,
-			// so
-			// either a template table or a real tabel with a template image in
-			// one
-			// cell of it can never be contained in a libraries
+			// so either a template table or a real table with a template image
+			// in one cell of it can never be contained in a libraries
 
 			if ( !canContainTemplateElement( module, element ) )
 			{
@@ -855,7 +876,7 @@ public final class ContainerContext
 				containerInfor = container.getContainerInfo( );
 			}
 
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		}
 
 		/**
@@ -869,8 +890,8 @@ public final class ContainerContext
 		 *            the element definition
 		 * 
 		 * @return <code>true</code> if elements with the definition
-		 *         <code>defn</code> can reside in the given slot. Otherwise
-		 *         <code>false</code>.
+		 *         <code>definition</code> can reside in the given slot.
+		 *         Otherwise <code>false</code>.
 		 */
 
 		private boolean canContainInRom( IElementDefn defn )
@@ -930,7 +951,7 @@ public final class ContainerContext
 			ContentIterator contents = new ContentIterator( module, element );
 			while ( contents.hasNext( ) )
 			{
-				DesignElement content = (DesignElement) contents.next( );
+				DesignElement content = contents.next( );
 				if ( content instanceof TemplateElement )
 					return canContainTemplateElement( module, defn );
 			}

@@ -40,13 +40,13 @@ public class ClassInfo extends LocalizableInfo implements IClassInfo
 	 * The list of method definitions.
 	 */
 
-	private LinkedHashMap methods;
+	private LinkedHashMap<String, IMethodInfo> methods;
 
 	/**
 	 * The list of member definitions.
 	 */
 
-	private LinkedHashMap members;
+	private LinkedHashMap<String, IMemberInfo> members;
 
 	/**
 	 * The flag indicates if an object is native or not.
@@ -66,7 +66,7 @@ public class ClassInfo extends LocalizableInfo implements IClassInfo
 	public void addMethod( IMethodInfo methodInfo ) throws MetaDataException
 	{
 		if ( methods == null )
-			methods = new LinkedHashMap( );
+			methods = new LinkedHashMap<String, IMethodInfo>( );
 
 		if ( StringUtil.isBlank( methodInfo.getName( ) ) )
 			throw new MetaDataException( new String[]{methodInfo.getName( )},
@@ -88,7 +88,7 @@ public class ClassInfo extends LocalizableInfo implements IClassInfo
 			throws MetaDataException
 	{
 		if ( members == null )
-			members = new LinkedHashMap( );
+			members = new LinkedHashMap<String, IMemberInfo>( );
 
 		if ( StringUtil.isBlank( memberDefn.getName( ) ) )
 			throw new MetaDataException( new String[]{memberDefn.getName( )},
@@ -111,12 +111,12 @@ public class ClassInfo extends LocalizableInfo implements IClassInfo
 	 * @return a list of method definitions
 	 */
 
-	public List getMethods( )
+	public List<IMethodInfo> getMethods( )
 	{
 		if ( methods != null )
-			return new ArrayList( methods.values( ) );
+			return new ArrayList<IMethodInfo>( methods.values( ) );
 
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -138,12 +138,12 @@ public class ClassInfo extends LocalizableInfo implements IClassInfo
 	 * @return the list of member definitions
 	 */
 
-	public List getMembers( )
+	public List<IMemberInfo> getMembers( )
 	{
 		if ( members != null )
-			return new ArrayList( members.values( ) );
+			return new ArrayList<IMemberInfo>( members.values( ) );
 
-		return new ArrayList( );
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -200,7 +200,7 @@ public class ClassInfo extends LocalizableInfo implements IClassInfo
 	 * Finds out the member/method information of a <code>ClassInfo</code>.
 	 * 
 	 * @param objs
-	 *            the colllection contains member/method information
+	 *            the collection contains member/method information
 	 * @param name
 	 *            the name of a member/method
 	 * 
@@ -208,12 +208,13 @@ public class ClassInfo extends LocalizableInfo implements IClassInfo
 	 *         corresponding to <code>objs</code>
 	 */
 
-	private Object findInfo( LinkedHashMap objs, String name )
+	private Object findInfo( LinkedHashMap<String, ? extends Object> objs,
+			String name )
 	{
 		if ( objs == null || name == null )
 			return null;
 
-		return objs.get( name);
+		return objs.get( name );
 	}
 
 	/**
@@ -241,8 +242,8 @@ public class ClassInfo extends LocalizableInfo implements IClassInfo
 	/**
 	 * Returns whether a class object is native.
 	 * 
-	 * @return <code>true</code> if an object of this class is native,
-	 *         otherwise <code>false</code>
+	 * @return <code>true</code> if an object of this class is native, otherwise
+	 *         <code>false</code>
 	 */
 
 	public boolean isNative( )

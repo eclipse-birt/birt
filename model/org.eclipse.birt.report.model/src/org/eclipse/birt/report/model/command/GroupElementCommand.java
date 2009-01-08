@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.command;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
@@ -28,13 +27,10 @@ import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListItem;
 import org.eclipse.birt.report.model.elements.ListingElement;
-import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
-import org.eclipse.birt.report.model.elements.strategy.GroupPropSearchStrategy;
-import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -114,7 +110,7 @@ public class GroupElementCommand extends ContentCommand
 	private void addDataGroups( ListingElement tmpContainer, int groupLevel,
 			GroupElement content ) throws ContentException, NameException
 	{
-		List tmpElements = tmpContainer
+		List<DesignElement> tmpElements = tmpContainer
 				.findReferredListingElements( getModule( ) );
 
 		for ( int i = 0; i < tmpElements.size( ); i++ )
@@ -136,10 +132,10 @@ public class GroupElementCommand extends ContentCommand
 	 * @return
 	 */
 
-	private static List createNewGroupElement( ListingElement tmpElement,
-			int groupCount )
+	private static List<GroupElement> createNewGroupElement(
+			ListingElement tmpElement, int groupCount )
 	{
-		List groupsToAdd = new ArrayList( );
+		List<GroupElement> groupsToAdd = new ArrayList<GroupElement>( );
 
 		for ( int i = 0; i < groupCount; i++ )
 		{
@@ -180,7 +176,7 @@ public class GroupElementCommand extends ContentCommand
 	private void deleteDataGroups( ListingElement tmpContainer, int groupIndex )
 			throws SemanticException
 	{
-		List tmpElements = tmpContainer
+		List<DesignElement> tmpElements = tmpContainer
 				.findReferredListingElements( getModule( ) );
 
 		for ( int i = 0; i < tmpElements.size( ); i++ )
@@ -198,7 +194,7 @@ public class GroupElementCommand extends ContentCommand
 
 	private void handleColumnBinding( DesignElement content )
 	{
-		List boundColumns = element.getListProperty( module,
+		List<Object> boundColumns = element.getListProperty( module,
 				IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 
 		if ( boundColumns == null || boundColumns.isEmpty( ) )
@@ -206,7 +202,7 @@ public class GroupElementCommand extends ContentCommand
 
 		String groupName = (String) content.getProperty( module,
 				IGroupElementModel.GROUP_NAME_PROP );
-		List toCleared = new ArrayList( );
+		List<Integer> toCleared = new ArrayList<Integer>( );
 		for ( int i = 0; i < boundColumns.size( ); i++ )
 		{
 			ComputedColumn column = (ComputedColumn) boundColumns.get( i );
@@ -226,7 +222,7 @@ public class GroupElementCommand extends ContentCommand
 		{
 			for ( int i = 0; i < toCleared.size( ); i++ )
 			{
-				int columnIndex = ( (Integer) toCleared.get( i ) ).intValue( );
+				int columnIndex = ( toCleared.get( i ) ).intValue( );
 
 				CachedMemberRef memberRef = new CachedMemberRef( propDefn,
 						columnIndex, structPropDefn );
@@ -409,7 +405,7 @@ public class GroupElementCommand extends ContentCommand
 			super.doMovePosition( content, newPosn );
 
 			ListingElement tmpContainer = (ListingElement) element;
-			List tmpElements = tmpContainer
+			List<DesignElement> tmpElements = tmpContainer
 					.findReferredListingElements( getModule( ) );
 
 			for ( int i = 0; i < tmpElements.size( ); i++ )
@@ -451,26 +447,27 @@ public class GroupElementCommand extends ContentCommand
 				.isCompatibleDataBindingElements( element, targetElement ) )
 			return;
 
-		List groupsToRemove = new ArrayList<DesignElement>( );
+		List<DesignElement> groupsToRemove = new ArrayList<DesignElement>( );
 		groupsToRemove.addAll( ( (ListingElement) element ).getGroups( ) );
 		for ( int i = 0; i < groupsToRemove.size( ); i++ )
 		{
 			GroupElementCommand tmpCmd = new GroupElementCommand( module,
 					new ContainerContext( element, ListingElement.GROUP_SLOT ),
 					true, unresolveReference );
-			tmpCmd.remove( (GroupElement) groupsToRemove.get( i ) );
+			tmpCmd.remove( groupsToRemove.get( i ) );
 		}
 
-		List targetGroups = ( (ListingElement) targetElement ).getGroups( );
-		List groupsToAdd = createNewGroupElement( (ListingElement) element,
-				targetGroups.size( ) );
+		List<DesignElement> targetGroups = ( (ListingElement) targetElement )
+				.getGroups( );
+		List<GroupElement> groupsToAdd = createNewGroupElement(
+				(ListingElement) element, targetGroups.size( ) );
 
 		for ( int i = 0; i < groupsToAdd.size( ); i++ )
 		{
 			GroupElementCommand tmpCmd = new GroupElementCommand( module,
 					new ContainerContext( element, ListingElement.GROUP_SLOT ),
 					true );
-			tmpCmd.add( (GroupElement) groupsToAdd.get( i ) );
+			tmpCmd.add( groupsToAdd.get( i ) );
 		}
 	}
 
@@ -494,8 +491,8 @@ public class GroupElementCommand extends ContentCommand
 	 * @param value
 	 * @throws SemanticException
 	 */
-	void updateBindingRef( ElementRefValue oldValue,
-			ElementRefValue value ) throws SemanticException
+	void updateBindingRef( ElementRefValue oldValue, ElementRefValue value )
+			throws SemanticException
 	{
 		if ( !( element instanceof ListingElement ) )
 			return;

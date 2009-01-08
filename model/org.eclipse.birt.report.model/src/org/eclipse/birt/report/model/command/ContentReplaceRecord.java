@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.activity.LayoutRecordTask;
 import org.eclipse.birt.report.model.activity.NotificationRecordTask;
+import org.eclipse.birt.report.model.activity.RecordTask;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentReplaceEvent;
@@ -33,6 +34,7 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
+import org.eclipse.birt.report.model.validators.ValidationNode;
 
 /**
  * Records replacing a content with a new element in the container.
@@ -80,7 +82,7 @@ public class ContentReplaceRecord extends SimpleRecord
 	 * @param containerInfo
 	 *            The container information.
 	 * @param oldElement
-	 *            the old elemnt to be replaced
+	 *            the old element to be replaced
 	 * @param newElement
 	 *            the new element to replace
 	 * 
@@ -194,10 +196,11 @@ public class ContentReplaceRecord extends SimpleRecord
 	 * getValidators()
 	 */
 
-	public List getValidators( )
+	public List<ValidationNode> getValidators( )
 	{
-		List list = ValidationExecutor.getValidationNodes( focus.getElement( ),
-				focus.getTriggerSetForContainerDefn( ), false );
+		List<ValidationNode> list = ValidationExecutor.getValidationNodes(
+				focus.getElement( ), focus.getTriggerSetForContainerDefn( ),
+				false );
 
 		if ( state != UNDONE_STATE )
 		{
@@ -225,9 +228,9 @@ public class ContentReplaceRecord extends SimpleRecord
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
 	 */
 
-	protected List getPostTasks( )
+	protected List<RecordTask> getPostTasks( )
 	{
-		List retValue = new ArrayList( );
+		List<RecordTask> retValue = new ArrayList<RecordTask>( );
 		retValue.addAll( super.getPostTasks( ) );
 
 		DesignElement container = focus.getElement( );

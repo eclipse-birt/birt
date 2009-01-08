@@ -23,7 +23,6 @@ import org.eclipse.birt.report.model.api.scripts.IScriptableObjectClassInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.Style;
 
-
 /**
  * Represents the extension manager which is responsible to load all extensions
  * that Model supports. This class can not be instantiated and derived.
@@ -33,7 +32,7 @@ public final class ExtensionManager
 {
 
 	/**
-	 * the singleton isntance
+	 * the singleton instance
 	 */
 	static protected ExtensionManager instance;
 
@@ -198,7 +197,7 @@ public final class ExtensionManager
 	/**
 	 * Gets all the encryption helpers.
 	 * 
-	 * @return
+	 * @return the list of the encryption helpers
 	 */
 	public List<IEncryptionHelper> getEncryptionHelpers( )
 	{
@@ -227,7 +226,7 @@ public final class ExtensionManager
 	/**
 	 * Gets the default encryption id.
 	 * 
-	 * @return
+	 * @return the default encryption helper id
 	 */
 	public String getDefaultEncryptionHelperID( )
 	{

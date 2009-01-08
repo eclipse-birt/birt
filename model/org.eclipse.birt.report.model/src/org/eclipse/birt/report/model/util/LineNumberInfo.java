@@ -33,35 +33,39 @@ public class LineNumberInfo
 {
 
 	/**
-	 * The hash map for the element id-to-lineNumber lookup.
+	 * The hash map for the element id-to-lineNumber lookup. Key is the id of
+	 * design element. Value is the line number.
 	 */
 
-	private HashMap elementMap = null;
+	private HashMap<Long, Integer> elementMap = null;
 
 	/**
-	 * The hash map for the slot xpath string-to-lineNumber lookup.
+	 * The hash map for the slot xpath string-to-lineNumber lookup. Key is the
+	 * xPath of the slot and value is the line number.
 	 */
 
-	private HashMap slotMap = null;
+	private HashMap<String, Integer> slotMap = null;
 
 	/**
 	 * The hash map for the <code>IncludeLibrary</code> structures
-	 * namespace-to-lineNumber lookup.
+	 * namespace-to-lineNumber lookup. Key is the namespace string of included
+	 * library.
 	 */
 
-	private HashMap includeLibStructMap = null;
+	private HashMap<String, Integer> includeLibStructMap = null;
 
 	/**
 	 * The hash map for the <code>EmbeddedImage</code> structures
-	 * name-to-lineNumber lookup.
+	 * name-to-lineNumber lookup. Key is the name of the embedded image.
 	 */
 
-	private HashMap embeddedImageStructMap = null;
+	private HashMap<String, Integer> embeddedImageStructMap = null;
 
 	/**
-	 * Hash map for the <code>CssStyleSheet</code> structures namespace
+	 * Hash map for the <code>CssStyleSheet</code> structures namespace. Key is
+	 * the file name of the included css style sheet.
 	 */
-	private HashMap includedCssStyleSheetStructMap = null;
+	private HashMap<String, Integer> includedCssStyleSheetStructMap = null;
 
 	/**
 	 * The line number for theme property in report design.
@@ -77,11 +81,11 @@ public class LineNumberInfo
 
 	public LineNumberInfo( )
 	{
-		elementMap = new HashMap( );
-		includeLibStructMap = new HashMap( );
-		embeddedImageStructMap = new HashMap( );
-		includedCssStyleSheetStructMap = new HashMap( );
-		slotMap = new HashMap( );
+		elementMap = new HashMap<Long, Integer>( );
+		includeLibStructMap = new HashMap<String, Integer>( );
+		embeddedImageStructMap = new HashMap<String, Integer>( );
+		includedCssStyleSheetStructMap = new HashMap<String, Integer>( );
+		slotMap = new HashMap<String, Integer>( );
 	}
 
 	/**
@@ -154,8 +158,8 @@ public class LineNumberInfo
 
 		if ( obj instanceof EmbeddedImage )
 		{
-			return intValue( (Integer) embeddedImageStructMap
-					.get( ( (EmbeddedImage) obj ).getName( ) ) );
+			return intValue( embeddedImageStructMap.get( ( (EmbeddedImage) obj )
+					.getName( ) ) );
 		}
 		else if ( obj instanceof Theme
 				&& ( tmpModule = ( (Theme) obj ).getRoot( ) ) instanceof Library
@@ -166,12 +170,12 @@ public class LineNumberInfo
 		else if ( obj instanceof Library
 				&& ( (Library) obj ).getHost( ) != null )
 		{
-			return intValue( (Integer) includeLibStructMap
-					.get( ( (Library) obj ).getNamespace( ) ) );
+			return intValue( includeLibStructMap.get( ( (Library) obj )
+					.getNamespace( ) ) );
 		}
 		else if ( obj instanceof IncludedCssStyleSheet )
 		{
-			return intValue( (Integer) includedCssStyleSheetStructMap
+			return intValue( includedCssStyleSheetStructMap
 					.get( ( (IncludedCssStyleSheet) obj ).getFileName( ) ) );
 		}
 		else if ( obj instanceof DesignElement )
@@ -206,7 +210,7 @@ public class LineNumberInfo
 			return 1;
 		}
 
-		return intValue( (Integer) slotMap.get( xpath ) );
+		return intValue( slotMap.get( xpath ) );
 	}
 
 	/**
@@ -219,7 +223,7 @@ public class LineNumberInfo
 
 	public int getElementLineNo( long id )
 	{
-		return intValue( (Integer) elementMap.get( new Long( id ) ) );
+		return intValue( elementMap.get( new Long( id ) ) );
 	}
 
 	/**
@@ -238,7 +242,7 @@ public class LineNumberInfo
 	/**
 	 * @param context
 	 * @param module
-	 * @return
+	 * @return the xpath string of the container context
 	 */
 
 	public static String convertSlotContextToXPath( ContainerContext context,

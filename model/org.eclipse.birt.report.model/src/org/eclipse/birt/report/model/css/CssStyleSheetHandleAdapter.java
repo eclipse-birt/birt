@@ -284,7 +284,7 @@ public class CssStyleSheetHandleAdapter
 		PropertyHandle propHandle = element.getHandle( module )
 				.getPropertyHandle( propName );
 
-		Iterator handleIter = propHandle.iterator( );
+		Iterator<Object> handleIter = propHandle.iterator( );
 		while ( handleIter.hasNext( ) )
 		{
 			IncludedCssStyleSheetHandle handle = (IncludedCssStyleSheetHandle) handleIter
@@ -312,10 +312,11 @@ public class CssStyleSheetHandleAdapter
 		if ( fileName == null )
 			return null;
 
-		List list = ( (ICssStyleSheetOperation) element ).getCsses( );
+		List<CssStyleSheet> list = ( (ICssStyleSheetOperation) element )
+				.getCsses( );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
-			CssStyleSheet css = (CssStyleSheet) list.get( i );
+			CssStyleSheet css = list.get( i );
 			if ( fileName.equals( css.getFileName( ) ) )
 			{
 				return css.handle( module );
@@ -331,6 +332,7 @@ public class CssStyleSheetHandleAdapter
 	 *            the includedCssStyleSheet handle
 	 * @param newFileName
 	 *            the new file name.
+	 * @throws SemanticException
 	 */
 	public void renameCss( IncludedCssStyleSheetHandle handle,
 			String newFileName ) throws SemanticException
@@ -362,10 +364,10 @@ public class CssStyleSheetHandleAdapter
 			return false;
 
 		// check the same file name.
-		
+
 		if ( sheetHandle.getFileName( ).equals( newFileName ) )
 			return false;
-		
+
 		CssCommand command = new CssCommand( module, element );
 		IncludedCssStyleSheet includedCssStyleSheet = command
 				.getIncludedCssStyleSheetByLocation( sheetHandle.getFileName( ) );
@@ -382,7 +384,7 @@ public class CssStyleSheetHandleAdapter
 		}
 
 		// check the same location
-		
+
 		if ( foundIncludedCssStyleSheet == sheetHandle.getStructure( ) )
 			return false;
 

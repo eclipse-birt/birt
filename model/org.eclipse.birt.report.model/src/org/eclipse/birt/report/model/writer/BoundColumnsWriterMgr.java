@@ -63,13 +63,13 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	 * Elements on which bound columns have been created.
 	 */
 
-	private Set processedElement = new HashSet( );
+	private Set<DesignElement> processedElement = new HashSet<DesignElement>( );
 
 	/**
 	 * 
 	 */
 
-	private Map cachedGroup = new HashMap( );
+	private Map<GroupElement, List<Object>> cachedGroup = new HashMap<GroupElement, List<Object>>( );
 
 	/**
 	 * The design file version from parsing.
@@ -187,7 +187,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	private void appendBoundColumnsToCachedGroup( GroupElement target,
 			List newColumns )
 	{
-		List boundColumns = (List) cachedGroup.get( target );
+		List<Object> boundColumns = cachedGroup.get( target );
 		if ( boundColumns == null )
 		{
 			cachedGroup.put( target, newColumns );
@@ -223,7 +223,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 		column.setName( boundName );
 		column.setExpression( expression );
 
-		List boundColumns = (List) cachedGroup.get( target );
+		List<Object> boundColumns = cachedGroup.get( target );
 		if ( boundColumns == null )
 		{
 			List newColumns = new ArrayList( );
@@ -681,7 +681,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 				group, level );
 		while ( contentIter.hasNext( ) )
 		{
-			DesignElement item = (DesignElement) contentIter.next( );
+			DesignElement item = contentIter.next( );
 			if ( !( item instanceof DataItem ) )
 				continue;
 
@@ -718,7 +718,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	private void appendCachedBoundColumns( ListingElement element, Module module )
 	{
 
-		Set elements = cachedGroup.keySet( );
+		Set<GroupElement> elements = cachedGroup.keySet( );
 		ContainerSlot groups = element
 				.getSlot( IListingElementModel.GROUP_SLOT );
 		for ( int i = 0; i < groups.getCount( ); i++ )
@@ -733,7 +733,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 			if ( !elements.contains( group ) )
 				continue;
 
-			List columns = (List) cachedGroup.get( group );
+			List<Object> columns = cachedGroup.get( group );
 			if ( columns == null || columns.isEmpty( ) )
 				continue;
 

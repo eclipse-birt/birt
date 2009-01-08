@@ -80,7 +80,8 @@ public abstract class ReferenceValue
 
 	/**
 	 * Gets the name of the reference value.
-	 * @return
+	 * 
+	 * @return the name of the reference value
 	 */
 	abstract public String getName( );
 
@@ -186,9 +187,8 @@ public abstract class ReferenceValue
 
 	/**
 	 * 
-	 * @return
+	 * @return the deep cloned reference value
 	 */
 	abstract public Object copy( );
-	
-	
+
 }

@@ -93,7 +93,7 @@ public abstract class ContainerSlot implements Cloneable
 	 * @return the slot contents
 	 */
 
-	public abstract List getContents( );
+	public abstract List<DesignElement> getContents( );
 
 	/**
 	 * Returns an iterator over the contents of the slot.
@@ -102,7 +102,7 @@ public abstract class ContainerSlot implements Cloneable
 	 *         type DesignElement.
 	 */
 
-	public Iterator iterator( )
+	public Iterator<DesignElement> iterator( )
 	{
 		return getContents( ).iterator( );
 	}

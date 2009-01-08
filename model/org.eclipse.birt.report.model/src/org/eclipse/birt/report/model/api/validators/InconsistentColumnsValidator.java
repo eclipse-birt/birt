@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.core.ContainerSlot;
@@ -35,13 +36,11 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * Validates the column number in columns slot and the maximum column number in
  * rows should be consistent.
  * 
- * <h3>Rule</h3>
- * The rule is that the column number in columns slot should be same with the
- * maximum column number in rows of other slots.
+ * <h3>Rule</h3> The rule is that the column number in columns slot should be
+ * same with the maximum column number in rows of other slots.
  * 
- * <h3>Applicability</h3>
- * This validator is only applied to <code>GridItem</code> and
- * <code>TableItem</code>.
+ * <h3>Applicability</h3> This validator is only applied to
+ * <code>GridItem</code> and <code>TableItem</code>.
  * 
  */
 
@@ -73,20 +72,22 @@ public class InconsistentColumnsValidator extends AbstractElementValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( Module module, DesignElement element )
+	public List<SemanticException> validate( Module module,
+			DesignElement element )
 	{
 		DesignElement toValidate = element;
 
 		if ( !( toValidate instanceof GridItem )
 				&& !( toValidate instanceof TableItem ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		return doValidate( module, toValidate );
 	}
 
-	private List doValidate( Module module, DesignElement element )
+	private List<SemanticException> doValidate( Module module,
+			DesignElement element )
 	{
-		List list = new ArrayList( );
+		List<SemanticException> list = new ArrayList<SemanticException>( );
 
 		// If column definitions are defined, then they must describe the
 		// number of columns actually used by the table. It is legal to
@@ -149,8 +150,8 @@ public class InconsistentColumnsValidator extends AbstractElementValidator
 	 * 
 	 * @param element
 	 *            a grid or table element
-	 * @return <code>true</code> if any cell has the "drop" property,
-	 *         otherwise <code>false</code>.
+	 * @return <code>true</code> if any cell has the "drop" property, otherwise
+	 *         <code>false</code>.
 	 */
 
 	private boolean hasDroppingCell( DesignElement element )
@@ -158,7 +159,8 @@ public class InconsistentColumnsValidator extends AbstractElementValidator
 		if ( element instanceof GridItem )
 			return false;
 
-		ContainerSlot groups = element.getSlot( IListingElementModel.GROUP_SLOT );
+		ContainerSlot groups = element
+				.getSlot( IListingElementModel.GROUP_SLOT );
 		int groupCount = groups.getCount( );
 
 		// check on group header by group header. From the outer to the
@@ -167,7 +169,8 @@ public class InconsistentColumnsValidator extends AbstractElementValidator
 		for ( int groupIndex = 0; groupIndex < groupCount; groupIndex++ )
 		{
 			TableGroup group = (TableGroup) groups.getContent( groupIndex );
-			ContainerSlot header = group.getSlot( IGroupElementModel.HEADER_SLOT );
+			ContainerSlot header = group
+					.getSlot( IGroupElementModel.HEADER_SLOT );
 
 			if ( header.getCount( ) <= 0 )
 				continue;

@@ -29,8 +29,8 @@ public class ContentNode implements Cloneable
 {
 
 	protected ContentNode parent = null;
-	protected List children = null;
-	protected LinkedHashMap attributes = null;
+	protected List<ContentNode> children = null;
+	protected LinkedHashMap<String, Object> attributes = null;
 	protected String name = null;
 	protected boolean isCDATASection = false;
 	protected String value = null;
@@ -39,21 +39,21 @@ public class ContentNode implements Cloneable
 	 * Constructs the content node with the name.
 	 * 
 	 * @param name
-	 * 		name of the content node
+	 *            name of the content node
 	 */
 
 	public ContentNode( String name )
 	{
 		this.name = name;
-		children = new ArrayList( );
-		attributes = new LinkedHashMap( );
+		children = new ArrayList<ContentNode>( );
+		attributes = new LinkedHashMap<String, Object>( );
 	}
 
 	/**
 	 * Adds one child to this node.
 	 * 
 	 * @param child
-	 * 		the child to add
+	 *            the child to add
 	 */
 
 	public void addChild( ContentNode child )
@@ -80,7 +80,7 @@ public class ContentNode implements Cloneable
 	 * 
 	 * @param attributes
 	 */
-	public void setAttributes( Map attributes )
+	public void setAttributes( Map<String, Object> attributes )
 	{
 		this.attributes.putAll( attributes );
 	}
@@ -89,7 +89,7 @@ public class ContentNode implements Cloneable
 	 * Gets the attribute value with the given name.
 	 * 
 	 * @param name
-	 * 		the attribute name to get
+	 *            the attribute name to get
 	 * @return value with the give name if set, otherwise <code>null</code>
 	 */
 
@@ -104,10 +104,10 @@ public class ContentNode implements Cloneable
 	 * 
 	 * @return the children
 	 */
-	public List getChildren( )
+	public List<ContentNode> getChildren( )
 	{
 		if ( children == null || children.isEmpty( ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		return children;
 	}
 
@@ -128,10 +128,10 @@ public class ContentNode implements Cloneable
 	 * @return the attribute map
 	 */
 
-	public Map getAttributes( )
+	public Map<String, Object> getAttributes( )
 	{
 		if ( attributes == null || attributes.isEmpty( ) )
-			return Collections.EMPTY_MAP;
+			return Collections.emptyMap( );
 		return attributes;
 	}
 
@@ -146,7 +146,7 @@ public class ContentNode implements Cloneable
 
 	/**
 	 * @param value
-	 * 		the value to set
+	 *            the value to set
 	 */
 
 	public void setValue( String value )
@@ -169,7 +169,7 @@ public class ContentNode implements Cloneable
 
 	/**
 	 * @param isCDATASection
-	 * 		the isCDATASection to set
+	 *            the isCDATASection to set
 	 */
 	public void setCDATASection( boolean isCDATASection )
 	{
@@ -186,16 +186,16 @@ public class ContentNode implements Cloneable
 		ContentNode clonedNode = (ContentNode) super.clone( );
 
 		// clone attribute map
-		clonedNode.attributes = new LinkedHashMap( );
+		clonedNode.attributes = new LinkedHashMap<String, Object>( );
 		clonedNode.attributes.putAll( attributes );
 
 		// clone children
 		if ( children != null )
 		{
-			clonedNode.children = new ArrayList( );
+			clonedNode.children = new ArrayList<ContentNode>( );
 			for ( int i = 0; i < children.size( ); i++ )
 			{
-				ContentNode child = (ContentNode) children.get( i );
+				ContentNode child = children.get( i );
 				ContentNode clonedChild = (ContentNode) child.clone( );
 
 				clonedNode.children.add( clonedChild );

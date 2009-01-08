@@ -22,6 +22,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.PropertyResourceBundle;
 import java.util.Set;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
@@ -46,9 +47,11 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
@@ -192,7 +195,7 @@ public abstract class Module extends DesignElement
 	 * The hash map for the id-to-element lookup.
 	 */
 
-	protected HashMap idMap = new HashMap( );
+	protected HashMap<Long, DesignElement> idMap = new HashMap<Long, DesignElement>( );
 
 	/**
 	 * The undo/redo stack for operations on this module.
@@ -219,14 +222,14 @@ public abstract class Module extends DesignElement
 	 * property. Each one in the list is instance of <code>IPropertyDefn</code>
 	 */
 
-	private HashMap referencableProperties = null;
+	private HashMap<String, IElementPropertyDefn> referencableProperties = null;
 
 	/**
 	 * Accumulates errors and warnings during a batch operation. Each one is the
 	 * instance of <code>Exception</code>.
 	 */
 
-	protected List allExceptions = new ArrayList( );
+	protected List<Exception> allExceptions = new ArrayList<Exception>( );
 
 	/**
 	 * The validation executor. It performs the semantic validation and sends
@@ -240,7 +243,7 @@ public abstract class Module extends DesignElement
 	 * The listener list for validation event.
 	 */
 
-	private List validationListeners = null;
+	private List<IValidationListener> validationListeners = null;
 
 	/**
 	 * The file name. Null means that the module has not yet been saved to a
@@ -280,25 +283,25 @@ public abstract class Module extends DesignElement
 	 * All libraries which are included in this module.
 	 */
 
-	private List libraries = null;
+	private List<Library> libraries = null;
 
 	/**
 	 * The attribute listener list to handle the file name changed events.
 	 */
 
-	private List attributeListeners = null;
+	private List<IAttributeListener> attributeListeners = null;
 
 	/**
 	 * Dispose listener list to handle the design disposal events.
 	 */
 
-	private List disposeListeners = null;
+	private List<IDisposeListener> disposeListeners = null;
 
 	/**
 	 * Resource change listener list to handle the resource change events.
 	 */
 
-	private List resourceChangeListeners = null;
+	private List<IResourceChangeListener> resourceChangeListeners = null;
 
 	/**
 	 * The theme for the module.
@@ -337,10 +340,10 @@ public abstract class Module extends DesignElement
 	protected INameHelper nameHelper = null;
 
 	/**
-	 * Caches the bundle. The key is file name, the value is map which has the
-	 * key local and value PropertyResourceBundle.
+	 * Caches the bundle. The key is file name, the value is the list of
+	 * <code>PropertyResourceBundle</code>>.
 	 */
-	private Map bundles = null;
+	private Map<String, List<PropertyResourceBundle>> bundles = null;
 
 	private boolean isCached = false;
 
@@ -490,9 +493,11 @@ public abstract class Module extends DesignElement
 
 	/**
 	 * Finds a level element by name in this module and the included modules.
+	 * The name must be the full name; otherwise this method can not find the
+	 * level by short name.
 	 * 
 	 * @param name
-	 * @return
+	 * @return the level with the given full name
 	 */
 	public DesignElement findLevel( String name )
 	{
@@ -602,7 +607,7 @@ public abstract class Module extends DesignElement
 	{
 		if ( idMap == null )
 			return null;
-		return (DesignElement) idMap.get( new Long( id ) );
+		return idMap.get( new Long( id ) );
 	}
 
 	/**
@@ -669,7 +674,7 @@ public abstract class Module extends DesignElement
 	}
 
 	/**
-	 * Preprares to save this module. Sets the modification date.
+	 * Prepares to save this module. Sets the modification date.
 	 */
 
 	public void prepareToSave( )
@@ -768,7 +773,7 @@ public abstract class Module extends DesignElement
 		module.resourceChangeListeners = null;
 		module.elementIDCounter = 1;
 		module.fatalException = null;
-		module.idMap = new HashMap( );
+		module.idMap = new HashMap<Long, DesignElement>( );
 		module.lineNoInfo = null;
 		module.nameHelper = new ModuleNameHelper( module );
 		module.referencableProperties = null;
@@ -791,11 +796,10 @@ public abstract class Module extends DesignElement
 
 		if ( libraries != null )
 		{
-			module.libraries = new ArrayList( );
+			module.libraries = new ArrayList<Library>( );
 			for ( int i = 0; i < libraries.size( ); i++ )
 			{
-				Library lib = (Library) ( (Library) libraries.get( i ) )
-						.doClone( policy );
+				Library lib = (Library) libraries.get( i ).doClone( policy );
 				lib.setHost( module );
 				module.libraries.add( lib );
 			}
@@ -887,10 +891,11 @@ public abstract class Module extends DesignElement
 
 		if ( defn.isContainer( ) )
 		{
-			Iterator iter = new LevelContentIterator( this, element, 1 );
+			Iterator<DesignElement> iter = new LevelContentIterator( this,
+					element, 1 );
 			while ( iter.hasNext( ) )
 			{
-				DesignElement innerElement = (DesignElement) iter.next( );
+				DesignElement innerElement = iter.next( );
 				buildNameSpaceAndIDMap( module, innerElement );
 			}
 		}
@@ -956,7 +961,7 @@ public abstract class Module extends DesignElement
 	 * @param trans
 	 *            a given <code>Translation</code>
 	 * @return <code>true</code> if the <code>Translation</code> is contained in
-	 *         the translation talbe, return <code>false</code> otherwise.
+	 *         the translation table, return <code>false</code> otherwise.
 	 */
 
 	public boolean contains( Translation trans )
@@ -972,7 +977,7 @@ public abstract class Module extends DesignElement
 	 * @return a list containing all the Translations.
 	 */
 
-	public List getTranslations( )
+	public List<Translation> getTranslations( )
 	{
 		return translations.getTranslations( );
 	}
@@ -987,7 +992,7 @@ public abstract class Module extends DesignElement
 	 * @return a list containing all the Translations defined for the message.
 	 */
 
-	public List getTranslations( String resourceKey )
+	public List<Translation> getTranslations( String resourceKey )
 	{
 		return translations.getTranslations( resourceKey );
 	}
@@ -1056,7 +1061,8 @@ public abstract class Module extends DesignElement
 
 		// find it in the linked resource file.
 
-		List baseNameList = getListProperty( this, INCLUDE_RESOURCE_PROP );
+		List<Object> baseNameList = getListProperty( this,
+				INCLUDE_RESOURCE_PROP );
 		if ( baseNameList == null || baseNameList.size( ) == 0 )
 			return null;
 
@@ -1142,7 +1148,7 @@ public abstract class Module extends DesignElement
 	{
 		if ( referencableProperties == null )
 		{
-			referencableProperties = new HashMap( );
+			referencableProperties = new HashMap<String, IElementPropertyDefn>( );
 			referencableProperties.put( ConfigVariable.CONFIG_VAR_STRUCT,
 					getPropertyDefn( CONFIG_VARS_PROP ) );
 			referencableProperties.put( EmbeddedImage.EMBEDDED_IMAGE_STRUCT,
@@ -1163,7 +1169,7 @@ public abstract class Module extends DesignElement
 	 * @return the list of errors or warning
 	 */
 
-	public List getAllErrors( )
+	public List<ErrorDetail> getAllErrors( )
 	{
 		return ErrorDetail.convertExceptionList( allExceptions );
 	}
@@ -1175,7 +1181,7 @@ public abstract class Module extends DesignElement
 	 * @return the list of exception
 	 */
 
-	public List getAllExceptions( )
+	public List<Exception> getAllExceptions( )
 	{
 		return allExceptions;
 	}
@@ -1201,7 +1207,7 @@ public abstract class Module extends DesignElement
 	public void addValidationListener( IValidationListener listener )
 	{
 		if ( validationListeners == null )
-			validationListeners = new ArrayList( );
+			validationListeners = new ArrayList<IValidationListener>( );
 
 		if ( !validationListeners.contains( listener ) )
 			validationListeners.add( listener );
@@ -1213,7 +1219,7 @@ public abstract class Module extends DesignElement
 	 * 
 	 * @param listener
 	 *            the validation listener to remove
-	 * @return <code>true</code> if <code>listener</code> is sucessfully
+	 * @return <code>true</code> if <code>listener</code> is successfully
 	 *         removed. Otherwise <code>false</code>.
 	 * 
 	 */
@@ -1239,11 +1245,10 @@ public abstract class Module extends DesignElement
 	{
 		if ( validationListeners != null )
 		{
-			Iterator iter = validationListeners.iterator( );
+			Iterator<IValidationListener> iter = validationListeners.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				IValidationListener listener = (IValidationListener) iter
-						.next( );
+				IValidationListener listener = iter.next( );
 
 				listener.elementValidated( element.getHandle( this ), event );
 			}
@@ -1332,7 +1337,7 @@ public abstract class Module extends DesignElement
 	public void semanticError( SemanticException ex )
 	{
 		if ( allExceptions == null )
-			allExceptions = new ArrayList( );
+			allExceptions = new ArrayList<Exception>( );
 		allExceptions.add( ex );
 	}
 
@@ -1345,11 +1350,11 @@ public abstract class Module extends DesignElement
 	 * @see ErrorDetail
 	 */
 
-	public List getErrorList( )
+	public List<ErrorDetail> getErrorList( )
 	{
-		List allErrors = getAllErrors( );
+		List<ErrorDetail> allErrors = getAllErrors( );
 
-		List list = ErrorDetail.getSemanticErrors( allErrors,
+		List<ErrorDetail> list = ErrorDetail.getSemanticErrors( allErrors,
 				DesignFileException.DESIGN_EXCEPTION_SEMANTIC_ERROR );
 		list.addAll( ErrorDetail.getSemanticErrors( allErrors,
 				DesignFileException.DESIGN_EXCEPTION_SYNTAX_ERROR ) );
@@ -1365,9 +1370,9 @@ public abstract class Module extends DesignElement
 	 * @see ErrorDetail
 	 */
 
-	public List getWarningList( )
+	public List<ErrorDetail> getWarningList( )
 	{
-		List allErrors = getAllErrors( );
+		List<ErrorDetail> allErrors = getAllErrors( );
 
 		return ErrorDetail.getSemanticErrors( allErrors,
 				DesignFileException.DESIGN_EXCEPTION_SEMANTIC_WARNING );
@@ -1386,7 +1391,8 @@ public abstract class Module extends DesignElement
 
 	public final void semanticCheck( Module module )
 	{
-		allExceptions = validateWithContents( module );
+		allExceptions = new ArrayList<Exception>( );
+		allExceptions.addAll( validateWithContents( module ) );
 
 		// delete all useless template parameter definition
 
@@ -1493,13 +1499,13 @@ public abstract class Module extends DesignElement
 	}
 
 	/**
-	 * Sets the exceltion list into this module.
+	 * Sets the exception list into this module.
 	 * 
 	 * @param allExceptions
 	 *            exception list to set
 	 */
 
-	protected void setAllExceptions( List allExceptions )
+	protected void setAllExceptions( List<Exception> allExceptions )
 	{
 		this.allExceptions = allExceptions;
 	}
@@ -1547,6 +1553,7 @@ public abstract class Module extends DesignElement
 	 *            library file name
 	 * @param namespace
 	 *            library namespace
+	 * @param reloadLibs
 	 * @return the loaded library
 	 * @throws DesignFileException
 	 *             if the library file has fatal error.
@@ -1578,7 +1585,7 @@ public abstract class Module extends DesignElement
 			DesignParserException ex = new DesignParserException(
 					new String[]{libraryFileName},
 					DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND );
-			List exceptionList = new ArrayList( );
+			List<Exception> exceptionList = new ArrayList<Exception>( );
 			exceptionList.add( ex );
 			throw new DesignFileException( libraryFileName, exceptionList );
 		}
@@ -1601,7 +1608,7 @@ public abstract class Module extends DesignElement
 			DesignParserException ex = new DesignParserException(
 					new String[]{libraryFileName},
 					DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND );
-			List exceptionList = new ArrayList( );
+			List<Exception> exceptionList = new ArrayList<Exception>( );
 			exceptionList.add( ex );
 			throw new DesignFileException( libraryFileName, exceptionList );
 		}
@@ -1623,7 +1630,7 @@ public abstract class Module extends DesignElement
 	private List<Library> getLibrariesWithNamespace( String namespace, int level )
 	{
 		if ( libraries == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		List<Library> list = getLibraries( level );
 		List<Library> retList = new ArrayList<Library>( );
@@ -1696,7 +1703,7 @@ public abstract class Module extends DesignElement
 	 * @return list of libraries.
 	 */
 
-	public List getAllLibraries( )
+	public List<Library> getAllLibraries( )
 	{
 		return getLibraries( IAccessControl.ARBITARY_LEVEL );
 	}
@@ -1715,7 +1722,7 @@ public abstract class Module extends DesignElement
 	public List<Library> getLibraries( int level )
 	{
 		if ( level <= IAccessControl.NATIVE_LEVEL || libraries == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		int newLevel = level - 1;
 
@@ -1730,7 +1737,7 @@ public abstract class Module extends DesignElement
 
 		for ( int i = 0; i < libraries.size( ); i++ )
 		{
-			Library library = (Library) libraries.get( i );
+			Library library = libraries.get( i );
 			allLibraries.addAll( library.getLibraries( newLevel ) );
 		}
 
@@ -1743,7 +1750,7 @@ public abstract class Module extends DesignElement
 	 * @return list of libraries.
 	 */
 
-	public List getLibraries( )
+	public List<Library> getLibraries( )
 	{
 		return getLibraries( IAccessControl.DIRECTLY_INCLUDED_LEVEL );
 	}
@@ -1760,7 +1767,7 @@ public abstract class Module extends DesignElement
 	public void insertLibrary( Library library, int posn )
 	{
 		if ( libraries == null )
-			libraries = new ArrayList( );
+			libraries = new ArrayList<Library>( );
 
 		// The position is allowed to equal the list size.
 
@@ -1770,7 +1777,7 @@ public abstract class Module extends DesignElement
 	}
 
 	/**
-	 * Adds the given libray to library list.
+	 * Adds the given library to library list.
 	 * 
 	 * @param library
 	 *            the library to insert
@@ -1779,7 +1786,7 @@ public abstract class Module extends DesignElement
 	public void addLibrary( Library library )
 	{
 		if ( libraries == null )
-			libraries = new ArrayList( );
+			libraries = new ArrayList<Library>( );
 
 		libraries.add( library );
 	}
@@ -1836,12 +1843,12 @@ public abstract class Module extends DesignElement
 		if ( libraries == null )
 			return null;
 
-		List list = getLibraries( level );
+		List<Library> list = getLibraries( level );
 
-		Iterator iter = list.iterator( );
+		Iterator<Library> iter = list.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			Library library = (Library) iter.next( );
+			Library library = iter.next( );
 			if ( library.getNamespace( ).equals( namespace ) )
 				return library;
 		}
@@ -1870,7 +1877,7 @@ public abstract class Module extends DesignElement
 	public void addAttributeListener( IAttributeListener listener )
 	{
 		if ( attributeListeners == null )
-			attributeListeners = new ArrayList( );
+			attributeListeners = new ArrayList<IAttributeListener>( );
 
 		if ( !attributeListeners.contains( listener ) )
 			attributeListeners.add( listener );
@@ -1905,10 +1912,10 @@ public abstract class Module extends DesignElement
 	{
 		if ( attributeListeners != null )
 		{
-			Iterator iter = attributeListeners.iterator( );
+			Iterator<IAttributeListener> iter = attributeListeners.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				IAttributeListener listener = (IAttributeListener) iter.next( );
+				IAttributeListener listener = iter.next( );
 
 				listener.fileNameChanged( (ModuleHandle) getHandle( this ),
 						event );
@@ -1926,7 +1933,7 @@ public abstract class Module extends DesignElement
 	public void addDisposeListener( IDisposeListener listener )
 	{
 		if ( disposeListeners == null )
-			disposeListeners = new ArrayList( );
+			disposeListeners = new ArrayList<IDisposeListener>( );
 
 		if ( !disposeListeners.contains( listener ) )
 			disposeListeners.add( listener );
@@ -1943,7 +1950,7 @@ public abstract class Module extends DesignElement
 	public void addResourceChangeListener( IResourceChangeListener listener )
 	{
 		if ( resourceChangeListeners == null )
-			resourceChangeListeners = new ArrayList( );
+			resourceChangeListeners = new ArrayList<IResourceChangeListener>( );
 
 		if ( !resourceChangeListeners.contains( listener ) )
 			resourceChangeListeners.add( listener );
@@ -1998,11 +2005,12 @@ public abstract class Module extends DesignElement
 		if ( disposeListeners == null || disposeListeners.isEmpty( ) )
 			return;
 
-		List temp = new ArrayList( disposeListeners );
-		Iterator iter = temp.iterator( );
+		List<IDisposeListener> temp = new ArrayList<IDisposeListener>(
+				disposeListeners );
+		Iterator<IDisposeListener> iter = temp.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			IDisposeListener listener = (IDisposeListener) iter.next( );
+			IDisposeListener listener = iter.next( );
 			listener.moduleDisposed( (ModuleHandle) getHandle( this ), event );
 		}
 	}
@@ -2020,12 +2028,12 @@ public abstract class Module extends DesignElement
 				|| resourceChangeListeners.isEmpty( ) )
 			return;
 
-		List temp = new ArrayList( resourceChangeListeners );
-		Iterator iter = temp.iterator( );
+		List<IResourceChangeListener> temp = new ArrayList<IResourceChangeListener>(
+				resourceChangeListeners );
+		Iterator<IResourceChangeListener> iter = temp.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			IResourceChangeListener listener = (IResourceChangeListener) iter
-					.next( );
+			IResourceChangeListener listener = iter.next( );
 			listener.resourceChanged( (ModuleHandle) getHandle( this ), event );
 		}
 	}
@@ -2039,9 +2047,9 @@ public abstract class Module extends DesignElement
 	 * @return a list of user-defined message keys.
 	 */
 
-	public List getMessageKeys( )
+	public List<String> getMessageKeys( )
 	{
-		Set keys = new LinkedHashSet( );
+		Set<String> keys = new LinkedHashSet<String>( );
 
 		String[] transKeys = translations.getResourceKeys( );
 		if ( transKeys != null )
@@ -2053,9 +2061,10 @@ public abstract class Module extends DesignElement
 		// find from the referenced message files.
 		// e.g: message
 
-		List baseNameList = getListProperty( this, INCLUDE_RESOURCE_PROP );
+		List<Object> baseNameList = getListProperty( this,
+				INCLUDE_RESOURCE_PROP );
 		if ( baseNameList == null || baseNameList.size( ) == 0 )
-			return new ArrayList( keys );
+			return new ArrayList<String>( keys );
 
 		for ( int i = 0; i < baseNameList.size( ); i++ )
 		{
@@ -2064,7 +2073,7 @@ public abstract class Module extends DesignElement
 					.getMessageKeys( ThreadResources.getLocale( ) ) );
 		}
 
-		return new ArrayList( keys );
+		return new ArrayList<String>( keys );
 	}
 
 	/**
@@ -2092,11 +2101,12 @@ public abstract class Module extends DesignElement
 	 *         <code>null</code> if there were no include libraries defined.
 	 */
 
-	public List getIncludedLibraries( )
+	public List<IncludedLibrary> getIncludedLibraries( )
 	{
-		List libs = (List) getLocalProperty( this, LIBRARIES_PROP );
+		List<IncludedLibrary> libs = (List<IncludedLibrary>) getLocalProperty(
+				this, LIBRARIES_PROP );
 		if ( libs == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		return Collections.unmodifiableList( libs );
 	}
 
@@ -2122,9 +2132,10 @@ public abstract class Module extends DesignElement
 	 * @return a list containing all the include scripts. Return
 	 *         <code>null</code> if there were no scripts defined.
 	 */
-	public List getIncludeScripts( )
+	public List<IncludeScript> getIncludeScripts( )
 	{
-		return (ArrayList) getLocalProperty( this, INCLUDE_SCRIPTS_PROP );
+		return (ArrayList<IncludeScript>) getLocalProperty( this,
+				INCLUDE_SCRIPTS_PROP );
 	}
 
 	/*
@@ -2171,9 +2182,9 @@ public abstract class Module extends DesignElement
 	}
 
 	/**
-	 * Returns the writer for this moudle.
+	 * Returns the writer for this module.
 	 * 
-	 * @return the writer for this moudle.
+	 * @return the writer for this module.
 	 */
 
 	public abstract ModuleWriter getWriter( );
@@ -2353,10 +2364,11 @@ public abstract class Module extends DesignElement
 			dropElementID( element );
 		}
 
-		Iterator iter = new LevelContentIterator( this, element, 1 );
+		Iterator<DesignElement> iter = new LevelContentIterator( this, element,
+				1 );
 		while ( iter.hasNext( ) )
 		{
-			DesignElement innerElement = (DesignElement) iter.next( );
+			DesignElement innerElement = iter.next( );
 			manageId( innerElement, isAdd );
 		}
 	}
@@ -2394,14 +2406,14 @@ public abstract class Module extends DesignElement
 
 	public IncludedLibrary findIncludedLibrary( String namespace )
 	{
-		List libs = getIncludedLibraries( );
+		List<IncludedLibrary> libs = getIncludedLibraries( );
 		if ( libs == null )
 			return null;
 
 		IncludedLibrary includedItem = null;
 		for ( int i = 0; i < libs.size( ); i++ )
 		{
-			IncludedLibrary incluedLib = (IncludedLibrary) libs.get( i );
+			IncludedLibrary incluedLib = libs.get( i );
 			if ( incluedLib.getNamespace( ).equalsIgnoreCase( namespace ) )
 			{
 				includedItem = incluedLib;
@@ -2445,10 +2457,10 @@ public abstract class Module extends DesignElement
 		// look up the library with the location path in the included library
 		// list
 
-		List libraries = getLibraries( level );
+		List<Library> libraries = getLibraries( level );
 		for ( int i = 0; i < libraries.size( ); i++ )
 		{
-			Library library = (Library) libraries.get( i );
+			Library library = libraries.get( i );
 			if ( theLocation.equalsIgnoreCase( library.getLocation( ) ) )
 				return library;
 		}
@@ -2473,16 +2485,16 @@ public abstract class Module extends DesignElement
 		// if the location path is null or empty, return null
 
 		if ( StringUtil.isBlank( theLocation ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		// look up the library with the location path in the included library
 		// list
 
 		List<Library> retList = new ArrayList<Library>( );
-		List libraries = getLibraries( level );
+		List<Library> libraries = getLibraries( level );
 		for ( int i = 0; i < libraries.size( ); i++ )
 		{
-			Library library = (Library) libraries.get( i );
+			Library library = libraries.get( i );
 			if ( theLocation.equalsIgnoreCase( library.getLocation( ) ) )
 				retList.add( library );
 		}
@@ -2527,11 +2539,12 @@ public abstract class Module extends DesignElement
 
 		// List libraries = rootHost.getAllLibraries( );
 
-		List libraries = rootHost.getLibraries( IAccessControl.ARBITARY_LEVEL );
-		Iterator iter = libraries.iterator( );
+		List<Library> libraries = rootHost
+				.getLibraries( IAccessControl.ARBITARY_LEVEL );
+		Iterator<Library> iter = libraries.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			Library library = (Library) iter.next( );
+			Library library = iter.next( );
 
 			if ( library.getNamespace( ).equals( namespaceToCheck ) )
 				return true;
@@ -2570,7 +2583,8 @@ public abstract class Module extends DesignElement
 		// find the property binding in the list, match the property name and
 		// element id
 
-		List propertyBindings = getListProperty( this, PROPERTY_BINDINGS_PROP );
+		List<Object> propertyBindings = getListProperty( this,
+				PROPERTY_BINDINGS_PROP );
 		if ( propertyBindings == null )
 			return null;
 		for ( int i = 0; i < propertyBindings.size( ); i++ )
@@ -2596,16 +2610,17 @@ public abstract class Module extends DesignElement
 	 * @return the property binding list defined for the element
 	 */
 
-	public List getPropertyBindings( DesignElement element )
+	public List<PropertyBinding> getPropertyBindings( DesignElement element )
 	{
 		if ( element == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
-		List propertyBindings = getListProperty( this, PROPERTY_BINDINGS_PROP );
+		List<Object> propertyBindings = getListProperty( this,
+				PROPERTY_BINDINGS_PROP );
 		if ( propertyBindings == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
-		List result = new ArrayList( );
+		List<PropertyBinding> result = new ArrayList<PropertyBinding>( );
 		for ( int i = 0; i < propertyBindings.size( ); i++ )
 		{
 			PropertyBinding propBinding = (PropertyBinding) propertyBindings
@@ -2633,13 +2648,13 @@ public abstract class Module extends DesignElement
 		if ( StringUtil.isBlank( image.getName( ) ) )
 			return;
 
-		List images = getListProperty( this, IMAGES_PROP );
+		List<Object> images = getListProperty( this, IMAGES_PROP );
 		if ( images == null )
 			return;
 
 		// build the embedded image names
 
-		List names = new ArrayList( );
+		List<String> names = new ArrayList<String>( );
 		for ( int i = 0; i < images.size( ); i++ )
 		{
 			EmbeddedImage theImage = (EmbeddedImage) images.get( i );
@@ -2710,7 +2725,7 @@ public abstract class Module extends DesignElement
 		LevelContentIterator iter = new LevelContentIterator( this, element, 1 );
 		while ( iter.hasNext( ) )
 		{
-			DesignElement innerElement = (DesignElement) iter.next( );
+			DesignElement innerElement = iter.next( );
 			rename( element, innerElement );
 		}
 	}
@@ -2825,10 +2840,10 @@ public abstract class Module extends DesignElement
 		{
 			StyleSheetLoader loader = new StyleSheetLoader( );
 			CssStyleSheet sheet = loader.load( this, fileName );
-			List styles = sheet.getStyles( );
+			List<CssStyle> styles = sheet.getStyles( );
 			for ( int i = 0; styles != null && i < styles.size( ); ++i )
 			{
-				CssStyle style = (CssStyle) styles.get( i );
+				CssStyle style = styles.get( i );
 				style.setCssStyleSheet( sheet );
 			}
 			return sheet;
@@ -2846,6 +2861,8 @@ public abstract class Module extends DesignElement
 	 * 
 	 * @param container
 	 *            report design/theme
+	 * @param url
+	 *            the url where the style sheet resides
 	 * @param fileName
 	 *            css file name
 	 * @return the loaded css
@@ -2860,10 +2877,10 @@ public abstract class Module extends DesignElement
 			StyleSheetLoader loader = new StyleSheetLoader( );
 			CssStyleSheet sheet = loader.load( this, url, fileName );
 			sheet.setContainer( container );
-			List styles = sheet.getStyles( );
+			List<CssStyle> styles = sheet.getStyles( );
 			for ( int i = 0; styles != null && i < styles.size( ); ++i )
 			{
-				CssStyle style = (CssStyle) styles.get( i );
+				CssStyle style = styles.get( i );
 				style.setCssStyleSheet( sheet );
 			}
 			return sheet;
@@ -2906,7 +2923,8 @@ public abstract class Module extends DesignElement
 	 * @param bundleList
 	 *            the propertyResouceBundle list
 	 */
-	public void cachePropertyResourceBundles( String baseName, List bundleList )
+	public void cachePropertyResourceBundles( String baseName,
+			List<PropertyResourceBundle> bundleList )
 	{
 		if ( getOptions( ) == null
 				|| ( getOptions( ) != null && getOptions( ).useSemanticCheck( ) ) )
@@ -2915,9 +2933,9 @@ public abstract class Module extends DesignElement
 		}
 
 		if ( bundles == null )
-			bundles = new HashMap( );
+			bundles = new HashMap<String, List<PropertyResourceBundle>>( );
 
-		List cachbundles = (List) bundles.get( fileName );
+		List<PropertyResourceBundle> cachbundles = bundles.get( fileName );
 		if ( cachbundles == null )
 		{
 
@@ -2935,7 +2953,8 @@ public abstract class Module extends DesignElement
 	 *            the file name
 	 * @return PropertyResourceBundle list
 	 */
-	public List getCachePropertyResourceBundles( String baseName )
+	public List<PropertyResourceBundle> getCachePropertyResourceBundles(
+			String baseName )
 	{
 
 		if ( getOptions( ) == null
@@ -2947,7 +2966,7 @@ public abstract class Module extends DesignElement
 		if ( bundles == null )
 			return null;
 
-		return (List) bundles.get( fileName );
+		return bundles.get( fileName );
 
 	}
 
@@ -2982,10 +3001,10 @@ public abstract class Module extends DesignElement
 	{
 		getNameHelper( ).getElements( Module.STYLE_NAME_SPACE,
 				IAccessControl.ARBITARY_LEVEL );
-		List libs = getAllLibraries( );
+		List<Library> libs = getAllLibraries( );
 		for ( int i = 0; i < libs.size( ); i++ )
 		{
-			Library lib = (Library) libs.get( i );
+			Library lib = libs.get( i );
 			lib.getNameHelper( ).getElements( Module.STYLE_NAME_SPACE,
 					IAccessControl.ARBITARY_LEVEL );
 		}

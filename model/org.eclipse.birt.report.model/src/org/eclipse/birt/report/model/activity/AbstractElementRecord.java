@@ -58,17 +58,17 @@ public abstract class AbstractElementRecord extends ActivityRecord
 
 	/**
 	 * Returns a list of tasks relating to this record. This implementation uses
-	 * <code>getEvent( )</code> to produce the notification task, and the
-	 * target of the event is returned by <code>getTarget( )</code>.
+	 * <code>getEvent( )</code> to produce the notification task, and the target
+	 * of the event is returned by <code>getTarget( )</code>.
 	 * 
-	 * @return  a chain of events relating to this record
+	 * @return a chain of events relating to this record
 	 * 
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
 	 */
 
-	protected List getPostTasks( )
+	protected List<RecordTask> getPostTasks( )
 	{
-		List retList = new ArrayList( );
+		List<RecordTask> retList = new ArrayList<RecordTask>( );
 		retList.addAll( super.getPostTasks( ) );
 
 		// Create the event. The event is required if there is a target

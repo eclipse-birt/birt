@@ -159,11 +159,11 @@ public class NameSpaceRecord extends SimpleRecord
 	private void updateAllElementReferences( Module root,
 			IReferencableElement referred )
 	{
-		List clients = referred.getClientList( );
-		Iterator iter = clients.iterator( );
+		List<BackRef> clients = referred.getClientList( );
+		Iterator<BackRef> iter = clients.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			BackRef ref = (BackRef) iter.next( );
+			BackRef ref = iter.next( );
 			DesignElement client = ref.getElement( );
 
 			Structure struct = ref.getStructure( );
@@ -189,7 +189,7 @@ public class NameSpaceRecord extends SimpleRecord
 			}
 			else if ( value instanceof List )
 			{
-				List valueList = (List) value;
+				List<Object> valueList = (List) value;
 				for ( int i = 0; i < valueList.size( ); i++ )
 				{
 					Object tempObj = valueList.get( i );

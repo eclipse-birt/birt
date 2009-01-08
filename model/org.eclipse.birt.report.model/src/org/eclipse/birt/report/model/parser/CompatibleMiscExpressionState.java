@@ -61,6 +61,8 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState
 	 *            the handler to parse the design file.
 	 * @param element
 	 *            the data item
+	 * @param propDefn
+	 * @param struct
 	 */
 
 	CompatibleMiscExpressionState( ModuleParserHandler theHandler,
@@ -165,8 +167,8 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState
 		if ( newExprs == null || newExprs.isEmpty( ) )
 			return;
 
-		List outerColumns = new ArrayList( );
-		List localColumns = new ArrayList( );
+		List<IColumnBinding> outerColumns = new ArrayList<IColumnBinding>( );
+		List<IColumnBinding> localColumns = new ArrayList<IColumnBinding>( );
 		for ( int i = 0; i < newExprs.size( ); i++ )
 		{
 			IColumnBinding boundColumn = (IColumnBinding) newExprs.get( i );
@@ -196,7 +198,8 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState
 	 *            a list containing column bindings
 	 */
 
-	protected void addBoundColumnsToTarget( DesignElement target, List newExprs )
+	protected void addBoundColumnsToTarget( DesignElement target,
+			List<IColumnBinding> newExprs )
 	{
 		if ( newExprs.isEmpty( ) )
 			return;
@@ -209,7 +212,7 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState
 
 		for ( int i = 0; i < newExprs.size( ); i++ )
 		{
-			IColumnBinding boundColumn = (IColumnBinding) newExprs.get( i );
+			IColumnBinding boundColumn = newExprs.get( i );
 			String newExpression = boundColumn.getBoundExpression( );
 			if ( newExpression == null )
 				continue;
@@ -230,13 +233,14 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState
 	 *            bound columns returned by ExpressionUtil
 	 */
 
-	private void appendBoundColumnsToGroup( GroupElement target, List newExprs )
+	private void appendBoundColumnsToGroup( GroupElement target,
+			List<IColumnBinding> newExprs )
 	{
-		List newColumns = new ArrayList( );
+		List<ComputedColumn> newColumns = new ArrayList<ComputedColumn>( );
 		for ( int i = 0; i < newExprs.size( ); i++ )
 		{
 			ComputedColumn column = StructureFactory.createComputedColumn( );
-			IColumnBinding boundColumn = (IColumnBinding) newExprs.get( i );
+			IColumnBinding boundColumn = newExprs.get( i );
 			String newExpression = boundColumn.getBoundExpression( );
 			if ( newExpression == null )
 				continue;
@@ -262,7 +266,7 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState
 	 */
 
 	private void appendBoundColumnsToCachedGroup( GroupElement target,
-			List newColumns )
+			List<ComputedColumn> newColumns )
 	{
 		List boundColumns = (List) handler.tempValue.get( target );
 		if ( boundColumns == null )
@@ -273,7 +277,7 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState
 
 		for ( int i = 0; i < newColumns.size( ); i++ )
 		{
-			ComputedColumn column = (ComputedColumn) newColumns.get( i );
+			ComputedColumn column = newColumns.get( i );
 			if ( !boundColumns.contains( column ) )
 				boundColumns.add( column );
 		}

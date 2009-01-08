@@ -21,6 +21,7 @@ import java.util.Iterator;
 
 public interface IObjectDefn
 {
+
 	/**
 	 * Gets the display name.
 	 * 
@@ -28,7 +29,7 @@ public interface IObjectDefn
 	 */
 
 	public String getDisplayName( );
-	
+
 	/**
 	 * Gets the resource key for the display name.
 	 * 
@@ -64,7 +65,7 @@ public interface IObjectDefn
 	 * @return an iterator over the property definitions.
 	 */
 
-	public Iterator getPropertyIterator( );
+	public Iterator<IPropertyDefn> getPropertyIterator( );
 
 	/**
 	 * Returns an iterator over the property definitions. The
@@ -73,5 +74,5 @@ public interface IObjectDefn
 	 * @return an iterator over the property definitions.
 	 */
 
-	public Iterator propertiesIterator( );
+	public Iterator<IPropertyDefn> propertiesIterator( );
 }

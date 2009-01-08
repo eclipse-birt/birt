@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -25,11 +26,11 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 /**
  * Validates the report should have at least one master page.
  * 
- * <h3>Rule</h3>
- * The rule is that the report should have at least one master page.
+ * <h3>Rule</h3> The rule is that the report should have at least one master
+ * page.
  * 
- * <h3>Applicability</h3>
- * This validator is only applied to <code>ReportDesign</code>.
+ * <h3>Applicability</h3> This validator is only applied to
+ * <code>ReportDesign</code>.
  */
 
 public class MasterPageRequiredValidator extends AbstractElementValidator
@@ -59,12 +60,13 @@ public class MasterPageRequiredValidator extends AbstractElementValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( Module module, DesignElement element )
+	public List<SemanticException> validate( Module module,
+			DesignElement element )
 	{
 		if ( !( element instanceof ReportDesign ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
-		List list = new ArrayList( );
+		List<SemanticException> list = new ArrayList<SemanticException>( );
 
 		ReportDesign report = (ReportDesign) element;
 

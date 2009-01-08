@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * reference or a property of name type. This object maintains a cached set of
  * back-references to the "clients" so that changes can be automatically
  * propagated.
- *  
+ * 
  */
 
 public interface IReferencable
@@ -28,7 +28,7 @@ public interface IReferencable
 
 	/**
 	 * Adds a client. Should be called only from
-	 * {@link DesignElement#setProperty( ElementPropertyDefn, Object )}.
+	 * {@link DesignElement#setProperty(ElementPropertyDefn, Object )}.
 	 * 
 	 * @param client
 	 *            The client to add.
@@ -40,14 +40,13 @@ public interface IReferencable
 
 	/**
 	 * Drops a client. Should be called only from
-	 * {@link DesignElement#setProperty( ElementPropertyDefn, Object )}.
+	 * {@link DesignElement#setProperty(ElementPropertyDefn, Object )}.
 	 * 
 	 * @param client
 	 *            The client to drop.
 	 */
 
 	public void dropClient( DesignElement client );
-	
 
 	/**
 	 * Returns the list of clients for this element.
@@ -55,14 +54,14 @@ public interface IReferencable
 	 * @return The list of clients.
 	 */
 
-	public List getClientList( );
-	
+	public List<BackRef> getClientList( );
+
 	/**
 	 * Checks if this referencable object is referenced by others.
 	 * 
 	 * @return true if it has client, otherwise return false.
-	 *  
+	 * 
 	 */
-	
+
 	public boolean hasReferences( );
 }

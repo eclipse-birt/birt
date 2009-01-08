@@ -622,14 +622,15 @@ public final class ErrorDetail implements ErrorCodes
 	 * @return the error detail list of <code>ErrorDetail</code>
 	 */
 
-	public static List convertExceptionList( List exceptionList )
+	public static List<ErrorDetail> convertExceptionList(
+			List<Exception> exceptionList )
 	{
-		List errorDetailList = new ArrayList( );
+		List<ErrorDetail> errorDetailList = new ArrayList<ErrorDetail>( );
 
-		Iterator iterError = exceptionList.iterator( );
+		Iterator<Exception> iterError = exceptionList.iterator( );
 		while ( iterError.hasNext( ) )
 		{
-			Exception e = (Exception) iterError.next( );
+			Exception e = iterError.next( );
 
 			ErrorDetail errorDetail = new ErrorDetail( e );
 			errorDetailList.add( errorDetail );
@@ -654,13 +655,14 @@ public final class ErrorDetail implements ErrorCodes
 	 *         list is <code>ErrorDetail</code>.
 	 */
 
-	public static List getSemanticErrors( List errors, String errorType )
+	public static List<ErrorDetail> getSemanticErrors(
+			List<ErrorDetail> errors, String errorType )
 	{
-		ArrayList retList = new ArrayList( );
+		ArrayList<ErrorDetail> retList = new ArrayList<ErrorDetail>( );
 
 		for ( int i = 0; i < errors.size( ); i++ )
 		{
-			ErrorDetail errorDetail = (ErrorDetail) errors.get( i );
+			ErrorDetail errorDetail = errors.get( i );
 			if ( errorType.equalsIgnoreCase( errorDetail.getType( ) ) )
 			{
 				retList.add( errorDetail );
