@@ -99,6 +99,7 @@ Error.ReportDocmentOpenError = Berichtdokument konnte nicht geöffnet werden.
 Error.ReportArchiveOpenError = Berichtarchiv kann nicht geöffnet werden.
 Error.SkipError = Fehler beim Ignorieren.
 Error.ResultsetExtractError = Ergebnis nicht gefunden.
+Error.FailedToInitializeEmitter = Failed to initialize emitter.
 
 ###########################################################
 PDFCreator = BIRT-Berichtengine {0} mit iText {1}.

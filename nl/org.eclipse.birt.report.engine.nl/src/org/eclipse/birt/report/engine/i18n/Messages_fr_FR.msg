@@ -99,6 +99,7 @@ Error.ReportDocmentOpenError = L'ouverture de l'état a échoué.
 Error.ReportArchiveOpenError = Impossible d'ouvrir l'archive d'état.
 Error.SkipError = Une erreur s'est produite lorsque vous avez ignoré l'élément.
 Error.ResultsetExtractError = Jeu de résultats introuvable
+Error.FailedToInitializeEmitter = Failed to initialize emitter.
 
 ###########################################################
 PDFCreator = Moteur d'états BIRT {0} utilisant iText ({1}).
