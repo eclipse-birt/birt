@@ -45,7 +45,7 @@ public class Regression_146787 extends BaseTestCase
 	public void test_regression_146787( )
 	{
 		MetaDataDictionary instance = MetaDataDictionary.getInstance( );
-		PredefinedStyle dataStyle = instance.getPredefinedStyle( "data" ); //$NON-NLS-1$
+		PredefinedStyle dataStyle = (PredefinedStyle) instance.getPredefinedStyle( "data" ); //$NON-NLS-1$
 		assertNotNull( dataStyle );
 
 		boolean data = false;
