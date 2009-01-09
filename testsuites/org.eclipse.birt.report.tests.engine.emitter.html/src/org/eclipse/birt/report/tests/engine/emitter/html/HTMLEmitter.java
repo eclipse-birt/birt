@@ -3,6 +3,7 @@ package org.eclipse.birt.report.tests.engine.emitter.html;
 
 import java.util.HashMap;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
@@ -41,67 +42,67 @@ public class HTMLEmitter implements IContentEmitter
 				.get( "emitter_class" );
 	}
 
-	public void end( IReportContent report )
+	public void end( IReportContent report ) throws BirtException
 	{
 		emitter.end( report );
 	}
 
-	public void endCell( ICellContent cell )
+	public void endCell( ICellContent cell ) throws BirtException
 	{
 		emitter.endCell( cell );
 	}
 
-	public void endContainer( IContainerContent container )
+	public void endContainer( IContainerContent container ) throws BirtException
 	{
 		emitter.endContainer( container );
 	}
 
-	public void endContent( IContent content )
+	public void endContent( IContent content ) throws BirtException
 	{
 		emitter.endContent( content );
 	}
 
-	public void endGroup( IGroupContent group )
+	public void endGroup( IGroupContent group ) throws BirtException
 	{
 		emitter.endGroup( group );
 	}
 
-	public void endList( IListContent list )
+	public void endList( IListContent list ) throws BirtException
 	{
 		emitter.endList( list );
 	}
 
-	public void endListBand( IListBandContent listBand )
+	public void endListBand( IListBandContent listBand ) throws BirtException
 	{
 		emitter.endListBand( listBand );
 	}
 
-	public void endListGroup( IListGroupContent group )
+	public void endListGroup( IListGroupContent group ) throws BirtException
 	{
 		emitter.endListGroup( group );
 	}
 
-	public void endPage( IPageContent page )
+	public void endPage( IPageContent page ) throws BirtException
 	{
 		emitter.endPage( page );
 	}
 
-	public void endRow( IRowContent row )
+	public void endRow( IRowContent row ) throws BirtException
 	{
 		emitter.endRow( row );
 	}
 
-	public void endTable( ITableContent table )
+	public void endTable( ITableContent table ) throws BirtException
 	{
 		emitter.endTable( table );
 	}
 
-	public void endTableBand( ITableBandContent band )
+	public void endTableBand( ITableBandContent band ) throws BirtException
 	{
 		emitter.endTableBand( band );
 	}
 
-	public void endTableGroup( ITableGroupContent group )
+	public void endTableGroup( ITableGroupContent group ) throws BirtException
 	{
 		emitter.endTableGroup( group );
 	}
@@ -111,98 +112,98 @@ public class HTMLEmitter implements IContentEmitter
 		return emitter.getOutputFormat( );
 	}
 
-	public void start( IReportContent report )
+	public void start( IReportContent report ) throws BirtException
 	{
 		emitter.start( report );
 	}
 
-	public void startAutoText( IAutoTextContent autoText )
+	public void startAutoText( IAutoTextContent autoText ) throws BirtException
 	{
 		emitter.startAutoText( autoText );
 	}
 
-	public void startCell( ICellContent cell )
+	public void startCell( ICellContent cell ) throws BirtException
 	{
 		emitter.startCell( cell );
 	}
 
-	public void startContainer( IContainerContent container )
+	public void startContainer( IContainerContent container ) throws BirtException
 	{
 		emitter.startContainer( container );
 	}
 
-	public void startContent( IContent content )
+	public void startContent( IContent content ) throws BirtException
 	{
 		emitter.startContent( content );
 
 	}
 
-	public void startData( IDataContent data )
+	public void startData( IDataContent data ) throws BirtException
 	{
 		emitter.startData( data );
 	}
 
-	public void startForeign( IForeignContent foreign )
+	public void startForeign( IForeignContent foreign ) throws BirtException
 	{
 		emitter.startForeign( foreign );
 	}
 
-	public void startGroup( IGroupContent group )
+	public void startGroup( IGroupContent group ) throws BirtException
 	{
 		emitter.startGroup( group );
 	}
 
-	public void startImage( IImageContent image )
+	public void startImage( IImageContent image ) throws BirtException
 	{
 		emitter.startImage( image );
 	}
 
-	public void startLabel( ILabelContent label )
+	public void startLabel( ILabelContent label ) throws BirtException
 	{
 		emitter.startLabel( label );
 	}
 
-	public void startList( IListContent list )
+	public void startList( IListContent list ) throws BirtException
 	{
 		emitter.startList( list );
 	}
 
-	public void startListBand( IListBandContent listBand )
+	public void startListBand( IListBandContent listBand ) throws BirtException
 	{
 		emitter.startListBand( listBand );
 	}
 
-	public void startListGroup( IListGroupContent group )
+	public void startListGroup( IListGroupContent group ) throws BirtException
 	{
 		emitter.startListGroup( group );
 	}
 
-	public void startPage( IPageContent page )
+	public void startPage( IPageContent page ) throws BirtException
 	{
 		emitter.startPage( page );
 	}
 
-	public void startRow( IRowContent row )
+	public void startRow( IRowContent row ) throws BirtException
 	{
 		emitter.startRow( row );
 	}
 
-	public void startTable( ITableContent table )
+	public void startTable( ITableContent table ) throws BirtException
 	{
 		emitter.startTable( table );
 	}
 
-	public void startTableBand( ITableBandContent band )
+	public void startTableBand( ITableBandContent band ) throws BirtException
 	{
 		emitter.startTableBand( band );
 	}
 
-	public void startTableGroup( ITableGroupContent group )
+	public void startTableGroup( ITableGroupContent group ) throws BirtException
 	{
 		emitter.startTableGroup( group );
 	}
 
-	public void startText( ITextContent text )
+	public void startText( ITextContent text ) throws BirtException
 	{
 		emitter.startText( text );
 	}
