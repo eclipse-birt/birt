@@ -53,6 +53,7 @@ import org.eclipse.birt.report.engine.api.UnsupportedFormatException;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
+import org.eclipse.birt.report.engine.css.dom.AbstractStyle;
 import org.eclipse.birt.report.engine.data.dte.DocumentDataSource;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -66,6 +67,7 @@ import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.v3.ReportContentReaderV3;
+import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
@@ -78,7 +80,6 @@ import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 import com.ibm.icu.util.TimeZone;
@@ -1813,13 +1814,12 @@ public abstract class EngineTask implements IEngineTask
 
 	protected void updateRtLFlag( ) throws EngineException
 	{
-		// get RtL flag from renderOptions
+		//get RtL flag from renderOptions
 		if ( renderOptions == null )
 			return;
 		IReportRunnable runnable = executionContext.getRunnable( );
 		if ( runnable == null )
 			return;
-
 		ReportDesignHandle handle = (ReportDesignHandle) runnable
 				.getDesignHandle( );
 		if ( handle != null )
@@ -1827,43 +1827,32 @@ public abstract class EngineTask implements IEngineTask
 			Object bidiFlag = renderOptions.getOption( IRenderOption.RTL_FLAG );
 			if ( Boolean.TRUE.equals( bidiFlag ) )
 			{
-				String bidiOrientation = DesignChoiceConstants.BIDI_DIRECTION_RTL;
-				try
+				if ( !handle.isDirectionRTL( ) )
 				{
-					handle.setBidiOrientation( bidiOrientation );
-					updateBidiStyle( bidiOrientation );
-				}
-				catch ( SemanticException e )
-				{
-					log
-							.log(
-									Level.WARNING,
-									"An error happened while running the report. Cause:", e ); //$NON-NLS-1$
-					throw new EngineException( "Failed to update RtL flag." );//$NON-NLS-1$
+					updateBidiStyle( true );
 				}
 			}
-			// Updated renderOptions based on report design orientation.
-			// XXX It seems ideally we should distinguish between null value for
-			// direction/rtl flag and the explicit 'ltr' value, either here, or
-			// in the block above.
-			else if ( handle.isDirectionRTL( ) )
+			else if ( Boolean.FALSE.equals( bidiFlag ) )
 			{
-				renderOptions.setOption( IRenderOption.RTL_FLAG, new Boolean(
-						true ) );
-				IRenderOption renderOptions2 = executionContext
-						.getRenderOption( );
-				if ( renderOptions2 != null )
+				if ( handle.isDirectionRTL( ) )
 				{
-					renderOptions2.setOption( IRenderOption.RTL_FLAG,
-							new Boolean( true ) );
-					executionContext.setRenderOption( renderOptions2 );
+					updateBidiStyle( false );
 				}
 			}
 		}
 	}
-	
-	protected void updateBidiStyle( String bidiOrientation )
+
+	private void updateBidiStyle( boolean isRtl)
 	{
+		Report report = executionContext.getReport( );
+		AbstractStyle rootStyle = (AbstractStyle) report.getStyles( ).get(
+				report.getRootStyleName( ) );
+		if ( rootStyle != null )
+		{
+			rootStyle.setDirection( isRtl
+					? DesignChoiceConstants.BIDI_DIRECTION_RTL
+					: DesignChoiceConstants.BIDI_DIRECTION_LTR );
+		}
 	}
 
 	protected IReportExecutor createReportExtensionExecutor(

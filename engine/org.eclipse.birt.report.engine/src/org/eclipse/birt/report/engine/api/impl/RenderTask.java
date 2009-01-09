@@ -30,7 +30,6 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IReportContent;
-import org.eclipse.birt.report.engine.css.dom.AbstractStyle;
 import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.EngineExtensionManager;
@@ -196,7 +195,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 			if ( !designLoaded )
 			{
-				updateRtLFlag( );
 				// load report design
 				loadDesign( );
 				// synchronize the design ir's version with the document
@@ -206,6 +204,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 				designLoaded = true;
 			}
+
+			updateRtLFlag( );
 
 			if ( innerRender == null )
 			{
@@ -916,17 +916,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 						executionContext, totalPage, finished );
 				pageHandler.onPage( (int) pageNumber, false, reportDocumentInfo );
 			}
-		}
-	}
-
-	protected void updateBidiStyle( String bidiOrientation )
-	{
-		Report report = executionContext.getReport( );
-		AbstractStyle rootStyle = (AbstractStyle) report.getStyles( ).get(
-				report.getRootStyleName( ) );
-		if ( rootStyle != null )
-		{
-			rootStyle.setDirection( bidiOrientation );
 		}
 	}
 }
