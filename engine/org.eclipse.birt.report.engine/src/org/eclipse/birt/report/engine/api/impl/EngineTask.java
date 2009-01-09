@@ -1816,69 +1816,47 @@ public abstract class EngineTask implements IEngineTask
 
 	protected void updateRtLFlag( ) throws EngineException
 	{
-		// get RtL flag from renderOptions
+		//get RtL flag from renderOptions
 		if ( renderOptions == null )
 			return;
 		IReportRunnable runnable = executionContext.getRunnable( );
 		if ( runnable == null )
 			return;
-
 		ReportDesignHandle handle = (ReportDesignHandle) runnable
 				.getDesignHandle( );
 		if ( handle != null )
 		{
 			Object bidiFlag = renderOptions.getOption( IRenderOption.RTL_FLAG );
-			String bidiOrientation = null;
-			if ( bidiFlag != null )
+			if ( Boolean.TRUE.equals( bidiFlag ) )
 			{
-				if ( Boolean.TRUE.equals( bidiFlag ) )
+				if ( !handle.isDirectionRTL( ) )
 				{
-					bidiOrientation = DesignChoiceConstants.BIDI_DIRECTION_RTL;
-				}
-				else
-				{
-					bidiOrientation = DesignChoiceConstants.BIDI_DIRECTION_LTR;
-				}
-				try
-				{
-					handle.setBidiOrientation( bidiOrientation );
-					Report report = executionContext.getReport( );
-					AbstractStyle rootStyle = (AbstractStyle) report
-							.getStyles( ).get( report.getRootStyleName( ) );
-					if ( rootStyle != null )
-					{
-						rootStyle.setDirection( bidiOrientation );
-					}
-				}
-				catch ( SemanticException e )
-				{
-					log
-							.log(
-									Level.WARNING,
-									"An error happened while running the report. Cause:", e ); //$NON-NLS-1$
-					throw new EngineException( "Failed to update RtL flag." );//$NON-NLS-1$
+					updateBidiStyle( true );
 				}
 			}
-			// Updated renderOptions based on report design orientation.
-			// XXX It seems ideally we should distinguish between null value for
-			// direction/rtl flag and the explicit 'ltr' value, either here, or
-			// in the block above.
-			else if ( handle.isDirectionRTL( ) )
+			else if ( Boolean.FALSE.equals( bidiFlag ) )
 			{
-				renderOptions.setOption( IRenderOption.RTL_FLAG, new Boolean(
-						true ) );
-				IRenderOption renderOptions2 = executionContext
-						.getRenderOption( );
-				if ( renderOptions2 != null )
+				if ( handle.isDirectionRTL( ) )
 				{
-					renderOptions2.setOption( IRenderOption.RTL_FLAG,
-							new Boolean( true ) );
-					executionContext.setRenderOption( renderOptions2 );
+					updateBidiStyle( false );
 				}
 			}
 		}
 	}
 
+	private void updateBidiStyle( boolean isRtl)
+	{
+		Report report = executionContext.getReport( );
+		AbstractStyle rootStyle = (AbstractStyle) report.getStyles( ).get(
+				report.getRootStyleName( ) );
+		if ( rootStyle != null )
+		{
+			rootStyle.setDirection( isRtl
+					? DesignChoiceConstants.BIDI_DIRECTION_RTL
+					: DesignChoiceConstants.BIDI_DIRECTION_LTR );
+		}
+	}
+	
 	protected IReportExecutor createReportExtensionExecutor(
 			IReportExecutor executor ) throws EngineException
 	{

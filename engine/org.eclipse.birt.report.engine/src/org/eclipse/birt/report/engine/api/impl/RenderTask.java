@@ -188,7 +188,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 			if ( !designLoaded )
 			{
-				updateRtLFlag( );
 				// load report design
 				loadDesign( );
 				// synchronize the design ir's version with the document
@@ -198,6 +197,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 				designLoaded = true;
 			}
+
+			updateRtLFlag( );
 
 			if ( innerRender == null )
 			{
