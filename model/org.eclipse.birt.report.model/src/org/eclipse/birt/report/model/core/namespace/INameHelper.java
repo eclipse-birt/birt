@@ -182,4 +182,10 @@ public interface INameHelper
 	 */
 
 	public boolean canContain( int nameSpaceID, String elementName );
+	
+	/**
+	 * Caches values for elements with names such as styles, etc. 
+	 */
+
+	public void cacheValues( );
 }

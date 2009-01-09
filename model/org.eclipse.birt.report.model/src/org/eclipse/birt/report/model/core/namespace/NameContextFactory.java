@@ -44,7 +44,7 @@ public class NameContextFactory
 		if ( nameSpaceID == Module.STYLE_NAME_SPACE )
 			return new StyleNameContext( module );
 
-		return new SimpleModuleNameContext( module, nameSpaceID );
+		return new GeneralModuleNameContext( module, nameSpaceID );
 	}
 
 	/**

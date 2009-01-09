@@ -18,19 +18,19 @@ import org.eclipse.birt.report.model.core.Module;
  * Abstract element name space in one module. Subclass must override one or more
  * resolve methods in this class. Otherwise, assertion error may occur.
  */
-abstract public class AbstractModuleNameContext extends AbstractNameContext
+public abstract class AbstractModuleNameContext extends AbstractNameContext
 {
 
 	protected Module module = null;
-	
+
 	protected int nameSpaceID = -1;
 
 	/**
 	 * Constructs the name space with module and name space ID.
 	 * 
 	 * @param module
-	 *            the module this name space is assocaited.
-	 * @param nameSpaceID 
+	 *            the module this name space is associated.
+	 * @param nameSpaceID
 	 */
 
 	public AbstractModuleNameContext( Module module, int nameSpaceID )
@@ -39,20 +39,34 @@ abstract public class AbstractModuleNameContext extends AbstractNameContext
 		this.nameSpaceID = nameSpaceID;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#getElement()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameContext#getElement()
 	 */
 	public DesignElement getElement( )
 	{
 		return module;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#getNameSpaceID()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameContext#getNameSpaceID
+	 * ()
 	 */
 	public int getNameSpaceID( )
 	{
 		return nameSpaceID;
-	}	
-	
+	}
+
+	/**
+	 * Caches values for elements with names such as styles, etc.
+	 */
+
+	public void cacheValues( )
+	{
+	}
 }

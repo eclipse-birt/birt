@@ -471,7 +471,19 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 		return false;
 	}
 
-	class NameResolveInfor
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameHelper#cacheValues()
+	 */
+	
+	public void cacheValues( )
+	{
+
+	}
+
+	private static class NameResolveInfor
 	{
 
 		ElementDefn elementDefn = null;
@@ -483,5 +495,4 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 			this.elementName = name;
 		}
 	}
-
 }

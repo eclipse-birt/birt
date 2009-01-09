@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
@@ -454,5 +455,21 @@ public class ModuleNameHelper extends AbstractNameHelper
 			Library lib = libs.get( i );
 			( (ModuleNameHelper) lib.getNameHelper( ) ).cachedLevelNames = null;
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.AbstractNameHelper#cacheValues
+	 * ()
+	 */
+
+	public void cacheValues( )
+	{
+		// do the cache for all resolved styles.
+
+		AbstractModuleNameContext tmpContext = (AbstractModuleNameContext) getNameContext( Module.STYLE_NAME_SPACE );
+		tmpContext.cacheValues( );
 	}
 }

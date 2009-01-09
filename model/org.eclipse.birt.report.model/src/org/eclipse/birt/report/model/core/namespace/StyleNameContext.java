@@ -12,11 +12,12 @@
 package org.eclipse.birt.report.model.core.namespace;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -33,10 +34,23 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
- * 
+ * The special case for the styles. 
  */
 public class StyleNameContext extends AbstractModuleNameContext
 {
+
+	/**
+	 * Map of the styles that can be resolved by calling resolve(String).
+	 */
+
+	private Map<String, StyleElement> cachedStyles = null;
+
+	/**
+	 * Cached default TOC style map. If it is <code>null</code>, the value has
+	 * not been initialized. Otherwise, it is safter to use this value.
+	 */
+
+	private Map<String, StyleElement> cachedTOCStyles = null;
 
 	/**
 	 * Constructs one style element name space.
@@ -60,54 +74,35 @@ public class StyleNameContext extends AbstractModuleNameContext
 
 	public List<DesignElement> getElements( int level )
 	{
-		Map<String, StyleElement> elements = new LinkedHashMap<String, StyleElement>( );
-
 		Theme theme = module.getTheme( module );
 
+		Map<String, StyleElement> elements = new LinkedHashMap<String, StyleElement>( );
+
 		if ( theme == null && module instanceof Library )
-		{
-			return new ArrayList<DesignElement>( elements.values( ) );
-		}
+			return Collections.EMPTY_LIST;
 
 		if ( theme != null )
 		{
-			List<StyleElement> allStyles = theme.getAllStyles( );
-			addAllStyles( elements, allStyles );
+			List<StyleElement> tmpStyles = theme.getAllStyles( );
+			elements.putAll( addAllStyles( tmpStyles ) );
 		}
 
 		if ( module instanceof Library )
-		{
 			return new ArrayList<DesignElement>( elements.values( ) );
-		}
 
 		// find in css file
 
 		List<CssStyle> csses = CssNameManager
 				.getStyles( (ICssStyleSheetOperation) module );
-		addAllStyles( elements, csses );
+		elements.putAll( addAllStyles( csses ) );
 
 		// find all styles in report design.
 
 		NameSpace ns = module.getNameHelper( ).getNameSpace( nameSpaceID );
 		List<DesignElement> styles = ns.getElements( );
-		addAllStyles( elements, styles );
+		elements.putAll( addAllStyles( styles ) );
 
 		return new ArrayList<DesignElement>( elements.values( ) );
-	}
-
-	private void addAllStyles( Map<String, StyleElement> styleMap,
-			List<? extends DesignElement> styleList )
-	{
-		assert styleMap != null;
-		if ( styleList != null )
-		{
-			for ( int i = 0; i < styleList.size( ); i++ )
-			{
-				DesignElement style = styleList.get( i );
-				styleMap.put( style.getName( ), (StyleElement) style );
-			}
-		}
-
 	}
 
 	/*
@@ -133,13 +128,28 @@ public class StyleNameContext extends AbstractModuleNameContext
 
 	private ElementRefValue resolve( String elementName )
 	{
+		if ( module.isCached( ) )
+		{
+			DesignElement style = cachedStyles.get( elementName );
+
+			// firstly, find it in the cached style list
+
+			if ( style != null )
+				return new ElementRefValue( null, style );
+
+			style = cachedTOCStyles.get( elementName );
+			if ( style != null )
+				return new ElementRefValue( null, style );
+
+			return new ElementRefValue( null, elementName );
+		}
+
 		// this name is not cached, so find it directly
+
 		Theme theme = module.getTheme( module );
 
 		if ( theme == null && module instanceof Library )
-		{
 			return new ElementRefValue( null, elementName );
-		}
 
 		// find the style first in the report design first.
 
@@ -183,18 +193,16 @@ public class StyleNameContext extends AbstractModuleNameContext
 		}
 
 		// find style in toc default style
-		
-		List<DesignElement> defaultTocStyle = module.getSession( )
-				.getDefaultTOCStyleValue( );
-		Iterator<DesignElement> iterator = defaultTocStyle.iterator( );
-		while ( iterator.hasNext( ) )
+
+		buildTOCStyles( );
+
+		if ( cachedTOCStyles != null )
 		{
-			Style tmpStyle = (Style) iterator.next( );
-			if ( tmpStyle.getName( ).equalsIgnoreCase( elementName ) )
-			{
+			Style tmpStyle = (Style) cachedTOCStyles.get( elementName );
+			if ( tmpStyle != null )
 				return new ElementRefValue( null, tmpStyle );
-			}
 		}
+
 		// if the style is not find, return a unresolved element reference
 		// value.
 
@@ -236,10 +244,67 @@ public class StyleNameContext extends AbstractModuleNameContext
 	 * (java.lang.String,
 	 * org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
+
 	public DesignElement findElement( String elementName,
 			IElementDefn elementDefn )
 	{
 		ElementRefValue refValue = resolve( elementName );
 		return refValue == null ? null : refValue.getElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.AbstractModuleNameContext
+	 * #cacheValues()
+	 */
+
+	public void cacheValues( )
+	{
+		// build resolved styles.
+
+		cachedStyles = addAllStyles( getElements( IAccessControl.ARBITARY_LEVEL ) );
+		
+		// build TOC styles
+		
+		buildTOCStyles( );
+	}
+
+	/**
+	 * 
+	 */
+
+	private void buildTOCStyles( )
+	{
+		if ( cachedTOCStyles == null )
+		{
+			// TOC styles are fixed. Always use the same set.
+
+			List<DesignElement> defaultTocStyle = module.getSession( )
+					.getDefaultTOCStyleValue( );
+
+			cachedTOCStyles = addAllStyles( defaultTocStyle );
+		}
+	}
+
+	/**
+	 * @param styleMap
+	 * @param styleList
+	 */
+
+	private Map<String, StyleElement> addAllStyles(
+			List<? extends DesignElement> styleList )
+	{
+		Map<String, StyleElement> tmpMap = new LinkedHashMap<String, StyleElement>( );
+		if ( styleList != null )
+		{
+			for ( int i = 0; i < styleList.size( ); i++ )
+			{
+				DesignElement style = styleList.get( i );
+				tmpMap.put( style.getName( ), (StyleElement) style );
+			}
+		}
+		return tmpMap;
 	}
 }
