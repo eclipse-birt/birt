@@ -8,6 +8,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.ContentVisitorAdapter;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -251,8 +252,9 @@ public class IContentTest extends EngineCase
 
 	/**
 	 * Test accept() method.
+	 * @throws BirtException 
 	 */
-	public void testAccept( )
+	public void testAccept( ) throws BirtException
 	{
 		Object value = new Object( );
 		IContentVisitor visitor = new ContentVisitorAdapter( );
