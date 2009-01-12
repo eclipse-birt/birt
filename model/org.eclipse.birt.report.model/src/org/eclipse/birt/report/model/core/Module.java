@@ -2999,14 +2999,12 @@ public abstract class Module extends DesignElement
 
 	public void cacheValues( )
 	{
-		getNameHelper( ).getElements( Module.STYLE_NAME_SPACE,
-				IAccessControl.ARBITARY_LEVEL );
+		nameHelper.cacheValues( );
 		List<Library> libs = getAllLibraries( );
 		for ( int i = 0; i < libs.size( ); i++ )
 		{
 			Library lib = libs.get( i );
-			lib.getNameHelper( ).getElements( Module.STYLE_NAME_SPACE,
-					IAccessControl.ARBITARY_LEVEL );
+			lib.nameHelper.cacheValues( );
 		}
 	}
 }

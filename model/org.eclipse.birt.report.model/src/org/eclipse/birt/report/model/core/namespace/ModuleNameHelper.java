@@ -32,7 +32,6 @@ import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
