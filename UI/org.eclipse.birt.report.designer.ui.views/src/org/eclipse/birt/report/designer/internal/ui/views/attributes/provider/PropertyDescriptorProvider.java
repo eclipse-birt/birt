@@ -41,6 +41,8 @@ public class PropertyDescriptorProvider implements IDescriptorProvider
 
 	public void save( Object value ) throws SemanticException
 	{
+		if ( isReadOnly( ) )
+			return;
 		if ( input instanceof GroupElementHandle )
 		{
 			( (GroupElementHandle) input ).setProperty( property, value );
@@ -83,15 +85,21 @@ public class PropertyDescriptorProvider implements IDescriptorProvider
 
 	public String getLocalStringValue( )
 	{
+		String value = null;
 		if ( input instanceof GroupElementHandle )
 		{
-			String value = ( (GroupElementHandle) input ).getLocalStringProperty( property );
-			if ( value == null )
-				return ""; //$NON-NLS-1$
-			else
-				return value;
+			value = ( (GroupElementHandle) input ).getLocalStringProperty( property );
+
 		}
-		return ""; //$NON-NLS-1$
+		else if ( input instanceof List )
+		{
+			value = DEUtil.getGroupElementHandle( (List) input )
+					.getLocalStringProperty( property );
+		}
+		if ( value == null )
+			return ""; //$NON-NLS-1$
+		else
+			return value;
 	}
 
 	public void setInput( Object input )
@@ -111,16 +119,22 @@ public class PropertyDescriptorProvider implements IDescriptorProvider
 
 	public boolean isReadOnly( )
 	{
+		GroupPropertyHandle propertyHandle = null;
 		if ( input instanceof GroupElementHandle )
 		{
-			GroupPropertyHandle propertyHandle = ( (GroupElementHandle) input ).getPropertyHandle( property );
-			if ( propertyHandle != null )
-			{
-				return propertyHandle.isReadOnly( );
-			}
+			propertyHandle = ( (GroupElementHandle) input ).getPropertyHandle( property );
+
+		}
+		else if ( input instanceof List )
+		{
+			propertyHandle = DEUtil.getGroupElementHandle( (List) input )
+					.getPropertyHandle( property );
+		}
+		if ( propertyHandle != null )
+		{
+			return propertyHandle.isReadOnly( );
 		}
 		return false;
 	}
-
 
 }

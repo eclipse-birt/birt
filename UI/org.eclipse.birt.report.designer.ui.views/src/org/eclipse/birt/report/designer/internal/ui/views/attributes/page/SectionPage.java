@@ -32,16 +32,13 @@ import org.eclipse.swt.widgets.Composite;
 public class SectionPage extends AttributePage
 {
 
-	protected SimpleComboSection masterSection;
-	protected SeperatorSection sepSection;
-	protected ComboSection beforeSection;
-	protected ComboSection insideSection;
-	protected ComboSection afterSection;
+	private SimpleComboSection masterSection;
+	private SeperatorSection sepSection;
 
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 5 ,15) );
+		container.setLayout( WidgetUtil.createGridLayout( 5 ) );
 
 		// Defines providers.
 
@@ -59,18 +56,21 @@ public class SectionPage extends AttributePage
 
 		// Defines sections.
 
-		beforeSection = new ComboSection( beforeProvider.getDisplayName( ),
-						container,
-						true );
-		insideSection = new ComboSection( insideProvider.getDisplayName( ),
-						container,
-						true );
+		ComboSection beforeSection = new ComboSection( beforeProvider.getDisplayName( ),
+				container,
+				true );
+		
+		ComboSection insideSection = new ComboSection( insideProvider.getDisplayName( ),
+				container,
+				true );
+
 		masterSection = new SimpleComboSection( masterProvider.getDisplayName( ),
 						container,
 						true );
-		afterSection = new ComboSection( afterProvider.getDisplayName( ),
-						container,
-						true );
+		ComboSection afterSection = new ComboSection( afterProvider.getDisplayName( ),
+				container,
+				true );
+		
 		sepSection = new SeperatorSection(container,SWT.HORIZONTAL);
 		beforeSection.setProvider( beforeProvider );
 		masterSection.setProvider( masterProvider );
@@ -110,7 +110,7 @@ public class SectionPage extends AttributePage
 	public void refresh( )
 	{
 		super.refresh( );
-		setVisible();
+		setVisible( );
 		container.layout( true );
 		container.redraw( );
 	}
@@ -122,22 +122,10 @@ public class SectionPage extends AttributePage
 		{
 			masterSection.setVisible( false );
 			sepSection.setVisible( false );
-			beforeSection.getLabelControl( ).setEnabled( false );
-			beforeSection.getComboControl( ).getControl( ).setEnabled( false );
-			afterSection.getLabelControl( ).setEnabled( false );
-			afterSection.getComboControl( ).getControl( ).setEnabled( false );
-			insideSection.getLabelControl( ).setEnabled( false );
-			insideSection.getComboControl( ).getControl( ).setEnabled( false );
 		}
 		else{
 			masterSection.setVisible( true );
 			sepSection.setVisible( true );
-			beforeSection.getLabelControl( ).setEnabled( true );
-			beforeSection.getComboControl( ).getControl( ).setEnabled( true );
-			afterSection.getLabelControl( ).setEnabled( true );
-			afterSection.getComboControl( ).getControl( ).setEnabled( true );
-			insideSection.getLabelControl( ).setEnabled( true );
-			insideSection.getComboControl( ).getControl( ).setEnabled( true );
 		}
 	}
 	
