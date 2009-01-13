@@ -10,6 +10,7 @@ Element.MeasureView=Maﬂeinheitsansicht
 Element.ComputedMeasureView=Ansicht 'Berechnete Maﬂeinheit'
 Element.PageBreakBefore=Seitenumbruch vor
 Element.PageBreakAfter=Seitenumbruch nach
+Element.PageBreakInterval=Page break interval
 Element.SortDirection=Sortierreihenfolge
 Element.SortType=Sortiertyp
 Element.LevelView=Ebenenansicht

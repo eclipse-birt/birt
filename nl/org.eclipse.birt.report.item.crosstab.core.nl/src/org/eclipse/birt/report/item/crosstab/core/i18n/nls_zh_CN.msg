@@ -10,6 +10,7 @@ Element.MeasureView=度量视图
 Element.ComputedMeasureView=计算的度量视图
 Element.PageBreakBefore=之前分页
 Element.PageBreakAfter=之后分页
+Element.PageBreakInterval=Page break interval
 Element.SortDirection=排序方向
 Element.SortType=排序类型
 Element.LevelView=级别视图
