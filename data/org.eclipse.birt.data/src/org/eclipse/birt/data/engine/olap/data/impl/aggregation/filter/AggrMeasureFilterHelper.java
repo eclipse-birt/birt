@@ -12,6 +12,8 @@
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter;
 
 import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -291,7 +293,7 @@ public class AggrMeasureFilterHelper
 				{
 					IConditionalExpression expr = (IConditionalExpression)filterHelper.getExpression( );
 					firstRoundFilterHelper.add( filterHelper );
-					expr.setHandle( NEvaluator.newInstance( System.getProperty( "java.io.tmpdir" ),
+					expr.setHandle( NEvaluator.newInstance( getSystemProperty( ),
 							expr.getOperator( ),
 							expr.getExpression( ),
 							(IScriptExpression)expr.getOperand1( ),
@@ -341,6 +343,20 @@ public class AggrMeasureFilterHelper
 			}
 		}
 		return result;
+	}
+
+	private String getSystemProperty( )
+	{
+		String piTmp0 = null;
+		piTmp0 = (String) AccessController.doPrivileged( new PrivilegedAction<Object>( ) {
+
+			public Object run( )
+			{
+				return System.getProperty( "java.io.tmpdir" );
+			}
+		} );
+
+		return piTmp0;
 	}
 
 	private boolean isTopBottomNConditionalExpression( IBaseExpression expr )

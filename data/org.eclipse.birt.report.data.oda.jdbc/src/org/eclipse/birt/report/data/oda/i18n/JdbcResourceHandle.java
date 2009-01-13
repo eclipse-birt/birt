@@ -11,6 +11,8 @@
 package org.eclipse.birt.report.data.oda.i18n;
 
 import com.ibm.icu.text.MessageFormat;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Locale;
 import com.ibm.icu.util.ULocale;
 import java.util.MissingResourceException;
@@ -78,7 +80,15 @@ public class JdbcResourceHandle
 		bundleName = bundleName + BUNDLE_NAME;
 		if ( locale == null )
 			locale = ULocale.getDefault( );
-		resources = UResourceBundle.getBundleInstance( bundleName, locale.getName( ), this.getClass().getClassLoader() );
+		ClassLoader loader = (ClassLoader)AccessController.doPrivileged( new PrivilegedAction<Object>()
+		{
+		  public Object run()
+		  {
+		    return this.getClass().getClassLoader();
+		  }
+		});
+		
+		resources = UResourceBundle.getBundleInstance( bundleName, locale.getName( ), loader  );
 		assert resources != null : "ResourceBundle : " + BUNDLE_NAME + " for " + locale + " not found"; //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
 
 	}

@@ -13,6 +13,9 @@ package org.eclipse.birt.data.engine.olap.query.view;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -145,72 +148,91 @@ public class QueryExecutor
 		return new CubeResultSet( rs, view, cubeQueryExcutorHelper );
 	}
 
-	private IAggregationResultSet[] populateRs( BirtCubeView view,
-			AggregationDefinition[] aggrDefns,
-			CubeQueryExecutorHelper cubeQueryExcutorHelper2,
-			StopSign stopSign, boolean saveToRD ) throws IOException, BirtException
+	private IAggregationResultSet[] populateRs( final BirtCubeView view,
+			final AggregationDefinition[] aggrDefns,
+			final CubeQueryExecutorHelper cubeQueryExcutorHelper2,
+			final StopSign stopSign, final boolean saveToRD ) throws IOException, BirtException
 	{
-		
-		IAggregationResultSet[] rs;
-		String id = null;
-		CubeQueryExecutor executor = view.getCubeQueryExecutor( );
-		//If not load from local dir
-		if ( executor.getCubeQueryDefinition( ).getQueryResultsID( ) == null )
-		{
-			rs = cubeQueryExcutorHelper.execute( aggrDefns, new StopSign( ) );
-			
-			CubeOperationsExecutor coe = new CubeOperationsExecutor(view.getCubeQueryDefinition( ),
-					view.getPreparedCubeOperations( ));
-			
-			rs = coe.execute( rs, stopSign );
 
-			//If need save to local dir
-			if ( executor.getCubeQueryDefinition( ).cacheQueryResults( ) )
-			{
-				id = executor.getSession( ).getQueryResultIDUtil( ).nextID( );
-				File tmpDir = new File( executor.getSession( ).getTempDir( ) );
-				if (!tmpDir.exists( ) || !tmpDir.isDirectory( ))
-				{
-					tmpDir.mkdirs( );
-				}
-				ArchiveWriter writer = new ArchiveWriter( new ArchiveFile( executor.getSession( )
-						.getTempDir( )
-						+ "Cache",
-						"rw+" ) );
-				AggregationResultSetSaveUtil.save( id,
-						rs,
-						writer );
-				writer.finish( );
-			}		
-			
-			if ( saveToRD)
-			{
-				//Save to RD using same id.
-				if ( id != null )
-				{
-					AggregationResultSetSaveUtil.save( id, rs, executor.getContext( )
-						.getDocWriter( ) );
-				}else
-				{
-					id = executor.getSession( ).getQueryResultIDUtil( ).nextID( );
-					AggregationResultSetSaveUtil.save( id, rs, executor.getContext( )
-							.getDocWriter( ) );
-				}
-				
-			}	
-		}
-		else
+		try
 		{
-			//If query definition has query result id, that means a cached document has been saved.
-			id = executor.getCubeQueryDefinition( ).getQueryResultsID( );
-			rs = AggregationResultSetSaveUtil.load( id,
-					new FileArchiveReader( executor.getSession( ).getTempDir( ) + "Cache" ), VersionManager.getLatestVersion( ) );
-			//TODO:Currently, share the same queryResultsID with the shared report item in the report document if the report document exists
+			return AccessController.doPrivileged( new PrivilegedExceptionAction<IAggregationResultSet[]>( ) {
+
+					public IAggregationResultSet[] run( ) throws IOException, BirtException
+					{
+						IAggregationResultSet[] rs;
+						String id = null;
+						CubeQueryExecutor executor = view.getCubeQueryExecutor( );
+						//If not load from local dir
+						if ( executor.getCubeQueryDefinition( ).getQueryResultsID( ) == null )
+						{
+							rs = cubeQueryExcutorHelper.execute( aggrDefns, new StopSign( ) );
+							
+							CubeOperationsExecutor coe = new CubeOperationsExecutor(view.getCubeQueryDefinition( ),
+									view.getPreparedCubeOperations( ));
+							
+							rs = coe.execute( rs, stopSign );
+
+							//If need save to local dir
+							if ( executor.getCubeQueryDefinition( ).cacheQueryResults( ) )
+							{
+								id = executor.getSession( ).getQueryResultIDUtil( ).nextID( );
+								File tmpDir = new File( executor.getSession( ).getTempDir( ) );
+								if (!tmpDir.exists( ) || !tmpDir.isDirectory( ))
+								{
+									tmpDir.mkdirs( );
+								}
+								ArchiveWriter writer = new ArchiveWriter( new ArchiveFile( executor.getSession( )
+										.getTempDir( )
+										+ "Cache",
+										"rw+" ) );
+								AggregationResultSetSaveUtil.save( id,
+										rs,
+										writer );
+								writer.finish( );
+							}		
+							
+							if ( saveToRD)
+							{
+								//Save to RD using same id.
+								if ( id != null )
+								{
+									AggregationResultSetSaveUtil.save( id, rs, executor.getContext( )
+										.getDocWriter( ) );
+								}else
+								{
+									id = executor.getSession( ).getQueryResultIDUtil( ).nextID( );
+									AggregationResultSetSaveUtil.save( id, rs, executor.getContext( )
+											.getDocWriter( ) );
+								}
+								
+							}	
+						}
+						else
+						{
+							//If query definition has query result id, that means a cached document has been saved.
+							id = executor.getCubeQueryDefinition( ).getQueryResultsID( );
+							rs = AggregationResultSetSaveUtil.load( id,
+									new FileArchiveReader( executor.getSession( ).getTempDir( ) + "Cache" ), VersionManager.getLatestVersion( ) );
+							//TODO:Currently, share the same queryResultsID with the shared report item in the report document if the report document exists
+						}
+						
+						executor.setQueryResultsId( id );
+						
+						return rs;
+					}
+				} );
 		}
+		catch ( PrivilegedActionException e )
+		{
+			if( e.getCause( ) instanceof BirtException)
+				throw (BirtException)e.getCause( );
+			return null;
+		}
+	
 		
-		executor.setQueryResultsId( id );
 		
-		return rs;
+		
 	}
 
 	/**

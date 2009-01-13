@@ -12,7 +12,9 @@
 package org.eclipse.birt.data.engine.executor;
 
 import java.io.File;
+import java.security.AccessController;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivilegedAction;
 
 import org.eclipse.birt.data.engine.impl.DataSetCacheUtil;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -37,7 +39,14 @@ public class IncreDataSetCacheObject implements IDataSetCacheObject
 	public IncreDataSetCacheObject( String cacheDir )
 	{
 		this.cacheDir = cacheDir + PATH_SEP + "DataSetCacheObject_" + this.hashCode( ) ;
-		(new File( this.cacheDir )).mkdirs( );
+		AccessController.doPrivileged( new PrivilegedAction<Object>()
+		{
+		  public Object run()
+		  {
+		    return new Boolean((new File(IncreDataSetCacheObject.this.cacheDir)).mkdirs());
+		  }
+		});
+		
 	}
 
 	/**

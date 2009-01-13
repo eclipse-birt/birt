@@ -13,6 +13,10 @@ package org.eclipse.birt.data.engine.olap.data.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -185,7 +189,25 @@ abstract class BaseDiskArray implements IDiskArray
 		if ( diskFile == null )
 		{
 			diskFile = new File( tempFileStr );
-			diskFile.createNewFile( );
+			try
+			{
+				AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+					public Object run( ) throws IOException
+					{
+						return new Boolean( diskFile.createNewFile( ) );
+					}
+				} );
+			}
+			catch ( PrivilegedActionException e )
+			{
+				Exception typedException = e.getException( );
+				if ( typedException instanceof IOException )
+				{
+					throw (IOException) typedException;
+				}
+			}
+			
 		}
 	}
 
@@ -239,7 +261,14 @@ abstract class BaseDiskArray implements IDiskArray
 		}
 		if ( diskFile != null )
 		{
-			diskFile.delete( );
+			AccessController.doPrivileged( new PrivilegedAction<Object>()
+			{
+			  public Object run()
+			  {
+			    return new Boolean(diskFile.delete());
+			  }
+			});
+			
 			diskFile = null;
 		}
 	}

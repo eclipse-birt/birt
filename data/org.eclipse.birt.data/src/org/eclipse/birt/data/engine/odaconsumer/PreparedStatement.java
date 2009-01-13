@@ -32,6 +32,7 @@ import java.util.Set;
 import java.util.logging.Level;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.PropertySecurity;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -1284,7 +1285,7 @@ public class PreparedStatement
 	private Hashtable getNamedProjectedColumns()
 	{
 		if( m_namedProjectedColumns == null )
-			m_namedProjectedColumns = new Hashtable();
+			m_namedProjectedColumns = PropertySecurity.createHashtable( );
 		
 		return m_namedProjectedColumns;
 	}
@@ -1292,7 +1293,7 @@ public class PreparedStatement
 	private Hashtable getNamedCurrentResultClasses()
 	{
 		if( m_namedCurrentResultClasses == null )
-			m_namedCurrentResultClasses = new Hashtable();
+			m_namedCurrentResultClasses = PropertySecurity.createHashtable( );
 		
 		return m_namedCurrentResultClasses;
 	}
@@ -1300,7 +1301,7 @@ public class PreparedStatement
 	private Hashtable getNamedCurrentResultSets()
 	{
 		if( m_namedCurrentResultSets == null )
-			m_namedCurrentResultSets = new Hashtable();
+			m_namedCurrentResultSets = PropertySecurity.createHashtable( );
 		
 		return m_namedCurrentResultSets;
 	}

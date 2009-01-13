@@ -12,6 +12,8 @@
 package org.eclipse.birt.data.engine.impl;
 
 import java.io.File;
+import java.security.AccessController;
+import java.security.PrivilegedExceptionAction;
 
 /**
  * The util class which is used to provide utilities for Result Set Cache feature.
@@ -27,17 +29,31 @@ class ResultSetCacheUtil
 	 *  
 	 * @return
 	 */
-	static File getMetaFile( String tempDir, String id )
+	static File getMetaFile( final String tempDir, final String id )
 	{
-		File tmpDir = new File( tempDir );
-		if (!tmpDir.exists( ) || !tmpDir.isDirectory( ))
+		try
 		{
-			tmpDir.mkdirs( );
+			return (File) AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+				public Object run( ) throws Exception
+				{
+
+					File tmpDir = new File( tempDir );
+					if (!tmpDir.exists( ) || !tmpDir.isDirectory( ))
+					{
+						tmpDir.mkdirs( );
+					}
+					File file = new File( tempDir
+							+ CACHED_FILE_PREFIX
+							+ id+"meta");
+					return file;
+				}
+			} );
 		}
-		File file = new File( tempDir
-				+ CACHED_FILE_PREFIX
-				+ id+"meta");
-		return file;
+		catch ( Exception e )
+		{
+			return null;
+		}
 	}
 	
 	/**

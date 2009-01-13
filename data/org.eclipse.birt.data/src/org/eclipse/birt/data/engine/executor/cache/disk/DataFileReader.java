@@ -16,6 +16,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
 import org.eclipse.birt.data.engine.impl.StopSign;
@@ -89,15 +92,23 @@ class DataFileReader
 		{
 			try
 			{
-				fis = new FileInputStream( file );
+				 AccessController.doPrivileged( new PrivilegedExceptionAction<Object>()
+				{
+				  public Object run() throws FileNotFoundException
+				  {
+				    fis = new FileInputStream(file);
+				    bis = new BufferedInputStream( fis );
+					isOpen = true;
+					return null;
+				  }
+				});
 			}
-			catch ( FileNotFoundException e )
+			catch ( Exception e )
 			{
 				// normally this exception will never be thrown
 				// since file will always exist
 			}
-			bis = new BufferedInputStream( fis );
-			isOpen = true;
+			
 		}
 
 		return resultObjectUtil.readData( bis, length, stopSign );

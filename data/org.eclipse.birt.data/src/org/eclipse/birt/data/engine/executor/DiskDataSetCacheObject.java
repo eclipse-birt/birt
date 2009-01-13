@@ -16,6 +16,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.security.PrivilegedExceptionAction;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -55,8 +58,14 @@ public class DiskDataSetCacheObject implements IDataSetCacheObject
 		{
 			this.cacheDir = cacheDir + File.separator + "DataSetCacheObject_" + this.hashCode( ) + "_" + getCount();
 		}
-		new File( this.cacheDir ).mkdirs( );
-			
+		AccessController.doPrivileged( new PrivilegedAction<Object>()
+		{
+		  public Object run()
+		  {
+		    return new Boolean(new File(DiskDataSetCacheObject.this.cacheDir).mkdirs());
+		  }
+		});
+		
 		this.cacheCapability = cacheCapability;
 	}
 	
@@ -91,12 +100,27 @@ public class DiskDataSetCacheObject implements IDataSetCacheObject
 		return new File( cacheDir + File.separator + "meta.data");
 	}
 
-	public boolean isCachedDataReusable( int requiredCapability )
+	public boolean isCachedDataReusable( final int requiredCapability )
 	{
 		assert requiredCapability > 0;
-		return getDataFile().exists( )
-				&& getMetaFile().exists( )
-				&& cacheCapability >= requiredCapability;
+		try
+		{
+			return (Boolean) AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+				public Object run( ) throws Exception
+				{
+					return getDataFile().exists( )
+					&& getMetaFile().exists( )
+					&& cacheCapability >= requiredCapability;
+				}
+			} );
+		}
+		catch ( Exception e )
+		{
+			return false;
+		}
+		
+		
 	}
 
 
@@ -114,26 +138,28 @@ public class DiskDataSetCacheObject implements IDataSetCacheObject
 
 	public IResultClass getResultClass( ) throws DataException
 	{
-		IResultClass rsClass;
-		FileInputStream fis1 = null;
-		BufferedInputStream bis1 = null;
 		try
 		{
-			fis1 = new FileInputStream( getMetaFile( ) );
-			bis1 = new BufferedInputStream( fis1 );
-			IOUtil.readInt( bis1 );
-			rsClass = new ResultClass( bis1 );
-			bis1.close( );
-			fis1.close( );
+			return (IResultClass) AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
 
-			return rsClass;
+				public Object run( ) throws Exception
+				{
+
+					IResultClass rsClass;
+					FileInputStream fis1 = null;
+					BufferedInputStream bis1 = null;
+					fis1 = new FileInputStream( getMetaFile( ) );
+					bis1 = new BufferedInputStream( fis1 );
+					IOUtil.readInt( bis1 );
+					rsClass = new ResultClass( bis1 );
+					bis1.close( );
+					fis1.close( );
+
+					return rsClass;
+				}
+			} );
 		}
-		catch ( FileNotFoundException e )
-		{
-			throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
-					e );
-		}
-		catch ( IOException e )
+		catch ( Exception e )
 		{
 			throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
 					e );

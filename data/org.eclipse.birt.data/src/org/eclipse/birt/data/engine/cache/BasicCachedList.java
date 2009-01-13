@@ -20,7 +20,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.security.AccessController;
+import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -28,6 +32,8 @@ import java.util.ListIterator;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.IncreDataSetCacheObject;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 
 /**
@@ -122,33 +128,34 @@ public class BasicCachedList implements List
 	{
 		try
 		{
-			File cacheFile = null;
-			if ( currentCacheNo < fileList.size( ) )
-			{
-				cacheFile = (File) ( fileList.get( currentCacheNo ) );
-			}
-			else
-			{
-				cacheFile = getCacheFile( this.currentCacheNo );
-				fileList.add( cacheFile );
-			}
-			
-			FileOutputStream fos = new FileOutputStream( cacheFile );
-			DataOutputStream oos = new DataOutputStream( new BufferedOutputStream( fos ) );
-			writeList( oos, currentCache );
-			oos.close( );
-		}
-		catch ( FileNotFoundException e )
-		{
-			logger.severe( "Exception happened when save data to disk in CachedList. Exception message: "
-					+ e.toString( ) );
-		}
-		catch ( IOException e )
-		{
-			logger.severe( "Exception happened when save data to disk in CachedList. Exception message: "
-					+ e.toString( ) );
-		}
+			AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
 
+				public Object run( ) throws Exception
+				{
+					File cacheFile = null;
+					if ( currentCacheNo < fileList.size( ) )
+					{
+						cacheFile = (File) ( fileList.get( currentCacheNo ) );
+					}
+					else
+					{
+						cacheFile = getCacheFile( currentCacheNo );
+						fileList.add( cacheFile );
+					}
+					
+					FileOutputStream fos = new FileOutputStream( cacheFile );
+					DataOutputStream oos = new DataOutputStream( new BufferedOutputStream( fos ) );
+					writeList( oos, currentCache );
+					oos.close( );
+					return null;
+				}
+			} );
+		}
+		catch ( Exception e )
+		{
+			logger.severe( "Exception happened when save data to disk in CachedList. Exception message: "
+					+ e.toString( ) );
+		}
 	}
 
 	/**
@@ -214,17 +221,19 @@ public class BasicCachedList implements List
 	{
 		try
 		{
-			FileInputStream fis = new FileInputStream( getCacheFile( this.currentCacheNo ) );
-			DataInputStream ois = new DataInputStream( new BufferedInputStream( fis ) );
-			this.currentCache = readList( ois );
-			ois.close( );
+			AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+				public Object run( ) throws Exception
+				{
+					FileInputStream fis = new FileInputStream( getCacheFile( currentCacheNo ) );
+					DataInputStream ois = new DataInputStream( new BufferedInputStream( fis ) );
+					currentCache = readList( ois );
+					ois.close( );
+					return null;
+				}
+			} );
 		}
-		catch ( FileNotFoundException e )
-		{
-			logger.severe( "Exception happened when load data from disk in CachedList. Exception message: "
-					+ e.toString( ) );
-		}
-		catch ( IOException e )
+		catch ( Exception e )
 		{
 			logger.severe( "Exception happened when load data from disk in CachedList. Exception message: "
 					+ e.toString( ) );
@@ -273,16 +282,30 @@ public class BasicCachedList implements List
 	 * @param cacheIndex
 	 * @return
 	 */
-	private File getCacheFile( int cacheIndex )
+	private File getCacheFile( final int cacheIndex )
 	{
-		String tempDirStr = tempDir + this.fileNamePrefix;
-		if ( dir == null )
+		try
 		{
-			dir = new File( tempDirStr );
-			dir.mkdirs( );
-		}
+			return (File) AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
 
-		return new File( tempDirStr + File.separatorChar + cacheIndex + ".tmp" );
+				public Object run( ) throws Exception
+				{
+					String tempDirStr = tempDir + fileNamePrefix;
+					if ( dir == null )
+					{
+						dir = new File( tempDirStr );
+						dir.mkdirs( );
+					}
+
+					return new File( tempDirStr + File.separatorChar + cacheIndex + ".tmp" );
+				}
+			} );
+		}
+		catch ( Exception e )
+		{
+			return null;
+		}
+		
 	}
 
 	/*
@@ -525,19 +548,34 @@ public class BasicCachedList implements List
 	 */
 	public void clearTempDir( )
 	{
-		for ( int i = 0; i < fileList.size( ); i++ )
+		try
 		{
-			File file = ( (File) fileList.get( i ) );
-			if ( file.exists( ) )
-			{
-				file.delete( );
-			}
+			AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+				public Object run( ) throws Exception
+				{
+					for ( int i = 0; i < fileList.size( ); i++ )
+					{
+						File file = ( (File) fileList.get( i ) );
+						if ( file.exists( ) )
+						{
+							file.delete( );
+						}
+					}
+					fileList.clear( );
+					if ( dir != null && dir.exists( ) )
+					{
+						dir.delete( );
+						dir = null;
+					}
+					return null;
+				}
+			} );
 		}
-		fileList.clear( );
-		if ( dir != null && dir.exists( ) )
+		catch ( Exception e )
 		{
-			dir.delete( );
-			dir = null;
+			logger.severe( "Exception happened when clear temp data from disk in CachedList. Exception message: "
+					+ e.toString( ) );
 		}
 	}
 

@@ -13,6 +13,9 @@ package org.eclipse.birt.data.engine.olap.data.document;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.security.PrivilegedExceptionAction;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -34,26 +37,41 @@ public class DirectoryDocumentManager implements IDocumentManager
 	 * @param deleteOld
 	 * @throws DataException
 	 */
-	public DirectoryDocumentManager( String documentDir, boolean deleteOld ) throws DataException
+	public DirectoryDocumentManager( final String documentDir, final boolean deleteOld ) throws DataException
 	{
-		this.documentDir = documentDir;
-		File dir = new File( documentDir );
-		if(!dir.exists( )||!dir.isDirectory( ))
+
+		try
 		{
-			if ( !dir.mkdirs( ) )
-			{
-				throw new DataException( ResourceConstants.OLAPDIR_CREATE_FAIL,
-						documentDir );
-			}
+			AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+				public Object run( ) throws Exception
+				{
+					DirectoryDocumentManager.this.documentDir = documentDir;
+					
+					File dir = new File( documentDir );
+					if(!dir.exists( )||!dir.isDirectory( ))
+					{
+						if ( !dir.mkdirs( ) )
+						{
+							throw new DataException( ResourceConstants.OLAPDIR_CREATE_FAIL,
+									documentDir );
+						}
+					}
+					if ( deleteOld )
+					{
+						File[] oldFiles = dir.listFiles( );
+						for ( int i = 0; i < oldFiles.length; i++ )
+						{
+							oldFiles[i].delete( );
+						}
+					}
+					return null;
+				}
+			} );
 		}
-		if ( deleteOld )
+		catch ( Exception e )
 		{
-			File[] oldFiles = dir.listFiles( );
-			for ( int i = 0; i < oldFiles.length; i++ )
-			{
-				oldFiles[i].delete( );
-			}
-		}
+		}	
 	}
 
 	public void close( ) throws IOException
@@ -65,22 +83,37 @@ public class DirectoryDocumentManager implements IDocumentManager
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.document.IDocumentManager#createDocumentObject(java.lang.String)
 	 */
-	public IDocumentObject createDocumentObject( String documentObjectName ) throws IOException
+	public IDocumentObject createDocumentObject( final String documentObjectName ) throws IOException
 	{
-		File file =  new File(documentDir + File.separatorChar + documentObjectName);
-		if ( file.exists( ) )
+
+		try
+		{
+			return (IDocumentObject) AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+				public Object run( ) throws Exception
+				{
+					File file =  new File(documentDir + File.separatorChar + documentObjectName);
+					if ( file.exists( ) )
+					{
+						return null;
+					}
+					else
+					{
+						if ( !file.createNewFile( ) )
+						{
+							return null;
+						}
+						return new DocumentObject( new BufferedRandomDataAccessObject( new SimpleRandomAccessObject( file,
+								"rw" ),
+								1024 ) );
+					}
+					
+				}
+			} );
+		}
+		catch ( Exception e )
 		{
 			return null;
-		}
-		else
-		{
-			if ( !file.createNewFile( ) )
-			{
-				return null;
-			}
-			return new DocumentObject( new BufferedRandomDataAccessObject( new SimpleRandomAccessObject( file,
-					"rw" ),
-					1024 ) );
 		}
 	}
 
@@ -90,13 +123,22 @@ public class DirectoryDocumentManager implements IDocumentManager
 	 */
 	public IDocumentObject openDocumentObject( String documentObjectName ) throws IOException
 	{
-		File file = new File( documentDir
+		final File file = new File( documentDir
 				+ File.separatorChar + documentObjectName );
-		if ( !file.exists( ) )
+		Boolean piTmp0 = null;
+		piTmp0 = (Boolean) AccessController.doPrivileged( new PrivilegedAction<Object>( ) {
+
+			public Object run( )
+			{
+				return new Boolean( file.exists( ) );
+			}
+		} );
+
+		if ( !piTmp0 )
 		{
 			return null;
 		}
-		
+
 		return new DocumentObject( new BufferedRandomDataAccessObject( new SimpleRandomAccessObject( file,
 				"rw" ),
 				1024 ) );
@@ -108,8 +150,18 @@ public class DirectoryDocumentManager implements IDocumentManager
 	 */
 	public boolean exist( String documentObjectName )
 	{
-		File file =  new File(documentDir + File.separatorChar + documentObjectName);
-		return file.exists( );
+		final File file = new File( documentDir
+				+ File.separatorChar + documentObjectName );
+		Boolean piTmp0 = null;
+		piTmp0 = (Boolean) AccessController.doPrivileged( new PrivilegedAction<Object>( ) {
+
+			public Object run( )
+			{
+				return new Boolean( file.exists( ) );
+			}
+		} );
+
+		return piTmp0;
 	}
 
 	public void flush( ) throws IOException

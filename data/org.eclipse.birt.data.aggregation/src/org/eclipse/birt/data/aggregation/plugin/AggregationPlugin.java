@@ -2,6 +2,8 @@
 package org.eclipse.birt.data.aggregation.plugin;
 
 import java.io.File;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 
 import org.eclipse.birt.core.plugin.BIRTPlugin;
 import org.eclipse.birt.data.aggregation.impl.TempDir;
@@ -13,8 +15,15 @@ public class AggregationPlugin extends BIRTPlugin
 	public void start( BundleContext context ) throws Exception
 	{
 		super.start( context );
-		String tempDir = System.getProperty( "java.io.tmpdir" )
-				+ "AggregationPlugin_" + this.getBundle( ).hashCode( ) + File.separator;
+		String tempDir = (String)AccessController.doPrivileged( new PrivilegedAction<Object>()
+		{
+		  public Object run()
+		  {
+		    return System.getProperty("java.io.tmpdir");
+		  }
+		});
+		
+		tempDir += "AggregationPlugin_" + this.getBundle( ).hashCode( ) + File.separator;
 		TempDir.createInstance( tempDir );
 	}
 

@@ -12,6 +12,8 @@
 package org.eclipse.birt.data.engine.impl;
 
 import java.io.File;
+import java.security.AccessController;
+import java.security.PrivilegedExceptionAction;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -84,15 +86,32 @@ public class PreparedIncreCacheDSQuery extends PreparedOdaDSQuery
 			}
 			catch ( DataException e )
 			{
-				File dataFile = new File( cacheDir,
+				final File dataFile = new File( cacheDir,
 						IncreDataSetCacheObject.DATA_DATA );
-				if ( dataFile.exists( ) )
+			
+				try
 				{
-					dataFile.delete( );
-					logger.log( Level.WARNING,
-							"Incremental cache data file was deleted! path: "
-									+ dataFile.getAbsolutePath( ) );
+					AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+						public Object run( ) throws Exception
+						{
+							if ( dataFile.exists( ) )
+							{
+								dataFile.delete( );
+								logger.log( Level.WARNING,
+										"Incremental cache data file was deleted! path: "
+												+ dataFile.getAbsolutePath( ) );
+							}
+
+							return null;
+						}
+					} );
 				}
+				catch ( Exception e1 )
+				{
+					
+				}
+				
 				queryText = icDataSetDesign.getQueryText( );
 			}
 			String dataSetType = extDataSet.getExtensionID( );

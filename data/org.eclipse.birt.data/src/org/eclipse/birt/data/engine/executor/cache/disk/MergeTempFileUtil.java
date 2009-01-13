@@ -12,6 +12,8 @@ package org.eclipse.birt.data.engine.executor.cache.disk;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedExceptionAction;
 
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
 
@@ -38,14 +40,28 @@ class MergeTempFileUtil
 	 * @param tempDirStr
 	 * @param resultObjectUtil
 	 */
-	MergeTempFileUtil( String tempDirStr, ResultObjectUtil resultObjectUtil )
+	MergeTempFileUtil( final String tempDir, final ResultObjectUtil roUtil )
 	{
-		this.tempDirStr = tempDirStr;
-		this.resultObjectUtil = resultObjectUtil;
+		try
+		{
+			AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
 
-		File tempDir = new File( tempDirStr );
-		if ( tempDir.exists( ) == false )
-			tempDir.mkdirs( );
+				public Object run( ) throws Exception
+				{ 
+					tempDirStr = tempDir;
+					resultObjectUtil = roUtil;
+
+					File tempDir = new File( tempDirStr );
+					if ( tempDir.exists( ) == false )
+						tempDir.mkdirs( );
+					return null;
+				}
+			} );
+		}
+		catch ( Exception e )
+		{
+			
+		}
 	}
 
 	/**
@@ -80,9 +96,23 @@ class MergeTempFileUtil
 	 */
 	void clearTempDir( )
 	{
-		File tempDir = new File( tempDirStr );
-		if ( tempDir.exists( ) )
-			tempDir.delete( );
+		try
+		{
+			AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+				public Object run( ) throws Exception
+				{
+					File tempDir = new File( tempDirStr );
+					if ( tempDir.exists( ) )
+						tempDir.delete( );
+					return null;
+				}
+			} );
+		}
+		catch ( Exception e )
+		{
+		
+		}
 	}
 	
 }

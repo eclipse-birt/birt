@@ -22,6 +22,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.security.AccessController;
+import java.security.PrivilegedExceptionAction;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Date;
@@ -185,23 +187,36 @@ public class ResultIterator implements IResultIterator
 	 */
 	private void createCacheOutputStream( ) throws FileNotFoundException
 	{
-		File tmpDir = new File( resultService.getSession( ).getTempDir( ) );
-		if (!tmpDir.exists( ) || !tmpDir.isDirectory( ))
+		try
 		{
-			tmpDir.mkdirs( );
+			AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+				public Object run( ) throws Exception
+				{
+					File tmpDir = new File( resultService.getSession( ).getTempDir( ) );
+					if (!tmpDir.exists( ) || !tmpDir.isDirectory( ))
+					{
+						tmpDir.mkdirs( );
+					}
+					metaOutputStream = new BufferedOutputStream( new FileOutputStream( ResultSetCacheUtil.getMetaFile( resultService.getSession( ).getTempDir( ),
+							resultService.getQueryResults( ).getID( ) ) ),
+							1024 );
+					rowOutputStream = new DataOutputStream( new BufferedOutputStream( new FileOutputStream( ResultSetCacheUtil.getDataFile( resultService.getSession( ).getTempDir( ),
+							resultService.getQueryResults( ).getID( ) ) ),
+							1024 ) );
+					File file = ResultSetCacheUtil.getDataFile( resultService.getSession( ).getTempDir( ),
+							resultService.getQueryResults( ).getID( ) );
+					file.deleteOnExit( );
+					file = ResultSetCacheUtil.getMetaFile( resultService.getSession( ).getTempDir( ),
+							resultService.getQueryResults( ).getID( ) );
+					file.deleteOnExit( );
+					return null;
+				}
+			} );
 		}
-		metaOutputStream = new BufferedOutputStream( new FileOutputStream( ResultSetCacheUtil.getMetaFile( resultService.getSession( ).getTempDir( ),
-				resultService.getQueryResults( ).getID( ) ) ),
-				1024 );
-		rowOutputStream = new DataOutputStream( new BufferedOutputStream( new FileOutputStream( ResultSetCacheUtil.getDataFile( resultService.getSession( ).getTempDir( ),
-				resultService.getQueryResults( ).getID( ) ) ),
-				1024 ) );
-		File file = ResultSetCacheUtil.getDataFile( resultService.getSession( ).getTempDir( ),
-				resultService.getQueryResults( ).getID( ) );
-		file.deleteOnExit( );
-		file = ResultSetCacheUtil.getMetaFile( resultService.getSession( ).getTempDir( ),
-				resultService.getQueryResults( ).getID( ) );
-		file.deleteOnExit( );
+		catch ( Exception e )
+		{
+		}	
 	}
 	
 	/**

@@ -11,11 +11,16 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
@@ -232,7 +237,7 @@ class PreparedQueryUtil
 	 * @throws DataException
 	 */
 	private static IBaseDataSetDesign cloneDataSetDesign(
-			IBaseDataSetDesign dataSetDesign, Map appContext ) throws DataException
+			final IBaseDataSetDesign dataSetDesign, final Map appContext ) throws DataException
 	{
 		if ( dataSetDesign instanceof IScriptDataSetDesign )
 		{
@@ -240,7 +245,27 @@ class PreparedQueryUtil
 		}
 		else if ( dataSetDesign instanceof IOdaDataSetDesign )
 		{
-			return adaptOdaDataSetDesign( dataSetDesign, appContext );
+			IBaseDataSetDesign piTmp0 = null;
+			try
+			{
+				piTmp0 = (IBaseDataSetDesign) AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+					public Object run( ) throws DataException
+					{
+						return adaptOdaDataSetDesign( dataSetDesign, appContext );
+					}
+				} );
+			}
+			catch ( PrivilegedActionException e )
+			{
+				Exception typedException = e.getException( );
+				if ( typedException instanceof DataException )
+				{
+					throw (DataException) typedException;
+				}
+			}
+
+			return piTmp0;
 		}
 		else if ( dataSetDesign instanceof IJointDataSetDesign )
 		{
@@ -261,11 +286,18 @@ class PreparedQueryUtil
 	 * @throws DataException
 	 */
 	private static IBaseDataSetDesign adaptOdaDataSetDesign(
-			IBaseDataSetDesign dataSetDesign, Map appContext )
+			IBaseDataSetDesign dataSetDesign, final Map appContext )
 			throws DataException
 	{
 		IBaseDataSetDesign adaptedDesign = null;
-		URL configFileUrl = IncreCacheDataSetAdapter.getConfigFileURL( appContext );
+		URL configFileUrl = (URL)AccessController.doPrivileged( new PrivilegedAction<Object>()
+		{
+		  public Object run()
+		  {
+		    return IncreCacheDataSetAdapter.getConfigFileURL(appContext);
+		  }
+		});
+		
 		if ( configFileUrl != null )
 		{
 			try
@@ -275,7 +307,7 @@ class PreparedQueryUtil
 				String id = dataSetDesign.getName( );
 				if ( parser.containDataSet( id ) )
 				{
-					String mode = parser.getModeByID( id );
+					final String mode = parser.getModeByID( id );
 					if ( "incremental".equalsIgnoreCase( mode ) )
 					{
 						String queryTemplate = parser.getQueryTextByID( id );
@@ -291,10 +323,14 @@ class PreparedQueryUtil
 					}
 					else
 					{
-						String message = MessageFormat.format( ResourceConstants.UNSUPPORTED_INCRE_CACHE_MODE,
-								new Object[]{
-									mode
-								} );
+						String message = (String)AccessController.doPrivileged( new PrivilegedAction<Object>()
+						{
+						  public Object run()
+						  {
+						    return MessageFormat.format(ResourceConstants.UNSUPPORTED_INCRE_CACHE_MODE,new Object[]{mode});
+						  }
+						});
+						
 						throw new UnsupportedOperationException( message );
 					}
 				}
@@ -1229,37 +1265,52 @@ class IncreCacheDataSetAdapter extends OdaDataSetAdapter
 	 * @param appContext
 	 * @return
 	 */
-	public static URL getConfigFileURL( Map appContext )
+	public static URL getConfigFileURL( final Map appContext )
 	{
-		if ( appContext != null )
+		try
 		{
-			Object configValue = appContext.get( DataEngine.INCREMENTAL_CACHE_CONFIG );
-			URL url = null;
-			if ( configValue instanceof URL )
-			{
-				url = (URL) configValue;
-			}
-			else if ( configValue instanceof String )
-			{
-				String configPath = configValue.toString( );
-				try
+			return (URL) AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+				public Object run( ) throws Exception
 				{
-					url = new URL( configPath );
-				}
-				catch ( MalformedURLException e )
-				{
-					try
-					{// try to use file protocol to parse configPath
-						url = new URL( "file", "/", configPath );
-					}
-					catch ( MalformedURLException e1 )
+					if ( appContext != null )
 					{
-						return null;
+						Object configValue = appContext.get( DataEngine.INCREMENTAL_CACHE_CONFIG );
+						URL url = null;
+						if ( configValue instanceof URL )
+						{
+							url = (URL) configValue;
+						}
+						else if ( configValue instanceof String )
+						{
+							String configPath = configValue.toString( );
+							try
+							{
+								url = new URL( configPath );
+							}
+							catch ( MalformedURLException e )
+							{
+								try
+								{// try to use file protocol to parse configPath
+									url = new URL( "file", "/", configPath );
+								}
+								catch ( MalformedURLException e1 )
+								{
+									return null;
+								}
+							}
+						}
+						return url;
 					}
+					return null;
 				}
-			}
-			return url;
+			} );
 		}
-		return null;
+		catch ( Exception e )
+		{
+			return null;
+		}
+		
+		
 	}
 }

@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.security.AccessController;
+import java.security.PrivilegedExceptionAction;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -882,108 +884,121 @@ public class JDBCDriverManager
 		 */
 		public boolean refreshURLs() throws OdaException
 		{
-			if ( bundle == null )
-				return false;			// init failed
-			
-			// List all files under "drivers" directory
-			boolean foundNew = false;
-			
-			if( driverClassPath != null && driverClassPath.size( ) > 0 )
+
+			try
 			{
-				try
-				{
-					for ( String classPath : driverClassPath )
+				return (Boolean) AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+					public Object run( ) throws Exception
 					{
-						File driverClassFile = new File( classPath );
-						if ( driverClassFile.exists( ) )
+
+						if ( bundle == null )
+							return false;			// init failed
+						
+						// List all files under "drivers" directory
+						boolean foundNew = false;
+						
+						if( driverClassPath != null && driverClassPath.size( ) > 0 )
 						{
-							this.addURL( driverClassFile.toURI( ).toURL( ) );
-
-							if ( driverClassFile.isDirectory( ) )
+							try
 							{
-								File[] driverFiles = driverClassFile.listFiles( new FileFilter( ) {
-
-									public boolean accept( File pathname )
-									{
-										if ( pathname.isFile( )
-												&& OdaJdbcDriver.isDriverFile( pathname.getName( ) ) )
-										{
-											return true;
-										}
-										return false;
-									}
-								} );
-
-								for ( int i = 0; i < driverFiles.length; i++ )
+								for ( String classPath : driverClassPath )
 								{
-									if ( !fileSet.contains( driverFiles[i].getName( ) ) )
+									File driverClassFile = new File( classPath );
+									if ( driverClassFile.exists( ) )
 									{
-										// This is a new file not previously
-										// added to URL list
-										foundNew = true;
-										fileSet.add( driverFiles[i].getName( ) );
-										addURL( driverFiles[i].toURI( ).toURL( ) );
-										logger.info( "JDBCDriverManager: found JAR file "
-												+ driverFiles[i].getName( )
-												+ ". URL="
-												+ driverFiles[i].toURI( )
-														.toURL( ) );
+										DriverClassLoader.this.addURL( driverClassFile.toURI( ).toURL( ) );
+
+										if ( driverClassFile.isDirectory( ) )
+										{
+											File[] driverFiles = driverClassFile.listFiles( new FileFilter( ) {
+
+												public boolean accept( File pathname )
+												{
+													if ( pathname.isFile( )
+															&& OdaJdbcDriver.isDriverFile( pathname.getName( ) ) )
+													{
+														return true;
+													}
+													return false;
+												}
+											} );
+
+											for ( int i = 0; i < driverFiles.length; i++ )
+											{
+												if ( !fileSet.contains( driverFiles[i].getName( ) ) )
+												{
+													// This is a new file not previously
+													// added to URL list
+													foundNew = true;
+													fileSet.add( driverFiles[i].getName( ) );
+													addURL( driverFiles[i].toURI( ).toURL( ) );
+													logger.info( "JDBCDriverManager: found JAR file "
+															+ driverFiles[i].getName( )
+															+ ". URL="
+															+ driverFiles[i].toURI( )
+																	.toURL( ) );
+												}
+											}
+										}
 									}
+								}
+									
+							}
+							catch ( MalformedURLException e )
+							{
+								throw new OdaException( e );
+							}
+						}
+						
+						
+						Enumeration files = bundle.getEntryPaths( 
+								OdaJdbcDriver.Constants.DRIVER_DIRECTORY );
+						while ( files!= null && files.hasMoreElements() )
+						{
+							String fileName = (String) files.nextElement();
+							if ( OdaJdbcDriver.isDriverFile( fileName ) )
+							{
+								if ( ! fileSet.contains( fileName ))
+								{
+									// This is a new file not previously added to URL list
+									foundNew = true;
+									fileSet.add( fileName );
+									URL bundleURL = bundle.getEntry( fileName );
+									try
+									{
+										/**
+										 * bundleURL is a special protocol URL Equinox defined.
+										 * if we register bundleURL directly to URLClassLoader, that class loader will fail to load driver classes existing in that URL in some environment
+										 * see, https://bugs.eclipse.org/bugs/show_bug.cgi?id=220633
+										 * 
+										 * So, we'll first convert bundleURL into a URL that uses a protocol which is native to the Java class library (file, jar, http, etc).
+										 * then, we add both converted URL and original URL into this class loader to avoid that problem 
+										 */
+										URL fileURL = FileLocator.resolve( bundleURL );
+										addURL( fileURL );
+										addURL( bundleURL );
+									}
+									catch ( IOException e )
+									{
+										logger.log( Level.SEVERE, "[" + bundleURL + "] " + "can't be converted to file url", e );
+										//throw new OdaException( e );
+									}
+									logger.info("JDBCDriverManager: found JAR file " + 
+											fileName + ". URL=" + bundleURL );
 								}
 							}
 						}
+						return foundNew;
 					}
-						
-				}
-				catch ( MalformedURLException e )
-				{
-					throw new OdaException( e );
-				}
+					});
 			}
-			
-			
-			Enumeration files = bundle.getEntryPaths( 
-					OdaJdbcDriver.Constants.DRIVER_DIRECTORY );
-			while ( files!= null && files.hasMoreElements() )
+			catch ( Exception e )
 			{
-				String fileName = (String) files.nextElement();
-				if ( OdaJdbcDriver.isDriverFile( fileName ) )
-				{
-					if ( ! fileSet.contains( fileName ))
-					{
-						// This is a new file not previously added to URL list
-						foundNew = true;
-						fileSet.add( fileName );
-						URL bundleURL = bundle.getEntry( fileName );
-						try
-						{
-							/**
-							 * bundleURL is a special protocol URL Equinox defined.
-							 * if we register bundleURL directly to URLClassLoader, that class loader will fail to load driver classes existing in that URL in some environment
-							 * see, https://bugs.eclipse.org/bugs/show_bug.cgi?id=220633
-							 * 
-							 * So, we'll first convert bundleURL into a URL that uses a protocol which is native to the Java class library (file, jar, http, etc).
-							 * then, we add both converted URL and original URL into this class loader to avoid that problem 
-							 */
-							URL fileURL = FileLocator.resolve( bundleURL );
-							addURL( fileURL );
-							addURL( bundleURL );
-						}
-						catch ( IOException e )
-						{
-							logger.log( Level.SEVERE, "[" + bundleURL + "] " + "can't be converted to file url", e );
-							//throw new OdaException( e );
-						}
-						logger.info("JDBCDriverManager: found JAR file " + 
-								fileName + ". URL=" + bundleURL );
-					}
-				}
+				return false;
 			}
-			return foundNew;
-		}
-		
 	}
-	
+}
 //	The classloader of a driver (jtds driver, etc.) is
 //	 "java.net.FactoryURLClassLoader", whose parent is
 //	 "sun.misc.Launcher$AppClassLoader".
@@ -1000,15 +1015,18 @@ public class JDBCDriverManager
 //	 classloader of Connection class. So DriverExt class is visible to
 //	 DriverManager.getConnection(url, props). And the invoking of the very method
 //	 would success.
-
+	
 	private static class WrappedDriver implements Driver
 	{
+
 		private Driver driver;
 		private String driverClass;
-		
+
 		WrappedDriver( Driver d, String driverClass )
 		{
-			logger.entering( WrappedDriver.class.getName(), "WrappedDriver", driverClass );
+			logger.entering( WrappedDriver.class.getName( ),
+					"WrappedDriver",
+					driverClass );
 			this.driver = d;
 			this.driverClass = driverClass;
 		}
@@ -1019,19 +1037,22 @@ public class JDBCDriverManager
 		public boolean acceptsURL( String u ) throws SQLException
 		{
 			boolean res = this.driver.acceptsURL( u );
-			if ( logger.isLoggable( Level.FINER ))
-				logger.log( Level.FINER, "WrappedDriver(" + driverClass + 
-						").acceptsURL(" + LogUtil.encryptURL( u )+ ")returns: " + res);
+			if ( logger.isLoggable( Level.FINER ) )
+				logger.log( Level.FINER, "WrappedDriver("
+						+ driverClass + ").acceptsURL("
+						+ LogUtil.encryptURL( u ) + ")returns: " + res );
 			return res;
 		}
 
 		/*
 		 * @see java.sql.Driver#connect(java.lang.String, java.util.Properties)
 		 */
-		public java.sql.Connection connect( String u, Properties p ) throws SQLException
+		public java.sql.Connection connect( String u, Properties p )
+				throws SQLException
 		{
-			logger.entering( WrappedDriver.class.getName() + ":" + driverClass, 
-					"connect", LogUtil.encryptURL( u ) );
+			logger.entering( WrappedDriver.class.getName( ) + ":" + driverClass,
+					"connect",
+					LogUtil.encryptURL( u ) );
 			try
 			{
 				return this.driver.connect( u, p );
@@ -1059,7 +1080,8 @@ public class JDBCDriverManager
 		}
 
 		/*
-		 * @see java.sql.Driver#getPropertyInfo(java.lang.String, java.util.Properties)
+		 * @see java.sql.Driver#getPropertyInfo(java.lang.String,
+		 * java.util.Properties)
 		 */
 		public DriverPropertyInfo[] getPropertyInfo( String u, Properties p )
 				throws SQLException
@@ -1074,7 +1096,7 @@ public class JDBCDriverManager
 		{
 			return this.driver.jdbcCompliant( );
 		}
-		
+
 		/*
 		 * @see java.lang.Object#toString()
 		 */

@@ -18,6 +18,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.security.AccessController;
+import java.security.PrivilegedExceptionAction;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Date;
@@ -106,14 +108,30 @@ public class CacheResultIterator implements IResultIterator
 	 * 
 	 * @throws FileNotFoundException
 	 */
-	private void createCacheInputStream( String tempDir ) throws FileNotFoundException
+	private void createCacheInputStream( final String tempDir ) throws FileNotFoundException
 	{
-		metaInputStream = new BufferedInputStream( new FileInputStream( ResultSetCacheUtil.getMetaFile( tempDir,
-				this.queryResults.getID( ) ) ),
-				1024 );
-		rowInputStream = new DataInputStream( new BufferedInputStream( new FileInputStream( ResultSetCacheUtil.getDataFile( tempDir,
-				this.queryResults.getID( ) ) ),
-				1024 ) );
+		try
+		{
+			AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+				public Object run( ) throws Exception
+				{
+					metaInputStream = new BufferedInputStream( new FileInputStream( ResultSetCacheUtil.getMetaFile( tempDir,
+							queryResults.getID( ) ) ),
+							1024 );
+					rowInputStream = new DataInputStream( new BufferedInputStream( new FileInputStream( ResultSetCacheUtil.getDataFile( tempDir,
+							queryResults.getID( ) ) ),
+							1024 ) );
+					return null;
+
+				}
+			} );
+		}
+		catch ( Exception e )
+		{
+			if( e instanceof FileNotFoundException )
+				throw (FileNotFoundException)e;
+		}
 	}
 
 	/*

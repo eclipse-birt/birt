@@ -13,6 +13,8 @@
  */ 
 package org.eclipse.birt.data.engine.executor;
 
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -41,14 +43,43 @@ class DataSource implements IDataSource
 {
 	private String 		driverName;
     private Map			appContext;
-    private Properties	connectionProps = new Properties();
-    
-    // A pool of open odaconsumer.Connection. Since each connection may support a limited
-	// # of statements, we may need to use more than one connection to handle concurrent statements
+    private Properties	connectionProps = createProperty( );
+
+	private Properties createProperty( )
+	{
+		Properties piTmp0 = null;
+		piTmp0 = (Properties) AccessController.doPrivileged( new PrivilegedAction<Object>( ) {
+
+			public Object run( )
+			{
+				return new Properties( );
+			}
+		} );
+
+		return piTmp0;
+	}
+
+	// A pool of open odaconsumer.Connection. Since each connection may support
+	// a limited
+	// # of statements, we may need to use more than one connection to handle
+	// concurrent statements
 	// This is a set of OpenConnection
 
-	
-	private static Map<DataEngineSession, Map<ConnectionProp, Set<CacheConnection>>> dataEngineLevelConnectionPool = new Hashtable<DataEngineSession, Map<ConnectionProp, Set<CacheConnection>>>( );
+	private static Map<DataEngineSession, Map<ConnectionProp, Set<CacheConnection>>> dataEngineLevelConnectionPool = createHashTable( );
+
+	private static Hashtable<DataEngineSession, Map<ConnectionProp, Set<CacheConnection>>> createHashTable( )
+	{
+		Hashtable<DataEngineSession, Map<ConnectionProp, Set<CacheConnection>>> piTmp0 = null;
+		piTmp0 = (Hashtable<DataEngineSession, Map<ConnectionProp, Set<CacheConnection>>>) AccessController.doPrivileged( new PrivilegedAction<Object>( ) {
+
+			public Object run( )
+			{
+				return new Hashtable<DataEngineSession, Map<ConnectionProp, Set<CacheConnection>>>( );
+			}
+		} );
+
+		return piTmp0;
+	}
 	
 	// Currently active oda Statements. This is a map from PreparedStatement to OpenConnection
 	private HashMap statementMap = new HashMap();

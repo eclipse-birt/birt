@@ -13,6 +13,8 @@ package org.eclipse.birt.data.engine.olap.data.document;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -24,13 +26,37 @@ import org.eclipse.birt.data.engine.core.DataException;
 public class DocumentManagerFactory
 {
 
-	private static final String tmpPath = System.getProperty( "java.io.tmpdir" );
+	private static final String tmpPath = getSystemProperty( );
+
+	private static String getSystemProperty( )
+	{
+		String piTmp0 = null;
+		piTmp0 = (String)AccessController.doPrivileged( new PrivilegedAction<Object>()
+		{
+		  public Object run()
+		  {
+		    return System.getProperty("java.io.tmpdir");
+		  }
+		});
+		
+		return piTmp0;
+	}
 	private static final String DEFAULT_CUB_MANAGER_NAME = "cub1";
 
 	static {
-		File tmp = new File(tmpPath);
-		if (tmp.exists() == false)
-			tmp.mkdirs();
+		
+		AccessController.doPrivileged( new PrivilegedAction<Object>()
+		{
+		  public Object run()
+		  {
+			  File tmp = new File(tmpPath);
+		     if (tmp.exists() == false)
+				tmp.mkdirs();
+		     return null;
+		  }
+		});
+		
+		
 	}
 	
 	/**

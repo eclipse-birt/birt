@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.data.oda.jdbc;
 
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -147,9 +149,14 @@ public class Connection implements IConnection
 		assert connProperties != null;
 		assert url != null;
 
-		// Copy connProperties to props; skip property starting with
-		// "oda"; those are properties read by this driver
-		Properties props = new Properties( );
+		Properties props = (Properties)AccessController.doPrivileged( new PrivilegedAction<Object>()
+		{
+		  public Object run()
+		  {
+		    return new Properties();
+		  }
+		});
+		
 		for ( Enumeration enumeration = connProperties.propertyNames( ); enumeration.hasMoreElements( ); )
 		{
 			String propName = (String) enumeration.nextElement( );

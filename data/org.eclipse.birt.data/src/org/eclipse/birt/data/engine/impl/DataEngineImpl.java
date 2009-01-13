@@ -13,6 +13,8 @@
 package org.eclipse.birt.data.engine.impl;
 
 import java.io.File;
+import java.security.AccessController;
+import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -591,49 +593,78 @@ public class DataEngineImpl extends DataEngine
 	 */
 	private void clearTempFile( )
 	{
-		File tmpDir = new File( session.getTempDir( ) );
-		if( !tmpDir.exists( )|| !tmpDir.isDirectory( ))
+		try
 		{
-			return;
+			AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+				public Object run( ) throws Exception
+				{
+					File tmpDir = new File( session.getTempDir( ) );
+					if( !tmpDir.exists( )|| !tmpDir.isDirectory( ))
+					{
+						return null;
+					}
+					deleteDirectory( tmpDir );
+					return null;
+				}
+			} );
 		}
-		deleteDirectory( tmpDir );
+		catch ( Exception e )
+		{
+			
+		}
 	}
 	
 	/**
 	 * 
 	 * @param dir
 	 */
-	private static void deleteDirectory( File dir )
+	private static void deleteDirectory( final File dir )
 	{
-		File[] subFiles = dir.listFiles( );
-		if( subFiles != null )
+		try
 		{
-			for( int i = 0; i < subFiles.length; i++ )
-			{
-				if( subFiles[i].isDirectory() )
+			AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+				public Object run( ) throws Exception
 				{
-					deleteDirectory( subFiles[i] );
+					File[] subFiles = dir.listFiles( );
+					if( subFiles != null )
+					{
+						for( int i = 0; i < subFiles.length; i++ )
+						{
+							if( subFiles[i].isDirectory() )
+							{
+								deleteDirectory( subFiles[i] );
+							}
+							else
+							{
+								safeDelete( subFiles[i] );
+							}
+						}
+					}
+					safeDelete( dir );
+					return null;
 				}
-				else
+				
+				/**
+				 * 
+				 * @param file
+				 */
+				private void safeDelete( File file )
 				{
-					safeDelete( subFiles[i] );
+					if( !file.delete( ) )
+					{
+						file.deleteOnExit( );
+					}
 				}
-			}
+			} );
 		}
-		safeDelete( dir );
+		catch ( Exception e )
+		{
+		}
 	}
 	
-	/**
-	 * 
-	 * @param file
-	 */
-	private static void safeDelete( File file )
-	{
-		if( !file.delete( ) )
-		{
-			file.deleteOnExit( );
-		}
-	}
+
 	
 	/**
 	 * Gets the Scriptable object that implements the "report.dataSources" array

@@ -14,6 +14,8 @@ package org.eclipse.birt.data.engine.api;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Locale;
 import java.util.logging.Logger;
 
@@ -81,7 +83,21 @@ public class DataEngineContext
 	private int cacheOption;
 	private int cacheCount;
 
-	private String tmpDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+	private String tmpDir = getSystemProperty( ); //$NON-NLS-1$
+
+	private String getSystemProperty( )
+	{
+		String piTmp0 = null;
+		piTmp0 = (String)AccessController.doPrivileged( new PrivilegedAction<Object>()
+		{
+		  public Object run()
+		  {
+		    return System.getProperty("java.io.tmpdir");
+		  }
+		});
+		
+		return piTmp0;
+	}
 	private ClassLoader classLoader;
 	
 	/** stream id for internal use, don't use it externally */

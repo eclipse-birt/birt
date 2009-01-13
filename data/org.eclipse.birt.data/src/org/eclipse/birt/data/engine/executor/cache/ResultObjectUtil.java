@@ -15,6 +15,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -22,6 +23,8 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.security.AccessController;
+import java.security.PrivilegedExceptionAction;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -120,94 +123,109 @@ public class ResultObjectUtil
 	 * @return result object array
 	 * @throws IOException
 	 */
-	public IResultObject[] readData( InputStream bis, int length, StopSign stopSign )
+	public IResultObject[] readData( final InputStream bis, final int length, final StopSign stopSign )
 			throws IOException
 	{
-		ResultObject[] rowDatas = new ResultObject[length];
-
-		int rowLen;
-		byte[] rowDataBytes;
-				
-		ByteArrayInputStream bais;
-		DataInputStream dis;
-
-		for ( int i = 0; i < length; i++ )
+		try
 		{
-			if( stopSign != null && stopSign.isStopped( ) )
-				break;
-			rowLen = IOUtil.readInt( bis );
-			rowDataBytes = new byte[rowLen];
-			bis.read( rowDataBytes );
-			
-			bais = new ByteArrayInputStream( rowDataBytes );
-			dis = new DataInputStream( bais );
+			return (IResultObject[]) AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
 
-			Object[] obs = new Object[columnCount];
-			for ( int j = 0; j < columnCount; j++ )
-			{
-				Class fieldType = typeArray[j];
-				if ( dis.readByte( ) == 0 )
+				public Object run( ) throws Exception
 				{
-					obs[j] = null;
-					continue;
-				}
-				
-				if ( fieldType.equals( Integer.class ) )
-					obs[j] = new Integer( dis.readInt( ) );
-				else if ( fieldType.equals( Double.class ) )
-					obs[j] = new Double( dis.readDouble( ) );
-				else if ( fieldType.equals( BigDecimal.class ) )
-					obs[j] = new BigDecimal( dis.readUTF( ) );
-				else if ( fieldType.equals( Time.class ) )
-					obs[j] = new Time( dis.readLong( ) );
-				else if ( fieldType.equals( Timestamp.class ) )
-					obs[j] = new Timestamp( dis.readLong( ) );
-				else if ( fieldType.equals( java.sql.Date.class ) )
-					obs[j] = new java.sql.Date( dis.readLong( ) );
-				else if ( fieldType.isAssignableFrom( Date.class ) )
-					obs[j] = new Date( dis.readLong( ) );
-				else if ( fieldType.equals( Boolean.class ) )
-					obs[j] = new Boolean( dis.readBoolean( ) );
-				else if ( fieldType.equals( String.class ) )
-					obs[j] = IOUtil.readString( dis );
-				else if ( fieldType.equals( IClob.class ) )
-					obs[j] = IOUtil.readString( dis );
-				else if ( fieldType.equals( IBlob.class ) )
-				{
-					int len = IOUtil.readInt( dis );
-					if ( len == 0 )
-					{
-						obs[j] = null;
-					}
-					else
-					{
-						byte[] bytes = new byte[len];
-						dis.read( bytes );
-						obs[j] = bytes;
-					}
-				}
-				else if ( fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
-				{
-					ObjectInputStream ois = new ObjectInputStream( dis );
-					try
-					{
-						obs[j] = ois.readObject( );
-					}
-					catch ( Exception e )
-					{
-						// impossible
-					}
-					ois.close( );
-				}
-			}
-			rowDatas[i] = newResultObject( obs );
 
-			rowDataBytes = null;			
-			dis = null;
-			bais = null;
+					ResultObject[] rowDatas = new ResultObject[length];
+
+					int rowLen;
+					byte[] rowDataBytes;
+							
+					ByteArrayInputStream bais;
+					DataInputStream dis;
+
+					for ( int i = 0; i < length; i++ )
+					{
+						if( stopSign != null && stopSign.isStopped( ) )
+							break;
+						rowLen = IOUtil.readInt( bis );
+						rowDataBytes = new byte[rowLen];
+						bis.read( rowDataBytes );
+						
+						bais = new ByteArrayInputStream( rowDataBytes );
+						dis = new DataInputStream( bais );
+
+						Object[] obs = new Object[columnCount];
+						for ( int j = 0; j < columnCount; j++ )
+						{
+							Class fieldType = typeArray[j];
+							if ( dis.readByte( ) == 0 )
+							{
+								obs[j] = null;
+								continue;
+							}
+							
+							if ( fieldType.equals( Integer.class ) )
+								obs[j] = new Integer( dis.readInt( ) );
+							else if ( fieldType.equals( Double.class ) )
+								obs[j] = new Double( dis.readDouble( ) );
+							else if ( fieldType.equals( BigDecimal.class ) )
+								obs[j] = new BigDecimal( dis.readUTF( ) );
+							else if ( fieldType.equals( Time.class ) )
+								obs[j] = new Time( dis.readLong( ) );
+							else if ( fieldType.equals( Timestamp.class ) )
+								obs[j] = new Timestamp( dis.readLong( ) );
+							else if ( fieldType.equals( java.sql.Date.class ) )
+								obs[j] = new java.sql.Date( dis.readLong( ) );
+							else if ( fieldType.isAssignableFrom( Date.class ) )
+								obs[j] = new Date( dis.readLong( ) );
+							else if ( fieldType.equals( Boolean.class ) )
+								obs[j] = new Boolean( dis.readBoolean( ) );
+							else if ( fieldType.equals( String.class ) )
+								obs[j] = IOUtil.readString( dis );
+							else if ( fieldType.equals( IClob.class ) )
+								obs[j] = IOUtil.readString( dis );
+							else if ( fieldType.equals( IBlob.class ) )
+							{
+								int len = IOUtil.readInt( dis );
+								if ( len == 0 )
+								{
+									obs[j] = null;
+								}
+								else
+								{
+									byte[] bytes = new byte[len];
+									dis.read( bytes );
+									obs[j] = bytes;
+								}
+							}
+							else if ( fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
+							{
+								ObjectInputStream ois = new ObjectInputStream( dis );
+								try
+								{
+									obs[j] = ois.readObject( );
+								}
+								catch ( Exception e )
+								{
+									// impossible
+								}
+								ois.close( );
+							}
+						}
+						rowDatas[i] = newResultObject( obs );
+
+						rowDataBytes = null;			
+						dis = null;
+						bais = null;
+					}
+
+					return rowDatas;
+
+				}
+			} );
 		}
-
-		return rowDatas;
+		catch ( Exception e )
+		{
+			return null;
+		}
 	}
 
 	/**
@@ -237,84 +255,97 @@ public class ResultObjectUtil
 	 * @param resultObject
 	 * @throws IOException
 	 */
-	public void writeData( OutputStream bos, IResultObject resultObject )
+	public void writeData( final OutputStream bos, final IResultObject resultObject )
 			throws IOException
 	{
-		byte[] rowsDataBytes;
-
-		ByteArrayOutputStream baos = new ByteArrayOutputStream( );
-		DataOutputStream dos = new DataOutputStream( baos );
-
-		for ( int j = 0; j < columnCount; j++ )
+		try
 		{
-			Object fieldValue = null;
-			try
-			{
-				fieldValue = resultObject.getFieldValue( j + 1 );
-			}
-			catch ( DataException e )
-			{
-				// never get here since the index value is always value
-			}
+			AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
 
-			// process null object
-			if ( fieldValue == null )
-			{
-				dos.writeByte( 0 );
-				continue;
-			}
-			else
-			{
-				dos.writeByte( 1 );
-			}
-
-			Class fieldType = typeArray[j];
-			if ( fieldType.equals( Integer.class ) )
-				dos.writeInt( ( (Integer) fieldValue ).intValue( ) );
-			else if ( fieldType.equals( Double.class ) )
-				dos.writeDouble( ( (Double) fieldValue ).doubleValue( ) );
-			else if ( fieldType.equals( BigDecimal.class ) )
-				dos.writeUTF( ( (BigDecimal) fieldValue ).toString( ) );
-			else if ( Date.class.isAssignableFrom( fieldType ) )
-				dos.writeLong( ( (Date) fieldValue ).getTime( ) );
-			else if ( fieldType.equals( Boolean.class ) )
-				dos.writeBoolean( ( (Boolean) fieldValue ).booleanValue( ) );
-			else if ( fieldType.equals( String.class ) )
-				IOUtil.writeString( dos, fieldValue.toString( ) );
-			else if ( fieldType.equals( IClob.class ) )
-				IOUtil.writeString( dos, fieldValue.toString( ) );
-			else if ( fieldType.equals( IBlob.class ) )
-			{
-				byte[] bytes = (byte[]) fieldValue;
-				if ( bytes == null || bytes.length == 0 )
+				public Object run( ) throws Exception
 				{
-					IOUtil.writeInt( dos, 0 );
-				}
-				else
-				{
-					IOUtil.writeInt( dos, bytes.length );
-					dos.write( (byte[]) fieldValue );
-				}
-			}
-			else if ( fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
-			{
-				if ( !( fieldValue instanceof Serializable ) )
-					fieldValue = fieldValue.toString( );
+					byte[] rowsDataBytes;
 
-				ObjectOutputStream oo = new ObjectOutputStream( dos );
-				oo.writeObject( fieldValue );
-				oo.close( );
-			}
+					ByteArrayOutputStream baos = new ByteArrayOutputStream( );
+					DataOutputStream dos = new DataOutputStream( baos );
+
+					for ( int j = 0; j < columnCount; j++ )
+					{
+						Object fieldValue = null;
+						try
+						{
+							fieldValue = resultObject.getFieldValue( j + 1 );
+						}
+						catch ( DataException e )
+						{
+							// never get here since the index value is always value
+						}
+
+						// process null object
+						if ( fieldValue == null )
+						{
+							dos.writeByte( 0 );
+							continue;
+						}
+						else
+						{
+							dos.writeByte( 1 );
+						}
+
+						Class fieldType = typeArray[j];
+						if ( fieldType.equals( Integer.class ) )
+							dos.writeInt( ( (Integer) fieldValue ).intValue( ) );
+						else if ( fieldType.equals( Double.class ) )
+							dos.writeDouble( ( (Double) fieldValue ).doubleValue( ) );
+						else if ( fieldType.equals( BigDecimal.class ) )
+							dos.writeUTF( ( (BigDecimal) fieldValue ).toString( ) );
+						else if ( Date.class.isAssignableFrom( fieldType ) )
+							dos.writeLong( ( (Date) fieldValue ).getTime( ) );
+						else if ( fieldType.equals( Boolean.class ) )
+							dos.writeBoolean( ( (Boolean) fieldValue ).booleanValue( ) );
+						else if ( fieldType.equals( String.class ) )
+							IOUtil.writeString( dos, fieldValue.toString( ) );
+						else if ( fieldType.equals( IClob.class ) )
+							IOUtil.writeString( dos, fieldValue.toString( ) );
+						else if ( fieldType.equals( IBlob.class ) )
+						{
+							byte[] bytes = (byte[]) fieldValue;
+							if ( bytes == null || bytes.length == 0 )
+							{
+								IOUtil.writeInt( dos, 0 );
+							}
+							else
+							{
+								IOUtil.writeInt( dos, bytes.length );
+								dos.write( (byte[]) fieldValue );
+							}
+						}
+						else if ( fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
+						{
+							if ( !( fieldValue instanceof Serializable ) )
+								fieldValue = fieldValue.toString( );
+
+							ObjectOutputStream oo = new ObjectOutputStream( dos );
+							oo.writeObject( fieldValue );
+							oo.close( );
+						}
+					}
+					dos.flush( );
+
+					rowsDataBytes = baos.toByteArray( );
+					IOUtil.writeInt( bos, rowsDataBytes.length );
+					bos.write( rowsDataBytes );
+
+					rowsDataBytes = null;
+					dos = null;
+					baos = null;
+					return null;
+				}
+			} );
 		}
-		dos.flush( );
-
-		rowsDataBytes = baos.toByteArray( );
-		IOUtil.writeInt( bos, rowsDataBytes.length );
-		bos.write( rowsDataBytes );
-
-		rowsDataBytes = null;
-		dos = null;
-		baos = null;
+		catch ( Exception e )
+		{
+		}
 	}
 	
 }

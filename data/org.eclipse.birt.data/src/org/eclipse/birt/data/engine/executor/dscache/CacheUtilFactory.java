@@ -20,6 +20,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -144,17 +148,31 @@ class CacheUtilFactory
 		 * @param file
 		 * @param rsClass
 		 */
-		public DiskSaveUtil( DiskDataSetCacheObject cacheObject, IResultClass rsClass )
+		public DiskSaveUtil( final DiskDataSetCacheObject cacheObject, final IResultClass rsClass )
 		{
 			assert rsClass != null;
 
-			this.file = cacheObject.getDataFile( );
-			this.file.deleteOnExit( );
-			this.metaFile = cacheObject.getMetaFile( );
-			this.metaFile.deleteOnExit( );
-			this.rsClass = rsClass;
-			this.rowCount = 0;
-			this.tempFolder = cacheObject.getCacheDir( );
+			try
+			{
+				AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+					public Object run( ) throws Exception
+					{
+						DiskSaveUtil.this.file = cacheObject.getDataFile( );
+						DiskSaveUtil.this.file.deleteOnExit( );
+						DiskSaveUtil.this.metaFile = cacheObject.getMetaFile( );
+						DiskSaveUtil.this.metaFile.deleteOnExit( );
+						DiskSaveUtil.this.rsClass = rsClass;
+						DiskSaveUtil.this.rowCount = 0;
+						DiskSaveUtil.this.tempFolder = cacheObject.getCacheDir( );
+						return null;
+					}
+				} );
+			}
+			catch ( Exception e )
+			{
+
+			}
 		}
 		
 		/**
@@ -170,7 +188,25 @@ class CacheUtilFactory
 				roUtil = ResultObjectUtil.newInstance( rsClass );
 				try
 				{
-					fos = new FileOutputStream(file);
+					try
+					{
+						fos = (FileOutputStream) AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+							public Object run( ) throws FileNotFoundException
+							{
+								return new FileOutputStream( file );
+							}
+						} );
+					}
+					catch ( PrivilegedActionException e )
+					{
+						Exception typedException = e.getException( );
+						if ( typedException instanceof FileNotFoundException )
+						{
+							throw (FileNotFoundException) typedException;
+						}
+					}
+					
 					bos = new BufferedOutputStream( fos );
 				}
 				catch ( FileNotFoundException e )
@@ -204,8 +240,26 @@ class CacheUtilFactory
 					bos.close( );
 					fos.close( );
 				}
-				
-				FileOutputStream fos1 = new FileOutputStream( metaFile );
+				FileOutputStream fos1 = null;
+				try
+				{
+					fos1 = (FileOutputStream) AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+						public Object run( ) throws FileNotFoundException
+						{
+							return new FileOutputStream( metaFile );
+						}
+					} );
+				}
+				catch ( PrivilegedActionException e )
+				{
+					Exception typedException = e.getException( );
+					if ( typedException instanceof FileNotFoundException )
+					{
+						throw (FileNotFoundException) typedException;
+					}
+				}
+
 				BufferedOutputStream bos1 = new BufferedOutputStream( fos1 );
 
 				// save the count of data
@@ -304,8 +358,14 @@ class CacheUtilFactory
 				roUtil = ResultObjectUtil.newInstance( rsMeta );
 				try
 				{
-					bos = new BufferedOutputStream( new FileOutputStream( file,
-							true ) );
+					FileOutputStream fos = (FileOutputStream) AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+						public Object run( ) throws FileNotFoundException
+						{
+							return new FileOutputStream( file, true );
+						}
+					} );
+					bos = new BufferedOutputStream( fos );
 				}
 				catch ( Exception e )
 				{
@@ -330,42 +390,49 @@ class CacheUtilFactory
 		 * @throws DataException
 		 */
 		public void close( ) throws DataException
-		{			
+		{	
 			try
 			{
-				if ( bos != null )
-				{
-					bos.close( );
-				}
-				if ( metaFile.exists( ) )
-				{
-					FileInputStream fis1 = new FileInputStream( metaFile );
-					BufferedInputStream bis1 = new BufferedInputStream( fis1 );
-					int oldCount = IOUtil.readInt( bis1 );
-					rowCount += oldCount;
-					bis1.close( );
-					fis1.close( );
-				}
-				FileOutputStream fos1 = new FileOutputStream( metaFile );
-				BufferedOutputStream bos1 = new BufferedOutputStream( fos1 );
+				AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
 
-				// save the count of data
-				IOUtil.writeInt( bos1, this.rowCount );
-				// save the meta data of result
-			
-				( (ResultClass) rsMeta ).doSave( bos1, populateDataSetRowMapping( rsMeta ) );
+					public Object run( ) throws Exception
+					{
+						if ( bos != null )
+						{
+							bos.close( );
+						}
+						if ( metaFile.exists( ) )
+						{
+							FileInputStream fis1 = new FileInputStream( metaFile );
+							BufferedInputStream bis1 = new BufferedInputStream( fis1 );
+							int oldCount = IOUtil.readInt( bis1 );
+							rowCount += oldCount;
+							bis1.close( );
+							fis1.close( );
+						}
+						FileOutputStream fos1 = new FileOutputStream( metaFile );
+						BufferedOutputStream bos1 = new BufferedOutputStream( fos1 );
 
-				bos1.close( );
-				fos1.close( );
-				
-				// save the current time as the timestamp
-				CacheUtil.saveCurrentTimestamp( this.tempDir );
+						// save the count of data
+						IOUtil.writeInt( bos1, rowCount );
+						// save the meta data of result
+					
+						( (ResultClass) rsMeta ).doSave( bos1, populateDataSetRowMapping( rsMeta ) );
+
+						bos1.close( );
+						fos1.close( );
+						
+						// save the current time as the timestamp
+						CacheUtil.saveCurrentTimestamp( tempDir );
+						return null;
+					}
+				} );
 			}
-			catch ( IOException e )
+			catch ( Exception e )
 			{
 				throw new DataException( ResourceConstants.DATASETCACHE_SAVE_ERROR,
 						e );
-			}			
+			}
 		}
 	}
 	/**
@@ -439,28 +506,30 @@ class CacheUtilFactory
 		{
 			try
 			{
-				FileInputStream fis1 = new FileInputStream( metaFile );
-				BufferedInputStream bis1 = new BufferedInputStream( fis1 );
+				AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
 
-				rowCount = IOUtil.readInt( bis1 );
-				rsClass = new ResultClass( bis1 );
+					public Object run( ) throws Exception
+					{
+						FileInputStream fis1 = new FileInputStream( metaFile );
+						BufferedInputStream bis1 = new BufferedInputStream( fis1 );
 
-				bis1.close( );
-				fis1.close( );
+						rowCount = IOUtil.readInt( bis1 );
+						rsClass = new ResultClass( bis1 );
 
-				if ( rowCount > 0 )
-				{
-					roUtil = ResultObjectUtil.newInstance( rsClass );
-					fis = new FileInputStream( file );
-					bis = new BufferedInputStream( fis );
-				}
+						bis1.close( );
+						fis1.close( );
+
+						if ( rowCount > 0 )
+						{
+							roUtil = ResultObjectUtil.newInstance( rsClass );
+							fis = new FileInputStream( file );
+							bis = new BufferedInputStream( fis );
+						}
+						return null;
+					}
+				} );
 			}
-			catch ( FileNotFoundException e )
-			{
-				throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
-						e );
-			}
-			catch ( IOException e )
+			catch ( Exception e )
 			{
 				throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
 						e );
@@ -569,28 +638,30 @@ class CacheUtilFactory
 		{
 			try
 			{
-				FileInputStream fis1 = new FileInputStream( metaFile );
-				BufferedInputStream bis1 = new BufferedInputStream( fis1 );
+				AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
 
-				rowCount = IOUtil.readInt( bis1 );
-				rsClass = new ResultClass( bis1 );
+					public Object run( ) throws Exception
+					{
+						FileInputStream fis1 = new FileInputStream( metaFile );
+						BufferedInputStream bis1 = new BufferedInputStream( fis1 );
 
-				bis1.close( );
-				fis1.close( );
+						rowCount = IOUtil.readInt( bis1 );
+						rsClass = new ResultClass( bis1 );
 
-				if ( rowCount > 0 )
-				{
-					roUtil = ResultObjectUtil.newInstance( rsClass );
-					fis = new FileInputStream( file );
-					bis = new BufferedInputStream( fis );
-				}
+						bis1.close( );
+						fis1.close( );
+
+						if ( rowCount > 0 )
+						{
+							roUtil = ResultObjectUtil.newInstance( rsClass );
+							fis = new FileInputStream( file );
+							bis = new BufferedInputStream( fis );
+						}
+						return null;
+					}
+				} );
 			}
-			catch ( FileNotFoundException e )
-			{
-				throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
-						e );
-			}
-			catch ( IOException e )
+			catch ( Exception e )
 			{
 				throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
 						e );
@@ -628,34 +699,41 @@ class CacheUtilFactory
 		{
 			try
 			{
-				String configFile = getCacheConfig( this.session.getDataSetCacheManager( ).getCurrentAppContext( ) );
+				AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
 
-				if ( null != configFile && ( !configFile.equals( "" ) ) )
-				{
-					File dataFile = this.file;
-					// check whether the specific cache data file already exists in
-					// local disk
-					if ( dataFile.exists( ) )
+					public Object run( ) throws Exception
 					{
+						String configFile = getCacheConfig( DiskLoadUtil.this.session.getDataSetCacheManager( ).getCurrentAppContext( ) );
 
-						File config = new File( configFile );
-						FileReader fileReader = null;
+						if ( null != configFile && ( !configFile.equals( "" ) ) )
+						{
+							File dataFile = DiskLoadUtil.this.file;
+							// check whether the specific cache data file already exists in
+							// local disk
+							if ( dataFile.exists( ) )
+							{
 
-						if ( config.exists( ) )
-							fileReader = new FileReader( config );
+								File config = new File( configFile );
+								FileReader fileReader = null;
 
-						BufferedReader reader = new BufferedReader( fileReader );
-						ArrayList list = readConfigFile( configFile, reader );
-						File metaFile = this.metaFile;
-						mergeDeltaToFile( dataFile, list, metaFile );
+								if ( config.exists( ) )
+									fileReader = new FileReader( config );
 
-						CacheUtil.saveCurrentTime( this.cacheObject.getCacheDir( ));
+								BufferedReader reader = new BufferedReader( fileReader );
+								ArrayList list = readConfigFile( configFile, reader );
+								File metaFile = DiskLoadUtil.this.metaFile;
+								mergeDeltaToFile( dataFile, list, metaFile );
+
+								CacheUtil.saveCurrentTime( DiskLoadUtil.this.cacheObject.getCacheDir( ));
+							}
+						}
+						return null;
 					}
-				}
+				} );
 			}
 			catch ( Exception e )
 			{
-				throw new DataException( e.getLocalizedMessage( ) );
+				throw new DataException(  e.getLocalizedMessage( ) );
 			}
 		}
 
@@ -764,7 +842,14 @@ class CacheUtilFactory
 				info.add( temp[1] );
 			}
 			String paraName, paraValue;
-			Hashtable table = new Hashtable( );
+			Hashtable table = (Hashtable)AccessController.doPrivileged( new PrivilegedAction<Object>()
+			{
+			  public Object run()
+			  {
+			    return new Hashtable();
+			  }
+			});
+			
 			for ( int j = 3; j < split.length; j++ )
 			{
 				paraName = ( split[j].split( "=" ) )[0];
@@ -988,21 +1073,23 @@ class CacheUtilFactory
 		{
 			try
 			{
-				FileInputStream fis = new FileInputStream( metaFile );
-				BufferedInputStream bis = new BufferedInputStream( fis );
+				AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
 
-				rowCount = IOUtil.readInt( bis );
-				rsClass = new ResultClass( bis );
+					public Object run( ) throws Exception
+					{
+						FileInputStream fis = new FileInputStream( metaFile );
+						BufferedInputStream bis = new BufferedInputStream( fis );
 
-				bis.close( );
-				fis.close( );
+						rowCount = IOUtil.readInt( bis );
+						rsClass = new ResultClass( bis );
+
+						bis.close( );
+						fis.close( );
+						return null;
+					}
+				} );
 			}
-			catch ( FileNotFoundException e )
-			{
-				throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
-						e );
-			}
-			catch ( IOException e )
+			catch ( Exception e )
 			{
 				throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
 						e );
@@ -1015,32 +1102,40 @@ class CacheUtilFactory
 		 * @param resultObject
 		 * @throws DataException
 		 */
-		private void saveObject( IResultObject resultObject )
+		private void saveObject( final IResultObject resultObject )
 				throws DataException
 		{
 			assert resultObject != null;
 
-			if ( roUtil == null )
-			{
-				roUtil = ResultObjectUtil.newInstance( rsClass );
-				try
-				{
-					fos = new FileOutputStream( dataFile, true );
-					bos = new BufferedOutputStream( fos );
-				}
-				catch ( FileNotFoundException e )
-				{
-					throw new DataException( ResourceConstants.DATASETCACHE_SAVE_ERROR,
-							e );
-				}
-			}
-
 			try
 			{
-				rowCount++;
-				roUtil.writeData( bos, resultObject );
+				AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+					public Object run( ) throws Exception
+					{
+						if ( roUtil == null )
+						{
+							roUtil = ResultObjectUtil.newInstance( rsClass );
+							try
+							{
+								fos = new FileOutputStream( dataFile, true );
+								bos = new BufferedOutputStream( fos );
+							}
+							catch ( FileNotFoundException e )
+							{
+								throw new DataException( ResourceConstants.DATASETCACHE_SAVE_ERROR,
+										e );
+							}
+						}
+
+						rowCount++;
+						roUtil.writeData( bos, resultObject );
+						return null;
+						
+					}
+				} );
 			}
-			catch ( IOException e )
+			catch ( Exception e )
 			{
 				throw new DataException( ResourceConstants.DATASETCACHE_SAVE_ERROR,
 						e );
@@ -1056,30 +1151,37 @@ class CacheUtilFactory
 		{
 			try
 			{
-				if ( bos != null )
-				{
-					bos.close( );
-					fos.close( );
-				}
+				AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
 
-				FileOutputStream fos1 = new FileOutputStream( metaFile );
-				BufferedOutputStream bos1 = new BufferedOutputStream( fos1 );
+					public Object run( ) throws Exception
+					{
+						if ( bos != null )
+						{
+							bos.close( );
+							fos.close( );
+						}
 
-				// save the count of data
-				IOUtil.writeInt( bos1, this.rowCount );
+						FileOutputStream fos1 = new FileOutputStream( metaFile );
+						BufferedOutputStream bos1 = new BufferedOutputStream( fos1 );
 
-				// save the meta data of result
-				( (ResultClass) rsClass ).doSave( bos1, populateDataSetRowMapping( rsClass ) );
+						// save the count of data
+						IOUtil.writeInt( bos1, rowCount );
 
-				bos1.close( );
-				fos1.close( );
+						// save the meta data of result
+						( (ResultClass) rsClass ).doSave( bos1, populateDataSetRowMapping( rsClass ) );
 
-				FileInputStream fis = new FileInputStream( metaFile );
-				BufferedInputStream bis = new BufferedInputStream( fis );
+						bos1.close( );
+						fos1.close( );
 
-				rowCount = IOUtil.readInt( bis );
+						FileInputStream fis = new FileInputStream( metaFile );
+						BufferedInputStream bis = new BufferedInputStream( fis );
+
+						rowCount = IOUtil.readInt( bis );
+						return null;
+					}
+				} );
 			}
-			catch ( IOException e )
+			catch ( Exception e )
 			{
 				throw new DataException( ResourceConstants.DATASETCACHE_SAVE_ERROR,
 						e );

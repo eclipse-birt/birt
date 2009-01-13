@@ -16,6 +16,9 @@ import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 
 
 /**
@@ -26,9 +29,27 @@ public class SimpleRandomAccessObject implements IRandomAccessObject
 {
 	RandomAccessFile randomAccessFile = null;
 	
-	public SimpleRandomAccessObject( File file, String mode ) throws FileNotFoundException
+	public SimpleRandomAccessObject( final File file, final String mode ) throws FileNotFoundException
 	{
-		this.randomAccessFile = new RandomAccessFile( file, mode );
+		try
+		{
+			this.randomAccessFile = (RandomAccessFile) AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+				public Object run( ) throws FileNotFoundException
+				{
+					return new RandomAccessFile( file, mode );
+				}
+			} );
+		}
+		catch ( PrivilegedActionException e )
+		{
+			Exception typedException = e.getException( );
+			if ( typedException instanceof FileNotFoundException )
+			{
+				throw (FileNotFoundException) typedException;
+			}
+		}
+		
 	}
 
 	public void close( ) throws IOException

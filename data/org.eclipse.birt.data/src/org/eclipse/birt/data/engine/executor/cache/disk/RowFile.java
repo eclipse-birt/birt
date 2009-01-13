@@ -13,6 +13,8 @@ package org.eclipse.birt.data.engine.executor.cache.disk;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
 import org.eclipse.birt.data.engine.impl.StopSign;
@@ -259,7 +261,16 @@ class RowFile implements IRowIterator
 		closeReader( );
 
 		if ( tempFile != null )
-			tempFile.delete( );
+		{
+			AccessController.doPrivileged( new PrivilegedAction<Object>( ) {
+
+				public Object run( )
+				{
+					tempFile.delete( );
+					return null;
+				}
+			} );
+		}
 		memoryRowCache = null;
 	}
 	

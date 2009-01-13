@@ -14,6 +14,9 @@ package org.eclipse.birt.data.engine.olap.data.util;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.security.PrivilegedExceptionAction;
 
 import org.eclipse.birt.data.engine.olap.data.document.AbstractBufferedRandomAccessObject;
 
@@ -44,13 +47,22 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 	 * @exception IOException
 	 *                Description of Exception
 	 */
-	public BufferedRandomAccessFile( File file, String mode, int bufferSize, int cacheSize )
+	public BufferedRandomAccessFile( final File file, String mode, int bufferSize, int cacheSize )
 			throws IOException
 	{
 		super( bufferSize );
 		this.file = file;
 		this.mode = mode;
-		if ( file.exists( ) || cacheSize <= 0 )
+		Boolean piTmp0 = null;
+		piTmp0 = (Boolean)AccessController.doPrivileged( new PrivilegedAction<Object>()
+		{
+		  public Object run()
+		  {
+		    return new Boolean(file.exists());
+		  }
+		});
+		
+		if ( piTmp0 || cacheSize <= 0 )
 		{
 			createRandomAccessFile( );
 		}
@@ -80,16 +92,30 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 	 */
 	private void createRandomAccessFile( ) throws IOException
 	{
-		File parent = file.getParentFile( );
-		if ( !parent.exists( ) )
+
+		try
 		{
-			parent.mkdirs( );
+		    AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+				public Object run( ) throws Exception
+				{
+					File parent = file.getParentFile( );
+					if ( !parent.exists( ) )
+					{
+						parent.mkdirs( );
+					}
+					delegate = new RandomAccessFile( file, mode );
+					if ( memoryDelegate != null || length > 0 )
+					{
+						delegate.write( memoryDelegate, 0, length );
+						delegate.seek( pointer );
+					}
+					return null;
+				}
+			} );
 		}
-		delegate = new RandomAccessFile( file, mode );
-		if ( memoryDelegate != null || length > 0 )
+		catch ( Exception e )
 		{
-			delegate.write( memoryDelegate, 0, length );
-			delegate.seek( pointer );
 		}
 	}
 	

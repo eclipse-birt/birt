@@ -17,6 +17,7 @@ package org.eclipse.birt.data.engine.odaconsumer;
 import java.util.Hashtable;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.PropertySecurity;
 import org.eclipse.datatools.connectivity.oda.IDriver;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
 
@@ -139,7 +140,7 @@ public class DriverManager
 	Hashtable getLoadedDrivers()
 	{
 		if( m_loadedDrivers == null )
-			m_loadedDrivers = new Hashtable();
+			m_loadedDrivers = PropertySecurity.createHashtable( );
 		
 		return m_loadedDrivers;
 	}

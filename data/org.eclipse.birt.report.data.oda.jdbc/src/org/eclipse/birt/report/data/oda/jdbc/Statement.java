@@ -17,6 +17,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -970,7 +972,14 @@ class DBConfig
 	 */
 	public URL getConfigURL()
 	{
-		URL u = this.getClass( ).getResource( CONFIG_XML );
+		URL u = (URL)AccessController.doPrivileged( new PrivilegedAction<Object>()
+		{
+		  public Object run()
+		  {
+		    return this.getClass().getResource(CONFIG_XML);
+		  }
+		});
+		
 		return u;
 	}
 	

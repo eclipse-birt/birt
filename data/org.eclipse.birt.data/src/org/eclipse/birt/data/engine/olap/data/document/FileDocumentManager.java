@@ -14,6 +14,9 @@ package org.eclipse.birt.data.engine.olap.data.document;
 import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.security.PrivilegedExceptionAction;
 import java.util.HashMap;
 
 import org.eclipse.birt.data.engine.core.DataException;
@@ -57,18 +60,32 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	static FileDocumentManager createManager( String dirName,
-			String managerName, int cacheSize ) throws DataException,
+	static FileDocumentManager createManager( final String dirName,
+			final String managerName, final int cacheSize ) throws DataException,
 			IOException
 	{
-		File tmpDir = new File( dirName );
-		if (!tmpDir.exists( ) || !tmpDir.isDirectory( ))
+
+		try
 		{
-			tmpDir.mkdirs( );
+			return (FileDocumentManager) AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+				public Object run( ) throws Exception
+				{
+					File tmpDir = new File( dirName );
+					if (fileNotExist( tmpDir ) || !tmpDir.isDirectory( ))
+					{
+						tmpDir.mkdirs( );
+					}
+					FileDocumentManager manager = new FileDocumentManager( cacheSize );
+					manager.create( dirName, managerName );
+					return manager;
+				}
+			} );
 		}
-		FileDocumentManager manager = new FileDocumentManager( cacheSize );
-		manager.create( dirName, managerName );
-		return manager;
+		catch ( Exception e )
+		{
+			return null;
+		}
 	}
 	
 	/**
@@ -138,14 +155,14 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 		
 		File file = new File( dirName + File.separatorChar + managerName + "obj" );
 		objectAccessFile = new BufferedRandomAccessFile( file, "rw", 1024, dataFileCacheSize / 5 );
-		if ( !file.exists( ) )
+		if ( fileNotExist( file ) )
 		{
 			throw new DataException( ResourceConstants.OLAPFILE_NOT_FOUND,
 					file.getAbsolutePath( ) );
 		}
 		
 		file = new File( dirName + File.separatorChar + managerName + "Oat" );
-		if ( !file.exists( ) )
+		if ( fileNotExist( file ) )
 		{
 			throw new DataException( ResourceConstants.OLAPFILE_NOT_FOUND,
 					file.getAbsolutePath( ) );
@@ -153,7 +170,7 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 		oatAccessFile = new BufferedRandomAccessFile( file, "rw", 1024, dataFileCacheSize / 10 );
 		
 		file = new File( dirName + File.separatorChar + managerName + "data" );
-		if ( !file.exists( ) )
+		if ( fileNotExist( file ) )
 		{
 			throw new DataException( ResourceConstants.OLAPFILE_NOT_FOUND,
 					file.getAbsolutePath( ) );
@@ -175,6 +192,20 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 			}
 		}
 	}
+
+	private static boolean fileNotExist( final File file )
+	{
+		Boolean piTmp0 = null;
+		piTmp0 = (Boolean) AccessController.doPrivileged( new PrivilegedAction<Object>( ) {
+
+			public Object run( )
+			{
+				return new Boolean( file.exists( ) );
+			}
+		} );
+
+		return !piTmp0;
+	}
 	
 	/*
 	 * (non-Javadoc)
@@ -193,21 +224,38 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 	 */
 	public void clearTmpFile( ) 
 	{
-		if( objectFile != null )
+
+		try
 		{
-			objectFile.deleteOnExit( );
-			objectFile = null;
+			AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+				public Object run( ) throws Exception
+				{
+					if( objectFile != null )
+					{
+						objectFile.deleteOnExit( );
+						objectFile = null;
+					}
+					if( oatFile != null )
+					{
+						oatFile.deleteOnExit( );
+						oatFile = null;
+					}
+					if( dataFile != null )
+					{
+						dataFile.deleteOnExit( );
+						dataFile = null;
+					}
+					return null;
+				}
+			} );
 		}
-		if( oatFile != null )
+		catch ( Exception e )
 		{
-			oatFile.deleteOnExit( );
-			oatFile = null;
+			
 		}
-		if( dataFile != null )
-		{
-			dataFile.deleteOnExit( );
-			dataFile = null;
-		}
+		
+		
 	}
 
 	/*

@@ -16,6 +16,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
 import org.eclipse.birt.data.engine.impl.StopSign;
@@ -90,15 +93,23 @@ class DataFileWriter
 		{
 			try
 			{
-				fos = new FileOutputStream( file );
+				AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+						public Object run( ) throws FileNotFoundException
+						{
+							fos = new FileOutputStream( file );
+							bos = new BufferedOutputStream( fos );
+							isOpen = true;
+							return null;
+						}
+					} );
 			}
-			catch ( FileNotFoundException e )
+			catch ( Exception e )
 			{
 				// normally this exception will never be thrown
 				// since file will always exist
 			}
-			bos = new BufferedOutputStream( fos );
-			isOpen = true;
+			
 		}
 
 		resultObjectUtil.writeData( bos, resultObjects, count, stopSign );

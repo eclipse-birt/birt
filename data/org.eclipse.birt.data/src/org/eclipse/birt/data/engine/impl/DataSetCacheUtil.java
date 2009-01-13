@@ -11,6 +11,9 @@
 package org.eclipse.birt.data.engine.impl;
 
 import java.io.File;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.security.PrivilegedExceptionAction;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.DataEngine;
@@ -120,54 +123,78 @@ public class DataSetCacheUtil
 	 * 
 	 * @param dir
 	 */
-	public static void deleteFile( String path )
+	public static void deleteFile( final String path )
 	{
 		if (path == null)
 		{
 			return;
 		}
-		deleteFile( new File( path ));
+		AccessController.doPrivileged( new PrivilegedAction<Object>()
+		{
+		  public Object run()
+		  {
+		    deleteFile(new File(path));
+		    return null;
+		  }
+		});
+		
 	}
 	
 	/**
 	 * 
 	 * @param dir
 	 */
-	public static void deleteFile( File f )
+	public static void deleteFile( final File f )
 	{
-		if ( f == null || !f.exists( ))
+		try
 		{
-			return;
-		}
-		if (f.isFile( ))
-		{
-			safeDelete( f );
-		}
-		else
-		{
-			File[] childFiles = f.listFiles( );
-			if( childFiles != null )
-			{
-				for (File child : childFiles)
+			AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+				public Object run( ) throws Exception
 				{
-					deleteFile( child );
+					if ( f == null || !f.exists( ))
+					{
+						return null;
+					}
+					if (f.isFile( ))
+					{
+						safeDelete( f );
+					}
+					else
+					{
+						File[] childFiles = f.listFiles( );
+						if( childFiles != null )
+						{
+							for (File child : childFiles)
+							{
+								deleteFile( child );
+							}
+						}
+						safeDelete( f );
+					}
+					return null;
 				}
-			}
-			safeDelete( f );
+				
+				/**
+				 * 
+				 * @param file
+				 */
+				private void safeDelete( File file )
+				{
+					if( !file.delete( ) )
+					{
+						file.deleteOnExit( );
+					}
+				}
+			} );
+		}
+		catch ( Exception e )
+		{
+			
 		}
 	}
 	
-	/**
-	 * 
-	 * @param file
-	 */
-	private static void safeDelete( File file )
-	{
-		if( !file.delete( ) )
-		{
-			file.deleteOnExit( );
-		}
-	}
+
 	
 
 	/**

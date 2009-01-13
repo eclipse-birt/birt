@@ -2,6 +2,9 @@
 package org.eclipse.birt.data.aggregation.impl;
 
 import java.io.File;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.security.PrivilegedExceptionAction;
 
 public class TempDir
 {
@@ -42,8 +45,17 @@ public class TempDir
 	{
 		if (instance != null)
 		{
-			File f = new File( instance.getPath( ) );
-			if ( f.exists( ) )
+			final File f = new File( instance.getPath( ) );
+			Boolean piTmp0 = null;
+			piTmp0 = (Boolean)AccessController.doPrivileged( new PrivilegedAction<Object>()
+			{
+			  public Object run()
+			  {
+			    return new Boolean(f.exists());
+			  }
+			});
+			
+			if ( piTmp0 )
 			{
 				deleteDirectory( f );
 			}
@@ -55,36 +67,52 @@ public class TempDir
 	 * 
 	 * @param dir
 	 */
-	private static void deleteDirectory( File dir )
+	private static void deleteDirectory( final File dir )
 	{
-		File[] subFiles = dir.listFiles( );
-		if ( subFiles != null )
-		{
-			for ( int i = 0; i < subFiles.length; i++ )
-			{
-				if ( subFiles[i].isDirectory( ) )
-				{
-					deleteDirectory( subFiles[i] );
-				}
-				else
-				{
-					safeDelete( subFiles[i] );
-				}
 
-			}
+		try
+		{
+			AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+				public Object run( ) throws Exception
+				{
+
+					File[] subFiles = dir.listFiles( );
+					if ( subFiles != null )
+					{
+						for ( int i = 0; i < subFiles.length; i++ )
+						{
+							if ( subFiles[i].isDirectory( ) )
+							{
+								deleteDirectory( subFiles[i] );
+							}
+							else
+							{
+								safeDelete( subFiles[i] );
+							}
+
+						}
+					}
+					safeDelete( dir );
+					return null;
+				}
+				/**
+				 * 
+				 * @param file
+				 */
+				private void safeDelete( File file )
+				{
+					if ( !file.delete( ) )
+					{
+						file.deleteOnExit( );
+					}
+				}
+			} );
 		}
-		safeDelete( dir );
+		catch ( Exception e )
+		{
+		}
 	}
 
-	/**
-	 * 
-	 * @param file
-	 */
-	private static void safeDelete( File file )
-	{
-		if ( !file.delete( ) )
-		{
-			file.deleteOnExit( );
-		}
-	}
+	
 }

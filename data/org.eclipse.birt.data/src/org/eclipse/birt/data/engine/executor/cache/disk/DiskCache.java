@@ -13,6 +13,9 @@ package org.eclipse.birt.data.engine.executor.cache.disk;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.security.PrivilegedExceptionAction;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -238,15 +241,36 @@ public class DiskCache implements ResultSetCache
 	 */
 	public void close( )
 	{		
-		diskBasedResultSet.close( );
-		
-		File goalFile = new File( goalFileStr );
-		goalFile.delete( );
-		File tempDir = new File( sessionRootDirStr );
-		tempDir.delete( );
-		
-		currResultIndex = -1;
-		currResultObject = null;
+		try
+		{
+			AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+				public Object run( ) throws Exception
+				{
+					diskBasedResultSet.close( );
+					
+					final File goalFile = new File( goalFileStr );
+					final File tempDir = new File( sessionRootDirStr );
+
+					AccessController.doPrivileged( new PrivilegedAction<Object>( ) {
+
+						public Object run( )
+						{
+							tempDir.delete( );
+							return new Boolean( goalFile.delete( ) );
+						}
+					} );
+					
+					currResultIndex = -1;
+					currResultObject = null;
+					return null;
+				}
+			} );
+		}
+		catch ( Exception e )
+		{
+			
+		}
 	}
 	
 	/**

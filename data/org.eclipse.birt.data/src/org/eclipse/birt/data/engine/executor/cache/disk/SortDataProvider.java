@@ -12,6 +12,8 @@ package org.eclipse.birt.data.engine.executor.cache.disk;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedExceptionAction;
 
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
 import org.eclipse.birt.data.engine.impl.StopSign;
@@ -59,18 +61,31 @@ class SortDataProvider
 	 * @param tempDirStr
 	 * @param goalFileStr
 	 */
-	SortDataProvider( int dataCountOfUnit, String tempDirStr,
-			String goalFileStr, ResultObjectUtil resultObjectUtil )
+	SortDataProvider( final int dataCountOfUnit, final String tempDirStr,
+			final String goalFileStr, final ResultObjectUtil resultObjectUtil )
 	{
-		this.dataCountOfUnit = dataCountOfUnit;
-		this.resultObjectUtil = resultObjectUtil;
+		try
+		{
+			AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
 
-		tempDir = new File( tempDirStr );
-		if ( tempDir.exists( ) == false )
-			tempDir.mkdirs( );
-		this.tempDirStr = tempDirStr;
+				public Object run( ) throws Exception
+				{
+					SortDataProvider.this.dataCountOfUnit = dataCountOfUnit;
+					SortDataProvider.this.resultObjectUtil = resultObjectUtil;
 
-		goalFile = new File( goalFileStr );
+					tempDir = new File( tempDirStr );
+					if ( tempDir.exists( ) == false )
+						tempDir.mkdirs( );
+					SortDataProvider.this.tempDirStr = tempDirStr;
+
+					SortDataProvider.this.goalFile = new File( goalFileStr );
+					return null;
+				}
+			} );
+		}
+		catch ( Exception e )
+		{
+		}
 	}
 	
 	/**
@@ -215,28 +230,36 @@ class SortDataProvider
 	{
 		try
 		{
-			for ( int i = 0; i < dfrArray.length; i++ )
-			{
-				dfrArray[i].close( );
-				File tempFile = getTempFile( i );
-				tempFile.delete( );
-			}
-			tempDir.delete( );
-			dfw.close( );
+			AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+
+				public Object run( ) throws Exception
+				{
+					for ( int i = 0; i < dfrArray.length; i++ )
+					{
+						dfrArray[i].close( );
+						File tempFile = getTempFile( i );
+						tempFile.delete( );
+					}
+					tempDir.delete( );
+					dfw.close( );
+				
+
+					tempDir = null;
+					goalFile = null;
+
+					dfrArray = null;
+					dfw = null;
+
+					indexOfCachedRowData = null;
+					cachedResultObjects = null;
+
+					return null;
+				}
+			} );
 		}
 		catch ( Exception e )
 		{
-			// ignore it
 		}
-
-		tempDir = null;
-		goalFile = null;
-
-		dfrArray = null;
-		dfw = null;
-
-		indexOfCachedRowData = null;
-		cachedResultObjects = null;
 	}
 	
 	/**
