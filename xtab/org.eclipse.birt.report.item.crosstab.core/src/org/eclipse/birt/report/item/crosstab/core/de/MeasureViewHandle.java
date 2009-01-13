@@ -34,6 +34,8 @@ import org.eclipse.birt.report.model.api.extension.CompatibilityStatus;
 import org.eclipse.birt.report.model.api.extension.IllegalContentInfo;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 
 /**
  * MeasureViewHandle.
@@ -403,7 +405,9 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#checkCompatibility()
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.ReportItem#checkCompatibility
+	 * ()
 	 */
 	public CompatibilityStatus checkCompatibility( )
 	{
@@ -441,6 +445,38 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 							handle.getPropertyHandle( DETAIL_PROP )
 									.setValue( newDetail );
 
+							// copy old local properties
+							for ( Iterator itr = oldDetail.getPropertyIterator( ); itr.hasNext( ); )
+							{
+								PropertyHandle propHandle = (PropertyHandle) itr.next( );
+
+								String propName = propHandle.getPropertyDefn( )
+										.getName( );
+
+								if ( !propHandle.isLocal( )
+										|| IDesignElementModel.NAME_PROP.equals( propName )
+										|| IDesignElementModel.EXTENDS_PROP.equals( propName )
+										|| IExtendedItemModel.EXTENSION_NAME_PROP.equals( propName )
+										|| IExtendedItemModel.EXTENSION_VERSION_PROP.equals( propName )
+										|| ICrosstabCellConstants.CONTENT_PROP.equals( propName ) )
+								{
+									continue;
+								}
+
+								try
+								{
+									oldDetail.copyPropertyTo( propName,
+											newDetail );
+								}
+								catch ( Exception e )
+								{
+									logger.log( Level.WARNING,
+											"The old property [" //$NON-NLS-1$
+													+ propName
+													+ "] is not converted properly to the new Crosstab model." ); //$NON-NLS-1$
+								}
+							}
+
 							// set new aggregateOn properties
 							LevelHandle rowLevel = getInnerestLevel( crosstab,
 									ROW_AXIS_TYPE );
@@ -458,8 +494,6 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 								newDetail.setProperty( IAggregationCellConstants.AGGREGATION_ON_COLUMN_PROP,
 										columnLevel );
 							}
-
-							// TODO copy local properties.
 
 							List contents = oldDetail.getContents( ICrosstabCellConstants.CONTENT_PROP );
 
