@@ -10,6 +10,7 @@ Element.MeasureView=Visualización de medidas
 Element.ComputedMeasureView=Visualización de medidas procesadas
 Element.PageBreakBefore=Salto de página antes
 Element.PageBreakAfter=Salto de página después
+Element.PageBreakInterval=Page break interval
 Element.SortDirection=Dirección de orden
 Element.SortType=Tipo de orden
 Element.LevelView=Visualización de niveles

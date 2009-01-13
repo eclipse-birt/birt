@@ -10,6 +10,7 @@ Element.MeasureView=Affichage de mesure
 Element.ComputedMeasureView=Affichage mesure calculée
 Element.PageBreakBefore=Saut de page avant
 Element.PageBreakAfter=Saut de page après
+Element.PageBreakInterval=Page break interval
 Element.SortDirection=Direction du tri
 Element.SortType=Type de tri
 Element.LevelView=Affichage de niveau

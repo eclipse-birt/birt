@@ -10,6 +10,7 @@ Element.MeasureView=メジャービュー
 Element.ComputedMeasureView=メジャービュー
 Element.PageBreakBefore=次の前で改ページ
 Element.PageBreakAfter=次の後で改ページ
+Element.PageBreakInterval=Page break interval
 Element.SortDirection=ソート方向
 Element.SortType=ソート基準
 Element.LevelView=レベルビュー
