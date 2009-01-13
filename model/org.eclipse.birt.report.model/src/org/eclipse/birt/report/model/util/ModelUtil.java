@@ -774,7 +774,7 @@ public class ModelUtil
 			{
 				PropertyDefn p1 = (PropertyDefn) o1;
 				PropertyDefn p2 = (PropertyDefn) o2;
-				
+
 				CollationKey key1 = keysMap.get( p1 );
 				CollationKey key2 = keysMap.get( p2 );
 
@@ -1759,7 +1759,12 @@ public class ModelUtil
 	}
 
 	/**
+	 * Establishes the structure context for the given structure or any nested
+	 * structure.
+	 * 
 	 * @param struct
+	 *            the structure to setup
+	 * 
 	 */
 
 	public static void setupStructureContext( Structure struct )

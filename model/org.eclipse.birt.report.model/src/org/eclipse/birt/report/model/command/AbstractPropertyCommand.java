@@ -212,6 +212,16 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 					&& tmpMemberDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 			{
 				ElementRefValue refValue = (ElementRefValue) value;
+
+				// this is a special case, if the caller sets a resolved element
+				// on the structure, need to make it unresolved. For example,
+				// HighlightRule.style property.
+				
+				if ( refValue.isResolved( ) )
+				{
+					refValue.unresolved( refValue.getElement( ).getName( ) );
+				}
+
 				value = tmpMemberDefn.validateValue( module, refValue
 						.getQualifiedReference( ) );
 

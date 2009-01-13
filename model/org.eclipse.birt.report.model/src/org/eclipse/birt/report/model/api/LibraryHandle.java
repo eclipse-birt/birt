@@ -186,8 +186,6 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 		return theme.getStyles( );
 	}
 
-	// TODO should we support for public List getAllStyles() method?
-
 	/**
 	 * Import css file to theme.
 	 * 
