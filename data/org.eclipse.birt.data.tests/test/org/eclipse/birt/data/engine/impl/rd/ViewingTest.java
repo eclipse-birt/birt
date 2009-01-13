@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -323,7 +324,7 @@ public class ViewingTest extends RDTestCase
 		sd.setExpression( "row.COUNTRY_1" );
 		sd.setSortDirection( ISortDefinition.SORT_ASC );
 		query.addSort( sd );
-		_preBasicIV2( query );
+		_preBasicIV3( query, new String[]{"COUNTRY_1", "CITY_1", "AMOUNT_1" } );
 		this.closeArchiveReader( );
 
 		this.checkOutputFile( );
@@ -354,7 +355,7 @@ public class ViewingTest extends RDTestCase
 		sd.setExpression( "row.CITY_1" );
 		sd.setSortDirection( ISortDefinition.SORT_ASC );
 		query.addSort( sd );
-		_preBasicIV2( query );
+		_preBasicIV3( query, new String[]{"COUNTRY_1", "CITY_1", "AMOUNT_1" } );
 		
 		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
 		
@@ -373,7 +374,7 @@ public class ViewingTest extends RDTestCase
 		sd.setExpression( "row.CITY_1" );
 		sd.setSortDirection( ISortDefinition.SORT_ASC );
 		query.addSort( sd );
-		_preBasicIV2( query );
+		_preBasicIV3( query, new String[]{"COUNTRY_1", "CITY_1", "AMOUNT_1" } );
 		
 		this.closeArchiveReader( );
 
@@ -405,7 +406,7 @@ public class ViewingTest extends RDTestCase
 		sd.setExpression( "row.CITY_1" );
 		sd.setSortDirection( ISortDefinition.SORT_ASC );
 		query.addSort( sd );
-		_preBasicIV2( query );
+		_preBasicIV3( query, new String[]{"COUNTRY_1", "CITY_1", "AMOUNT_1" } );
 		
 		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
 		baseQuery = new QueryDefinition( );
@@ -424,7 +425,41 @@ public class ViewingTest extends RDTestCase
 		sd.setExpression( "row.CITY_1" );
 		sd.setSortDirection( ISortDefinition.SORT_ASC );
 		query.addSort( sd );
-		_preBasicIV2( query );
+		_preBasicIV3( query, new String[]{"COUNTRY_1", "CITY_1", "AMOUNT_1" } );
+		
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	
+	public void testSourceQueryIV1withDistinct3( ) throws Exception
+	{
+		this.genNotDistinctBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+	
+		QueryDefinition baseQuery = new QueryDefinition( );
+		baseQuery.setQueryResultsID( this.queryResultID );
+		QueryDefinition query = new QueryDefinition( );
+		
+		query.setSourceQuery( baseQuery );
+		IBinding binding1 = new Binding( "COUNTRY_11");
+		binding1.setExpression( new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression("COUNTRY_1") ) );
+		IBinding binding2 = new Binding( "CITY_11");
+		binding2.setExpression( new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression("CITY_1") ) );
+		query.addBinding( binding1 );
+		query.addBinding( binding2 );
+		query.setDistinctValue( true );
+		
+		SortDefinition sd = new SortDefinition( );
+		sd.setExpression( ExpressionUtil.createJSRowExpression( "CITY_11" ) );
+		sd.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sd );
+		_preBasicIV3( query, new String[]{"COUNTRY_11", "CITY_11" } );
 		
 		this.closeArchiveReader( );
 
@@ -1655,6 +1690,33 @@ public class ViewingTest extends RDTestCase
 		
 		IResultIterator ri = qr.getResultIterator( );
 		String[] rowExprName = {"COUNTRY_1", "CITY_1", "AMOUNT_1" };
+		ri.moveTo( 0 );
+		String abc = "";
+		for ( int i = 0; i < rowExprName.length; i++ )
+			abc += rowExprName[i] + "  ";
+		this.testPrintln( abc );
+		do
+		{
+			abc = "";
+			
+			for ( int i = 0; i < rowExprName.length; i++ )
+				abc += ri.getValue( rowExprName[i] ) + "  ";
+			abc += ri.getRowId( );
+			
+			this.testPrintln( abc );
+		} while ( ri.next( ) );
+
+		ri.close( );
+		myPreDataEngine.shutdown( );
+	}
+	
+	private void _preBasicIV3( QueryDefinition qd, String[] rowExprName ) throws BirtException
+	{
+		HashMap appContext = new HashMap();
+		appContext.put( DataEngine.MEMORY_BUFFER_SIZE, 10 );
+		IQueryResults qr = myPreDataEngine.prepare( qd , appContext ).execute( null );
+		
+		IResultIterator ri = qr.getResultIterator( );
 		ri.moveTo( 0 );
 		String abc = "";
 		for ( int i = 0; i < rowExprName.length; i++ )

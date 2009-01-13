@@ -83,13 +83,17 @@ public class PreparedIVDataExtractionQuery extends PreparedIVQuerySourceQuery
 					bindings = new IBinding[0];
 				}
 			}
-			for ( int i = 0; i < bindings.length; i++ )
+			
+			if ( !hasBinding )
 			{
-				IBinding binding = bindings[i];
-				if( !this.queryDefn.getBindings( ).containsKey( binding.getBindingName( ) ))
-					this.queryDefn.addBinding( new Binding( binding.getBindingName( ),
-						new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( binding.getBindingName( ) ),
-								binding.getDataType( ) ) ) );
+				for ( int i = 0; i < bindings.length; i++ )
+				{
+					IBinding binding = bindings[i];
+					if ( !this.queryDefn.getBindings( ).containsKey( binding.getBindingName( ) ))
+						this.queryDefn.addBinding( new Binding( binding.getBindingName( ),
+							new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( binding.getBindingName( ) ),
+										binding.getDataType( ) ) ) );
+				}
 			}
 		}
 		catch ( BirtException e )

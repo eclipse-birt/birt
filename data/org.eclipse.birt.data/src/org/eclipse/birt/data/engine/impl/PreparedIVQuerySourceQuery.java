@@ -34,6 +34,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryLocator;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -62,6 +63,8 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 	protected DataEngineImpl engine;
 	protected IQueryDefinition queryDefn;
 	protected IQueryResults queryResults;
+	
+	protected boolean hasBinding; 
 
 	/**
 	 * @param dataEngine
@@ -80,6 +83,14 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 				params );
 
 		this.queryDefn = queryDefn;
+		
+		/* If the current query contains bindings, this variable hasBinding will be set as true. 
+		Currently this variable is only used for getting distinct column values from a existed result set.*/ 
+		if( this.queryDefn.getBindings( ).size( ) > 0 )
+			hasBinding = true;
+		else
+			hasBinding = false;
+		
 		this.engine = dataEngine;
 		prepareQuery( );
 		preparedQuery = new PreparedQuery( dataEngine.getSession( ),
@@ -343,9 +354,59 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 				bindings = (IBinding[]) ( queryDefinition.getBindings( )
 						.values( ).toArray( new IBinding[0] ) );
 			}
-			resultClass = createResultClass( bindings, temporaryComputedColumns );
+			if( hasBinding )
+				resultClass = createResultClass( getRefBinding( bindings ), temporaryComputedColumns );
+			else
+				resultClass = createResultClass( bindings, temporaryComputedColumns );
 
 			return resultClass;
+		}
+		
+		/**
+		 * 
+		 * @return
+		 * @throws DataException 
+		 */
+		private IBinding[] getRefBinding( IBinding[] sourceBinding ) throws DataException
+		{
+			List refBinding = new ArrayList( );
+			IBinding[] queryBindings = (IBinding[]) ( queryDefn.getBindings( )
+					.values( ).toArray( new IBinding[0] ) );
+			for ( int i = 0; i < sourceBinding.length; i++ )
+			{
+				if ( isDirectColumnRef( sourceBinding[i].getBindingName( ), queryBindings ) )
+					refBinding.add( sourceBinding[i] );
+			}
+			return (IBinding[]) ( refBinding.toArray( new IBinding[0] ) );
+		}
+		
+		/**
+		 * 
+		 * @param columnName
+		 * @param bindings
+		 * @return
+		 * @throws DataException 
+		 */
+		private boolean isDirectColumnRef( String columnName, IBinding[] bindings ) throws DataException
+		{
+			for ( int i = 0; i < bindings.length; i++ )
+			{
+				if ( bindings[i].getExpression( ) instanceof ScriptExpression )
+				{
+					try
+					{
+						if( columnName.equals( 
+								ExpressionUtil.getColumnName( 
+										( (ScriptExpression) bindings[i].getExpression( ) ).getText( ) ) ) )
+								return true;
+					}
+					catch ( BirtException e )
+					{
+						throw DataException.wrap( e );
+					}
+				}
+			}
+			return false;
 		}
 
 		/**
