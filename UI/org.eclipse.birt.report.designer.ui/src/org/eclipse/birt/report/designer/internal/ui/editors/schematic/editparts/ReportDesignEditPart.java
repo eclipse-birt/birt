@@ -293,31 +293,35 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 			//getFigure( ).getUpdateManager( ).addInvalidFigure( getFigure( ) );
 			getFigure( ).revalidate( );
 		}
-		if (info.get(IMasterPageModel.TOP_MARGIN_PROP) != null
-				||info.get(IMasterPageModel.BOTTOM_MARGIN_PROP) != null
-				||info.get(IMasterPageModel.LEFT_MARGIN_PROP) != null
-				||info.get(IMasterPageModel.RIGHT_MARGIN_PROP) != null
-				
-				||info.get(IMasterPageModel.TYPE_PROP) != null
-				||info.get(IMasterPageModel.WIDTH_PROP) != null
-				||info.get(IMasterPageModel.HEIGHT_PROP) != null
-				||info.get(IMasterPageModel.ORIENTATION_PROP) != null
-					)
-		{				
-			SlotHandle slotHandle = ( (ModuleHandle) getModel( ) ).getMasterPages( );
-			Iterator iter = slotHandle.iterator( );
-			SimpleMasterPageHandle masterPageHandle = (SimpleMasterPageHandle) iter.next( );
-
-			Dimension size = getMasterPageSize( masterPageHandle );
-
-			Rectangle bounds = new Rectangle( 0, 0, size.width - 1, size.height - 1 );
-
-			((AbstractPageFlowLayout)getFigure( ).getLayoutManager( )).setInitSize( bounds );
-
-
-			figure.setBorder( new ReportDesignMarginBorder( getMasterPageInsets( masterPageHandle ) ) );
-
-			figure.setBounds( bounds.getCopy( ) );
+		if (getModel() instanceof ReportDesignHandle)
+		{
+			
+			if (info.get(IMasterPageModel.TOP_MARGIN_PROP) != null
+					||info.get(IMasterPageModel.BOTTOM_MARGIN_PROP) != null
+					||info.get(IMasterPageModel.LEFT_MARGIN_PROP) != null
+					||info.get(IMasterPageModel.RIGHT_MARGIN_PROP) != null
+					
+					||info.get(IMasterPageModel.TYPE_PROP) != null
+					||info.get(IMasterPageModel.WIDTH_PROP) != null
+					||info.get(IMasterPageModel.HEIGHT_PROP) != null
+					||info.get(IMasterPageModel.ORIENTATION_PROP) != null
+						)
+			{				
+				SlotHandle slotHandle = ( (ModuleHandle) getModel( ) ).getMasterPages( );
+				Iterator iter = slotHandle.iterator( );
+				SimpleMasterPageHandle masterPageHandle = (SimpleMasterPageHandle) iter.next( );
+	
+				Dimension size = getMasterPageSize( masterPageHandle );
+	
+				Rectangle bounds = new Rectangle( 0, 0, size.width - 1, size.height - 1 );
+	
+				((AbstractPageFlowLayout)getFigure( ).getLayoutManager( )).setInitSize( bounds );
+	
+	
+				figure.setBorder( new ReportDesignMarginBorder( getMasterPageInsets( masterPageHandle ) ) );
+	
+				figure.setBounds( bounds.getCopy( ) );
+			}
 		}
 	}
 	
