@@ -449,13 +449,13 @@ public class ComputedColumnTest extends APITestCase
 		argument.add( new ScriptExpression("3") );
 		ComputedColumn cc1 = new ComputedColumn( "cc1",
 				"row.COL0",
-				DataType.INTEGER_TYPE,
+				DataType.BOOLEAN_TYPE,
 				"ISTOPN",
 				null,
 				argument );
 		
 		((BaseDataSetDesign) this.dataSet).addComputedColumn( cc1 );
-		
+	
 		String[] bindingNameRow = new String[5];
 		bindingNameRow[0] = "ROW_COL0";
 		bindingNameRow[1] = "ROW_COL1";
@@ -468,10 +468,61 @@ public class ComputedColumnTest extends APITestCase
 				new ScriptExpression("dataSetRow." + "COL1", 0),
 				new ScriptExpression("dataSetRow." + "COL2", 0),
 				new ScriptExpression("dataSetRow." + "COL3", 0),
-				new ScriptExpression("dataSetRow." + ccName[0], DataType.INTEGER_TYPE)};
-
+				new ScriptExpression("dataSetRow." + ccName[0], 0)};
 		FilterDefinition filter = new FilterDefinition( new ScriptExpression("row.cc1"));
 		this.dataSet.addFilter( filter );
+		IResultIterator resultIt = this.executeQuery(this.createQuery(
+				null, null, null, null, null,
+				null, null, null, null, bindingNameRow, bindingExprRow));
+		
+		printResult(resultIt, bindingNameRow, bindingExprRow);
+		// assert
+		checkOutputFile();
+		
+	}
+	
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	public void testNewAggregationOnComputedColumnWithOtherComputedColumns( ) throws Exception
+	{
+		
+		ccName = new String[] { "cc1", "cc2" };
+		ccExpr = new String[] {
+				"row.COL0", "row.COL1" };
+		ComputedColumn cc1 = new ComputedColumn( "cc1",
+				"0",
+				DataType.INTEGER_TYPE );
+		
+		ComputedColumn cc2 = new ComputedColumn( "cc2",
+				"row.COL0",
+				DataType.INTEGER_TYPE,
+				"COUNT",
+				null,
+				new ArrayList() );
+		
+		((BaseDataSetDesign) this.dataSet).addComputedColumn( cc1 );
+		((BaseDataSetDesign) this.dataSet).addComputedColumn( cc2 );
+		String[] bindingNameRow = new String[6];
+		bindingNameRow[0] = "ROW_COL0";
+		bindingNameRow[1] = "ROW_COL1";
+		bindingNameRow[2] = "ROW_COL2";
+		bindingNameRow[3] = "ROW_COL3";
+		bindingNameRow[4] = "ROW_cc1";
+		bindingNameRow[5] = "ROW_cc2";
+
+		ScriptExpression[] bindingExprRow = new ScriptExpression[] {
+				new ScriptExpression("dataSetRow." + "COL0", 0),
+				new ScriptExpression("dataSetRow." + "COL1", 0),
+				new ScriptExpression("dataSetRow." + "COL2", 0),
+				new ScriptExpression("dataSetRow." + "COL3", 0),
+				new ScriptExpression("dataSetRow." + ccName[0], DataType.INTEGER_TYPE),
+				new ScriptExpression("dataSetRow." + ccName[1], DataType.INTEGER_TYPE)};
+
+
+		this.dataSource.setBeforeOpenScript( " a = 0;" );
+		this.dataSet.setOnFetchScript( "a++;row.cc1 = a;" );
 		IResultIterator resultIt = this.executeQuery(this.createQuery(
 				null, null, null, null, null,
 				null, null, null, null, bindingNameRow, bindingExprRow));
@@ -1094,8 +1145,8 @@ public class ComputedColumnTest extends APITestCase
 				if ( resultIt.getValue( bindingNameRow[i] ) == null )
 					str += "<null>";
 				else
-					str += (int) Double.parseDouble( resultIt.getValue( bindingNameRow[i] )
-							.toString( ) );
+					str += (resultIt.getValue( bindingNameRow[i] ) instanceof Double)?(int) Double.parseDouble( resultIt.getValue( bindingNameRow[i] )
+							.toString( ) ):resultIt.getValue( bindingNameRow[i] );
 				str += "    ";
 			}
 			testPrintln(str);
