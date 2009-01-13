@@ -184,7 +184,8 @@ public class AxisLabelSheet extends AbstractPopupSheet
 				iscEllipsis.setLayoutData( gd );
 				iscEllipsis.setToolTipText( Messages.getString("AxisLabelSheet.Label.Ellipsis.Tooltip") ); //$NON-NLS-1$
 				iscEllipsis.addSelectionListener( this );
-				iscEllipsis.setEnabled( getAxisForProcessing( ).getType( ) == AxisType.TEXT_LITERAL );
+				iscEllipsis.setEnabled( getAxisForProcessing( ).getType( ) == AxisType.TEXT_LITERAL
+						|| getAxisForProcessing( ).isCategoryAxis( ) );
 				iscEllipsis.setSelection( getAxisForProcessing( ).getLabel( ).getEllipsis( ) );
 			}
 		}
