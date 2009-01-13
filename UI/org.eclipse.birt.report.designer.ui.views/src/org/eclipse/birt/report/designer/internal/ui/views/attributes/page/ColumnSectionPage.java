@@ -1,9 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
-
-import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
-
 
 public class ColumnSectionPage extends SectionPage
 {
@@ -13,27 +19,4 @@ public class ColumnSectionPage extends SectionPage
 		removeSection( PageSectionId.SECION_PAGE_BREAK_INSIDE );
 	}
 
-	protected void setVisible( )
-	{
-		if ( DEUtil.getInputSize( input ) == 1
-				&& DEUtil.getInputFirstElement( input ) instanceof DesignElementHandle
-				&& isElementInMasterPage( (DesignElementHandle) DEUtil.getInputFirstElement( input ) ) )
-		{
-			masterSection.setVisible( false );
-			sepSection.setVisible( false );
-			beforeSection.getLabelControl( ).setEnabled( false );
-			beforeSection.getComboControl( ).getControl( ).setEnabled( false );
-			afterSection.getLabelControl( ).setEnabled( false );
-			afterSection.getComboControl( ).getControl( ).setEnabled( false );
-		}
-		else
-		{
-			masterSection.setVisible( true );
-			sepSection.setVisible( true );
-			beforeSection.getLabelControl( ).setEnabled( true );
-			beforeSection.getComboControl( ).getControl( ).setEnabled( true );
-			afterSection.getLabelControl( ).setEnabled( true );
-			afterSection.getComboControl( ).getControl( ).setEnabled( true );
-		}
-	}
 }
