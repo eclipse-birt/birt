@@ -584,6 +584,8 @@ dataset.warning.invalidReponseStatus=사용자 지정 ODA 페이지의 디자인 응답이 잘못
 
 DataSetBasePage.tooltip=이름은 비어 있으면 안 됩니다.
 DataSetBasePage.ScriptedDataSet.name=스크립트된 데이터 집합
+DataSetBasePage.ScriptedDataSource.name=Scripted Data Source
+DataSetBasePage.Group.DataSourceSelection=Data Source Selection
 
 ###########################################################
 #JointDataSetPage properties
@@ -642,6 +644,8 @@ DataSetParameterBindingInputDialog.Title=데이터 집합 매개 변수 바인딩 편집
 DataSetParametersPage.ErrorTitle.InvalidInput=잘못된 입력.
 DataSetParameterBindingInputDialog.Label.Name=매개 변수 이름:
 DataSetParametersPage.ErrorMessage.CanootBeNull=값은 널(null)일 수 없습니다.
+DataSetParameterBindingInputDialog.Title.NewParameter=New Parameter
+DataSetParameterBindingInputDialog.Title.EditParameter=Edit Parameter
 DataSetParameterBindingInputDialog.Label.DataType=데이터 형식:
 DataSetParameterBindingInputDialog.Label.Value=값:
 DataSetParametersPage.Prompt.new=<여기에 새 매개 변수 입력>
@@ -656,6 +660,7 @@ DataSetParameterPage.toolTipText.Remove=매개 변수 제거
 DataSetParameterPage.toolTipText.Up=매개 변수를 위로 이동
 DataSetParameterPage.toolTipText.Down=매개 변수를 아래로 이동
 DataSetParameterPage.WarningMessage.updatePosition=일부 또는 모든 데이터 집합 매개 변수에 잘못된 위치값이 지정되었습니다. 순서를 기준으로 위치를 업데이트하고 있습니다.
+DataSetParameterPage.warning.UnmatchedParamDataType=Data set parameter type does not match the linked report parameter type.
 
 ###########################################################
 #PropertyBindingpage properties

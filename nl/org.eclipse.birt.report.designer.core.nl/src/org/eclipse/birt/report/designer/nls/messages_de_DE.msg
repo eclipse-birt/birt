@@ -584,6 +584,8 @@ dataset.warning.invalidReponseStatus=Ungültige Designantwort von der benutzerdef
 
 DataSetBasePage.tooltip=Name darf nicht leer sein.
 DataSetBasePage.ScriptedDataSet.name=Geskripteter Datensatz
+DataSetBasePage.ScriptedDataSource.name=Scripted Data Source
+DataSetBasePage.Group.DataSourceSelection=Data Source Selection
 
 ###########################################################
 #JointDataSetPage properties
@@ -642,6 +644,8 @@ DataSetParameterBindingInputDialog.Title=Parameterbindung des Datensatzes bearbe
 DataSetParametersPage.ErrorTitle.InvalidInput=Ungültige Eingabe.
 DataSetParameterBindingInputDialog.Label.Name=Parametername:
 DataSetParametersPage.ErrorMessage.CanootBeNull=Der Wert darf nicht Null sein.
+DataSetParameterBindingInputDialog.Title.NewParameter=New Parameter
+DataSetParameterBindingInputDialog.Title.EditParameter=Edit Parameter
 DataSetParameterBindingInputDialog.Label.DataType=Datentyp:
 DataSetParameterBindingInputDialog.Label.Value=Wert:
 DataSetParametersPage.Prompt.new=<New param here...>
@@ -656,6 +660,7 @@ DataSetParameterPage.toolTipText.Remove=Parameter entfernen
 DataSetParameterPage.toolTipText.Up=Parameter nach oben verschieben
 DataSetParameterPage.toolTipText.Down=Parameter nach unten verschieben
 DataSetParameterPage.WarningMessage.updatePosition=Einige oder alle Datensatzparameter besitzen ungültige Positionswerte. Die Positionen werden auf Grundlage der Folgen aktualisiert.
+DataSetParameterPage.warning.UnmatchedParamDataType=Data set parameter type does not match the linked report parameter type.
 
 ###########################################################
 #PropertyBindingpage properties

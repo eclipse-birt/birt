@@ -584,6 +584,8 @@ dataset.warning.invalidReponseStatus=Réponse de conception de la page ODA person
 
 DataSetBasePage.tooltip=Le nom doit être renseigné.
 DataSetBasePage.ScriptedDataSet.name=Jeu de données nécessitant un script
+DataSetBasePage.ScriptedDataSource.name=Scripted Data Source
+DataSetBasePage.Group.DataSourceSelection=Data Source Selection
 
 ###########################################################
 #JointDataSetPage properties
@@ -642,6 +644,8 @@ DataSetParameterBindingInputDialog.Title=Modifier la liaison de paramètre du jeu
 DataSetParametersPage.ErrorTitle.InvalidInput=Entrée non valide.
 DataSetParameterBindingInputDialog.Label.Name=Nom du paramètre :
 DataSetParametersPage.ErrorMessage.CanootBeNull=La valeur ne peut pas être nulle.
+DataSetParameterBindingInputDialog.Title.NewParameter=New Parameter
+DataSetParameterBindingInputDialog.Title.EditParameter=Edit Parameter
 DataSetParameterBindingInputDialog.Label.DataType=Type de données :
 DataSetParameterBindingInputDialog.Label.Value=Valeur :
 DataSetParametersPage.Prompt.new=<Nouveau paramètre ici...>
@@ -656,6 +660,7 @@ DataSetParameterPage.toolTipText.Remove=Supprimer le paramètre
 DataSetParameterPage.toolTipText.Up=Déplacer le paramètre vers le haut
 DataSetParameterPage.toolTipText.Down=Déplacer le paramètre vers le bas
 DataSetParameterPage.WarningMessage.updatePosition=Les valeurs de position de la totalité ou d'une partie des paramètres du jeu de données sont incorrectes. Mise à jour de leurs positions selon leur séquence.
+DataSetParameterPage.warning.UnmatchedParamDataType=Data set parameter type does not match the linked report parameter type.
 
 ###########################################################
 #PropertyBindingpage properties

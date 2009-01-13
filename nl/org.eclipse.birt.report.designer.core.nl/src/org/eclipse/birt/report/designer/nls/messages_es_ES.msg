@@ -584,6 +584,8 @@ dataset.warning.invalidReponseStatus=Respuesta de diseño no válida en la página 
 
 DataSetBasePage.tooltip=El nombre no puede estar vacío.
 DataSetBasePage.ScriptedDataSet.name=Conjunto de datos de script
+DataSetBasePage.ScriptedDataSource.name=Scripted Data Source
+DataSetBasePage.Group.DataSourceSelection=Data Source Selection
 
 ###########################################################
 #JointDataSetPage properties
@@ -642,6 +644,8 @@ DataSetParameterBindingInputDialog.Title=Editar enlace de parámetros del conjunt
 DataSetParametersPage.ErrorTitle.InvalidInput=Entrada no válida.
 DataSetParameterBindingInputDialog.Label.Name=Nombre del parámetro:
 DataSetParametersPage.ErrorMessage.CanootBeNull=El valor no puede ser nulo.
+DataSetParameterBindingInputDialog.Title.NewParameter=New Parameter
+DataSetParameterBindingInputDialog.Title.EditParameter=Edit Parameter
 DataSetParameterBindingInputDialog.Label.DataType=Tipo de datos:
 DataSetParameterBindingInputDialog.Label.Value=Valor:
 DataSetParametersPage.Prompt.new=<Nuevo parámetro aquí...>
@@ -656,6 +660,7 @@ DataSetParameterPage.toolTipText.Remove=Quitar parámetro
 DataSetParameterPage.toolTipText.Up=Mover parámetro hacia arriba
 DataSetParameterPage.toolTipText.Down=Mover parámetro hacia abajo
 DataSetParameterPage.WarningMessage.updatePosition=Algunos o todos los parámetros de conjunto de datos tienen valores de posición no válidos. Actualizando la posiciones según la secuencia.
+DataSetParameterPage.warning.UnmatchedParamDataType=Data set parameter type does not match the linked report parameter type.
 
 ###########################################################
 #PropertyBindingpage properties
