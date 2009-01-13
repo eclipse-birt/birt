@@ -1669,17 +1669,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			throw new IllegalArgumentException(
 					"The target element should be in the same report !" ); //$NON-NLS-1$
 
-		if ( targetHandle.getDefn( ) != getDefn( ) )
-			throw new PropertyValueException(
-					targetHandle.getDefn( ).getName( ),
-					PropertyValueException.DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE,
-					IPropertyType.ELEMENT_REF_TYPE );
-
 		PropertyDefn propDefn = (ElementPropertyDefn) getDefn( ).getProperty(
 				propName );
 		if ( propDefn == null )
 			throw new PropertyNameException( getElement( ), propName );
-
+		
 		propDefn = (ElementPropertyDefn) targetHandle.getDefn( ).getProperty(
 				propName );
 		if ( propDefn == null )

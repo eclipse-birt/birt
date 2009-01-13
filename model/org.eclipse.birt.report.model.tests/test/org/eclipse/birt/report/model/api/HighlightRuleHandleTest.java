@@ -287,4 +287,27 @@ public class HighlightRuleHandleTest extends BaseTestCase
 
 		propHandle.addItem( rule2 );
 	}
+
+	/**
+	 * Tests the copyPropertyTo for highlightrule property with style reference
+	 * set.
+	 * 
+	 * @throws Exception
+	 */
+	public void testCopyTo( ) throws Exception
+	{
+		openDesign( inputFile );
+
+		StyleHandle style2 = designHandle.findStyle( "My Style2" ); //$NON-NLS-1$
+
+		StyleHandle newStyle = designHandle.getElementFactory( )
+				.newStyle( null );
+
+		designHandle.getStyles( ).add( newStyle );
+
+		style2.copyPropertyTo( StyleHandle.HIGHLIGHT_RULES_PROP, newStyle );
+
+		assertNotNull( newStyle.getProperty( StyleHandle.HIGHLIGHT_RULES_PROP ) );
+
+	}
 }
