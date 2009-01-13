@@ -1107,9 +1107,9 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	/**
 	 * Returns the element factory for creating new report elements. After
 	 * creating the element, add it to the design by calling the the <code>
-	 * {@link SlotHandle#add(DesignElementHandle ) add}</code> method of the
-	 * slot handle that represents the point in the design where the new element
-	 * should appear.
+	 * {@link SlotHandle#add(DesignElementHandle ) add}</code>
+	 * method of the slot handle that represents the point in the design where
+	 * the new element should appear.
 	 * 
 	 * @return a handle to the new element.
 	 * @see SlotHandle
@@ -1640,7 +1640,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * Copies all properties to the target element. The following properties
 	 * will not be copied.
 	 * <ul>
-	 * <li><code>DesignElement.NAME_PROP</code> <li><code>
+	 * <li><code>DesignElement.NAME_PROP</code>
+	 * <li><code>
 	 * DesignElement.EXTENDS_PROP</code>
 	 * </ul>
 	 * 
@@ -1668,17 +1669,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			throw new IllegalArgumentException(
 					"The target element should be in the same report !" ); //$NON-NLS-1$
 
-		if ( targetHandle.getDefn( ) != getDefn( ) )
-			throw new PropertyValueException(
-					targetHandle.getDefn( ).getName( ),
-					PropertyValueException.DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE,
-					IPropertyType.ELEMENT_REF_TYPE );
-
 		PropertyDefn propDefn = (ElementPropertyDefn) getDefn( ).getProperty(
 				propName );
 		if ( propDefn == null )
 			throw new PropertyNameException( getElement( ), propName );
-
+		
 		propDefn = (ElementPropertyDefn) targetHandle.getDefn( ).getProperty(
 				propName );
 		if ( propDefn == null )
