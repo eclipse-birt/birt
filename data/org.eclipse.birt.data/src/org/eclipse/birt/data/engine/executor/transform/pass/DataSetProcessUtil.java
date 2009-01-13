@@ -107,6 +107,11 @@ class DataSetProcessUtil extends RowProcessUtil
 		
 		populateAggrCCs( this.getAggrComputedColumns( aggCCList, true ), stopSign );
 		
+		if( filterByRow!= null && filterByRow.isFilterSetExist( FilterByRow.DATASET_AGGR_FILTER ) )
+		{
+			doDataSetAggrFilter( changeMaxRows, stopSign );
+			populateAggrCCs( this.getAggrComputedColumns( aggCCList, true ), stopSign );
+		}
 		removeAvailableComputedColumns( );
 		
 		//Begin populate computed columns with aggregations.
@@ -223,6 +228,20 @@ class DataSetProcessUtil extends RowProcessUtil
 				changeMaxRows, stopSign );
 	}
 
+	/**
+	 * 
+	 * @param changeMaxRows
+	 * @param stopSign
+	 * @throws DataException
+	 */
+	private void doDataSetAggrFilter( boolean changeMaxRows, StopSign stopSign ) throws DataException
+	{
+		if(	!psController.needDoOperation( PassStatusController.DATASET_AGGR_ROW_FILTERING ))
+			return;
+				
+		applyFilters( FilterByRow.DATASET_AGGR_FILTER,
+				changeMaxRows, stopSign );
+	}
 	/**
 	 * 
 	 * @param aggCCList

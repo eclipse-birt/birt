@@ -44,11 +44,13 @@ public class FilterByRow implements IResultObjectEvent
 	public static final int NO_FILTER = 4;
 	public static final int GROUP_FILTER = 5;
 	public static final int AGGR_FILTER = 6;
+	public static final int DATASET_AGGR_FILTER = 7;
 
 	//
 	private DataSetRuntime dataSet;
 	private FilterByRowHelper currentFilters;
 	private FilterByRowHelper dataSetFilters;
+	private FilterByRowHelper dataSetAggrFilters;
 	private FilterByRowHelper queryFilters;
 	private FilterByRowHelper groupFilters;
 	private FilterByRowHelper allRowFilters;
@@ -64,7 +66,7 @@ public class FilterByRow implements IResultObjectEvent
 	 * @throws DataException
 	 */
 	FilterByRow( List dataSetFilters, List queryFilters, List groupFilters,
-			List aggrFilters, DataSetRuntime dataSet ) throws DataException
+			List aggrFilters, List dataSetAggrFilters, DataSetRuntime dataSet ) throws DataException
 	{
 		Object[] params = {
 				dataSetFilters, queryFilters, groupFilters, dataSet
@@ -89,10 +91,14 @@ public class FilterByRow implements IResultObjectEvent
 			this.allRowFilters = new FilterByRowHelper( dataSet,
 					Mode.DataSet,
 					getAllRowFilters( dataSetFilters, queryFilters ) );
-		if ( aggrFilters != null )
+		if ( aggrFilters != null && aggrFilters.size( ) > 0 )
 			this.aggrFilters = new FilterByRowHelper( dataSet,
 					Mode.Query,
 					aggrFilters );
+		if( dataSetAggrFilters!= null && dataSetAggrFilters.size( ) > 0 )
+			this.dataSetAggrFilters = new FilterByRowHelper( dataSet,
+					Mode.DataSet,
+					dataSetAggrFilters );
 		this.currentFilters = this.allRowFilters;
 
 		logger.exiting( FilterByRow.class.getName( ), "FilterByRow" );
@@ -142,6 +148,9 @@ public class FilterByRow implements IResultObjectEvent
 			case AGGR_FILTER :
 				this.currentFilters = this.aggrFilters;
 				break;
+			case DATASET_AGGR_FILTER :
+				this.currentFilters = this.dataSetAggrFilters;
+				break;
 			default :
 				this.currentFilters = null;
 		}
@@ -180,6 +189,10 @@ public class FilterByRow implements IResultObjectEvent
 		else if ( AGGR_FILTER == filterSetType )
 		{
 			return this.aggrFilters != null;
+		}
+		else if ( DATASET_AGGR_FILTER == filterSetType )
+		{
+			return this.dataSetAggrFilters != null;
 		}
 		else
 		{
@@ -238,6 +251,10 @@ public class FilterByRow implements IResultObjectEvent
 			case AGGR_FILTER :
 				return this.aggrFilters != null ? this.aggrFilters.getFilters( )
 						: new ArrayList( );
+			case DATASET_AGGR_FILTER :
+				return this.dataSetAggrFilters != null ? this.dataSetAggrFilters.getFilters( )
+					: new ArrayList( );
+		
 			default :
 				return new ArrayList( );
 		}
@@ -254,7 +271,8 @@ public class FilterByRow implements IResultObjectEvent
 				&& filterSetType != ALL_ROW_FILTER
 				&& filterSetType != QUERY_FILTER
 				&& filterSetType != GROUP_FILTER
-				&& filterSetType != AGGR_FILTER )
+				&& filterSetType != AGGR_FILTER
+				&& filterSetType != DATASET_AGGR_FILTER )
 		{
 			assert false;
 		}

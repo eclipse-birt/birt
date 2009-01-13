@@ -36,6 +36,7 @@ class PassStatusController
 	public static final int RESULT_SET_TEMP_COMPUTED_COLUMN_POPULATING = 4;
 	public static final int GROUP_ROW_FILTERING = 5;
 	public static final int AGGR_ROW_FILTERING = 6;
+	public static final int DATASET_AGGR_ROW_FILTERING = 7;
 
 	private boolean hasDataSetFilters;
 	private boolean hasDataSetCC;
@@ -43,6 +44,7 @@ class PassStatusController
 	private boolean hasResultSetTempCC;
 	private boolean hasGroupRowFilters;
 	private boolean hasAggrRowFilters;
+	private boolean hasDataSetAggrFilter;
 	private boolean needMultipassProcessing;
 
 	// private boolean hasAggregationInResultSetCC;
@@ -62,6 +64,9 @@ class PassStatusController
 	{
 		this.hasDataSetFilters = filterByRow == null ? false
 				: filterByRow.isFilterSetExist( FilterByRow.DATASET_FILTER );
+		this.hasDataSetAggrFilter = filterByRow == null
+				? false
+				: filterByRow.isFilterSetExist( FilterByRow.DATASET_AGGR_FILTER );
 		this.hasDataSetCC = computedColumnHelper == null
 				? false
 				: computedColumnHelper.isComputedColumnExist( TransformationConstants.DATA_SET_MODEL );
@@ -133,6 +138,8 @@ class PassStatusController
 				return this.hasGroupRowFilters;
 			case AGGR_ROW_FILTERING:
 				return this.hasAggrRowFilters;
+			case DATASET_AGGR_ROW_FILTERING:
+				return this.hasDataSetAggrFilter;
 			default :
 				return false;
 		}
