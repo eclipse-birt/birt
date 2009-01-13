@@ -34,12 +34,14 @@ import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.PropertySecurity;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.JointDataSetQuery;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
@@ -627,9 +629,23 @@ public abstract class QueryExecutor implements IQueryExecutor
 		List dataSetFilters = new ArrayList( );
 		List queryFilters = new ArrayList( );
 		List aggrFilters = new ArrayList( );
+		List dataSetAggrFilters = new ArrayList( );
 		if ( dataSet.getFilters( ) != null )
 		{
-			dataSetFilters = dataSet.getFilters( );
+			Map bindings = createBindingFromComputedColumn( dataSet.getComputedColumns( ));
+			for ( int i = 0; i < dataSet.getFilters( ).size( ); i++ )
+			{
+				if ( QueryExecutorUtil.isAggrFilter( (IFilterDefinition) dataSet.getFilters( )
+						.get( i ),
+						bindings ) )
+				{
+					dataSetAggrFilters.add( dataSet.getFilters( ).get( i ) );
+				}
+				else
+				{
+					dataSetFilters.add( dataSet.getFilters( ).get( i ) );
+				}
+			}
 		}
 
 		if ( this.baseQueryDefn.getFilters( ) != null )
@@ -678,15 +694,38 @@ public abstract class QueryExecutor implements IQueryExecutor
 		}
 
 		if ( dataSetFilters.size( )
-				+ queryFilters.size( ) + multipassFilters.size( ) + aggrFilters.size( ) > 0 )
+				+ queryFilters.size( ) + multipassFilters.size( ) + aggrFilters.size( ) + dataSetAggrFilters.size( ) > 0 )
 		{
 			IResultObjectEvent objectEvent = new FilterByRow( dataSetFilters,
 					queryFilters,
 					multipassFilters,
 					aggrFilters,
+					dataSetAggrFilters,
 					dataSet );
 			odiQuery.addOnFetchEvent( objectEvent );
 		}
+	}
+	
+	/**
+	 * 
+	 * @param computedColumns
+	 * @return
+	 * @throws DataException
+	 */
+	private Map<String, IBinding> createBindingFromComputedColumn( List computedColumns ) throws DataException
+	{
+		Map<String, IBinding> result = PropertySecurity.createHashMap( );
+		if( computedColumns == null || computedColumns.size( ) == 0 )
+			return result;
+		for( Object computedColumn: computedColumns )
+		{
+			IComputedColumn cc = (IComputedColumn)computedColumn;
+			IBinding binding = new Binding( cc.getName( ) );
+			binding.setExpression( cc.getExpression( ) );
+			binding.setAggrFunction( cc.getAggregateFunction( ) );
+			result.put( cc.getName( ), binding );
+		}
+		return result;
 	}
 	
 	/**

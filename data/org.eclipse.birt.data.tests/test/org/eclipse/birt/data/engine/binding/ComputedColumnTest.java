@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.binding;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -558,6 +559,52 @@ public class ComputedColumnTest extends APITestCase
 		
 	}
 	
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	public void testNewAggregationOnComputedColumnWithFilter( ) throws Exception
+	{
+		ccName = new String[] { "cc1" };
+		ccExpr = new String[] {
+				"row.COL0" };
+		
+		List argument = new ArrayList();
+		argument.add( new ScriptExpression("3") );
+		ComputedColumn cc1 = new ComputedColumn( "cc1",
+				"row.COL0",
+				DataType.INTEGER_TYPE,
+				"ISTOPN",
+				null,
+				argument );
+		
+		((BaseDataSetDesign) this.dataSet).addComputedColumn( cc1 );
+		
+		String[] bindingNameRow = new String[5];
+		bindingNameRow[0] = "ROW_COL0";
+		bindingNameRow[1] = "ROW_COL1";
+		bindingNameRow[2] = "ROW_COL2";
+		bindingNameRow[3] = "ROW_COL3";
+		bindingNameRow[4] = "ROW_cc1";
+
+		ScriptExpression[] bindingExprRow = new ScriptExpression[] {
+				new ScriptExpression("dataSetRow." + "COL0", 0),
+				new ScriptExpression("dataSetRow." + "COL1", 0),
+				new ScriptExpression("dataSetRow." + "COL2", 0),
+				new ScriptExpression("dataSetRow." + "COL3", 0),
+				new ScriptExpression("dataSetRow." + ccName[0], DataType.INTEGER_TYPE)};
+
+		FilterDefinition filter = new FilterDefinition( new ScriptExpression("row.cc1"));
+		this.dataSet.addFilter( filter );
+		IResultIterator resultIt = this.executeQuery(this.createQuery(
+				null, null, null, null, null,
+				null, null, null, null, bindingNameRow, bindingExprRow));
+		
+		printResult(resultIt, bindingNameRow, bindingExprRow);
+		// assert
+		checkOutputFile();
+		
+	}
 	/**
 	 * test nested aggregation computed column
 	 * @throws Exception
