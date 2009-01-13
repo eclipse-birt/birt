@@ -129,6 +129,10 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 				columnGroups = GroupUtil.getGroups( crosstabItem,
 						COLUMN_AXIS_TYPE );
 
+				rowLevelPageBreakIntervals = GroupUtil.getLevelPageBreakIntervals( crosstabItem,
+						rowGroups,
+						ROW_AXIS_TYPE );
+
 				walker = new CachedColumnWalker( crosstabItem,
 						getColumnEdgeCursor( ) );
 				new TableColumnGenerator( crosstabItem,

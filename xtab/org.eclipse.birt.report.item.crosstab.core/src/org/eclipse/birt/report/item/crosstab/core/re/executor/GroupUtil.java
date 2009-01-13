@@ -46,8 +46,8 @@ public class GroupUtil implements ICrosstabConstants
 	 * @param axisType
 	 * @param dimensionIndex
 	 * @param levelIndex
-	 * 		If this is negative(<0), means the last level index in given
-	 * 		dimension.
+	 *            If this is negative(<0), means the last level index in given
+	 *            dimension.
 	 * @return
 	 */
 	public static int getGroupIndex( CrosstabReportItemHandle crosstabItem,
@@ -132,8 +132,8 @@ public class GroupUtil implements ICrosstabConstants
 	 * @param groups
 	 * @param dimensionIndex
 	 * @param levelIndex
-	 * 		If this is negative(<0), means the last level index in given
-	 * 		dimension.
+	 *            If this is negative(<0), means the last level index in given
+	 *            dimension.
 	 * @return
 	 */
 	public static int getGroupIndex( List<EdgeGroup> groups,
@@ -943,6 +943,64 @@ public class GroupUtil implements ICrosstabConstants
 		}
 
 		return groupCursors.size( );
+	}
+
+	/**
+	 * Returns the effective page break interval settings on given axis
+	 */
+	public static int[] getLevelPageBreakIntervals(
+			CrosstabReportItemHandle crosstabItem, List groups, int axisType )
+	{
+		if ( crosstabItem == null || groups == null || groups.size( ) == 0 )
+		{
+			return null;
+		}
+
+		int[] intervals = new int[groups.size( )];
+		boolean hasEffectiveInterval = false;
+
+		for ( int i = 0; i < groups.size( ); i++ )
+		{
+			EdgeGroup eg = (EdgeGroup) groups.get( i );
+
+			LevelViewHandle lv = crosstabItem.getDimension( axisType,
+					eg.dimensionIndex ).getLevel( eg.levelIndex );
+
+			int intv = lv.getPageBreakInterval( );
+
+			if ( intv > 0 )
+			{
+				hasEffectiveInterval = true;
+				intervals[i] = intv;
+			}
+		}
+
+		return hasEffectiveInterval ? intervals : null;
+	}
+
+	/**
+	 * Returns the position state of each dimension cursor on given edge cursor
+	 */
+	public static long[] getLevelCursorState( EdgeCursor cursor )
+			throws OLAPException
+	{
+		if ( cursor == null )
+		{
+			return null;
+		}
+
+		List dimCursors = cursor.getDimensionCursor( );
+
+		long[] levelState = new long[dimCursors.size( )];
+
+		for ( int i = 0; i < levelState.length; i++ )
+		{
+			DimensionCursor dc = (DimensionCursor) dimCursors.get( i );
+
+			levelState[i] = dc.getPosition( );
+		}
+
+		return levelState;
 	}
 
 }
