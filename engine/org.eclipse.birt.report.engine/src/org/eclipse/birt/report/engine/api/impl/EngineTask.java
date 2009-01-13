@@ -1332,12 +1332,12 @@ public abstract class EngineTask implements IEngineTask
 			{
 				ReportRunnable newRunnable = executionContext.getRunnable( )
 						.cloneRunnable( );
+				executionContext.updateRunnable( newRunnable );
 				ReportDesignHandle newDesign = newRunnable.designHandle;
 				ScriptedDesignVisitor visitor = new ScriptedDesignHandler(
 						newDesign, executionContext );
 				visitor.apply( newDesign.getRoot( ) );
 				newRunnable.setPrepared( true );
-				executionContext.updateRunnable( newRunnable );
 			}
 		}
 	}
