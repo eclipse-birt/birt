@@ -1350,7 +1350,8 @@ public class DataProcessor
 			int count = 0;
 			do
 			{
-				if ( count++ >= MAX_ROW_COUNT )
+				// If max row limitation is used
+				if ( MAX_ROW_COUNT > 0 && count++ >= MAX_ROW_COUNT )
 				{
 					// Do not throw exceptions to stop rendering, but get the
 					// first rows to render chart

@@ -79,7 +79,7 @@ public class ChartUtil
 	/**
 	 * Default max row count that will be supported in charts.
 	 */
-	private static final int DEFAULT_MAX_ROW_COUNT = 10000;
+	private static final int DEFAULT_MAX_ROW_COUNT = 0;
 	
 	/**
 	 * The constant defined as the key in RuntimeContext or JVM arguments, to
@@ -489,7 +489,8 @@ public class ChartUtil
 	
 	/**
 	 * Returns max row count that will be supported in charts. Users can set it
-	 * in JVM argument "CHART_MAX_ROW" or RuntimeContext. Default value is 10000.
+	 * in JVM argument "CHART_MAX_ROW" or RuntimeContext. Default value is 0
+	 * which means no max limitation.
 	 * 
 	 * @return max row count that will be supported in charts.
 	 * @since 2.2.0
