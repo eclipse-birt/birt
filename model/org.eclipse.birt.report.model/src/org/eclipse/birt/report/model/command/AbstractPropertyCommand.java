@@ -20,7 +20,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
-import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -33,7 +32,6 @@ import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -209,6 +207,16 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 					&& tmpMemberDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 			{
 				ElementRefValue refValue = (ElementRefValue) value;
+
+				// this is a special case, if the caller sets a resolved element
+				// on the structure, need to make it unresolved. For example,
+				// HighlightRule.style property.
+				
+				if ( refValue.isResolved( ) )
+				{
+					refValue.unresolved( refValue.getElement( ).getName( ) );
+				}
+				
 				value = tmpMemberDefn.validateValue( module, refValue
 						.getQualifiedReference( ) );
 

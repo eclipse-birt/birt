@@ -78,7 +78,7 @@ public class HighlightRuleHandleTest extends BaseTestCase
 		assertEquals( 1, refs.size( ) );
 		BackRef ref1 = (BackRef) refs.get( 0 );
 		assertEquals( "My Style2", ref1.getElement( ).getName( ) ); //$NON-NLS-1$
-		assertEquals( "highlightRules", ref1.getPropertyName( ) ); //$NON-NLS-1$
+		assertEquals( HighlightRule.STYLE_MEMBER, ref1.getPropertyName( ) ); //$NON-NLS-1$
 
 		// if remove the structure, the back reference should be break.
 
@@ -99,7 +99,8 @@ public class HighlightRuleHandleTest extends BaseTestCase
 
 		// set to the new style.
 
-		// the old reference is dropped
+		// the old reference is dropped, make the highlight rule in style2
+		// refers to the style 3
 
 		style2Highlight.setStyle( style3 );
 
@@ -114,12 +115,13 @@ public class HighlightRuleHandleTest extends BaseTestCase
 		assertEquals( 1, refs.size( ) );
 
 		assertEquals( "My Style2", ref1.getElement( ).getName( ) ); //$NON-NLS-1$
-		assertEquals( "highlightRules", ref1.getPropertyName( ) ); //$NON-NLS-1$
+		assertEquals( HighlightRule.STYLE_MEMBER, ref1.getPropertyName( ) ); //$NON-NLS-1$
+
+		// clear the style reference now.
 
 		style2Highlight.setStyle( null );
 		assertNull( style2Highlight.getStyle( ) );
-		assertNull( style2Highlight
-				.getStringProperty( HighlightRule.STYLE_MEMBER ) );
+		assertNull( style2Highlight.getProperty( HighlightRule.STYLE_MEMBER ) );
 
 		// exception test cases.
 
@@ -135,12 +137,17 @@ public class HighlightRuleHandleTest extends BaseTestCase
 					e.getErrorCode( ) );
 		}
 
+		// make the highlight rule in style2 refers to the style 3
+		style2Highlight.setStyle( style3 );
+
 		Iterator style3HighlightRules = style3.highlightRulesIterator( );
 		assertTrue( style3HighlightRules.hasNext( ) );
 
 		HighlightRuleHandle style3Highlight = (HighlightRuleHandle) style3HighlightRules
 				.next( );
 
+		// highlight rule in style 3 cannot refers to style 2 again.
+		
 		try
 		{
 			style3Highlight.setStyleName( "My Style2" ); //$NON-NLS-1$
@@ -266,18 +273,18 @@ public class HighlightRuleHandleTest extends BaseTestCase
 		values.add( "b" );//$NON-NLS-1$
 		ruleHandle.setValue1( values );
 		ruleHandle.setTestExpression( "expr" );//$NON-NLS-1$
-		
+
 		HighlightRule rule2 = StructureFactory.createHighlightRule( );
-		
-		rule2.setProperty( StyleRule.VALUE1_MEMBER , "C" );//$NON-NLS-1$
-		
+
+		rule2.setProperty( StyleRule.VALUE1_MEMBER, "C" );//$NON-NLS-1$
+
 		List values2 = new ArrayList( );
 		values2.add( "a" );//$NON-NLS-1$
 		values2.add( "b" );//$NON-NLS-1$
 		rule2.setValue1( values );
 		rule2.setTestExpression( "expr2" );//$NON-NLS-1$
 		rule2.setOperator( DesignChoiceConstants.MAP_OPERATOR_IN );
-		
+
 		propHandle.addItem( rule2 );
 	}
 }
