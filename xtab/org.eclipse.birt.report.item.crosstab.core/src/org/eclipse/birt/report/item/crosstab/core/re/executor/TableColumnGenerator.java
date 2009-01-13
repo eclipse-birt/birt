@@ -57,6 +57,10 @@ public class TableColumnGenerator implements ICrosstabConstants
 	private boolean[] hasTotalBefore, hasTotalAfter;
 	private int[] firstTotalMeasureIndex, lastTotalMeasureIndex;
 
+	private int[] columnLevelPageBreakIntervals;
+	private long[] lastColumnLevelState;
+	private long[] checkedColumnLevelState;
+
 	private int lastMeasureIndex;
 	private int firstGrandTotalMeasureIndex;
 
@@ -75,6 +79,10 @@ public class TableColumnGenerator implements ICrosstabConstants
 		// this.resultSet = resultSet;
 
 		this.repeatRowHeader = crosstabItem.isRepeatRowHeader( );
+
+		this.columnLevelPageBreakIntervals = GroupUtil.getLevelPageBreakIntervals( crosstabItem,
+				columnGroups,
+				COLUMN_AXIS_TYPE );
 
 		this.columnCursor = columnCursor;
 		this.columnGroups = columnGroups;
@@ -458,6 +466,11 @@ public class TableColumnGenerator implements ICrosstabConstants
 					}
 				}
 			}
+
+			if ( columnLevelPageBreakIntervals != null )
+			{
+				processLevelPageBreakIntervals( col );
+			}
 		}
 		else if ( event.type == ColumnEvent.COLUMN_EDGE_CHANGE )
 		{
@@ -544,6 +557,11 @@ public class TableColumnGenerator implements ICrosstabConstants
 					}
 				}
 			}
+
+			if ( columnLevelPageBreakIntervals != null )
+			{
+				processLevelPageBreakIntervals( col );
+			}
 		}
 		else if ( event.type == ColumnEvent.GRAND_TOTAL_CHANGE )
 		{
@@ -562,5 +580,70 @@ public class TableColumnGenerator implements ICrosstabConstants
 				}
 			}
 		}
+	}
+
+	private void processLevelPageBreakIntervals( IColumn col )
+			throws OLAPException
+	{
+		// TODO merge the same code base in BaseCrosstabExecutor
+
+		if ( lastColumnLevelState == null )
+		{
+			// this is the first access, store the initial state only
+			lastColumnLevelState = GroupUtil.getLevelCursorState( columnCursor );
+
+			// need use diffrernt state instance for checked state and last
+			// state, must not use
+			// "checkedColumnLevelState = lastColumnLevelState;"
+			checkedColumnLevelState = GroupUtil.getLevelCursorState( columnCursor );
+			return;
+		}
+
+		long[] currentColumnLevelState = GroupUtil.getLevelCursorState( columnCursor );
+
+		for ( int i = 0; i < columnLevelPageBreakIntervals.length; i++ )
+		{
+			if ( columnLevelPageBreakIntervals[i] > 0 )
+			{
+				long currentPos = currentColumnLevelState[i];
+				long lastPos = lastColumnLevelState[i];
+
+				if ( currentPos == lastPos )
+				{
+					continue;
+				}
+
+				// TODO check dummy group?
+
+				long lastCheckedPos = checkedColumnLevelState[i];
+
+				if ( currentPos - lastCheckedPos >= columnLevelPageBreakIntervals[i] )
+				{
+					// if step length larger than interval setting, then
+					// break
+					col.getStyle( )
+							.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+									IStyle.ALWAYS_VALUE );
+
+					// after break, need reset checked level state to
+					// current state
+					System.arraycopy( currentColumnLevelState,
+							0,
+							checkedColumnLevelState,
+							0,
+							currentColumnLevelState.length );
+				}
+
+				// also revalidate subsequent checked level state since
+				// parent level position change will reset all sub level
+				// positions
+				for ( int j = i + 1; j < columnLevelPageBreakIntervals.length; j++ )
+				{
+					checkedColumnLevelState[j] = 0;
+				}
+			}
+		}
+
+		lastColumnLevelState = currentColumnLevelState;
 	}
 }

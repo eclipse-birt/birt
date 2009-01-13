@@ -29,10 +29,9 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
 /**
  * LevelViewHandle.
  */
-public class LevelViewHandle extends AbstractCrosstabItemHandle
-		implements
-			ILevelViewConstants,
-			ICrosstabConstants
+public class LevelViewHandle extends AbstractCrosstabItemHandle implements
+		ILevelViewConstants,
+		ICrosstabConstants
 {
 
 	/**
@@ -163,6 +162,16 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 	}
 
 	/**
+	 * Gets page break interval property value of this level.
+	 * 
+	 * @return page break interval property value of this level
+	 */
+	public int getPageBreakInterval( )
+	{
+		return handle.getIntProperty( PAGE_BREAK_INTERVAL_PROP );
+	}
+
+	/**
 	 * Sets page break before property value of this level
 	 * 
 	 * @param value
@@ -185,6 +194,18 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 	public void setPageBreakAfter( String value ) throws SemanticException
 	{
 		handle.setStringProperty( PAGE_BREAK_AFTER_PROP, value );
+	}
+
+	/**
+	 * Sets page break interval property value of this level.
+	 * 
+	 * @param value
+	 *            the page break interval to set
+	 * @throws SemanticException
+	 */
+	public void setPageBreakInterval( int value ) throws SemanticException
+	{
+		handle.setIntProperty( PAGE_BREAK_INTERVAL_PROP, value );
 	}
 
 	/**
@@ -250,10 +271,9 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 	public CrosstabCellHandle getCell( )
 	{
 		PropertyHandle propHandle = getMemberProperty( );
-		return propHandle.getContentCount( ) == 0
-				? null
-				: (CrosstabCellHandle) CrosstabUtil.getReportItem( propHandle
-						.getContent( 0 ), CROSSTAB_CELL_EXTENSION_NAME );
+		return propHandle.getContentCount( ) == 0 ? null
+				: (CrosstabCellHandle) CrosstabUtil.getReportItem( propHandle.getContent( 0 ),
+						CROSSTAB_CELL_EXTENSION_NAME );
 	}
 
 	/**
@@ -264,10 +284,9 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 	public CrosstabCellHandle getAggregationHeader( )
 	{
 		PropertyHandle propHandle = getAggregationHeaderProperty( );
-		return propHandle.getContentCount( ) == 0
-				? null
-				: (CrosstabCellHandle) CrosstabUtil.getReportItem( propHandle
-						.getContent( 0 ), CROSSTAB_CELL_EXTENSION_NAME );
+		return propHandle.getContentCount( ) == 0 ? null
+				: (CrosstabCellHandle) CrosstabUtil.getReportItem( propHandle.getContent( 0 ),
+						CROSSTAB_CELL_EXTENSION_NAME );
 	}
 
 	/**
@@ -289,15 +308,12 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 		// can not add aggregation if this level is innermost
 		if ( isInnerMost( ) )
 		{
-			logger
-					.log(
-							Level.WARNING,
-							"This level: [" + handle.getName( ) + "] can not add aggregation for it is innermost" ); //$NON-NLS-1$//$NON-NLS-2$
+			logger.log( Level.WARNING,
+					"This level: [" + handle.getName( ) + "] can not add aggregation for it is innermost" ); //$NON-NLS-1$//$NON-NLS-2$
 			return;
 		}
 
-		getAggregationHeaderProperty( ).add(
-				CrosstabExtendedItemFactory.createCrosstabCell( moduleHandle ) );
+		getAggregationHeaderProperty( ).add( CrosstabExtendedItemFactory.createCrosstabCell( moduleHandle ) );
 	}
 
 	/**
@@ -328,8 +344,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 	public CrosstabCellHandle addSubTotal( List measureList, List functionList )
 			throws SemanticException
 	{
-		return new LevelViewTask( this )
-				.addSubTotal( measureList, functionList );
+		return new LevelViewTask( this ).addSubTotal( measureList, functionList );
 	}
 
 	/**
@@ -382,11 +397,9 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 		// one in crosstab view
 		if ( dimensionView != null )
 		{
-			CrosstabViewHandle container = (CrosstabViewHandle) dimensionView
-					.getContainer( );
+			CrosstabViewHandle container = (CrosstabViewHandle) dimensionView.getContainer( );
 			if ( container != null
-					&& dimensionView.getIndex( ) == container
-							.getDimensionCount( ) - 1
+					&& dimensionView.getIndex( ) == container.getDimensionCount( ) - 1
 					&& getIndex( ) == dimensionView.getLevelCount( ) - 1 )
 				return true;
 		}
@@ -405,11 +418,10 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 	 */
 	public int getAxisType( )
 	{
-		DimensionViewHandle dimensionView = (DimensionViewHandle) CrosstabUtil
-				.getReportItem( handle.getContainer( ),
-						DIMENSION_VIEW_EXTENSION_NAME );
-		return dimensionView == null ? NO_AXIS_TYPE : dimensionView
-				.getAxisType( );
+		DimensionViewHandle dimensionView = (DimensionViewHandle) CrosstabUtil.getReportItem( handle.getContainer( ),
+				DIMENSION_VIEW_EXTENSION_NAME );
+		return dimensionView == null ? NO_AXIS_TYPE
+				: dimensionView.getAxisType( );
 
 	}
 
@@ -427,7 +439,8 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Gets the measure view list that define aggregations for the given level
-	 * view. Each item in the list is instance of <code>MeasureViewHandle</code>.
+	 * view. Each item in the list is instance of <code>MeasureViewHandle</code>
+	 * .
 	 * 
 	 * @param levelView
 	 * @return
@@ -449,7 +462,6 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 	public void setAggregationFunction( MeasureViewHandle measureView,
 			String function ) throws SemanticException
 	{
-		new LevelViewTask( this )
-				.setAggregationFunction( measureView, function );
+		new LevelViewTask( this ).setAggregationFunction( measureView, function );
 	}
 }

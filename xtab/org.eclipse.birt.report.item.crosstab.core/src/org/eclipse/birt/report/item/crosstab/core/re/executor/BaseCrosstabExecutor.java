@@ -18,13 +18,13 @@ import java.util.logging.Logger;
 
 import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
-import javax.olap.cursor.DimensionCursor;
 import javax.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
@@ -59,11 +59,15 @@ public abstract class BaseCrosstabExecutor implements
 	protected IColumnWalker walker;
 
 	private IContent content;
+	private long[][] lastRowLevelState;
+	private long[][] checkedRowLevelState;
+
 	protected ICubeResultSet cubeRset;
 	protected CubeCursor cubeCursor;
 
 	protected Map styleCache;
 	protected List rowGroups, columnGroups;
+	protected int[] rowLevelPageBreakIntervals;
 
 	private Object modelHandle;
 	private IReportItemExecutor parentExecutor;
@@ -71,6 +75,8 @@ public abstract class BaseCrosstabExecutor implements
 	protected BaseCrosstabExecutor( )
 	{
 		this.rowCounter = new int[1];
+		this.lastRowLevelState = new long[1][];
+		this.checkedRowLevelState = new long[1][];
 	}
 
 	protected BaseCrosstabExecutor( IExecutorContext context,
@@ -92,6 +98,10 @@ public abstract class BaseCrosstabExecutor implements
 		this.columnGroups = parent.columnGroups;
 		this.rowGroups = parent.rowGroups;
 		this.styleCache = parent.styleCache;
+
+		this.rowLevelPageBreakIntervals = parent.rowLevelPageBreakIntervals;
+		this.lastRowLevelState = parent.lastRowLevelState;
+		this.checkedRowLevelState = parent.checkedRowLevelState;
 	}
 
 	protected void executeQuery( AbstractCrosstabItemHandle handle )
@@ -203,6 +213,87 @@ public abstract class BaseCrosstabExecutor implements
 						e );
 			}
 		}
+	}
+
+	protected void processRowLevelPageBreak( IRowContent rowContent )
+	{
+		if ( rowContent == null || rowLevelPageBreakIntervals == null )
+		{
+			// if invalid content or no effective row level page break interval
+			// setting, just return
+			return;
+		}
+
+		try
+		{
+			if ( lastRowLevelState[0] == null )
+			{
+				// this is the first access, store the initial state only
+				lastRowLevelState[0] = getRowLevelCursorState( );
+
+				// need use diffrernt state instance for checked state and last
+				// state, must not use
+				// "checkedRowLevelState = lastRowLevelState;"
+				checkedRowLevelState[0] = getRowLevelCursorState( );
+				return;
+			}
+
+			long[] currentRowLevelState = getRowLevelCursorState( );
+
+			for ( int i = 0; i < rowLevelPageBreakIntervals.length; i++ )
+			{
+				if ( rowLevelPageBreakIntervals[i] > 0 )
+				{
+					long currentPos = currentRowLevelState[i];
+					long lastPos = lastRowLevelState[0][i];
+
+					if ( currentPos == lastPos )
+					{
+						continue;
+					}
+
+					// TODO check dummy group?
+
+					long lastCheckedPos = checkedRowLevelState[0][i];
+
+					if ( currentPos - lastCheckedPos >= rowLevelPageBreakIntervals[i] )
+					{
+						// if step length larger than interval setting, then
+						// break
+						rowContent.getStyle( )
+								.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+										IStyle.ALWAYS_VALUE );
+
+						// after break, need reset checked level state to
+						// current state
+						System.arraycopy( currentRowLevelState,
+								0,
+								checkedRowLevelState[0],
+								0,
+								currentRowLevelState.length );
+					}
+
+					// also revalidate subsequent checked level state since
+					// parent level position change will reset all sub level
+					// positions
+					for ( int j = i + 1; j < rowLevelPageBreakIntervals.length; j++ )
+					{
+						checkedRowLevelState[0][j] = 0;
+					}
+				}
+			}
+
+			lastRowLevelState[0] = currentRowLevelState;
+		}
+		catch ( OLAPException e )
+		{
+			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
+		}
+	}
+
+	private long[] getRowLevelCursorState( ) throws OLAPException
+	{
+		return GroupUtil.getLevelCursorState( getRowEdgeCursor( ) );
 	}
 
 	protected CrosstabCellHandle findHeaderRowCell( int dimIndex, int levelIndex )

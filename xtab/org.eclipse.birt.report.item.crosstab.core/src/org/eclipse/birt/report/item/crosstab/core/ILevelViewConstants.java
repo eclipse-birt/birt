@@ -54,6 +54,11 @@ public interface ILevelViewConstants
 	 * Name of the property that defines the page break status.
 	 */
 	String PAGE_BREAK_AFTER_PROP = "pageBreakAfter"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the property that defines the page break interval.
+	 */
+	String PAGE_BREAK_INTERVAL_PROP = "pageBreakInterval"; //$NON-NLS-1$
 
 	/**
 	 * Name of the property that indicates whether aggregation header should be

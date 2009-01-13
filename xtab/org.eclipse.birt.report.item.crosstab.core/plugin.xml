@@ -412,6 +412,13 @@
                name="aggregationHeader"
                visibility="hide">
          </propertyVisibility>
+         <property
+               canInherit="false"
+               displayNameID="Element.PageBreakInterval"
+               isEncryptable="false"
+               name="pageBreakInterval"
+               type="integer">
+         </property>
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"

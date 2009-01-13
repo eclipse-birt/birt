@@ -67,6 +67,8 @@ public class CrosstabSubTotalRowExecutor extends BaseRowExecutor
 				levelIndex,
 				rowIndex ) );
 
+		processRowLevelPageBreak( content );
+
 		prepareChildren( );
 
 		return content;
