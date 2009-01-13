@@ -36,6 +36,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.Resource.IOWrappedException;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 
@@ -398,7 +399,19 @@ public class SerializerImpl implements Serializer
 		{
 			options.put( XMLResource.OPTION_DECLARE_XML, Boolean.FALSE );
 		}
-		rChart.load( byais, options );
+		try
+		{
+			rChart.load( byais, options );
+		}
+		catch ( IOWrappedException e )
+		{
+			if ( rChart.getContents( ) == null
+					|| rChart.getContents( ).isEmpty( ) )
+			{
+				throw e;
+			}
+		}
+
 		return (Chart) rChart.getContents( ).get( 0 );
 	}
 
