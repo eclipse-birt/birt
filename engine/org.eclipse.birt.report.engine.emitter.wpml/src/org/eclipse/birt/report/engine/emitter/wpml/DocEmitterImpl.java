@@ -151,7 +151,6 @@ public class DocEmitterImpl extends AbstractEmitterImpl
 			// the inline state needs be recalculated in the HTML foreign.
 			context.endInline( );
 
-			writeToc( foreign );
 			HTML2Content.html2Content( foreign );
 
 			context.startCell( );
@@ -166,7 +165,7 @@ public class DocEmitterImpl extends AbstractEmitterImpl
 			wordWriter.startTableRow( -1 );
 			wordWriter.startTableCell( context.getCurrentWidth( ), foreign
 					.getComputedStyle( ), null );
-
+			writeToc( foreign );
 			contentVisitor.visitChildren( foreign, null );
 
 			adjustInline( );

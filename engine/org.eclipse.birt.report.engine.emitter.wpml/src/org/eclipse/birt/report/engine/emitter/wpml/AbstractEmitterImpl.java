@@ -152,6 +152,8 @@ public abstract class AbstractEmitterImpl
 
 	private int tocLevel = 1;
 
+	private List<TocInfo> tableTocs = new ArrayList<TocInfo>( );
+
 	private IReportRunnable reportRunnable;
 
 	private IHTMLActionHandler actionHandler;
@@ -310,7 +312,11 @@ public abstract class AbstractEmitterImpl
 
 		styles.push( list.getComputedStyle( ) );
 		writeBookmark( list );
-		writeToc( list );
+		Object listToc = list.getTOC( );
+		if ( listToc != null )
+		{
+			tableTocs.add( new TocInfo( listToc.toString( ), tocLevel ) );
+		}
 		increaseTOCLevel( list );
 
 		if ( context.isLastTable( ) )
@@ -328,13 +334,13 @@ public abstract class AbstractEmitterImpl
 		wordWriter.startTableRow( -1 );
 
 		IStyle style = computeStyle( listBand.getComputedStyle( ) );
-
 		wordWriter.startTableCell( context.getCurrentWidth( ), style, null );
+		writeTableToc( );
 	}
 
 	public void startListGroup( IListGroupContent group )
 	{
-		writeGroupToc( group );
+		setGroupToc( group );
 	}
 
 	public void startRow( IRowContent row )
@@ -364,7 +370,7 @@ public abstract class AbstractEmitterImpl
 
 	public void startGroup( IGroupContent group )
 	{
-		writeGroupToc( group );
+		setGroupToc( group );
 	}
 
 	public void startCell( ICellContent cell )
@@ -400,6 +406,7 @@ public abstract class AbstractEmitterImpl
 		}
 		wordWriter.startTableCell( cellWidth, style, info );
 		context.addWidth( getCellWidth( cellWidth, style ) );
+		writeTableToc( );
 	}
 
 	public void startTable( ITableContent table )
@@ -408,10 +415,14 @@ public abstract class AbstractEmitterImpl
 		styles.push( table.getComputedStyle( ) );
 
 		writeBookmark( table );
-		writeToc( table );
+		Object tableToc = table.getTOC( );
+		if ( tableToc != null )
+		{
+			tableTocs.add( new TocInfo( tableToc.toString( ), tocLevel ) );
+		}
 		increaseTOCLevel( table );
-		String caption = table.getCaption( );
 
+		String caption = table.getCaption( );
 		if ( caption != null )
 		{
 			wordWriter.writeCaption( caption );
@@ -438,10 +449,10 @@ public abstract class AbstractEmitterImpl
 
 	public void startTableGroup( ITableGroupContent group )
 	{
-		writeGroupToc( group );
+		setGroupToc( group );
 	}
 
-	private void writeGroupToc( IGroupContent group )
+	private void setGroupToc( IGroupContent group )
 	{
 		if ( group != null )
 		{
@@ -449,9 +460,29 @@ public abstract class AbstractEmitterImpl
 			if ( !groupIdList.contains( groupId ) )
 			{
 				groupIdList.add( groupId );
-				writeToc( group );
+				Object groupToc = group.getTOC( );
+				if ( groupToc != null )
+				{
+					tableTocs
+							.add( new TocInfo( groupToc.toString( ), tocLevel ) );
+				}
 			}
 			increaseTOCLevel( group );
+		}
+	}
+
+	private void writeTableToc( )
+	{
+		if ( !tableTocs.isEmpty( ) )
+		{
+			for ( TocInfo toc : tableTocs )
+			{
+				if ( !"".equals( toc.tocValue ) )
+				{
+					wordWriter.writeTOC( toc.tocValue, toc.tocLevel );
+				}
+			}
+			tableTocs.clear( );
 		}
 	}
 
@@ -1005,5 +1036,18 @@ public abstract class AbstractEmitterImpl
 			}
 		}
 		return tblColumns;
+	}
+
+	class TocInfo
+	{
+
+		String tocValue;
+		int tocLevel;
+
+		TocInfo( String tocValue, int tocLevel )
+		{
+			this.tocValue = tocValue;
+			this.tocLevel = tocLevel;
+		}
 	}
 }
