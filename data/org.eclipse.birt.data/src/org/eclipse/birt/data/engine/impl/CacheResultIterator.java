@@ -59,6 +59,8 @@ public class CacheResultIterator implements IResultIterator
 	private int currRowIndex;
 	private static Logger logger = Logger.getLogger( CacheResultIterator.class.getName( ) );
 
+	private int lastRowIndex = -1;
+	
 	/**
 	 * 
 	 * @param context
@@ -77,6 +79,7 @@ public class CacheResultIterator implements IResultIterator
 
 		this.columnValueMap = new HashMap( );
 		this.currRowIndex = -1;
+		this.lastRowIndex = this.currRowIndex - 1;
 		this.queryResults = queryResults;
 		try
 		{
@@ -333,6 +336,11 @@ public class CacheResultIterator implements IResultIterator
 	 */
 	public Object getValue( String name ) throws BirtException
 	{
+		if( isBeforeFirst( ) )
+		{
+			this.next( );
+			this.lastRowIndex = this.currRowIndex;
+		}
 		return columnValueMap.get( name );
 	}
 
@@ -376,11 +384,16 @@ public class CacheResultIterator implements IResultIterator
 		checkStarted( );
 		if( this.columnValueMap == null )
 			return false;
-		
-		currRowIndex++;
-		
-		readCurrentRow( );
-		
+	
+		if( lastRowIndex < currRowIndex)
+		{
+			currRowIndex++;
+			readCurrentRow( );
+		}
+		else
+		{
+			lastRowIndex = currRowIndex -1;
+		}
 		return this.columnValueMap != null && this.columnValueMap.size( ) > 0;
 	}
 
