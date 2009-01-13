@@ -65,9 +65,7 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler
 	 * implement __execute method
 	 */
 	protected void __execute( ) throws Exception
-	{
-		boolean isDocumentRtl = false;
-		
+	{	
 		// get attribute bean
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
 		assert attrBean != null;
@@ -111,9 +109,6 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler
 			getReportService( ).renderReport( docName,
 					attrBean.getReportPage( ), attrBean.getReportPageRange( ),
 					options, out );
-			
-			Boolean docPropertyRtl = (Boolean)options.getOption( IBirtConstants.DOC_PROPERTY_RTL ); 
-			isDocumentRtl = docPropertyRtl!=null?docPropertyRtl.booleanValue( ):false;		
 		}
 		else
 		{
@@ -136,19 +131,12 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler
 			getReportService( ).runAndRenderReport( reportDesignHandle,
 					docName, options, parameterMap, out, new ArrayList( ),
 					displayTexts );
-			
-			IReportRunnable r = (IReportRunnable)reportDesignHandle.getDesignObject( );
-			if ( r.getDesignHandle( ) instanceof ReportDesignHandle )
-			{
-				ReportDesignHandle handle = (ReportDesignHandle)r.getDesignHandle( );
-				isDocumentRtl = DesignChoiceConstants.BIDI_DIRECTION_RTL.equalsIgnoreCase( handle.getBidiOrientation( ) ); //$NON-NLS-1$
-			}
 		}
 
 		Page pageObj = new Page( );
 		pageObj.setPageNumber( "1" ); //$NON-NLS-1$
 		pageObj.setTotalPage( "1" ); //$NON-NLS-1$
-		pageObj.setRtl( Boolean.valueOf( isDocumentRtl ) );
+		pageObj.setRtl( attrBean.isReportRtl( ) );
 		Data pageData = new Data( );
 		pageData.setPage( pageObj );
 		

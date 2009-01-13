@@ -29,15 +29,19 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 	__beh_toc_closure : null,
 	__beh_getPage_closure : null,
 	__beh_changeParameter_closure : null,
-	__rtl : false,
+	__rtl : null,
 		
 	__cb_bind : function( data )
 	{
-		this.__rtl = false;
-		var oRtlElement = data.getElementsByTagName( 'rtl' );
-		if ( oRtlElement && oRtlElement[0] )
+		// set rtl only the first time
+		if ( this.__rtl == null )
 		{
-			this.__rtl = ( "true" == oRtlElement[0].firstChild.data );
+			this.__rtl = false;
+			var oRtlElement = data.getElementsByTagName( 'rtl' );
+			if ( oRtlElement && oRtlElement[0] && oRtlElement[0].firstChild )
+			{
+				this.__rtl = ( "true" == oRtlElement[0].firstChild.data );
+			}
 		}
 		
 		var documentViewElement = $("documentView");

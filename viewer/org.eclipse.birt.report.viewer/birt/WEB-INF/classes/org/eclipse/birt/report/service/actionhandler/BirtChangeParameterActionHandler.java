@@ -62,15 +62,15 @@ public class BirtChangeParameterActionHandler
 			boolean useBookmark, String bookmark )
 			throws ReportServiceException, RemoteException
 	{
+		// get attribute bean
+		ViewerAttributeBean attrBean = (ViewerAttributeBean) context
+				.getBean( );
+		assert attrBean != null;
 		ArrayList activeIds = new ArrayList( );
 		
 		ByteArrayOutputStream page = null;
 		if ( ParameterAccessor.isGetReportlet( context.getRequest( ) ) )
 		{
-			// get attribute bean
-			ViewerAttributeBean attrBean = (ViewerAttributeBean) context
-					.getBean( );
-			assert attrBean != null;
 
 			// render reportlet
 			String __reportletId = attrBean.getReportletId( );
@@ -82,9 +82,6 @@ public class BirtChangeParameterActionHandler
 			page = getReportService( ).getPage( docName,
 					pageNumber + "", options, activeIds ); //$NON-NLS-1$
 		}
-		
-		Boolean docPropertyRtl = (Boolean)options.getOption( IBirtConstants.DOC_PROPERTY_RTL ); 
-		boolean isDocumentRtl = docPropertyRtl!=null?docPropertyRtl.booleanValue( ):false;		
 
 		// Update instruction for document.
 		UpdateContent content = new UpdateContent( );
@@ -106,7 +103,7 @@ public class BirtChangeParameterActionHandler
 		pageObj.setPageNumber( String.valueOf( pageNumber ) );
 		pageObj.setTotalPage( String.valueOf( getReportService( ).getPageCount(
 				docName, options, new OutputOptions( ) ) ) );
-		pageObj.setRtl( Boolean.valueOf( isDocumentRtl ) );		
+		pageObj.setRtl( attrBean.isReportRtl( ) );
 		Data pageData = new Data( );
 		pageData.setPage( pageObj );
 		updateData.setData( pageData );

@@ -189,7 +189,7 @@ public class Page  implements java.io.Serializable {
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Rtl"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
         elemField.setMinOccurs(0);
-        elemField.setNillable(false);
+        elemField.setNillable(true);
         typeDesc.addFieldDesc(elemField);
     }
 
