@@ -53,6 +53,30 @@ public class QueryCacheTest extends APITestCase
 		
 	}
 	
+	public void testBasicCache1( ) throws Exception
+	{
+		QueryDefinition query = new QueryDefinition();
+		query.setDataSetName( this.dataSet.getName( ) );
+		query.setAutoBinding( true );
+		query.setCacheQueryResults( true );
+		IQueryResults queryResults = this.dataEngine.prepare( query ).execute( null );
+		String id = queryResults.getID( );
+		IResultIterator it = queryResults.getResultIterator( );
+		it.close( );
+		IQueryResults result = this.dataEngine.getQueryResults( id );
+		it = result.getResultIterator( );
+		assertEquals( it.getValue( "CITY" ), "Beijing" );
+		assertEquals( it.getValue( "AMOUNT" ), 7000 );
+
+		it.next( );
+		assertEquals( it.getValue( "CITY" ), "Beijing" );
+		assertEquals( it.getValue( "AMOUNT" ), 7000 );
+
+		it.next( );
+		assertEquals( it.getValue( "CITY" ), "New York" );
+		assertEquals( it.getValue( "AMOUNT" ), 100 );	
+	}
+	
 	public void testCacheEmptyResultSet( ) throws Exception
 	{
 		QueryDefinition query = new QueryDefinition();
@@ -63,6 +87,25 @@ public class QueryCacheTest extends APITestCase
 		IQueryResults queryResults = this.dataEngine.prepare( query ).execute( null );
 		queryResults.getResultIterator( ).close( );
 	}
+	
+	public void testCacheEmptyResultSet1( ) throws Exception
+	{
+		QueryDefinition query = new QueryDefinition();
+		query.setDataSetName( this.dataSet.getName( ) );
+		query.setAutoBinding( true );
+		query.setCacheQueryResults( true );
+		query.addFilter( new FilterDefinition( new ScriptExpression("false")) );
+		IQueryResults queryResults = this.dataEngine.prepare( query ).execute( null );
+		String id = queryResults.getID( );
+		IResultIterator it = queryResults.getResultIterator( );
+		it.close( );
+		IQueryResults result = this.dataEngine.getQueryResults( id );
+		it = result.getResultIterator( );
+		assertEquals( it.getValue( "CITY" ), null );
+		assertEquals( it.getValue( "AMOUNT" ), null );
+		assertEquals( it.next( ), false );
+	}
+	
 	public void testUseDetailsCache( ) throws Exception
 	{
 		QueryDefinition query = new QueryDefinition();
