@@ -584,6 +584,8 @@ dataset.warning.invalidReponseStatus=Ungültige Designantwort von der benutzerdef
 
 DataSetBasePage.tooltip=Name darf nicht leer sein.
 DataSetBasePage.ScriptedDataSet.name=Geskripteter Datensatz
+DataSetBasePage.ScriptedDataSource.name=Geskriptete Datenquelle
+DataSetBasePage.Group.DataSourceSelection=Data Source Selection
 
 ###########################################################
 #JointDataSetPage properties

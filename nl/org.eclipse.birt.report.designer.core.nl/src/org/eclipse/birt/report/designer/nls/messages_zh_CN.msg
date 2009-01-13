@@ -584,6 +584,8 @@ dataset.warning.invalidReponseStatus=自定义 ODA 页面中的设计响应无效。ODA 设计会
 
 DataSetBasePage.tooltip=名称不能为空。
 DataSetBasePage.ScriptedDataSet.name=脚本化数据集
+DataSetBasePage.ScriptedDataSource.name=脚本化数据源
+DataSetBasePage.Group.DataSourceSelection=Data Source Selection
 
 ###########################################################
 #JointDataSetPage properties

@@ -584,6 +584,8 @@ dataset.warning.invalidReponseStatus=Respuesta de diseño no válida en la página 
 
 DataSetBasePage.tooltip=El nombre no puede estar vacío.
 DataSetBasePage.ScriptedDataSet.name=Conjunto de datos de script
+DataSetBasePage.ScriptedDataSource.name=Fuente de datos de script
+DataSetBasePage.Group.DataSourceSelection=Data Source Selection
 
 ###########################################################
 #JointDataSetPage properties

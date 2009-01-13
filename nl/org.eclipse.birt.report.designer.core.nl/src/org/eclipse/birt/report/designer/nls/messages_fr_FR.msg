@@ -584,6 +584,8 @@ dataset.warning.invalidReponseStatus=Réponse de conception de la page ODA person
 
 DataSetBasePage.tooltip=Le nom doit être renseigné.
 DataSetBasePage.ScriptedDataSet.name=Jeu de données nécessitant un script
+DataSetBasePage.ScriptedDataSource.name=Source de données nécessitant un script
+DataSetBasePage.Group.DataSourceSelection=Data Source Selection
 
 ###########################################################
 #JointDataSetPage properties

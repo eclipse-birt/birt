@@ -584,6 +584,8 @@ dataset.warning.invalidReponseStatus=사용자 지정 ODA 페이지의 디자인 응답이 잘못
 
 DataSetBasePage.tooltip=이름은 비어 있으면 안 됩니다.
 DataSetBasePage.ScriptedDataSet.name=스크립트된 데이터 집합
+DataSetBasePage.ScriptedDataSource.name=스크립트된 데이터 원본
+DataSetBasePage.Group.DataSourceSelection=Data Source Selection
 
 ###########################################################
 #JointDataSetPage properties

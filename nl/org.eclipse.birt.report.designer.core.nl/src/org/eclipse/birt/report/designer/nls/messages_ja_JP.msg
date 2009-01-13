@@ -584,6 +584,8 @@ dataset.warning.invalidReponseStatus=カスタム ODA ページからのデザインの応答が無
 
 DataSetBasePage.tooltip=名前は空白にできません。
 DataSetBasePage.ScriptedDataSet.name=スクリプトデータセット
+DataSetBasePage.ScriptedDataSource.name=スクリプト記述済みのデータソース
+DataSetBasePage.Group.DataSourceSelection=Data Source Selection
 
 ###########################################################
 #JointDataSetPage properties
