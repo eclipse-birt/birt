@@ -1014,8 +1014,6 @@ public class ReportEngineService
 		renderOption.setEmitterID( emitterId );
 		renderOption.setOption( IHTMLRenderOption.MASTER_PAGE_CONTENT, Boolean
 				.valueOf( masterPage ) );
-		renderOption.setOption( IHTMLRenderOption.HTML_RTL_FLAG, Boolean
-				.valueOf( rtl ) );
 		renderOption.setActionHandler( handler );
 
 		if ( reportTitle != null )
@@ -1591,8 +1589,6 @@ public class ReportEngineService
 				( (IHTMLRenderOption) renderOption )
 						.setEmbeddable( isEmbeddable );
 
-			renderOption.setOption( IHTMLRenderOption.HTML_RTL_FLAG,
-					new Boolean( rtl ) );
 			renderOption.setOption( IHTMLRenderOption.INSTANCE_ID_LIST,
 					activeIds );
 			renderOption.setOption( IHTMLRenderOption.MASTER_PAGE_CONTENT,

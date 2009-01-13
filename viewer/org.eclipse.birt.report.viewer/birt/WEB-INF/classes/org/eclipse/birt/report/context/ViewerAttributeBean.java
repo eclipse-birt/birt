@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
@@ -101,6 +102,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 */
 	private List locParams;
 
+	private Boolean reportRtl;
+	
 	/**
 	 * Constructor.
 	 * 
@@ -230,6 +233,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			throw new ViewerException(
 					ResourceConstants.GENERAL_EXCEPTION_NO_REPORT_DESIGN );
 
+		this.reportRtl = null;
+		
 		// Initialize report parameters.
 		__initParameters( request );
 	}
@@ -1187,5 +1192,34 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	{
 		return defaultValues;
 	}
+	
+	/**
+	 * Returns whether the current report has RTL orientation.
+	 * 
+	 * @return false for LTR, true for RTL
+	 */
+	public boolean isReportRtl( )
+	{
+		if ( reportRtl == null )
+		{
+			IReportRunnable r;
+			try
+			{
+				r = (IReportRunnable) reportDesignHandle.getDesignObject( );
+			}
+			catch ( ReportServiceException e )
+			{
+				return false;
+			}
+			if ( r.getDesignHandle( ) instanceof ReportDesignHandle )
+			{
+				ReportDesignHandle handle = (ReportDesignHandle) r
+						.getDesignHandle( );
+				reportRtl = DesignChoiceConstants.BIDI_DIRECTION_RTL
+						.equalsIgnoreCase( handle.getBidiOrientation( ) ); //$NON-NLS-1$
+			}
+		}
 
+		return ( reportRtl != null ) ? reportRtl.booleanValue( ) : false;
+	}
 }

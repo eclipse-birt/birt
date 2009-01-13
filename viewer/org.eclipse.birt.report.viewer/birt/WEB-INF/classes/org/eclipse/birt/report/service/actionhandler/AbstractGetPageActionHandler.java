@@ -47,7 +47,7 @@ public abstract class AbstractGetPageActionHandler
 			AbstractBaseActionHandler
 {
 
-	protected BaseAttributeBean __bean;
+	protected ViewerAttributeBean __bean;
 
 	protected String __docName;
 
@@ -63,8 +63,6 @@ public abstract class AbstractGetPageActionHandler
 
 	protected boolean __svgFlag;
 	
-	protected boolean __isDocumentRtl = false;
-
 	protected ByteArrayOutputStream __page = null;
 
 	protected ArrayList __activeIds = null;
@@ -116,7 +114,7 @@ public abstract class AbstractGetPageActionHandler
 	 */
 	protected void prepareParameters( ) throws Exception, RemoteException
 	{
-		__bean = context.getBean( );
+		__bean = (ViewerAttributeBean)context.getBean( );
 		__docName = __getReportDocument( );
 		__checkDocumentExists( );
 
@@ -240,9 +238,6 @@ public abstract class AbstractGetPageActionHandler
 			__page = getReportService( ).getPage( docName, __pageNumber + "", //$NON-NLS-1$
 					options, __activeIds );
 		}
-		
-		Boolean docPropertyRtl = (Boolean)options.getOption( IBirtConstants.DOC_PROPERTY_RTL ); 
-		__isDocumentRtl = docPropertyRtl!=null?docPropertyRtl.booleanValue( ):false;		
 	}
 
 	/**
@@ -276,7 +271,7 @@ public abstract class AbstractGetPageActionHandler
 		Page pageObj = new Page( );
 		pageObj.setPageNumber( String.valueOf( __pageNumber ) );
 		pageObj.setTotalPage( String.valueOf( __totalPageNumber ) );
-		pageObj.setRtl( Boolean.valueOf( __isDocumentRtl ) );
+		pageObj.setRtl( __bean.isReportRtl() );
 		Data pageData = new Data( );
 		pageData.setPage( pageObj );
 		updateData.setData( pageData );

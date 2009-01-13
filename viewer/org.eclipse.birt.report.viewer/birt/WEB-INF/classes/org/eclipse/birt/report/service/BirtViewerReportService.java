@@ -173,21 +173,6 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		return outputDocName;
 	}
-
-	/**
-	 * Copies document properties, like RTL, to the given input options.
-	 * This is a workaround to prevent changing method signatures and will
-	 * be removed in the future.
-	 * @param options options to which to copy the properties
-	 * @param doc document from which to read the properties
-	 */
-	private void copyProperties( InputOptions options, IReportDocument doc )
-	{
-		// return the RTL property through the InputOptions
-		// TODO: in the future provide a separate structure that returns doc properties
-		String bidiOrientation = doc.getReportDesign( ).getBidiOrientation( );			
-		options.setOption( IBirtConstants.DOC_PROPERTY_RTL, new Boolean(DesignChoiceConstants.BIDI_DIRECTION_RTL.equalsIgnoreCase(bidiOrientation)) );		
-	}
 	
 	/**
 	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getPage(java.lang.String,
@@ -261,10 +246,8 @@ public class BirtViewerReportService implements IViewerReportService
 		try
 		{
 			doc = ReportEngineService.getInstance( ).openReportDocument(
-				getReportDesignName( renderOptions ), docName,
-				getModuleOptions( renderOptions ) );
-			
-			copyProperties(renderOptions, doc);			
+					getReportDesignName( renderOptions ), docName,
+					getModuleOptions( renderOptions ) );
 		}
 		catch ( RemoteException e )
 		{
@@ -328,6 +311,7 @@ public class BirtViewerReportService implements IViewerReportService
 		{
 			doc = openReportDocument( docName, renderOptions );
 
+			
 			ReportEngineService.getInstance( ).renderReportlet( out, doc,
 					renderOptions, objectId, null );
 		}
@@ -359,7 +343,6 @@ public class BirtViewerReportService implements IViewerReportService
 
 			ReportEngineService.getInstance( ).renderReport( out, doc, pageNum,
 					pageRange, renderOptions, null );
-
 		}
 		catch ( RemoteException e )
 		{
