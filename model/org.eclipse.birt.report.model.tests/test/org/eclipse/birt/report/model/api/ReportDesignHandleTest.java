@@ -481,6 +481,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 	{
 		// get properties.
 
+		assertEquals( 0, designHandle.getImageDPI( ) );
 		assertEquals( "c:\\", designHandle.getBase( ) ); //$NON-NLS-1$
 		assertEquals(
 				getResource( INPUT_FOLDER + "ReportDesignHandleTest.xml" ).toString( ), designHandle.getFileName( ) ); //$NON-NLS-1$

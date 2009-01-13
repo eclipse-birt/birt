@@ -155,4 +155,10 @@ public interface IReportDesignModel
 	 */
 
 	public static final String ACL_EXPRESSION_PROP = IReportItemModel.ACL_EXPRESSION_PROP;
+
+	/**
+	 * Name of the property to keep image in report design display as same size
+	 * at design time as at run time.
+	 */
+	public static final String IMAGE_DPI_PROP = "imageDPI"; //$NON-NLS-1$
 }

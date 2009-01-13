@@ -21,7 +21,8 @@
     <property name="bidiLayoutOrientation">rtl</property>
 	<property name="enableACL">true</property>
 	<property name="cascadeACL">false</property>
-	<property name="ACLExpression">acl expression test</property>    
+	<property name="ACLExpression">acl expression test</property>
+	<property name="imageDPI">30</property>    
     <method name="initialize"><![CDATA[script of initialize]]></method>
     <method name="beforeFactory"><![CDATA[script of beforeFactory]]></method>
     <method name="afterFactory"><![CDATA[script of afterFactory]]></method>

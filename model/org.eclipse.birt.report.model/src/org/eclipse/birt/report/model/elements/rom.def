@@ -1603,6 +1603,7 @@
 		<Default>true</Default>
 	</Property>
 	<Property displayNameID="Element.ReportDesign.ACLExpression" name="ACLExpression" since="2.3" type="expression" />
+	<Property displayNameID="Element.ReportDesign.imageDPI" name="imageDPI" since="2.5" type="integer" validator="NonNegativeValueValidator" />
 	<Method context="startup" displayNameID="Element.ReportDesign.initialize" name="initialize" since="1.0" toolTipID="Element.ReportDesign.initialize.toolTip">
 		<Argument name="reportContext" tagID="Element.ReportDesign.initialize.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>  

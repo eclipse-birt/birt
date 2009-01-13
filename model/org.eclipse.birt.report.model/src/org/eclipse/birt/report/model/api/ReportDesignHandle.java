@@ -747,7 +747,8 @@ public class ReportDesignHandle extends ModuleHandle
 	 * 
 	 * <ul>
 	 * <li><code>DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
-	 * </code> <li><code>
+	 * </code>
+	 * <li><code>
 	 * DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT</code>
 	 * </ul>
 	 * 
@@ -763,7 +764,8 @@ public class ReportDesignHandle extends ModuleHandle
 	 * one of the following:
 	 * <ul>
 	 * <li><code>DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
-	 * </code> <li><code>
+	 * </code>
+	 * <li><code>
 	 * DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT</code>
 	 * </ul>
 	 * 
@@ -1009,7 +1011,8 @@ public class ReportDesignHandle extends ModuleHandle
 	 * Gets Bidi orientation value. The return value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
 	 * <ul>
-	 * <li><code>BIDI_DIRECTION_LTR</code> <li><code>BIDI_DIRECTION_RTL</code>
+	 * <li><code>BIDI_DIRECTION_LTR</code>
+	 * <li><code>BIDI_DIRECTION_RTL</code>
 	 * </ul>
 	 * 
 	 * @return the Bidi orientation value
@@ -1025,7 +1028,8 @@ public class ReportDesignHandle extends ModuleHandle
 	 * Sets Bidi orientation value. The input value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
 	 * <ul>
-	 * <li><code>BIDI_DIRECTION_LTR</code> <li><code>BIDI_DIRECTION_RTL</code>
+	 * <li><code>BIDI_DIRECTION_LTR</code>
+	 * <li><code>BIDI_DIRECTION_RTL</code>
 	 * </ul>
 	 * 
 	 * @param bidiOrientation
@@ -1139,6 +1143,33 @@ public class ReportDesignHandle extends ModuleHandle
 	public void setCascadeACL( boolean cascadeACL ) throws SemanticException
 	{
 		setProperty( CASCADE_ACL_PROP, Boolean.valueOf( cascadeACL ) );
+	}
+
+	/**
+	 * Gets the image DPI of the report design. This property can ensure image
+	 * in report design may be displayed as same size at design time as at run
+	 * time.
+	 * 
+	 * @return the value of image DPI.
+	 */
+	public int getImageDPI( )
+	{
+		return getIntProperty( IMAGE_DPI_PROP );
+	}
+
+	/**
+	 * Sets the image DPI of the report design. This property can ensure image
+	 * in report design may be displayed as same size at design time as at run
+	 * time.
+	 * 
+	 * @param imageDPI
+	 *            the value of image DPI.
+	 * @throws SemanticException
+	 *             if the property is locked by masks
+	 */
+	public void setImageDPI( int imageDPI ) throws SemanticException
+	{
+		setIntProperty( IMAGE_DPI_PROP, imageDPI );
 	}
 
 	/**

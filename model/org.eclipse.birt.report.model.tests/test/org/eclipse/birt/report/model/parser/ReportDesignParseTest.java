@@ -213,6 +213,7 @@ public class ReportDesignParseTest extends BaseTestCase
 		assertTrue( designHandle.isEnableACL( ) );
 		assertEquals( "acl expression test", designHandle.getACLExpression( ) ); //$NON-NLS-1$
 		assertFalse( designHandle.cascadeACL( ) );
+		assertEquals( 30, designHandle.getImageDPI( ) );
 
 		// keywords is not implemented
 		// include libraries
@@ -433,6 +434,21 @@ public class ReportDesignParseTest extends BaseTestCase
 		designHandle.setEnableACL( false );
 		designHandle.setACLExpression( "new acl expression test" ); //$NON-NLS-1$
 		designHandle.setCascadeACL( true );
+
+		// the image DPI could not be set negative value.
+		try
+		{
+			designHandle.setImageDPI( -10 );
+			fail( );
+		}
+		catch ( PropertyValueException e )
+		{
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_NEGATIVE_VALUE, e
+							.getErrorCode( ) );
+		}
+
+		designHandle.setImageDPI( 10 );
 
 		save( );
 		assertTrue( compareFile( goldenFileName ) );
