@@ -2309,6 +2309,7 @@ Element.ReportDesign.cssStyleSheets=Feuilles de style CSS
 Element.ReportDesign.enableACL=Activer ACL
 Element.ReportDesign.ACLExpression=Expression ACL
 Element.ReportDesign.cascadeACL=Cascade ACL
+Element.ReportDesign.imageDPI=Image DPI
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Nom d'affichage

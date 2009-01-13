@@ -2309,6 +2309,7 @@ Element.ReportDesign.cssStyleSheets=CSS 样式表
 Element.ReportDesign.enableACL=启用e ACL
 Element.ReportDesign.ACLExpression=ACL 表达式
 Element.ReportDesign.cascadeACL=层叠 ACL
+Element.ReportDesign.imageDPI=Image DPI
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=显示名称
