@@ -1436,6 +1436,7 @@ ExpressionBuilder.toolTipText.Button=式ビルダを開く
 
 ExpressionBuilder.Label.Category=カテゴリ :
 ExpressionBuilder.Label.Functions=ダブルクリックして挿入 :
+ExpressionBuilder.Label.Hint=Hint
 ExpressionBuilder.Label.Operators=演算子 :
 ExpressionBuilder.Label.SubCategory=サブカテゴリ :
 ExpressionBuilder.Message.Prompt=[式] フィールドに式を入力してください。使用可能なオブジェクトの一覧を参照し、式に使用する項目をダブルクリックしてコピーします。

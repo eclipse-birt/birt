@@ -1436,6 +1436,7 @@ ExpressionBuilder.toolTipText.Button=식 빌더 열기
 
 ExpressionBuilder.Label.Category=범주:
 ExpressionBuilder.Label.Functions=삽입하려면 두 번 클릭:
+ExpressionBuilder.Label.Hint=Hint
 ExpressionBuilder.Label.Operators=연산자:
 ExpressionBuilder.Label.SubCategory=하위 범주:
 ExpressionBuilder.Message.Prompt=식 필드에 식을 입력하십시오. 사용 가능한 객체 목록을 찾아보고 식으로 복사하려면 두 번 클릭하십시오.
