@@ -842,6 +842,8 @@ public class ExpressionProvider implements ISortableExpressionProvider
 							isFirst = false;
 
 							displayText.append( argInfo.getDisplayName( ) );
+							if ( argInfo.getType( ) != null )
+								displayText.append( ":" + argInfo.getType( ) );
 						}
 
 						break;
@@ -926,6 +928,9 @@ public class ExpressionProvider implements ISortableExpressionProvider
 				for ( int i = 0; i < arguments.length; i++ )
 				{
 					displayText.append( arguments[i].getName( ) );
+					if ( arguments[i].getDataTypeName( ) != null )
+						displayText.append( ":"
+								+ arguments[i].getDataTypeName( ).trim( ) );
 					if ( i < arguments.length - 1 )
 						displayText.append( ", " );//$NON-NLS-1$
 				}
