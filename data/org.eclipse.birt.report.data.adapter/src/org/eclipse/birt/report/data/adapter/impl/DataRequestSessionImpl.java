@@ -630,9 +630,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 			CubeMaterializer cubeMaterializer, Map appContext )
 			throws IOException, BirtException, DataException
 	{
-		Map<?,?> candidateAppContext = new HashMap();
-		if ( appContext!= null )
-			candidateAppContext.putAll( appContext );
+		Map<?,?> backupAppContext = new HashMap();
+		if( appContext == null )
+			appContext = new HashMap();
+		//Please note that we should always use original application context during query execution,
+		//rather than create a new one with same properties.Application Context is sometimes used as cross-query
+		//information carrier.
+		
+		backupAppContext.putAll( appContext );
 
 		Map<ReportElementHandle, IQueryDefinition> queryMap = new HashMap<ReportElementHandle, IQueryDefinition>();
 		Map<ReportElementHandle, List<ColumnMeta>> metaMap = new HashMap<ReportElementHandle, List<ColumnMeta>>();
@@ -654,7 +659,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 		IDimension[] dimensions = populateDimensions( cubeMaterializer,
 				cubeHandle,
-				candidateAppContext, 
+				appContext, 
 				queryMap, metaMap);
 		String[][] factTableKey = new String[dimensions.length][];
 		String[][] dimensionKey = new String[dimensions.length][];
@@ -734,9 +739,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 				new DataSetIterator( this,
 						queryMap.get( cubeHandle ),
 						metaMap.get( cubeHandle ),
-						candidateAppContext ),
+						appContext ),
 				this.toStringArray( measureNames ),
 				stopSign );
+		appContext.clear( );
+		appContext.putAll( backupAppContext );
+		
 	}
 
 	/**
