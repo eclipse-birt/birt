@@ -866,7 +866,9 @@ BaseDataDefinitionComponent.Text.EditFormat=编辑格式
 BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=不能选择同时在类别系列和 Y 选项上设置的一个维的表达式。
 BaseGroupSortingDialog.Label.SortOn=排序依据:
 
+MarkerIconDialog.Button.EmbeddedImage=Embedded image
 MarkerIconDialog.Title.MarkerIconSelector=标记图标选择器
+MarkerIconDialog.Label.Description.EmbeddedImage=Select embedded image as marker icon.
 MarkerIconDialog.Lbl.SelectIconFrom=选择图标自:
 MarkerIconDialog.Lbl.URL=URL
 MarkerIconDialog.Lbl.Local=本地

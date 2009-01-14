@@ -866,7 +866,9 @@ BaseDataDefinitionComponent.Text.EditFormat=Format bearbeiten
 BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=Ausdrücke einer Dimension zum Festlegen von Kategorie-Datenreihe und Y-Option können nicht gleichzeitig ausgewählt werden.
 BaseGroupSortingDialog.Label.SortOn=Sortieren nach:
 
+MarkerIconDialog.Button.EmbeddedImage=Embedded image
 MarkerIconDialog.Title.MarkerIconSelector=Auswahl für Markierungssymbol
+MarkerIconDialog.Label.Description.EmbeddedImage=Select embedded image as marker icon.
 MarkerIconDialog.Lbl.SelectIconFrom=Symbol wählen aus:
 MarkerIconDialog.Lbl.URL=URL
 MarkerIconDialog.Lbl.Local=Lokal

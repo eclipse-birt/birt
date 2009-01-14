@@ -866,7 +866,9 @@ BaseDataDefinitionComponent.Text.EditFormat=書式の編集
 BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=1 つのディメンジョンの式を選択して、カテゴリ系列と Y 軸のオプション値を同時に設定することはできません。
 BaseGroupSortingDialog.Label.SortOn=ソート :
 
+MarkerIconDialog.Button.EmbeddedImage=Embedded image
 MarkerIconDialog.Title.MarkerIconSelector=マーカのアイコンセレクタ
+MarkerIconDialog.Label.Description.EmbeddedImage=Select embedded image as marker icon.
 MarkerIconDialog.Lbl.SelectIconFrom=アイコンの選択元 :
 MarkerIconDialog.Lbl.URL=URL
 MarkerIconDialog.Lbl.Local=ローカル
