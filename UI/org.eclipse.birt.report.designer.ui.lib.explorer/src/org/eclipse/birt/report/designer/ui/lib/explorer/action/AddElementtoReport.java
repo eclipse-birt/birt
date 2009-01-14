@@ -27,6 +27,8 @@ import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelection;
@@ -139,7 +141,7 @@ public class AddElementtoReport extends Action
 				|| transfer instanceof ParameterGroupHandle
 				|| transfer instanceof CascadingParameterGroupHandle
 				|| transfer instanceof CubeHandle
-				|| transfer instanceof MasterPageHandle)
+				|| transfer instanceof MasterPageHandle )
 			return true;
 
 		if ( DNDUtil.handleValidateTargetCanContainMore( target,
@@ -241,7 +243,42 @@ public class AddElementtoReport extends Action
 		}
 		else if ( transfer != null && transfer instanceof EmbeddedImageHandle )
 		{
-			result = DNDUtil.copyHandles( transfer, target, position );
+			EmbeddedImageHandle sourceEmbeddedImageHandle;
+			if ( ( sourceEmbeddedImageHandle = (EmbeddedImageHandle) transfer ).getElementHandle( )
+					.getRoot( ) instanceof LibraryHandle )
+			{
+				LibraryHandle library = (LibraryHandle) sourceEmbeddedImageHandle.getElementHandle( )
+						.getRoot( );
+				try
+				{
+					if ( moduleHandle != library )
+					{
+						// create a new embeddedimage from other library and
+						// extend it.
+						if ( UIUtil.includeLibrary( moduleHandle, library ) )
+						{
+							EmbeddedImage image = StructureFactory.newEmbeddedImageFrom( sourceEmbeddedImageHandle,
+									moduleHandle );
+							DNDUtil.addEmbeddedImageHandle( target, image );
+							result = true;
+						}
+					}
+					else
+					{
+						result = DNDUtil.copyHandles( transfer,
+								target,
+								position );
+					}
+				}
+				catch ( Exception e )
+				{
+					ExceptionHandler.handle( e );
+				}
+			}
+			else
+			{
+				result = DNDUtil.copyHandles( transfer, target, position );
+			}
 		}
 
 		if ( result )
