@@ -23,6 +23,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.eclipse.birt.core.script.function.i18n.Messages;
+import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
 
 import com.ibm.icu.text.Collator;
@@ -386,7 +387,7 @@ public class BirtComp implements IScriptFunctionExecutor
 		 */
 		private static final long serialVersionUID = 1L;
 
-		public Object execute( Object[] args ) throws BirtException
+		public Object execute( Object[] args, IScriptFunctionContext context ) throws BirtException
 		{
 			if ( args == null || args.length < 2 )
 				throw new IllegalArgumentException( MessageFormat.format( WRONG_ARGUMENT,
@@ -446,7 +447,7 @@ public class BirtComp implements IScriptFunctionExecutor
 		}
 
 
-		public Object execute( Object[] args ) throws BirtException
+		public Object execute( Object[] args, IScriptFunctionContext context ) throws BirtException
 		{
 			if ( args == null || args.length != 3 )
 				throw new IllegalArgumentException( MessageFormat.format( WRONG_ARGUMENT,
@@ -552,7 +553,7 @@ public class BirtComp implements IScriptFunctionExecutor
 					} ) );
 		}
 
-		public Object execute( Object[] args ) throws BirtException
+		public Object execute( Object[] args, IScriptFunctionContext context  ) throws BirtException
 		{
 			try
 			{
@@ -664,9 +665,9 @@ public class BirtComp implements IScriptFunctionExecutor
 		return ( result instanceof java.sql.Date ) || ( result instanceof String );
 	}
 	
-	public Object execute( Object[] arguments ) throws BirtException
+	public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 	{
-		return this.executor.execute( arguments );
+		return this.executor.execute( arguments, context );
 	}
 
 }

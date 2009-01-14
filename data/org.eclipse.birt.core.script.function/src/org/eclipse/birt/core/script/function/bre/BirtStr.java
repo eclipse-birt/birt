@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.function.i18n.Messages;
+import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
 
 /**
@@ -103,7 +104,7 @@ class BirtStr implements IScriptFunctionExecutor
 			return left( str, 1 );
 		}
 
-		public Object execute( Object[] args ) throws BirtException
+		public Object execute( Object[] args, IScriptFunctionContext context ) throws BirtException
 		{
 			if ( args == null || args.length > 2 )
 				throw new IllegalArgumentException( "The number of arguement is incorrect." );
@@ -162,7 +163,7 @@ class BirtStr implements IScriptFunctionExecutor
 			return right( str, 1 );
 		}
 
-		public Object execute( Object[] args ) throws BirtException
+		public Object execute( Object[] args, IScriptFunctionContext context ) throws BirtException
 		{
 			if ( args == null || args.length > 2 )
 				throw new IllegalArgumentException( "The number of arguement is incorrect." );
@@ -187,7 +188,7 @@ class BirtStr implements IScriptFunctionExecutor
 		 */
 		private static final long serialVersionUID = 1L;
 
-		public Object execute( Object[] args ) throws BirtException
+		public Object execute( Object[] args ,IScriptFunctionContext context ) throws BirtException
 		{
 			if ( args == null )
 				throw new IllegalArgumentException( "The number of arguement is incorrect." );
@@ -211,7 +212,7 @@ class BirtStr implements IScriptFunctionExecutor
 		 */
 		private static final long serialVersionUID = 1L;
 
-		public Object execute( Object[] args ) throws BirtException
+		public Object execute( Object[] args ,IScriptFunctionContext context  ) throws BirtException
 		{
 			if ( args == null || args.length != 1 )
 				throw new IllegalArgumentException( "The number of arguement is incorrect." );
@@ -228,7 +229,7 @@ class BirtStr implements IScriptFunctionExecutor
 		 */
 		private static final long serialVersionUID = 1L;
 
-		public Object execute( Object[] args ) throws BirtException
+		public Object execute( Object[] args,IScriptFunctionContext context  ) throws BirtException
 		{
 			if ( args == null || args.length != 1 )
 				throw new IllegalArgumentException( "The number of arguement is incorrect." );
@@ -263,7 +264,7 @@ class BirtStr implements IScriptFunctionExecutor
 			}
 		}
 
-		public Object execute( Object[] args ) throws BirtException
+		public Object execute( Object[] args , IScriptFunctionContext context ) throws BirtException
 		{
 			if ( args == null || args.length != 1 )
 				throw new IllegalArgumentException( "The number of arguement is incorrect." );
@@ -303,7 +304,7 @@ class BirtStr implements IScriptFunctionExecutor
 			}
 		}
 
-		public Object execute( Object[] args ) throws BirtException
+		public Object execute( Object[] args,IScriptFunctionContext context  ) throws BirtException
 		{
 			if ( args == null || args.length != 1 )
 				throw new IllegalArgumentException( "The number of arguement is incorrect." );
@@ -344,7 +345,7 @@ class BirtStr implements IScriptFunctionExecutor
 			}
 		}
 
-		public Object execute( Object[] args ) throws BirtException
+		public Object execute( Object[] args,IScriptFunctionContext context  ) throws BirtException
 		{
 			if ( args == null || args.length != 1 )
 				throw new IllegalArgumentException( "The number of arguement is incorrect." );
@@ -401,7 +402,7 @@ class BirtStr implements IScriptFunctionExecutor
 			return indexOf( find_text, str, 0 );
 		}
 
-		public Object execute( Object[] args ) throws BirtException
+		public Object execute( Object[] args,IScriptFunctionContext context ) throws BirtException
 		{
 			if ( args == null || args.length > 3 || args.length < 2 )
 				throw new IllegalArgumentException( "The number of arguement is incorrect." );
@@ -478,7 +479,7 @@ class BirtStr implements IScriptFunctionExecutor
 			return search( pattern, str, 0 );
 		}
 
-		public Object execute( Object[] args ) throws BirtException
+		public Object execute( Object[] args,IScriptFunctionContext context ) throws BirtException
 		{
 			if ( args == null || args.length > 3 || args.length < 2 )
 				throw new IllegalArgumentException( "The number of arguement is incorrect." );
@@ -520,7 +521,8 @@ class BirtStr implements IScriptFunctionExecutor
 				return str.length( );
 		}
 
-		public Object execute( Object[] args ) throws BirtException
+		public Object execute( Object[] args, IScriptFunctionContext context )
+				throws BirtException
 		{
 			if ( args == null || args.length != 1 )
 				throw new IllegalArgumentException( "The number of arguement is incorrect." );
@@ -530,8 +532,8 @@ class BirtStr implements IScriptFunctionExecutor
 		}
 	}
 
-	public Object execute( Object[] arguments ) throws BirtException
+	public Object execute( Object[] arguments ,IScriptFunctionContext context ) throws BirtException
 	{
-		return this.executor.execute( arguments );
+		return this.executor.execute( arguments, context );
 	}
 }

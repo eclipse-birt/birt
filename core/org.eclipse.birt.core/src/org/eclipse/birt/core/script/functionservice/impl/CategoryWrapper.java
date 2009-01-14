@@ -15,6 +15,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.core.script.functionservice.IScriptFunction;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionCategory;
+import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
 import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -63,7 +64,15 @@ public class CategoryWrapper extends ScriptableObject
 					Object[] convertedArgs = JavascriptEvalUtil.convertToJavaObjects( args );
 					try
 					{
-					 	return function.execute( convertedArgs );
+						IScriptFunctionContext context = null;
+						Object jsObj = scope.get( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCITON_BEAN_NAME,
+								scope );
+						if ( jsObj != org.mozilla.javascript.UniqueTag.NOT_FOUND )
+						{
+							context = (IScriptFunctionContext) Context.jsToJava( jsObj,
+									IScriptFunctionContext.class );
+						}
+						return function.execute( convertedArgs, context );
 					}
 					catch ( BirtException e )
 					{

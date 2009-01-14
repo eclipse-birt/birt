@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.script.ScriptContext;
+import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
@@ -1107,6 +1109,50 @@ public abstract class QueryExecutor implements IQueryExecutor
 				.newObject( parentAndProtoScope );
 		scope.setParentScope( parentAndProtoScope );
 		scope.setPrototype( parentAndProtoScope );
+
+		if ( parentAndProtoScope.get( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCITON_BEAN_NAME,
+				parentAndProtoScope ) == org.mozilla.javascript.UniqueTag.NOT_FOUND )
+		{
+			final Map<String, Object> propertyMap = new HashMap<String, Object>( );
+			propertyMap.put( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.LOCALE,
+					session.getEngineContext( ).getLocale( ) );
+
+			IScriptFunctionContext functionContext = new IScriptFunctionContext( ) {
+
+				public Object findProperty( String name )
+				{
+					return propertyMap.get( name );
+				}
+			};
+
+			Object sObj = Context.javaToJS( functionContext, scope );
+			scope.put( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCITON_BEAN_NAME,
+					scope,
+					sObj );
+		}
+		else
+		{
+			final IScriptFunctionContext context = (IScriptFunctionContext) Context.jsToJava( parentAndProtoScope.get( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCITON_BEAN_NAME,
+					parentAndProtoScope ),
+					IScriptFunctionContext.class );
+			final Map<String, Object> propertyMap = new HashMap<String, Object>( );
+			propertyMap.put( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.LOCALE,
+					session.getEngineContext( ).getLocale( ) );
+
+			IScriptFunctionContext functionContext = new IScriptFunctionContext( ) {
+
+				public Object findProperty( String name )
+				{
+					if ( context.findProperty( name ) != null )
+						return context.findProperty( name );
+					return propertyMap.get( name );
+				}
+			};
+			Object sObj = Context.javaToJS( functionContext, scope );
+			scope.put( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCITON_BEAN_NAME,
+					scope,
+					sObj );
+		}
 		return scope;
 	}
 
