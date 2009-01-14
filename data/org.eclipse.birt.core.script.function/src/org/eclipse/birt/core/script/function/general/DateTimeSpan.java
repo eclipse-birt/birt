@@ -11,14 +11,16 @@
 
 package org.eclipse.birt.core.script.function.general;
 
-import com.ibm.icu.util.Calendar;
 import java.util.Date;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.function.i18n.Messages;
+import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
+
+import com.ibm.icu.util.Calendar;
 
 /**
  * Provides a set of functions for working with the difference between two
@@ -101,7 +103,7 @@ public class DateTimeSpan
 	private static class YearsScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 2)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "DateTimeSpan.year()");
@@ -154,7 +156,7 @@ public class DateTimeSpan
 	private static class MonthsScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 2)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "DateTimeSpan.months()");
@@ -191,7 +193,7 @@ public class DateTimeSpan
 	private static class DaysScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 2)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "DateTimeSpan.days()");
@@ -226,7 +228,7 @@ public class DateTimeSpan
 	private static class HoursScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 2)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "DateTimeSpan.hours()");
@@ -261,7 +263,7 @@ public class DateTimeSpan
 	private static class MinutesScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 2)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "DateTimeSpan.minutes()");
@@ -297,7 +299,7 @@ public class DateTimeSpan
 	private static class SecondsScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 2)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "DateTimeSpan.seconds()");
@@ -336,7 +338,7 @@ public class DateTimeSpan
 	private static class AddDateScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 4)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "DateTimeSpan.addDate()");
@@ -378,7 +380,7 @@ public class DateTimeSpan
 	private static class AddTimeScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 4)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "DateTimeSpan.addTime()");
@@ -411,7 +413,7 @@ public class DateTimeSpan
 	private static class SubDateScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 4)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "DateTimeSpan.subDate()");
@@ -443,7 +445,7 @@ public class DateTimeSpan
 	private static class SubTimeScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 4)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "DateTimeSpan.subTime()");

@@ -12,6 +12,7 @@
 package org.eclipse.birt.core.script.function.bre;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
 
 /**
@@ -22,7 +23,7 @@ abstract class Function_temp implements IScriptFunctionExecutor
 	protected int length;
 	protected boolean isFixed;
 	
-	public Object execute( Object[] args )
+	public Object execute( Object[] args, IScriptFunctionContext context  )
 	{
 		if ( args == null || ( isFixed? args.length != length: args.length > length) )
 			throw new IllegalArgumentException( "The number of arguement is incorrect." );

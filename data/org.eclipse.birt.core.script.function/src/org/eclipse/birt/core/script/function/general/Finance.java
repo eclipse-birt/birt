@@ -14,6 +14,7 @@ package org.eclipse.birt.core.script.function.general;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.function.i18n.Messages;
+import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
 
 /**
@@ -115,7 +116,7 @@ public class Finance
 	private static class DdbScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 4)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.ddb()");
@@ -146,7 +147,7 @@ public class Finance
 	private static class SlnScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 3)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.sln()");
@@ -182,7 +183,7 @@ public class Finance
 	private static class SydScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 4)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.syd()");
@@ -269,7 +270,7 @@ public class Finance
 	private static class FvScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 5)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.fv()");
@@ -336,7 +337,7 @@ public class Finance
 	private static class PmtScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 5)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.pmt()");
@@ -407,7 +408,7 @@ public class Finance
 	private static class IpmtScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 6)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.ipmt()");
@@ -477,7 +478,7 @@ public class Finance
 	private static class PpmtScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 6)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.ppmt()");
@@ -537,7 +538,7 @@ public class Finance
 	private static class NperScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 5)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.nper()");
@@ -608,7 +609,7 @@ public class Finance
 	private static class PvScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 5)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.pv()");
@@ -810,7 +811,7 @@ public class Finance
 	private static class RateScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 6)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.rate()");
@@ -849,7 +850,7 @@ public class Finance
 	private static class PercentScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || (arguments.length!= 2 && arguments.length!= 3))
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.percent()");
@@ -911,7 +912,7 @@ public class Finance
 	private static class NpvScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 2)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.npv()");
@@ -1105,7 +1106,7 @@ public class Finance
 	private static class IrrScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 2)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.irr()");
@@ -1225,7 +1226,7 @@ public class Finance
 				IScriptFunctionExecutor
 	{
 
-		public Object execute( Object[] arguments ) throws BirtException
+		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if ( arguments == null
 					|| arguments.length != 2 && arguments.length != 3 )

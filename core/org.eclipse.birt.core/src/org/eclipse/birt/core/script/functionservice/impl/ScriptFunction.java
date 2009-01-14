@@ -15,6 +15,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.functionservice.IScriptFunction;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionArgument;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionCategory;
+import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
 
 /**
@@ -106,10 +107,10 @@ public class ScriptFunction implements IScriptFunction
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor#execute(java.lang.Object[])
 	 */
-	public Object execute( Object[] arguments ) throws BirtException
+	public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 	{
 		if( this.executor!= null )
-			return this.executor.execute( arguments );
+			return this.executor.execute( arguments, context );
 		return null;
 	}
 

@@ -13,6 +13,7 @@ package org.eclipse.birt.core.script.function.bre;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.MathUtil;
 import org.eclipse.birt.core.script.function.i18n.Messages;
+import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
 
 /**
@@ -439,8 +440,8 @@ class BirtMath implements IScriptFunctionExecutor
 			return o == null ? 0:Double.valueOf( o.toString( )).doubleValue( );
 	}
 
-	public Object execute( Object[] arguments ) throws BirtException
+	public Object execute( Object[] arguments ,IScriptFunctionContext context) throws BirtException
 	{
-		return this.executor.execute( arguments );
+		return this.executor.execute( arguments, context );
 	}
 } 

@@ -13,16 +13,16 @@ package org.eclipse.birt.core.script.function.bre;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.Locale;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.function.i18n.Messages;
+import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
-import org.mozilla.javascript.Context;
 
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.ULocale;
 
 /**
  * 
@@ -42,26 +42,18 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	
 	private IScriptFunctionExecutor executor;
 	
+	private static IScriptFunctionContext scriptContext;
+	private static ULocale defaultLocale = null;
+	
 	/**
 	 * 
 	 * @return
 	 */
 	private static SimpleDateFormat getAbbrMonthFormat( )
 	{
-		if ( abbrMonthFormat != null )
-			return abbrMonthFormat;
-
-		try
-		{
-			Locale defaultLocale = Context.enter( ).getLocale( );
+		if ( abbrMonthFormat == null )
 			abbrMonthFormat = new SimpleDateFormat( "MMM", defaultLocale );
-
-			return abbrMonthFormat;
-		}
-		finally
-		{
-			Context.exit( );
-		}
+		return abbrMonthFormat;
 	}
 	
 	/**
@@ -70,20 +62,9 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 */
 	private static SimpleDateFormat getMonthFormat( )
 	{
-		if ( monthFormat != null )
-			return monthFormat;
-
-		try
-		{
-			Locale defaultLocale = Context.enter( ).getLocale( );
+		if ( monthFormat == null )
 			monthFormat = new SimpleDateFormat( "MMMM", defaultLocale );
-
-			return monthFormat;
-		}
-		finally
-		{
-			Context.exit( );
-		}
+		return monthFormat;
 	}
 	
 	/**
@@ -92,20 +73,9 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 */
 	private static SimpleDateFormat getAbbrWeekFormat( )
 	{
-		if ( abbrWeekFormat != null )
-			return abbrWeekFormat;
-
-		try
-		{
-			Locale defaultLocale = Context.enter( ).getLocale( );
+		if ( abbrWeekFormat == null )
 			abbrWeekFormat = new SimpleDateFormat( "EEE", defaultLocale );
-
-			return abbrWeekFormat;
-		}
-		finally
-		{
-			Context.exit( );
-		}
+		return abbrWeekFormat;
 	}
 	
 	/**
@@ -114,21 +84,11 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 */
 	private static SimpleDateFormat getWeekFormat( )
 	{
-		if ( weekFormat != null )
-			return weekFormat;
-
-		try
-		{
-			Locale defaultLocale = Context.enter( ).getLocale( );
+		if ( weekFormat == null )
 			weekFormat = new SimpleDateFormat( "EEEE", defaultLocale );
-
-			return weekFormat;
-		}
-		finally
-		{
-			Context.exit( );
-		}
+		return weekFormat;
 	}
+
 	/**
 	 * @throws BirtException 
 	 * 
@@ -1325,8 +1285,25 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		return false;
 	}
 
-	public Object execute( Object[] arguments ) throws BirtException
+	public Object execute( Object[] arguments, IScriptFunctionContext context )
+			throws BirtException
 	{
-		return this.executor.execute( arguments );
+		scriptContext = context;
+		if ( scriptContext != null )
+		{
+			ULocale locale = (ULocale) scriptContext.findProperty( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.LOCALE );
+			if ( defaultLocale != null && !defaultLocale.equals( locale ) )
+			{
+				abbrMonthFormat = null;
+				monthFormat = null;
+				abbrWeekFormat = null;
+				weekFormat = null;
+				defaultLocale = locale;
+			}
+			else
+				defaultLocale = locale;
+		}
+		return this.executor.execute( arguments, context );
 	}
+
 }

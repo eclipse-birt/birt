@@ -25,6 +25,6 @@ public interface IScriptFunctionExecutor
 	 * @param arguments
 	 * @return
 	 */
-	public Object execute( Object[] arguments ) throws BirtException;
+	public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException;
 	
 }
