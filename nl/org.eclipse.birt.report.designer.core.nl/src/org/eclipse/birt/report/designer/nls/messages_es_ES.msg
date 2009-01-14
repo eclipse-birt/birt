@@ -1436,6 +1436,7 @@ ExpressionBuilder.toolTipText.Button=Abrir el compilador de expresiones
 
 ExpressionBuilder.Label.Category=Categoría:
 ExpressionBuilder.Label.Functions=Haga doble clic para insertar:
+ExpressionBuilder.Label.Hint=Hint
 ExpressionBuilder.Label.Operators=Operadores:
 ExpressionBuilder.Label.SubCategory=Subcategoría:
 ExpressionBuilder.Message.Prompt=Introduzca una expresión en el campo Expresión. Busque la lista de objetos disponibles y haga doble clic para copiarla en la expresión.

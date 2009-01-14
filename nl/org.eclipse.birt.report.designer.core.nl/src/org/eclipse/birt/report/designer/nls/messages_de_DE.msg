@@ -1436,6 +1436,7 @@ ExpressionBuilder.toolTipText.Button=Ausdruckserstellung öffnen
 
 ExpressionBuilder.Label.Category=Kategorie:
 ExpressionBuilder.Label.Functions=Einfügen durch Doppelklicken:
+ExpressionBuilder.Label.Hint=Hint
 ExpressionBuilder.Label.Operators=Operatoren:
 ExpressionBuilder.Label.SubCategory=Unterkategorie:
 ExpressionBuilder.Message.Prompt=Geben Sie in das Feld für die Ausdruckserstellung einen Ausdruck ein. Durchsuchen Sie die Liste der verfügbaren Objekte, und kopieren Sie sie per Doppelklick in den Ausdruck.
