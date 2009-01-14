@@ -11,10 +11,19 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.apache.commons.codec.binary.Base64;
+import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Image;
+import org.eclipse.birt.chart.model.attribute.impl.EmbeddedImageImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.UIHelper;
@@ -63,6 +72,8 @@ public class MarkerIconDialog extends TrayDialog
 	final private static int URI_TYPE = 0;
 
 	final private static int LOCAL_TYPE = 1;
+	
+	final private static int EMBEDDED_TYPE = 2;
 
 	private int selectedType = -1;
 
@@ -70,6 +81,7 @@ public class MarkerIconDialog extends TrayDialog
 
 	private transient Fill icon;
 
+	private Button btnEmbeddedImage;
 	/**
 	 * Constructor
 	 * 
@@ -81,7 +93,7 @@ public class MarkerIconDialog extends TrayDialog
 	public MarkerIconDialog( Shell parent, Fill fill )
 	{
 		super( parent );
-
+		
 		icon = null;
 
 		if ( fill != null )
@@ -93,9 +105,19 @@ public class MarkerIconDialog extends TrayDialog
 	protected Control createContents( Composite parent )
 	{
 		getShell( ).setText( Messages.getString( "MarkerIconDialog.Title.MarkerIconSelector" ) ); //$NON-NLS-1$
-		getShell( ).setSize( 600, 420 );
+		getShell( ).setSize( 600, 435 );
 		UIHelper.centerOnScreen( getShell( ) );
-		return super.createContents( parent );
+		Control c = super.createContents( parent );
+		
+		// Check icon type and set UI status.
+		if ( icon instanceof EmbeddedImage )
+		{
+			btnEmbeddedImage.setSelection( true );
+			switchTo( EMBEDDED_TYPE );
+		}
+		c.pack( );
+		preview();
+		return c;
 	}
 
 	protected Control createDialogArea( Composite parent )
@@ -150,6 +172,11 @@ public class MarkerIconDialog extends TrayDialog
 		btnLocal = new Button( selectionArea, SWT.RADIO );
 		btnLocal.setText( Messages.getString( "MarkerIconDialog.Lbl.Local" ) ); //$NON-NLS-1$
 		btnLocal.addSelectionListener( this );
+		
+		btnEmbeddedImage = new Button( selectionArea, SWT.RADIO );
+		btnEmbeddedImage.setText( Messages.getString("MarkerIconDialog.Button.EmbeddedImage")); //$NON-NLS-1$
+		btnEmbeddedImage.addSelectionListener( this );
+		
 	}
 
 	/**
@@ -230,6 +257,8 @@ public class MarkerIconDialog extends TrayDialog
 			case LOCAL_TYPE :
 				swtichToLocalType( );
 				break;
+			case EMBEDDED_TYPE :
+				switchToEmbeddedType( );
 		}
 		inputArea.layout( );
 		updateButton( );
@@ -253,7 +282,7 @@ public class MarkerIconDialog extends TrayDialog
 		gl.marginHeight = 0;
 		gl.verticalSpacing = 2;
 		innerComp.setLayout( gl );
-
+		
 		btnPreview = new Button( innerComp, SWT.PUSH );
 		btnPreview.setText( Messages.getString( "MarkerIconDialog.Lbl.Preview" ) ); //$NON-NLS-1$
 		btnPreview.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
@@ -289,9 +318,31 @@ public class MarkerIconDialog extends TrayDialog
 		btnBrowse.addSelectionListener( this );
 	}
 
+	private void switchToEmbeddedType( )
+	{
+		Composite buttonBar = new Composite( inputArea, SWT.NONE );
+
+		GridLayout gl = new GridLayout( );
+		gl.marginWidth = 0;
+		gl.marginHeight = 0;
+		buttonBar.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		buttonBar.setLayout( gl );
+
+		Label description = new Label( buttonBar, SWT.NONE );
+		description.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING ) );
+		description.setText( Messages.getString("MarkerIconDialog.Label.Description.EmbeddedImage") ); //$NON-NLS-1$
+
+		btnBrowse = new Button( buttonBar, SWT.PUSH );
+		btnBrowse.setText( Messages.getString( "MarkerIconDialog.Lbl.Browse" ) ); //$NON-NLS-1$
+		GridData gd = new GridData( GridData.HORIZONTAL_ALIGN_END );
+		gd.grabExcessHorizontalSpace = true;
+		btnBrowse.setLayoutData( gd );
+		btnBrowse.addSelectionListener( this );
+	}
+	
 	private void updateButton( )
 	{
-		getButtonOk( ).setEnabled( selectedType == LOCAL_TYPE
+		getButtonOk( ).setEnabled( ( selectedType == LOCAL_TYPE || selectedType == EMBEDDED_TYPE )
 				&& icon != null
 				&& ( (Image) icon ).getURL( ) != null
 				|| ( selectedType == URI_TYPE && trimString( uriEditor.getText( ) ) != null ) );
@@ -323,6 +374,36 @@ public class MarkerIconDialog extends TrayDialog
 		}
 	}
 
+	private void preview( )
+	{
+		if ( icon == null )
+		{
+			return;
+		}
+		if ( icon instanceof EmbeddedImage )
+		{
+			try
+			{
+				byte[] data = Base64.decodeBase64( ( (EmbeddedImage) icon ).getData( )
+						.getBytes( ) );
+				
+				getButtonOk( ).setEnabled( true );
+				ByteArrayInputStream bais = new ByteArrayInputStream( data );
+				BufferedInputStream bis = new BufferedInputStream( bais );
+				previewCanvas.loadImage( bis );
+				bis.close( );
+			}
+			catch ( Exception e )
+			{
+				getButtonOk( ).setEnabled( false );
+				WizardBase.displayException( e );
+			}
+		}
+		else if ( icon instanceof Image )
+		{
+			preview( ((Image)icon).getURL( ) );
+		}
+	}
 	/**
 	 * If there is no palette associated with the marker, create a new palette.
 	 * Otherwise, add the icon into the palette.
@@ -358,10 +439,41 @@ public class MarkerIconDialog extends TrayDialog
 		if ( e.widget.equals( btnURL ) )
 		{
 			switchTo( URI_TYPE );
+			if ( icon instanceof EmbeddedImage )
+			{
+				previewCanvas.clear( );
+				icon = null;
+			}
 		}
 		else if ( e.widget.equals( btnLocal ) )
 		{
 			switchTo( LOCAL_TYPE );
+			if ( icon instanceof EmbeddedImage )
+			{
+				previewCanvas.clear( );
+				icon = null;
+			}
+		}
+		else if ( e.widget.equals(  btnEmbeddedImage ) )
+		{
+			boolean modified = ( selectedType != EMBEDDED_TYPE );
+			switchTo( EMBEDDED_TYPE );
+			if ( modified && icon instanceof EmbeddedImage )
+			{
+				try
+				{
+					preview();
+				}
+				catch ( Exception ex )
+				{
+					WizardBase.displayException( ex );
+				}
+			}
+			else
+			{
+				previewCanvas.clear( );
+				icon = null;
+			}
 		}
 		else if ( e.widget.equals( btnPreview ) )
 		{
@@ -385,15 +497,42 @@ public class MarkerIconDialog extends TrayDialog
 					path = new StringBuffer( "file:///" ).append( path ).toString( ); //$NON-NLS-1$
 					preview( path );
 
-					icon = ImageImpl.create( path );
+					if ( selectedType == EMBEDDED_TYPE )
+					{
+						setEmbeddedIcon( path );
+					}
+					else
+					{
+						icon = ImageImpl.create( path );
+					}
 				}
 			}
 			catch ( Throwable ex )
 			{
 				ex.printStackTrace( );
 			}
-			updateButton( );
 		}
+		updateButton( );
+	}
+
+	private void setEmbeddedIcon( String path ) throws IOException,
+			MalformedURLException
+	{
+		BufferedInputStream bis = new BufferedInputStream( new URL( path ).openStream( ) );
+		ByteArrayOutputStream bos = new ByteArrayOutputStream( );
+
+		byte[] buf = new byte[1024];
+		int count = bis.read( buf );
+		while ( count != -1 )
+		{
+			bos.write( buf, 0, count );
+
+			count = bis.read( buf );
+		}
+
+		String data = new String( Base64.encodeBase64( bos.toByteArray( ) ) );
+		icon = EmbeddedImageImpl.create( path,
+				data );
 	}
 
 	/*
