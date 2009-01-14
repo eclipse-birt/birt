@@ -85,14 +85,18 @@ import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -110,6 +114,8 @@ import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.forms.widgets.FormText;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.ibm.icu.text.Collator;
 
@@ -266,13 +272,19 @@ public class ExpressionBuilder extends TitleAreaDialog
 				Table table = functionTable.getTable( );
 				if ( table.getSelectionCount( ) == 1 )
 				{
-					String message = table.getSelection( )[0].getText( );
+					messageLine.getParent( ).setVisible( true );
+					String message = provider.getDisplayText( table.getSelection( )[0].getData( ) );
 					message = message.replaceAll( "&", "&&" ); //$NON-NLS-1$//$NON-NLS-2$
-					messageLine.setText( message );
+					messageLine.setText( "<form><p> <b>" //$NON-NLS-1$
+							+ Messages.getString( "ExpressionBuilder.Label.Hint" ) //$NON-NLS-1$
+							+ "</b>: " //$NON-NLS-1$
+							+ message
+							+ "</p></form>", true, false ); //$NON-NLS-1$
+					messageLine.getParent( ).layout( );
 				}
 				else
 				{
-					messageLine.setText( "" );//$NON-NLS-1$	
+					messageLine.getParent( ).setVisible( false );
 				}
 			}
 		}
@@ -375,7 +387,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 	private IExpressionProvider provider;
 	private SourceViewer sourceViewer;
 	private String expression = null;
-	private Label messageLine;
+	private FormText messageLine;
 
 	private String title;
 
@@ -445,11 +457,59 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 	private void createMessageLine( Composite parent )
 	{
-		messageLine = new Label( parent, SWT.NONE );
+		Composite container = new Composite( parent, SWT.NONE );
+		GridLayout layout = new GridLayout( );
+		layout.marginHeight = layout.marginWidth = 4;
+		layout.numColumns = 2;
+		container.setLayout( layout );
+		container.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		messageLine = new FormText( container, SWT.NONE );
+		new FormToolkit( Display.getDefault( ) ) {
+
+			class BorderPainter implements PaintListener
+			{
+
+				public void paintControl( PaintEvent event )
+				{
+					Composite composite = (Composite) event.widget;
+					Control[] children = composite.getChildren( );
+					for ( int i = 0; i < children.length; i++ )
+					{
+						Control c = children[i];
+						if ( c.isVisible( ) && c instanceof FormText )
+						{
+							Rectangle b = c.getBounds( );
+							GC gc = event.gc;
+							gc.setForeground( c.getBackground( ) );
+							gc.drawRectangle( b.x - 2,
+									b.y - 2,
+									b.width + 4,
+									b.height + 4 );
+							gc.setForeground( getColors( ).getBorderColor( ) );
+							gc.drawRectangle( b.x - 2,
+									b.y - 2,
+									b.width + 4,
+									b.height + 4 );
+						}
+					}
+				}
+			}
+
+			private BorderPainter borderPainter;
+
+			public void paintBordersFor( Composite parent )
+			{
+				if ( borderPainter == null )
+					borderPainter = new BorderPainter( );
+				parent.addPaintListener( borderPainter );
+			}
+
+		}.paintBordersFor( container );
+		messageLine.setText( "<form><p></p></form>", true, false ); //$NON-NLS-1$
+		container.setVisible( false );
 		GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 		gridData.horizontalIndent = 6;
 		messageLine.setLayoutData( gridData );
-
 	}
 
 	private void createToolbar( Composite parent )
@@ -905,9 +965,9 @@ public class ExpressionBuilder extends TitleAreaDialog
 		setMessage( PROMRT_MESSAGE );
 		getShell( ).setText( title );
 		categoryTable.setInput( "Dummy" ); //$NON-NLS-1$
-		
+
 		handleDefaultSelection( );
-		
+
 		getShell( ).setDefaultButton( null );
 		sourceViewer.getTextWidget( ).setFocus( );
 		return control;
