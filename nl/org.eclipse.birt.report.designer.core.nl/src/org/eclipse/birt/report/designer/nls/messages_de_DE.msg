@@ -429,7 +429,7 @@ CutAction.trans=Elemente ausschneiden
 
 dataBinding.label.selectBinding=Datenbindung auswählen:
 dataBinding.message.changeDataSet=Sie sind im Begriff, die Datenbindung des Elements zu ändern.\n\nMöchten Sie alle bestehenden Datenfeldinformationen löschen?
-dataBinding.message.changeReference=You are about to change the element's data binding.  \n\nDo you wish to do the operation?
+dataBinding.message.changeReference=Sie sind im Begriff, die Datenbindung des Elements zu ändern.\n\nMöchten Sie den Vorgang ausführen?
 dataBinding.title.changeDataSet=Datensatz ändern?
 dataBinding.title=Datenbindung
 
@@ -644,8 +644,8 @@ DataSetParameterBindingInputDialog.Title=Parameterbindung des Datensatzes bearbe
 DataSetParametersPage.ErrorTitle.InvalidInput=Ungültige Eingabe.
 DataSetParameterBindingInputDialog.Label.Name=Parametername:
 DataSetParametersPage.ErrorMessage.CanootBeNull=Der Wert darf nicht Null sein.
-DataSetParameterBindingInputDialog.Title.NewParameter=New Parameter
-DataSetParameterBindingInputDialog.Title.EditParameter=Edit Parameter
+DataSetParameterBindingInputDialog.Title.NewParameter=Neuer Parameter
+DataSetParameterBindingInputDialog.Title.EditParameter=Parameter bearbeiten
 DataSetParameterBindingInputDialog.Label.DataType=Datentyp:
 DataSetParameterBindingInputDialog.Label.Value=Wert:
 DataSetParametersPage.Prompt.new=<New param here...>
@@ -660,7 +660,7 @@ DataSetParameterPage.toolTipText.Remove=Parameter entfernen
 DataSetParameterPage.toolTipText.Up=Parameter nach oben verschieben
 DataSetParameterPage.toolTipText.Down=Parameter nach unten verschieben
 DataSetParameterPage.WarningMessage.updatePosition=Einige oder alle Datensatzparameter besitzen ungültige Positionswerte. Die Positionen werden auf Grundlage der Folgen aktualisiert.
-DataSetParameterPage.warning.UnmatchedParamDataType=Data set parameter type does not match the linked report parameter type.
+DataSetParameterPage.warning.UnmatchedParamDataType=Parametertyp des Datensatzes stimmt nicht mit Parametertyp des verknüpften Berichts überein.
 
 ###########################################################
 #PropertyBindingpage properties
@@ -1834,26 +1834,26 @@ HighlightRuleBuilderDialog.text.Null=ist Null
 HighlightRuleBuilderDialog.text.Preview=Vorschau:
 HighlightRuleBuilderDialog.text.PreviewContent=AaBbCcYyZz
 HighlightRuleBuilderDialog.text.Size=Größe:
-HighlightRuleBuilderDialog.text.Title=Highlight
+HighlightRuleBuilderDialog.text.Title=Markieren
 HighlightRuleBuilderDialog.text.True=ist TRUE
 HighlightRuleBuilderDialog.tooltip.ExpBuilder=Ausdruckserstellung öffnen
 HighlightRuleBuilderDialog.tooltip.Bold=Fett
 HighlightRuleBuilderDialog.tooltip.Italic=Kursiv
 HighlightRuleBuilderDialog.tooltip.Underline=Unterstrichen
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=Durchgestrichener Text
-HighlightRuleBuilderDialog.text.applyStyle=Apply Style:
+HighlightRuleBuilderDialog.text.applyStyle=Stil anwenden:
 HighlightRuleBuilderDialog.displayText.None=Ohne
-HighlightRuleBuilderDialog.text.Description=Apply conditional formatting to {0}. Specify the conditional expression and the format.\nThe format will be applied if the expression evaluates to true.
-HighlightRuleBuilderDialog.text.Description.Element.Table=table
-HighlightRuleBuilderDialog.text.Description.Element.Grid=grid
-HighlightRuleBuilderDialog.text.Description.Element.List=list
-HighlightRuleBuilderDialog.text.Description.Element.Row=row
-HighlightRuleBuilderDialog.text.Description.Element.Column=column
-HighlightRuleBuilderDialog.text.Description.Element.DataItem=data item
-HighlightRuleBuilderDialog.text.Description.Element.Cell=cell
+HighlightRuleBuilderDialog.text.Description=Bedingte Formatierung anwenden auf {0}. Geben Sie den Bedingungsausdruck und das Format an.\nDas Format wird angewendet, wenn der Ausdruck als TRUE ausgewertet wird.
+HighlightRuleBuilderDialog.text.Description.Element.Table=Tabelle
+HighlightRuleBuilderDialog.text.Description.Element.Grid=Raster
+HighlightRuleBuilderDialog.text.Description.Element.List=Liste
+HighlightRuleBuilderDialog.text.Description.Element.Row=Zeile
+HighlightRuleBuilderDialog.text.Description.Element.Column=Spalte
+HighlightRuleBuilderDialog.text.Description.Element.DataItem=Datenelement
+HighlightRuleBuilderDialog.text.Description.Element.Cell=Zelle
 HighlightRuleBuilderDialog.text.Group.Condition=Bedingung
 HighlightRuleBuilderDialog.text.Group.Format=Format
-HighlightRuleBuilderDialog.text.Description.Element.ReportElement=report element
+HighlightRuleBuilderDialog.text.Description.Element.ReportElement=Berichtselement
 
 ###########################################################
 #HighlightsPage properties

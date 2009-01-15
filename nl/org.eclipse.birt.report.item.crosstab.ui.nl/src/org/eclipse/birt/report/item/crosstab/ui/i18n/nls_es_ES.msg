@@ -55,7 +55,7 @@ SubTotalProvider.Column.Function=Funciones
 SubTotalProvider.Column.AggregateOn=Agregar en
 SubTotalProvider.Column.ViewStatus=Mantener vista actual
 SubTotalProvider.Column.View=Ver
-SubTotalProvider.Column.Position=Position
+SubTotalProvider.Column.Position=Posición
 SubTotalProvider.ShowAs=Mostrar como {0}
 LevelViewDialog.Title=Mostrar/ocultar niveles de grupo
 LevelViewDialog.Label.Info=Seleccionar niveles para mostrar en tabla de referencias cruzadas:
@@ -318,7 +318,7 @@ LevelHandleDropAdapter.ActionText=Añadir una dimensión
 
 ###########################################################
 #CrosstabHighlightRuleBuilder properties
-CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstab=crosstab
-CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstabcell=crosstab cell
-CrosstabHighlightRuleBuilderDialog.text.Description.Element.ReportElement=report element
-CrosstabHighlightRuleBuilderDialog.text.Description=Apply conditional formatting to {0}. Specify the conditional expression and the format.\nThe format will be applied if the expression evaluates to true.
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstab=tabla de referencias cruzadas
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstabcell=celda de tabla de referencias cruzadas
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.ReportElement=elemento de informe
+CrosstabHighlightRuleBuilderDialog.text.Description=Aplique formato condicional a {0}. Especifique la expresión y el formato condicional.\nEl formato se aplicará si la expresión se evalúa con True.

@@ -2227,7 +2227,7 @@ Element.DataGroup=Groupe de données
 
 # Module ( Prefix = Element.Module )
 Element.Module.author=Auteur
-Element.Module.subject=Subject
+Element.Module.subject=Objet
 Element.Module.helpGuide=Guide d'aide
 Element.Module.createdBy=Création par
 Element.Module.title=Titre

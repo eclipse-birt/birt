@@ -2227,7 +2227,7 @@ Element.DataGroup=데이터 그룹
 
 # Module ( Prefix = Element.Module )
 Element.Module.author=만든 이
-Element.Module.subject=Subject
+Element.Module.subject=제목
 Element.Module.helpGuide=도움말 설명서
 Element.Module.createdBy=만든 사람 
 Element.Module.title=제목

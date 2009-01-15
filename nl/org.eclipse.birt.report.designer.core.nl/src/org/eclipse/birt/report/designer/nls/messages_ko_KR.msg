@@ -429,7 +429,7 @@ CutAction.trans=요소 자르기
 
 dataBinding.label.selectBinding=데이터 바인딩 선택:
 dataBinding.message.changeDataSet=요소 데이터 바인딩을 변경하려고 합니다.  \n\n기존의 데이터 필드 정보를 모두 지우시겠습니까?
-dataBinding.message.changeReference=You are about to change the element's data binding.  \n\nDo you wish to do the operation?
+dataBinding.message.changeReference=요소 데이터 바인딩을 변경하려고 합니다. \n\n이 작업을 수행하시겠습니까?
 dataBinding.title.changeDataSet=데이터 집합을 변경하시겠습니까?
 dataBinding.title=데이터 바인딩
 
@@ -644,8 +644,8 @@ DataSetParameterBindingInputDialog.Title=데이터 집합 매개 변수 바인딩 편집
 DataSetParametersPage.ErrorTitle.InvalidInput=잘못된 입력.
 DataSetParameterBindingInputDialog.Label.Name=매개 변수 이름:
 DataSetParametersPage.ErrorMessage.CanootBeNull=값은 널(null)일 수 없습니다.
-DataSetParameterBindingInputDialog.Title.NewParameter=New Parameter
-DataSetParameterBindingInputDialog.Title.EditParameter=Edit Parameter
+DataSetParameterBindingInputDialog.Title.NewParameter=새 매개 변수
+DataSetParameterBindingInputDialog.Title.EditParameter=매개 변수 편집
 DataSetParameterBindingInputDialog.Label.DataType=데이터 형식:
 DataSetParameterBindingInputDialog.Label.Value=값:
 DataSetParametersPage.Prompt.new=<여기에 새 매개 변수 입력>
@@ -660,7 +660,7 @@ DataSetParameterPage.toolTipText.Remove=매개 변수 제거
 DataSetParameterPage.toolTipText.Up=매개 변수를 위로 이동
 DataSetParameterPage.toolTipText.Down=매개 변수를 아래로 이동
 DataSetParameterPage.WarningMessage.updatePosition=일부 또는 모든 데이터 집합 매개 변수에 잘못된 위치값이 지정되었습니다. 순서를 기준으로 위치를 업데이트하고 있습니다.
-DataSetParameterPage.warning.UnmatchedParamDataType=Data set parameter type does not match the linked report parameter type.
+DataSetParameterPage.warning.UnmatchedParamDataType=데이터 집합 매개 변수 형식이 연결된 보고서 매개 변수 형식과 일치하지 않습니다.
 
 ###########################################################
 #PropertyBindingpage properties
@@ -1834,26 +1834,26 @@ HighlightRuleBuilderDialog.text.Null=널(null)임
 HighlightRuleBuilderDialog.text.Preview=미리 보기:
 HighlightRuleBuilderDialog.text.PreviewContent=AaBbCcYyZz
 HighlightRuleBuilderDialog.text.Size=크기:
-HighlightRuleBuilderDialog.text.Title=Highlight
+HighlightRuleBuilderDialog.text.Title=강조
 HighlightRuleBuilderDialog.text.True=참
 HighlightRuleBuilderDialog.tooltip.ExpBuilder=식 빌더 열기
 HighlightRuleBuilderDialog.tooltip.Bold=굵게
 HighlightRuleBuilderDialog.tooltip.Italic=기울임꼴
 HighlightRuleBuilderDialog.tooltip.Underline=밑줄
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=텍스트 가운데 선 긋기
-HighlightRuleBuilderDialog.text.applyStyle=Apply Style:
+HighlightRuleBuilderDialog.text.applyStyle=스타일 적용:
 HighlightRuleBuilderDialog.displayText.None=없음
-HighlightRuleBuilderDialog.text.Description=Apply conditional formatting to {0}. Specify the conditional expression and the format.\nThe format will be applied if the expression evaluates to true.
-HighlightRuleBuilderDialog.text.Description.Element.Table=table
-HighlightRuleBuilderDialog.text.Description.Element.Grid=grid
-HighlightRuleBuilderDialog.text.Description.Element.List=list
-HighlightRuleBuilderDialog.text.Description.Element.Row=row
-HighlightRuleBuilderDialog.text.Description.Element.Column=column
-HighlightRuleBuilderDialog.text.Description.Element.DataItem=data item
-HighlightRuleBuilderDialog.text.Description.Element.Cell=cell
+HighlightRuleBuilderDialog.text.Description={0}에 조건부 서식을 적용합니다. 조건식 및 서식을 지정하십시오.\n조건식 계산 결과가 True인 경우 서식이 적용됩니다.
+HighlightRuleBuilderDialog.text.Description.Element.Table=표
+HighlightRuleBuilderDialog.text.Description.Element.Grid=눈금
+HighlightRuleBuilderDialog.text.Description.Element.List=목록
+HighlightRuleBuilderDialog.text.Description.Element.Row=행
+HighlightRuleBuilderDialog.text.Description.Element.Column=열
+HighlightRuleBuilderDialog.text.Description.Element.DataItem=데이터 항목
+HighlightRuleBuilderDialog.text.Description.Element.Cell=셀
 HighlightRuleBuilderDialog.text.Group.Condition=조건
 HighlightRuleBuilderDialog.text.Group.Format=형식
-HighlightRuleBuilderDialog.text.Description.Element.ReportElement=report element
+HighlightRuleBuilderDialog.text.Description.Element.ReportElement=보고서 요소
 
 ###########################################################
 #HighlightsPage properties

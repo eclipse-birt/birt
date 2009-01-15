@@ -55,7 +55,7 @@ SubTotalProvider.Column.Function=函数
 SubTotalProvider.Column.AggregateOn=聚合条件
 SubTotalProvider.Column.ViewStatus=保留当前视图
 SubTotalProvider.Column.View=视图
-SubTotalProvider.Column.Position=Position
+SubTotalProvider.Column.Position=位置
 SubTotalProvider.ShowAs=显示为 {0}
 LevelViewDialog.Title=显示/隐藏组级别
 LevelViewDialog.Label.Info=选择要在交叉表上显示的级别:
@@ -318,7 +318,7 @@ LevelHandleDropAdapter.ActionText=添加维
 
 ###########################################################
 #CrosstabHighlightRuleBuilder properties
-CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstab=crosstab
-CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstabcell=crosstab cell
-CrosstabHighlightRuleBuilderDialog.text.Description.Element.ReportElement=report element
-CrosstabHighlightRuleBuilderDialog.text.Description=Apply conditional formatting to {0}. Specify the conditional expression and the format.\nThe format will be applied if the expression evaluates to true.
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstab=交叉表
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstabcell=交叉表单元格
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.ReportElement=报表元素
+CrosstabHighlightRuleBuilderDialog.text.Description=向 {0} 应用条件格式。请指定条件表达式和格式。\n如果表达式判定为“真”，则将应用格式。

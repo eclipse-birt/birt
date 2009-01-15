@@ -429,7 +429,7 @@ CutAction.trans=—v‘f‚ÌØ‚èæ‚è
 
 dataBinding.label.selectBinding=ƒf[ƒ^ƒoƒCƒ“ƒh‚Ì‘I‘ğ
 dataBinding.message.changeDataSet=—v‘f‚Ìƒf[ƒ^ƒoƒCƒ“ƒh‚ğ•ÏX‚µ‚æ‚¤‚Æ‚µ‚Ä‚¢‚Ü‚·B\n\nŠù‘¶‚Ìƒf[ƒ^ƒtƒB[ƒ‹ƒhî•ñ‚ğ‚·‚×‚Äíœ‚µ‚Ü‚·‚© ?
-dataBinding.message.changeReference=You are about to change the element's data binding.  \n\nDo you wish to do the operation?
+dataBinding.message.changeReference=—v‘f‚Ìƒf[ƒ^ƒoƒCƒ“ƒh‚ğ•ÏX‚µ‚æ‚¤‚Æ‚µ‚Ä‚¢‚Ü‚·B\n\n‚±‚Ì‘€ì‚ğÀs‚µ‚Ü‚·‚© ?
 dataBinding.title.changeDataSet=ƒf[ƒ^ƒZƒbƒg‚ğ•ÏX‚µ‚Ü‚·‚© ?
 dataBinding.title=ƒf[ƒ^ƒoƒCƒ“ƒh
 
@@ -644,8 +644,8 @@ DataSetParameterBindingInputDialog.Title=ƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^‚ÌƒoƒCƒ“ƒh‚ğ•ÒW‚µ‚
 DataSetParametersPage.ErrorTitle.InvalidInput=“ü—ÍƒGƒ‰[B
 DataSetParameterBindingInputDialog.Label.Name=ƒpƒ‰ƒƒ^–¼ :
 DataSetParametersPage.ErrorMessage.CanootBeNull=’l‚Í null ‚É‚Å‚«‚Ü‚¹‚ñB
-DataSetParameterBindingInputDialog.Title.NewParameter=New Parameter
-DataSetParameterBindingInputDialog.Title.EditParameter=Edit Parameter
+DataSetParameterBindingInputDialog.Title.NewParameter=ƒpƒ‰ƒƒ^‚ÌV‹Kì¬
+DataSetParameterBindingInputDialog.Title.EditParameter=ƒpƒ‰ƒƒ^‚Ì•ÒW
 DataSetParameterBindingInputDialog.Label.DataType=ƒf[ƒ^Œ^ :
 DataSetParameterBindingInputDialog.Label.Value=’l :
 DataSetParametersPage.Prompt.new=<‚±‚±‚ÉV‚µ‚¢ƒpƒ‰ƒƒ^‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢...>
@@ -660,7 +660,7 @@ DataSetParameterPage.toolTipText.Remove=ƒpƒ‰ƒƒ^‚Ìíœ
 DataSetParameterPage.toolTipText.Up=ƒpƒ‰ƒƒ^‚ğã‚ÉˆÚ“®
 DataSetParameterPage.toolTipText.Down=ƒpƒ‰ƒƒ^‚ğ‰º‚ÉˆÚ“®
 DataSetParameterPage.WarningMessage.updatePosition=ˆê•”‚Ü‚½‚Í‚·‚×‚Ä‚Ìƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^‚ÌˆÊ’u‚Ì’l‚ª–³Œø‚Å‚·Bƒpƒ‰ƒƒ^‚Ì‡˜‚É]‚Á‚ÄˆÊ’u‚ğXV‚µ‚Ä‚¢‚Ü‚·B
-DataSetParameterPage.warning.UnmatchedParamDataType=Data set parameter type does not match the linked report parameter type.
+DataSetParameterPage.warning.UnmatchedParamDataType=ƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^‚ÌŒ^‚ªAƒŠƒ“ƒN‚³‚ê‚Ä‚¢‚éƒŒƒ|[ƒgƒpƒ‰ƒƒ^‚ÌŒ^‚Æˆê’v‚µ‚Ü‚¹‚ñB
 
 ###########################################################
 #PropertyBindingpage properties
@@ -1834,26 +1834,26 @@ HighlightRuleBuilderDialog.text.Null=Null
 HighlightRuleBuilderDialog.text.Preview=ƒvƒŒƒrƒ…[ :
 HighlightRuleBuilderDialog.text.PreviewContent=Aa‚ ‚ŸƒAƒ@ˆŸ‰F
 HighlightRuleBuilderDialog.text.Size=ƒTƒCƒY :
-HighlightRuleBuilderDialog.text.Title=Highlight
+HighlightRuleBuilderDialog.text.Title=ƒnƒCƒ‰ƒCƒg
 HighlightRuleBuilderDialog.text.True=True
 HighlightRuleBuilderDialog.tooltip.ExpBuilder=®ƒrƒ‹ƒ_‚ğŠJ‚­
 HighlightRuleBuilderDialog.tooltip.Bold=‘¾š
 HighlightRuleBuilderDialog.tooltip.Italic=Î‘Ì
 HighlightRuleBuilderDialog.tooltip.Underline=‰ºü
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=ƒeƒLƒXƒg‚Ìæ‚èÁ‚µü
-HighlightRuleBuilderDialog.text.applyStyle=Apply Style:
+HighlightRuleBuilderDialog.text.applyStyle=ƒXƒ^ƒCƒ‹‚Ì“K—p :
 HighlightRuleBuilderDialog.displayText.None=‚È‚µ
-HighlightRuleBuilderDialog.text.Description=Apply conditional formatting to {0}. Specify the conditional expression and the format.\nThe format will be applied if the expression evaluates to true.
-HighlightRuleBuilderDialog.text.Description.Element.Table=table
-HighlightRuleBuilderDialog.text.Description.Element.Grid=grid
-HighlightRuleBuilderDialog.text.Description.Element.List=list
-HighlightRuleBuilderDialog.text.Description.Element.Row=row
-HighlightRuleBuilderDialog.text.Description.Element.Column=column
-HighlightRuleBuilderDialog.text.Description.Element.DataItem=data item
-HighlightRuleBuilderDialog.text.Description.Element.Cell=cell
+HighlightRuleBuilderDialog.text.Description={0} ‚ÉğŒ•t‚«‘®‚ğ“K—p‚µ‚Ü‚·BğŒ®‚Æ‘®‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B\nğŒ®‚ª True ‚Æ•]‰¿‚³‚ê‚é‚ÆA‘®‚ª“K—p‚³‚ê‚Ü‚·B
+HighlightRuleBuilderDialog.text.Description.Element.Table=ƒe[ƒuƒ‹
+HighlightRuleBuilderDialog.text.Description.Element.Grid=ƒOƒŠƒbƒh
+HighlightRuleBuilderDialog.text.Description.Element.List=ƒŠƒXƒg
+HighlightRuleBuilderDialog.text.Description.Element.Row=s
+HighlightRuleBuilderDialog.text.Description.Element.Column=—ñ
+HighlightRuleBuilderDialog.text.Description.Element.DataItem=ƒf[ƒ^€–Ú
+HighlightRuleBuilderDialog.text.Description.Element.Cell=ƒZƒ‹
 HighlightRuleBuilderDialog.text.Group.Condition=ğŒ
 HighlightRuleBuilderDialog.text.Group.Format=‘®
-HighlightRuleBuilderDialog.text.Description.Element.ReportElement=report element
+HighlightRuleBuilderDialog.text.Description.Element.ReportElement=ƒŒƒ|[ƒg—v‘f
 
 ###########################################################
 #HighlightsPage properties
