@@ -429,7 +429,7 @@ CutAction.trans=剪切元素
 
 dataBinding.label.selectBinding=选择数据绑定:
 dataBinding.message.changeDataSet=您将要更改元素的数据绑定。\n\n是否要清除全部现有的数据字段信息?
-dataBinding.message.changeReference=You are about to change the element's data binding.  \n\nDo you wish to do the operation?
+dataBinding.message.changeReference=您将要更改元素的数据绑定。\n\n是否要执行操作?
 dataBinding.title.changeDataSet=是否更改数据集？
 dataBinding.title=数据绑定
 
@@ -660,7 +660,7 @@ DataSetParameterPage.toolTipText.Remove=删除参数
 DataSetParameterPage.toolTipText.Up=参数上移
 DataSetParameterPage.toolTipText.Down=参数下移
 DataSetParameterPage.WarningMessage.updatePosition=某些或所有数据集参数具有无效的位置值。正在根据其序列更新其位置。
-DataSetParameterPage.warning.UnmatchedParamDataType=Data set parameter type does not match the linked report parameter type.
+DataSetParameterPage.warning.UnmatchedParamDataType=数据集类型与链接的报表参数类型不匹配。
 
 ###########################################################
 #PropertyBindingpage properties
@@ -1834,26 +1834,26 @@ HighlightRuleBuilderDialog.text.Null=为 NULL
 HighlightRuleBuilderDialog.text.Preview=预览:
 HighlightRuleBuilderDialog.text.PreviewContent=AaBbCcYyZz
 HighlightRuleBuilderDialog.text.Size=大小:
-HighlightRuleBuilderDialog.text.Title=Highlight
+HighlightRuleBuilderDialog.text.Title=突出显示
 HighlightRuleBuilderDialog.text.True=为真
 HighlightRuleBuilderDialog.tooltip.ExpBuilder=打开表达式生成器
 HighlightRuleBuilderDialog.tooltip.Bold=粗体
 HighlightRuleBuilderDialog.tooltip.Italic=斜体
 HighlightRuleBuilderDialog.tooltip.Underline=下划线
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=文本删除线
-HighlightRuleBuilderDialog.text.applyStyle=Apply Style:
+HighlightRuleBuilderDialog.text.applyStyle=应用样式:
 HighlightRuleBuilderDialog.displayText.None=无
-HighlightRuleBuilderDialog.text.Description=Apply conditional formatting to {0}. Specify the conditional expression and the format.\nThe format will be applied if the expression evaluates to true.
-HighlightRuleBuilderDialog.text.Description.Element.Table=table
-HighlightRuleBuilderDialog.text.Description.Element.Grid=grid
-HighlightRuleBuilderDialog.text.Description.Element.List=list
-HighlightRuleBuilderDialog.text.Description.Element.Row=row
-HighlightRuleBuilderDialog.text.Description.Element.Column=column
-HighlightRuleBuilderDialog.text.Description.Element.DataItem=data item
-HighlightRuleBuilderDialog.text.Description.Element.Cell=cell
+HighlightRuleBuilderDialog.text.Description=向 {0} 应用条件格式。请指定条件表达式和格式。\n如果表达式判定为“真”，则将应用格式。
+HighlightRuleBuilderDialog.text.Description.Element.Table=表
+HighlightRuleBuilderDialog.text.Description.Element.Grid=网格
+HighlightRuleBuilderDialog.text.Description.Element.List=列表
+HighlightRuleBuilderDialog.text.Description.Element.Row=行
+HighlightRuleBuilderDialog.text.Description.Element.Column=列
+HighlightRuleBuilderDialog.text.Description.Element.DataItem=数据项
+HighlightRuleBuilderDialog.text.Description.Element.Cell=单元格
 HighlightRuleBuilderDialog.text.Group.Condition=条件
 HighlightRuleBuilderDialog.text.Group.Format=格式
-HighlightRuleBuilderDialog.text.Description.Element.ReportElement=report element
+HighlightRuleBuilderDialog.text.Description.Element.ReportElement=报表元素
 
 ###########################################################
 #HighlightsPage properties

@@ -429,7 +429,7 @@ CutAction.trans=要素の切り取り
 
 dataBinding.label.selectBinding=データバインドの選択
 dataBinding.message.changeDataSet=要素のデータバインドを変更しようとしています。\n\n既存のデータフィールド情報をすべて削除しますか ?
-dataBinding.message.changeReference=You are about to change the element's data binding.  \n\nDo you wish to do the operation?
+dataBinding.message.changeReference=要素のデータバインドを変更しようとしています。\n\nこの操作を実行しますか ?
 dataBinding.title.changeDataSet=データセットを変更しますか ?
 dataBinding.title=データバインド
 
@@ -660,7 +660,7 @@ DataSetParameterPage.toolTipText.Remove=パラメタの削除
 DataSetParameterPage.toolTipText.Up=パラメタを上に移動
 DataSetParameterPage.toolTipText.Down=パラメタを下に移動
 DataSetParameterPage.WarningMessage.updatePosition=一部またはすべてのデータセットパラメタの位置の値が無効です。パラメタの順序に従って位置を更新しています。
-DataSetParameterPage.warning.UnmatchedParamDataType=Data set parameter type does not match the linked report parameter type.
+DataSetParameterPage.warning.UnmatchedParamDataType=データセットパラメタの型が、リンクされているレポートパラメタの型と一致しません。
 
 ###########################################################
 #PropertyBindingpage properties
@@ -1834,26 +1834,26 @@ HighlightRuleBuilderDialog.text.Null=Null
 HighlightRuleBuilderDialog.text.Preview=プレビュー :
 HighlightRuleBuilderDialog.text.PreviewContent=Aaあぁアァ亜宇
 HighlightRuleBuilderDialog.text.Size=サイズ :
-HighlightRuleBuilderDialog.text.Title=Highlight
+HighlightRuleBuilderDialog.text.Title=ハイライト
 HighlightRuleBuilderDialog.text.True=True
 HighlightRuleBuilderDialog.tooltip.ExpBuilder=式ビルダを開く
 HighlightRuleBuilderDialog.tooltip.Bold=太字
 HighlightRuleBuilderDialog.tooltip.Italic=斜体
 HighlightRuleBuilderDialog.tooltip.Underline=下線
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=テキストの取り消し線
-HighlightRuleBuilderDialog.text.applyStyle=Apply Style:
+HighlightRuleBuilderDialog.text.applyStyle=スタイルの適用 :
 HighlightRuleBuilderDialog.displayText.None=なし
-HighlightRuleBuilderDialog.text.Description=Apply conditional formatting to {0}. Specify the conditional expression and the format.\nThe format will be applied if the expression evaluates to true.
-HighlightRuleBuilderDialog.text.Description.Element.Table=table
-HighlightRuleBuilderDialog.text.Description.Element.Grid=grid
-HighlightRuleBuilderDialog.text.Description.Element.List=list
-HighlightRuleBuilderDialog.text.Description.Element.Row=row
-HighlightRuleBuilderDialog.text.Description.Element.Column=column
-HighlightRuleBuilderDialog.text.Description.Element.DataItem=data item
-HighlightRuleBuilderDialog.text.Description.Element.Cell=cell
+HighlightRuleBuilderDialog.text.Description={0} に条件付き書式を適用します。条件式と書式を指定してください。\n条件式が True と評価されると、書式が適用されます。
+HighlightRuleBuilderDialog.text.Description.Element.Table=テーブル
+HighlightRuleBuilderDialog.text.Description.Element.Grid=グリッド
+HighlightRuleBuilderDialog.text.Description.Element.List=リスト
+HighlightRuleBuilderDialog.text.Description.Element.Row=行
+HighlightRuleBuilderDialog.text.Description.Element.Column=列
+HighlightRuleBuilderDialog.text.Description.Element.DataItem=データ項目
+HighlightRuleBuilderDialog.text.Description.Element.Cell=セル
 HighlightRuleBuilderDialog.text.Group.Condition=条件
 HighlightRuleBuilderDialog.text.Group.Format=書式
-HighlightRuleBuilderDialog.text.Description.Element.ReportElement=report element
+HighlightRuleBuilderDialog.text.Description.Element.ReportElement=レポート要素
 
 ###########################################################
 #HighlightsPage properties
