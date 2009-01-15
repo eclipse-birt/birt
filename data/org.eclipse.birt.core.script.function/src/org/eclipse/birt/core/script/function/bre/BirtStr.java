@@ -82,7 +82,7 @@ class BirtStr implements IScriptFunctionExecutor
 		private String left( String str, int n )
 		{
 			if ( n < 0 )
-				throw new IllegalArgumentException( );
+				throw new IllegalArgumentException( "The value of argument n is invalid:" + n );
 			if ( str == null )
 				return null;
 			if ( n == 0 )
@@ -141,7 +141,7 @@ class BirtStr implements IScriptFunctionExecutor
 		public String right( String str, int n )
 		{
 			if ( n < 0 )
-				throw new IllegalArgumentException( );
+				throw new IllegalArgumentException( "The value of argument n is invalid:" + n );
 			if ( str == null )
 				return null;
 			if ( n == 0 )
@@ -377,7 +377,7 @@ class BirtStr implements IScriptFunctionExecutor
 		private int indexOf( String find_text, String str, int start )
 		{
 			if ( start < 0 )
-				throw new IllegalArgumentException( );
+				throw new IllegalArgumentException( "The start value is invalid:" + start );
 			if ( find_text == null
 					|| str == null || str.indexOf( find_text ) < 0 )
 				return -1;
@@ -444,7 +444,8 @@ class BirtStr implements IScriptFunctionExecutor
 		private int search( String pattern, String str, int start )
 		{
 			if ( start < 0 )
-				throw new IllegalArgumentException( );
+				throw new IllegalArgumentException( "The start value is invalid:"
+						+ start );
 			if ( pattern == null || str == null )
 				return -1;
 			else
