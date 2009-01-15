@@ -596,8 +596,8 @@ final class GroupBoundaryInfoComparator implements Comparator
 				if ( sortDirection[i] == false )
 				{
 					result = result * -1;
-					break;
 				}
+				break;
 			}
 
 		}
