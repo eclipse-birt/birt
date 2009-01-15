@@ -425,6 +425,7 @@ LegendAttributeSheetImpl.Lbl.GeneralProperties=常规属性 - 环绕图例的区域
 LegendAttributeSheetImpl.Lbl.ClientAreaProperties=客户区域属性 - 图例区域
 LegendAttributeSheetImpl.Title.SheetTitle=布局 > 图例 - 格式化图例区域
 LegendLayoutSheet.Label.MaxPercent=最大百分比(&M):
+LegendLayoutSheet.Label.TitlePercent=标题百分比(&T)
 LegendLayoutSheet.Label.WrappingWidth=换行宽度(&W):
 SampleDataSheetImpl.Lbl.XSeries=X 系列
 SampleDataSheetImpl.Lbl.BaseSampleValues=示例值:\n {0}

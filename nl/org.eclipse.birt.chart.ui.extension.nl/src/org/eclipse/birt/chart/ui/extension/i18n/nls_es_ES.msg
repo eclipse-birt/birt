@@ -425,6 +425,7 @@ LegendAttributeSheetImpl.Lbl.GeneralProperties=Propiedades generales - Leyenda a
 LegendAttributeSheetImpl.Lbl.ClientAreaProperties=Propiedades del área del cliente  - Área de leyenda
 LegendAttributeSheetImpl.Title.SheetTitle=Diseño > Leyenda - Formato del área de leyendas
 LegendLayoutSheet.Label.MaxPercent=&Porcentaje máximo:
+LegendLayoutSheet.Label.TitlePercent=&Porcentaje de título
 LegendLayoutSheet.Label.WrappingWidth=&Ancho del autoajuste:
 SampleDataSheetImpl.Lbl.XSeries=Serie X
 SampleDataSheetImpl.Lbl.BaseSampleValues=Valores de muestra:\n {0}

@@ -425,6 +425,7 @@ LegendAttributeSheetImpl.Lbl.GeneralProperties=일반 속성 - 범례 주변 영역
 LegendAttributeSheetImpl.Lbl.ClientAreaProperties=클라이언트 영역 속성 - 범례 영역
 LegendAttributeSheetImpl.Title.SheetTitle=레이아웃 > 범례 - 범례 영역 형식 지정
 LegendLayoutSheet.Label.MaxPercent=최대 백분율(&M):
+LegendLayoutSheet.Label.TitlePercent=제목 백분율(&T)
 LegendLayoutSheet.Label.WrappingWidth=배치 너비(&W):
 SampleDataSheetImpl.Lbl.XSeries=X 계열
 SampleDataSheetImpl.Lbl.BaseSampleValues=예제 값:\n {0}

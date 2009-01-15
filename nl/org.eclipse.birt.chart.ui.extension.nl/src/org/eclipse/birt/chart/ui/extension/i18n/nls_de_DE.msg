@@ -425,6 +425,7 @@ LegendAttributeSheetImpl.Lbl.GeneralProperties=Allgemeine Eigenschaften - Bereic
 LegendAttributeSheetImpl.Lbl.ClientAreaProperties=Client-Flächeneigenschaften - Bereich für Legende
 LegendAttributeSheetImpl.Title.SheetTitle=Layout > Legende - Bereich für Legende formatieren
 LegendLayoutSheet.Label.MaxPercent=&Max. Prozentsatz:
+LegendLayoutSheet.Label.TitlePercent=Prozent &Titel
 LegendLayoutSheet.Label.WrappingWidth=&Umbruchbreite:
 SampleDataSheetImpl.Lbl.XSeries=X-Datenreihe
 SampleDataSheetImpl.Lbl.BaseSampleValues=Beispielparameterwerte:\n {0}

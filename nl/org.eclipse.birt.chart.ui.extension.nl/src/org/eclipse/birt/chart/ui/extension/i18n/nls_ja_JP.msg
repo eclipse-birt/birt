@@ -425,6 +425,7 @@ LegendAttributeSheetImpl.Lbl.GeneralProperties=一般プロパティ - 凡例の周辺領域
 LegendAttributeSheetImpl.Lbl.ClientAreaProperties=クライアント領域のプロパティ - 凡例の領域
 LegendAttributeSheetImpl.Title.SheetTitle=レイアウト > 凡例 - 凡例領域の書式設定
 LegendLayoutSheet.Label.MaxPercent=最大の割合(&M) :
+LegendLayoutSheet.Label.TitlePercent=タイトルの割合(&T)
 LegendLayoutSheet.Label.WrappingWidth=折り返し幅 (&W):
 SampleDataSheetImpl.Lbl.XSeries=X 系列
 SampleDataSheetImpl.Lbl.BaseSampleValues=サンプル値 :\n {0}

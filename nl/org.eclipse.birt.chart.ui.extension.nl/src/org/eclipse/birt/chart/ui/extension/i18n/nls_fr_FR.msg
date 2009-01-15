@@ -425,6 +425,7 @@ LegendAttributeSheetImpl.Lbl.GeneralProperties=Propriétés générales - Zone entou
 LegendAttributeSheetImpl.Lbl.ClientAreaProperties=Propriétés de la zone client - Zone des légendes
 LegendAttributeSheetImpl.Title.SheetTitle=Mise en page > Légende - Formater la zone de légende
 LegendLayoutSheet.Label.MaxPercent=Pourcentage &maximum :
+LegendLayoutSheet.Label.TitlePercent=Pourcentage de &titre
 LegendLayoutSheet.Label.WrappingWidth=&Largeur d'habillage :
 SampleDataSheetImpl.Lbl.XSeries=Série X
 SampleDataSheetImpl.Lbl.BaseSampleValues=Exemples de valeurs :\n {0}
