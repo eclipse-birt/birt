@@ -24,13 +24,17 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URLEncoder;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.security.PrivilegedActionException;
@@ -45,7 +49,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 
 /**
- * Utility class to support application level security policy. 
+ * Utility class to support application level security policy.
  */
 
 public class SecurityUtil
@@ -176,9 +180,10 @@ public class SecurityUtil
 
 		return piTmp0;
 	}
-	
+
 	/**
 	 * Instantiate a new InputStreamReader.
+	 * 
 	 * @param in
 	 * @param charsetName
 	 * @return
@@ -377,9 +382,10 @@ public class SecurityUtil
 
 		return piTmp0;
 	}
-	
+
 	/**
 	 * Read an object from an ObjectInputStream.
+	 * 
 	 * @param ois
 	 * @return
 	 * @throws IOException
@@ -414,15 +420,16 @@ public class SecurityUtil
 
 		return piTmp0;
 	}
-	
+
 	/**
 	 * Instantiate a new ObjectOutputStream
+	 * 
 	 * @param out
 	 * @return
 	 * @throws IOException
 	 */
-	public static ObjectOutputStream newObjectOutputStream( final OutputStream out )
-			throws IOException
+	public static ObjectOutputStream newObjectOutputStream(
+			final OutputStream out ) throws IOException
 	{
 		ObjectOutputStream piTmp0 = null;
 		try
@@ -448,13 +455,46 @@ public class SecurityUtil
 	}
 
 	/**
+	 * Instantiate a new ObjectInputStream.
+	 * 
+	 * @param is
+	 * @return
+	 * @throws IOException
+	 */
+	public static ObjectInputStream newObjectInputStream( final InputStream is )
+			throws IOException
+	{
+		ObjectInputStream piTmp0 = null;
+		try
+		{
+			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<ObjectInputStream>( ) {
+
+				public ObjectInputStream run( ) throws IOException
+				{
+					return new ObjectInputStream( is );
+				}
+			} );
+		}
+		catch ( PrivilegedActionException e )
+		{
+			Exception typedException = e.getException( );
+			if ( typedException instanceof IOException )
+			{
+				throw (IOException) typedException;
+			}
+		}
+
+		return piTmp0;
+	}
+
+	/**
 	 * Instantiate a new ImageOutputStream.
 	 * 
 	 * @param output
 	 * @return
 	 * @throws IOException
 	 */
-	public static ImageOutputStream createImageOutputStream( final Object output )
+	public static ImageOutputStream newImageOutputStream( final Object output )
 			throws IOException
 	{
 		ImageOutputStream piTmp0 = null;
@@ -520,7 +560,7 @@ public class SecurityUtil
 
 		return piTmp0;
 	}
-	
+
 	/**
 	 * Instantiate a new URLClassLoader.
 	 * 
@@ -536,15 +576,16 @@ public class SecurityUtil
 
 			public URLClassLoader run( )
 			{
-				return new URLClassLoader( urls, parent );//$NON-SEC-2
+				return new URLClassLoader( urls, parent );// $NON-SEC-2
 			}
 		} );
 
 		return piTmp0;
 	}
-	
+
 	/**
 	 * Instantiate a class
+	 * 
 	 * @param <T>
 	 * @param cls
 	 * @return
@@ -556,7 +597,7 @@ public class SecurityUtil
 	{
 		return cls.newInstance( );
 	}
-	
+
 	/**
 	 * Load a class.
 	 * 
@@ -589,13 +630,14 @@ public class SecurityUtil
 
 		return piTmp0;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 * @throws SecurityException
 	 */
-	public static Method[] getMethods( final Class<?> cls ) throws SecurityException
+	public static Method[] getMethods( final Class<?> cls )
+			throws SecurityException
 	{
 		Method[] piTmp0 = null;
 		try
@@ -619,7 +661,7 @@ public class SecurityUtil
 
 		return piTmp0;
 	}
-	
+
 	/**
 	 * Invoke a method
 	 * 
@@ -667,9 +709,10 @@ public class SecurityUtil
 
 		return piTmp0;
 	}
-	
+
 	/**
 	 * Retrieve constructor of a class with the list of parameter types
+	 * 
 	 * @param <T>
 	 * @param cls
 	 * @param parameterTypes
@@ -707,7 +750,7 @@ public class SecurityUtil
 		}
 
 		return piTmp0;
-	}	
+	}
 
 	/**
 	 * Retrieve a system property
@@ -728,9 +771,10 @@ public class SecurityUtil
 
 		return piTmp0;
 	}
-	
+
 	/**
 	 * Set a system property
+	 * 
 	 * @param key
 	 * @param value
 	 * @return
@@ -832,9 +876,10 @@ public class SecurityUtil
 
 		return piTmp0;
 	}
-	
+
 	/**
 	 * Instantiate a new TransformerFactory.
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
@@ -855,9 +900,10 @@ public class SecurityUtil
 			}
 		} );
 	}
-	
+
 	/**
 	 * Instantiate a new DocumentBuilderFactory.
+	 * 
 	 * @return
 	 */
 	public static DocumentBuilderFactory newDocumentBuilderFactory( )
@@ -874,5 +920,163 @@ public class SecurityUtil
 
 		return piTmp0;
 	}
-	
+
+	/**
+	 * Constructs a URL from an URI.
+	 * 
+	 * @return
+	 */
+	public static URL toURL( final URI uri ) throws MalformedURLException
+	{
+		URL piTmp0 = null;
+		try
+		{
+			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<URL>( ) {
+
+				public URL run( ) throws MalformedURLException
+				{
+					return uri.toURL( );
+				}
+			} );
+		}
+		catch ( PrivilegedActionException e )
+		{
+			Exception typedException = e.getException( );
+			if ( typedException instanceof MalformedURLException )
+			{
+				throw (MalformedURLException) typedException;
+			}
+		}
+
+		return piTmp0;
+	}
+
+	/**
+	 * Instantiate a new File with uri.
+	 * 
+	 * @param uri
+	 * @return
+	 * @throws NullPointerException
+	 * @throws IllegalArgumentException
+	 */
+	public static File newFile( final URI uri ) throws NullPointerException,
+			IllegalArgumentException
+	{
+		File piTmp0 = null;
+		try
+		{
+			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<File>( ) {
+
+				public File run( ) throws NullPointerException,
+						IllegalArgumentException
+				{
+					return new File( uri );
+				}
+			} );
+		}
+		catch ( PrivilegedActionException e )
+		{
+			Exception typedException = e.getException( );
+			if ( typedException instanceof NullPointerException )
+			{
+				throw (NullPointerException) typedException;
+			}
+			else if ( typedException instanceof IllegalArgumentException )
+			{
+				throw (IllegalArgumentException) typedException;
+			}
+		}
+
+		return piTmp0;
+	}
+
+	/**
+	 * Wrapper of URLEncoder.encode.
+	 * 
+	 * @param s
+	 * @param enc
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	public static String urlEncode( final String s, final String enc )
+			throws UnsupportedEncodingException
+	{
+		String piTmp0 = null;
+		try
+		{
+			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<String>( ) {
+
+				public String run( ) throws UnsupportedEncodingException
+				{
+					return URLEncoder.encode( s, enc );
+				}
+			} );
+		}
+		catch ( PrivilegedActionException e )
+		{
+			Exception typedException = e.getException( );
+			if ( typedException instanceof UnsupportedEncodingException )
+			{
+				throw (UnsupportedEncodingException) typedException;
+			}
+		}
+
+		return piTmp0;
+	}
+
+	/**
+	 * Instantiate a new PrintWriter.
+	 * 
+	 * @param out
+	 * @param autoFlush
+	 * @return
+	 */
+	public static PrintWriter newPrintWriter( final Writer out,
+			final boolean autoFlush )
+	{
+		PrintWriter piTmp0 = null;
+		piTmp0 = AccessController.doPrivileged( new PrivilegedAction<PrintWriter>( ) {
+
+			public PrintWriter run( )
+			{
+				return new PrintWriter( out, autoFlush );
+			}
+		} );
+
+		return piTmp0;
+	}
+
+	/**
+	 * Instantiate a new ImageOutputStream.
+	 * 
+	 * @param output
+	 * @return
+	 * @throws IOException
+	 */
+	public static ImageOutputStream createImageOutputStream( final Object output )
+			throws IOException
+	{
+		ImageOutputStream piTmp0 = null;
+		try
+		{
+			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<ImageOutputStream>( ) {
+
+				public ImageOutputStream run( ) throws IOException
+				{
+					return ImageIO.createImageOutputStream( output );
+				}
+			} );
+		}
+		catch ( PrivilegedActionException e )
+		{
+			Exception typedException = e.getException( );
+			if ( typedException instanceof IOException )
+			{
+				throw (IOException) typedException;
+			}
+		}
+
+		return piTmp0;
+	}
+
 }
