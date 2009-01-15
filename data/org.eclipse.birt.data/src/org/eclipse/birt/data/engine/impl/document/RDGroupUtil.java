@@ -359,22 +359,41 @@ public final class RDGroupUtil
 	{
 		if ( groups.length > 0 )
 		{
-			for ( int i = leafGroupIdx; i < this.getGroups( )[groups.length-1].size( ); i++ )
+			binaryMove( );
+		}
+	}
+	
+	/**
+	 * 
+	 * @throws DataException
+	 */
+	private void binaryMove( ) throws DataException
+	{
+		List groupList = this.getGroups( )[groups.length - 1];
+		int low = leafGroupIdx;
+		int high = groupList.size( ) - 1;
+		int mid;
+		
+		while ( low <= high )
+		{
+			mid = ( high + low ) / 2;
+			if ( ( (GroupInfo) groupList.get( mid ) ).firstChild > cacheProvider.getCurrentIndex( ) )
 			{
-				GroupInfo nextLeafGroup = findGroup( groups.length - 1,
-						leafGroupIdx + 1 );
-				if ( nextLeafGroup != null &&
-						cacheProvider.getCurrentIndex( ) >= nextLeafGroup.firstChild )
-				{
-					++leafGroupIdx;
-				}
-				else 
-				{
-					break;
-				}
+				high = mid - 1;
+			}
+			else if ( mid == groupList.size( ) - 1
+					|| ( (GroupInfo) groupList.get( mid + 1 ) ).firstChild > cacheProvider.getCurrentIndex( ) )
+			{
+				leafGroupIdx = mid;
+				return;
+			}
+			else
+			{
+				low = mid + 1;
 			}
 		}
 	}
+	
 	
 	/**
 	 * @return
