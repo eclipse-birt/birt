@@ -24,7 +24,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -32,6 +34,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URLEncoder;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.security.PrivilegedActionException;
@@ -46,7 +49,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 
 /**
- * 
+ * Utility class to support application level security policy.
  */
 
 public class SecurityUtil
@@ -436,6 +439,39 @@ public class SecurityUtil
 				public ObjectOutputStream run( ) throws IOException
 				{
 					return new ObjectOutputStream( out );
+				}
+			} );
+		}
+		catch ( PrivilegedActionException e )
+		{
+			Exception typedException = e.getException( );
+			if ( typedException instanceof IOException )
+			{
+				throw (IOException) typedException;
+			}
+		}
+
+		return piTmp0;
+	}
+
+	/**
+	 * Instantiate a new ObjectInputStream.
+	 * 
+	 * @param is
+	 * @return
+	 * @throws IOException
+	 */
+	public static ObjectInputStream newObjectInputStream( final InputStream is )
+			throws IOException
+	{
+		ObjectInputStream piTmp0 = null;
+		try
+		{
+			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<ObjectInputStream>( ) {
+
+				public ObjectInputStream run( ) throws IOException
+				{
+					return new ObjectInputStream( is );
 				}
 			} );
 		}
@@ -948,6 +984,95 @@ public class SecurityUtil
 			else if ( typedException instanceof IllegalArgumentException )
 			{
 				throw (IllegalArgumentException) typedException;
+			}
+		}
+
+		return piTmp0;
+	}
+
+	/**
+	 * Wrapper of URLEncoder.encode.
+	 * 
+	 * @param s
+	 * @param enc
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	public static String urlEncode( final String s, final String enc )
+			throws UnsupportedEncodingException
+	{
+		String piTmp0 = null;
+		try
+		{
+			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<String>( ) {
+
+				public String run( ) throws UnsupportedEncodingException
+				{
+					return URLEncoder.encode( s, enc );
+				}
+			} );
+		}
+		catch ( PrivilegedActionException e )
+		{
+			Exception typedException = e.getException( );
+			if ( typedException instanceof UnsupportedEncodingException )
+			{
+				throw (UnsupportedEncodingException) typedException;
+			}
+		}
+
+		return piTmp0;
+	}
+
+	/**
+	 * Instantiate a new PrintWriter.
+	 * 
+	 * @param out
+	 * @param autoFlush
+	 * @return
+	 */
+	public static PrintWriter newPrintWriter( final Writer out,
+			final boolean autoFlush )
+	{
+		PrintWriter piTmp0 = null;
+		piTmp0 = AccessController.doPrivileged( new PrivilegedAction<PrintWriter>( ) {
+
+			public PrintWriter run( )
+			{
+				return new PrintWriter( out, autoFlush );
+			}
+		} );
+
+		return piTmp0;
+	}
+
+	/**
+	 * Instantiate a new ImageOutputStream.
+	 * 
+	 * @param output
+	 * @return
+	 * @throws IOException
+	 */
+	public static ImageOutputStream createImageOutputStream( final Object output )
+			throws IOException
+	{
+		ImageOutputStream piTmp0 = null;
+		try
+		{
+			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<ImageOutputStream>( ) {
+
+				public ImageOutputStream run( ) throws IOException
+				{
+					return ImageIO.createImageOutputStream( output );
+				}
+			} );
+		}
+		catch ( PrivilegedActionException e )
+		{
+			Exception typedException = e.getException( );
+			if ( typedException instanceof IOException )
+			{
+				throw (IOException) typedException;
 			}
 		}
 
