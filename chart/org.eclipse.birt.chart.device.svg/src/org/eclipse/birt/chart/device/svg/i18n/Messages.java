@@ -11,9 +11,10 @@
 
 package org.eclipse.birt.chart.device.svg.i18n;
 
-import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+
+import org.eclipse.birt.chart.util.SecurityUtil;
 
 import com.ibm.icu.util.ULocale;
 import com.ibm.icu.util.UResourceBundle;
@@ -29,7 +30,7 @@ public class Messages
 
 	private static final ResourceBundle RESOURCE_BUNDLE = UResourceBundle.getBundleInstance( BUNDLE_NAME,
 			ULocale.getDefault( ),
-			Messages.class.getClassLoader( ) );
+			SecurityUtil.getClassLoader( Messages.class ) );
 
 	private Messages( )
 	{
@@ -63,7 +64,8 @@ public class Messages
 	{
 		try
 		{
-			return MessageFormat.format( RESOURCE_BUNDLE.getString( key ), oas );
+			return SecurityUtil.formatMessage( RESOURCE_BUNDLE.getString( key ),
+					oas );
 		}
 		catch ( MissingResourceException e )
 		{
@@ -82,7 +84,7 @@ public class Messages
 	{
 		try
 		{
-			return MessageFormat.format( RESOURCE_BUNDLE.getString( key ),
+			return SecurityUtil.formatMessage( RESOURCE_BUNDLE.getString( key ),
 					new Object[]{
 						oa
 					} );

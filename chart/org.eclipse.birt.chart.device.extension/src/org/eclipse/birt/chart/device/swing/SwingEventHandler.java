@@ -38,10 +38,8 @@ import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.device.ICallBackNotifier;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
-import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.device.util.DeviceUtil;
 import org.eclipse.birt.chart.event.StructureSource;
-import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ActionType;
@@ -53,6 +51,7 @@ import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.render.InteractiveRenderer;
+import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.emf.common.util.EList;
 
 import com.ibm.icu.util.ULocale;
@@ -73,7 +72,7 @@ public final class SwingEventHandler
 
 	private Action acTooltip = null;
 
-	private ShapedAction saHighlighted = null;
+	// private ShapedAction saHighlighted = null;
 
 	private final Map<TriggerCondition, List<ShapedAction>> lhmAllTriggers;
 
@@ -273,7 +272,7 @@ public final class SwingEventHandler
 		
 		for ( Iterator<ActionType> iter = actions.iterator( ); iter.hasNext( ); )
 		{
-			ActionType action = (ActionType)iter.next();
+			ActionType action = iter.next( );
 			if ( action == null )
 				continue;
 			switch ( action.getValue( ) )
@@ -563,7 +562,7 @@ public final class SwingEventHandler
 				continue;
 			for ( Iterator<ShapedAction> iter = tal.iterator( ); iter.hasNext( ); )
 			{
-				ShapedAction sa = (ShapedAction) iter.next( );
+				ShapedAction sa = iter.next( );
 				ActionType actionType = sa.getActionForCondition( tca[i] ).getType( );
 				set.add(  actionType  );
 			}
@@ -605,7 +604,8 @@ public final class SwingEventHandler
 					else
 					{
 						URI u = new URI( uri.getURL( ) );
-						image = composite.getToolkit( ).createImage( u.toURL( ) );
+						image = composite.getToolkit( )
+								.createImage( SecurityUtil.toURL( u ) );
 					}
 					
 					if ( image != null )

@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.birt.chart.util.SecurityUtil;
 
 /**
  * An internal cache that provides reusable primitive (and block) rendering
@@ -35,7 +36,7 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 public class EventObjectCache
 {
 
-	private transient Hashtable _htEvents;
+	private transient Hashtable<Class<?>, ChartEvent> _htEvents;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/event" ); //$NON-NLS-1$
 
@@ -45,7 +46,7 @@ public class EventObjectCache
 	public EventObjectCache( )
 	{
 		super( );
-		_htEvents = new Hashtable( );
+		_htEvents = SecurityUtil.newHashtable( );
 	}
 
 	/**
@@ -57,16 +58,17 @@ public class EventObjectCache
 	 * @return An instance of the requested event object that encapsulates
 	 *         rendering attributes
 	 */
-	public final ChartEvent getEventObject( Object oSource, Class cType )
+	public final <T> ChartEvent getEventObject( Object oSource, Class<T> cType )
 	{
-		ChartEvent event = (ChartEvent) _htEvents.get( cType );
+		ChartEvent event = _htEvents.get( cType );
 		if ( event == null )
 		{
 			try
 			{
-				final Constructor co = cType.getConstructor( new Class[]{
-					Object.class
-				} );
+				final Constructor<T> co = SecurityUtil.getConstructor( cType,
+						new Class[]{
+							Object.class
+						} );
 				event = (ChartEvent) co.newInstance( new Object[]{
 					oSource
 				} );
@@ -203,7 +205,7 @@ public class EventObjectCache
 
 		if ( ( (MultipleFill) fill ).getFills( ).size( ) > 0 )
 		{
-			return validateMultipleFill( (Fill) ( (MultipleFill) fill ).getFills( )
+			return validateMultipleFill( ( (MultipleFill) fill ).getFills( )
 					.get( 0 ) );
 		}
 		else

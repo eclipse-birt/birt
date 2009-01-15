@@ -35,6 +35,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.IBinding;
@@ -121,7 +122,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	{
 		// get -dir rtl option
 		boolean rtl = false;
-		String eclipseCommands = System.getProperty( "eclipse.commands" ); //$NON-NLS-1$
+		String eclipseCommands = SecurityUtil.getSysProp( "eclipse.commands" ); //$NON-NLS-1$
 		if ( eclipseCommands != null )
 		{
 			String[] options = eclipseCommands.split( "-" ); //$NON-NLS-1$
@@ -172,8 +173,8 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		DesignElementHandle handle = getBindingHolder( itemHandle );
 		if ( handle instanceof ReportItemHandle )
 		{
-			Map bindingMap = new LinkedHashMap( );
-			ArrayList list = new ArrayList( );
+			Map<String, ComputedColumnHandle> bindingMap = new LinkedHashMap<String, ComputedColumnHandle>( );
+			ArrayList<ComputedColumnHandle> list = new ArrayList<ComputedColumnHandle>( );
 			Iterator i = ( (ReportItemHandle) handle ).columnBindingsIterator( );
 			while ( i.hasNext( ) )
 			{
@@ -520,18 +521,18 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		if ( cm instanceof ChartWithAxes )
 		{
 			ChartWithAxes cwa = (ChartWithAxes) cm;
-			baseSD = (SeriesDefinition) cwa.getBaseAxes( )[0].getSeriesDefinitions( )
+			baseSD = cwa.getBaseAxes( )[0].getSeriesDefinitions( )
 					.get( 0 );
 
 			orthAxisArray = cwa.getOrthogonalAxes( cwa.getBaseAxes( )[0], true );
-			orthSD = (SeriesDefinition) ( (Axis) orthAxisArray[0] ).getSeriesDefinitions( )
+			orthSD = ( (Axis) orthAxisArray[0] ).getSeriesDefinitions( )
 					.get( 0 );
 		}
 		else if ( cm instanceof ChartWithoutAxes )
 		{
 			ChartWithoutAxes cwoa = (ChartWithoutAxes) cm;
-			baseSD = (SeriesDefinition) cwoa.getSeriesDefinitions( ).get( 0 );
-			orthSD = (SeriesDefinition) baseSD.getSeriesDefinitions( ).get( 0 );
+			baseSD = cwoa.getSeriesDefinitions( ).get( 0 );
+			orthSD = baseSD.getSeriesDefinitions( ).get( 0 );
 		}
 
 		if ( isBaseGroupingDefined( baseSD ) || isYGroupingDefined( orthSD ) )
@@ -548,13 +549,13 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		if ( cm instanceof ChartWithAxes )
 		{
 			ChartWithAxes cwa = (ChartWithAxes) cm;
-			baseSD = (SeriesDefinition) cwa.getBaseAxes( )[0].getSeriesDefinitions( )
+			baseSD = cwa.getBaseAxes( )[0].getSeriesDefinitions( )
 					.get( 0 );
 		}
 		else if ( cm instanceof ChartWithoutAxes )
 		{
 			ChartWithoutAxes cwoa = (ChartWithoutAxes) cm;
-			baseSD = (SeriesDefinition) cwoa.getSeriesDefinitions( ).get( 0 );
+			baseSD = cwoa.getSeriesDefinitions( ).get( 0 );
 		}
 
 		if ( isBaseGroupingDefined( baseSD ) )
@@ -639,13 +640,13 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		if ( cm instanceof ChartWithAxes )
 		{
 			ChartWithAxes cwa = (ChartWithAxes) cm;
-			baseSD = (SeriesDefinition) cwa.getBaseAxes( )[0].getSeriesDefinitions( )
+			baseSD = cwa.getBaseAxes( )[0].getSeriesDefinitions( )
 					.get( 0 );
 		}
 		else if ( cm instanceof ChartWithoutAxes )
 		{
 			ChartWithoutAxes cwoa = (ChartWithoutAxes) cm;
-			baseSD = (SeriesDefinition) cwoa.getSeriesDefinitions( ).get( 0 );
+			baseSD = cwoa.getSeriesDefinitions( ).get( 0 );
 		}
 
 		// Check base is set aggregation.
@@ -659,16 +660,15 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		// Check if aggregation is just set on value series.
 		try
 		{
-			SeriesDefinition orthSD = null;
 			if ( cm instanceof ChartWithAxes )
 			{
-				EList<Axis> axisList = ( (Axis) ( (ChartWithAxes) cm ).getAxes( )
-						.get( 0 ) ).getAssociatedAxes( );
+				EList<Axis> axisList = ( (ChartWithAxes) cm ).getAxes( )
+						.get( 0 )
+						.getAssociatedAxes( );
 				for ( Axis a : axisList )
 				{
-					for ( Iterator iter = a.getSeriesDefinitions( ).iterator( ); iter.hasNext( ); )
+					for ( SeriesDefinition orthSD : a.getSeriesDefinitions( ) )
 					{
-						orthSD = (SeriesDefinition) iter.next( );
 						if ( ChartUtil.getAggregateFuncExpr( orthSD, baseSD ) != null )
 						{
 							return true;
@@ -678,10 +678,10 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 			}
 			else if ( cm instanceof ChartWithoutAxes )
 			{
-				for ( Iterator iter = ( (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
-						.get( 0 ) ).getSeriesDefinitions( ).iterator( ); iter.hasNext( ); )
+				for ( SeriesDefinition orthSD : ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
+						.get( 0 )
+						.getSeriesDefinitions( ) )
 				{
-					orthSD = (SeriesDefinition) iter.next( );
 					if ( ChartUtil.getAggregateFuncExpr( orthSD, baseSD ) != null )
 					{
 						return true;
@@ -1395,14 +1395,13 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 					if ( cm instanceof ChartWithAxes )
 					{
 						ChartWithAxes cwa = (ChartWithAxes) cm;
-						baseSD = (SeriesDefinition) cwa.getBaseAxes( )[0].getSeriesDefinitions( )
+						baseSD = cwa.getBaseAxes( )[0].getSeriesDefinitions( )
 								.get( 0 );
 					}
 					else if ( cm instanceof ChartWithoutAxes )
 					{
 						ChartWithoutAxes cwoa = (ChartWithoutAxes) cm;
-						baseSD = (SeriesDefinition) cwoa.getSeriesDefinitions( )
-								.get( 0 );
+						baseSD = cwoa.getSeriesDefinitions( ).get( 0 );
 					}
 					if ( baseSD != null && baseSD.getGrouping( ) != null )
 					{

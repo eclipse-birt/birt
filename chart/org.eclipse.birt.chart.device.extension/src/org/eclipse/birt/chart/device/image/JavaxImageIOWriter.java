@@ -58,6 +58,7 @@ import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.data.Action;
+import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 
 /**
@@ -432,7 +433,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 		for ( int i = 0; i < al.size( ); i++ )
 		{
-			Double db = (Double) al.get( i );
+			Double db = al.get( i );
 			if ( i > 0 )
 			{
 				sb.append( "," ); //$NON-NLS-1$
@@ -595,7 +596,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 							Messages.getResourceBundle( getULocale( ) ) );
 				}
 			}
-			final ImageWriter iw = (ImageWriter) it.next( );
+			final ImageWriter iw = it.next( );
 
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "JavaxImageIOWriter.info.using.imagewriter", getULocale( ) ) //$NON-NLS-1$
@@ -607,7 +608,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 					: _oOutputIdentifier;
 			try
 			{
-				final ImageOutputStream ios = ImageIO.createImageOutputStream( o );
+				final ImageOutputStream ios = SecurityUtil.newImageOutputStream( o );
 				updateWriterParameters( iw.getDefaultWriteParam( ) ); // SET
 				// ANY
 				// OUTPUT

@@ -18,6 +18,7 @@ import java.util.Map;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.CursorType;
+import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.swt.SWT;
 
 /**
@@ -81,7 +82,8 @@ public class SwtUtil
 		Process p = null;
 		try
 		{
-			p = Runtime.getRuntime( ).exec( "/usr/bin/open " + localHref ); //$NON-NLS-1$
+			p = SecurityUtil.execRuntimeCommand( Runtime.getRuntime( ),
+					"/usr/bin/open " + localHref ); //$NON-NLS-1$
 		}
 		catch ( IOException e )
 		{
@@ -159,7 +161,8 @@ public class SwtUtil
 		try
 		{
 			webBrowser = "netscape"; //$NON-NLS-1$
-			p = Runtime.getRuntime( ).exec( webBrowser + "  " + href ); //$NON-NLS-1$;
+			p = SecurityUtil.execRuntimeCommand( Runtime.getRuntime( ), webBrowser
+					+ "  " + href ); //$NON-NLS-1$;
 		}
 		catch ( IOException e )
 		{
@@ -171,7 +174,8 @@ public class SwtUtil
 		{
 			try
 			{
-				p = Runtime.getRuntime( ).exec( webBrowser + " " + href ); //$NON-NLS-1$;
+				p = SecurityUtil.execRuntimeCommand( Runtime.getRuntime( ),
+						webBrowser + " " + href ); //$NON-NLS-1$;
 			}
 			catch ( IOException e )
 			{
@@ -184,7 +188,8 @@ public class SwtUtil
 		{
 			try
 			{
-				p = Runtime.getRuntime( ).exec( webBrowser + " " + href ); //$NON-NLS-1$;
+				p = SecurityUtil.execRuntimeCommand( Runtime.getRuntime( ),
+						webBrowser + " " + href ); //$NON-NLS-1$;
 			}
 			catch ( IOException e )
 			{

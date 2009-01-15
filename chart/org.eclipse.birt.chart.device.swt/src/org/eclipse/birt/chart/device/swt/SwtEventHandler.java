@@ -11,12 +11,9 @@
 
 package org.eclipse.birt.chart.device.swt;
 
-import java.awt.Image;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -26,15 +23,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.ImageIcon;
-
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.device.ICallBackNotifier;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.device.swt.i18n.Messages;
 import org.eclipse.birt.chart.device.swt.util.SwtUtil;
 import org.eclipse.birt.chart.event.StructureSource;
-import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ActionType;
@@ -46,6 +40,7 @@ import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.render.InteractiveRenderer;
+import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
@@ -295,7 +290,7 @@ class SwtEventHandler
 				continue;
 			for ( Iterator<RegionAction> iter = tal.iterator( ); iter.hasNext( ); )
 			{
-				RegionAction rg = (RegionAction) iter.next( );
+				RegionAction rg = iter.next( );
 				ActionType actionType = rg.getAction( ).getType( );
 				set.add(  actionType  );
 			}
@@ -313,7 +308,7 @@ class SwtEventHandler
 		
 		for ( Iterator<ActionType> iter = actions.iterator( ); iter.hasNext( ); )
 		{
-			ActionType action = (ActionType)iter.next();
+			ActionType action = iter.next( );
 			if ( action == null )
 				continue;
 			switch ( action.getValue( ) )
@@ -635,8 +630,8 @@ class SwtEventHandler
 					}
 					else
 					{
-						File f = new File( new URI( uri.getURL( ) ) );
-						id = new ImageData( new FileInputStream( f ) );
+						File f = SecurityUtil.newFile( new URI( uri.getURL( ) ) );
+						id = new ImageData( SecurityUtil.newFileInputStream( f ) );
 					}
 					
 					composite.setCursor( new Cursor( composite.getDisplay( ),

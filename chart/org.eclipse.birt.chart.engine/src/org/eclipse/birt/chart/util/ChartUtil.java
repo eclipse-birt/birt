@@ -509,7 +509,7 @@ public class ChartUtil
 		else
 		{
 			// Then to get value from JVM
-			String jvmMaxRow = System.getProperty( CHART_MAX_ROW );
+			String jvmMaxRow = SecurityUtil.getSysProp( CHART_MAX_ROW );
 			if ( jvmMaxRow != null )
 			{
 				try
@@ -1684,5 +1684,17 @@ public class ChartUtil
 	public static <T extends EObject> T eCopy( T src )
 	{
 		return (T) EcoreUtil.copy( src );
+	}
+
+	/**
+	 * Convenient method to instantiate a generic HashMap
+	 * 
+	 * @param <K>
+	 * @param <V>
+	 * @return
+	 */
+	public static <K, V> Map<K, V> newHashMap( )
+	{
+		return new HashMap<K, V>( );
 	}
 }

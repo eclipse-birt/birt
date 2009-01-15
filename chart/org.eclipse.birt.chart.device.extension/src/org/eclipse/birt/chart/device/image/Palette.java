@@ -16,6 +16,8 @@ import java.awt.image.BufferedImage;
 import java.util.Hashtable;
 import java.util.Vector;
 
+import org.eclipse.birt.chart.util.SecurityUtil;
+
 /**
  * Representation of an indexed palette of arbitrary size. This can be used by
  * image encoders which require limited palettes (eg 256 colour PNGs). The
@@ -31,14 +33,14 @@ import java.util.Vector;
 final class Palette
 {
 
-	Vector colours = new Vector( );
+	Vector<ColourEntry> colours = new Vector<ColourEntry>( );
 
 	int transparentIndex;
 
 	Palette( BufferedImage[] images, Color[] extraColours, int size,
 			boolean wantTransparent )
 	{
-		Hashtable tempHash = new Hashtable( );
+		Hashtable<Integer, ColourEntry> tempHash = SecurityUtil.newHashtable( );
 		ColourEntry transparent = new ColourEntry( );
 
 		if ( wantTransparent )
@@ -68,7 +70,7 @@ final class Palette
 				{
 					int col = row[j];
 					Integer x = new Integer( col );
-					ColourEntry ce = (ColourEntry) tempHash.get( x );
+					ColourEntry ce = tempHash.get( x );
 					if ( ce == null )
 					{
 						// Map non-opaque colours appropriately
@@ -95,7 +97,7 @@ final class Palette
 			{
 				int col = extraColours[i].getRGB( );
 				Integer x = new Integer( col );
-				ColourEntry ce = (ColourEntry) tempHash.get( x );
+				ColourEntry ce = tempHash.get( x );
 				if ( ce == null )
 				{
 					// Map non-opaque colours appropriately
@@ -121,13 +123,13 @@ final class Palette
 		while ( colours.size( ) > size )
 		{
 			int l = colours.size( );
-			ColourEntry minCe = (ColourEntry) colours.elementAt( 1 );
+			ColourEntry minCe = colours.elementAt( 1 );
 			int minPop = minCe.population;
 			int minIndex = 1;
 			// Find colour with min population
 			for ( int i = 2; i < l; i++ )
 			{
-				ColourEntry ce = (ColourEntry) colours.elementAt( i );
+				ColourEntry ce = colours.elementAt( i );
 				if ( ce.population < minPop )
 				{
 					minPop = ce.population;
@@ -139,13 +141,13 @@ final class Palette
 			int closeIndex = 1;
 			if ( minIndex == 1 )
 				closeIndex = 2;
-			ColourEntry closeCe = (ColourEntry) colours.elementAt( closeIndex );
+			ColourEntry closeCe = colours.elementAt( closeIndex );
 			int closeDiff = closeCe.compare( minCe );
 			for ( int i = closeIndex + 1; i < l; i++ )
 			{
 				if ( i == minIndex )
 					continue;
-				ColourEntry ce = (ColourEntry) colours.elementAt( i );
+				ColourEntry ce = colours.elementAt( i );
 				int diff = ce.compare( minCe );
 				if ( diff < closeDiff )
 				{
@@ -175,10 +177,10 @@ final class Palette
 			// Find an unused RGB value for transparent, just for clarity
 			// - there are some braindead tools around...
 			// Start off with white and work down...
-			int argb = (int) 0xffffffff;
+			int argb = 0xffffffff;
 			while ( true )
 			{
-				ColourEntry ce = (ColourEntry) tempHash.get( new Integer( argb ) );
+				ColourEntry ce = tempHash.get( new Integer( argb ) );
 				if ( ce == null )
 					break;
 				argb--;
@@ -187,7 +189,7 @@ final class Palette
 		}
 		for ( int i = 0; i < colours.size( ); i++ )
 		{
-			ColourEntry ce = (ColourEntry) colours.elementAt( i );
+			ColourEntry ce = colours.elementAt( i );
 			ce.index = i;
 			hashPut( ce.argb, ce );
 		}
@@ -202,17 +204,17 @@ final class Palette
 
 	int getRed( int index )
 	{
-		return ( (ColourEntry) colours.elementAt( index ) ).getRed( );
+		return colours.elementAt( index ).getRed( );
 	}
 
 	int getGreen( int index )
 	{
-		return ( (ColourEntry) colours.elementAt( index ) ).getGreen( );
+		return colours.elementAt( index ).getGreen( );
 	}
 
 	int getBlue( int index )
 	{
-		return ( (ColourEntry) colours.elementAt( index ) ).getBlue( );
+		return colours.elementAt( index ).getBlue( );
 	}
 
 	int getSize( )
@@ -237,7 +239,7 @@ final class Palette
 	{
 		if ( ( argb >>> 24 ) != 0xff && transparentIndex != -1 )
 			return transparentIndex;
-		ColourEntry ce = (ColourEntry) hashGet( argb );
+		ColourEntry ce = hashGet( argb );
 		if ( ce == null )
 		{
 			// Find colour closest to it
@@ -247,7 +249,7 @@ final class Palette
 			{
 				if ( i == transparentIndex )
 					continue;
-				ColourEntry entry = (ColourEntry) colours.elementAt( i );
+				ColourEntry entry = colours.elementAt( i );
 				int diff = entry.compare( argb );
 				if ( diff < minDiff )
 				{
@@ -255,7 +257,7 @@ final class Palette
 					minIndex = i;
 				}
 			}
-			ce = (ColourEntry) colours.elementAt( minIndex );
+			ce = colours.elementAt( minIndex );
 			hashPut( argb, ce );
 		}
 		return ce.index;

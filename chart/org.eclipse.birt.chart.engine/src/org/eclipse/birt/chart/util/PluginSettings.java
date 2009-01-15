@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -358,7 +360,7 @@ public final class PluginSettings
 	 * 
 	 * @throws ChartException
 	 */
-	public final IDataSetProcessor getDataSetProcessor( Class cSeries )
+	public final IDataSetProcessor getDataSetProcessor( Class<?> cSeries )
 			throws ChartException
 	{
 		final String sFQClassName = cSeries.getName( );
@@ -425,7 +427,7 @@ public final class PluginSettings
 	 * 
 	 * @throws ChartException
 	 */
-	public final BaseRenderer getRenderer( Class cSeries )
+	public final BaseRenderer getRenderer( Class<?> cSeries )
 			throws ChartException
 	{
 		final String sFQClassName = cSeries.getName( );
@@ -709,7 +711,7 @@ public final class PluginSettings
 	 * 
 	 * @throws ChartException
 	 */
-	public final IDataPointDefinition getDataPointDefinition( Class cSeries )
+	public final IDataPointDefinition getDataPointDefinition( Class<?> cSeries )
 			throws ChartException
 	{
 		final String sFQClassName = cSeries.getName( );
@@ -773,40 +775,47 @@ public final class PluginSettings
 	 * @param seriesClassName
 	 * @return
 	 */
-	public final String getSeriesDisplayName( String seriesClassName )
+	public final String getSeriesDisplayName( final String seriesClassName )
 	{
-		String sDisplayName = seriesClassName;
-		try
-		{
-			Class seriesClass = Class.forName( seriesClassName );
-			Method createMethod = seriesClass.getDeclaredMethod( "create", new Class[]{} ); //$NON-NLS-1$
-			Series newSeries = (Series) createMethod.invoke( seriesClass,
-					new Object[]{} );
-			Method mDisplayName = seriesClass.getDeclaredMethod( "getDisplayName", new Class[]{} ); //$NON-NLS-1$
-			Object oName = mDisplayName.invoke( newSeries, new Object[]{} );
-			sDisplayName = (String) oName;
-		}
-		catch ( ClassNotFoundException e )
-		{
-			e.printStackTrace( );
-		}
-		catch ( NoSuchMethodException e )
-		{
-			e.printStackTrace( );
-		}
-		catch ( IllegalAccessException e )
-		{
-			e.printStackTrace( );
-		}
-		catch ( IllegalArgumentException e )
-		{
-			e.printStackTrace( );
-		}
-		catch ( InvocationTargetException e )
-		{
-			e.printStackTrace( );
-		}
-		return sDisplayName;
+		return AccessController.doPrivileged( new PrivilegedAction<String>( ) {
+
+			public String run( )
+			{
+				String sDisplayName = seriesClassName;
+				try
+				{
+					Class<?> seriesClass = Class.forName( seriesClassName );
+					Method createMethod = seriesClass.getDeclaredMethod( "create", new Class[]{} ); //$NON-NLS-1$
+					Series newSeries = (Series) createMethod.invoke( seriesClass,
+							new Object[]{} );
+					Method mDisplayName = seriesClass.getDeclaredMethod( "getDisplayName", new Class[]{} ); //$NON-NLS-1$
+					Object oName = mDisplayName.invoke( newSeries,
+							new Object[]{} );
+					sDisplayName = (String) oName;
+				}
+				catch ( ClassNotFoundException e )
+				{
+					e.printStackTrace( );
+				}
+				catch ( NoSuchMethodException e )
+				{
+					e.printStackTrace( );
+				}
+				catch ( IllegalAccessException e )
+				{
+					e.printStackTrace( );
+				}
+				catch ( IllegalArgumentException e )
+				{
+					e.printStackTrace( );
+				}
+				catch ( InvocationTargetException e )
+				{
+					e.printStackTrace( );
+				}
+				return sDisplayName;
+			}
+		} );
 	}
 
 	/**
@@ -930,7 +939,7 @@ public final class PluginSettings
 					"name", //$NON-NLS-1$
 					"function" ); //$NON-NLS-1$
 
-			List funcList = new ArrayList();
+			List<String> funcList = new ArrayList<String>( );
 			for ( int i = 0; i < aggs.length; i++ )
 			{
 				IAggregateFunction aFunc = getAggregateFunction( aggs[i][0] );
@@ -943,7 +952,7 @@ public final class PluginSettings
 			final String[] saFunctions = new String[funcList.size()];
 			for ( int i = 0; i < saFunctions.length; i++)
 			{
-				saFunctions[i] = (String) funcList.get( i );
+				saFunctions[i] = funcList.get( i );
 			}
 			
 			return saFunctions;
@@ -1012,7 +1021,7 @@ public final class PluginSettings
 					"name", //$NON-NLS-1$
 					"displayName" ); //$NON-NLS-1$
 
-			List funcList = new ArrayList();
+			List<String> funcList = new ArrayList<String>( );
 			for ( int i = 0; i < aggs.length; i++ )
 			{
 				IAggregateFunction aFunc = getAggregateFunction( aggs[i][0] );
@@ -1025,7 +1034,7 @@ public final class PluginSettings
 			final String[] saFunctions = new String[funcList.size()];
 			for ( int i = 0; i < saFunctions.length; i++)
 			{
-				saFunctions[i] = (String) funcList.get( i );
+				saFunctions[i] = funcList.get( i );
 			}
 			
 			return saFunctions;
@@ -1058,8 +1067,8 @@ public final class PluginSettings
 	{
 		try
 		{
-			final Class c = Class.forName( sFQClassName );
-			return c.newInstance( );
+			final Class<?> c = Class.forName( sFQClassName );
+			return SecurityUtil.newClassInstance( c );
 		}
 		catch ( Exception ex )
 		{
@@ -1211,7 +1220,7 @@ public final class PluginSettings
 		final IExtension[] iea = iep.getExtensions( );
 		IConfigurationElement[] icea;
 
-		List lst = new ArrayList( );
+		List<String[]> lst = new ArrayList<String[]>( );
 
 		for ( int i = 0; i < iea.length; i++ )
 		{
@@ -1228,7 +1237,7 @@ public final class PluginSettings
 			}
 		}
 
-		return (String[][]) lst.toArray( new String[0][0] );
+		return lst.toArray( new String[0][0] );
 	}
 
 	/**

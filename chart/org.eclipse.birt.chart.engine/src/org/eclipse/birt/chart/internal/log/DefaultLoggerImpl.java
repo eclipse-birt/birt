@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.internal.log;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.util.SecurityUtil;
 
 import com.ibm.icu.util.ULocale;
 
@@ -107,7 +108,7 @@ public final class DefaultLoggerImpl implements ILogger
 				&& ( iVerboseLevel & ILogger.FATAL ) == ILogger.FATAL )
 		{
 			System.err.println( Messages.getString( "info.log.fatal", new Object[]{sMessage}, ULocale.getDefault( ) ) ); //$NON-NLS-1$
-			System.exit( 0 );
+			SecurityUtil.sysExit( 0 );
 		}
 	}
 

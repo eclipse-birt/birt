@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.script;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +37,9 @@ import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.ISeriesRenderer;
+import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.chart.util.SecurityUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -62,12 +64,12 @@ public final class ScriptHandler extends ScriptableObject
 
 	private static final long serialVersionUID = 1L;
 
-	private static final Map JAVA_FUNTION_MAP = new HashMap( );
+	private static final Map<String, Method> JAVA_FUNTION_MAP = ChartUtil.newHashMap( );
 
 	static
 	{
 		// init java function name lookup table.
-		Method[] ms = IChartEventHandler.class.getMethods( );
+		Method[] ms = SecurityUtil.getMethods( IChartEventHandler.class );
 
 		for ( int i = 0; i < ms.length; i++ )
 		{
@@ -236,7 +238,7 @@ public final class ScriptHandler extends ScriptableObject
 
 	private transient IScriptClassLoader iscl = null;
 
-	private transient List javaScriptFunctionNamesCache = null;
+	private transient List<String> javaScriptFunctionNamesCache = null;
 
 	private IChartScriptContext csc;
 
@@ -483,7 +485,7 @@ public final class ScriptHandler extends ScriptableObject
 	 *            scriptable object that will be added to the scope
 	 * @throws ChartException
 	 */
-	public final void registerNewScriptableObject( Class clsScriptable,
+	public final void registerNewScriptableObject( Class<?> clsScriptable,
 			String sVarName ) throws ChartException
 	{
 		try
@@ -600,7 +602,7 @@ public final class ScriptHandler extends ScriptableObject
 		Object oReturnValue = null;
 		// #229402
 		ClassLoader oldLoader = cx.getApplicationClassLoader( );
-		ClassLoader appLader = ScriptHandler.class.getClassLoader( );
+		ClassLoader appLader = SecurityUtil.getClassLoader( ScriptHandler.class );
 		cx.setApplicationClassLoader( appLader );
 
 		// Initialize BIRT functions, register them into current script context.
@@ -827,11 +829,11 @@ public final class ScriptHandler extends ScriptableObject
 		else
 		{
 			assert false;
-			Method mtd = (Method) JAVA_FUNTION_MAP.get( name );
+			Method mtd = JAVA_FUNTION_MAP.get( name );
 
 			try
 			{
-				return mtd.invoke( javahandler, oaArgs );
+				return SecurityUtil.invokeMethod( mtd, javahandler, oaArgs );
 			}
 			catch ( Exception e )
 			{
@@ -1008,7 +1010,7 @@ public final class ScriptHandler extends ScriptableObject
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "Info.try.load.java.handler" ) ); //$NON-NLS-1$
 
-			Class handlerClass = null;
+			Class<?> handlerClass = null;
 
 			try
 			{
@@ -1019,7 +1021,7 @@ public final class ScriptHandler extends ScriptableObject
 				if ( iscl != null )
 				{
 					handlerClass = iscl.loadClass( sScriptContent,
-							ScriptHandler.class.getClassLoader( ) );
+							SecurityUtil.getClassLoader( ScriptHandler.class ) );
 				}
 				else
 				{
@@ -1032,18 +1034,18 @@ public final class ScriptHandler extends ScriptableObject
 			{
 				try
 				{
-					javahandler = (IChartEventHandler) handlerClass.newInstance( );
+					javahandler = (IChartEventHandler) SecurityUtil.newClassInstance( handlerClass );
 				}
 				catch ( InstantiationException e )
 				{
 					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.ERROR,
+							BirtException.ERROR,
 							e );
 				}
 				catch ( IllegalAccessException e )
 				{
 					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.ERROR,
+							BirtException.ERROR,
 							e );
 				}
 
@@ -1083,7 +1085,7 @@ public final class ScriptHandler extends ScriptableObject
 
 				if ( objs != null )
 				{
-					javaScriptFunctionNamesCache = new ArrayList( );
+					javaScriptFunctionNamesCache = new ArrayList<String>( );
 					for ( int i = 0; i < objs.length; i++ )
 					{
 						javaScriptFunctionNamesCache.add( String.valueOf( objs[i] ) );

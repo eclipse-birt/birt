@@ -15,6 +15,7 @@ import java.io.IOException;
 
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
+import org.eclipse.birt.chart.util.SecurityUtil;
 
 /**
  * DeviceUtil
@@ -57,7 +58,8 @@ public class DeviceUtil
 		Process p = null;
 		try
 		{
-			p = Runtime.getRuntime( ).exec( "/usr/bin/open " + localHref ); //$NON-NLS-1$
+			p = SecurityUtil.execRuntimeCommand( Runtime.getRuntime( ),
+					"/usr/bin/open " + localHref ); //$NON-NLS-1$
 		}
 		catch ( IOException e )
 		{
@@ -135,7 +137,8 @@ public class DeviceUtil
 		try
 		{
 			webBrowser = "netscape"; //$NON-NLS-1$
-			p = Runtime.getRuntime( ).exec( webBrowser + "  " + href ); //$NON-NLS-1$;
+			p = SecurityUtil.execRuntimeCommand( Runtime.getRuntime( ), webBrowser
+					+ "  " + href ); //$NON-NLS-1$;
 		}
 		catch ( IOException e )
 		{
@@ -147,7 +150,8 @@ public class DeviceUtil
 		{
 			try
 			{
-				p = Runtime.getRuntime( ).exec( webBrowser + " " + href ); //$NON-NLS-1$;
+				p = SecurityUtil.execRuntimeCommand( Runtime.getRuntime( ),
+						webBrowser + " " + href ); //$NON-NLS-1$;
 			}
 			catch ( IOException e )
 			{
@@ -160,7 +164,8 @@ public class DeviceUtil
 		{
 			try
 			{
-				p = Runtime.getRuntime( ).exec( webBrowser + " " + href ); //$NON-NLS-1$;
+				p = SecurityUtil.execRuntimeCommand( Runtime.getRuntime( ),
+						webBrowser + " " + href ); //$NON-NLS-1$;
 			}
 			catch ( IOException e )
 			{

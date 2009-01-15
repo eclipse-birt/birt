@@ -38,6 +38,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.chart.util.SecurityUtil;
 import org.w3c.dom.Document;
 
 /**
@@ -116,7 +117,7 @@ public class PDFRendererImpl extends SVGRendererImpl {
 			FileOutputStream fos = null;
 			try
 			{
-				fos = new FileOutputStream( (String) oOutputIdentifier );
+				fos = SecurityUtil.newFileOutputStream( (String) oOutputIdentifier );
 		        Reader r = new StringReader(serializeGeneratedDocumentToString(dom));
 
 				transcode2PDF( r, fos );
@@ -243,14 +244,13 @@ public class PDFRendererImpl extends SVGRendererImpl {
 		}
 		OutputStreamWriter writer = null;
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		writer = new OutputStreamWriter(stream, "UTF-8"); //$NON-NLS-1$
+		writer = SecurityUtil.newOutputStreamWriter( stream, "UTF-8" ); //$NON-NLS-1$
         DOMSource source = new DOMSource(generatedDocument);
         StreamResult result = new StreamResult(writer);
 			
-        TransformerFactory transFactory = 
-	                                 TransformerFactory.newInstance();
-        Transformer transformer = transFactory.newTransformer();
-        transformer.transform(source, result);		
+		TransformerFactory transFactory = SecurityUtil.newTransformerFactory( );
+		Transformer transformer = transFactory.newTransformer( );
+		transformer.transform( source, result );
 										
 		return stream.toString();
 		

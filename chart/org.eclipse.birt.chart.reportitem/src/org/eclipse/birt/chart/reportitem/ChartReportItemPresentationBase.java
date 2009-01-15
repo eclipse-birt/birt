@@ -50,6 +50,7 @@ import org.eclipse.birt.chart.script.ChartScriptContext;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineConstants;
@@ -351,7 +352,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 					return super.resolveClass( desc );
 				}
 			};
-			Object o = ois.readObject( );
+			Object o = SecurityUtil.readObject( ois );
 
 			if ( o instanceof RunTimeContext )
 			{
@@ -590,10 +591,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				{
 					edge.first( );
 				}
-				Axis xAxis = (Axis) ( (ChartWithAxes) cm ).getAxes( ).get( 0 );
-				SeriesDefinition sdValue = (SeriesDefinition) ( (ChartWithAxes) cm ).getOrthogonalAxes( xAxis,
+				Axis xAxis = ( (ChartWithAxes) cm ).getAxes( ).get( 0 );
+				SeriesDefinition sdValue = ( (ChartWithAxes) cm ).getOrthogonalAxes( xAxis,
 						true )[0].getSeriesDefinitions( ).get( 0 );
-				Query queryValue = (Query) sdValue.getDesignTimeSeries( )
+				Query queryValue = sdValue.getDesignTimeSeries( )
 						.getDataDefinition( )
 						.get( 0 );
 				String bindingValue = ChartXTabUtil.getBindingName( queryValue.getDefinition( ),

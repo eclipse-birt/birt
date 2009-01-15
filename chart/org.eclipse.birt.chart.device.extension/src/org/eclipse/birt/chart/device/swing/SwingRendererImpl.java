@@ -31,7 +31,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.ImageObserver;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -87,6 +86,7 @@ import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.render.BaseRenderer;
 import org.eclipse.birt.chart.render.InteractiveRenderer;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.chart.util.SecurityUtil;
 
 /**
  * Provides a reference implementation of a SWING device renderer. It translates
@@ -321,7 +321,7 @@ public class SwingRendererImpl extends DeviceAdapter
 			try
 			{
 				final String sUrl = pre.getImage( ).getURL( );
-				img = (java.awt.Image) _ids.loadImage( new URL( sUrl ) );
+				img = (java.awt.Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
 			}
 			catch ( ChartException ilex )
 			{
@@ -600,7 +600,7 @@ public class SwingRendererImpl extends DeviceAdapter
 				try
 				{
 					final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) flBackground ).getURL( );
-					img = (java.awt.Image) _ids.loadImage( new URL( sUrl ) );
+					img = (java.awt.Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
 				}
 				catch ( ChartException ilex )
 				{
@@ -853,7 +853,7 @@ public class SwingRendererImpl extends DeviceAdapter
 				try
 				{
 					final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) flBackground ).getURL( );
-					img = (java.awt.Image) _ids.loadImage( new URL( sUrl ) );
+					img = (java.awt.Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
 				}
 				catch ( ChartException ilex )
 				{
@@ -1330,7 +1330,7 @@ public class SwingRendererImpl extends DeviceAdapter
 				try
 				{
 					final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) flBackground ).getURL( );
-					img = (java.awt.Image) _ids.loadImage( new URL( sUrl ) );
+					img = (java.awt.Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
 				}
 				catch ( ChartException ilex )
 				{
@@ -1754,7 +1754,7 @@ public class SwingRendererImpl extends DeviceAdapter
 		if ( lia == null )
 			return null;
 
-		Stroke s = (Stroke) _htLineStyles.get( lia );
+		Stroke s = _htLineStyles.get( lia );
 		if ( s == null )
 		{
 			BasicStroke bs = null;
@@ -2003,7 +2003,7 @@ public class SwingRendererImpl extends DeviceAdapter
 				try
 				{
 					final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) flBackground ).getURL( );
-					img = (java.awt.Image) _ids.loadImage( new URL( sUrl ) );
+					img = (java.awt.Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
 				}
 				catch ( ChartException ilex )
 				{

@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
+import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ReportItemGenerationBase;
@@ -90,7 +91,7 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 	{
 		try
 		{
-			ObjectOutputStream oos = new ObjectOutputStream( ostream );
+			ObjectOutputStream oos = SecurityUtil.newObjectOutputStream( ostream );
 			oos.writeObject( rtc );
 			oos.flush( );
 			oos.close( );

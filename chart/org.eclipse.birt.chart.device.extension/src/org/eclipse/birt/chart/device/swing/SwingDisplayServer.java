@@ -23,9 +23,6 @@ import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.net.URL;
-import java.text.AttributedCharacterIterator;
-import java.text.AttributedCharacterIterator.Attribute;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.chart.device.DisplayAdapter;
@@ -39,6 +36,8 @@ import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.chart.util.SecurityUtil;
 
 /**
  * 
@@ -67,11 +66,11 @@ public class SwingDisplayServer extends DisplayAdapter
 	 */
 	public SwingDisplayServer( )
 	{
-	
+
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "SwingDisplayServer.info.display.server", //$NON-NLS-1$ 
 						new Object[]{
-								System.getProperty( "java.vendor" ), System.getProperty( "java.version" )}, //$NON-NLS-1$ //$NON-NLS-2$
+								SecurityUtil.getSysProp( "java.vendor" ), SecurityUtil.getSysProp( "java.version" )}, //$NON-NLS-1$ //$NON-NLS-2$
 						getULocale( ) ) );
 		_imageCache = new SwingImageCache( this );
 	}
@@ -96,7 +95,7 @@ public class SwingDisplayServer extends DisplayAdapter
 	public final Object createFont( FontDefinition fontDef )
 	{
 		//final Map<? extends AttributedCharacterIterator.Attribute,?> fontAttribs = new HashMap<?  extends AttributedCharacterIterator.Attribute,Object>( );
-		final Map fontAttribs = new HashMap();
+		final Map<TextAttribute, Object> fontAttribs = ChartUtil.newHashMap( );
 		fontAttribs.put( TextAttribute.FAMILY, fontDef.getName( ) );
 		// Although the fonts is set in points, we need to apply the dpi ratio manually
 		// java always assumes 72dpi for fonts, see this link:

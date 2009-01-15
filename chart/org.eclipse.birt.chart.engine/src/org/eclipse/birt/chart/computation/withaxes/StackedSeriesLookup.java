@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -46,8 +47,8 @@ public final class StackedSeriesLookup
 	 */
 	StackedSeriesLookup( RunTimeContext rtc )
 	{
-		htAxisToStackGroups = new Hashtable<Axis, ArrayList<StackGroup>>( );
-		htSeriesToStackGroup = new Hashtable<Series, StackGroup>( );
+		htAxisToStackGroups = SecurityUtil.newHashtable( );
+		htSeriesToStackGroup = SecurityUtil.newHashtable( );
 	}
 
 	public final ArrayList<StackGroup> getStackGroups( Axis ax )

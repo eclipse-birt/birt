@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.device.svg;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +48,7 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.emf.common.util.EList;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -63,13 +63,13 @@ import com.ibm.icu.util.ULocale;
 public class SVGInteractiveRenderer
 {
 
-	private Map<Series, List<String>> labelPrimitives = new Hashtable<Series, List<String>>( );
+	private Map<Series, List<String>> labelPrimitives = SecurityUtil.newHashtable( );
 	private List<String> scripts = new Vector<String>( );
 	/**
 	 * Element that represents the hot spot layer
 	 */
 	protected Element hotspotLayer;
-	private Map<Object, List<String>> componentPrimitives = new Hashtable<Object, List<String>>( );
+	private Map<Object, List<String>> componentPrimitives = SecurityUtil.newHashtable( );
 	private IUpdateNotifier _iun;
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.svg/trace" ); //$NON-NLS-1$
 	SVGGraphics2D svg_g2d;
@@ -380,13 +380,17 @@ public class SVGInteractiveRenderer
 		final Chart cmDT = _iun.getDesignTimeModel( );
 		if ( cmDT instanceof ChartWithAxes )
 		{
-			return (Series) ( (SeriesDefinition) ( (ChartWithAxes) cmDT ).getBaseAxes( )[0].getSeriesDefinitions( )
-					.get( 0 ) ).getRunTimeSeries( ).get( 0 );
+			return ( (ChartWithAxes) cmDT ).getBaseAxes( )[0].getSeriesDefinitions( )
+					.get( 0 )
+					.getRunTimeSeries( )
+					.get( 0 );
 		}
 		else
 		{
-			return (Series) ( (SeriesDefinition) ( (ChartWithoutAxes) cmDT ).getSeriesDefinitions( )
-					.get( 0 ) ).getRunTimeSeries( ).get( 0 );
+			return ( (ChartWithoutAxes) cmDT ).getSeriesDefinitions( )
+					.get( 0 )
+					.getRunTimeSeries( )
+					.get( 0 );
 		}
 	}
 
@@ -877,8 +881,9 @@ public class SVGInteractiveRenderer
 			if ( !bFound )
 			{
 				i = 1;
-				elSD = ( (SeriesDefinition) cwoaRT.getSeriesDefinitions( )
-						.get( 0 ) ).getSeriesDefinitions( );
+				elSD = cwoaRT.getSeriesDefinitions( )
+						.get( 0 )
+						.getSeriesDefinitions( );
 
 				for ( j = 0; j < elSD.size( ); j++ )
 				{
@@ -917,8 +922,9 @@ public class SVGInteractiveRenderer
 			}
 			else
 			{
-				elSD = ( (SeriesDefinition) cwoaDT.getSeriesDefinitions( )
-						.get( 0 ) ).getSeriesDefinitions( );
+				elSD = cwoaDT.getSeriesDefinitions( )
+						.get( 0 )
+						.getSeriesDefinitions( );
 			}
 			sd = elSD.get( j );
 			elSE = sd.getSeries( );
