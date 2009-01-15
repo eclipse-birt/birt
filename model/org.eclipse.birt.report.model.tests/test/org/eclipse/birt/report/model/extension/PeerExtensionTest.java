@@ -328,23 +328,22 @@ public class PeerExtensionTest extends BaseTestCase
 				.findElement( "testBox" ); //$NON-NLS-1$
 		assertNotNull( extendedItem );
 
-		// top extended-item get the property from the selector"extended-item"
-		assertEquals( IColorConstants.RED, extendedItem
-				.getStringProperty( IStyleModel.COLOR_PROP ) );
-
 		// the extended-item in the header slot of outer extension
+		// the testing-box-header should have no effects.
+
 		ExtendedItemHandle contentExtendedItem = (ExtendedItemHandle) designHandle
 				.findElement( "headerMatrix" ); //$NON-NLS-1$
-		assertEquals( IColorConstants.RED, contentExtendedItem
+		assertEquals( IColorConstants.BLACK, contentExtendedItem
 				.getStringProperty( IStyleModel.COLOR_PROP ) );
 
-		// test the table in the extended detail slot, extends color from the
-		// container -- extendedItem
+		// test the table in the extended detail slot, use the default color
+
 		TableHandle table = (TableHandle) designHandle
 				.findElement( "testTable" ); //$NON-NLS-1$
 		assertEquals( extendedItem, table.getContainer( ) );
-		assertEquals( IColorConstants.RED, extendedItem
+		assertEquals( IColorConstants.BLACK, extendedItem
 				.getStringProperty( IStyleModel.COLOR_PROP ) );
+
 		// local properties in table
 		assertEquals( DesignChoiceConstants.FONT_FAMILY_FANTASY, table
 				.getStringProperty( IStyleModel.FONT_FAMILY_PROP ) );
@@ -357,9 +356,10 @@ public class PeerExtensionTest extends BaseTestCase
 		// .getStringProperty( IStyleModel.FONT_STYLE_PROP ) );
 
 		// test the label in the contained extended-item header slot
+		
 		LabelHandle label = (LabelHandle) designHandle
 				.findElement( "testLabel" ); //$NON-NLS-1$
-		assertEquals( IColorConstants.RED, label
+		assertEquals( IColorConstants.BLACK, label
 				.getStringProperty( IStyleModel.COLOR_PROP ) );
 		assertEquals( DesignChoiceConstants.FONT_FAMILY_FANTASY, label
 				.getStringProperty( IStyleModel.FONT_FAMILY_PROP ) );

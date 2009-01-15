@@ -21,9 +21,6 @@
         </graphic-master-page>
     </page-setup>
     <styles>
-    	<style name="extended-item">
-    		<property name="color">red</property>
-    	</style>
     	<style name="testing-box-header">
     		<property name="color">blue</property>
     	</style>

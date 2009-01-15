@@ -26,10 +26,6 @@
         <style name="free-form" id="3">
             <property name="fontVariant">small-caps</property>
         </style>
-        <style name="extended-item" id="4">
-            <property name="fontVariant">normal</property>
-            <property name="color">red</property>
-        </style>
     </styles>
     <components>
         <extended-item extensionName="TestingMatrix" name="parent" id="11">

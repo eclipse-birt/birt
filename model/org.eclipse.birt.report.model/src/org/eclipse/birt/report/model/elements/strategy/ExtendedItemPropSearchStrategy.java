@@ -29,9 +29,7 @@ import org.eclipse.birt.report.model.elements.MultiViews;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.SystemPropertyDefn;
 
 /**
@@ -135,16 +133,11 @@ public class ExtendedItemPropSearchStrategy
 
 		// find other pre-defined styles, such as selector : x-tab header, x-tab
 		// detail, it has the highest priority than other selector
-		value = getPropertyFromPredefinedStyles( module, extendedItem, prop );
-		if ( value != null )
-			return value;
 
-		// find the "extended-item" selector
-		ElementDefn defn = (ElementDefn) MetaDataDictionary.getInstance( )
-				.getElement( element.getElementName( ) );
-		String selector = defn.getSelector( );
+		return getPropertyFromPredefinedStyles( module, extendedItem, prop );
 
-		return getPropertyFromSelector( module, prop, selector );
+		// "extended-item" selector is not enabled in ROM. There is no need to
+		// search this selector.
 	}
 
 	/**

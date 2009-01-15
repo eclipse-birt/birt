@@ -709,13 +709,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		NameSpace ns = design.getNameHelper( ).getNameSpace(
 				Module.STYLE_NAME_SPACE );
-		assertEquals( 4, ns.getCount( ) );
-
-		// Predefined style is defined by user.
-		StyleElement predefinedStyle = design.findStyle( "extended-item" ); //$NON-NLS-1$
-		assertEquals( "extended-item", predefinedStyle.getName( ) ); //$NON-NLS-1$
-		assertEquals(
-				"normal", predefinedStyle.getStringProperty( design, Style.FONT_VARIANT_PROP ) ); //$NON-NLS-1$
+		assertEquals( 3, ns.getCount( ) );
 
 		StyleHandle sh = extendedHandle.getPrivateStyle( );
 		Iterator iter = sh.mapRulesIterator( );
@@ -742,13 +736,11 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		// drop the "testing-matrix" selector,
 
-		designHandle.getStyles( ).drop( 3 );
+		designHandle.getStyles( ).drop( 2 );
 
-		assertEquals( ColorPropertyType.RED, extendedHandle
+		assertEquals( ColorPropertyType.BLACK, extendedHandle
 				.getProperty( Style.COLOR_PROP ) );
 
-		save( );
-		assertTrue( compareFile( goldenFileName_3 ) );
 		save( );
 		assertTrue( compareFile( goldenFileName_3 ) );
 
