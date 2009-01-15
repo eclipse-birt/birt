@@ -346,22 +346,22 @@ LegendBehaviorType.ToggleSerieVisibility.displayName=Alternar visibilidad de ser
 LegendBehaviorType.HighlightSerie.displayName=Resaltar serie
 
 # Defines cursor display names.
-Cursor.Auto.displayName=Auto
+Cursor.Auto.displayName=Automático
 Cursor.Crosshair.displayName=Aspa
-Cursor.Default.displayName=Default
-Cursor.Pointer.displayName=Hand
-Cursor.Move.displayName=Move
+Cursor.Default.displayName=Predeterminado
+Cursor.Pointer.displayName=Mano
+Cursor.Move.displayName=Mover
 Cursor.Text.displayName=Texto
-Cursor.Wait.displayName=Wait
-Cursor.EResize.displayName=East
-Cursor.NEResize.displayName=North-East
-Cursor.NWResize.displayName=North-West
-Cursor.NResize.displayName=North
-Cursor.SEResize.displayName=South-East 
-Cursor.SWResize.displayName=South-West
-Cursor.SResize.displayName=South
-Cursor.WResize.displayName=West
-Cursor.Custom.displayName=Custom
+Cursor.Wait.displayName=Esperar
+Cursor.EResize.displayName=Este
+Cursor.NEResize.displayName=Nordeste
+Cursor.NWResize.displayName=Noroeste
+Cursor.NResize.displayName=Norte
+Cursor.SEResize.displayName=Sudeste 
+Cursor.SWResize.displayName=Sudoeste
+Cursor.SResize.displayName=Sur
+Cursor.WResize.displayName=Oeste
+Cursor.Custom.displayName=Personalizar
 
 # End of Attributes
 ##################################################

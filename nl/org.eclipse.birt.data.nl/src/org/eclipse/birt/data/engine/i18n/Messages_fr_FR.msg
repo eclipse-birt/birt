@@ -84,7 +84,7 @@ data.engine.InvalidTopBottomPercentArgument=L'argument des filtres TopPercent/Bo
 
 data.engine.UnsupportedCondOp=L'opérateur conditionnel n'est pas pris en charge : {0}.
 data.engine.EmptyExpression=L'expression ne peut être ni nulle ni vide.
-data.engine.AggregationBinding.EmptyArgument=The argument "{0}" is required by the aggregation binding "{1}".
+data.engine.AggregationBinding.EmptyArgument=L'argument "{0}" est requis par la liaison d'agrégation "{1}".
 
 data.engine.InvalidJoinType=Type de jointure incorrect.
 data.engine.InvalidJoinOperator=Opérateur de jointure incorrect.

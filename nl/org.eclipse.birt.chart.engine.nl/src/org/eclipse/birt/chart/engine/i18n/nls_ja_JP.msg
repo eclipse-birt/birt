@@ -346,22 +346,22 @@ LegendBehaviorType.ToggleSerieVisibility.displayName=Œn—ñ‚Ì•\¦‚Æ”ñ•\¦‚ğØ‚è‘Ö‚
 LegendBehaviorType.HighlightSerie.displayName=Œn—ñ‚ğ‹­’²•\¦‚·‚é
 
 # Defines cursor display names.
-Cursor.Auto.displayName=Auto
+Cursor.Auto.displayName=©“®
 Cursor.Crosshair.displayName=\šü
-Cursor.Default.displayName=Default
-Cursor.Pointer.displayName=Hand
-Cursor.Move.displayName=Move
+Cursor.Default.displayName=ƒfƒtƒHƒ‹ƒg
+Cursor.Pointer.displayName=è
+Cursor.Move.displayName=ˆÚ“®
 Cursor.Text.displayName=ƒeƒLƒXƒg
-Cursor.Wait.displayName=Wait
-Cursor.EResize.displayName=East
-Cursor.NEResize.displayName=North-East
-Cursor.NWResize.displayName=North-West
-Cursor.NResize.displayName=North
-Cursor.SEResize.displayName=South-East 
-Cursor.SWResize.displayName=South-West
-Cursor.SResize.displayName=South
-Cursor.WResize.displayName=West
-Cursor.Custom.displayName=Custom
+Cursor.Wait.displayName=‘Ò‚¿ó‘Ô
+Cursor.EResize.displayName=“Œ
+Cursor.NEResize.displayName=–k“Œ
+Cursor.NWResize.displayName=–k¼
+Cursor.NResize.displayName=–k
+Cursor.SEResize.displayName=“ì“Œ 
+Cursor.SWResize.displayName=“ì¼
+Cursor.SResize.displayName=“ì
+Cursor.WResize.displayName=¼
+Cursor.Custom.displayName=ƒJƒXƒ^ƒ€
 
 # End of Attributes
 ##################################################

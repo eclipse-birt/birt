@@ -84,7 +84,7 @@ data.engine.InvalidTopBottomPercentArgument=TopPercent/BottomPercent 필터의 인수
 
 data.engine.UnsupportedCondOp=조건부 연산자가 지원되지 않습니다: {0}.
 data.engine.EmptyExpression=식은 널(null)이거나 비워 둘 수 없습니다.
-data.engine.AggregationBinding.EmptyArgument=The argument "{0}" is required by the aggregation binding "{1}".
+data.engine.AggregationBinding.EmptyArgument=집계 바인딩 "{1}"에 인수 "{0}"이(가) 필요합니다.
 
 data.engine.InvalidJoinType=잘못된 조인 형식입니다.
 data.engine.InvalidJoinOperator=잘못된 조인 연산자입니다.

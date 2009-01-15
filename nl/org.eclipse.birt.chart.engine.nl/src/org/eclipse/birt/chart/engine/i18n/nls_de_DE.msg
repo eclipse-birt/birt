@@ -346,22 +346,22 @@ LegendBehaviorType.ToggleSerieVisibility.displayName=Sichtbarkeit der Datenreihe
 LegendBehaviorType.HighlightSerie.displayName=Datenreihe markieren
 
 # Defines cursor display names.
-Cursor.Auto.displayName=Auto
+Cursor.Auto.displayName=Automatisch
 Cursor.Crosshair.displayName=Fadenkreuz
-Cursor.Default.displayName=Default
+Cursor.Default.displayName=Standard
 Cursor.Pointer.displayName=Hand
-Cursor.Move.displayName=Move
+Cursor.Move.displayName=Verschieben
 Cursor.Text.displayName=Text
-Cursor.Wait.displayName=Wait
-Cursor.EResize.displayName=East
-Cursor.NEResize.displayName=North-East
-Cursor.NWResize.displayName=North-West
-Cursor.NResize.displayName=North
-Cursor.SEResize.displayName=South-East 
-Cursor.SWResize.displayName=South-West
-Cursor.SResize.displayName=South
-Cursor.WResize.displayName=West
-Cursor.Custom.displayName=Custom
+Cursor.Wait.displayName=Warten
+Cursor.EResize.displayName=Osten
+Cursor.NEResize.displayName=Nordosten
+Cursor.NWResize.displayName=Nordwesten
+Cursor.NResize.displayName=Norden
+Cursor.SEResize.displayName=Südosten 
+Cursor.SWResize.displayName=Südwesten
+Cursor.SResize.displayName=Süden
+Cursor.WResize.displayName=Westen
+Cursor.Custom.displayName=Benutzerdefiniert
 
 # End of Attributes
 ##################################################

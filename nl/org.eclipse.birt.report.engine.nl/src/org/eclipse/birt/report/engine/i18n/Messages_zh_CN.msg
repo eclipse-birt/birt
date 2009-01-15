@@ -99,7 +99,7 @@ Error.ReportDocmentOpenError = 打开报表文档失败。
 Error.ReportArchiveOpenError = 无法打开报表存档。
 Error.SkipError = 跨过时出错。
 Error.ResultsetExtractError = 未找到结果集
-Error.FailedToInitializeEmitter = Failed to initialize emitter.
+Error.FailedToInitializeEmitter = 初始化发射器失败。
 
 ###########################################################
 PDFCreator = 使用 iText {1} 的 BIRT 报表引擎 {0}。

@@ -99,7 +99,7 @@ Error.ReportDocmentOpenError = レポート文書を開けません。
 Error.ReportArchiveOpenError = レポートアーカイブを開けません。
 Error.SkipError = 省略中にエラーが発生しました。
 Error.ResultsetExtractError = 結果セットが見つかりません。
-Error.FailedToInitializeEmitter = Failed to initialize emitter.
+Error.FailedToInitializeEmitter = エミッターを初期化できませんでした。
 
 ###########################################################
 PDFCreator = BIRT レポートエンジン {0} (iText {1} を使用)

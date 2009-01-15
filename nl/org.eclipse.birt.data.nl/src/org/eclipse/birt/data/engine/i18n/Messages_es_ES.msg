@@ -84,7 +84,7 @@ data.engine.InvalidTopBottomPercentArgument=Los argumentos de los filtros TopPer
 
 data.engine.UnsupportedCondOp=No se admite el operador condicional: {0}.
 data.engine.EmptyExpression=La expresión no puede ser nula ni estar vacía.
-data.engine.AggregationBinding.EmptyArgument=The argument "{0}" is required by the aggregation binding "{1}".
+data.engine.AggregationBinding.EmptyArgument=El enlace de agregación "{1}" requiere el argumento "{0}".
 
 data.engine.InvalidJoinType=Tipo de combinación no válido.
 data.engine.InvalidJoinOperator=Operador de combinación no válido.

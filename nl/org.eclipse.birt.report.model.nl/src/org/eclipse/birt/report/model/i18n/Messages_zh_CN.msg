@@ -2227,7 +2227,7 @@ Element.DataGroup=数据组
 
 # Module ( Prefix = Element.Module )
 Element.Module.author=作者
-Element.Module.subject=Subject
+Element.Module.subject=主题
 Element.Module.helpGuide=帮助指南
 Element.Module.createdBy=创建者
 Element.Module.title=标题

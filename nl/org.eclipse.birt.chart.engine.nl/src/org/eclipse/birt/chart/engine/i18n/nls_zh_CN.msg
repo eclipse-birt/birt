@@ -346,22 +346,22 @@ LegendBehaviorType.ToggleSerieVisibility.displayName=切换系列可见性
 LegendBehaviorType.HighlightSerie.displayName=突出显示系列
 
 # Defines cursor display names.
-Cursor.Auto.displayName=Auto
+Cursor.Auto.displayName=自动
 Cursor.Crosshair.displayName=交叉线
-Cursor.Default.displayName=Default
-Cursor.Pointer.displayName=Hand
-Cursor.Move.displayName=Move
+Cursor.Default.displayName=默认
+Cursor.Pointer.displayName=手
+Cursor.Move.displayName=移动
 Cursor.Text.displayName=文本
-Cursor.Wait.displayName=Wait
-Cursor.EResize.displayName=East
-Cursor.NEResize.displayName=North-East
-Cursor.NWResize.displayName=North-West
-Cursor.NResize.displayName=North
-Cursor.SEResize.displayName=South-East 
-Cursor.SWResize.displayName=South-West
-Cursor.SResize.displayName=South
-Cursor.WResize.displayName=West
-Cursor.Custom.displayName=Custom
+Cursor.Wait.displayName=等待
+Cursor.EResize.displayName=东
+Cursor.NEResize.displayName=东北
+Cursor.NWResize.displayName=西北
+Cursor.NResize.displayName=北
+Cursor.SEResize.displayName=东南 
+Cursor.SWResize.displayName=西南
+Cursor.SResize.displayName=南
+Cursor.WResize.displayName=西
+Cursor.Custom.displayName=自定义
 
 # End of Attributes
 ##################################################

@@ -84,7 +84,7 @@ data.engine.InvalidTopBottomPercentArgument=TopPercent/BottomPercent É¸Ñ¡Æ÷µÄ²ÎÊ
 
 data.engine.UnsupportedCondOp=²»Ö§³ÖÌõ¼şÔËËã·û: {0}¡£
 data.engine.EmptyExpression=±í´ïÊ½²»ÄÜÎª null »ò¿Õ¡£
-data.engine.AggregationBinding.EmptyArgument=The argument "{0}" is required by the aggregation binding "{1}".
+data.engine.AggregationBinding.EmptyArgument=¾ÛºÏ°ó¶¨¡°{1}¡±ĞèÒª²ÎÊı¡°{0}¡±¡£
 
 data.engine.InvalidJoinType=ÎŞĞ§µÄÁª½ÓÀàĞÍ¡£
 data.engine.InvalidJoinOperator=ÎŞĞ§µÄÁª½ÓÔËËã·û¡£

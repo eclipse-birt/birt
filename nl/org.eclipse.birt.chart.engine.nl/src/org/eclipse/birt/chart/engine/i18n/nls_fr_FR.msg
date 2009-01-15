@@ -348,20 +348,20 @@ LegendBehaviorType.HighlightSerie.displayName=Mettre les séries en surbrillance
 # Defines cursor display names.
 Cursor.Auto.displayName=Auto
 Cursor.Crosshair.displayName=Réticule
-Cursor.Default.displayName=Default
-Cursor.Pointer.displayName=Hand
-Cursor.Move.displayName=Move
+Cursor.Default.displayName=Par défaut
+Cursor.Pointer.displayName=Main
+Cursor.Move.displayName=Déplacer
 Cursor.Text.displayName=Texte
-Cursor.Wait.displayName=Wait
-Cursor.EResize.displayName=East
-Cursor.NEResize.displayName=North-East
-Cursor.NWResize.displayName=North-West
-Cursor.NResize.displayName=North
-Cursor.SEResize.displayName=South-East 
-Cursor.SWResize.displayName=South-West
-Cursor.SResize.displayName=South
-Cursor.WResize.displayName=West
-Cursor.Custom.displayName=Custom
+Cursor.Wait.displayName=Patienter
+Cursor.EResize.displayName=Est
+Cursor.NEResize.displayName=Nord-est
+Cursor.NWResize.displayName=Nord-ouest
+Cursor.NResize.displayName=Nord
+Cursor.SEResize.displayName=Sud-est 
+Cursor.SWResize.displayName=Sud-ouest
+Cursor.SResize.displayName=Sud
+Cursor.WResize.displayName=Ouest
+Cursor.Custom.displayName=Personnalisée
 
 # End of Attributes
 ##################################################

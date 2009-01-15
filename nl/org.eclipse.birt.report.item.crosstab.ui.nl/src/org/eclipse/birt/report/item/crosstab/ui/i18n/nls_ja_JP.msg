@@ -55,7 +55,7 @@ SubTotalProvider.Column.Function=関数
 SubTotalProvider.Column.AggregateOn=集計条件
 SubTotalProvider.Column.ViewStatus=現在のビューの保存
 SubTotalProvider.Column.View=ビュー
-SubTotalProvider.Column.Position=Position
+SubTotalProvider.Column.Position=位置
 SubTotalProvider.ShowAs={0} として表示
 LevelViewDialog.Title=グループレベルの表示/非表示
 LevelViewDialog.Label.Info=クロスタブに表示するレベルの選択 :
@@ -318,7 +318,7 @@ LevelHandleDropAdapter.ActionText=ディメンジョンの追加
 
 ###########################################################
 #CrosstabHighlightRuleBuilder properties
-CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstab=crosstab
-CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstabcell=crosstab cell
-CrosstabHighlightRuleBuilderDialog.text.Description.Element.ReportElement=report element
-CrosstabHighlightRuleBuilderDialog.text.Description=Apply conditional formatting to {0}. Specify the conditional expression and the format.\nThe format will be applied if the expression evaluates to true.
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstab=クロスタブ
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstabcell=クロスタブセル
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.ReportElement=レポート要素
+CrosstabHighlightRuleBuilderDialog.text.Description={0} に条件付き書式を適用します。条件式と書式を指定してください。\n条件式が True と評価されると、書式が適用されます。

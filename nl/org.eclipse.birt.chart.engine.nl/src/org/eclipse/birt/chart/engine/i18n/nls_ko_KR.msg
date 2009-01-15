@@ -346,22 +346,22 @@ LegendBehaviorType.ToggleSerieVisibility.displayName=계열 표시 유형 전환
 LegendBehaviorType.HighlightSerie.displayName=계열 강조
 
 # Defines cursor display names.
-Cursor.Auto.displayName=Auto
+Cursor.Auto.displayName=자동
 Cursor.Crosshair.displayName=십자 기호
-Cursor.Default.displayName=Default
-Cursor.Pointer.displayName=Hand
-Cursor.Move.displayName=Move
+Cursor.Default.displayName=기본
+Cursor.Pointer.displayName=손
+Cursor.Move.displayName=이동
 Cursor.Text.displayName=텍스트
-Cursor.Wait.displayName=Wait
-Cursor.EResize.displayName=East
-Cursor.NEResize.displayName=North-East
-Cursor.NWResize.displayName=North-West
-Cursor.NResize.displayName=North
-Cursor.SEResize.displayName=South-East 
-Cursor.SWResize.displayName=South-West
-Cursor.SResize.displayName=South
-Cursor.WResize.displayName=West
-Cursor.Custom.displayName=Custom
+Cursor.Wait.displayName=검색 중
+Cursor.EResize.displayName=동
+Cursor.NEResize.displayName=북동
+Cursor.NWResize.displayName=북서
+Cursor.NResize.displayName=북쪽
+Cursor.SEResize.displayName=남동 
+Cursor.SWResize.displayName=남서
+Cursor.SResize.displayName=남
+Cursor.WResize.displayName=서
+Cursor.Custom.displayName=사용자 지정
 
 # End of Attributes
 ##################################################

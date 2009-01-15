@@ -318,7 +318,7 @@ LevelHandleDropAdapter.ActionText=Ajouter une dimension
 
 ###########################################################
 #CrosstabHighlightRuleBuilder properties
-CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstab=crosstab
-CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstabcell=crosstab cell
-CrosstabHighlightRuleBuilderDialog.text.Description.Element.ReportElement=report element
-CrosstabHighlightRuleBuilderDialog.text.Description=Apply conditional formatting to {0}. Specify the conditional expression and the format.\nThe format will be applied if the expression evaluates to true.
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstab=tableau croisé
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstabcell=cellule du tableau croisé
+CrosstabHighlightRuleBuilderDialog.text.Description.Element.ReportElement=élément d'état
+CrosstabHighlightRuleBuilderDialog.text.Description=Appliquer un formatage conditionnel dans {0}. Spécifier l'expression conditionnelle et le format.\nLe format sera appliqué si l'expression est True.

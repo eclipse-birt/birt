@@ -99,7 +99,7 @@ Error.ReportDocmentOpenError = 보고서 문서를 열지 못했습니다.
 Error.ReportArchiveOpenError = 보고서 보관을 열지 못했습니다.
 Error.SkipError = 건너뛰는 중 오류가 발생했습니다.
 Error.ResultsetExtractError = 결과 집합을 찾을 수 없음
-Error.FailedToInitializeEmitter = Failed to initialize emitter.
+Error.FailedToInitializeEmitter = 이미터를 초기화하지 못했습니다.
 
 ###########################################################
 PDFCreator = iText {1}을(를) 사용하는 BIRT 보고서 엔진 {0}

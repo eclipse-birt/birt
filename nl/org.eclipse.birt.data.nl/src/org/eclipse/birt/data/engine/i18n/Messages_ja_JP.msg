@@ -84,7 +84,7 @@ data.engine.InvalidTopBottomPercentArgument=TopPercent と BottomPercent のフィル
 
 data.engine.UnsupportedCondOp=条件演算子は使用できません : {0}
 data.engine.EmptyExpression=式は null または空白にはできません。
-data.engine.AggregationBinding.EmptyArgument=The argument "{0}" is required by the aggregation binding "{1}".
+data.engine.AggregationBinding.EmptyArgument=集計バインド "{1}" には引数 "{0}" が必要です。
 
 data.engine.InvalidJoinType=ジョインの型が無効です。
 data.engine.InvalidJoinOperator=ジョインの演算子が無効です。
