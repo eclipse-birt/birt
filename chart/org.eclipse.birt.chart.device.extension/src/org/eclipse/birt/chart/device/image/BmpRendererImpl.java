@@ -10,6 +10,7 @@ import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
+import org.eclipse.birt.chart.util.SecurityUtil;
 
 /**
  * 
@@ -95,7 +96,7 @@ public final class BmpRendererImpl extends JavaxImageIOWriter
 				FileOutputStream fos = null;
 				try
 				{
-					fos = new FileOutputStream( (String) _oOutputIdentifier );
+					fos = SecurityUtil.newFileOutputStream( (String) _oOutputIdentifier );
 					bw = new BmpWriter( _img );
 					bw.write( fos );
 					fos.close( );

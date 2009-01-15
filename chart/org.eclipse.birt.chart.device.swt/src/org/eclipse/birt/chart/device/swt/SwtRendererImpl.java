@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.device.swt;
 
 import java.io.ByteArrayInputStream;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -56,6 +55,7 @@ import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.render.InteractiveRenderer;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
@@ -207,7 +207,7 @@ public class SwtRendererImpl extends DeviceAdapter
 			try
 			{
 				final String sUrl = pre.getImage( ).getURL( );
-				img = (Image) _ids.loadImage( new URL( sUrl ) );
+				img = (Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
 			}
 			catch ( ChartException ilex )
 			{
@@ -1120,7 +1120,7 @@ public class SwtRendererImpl extends DeviceAdapter
 			final String sUrl = g.getURL( );
 			try
 			{
-				img = (org.eclipse.swt.graphics.Image) _ids.loadImage( new URL( sUrl ) );
+				img = (org.eclipse.swt.graphics.Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
 			}
 			catch ( MalformedURLException muex )
 			{
@@ -1771,7 +1771,7 @@ public class SwtRendererImpl extends DeviceAdapter
 			{
 				for ( Iterator<RegionAction> sitr = ralist.iterator( ); sitr.hasNext( ); )
 				{
-					RegionAction ra = (RegionAction) sitr.next( );
+					RegionAction ra = sitr.next( );
 					ra.dispose( );
 				}
 			}

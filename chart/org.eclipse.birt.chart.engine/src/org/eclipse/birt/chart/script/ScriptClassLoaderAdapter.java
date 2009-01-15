@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.script;
 
+import org.eclipse.birt.chart.util.SecurityUtil;
+
 /**
  * An adapter class for IScriptClassLoader. It first try to load class from
  * current context, if fail, try to load by parent loader.
@@ -48,14 +50,14 @@ public class ScriptClassLoaderAdapter implements IScriptClassLoader
 			}
 			else
 			{
-				return defaultLoader.loadClass( className );
+				return SecurityUtil.loadClass( defaultLoader, className );
 			}
 		}
 		catch ( ClassNotFoundException ex )
 		{
 			if ( parentLoader != null )
 			{
-				return parentLoader.loadClass( className );
+				return SecurityUtil.loadClass( parentLoader, className );
 			}
 
 			throw ex;

@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -773,40 +775,47 @@ public final class PluginSettings
 	 * @param seriesClassName
 	 * @return
 	 */
-	public final String getSeriesDisplayName( String seriesClassName )
+	public final String getSeriesDisplayName( final String seriesClassName )
 	{
-		String sDisplayName = seriesClassName;
-		try
-		{
-			Class seriesClass = Class.forName( seriesClassName );
-			Method createMethod = seriesClass.getDeclaredMethod( "create", new Class[]{} ); //$NON-NLS-1$
-			Series newSeries = (Series) createMethod.invoke( seriesClass,
-					new Object[]{} );
-			Method mDisplayName = seriesClass.getDeclaredMethod( "getDisplayName", new Class[]{} ); //$NON-NLS-1$
-			Object oName = mDisplayName.invoke( newSeries, new Object[]{} );
-			sDisplayName = (String) oName;
-		}
-		catch ( ClassNotFoundException e )
-		{
-			e.printStackTrace( );
-		}
-		catch ( NoSuchMethodException e )
-		{
-			e.printStackTrace( );
-		}
-		catch ( IllegalAccessException e )
-		{
-			e.printStackTrace( );
-		}
-		catch ( IllegalArgumentException e )
-		{
-			e.printStackTrace( );
-		}
-		catch ( InvocationTargetException e )
-		{
-			e.printStackTrace( );
-		}
-		return sDisplayName;
+		return AccessController.doPrivileged( new PrivilegedAction<String>( ) {
+
+			public String run( )
+			{
+				String sDisplayName = seriesClassName;
+				try
+				{
+					Class<?> seriesClass = Class.forName( seriesClassName );
+					Method createMethod = seriesClass.getDeclaredMethod( "create", new Class[]{} ); //$NON-NLS-1$
+					Series newSeries = (Series) createMethod.invoke( seriesClass,
+							new Object[]{} );
+					Method mDisplayName = seriesClass.getDeclaredMethod( "getDisplayName", new Class[]{} ); //$NON-NLS-1$
+					Object oName = mDisplayName.invoke( newSeries,
+							new Object[]{} );
+					sDisplayName = (String) oName;
+				}
+				catch ( ClassNotFoundException e )
+				{
+					e.printStackTrace( );
+				}
+				catch ( NoSuchMethodException e )
+				{
+					e.printStackTrace( );
+				}
+				catch ( IllegalAccessException e )
+				{
+					e.printStackTrace( );
+				}
+				catch ( IllegalArgumentException e )
+				{
+					e.printStackTrace( );
+				}
+				catch ( InvocationTargetException e )
+				{
+					e.printStackTrace( );
+				}
+				return sDisplayName;
+			}
+		} );
 	}
 
 	/**
@@ -1058,8 +1067,8 @@ public final class PluginSettings
 	{
 		try
 		{
-			final Class c = Class.forName( sFQClassName );
-			return c.newInstance( );
+			final Class<?> c = Class.forName( sFQClassName );
+			return SecurityUtil.newClassInstance( c );
 		}
 		catch ( Exception ex )
 		{

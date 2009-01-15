@@ -50,6 +50,7 @@ import org.eclipse.birt.chart.script.ChartScriptContext;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineConstants;
@@ -351,7 +352,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 					return super.resolveClass( desc );
 				}
 			};
-			Object o = ois.readObject( );
+			Object o = SecurityUtil.readObject( ois );
 
 			if ( o instanceof RunTimeContext )
 			{

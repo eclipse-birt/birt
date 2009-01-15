@@ -35,6 +35,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.IBinding;
@@ -121,7 +122,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	{
 		// get -dir rtl option
 		boolean rtl = false;
-		String eclipseCommands = System.getProperty( "eclipse.commands" ); //$NON-NLS-1$
+		String eclipseCommands = SecurityUtil.getSysProp( "eclipse.commands" ); //$NON-NLS-1$
 		if ( eclipseCommands != null )
 		{
 			String[] options = eclipseCommands.split( "-" ); //$NON-NLS-1$

@@ -15,10 +15,13 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.chart.script.ScriptClassLoaderAdapter;
+import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 
@@ -43,7 +46,7 @@ public class BIRTScriptClassLoader extends ScriptClassLoaderAdapter
 		protected Class<?> findClass( String name )
 				throws ClassNotFoundException
 		{
-			return cldParent2.loadClass( name );
+			return SecurityUtil.loadClass( cldParent2, name );
 		}
 		
 	}
@@ -62,21 +65,21 @@ public class BIRTScriptClassLoader extends ScriptClassLoaderAdapter
 	 * @see org.eclipse.birt.chart.script.IScriptClassLoader#loadClass(java.lang.String,
 	 *      java.lang.ClassLoader)
 	 */
-	public Class loadClass( String className, ClassLoader parentLoader )
+	public Class<?> loadClass( String className, ClassLoader parentLoader )
 			throws ClassNotFoundException
 	{
 		if ( className == null )
 			return null;
 
-		Class c = null;
+		Class<?> c = null;
 		ClassNotFoundException ex = null;
 
 		// Use app classLoader to load class first
-		if ( this.classLoader != null )
+		if ( classLoader != null )
 		{
 			try
 			{
-				c = this.classLoader.loadClass( className );
+				c = SecurityUtil.loadClass( classLoader, className );
 
 				if ( c != null )
 				{
@@ -133,52 +136,61 @@ public class BIRTScriptClassLoader extends ScriptClassLoaderAdapter
 		return c;
 	}
 
-	private static Class getClassUsingCustomClassPath( String className,
-			String classPathKey, ClassLoader parentLoader )
+	private static Class<?> getClassUsingCustomClassPath( final String className,
+			final String classPathKey, final ClassLoader parentLoader )
 	{
-		String classPath = System.getProperty( classPathKey );
-		if ( classPath == null || classPath.length( ) == 0 || className == null )
-			return null;
-		String[] classPathArray = classPath.split( EngineConstants.PROPERTYSEPARATOR,
-				-1 );
-		URL[] urls = null;
-		if ( classPathArray.length != 0 )
-		{
-			List l = new ArrayList( );
-			for ( int i = 0; i < classPathArray.length; i++ )
-			{
-				String cpValue = classPathArray[i];
-				File file = new File( cpValue );
-				try
-				{
-					l.add( file.toURL( ) );
-				}
-				catch ( MalformedURLException e )
-				{
-					e.printStackTrace( );
-				}
-			}
-			urls = (URL[]) l.toArray( new URL[l.size( )] );
-		}
+		return AccessController.doPrivileged( new PrivilegedAction<Class<?>>( ) {
 
-		if ( urls != null )
-		{
-			DoubleParentClassLoader cmLoader = new DoubleParentClassLoader( parentLoader,
-					IReportEngine.class.getClassLoader( ) );
-			ClassLoader cl = new URLClassLoader( urls, cmLoader );
-			try
+			public Class<?> run( )
 			{
-				return cl.loadClass( className );
-				// Note: If the class can
-				// not even be loadded by this
-				// loader either, null will be returned
+				String classPath = System.getProperty( classPathKey );
+				if ( classPath == null
+						|| classPath.length( ) == 0
+						|| className == null )
+					return null;
+				String[] classPathArray = classPath.split( EngineConstants.PROPERTYSEPARATOR,
+						-1 );
+				URL[] urls = null;
+				if ( classPathArray.length != 0 )
+				{
+					List<URL> l = new ArrayList<URL>( );
+					for ( int i = 0; i < classPathArray.length; i++ )
+					{
+						String cpValue = classPathArray[i];
+						File file = new File( cpValue );
+						try
+						{
+							l.add( file.toURL( ) );
+						}
+						catch ( MalformedURLException e )
+						{
+							e.printStackTrace( );
+						}
+					}
+					urls = l.toArray( new URL[l.size( )] );
+				}
+
+				if ( urls != null )
+				{
+					DoubleParentClassLoader cmLoader = new DoubleParentClassLoader( parentLoader,
+							IReportEngine.class.getClassLoader( ) );
+					ClassLoader cl = new URLClassLoader( urls, cmLoader );
+					try
+					{
+						return cl.loadClass( className );
+						// Note: If the class can
+						// not even be loaded by this
+						// loader either, null will be returned
+					}
+					catch ( ClassNotFoundException e )
+					{
+						// Ignore
+					}
+				}
+				return null;
 			}
-			catch ( ClassNotFoundException e )
-			{
-				// Ignore
-			}
-		}
-		return null;
+		} );
+
 	}
 
 }

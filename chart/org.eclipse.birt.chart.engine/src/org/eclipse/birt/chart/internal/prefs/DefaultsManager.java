@@ -15,6 +15,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.prefs.Preferences;
@@ -30,6 +34,7 @@ import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.util.SecurityUtil;
 
 /**
  * A utility class manages the chart default settings.
@@ -222,7 +227,7 @@ public final class DefaultsManager
 		FileOutputStream fos = null;
 		try
 		{
-			fos = new FileOutputStream( sLocation );
+			fos = SecurityUtil.newFileOutputStream( sLocation );
 			pr.exportSubtree( fos );
 		}
 		finally
@@ -233,6 +238,8 @@ public final class DefaultsManager
 			}
 		}
 	}
+	
+	
 
 	/**
 	 * 
@@ -242,20 +249,43 @@ public final class DefaultsManager
 	public final void read( ) throws IOException,
 			InvalidPreferencesFormatException
 	{
-		FileInputStream fis = null;
 		try
 		{
-			fis = new FileInputStream( sLocation );
-			Preferences.importPreferences( fis );
-			pr = Preferences.userRoot( );
+			pr = AccessController.doPrivileged( new PrivilegedExceptionAction<Preferences>( ) {
+
+				public Preferences run( ) throws IOException,
+						InvalidPreferencesFormatException
+				{
+					FileInputStream fis = null;
+					try
+					{
+						fis = new FileInputStream( sLocation );
+						Preferences.importPreferences( fis );
+						return Preferences.userRoot( );
+					}
+					finally
+					{
+						if ( fis != null )
+						{
+							fis.close( );
+						}
+					}
+				}
+			} );
 		}
-		finally
+		catch ( PrivilegedActionException e )
 		{
-			if ( fis != null )
+			Exception typedException = e.getException( );
+			if ( typedException instanceof IOException )
 			{
-				fis.close( );
+				throw (IOException) typedException;
+			}
+			if ( typedException instanceof InvalidPreferencesFormatException )
+			{
+				throw (InvalidPreferencesFormatException) typedException;
 			}
 		}
+
 	}
 
 	/**
@@ -265,6 +295,12 @@ public final class DefaultsManager
 	private final boolean exists( )
 	{
 		final File f = new File( sLocation );
-		return ( f.exists( ) && f.isFile( ) );
+		return AccessController.doPrivileged( new PrivilegedAction<Boolean>( ) {
+
+			public Boolean run( )
+			{
+				return new Boolean( f.exists( ) && f.isFile( ) );
+			}
+		} );
 	}
 }

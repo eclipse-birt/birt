@@ -508,7 +508,7 @@ public class ChartUtil
 		else
 		{
 			// Then to get value from JVM
-			String jvmMaxRow = System.getProperty( CHART_MAX_ROW );
+			String jvmMaxRow = SecurityUtil.getSysProp( CHART_MAX_ROW );
 			if ( jvmMaxRow != null )
 			{
 				try
@@ -1053,7 +1053,7 @@ public class ChartUtil
 
 		while ( itSed.hasNext( ) )
 		{
-			SeriesDefinition sed = (SeriesDefinition) itSed.next( );
+			SeriesDefinition sed = (SeriesDefinition)itSed.next( );
 			// Design time series may be null in API test
 			Series ds = sed.getDesignTimeSeries( );
 			if ( ds != null && !ds.isVisible( ) )
@@ -1623,6 +1623,16 @@ public class ChartUtil
 		}
 
 	};
-
+	
+	/**
+	 * Convenient method to instantiate a new HashMap.
+	 * @param <K>
+	 * @param <V>
+	 * @return
+	 */
+	public static <K, V> Map<K, V> newHashMap( )
+	{
+		return new HashMap<K, V>( );
+	}
 	
 }

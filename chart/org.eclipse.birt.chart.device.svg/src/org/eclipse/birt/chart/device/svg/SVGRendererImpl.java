@@ -60,6 +60,7 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.chart.util.SecurityUtil;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
@@ -253,7 +254,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 			FileOutputStream fos = null;
 			try
 			{
-				fos = new FileOutputStream( (String) oOutputIdentifier );
+				fos = SecurityUtil.newFileOutputStream( (String) oOutputIdentifier );
 				writeDocumentToOutputStream( dom, fos );
 				fos.close( );
 			}
@@ -293,7 +294,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		{
 			OutputStreamWriter writer = null;
 
-			writer = new OutputStreamWriter( outputStream, "UTF-8" ); //$NON-NLS-1$
+			writer = SecurityUtil.newOutputStreamWriter( outputStream, "UTF-8" ); //$NON-NLS-1$
 
 			DOMSource source = new DOMSource( svgDocument );
 			StreamResult result = new StreamResult( writer );
@@ -302,9 +303,8 @@ public class SVGRendererImpl extends SwingRendererImpl
 			// transform factory. This is needed to work with jdk1.4 and jdk1.5
 			// with tomcat
 			checkForTransformFactoryImpl( );
-			TransformerFactory transFactory = TransformerFactory.newInstance( );
+			TransformerFactory transFactory = SecurityUtil.newTransformerFactory( );
 			Transformer transformer = transFactory.newTransformer( );
-
 			transformer.transform( source, result );
 		}
 
@@ -324,7 +324,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		catch ( ClassNotFoundException e )
 		{
 			// Force using sun's implementation
-			System.setProperty( "javax.xml.transform.TransformerFactory", //$NON-NLS-1$
+			SecurityUtil.setSysProp( "javax.xml.transform.TransformerFactory", //$NON-NLS-1$
 					"com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl" ); //$NON-NLS-1$
 		}
 	}
@@ -338,7 +338,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 */
 	protected Document createSvgDocument( ) throws Exception
 	{
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance( );
+		DocumentBuilderFactory factory = SecurityUtil.newDocumentBuilderFactory( );
 		DocumentBuilder builder;
 
 		builder = factory.newDocumentBuilder( );

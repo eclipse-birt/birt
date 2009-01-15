@@ -11,9 +11,10 @@
 
 package org.eclipse.birt.chart.device.swt.i18n;
 
-import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+
+import org.eclipse.birt.chart.util.SecurityUtil;
 
 import com.ibm.icu.util.ULocale;
 import com.ibm.icu.util.UResourceBundle;
@@ -35,7 +36,7 @@ public final class Messages
 	{
 		return UResourceBundle.getBundleInstance( DEVICE_SWT,
 				locale,
-				Messages.class.getClassLoader( ) );
+				SecurityUtil.getClassLoader( Messages.class ) );
 	}
 
 	/**
@@ -63,7 +64,7 @@ public final class Messages
 	{
 		try
 		{
-			return MessageFormat.format( getResourceBundle( lcl ).getString( key ),
+			return SecurityUtil.formatMessage( getResourceBundle( lcl ).getString( key ),
 					oa );
 		}
 		catch ( MissingResourceException e )

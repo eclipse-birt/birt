@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.device.svg;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +45,7 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.emf.common.util.EList;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -60,13 +60,13 @@ import com.ibm.icu.util.ULocale;
 public class SVGInteractiveRenderer
 {
 
-	private Map labelPrimitives = new Hashtable( );
+	private Map<Series,List<String>> labelPrimitives = SecurityUtil.newHashtable( );
 	private List scripts = new Vector( );
 	/**
 	 * Element that represents the hot spot layer
 	 */
 	protected Element hotspotLayer;
-	private Map componentPrimitives = new Hashtable( );
+	private Map<Object,List<String>> componentPrimitives = SecurityUtil.newHashtable( );
 	private IUpdateNotifier _iun;
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.svg/trace" ); //$NON-NLS-1$
 	SVGGraphics2D svg_g2d;
@@ -163,10 +163,10 @@ public class SVGInteractiveRenderer
 				if ( drawText )
 				{
 					String id = Integer.toString( pre.hashCode( ) );
-					List components = (List) labelPrimitives.get( seDT );
+					List<String> components = labelPrimitives.get( seDT );
 					if ( components == null )
 					{
-						components = new ArrayList( );
+						components = new ArrayList<String>( );
 						labelPrimitives.put( seDT, components );
 					}
 
@@ -189,10 +189,10 @@ public class SVGInteractiveRenderer
 				// Non-text
 				{
 					String id = Integer.toString( pre.hashCode( ) );
-					List components = (List) componentPrimitives.get( seDT );
+					List<String> components = componentPrimitives.get( seDT );
 					if ( components == null )
 					{
-						components = new ArrayList( );
+						components = new ArrayList<String>( );
 						componentPrimitives.put( seDT, components );
 					}
 
@@ -243,10 +243,10 @@ public class SVGInteractiveRenderer
 				{
 					String groupIdentifier = String.valueOf( designObject.hashCode( ) );
 					String id = Integer.toString( pre.hashCode( ) );
-					List components = (List) componentPrimitives.get( designObject );
+					List<String> components = componentPrimitives.get( designObject );
 					if ( components == null )
 					{
-						components = new ArrayList( );
+						components = new ArrayList<String>( );
 						componentPrimitives.put( designObject, components );
 					}
 
@@ -1030,7 +1030,7 @@ public class SVGInteractiveRenderer
 				}
 				groupIdentifier = String.valueOf( seDT.hashCode( ) );
 			}
-			List components = (List) componentPrimitives.get( seDT );
+			List<String> components = componentPrimitives.get( seDT );
 			//return the first element
 			if ((components != null) && (components.size()>0)){
 				return "'"+groupIdentifier+"_"+components.get(0)+"'";  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
@@ -1111,10 +1111,10 @@ public class SVGInteractiveRenderer
 
 				sb.append( ",new Array(" ); //$NON-NLS-1$
 
-				List labelComponents = (List) labelPrimitives.get( seDT );
-				List components = (List) componentPrimitives.get( seDT );
+				List<String> labelComponents = labelPrimitives.get( seDT );
+				List<String> components = componentPrimitives.get( seDT );
 
-				Iterator iter = null;
+				Iterator<String> iter = null;
 				// Apply action to graphics
 				if ( includeGraphics && components != null )
 				{

@@ -55,6 +55,7 @@ import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.data.Action;
+import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 
 /**
@@ -80,7 +81,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	private final static String POLY_SHAPE = "poly"; //$NON-NLS-1$
 
 	// Use this registry to make sure one callback method only be added once
-	private Map callbackMethodsRegistry = new HashMap( 5 );
+	private Map<String,Boolean> callbackMethodsRegistry = new HashMap<String,Boolean>( 5 );
 	
 	/**
 	 * Returns the output format string for this writer.
@@ -143,7 +144,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	 */
 	public String getImageMap( )
 	{
-		List saList = getShapeActions( );
+		List<ShapedAction> saList = getShapeActions( );
 
 		if ( saList == null || saList.size( ) == 0 )
 		{
@@ -152,9 +153,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 		// Generate image map using associated trigger list.
 		StringBuffer sb = new StringBuffer( );
-		for ( Iterator iter = saList.iterator( ); iter.hasNext( ); )
+		for ( Iterator<ShapedAction> iter = saList.iterator( ); iter.hasNext( ); )
 		{
-			ShapedAction sa = (ShapedAction) iter.next( );
+			ShapedAction sa = iter.next( );
 			userCallback( sa, sb );
 
 			String coords = shape2polyCoords( sa.getShape( ) );
@@ -355,13 +356,12 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			return null;
 		}
 
-		ArrayList al = new ArrayList( );
+		ArrayList<Double> al = new ArrayList<Double>( );
 
 		PathIterator pitr = shape.getPathIterator( null );
 		double[] data = new double[6];
 
 		// TODO improve to support precise curve coordinates.
-
 		while ( !pitr.isDone( ) )
 		{
 			int type = pitr.currentSegment( data );
@@ -406,7 +406,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 		for ( int i = 0; i < al.size( ); i++ )
 		{
-			Double db = (Double) al.get( i );
+			Double db = al.get( i );
 			if ( i > 0 )
 			{
 				sb.append( "," ); //$NON-NLS-1$
@@ -437,7 +437,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		String s = getFormat( );
 		if ( s != null )
 		{
-			Iterator it = ImageIO.getImageWritersByFormatName( s );
+			Iterator<ImageWriter> it = ImageIO.getImageWritersByFormatName( s );
 			if ( it.hasNext( ) )
 			{
 				supported = true;
@@ -450,7 +450,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			s = getMimeType( );
 			if ( s != null )
 			{
-				Iterator it = ImageIO.getImageWritersByMIMEType( s );
+				Iterator<ImageWriter> it = ImageIO.getImageWritersByMIMEType( s );
 				if ( it.hasNext( ) )
 				{
 					supported = true;
@@ -530,7 +530,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		{
 
 			// SEARCH FOR WRITER USING FORMAT
-			Iterator it = null;
+			Iterator<ImageWriter> it = null;
 			String s = getFormat( );
 			if ( s != null )
 			{
@@ -569,7 +569,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 							Messages.getResourceBundle( getULocale( ) ) );
 				}
 			}
-			final ImageWriter iw = (ImageWriter) it.next( );
+			final ImageWriter iw = it.next( );
 
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "JavaxImageIOWriter.info.using.imagewriter", getULocale( ) ) //$NON-NLS-1$
@@ -581,7 +581,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 					: _oOutputIdentifier;
 			try
 			{
-				final ImageOutputStream ios = ImageIO.createImageOutputStream( o );
+				final ImageOutputStream ios =  SecurityUtil.createImageOutputStream( o );
 				updateWriterParameters( iw.getDefaultWriteParam( ) ); // SET
 				// ANY
 				// OUTPUT

@@ -27,6 +27,6 @@ public interface IScriptClassLoader
 	 *            Parent loader.
 	 * @return Loaded class.
 	 */
-	Class loadClass( String className, ClassLoader parentLoader )
+	Class<?> loadClass( String className, ClassLoader parentLoader )
 			throws ClassNotFoundException;
 }

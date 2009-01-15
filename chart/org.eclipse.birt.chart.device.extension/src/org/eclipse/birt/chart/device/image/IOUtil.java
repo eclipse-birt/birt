@@ -14,15 +14,14 @@ package org.eclipse.birt.chart.device.image;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.Vector;
+
+import org.eclipse.birt.chart.util.SecurityUtil;
 
 /**
  * General IO utilities and helper methods
@@ -52,7 +51,7 @@ class IOUtil
 	 */
 	static byte[] readFully( String filename ) throws IOException
 	{
-		return readFully( new FileInputStream( filename ) );
+		return readFully( SecurityUtil.newFileInputStream( filename ) );
 	}
 
 	/**
@@ -69,7 +68,7 @@ class IOUtil
 	 */
 	static byte[] readFully( File file ) throws IOException
 	{
-		return readFully( new FileInputStream( file ) );
+		return readFully( SecurityUtil.newFileInputStream( file ) );
 	}
 
 	/**
@@ -137,9 +136,9 @@ class IOUtil
 	 * @throws IOException
 	 *             if an I/O error occurs
 	 */
-	static Vector readText( String filename ) throws IOException
+	static Vector<String> readText( String filename ) throws IOException
 	{
-		return readText( new FileReader( filename ) );
+		return readText( SecurityUtil.newFileReader( filename ) );
 	}
 
 	/**
@@ -154,9 +153,9 @@ class IOUtil
 	 * @throws IOException
 	 *             if an I/O error occurs
 	 */
-	static Vector readText( File file ) throws IOException
+	static Vector<String> readText( File file ) throws IOException
 	{
-		return readText( new FileReader( file ) );
+		return readText( SecurityUtil.newFileReader( file ) );
 	}
 
 	/**
@@ -171,12 +170,12 @@ class IOUtil
 	 * @throws IOException
 	 *             if an I/O error occurs
 	 */
-	static Vector readText( Reader r ) throws IOException
+	static Vector<String> readText( Reader r ) throws IOException
 	{
 		BufferedReader br = new BufferedReader( r );
 		try
 		{
-			Vector ret = new Vector( );
+			Vector<String> ret = new Vector<String>( );
 			String line;
 			while ( ( line = br.readLine( ) ) != null )
 				ret.addElement( line.intern( ) ); // Avoid wasting space
@@ -201,9 +200,9 @@ class IOUtil
 	 * @throws IOException
 	 *             if an I/O error occurs
 	 */
-	static void writeText( Vector lines, String filename ) throws IOException
+	static void writeText( Vector<String> lines, String filename ) throws IOException
 	{
-		writeText( lines, new FileWriter( filename ) );
+		writeText( lines, SecurityUtil.newFileWriter( filename ) );
 	}
 
 	/**
@@ -219,9 +218,9 @@ class IOUtil
 	 * @throws IOException
 	 *             if an I/O error occurs
 	 */
-	static void writeText( Vector lines, File file ) throws IOException
+	static void writeText( Vector<String> lines, File file ) throws IOException
 	{
-		writeText( lines, new FileWriter( file ) );
+		writeText( lines, SecurityUtil.newFileWriter( file ) );
 	}
 
 	/**
@@ -237,7 +236,8 @@ class IOUtil
 	 * @throws IOException
 	 *             if an I/O error occurs
 	 */
-	static void writeText( Vector lines, Writer out ) throws IOException
+	static void writeText( Vector<String> lines, Writer out )
+			throws IOException
 	{
 		BufferedWriter bw = new BufferedWriter( out );
 		try
@@ -245,7 +245,7 @@ class IOUtil
 			int l = lines.size( );
 			for ( int i = 0; i < l; i++ )
 			{
-				bw.write( (String) lines.elementAt( i ) );
+				bw.write( lines.elementAt( i ) );
 				bw.newLine( );
 			}
 		}

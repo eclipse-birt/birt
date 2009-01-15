@@ -31,7 +31,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.ImageObserver;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -86,7 +85,9 @@ import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.render.BaseRenderer;
 import org.eclipse.birt.chart.render.InteractiveRenderer;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.chart.util.SecurityUtil;
 
 /**
  * Provides a reference implementation of a SWING device renderer. It translates
@@ -98,11 +99,11 @@ public class SwingRendererImpl extends DeviceAdapter
 	/**
 	 * KEY = TRIGGER_CONDITION VAL = COLLECTION OF SHAPE-ACTION INSTANCES
 	 */
-	private final Map _lhmAllTriggers = new HashMap( );
+	private final Map<TriggerCondition, List<ShapedAction>> _lhmAllTriggers = ChartUtil.newHashMap( );
 	/**
 	 * key = ShapeAction, val = collection of trigger conditions
 	 */
-	private final List _allShapes = new LinkedList( );
+	private final List<ShapedAction> _allShapes = new LinkedList<ShapedAction>( );
 	private final Map _htLineStyles = new HashMap( );
 
 	protected Graphics2D _g2d;
@@ -321,7 +322,7 @@ public class SwingRendererImpl extends DeviceAdapter
 			try
 			{
 				final String sUrl = pre.getImage( ).getURL( );
-				img = (java.awt.Image) _ids.loadImage( new URL( sUrl ) );
+				img = (java.awt.Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
 			}
 			catch ( ChartException ilex )
 			{
@@ -600,7 +601,7 @@ public class SwingRendererImpl extends DeviceAdapter
 				try
 				{
 					final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) flBackground ).getURL( );
-					img = (java.awt.Image) _ids.loadImage( new URL( sUrl ) );
+					img = (java.awt.Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
 				}
 				catch ( ChartException ilex )
 				{
@@ -853,7 +854,7 @@ public class SwingRendererImpl extends DeviceAdapter
 				try
 				{
 					final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) flBackground ).getURL( );
-					img = (java.awt.Image) _ids.loadImage( new URL( sUrl ) );
+					img = (java.awt.Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
 				}
 				catch ( ChartException ilex )
 				{
@@ -1330,7 +1331,7 @@ public class SwingRendererImpl extends DeviceAdapter
 				try
 				{
 					final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) flBackground ).getURL( );
-					img = (java.awt.Image) _ids.loadImage( new URL( sUrl ) );
+					img = (java.awt.Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
 				}
 				catch ( ChartException ilex )
 				{
@@ -1638,10 +1639,10 @@ public class SwingRendererImpl extends DeviceAdapter
 			tc = tga[i].getCondition( );
 			ac = tga[i].getAction( );
 			sa.add( tc, ac );
-			List al = (List) _lhmAllTriggers.get( tc );
+			List<ShapedAction> al = _lhmAllTriggers.get( tc );
 			if ( al == null )
 			{
-				al = new ArrayList( 4 ); // UNDER NORMAL CONDITIONS
+				al = new ArrayList<ShapedAction>( 4 ); // UNDER NORMAL CONDITIONS
 				_lhmAllTriggers.put( tc, al );
 			}
 			al.add( sa );
@@ -2002,7 +2003,7 @@ public class SwingRendererImpl extends DeviceAdapter
 				try
 				{
 					final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) flBackground ).getURL( );
-					img = (java.awt.Image) _ids.loadImage( new URL( sUrl ) );
+					img = (java.awt.Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
 				}
 				catch ( ChartException ilex )
 				{

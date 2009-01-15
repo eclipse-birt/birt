@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
+import org.eclipse.birt.chart.util.SecurityUtil;
 
 /**
  * 
@@ -40,7 +41,7 @@ public final class SwingImageCache
 	/**
 	 * 
 	 */
-	private final Hashtable htCache;
+	private final Hashtable<URL, Image> htCache;
 
 	/**
 	 * 
@@ -55,7 +56,7 @@ public final class SwingImageCache
 	SwingImageCache( IDisplayServer idsSWING )
 	{
 		this.idsSWING = idsSWING;
-		htCache = new Hashtable( );
+		htCache = SecurityUtil.newHashtable( );
 	}
 
 	/**
@@ -66,7 +67,7 @@ public final class SwingImageCache
 	 */
 	final Image loadImage( URL url ) throws ChartException
 	{
-		Image img = (Image) htCache.get( url );
+		Image img = htCache.get( url );
 		if ( img != null )
 		{
 			logger.log( ILogger.INFORMATION,
@@ -134,10 +135,10 @@ public final class SwingImageCache
 		}
 		Image img;
 		final int n = htCache.size( );
-		Enumeration eV = htCache.elements( );
+		Enumeration<Image> eV = htCache.elements( );
 		while ( eV.hasMoreElements( ) )
 		{
-			img = (Image) eV.nextElement( );
+			img = eV.nextElement( );
 			img.flush( );
 		}
 		htCache.clear( );

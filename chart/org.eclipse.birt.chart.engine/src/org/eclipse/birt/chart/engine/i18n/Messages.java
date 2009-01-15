@@ -11,11 +11,12 @@
 
 package org.eclipse.birt.chart.engine.i18n;
 
-import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+
+import org.eclipse.birt.chart.util.SecurityUtil;
 
 import com.ibm.icu.util.ULocale;
 import com.ibm.icu.util.UResourceBundle;
@@ -34,7 +35,7 @@ public final class Messages
 
 	private static final ResourceBundle RESOURCE_BUNDLE = UResourceBundle.getBundleInstance( ENGINE,
 			ULocale.getDefault( ),
-			Messages.class.getClassLoader( ) );
+			SecurityUtil.getClassLoader( Messages.class ) );
 	
 	private static Map<ULocale, ResourceBundle> hmLocalToBundle = new HashMap<ULocale, ResourceBundle>( 2 );
 
@@ -55,7 +56,7 @@ public final class Messages
 		{
 			bundle = UResourceBundle.getBundleInstance( ENGINE,
 				locale,
-				Messages.class.getClassLoader( ) );
+				SecurityUtil.getClassLoader( Messages.class ) );
 			hmLocalToBundle.put( locale, bundle );
 		}
 
@@ -109,7 +110,7 @@ public final class Messages
 	{
 		try
 		{
-			return MessageFormat.format( getResourceBundle( lcl ).getString( key ),
+			return SecurityUtil.formatMessage( getResourceBundle( lcl ).getString( key ),
 					oa );
 		}
 		catch ( MissingResourceException e )

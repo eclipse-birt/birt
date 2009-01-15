@@ -13,6 +13,9 @@ package org.eclipse.birt.chart.internal.log;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.FileHandler;
@@ -199,12 +202,39 @@ public class JavaUtilLoggerImpl implements ILogger
 			sLogFolder = sLogFolder.substring( 0, sLogFolder.length( ) - 1 );
 		}
 
-		String sName = ChartEnginePlugin.ID
+		final String sName = ChartEnginePlugin.ID
 				+ new SimpleDateFormat( "_yyyy_MM_dd_HH_mm_ss_SSS" ).format( new Date( ) ); //$NON-NLS-1$
-		String sDir = sLogFolder;
-		fileHandler = new FileHandler( sDir + File.separator + sName + ".log", true ); //$NON-NLS-1$
-		fileHandler.setFormatter( new SimpleFormatter( ) );
-		fileHandler.setLevel( Level.FINEST );
+		final String sDir = sLogFolder;
+
+		try
+		{
+			fileHandler = AccessController.doPrivileged( new PrivilegedExceptionAction<FileHandler>( ) {
+
+				public FileHandler run( ) throws IOException, SecurityException
+				{
+					FileHandler fileHandler = new FileHandler( sDir
+							+ File.separator
+							+ sName
+							+ ".log", true ); //$NON-NLS-1$
+					fileHandler.setFormatter( new SimpleFormatter( ) );
+					fileHandler.setLevel( Level.FINEST );
+					return fileHandler;
+				}
+			} );
+		}
+		catch ( PrivilegedActionException e )
+		{
+			Exception typedException = e.getException( );
+			if ( typedException instanceof IOException )
+			{
+				throw (IOException) typedException;
+			}
+			if ( typedException instanceof SecurityException )
+			{
+				throw (SecurityException) typedException;
+			}
+		}
+
 	}
 
 }

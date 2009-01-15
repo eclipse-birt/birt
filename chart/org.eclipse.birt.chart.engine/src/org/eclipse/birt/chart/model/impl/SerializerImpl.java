@@ -19,9 +19,11 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +34,7 @@ import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.birt.chart.model.Serializer;
 import org.eclipse.birt.chart.model.component.ChartPreferences;
 import org.eclipse.birt.chart.model.util.ModelResourceFactoryImpl;
+import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -246,7 +249,7 @@ public class SerializerImpl implements Serializer
 		StringBuffer sbChart = new StringBuffer( "" ); //$NON-NLS-1$
 		try
 		{
-			BufferedReader reader = new BufferedReader( new InputStreamReader( is,
+			BufferedReader reader = new BufferedReader( SecurityUtil.newInputStreamReader( is,
 					"UTF-8" ) ); //$NON-NLS-1$
 			boolean bChartStarted = false;
 			while ( true )
@@ -324,54 +327,76 @@ public class SerializerImpl implements Serializer
 		return (Chart) rChart.getContents( ).get( 0 );
 	}
 
-	public Chart readEmbedded( URI uri ) throws IOException
+	public Chart readEmbedded( final URI uri ) throws IOException
 	{
-		// Create and setup local ResourceSet
-		ResourceSet rsChart = new ResourceSetImpl( );
-		rsChart.getResourceFactoryRegistry( )
-				.getExtensionToFactoryMap( )
-				.put( "chart", new ModelResourceFactoryImpl( ) ); //$NON-NLS-1$
-
-		// Create resources to represent the disk files to be used to store the
-		// models
-		Resource rChart = null;
-
-		StringBuffer sb = null;
-		InputStream fis = null;
-		FileWriter writer = null;
+		Chart chart = null;
 		try
 		{
-			fis = new FileInputStream( uri.toFileString( ) );
-			sb = getChartStringFromStream( fis );
+			chart = AccessController.doPrivileged( new PrivilegedExceptionAction<Chart>( ) {
 
-			File fTmp = File.createTempFile( "_ChartResource", ".chart" ); //$NON-NLS-1$ //$NON-NLS-2$
-			writer = new FileWriter( fTmp );
-			writer.write( sb.toString( ) );
-			writer.flush( );
+				public Chart run( ) throws IOException
+				{
+					// Create and setup local ResourceSet
+					ResourceSet rsChart = new ResourceSetImpl( );
+					rsChart.getResourceFactoryRegistry( )
+							.getExtensionToFactoryMap( )
+							.put( "chart", new ModelResourceFactoryImpl( ) ); //$NON-NLS-1$
 
-			URI uriEmbeddedModel = URI.createFileURI( fTmp.getAbsolutePath( ) );
-			rChart = rsChart.getResource( uriEmbeddedModel, true );
+					// Create resources to represent the disk files to be used
+					// to store the
+					// models
+					Resource rChart = null;
 
-			rChart.load( Collections.EMPTY_MAP );
+					StringBuffer sb = null;
+					InputStream fis = null;
+					FileWriter writer = null;
 
-			// Delete the temporary file once the model is loaded.
-			if ( fTmp.exists( ) )
-			{
-				fTmp.delete( );
-			}
-			return (Chart) rChart.getContents( ).get( 0 );
+					try
+					{
+						fis = new FileInputStream( uri.toFileString( ) );
+						sb = getChartStringFromStream( fis );
+
+						File fTmp = File.createTempFile( "_ChartResource", ".chart" ); //$NON-NLS-1$ //$NON-NLS-2$
+						writer = new FileWriter( fTmp );
+						writer.write( sb.toString( ) );
+						writer.flush( );
+
+						URI uriEmbeddedModel = URI.createFileURI( fTmp.getAbsolutePath( ) );
+						rChart = rsChart.getResource( uriEmbeddedModel, true );
+
+						rChart.load( Collections.EMPTY_MAP );
+
+						// Delete the temporary file once the model is loaded.
+						if ( fTmp.exists( ) )
+						{
+							fTmp.delete( );
+						}
+						return (Chart) rChart.getContents( ).get( 0 );
+					}
+					finally
+					{
+						if ( writer != null )
+						{
+							writer.close( );
+						}
+						if ( fis != null )
+						{
+							fis.close( );
+						}
+					}
+				}
+			} );
 		}
-		finally
+		catch ( PrivilegedActionException e )
 		{
-			if ( writer != null )
+			Exception typedException = e.getException( );
+			if ( typedException instanceof IOException )
 			{
-				writer.close( );
-			}
-			if ( fis != null )
-			{
-				fis.close( );
+				throw (IOException) typedException;
 			}
 		}
+
+		return chart;
 	}
 
 	/*
