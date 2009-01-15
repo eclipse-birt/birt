@@ -35,6 +35,8 @@ import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
+import org.eclipse.datatools.connectivity.oda.IBlob;
+import org.eclipse.datatools.connectivity.oda.IClob;
 
 /**
  * Utility class for ResultObject for serialize and deserialize. Since available
@@ -170,9 +172,9 @@ public class ResultObjectUtil
 					obs[j] = new Boolean( dis.readBoolean( ) );
 				else if ( fieldType.equals( String.class ) )
 					obs[j] = IOUtil.readString( dis );
-				else if ( fieldType.equals( Clob.class ) )
+				else if ( fieldType.equals( IClob.class ) )
 					obs[j] = IOUtil.readString( dis );
-				else if ( fieldType.equals( Blob.class ) )
+				else if ( fieldType.equals( IBlob.class ) )
 				{
 					int len = IOUtil.readInt( dis );
 					if ( len == 0 )
@@ -281,10 +283,10 @@ public class ResultObjectUtil
 				dos.writeBoolean( ( (Boolean) fieldValue ).booleanValue( ) );
 			else if ( fieldType.equals( String.class ) )
 				IOUtil.writeString( dos, fieldValue.toString( ) );
-			else if ( fieldType.equals( Clob.class ) )
+			else if ( fieldType.equals( IClob.class ))
 				IOUtil.writeString( dos, fieldValue.toString( ) );
-			else if ( fieldType.equals( Blob.class ) )
-			{
+			else if ( fieldType.equals( IBlob.class ))
+			{	
 				byte[] bytes = (byte[]) fieldValue;
 				if ( bytes == null || bytes.length == 0 )
 				{
