@@ -26,12 +26,17 @@ public class Data extends SheetData implements Serializable, Cloneable
 
 	private static int ID = 0;
 
-	int  id;
+	private int  id;
 
-	boolean isTxtData = true;
+	private static Logger log = Logger.getLogger( Data.class.getName( ) );
+
+	public Data( SheetData data )
+	{
+		this( data.getText( ), data.getStyle( ), data.getDatatype( ), data
+				.getContainer( ) );
+		this.rowIndex = data.getRowIndex( );
+	}
 	
-	Logger log = Logger.getLogger( Data.class.getName( ) );
-
 	public Data( final Object txt, final int datatype, XlsContainer container )
 	{
 		this( txt, null, datatype, container );
@@ -52,11 +57,6 @@ public class Data extends SheetData implements Serializable, Cloneable
 		id = ID++;
 		this.container = container;
 		this.rowSpanInDesign = 0;
-	}
-
-	protected void setNotTxtData( )
-	{
-		this.isTxtData = false;
 	}
 
 	public Object getText( )

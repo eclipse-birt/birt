@@ -79,6 +79,18 @@ public abstract class SheetData
 	
 	BookmarkDef bookmark;
 	
+	int rowIndex;
+
+	public int getRowIndex( )
+	{
+		return rowIndex;
+	}
+
+	public void setRowIndex( int rowIndex )
+	{
+		this.rowIndex = rowIndex;
+	}
+
 	public StyleEntry getStyle( )
 	{
 		return style;

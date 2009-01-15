@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
-import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -128,7 +128,7 @@ public class StyleBuilder
 						"0", "1"}, false ) );
 
 		entry.setProperty( StyleConstant.H_ALIGN_PROP, convertHAlign( style
-				.getTextAlign( ), style.getDirection( ) ) );
+				.getTextAlign( ) ) );
 
 		entry.setProperty( StyleConstant.V_ALIGN_PROP, convertVAlign( style
 				.getVerticalAlign( ) ) );
@@ -271,7 +271,7 @@ public class StyleBuilder
 		return bs;
 	}
 
-	public static String convertHAlign( String align, String direction )
+	public static String convertHAlign( String align )
 	{
 		String ha = null; 
 			//"Left";
@@ -289,11 +289,6 @@ public class StyleBuilder
 		{
 			ha = "Center";
 		}
-		else if ( "rtl".equalsIgnoreCase( direction ) )
-			ha = "Right";
-		else
-			ha = "Left";
-
 		return ha;
 	}
 

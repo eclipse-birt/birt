@@ -23,11 +23,9 @@ public class BlankData extends Data
 
 	private SheetData data;
 	
-	public static BlankData BLANK = new BlankData(null);
-	
 	public BlankData( SheetData data )
 	{
-		super( null, 0, null );
+		super( data );
 		this.data = data;
 	}
 

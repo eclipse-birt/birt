@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -786,9 +787,10 @@ public class ExcelWriter implements IExcelWriter
 	{
 		startSheet( );
 
-		for ( int count = 0; count < engine.getRowCount( ); count++ )
+		Iterator<RowData> it = engine.getIterator( );
+		while ( it.hasNext( ) )
 		{
-			outputData( engine.getRow( count ) );
+			outputData( it.next( ) );
 		}
 
 		endSheet( );

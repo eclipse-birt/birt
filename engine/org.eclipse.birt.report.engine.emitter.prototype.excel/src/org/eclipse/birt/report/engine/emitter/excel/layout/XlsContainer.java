@@ -12,6 +12,17 @@ public class XlsContainer
 	private int startRowId;
 	private boolean empty;
 	private XlsContainer parent;
+	private int rowIndex;
+
+	public int getRowIndex( )
+	{
+		return rowIndex;
+	}
+
+	public void setRowIndex( int rowIndex )
+	{
+		this.rowIndex = rowIndex;
+	}
 
 	public XlsContainer( StyleEntry style, XlsContainer parent )
 	{
@@ -23,7 +34,9 @@ public class XlsContainer
 		this.style = style;
 		this.sizeInfo = sizeInfo;
 		this.parent = parent;
+		this.rowIndex = parent != null ? parent.rowIndex : 0;
 		empty = true;
+		this.startRowId = rowIndex;
 	}	
 	
 	public boolean isEmpty( )
@@ -66,7 +79,6 @@ public class XlsContainer
 		return link;
 	}
 
-	
 	public void setLink( HyperlinkDef link )
 	{
 		this.link = link;
