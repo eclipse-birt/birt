@@ -19,7 +19,7 @@ public class TemplateExecutorTest extends TestCase
 		TextTemplate template = new TemplateParser( ).parse( input );
 		ExecutionContext context = new ExecutionContext(); 
 		TemplateExecutor executor = new TemplateExecutor(context);
-		HashMap values = new HashMap();
+		HashMap<String, Object> values = new HashMap<String, Object>( );
 		values.put("textData", "RESULT");
 		values.put("imageData", new byte[]{} );
 		String output = executor.execute( template, values );
@@ -27,4 +27,25 @@ public class TemplateExecutorTest extends TestCase
 		assertTrue(matched);
 	}
 
+	public void testFormat()
+	{
+		testValueOf( "<value-of format=\"0.00\">textData</value-of>" );
+	}
+
+	public void testFormatExpression( )
+	{
+		testValueOf( "<value-of format-expr=format>textData</value-of>" );
+	}
+
+	private void testValueOf( String input )
+	{
+		TextTemplate template = new TemplateParser( ).parse( input );
+		ExecutionContext context = new ExecutionContext(); 
+		TemplateExecutor executor = new TemplateExecutor(context);
+		HashMap<String, Object> values = new HashMap<String, Object>( );
+		values.put( "textData", 78.9711 );
+		values.put( "format", "0.00" );
+		String output = executor.execute( template, values );
+		assertEquals( "78.97", output );
+	}
 }

@@ -35,7 +35,7 @@ public class TemplateExecutor implements TextTemplate.Visitor
 	protected static Logger logger = Logger.getLogger( TemplateExecutor.class.getName( ) );
 
 	protected StringBuffer buffer;
-	protected HashMap values;
+	protected HashMap<String, Object> values;
 	protected ExecutionContext context;
 	protected File imageFolder;
 	protected HashMap imageCaches = new HashMap( );
@@ -67,7 +67,7 @@ public class TemplateExecutor implements TextTemplate.Visitor
 		imageFolder = new File( tmpDir );
 	}
 
-	public String execute( TextTemplate template, HashMap values )
+	public String execute( TextTemplate template, HashMap<String, Object> values )
 	{
 		this.buffer = new StringBuffer( );
 		this.values = values;
@@ -102,13 +102,18 @@ public class TemplateExecutor implements TextTemplate.Visitor
 	public Object visitValue( TextTemplate.ValueNode node, Object value )
 	{
 		String text = "";
-		String format = node.getFormat( );
 		Object result = null;
 		if ( values != null )
 		{
 			result = values.get( node.getValue( ) );
 		}
 
+		String format = node.getFormat( );
+		String formatExpression = node.getFormatExpression( );
+		if ( format == null && formatExpression != null )
+		{
+			format = values.get( formatExpression ).toString( );
+		}
 		if ( "html".equalsIgnoreCase( format ) )
 		{
 			if ( result != null )

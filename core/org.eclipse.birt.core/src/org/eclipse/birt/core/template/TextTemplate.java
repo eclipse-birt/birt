@@ -133,10 +133,16 @@ public class TextTemplate
 
 		String format;
 		String value;
+		String formatExpression;
 
 		public String getFormat( )
 		{
 			return format;
+		}
+
+		public String getFormatExpression( )
+		{
+			return formatExpression;
 		}
 
 		public String getValue( )

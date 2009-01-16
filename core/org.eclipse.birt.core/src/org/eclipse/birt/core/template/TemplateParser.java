@@ -66,10 +66,14 @@ public class TemplateParser
 			}
 			else if ( data instanceof TextTemplate.ValueNode )
 			{
+				TextTemplate.ValueNode value = (TextTemplate.ValueNode) data;
 				if ( "format".equalsIgnoreCase( node.getName( ) ) )
 				{
-					TextTemplate.ValueNode value = (TextTemplate.ValueNode) data;
 					value.format = getAttributeValue( node.getValue( ) );
+				}
+				else if ( "format-expr".equalsIgnoreCase( node.getName( ) ) )
+				{
+					value.formatExpression = getAttributeValue( node.getValue( ) );
 				}
 			}
 			else if ( data instanceof TextTemplate.TextNode )

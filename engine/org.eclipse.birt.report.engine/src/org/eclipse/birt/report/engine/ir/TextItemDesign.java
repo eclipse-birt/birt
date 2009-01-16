@@ -16,6 +16,7 @@ import java.util.Iterator;
 
 import org.eclipse.birt.core.template.TemplateParser;
 import org.eclipse.birt.core.template.TextTemplate;
+import org.eclipse.birt.core.template.TextTemplate.ValueNode;
 
 /**
  * Text element captures a long string with internal formatting.
@@ -44,9 +45,9 @@ public class TextItemDesign extends ReportItemDesign
 	 */
 	protected String text;
 
-	protected HashMap exprs = null;
+	protected HashMap<String, String> exprs = null;
 
-	public HashMap getExpressions( )
+	public HashMap<String, String> getExpressions( )
 	{
 		if ( text == null )
 		{
@@ -61,34 +62,40 @@ public class TextItemDesign extends ReportItemDesign
 				|| ( AUTO_TEXT.equals( textType ) && startsWithIgnoreCase(
 						text, "<html>" ) ) )
 		{
-			exprs = new HashMap( );
+			exprs = new HashMap<String, String>( );
 			TextTemplate template = new TemplateParser( ).parse( text );
 			if( template != null && template.getNodes() != null )
 			{
 				Iterator itor = template.getNodes().iterator();
 				Object obj;
-				String expression = null;
 				while( itor.hasNext( ) )
 				{
 					obj = itor.next();
-					if( obj instanceof TextTemplate.ValueNode )
-				{
-						expression = ( ( TextTemplate.ValueNode ) obj ).getValue( ); 
-					}
-					else if( obj instanceof TextTemplate.ImageNode )
+					if ( obj instanceof TextTemplate.ValueNode )
 					{
-						expression = ( ( TextTemplate.ImageNode ) obj ).getExpr();
+						ValueNode valueNode = (TextTemplate.ValueNode) obj;
+						addExpression( valueNode.getValue( ) );
+						addExpression( valueNode.getFormatExpression( ) );
 					}
+					else if ( obj instanceof TextTemplate.ImageNode )
+					{
+						addExpression( ( (TextTemplate.ImageNode) obj )
+								.getExpr( ) );
+					}
+
 					
-					if( expression != null && !expression.trim( ).equals( "" ) )
-					{
-						exprs.put( expression, expression );
-						expression = null;
-					}
 				}
 			}
 		}
 		return exprs;
+	}
+
+	private void addExpression( String expression )
+	{
+		if ( expression != null && !expression.trim( ).equals( "" ) )
+		{
+			exprs.put( expression, expression );
+		}
 	}
 
 	public boolean startsWithIgnoreCase( String original, String pattern )
