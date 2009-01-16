@@ -676,7 +676,15 @@ public class WebViewer
 		}
 		if ( timeZone != null )
 		{
-			params.put( ParameterAccessor.PARAM_TIMEZONE, timeZone );
+			try
+			{
+				params.put( ParameterAccessor.PARAM_TIMEZONE,
+						URLEncoder.encode( timeZone, UTF_8 ) );
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+				LogUtil.logWarning( e.getLocalizedMessage( ), e );
+			}
 		}
 		params.put( ParameterAccessor.PARAM_MASTERPAGE,
 				String.valueOf( bMasterPageContent ) );
