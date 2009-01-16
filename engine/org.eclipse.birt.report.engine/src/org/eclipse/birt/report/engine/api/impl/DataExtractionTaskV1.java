@@ -25,8 +25,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
@@ -36,7 +39,9 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryLocator;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
@@ -1007,9 +1012,54 @@ public class DataExtractionTaskV1 extends EngineTask
 		}
 	}
 	
-	private void setupDistinct( IBaseQueryDefinition query )
+	private void setupDistinct( QueryDefinition query ) throws BirtException
 	{
-		( (BaseQueryDefinition) query ).setDistinctValue( this.distinct );
+		query.setDistinctValue( this.distinct );
+		
+		if ( this.distinct && selectedColumns != null )
+		{
+			IBaseQueryDefinition srcQuery = query.getSourceQuery( );
+			for ( int index = 0; index < selectedColumns.length; index++ )
+			{
+				Map bindings = srcQuery.getBindings( );
+				if ( bindings != null )
+				{
+					IBinding binding = (IBinding) bindings
+							.get( selectedColumns[index] );
+					if ( binding != null )
+					{
+						addQueryBinding( query, binding );
+					}
+				}
+			}
+		}
+	}
+	
+	private void addQueryBinding( QueryDefinition query, IBinding binding )
+			throws BirtException
+	{
+		IBinding newBinding = new Binding( binding.getBindingName( ) );
+		newBinding.setAggrFunction( binding.getAggrFunction( ) );
+		newBinding.setDataType( binding.getDataType( ) );
+		newBinding.setDisplayName( binding.getDisplayName( ) );
+		newBinding.setExportable( binding.exportable( ) );
+		newBinding.setFilter( binding.getFilter( ) );
+		List aggrOns = binding.getAggregatOns( );
+		for ( Object aggrOn : aggrOns )
+		{
+			newBinding.addAggregateOn( (String) aggrOn );
+		}
+		List argus = binding.getArguments( );
+		for ( Object argu : argus )
+		{
+			newBinding.addArgument( (IBaseExpression) argu );
+		}
+		String expr = ExpressionUtil.createDataSetRowExpression( newBinding
+				.getBindingName( ) );
+		IBaseExpression dbExpr = new ScriptExpression( expr, newBinding
+				.getDataType( ) );
+		newBinding.setExpression( dbExpr );
+		query.addBinding( newBinding );
 	}
 
 	private String getResultsetID( String prset, long rowId, String queryId )
