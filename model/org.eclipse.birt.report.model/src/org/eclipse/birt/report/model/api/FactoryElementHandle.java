@@ -53,8 +53,14 @@ public class FactoryElementHandle
 	}
 
 	/**
+	 * Gets all the factory style handle. The list contains the computed style
+	 * that stores all the value inherited from all the ancestors of this
+	 * element, all the selectors defined by this element and the style that
+	 * stores the value computed from some related container. The list does not
+	 * contain the private style that stores the local value set by this element
+	 * itself, and neither the shared style defined by 'style' property.
 	 * 
-	 * @return
+	 * @return all the factory style handles
 	 */
 	public List<StyleHandle> getAllFactoryStyles( )
 	{
