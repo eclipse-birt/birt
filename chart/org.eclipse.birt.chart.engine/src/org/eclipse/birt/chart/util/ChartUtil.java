@@ -1646,14 +1646,17 @@ public class ChartUtil
 	public static boolean containsYOptionalGrouping(Chart chart)
 	{
 		boolean YOG = false;
-		SeriesDefinition os = ChartUtil.getAllOrthogonalSeriesDefinitions( chart )
-				.get( 0 );
-		if ( os != null
-				&& os.getQuery( ) != null
-				&& os.getQuery( ).getDefinition( ) != null
-				&& os.getQuery( ).getDefinition( ).length( ) != 0 )
+		List<SeriesDefinition> sds = ChartUtil.getAllOrthogonalSeriesDefinitions( chart );
+		if ( sds.size( ) > 0 )
 		{
-			YOG = true;
+			SeriesDefinition os = sds.get( 0 );
+			if ( os != null
+					&& os.getQuery( ) != null
+					&& os.getQuery( ).getDefinition( ) != null
+					&& os.getQuery( ).getDefinition( ).length( ) != 0 )
+			{
+				YOG = true;
+			}
 		}
 		return YOG;
 	}
