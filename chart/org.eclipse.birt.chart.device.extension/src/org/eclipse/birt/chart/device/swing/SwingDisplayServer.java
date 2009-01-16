@@ -194,21 +194,34 @@ public class SwingDisplayServer extends DisplayAdapter
 					}
 					break;
 			}
-			// set the fractionalmetrics to ON only for high resolution
-			if (iDpiResolution >= 192 )
-			{
-				_g2d.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS,
-						RenderingHints.VALUE_FRACTIONALMETRICS_ON );
-			}
-			else
-			{
-				_g2d.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS,
-						RenderingHints.VALUE_FRACTIONALMETRICS_OFF );
-			}
+
+			adjustFractionalMetrics( );
 		}
 		return iDpiResolution;
 	}
 
+	/*
+	 * set the fractionalmetrics to ON only for high resolution
+	 */
+	private void adjustFractionalMetrics( )
+	{
+		if ( iDpiResolution == 0 || _g2d == null )
+		{
+			return;
+		}
+
+		if ( iDpiResolution >= 192 )
+		{
+			_g2d.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS,
+					RenderingHints.VALUE_FRACTIONALMETRICS_ON );
+		}
+		else
+		{
+			_g2d.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS,
+					RenderingHints.VALUE_FRACTIONALMETRICS_OFF );
+		}
+
+	}
 	
 
 
@@ -314,8 +327,7 @@ public class SwingDisplayServer extends DisplayAdapter
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON );
 		g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON );
-		g2d.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS,
-				RenderingHints.VALUE_FRACTIONALMETRICS_ON );
+		adjustFractionalMetrics( );
 	}
 	
 }
