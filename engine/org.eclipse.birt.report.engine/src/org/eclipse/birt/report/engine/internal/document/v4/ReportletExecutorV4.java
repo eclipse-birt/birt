@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -29,37 +30,58 @@ public class ReportletExecutorV4 extends AbstractReportExecutor
 {
 
 	private Fragment fragment;
-	private ReportItemExecutor bodyExecutor;
+	private IReportItemExecutor bodyExecutor;
 
-	public ReportletExecutorV4( ExecutionContext context, long offset )
-			throws IOException
+	public ReportletExecutorV4( ExecutionContext context, long offset ) throws IOException
+			
 	{
 
 		super( context );
 		fragment = createFragment( offset );
-		bodyExecutor = new ReportBodyExecutor( manager, fragment );
+		bodyExecutor = new ReportletBodyExecutor( manager, fragment,offset);
 	}
 
-	public void close( )
+	public void close( ) 
 	{
-		bodyExecutor.close( );
-		super.close( );
+		try
+		{
+			if ( bodyExecutor != null )
+			{
+				try
+				{
+					bodyExecutor.close( );
+				}
+				catch ( BirtException e )
+				{
+				}
+			}
+		}
+		finally
+		{
+			bodyExecutor = null;
+			super.close( );
+		}
 	}
 
 	public IReportContent execute( )
 	{
-		bodyExecutor.execute( );
 		return reportContent;
 	}
 
 	public IReportItemExecutor getNextChild( )
 	{
-		return bodyExecutor.getNextChild( );
+		if ( bodyExecutor != null )
+		{
+			IReportItemExecutor executor = bodyExecutor;
+			bodyExecutor = null;
+			return executor;
+		}
+		return null;
 	}
 
 	public boolean hasNextChild( )
 	{
-		return bodyExecutor.hasNextChild( );
+		return bodyExecutor != null;
 	}
 
 	protected Fragment createFragment( long offset ) throws IOException
