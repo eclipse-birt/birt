@@ -236,12 +236,15 @@ public class ScriptedDSTest extends APITestCase
 		{
 			if ( i < scriptColumnNames.length )
 			{
-				assertEquals( metaData.getColumnName( i+1 ), scriptColumnNames[i] );
-				assertEquals( metaData.getColumnType( i+1 ), scriptColumnTypes[i]) ;
+				assertEquals( metaData.getColumnName( i + 1 ), "_"
+						+ scriptColumnNames[i] );
+				assertEquals( metaData.getColumnType( i + 1 ),
+						scriptColumnTypes[i] );
 			}
-			else
-				assertEquals( metaData.getColumnName( i + 1 ), 
-						computedColumnNames[i - scriptColumnNames.length ] );
+			else if ( i < scriptColumnNames.length
+					+ scriptColumnAliasNames.length )
+				assertEquals( metaData.getColumnName( i + 1 ),
+						"_" + scriptColumnAliasNames[i - scriptColumnNames.length] );
 		}
 	}
 	
@@ -712,6 +715,7 @@ public class ScriptedDSTest extends APITestCase
 		rqDefn.setDataSetName( dsetName==null?dataSetName:dsetName );
 		for(int i = 0; i<this.scriptExprs.length; i++)
 		{
+			( (ScriptExpression) scriptExprs[i] ).setDataType( scriptColumnTypes[i] );
 			rqDefn.addResultSetExpression( "_" + scriptColumnNames[i], scriptExprs[i] );
 		}
 		

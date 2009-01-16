@@ -36,7 +36,7 @@ public class Util
 	{
 		StringBuffer stringBuff = new StringBuffer();
 		
-		if ( meta == null )
+		if ( meta == null || meta.getColumnCount( )==0 )
 		{
 			stringBuff.append("null");
 			stringBuff.append("\n");

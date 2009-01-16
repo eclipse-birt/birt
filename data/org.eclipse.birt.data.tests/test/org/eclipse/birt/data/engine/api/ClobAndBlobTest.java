@@ -11,9 +11,10 @@
 package org.eclipse.birt.data.engine.api;
 
 import org.eclipse.birt.core.data.DataType;
-
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.core.DataException;
 
 import testutil.ConfigText;
 
@@ -74,27 +75,31 @@ public class ClobAndBlobTest extends APITestCase
 	/**
 	 * Add expression to query definition
 	 * @param queryDefn
+	 * @throws DataException 
 	 */
-	private void prepareExpression( QueryDefinition queryDefn )
+	private void prepareExpression( QueryDefinition queryDefn ) throws DataException
 	{
 		beName = new String[3];
 		beArray = new ScriptExpression[3];
-		
+
 		beName[0] = "_ID";
 		ScriptExpression se = new ScriptExpression( "dataSetRow.ID" );
+		se.setDataType( DataType.INTEGER_TYPE );
 		beArray[0] = se;
 
 		beName[1] = "_NAME";
 		se = new ScriptExpression( "dataSetRow.NAME" );
+		se.setDataType( DataType.STRING_TYPE );
 		beArray[1] = se;
 
 		beName[2] = "_INFO";
-		se = new ScriptExpression( "dataSetRow.INFO" );		
+		se = new ScriptExpression( "dataSetRow.INFO" );
+		se.setDataType( DataType.BLOB_TYPE );
 		beArray[2] = se;
-		
+
 		for ( int i = 0; i < beName.length; i++ )
 		{
-			queryDefn.addResultSetExpression( beName[i], beArray[i] );
+			queryDefn.addBinding( new Binding( beName[i], beArray[i] ) );
 		}
 	}
 

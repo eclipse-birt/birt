@@ -815,7 +815,8 @@ public class ResultIterator implements IResultIterator
 	{
 		try
 		{
-			return new ResultMetaData( odiResult.getResultClass( ) );
+			return new ColumnBindingMetaData( this.resultService.getQueryDefn( ),
+					odiResult == null ? null : odiResult.getResultClass( ) );
 		}
 		finally
 		{

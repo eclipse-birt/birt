@@ -468,7 +468,7 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 	{
 		if ( !isOpen )
 			return null;
-		return queryExecutor.getResultMetaData();
+		return new ResultMetaData( queryExecutor.getOdiResultClass( ) );
 	}
 
 	public Collection getInputParamBindings()

@@ -16,6 +16,7 @@ import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
+import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.mozilla.javascript.Scriptable;
 
@@ -74,10 +75,17 @@ public interface IQueryExecutor
 	IResultIterator getOdiResultSet( );
 
 	/**
-	 * @return meta data of data set
+	 * @return meta data of column binding
 	 * @throws DataException
 	 */
 	IResultMetaData getResultMetaData( ) throws DataException;
+	
+	/**
+	 * @return meta data of data set
+	 * @throws DataException
+	 */
+	IResultClass getOdiResultClass( ) throws DataException;
+
 
 	/**
 	 * 

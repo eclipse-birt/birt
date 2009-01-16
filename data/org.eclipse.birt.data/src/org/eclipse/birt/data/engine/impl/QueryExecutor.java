@@ -56,6 +56,7 @@ import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IQuery;
+import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
@@ -944,17 +945,43 @@ public abstract class QueryExecutor implements IQueryExecutor
 		if ( odiQuery instanceof IPreparedDSQuery )
 		{
 			if ( ( (IPreparedDSQuery) odiQuery ).getResultClass( ) != null )
-				return new ResultMetaData( ( (IPreparedDSQuery) odiQuery ).getResultClass( ) );
+				return new ColumnBindingMetaData( baseQueryDefn,
+						( (IPreparedDSQuery) odiQuery ).getResultClass( ) );
 			else
 				return null;
 		}
 		else if ( odiQuery instanceof JointDataSetQuery )
 		{
-			return new ResultMetaData( ( (JointDataSetQuery) odiQuery ).getResultClass( ) );
+			return new ColumnBindingMetaData( baseQueryDefn,
+					( (JointDataSetQuery) odiQuery ).getResultClass( ) );
 		}
 		else
 		{
-			return new ResultMetaData( ( (ICandidateQuery) odiQuery ).getResultClass( ) );
+			return new ColumnBindingMetaData( baseQueryDefn,
+					( (ICandidateQuery) odiQuery ).getResultClass( ) );
+		}
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#getOdiResultClass()
+	 */
+	public IResultClass getOdiResultClass( ) throws DataException
+	{
+		assert odiQuery instanceof IPreparedDSQuery
+				|| odiQuery instanceof ICandidateQuery
+				|| odiQuery instanceof JointDataSetQuery;
+
+		if ( odiQuery instanceof IPreparedDSQuery )
+		{
+			return ( (IPreparedDSQuery) odiQuery ).getResultClass( );
+		}
+		else if ( odiQuery instanceof JointDataSetQuery )
+		{
+			return ( (JointDataSetQuery) odiQuery ).getResultClass( );
+		}
+		else
+		{
+			return ( (ICandidateQuery) odiQuery ).getResultClass( );
 		}
 	}
 

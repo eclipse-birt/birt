@@ -133,14 +133,15 @@ public class DataSetMetaDataHelper
 	private IResultMetaData getRealMetaData( DataSetHandle dataSetHandle )
 			throws BirtException
 	{
-		QueryDefinition query = new QueryDefinition( );
-		query.setDataSetName( dataSetHandle.getQualifiedName( ) );
-		query.setMaxRows( 1 );
-
 		IResultMetaData metaData = MetaDataPopulator.retrieveResultMetaData( dataSetHandle );
 
 		if ( metaData == null )
 		{
+			QueryDefinition query = new QueryDefinition( );
+			query.setDataSetName( dataSetHandle.getQualifiedName( ) );
+			query.setMaxRows( 1 );
+			query.setAutoBinding( true );
+			
 			metaData = new QueryExecutionHelper( dataEngine,
 					modelAdaptor,
 					sessionContext,

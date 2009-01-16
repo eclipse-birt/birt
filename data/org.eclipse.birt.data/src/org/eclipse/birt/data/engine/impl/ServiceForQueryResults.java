@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
@@ -49,6 +50,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime.Mode;
 import org.eclipse.birt.data.engine.odi.IAggrInfo;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
+import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.script.JSResultSetRow;
@@ -973,21 +975,27 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	{
 		if ( needAutoBinding( ) == false )
 			return;
-		IResultMetaData metaData = getResultMetaData( );
-		int columnCount = metaData.getColumnCount( );
+		IResultClass metaData = queryExecutor.getOdiResultClass( );
+		int columnCount = metaData.getFieldCount( );
 		for ( int i = 0; i < columnCount; i++ )
 		{
 			int colIndex = i + 1;
 			try
 			{
-				String colName = metaData.getColumnAlias( colIndex );
-				if ( colName == null )
-					colName = metaData.getColumnName( colIndex );
+				String colName = metaData.getFieldName( colIndex );
+				
+				if ( isTemp( colName ) )
+				{
+					continue;
+				}
 
+				Class odiDataType = metaData.getFieldValueClass( colIndex );
 				ScriptExpression baseExpr = new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( colName ),
-						metaData.getColumnType( colIndex ) );
+						DataTypeUtil.toApiDataType( odiDataType ) );
 				CompiledExpression compiledExpr = ExpressionCompilerUtil.compile( baseExpr.getText( ),
-						session.getEngineContext( ).getScriptContext( ).getContext( ) );
+						session.getEngineContext( )
+								.getScriptContext( )
+								.getContext( ) );
 				baseExpr.setHandle( compiledExpr );
 				this.exprManager.addAutoBindingExpr( colName, baseExpr );
 			}
@@ -997,6 +1005,12 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 			}
 		}
 		
+	}
+	
+	private boolean isTemp( String name )
+	{
+		return ( name.matches( "\\Q_{$TEMP_GROUP_\\E\\d*\\Q$}_\\E" )
+				|| name.matches( "\\Q_{$TEMP_SORT_\\E\\d*\\Q$}_\\E" ) || name.matches( "\\Q_{$TEMP_FILTER_\\E\\d*\\Q$}_\\E" ) );
 	}
 	
 	/**

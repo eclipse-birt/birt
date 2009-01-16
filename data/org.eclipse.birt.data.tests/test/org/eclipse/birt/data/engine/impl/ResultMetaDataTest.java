@@ -47,6 +47,7 @@ public class ResultMetaDataTest extends APITestCase
 		OdaDataSetDesign dset = newDataSet( "dset1", "Select * FROM "
 				+ this.getTestTableName( ) );
 		QueryDefinition query = this.newReportQuery( dset );
+		query.setAutoBinding( true );
 
 		IPreparedQuery pq = this.dataEngine.prepare( query );
 		IQueryResults qr = pq.execute( null );
@@ -72,7 +73,7 @@ public class ResultMetaDataTest extends APITestCase
 			md.getColumnName( -1 );
 			fail( "Exception expected" );
 		}
-		catch (java.lang.ArrayIndexOutOfBoundsException e)
+		catch ( DataException e )
 		{
 			// We are OK
 		}
@@ -95,6 +96,7 @@ public class ResultMetaDataTest extends APITestCase
 		OdaDataSetDesign dset = newDataSet( "dset2", "Select * FROM "
 				+ this.getTestTableName( ) );
 		QueryDefinition query = this.newReportQuery( dset );
+		query.setAutoBinding( true );
 
 		// Add a column hint for column #1
 		ColumnDefinition coldef = new ColumnDefinition( "name1" );
@@ -171,6 +173,7 @@ public class ResultMetaDataTest extends APITestCase
 		OdaDataSetDesign dset = newDataSet( "dset4", "Select * FROM "
 				+ this.getTestTableName( ) );
 		QueryDefinition query = this.newReportQuery( dset );
+		query.setAutoBinding( true );
 
 		// Add a BIRT computed column
 		ComputedColumn compCol = new ComputedColumn( "ComputedCol1",

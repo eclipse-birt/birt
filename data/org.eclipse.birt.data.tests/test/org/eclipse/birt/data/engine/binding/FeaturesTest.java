@@ -1189,20 +1189,20 @@ public class FeaturesTest extends APITestCase
 	 * 		NativeColumnTypeName
 	 * @throws Exception
 	 */
-	public void testNativeColumnTypeName() throws Exception
-	{
-		String testSQL = "select COUNTRY, CITY from " + getTestTableName( );
-		( (OdaDataSetDesign) this.dataSet ).setQueryText( testSQL );
-		
-		QueryDefinition queryDefn = newReportQuery( );
-
-		IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn );
-		IQueryResults queryResults = preparedQuery.execute( null );
-		IResultMetaData metadata = queryResults.getResultMetaData( );
-
-		assertEquals( "VARCHAR", metadata.getColumnNativeTypeName( 1 ) );
-		assertEquals( "VARCHAR", metadata.getColumnNativeTypeName( 2 ) );
-	}
+//	public void testNativeColumnTypeName() throws Exception
+//	{
+//		String testSQL = "select COUNTRY, CITY from " + getTestTableName( );
+//		( (OdaDataSetDesign) this.dataSet ).setQueryText( testSQL );
+//		
+//		QueryDefinition queryDefn = newReportQuery( );
+//
+//		IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn );
+//		IQueryResults queryResults = preparedQuery.execute( null );
+//		IResultMetaData metadata = queryResults.getResultMetaData( );
+//
+//		assertEquals( "VARCHAR", metadata.getColumnNativeTypeName( 1 ) );
+//		assertEquals( "VARCHAR", metadata.getColumnNativeTypeName( 2 ) );
+//	}
 
 	/**
 	 * @throws Exception

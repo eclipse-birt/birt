@@ -518,7 +518,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	{
 		List conditions = PreparedJointDataSourceQuery.this.dataSet.getJoinConditions( );
 		QueryDefinition queryDefinition = new QueryDefinition( );
-
+		queryDefinition.setAutoBinding( true );
 		queryDefinition.setDataSetName( dataSetName );
 		setParameterBindings( dataEngine,
 				dataSetName,
