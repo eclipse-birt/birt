@@ -387,7 +387,7 @@ CodePageAction.actionText.code=スクリプト
 #ColorBuilder properties
 
 ColorBuilder.text.Auto=自動
-
+ColorBuilder.Button.ChooseColor=Open color panel
 ###########################################################
 #ColumnPageGenerator properties
 
@@ -3207,7 +3207,8 @@ ResourceEditDialog.text.Value=値
 
 ResourceKeyDescriptor.text.Reset=リセット
 ResourceKeyDescriptor.title.SelectKey=キーの選択
-
+ResourceKeyDescriptor.button.reset.tooltip=Reset the key
+ResourceKeyDescriptor.button.browse.tooltip=Browse and select a key
 ###########################################################
 #RevertToReportItemAction properties
 

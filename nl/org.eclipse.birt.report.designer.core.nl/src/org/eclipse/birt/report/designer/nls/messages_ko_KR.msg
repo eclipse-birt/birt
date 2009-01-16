@@ -387,7 +387,7 @@ CodePageAction.actionText.code=스크립트
 #ColorBuilder properties
 
 ColorBuilder.text.Auto=자동
-
+ColorBuilder.Button.ChooseColor=Open color panel
 ###########################################################
 #ColumnPageGenerator properties
 
@@ -3207,7 +3207,8 @@ ResourceEditDialog.text.Value=값
 
 ResourceKeyDescriptor.text.Reset=재설정
 ResourceKeyDescriptor.title.SelectKey=키 선택
-
+ResourceKeyDescriptor.button.reset.tooltip=Reset the key
+ResourceKeyDescriptor.button.browse.tooltip=Browse and select a key
 ###########################################################
 #RevertToReportItemAction properties
 

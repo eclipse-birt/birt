@@ -387,7 +387,7 @@ CodePageAction.actionText.code=脚本
 #ColorBuilder properties
 
 ColorBuilder.text.Auto=自动
-
+ColorBuilder.Button.ChooseColor=Open color panel
 ###########################################################
 #ColumnPageGenerator properties
 
@@ -3207,7 +3207,8 @@ ResourceEditDialog.text.Value=值
 
 ResourceKeyDescriptor.text.Reset=重置
 ResourceKeyDescriptor.title.SelectKey=选择关键字
-
+ResourceKeyDescriptor.button.reset.tooltip=Reset the key
+ResourceKeyDescriptor.button.browse.tooltip=Browse and select a key
 ###########################################################
 #RevertToReportItemAction properties
 
