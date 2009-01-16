@@ -128,7 +128,7 @@ public class StyleBuilder
 						"0", "1"}, false ) );
 
 		entry.setProperty( StyleConstant.H_ALIGN_PROP, convertHAlign( style
-				.getTextAlign( ) ) );
+				.getTextAlign( ), style.getDirection( ) ) );
 
 		entry.setProperty( StyleConstant.V_ALIGN_PROP, convertVAlign( style
 				.getVerticalAlign( ) ) );
@@ -271,7 +271,7 @@ public class StyleBuilder
 		return bs;
 	}
 
-	public static String convertHAlign( String align )
+	public static String convertHAlign( String align, String direction )
 	{
 		String ha = null; 
 			//"Left";
@@ -289,6 +289,11 @@ public class StyleBuilder
 		{
 			ha = "Center";
 		}
+		else if ( "rtl".equalsIgnoreCase( direction ) )
+			ha = "Right";
+		else
+			ha = "Left";
+
 		return ha;
 	}
 
