@@ -256,7 +256,7 @@ public class DataEngineTest extends TestCase
 				}
 			}
 			childRSet = (IQueryResultSet) dataEngine
-					.execute( parentRSet, childQuery, false );
+					.execute( parentRSet, childQuery, null, false );
 			while ( childRSet.next( ) )
 			{
 				Map map = childQuery.getBindings( );
@@ -322,7 +322,7 @@ public class DataEngineTest extends TestCase
 				}
 			}
 			childRSet = (IQueryResultSet) dataEngine
-					.execute( parentRSet, childQuery, false );
+					.execute( parentRSet, childQuery, null, false );
 			while ( childRSet.next( ) )
 			{
 				Map map = childQuery.getBindings( );
@@ -380,7 +380,7 @@ public class DataEngineTest extends TestCase
 					IBaseQueryDefinition subQuery = (IBaseQueryDefinition) subQueryIter
 							.next( );
 					IQueryResultSet subResultSet = (IQueryResultSet)dataEngine.execute( resultSet,
-							subQuery, false );
+							subQuery, null, false );
 					Map map = subQuery.getBindings( );
 					resultStr += getResultSet( subResultSet, map.keySet( ) );
 					subResultSet.close( );
@@ -441,7 +441,7 @@ public class DataEngineTest extends TestCase
 					IBaseQueryDefinition subQuery = (IBaseQueryDefinition) subQueryIter
 							.next( );
 					IQueryResultSet subResultSet = (IQueryResultSet)dataEngine.execute( resultSet,
-							subQuery, false );
+							subQuery, null, false );
 					Map map = subQuery.getBindings( );
 					resultStr += getResultSet( subResultSet, map.keySet( ) );
 					subResultSet.close( );
