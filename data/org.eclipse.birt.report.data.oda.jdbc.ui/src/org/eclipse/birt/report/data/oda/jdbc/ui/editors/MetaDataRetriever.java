@@ -10,21 +10,17 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.jdbc.ui.editors;
 
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
 import org.eclipse.datatools.connectivity.oda.IAdvancedQuery;
 import org.eclipse.datatools.connectivity.oda.IConnection;
-import org.eclipse.datatools.connectivity.oda.IDriver;
 import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
 import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
-import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
-import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
+
 
 /**
  * 
@@ -37,24 +33,25 @@ class MetaDataRetriever
 	private IResultSetMetaData resultMeta;
 	private IParameterMetaData paramMeta;
 	private IQuery query;
-	private IConnection connection;
 	
 	private static Logger logger = Logger.getLogger( MetaDataRetriever.class.getName( ) );	
 
-	MetaDataRetriever( DataSetDesign dataSetDesign )
+	MetaDataRetriever( OdaConnectionProvider odaConnectionProvider, DataSetDesign dataSetDesign )
 	{
-		DataSourceDesign dataSourceDesign = dataSetDesign.getDataSourceDesign( );
-		IDriver jdbcDriver = new OdaJdbcDriver( );
 		try
 		{
-			connection = jdbcDriver.getConnection( dataSourceDesign.getOdaExtensionId( ) );
-			Properties prop = DesignSessionUtil.getEffectiveDataSourceProperties( dataSourceDesign );
-			connection.open( prop );
-			
+			IConnection connection = odaConnectionProvider.openConnection( );
 			query = connection.newQuery( dataSetDesign.getOdaExtensionDataSetId( ) );
 			query.prepare( dataSetDesign.getQueryText( ) );
-			paramMeta = query.getParameterMetaData( );
-			if ( query instanceof IAdvancedQuery )
+			try 
+			{
+				paramMeta = query.getParameterMetaData( );
+			}
+			catch ( OdaException e )
+			{
+				logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
+			}
+			if ( !( query instanceof IAdvancedQuery ) )
 			{
 				resultMeta = query.getMetaData( );
 			}
@@ -64,9 +61,7 @@ class MetaDataRetriever
 		{
 			logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
 		}
-
 	}
-
 	
 	/**
 	 * Get the ParameterMetaData object
@@ -99,14 +94,14 @@ class MetaDataRetriever
 			{
 				query.close( );
 			}
-			if ( connection != null )
-			{
-				connection.close( );
-			}
 		}
 		catch ( OdaException e )
 		{
 			//ignore it
+		}
+		finally 
+		{
+			query = null;
 		}
 	}
 }

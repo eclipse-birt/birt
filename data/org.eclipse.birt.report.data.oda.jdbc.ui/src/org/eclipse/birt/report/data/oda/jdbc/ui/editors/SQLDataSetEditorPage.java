@@ -114,6 +114,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private FilterConfig fc;
 
 	String formerQueryTxt;
+	
+	private OdaConnectionProvider odaConnectionProvider;
 
 	/**
 	 * constructor
@@ -192,6 +194,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		this.dataSetDesign = this.getInitializationDesign( );
 		readPreferences( );
 		prepareJDBCMetaDataProvider( dataSetDesign );
+		this.odaConnectionProvider = new OdaConnectionProvider( dataSetDesign.getDataSourceDesign( ) );
 		setControl( createPageControl( parent ) );
 		initializeControl( );
 		this.formerQueryTxt = dataSetDesign.getQueryText( );
@@ -525,7 +528,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			design.setQueryText( doc.get( ) );
 			if ( !design.getQueryText( ).equals( formerQueryTxt ) )
 			{
-				MetaDataRetriever retriever = new MetaDataRetriever( design );
+				MetaDataRetriever retriever = new MetaDataRetriever( odaConnectionProvider, design );
 				IResultSetMetaData resultsetMeta = retriever.getResultSetMetaData( );
 				IParameterMetaData paramMeta = retriever.getParameterMetaData( );
 				SQLUtility.saveDataSetDesign( design, resultsetMeta, paramMeta );
@@ -1000,6 +1003,11 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	protected void cleanup( )
 	{
 		JdbcMetaDataProvider.release( );
+		if ( odaConnectionProvider != null )
+		{
+			odaConnectionProvider.release( );
+			odaConnectionProvider = null;
+		}
 		dataSetDesign = null;
 	}
 }
