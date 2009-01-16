@@ -50,6 +50,7 @@ public class AllApiTests
 		test.addTestSuite( DimensionHandleTest.class );
 		test.addTestSuite( ElementExporterTest.class );
 		test.addTestSuite( ElementFactoryTest.class );
+		test.addTestSuite( FactoryElementHandleTest.class );
 		test.addTestSuite( FactoryPropertyHandleTest.class );
 		test.addTestSuite( FontHandleTest.class );
 		test.addTestSuite( GridColumnHandleTest.class );

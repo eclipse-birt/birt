@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3">
+    <property name="refreshRate">30</property>
+    <styles>
+        <style name="My Style">
+            <property name="backgroundAttachment">scroll</property>
+            <property name="backgroundColor">red</property>
+            <property name="backgroundImage">file</property>
+            <property name="backgroundPositionX">center</property>
+            <property name="backgroundPositionY">top</property>
+            <property name="backgroundRepeat">repeat</property>
+            <property name="fontFamily">fantasy</property>
+            <property name="fontSize">larger</property>
+            <property name="fontWeight">bold</property>
+            <property name="fontStyle">italic</property>
+            <property name="fontVariant">normal</property>
+            <property name="color">red</property>
+            <property name="textLineThrough">line-through</property>
+            <property name="textOverline">overline</property>
+            <property name="textUnderline">underline</property>
+            <property name="borderBottomColor">red</property>            
+        </style>
+        <style name="free-form">
+            <property name="fontWeight">bolder</property>
+            <property name="backgroundColor">gray</property>
+        </style>
+        <style name="cell">
+            <property name="fontWeight">bolder</property>
+            <property name="backgroundColor">gray</property>
+        </style>
+        <style name="table-detail">
+            <property name="fontFamily">fantasy</property>
+        </style>
+        <style name="table-detail-cell">
+            <property name="color">red</property>
+        </style>
+        <style name="extended-item">
+            <property name="backgroundAttachment">scroll</property>
+            <property name="backgroundColor">red</property>
+            <property name="backgroundImage">file</property>
+        </style>
+        <style name="testing-box">
+            <property name="backgroundAttachment">scroll</property>
+            <property name="backgroundColor">red</property>
+            <property name="backgroundImage">file</property>
+        </style>
+        <style name="testing-box-detail">
+            <property name="backgroundAttachment">scroll</property>
+            <property name="backgroundColor">yellow</property>
+            <property name="backgroundImage">file</property>
+        </style>
+        <style name="testing-matrix">
+            <property name="fontStyle">italic</property>
+            <property name="fontVariant">normal</property>
+        </style> 
+        <style name="testPredefinedStyle">
+            <property name="fontStyle">italic</property>
+            <property name="fontVariant">normal</property>
+        </style>              
+    </styles>
+    <components>
+        <free-form name="GrandFather Form">
+            <property name="color">red</property>
+            <property name="x">999mm</property>
+        </free-form>
+        <free-form name="Parent Form" extends="GrandFather Form">
+            <property name="fontSize">x-small</property>
+            <property name="x">999mm</property>
+            <report-items>
+                <label>
+                    <property name="x">1mm</property>
+                    <property name="y">2mm</property>
+                    <property name="height">3mm</property>
+                    <property name="width">4mm</property>
+                    <text-property name="text">Customer Name</text-property>
+                </label>
+            </report-items>
+        </free-form>
+    </components>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <table name="My Table">
+            <column id="20">
+                <property name="width">2.5mm</property>
+                <property name="fontWeight">bold</property>
+            	<property name="fontStyle">italic</property>
+            	<property name="fontVariant">normal</property>
+            </column>
+            <column>
+                <property name="width">1.5mm</property>
+            </column>
+            <detail>
+                <row>
+                    <property name="style">My Style</property>
+                    <cell id="10">
+                        <property name="column">1</property>
+                        <property name="colSpan">2</property>
+                        <property name="rowSpan">1</property>
+                        <label name="label1">
+                            <property name="x">1.1mm</property>
+                        </label>
+                    </cell>
+                </row>
+                <row>
+                    <cell>
+                        <property name="column">1</property>
+                        <property name="colSpan">2</property>
+                        <property name="rowSpan">1</property>
+                        <label>
+                            <property name="width">4.4mm</property>
+                            <text-property name="text">Address</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row>
+                    <cell>
+                        <property name="column">1</property>
+                        <property name="colSpan">2</property>
+                        <property name="rowSpan">1</property>
+                        <label>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>
+                            <property name="height">3.3mm</property>
+                            <property name="width">4.4mm</property>
+                            <text-property name="text">Address4</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </footer>
+        </table>
+        <free-form name="My First Form">
+            <report-items>
+                <label>
+                    <property name="x">1mm</property>
+                    <property name="y">2mm</property>
+                    <property name="height">3mm</property>
+                    <property name="width">4mm</property>
+                    <text-property name="text">Customer Name</text-property>
+                </label>
+            </report-items>
+        </free-form>        
+        <free-form name="Child Form" extends="Parent Form">
+            <report-items>
+                <label>
+                    <property name="x">1mm</property>
+                    <property name="y">2mm</property>
+                    <property name="height">3mm</property>
+                    <property name="width">4mm</property>
+                    <text-property name="text">Customer Name</text-property>
+                </label>
+            </report-items>
+        </free-form>
+        <extended-item extensionName="TestingBox" name="testBox">
+        	<property name="detail">
+        		<extended-item extensionName="TestingMatrix" name="testMatrix"/>
+        	</property>
+        </extended-item>
+        <extended-item extensionName="TestingMatrix" name="testMatrix_1"/>
+   </body>
+</report>

@@ -209,25 +209,39 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 	 * @seeorg.eclipse.birt.report.model.core.PropertySearchStrategy#
 	 * getPropertyFromSelfSelector(org.eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.core.DesignElement,
-	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn,
+	 * org.eclipse.birt
+	 * .report.model.core.PropertySearchStrategy.PropertyValueInfo)
 	 */
 
-	protected Object getPropertyFromSelfSelector( Module module,
-			DesignElement element, ElementPropertyDefn prop )
+	public Object getPropertyFromSelfSelector( Module module,
+			DesignElement element, ElementPropertyDefn prop,
+			PropertyValueInfo valueInfo )
 	{
 		assert element instanceof Cell;
 
 		List<String> list = element.getElementSelectors( );
 
+		Object value = null;
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			String selector = list.get( i );
-			Object value = getPropertyFromSelector( module, prop, selector );
-			if ( value != null )
-				return value;
+			Object selectValue = getPropertyFromSelector( module, prop,
+					selector, valueInfo );
+			if ( selectValue != null )
+			{
+				if ( value == null )
+					value = selectValue;
+
+				// if valueInfo is null, then do the short search; otherwise, we
+				// must do full search to collect all the selectors
+				if ( valueInfo == null )
+					return value;
+			}
+
 		}
 
-		return null;
+		return value;
 	}
 
 	/**

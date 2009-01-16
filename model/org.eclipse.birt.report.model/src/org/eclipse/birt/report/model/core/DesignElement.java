@@ -3618,4 +3618,9 @@ public abstract class DesignElement
 
 		return false;
 	}
+	
+	public PropertySearchStrategy getPropertySearchStrategy( )
+	{
+		return this.cachedPropStrategy;
+	}
 }

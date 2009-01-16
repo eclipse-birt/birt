@@ -1107,9 +1107,9 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	/**
 	 * Returns the element factory for creating new report elements. After
 	 * creating the element, add it to the design by calling the the <code>
-	 * {@link SlotHandle#add(DesignElementHandle ) add}</code>
-	 * method of the slot handle that represents the point in the design where
-	 * the new element should appear.
+	 * {@link SlotHandle#add(DesignElementHandle ) add}</code> method of the
+	 * slot handle that represents the point in the design where the new element
+	 * should appear.
 	 * 
 	 * @return a handle to the new element.
 	 * @see SlotHandle
@@ -1640,8 +1640,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * Copies all properties to the target element. The following properties
 	 * will not be copied.
 	 * <ul>
-	 * <li><code>DesignElement.NAME_PROP</code>
-	 * <li><code>
+	 * <li><code>DesignElement.NAME_PROP</code> <li><code>
 	 * DesignElement.EXTENDS_PROP</code>
 	 * </ul>
 	 * 
@@ -1673,7 +1672,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 				propName );
 		if ( propDefn == null )
 			throw new PropertyNameException( getElement( ), propName );
-		
+
 		propDefn = (ElementPropertyDefn) targetHandle.getDefn( ).getProperty(
 				propName );
 		if ( propDefn == null )
@@ -2939,5 +2938,16 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		DesignElement element = getElement( );
 
 		return element.isInTemplateParameterDefinitionSlot( );
+	}
+
+	/**
+	 * Gets the factory element handle for this element. The factory element
+	 * handle is to retrieve some factory property value and factory styles.
+	 * 
+	 * @return
+	 */
+	public FactoryElementHandle getFactoryElementHandle( )
+	{
+		return new FactoryElementHandle( this );
 	}
 }

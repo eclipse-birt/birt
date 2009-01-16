@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
@@ -282,8 +283,8 @@ public class PropertySearchStrategy
 	 * @return property value, or <code>null</code> if no value is set.
 	 */
 
-	protected Object getPropertyFromParent( Module module,
-			DesignElement element, ElementPropertyDefn prop )
+	public Object getPropertyFromParent( Module module, DesignElement element,
+			ElementPropertyDefn prop )
 	{
 		Object value = null;
 		DesignElement e = element;
@@ -396,11 +397,34 @@ public class PropertySearchStrategy
 	 * @return the property value, or null if no value is set.
 	 */
 
-	protected Object getPropertyFromSelfSelector( Module module,
+	protected final Object getPropertyFromSelfSelector( Module module,
 			DesignElement element, ElementPropertyDefn prop )
 	{
+		return getPropertyFromSelfSelector( module, element, prop, null );
+	}
+
+	/**
+	 * Returns the property value which is related to element selector. It is
+	 * from the selector style.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param element
+	 *            the element to start search
+	 * @param prop
+	 *            the definition of property
+	 * @param valueInfo
+	 *            the value information to record the style information and
+	 *            value
+	 * @return the property value, or null if no value is set.
+	 */
+
+	public Object getPropertyFromSelfSelector( Module module,
+			DesignElement element, ElementPropertyDefn prop,
+			PropertyValueInfo valueInfo )
+	{
 		String selector = ( (ElementDefn) element.getDefn( ) ).getSelector( );
-		return getPropertyFromSelector( module, prop, selector );
+		return getPropertyFromSelector( module, prop, selector, valueInfo );
 	}
 
 	/**
@@ -417,15 +441,37 @@ public class PropertySearchStrategy
 	 * @return the property value, or null if no value is set.
 	 */
 
-	protected Object getPropertyFromSlotSelector( Module module,
+	protected final Object getPropertyFromSlotSelector( Module module,
 			DesignElement element, ElementPropertyDefn prop )
+	{
+		return getPropertyFromSlotSelector( module, element, prop, null );
+	}
+
+	/**
+	 * Returns the property value which is related to slot selector. It is from
+	 * the selector style which represents the slot or combination of container
+	 * and slot.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param element
+	 *            the element to search
+	 * @param prop
+	 *            the definition of property
+	 * @param valueInfo
+	 * @return the property value, or null if no value is set.
+	 */
+
+	public Object getPropertyFromSlotSelector( Module module,
+			DesignElement element, ElementPropertyDefn prop,
+			PropertyValueInfo valueInfo )
 	{
 		if ( element.getContainer( ) == null )
 			return null;
 
 		String selector = element.getContainerInfo( ).getSelector( );
 
-		return getPropertyFromSelector( module, prop, selector );
+		return getPropertyFromSelector( module, prop, selector, valueInfo );
 	}
 
 	/**
@@ -441,7 +487,8 @@ public class PropertySearchStrategy
 	 */
 
 	protected Object getPropertyFromSelector( Module module,
-			ElementPropertyDefn prop, String selector )
+			ElementPropertyDefn prop, String selector,
+			PropertyValueInfo valueInfo )
 	{
 		assert module != null;
 
@@ -453,6 +500,8 @@ public class PropertySearchStrategy
 		StyleElement style = module.findStyle( selector );
 		if ( style != null )
 		{
+			if ( valueInfo != null )
+				valueInfo.addSelectorStyle( style );
 			return style.getLocalProperty( module, prop );
 		}
 
@@ -471,7 +520,7 @@ public class PropertySearchStrategy
 	 * @return the property value, or null if no value is set.
 	 */
 
-	protected Object getPropertyRelatedToContainer( Module module,
+	public Object getPropertyRelatedToContainer( Module module,
 			DesignElement element, ElementPropertyDefn prop )
 	{
 		return null;
@@ -552,5 +601,80 @@ public class PropertySearchStrategy
 		}
 
 		return inherit;
+	}
+
+	/**
+	 * Creates property value information.
+	 * 
+	 * @return
+	 */
+	public PropertyValueInfo createPropertyValueInfo( )
+	{
+		return new PropertyValueInfo( );
+	}
+
+	/**
+	 * The class to record some selector style information during the property
+	 * search.
+	 */
+	public class PropertyValueInfo
+	{
+
+		/**
+		 * The selector styles for the element. For most cases, the selector
+		 * style for one type has only one. That is to say element has one self
+		 * selector and one slot selector. However, for extended item it is
+		 * possible that they have more than one selectors for the same type.
+		 */
+		List<StyleElement> selectorStyles = null;
+
+		private Object value = null;
+
+		/**
+		 * Default constructor.
+		 */
+		PropertyValueInfo( )
+		{
+
+		}
+
+		/**
+		 * @return the value
+		 */
+		public Object getValue( )
+		{
+			return value;
+		}
+
+		/**
+		 * @param value
+		 *            the value to set
+		 */
+		public void setValue( Object value )
+		{
+			this.value = value;
+		}
+
+		/**
+		 * @return the selectorStyle
+		 */
+		public List<StyleElement> getSelectorStyles( )
+		{
+			return selectorStyles;
+		}
+
+		/**
+		 * @param selectorStyle
+		 *            the selectorStyle to set
+		 */
+		public void addSelectorStyle( StyleElement selectorStyle )
+		{
+			if ( selectorStyles == null )
+				selectorStyles = new ArrayList<StyleElement>( );
+			if ( selectorStyle != null
+					&& !selectorStyles.contains( selectorStyle ) )
+				selectorStyles.add( selectorStyle );
+		}
+
 	}
 }

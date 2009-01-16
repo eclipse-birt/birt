@@ -15,21 +15,28 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.IStyleDeclaration;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
+import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.MultiViews;
 import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.SystemPropertyDefn;
 
 /**
@@ -40,6 +47,13 @@ public class ExtendedItemPropSearchStrategy
 		extends
 			ReportItemPropSearchStrategy
 {
+
+	/**
+	 * Logger instance.
+	 */
+
+	private static Logger logger = Logger
+			.getLogger( ExtendedItemPropSearchStrategy.class.getName( ) );
 
 	/**
 	 * Data binding properties for the report items.
@@ -112,32 +126,57 @@ public class ExtendedItemPropSearchStrategy
 	 * @seeorg.eclipse.birt.report.model.core.PropertySearchStrategy#
 	 * getPropertyFromSelfSelector(org.eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.core.DesignElement,
-	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn,
+	 * org.eclipse.birt
+	 * .report.model.core.PropertySearchStrategy.PropertyValueInfo)
 	 */
 
-	protected Object getPropertyFromSelfSelector( Module module,
-			DesignElement element, ElementPropertyDefn prop )
+	public Object getPropertyFromSelfSelector( Module module,
+			DesignElement element, ElementPropertyDefn prop,
+			PropertyValueInfo valueInfo )
 	{
 		ExtendedItem extendedItem = (ExtendedItem) element;
 		Object value = null;
+		Object selectorValue = null;
 
 		// find the selector defined in extension definition
 		IElementDefn elementDefn = extendedItem.getExtDefn( );
 		if ( elementDefn != null )
 		{
 			String selector = extendedItem.getExtDefn( ).getSelector( );
-			value = getPropertyFromSelector( module, prop, selector );
-			if ( value != null )
-				return value;
+			selectorValue = getPropertyFromSelector( module, prop, selector,
+					valueInfo );
+			if ( selectorValue != null )
+			{
+				if ( value == null )
+					value = selectorValue;
+
+				// if valueInfo is null, then do the short search; otherwise, we
+				// must do full search to collect all the selectors
+				if ( valueInfo == null )
+					return value;
+
+			}
 		}
 
 		// find other pre-defined styles, such as selector : x-tab header, x-tab
 		// detail, it has the highest priority than other selector
+		selectorValue = getPropertyFromPredefinedStyles( module, extendedItem,
+				prop, valueInfo );
+		if ( selectorValue != null )
+		{
+			if ( value == null )
+				value = selectorValue;
 
-		return getPropertyFromPredefinedStyles( module, extendedItem, prop );
+			// if valueInfo is null, then do the short search; otherwise, we
+			// must do full search to collect all the selectors
+			if ( valueInfo == null )
+				return value;
+		}
 
 		// "extended-item" selector is not enabled in ROM. There is no need to
 		// search this selector.
+		return value;
 	}
 
 	/**
@@ -151,11 +190,13 @@ public class ExtendedItemPropSearchStrategy
 	 */
 
 	private Object getPropertyFromPredefinedStyles( Module module,
-			ExtendedItem extendedItem, ElementPropertyDefn prop )
+			ExtendedItem extendedItem, ElementPropertyDefn prop,
+			PropertyValueInfo valueInfo )
 	{
 
-		List predefinedStyles = extendedItem
+		List<Object> predefinedStyles = extendedItem
 				.getReportItemDefinedSelectors( module );
+		Object value = null;
 
 		if ( predefinedStyles == null || predefinedStyles.isEmpty( ) )
 			return null;
@@ -168,28 +209,63 @@ public class ExtendedItemPropSearchStrategy
 			if ( predefinedStyle instanceof String )
 			{
 				String styleName = (String) predefinedStyle;
-				Object value = getPropertyFromSelector( module, prop, styleName );
-				if ( value != null )
-					return value;
+				Object selectorValue = getPropertyFromSelector( module, prop,
+						styleName, valueInfo );
+				if ( selectorValue != null )
+				{
+					if ( value == null )
+						value = selectorValue;
+
+					// if valueInfo is null, then do the short search;
+					// otherwise, we
+					// must do full search to collect all the selectors
+					if ( valueInfo == null )
+						return value;
+				}
 			}
 			else if ( predefinedStyle instanceof IStyleDeclaration )
 			{
 				// if the item is a StyleHandle, then read local property
 				// value set in this style directly
 				IStyleDeclaration style = (IStyleDeclaration) predefinedStyle;
-				Object value = style.getProperty( prop.getName( ) );
-				if ( value != null )
+
+				if ( valueInfo != null )
+				{
+					StyleElement createdStyle = new Style( style.getName( ) );
+					module.makeUniqueName( createdStyle );
+
+					copyValues( module, createdStyle, style );
+
+					valueInfo.addSelectorStyle( createdStyle );
+				}
+
+				Object selectorValue = style.getProperty( prop.getName( ) );
+				if ( selectorValue != null )
 				{
 					// do some validation for the value
 					try
 					{
-						value = prop.validateValue( module, value );
-						if ( value != null )
-							return value;
+						selectorValue = prop.validateValue( module,
+								selectorValue );
+						if ( selectorValue != null )
+						{
+							if ( value == null )
+								value = selectorValue;
+
+							// if valueInfo is null, then do the short search;
+							// otherwise, we must do full search to collect all
+							// the selectors
+							if ( valueInfo == null )
+								return value;
+
+						}
 					}
 					catch ( PropertyValueException e )
 					{
-						// do nothing
+						logger
+								.log(
+										Level.WARNING,
+										"property( " + prop.getName( ) + " ) value " + value + "is invalid" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					}
 				}
 			}
@@ -198,6 +274,32 @@ public class ExtendedItemPropSearchStrategy
 		}
 
 		return null;
+	}
+
+	private void copyValues( Module module, StyleElement target,
+			IStyleDeclaration source )
+	{
+		IElementDefn styleDefn = MetaDataDictionary.getInstance( ).getStyle( );
+		List<IElementPropertyDefn> props = styleDefn.getProperties( );
+		for ( int i = 0; i < props.size( ); i++ )
+		{
+			ElementPropertyDefn prop = (ElementPropertyDefn) props.get( i );
+			if ( !prop.isStyleProperty( ) )
+				continue;
+			Object value = source.getProperty( prop.getName( ) );
+			try
+			{
+				value = prop.validateValue( module, value );
+				target.setProperty( prop, value );
+			}
+			catch ( PropertyValueException e )
+			{
+				logger
+						.log(
+								Level.WARNING,
+								"property( " + prop.getName( ) + " ) value " + value + "is invalid" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			}
+		}
 	}
 
 	/*
@@ -241,7 +343,7 @@ public class ExtendedItemPropSearchStrategy
 		if ( tmpElement instanceof ReportItem )
 			return hostViewRelatedProps;
 
-		return Collections.EMPTY_SET;
+		return Collections.emptySet( );
 
 	}
 
