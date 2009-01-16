@@ -1730,10 +1730,10 @@ public class ExecutionContext
 	}
 	
 	public IBaseResultSet executeQuery( IBaseResultSet parent,
-			IDataQueryDefinition query, boolean useCache ) throws BirtException
+			IDataQueryDefinition query, Object queryOwner, boolean useCache ) throws BirtException
 	{
 		IDataEngine dataEngine = getDataEngine( );
-		return dataEngine.execute( parent, query, useCache);
+		return dataEngine.execute( parent, query, queryOwner, useCache);
 	}
 
 	public IBaseResultSet getResultSet( )

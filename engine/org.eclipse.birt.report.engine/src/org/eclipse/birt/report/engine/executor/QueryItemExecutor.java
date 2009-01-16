@@ -74,7 +74,7 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 			try
 			{
 				rset = (IQueryResultSet) context.executeQuery( parentRset,
-						query, useCache );
+						query, design.getHandle( ), useCache );
 				context.setResultSet( rset );
 				if ( rset != null )
 				{

@@ -420,7 +420,7 @@ public class ExecutorManager
 				try
 				{
 					IBaseResultSet rset = dataEngine.execute( parent, query,
-							useCache );
+							handle, useCache );
 					context.setResultSet( rset );
 					return rset;
 				}

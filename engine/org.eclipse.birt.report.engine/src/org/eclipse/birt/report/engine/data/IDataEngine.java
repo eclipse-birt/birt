@@ -77,7 +77,7 @@ public interface IDataEngine
 	 * @return result.
 	 */
 	IBaseResultSet execute( IBaseResultSet parent, IDataQueryDefinition query,
-			boolean useCache ) throws BirtException;
+			Object queryOwner, boolean useCache ) throws BirtException;
 
 	/**
 	 * shut down the data engine

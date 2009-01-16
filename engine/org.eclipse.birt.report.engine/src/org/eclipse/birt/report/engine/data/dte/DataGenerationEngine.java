@@ -74,10 +74,10 @@ public class DataGenerationEngine extends DteDataEngine
 	}
 
 	protected IBaseResultSet doExecuteQuery( IBaseResultSet parentResultSet,
-			IQueryDefinition query, boolean useCache ) throws BirtException
+			IQueryDefinition query, Object queryOwner, boolean useCache ) throws BirtException
 	{
 		IBaseResultSet resultSet = super.doExecuteQuery( parentResultSet,
-				query, useCache );
+				query, queryOwner, useCache );
 		if ( resultSet != null )
 		{
 			storeMetaInfo( parentResultSet, query, resultSet );
@@ -87,10 +87,10 @@ public class DataGenerationEngine extends DteDataEngine
 	}
 
 	protected IBaseResultSet doExecuteCube( IBaseResultSet parentResultSet,
-			ICubeQueryDefinition query, boolean useCache ) throws BirtException
+			ICubeQueryDefinition query, Object queryOwner, boolean useCache ) throws BirtException
 	{
 		IBaseResultSet resultSet = super.doExecuteCube( parentResultSet, query,
-				useCache );
+				queryOwner, useCache );
 		if ( resultSet != null )
 		{
 			storeMetaInfo( parentResultSet, query, resultSet );

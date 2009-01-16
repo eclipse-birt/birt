@@ -257,7 +257,7 @@ public class ExtendedItemExecutor extends ContainerExecutor
 						else
 						{
 							rsets[i] = context.executeQuery( prset, queries[i],
-									useCache );
+									design.getHandle( ), useCache );
 						}
 					}
 					context.setResultSets( rsets );

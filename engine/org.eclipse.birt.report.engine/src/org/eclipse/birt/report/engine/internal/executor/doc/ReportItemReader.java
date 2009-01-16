@@ -533,7 +533,7 @@ public class ReportItemReader implements IReportItemExecutor
 					// execute query
 					try
 					{
-						rsets[i] = context.executeQuery( rset, queries[i],
+						rsets[i] = context.executeQuery( rset, queries[i], design.getHandle( ),
 								useCache );
 					}
 					catch ( BirtException ex )

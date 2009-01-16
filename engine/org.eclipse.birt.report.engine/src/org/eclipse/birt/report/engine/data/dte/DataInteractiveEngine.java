@@ -170,7 +170,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	}
 	
 	protected IBaseResultSet doExecuteQuery( IBaseResultSet parentResult,
-			IQueryDefinition query, boolean useCache ) throws BirtException
+			IQueryDefinition query, Object queryOwner, boolean useCache ) throws BirtException
 	{
 		String queryID = (String) queryIDMap.get( query );
 
@@ -200,10 +200,11 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		IBaseQueryResults dteResults = null; // the dteResults of this query
 		QueryResultSet resultSet = null;
 
+		boolean needExecute = queryCache.needExecute( query, queryOwner, useCache );
 		if ( parentQueryResults == null )
 		{
 			// this is the root query
-			if ( useCache )
+			if ( !needExecute )
 			{
 				dteResults = getCachedQueryResult( query, parentResult );
 			}
@@ -231,7 +232,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 
 			// this is the nest query, execute the query in the
 			// parent results
-			if ( useCache )
+			if ( !needExecute )
 			{
 				dteResults = getCachedQueryResult( query, parentResult );
 			}
@@ -274,7 +275,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	}
 
 	protected IBaseResultSet doExecuteCube( IBaseResultSet parentResult,
-			ICubeQueryDefinition query, boolean useCache ) throws BirtException
+			ICubeQueryDefinition query, Object queryOwner, boolean useCache ) throws BirtException
 	{
 		String queryID = (String) queryIDMap.get( query );
 

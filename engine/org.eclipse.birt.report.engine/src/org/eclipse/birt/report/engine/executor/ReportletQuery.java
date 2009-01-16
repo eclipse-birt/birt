@@ -106,7 +106,7 @@ public class ReportletQuery
 			query.rsets = new IBaseResultSet[query.queries.length];
 			for ( int i = 0; i < query.queries.length; i++ )
 			{
-				query.rsets[i] = context.executeQuery( rset, query.queries[i],
+				query.rsets[i] = context.executeQuery( rset, query.queries[i], null,
 						false );
 			}
 

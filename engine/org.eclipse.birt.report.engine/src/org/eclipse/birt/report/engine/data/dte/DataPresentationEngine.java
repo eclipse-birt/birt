@@ -130,7 +130,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 	}
 
 	protected IBaseResultSet doExecuteQuery( IBaseResultSet parentResult,
-			IQueryDefinition query, boolean useCache ) throws BirtException
+			IQueryDefinition query, Object queryOwner, boolean useCache ) throws BirtException
 	{
 		String queryID = (String) queryIDMap.get( query );
 
@@ -166,7 +166,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 	}
 	
 	protected IBaseResultSet doExecuteCube( IBaseResultSet parentResult,
-			ICubeQueryDefinition query, boolean useCache ) throws BirtException
+			ICubeQueryDefinition query, Object queryOwner, boolean useCache ) throws BirtException
 	{
 		String queryID = (String) queryIDMap.get( query );
 
