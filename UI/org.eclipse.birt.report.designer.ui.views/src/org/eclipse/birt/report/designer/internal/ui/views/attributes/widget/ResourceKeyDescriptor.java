@@ -135,8 +135,8 @@ public class ResourceKeyDescriptor extends PropertyDescriptor
 		btnBrowse = FormWidgetFactory.getInstance( ).createButton( innerParent,
 				SWT.PUSH,
 				isFormStyle( ) );
-		btnBrowse.setText( provider.getBrowserText( ) ); //$NON-NLS-1$
-
+		btnBrowse.setText( provider.getBrowseText( ) );
+		btnBrowse.setToolTipText( provider.getBrowseTooltipText( ) ); 
 		btnBrowse.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -148,8 +148,8 @@ public class ResourceKeyDescriptor extends PropertyDescriptor
 		btnReset = FormWidgetFactory.getInstance( ).createButton( innerParent,
 				SWT.PUSH,
 				isFormStyle( ) );
-		btnReset.setText( provider.getResetText( ) ); //$NON-NLS-1$
-
+		btnReset.setText( provider.getResetText( ) );
+		btnReset.setToolTipText( provider.getResetTooltipText( ) );
 		btnReset.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )

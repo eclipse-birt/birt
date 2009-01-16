@@ -30,7 +30,7 @@ public class ResourceKeyDescriptorProvider extends PropertyDescriptorProvider im
 				.findResource( getBaseName( ), IResourceLocator.MESSAGE_FILE );
 	}
 
-	public String getBrowserText( )
+	public String getBrowseText( )
 	{
 		return "..."; //$NON-NLS-1$
 	}
@@ -43,6 +43,17 @@ public class ResourceKeyDescriptorProvider extends PropertyDescriptorProvider im
 	public boolean isEnable( )
 	{
 		return !( DEUtil.getInputSize( input ) > 1 );
+	}
+
+	public String getBrowseTooltipText( )
+	{
+		return Messages.getString( "ResourceKeyDescriptor.button.browse.tooltip" ); //$NON-NLS-1$
+	}
+
+	public String getResetTooltipText( )
+	{
+
+		return Messages.getString( "ResourceKeyDescriptor.button.reset.tooltip" ); //$NON-NLS-1$
 	}
 
 }

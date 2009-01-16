@@ -28,7 +28,7 @@ public class TemplateDescriptorProvider implements IResourceKeyDescriptorProvide
 				.findResource( getBaseName( ), IResourceLocator.MESSAGE_FILE );
 	}
 
-	public String getBrowserText( )
+	public String getBrowseText( )
 	{
 		return "..."; //$NON-NLS-1$
 	}
@@ -76,6 +76,17 @@ public class TemplateDescriptorProvider implements IResourceKeyDescriptorProvide
 	public void setInput( Object input )
 	{
 		this.input = input;
+	}
+
+	public String getBrowseTooltipText( )
+	{
+		return Messages.getString( "ResourceKeyDescriptor.button.browse.tooltip" ); //$NON-NLS-1$
+	}
+
+	public String getResetTooltipText( )
+	{
+
+		return Messages.getString( "ResourceKeyDescriptor.button.reset.tooltip" ); //$NON-NLS-1$
 	}
 
 }

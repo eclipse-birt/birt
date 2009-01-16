@@ -43,17 +43,17 @@ public class ShowAsViewMenuAction extends AbstractCrosstabAction
 	private final String expectedView;
 	private final String expectedViewDisplayName;
 
-	public ShowAsViewMenuAction( DesignElementHandle handle, String expectedView )
+	public ShowAsViewMenuAction( DesignElementHandle handle,
+			String expectedView, int index )
 	{
 		super( handle );
-		// TODO Auto-generated constructor stub
 		setId( ID );		
 		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( handle );
 		setHandle( extendedHandle );
 		measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
 		providerWrapper = new AggregationCellProviderWrapper( measureViewHandle.getCrosstab( ) );
 		expectedViewDisplayName = providerWrapper.getViewDisplayName( expectedView );
-		setText( NAME + " " + expectedViewDisplayName );
+		setText( "&" + index + " " + NAME + " " + expectedViewDisplayName ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		this.expectedView = new String( expectedView );	
 	}
 

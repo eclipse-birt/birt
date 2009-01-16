@@ -10,9 +10,14 @@ public interface IResourceKeyDescriptorProvider extends IDescriptorProvider
 	
 	public URL getResourceURL( );
 
-	public String getBrowserText( );
+	public String getBrowseText( );
 
 	public String getResetText( );
 
 	public boolean isEnable( );
+	
+	public String getBrowseTooltipText( );
+
+	public String getResetTooltipText( );
+	
 }

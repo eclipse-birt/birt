@@ -95,7 +95,9 @@ public class ColorBuilder extends Composite
 		data.widthHint = 50;
 		data.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
 		colorSelector.getButton( ).setLayoutData( data );
-
+		
+		colorSelector.getButton( )
+				.setToolTipText( Messages.getString( "ColorBuilder.Button.ChooseColor" ) ); //$NON-NLS-1$
 		colorSelector.addListener( new IPropertyChangeListener( ) {
 
 			public void propertyChange( PropertyChangeEvent event )

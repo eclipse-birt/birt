@@ -100,6 +100,7 @@ public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider
 		}
 		AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( measureViewHandle.getCrosstab( ) );
 		IAggregationCellViewProvider[] providers = providerWrapper.getAllProviders( );
+		int count = 1;
 		for ( int i = 0; i < providers.length; i++ )
 		{
 			IAggregationCellViewProvider provider = providers[i];
@@ -108,7 +109,9 @@ public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider
 				continue;
 			}
 			ShowAsViewMenuAction showAsViewAction = new ShowAsViewMenuAction( element,
-					provider.getViewName( ) );
+					provider.getViewName( ),
+					count );
+			count++;
 			menu.add( showAsViewAction );
 		}
 		menu.add( new Separator( ) );

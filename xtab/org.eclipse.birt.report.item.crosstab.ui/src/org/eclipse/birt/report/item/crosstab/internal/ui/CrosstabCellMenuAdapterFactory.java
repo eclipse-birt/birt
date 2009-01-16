@@ -105,6 +105,7 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 		}
 		AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( measureViewHandle.getCrosstab( ) );
 		IAggregationCellViewProvider[] providers = providerWrapper.getAllProviders( );
+		int count = 1;
 		for ( int i = 0; i < providers.length; i++ )
 		{
 			IAggregationCellViewProvider provider = providers[i];
@@ -113,7 +114,9 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 				continue;
 			}
 			ShowAsViewMenuAction showAsViewAction = new ShowAsViewMenuAction( element,
-					provider.getViewName( ) );
+					provider.getViewName( ),
+					count );
+			count++;
 			menu.insertBefore( firstId, showAsViewAction );
 		}
 		menu.insertBefore( firstId, new Separator( ) );
