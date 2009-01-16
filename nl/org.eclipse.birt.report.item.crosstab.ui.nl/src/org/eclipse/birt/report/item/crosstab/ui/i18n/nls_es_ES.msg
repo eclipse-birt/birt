@@ -1,20 +1,20 @@
 ###########################################################
 # Crosstab Action mame and trans name
-AddLevelHandleAction_Displayname=Mostrar/ocultar niveles de grupo
+AddLevelHandleAction_Displayname=Show/Hide &Group Levels
 AddLevelHandleAction_TransName=Mostrar/ocultar niveles de grupo
-AddMesureViewHandleAction.DisplayName=Mostrar/ocultar medidas
+AddMesureViewHandleAction.DisplayName=Show/Hide &Measures
 AddMesureViewHandleAction.TransName=Mostrar/ocultar medidas
 AddSubTotalAction.LabelName=Total general
 AddSubTotalAction.TransName=Editar totales
-AddSubTotalAction.DisplayName=Totales
+AddSubTotalAction.DisplayName=Tota&ls
 AddSubTotalAction.TotalName=TOTAL
-CrosstabMenuBuilder.EditCubeAction.DisplayName=Editar cubo de datos
+CrosstabMenuBuilder.EditCubeAction.DisplayName=&Edit Data Cube
 DeleteDimensionViewHandleAction.TransName=Eliminar dimensión
-DeleteDimensionViewHandleAction.DisplayName=Quitar
-DeleteMeasureHandleAction.DisplayName=Quitar
+DeleteDimensionViewHandleAction.DisplayName=Remo&ve
+DeleteMeasureHandleAction.DisplayName=Remo&ve
 DeleteMeasureHandleAction.TransName=Eliminar medida
 
-AddComputedMesureHandleAction.DisplayName=Añadir medida derivada
+AddComputedMesureHandleAction.DisplayName=Add Derived Mea&sure
 AddComputedMesureHandleAction.TransName=Añadir medida derivada
 AddComputedSummaryDialog.Title=Medida derivada
 AddComputedSummaryDialog.Label.Name=&Nombre:

@@ -1,20 +1,20 @@
 ###########################################################
 # Crosstab Action mame and trans name
-AddLevelHandleAction_Displayname=그룹 수준 표시/숨기기
+AddLevelHandleAction_Displayname=Show/Hide &Group Levels
 AddLevelHandleAction_TransName=그룹 수준 표시/숨기기
-AddMesureViewHandleAction.DisplayName=측정 표시/숨기기
+AddMesureViewHandleAction.DisplayName=Show/Hide &Measures
 AddMesureViewHandleAction.TransName=측정 표시/숨기기
 AddSubTotalAction.LabelName=총합계
 AddSubTotalAction.TransName=합계 편집
-AddSubTotalAction.DisplayName=전체
+AddSubTotalAction.DisplayName=Tota&ls
 AddSubTotalAction.TotalName=합계
-CrosstabMenuBuilder.EditCubeAction.DisplayName=데이터 큐브 편집
+CrosstabMenuBuilder.EditCubeAction.DisplayName=&Edit Data Cube
 DeleteDimensionViewHandleAction.TransName=차원 삭제
-DeleteDimensionViewHandleAction.DisplayName=제거
-DeleteMeasureHandleAction.DisplayName=제거
+DeleteDimensionViewHandleAction.DisplayName=Remo&ve
+DeleteMeasureHandleAction.DisplayName=Remo&ve
 DeleteMeasureHandleAction.TransName=측정값 삭제
 
-AddComputedMesureHandleAction.DisplayName=파생 측정값 추가
+AddComputedMesureHandleAction.DisplayName=Add Derived Mea&sure
 AddComputedMesureHandleAction.TransName=파생 측정값 추가
 AddComputedSummaryDialog.Title=파생 측정값
 AddComputedSummaryDialog.Label.Name=이름(&N):

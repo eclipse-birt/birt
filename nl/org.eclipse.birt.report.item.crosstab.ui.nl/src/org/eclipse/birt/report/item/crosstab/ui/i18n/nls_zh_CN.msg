@@ -1,20 +1,20 @@
 ###########################################################
 # Crosstab Action mame and trans name
-AddLevelHandleAction_Displayname=显示/隐藏组级别
+AddLevelHandleAction_Displayname=Show/Hide &Group Levels
 AddLevelHandleAction_TransName=显示/隐藏组级别
-AddMesureViewHandleAction.DisplayName=显示/隐藏度量
+AddMesureViewHandleAction.DisplayName=Show/Hide &Measures
 AddMesureViewHandleAction.TransName=显示/隐藏度量
 AddSubTotalAction.LabelName=总计
 AddSubTotalAction.TransName=编辑总计
-AddSubTotalAction.DisplayName=总计
+AddSubTotalAction.DisplayName=Tota&ls
 AddSubTotalAction.TotalName=合计
-CrosstabMenuBuilder.EditCubeAction.DisplayName=编辑多维数据集
+CrosstabMenuBuilder.EditCubeAction.DisplayName=&Edit Data Cube
 DeleteDimensionViewHandleAction.TransName=删除维
-DeleteDimensionViewHandleAction.DisplayName=删除
-DeleteMeasureHandleAction.DisplayName=删除
+DeleteDimensionViewHandleAction.DisplayName=Remo&ve
+DeleteMeasureHandleAction.DisplayName=Remo&ve
 DeleteMeasureHandleAction.TransName=删除度量
 
-AddComputedMesureHandleAction.DisplayName=添加衍生度量
+AddComputedMesureHandleAction.DisplayName=Add Derived Mea&sure
 AddComputedMesureHandleAction.TransName=添加衍生度量
 AddComputedSummaryDialog.Title=衍生度量
 AddComputedSummaryDialog.Label.Name=名称(&N):
