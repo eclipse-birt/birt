@@ -125,7 +125,9 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	 * <code>DesignChoiceConstants</code> and can be one of:
 	 * 
 	 * <ul>
-	 * <li>DROP_TYPE_NONE</li> <li>DROP_TYPE_DETAIL</li> <li>DROP_TYPE_ALL</li>
+	 * <li>DROP_TYPE_NONE</li>
+	 * <li>DROP_TYPE_DETAIL</li>
+	 * <li>DROP_TYPE_ALL</li>
 	 * </ul>
 	 * 
 	 * <p>
@@ -297,35 +299,6 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	}
 
 	/**
-	 * Gets a string that defines the event handle class.
-	 * 
-	 * @return the expression as a string
-	 * 
-	 * @see #setEventHandleClass(String)
-	 */
-
-	public String getEventHandleClass( )
-	{
-		return getStringProperty( IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
-	}
-
-	/**
-	 * Sets the group expression.
-	 * 
-	 * @param expr
-	 *            the expression to set
-	 * @throws SemanticException
-	 *             If the expression is invalid.
-	 * 
-	 * @see #getEventHandleClass()
-	 */
-
-	public void setEventHandleClass( String expr ) throws SemanticException
-	{
-		setProperty( IDesignElementModel.EVENT_HANDLER_CLASS_PROP, expr );
-	}
-
-	/**
 	 * Sets the number of the diagonal lines that are from top-left to
 	 * bottom-right corners.
 	 * 
@@ -355,7 +328,9 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	 * dimension value, the dimension handle may return one of constants defined
 	 * in <code>DesignChoiceConstatns</code>:
 	 * <ul>
-	 * <li><code>LINE_WIDTH_THIN</code> <li><code>LINE_WIDTH_MEDIUM</code> <li>
+	 * <li><code>LINE_WIDTH_THIN</code>
+	 * <li><code>LINE_WIDTH_MEDIUM</code>
+	 * <li>
 	 * <code>LINE_WIDTH_THICK</code>
 	 * </ul>
 	 * 
@@ -371,10 +346,18 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	 * input value is one of constants defined in
 	 * <code>DesignChoiceConstants</code>:
 	 * <ul>
-	 * <li><code>LINE_STYLE_NONE</code> <li><code>LINE_STYLE_SOLID</code> <li>
-	 * <code>LINE_STYLE_DOTTED</code> <li><code>LINE_STYLE_DASHED</code> <li>
-	 * <code>LINE_STYLE_DOUBLE</code> <li><code>LINE_STYLE_GROOVE</code> <li>
-	 * <code>LINE_STYLE_RIDGE</code> <li><code>LINE_STYLE_INSET</code> <li>
+	 * <li><code>LINE_STYLE_NONE</code>
+	 * <li><code>LINE_STYLE_SOLID</code>
+	 * <li>
+	 * <code>LINE_STYLE_DOTTED</code>
+	 * <li><code>LINE_STYLE_DASHED</code>
+	 * <li>
+	 * <code>LINE_STYLE_DOUBLE</code>
+	 * <li><code>LINE_STYLE_GROOVE</code>
+	 * <li>
+	 * <code>LINE_STYLE_RIDGE</code>
+	 * <li><code>LINE_STYLE_INSET</code>
+	 * <li>
 	 * <code>LINE_STYLE_OUTSET</code>
 	 * </ul>
 	 * 
@@ -393,10 +376,18 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	 * The return value is one of constants defined in
 	 * <code>DesignChoiceConstants</code>:
 	 * <ul>
-	 * <li><code>LINE_STYLE_NONE</code> <li><code>LINE_STYLE_SOLID</code> <li>
-	 * <code>LINE_STYLE_DOTTED</code> <li><code>LINE_STYLE_DASHED</code> <li>
-	 * <code>LINE_STYLE_DOUBLE</code> <li><code>LINE_STYLE_GROOVE</code> <li>
-	 * <code>LINE_STYLE_RIDGE</code> <li><code>LINE_STYLE_INSET</code> <li>
+	 * <li><code>LINE_STYLE_NONE</code>
+	 * <li><code>LINE_STYLE_SOLID</code>
+	 * <li>
+	 * <code>LINE_STYLE_DOTTED</code>
+	 * <li><code>LINE_STYLE_DASHED</code>
+	 * <li>
+	 * <code>LINE_STYLE_DOUBLE</code>
+	 * <li><code>LINE_STYLE_GROOVE</code>
+	 * <li>
+	 * <code>LINE_STYLE_RIDGE</code>
+	 * <li><code>LINE_STYLE_INSET</code>
+	 * <li>
 	 * <code>LINE_STYLE_OUTSET</code>
 	 * </ul>
 	 * 
@@ -437,7 +428,9 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	 * the dimension value, the dimension handle may return one of constants
 	 * defined in <code>DesignChoiceConstatns</code>:
 	 * <ul>
-	 * <li><code>LINE_WIDTH_THIN</code> <li><code>LINE_WIDTH_MEDIUM</code> <li>
+	 * <li><code>LINE_WIDTH_THIN</code>
+	 * <li><code>LINE_WIDTH_MEDIUM</code>
+	 * <li>
 	 * <code>LINE_WIDTH_THICK</code>
 	 * </ul>
 	 * 
@@ -453,10 +446,18 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	 * bottom-left corner. The return value is one of constants defined in
 	 * <code>DesignChoiceConstants</code>:
 	 * <ul>
-	 * <li><code>LINE_STYLE_NONE</code> <li><code>LINE_STYLE_SOLID</code> <li>
-	 * <code>LINE_STYLE_DOTTED</code> <li><code>LINE_STYLE_DASHED</code> <li>
-	 * <code>LINE_STYLE_DOUBLE</code> <li><code>LINE_STYLE_GROOVE</code> <li>
-	 * <code>LINE_STYLE_RIDGE</code> <li><code>LINE_STYLE_INSET</code> <li>
+	 * <li><code>LINE_STYLE_NONE</code>
+	 * <li><code>LINE_STYLE_SOLID</code>
+	 * <li>
+	 * <code>LINE_STYLE_DOTTED</code>
+	 * <li><code>LINE_STYLE_DASHED</code>
+	 * <li>
+	 * <code>LINE_STYLE_DOUBLE</code>
+	 * <li><code>LINE_STYLE_GROOVE</code>
+	 * <li>
+	 * <code>LINE_STYLE_RIDGE</code>
+	 * <li><code>LINE_STYLE_INSET</code>
+	 * <li>
 	 * <code>LINE_STYLE_OUTSET</code>
 	 * </ul>
 	 * 
@@ -472,10 +473,18 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	 * corner. The input value is one of constants defined in
 	 * <code>DesignChoiceConstants</code>:
 	 * <ul>
-	 * <li><code>LINE_STYLE_NONE</code> <li><code>LINE_STYLE_SOLID</code> <li>
-	 * <code>LINE_STYLE_DOTTED</code> <li><code>LINE_STYLE_DASHED</code> <li>
-	 * <code>LINE_STYLE_DOUBLE</code> <li><code>LINE_STYLE_GROOVE</code> <li>
-	 * <code>LINE_STYLE_RIDGE</code> <li><code>LINE_STYLE_INSET</code> <li>
+	 * <li><code>LINE_STYLE_NONE</code>
+	 * <li><code>LINE_STYLE_SOLID</code>
+	 * <li>
+	 * <code>LINE_STYLE_DOTTED</code>
+	 * <li><code>LINE_STYLE_DASHED</code>
+	 * <li>
+	 * <code>LINE_STYLE_DOUBLE</code>
+	 * <li><code>LINE_STYLE_GROOVE</code>
+	 * <li>
+	 * <code>LINE_STYLE_RIDGE</code>
+	 * <li><code>LINE_STYLE_INSET</code>
+	 * <li>
 	 * <code>LINE_STYLE_OUTSET</code>
 	 * </ul>
 	 * 

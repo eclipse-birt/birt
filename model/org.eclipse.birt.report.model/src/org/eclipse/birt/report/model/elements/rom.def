@@ -1587,6 +1587,9 @@
       <Default>0</Default>
     </Property>
     <Property displayNameID="Element.ReportDesign.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
+    <Property displayNameID="Element.ReportDesign.newHandlerOnEachEvent" name="newHandlerOnEachEvent" runtimeSettable="true" since="2.5" type="boolean">
+    	<Default>false</Default>
+    </Property>
     <Property detailType="reportLayoutPreference" displayNameID="Element.ReportDesign.layoutPreference" name="layoutPreference" runtimeSettable="false" since="2.2" type="choice">
 	  <Default>auto layout</Default>	
     </Property>
@@ -1734,6 +1737,9 @@
     <Property displayNameID="Element.ReportElement.displayNameID" name="displayNameID" since="reserved" type="resourceKey"/>
     <Property displayNameID="Element.ReportElement.comments" name="comments" runtimeSettable="false" since="1.0" type="string"/>
     <Property displayNameID="Element.ReportElement.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
+    <Property displayNameID="Element.ReportElement.newHandlerOnEachEvent" name="newHandlerOnEachEvent" runtimeSettable="true" since="2.5" type="boolean">
+    	<Default>false</Default>
+    </Property>
     <Property canInherit="false" detailType="viewAction" displayNameID="Element.ReportElement.viewAction" name="viewAction" runtimeSettable="false" since="2.1" type="choice">
     	<Default>NoChange</Default>
     </Property>
@@ -2672,6 +2678,9 @@
       <Default>none</Default>
     </Property>
     <Property displayNameID="Element.ListingGroup.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
+    <Property displayNameID="Element.ListingGroup.newHandlerOnEachEvent" name="newHandlerOnEachEvent" runtimeSettable="true" since="2.5" type="boolean">
+    	<Default>false</Default>
+    </Property>
     <Property canInherit="false" detailType="viewAction" displayNameID="Element.ListingGroup.viewAction" name="viewAction" runtimeSettable="false" since="2.1" type="choice">
     	<Default>NoChange</Default>
     </Property>
@@ -2925,6 +2934,9 @@
     <Property displayNameID="Element.Row.height" name="height" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
     <Property displayNameID="Element.Row.bookmark" name="bookmark" returnType="string" since="2.0" type="expression"/>    
     <Property displayNameID="Element.Row.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
+    <Property displayNameID="Element.Row.newHandlerOnEachEvent" name="newHandlerOnEachEvent" runtimeSettable="true" since="2.5" type="boolean">
+    	<Default>false</Default>
+    </Property>
     <Property displayNameID="Element.Row.suppressDuplicates" name="suppressDuplicates" since="2.1" type="boolean">
       <Default>false</Default>
     </Property>
@@ -2971,6 +2983,9 @@
     <Property displayNameID="Element.Cell.height" name="height" runtimeSettable="false" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
     <Property displayNameID="Element.Cell.width" name="width" runtimeSettable="false" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
     <Property displayNameID="Element.Cell.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
+    <Property displayNameID="Element.Cell.newHandlerOnEachEvent" name="newHandlerOnEachEvent" runtimeSettable="true" since="2.5" type="boolean">
+    	<Default>false</Default>
+    </Property>
     <Property canInherit="false" detailType="viewAction" displayNameID="Element.Cell.viewAction" name="viewAction" runtimeSettable="false" since="2.1" type="choice">
     	<Default>NoChange</Default>
     </Property>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.16">
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.18">
     <property name="author">W.C. Fields</property>
     <property name="subject">subject</property>
     <property name="helpGuide">http://company.com/reportHelp.html</property>
@@ -11,6 +11,7 @@
 		<value>library</value>
 	</simple-property-list>
     <property name="eventHandlerClass">on_Event</property>
+    <property name="newHandlerOnEachEvent">true</property>
     <text-property name="title" key="TITLE_ID">Sample Report</text-property>
     <property name="comments">First sample report.</property>
     <html-property name="description" key="DESCRIP_ID">This is a first sample report.</html-property>

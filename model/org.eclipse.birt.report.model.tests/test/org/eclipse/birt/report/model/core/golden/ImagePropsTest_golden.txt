@@ -78,6 +78,7 @@ displayName
 displayNameID
 comments
 eventHandlerClass
+newHandlerOnEachEvent
 viewAction
 customXml
 propertyMasks

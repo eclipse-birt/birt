@@ -5,6 +5,7 @@ drop
 height
 width
 eventHandlerClass
+newHandlerOnEachEvent
 viewAction
 diagonalNumber
 antidiagonalNumber

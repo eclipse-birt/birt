@@ -77,13 +77,19 @@ public interface IDesignElementModel
 	 */
 
 	public static final String USER_PROPERTIES_PROP = "userProperties"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the event handler class.
 	 */
 
 	public static final String EVENT_HANDLER_CLASS_PROP = "eventHandlerClass"; //$NON-NLS-1$
-		
+
+	/**
+	 * Name of the new handler on each event. This property controls if the
+	 * event handler should be created.
+	 */
+	public static final String NEW_HANDLER_ON_EACH_EVENT_PROP = "newHandlerOnEachEvent"; //$NON-NLS-1$
+
 	/**
 	 * Name of the property that defines the referred template parameter
 	 * definition. Its value is instance of ElementRefValue.
@@ -92,11 +98,11 @@ public interface IDesignElementModel
 	 */
 
 	public static final String REF_TEMPLATE_PARAMETER_PROP = "refTemplateParameter"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the property that defines the view action in this element.
 	 */
-	
+
 	public static final String VIEW_ACTION_PROP = "viewAction"; //$NON-NLS-1$
 
 	/**

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
+	<property name="eventHandlerClass">birt.js.newTableHandler</property>
+    <body>
+        <table id="11">
+            <group id="27">
+            	<property name="groupName">NewTableGroup1</property>
+            </group>
+            <detail>
+                <row id="16">
+                    <cell id="17"/>
+                    <cell id="18"/>
+                    <cell id="19"/>
+                </row>
+            </detail>
+        </table>
+        <table id="36">
+        	<property name="eventHandlerClass">birt.js.newTableHandler</property>
+            <group id="52">
+            	<property name="groupName">NewTableGroup2</property>
+                <property name="eventHandlerClass">birt.js.newTableHandler</property>
+            </group>
+            <detail>
+                <row id="41">
+                <property name="eventHandlerClass">birt.js.newTableHandler</property>
+                    <cell id="42">
+                    	<property name="eventHandlerClass">birt.js.newTableHandler</property>
+                    </cell>
+                    <cell id="43"/>
+                    <cell id="44"/>
+                </row>
+            </detail>
+        </table>
+    </body>
+</report>

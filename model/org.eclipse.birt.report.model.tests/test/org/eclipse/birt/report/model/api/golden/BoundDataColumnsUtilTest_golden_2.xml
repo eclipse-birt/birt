@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
     <parameters>
         <scalar-parameter name="MyParam1" id="4">
         	<property name="isRequired">false</property>

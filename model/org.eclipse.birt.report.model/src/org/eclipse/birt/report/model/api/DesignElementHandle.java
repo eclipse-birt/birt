@@ -2020,6 +2020,32 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	}
 
 	/**
+	 * Gets the newHandlerOnEachEvent property value. This property controls if
+	 * the event handler should be created.
+	 * 
+	 * @return the newHandlerOnEachEvent property value.
+	 */
+	public boolean newHandlerOnEachEvent( )
+	{
+		return getBooleanProperty( NEW_HANDLER_ON_EACH_EVENT_PROP );
+	}
+
+	/**
+	 * Sets the newHandlerOnEachEvent property value. This property controls if
+	 * the event handler should be created.
+	 * 
+	 * @param newHandler
+	 *            controls if the event handler should be reloaded.
+	 * @throws SemanticException
+	 */
+	public void setNewHandlerOnEachEvent( boolean newHandler )
+			throws SemanticException
+	{
+		setProperty( NEW_HANDLER_ON_EACH_EVENT_PROP, Boolean
+				.valueOf( newHandler ) );
+	}
+
+	/**
 	 * Creates a template element handle and transforms the current element
 	 * handle to the created template element.
 	 * 

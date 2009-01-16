@@ -198,6 +198,8 @@ public class ReportDesignParseTest extends BaseTestCase
 		assertEquals(
 				"on_Event", design.getStringProperty( design, ReportDesign.EVENT_HANDLER_CLASS_PROP ) ); //$NON-NLS-1$
 
+		assertTrue( designHandle.newHandlerOnEachEvent( ) );
+
 		// layout preference
 		assertEquals(
 				DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT,
@@ -393,7 +395,9 @@ public class ReportDesignParseTest extends BaseTestCase
 				"New description" ); //$NON-NLS-1$
 		designHandle.setProperty( ReportDesign.EVENT_HANDLER_CLASS_PROP,
 				"on event" ); //$NON-NLS-1$
-
+		
+		designHandle.setNewHandlerOnEachEvent( false );
+		
 		designHandle.setInitialize( "new initialize script" ); //$NON-NLS-1$
 
 		designHandle.setBeforeFactory( "new beforeFactory script" ); //$NON-NLS-1$

@@ -607,8 +607,9 @@ public class ParserCompatibilityTest extends BaseTestCase
 	/**
 	 * <ul>
 	 * <li>Tests toc backward.This function apply after version 3.2.9. TOC
-	 * expression string to the TOC structure. <li>for version between 3 and
-	 * 3.2.8, if no TOC specified, uses key expression as TOC.
+	 * expression string to the TOC structure.
+	 * <li>for version between 3 and 3.2.8, if no TOC specified, uses key
+	 * expression as TOC.
 	 * </ul>
 	 * 
 	 * @throws Exception
@@ -657,19 +658,19 @@ public class ParserCompatibilityTest extends BaseTestCase
 	 * <table>
 	 * <th align="left"> For string data type </th>
 	 * <tr>
-	 * <td> Set isRequired=true; if allowBlank=false </td>
+	 * <td>Set isRequired=true; if allowBlank=false</td>
 	 * </tr>
 	 * <tr>
-	 * <td> Set isRequired=false, if allowBalnk=true </td>
+	 * <td>Set isRequired=false, if allowBalnk=true</td>
 	 * </tr>
 	 * <br>
 	 * 
 	 * <th align="left"> For non string data type </th>
 	 * <tr>
-	 * <td> Set isRequired=true; if allowNull=false </td>
+	 * <td>Set isRequired=true; if allowNull=false</td>
 	 * </tr>
 	 * <tr>
-	 * <td> Set isRequired=false, if allowNull=true </td>
+	 * <td>Set isRequired=false, if allowNull=true</td>
 	 * </tr>
 	 * </table>
 	 * 
@@ -888,5 +889,23 @@ public class ParserCompatibilityTest extends BaseTestCase
 					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND, e
 							.getErrorCode( ) );
 		}
+	}
+
+	/**
+	 * Tests compatibility for the the newHandlerOnEachEvent Property. For the
+	 * old version report, if the eventHandlerClass property has value, the
+	 * default value of the newHandlerOnEachEvent property will be true. If the
+	 * eventHandlerClass has no value, the default value of the
+	 * newHandlerOnEachEvent is false.
+	 * 
+	 * @throws Exception
+	 */
+	public void testNewHandlerOnEachEventProp( ) throws Exception
+	{
+		openDesign( "CompatibleNewHandlerOnEachEventPropTest.xml" ); //$NON-NLS-1$
+
+		save( );
+		assertTrue( compareFile( "CompatibleNewHandlerOnEachEventPropTest_golden.xml" ) ); //$NON-NLS-1$
+
 	}
 }

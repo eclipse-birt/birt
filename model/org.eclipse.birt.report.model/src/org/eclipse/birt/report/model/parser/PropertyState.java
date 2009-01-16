@@ -48,6 +48,7 @@ import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
@@ -299,7 +300,7 @@ class PropertyState extends AbstractPropertyState
 		// for the old design file, there is not necessary to do this. But for
 		// the new design file, it is necessary to escape CDATA related
 		// characters.
-		
+
 		if ( jmpDefn != null
 				&& ( jmpDefn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE || jmpDefn
 						.getTypeCode( ) == IPropertyType.XML_TYPE )
@@ -604,6 +605,16 @@ class PropertyState extends AbstractPropertyState
 						.equalsIgnoreCase( name ) ) )
 		{
 			CompatiblePageBreakPropState state = new CompatiblePageBreakPropState(
+					handler, element );
+			state.setName( name );
+			return state;
+		}
+
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_18
+				&& IDesignElementModel.EVENT_HANDLER_CLASS_PROP
+						.equalsIgnoreCase( name ) )
+		{
+			CompatibleNewHandlerOnEachEventState state = new CompatibleNewHandlerOnEachEventState(
 					handler, element );
 			state.setName( name );
 			return state;

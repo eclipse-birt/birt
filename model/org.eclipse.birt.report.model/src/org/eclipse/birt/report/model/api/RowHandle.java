@@ -98,8 +98,8 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 
 	/**
 	 * Returns visibility rules defined on the table row. The element in the
-	 * iterator is the corresponding <code>StructureHandle</code> that deal
-	 * with a <code>Hide</code> in the list.
+	 * iterator is the corresponding <code>StructureHandle</code> that deal with
+	 * a <code>Hide</code> in the list.
 	 * 
 	 * @return the iterator for visibility rules defined on this row.
 	 * 
@@ -200,39 +200,10 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 	}
 
 	/**
-	 * Gets a string that defines the event handle class.
-	 * 
-	 * @return the expression as a string
-	 * 
-	 * @see #setEventHandleClass(String)
-	 */
-
-	public String getEventHandleClass( )
-	{
-		return getStringProperty( IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
-	}
-
-	/**
-	 * Sets the group expression.
-	 * 
-	 * @param expr
-	 *            the expression to set
-	 * @throws SemanticException
-	 *             If the expression is invalid.
-	 * 
-	 * @see #getEventHandleClass()
-	 */
-
-	public void setEventHandleClass( String expr ) throws SemanticException
-	{
-		setProperty( IDesignElementModel.EVENT_HANDLER_CLASS_PROP, expr );
-	}
-
-	/**
 	 * Tests whether to suppress duplicates rows with same content.
 	 * 
-	 * @return <code>true</code> if suppress duplicates rows with same
-	 *         content, otherwise <code>false</code>.
+	 * @return <code>true</code> if suppress duplicates rows with same content,
+	 *         otherwise <code>false</code>.
 	 * 
 	 * @see #setSuppressDuplicates(boolean)
 	 */

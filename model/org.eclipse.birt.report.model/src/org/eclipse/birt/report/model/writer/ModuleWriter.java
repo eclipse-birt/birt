@@ -588,7 +588,8 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * Escapes characters in the CDATA. Two characters are needed to convert:
 	 * 
 	 * <ul>
-	 * <li>& to &amp; <li>]]> to ]]&gt;
+	 * <li>& to &amp;
+	 * <li>]]> to ]]&gt;
 	 * </ul>
 	 * 
 	 * @param value
@@ -2020,6 +2021,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ITableRowModel.SUPPRESS_DUPLICATES_PROP );
 
 		property( obj, IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
+		property( obj, IDesignElementModel.NEW_HANDLER_ON_EACH_EVENT_PROP );
 		property( obj, ITableRowModel.ON_PREPARE_METHOD );
 		property( obj, ITableRowModel.ON_CREATE_METHOD );
 		property( obj, ITableRowModel.ON_RENDER_METHOD );
@@ -2067,8 +2069,9 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ICellModel.DIAGONAL_THICKNESS_PROP );
 		property( obj, ICellModel.ANTIDIAGONAL_NUMBER_PROP );
 		property( obj, ICellModel.ANTIDIAGONAL_STYLE_PROP );
-		property( obj, ICellModel.ANTIDIAGONAL_THICKNESS_PROP );		
+		property( obj, ICellModel.ANTIDIAGONAL_THICKNESS_PROP );
 		property( obj, IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
+		property( obj, IDesignElementModel.NEW_HANDLER_ON_EACH_EVENT_PROP );
 		property( obj, ICellModel.ON_PREPARE_METHOD );
 		property( obj, ICellModel.ON_CREATE_METHOD );
 		property( obj, ICellModel.ON_RENDER_METHOD );
@@ -2900,6 +2903,7 @@ public abstract class ModuleWriter extends ElementVisitor
 				IDesignElementModel.DISPLAY_NAME_PROP );
 
 		property( obj, IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
+		property( obj, IDesignElementModel.NEW_HANDLER_ON_EACH_EVENT_PROP );
 
 		writeUserPropertyDefns( obj );
 		writeUserPropertyValues( obj );
@@ -3180,6 +3184,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeStructure( obj, IGroupElementModel.TOC_PROP );
 
 		property( obj, IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
+		property( obj, IDesignElementModel.NEW_HANDLER_ON_EACH_EVENT_PROP );
 		property( obj, IGroupElementModel.ON_PREPARE_METHOD );
 		property( obj, IGroupElementModel.ON_PAGE_BREAK_METHOD );
 		property( obj, IGroupElementModel.REPEAT_HEADER_PROP );
@@ -3261,7 +3266,7 @@ public abstract class ModuleWriter extends ElementVisitor
 				|| slot == ITableItemModel.COLUMN_SLOT;
 
 		// UI requires the column to keep the table layout information, so
-		// the unnecessary columns can not be remove this moment. 
+		// the unnecessary columns can not be remove this moment.
 
 		List list = obj.getSlot( slot ).getContents( );
 		if ( list.isEmpty( ) )

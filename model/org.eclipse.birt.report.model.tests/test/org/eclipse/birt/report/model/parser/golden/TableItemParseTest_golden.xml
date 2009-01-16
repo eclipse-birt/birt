@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
     <data-sources>
         <oda-data-source name="myDataSource" id="2"/>
         <oda-data-source name="myDataSource2" id="3"/>
@@ -19,7 +19,6 @@
     <components>
         <table name="componentsTable" id="6">
             <property name="dataSet">firstDataSet</property>
-            <property name="pageBreakInterval">50</property>
         </table>
     </components>
     <page-setup>
@@ -56,18 +55,17 @@
             <report-items>
                 <table name="freeformTable" id="11">
                     <property name="dataSet">firstDataSet</property>
-                    <property name="pageBreakInterval">50</property>
                 </table>
             </report-items>
         </free-form>
         <table name="My table" id="12">
             <property name="eventHandlerClass">birt.js.newTableHandler</property>
+            <property name="newHandlerOnEachEvent">false</property>
             <property name="dataSet">firstDataSet</property>
             <method name="onPrepare"><![CDATA[new prepare on table]]></method>
             <method name="onCreate"><![CDATA[new create on table]]></method>
             <method name="onRender"><![CDATA[new render on table]]></method>
             <property name="repeatHeader">false</property>
-            <property name="pageBreakInterval">50</property>
             <property name="sortByGroups">true</property>
             <list-property name="sort">
                 <structure>
@@ -84,7 +82,7 @@
                     <property name="operator">lt</property>
                     <expression name="expr">filter expression</expression>
                     <simple-property-list name="value1">
-                    	<value>value1 expression</value>
+                        <value>value1 expression</value>
                     </simple-property-list>
                     <expression name="value2">value2 expression</expression>
                 </structure>
@@ -152,14 +150,15 @@
                 <property name="sortDirection">desc</property>
                 <expression name="keyExpr">new expression</expression>
                 <structure name="toc">
-            		<expression name="expressionValue">new toc expression</expression>
-           		</structure>
+                    <expression name="expressionValue">new toc expression</expression>
+                </structure>
                 <property name="eventHandlerClass">birt.js.newGroup1Handler</property>
+                <property name="newHandlerOnEachEvent">true</property>
                 <method name="onPrepare"><![CDATA[new prepare on group]]></method>
                 <method name="onCreate"><![CDATA[new create on group]]></method>
                 <method name="onRender"><![CDATA[new render on group]]></method>
                 <expression name="ACLExpression">new acl expression test</expression>
-                <property name="cascadeACL">true</property>                
+                <property name="cascadeACL">true</property>
                 <list-property name="sort">
                     <structure>
                         <expression name="key">name</expression>
@@ -175,8 +174,8 @@
                         <property name="operator">lt</property>
                         <expression name="expr">filter expression</expression>
                         <simple-property-list name="value1">
-                    		<value>value1 expression</value>
-                    	</simple-property-list>
+                            <value>value1 expression</value>
+                        </simple-property-list>
                         <expression name="value2">value2 expression</expression>
                     </structure>
                 </list-property>
@@ -228,12 +227,14 @@
                 <row id="31">
                     <property name="suppressDuplicates">false</property>
                     <property name="eventHandlerClass">birt.js.newRowHandler</property>
+                    <property name="newHandlerOnEachEvent">true</property>
                     <method name="onPrepare"><![CDATA[new prepare on row]]></method>
                     <method name="onCreate"><![CDATA[new create on row]]></method>
                     <cell id="32">
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
                         <property name="eventHandlerClass">birt.js.newNewHandler</property>
+                        <property name="newHandlerOnEachEvent">true</property>
                         <method name="onPrepare"><![CDATA[new prepare on cell]]></method>
                         <method name="onRender"><![CDATA[new render on cell]]></method>
                         <list-property name="userProperties">
@@ -271,11 +272,9 @@
         </table>
         <list name="My List" id="37">
             <property name="dataSet">firstDataSet</property>
-            <property name="pageBreakInterval">50</property>
             <header>
                 <table name="listHeaderTable" id="38">
                     <property name="dataSet">firstDataSet</property>
-                    <property name="pageBreakInterval">50</property>
                 </table>
             </header>
             <group id="39">
@@ -284,32 +283,25 @@
                 <property name="intervalRange">3.0</property>
                 <property name="sortDirection">desc</property>
                 <expression name="keyExpr">[Country]</expression>
-                <structure name="toc">
-            		<expression name="expressionValue">[Country]</expression>
-           		</structure>
                 <header>
                     <table name="listgroupHeaderTable" id="40">
                         <property name="dataSet">firstDataSet</property>
-                        <property name="pageBreakInterval">50</property>
                     </table>
                 </header>
                 <footer>
                     <table name="listgroupFooterTable" id="41">
                         <property name="dataSet">firstDataSet</property>
-                        <property name="pageBreakInterval">50</property>
                     </table>
                 </footer>
             </group>
             <detail>
                 <table name="listDetailTable" id="42">
                     <property name="dataSet">firstDataSet</property>
-                    <property name="pageBreakInterval">50</property>
                 </table>
             </detail>
             <footer>
                 <table name="listFooterTable" id="43">
                     <property name="dataSet">firstDataSet</property>
-                    <property name="pageBreakInterval">50</property>
                 </table>
             </footer>
         </list>
@@ -317,7 +309,6 @@
     <scratch-pad>
         <table name="scratchpadTable" id="44">
             <property name="dataSet">firstDataSet</property>
-            <property name="pageBreakInterval">50</property>
         </table>
     </scratch-pad>
 </report>

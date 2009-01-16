@@ -195,6 +195,8 @@ public class TableItemParseTest extends ParserTestCase
 		assertEquals( "birt.js.myTableHandler", table //$NON-NLS-1$
 				.getEventHandlerClass( ) );
 
+		assertTrue( table.newHandlerOnEachEvent( ) );
+
 		// checks on-prepare, on-create and on-render values
 
 		assertEquals( "create on the table", table.getOnCreate( ) ); //$NON-NLS-1$
@@ -268,6 +270,8 @@ public class TableItemParseTest extends ParserTestCase
 		assertEquals( "birt.js.myDetailRowHandler", row //$NON-NLS-1$
 				.getEventHandlerClass( ) );
 
+		assertTrue( row.newHandlerOnEachEvent( ) );
+
 		// checks on-prepare, on-create and on-render values
 
 		assertEquals( "create on the row", row.getOnCreate( ) ); //$NON-NLS-1$
@@ -302,6 +306,8 @@ public class TableItemParseTest extends ParserTestCase
 		assertEquals( "birt.js.myDetailCellHandler", cell //$NON-NLS-1$
 				.getEventHandlerClass( ) );
 
+		assertTrue( cell.newHandlerOnEachEvent( ) );
+
 		// checks on-prepare, on-create and on-render values
 
 		assertEquals( "create on the cell", cell.getOnCreate( ) ); //$NON-NLS-1$
@@ -321,15 +327,17 @@ public class TableItemParseTest extends ParserTestCase
 		assertTrue( 3.0 == group.getIntervalRange( ) );
 		assertEquals( "desc", group.getSortDirection( ) ); //$NON-NLS-1$
 		assertEquals( "[Country]", group.getKeyExpr( ) ); //$NON-NLS-1$
-		assertEquals( "[toc Country]", group.getTocExpression( ) ); //$NON-NLS-1$
+		assertEquals( "toc Country", group.getTOC( ).getExpression( ) ); //$NON-NLS-1$
 
 		assertEquals( "acl expression test", group.getACLExpression( ) ); //$NON-NLS-1$
 		assertFalse( group.cascadeACL( ) );
-		
+
 		// checks event handler
 
 		assertEquals( "birt.js.myGroup1Handler", group //$NON-NLS-1$
 				.getEventHandlerClass( ) );
+
+		assertTrue( group.newHandlerOnEachEvent( ) );
 
 		// checks on-prepare, on-create and on-render values
 
@@ -483,6 +491,7 @@ public class TableItemParseTest extends ParserTestCase
 		tableHandle.setCaptionKey( "new caption key" ); //$NON-NLS-1$
 		tableHandle.setSummary( "new summary" ); //$NON-NLS-1$
 		tableHandle.setSortByGroups( true );
+		tableHandle.setNewHandlerOnEachEvent( false );
 
 		// visibility rules on column
 
@@ -511,7 +520,7 @@ public class TableItemParseTest extends ParserTestCase
 		group.setInterval( DesignChoiceConstants.INTERVAL_DAY );
 		group.setIntervalRange( 99 );
 		group.setKeyExpr( "new expression" ); //$NON-NLS-1$
-		group.setTocExpression( "new toc expression" ); //$NON-NLS-1$
+		group.getTOC( ).setExpression( "new toc expression" ); //$NON-NLS-1$
 		group.setEventHandlerClass( "birt.js.newGroup1Handler" ); //$NON-NLS-1$
 		group.setOnPrepare( "new prepare on group" ); //$NON-NLS-1$
 		group.setOnCreate( "new create on group" );//$NON-NLS-1$
@@ -519,7 +528,7 @@ public class TableItemParseTest extends ParserTestCase
 
 		group.setACLExpression( "new acl expression test" ); //$NON-NLS-1$
 		group.setCascadeACL( true );
-		
+
 		// Test detail properties
 
 		SlotHandle detailSlot = tableHandle.getDetail( );
@@ -557,7 +566,7 @@ public class TableItemParseTest extends ParserTestCase
 				.getPropertyType( PropertyType.STRING_TYPE_NAME );
 		prop.setType( typeDefn );
 		cell.addUserPropertyDefn( prop );
-		
+
 		save( );
 		assertTrue( compareFile( goldenFileName ) );
 
