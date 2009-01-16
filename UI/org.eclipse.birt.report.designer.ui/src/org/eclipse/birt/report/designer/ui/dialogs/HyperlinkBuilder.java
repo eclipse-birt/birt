@@ -71,6 +71,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
@@ -79,6 +80,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -429,9 +431,18 @@ public class HyperlinkBuilder extends BaseDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		Composite composite = (Composite) super.createDialogArea( parent );
+		
 		createSelectionArea( composite );
 		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		displayArea = new Composite( composite, SWT.NONE );
+
+		ScrolledComposite sc = new ScrolledComposite(composite, SWT.V_SCROLL);
+		sc.setAlwaysShowScrollBars( false );
+		sc.setExpandHorizontal( true );
+		sc.setLayoutData( new GridData(GridData.FILL_BOTH) );
+		
+		displayArea = new Composite(sc, SWT.NONE);
+		sc.setContent( displayArea );
+		
 		Shell shell = PlatformUI.getWorkbench( )
 				.getActiveWorkbenchWindow( )
 				.getShell( );
@@ -446,11 +457,16 @@ public class HyperlinkBuilder extends BaseDialog
 		{
 			height -= 50;
 		}
-		displayArea.setLayoutData( new GridData( 500, height ) );
+		sc.setLayoutData( new GridData( 500, height ) );
+		
 		displayArea.setLayout( new GridLayout( 3, false ) );
 		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		UIUtil.bindHelp( parent, IHelpContextIds.HYPERLINK_BUILDER_ID );
+
+		Point size = displayArea.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		displayArea.setSize( size );
+		
 		return composite;
 	}
 
@@ -552,6 +568,9 @@ public class HyperlinkBuilder extends BaseDialog
 
 		initDisplayArea( );
 		displayArea.layout( );
+		
+		Point size = displayArea.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		displayArea.setSize( size );
 	}
 
 	private void switchToURI( )
