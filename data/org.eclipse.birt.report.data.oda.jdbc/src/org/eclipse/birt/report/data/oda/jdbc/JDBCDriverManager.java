@@ -208,9 +208,17 @@ public class JDBCDriverManager
 		}
 		catch ( Exception e )
 		{
-			throw new JDBCException( ResourceConstants.CONN_GET_ERROR,
-					null,
-					truncate( e.getLocalizedMessage( ) ) );
+			registerDriver( driverClass, null, true );
+			try
+			{
+				return DriverManager.getConnection( url, connectionProperties );
+			}
+			catch ( Exception ex )
+			{
+				throw new JDBCException( ResourceConstants.CONN_GET_ERROR,
+						null,
+						truncate( ex.getLocalizedMessage( ) ) );
+			}
 		}
 	}
 
@@ -653,7 +661,7 @@ public class JDBCDriverManager
 	 * @return Driver instance
 	 * @throws OdaException 
 	 */
-	private Driver findDriver( String className, Collection<String> driverClassPath ) throws OdaException
+	private Driver findDriver( String className, Collection<String> driverClassPath, boolean refreshClassLoader ) throws OdaException
 	{
 		Class driverClass = null;
 		try
@@ -672,7 +680,7 @@ public class JDBCDriverManager
 				}
 
 				// Driver not in plugin class path; find it in drivers directory
-				driverClass = loadExtraDriver( className, true, driverClassPath );
+				driverClass = loadExtraDriver( className, true, refreshClassLoader, driverClassPath );
 
 				// if driver class still cannot be found,
 				if ( driverClass == null )
@@ -713,7 +721,7 @@ public class JDBCDriverManager
 		{
 			return true;
 		}
-		Driver driver = findDriver( className, null );
+		Driver driver = findDriver( className, null, false );
 		if ( driver != null )
 		{
 			try
@@ -781,13 +789,25 @@ public class JDBCDriverManager
 		if ( logger.isLoggable( Level.FINE ))
 		{
 			logger.info( "Loading JDBC driver class: " + className );
-		}
-		
-		// If driver is found in the drivers directory, its class is not accessible
-		// in this class's ClassLoader. DriverManager will not allow this class to create
-		// connections using such driver. To solve the problem, we create a wrapper Driver in 
-		// our class loader, and register it with DriverManager
-		Driver driver = findDriver( className, driverClassPath );
+		}		
+		registerDriver( className, driverClassPath, false );
+	}
+	
+	/**
+	 * If driver is found in the drivers directory, its class is not accessible
+	 * in this class's ClassLoader. DriverManager will not allow this class to create
+	 * connections using such driver. To solve the problem, we create a wrapper Driver in 
+	 * our class loader, and register it with DriverManager
+	 * 
+	 * @param className
+	 * @param driverClassPath
+	 * @param refreshClassLoader
+	 * @throws OdaException
+	 */
+	private void registerDriver( String className, Collection<String> driverClassPath, boolean refreshClassLoader )
+			throws OdaException
+	{
+		Driver driver = findDriver( className, driverClassPath, refreshClassLoader );
 		if ( driver != null )
 		{
 			try
@@ -796,7 +816,7 @@ public class JDBCDriverManager
 					logger.finer("Registering with DriverManager: wrapped driver for " + className );
 				DriverManager.registerDriver( new WrappedDriver( driver, className ) );
 			}
-			catch ( SQLException e)
+			catch ( SQLException e )
 			{
 				// This shouldn't happen
 				logger.log( Level.WARNING, 
@@ -814,13 +834,15 @@ public class JDBCDriverManager
 	 * @throws DriverException
 	 * @throws OdaException
 	 */
-	private Class loadExtraDriver(String className, boolean refreshUrlsWhenFail, Collection<String> driverClassPath) throws OdaException
+	private Class loadExtraDriver(String className, boolean refreshUrlsWhenFail, boolean refreshClassLoader, Collection<String> driverClassPath) throws OdaException
 	{
 		assert className != null;
 		
-		if( extraDriverLoader == null)
+		if ( extraDriverLoader == null || refreshClassLoader )
+		{
 			extraDriverLoader = new DriverClassLoader( driverClassPath );
-		
+		}
+
 		try
 		{
 			return extraDriverLoader.loadClass(className);
@@ -843,7 +865,7 @@ public class JDBCDriverManager
 			if(  refreshUrlsWhenFail && extraDriverLoader.refreshURLs() )
 			{
 				// New driver found; try loading again
-				return loadExtraDriver( className, false, driverClassPath );
+				return loadExtraDriver( className, false, false, driverClassPath );
 			}
 			
 			// no new driver found; give up
@@ -885,9 +907,17 @@ public class JDBCDriverManager
 			if ( bundle == null )
 				return false;			// init failed
 			
-			// List all files under "drivers" directory
-			boolean foundNew = false;
-			
+			boolean foundNewUnderSpecifiedDIR = refreshFileURLsUnderSpecifiedDIR( );
+
+			boolean foundNewUnderDefaultDIR = refreshFileURLsUnderDefaultDIR( );
+
+			return foundNewUnderSpecifiedDIR || foundNewUnderDefaultDIR;
+		}
+
+		private boolean refreshFileURLsUnderSpecifiedDIR( )
+				throws OdaException
+		{
+			boolean foundNewFlag = false;
 			if( driverClassPath != null && driverClassPath.size( ) > 0 )
 			{
 				try
@@ -920,7 +950,7 @@ public class JDBCDriverManager
 									{
 										// This is a new file not previously
 										// added to URL list
-										foundNew = true;
+										foundNewFlag = true;
 										fileSet.add( driverFiles[i].getName( ) );
 										addURL( driverFiles[i].toURI( ).toURL( ) );
 										logger.info( "JDBCDriverManager: found JAR file "
@@ -940,8 +970,12 @@ public class JDBCDriverManager
 					throw new OdaException( e );
 				}
 			}
-			
-			
+			return foundNewFlag;
+		}
+
+		private boolean refreshFileURLsUnderDefaultDIR( )
+		{
+			boolean foundNewFlag = false;
 			Enumeration files = bundle.getEntryPaths( 
 					OdaJdbcDriver.Constants.DRIVER_DIRECTORY );
 			while ( files!= null && files.hasMoreElements() )
@@ -949,37 +983,48 @@ public class JDBCDriverManager
 				String fileName = (String) files.nextElement();
 				if ( OdaJdbcDriver.isDriverFile( fileName ) )
 				{
-					if ( ! fileSet.contains( fileName ))
-					{
-						// This is a new file not previously added to URL list
-						foundNew = true;
-						fileSet.add( fileName );
-						URL bundleURL = bundle.getEntry( fileName );
-						try
-						{
-							/**
-							 * bundleURL is a special protocol URL Equinox defined.
-							 * if we register bundleURL directly to URLClassLoader, that class loader will fail to load driver classes existing in that URL in some environment
-							 * see, https://bugs.eclipse.org/bugs/show_bug.cgi?id=220633
-							 * 
-							 * So, we'll first convert bundleURL into a URL that uses a protocol which is native to the Java class library (file, jar, http, etc).
-							 * then, we add both converted URL and original URL into this class loader to avoid that problem 
-							 */
-							URL fileURL = FileLocator.resolve( bundleURL );
-							addURL( fileURL );
-							addURL( bundleURL );
-						}
-						catch ( IOException e )
-						{
-							logger.log( Level.SEVERE, "[" + bundleURL + "] " + "can't be converted to file url", e );
-							//throw new OdaException( e );
-						}
-						logger.info("JDBCDriverManager: found JAR file " + 
-								fileName + ". URL=" + bundleURL );
-					}
+					foundNewFlag = addNewURL( fileName );
 				}
 			}
-			return foundNew;
+			return foundNewFlag;
+		}
+		
+		/**
+		 * Add a new URL to the file set
+		 * 
+		 * @param fileName
+		 * @return
+		 */
+		private boolean addNewURL( String fileName )
+		{
+			if ( ! fileSet.contains( fileName ))
+			{
+				fileSet.add( fileName );
+				URL bundleURL = bundle.getEntry( fileName );
+				try
+				{
+					/**
+					 * bundleURL is a special protocol URL Equinox defined.
+					 * if we register bundleURL directly to URLClassLoader, that class loader will fail to load driver classes existing in that URL in some environment
+					 * see, https://bugs.eclipse.org/bugs/show_bug.cgi?id=220633
+					 * 
+					 * So, we'll first convert bundleURL into a URL that uses a protocol which is native to the Java class library (file, jar, http, etc).
+					 * then, we add both converted URL and original URL into this class loader to avoid that problem 
+					 */
+					URL fileURL = FileLocator.resolve( bundleURL );
+					addURL( fileURL );
+					addURL( bundleURL );
+					logger.info("JDBCDriverManager: found JAR file " + 
+							fileName + ". URL=" + bundleURL );
+					return true;
+				}
+				catch ( IOException e )
+				{
+					logger.log( Level.SEVERE, "[" + bundleURL + "] " + "can't be converted to file url", e );
+					//throw new OdaException( e );
+				}
+			}
+			return false;
 		}
 		
 	}

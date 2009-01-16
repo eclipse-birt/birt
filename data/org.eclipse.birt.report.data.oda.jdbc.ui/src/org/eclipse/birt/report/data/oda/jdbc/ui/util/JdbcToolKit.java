@@ -10,6 +10,7 @@
 package org.eclipse.birt.report.data.oda.jdbc.ui.util;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
@@ -198,9 +199,29 @@ public class JdbcToolKit
 	private static List getJDBCDriverInfoList( List fileList )
 	{
 		List driverList = new ArrayList( );
+		File[] allJars = JarFile.getDriverLocation( )
+				.listFiles( new FileFilter( ) {
+
+					public boolean accept( File fileName )
+					{
+						if ( fileName.isFile( )
+								&& ( fileName.getName( )
+										.toLowerCase( )
+										.endsWith( ".jar" ) || fileName.getName( )
+										.toLowerCase( )
+										.endsWith( ".zip" ) ) )
+						{
+							return true;
+						}
+						return false;
+					}
+				} );
+		if( allJars == null || allJars.length == 0 )
+			return driverList;
+		
+		URLClassLoader urlClassLoader = createClassLoader( allJars );
 		for ( int i = 0; i < fileList.size( ); i++ )
 		{
-			URLClassLoader urlClassLoader = createClassLoader( (File) fileList.get( i ) );
 			String[] resourceNames = getAllResouceNames( (File) fileList.get( i ) );
 			List subDriverList = new ArrayList( );
 			for ( int j = 0; j < resourceNames.length; j++ )
@@ -301,19 +322,22 @@ public class JdbcToolKit
 	}
 	
 	/**
-	 * Get the corresponding drivers list by the given JarFile
+	 * Gets a list of JDBCDriverInformation according to the given jar list. 
 	 * 
-	 * @param JarFile jar
-	 * @return List that contains the corresponding drivers
+	 * @param jars
+	 * @return
 	 */
-	public static List getDriverByJar( JarFile jar )
+	public static List getDriverByJar( List jars )
 	{
 		List drivers = null;
-		if ( jar == null )
+		if ( jars == null || jars.size( ) == 0 )
 			return drivers;
 
-		List jarList = new ArrayList( 1 );
-		jarList.add( new File( jar.getFilePath( ) ) );
+		List jarList = new ArrayList( jars.size( ) );
+		for ( int i = 0; i < jars.size( ); i++ )
+		{
+			jarList.add( new File( ( (JarFile) jars.get( i ) ).getFilePath( ) ) );
+		}
 		drivers = getJDBCDriverInfoList( jarList );
 		return drivers;
 	}
@@ -338,30 +362,36 @@ public class JdbcToolKit
 	}
 
 	/**
-	 * Create a URLClassLoader based on the given file list
-	 * @param jdbcDriverFiles a File List
-	 * @return URLClassLoader
+	 * Create URLClassLoader based on the given jdbcDriverFiles array
+	 * 
+	 * @param jdbcDriverFiles
+	 * @return
 	 */
-	private static URLClassLoader createClassLoader( File jdbcDriverFile )
+	private static URLClassLoader createClassLoader( File[] jdbcDriverFiles )
 	{
 		// Create a URL Array for the class loader to use
-		URL[] urlList = new URL[1];
-			try
+		URL[] urlList = new URL[jdbcDriverFiles.length];
+		try
+		{
+			for ( int i = 0; i < jdbcDriverFiles.length; i++ )
 			{
-				urlList[0] = new URL( "file", null, jdbcDriverFile.getAbsolutePath( ) );
+				urlList[i] = new URL( "file",
+						null,
+						( (File) jdbcDriverFiles[i] ).getAbsolutePath( ) );
 			}
-			catch ( MalformedURLException e )
-			{
-				ExceptionHandler.showException( PlatformUI.getWorkbench( )
-						.getDisplay( )
-						.getActiveShell( ),
-						JdbcPlugin.getResourceString( "exceptionHandler.title.error" ),
-						e.getLocalizedMessage( ),
-						e );
+		}
+		catch ( MalformedURLException e )
+		{
+			ExceptionHandler.showException( PlatformUI.getWorkbench( )
+					.getDisplay( )
+					.getActiveShell( ),
+					JdbcPlugin.getResourceString( "exceptionHandler.title.error" ),
+					e.getLocalizedMessage( ),
+					e );
 
-			}
+		}
 		URLClassLoader urlClassLoader = new URLClassLoader( urlList,
-					ClassLoader.getSystemClassLoader( ) );
+				ClassLoader.getSystemClassLoader( ) );
 		return urlClassLoader;
 	}
 

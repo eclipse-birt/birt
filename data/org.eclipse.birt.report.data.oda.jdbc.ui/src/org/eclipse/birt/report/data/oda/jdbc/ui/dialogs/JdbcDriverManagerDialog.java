@@ -1211,32 +1211,40 @@ public class JdbcDriverManagerDialog extends TrayDialog
 		JDBCDriverManager manager = JDBCDriverManager.getInstance( );
 		JDBCDriverInformation info;
 		List drivers = new ArrayList( );
+		List jarList = new ArrayList( );
 		while ( jarsCopyIterator.hasNext( ) )
 		{
 			JarFile jar = (JarFile) jarsCopyIterator.next( );
 			jar.copyJarToODADir( );
 			Utility.removeMapEntryFromPreferenceStoredMap( JdbcPlugin.DELETED_JAR_MAP_PREFERENCE_KEY,
 					jar.getFileName( ) );
-			drivers.addAll( JdbcToolKit.getDriverByJar( jar ) );
+			jarList.add( jar );
 		}
-		// update the status of the drivers
-		for( int i = 0; i < drivers.size( ); i++ )
+		if ( jarList.size( ) > 0 )
 		{
-			info = ( JDBCDriverInformation )drivers.get( i );
-			try
+			drivers.addAll( JdbcToolKit.getDriverByJar( jarList ) );
+			// update the status of the drivers
+			for ( int i = 0; i < drivers.size( ); i++ )
 			{
-				manager.loadAndRegisterDriver( info.getDriverClassName( ), null );
-				manager.updateStatus( info.getDriverClassName( ) );
+				info = (JDBCDriverInformation) drivers.get( i );
+				try
+				{
+					manager.loadAndRegisterDriver( info.getDriverClassName( ),
+							null );
+					manager.updateStatus( info.getDriverClassName( ) );
+				}
+				catch ( OdaException e )
+				{
+					MessageDialog.openError( null,
+							JdbcPlugin.getResourceString( "driverManagerDialog.ErrorDialog.addDriver.title" ),
+							JdbcPlugin.getResourceString( "driverManagerDialog.ErrorDialog.addDriver.message" )
+									+ info.getDriverClassName( ) );
+				}
 			}
-			catch ( OdaException e )
-			{
-				MessageDialog.openError( null,
-						JdbcPlugin.getResourceString( "driverManagerDialog.ErrorDialog.addDriver.title" ),
-						JdbcPlugin.getResourceString( "driverManagerDialog.ErrorDialog.addDriver.message" ) + info.getDriverClassName( ) );
-			}
+			drivers.clear( );
 		}
-		drivers.clear( );
 		Iterator jarsDeleteIterator = jarsToBeDeleted.values( ).iterator( );
+		List deletedJars = new ArrayList( );
 		while ( jarsDeleteIterator.hasNext( ) )
 		{
 			JarFile jar = (JarFile) jarsDeleteIterator.next( );
@@ -1244,21 +1252,26 @@ public class JdbcDriverManagerDialog extends TrayDialog
 			Utility.putPreferenceStoredMapValue( JdbcPlugin.DELETED_JAR_MAP_PREFERENCE_KEY,
 					jar.getFileName( ),
 					jar );
-			drivers.addAll( JdbcToolKit.getDriverByJar( jar ) );
+			deletedJars.add( jar );
 		}
-		// deregister every one of the jarsToBeDeleted Hashtable
-		for( int i = 0; i < drivers.size( ); i++ )
+		if ( deletedJars.size( ) > 0 )
 		{
-			info = ( JDBCDriverInformation )drivers.get( i );
-			try
+			drivers.addAll( JdbcToolKit.getDriverByJar( deletedJars ) );
+			// deregister every one of the jarsToBeDeleted Hashtable
+			for ( int i = 0; i < drivers.size( ); i++ )
 			{
-				manager.deregisterDriver( info.getDriverClassName( ) );
-			}
-			catch ( OdaException e )
-			{
-				MessageDialog.openError( null,
-						JdbcPlugin.getResourceString( "driverManagerDialog.ErrorDialog.deregisterDriver.title" ),
-						JdbcPlugin.getResourceString( "driverManagerDialog.ErrorDialog.deregisterDriver.message" ) + info.getDriverClassName( ) );
+				info = (JDBCDriverInformation) drivers.get( i );
+				try
+				{
+					manager.deregisterDriver( info.getDriverClassName( ) );
+				}
+				catch ( OdaException e )
+				{
+					MessageDialog.openError( null,
+							JdbcPlugin.getResourceString( "driverManagerDialog.ErrorDialog.deregisterDriver.title" ),
+							JdbcPlugin.getResourceString( "driverManagerDialog.ErrorDialog.deregisterDriver.message" )
+									+ info.getDriverClassName( ) );
+				}
 			}
 		}
 		refreshDriverPage( );
