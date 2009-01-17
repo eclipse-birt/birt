@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.editors.wizards.NewReportPageSupport;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -103,6 +104,7 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 		setPageComplete( validatePage( ) );
 		setErrorMessage( null );
 		setMessage( null );
+		UIUtil.bindHelp( getControl( ), IHelpContextIds.NEW_LIBRARY_WIZARD_ID );
 	}
 
 	public void setVisible( boolean visible )
@@ -419,7 +421,8 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.wizards.INewLibraryCreationPage#updatePerspective(org.eclipse.core.runtime.IConfigurationElement)
+	 * @seeorg.eclipse.birt.report.designer.ui.wizards.INewLibraryCreationPage#
+	 * updatePerspective(org.eclipse.core.runtime.IConfigurationElement)
 	 */
 	public void updatePerspective( IConfigurationElement configElement )
 	{
