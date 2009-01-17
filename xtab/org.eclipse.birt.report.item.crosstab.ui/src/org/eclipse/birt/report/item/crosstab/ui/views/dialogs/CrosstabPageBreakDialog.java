@@ -14,6 +14,8 @@ package org.eclipse.birt.report.item.crosstab.ui.views.dialogs;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
@@ -37,6 +39,8 @@ import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormLayout;
@@ -50,6 +54,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * 
@@ -64,6 +69,8 @@ public class CrosstabPageBreakDialog extends BaseDialog
 	public final static String TITLE = Messages.getString( "CrosstabPageBreakDialog.Title" ); //$NON-NLS-1$
 
 	protected Combo levelCombo, pageBreakBeforeCombo, pageBreakAfterCombo;
+
+	protected Text intervalText;
 
 	final private static IChoice[] pagebreakBeforeChoicesAll = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_PAGE_BREAK_BEFORE )
@@ -107,7 +114,9 @@ public class CrosstabPageBreakDialog extends BaseDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	protected Control createContents( Composite parent )
 	{
@@ -139,7 +148,7 @@ public class CrosstabPageBreakDialog extends BaseDialog
 
 		Composite space = new Composite( innerParent, SWT.NONE );
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
-		gdata.minimumWidth = 200;
+		gdata.minimumWidth = 250;
 		gdata.heightHint = 10;
 		space.setLayoutData( gdata );
 
@@ -155,7 +164,7 @@ public class CrosstabPageBreakDialog extends BaseDialog
 	protected void iniValue( )
 	{
 		if ( levelHandle != null )
-		{			
+		{
 			levelCombo.add( levelHandle.getCubeLevelName( ) );
 			levelCombo.setEnabled( false );
 			levelCombo.select( 0 );
@@ -169,6 +178,7 @@ public class CrosstabPageBreakDialog extends BaseDialog
 				pageBreakAfterCombo.select( getPageBreakIndex( levelHandle.getPageBreakAfter( ),
 						PAGE_BREAK_AFTER ) );
 			}
+			intervalText.setText( Integer.toString( levelHandle.getPageBreakInterval( ) ) );
 		}
 		else
 		{
@@ -177,6 +187,7 @@ public class CrosstabPageBreakDialog extends BaseDialog
 			levelCombo.select( 0 );
 			pageBreakBeforeCombo.select( 0 );
 			pageBreakAfterCombo.select( 0 );
+			intervalText.setText( "" );
 		}
 
 		updateButtons( );
@@ -203,12 +214,14 @@ public class CrosstabPageBreakDialog extends BaseDialog
 					PAGE_BREAK_BEFORE ) );
 			level.setPageBreakAfter( getPageBreak( pageBreakAfterCombo.getSelectionIndex( ),
 					PAGE_BREAK_AFTER ) );
+			level.setPageBreakInterval( Integer.parseInt( intervalText.getText( )
+					.trim( ) ) );
 			stack.commit( );
 		}
 		catch ( SemanticException e )
 		{
 			// TODO Auto-generated catch block
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 			stack.rollback( );
 			super.okPressed( );
 			return;
@@ -229,7 +242,7 @@ public class CrosstabPageBreakDialog extends BaseDialog
 
 		levelCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
 		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
-		gdata.minimumWidth = 140;
+		gdata.minimumWidth = 190;
 		levelCombo.setLayoutData( gdata );
 
 		levelCombo.addListener( SWT.Selection, updateButtonListener );
@@ -249,6 +262,14 @@ public class CrosstabPageBreakDialog extends BaseDialog
 		pageBreakAfterCombo.setLayoutData( gdata );
 		pageBreakAfterCombo.setItems( getPageBreakDisplayNames( PAGE_BREAK_AFTER ) );
 		pageBreakAfterCombo.addListener( SWT.Selection, updateButtonListener );
+
+		lb = new Label( container, SWT.NONE );
+		lb.setText( Messages.getString( "CrosstabPageBreakDialog.Text.PageBreakInterval" ) ); //$NON-NLS-1$
+
+		intervalText = new Text( container, SWT.BORDER );
+		intervalText.setLayoutData( gdata );
+		intervalText.addListener( SWT.Modify, updateButtonListener );
+		intervalText.addListener( SWT.Verify, numberVerifyListener );
 
 	}
 
@@ -287,7 +308,7 @@ public class CrosstabPageBreakDialog extends BaseDialog
 		label.setFont( FontManager.getFont( label.getFont( ).toString( ),
 				10,
 				SWT.BOLD ) );
-		label.setText( getTitle( ) ); 
+		label.setText( getTitle( ) );
 
 		return titleArea;
 	}
@@ -460,6 +481,11 @@ public class CrosstabPageBreakDialog extends BaseDialog
 			return false;
 		}
 
+		if ( intervalText.getText( ).trim( ).length( ) == 0 )
+		{
+			return false;
+		}
+
 		return true;
 	}
 
@@ -524,6 +550,29 @@ public class CrosstabPageBreakDialog extends BaseDialog
 		{
 			updateButtons( );
 
+		}
+
+	};
+
+	protected Listener numberVerifyListener = new Listener( ) {
+
+		public void handleEvent( Event e )
+		{
+			// TODO Auto-generated method stub
+			Pattern pattern = Pattern.compile( "[0-9]\\d*" );
+			Matcher matcher = pattern.matcher( e.text );
+			if ( matcher.matches( ) ) // number
+			{
+				e.doit = true;
+			}				
+			else if ( e.text.length( ) > 0 ) // characters including tab, space, Chinese character, etc.
+			{
+				e.doit = false;
+			}	
+			else // control keys
+			{
+				e.doit = true;
+			}	
 		}
 
 	};
