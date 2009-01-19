@@ -166,16 +166,11 @@ public class ReportPreviewEditor extends EditorPart
 		layout.horizontalSpacing = 0;
 		buttonTray.setLayout( layout );
 
-		IWebAppInfo webapp = WebViewer.getCurrentWebApp( );
-
-		if ( webapp == null || !webapp.useCustomParamHandling( ) )
-		{
-			bParameter = new Button( buttonTray, SWT.PUSH );
-			bParameter.setToolTipText( Messages.getString( "PreviewEditor.parameter.tooltip" ) ); //$NON-NLS-1$
-			bParameter.setText( Messages.getString( "PreviewEditor.parameter.tooltip" ) ); //$NON-NLS-1$
-			GridData gd = new GridData( );
-			bParameter.setLayoutData( gd );
-		}
+		bParameter = new Button( buttonTray, SWT.PUSH );
+		bParameter.setToolTipText( Messages.getString( "PreviewEditor.parameter.tooltip" ) ); //$NON-NLS-1$
+		bParameter.setText( Messages.getString( "PreviewEditor.parameter.tooltip" ) ); //$NON-NLS-1$
+		GridData gd = new GridData( );
+		bParameter.setLayoutData( gd );
 
 		final FormText note = new FormText( buttonTray, SWT.NONE );
 		note.setText( getDisplayInfoText( ViewerPlugin.getDefault( )
@@ -184,7 +179,7 @@ public class ReportPreviewEditor extends EditorPart
 				true,
 				true );
 		note.setSize( SWT.DEFAULT - 10, SWT.DEFAULT );
-		GridData gd = new GridData( );
+		gd = new GridData( );
 		gd.horizontalIndent = 20;
 		note.setLayoutData( gd );
 
@@ -236,7 +231,7 @@ public class ReportPreviewEditor extends EditorPart
 						}
 					}
 				} );
-		
+
 		progressBar = new ProgressBar( mainPane, SWT.INDETERMINATE );
 		gd = new GridData( GridData.END, GridData.CENTER, false, false );
 		gd.heightHint = 10;
@@ -255,16 +250,26 @@ public class ReportPreviewEditor extends EditorPart
 
 		if ( bParameter != null )
 		{
+			final IWebAppInfo webapp = WebViewer.getCurrentWebApp( );
+
 			bParameter.addSelectionListener( new SelectionAdapter( ) {
 
 				public void widgetSelected( SelectionEvent e )
 				{
-					parameterDialog.open( );
-					// if parameter dialog closed successfully, then preview the
-					// current report
-					if ( parameterDialog.getReturnCode( ) == InputParameterHtmlDialog.RETURN_CODE_BROWSER_CLOSED )
+					if ( webapp != null && webapp.useCustomParamHandling( ) )
 					{
 						refresh( );
+					}
+					else
+					{
+						parameterDialog.open( );
+						// if parameter dialog closed successfully, then preview
+						// the
+						// current report
+						if ( parameterDialog.getReturnCode( ) == InputParameterHtmlDialog.RETURN_CODE_BROWSER_CLOSED )
+						{
+							refresh( );
+						}
 					}
 				}
 
@@ -383,6 +388,14 @@ public class ReportPreviewEditor extends EditorPart
 	protected boolean refresh( )
 	{
 		return true;
+	}
+
+	protected void enableParameterControl( boolean value )
+	{
+		if ( bParameter != null && !bParameter.isDisposed( ) )
+		{
+			bParameter.setEnabled( value );
+		}
 	}
 
 	/**
