@@ -13,6 +13,8 @@ package org.eclipse.birt.report.data.adapter.api.script;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -85,7 +87,13 @@ public class ReportContextObject
 	 */
 	public Object getLocale( )
 	{
-		return Locale.getDefault( );
+		return AccessController.doPrivileged( new PrivilegedAction<Locale>()
+		{
+		  public Locale run()
+		  {
+		    return Locale.getDefault();
+		  }
+		});
 	}
 	
 	/**

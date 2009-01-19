@@ -16,7 +16,10 @@ package org.eclipse.birt.report.data.adapter.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -228,8 +231,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 		{
 			temp.add( columnBindings.next( ) );
 		}
-//		if ( referToAggregation( temp, boundColumnName ) )
-//			return new ColumnValueIterator( null, null, null );
 		
 		IQueryResults queryResults = getQueryResults( dataSet,
 				inputParamBindings,
@@ -1073,7 +1074,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @return
 	 */
 	private static ResourceIdentifiers createResourceIdentifiers(
-			ModuleHandle handle )
+			final ModuleHandle handle )
 	{
 		if ( handle == null )
 			return null;
@@ -1086,7 +1087,15 @@ public class DataRequestSessionImpl extends DataRequestSession
 			}
 			if( handle.getResourceFolder( ) != null )
 			{
-				identifiers.setApplResourceBaseURI( new File( handle.getResourceFolder( ) ).toURI( ) );
+				URI uri = AccessController.doPrivileged( new PrivilegedAction<URI>()
+				{
+				  public URI run()
+				  {
+				    return new File(handle.getResourceFolder()).toURI();
+				  }
+				});
+				
+				identifiers.setApplResourceBaseURI( uri );
 			}
 			return identifiers;
 		}
