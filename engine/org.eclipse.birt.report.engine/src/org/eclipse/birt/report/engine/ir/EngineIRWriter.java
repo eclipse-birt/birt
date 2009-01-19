@@ -826,11 +826,11 @@ public class EngineIRWriter implements IOConstants
 	{
 		writeReportElement( out, design );
 
-		String styleName = design.getStyleName( );
-		if ( styleName != null )
+		String styleClass = design.getStyleClass( );
+		if ( styleClass != null )
 		{
-			IOUtil.writeShort( out, FIELD_STYLE_NAME );
-			IOUtil.writeString( out, styleName );
+			IOUtil.writeShort( out, FIELD_STYLE_CLASS );
+			IOUtil.writeString( out, styleClass );
 		}
 
 		MapDesign map = design.getMap( );

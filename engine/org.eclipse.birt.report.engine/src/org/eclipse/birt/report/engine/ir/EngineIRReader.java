@@ -560,9 +560,9 @@ public class EngineIRReader implements IOConstants
 	{
 		switch ( fieldType )
 		{
-			case FIELD_STYLE_NAME :
-				String styleName = IOUtil.readString( in );
-				design.setStyleName( styleName );
+			case FIELD_STYLE_CLASS :
+				String styleClass = IOUtil.readString( in );
+				design.setStyleClass( styleClass );
 				break;
 			case FIELD_MAP :
 				MapDesign map = readMap( in );

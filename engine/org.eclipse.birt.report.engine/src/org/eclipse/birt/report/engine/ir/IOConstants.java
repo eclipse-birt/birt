@@ -48,7 +48,7 @@ public interface IOConstants
 	static final short FIELD_CUSTOM_PROPERTIES = 5;
 
 	// styled element
-	static final short FIELD_STYLE_NAME = 6;
+	static final short FIELD_STYLE_CLASS = 6;
 	static final short FIELD_MAP = 7;
 	static final short FIELD_HIGHLIGHT = 8;
 

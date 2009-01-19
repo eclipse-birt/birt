@@ -529,7 +529,6 @@ public class MetadataEmitter
 	 * 
 	 * @param content
 	 * @param tag
-	 * @param styleName
 	 */
 	private void startContent( IContent content, String tag )
 	{

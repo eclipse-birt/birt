@@ -568,7 +568,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				htmlEmitter.buildDefaultStyle( defaultStyleBuffer, style );
 			}
 		}
-		String defaultStyleName = "style_report";
+		String defaultStyleName = "report";
 		
 		if ( isEmbeddable )
 		{
@@ -2543,10 +2543,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * Sets the <code>'class'</code> property and stores the style to styleMap
 	 * object.
 	 * 
-	 * @param styleName
+	 * @param styleClass
 	 *            the style name
 	 */
-	protected void setStyleName( String styleName,IContent content)
+	protected void setStyleName( String styleClass,IContent content)
 	{
 		StringBuffer classBuffer = new StringBuffer();
 
@@ -2559,25 +2559,22 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 		}
 		
-		if ( styleName != null )
+		if ( styleClass != null )
 		{
-			if ( outputtedStyles.contains( styleName ) )
+			if ( classBuffer.length( ) != 0 )
 			{
-				if ( classBuffer.length( ) != 0 )
-				{
-					classBuffer.append( " " );
-				}
-				if ( null != htmlIDNamespace )
-				{
-					classBuffer.append( htmlIDNamespace + styleName );
-				}
-				else
-				{
-					classBuffer.append( styleName );
-				}
+				classBuffer.append( " " );
+			}
+			if ( null != htmlIDNamespace )
+			{
+				classBuffer.append( getStyleClassWithNameSpace( styleClass ) );
+			}
+			else
+			{
+				classBuffer.append( styleClass );
 			}
 		}
-		
+
 		if ( hasCsslinks )
 		{
 			Object genBy = content.getGenerateBy( );
@@ -2608,6 +2605,26 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			writer.attribute( HTMLTags.ATTR_CLASS, classBuffer.toString( ) );
 		}
+	}
+
+	private String getStyleClassWithNameSpace( String styleClass )
+	{
+		String result = styleClass;
+		StringBuffer buffer = new StringBuffer( );
+		if ( styleClass != null && styleClass.length( ) > 0 )
+		{
+			String[] strings = styleClass.split( ", " );
+			for ( String string : strings )
+			{
+				if ( buffer.length( ) > 0 )
+				{
+					buffer.append( ", " );
+				}
+				buffer.append( htmlIDNamespace + "." + string );
+			}
+			result = buffer.toString( );
+		}
+		return result;
 	}
 
 	protected void outputBookmark( IContent content, String tagName )

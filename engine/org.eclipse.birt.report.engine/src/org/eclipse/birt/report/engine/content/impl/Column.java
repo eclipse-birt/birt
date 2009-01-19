@@ -25,6 +25,7 @@ import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 
 /**
  * 
@@ -41,6 +42,8 @@ public class Column implements IColumn
 
 	protected String styleClass;
 	
+	protected IStyle classStyle;
+
 	protected InstanceID instanceId;
 	
 	protected String visibleFormat;
@@ -80,11 +83,23 @@ public class Column implements IColumn
 			{
 				inlineStyle = report.createStyle( );
 			}
-			String styleClass = getStyleClass( );
-			IStyle classStyle = report.findStyle( styleClass );
+			IStyle classStyle = getClassStyle( );
 			style = new CompositeStyle( classStyle, inlineStyle );
 		}
 		return style;
+	}
+
+	public IStyle getClassStyle( )
+	{
+		if ( classStyle != null )
+		{
+			return classStyle;
+		}
+		if ( generateBy instanceof StyledElementDesign )
+		{
+			return ( (StyledElementDesign) generateBy ).getStyle( );
+		}
+		return null;
 	}
 
 	/*
@@ -138,7 +153,7 @@ public class Column implements IColumn
 		}
 		if ( generateBy instanceof ColumnDesign )
 		{
-			return ( (ColumnDesign) generateBy ).getStyleName( );
+			return ( (ColumnDesign) generateBy ).getStyleClass( );
 		}
 		return null;
 	}

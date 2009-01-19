@@ -1099,11 +1099,7 @@ public class EngineIRVisitor extends DesignVisitor
 		// we do not procee the style and highlight since model has change them
 		// from column to cell
 		setupReportElement(  col, handle );
-		StyleDeclaration style = this.createColumnStyle( handle );
-		if ( style != null && !style.isEmpty( ) )
-		{
-			col.setStyleName( assignStyleName( style ) );
-		}
+		setupClassStyles( col, handle );
 
 		// is column header
 		// FIXME: Model team hasn't finish the property "column-header", so the
@@ -1231,12 +1227,40 @@ public class EngineIRVisitor extends DesignVisitor
 		// Styled element is a report element
 		setupReportElement( design, handle );
 
-		StyleDeclaration style = createPrivateStyle( handle,
-				isContainer( handle ) );
+		setupClassStyles( design, handle );
+	}
+
+	private void setupClassStyles( StyledElementDesign design,
+			ReportElementHandle handle )
+	{
+		List<StyleHandle> styles = handle.getFactoryElementHandle( )
+				.getAllFactoryStyles( );
+		StringBuffer buffer = new StringBuffer( );
+		for ( int i = styles.size( ) - 1; i >= 0; i-- )
+		{
+			StyleHandle styleHandle = styles.get( i );
+			StyleDeclaration style = createPrivateStyle( styleHandle );
+			String name = styleHandle.getName( );
+			if ( !report.getStyles( ).containsKey( name ) )
+				report.addStyle( name, style );
+			appendStyleName( buffer, name );
+		}
+
+		StyleDeclaration style = createPrivateStyle( handle.getPrivateStyle( ) );
 		if ( style != null && !style.isEmpty( ) )
 		{
-			design.setStyleName( assignStyleName( style ) );
+			appendStyleName( buffer, assignStyleName( style ) );
 		}
+		if ( buffer.length( ) > 0 )
+			design.setStyleClass( buffer.toString( ) );
+		design.setStyle( createPrivateStyle( handle ) );
+	}
+
+	private void appendStyleName( StringBuffer buffer, String styleName )
+	{
+		if ( buffer.length( ) > 0 )
+			buffer.append( ", " );
+		buffer.append( styleName );
 	}
 
 	public void visitCell( CellHandle handle )
@@ -2094,32 +2118,63 @@ public class EngineIRVisitor extends DesignVisitor
 	protected String getElementProperty( ReportElementHandle handle,
 			String name, boolean isColorProperty )
 	{
-		FactoryPropertyHandle prop = handle.getFactoryPropertyHandle( name );
-		if ( prop != null && prop.isSet( ) )
+		if ( handle instanceof StyleHandle )
 		{
-			if ( isColorProperty )
+			StyleHandle styleHandle = (StyleHandle) handle;
+			return getElementPropertyByStyleHandle( styleHandle, name,
+					isColorProperty );
+		}
+		else
+		{
+			FactoryPropertyHandle prop = handle.getFactoryPropertyHandle( name );
+			if ( prop != null && prop.isSet( ) )
+			{
+				if ( isColorProperty )
+				{
+					return prop.getColorValue( );
+				}
+
+				return prop.getStringValue( );
+			}
+			return null;
+		}
+	}
+
+	protected String getElementColorProperty( ReportElementHandle handle,
+			String name )
+	{
+		if ( handle instanceof StyleHandle )
+		{
+			StyleHandle styleHandle = (StyleHandle) handle;
+			return getElementColorPropertyByStyleHandle( styleHandle, name );
+		}
+		else
+		{
+			FactoryPropertyHandle prop = handle.getFactoryPropertyHandle( name );
+			if ( prop != null && prop.isSet( ) )
 			{
 				return prop.getColorValue( );
 			}
+			return null;
+		}
+	}
 
+	protected String getElementPropertyByStyleHandle( StyleHandle handle,
+			String name,
+			boolean isColorProperty )
+	{
+		PropertyHandle prop = handle.getPropertyHandle( name );
+		if ( prop != null && prop.isSet( ) )
+		{
 			return prop.getStringValue( );
 		}
 		return null;
 	}
 
-	String getElementColorProperty( ReportElementHandle handle, String name )
+	protected String getElementColorPropertyByStyleHandle( StyleHandle handle,
+			String name )
 	{
-		FactoryPropertyHandle prop = handle.getFactoryPropertyHandle( name );
-		if ( prop != null && prop.isSet( ) )
-		{
-			return prop.getColorValue( );
-		}
-		return null;
-	}
-
-	protected StyleDeclaration createPrivateStyle( ReportElementHandle handle )
-	{
-		return createPrivateStyle( handle, true );
+		return getElementPropertyByStyleHandle( handle, name, false );
 	}
 
 	protected String decodePageBreak( String pageBreak )
@@ -2179,8 +2234,7 @@ public class EngineIRVisitor extends DesignVisitor
 
 	}
 
-	protected StyleDeclaration createPrivateStyle( ReportElementHandle handle,
-			boolean isContainer )
+	protected StyleDeclaration createPrivateStyle( ReportElementHandle handle )
 	{
 		// Background
 		StyleDeclaration style = new StyleDeclaration( cssEngine );
@@ -2658,8 +2712,7 @@ public class EngineIRVisitor extends DesignVisitor
 	 */
 	protected String setupBodyStyle( MasterPageDesign design )
 	{
-		String styleName = design.getStyleName( );
-		IStyle style = report.findStyle( styleName );
+		IStyle style = design.getStyle( );
 		if ( style == null || style.isEmpty( ) )
 		{
 			return null;

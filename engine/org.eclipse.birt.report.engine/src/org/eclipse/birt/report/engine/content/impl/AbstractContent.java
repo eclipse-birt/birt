@@ -61,6 +61,8 @@ abstract public class AbstractContent extends AbstractElement
 
 	transient protected String styleClass;
 
+	protected IStyle classStyle;
+
 	protected IStyle inlineStyle;
 
 	transient protected IStyle style;
@@ -314,10 +316,10 @@ abstract public class AbstractContent extends AbstractElement
 			{
 				inlineStyle = report.createStyle( );
 			}
-			String styleClass = getStyleClass();
-			if (styleClass != null) {
-				IStyle classStyle = report.findStyle(styleClass);
-				style = new CompositeStyle(classStyle, inlineStyle);
+			IStyle classStyle = getClassStyle( );
+			if ( classStyle != null )
+			{
+				style = new CompositeStyle( classStyle, inlineStyle );
 			}
 			else
 			{
@@ -433,7 +435,20 @@ abstract public class AbstractContent extends AbstractElement
 		}
 		if ( generateBy instanceof StyledElementDesign )
 		{
-			return ( (StyledElementDesign) generateBy ).getStyleName( );
+			return ( (StyledElementDesign) generateBy ).getStyleClass( );
+		}
+		return null;
+	}
+
+	public IStyle getClassStyle( )
+	{
+		if ( classStyle != null )
+		{
+			return classStyle;
+		}
+		if ( generateBy instanceof StyledElementDesign )
+		{
+			return ( (StyledElementDesign) generateBy ).getStyle( );
 		}
 		return null;
 	}
