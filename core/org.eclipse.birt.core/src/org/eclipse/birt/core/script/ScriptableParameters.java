@@ -34,10 +34,16 @@ public class ScriptableParameters extends BaseScriptable
 		Object result = getScriptableParameter( name );
 		if ( result == null )
 		{
-			String errorMessage = "Report parameter \"" + name + "\" does not exist.";
+			String errorMessage = "Report parameter \"" + name
+					+ "\" does not exist";
 			throw new JavaScriptException( errorMessage, "<unknown>", -1 );
 		}
 		return result;
+	}
+
+	public Object get( int index, Scriptable start )
+	{
+		return get( String.valueOf( index ), start );
 	}
 
 	private ScriptableParameter getScriptableParameter( String name )
