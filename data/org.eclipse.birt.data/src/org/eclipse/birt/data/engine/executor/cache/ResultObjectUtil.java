@@ -174,9 +174,11 @@ public class ResultObjectUtil
 					obs[j] = new Boolean( dis.readBoolean( ) );
 				else if ( fieldType.equals( String.class ) )
 					obs[j] = IOUtil.readString( dis );
-				else if ( fieldType.equals( IClob.class ) )
+				else if ( fieldType.equals( IClob.class )
+						|| fieldType.equals( Clob.class ) )
 					obs[j] = IOUtil.readString( dis );
-				else if ( fieldType.equals( IBlob.class ) )
+				else if ( fieldType.equals( IBlob.class )
+						|| fieldType.equals( Blob.class ) )
 				{
 					int len = IOUtil.readInt( dis );
 					if ( len == 0 )
@@ -287,10 +289,12 @@ public class ResultObjectUtil
 				dos.writeBoolean( ( (Boolean) fieldValue ).booleanValue( ) );
 			else if ( fieldType.equals( String.class ) )
 				IOUtil.writeString( dos, fieldValue.toString( ) );
-			else if ( fieldType.equals( IClob.class ))
+			else if ( fieldType.equals( IClob.class )
+					|| fieldType.equals( Clob.class ) )
 				IOUtil.writeString( dos, fieldValue.toString( ) );
-			else if ( fieldType.equals( IBlob.class ))
-			{	
+			else if ( fieldType.equals( IBlob.class )
+					|| fieldType.equals( Blob.class ) )
+			{
 				byte[] bytes = (byte[]) fieldValue;
 				if ( bytes == null || bytes.length == 0 )
 				{
