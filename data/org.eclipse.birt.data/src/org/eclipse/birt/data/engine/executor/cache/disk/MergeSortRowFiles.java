@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.executor.cache.disk;
 
 import java.io.IOException;
 
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
@@ -44,7 +45,7 @@ class MergeSortRowFiles implements IRowIterator
 	 * 
 	 * @see org.eclipse.birt.data.engine.executor.cache.IRowIterator#first()
 	 */
-	public void reset( )
+	public void reset( ) throws DataException
 	{
 		for ( int i = 0; i < subRowIterators.length; i++ )
 		{
@@ -57,7 +58,7 @@ class MergeSortRowFiles implements IRowIterator
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.IRowIterator#next()
 	 */
-	public IResultObject fetch( ) throws IOException
+	public IResultObject fetch( ) throws IOException, DataException
 	{
 		int minObjectPos = 0;
 		IResultObject resultObject = null;
@@ -79,8 +80,9 @@ class MergeSortRowFiles implements IRowIterator
 	
 	/**
 	 * @throws IOException
+	 * @throws DataException 
 	 */
-	private void prepareFirstFetch( ) throws IOException
+	private void prepareFirstFetch( ) throws IOException, DataException
 	{
 		rowBuffer = new IResultObject[subRowIterators.length];
 		for ( int i = 0; i < subRowIterators.length; i++ )
@@ -94,7 +96,7 @@ class MergeSortRowFiles implements IRowIterator
 	 * 
 	 * @see org.eclipse.birt.data.engine.executor.cache.IRowIterator#close()
 	 */
-	public void close( )
+	public void close( ) throws DataException
 	{
 		for ( int i = 0; i < subRowIterators.length; i++ )
 		{

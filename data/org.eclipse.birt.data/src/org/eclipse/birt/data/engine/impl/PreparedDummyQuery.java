@@ -49,6 +49,7 @@ import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
@@ -600,25 +601,25 @@ public class PreparedDummyQuery implements IPreparedQuery
 		/*
 		 * 
 		 */
-		private void createCacheOutputStream( ) throws FileNotFoundException
+		private void createCacheOutputStream( ) throws FileNotFoundException, DataException
 		{
 			File tmpDir = new File( session.getTempDir( ) );
-			if (!tmpDir.exists( ) || !tmpDir.isDirectory( ))
+			if (! FileSecurity.fileExist( tmpDir ) || !FileSecurity.fileIsDirectory( tmpDir ))
 			{
-				tmpDir.mkdirs( );
+				FileSecurity.fileMakeDirs( tmpDir );
 			}
-			metaOutputStream = new BufferedOutputStream( new FileOutputStream( ResultSetCacheUtil.getMetaFile( session.getTempDir( ),
+			metaOutputStream = new BufferedOutputStream( FileSecurity.createFileOutputStream( ResultSetCacheUtil.getMetaFile( session.getTempDir( ),
 					queryResults.getID( ) ) ),
 					1024 );
-			rowOutputStream = new DataOutputStream( new BufferedOutputStream( new FileOutputStream( ResultSetCacheUtil.getDataFile( session.getTempDir( ),
+			rowOutputStream = new DataOutputStream( new BufferedOutputStream(  FileSecurity.createFileOutputStream(  ResultSetCacheUtil.getDataFile( session.getTempDir( ),
 					queryResults.getID( ) ) ),
 					1024 ) );
 			File file = ResultSetCacheUtil.getDataFile( session.getTempDir( ),
 					queryResults.getID( ) );
-			file.deleteOnExit( );
+			FileSecurity.fileDeleteOnExit( file );
 			file = ResultSetCacheUtil.getMetaFile( session.getTempDir( ),
 					queryResults.getID( ) );
-			file.deleteOnExit( );
+			FileSecurity.fileDeleteOnExit( file );
 		}
 		
 		/*

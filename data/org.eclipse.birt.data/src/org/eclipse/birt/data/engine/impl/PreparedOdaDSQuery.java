@@ -73,7 +73,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.PreparedQuery#newExecutor()
 	 */
-	protected QueryExecutor newExecutor()
+	protected QueryExecutor newExecutor() throws DataException
 	{
 		return new OdaDSQueryExecutor();
 	}	

@@ -28,6 +28,8 @@ import java.util.ListIterator;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 
 /**
@@ -103,7 +105,15 @@ public class BasicCachedList implements List
 	{
 		if ( this.currentCache.size( ) >= CACHESIZE )
 		{
-			saveToDisk( );
+			try
+			{
+				saveToDisk( );
+			}
+			catch ( DataException e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			this.currentCache.clear( );
 			this.currentCacheNo++;
 		}
@@ -114,11 +124,12 @@ public class BasicCachedList implements List
 
 	/**
 	 * Save the current list in memory to disk.
+	 * @throws DataException 
 	 * 
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	private void saveToDisk( )
+	private void saveToDisk( ) throws DataException
 	{
 		try
 		{
@@ -133,7 +144,7 @@ public class BasicCachedList implements List
 				fileList.add( cacheFile );
 			}
 			
-			FileOutputStream fos = new FileOutputStream( cacheFile );
+			FileOutputStream fos = FileSecurity.createFileOutputStream( cacheFile );
 			DataOutputStream oos = new DataOutputStream( new BufferedOutputStream( fos ) );
 			writeList( oos, currentCache );
 			oos.close( );
@@ -198,9 +209,25 @@ public class BasicCachedList implements List
 		RangeCheck( index );
 		if ( index / CACHESIZE != this.currentCacheNo )
 		{
-			saveToDisk( );
+			try
+			{
+				saveToDisk( );
+			}
+			catch ( DataException e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			this.currentCacheNo = index / CACHESIZE;
-			loadFromDisk( );
+			try
+			{
+				loadFromDisk( );
+			}
+			catch ( DataException e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return this.currentCache.get( index - this.currentCacheNo * CACHESIZE );
 
@@ -208,13 +235,14 @@ public class BasicCachedList implements List
 
 	/**
 	 * Load the data of currect no from disk.
+	 * @throws DataException 
 	 * 
 	 */
-	private void loadFromDisk( )
+	private void loadFromDisk( ) throws DataException
 	{
 		try
 		{
-			FileInputStream fis = new FileInputStream( getCacheFile( this.currentCacheNo ) );
+			FileInputStream fis = FileSecurity.createFileInputStream(  getCacheFile( this.currentCacheNo ) );
 			DataInputStream ois = new DataInputStream( new BufferedInputStream( fis ) );
 			this.currentCache = readList( ois );
 			ois.close( );
@@ -279,7 +307,7 @@ public class BasicCachedList implements List
 		if ( dir == null )
 		{
 			dir = new File( tempDirStr );
-			dir.mkdirs( );
+			FileSecurity.fileMakeDirs( dir );
 		}
 
 		return new File( tempDirStr + File.separatorChar + cacheIndex + ".tmp" );
@@ -528,15 +556,15 @@ public class BasicCachedList implements List
 		for ( int i = 0; i < fileList.size( ); i++ )
 		{
 			File file = ( (File) fileList.get( i ) );
-			if ( file.exists( ) )
+			if ( FileSecurity.fileExist( file ) )
 			{
-				file.delete( );
+				FileSecurity.fileDelete( file );
 			}
 		}
 		fileList.clear( );
-		if ( dir != null && dir.exists( ) )
+		if ( dir != null && FileSecurity.fileExist( dir ) )
 		{
-			dir.delete( );
+			FileSecurity.fileDelete( dir );
 			dir = null;
 		}
 	}

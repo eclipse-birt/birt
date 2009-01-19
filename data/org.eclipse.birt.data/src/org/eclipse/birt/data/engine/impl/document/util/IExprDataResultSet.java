@@ -42,5 +42,5 @@ public interface IExprDataResultSet extends IDataSetPopulator
 	/**
 	 *
 	 */
-	public void close( );
+	public void close( ) throws DataException;
 }

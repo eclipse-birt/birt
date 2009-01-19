@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.olap.data.document.AbstractBufferedRandomAccessObject;
 
 /**
@@ -50,7 +51,7 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 		super( bufferSize );
 		this.file = file;
 		this.mode = mode;
-		if ( file.exists( ) || cacheSize <= 0 )
+		if ( FileSecurity.fileExist( file ) || cacheSize <= 0 )
 		{
 			createRandomAccessFile( );
 		}
@@ -81,11 +82,11 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 	private void createRandomAccessFile( ) throws IOException
 	{
 		File parent = file.getParentFile( );
-		if ( !parent.exists( ) )
+		if ( !FileSecurity.fileExist( parent ) )
 		{
-			parent.mkdirs( );
+			FileSecurity.fileMakeDirs( parent );
 		}
-		delegate = new RandomAccessFile( file, mode );
+		delegate = FileSecurity.createRandomAccessFile( file, mode );
 		if ( memoryDelegate != null || length > 0 )
 		{
 			delegate.write( memoryDelegate, 0, length );

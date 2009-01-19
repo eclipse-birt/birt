@@ -37,6 +37,7 @@
 				<exclude name="org/eclipse/birt/data/engine/olap/api/**/*Test*.class" />
 				<include name="javax/olap/**/*.class" />
 				<include name="org/eclipse/birt/data/engine/core/DataException.class" />
+				<include name="org/eclipse/birt/data/engine/core/security/*.class" />
 				<include name="org/eclipse/birt/data/engine/i18n/*.*" />
 				<exclude name="org/eclipse/birt/data/engine/i18n/package.html" />
 			</fileset>

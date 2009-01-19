@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
@@ -52,6 +54,7 @@ import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.URLSecurity;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.expression.NamedExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -275,7 +278,7 @@ class PreparedQueryUtil
 				String id = dataSetDesign.getName( );
 				if ( parser.containDataSet( id ) )
 				{
-					String mode = parser.getModeByID( id );
+					final String mode = parser.getModeByID( id );
 					if ( "incremental".equalsIgnoreCase( mode ) )
 					{
 						String queryTemplate = parser.getQueryTextByID( id );
@@ -291,10 +294,14 @@ class PreparedQueryUtil
 					}
 					else
 					{
-						String message = MessageFormat.format( ResourceConstants.UNSUPPORTED_INCRE_CACHE_MODE,
-								new Object[]{
-									mode
-								} );
+						String message = (String)AccessController.doPrivileged( new PrivilegedAction<Object>()
+						{
+						  public Object run()
+						  {
+						    return MessageFormat.format(ResourceConstants.UNSUPPORTED_INCRE_CACHE_MODE,new Object[]{mode});
+						  } 
+						});
+						
 						throw new UnsupportedOperationException( message );
 					}
 				}
@@ -1228,8 +1235,9 @@ class IncreCacheDataSetAdapter extends OdaDataSetAdapter
 	 * 
 	 * @param appContext
 	 * @return
+	 * @throws DataException 
 	 */
-	public static URL getConfigFileURL( Map appContext )
+	public static URL getConfigFileURL( Map appContext ) throws DataException
 	{
 		if ( appContext != null )
 		{
@@ -1244,13 +1252,13 @@ class IncreCacheDataSetAdapter extends OdaDataSetAdapter
 				String configPath = configValue.toString( );
 				try
 				{
-					url = new URL( configPath );
+					url = URLSecurity.getURL( configPath );
 				}
 				catch ( MalformedURLException e )
 				{
 					try
 					{// try to use file protocol to parse configPath
-						url = new URL( "file", "/", configPath );
+						url = URLSecurity.getURL( "file", "/", configPath );
 					}
 					catch ( MalformedURLException e1 )
 					{

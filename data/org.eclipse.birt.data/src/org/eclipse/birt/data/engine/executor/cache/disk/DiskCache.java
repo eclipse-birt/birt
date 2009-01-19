@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
 import org.eclipse.birt.data.engine.executor.cache.IRowResultSet;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
@@ -236,14 +237,14 @@ public class DiskCache implements ResultSetCache
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#close()
 	 */
-	public void close( )
+	public void close( ) throws DataException
 	{		
 		diskBasedResultSet.close( );
 		
 		File goalFile = new File( goalFileStr );
-		goalFile.delete( );
+		FileSecurity.fileDelete( goalFile );
 		File tempDir = new File( sessionRootDirStr );
-		tempDir.delete( );
+		FileSecurity.fileDelete( tempDir );
 		
 		currResultIndex = -1;
 		currResultObject = null;
@@ -308,8 +309,9 @@ public class DiskCache implements ResultSetCache
 	
 	/**
 	 * @return temp root dir directory
+	 * @throws DataException 
 	 */
-	private String createTempRootDir( )
+	private String createTempRootDir( ) throws DataException
 	{
 		if ( tempRootDirStr == null )
 		{

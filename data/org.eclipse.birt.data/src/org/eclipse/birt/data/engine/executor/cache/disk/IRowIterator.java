@@ -12,6 +12,7 @@ package org.eclipse.birt.data.engine.executor.cache.disk;
 
 import java.io.IOException;
 
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
@@ -23,16 +24,16 @@ interface IRowIterator
 	 * Moves iterator to the first object.
 	 *
 	 */
-	public void reset( );
+	public void reset( ) throws DataException;
 	
 	/**
 	 * Returns the current object in the iteration
 	 * @throws IOException
 	 */
-	public IResultObject fetch( ) throws IOException;
+	public IResultObject fetch( ) throws IOException, DataException;
 	
 	/**
 	 * Closes the resource associated with this IRowIterator.
 	 */
-	public void close( );
+	public void close( ) throws DataException;
 }

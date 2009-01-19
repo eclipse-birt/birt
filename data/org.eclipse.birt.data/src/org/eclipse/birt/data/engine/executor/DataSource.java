@@ -15,7 +15,6 @@ package org.eclipse.birt.data.engine.executor;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
@@ -25,6 +24,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.IShutdownListener;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.PropertySecurity;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odaconsumer.Connection;
@@ -41,14 +41,14 @@ class DataSource implements IDataSource
 {
 	private String 		driverName;
     private Map			appContext;
-    private Properties	connectionProps = new Properties();
+    private Properties	connectionProps = PropertySecurity.createProperties( );
     
     // A pool of open odaconsumer.Connection. Since each connection may support a limited
 	// # of statements, we may need to use more than one connection to handle concurrent statements
 	// This is a set of OpenConnection
 
 	
-	private static Map<DataEngineSession, Map<ConnectionProp, Set<CacheConnection>>> dataEngineLevelConnectionPool = new Hashtable<DataEngineSession, Map<ConnectionProp, Set<CacheConnection>>>( );
+	private static Map<DataEngineSession, Map<ConnectionProp, Set<CacheConnection>>> dataEngineLevelConnectionPool = PropertySecurity.createHashMap( );
 	
 	// Currently active oda Statements. This is a map from PreparedStatement to OpenConnection
 	private HashMap statementMap = new HashMap();

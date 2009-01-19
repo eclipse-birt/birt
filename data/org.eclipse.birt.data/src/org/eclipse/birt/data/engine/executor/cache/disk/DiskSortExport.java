@@ -53,7 +53,7 @@ class DiskSortExport extends DiskDataExport
 	 * @see org.eclipse.birt.data.engine.executor.resultset.DataBaseExport#exportStartDataToDisk(org.eclipse.birt.data.engine.executor.ResultObject[])
 	 */
 	public void exportStartDataToDisk( IResultObject[] resultObjects, StopSign stopSign )
-			throws IOException
+			throws IOException, DataException
 	{
 		dataCountOfTotal = innerExportStartData( resultObjects, stopSign );
 	}
@@ -102,7 +102,7 @@ class DiskSortExport extends DiskDataExport
 	 *      int)
 	 */
 	protected void outputResultObjects( IResultObject[] resultObjects, int indexOfUnit, StopSign stopSign )
-			throws IOException
+			throws IOException, DataException
 	{	
 		mergeSortUti.sortSelf( resultObjects );
 		dataProvider.writeData( SortDataProvider.SORT_ITSELF, indexOfUnit
@@ -139,9 +139,10 @@ class DiskSortExport extends DiskDataExport
 	 * @param dataProvider
 	 * @param startIndex
 	 * @param stopSign
+	 * @throws DataException 
 	 * @throws Exception
 	 */
-	private void mergeSortOnUnits( int mergeCount, StopSign stopSign ) throws IOException
+	private void mergeSortOnUnits( int mergeCount, StopSign stopSign ) throws IOException, DataException
 	{
 		int[] startIndexArray = new int[mergeCount];
 		int[] endIndexArray = new int[mergeCount];

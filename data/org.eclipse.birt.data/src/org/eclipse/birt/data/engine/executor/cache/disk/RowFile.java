@@ -14,6 +14,8 @@ package org.eclipse.birt.data.engine.executor.cache.disk;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -66,8 +68,9 @@ class RowFile implements IRowIterator
 	 * 
 	 * @param resultObject
 	 * @throws IOException
+	 * @throws DataException 
 	 */
-	void write( IResultObject resultObject ) throws IOException
+	void write( IResultObject resultObject ) throws IOException, DataException
 	{
 		IResultObject[] resultObjects = new IResultObject[1];
 		resultObjects[0] = resultObject;
@@ -81,9 +84,10 @@ class RowFile implements IRowIterator
 	 * @param count
 	 * @param stopSign
 	 * @throws IOException
+	 * @throws DataException 
 	 */
 	void writeRows( IResultObject[] resultObjects, int count, StopSign stopSign )
-			throws IOException
+			throws IOException, DataException
 	{
 		int cacheFreeSize = memoryRowCache.length - rowCount;
 		if ( cacheFreeSize >= count )
@@ -125,9 +129,10 @@ class RowFile implements IRowIterator
 	 * @param from
 	 * @param count
 	 * @throws IOException
+	 * @throws DataException 
 	 */
 	private void writeRowsToFile( IResultObject[] resultObjects, int from,
-			int count, StopSign stopSign ) throws IOException
+			int count, StopSign stopSign ) throws IOException, DataException
 	{
 		if ( dfw == null )
 		{
@@ -193,7 +198,7 @@ class RowFile implements IRowIterator
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.IRowIterator#next()
 	 */
-	public IResultObject fetch( ) throws IOException
+	public IResultObject fetch( ) throws IOException, DataException
 	{
 		IResultObject resultObject = readRowFromCache( );
 		if ( resultObject == null )
@@ -224,8 +229,9 @@ class RowFile implements IRowIterator
 	 * 
 	 * @return
 	 * @throws IOException
+	 * @throws DataException 
 	 */
-	private IResultObject readRowFromFile( ) throws IOException
+	private IResultObject readRowFromFile( ) throws IOException, DataException
 	{
 		if ( readPos >= rowCount )
 		{
@@ -259,7 +265,7 @@ class RowFile implements IRowIterator
 		closeReader( );
 
 		if ( tempFile != null )
-			tempFile.delete( );
+			FileSecurity.fileDelete( tempFile );
 		memoryRowCache = null;
 	}
 	

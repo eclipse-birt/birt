@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.executor.cache.disk;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
 
 /**
@@ -44,8 +45,8 @@ class MergeTempFileUtil
 		this.resultObjectUtil = resultObjectUtil;
 
 		File tempDir = new File( tempDirStr );
-		if ( tempDir.exists( ) == false )
-			tempDir.mkdirs( );
+		if ( FileSecurity.fileExist( tempDir ) == false )
+			FileSecurity.fileMakeDirs( tempDir );
 	}
 
 	/**
@@ -81,8 +82,8 @@ class MergeTempFileUtil
 	void clearTempDir( )
 	{
 		File tempDir = new File( tempDirStr );
-		if ( tempDir.exists( ) )
-			tempDir.delete( );
+		if ( FileSecurity.fileExist( tempDir ) )
+			FileSecurity.fileDelete( tempDir );
 	}
 	
 }

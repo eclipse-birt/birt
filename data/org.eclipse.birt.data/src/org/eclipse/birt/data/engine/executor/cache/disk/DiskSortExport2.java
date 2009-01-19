@@ -146,8 +146,9 @@ class DiskSortExport2 extends DiskDataExport
 	/**
 	 * @param resultObject
 	 * @throws IOException
+	 * @throws DataException 
 	 */
-	private void addNewRow( IResultObject resultObject ) throws IOException
+	private void addNewRow( IResultObject resultObject ) throws IOException, DataException
 	{
 		if ( inMemoryPos == dataCountOfUnit - 1 )
 		{
@@ -164,8 +165,9 @@ class DiskSortExport2 extends DiskDataExport
 	
 	/**
 	 * @throws IOException
+	 * @throws DataException 
 	 */
-	private void processLastUnit( StopSign stopSign ) throws IOException
+	private void processLastUnit( StopSign stopSign ) throws IOException, DataException
 	{
 		// Now all the rest rows exist in memory.
 		rowBuffer = interchange( rowBuffer, inMemoryPos );

@@ -51,6 +51,7 @@ import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -196,26 +197,27 @@ public class ResultIterator implements IResultIterator
 	/**
 	 * 
 	 * @throws FileNotFoundException
+	 * @throws DataException 
 	 */
-	private void createCacheOutputStream( ) throws FileNotFoundException
+	private void createCacheOutputStream( ) throws FileNotFoundException, DataException
 	{
 		File tmpDir = new File( resultService.getSession( ).getTempDir( ) );
-		if (!tmpDir.exists( ) || !tmpDir.isDirectory( ))
+		if (!FileSecurity.fileExist( tmpDir ) || !FileSecurity.fileIsDirectory( tmpDir ))
 		{
-			tmpDir.mkdirs( );
+			FileSecurity.fileMakeDirs( tmpDir );
 		}
-		metaOutputStream = new BufferedOutputStream( new FileOutputStream( ResultSetCacheUtil.getMetaFile( resultService.getSession( ).getTempDir( ),
+		metaOutputStream = new BufferedOutputStream( FileSecurity.createFileOutputStream(  ResultSetCacheUtil.getMetaFile( resultService.getSession( ).getTempDir( ),
 				resultService.getQueryResults( ).getID( ) ) ),
 				1024 );
-		rowOutputStream = new DataOutputStream( new BufferedOutputStream( new FileOutputStream( ResultSetCacheUtil.getDataFile( resultService.getSession( ).getTempDir( ),
+		rowOutputStream = new DataOutputStream( new BufferedOutputStream( FileSecurity.createFileOutputStream( ResultSetCacheUtil.getDataFile( resultService.getSession( ).getTempDir( ),
 				resultService.getQueryResults( ).getID( ) ) ),
 				1024 ) );
 		File file = ResultSetCacheUtil.getDataFile( resultService.getSession( ).getTempDir( ),
 				resultService.getQueryResults( ).getID( ) );
-		file.deleteOnExit( );
+		FileSecurity.fileDeleteOnExit( file );
 		file = ResultSetCacheUtil.getMetaFile( resultService.getSession( ).getTempDir( ),
 				resultService.getQueryResults( ).getID( ) );
-		file.deleteOnExit( );
+		FileSecurity.fileDeleteOnExit( file ); 
 	}
 	
 	/**

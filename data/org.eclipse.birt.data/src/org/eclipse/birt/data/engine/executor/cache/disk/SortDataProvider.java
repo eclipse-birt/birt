@@ -13,6 +13,8 @@ package org.eclipse.birt.data.engine.executor.cache.disk;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -66,8 +68,8 @@ class SortDataProvider
 		this.resultObjectUtil = resultObjectUtil;
 
 		tempDir = new File( tempDirStr );
-		if ( tempDir.exists( ) == false )
-			tempDir.mkdirs( );
+		if ( FileSecurity.fileExist( tempDir ) == false )
+			FileSecurity.fileMakeDirs( tempDir );
 		this.tempDirStr = tempDirStr;
 
 		goalFile = new File( goalFileStr );
@@ -104,8 +106,9 @@ class SortDataProvider
 	 * @param stopSign
 	 * @return ResultObject[]
 	 * @throws IOException, file reader exception
+	 * @throws DataException 
 	 */
-	IResultObject[] readData( int begin, int end, StopSign stopSign ) throws IOException
+	IResultObject[] readData( int begin, int end, StopSign stopSign ) throws IOException, DataException
 	{
 		if ( begin == end )
 			return new IResultObject[0];
@@ -183,9 +186,10 @@ class SortDataProvider
 	 *            how many data of array will be written
 	 * @param stopSign
 	 * @throws IOException, file writer exception
+	 * @throws DataException 
 	 */
 	void writeData( int hint, int currPos, IResultObject[] resultObjects,
-			int count, StopSign stopSign ) throws IOException
+			int count, StopSign stopSign ) throws IOException, DataException
 	{
 		if ( hint == SortDataProvider.SORT_ITSELF )
 		{
@@ -219,9 +223,9 @@ class SortDataProvider
 			{
 				dfrArray[i].close( );
 				File tempFile = getTempFile( i );
-				tempFile.delete( );
+				FileSecurity.fileDelete( tempFile );
 			}
-			tempDir.delete( );
+			FileSecurity.fileDelete( tempDir );
 			dfw.close( );
 		}
 		catch ( Exception e )

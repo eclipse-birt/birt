@@ -355,10 +355,11 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator
 	}
 
 	/**
+	 * @throws DataException 
 	 * 
 	 * 
 	 */
-	private void clearSecondaryObjects( )
+	private void clearSecondaryObjects( ) throws DataException
 	{
 		if ( curSecondaryResultObjects != null )
 			curSecondaryResultObjects.close( );

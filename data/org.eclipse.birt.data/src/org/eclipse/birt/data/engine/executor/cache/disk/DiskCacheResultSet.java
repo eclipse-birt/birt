@@ -49,9 +49,10 @@ class DiskCacheResultSet
 	 * @param comparator
 	 * @param stopSign
 	 * @throws IOException, file writer exception
+	 * @throws DataException 
 	 */
 	public void processStartResultObjects( IResultObject[] resultObjects,
-			Comparator comparator, StopSign stopSign ) throws IOException
+			Comparator comparator, StopSign stopSign ) throws IOException, DataException
 	{
 		IResultClass rsMetaData = resultObjects[0].getResultClass( );
 		assert rsMetaData != null;
@@ -92,24 +93,27 @@ class DiskCacheResultSet
 	 * 
 	 * @return RowData
 	 * @throws IOException, file reader exception
+	 * @throws DataException 
 	 */
-	public IResultObject nextRow( ) throws IOException
+	public IResultObject nextRow( ) throws IOException, DataException
 	{
 		return rowIterator.fetch( );
 	}
 	
 	/**
 	 * Set the file reader to the start of the goal file
+	 * @throws DataException 
 	 */
-	public void reset( )
+	public void reset( ) throws DataException
 	{
 		rowIterator.reset( );
 	}
 	
 	/**
 	 * Close result set
+	 * @throws DataException 
 	 */
-	public void close( )
+	public void close( ) throws DataException
 	{
 		if ( rowIterator != null )
 		{

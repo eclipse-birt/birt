@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
@@ -38,9 +39,9 @@ public class DirectoryDocumentManager implements IDocumentManager
 	{
 		this.documentDir = documentDir;
 		File dir = new File( documentDir );
-		if(!dir.exists( )||!dir.isDirectory( ))
+		if(!FileSecurity.fileExist( dir )||!FileSecurity.fileIsDirectory( dir ))
 		{
-			if ( !dir.mkdirs( ) )
+			if ( !FileSecurity.fileMakeDirs( dir ) )
 			{
 				throw new DataException( ResourceConstants.OLAPDIR_CREATE_FAIL,
 						documentDir );
@@ -48,10 +49,10 @@ public class DirectoryDocumentManager implements IDocumentManager
 		}
 		if ( deleteOld )
 		{
-			File[] oldFiles = dir.listFiles( );
+			File[] oldFiles = FileSecurity.fileListFiles( dir );
 			for ( int i = 0; i < oldFiles.length; i++ )
 			{
-				oldFiles[i].delete( );
+				FileSecurity.fileDelete( oldFiles[i] );
 			}
 		}
 	}
@@ -68,13 +69,13 @@ public class DirectoryDocumentManager implements IDocumentManager
 	public IDocumentObject createDocumentObject( String documentObjectName ) throws IOException
 	{
 		File file =  new File(documentDir + File.separatorChar + documentObjectName);
-		if ( file.exists( ) )
+		if ( FileSecurity.fileExist( file ) )
 		{
 			return null;
 		}
 		else
 		{
-			if ( !file.createNewFile( ) )
+			if ( !FileSecurity.createNewFile( file ) )
 			{
 				return null;
 			}
@@ -92,7 +93,7 @@ public class DirectoryDocumentManager implements IDocumentManager
 	{
 		File file = new File( documentDir
 				+ File.separatorChar + documentObjectName );
-		if ( !file.exists( ) )
+		if ( !FileSecurity.fileExist( file ) )
 		{
 			return null;
 		}
@@ -109,7 +110,7 @@ public class DirectoryDocumentManager implements IDocumentManager
 	public boolean exist( String documentObjectName )
 	{
 		File file =  new File(documentDir + File.separatorChar + documentObjectName);
-		return file.exists( );
+		return FileSecurity.fileExist( file );
 	}
 
 	public void flush( ) throws IOException

@@ -25,6 +25,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -169,9 +170,9 @@ public class QueryExecutor
 			{
 				id = executor.getSession( ).getQueryResultIDUtil( ).nextID( );
 				File tmpDir = new File( executor.getSession( ).getTempDir( ) );
-				if (!tmpDir.exists( ) || !tmpDir.isDirectory( ))
+				if (!FileSecurity.fileExist( tmpDir ) || ! FileSecurity.fileIsDirectory( tmpDir ))
 				{
-					tmpDir.mkdirs( );
+					FileSecurity.fileMakeDirs( tmpDir );
 				}
 				ArchiveWriter writer = new ArchiveWriter( new ArchiveFile( executor.getSession( )
 						.getTempDir( )

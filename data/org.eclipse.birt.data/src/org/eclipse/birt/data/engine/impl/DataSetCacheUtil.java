@@ -17,6 +17,7 @@ import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.DataSetCacheConfig;
 import org.eclipse.birt.data.engine.executor.DataSetCacheConfig.DataSetCacheMode;
 
@@ -135,17 +136,17 @@ public class DataSetCacheUtil
 	 */
 	public static void deleteFile( File f )
 	{
-		if ( f == null || !f.exists( ))
+		if ( f == null || ! FileSecurity.fileExist( f ))
 		{
 			return;
 		}
-		if (f.isFile( ))
+		if ( FileSecurity.fileIsFile( f ) )
 		{
 			safeDelete( f );
 		}
 		else
 		{
-			File[] childFiles = f.listFiles( );
+			File[] childFiles = FileSecurity.fileListFiles( f );
 			if( childFiles != null )
 			{
 				for (File child : childFiles)
@@ -163,9 +164,9 @@ public class DataSetCacheUtil
 	 */
 	private static void safeDelete( File file )
 	{
-		if( !file.delete( ) )
+		if( !FileSecurity.fileDelete( file ) )
 		{
-			file.deleteOnExit( );
+			FileSecurity.fileDeleteOnExit( file );
 		}
 	}
 	

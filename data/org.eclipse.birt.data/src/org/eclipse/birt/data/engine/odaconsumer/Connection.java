@@ -17,6 +17,7 @@ package org.eclipse.birt.data.engine.odaconsumer;
 import java.util.Hashtable;
 import java.util.logging.Level;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.PropertySecurity;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IDataSetMetaData;
@@ -197,7 +198,7 @@ public class Connection
 	private Hashtable getCachedDsMetaData( )
 	{
 		if( m_cachedDsMetaData == null )
-			m_cachedDsMetaData = new Hashtable( );
+			m_cachedDsMetaData = PropertySecurity.createHashtable( );
 		
 		return m_cachedDsMetaData;
 	}

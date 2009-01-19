@@ -37,6 +37,8 @@ import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
+import org.eclipse.birt.data.engine.core.security.PropertySecurity;
 import org.eclipse.birt.data.engine.executor.DiskDataSetCacheObject;
 import org.eclipse.birt.data.engine.executor.IDataSetCacheObject;
 import org.eclipse.birt.data.engine.executor.IncreDataSetCacheObject;
@@ -149,9 +151,9 @@ class CacheUtilFactory
 			assert rsClass != null;
 
 			this.file = cacheObject.getDataFile( );
-			this.file.deleteOnExit( );
+			FileSecurity.fileDeleteOnExit( this.file );
 			this.metaFile = cacheObject.getMetaFile( );
-			this.metaFile.deleteOnExit( );
+			FileSecurity.fileDeleteOnExit( this.metaFile );
 			this.rsClass = rsClass;
 			this.rowCount = 0;
 			this.tempFolder = cacheObject.getCacheDir( );
@@ -170,7 +172,7 @@ class CacheUtilFactory
 				roUtil = ResultObjectUtil.newInstance( rsClass );
 				try
 				{
-					fos = new FileOutputStream(file);
+					fos = FileSecurity.createFileOutputStream( file );
 					bos = new BufferedOutputStream( fos );
 				}
 				catch ( FileNotFoundException e )
@@ -205,7 +207,7 @@ class CacheUtilFactory
 					fos.close( );
 				}
 				
-				FileOutputStream fos1 = new FileOutputStream( metaFile );
+				FileOutputStream fos1 = FileSecurity.createFileOutputStream(  metaFile );
 				BufferedOutputStream bos1 = new BufferedOutputStream( fos1 );
 
 				// save the count of data
@@ -304,7 +306,7 @@ class CacheUtilFactory
 				roUtil = ResultObjectUtil.newInstance( rsMeta );
 				try
 				{
-					bos = new BufferedOutputStream( new FileOutputStream( file,
+					bos = new BufferedOutputStream( FileSecurity.createFileOutputStream( file,
 							true ) );
 				}
 				catch ( Exception e )
@@ -337,16 +339,16 @@ class CacheUtilFactory
 				{
 					bos.close( );
 				}
-				if ( metaFile.exists( ) )
+				if ( FileSecurity.fileExist( metaFile ) )
 				{
-					FileInputStream fis1 = new FileInputStream( metaFile );
+					FileInputStream fis1 = FileSecurity.createFileInputStream( metaFile );
 					BufferedInputStream bis1 = new BufferedInputStream( fis1 );
 					int oldCount = IOUtil.readInt( bis1 );
 					rowCount += oldCount;
 					bis1.close( );
 					fis1.close( );
 				}
-				FileOutputStream fos1 = new FileOutputStream( metaFile );
+				FileOutputStream fos1 = FileSecurity.createFileOutputStream( metaFile );
 				BufferedOutputStream bos1 = new BufferedOutputStream( fos1 );
 
 				// save the count of data
@@ -439,7 +441,7 @@ class CacheUtilFactory
 		{
 			try
 			{
-				FileInputStream fis1 = new FileInputStream( metaFile );
+				FileInputStream fis1 = FileSecurity.createFileInputStream( metaFile );
 				BufferedInputStream bis1 = new BufferedInputStream( fis1 );
 
 				rowCount = IOUtil.readInt( bis1 );
@@ -451,7 +453,7 @@ class CacheUtilFactory
 				if ( rowCount > 0 )
 				{
 					roUtil = ResultObjectUtil.newInstance( rsClass );
-					fis = new FileInputStream( file );
+					fis = FileSecurity.createFileInputStream( file );
 					bis = new BufferedInputStream( fis );
 				}
 			}
@@ -569,7 +571,7 @@ class CacheUtilFactory
 		{
 			try
 			{
-				FileInputStream fis1 = new FileInputStream( metaFile );
+				FileInputStream fis1 = FileSecurity.createFileInputStream( metaFile );
 				BufferedInputStream bis1 = new BufferedInputStream( fis1 );
 
 				rowCount = IOUtil.readInt( bis1 );
@@ -581,7 +583,7 @@ class CacheUtilFactory
 				if ( rowCount > 0 )
 				{
 					roUtil = ResultObjectUtil.newInstance( rsClass );
-					fis = new FileInputStream( file );
+					fis = FileSecurity.createFileInputStream( file );
 					bis = new BufferedInputStream( fis );
 				}
 			}
@@ -635,14 +637,14 @@ class CacheUtilFactory
 					File dataFile = this.file;
 					// check whether the specific cache data file already exists in
 					// local disk
-					if ( dataFile.exists( ) )
+					if ( FileSecurity.fileExist( dataFile ) )
 					{
 
 						File config = new File( configFile );
 						FileReader fileReader = null;
 
-						if ( config.exists( ) )
-							fileReader = new FileReader( config );
+						if ( FileSecurity.fileExist( config ) )
+							fileReader = FileSecurity.createFileReader( config );
 
 						BufferedReader reader = new BufferedReader( fileReader );
 						ArrayList list = readConfigFile( configFile, reader );
@@ -764,7 +766,7 @@ class CacheUtilFactory
 				info.add( temp[1] );
 			}
 			String paraName, paraValue;
-			Hashtable table = new Hashtable( );
+			Hashtable table = PropertySecurity.createHashtable( );
 			for ( int j = 3; j < split.length; j++ )
 			{
 				paraName = ( split[j].split( "=" ) )[0];
@@ -988,7 +990,7 @@ class CacheUtilFactory
 		{
 			try
 			{
-				FileInputStream fis = new FileInputStream( metaFile );
+				FileInputStream fis = FileSecurity.createFileInputStream( metaFile );
 				BufferedInputStream bis = new BufferedInputStream( fis );
 
 				rowCount = IOUtil.readInt( bis );
@@ -1025,7 +1027,7 @@ class CacheUtilFactory
 				roUtil = ResultObjectUtil.newInstance( rsClass );
 				try
 				{
-					fos = new FileOutputStream( dataFile, true );
+					fos = FileSecurity.createFileOutputStream( dataFile, true );
 					bos = new BufferedOutputStream( fos );
 				}
 				catch ( FileNotFoundException e )
@@ -1062,7 +1064,7 @@ class CacheUtilFactory
 					fos.close( );
 				}
 
-				FileOutputStream fos1 = new FileOutputStream( metaFile );
+				FileOutputStream fos1 = FileSecurity.createFileOutputStream( metaFile );
 				BufferedOutputStream bos1 = new BufferedOutputStream( fos1 );
 
 				// save the count of data
@@ -1074,7 +1076,7 @@ class CacheUtilFactory
 				bos1.close( );
 				fos1.close( );
 
-				FileInputStream fis = new FileInputStream( metaFile );
+				FileInputStream fis = FileSecurity.createFileInputStream( metaFile );
 				BufferedInputStream bis = new BufferedInputStream( fis );
 
 				rowCount = IOUtil.readInt( bis );

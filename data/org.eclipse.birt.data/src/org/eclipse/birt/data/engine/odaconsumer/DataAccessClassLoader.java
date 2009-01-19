@@ -19,6 +19,8 @@ import java.net.URLClassLoader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.birt.data.engine.core.security.ClassSecurity;
+
 class DataAccessClassLoader extends URLClassLoader
 {
 	// regular expression for matching the interfaces and exception classes in 
@@ -48,7 +50,7 @@ class DataAccessClassLoader extends URLClassLoader
 		// if the name matches the regular expression, then it's an ODA interface or 
 		// exception class, so we must delegate to the default app classloader
 		if( matcher.matches() )
-			return getClass().getClassLoader().loadClass( name );
+			return ClassSecurity.loadClass( ClassSecurity.getClassLoader( getClass() ), name );
 		
 		// otherwise, we use the default URLClassLoader mechanism to look for the class 
 		// from the list of URL's

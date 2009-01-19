@@ -23,6 +23,8 @@ import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
+import org.eclipse.birt.data.engine.core.security.ObjectSecurity;
 import org.eclipse.birt.data.engine.executor.IncreDataSetCacheObject;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
@@ -98,7 +100,7 @@ public class CacheUtil
 	
 	// ------------------------service for DiskCache-------------------------
 
-	public static String createTempRootDir( String tempDir )
+	public static String createTempRootDir( String tempDir ) throws DataException
 	{
 		String rootDirStr = null;
 
@@ -108,14 +110,14 @@ public class CacheUtil
 				+ System.currentTimeMillis() + cacheCounter1.intValue() );
 		cacheCounter1.add(1);
 		int x = 0;
-		while (tempDtEDir.exists())
+		while ( FileSecurity.fileExist( tempDtEDir))
 		{
 			x++;
 			tempDtEDir = new File(tempDir, "BirtDataTemp"
 					+ System.currentTimeMillis() + cacheCounter1.intValue() + "_" + x);
 		}
-		tempDtEDir.mkdirs();
-		tempDtEDir.deleteOnExit();
+		FileSecurity.fileMakeDirs( tempDtEDir );
+		FileSecurity.fileDeleteOnExit( tempDtEDir );
 		rootDirStr = getCanonicalPath( tempDtEDir );
 		return rootDirStr;
 	}
@@ -140,7 +142,7 @@ public class CacheUtil
 
 		int i = 0;
 		String tempDir = sessionTempDir;
-		while (sessionFile.exists( ) )
+		while ( FileSecurity.fileExist( sessionFile ) )
 		{
 			i++;
 			sessionTempDir = tempDir + "_" + i;
@@ -151,12 +153,12 @@ public class CacheUtil
 						ResourceConstants.FAIL_TO_CREATE_TEMP_DIR, diagnosticMkdirs( sessionFile ) );
 			}
 		}
-		if ( !sessionFile.mkdirs( ) )
+		if ( !FileSecurity.fileMakeDirs( sessionFile ) )
 		{
 			throw new DataException(
 					ResourceConstants.FAIL_TO_CREATE_TEMP_DIR, diagnosticMkdirs( sessionFile ) );
 		}
-		sessionFile.deleteOnExit();
+		FileSecurity.fileDeleteOnExit( sessionFile );
 		return getCanonicalPath( sessionFile );
 	}
 
@@ -164,35 +166,36 @@ public class CacheUtil
 	 * 
 	 * @param directory
 	 * @return
+	 * @throws DataException 
 	 */
-	private static String diagnosticMkdirs( File directory )
+	private static String diagnosticMkdirs( File directory ) throws DataException
 	{
 		while ( true )
 		{
 			File canonFile = null;
 	        try 
 	        {
-	            canonFile = directory.getCanonicalFile();
+	            canonFile = FileSecurity.fileGetCanonicalFile( directory );
 	        }
 	        catch (IOException e) 
 	        {
-	            return directory.getAbsolutePath();
+	            return FileSecurity.fileGetAbsolutePath( directory );
 	        }
 	        String parent = canonFile.getParent();
 	        if( parent == null )
 	        {
-	        	return directory.getAbsolutePath();
+	        	return FileSecurity.fileGetAbsolutePath( directory );
 	        }
 	        directory = new File( parent );
-	        if( directory.exists( ) || directory.mkdirs( ) )
+	        if( FileSecurity.fileExist( directory ) || FileSecurity.fileMakeDirs( directory ))
 	        {
 	        	try
 	        	{
-					return canonFile.getCanonicalPath( );
+					return FileSecurity.fileGetCanonicalPath( canonFile );
 				}
 	        	catch (IOException e)
 	        	{
-					return directory.getAbsolutePath();
+					return FileSecurity.fileGetAbsolutePath( directory );
 				}
 	        }
 		}
@@ -202,17 +205,18 @@ public class CacheUtil
 	 * get the canonical path without exception.
 	 * @param file
 	 * @return
+	 * @throws DataException 
 	 * @throws IOException
 	 */
-	private static String getCanonicalPath( File file )
+	private static String getCanonicalPath( File file ) throws DataException
 	{
 		try
 		{
-			return file.getCanonicalPath( );
+			return FileSecurity.fileGetCanonicalPath( file );
 		}
 		catch ( IOException e )
 		{
-			return file.getAbsolutePath( );
+			return FileSecurity.fileGetAbsolutePath( file );
 		}
 	}
 	
@@ -222,17 +226,18 @@ public class CacheUtil
 	 * @param tempDir
 	 * @param dataSetDesign
 	 * @return
+	 * @throws DataException 
 	 */
 	public static String createIncrementalTempDir( DataEngineSession session, 
-			IIncreCacheDataSetDesign dataSetDesign)
+			IIncreCacheDataSetDesign dataSetDesign) throws DataException
 	{
 		final String prefix = PS_;
 		File cacheDir = new File( session.getTempDir( )
 				+ PATH_SEP + prefix + PATH_SEP
 				+ Md5Util.getMD5( dataSetDesign.getConfigFileUrl( ).toString( ) ) + PATH_SEP + dataSetDesign.getName( ) );
-		if ( cacheDir.exists( ) == false )
+		if ( FileSecurity.fileExist( cacheDir ) == false )
 		{
-			cacheDir.mkdirs( );
+			FileSecurity.fileMakeDirs( cacheDir );
 		}
 		return getCanonicalPath( cacheDir );
 	}
@@ -251,14 +256,14 @@ public class CacheUtil
 		try
 		{
 			File file = new File( folder + PATH_SEP + TIME_DATA );
-			if ( !file.exists( ) )
+			if ( !FileSecurity.fileExist( file ) )
 			{
 				return null;
 			}
-			FileInputStream fis = new FileInputStream( file );
-			ObjectInputStream ois = new ObjectInputStream( fis );
+			FileInputStream fis = FileSecurity.createFileInputStream( file );
+			ObjectInputStream ois = ObjectSecurity.createObjectInputStream( fis );
 
-			String lastTime = (String) ois.readObject( );
+			String lastTime = (String) ObjectSecurity.readObject( ois );
 
 			fis.close( );
 			ois.close( );
@@ -289,9 +294,9 @@ public class CacheUtil
 		{
 			FileOutputStream fos;
 
-			fos = new FileOutputStream( new File( folder + PATH_SEP + TIME_DATA ) );
+			fos = FileSecurity.createFileOutputStream( new File( folder + PATH_SEP + TIME_DATA ) );
 
-			ObjectOutputStream oos = new ObjectOutputStream( fos );
+			ObjectOutputStream oos = ObjectSecurity.createObjectOutputStream( fos );
 
 			Calendar calendar = Calendar.getInstance( );
 
@@ -342,7 +347,7 @@ public class CacheUtil
 	{
 		try
 		{
-			RandomAccessFile raf = new RandomAccessFile( folder
+			RandomAccessFile raf = FileSecurity.createRandomAccessFile( folder
 					+ PATH_SEP + IncreDataSetCacheObject.TIMESTAMP_DATA, "r" );
 			long timestamp = raf.readLong( );
 			raf.close( );
@@ -364,7 +369,7 @@ public class CacheUtil
 	{
 		try
 		{
-			RandomAccessFile raf = new RandomAccessFile( folder
+			RandomAccessFile raf = FileSecurity.createRandomAccessFile( folder
 					+ PATH_SEP + IncreDataSetCacheObject.TIMESTAMP_DATA, "rw" );
 			Calendar calendar = Calendar.getInstance( );
 			raf.writeLong( calendar.getTimeInMillis( ) );

@@ -63,7 +63,7 @@ abstract class DiskDataExport
 	 * @throws IOException, file writer exception
 	 */
 	public abstract void exportStartDataToDisk( IResultObject[] resultObjects, StopSign stopSign )
-			throws IOException;
+			throws IOException, DataException;
 	
 	/**
 	 * Export data which is fetched form RowResultSet, which is the second step
@@ -98,7 +98,7 @@ abstract class DiskDataExport
 	 * @throws IOException
 	 */
 	protected int innerExportStartData( IResultObject[] resultObjects, StopSign stopSign )
-			throws IOException
+			throws IOException, DataException
 	{
 		outputResultObjects( resultObjects, 0, stopSign );
 		return resultObjects.length;
@@ -171,6 +171,6 @@ abstract class DiskDataExport
 	 * @throws IOException, file writer exception
 	 */
 	protected abstract void outputResultObjects( IResultObject[] resultObjects,
-			int indexOfUnit, StopSign stopSign ) throws IOException;
+			int indexOfUnit, StopSign stopSign ) throws IOException, DataException;
 
 }

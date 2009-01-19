@@ -290,7 +290,7 @@ public class CachedResultSet implements IResultIterator
 	 * 
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#close()
 	 */
-	public void close( )
+	public void close( ) throws DataException
 	{
 		if ( this.resultSetPopulator == null
 				|| this.resultSetPopulator.getCache( ) == null )

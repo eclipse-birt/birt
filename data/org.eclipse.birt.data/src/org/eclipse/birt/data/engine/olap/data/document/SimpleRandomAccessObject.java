@@ -17,6 +17,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
+
 
 /**
  * 
@@ -28,7 +30,7 @@ public class SimpleRandomAccessObject implements IRandomAccessObject
 	
 	public SimpleRandomAccessObject( File file, String mode ) throws FileNotFoundException
 	{
-		this.randomAccessFile = new RandomAccessFile( file, mode );
+		this.randomAccessFile = FileSecurity.createRandomAccessFile( file, mode );
 	}
 
 	public void close( ) throws IOException

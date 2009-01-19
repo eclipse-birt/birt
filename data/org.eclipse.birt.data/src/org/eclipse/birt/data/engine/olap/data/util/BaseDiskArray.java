@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
+
 /**
  * 
  */
@@ -185,7 +187,7 @@ abstract class BaseDiskArray implements IDiskArray
 		if ( diskFile == null )
 		{
 			diskFile = new File( tempFileStr );
-			diskFile.createNewFile( );
+			FileSecurity.createNewFile( diskFile );
 		}
 	}
 
@@ -239,7 +241,7 @@ abstract class BaseDiskArray implements IDiskArray
 		}
 		if ( diskFile != null )
 		{
-			diskFile.delete( );
+			FileSecurity.fileDelete( diskFile );
 			diskFile = null;
 		}
 	}

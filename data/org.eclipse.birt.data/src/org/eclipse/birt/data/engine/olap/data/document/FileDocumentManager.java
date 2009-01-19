@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedRandomAccessFile;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
@@ -62,9 +63,9 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 			IOException
 	{
 		File tmpDir = new File( dirName );
-		if (!tmpDir.exists( ) || !tmpDir.isDirectory( ))
+		if (!FileSecurity.fileExist( tmpDir ) || !FileSecurity.fileIsDirectory( tmpDir ))
 		{
-			tmpDir.mkdirs( );
+			FileSecurity.fileMakeDirs( tmpDir );
 		}
 		FileDocumentManager manager = new FileDocumentManager( cacheSize );
 		manager.create( dirName, managerName );
@@ -138,14 +139,14 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 		
 		File file = new File( dirName + File.separatorChar + managerName + "obj" );
 		objectAccessFile = new BufferedRandomAccessFile( file, "rw", 1024, dataFileCacheSize / 5 );
-		if ( !file.exists( ) )
+		if ( !FileSecurity.fileExist( file ) )
 		{
 			throw new DataException( ResourceConstants.OLAPFILE_NOT_FOUND,
 					file.getAbsolutePath( ) );
 		}
 		
 		file = new File( dirName + File.separatorChar + managerName + "Oat" );
-		if ( !file.exists( ) )
+		if ( !FileSecurity.fileExist( file ) )
 		{
 			throw new DataException( ResourceConstants.OLAPFILE_NOT_FOUND,
 					file.getAbsolutePath( ) );
@@ -153,7 +154,7 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 		oatAccessFile = new BufferedRandomAccessFile( file, "rw", 1024, dataFileCacheSize / 10 );
 		
 		file = new File( dirName + File.separatorChar + managerName + "data" );
-		if ( !file.exists( ) )
+		if ( !FileSecurity.fileExist( file ) )
 		{
 			throw new DataException( ResourceConstants.OLAPFILE_NOT_FOUND,
 					file.getAbsolutePath( ) );
@@ -195,17 +196,17 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 	{
 		if( objectFile != null )
 		{
-			objectFile.deleteOnExit( );
+			FileSecurity.fileDeleteOnExit( objectFile );
 			objectFile = null;
 		}
 		if( oatFile != null )
 		{
-			oatFile.deleteOnExit( );
+			FileSecurity.fileDeleteOnExit( oatFile );
 			oatFile = null;
 		}
 		if( dataFile != null )
 		{
-			dataFile.deleteOnExit( );
+			FileSecurity.fileDeleteOnExit( dataFile );
 			dataFile = null;
 		}
 	}

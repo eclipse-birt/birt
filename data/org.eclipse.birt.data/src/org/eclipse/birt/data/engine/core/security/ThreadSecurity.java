@@ -14,9 +14,13 @@ package org.eclipse.birt.data.engine.core.security;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
-
+/**
+ * 
+ *
+ */
 public class ThreadSecurity
 {
+
 	/**
 	 * 
 	 * @param runnable
@@ -24,12 +28,12 @@ public class ThreadSecurity
 	 */
 	public static Thread createThread( final Runnable runnable )
 	{
-		return AccessController.doPrivileged( new PrivilegedAction<Thread>()
-		{
-		  public Thread run()
-		  {
-		    return new Thread(runnable);
-		  }
-		});
+		return AccessController.doPrivileged( new PrivilegedAction<Thread>( ) {
+
+			public Thread run( )
+			{
+				return new Thread( runnable );
+			}
+		} );
 	}
 }

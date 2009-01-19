@@ -33,6 +33,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.mozilla.javascript.Scriptable;
@@ -108,13 +109,15 @@ public class CacheResultIterator implements IResultIterator
 	/**
 	 * 
 	 * @throws FileNotFoundException
+	 * @throws DataException 
 	 */
-	private void createCacheInputStream( String tempDir ) throws FileNotFoundException
+	private void createCacheInputStream( String tempDir )
+			throws FileNotFoundException, DataException
 	{
-		metaInputStream = new BufferedInputStream( new FileInputStream( ResultSetCacheUtil.getMetaFile( tempDir,
+		metaInputStream = new BufferedInputStream( FileSecurity.createFileInputStream( ResultSetCacheUtil.getMetaFile( tempDir,
 				this.queryResults.getID( ) ) ),
 				1024 );
-		rowInputStream = new DataInputStream( new BufferedInputStream( new FileInputStream( ResultSetCacheUtil.getDataFile( tempDir,
+		rowInputStream = new DataInputStream( new BufferedInputStream( FileSecurity.createFileInputStream( ResultSetCacheUtil.getDataFile( tempDir,
 				this.queryResults.getID( ) ) ),
 				1024 ) );
 	}

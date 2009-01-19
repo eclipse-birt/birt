@@ -189,7 +189,7 @@ public class SmartCache implements ResultSetCache
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#close()
 	 */
-	public void close( )
+	public void close( ) throws DataException
 	{
 		if ( isOpen == false )
 			return;
@@ -214,7 +214,15 @@ public class SmartCache implements ResultSetCache
 	 */
 	public void finalize()
 	{
-		close();
+		try
+		{
+			close();
+		}
+		catch ( DataException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**

@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.PropertySecurity;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
@@ -291,7 +292,7 @@ public class AggrMeasureFilterHelper
 				{
 					IConditionalExpression expr = (IConditionalExpression)filterHelper.getExpression( );
 					firstRoundFilterHelper.add( filterHelper );
-					expr.setHandle( NEvaluator.newInstance( System.getProperty( "java.io.tmpdir" ),
+					expr.setHandle( NEvaluator.newInstance( PropertySecurity.getSystemProperty( "java.io.tmpdir" ),
 							expr.getOperator( ),
 							expr.getExpression( ),
 							(IScriptExpression)expr.getOperand1( ),

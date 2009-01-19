@@ -13,6 +13,8 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.io.File;
 
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
+
 /**
  * The util class which is used to provide utilities for Result Set Cache feature.
  * 
@@ -30,9 +32,9 @@ class ResultSetCacheUtil
 	static File getMetaFile( String tempDir, String id )
 	{
 		File tmpDir = new File( tempDir );
-		if (!tmpDir.exists( ) || !tmpDir.isDirectory( ))
+		if (!FileSecurity.fileExist( tmpDir ) || !FileSecurity.fileIsDirectory( tmpDir ))
 		{
-			tmpDir.mkdirs( );
+			FileSecurity.fileExist( tmpDir );
 		}
 		File file = new File( tempDir
 				+ CACHED_FILE_PREFIX

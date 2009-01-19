@@ -19,6 +19,7 @@ import java.io.IOException;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataSetCacheUtil;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -55,7 +56,7 @@ public class DiskDataSetCacheObject implements IDataSetCacheObject
 		{
 			this.cacheDir = cacheDir + File.separator + "DataSetCacheObject_" + this.hashCode( ) + "_" + getCount();
 		}
-		new File( this.cacheDir ).mkdirs( );
+		FileSecurity.fileMakeDirs( new File( this.cacheDir ));
 			
 		this.cacheCapability = cacheCapability;
 	}
@@ -94,8 +95,8 @@ public class DiskDataSetCacheObject implements IDataSetCacheObject
 	public boolean isCachedDataReusable( int requiredCapability )
 	{
 		assert requiredCapability > 0;
-		return getDataFile().exists( )
-				&& getMetaFile().exists( )
+		return FileSecurity.fileExist( getDataFile())
+				&& FileSecurity.fileExist( getMetaFile())
 				&& cacheCapability >= requiredCapability;
 	}
 
@@ -119,7 +120,7 @@ public class DiskDataSetCacheObject implements IDataSetCacheObject
 		BufferedInputStream bis1 = null;
 		try
 		{
-			fis1 = new FileInputStream( getMetaFile( ) );
+			fis1 = FileSecurity.createFileInputStream( getMetaFile( ) );
 			bis1 = new BufferedInputStream( fis1 );
 			IOUtil.readInt( bis1 );
 			rsClass = new ResultClass( bis1 );

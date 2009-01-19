@@ -16,22 +16,39 @@ import java.security.PrivilegedAction;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 
-
+/**
+ * This class handles a series of privileged operation against class and classloaders.
+ * 
+ * @author Administrator
+ *
+ */
 public class ClassSecurity
 {
+	/**
+	 * 
+	 * @param clazz
+	 * @return
+	 */
 	public static ClassLoader getClassLoader( final Class clazz )
 	{
 		assert clazz != null;
-		
-		return AccessController.doPrivileged( new PrivilegedAction<ClassLoader>()
-		{
-		  public ClassLoader run()
-		  {
-		    return clazz.getClassLoader();
-		  }
-		});
+
+		return AccessController.doPrivileged( new PrivilegedAction<ClassLoader>( ) {
+
+			public ClassLoader run( )
+			{
+				return clazz.getClassLoader( );
+			}
+		} );
 	}
-	
+
+	/**
+	 * 
+	 * @param loader
+	 * @param className
+	 * @return
+	 * @throws ClassNotFoundException
+	 */
 	public static Class loadClass( final ClassLoader loader,
 			final String className ) throws ClassNotFoundException
 	{

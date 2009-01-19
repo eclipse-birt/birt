@@ -44,7 +44,7 @@ class DiskDirectExport extends DiskDataExport
 	 * @see org.eclipse.birt.data.engine.executor.cache.DataBaseExport#exportStartDataToDisk(org.eclipse.birt.data.engine.odi.IResultObject[])
 	 */
 	public void exportStartDataToDisk( IResultObject[] resultObjects, StopSign stopSign )
-			throws IOException
+			throws IOException, DataException
 	{
 		innerExportStartData( resultObjects, stopSign );
 	}
@@ -82,7 +82,7 @@ class DiskDirectExport extends DiskDataExport
 	 *      int)
 	 */
 	protected void outputResultObjects( IResultObject[] resultObjects, int indexOfUnit, StopSign stopSign )
-			throws IOException
+			throws IOException, DataException
 	{
 		rowFile.writeRows( resultObjects, resultObjects.length, stopSign );
 	}

@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.IncreDataSetCacheObject;
 import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
 import org.eclipse.birt.data.engine.odi.IQuery;
@@ -44,7 +45,7 @@ public class PreparedIncreCacheDSQuery extends PreparedOdaDSQuery
 	 * 
 	 * @see org.eclipse.birt.data.engine.impl.PreparedOdaDSQuery#newExecutor()
 	 */
-	protected QueryExecutor newExecutor( )
+	protected QueryExecutor newExecutor( ) throws DataException
 	{
 		IIncreCacheDataSetDesign icDataSetDesign = (IIncreCacheDataSetDesign) dataSetDesign;
 		String cacheDir = CacheUtil.createIncrementalTempDir(dataEngine.getSession( ), icDataSetDesign);
@@ -86,12 +87,12 @@ public class PreparedIncreCacheDSQuery extends PreparedOdaDSQuery
 			{
 				File dataFile = new File( cacheDir,
 						IncreDataSetCacheObject.DATA_DATA );
-				if ( dataFile.exists( ) )
+				if ( FileSecurity.fileExist( dataFile ) )
 				{
-					dataFile.delete( );
+					FileSecurity.fileDelete( dataFile );
 					logger.log( Level.WARNING,
 							"Incremental cache data file was deleted! path: "
-									+ dataFile.getAbsolutePath( ) );
+									+ FileSecurity.fileGetAbsolutePath( dataFile ) );
 				}
 				queryText = icDataSetDesign.getQueryText( );
 			}

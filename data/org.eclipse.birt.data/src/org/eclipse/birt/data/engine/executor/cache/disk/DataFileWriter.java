@@ -13,10 +13,11 @@ package org.eclipse.birt.data.engine.executor.cache.disk;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -83,16 +84,17 @@ class DataFileWriter
 	 * @param stopSign
 	 * @throws IOException,
 	 *             exception of writing file
+	 * @throws DataException 
 	 */
-	void write( IResultObject[] resultObjects, int count, StopSign stopSign ) throws IOException
+	void write( IResultObject[] resultObjects, int count, StopSign stopSign ) throws IOException, DataException
 	{
 		if ( isOpen == false )
 		{
 			try
 			{
-				fos = new FileOutputStream( file );
+				fos = FileSecurity.createFileOutputStream( file );
 			}
-			catch ( FileNotFoundException e )
+			catch ( Exception e )
 			{
 				// normally this exception will never be thrown
 				// since file will always exist

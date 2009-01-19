@@ -144,7 +144,7 @@ abstract class BaseCachedResultSet
     /*
 	 * @see org.eclipse.birt.data.engine.executor.transformation.CachedResultSet#close()
 	 */
-    public void close()
+    public void close() throws DataException
     {
     	smartCache.close( );
     }

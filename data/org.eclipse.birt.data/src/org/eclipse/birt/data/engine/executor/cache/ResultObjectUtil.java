@@ -31,6 +31,7 @@ import java.util.Date;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.ObjectSecurity;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -121,9 +122,10 @@ public class ResultObjectUtil
 	 * @param stopSign
 	 * @return result object array
 	 * @throws IOException
+	 * @throws DataException 
 	 */
 	public IResultObject[] readData( InputStream bis, int length, StopSign stopSign )
-			throws IOException
+			throws IOException, DataException
 	{
 		ResultObject[] rowDatas = new ResultObject[length];
 
@@ -190,10 +192,10 @@ public class ResultObjectUtil
 				}
 				else if ( fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
 				{
-					ObjectInputStream ois = new ObjectInputStream( dis );
+					ObjectInputStream ois = ObjectSecurity.createObjectInputStream( dis );
 					try
 					{
-						obs[j] = ois.readObject( );
+						obs[j] = ObjectSecurity.readObject( ois );
 					}
 					catch ( Exception e )
 					{
@@ -221,9 +223,10 @@ public class ResultObjectUtil
 	 * @param length how many objects to be deserialized
 	 * @param stopSign
 	 * @throws IOException
+	 * @throws DataException 
 	 */
 	public void writeData( OutputStream bos,
-			IResultObject[] resultObjects, int length, StopSign stopSign ) throws IOException
+			IResultObject[] resultObjects, int length, StopSign stopSign ) throws IOException, DataException
 	{		
 		for ( int i = 0; i < length; i++ )
 		{
@@ -238,9 +241,10 @@ public class ResultObjectUtil
 	 * @param bos
 	 * @param resultObject
 	 * @throws IOException
+	 * @throws DataException 
 	 */
 	public void writeData( OutputStream bos, IResultObject resultObject )
-			throws IOException
+			throws IOException, DataException
 	{
 		byte[] rowsDataBytes;
 
@@ -303,7 +307,7 @@ public class ResultObjectUtil
 				if ( !( fieldValue instanceof Serializable ) )
 					fieldValue = fieldValue.toString( );
 
-				ObjectOutputStream oo = new ObjectOutputStream( dos );
+				ObjectOutputStream oo = ObjectSecurity.createObjectOutputStream( dos );
 				oo.writeObject( fieldValue );
 				oo.close( );
 			}

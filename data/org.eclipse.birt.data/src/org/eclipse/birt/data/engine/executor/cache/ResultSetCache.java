@@ -83,7 +83,7 @@ public interface ResultSetCache
 	 * temporary file will be deleted. So it is important to call this method
 	 * when this cache will not be used any more.
 	 */
-	public void close( );
+	public void close( ) throws DataException;
 	
 	/**
 	 * Serialize to an output stream

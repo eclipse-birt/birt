@@ -255,8 +255,9 @@ abstract class PreparedDataSourceQuery
 	
 	/**
 	 * @return the appropriate subclass of the Executor
+	 * @throws DataException 
 	 */
-	protected abstract QueryExecutor newExecutor( );
+	protected abstract QueryExecutor newExecutor( ) throws DataException;
 	
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IPreparedQueryService#execSubquery(org.eclipse.birt.data.engine.odi.IResultIterator,

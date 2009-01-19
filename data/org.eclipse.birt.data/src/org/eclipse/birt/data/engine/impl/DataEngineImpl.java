@@ -41,6 +41,7 @@ import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IShutdownListener;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.QueryResults;
@@ -592,7 +593,7 @@ public class DataEngineImpl extends DataEngine
 	private void clearTempFile( )
 	{
 		File tmpDir = new File( session.getTempDir( ) );
-		if( !tmpDir.exists( )|| !tmpDir.isDirectory( ))
+		if( !FileSecurity.fileExist( tmpDir )|| !FileSecurity.fileIsDirectory( tmpDir ))
 		{
 			return;
 		}
@@ -605,12 +606,12 @@ public class DataEngineImpl extends DataEngine
 	 */
 	private static void deleteDirectory( File dir )
 	{
-		File[] subFiles = dir.listFiles( );
+		File[] subFiles = FileSecurity.fileListFiles( dir );
 		if( subFiles != null )
 		{
 			for( int i = 0; i < subFiles.length; i++ )
 			{
-				if( subFiles[i].isDirectory() )
+				if( FileSecurity.fileIsDirectory( subFiles[i] ) )
 				{
 					deleteDirectory( subFiles[i] );
 				}
@@ -629,9 +630,9 @@ public class DataEngineImpl extends DataEngine
 	 */
 	private static void safeDelete( File file )
 	{
-		if( !file.delete( ) )
+		if( !FileSecurity.fileDelete( file ) )
 		{
-			file.deleteOnExit( );
+			FileSecurity.fileDeleteOnExit( file );
 		}
 	}
 	

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
@@ -52,9 +53,10 @@ class MergeSortImpl
 	 * 
 	 * @param dataProvider
 	 * @param startIndex
+	 * @throws DataException 
 	 * @throws Exception
 	 */
-	IRowIterator mergeSortOnUnits( StopSign stopSign ) throws IOException
+	IRowIterator mergeSortOnUnits( StopSign stopSign ) throws IOException, DataException
 	{
 		IRowIterator goalFile = null;
 		
@@ -97,8 +99,9 @@ class MergeSortImpl
 	 * @param sourceFiles
 	 * @param targetFile
 	 * @throws IOException
+	 * @throws DataException 
 	 */
-	private void levelMergeSort( int granularity, StopSign stopSign ) throws IOException
+	private void levelMergeSort( int granularity, StopSign stopSign ) throws IOException, DataException
 	{		
 		int mergeCount = 0;
 		List newTempList = new ArrayList( );
@@ -146,9 +149,10 @@ class MergeSortImpl
 	 * @param sourceFiles
 	 * @param targetFile
 	 * @throws IOException
+	 * @throws DataException 
 	 */
 	private void mergeRowFiles( RowFile[] sourceFiles, RowFile targetFile )
-			throws IOException
+			throws IOException, DataException
 	{
 		MergeSortRowFiles mergeSortRowSet = new MergeSortRowFiles( sourceFiles,
 				mergeSortUtil );

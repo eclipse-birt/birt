@@ -16,6 +16,8 @@ import java.io.IOException;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
+import org.eclipse.birt.data.engine.core.security.PropertySecurity;
 
 /**
  * A factory class used to create the instance of IDocumentManager. 
@@ -24,13 +26,13 @@ import org.eclipse.birt.data.engine.core.DataException;
 public class DocumentManagerFactory
 {
 
-	private static final String tmpPath = System.getProperty( "java.io.tmpdir" );
+	private static final String tmpPath = PropertySecurity.getSystemProperty( "java.io.tmpdir" );
 	private static final String DEFAULT_CUB_MANAGER_NAME = "cub1";
 
 	static {
 		File tmp = new File(tmpPath);
-		if (tmp.exists() == false)
-			tmp.mkdirs();
+		if ( FileSecurity.fileExist( tmp ) == false)
+			FileSecurity.fileMakeDirs( tmp ); 
 	}
 	
 	/**
