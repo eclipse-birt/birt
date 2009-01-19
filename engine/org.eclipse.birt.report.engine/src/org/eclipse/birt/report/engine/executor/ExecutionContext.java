@@ -299,6 +299,8 @@ public class ExecutionContext
 	 */
 	private int maxRowsPerQuery = -1;
 	
+	private EventHandlerManager eventHandlerManager;
+
 	/**
 	 * create a new context. Call close to finish using the execution context
 	 */
@@ -326,6 +328,7 @@ public class ExecutionContext
 		locale = Locale.getDefault( );
 		
 		timeZone = TimeZone.getDefault( );
+		eventHandlerManager = new EventHandlerManager( );
 	}
 
 	private void initializeScriptContext( )
@@ -2092,5 +2095,10 @@ public class ExecutionContext
 	public boolean isProgressiveViewingEnable( )
 	{
 		return enableProgreesiveViewing;
+	}
+
+	public EventHandlerManager getEventHandlerManager( )
+	{
+		return eventHandlerManager;
 	}
 }

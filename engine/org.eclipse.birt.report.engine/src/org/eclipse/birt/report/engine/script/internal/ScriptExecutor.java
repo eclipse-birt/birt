@@ -18,6 +18,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.executor.EventHandlerManager;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -95,67 +96,37 @@ public class ScriptExecutor
 		return design.getOnPageBreak( ) != null || design.getJavaClass( ) != null;
 	}
 
-	protected static Object getInstance( DesignElementHandle element,
+	protected static Object getInstance( DesignElementHandle handle,
 			ExecutionContext context ) throws EngineException
 	{
-		if ( element == null )
-			return null;
-		String className = element.getEventHandlerClass( );
-		return getInstance( className, context );
-	}
-	
-	protected static Object getInstance( ReportItemDesign element,
-			ExecutionContext context ) throws EngineException
-	{
-		if ( element == null )
-			return null;
-		String className = element.getJavaClass( );
-		return getInstance( className, context );
+		EventHandlerManager eventHandlerManager = context
+				.getEventHandlerManager( );
+		return eventHandlerManager.getInstance( handle, context );
 	}
 
 	protected static Object getInstance( String className,
 			ExecutionContext context ) throws EngineException
 	{
-		if ( className == null )
-			return null;
+		EventHandlerManager eventHandlerManager = context
+				.getEventHandlerManager( );
+		return eventHandlerManager.getInstance( className, context );
+	}
 
-		Object o = null;
-		Class c = null;
-		
-		try
-		{
-			ClassLoader classLoader = context.getApplicationClassLoader( );
-			c = classLoader.loadClass( className );
-			o = c.newInstance( );
-		}
-		catch ( ClassNotFoundException e )
-		{
-			throw new EngineException(
-					MessageConstants.SCRIPT_CLASS_NOT_FOUND_ERROR,
-					new Object[]{className}, e ); //$NON-NLS-1$
-		}
-		catch ( IllegalAccessException e )
-		{
-			throw new EngineException(
-					MessageConstants.SCRIPT_CLASS_ILLEGAL_ACCESS_ERROR,
-					new Object[]{className}, e ); //$NON-NLS-1$
-		}
-		catch ( InstantiationException e )
-		{
-			throw new EngineException(
-					MessageConstants.SCRIPT_CLASS_INSTANTIATION_ERROR,
-					new Object[]{className}, e ); //$NON-NLS-1$
-		}
-		return o;
-	}
-/*
-	protected static void addClassCastException( ExecutionContext context,
-			ClassCastException e, String className, Class requiredInterface )
+	protected static Object getInstance( ReportItemDesign design,
+			ExecutionContext context ) throws EngineException
 	{
-		addException( context, e, MessageConstants.SCRIPT_CLASS_CAST_ERROR,
-				new Object[] { className, requiredInterface.getName( ) } );
+		EventHandlerManager eventHandlerManager = context
+				.getEventHandlerManager( );
+		return eventHandlerManager.getInstance( design,
+				context );
 	}
-*/
+
+	/*
+	 * protected static void addClassCastException( ExecutionContext context,
+	 * ClassCastException e, String className, Class requiredInterface ) {
+	 * addException( context, e, MessageConstants.SCRIPT_CLASS_CAST_ERROR, new
+	 * Object[] { className, requiredInterface.getName( ) } ); }
+	 */
 	protected static void addClassCastException( ExecutionContext context,
 			Exception e, DesignElementHandle handle, Class requiredInterface )
 	{
@@ -163,11 +134,11 @@ public class ScriptExecutor
 				MessageConstants.SCRIPT_CLASS_CAST_ERROR, new Object[]{
 						handle.getEventHandlerClass( ),
 						requiredInterface.getName( )}, e );
-		
+
 		log.log( Level.WARNING, e.getMessage( ), e );
 		if ( context == null )
 			return;
-		
+
 		context.addException( handle, ex );
 	}
 
