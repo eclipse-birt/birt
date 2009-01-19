@@ -914,7 +914,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     		this.statement = statement;
     	}
     	
-		@Override
+		
 		public void run( )
 		{
 			try
