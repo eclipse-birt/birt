@@ -306,24 +306,25 @@ public class ExcelLayoutEngine
 			int rowspan = maxRowIndex - rowIndexes[currentColumnIndex - startColumnIndex];
 			if ( rowspan > 0 )
 			{
-				SheetData data = null;				
 				SheetData upstair = cache
 						.getColumnLastData( currentColumnIndex );
-				
-				if ( upstair != null && canSpan(upstair, rowContainer ) )
+				if ( upstair != null && canSpan( upstair, rowContainer ) )
 				{
 					SheetData predata = upstair;
 					int rs = predata.getRowSpan( ) + rowspan;
 					predata.setRowSpan( rs );
-					BlankData blankData = new BlankData( getRealData( predata ) );
-					if ( !isInContainer( predata, rowContainer ))
+					SheetData realData = getRealData( predata );
+					BlankData blankData = new BlankData( realData );
+					if ( !isInContainer( predata, rowContainer ) )
 					{
 						blankData.decreasRowSpanInDesign( );
 					}
-					data = blankData;
-					for ( int p = 0; p < rowspan; p++ )
+					int rowIndex = predata.getRowIndex( );
+					for ( int p = 1; p <= rowspan; p++ )
 					{
-						cache.addData( currentColumnIndex, data );
+						BlankData blank = new BlankData( predata );
+						blank.setRowIndex( rowIndex + p );
+						cache.addData( currentColumnIndex, blank );
 					}
 				}
 			}
