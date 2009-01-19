@@ -112,7 +112,11 @@ public class TemplateExecutor implements TextTemplate.Visitor
 		String formatExpression = node.getFormatExpression( );
 		if ( format == null && formatExpression != null )
 		{
-			format = values.get( formatExpression ).toString( );
+			Object formatValue = values.get( formatExpression );
+			if ( formatValue != null )
+			{
+				format = formatValue.toString( );
+			}
 		}
 		if ( "html".equalsIgnoreCase( format ) )
 		{
