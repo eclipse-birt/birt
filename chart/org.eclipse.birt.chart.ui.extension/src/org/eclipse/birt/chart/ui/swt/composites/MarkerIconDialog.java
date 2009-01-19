@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.ui.swt.composites;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -42,6 +41,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -82,6 +82,10 @@ public class MarkerIconDialog extends TrayDialog
 	private transient Fill icon;
 
 	private Button btnEmbeddedImage;
+
+	private boolean validateURL = false;
+
+	private Label lblException;
 	/**
 	 * Constructor
 	 * 
@@ -345,7 +349,7 @@ public class MarkerIconDialog extends TrayDialog
 		getButtonOk( ).setEnabled( ( selectedType == LOCAL_TYPE || selectedType == EMBEDDED_TYPE )
 				&& icon != null
 				&& ( (Image) icon ).getURL( ) != null
-				|| ( selectedType == URI_TYPE && trimString( uriEditor.getText( ) ) != null ) );
+				|| ( selectedType == URI_TYPE && validateURL == true ) );
 	}
 
 	private Button getButtonOk( )
@@ -364,13 +368,33 @@ public class MarkerIconDialog extends TrayDialog
 		try
 		{
 			URL url = new URL( uri );
-			getButtonOk( ).setEnabled( url.getContent( ) != null );
-			previewCanvas.loadImage( url );
+			// there's no need to enable the ok button when processing
+			url.getContent( );
+			if ( previewCanvas.loadImage( url ) != null )
+			{
+				validateURL = true;
+				if ( lblException != null && !lblException.isDisposed( ) )
+				{
+					lblException.setText( "" ); //$NON-NLS-1$
+				}
+			}
 		}
 		catch ( Exception e )
 		{
 			getButtonOk( ).setEnabled( false );
-			WizardBase.displayException( e );
+			validateURL = false;
+
+			if ( lblException == null || lblException.isDisposed( ) )
+			{
+				lblException = new Label( inputArea, SWT.NONE );
+				lblException.setLayoutData( new GridData( ) );
+				lblException.setForeground( Display.getDefault( )
+						.getSystemColor( SWT.COLOR_RED ) );
+			}
+
+			lblException.setText( Messages.getString( "MarkerIconDialog.Exception.InvalidURL" ) );//$NON-NLS-1$
+			inputArea.layout( );
+
 		}
 	}
 
