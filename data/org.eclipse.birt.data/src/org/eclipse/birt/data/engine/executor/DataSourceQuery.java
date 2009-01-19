@@ -24,14 +24,18 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.ThreadSecurity;
 import org.eclipse.birt.data.engine.executor.QueryExecutionStrategyUtil.Strategy;
+import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.executor.transform.SimpleResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.impl.StopSign;
+import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.odaconsumer.ColumnHint;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
 import org.eclipse.birt.data.engine.odaconsumer.PreparedStatement;
@@ -42,6 +46,7 @@ import org.eclipse.birt.data.engine.odi.IParameterMetaData;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
+import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.IClob;
 
@@ -670,7 +675,148 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			}
 		}
 		
-    	odaStatement.execute( );
+		OdaQueryExecutor queryExecutor = new OdaQueryExecutor( odaStatement );
+		Thread executionThread = ThreadSecurity.createThread( queryExecutor );
+		executionThread.start( );
+
+		boolean success = false;
+		while ( !stopSign.isStopped( ) )
+		{
+			if ( queryExecutor.isClose( ) )
+			{
+				if ( queryExecutor.collectException( ) == null )
+				{
+					success = true;
+					break;
+				}
+				else
+					throw queryExecutor.collectException( );
+			}
+		}
+
+    	if( !success )
+    	{
+    		//Indicate the query executor thread should close the statement after the query execution.
+    		queryExecutor.setCloseStatementAfterExecution( );
+    		//Return the dummy result iterator implementation.
+    		return new IResultIterator(){
+
+				@Override
+				public void close( ) throws DataException
+				{
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void doSave( StreamWrapper streamsWrapper,
+						boolean isSubQuery ) throws DataException
+				{
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void first( int groupingLevel ) throws DataException
+				{
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public Object getAggrValue( String aggrName )
+						throws DataException
+				{
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				public int getCurrentGroupIndex( int groupLevel )
+						throws DataException
+				{
+					// TODO Auto-generated method stub
+					return 0;
+				}
+
+				@Override
+				public IResultObject getCurrentResult( ) throws DataException
+				{
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				public int getCurrentResultIndex( ) throws DataException
+				{
+					// TODO Auto-generated method stub
+					return 0;
+				}
+
+				@Override
+				public int getEndingGroupLevel( ) throws DataException
+				{
+					// TODO Auto-generated method stub
+					return 0;
+				}
+
+				@Override
+				public IExecutorHelper getExecutorHelper( )
+				{
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				public int[] getGroupStartAndEndIndex( int groupLevel )
+						throws DataException
+				{
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				public IResultClass getResultClass( ) throws DataException
+				{
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				public ResultSetCache getResultSetCache( )
+				{
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				public int getRowCount( ) throws DataException
+				{
+					// TODO Auto-generated method stub
+					return 0;
+				}
+
+				@Override
+				public int getStartingGroupLevel( ) throws DataException
+				{
+					// TODO Auto-generated method stub
+					return 0;
+				}
+
+				@Override
+				public void last( int groupingLevel ) throws DataException
+				{
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public boolean next( ) throws DataException
+				{
+					// TODO Auto-generated method stub
+					return false;
+				}};
+    	}
 		
 		ResultSet rs = null;
 		
@@ -755,6 +901,60 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 
 		return ri;
     }
+    
+    private class OdaQueryExecutor implements Runnable
+    {
+    	private boolean close = false;
+    	private PreparedStatement statement;
+    	private DataException exception;
+    	private boolean closeStatementAfterExecution = false;
+    	
+    	OdaQueryExecutor( PreparedStatement statement )
+    	{
+    		this.statement = statement;
+    	}
+    	
+		@Override
+		public void run( )
+		{
+			try
+			{
+				this.statement.execute( );
+				if( this.closeStatementAfterExecution )
+					this.statement.close( );
+			}
+			catch ( DataException e )
+			{
+				this.exception = e;
+			}
+			this.close = true;
+		}
+
+		public void setCloseStatementAfterExecution( )
+		{
+			this.closeStatementAfterExecution = true;
+		}
+		
+		/**
+		 * Collect the exception throw during statement execution.
+		 * 
+		 * @return
+		 */
+		public DataException collectException()
+		{
+			return this.exception;
+		}
+		
+		/**
+		 * Indicate whether the thread has finished execution.
+		 * @return
+		 */
+		public boolean isClose()
+		{
+			return this.close;
+		}
+    }
+    
     /**
      *  set input parameter bindings
      */
