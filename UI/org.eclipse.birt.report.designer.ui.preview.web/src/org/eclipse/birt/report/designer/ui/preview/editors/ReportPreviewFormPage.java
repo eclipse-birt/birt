@@ -38,10 +38,8 @@ import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.viewer.utilities.IWebAppInfo;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
@@ -102,6 +100,8 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		{
 			prePage.doSave( null );
 		}
+
+		enableParameterControl( hasParameters( ) );
 
 		boolean ret = refresh( );
 		if ( ret == false && isMissingParameter( ) )
@@ -625,6 +625,16 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		}
 
 		return parameter;
+	}
+
+	private boolean hasParameters( )
+	{
+		ModuleHandle model = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+
+		List parameters = model.getFlattenParameters( );
+
+		return parameters != null && parameters.size( ) > 0;
 	}
 
 	/**
