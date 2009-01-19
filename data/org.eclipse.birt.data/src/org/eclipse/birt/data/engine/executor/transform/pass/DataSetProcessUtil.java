@@ -105,6 +105,10 @@ class DataSetProcessUtil extends RowProcessUtil
 		
 		List aggCCList = prepareComputedColumns(TransformationConstants.DATA_SET_MODEL );
 		
+		//All the calculated computed columns (none aggregation ones) need not been re-calculated
+		//during the calculation of aggregation computed columns.
+		if( this.computedColumnHelper!= null )
+			computedColumnHelper.setModel( TransformationConstants.NONE_MODEL );
 		populateAggrCCs( this.getAggrComputedColumns( aggCCList, true ), stopSign );
 		
 		if( filterByRow!= null && filterByRow.isFilterSetExist( FilterByRow.DATASET_AGGR_FILTER ) )
