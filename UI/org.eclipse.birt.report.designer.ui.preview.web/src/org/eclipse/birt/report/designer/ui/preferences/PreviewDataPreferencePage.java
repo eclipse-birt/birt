@@ -23,8 +23,11 @@ import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
@@ -45,6 +48,8 @@ public class PreviewDataPreferencePage extends PreferencePage implements
 	
 	public static final int MAX_IN_MEMORY_CUBE_SIZE_DEFAULT = ViewerPlugin.DEFAULT_MAX_IN_MEMORY_CUBE_SIZE;
 
+	public static final int DATASET_DISPLAY_ALL_ROW = 0;
+
 	/** max Row preference name */
 	public static final String PREVIEW_MAXROW = WebViewer.PREVIEW_MAXROW;
 
@@ -54,13 +59,15 @@ public class PreviewDataPreferencePage extends PreferencePage implements
 
 	public static final String PREVIEW_MAX_IN_MEMORY_CUBE_SIZE = WebViewer.PREVIEW_MAXINMEMORYCUBESIZE;
 
-	private transient IntegerFieldEditor txtMaxDataSetRow;
+	private transient DisplayNumberFieldEditor txtMaxDataSetRow;
 
 	private transient IntegerFieldEditor txtMaxRowLevelMember;
 
 	private transient IntegerFieldEditor txtMaxColumnLevelMember;
 
 	private transient IntegerFieldEditor txtMaxInMemoryCubeSize;
+
+	private transient Button noLimitBtn;
 
 	protected Control createContents( Composite parent )
 	{
@@ -73,10 +80,33 @@ public class PreviewDataPreferencePage extends PreferencePage implements
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		cmpTop.setLayoutData( gd );
 
-		txtMaxDataSetRow = new IntegerFieldEditor( PREVIEW_MAXROW,
+		noLimitBtn = new Button( cmpTop, SWT.CHECK );
+		GridData noLimitBtnData = new GridData( GridData.FILL_HORIZONTAL );
+		noLimitBtnData.horizontalSpan = 2;
+		noLimitBtn.setText( "No limits of the max number of rows to display" );
+		noLimitBtn.setLayoutData( noLimitBtnData );
+		noLimitBtn.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				txtMaxDataSetRow.setEnabled( !noLimitBtn.getSelection( ),
+						noLimitBtn.getParent( ) );
+
+				if ( !noLimitBtn.getSelection( ) )
+				{
+					txtMaxDataSetRow.setFocus( );
+				}
+				txtMaxDataSetRow.checkState( );
+
+			}
+
+		} );
+
+		txtMaxDataSetRow = new DisplayNumberFieldEditor( PREVIEW_MAXROW,
 				Messages.getString( "designer.preview.preference.resultset.maxrow.description" ), //$NON-NLS-1$
 				cmpTop );
 		txtMaxDataSetRow.setPage( this );
+		txtMaxDataSetRow.setValidRange( 1, Integer.MAX_VALUE );
 		txtMaxDataSetRow.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
 		txtMaxDataSetRow.setEmptyStringAllowed( false );
 		txtMaxDataSetRow.setPropertyChangeListener( new IPropertyChangeListener( ) {
@@ -145,7 +175,13 @@ public class PreviewDataPreferencePage extends PreferencePage implements
 		{
 			defaultMaxRow = String.valueOf( MAX_DATASET_ROW_DEFAULT );
 		}
-		txtMaxDataSetRow.setStringValue( defaultMaxRow );
+
+		boolean previewAllRows = String.valueOf( DATASET_DISPLAY_ALL_ROW )
+				.equals( defaultMaxRow.trim( ) );
+		noLimitBtn.setSelection( previewAllRows );
+		txtMaxDataSetRow.setEnabled( !previewAllRows, noLimitBtn.getParent( ) );
+
+		txtMaxDataSetRow.setStringValue( previewAllRows ? "" : defaultMaxRow );
 
 		defaultMaxRow = ViewerPlugin.getDefault( )
 				.getPluginPreferences( )
@@ -196,9 +232,11 @@ public class PreviewDataPreferencePage extends PreferencePage implements
 
 	public boolean performOk( )
 	{
+		int maxRowValue = noLimitBtn.getSelection( ) ? DATASET_DISPLAY_ALL_ROW
+				: txtMaxDataSetRow.getIntValue( );
 		ViewerPlugin.getDefault( )
 				.getPluginPreferences( )
-				.setValue( PREVIEW_MAXROW, txtMaxDataSetRow.getIntValue( ) );
+				.setValue( PREVIEW_MAXROW, maxRowValue );
 
 		ViewerPlugin.getDefault( )
 				.getPluginPreferences( )
@@ -220,4 +258,23 @@ public class PreviewDataPreferencePage extends PreferencePage implements
 		return super.performOk( );
 	}
 
+	class DisplayNumberFieldEditor extends IntegerFieldEditor
+	{
+
+		public DisplayNumberFieldEditor( String s1, String s2, Composite parent )
+		{
+			super( s1, s2, parent );
+		}
+
+		public boolean checkState( )
+		{
+			if ( noLimitBtn.getSelection( ) )
+			{
+				if ( !super.checkState( ) )
+					clearErrorMessage( );
+				return true;
+			}
+			return super.checkState( );
+		}
+	};
 }
