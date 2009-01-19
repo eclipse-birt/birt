@@ -20,6 +20,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.ui.parts.DomainEventDispatcher;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.TraverseEvent;
@@ -48,7 +49,8 @@ public class ReportDomainEventDispatcher extends DomainEventDispatcher
 	public void dispatchKeyTraversed( TraverseEvent e )
 	{
 		IFigure focusOwner = null;
-		List list = getViewer().getSelectedEditParts();
+		//List list = getViewer().getSelectedEditParts();
+		List list = ((IStructuredSelection)getViewer().getSelection( )).toList( );
 		int size = list.size();
 		IFigure nextFigure = null;
 

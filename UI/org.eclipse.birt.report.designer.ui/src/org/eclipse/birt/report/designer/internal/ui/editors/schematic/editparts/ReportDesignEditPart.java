@@ -206,7 +206,7 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 	{
 		super.activate( );
 
-		getFigure( ).setFocusTraversable( false );
+		//getFigure( ).setFocusTraversable( false );
 
 		getViewer( ).addPropertyChangeListener( new PropertyChangeListener( ) {
 
