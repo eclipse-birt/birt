@@ -43,13 +43,13 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 	private String[] selectedColumnNames;
 	
 	/**
-	 * @see org.eclipse.birt.report.engine.extension.IDataExtractionExtension#initilize(org.eclipse.birt.report.engine.api.script.IReportContext,
+	 * @see org.eclipse.birt.report.engine.extension.IDataExtractionExtension#initialize(org.eclipse.birt.report.engine.api.script.IReportContext,
 	 *      org.eclipse.birt.report.engine.api.IDataExtractionOption)
 	 */
-	public void initilize( IReportContext context, IDataExtractionOption options )
+	public void initialize( IReportContext context, IDataExtractionOption options )
 			throws BirtException
 	{
-		super.initilize( context, options );
+		super.initialize( context, options );
 		initCsvOptions(options);
 	}
 	

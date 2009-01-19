@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c)2008 Actuate Corporation.
+ * Copyright (c)2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,33 +16,34 @@ import org.eclipse.birt.report.engine.api.IDataExtractionOption;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 
-/**
- * An extension-point for data extraction.
- * 
- * It's recommended to extend DataExtractionExtensionBase intead
- * of implement directly.
- */
-public interface IDataExtractionExtension
+public class DataExtractionExtensionBase implements IDataExtractionExtension
 {
 
+	public void initialize( IReportContext context, IDataExtractionOption option )
+			throws BirtException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 	@Deprecated
-	void initilize( IReportContext context, IDataExtractionOption option )
-			throws BirtException;
-	
-	void initialize( IReportContext context, IDataExtractionOption option )
-			throws BirtException;
+	public void initilize( IReportContext context, IDataExtractionOption option )
+			throws BirtException
+	{
+		// TODO Auto-generated method stub
 
-	/**
-	 * Outputs data defined in the result set.
-	 * 
-	 * @param results
-	 *            the result set.
-	 */
-	void output( IExtractionResults results ) throws BirtException;
+	}
 
-	/**
-	 * Releases all resources allocated in the extension.
-	 */
-	void release( );
+	public void output( IExtractionResults results ) throws BirtException
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public void release( )
+	{
+		// TODO Auto-generated method stub
+
+	}
 
 }

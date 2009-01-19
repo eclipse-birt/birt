@@ -859,7 +859,7 @@ public class DataExtractionTaskV0 extends EngineTask
 		IDataExtractionExtension dataExtraction = getDataExtractionExtension( option );
 		try
 		{
-			dataExtraction.initilize( executionContext.getReportContext( ),
+			dataExtraction.initialize( executionContext.getReportContext( ),
 					option );
 			dataExtraction.output( extract( ) );
 		}

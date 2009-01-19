@@ -22,7 +22,7 @@ import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.dataextraction.CommonDataExtractionOption;
 import org.eclipse.birt.report.engine.dataextraction.ICommonDataExtractionOption;
 import org.eclipse.birt.report.engine.dataextraction.i18n.Messages;
-import org.eclipse.birt.report.engine.extension.IDataExtractionExtension;
+import org.eclipse.birt.report.engine.extension.DataExtractionExtensionBase;
 
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
@@ -32,7 +32,7 @@ import com.ibm.icu.util.ULocale;
  * It provides utility methods which are initialized according to the data 
  * extraction options. 
  */
-public class CommonDataExtractionImpl implements IDataExtractionExtension
+public class CommonDataExtractionImpl extends DataExtractionExtensionBase
 {
 	protected String PLUGIN_ID = "org.eclipse.birt.report.engine.dataextraction"; //$NON-NLS-1$
 	
@@ -45,9 +45,9 @@ public class CommonDataExtractionImpl implements IDataExtractionExtension
 	private boolean isLocaleNeutral;
 
 	/**
-	 * @see org.eclipse.birt.report.engine.extension.IDataExtractionExtension#initilize(org.eclipse.birt.report.engine.api.script.IReportContext, org.eclipse.birt.report.engine.api.IDataExtractionOption)
+	 * @see org.eclipse.birt.report.engine.extension.IDataExtractionExtension#initialize(org.eclipse.birt.report.engine.api.script.IReportContext, org.eclipse.birt.report.engine.api.IDataExtractionOption)
 	 */
-	public void initilize( IReportContext context, IDataExtractionOption options )
+	public void initialize( IReportContext context, IDataExtractionOption options )
 			throws BirtException
 	{
 		this.context = context;

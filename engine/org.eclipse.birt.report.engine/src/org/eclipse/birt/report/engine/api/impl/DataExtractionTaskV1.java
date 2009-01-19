@@ -1397,7 +1397,7 @@ public class DataExtractionTaskV1 extends EngineTask
 		IDataExtractionExtension dataExtraction = getDataExtractionExtension( extractOption );
 		try
 		{
-			dataExtraction.initilize( executionContext.getReportContext( ),
+			dataExtraction.initialize( executionContext.getReportContext( ),
 					extractOption );
 			IExtractionResults results = extract( );
 			if ( executionContext.isCanceled( ) )
