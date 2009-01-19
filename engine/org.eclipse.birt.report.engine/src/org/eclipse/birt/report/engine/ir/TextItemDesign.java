@@ -63,7 +63,17 @@ public class TextItemDesign extends ReportItemDesign
 						text, "<html>" ) ) )
 		{
 			exprs = new HashMap<String, String>( );
-			TextTemplate template = new TemplateParser( ).parse( text );
+			TextTemplate template = null;
+			try
+			{
+				template = new TemplateParser( ).parse( text );
+			}
+			catch ( Throwable ignored )
+			{
+				// We must ignore the exceptions here and process it when text
+				// item is executed, otherwise the exception will be thrown out
+				// and stop the whole task.
+			}
 			if( template != null && template.getNodes() != null )
 			{
 				Iterator itor = template.getNodes().iterator();

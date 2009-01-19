@@ -196,7 +196,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			templateRef = new SoftReference( template );
 			templates.put( text, templateRef );
 		}
-		catch ( Exception ex )
+		catch ( Throwable ex )
 		{
 			throw new EngineException( ex.getLocalizedMessage( ), ex );
 		}
