@@ -228,8 +228,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 		{
 			temp.add( columnBindings.next( ) );
 		}
-		if ( referToAggregation( temp, boundColumnName ) )
-			return new ColumnValueIterator( null, null, null );
+//		if ( referToAggregation( temp, boundColumnName ) )
+//			return new ColumnValueIterator( null, null, null );
 		
 		IQueryResults queryResults = getQueryResults( dataSet,
 				inputParamBindings,
@@ -418,7 +418,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				null,
 				columnBindings, 
 				useDataSetFilter, 
-				true,
+				false,
 				this.sessionContext.getTopScope());
 		return results;
 	}
