@@ -38,7 +38,7 @@ public class DataSourcesNodeProvider extends DefaultNodeProvider
 	public void createContextMenu( TreeViewer sourceViewer, Object object,
 			IMenuManager menu )
 	{
-		menu.add( new NewDataSourceAction( Messages.getString( "datasource.new" ) ) ); //$NON-NLS-1$
+		menu.add( new NewDataSourceAction( Messages.getString( "datasource.action.new" ) ) ); //$NON-NLS-1$
 		super.createContextMenu( sourceViewer, object, menu );
 	}
 

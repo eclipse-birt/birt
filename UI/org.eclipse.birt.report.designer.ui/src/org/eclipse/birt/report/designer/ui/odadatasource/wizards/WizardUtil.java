@@ -66,10 +66,10 @@ public class WizardUtil
 	 */
 	public static void createNewDataSetMenu( IMenuManager menu )
 	{
-		NewDataSetAction action = new NewDataSetAction( Messages.getString( "dataset.new" ) );//$NON-NLS-1$
+		NewDataSetAction action = new NewDataSetAction( Messages.getString( "dataset.action.new" ) );//$NON-NLS-1$
 		menu.add( action );
 
-		NewJointDataSetAction joinaction = new NewJointDataSetAction( Messages.getString( "dataset.join.new" ) );//$NON-NLS-1$
+		NewJointDataSetAction joinaction = new NewJointDataSetAction( Messages.getString( "dataset.action.join.new" ) );//$NON-NLS-1$
 		menu.add( joinaction );
 	}
 
