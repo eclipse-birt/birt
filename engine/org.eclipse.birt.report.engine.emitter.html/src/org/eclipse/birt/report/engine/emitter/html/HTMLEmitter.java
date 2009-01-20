@@ -533,7 +533,7 @@ public abstract class HTMLEmitter
 			}
 			if ( !canShrink )
 			{
-				buildSize( styleBuffer, HTMLTags.ATTR_MIN_WIDTH, width );
+				buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, width );
 			}
 
 		}
