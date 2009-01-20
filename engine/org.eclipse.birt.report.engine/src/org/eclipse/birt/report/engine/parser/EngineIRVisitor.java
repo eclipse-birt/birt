@@ -1246,10 +1246,14 @@ public class EngineIRVisitor extends DesignVisitor
 			appendStyleName( buffer, name );
 		}
 
-		StyleDeclaration style = createPrivateStyle( handle.getPrivateStyle( ) );
-		if ( style != null && !style.isEmpty( ) )
+		StyleHandle privateStyle = handle.getPrivateStyle( );
+		if ( privateStyle != null )
 		{
-			appendStyleName( buffer, assignStyleName( style ) );
+			StyleDeclaration style = createPrivateStyle( privateStyle );
+			if ( style != null && !style.isEmpty( ) )
+			{
+				appendStyleName( buffer, assignStyleName( style ) );
+			}
 		}
 		if ( buffer.length( ) > 0 )
 			design.setStyleClass( buffer.toString( ) );
