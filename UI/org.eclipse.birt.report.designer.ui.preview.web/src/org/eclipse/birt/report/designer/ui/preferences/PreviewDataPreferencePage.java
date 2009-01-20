@@ -30,14 +30,16 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
  * PreviewDataPreferencePage
  */
-public class PreviewDataPreferencePage extends PreferencePage implements
-		IWorkbenchPreferencePage
+public class PreviewDataPreferencePage extends PreferencePage
+		implements
+			IWorkbenchPreferencePage
 {
 
 	public static final int MAX_DATASET_ROW_DEFAULT = ViewerPlugin.DEFAULT_MAX_ROWS;
@@ -80,43 +82,7 @@ public class PreviewDataPreferencePage extends PreferencePage implements
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		cmpTop.setLayoutData( gd );
 
-		noLimitBtn = new Button( cmpTop, SWT.CHECK );
-		GridData noLimitBtnData = new GridData( GridData.FILL_HORIZONTAL );
-		noLimitBtnData.horizontalSpan = 2;
-		noLimitBtn.setText( "No limits of the max number of rows to display" );
-		noLimitBtn.setLayoutData( noLimitBtnData );
-		noLimitBtn.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				txtMaxDataSetRow.setEnabled( !noLimitBtn.getSelection( ),
-						noLimitBtn.getParent( ) );
-
-				if ( !noLimitBtn.getSelection( ) )
-				{
-					txtMaxDataSetRow.setFocus( );
-				}
-				txtMaxDataSetRow.checkState( );
-
-			}
-
-		} );
-
-		txtMaxDataSetRow = new DisplayNumberFieldEditor( PREVIEW_MAXROW,
-				Messages.getString( "designer.preview.preference.resultset.maxrow.description" ), //$NON-NLS-1$
-				cmpTop );
-		txtMaxDataSetRow.setPage( this );
-		txtMaxDataSetRow.setValidRange( 1, Integer.MAX_VALUE );
-		txtMaxDataSetRow.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
-		txtMaxDataSetRow.setEmptyStringAllowed( false );
-		txtMaxDataSetRow.setPropertyChangeListener( new IPropertyChangeListener( ) {
-
-			public void propertyChange( PropertyChangeEvent event )
-			{
-				if ( event.getProperty( ).equals( FieldEditor.IS_VALID ) )
-					setValid( txtMaxDataSetRow.isValid( ) );
-			}
-		} );
+		createDispalyRowLimitGroup( cmpTop );
 
 		txtMaxRowLevelMember = new IntegerFieldEditor( PREVIEW_MAX_ROW_LEVEL_MEMBER,
 				Messages.getString( "designer.preview.preference.resultset.maxrowlevelmember.description" ), cmpTop ); //$NON-NLS-1$ 
@@ -163,6 +129,61 @@ public class PreviewDataPreferencePage extends PreferencePage implements
 		initControlValues( );
 
 		return cmpTop;
+	}
+
+	private void createDispalyRowLimitGroup( Composite cmpTop )
+	{
+		Group dispalyRowLimitGroup = new Group( cmpTop, SWT.NONE );
+		dispalyRowLimitGroup.setText( Messages.getString( "designer.preview.preference.resultset.groupTitle.DispalyRowLimitsSetting" ) );
+		GridLayout layout = new GridLayout( );
+		layout.makeColumnsEqualWidth = true;
+		layout.marginWidth = layout.marginHeight = 6;
+		dispalyRowLimitGroup.setLayout( layout );
+		GridData groupData = new GridData( GridData.FILL_HORIZONTAL );
+		groupData.horizontalSpan = 2;
+		dispalyRowLimitGroup.setLayoutData( groupData );
+
+		Composite container = new Composite( dispalyRowLimitGroup, SWT.NONE );
+		container.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+
+		noLimitBtn = new Button( container, SWT.CHECK );
+		GridData noLimitBtnData = new GridData( GridData.FILL_HORIZONTAL );
+		noLimitBtnData.horizontalSpan = 2;
+		noLimitBtn.setText( Messages.getString( "designer.preview.preference.resultset.NoLimitOfDispalyRow" ) );
+		noLimitBtn.setLayoutData( noLimitBtnData );
+		noLimitBtn.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				txtMaxDataSetRow.setEnabled( !noLimitBtn.getSelection( ),
+						noLimitBtn.getParent( ) );
+
+				if ( !noLimitBtn.getSelection( ) )
+				{
+					txtMaxDataSetRow.setFocus( );
+				}
+				if ( txtMaxDataSetRow.checkState( ) )
+				{
+				}
+			}
+
+		} );
+
+		txtMaxDataSetRow = new DisplayNumberFieldEditor( PREVIEW_MAXROW,
+				Messages.getString( "designer.preview.preference.resultset.maxrow.description" ), //$NON-NLS-1$
+				container );
+		txtMaxDataSetRow.setPage( this );
+		txtMaxDataSetRow.setValidRange( 1, Integer.MAX_VALUE );
+		txtMaxDataSetRow.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
+		txtMaxDataSetRow.setEmptyStringAllowed( false );
+		txtMaxDataSetRow.setPropertyChangeListener( new IPropertyChangeListener( ) {
+
+			public void propertyChange( PropertyChangeEvent event )
+			{
+				if ( event.getProperty( ).equals( FieldEditor.IS_VALID ) )
+					setValid( txtMaxDataSetRow.isValid( ) );
+			}
+		} );
 	}
 
 	private void initControlValues( )
@@ -270,9 +291,14 @@ public class PreviewDataPreferencePage extends PreferencePage implements
 		{
 			if ( noLimitBtn.getSelection( ) )
 			{
+				setValid( true );
 				if ( !super.checkState( ) )
 					clearErrorMessage( );
 				return true;
+			}
+			else
+			{
+				setValid( isValid( ) );
 			}
 			return super.checkState( );
 		}
