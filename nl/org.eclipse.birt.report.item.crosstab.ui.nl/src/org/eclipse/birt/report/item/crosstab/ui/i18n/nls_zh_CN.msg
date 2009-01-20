@@ -218,6 +218,7 @@ CrosstabPageBreakDialog.Title=分页符
 CrosstabPageBreakDialog.Text.GroupLevel=组级别:
 CrosstabPageBreakDialog.Text.PageBreakBefore=之前:
 CrosstabPageBreakDialog.Text.PageBreakAfter=之后:
+CrosstabPageBreakDialog.Text.PageBreakInterval=Page Break Interval:
 
 ###########################################################
 #SubTotalDialog
