@@ -54,8 +54,10 @@ public class FactoryElementHandleTest extends BaseTestCase
 				.findElement( "My First Form" ); //$NON-NLS-1$
 		factoryStyles = freeForm.getFactoryElementHandle( )
 				.getAllFactoryStyles( );
-		assertEquals( 1, factoryStyles.size( ) );
+		assertEquals( 2, factoryStyles.size( ) );
 		styleHandle = factoryStyles.get( 0 );
+		assertEquals( freeForm.getStyle( ), styleHandle );
+		styleHandle = factoryStyles.get( 1 );
 		assertEquals( ( (ElementDefn) freeForm.getDefn( ) ).getSelector( ),
 				styleHandle.getName( ) );
 

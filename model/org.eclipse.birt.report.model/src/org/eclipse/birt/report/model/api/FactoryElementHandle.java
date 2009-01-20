@@ -53,12 +53,13 @@ public class FactoryElementHandle
 	}
 
 	/**
-	 * Gets all the factory style handle. The list contains the computed style
-	 * that stores all the value inherited from all the ancestors of this
-	 * element, all the selectors defined by this element and the style that
-	 * stores the value computed from some related container. The list does not
-	 * contain the private style that stores the local value set by this element
-	 * itself, and neither the shared style defined by 'style' property.
+	 * Gets all the factory style handle. The list contains the shared style
+	 * defined by 'style' property, the computed style that stores all the value
+	 * inherited from all the ancestors of this element, all the selectors
+	 * defined by this element and the style that stores the value computed from
+	 * some related container. The list does not contain the private style that
+	 * stores the local value set by this element itself and the cascading
+	 * computed style from container.
 	 * 
 	 * @return all the factory style handles
 	 */
@@ -96,7 +97,7 @@ public class FactoryElementHandle
 
 			if ( !readSelectos )
 			{
-				// get the self selectos
+				// get the self selectors
 				valueInfo = PropertySearchStrategy.getInstance( )
 						.createPropertyValueInfo( );
 				value = element.getPropertySearchStrategy( )
@@ -153,11 +154,16 @@ public class FactoryElementHandle
 
 		List<StyleHandle> styles = new ArrayList<StyleHandle>( );
 
+		// add the shared style
+		SharedStyleHandle sharedStyle = elementHandle.getStyle( );
+		if ( sharedStyle != null )
+			styles.add( sharedStyle );
+
 		// first add inherit style
 		if ( inheritStyle != null )
 			styles.add( (StyleHandle) inheritStyle.getHandle( module ) );
 
-		// second, add self selectos
+		// second, add self selectors
 		if ( selfSelectors != null )
 		{
 			for ( int i = 0; i < selfSelectors.size( ); i++ )

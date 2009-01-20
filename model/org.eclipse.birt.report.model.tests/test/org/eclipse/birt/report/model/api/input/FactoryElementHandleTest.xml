@@ -137,6 +137,7 @@
             </footer>
         </table>
         <free-form name="My First Form">
+        	<property name="style">My Style</property>
             <report-items>
                 <label>
                     <property name="x">1mm</property>
