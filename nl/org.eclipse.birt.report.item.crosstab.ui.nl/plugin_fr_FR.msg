@@ -12,7 +12,7 @@
 preference.crosstabPage=Tableau croisé
 crosstab.menu=Tableau cr&oisé
 Crosstab.desc=Insérez un tableau croisé pour afficher des données agrégées sous forme de lignes et de colonnes.
-newcube.menu=Nouveau &cube de données
+newcube.menu=Nouveau cube de données
 paletteEntry.label.crosstab = Tableau croisé
 command.name.createCrosstab = Créer un tableau croisé
 command.name.createCube = Créer un cube
