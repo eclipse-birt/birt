@@ -218,6 +218,7 @@ CrosstabPageBreakDialog.Title=페이지 나누기
 CrosstabPageBreakDialog.Text.GroupLevel=그룹 수준:
 CrosstabPageBreakDialog.Text.PageBreakBefore=다음 이전:
 CrosstabPageBreakDialog.Text.PageBreakAfter=다음 이후:
+CrosstabPageBreakDialog.Text.PageBreakInterval=Page Break Interval:
 
 ###########################################################
 #SubTotalDialog

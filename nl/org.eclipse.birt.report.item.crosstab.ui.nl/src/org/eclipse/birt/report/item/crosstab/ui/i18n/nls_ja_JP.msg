@@ -218,6 +218,7 @@ CrosstabPageBreakDialog.Title=ページ区切り
 CrosstabPageBreakDialog.Text.GroupLevel=グループレベル :
 CrosstabPageBreakDialog.Text.PageBreakBefore=次の前で改ページ :
 CrosstabPageBreakDialog.Text.PageBreakAfter=次の後で改ページ :
+CrosstabPageBreakDialog.Text.PageBreakInterval=Page Break Interval:
 
 ###########################################################
 #SubTotalDialog
