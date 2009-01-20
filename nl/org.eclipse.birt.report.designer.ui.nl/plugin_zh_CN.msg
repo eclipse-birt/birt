@@ -42,7 +42,7 @@ preference.template=模板
 preference.resource=资源
 preference.commenttemplates=注释模板
 #hcg_bidi
-preference.bidiproperties = 双向属性
+preference.bidiproperties=双向属性
 
 designer.action.undo.label=撤消
 designer.action.redo.label=重复

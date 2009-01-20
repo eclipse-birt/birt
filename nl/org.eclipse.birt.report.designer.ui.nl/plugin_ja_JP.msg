@@ -42,7 +42,7 @@ preference.template=テンプレート
 preference.resource=リソース
 preference.commenttemplates=コメントテンプレート
 #hcg_bidi
-preference.bidiproperties = 双方向プロパティ
+preference.bidiproperties=双方向プロパティ
 
 designer.action.undo.label=元に戻す
 designer.action.redo.label=やり直し

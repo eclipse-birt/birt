@@ -42,7 +42,7 @@ preference.template=Modèle
 preference.resource=Ressource
 preference.commenttemplates=Modèle de commentaire
 #hcg_bidi
-preference.bidiproperties = Propriétés bidirectionnelles
+preference.bidiproperties=Propriétés bidirectionnelles
 
 designer.action.undo.label=Annuler
 designer.action.redo.label=Rétablir

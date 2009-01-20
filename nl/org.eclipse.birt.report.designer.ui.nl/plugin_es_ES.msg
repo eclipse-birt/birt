@@ -42,7 +42,7 @@ preference.template=Plantilla
 preference.resource=Recurso
 preference.commenttemplates=Plantilla de comentario
 #hcg_bidi
-preference.bidiproperties = Propiedades bidireccionales
+preference.bidiproperties=Propiedades bidireccionales
 
 designer.action.undo.label=Deshacer
 designer.action.redo.label=Rehacer

@@ -42,7 +42,7 @@ preference.template=템플릿
 preference.resource=리소스
 preference.commenttemplates=설명 템플릿
 #hcg_bidi
-preference.bidiproperties = 양방향 속성
+preference.bidiproperties=양방향 속성
 
 designer.action.undo.label=실행 취소
 designer.action.redo.label=다시 실행

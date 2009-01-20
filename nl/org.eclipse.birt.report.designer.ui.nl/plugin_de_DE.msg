@@ -42,7 +42,7 @@ preference.template=Vorlage
 preference.resource=Ressource
 preference.commenttemplates=Kommentarvorlage
 #hcg_bidi
-preference.bidiproperties = Bidirektionale Eigenschaften
+preference.bidiproperties=Bidirektionale Eigenschaften
 
 designer.action.undo.label=Rückgängig
 designer.action.redo.label=Wiederherstellen
