@@ -2,6 +2,7 @@
 #Cube treeNode properties
 DefaultNodeProvider.Tree.Cubes=Cubos
 cube.new=Nuevo cubo
+cube.action.new=New Data &Cube
 cube.edit=Editar cubo
 CubeNodeProvider.menu.text=Editar
 cube.dimension.new=Nueva dimensión de cubo

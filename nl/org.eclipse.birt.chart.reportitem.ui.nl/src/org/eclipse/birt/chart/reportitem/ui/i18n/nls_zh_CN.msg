@@ -36,7 +36,7 @@ ChartExpressionProvider.DataPoints.OrthogonalValue=值数据
 ChartExpressionProvider.ChartVariables.JavaScript=JavaScript
 ChartExpressionProvider.ChartVariables.Event=事件
 ChartExpressionProvider.DataPoints.SeriesValue=系列数据
-ChartColumnBindingDialog.Button.Refresh=刷新
+ChartColumnBindingDialog.Button.Refresh=Re&fresh
 
 OpenChartTaskAction.Text.SelectChartType=选择图表类型(&S)...
 OpenChartTaskAction.Text.SelectData=选择数据(&A)...

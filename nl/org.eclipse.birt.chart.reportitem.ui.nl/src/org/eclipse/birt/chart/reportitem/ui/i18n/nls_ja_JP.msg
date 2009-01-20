@@ -36,7 +36,7 @@ ChartExpressionProvider.DataPoints.OrthogonalValue=値データ
 ChartExpressionProvider.ChartVariables.JavaScript=JavaScript
 ChartExpressionProvider.ChartVariables.Event=イベント
 ChartExpressionProvider.DataPoints.SeriesValue=系列データ
-ChartColumnBindingDialog.Button.Refresh=更新
+ChartColumnBindingDialog.Button.Refresh=Re&fresh
 
 OpenChartTaskAction.Text.SelectChartType=グラフの種類の選択(&S)...
 OpenChartTaskAction.Text.SelectData=データの選択(&A)...

@@ -2,6 +2,7 @@
 #Cube treeNode properties
 DefaultNodeProvider.Tree.Cubes=큐브
 cube.new=새 큐브
+cube.action.new=New Data &Cube
 cube.edit=큐브 편집
 CubeNodeProvider.menu.text=편집
 cube.dimension.new=새 큐브 차원

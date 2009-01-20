@@ -2,6 +2,7 @@
 #Cube treeNode properties
 DefaultNodeProvider.Tree.Cubes=Quader
 cube.new=Neuer Quader
+cube.action.new=New Data &Cube
 cube.edit=Quader bearbeiten
 CubeNodeProvider.menu.text=Bearbeiten
 cube.dimension.new=Neue Quaderdimension

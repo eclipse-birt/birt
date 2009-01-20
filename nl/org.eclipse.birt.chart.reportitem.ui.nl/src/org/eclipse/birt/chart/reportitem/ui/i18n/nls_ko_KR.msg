@@ -36,7 +36,7 @@ ChartExpressionProvider.DataPoints.OrthogonalValue=값 데이터
 ChartExpressionProvider.ChartVariables.JavaScript=JavaScript
 ChartExpressionProvider.ChartVariables.Event=이벤트
 ChartExpressionProvider.DataPoints.SeriesValue=계열 데이터
-ChartColumnBindingDialog.Button.Refresh=새로 고침
+ChartColumnBindingDialog.Button.Refresh=Re&fresh
 
 OpenChartTaskAction.Text.SelectChartType=차트 형식 선택(&S)...
 OpenChartTaskAction.Text.SelectData=데이터 선택(&A)...
