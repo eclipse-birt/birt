@@ -76,7 +76,7 @@ public class CommandWrap4DE extends Command
 	 */
 	public String getLabel( )
 	{
-		return command == null ? "" : command.getLabel( ).replaceAll( "&", "" ); //$NON-NLS-1$
+		return command == null || command.getLabel( ) == null ? "" : command.getLabel( ).replaceAll( "&", "" ); //$NON-NLS-1$
 	}
 
 	/*
