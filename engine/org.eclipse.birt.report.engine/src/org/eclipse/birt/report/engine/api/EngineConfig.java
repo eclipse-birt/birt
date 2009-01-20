@@ -450,7 +450,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	 * @param emitterId
 	 *            the id of the default emitter.
 	 */
-	public void setDefualtEmitter( String format, String emitterId )
+	public void setDefaultEmitter( String format, String emitterId )
 	{
 		defaultEmitterIdsOfFormats.put( format, emitterId );
 	}
@@ -463,7 +463,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	 * @return the id of the default emitter of this output format, "null" is
 	 *         returned if default emitter is not set for this format.
 	 */
-	public String getDefualtEmitter( String format )
+	public String getDefaultEmitter( String format )
 	{
 		return defaultEmitterIdsOfFormats.get( format );
 	}
