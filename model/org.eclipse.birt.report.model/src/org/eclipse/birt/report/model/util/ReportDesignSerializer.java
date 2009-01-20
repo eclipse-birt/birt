@@ -1221,6 +1221,8 @@ public class ReportDesignSerializer extends ElementVisitor
 		design.setFileName( source.getFileName( ) );
 		design.setSystemId( source.getSystemId( ) );
 
+		design.setID( design.getNextID( ) );
+		design.addElementID( design );
 		// handle module options
 		ModuleOption options = source.getOptions( );
 		try
@@ -1243,6 +1245,7 @@ public class ReportDesignSerializer extends ElementVisitor
 		// elements and property values.
 
 		visitCssStyleSheets( source, design );
+
 		return design;
 	}
 

@@ -633,6 +633,8 @@ public class LibraryCommand extends AbstractElementCommand
 			Library invalidLib = new Library( module.getSession( ), module );
 			invalidLib.setFileName( includedLibPath );
 			invalidLib.setNamespace( namespace );
+			invalidLib.setID( invalidLib.getNextID( ) );
+			invalidLib.addElementID( invalidLib );
 			invalidLib.setValid( false );
 
 			ActivityStack activityStack = getActivityStack( );

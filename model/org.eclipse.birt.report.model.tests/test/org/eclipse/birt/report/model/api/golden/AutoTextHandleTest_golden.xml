@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="3">
     <styles>
-        <style name="myStyle" id="4">
+        <style name="myStyle" id="5">
             <structure name="numberFormat">
                 <property name="category">Currency</property>
                 <property name="pattern">hexingjie</property>
@@ -11,7 +11,7 @@
     <page-setup>
         <simple-master-page name="My Page" id="2">
             <page-header>
-                <auto-text name="sf1" id="3">
+                <auto-text name="sf1" id="4">
                     <property name="style">myStyle</property>
                     <property name="type">page-number</property>
                 </auto-text>

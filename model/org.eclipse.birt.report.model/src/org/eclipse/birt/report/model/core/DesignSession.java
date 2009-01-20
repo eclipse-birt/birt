@@ -633,6 +633,9 @@ public class DesignSession
 	{
 		ReportDesign design = new ReportDesign( this );
 
+		design.setID( design.getNextID( ) );
+		design.addElementID( design );
+
 		design.setFileName( fileName );
 		if ( !StringUtil.isBlank( fileName ) )
 		{
@@ -785,6 +788,8 @@ public class DesignSession
 	public Library createLibrary( )
 	{
 		Library library = new Library( this );
+		library.setID( library.getNextID( ) );
+		library.addElementID( library );
 
 		Theme theme = new Theme( ModelMessages
 				.getMessage( IThemeModel.DEFAULT_THEME_NAME ) );
@@ -866,8 +871,12 @@ public class DesignSession
 	 * <code>DesignChoiceConstants</code> and is one of:
 	 * 
 	 * <ul>
-	 * <li><code>UNITS_IN</code></li> <li><code>UNITS_CM</code></li> <li><code>
-	 * UNITS_MM</code></li> <li><code>UNITS_PT</code></li> <li><code>UNITS_PC
+	 * <li><code>UNITS_IN</code></li>
+	 * <li><code>UNITS_CM</code></li>
+	 * <li><code>
+	 * UNITS_MM</code></li>
+	 * <li><code>UNITS_PT</code></li>
+	 * <li><code>UNITS_PC
 	 * </code></li>
 	 * </ul>
 	 * 
@@ -886,8 +895,12 @@ public class DesignSession
 	 * <code>DesignChoiceConstants</code> and can be one of:
 	 * 
 	 * <ul>
-	 * <li><code>UNITS_IN</code></li> <li><code>UNITS_CM</code></li> <li><code>
-	 * UNITS_MM</code></li> <li><code>UNITS_PT</code></li> <li><code>UNITS_PC
+	 * <li><code>UNITS_IN</code></li>
+	 * <li><code>UNITS_CM</code></li>
+	 * <li><code>
+	 * UNITS_MM</code></li>
+	 * <li><code>UNITS_PT</code></li>
+	 * <li><code>UNITS_PC
 	 * </code></li>
 	 * </ul>
 	 * 
@@ -921,8 +934,12 @@ public class DesignSession
 	 * <code>ColorUtil</code>:
 	 * 
 	 * <ul>
-	 * <li><code>INT_FORMAT</code> <li><code>HTML_FORMAT</code> <li><code>
-	 * JAVA_FORMAT</code> <li><code>CSS_ABSOLUTE_FORMAT</code> <li><code>
+	 * <li><code>INT_FORMAT</code>
+	 * <li><code>HTML_FORMAT</code>
+	 * <li><code>
+	 * JAVA_FORMAT</code>
+	 * <li><code>CSS_ABSOLUTE_FORMAT</code>
+	 * <li><code>
 	 * CSS_RELATIVE_FORMAT</code>
 	 * </ul>
 	 * 
@@ -956,8 +973,12 @@ public class DesignSession
 	 * <code>ColorUtil</code>:
 	 * 
 	 * <ul>
-	 * <li><code>INT_FORMAT</code> <li><code>HTML_FORMAT</code> <li><code>
-	 * JAVA_FORMAT</code> <li><code>CSS_ABSOLUTE_FORMAT</code> <li><code>
+	 * <li><code>INT_FORMAT</code>
+	 * <li><code>HTML_FORMAT</code>
+	 * <li><code>
+	 * JAVA_FORMAT</code>
+	 * <li><code>CSS_ABSOLUTE_FORMAT</code>
+	 * <li><code>
 	 * CSS_RELATIVE_FORMAT</code>
 	 * </ul>
 	 * 
@@ -1059,9 +1080,14 @@ public class DesignSession
 	 * Returns the provider instance which provides the absolute dimension value
 	 * of predefined font size choice.
 	 * <ul>
-	 * <li><code>FONT_SIZE_XX_SMALL</code> <li><code>FONT_SIZE_X_SMALL</code>
-	 * <li><code>FONT_SIZE_SMALL</code> <li><code>FONT_SIZE_MEDIUM</code> <li>
-	 * <code>FONT_SIZE_LARGE</code> <li><code>FONT_SIZE_X_LARGE</code> <li>
+	 * <li><code>FONT_SIZE_XX_SMALL</code>
+	 * <li><code>FONT_SIZE_X_SMALL</code>
+	 * <li><code>FONT_SIZE_SMALL</code>
+	 * <li><code>FONT_SIZE_MEDIUM</code>
+	 * <li>
+	 * <code>FONT_SIZE_LARGE</code>
+	 * <li><code>FONT_SIZE_X_LARGE</code>
+	 * <li>
 	 * <code>FONT_SIZE_XX_LARGE</code>
 	 * </ul>
 	 * 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1193">
     <styles>
-        <style name="MyStyle" id="1193">
+        <style name="MyStyle" id="1194">
             <property name="fontFamily">"Times"</property>
             <property name="fontSize">xx-small</property>
             <property name="fontWeight">lighter</property>
@@ -27,7 +27,7 @@
                 </structure>
             </list-property>
         </style>
-        <style name="style1" id="1194">
+        <style name="style1" id="1195">
             <property name="fontFamily">"Times"</property>
             <property name="fontSize">12cm</property>
             <property name="fontWeight">700</property>
@@ -37,7 +37,7 @@
         </style>
     </styles>
     <page-setup>
-        <graphic-master-page name="My Page" id="1195">
+        <graphic-master-page name="My Page" id="1196">
             <property name="comments">Sample page</property>
             <property name="topMargin">0.95mm</property>
             <property name="leftMargin">0.8mm</property>
@@ -46,14 +46,14 @@
             <property name="columns">1</property>
             <property name="columnSpacing">0.25mm</property>
             <contents>
-                <label name="label1" id="1196">
+                <label name="label1" id="1197">
                     <property name="x">1mm</property>
                     <property name="y">0.5mm</property>
                     <property name="height">0.25mm</property>
                     <property name="width">2mm</property>
                     <text-property name="text">First Page</text-property>
                 </label>
-                <label name="label2" id="1197">
+                <label name="label2" id="1198">
                     <property name="style">MyStyle</property>
                     <property name="fontFamily">"Times"</property>
                     <property name="fontSize">12in</property>

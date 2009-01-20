@@ -21,7 +21,7 @@
         <label name="Body Label" id="5" extends="new_library.Base Label">
             <text-property name="text">body text</text-property>
         </label>
-        <label name="Body Label1" id="8" extends="new_library.Base Label">
+        <label name="Body Label1" id="9" extends="new_library.Base Label">
             <text-property name="text">body text</text-property>
         </label>
     </body>

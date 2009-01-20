@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="65">
     <data-sets>
-        <oda-data-set name="MyDataSet" id="65"/>
+        <oda-data-set name="MyDataSet" id="66"/>
     </data-sets>
     <page-setup>
-        <graphic-master-page name="My Page" id="66"/>
+        <graphic-master-page name="My Page" id="67"/>
     </page-setup>
     <body>
         <table name="MyTable1" id="6">

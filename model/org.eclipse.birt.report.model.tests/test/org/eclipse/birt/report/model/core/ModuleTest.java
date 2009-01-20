@@ -262,10 +262,10 @@ public class ModuleTest extends BaseTestCase
 		assertEquals( 0, table.getID( ) );
 		designHandle.addElement( table, ReportDesign.BODY_SLOT );
 
-		assertEquals( 11, table.getID( ) );
-		assertEquals( 12, row.getID( ) );
-		assertEquals( 13, cell.getID( ) );
-		assertEquals( 14, label.getID( ) );
+		assertEquals( 12, table.getID( ) );
+		assertEquals( 13, row.getID( ) );
+		assertEquals( 14, cell.getID( ) );
+		assertEquals( 15, label.getID( ) );
 	}
 
 	/**

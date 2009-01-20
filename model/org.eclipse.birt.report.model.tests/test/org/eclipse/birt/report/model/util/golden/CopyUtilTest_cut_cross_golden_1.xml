@@ -7,7 +7,7 @@
         <label name="Body Label" id="3">
             <text-property name="text">body text</text-property>
         </label>
-        <label name="Body Label1" id="8">
+        <label name="Body Label1" id="9">
             <text-property name="text">body text</text-property>
         </label>
     </body>

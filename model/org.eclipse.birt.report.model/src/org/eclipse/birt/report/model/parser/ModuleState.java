@@ -116,6 +116,9 @@ public abstract class ModuleState extends DesignParseState
 				handler.isCurrentVersion = true;
 		}
 
+		initElementID( attrs, module );
+		addElementID( module, module );
+
 		super.parseAttrs( attrs );
 	}
 

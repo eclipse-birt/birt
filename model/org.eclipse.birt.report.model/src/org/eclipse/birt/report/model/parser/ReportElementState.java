@@ -153,8 +153,8 @@ public abstract class ReportElementState extends DesignParseState
 			// now not all the children is allowed to be inserted to the
 			// container, if the container is ExtendedItem and child is not
 			// allowed, we still do some special handle
-			assert propDefn.canContain( content ) ||
-					( container instanceof ExtendedItem );
+			assert propDefn.canContain( content )
+					|| ( container instanceof ExtendedItem );
 
 			// Can not change the structure of an element if it is a child
 			// element or it is within a child element.
@@ -174,8 +174,8 @@ public abstract class ReportElementState extends DesignParseState
 
 			// If this is a single-item slot, ensure that the slot is empty.
 
-			if ( !propDefn.isList( ) &&
-					new ContainerContext( container, containmentPropName )
+			if ( !propDefn.isList( )
+					&& new ContainerContext( container, containmentPropName )
 							.getContentCount( handler.module ) > 0 )
 			{
 				handler
@@ -214,8 +214,8 @@ public abstract class ReportElementState extends DesignParseState
 
 		// If this is a single-item slot, ensure that the slot is empty.
 
-		if ( !slotInfo.isMultipleCardinality( ) &&
-				container.getSlot( slotID ).getCount( ) > 0 )
+		if ( !slotInfo.isMultipleCardinality( )
+				&& container.getSlot( slotID ).getCount( ) > 0 )
 		{
 			handler.getErrorHandler( ).semanticError(
 					new ContentException( container, slotID,
@@ -271,31 +271,8 @@ public abstract class ReportElementState extends DesignParseState
 
 		Module module = handler.getModule( );
 
-		// Add the item to the element ID map, check whether the id is unique
-		// if the element has no ID, we will allocate it in the endDocument
-		long elementID = content.getID( );
-
-		if ( elementID > 0 )
-		{
-			DesignElement element = module.getElementByID( elementID );
-
-			// the content never add to the container before
-
-			assert element != content;
-			if ( element == null )
-				module.addElementID( content );
-			else
-			{
-				handler
-						.getErrorHandler( )
-						.semanticError(
-								new DesignParserException(
-										new String[]{content.getIdentifier( ),
-												element.getIdentifier( )},
-										DesignParserException.DESIGN_EXCEPTION_DUPLICATE_ELEMENT_ID ) );
-				return false;
-			}
-		}
+		if ( !addElementID( module, content ) )
+			return false;
 
 		// Add the item to the container.
 		if ( !StringUtil.isBlank( containmentPropName ) )
@@ -372,8 +349,8 @@ public abstract class ReportElementState extends DesignParseState
 						// name in end-document; if the version < 3.2.12,
 						// add it
 						// to the list.
-						if ( handler.versionNumber <= VersionUtil.VERSION_3_2_12 &&
-								element instanceof ExtendedItem )
+						if ( handler.versionNumber <= VersionUtil.VERSION_3_2_12
+								&& element instanceof ExtendedItem )
 						{
 							handler.addUnnamedReportItem( element );
 						}
@@ -386,8 +363,8 @@ public abstract class ReportElementState extends DesignParseState
 
 		String extendsName = attrs
 				.getValue( DesignSchemaConstants.EXTENDS_ATTRIB );
-		if ( !StringUtil.isBlank( extendsName ) &&
-				element.getDefn( ).canExtend( ) )
+		if ( !StringUtil.isBlank( extendsName )
+				&& element.getDefn( ).canExtend( ) )
 		{
 			element.setExtendsName( extendsName );
 			resolveExtendsElement( );
@@ -435,49 +412,7 @@ public abstract class ReportElementState extends DesignParseState
 		{
 			// get the "id" of the element
 
-			try
-			{
-				String theID = attrs.getValue( DesignSchemaConstants.ID_ATTRIB );
-
-				if ( !StringUtil.isBlank( theID ) )
-				{
-					// if the id is not null, parse it
-
-					long id = Long.parseLong( theID );
-					if ( id <= 0 )
-					{
-						handler
-								.getErrorHandler( )
-								.semanticError(
-										new DesignParserException(
-												new String[]{
-														element.getIdentifier( ),
-														attrs
-																.getValue( DesignSchemaConstants.ID_ATTRIB )},
-												DesignParserException.DESIGN_EXCEPTION_INVALID_ELEMENT_ID ) );
-					}
-					element.setID( id );
-				}
-				else
-				{
-					// id is empty or null, then add it to the unhandle element
-					// list
-
-					handler.unhandleIDElements.add( element );
-				}
-			}
-			catch ( NumberFormatException e )
-			{
-				handler
-						.getErrorHandler( )
-						.semanticError(
-								new DesignParserException(
-										new String[]{
-												element.getIdentifier( ),
-												attrs
-														.getValue( DesignSchemaConstants.ID_ATTRIB )},
-										DesignParserException.DESIGN_EXCEPTION_INVALID_ELEMENT_ID ) );
-			}
+			initElementID( attrs, element );
 		}
 		// read view action
 
@@ -557,9 +492,9 @@ public abstract class ReportElementState extends DesignParseState
 
 		Module module = handler.getModule( );
 
-		if ( name == null &&
-				contentDefn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME &&
-				isManagedByNameSpace )
+		if ( name == null
+				&& contentDefn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME
+				&& isManagedByNameSpace )
 		{
 			// if element is extended-item and version less than 3.2.8, do
 			// nothing and returns
@@ -574,8 +509,8 @@ public abstract class ReportElementState extends DesignParseState
 		}
 
 		int id = contentDefn.getNameSpaceID( );
-		if ( name != null && id != MetaDataConstants.NO_NAME_SPACE &&
-				isManagedByNameSpace )
+		if ( name != null && id != MetaDataConstants.NO_NAME_SPACE
+				&& isManagedByNameSpace )
 		{
 			NameSpace ns = new NameExecutor( content ).getNameSpace( module );
 
@@ -679,10 +614,10 @@ public abstract class ReportElementState extends DesignParseState
 	 * handles the compatible issue for test expression of
 	 * <code>HilightRule</code> and <code>MapRule</code> in design file. The
 	 * property <code>highlightTestExpre</code> and <code>MapTestExpre</code>
-	 * were existed on <code>Style</code> element. Because of the schema
-	 * change, they were moved into <code>HilightRule</code> and
-	 * <code>MapRule</code> structure as a member property, which was renamed
-	 * to <code>TestExpression</code>.
+	 * were existed on <code>Style</code> element. Because of the schema change,
+	 * they were moved into <code>HilightRule</code> and <code>MapRule</code>
+	 * structure as a member property, which was renamed to
+	 * <code>TestExpression</code>.
 	 * 
 	 * 
 	 */
@@ -730,7 +665,9 @@ public abstract class ReportElementState extends DesignParseState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * .lang.String)
 	 */
 
 	public AbstractParseState startElement( String tagName )
@@ -740,8 +677,8 @@ public abstract class ReportElementState extends DesignParseState
 		if ( DesignSchemaConstants.OVERRIDDEN_VALUES_TAG
 				.equalsIgnoreCase( tagName ) )
 		{
-			if ( ( defn.getSlotCount( ) > 0 || defn.getContents( ).size( ) > 0 ) &&
-					defn.canExtend( ) )
+			if ( ( defn.getSlotCount( ) > 0 || defn.getContents( ).size( ) > 0 )
+					&& defn.canExtend( ) )
 			{
 				return new OverriddenValuesState(
 						(ModuleParserHandler) getHandler( ), getElement( ) );
@@ -754,8 +691,8 @@ public abstract class ReportElementState extends DesignParseState
 	{
 		super.end( );
 		// if the element is a container and has extends
-		if ( getElement( ).getExtendsElement( ) != null &&
-				getElement( ).getDefn( ).isContainer( ) )
+		if ( getElement( ).getExtendsElement( ) != null
+				&& getElement( ).getDefn( ).isContainer( ) )
 		{
 			addTheVirualElements2Map( getElement( ) );
 			if ( !handler.unhandleIDElements.contains( getElement( ) ) )
@@ -764,7 +701,7 @@ public abstract class ReportElementState extends DesignParseState
 
 		// creates handles so that to make sure Model API is read-only safe in
 		// multiple threads.
-		
+
 		getElement( ).getHandle( handler.module );
 	}
 

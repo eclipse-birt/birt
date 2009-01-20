@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="26">
     <property name="author">W.C. Fields</property>
     <property name="helpGuide">http://company.com/reportHelp.html</property>
     <property name="createdBy">Whiz-Bang Plus</property>
@@ -39,15 +39,15 @@
         </structure>
     </list-property>
     <parameters>
-        <scalar-parameter name="para" id="26">
+        <scalar-parameter name="para" id="27">
         	<property name="isRequired">false</property>
         </scalar-parameter>
     </parameters>
     <data-sources>
-        <oda-data-source name="dataSource1" id="27"/>
+        <oda-data-source name="dataSource1" id="28"/>
     </data-sources>
     <data-sets>
-        <oda-data-set name="dataSet1" id="28"/>
+        <oda-data-set name="dataSet1" id="29"/>
     </data-sets>
     <list-property name="colorPalette">
         <structure>
@@ -62,9 +62,9 @@
         </structure>
     </list-property>
     <themes>
-        <theme name="theme1" id="29">
+        <theme name="theme1" id="30">
             <styles>
-                <style name="style1" id="30">
+                <style name="style1" id="31">
                     <property name="color">red</property>
                 </style>
             </styles>
@@ -115,7 +115,7 @@
         </table>
     </components>
     <page-setup>
-        <graphic-master-page name="My Page" id="31">
+        <graphic-master-page name="My Page" id="32">
             <property name="columns">1</property>
         </graphic-master-page>
     </page-setup>

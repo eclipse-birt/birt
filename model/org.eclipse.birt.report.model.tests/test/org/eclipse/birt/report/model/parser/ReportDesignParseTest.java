@@ -148,6 +148,8 @@ public class ReportDesignParseTest extends BaseTestCase
 	{
 		openDesign( fileName, ULocale.ENGLISH );
 
+		assertEquals( 1000, designHandle.getID( ) );
+
 		assertEquals(
 				"W.C. Fields", designHandle.getStringProperty( ReportDesign.AUTHOR_PROP ) ); //$NON-NLS-1$
 		assertEquals( "subject", designHandle.getSubject( ) );//$NON-NLS-1$
@@ -395,9 +397,9 @@ public class ReportDesignParseTest extends BaseTestCase
 				"New description" ); //$NON-NLS-1$
 		designHandle.setProperty( ReportDesign.EVENT_HANDLER_CLASS_PROP,
 				"on event" ); //$NON-NLS-1$
-		
+
 		designHandle.setNewHandlerOnEachEvent( false );
-		
+
 		designHandle.setInitialize( "new initialize script" ); //$NON-NLS-1$
 
 		designHandle.setBeforeFactory( "new beforeFactory script" ); //$NON-NLS-1$

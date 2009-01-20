@@ -129,6 +129,8 @@ public class ModuleUtil
 			module = new ReportDesign( null );
 
 			setVersionNumber( DesignSchemaConstants.REPORT_VERSION_NUMBER );
+			module.setID( module.getNextID( ) );
+			module.addElementID( module );
 		}
 
 		public AbstractParseState createStartState( )
