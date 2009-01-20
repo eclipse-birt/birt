@@ -191,9 +191,8 @@ public class StyleEngine
 		int start = rule.getStartCoordinate( );
 		int col = engine.getAxis( ).getColumnIndexByCoordinate( start );
 		int span = engine.getAxis( ).getColumnIndexByCoordinate(
-				rule.getEndCoordinate( ) )
-				- col;
-		for ( int i = 0; i < span; i++ )
+				rule.getEndCoordinate( ) );
+		for ( int i = col; i < span; i++ )
 		{
 			SheetData data = engine.getColumnLastData( i );
 
