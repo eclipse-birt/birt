@@ -701,7 +701,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     		//Return the dummy result iterator implementation.
     		return new IResultIterator(){
 
-				@Override
 				public void close( ) throws DataException
 				{
 					// TODO Auto-generated method stub
