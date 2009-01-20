@@ -40,6 +40,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.MouseEvent;
@@ -138,7 +140,7 @@ public class AggregateEditorComposite extends Composite implements
 		layout.marginHeight = 0;
 		setLayout( layout );
 
-		fBtnDropDown = new ToolBar( this, SWT.FLAT | SWT.NO_FOCUS );
+		fBtnDropDown = new ToolBar( this, SWT.FLAT );
 		if( fEnabled && this.isEnabled( ) )
 		{
 			fBtnDropDown.setToolTipText( Messages.getString("AggregateEditorComposite.Tooltip.SetAggregateFunction") ); //$NON-NLS-1$
@@ -147,6 +149,17 @@ public class AggregateEditorComposite extends Composite implements
 		toolManager.add( new AggregationAction( fEnabled ) );
 		toolManager.update( true );
 		fBtnDropDown.addMouseListener( this );
+
+		fBtnDropDown.addKeyListener( new KeyAdapter( ) {
+
+			public void keyReleased( KeyEvent e )
+			{
+				if ( e.keyCode == SWT.ARROW_DOWN )
+				{
+					toggleDropDown( );
+				}
+			}
+		} );
 	}
 
 	private void toggleDropDown( )
