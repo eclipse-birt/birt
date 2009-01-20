@@ -879,6 +879,7 @@ MarkerIconDialog.Lbl.Add=Añadir
 MarkerIconDialog.Chooser.Title=Selector de icono de marcador
 MarkerIconDialog.Lbl.Remove=Quitar
 MarkerIconDialog.Lbl.Description=Importar el icono de marcador de los archivos de imagen local.
+MarkerIconDialog.Exception.InvalidURL=Invalid URL, please correct it.
 
 exception.data.DataBindingsAreNull=Uno o varios enlaces de datos son nulos.
 

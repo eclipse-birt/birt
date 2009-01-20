@@ -879,6 +879,7 @@ MarkerIconDialog.Lbl.Add=添加
 MarkerIconDialog.Chooser.Title=标记图标选择器
 MarkerIconDialog.Lbl.Remove=删除
 MarkerIconDialog.Lbl.Description=从本地图像文件导入标记图标。
+MarkerIconDialog.Exception.InvalidURL=Invalid URL, please correct it.
 
 exception.data.DataBindingsAreNull=一个或多个数据绑定为空\!
 

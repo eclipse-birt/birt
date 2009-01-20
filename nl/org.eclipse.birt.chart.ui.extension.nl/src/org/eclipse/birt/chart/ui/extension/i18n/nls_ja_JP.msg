@@ -879,6 +879,7 @@ MarkerIconDialog.Lbl.Add=追加
 MarkerIconDialog.Chooser.Title=マーカのアイコンセレクタ
 MarkerIconDialog.Lbl.Remove=削除
 MarkerIconDialog.Lbl.Description=ローカルのイメージファイルからマーカのアイコンをインポートします。
+MarkerIconDialog.Exception.InvalidURL=Invalid URL, please correct it.
 
 exception.data.DataBindingsAreNull=1 つまたは複数のデータバインドが NULL です。
 

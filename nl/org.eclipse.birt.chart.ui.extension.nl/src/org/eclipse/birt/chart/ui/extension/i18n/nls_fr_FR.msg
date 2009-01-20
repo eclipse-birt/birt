@@ -879,6 +879,7 @@ MarkerIconDialog.Lbl.Add=Ajouter
 MarkerIconDialog.Chooser.Title=Sélecteur d'icône de repère
 MarkerIconDialog.Lbl.Remove=Supprimer
 MarkerIconDialog.Lbl.Description=Importer l'icône de repère à partir des fichiers image en local.
+MarkerIconDialog.Exception.InvalidURL=Invalid URL, please correct it.
 
 exception.data.DataBindingsAreNull=Au moins une liaison de données est nulle.\
 

@@ -879,6 +879,7 @@ MarkerIconDialog.Lbl.Add=추가
 MarkerIconDialog.Chooser.Title=표지 아이콘 선택기(Marker Icon Chooser)
 MarkerIconDialog.Lbl.Remove=제거
 MarkerIconDialog.Lbl.Description=로컬 이미지 파일에서 표지 아이콘을 가져옵니다.
+MarkerIconDialog.Exception.InvalidURL=Invalid URL, please correct it.
 
 exception.data.DataBindingsAreNull=하나 이상의 데이터 바인딩이 널(null)입니다\!
 

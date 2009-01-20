@@ -879,6 +879,7 @@ MarkerIconDialog.Lbl.Add=Hinzufügen
 MarkerIconDialog.Chooser.Title=Auswahl für Markierungssymbol
 MarkerIconDialog.Lbl.Remove=Entfernen
 MarkerIconDialog.Lbl.Description=Importieren Sie das Markierungssymbol aus den lokalen Bilddateien.
+MarkerIconDialog.Exception.InvalidURL=Invalid URL, please correct it.
 
 exception.data.DataBindingsAreNull=Mindestens eine Datenbindung lautet "Null"\!
 
