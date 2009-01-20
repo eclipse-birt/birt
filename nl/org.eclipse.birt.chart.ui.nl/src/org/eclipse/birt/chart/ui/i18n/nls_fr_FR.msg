@@ -79,7 +79,7 @@ ChartWizard.Label.SelectChartTypeDataFormat=Sélectionner le type de graphique, l
 TaskSelectData.Warning.CategoryGroupTypeCheck=Le type de groupe {0} est incompatible avec le type de données de série de catégorie. 
 TaskSelectData.Warning.YGroupTypeCheck=Le type de groupe {0} est incompatible avec le type de données de regroupement de séries verticales.
 TaskSelectType.Caption.OverlayAxis1=Titre de l'axe des y
-ApplyButtonHandler.Label.Apply=Annuler
+ApplyButtonHandler.Label.Apply=Appl&y
 
 ChartUIUtil.GanttExp.Label=Etiquette de tâches
 ChartUIUtil.GanttExp.Start=Date de début

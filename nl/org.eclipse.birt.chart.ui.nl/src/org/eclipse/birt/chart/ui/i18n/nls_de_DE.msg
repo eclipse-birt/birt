@@ -79,7 +79,7 @@ ChartWizard.Label.SelectChartTypeDataFormat=Wählen Sie Diagrammtyp, Daten und Fo
 TaskSelectData.Warning.CategoryGroupTypeCheck=Der Gruppierungstyp {0} ist nicht mit dem Datentyp der Kategorie-Datenreihe kompatibel. 
 TaskSelectData.Warning.YGroupTypeCheck=Der Gruppierungstyp {0} ist nicht mit dem Datentyp der Gruppierung von Y-Achsen-Datenreihen kompatibel.
 TaskSelectType.Caption.OverlayAxis1=Titel der Y-Achse
-ApplyButtonHandler.Label.Apply=Übernehmen
+ApplyButtonHandler.Label.Apply=Appl&y
 
 ChartUIUtil.GanttExp.Label=Beschriftung für Aufgabe
 ChartUIUtil.GanttExp.Start=Startdatum

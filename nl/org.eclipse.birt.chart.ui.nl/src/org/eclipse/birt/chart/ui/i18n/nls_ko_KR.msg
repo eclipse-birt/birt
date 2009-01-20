@@ -79,7 +79,7 @@ ChartWizard.Label.SelectChartTypeDataFormat=차트 형식, 데이터 및 형식 선택
 TaskSelectData.Warning.CategoryGroupTypeCheck=그룹 유형 {0}이(가) 범주 계열의 데이터 형식과 호환되지 않습니다. 
 TaskSelectData.Warning.YGroupTypeCheck=그룹 유형 {0}이(가) Y 계열 그룹화의 데이터 형식과 호환되지 않습니다.
 TaskSelectType.Caption.OverlayAxis1=Y축 제목
-ApplyButtonHandler.Label.Apply=적용
+ApplyButtonHandler.Label.Apply=Appl&y
 
 ChartUIUtil.GanttExp.Label=작업 레이블
 ChartUIUtil.GanttExp.Start=시작 날짜
