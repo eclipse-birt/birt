@@ -130,16 +130,20 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter
 		else
 		{
 			int px = (int) DEUtil.convertoToPixel( handle );
-			if (handle.isSet( ))
-			{
-				px = 1;
-			}
+			
 			if ( px <= 0 )
 			{
-				TableHandleAdapter adapter = HandleAdapterFactory.getInstance( )
-						.getTableHandleAdapter( getTableParent( ) );
-
-				return String.valueOf( adapter.getDefaultWidth( getColumnNumber( ) ) );
+				if (handle.isSet( ))
+				{
+					px = 1;
+				}
+				else
+				{
+					TableHandleAdapter adapter = HandleAdapterFactory.getInstance( )
+							.getTableHandleAdapter( getTableParent( ) );
+	
+					return String.valueOf( adapter.getDefaultWidth( getColumnNumber( ) ) );
+				}
 			}
 
 			return String.valueOf( px );
