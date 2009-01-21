@@ -12,7 +12,7 @@
 preference.crosstabPage=Tabla de referencias cruzadas
 crosstab.menu=Tabla de referencias cr&uzadas
 Crosstab.desc=Introduzca una tabla de referencias cruzadas para visualizar los datos agregados en el formato de fila y columna.
-newcube.menu=Cubo de datos nuevo
+newcube.menu=Cubo de datos nuevo(C)
 paletteEntry.label.crosstab = Tabla de referencias cruzadas
 command.name.createCrosstab = Crear tabla de referencias cruzadas
 command.name.createCube = Crear cubo
