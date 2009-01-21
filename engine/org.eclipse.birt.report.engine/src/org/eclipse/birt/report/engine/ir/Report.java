@@ -100,6 +100,8 @@ public class Report
 	 */
 	protected CSSEngine cssEngine;
 
+	private IStyle rootStyle;
+
 	/**
 	 * default constructor.
 	 */
@@ -368,6 +370,16 @@ public class Report
 	public void setRootStyleName( String rootStyleName )
 	{
 		this.rootStyleName = rootStyleName;
+	}
+
+	public void setRootStyle( IStyle rootStyle )
+	{
+		this.rootStyle = rootStyle;
+	}
+
+	public IStyle getRootStyle( )
+	{
+		return rootStyle;
 	}
 
 	public List getErrors( )

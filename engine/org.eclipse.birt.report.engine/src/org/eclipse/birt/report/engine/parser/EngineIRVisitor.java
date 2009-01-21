@@ -2704,7 +2704,7 @@ public class EngineIRVisitor extends DesignVisitor
 		addReportDefaultPropertyValue( Style.DATE_TIME_FORMAT_PROP, handle );
 		
 		report.setRootStyleName( assignStyleName( inheritableReportStyle ) );
-
+		report.setRootStyle( inheritableReportStyle );
 	}
 
 	/**
