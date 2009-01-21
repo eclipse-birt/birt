@@ -9,6 +9,8 @@ Shared.mne.Background_K=背景(&K):
 
 ChartWithAxesImpl.Z_Axis.title=Z 轴标题
 ChartSheetImpl.Buttom.Auto=自动
+ChartSheetImpl.Button.AutoHide=Hide chart if there is no data to display.
+ChartSheetImpl.Group.EmptyMessage=Empty Message
 ChartSheetImpl.Label.Outline=边框:
 ChartLegendImpl.Group.Rotation=旋转
 ChartPlotSheetImpl.Label.Outline=边框:
@@ -821,6 +823,7 @@ ChartLegendSheetImpl.Label.Interactivity=图例交互
 
 ChartPlotSheetImpl.Label.AreaIncludingAxes=包括坐标轴的区域
 ChartSheetImpl.Label.EnableInPreview=预览(&P)
+ChartSheetImpl.Label.Font=字体:
 ChartSheetImpl.Label.ResetValue=重置值(&R)
 ChartPlotSheetImpl.Label.AreaWithinAxes=坐标轴内的区域
 ChartSheetImpl.Label.Style=样式(&S):
@@ -836,6 +839,7 @@ ChartSheetImpl.Text.ChartAreaInteractivity=图表区域交互(&A)
 ChartSheetImpl.Label.Interactivity=图表区域交互
 ChartSheetImpl.Label.Interactivity=图表区域交互
 ChartSheetImpl.Label.InteractivityEnable=启用图表交互(&N)
+ChartSheetImpl.Label.Text=Text:
 ChartLegendSheetImpl.Label.LegendBehaviorType=行为(&O):
 SeriesSheetImpl.Label.Type=类型
 LegendTextSheet.Label.Ellipsis=省略号:

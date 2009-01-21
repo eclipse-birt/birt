@@ -9,6 +9,8 @@ Shared.mne.Background_K=背景 (&K):
 
 ChartWithAxesImpl.Z_Axis.title=Z 軸のタイトル
 ChartSheetImpl.Buttom.Auto=自動
+ChartSheetImpl.Button.AutoHide=Hide chart if there is no data to display.
+ChartSheetImpl.Group.EmptyMessage=Empty Message
 ChartSheetImpl.Label.Outline=外枠 :
 ChartLegendImpl.Group.Rotation=回転
 ChartPlotSheetImpl.Label.Outline=外枠 :
@@ -821,6 +823,7 @@ ChartLegendSheetImpl.Label.Interactivity=凡例の相互作用
 
 ChartPlotSheetImpl.Label.AreaIncludingAxes=軸を含めた領域
 ChartSheetImpl.Label.EnableInPreview=プレビュー(&P)
+ChartSheetImpl.Label.Font=フォント名 :
 ChartSheetImpl.Label.ResetValue=値のリセット(&R)
 ChartPlotSheetImpl.Label.AreaWithinAxes=軸の内側
 ChartSheetImpl.Label.Style=スタイル (&S):
@@ -836,6 +839,7 @@ ChartSheetImpl.Text.ChartAreaInteractivity=グラフ領域の相互作用(&A)
 ChartSheetImpl.Label.Interactivity=グラフ領域の相互作用
 ChartSheetImpl.Label.Interactivity=グラフ領域の相互作用
 ChartSheetImpl.Label.InteractivityEnable=グラフの相互作用を有効にする(&N)
+ChartSheetImpl.Label.Text=Text:
 ChartLegendSheetImpl.Label.LegendBehaviorType=動作(&O) :
 SeriesSheetImpl.Label.Type=種類
 LegendTextSheet.Label.Ellipsis=省略 :

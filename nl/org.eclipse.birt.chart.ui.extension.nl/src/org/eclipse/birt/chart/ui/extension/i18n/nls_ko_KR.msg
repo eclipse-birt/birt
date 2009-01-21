@@ -9,6 +9,8 @@ Shared.mne.Background_K=배경(&K):
 
 ChartWithAxesImpl.Z_Axis.title=Z축 제목
 ChartSheetImpl.Buttom.Auto=자동
+ChartSheetImpl.Button.AutoHide=Hide chart if there is no data to display.
+ChartSheetImpl.Group.EmptyMessage=Empty Message
 ChartSheetImpl.Label.Outline=윤곽선:
 ChartLegendImpl.Group.Rotation=회전
 ChartPlotSheetImpl.Label.Outline=윤곽선:
@@ -821,6 +823,7 @@ ChartLegendSheetImpl.Label.Interactivity=범례 대화형 작업
 
 ChartPlotSheetImpl.Label.AreaIncludingAxes=축 포함 영역
 ChartSheetImpl.Label.EnableInPreview=미리 보기(&P)
+ChartSheetImpl.Label.Font=글꼴:
 ChartSheetImpl.Label.ResetValue=값 재설정(&R)
 ChartPlotSheetImpl.Label.AreaWithinAxes=축 내 영역
 ChartSheetImpl.Label.Style=스타일(&S):
@@ -836,6 +839,7 @@ ChartSheetImpl.Text.ChartAreaInteractivity=차트 영역 대화형 작업(&A)
 ChartSheetImpl.Label.Interactivity=차트 영역 대화형 작업
 ChartSheetImpl.Label.Interactivity=차트 영역 대화형 작업
 ChartSheetImpl.Label.InteractivityEnable=차트 대화형 작업 활성화(&N)
+ChartSheetImpl.Label.Text=Text:
 ChartLegendSheetImpl.Label.LegendBehaviorType=동작(&O):
 SeriesSheetImpl.Label.Type=형식
 LegendTextSheet.Label.Ellipsis=생략:

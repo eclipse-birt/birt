@@ -9,6 +9,8 @@ Shared.mne.Background_K=A&rrière-plan :
 
 ChartWithAxesImpl.Z_Axis.title=Titre de l'axe des z
 ChartSheetImpl.Buttom.Auto=Auto
+ChartSheetImpl.Button.AutoHide=Hide chart if there is no data to display.
+ChartSheetImpl.Group.EmptyMessage=Empty Message
 ChartSheetImpl.Label.Outline=Contour :
 ChartLegendImpl.Group.Rotation=Rotation
 ChartPlotSheetImpl.Label.Outline=Contour :
@@ -821,6 +823,7 @@ ChartLegendSheetImpl.Label.Interactivity=Interactivité de légende
 
 ChartPlotSheetImpl.Label.AreaIncludingAxes=Zone contenant des axes
 ChartSheetImpl.Label.EnableInPreview=A&perçu
+ChartSheetImpl.Label.Font=Police :
 ChartSheetImpl.Label.ResetValue=&Réinitialiser la valeur
 ChartPlotSheetImpl.Label.AreaWithinAxes=Zone délimitée par des axes
 ChartSheetImpl.Label.Style=&Style :
@@ -836,6 +839,7 @@ ChartSheetImpl.Text.ChartAreaInteractivity=Interactivité de la &zone graphique
 ChartSheetImpl.Label.Interactivity=Interactivité de la zone graphique
 ChartSheetImpl.Label.Interactivity=Interactivité de la zone graphique
 ChartSheetImpl.Label.InteractivityEnable=Activer l'i&nteractivité du graphique
+ChartSheetImpl.Label.Text=Text:
 ChartLegendSheetImpl.Label.LegendBehaviorType=C&omportement :
 SeriesSheetImpl.Label.Type=Type
 LegendTextSheet.Label.Ellipsis=Points de suspension :

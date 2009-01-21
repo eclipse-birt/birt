@@ -9,6 +9,8 @@ Shared.mne.Background_K=Fon&do:
 
 ChartWithAxesImpl.Z_Axis.title=Título del eje Z
 ChartSheetImpl.Buttom.Auto=Automático
+ChartSheetImpl.Button.AutoHide=Hide chart if there is no data to display.
+ChartSheetImpl.Group.EmptyMessage=Empty Message
 ChartSheetImpl.Label.Outline=Contorno:
 ChartLegendImpl.Group.Rotation=Rotación
 ChartPlotSheetImpl.Label.Outline=Contorno:
@@ -821,6 +823,7 @@ ChartLegendSheetImpl.Label.Interactivity=Interactividad de leyenda
 
 ChartPlotSheetImpl.Label.AreaIncludingAxes=Área incluidos ejes
 ChartSheetImpl.Label.EnableInPreview=&Vista previa
+ChartSheetImpl.Label.Font=Fuente:
 ChartSheetImpl.Label.ResetValue=&Restablecer valor
 ChartPlotSheetImpl.Label.AreaWithinAxes=Área dentro de los ejes
 ChartSheetImpl.Label.Style=&Estilo:
@@ -836,6 +839,7 @@ ChartSheetImpl.Text.ChartAreaInteractivity=Inter&actividad del área de diagrama
 ChartSheetImpl.Label.Interactivity=Interactividad de área de diagrama
 ChartSheetImpl.Label.Interactivity=Interactividad de área de diagrama
 ChartSheetImpl.Label.InteractivityEnable=A&ctivar interactividad de diagrama
+ChartSheetImpl.Label.Text=Text:
 ChartLegendSheetImpl.Label.LegendBehaviorType=Compo&rtamiento:
 SeriesSheetImpl.Label.Type=Tipo
 LegendTextSheet.Label.Ellipsis=Elipsis:
