@@ -405,6 +405,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private boolean isIDE = false;
 	private Text tooltipText;
+	private ScrolledComposite scrollContent;
 
 	public HyperlinkBuilder( Shell parentShell )
 	{
@@ -435,13 +436,13 @@ public class HyperlinkBuilder extends BaseDialog
 		createSelectionArea( composite );
 		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		ScrolledComposite sc = new ScrolledComposite(composite, SWT.V_SCROLL);
-		sc.setAlwaysShowScrollBars( false );
-		sc.setExpandHorizontal( true );
-		sc.setLayoutData( new GridData(GridData.FILL_BOTH) );
+		scrollContent = new ScrolledComposite(composite, SWT.V_SCROLL);
+		scrollContent.setAlwaysShowScrollBars( false );
+		scrollContent.setExpandHorizontal( true );
+		scrollContent.setLayoutData( new GridData(GridData.FILL_BOTH) );
 		
-		displayArea = new Composite(sc, SWT.NONE);
-		sc.setContent( displayArea );
+		displayArea = new Composite(scrollContent, SWT.NONE);
+		scrollContent.setContent( displayArea );
 		
 		Shell shell = PlatformUI.getWorkbench( )
 				.getActiveWorkbenchWindow( )
@@ -457,7 +458,7 @@ public class HyperlinkBuilder extends BaseDialog
 		{
 			height -= 50;
 		}
-		sc.setLayoutData( new GridData( 500, height ) );
+		scrollContent.setLayoutData( new GridData( 500, height ) );
 		
 		displayArea.setLayout( new GridLayout( 3, false ) );
 		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -1368,14 +1369,14 @@ public class HyperlinkBuilder extends BaseDialog
 			public void handleEvent( Event event )
 			{
 				// TODO Auto-generated method stub
-				GridData gd = (GridData) displayArea.getLayoutData( );
+				GridData gd = (GridData) scrollContent.getLayoutData( );
 				if ( gd.horizontalAlignment != SWT.FILL
 						|| gd.verticalAlignment != SWT.FILL )
 				{
-					displayArea.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-					displayArea.layout( false, true );
+					scrollContent.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 				}
-
+				scrollContent.layout( false, true );
+				displayArea.layout( false, true );
 			}
 		} );
 		return super.initDialog( );
