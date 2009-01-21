@@ -682,15 +682,24 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		boolean success = false;
 		while ( !stopSign.isStopped( ) )
 		{
-			if ( queryExecutor.isClose( ) )
+			if ( queryExecutor.collectException( )!= null )
+				throw queryExecutor.collectException( );
+			
+			if ( !executionThread.isAlive( ) )
 			{
-				if ( queryExecutor.collectException( ) == null )
-				{
-					success = true;
-					break;
-				}
-				else
-					throw queryExecutor.collectException( );
+				success = true;
+				break;
+				
+			}
+			
+			try
+			{
+				executionThread.join( 100 );
+			}
+			catch ( InterruptedException e )
+			{
+				e.printStackTrace( );
+				break;
 			}
 		}
 
@@ -707,6 +716,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 					
 				}
 
+				
 				public void doSave( StreamWrapper streamsWrapper,
 						boolean isSubQuery ) throws DataException
 				{
@@ -714,6 +724,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 					
 				}
 
+				
 				public void first( int groupingLevel ) throws DataException
 				{
 					// TODO Auto-generated method stub
@@ -901,7 +912,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     
     private class OdaQueryExecutor implements Runnable
     {
-    	private boolean close = false;
     	private PreparedStatement statement;
     	private DataException exception;
     	private boolean closeStatementAfterExecution = false;
@@ -920,11 +930,10 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 				if( this.closeStatementAfterExecution )
 					this.statement.close( );
 			}
-			catch ( DataException e )
+			catch ( Exception e )
 			{
-				this.exception = e;
+				this.exception = new DataException ( e.getLocalizedMessage( ));
 			}
-			this.close = true;
 		}
 
 		public void setCloseStatementAfterExecution( )
@@ -940,15 +949,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		public DataException collectException()
 		{
 			return this.exception;
-		}
-		
-		/**
-		 * Indicate whether the thread has finished execution.
-		 * @return
-		 */
-		public boolean isClose()
-		{
-			return this.close;
 		}
     }
     
