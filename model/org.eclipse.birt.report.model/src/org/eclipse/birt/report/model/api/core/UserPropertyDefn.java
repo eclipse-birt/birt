@@ -310,8 +310,6 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	 */
 	public String getDisplayName( )
 	{
-		// TODO: 1. lookup the displayName in translation dictionary.
-
 		if ( !StringUtil.isBlank( displayName ) )
 		{
 			// 2. return displayName set on the instance.

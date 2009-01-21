@@ -794,11 +794,6 @@ public class SessionHandle
 	{
 		if ( ev.getEventType( ) == NotificationEvent.LIBRARY_CHANGE_EVENT )
 			session.fireLibChange( (LibraryChangeEvent) ev );
-
-		// TODO: support message file change event
-		// else if ( ev.getEventType( ) ==
-		// NotificationEvent.MESSAGE_FILE_CHANGE_EVENT )
-		// session.fireMessageFileChange( ev );
 	}
 
 	/**

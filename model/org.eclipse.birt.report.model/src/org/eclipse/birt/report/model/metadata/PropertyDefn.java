@@ -451,7 +451,7 @@ public abstract class PropertyDefn
 							MetaDataException.DESIGN_EXCEPTION_UNSUPPORTED_SUB_TYPE );
 
 				// add the simple list validator
-				// TODO exclude the style property
+
 				SimpleListValidator validator = SimpleListValidator
 						.getInstance( );
 				triggerDefn = new SemanticTriggerDefn( SimpleListValidator.NAME );

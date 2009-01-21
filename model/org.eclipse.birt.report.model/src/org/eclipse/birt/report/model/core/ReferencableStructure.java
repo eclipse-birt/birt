@@ -56,9 +56,7 @@ public abstract class ReferencableStructure extends Structure
 	protected StructRefValue libReference = null;
 
 	/**
-	 * The list of the cached reference structures. TODO all the issues about
-	 * this clients list : add structure, drop structure, replace structure,
-	 * broadcast event and so on.
+	 * The list of the cached reference structures. 
 	 */
 
 	protected ArrayList<Structure> clientStructures = new ArrayList<Structure>( );
