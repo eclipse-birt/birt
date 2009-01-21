@@ -50,6 +50,7 @@ import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableContext;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.window.Window;
 import org.eclipse.ui.IEditorInput;
@@ -68,7 +69,7 @@ public class IDEFileReportProvider implements IReportProvider
 
 	private ModuleHandle model = null;
 	private static final String VERSION_MESSAGE = Messages.getString( "TextPropertyDescriptor.Message.Version" ); //$NON-NLS-1$
-
+	private WorkspaceOperationRunner fOperationRunner;
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -215,11 +216,18 @@ public class IDEFileReportProvider implements IReportProvider
 
 		try
 		{
-			new ProgressMonitorDialog( UIUtil.getDefaultShell( ) ).run( false,
-					true,
-					op );
+			IRunnableContext runner= getOperationRunner(monitor);
+			if (runner != null)
+				runner.run(false, false, op);
+			else
+				new ProgressMonitorDialog( UIUtil.getDefaultShell( ) ).run( false,
+						true,
+						op );
 		}
-
+		catch (InterruptedException x) 
+		{
+			//do nothing now
+		}
 		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
@@ -326,9 +334,17 @@ public class IDEFileReportProvider implements IReportProvider
 
 		try
 		{
-			new ProgressMonitorDialog( UIUtil.getDefaultShell( ) ).run( false,
-					true,
-					op );
+			IRunnableContext runner= getOperationRunner(monitor);
+			if (runner != null)
+				runner.run(false, false, op);
+			else
+				new ProgressMonitorDialog( UIUtil.getDefaultShell( ) ).run( false,
+						true,
+						op );
+		}
+		catch (InterruptedException x) 
+		{
+			//do nothing now
 		}
 		catch ( Exception e )
 		{
@@ -479,6 +495,13 @@ public class IDEFileReportProvider implements IReportProvider
 			return path.toFile( ).getParent( );
 		}
 		return null;
+	}
+	
+	private IRunnableContext getOperationRunner(IProgressMonitor monitor) {
+		if (fOperationRunner == null)
+			fOperationRunner = new WorkspaceOperationRunner();
+		fOperationRunner.setProgressMonitor(monitor);
+		return fOperationRunner;
 	}
 
 }
