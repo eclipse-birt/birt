@@ -80,7 +80,7 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl
 			lblTitle.setText( Messages.getString( "ChartTitleSheetImpl.Label.ChartTitle" ) ); //$NON-NLS-1$
 		}
 
-		List keys = null;
+		List<String> keys = null;
 		if ( getContext( ).getUIServiceProvider( ) != null )
 		{
 			keys = getContext( ).getUIServiceProvider( ).getRegisteredKeys( );
@@ -120,7 +120,7 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl
 				getChart( ).getTitle( ).getLabel( ).getCaption( ).getColor( ),
 				true );
 		GridData gdFDCFont = new GridData( );
-		gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
+		// gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
 		gdFDCFont.widthHint = 200;
 		gdFDCFont.grabExcessVerticalSpace = false;
 		fdcFont.setLayoutData( gdFDCFont );

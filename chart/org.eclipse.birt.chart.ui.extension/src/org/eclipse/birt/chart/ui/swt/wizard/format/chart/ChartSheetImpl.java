@@ -255,7 +255,6 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 					true );
 			{
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-				gd.heightHint = fdcEmptyMsg.getPreferredSize( ).y;
 				gd.widthHint = 200;
 				gd.grabExcessVerticalSpace = false;
 				fdcEmptyMsg.setLayoutData( gd );
