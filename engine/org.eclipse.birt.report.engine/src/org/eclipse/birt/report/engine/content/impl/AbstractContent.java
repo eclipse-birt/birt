@@ -558,6 +558,7 @@ abstract public class AbstractContent extends AbstractElement
 	//change the way of writing and reading the style.
 	final static short FIELD_INLINESTYLE_VERSION_1 = 11;
 	final static short FIELD_ACL = 12;
+	final static short FIELD_CLASS_STYLE = 13;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -608,6 +609,11 @@ abstract public class AbstractContent extends AbstractElement
 				IOUtil.writeShort( out, FIELD_INLINESTYLE_VERSION_1 );
 				inlineStyle.write( out );
 			}
+		}
+		if ( classStyle != null && !classStyle.isEmpty( ) )
+		{
+			IOUtil.writeShort( out, FIELD_CLASS_STYLE );
+			classStyle.write( out );
 		}
 		if ( instanceId != null )
 		{
@@ -670,15 +676,10 @@ abstract public class AbstractContent extends AbstractElement
 				}
 				break;
 			case FIELD_INLINESTYLE_VERSION_1 :
-				IStyle style = new StyleDeclaration( cssEngine );
-				if( null != style )
-				{
-					style.read( in );
-					if ( !style.isEmpty( ) )
-					{
-						inlineStyle = style;
-					}
-				}
+				inlineStyle = readStyle( in );
+				break;
+			case FIELD_CLASS_STYLE :
+				classStyle = readStyle( in );
 				break;
 			case FIELD_INSTANCE_ID :
 				String value = IOUtil.readString( in );
@@ -690,6 +691,17 @@ abstract public class AbstractContent extends AbstractElement
 			case FIELD_ACL :
 				acl = IOUtil.readString( in );
 		}
+	}
+
+	private IStyle readStyle( DataInputStream in ) throws IOException
+	{
+		IStyle style = new StyleDeclaration( cssEngine );
+		style.read( in );
+		if ( style.isEmpty( ) )
+		{
+			return null;
+		}
+		return style;
 	}
 
 	public void readContent( DataInputStream in, ClassLoader loader )

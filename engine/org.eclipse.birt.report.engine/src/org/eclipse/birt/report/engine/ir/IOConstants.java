@@ -51,6 +51,7 @@ public interface IOConstants
 	static final short FIELD_STYLE_CLASS = 6;
 	static final short FIELD_MAP = 7;
 	static final short FIELD_HIGHLIGHT = 8;
+	static final short FIELD_STYLE = 9;
 
 	// report item
 	static final short FIELD_X = 20;
@@ -152,10 +153,11 @@ public interface IOConstants
 	// report item added
 	static final short FIELD_USE_CACHED_RESULT = 230;
 	
-	static final short  FIELD_REPORT_STYLES= 240;
-	static final short  FIELD_REPORT_NAMED_EXPRESSIONS= 241;
-	static final short  FIELD_REPORT_MASTER_PAGES= 242;
-	static final short  FIELD_REPORT_BODY= 243;
+	static final short FIELD_REPORT_STYLES = 240;
+	static final short FIELD_REPORT_NAMED_EXPRESSIONS = 241;
+	static final short FIELD_REPORT_MASTER_PAGES = 242;
+	static final short FIELD_REPORT_BODY = 243;
+	static final short FIELD_ROOT_STYLE = 244;
 	
 	static final long ENGINE_IR_VERSION_0 = 0L;
 	// Version 1: remove write isBookmark of ActionDesign.
