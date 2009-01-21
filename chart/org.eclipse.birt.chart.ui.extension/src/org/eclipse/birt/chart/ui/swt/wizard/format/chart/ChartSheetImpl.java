@@ -81,6 +81,10 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 	private ExternalizedTextEditorComposite txtEmptyMsg;
 
+	private Label lbTxtEmptyMsg;
+
+	private Label lbFdcEmptyMsg;
+
 	private FontDefinitionComposite fdcEmptyMsg;
 
 	private Button btnAutoHide;
@@ -221,7 +225,8 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 				btnAutoHide.addListener( SWT.Selection, this );
 			}
 
-			new Label( grpEmptyMsg, SWT.NONE ).setText( Messages.getString("ChartSheetImpl.Label.Text") ); //$NON-NLS-1$
+			lbTxtEmptyMsg = new Label( grpEmptyMsg, SWT.NONE );
+			lbTxtEmptyMsg.setText( Messages.getString( "ChartSheetImpl.Label.Text" ) ); //$NON-NLS-1$
 
 			List<String> keys = null;
 			if ( getContext( ).getUIServiceProvider( ) != null )
@@ -241,11 +246,11 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				gd.widthHint = 200;
 				txtEmptyMsg.setLayoutData( gd );
-				txtEmptyMsg.setEnabled( laEmptyMsg.isVisible( ) );
 				txtEmptyMsg.addListener( this );
 			}
 
-			new Label( grpEmptyMsg, SWT.NONE ).setText( Messages.getString("ChartSheetImpl.Label.Font") ); //$NON-NLS-1$
+			lbFdcEmptyMsg = new Label( grpEmptyMsg, SWT.NONE );
+			lbFdcEmptyMsg.setText( Messages.getString( "ChartSheetImpl.Label.Font" ) ); //$NON-NLS-1$
 
 			fdcEmptyMsg = new FontDefinitionComposite( grpEmptyMsg,
 					SWT.NONE,
@@ -258,9 +263,10 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 				gd.widthHint = 200;
 				gd.grabExcessVerticalSpace = false;
 				fdcEmptyMsg.setLayoutData( gd );
-				fdcEmptyMsg.setEnabled( laEmptyMsg.isVisible( ) );
 				fdcEmptyMsg.addListener( this );
 			}
+
+			updateEmptyMessageUIStates( );
 		}
 
 		if ( ( getChart( ) instanceof ChartWithAxes )
@@ -488,8 +494,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		{
 			getChart( ).getEmptyMessage( )
 					.setVisible( !btnAutoHide.getSelection( ) );
-			txtEmptyMsg.setEnabled( getChart( ).getEmptyMessage( ).isVisible( ) );
-			fdcEmptyMsg.setEnabled( getChart( ).getEmptyMessage( ).isVisible( ) );
+			updateEmptyMessageUIStates( );
 		}
 		else if ( event.widget == fdcEmptyMsg )
 		{
@@ -497,6 +502,15 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			caption.setFont( (FontDefinition) ( (Object[]) event.data )[0] );
 			caption.setColor( (ColorDefinition) ( (Object[]) event.data )[1] );
 		}
+	}
+
+	private void updateEmptyMessageUIStates( )
+	{
+		boolean bEnabled = getChart( ).getEmptyMessage( ).isVisible( );
+		txtEmptyMsg.setEnabled( bEnabled );
+		fdcEmptyMsg.setEnabled( bEnabled );
+		lbTxtEmptyMsg.setEnabled( bEnabled );
+		lbFdcEmptyMsg.setEnabled( bEnabled );
 	}
 
 	public void widgetSelected( SelectionEvent e )
