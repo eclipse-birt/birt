@@ -2151,7 +2151,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	 * This method renders the bar graphic elements superimposed over the plot
 	 * background and any previously rendered series' graphic elements.
 	 */
-	public final void renderPlot( IPrimitiveRenderer ipr, Plot p )
+	public void renderPlot( IPrimitiveRenderer ipr, Plot p )
 			throws ChartException
 	{
 		if ( !p.isVisible( ) ) // CHECK VISIBILITY

@@ -11,18 +11,25 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.chart;
 
+import java.util.List;
+
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
+import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Interactivity;
+import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
+import org.eclipse.birt.chart.ui.swt.ChartPreviewPainterBase;
+import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
+import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
@@ -71,6 +78,12 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 	private Combo cmbStyle;
 
 	private Button btnEnablePreview;
+
+	private ExternalizedTextEditorComposite txtEmptyMsg;
+
+	private FontDefinitionComposite fdcEmptyMsg;
+
+	private Button btnAutoHide;
 
 	private Button btnResetValue;
 
@@ -182,8 +195,73 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		btnEnablePreview = new Button( cmpBasic, SWT.CHECK );
 		{
 			btnEnablePreview.setText( Messages.getString( "ChartSheetImpl.Label.EnableInPreview" ) ); //$NON-NLS-1$
-			btnEnablePreview.setSelection( ChartPreviewPainter.isProcessorEnabled( ) );
+			btnEnablePreview.setSelection( ChartPreviewPainterBase.isProcessorEnabled( ) );
 			btnEnablePreview.addSelectionListener( this );
+		}
+
+		Group grpEmptyMsg = new Group( cmpBasic, SWT.NONE );
+		{
+			{
+				grpEmptyMsg.setText( Messages.getString("ChartSheetImpl.Group.EmptyMessage") ); //$NON-NLS-1$
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				gd.horizontalSpan = 3;
+				grpEmptyMsg.setLayoutData( gd );
+				grpEmptyMsg.setLayout( new GridLayout( 2, false ) );
+			}
+
+			org.eclipse.birt.chart.model.component.Label laEmptyMsg = getChart( ).getEmptyMessage( );
+
+			btnAutoHide = new Button( grpEmptyMsg, SWT.CHECK );
+			{
+				btnAutoHide.setText( Messages.getString("ChartSheetImpl.Button.AutoHide") ); //$NON-NLS-1$
+				GridData gd = new GridData( );
+				gd.horizontalSpan = 2;
+				btnAutoHide.setLayoutData( gd );
+				btnAutoHide.setSelection( !laEmptyMsg.isVisible( ) );
+				btnAutoHide.addListener( SWT.Selection, this );
+			}
+
+			new Label( grpEmptyMsg, SWT.NONE ).setText( Messages.getString("ChartSheetImpl.Label.Text") ); //$NON-NLS-1$
+
+			List<String> keys = null;
+			if ( getContext( ).getUIServiceProvider( ) != null )
+			{
+				keys = getContext( ).getUIServiceProvider( )
+						.getRegisteredKeys( );
+			}
+
+			txtEmptyMsg = new ExternalizedTextEditorComposite( grpEmptyMsg,
+					SWT.BORDER,
+					-1,
+					-1,
+					keys,
+					getContext( ).getUIServiceProvider( ),
+					laEmptyMsg.getCaption( ).getValue( ) );
+			{
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				gd.widthHint = 200;
+				txtEmptyMsg.setLayoutData( gd );
+				txtEmptyMsg.setEnabled( laEmptyMsg.isVisible( ) );
+				txtEmptyMsg.addListener( this );
+			}
+
+			new Label( grpEmptyMsg, SWT.NONE ).setText( Messages.getString("ChartSheetImpl.Label.Font") ); //$NON-NLS-1$
+
+			fdcEmptyMsg = new FontDefinitionComposite( grpEmptyMsg,
+					SWT.NONE,
+					getContext( ),
+					laEmptyMsg.getCaption( ).getFont( ),
+					laEmptyMsg.getCaption( ).getColor( ),
+					true );
+			{
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				gd.heightHint = fdcEmptyMsg.getPreferredSize( ).y;
+				gd.widthHint = 200;
+				gd.grabExcessVerticalSpace = false;
+				fdcEmptyMsg.setLayoutData( gd );
+				fdcEmptyMsg.setEnabled( laEmptyMsg.isVisible( ) );
+				fdcEmptyMsg.addListener( this );
+			}
 		}
 
 		if ( ( getChart( ) instanceof ChartWithAxes )
@@ -215,7 +293,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			btnResetValue = new Button( cmpRotation, SWT.PUSH );
 			{
 				btnResetValue.setText( Messages.getString( "ChartSheetImpl.Label.ResetValue" ) ); //$NON-NLS-1$
-				btnResetValue.setSelection( ChartPreviewPainter.isProcessorEnabled( ) );
+				btnResetValue.setSelection( ChartPreviewPainterBase.isProcessorEnabled( ) );
 				btnResetValue.addSelectionListener( this );
 			}
 		}
@@ -401,6 +479,25 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 				( (ChartWithAxes) getChart( ) ).setFloorFill( (Fill) event.data );
 			}
 		}
+		else if ( event.widget == txtEmptyMsg )
+		{
+			getChart( ).getEmptyMessage( )
+					.getCaption( )
+					.setValue( txtEmptyMsg.getText( ) );
+		}
+		else if ( event.widget == btnAutoHide )
+		{
+			getChart( ).getEmptyMessage( )
+					.setVisible( !btnAutoHide.getSelection( ) );
+			txtEmptyMsg.setEnabled( getChart( ).getEmptyMessage( ).isVisible( ) );
+			fdcEmptyMsg.setEnabled( getChart( ).getEmptyMessage( ).isVisible( ) );
+		}
+		else if ( event.widget == fdcEmptyMsg )
+		{
+			Text caption = getChart( ).getEmptyMessage( ).getCaption( );
+			caption.setFont( (FontDefinition) ( (Object[]) event.data )[0] );
+			caption.setColor( (ColorDefinition) ( (Object[]) event.data )[1] );
+		}
 	}
 
 	public void widgetSelected( SelectionEvent e )
@@ -433,7 +530,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		}
 		else if ( e.widget.equals( btnEnablePreview ) )
 		{
-			ChartPreviewPainter.enableProcessor( btnEnablePreview.getSelection( ) );
+			ChartPreviewPainterBase.enableProcessor( btnEnablePreview.getSelection( ) );
 			refreshPreview( );
 		}
 		else if ( e.widget.equals( btnEnable ) )
@@ -661,7 +758,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 	private Angle3D getAngle3D( )
 	{
-		return (Angle3D) ( (ChartWithAxes) getChart( ) ).getRotation( )
+		return ( (ChartWithAxes) getChart( ) ).getRotation( )
 				.getAngles( )
 				.get( 0 );
 	}

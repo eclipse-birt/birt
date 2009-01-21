@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.EllipsisHelper;
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.computation.LabelLimiter;
 import org.eclipse.birt.chart.computation.LegendEntryRenderingHints;
 import org.eclipse.birt.chart.computation.LegendItemHints;
 import org.eclipse.birt.chart.computation.LegendItemRenderingHints;
@@ -76,6 +77,7 @@ import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
+import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
@@ -1758,7 +1760,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		renderBlock( ipr, b, oSource );
 		final double dScale = getDeviceScale( );
 		final LabelBlock lb = (LabelBlock) b;
-		final TextRenderEvent tre = (TextRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+		final TextRenderEvent tre = ( (EventObjectCache) ipr ).getEventObject( oSource,
 				TextRenderEvent.class );
 		//bidi_acgc added start
 		if ( rtc.isRightToLeftText( ) )
@@ -1889,6 +1891,20 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
+	 * 
+	 * @return
+	 */
+	protected static boolean isDataEmpty( RunTimeContext rtc )
+	{
+		Boolean bDataEmpty = rtc.getState( RunTimeContext.StateKey.DATA_EMPTY_KEY );
+		if ( bDataEmpty == null )
+		{
+			bDataEmpty = false;
+		}
+		return bDataEmpty;
+	}
+
+	/**
 	 * This method returns appropriate renders for the given chart model. It
 	 * uses extension points to identify a renderer corresponding to a custom
 	 * series.
@@ -2006,6 +2022,22 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			{
 				sdBase = (SeriesDefinition) elBase.get( i );
 				alRuntimeSeries = sdBase.getRunTimeSeries( );
+
+				if ( isDataEmpty( rtc ) )
+				{
+					brna = new BaseRenderer[1];
+					brna[0] = new EmptyWithoutAxes( );
+					brna[0].set( cm,
+							oComputations,
+							sdBase.getSeries( ).get( 0 ),
+							sdBase );
+					brna[0].set( rtc );
+					brna[0].iSeriesIndex = 0;
+					brna[0].iSeriesCount = 1;
+
+					return brna;
+				}
+
 				// CHECK FOR A SINGLE BASE SERIES ONLY
 				if ( alRuntimeSeries.size( ) != 1 )
 				{
@@ -3086,5 +3118,101 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 		}
 		return false;
+	}
+
+	protected Label getExternalizedCopy( Label la )
+	{
+		Label laCopy = LabelImpl.copyInstance( getModel( ).getEmptyMessage( ) );
+		Text caption = laCopy.getCaption( );
+		caption.setValue( getRunTimeContext( ).externalizedMessage( caption.getValue( ) ) );
+		return laCopy;
+	}
+
+	protected void renderEmptyPlot( IPrimitiveRenderer ipr, Plot p )
+			throws ChartException
+	{
+
+		if ( !p.isVisible( ) ) // CHECK VISIBILITY
+		{
+			return;
+		}
+
+		StructureSource oSource = StructureSource.createPlot( p );
+		EventObjectCache eoc = (EventObjectCache) ipr;
+
+		// render plot background
+		double dScale = getDeviceScale( );
+		RectangleRenderEvent rre = eoc.getEventObject( oSource,
+				RectangleRenderEvent.class );
+		rre.updateFrom( p, dScale ); // POINTS => PIXELS
+		ipr.fillRectangle( rre );
+		ipr.drawRectangle( rre );
+
+		// render client area
+		ClientArea ca = p.getClientArea( );
+		if ( !ca.isVisible( ) )
+		{
+			return;
+		}
+
+		Bounds bo = rre.getBounds( );
+		Insets insPlot = p.getInsets( );
+		bo = bo.adjustedInstance( insPlot );
+
+		// render client area shadow
+		if ( ca.getShadowColor( ) != null )
+		{
+			rre.setBounds( bo.translateInstance( 3, 3 ) );
+			rre.setBackground( ca.getShadowColor( ) );
+			ipr.fillRectangle( rre );
+		}
+
+		// render client area
+		rre.setBounds( bo );
+		rre.setOutline( ca.getOutline( ) );
+		rre.setBackground( ca.getBackground( ) );
+		ipr.fillRectangle( rre );
+
+		// render text
+		if ( getModel( ).getEmptyMessage( ).isVisible( ) )
+		{
+			Label la = getExternalizedCopy( getModel( ).getEmptyMessage( ) );
+			rendLabelInBounds( ipr, la, oSource, bo );
+		}
+
+	}
+
+	/**
+	 * Render a label within a bounds.
+	 * 
+	 * @param ipr
+	 * @param la
+	 * @param oSource
+	 * @param bo
+	 * @throws ChartException
+	 *             Note: The label text will be changed.
+	 */
+	protected void rendLabelInBounds( IPrimitiveRenderer ipr, Label la,
+			Object oSource, Bounds bo ) throws ChartException
+	{
+		EventObjectCache eoc = (EventObjectCache) ipr;
+		final TextRenderEvent tre = eoc.getEventObject( oSource,
+				TextRenderEvent.class );
+		tre.setBlockBounds( bo );
+		tre.setLabel( la );
+		if ( rtc.isRightToLeftText( ) )
+		{
+			tre.setRtlCaption( );
+		}
+
+		LabelLimiter lbLimiter = new LabelLimiter( bo.getWidth( ),
+				bo.getHeight( ),
+				0 );
+		lbLimiter.computeWrapping( xs, la );
+		lbLimiter.limitLabelSize( xs, la );
+
+		tre.setBlockAlignment( la.getCaption( ).getFont( ).getAlignment( ) );
+		tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
+		ipr.drawText( tre );
 	}
 }

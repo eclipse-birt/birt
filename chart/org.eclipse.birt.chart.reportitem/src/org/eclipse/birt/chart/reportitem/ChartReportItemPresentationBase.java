@@ -653,6 +653,38 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	}
 
 	/*
+	 * Wraps the logic to bind data. Returns true if the data set is not empty,
+	 * otherwise false.
+	 */
+	private boolean bindData( IDataRowExpressionEvaluator rowAdapter,
+			IActionEvaluator evaluator ) throws BirtException
+	{
+		boolean bNotEmpty = true;
+		try
+		{
+			// Bind Data to series
+			Generator.instance( ).bindData( rowAdapter, evaluator, cm, rtc );
+			bNotEmpty = true;
+		}
+		catch ( BirtException birtException )
+		{
+			// Check if the exception is caused by no data to display (in that
+			// case skip gracefully)
+			if ( isNoDataException( birtException ) )
+			{
+				bNotEmpty = false;
+			}
+			else
+			{
+				throw birtException;
+			}
+		}
+
+		rtc.putState( RunTimeContext.StateKey.DATA_EMPTY_KEY, !bNotEmpty );
+		return bNotEmpty;
+	}
+
+	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#onRowSets(org.eclipse.birt.report.engine.extension.IRowSet[])
@@ -662,6 +694,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	{
 		// Extract result set to render and check for null data
 		IBaseResultSet resultSet = getDataToRender( baseResultSet );
+		boolean bAutoHide = !cm.getEmptyMessage( ).isVisible( );
 
 		// Skip gracefully if there is no data
 		if ( resultSet == null )
@@ -676,9 +709,13 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		}
 		else if ( ChartReportItemUtil.isEmpty( resultSet ) )
 		{
-			// Returns null for engine to display empty when the result set is
-			// empty.
-			return null;
+			if ( bAutoHide )
+			{
+				// Returns null for engine to display empty when the result set
+				// is
+				// empty.
+				return null;
+			}
 		}
 
 		// If width and height of chart is set to 0, doesn't process it.
@@ -727,7 +764,11 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			IActionEvaluator evaluator = new BIRTActionEvaluator( );
 
 			// Bind Data to series
-			Generator.instance( ).bindData( rowAdapter, evaluator, cm, rtc );
+			if ( !bindData( rowAdapter, evaluator ) && bAutoHide )
+			{
+				// if autohide and data empty
+				return null;
+			}
 
 			// Prepare Device Renderer
 			prepareDeviceRenderer( );
@@ -753,19 +794,6 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 
 			// Returns the content to display (image or image+imagemap)
 			return getImageToDisplay( );
-		}
-		catch ( BirtException birtException )
-		{
-			// Check if the exception is caused by no data to display (in that
-			// case skip gracefully)
-			if ( isNoDataException( birtException ) )
-			{
-				return null;
-			}
-			else
-			{
-				throw birtException;
-			}
 		}
 		catch ( RuntimeException ex )
 		{

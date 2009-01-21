@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
@@ -34,8 +35,9 @@ import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.data.BaseSampleData;
+import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -80,6 +82,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getSampleData <em>Sample Data</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getStyles <em>Styles</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getInteractivity <em>Interactivity</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getEmptyMessage <em>Empty Message</em>}</li>
  * </ul>
  * </p>
  *
@@ -330,6 +333,16 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * @ordered
 	 */
 	protected Interactivity interactivity;
+
+	/**
+	 * The cached value of the '{@link #getEmptyMessage() <em>Empty Message</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEmptyMessage()
+	 * @generated
+	 * @ordered
+	 */
+	protected Label emptyMessage;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -967,6 +980,79 @@ public class ChartImpl extends EObjectImpl implements Chart
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Label getEmptyMessage( )
+	{
+		if ( emptyMessage == null )
+		{
+			setEmptyMessage( newEmptyMessage( ) );
+		}
+		return emptyMessage;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetEmptyMessage( Label newEmptyMessage,
+			NotificationChain msgs )
+	{
+		Label oldEmptyMessage = emptyMessage;
+		emptyMessage = newEmptyMessage;
+		if ( eNotificationRequired( ) )
+		{
+			ENotificationImpl notification = new ENotificationImpl( this,
+					Notification.SET,
+					ModelPackage.CHART__EMPTY_MESSAGE,
+					oldEmptyMessage,
+					newEmptyMessage );
+			if ( msgs == null )
+				msgs = notification;
+			else
+				msgs.add( notification );
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEmptyMessage( Label newEmptyMessage )
+	{
+		if ( newEmptyMessage != emptyMessage )
+		{
+			NotificationChain msgs = null;
+			if ( emptyMessage != null )
+				msgs = ( (InternalEObject) emptyMessage ).eInverseRemove( this,
+						EOPPOSITE_FEATURE_BASE
+								- ModelPackage.CHART__EMPTY_MESSAGE,
+						null,
+						msgs );
+			if ( newEmptyMessage != null )
+				msgs = ( (InternalEObject) newEmptyMessage ).eInverseAdd( this,
+						EOPPOSITE_FEATURE_BASE
+								- ModelPackage.CHART__EMPTY_MESSAGE,
+						null,
+						msgs );
+			msgs = basicSetEmptyMessage( newEmptyMessage, msgs );
+			if ( msgs != null )
+				msgs.dispatch( );
+		}
+		else if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					ModelPackage.CHART__EMPTY_MESSAGE,
+					newEmptyMessage,
+					newEmptyMessage ) );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -990,6 +1076,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 						msgs );
 			case ModelPackage.CHART__INTERACTIVITY :
 				return basicSetInteractivity( null, msgs );
+			case ModelPackage.CHART__EMPTY_MESSAGE :
+				return basicSetEmptyMessage( null, msgs );
 		}
 		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
@@ -1031,6 +1119,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 				return getStyles( );
 			case ModelPackage.CHART__INTERACTIVITY :
 				return getInteractivity( );
+			case ModelPackage.CHART__EMPTY_MESSAGE :
+				return getEmptyMessage( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -1089,6 +1179,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 			case ModelPackage.CHART__INTERACTIVITY :
 				setInteractivity( (Interactivity) newValue );
 				return;
+			case ModelPackage.CHART__EMPTY_MESSAGE :
+				setEmptyMessage( (Label) newValue );
+				return;
 		}
 		super.eSet( featureID, newValue );
 	}
@@ -1144,6 +1237,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 			case ModelPackage.CHART__INTERACTIVITY :
 				setInteractivity( (Interactivity) null );
 				return;
+			case ModelPackage.CHART__EMPTY_MESSAGE :
+				setEmptyMessage( (Label) null );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -1190,6 +1286,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 				return styles != null && !styles.isEmpty( );
 			case ModelPackage.CHART__INTERACTIVITY :
 				return interactivity != null;
+			case ModelPackage.CHART__EMPTY_MESSAGE :
+				return emptyMessage != null;
 		}
 		return super.eIsSet( featureID );
 	}
@@ -1278,17 +1376,17 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * @param c
 	 * @return
 	 */
-	private static final Block find( Block bl, Class c )
+	private static final Block find( Block bl, Class<?> c )
 	{
 		if ( c.isInstance( bl ) )
 		{
 			return bl;
 		}
 		Block blFound = null;
-		final EList el = bl.getChildren( );
+		final EList<Block> el = bl.getChildren( );
 		for ( int iC = 0; iC < el.size( ); iC++ )
 		{
-			blFound = find( (BlockImpl) el.get( iC ), c );
+			blFound = find( el.get( iC ), c );
 			if ( blFound != null )
 				return blFound;
 		}
@@ -1332,6 +1430,27 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 		// 5. SETUP INTERACTIVITY
 		setInteractivity( InteractivityImpl.create( ) );
+
+		// 6. SETUP ALTTEXT
+		setEmptyMessage( newEmptyMessage( ) );
+
+	}
+
+	private Label newEmptyMessage( )
+	{
+		Label laAltText = LabelImpl.create( );
+		laAltText.getCaption( )
+				.setValue( Messages.getString( "ChartImpl.AltText" ) ); //$NON-NLS-1$
+		laAltText.getCaption( )
+				.getFont( )
+				.getAlignment( )
+				.setHorizontalAlignment( HorizontalAlignment.CENTER_LITERAL );
+		laAltText.getCaption( )
+				.getFont( )
+				.getAlignment( )
+				.setVerticalAlignment( VerticalAlignment.CENTER_LITERAL );
+		laAltText.setVisible( false );
+		return laAltText;
 	}
 
 	/*
@@ -1382,8 +1501,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 			// Clear any existing Runtime Series
 			chart.clearSections( IConstants.RUN_TIME );
 
-			String baseDataSetRepresentation = ( (BaseSampleData) sd.getBaseSampleData( )
-					.get( 0 ) ).getDataSetRepresentation( );
+			String baseDataSetRepresentation = sd.getBaseSampleData( )
+					.get( 0 ).getDataSetRepresentation( );
 			if ( chart instanceof ChartWithAxes )
 			{
 				baseDataSetRepresentation = ChartUtil.getNewSampleData( ( (Axis) ( getBaseSeriesDefinitionForProcessing( ).eContainer( ) ) ).getType( ),
@@ -1420,7 +1539,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 			// Fetch the DataSetRepresentations for orthogonal sample data
 			for ( int iO = 0; iO < sd.getOrthogonalSampleData( ).size( ); iO++ )
 			{
-				OrthogonalSampleData osd = (OrthogonalSampleData) sd.getOrthogonalSampleData( )
+				OrthogonalSampleData osd = sd.getOrthogonalSampleData( )
 						.get( iO );
 				int iSDIndex = osd.getSeriesDefinitionIndex( );
 
@@ -1507,10 +1626,12 @@ public class ChartImpl extends EObjectImpl implements Chart
 		Chart chart = this;
 		if ( chart instanceof ChartWithAxes )
 		{
-			return (SeriesDefinition) ( (Axis) ( (ChartWithAxes) chart ).getAxes( )
-					.get( 0 ) ).getSeriesDefinitions( ).get( 0 );
+			return ( (ChartWithAxes) chart ).getAxes( )
+					.get( 0 )
+					.getSeriesDefinitions( )
+					.get( 0 );
 		}
-		return (SeriesDefinition) ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
+		return ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
 				.get( 0 );
 	}
 
@@ -1519,12 +1640,14 @@ public class ChartImpl extends EObjectImpl implements Chart
 		Chart chart = this;
 		if ( chart instanceof ChartWithAxes )
 		{
-			Axis baseAxis = (Axis) ( (ChartWithAxes) chart ).getAxes( ).get( 0 );
+			Axis baseAxis = ( (ChartWithAxes) chart ).getAxes( ).get( 0 );
 
 			if ( baseAxis.getAncillaryAxes( ).size( ) > 0 )
 			{
-				return (SeriesDefinition) ( (Axis) baseAxis.getAncillaryAxes( )
-						.get( 0 ) ).getSeriesDefinitions( ).get( 0 );
+				return baseAxis.getAncillaryAxes( )
+						.get( 0 )
+						.getSeriesDefinitions( )
+						.get( 0 );
 			}
 		}
 		return null;
@@ -1544,10 +1667,10 @@ public class ChartImpl extends EObjectImpl implements Chart
 			Object[] oSD = null;
 			for ( int iC = 0; iC < ( (ChartWithAxes) chart ).getAxes( ).size( ); iC++ )
 			{
-				axisBase = (Axis) ( (ChartWithAxes) chart ).getAxes( ).get( iC );
+				axisBase = ( (ChartWithAxes) chart ).getAxes( ).get( iC );
 				for ( int iAC = 0; iAC < axisBase.getAssociatedAxes( ).size( ); iAC++ )
 				{
-					oSD = ( (Axis) axisBase.getAssociatedAxes( ).get( iAC ) ).getSeriesDefinitions( )
+					oSD = axisBase.getAssociatedAxes( ).get( iAC ).getSeriesDefinitions( )
 							.toArray( );
 					for ( int iA = 0; iA < oSD.length; iA++ )
 					{
@@ -1561,8 +1684,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 		for ( int iC = 0; iC < ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
 				.size( ); iC++ )
 		{
-			oSD = ( (SeriesDefinition) ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
-					.get( iC ) ).getSeriesDefinitions( ).toArray( );
+			oSD = ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
+					.get( iC ).getSeriesDefinitions( ).toArray( );
 			for ( int iA = 0; iA < oSD.length; iA++ )
 			{
 				vTmp.add( oSD[iA] );

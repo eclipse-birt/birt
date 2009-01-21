@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.computation;
 
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.component.Label;
 
 /**
@@ -171,62 +170,83 @@ public class EllipsisHelper
 	}
 
 	public static ITester createSimpleTester( IDisplayServer xs, Label la,
-			double dWrapping, Double fontHeight )
+			Double fontHeight )
 	{
-		return new SimpleTester( xs, la, dWrapping, fontHeight );
+		return new SimpleTester( xs, la, fontHeight );
 	}
 
 	public static EllipsisHelper simpleInstance( IDisplayServer xs, Label la,
-			double dWrapping, Double fontHeight )
+			Double fontHeight )
 	{
-		return new EllipsisHelper( createSimpleTester( xs,
-				la,
-				dWrapping,
-				fontHeight ), 1 );
+		return new EllipsisHelper( createSimpleTester( xs, la, fontHeight ), 1 );
 	}
 
 	/**
 	 * A simple implementation of EllipsisHelper.ITester SimpleTester
 	 */
-	private static class SimpleTester implements
-			EllipsisHelper.ITester
+	private static class SimpleTester implements EllipsisHelper.ITester
 	{
 
 		private final IDisplayServer xs;
 		private final Label la;
-		private final double dWrapping;
 		private final Double fontHeight;
 		private BoundingBox bb = null;
 
-		public SimpleTester( IDisplayServer xs, Label la, double dWrapping,
-				Double fontHeight )
+		public SimpleTester( IDisplayServer xs, Label la, Double fontHeight )
 		{
 			this.xs = xs;
 			this.la = la;
-			this.dWrapping = dWrapping;
-			this.fontHeight = fontHeight;
+			if ( fontHeight != null )
+			{
+				this.fontHeight = fontHeight;
+			}
+			else
+			{
+				this.fontHeight = Methods.computeFontHeight( xs, la );
+			}
 		}
 
-		private void computeSize( ) throws ChartException
+		private void computeSize( double dWrapping ) throws ChartException
 		{
 			bb = Methods.computeLabelSize( xs, la, dWrapping, fontHeight );
+		}
+
+		private boolean testSize( LabelLimiter lblLimit )
+		{
+			return bb.getWidth( ) <= lblLimit.getMaxWidth( )
+					&& bb.getHeight( ) <= lblLimit.getMaxHeight( );
 		}
 
 		public boolean testLabelVisible( String strNew, Object para )
 				throws ChartException
 		{
-			Size size = (Size) para;
+			LabelLimiter lbLimit = (LabelLimiter) para;
 			la.getCaption( ).setValue( strNew );
-			computeSize( );
-			return bb.getWidth( ) <= size.getWidth( )
-					&& bb.getHeight( ) <= size.getHeight( );
+			if ( lbLimit.getMaxHeight( ) < fontHeight )
+			{
+				return false;
+			}
+			computeSize( 0 );
+			if ( testSize( lbLimit ) )
+			{
+				return true;
+			}
+			if ( lbLimit.getWrapping( ) > 0 )
+			{
+				computeSize( lbLimit.getWrapping( ) );
+				return testSize( lbLimit );
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		public double getHeight( ) throws ChartException
 		{
 			if ( bb == null )
 			{
-				computeSize( );
+				computeSize( 0 );
 			}
 			return bb.getHeight( );
 		}
@@ -235,13 +255,11 @@ public class EllipsisHelper
 		{
 			if ( bb == null )
 			{
-				computeSize( );
+				computeSize( 0 );
 			}
 			return bb.getWidth( );
 		}
 
 	}
-	
 
 }
-

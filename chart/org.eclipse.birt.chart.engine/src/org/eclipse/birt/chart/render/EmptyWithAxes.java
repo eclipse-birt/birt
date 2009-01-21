@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.Bounds;
@@ -25,6 +26,7 @@ import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
+import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 
@@ -115,5 +117,35 @@ public final class EmptyWithAxes extends AxesRenderer
 				getModel( ).getDimension( ),
 				3 * getDeviceScale( ),
 				false );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.render.AxesRenderer#renderPlot(org.eclipse.birt
+	 * .chart.device.IPrimitiveRenderer,
+	 * org.eclipse.birt.chart.model.layout.Plot)
+	 */
+	@Override
+	public void renderPlot( IPrimitiveRenderer ipr, Plot p )
+			throws ChartException
+	{
+		Boolean bDataEmpty = rtc.getState( RunTimeContext.StateKey.DATA_EMPTY_KEY );
+		if ( bDataEmpty == null )
+		{
+			bDataEmpty = false;
+		}
+
+		Label laAltText = getModel( ).getEmptyMessage( );
+
+		if ( bDataEmpty && laAltText.isVisible( ) )
+		{
+			renderEmptyPlot( ipr, p );
+		}
+		else
+		{
+			super.renderPlot( ipr, p );
+		}
 	}
 }

@@ -17,98 +17,131 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="Version" type="xsd:string" default="1.0.0">
+			<xsd:element name="Version" type="xsd:string"
+				default="1.0.0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the version number of this chart.
+						Specifies the version number of this chart.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Type" type="xsd:string">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the type of this chart.
+						Specifies the type of this chart.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="SubType" type="xsd:string">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the sub-type of this chart.
+						Specifies the sub-type of this chart.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Description" type="attribute:Text" minOccurs="0">
+			<xsd:element name="Description" type="attribute:Text"
+				minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Description of the chart...could be used as tooltip value for example.
+						Description of the chart...could be used as
+						tooltip value for example.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Block" type="layout:Block">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Defines a virtual entity that is independent of any chart element, but contains them and can be moved around in the chart area for rendering.
+						Defines a virtual entity that is independent of
+						any chart element, but contains them and can be
+						moved around in the chart area for rendering.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Dimension" type="attribute:ChartDimension">
+			<xsd:element name="Dimension"
+				type="attribute:ChartDimension">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the dimensions for the chart.
+						Specifies the dimensions for the chart.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Script" type="xsd:string">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Holds the script for the chart.
+						Holds the script for the chart.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Units" type="xsd:string" minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Holds the units of measurement for the model. 
+						Holds the units of measurement for the model.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="SeriesThickness" type="xsd:double" minOccurs="0">
+			<xsd:element name="SeriesThickness" type="xsd:double"
+				minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the thickness to be used while rendering the chart with depth or in 3D. 
+						Specifies the thickness to be used while
+						rendering the chart with depth or in 3D.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="GridColumnCount" type="xsd:int">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the number of columns to use if multiple series are to be plotted in a single chart.
+						Specifies the number of columns to use if
+						multiple series are to be plotted in a single
+						chart.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="ExtendedProperties" type="attribute:ExtendedProperty" maxOccurs="unbounded">
+			<xsd:element name="ExtendedProperties"
+				type="attribute:ExtendedProperty" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Holds a generic list of properties (as name-value pairs) for minor extensions to the chart. Preferred way to add properties remains through modification of schema.
+						Holds a generic list of properties (as
+						name-value pairs) for minor extensions to the
+						chart. Preferred way to add properties remains
+						through modification of schema.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="SampleData" type="data:SampleData" minOccurs="0">
+			<xsd:element name="SampleData" type="data:SampleData"
+				minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Holds a collection of sample values for use by the chart.
+						Holds a collection of sample values for use by
+						the chart.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Styles" type="attribute:StyleMap" minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="Styles" type="attribute:StyleMap"
+				minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
-					<xsd:documentation>Holds a collection of style maps for use by the chart.</xsd:documentation>
+					<xsd:documentation>
+						Holds a collection of style maps for use by the
+						chart.
+					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Interactivity" type="attribute:Interactivity">
+			<xsd:element name="Interactivity"
+				type="attribute:Interactivity">
 				<xsd:annotation>
-					<xsd:documentation>Holds the settings for interacive features.</xsd:documentation>
+					<xsd:documentation>
+						Holds the settings for interacive features.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="EmptyMessage" type="component:Label" maxOccurs="1" minOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>
+						Provides the message text to be displayed in the place
+						of plot area when the chart contains no data. By default,
+						it's visible is faulse, which indicates if the chart contains
+						no data, the whole chart will be hide.
+					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 		</xsd:sequence>

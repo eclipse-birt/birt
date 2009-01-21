@@ -476,9 +476,11 @@ public final class LegendBuilder implements IConstants
 	/*
 	 * Return the size of legend title. Note: lgData will be modified!
 	 */
-	private static Size getTitleSize( LegendData lgData ) throws ChartException
+	private static Size getTitleSize( LegendData lgData )
+			throws ChartException
 	{
 		Size size = null;
+		LabelLimiter lbLimit = null;
 		Label laTitle = lgData.lg.getTitle( );
 
 		if ( laTitle != null && laTitle.isSetVisible( ) && laTitle.isVisible( ) )
@@ -491,32 +493,33 @@ public final class LegendBuilder implements IConstants
 			double shadow = lgData.dShadowness;
 			double space = 2 * shadow;
 			double percent = lgData.lg.getTitlePercent( );
+			double dMaxTWidth, dMaxTHeight;
 
 			if ( iTitlePos == Position.ABOVE || iTitlePos == Position.BELOW )
 			{
-				double dMaxTWidth = lgData.dAvailableWidth - shadow;
-				double dMaxTHeight = lgData.dAvailableHeight * percent - space;
-				Size maxTitleSize = SizeImpl.create( dMaxTWidth, dMaxTHeight );
-				size = Methods.computeLimitedLabelSize( lgData.xs,
-						laTitle,
-						maxTitleSize,
-						null );
-				lgData.dAvailableHeight -= size.getHeight( ) + space;
+				dMaxTWidth = lgData.dAvailableWidth - shadow;
+				dMaxTHeight = lgData.dAvailableHeight * percent - space;
 			}
 			else
 			{
-				double dMaxTWidth = lgData.dAvailableWidth * percent - space;
-				double dMaxTHeight = lgData.dAvailableHeight - shadow;
-				Size maxTitleSize = SizeImpl.create( dMaxTWidth, dMaxTHeight );
-				size = Methods.computeLimitedLabelSize( lgData.xs,
-						laTitle,
-						maxTitleSize,
-						null );
-				lgData.dAvailableWidth -= size.getWidth( ) + space;
+				dMaxTWidth = lgData.dAvailableWidth * percent - space;
+				dMaxTHeight = lgData.dAvailableHeight - shadow;
 			}
 
-			size.setWidth( size.getWidth( ) + space );
-			size.setHeight( size.getHeight( ) + space );
+			lbLimit = new LabelLimiter( dMaxTWidth, dMaxTHeight, 0 );
+			lbLimit.computeWrapping( lgData.xs, laTitle );
+			lbLimit = lbLimit.limitLabelSize( lgData.xs, laTitle );
+			size = SizeImpl.create( lbLimit.getMaxWidth( ) + space,
+					lbLimit.getMaxHeight( ) + space );
+
+			if ( iTitlePos == Position.ABOVE || iTitlePos == Position.BELOW )
+			{
+				lgData.dAvailableHeight -= size.getHeight( );
+			}
+			else
+			{
+				lgData.dAvailableWidth -= size.getWidth( );
+			}
 		}
 
 		lgData.laTitle = laTitle;
@@ -592,26 +595,38 @@ public final class LegendBuilder implements IConstants
 		Size titleSize = getTitleSize( lgData );
 
 		double[] size = null;
-		// COMPUTATIONS HERE MUST BE IN SYNC WITH THE ACTUAL RENDERER
 
-		ContentProvider cProvider = ContentProvider.newInstance( lgData );
-		ContentPlacer cPlacer = ContentPlacer.newInstance( lgData );
-		LegendItemHints lih;
-
-		while ( ( lih = cProvider.nextContent( ) ) != null )
+		Boolean bDataEmpty = rtc.getState( RunTimeContext.StateKey.DATA_EMPTY_KEY );
+		if ( bDataEmpty == null )
 		{
-			if ( !cPlacer.placeContent( lih ) )
-			{
-				break;
-			}
+			bDataEmpty = false;
 		}
 
-		cPlacer.finishPlacing( );
-		size = cPlacer.getSize( );
+		if ( !bDataEmpty )
+		{
+			// COMPUTATIONS HERE MUST BE IN SYNC WITH THE ACTUAL RENDERER
+			ContentProvider cProvider = ContentProvider.newInstance( lgData );
+			ContentPlacer cPlacer = ContentPlacer.newInstance( lgData );
+			LegendItemHints lih;
+
+			while ( ( lih = cProvider.nextContent( ) ) != null )
+			{
+				if ( !cPlacer.placeContent( lih ) )
+				{
+					break;
+				}
+			}
+
+			cPlacer.finishPlacing( );
+			size = cPlacer.getSize( );
+		}
 
 		if ( size == null )
 		{
-			return SizeImpl.create( 0, 0 );
+			// return SizeImpl.create( 0, 0 );
+			size = new double[]{
+					0, 0
+			};
 		}
 
 		double dWidth = size[0], dHeight = size[1];
@@ -624,15 +639,11 @@ public final class LegendBuilder implements IConstants
 			{
 				dWidth = Math.max( dWidth, titleSize.getWidth( ) );
 				dHeight = dHeight + titleSize.getHeight( );
-				// dHeight = Math.max( dHeight, titleSize.getHeight( )
-				// / lgData.lg.getTitlePercent( ) );
 			}
 			else
 			{
 				dWidth = dWidth + titleSize.getWidth( );
 				dHeight = Math.max( dHeight, titleSize.getHeight( ) );
-				// dWidth = Math.max( dWidth, titleSize.getWidth( )
-				// / lgData.lg.getTitlePercent( ) );
 			}
 		}
 
@@ -679,7 +690,7 @@ public final class LegendBuilder implements IConstants
 					try
 					{
 						DataSetIterator dsiOrtho = new DataSetIterator( seRuntime.getDataSet( ) );
-						LegendItemRenderingHints lirh = (LegendItemRenderingHints) renders.get( seRuntime );
+						LegendItemRenderingHints lirh = renders.get( seRuntime );
 
 						if ( lirh == null )
 						{
@@ -1221,9 +1232,7 @@ public final class LegendBuilder implements IConstants
 				{
 					laiValue.dispose( );
 				}
-				Series series = (Series) lih.getSeriesDefinition( )
-						.getSeries( )
-						.get( 0 );
+				Series series = lih.getSeriesDefinition( ).getSeries( ).get( 0 );
 				Label laValue = LabelImpl.copyInstance( series.getLabel( ) );
 				laValue.setEllipsis( 1 );
 				this.laiValue = new LabelItem( lgData.xs,

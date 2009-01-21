@@ -322,7 +322,7 @@ public final class RunTimeContext implements Serializable
 		{
 			return false;
 		}
-		StructureChangeEvent scev = (StructureChangeEvent) ( (EventObjectCache) isdl ).getEventObject( oSource,
+		StructureChangeEvent scev = ( (EventObjectCache) isdl ).getEventObject( oSource,
 				StructureChangeEvent.class );
 		scev.setEventName( sEventName );
 		isdl.changeStructure( scev );
@@ -645,6 +645,29 @@ public final class RunTimeContext implements Serializable
 	public void setExternalizer( IExternalizer externalizer )
 	{
 		this.externalizer = externalizer;
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> T getState( StateKey<T> key )
+	{
+		return (T) stateStore.get( key );
+	}
+
+	/**
+	 * Predifined static keys for states.
+	 */
+	public static class StateKey<T>
+	{
+
+		public static <T> StateKey<T> create( )
+		{
+			return new StateKey<T>( );
+		}
+
+		/**
+		 * Key to reference if the data of chart is empty.
+		 */
+		public final static StateKey<Boolean> DATA_EMPTY_KEY = StateKey.create( );
 	}
 
 }

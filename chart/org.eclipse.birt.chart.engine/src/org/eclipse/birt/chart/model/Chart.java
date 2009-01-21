@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.attribute.Text;
+import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.layout.Block;
@@ -51,6 +52,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.Chart#getSampleData <em>Sample Data</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.Chart#getStyles <em>Styles</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.Chart#getInteractivity <em>Interactivity</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getEmptyMessage <em>Empty Message</em>}</li>
  * </ul>
  * </p>
  *
@@ -493,7 +495,10 @@ public interface Chart extends EObject
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Holds a collection of style maps for use by the chart.
+	 * 
+	 * 						Holds a collection of style maps for use by the
+	 * 						chart.
+	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Styles</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getChart_Styles()
@@ -508,7 +513,9 @@ public interface Chart extends EObject
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Holds the settings for interacive features.
+	 * 
+	 * 						Holds the settings for interacive features.
+	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Interactivity</em>' containment reference.
 	 * @see #setInteractivity(Interactivity)
@@ -528,6 +535,37 @@ public interface Chart extends EObject
 	 * @generated
 	 */
 	void setInteractivity( Interactivity value );
+
+	/**
+	 * Returns the value of the '<em><b>Empty Message</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 						Provides the message text to be displayed in the place
+	 * 						of plot area when the chart contains no data. By default,
+	 * 						it's visible is faulse, which indicates if the chart contains
+	 * 						no data, the whole chart will be hide.
+	 * 					
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Empty Message</em>' containment reference.
+	 * @see #setEmptyMessage(Label)
+	 * @see org.eclipse.birt.chart.model.ModelPackage#getChart_EmptyMessage()
+	 * @model containment="true" required="true"
+	 *        extendedMetaData="kind='element' name='EmptyMessage'"
+	 * @generated
+	 */
+	Label getEmptyMessage( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getEmptyMessage <em>Empty Message</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Empty Message</em>' containment reference.
+	 * @see #getEmptyMessage()
+	 * @generated
+	 */
+	void setEmptyMessage( Label value );
 
 	/**
 	 * Convenience method that gets the Legend Block for the chart.

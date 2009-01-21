@@ -36,7 +36,7 @@ import org.eclipse.birt.chart.util.SecurityUtil;
 public class EventObjectCache
 {
 
-	private transient Hashtable<Class<?>, ChartEvent> _htEvents;
+	private transient Hashtable<Class<? extends ChartEvent>, ChartEvent> _htEvents;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/event" ); //$NON-NLS-1$
 
@@ -58,9 +58,11 @@ public class EventObjectCache
 	 * @return An instance of the requested event object that encapsulates
 	 *         rendering attributes
 	 */
-	public final <T> ChartEvent getEventObject( Object oSource, Class<T> cType )
+	@SuppressWarnings("unchecked")
+	public final <T extends ChartEvent> T getEventObject( Object oSource,
+			Class<T> cType )
 	{
-		ChartEvent event = _htEvents.get( cType );
+		T event = (T) _htEvents.get( cType );
 		if ( event == null )
 		{
 			try
@@ -69,7 +71,7 @@ public class EventObjectCache
 						new Class[]{
 							Object.class
 						} );
-				event = (ChartEvent) co.newInstance( new Object[]{
+				event = co.newInstance( new Object[]{
 					oSource
 				} );
 				_htEvents.put( cType, event );

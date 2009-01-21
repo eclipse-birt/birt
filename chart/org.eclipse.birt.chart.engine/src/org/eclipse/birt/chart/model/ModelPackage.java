@@ -197,12 +197,21 @@ public interface ModelPackage extends EPackage
 	int CHART__INTERACTIVITY = 13;
 
 	/**
+	 * The feature id for the '<em><b>Empty Message</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHART__EMPTY_MESSAGE = 14;
+
+	/**
 	 * The number of structural features of the '<em>Chart</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CHART_FEATURE_COUNT = 14;
+	int CHART_FEATURE_COUNT = 15;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl <em>Chart With Axes</em>}' class.
@@ -332,6 +341,15 @@ public interface ModelPackage extends EPackage
 	 * @ordered
 	 */
 	int CHART_WITH_AXES__INTERACTIVITY = CHART__INTERACTIVITY;
+
+	/**
+	 * The feature id for the '<em><b>Empty Message</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHART_WITH_AXES__EMPTY_MESSAGE = CHART__EMPTY_MESSAGE;
 
 	/**
 	 * The feature id for the '<em><b>Axes</b></em>' containment reference list.
@@ -530,6 +548,15 @@ public interface ModelPackage extends EPackage
 	int CHART_WITHOUT_AXES__INTERACTIVITY = CHART__INTERACTIVITY;
 
 	/**
+	 * The feature id for the '<em><b>Empty Message</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHART_WITHOUT_AXES__EMPTY_MESSAGE = CHART__EMPTY_MESSAGE;
+
+	/**
 	 * The feature id for the '<em><b>Series Definitions</b></em>' containment reference list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -717,6 +744,15 @@ public interface ModelPackage extends EPackage
 	 * @ordered
 	 */
 	int DIAL_CHART__INTERACTIVITY = CHART_WITHOUT_AXES__INTERACTIVITY;
+
+	/**
+	 * The feature id for the '<em><b>Empty Message</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_CHART__EMPTY_MESSAGE = CHART_WITHOUT_AXES__EMPTY_MESSAGE;
 
 	/**
 	 * The feature id for the '<em><b>Series Definitions</b></em>' containment reference list.
@@ -954,6 +990,17 @@ public interface ModelPackage extends EPackage
 	 * @generated
 	 */
 	EReference getChart_Interactivity( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.Chart#getEmptyMessage <em>Empty Message</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Empty Message</em>'.
+	 * @see org.eclipse.birt.chart.model.Chart#getEmptyMessage()
+	 * @see #getChart()
+	 * @generated
+	 */
+	EReference getChart_EmptyMessage( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.ChartWithAxes <em>Chart With Axes</em>}'.
@@ -1288,6 +1335,14 @@ public interface ModelPackage extends EPackage
 		 * @generated
 		 */
 		EReference CHART__INTERACTIVITY = eINSTANCE.getChart_Interactivity( );
+
+		/**
+		 * The meta object literal for the '<em><b>Empty Message</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CHART__EMPTY_MESSAGE = eINSTANCE.getChart_EmptyMessage( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl <em>Chart With Axes</em>}' class.

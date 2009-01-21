@@ -28,16 +28,13 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
-import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.CDateTime;
-import org.eclipse.birt.chart.util.ChartUtil;
 
 import com.ibm.icu.util.Calendar;
 
@@ -863,67 +860,6 @@ public class Methods implements IConstants
 			throws IllegalArgumentException
 	{
 		return computeBox( xs, iLabelLocation, la, dX, dY, 0 );
-	}
-
-	/**
-	 * To compute the text of the label with a limited size, the label text will
-	 * be wrapped and shortened with ellipsis if required, the size of the label
-	 * bound will be returned.
-	 * 
-	 * @param xs
-	 * @param la
-	 * @param maxSize
-	 * @param fontHeight
-	 *            , optional
-	 * @return
-	 * @throws ChartException
-	 */
-	public static final Size computeLimitedLabelSize( IDisplayServer xs,
-			Label la, Size maxSize, Double fontHeight ) throws ChartException
-	{
-		if ( maxSize != null )
-		{
-			double dWrapping;
-			double fRotation = la.getCaption( ).getFont( ).getRotation( );
-			if ( ChartUtil.mathEqual( fRotation, 0 ) )
-			{
-				dWrapping = Math.floor( maxSize.getWidth( )
-						- ( la.getInsets( ).getLeft( ) + la.getInsets( )
-								.getRight( ) )
-						* xs.getDpiResolution( )
-						/ 72d ) - 10;
-			}
-			else if ( ChartUtil.mathEqual( fRotation, 90 ) )
-			{
-				dWrapping = Math.floor( maxSize.getHeight( )
-						- ( la.getInsets( ).getTop( ) + la.getInsets( )
-								.getBottom( ) )
-						* xs.getDpiResolution( )
-						/ 72d ) - 10;
-			}
-			else
-			{
-				dWrapping = Math.floor( maxSize.getWidth( )
-						- ( la.getInsets( ).getLeft( ) + la.getInsets( )
-								.getRight( ) )
-						* xs.getDpiResolution( )
-						/ 72d ) - 10;
-
-			}
-
-			EllipsisHelper eHelper = EllipsisHelper.simpleInstance( xs,
-					la,
-					dWrapping,
-					fontHeight );
-			eHelper.checkLabelEllipsis( la.getCaption( ).getValue( ), maxSize );
-			return SizeImpl.create( eHelper.getTester( ).getWidth( ),
-					eHelper.getTester( ).getHeight( ) );
-		}
-		else
-		{
-			BoundingBox bb = computeLabelSize( xs, la, 0, fontHeight );
-			return SizeImpl.create( bb.getWidth( ), bb.getHeight( ) );
-		}
 	}
 
 	/**
