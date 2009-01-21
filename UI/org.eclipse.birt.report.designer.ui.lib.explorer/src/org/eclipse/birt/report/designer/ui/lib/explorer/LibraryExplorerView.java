@@ -125,6 +125,13 @@ public class LibraryExplorerView extends PageBookView
 			treeViewPage = new LibraryExplorerTreeViewPage( );
 			initPage( treeViewPage );
 			treeViewPage.createControl( getPageBook( ) );
+			if ( prefs != null )
+				prefs.removePreferenceChangeListener( treeViewPage );
+			prefs = PreferenceFactory.getInstance( )
+					.getPreferences( ReportPlugin.getDefault( ),
+							UIUtil.getCurrentProject( ) );
+			if ( prefs != null )
+				prefs.addPreferenceChangeListener( treeViewPage );
 		}
 		return new PageRec( part, treeViewPage );
 	}
