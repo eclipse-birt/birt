@@ -53,6 +53,8 @@ public class FontSizeBuilder extends Composite
 
 	private String defaultUnit = null;
 
+	private boolean isProcessing = false;
+
 	public FontSizeBuilder( Composite parent, int style )
 	{
 		super( parent, style );
@@ -79,7 +81,8 @@ public class FontSizeBuilder extends Composite
 			boolean isFormStyle )
 	{
 		setLayout( WidgetUtil.createSpaceGridLayout( 2, 0, isFormStyle ) );
-		if(isFormStyle)( (GridLayout) getLayout( ) ).horizontalSpacing = 4;
+		if ( isFormStyle )
+			( (GridLayout) getLayout( ) ).horizontalSpacing = 4;
 
 		if ( isFormStyle )
 			valueCombo = FormWidgetFactory.getInstance( ).createCCombo( this,
@@ -115,8 +118,8 @@ public class FontSizeBuilder extends Composite
 
 			public void focusLost( org.eclipse.swt.events.FocusEvent e )
 			{
-				computerFontSizeValue( );
-				notifyListeners( SWT.Modify, null );
+				if ( !isProcessing )
+					processAction( );
 			}
 
 		} );
@@ -129,7 +132,9 @@ public class FontSizeBuilder extends Composite
 
 			public void widgetDefaultSelected( SelectionEvent e )
 			{
-				//processAction( );
+				isProcessing = true;
+				processAction( );
+				isProcessing = false;
 			}
 		} );
 		valueCombo.addModifyListener( new ModifyListener( ) {
@@ -173,7 +178,7 @@ public class FontSizeBuilder extends Composite
 
 			public void widgetDefaultSelected( SelectionEvent e )
 			{
-				//processAction( );
+				// processAction( );
 			}
 		} );
 
