@@ -1,3 +1,4 @@
+ChartImpl.AltText=This chart contains no data.
 ChartWithAxesImpl.X_Axis.title=Titel der X-Achse
 ChartWithAxesImpl.Y_Axis.title=Titel der Y-Achse
 ChartWithAxesImpl.Z_Axis.title=Titel der z-Achse

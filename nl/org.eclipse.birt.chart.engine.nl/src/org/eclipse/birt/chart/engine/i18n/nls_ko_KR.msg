@@ -1,3 +1,4 @@
+ChartImpl.AltText=This chart contains no data.
 ChartWithAxesImpl.X_Axis.title=X绵 力格
 ChartWithAxesImpl.Y_Axis.title=Y绵 力格
 ChartWithAxesImpl.Z_Axis.title=Z绵 力格

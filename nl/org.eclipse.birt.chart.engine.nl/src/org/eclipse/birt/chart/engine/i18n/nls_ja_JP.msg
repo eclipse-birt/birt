@@ -1,3 +1,4 @@
+ChartImpl.AltText=This chart contains no data.
 ChartWithAxesImpl.X_Axis.title=X 軸のタイトル
 ChartWithAxesImpl.Y_Axis.title=Y 軸のタイトル
 ChartWithAxesImpl.Z_Axis.title=Z 軸のタイトル
