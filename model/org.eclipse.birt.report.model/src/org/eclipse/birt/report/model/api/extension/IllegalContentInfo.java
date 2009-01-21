@@ -37,8 +37,9 @@ public class IllegalContentInfo
 	}
 
 	/**
+	 * Gets the child of the <code>UndefinedChildInfo</code>.
 	 * 
-	 * @return
+	 * @return the child of the <code>UndefinedChildInfo</code>.
 	 */
 	public DesignElementHandle getContent( )
 	{
@@ -48,8 +49,9 @@ public class IllegalContentInfo
 	}
 
 	/**
+	 * Gets the index of <code>UndefinedChildInfo<code>.
 	 * 
-	 * @return
+	 * @return the index of <code>UndefinedChildInfo<code>.
 	 */
 	public int getIndex( )
 	{

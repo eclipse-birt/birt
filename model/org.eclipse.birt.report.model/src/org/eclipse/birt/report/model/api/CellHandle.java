@@ -15,7 +15,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
-import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 
 /**
  * Represents a cell within a table or grid. A cell can span multiple rows

@@ -93,11 +93,12 @@ public class PropertyValueValidationUtil
 
 		IStructureDefn structDefn = propDefn.getStructDefn( );
 
-		for ( Iterator iter = structDefn.propertiesIterator( ); iter.hasNext( ); )
+		for ( Iterator<IPropertyDefn> iter = structDefn.propertiesIterator( ); iter
+				.hasNext( ); )
 		{
 			PropertyDefn memberDefn = (PropertyDefn) iter.next( );
-			if ( memberDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE &&
-					memberDefn.isList( ) )
+			if ( memberDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE
+					&& memberDefn.isList( ) )
 				validateList( element, propDefn, item, memberDefn,
 						( (Structure) item ).getLocalProperty( element
 								.getModule( ), memberDefn ) );
@@ -120,11 +121,11 @@ public class PropertyValueValidationUtil
 
 			( (Structure) item ).setContext( context );
 
-			List errorList = ( (Structure) item ).validate(
+			List<SemanticException> errorList = ( (Structure) item ).validate(
 					element.getModule( ), element.getElement( ) );
 			if ( errorList.size( ) > 0 )
 			{
-				throw (SemanticException) errorList.get( 0 );
+				throw errorList.get( 0 );
 			}
 		}
 
@@ -165,7 +166,7 @@ public class PropertyValueValidationUtil
 
 		assert tmpPropDefn.isList( );
 
-		List retList = new ArrayList( );
+		List<IStructure> retList = new ArrayList<IStructure>( );
 		List list = (List) value;
 		IStructureDefn structDefn = tmpPropDefn.getStructDefn( );
 		for ( int i = 0; i < list.size( ); i++ )

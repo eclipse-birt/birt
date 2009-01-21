@@ -23,7 +23,7 @@ class LayoutGroupBand
 	 * Slots in groups.
 	 */
 
-	private List slots = new ArrayList( );
+	private List<LayoutSlot> slots = new ArrayList<LayoutSlot>( );
 
 	/**
 	 * The container of the table.
@@ -88,7 +88,7 @@ class LayoutGroupBand
 	{
 		for ( int i = 0; i < slots.size( ); i++ )
 		{
-			LayoutSlot slot = (LayoutSlot) slots.get( i );
+			LayoutSlot slot = slots.get( i );
 			if ( groupLevel == slot.getGroupLevel( ) )
 				return slot;
 		}
@@ -109,7 +109,7 @@ class LayoutGroupBand
 		if ( index > slots.size( ) - 1 )
 			return null;
 
-		return (LayoutSlot) slots.get( index );
+		return slots.get( index );
 	}
 
 	/**
@@ -126,7 +126,7 @@ class LayoutGroupBand
 		StringBuffer sb = new StringBuffer( );
 		for ( int i = 0; i < slots.size( ); i++ )
 		{
-			LayoutSlot slot = (LayoutSlot) slots.get( i );
+			LayoutSlot slot = slots.get( i );
 			sb.append( slot.getLayoutString( ) );
 		}
 		return sb.toString( );
@@ -144,8 +144,8 @@ class LayoutGroupBand
 
 		for ( int i = 0; i < slots.size( ); i++ )
 		{
-			LayoutSlot obj = (LayoutSlot) slots.get( i );
-			int tmpCount = ( (LayoutSlot) obj ).getColumnCount( );
+			LayoutSlot obj = slots.get( i );
+			int tmpCount = obj.getColumnCount( );
 
 			if ( tmpCount > colCount )
 				colCount = tmpCount;

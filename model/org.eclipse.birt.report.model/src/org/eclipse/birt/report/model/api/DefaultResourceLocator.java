@@ -93,12 +93,13 @@ public class DefaultResourceLocator implements IResourceLocator
 
 		ULocale locale = moduleHandle.getModule( ).getSession( ).getLocale( );
 
-		List possibleFiles = BundleHelper.getHelper( moduleHandle.getModule( ),
-				fileName ).getMessageFilenames( locale );
+		List<String> possibleFiles = BundleHelper.getHelper(
+				moduleHandle.getModule( ), fileName ).getMessageFilenames(
+				locale );
 
 		for ( int i = 0; i < possibleFiles.size( ); i++ )
 		{
-			String filename = (String) possibleFiles.get( i );
+			String filename = possibleFiles.get( i );
 			URL url = getResource( moduleHandle, filename );
 			if ( url != null )
 				return url;

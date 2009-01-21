@@ -137,10 +137,9 @@ public class ParameterValidationUtil
 	static private Object validate( String dataType, String value,
 			ULocale locale ) throws ValidationValueException
 	{
-		return validate(dataType, value, locale, null);
+		return validate( dataType, value, locale, null );
 	}
-			
-	
+
 	/**
 	 * Validates a input parameter value with the given data type. The returned
 	 * value is locale and format independent. The data type can be one of the
@@ -163,7 +162,7 @@ public class ParameterValidationUtil
 	 * @param locale
 	 *            the locale information
 	 * @param timeZone
-	 * 			  the time zone information (only for DateTime type)
+	 *            the time zone information (only for DateTime type)
 	 * @return the validated value if the input value is valid for the given
 	 *         data type
 	 * @throws ValidationValueException
@@ -227,7 +226,7 @@ public class ParameterValidationUtil
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT
 				.equalsIgnoreCase( dataType ) )
-		{			
+		{
 			Number number = doValidateNumber( dataType, value, locale );
 			if ( number == null )
 				return null;
@@ -243,10 +242,9 @@ public class ParameterValidationUtil
 			{
 				return number;
 			}
-			else
-			{
-				return new BigDecimal( number.toString( ) );
-			}
+
+			return new BigDecimal( number.toString( ) );
+
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER
 				.equalsIgnoreCase( dataType ) )
@@ -283,14 +281,14 @@ public class ParameterValidationUtil
 	 * @param locale
 	 *            the locale information
 	 * @param timeZone
-	 * 			  the time zone information           
+	 *            the time zone information
 	 * @return the date value if validation is successful
 	 * @throws ValidationValueException
 	 *             if the value is invalid
 	 */
 
-	private static final Date doValidateDateTime( String value, ULocale locale, TimeZone timeZone )
-			throws ValidationValueException
+	private static final Date doValidateDateTime( String value, ULocale locale,
+			TimeZone timeZone ) throws ValidationValueException
 	{
 		try
 		{
@@ -345,10 +343,10 @@ public class ParameterValidationUtil
 		{
 			localeFormatter = NumberFormat
 					.getNumberInstance( locale.toLocale( ) );
-			
+
 			if ( localeFormatter instanceof DecimalFormat )
 			{
-				((DecimalFormat)localeFormatter).setParseBigDecimal(true);
+				( (DecimalFormat) localeFormatter ).setParseBigDecimal( true );
 			}
 		}
 		else
@@ -373,7 +371,7 @@ public class ParameterValidationUtil
 
 	}
 
-	/**
+/**
 	 * Validates a input parameter value with the given data type, format choice
 	 * string. The returned value is locale and pattern dependent. The data type
 	 * and the format can be one pair of the following:
@@ -448,7 +446,7 @@ public class ParameterValidationUtil
 		return validate( dataType, format, value, ULocale.forLocale( locale ) );
 	}
 
-	/**
+/**
 	 * Validates a input parameter value with the given data type, format choice
 	 * string. The returned value is locale and pattern dependent. The data type
 	 * and the format can be one pair of the following:
@@ -520,12 +518,14 @@ public class ParameterValidationUtil
 	 */
 
 	static public Object validate( String dataType, String format,
-			String value, Locale locale, TimeZone timeZone ) throws ValidationValueException
+			String value, Locale locale, TimeZone timeZone )
+			throws ValidationValueException
 	{
-		return validate( dataType, format, value, ULocale.forLocale( locale ), timeZone );
+		return validate( dataType, format, value, ULocale.forLocale( locale ),
+				timeZone );
 	}
-	
-	/**
+
+/**
 	 * Validates a input parameter value with the given data type, format choice
 	 * string, using the default locale. The returned value is locale and pattern
 	 * dependent. The data type and the format can be one pair of the following:
@@ -599,8 +599,8 @@ public class ParameterValidationUtil
 	{
 		return validate( dataType, format, value, DEFAULT_LOCALE, timeZone );
 	}
-	
-	/**
+
+/**
 	 * Validates a input parameter value with the given data type, format choice
 	 * string. The returned value is locale and pattern dependent. The data type
 	 * and the format can be one pair of the following:
@@ -672,9 +672,10 @@ public class ParameterValidationUtil
 	static public Object validate( String dataType, String format,
 			String value, ULocale locale ) throws ValidationValueException
 	{
-		return validate(dataType, format, value, locale, null);
+		return validate( dataType, format, value, locale, null );
 	}
-	/**
+
+/**
 	 * Validates a input parameter value with the given data type, format choice
 	 * string. The returned value is locale and pattern dependent. The data type
 	 * and the format can be one pair of the following:
@@ -746,7 +747,8 @@ public class ParameterValidationUtil
 	 */
 
 	static public Object validate( String dataType, String format,
-			String value, ULocale locale, TimeZone timeZone ) throws ValidationValueException
+			String value, ULocale locale, TimeZone timeZone )
+			throws ValidationValueException
 	{
 		if ( value == null )
 			return null;
@@ -809,7 +811,8 @@ public class ParameterValidationUtil
 			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
 					.equalsIgnoreCase( dataType ) )
 				// time zone is only supported for the DataTime type
-				return doValidateDateTimeByPattern( newFormat, value, locale, timeZone );
+				return doValidateDateTimeByPattern( newFormat, value, locale,
+						timeZone );
 			else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT
 					.equalsIgnoreCase( dataType ) )
 			{
@@ -830,10 +833,9 @@ public class ParameterValidationUtil
 				{
 					return number;
 				}
-				else
-				{
-					return new BigDecimal( number.toString( ) );
-				}
+
+				return new BigDecimal( number.toString( ) );
+
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER
 					.equalsIgnoreCase( dataType ) )
@@ -904,7 +906,7 @@ public class ParameterValidationUtil
 	 * @param dataType
 	 * @param format
 	 * @param value
-	 * @return
+	 * @return formated date
 	 */
 
 	private static String transformDateFormat( String dataType, String format,
@@ -951,7 +953,7 @@ public class ParameterValidationUtil
 		return format;
 	}
 
-	/**
+/**
 	 * Validates a input parameter value with the given data type, format choice
 	 * string and a default locale defined by the class(Locale.US). The returned
 	 * value is pattern dependent. The data type and the format can be one pair
@@ -1032,8 +1034,8 @@ public class ParameterValidationUtil
 	 *            the input value to validate
 	 * @param locale
 	 *            the locale information
-	 * @return the <code>Boolean</code> object if the input is valid,
-	 *         otherwise <code>null</code>
+	 * @return the <code>Boolean</code> object if the input is valid, otherwise
+	 *         <code>null</code>
 	 * @throws ValidationValueException
 	 */
 
@@ -1101,14 +1103,15 @@ public class ParameterValidationUtil
 	 * @param locale
 	 *            the locale information
 	 * @param timeZone
-	 * 			  the time zone information
+	 *            the time zone information
 	 * @return the date value if validation is successful
 	 * @throws ValidationValueException
 	 *             if the value to validate is invalid
 	 */
 
 	static private Date doValidateDateTimeByPattern( String format,
-			String value, ULocale locale, TimeZone timeZone ) throws ValidationValueException
+			String value, ULocale locale, TimeZone timeZone )
+			throws ValidationValueException
 	{
 		assert !StringUtil.isBlank( format );
 		if ( StringUtil.isBlank( value ) )
@@ -1170,13 +1173,13 @@ public class ParameterValidationUtil
 			return null;
 		NumberFormatter formatter = new NumberFormatter( locale );
 		formatter.applyPattern( format );
-		
+
 		if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL
-						.equalsIgnoreCase( dataType ) ) 
+				.equalsIgnoreCase( dataType ) )
 		{
 			formatter.setParseBigDecimal( true );
 		}
-		
+
 		try
 		{
 			return formatter.parse( value );
@@ -1194,26 +1197,26 @@ public class ParameterValidationUtil
 	 * locale. The value must be the valid data type. That is:
 	 * 
 	 * <ul>
-	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value
-	 * must be <code>java.util.Date<code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_FLOAT</code>, then the value must
-	 * be <code>java.lang.Double</code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_DECIMAL</code>, then the value must
-	 * be <code>java.math.BigDecimal</code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_BOOLEAN</code>, then the value must
-	 * be <code>java.lang.Boolean</code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value must
-	 * be <code>java.lang.String</code>.</li>
+	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value must
+	 * be <code>java.util.Date<code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_FLOAT</code>, then the value
+	 * must be <code>java.lang.Double</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_DECIMAL</code>, then the value
+	 * must be <code>java.math.BigDecimal</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_BOOLEAN</code>, then the value
+	 * must be <code>java.lang.Boolean</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value
+	 * must be <code>java.lang.String</code>.</li>
 	 * </ul>
 	 * 
 	 * @param dataType
-	 *  		the data type of the input value
+	 *            the data type of the input value
 	 * @param format
-	 *  		the format pattern to validate
+	 *            the format pattern to validate
 	 * @param value
-	 *  		the input value to validate
+	 *            the input value to validate
 	 * @param locale
-	 *  		the locale information
+	 *            the locale information
 	 * @return the formatted string
 	 */
 
@@ -1229,20 +1232,20 @@ public class ParameterValidationUtil
 	 * format, The value must be the valid data type. That is:
 	 * 
 	 * <ul>
-	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value
-	 * must be <code>java.util.Date<code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_FLOAT</code>, then the value must
-	 * be <code>java.lang.Double</code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_DECIMAL</code>, then the value must
-	 * be <code>java.math.BigDecimal</code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_BOOLEAN</code>, then the value must
-	 * be <code>java.lang.Boolean</code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value must
-	 * be <code>java.lang.String</code>.</li>
+	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value must
+	 * be <code>java.util.Date<code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_FLOAT</code>, then the value
+	 * must be <code>java.lang.Double</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_DECIMAL</code>, then the value
+	 * must be <code>java.math.BigDecimal</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_BOOLEAN</code>, then the value
+	 * must be <code>java.lang.Boolean</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value
+	 * must be <code>java.lang.String</code>.</li>
 	 * </ul>
 	 * 
 	 * @param value
-	 *  		the input value to validate
+	 *            the input value to validate
 	 * @return the formatted string
 	 */
 
@@ -1250,28 +1253,28 @@ public class ParameterValidationUtil
 	{
 		return getDisplayValue( value, null );
 	}
-	
+
 	/**
 	 * Gets the display string for the value with default locale and default
 	 * format, The value must be the valid data type. That is:
 	 * 
 	 * <ul>
-	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value
-	 * must be <code>java.util.Date<code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_FLOAT</code>, then the value must
-	 * be <code>java.lang.Double</code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_DECIMAL</code>, then the value must
-	 * be <code>java.math.BigDecimal</code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_BOOLEAN</code>, then the value must
-	 * be <code>java.lang.Boolean</code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value must
-	 * be <code>java.lang.String</code>.</li>
+	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value must
+	 * be <code>java.util.Date<code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_FLOAT</code>, then the value
+	 * must be <code>java.lang.Double</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_DECIMAL</code>, then the value
+	 * must be <code>java.math.BigDecimal</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_BOOLEAN</code>, then the value
+	 * must be <code>java.lang.Boolean</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value
+	 * must be <code>java.lang.String</code>.</li>
 	 * </ul>
 	 * 
 	 * @param value
-	 *  		the input value to validate
+	 *            the input value to validate
 	 * @param timeZone
-	 * 			the time zone to use (only for DateTime type)
+	 *            the time zone to use (only for DateTime type)
 	 * @return the formatted string
 	 */
 
@@ -1284,7 +1287,7 @@ public class ParameterValidationUtil
 				&& !( value instanceof java.sql.Date || value instanceof java.sql.Time ) )
 		{
 			DateFormatter formatter = null;
-			if ( timeZone != null ) 
+			if ( timeZone != null )
 			{
 				formatter = new DateFormatter( DEFAULT_LOCALE, timeZone );
 				formatter.applyPattern( DEFAULT_DATETIME_FORMAT );
@@ -1355,26 +1358,26 @@ public class ParameterValidationUtil
 	 * locale. The value must be the valid data type. That is:
 	 * 
 	 * <ul>
-	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value
-	 * must be <code>java.util.Date<code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_FLOAT</code>, then the value must
-	 * be <code>java.lang.Double</code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_DECIMAL</code>, then the value must
-	 * be <code>java.math.BigDecimal</code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_BOOLEAN</code>, then the value must
-	 * be <code>java.lang.Boolean</code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value must
-	 * be <code>java.lang.String</code>.</li>
+	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value must
+	 * be <code>java.util.Date<code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_FLOAT</code>, then the value
+	 * must be <code>java.lang.Double</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_DECIMAL</code>, then the value
+	 * must be <code>java.math.BigDecimal</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_BOOLEAN</code>, then the value
+	 * must be <code>java.lang.Boolean</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value
+	 * must be <code>java.lang.String</code>.</li>
 	 * </ul>
 	 * 
 	 * @param dataType
-	 *  		the data type of the input value
+	 *            the data type of the input value
 	 * @param format
-	 *  		the format pattern to validate
+	 *            the format pattern to validate
 	 * @param value
-	 *  		the input value to validate
+	 *            the input value to validate
 	 * @param locale
-	 *  		the locale information
+	 *            the locale information
 	 * @return the formatted string
 	 */
 
@@ -1383,32 +1386,32 @@ public class ParameterValidationUtil
 	{
 		return getDisplayValue( dataType, format, value, locale, null );
 	}
-	
+
 	/**
 	 * Gets the display string for the value with the given data type, format,
 	 * locale. The value must be the valid data type. That is:
 	 * 
 	 * <ul>
-	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value
-	 * must be <code>java.util.Date<code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_FLOAT</code>, then the value must
-	 * be <code>java.lang.Double</code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_DECIMAL</code>, then the value must
-	 * be <code>java.math.BigDecimal</code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_BOOLEAN</code>, then the value must
-	 * be <code>java.lang.Boolean</code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value must
-	 * be <code>java.lang.String</code>.</li>
+	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value must
+	 * be <code>java.util.Date<code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_FLOAT</code>, then the value
+	 * must be <code>java.lang.Double</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_DECIMAL</code>, then the value
+	 * must be <code>java.math.BigDecimal</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_BOOLEAN</code>, then the value
+	 * must be <code>java.lang.Boolean</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value
+	 * must be <code>java.lang.String</code>.</li>
 	 * </ul>
 	 * 
 	 * @param dataType
-	 *  		the data type of the input value
+	 *            the data type of the input value
 	 * @param format
-	 *  		the format pattern to validate
+	 *            the format pattern to validate
 	 * @param value
-	 *  		the input value to validate
+	 *            the input value to validate
 	 * @param locale
-	 *  		the locale information
+	 *            the locale information
 	 * @return the formatted string
 	 */
 
@@ -1518,24 +1521,24 @@ public class ParameterValidationUtil
 	 * the valid data type. That is:
 	 * 
 	 * <ul>
-	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value
-	 * must be <code>java.util.Date<code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_FLOAT</code>, then the value must
-	 * be <code>java.lang.Double</code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_DECIMAL</code>, then the value must
-	 * be <code>java.math.BigDecimal</code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_BOOLEAN</code>, then the value must
-	 * be <code>java.lang.Boolean</code>.</li>
-	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value must
-	 * be <code>java.lang.String</code>.</li>
+	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value must
+	 * be <code>java.util.Date<code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_FLOAT</code>, then the value
+	 * must be <code>java.lang.Double</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_DECIMAL</code>, then the value
+	 * must be <code>java.math.BigDecimal</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_BOOLEAN</code>, then the value
+	 * must be <code>java.lang.Boolean</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value
+	 * must be <code>java.lang.String</code>.</li>
 	 * </ul>
 	 * 
 	 * @param dataType
-	 *  		the data type of the input value
+	 *            the data type of the input value
 	 * @param format
-	 *  		the format pattern to validate
+	 *            the format pattern to validate
 	 * @param value
-	 *  		the input value to validate
+	 *            the input value to validate
 	 * @return the formatted string
 	 */
 

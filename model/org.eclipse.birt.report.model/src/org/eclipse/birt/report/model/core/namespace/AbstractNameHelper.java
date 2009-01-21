@@ -338,7 +338,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * 
 	 * @param elementName
 	 * @param targetDefn
-	 * @return
+	 * @return the root resolve information elementName/elementDefn pair
 	 */
 	private NameResolveInfor getRootResolveInfor( String elementName,
 			ElementDefn targetDefn )
@@ -376,7 +376,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * 
 	 * @param element
 	 * @param propDefn
-	 * @return
+	 * @return the element reference value
 	 */
 	private ElementRefValue resolveElement( DesignElement element,
 			PropertyDefn propDefn, IElementDefn elementDefn )
@@ -393,7 +393,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * 
 	 * @param elementName
 	 * @param propDefn
-	 * @return
+	 * @return the element name.
 	 */
 	private ElementRefValue resolveName( String elementName,
 			PropertyDefn propDefn, ElementDefn elementDefn )
@@ -435,7 +435,8 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * Validates whether this property definition can refer other element.
 	 * 
 	 * @param propDefn
-	 * @return
+	 * @return <true> if this property definition can refer other element,
+	 *         otherwise return <false>.
 	 */
 	private boolean isValidReferenceProperty( PropertyDefn propDefn )
 	{
@@ -477,7 +478,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * @see
 	 * org.eclipse.birt.report.model.core.namespace.INameHelper#cacheValues()
 	 */
-	
+
 	public void cacheValues( )
 	{
 

@@ -117,7 +117,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	/**
 	 * Property handle for element type properties.
 	 */
-	private Map propHandles = new HashMap( );
+	private Map<String, PropertyHandle> propHandles = new HashMap<String, PropertyHandle>( );
 
 	/**
 	 * Constructs a handle with the given module.
@@ -162,7 +162,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	final protected void cachePropertyHandles( )
 	{
-		List contents = getDefn( ).getContents( );
+		List<IElementPropertyDefn> contents = getDefn( ).getContents( );
 		for ( int i = 0; i < contents.size( ); i++ )
 		{
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) contents
@@ -614,7 +614,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public void clearAllProperties( ) throws SemanticException
 	{
-		List props = getDefn( ).getProperties( );
+		List<IElementPropertyDefn> props = getDefn( ).getProperties( );
 
 		ActivityStack stack = module.getActivityStack( );
 		stack.startTrans( CommandLabelFactory
@@ -747,7 +747,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * @return List contains the methods.
 	 * 
 	 */
-	public List getMethods( )
+	public List<IElementPropertyDefn> getMethods( )
 	{
 		return getElement( ).getDefn( ).getMethods( );
 
@@ -765,14 +765,16 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * @see #setProperty(String, Object)
 	 */
 
-	public void setProperties( Map properties ) throws SemanticException
+	public void setProperties( Map<String, String> properties )
+			throws SemanticException
 	{
 		if ( properties == null )
 			return;
 
-		for ( Iterator iter = properties.keySet( ).iterator( ); iter.hasNext( ); )
+		for ( Iterator<String> iter = properties.keySet( ).iterator( ); iter
+				.hasNext( ); )
 		{
-			String propName = (String) iter.next( );
+			String propName = iter.next( );
 			setProperty( propName, properties.get( propName ) );
 		}
 	}
@@ -1106,9 +1108,9 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	/**
 	 * Returns the element factory for creating new report elements. After
 	 * creating the element, add it to the design by calling the the <code>
-	 * {@link SlotHandle#add(DesignElementHandle ) add}</code> method of the
-	 * slot handle that represents the point in the design where the new element
-	 * should appear.
+	 * {@link SlotHandle#add(DesignElementHandle ) add}</code>
+	 * method of the slot handle that represents the point in the design where
+	 * the new element should appear.
 	 * 
 	 * @return a handle to the new element.
 	 * @see SlotHandle
@@ -1143,7 +1145,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 		if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
 		{
-			return (PropertyHandle) propHandles.get( propName );
+			return propHandles.get( propName );
 		}
 
 		return new PropertyHandle( this, propDefn );
@@ -1183,7 +1185,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * @return The list of user property definitions
 	 */
 
-	public List getUserProperties( )
+	public List<UserPropertyDefn> getUserProperties( )
 	{
 		return getElement( ).getUserProperties( );
 	}
@@ -1639,7 +1641,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * Copies all properties to the target element. The following properties
 	 * will not be copied.
 	 * <ul>
-	 * <li><code>DesignElement.NAME_PROP</code> <li><code>
+	 * <li><code>DesignElement.NAME_PROP</code>
+	 * <li><code>
 	 * DesignElement.EXTENDS_PROP</code>
 	 * </ul>
 	 * 
@@ -2570,7 +2573,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *         <code>ErrorDetail</code>.
 	 */
 
-	List checkPostPasteErrors( DesignElement content )
+	List<ErrorDetail> checkPostPasteErrors( DesignElement content )
 	{
 		Module currentModule = getModule( );
 		String nameSpace = null;
@@ -2584,8 +2587,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 		ModelUtil.reviseNameSpace( getModule( ), content, nameSpace );
 
-		List exceptionList = content.validateWithContents( getModule( ) );
-		List errorDetailList = ErrorDetail.convertExceptionList( exceptionList );
+		List<SemanticException> exceptionList = content
+				.validateWithContents( getModule( ) );
+		List<ErrorDetail> errorDetailList = ErrorDetail
+				.convertExceptionList( exceptionList );
 
 		return errorDetailList;
 	}

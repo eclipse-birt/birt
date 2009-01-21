@@ -34,7 +34,7 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
- * The special case for the styles. 
+ * The special case for the styles.
  */
 public class StyleNameContext extends AbstractModuleNameContext
 {
@@ -79,7 +79,7 @@ public class StyleNameContext extends AbstractModuleNameContext
 		Map<String, StyleElement> elements = new LinkedHashMap<String, StyleElement>( );
 
 		if ( theme == null && module instanceof Library )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		if ( theme != null )
 		{
@@ -265,9 +265,9 @@ public class StyleNameContext extends AbstractModuleNameContext
 		// build resolved styles.
 
 		cachedStyles = addAllStyles( getElements( IAccessControl.ARBITARY_LEVEL ) );
-		
+
 		// build TOC styles
-		
+
 		buildTOCStyles( );
 	}
 

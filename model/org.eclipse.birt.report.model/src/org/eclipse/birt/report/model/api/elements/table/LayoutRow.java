@@ -37,7 +37,7 @@ public class LayoutRow
 	 * Cells in the row.
 	 */
 
-	private List cells;
+	private List<LayoutCell> cells;
 
 	/**
 	 * The slot in which the row resides.
@@ -58,7 +58,7 @@ public class LayoutRow
 	{
 		this.container = container;
 		this.rowId = rowId;
-		cells = new ArrayList( );
+		cells = new ArrayList<LayoutCell>( );
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class LayoutRow
 		if ( colId < 0 || colId > cells.size( ) - 1 )
 			return null;
 
-		return (LayoutCell) cells.get( colId );
+		return cells.get( colId );
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class LayoutRow
 	{
 		for ( int i = 0; i < cells.size( ); i++ )
 		{
-			LayoutCell layoutCell = (LayoutCell) cells.get( i );
+			LayoutCell layoutCell = cells.get( i );
 			if ( layoutCell.getContent( ) == cell.getElement( ) )
 				return layoutCell;
 		}
@@ -120,9 +120,10 @@ public class LayoutRow
 	 *         with the check area.
 	 */
 
-	protected List checkOverlappedLayoutCells( int colId, int colSpan )
+	protected List<LayoutCell> checkOverlappedLayoutCells( int colId,
+			int colSpan )
 	{
-		List retValue = new ArrayList( );
+		List<LayoutCell> retValue = new ArrayList<LayoutCell>( );
 
 		for ( int i = 0; i < colSpan; i++ )
 		{
@@ -197,7 +198,7 @@ public class LayoutRow
 	{
 		for ( int i = 0; i < cells.size( ); i++ )
 		{
-			LayoutCell tmpCell = (LayoutCell) cells.get( i );
+			LayoutCell tmpCell = cells.get( i );
 			if ( tmpCell.isUsed( ) && cell == tmpCell.getContent( ) )
 			{
 				assert tmpCell.isCellStartPosition( );
@@ -249,7 +250,7 @@ public class LayoutRow
 		StringBuffer sb = new StringBuffer( );
 		for ( int i = 0; i < cells.size( ); i++ )
 		{
-			LayoutCell cell = (LayoutCell) cells.get( i );
+			LayoutCell cell = cells.get( i );
 			sb.append( cell.getLayoutString( ) );
 		}
 		sb.append( "\r\n" ); //$NON-NLS-1$
@@ -290,9 +291,9 @@ public class LayoutRow
 	 * @return an iterator containing <code>LayoutCell</code>s.
 	 */
 
-	public Iterator layoutCellsIterator( )
+	public Iterator<LayoutCell> layoutCellsIterator( )
 	{
-		return new ArrayList( cells ).iterator( );
+		return new ArrayList<LayoutCell>( cells ).iterator( );
 	}
 
 	/**
@@ -302,13 +303,13 @@ public class LayoutRow
 	 * @return an iterator containing <code>CellHandle</code>s.
 	 */
 
-	public Iterator cellsIterator( )
+	public Iterator<CellHandle> cellsIterator( )
 	{
-		Set retValue = new LinkedHashSet( );
+		Set<CellHandle> retValue = new LinkedHashSet<CellHandle>( );
 
 		for ( int i = 0; i < cells.size( ); i++ )
 		{
-			LayoutCell cell = (LayoutCell) cells.get( i );
+			LayoutCell cell = cells.get( i );
 			if ( cell.isUsed( ) && cell.isCellStartPosition( ) )
 				retValue.add( cell.getCell( ) );
 

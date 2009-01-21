@@ -36,7 +36,7 @@ public class TOCHandle extends StructureHandle
 	 * Default TOC style's prefix name.
 	 */
 	public static final String defaultTOCPrefixName = "TOC-level-"; //$NON-NLS-1$
-	
+
 	/**
 	 * Construct an handle to deal with the toc structure.
 	 * 
@@ -162,10 +162,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getBorderTopStyle( );
-			}
+
+			return style.getBorderTopStyle( );
+
 		}
 		return (String) value;
 	}
@@ -186,10 +185,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getBorderTopWidth( );
-			}
+
+			return style.getBorderTopWidth( );
+
 		}
 		return doGetDimensionHandle( TOC.BORDER_TOP_WIDTH_MEMBER );
 	}
@@ -238,10 +236,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getBorderTopColor( );
-			}
+
+			return style.getBorderTopColor( );
+
 		}
 		return doGetColorHandle( TOC.BORDER_TOP_COLOR_MEMBER );
 	}
@@ -262,10 +259,8 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getBorderLeftStyle( );
-			}
+
+			return style.getBorderLeftStyle( );
 		}
 		return (String) value;
 	}
@@ -286,10 +281,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getBorderLeftWidth( );
-			}
+
+			return style.getBorderLeftWidth( );
+
 		}
 		return doGetDimensionHandle( TOC.BORDER_LEFT_WIDTH_MEMBER );
 	}
@@ -310,18 +304,17 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getBorderLeftColor( );
-			}
+
+			return style.getBorderLeftColor( );
+
 		}
 		return doGetColorHandle( TOC.BORDER_LEFT_COLOR_MEMBER );
 	}
 
 	/**
 	 * Returns the style of the border bottom line. The return value is one of
-	 * the CSS (pre-defined) values see <code>DesignChoiceConstants</code>.
-	 * They are:
+	 * the CSS (pre-defined) values see <code>DesignChoiceConstants</code>. They
+	 * are:
 	 * <ul>
 	 * <li><code>LINE_STYLE_NONE</code>
 	 * <li><code>LINE_STYLE_SOLID</code>
@@ -347,10 +340,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getBorderBottomStyle( );
-			}
+
+			return style.getBorderBottomStyle( );
+
 		}
 		return (String) value;
 	}
@@ -372,10 +364,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getBorderBottomWidth( );
-			}
+
+			return style.getBorderBottomWidth( );
+
 		}
 		return doGetDimensionHandle( TOC.BORDER_BOTTOM_WIDTH_MEMBER );
 	}
@@ -396,10 +387,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getBorderBottomColor( );
-			}
+
+			return style.getBorderBottomColor( );
+
 		}
 		return doGetColorHandle( TOC.BORDER_BOTTOM_COLOR_MEMBER );
 	}
@@ -420,10 +410,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getBorderRightStyle( );
-			}
+
+			return style.getBorderRightStyle( );
+
 		}
 		return (String) value;
 	}
@@ -444,10 +433,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getBorderRightWidth( );
-			}
+
+			return style.getBorderRightWidth( );
+
 		}
 		return doGetDimensionHandle( TOC.BORDER_RIGHT_WIDTH_MEMBER );
 	}
@@ -468,10 +456,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getBorderRightColor( );
-			}
+
+			return style.getBorderRightColor( );
+
 		}
 		return doGetColorHandle( TOC.BORDER_RIGHT_COLOR_MEMBER );
 	}
@@ -492,10 +479,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getBackgroundColor( );
-			}
+
+			return style.getBackgroundColor( );
+
 		}
 		return doGetColorHandle( TOC.BACKGROUND_COLOR_MEMBER );
 	}
@@ -516,10 +502,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getDateTimeFormat( );
-			}
+
+			return style.getDateTimeFormat( );
+
 		}
 		return ( (DateTimeFormatValue) value ).getPattern( );
 	}
@@ -540,10 +525,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getDateTimeFormatCategory( );
-			}
+
+			return style.getDateTimeFormatCategory( );
+
 		}
 
 		assert value instanceof DateTimeFormatValue;
@@ -567,10 +551,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getNumberFormat( );
-			}
+
+			return style.getNumberFormat( );
+
 		}
 		assert value instanceof NumberFormatValue;
 
@@ -593,10 +576,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getNumberFormatCategory( );
-			}
+
+			return style.getNumberFormatCategory( );
+
 		}
 		assert value instanceof NumberFormatValue;
 
@@ -619,10 +601,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getVerticalAlign( );
-			}
+
+			return style.getVerticalAlign( );
+
 		}
 		return (String) value;
 	}
@@ -643,10 +624,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getStringFormat( );
-			}
+
+			return style.getStringFormat( );
+
 		}
 
 		assert value instanceof StringFormatValue;
@@ -671,10 +651,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getStringFormatCategory( );
-			}
+
+			return style.getStringFormatCategory( );
+
 		}
 		assert value instanceof StringFormatValue;
 
@@ -697,10 +676,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getFontFamilyHandle( );
-			}
+
+			return style.getFontFamilyHandle( );
+
 		}
 		return doGetFontHandle( TOC.FONT_FAMILY_MEMBER );
 	}
@@ -735,10 +713,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getFontSize( );
-			}
+
+			return style.getFontSize( );
+
 		}
 		return doGetDimensionHandle( TOC.FONT_SIZE_MEMBER );
 	}
@@ -765,10 +742,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getFontStyle( );
-			}
+
+			return style.getFontStyle( );
+
 		}
 		return (String) value;
 	}
@@ -805,10 +781,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getFontWeight( );
-			}
+
+			return style.getFontWeight( );
+
 		}
 		return (String) value;
 	}
@@ -834,10 +809,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getFontVariant( );
-			}
+
+			return style.getFontVariant( );
+
 		}
 		return (String) value;
 	}
@@ -858,10 +832,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getColor( );
-			}
+
+			return style.getColor( );
+
 		}
 		return doGetColorHandle( TOC.COLOR_MEMBER );
 	}
@@ -887,10 +860,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getTextUnderline( );
-			}
+
+			return style.getTextUnderline( );
+
 		}
 		return (String) value;
 	}
@@ -905,7 +877,7 @@ public class TOCHandle extends StructureHandle
 	 * 
 	 * @return the value of the overline property
 	 */
-	
+
 	public String getTextOverline( )
 	{
 		Object value = getProperty( TOC.TEXT_OVERLINE_MEMBER );
@@ -916,10 +888,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getTextOverline( );
-			}
+
+			return style.getTextOverline( );
+
 		}
 		return (String) value;
 	}
@@ -945,10 +916,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getTextLineThrough( );
-			}
+
+			return style.getTextLineThrough( );
+
 		}
 		return (String) value;
 	}
@@ -976,10 +946,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getTextAlign( );
-			}
+
+			return style.getTextAlign( );
+
 		}
 		return (String) value;
 	}
@@ -1005,10 +974,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getTextDirection( );
-			}
+
+			return style.getTextDirection( );
+
 		}
 		return (String) value;
 	}
@@ -1025,7 +993,7 @@ public class TOCHandle extends StructureHandle
 	 *            the new direction value
 	 * @throws SemanticException
 	 *             if the value is not one of the above.
-	 *
+	 * 
 	 * @author bidi_hcg
 	 */
 
@@ -1033,7 +1001,7 @@ public class TOCHandle extends StructureHandle
 	{
 		setProperty( TOC.TEXT_DIRECTION_MEMBER, value );
 	}
-	
+
 	/**
 	 * Gets text indent property.
 	 * 
@@ -1050,10 +1018,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getTextIndent( );
-			}
+
+			return style.getTextIndent( );
+
 		}
 		return doGetDimensionHandle( TOC.TEXT_INDENT_MEMBER );
 	}
@@ -1081,10 +1048,9 @@ public class TOCHandle extends StructureHandle
 			{
 				return null;
 			}
-			else
-			{
-				return style.getTextTransform( );
-			}
+
+			return style.getTextTransform( );
+
 		}
 		return (String) value;
 	}

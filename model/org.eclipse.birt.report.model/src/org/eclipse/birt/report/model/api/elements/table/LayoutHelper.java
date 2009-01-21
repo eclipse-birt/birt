@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.api.elements.table;
 import java.util.List;
 
 import org.eclipse.birt.report.model.core.ContainerSlot;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.TableGroup;
@@ -45,7 +46,7 @@ public final class LayoutHelper
 	private static void applyLayoutOnRow( LayoutSlot mappingSlot, TableRow row,
 			Module module )
 	{
-		List cells = row.getContentsSlot( );
+		List<DesignElement> cells = row.getContentsSlot( );
 		if ( cells.size( ) == 0 )
 			return;
 
@@ -93,7 +94,7 @@ public final class LayoutHelper
 
 		for ( int i = startPos - 1, interval = 0; i < row.getColumnCount( ); i++ )
 		{
-			LayoutCell cell = (LayoutCell) row.getLayoutCell( i );
+			LayoutCell cell = row.getLayoutCell( i );
 			if ( !cell.isUsed( ) )
 				interval++;
 			else
@@ -121,7 +122,7 @@ public final class LayoutHelper
 
 			for ( int i = row.getColumnCount( ) - 1; i >= startPos - 1; i-- )
 			{
-				LayoutCell cell = (LayoutCell) row.getLayoutCell( i );
+				LayoutCell cell = row.getLayoutCell( i );
 				if ( !cell.isUsed( ) )
 					startCol--;
 				else
@@ -163,7 +164,8 @@ public final class LayoutHelper
 		for ( int groupIndex = 0; groupIndex < groupCount; groupIndex++ )
 		{
 			TableGroup group = (TableGroup) groups.getContent( groupIndex );
-			ContainerSlot header = group.getSlot( IGroupElementModel.HEADER_SLOT );
+			ContainerSlot header = group
+					.getSlot( IGroupElementModel.HEADER_SLOT );
 
 			LayoutSlot slot = mappingTable.getGroupHeaders( ).addSlot(
 					group.getGroupLevel( ), mappingTable.getColumnCount( ) );
@@ -179,7 +181,8 @@ public final class LayoutHelper
 		for ( int groupIndex = groupCount - 1; groupIndex >= 0; groupIndex-- )
 		{
 			TableGroup group = (TableGroup) groups.getContent( groupIndex );
-			ContainerSlot header = group.getSlot( IGroupElementModel.FOOTER_SLOT );
+			ContainerSlot header = group
+					.getSlot( IGroupElementModel.FOOTER_SLOT );
 
 			LayoutSlot slot = mappingTable.getGroupFooters( ).addSlot(
 					group.getGroupLevel( ), mappingTable.getColumnCount( ) );

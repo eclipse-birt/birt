@@ -16,7 +16,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 /**
  * Interface to traverse all the style property values.
  */
-public interface IStyleDeclaration extends IStyleModel {
+public interface IStyleDeclaration extends IStyleModel
+{
 
 	/**
 	 * Gets the value of the specified style property.
@@ -24,9 +25,9 @@ public interface IStyleDeclaration extends IStyleModel {
 	 * @param name
 	 *            name of the style property, it should be one that defined in
 	 *            <code>IStyleModel</code>
-	 * @return
+	 * @return the property value.
 	 */
-	public Object getProperty(String name);
+	public Object getProperty( String name );
 
 	/**
 	 * Gets the name which this style is defined for. The default stype is
@@ -36,5 +37,5 @@ public interface IStyleDeclaration extends IStyleModel {
 	 * 
 	 * @return the name of this default style.
 	 */
-	public String getName();
+	public String getName( );
 }

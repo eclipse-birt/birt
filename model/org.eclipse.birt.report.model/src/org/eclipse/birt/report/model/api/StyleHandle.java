@@ -28,14 +28,14 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * Represents the style properties for either a shared style or an element with
- * a IStyleModel. A style is defined by a name and a set of style property values.
- * Most styles define values for a small subset of possible values.
+ * a IStyleModel. A style is defined by a name and a set of style property
+ * values. Most styles define values for a small subset of possible values.
  * <p>
  * A style includes a collection of properties such as font face name, font
  * color, fill color and so on. A property is simply a (name, value) pair. The
  * name identifies the property, and the value is what has been set for the
- * property: "red" or "Arial" or "10 pt." A property value can be blank,
- * meaning that the user has not specified anything for that property.
+ * property: "red" or "Arial" or "10 pt." A property value can be blank, meaning
+ * that the user has not specified anything for that property.
  * <p>
  * Each style has a highlight. Each highlight rule has a condition and a set of
  * formatting options to apply if the rule is true. BIRT evaluates each rule in
@@ -44,10 +44,10 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * <p>
  * Each style has a map. The map has a condition and a set of rules. A map rule
  * transforms a value in the input into a different value for display. It works
- * best for fields with a limited set of values, such as converting "Y" to
- * "Yes" and "N" to "No". Mappings with many rules are better handled in
- * the data access layer. Another common use of mapping is to convert a null
- * value into a display value, such as "No Data."
+ * best for fields with a limited set of values, such as converting "Y" to "Yes"
+ * and "N" to "No". Mappings with many rules are better handled in the data
+ * access layer. Another common use of mapping is to convert a null value into a
+ * display value, such as "No Data."
  * 
  * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
  */
@@ -136,8 +136,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	/**
 	 * Returns the pattern of the repeat for a background image. The return
-	 * value is defined in <code>DesignChoiceConstants</code> and can be one
-	 * of:
+	 * value is defined in <code>DesignChoiceConstants</code> and can be one of:
 	 * <ul>
 	 * <li>BACKGROUND_REPEAT_REPEAT
 	 * <li>BACKGROUND_REPEAT_REPEAT_X
@@ -444,13 +443,13 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setStringFormat( String pattern ) throws SemanticException
 	{
-		setFormatValue( IStyleModel.STRING_FORMAT_PROP, FormatValue.PATTERN_MEMBER,
-				pattern );
+		setFormatValue( IStyleModel.STRING_FORMAT_PROP,
+				FormatValue.PATTERN_MEMBER, pattern );
 	}
 
 	/**
-	 * Sets the category of a string format. The <code>pattern</code> can be
-	 * one of:
+	 * Sets the category of a string format. The <code>pattern</code> can be one
+	 * of:
 	 * 
 	 * <ul>
 	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED</code>
@@ -473,8 +472,8 @@ public abstract class StyleHandle extends ReportElementHandle
 	public void setStringFormatCategory( String pattern )
 			throws SemanticException
 	{
-		setFormatValue( IStyleModel.STRING_FORMAT_PROP, FormatValue.CATEGORY_MEMBER,
-				pattern );
+		setFormatValue( IStyleModel.STRING_FORMAT_PROP,
+				FormatValue.CATEGORY_MEMBER, pattern );
 	}
 
 	/**
@@ -522,8 +521,8 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setNumberFormat( String pattern ) throws SemanticException
 	{
-		setFormatValue( IStyleModel.NUMBER_FORMAT_PROP, FormatValue.PATTERN_MEMBER,
-				pattern );
+		setFormatValue( IStyleModel.NUMBER_FORMAT_PROP,
+				FormatValue.PATTERN_MEMBER, pattern );
 	}
 
 	/**
@@ -550,10 +549,10 @@ public abstract class StyleHandle extends ReportElementHandle
 	public void setNumberFormatCategory( String category )
 			throws SemanticException
 	{
-		setFormatValue( IStyleModel.NUMBER_FORMAT_PROP, FormatValue.CATEGORY_MEMBER,
-				category );
+		setFormatValue( IStyleModel.NUMBER_FORMAT_PROP,
+				FormatValue.CATEGORY_MEMBER, category );
 	}
-	
+
 	/**
 	 * Returns the pattern of the date-format.
 	 * 
@@ -587,7 +586,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 		return ( (DateFormatValue) value ).getCategory( );
 	}
-	
+
 	/**
 	 * Returns the pattern of the time-format.
 	 * 
@@ -672,8 +671,8 @@ public abstract class StyleHandle extends ReportElementHandle
 	}
 
 	/**
-	 * Sets the category of a number format. The <code>pattern</code> can be
-	 * one of:
+	 * Sets the category of a number format. The <code>pattern</code> can be one
+	 * of:
 	 * 
 	 * <ul>
 	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED</code>
@@ -699,7 +698,7 @@ public abstract class StyleHandle extends ReportElementHandle
 		setFormatValue( IStyleModel.DATE_TIME_FORMAT_PROP,
 				FormatValue.CATEGORY_MEMBER, pattern );
 	}
-	
+
 	/**
 	 * Sets the pattern of a date time format for a highlight rule.
 	 * 
@@ -716,8 +715,8 @@ public abstract class StyleHandle extends ReportElementHandle
 	}
 
 	/**
-	 * Sets the category of a number format. The <code>pattern</code> can be
-	 * one of:
+	 * Sets the category of a number format. The <code>pattern</code> can be one
+	 * of:
 	 * 
 	 * <ul>
 	 * <li><code>DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED</code>
@@ -740,7 +739,7 @@ public abstract class StyleHandle extends ReportElementHandle
 		setFormatValue( IStyleModel.DATE_FORMAT_PROP,
 				FormatValue.CATEGORY_MEMBER, pattern );
 	}
-	
+
 	/**
 	 * Sets the pattern of a date time format for a highlight rule.
 	 * 
@@ -757,8 +756,8 @@ public abstract class StyleHandle extends ReportElementHandle
 	}
 
 	/**
-	 * Sets the category of a number format. The <code>pattern</code> can be
-	 * one of:
+	 * Sets the category of a number format. The <code>pattern</code> can be one
+	 * of:
 	 * 
 	 * <ul>
 	 * <li><code>DesignChoiceConstants.TIME_FORMAT_TYPE_UNFORMATTED</code>
@@ -806,14 +805,16 @@ public abstract class StyleHandle extends ReportElementHandle
 
 			if ( IStyleModel.DATE_TIME_FORMAT_PROP.equalsIgnoreCase( propName ) )
 				formatValueToSet = new DateTimeFormatValue( );
-			else if ( IStyleModel.NUMBER_FORMAT_PROP.equalsIgnoreCase( propName ) )
+			else if ( IStyleModel.NUMBER_FORMAT_PROP
+					.equalsIgnoreCase( propName ) )
 				formatValueToSet = new NumberFormatValue( );
-			else if ( IStyleModel.STRING_FORMAT_PROP.equalsIgnoreCase( propName ) )
+			else if ( IStyleModel.STRING_FORMAT_PROP
+					.equalsIgnoreCase( propName ) )
 				formatValueToSet = new StringFormatValue( );
-			else if( IStyleModel.DATE_FORMAT_PROP.equalsIgnoreCase( propName ))
-				formatValueToSet = new DateFormatValue();
-			else if( IStyleModel.TIME_FORMAT_PROP.equalsIgnoreCase( propName ))
-				formatValueToSet = new TimeFormatValue();
+			else if ( IStyleModel.DATE_FORMAT_PROP.equalsIgnoreCase( propName ) )
+				formatValueToSet = new DateFormatValue( );
+			else if ( IStyleModel.TIME_FORMAT_PROP.equalsIgnoreCase( propName ) )
+				formatValueToSet = new TimeFormatValue( );
 			else
 				assert false;
 
@@ -1077,11 +1078,10 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	/**
 	 * Tests whether to show this frame even if it is empty, or all its data
-	 * elements are empty. If <code>false</code>, the section is
-	 * automatically hidden when empty.
+	 * elements are empty. If <code>false</code>, the section is automatically
+	 * hidden when empty.
 	 * 
-	 * @return <code>true</code> if show-if-blank, otherwise
-	 *         <code>false</code>
+	 * @return <code>true</code> if show-if-blank, otherwise <code>false</code>
 	 * @see #setShowIfBlank(boolean)
 	 */
 
@@ -1095,8 +1095,7 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * elements are empty.
 	 * 
 	 * @param value
-	 *            <code>true</code> if show the frame. <code>false</code>
-	 *            not.
+	 *            <code>true</code> if show the frame. <code>false</code> not.
 	 * @throws SemanticException
 	 *             if the property is locked
 	 * @see #showIfBlank()
@@ -1294,8 +1293,8 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	/**
 	 * Returns the value of the vertical align property for inline elements. The
-	 * return value is defined in <code>DesignChoiceConstants</code> and can
-	 * be one of:
+	 * return value is defined in <code>DesignChoiceConstants</code> and can be
+	 * one of:
 	 * <ul>
 	 * <li>VERTICAL_ALIGN_BASELINE
 	 * <li>VERTICAL_ALIGN_SUB
@@ -1587,7 +1586,8 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public DimensionHandle getBackGroundPositionX( )
 	{
-		return super.getDimensionProperty( IStyleModel.BACKGROUND_POSITION_X_PROP );
+		return super
+				.getDimensionProperty( IStyleModel.BACKGROUND_POSITION_X_PROP );
 	}
 
 	/**
@@ -1605,7 +1605,8 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public DimensionHandle getBackGroundPositionY( )
 	{
-		return super.getDimensionProperty( IStyleModel.BACKGROUND_POSITION_Y_PROP );
+		return super
+				.getDimensionProperty( IStyleModel.BACKGROUND_POSITION_Y_PROP );
 	}
 
 	/**
@@ -1627,7 +1628,8 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Gets a dimension handle to deal with the height of a line. Implies
 	 * spacing between lines. Besides the dimension value, the dimension handle
-	 * may return one of constants defined in <code>DesignChoiceConstatns</code>:
+	 * may return one of constants defined in <code>DesignChoiceConstatns</code>
+	 * :
 	 * <ul>
 	 * <li><code>NORMAL_NORMAL</code>
 	 * </ul>
@@ -1736,7 +1738,8 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public DimensionHandle getBorderBottomWidth( )
 	{
-		return super.getDimensionProperty( IStyleModel.BORDER_BOTTOM_WIDTH_PROP );
+		return super
+				.getDimensionProperty( IStyleModel.BORDER_BOTTOM_WIDTH_PROP );
 	}
 
 	/**

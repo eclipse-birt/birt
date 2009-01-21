@@ -62,14 +62,15 @@ abstract class ColumnBandAction
 	 *         rectangle, otherwise <code>false</code>.
 	 */
 
-	protected boolean isRectangleArea( List cells, int rectWidth )
+	protected boolean isRectangleArea( List<CellContextInfo> cells,
+			int rectWidth )
 	{
 		int numOfRows = adapter.getRowCount( );
 		int rowCount = 0;
 
 		for ( int i = 0; i < cells.size( ); i++ )
 		{
-			CellContextInfo contextInfo = (CellContextInfo) cells.get( i );
+			CellContextInfo contextInfo = cells.get( i );
 
 			int colSpan = contextInfo.getColumnSpan( );
 			if ( colSpan > rectWidth )
@@ -145,14 +146,15 @@ abstract class ColumnBandAction
 	 *         <code>ErrorDetail</code>.
 	 */
 
-	private List checkElementPostPaste( DesignElementHandle content )
+	private List<ErrorDetail> checkElementPostPaste( DesignElementHandle content )
 	{
 		if ( content == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
-		List exceptionList = content.getElement( ).validateWithContents(
-				adapter.getModule( ) );
-		List errorDetailList = ErrorDetail.convertExceptionList( exceptionList );
+		List<SemanticException> exceptionList = content.getElement( )
+				.validateWithContents( adapter.getModule( ) );
+		List<ErrorDetail> errorDetailList = ErrorDetail
+				.convertExceptionList( exceptionList );
 
 		return errorDetailList;
 	}
@@ -233,7 +235,7 @@ abstract class ColumnBandAction
 	 * @return a <code>SlotLayoutInfo</code> object
 	 */
 
-	private SlotLayoutInfo getLayoutOfSlot( List cells,
+	private SlotLayoutInfo getLayoutOfSlot( List<CellContextInfo> cells,
 			String containerDefnName, int slotId, int groupId )
 	{
 		SlotLayoutInfo layoutInfo = new SlotLayoutInfo( containerDefnName,
@@ -269,16 +271,16 @@ abstract class ColumnBandAction
 	 *            the copied cells.
 	 * @param targetCells
 	 *            the target cells to be replaced.
-	 * @return <code>true</code> if layouts are exactly same.
-	 *         <code>false</code> if two elements have the same number of rows
-	 *         in slot but cells have different rowSpan values.
+	 * @return <code>true</code> if layouts are exactly same. <code>false</code>
+	 *         if two elements have the same number of rows in slot but cells
+	 *         have different rowSpan values.
 	 * @throws SemanticException
 	 *             if number of rows in slots of the source and destination are
 	 *             different.
 	 */
 
-	protected boolean isSameLayout( List copiedCells, List targetCells )
-			throws SemanticException
+	protected boolean isSameLayout( List<CellContextInfo> copiedCells,
+			List<CellContextInfo> targetCells ) throws SemanticException
 	{
 		String oldContainerDefnName = null;
 		int oldSlotId = IDesignElementModel.NO_SLOT;
@@ -286,7 +288,7 @@ abstract class ColumnBandAction
 
 		for ( int i = 0; i < copiedCells.size( ); i++ )
 		{
-			CellContextInfo contextInfo = (CellContextInfo) copiedCells.get( i );
+			CellContextInfo contextInfo = copiedCells.get( i );
 
 			String containerDefnName = contextInfo.getContainerDefnName( );
 			int slotId = contextInfo.getSlotId( );
@@ -463,7 +465,7 @@ abstract class ColumnBandAction
 				assert false;
 				return;
 			}
-			
+
 			target.setRepeatCount( repeat1 );
 			newColumn.setRepeatCount( repeat2 );
 			int pos = oldPos;
@@ -481,13 +483,13 @@ abstract class ColumnBandAction
 	 * @return a list containing new <code>CellContextInfo</code> objects.
 	 */
 
-	protected List getCellsContextInfo( List cells )
+	protected List<CellContextInfo> getCellsContextInfo( List<CellHandle> cells )
 	{
-		List list = new ArrayList( );
+		List<CellContextInfo> list = new ArrayList<CellContextInfo>( );
 
 		for ( int i = 0; i < cells.size( ); i++ )
 		{
-			CellHandle cell = (CellHandle) cells.get( i );
+			CellHandle cell = cells.get( i );
 			list.add( getCellContextInfo( (Cell) cell.getElement( ),
 					(RowHandle) cell.getContainer( ) ) );
 		}
@@ -507,9 +509,10 @@ abstract class ColumnBandAction
 	 *         is <code>ErrorDetail</code>.
 	 */
 
-	protected List doPostPasteCheck( TableColumn column, List cells )
+	protected List<ErrorDetail> doPostPasteCheck( TableColumn column,
+			List<CellContextInfo> cells )
 	{
-		List list = Collections.EMPTY_LIST;
+		List<ErrorDetail> list = Collections.emptyList( );
 
 		if ( column != null )
 			list = checkElementPostPaste( column
@@ -517,7 +520,7 @@ abstract class ColumnBandAction
 
 		for ( int i = 0; i < cells.size( ); i++ )
 		{
-			CellContextInfo contextInfo = (CellContextInfo) cells.get( i );
+			CellContextInfo contextInfo = cells.get( i );
 			CellHandle cell = contextInfo.getCell( ).handle(
 					adapter.getModule( ) );
 			list.addAll( checkElementPostPaste( cell ) );
@@ -537,7 +540,7 @@ abstract class ColumnBandAction
 		 * Rows in the slot.
 		 */
 
-		private List details = new ArrayList( );
+		private List<Integer> details = new ArrayList<Integer>( );
 
 		/**
 		 * The definition name of the container.
@@ -591,8 +594,8 @@ abstract class ColumnBandAction
 		}
 
 		/**
-		 * Checks whether numbers of rows in two <code>SlotLayoutInfo</code>
-		 * are same.
+		 * Checks whether numbers of rows in two <code>SlotLayoutInfo</code> are
+		 * same.
 		 * 
 		 * @param info
 		 *            the slot information
@@ -605,7 +608,7 @@ abstract class ColumnBandAction
 			if ( !containerDefnName.equals( info.containerDefnName ) )
 				return false;
 
-			if ( slotId != info.slotId || groupId != groupId )
+			if ( slotId != info.slotId || groupId != info.groupId )
 				return false;
 
 			int myNumOfRows = getNumOfRows( );
@@ -631,7 +634,7 @@ abstract class ColumnBandAction
 
 			for ( int i = 0; i < details.size( ); i++ )
 			{
-				Integer myRowSpan = (Integer) details.get( i );
+				Integer myRowSpan = details.get( i );
 
 				Object targetRowSpan = info.details.get( i );
 				if ( !myRowSpan.equals( targetRowSpan ) )
@@ -646,7 +649,7 @@ abstract class ColumnBandAction
 			int numOfRows = 0;
 			for ( int i = 0; i < details.size( ); i++ )
 			{
-				Integer rowSpan = (Integer) details.get( i );
+				Integer rowSpan = details.get( i );
 				numOfRows += rowSpan.intValue( );
 			}
 

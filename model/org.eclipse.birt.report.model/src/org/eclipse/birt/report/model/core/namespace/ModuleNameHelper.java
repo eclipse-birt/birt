@@ -62,7 +62,7 @@ public class ModuleNameHelper extends AbstractNameHelper
 	 * convert level name to local unique in dimension. It just used in parser.
 	 * After parser, we will clear it.
 	 */
-	private Map<String, DesignElement> cachedLevelNames = new HashMap( );
+	private Map<String, DesignElement> cachedLevelNames = new HashMap<String, DesignElement>( );
 
 	/**
 	 * 

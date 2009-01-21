@@ -484,7 +484,7 @@ public class SessionHandle
 	 * 
 	 * @param fileName
 	 * @param options
-	 * @return
+	 * @return new report design handle.
 	 */
 	public ReportDesignHandle createDesign( String fileName,
 			ModuleOption options )
@@ -556,10 +556,10 @@ public class SessionHandle
 
 	public void saveAll( ) throws IOException
 	{
-		Iterator iter = session.getModuleIterator( );
+		Iterator<Module> iter = session.getModuleIterator( );
 		while ( iter.hasNext( ) )
 		{
-			Module module = (Module) iter.next( );
+			Module module = iter.next( );
 			ModuleHandle handle = (ModuleHandle) module.getHandle( module );
 			if ( handle.needsSave( ) )
 				handle.save( );
@@ -577,10 +577,10 @@ public class SessionHandle
 
 	public void closeAll( boolean save ) throws IOException
 	{
-		Iterator iter = session.getModuleIterator( );
+		Iterator<Module> iter = session.getModuleIterator( );
 		while ( iter.hasNext( ) )
 		{
-			Module module = (Module) iter.next( );
+			Module module = iter.next( );
 			ModuleHandle handle = (ModuleHandle) module.getHandle( module );
 			if ( save && handle.needsSave( ) )
 				handle.save( );
@@ -597,8 +597,12 @@ public class SessionHandle
 	 * be one of:
 	 * 
 	 * <ul>
-	 * <li><code>UNITS_IN</code></li> <li><code>UNITS_CM</code></li> <li><code>
-	 * UNITS_MM</code></li> <li><code>UNITS_PT</code></li> <li><code>UNITS_PC
+	 * <li><code>UNITS_IN</code></li>
+	 * <li><code>UNITS_CM</code></li>
+	 * <li><code>
+	 * UNITS_MM</code></li>
+	 * <li><code>UNITS_PT</code></li>
+	 * <li><code>UNITS_PC
 	 * </code></li>
 	 * </ul>
 	 * 
@@ -621,8 +625,12 @@ public class SessionHandle
 	 * defined in <code>DesignChoiceConstants</code> and is one of:
 	 * 
 	 * <ul>
-	 * <li><code>UNITS_IN</code></li> <li><code>UNITS_CM</code></li> <li><code>
-	 * UNITS_MM</code></li> <li><code>UNITS_PT</code></li> <li><code>UNITS_PC
+	 * <li><code>UNITS_IN</code></li>
+	 * <li><code>UNITS_CM</code></li>
+	 * <li><code>
+	 * UNITS_MM</code></li>
+	 * <li><code>UNITS_PT</code></li>
+	 * <li><code>UNITS_PC
 	 * </code></li>
 	 * </ul>
 	 * 
@@ -643,8 +651,12 @@ public class SessionHandle
 	 * The rgbFormat argument is an integer value that may be the following
 	 * constants defined in <code>ColorUtil</code>:
 	 * <ul>
-	 * <li><code>INT_FORMAT</code> <li><code>HTML_FORMAT</code> <li><code>
-	 * JAVA_FORMAT</code> <li><code>CSS_ABSOLUTE_FORMAT</code> <li><code>
+	 * <li><code>INT_FORMAT</code>
+	 * <li><code>HTML_FORMAT</code>
+	 * <li><code>
+	 * JAVA_FORMAT</code>
+	 * <li><code>CSS_ABSOLUTE_FORMAT</code>
+	 * <li><code>
 	 * CSS_RELATIVE_FORMAT</code>
 	 * </ul>
 	 * 
@@ -667,8 +679,12 @@ public class SessionHandle
 	 * is one of the following constants defined in <code>ColorUtil</code>:
 	 * 
 	 * <ul>
-	 * <li><code>INT_FORMAT</code> <li><code>HTML_FORMAT</code> <li><code>
-	 * JAVA_FORMAT</code> <li><code>CSS_ABSOLUTE_FORMAT</code> <li><code>
+	 * <li><code>INT_FORMAT</code>
+	 * <li><code>HTML_FORMAT</code>
+	 * <li><code>
+	 * JAVA_FORMAT</code>
+	 * <li><code>CSS_ABSOLUTE_FORMAT</code>
+	 * <li><code>
 	 * CSS_RELATIVE_FORMAT</code>
 	 * </ul>
 	 * 

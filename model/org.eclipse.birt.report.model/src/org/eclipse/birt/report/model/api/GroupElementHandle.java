@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
@@ -64,7 +65,7 @@ abstract public class GroupElementHandle
 	 * @return the list that contains the group of design elements.
 	 */
 
-	abstract public List getElements( );
+	abstract public List<DesignElementHandle> getElements( );
 
 	/**
 	 * Returns the module.
@@ -87,9 +88,9 @@ abstract public class GroupElementHandle
 	 * are considered of same type if their element definitions are identical.
 	 * <p>
 	 * If elements have different definitions. Even the same element type, the
-	 * return value is <code>false</code>. For example, if the list contains
-	 * an <code>OdaDataSource</code> and a <code>OdaDataSource</code>, this
-	 * method returns <code>false</code>.
+	 * return value is <code>false</code>. For example, if the list contains an
+	 * <code>OdaDataSource</code> and a <code>OdaDataSource</code>, this method
+	 * returns <code>false</code>.
 	 * 
 	 * @return <code>true</code> if the given elements are of the same type;
 	 *         return <code>false</code> if elements are of different element
@@ -112,7 +113,7 @@ abstract public class GroupElementHandle
 	 *         <code>DesignElementHandle</code>, return an empty list.
 	 */
 
-	abstract public List getCommonProperties( );
+	abstract public List<IElementPropertyDefn> getCommonProperties( );
 
 	/**
 	 * Returns an iterator over the common properties. Contents of the iterator
@@ -149,8 +150,7 @@ abstract public class GroupElementHandle
 	 * 
 	 * @param propName
 	 *            the property name
-	 * @return <code>true</code> if it is visible. Otherwise
-	 *         <code>false</code>.
+	 * @return <code>true</code> if it is visible. Otherwise <code>false</code>.
 	 */
 
 	abstract protected boolean isPropertyVisible( String propName );
@@ -200,11 +200,11 @@ abstract public class GroupElementHandle
 		if ( !allExtendedElements( ) )
 			return false;
 
-		List elements = getElements( );
-		for ( Iterator iter = elements.iterator( ); iter.hasNext( ); )
+		List<DesignElementHandle> elements = getElements( );
+		for ( Iterator<DesignElementHandle> iter = elements.iterator( ); iter
+				.hasNext( ); )
 		{
-			DesignElementHandle elementHandle = (DesignElementHandle) iter
-					.next( );
+			DesignElementHandle elementHandle = iter.next( );
 			boolean hasLocalProperties = elementHandle.hasLocalProperties( );
 			if ( hasLocalProperties )
 				return true;
@@ -218,8 +218,8 @@ abstract public class GroupElementHandle
 	/**
 	 * Checks if all elements have extends parents or virtual parents.
 	 * 
-	 * @return <code>true</code> If all elements have extend parents or
-	 *         virtual parents. Otherwise <code>false</code>;
+	 * @return <code>true</code> If all elements have extend parents or virtual
+	 *         parents. Otherwise <code>false</code>;
 	 */
 
 	protected abstract boolean allExtendedElements( );

@@ -95,7 +95,8 @@ public interface IStructure extends IPropertySet
 	/**
 	 * Justifies whether the structure is generated in design time or not.
 	 * 
-	 * @return
+	 * @return <true> if the structure is generated in design time, otherwise
+	 *         return <false>.
 	 */
 	public boolean isDesignTime( );
 }

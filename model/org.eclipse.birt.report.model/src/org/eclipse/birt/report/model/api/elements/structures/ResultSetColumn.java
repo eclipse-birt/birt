@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -116,7 +117,9 @@ public class ResultSetColumn extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
+	 * .lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -137,8 +140,9 @@ public class ResultSetColumn extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
+	 * .lang.String, java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
@@ -150,7 +154,7 @@ public class ResultSetColumn extends Structure
 		else if ( DATA_TYPE_MEMBER.equals( propName ) )
 			dataType = (String) value;
 		else if ( NATIVE_DATA_TYPE_MEMBER.equals( propName ) )
-			nativeDataType = (Integer) value;		
+			nativeDataType = (Integer) value;
 		else
 			assert false;
 	}
@@ -251,8 +255,9 @@ public class ResultSetColumn extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * report.model.api.SimpleValueHandle, int)
 	 */
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
 	{
@@ -281,7 +286,7 @@ public class ResultSetColumn extends Structure
 	{
 		setProperty( NATIVE_DATA_TYPE_MEMBER, dataType );
 	}
-	
+
 	/**
 	 * Validates this structure. The following are the rules:
 	 * <ul>
@@ -292,9 +297,10 @@ public class ResultSetColumn extends Structure
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List validate( Module module, DesignElement element )
+	public List<SemanticException> validate( Module module,
+			DesignElement element )
 	{
-		List list = super.validate( module, element );
+		List<SemanticException> list = super.validate( module, element );
 
 		if ( StringUtil.isBlank( columnName ) )
 		{

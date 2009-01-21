@@ -82,9 +82,9 @@ public class LayoutUtil
 	 * @return a list containing flattern slots
 	 */
 
-	protected static List getFlattenedLayoutSlots( LayoutTable table )
+	protected static List<LayoutSlot> getFlattenedLayoutSlots( LayoutTable table )
 	{
-		List list = new ArrayList( );
+		List<LayoutSlot> list = new ArrayList<LayoutSlot>( );
 		list.add( table.getHeader( ) );
 
 		LayoutGroupBand band = table.getGroupHeaders( );
@@ -219,8 +219,8 @@ public class LayoutUtil
 
 	/**
 	 * Returns a nearest <code>TableItem/GridItem</code> container for
-	 * <code>TableRow</code>, <code>TableGroup</code> and
-	 * <code>TableItem</code> if applicable.
+	 * <code>TableRow</code>, <code>TableGroup</code> and <code>TableItem</code>
+	 * if applicable.
 	 * <p>
 	 * If <code>TableRow</code> is in the <code>GridItem</code>, return
 	 * <code>null</code>.
@@ -258,7 +258,7 @@ public class LayoutUtil
 	 * 
 	 * @param module
 	 * @param element
-	 * @return
+	 * @return <true> if column does not repeat, otherwise return <false>.
 	 */
 	private static boolean checkColumnRepeat( Module module,
 			DesignElement element )
@@ -270,7 +270,7 @@ public class LayoutUtil
 		else if ( element instanceof GridItem )
 			slot = ( (GridItem) element ).getSlot( GridItem.COLUMN_SLOT );
 
-		Iterator iterator = slot.getContents( ).iterator( );
+		Iterator<DesignElement> iterator = slot.getContents( ).iterator( );
 		while ( iterator.hasNext( ) )
 		{
 			TableColumn e = (TableColumn) iterator.next( );
@@ -343,10 +343,10 @@ public class LayoutUtil
 
 		// if there is overlapped area, it is valid for "drop".
 
-		List slots = getFlattenedLayoutSlots( layout );
+		List<LayoutSlot> slots = getFlattenedLayoutSlots( layout );
 		for ( int i = 0; i < slots.size( ); i++ )
 		{
-			LayoutSlot slot = (LayoutSlot) slots.get( i );
+			LayoutSlot slot = slots.get( i );
 			for ( int j = 0; j < slot.getRowCount( ); j++ )
 			{
 				LayoutRow row = slot.getLayoutRow( j );

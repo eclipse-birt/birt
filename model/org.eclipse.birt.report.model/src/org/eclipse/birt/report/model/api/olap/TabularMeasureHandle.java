@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.api.olap;
 
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 

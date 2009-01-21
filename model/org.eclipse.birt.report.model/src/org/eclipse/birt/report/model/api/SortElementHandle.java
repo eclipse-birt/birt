@@ -114,7 +114,7 @@ public class SortElementHandle extends ContentElementHandle
 	 * Gets the member value handle of this sort element if it sets. Otherwise
 	 * return null.
 	 * 
-	 * @return
+	 * @return the member value handle.
 	 */
 	public MemberValueHandle getMember( )
 	{

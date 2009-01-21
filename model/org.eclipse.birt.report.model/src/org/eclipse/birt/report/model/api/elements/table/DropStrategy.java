@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.ContainerSlot;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
@@ -38,9 +39,9 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
  * <li>The vertical span starts with the group header. If, however, all other
  * cells within the group header table row are empty, then the vertical span
  * instead starts with the first detail row.
- * <li>A group header can contain two or more rows. In such a case, the drop
- * can be defined in any of these rows. The drop will merge group header cells
- * as well as detail cells as long as these header cells are 1) empty, and 2)
+ * <li>A group header can contain two or more rows. In such a case, the drop can
+ * be defined in any of these rows. The drop will merge group header cells as
+ * well as detail cells as long as these header cells are 1) empty, and 2)
  * appears after the row with the drop cell.
  * </ul>
  * <p>
@@ -51,20 +52,20 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
  * <li>The header row that contains a drop must be the last row within a group
  * header drop for the drop to take effect. If it is not the last row in the
  * band, then the drop is ignored.
- * <li>The above rule applies at runtime, not design time. For example, a
- * header may have three different group headers for a group, each with a
- * different condition. Only one is selected for any given report group. In this
- * case, the drop column is in effect.
+ * <li>The above rule applies at runtime, not design time. For example, a header
+ * may have three different group headers for a group, each with a different
+ * condition. Only one is selected for any given report group. In this case, the
+ * drop column is in effect.
  * <li>The drop setting is honored only if the detail table row has an empty
  * cell in the same position as the group header drop column. If the detail cell
  * is not empty, then the drop setting in the group header is ignored for that
  * column. This decision is made on a column-by-column basis.
  * <li>A blank detail cell is one that contains no report items.
- * <li>If a drop is defined on the inner-most group header, that drop cell
- * spans the (optional) group header row, and all detail rows for that group
- * (with the above caveats.) The drop property specifies if the drop should also
- * span into the group footer. If it does span into the group footer, the same
- * caveats above apply to the footer cells: they must be blank.
+ * <li>If a drop is defined on the inner-most group header, that drop cell spans
+ * the (optional) group header row, and all detail rows for that group (with the
+ * above caveats.) The drop property specifies if the drop should also span into
+ * the group footer. If it does span into the group footer, the same caveats
+ * above apply to the footer cells: they must be blank.
  * <li>A drop can apply to any group level. If the group is not the inner-most,
  * then the drop cell will span all the group headers for any nested groups, and
  * will span all detail items for all nested groups.
@@ -101,7 +102,7 @@ class DropStrategy
 	public void applyStrategy( )
 	{
 		TableItem table = layoutTable.table;
-		List groups = table.getGroups( );
+		List<DesignElement> groups = table.getGroups( );
 
 		for ( int i = 0; i < groups.size( ); i++ )
 		{
@@ -154,8 +155,9 @@ class DropStrategy
 	private void resolveDropInRow( TableRow row, int rowId, int groupLevel,
 			LayoutRow layoutRow )
 	{
-		List cells = new ContainerContext( row, ITableRowModel.CONTENT_SLOT )
-				.getContents( layoutTable.getModule( ) );
+		List<DesignElement> cells = new ContainerContext( row,
+				ITableRowModel.CONTENT_SLOT ).getContents( layoutTable
+				.getModule( ) );
 		for ( int i = 0; i < cells.size( ); i++ )
 		{
 			Cell cell = (Cell) cells.get( i );
@@ -191,7 +193,8 @@ class DropStrategy
 			return;
 
 		int colSpan = cell.getColSpan( layoutTable.getModule( ) );
-		List layoutSlots = getSpanSlots( groupLevel, colId, colSpan, drop );
+		List<LayoutSlot> layoutSlots = getSpanSlots( groupLevel, colId,
+				colSpan, drop );
 
 		updateUsedLayoutCell( layoutRow, colId, cell, layoutSlots );
 		updateSpannedLayoutCell( layoutSlots, cell, colId, original.getCellId( ) );
@@ -211,10 +214,10 @@ class DropStrategy
 	 * @return the list containing layout slot that can be spanned by "drop"
 	 */
 
-	private List getSpanSlots( int groupLevel, int colId, int colSpan,
-			String drop )
+	private List<LayoutSlot> getSpanSlots( int groupLevel, int colId,
+			int colSpan, String drop )
 	{
-		List layoutSlots = new ArrayList( );
+		List<LayoutSlot> layoutSlots = new ArrayList<LayoutSlot>( );
 
 		// check the group header
 
@@ -226,7 +229,7 @@ class DropStrategy
 				continue;
 
 			if ( isConflictArea( slot, colId, colSpan, true ) )
-				return Collections.EMPTY_LIST;
+				return Collections.emptyList( );
 
 			layoutSlots.add( slot );
 		}
@@ -235,7 +238,7 @@ class DropStrategy
 
 		LayoutSlot detail = layoutTable.getDetail( );
 		if ( isConflictArea( detail, colId, colSpan, false ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		layoutSlots.add( detail );
 
@@ -251,7 +254,7 @@ class DropStrategy
 					continue;
 
 				if ( isConflictArea( slot, colId, colSpan, false ) )
-					return Collections.EMPTY_LIST;
+					return Collections.emptyList( );
 
 				layoutSlots.add( slot );
 			}
@@ -262,8 +265,7 @@ class DropStrategy
 
 	/**
 	 * Updates information of <code>LayoutCells</code>s that is used by the
-	 * <code>cell</code>. <code>rowSpanForDrop</code> is set in this
-	 * method.
+	 * <code>cell</code>. <code>rowSpanForDrop</code> is set in this method.
 	 * 
 	 * @param row
 	 *            the list containing layout rows that can be spanned by "drop"
@@ -276,16 +278,15 @@ class DropStrategy
 	 */
 
 	private void updateUsedLayoutCell( LayoutRow row, int colId, Cell cell,
-			List spannedSlots )
+			List<LayoutSlot> spannedSlots )
 	{
 		int rowSpanForDrop = 0;
 		for ( int i = 0; i < spannedSlots.size( ); i++ )
-			rowSpanForDrop += ( (LayoutSlot) spannedSlots.get( i ) )
-					.getRowCount( );
+			rowSpanForDrop += ( spannedSlots.get( i ) ).getRowCount( );
 
 		for ( int i = 0; i < cell.getColSpan( layoutTable.getModule( ) ); i++ )
 		{
-			LayoutCell layoutCell = (LayoutCell) row.getLayoutCell( i + colId );
+			LayoutCell layoutCell = row.getLayoutCell( i + colId );
 
 			assert layoutCell.isUsed( );
 
@@ -295,8 +296,8 @@ class DropStrategy
 	}
 
 	/**
-	 * Updates information of <code>LayoutCells</code>s that is spanned by
-	 * the <code>cell</code>.
+	 * Updates information of <code>LayoutCells</code>s that is spanned by the
+	 * <code>cell</code>.
 	 * 
 	 * @param layoutSlots
 	 *            slots that a drop cell can span into
@@ -308,12 +309,12 @@ class DropStrategy
 	 *            the index of the cell that causes the "drop" span
 	 */
 
-	private void updateSpannedLayoutCell( List layoutSlots, Cell cell,
-			int colId, int cellId )
+	private void updateSpannedLayoutCell( List<LayoutSlot> layoutSlots,
+			Cell cell, int colId, int cellId )
 	{
 		for ( int i = 0; i < layoutSlots.size( ); i++ )
 		{
-			LayoutSlot slot = (LayoutSlot) layoutSlots.get( i );
+			LayoutSlot slot = layoutSlots.get( i );
 			slot.addDropSpannedCells( cellId, colId, cell
 					.getColSpan( layoutTable.getModule( ) ), i + 1, cell );
 		}
@@ -339,11 +340,11 @@ class DropStrategy
 	private boolean isConflictArea( LayoutSlot slot, int colId, int colSpan,
 			boolean inGH )
 	{
-		List retValue = slot.checkOverlappedLayoutCells( 0, colId, slot
-				.getRowCount( ), colSpan );
+		List<LayoutCell> retValue = slot.checkOverlappedLayoutCells( 0, colId,
+				slot.getRowCount( ), colSpan );
 		for ( int i = 0; i < retValue.size( ); i++ )
 		{
-			LayoutCell cell = (LayoutCell) retValue.get( i );
+			LayoutCell cell = retValue.get( i );
 			if ( !cell.isEmptyContent( ) )
 				return true;
 

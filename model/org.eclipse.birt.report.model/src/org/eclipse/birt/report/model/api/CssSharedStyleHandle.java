@@ -23,7 +23,9 @@ import org.eclipse.birt.report.model.css.CssStyleSheet;
 
 public class CssSharedStyleHandle extends SharedStyleHandle
 {
+
 	private CssStyleSheet cssSheet;
+
 	/**
 	 * Constructor
 	 * 
@@ -36,7 +38,7 @@ public class CssSharedStyleHandle extends SharedStyleHandle
 	{
 		super( module, element );
 	}
-	
+
 	/**
 	 * Constructor
 	 * 
@@ -44,32 +46,36 @@ public class CssSharedStyleHandle extends SharedStyleHandle
 	 * @param element
 	 * @param cssSheet
 	 */
-	
-	public CssSharedStyleHandle( Module module , DesignElement element , CssStyleSheet cssSheet )
+
+	public CssSharedStyleHandle( Module module, DesignElement element,
+			CssStyleSheet cssSheet )
 	{
-		super( module , element );
-		this.cssSheet = cssSheet ;
+		super( module, element );
+		this.cssSheet = cssSheet;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getContainerSlotHandle()
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#getContainerSlotHandle
+	 * ()
 	 */
 
 	public SlotHandle getContainerSlotHandle( )
 	{
 		return null;
 	}
-	
+
 	/**
 	 * Gets css style sheet handle.
-	 * @return
+	 * 
+	 * @return the css style sheet handle.
 	 */
-	
-	public CssStyleSheetHandle getCssStyleSheetHandle() 
+
+	public CssStyleSheetHandle getCssStyleSheetHandle( )
 	{
-		if( cssSheet == null )
+		if ( cssSheet == null )
 			return null;
 		return cssSheet.handle( module );
 	}

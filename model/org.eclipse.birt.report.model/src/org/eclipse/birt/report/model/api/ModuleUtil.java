@@ -271,7 +271,8 @@ public class ModuleUtil
 		}
 		catch ( SAXException e )
 		{
-			List errors = handler.getErrorHandler( ).getErrors( );
+			List<XMLParserException> errors = handler.getErrorHandler( )
+					.getErrors( );
 
 			// Syntax error is found
 
@@ -643,7 +644,7 @@ public class ModuleUtil
 
 				return ModelUtil.checkVersion( handler.version );
 			}
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		}
 
 	}
@@ -683,9 +684,9 @@ public class ModuleUtil
 	 *         the return list is 0, there is no auto-conversion.
 	 */
 
-	public static List checkVersion( String fileName )
+	public static List<IVersionInfo> checkVersion( String fileName )
 	{
-		List rtnList = new ArrayList( );
+		List<IVersionInfo> rtnList = new ArrayList<IVersionInfo>( );
 		InputStream inputStream = null;
 
 		URL url;
@@ -789,14 +790,15 @@ public class ModuleUtil
 	 * This API is only for helping GUI to draw the dimension joint condition
 	 * editor pad. When user extends an library cube to design, the hierarchy
 	 * handle from the joint condition should be same with the virtual hierarchy
-	 * in the reprot design cube.
+	 * in the report design cube.
 	 * 
 	 * @param conditionHierarchy
 	 *            the hierarchy handle from the dimension joint condition
 	 *            structure.
 	 * @param cubeHierarchy
 	 *            the hierarchy handle from the cube.
-	 * @return
+	 * @return <true> if the the joint condition is same with the virtual
+	 *         hierarchy in the report design cube, otherwise return <false>.
 	 */
 	public static boolean isEqualHierarchiesForJointCondition(
 			HierarchyHandle conditionHierarchy, HierarchyHandle cubeHierarchy )
@@ -980,7 +982,8 @@ public class ModuleUtil
 	 * Convert param type to column data type.
 	 * 
 	 * @param type
-	 * @return
+	 *            the param type.
+	 * @return the column data type.
 	 */
 	public static String convertParamTypeToColumnType( String type )
 	{
@@ -992,7 +995,7 @@ public class ModuleUtil
 	 * Convert column data type to param type.
 	 * 
 	 * @param type
-	 * @return
+	 * @return the param type
 	 */
 
 	public static String convertColumnTypeToParamType( String type )

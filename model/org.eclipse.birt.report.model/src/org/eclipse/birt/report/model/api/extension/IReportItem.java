@@ -200,7 +200,7 @@ public interface IReportItem
 	 * <li><code>String</code>
 	 * <li><code>IStyleDeclaration</code> </ui>
 	 * 
-	 * @return
+	 * @return the predefined styles.
 	 */
 	public List<Object> getPredefinedStyles( );
 

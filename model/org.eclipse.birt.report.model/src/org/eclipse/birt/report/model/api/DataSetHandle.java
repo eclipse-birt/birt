@@ -478,7 +478,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 	/**
 	 * Returns value of data set row limit property.
 	 * 
-	 * @return
+	 * @return the value of data set row limit property.
 	 * @deprecated duplicate with method getRowFetchLimit()
 	 */
 

@@ -63,7 +63,7 @@ public class IncludedCssStyleSheetValidator extends AbstractElementValidator
 			DesignElement element )
 	{
 
-		List cssStyle = new ArrayList( );
+		List<CssStyleSheet> cssStyle = new ArrayList<CssStyleSheet>( );
 		Iterator<IncludedCssStyleSheetHandle> iter = null;
 		if ( element instanceof Theme )
 		{
@@ -88,15 +88,14 @@ public class IncludedCssStyleSheetValidator extends AbstractElementValidator
 		List<String> cssFileNameList = new ArrayList<String>( );
 		for ( int i = 0; i < cssStyle.size( ); i++ )
 		{
-			CssStyleSheet css = (CssStyleSheet) cssStyle.get( i );
+			CssStyleSheet css = cssStyle.get( i );
 			cssFileNameList.add( css.getFileName( ) );
 		}
 
 		List<SemanticException> errorList = new ArrayList<SemanticException>( );
 		while ( iter.hasNext( ) )
 		{
-			IncludedCssStyleSheetHandle includedCssStyleSheet = (IncludedCssStyleSheetHandle) iter
-					.next( );
+			IncludedCssStyleSheetHandle includedCssStyleSheet = iter.next( );
 			String fileName = includedCssStyleSheet.getFileName( );
 
 			if ( !cssFileNameList.contains( fileName ) )

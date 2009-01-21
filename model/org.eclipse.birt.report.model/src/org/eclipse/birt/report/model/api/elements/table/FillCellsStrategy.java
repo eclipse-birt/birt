@@ -47,8 +47,8 @@ public class FillCellsStrategy
 	 * @param layoutTable
 	 *            the layout table
 	 * @param fillsEmptyCells
-	 *            <code>true</code> if cell elements are filled in empty
-	 *            areas. Otherwise <code>false</code>.
+	 *            <code>true</code> if cell elements are filled in empty areas.
+	 *            Otherwise <code>false</code>.
 	 * 
 	 */
 
@@ -167,8 +167,8 @@ public class FillCellsStrategy
 			int columnCount )
 	{
 		int colPos = 0;
-		for ( Iterator iter = layoutRow.layoutCellsIterator( ); iter.hasNext( ); iter
-				.next( ) )
+		for ( Iterator<LayoutCell> iter = layoutRow.layoutCellsIterator( ); iter
+				.hasNext( ); iter.next( ) )
 			colPos++;
 		if ( colPos < columnCount )
 			doFillLayoutCells( layoutRow, columnCount - colPos );
@@ -179,11 +179,11 @@ public class FillCellsStrategy
 		Arrays.fill( positionsToFillLayoutCells, -1 );
 		boolean isFillsNecessary = false;
 
-		Iterator iter = layoutRow.layoutCellsIterator( );
+		Iterator<LayoutCell> iter = layoutRow.layoutCellsIterator( );
 		colPos = 1;
 		for ( int passedCells = 0, toAddCellsIndex = 0; iter.hasNext( ); colPos++ )
 		{
-			LayoutCell layoutCell = (LayoutCell) iter.next( );
+			LayoutCell layoutCell = iter.next( );
 			if ( layoutCell.isUsed( ) && layoutCell.isCellStartPosition( ) )
 				passedCells++;
 			if ( !layoutCell.isUsed( ) && colPos <= columnCount )

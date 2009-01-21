@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.IllegalContentInfo;
 import org.eclipse.birt.report.model.api.extension.UndefinedPropertyInfo;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -134,14 +135,14 @@ public class ExtendedItemHandle extends ReportItemHandle
 	 * @return the list of extension property definition.
 	 */
 
-	public List getExtensionPropertyDefinitionList( )
+	public List<IElementPropertyDefn> getExtensionPropertyDefinitionList( )
 	{
 		if ( ( (ExtendedItem) getElement( ) ).getExtDefn( ) != null )
 
 			return ( (ExtendedItem) getElement( ) ).getExtDefn( )
 					.getLocalProperties( );
 
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList( );
 
 	}
 
@@ -152,7 +153,7 @@ public class ExtendedItemHandle extends ReportItemHandle
 	 * @return the list of methods
 	 */
 
-	public List getMethods( )
+	public List<IElementPropertyDefn> getMethods( )
 	{
 		return ( (ExtendedItem) getElement( ) ).getMethods( );
 	}
@@ -269,7 +270,7 @@ public class ExtendedItemHandle extends ReportItemHandle
 	 * @return a list containing <code>IMethodInfo</code> for functions
 	 */
 
-	public List getMethods( String context )
+	public List<IMethodInfo> getMethods( String context )
 	{
 		if ( StringUtil.isBlank( context ) )
 			return null;
@@ -290,7 +291,7 @@ public class ExtendedItemHandle extends ReportItemHandle
 		{
 			return null;
 		}
-		List returnList = new ArrayList( );
+		List<IMethodInfo> returnList = new ArrayList<IMethodInfo>( );
 		for ( int i = 0; i < info.length; i++ )
 		{
 			IMethodInfo tmpInfo = info[i];
@@ -340,7 +341,7 @@ public class ExtendedItemHandle extends ReportItemHandle
 	 * inserted. Each item in the list is instance of
 	 * <code>IllegalContentInfo</code>.
 	 * 
-	 * @return
+	 * @return the illegal contents.
 	 */
 	public Map<String, List<IllegalContentInfo>> getIllegalContents( )
 	{

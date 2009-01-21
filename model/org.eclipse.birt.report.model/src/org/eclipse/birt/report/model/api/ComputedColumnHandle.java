@@ -242,7 +242,7 @@ public class ComputedColumnHandle extends StructureHandle
 	 * 
 	 * @param argument
 	 *            the aggregate function argument
-	 * @return 
+	 * @return aggregation argument handle.
 	 * @throws SemanticException
 	 */
 
@@ -406,7 +406,7 @@ public class ComputedColumnHandle extends StructureHandle
 			return;
 		}
 
-		List newValue = new ArrayList( );
+		List<String> newValue = new ArrayList<String>( );
 		newValue.add( aggregateOn );
 
 		try

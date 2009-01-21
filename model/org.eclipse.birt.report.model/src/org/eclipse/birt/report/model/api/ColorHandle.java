@@ -47,6 +47,9 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * 
  * <pre>
  * 
+ * 
+ * 
+ * 
  * ColorHandle colorHandle = styleHandle.getColor( );
  * </pre>
  * 
@@ -131,7 +134,6 @@ public class ColorHandle extends ComplexValueHandle
 		setValue( new Integer( rgbValue ) );
 	}
 
-	
 	/**
 	 * Returns a CSS-compatible color value. It is a CSS-defined color name like
 	 * "red", or a CSS absolute RGB value like RGB(255,0,0).
@@ -151,14 +153,14 @@ public class ColorHandle extends ComplexValueHandle
 	 * 
 	 * @return a list of localized color names, including both standard(CSS)
 	 *         colors and user defined colors.
-	 *  
+	 * 
 	 */
 
-	public List getColors( )
+	public List<String> getColors( )
 	{
-		List retList = getCSSColors( );
+		List<String> retList = getCSSColors( );
 
-		List colors = getModule( ).getListProperty( getModule( ),
+		List<Object> colors = getModule( ).getListProperty( getModule( ),
 				IModuleModel.COLOR_PALETTE_PROP );
 		if ( colors == null )
 			return retList;
@@ -166,7 +168,7 @@ public class ColorHandle extends ComplexValueHandle
 		for ( int i = 0; i < colors.size( ); i++ )
 		{
 			CustomColor customColor = (CustomColor) colors.get( i );
-			retList.add( customColor.getDisplayName( getModule() ) );
+			retList.add( customColor.getDisplayName( getModule( ) ) );
 		}
 
 		return retList;
@@ -177,12 +179,12 @@ public class ColorHandle extends ComplexValueHandle
 	 * localized.
 	 * 
 	 * @return a list of localized CSS color names.
-	 *  
+	 * 
 	 */
 
-	public List getCSSColors( )
+	public List<String> getCSSColors( )
 	{
-		ArrayList retList = new ArrayList( );
+		ArrayList<String> retList = new ArrayList<String>( );
 
 		IChoice[] colors = type.getChoices( ).getChoices( );
 		for ( int i = 0; i < colors.length; i++ )
@@ -193,4 +195,3 @@ public class ColorHandle extends ComplexValueHandle
 		return retList;
 	}
 }
-

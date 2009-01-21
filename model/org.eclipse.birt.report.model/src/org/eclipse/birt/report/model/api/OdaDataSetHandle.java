@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
@@ -284,14 +285,14 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	 * @return the list of extension property definition.
 	 */
 
-	public List getExtensionPropertyDefinitionList( )
+	public List<IElementPropertyDefn> getExtensionPropertyDefinitionList( )
 	{
 		if ( ( (OdaDataSet) getElement( ) ).getExtDefn( ) != null )
 
 			return ( (OdaDataSet) getElement( ) ).getExtDefn( )
 					.getLocalProperties( );
 
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList( );
 	}
 
 	/**

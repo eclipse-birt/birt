@@ -195,7 +195,7 @@ public interface IReportDesign extends IDesignElement
 	/**
 	 * Gets the theme for this report design.
 	 * 
-	 * @return
+	 * @return the theme for this report design.
 	 */
 	String getTheme( );
 

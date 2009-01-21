@@ -201,13 +201,13 @@ public class PropertyHandle extends SimpleValueHandle
 	 * @return list of the reference element value.
 	 */
 
-	public List getReferenceableElementList( )
+	public List<DesignElementHandle> getReferenceableElementList( )
 	{
 		if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE
 				&& propDefn.getSubTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
-		List list = new ArrayList( );
+		List<DesignElementHandle> list = new ArrayList<DesignElementHandle>( );
 
 		ElementDefn elementDefn = (ElementDefn) propDefn.getTargetElementType( );
 		assert elementDefn != null;

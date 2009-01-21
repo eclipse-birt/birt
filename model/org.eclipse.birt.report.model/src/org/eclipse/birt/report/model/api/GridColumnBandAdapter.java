@@ -65,11 +65,12 @@ public final class GridColumnBandAdapter extends ColumnBandAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.ColumnBandAdapter#getCellsUnderColumn(int,
-	 *      boolean)
+	 * @see
+	 * org.eclipse.birt.report.model.api.ColumnBandAdapter#getCellsUnderColumn
+	 * (int, boolean)
 	 */
 
-	protected List getCellsUnderColumn( int columnNumber,
+	protected List<CellHandle> getCellsUnderColumn( int columnNumber,
 			boolean mustBeStartPosition )
 	{
 		return getCellsInSlot( element.getRows( ), columnNumber,
@@ -79,7 +80,9 @@ public final class GridColumnBandAdapter extends ColumnBandAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.ColumnBandAdapter#getCellPosition(org.eclipse.birt.report.model.api.CellHandle)
+	 * @see
+	 * org.eclipse.birt.report.model.api.ColumnBandAdapter#getCellPosition(org
+	 * .eclipse.birt.report.model.api.CellHandle)
 	 */
 
 	protected int getCellPosition( CellHandle cell )
@@ -92,7 +95,8 @@ public final class GridColumnBandAdapter extends ColumnBandAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.ColumnBandAdapter#getNumberOfRows()
+	 * @see
+	 * org.eclipse.birt.report.model.api.ColumnBandAdapter#getNumberOfRows()
 	 */
 
 	protected int getRowCount( )
@@ -117,7 +121,7 @@ public final class GridColumnBandAdapter extends ColumnBandAdapter
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.api.ColumnBandAdapter#getRow(int, int,
-	 *      int)
+	 * int)
 	 */
 
 	protected RowHandle getRow( int slotId, int groupId, int rowNumber )
@@ -127,20 +131,26 @@ public final class GridColumnBandAdapter extends ColumnBandAdapter
 	}
 
 	/**
-	 * Always <code>false</code> since the "drop" property is disabled in
-	 * grid.
+	 * Always <code>false</code> since the "drop" property is disabled in grid.
 	 * 
 	 * @see org.eclipse.birt.report.model.api.ColumnBandAdapter#hasDroppingCell(java.util.List)
 	 */
 
-	protected boolean hasDroppingCell( List cells )
+	protected boolean hasDroppingCell( List<CellContextInfo> cells )
 	{
 		return false;
 	}
 
-	protected List getRowContainerSlots( )
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.ColumnBandAdapter#getRowContainerSlots
+	 * ()
+	 */
+	protected List<SlotHandle> getRowContainerSlots( )
 	{
-		List list = new ArrayList( );
+		List<SlotHandle> list = new ArrayList<SlotHandle>( );
 		list.add( element.getRows( ) );
 
 		return list;

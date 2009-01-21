@@ -23,12 +23,12 @@ public class CubeUtil
 	private final static int LEVEL_INDEX = 1;
 
 	/**
-	 * Splits a full name of the level element to a <code>String</code> array
-	 * of length 2. The first member of the array is the name of the dimension
+	 * Splits a full name of the level element to a <code>String</code> array of
+	 * length 2. The first member of the array is the name of the dimension
 	 * element and the second is the name of the level element.
 	 * 
 	 * @param levelName
-	 * @return
+	 * @return an string array.
 	 */
 	public static String[] splitLevelName( String levelName )
 	{

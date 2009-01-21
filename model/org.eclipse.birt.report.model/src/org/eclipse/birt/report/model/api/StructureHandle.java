@@ -109,8 +109,8 @@ public class StructureHandle extends ValueHandle
 	 * 
 	 * @param memberName
 	 *            name of the member to get
-	 * @return String value of the member, or <code>null</code> if the member
-	 *         is not set or is not found.
+	 * @return String value of the member, or <code>null</code> if the member is
+	 *         not set or is not found.
 	 */
 
 	public Object getProperty( String memberName )
@@ -127,8 +127,8 @@ public class StructureHandle extends ValueHandle
 	 * 
 	 * @param memberName
 	 *            name of the member to get
-	 * @return String value of the member, or <code>null</code> if the member
-	 *         is not set or is not found.
+	 * @return String value of the member, or <code>null</code> if the member is
+	 *         not set or is not found.
 	 */
 
 	protected String getStringProperty( String memberName )
@@ -211,8 +211,8 @@ public class StructureHandle extends ValueHandle
 	 * 
 	 * @param memberName
 	 *            the name of the member
-	 * @return a handle to the member or <code>null</code> if the member is
-	 *         not defined on the structure.
+	 * @return a handle to the member or <code>null</code> if the member is not
+	 *         defined on the structure.
 	 */
 
 	public MemberHandle getMember( String memberName )
@@ -310,7 +310,8 @@ public class StructureHandle extends ValueHandle
 	/**
 	 * Justifies whether this structure handle is generated in design time.
 	 * 
-	 * @return
+	 * @return <true> if the structure handle is generated in design time,
+	 *         otherwise return <false>.
 	 */
 	public boolean isDesignTime( )
 	{

@@ -48,10 +48,13 @@ public class NameContextFactory
 	}
 
 	/**
+	 * Creates the dimension name context.
 	 * 
 	 * @param dimension
+	 *            the dimension.
 	 * @param nameSpaceID
-	 * @return
+	 *            the name space id.
+	 * @return the dimension name context.
 	 */
 	public static INameContext createDimensionNameContext( Dimension dimension,
 			int nameSpaceID )

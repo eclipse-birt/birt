@@ -623,11 +623,11 @@ public final class ErrorDetail implements ErrorCodes
 	 */
 
 	public static List<ErrorDetail> convertExceptionList(
-			List<Exception> exceptionList )
+			List<? extends Exception> exceptionList )
 	{
 		List<ErrorDetail> errorDetailList = new ArrayList<ErrorDetail>( );
 
-		Iterator<Exception> iterError = exceptionList.iterator( );
+		Iterator<? extends Exception> iterError = exceptionList.iterator( );
 		while ( iterError.hasNext( ) )
 		{
 			Exception e = iterError.next( );
@@ -647,8 +647,10 @@ public final class ErrorDetail implements ErrorCodes
 	 * @param errorType
 	 *            the semantic error type. The possible value is:
 	 *            <ul>
-	 *            <li><code>DesignFileException.SEMANTIC_ERROR</code> <li><code>
-	 *            DesignFileException.SEMANTIC_WARNING</code> <li><code>
+	 *            <li><code>DesignFileException.SEMANTIC_ERROR</code>
+	 *            <li><code>
+	 *            DesignFileException.SEMANTIC_WARNING</code>
+	 *            <li><code>
 	 *            DesignFileException.SYNTAX_ERROR</code>
 	 *            </ul>
 	 * @return a list containing specified semantic errors. Each element in the

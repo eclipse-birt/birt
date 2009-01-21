@@ -15,7 +15,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
-import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -30,8 +29,8 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
  * cube and hierarchy in dimension. Each one in the list must be one of the data
  * set column in data set defined in cube.</dd>
  * <dt><strong>Hierarchy</strong></dt>
- * <dd>Hierarchy refers a hierarchy element in one of the dimension in the
- * cube.</dd>
+ * <dd>Hierarchy refers a hierarchy element in one of the dimension in the cube.
+ * </dd>
  * </dl>
  * 
  */
@@ -66,9 +65,11 @@ public class DimensionConditionHandle extends StructureHandle
 	}
 
 	/**
+	 * Gets the dimension join condition handle.
 	 * 
 	 * @param joinCondition
-	 * @return
+	 *            the join condition.
+	 * @return the dimension join condition handle.
 	 * @throws SemanticException
 	 */
 	public DimensionJoinConditionHandle addJoinCondition(
@@ -155,5 +156,5 @@ public class DimensionConditionHandle extends StructureHandle
 				? null
 				: hierarchyHandle.getElement( );
 		setProperty( DimensionCondition.HIERARCHY_MEMBER, element );
-	}	
+	}
 }

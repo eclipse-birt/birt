@@ -352,14 +352,15 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the filtered structure list with the above rule.
 	 */
 
-	List getFilteredStructureList( String propName, String nameMember )
+	List<StructureHandle> getFilteredStructureList( String propName,
+			String nameMember )
 	{
-		List list = new ArrayList( );
+		List<StructureHandle> list = new ArrayList<StructureHandle>( );
 
 		PropertyHandle propHandle = getPropertyHandle( propName );
 		assert propHandle != null;
 
-		Set names = new HashSet( );
+		Set<String> names = new HashSet<String>( );
 		Iterator iter = propHandle.iterator( );
 		while ( iter.hasNext( ) )
 		{
@@ -372,11 +373,11 @@ public abstract class ModuleHandle extends DesignElementHandle
 			}
 		}
 
-		List theLibraries = getLibraries( );
+		List<LibraryHandle> theLibraries = getLibraries( );
 		int size = theLibraries.size( );
 		for ( int i = 0; i < size; i++ )
 		{
-			LibraryHandle library = (LibraryHandle) theLibraries.get( i );
+			LibraryHandle library = theLibraries.get( i );
 			if ( library.isValid( ) )
 			{
 				iter = library.getFilteredStructureList( propName, nameMember )
@@ -408,19 +409,19 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         StructureHandle</code>
 	 */
 
-	List getStructureList( String propName )
+	List<StructureHandle> getStructureList( String propName )
 	{
-		List list = new ArrayList( );
+		List<StructureHandle> list = new ArrayList<StructureHandle>( );
 
-		List tempList = getNativeStructureList( propName );
+		List<StructureHandle> tempList = getNativeStructureList( propName );
 		if ( !tempList.isEmpty( ) )
 			list.addAll( tempList );
 
-		List theLibraries = getLibraries( );
+		List<LibraryHandle> theLibraries = getLibraries( );
 		int size = theLibraries.size( );
 		for ( int i = 0; i < size; i++ )
 		{
-			LibraryHandle library = (LibraryHandle) theLibraries.get( i );
+			LibraryHandle library = theLibraries.get( i );
 			tempList = library.getStructureList( propName );
 			if ( !tempList.isEmpty( ) )
 				list.addAll( tempList );
@@ -440,9 +441,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         StructureHandle</code>
 	 */
 
-	List getNativeStructureList( String propName )
+	List<StructureHandle> getNativeStructureList( String propName )
 	{
-		List list = new ArrayList( );
+		List<StructureHandle> list = new ArrayList<StructureHandle>( );
 
 		PropertyHandle propHandle = getPropertyHandle( propName );
 		assert propHandle != null;
@@ -521,7 +522,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *             if any image in the list is not found.
 	 */
 
-	public void dropImage( List images ) throws SemanticException
+	public void dropImage( List<EmbeddedImageHandle> images )
+			throws SemanticException
 	{
 		if ( images == null )
 			return;
@@ -1067,7 +1069,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see ErrorDetail
 	 */
 
-	public List getErrorList( )
+	public List<ErrorDetail> getErrorList( )
 	{
 		return module.getErrorList( );
 	}
@@ -1093,9 +1095,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the sorted, flatten parameters and parameter groups.
 	 */
 
-	public List getFlattenParameters( )
+	public List<DesignElementHandle> getFlattenParameters( )
 	{
-		ArrayList list = new ArrayList( );
+		ArrayList<DesignElementHandle> list = new ArrayList<DesignElementHandle>( );
 		SlotHandle slotHandle = getParameters( );
 		Iterator it = slotHandle.iterator( );
 		while ( it.hasNext( ) )
@@ -1217,7 +1219,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return a list of user-defined message keys.
 	 */
 
-	public List getMessageKeys( )
+	public List<String> getMessageKeys( )
 	{
 		return getModule( ).getMessageKeys( );
 	}
@@ -1318,19 +1320,19 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see TranslationHandle
 	 */
 
-	public List getTranslations( )
+	public List<TranslationHandle> getTranslations( )
 	{
-		List translations = getModule( ).getTranslations( );
+		List<Translation> translations = getModule( ).getTranslations( );
 
 		if ( translations == null )
 			return null;
 
-		List translationHandles = new ArrayList( );
+		List<TranslationHandle> translationHandles = new ArrayList<TranslationHandle>( );
 
 		for ( int i = 0; i < translations.size( ); i++ )
 		{
-			translationHandles.add( ( (Translation) translations.get( i ) )
-					.handle( getModule( ) ) );
+			translationHandles
+					.add( translations.get( i ).handle( getModule( ) ) );
 		}
 
 		return translationHandles;
@@ -1345,7 +1347,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see ErrorDetail
 	 */
 
-	public List getWarningList( )
+	public List<ErrorDetail> getWarningList( )
 	{
 		return module.getWarningList( );
 	}
@@ -1373,7 +1375,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see EmbeddedImageHandle
 	 */
 
-	public List getAllImages( )
+	public List<StructureHandle> getAllImages( )
 	{
 		return getStructureList( IMAGES_PROP );
 	}
@@ -1393,7 +1395,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		String version = module.getVersionManager( ).getVersion( );
 		if ( version != null )
 		{
-			List versionInfos = ModelUtil.checkVersion( version );
+			List<IVersionInfo> versionInfos = ModelUtil.checkVersion( version );
 			if ( !versionInfos.isEmpty( ) )
 				return true;
 		}
@@ -1725,9 +1727,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         modules contain.
 	 */
 
-	public List getAllStyles( )
+	public List<DesignElementHandle> getAllStyles( )
 	{
-		List elementList = module.getNameHelper( ).getElements(
+		List<DesignElement> elementList = module.getNameHelper( ).getElements(
 				Module.STYLE_NAME_SPACE, IAccessControl.ARBITARY_LEVEL );
 
 		return generateHandleList( elementList );
@@ -1743,9 +1745,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return theme handles according the input level
 	 */
 
-	public List getVisibleThemes( int level )
+	public List<DesignElementHandle> getVisibleThemes( int level )
 	{
-		List elementList = module.getNameHelper( ).getElements(
+		List<DesignElement> elementList = module.getNameHelper( ).getElements(
 				Module.THEME_NAME_SPACE, level );
 
 		return generateHandleList( sortVisibleElements( elementList, level ) );
@@ -1758,11 +1760,11 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return parameters and parameter groups
 	 */
 
-	public List getParametersAndParameterGroups( )
+	public List<DesignElementHandle> getParametersAndParameterGroups( )
 	{
 		SlotHandle params = getSlot( PARAMETER_SLOT );
 
-		List retList = new ArrayList( );
+		List<DesignElementHandle> retList = new ArrayList<DesignElementHandle>( );
 		for ( int i = 0; i < params.getCount( ); i++ )
 		{
 			retList.add( params.get( i ) );
@@ -1779,9 +1781,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         modules contain.
 	 */
 
-	public List getAllDataSources( )
+	public List<DesignElementHandle> getAllDataSources( )
 	{
-		List elementList = module.getNameHelper( ).getElements(
+		List<DesignElement> elementList = module.getNameHelper( ).getElements(
 				Module.DATA_SOURCE_NAME_SPACE, IAccessControl.ARBITARY_LEVEL );
 		return generateHandleList( elementList );
 
@@ -1793,9 +1795,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return data source handles that are visible to this modules.
 	 */
 
-	public List getVisibleDataSources( )
+	public List<DesignElementHandle> getVisibleDataSources( )
 	{
-		List elementList = module.getNameHelper( ).getElements(
+		List<DesignElement> elementList = module.getNameHelper( ).getElements(
 				Module.DATA_SOURCE_NAME_SPACE, IAccessControl.NATIVE_LEVEL );
 		return generateHandleList( sortVisibleElements( elementList,
 				IAccessControl.NATIVE_LEVEL ) );
@@ -1809,9 +1811,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         contain.
 	 */
 
-	public List getAllDataSets( )
+	public List<DesignElementHandle> getAllDataSets( )
 	{
-		List elementList = module.getNameHelper( ).getElements(
+		List<DesignElement> elementList = module.getNameHelper( ).getElements(
 				Module.DATA_SET_NAME_SPACE, IAccessControl.ARBITARY_LEVEL );
 		return generateHandleList( elementList );
 	}
@@ -1822,9 +1824,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return data set handles that are visible to this modules.
 	 */
 
-	public List getVisibleDataSets( )
+	public List<DesignElementHandle> getVisibleDataSets( )
 	{
-		List elementList = module.getNameHelper( ).getElements(
+		List<DesignElement> elementList = module.getNameHelper( ).getElements(
 				Module.DATA_SET_NAME_SPACE, IAccessControl.NATIVE_LEVEL );
 		return generateHandleList( sortVisibleElements( elementList,
 				IAccessControl.NATIVE_LEVEL ) );
@@ -1837,14 +1839,14 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @param elements
 	 * @return all cube elements
 	 */
-	private List getCubeList( List elements )
+	private List<DesignElement> getCubeList( List<DesignElement> elements )
 	{
 		if ( elements == null )
 			return null;
-		List cubes = new ArrayList( );
+		List<DesignElement> cubes = new ArrayList<DesignElement>( );
 		for ( int i = 0; i < elements.size( ); i++ )
 		{
-			DesignElement element = (DesignElement) elements.get( i );
+			DesignElement element = elements.get( i );
 			if ( element.getDefn( ).isKindOf(
 					MetaDataDictionary.getInstance( ).getElement(
 							ReportDesignConstants.CUBE_ELEMENT ) ) )
@@ -1861,11 +1863,11 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         contain.
 	 */
 
-	public List getAllCubes( )
+	public List<DesignElementHandle> getAllCubes( )
 	{
-		List elementList = module.getNameHelper( ).getElements(
+		List<DesignElement> elementList = module.getNameHelper( ).getElements(
 				Module.CUBE_NAME_SPACE, IAccessControl.ARBITARY_LEVEL );
-		List cubeList = getCubeList( elementList );
+		List<DesignElement> cubeList = getCubeList( elementList );
 		return generateHandleList( cubeList );
 	}
 
@@ -1875,11 +1877,11 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return cube handles that are visible to this modules.
 	 */
 
-	public List getVisibleCubes( )
+	public List<DesignElementHandle> getVisibleCubes( )
 	{
-		List elementList = module.getNameHelper( ).getElements(
+		List<DesignElement> elementList = module.getNameHelper( ).getElements(
 				Module.CUBE_NAME_SPACE, IAccessControl.NATIVE_LEVEL );
-		List cubeList = getCubeList( elementList );
+		List<DesignElement> cubeList = getCubeList( elementList );
 		return generateHandleList( sortVisibleElements( cubeList,
 				IAccessControl.NATIVE_LEVEL ) );
 
@@ -1892,9 +1894,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * 
 	 * @return the local embedded image list.
 	 */
-	public List getVisibleImages( )
+	public List<StructureHandle> getVisibleImages( )
 	{
-		List images = getNativeStructureList( IModuleModel.IMAGES_PROP );
+		List<StructureHandle> images = getNativeStructureList( IModuleModel.IMAGES_PROP );
 		return images;
 	}
 
@@ -1906,9 +1908,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         contain.
 	 */
 
-	public List getAllPages( )
+	public List<DesignElementHandle> getAllPages( )
 	{
-		List elementList = module.getNameHelper( ).getNameSpace(
+		List<DesignElement> elementList = module.getNameHelper( ).getNameSpace(
 				Module.PAGE_NAME_SPACE ).getElements( );
 
 		return generateHandleList( elementList );
@@ -1920,9 +1922,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return all parameter handles that this modules.
 	 */
 
-	public List getAllParameters( )
+	public List<DesignElementHandle> getAllParameters( )
 	{
-		List elementList = module.getNameHelper( ).getNameSpace(
+		List<DesignElement> elementList = module.getNameHelper( ).getNameSpace(
 				Module.PARAMETER_NAME_SPACE ).getElements( );
 
 		return generateHandleList( elementList );
@@ -1938,14 +1940,15 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return a list of element handles.
 	 */
 
-	private List generateHandleList( List elementList )
+	private List<DesignElementHandle> generateHandleList(
+			List<DesignElement> elementList )
 	{
-		List handleList = new ArrayList( );
+		List<DesignElementHandle> handleList = new ArrayList<DesignElementHandle>( );
 
-		Iterator iter = elementList.iterator( );
+		Iterator<DesignElement> iter = elementList.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			DesignElement element = (DesignElement) iter.next( );
+			DesignElement element = iter.next( );
 
 			Module root = element.getRoot( );
 			assert root != null;
@@ -1962,7 +1965,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the libraries this report design includes directly or indirectly.
 	 */
 
-	public List getAllLibraries( )
+	public List<LibraryHandle> getAllLibraries( )
 	{
 		return getLibraries( IAccessControl.ARBITARY_LEVEL );
 	}
@@ -1976,15 +1979,15 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return list of libraries.
 	 */
 
-	protected List getLibraries( int level )
+	protected List<LibraryHandle> getLibraries( int level )
 	{
-		List libraries = module.getLibraries( level );
-		List retLibs = new ArrayList( );
+		List<Library> libraries = module.getLibraries( level );
+		List<LibraryHandle> retLibs = new ArrayList<LibraryHandle>( );
 
-		Iterator iter = libraries.iterator( );
+		Iterator<Library> iter = libraries.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			Library library = (Library) iter.next( );
+			Library library = iter.next( );
 			retLibs.add( library.handle( ) );
 		}
 		return Collections.unmodifiableList( retLibs );
@@ -1997,7 +2000,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the libraries this report design includes directly.
 	 */
 
-	public List getLibraries( )
+	public List<LibraryHandle> getLibraries( )
 	{
 		return getLibraries( IAccessControl.DIRECTLY_INCLUDED_LEVEL );
 	}
@@ -2169,7 +2172,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		if ( libraryToReload == null )
 			return;
 
-		Map reloadLibs = new HashMap( );
+		Map<String, Library> reloadLibs = new HashMap<String, Library>( );
 		LibraryCommand command = new LibraryCommand( module );
 
 		String location = libraryToReload.getLocation( );
@@ -2196,14 +2199,15 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @throws DesignFileException
 	 */
 
-	private void reloadLibrary( Library libraryToReload, Map reloadLibs )
-			throws SemanticException, DesignFileException
+	private void reloadLibrary( Library libraryToReload,
+			Map<String, Library> reloadLibs ) throws SemanticException,
+			DesignFileException
 	{
 		if ( libraryToReload == null )
 			return;
 
 		LibraryCommand command = new LibraryCommand( module );
-		command.reloadLibrary( (Library) libraryToReload, null, reloadLibs );
+		command.reloadLibrary( libraryToReload, null, reloadLibs );
 
 		ModuleOption options = module.getOptions( );
 		if ( options == null || options.useSemanticCheck( ) )
@@ -2224,15 +2228,14 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 */
 
 	private void reloadLibrary( Library libraryToReload,
-			IncludedLibrary includedLib, Map reloadLibs )
+			IncludedLibrary includedLib, Map<String, Library> reloadLibs )
 			throws SemanticException, DesignFileException
 	{
 		if ( libraryToReload == null )
 			return;
 
 		LibraryCommand command = new LibraryCommand( module );
-		command.reloadLibrary( (Library) libraryToReload, includedLib,
-				reloadLibs );
+		command.reloadLibrary( libraryToReload, includedLib, reloadLibs );
 
 		ModuleOption options = module.getOptions( );
 		if ( options == null || options.useSemanticCheck( ) )
@@ -2255,18 +2258,18 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void reloadLibraries( ) throws SemanticException,
 			DesignFileException
 	{
-		List libs = getListProperty( IModuleModel.LIBRARIES_PROP );
+		List<IncludedLibrary> libs = getListProperty( IModuleModel.LIBRARIES_PROP );
 		if ( libs == null || libs.isEmpty( ) )
 			return;
 
-		List cachedList = new ArrayList( );
+		List<IncludedLibrary> cachedList = new ArrayList<IncludedLibrary>( );
 		cachedList.addAll( libs );
 
-		Map reloadLibs = new HashMap( );
+		Map<String, Library> reloadLibs = new HashMap<String, Library>( );
 
 		for ( int i = 0; i < cachedList.size( ); i++ )
 		{
-			IncludedLibrary lib = (IncludedLibrary) cachedList.get( i );
+			IncludedLibrary lib = cachedList.get( i );
 			Library includeLib = module.getLibraryWithNamespace( lib
 					.getNamespace( ), IAccessControl.DIRECTLY_INCLUDED_LEVEL );
 			if ( includeLib != null )
@@ -2322,7 +2325,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 			DesignParserException ex = new DesignParserException(
 					new String[]{path},
 					DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND );
-			List exceptionList = new ArrayList( );
+			List<DesignParserException> exceptionList = new ArrayList<DesignParserException>( );
 			exceptionList.add( ex );
 			throw new DesignFileException( path, exceptionList );
 		}
@@ -2330,7 +2333,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		List<Library> libs = module.getLibrariesByLocation( path,
 				IAccessControl.ARBITARY_LEVEL );
 
-		Map<String, Library> reloadLibs = new HashMap( );
+		Map<String, Library> reloadLibs = new HashMap<String, Library>( );
 		for ( int i = 0; i < libs.size( ); i++ )
 		{
 			LibraryCommand command = new LibraryCommand( module );
@@ -2707,9 +2710,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         the included modules contain.
 	 */
 
-	List getAllTemplateParameterDefinitions( )
+	List<DesignElementHandle> getAllTemplateParameterDefinitions( )
 	{
-		List elementList = module.getNameHelper( ).getElements(
+		List<DesignElement> elementList = module.getNameHelper( ).getElements(
 				Module.TEMPLATE_PARAMETER_NAME_SPACE,
 				IAccessControl.NATIVE_LEVEL );
 
@@ -2956,8 +2959,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public void dropAllScriptLibs( ) throws SemanticException
 	{
-		List scriptLibs = getFilteredStructureList( SCRIPTLIBS_PROP,
-				ScriptLib.SCRIPTLIB_NAME_MEMBER );
+		List<StructureHandle> scriptLibs = getFilteredStructureList(
+				SCRIPTLIBS_PROP, ScriptLib.SCRIPTLIB_NAME_MEMBER );
 		if ( scriptLibs == null )
 			return;
 		int count = scriptLibs.size( );
@@ -2990,7 +2993,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return list which structure is <code>ScriptLibHandle</code>
 	 */
 
-	public List getAllScriptLibs( )
+	public List<StructureHandle> getAllScriptLibs( )
 	{
 		return getFilteredStructureList( SCRIPTLIBS_PROP,
 				ScriptLib.SCRIPTLIB_NAME_MEMBER );
@@ -3185,17 +3188,18 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the list contains sorted design elements.
 	 */
 
-	private List sortVisibleElements( List nameSpaceList, int level )
+	private List<DesignElement> sortVisibleElements(
+			List<DesignElement> nameSpaceList, int level )
 	{
 		// Sort element in namespace
 
-		List modules = new ArrayList( );
+		List<ModuleHandle> modules = new ArrayList<ModuleHandle>( );
 		if ( nameSpaceList.size( ) == 0 )
-			return modules;
+			return Collections.emptyList( );
 
 		// Check value in design handle and libraries.
 
-		DesignElement element = (DesignElement) nameSpaceList.get( 0 );
+		DesignElement element = nameSpaceList.get( 0 );
 		int slotID = element.getContainerInfo( ) == null
 				? IDesignElementModel.NO_SLOT
 				: element.getContainerInfo( ).getSlotID( );
@@ -3221,15 +3225,16 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the list contains sorted design elements.
 	 */
 
-	private List checkVisibleElements( List nameSpaceList, List modules,
+	private List<DesignElement> checkVisibleElements(
+			List<DesignElement> nameSpaceList, List<ModuleHandle> modules,
 			int slotID )
 	{
 		assert modules != null;
-		List resultList = new ArrayList( );
+		List<DesignElement> resultList = new ArrayList<DesignElement>( );
 
 		for ( int i = 0; i < modules.size( ); ++i )
 		{
-			ModuleHandle handle = (ModuleHandle) modules.get( i );
+			ModuleHandle handle = modules.get( i );
 			SlotHandle slotHandle = handle.getSlot( slotID );
 			for ( int j = 0; j < slotHandle.getCount( ); ++j )
 			{
@@ -3285,7 +3290,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         .
 	 */
 
-	public List getAllIncludeScripts( )
+	public List<StructureHandle> getAllIncludeScripts( )
 	{
 		return getStructureList( INCLUDE_SCRIPTS_PROP );
 	}

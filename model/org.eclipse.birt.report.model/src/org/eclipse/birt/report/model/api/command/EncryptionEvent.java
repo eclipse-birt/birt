@@ -53,7 +53,9 @@ public class EncryptionEvent extends NotificationEvent
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType()
+	 * @see
+	 * org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType
+	 * ()
 	 */
 	public int getEventType( )
 	{
@@ -85,7 +87,7 @@ public class EncryptionEvent extends NotificationEvent
 	/**
 	 * Gets the property name that cause the encryption change.
 	 * 
-	 * @return
+	 * @return the property name.
 	 */
 	public String getPropertyName( )
 	{

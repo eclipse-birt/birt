@@ -27,8 +27,8 @@ import org.eclipse.birt.report.model.core.Module;
  * <li>Current copy/paste operations do not support cells with "drop"
  * properties.
  * <li>Each time, only one column can be copied/pasted.
- * <li>Slot layouts between the source grid/table and the target grid/table
- * must be same.
+ * <li>Slot layouts between the source grid/table and the target grid/table must
+ * be same.
  * </ul>
  * 
  */
@@ -74,7 +74,7 @@ abstract class ColumnBandAdapter
 	/**
 	 * 
 	 */
-	
+
 	ColumnBandAdapter( )
 	{
 	}
@@ -163,16 +163,15 @@ abstract class ColumnBandAdapter
 	/**
 	 * Checks whether any cell in <code>cells</code> has a value of
 	 * <code>DesignChoiceConstants#DROP_TYPE_DETAIL</code> or
-	 * <code>DesignChoiceConstants#DROP_TYPE_ALL</code> for the "drop"
-	 * property.
+	 * <code>DesignChoiceConstants#DROP_TYPE_ALL</code> for the "drop" property.
 	 * 
 	 * @param cells
 	 *            a list containing cell handles
-	 * @return <code>true</code> if any cell has the "drop" property,
-	 *         otherwise <code>false</code>.
+	 * @return <code>true</code> if any cell has the "drop" property, otherwise
+	 *         <code>false</code>.
 	 */
 
-	abstract protected boolean hasDroppingCell( List cells );
+	abstract protected boolean hasDroppingCell( List<CellContextInfo> cells );
 
 	/**
 	 * Returns copied cells with the column number.
@@ -182,7 +181,7 @@ abstract class ColumnBandAdapter
 	 * @return new cell instances
 	 */
 
-	protected List getCellsUnderColumn( int columnNumber )
+	protected List<CellHandle> getCellsUnderColumn( int columnNumber )
 	{
 		return getCellsUnderColumn( columnNumber, true );
 	}
@@ -199,7 +198,7 @@ abstract class ColumnBandAdapter
 	 * @return the matched cell
 	 */
 
-	abstract protected List getCellsUnderColumn( int columnNumber,
+	abstract protected List<CellHandle> getCellsUnderColumn( int columnNumber,
 			boolean mustBeStartPosition );
 
 	/**
@@ -214,10 +213,10 @@ abstract class ColumnBandAdapter
 	 * @return new cell instances
 	 */
 
-	protected List getCellsInSlot( SlotHandle handle, int columnIndex,
-			boolean mustBeStartPosition )
+	protected List<CellHandle> getCellsInSlot( SlotHandle handle,
+			int columnIndex, boolean mustBeStartPosition )
 	{
-		List retValue = new ArrayList( );
+		List<CellHandle> retValue = new ArrayList<CellHandle>( );
 
 		for ( int i = 0; i < handle.getCount( ); i++ )
 		{
@@ -279,7 +278,7 @@ abstract class ColumnBandAdapter
 	 * @return a list containing rows.
 	 */
 
-	abstract protected List getRowContainerSlots( );
+	abstract protected List<SlotHandle> getRowContainerSlots( );
 
 	/**
 	 * Checks element has parent or not.

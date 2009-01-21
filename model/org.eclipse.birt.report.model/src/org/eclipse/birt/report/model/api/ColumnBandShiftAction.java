@@ -79,7 +79,7 @@ class ColumnBandShiftAction extends ColumnBandAction
 			}
 		}
 
-		List cells = getCellsContextInfo( adapter
+		List<CellContextInfo> cells = getCellsContextInfo( adapter
 				.getCellsUnderColumn( sourceIndex ) );
 
 		data.setCells( cells );
@@ -234,8 +234,8 @@ class ColumnBandShiftAction extends ColumnBandAction
 	 *             if any error occurs during moving cells
 	 */
 
-	private void shiftCells( List cellInfos, int sourceIndex, int destIndex )
-			throws SemanticException
+	private void shiftCells( List<CellContextInfo> cellInfos, int sourceIndex,
+			int destIndex ) throws SemanticException
 	{
 		int targetIndex = destIndex;
 
@@ -243,7 +243,7 @@ class ColumnBandShiftAction extends ColumnBandAction
 
 		for ( int i = 0; i < cellInfos.size( ); i++ )
 		{
-			CellContextInfo contextInfo = (CellContextInfo) cellInfos.get( i );
+			CellContextInfo contextInfo = cellInfos.get( i );
 
 			// groupId is equal to -1, means this is a top slot in the table
 
@@ -334,7 +334,7 @@ class ColumnBandShiftAction extends ColumnBandAction
 		if ( newPosn == 0 || newPosn == columnCount )
 			return true;
 
-		List originalCells = getCellsContextInfo( adapter
+		List<CellContextInfo> originalCells = getCellsContextInfo( adapter
 				.getCellsUnderColumn( newPosn ) );
 
 		if ( !isRectangleArea( originalCells, 1 ) )

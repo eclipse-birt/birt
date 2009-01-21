@@ -63,7 +63,7 @@ public class ThemeStyleNameValidator extends AbstractElementValidator
 	 * 
 	 * @param themeHandle
 	 * @param styleName
-	 * @return
+	 * @return the style handle list.
 	 */
 
 	private List<StyleHandle> getSameNameStyles( ThemeHandle themeHandle,

@@ -34,7 +34,7 @@ public class ColumnBandData implements Cloneable
 	 * The copied cells.
 	 */
 
-	private List cells = null;
+	private List<CellContextInfo> cells = null;
 
 	/**
 	 * Constructs a default <code>ColumnBandData</code>.
@@ -74,7 +74,7 @@ public class ColumnBandData implements Cloneable
 	 *         <code>CellContextInfo</code>.
 	 */
 
-	protected List getCells( )
+	protected List<CellContextInfo> getCells( )
 	{
 		return cells;
 	}
@@ -87,7 +87,7 @@ public class ColumnBandData implements Cloneable
 	 *            <code>CellContextInfo</code>.
 	 */
 
-	void setCells( List cells )
+	void setCells( List<CellContextInfo> cells )
 	{
 		this.cells = cells;
 	}
@@ -105,11 +105,11 @@ public class ColumnBandData implements Cloneable
 		TableColumn clonedColumn = (TableColumn) column.clone( );
 		clonedData.column = clonedColumn;
 
-		List clonedList = new ArrayList( );
+		List<CellContextInfo> clonedList = new ArrayList<CellContextInfo>( );
 		for ( int i = 0; cells != null && i < cells.size( ); i++ )
 		{
-			CellContextInfo contextInfo = (CellContextInfo) cells.get( i );
-			clonedList.add( contextInfo.clone( ) );
+			CellContextInfo contextInfo = cells.get( i );
+			clonedList.add( (CellContextInfo) contextInfo.clone( ) );
 		}
 		clonedData.cells = clonedList;
 

@@ -29,19 +29,19 @@ public class CssErrorHandler implements ErrorHandler
 	 * The message list for parser errors.
 	 */
 
-	List errors = new ArrayList( );
+	List<String> errors = new ArrayList<String>( );
 
 	/**
 	 * The message list for parser fatal errors.
 	 */
 
-	List fatalErrors = new ArrayList( );
+	List<String> fatalErrors = new ArrayList<String>( );
 
 	/**
 	 * The message list for parser warnings.
 	 */
 
-	List warnings = new ArrayList( );
+	List<String> warnings = new ArrayList<String>( );
 
 	/**
 	 * Default constructor.
@@ -56,7 +56,8 @@ public class CssErrorHandler implements ErrorHandler
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.w3c.css.sac.ErrorHandler#error(org.w3c.css.sac.CSSParseException)
+	 * @see
+	 * org.w3c.css.sac.ErrorHandler#error(org.w3c.css.sac.CSSParseException)
 	 */
 
 	public void error( CSSParseException exception ) throws CSSException
@@ -75,7 +76,9 @@ public class CssErrorHandler implements ErrorHandler
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.w3c.css.sac.ErrorHandler#fatalError(org.w3c.css.sac.CSSParseException)
+	 * @see
+	 * org.w3c.css.sac.ErrorHandler#fatalError(org.w3c.css.sac.CSSParseException
+	 * )
 	 */
 
 	public void fatalError( CSSParseException exception ) throws CSSException
@@ -94,7 +97,8 @@ public class CssErrorHandler implements ErrorHandler
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.w3c.css.sac.ErrorHandler#warning(org.w3c.css.sac.CSSParseException)
+	 * @see
+	 * org.w3c.css.sac.ErrorHandler#warning(org.w3c.css.sac.CSSParseException)
 	 */
 
 	public void warning( CSSParseException exception ) throws CSSException
@@ -116,7 +120,7 @@ public class CssErrorHandler implements ErrorHandler
 	 * @return the message list for the parser errors
 	 */
 
-	public List getParserErrors( )
+	public List<String> getParserErrors( )
 	{
 		return errors;
 	}
@@ -127,7 +131,7 @@ public class CssErrorHandler implements ErrorHandler
 	 * @return the message list for the parser fatal errors
 	 */
 
-	public List getParserFatalErrors( )
+	public List<String> getParserFatalErrors( )
 	{
 		return fatalErrors;
 	}
@@ -138,7 +142,7 @@ public class CssErrorHandler implements ErrorHandler
 	 * @return the message list for the parser warnings
 	 */
 
-	public List getParserWarnings( )
+	public List<String> getParserWarnings( )
 	{
 		return warnings;
 	}

@@ -68,14 +68,15 @@ public final class TableColumnBandAdapter extends ColumnBandAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.ColumnBandAdapter#getCellsUnderColumn(int,
-	 *      boolean)
+	 * @see
+	 * org.eclipse.birt.report.model.api.ColumnBandAdapter#getCellsUnderColumn
+	 * (int, boolean)
 	 */
 
-	protected List getCellsUnderColumn( int columnIndex,
+	protected List<CellHandle> getCellsUnderColumn( int columnIndex,
 			boolean mustBeStartPosition )
 	{
-		List cells = new ArrayList( );
+		List<CellHandle> cells = new ArrayList<CellHandle>( );
 
 		cells.addAll( getCellsInSlot( element.getHeader( ), columnIndex,
 				mustBeStartPosition ) );
@@ -119,7 +120,8 @@ public final class TableColumnBandAdapter extends ColumnBandAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.ColumnBandAdapter#getNumberOfRows()
+	 * @see
+	 * org.eclipse.birt.report.model.api.ColumnBandAdapter#getNumberOfRows()
 	 */
 
 	protected int getRowCount( )
@@ -158,7 +160,7 @@ public final class TableColumnBandAdapter extends ColumnBandAdapter
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.api.ColumnBandAdapter#getRow(int, int,
-	 *      int)
+	 * int)
 	 */
 
 	protected RowHandle getRow( int slotId, int groupId, int rowNumber )
@@ -181,20 +183,19 @@ public final class TableColumnBandAdapter extends ColumnBandAdapter
 	/**
 	 * Checks whether any cell in <code>cells</code> has a value of
 	 * <code>DesignChoiceConstants#DROP_TYPE_DETAIL</code> or
-	 * <code>DesignChoiceConstants#DROP_TYPE_ALL</code> for the "drop"
-	 * property.
+	 * <code>DesignChoiceConstants#DROP_TYPE_ALL</code> for the "drop" property.
 	 * 
 	 * @param cells
 	 *            a list containing cell handles
-	 * @return <code>true</code> if any cell has the "drop" property,
-	 *         otherwise <code>false</code>.
+	 * @return <code>true</code> if any cell has the "drop" property, otherwise
+	 *         <code>false</code>.
 	 */
 
-	protected boolean hasDroppingCell( List cells )
+	protected boolean hasDroppingCell( List<CellContextInfo> cells )
 	{
 		for ( int i = 0; i < cells.size( ); i++ )
 		{
-			CellContextInfo cellInfo = (CellContextInfo) cells.get( i );
+			CellContextInfo cellInfo = cells.get( i );
 			String containerDefnName = cellInfo.getContainerDefnName( );
 			int slotId = cellInfo.getSlotId( );
 
@@ -209,9 +210,16 @@ public final class TableColumnBandAdapter extends ColumnBandAdapter
 		return false;
 	}
 
-	protected List getRowContainerSlots( )
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.ColumnBandAdapter#getRowContainerSlots
+	 * ()
+	 */
+	protected List<SlotHandle> getRowContainerSlots( )
 	{
-		List list = new ArrayList( );
+		List<SlotHandle> list = new ArrayList<SlotHandle>( );
 
 		list.add( element.getHeader( ) );
 

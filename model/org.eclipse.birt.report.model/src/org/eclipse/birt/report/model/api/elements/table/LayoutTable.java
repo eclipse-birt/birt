@@ -62,7 +62,7 @@ public class LayoutTable
 	 * The list containing
 	 */
 
-	private List overlappedCells = new ArrayList( );
+	private List<OverlappedArea> overlappedCells = new ArrayList<OverlappedArea>( );
 
 	/**
 	 * Constructs a table with the given numbers of rows and columns.
@@ -242,13 +242,13 @@ public class LayoutTable
 
 	private LayoutRow getLayoutRow( int rowPosn )
 	{
-		List slots = LayoutUtil.getFlattenedLayoutSlots( this );
+		List<LayoutSlot> slots = LayoutUtil.getFlattenedLayoutSlots( this );
 
 		LayoutRow row = null;
 
 		for ( int i = 0, rowNumber = rowPosn; i < slots.size( ); i++ )
 		{
-			LayoutSlot slot = (LayoutSlot) slots.get( i );
+			LayoutSlot slot = slots.get( i );
 			int rowCount = slot.getRowCount( );
 
 			if ( rowNumber <= rowCount )
@@ -256,8 +256,8 @@ public class LayoutTable
 				row = slot.getLayoutRow( rowNumber - 1 );
 				break;
 			}
-			else
-				rowNumber -= rowCount;
+
+			rowNumber -= rowCount;
 		}
 
 		return row;
@@ -303,8 +303,7 @@ public class LayoutTable
 	{
 		for ( int i = 0; i < overlappedCells.size( ); i++ )
 		{
-			OverlappedArea overlappedCell = (OverlappedArea) overlappedCells
-					.get( i );
+			OverlappedArea overlappedCell = overlappedCells.get( i );
 			if ( overlappedCell.getCell( ) == cell )
 			{
 				assert overlappedCell.getRowSpanOffset( ) == 0;
@@ -395,7 +394,7 @@ public class LayoutTable
 
 	private LayoutSlot getSimpleSlot( int slotId )
 	{
-		LayoutSlot slot = (LayoutSlot) tableSlots[slotId];
+		LayoutSlot slot = tableSlots[slotId];
 
 		if ( slot == null )
 		{
@@ -477,7 +476,7 @@ public class LayoutTable
 
 	private LayoutGroupBand getComplexSlot( int slotId )
 	{
-		LayoutGroupBand slot = (LayoutGroupBand) groupSlots[slotId];
+		LayoutGroupBand slot = groupSlots[slotId];
 		if ( slot == null )
 		{
 			slot = new LayoutGroupBand( this, getColumnCount( ) );

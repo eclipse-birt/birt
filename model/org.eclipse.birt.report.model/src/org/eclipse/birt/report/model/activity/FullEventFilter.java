@@ -27,11 +27,13 @@ public class FullEventFilter implements IEventFilter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.IEventFilter#filter(java.util.List)
+	 * @see
+	 * org.eclipse.birt.report.model.api.activity.IEventFilter#filter(java.util
+	 * .List)
 	 */
 
-	public List filter( List events )
+	public List<RecordTask> filter( List<RecordTask> events )
 	{
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList( );
 	}
 }

@@ -52,7 +52,7 @@ public interface ICompatibleReportItem
 	 * Checks the parser compatibilities for this report item and return the
 	 * status.
 	 * 
-	 * @return
+	 * @return the compatibility status.
 	 */
 	public CompatibilityStatus checkCompatibility( );
 }

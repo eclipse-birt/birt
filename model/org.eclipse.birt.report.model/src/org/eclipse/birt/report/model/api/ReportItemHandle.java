@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.IReportItemMethodContext;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
+import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.ContainerContext;
@@ -856,9 +857,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * @return a list containing <code>IMethodInfo</code> for functions
 	 */
 
-	public List getMethods( String methodName )
+	public List<IMethodInfo> getMethods( String methodName )
 	{
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -947,7 +948,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * @return returns report items that has dataset or cube property defined
 	 */
 
-	public List getAvailableDataBindingReferenceList( )
+	public List<ReportItemHandle> getAvailableDataBindingReferenceList( )
 	{
 		return getAvailableDataBindingReferenceList( null );
 	}
@@ -990,7 +991,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * @return returns report items that has dataset property defined
 	 */
 
-	public List getAvailableDataSetBindingReferenceList( )
+	public List<ReportItemHandle> getAvailableDataSetBindingReferenceList( )
 	{
 		return getAvailableDataBindingReferenceList( IReportItemModel.DATA_SET_PROP );
 	}
@@ -1012,7 +1013,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * @return returns report items that has dataset property defined
 	 */
 
-	public List getNamedDataSetBindingReferenceList( )
+	public List<ReportItemHandle> getNamedDataSetBindingReferenceList( )
 	{
 		return getNamedDataBindingReferenceList( IReportItemModel.DATA_SET_PROP );
 	}
@@ -1033,7 +1034,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * @return returns report items that has cube property defined
 	 */
 
-	public List getAvailableCubeBindingReferenceList( )
+	public List<ReportItemHandle> getAvailableCubeBindingReferenceList( )
 	{
 		return getAvailableDataBindingReferenceList( IReportItemModel.CUBE_PROP );
 	}
@@ -1055,7 +1056,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * @return returns report items that has cube property defined
 	 */
 
-	public List getNamedCubeBindingReferenceList( )
+	public List<ReportItemHandle> getNamedCubeBindingReferenceList( )
 	{
 		return getNamedDataBindingReferenceList( IReportItemModel.CUBE_PROP );
 	}
@@ -1070,9 +1071,10 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * @return a list containing report item
 	 */
 
-	private List getAvailableDataBindingReferenceList( String propName )
+	private List<ReportItemHandle> getAvailableDataBindingReferenceList(
+			String propName )
 	{
-		List rtnList = new ArrayList( );
+		List<ReportItemHandle> rtnList = new ArrayList<ReportItemHandle>( );
 
 		int slotID = DesignElement.NO_SLOT;
 		if ( module instanceof ReportDesign )
@@ -1085,7 +1087,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 		while ( iter1.hasNext( ) )
 		{
-			DesignElement e = (DesignElement) iter1.next( );
+			DesignElement e = iter1.next( );
 			if ( e == getElement( ) )
 				continue;
 
@@ -1148,7 +1150,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 		}
 
 		if ( rtnList.isEmpty( ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		return Collections.unmodifiableList( rtnList );
 	}
@@ -1163,14 +1165,15 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * @return a list containing report item
 	 */
 
-	private List getNamedDataBindingReferenceList( String propName )
+	private List<ReportItemHandle> getNamedDataBindingReferenceList(
+			String propName )
 	{
-		List tmpList = getAvailableDataBindingReferenceList( propName );
-		List retList = new ArrayList( );
+		List<ReportItemHandle> tmpList = getAvailableDataBindingReferenceList( propName );
+		List<ReportItemHandle> retList = new ArrayList<ReportItemHandle>( );
 
 		for ( int i = 0; i < tmpList.size( ); i++ )
 		{
-			ReportItemHandle item = (ReportItemHandle) tmpList.get( i );
+			ReportItemHandle item = tmpList.get( i );
 			if ( item.getName( ) == null )
 				continue;
 
@@ -1191,7 +1194,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 *             if bound column property is locked.
 	 */
 
-	public void removedColumnBindings( List bindingNameList )
+	public void removedColumnBindings( List<String> bindingNameList )
 			throws SemanticException
 	{
 		if ( bindingNameList == null || bindingNameList.isEmpty( ) )
@@ -1199,7 +1202,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 		for ( int i = 0; i < bindingNameList.size( ); i++ )
 		{
-			removedColumnBinding( (String) bindingNameList.get( i ) );
+			removedColumnBinding( bindingNameList.get( i ) );
 		}
 	}
 

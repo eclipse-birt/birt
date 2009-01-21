@@ -138,10 +138,9 @@ public class GroupPropertyHandle
 		// List must contain at least one element.
 		// return the property value from the first element.
 
-		List elements = handle.getElements( );
+		List<DesignElementHandle> elements = handle.getElements( );
 
-		return ( (DesignElementHandle) elements.get( 0 ) )
-				.getStringProperty( propDefn.getName( ) );
+		return elements.get( 0 ).getStringProperty( propDefn.getName( ) );
 	}
 
 	/**
@@ -161,8 +160,7 @@ public class GroupPropertyHandle
 		if ( value == null )
 			return null;
 
-		DesignElementHandle element = (DesignElementHandle) handle
-				.getElements( ).get( 0 );
+		DesignElementHandle element = handle.getElements( ).get( 0 );
 
 		String localValue = propDefn.getStringValue( element
 				.getEffectiveModule( ), value );
@@ -183,11 +181,10 @@ public class GroupPropertyHandle
 	{
 		if ( !shareSameValue( ) )
 			return null;
-		List elements = handle.getElements( );
+		List<DesignElementHandle> elements = handle.getElements( );
 		for ( int i = 0; i < elements.size( ); i++ )
 		{
-			DesignElementHandle element = (DesignElementHandle) elements
-					.get( i );
+			DesignElementHandle element = elements.get( i );
 			Object value = element.getElement( ).getLocalProperty(
 					element.getModule( ), propDefn );
 			if ( value != null )
@@ -214,10 +211,9 @@ public class GroupPropertyHandle
 		// List must contain at least one element.
 		// return the property value from the first element.
 
-		List elements = handle.getElements( );
+		List<DesignElementHandle> elements = handle.getElements( );
 
-		return ( (DesignElementHandle) elements.get( 0 ) )
-				.getDisplayProperty( propDefn.getName( ) );
+		return elements.get( 0 ).getDisplayProperty( propDefn.getName( ) );
 	}
 
 	/**
@@ -242,11 +238,10 @@ public class GroupPropertyHandle
 
 		try
 		{
-			for ( Iterator iter = handle.getElements( ).iterator( ); iter
-					.hasNext( ); )
+			for ( Iterator<DesignElementHandle> iter = handle.getElements( )
+					.iterator( ); iter.hasNext( ); )
 			{
-				DesignElementHandle elemHandle = (DesignElementHandle) iter
-						.next( );
+				DesignElementHandle elemHandle = iter.next( );
 				elemHandle.setProperty( propDefn.getName( ), value );
 			}
 		}
@@ -304,11 +299,10 @@ public class GroupPropertyHandle
 
 			try
 			{
-				for ( Iterator iter = handle.getElements( ).iterator( ); iter
-						.hasNext( ); )
+				for ( Iterator<DesignElementHandle> iter = handle.getElements( )
+						.iterator( ); iter.hasNext( ); )
 				{
-					DesignElementHandle elemHandle = (DesignElementHandle) iter
-							.next( );
+					DesignElementHandle elemHandle = iter.next( );
 					assert elemHandle instanceof ExtendedItemHandle;
 
 					ExtendedItem parent = (ExtendedItem) ModelUtil
@@ -338,9 +332,10 @@ public class GroupPropertyHandle
 
 	boolean isExtensionModelProperty( )
 	{
-		for ( Iterator iter = handle.getElements( ).iterator( ); iter.hasNext( ); )
+		for ( Iterator<DesignElementHandle> iter = handle.getElements( )
+				.iterator( ); iter.hasNext( ); )
 		{
-			DesignElementHandle elemHandle = (DesignElementHandle) iter.next( );
+			DesignElementHandle elemHandle = iter.next( );
 			if ( elemHandle instanceof ExtendedItemHandle
 					&& ( (ExtendedItem) elemHandle.getElement( ) )
 							.isExtensionModelProperty( propDefn.getName( ) ) )
@@ -358,9 +353,10 @@ public class GroupPropertyHandle
 
 	boolean isExtensionXMLProperty( )
 	{
-		for ( Iterator iter = handle.getElements( ).iterator( ); iter.hasNext( ); )
+		for ( Iterator<DesignElementHandle> iter = handle.getElements( )
+				.iterator( ); iter.hasNext( ); )
 		{
-			DesignElementHandle elemHandle = (DesignElementHandle) iter.next( );
+			DesignElementHandle elemHandle = iter.next( );
 			if ( elemHandle instanceof ExtendedItemHandle
 					&& ( (ExtendedItem) elemHandle.getElement( ) )
 							.isExtensionXMLProperty( propDefn.getName( ) ) )
@@ -377,17 +373,17 @@ public class GroupPropertyHandle
 	 * @return list of the reference element value.
 	 */
 
-	public List getReferenceableElementList( )
+	public List<DesignElementHandle> getReferenceableElementList( )
 	{
-		List elements = handle.getElements( );
+		List<DesignElementHandle> elements = handle.getElements( );
 		if ( elements == null || elements.isEmpty( ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
-		DesignElementHandle element = (DesignElementHandle) elements.get( 0 );
+		DesignElementHandle element = elements.get( 0 );
 		PropertyHandle propHandle = element.getPropertyHandle( propDefn
 				.getName( ) );
 
-		List retList = propHandle.getReferenceableElementList( );
+		List<DesignElementHandle> retList = propHandle.getReferenceableElementList( );
 
 		return ModelUtil.sortElementsByName( retList );
 	}
@@ -398,9 +394,11 @@ public class GroupPropertyHandle
 	 * <ul>
 	 * <li><code>target</code> is a <code>PropertyHandle</code>. The element of
 	 * <code>target</code> is in the <code>GroupElementHandle</code> and two
-	 * property definitions are same. </li> <li><code>target</code> is a <code>
-	 * GroupPropertyHandle</code>. <code>GroupElementHandle</code> and the the
-	 * property definition are same.</li>
+	 * property definitions are same.</li>
+	 * <li><code>target</code> is a <code>
+	 * GroupPropertyHandle</code>.
+	 * <code>GroupElementHandle</code> and the the property definition are same.
+	 * </li>
 	 * </ul>
 	 * 
 	 * @param target

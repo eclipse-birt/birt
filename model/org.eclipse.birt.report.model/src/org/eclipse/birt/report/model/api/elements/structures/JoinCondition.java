@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.JoinConditionHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -171,7 +172,9 @@ public class JoinCondition extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
+	 * .lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -196,8 +199,9 @@ public class JoinCondition extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
+	 * .lang.String, java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
@@ -360,8 +364,9 @@ public class JoinCondition extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * report.model.api.SimpleValueHandle, int)
 	 */
 
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
@@ -372,21 +377,22 @@ public class JoinCondition extends Structure
 	/**
 	 * Validates this structure. The following are the rules:
 	 * <ul>
-	 * <li> The join type is required.
-	 * <li> The operator is required.
-	 * <li> The left data set is required.
-	 * <li> The right data set is required.
-	 * <li> The left expression is required.
-	 * <li> The right expression is required.
+	 * <li>The join type is required.
+	 * <li>The operator is required.
+	 * <li>The left data set is required.
+	 * <li>The right data set is required.
+	 * <li>The left expression is required.
+	 * <li>The right expression is required.
 	 * </ul>
 	 * 
 	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt.report.model.elements.ReportDesign,
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List validate( Module module, DesignElement element )
+	public List<SemanticException> validate( Module module,
+			DesignElement element )
 	{
-		List list = super.validate( module, element );
+		List<SemanticException> list = super.validate( module, element );
 
 		checkStringMember( joinType, JOIN_TYPE_MEMBER, element, list );
 		checkStringMember( joinOperator, JOIN_OPERATOR_MEMBER, element, list );
@@ -418,7 +424,7 @@ public class JoinCondition extends Structure
 	 */
 
 	private void checkStringMember( String value, String memberName,
-			DesignElement element, List errorList )
+			DesignElement element, List<SemanticException> errorList )
 	{
 		if ( StringUtil.isBlank( value ) )
 		{
@@ -438,8 +444,8 @@ public class JoinCondition extends Structure
 	 * @param errors
 	 *            the errors.
 	 */
-	private void checkDataSet( Module module, String dataSetName, List errors,
-			DesignElement element )
+	private void checkDataSet( Module module, String dataSetName,
+			List<SemanticException> errors, DesignElement element )
 	{
 		if ( dataSetName == null )
 		{
