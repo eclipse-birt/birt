@@ -870,9 +870,9 @@ BaseDataDefinitionComponent.Text.EditFormat=Editar formato
 BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=No se pueden seleccionar expresiones de una dimensión para establecer en serie de categoría e Y opcional al mismo tiempo.
 BaseGroupSortingDialog.Label.SortOn=Sort &On:
 
-MarkerIconDialog.Button.EmbeddedImage=Embedded image
+MarkerIconDialog.Button.EmbeddedImage=Imagen incrustada
 MarkerIconDialog.Title.MarkerIconSelector=Selector de icono de marcador
-MarkerIconDialog.Label.Description.EmbeddedImage=Select embedded image as marker icon.
+MarkerIconDialog.Label.Description.EmbeddedImage=Seleccionar imagen incrustada como icono de marcador.
 MarkerIconDialog.Lbl.SelectIconFrom=Seleccionar icono desde:
 MarkerIconDialog.Lbl.URL=URL
 MarkerIconDialog.Lbl.Local=Local

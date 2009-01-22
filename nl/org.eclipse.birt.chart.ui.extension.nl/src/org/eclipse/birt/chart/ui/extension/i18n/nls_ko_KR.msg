@@ -870,9 +870,9 @@ BaseDataDefinitionComponent.Text.EditFormat=형식 편집
 BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=1차원 식을 선택하면 범주 계열과 Y 옵션을 동시에 설정할 수 없습니다.
 BaseGroupSortingDialog.Label.SortOn=Sort &On:
 
-MarkerIconDialog.Button.EmbeddedImage=Embedded image
+MarkerIconDialog.Button.EmbeddedImage=포함된 이미지
 MarkerIconDialog.Title.MarkerIconSelector=표지 아이콘 선택기(Marker Icon Selector)
-MarkerIconDialog.Label.Description.EmbeddedImage=Select embedded image as marker icon.
+MarkerIconDialog.Label.Description.EmbeddedImage=마커 아이콘으로 포함된 이미지를 선택합니다.
 MarkerIconDialog.Lbl.SelectIconFrom=다음에서 아이콘 선택:
 MarkerIconDialog.Lbl.URL=URL
 MarkerIconDialog.Lbl.Local=로컬

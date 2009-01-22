@@ -1,20 +1,20 @@
 ###########################################################
 # Crosstab Action mame and trans name
-AddLevelHandleAction_Displayname=Show/Hide &Group Levels
+AddLevelHandleAction_Displayname=&Gruppenebenen einblenden/ausblenden
 AddLevelHandleAction_TransName=Gruppenebenen einblenden/ausblenden
-AddMesureViewHandleAction.DisplayName=Show/Hide &Measures
+AddMesureViewHandleAction.DisplayName=&Einheiten einblenden/ausblenden
 AddMesureViewHandleAction.TransName=Maßeinheiten einblenden/ausblenden
 AddSubTotalAction.LabelName=Gesamtsumme
 AddSubTotalAction.TransName=Summen bearbeiten
-AddSubTotalAction.DisplayName=Tota&ls
+AddSubTotalAction.DisplayName=&Summen
 AddSubTotalAction.TotalName=GESAMT
-CrosstabMenuBuilder.EditCubeAction.DisplayName=&Edit Data Cube
+CrosstabMenuBuilder.EditCubeAction.DisplayName=Datenquader &bearbeiten
 DeleteDimensionViewHandleAction.TransName=Dimension löschen
-DeleteDimensionViewHandleAction.DisplayName=Remo&ve
-DeleteMeasureHandleAction.DisplayName=Remo&ve
+DeleteDimensionViewHandleAction.DisplayName=Entf&ernen
+DeleteMeasureHandleAction.DisplayName=Entf&ernen
 DeleteMeasureHandleAction.TransName=Maßeinheit löschen
 
-AddComputedMesureHandleAction.DisplayName=Add Derived Mea&sure
+AddComputedMesureHandleAction.DisplayName=Abgeleitete Maß&einheit hinzufügen
 AddComputedMesureHandleAction.TransName=Abgeleitete Maßeinheit hinzufügen
 AddComputedSummaryDialog.Title=Abgeleitete Maßeinheit
 AddComputedSummaryDialog.Label.Name=&Name:

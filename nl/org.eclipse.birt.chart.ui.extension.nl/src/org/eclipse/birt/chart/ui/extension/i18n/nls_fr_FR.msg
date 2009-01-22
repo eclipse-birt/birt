@@ -870,9 +870,9 @@ BaseDataDefinitionComponent.Text.EditFormat=Modifier le format
 BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=Impossible de sélectionner des expressions d'une dimension permettant de définir des séries de catégories et des séries verticales facultatives en une seule fois.
 BaseGroupSortingDialog.Label.SortOn=Sort &On:
 
-MarkerIconDialog.Button.EmbeddedImage=Embedded image
+MarkerIconDialog.Button.EmbeddedImage=Image incorporée
 MarkerIconDialog.Title.MarkerIconSelector=Dispositif de sélection d'icône de repère
-MarkerIconDialog.Label.Description.EmbeddedImage=Select embedded image as marker icon.
+MarkerIconDialog.Label.Description.EmbeddedImage=Sélectionner l'image incorporée comme icône de repère.
 MarkerIconDialog.Lbl.SelectIconFrom=Sélectionner l'icône de :
 MarkerIconDialog.Lbl.URL=URL
 MarkerIconDialog.Lbl.Local=Local

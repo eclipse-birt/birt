@@ -1,20 +1,20 @@
 ###########################################################
 # Crosstab Action mame and trans name
-AddLevelHandleAction_Displayname=Show/Hide &Group Levels
+AddLevelHandleAction_Displayname=グループレベルの表示 / 非表示(&G)
 AddLevelHandleAction_TransName=グループレベルの表示/非表示
-AddMesureViewHandleAction.DisplayName=Show/Hide &Measures
+AddMesureViewHandleAction.DisplayName=メジャーの表示 / 非表示(&M)
 AddMesureViewHandleAction.TransName=メジャーの表示/非表示
 AddSubTotalAction.LabelName=総計
 AddSubTotalAction.TransName=合計の編集
-AddSubTotalAction.DisplayName=Tota&ls
+AddSubTotalAction.DisplayName=合計(&L)
 AddSubTotalAction.TotalName=合計
-CrosstabMenuBuilder.EditCubeAction.DisplayName=&Edit Data Cube
+CrosstabMenuBuilder.EditCubeAction.DisplayName=データキューブの編集(&E)
 DeleteDimensionViewHandleAction.TransName=ディメンジョンの削除
-DeleteDimensionViewHandleAction.DisplayName=Remo&ve
-DeleteMeasureHandleAction.DisplayName=Remo&ve
+DeleteDimensionViewHandleAction.DisplayName=削除(&V)
+DeleteMeasureHandleAction.DisplayName=削除(&V)
 DeleteMeasureHandleAction.TransName=メジャーの削除
 
-AddComputedMesureHandleAction.DisplayName=Add Derived Mea&sure
+AddComputedMesureHandleAction.DisplayName=派生メジャーの追加(&S)
 AddComputedMesureHandleAction.TransName=派生メジャーの追加
 AddComputedSummaryDialog.Title=派生メジャー
 AddComputedSummaryDialog.Label.Name=名前(&N) :
