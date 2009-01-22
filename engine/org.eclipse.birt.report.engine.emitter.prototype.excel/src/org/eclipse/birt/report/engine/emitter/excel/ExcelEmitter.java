@@ -250,7 +250,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	
 	public void endListBand( IListBandContent listBand )
 	{	
-		engine.endCell( );
+		engine.endContainer( );
 	}
 	
 	public void endList( IListContent list )

@@ -585,9 +585,10 @@ public class ExcelLayoutEngine
 		// FIXME: there is a bug when this data is in middle of a row.
 		outputDataIfBufferIsFull( );
 		addDatatoCache( col, data );
+		SheetData newData = new Data( data );
 		for ( int i = col + 1; i < col + span; i++ )
 		{
-			BlankData blankData = new BlankData( data );
+			BlankData blankData = new BlankData( newData );
 			addDatatoCache( i, blankData );
 		}
 		
