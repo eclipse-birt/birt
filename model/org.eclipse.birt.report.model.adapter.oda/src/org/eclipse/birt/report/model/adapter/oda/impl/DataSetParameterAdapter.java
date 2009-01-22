@@ -564,11 +564,18 @@ class DataSetParameterAdapter
 			Integer tmpNativeDataType = param.getNativeDataType( );
 			String tmpNativeName = param.getNativeName( );
 
-			// nativeName/name, position and nativeDataType should match. If the
-			// native name is blank, match native data type and position
+			// nativeName/name, position and nativeDataType should match.
 
-			if ( ( StringUtil.isBlank( tmpNativeName ) || ( tmpNativeName != null && tmpNativeName
-					.equals( dataSetParamName ) ) )
+			// case 1: if the native name is not blank, just use it.
+
+			if ( !StringUtil.isBlank( tmpNativeName )
+					&& tmpNativeName.equals( dataSetParamName ) )
+				return param;
+
+			// case 2: if the native name is blank, match native data type and
+			// position
+
+			if ( StringUtil.isBlank( tmpNativeName )
 					&& position.equals( param.getPosition( ) )
 					&& ( tmpNativeDataType == null || tmpNativeDataType
 							.equals( nativeDataType ) ) )
@@ -1409,8 +1416,9 @@ class DataSetParameterAdapter
 	 * 
 	 * <ul>
 	 * <li>if one parameter in newParams has the corresponding data set
-	 * parameter in data set handle, use it to update the one on set handle. 
-	 * <li>if the new parameter on set handle doesn't exist, add it. <li>
+	 * parameter in data set handle, use it to update the one on set handle.
+	 * <li>if the new parameter on set handle doesn't exist, add it.
+	 * <li>
 	 * Otherwise, the parameter on the set handle should be removed.
 	 * </ul>
 	 * <p>
