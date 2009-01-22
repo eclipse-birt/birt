@@ -50,5 +50,16 @@ public interface ITableInstance extends IReportItemInstance
 	 */
 	void setSummary( String summary );
 
+	/**
+	 * Get column's count on the table.
+	 * 
+	 */
+	int getColumnCount( );
+
+	/**
+	 * Get column according to the index.
+	 * 
+	 */
+	IColumnInstance getColumn( int index );
 
 }

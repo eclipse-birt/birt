@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.engine.script.internal.instance;
 
+import org.eclipse.birt.report.engine.api.script.instance.IColumnInstance;
 import org.eclipse.birt.report.engine.api.script.instance.ITableInstance;
+import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
@@ -90,5 +92,20 @@ public class TableInstance extends ReportItemInstance implements ITableInstance
 	public void setSummary( String summary )
 	{
 		( ( ITableContent)content ).setSummary( summary );
+	}
+
+	public int getColumnCount( )
+	{
+		return ( (ITableContent) content ).getColumnCount( );
+	}
+
+	public IColumnInstance getColumn( int index )
+	{
+		if ( index >= getColumnCount( ) || index < 0 )
+		{
+			throw new RuntimeException( "Invalid column index : " + index );
+		}
+		IColumn column = ( (ITableContent) content ).getColumn( index );
+		return new ColumnInstance( column );
 	}
 }

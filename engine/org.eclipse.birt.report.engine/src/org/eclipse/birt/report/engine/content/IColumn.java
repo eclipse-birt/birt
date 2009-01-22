@@ -31,6 +31,8 @@ public interface IColumn extends IStyledElement
 	 */
 	public DimensionType getWidth( );
 
+	public void setWidth( DimensionType width );
+
 	/**
 	 * get the instance id of the column.
 	 * the instance id is the unique id of the content.
