@@ -387,7 +387,7 @@ CodePageAction.actionText.code=脚本
 #ColorBuilder properties
 
 ColorBuilder.text.Auto=自动
-ColorBuilder.Button.ChooseColor=Open color panel
+ColorBuilder.Button.ChooseColor=打开色板
 ###########################################################
 #ColumnPageGenerator properties
 
@@ -587,7 +587,7 @@ dataset.warning.invalidReponseStatus=自定义 ODA 页面中的设计响应无效。ODA 设计会
 DataSetBasePage.tooltip=名称不能为空。
 DataSetBasePage.ScriptedDataSet.name=脚本化数据集
 DataSetBasePage.ScriptedDataSource.name=脚本化数据源
-DataSetBasePage.Group.DataSourceSelection=Data Source Selection
+DataSetBasePage.Group.DataSourceSelection=数据源选择
 
 ###########################################################
 #JointDataSetPage properties
@@ -1441,7 +1441,7 @@ ExpressionBuilder.toolTipText.Button=打开表达式生成器
 
 ExpressionBuilder.Label.Category=类别:
 ExpressionBuilder.Label.Functions=双击以插入:
-ExpressionBuilder.Label.Hint=Hint
+ExpressionBuilder.Label.Hint=提示
 ExpressionBuilder.Label.Operators=运算符:
 ExpressionBuilder.Label.SubCategory=子类别:
 ExpressionBuilder.Message.Prompt=在“表达式”字段中输入一个表达式。浏览可用对象列表并双击对象以将其复制到表达式中。
@@ -3212,8 +3212,8 @@ ResourceEditDialog.text.Value=值
 
 ResourceKeyDescriptor.text.Reset=重置
 ResourceKeyDescriptor.title.SelectKey=选择关键字
-ResourceKeyDescriptor.button.reset.tooltip=Reset the key
-ResourceKeyDescriptor.button.browse.tooltip=Browse and select a key
+ResourceKeyDescriptor.button.reset.tooltip=重置按键
+ResourceKeyDescriptor.button.browse.tooltip=浏览和选择按键
 ###########################################################
 #RevertToReportItemAction properties
 

@@ -387,7 +387,7 @@ CodePageAction.actionText.code=Skript
 #ColorBuilder properties
 
 ColorBuilder.text.Auto=Automatisch
-ColorBuilder.Button.ChooseColor=Open color panel
+ColorBuilder.Button.ChooseColor=Farbfeld öffnen
 ###########################################################
 #ColumnPageGenerator properties
 
@@ -587,7 +587,7 @@ dataset.warning.invalidReponseStatus=Ungültige Designantwort von der benutzerdef
 DataSetBasePage.tooltip=Name darf nicht leer sein.
 DataSetBasePage.ScriptedDataSet.name=Geskripteter Datensatz
 DataSetBasePage.ScriptedDataSource.name=Geskriptete Datenquelle
-DataSetBasePage.Group.DataSourceSelection=Data Source Selection
+DataSetBasePage.Group.DataSourceSelection=Datenquellenauswahl
 
 ###########################################################
 #JointDataSetPage properties
@@ -1441,7 +1441,7 @@ ExpressionBuilder.toolTipText.Button=Ausdruckserstellung öffnen
 
 ExpressionBuilder.Label.Category=Kategorie:
 ExpressionBuilder.Label.Functions=Einfügen durch Doppelklicken:
-ExpressionBuilder.Label.Hint=Hint
+ExpressionBuilder.Label.Hint=Hinweis
 ExpressionBuilder.Label.Operators=Operatoren:
 ExpressionBuilder.Label.SubCategory=Unterkategorie:
 ExpressionBuilder.Message.Prompt=Geben Sie in das Feld für die Ausdruckserstellung einen Ausdruck ein. Durchsuchen Sie die Liste der verfügbaren Objekte, und kopieren Sie sie per Doppelklick in den Ausdruck.
@@ -3212,8 +3212,8 @@ ResourceEditDialog.text.Value=Wert
 
 ResourceKeyDescriptor.text.Reset=Zurücksetzen
 ResourceKeyDescriptor.title.SelectKey=Schlüssel auswählen
-ResourceKeyDescriptor.button.reset.tooltip=Reset the key
-ResourceKeyDescriptor.button.browse.tooltip=Browse and select a key
+ResourceKeyDescriptor.button.reset.tooltip=Schlüssel zurücksetzen
+ResourceKeyDescriptor.button.browse.tooltip=Durchsuchen und Schlüssel auswählen
 ###########################################################
 #RevertToReportItemAction properties
 

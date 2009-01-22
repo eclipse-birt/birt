@@ -387,7 +387,7 @@ CodePageAction.actionText.code=Script
 #ColorBuilder properties
 
 ColorBuilder.text.Auto=Auto
-ColorBuilder.Button.ChooseColor=Open color panel
+ColorBuilder.Button.ChooseColor=Ouvrir la palette des couleurs
 ###########################################################
 #ColumnPageGenerator properties
 
@@ -587,7 +587,7 @@ dataset.warning.invalidReponseStatus=Réponse de conception de la page ODA person
 DataSetBasePage.tooltip=Le nom doit être renseigné.
 DataSetBasePage.ScriptedDataSet.name=Jeu de données nécessitant un script
 DataSetBasePage.ScriptedDataSource.name=Source de données nécessitant un script
-DataSetBasePage.Group.DataSourceSelection=Data Source Selection
+DataSetBasePage.Group.DataSourceSelection=Sélection de source de données
 
 ###########################################################
 #JointDataSetPage properties
@@ -1441,7 +1441,7 @@ ExpressionBuilder.toolTipText.Button=Ouvrir le Générateur d'expression
 
 ExpressionBuilder.Label.Category=Catégorie :
 ExpressionBuilder.Label.Functions=Double clic pour insérer :
-ExpressionBuilder.Label.Hint=Hint
+ExpressionBuilder.Label.Hint=Indication
 ExpressionBuilder.Label.Operators=Opérateurs :
 ExpressionBuilder.Label.SubCategory=Sous-catégorie :
 ExpressionBuilder.Message.Prompt=Entrez une expression dans le champ Expression. Parcourez la liste des objets disponibles et cliquez deux fois sur un objet pour le copier dans votre expression.
@@ -3212,8 +3212,8 @@ ResourceEditDialog.text.Value=Valeur
 
 ResourceKeyDescriptor.text.Reset=Réinitialiser
 ResourceKeyDescriptor.title.SelectKey=Sélectionner la clé
-ResourceKeyDescriptor.button.reset.tooltip=Reset the key
-ResourceKeyDescriptor.button.browse.tooltip=Browse and select a key
+ResourceKeyDescriptor.button.reset.tooltip=Réinitialiser la clé
+ResourceKeyDescriptor.button.browse.tooltip=Parcourir et sélectionner une clé
 ###########################################################
 #RevertToReportItemAction properties
 

@@ -387,7 +387,7 @@ CodePageAction.actionText.code=スクリプト
 #ColorBuilder properties
 
 ColorBuilder.text.Auto=自動
-ColorBuilder.Button.ChooseColor=Open color panel
+ColorBuilder.Button.ChooseColor=カラーパネルを開く
 ###########################################################
 #ColumnPageGenerator properties
 
@@ -587,7 +587,7 @@ dataset.warning.invalidReponseStatus=カスタム ODA ページからのデザインの応答が無
 DataSetBasePage.tooltip=名前は空白にできません。
 DataSetBasePage.ScriptedDataSet.name=スクリプトデータセット
 DataSetBasePage.ScriptedDataSource.name=スクリプト記述済みのデータソース
-DataSetBasePage.Group.DataSourceSelection=Data Source Selection
+DataSetBasePage.Group.DataSourceSelection=データソースの選択
 
 ###########################################################
 #JointDataSetPage properties
@@ -1441,7 +1441,7 @@ ExpressionBuilder.toolTipText.Button=式ビルダを開く
 
 ExpressionBuilder.Label.Category=カテゴリ :
 ExpressionBuilder.Label.Functions=ダブルクリックして挿入 :
-ExpressionBuilder.Label.Hint=Hint
+ExpressionBuilder.Label.Hint=ヒント
 ExpressionBuilder.Label.Operators=演算子 :
 ExpressionBuilder.Label.SubCategory=サブカテゴリ :
 ExpressionBuilder.Message.Prompt=[式] フィールドに式を入力してください。使用可能なオブジェクトの一覧を参照し、式に使用する項目をダブルクリックしてコピーします。
@@ -3212,8 +3212,8 @@ ResourceEditDialog.text.Value=値
 
 ResourceKeyDescriptor.text.Reset=リセット
 ResourceKeyDescriptor.title.SelectKey=キーの選択
-ResourceKeyDescriptor.button.reset.tooltip=Reset the key
-ResourceKeyDescriptor.button.browse.tooltip=Browse and select a key
+ResourceKeyDescriptor.button.reset.tooltip=キーのリセット
+ResourceKeyDescriptor.button.browse.tooltip=参照してキーを選択
 ###########################################################
 #RevertToReportItemAction properties
 

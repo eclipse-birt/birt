@@ -387,7 +387,7 @@ CodePageAction.actionText.code=Script
 #ColorBuilder properties
 
 ColorBuilder.text.Auto=Automático
-ColorBuilder.Button.ChooseColor=Open color panel
+ColorBuilder.Button.ChooseColor=Abrir panel de color
 ###########################################################
 #ColumnPageGenerator properties
 
@@ -586,8 +586,8 @@ dataset.warning.invalidReponseStatus=Respuesta de diseño no válida en la página 
 
 DataSetBasePage.tooltip=El nombre no puede estar vacío.
 DataSetBasePage.ScriptedDataSet.name=Conjunto de datos de script
-DataSetBasePage.ScriptedDataSource.name=Fuente de datos de script
-DataSetBasePage.Group.DataSourceSelection=Data Source Selection
+DataSetBasePage.ScriptedDataSource.name=Fuente de datos en script
+DataSetBasePage.Group.DataSourceSelection=Selección de fuente de datos
 
 ###########################################################
 #JointDataSetPage properties
@@ -1441,7 +1441,7 @@ ExpressionBuilder.toolTipText.Button=Abrir el compilador de expresiones
 
 ExpressionBuilder.Label.Category=Categoría:
 ExpressionBuilder.Label.Functions=Haga doble clic para insertar:
-ExpressionBuilder.Label.Hint=Hint
+ExpressionBuilder.Label.Hint=Sugerencia
 ExpressionBuilder.Label.Operators=Operadores:
 ExpressionBuilder.Label.SubCategory=Subcategoría:
 ExpressionBuilder.Message.Prompt=Introduzca una expresión en el campo Expresión. Busque la lista de objetos disponibles y haga doble clic para copiarla en la expresión.
@@ -3212,8 +3212,8 @@ ResourceEditDialog.text.Value=Valor
 
 ResourceKeyDescriptor.text.Reset=Restablecer
 ResourceKeyDescriptor.title.SelectKey=Seleccionar clave
-ResourceKeyDescriptor.button.reset.tooltip=Reset the key
-ResourceKeyDescriptor.button.browse.tooltip=Browse and select a key
+ResourceKeyDescriptor.button.reset.tooltip=Reiniciar la clave
+ResourceKeyDescriptor.button.browse.tooltip=Examinar y seleccionar una clave
 ###########################################################
 #RevertToReportItemAction properties
 
