@@ -1235,15 +1235,17 @@ public class EngineIRVisitor extends DesignVisitor
 	{
 		List<StyleHandle> styles = handle.getFactoryElementHandle( )
 				.getAllFactoryStyles( );
+		String lastName = null;
 		StringBuffer buffer = new StringBuffer( );
 		for ( int i = styles.size( ) - 1; i >= 0; i-- )
 		{
 			StyleHandle styleHandle = styles.get( i );
 			StyleDeclaration style = createPrivateStyle( styleHandle );
-			String name = styleHandle.getName( );
+			String name = validateName( styleHandle.getName( ) );
 			if ( !report.getStyles( ).containsKey( name ) )
 				report.addStyle( name, style );
 			appendStyleName( buffer, name );
+			lastName = name;
 		}
 
 		StyleHandle privateStyle = handle.getPrivateStyle( );
@@ -1252,12 +1254,23 @@ public class EngineIRVisitor extends DesignVisitor
 			StyleDeclaration style = createPrivateStyle( privateStyle );
 			if ( style != null && !style.isEmpty( ) )
 			{
-				appendStyleName( buffer, assignStyleName( style ) );
+				String name = assignStyleName( style );
+				if ( !name.equals( lastName ))
+				{
+					appendStyleName( buffer, name );
+				}
 			}
 		}
 		if ( buffer.length( ) > 0 )
+		{
 			design.setStyleClass( buffer.toString( ) );
+		}
 		design.setStyle( createPrivateStyle( handle ) );
+	}
+
+	private String validateName( String styleName )
+	{
+		return styleName.replaceAll( " ", "_" );
 	}
 
 	private void appendStyleName( StringBuffer buffer, String styleName )
