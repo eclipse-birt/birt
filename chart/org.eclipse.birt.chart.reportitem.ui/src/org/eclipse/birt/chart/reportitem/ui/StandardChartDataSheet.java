@@ -634,6 +634,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 		// Right click to display the menu. Menu display by clicking
 		// application key is triggered by os, so do nothing.
+		// bug 261340, now we use the field doit to indicate whether it's menu
+		// initialization or event triggering.
 		if ( event.type == CustomPreviewTable.MOUSE_RIGHT_CLICK_TYPE )
 		{
 			if ( getDataServiceProvider( ).getBoundDataSet( ) != null
@@ -649,7 +651,10 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 						header.setMenu( createMenuManager( event.data ).createContextMenu( tablePreview ) );
 					}
 
-					header.getMenu( ).setVisible( true );
+					if ( event.doit )
+					{
+						header.getMenu( ).setVisible( true );
+					}
 				}
 			}
 

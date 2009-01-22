@@ -156,7 +156,10 @@ public class CustomPreviewTable extends Composite implements
 
 		public void keyTraversed( TraverseEvent e )
 		{
-			 e.doit = false;
+			if ( e.character != SWT.TAB )
+			{
+				e.doit = false;
+			}
 		}
 	}; 
 
@@ -275,6 +278,9 @@ public class CustomPreviewTable extends Composite implements
 
 		btnHeaders.add( btnHeader );
 
+		// create menu
+		fireMenuEvent( btnHeader, false );
+
 		// Use this splitter to resize the column
 		addHeaderSplitter( );
 	}
@@ -337,6 +343,9 @@ public class CustomPreviewTable extends Composite implements
 		addDragListenerToHeaderButton( btnHeader );
 
 		btnHeaders.add( btnHeader );
+
+		// create menu
+		fireMenuEvent( btnHeader, false );
 
 		// Use this splitter to resize the column
 		addHeaderSplitter( );
@@ -605,12 +614,13 @@ public class CustomPreviewTable extends Composite implements
 		placeComponents( );
 	}
 
-	void fireMenuEvent( Widget widget )
+	void fireMenuEvent( Widget widget, boolean doit )
 	{
 		Event e = new Event( );
 		e.type = MOUSE_RIGHT_CLICK_TYPE;
 		e.button = 3;
 		e.data = new Integer( iColumnIndex );
+		e.doit = doit;
 
 		// let the handler know which widget fires the event, then the handler
 		// will bind a menu to those widgets.
@@ -689,7 +699,7 @@ public class CustomPreviewTable extends Composite implements
 		{
 			iColumnIndex = this.btnHeaders.indexOf( e.widget );
 			( (Button) e.widget ).setFocus( );
-			fireMenuEvent( e.widget );
+			fireMenuEvent( e.widget, true );
 		}
 	}
 
@@ -1173,7 +1183,7 @@ public class CustomPreviewTable extends Composite implements
 				}
 				Button currentButton = btnHeaders.elementAt( iColumnIndex );
 				currentButton.setFocus( );
-				fireMenuEvent( currentButton );
+				fireMenuEvent( currentButton, true );
 			}
 		}
 

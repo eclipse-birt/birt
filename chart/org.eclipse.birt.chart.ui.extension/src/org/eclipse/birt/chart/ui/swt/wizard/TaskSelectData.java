@@ -64,7 +64,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -252,19 +251,14 @@ public class TaskSelectData extends SimpleTask implements
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.widthHint = fLeftSize.x;
 		new Label( dataComposite, SWT.NONE ).setLayoutData( gd );
-		Composite selector = getDataSheet( ).createDataSelector( dataComposite );
+		getDataSheet( ).createDataSelector( dataComposite );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.widthHint = fRightSize.x;
 		new Label( dataComposite, SWT.NONE ).setLayoutData( gd );
 
 		new Label( dataComposite, SWT.NONE );
-
 		getDataSheet( ).createDataDragSource( dataComposite );
-		Composite action = getDataSheet( ).createActionButtons( dataComposite );
-
-		dataComposite.setTabList( new Control[]{
-				selector, action 
-		} );
+		getDataSheet( ).createActionButtons( dataComposite );
 
 		new Label( dataComposite, SWT.NONE );
 
