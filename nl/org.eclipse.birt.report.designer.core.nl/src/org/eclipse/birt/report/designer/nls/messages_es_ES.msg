@@ -584,8 +584,8 @@ dataset.warning.invalidReponseStatus=Respuesta de diseño no válida en la página 
 
 DataSetBasePage.tooltip=El nombre no puede estar vacío.
 DataSetBasePage.ScriptedDataSet.name=Conjunto de datos de script
-DataSetBasePage.ScriptedDataSource.name=Scripted Data Source
-DataSetBasePage.Group.DataSourceSelection=Data Source Selection
+DataSetBasePage.ScriptedDataSource.name=Fuente de datos en script
+DataSetBasePage.Group.DataSourceSelection=Selección de fuente de datos
 
 ###########################################################
 #JointDataSetPage properties
@@ -1436,7 +1436,7 @@ ExpressionBuilder.toolTipText.Button=Abrir el compilador de expresiones
 
 ExpressionBuilder.Label.Category=Categoría:
 ExpressionBuilder.Label.Functions=Haga doble clic para insertar:
-ExpressionBuilder.Label.Hint=Hint
+ExpressionBuilder.Label.Hint=Sugerencia
 ExpressionBuilder.Label.Operators=Operadores:
 ExpressionBuilder.Label.SubCategory=Subcategoría:
 ExpressionBuilder.Message.Prompt=Introduzca una expresión en el campo Expresión. Busque la lista de objetos disponibles y haga doble clic para copiarla en la expresión.

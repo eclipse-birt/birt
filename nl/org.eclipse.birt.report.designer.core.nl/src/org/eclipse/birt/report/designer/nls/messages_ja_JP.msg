@@ -584,8 +584,8 @@ dataset.warning.invalidReponseStatus=カスタム ODA ページからのデザインの応答が無
 
 DataSetBasePage.tooltip=名前は空白にできません。
 DataSetBasePage.ScriptedDataSet.name=スクリプトデータセット
-DataSetBasePage.ScriptedDataSource.name=Scripted Data Source
-DataSetBasePage.Group.DataSourceSelection=Data Source Selection
+DataSetBasePage.ScriptedDataSource.name=スクリプト記述済みのデータソース
+DataSetBasePage.Group.DataSourceSelection=データソースの選択
 
 ###########################################################
 #JointDataSetPage properties
@@ -1436,7 +1436,7 @@ ExpressionBuilder.toolTipText.Button=式ビルダを開く
 
 ExpressionBuilder.Label.Category=カテゴリ :
 ExpressionBuilder.Label.Functions=ダブルクリックして挿入 :
-ExpressionBuilder.Label.Hint=Hint
+ExpressionBuilder.Label.Hint=ヒント
 ExpressionBuilder.Label.Operators=演算子 :
 ExpressionBuilder.Label.SubCategory=サブカテゴリ :
 ExpressionBuilder.Message.Prompt=[式] フィールドに式を入力してください。使用可能なオブジェクトの一覧を参照し、式に使用する項目をダブルクリックしてコピーします。

@@ -584,8 +584,8 @@ dataset.warning.invalidReponseStatus=Ungültige Designantwort von der benutzerdef
 
 DataSetBasePage.tooltip=Name darf nicht leer sein.
 DataSetBasePage.ScriptedDataSet.name=Geskripteter Datensatz
-DataSetBasePage.ScriptedDataSource.name=Scripted Data Source
-DataSetBasePage.Group.DataSourceSelection=Data Source Selection
+DataSetBasePage.ScriptedDataSource.name=Geskriptete Datenquelle
+DataSetBasePage.Group.DataSourceSelection=Datenquellenauswahl
 
 ###########################################################
 #JointDataSetPage properties
@@ -1436,7 +1436,7 @@ ExpressionBuilder.toolTipText.Button=Ausdruckserstellung öffnen
 
 ExpressionBuilder.Label.Category=Kategorie:
 ExpressionBuilder.Label.Functions=Einfügen durch Doppelklicken:
-ExpressionBuilder.Label.Hint=Hint
+ExpressionBuilder.Label.Hint=Hinweis
 ExpressionBuilder.Label.Operators=Operatoren:
 ExpressionBuilder.Label.SubCategory=Unterkategorie:
 ExpressionBuilder.Message.Prompt=Geben Sie in das Feld für die Ausdruckserstellung einen Ausdruck ein. Durchsuchen Sie die Liste der verfügbaren Objekte, und kopieren Sie sie per Doppelklick in den Ausdruck.

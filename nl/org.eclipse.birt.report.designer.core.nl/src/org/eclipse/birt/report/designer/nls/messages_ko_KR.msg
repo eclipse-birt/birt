@@ -584,8 +584,8 @@ dataset.warning.invalidReponseStatus=사용자 지정 ODA 페이지의 디자인 응답이 잘못
 
 DataSetBasePage.tooltip=이름은 비어 있으면 안 됩니다.
 DataSetBasePage.ScriptedDataSet.name=스크립트된 데이터 집합
-DataSetBasePage.ScriptedDataSource.name=Scripted Data Source
-DataSetBasePage.Group.DataSourceSelection=Data Source Selection
+DataSetBasePage.ScriptedDataSource.name=스크립트 데이터 원본
+DataSetBasePage.Group.DataSourceSelection=데이터 원본 선택
 
 ###########################################################
 #JointDataSetPage properties
@@ -1436,7 +1436,7 @@ ExpressionBuilder.toolTipText.Button=식 빌더 열기
 
 ExpressionBuilder.Label.Category=범주:
 ExpressionBuilder.Label.Functions=삽입하려면 두 번 클릭:
-ExpressionBuilder.Label.Hint=Hint
+ExpressionBuilder.Label.Hint=힌트
 ExpressionBuilder.Label.Operators=연산자:
 ExpressionBuilder.Label.SubCategory=하위 범주:
 ExpressionBuilder.Message.Prompt=식 필드에 식을 입력하십시오. 사용 가능한 객체 목록을 찾아보고 식으로 복사하려면 두 번 클릭하십시오.
