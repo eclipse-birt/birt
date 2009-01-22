@@ -4261,18 +4261,18 @@ AggDataDropAdapter.Trans.Name=创建聚合
 
 ###########################################################
 #BindingDialogHelper
-BindingDialogHelper.text.Name=列绑定名称:
-BindingDialogHelper.text.DataType=数据类型:
-BindingDialogHelper.text.Function=函数:
-BindingDialogHelper.text.DataField=数据字段:
-BindingDialogHelper.text.Filter=筛选条件:
-BindingDialogHelper.text.AggOn=聚合条件:
+BindingDialogHelper.text.Name=Column &Binding Name:
+BindingDialogHelper.text.DataType=Data T&ype:
+BindingDialogHelper.text.Function=&Function:
+BindingDialogHelper.text.DataField=D&ata Field:
+BindingDialogHelper.text.Filter=Fil&ter Condition:
+BindingDialogHelper.text.AggOn=A&ggregate On:
 BindingDialogHelper.text.Table=表
 BindingDialogHelper.text.List=列表
 BindingDialogHelper.text.Grid=网格
 BindingDialogHelper.text.Group=组
-BindingDialogHelper.text.Expression=表达式:
-BindingDialogHelper.text.displayName=显示名称:
+BindingDialogHelper.text.Expression=表达式(&E):
+BindingDialogHelper.text.displayName=Display &Name:
 BindingDialogHelper.bindingName.dataitem=列绑定
 BindingDialogHelper.bindingName.aggregation=聚合
 BindingDialogHelper.error.nameduplicate=名为 {0} 的列绑定已存在。 

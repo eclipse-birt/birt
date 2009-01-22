@@ -4261,18 +4261,18 @@ AggDataDropAdapter.Trans.Name=Créer une agrégation
 
 ###########################################################
 #BindingDialogHelper
-BindingDialogHelper.text.Name=Nom de la liaison de colonne :
-BindingDialogHelper.text.DataType=Type de données :
-BindingDialogHelper.text.Function=Fonction :
-BindingDialogHelper.text.DataField=Champ de données :
-BindingDialogHelper.text.Filter=Condition de filtre :
-BindingDialogHelper.text.AggOn=Regrouper par :
+BindingDialogHelper.text.Name=Column &Binding Name:
+BindingDialogHelper.text.DataType=Data T&ype:
+BindingDialogHelper.text.Function=&Function:
+BindingDialogHelper.text.DataField=D&ata Field:
+BindingDialogHelper.text.Filter=Fil&ter Condition:
+BindingDialogHelper.text.AggOn=A&ggregate On:
 BindingDialogHelper.text.Table=Table
 BindingDialogHelper.text.List=Liste
 BindingDialogHelper.text.Grid=Grille
 BindingDialogHelper.text.Group=Groupe
-BindingDialogHelper.text.Expression=Expression :
-BindingDialogHelper.text.displayName=Nom d'affichage :
+BindingDialogHelper.text.Expression=&Expression :
+BindingDialogHelper.text.displayName=Display &Name:
 BindingDialogHelper.bindingName.dataitem=Liaison de colonne
 BindingDialogHelper.bindingName.aggregation=Agrégation
 BindingDialogHelper.error.nameduplicate=Une liaison de colonne appelée {0} existe déjà. 

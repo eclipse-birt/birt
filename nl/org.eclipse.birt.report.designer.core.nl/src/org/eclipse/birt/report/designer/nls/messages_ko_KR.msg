@@ -4261,18 +4261,18 @@ AggDataDropAdapter.Trans.Name=집계 생성
 
 ###########################################################
 #BindingDialogHelper
-BindingDialogHelper.text.Name=열 바인딩 이름:
-BindingDialogHelper.text.DataType=데이터 형식:
-BindingDialogHelper.text.Function=함수:
-BindingDialogHelper.text.DataField=데이터 필드:
-BindingDialogHelper.text.Filter=필터 조건:
-BindingDialogHelper.text.AggOn=집계 대상:
+BindingDialogHelper.text.Name=Column &Binding Name:
+BindingDialogHelper.text.DataType=Data T&ype:
+BindingDialogHelper.text.Function=&Function:
+BindingDialogHelper.text.DataField=D&ata Field:
+BindingDialogHelper.text.Filter=Fil&ter Condition:
+BindingDialogHelper.text.AggOn=A&ggregate On:
 BindingDialogHelper.text.Table=테이블
 BindingDialogHelper.text.List=목록
 BindingDialogHelper.text.Grid=눈금
 BindingDialogHelper.text.Group=그룹
-BindingDialogHelper.text.Expression=식:
-BindingDialogHelper.text.displayName=표시 이름:
+BindingDialogHelper.text.Expression=식(&E):
+BindingDialogHelper.text.displayName=Display &Name:
 BindingDialogHelper.bindingName.dataitem=열 바인딩
 BindingDialogHelper.bindingName.aggregation=집계
 BindingDialogHelper.error.nameduplicate=열 바인딩 {0}이(가) 이미 있습니다. 

@@ -4261,18 +4261,18 @@ AggDataDropAdapter.Trans.Name=Aggregat erstellen
 
 ###########################################################
 #BindingDialogHelper
-BindingDialogHelper.text.Name=Name der Spaltenbindung:
-BindingDialogHelper.text.DataType=Datentyp:
-BindingDialogHelper.text.Function=Funktion:
-BindingDialogHelper.text.DataField=Datenfeld:
-BindingDialogHelper.text.Filter=Filterbedingung:
-BindingDialogHelper.text.AggOn=Aggregat in:
+BindingDialogHelper.text.Name=Column &Binding Name:
+BindingDialogHelper.text.DataType=Data T&ype:
+BindingDialogHelper.text.Function=&Function:
+BindingDialogHelper.text.DataField=D&ata Field:
+BindingDialogHelper.text.Filter=Fil&ter Condition:
+BindingDialogHelper.text.AggOn=A&ggregate On:
 BindingDialogHelper.text.Table=Tabelle
 BindingDialogHelper.text.List=Liste
 BindingDialogHelper.text.Grid=Raster
 BindingDialogHelper.text.Group=Gruppieren
-BindingDialogHelper.text.Expression=Ausdruck:
-BindingDialogHelper.text.displayName=Anzeigename:
+BindingDialogHelper.text.Expression=&Ausdruck:
+BindingDialogHelper.text.displayName=Display &Name:
 BindingDialogHelper.bindingName.dataitem=Spaltenbindung
 BindingDialogHelper.bindingName.aggregation=Aggregat
 BindingDialogHelper.error.nameduplicate=Es ist bereits eine Spaltenbindung mit dem Namen {0} vorhanden. 

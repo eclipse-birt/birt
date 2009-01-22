@@ -4261,18 +4261,18 @@ AggDataDropAdapter.Trans.Name=Crear agregación
 
 ###########################################################
 #BindingDialogHelper
-BindingDialogHelper.text.Name=Nombre de enlace de columna:
-BindingDialogHelper.text.DataType=Tipo de datos:
-BindingDialogHelper.text.Function=Función:
-BindingDialogHelper.text.DataField=Campo de datos:
-BindingDialogHelper.text.Filter=Condición de filtro:
-BindingDialogHelper.text.AggOn=Agregar en:
+BindingDialogHelper.text.Name=Column &Binding Name:
+BindingDialogHelper.text.DataType=Data T&ype:
+BindingDialogHelper.text.Function=&Function:
+BindingDialogHelper.text.DataField=D&ata Field:
+BindingDialogHelper.text.Filter=Fil&ter Condition:
+BindingDialogHelper.text.AggOn=A&ggregate On:
 BindingDialogHelper.text.Table=Tabla
 BindingDialogHelper.text.List=Lista
 BindingDialogHelper.text.Grid=Cuadrícula
 BindingDialogHelper.text.Group=Grupo
-BindingDialogHelper.text.Expression=Expresión:
-BindingDialogHelper.text.displayName=Nombre en pantalla:
+BindingDialogHelper.text.Expression=&Expresión:
+BindingDialogHelper.text.displayName=Display &Name:
 BindingDialogHelper.bindingName.dataitem=Enlace de columna
 BindingDialogHelper.bindingName.aggregation=Agregación
 BindingDialogHelper.error.nameduplicate=Ya existe un enlace de columna con el nombre {0}. 

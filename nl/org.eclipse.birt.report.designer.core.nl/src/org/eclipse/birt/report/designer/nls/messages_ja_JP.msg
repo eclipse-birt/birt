@@ -4261,18 +4261,18 @@ AggDataDropAdapter.Trans.Name=集計の作成
 
 ###########################################################
 #BindingDialogHelper
-BindingDialogHelper.text.Name=列バインドの名前 :
-BindingDialogHelper.text.DataType=データ型 :
-BindingDialogHelper.text.Function=関数 :
-BindingDialogHelper.text.DataField=データフィールド :
-BindingDialogHelper.text.Filter=フィルタの条件 :
-BindingDialogHelper.text.AggOn=集計条件 :
+BindingDialogHelper.text.Name=Column &Binding Name:
+BindingDialogHelper.text.DataType=Data T&ype:
+BindingDialogHelper.text.Function=&Function:
+BindingDialogHelper.text.DataField=D&ata Field:
+BindingDialogHelper.text.Filter=Fil&ter Condition:
+BindingDialogHelper.text.AggOn=A&ggregate On:
 BindingDialogHelper.text.Table=テーブル
 BindingDialogHelper.text.List=リスト
 BindingDialogHelper.text.Grid=グリッド
 BindingDialogHelper.text.Group=グループ
-BindingDialogHelper.text.Expression=式 :
-BindingDialogHelper.text.displayName=表示名 :
+BindingDialogHelper.text.Expression=式(&E) :
+BindingDialogHelper.text.displayName=Display &Name:
 BindingDialogHelper.bindingName.dataitem=列バインド :
 BindingDialogHelper.bindingName.aggregation=集計
 BindingDialogHelper.error.nameduplicate={0} という名前の列バインドはすでに存在します。 
