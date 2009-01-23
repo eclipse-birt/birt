@@ -603,16 +603,16 @@ public class TableColumnGenerator implements ICrosstabConstants
 
 		for ( int i = 0; i < columnLevelPageBreakIntervals.length; i++ )
 		{
+			long currentPos = currentColumnLevelState[i];
+			long lastPos = lastColumnLevelState[i];
+
+			if ( currentPos == lastPos )
+			{
+				continue;
+			}
+
 			if ( columnLevelPageBreakIntervals[i] > 0 )
 			{
-				long currentPos = currentColumnLevelState[i];
-				long lastPos = lastColumnLevelState[i];
-
-				if ( currentPos == lastPos )
-				{
-					continue;
-				}
-
 				// TODO check dummy group?
 
 				long lastCheckedPos = checkedColumnLevelState[i];
@@ -633,14 +633,14 @@ public class TableColumnGenerator implements ICrosstabConstants
 							0,
 							currentColumnLevelState.length );
 				}
+			}
 
-				// also revalidate subsequent checked level state since
-				// parent level position change will reset all sub level
-				// positions
-				for ( int j = i + 1; j < columnLevelPageBreakIntervals.length; j++ )
-				{
-					checkedColumnLevelState[j] = 0;
-				}
+			// also revalidate subsequent checked level state since
+			// parent level position change will reset all sub level
+			// positions
+			for ( int j = i + 1; j < columnLevelPageBreakIntervals.length; j++ )
+			{
+				checkedColumnLevelState[j] = 0;
 			}
 		}
 
