@@ -319,22 +319,22 @@ SettingsPage.CachePreference.radioBox.numText=¸ÕÀú Ä³½Ã ÈÄ »ç¿ë(&U)
 ###########################################################
 #CascadingParametersDialog properties
 
-CascadingParametersDialog.Button.isRequired=ÇÊ¿ä(&I) 
+CascadingParametersDialog.Button.isRequired=ÇÊ¿ä(&I)
 CascadingParametersDialog.default.preview.string=³» ¹®ÀÚ¿­
 CascadingParametersDialog.display.controlType.comboBox=ÄŞº¸ »óÀÚ
 CascadingParametersDialog.display.controlType.listBox=¸ñ·Ï »óÀÚ
 CascadingParametersDialog.Label.button.changeFormat=º¯°æ(&G)...
 CascadingParametersDialog.Label.button.createNew.dataset=»õ·Î »ı¼º(&W)...
-CascadingParametersDialog.Label.cascadingParam.name=°è´Ü½Ä ¸Å°³º¯¼ö ÀÌ¸§(&C):
+CascadingParametersDialog.Label.cascadingParam.name=Cascading Paramete&r Name:
 CascadingParametersDialog.Label.column.displayText=Ç¥½Ã ÅØ½ºÆ®
 CascadingParametersDialog.Label.column.dataSet=µ¥ÀÌÅÍ ÁıÇÕ
 CascadingParametersDialog.Label.column.name=ÀÌ¸§
 CascadingParametersDialog.Label.column.value=°ª
 CascadingParametersDialog.Label.createNewParam=<»õ ¸Å°³º¯¼ö »ı¼º...>
 CascadingParametersDialog.Label.dataSets=µ¥ÀÌÅÍ ÁıÇÕ(&S):
-CascadingParametersDialog.Label.dataType=µ¥ÀÌÅÍ Çü½Ä(&D)
+CascadingParametersDialog.Label.dataType=Data t&ype
 CascadingParametersDialog.Label.defaultValue=±âº»°ª(&V):
-CascadingParametersDialog.Label.displayType=Ç¥½Ã Çü½Ä(&T):
+CascadingParametersDialog.Label.displayType=Di&splay type:
 CascadingParametersDialog.Label.formatAs=´ÙÀ½À¸·Î Çü½Ä ÁöÁ¤:
 CascadingParametersDialog.Label.group.general=ÀÏ¹İ
 CascadingParametersDialog.Label.group.moreOptions=Ãß°¡ ¿É¼Ç
@@ -346,7 +346,7 @@ CascadingParametersDialog.Label.param.name=ÀÌ¸§(&N):
 CascadingParametersDialog.Label.parameters=¸Å°³ º¯¼ö
 CascadingParametersDialog.Label.preview=¹Ì¸®º¸±â Çü½Ä
 CascadingParametersDialog.Label.groupPromptText=ÇÁ·ÒÇÁÆ® ÅØ½ºÆ®(&P):
-CascadingParametersDialog.Label.parameterPromptText=ÇÁ·ÒÇÁÆ® ÅØ½ºÆ®(&R):
+CascadingParametersDialog.Label.parameterPromptText=Pro&mpt text:
 CascadingParametersDialog.Label.selectDataSet=<µ¥ÀÌÅÍ ÁıÇÕ ¼±ÅÃ>
 CascadingParametersDialog.Label.selectDisplayColumn=<Ç¥½Ã ¿­ÀÌ ¼³Á¤µÇÁö ¾ÊÀ½>
 CascadingParametersDialog.Label.selectValueColumn=<°ª ¿­ÀÌ ¼³Á¤µÇÁö ¾ÊÀ½>
@@ -635,7 +635,7 @@ DataSetFiltersPage.messages.selectVauleUnavailable=ÁöÁ¤ÇÑ ½ÄÀ¸·Î °ª ¸ñ·ÏÀ» »ç¿ëÇ
 ###########################################################
 #DataSetNodeProvider properties
 
-DataSetNodeProvider.menu.text=ÆíÁı
+DataSetNodeProvider.menu.text=ÆíÁı(&E)
 
 ###########################################################
 #DataSetParametersPage properties
@@ -686,7 +686,7 @@ DataSetProcess.text.Suffix=ÀÌ ¿ä¼Ò¸¦ »èÁ¦ÇÏ½Ã°Ú½À´Ï±î?
 ###########################################################
 #datasource properties
 
-datasource.action.edit=ÆíÁı
+datasource.action.edit=ÆíÁı(&E)
 datasource.edit=µ¥ÀÌÅÍ ¿øº» ÆíÁı - {0}
 datasource.new.defaultName=µ¥ÀÌÅÍ ¿øº»
 datasource.new=»õ µ¥ÀÌÅÍ ¿øº» 
@@ -831,11 +831,11 @@ designer.preview.preference.browser.useExternal=Ç×»ó ¿ÜºÎ ºê¶ó¿ìÀú »ç¿ë(&W)
 designer.preview.preference.elementname.columnwidth=125
 designer.preview.preference.elementname.customname.Enabled=true
 designer.preview.preference.elementname.customname=±âº» ÀÌ¸§
-designer.preview.preference.elementname.defaultname.Enabled=false    
+designer.preview.preference.elementname.defaultname.Enabled=false
 designer.preview.preference.elementname.defaultname=¿ä¼Ò ÀÌ¸§
 designer.preview.preference.elementname.description.Enabled=false
 designer.preview.preference.elementname.description=¼³¸í
-designer.preview.preference.elementname.Enabled=true 
+designer.preview.preference.elementname.Enabled=true
 designer.preview.preference.locale.description=·ÎÄÉÀÏ ¼±ÅÃ(&C):
 designer.preview.preference.timezone.description=Ç¥ÁØ ½Ã°£´ë(&T):
 designer.preview.preference.resultset.sqldatasetpage.group.title=Äõ¸® ÆäÀÌÁö
@@ -886,7 +886,7 @@ designerActionBarContributor.menu.data-newdatasource=»õ µ¥ÀÌÅÍ ¿øº»(&O)
 DesignerActionBarContributor.menu.data=µ¥ÀÌÅÍ(&D)
 DesignerActionBarContributor.menu.element-EditGroup=±×·ì ÆíÁı(&E)
 DesignerActionBarContributor.menu.element-LayoutMode=·¹ÀÌ¾Æ¿ô ¸ğµå(&D)
-DesignerActionBarContributor.menu.element-showRuler=´«±İÀÚ Ç¥½Ã(&R)
+DesignerActionBarContributor.menu.element-showRuler=Show &Rulers
 DesignerActionBarContributor.menu.element.editDataBinding=µ¥ÀÌÅÍ ¹ÙÀÎµù ÆíÁı(&B)
 DesignerActionBarContributor.menu.element=¿ä¼Ò(&L)
 DesignerActionBarContributor.menu.format=¼­½Ä
@@ -979,7 +979,7 @@ DuplicatesPage.Radio.RepeatonPage=ÆäÀÌÁö¿¡¼­ ¹İº¹
 ###########################################################
 #EditAction properties
 
-EditAction.text=ÆíÁı
+EditAction.text=ÆíÁı(&E)
 
 ###########################################################
 #EditGroupAction properties
@@ -1000,7 +1000,7 @@ DeleteGroupAction.stackMsg.deleteGroup=±×·ì »èÁ¦
 ###########################################################
 #EditLabelAction properties
 
-EditLabelAction.text=ÆíÁı
+EditLabelAction.text=ÆíÁı(&E)
 
 ###########################################################
 #Element properties
@@ -1355,7 +1355,7 @@ EmbeddedImageNodeProvider.action.New=»õ ³»ÀåµÈ ÀÌ¹ÌÁö
 ###########################################################
 #EmbeddedImagesNodeProvider properties
 
-EmbeddedImagesNodeProvider.action.New=»õ ³»ÀåµÈ ÀÌ¹ÌÁö
+EmbeddedImagesNodeProvider.action.New=New E&mbedded Image
 
 ###########################################################
 #ElementIdDescriptorProvider properties
@@ -1801,7 +1801,7 @@ GroupHandleProvider.Label.Groups=±×·ì ¸ñ·Ï:
 ###########################################################
 #GroupProvider properties
 
-GroupProvider.action.text=±×·ì ÆíÁı
+GroupProvider.action.text=±×·ì ÆíÁı(&E)
 
 ###########################################################
 #GuiExtensionManager properties
@@ -1974,19 +1974,19 @@ ImageBuilder.ErrorMessage.OutOfMemory=ÀÌ¹ÌÁö°¡ ³Ê¹« Ä¿¼­ ¸Ş¸ğ¸®¿¡ ¸ÂÁö ¾Ê½À´Ï´Ù.
 ImageBuilder.FileDialog.FilterMessage=Áö¿øµÇÁö ¾Ê´Â ÀÌ¹ÌÁö ÆÄÀÏ
 ImageBuilder.Button.Browser=Ã£¾Æº¸±â...
 ImageBuilder.Button.Import=ÀÌ¹ÌÁö Ãß°¡(&A)...
-ImageBuilder.Button.SelectImageData=ÀÌ¹ÌÁö µ¥ÀÌÅÍ ¼±ÅÃ...
+ImageBuilder.Button.SelectImageData=Se&lect Image Data...
 ImageBuilder.Button.Insert=»ğÀÔ(&S)
 ImageBuilder.Label.SelectFrom=ÀÌ¹ÌÁö ¼±ÅÃ À§Ä¡:
-ImageBuilder.Label.EnterURI=URI ÀÔ·Â:
-ImageBuilder.Label.EnterResourceFile=¸®¼Ò½º ÆÄÀÏ ÀÔ·Â:
+ImageBuilder.Label.EnterURI=E&nter URI:
+ImageBuilder.Label.EnterResourceFile=E&nter resource file:
 ImageBuilder.Label.EnterExpr=µ¿Àû ÀÌ¹ÌÁö ½Ä ÀÔ·Â(&N):
 ImageBuilder.Type.URI=URI(&U)
-ImageBuilder.Type.ResourceFile=°øÀ¯µÈ ¸®¼Ò½ºÀÇ ÀÌ¹ÌÁö ÆÄÀÏ 
+ImageBuilder.Type.ResourceFile=&Image file in shared resources
 ImageBuilder.Type.EmbededImage=³»ÀåµÈ ÀÌ¹ÌÁö(&E)
 ImageBuilder.Type.DynamicImage=µ¿Àû ÀÌ¹ÌÁö(&D)
 ImageBuilder.Description.URI=À¥ »óÀÇ ÀÌ¹ÌÁö¿¡ ¸µÅ©
 ImageBuilder.Description.ResourceFile=°øÀ¯µÈ ¸®¼Ò½ºÀÇ ÀÌ¹ÌÁö¿¡ ¸µÅ©
-ImageBuilder.Description.Embedded=ÀÌ¹ÌÁö¸¦ º¸°í¼­¿¡ Æ÷ÇÔ
+ImageBuilder.Description.Embedded=E&mbed image into the report
 ImageBuilder.Description.Dynamic=µ¥ÀÌÅÍ ÁıÇÕ(µ¥ÀÌÅÍº£ÀÌ½º)¿¡¼­ ÀÌ¹ÌÁö °Ë»ö
 ImageBuilder.Button.Browser.Tooltip=ÀÌ¹ÌÁö ÆÄÀÏ Ã£¾Æº¸±â
 
@@ -2011,7 +2011,7 @@ ImagePageGenerator.List.Visibility=Ç¥½Ã À¯Çü
 ###########################################################
 #ImportCSSStyleAction properties
 
-ImportCSSStyleAction.text=CSS ½ºÅ¸ÀÏ °¡Á®¿À±â(&C)...
+ImportCSSStyleAction.text=&Import CSS Style...
 
 ###########################################################
 #ImportLibraryAction properties
@@ -2093,7 +2093,7 @@ InputParameterDialog.ErrorTitle.Error=¿À·ù
 ###########################################################
 #InsertAction properties
 
-InsertAction.text=¿ä¼Ò »ğÀÔ
+InsertAction.text=&Insert Element
 
 ###########################################################
 #InsertColumnAction properties
@@ -2129,7 +2129,7 @@ InsertGroupActionFactory.label.insertGroup=±×·ì »ğÀÔ(&N)
 ###########################################################
 #InsertInLayoutAction properties
 
-InsertInLayoutAction.action.text=·¹ÀÌ¾Æ¿ô¿¡ »ğÀÔ
+InsertInLayoutAction.action.text=I&nsert in Layout
 
 ###########################################################
 #InsertListGroupAction properties
@@ -2282,7 +2282,7 @@ ListBandControlFigure.tooltip.ListHeader=¸ñ·Ï - ¸Ó¸®±Û
 ###########################################################
 #ListBandProvider properties
 
-ListBandProvider.action.text=±×·ì »ğÀÔ
+ListBandProvider.action.text=&Insert Group
 
 ###########################################################
 #ListBandProxy properties
@@ -2696,10 +2696,10 @@ ParameterDialog.Button.CreateDataSet=»õ·Î »ı¼º(&W)...
 ParameterDialog.Button.ImportValue=°ª °¡Á®¿À±â(&U)...
 ParameterDialog.Button.RemoveDefault=±âº»°ª Á¦°Å
 ParameterDialog.Button.SetDefault=±âº»°ªÀ¸·Î ¼³Á¤(&A)
-ParameterDialog.CheckBox.IsRequired=ÇÊ¿ä(&I)
+ParameterDialog.CheckBox.IsRequired=Is Re&quired
 ParameterDialog.CheckBox.DoNotEchoInput=ÀÔ·Â¿¡ ´ëÇØ ¹İÇâÀ» Á¦°øÇÏÁö ¾ÊÀ½(&U)
-ParameterDialog.CheckBox.Hidden=¼û±è
-ParameterDialog.CheckBox.Distinct=Áßº¹µÈ °ª Çã¿ë(&A)
+ParameterDialog.CheckBox.Hidden=&Hidden
+ParameterDialog.CheckBox.Distinct=A&llow Duplicate Values
 ParameterDialog.Choice.NoDefault=±âº»°ª ¾øÀ½
 ParameterDialog.Choice.NullValue=³Î(Null) °ª
 ParameterDialog.Choice.BlankValue=ºó °ª
@@ -2736,8 +2736,8 @@ ParameterDialog.SelectionDialog.Edit=¼±ÅÃ Ç×¸ñ ÆíÁı
 ParameterDialog.Label.DefaultValue=±âº»°ª(&F):
 ParameterDialog.Label.DisplayPrompt=ÇÁ·ÒÇÁÆ® Ç¥½Ã:
 ParameterDialog.Label.DisplayType=Ç¥½Ã Çü½Ä(&T):
-ParameterDialog.Label.Format=´ÙÀ½À¸·Î Çü½Ä ÁöÁ¤(&M):
-ParameterDialog.Label.HelpText=µµ¿ò¸» ÅØ½ºÆ®(&H):
+ParameterDialog.Label.Format=´ÙÀ½À¸·Î Çü½Ä ÁöÁ¤:
+ParameterDialog.Label.HelpText=Help text&:
 ParameterDialog.Label.ListOfValue=°ª ¸ñ·Ï
 ParameterDialog.Label.SortGroup=Á¤·Ä
 ParameterDialog.Label.Name=ÀÌ¸§(&N):
@@ -2747,11 +2747,11 @@ ParameterDialog.Label.Preview=Çü½Ä ¹Ì¸® º¸±â
 ParameterDialog.Label.PromptText=ÇÁ·ÒÇÁÆ® ÅØ½ºÆ®(&P):
 ParameterDialog.Label.SelectDataSet=µ¥ÀÌÅÍ ÁıÇÕ(&A):
 ParameterDialog.Label.SortKey=Á¤·Ä ±âÁØ(&O):
-ParameterDialog.Label.SortDirection=Á¤·Ä ¹æÇâ(&R):
+ParameterDialog.Label.SortDirection=Sort dire&ction:
 ParameterDialog.SelectionDialog.New=»õ ¼±ÅÃ Ç×¸ñ
-ParameterDialog.SelectionDialog.Label.DisplayTextKey=Ç¥½Ã ÅØ½ºÆ® Å°:
-ParameterDialog.SelectionDialog.Label.DisplayText=Ç¥½Ã ÅØ½ºÆ®:
-ParameterDialog.SelectionDialog.Label.Value=°ª:
+ParameterDialog.SelectionDialog.Label.DisplayTextKey=Display Text &Key:
+ParameterDialog.SelectionDialog.Label.DisplayText=Ç¥½Ã ÅØ½ºÆ®(&T):
+ParameterDialog.SelectionDialog.Label.Value=°ª(&V):
 ParameterDialog.SelectionDialog.Button.Resource=...
 ParameterDialog.SelectionDialog.Label.Note=Âü°í: Ç¥½Ã ÅØ½ºÆ® Å°¸¦ ¼³Á¤ÇÏ·Á¸é ¼Ó¼º ÆíÁı±âÀÇ ¸®¼Ò½º ÅÇ¿¡¼­ º¸°í¼­¸¦ ¼±ÅÃÇÏ°í ¸®¼Ò½º ÆÄÀÏ ÀÌ¸§À» ¼³Á¤ÇÏ½Ê½Ã¿À.
 ParameterDialog.Label.SelectDisplayText=Ç¥½Ã ÅØ½ºÆ® ¼±ÅÃ(&X):
@@ -2766,7 +2766,7 @@ ParameterDialog.toolTipText.OpenExprButton=½Ä ºô´õ ¿­±â
 ParameterDialog.datetime.prompt=³¯Â¥/½Ã°£ °ªÀ» ´ÙÀ½ Çü½ÄÀ¸·Î ÀÔ·ÂÇÏ½Ê½Ã¿À. {0}
 ParameterDialog.date.prompt=³¯Â¥ °ªÀ» ´ÙÀ½ Çü½ÄÀ¸·Î ÀÔ·ÂÇÏ½Ê½Ã¿À. {0}
 ParameterDialog.time.prompt=½Ã°£ °ªÀ» ´ÙÀ½ Çü½ÄÀ¸·Î ÀÔ·ÂÇÏ½Ê½Ã¿À. {0}
-ParameterDialog.Check.AllowMulti=º¹¼ö °ª Çã¿ë(&E)
+ParameterDialog.Check.AllowMulti=Allow &Multiple Values
 ParameterDialog.checkBox.InputValue=ÀÔ·Â °ª
 ParameterDialog.checkBox.BlankValue=ºó °ª
 ParameterDialog.checkBox.NullValue=³Î(Null) °ª
@@ -2797,8 +2797,8 @@ ParameterGroupGeneralPage.Label.Name=ÀÌ¸§(&N):
 #ParameterGroupNodeProvider properties
 
 ParameterGroupNodeProvider.Action.GroupNew=»õ ¸Å°³ º¯¼ö ±×·ì
-ParameterGroupNodeProvider.Action.ParameterEdit=ÆíÁı
-ParameterGroupNodeProvider.Action.ParameterNew=»õ ¸Å°³ º¯¼ö
+ParameterGroupNodeProvider.Action.ParameterEdit=ÆíÁı(&E)
+ParameterGroupNodeProvider.Action.ParameterNew=&New Parameter
 ParameterGroupNodeProvider.Dialogue.ParameterEdit=¸Å°³ º¯¼ö ±×·ì ÆíÁı
 ParameterGroupNodeProvider.Dialogue.ParameterNew=»õ ¸Å°³ º¯¼ö
 ParameterGroupNodeProvider.Node.Group=¸Å°³ º¯¼ö ±×·ì
@@ -2818,7 +2818,7 @@ ParameterGroupProcess.text.Show=µ¥ÀÌÅÍ ¿øº» ÆíÁı±â ÆäÀÌÁö¸¦ Ç¥½ÃÇÕ´Ï´Ù.
 ParameterNodeProvider.dial.title.editCascading=°è´Ü½Ä ¸Å°³º¯¼ö ÆíÁı
 ParameterNodeProvider.dial.title.editScalar=¸Å°³º¯¼ö ÆíÁı
 ParameterNodeProvider.dial.title.newCascading=»õ °è´Ü½Ä ¸Å°³ º¯¼ö
-ParameterNodeProvider.menu.text.edit=ÆíÁı
+ParameterNodeProvider.menu.text.edit=ÆíÁı(&E)
 ParameterNodeProvider.menu.text.new=»õ ¸Å°³ º¯¼ö
 
 ###########################################################
@@ -2983,7 +2983,7 @@ RefreshModuleHandleAction.Action.Text=¶óÀÌºê·¯¸® »õ·Î °íÄ§(&L)
 
 ###########################################################
 #ReloadCssStylesAction
-ReloadCssStylesAction.Action.Text=CSS ÆÄÀÏ ´Ù½Ã ·Îµå
+ReloadCssStylesAction.Action.Text=&Reload CSS File
 
 ###########################################################
 #ReferencePage properties
@@ -2994,7 +2994,7 @@ ReferencePage.Label.Source=¿øº»(&S):
 ###########################################################
 #RefreshAction properties
 
-RefreshAction.text=»õ·Î °íÄ§
+RefreshAction.text=»õ·Î °íÄ§(&F)
 
 ###########################################################
 #RefreshLibExplorerAction properties
@@ -3019,7 +3019,7 @@ UseCssInThemeAction.Text=¶óÀÌºê·¯¸®¿¡ CSS »ç¿ë...
 ###########################################################
 #RenameAction properties
 
-RenameAction.text=ÀÌ¸§ ¹Ù²Ù±â
+RenameAction.text=Rena&me
 
 ###########################################################
 #RenameDialog properties
@@ -3027,7 +3027,7 @@ RenameAction.text=ÀÌ¸§ ¹Ù²Ù±â
 RenameDialog.action.Cancel=Ãë¼Ò
 RenameDialog.action.Ok=\\ \\ È®ÀÎ  
 RenameDialog.text.NewName=»õ ÀÌ¸§:
-RenameDialog.text.Rename=ÀÌ¸§ ¹Ù²Ù±â 
+RenameDialog.text.Rename=ÀÌ¸§ ¹Ù²Ù±â
 RenameDialog.text.ToolTip=ÀÌ¸§Àº ºñ¿ö µÑ ¼ö ¾ø½À´Ï´Ù.
 
 
@@ -3397,7 +3397,7 @@ ResourceFileFolderSelectionDialog.Text.Menu=¸Ş´º
 ###########################################################
 #ShowPropertyAction properties
 
-ShowPropertyAction.text=¼Ó¼º
+ShowPropertyAction.text=P&roperties
 
 ###########################################################
 #SortingHandleProvider properties
@@ -3444,12 +3444,12 @@ StyleProcess.text.Show=µ¥ÀÌÅÍ ÁıÇÕ¿¡ ´ëÇÑ µ¥ÀÌÅÍ ÁıÇÕ ÆíÁı±â¸¦ Ç¥½ÃÇÕ´Ï´Ù.
 ###########################################################
 #StylesNodeProvider properties
 
-StylesNodeProvider.action.New=»õ ½ºÅ¸ÀÏ...
+StylesNodeProvider.action.New=»õ ½ºÅ¸ÀÏ(&N)...
 
 ###########################################################
 #StylesOutlineProcess properties
 
-StylesOutlineProcess.action.New=»õ ½ºÅ¸ÀÏ...
+StylesOutlineProcess.action.New=»õ ½ºÅ¸ÀÏ(&N)...
 
 ###########################################################
 #TableBandProvider properties
@@ -3505,7 +3505,7 @@ TableOptionDialog.text.TableDetail=»ó¼¼ Á¤º¸ °³¼ö(&D):
 TableOptionDialog.text.TableSize=Å×ÀÌºí Å©±â
 TableOptionDialog.title.InsertGrid=´«±İ »ğÀÔ
 TableOptionDialog.title.InsertTable=Å×ÀÌºí »ğÀÔ
-TableOptionDialog.text.DataSet=µ¥ÀÌÅÍ ÁıÇÕ:
+TableOptionDialog.text.DataSet=µ¥ÀÌÅÍ ÁıÇÕ(&D):
 
 ###########################################################
 #TablePageGenerator properties
@@ -4208,8 +4208,8 @@ SampleReportsView.Action.openSampleReport.toolTipText.ide=º¸°í¼­ ÇÁ·ÎÁ§Æ®¸¦ »ı¼º
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=¼±ÅÃµÈ »ùÇÃ º¸°í¼­¸¦ ÀÛ¾÷ ¿µ¿ª Æú´õ¿¡ Á÷Á¢ ³»º¸³»±â
 SampleReportsView.Text.Contribute_Samples=±â¿© ¿¹Á¦
 
-UseCssStyleAction.text=CSS ÆÄÀÏ »ç¿ë...
-EditUseCssStyleAction.text=CSS ÆÄÀÏ ÆíÁı...
+UseCssStyleAction.text=&Use CSS File...
+EditUseCssStyleAction.text=&Edit CSS File...
 EditUseCssStyleAction.EditCssTitle=CSS ÆíÁı
 EditUseCssStyleAction.EditCssAreaTitle.Report=º¸°í¼­ µğÀÚÀÎÀÇ CSS ÆÄÀÏ ÆíÁı
 EditUseCssStyleAction.EditCssAreaTitle.Libary=º¸°í¼­ ¶óÀÌºê·¯¸®ÀÇ CSS ÆÄÀÏ ÆíÁı
@@ -4262,17 +4262,17 @@ AggDataDropAdapter.Trans.Name=Áı°è »ı¼º
 ###########################################################
 #BindingDialogHelper
 BindingDialogHelper.text.Name=Column &Binding Name:
-BindingDialogHelper.text.DataType=Data T&ype:
+BindingDialogHelper.text.DataType=Data &Type:
 BindingDialogHelper.text.Function=&Function:
-BindingDialogHelper.text.DataField=D&ata Field:
-BindingDialogHelper.text.Filter=Fil&ter Condition:
+BindingDialogHelper.text.DataField=Data &Field:
+BindingDialogHelper.text.Filter=Filter &Condition:
 BindingDialogHelper.text.AggOn=A&ggregate On:
 BindingDialogHelper.text.Table=Å×ÀÌºí
 BindingDialogHelper.text.List=¸ñ·Ï
 BindingDialogHelper.text.Grid=´«±İ
 BindingDialogHelper.text.Group=±×·ì
 BindingDialogHelper.text.Expression=½Ä(&E):
-BindingDialogHelper.text.displayName=Display &Name:
+BindingDialogHelper.text.displayName=Ç¥½Ã ÀÌ¸§(&D):
 BindingDialogHelper.bindingName.dataitem=¿­ ¹ÙÀÎµù
 BindingDialogHelper.bindingName.aggregation=Áı°è
 BindingDialogHelper.error.nameduplicate=¿­ ¹ÙÀÎµù {0}ÀÌ(°¡) ÀÌ¹Ì ÀÖ½À´Ï´Ù. 
@@ -4285,7 +4285,7 @@ BindingDialogHelper.warning.button.no=¾Æ´Ï¿À
 ###########################################################
 #Scripts Node
 Scripts.Node.DisplayName=½ºÅ©¸³Æ®
-ScriptElementNode.Action.Text=º¸°í¼­ ¿ä¼Ò·Î ÀÌµ¿
+ScriptElementNode.Action.Text=&Go to Report Element
 
 ReportPage.PreviewImage.Button.ToolTip=Ãà¼ÒÆÇ º¸±â °ü¸®
 

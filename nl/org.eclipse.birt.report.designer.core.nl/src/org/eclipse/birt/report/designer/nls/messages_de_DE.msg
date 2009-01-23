@@ -319,22 +319,22 @@ SettingsPage.CachePreference.radioBox.numText=&Zwischenspeichern und zuerst verw
 ###########################################################
 #CascadingParametersDialog properties
 
-CascadingParametersDialog.Button.isRequired=&Erforderlich 
+CascadingParametersDialog.Button.isRequired=&Erforderlich
 CascadingParametersDialog.default.preview.string=Beispielzeichenfolge
 CascadingParametersDialog.display.controlType.comboBox=Kombinationsfeld
 CascadingParametersDialog.display.controlType.listBox=Listenfeld
 CascadingParametersDialog.Label.button.changeFormat=&Ändern...
 CascadingParametersDialog.Label.button.createNew.dataset=&Neu erstellen...
-CascadingParametersDialog.Label.cascadingParam.name=&Name des Verschachtelungsparameters:
+CascadingParametersDialog.Label.cascadingParam.name=Cascading Paramete&r Name:
 CascadingParametersDialog.Label.column.displayText=Angezeigter Text
 CascadingParametersDialog.Label.column.dataSet=Datensatz
 CascadingParametersDialog.Label.column.name=Name
 CascadingParametersDialog.Label.column.value=Wert
 CascadingParametersDialog.Label.createNewParam=<Neuen Parameter erstellen...>
 CascadingParametersDialog.Label.dataSets=&Datensatz:
-CascadingParametersDialog.Label.dataType=&Datentyp
+CascadingParametersDialog.Label.dataType=Data t&ype
 CascadingParametersDialog.Label.defaultValue=&Standardwert:
-CascadingParametersDialog.Label.displayType=&Anzeigetyp:
+CascadingParametersDialog.Label.displayType=Di&splay type:
 CascadingParametersDialog.Label.formatAs=Formatieren als:
 CascadingParametersDialog.Label.group.general=Allgemein
 CascadingParametersDialog.Label.group.moreOptions=Weitere Optionen
@@ -346,7 +346,7 @@ CascadingParametersDialog.Label.param.name=&Name:
 CascadingParametersDialog.Label.parameters=Parameter
 CascadingParametersDialog.Label.preview=Vorschau mit Format
 CascadingParametersDialog.Label.groupPromptText=&Aufforderungstext:
-CascadingParametersDialog.Label.parameterPromptText=Auffo&rderungstext:
+CascadingParametersDialog.Label.parameterPromptText=Pro&mpt text:
 CascadingParametersDialog.Label.selectDataSet=<Datensatz auswählen>
 CascadingParametersDialog.Label.selectDisplayColumn=<Anzeigenspalte nicht eingestellt>
 CascadingParametersDialog.Label.selectValueColumn=<Wertespalte nicht eingestellt>
@@ -635,7 +635,7 @@ DataSetFiltersPage.messages.selectVauleUnavailable=Wertliste mit angegebenem Aus
 ###########################################################
 #DataSetNodeProvider properties
 
-DataSetNodeProvider.menu.text=Bearbeiten
+DataSetNodeProvider.menu.text=&Bearbeiten
 
 ###########################################################
 #DataSetParametersPage properties
@@ -686,7 +686,7 @@ DataSetProcess.text.Suffix=Möchten Sie dieses Element wirklich löschen?
 ###########################################################
 #datasource properties
 
-datasource.action.edit=Bearbeiten
+datasource.action.edit=&Bearbeiten
 datasource.edit=Datenquelle bearbeiten - {0}
 datasource.new.defaultName=Datenquelle
 datasource.new=Neue Datenquelle
@@ -831,11 +831,11 @@ designer.preview.preference.browser.useExternal=&Immer externe Browser verwenden
 designer.preview.preference.elementname.columnwidth=125
 designer.preview.preference.elementname.customname.Enabled=true
 designer.preview.preference.elementname.customname=Standardname
-designer.preview.preference.elementname.defaultname.Enabled=false    
+designer.preview.preference.elementname.defaultname.Enabled=false
 designer.preview.preference.elementname.defaultname=Elementname
 designer.preview.preference.elementname.description.Enabled=false
 designer.preview.preference.elementname.description=Beschreibung
-designer.preview.preference.elementname.Enabled=true 
+designer.preview.preference.elementname.Enabled=true
 designer.preview.preference.locale.description=&Gebietsschema auswählen:
 designer.preview.preference.timezone.description=&Zeitzone:
 designer.preview.preference.resultset.sqldatasetpage.group.title=Abfrageseite
@@ -886,7 +886,7 @@ designerActionBarContributor.menu.data-newdatasource=Neue Dat&enquelle
 DesignerActionBarContributor.menu.data=&Daten
 DesignerActionBarContributor.menu.element-EditGroup=Gruppe b&earbeiten
 DesignerActionBarContributor.menu.element-LayoutMode=Layout-Mo&dus
-DesignerActionBarContributor.menu.element-showRuler=&Regeln anzeigen 
+DesignerActionBarContributor.menu.element-showRuler=Show &Rulers
 DesignerActionBarContributor.menu.element.editDataBinding=Datenbindung &bearbeiten
 DesignerActionBarContributor.menu.element=Ele&ment
 DesignerActionBarContributor.menu.format=Format
@@ -979,7 +979,7 @@ DuplicatesPage.Radio.RepeatonPage=Auf Seite wiederholen
 ###########################################################
 #EditAction properties
 
-EditAction.text=Bearbeiten
+EditAction.text=&Bearbeiten
 
 ###########################################################
 #EditGroupAction properties
@@ -1000,7 +1000,7 @@ DeleteGroupAction.stackMsg.deleteGroup=Gruppe löschen
 ###########################################################
 #EditLabelAction properties
 
-EditLabelAction.text=Bearbeiten
+EditLabelAction.text=&Bearbeiten
 
 ###########################################################
 #Element properties
@@ -1355,7 +1355,7 @@ EmbeddedImageNodeProvider.action.New=Neues eingebettetes Bild
 ###########################################################
 #EmbeddedImagesNodeProvider properties
 
-EmbeddedImagesNodeProvider.action.New=Neues eingebettetes Bild
+EmbeddedImagesNodeProvider.action.New=New E&mbedded Image
 
 ###########################################################
 #ElementIdDescriptorProvider properties
@@ -1801,7 +1801,7 @@ GroupHandleProvider.Label.Groups=Gruppenliste:
 ###########################################################
 #GroupProvider properties
 
-GroupProvider.action.text=Gruppe bearbeiten
+GroupProvider.action.text=Gruppe b&earbeiten
 
 ###########################################################
 #GuiExtensionManager properties
@@ -1974,19 +1974,19 @@ ImageBuilder.ErrorMessage.OutOfMemory=Das Bild ist zu groß für den verfügbaren S
 ImageBuilder.FileDialog.FilterMessage=Unterstützte Bilddatei
 ImageBuilder.Button.Browser=Durchsuchen...
 ImageBuilder.Button.Import=&Bild hinzufügen...
-ImageBuilder.Button.SelectImageData=Bilddaten auswählen...
+ImageBuilder.Button.SelectImageData=Se&lect Image Data...
 ImageBuilder.Button.Insert=Ein&fügen
 ImageBuilder.Label.SelectFrom=Bild auswählen von...
-ImageBuilder.Label.EnterURI=URI eingeben:
-ImageBuilder.Label.EnterResourceFile=Ressourcendatei eingeben:
+ImageBuilder.Label.EnterURI=E&nter URI:
+ImageBuilder.Label.EnterResourceFile=E&nter resource file:
 ImageBuilder.Label.EnterExpr=&Ausdruck für dynamisches Bild eingeben:
 ImageBuilder.Type.URI=&URI
-ImageBuilder.Type.ResourceFile=Bilddatei in gemeinsamen Ressourcen 
+ImageBuilder.Type.ResourceFile=&Image file in shared resources
 ImageBuilder.Type.EmbededImage=&Eingebettetes Bild
 ImageBuilder.Type.DynamicImage=&Dynamisches Bild
 ImageBuilder.Description.URI=Verknüpfen mit Bild im Internet
 ImageBuilder.Description.ResourceFile=Verknüpfen mit Bild in gemeinsamen Ressourcen
-ImageBuilder.Description.Embedded=Bild in Bericht einbetten
+ImageBuilder.Description.Embedded=E&mbed image into the report
 ImageBuilder.Description.Dynamic=Bild aus Datensatz (Datenbanken) abrufen
 ImageBuilder.Button.Browser.Tooltip=Bilddatei durchsuchen
 
@@ -2011,7 +2011,7 @@ ImagePageGenerator.List.Visibility=Sichtbarkeit
 ###########################################################
 #ImportCSSStyleAction properties
 
-ImportCSSStyleAction.text=&CSS Stil importieren...
+ImportCSSStyleAction.text=&Import CSS Style...
 
 ###########################################################
 #ImportLibraryAction properties
@@ -2093,7 +2093,7 @@ InputParameterDialog.ErrorTitle.Error=Fehler
 ###########################################################
 #InsertAction properties
 
-InsertAction.text=Element einfügen
+InsertAction.text=&Insert Element
 
 ###########################################################
 #InsertColumnAction properties
@@ -2129,7 +2129,7 @@ InsertGroupActionFactory.label.insertGroup=Gruppe ei&nfügen
 ###########################################################
 #InsertInLayoutAction properties
 
-InsertInLayoutAction.action.text=In Layout einfügen
+InsertInLayoutAction.action.text=I&nsert in Layout
 
 ###########################################################
 #InsertListGroupAction properties
@@ -2282,7 +2282,7 @@ ListBandControlFigure.tooltip.ListHeader=Liste - Kopfzeile
 ###########################################################
 #ListBandProvider properties
 
-ListBandProvider.action.text=Gruppe einfügen
+ListBandProvider.action.text=&Insert Group
 
 ###########################################################
 #ListBandProxy properties
@@ -2696,10 +2696,10 @@ ParameterDialog.Button.CreateDataSet=&Neu erstellen...
 ParameterDialog.Button.ImportValue=&Werte importieren...
 ParameterDialog.Button.RemoveDefault=Standard entfernen
 ParameterDialog.Button.SetDefault=&Als Standard einstellen
-ParameterDialog.CheckBox.IsRequired=&Erforderlich
+ParameterDialog.CheckBox.IsRequired=Is Re&quired
 ParameterDialog.CheckBox.DoNotEchoInput=E&ingabe nicht wiederholen
-ParameterDialog.CheckBox.Hidden=Ausgeblendet
-ParameterDialog.CheckBox.Distinct=&Doppelte Werte zulassen
+ParameterDialog.CheckBox.Hidden=&Hidden
+ParameterDialog.CheckBox.Distinct=A&llow Duplicate Values
 ParameterDialog.Choice.NoDefault=Kein Standardwert
 ParameterDialog.Choice.NullValue=Null-Wert
 ParameterDialog.Choice.BlankValue=Leerwert
@@ -2736,8 +2736,8 @@ ParameterDialog.SelectionDialog.Edit=Auswahl bearbeiten
 ParameterDialog.Label.DefaultValue=&Standardwert:
 ParameterDialog.Label.DisplayPrompt=Anzeige-Aufforderung:
 ParameterDialog.Label.DisplayType=&Anzeigetyp:
-ParameterDialog.Label.Format=For&matieren als:
-ParameterDialog.Label.HelpText=&Hilfetext:
+ParameterDialog.Label.Format=Formatieren als:
+ParameterDialog.Label.HelpText=Help text&:
 ParameterDialog.Label.ListOfValue=Werteliste
 ParameterDialog.Label.SortGroup=Sortieren
 ParameterDialog.Label.Name=&Name:
@@ -2747,11 +2747,11 @@ ParameterDialog.Label.Preview=Vorschau mit Format
 ParameterDialog.Label.PromptText=&Aufforderungstext:
 ParameterDialog.Label.SelectDataSet=&Datensatz:
 ParameterDialog.Label.SortKey=S&ortieren nach:
-ParameterDialog.Label.SortDirection=So&rtierreihenfolge:
+ParameterDialog.Label.SortDirection=Sort dire&ction:
 ParameterDialog.SelectionDialog.New=Neue Auswahl
-ParameterDialog.SelectionDialog.Label.DisplayTextKey=Anzeigentextschlüssel:
-ParameterDialog.SelectionDialog.Label.DisplayText=Text anzeigen:
-ParameterDialog.SelectionDialog.Label.Value=Wert:
+ParameterDialog.SelectionDialog.Label.DisplayTextKey=Display Text &Key:
+ParameterDialog.SelectionDialog.Label.DisplayText=&Anzeigentext:
+ParameterDialog.SelectionDialog.Label.Value=&Wert:
 ParameterDialog.SelectionDialog.Button.Resource=...
 ParameterDialog.SelectionDialog.Label.Note=Hinweis: Um den Anzeigentextschlüssel einzustellen, wählen Sie den Bericht aus, und legen Sie den Namen der Ressourcendatei in der Registerkarte 'Ressourcen' im Eigenschaftseditor fest.
 ParameterDialog.Label.SelectDisplayText=&Anzeigetext auswählen:
@@ -2766,7 +2766,7 @@ ParameterDialog.toolTipText.OpenExprButton=Ausdruckserstellung öffnen
 ParameterDialog.datetime.prompt=Datums-/Uhrzeitwerte im folgenden Format eingeben: {0}
 ParameterDialog.date.prompt=Kalenderdatenwerte im folgenden Format eingeben: {0}
 ParameterDialog.time.prompt=Uhrzeitwerte im folgenden Format eingeben: {0}
-ParameterDialog.Check.AllowMulti=&Mehrere Werte zulassen
+ParameterDialog.Check.AllowMulti=Allow &Multiple Values
 ParameterDialog.checkBox.InputValue=Eingabewert
 ParameterDialog.checkBox.BlankValue=Leerwert
 ParameterDialog.checkBox.NullValue=Null-Wert
@@ -2797,8 +2797,8 @@ ParameterGroupGeneralPage.Label.Name=&Name:
 #ParameterGroupNodeProvider properties
 
 ParameterGroupNodeProvider.Action.GroupNew=Neue Parametergruppe
-ParameterGroupNodeProvider.Action.ParameterEdit=Bearbeiten
-ParameterGroupNodeProvider.Action.ParameterNew=Neuer Parameter
+ParameterGroupNodeProvider.Action.ParameterEdit=&Bearbeiten
+ParameterGroupNodeProvider.Action.ParameterNew=&New Parameter
 ParameterGroupNodeProvider.Dialogue.ParameterEdit=Parametergruppe bearbeiten
 ParameterGroupNodeProvider.Dialogue.ParameterNew=Neuer Parameter
 ParameterGroupNodeProvider.Node.Group=Parametergruppe
@@ -2818,7 +2818,7 @@ ParameterGroupProcess.text.Show=Blendet die Datenquelleditor-Seite ein
 ParameterNodeProvider.dial.title.editCascading=Überlappenden Parameter bearbeiten
 ParameterNodeProvider.dial.title.editScalar=Parameter bearbeiten
 ParameterNodeProvider.dial.title.newCascading=Neuer Verschachtelungsparameter                                       
-ParameterNodeProvider.menu.text.edit=Bearbeiten
+ParameterNodeProvider.menu.text.edit=&Bearbeiten
 ParameterNodeProvider.menu.text.new=Neuer Parameter
 
 ###########################################################
@@ -2983,7 +2983,7 @@ RefreshModuleHandleAction.Action.Text=&Bibliothek aktualisieren
 
 ###########################################################
 #ReloadCssStylesAction
-ReloadCssStylesAction.Action.Text=CSS-Datei neu laden
+ReloadCssStylesAction.Action.Text=&Reload CSS File
 
 ###########################################################
 #ReferencePage properties
@@ -2994,7 +2994,7 @@ ReferencePage.Label.Source=&Quelle:
 ###########################################################
 #RefreshAction properties
 
-RefreshAction.text=Aktualisieren
+RefreshAction.text=A&ktualisieren
 
 ###########################################################
 #RefreshLibExplorerAction properties
@@ -3019,7 +3019,7 @@ UseCssInThemeAction.Text=CSS in Bibliothek verwenden...
 ###########################################################
 #RenameAction properties
 
-RenameAction.text=Umbenennen
+RenameAction.text=Rena&me
 
 ###########################################################
 #RenameDialog properties
@@ -3027,7 +3027,7 @@ RenameAction.text=Umbenennen
 RenameDialog.action.Cancel=Abbrechen
 RenameDialog.action.Ok=\\ \\ OK  
 RenameDialog.text.NewName=Neuer Name:
-RenameDialog.text.Rename=Umbenennen 
+RenameDialog.text.Rename=Umbenennen
 RenameDialog.text.ToolTip=Name darf nicht leer sein
 
 
@@ -3397,7 +3397,7 @@ ResourceFileFolderSelectionDialog.Text.Menu=Menü
 ###########################################################
 #ShowPropertyAction properties
 
-ShowPropertyAction.text=Eigenschaften
+ShowPropertyAction.text=P&roperties
 
 ###########################################################
 #SortingHandleProvider properties
@@ -3444,12 +3444,12 @@ StyleProcess.text.Show=Blendet den Datensatzeditor für den Datensatz ein.
 ###########################################################
 #StylesNodeProvider properties
 
-StylesNodeProvider.action.New=Neuer Stil...
+StylesNodeProvider.action.New=&Neuer Stil...
 
 ###########################################################
 #StylesOutlineProcess properties
 
-StylesOutlineProcess.action.New=Neuer Stil...
+StylesOutlineProcess.action.New=&Neuer Stil...
 
 ###########################################################
 #TableBandProvider properties
@@ -3505,7 +3505,7 @@ TableOptionDialog.text.TableDetail=&Anzahl der Details:
 TableOptionDialog.text.TableSize=Tabellengröße
 TableOptionDialog.title.InsertGrid=Raster einfügen
 TableOptionDialog.title.InsertTable=Tabelle einfügen
-TableOptionDialog.text.DataSet=Datensatz:
+TableOptionDialog.text.DataSet=&Datensatz:
 
 ###########################################################
 #TablePageGenerator properties
@@ -4208,8 +4208,8 @@ SampleReportsView.Action.openSampleReport.toolTipText.ide=Berichtprojekt erstell
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=Ausgewählten Beispielbericht direkt in den Ordner des RCP-Arbeitsbereichs exportieren
 SampleReportsView.Text.Contribute_Samples=Beispiele beitragen
 
-UseCssStyleAction.text=CSS-Datei verwenden...
-EditUseCssStyleAction.text=CSS-Datei bearbeiten...
+UseCssStyleAction.text=&Use CSS File...
+EditUseCssStyleAction.text=&Edit CSS File...
 EditUseCssStyleAction.EditCssTitle=CSS bearbeiten
 EditUseCssStyleAction.EditCssAreaTitle.Report=CSS-Datei in Berichtdesign bearbeiten
 EditUseCssStyleAction.EditCssAreaTitle.Libary=CSS-Datei in Berichtbibliothek bearbeiten
@@ -4262,17 +4262,17 @@ AggDataDropAdapter.Trans.Name=Aggregat erstellen
 ###########################################################
 #BindingDialogHelper
 BindingDialogHelper.text.Name=Column &Binding Name:
-BindingDialogHelper.text.DataType=Data T&ype:
+BindingDialogHelper.text.DataType=Data &Type:
 BindingDialogHelper.text.Function=&Function:
-BindingDialogHelper.text.DataField=D&ata Field:
-BindingDialogHelper.text.Filter=Fil&ter Condition:
+BindingDialogHelper.text.DataField=Data &Field:
+BindingDialogHelper.text.Filter=Filter &Condition:
 BindingDialogHelper.text.AggOn=A&ggregate On:
 BindingDialogHelper.text.Table=Tabelle
 BindingDialogHelper.text.List=Liste
 BindingDialogHelper.text.Grid=Raster
 BindingDialogHelper.text.Group=Gruppieren
 BindingDialogHelper.text.Expression=&Ausdruck:
-BindingDialogHelper.text.displayName=Display &Name:
+BindingDialogHelper.text.displayName=&Anzeigename:
 BindingDialogHelper.bindingName.dataitem=Spaltenbindung
 BindingDialogHelper.bindingName.aggregation=Aggregat
 BindingDialogHelper.error.nameduplicate=Es ist bereits eine Spaltenbindung mit dem Namen {0} vorhanden. 
@@ -4285,7 +4285,7 @@ BindingDialogHelper.warning.button.no=Nein
 ###########################################################
 #Scripts Node
 Scripts.Node.DisplayName=Skripte
-ScriptElementNode.Action.Text=Zu Berichtselement wechseln
+ScriptElementNode.Action.Text=&Go to Report Element
 
 ReportPage.PreviewImage.Button.ToolTip=Miniatur verwalten
 
