@@ -307,8 +307,8 @@ CrosstabSortKeyBuilder.tooltip.ExpBuilder=식 빌더 열기
 CrosstabSortKeyBuilder.MSG.CreateNew=새로 만들기...
 
 
-InsertCubeInLayoutAction.menu.text=편집
-InsertCubeInLayoutAction.action.text=레이아웃에 삽입
+InsertCubeInLayoutAction.menu.text=&Edit
+InsertCubeInLayoutAction.action.text=I&nsert in Layout
 InsertCubeInLayoutAction.action.message=큐브에서 크로스 탭 생성
 
 MapRuleBuilderDialog.MsgDlg.Title=경고

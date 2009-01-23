@@ -307,8 +307,8 @@ CrosstabSortKeyBuilder.tooltip.ExpBuilder=Abrir el compilador de expresiones
 CrosstabSortKeyBuilder.MSG.CreateNew=Nuevo...
 
 
-InsertCubeInLayoutAction.menu.text=Editar
-InsertCubeInLayoutAction.action.text=Insertar en diseño
+InsertCubeInLayoutAction.menu.text=&Edit
+InsertCubeInLayoutAction.action.text=I&nsert in Layout
 InsertCubeInLayoutAction.action.message=Crear tabla de referencias cruzadas desde cubo
 
 MapRuleBuilderDialog.MsgDlg.Title=Advertencia

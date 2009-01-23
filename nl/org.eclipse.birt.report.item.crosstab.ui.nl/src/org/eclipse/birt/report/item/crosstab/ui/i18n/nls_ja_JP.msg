@@ -307,8 +307,8 @@ CrosstabSortKeyBuilder.tooltip.ExpBuilder=式ビルダを開く
 CrosstabSortKeyBuilder.MSG.CreateNew=新規作成...
 
 
-InsertCubeInLayoutAction.menu.text=編集
-InsertCubeInLayoutAction.action.text=レイアウトに含める
+InsertCubeInLayoutAction.menu.text=&Edit
+InsertCubeInLayoutAction.action.text=I&nsert in Layout
 InsertCubeInLayoutAction.action.message=キューブからクロスタブを作成
 
 MapRuleBuilderDialog.MsgDlg.Title=警告

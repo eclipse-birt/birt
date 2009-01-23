@@ -307,8 +307,8 @@ CrosstabSortKeyBuilder.tooltip.ExpBuilder=Ausdruckserstellung öffnen
 CrosstabSortKeyBuilder.MSG.CreateNew=Neu...
 
 
-InsertCubeInLayoutAction.menu.text=Bearbeiten
-InsertCubeInLayoutAction.action.text=In Layout einfügen
+InsertCubeInLayoutAction.menu.text=&Edit
+InsertCubeInLayoutAction.action.text=I&nsert in Layout
 InsertCubeInLayoutAction.action.message=Kreuztabelle aus Quader erstellen
 
 MapRuleBuilderDialog.MsgDlg.Title=Warnung
