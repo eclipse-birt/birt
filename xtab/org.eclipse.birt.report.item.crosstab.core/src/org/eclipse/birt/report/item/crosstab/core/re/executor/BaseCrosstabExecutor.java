@@ -242,16 +242,16 @@ public abstract class BaseCrosstabExecutor implements
 
 			for ( int i = 0; i < rowLevelPageBreakIntervals.length; i++ )
 			{
+				long currentPos = currentRowLevelState[i];
+				long lastPos = lastRowLevelState[0][i];
+
+				if ( currentPos == lastPos )
+				{
+					continue;
+				}
+
 				if ( rowLevelPageBreakIntervals[i] > 0 )
 				{
-					long currentPos = currentRowLevelState[i];
-					long lastPos = lastRowLevelState[0][i];
-
-					if ( currentPos == lastPos )
-					{
-						continue;
-					}
-
 					// TODO check dummy group?
 
 					long lastCheckedPos = checkedRowLevelState[0][i];
@@ -272,14 +272,14 @@ public abstract class BaseCrosstabExecutor implements
 								0,
 								currentRowLevelState.length );
 					}
+				}
 
-					// also revalidate subsequent checked level state since
-					// parent level position change will reset all sub level
-					// positions
-					for ( int j = i + 1; j < rowLevelPageBreakIntervals.length; j++ )
-					{
-						checkedRowLevelState[0][j] = 0;
-					}
+				// also revalidate subsequent checked level state since
+				// parent level position change will reset all sub level
+				// positions
+				for ( int j = i + 1; j < rowLevelPageBreakIntervals.length; j++ )
+				{
+					checkedRowLevelState[0][j] = 0;
 				}
 			}
 
