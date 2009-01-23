@@ -576,10 +576,9 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	 */
 	public final Bounds adjustedInstance( Insets ins )
 	{
-		return BoundsImpl.create( getLeft( ) + ins.getLeft( ),
-				getTop( ) + ins.getTop( ),
-				getWidth( ) - ins.getLeft( ) - ins.getRight( ),
-				getHeight( ) - ins.getTop( ) - ins.getBottom( ) );
+		Bounds bo = copyInstance( this );
+		bo.adjust( ins );
+		return bo;
 	}
 
 	/**
@@ -655,11 +654,26 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	 */
 	public void adjust( Insets ins )
 	{
-		set( getLeft( ) + ins.getLeft( ), getTop( ) + ins.getTop( ), getWidth( )
-				- ins.getLeft( )
-				- ins.getRight( ), getHeight( )
-				- ins.getTop( )
-				- ins.getBottom( ) );
+		double dDeltaWidth = ins.getLeft( ) + ins.getRight( );
+		double dDeltaHeight = ins.getTop( ) + ins.getBottom( );
+		double dNewLeft = left + ins.getLeft( );
+		double dNewTop = top + ins.getTop( );
+		double dNewWidth = width - dDeltaWidth;
+		double dNewHeight = height - dDeltaHeight;
+
+		if ( width - dDeltaWidth < 0 )
+		{
+			dNewWidth = 0;
+			dNewLeft = left + ins.getLeft( ) * Math.abs( width / dDeltaWidth );
+		}
+
+		if ( height - dDeltaHeight < 0 )
+		{
+			dNewHeight = 0;
+			dNewTop = top + ins.getTop( ) * Math.abs( height / dDeltaHeight );
+		}
+
+		set( dNewLeft, dNewTop, dNewWidth, dNewHeight );
 	}
 
 	/*

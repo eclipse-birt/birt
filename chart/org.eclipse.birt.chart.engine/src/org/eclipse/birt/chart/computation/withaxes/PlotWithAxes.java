@@ -12,11 +12,13 @@
 package org.eclipse.birt.chart.computation.withaxes;
 
 import java.text.MessageFormat;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.computation.LabelLimiter;
 import org.eclipse.birt.chart.computation.LegendItemRenderingHints;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.device.IDisplayServer;
@@ -57,7 +59,9 @@ import com.ibm.icu.util.Calendar;
 public abstract class PlotWithAxes extends Methods
 {
 
-	static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation.withaxes" ); //$NON-NLS-1$
+	static final ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation.withaxes" ); //$NON-NLS-1$
+
+	protected static final double AXIS_TITLE_PERCENT = 0.3;
 
 	protected int iDimension = TWO_D;
 
@@ -91,9 +95,15 @@ public abstract class PlotWithAxes extends Methods
 
 	/**
 	 * A computed plot area based on the block dimensions and the axis
-	 * attributes and label values
+	 * attributes and label values (within axes)
 	 */
 	protected Bounds boPlotBackground = BoundsImpl.create( 0, 0, 100, 100 );
+
+	/**
+	 * Bounds of the whole plot client area (include axes), insets have been
+	 * calculated.
+	 */
+	protected Bounds boPlot = BoundsImpl.create( 0, 0, 100, 100 );
 
 	/**
 	 * Insets maintained as pixels equivalent of the points value specified in
@@ -110,6 +120,30 @@ public abstract class PlotWithAxes extends Methods
 	 * Instance of the Helper class for align zero point of multiple axes
 	 */
 	protected AlignZeroHelper azHelper = null;
+
+	/**
+	 * Look up table for label limit.
+	 * 
+	 * @param la
+	 * @param lbLimit
+	 */
+	public void putLabelLimiter( Label la, LabelLimiter lbLimit )
+	{
+		Map<Label, LabelLimiter> mapLimiter = rtc.getState( RunTimeContext.StateKey.LABEL_LIMITER_LOOKUP_KEY );
+		mapLimiter.put( la, lbLimit );
+	}
+
+	/**
+	 * Look up table for label limit.
+	 * 
+	 * @param la
+	 * @return
+	 */
+	public LabelLimiter getLabellLimiter( Label la )
+	{
+		Map<Label, LabelLimiter> mapLimiter = rtc.getState( RunTimeContext.StateKey.LABEL_LIMITER_LOOKUP_KEY );
+		return mapLimiter.get( la );
+	}
 
 	/**
 	 * Converts to internal (non public-model) data structures
@@ -931,10 +965,10 @@ public abstract class PlotWithAxes extends Methods
 				0, 0
 		};
 		Series[] sea = cwa.getSeries( IConstants.ORTHOGONAL );
-		Map seriesRenderingHints = rtc.getSeriesRenderers( );
+		Map<Series, LegendItemRenderingHints> seriesRenderingHints = rtc.getSeriesRenderers( );
 		for ( int i = 0; i < sea.length; i++ )
 		{
-			LegendItemRenderingHints lirh = (LegendItemRenderingHints) seriesRenderingHints.get( sea[i] );
+			LegendItemRenderingHints lirh = seriesRenderingHints.get( sea[i] );
 
 			if ( lirh != null && lirh.getRenderer( ) instanceof AxesRenderer )
 			{
@@ -963,28 +997,21 @@ public abstract class PlotWithAxes extends Methods
 			final String sPreviousValue = laYAxisTitle.getCaption( ).getValue( );
 			laYAxisTitle.getCaption( )
 					.setValue( rtc.externalizedMessage( sPreviousValue ) );
-			try
-			{
-				dYAxisTitleThickness = computeBox( ids,
-						iYTitleLocation,
-						laYAxisTitle,
-						0,
-						0,
-						ChartUtil.computeHeightOfOrthogonalAxisTitle( cwa,
-								getDisplayServer( ) ) ).getWidth( );
-			}
-			catch ( IllegalArgumentException uiex )
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.GENERATION,
-						uiex );
-			}
-			finally
-			{
-				laYAxisTitle.getCaption( ).setValue( sPreviousValue );
-			}
+
+			// compute and save the limit of vertical axis title;
+			double maxWidth = AXIS_TITLE_PERCENT * boPlot.getWidth( );
+			double maxHeight = boPlot.getHeight( );
+			LabelLimiter lblLimit = new LabelLimiter( maxWidth, maxHeight, 0 );
+			lblLimit.computeWrapping( ids, laYAxisTitle );
+			lblLimit = lblLimit.limitLabelSize( ids,
+					laYAxisTitle,
+					EnumSet.of( LabelLimiter.Option.FIX_HEIGHT ) );
+			putLabelLimiter( axPV.getModelAxis( ).getTitle( ), lblLimit );
+			dYAxisTitleThickness = lblLimit.getMaxWidth( );
+			laYAxisTitle.getCaption( ).setValue( sPreviousValue );
 		}
 		double dX = getLocation( scX, iv ), dX1 = dX, dX2 = dX;
+		double dWTotal = Math.abs( scX.getStart( ) - scX.getEnd( ) );
 
 		// COMPUTE VALUES FOR x1, x, x2
 		// x = HORIZONTAL LOCATION OF Y-AXIS ALONG PLOT
@@ -1004,25 +1031,49 @@ public abstract class PlotWithAxes extends Methods
 			dX1 = dX;
 			dX2 = dX;
 
-			if ( bTicksLeft )
+			double dTickSize = getTickSize( );
+
+			if ( bTicksLeft && dTickSize <= dWTotal )
 			{
 				dX1 -= getTickSize( );
+				dWTotal -= dTickSize;
 			}
+			else
+			{
+				// drop the ticks of vertical axis
+				// axPV.setShowTicks( false );
+				dTickSize = 0;
+			}
+
+			double dW1 = 0, dW2 = 0;
+
 			if ( iYLabelLocation == LEFT )
 			{
-				dX1 -= Math.max( dYAxisLabelsThickness, dDecorationThickness[0] );
-				dX2 += Math.max( // IF LABELS ARE LEFT, THEN RIGHT SPACING IS
+				dW1 = Math.max( dYAxisLabelsThickness, dDecorationThickness[0] );
+				dW2 = Math.max( // IF LABELS ARE LEFT, THEN RIGHT SPACING IS
 				// MAX(RT_TICK_SIZE, HORZ_SPACING)
 				bTicksRight ? getTickSize( ) : 0,
 						dAppliedYAxisPlotSpacing );
 			}
 			else if ( iYLabelLocation == RIGHT )
 			{
-				dX1 -= dDecorationThickness[0];
+				dW1 = dDecorationThickness[0];
 				// IF LABELS ARE RIGHT, THEN RIGHT SPACING IS
 				// MAX(RT_TICK_SIZE+AXIS_LBL_THCKNESS, HORZ_SPACING)
-				dX2 += Math.max( ( bTicksRight ? getTickSize( ) : 0 )
+				dW2 = Math.max( ( bTicksRight ? getTickSize( ) : 0 )
 						+ dYAxisLabelsThickness, dAppliedYAxisPlotSpacing );
+			}
+
+			if ( dW1 + dW2 <= dWTotal )
+			{
+				dX1 -= dW1;
+				dX2 += dW2;
+				dWTotal -= ( dW1 + dW2 );
+			}
+			else
+			{
+				// drop the labels of vertical axis
+				axPV.setShowLabels( false );
 			}
 
 			if ( iYTitleLocation == LEFT )
@@ -1205,27 +1256,49 @@ public abstract class PlotWithAxes extends Methods
 			}
 
 			dX += dAppliedYAxisPlotSpacing;
+			dWTotal -= dAppliedYAxisPlotSpacing;
 			dX1 = dX;
 			dX2 = dX;
-			if ( bTicksRight )
+
+			if ( bTicksRight && getTickSize( ) <= dWTotal )
 			{
 				dX2 += getTickSize( );
+				dWTotal -= getTickSize( );
+			}
+			else
+			{
+				// drop the ticks of vertical axis
+				// axPV.setShowTicks( false );
 			}
 
+			double dW1 = 0, dW2 = 0;
 			if ( iYLabelLocation == RIGHT )
 			{
-				dX2 += Math.max( dYAxisLabelsThickness, dDecorationThickness[1] );
-				dX1 -= Math.max( ( bTicksLeft ? getTickSize( ) : 0 )
+				dW1 = Math.max( ( bTicksLeft ? getTickSize( ) : 0 )
 						+ dDecorationThickness[0], dAppliedYAxisPlotSpacing );
+				dW2 = Math.max( dYAxisLabelsThickness, dDecorationThickness[1] );
 			}
 			else if ( iYLabelLocation == LEFT )
 			{
-				dX1 -= Math.max( ( bTicksLeft ? getTickSize( ) : 0 )
+				dW1 = Math.max( ( bTicksLeft ? getTickSize( ) : 0 )
 						+ Math.max( dYAxisLabelsThickness,
 								dDecorationThickness[0] ),
 						dAppliedYAxisPlotSpacing );
-				dX2 += dDecorationThickness[1];
+				dW2 = dDecorationThickness[1];
 			}
+
+			if ( dW1 + dW2 <= dWTotal )
+			{
+				dX1 -= dW1;
+				dX2 += dW2;
+				dWTotal -= ( dW1 + dW2 );
+			}
+			else
+			{
+				// drop the vertical axis labels
+				axPV.setShowLabels( false );
+			}
+
 			if ( iYTitleLocation == RIGHT )
 			{
 				dX2 += dYAxisTitleThickness;
@@ -1408,12 +1481,26 @@ public abstract class PlotWithAxes extends Methods
 				dX1 -= dYAxisTitleThickness;
 			}
 
+			double dW1 = 0, dW2 = 0;
 			if ( iYLabelLocation == LEFT )
 			{
-				dX1 -= ( bTicksLeft ? getTickSize( ) : 0 )
+				dW1 = ( bTicksLeft ? getTickSize( ) : 0 )
 						+ Math.max( dYAxisLabelsThickness,
 								dDecorationThickness[0] );
-				dX2 += ( bTicksRight ? getTickSize( ) : 0 );
+				dW2 = ( bTicksRight ? getTickSize( ) : 0 );
+
+				if ( dW1 + dW2 <= dWTotal )
+				{
+					dX1 -= dW1;
+					dX2 += dW2;
+					dWTotal -= ( dW1 + dW2 );
+				}
+				else
+				{
+					// axPV.setShowTicks( false );
+					axPV.setShowLabels( false );
+				}
+
 				dDeltaX1 = dX - dX1;
 				dDeltaX2 = dX2 - dX;
 
@@ -1567,10 +1654,18 @@ public abstract class PlotWithAxes extends Methods
 			}
 			else if ( iYLabelLocation == RIGHT )
 			{
-				dX2 += ( bTicksRight ? getTickSize( ) : 0 )
+				dW1 = ( bTicksLeft ? getTickSize( ) : 0 );
+				dW2 = ( bTicksRight ? getTickSize( ) : 0 )
 						+ Math.max( dYAxisLabelsThickness,
 								dDecorationThickness[1] );
-				dX1 -= ( bTicksLeft ? getTickSize( ) : 0 );
+
+				if ( dW1 + dW2 <= dWTotal )
+				{
+					dX1 -= dW1;
+					dX2 += dW2;
+					dWTotal -= ( dW1 + dW2 );
+				}
+
 				dDeltaX1 = dX - dX1;
 				dDeltaX2 = dX2 - dX;
 
@@ -1775,10 +1870,10 @@ public abstract class PlotWithAxes extends Methods
 				0, 0
 		};
 		Series[] sea = cwa.getSeries( IConstants.ORTHOGONAL );
-		Map seriesRenderingHints = rtc.getSeriesRenderers( );
+		Map<Series, LegendItemRenderingHints> seriesRenderingHints = rtc.getSeriesRenderers( );
 		for ( int i = 0; i < sea.length; i++ )
 		{
-			LegendItemRenderingHints lirh = (LegendItemRenderingHints) seriesRenderingHints.get( sea[i] );
+			LegendItemRenderingHints lirh = seriesRenderingHints.get( sea[i] );
 
 			if ( lirh != null && lirh.getRenderer( ) instanceof AxesRenderer )
 			{
@@ -1807,25 +1902,17 @@ public abstract class PlotWithAxes extends Methods
 			final String sPreviousValue = laXAxisTitle.getCaption( ).getValue( );
 			laXAxisTitle.getCaption( )
 					.setValue( rtc.externalizedMessage( sPreviousValue ) ); // EXTERNALIZE
-			try
-			{
-				dXAxisTitleThickness = computeBox( ids,
-						iXTitleLocation,
-						laXAxisTitle,
-						0,
-						0,
-						Math.abs( scX.getEnd( ) - scX.getStart( ) ) ).getHeight( );
-			}
-			catch ( IllegalArgumentException uiex )
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.GENERATION,
-						uiex );
-			}
-			finally
-			{
-				laXAxisTitle.getCaption( ).setValue( sPreviousValue ); // RESTORE
-			}
+
+			double maxWidth = Math.abs( scX.getEnd( ) - scX.getStart( ) );
+			double maxHeight = AXIS_TITLE_PERCENT * boPlot.getHeight( );
+			LabelLimiter lblLimit = new LabelLimiter( maxWidth, maxHeight, 0 );
+			lblLimit.computeWrapping( ids, laXAxisTitle );
+			lblLimit = lblLimit.limitLabelSize( ids,
+					laXAxisTitle,
+					EnumSet.of( LabelLimiter.Option.FIX_WIDTH ) );
+			putLabelLimiter( axPH.getModelAxis( ).getTitle( ), lblLimit );
+			dXAxisTitleThickness = lblLimit.getMaxHeight( );
+			laXAxisTitle.getCaption( ).setValue( sPreviousValue );
 		}
 
 		double dY = getLocation( scY, iv ), dY1 = dY, dY2 = dY;
@@ -1842,26 +1929,53 @@ public abstract class PlotWithAxes extends Methods
 		if ( ( bForwardScale && iv.iType == IConstants.MIN )
 				|| ( !bForwardScale && iv.iType == IConstants.MAX ) )
 		{
+			double dHTotal = Math.abs( scY.getStart( ) - scY.getEnd( ) );
+
 			// NOTE: ENSURE CODE SYMMETRY WITH 'InsersectionValue.MIN'
 
 			dY -= dAppliedXAxisPlotSpacing;
+			dHTotal -= dAppliedXAxisPlotSpacing;
 			dY1 = dY;
 			dY2 = dY;
-			if ( bTicksAbove )
+
+			double dTickSize = getTickSize( );
+
+			if ( bTicksAbove && dTickSize <= dHTotal )
 			{
-				dY1 -= getTickSize( );
+				dY1 -= dTickSize;
+				dHTotal -= dTickSize;
 			}
+			else
+			{
+				// axPH.setShowTicks( false );
+				dTickSize = 0;
+			}
+
+			double dH1 = 0;
+			double dH2 = 0;
+
 			if ( iXLabelLocation == ABOVE )
 			{
-				dY1 -= Math.max( dXAxisLabelsThickness, dDecorationThickness[0] );
-				dY2 += Math.max( bTicksBelow ? getTickSize( ) : 0,
+				dH1 = Math.max( dXAxisLabelsThickness, dDecorationThickness[0] );
+				dH2 = Math.max( bTicksBelow ? getTickSize( ) : 0,
 						dAppliedXAxisPlotSpacing );
 			}
 			else if ( iXLabelLocation == BELOW )
 			{
-				dY1 -= dDecorationThickness[0];
-				dY2 += Math.max( ( bTicksBelow ? getTickSize( ) : 0 )
+				dH1 = dDecorationThickness[0];
+				dH2 += Math.max( ( bTicksBelow ? getTickSize( ) : 0 )
 						+ dXAxisLabelsThickness, dAppliedXAxisPlotSpacing );
+			}
+
+			if ( dH1 + dH2 <= dHTotal )
+			{
+				dY1 -= dH1;
+				dY2 += dH2;
+				dHTotal -= ( dH1 + dH2 );
+			}
+			else
+			{
+				axPH.setShowLabels( false );
 			}
 
 			if ( iXTitleLocation == ABOVE )
@@ -1965,24 +2079,60 @@ public abstract class PlotWithAxes extends Methods
 		{
 			// NOTE: ENSURE CODE SYMMETRY WITH 'InsersectionValue.MAX'
 
+			double dHTotal = Math.abs( scY.getStart( ) - scY.getEnd( ) );
+
 			dY += dAppliedXAxisPlotSpacing;
+			dHTotal -= dAppliedXAxisPlotSpacing;
+
 			dY1 = dY;
 			dY2 = dY;
-			if ( bTicksBelow )
+
+			double dTickSize = getTickSize( );
+			if ( bTicksBelow && dTickSize < dHTotal )
 			{
-				dY2 += getTickSize( );
+				dY2 += dTickSize;
+				dHTotal -= dTickSize;
 			}
+			else
+			{
+				dTickSize = 0;
+				// axPH.setShowTicks( false );
+			}
+
 			if ( iXLabelLocation == ABOVE )
 			{
-				dY1 -= Math.max( ( bTicksAbove ? getTickSize( ) : 0 )
+				double dXLabelHeight = Math.max( ( bTicksAbove ? dTickSize : 0 )
 						+ dXAxisLabelsThickness, dAppliedXAxisPlotSpacing );
-				dY2 += dDecorationThickness[1];
+
+				if ( dXLabelHeight + dDecorationThickness[1] < dHTotal )
+				{
+					dY1 -= dXLabelHeight;
+					dY2 += dDecorationThickness[1];
+					dHTotal -= ( dXLabelHeight + dDecorationThickness[1] );
+				}
+				else
+				{
+					dXLabelHeight = 0;
+					axPH.setShowLabels( false );
+				}
 			}
 			else if ( iXLabelLocation == BELOW )
 			{
-				dY2 += Math.max( dXAxisLabelsThickness, dDecorationThickness[1] );
-				dY1 -= Math.max( bTicksAbove ? getTickSize( ) : 0,
+				double dXLabelHeight = Math.max( dXAxisLabelsThickness,
+						dDecorationThickness[1] );
+				double dHt1 = Math.max( bTicksAbove ? dTickSize : 0,
 						dAppliedXAxisPlotSpacing );
+				if ( dXLabelHeight + dHt1 <= dHTotal )
+				{
+					dY2 += dXLabelHeight;
+					dY1 -= dHt1;
+					dHTotal -= ( dXLabelHeight + dHt1 );
+				}
+				else
+				{
+					dXLabelHeight = 0;
+					axPH.setShowLabels( false );
+				}
 			}
 			if ( iXTitleLocation == ABOVE )
 			{
@@ -2033,6 +2183,11 @@ public abstract class PlotWithAxes extends Methods
 					dEnd = dY1 + scY.getEndShift( );
 				}
 				scY.resetShifts( );
+
+				if ( dStart < dEnd + 1 )
+				{
+					dStart = dEnd + 1;
+				}
 
 				// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS LABELS
 				// IF OVERLAPS OCCUR
@@ -2092,13 +2247,25 @@ public abstract class PlotWithAxes extends Methods
 		}
 		else
 		{
+			double dHTotal = Math.abs( scY.getStart( ) - scY.getEnd( ) );
 			double dDeltaY1 = 0, dDeltaY2 = 0;
 			if ( iXLabelLocation == ABOVE )
 			{
-				dY1 -= ( bTicksAbove ? getTickSize( ) : 0 )
+				double dH1 = ( bTicksAbove ? getTickSize( ) : 0 )
 						+ Math.max( dXAxisLabelsThickness,
 								dDecorationThickness[0] );
-				dY2 += ( bTicksBelow ? getTickSize( ) : 0 );
+				double dH2 = ( bTicksBelow ? getTickSize( ) : 0 );
+				if ( dH1 + dH2 <= dHTotal )
+				{
+					dY1 -= dH1;
+					dY2 += dH2;
+					dHTotal -= ( dH1 + dH2 );
+				}
+				else
+				{
+					// axPH.setShowTicks( false );
+					axPH.setShowLabels( false );
+				}
 
 				if ( iXTitleLocation == ABOVE )
 				{
@@ -2223,10 +2390,16 @@ public abstract class PlotWithAxes extends Methods
 			}
 			else if ( iXLabelLocation == BELOW )
 			{
-				dY1 -= ( bTicksAbove ? getTickSize( ) : 0 );
-				dY2 += ( bTicksBelow ? getTickSize( ) : 0 )
+				double dH1 = ( bTicksAbove ? getTickSize( ) : 0 );
+				double dH2 = ( bTicksBelow ? getTickSize( ) : 0 )
 						+ Math.max( dXAxisLabelsThickness,
 								dDecorationThickness[1] );
+				if ( dH1 + dH2 <= dHTotal )
+				{
+					dY1 -= dH1;
+					dY2 += dH2;
+					dHTotal -= ( dH1 + dH2 );
+				}
 
 				if ( iXTitleLocation == ABOVE )
 				{

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.Engine3D;
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.computation.LabelLimiter;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.ValueFormatter;
 import org.eclipse.birt.chart.computation.withaxes.AllAxes;
@@ -86,7 +87,7 @@ import com.ibm.icu.text.DecimalFormat;
 public final class AxesRenderHelper
 {
 
-	static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/render" ); //$NON-NLS-1$
+	static final ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/render" ); //$NON-NLS-1$
 
 	AxesRenderer renderer;
 	OneAxis ax;
@@ -193,15 +194,16 @@ public final class AxesRenderHelper
 		liaMajorTick = ax.getGrid( ).getTickAttributes( IConstants.MAJOR );
 		liaMinorTick = ax.getGrid( ).getTickAttributes( IConstants.MINOR );
 
-		bRenderAxisLabels = ( ( iWhatToDraw & IConstants.LABELS ) == IConstants.LABELS && la.isVisible( ) );
+		bRenderAxisLabels = ax.isShowLabels( )
+				&& ( ( iWhatToDraw & IConstants.LABELS ) == IConstants.LABELS && la.isVisible( ) );
 		bRenderAxisTitle = ( ( iWhatToDraw & IConstants.LABELS ) == IConstants.LABELS );
 		lo = LocationImpl.create( 0, 0 );
 
-		trae = (TransformationEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+		trae = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 				TransformationEvent.class );
-		tre = (TextRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+		tre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 				TextRenderEvent.class );
-		lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+		lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 				LineRenderEvent.class );
 
 		// Prepare 3D rendering variables.
@@ -718,7 +720,7 @@ public final class AxesRenderHelper
 										}
 									}
 
-									lreMinor = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+									lreMinor = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 											LineRenderEvent.class );
 									lreMinor.setLineAttributes( liaMinorTick );
 									loMinorStart.set( dXMinorTick1, y
@@ -963,7 +965,7 @@ public final class AxesRenderHelper
 										}
 									}
 
-									lreMinor = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+									lreMinor = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 											LineRenderEvent.class );
 									lreMinor.setLineAttributes( liaMinorTick );
 
@@ -1154,14 +1156,14 @@ public final class AxesRenderHelper
 
 			lo3d = Location3DImpl.create( 0, 0, 0 );
 
-			t3dre = (Text3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+			t3dre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 					Text3DRenderEvent.class );
 			t3dre.setLabel( la );
 			t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 			t3dre.setTextPosition( iLabelLocation );
 			t3dre.setLocation3D( lo3d );
 
-			l3dre = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+			l3dre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 					Line3DRenderEvent.class );
 			l3dre.setLineAttributes( lia );
 			l3dre.setStart3D( Location3DImpl.create( 0, 0, 0 ) );
@@ -1229,13 +1231,13 @@ public final class AxesRenderHelper
 					if ( renderer.isInteractivityEnabled( ) )
 					{
 						Trigger tg;
-						EList elTriggers = axModel.getTriggers( );
+						EList<Trigger> elTriggers = axModel.getTriggers( );
 
 						if ( !elTriggers.isEmpty( ) )
 						{
 							ArrayList<Trigger> cachedTriggers = null;
 							Location3D[] loaHotspot = new Location3D[4];
-							Polygon3DRenderEvent pre3d = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+							Polygon3DRenderEvent pre3d = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 									Polygon3DRenderEvent.class );
 
 							// process center y-axis.
@@ -1262,13 +1264,13 @@ public final class AxesRenderHelper
 									panningOffset.getX( ),
 									panningOffset.getY( ) ) != null )
 							{
-								final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+								final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 										InteractionEvent.class );
 								iev.setCursor( axModel.getCursor( )  );
 								cachedTriggers = new ArrayList<Trigger>( );
 								for ( int t = 0; t < elTriggers.size( ); t++ )
 								{
-									tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
+									tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
 									processTrigger( tg,
 											StructureSource.createAxis( axModel ) );
 									cachedTriggers.add( tg );
@@ -1280,7 +1282,7 @@ public final class AxesRenderHelper
 							}
 
 							// process left y-axis.
-							pre3d = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+							pre3d = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 									Polygon3DRenderEvent.class );
 							loaHotspot = new Location3D[4];
 
@@ -1307,7 +1309,7 @@ public final class AxesRenderHelper
 									panningOffset.getX( ),
 									panningOffset.getY( ) ) != null )
 							{
-								final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+								final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 										InteractionEvent.class );
 								iev.setCursor( axModel.getCursor( ) );
 								
@@ -1316,7 +1318,7 @@ public final class AxesRenderHelper
 									cachedTriggers = new ArrayList<Trigger>( );
 									for ( int t = 0; t < elTriggers.size( ); t++ )
 									{
-										tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
+										tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
 										processTrigger( tg,
 												StructureSource.createAxis( axModel ) );
 										cachedTriggers.add( tg );
@@ -1328,7 +1330,7 @@ public final class AxesRenderHelper
 								{
 									for ( int t = 0; t < cachedTriggers.size( ); t++ )
 									{
-										iev.addTrigger( TriggerImpl.copyInstance( (Trigger) cachedTriggers.get( t ) ) );
+										iev.addTrigger( TriggerImpl.copyInstance( cachedTriggers.get( t ) ) );
 									}
 								}
 
@@ -1337,7 +1339,7 @@ public final class AxesRenderHelper
 							}
 
 							// process right y-axis.
-							pre3d = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+							pre3d = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 									Polygon3DRenderEvent.class );
 							loaHotspot = new Location3D[4];
 
@@ -1368,7 +1370,7 @@ public final class AxesRenderHelper
 									panningOffset.getX( ),
 									panningOffset.getY( ) ) != null )
 							{
-								final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+								final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 										InteractionEvent.class );
 								iev.setCursor( axModel.getCursor( ) );
 								
@@ -1376,7 +1378,7 @@ public final class AxesRenderHelper
 								{
 									for ( int t = 0; t < elTriggers.size( ); t++ )
 									{
-										tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
+										tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
 										processTrigger( tg,
 												StructureSource.createAxis( axModel ) );
 										iev.addTrigger( tg );
@@ -1386,7 +1388,7 @@ public final class AxesRenderHelper
 								{
 									for ( int t = 0; t < cachedTriggers.size( ); t++ )
 									{
-										iev.addTrigger( (Trigger) cachedTriggers.get( t ) );
+										iev.addTrigger( cachedTriggers.get( t ) );
 									}
 								}
 
@@ -1420,7 +1422,7 @@ public final class AxesRenderHelper
 								+ dSeriesThickness, dEnd - dSeriesThickness );
 						loa[3] = LocationImpl.create( context.dX, dEnd );
 
-						final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+						final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 								PolygonRenderEvent.class );
 						pre.setPoints( loa );
 						pre.setBackground( ColorDefinitionImpl.create( 255,
@@ -1438,17 +1440,17 @@ public final class AxesRenderHelper
 					if ( renderer.isInteractivityEnabled( ) )
 					{
 						Trigger tg;
-						EList elTriggers = axModel.getTriggers( );
+						EList<Trigger> elTriggers = axModel.getTriggers( );
 
 						if ( !elTriggers.isEmpty( ) )
 						{
-							final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+							final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 									InteractionEvent.class );
 							iev.setCursor( axModel.getCursor( ) );
 							
 							for ( int t = 0; t < elTriggers.size( ); t++ )
 							{
-								tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
+								tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
 								processTrigger( tg,
 										StructureSource.createAxis( axModel ) );
 								iev.addTrigger( tg );
@@ -1465,7 +1467,7 @@ public final class AxesRenderHelper
 							loaHotspot[3] = LocationImpl.create( context.dX
 									- IConstants.LINE_EXPAND_SIZE, dEnd );
 
-							final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+							final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 									PolygonRenderEvent.class );
 							pre.setPoints( loaHotspot );
 							iev.setHotSpot( pre );
@@ -1498,57 +1500,64 @@ public final class AxesRenderHelper
 				final String sRestoreValue = la.getCaption( ).getValue( );
 				la.getCaption( )
 						.setValue( getRunTimeContext( ).externalizedMessage( sRestoreValue ) );
-				BoundingBox bb = null;
-				// Buzilla#206093: Indicates if the axis title is within axis,
-				// otherwise it uses Y axis plus the axis corner to display
-				boolean bWithinAxis = false;
-				// Indicates the axis title is horizontal
-				final boolean bTitleHorizontal = Math.abs( la.getCaption( )
-						.getFont( )
-						.getRotation( ) ) <= 30;
-				final double dYAxisHeightPC = ChartUtil.computeHeightOfOrthogonalAxisTitle( (ChartWithAxes) this.renderer.cm,
-						xs );
-				try
-				{
-					if ( bTitleHorizontal )
-					{
-						// Horizontal title always starts with axis and within
-						// axis. It shouldn't display outside axis.
-						bWithinAxis = true;
-					}
-					else
-					{
-						final BoundingBox bbWoWrap = Methods.computeBox( xs,
-								iLabelLocation,
-								la,
-								0,
-								0,
-								dYAxisHeightPC );
-						bWithinAxis = bbWoWrap.getHeight( ) < daEndPoints[0]
-								- daEndPoints[1];
-					}
-					// Keep the same behavior with PlotWithAxes. If title is
-					// horizontal, only wrap if title exceeds height plus
-					// corner.
-					bb = Methods.computeBox( xs,
-							ax.getTitlePosition( ),
-							la,
-							0,
-							0,
-							bWithinAxis && !bTitleHorizontal ? daEndPoints[0]
-									- daEndPoints[1] : dYAxisHeightPC );
-				}
-				catch ( IllegalArgumentException uiex )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.RENDERING,
-							uiex );
-				}
 
 				if ( ax.getTitle( ).isVisible( ) && la.isVisible( ) )
 				{
 					if ( bRendering3D )
 					{
+						BoundingBox bb = null;
+						// Buzilla#206093: Indicates if the axis title is within
+						// axis,
+						// otherwise it uses Y axis plus the axis corner to
+						// display
+						boolean bWithinAxis = false;
+						// Indicates the axis title is horizontal
+						final boolean bTitleHorizontal = Math.abs( la.getCaption( )
+								.getFont( )
+								.getRotation( ) ) <= 30;
+						final double dYAxisHeightPC = ChartUtil.computeHeightOfOrthogonalAxisTitle( (ChartWithAxes) this.renderer.cm,
+								xs );
+						try
+						{
+							if ( bTitleHorizontal )
+							{
+								// Horizontal title always starts with axis and
+								// within
+								// axis. It shouldn't display outside axis.
+								bWithinAxis = true;
+							}
+							else
+							{
+								final BoundingBox bbWoWrap = Methods.computeBox( xs,
+										iLabelLocation,
+										la,
+										0,
+										0,
+										dYAxisHeightPC );
+								bWithinAxis = bbWoWrap.getHeight( ) < daEndPoints[0]
+										- daEndPoints[1];
+							}
+							// Keep the same behavior with PlotWithAxes. If
+							// title is
+							// horizontal, only wrap if title exceeds height
+							// plus
+							// corner.
+							bb = Methods.computeBox( xs,
+									ax.getTitlePosition( ),
+									la,
+									0,
+									0,
+									bWithinAxis && !bTitleHorizontal ? daEndPoints[0]
+											- daEndPoints[1]
+											: dYAxisHeightPC );
+						}
+						catch ( IllegalArgumentException uiex )
+						{
+							throw new ChartException( ChartEnginePlugin.ID,
+									ChartException.RENDERING,
+									uiex );
+						}
+
 						// Bounds cbo = renderer.getPlotBounds( );
 						//
 						// tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
@@ -1581,7 +1590,7 @@ public final class AxesRenderHelper
 						// Create 3D text location for axis title.
 
 						// Get position values.
-						Angle3D a3D = (Angle3D) ( (ChartWithAxes) renderer.cm ).getRotation( )
+						Angle3D a3D = ( (ChartWithAxes) renderer.cm ).getRotation( )
 								.getAngles( )
 								.get( 0 );
 						double yAxisAngle = a3D.getYAngle( ) * Math.PI / 180;
@@ -1639,7 +1648,7 @@ public final class AxesRenderHelper
 						{
 							zPosition = dZ - leftTitleZDelta;
 						}
-						t3dre = (Text3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+						t3dre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 								Text3DRenderEvent.class );
 						t3dre.setLocation3D( Location3DImpl.create( leftYAxisTitlePosition
 								- leftTitleYDelta,
@@ -1651,7 +1660,7 @@ public final class AxesRenderHelper
 						t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 						renderAxisTitleWith3DTextevent( bb );
 
-						t3dre = (Text3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+						t3dre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 								Text3DRenderEvent.class );
 						angle = yAxisAngle;
 						if ( Math.abs( yAxisAngle ) < minAngle )
@@ -1684,44 +1693,72 @@ public final class AxesRenderHelper
 					}
 					else
 					{
-						// #190266 Axis title layout adjustment
-						// final Bounds boundsTitle = ( (ChartWithAxes)
-						// this.renderer.cm ).getTitle( )
-						// .getBounds( );
-						double dTop = computeTopOfOrthogonalAxisTitle( );
-						final Bounds bo = BoundsImpl.create( ax.getTitleCoordinate( ),
-								bWithinAxis ? daEndPoints[1] : dTop,
-								bb.getWidth( ),
-								bWithinAxis ? daEndPoints[0] - daEndPoints[1]
-										: dYAxisHeightPC );
+						LabelLimiter lbLimit = pwa.getLabellLimiter( ax.getModelAxis( )
+								.getTitle( ) );
+						lbLimit.computeWrapping( xs, la );
+						lbLimit = lbLimit.limitLabelSize( xs, la );
 
-						tre.setBlockBounds( bo );
-						tre.setLabel( la );
-						TextAlignment ta = TextAlignmentImpl.copyInstance( la.getCaption( )
-								.getFont( )
-								.getAlignment( ) );
-						if ( ax.getModelAxis( ).getAssociatedAxes( ).size( ) != 0 )
+						if ( lbLimit.isSuccessed( ) )
 						{
-							tre.setBlockAlignment( ChartUtil.transposeAlignment( ta ) );
-						}
-						else
-						{
-							tre.setBlockAlignment( ta );
-						}
-						la.getCaption( )
-								.getFont( )
-								.getAlignment( )
-								.setHorizontalAlignment( HorizontalAlignment.LEFT_LITERAL );
-						tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
-						if ( ax.getTitle( ).isVisible( ) )
-						{
-							// bidi_acgc added start
-							if ( this.renderer.rtc.isRightToLeftText( ) )
+							BoundingBox bb = lbLimit.getBounding( null );
+
+							// Buzilla#206093: Indicates if the axis title is
+							// within
+							// axis,
+							// otherwise it uses Y axis plus the axis corner to
+							// display
+							boolean bWithinAxis = false;
+							// Indicates the axis title is horizontal
+							final boolean bTitleHorizontal = Math.abs( la.getCaption( )
+									.getFont( )
+									.getRotation( ) ) <= 30;
+							final double dYAxisHeightPC = ChartUtil.computeHeightOfOrthogonalAxisTitle( (ChartWithAxes) this.renderer.cm,
+									xs );
+							double dHeightWithinAxis = daEndPoints[0]
+									- daEndPoints[1];
+
+							bWithinAxis = bTitleHorizontal
+									|| ( lbLimit.getMaxHeight( ) < dHeightWithinAxis );
+
+							// #190266 Axis title layout adjustment
+							// final Bounds boundsTitle = ( (ChartWithAxes)
+							// this.renderer.cm ).getTitle( )
+							// .getBounds( );
+							double dTop = computeTopOfOrthogonalAxisTitle( );
+							final Bounds bo = BoundsImpl.create( ax.getTitleCoordinate( ),
+									bWithinAxis ? daEndPoints[1] : dTop,
+									bb.getWidth( ),
+									bWithinAxis ? dHeightWithinAxis
+											: dYAxisHeightPC );
+
+							tre.setBlockBounds( bo );
+							tre.setLabel( la );
+							TextAlignment ta = TextAlignmentImpl.copyInstance( la.getCaption( )
+									.getFont( )
+									.getAlignment( ) );
+							if ( ax.getModelAxis( ).getAssociatedAxes( ).size( ) != 0 )
 							{
-								tre.setRtlCaption( );
+								tre.setBlockAlignment( ChartUtil.transposeAlignment( ta ) );
 							}
-							// bidi_acgc added end
-							ipr.drawText( tre );
+							else
+							{
+								tre.setBlockAlignment( ta );
+							}
+							la.getCaption( )
+									.getFont( )
+									.getAlignment( )
+									.setHorizontalAlignment( HorizontalAlignment.LEFT_LITERAL );
+							tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
+							if ( ax.getTitle( ).isVisible( ) )
+							{
+								// bidi_acgc added start
+								if ( this.renderer.rtc.isRightToLeftText( ) )
+								{
+									tre.setRtlCaption( );
+								}
+								// bidi_acgc added end
+								ipr.drawText( tre );
+							}
 						}
 					}
 				}
@@ -1798,11 +1835,11 @@ public final class AxesRenderHelper
 					if ( renderer.isInteractivityEnabled( ) )
 					{
 						Trigger tg;
-						EList elTriggers = axModel.getTriggers( );
+						EList<Trigger> elTriggers = axModel.getTriggers( );
 
 						if ( !elTriggers.isEmpty( ) )
 						{
-							final Polygon3DRenderEvent pre3d = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+							final Polygon3DRenderEvent pre3d = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 									Polygon3DRenderEvent.class );
 
 							Location3D[] loaHotspot = new Location3D[4];
@@ -1829,13 +1866,13 @@ public final class AxesRenderHelper
 									panningOffset.getX( ),
 									panningOffset.getY( ) ) != null )
 							{
-								final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+								final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 										InteractionEvent.class );
 								iev.setCursor( axModel.getCursor( ) );
 								
 								for ( int t = 0; t < elTriggers.size( ); t++ )
 								{
-									tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
+									tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
 									processTrigger( tg,
 											StructureSource.createAxis( axModel ) );
 									iev.addTrigger( tg );
@@ -1861,11 +1898,11 @@ public final class AxesRenderHelper
 					if ( renderer.isInteractivityEnabled( ) )
 					{
 						Trigger tg;
-						EList elTriggers = axModel.getTriggers( );
+						EList<Trigger> elTriggers = axModel.getTriggers( );
 
 						if ( !elTriggers.isEmpty( ) )
 						{
-							final Polygon3DRenderEvent pre3d = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+							final Polygon3DRenderEvent pre3d = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 									Polygon3DRenderEvent.class );
 
 							Location3D[] loaHotspot = new Location3D[4];
@@ -1892,13 +1929,13 @@ public final class AxesRenderHelper
 									panningOffset.getX( ),
 									panningOffset.getY( ) ) != null )
 							{
-								final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+								final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 										InteractionEvent.class );
 								iev.setCursor( axModel.getCursor( ) );
 								
 								for ( int t = 0; t < elTriggers.size( ); t++ )
 								{
-									tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
+									tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
 									processTrigger( tg,
 											StructureSource.createAxis( axModel ) );
 									iev.addTrigger( tg );
@@ -1935,7 +1972,7 @@ public final class AxesRenderHelper
 								context.dY - dSeriesThickness );
 						loa[3] = LocationImpl.create( dEnd, context.dY );
 
-						final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+						final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 								PolygonRenderEvent.class );
 						pre.setPoints( loa );
 						pre.setBackground( ColorDefinitionImpl.create( 255,
@@ -1953,17 +1990,17 @@ public final class AxesRenderHelper
 					if ( renderer.isInteractivityEnabled( ) )
 					{
 						Trigger tg;
-						EList elTriggers = axModel.getTriggers( );
+						EList<Trigger> elTriggers = axModel.getTriggers( );
 
 						if ( !elTriggers.isEmpty( ) )
 						{
-							final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+							final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 									InteractionEvent.class );
 							iev.setCursor( axModel.getCursor( ) );
 							
 							for ( int t = 0; t < elTriggers.size( ); t++ )
 							{
-								tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
+								tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
 								processTrigger( tg,
 										StructureSource.createAxis( axModel ) );
 								iev.addTrigger( tg );
@@ -1980,7 +2017,7 @@ public final class AxesRenderHelper
 							loaHotspot[3] = LocationImpl.create( dStart,
 									context.dY + IConstants.LINE_EXPAND_SIZE );
 
-							final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+							final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 									PolygonRenderEvent.class );
 							pre.setPoints( loaHotspot );
 							iev.setHotSpot( pre );
@@ -2018,26 +2055,26 @@ public final class AxesRenderHelper
 								.getFont( )
 								.getAlignment( ) ) );
 
-				BoundingBox bb = null;
-				try
-				{
-					bb = Methods.computeBox( xs,
-							ax.getTitlePosition( ),
-							la,
-							0,
-							0,
-							Math.abs( daEndPoints[1] - daEndPoints[0] ) );
-				}
-				catch ( IllegalArgumentException uiex )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.RENDERING,
-							uiex );
-				}
 				if ( ax.getTitle( ).isVisible( ) && la.isVisible( ) )
 				{
 					if ( bRendering3D )
 					{
+						BoundingBox bb = null;
+						try
+						{
+							bb = Methods.computeBox( xs,
+									ax.getTitlePosition( ),
+									la,
+									0,
+									0,
+									Math.abs( daEndPoints[1] - daEndPoints[0] ) );
+						}
+						catch ( IllegalArgumentException uiex )
+						{
+							throw new ChartException( ChartEnginePlugin.ID,
+									ChartException.RENDERING,
+									uiex );
+						}
 						// Bounds cbo = renderer.getPlotBounds( );
 						//
 						// if ( axisType == IConstants.BASE_AXIS )
@@ -2078,12 +2115,12 @@ public final class AxesRenderHelper
 						// Comment above code and add following code to partial
 						// fix bugzilla bug 192833. This fix only made that the
 						// axis title position is decided by its axis location.
-						Angle3D a3D = (Angle3D) ( (ChartWithAxes) renderer.cm ).getRotation( )
+						Angle3D a3D = ( (ChartWithAxes) renderer.cm ).getRotation( )
 								.getAngles( )
 								.get( 0 );
 						if ( axisType == IConstants.BASE_AXIS )
 						{
-							t3dre = (Text3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+							t3dre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 									Text3DRenderEvent.class );
 
 							IAxisTypeComputation computation = createAxisTypeComputation( context );
@@ -2149,37 +2186,53 @@ public final class AxesRenderHelper
 					}
 					else
 					{
-						final Bounds bo = BoundsImpl.create( daEndPoints[0],
-								ax.getTitleCoordinate( ),
-								daEndPoints[1] - daEndPoints[0],
-								bb.getHeight( ) );
+						LabelLimiter lbLimit = pwa.getLabellLimiter( ax.getModelAxis( )
+								.getTitle( ) );
+						double dWidthWithinAxis = Math.abs( daEndPoints[1]
+								- daEndPoints[0] );
+						if ( lbLimit.getMaxWidth( ) > dWidthWithinAxis )
+						{
+							lbLimit.setMaxWidth( dWidthWithinAxis );
+						}
+						lbLimit.computeWrapping( xs, la );
+						lbLimit = lbLimit.limitLabelSize( xs, la );
 
-						tre.setBlockBounds( bo );
-						tre.setLabel( la );
-						TextAlignment ta = TextAlignmentImpl.copyInstance( la.getCaption( )
-								.getFont( )
-								.getAlignment( ) );
+						if ( lbLimit.isSuccessed( ) )
+						{
+							BoundingBox bb = lbLimit.getBounding( null );
 
-						if ( ax.getModelAxis( ).getAssociatedAxes( ).size( ) != 0 )
-						{
-							tre.setBlockAlignment( ta );
+							final Bounds bo = BoundsImpl.create( daEndPoints[0],
+									ax.getTitleCoordinate( ),
+									daEndPoints[1] - daEndPoints[0],
+									bb.getHeight( ) );
+
+							tre.setBlockBounds( bo );
+							tre.setLabel( la );
+							TextAlignment ta = TextAlignmentImpl.copyInstance( la.getCaption( )
+									.getFont( )
+									.getAlignment( ) );
+
+							if ( ax.getModelAxis( ).getAssociatedAxes( ).size( ) != 0 )
+							{
+								tre.setBlockAlignment( ta );
+							}
+							else
+							{
+								tre.setBlockAlignment( ChartUtil.transposeAlignment( ta ) );
+							}
+							la.getCaption( )
+									.getFont( )
+									.getAlignment( )
+									.setHorizontalAlignment( HorizontalAlignment.LEFT_LITERAL );
+							tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
+							// bidi_acgc added start
+							if ( this.renderer.rtc.isRightToLeftText( ) )
+							{
+								tre.setRtlCaption( );
+							}
+							// bidi_acgc added end
+							ipr.drawText( tre );
 						}
-						else
-						{
-							tre.setBlockAlignment( ChartUtil.transposeAlignment( ta ) );
-						}
-						la.getCaption( )
-								.getFont( )
-								.getAlignment( )
-								.setHorizontalAlignment( HorizontalAlignment.LEFT_LITERAL );
-						tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
-						// bidi_acgc added start
-						if ( this.renderer.rtc.isRightToLeftText( ) )
-						{
-							tre.setRtlCaption( );
-						}
-						// bidi_acgc added end
-						ipr.drawText( tre );
 					}
 				}
 

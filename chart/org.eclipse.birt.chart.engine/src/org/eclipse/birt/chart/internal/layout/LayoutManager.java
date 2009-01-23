@@ -11,8 +11,11 @@
 
 package org.eclipse.birt.chart.internal.layout;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
+import org.eclipse.birt.chart.computation.LabelLimiter;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -25,6 +28,7 @@ import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
+import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
@@ -46,6 +50,22 @@ public final class LayoutManager
 	 */
 	public LayoutManager( Block _blRoot )
 	{
+	}
+	
+	/*
+	 * initialize the LabelLimiter for Chart Title
+	 */
+	private void initTitleSizeLimit( IDisplayServer xs, Chart cm,
+			RunTimeContext rtc, Bounds bo )
+	{
+		final double dPercent = 0.5;
+		bo = bo.scaledInstance( xs.getDpiResolution( ) / 72d );
+		bo.adjust( cm.getTitle( ).getInsets( ) );
+		LabelLimiter lbLimiter = new LabelLimiter( bo.getWidth( ),
+				bo.getHeight( ) * dPercent,
+				0 );
+		Map<Label, LabelLimiter> mapLimiter = rtc.getState( RunTimeContext.StateKey.LABEL_LIMITER_LOOKUP_KEY );
+		mapLimiter.put( cm.getTitle( ).getLabel( ), lbLimiter );
 	}
 	
 	/**
@@ -76,6 +96,7 @@ public final class LayoutManager
 			Legend lg = cm.getLegend( );
 			Plot pl = cm.getPlot( );
 
+			initTitleSizeLimit( xs, cm, rtc, bo );
 			TitleBlock tb = cm.getTitle( );
 			szTitle = ( !tb.isVisible( ) ) ? SizeImpl.create( 0, 0 )
 					: tb.getPreferredSize( xs, cm, rtc );
@@ -1112,6 +1133,10 @@ public final class LayoutManager
 	private void doLayout_tmp( IDisplayServer xs, Chart cm, Bounds boFull,
 			RunTimeContext rtc ) throws ChartException
 	{
+		// init Label Limiter Lookup Table.
+		rtc.putState( RunTimeContext.StateKey.LABEL_LIMITER_LOOKUP_KEY,
+				new HashMap<Label, LabelLimiter>( ) );
+
 		Legend lg = cm.getLegend( );
 
 		// Compute title,plot and legend position.

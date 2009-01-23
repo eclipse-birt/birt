@@ -62,6 +62,9 @@ public final class OneAxis
 
 	private final int axisType;
 
+	// if there is place to show labels
+	private boolean bShowLabels = true;
+
 	/**
 	 * The constructor.
 	 */
@@ -369,5 +372,22 @@ public final class OneAxis
 	public final RunTimeContext getRunTimeContext( )
 	{
 		return sc.getRunTimeContext( );
+	}
+
+	/**
+	 * @return Returns the bShowLabels.
+	 */
+	public final boolean isShowLabels( )
+	{
+		return bShowLabels;
+	}
+
+	/**
+	 * @param bShowLabels
+	 *            The bShowLabels to set.
+	 */
+	public final void setShowLabels( boolean bShowLabels )
+	{
+		this.bShowLabels = bShowLabels;
 	}
 }

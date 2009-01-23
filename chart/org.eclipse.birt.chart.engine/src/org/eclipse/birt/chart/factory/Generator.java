@@ -900,7 +900,6 @@ public final class Generator implements IGenerator
 			RunTimeContext rtc, IStyleProcessor externalProcessor )
 			throws ChartException
 	{
-
 		if ( ids == null || cmDesignTime == null || bo == null )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,

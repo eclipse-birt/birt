@@ -439,6 +439,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 	{
 		bo = bo.scaledInstance( dPointToPixel ); // CONVERSION
 
+		boPlot = bo;
 		boPlotBackground = BoundsImpl.copyInstance( bo );
 
 		// MUST BE 3-D DIMENSION ONLY HERE.

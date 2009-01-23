@@ -11,9 +11,11 @@
 
 package org.eclipse.birt.chart.model.layout.impl;
 
+import java.util.EnumSet;
+import java.util.Map;
+
 import org.eclipse.birt.chart.computation.BoundingBox;
-import org.eclipse.birt.chart.computation.IConstants;
-import org.eclipse.birt.chart.computation.Methods;
+import org.eclipse.birt.chart.computation.LabelLimiter;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
@@ -23,9 +25,7 @@ import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.LayoutFactory;
 import org.eclipse.birt.chart.model.layout.LayoutPackage;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
-import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Title Block</b></em>'. <!-- end-user-doc
@@ -97,26 +97,16 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
 		Label la = LabelImpl.copyInstance( getLabel( ) );
 		final String sPreviousValue = la.getCaption( ).getValue( );
 		la.getCaption( ).setValue( rtc.externalizedMessage( sPreviousValue ) );
-
-		double dWrapping = 0;
-		EObject container = eContainer( );
-		if ( container instanceof Block )
-		{
-			dWrapping = ( (Block) container ).getBounds( ).getWidth( )
-					/ 72
-					* xs.getDpiResolution( );
-		}
-		try
-		{
-			return Methods.computeBox( xs, IConstants.TOP, la, 0, 0, dWrapping );
-		}
-		catch ( IllegalArgumentException uiex )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.GENERATION,
-					uiex );
-		}
-
+		// ellipsis always enabled for chart title
+		la.setEllipsis( 1 );
+		Map<Label, LabelLimiter> mapLimiter = rtc.getState( RunTimeContext.StateKey.LABEL_LIMITER_LOOKUP_KEY );
+		LabelLimiter lbLimiter = mapLimiter.get( getLabel( ) );
+		lbLimiter.computeWrapping( xs, la );
+		LabelLimiter lbLimiterNew = lbLimiter.limitLabelSize( xs,
+				la,
+				EnumSet.of( LabelLimiter.Option.FIX_WIDTH ) );
+		mapLimiter.put( getLabel( ), lbLimiterNew );
+		return lbLimiterNew.getBounding( null );
 		// Do not set the text back because of wrapping
 	}
 } //TitleBlockImpl

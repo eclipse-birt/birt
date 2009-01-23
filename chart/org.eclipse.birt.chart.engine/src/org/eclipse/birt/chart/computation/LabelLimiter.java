@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.computation;
 
+import java.util.EnumSet;
+
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Insets;
@@ -25,19 +27,46 @@ import org.eclipse.birt.chart.util.ChartUtil;
 public class LabelLimiter
 {
 
+	/**
+	 * Options used by method limitLabelSize. Option
+	 */
+	public static enum Option {
+		/**
+		 * limitLabelSize will return the old maxWidth instead of the calculated
+		 * one (smaller).
+		 */
+		FIX_WIDTH,
+		/**
+		 * limitLabelSize will return the old maxHeight instead of the
+		 * calculated one (smaller).
+		 */
+		FIX_HEIGHT
+	};
+
 	private double maxWidth;
 	private double maxHeight;
 	private double wrapping;
+	private boolean bSuccessed = true;
 
 	/**
-	 * @param maxSize
-	 * @param dWrapping
+	 * Constructor
+	 * 
+	 * @param maxWidth
+	 * @param maxHeight
+	 * @param wrapping
 	 */
 	public LabelLimiter( double maxWidth, double maxHeight, double wrapping )
+	{
+		this( maxWidth, maxHeight, wrapping, true );
+	}
+
+	private LabelLimiter( double maxWidth, double maxHeight, double wrapping,
+			boolean bSuccessed )
 	{
 		this.maxWidth = maxWidth;
 		this.maxHeight = maxHeight;
 		this.wrapping = wrapping;
+		this.bSuccessed = bSuccessed;
 	}
 
 	public double computeWrapping( IDisplayServer xs, Label la )
@@ -76,7 +105,10 @@ public class LabelLimiter
 			LabelLimiter lbLimit )
 	{
 		double dWrapping = 0;
-		final double dSafe = 10;
+		boolean bIsSWT = xs.getClass( )
+				.getName( )
+				.equals( "org.eclipse.birt.chart.device.swt.SwtDisplayServer" ); //$NON-NLS-1$
+		final double dSafe = bIsSWT ? 10 : 0;
 
 		if ( lbLimit != null )
 		{
@@ -84,7 +116,6 @@ public class LabelLimiter
 			double fRotation = la.getCaption( ).getFont( ).getRotation( );
 			Insets insets = la.getInsets( ).scaledInstance( dScale );
 			double dInsetsWidth = insets.getLeft( ) + insets.getRight( );
-			double dInsetsHeight = insets.getTop( ) + insets.getBottom( );
 
 			if ( ChartUtil.mathEqual( fRotation, 0 ) )
 			{
@@ -93,7 +124,7 @@ public class LabelLimiter
 			}
 			else if ( ChartUtil.mathEqual( fRotation, 90 ) )
 			{
-				dWrapping = Math.floor( lbLimit.maxHeight - dInsetsHeight )
+				dWrapping = Math.floor( lbLimit.maxHeight - dInsetsWidth )
 						- dSafe;
 			}
 			else
@@ -176,7 +207,22 @@ public class LabelLimiter
 	public LabelLimiter limitLabelSize( IDisplayServer xs, Label la )
 			throws ChartException
 	{
-		return limitLabelSize( xs, la, this );
+		return limitLabelSize( xs, la, this, EnumSet.noneOf( Option.class ) );
+	}
+
+	/**
+	 * modify the text of la to fit the limit size.
+	 * 
+	 * @param xs
+	 * @param la
+	 * @param options
+	 * @return
+	 * @throws ChartException
+	 */
+	public LabelLimiter limitLabelSize( IDisplayServer xs, Label la,
+			EnumSet<Option> options ) throws ChartException
+	{
+		return limitLabelSize( xs, la, this, options );
 	}
 
 	/**
@@ -188,21 +234,35 @@ public class LabelLimiter
 	 * @param la
 	 * @param maxSize
 	 * @param lbLimit
+	 * @param options
 	 * @return
 	 * @throws ChartException
 	 */
 	public static final LabelLimiter limitLabelSize( IDisplayServer xs,
-			Label la, LabelLimiter lbLimit ) throws ChartException
+			Label la, LabelLimiter lbLimit, EnumSet<Option> options )
+			throws ChartException
 	{
 		double maxWidth, maxHeight, wrapping;
+		boolean bSuccessed = true;
+
 		if ( lbLimit != null )
 		{
 			EllipsisHelper eHelper = EllipsisHelper.simpleInstance( xs,
 					la,
 					null );
-			eHelper.checkLabelEllipsis( la.getCaption( ).getValue( ), lbLimit );
-			maxWidth = eHelper.getTester( ).getWidth( );
-			maxHeight = eHelper.getTester( ).getHeight( );
+			if ( eHelper.checkLabelEllipsis( la.getCaption( ).getValue( ),
+					lbLimit ) )
+			{
+				maxWidth = eHelper.getTester( ).getWidth( );
+				maxHeight = eHelper.getTester( ).getHeight( );
+			}
+			else
+			{
+				la.getCaption( ).setValue( "" ); //$NON-NLS-1$
+				maxWidth = 0;
+				maxHeight = 0;
+				bSuccessed = false;
+			}
 			wrapping = lbLimit.getWrapping( );
 		}
 		else
@@ -212,7 +272,18 @@ public class LabelLimiter
 			maxHeight = bb.getHeight( );
 			wrapping = 0;
 		}
-		return new LabelLimiter( maxWidth, maxHeight, wrapping );
+
+		if ( options.contains( Option.FIX_WIDTH ) )
+		{
+			maxWidth = lbLimit.maxWidth;
+		}
+
+		if ( options.contains( Option.FIX_HEIGHT ) )
+		{
+			maxHeight = lbLimit.maxHeight;
+		}
+
+		return new LabelLimiter( maxWidth, maxHeight, wrapping, bSuccessed );
 	}
 
 	/**
@@ -264,6 +335,14 @@ public class LabelLimiter
 	public final void setWrapping( double wrapping )
 	{
 		this.wrapping = wrapping;
+	}
+
+	/**
+	 * @return Returns the bSuccessed.
+	 */
+	public final boolean isSuccessed( )
+	{
+		return bSuccessed;
 	}
 
 }

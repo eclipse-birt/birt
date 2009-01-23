@@ -2615,11 +2615,32 @@ public final class AutoScale extends Methods implements Cloneable
 			// position
 			if ( !bLabelWithinAxes && bConsiderStartLabel )
 			{
-				dStart += dStartShift * iDirection;
+				double dNewStart = dStart + dStartShift * iDirection;
+				if ( dEnd > dStart && dNewStart > dEnd - 1 )
+				{
+					dNewStart = dEnd - 1;
+				}
+				else if ( dEnd < dStart && dNewStart < dEnd + 1 )
+				{
+					dNewStart = dEnd + 1;
+				}
+				dStartShift = ( dNewStart - dStart ) / iDirection;
+				dStart = dNewStart;
 			}
+
 			if ( bConsiderEndLabel )
 			{
-				dEnd += dEndShift * -iDirection;
+				double dNewEnd = dEnd + dEndShift * -iDirection;
+				if ( dEnd > dStart && dNewEnd < dStart + 1 )
+				{
+					dNewEnd = dStart + 1;
+				}
+				else if ( dEnd < dStart && dNewEnd > dStart - 1 )
+				{
+					dNewEnd = dStart - 1;
+				}
+				dEndShift = ( dNewEnd - dEnd ) / -iDirection;
+				dEnd = dNewEnd;
 			}
 		}
 

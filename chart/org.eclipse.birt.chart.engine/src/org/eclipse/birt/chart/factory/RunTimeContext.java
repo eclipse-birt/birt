@@ -16,12 +16,14 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.eclipse.birt.chart.computation.LabelLimiter;
 import org.eclipse.birt.chart.computation.LegendItemRenderingHints;
 import org.eclipse.birt.chart.computation.LegendLayoutHints;
 import org.eclipse.birt.chart.computation.withaxes.SharedScaleContext;
 import org.eclipse.birt.chart.device.IStructureDefinitionListener;
 import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.StructureChangeEvent;
+import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.chart.script.IChartScriptContext;
@@ -653,6 +655,11 @@ public final class RunTimeContext implements Serializable
 		return (T) stateStore.get( key );
 	}
 
+	public <T> void putState( StateKey<T> key, T value )
+	{
+		stateStore.put( key, value );
+	}
+
 	/**
 	 * Predifined static keys for states.
 	 */
@@ -668,6 +675,11 @@ public final class RunTimeContext implements Serializable
 		 * Key to reference if the data of chart is empty.
 		 */
 		public final static StateKey<Boolean> DATA_EMPTY_KEY = StateKey.create( );
+
+		/**
+		 * Key to reference LabelLimiter lookup table.
+		 */
+		public final static StateKey<Map<Label, LabelLimiter>> LABEL_LIMITER_LOOKUP_KEY = StateKey.create( );
 	}
 
 }

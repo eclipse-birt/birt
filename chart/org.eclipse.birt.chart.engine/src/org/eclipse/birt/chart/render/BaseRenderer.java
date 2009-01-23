@@ -113,7 +113,6 @@ import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.FillUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.util.Calendar;
@@ -903,7 +902,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 		final boolean bRenderLegendTitle = lgTitle != null
 				&& lgTitle.isSetVisible( )
-				&& lgTitle.isVisible( );
+				&& lgTitle.isVisible( )
+				&& !lilh.getLaTitle( ).getCaption( ).getValue( ).equals( "" ); //$NON-NLS-1$
 		int iTitlePos = Position.ABOVE;
 
 		if ( bRenderLegendTitle )
@@ -968,7 +968,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		final double dBaseX = dX;
 		final double dBaseY = dY;
 
-		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ir ).getEventObject( StructureSource.createLegend( lg ),
+		final RectangleRenderEvent rre = ( (EventObjectCache) ir ).getEventObject( StructureSource.createLegend( lg ),
 				RectangleRenderEvent.class );
 
 		// render client area shadow.
@@ -1053,7 +1053,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					break;
 			}
 
-			final TextRenderEvent tre = (TextRenderEvent) ( (EventObjectCache) ir ).getEventObject( WrappedStructureSource.createLegendTitle( lg,
+			final TextRenderEvent tre = ( (EventObjectCache) ir ).getEventObject( WrappedStructureSource.createLegendTitle( lg,
 					lgTitle ),
 					TextRenderEvent.class );
 			tre.setBlockBounds( BoundsImpl.create( lX,
@@ -1098,7 +1098,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	{
 		if ( o.getValue( ) == Orientation.HORIZONTAL )
 		{
-			final LineRenderEvent lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createLegend( lg ),
+			final LineRenderEvent lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createLegend( lg ),
 					LineRenderEvent.class );
 			lre.setLineAttributes( lia );
 			lre.setStart( LocationImpl.create( dX, dY ) );
@@ -1107,7 +1107,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		}
 		else if ( o.getValue( ) == Orientation.VERTICAL )
 		{
-			final LineRenderEvent lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createLegend( lg ),
+			final LineRenderEvent lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createLegend( lg ),
 					LineRenderEvent.class );
 			lre.setLineAttributes( lia );
 			lre.setStart( LocationImpl.create( dX, dY ) );
@@ -1266,7 +1266,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		br.renderLegendGraphic( ipr, lg, fPaletteEntry, bo );
 
 		// 1. Draw series identify label.
-		final TextRenderEvent tre = (TextRenderEvent) ( (EventObjectCache) ir ).getEventObject( StructureSource.createLegend( lg ),
+		final TextRenderEvent tre = ( (EventObjectCache) ir ).getEventObject( StructureSource.createLegend( lg ),
 				TextRenderEvent.class );
 
 		double dLaAngle = la.getCaption( ).getFont( ).getRotation( );
@@ -1439,7 +1439,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				{
 					source = StructureSource.createSeries( se );
 				}
-				final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( source,
+				final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( source,
 						InteractionEvent.class );
 				iev.setCursor( lg.getCursor( ) );
 				
@@ -1458,7 +1458,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					iev.addTrigger( buildinTg );
 				}
 
-				final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( source,
+				final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( source,
 						PolygonRenderEvent.class );
 				pre.setPoints( loaHotspot );
 				iev.setHotSpot( pre );
@@ -1493,7 +1493,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	{
 		if ( la.isVisible( ) )
 		{
-			final TextRenderEvent tre = (TextRenderEvent) ( (EventObjectCache) ir ).getEventObject( StructureSource.createLegend( lg ),
+			final TextRenderEvent tre = ( (EventObjectCache) ir ).getEventObject( StructureSource.createLegend( lg ),
 					TextRenderEvent.class );
 			Label tmpLa = LabelImpl.copyInstance( la );
 			TextAlignment ta = TextAlignmentImpl.create( );
@@ -1743,7 +1743,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * Renders label.
+	 * Renders label of a LabelBlock.
 	 * 
 	 * @param ipr
 	 * @param b
@@ -1757,27 +1757,29 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		{
 			return;
 		}
+		final LabelBlock lb = (LabelBlock) b;
+		Map<Label, LabelLimiter> mapLimiter = rtc.getState( RunTimeContext.StateKey.LABEL_LIMITER_LOOKUP_KEY );
+		LabelLimiter lbLimiter = mapLimiter.get( lb.getLabel( ) );
+		lbLimiter.computeWrapping( xs, lb.getLabel( ) );
+		lbLimiter = lbLimiter.limitLabelSize( xs, lb.getLabel( ) );
+
+		if ( !lbLimiter.isSuccessed( ) )
+		{
+			return;
+		}
+
 		renderBlock( ipr, b, oSource );
 		final double dScale = getDeviceScale( );
-		final LabelBlock lb = (LabelBlock) b;
 		final TextRenderEvent tre = ( (EventObjectCache) ipr ).getEventObject( oSource,
 				TextRenderEvent.class );
-		//bidi_acgc added start
-		if ( rtc.isRightToLeftText( ) )
-		{
-			tre.setRtlCaption( );
-		}
-		//bidi_acgc added end
 		// need backup original non-externalized value.
 		final String sRestoreValue = tre.updateFrom( lb, dScale, rtc );
 		if ( lb.getLabel( ).isVisible( ) )
 		{
-			//bidi_acgc added start
 			if ( rtc.isRightToLeftText( ) )
 			{
 				tre.setRtlCaption( );
 			}
-			//bidi_acgc added end
 			ipr.drawText( tre );
 		}
 		lb.getLabel( ).getCaption( ).setValue( sRestoreValue );
@@ -1796,37 +1798,13 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	public void renderTitle( IPrimitiveRenderer ipr, TitleBlock b )
 			throws ChartException
 	{
+		Label la = b.getLabel( );
 		// switch lable alignment
-		TextAlignment restoreValue = b.getLabel( )
-				.getCaption( )
-				.getFont( )
-				.getAlignment( );
-		b.getLabel( )
-				.getCaption( )
+		TextAlignment restoreValue = la.getCaption( ).getFont( ).getAlignment( );
+		la.getCaption( )
 				.getFont( )
 				.setAlignment( switchTextAlignment( restoreValue ) );
 
-		double dWrapping = 0;
-		
-		// wrap the title if it is too lang, this is the same as in
-		// computeBox of TitleBlockImpl, here must add this now, because
-		// the label change to label text is not saved in TitleBlockImpl
-		// now
-		EObject container = b.eContainer( );
-		if ( container instanceof Block )
-		{
-			dWrapping = ( (Block) container ).getBounds( ).getWidth( )
-					/ 72
-					* xs.getDpiResolution( );
-
-			final ITextMetrics itm = xs.getTextMetrics( b.getLabel( ) );
-
-			if ( dWrapping > 0 )
-			{
-				itm.reuse( b.getLabel( ), dWrapping );
-			}
-			itm.dispose( );
-		}
 		renderLabel( ipr, b, StructureSource.createTitle( b ) );
 
 		// restore original value

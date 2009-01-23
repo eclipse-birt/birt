@@ -13,11 +13,13 @@ package org.eclipse.birt.chart.computation.withaxes;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.computation.LabelLimiter;
 import org.eclipse.birt.chart.computation.LegendItemRenderingHints;
 import org.eclipse.birt.chart.computation.UserDataSetHints;
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
@@ -41,6 +43,7 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.NullDataSet;
@@ -52,7 +55,6 @@ import org.eclipse.birt.chart.render.AxesRenderer;
 import org.eclipse.birt.chart.render.IAxesDecorator;
 import org.eclipse.birt.chart.render.ISeriesRenderingHints;
 import org.eclipse.birt.chart.util.CDateTime;
-import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
 
@@ -686,10 +688,11 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		dSeriesThickness = cwa.getPlot( ).getClientArea( ).isVisible( ) ? dSeriesThickness : 0;
 
 		// MAINTAIN IN LOCAL VARIABLES FOR PERFORMANCE/CONVENIENCE
-		double dX = bo.getLeft( ) + insCA.getLeft( );
-		double dY = bo.getTop( ) + insCA.getTop( );
-		double dW = bo.getWidth( ) - insCA.getLeft( ) - insCA.getRight( );
-		double dH = bo.getHeight( ) - insCA.getTop( ) - insCA.getBottom( );
+		bo.adjust( insCA );
+		double dX = bo.getLeft( );
+		double dY = bo.getTop( );
+		double dW = bo.getWidth( );
+		double dH = bo.getHeight( );
 
 		iDimension = getDimension( cwa.getDimension( ) );
 		dXAxisPlotSpacing = cwa.getPlot( ).getHorizontalSpacing( )
@@ -706,6 +709,14 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			bo.setHeight( dH );
 			bo.setTop( dY );
 			bo.setWidth( dW );
+		}
+
+		// update boPlot
+		boPlot = bo;
+
+		if ( bo.getWidth( ) <= 0 || bo.getHeight( ) <= 0 )
+		{
+			return;
 		}
 
 		// PLACE OVERLAYS FIRST TO REDUCE VIRTUAL PLOT BOUNDS
@@ -1262,14 +1273,20 @@ public final class PlotWith2DAxes extends PlotWithAxes
 							.getValue( );
 					laAxisTitle.getCaption( )
 							.setValue( rtc.externalizedMessage( sPreviousValue ) );
-					dAxisTitleThickness = computeBox( ids,
-							iTitleLocation,
+
+					double maxHeight = boPlot.getHeight( );
+					double maxWidth = boPlot.getWidth( ) * AXIS_TITLE_PERCENT;
+					LabelLimiter lbLimit = new LabelLimiter( maxWidth,
+							maxHeight,
+							0 );
+					lbLimit.computeWrapping( ids, laAxisTitle );
+					lbLimit = lbLimit.limitLabelSize( ids,
 							laAxisTitle,
-							0,
-							0,
-							ChartUtil.computeHeightOfOrthogonalAxisTitle( cwa,
-									getDisplayServer( ) )
-							).getWidth( );
+							EnumSet.of( LabelLimiter.Option.FIX_HEIGHT ) );
+					dAxisTitleThickness = lbLimit.getMaxWidth( );
+					putLabelLimiter( oaxOverlay.getModelAxis( ).getTitle( ),
+							lbLimit );
+
 					laAxisTitle.getCaption( ).setValue( sPreviousValue );
 				}
 
@@ -1403,14 +1420,35 @@ public final class PlotWith2DAxes extends PlotWithAxes
 							.getValue( );
 					laAxisTitle.getCaption( )
 							.setValue( rtc.externalizedMessage( sPreviousValue ) );
-					dAxisTitleThickness = computeBox( ids,
-							iTitleLocation,
+					double maxHeight = boPlot.getHeight( ) * AXIS_TITLE_PERCENT;
+					double maxWidth = boPlot.getWidth( );
+
+					// compute width of vetical axis title
+					Label laAxisTitleV = aax.getPrimaryOrthogonal( ).getTitle( );
+					if ( laAxisTitleV.isVisible( ) )
+					{
+						laAxisTitleV = LabelImpl.copyInstance( laAxisTitleV );
+						laAxisTitleV.getCaption( )
+								.setValue( rtc.externalizedMessage( laAxisTitleV.getCaption( )
+										.getValue( ) ) );
+						LabelLimiter lbLimitV = new LabelLimiter( boPlot.getWidth( )
+								* AXIS_TITLE_PERCENT, boPlot.getWidth( ), 0 );
+						lbLimitV.computeWrapping( ids, laAxisTitleV );
+						lbLimitV.limitLabelSize( ids, laAxisTitleV );
+						maxWidth -= lbLimitV.getMaxWidth( );
+					}
+
+					LabelLimiter lbLimit = new LabelLimiter( maxWidth,
+							maxHeight,
+							0 );
+					lbLimit.computeWrapping( ids, laAxisTitle );
+					lbLimit = lbLimit.limitLabelSize( ids,
 							laAxisTitle,
-							0,
-							0,
-							ChartUtil.computeHeightOfOrthogonalAxisTitle( cwa,
-									getDisplayServer( ) )
-							).getHeight( );
+							EnumSet.of( LabelLimiter.Option.FIX_WIDTH ) );
+					dAxisTitleThickness = lbLimit.getMaxHeight( );
+					putLabelLimiter( oaxOverlay.getModelAxis( ).getTitle( ),
+							lbLimit );
+
 					laAxisTitle.getCaption( ).setValue( sPreviousValue );
 				}
 
@@ -1634,7 +1672,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
 		final OneAxis oaxBase = aax.getPrimaryBase( );
-		final SeriesDefinition sdBase = (SeriesDefinition) oaxBase.getModelAxis( )
+		final SeriesDefinition sdBase = oaxBase.getModelAxis( )
 				.getSeriesDefinitions( )
 				.get( 0 );
 
