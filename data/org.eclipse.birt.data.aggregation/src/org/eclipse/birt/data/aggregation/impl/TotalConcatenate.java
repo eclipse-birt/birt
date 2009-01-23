@@ -83,7 +83,7 @@ public class TotalConcatenate extends AggrFunction
 						Messages.getString( "TotalConcatenate.paramDescription.expression" ) ),
 				new ParameterDefn( Messages.getString( "TotalConcatenate.param.separator" ),
 						Messages.getString( "TotalConcatenate.param.separator" ),
-						false,
+						true,
 						false,
 						SupportedDataTypes.CALCULATABLE,
 						Messages.getString( "TotalConcatenate.paramDescription.separator" ) ),
@@ -140,6 +140,8 @@ public class TotalConcatenate extends AggrFunction
 		private String separator;
 
 		private int maxLength;
+		
+		private boolean isInitialized;
 
 		final private static int DEFAULT_MAX_LENGTH = 1024;
 
@@ -148,6 +150,7 @@ public class TotalConcatenate extends AggrFunction
 			super.start( );
 			values = null;
 			separator = "";
+			isInitialized = false;
 			maxLength = DEFAULT_MAX_LENGTH;
 		}
 
@@ -160,29 +163,26 @@ public class TotalConcatenate extends AggrFunction
 		 */
 		public void onRow( Object[] args ) throws DataException
 		{
-			assert ( args.length >= 2 );
-			if ( args[0] != null && args[1] != null )
+			assert ( args != null && args.length >= 1 );
+
+			try
 			{
-				try
+				if ( !isInitialized )
 				{
-					if ( values == null )
-					{
-						setSeparator( args[1] );
-						if ( args.length >= 3 )
-						{
-							setMaxLength( args[2] );
-							if ( args.length == 4 )
-							{
-								setShowAllValues( args[3] );
-							}
-						}
-					}
+					isInitialized = true;
+					setSeparator( args.length >= 2 ? args[1] : null );
+					setMaxLength( args.length >= 3 ? args[2]
+							: DEFAULT_MAX_LENGTH );
+					setShowAllValues( args.length == 4 ? args[3] : false );
+				}
+				if ( args[0] != null )
+				{
 					values.add( DataTypeUtil.toString( args[0] ) );
 				}
-				catch ( BirtException e )
-				{
-					throw DataException.wrap( e );
-				}
+			}
+			catch ( BirtException e )
+			{
+				throw DataException.wrap( e );
 			}
 		}
 
@@ -231,13 +231,11 @@ public class TotalConcatenate extends AggrFunction
 		private void setSeparator( Object source ) throws BirtException
 		{
 			String value = DataTypeUtil.toString( source );
-			if ( value == null || value.length( ) == 0 )
+			if ( value != null )
 			{
-				throw new DataException( Messages.getString( "aggregation.InvalidSeparator" )
-						+ getName( ) );
+				// should not trim the separator string
+				separator = value;
 			}
-			// should not trim the separator string
-			separator = value;
 		}
 
 		/**
