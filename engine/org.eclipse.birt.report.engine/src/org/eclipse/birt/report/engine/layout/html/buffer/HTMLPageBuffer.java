@@ -135,7 +135,10 @@ public class HTMLPageBuffer implements IPageBuffer
 			case IContent.PAGE_CONTENT :
 				endPage( content, finished, emitter );
 				break;
-
+			case IContent.ROW_CONTENT:
+				isFinished = finished && !isRepeated;
+				endRow( content, finished, emitter, visible );
+				break;
 			case IContent.CELL_CONTENT :
 				endCell( content, finished, emitter, visible );
 				break;
@@ -182,7 +185,75 @@ public class HTMLPageBuffer implements IPageBuffer
 			}
 		}
 	}
+	
+	//Fix  256847
+	protected void endRow( IContent content, boolean finished,
+			IContentEmitter emitter, boolean visible ) throws BirtException
+	{
+		( (AbstractNode) currentNode ).setFinished( finished );
+		if ( currentNode.isStarted( ) )
+		{
+			currentNode.end( );
+		}
+		else
+		{
+			if (! isRepeated )
+			{
+				if(finished)
+				{
+					if ( visible )
+					{
+						currentNode.flush( );
+					}
+					else if ( isParentStarted( ) )
+					{
+						currentNode.flush( );
+					}
+				}
+				else
+				{
+					if( allCellFinished((ContainerBufferNode)currentNode))
+					{
+						currentNode.flush( );
+					}
+				}
+			}
+		}
+		
+		
 
+		currentNode = currentNode.getParent( );
+		if ( currentNode != null && finished && !isRepeated )
+		{
+			if ( visible )
+			{
+				currentNode.removeChildren( );
+			}
+			else if ( isParentStarted( ) )
+			{
+				currentNode.removeChildren( );
+			}
+		}
+	}
+	
+	private boolean allCellFinished(ContainerBufferNode node)
+	{
+		if(node.children.size( )>0)
+		{
+			Iterator iter = node.children.iterator( );
+			while(iter.hasNext( ))
+			{
+				AbstractNode cell = (AbstractNode)iter.next( );
+				if(!cell.finished)
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+	
 	protected void endCell( IContent content, boolean finished,
 			IContentEmitter emitter, boolean visible ) throws BirtException
 	{
@@ -204,8 +275,8 @@ public class HTMLPageBuffer implements IPageBuffer
 		{
 			if ( finished && !isRepeated )
 			{
-				currentNode.start( );
-				currentNode.end( );
+				/*currentNode.start( );
+				currentNode.end( );*/
 			}
 		}
 		currentNode = currentNode.getParent( );
