@@ -34,6 +34,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
+import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.w3c.dom.css.CSSValue;
@@ -604,6 +605,11 @@ public class ExecutionOptimize
 				node.breakBefore = true;
 				node.breakAfter = true;
 				node.execute = true;
+				//since table script can access column, so page-break on columns can be changed.
+				if(item instanceof TableItemDesign)
+				{
+					node.executeAll = true;
+				}
 			}
 
 			if ( node.breakBefore || node.breakAfter )
