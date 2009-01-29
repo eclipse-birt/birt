@@ -218,7 +218,7 @@ CrosstabPageBreakDialog.Title=Saut de page
 CrosstabPageBreakDialog.Text.GroupLevel=Niveau de groupe :
 CrosstabPageBreakDialog.Text.PageBreakBefore=Avant :
 CrosstabPageBreakDialog.Text.PageBreakAfter=Après :
-CrosstabPageBreakDialog.Text.PageBreakInterval=Page Break Interval:
+CrosstabPageBreakDialog.Text.PageBreakInterval=Intervalle de saut de page :
 
 ###########################################################
 #SubTotalDialog
