@@ -2,7 +2,7 @@
 #Cube treeNode properties
 DefaultNodeProvider.Tree.Cubes=キューブ
 cube.new=キューブの新規作成
-cube.action.new=New Data &Cube
+cube.action.new=データキューブの新規作成(&C)
 cube.edit=キューブの編集
 CubeNodeProvider.menu.text=編集(&E)
 cube.dimension.new=キューブのディメンジョンの新規作成
@@ -25,9 +25,9 @@ cube.measuregroup.new=キューブのメジャーグループの新規作成
 cube.measure.edit=キューブのメジャーの編集
 CubeMeasureGroupNodeProvider.menu.text=編集(&E)
 CubeGroupContent.Measure.Edit.Message=サマリフィールド名 :
-CubeModel.group.edit=&Edit Group
+CubeModel.group.edit=グループの編集(&E)
 Cube.Other.Datasets=その他
-CubeModel.summaryfield.edit=&Edit Summary Field
+CubeModel.summaryfield.edit=サマリフィールドの編集(&E)
 Cube.Groups=グループ (ディメンジョン)
 Cube.MeasureGroup=サマリフィールド (メジャー)
 CubeGroupContent.MeasureDataTypeErrorDialog.Message=メジャーでは Any 型のデータを使用できません。別のデータ列を選択するか、列 "{0}" のデータ型を変更してください。

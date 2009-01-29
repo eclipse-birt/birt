@@ -218,7 +218,7 @@ CrosstabPageBreakDialog.Title=페이지 나누기
 CrosstabPageBreakDialog.Text.GroupLevel=그룹 수준:
 CrosstabPageBreakDialog.Text.PageBreakBefore=다음 이전:
 CrosstabPageBreakDialog.Text.PageBreakAfter=다음 이후:
-CrosstabPageBreakDialog.Text.PageBreakInterval=Page Break Interval:
+CrosstabPageBreakDialog.Text.PageBreakInterval=페이지 나누기 간격:
 
 ###########################################################
 #SubTotalDialog
@@ -307,8 +307,8 @@ CrosstabSortKeyBuilder.tooltip.ExpBuilder=식 빌더 열기
 CrosstabSortKeyBuilder.MSG.CreateNew=새로 만들기...
 
 
-InsertCubeInLayoutAction.menu.text=&Edit
-InsertCubeInLayoutAction.action.text=I&nsert in Layout
+InsertCubeInLayoutAction.menu.text=편집(&E)
+InsertCubeInLayoutAction.action.text=레이아웃에 삽입(&N)
 InsertCubeInLayoutAction.action.message=큐브에서 크로스 탭 생성
 
 MapRuleBuilderDialog.MsgDlg.Title=경고

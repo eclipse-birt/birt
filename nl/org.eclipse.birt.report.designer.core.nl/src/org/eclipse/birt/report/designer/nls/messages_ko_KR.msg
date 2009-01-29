@@ -245,7 +245,7 @@ ColumnBindingDialog.Text.Add=추가(&A)...
 ColumnBindingDialog.Text.Edit=편집(&E)...
 ColumnBindingDialog.Text.Del=제거(&R)
 ColumnBindingDialog.Text.Refresh=새로 고침(&F)
-ColumnBindingDialog.Text.AddAggr=Add A&ggregation...
+ColumnBindingDialog.Text.AddAggr=집계 추가(&G)...
 
 ###########################################################
 #BlockPreferencePage properties
@@ -325,16 +325,16 @@ CascadingParametersDialog.display.controlType.comboBox=콤보 상자
 CascadingParametersDialog.display.controlType.listBox=목록 상자
 CascadingParametersDialog.Label.button.changeFormat=변경(&G)...
 CascadingParametersDialog.Label.button.createNew.dataset=새로 생성(&W)...
-CascadingParametersDialog.Label.cascadingParam.name=Cascading Paramete&r Name:
+CascadingParametersDialog.Label.cascadingParam.name=계단식 매개변수 이름(&R):
 CascadingParametersDialog.Label.column.displayText=표시 텍스트
 CascadingParametersDialog.Label.column.dataSet=데이터 집합
 CascadingParametersDialog.Label.column.name=이름
 CascadingParametersDialog.Label.column.value=값
 CascadingParametersDialog.Label.createNewParam=<새 매개변수 생성...>
 CascadingParametersDialog.Label.dataSets=데이터 집합(&S):
-CascadingParametersDialog.Label.dataType=Data t&ype
+CascadingParametersDialog.Label.dataType=데이터 형식(&Y)
 CascadingParametersDialog.Label.defaultValue=기본값(&V):
-CascadingParametersDialog.Label.displayType=Di&splay type:
+CascadingParametersDialog.Label.displayType=표시 형식(&S):
 CascadingParametersDialog.Label.formatAs=다음으로 형식 지정:
 CascadingParametersDialog.Label.group.general=일반
 CascadingParametersDialog.Label.group.moreOptions=추가 옵션
@@ -346,7 +346,7 @@ CascadingParametersDialog.Label.param.name=이름(&N):
 CascadingParametersDialog.Label.parameters=매개 변수
 CascadingParametersDialog.Label.preview=미리보기 형식
 CascadingParametersDialog.Label.groupPromptText=프롬프트 텍스트(&P):
-CascadingParametersDialog.Label.parameterPromptText=Pro&mpt text:
+CascadingParametersDialog.Label.parameterPromptText=프롬프트 텍스트(&M):
 CascadingParametersDialog.Label.selectDataSet=<데이터 집합 선택>
 CascadingParametersDialog.Label.selectDisplayColumn=<표시 열이 설정되지 않음>
 CascadingParametersDialog.Label.selectValueColumn=<값 열이 설정되지 않음>
@@ -690,7 +690,7 @@ datasource.action.edit=편집(&E)
 datasource.edit=데이터 원본 편집 - {0}
 datasource.new.defaultName=데이터 원본
 datasource.new=새 데이터 원본 
-datasource.action.new=New Data &Source
+datasource.action.new=새 데이터 원본(&S)
 datasource.wizard.label.dataSourceName=데이터 원본 이름(&M):
 datasource.wizard.label.datasources=다음 목록에 들어 있는 데이터 원본 형식으로 생성(&D)
 datasource.wizard.label.datasources=다음 목록에 들어 있는 데이터 원본 형식으로 생성(&D)
@@ -840,8 +840,8 @@ designer.preview.preference.locale.description=로케일 선택(&C):
 designer.preview.preference.timezone.description=표준 시간대(&T):
 designer.preview.preference.resultset.sqldatasetpage.group.title=쿼리 페이지
 designer.preview.preference.resultset.previewpage.group.title=미리 보기 페이지
-designer.preview.preference.resultset.groupTitle.DispalyRowLimitsSetting=Preview Row Limits Setting
-designer.preview.preference.resultset.NoLimitOfDispalyRow=No limits of the number of rows to display.
+designer.preview.preference.resultset.groupTitle.DispalyRowLimitsSetting=행 제한 설정 미리 보기
+designer.preview.preference.resultset.NoLimitOfDispalyRow=표시할 행 수에 제한이 없습니다.
 designer.preview.preference.resultset.maxNoOfSchema.description=표시할 최대 스키마 수(&S):
 designer.preview.preference.resultset.maxNoOfTable.description=표시할 각 스키마의 최대 테이블 수(&T):
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=최대 스키마에 대해 0과 {0} 사이의 숫자를 입력하십시오.
@@ -886,7 +886,7 @@ designerActionBarContributor.menu.data-newdatasource=새 데이터 원본(&O)
 DesignerActionBarContributor.menu.data=데이터(&D)
 DesignerActionBarContributor.menu.element-EditGroup=그룹 편집(&E)
 DesignerActionBarContributor.menu.element-LayoutMode=레이아웃 모드(&D)
-DesignerActionBarContributor.menu.element-showRuler=Show &Rulers
+DesignerActionBarContributor.menu.element-showRuler=눈금자 표시(&R)
 DesignerActionBarContributor.menu.element.editDataBinding=데이터 바인딩 편집(&B)
 DesignerActionBarContributor.menu.element=요소(&L)
 DesignerActionBarContributor.menu.format=서식
@@ -1355,7 +1355,7 @@ EmbeddedImageNodeProvider.action.New=새 내장된 이미지
 ###########################################################
 #EmbeddedImagesNodeProvider properties
 
-EmbeddedImagesNodeProvider.action.New=New E&mbedded Image
+EmbeddedImagesNodeProvider.action.New=새 포함 이미지(&M)
 
 ###########################################################
 #ElementIdDescriptorProvider properties
@@ -1974,19 +1974,19 @@ ImageBuilder.ErrorMessage.OutOfMemory=이미지가 너무 커서 메모리에 맞지 않습니다.
 ImageBuilder.FileDialog.FilterMessage=지원되지 않는 이미지 파일
 ImageBuilder.Button.Browser=찾아보기...
 ImageBuilder.Button.Import=이미지 추가(&A)...
-ImageBuilder.Button.SelectImageData=Se&lect Image Data...
+ImageBuilder.Button.SelectImageData=이미지 데이터 선택(&L)...
 ImageBuilder.Button.Insert=삽입(&S)
 ImageBuilder.Label.SelectFrom=이미지 선택 위치:
-ImageBuilder.Label.EnterURI=E&nter URI:
-ImageBuilder.Label.EnterResourceFile=E&nter resource file:
+ImageBuilder.Label.EnterURI=URI 입력(&N):
+ImageBuilder.Label.EnterResourceFile=리소스 파일 입력(&N):
 ImageBuilder.Label.EnterExpr=동적 이미지 식 입력(&N):
 ImageBuilder.Type.URI=URI(&U)
-ImageBuilder.Type.ResourceFile=&Image file in shared resources
+ImageBuilder.Type.ResourceFile=공유된 리소스의 이미지 파일(&I)
 ImageBuilder.Type.EmbededImage=내장된 이미지(&E)
 ImageBuilder.Type.DynamicImage=동적 이미지(&D)
 ImageBuilder.Description.URI=웹 상의 이미지에 링크
 ImageBuilder.Description.ResourceFile=공유된 리소스의 이미지에 링크
-ImageBuilder.Description.Embedded=E&mbed image into the report
+ImageBuilder.Description.Embedded=이미지를 보고서에 포함((&M)
 ImageBuilder.Description.Dynamic=데이터 집합(데이터베이스)에서 이미지 검색
 ImageBuilder.Button.Browser.Tooltip=이미지 파일 찾아보기
 
@@ -2011,7 +2011,7 @@ ImagePageGenerator.List.Visibility=표시 유형
 ###########################################################
 #ImportCSSStyleAction properties
 
-ImportCSSStyleAction.text=&Import CSS Style...
+ImportCSSStyleAction.text=CSS 스타일 가져오기(&I)...
 
 ###########################################################
 #ImportLibraryAction properties
@@ -2093,7 +2093,7 @@ InputParameterDialog.ErrorTitle.Error=오류
 ###########################################################
 #InsertAction properties
 
-InsertAction.text=&Insert Element
+InsertAction.text=요소 삽입(&I)
 
 ###########################################################
 #InsertColumnAction properties
@@ -2129,7 +2129,7 @@ InsertGroupActionFactory.label.insertGroup=그룹 삽입(&N)
 ###########################################################
 #InsertInLayoutAction properties
 
-InsertInLayoutAction.action.text=I&nsert in Layout
+InsertInLayoutAction.action.text=레이아웃에 삽입(&N)
 
 ###########################################################
 #InsertListGroupAction properties
@@ -2282,7 +2282,7 @@ ListBandControlFigure.tooltip.ListHeader=목록 - 머리글
 ###########################################################
 #ListBandProvider properties
 
-ListBandProvider.action.text=&Insert Group
+ListBandProvider.action.text=그룹 삽입(&I)
 
 ###########################################################
 #ListBandProxy properties
@@ -2696,10 +2696,10 @@ ParameterDialog.Button.CreateDataSet=새로 생성(&W)...
 ParameterDialog.Button.ImportValue=값 가져오기(&U)...
 ParameterDialog.Button.RemoveDefault=기본값 제거
 ParameterDialog.Button.SetDefault=기본값으로 설정(&A)
-ParameterDialog.CheckBox.IsRequired=Is Re&quired
+ParameterDialog.CheckBox.IsRequired=필요(&Q)
 ParameterDialog.CheckBox.DoNotEchoInput=입력에 대해 반향을 제공하지 않음(&U)
-ParameterDialog.CheckBox.Hidden=&Hidden
-ParameterDialog.CheckBox.Distinct=A&llow Duplicate Values
+ParameterDialog.CheckBox.Hidden=숨김(&H)
+ParameterDialog.CheckBox.Distinct=중복 값 허용(&L)
 ParameterDialog.Choice.NoDefault=기본값 없음
 ParameterDialog.Choice.NullValue=널(Null) 값
 ParameterDialog.Choice.BlankValue=빈 값
@@ -2737,7 +2737,7 @@ ParameterDialog.Label.DefaultValue=기본값(&F):
 ParameterDialog.Label.DisplayPrompt=프롬프트 표시:
 ParameterDialog.Label.DisplayType=표시 형식(&T):
 ParameterDialog.Label.Format=다음으로 형식 지정:
-ParameterDialog.Label.HelpText=Help text&:
+ParameterDialog.Label.HelpText=도움말 텍스트(&):
 ParameterDialog.Label.ListOfValue=값 목록
 ParameterDialog.Label.SortGroup=정렬
 ParameterDialog.Label.Name=이름(&N):
@@ -2747,9 +2747,9 @@ ParameterDialog.Label.Preview=형식 미리 보기
 ParameterDialog.Label.PromptText=프롬프트 텍스트(&P):
 ParameterDialog.Label.SelectDataSet=데이터 집합(&A):
 ParameterDialog.Label.SortKey=정렬 기준(&O):
-ParameterDialog.Label.SortDirection=Sort dire&ction:
+ParameterDialog.Label.SortDirection=정렬 방향(C):
 ParameterDialog.SelectionDialog.New=새 선택 항목
-ParameterDialog.SelectionDialog.Label.DisplayTextKey=Display Text &Key:
+ParameterDialog.SelectionDialog.Label.DisplayTextKey=표시 텍스트 키(&K):
 ParameterDialog.SelectionDialog.Label.DisplayText=표시 텍스트(&T):
 ParameterDialog.SelectionDialog.Label.Value=값(&V):
 ParameterDialog.SelectionDialog.Button.Resource=...
@@ -2766,7 +2766,7 @@ ParameterDialog.toolTipText.OpenExprButton=식 빌더 열기
 ParameterDialog.datetime.prompt=날짜/시간 값을 다음 형식으로 입력하십시오. {0}
 ParameterDialog.date.prompt=날짜 값을 다음 형식으로 입력하십시오. {0}
 ParameterDialog.time.prompt=시간 값을 다음 형식으로 입력하십시오. {0}
-ParameterDialog.Check.AllowMulti=Allow &Multiple Values
+ParameterDialog.Check.AllowMulti=여러 값 허용(&M)
 ParameterDialog.checkBox.InputValue=입력 값
 ParameterDialog.checkBox.BlankValue=빈 값
 ParameterDialog.checkBox.NullValue=널(Null) 값
@@ -2798,7 +2798,7 @@ ParameterGroupGeneralPage.Label.Name=이름(&N):
 
 ParameterGroupNodeProvider.Action.GroupNew=새 매개 변수 그룹
 ParameterGroupNodeProvider.Action.ParameterEdit=편집(&E)
-ParameterGroupNodeProvider.Action.ParameterNew=&New Parameter
+ParameterGroupNodeProvider.Action.ParameterNew=새 매개변수(&N)
 ParameterGroupNodeProvider.Dialogue.ParameterEdit=매개 변수 그룹 편집
 ParameterGroupNodeProvider.Dialogue.ParameterNew=새 매개 변수
 ParameterGroupNodeProvider.Node.Group=매개 변수 그룹
@@ -2983,7 +2983,7 @@ RefreshModuleHandleAction.Action.Text=라이브러리 새로 고침(&L)
 
 ###########################################################
 #ReloadCssStylesAction
-ReloadCssStylesAction.Action.Text=&Reload CSS File
+ReloadCssStylesAction.Action.Text=CSS 파일 다시 로드(&R)
 
 ###########################################################
 #ReferencePage properties
@@ -3019,7 +3019,7 @@ UseCssInThemeAction.Text=라이브러리에 CSS 사용...
 ###########################################################
 #RenameAction properties
 
-RenameAction.text=Rena&me
+RenameAction.text=이름 바꾸기(&M)
 
 ###########################################################
 #RenameDialog properties
@@ -3397,7 +3397,7 @@ ResourceFileFolderSelectionDialog.Text.Menu=메뉴
 ###########################################################
 #ShowPropertyAction properties
 
-ShowPropertyAction.text=P&roperties
+ShowPropertyAction.text=속성(&R)
 
 ###########################################################
 #SortingHandleProvider properties
@@ -4208,8 +4208,8 @@ SampleReportsView.Action.openSampleReport.toolTipText.ide=보고서 프로젝트를 생성
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=선택된 샘플 보고서를 작업 영역 폴더에 직접 내보내기
 SampleReportsView.Text.Contribute_Samples=기여 예제
 
-UseCssStyleAction.text=&Use CSS File...
-EditUseCssStyleAction.text=&Edit CSS File...
+UseCssStyleAction.text=CSS 파일 사용(&U)...
+EditUseCssStyleAction.text=CSS 파일 편집(&E)...
 EditUseCssStyleAction.EditCssTitle=CSS 편집
 EditUseCssStyleAction.EditCssAreaTitle.Report=보고서 디자인의 CSS 파일 편집
 EditUseCssStyleAction.EditCssAreaTitle.Libary=보고서 라이브러리의 CSS 파일 편집
@@ -4261,18 +4261,18 @@ AggDataDropAdapter.Trans.Name=집계 생성
 
 ###########################################################
 #BindingDialogHelper
-BindingDialogHelper.text.Name=Column &Binding Name:
-BindingDialogHelper.text.DataType=Data &Type:
-BindingDialogHelper.text.Function=&Function:
-BindingDialogHelper.text.DataField=Data &Field:
-BindingDialogHelper.text.Filter=Filter &Condition:
-BindingDialogHelper.text.AggOn=A&ggregate On:
+BindingDialogHelper.text.Name=열 바인딩 이름(&B):
+BindingDialogHelper.text.DataType=데이터 형식(&T):
+BindingDialogHelper.text.Function=함수(&F):
+BindingDialogHelper.text.DataField=데이터 필드(&F):
+BindingDialogHelper.text.Filter=필터 조건(&C):
+BindingDialogHelper.text.AggOn=집계 대상(&G):
 BindingDialogHelper.text.Table=테이블
 BindingDialogHelper.text.List=목록
 BindingDialogHelper.text.Grid=눈금
 BindingDialogHelper.text.Group=그룹
 BindingDialogHelper.text.Expression=식(&E):
-BindingDialogHelper.text.displayName=표시 이름(&D):
+BindingDialogHelper.text.displayName=표시 이름(&N):
 BindingDialogHelper.bindingName.dataitem=열 바인딩
 BindingDialogHelper.bindingName.aggregation=집계
 BindingDialogHelper.error.nameduplicate=열 바인딩 {0}이(가) 이미 있습니다. 
@@ -4285,7 +4285,7 @@ BindingDialogHelper.warning.button.no=아니오
 ###########################################################
 #Scripts Node
 Scripts.Node.DisplayName=스크립트
-ScriptElementNode.Action.Text=&Go to Report Element
+ScriptElementNode.Action.Text=보고서 요소로 이동(&G)
 
 ReportPage.PreviewImage.Button.ToolTip=축소판 보기 관리
 

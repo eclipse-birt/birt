@@ -2,7 +2,7 @@
 #Cube treeNode properties
 DefaultNodeProvider.Tree.Cubes=Quader
 cube.new=Neuer Quader
-cube.action.new=New Data &Cube
+cube.action.new=Neuer Datenq&uader
 cube.edit=Quader bearbeiten
 CubeNodeProvider.menu.text=&Bearbeiten
 cube.dimension.new=Neue Quaderdimension
@@ -25,9 +25,9 @@ cube.measuregroup.new=Neue Quadereinheitsgruppe
 cube.measure.edit=Quadereinheit bearbeiten
 CubeMeasureGroupNodeProvider.menu.text=&Bearbeiten
 CubeGroupContent.Measure.Edit.Message=Name des Zusammenfassungsfelds:
-CubeModel.group.edit=&Edit Group
+CubeModel.group.edit=Gruppe &bearbeiten
 Cube.Other.Datasets=Andere
-CubeModel.summaryfield.edit=&Edit Summary Field
+CubeModel.summaryfield.edit=Zusammenfassungsfeld &bearbeiten
 Cube.Groups=Gruppen (Dimensionen)
 Cube.MeasureGroup=Zusammenfassungsfelder (Einheiten)
 CubeGroupContent.MeasureDataTypeErrorDialog.Message=Maßeinheit unterstützt nicht den Datentyp "Beliebig". Wählen Sie eine andere Datenspalte, oder ändern Sie den Datentyp der Spalte "{0}".

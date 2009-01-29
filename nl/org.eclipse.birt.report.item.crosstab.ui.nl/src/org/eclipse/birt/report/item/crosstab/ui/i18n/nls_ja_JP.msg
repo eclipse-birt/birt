@@ -218,7 +218,7 @@ CrosstabPageBreakDialog.Title=ページ区切り
 CrosstabPageBreakDialog.Text.GroupLevel=グループレベル :
 CrosstabPageBreakDialog.Text.PageBreakBefore=次の前で改ページ :
 CrosstabPageBreakDialog.Text.PageBreakAfter=次の後で改ページ :
-CrosstabPageBreakDialog.Text.PageBreakInterval=Page Break Interval:
+CrosstabPageBreakDialog.Text.PageBreakInterval=改ページの間隔 :
 
 ###########################################################
 #SubTotalDialog
@@ -307,8 +307,8 @@ CrosstabSortKeyBuilder.tooltip.ExpBuilder=式ビルダを開く
 CrosstabSortKeyBuilder.MSG.CreateNew=新規作成...
 
 
-InsertCubeInLayoutAction.menu.text=&Edit
-InsertCubeInLayoutAction.action.text=I&nsert in Layout
+InsertCubeInLayoutAction.menu.text=編集(&E)
+InsertCubeInLayoutAction.action.text=レイアウトに含める(&N)
 InsertCubeInLayoutAction.action.message=キューブからクロスタブを作成
 
 MapRuleBuilderDialog.MsgDlg.Title=警告

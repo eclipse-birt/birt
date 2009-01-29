@@ -2,7 +2,7 @@
 #Cube treeNode properties
 DefaultNodeProvider.Tree.Cubes=Cubos
 cube.new=Nuevo cubo
-cube.action.new=New Data &Cube
+cube.action.new=&Cubo de datos nuevo
 cube.edit=Editar cubo
 CubeNodeProvider.menu.text=&Editar
 cube.dimension.new=Nueva dimensión de cubo
@@ -25,9 +25,9 @@ cube.measuregroup.new=Nuevo grupo de medida de cubo
 cube.measure.edit=Editar medida de cubo
 CubeMeasureGroupNodeProvider.menu.text=&Editar
 CubeGroupContent.Measure.Edit.Message=Nombre de campo de resumen:
-CubeModel.group.edit=&Edit Group
+CubeModel.group.edit=&Editar grupo
 Cube.Other.Datasets=Otro
-CubeModel.summaryfield.edit=&Edit Summary Field
+CubeModel.summaryfield.edit=&Editar campo de resumen
 Cube.Groups=Grupos (Dimensiones)
 Cube.MeasureGroup=Campos de resumen (Medidas)
 CubeGroupContent.MeasureDataTypeErrorDialog.Message=La medida no admite el tipo de dato "Cualquiera", seleccione otra columna de datos o cambie el tipo de datos de la columna "{0}".

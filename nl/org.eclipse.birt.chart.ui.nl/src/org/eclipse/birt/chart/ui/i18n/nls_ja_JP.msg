@@ -79,7 +79,7 @@ ChartWizard.Label.SelectChartTypeDataFormat=グラフの種類、データ、形式の選択
 TaskSelectData.Warning.CategoryGroupTypeCheck=グループの型 {0} が、カテゴリ系列のデータ型と互換性がありません。 
 TaskSelectData.Warning.YGroupTypeCheck=グループの型 {0} が、Y 系列のグループ化のデータ型と互換性がありません。
 TaskSelectType.Caption.OverlayAxis1=Y 軸のタイトル
-ApplyButtonHandler.Label.Apply=Appl&y
+ApplyButtonHandler.Label.Apply=適用(&Y)
 
 ChartUIUtil.GanttExp.Label=タスクラベル
 ChartUIUtil.GanttExp.Start=開始日

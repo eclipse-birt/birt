@@ -218,7 +218,7 @@ CrosstabPageBreakDialog.Title=Saut de page
 CrosstabPageBreakDialog.Text.GroupLevel=Niveau de groupe :
 CrosstabPageBreakDialog.Text.PageBreakBefore=Avant :
 CrosstabPageBreakDialog.Text.PageBreakAfter=Après :
-CrosstabPageBreakDialog.Text.PageBreakInterval=Page Break Interval:
+CrosstabPageBreakDialog.Text.PageBreakInterval=Intervalle de saut de page :
 
 ###########################################################
 #SubTotalDialog
@@ -307,8 +307,8 @@ CrosstabSortKeyBuilder.tooltip.ExpBuilder=Ouvrir le Générateur d'expression
 CrosstabSortKeyBuilder.MSG.CreateNew=Nouveau...
 
 
-InsertCubeInLayoutAction.menu.text=&Edit
-InsertCubeInLayoutAction.action.text=I&nsert in Layout
+InsertCubeInLayoutAction.menu.text=Modifi&er
+InsertCubeInLayoutAction.action.text=I&nsérer dans la mise en page
 InsertCubeInLayoutAction.action.message=Créer un tableau croisé à partir du cube
 
 MapRuleBuilderDialog.MsgDlg.Title=Avertissement

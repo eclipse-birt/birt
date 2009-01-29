@@ -2,7 +2,7 @@
 #Cube treeNode properties
 DefaultNodeProvider.Tree.Cubes=큐브
 cube.new=새 큐브
-cube.action.new=New Data &Cube
+cube.action.new=새 데이터 큐브(&C)
 cube.edit=큐브 편집
 CubeNodeProvider.menu.text=편집(&E)
 cube.dimension.new=새 큐브 차원
@@ -25,9 +25,9 @@ cube.measuregroup.new=새 큐브 측정값 그룹
 cube.measure.edit=큐브 측정값 편집
 CubeMeasureGroupNodeProvider.menu.text=편집(&E)
 CubeGroupContent.Measure.Edit.Message=요약 필드 이름:
-CubeModel.group.edit=&Edit Group
+CubeModel.group.edit=그룹 편집(&E)
 Cube.Other.Datasets=기타
-CubeModel.summaryfield.edit=&Edit Summary Field
+CubeModel.summaryfield.edit=요약 필드 편집(&E)
 Cube.Groups=그룹(차원)
 Cube.MeasureGroup=요약 필드(측정값)
 CubeGroupContent.MeasureDataTypeErrorDialog.Message=측정 시 데이터 형식 "Any"는 지원되지 않습니다. 다른 데이터 열을 선택하거나 열 "{0}"의 데이터 형식을 변경하십시오.

@@ -1,4 +1,4 @@
-ChartImpl.AltText=This chart contains no data.
+ChartImpl.AltText=이 차트에는 데이터가 없습니다.
 ChartWithAxesImpl.X_Axis.title=X축 제목
 ChartWithAxesImpl.Y_Axis.title=Y축 제목
 ChartWithAxesImpl.Z_Axis.title=Z축 제목

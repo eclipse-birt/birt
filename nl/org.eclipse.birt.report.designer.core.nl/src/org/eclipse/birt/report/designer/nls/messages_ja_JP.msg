@@ -245,7 +245,7 @@ ColumnBindingDialog.Text.Add=追加(&A)...
 ColumnBindingDialog.Text.Edit=編集(&E)...
 ColumnBindingDialog.Text.Del=削除(&R)
 ColumnBindingDialog.Text.Refresh=再表示(&F)
-ColumnBindingDialog.Text.AddAggr=Add A&ggregation...
+ColumnBindingDialog.Text.AddAggr=集計の追加(&G)...
 
 ###########################################################
 #BlockPreferencePage properties
@@ -325,16 +325,16 @@ CascadingParametersDialog.display.controlType.comboBox=コンボボックス
 CascadingParametersDialog.display.controlType.listBox=リストボックス
 CascadingParametersDialog.Label.button.changeFormat=変更(&G)...
 CascadingParametersDialog.Label.button.createNew.dataset=新規作成(&W)...
-CascadingParametersDialog.Label.cascadingParam.name=Cascading Paramete&r Name:
+CascadingParametersDialog.Label.cascadingParam.name=カスケードパラメタ名(&R) :
 CascadingParametersDialog.Label.column.displayText=表示テキスト
 CascadingParametersDialog.Label.column.dataSet=データセット
 CascadingParametersDialog.Label.column.name=名前
 CascadingParametersDialog.Label.column.value=値
 CascadingParametersDialog.Label.createNewParam=<パラメタの新規作成...>
 CascadingParametersDialog.Label.dataSets=データセット(&S) :
-CascadingParametersDialog.Label.dataType=Data t&ype
+CascadingParametersDialog.Label.dataType=データ型(&Y)
 CascadingParametersDialog.Label.defaultValue=デフォルト値(&V) :
-CascadingParametersDialog.Label.displayType=Di&splay type:
+CascadingParametersDialog.Label.displayType=表示型(&S) :
 CascadingParametersDialog.Label.formatAs=書式設定 :
 CascadingParametersDialog.Label.group.general=全般
 CascadingParametersDialog.Label.group.moreOptions=詳細設定
@@ -346,7 +346,7 @@ CascadingParametersDialog.Label.param.name=名前(&N) :
 CascadingParametersDialog.Label.parameters=パラメタ
 CascadingParametersDialog.Label.preview=書式付きプレビュー
 CascadingParametersDialog.Label.groupPromptText=プロンプトテキスト(&P) :
-CascadingParametersDialog.Label.parameterPromptText=Pro&mpt text:
+CascadingParametersDialog.Label.parameterPromptText=プロンプトテキスト(&M) :
 CascadingParametersDialog.Label.selectDataSet=<データセットの選択>
 CascadingParametersDialog.Label.selectDisplayColumn=<表示列が未設定です>
 CascadingParametersDialog.Label.selectValueColumn=<値列が未設定です>
@@ -566,7 +566,7 @@ dataset.error.title.noDataSources=使用できるデータソースがありません。
 dataset.message.create=新規データセットを作成します。
 dataset.new.defaultName=データセット
 dataset.new=新規データセット
-dataset.action.new=新規データセット(&S)
+dataset.action.new=データセットの新規作成(&S)
 dataset.join.new=ジョイントデータセットの新規作成
 dataset.action.join.new=ジョイントデータセットの新規作成(&J)
 dataset.resultset.preview.tooltip=クエリ結果をプレビューします。
@@ -690,7 +690,7 @@ datasource.action.edit=編集(&E)
 datasource.edit=データソースの編集 - {0}
 datasource.new.defaultName=データソース
 datasource.new=新規データソース
-datasource.action.new=New Data &Source
+datasource.action.new=新規データソース(&S)
 datasource.wizard.label.dataSourceName=データソース名(&M) :
 datasource.wizard.label.datasources=次の一覧のデータソース型を使って作成する(&D)
 datasource.wizard.label.datasources=次の一覧のデータソース型を使って作成する(&D)
@@ -840,8 +840,8 @@ designer.preview.preference.locale.description=ロケールの選択(&C) :
 designer.preview.preference.timezone.description=タイムゾーン(&T) :
 designer.preview.preference.resultset.sqldatasetpage.group.title=クエリページ
 designer.preview.preference.resultset.previewpage.group.title=プレビューページ
-designer.preview.preference.resultset.groupTitle.DispalyRowLimitsSetting=Preview Row Limits Setting
-designer.preview.preference.resultset.NoLimitOfDispalyRow=No limits of the number of rows to display.
+designer.preview.preference.resultset.groupTitle.DispalyRowLimitsSetting=行制限設定のプレビュー
+designer.preview.preference.resultset.NoLimitOfDispalyRow=表示できる行数制限はありません。
 designer.preview.preference.resultset.maxNoOfSchema.description=表示するスキーマの最大数(&S) :
 designer.preview.preference.resultset.maxNoOfTable.description=各スキーマに表示するテーブルの最大数(&T) :
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=最大スキーマ数には、0 から {0} までの数を入力してください。
@@ -886,7 +886,7 @@ designerActionBarContributor.menu.data-newdatasource=データソースの新規作成(&O)
 DesignerActionBarContributor.menu.data=データ(&D)
 DesignerActionBarContributor.menu.element-EditGroup=グループの編集(&E)
 DesignerActionBarContributor.menu.element-LayoutMode=レイアウトモード(&D)
-DesignerActionBarContributor.menu.element-showRuler=Show &Rulers
+DesignerActionBarContributor.menu.element-showRuler=ルーラの表示(&R) :
 DesignerActionBarContributor.menu.element.editDataBinding=データバインドの編集(&B)
 DesignerActionBarContributor.menu.element=要素(&l)
 DesignerActionBarContributor.menu.format=書式
@@ -1355,7 +1355,7 @@ EmbeddedImageNodeProvider.action.New=新しく埋め込まれたイメージ
 ###########################################################
 #EmbeddedImagesNodeProvider properties
 
-EmbeddedImagesNodeProvider.action.New=New E&mbedded Image
+EmbeddedImagesNodeProvider.action.New=新しく埋め込まれたイメージ(&M)
 
 ###########################################################
 #ElementIdDescriptorProvider properties
@@ -1974,19 +1974,19 @@ ImageBuilder.ErrorMessage.OutOfMemory=イメージが大きすぎるため、メモリに入りきり
 ImageBuilder.FileDialog.FilterMessage=サポートされているイメージファイル
 ImageBuilder.Button.Browser=参照...
 ImageBuilder.Button.Import=イメージの追加(&A)...
-ImageBuilder.Button.SelectImageData=Se&lect Image Data...
+ImageBuilder.Button.SelectImageData=イメージデータの選択(&L)...
 ImageBuilder.Button.Insert=挿入(&S)
 ImageBuilder.Label.SelectFrom=イメージの選択元 :
-ImageBuilder.Label.EnterURI=E&nter URI:
-ImageBuilder.Label.EnterResourceFile=E&nter resource file:
+ImageBuilder.Label.EnterURI=URI を入力(&N) :
+ImageBuilder.Label.EnterResourceFile=リソースファイルの入力(&N) :
 ImageBuilder.Label.EnterExpr=動的なイメージの式を入力(&N) :
 ImageBuilder.Type.URI=URI(&U)
-ImageBuilder.Type.ResourceFile=&Image file in shared resources
+ImageBuilder.Type.ResourceFile=共有リソース内のイメージファイル(&I)
 ImageBuilder.Type.EmbededImage=埋め込まれたイメージ(&E)
 ImageBuilder.Type.DynamicImage=動的なイメージ(&D)
 ImageBuilder.Description.URI=Web 上のイメージへのリンク
 ImageBuilder.Description.ResourceFile=共有リソース内のイメージへのリンク
-ImageBuilder.Description.Embedded=E&mbed image into the report
+ImageBuilder.Description.Embedded=レポートへのイメージの埋め込み(&M)
 ImageBuilder.Description.Dynamic=データセット (データベース) からのイメージの取得
 ImageBuilder.Button.Browser.Tooltip=イメージファイルの参照
 
@@ -2011,7 +2011,7 @@ ImagePageGenerator.List.Visibility=可視性
 ###########################################################
 #ImportCSSStyleAction properties
 
-ImportCSSStyleAction.text=&Import CSS Style...
+ImportCSSStyleAction.text=CSS スタイルのインポート(&I)...
 
 ###########################################################
 #ImportLibraryAction properties
@@ -2093,7 +2093,7 @@ InputParameterDialog.ErrorTitle.Error=エラー
 ###########################################################
 #InsertAction properties
 
-InsertAction.text=&Insert Element
+InsertAction.text=要素の挿入(&I)
 
 ###########################################################
 #InsertColumnAction properties
@@ -2129,7 +2129,7 @@ InsertGroupActionFactory.label.insertGroup=グループを挿入(&N)
 ###########################################################
 #InsertInLayoutAction properties
 
-InsertInLayoutAction.action.text=I&nsert in Layout
+InsertInLayoutAction.action.text=レイアウトに含める(&N)
 
 ###########################################################
 #InsertListGroupAction properties
@@ -2282,7 +2282,7 @@ ListBandControlFigure.tooltip.ListHeader=リスト - ヘッダ
 ###########################################################
 #ListBandProvider properties
 
-ListBandProvider.action.text=&Insert Group
+ListBandProvider.action.text=グループの挿入(&I)
 
 ###########################################################
 #ListBandProxy properties
@@ -2696,10 +2696,10 @@ ParameterDialog.Button.CreateDataSet=新規作成(&W)...
 ParameterDialog.Button.ImportValue=値のインポート(&U)...
 ParameterDialog.Button.RemoveDefault=デフォルトの削除
 ParameterDialog.Button.SetDefault=デフォルトに設定(&A)
-ParameterDialog.CheckBox.IsRequired=Is Re&quired
+ParameterDialog.CheckBox.IsRequired=必須にする(&Q)
 ParameterDialog.CheckBox.DoNotEchoInput=入力値を繰り返さない(&U)
-ParameterDialog.CheckBox.Hidden=&Hidden
-ParameterDialog.CheckBox.Distinct=A&llow Duplicate Values
+ParameterDialog.CheckBox.Hidden=非表示(&H)
+ParameterDialog.CheckBox.Distinct=値の重複を許可する(&L)
 ParameterDialog.Choice.NoDefault=デフォルト値がありません
 ParameterDialog.Choice.NullValue=NULL 値
 ParameterDialog.Choice.BlankValue=空白値
@@ -2737,7 +2737,7 @@ ParameterDialog.Label.DefaultValue=デフォルト値(&F) :
 ParameterDialog.Label.DisplayPrompt=プロンプトの表示 :
 ParameterDialog.Label.DisplayType=表示の種類(&T) :
 ParameterDialog.Label.Format=書式設定 :
-ParameterDialog.Label.HelpText=Help text&:
+ParameterDialog.Label.HelpText=ヘルプテキスト(&:)
 ParameterDialog.Label.ListOfValue=値リスト
 ParameterDialog.Label.SortGroup=ソート
 ParameterDialog.Label.Name=名前(&N) :
@@ -2747,9 +2747,9 @@ ParameterDialog.Label.Preview=書式付きプレビュー
 ParameterDialog.Label.PromptText=プロンプトテキスト(&P) :
 ParameterDialog.Label.SelectDataSet=データセット(&A) :
 ParameterDialog.Label.SortKey=最優先されるキー(&O) :
-ParameterDialog.Label.SortDirection=Sort dire&ction:
+ParameterDialog.Label.SortDirection=ソートの方向(&C) :
 ParameterDialog.SelectionDialog.New=選択項目の新規作成
-ParameterDialog.SelectionDialog.Label.DisplayTextKey=Display Text &Key:
+ParameterDialog.SelectionDialog.Label.DisplayTextKey=表示テキストキー(&K) :
 ParameterDialog.SelectionDialog.Label.DisplayText=表示テキスト(&T) :
 ParameterDialog.SelectionDialog.Label.Value=値(&V) :
 ParameterDialog.SelectionDialog.Button.Resource=...
@@ -2766,7 +2766,7 @@ ParameterDialog.toolTipText.OpenExprButton=式ビルダを開く
 ParameterDialog.datetime.prompt=日時は、{0} の形式で入力してください
 ParameterDialog.date.prompt=日付は、{0} の形式で入力してください
 ParameterDialog.time.prompt=時間は、{0} の形式で入力してください
-ParameterDialog.Check.AllowMulti=Allow &Multiple Values
+ParameterDialog.Check.AllowMulti=複数の値を許可する(&M)
 ParameterDialog.checkBox.InputValue=入力値
 ParameterDialog.checkBox.BlankValue=空白値
 ParameterDialog.checkBox.NullValue=NULL 値
@@ -2798,7 +2798,7 @@ ParameterGroupGeneralPage.Label.Name=名前(&N) :
 
 ParameterGroupNodeProvider.Action.GroupNew=パラメタグループの新規作成
 ParameterGroupNodeProvider.Action.ParameterEdit=編集(&E)
-ParameterGroupNodeProvider.Action.ParameterNew=&New Parameter
+ParameterGroupNodeProvider.Action.ParameterNew=パラメタの新規作成(&N)
 ParameterGroupNodeProvider.Dialogue.ParameterEdit=パラメタグループの編集
 ParameterGroupNodeProvider.Dialogue.ParameterNew=パラメタの新規作成
 ParameterGroupNodeProvider.Node.Group=パラメタグループ
@@ -2983,7 +2983,7 @@ RefreshModuleHandleAction.Action.Text=ライブラリの更新(&L)
 
 ###########################################################
 #ReloadCssStylesAction
-ReloadCssStylesAction.Action.Text=&Reload CSS File
+ReloadCssStylesAction.Action.Text=CSS ファイルの再ロード(&R)
 
 ###########################################################
 #ReferencePage properties
@@ -3019,7 +3019,7 @@ UseCssInThemeAction.Text=ライブラリで CSS を使用...
 ###########################################################
 #RenameAction properties
 
-RenameAction.text=Rena&me
+RenameAction.text=名前の変更(&M)
 
 ###########################################################
 #RenameDialog properties
@@ -3397,7 +3397,7 @@ ResourceFileFolderSelectionDialog.Text.Menu=メニュー
 ###########################################################
 #ShowPropertyAction properties
 
-ShowPropertyAction.text=P&roperties
+ShowPropertyAction.text=プロパティ(&R)
 
 ###########################################################
 #SortingHandleProvider properties
@@ -4208,8 +4208,8 @@ SampleReportsView.Action.openSampleReport.toolTipText.ide=レポートプロジェクトを
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=選択したサンプルレポートを RCP 作業フォルダに直接エクスポートします
 SampleReportsView.Text.Contribute_Samples=サンプルの提供
 
-UseCssStyleAction.text=&Use CSS File...
-EditUseCssStyleAction.text=&Edit CSS File...
+UseCssStyleAction.text=CSS ファイルを使用(&U)...
+EditUseCssStyleAction.text=CSS ファイルの編集(&E)...
 EditUseCssStyleAction.EditCssTitle=CSS の編集
 EditUseCssStyleAction.EditCssAreaTitle.Report=レポートデザインで CSS ファイルを編集
 EditUseCssStyleAction.EditCssAreaTitle.Libary=レポートライブラリで CSS ファイルを編集
@@ -4261,18 +4261,18 @@ AggDataDropAdapter.Trans.Name=集計の作成
 
 ###########################################################
 #BindingDialogHelper
-BindingDialogHelper.text.Name=Column &Binding Name:
-BindingDialogHelper.text.DataType=Data &Type:
-BindingDialogHelper.text.Function=&Function:
-BindingDialogHelper.text.DataField=Data &Field:
-BindingDialogHelper.text.Filter=Filter &Condition:
-BindingDialogHelper.text.AggOn=A&ggregate On:
+BindingDialogHelper.text.Name=列バインドの名前(&B) :
+BindingDialogHelper.text.DataType=データ型(&T) :
+BindingDialogHelper.text.Function=関数(&F) :
+BindingDialogHelper.text.DataField=データフィールド(&F) :
+BindingDialogHelper.text.Filter=フィルタの条件(&C) :
+BindingDialogHelper.text.AggOn=集計条件(&G) :
 BindingDialogHelper.text.Table=テーブル
 BindingDialogHelper.text.List=リスト
 BindingDialogHelper.text.Grid=グリッド
 BindingDialogHelper.text.Group=グループ
 BindingDialogHelper.text.Expression=式(&E) :
-BindingDialogHelper.text.displayName=表示名(&D) :
+BindingDialogHelper.text.displayName=表示名(&N) :
 BindingDialogHelper.bindingName.dataitem=列バインド :
 BindingDialogHelper.bindingName.aggregation=集計
 BindingDialogHelper.error.nameduplicate={0} という名前の列バインドはすでに存在します。 
@@ -4285,7 +4285,7 @@ BindingDialogHelper.warning.button.no=いいえ
 ###########################################################
 #Scripts Node
 Scripts.Node.DisplayName=スクリプト
-ScriptElementNode.Action.Text=&Go to Report Element
+ScriptElementNode.Action.Text=レポート要素にジャンプ(&G)
 
 ReportPage.PreviewImage.Button.ToolTip=サムネイルの管理
 
