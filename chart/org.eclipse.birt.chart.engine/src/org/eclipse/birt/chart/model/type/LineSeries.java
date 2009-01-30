@@ -23,9 +23,8 @@ import org.eclipse.emf.common.util.EList;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This is a Series type that holds data for Line Charts.
- * 			
+ * This is a Series type that, during design time, holds the query data for Line charts, and during run time, 
+ * holds the value for each data point in the line.  When rendered, a line connects each data point.
  * <!-- end-model-doc -->
  *
  * <p>

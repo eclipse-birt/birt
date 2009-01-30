@@ -30,8 +30,8 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Chart</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This is the basic type from which all charts should be extended. It defines the basic elements that are expected to be present for all charts.
+ * This is the basic type from which all charts should be extended. It defines the basic elements that are 
+ * expected to be present for all charts.
  * 			
  * <!-- end-model-doc -->
  *

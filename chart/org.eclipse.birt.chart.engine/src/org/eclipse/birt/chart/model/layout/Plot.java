@@ -15,8 +15,8 @@ package org.eclipse.birt.chart.model.layout;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Plot</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			The Plot Area of a chart.
+ * This is the area of the center of the chart, extending to but not including the axes.  
+ * For charts without axes, this area includes the data points and data labels, but not the title or legend.
  * 			
  * <!-- end-model-doc -->
  *

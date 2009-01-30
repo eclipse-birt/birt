@@ -17,6 +17,14 @@ import org.eclipse.emf.common.util.EList;
  * A representation of the model object '<em><b>Difference Series</b></em>'.
  * <!-- end-user-doc -->
  *
+ * <!-- begin-model-doc -->
+ * This is a Series type that, during design time, holds the query data for Difference charts, and during 
+ * run time, holds the values for each data point in the series.  Each data point in a Difference Series
+ * holds two values.  When rendered, a line connects each high value of each data point, another line
+ * connects each low value of each data point, and the area between the high and low lines is filled with 
+ * the series color.
+ * <!-- end-model-doc -->
+ *
  * <p>
  * The following features are supported:
  * <ul>

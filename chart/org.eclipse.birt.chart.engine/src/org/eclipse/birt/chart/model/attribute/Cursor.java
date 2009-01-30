@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Cursor.java,v 1.1 2009/01/04 10:05:02 heli Exp $
+ * $Id: Cursor.java,v 1.2 2009/01/05 09:13:37 heli Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -17,7 +17,8 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * The type represents cursor being displayed in chart.When mouse is moving over the hotspot area, mouse cursor will become the specified cursor.
+ * The type represents cursor being displayed in chart.When mouse is moving over the hotspot area, 
+ * mouse cursor will become the specified cursor.
  * <!-- end-model-doc -->
  *
  * <p>

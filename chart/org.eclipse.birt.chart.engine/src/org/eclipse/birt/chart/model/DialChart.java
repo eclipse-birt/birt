@@ -16,6 +16,10 @@ package org.eclipse.birt.chart.model;
  * A representation of the model object '<em><b>Dial Chart</b></em>'.
  * <!-- end-user-doc -->
  *
+ * <!-- begin-model-doc -->
+ * This is a special type of ChartWithoutAxes class that contains information specific to dials.
+ * <!-- end-model-doc -->
+ *
  * <p>
  * The following features are supported:
  * <ul>

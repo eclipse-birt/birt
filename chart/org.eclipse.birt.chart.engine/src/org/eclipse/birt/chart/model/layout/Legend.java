@@ -26,8 +26,8 @@ import org.eclipse.birt.chart.model.component.Label;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Legend</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			The Legend in a chart.
+ * This type defines a legend in the chart, including the legend text, size and position.  
+ * The legend items usually describe either the series or categories, depeding on the chart type.
  * 			
  * <!-- end-model-doc -->
  *

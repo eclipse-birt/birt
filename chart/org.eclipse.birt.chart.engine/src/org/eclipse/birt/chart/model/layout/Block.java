@@ -34,9 +34,7 @@ import org.eclipse.emf.ecore.EObject;
  * <em><b>Block</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type defines a modular area of a chart that can be positioned within the chart bounds.
- * 			
+ * This type defines a modular area of a chart that can be positioned within the chart bounds.			
  * <!-- end-model-doc -->
  *
  * <p>

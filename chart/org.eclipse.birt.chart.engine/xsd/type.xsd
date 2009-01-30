@@ -9,9 +9,9 @@
 	<!--	Bar Series	-->
 	<xsd:complexType name="BarSeries">
 		<xsd:annotation>
-			<xsd:documentation xml:lang="en">
-			This is a Series type that holds data for Bar Charts.
-			</xsd:documentation>
+			<xsd:documentation xml:lang="en">This is a Series type that, during design time, holds the query data for Bar charts, and during run time, 
+holds the value for each riser in the series.  When rendered, a riser extends from the x-axis to the 
+value of each data point.</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
 			<xsd:extension base="component:Series">
@@ -37,9 +37,10 @@
 	<!--	Pie Series	-->
 	<xsd:complexType name="PieSeries">
 		<xsd:annotation>
-			<xsd:documentation xml:lang="en">
-			This is a Series type that holds data for Pie Charts.
-			</xsd:documentation>
+			<xsd:documentation xml:lang="en">This is a Series type that, during design time, holds the query data for Pie charts, and during run time, 
+holds the value for each data point in the pie that represents the series.  When rendered, each series is 
+drawn as a complete pie, and each data point in that series defines the size of the pie's slices.  A pie chart
+with multiple series will draw multiple pies.</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
 			<xsd:extension base="component:Series">
@@ -117,9 +118,8 @@
 	<!--	Line Series	-->
 	<xsd:complexType name="LineSeries">
 		<xsd:annotation>
-			<xsd:documentation xml:lang="en">
-			This is a Series type that holds data for Line Charts.
-			</xsd:documentation>
+			<xsd:documentation xml:lang="en">This is a Series type that, during design time, holds the query data for Line charts, and during run time, 
+holds the value for each data point in the line.  When rendered, a line connects each data point.</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
 			<xsd:extension base="component:Series">
@@ -174,8 +174,7 @@
 	<!--	Scatter Series	-->
 	<xsd:complexType name="ScatterSeries">
 		<xsd:annotation>
-			<xsd:documentation xml:lang="en">
-			This is a Series type that holds data for Scatter Charts.
+			<xsd:documentation xml:lang="en">This is a Series type that holds data for Scatter Charts.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
@@ -185,8 +184,7 @@
 	<!--	Stock Series	-->
 	<xsd:complexType name="StockSeries">
 		<xsd:annotation>
-			<xsd:documentation xml:lang="en">
-			This is a Series type that holds data for Stock Charts.
+			<xsd:documentation xml:lang="en">This is a Series type that holds data for Stock Charts.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
@@ -223,9 +221,9 @@
 	<!--	Area Series	-->
 	<xsd:complexType name="AreaSeries">
 		<xsd:annotation>
-			<xsd:documentation>
-			This is a Series type that holds data for Area Charts.
-			</xsd:documentation>
+			<xsd:documentation>This is a Series type that, during design time, holds the query data for Area charts, and during run time, 
+holds the value for each data point in the series.  When rendered, a line connects each data point, and 
+the area below the line is filled with the series color.</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
 			<xsd:extension base="LineSeries"/>
@@ -234,8 +232,7 @@
 	<!--	Dial Series-->
 	<xsd:complexType name="DialSeries">
 		<xsd:annotation>
-			<xsd:documentation>
-			This is a Series type that holds data for Dial Charts.</xsd:documentation>
+			<xsd:documentation>This is a Series type that holds data for Dial Charts.</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
 			<xsd:extension base="component:Series">
@@ -257,9 +254,7 @@
 	<!--                Gantt Series-->
 	<xsd:complexType name="GanttSeries">
 		<xsd:annotation>
-			<xsd:documentation>
-			This is a Series type that holds data for Gantt Charts.
-</xsd:documentation>
+			<xsd:documentation>This is a Series type that holds data for Gantt Charts.</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
 			<xsd:extension base="component:Series">
@@ -336,9 +331,7 @@ Specifies the attributes for the outline used to represent this series.</xsd:doc
 	<!--                Bubble Series-->
 	<xsd:complexType name="BubbleSeries">
 		<xsd:annotation>
-			<xsd:documentation xml:lang="en">
-			This is a Series type that holds data for Bubble Charts.
-			</xsd:documentation>
+			<xsd:documentation xml:lang="en">This is a Series type that holds data for Bubble Charts.			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
 			<xsd:extension base="ScatterSeries">
@@ -361,7 +354,14 @@ Specifies the attributes for the outline used to represent this series.</xsd:doc
 	</xsd:complexType>
 	<!--                Difference Series-->
 	<xsd:complexType name="DifferenceSeries">
-		<xsd:complexContent>
+        <xsd:annotation>
+        	<xsd:documentation>This is a Series type that, during design time, holds the query data for Difference charts, and during 
+run time, holds the values for each data point in the series.  Each data point in a Difference Series
+holds two values.  When rendered, a line connects each high value of each data point, another line
+connects each low value of each data point, and the area between the high and low lines is filled with 
+the series color.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
 			<xsd:extension base="AreaSeries">
 				<xsd:sequence>
 					<xsd:element name="NegativeMarkers" type="attribute:Marker" minOccurs="0" maxOccurs="unbounded">

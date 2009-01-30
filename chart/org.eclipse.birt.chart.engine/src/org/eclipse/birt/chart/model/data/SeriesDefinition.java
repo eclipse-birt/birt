@@ -25,9 +25,7 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type represents design-time definition for a series.
- * 			
+ * This type represents design-time definition for a series.
  * <!-- end-model-doc -->
  *
  * <p>

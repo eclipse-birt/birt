@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 			This type defines the basic elements that are expected in a dial chart. This can further be extended for special dial chart types.
+ * This type defines the basic elements that are expected in a dial chart. This can further be extended for special dial chart types.
  * <!-- end-model-doc -->
  *
  * <p>

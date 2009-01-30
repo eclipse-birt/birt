@@ -7,9 +7,9 @@
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelType" schemaLocation="type.xsd"/>
 	<xsd:simpleType name="AxisType">
 		<xsd:annotation>
-			<xsd:documentation xml:lang="en">
-			This type defines the allowed values for Axis types. Any new Axis type needs to be added here to be supported.
-			</xsd:documentation>
+			<xsd:documentation xml:lang="en">The values of this type describe the type of values (numerical, textual, etc) and the type of scale (linear, logarithmic, etc) 
+displayed along the axis.  Any new Axis type needs to be added here to be supported.
+</xsd:documentation>
 		</xsd:annotation>
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="Linear"/>
@@ -779,9 +779,7 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 	</xsd:simpleType>
 	<xsd:complexType name="Bounds">
 		<xsd:annotation>
-			<xsd:documentation xml:lang="en">
-			This type defines the bounds of an element.
-			</xsd:documentation>
+			<xsd:documentation xml:lang="en">This type defines the physical size and position of an element.</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
 			<xsd:element name="Left" type="xsd:double">
@@ -1574,7 +1572,8 @@ Specifies the fixed length of the denominator when in imprecise mode.</xsd:docum
 
 	<xsd:complexType name="Cursor">
         <xsd:annotation>
-        	<xsd:documentation>The type represents cursor being displayed in chart.When mouse is moving over the hotspot area, mouse cursor will become the specified cursor.</xsd:documentation>
+        	<xsd:documentation>The type represents cursor being displayed in chart.When mouse is moving over the hotspot area, 
+mouse cursor will become the specified cursor.</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
         	<xsd:element name="Type" type="CursorType" maxOccurs="1"

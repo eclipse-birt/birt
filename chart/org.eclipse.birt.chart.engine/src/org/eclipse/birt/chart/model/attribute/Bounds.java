@@ -18,9 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type defines the bounds of an element.
- * 			
+ * This type defines the physical size and position of an element.
  * <!-- end-model-doc -->
  *
  * <p>

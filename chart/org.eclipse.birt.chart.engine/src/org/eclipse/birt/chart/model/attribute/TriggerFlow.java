@@ -21,9 +21,9 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-model-doc -->
  * 
  * 			The TriggerFlow defines whether it reacts to the capturing or bubbling sequence 
- * Capture: the triggerâ€™s action will be triggered in the capturing phase
- * Bubble (default): the triggerâ€™s action will be triggered in the bubbling phase
- * BubbleAndStop: the triggerâ€™s action will be triggered in the bubbling phase, and will stop the bubbling flow.
+ * Capture: the trigger’s action will be triggered in the capturing phase
+ * Bubble (default): the trigger’s action will be triggered in the bubbling phase
+ * BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, and will stop the bubbling flow.
  * 
  * <!-- end-model-doc -->
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getTriggerFlow()

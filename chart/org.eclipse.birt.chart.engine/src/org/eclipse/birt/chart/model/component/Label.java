@@ -23,9 +23,8 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Label</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type defines a text label. It is not intended as a standalone element but should be associated with a chart element.
- * 			
+ * This type defines a text label. It is not intended as a standalone element but should be associated with 
+ * a chart element.			
  * <!-- end-model-doc -->
  *
  * <p>

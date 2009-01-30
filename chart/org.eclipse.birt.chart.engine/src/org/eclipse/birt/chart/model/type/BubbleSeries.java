@@ -16,9 +16,7 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This is a Series type that holds data for Bubble Charts.
- * 			
+ * This is a Series type that holds data for Bubble Charts.			
  * <!-- end-model-doc -->
  *
  * <p>

@@ -21,8 +21,7 @@ import org.eclipse.birt.chart.model.component.Series;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This is a Series type that holds data for Dial Charts.
+ * This is a Series type that holds data for Dial Charts.
  * <!-- end-model-doc -->
  *
  * <p>

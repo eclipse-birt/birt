@@ -20,8 +20,7 @@ import org.eclipse.emf.common.util.EList;
  * end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This is a chart without axes...(e.g. Pie Chart, Donut Chart etc.).
+ * This is a chart without axes...(e.g. Pie Chart, Donut Chart, etc).  
  * 			
  * <!-- end-model-doc -->
  *

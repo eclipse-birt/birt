@@ -28,9 +28,10 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Axis</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type defines the basic elements that are expected in any axis. This can further be extended for special axis types.
- * 			
+ * This type defines the basic elements that are expected in any axis.  An axis refers to a line 
+ * along the X, Y, or Z co-ordinate system used in the plot.  It provides a point of reference for 
+ * the various values plotted in each direction.  This class can further be extended for special axis types.
+ * 	
  * <!-- end-model-doc -->
  *
  * <p>

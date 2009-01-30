@@ -270,9 +270,7 @@
 	</xsd:complexType>
 	<xsd:complexType name="SeriesDefinition">
 		<xsd:annotation>
-			<xsd:documentation xml:lang="en">
-			This type represents design-time definition for a series.
-			</xsd:documentation>
+			<xsd:documentation xml:lang="en">This type represents design-time definition for a series.</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
 			<xsd:element name="Query" type="Query" />

@@ -8,7 +8,7 @@
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="AreaSeries" eSuperTypes="#//LineSeries">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This is a Series type that holds data for Area Charts.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This is a Series type that, during design time, holds the query data for Area charts, and during run time, &#xD;&#xA;holds the value for each data point in the series.  When rendered, a line connects each data point, and &#xD;&#xA;the area below the line is filled with the series color."/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="AreaSeries"/>
@@ -17,7 +17,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BarSeries" eSuperTypes="org.eclipse.birt.chart.model.component.ecore#//Series">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This is a Series type that holds data for Bar Charts.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This is a Series type that, during design time, holds the query data for Bar charts, and during run time, &#xD;&#xA;holds the value for each riser in the series.  When rendered, a riser extends from the x-axis to the &#xD;&#xA;value of each data point."/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="BarSeries"/>
@@ -46,7 +46,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BubbleSeries" eSuperTypes="#//ScatterSeries">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This is a Series type that holds data for Bubble Charts.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This is a Series type that holds data for Bubble Charts.&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="BubbleSeries"/>
@@ -75,7 +75,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DialSeries" eSuperTypes="org.eclipse.birt.chart.model.component.ecore#//Series">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This is a Series type that holds data for Dial Charts."/>
+      <details key="documentation" value="This is a Series type that holds data for Dial Charts."/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DialSeries"/>
@@ -104,6 +104,9 @@
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DifferenceSeries" eSuperTypes="#//AreaSeries">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="This is a Series type that, during design time, holds the query data for Difference charts, and during &#xD;&#xA;run time, holds the values for each data point in the series.  Each data point in a Difference Series&#xD;&#xA;holds two values.  When rendered, a line connects each high value of each data point, another line&#xD;&#xA;connects each low value of each data point, and the area between the high and low lines is filled with &#xD;&#xA;the series color."/>
+    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DifferenceSeries"/>
       <details key="kind" value="elementOnly"/>
@@ -133,7 +136,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GanttSeries" eSuperTypes="org.eclipse.birt.chart.model.component.ecore#//Series">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This is a Series type that holds data for Gantt Charts.&#xD;&#xA;"/>
+      <details key="documentation" value="This is a Series type that holds data for Gantt Charts."/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="GanttSeries"/>
@@ -262,7 +265,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LineSeries" eSuperTypes="org.eclipse.birt.chart.model.component.ecore#//Series">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This is a Series type that holds data for Line Charts.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This is a Series type that, during design time, holds the query data for Line charts, and during run time, &#xD;&#xA;holds the value for each data point in the line.  When rendered, a line connects each data point."/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="LineSeries"/>
@@ -344,7 +347,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PieSeries" eSuperTypes="org.eclipse.birt.chart.model.component.ecore#//Series">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This is a Series type that holds data for Pie Charts.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This is a Series type that, during design time, holds the query data for Pie charts, and during run time, &#xD;&#xA;holds the value for each data point in the pie that represents the series.  When rendered, each series is &#xD;&#xA;drawn as a complete pie, and each data point in that series defines the size of the pie's slices.  A pie chart&#xD;&#xA;with multiple series will draw multiple pies."/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="PieSeries"/>
@@ -457,7 +460,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ScatterSeries" eSuperTypes="#//LineSeries">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This is a Series type that holds data for Scatter Charts.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This is a Series type that holds data for Scatter Charts.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ScatterSeries"/>
@@ -466,7 +469,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StockSeries" eSuperTypes="org.eclipse.birt.chart.model.component.ecore#//Series">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This is a Series type that holds data for Stock Charts.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This is a Series type that holds data for Stock Charts.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="StockSeries"/>
