@@ -102,7 +102,7 @@ public class ReportDocumentReader
 
 	private boolean sharedArchive;
 
-	private ClassLoader applicationClassLoader;
+	private ApplicationClassLoader applicationClassLoader;
 
 	private ReportRunnable preparedRunnable = null;
 
@@ -776,6 +776,10 @@ public class ReportDocumentReader
 			extensions.clear( );
 			extensions = null;
 		}
+		if ( applicationClassLoader != null )
+		{
+			applicationClassLoader.close( );
+		}
 	}
 
 	public InputStream getOriginalDesignStream( )
@@ -1303,24 +1307,25 @@ public class ReportDocumentReader
 		return -1L;
 	}
 
-	public synchronized ClassLoader getClassLoader( )
+	public ClassLoader getClassLoader( )
 	{
-		if ( applicationClassLoader == null )
+		if ( applicationClassLoader != null )
 		{
-			synchronized ( this )
+			return applicationClassLoader;
+		}
+		synchronized ( this )
+		{
+			if ( applicationClassLoader == null )
 			{
-				if ( applicationClassLoader == null )
-				{
-					applicationClassLoader = AccessController
-							.doPrivileged( new PrivilegedAction<ClassLoader>( ) {
+				applicationClassLoader = AccessController
+						.doPrivileged( new PrivilegedAction<ApplicationClassLoader>( ) {
 
-								public ClassLoader run( )
-								{
-									return new ApplicationClassLoader( engine,
-											getOnPreparedRunnable( ), null );
-								}
-							} );
-				}
+							public ApplicationClassLoader run( )
+							{
+								return new ApplicationClassLoader( engine,
+										getOnPreparedRunnable( ), null );
+							}
+						} );
 			}
 		}
 		return applicationClassLoader;

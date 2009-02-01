@@ -273,6 +273,7 @@ public class ExecutionContext
 	private HashMap dateFormatters = new HashMap( );
 
 	private ClassLoader applicationClassLoader;
+	private boolean closeClassLoader;
 	
 	private int MAX_ERRORS = 100;
 	/**
@@ -488,6 +489,14 @@ public class ExecutionContext
 			dataEngine.shutdown( );
 			dataEngine = null;
 		}
+		if ( closeClassLoader
+				&& applicationClassLoader instanceof ApplicationClassLoader )
+		{
+			( (ApplicationClassLoader) applicationClassLoader ).close( );
+		}
+		
+		closeClassLoader = false;
+		applicationClassLoader = null;
 	}
 
 	/**
@@ -1669,12 +1678,13 @@ public class ExecutionContext
 	{
 		if ( applicationClassLoader == null )
 		{
+			closeClassLoader = true;
 			applicationClassLoader = new ApplicationClassLoader( engine,
 					runnable, this );
-			if (scriptContext != null)
+			if ( scriptContext != null )
 			{
 				scriptContext
-					.setApplicationClassLoader(applicationClassLoader);
+						.setApplicationClassLoader( applicationClassLoader );
 			}
 		}
 		return applicationClassLoader;
@@ -1682,14 +1692,20 @@ public class ExecutionContext
 
 	public void setApplicationClassLoader( ClassLoader classLoader )
 	{
-		if (classLoader == null)
+		if ( classLoader == null )
 		{
-			throw new NullPointerException("");
+			throw new NullPointerException( "null classloader" );
 		}
-		this.applicationClassLoader = classLoader;
-		if (scriptContext != null)
+		if ( closeClassLoader
+				&& applicationClassLoader instanceof ApplicationClassLoader )
 		{
-			scriptContext.setApplicationClassLoader(applicationClassLoader);
+			( (ApplicationClassLoader) applicationClassLoader ).close( );
+		}
+		closeClassLoader = false;
+		this.applicationClassLoader = classLoader;
+		if ( scriptContext != null )
+		{
+			scriptContext.setApplicationClassLoader( applicationClassLoader );
 		}
 	}
 	
