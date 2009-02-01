@@ -337,11 +337,12 @@ public class DataProcessor
 		// 1. Collect all used data expressions and grouping expressions
 		GroupingLookupHelper lhmLookup = new GroupingLookupHelper( cm,
 				iae,
-				rtc.getULocale( ) );
+				rtc,
+				idre );
 		
 		// 2. WALK THROUGH RESULTS
 		List liResultSet = null;
-		List co = null;
+		List<String> co = null;
 		
 		// If current is sharing query, use original expressions. Else the value
 		// series expression will be transformed to a unique name which include
@@ -349,15 +350,7 @@ public class DataProcessor
 		// evaluates expression.
 		// Also if it isn't a grouped evaluator, it still get original
 		// expressions and chart will do group by itself.
-		if ( idre instanceof AbstractGroupedDataRowExpressionEvaluator )
-		{
-			co = ( (AbstractGroupedDataRowExpressionEvaluator) idre ).getExpressions( lhmLookup,
-					rtc.isSharingQuery( ) );
-		}
-		else
-		{
-			co = lhmLookup.getExpressions();
-		}
+		co = lhmLookup.getExpressions( );
 		
 		try
 		{
@@ -420,8 +413,7 @@ public class DataProcessor
 				// EACH BASE AXIS
 				for ( int j = 0; j < axaBase.length; j++ )
 				{
-					sdBase = (SeriesDefinition) axaBase[j].getSeriesDefinitions( )
-							.get( 0 );
+					sdBase = axaBase[j].getSeriesDefinitions( ).get( 0 );
 					axaOrthogonal = cwa.getOrthogonalAxes( axaBase[j], true );
 					bBaseGrouping = rsw.getRowCount( ) > 0 &&
 							sdBase.getGrouping( ) != null &&
@@ -436,14 +428,14 @@ public class DataProcessor
 					}
 				}
 
-				sdValue = (SeriesDefinition) cwa.getOrthogonalAxes( axaBase[0],
-						true )[0].getSeriesDefinitions( ).get( 0 );
+				sdValue = cwa.getOrthogonalAxes( axaBase[0], true )[0].getSeriesDefinitions( )
+						.get( 0 );
 
 			}
 			else if ( cm instanceof ChartWithoutAxes )
 			{
 				ChartWithoutAxes cwoa = (ChartWithoutAxes) cm;
-				sdBase = (SeriesDefinition) cwoa.getSeriesDefinitions( )
+				sdBase = cwoa.getSeriesDefinitions( )
 						.get( 0 );
 				bBaseGrouping = rsw.getRowCount( ) > 0 &&
 						sdBase.getGrouping( ) != null &&
@@ -452,8 +444,7 @@ public class DataProcessor
 				// EACH ORTHOGONAL SERIES
 				aggHelper.addSeriesDefinitions( sdBase.getSeriesDefinitions( ),
 						lhmLookup );
-				sdValue = (SeriesDefinition) sdBase.getSeriesDefinitions( )
-						.get( 0 );
+				sdValue = sdBase.getSeriesDefinitions( ).get( 0 );
 			}
 
 			// 4.1. If base grouping is set???
@@ -593,7 +584,11 @@ public class DataProcessor
 						.getOrthogonalAggregationExpression( sdOrthogonal );
 				fillSeriesDataSet( cwoa,
 						seOrthogonalRuntimeSeries,
-						rsw.getSubset( seOrthogonalDesignSeries.getDataDefinition( ),
+						rsw.getSubset( rsw.getLookupHelper( )
+								.getValueSeriesExprBuilder( )
+								.buildExpr( seOrthogonalDesignSeries.getDataDefinition( ),
+										sdOrthogonal,
+										sdBase ),
 								aggExp ),
 						getDesignTimeStringsSeriesTriggerExpressions( seOrthogonalDesignSeries,
 								iae ), // Just use trigger expression as
@@ -729,8 +724,8 @@ public class DataProcessor
 
 		// POPULATE THE BASE RUNTIME SERIES
 		final Axis axPrimaryBase = cwa.getPrimaryBaseAxes( )[0];
-		EList elSD = axPrimaryBase.getSeriesDefinitions( );
-		final SeriesDefinition sdBase = (SeriesDefinition) elSD.get( 0 );
+		EList<SeriesDefinition> elSD = axPrimaryBase.getSeriesDefinitions( );
+		final SeriesDefinition sdBase = elSD.get( 0 );
 		final SortOption baseSorting = sdBase.isSetSorting( )
 				? sdBase.getSorting( ) : null;
 		final Series seBaseDesignSeries = sdBase.getDesignTimeSeries( );
@@ -745,11 +740,11 @@ public class DataProcessor
 		String sExpression;
 
 		// Get column index of base series.
-		EList dda = sdBase.getDesignTimeSeries( ).getDataDefinition( );
+		EList<Query> dda = sdBase.getDesignTimeSeries( ).getDataDefinition( );
 		if ( dda.size( ) > 0 )
 		{
-			List columns = rsw.getLookupHelper( ).getExpressions( );
-			iBaseColumnIndex = columns.indexOf( ( (Query) dda.get( 0 ) ).getDefinition( ) );
+			List<String> columns = rsw.getLookupHelper( ).getExpressions( );
+			iBaseColumnIndex = columns.indexOf( dda.get( 0 ).getDefinition( ) );
 			if ( iBaseColumnIndex == -1 )
 			{
 				iBaseColumnIndex = 0;
@@ -762,7 +757,7 @@ public class DataProcessor
 			elSD = axaOrthogonal[i].getSeriesDefinitions( );
 			for ( int j = 0; j < elSD.size( ); j++ )
 			{
-				sd = (SeriesDefinition) elSD.get( j );
+				sd = elSD.get( j );
 				qy = sd.getQuery( );
 				if ( qy == null )
 				{
@@ -798,7 +793,7 @@ public class DataProcessor
 				// ORTHOGONAL
 				// SERIES DEFINITION
 				{
-					sdOrthogonal = (SeriesDefinition) elSD.get( j );
+					sdOrthogonal = elSD.get( j );
 					seOrthogonalDesignSeries = sdOrthogonal.getDesignTimeSeries( );
 					seOrthogonalRuntimeSeries = (Series) EcoreUtil.copy( seOrthogonalDesignSeries );
 
@@ -812,7 +807,11 @@ public class DataProcessor
 					// Add trigger to user datasets
 					fillSeriesDataSet( cwa,
 							seOrthogonalRuntimeSeries,
-							rsw.getSubset( seOrthogonalDesignSeries.getDataDefinition( ),
+							rsw.getSubset( rsw.getLookupHelper( )
+									.getValueSeriesExprBuilder( )
+									.buildExpr( seOrthogonalDesignSeries.getDataDefinition( ),
+											sdOrthogonal,
+											sdBase ),
 									aggExp ),
 							getDesignTimeStringsSeriesTriggerExpressions( seOrthogonalDesignSeries,
 									iae ), // Just use trigger expression as
@@ -851,7 +850,7 @@ public class DataProcessor
 				elSD = axaOrthogonal[i].getSeriesDefinitions( );
 				for ( int j = 0; j < elSD.size( ); j++ )
 				{
-					sdOrthogonal = (SeriesDefinition) elSD.get( j );
+					sdOrthogonal = elSD.get( j );
 					seOrthogonalDesignSeries = sdOrthogonal.getDesignTimeSeries( );
 
 					// Retrieve trigger expressions.
@@ -867,7 +866,11 @@ public class DataProcessor
 
 						Object[] odata = populateSeriesDataSet( seOrthogonalRuntimeSeries,
 								rsw.getSubset( k,
-										seOrthogonalDesignSeries.getDataDefinition( ),
+										rsw.getLookupHelper( )
+												.getValueSeriesExprBuilder( )
+												.buildExpr( seOrthogonalDesignSeries.getDataDefinition( ),
+														sdOrthogonal,
+														sdBase ),
 										aggExp ),
 								rsw.getSubset( k, triggerExprs, aggExp ) );
 
@@ -913,7 +916,7 @@ public class DataProcessor
 				// ORTHOGONAL
 				// SERIES DEFINITION
 				{
-					sdOrthogonal = (SeriesDefinition) elSD.get( j );
+					sdOrthogonal = elSD.get( j );
 					String aggExp = rsw.getLookupHelper( )
 							.getOrthogonalAggregationExpression( sdOrthogonal );
 					for ( int k = 0; k < iGroupCount; k++ ) // FOR

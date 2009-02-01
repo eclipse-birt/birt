@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2006 Actuate Corporation.
+ * Copyright (c) 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,12 +14,15 @@ package org.eclipse.birt.chart.internal.datafeed;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.factory.AbstractGroupedDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.IActionEvaluator;
+import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
@@ -44,22 +47,66 @@ import com.ibm.icu.util.ULocale;
 public class GroupingLookupHelper
 {
 
+	public static enum ValueSeriesExprBuilder {
+		OLDER_STYLE {
+
+			@Override
+			public String buildExpr( String expr, SeriesDefinition orthSd,
+					SeriesDefinition categorySd ) throws ChartException
+			{
+				return expr;
+			}
+		},
+		TRANSFORMED {
+
+			@Override
+			public String buildExpr( String expr, SeriesDefinition orthSd,
+					SeriesDefinition categorySd ) throws ChartException
+			{
+				if ( expr != null && expr.trim( ).length( ) > 0 )
+				{
+					return ChartUtil.createValueSeriesRowFullExpression( expr,
+							orthSd,
+							categorySd );
+				}
+				else
+				{
+					return null;
+				}
+			}
+		};
+
+		abstract public String buildExpr( String expr, SeriesDefinition orthSD,
+				SeriesDefinition categorySD ) throws ChartException;
+
+		public String[] buildExpr( List<Query> querys, SeriesDefinition orthSD,
+				SeriesDefinition categorySD ) throws ChartException
+		{
+			int size = querys.size( );
+
+			String[] exprs = new String[querys.size( )];
+			for ( int i = 0; i < size; i++ )
+			{
+				exprs[i] = buildExpr( querys.get( i ).getDefinition( ),
+						orthSD,
+						categorySD );
+			}
+			return exprs;
+		}
+	}
+
+	private final ValueSeriesExprBuilder valueSeriesExprBuilder;
+
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/trace" ); //$NON-NLS-1$
 
-	private LinkedHashMap lhmAggExp = new LinkedHashMap( 8 );
+	private Map<String, Integer> lhmAggExp = ChartUtil.newHashMap( );
 
-	private List lstAll = new ArrayList( 8 );
-	
-	private List lstTransformedExprs = new ArrayList( 8 );
-	
-	private LinkedHashMap lhmTransformedExprs = new LinkedHashMap( 8 );
+	private List<String> lstAll = new ArrayList<String>( 8 );
 	
 	private String strBaseAggExp = null;
 
 	private int iLookup = 0;
 
-	private int iLookupTransformedExprs = 0;
-	
 	private ULocale locale;
 
 	/** The expression index of sort expression on base series. */
@@ -82,10 +129,21 @@ public class GroupingLookupHelper
 	 * @param locale 
 	 * @throws ChartException
 	 */
-	public GroupingLookupHelper( Chart cm, IActionEvaluator iae, ULocale locale )
+	public GroupingLookupHelper( Chart cm, IActionEvaluator iae,
+			RunTimeContext rtc, IDataRowExpressionEvaluator idre )
 			throws ChartException
 	{
-		this.locale = locale;
+		this.locale = rtc.getULocale( );
+		if ( idre instanceof AbstractGroupedDataRowExpressionEvaluator
+				&& !rtc.isSharingQuery( ) )
+		{
+			this.valueSeriesExprBuilder = ValueSeriesExprBuilder.TRANSFORMED;
+		}
+		else
+		{
+			this.valueSeriesExprBuilder = ValueSeriesExprBuilder.OLDER_STYLE;
+		}
+
 		if ( cm instanceof ChartWithAxes )
 		{
 			initRowExpressions( (ChartWithAxes) cm, iae );
@@ -94,7 +152,6 @@ public class GroupingLookupHelper
 		{
 			initRowExpressions( (ChartWithoutAxes) cm, iae );
 		}
-		
 	}
 
 	/**
@@ -106,14 +163,16 @@ public class GroupingLookupHelper
 	 *            aggregation expressions collection
 	 * 
 	 */
-	public GroupingLookupHelper( Collection dataExps, Collection aggExps )
+	public GroupingLookupHelper( Collection<String> dataExps,
+			Collection<String> aggExps )
 	{
-		Iterator dataIterator = dataExps.iterator( );
-		Iterator aggIterator = aggExps.iterator( );
+		this.valueSeriesExprBuilder = ValueSeriesExprBuilder.OLDER_STYLE;
+		Iterator<String> dataIterator = dataExps.iterator( );
+		Iterator<String> aggIterator = aggExps.iterator( );
 		while ( dataIterator.hasNext( ) && aggIterator.hasNext( ) )
 		{
-			String dataExp = (String) dataIterator.next( );
-			String aggExp = (String) aggIterator.next( );
+			String dataExp = dataIterator.next( );
+			String aggExp = aggIterator.next( );
 			
 			lstAll.add( dataExp );
 			lhmAggExp.put( generateKey( dataExp, aggExp ),
@@ -127,21 +186,11 @@ public class GroupingLookupHelper
 	 * 
 	 * @return the list for all data expressions
 	 */
-	public List getExpressions( )
+	public List<String> getExpressions( )
 	{
 		return lstAll;
 	}
 
-	/**
-	 * Returns transformed expressions for aggregate case.
-	 * @return
-	 * @since 2.3
-	 */
-	public List getExpressionsForAggregate( )
-	{
-		return lstTransformedExprs;
-	}
-	
 	private String generateKey( String dataExp, String aggExp )
 	{
 		if ( aggExp == null || "".equals( aggExp ) ) //$NON-NLS-1$
@@ -213,10 +262,6 @@ public class GroupingLookupHelper
 	private boolean addDataExpOfBaseSeries( String dataExp )
 	{
 		boolean result = addDataExp( dataExp, "" ); //$NON-NLS-1$
-		if ( result )
-		{
-			addDataExpForAggregate( dataExp, "" );
-		}
 		return result;
 	}
 
@@ -235,16 +280,6 @@ public class GroupingLookupHelper
 		return false;
 	}
 	
-	private void addDataExpForAggregate(String expr, String aggExp )
-	{
-		String key = generateKey( expr, aggExp );
-		if ( !lhmTransformedExprs.containsKey( key ) )
-		{
-			lhmTransformedExprs.put( key, new Integer( iLookupTransformedExprs++ ) );
-			lstTransformedExprs.add( expr );
-		}
-	}
-
 	private void addLookupForBaseSeries( SeriesDefinition baseSD )
 			throws ChartException
 	{
@@ -259,7 +294,7 @@ public class GroupingLookupHelper
 
 		// PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES EXPRESSION
 		final Series seBase = baseSD.getDesignTimeSeries( );
-		EList elBaseSeries = seBase.getDataDefinition( );
+		EList<Query> elBaseSeries = seBase.getDataDefinition( );
 		if ( elBaseSeries.size( ) != 1 )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
@@ -271,7 +306,7 @@ public class GroupingLookupHelper
 					Messages.getResourceBundle( this.locale ) );
 		}
 
-		String baseSeriesExpression =  ( (Query) elBaseSeries.get( 0 ) ).getDefinition( );
+		String baseSeriesExpression = elBaseSeries.get( 0 ).getDefinition( );
 		if ( !addDataExpOfBaseSeries( baseSeriesExpression ) )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
@@ -292,12 +327,13 @@ public class GroupingLookupHelper
 		}
 	}
 
-	private void addLookupForOrthogonalSeries( SeriesDefinition baseSD, EList lstOrthogonalSDs,
-			IActionEvaluator iae ) throws ChartException
+	private void addLookupForOrthogonalSeries( SeriesDefinition baseSD,
+			EList<SeriesDefinition> lstOrthogonalSDs, IActionEvaluator iae )
+			throws ChartException
 	{
 		for ( int k = 0; k < lstOrthogonalSDs.size( ); k++ )
 		{
-			SeriesDefinition orthoSD = (SeriesDefinition) lstOrthogonalSDs.get( k );
+			SeriesDefinition orthoSD = lstOrthogonalSDs.get( k );
 			Query qOrthogonalSeriesDefinition = orthoSD.getQuery( );
 			if ( qOrthogonalSeriesDefinition == null )
 			{
@@ -306,17 +342,14 @@ public class GroupingLookupHelper
 
 			String strOrthoAgg = getOrthogonalAggregationExpression( orthoSD );
 			
-			if ( addDataExp( qOrthogonalSeriesDefinition.getDefinition( ),
-					strOrthoAgg ) )
-			{
-				addDataExpForAggregate( qOrthogonalSeriesDefinition.getDefinition( ), strOrthoAgg );	
-			}
+			addDataExp( qOrthogonalSeriesDefinition.getDefinition( ),
+					strOrthoAgg );
 			
 			// Get sort key of Y grouping.
 			String ySortKey = getSortKey( orthoSD );
 
 			Series seOrthogonal = orthoSD.getDesignTimeSeries( );
-			EList elOrthogonalSeries = seOrthogonal.getDataDefinition( );
+			EList<Query> elOrthogonalSeries = seOrthogonal.getDataDefinition( );
 			if ( elOrthogonalSeries.isEmpty( ) )
 			{
 				throw new ChartException( ChartEnginePlugin.ID,
@@ -331,19 +364,17 @@ public class GroupingLookupHelper
 			boolean bAnyQueries = false;
 			for ( int i = 0; i < elOrthogonalSeries.size( ); i++ )
 			{
-				Query qOrthogonalSeries = (Query) elOrthogonalSeries.get( i );
+				Query qOrthogonalSeries = elOrthogonalSeries.get( i );
 				if ( qOrthogonalSeries == null ) // NPE PROTECTION
 				{
 					continue;
 				}
 
-				if ( addDataExp( qOrthogonalSeries.getDefinition( ),
+				if ( addDataExp( valueSeriesExprBuilder.buildExpr( qOrthogonalSeries.getDefinition( ),
+						orthoSD,
+						baseSD ),
 						strOrthoAgg ) )
 				{
-					addDataExpForAggregate( ChartUtil.createValueSeriesRowFullExpression( qOrthogonalSeries.getDefinition( ),
-							orthoSD,
-							baseSD ), strOrthoAgg );
-					
 					bAnyQueries = true;
 					
 					// Set base sort index if it equals the value series
@@ -394,10 +425,7 @@ public class GroupingLookupHelper
 			{
 				for ( int t = 0; t < triggerExprs.length; t++ )
 				{
-					if ( addDataExp( triggerExprs[t], strOrthoAgg ) )
-					{
-						addDataExpForAggregate( triggerExprs[t], strOrthoAgg );
-					}
+					addDataExp( triggerExprs[t], strOrthoAgg );
 				}
 			}
 		}
@@ -406,7 +434,7 @@ public class GroupingLookupHelper
 	private void initRowExpressions( ChartWithoutAxes cwoa, IActionEvaluator iae )
 			throws ChartException
 	{
-		EList elSD = cwoa.getSeriesDefinitions( );
+		EList<SeriesDefinition> elSD = cwoa.getSeriesDefinitions( );
 		if ( elSD.size( ) != 1 )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
@@ -416,7 +444,7 @@ public class GroupingLookupHelper
 		}
 
 		// PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES DEFINITION
-		SeriesDefinition baseSD = (SeriesDefinition) elSD.get( 0 );		
+		SeriesDefinition baseSD = elSD.get( 0 );
 		this.strBaseAggExp = getBaseAggregationExpression( baseSD );
 		addLookupForBaseSeries( baseSD );
 
@@ -430,7 +458,7 @@ public class GroupingLookupHelper
 			throws ChartException
 	{
 		final Axis axPrimaryBase = cwa.getPrimaryBaseAxes( )[0];
-		EList elSD = axPrimaryBase.getSeriesDefinitions( );
+		EList<SeriesDefinition> elSD = axPrimaryBase.getSeriesDefinitions( );
 		if ( elSD.size( ) != 1 )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
@@ -440,7 +468,7 @@ public class GroupingLookupHelper
 		}
 
 		// PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES DEFINITION
-		SeriesDefinition baseSD = (SeriesDefinition) elSD.get( 0 );
+		SeriesDefinition baseSD = elSD.get( 0 );
 		this.strBaseAggExp = getBaseAggregationExpression( baseSD );
 		addLookupForBaseSeries( baseSD );
 
@@ -470,10 +498,7 @@ public class GroupingLookupHelper
 			String sortExpr = getSortKey( baseSD );
 			if ( sortExpr != null )
 			{
-				if ( addDataExp( sortExpr, "" ) ) //$NON-NLS-1$
-				{
-					addDataExpForAggregate( sortExpr, "" );
-				}
+				addDataExp( sortExpr, "" ); //$NON-NLS-1$
 				fBaseSortExprIndex = findIndexOfBaseSeries( sortExpr );
 			}
 		}
@@ -495,21 +520,6 @@ public class GroupingLookupHelper
 		return sd.getSortKey( ).getDefinition( );
 	}
 	
-//	static String getAggregationExp( SeriesDefinition baseSD,
-//			SeriesDefinition orthoSD )
-//	{
-//		boolean bBaseGroupEnabled = baseSD.getGrouping( ).isEnabled( );
-//		String strOrthoAgg = null;
-//		if ( bBaseGroupEnabled )
-//		{
-//			String strBaseAgg = baseSD.getGrouping( ).getAggregateExpression( );
-//			boolean bOrthoGroupEnabled = orthoSD.getGrouping( ).isEnabled( );
-//			strOrthoAgg = bOrthoGroupEnabled ? orthoSD.getGrouping( )
-//					.getAggregateExpression( ) : strBaseAgg;
-//		}
-//		return strOrthoAgg;
-//	}
-
 	/**
 	 * Simply gets aggregation expressions for the series definitions. If
 	 * grouping is not enabled, return null
@@ -584,5 +594,13 @@ public class GroupingLookupHelper
 	int getYSortExprIndex( )
 	{
 		return fYSortExprIndex;
+	}
+
+	/**
+	 * @return Returns the valueSeriesExprBuilder.
+	 */
+	public final ValueSeriesExprBuilder getValueSeriesExprBuilder( )
+	{
+		return valueSeriesExprBuilder;
 	}
 }

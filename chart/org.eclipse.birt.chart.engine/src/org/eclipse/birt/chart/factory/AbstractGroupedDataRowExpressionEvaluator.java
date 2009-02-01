@@ -40,12 +40,7 @@ public abstract class AbstractGroupedDataRowExpressionEvaluator implements
 	public List<String> getExpressions( GroupingLookupHelper helper,
 			boolean isSharingQuery )
 	{
-		if ( isSharingQuery )
-		{
-			return helper.getExpressions( );
-		}
-
-		return helper.getExpressionsForAggregate( );
+		return helper.getExpressions( );
 	}
 
 	public boolean needOptionalGrouping( )
