@@ -15,7 +15,6 @@ package org.eclipse.birt.report.data.oda.sampledb;
 
 import java.io.IOException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.SQLException;
@@ -23,6 +22,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.framework.URLClassLoader;
 import org.eclipse.birt.report.data.oda.jdbc.IConnectionFactory;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
@@ -87,6 +87,8 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 				initClassLoaders( );
 			}
 			getDerbyDriver().connect( "jdbc:derby:;shutdown=true", null);
+			derbyClassLoader.close();
+			derbyClassLoader = null;
 		} catch (SQLException e) {
 			//A successful shutdown always results in an SQLException to indicate that Derby has shut down and that there is no other exception.
 		}

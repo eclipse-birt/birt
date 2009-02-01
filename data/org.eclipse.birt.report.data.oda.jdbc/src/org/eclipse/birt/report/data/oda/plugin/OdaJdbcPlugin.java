@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.plugin;
 
+import org.eclipse.birt.report.data.oda.jdbc.JDBCDriverManager;
 import org.eclipse.core.runtime.Plugin;
 
 
@@ -18,5 +19,8 @@ import org.eclipse.core.runtime.Plugin;
  */
 public class OdaJdbcPlugin extends Plugin
 {
-
+	public void shutdown()
+	{
+		JDBCDriverManager.getInstance( ).close( );
+	}
 }

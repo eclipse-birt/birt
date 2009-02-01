@@ -16,7 +16,6 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.security.AccessController;
 import java.security.PrivilegedExceptionAction;
 import java.sql.Connection;
@@ -32,6 +31,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.framework.URLClassLoader;
 import org.eclipse.birt.report.data.oda.i18n.JdbcResourceHandle;
 import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 import org.eclipse.core.runtime.CoreException;
@@ -96,6 +96,14 @@ public class JDBCDriverManager
 		if ( instance == null )
 			instance = new JDBCDriverManager();
 		return instance;
+	}
+	
+	/**
+	 * Release all the resources 
+	 */
+	public void close()
+	{
+		this.extraDriverLoader.close();
 	}
 	
 	/**
