@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c)2008 Actuate Corporation.
+ * Copyright (c)2008, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,13 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.framework.URLClassLoader;
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
@@ -47,8 +46,7 @@ public class ApplicationClassLoader extends ClassLoader
 	protected static Logger logger = Logger
 			.getLogger( ApplicationClassLoader.class.getName( ) );
 
-	private ClassLoader engineClassLoader; 
-	private ClassLoader loader = null;
+	private URLClassLoader designClassLoader = null;
 	private IReportRunnable runnable;
 	private ExecutionContext executionContext = null;
 
@@ -60,74 +58,51 @@ public class ApplicationClassLoader extends ClassLoader
 		this.runnable = reportRunnable;
 		this.engine = engine;
 		this.executionContext = executionContext;
-		this.engineClassLoader = getReportEngineClassLoader( );
+	}
+
+	public void close( )
+	{
+		if ( designClassLoader != null )
+		{
+			designClassLoader.close( );
+			designClassLoader = null;
+		}
 	}
 
 	public Class loadClass( String className ) throws ClassNotFoundException
-
 	{
-		try
+		if ( designClassLoader == null )
 		{
-			if ( loader == null )
-			{
-				createWrappedClassLoaders( );
-			}
-			return loader.loadClass( className );
+			createDesignClassLoader( );
 		}
-		catch ( ClassNotFoundException ex )
-		{
-			return engineClassLoader.loadClass( className );
-		}
+		return designClassLoader.loadClass( className );
 	}
 
 	public URL getResource( String name )
 	{
-		URL url = engineClassLoader.getResource( name );
-		if ( url == null )
+		if ( designClassLoader == null )
 		{
-			if ( loader == null )
-			{
-				createWrappedClassLoaders( );
-			}
-			return loader.getResource( name );
+			createDesignClassLoader( );
 		}
-		return null;
+		return designClassLoader.getResource( name );
 	}
 
-	protected void createWrappedClassLoaders( )
+	/**
+	 * create the class loader used by the design.
+	 * 
+	 * the method should be synchronized as the class loader of a document may
+	 * be used by multiple tasks.
+	 */
+	protected synchronized void createDesignClassLoader( )
 	{
-		ClassLoader engineClassLoader = this.engineClassLoader;
-		if ( engine != null )
+		if (designClassLoader != null)
 		{
-			engineClassLoader = engine.getClassLoader( );
+			return;
 		}
-		loader = createClassLoaderFromDesign( runnable, engineClassLoader, executionContext );
-	}
-
-	protected ClassLoader getReportEngineClassLoader( )
-	{
-		// we need wrap the code into a privileged action as the
-		// IReportEngine.class exist in the WEB-INF/lib folder
-		// while the ApplicationClassLoader.class exits in plugin folder.
-		// Getting the class loader directly may throws out an security
-		// exception
-		return java.security.AccessController
-				.doPrivileged( new java.security.PrivilegedAction<ClassLoader>( ) {
-
-					public ClassLoader run( )
-					{
-						return IReportEngine.class.getClassLoader( );
-					}
-				} );
-	}
-
-	public static ClassLoader createClassLoaderFromDesign(
-			IReportRunnable runnable, ClassLoader parent, ExecutionContext executionContext )
-	{
+		ArrayList<URL> urls = new ArrayList<URL>( );
 		if ( runnable != null )
 		{
 			ModuleHandle module = (ModuleHandle) runnable.getDesignHandle( );
-			ArrayList urls = new ArrayList( );
 			Iterator iter = module.scriptLibsIterator( );
 			while ( iter.hasNext( ) )
 			{
@@ -141,19 +116,20 @@ public class ApplicationClassLoader extends ClassLoader
 				}
 				else
 				{
-					if (executionContext != null) {
-						executionContext.addException(new EngineException(
-								MessageConstants.JAR_NOT_FOUND_ERROR, libPath));
+					if ( executionContext != null )
+					{
+						executionContext
+								.addException( new EngineException(
+										MessageConstants.JAR_NOT_FOUND_ERROR,
+										libPath ) );
 					}
-					logger.log( Level.SEVERE, "Can not find specified jar: " + libPath); //$NON-NLS-1$
+					logger.log( Level.SEVERE,
+							"Can not find specified jar: " + libPath ); //$NON-NLS-1$
 				}
 			}
-			if ( urls.size( ) != 0 )
-			{
-				URL[] jarUrls = (URL[]) urls.toArray( new URL[]{} );
-				return new URLClassLoader( jarUrls, parent );
-			}
 		}
-		return parent;
+		URL[] jarUrls = (URL[]) urls.toArray( new URL[]{} );
+		designClassLoader = new URLClassLoader( jarUrls, engine
+				.getEngineClassLoader( ) );
 	}
 }

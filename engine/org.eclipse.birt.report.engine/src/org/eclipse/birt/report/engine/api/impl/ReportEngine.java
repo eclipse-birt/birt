@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
@@ -27,6 +26,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.compound.IArchiveFile;
+import org.eclipse.birt.core.framework.URLClassLoader;
 import org.eclipse.birt.report.engine.api.DataExtractionFormatInfo;
 import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.api.EngineConfig;
@@ -98,28 +98,28 @@ public class ReportEngine implements IReportEngine
 	 */
 	protected ScriptableObject rootScope;
 
-	protected ClassLoader applicationClassLoader;
+	/**
+	 * the class loader used the report engine
+	 */
+	protected URLClassLoader engineClassLoader;
 	
-	private static String[] classPathes = new String[]{
-		EngineConstants.WEBAPP_CLASSPATH_KEY,
-		EngineConstants.PROJECT_CLASSPATH_KEY,
-		EngineConstants.WORKSPACE_CLASSPATH_KEY};
-
 	private LinkedObjectManager<ReportDocumentReader> openedDocuments;
-	
+
 	private EngineExtensionManager extensionManager = new EngineExtensionManager();
 	/**
-	 * Constructor. If config is null, engine derives BIRT_HOME from the
-	 * location of the engine jar file, and derives data driver directory as
-	 * $BIRT_HOME/drivers. For a simple report with no images and links, engine
-	 * will run without complaining. If the report has image/chart defined, the
-	 * engine has to be configured with relevant image and chart handlers.
+	 * Create a Report Engine using a configuration.
+	 * 
+	 * The user must set the BIRT_HOME in the EngineConfig.
 	 * 
 	 * @param config
 	 *            an engine configuration object used to configure the engine
 	 */
 	public ReportEngine( EngineConfig config )
 	{
+		if ( config == null )
+		{
+			throw new NullPointerException( "config is null" );
+		}
 		this.config = config;
 		mergeConfigToAppContext( );
 
@@ -135,28 +135,55 @@ public class ReportEngine implements IReportEngine
 
 	private void mergeConfigToAppContext( )
 	{
-		if ( config == null )
-		{
-			return;
-		}
-		mergeProperty( EngineConstants.APPCONTEXT_CLASSLOADER_KEY );
-		mergeProperty( EngineConstants.WEBAPP_CLASSPATH_KEY );
-		mergeProperty( EngineConstants.PROJECT_CLASSPATH_KEY );
-		mergeProperty( EngineConstants.WORKSPACE_CLASSPATH_KEY );
+		mergeConfigProperty( EngineConstants.APPCONTEXT_CLASSLOADER_KEY );
+		mergeSystemProperty( EngineConstants.WEBAPP_CLASSPATH_KEY );
+		mergeSystemProperty( EngineConstants.PROJECT_CLASSPATH_KEY );
+		mergeSystemProperty( EngineConstants.WORKSPACE_CLASSPATH_KEY );
 	}
 
-	private void mergeProperty( String property )
+	private void mergeConfigProperty( String property )
 	{
 		Map appContext = config.getAppContext( );
 		// The configuration in appContext has higher priority.
-		if ( appContext.containsKey( property ) )
+		if ( !appContext.containsKey( property ) )
 		{
-			return;
+			Object value = config.getProperty( property );
+			if ( value != null )
+			{
+				appContext.put( property, value );
+			}
 		}
-		Object value = config.getProperty( property );
-		if ( value != null )
+	}
+
+	/**
+	 * setup class path properties.
+	 * 
+	 * The class path is defined in following sequence:
+	 * 
+	 * <li>a. defined in the appContext.</li>
+	 * 
+	 * <li>b. defined in the engine configuration.</li>
+	 * 
+	 * <li>c. defined in the system configuration.</li>
+	 * 
+	 * After this method, the class path are set into the appContext, so we can
+	 * safely get the class path from the appContext only.
+	 */
+	private void mergeSystemProperty( String property )
+	{
+		Map appContext = config.getAppContext( );
+		// The configuration in appContext has higher priority.
+		if ( !appContext.containsKey( property ) )
 		{
-			appContext.put( property, value );
+			Object value = config.getProperty( property );
+			if ( value == null )
+			{
+				value = SecurityUtil.getSystemProperty( property );
+			}
+			if ( value != null )
+			{
+				appContext.put( property, value );
+			}
 		}
 	}
 
@@ -206,55 +233,50 @@ public class ReportEngine implements IReportEngine
 	 */
 	private void setupScriptScope( )
 	{
-		if ( config != null )
+		Context cx = Context.enter( );
+		try
 		{
-			Context cx = Context.enter( );
-			try
+			cx.setSecurityController( ScriptUtil.createSecurityController( ) );
+		}
+		catch ( Throwable throwable )
+		{
+		}
+		try
+		{
+			rootScope = cx.initStandardObjects( );
+			cx
+					.evaluateString(
+							rootScope,
+							"function registerGlobal( name, value) { _jsContext.registerGlobalBean(name, value); }",
+							"<inline>", 0, null );
+			cx
+					.evaluateString(
+							rootScope,
+							"function unregisterGlobal(name) { _jsContext.unregisterGlobalBean(name); }",
+							"<inline>", 0, null );
+			registerBeans( rootScope, config.getConfigMap( ) );
+			registerBeans( rootScope, config.getScriptObjects( ) );
+			IStatusHandler handler = config.getStatusHandler( );
+			if ( handler != null )
 			{
+				handler.initialize( );
+				rootScope.put( "_statusHandle", rootScope, handler );
 				cx
-						.setSecurityController( ScriptUtil
-								.createSecurityController( ) );
+						.evaluateString(
+								rootScope,
+								"function writeStatus(msg) { _statusHandle.showStatus(msg); }",
+								"<inline>", 0, null );
 			}
-			catch ( Throwable throwable )
-			{
-			}
-			try
-			{
-				rootScope = cx.initStandardObjects( );
-				cx
-				.evaluateString(
-						rootScope,
-						"function registerGlobal( name, value) { _jsContext.registerGlobalBean(name, value); }",
-						"<inline>", 0, null );
-				cx
-				.evaluateString(
-						rootScope,
-						"function unregisterGlobal(name) { _jsContext.unregisterGlobalBean(name); }",
-						"<inline>", 0, null );
-				registerBeans( rootScope, config.getConfigMap( ) );
-				registerBeans( rootScope, config.getScriptObjects( ) );
-				IStatusHandler handler = config.getStatusHandler( );
-				if ( handler != null )
-				{
-					handler.initialize( );
-					rootScope.put( "_statusHandle", rootScope, handler );
-					cx
-							.evaluateString(
-									rootScope,
-									"function writeStatus(msg) { _statusHandle.showStatus(msg); }",
-									"<inline>", 0, null );
-				}
-			}
-			catch ( Exception ex )
-			{
-				rootScope = null;
-				logger.log( Level.INFO,
-						"Error occurs while initialze script scope", ex );
-			}
-			finally
-			{
-				Context.exit( );
-			}
+		}
+		catch ( Exception ex )
+		{
+			rootScope = null;
+			logger.log( Level.INFO,
+					"Error occurs while initialze script scope", ex );
+		}
+		finally
+		{
+			Context.exit( );
 		}
 	}
 
@@ -468,13 +490,10 @@ public class ReportEngine implements IReportEngine
 			}
 			openedDocuments.clear( );
 		}
-		if ( config != null )
+		IStatusHandler handler = config.getStatusHandler( );
+		if ( handler != null )
 		{
-			IStatusHandler handler = config.getStatusHandler( );
-			if ( handler != null )
-			{
-				handler.finish( );
-			}
+			handler.finish( );
 		}
 		if ( extensionManager != null )
 		{
@@ -482,6 +501,11 @@ public class ReportEngine implements IReportEngine
 			extensionManager = null;
 		}
 		EngineLogger.stopEngineLogging( );
+
+		if ( engineClassLoader != null )
+		{
+			engineClassLoader.close( );
+		}
 	}
 
 	/**
@@ -675,60 +699,40 @@ public class ReportEngine implements IReportEngine
 		}
 	}
 
-	public ClassLoader getClassLoader( )
+	public ClassLoader getEngineClassLoader( )
 	{
-		if ( applicationClassLoader == null )
+		if ( engineClassLoader != null )
 		{
-			applicationClassLoader = createClassLoaderFromEngine( this );
+			return engineClassLoader;
 		}
-		return applicationClassLoader;
-	}
-
-	private static ClassLoader createClassLoaderFromEngine( IReportEngine engine )
-	{
-		ClassLoader root = getAppClassLoader( engine );
-		if ( root == null )
+		synchronized ( this )
 		{
-			root = AccessController
-					.doPrivileged( new PrivilegedAction<ClassLoader>( ) {
-
-						public ClassLoader run( )
-						{
-							return IReportEngine.class.getClassLoader( );
-						}
-					} );
-		}
-		return createClassLoaderFromProperty( engine, root );
-	}
-
-	private static ClassLoader createClassLoaderFromProperty(
-			IReportEngine engine, ClassLoader parent )
-	{
-		EngineConfig config = engine.getConfig( );
-		if ( config == null )
-		{
-			return parent;
-		}
-		Map appContext = config.getAppContext( );
-		ArrayList<URL> urls = new ArrayList<URL>( );
-		if ( appContext != null )
-		{
-			for ( int i = 0; i < classPathes.length; i++ )
+			if ( engineClassLoader == null )
 			{
-				final String classPathName = classPathes[i];
-				String classPath = null;
-				Object propValue = appContext.get( classPathName );
-				if ( propValue instanceof String )
-				{
-					classPath = (String) propValue;
-				}
+				engineClassLoader = createEngineClassLoader( );
+			}
+		}
+		return engineClassLoader;
+	}
 
-				if ( classPath == null )
-				{
-					classPath = SecurityUtil.getSystemProperty( classPathes[i] );
-				}
+	private URLClassLoader createEngineClassLoader( )
+	{
+		ArrayList<URL> urls = new ArrayList<URL>( );
 
-				if ( classPath != null && classPath.length( ) != 0 )
+		String[] CLASS_PATHES = new String[]{
+				EngineConstants.WEBAPP_CLASSPATH_KEY,
+				EngineConstants.PROJECT_CLASSPATH_KEY,
+				EngineConstants.WORKSPACE_CLASSPATH_KEY};
+
+		HashMap appContext = getAppContext( );
+		for ( int i = 0; i < CLASS_PATHES.length; i++ )
+		{
+			final String classPathName = CLASS_PATHES[i];
+			Object propValue = appContext.get( classPathName );
+			if ( propValue instanceof String )
+			{
+				String classPath = (String) propValue;
+				if ( classPath.length( ) != 0 )
 				{
 					String[] jars = classPath.split( PROPERTYSEPARATOR, -1 );
 					if ( jars != null && jars.length != 0 )
@@ -738,7 +742,7 @@ public class ReportEngine implements IReportEngine
 							File file = new File( jars[j] );
 							try
 							{
-								urls.add( file.toURL( ) );
+								urls.add( file.toURI( ).toURL( ) );
 							}
 							catch ( MalformedURLException e )
 							{
@@ -749,32 +753,35 @@ public class ReportEngine implements IReportEngine
 				}
 			}
 		}
-		if ( urls.size( ) != 0 )
-		{
-			return new URLClassLoader( urls.toArray( new URL[urls
-					.size( )] ), parent );
-		}
-		return parent;
+		ClassLoader appContextClassLoader = getAppContextClassLoader( );
+
+		return new URLClassLoader( urls.toArray( new URL[urls.size( )] ),
+				appContextClassLoader );
 	}
 
-	private static ClassLoader getAppClassLoader( IReportEngine engine )
+	private HashMap getAppContext( )
 	{
-		EngineConfig config = engine.getConfig( );
-		if ( config == null )
+		return config.getAppContext( );
+	}
+
+	private ClassLoader getAppContextClassLoader( )
+	{
+		Map appContext = getAppContext( );
+		Object appLoader = appContext
+				.get( EngineConstants.APPCONTEXT_CLASSLOADER_KEY );
+		if ( appLoader instanceof ClassLoader )
 		{
-			return null;
+			return (ClassLoader) appLoader;
 		}
-		Map appContext = config.getAppContext( );
-		if ( appContext != null )
-		{
-			Object appLoader = appContext
-					.get( EngineConstants.APPCONTEXT_CLASSLOADER_KEY );
-			if ( appLoader instanceof ClassLoader )
-			{
-				return (ClassLoader) appLoader;
-			}
-		}
-		return null;
+
+		return AccessController
+				.doPrivileged( new PrivilegedAction<ClassLoader>( ) {
+
+					public ClassLoader run( )
+					{
+						return IReportEngine.class.getClassLoader( );
+					}
+				} );
 	}
 
 	public DataExtractionFormatInfo[] getDataExtractionFormatInfo( )

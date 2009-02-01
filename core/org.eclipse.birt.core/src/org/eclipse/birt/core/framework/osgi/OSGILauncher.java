@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,8 +18,6 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLClassLoader;
-import java.net.URLStreamHandlerFactory;
 import java.security.CodeSource;
 import java.security.Policy;
 import java.security.ProtectionDomain;
@@ -36,6 +34,7 @@ import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.core.framework.FrameworkException;
 import org.eclipse.birt.core.framework.IPlatformContext;
 import org.eclipse.birt.core.framework.PlatformConfig;
+import org.eclipse.birt.core.framework.URLClassLoader;
 
 public class OSGILauncher
 {
@@ -50,7 +49,7 @@ public class OSGILauncher
 	private PlatformConfig platformConfig;
 	private File platformDirectory;
 	private URL osgiFramework;
-	private ClassLoader frameworkClassLoader;
+	private ChildFirstURLClassLoader frameworkClassLoader;
 	private ClassLoader frameworkContextClassLoader;
 	private HashMap properties;
 	private Object bundleContext;
@@ -434,6 +433,7 @@ public class OSGILauncher
 		}
 		finally
 		{
+			frameworkClassLoader.close( );
 			frameworkClassLoader = null;
 			frameworkContextClassLoader = null;
 			Thread.currentThread( ).setContextClassLoader( original );
@@ -649,12 +649,6 @@ public class OSGILauncher
 		public ChildFirstURLClassLoader( URL[] urls, ClassLoader parent )
 		{
 			super( urls, parent );
-		}
-
-		public ChildFirstURLClassLoader( URL[] urls, ClassLoader parent,
-				URLStreamHandlerFactory factory )
-		{
-			super( urls, parent, factory );
 		}
 
 		public URL getResource( String name )
