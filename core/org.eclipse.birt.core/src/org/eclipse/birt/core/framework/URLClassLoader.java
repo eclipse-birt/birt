@@ -25,6 +25,8 @@ import java.security.CodeSigner;
 import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Vector;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -45,13 +47,15 @@ import java.util.zip.ZipEntry;
 public class URLClassLoader extends java.net.URLClassLoader
 {
 
-	private URL[] urls;
+	private List<URL> urls = new LinkedList<URL>();
 	private ArrayList<Loader> loaders;
 
 	public URLClassLoader( URL[] urls )
 	{
 		super( new URL[]{} );
-		this.urls = urls;
+		
+		initURLs( urls );
+		
 		loaders = new ArrayList<Loader>( urls.length );
 		for ( int i = 0; i < urls.length; i++ )
 		{
@@ -60,10 +64,20 @@ public class URLClassLoader extends java.net.URLClassLoader
 		}
 	}
 
+	private void initURLs( URL[] urls )
+	{
+		for( URL url:urls)
+		{
+			this.urls.add( url );
+		}
+	}
+
 	public URLClassLoader( URL[] urls, ClassLoader parent )
 	{
 		super( new URL[]{}, parent );
-		this.urls = urls;
+		
+		initURLs( urls );
+		
 		loaders = new ArrayList<Loader>( urls.length );
 		for ( int i = 0; i < urls.length; i++ )
 		{
@@ -89,10 +103,18 @@ public class URLClassLoader extends java.net.URLClassLoader
 			loaders = null;
 		}
 	}
+	
+	public void addURL( URL url )
+	{
+		if ( this.urls.contains( url ))
+			return;
+		this.urls.add( url );
+		this.loaders.add( createLoader( url ) );
+	}
 
 	public URL[] getURLs( )
 	{
-		return urls;
+		return this.urls.toArray( new URL[0]);
 	}
 
 	protected Class<?> findClass( final String name )
