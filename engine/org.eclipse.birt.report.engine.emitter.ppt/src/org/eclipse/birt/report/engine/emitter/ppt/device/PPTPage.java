@@ -109,7 +109,7 @@ public class PPTPage extends AbstractPage
 		// width of text is enlarged by 1 point because in ppt the text will be
 		// automatically wrapped if the width of textbox equals to the width of
 		// text exactly.
-		writer.drawText( text, textX, textY, width + 1f, height, textStyle
+		writer.drawText( text, textX, textY, width, height, textStyle
 				.getFontInfo( ), textStyle.getColor( ), textStyle.isRtl( ) );
 	}
 }
