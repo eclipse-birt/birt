@@ -357,15 +357,6 @@ public interface TypePackage extends EPackage
 	int AREA_SERIES__CURVE_FITTING = LINE_SERIES__CURVE_FITTING;
 
 	/**
-	 * The feature id for the '<em><b>Cursor</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int AREA_SERIES__CURSOR = LINE_SERIES__CURSOR;
-
-	/**
 	 * The feature id for the '<em><b>Markers</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -529,15 +520,6 @@ public interface TypePackage extends EPackage
 	 * @ordered
 	 */
 	int BAR_SERIES__CURVE_FITTING = ComponentPackage.SERIES__CURVE_FITTING;
-
-	/**
-	 * The feature id for the '<em><b>Cursor</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BAR_SERIES__CURSOR = ComponentPackage.SERIES__CURSOR;
 
 	/**
 	 * The feature id for the '<em><b>Riser</b></em>' attribute. <!--
@@ -704,15 +686,6 @@ public interface TypePackage extends EPackage
 	 * @ordered
 	 */
 	int SCATTER_SERIES__CURVE_FITTING = LINE_SERIES__CURVE_FITTING;
-
-	/**
-	 * The feature id for the '<em><b>Cursor</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SCATTER_SERIES__CURSOR = LINE_SERIES__CURSOR;
 
 	/**
 	 * The feature id for the '<em><b>Markers</b></em>' containment reference list.
@@ -891,15 +864,6 @@ public interface TypePackage extends EPackage
 	 * @ordered
 	 */
 	int BUBBLE_SERIES__CURVE_FITTING = SCATTER_SERIES__CURVE_FITTING;
-
-	/**
-	 * The feature id for the '<em><b>Cursor</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BUBBLE_SERIES__CURSOR = SCATTER_SERIES__CURSOR;
 
 	/**
 	 * The feature id for the '<em><b>Markers</b></em>' containment reference list.
@@ -1091,15 +1055,6 @@ public interface TypePackage extends EPackage
 	int DIAL_SERIES__CURVE_FITTING = ComponentPackage.SERIES__CURVE_FITTING;
 
 	/**
-	 * The feature id for the '<em><b>Cursor</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DIAL_SERIES__CURSOR = ComponentPackage.SERIES__CURSOR;
-
-	/**
 	 * The feature id for the '<em><b>Dial</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1224,15 +1179,6 @@ public interface TypePackage extends EPackage
 	 * @ordered
 	 */
 	int DIFFERENCE_SERIES__CURVE_FITTING = AREA_SERIES__CURVE_FITTING;
-
-	/**
-	 * The feature id for the '<em><b>Cursor</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DIFFERENCE_SERIES__CURSOR = AREA_SERIES__CURSOR;
 
 	/**
 	 * The feature id for the '<em><b>Markers</b></em>' containment reference list.
@@ -1422,15 +1368,6 @@ public interface TypePackage extends EPackage
 	 * @ordered
 	 */
 	int GANTT_SERIES__CURVE_FITTING = ComponentPackage.SERIES__CURVE_FITTING;
-
-	/**
-	 * The feature id for the '<em><b>Cursor</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GANTT_SERIES__CURSOR = ComponentPackage.SERIES__CURSOR;
 
 	/**
 	 * The feature id for the '<em><b>Start Marker</b></em>' containment reference.
@@ -1634,15 +1571,6 @@ public interface TypePackage extends EPackage
 	int PIE_SERIES__CURVE_FITTING = ComponentPackage.SERIES__CURVE_FITTING;
 
 	/**
-	 * The feature id for the '<em><b>Cursor</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PIE_SERIES__CURSOR = ComponentPackage.SERIES__CURSOR;
-
-	/**
 	 * The feature id for the '<em><b>Explosion</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -1835,15 +1763,6 @@ public interface TypePackage extends EPackage
 	 * @ordered
 	 */
 	int STOCK_SERIES__CURVE_FITTING = ComponentPackage.SERIES__CURVE_FITTING;
-
-	/**
-	 * The feature id for the '<em><b>Cursor</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STOCK_SERIES__CURSOR = ComponentPackage.SERIES__CURSOR;
 
 	/**
 	 * The feature id for the '<em><b>Fill</b></em>' containment reference.
