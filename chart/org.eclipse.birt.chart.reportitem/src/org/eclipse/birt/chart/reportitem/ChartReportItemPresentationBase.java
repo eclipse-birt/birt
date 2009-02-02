@@ -694,7 +694,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	{
 		// Extract result set to render and check for null data
 		IBaseResultSet resultSet = getDataToRender( baseResultSet );
-		boolean bAutoHide = !cm.getEmptyMessage( ).isVisible( );
+		boolean bAutoHide = ( cm != null && !cm.getEmptyMessage( ).isVisible( ) );
 
 		// Skip gracefully if there is no data
 		if ( resultSet == null )
