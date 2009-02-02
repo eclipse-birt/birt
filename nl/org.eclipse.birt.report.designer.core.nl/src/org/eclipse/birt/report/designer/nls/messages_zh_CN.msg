@@ -245,7 +245,7 @@ ColumnBindingDialog.Text.Add=添加(&A)...
 ColumnBindingDialog.Text.Edit=编辑(&E)...
 ColumnBindingDialog.Text.Del=删除(&R)
 ColumnBindingDialog.Text.Refresh=刷新(&F)
-ColumnBindingDialog.Text.AddAggr=Add A&ggregation...
+ColumnBindingDialog.Text.AddAggr=添加聚合(&G)...
 
 ###########################################################
 #BlockPreferencePage properties
@@ -325,16 +325,16 @@ CascadingParametersDialog.display.controlType.comboBox=组合框
 CascadingParametersDialog.display.controlType.listBox=列表框
 CascadingParametersDialog.Label.button.changeFormat=更改(&G)...
 CascadingParametersDialog.Label.button.createNew.dataset=新建(&W)...
-CascadingParametersDialog.Label.cascadingParam.name=Cascading Paramete&r Name:
+CascadingParametersDialog.Label.cascadingParam.name=级联参数名称(&R):
 CascadingParametersDialog.Label.column.displayText=显示文本
 CascadingParametersDialog.Label.column.dataSet=数据集
 CascadingParametersDialog.Label.column.name=名称
 CascadingParametersDialog.Label.column.value=值
 CascadingParametersDialog.Label.createNewParam=<创建新参数...>
 CascadingParametersDialog.Label.dataSets=数据集(&S):
-CascadingParametersDialog.Label.dataType=Data t&ype
+CascadingParametersDialog.Label.dataType=数据类型(&Y)
 CascadingParametersDialog.Label.defaultValue=默认值(&V):
-CascadingParametersDialog.Label.displayType=Di&splay type:
+CascadingParametersDialog.Label.displayType=显示类型(&S):
 CascadingParametersDialog.Label.formatAs=格式为:
 CascadingParametersDialog.Label.group.general=常规
 CascadingParametersDialog.Label.group.moreOptions=更多选项
@@ -346,7 +346,7 @@ CascadingParametersDialog.Label.param.name=名称(&N):
 CascadingParametersDialog.Label.parameters=参数
 CascadingParametersDialog.Label.preview=带格式预览
 CascadingParametersDialog.Label.groupPromptText=提示文本(&P):
-CascadingParametersDialog.Label.parameterPromptText=Pro&mpt text:
+CascadingParametersDialog.Label.parameterPromptText=提示文本(&M):
 CascadingParametersDialog.Label.selectDataSet=<选择数据集>
 CascadingParametersDialog.Label.selectDisplayColumn=<未设置显示列>
 CascadingParametersDialog.Label.selectValueColumn=<未设置值列>
@@ -690,7 +690,7 @@ datasource.action.edit=编辑(&E)
 datasource.edit=编辑数据源 - {0}
 datasource.new.defaultName=数据源
 datasource.new=新建数据源
-datasource.action.new=New Data &Source
+datasource.action.new=新建数据源(&S)
 datasource.wizard.label.dataSourceName=数据源名称(&M):
 datasource.wizard.label.datasources=根据以下列表中的数据源类型创建(&D)。
 datasource.wizard.label.datasources=根据以下列表中的数据源类型创建(&D)。
@@ -840,8 +840,8 @@ designer.preview.preference.locale.description=选择区域设置(&C):
 designer.preview.preference.timezone.description=时区(&T):
 designer.preview.preference.resultset.sqldatasetpage.group.title=查询页面
 designer.preview.preference.resultset.previewpage.group.title=预览页面
-designer.preview.preference.resultset.groupTitle.DispalyRowLimitsSetting=Preview Row Limits Setting
-designer.preview.preference.resultset.NoLimitOfDispalyRow=No limits of the number of rows to display.
+designer.preview.preference.resultset.groupTitle.DispalyRowLimitsSetting=预览行限制设置
+designer.preview.preference.resultset.NoLimitOfDispalyRow=要显示的行数无限制。
 designer.preview.preference.resultset.maxNoOfSchema.description=要显示的最大架构数(&S):
 designer.preview.preference.resultset.maxNoOfTable.description=每个架构中要显示的最大表数(&T):
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=请为最大架构数输入一个介于 0 和 {0} 之间的数。
@@ -886,7 +886,7 @@ designerActionBarContributor.menu.data-newdatasource=新建数据源(&O)
 DesignerActionBarContributor.menu.data=数据(&D)
 DesignerActionBarContributor.menu.element-EditGroup=编辑组(&E)
 DesignerActionBarContributor.menu.element-LayoutMode=布局模式(&D)
-DesignerActionBarContributor.menu.element-showRuler=Show &Rulers
+DesignerActionBarContributor.menu.element-showRuler=显示标尺(&R)
 DesignerActionBarContributor.menu.element.editDataBinding=编辑数据绑定(&B)
 DesignerActionBarContributor.menu.element=元素(&L)
 DesignerActionBarContributor.menu.format=格式
@@ -1355,7 +1355,7 @@ EmbeddedImageNodeProvider.action.New=新建嵌入图像
 ###########################################################
 #EmbeddedImagesNodeProvider properties
 
-EmbeddedImagesNodeProvider.action.New=New E&mbedded Image
+EmbeddedImagesNodeProvider.action.New=新建嵌入图像(&M)
 
 ###########################################################
 #ElementIdDescriptorProvider properties
@@ -1974,19 +1974,19 @@ ImageBuilder.ErrorMessage.OutOfMemory=该图像太大，无法装入内存。
 ImageBuilder.FileDialog.FilterMessage=支持的图像文件
 ImageBuilder.Button.Browser=浏览...
 ImageBuilder.Button.Import=添加图像(&A)...
-ImageBuilder.Button.SelectImageData=Se&lect Image Data...
+ImageBuilder.Button.SelectImageData=选择图像数据(&L)...
 ImageBuilder.Button.Insert=插入(&S)
 ImageBuilder.Label.SelectFrom=选择图像自:
-ImageBuilder.Label.EnterURI=E&nter URI:
-ImageBuilder.Label.EnterResourceFile=E&nter resource file:
+ImageBuilder.Label.EnterURI=输入 URI(&N):
+ImageBuilder.Label.EnterResourceFile=输入资源文件(&N):
 ImageBuilder.Label.EnterExpr=输入动态图像表达式(&N):
 ImageBuilder.Type.URI=URI(&U)
-ImageBuilder.Type.ResourceFile=&Image file in shared resources
+ImageBuilder.Type.ResourceFile=共享资源中的图像文件(&I)
 ImageBuilder.Type.EmbededImage=嵌入图像(&E)
 ImageBuilder.Type.DynamicImage=动态图像(&D)
 ImageBuilder.Description.URI=链接到 web 上的图像
 ImageBuilder.Description.ResourceFile=链接到共享资源中的图像
-ImageBuilder.Description.Embedded=E&mbed image into the report
+ImageBuilder.Description.Embedded=将图像嵌入到报表(&M)
 ImageBuilder.Description.Dynamic=从数据集(数据库)中检索图像
 ImageBuilder.Button.Browser.Tooltip=浏览图像文件
 
@@ -2011,7 +2011,7 @@ ImagePageGenerator.List.Visibility=可见性
 ###########################################################
 #ImportCSSStyleAction properties
 
-ImportCSSStyleAction.text=&Import CSS Style...
+ImportCSSStyleAction.text=导入 CSS 样式(&I)...
 
 ###########################################################
 #ImportLibraryAction properties
@@ -2093,7 +2093,7 @@ InputParameterDialog.ErrorTitle.Error=错误
 ###########################################################
 #InsertAction properties
 
-InsertAction.text=&Insert Element
+InsertAction.text=插入元素(&I)
 
 ###########################################################
 #InsertColumnAction properties
@@ -2129,7 +2129,7 @@ InsertGroupActionFactory.label.insertGroup=插入组(&N)
 ###########################################################
 #InsertInLayoutAction properties
 
-InsertInLayoutAction.action.text=I&nsert in Layout
+InsertInLayoutAction.action.text=在布局中插入(&N)
 
 ###########################################################
 #InsertListGroupAction properties
@@ -2282,7 +2282,7 @@ ListBandControlFigure.tooltip.ListHeader=列表 - 页眉
 ###########################################################
 #ListBandProvider properties
 
-ListBandProvider.action.text=&Insert Group
+ListBandProvider.action.text=插入组(&I)
 
 ###########################################################
 #ListBandProxy properties
@@ -2696,10 +2696,10 @@ ParameterDialog.Button.CreateDataSet=新建(&W)...
 ParameterDialog.Button.ImportValue=导入值(&U)...
 ParameterDialog.Button.RemoveDefault=删除默认值
 ParameterDialog.Button.SetDefault=设为默认值(&A)
-ParameterDialog.CheckBox.IsRequired=Is Re&quired
+ParameterDialog.CheckBox.IsRequired=必需(&Q)
 ParameterDialog.CheckBox.DoNotEchoInput=不回显输入内容(&U)
-ParameterDialog.CheckBox.Hidden=&Hidden
-ParameterDialog.CheckBox.Distinct=A&llow Duplicate Values
+ParameterDialog.CheckBox.Hidden=隐藏(&H)
+ParameterDialog.CheckBox.Distinct=允许重复值(&L)
 ParameterDialog.Choice.NoDefault=无默认值
 ParameterDialog.Choice.NullValue=空值
 ParameterDialog.Choice.BlankValue=空白值
@@ -2737,7 +2737,7 @@ ParameterDialog.Label.DefaultValue=默认值(&F):
 ParameterDialog.Label.DisplayPrompt=显示提示:
 ParameterDialog.Label.DisplayType=显示类型(&T):
 ParameterDialog.Label.Format=格式为:
-ParameterDialog.Label.HelpText=Help text&:
+ParameterDialog.Label.HelpText=帮助文本(&:):
 ParameterDialog.Label.ListOfValue=值列表
 ParameterDialog.Label.SortGroup=排序
 ParameterDialog.Label.Name=名称(&N):
@@ -2747,9 +2747,9 @@ ParameterDialog.Label.Preview=带格式预览
 ParameterDialog.Label.PromptText=提示文本(&P):
 ParameterDialog.Label.SelectDataSet=数据集(&A):
 ParameterDialog.Label.SortKey=排序依据(&O):
-ParameterDialog.Label.SortDirection=Sort dire&ction:
+ParameterDialog.Label.SortDirection=排序方向(&C):
 ParameterDialog.SelectionDialog.New=新建选择选项
-ParameterDialog.SelectionDialog.Label.DisplayTextKey=Display Text &Key:
+ParameterDialog.SelectionDialog.Label.DisplayTextKey=显示文本关键字(&K):
 ParameterDialog.SelectionDialog.Label.DisplayText=显示文本(&T):
 ParameterDialog.SelectionDialog.Label.Value=值(&V):
 ParameterDialog.SelectionDialog.Button.Resource=...
@@ -2766,7 +2766,7 @@ ParameterDialog.toolTipText.OpenExprButton=打开表达式生成器
 ParameterDialog.datetime.prompt=请输入以下形式的日期时间值: {0}
 ParameterDialog.date.prompt=请输入以下形式的日期值: {0}
 ParameterDialog.time.prompt=请输入以下形式的时间值: {0}
-ParameterDialog.Check.AllowMulti=Allow &Multiple Values
+ParameterDialog.Check.AllowMulti=允许多个值(&M)
 ParameterDialog.checkBox.InputValue=输入值
 ParameterDialog.checkBox.BlankValue=空白值
 ParameterDialog.checkBox.NullValue=空值
@@ -2798,7 +2798,7 @@ ParameterGroupGeneralPage.Label.Name=名称(&N):
 
 ParameterGroupNodeProvider.Action.GroupNew=新建参数组
 ParameterGroupNodeProvider.Action.ParameterEdit=编辑(&E)
-ParameterGroupNodeProvider.Action.ParameterNew=&New Parameter
+ParameterGroupNodeProvider.Action.ParameterNew=新建参数(&N)
 ParameterGroupNodeProvider.Dialogue.ParameterEdit=编辑参数组
 ParameterGroupNodeProvider.Dialogue.ParameterNew=新建参数
 ParameterGroupNodeProvider.Node.Group=参数组
@@ -2983,7 +2983,7 @@ RefreshModuleHandleAction.Action.Text=刷新库(&L)
 
 ###########################################################
 #ReloadCssStylesAction
-ReloadCssStylesAction.Action.Text=&Reload CSS File
+ReloadCssStylesAction.Action.Text=重新加载 CSS 文件(&R)
 
 ###########################################################
 #ReferencePage properties
@@ -3019,7 +3019,7 @@ UseCssInThemeAction.Text=在库中使用 CSS...
 ###########################################################
 #RenameAction properties
 
-RenameAction.text=Rena&me
+RenameAction.text=重命名(&M)
 
 ###########################################################
 #RenameDialog properties
@@ -3397,7 +3397,7 @@ ResourceFileFolderSelectionDialog.Text.Menu=菜单
 ###########################################################
 #ShowPropertyAction properties
 
-ShowPropertyAction.text=P&roperties
+ShowPropertyAction.text=属性(&R)
 
 ###########################################################
 #SortingHandleProvider properties
@@ -4208,8 +4208,8 @@ SampleReportsView.Action.openSampleReport.toolTipText.ide=创建报表项目并将报表放
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=将选择的示例报表直接导出到 RCP 工作区文件夹
 SampleReportsView.Text.Contribute_Samples=提供示例
 
-UseCssStyleAction.text=&Use CSS File...
-EditUseCssStyleAction.text=&Edit CSS File...
+UseCssStyleAction.text=使用 CSS 文件(&U)...
+EditUseCssStyleAction.text=编辑 CSS 文件(&E)...
 EditUseCssStyleAction.EditCssTitle=编辑 CSS
 EditUseCssStyleAction.EditCssAreaTitle.Report=编辑报表设计中的 CSS 文件
 EditUseCssStyleAction.EditCssAreaTitle.Libary=编辑报表库中的 CSS 文件
@@ -4261,18 +4261,18 @@ AggDataDropAdapter.Trans.Name=创建聚合
 
 ###########################################################
 #BindingDialogHelper
-BindingDialogHelper.text.Name=Column &Binding Name:
-BindingDialogHelper.text.DataType=Data &Type:
-BindingDialogHelper.text.Function=&Function:
-BindingDialogHelper.text.DataField=Data &Field:
-BindingDialogHelper.text.Filter=Filter &Condition:
-BindingDialogHelper.text.AggOn=A&ggregate On:
+BindingDialogHelper.text.Name=列绑定名称(&B):
+BindingDialogHelper.text.DataType=数据类型(&T):
+BindingDialogHelper.text.Function=函数(&F):
+BindingDialogHelper.text.DataField=数据字段(&F):
+BindingDialogHelper.text.Filter=筛选条件(&C):
+BindingDialogHelper.text.AggOn=聚合条件(&G):
 BindingDialogHelper.text.Table=表
 BindingDialogHelper.text.List=列表
 BindingDialogHelper.text.Grid=网格
 BindingDialogHelper.text.Group=组
 BindingDialogHelper.text.Expression=表达式(&E):
-BindingDialogHelper.text.displayName=显示名称(&D):
+BindingDialogHelper.text.displayName=显示名称(&N):
 BindingDialogHelper.bindingName.dataitem=列绑定
 BindingDialogHelper.bindingName.aggregation=聚合
 BindingDialogHelper.error.nameduplicate=名为 {0} 的列绑定已存在。 
@@ -4285,7 +4285,7 @@ BindingDialogHelper.warning.button.no=否
 ###########################################################
 #Scripts Node
 Scripts.Node.DisplayName=脚本
-ScriptElementNode.Action.Text=&Go to Report Element
+ScriptElementNode.Action.Text=转到报表元素(&G)
 
 ReportPage.PreviewImage.Button.ToolTip=管理缩略图
 

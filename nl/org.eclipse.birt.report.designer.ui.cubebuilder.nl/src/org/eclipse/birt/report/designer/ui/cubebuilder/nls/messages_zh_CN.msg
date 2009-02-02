@@ -2,7 +2,7 @@
 #Cube treeNode properties
 DefaultNodeProvider.Tree.Cubes=多维数据集
 cube.new=新建多维数据集
-cube.action.new=New Data &Cube
+cube.action.new=新建数据和多维数据集
 cube.edit=编辑多维数据集
 CubeNodeProvider.menu.text=编辑(&E)
 cube.dimension.new=新建多维数据集维
@@ -25,9 +25,9 @@ cube.measuregroup.new=新建多维数据集度量组
 cube.measure.edit=编辑多维数据集度量
 CubeMeasureGroupNodeProvider.menu.text=编辑(&E)
 CubeGroupContent.Measure.Edit.Message=摘要字段名称:
-CubeModel.group.edit=&Edit Group
+CubeModel.group.edit=编辑组(&E)
 Cube.Other.Datasets=其它
-CubeModel.summaryfield.edit=&Edit Summary Field
+CubeModel.summaryfield.edit=编辑摘要字段(&E)
 Cube.Groups=组(维)
 Cube.MeasureGroup=摘要字段(度量)
 CubeGroupContent.MeasureDataTypeErrorDialog.Message=度量不支持数据类型“任意”，请选择其它数据列或更改列“{0}”的数据类型。

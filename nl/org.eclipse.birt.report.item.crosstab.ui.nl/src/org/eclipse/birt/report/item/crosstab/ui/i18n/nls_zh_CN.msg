@@ -219,7 +219,7 @@ CrosstabPageBreakDialog.Title=分页符
 CrosstabPageBreakDialog.Text.GroupLevel=组级别:
 CrosstabPageBreakDialog.Text.PageBreakBefore=之前:
 CrosstabPageBreakDialog.Text.PageBreakAfter=之后:
-CrosstabPageBreakDialog.Text.PageBreakInterval=Page Break Interval:
+CrosstabPageBreakDialog.Text.PageBreakInterval=分页符间隔:
 
 ###########################################################
 #SubTotalDialog
@@ -308,8 +308,8 @@ CrosstabSortKeyBuilder.tooltip.ExpBuilder=打开表达式生成器
 CrosstabSortKeyBuilder.MSG.CreateNew=新建...
 
 
-InsertCubeInLayoutAction.menu.text=&Edit
-InsertCubeInLayoutAction.action.text=I&nsert in Layout
+InsertCubeInLayoutAction.menu.text=编辑(&E)
+InsertCubeInLayoutAction.action.text=在布局中插入(&N)
 InsertCubeInLayoutAction.action.message=使用多维数据集创建交叉表
 
 MapRuleBuilderDialog.MsgDlg.Title=警告

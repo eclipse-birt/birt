@@ -1,4 +1,4 @@
-ChartImpl.AltText=This chart contains no data.
+ChartImpl.AltText=此图表不包含数据。
 ChartWithAxesImpl.X_Axis.title=X 轴标题
 ChartWithAxesImpl.Y_Axis.title=Y 轴标题
 ChartWithAxesImpl.Z_Axis.title=Z 轴标题

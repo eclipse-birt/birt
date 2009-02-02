@@ -79,7 +79,7 @@ ChartWizard.Label.SelectChartTypeDataFormat=选择图表类型、数据和格式。
 TaskSelectData.Warning.CategoryGroupTypeCheck=组类型 {0} 与类别系列的数据类型不兼容。 
 TaskSelectData.Warning.YGroupTypeCheck=组类型 {0} 与 Y 系列分组的数据类型不兼容。
 TaskSelectType.Caption.OverlayAxis1=Y 轴标题
-ApplyButtonHandler.Label.Apply=Appl&y
+ApplyButtonHandler.Label.Apply=应用(&Y)
 
 ChartUIUtil.GanttExp.Label=任务标签
 ChartUIUtil.GanttExp.Start=开始日期
