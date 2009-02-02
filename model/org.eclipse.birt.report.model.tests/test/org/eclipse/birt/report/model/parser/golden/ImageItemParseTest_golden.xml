@@ -86,6 +86,7 @@
         <image name="Body Image" id="10">
             <expression name="bookmark">No bookmark</expression>
             <property name="source">embed</property>
+            <property name="fitToContainer">false</property>
             <property name="imageName">BodyImage</property>
             <text-property name="helpText" key="new resource key for body image help text">new body image help text</text-property>
             <structure name="action">

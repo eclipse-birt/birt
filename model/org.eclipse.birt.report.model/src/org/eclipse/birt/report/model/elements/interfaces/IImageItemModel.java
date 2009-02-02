@@ -93,4 +93,10 @@ public interface IImageItemModel
 
 	public static final String HELP_TEXT_ID_PROP = "helpTextID"; //$NON-NLS-1$
 
+	/**
+	 * Name of the fit to container property.The image size will be scaled if
+	 * this property is set true.
+	 */
+	public static final String FIT_TO_CONTAINER_PROP = "fitToContainer"; //$NON-NLS-1$
+
 }

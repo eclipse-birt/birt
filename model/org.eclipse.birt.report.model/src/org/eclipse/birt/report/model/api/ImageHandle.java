@@ -717,4 +717,28 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 		setStringProperty( IImageItemModel.HELP_TEXT_ID_PROP, helpTextKey );
 	}
 
+	/**
+	 * Gets the fit to container property value of this image item.
+	 * 
+	 * @return the fit to container of this image item.
+	 */
+	public boolean fitToContainer( )
+	{
+		return getBooleanProperty( FIT_TO_CONTAINER_PROP );
+	}
+
+	/**
+	 * Sets the fit to container property value of this image item.
+	 * 
+	 * @param fitToContainer
+	 *            the value of fit to container.
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+	public void setFitToContainer( boolean fitToContainer )
+			throws SemanticException
+	{
+		setProperty( FIT_TO_CONTAINER_PROP, new Boolean( fitToContainer ) );
+	}
+
 }

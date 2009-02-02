@@ -139,7 +139,8 @@ public class ImageItemParseTest extends BaseTestCase
 
 	private ImageItem findImageItemByName( String name )
 	{
-		NameSpace ns = design.getNameHelper( ).getNameSpace( ReportDesign.ELEMENT_NAME_SPACE );
+		NameSpace ns = design.getNameHelper( ).getNameSpace(
+				ReportDesign.ELEMENT_NAME_SPACE );
 		assertTrue( ns.contains( name ) );
 
 		image = (ImageItem) ns.getElement( name );
@@ -210,6 +211,8 @@ public class ImageItemParseTest extends BaseTestCase
 		assertEquals( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK, handle
 				.getActionHandle( ).getLinkType( ) );
 
+		assertFalse( handle.fitToContainer( ) );
+
 		// 2nd image
 		image = findImageItemByName( "Image2" ); //$NON-NLS-1$
 		refType = handle.getSource( );
@@ -255,7 +258,9 @@ public class ImageItemParseTest extends BaseTestCase
 		assertNotNull( actionHandle );
 
 		assertEquals(
-				"http://localhost:8080/bodyImage.jpg", actionHandle.getURI() ); //$NON-NLS-1$
+				"http://localhost:8080/bodyImage.jpg", actionHandle.getURI( ) ); //$NON-NLS-1$
+
+		assertTrue( handle.fitToContainer( ) );
 	}
 
 	/**
@@ -271,18 +276,16 @@ public class ImageItemParseTest extends BaseTestCase
 		}
 		catch ( DesignFileException e )
 		{
-			List errors = e.getErrorList( );
+			List<ErrorDetail> errors = e.getErrorList( );
 			assertEquals( 2, errors.size( ) );
 
 			int i = 0;
 			assertEquals(
 					DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGEREF_EXPR_VALUE,
-					( (ErrorDetail) e.getErrorList( ).get( i++ ) )
-							.getErrorCode( ) );
+					e.getErrorList( ).get( i++ ).getErrorCode( ) );
 			assertEquals(
 					DesignParserException.DESIGN_EXCEPTION_IMAGE_REF_CONFLICT,
-					( (ErrorDetail) e.getErrorList( ).get( i++ ) )
-							.getErrorCode( ) );
+					e.getErrorList( ).get( i++ ).getErrorCode( ) );
 		}
 	}
 
@@ -357,9 +360,10 @@ public class ImageItemParseTest extends BaseTestCase
 		actionHandle.setURI( "http://localhost/body.jpg" ); //$NON-NLS-1$
 		handle.setHelpText( "new body image help text" ); //$NON-NLS-1$
 		handle.setHelpTextKey( "new resource key for body image help text" ); //$NON-NLS-1$
+		handle.setFitToContainer( false );
 
-		save(); 
-		assertTrue( compareFile( "ImageItemParseTest_golden.xml") ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareFile( "ImageItemParseTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -373,14 +377,13 @@ public class ImageItemParseTest extends BaseTestCase
 		openDesign( "ImageItemParseTest_2.xml" ); //$NON-NLS-1$
 		printSemanticErrors( );
 
-		ErrorDetail detail = (ErrorDetail) designHandle.getWarningList( ).get(
-				0 );
+		ErrorDetail detail = designHandle.getWarningList( ).get( 0 );
 		assertEquals( SemanticError.DESIGN_EXCEPTION_UNSUPPORTED_ELEMENT,
-				detail.getErrorCode( ) ); 
+				detail.getErrorCode( ) );
 
-		detail = (ErrorDetail) designHandle.getWarningList( ).get( 1 );
+		detail = designHandle.getWarningList( ).get( 1 );
 		assertEquals( SemanticError.DESIGN_EXCEPTION_UNSUPPORTED_ELEMENT,
-				detail.getErrorCode( ) ); 
+				detail.getErrorCode( ) );
 
 		ImageHandle imageHandle = (ImageHandle) designHandle
 				.findElement( "image2" ); //$NON-NLS-1$

@@ -3064,6 +3064,9 @@
     <Property displayNameID="Element.Image.valueExpr" name="valueExpr" returnType="blob" since="2.0" type="expression"/>
     <Property displayNameID="Element.Image.typeExpr" name="typeExpr" returnType="string" runtimeSettable="false" since="2.0" type="expression"/>
     <Property detailType="Action" displayNameID="Element.Image.action" isList="false" name="action" runtimeSettable="false" since="1.0" type="structure"/>
+	<Property displayNameID="Element.Image.fitToContainer" name="fitToContainer" runtimeSettable="true" since="2.5" type="boolean">
+		<Default>false</Default>
+	</Property>
 	<Method context="startup" displayNameID="Element.Image.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Image.onPrepare.toolTip">
       <Argument name="this" tagID="Element.Image.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.IImage"/>
       <Argument name="reportContext" tagID="Element.Image.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>

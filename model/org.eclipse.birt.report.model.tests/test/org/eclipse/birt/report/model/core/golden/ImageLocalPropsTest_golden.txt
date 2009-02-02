@@ -10,6 +10,7 @@ imageName
 valueExpr
 typeExpr
 action
+fitToContainer
 onPrepare
 onCreate
 onRender

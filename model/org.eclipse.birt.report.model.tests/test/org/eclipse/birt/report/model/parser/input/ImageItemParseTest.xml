@@ -80,6 +80,7 @@
     <body>
         <image name="Body Image">
             <property name="imageName">bodyImage.jpg</property>
+            <property name="fitToContainer">true</property>
             <text-property name="helpText" key="Body Image Key">BodyImage-Help-Text</text-property>
             <structure name="action">
                 <expression name="hyperlink">http://localhost:8080/bodyImage.jpg</expression>

@@ -2769,6 +2769,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IImageItemModel.SIZE_PROP );
 		property( obj, IImageItemModel.SCALE_PROP );
 		property( obj, IImageItemModel.SOURCE_PROP );
+		property( obj, IImageItemModel.FIT_TO_CONTAINER_PROP );
 
 		String source = (String) obj.getLocalProperty( getModule( ),
 				IImageItemModel.SOURCE_PROP );
