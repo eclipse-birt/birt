@@ -2812,6 +2812,7 @@ Element.Image.onPageBreak=出现分页符时
 Element.Image.onPageBreak.toolTip=TBD
 Element.Image.onPageBreak.this=图像实例
 Element.Image.onPageBreak.reportContext=报表上下文
+Element.Image.fitToContainer=Fit to container
   
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=列

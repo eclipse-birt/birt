@@ -2812,6 +2812,7 @@ Element.Image.onPageBreak=ページ区切り
 Element.Image.onPageBreak.toolTip=TBD
 Element.Image.onPageBreak.this=イメージインスタンス
 Element.Image.onPageBreak.reportContext=レポートのコンテキスト
+Element.Image.fitToContainer=Fit to container
   
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=列

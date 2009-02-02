@@ -2812,6 +2812,7 @@ Element.Image.onPageBreak=En el salto de página
 Element.Image.onPageBreak.toolTip=TBD
 Element.Image.onPageBreak.this=Instancia de imagen
 Element.Image.onPageBreak.reportContext=Contexto de informe
+Element.Image.fitToContainer=Fit to container
   
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=Columnas

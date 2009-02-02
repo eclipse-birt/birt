@@ -2812,6 +2812,7 @@ Element.Image.onPageBreak=페이지 나누기
 Element.Image.onPageBreak.toolTip=TBD
 Element.Image.onPageBreak.this=이미지 인스턴스
 Element.Image.onPageBreak.reportContext=보고서 컨텍스트
+Element.Image.fitToContainer=Fit to container
   
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=열
