@@ -205,6 +205,7 @@ CrosstabGrandTotalDialog.Text.Function=함수:
 CrosstabPageBreakProvider.Column.GroupLevel=그룹 수준
 CrosstabPageBreakProvider.Column.Before=전
 CrosstabPageBreakProvider.Column.After=후
+CrosstabPageBreakProvider.Column.Interval=Interval
 
 ###########################################################
 # Crosstab RowArea SubTotal
