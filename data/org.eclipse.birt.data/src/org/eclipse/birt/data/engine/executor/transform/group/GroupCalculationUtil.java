@@ -447,7 +447,9 @@ final class GroupBoundaryInfo implements ICachedObject
 		{
 			fields.add( new Integer( comparator.length ) );		//idx 2 + n + 1 + n + 1
 			for ( int i = 0; i < comparator.length; i++ )
-				fields.add( new Integer( comparator[i].getStrength() ) );
+				fields.add( comparator[i] == null
+						? ISortDefinition.ASCII_SORT_STRENGTH
+						: new Integer( comparator[i].getStrength( ) ) );
 		}
 		else
 		{
