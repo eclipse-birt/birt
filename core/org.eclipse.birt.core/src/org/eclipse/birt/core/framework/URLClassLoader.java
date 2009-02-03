@@ -16,10 +16,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
 import java.net.URLStreamHandler;
 import java.security.CodeSigner;
 import java.security.CodeSource;
@@ -30,6 +32,8 @@ import java.util.List;
 import java.util.Vector;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 
 /**
@@ -47,26 +51,32 @@ import java.util.zip.ZipEntry;
 public class URLClassLoader extends java.net.URLClassLoader
 {
 
-	private List<URL> urls = new LinkedList<URL>();
+	private static Logger logger = Logger.getLogger( URLClassLoader.class
+			.getName( ) );
+
+	private List<URL> urls = new LinkedList<URL>( );
 	private ArrayList<Loader> loaders;
 
 	public URLClassLoader( URL[] urls )
 	{
 		super( new URL[]{} );
-		
+
 		initURLs( urls );
-		
+
 		loaders = new ArrayList<Loader>( urls.length );
 		for ( int i = 0; i < urls.length; i++ )
 		{
 			Loader loader = createLoader( urls[i] );
-			loaders.add( loader );
+			if ( loader != null )
+			{
+				loaders.add( loader );
+			}
 		}
 	}
 
 	private void initURLs( URL[] urls )
 	{
-		for( URL url:urls)
+		for ( URL url : urls )
 		{
 			this.urls.add( url );
 		}
@@ -75,14 +85,17 @@ public class URLClassLoader extends java.net.URLClassLoader
 	public URLClassLoader( URL[] urls, ClassLoader parent )
 	{
 		super( new URL[]{}, parent );
-		
+
 		initURLs( urls );
-		
+
 		loaders = new ArrayList<Loader>( urls.length );
 		for ( int i = 0; i < urls.length; i++ )
 		{
 			Loader loader = createLoader( urls[i] );
-			loaders.add( loader );
+			if ( loader != null )
+			{
+				loaders.add( loader );
+			}
 		}
 	}
 
@@ -103,18 +116,22 @@ public class URLClassLoader extends java.net.URLClassLoader
 			loaders = null;
 		}
 	}
-	
+
 	public void addURL( URL url )
 	{
-		if ( this.urls.contains( url ))
+		if ( url == null || this.urls.contains( url ) )
 			return;
 		this.urls.add( url );
-		this.loaders.add( createLoader( url ) );
+		Loader loader = createLoader( url );
+		if ( loader != null )
+		{
+			loaders.add( loader );
+		}
 	}
 
 	public URL[] getURLs( )
 	{
-		return this.urls.toArray( new URL[0]);
+		return this.urls.toArray( new URL[0] );
 	}
 
 	protected Class<?> findClass( final String name )
@@ -292,26 +309,33 @@ public class URLClassLoader extends java.net.URLClassLoader
 		URL jarUrl;
 		JarFile jarFile;
 
-		JarLoader( URL url )
+		JarLoader( URL url ) throws IOException
 		{
 			baseUrl = url;
+			jarUrl = new URL( "jar", "", -1, baseUrl + "!/" );
+			if ( baseUrl.getProtocol( ).equalsIgnoreCase( "file" ) )
+			{
+				String filePath = getFilePath( baseUrl );
+				jarFile = new JarFile( filePath );
+			}
+			else
+			{
+				JarURLConnection jarConn = (JarURLConnection) jarUrl
+						.openConnection( );
+				jarFile = jarConn.getJarFile( );
+			}
 		}
 
-		private void ensureOpen( ) throws IOException
+		private String getFilePath( URL url )
 		{
-			if ( jarFile == null )
+			String path = url.getFile( ).replace( '/', '\\' );
+			try
 			{
-				jarUrl = new URL( "jar", "", -1, baseUrl + "!/" );
-				if ( baseUrl.getProtocol( ).equalsIgnoreCase( "file" ) )
-				{
-					jarFile = new JarFile( baseUrl.getPath( ) );
-				}
-				else
-				{
-					JarURLConnection jarConn = (JarURLConnection) jarUrl
-							.openConnection( );
-					jarFile = jarConn.getJarFile( );
-				}
+				return URLDecoder.decode( path, "utf-8" );
+			}
+			catch ( UnsupportedEncodingException ex )
+			{
+				return path;
 			}
 		}
 
@@ -326,11 +350,13 @@ public class URLClassLoader extends java.net.URLClassLoader
 
 		URL findResource( String name ) throws IOException
 		{
-			ensureOpen( );
-			ZipEntry entry = jarFile.getEntry( name );
-			if ( entry != null )
+			if ( jarFile != null )
 			{
-				return new URL( jarUrl, name, new JarEntryHandler( entry ) );
+				ZipEntry entry = jarFile.getEntry( name );
+				if ( entry != null )
+				{
+					return new URL( jarUrl, name, new JarEntryHandler( entry ) );
+				}
 			}
 			return null;
 		}
@@ -338,31 +364,33 @@ public class URLClassLoader extends java.net.URLClassLoader
 		Resource loadResource( String name ) throws IOException
 		{
 			// first test if the jar file exist
-			ensureOpen( );
-			final JarEntry entry = jarFile.getJarEntry( name );
-			if ( entry != null )
+			if ( jarFile != null )
 			{
-				InputStream in = jarFile.getInputStream( entry );
-				try
+				final JarEntry entry = jarFile.getJarEntry( name );
+				if ( entry != null )
 				{
-					final byte[] bytes = loadStream( in );
-					return new Resource( ) {
+					InputStream in = jarFile.getInputStream( entry );
+					try
+					{
+						final byte[] bytes = loadStream( in );
+						return new Resource( ) {
 
-						byte[] getBytes( )
-						{
-							return bytes;
+							byte[] getBytes( )
+							{
+								return bytes;
+							};
+
+							CodeSource getCodeSource( )
+							{
+								return new CodeSource( baseUrl, entry
+										.getCodeSigners( ) );
+							}
 						};
-
-						CodeSource getCodeSource( )
-						{
-							return new CodeSource( baseUrl, entry
-									.getCodeSigners( ) );
-						}
-					};
-				}
-				finally
-				{
-					in.close( );
+					}
+					finally
+					{
+						in.close( );
+					}
 				}
 			}
 			return null;
@@ -468,16 +496,25 @@ public class URLClassLoader extends java.net.URLClassLoader
 
 	static Loader createLoader( URL url )
 	{
-		String file = url.getFile( );
-		if ( file != null && file.endsWith( "/" ) )
+		try
 		{
-			if ( "file".equals( url.getProtocol( ) ) )
+
+			String file = url.getFile( );
+			if ( file != null && file.endsWith( "/" ) )
 			{
-				return new FileLoader( url );
+				if ( "file".equals( url.getProtocol( ) ) )
+				{
+					return new FileLoader( url );
+				}
+				return new UrlLoader( url );
 			}
-			return new UrlLoader( url );
+			return new JarLoader( url );
 		}
-		return new JarLoader( url );
+		catch ( IOException ex )
+		{
+			logger.log( Level.SEVERE, "can't load the class from " + url, ex );
+			return null;
+		}
 	}
 
 	static byte[] loadStream( InputStream in ) throws IOException

@@ -125,7 +125,7 @@ public class OSGILauncher
 		}
 		try
 		{
-			osgiFramework = new File( path ).toURL( );
+			osgiFramework = new File( path ).toURI( ).toURL( );
 		}
 		catch(MalformedURLException ex)
 		{
