@@ -3417,6 +3417,9 @@ SplitAction.actionMsg.splitCells=セルの分割(&S)
 ###########################################################
 #StyleBuilder properties
 
+StringVariableSelectionDialog.Dialog.Label=&Variable Description:
+StringVariableSelectionDialog.Dialog.Prompt=&Choose a variable (? = any character, * = any string):
+StringVariableSelectionDialog.Dialog.Title=Select Variable
 StyleBuilder.action.Apply=適用(&A)
 SytleBuilder.DialogTitle.New=スタイルの新規作成
 SytleBuilder.DialogTitle.Edit=スタイルの編集
@@ -3941,6 +3944,12 @@ EventHandlerPage.Browse=参照(&B)...
 #IDEFileReportProvider
 IDEFileReportProvider.ReadOnlyEncounter.Title=読み取り専用ファイル
 IDEFileReportProvider.ReadOnlyEncounter.Message=ファイル ''{0}'' は読み取り専用です。先に、このファイルを書き込み可能にしてください。
+IDEResourcePageHelper.Dialog.Prompt=Choose a directory:
+IDEResourcePageHelper.Dialog.Text=Choose a location relative to the workspace:
+IDEResourcePageHelper.Dialog.Title=Directory Selection
+IDEResourcePageHelper.File.Button=File System...
+IDEResourcePageHelper.Varible.Button=Varia&bles...
+IDEResourcePageHelper.WorkSpace.Button=&Workspace...
 
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider

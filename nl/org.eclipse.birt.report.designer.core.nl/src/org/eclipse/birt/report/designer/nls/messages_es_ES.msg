@@ -3417,6 +3417,9 @@ SplitAction.actionMsg.splitCells=&Dividir celda
 ###########################################################
 #StyleBuilder properties
 
+StringVariableSelectionDialog.Dialog.Label=&Variable Description:
+StringVariableSelectionDialog.Dialog.Prompt=&Choose a variable (? = any character, * = any string):
+StringVariableSelectionDialog.Dialog.Title=Select Variable
 StyleBuilder.action.Apply=&Aplicar
 SytleBuilder.DialogTitle.New=Nuevo estilo
 SytleBuilder.DialogTitle.Edit=Editar estilo
@@ -3941,6 +3944,12 @@ EventHandlerPage.Browse=&Examinar...
 #IDEFileReportProvider
 IDEFileReportProvider.ReadOnlyEncounter.Title=Se ha encontrado un archivo de sólo lectura
 IDEFileReportProvider.ReadOnlyEncounter.Message=El archivo ''{0}'' es de sólo lectura, asegúrese primero de que se puede escribir en él.
+IDEResourcePageHelper.Dialog.Prompt=Choose a directory:
+IDEResourcePageHelper.Dialog.Text=Choose a location relative to the workspace:
+IDEResourcePageHelper.Dialog.Title=Directory Selection
+IDEResourcePageHelper.File.Button=File System...
+IDEResourcePageHelper.Varible.Button=Varia&bles...
+IDEResourcePageHelper.WorkSpace.Button=&Workspace...
 
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider

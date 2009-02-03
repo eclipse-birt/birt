@@ -3417,6 +3417,9 @@ SplitAction.actionMsg.splitCells=셀 분할(&S)
 ###########################################################
 #StyleBuilder properties
 
+StringVariableSelectionDialog.Dialog.Label=&Variable Description:
+StringVariableSelectionDialog.Dialog.Prompt=&Choose a variable (? = any character, * = any string):
+StringVariableSelectionDialog.Dialog.Title=Select Variable
 StyleBuilder.action.Apply=적용(&A)
 SytleBuilder.DialogTitle.New=새 스타일
 SytleBuilder.DialogTitle.Edit=스타일 편집
@@ -3941,6 +3944,12 @@ EventHandlerPage.Browse=찾아보기(&B)...
 #IDEFileReportProvider
 IDEFileReportProvider.ReadOnlyEncounter.Title=읽기 전용 파일 발생
 IDEFileReportProvider.ReadOnlyEncounter.Message=''{0}'' 파일은 읽기 전용입니다. 먼저 파일에 쓸 수 있는지 확인하십시오.
+IDEResourcePageHelper.Dialog.Prompt=Choose a directory:
+IDEResourcePageHelper.Dialog.Text=Choose a location relative to the workspace:
+IDEResourcePageHelper.Dialog.Title=Directory Selection
+IDEResourcePageHelper.File.Button=File System...
+IDEResourcePageHelper.Varible.Button=Varia&bles...
+IDEResourcePageHelper.WorkSpace.Button=&Workspace...
 
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider

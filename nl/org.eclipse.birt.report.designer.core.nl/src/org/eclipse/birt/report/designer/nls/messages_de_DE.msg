@@ -3417,6 +3417,9 @@ SplitAction.actionMsg.splitCells=&Zelle teilen
 ###########################################################
 #StyleBuilder properties
 
+StringVariableSelectionDialog.Dialog.Label=&Variable Description:
+StringVariableSelectionDialog.Dialog.Prompt=&Choose a variable (? = any character, * = any string):
+StringVariableSelectionDialog.Dialog.Title=Select Variable
 StyleBuilder.action.Apply=&Anwenden
 SytleBuilder.DialogTitle.New=Neuer Stil
 SytleBuilder.DialogTitle.Edit=Stil bearbeiten
@@ -3941,6 +3944,12 @@ EventHandlerPage.Browse=&Durchsuchen...
 #IDEFileReportProvider
 IDEFileReportProvider.ReadOnlyEncounter.Title=Schreibgeschützte Datei gefunden
 IDEFileReportProvider.ReadOnlyEncounter.Message=Datei ''{0}'' ist schreibgeschützt. Heben Sie den Schreibschutz auf.
+IDEResourcePageHelper.Dialog.Prompt=Choose a directory:
+IDEResourcePageHelper.Dialog.Text=Choose a location relative to the workspace:
+IDEResourcePageHelper.Dialog.Title=Directory Selection
+IDEResourcePageHelper.File.Button=File System...
+IDEResourcePageHelper.Varible.Button=Varia&bles...
+IDEResourcePageHelper.WorkSpace.Button=&Workspace...
 
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider

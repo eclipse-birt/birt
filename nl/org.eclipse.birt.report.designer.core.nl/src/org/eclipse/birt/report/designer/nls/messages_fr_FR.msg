@@ -3417,6 +3417,9 @@ SplitAction.actionMsg.splitCells=&Fractionner la cellule
 ###########################################################
 #StyleBuilder properties
 
+StringVariableSelectionDialog.Dialog.Label=&Variable Description:
+StringVariableSelectionDialog.Dialog.Prompt=&Choose a variable (? = any character, * = any string):
+StringVariableSelectionDialog.Dialog.Title=Select Variable
 StyleBuilder.action.Apply=&Appliquer
 SytleBuilder.DialogTitle.New=Nouveau style
 SytleBuilder.DialogTitle.Edit=Modifier le style
@@ -3941,6 +3944,12 @@ EventHandlerPage.Browse=& Parcourir...
 #IDEFileReportProvider
 IDEFileReportProvider.ReadOnlyEncounter.Title=Fichier en lecture seule
 IDEFileReportProvider.ReadOnlyEncounter.Message=Le fichier ''{0}'' est en lecture seule, vous devez d''abord disposer des droits en écriture.
+IDEResourcePageHelper.Dialog.Prompt=Choose a directory:
+IDEResourcePageHelper.Dialog.Text=Choose a location relative to the workspace:
+IDEResourcePageHelper.Dialog.Title=Directory Selection
+IDEResourcePageHelper.File.Button=File System...
+IDEResourcePageHelper.Varible.Button=Varia&bles...
+IDEResourcePageHelper.WorkSpace.Button=&Workspace...
 
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider

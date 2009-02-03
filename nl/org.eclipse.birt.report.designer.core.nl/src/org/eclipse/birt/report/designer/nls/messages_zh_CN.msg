@@ -3417,6 +3417,9 @@ SplitAction.actionMsg.splitCells=拆分单元格(&S)
 ###########################################################
 #StyleBuilder properties
 
+StringVariableSelectionDialog.Dialog.Label=&Variable Description:
+StringVariableSelectionDialog.Dialog.Prompt=&Choose a variable (? = any character, * = any string):
+StringVariableSelectionDialog.Dialog.Title=Select Variable
 StyleBuilder.action.Apply=应用(&A)
 SytleBuilder.DialogTitle.New=新建样式
 SytleBuilder.DialogTitle.Edit=编辑样式
@@ -3941,6 +3944,12 @@ EventHandlerPage.Browse=浏览(&B)...
 #IDEFileReportProvider
 IDEFileReportProvider.ReadOnlyEncounter.Title=遇到只读文件
 IDEFileReportProvider.ReadOnlyEncounter.Message=文件“{0}”为只读，请首先确保它可以写入。
+IDEResourcePageHelper.Dialog.Prompt=Choose a directory:
+IDEResourcePageHelper.Dialog.Text=Choose a location relative to the workspace:
+IDEResourcePageHelper.Dialog.Title=Directory Selection
+IDEResourcePageHelper.File.Button=File System...
+IDEResourcePageHelper.Varible.Button=Varia&bles...
+IDEResourcePageHelper.WorkSpace.Button=&Workspace...
 
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
