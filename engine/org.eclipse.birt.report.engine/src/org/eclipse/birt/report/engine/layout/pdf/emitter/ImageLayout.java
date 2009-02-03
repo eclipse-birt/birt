@@ -31,6 +31,7 @@ import org.eclipse.birt.report.engine.content.impl.ActionContent;
 import org.eclipse.birt.report.engine.content.impl.ObjectContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
+import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.layout.area.IImageArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.BlockContainerArea;
@@ -38,18 +39,20 @@ import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ImageArea;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.util.FlashFile;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Image;
 
-public class ImageLayout extends Layout 
+public class ImageLayout extends Layout
 {
+
 	public static final int TYPE_IMAGE_OBJECT = 0;
 	public static final int TYPE_FLASH_OBJECT = 1;
-	
+
 	private Layout layout = null;
 	private ContainerLayout parentLayout = null;
-	
+
 	private int objectType = TYPE_IMAGE_OBJECT;
 	private boolean withFlashVars = false;
 
@@ -61,14 +64,14 @@ public class ImageLayout extends Layout
 		flashUnsupportedFormatList.add( "ppt" );
 		unsupportedFormats.put( TYPE_FLASH_OBJECT, flashUnsupportedFormatList );
 	};
-		
+
 	public ImageLayout( LayoutEngineContext context,
 			ContainerLayout parentContext, IContent content )
 	{
 		super( context, parentContext, content );
 		parentLayout = parentContext;
 	}
-	
+
 	public void layout( ) throws BirtException
 	{
 		if ( layout != null )
@@ -76,7 +79,7 @@ public class ImageLayout extends Layout
 			layout.layout( );
 		}
 	}
-	
+
 	protected void closeLayout( ) throws BirtException
 	{
 		if ( layout != null )
@@ -89,19 +92,21 @@ public class ImageLayout extends Layout
 	{
 		checkObjectType( );
 		// choose the layout manager
-		IImageContent imageContent = (IImageContent)content;
+		IImageContent imageContent = (IImageContent) content;
 		Image imageObject = null;
-		boolean isFlash = FlashFile.isFlash( imageContent.getMIMEType( ), imageContent
-				.getURI( ), imageContent.getExtension( ) );
+		boolean isFlash = FlashFile.isFlash( imageContent.getMIMEType( ),
+				imageContent.getURI( ), imageContent.getExtension( ) );
 		if ( !isFlash )
 		{
-			imageObject = EmitterUtil.getImage(imageContent);
+			imageObject = EmitterUtil.getImage( imageContent );
 		}
 		if ( isOutputSupported( objectType )
 				&& ( isFlash || imageObject != null ) )
 		{
-			// the output format can display this kind of object and the object is accessible.
-			layout = new ConcreteImageLayout( context, parentLayout, content, imageObject );
+			// the output format can display this kind of object and the object
+			// is accessible.
+			layout = new ConcreteImageLayout( context, parentLayout, content,
+					imageObject );
 		}
 		else
 		{
@@ -111,23 +116,24 @@ public class ImageLayout extends Layout
 			{
 				return;
 			}
-			ITextContent altTextContent = report.createTextContent( imageContent );
+			ITextContent altTextContent = report
+					.createTextContent( imageContent );
 			altTextContent.setText( imageContent.getAltText( ) );
 			layout = new BlockTextLayout( context, parentLayout, altTextContent );
 			layout.initialize( );
 		}
 	}
-	
+
 	protected void checkObjectType( )
 	{
 		IImageContent image = (IImageContent) content;
 		String uri = image.getURI( );
 		String mimeType = image.getMIMEType( );
 		String extension = image.getExtension( );
-		if (FlashFile.isFlash(mimeType, uri, extension))
+		if ( FlashFile.isFlash( mimeType, uri, extension ) )
 		{
 			objectType = TYPE_FLASH_OBJECT;
-			ObjectContent flash = (ObjectContent)image;
+			ObjectContent flash = (ObjectContent) image;
 			if ( null != flash.getParamValueByName( "flashvars" ) )
 			{
 				withFlashVars = true;
@@ -138,10 +144,10 @@ public class ImageLayout extends Layout
 			objectType = TYPE_IMAGE_OBJECT;
 		}
 	}
-	
+
 	/**
-	 * Is the target output emitter support the object type.
-	 * Currently the object type can be image and flash. 
+	 * Is the target output emitter support the object type. Currently the
+	 * object type can be image and flash.
 	 */
 	private boolean isOutputSupported( int type )
 	{
@@ -150,7 +156,8 @@ public class ImageLayout extends Layout
 			return false;
 		}
 		ArrayList<String> formats = unsupportedFormats.get( type );
-		if ( formats != null && formats.contains( context.getFormat( ).toLowerCase( ) ) )
+		if ( formats != null
+				&& formats.contains( context.getFormat( ).toLowerCase( ) ) )
 		{
 			return false;
 		}
@@ -163,20 +170,16 @@ public class ImageLayout extends Layout
 
 class ConcreteImageLayout extends Layout
 {
+
 	/** The DpiX */
 	private int resolutionX = 0;
 	/** The DpiY */
 	private int resolutionY = 0;
-	
+
+	private boolean fitToContainer = false;
+
 	private Image imageObject = null;
 	
-	public ConcreteImageLayout( LayoutEngineContext context,
-			ContainerLayout parentContext, IContent content, Image imageObject )
-	{
-		super( context, parentContext, content );
-		this.imageObject = imageObject;
-	}
-
 	protected final static int DEFAULT_WIDHT = 212000;
 
 	protected final static int DEFAULT_HEIGHT = 130000;
@@ -188,6 +191,14 @@ class ConcreteImageLayout extends Layout
 	private Dimension intrinsic;
 
 	private static final String BOOKMARK_PREFIX = "javascript:catchBookmark('";
+	
+	public ConcreteImageLayout( LayoutEngineContext context,
+			ContainerLayout parentContext, IContent content, Image imageObject )
+	{
+		super( context, parentContext, content );
+		this.imageObject = imageObject;
+		fitToContainer = ( ( ImageItemDesign ) content.getGenerateBy( ) ).isFitToContainer( );				
+	}
 
 	/**
 	 * get intrinsic dimension of image in pixels. Now only support png, bmp,
@@ -199,17 +210,19 @@ class ConcreteImageLayout extends Layout
 	 * @throws MalformedURLException
 	 * @throws BadElementException
 	 */
-	protected Dimension getIntrinsicDimension( IImageContent content, Image image )
-			throws BadElementException, MalformedURLException, IOException
+	protected Dimension getIntrinsicDimension( IImageContent content,
+			Image image ) throws BadElementException, MalformedURLException,
+			IOException
 	{
 		if ( image != null )
 		{
 			// The DPI resolution of the image.
-			// the preference of the DPI setting is: 
+			// the preference of the DPI setting is:
 			// 1. the resolution restored in content.
-			// 2. the resolution in image file, if the image is set to "auto" dpi from designer.
-			// 3. use the DPI in render options.
-			// 4. the default DPI (96).
+			// 2. the resolution in image file.
+			// 3. the DPI in report designHandle.
+			// 4. use the DPI in render options.
+			// 5. the default DPI (96).
 			int contentResolution = content.getResolution( );
 			if ( contentResolution != 0 )
 			{
@@ -218,12 +231,16 @@ class ConcreteImageLayout extends Layout
 			}
 			else
 			{
-//				if ( content.isAutoDPI() )
-// 				the image is set to auto dpi from designer.
-//				{
-//					resolutionX = image.getDpiX( );
-//					resolutionY = image.getDpiY( );	
-//				}
+				// the image is set to auto dpi from designer.
+				resolutionX = image.getDpiX( );
+				resolutionY = image.getDpiY( );
+				if ( 0 == resolutionX || 0 == resolutionY )
+				{
+					ReportDesignHandle designHandle = content
+							.getReportContent( ).getDesign( ).getReportDesign( );
+					resolutionX = designHandle.getImageDPI( );
+					resolutionY = designHandle.getImageDPI( );
+				}
 				if ( 0 == resolutionX || 0 == resolutionY )
 				{
 					resolutionX = context.getDpi( );
@@ -254,8 +271,8 @@ class ConcreteImageLayout extends Layout
 		{
 			logger.log( Level.SEVERE, e.getLocalizedMessage( ) );
 		}
-		int specifiedWidth = getDimensionValue( content.getWidth( ), pWidth );
-		int specifiedHeight = getDimensionValue( content.getHeight( ) );
+		int specifiedWidth = getDimensionValue( content.getWidth( ), resolutionX, pWidth );
+		int specifiedHeight = getDimensionValue( content.getHeight( ), resolutionY, 0 );
 		if ( intrinsic == null )
 		{
 			dim.setDimension( specifiedWidth == 0
@@ -265,7 +282,8 @@ class ConcreteImageLayout extends Layout
 					: specifiedHeight );
 			return dim;
 		}
-		if ( scale )  // always does scale.
+
+		if ( scale ) // always does scale.
 		{
 			double ratio = intrinsic.getRatio( );
 
@@ -347,36 +365,85 @@ class ConcreteImageLayout extends Layout
 				}
 				else
 				{
-					parent.addToRoot(root, 0);
+					scale( );
+					parent.addToRoot( root, 0 );
 					return;
 				}
 			}
 			else
 			{
-				parent.addToRoot(root, 0);
+				scale( );
+				parent.addToRoot( root, 0 );
 				return;
 			}
 		}
 		else
 		{
+			if ( parent.isPageEmpty( ) )
+			{
+				scale( );
+			}
 			boolean succeed = parent.addArea( root, 0 );
-			if(succeed)
+			if ( succeed )
 			{
 				return;
 			}
 			else
 			{
-				if(!parent.isPageEmpty())
+				if ( !parent.isPageEmpty( ) )
 				{
-					parent.autoPageBreak();
+					parent.autoPageBreak( );
 				}
-				parent.addToRoot(root, parent.contextList.size()-1);
-				if( parent.isInBlockStacking )
+				scale( );
+				parent.addToRoot( root, parent.contextList.size( ) - 1 );
+				if ( parent.isInBlockStacking )
 				{
-					if( parent.contextList.size( )>1 )
+					if ( parent.contextList.size( ) > 1 )
 					{
-						parent.closeExcludingLast();
+						parent.closeExcludingLast( );
 					}
+				}
+			}
+		}
+	}
+
+	private void scale( )
+	{
+		if ( !fitToContainer )
+		{
+			return;
+		}
+		if ( root.getAllocatedWidth( ) > parent.getCurrentMaxContentWidth( )
+				|| root.getAllocatedHeight( ) > parent
+						.getCurrentMaxContentHeight( ) )
+		{
+			int maxWidth = parent.getCurrentMaxContentWidth( );
+			int maxHeight = parent.getCurrentMaxContentHeight( );
+			double ratio = (double) maxWidth / (double) maxHeight;
+			if ( ratio < intrinsic.getRatio( ) )
+			{
+				// use parent width
+				root.setContentWidth( maxWidth );
+				root.setContentHeight( (int) ( maxWidth / intrinsic.getRatio( ) ) );
+				if ( root.getChildren( ).hasNext( ) )
+				{
+					// this root should only has one child.
+					ImageArea image = (ImageArea) root.getChildren( ).next( );
+					image.setAllocatedWidth( maxWidth );
+					image.setAllocatedHeight( (int) ( maxWidth / intrinsic.getRatio( ) ) );
+				}
+			}
+			else
+			{
+				// use parent height
+				root.setContentHeight( maxHeight );
+				root.setContentWidth( (int) ( maxHeight * intrinsic.getRatio( ) ) );
+				if ( root.getChildren( ).hasNext( ) )
+				{
+					// this root should only has one child.
+					ImageArea image = (ImageArea) root.getChildren( ).next( );
+					image.setAllocatedHeight( maxHeight );
+					image.setAllocatedWidth( (int) ( maxHeight * intrinsic.getRatio( ) ) );
 				}
 			}
 		}
@@ -414,7 +481,7 @@ class ConcreteImageLayout extends Layout
 		root.setContentHeight( imageArea.getHeight( ) );
 		processChartLegend( image, imageArea );
 	}
-	
+
 	/**
 	 * Creates legend for chart.
 	 * 
@@ -555,7 +622,7 @@ class ConcreteImageLayout extends Layout
 	{
 		return length * 1000 / resolutionX * 72;
 	}
-	
+
 	private int getTranslatedLengthY( int length )
 	{
 		return length * 1000 / resolutionY * 72;
@@ -622,7 +689,7 @@ class ConcreteImageLayout extends Layout
 	protected void initialize( )
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

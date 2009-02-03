@@ -23,6 +23,7 @@ import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
@@ -242,8 +243,13 @@ public abstract class Layout
 	{
 		return getDimensionValue( d, 0 );
 	}
-
+	
 	protected int getDimensionValue( DimensionType d, int referenceLength )
+	{
+		return getDimensionValue( d, 0, referenceLength );
+	}
+
+	protected int getDimensionValue( DimensionType d, int dpi, int referenceLength )
 	{
 		if ( d == null )
 		{
@@ -263,7 +269,11 @@ public abstract class Layout
 			}
 			else if ( units.equals( EngineIRConstants.UNITS_PX ) )
 			{
-				double point = d.getMeasure( ) / 72.0d * 72000d;
+				if( dpi == 0 )
+				{
+					dpi = getResolution( );
+				}
+				double point = d.getMeasure( ) / dpi * 72000d;
 				return (int) point;
 			}
 			else if ( units.equals( EngineIRConstants.UNITS_PERCENTAGE ) )
@@ -293,7 +303,25 @@ public abstract class Layout
 		}
 		return 0;
 	}
+	
+	protected int getResolution( )
+	{
+		int resolution = 0;
+		ReportDesignHandle designHandle = content.getReportContent( )
+				.getDesign( ).getReportDesign( );
+		resolution = designHandle.getImageDPI( );
 
+		if ( 0 == resolution )
+		{
+			resolution = context.getDpi( );
+		}
+		if ( 0 == resolution )
+		{
+			resolution = 96;
+		}
+		return resolution;
+	}
+	
 	protected void resolveBoxConflict( int[] vs, int max )
 	{
 		int vTotal = 0;

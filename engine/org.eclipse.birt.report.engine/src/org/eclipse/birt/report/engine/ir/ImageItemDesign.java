@@ -77,6 +77,8 @@ public class ImageItemDesign extends ReportItemDesign
 	 * help text resource key
 	 */
 	protected String helpTextKey;
+	
+	protected boolean fitToContainer;
 
 	public ImageItemDesign( )
 	{
@@ -237,5 +239,23 @@ public class ImageItemDesign extends ReportItemDesign
 	public String getHelpTextKey()
 	{
 		return this.helpTextKey;
+	}
+	
+	/**
+	 * get the FitToContainer property.
+	 * @return the FitToContainer property.
+	 */
+	public boolean isFitToContainer( )
+	{
+		return fitToContainer;
+	}
+
+	/**
+	 * set the FitToContainer property.
+	 * @param fitToContainer
+	 */
+	public void setFitToContainer( boolean fitToContainer )
+	{
+		this.fitToContainer = fitToContainer;
 	}
 }

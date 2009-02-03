@@ -713,6 +713,9 @@ public class EngineIRVisitor extends DesignVisitor
 
 		// Help text for image
 		image.setHelpText( handle.getHelpTextKey( ), handle.getHelpText( ) );
+		
+		// Fit to Container property
+		image.setFitToContainer( handle.fitToContainer( ) );
 
 		// Handle Image Source
 		String imageSrc = handle.getSource( );
