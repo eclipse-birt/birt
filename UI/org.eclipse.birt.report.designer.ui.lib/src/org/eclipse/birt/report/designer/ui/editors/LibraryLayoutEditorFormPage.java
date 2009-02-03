@@ -258,6 +258,8 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 
 		SessionHandleAdapter.getInstance( )
 				.setReportDesignHandle( getProvider( ).getReportModuleHandle( getEditorInput( ) ) );
+		UIUtil.processSessionResourceFolder( getEditorInput( ), 
+				UIUtil.getProjectFromInput( getEditorInput( ) ), getModel() );
 
 	}
 

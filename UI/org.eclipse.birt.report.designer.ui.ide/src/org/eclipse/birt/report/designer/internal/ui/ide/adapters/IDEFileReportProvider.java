@@ -402,11 +402,7 @@ public class IDEFileReportProvider implements IReportProvider
 	 */
 	public IPath getInputPath( IEditorInput input )
 	{
-		if ( input instanceof IPathEditorInput )
-		{
-			return ( (IPathEditorInput) input ).getPath( );
-		}
-		else if ( input instanceof IURIEditorInput )
+		if ( input instanceof IURIEditorInput )
 		{
 			return new Path( ( (IURIEditorInput) input ).getURI( ).getPath( ) );
 		}
@@ -417,7 +413,8 @@ public class IDEFileReportProvider implements IReportProvider
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#getReportDocumentProvider(java.lang.Object)
-	 */
+	 */ 
+	 
 	public IDocumentProvider getReportDocumentProvider( Object element )
 	{
 		if ( element instanceof FileEditorInput )
@@ -481,20 +478,17 @@ public class IDEFileReportProvider implements IReportProvider
 
 	private String getProjectFolder( IEditorInput input )
 	{
-		Object fileAdapter = input.getAdapter( IFile.class );
-		IFile file = null;
-		if ( fileAdapter != null )
-			file = (IFile) fileAdapter;
-		if ( file != null && file.getProject( ) != null )
+		
+		String retValue = UIUtil.getProjectFolder( input );
+		if (retValue == null)
 		{
-			return file.getProject( ).getLocation( ).toOSString( );
-		}
-		IPath path = getInputPath( input );
-		if ( path != null )
-		{
-			return path.toFile( ).getParent( );
-		}
-		return null;
+			IPath path = getInputPath( input );
+			if ( path != null )
+			{
+				return path.toFile( ).getParent( );
+			}
+		}	
+		return retValue;
 	}
 	
 	private IRunnableContext getOperationRunner(IProgressMonitor monitor) {

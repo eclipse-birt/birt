@@ -428,6 +428,7 @@ public class SessionHandleAdapter
 		if ( handle == getReportDesignHandle( ) )
 		{
 			setReportDesignHandle( null );
+			getSessionHandle( ).setResourceFolder( null );
 		}
 	}
 }

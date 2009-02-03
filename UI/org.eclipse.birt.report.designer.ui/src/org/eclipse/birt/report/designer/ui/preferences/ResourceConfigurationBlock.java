@@ -11,14 +11,22 @@
 
 package org.eclipse.birt.report.designer.ui.preferences;
 
+import java.io.File;
+
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.util.PixelConverter;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.variables.IStringVariableManager;
+import org.eclipse.core.variables.VariablesPlugin;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -28,7 +36,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
@@ -36,9 +46,6 @@ import org.eclipse.ui.PlatformUI;
  */
 public class ResourceConfigurationBlock extends OptionsConfigurationBlock
 {
-
-	private final Key PREF_RESOURCE = getReportKey( ReportPlugin.RESOURCE_PREFERENCE );
-	private PixelConverter fPixelConverter;
 
 	public ResourceConfigurationBlock( IStatusChangeListener context,
 			IProject project )
@@ -56,7 +63,8 @@ public class ResourceConfigurationBlock extends OptionsConfigurationBlock
 	}
 
 	/*
-	 * @see org.eclipse.jface.preference.PreferencePage#createContents(Composite)
+	 * @see
+	 * org.eclipse.jface.preference.PreferencePage#createContents(Composite)
 	 */
 	protected Control createContents( Composite parent )
 	{
@@ -92,6 +100,10 @@ public class ResourceConfigurationBlock extends OptionsConfigurationBlock
 	public static final String DEFAULT_RESOURCE_FOLDER_DISPLAY = Messages.getString( "ResourecePreferencePage.defaultResourceFolder.dispaly" ); //$NON-NLS-1$
 	private Text resourceText;
 
+	private final Key PREF_RESOURCE = getReportKey( ReportPlugin.RESOURCE_PREFERENCE );
+	public static final String BUTTON_KEY = "buttons";//$NON-NLS-1$
+	private PixelConverter fPixelConverter;
+
 	private Composite createBuildPathTabContent( Composite parent )
 	{
 
@@ -124,36 +136,98 @@ public class ResourceConfigurationBlock extends OptionsConfigurationBlock
 		{
 			resourceText.setText( DEFAULT_RESOURCE_FOLDER_DISPLAY );
 		}
-		new Label( pageContent, SWT.NONE );
-		Button browser = new Button( pageContent, SWT.PUSH );
-		browser.setText( BROWSER_BUTTON );
-		data = new GridData( );
-		browser.setLayoutData( data );
-		browser.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent event )
+		else
+		{
+			String str = resourceText.getText( ).trim( );
+			try
 			{
-				DirectoryDialog dialog = new DirectoryDialog( PlatformUI.getWorkbench( )
-						.getDisplay( )
-						.getActiveShell( ) );
-
-				dialog.setText( OPEN_DIALOG_TITLE );
-				dialog.setMessage( OPEN_DILAOG_MESSAGE );
-				String folderName = dialog.open( );
-				if ( folderName == null )
-				{
-					return;
-				}
-				folderName = folderName.replace( '\\', '/' ); //$NON-NLS-1$ //$NON-NLS-2$
-				if ( !folderName.endsWith( "/" ) ) //$NON-NLS-1$
-				{
-					folderName = folderName + "/"; //$NON-NLS-1$
-				}
-				resourceText.setText( folderName );
+				IStringVariableManager mgr = VariablesPlugin.getDefault( )
+						.getStringVariableManager( );
+				str = mgr.performStringSubstitution( str );
 			}
-		} );
+			catch ( CoreException e )
+			{
+				str = resourceText.getText( ).trim( );
+			}
+
+			File file = new File( str );
+			if ( !file.isAbsolute( ) )
+			{
+				resourceText.setText( processString( str ) );
+			}
+		}
+
+		IDialogHelperProvider helperProvider = (IDialogHelperProvider) ElementAdapterManager.getAdapter( this,
+				IDialogHelperProvider.class );
+
+		IDialogHelper controlTypeHelper = null;
+		if ( helperProvider != null )
+		{
+			controlTypeHelper = helperProvider.createHelper( this, BUTTON_KEY );
+		}
+
+		if ( controlTypeHelper != null )
+		{
+			controlTypeHelper.setContainer( this );
+			controlTypeHelper.createContent( pageContent );
+
+			controlTypeHelper.addListener( SWT.Selection, new Listener( ) {
+
+				public void handleEvent( Event event )
+				{
+					resourceText.setText( event.text );
+				}
+			} );
+		}
+		else
+		{
+			new Label( pageContent, SWT.NONE );
+			Button browser = new Button( pageContent, SWT.PUSH );
+			browser.setText( BROWSER_BUTTON );
+			data = new GridData( );
+			browser.setLayoutData( data );
+			browser.addSelectionListener( new SelectionAdapter( ) {
+
+				public void widgetSelected( SelectionEvent event )
+				{
+					DirectoryDialog dialog = new DirectoryDialog( PlatformUI.getWorkbench( )
+							.getDisplay( )
+							.getActiveShell( ) );
+
+					dialog.setText( OPEN_DIALOG_TITLE );
+					dialog.setMessage( OPEN_DILAOG_MESSAGE );
+					String folderName = dialog.open( );
+					if ( folderName == null )
+					{
+						return;
+					}
+					folderName = folderName.replace( '\\', '/' ); //$NON-NLS-1$ //$NON-NLS-2$
+					if ( !folderName.endsWith( "/" ) ) //$NON-NLS-1$
+					{
+						folderName = folderName + "/"; //$NON-NLS-1$
+					}
+					resourceText.setText( folderName );
+				}
+			} );
+		}
 
 		return pageContent;
+	}
+
+	private String processString( String str )
+	{
+		File file = new File( str );
+		String temp = file.getAbsolutePath( );
+		int index = temp.indexOf( str );
+		if ( index > 0 )
+		{
+			str = temp.substring( index );
+			if ( !str.startsWith( File.separator ) )
+			{
+				str = File.separator + str;
+			}
+		}
+		return  DEFAULT_RESOURCE_FOLDER_DISPLAY + str;
 	}
 
 	protected void textChanged( Text textControl )
@@ -210,10 +284,19 @@ public class ResourceConfigurationBlock extends OptionsConfigurationBlock
 		{
 			if ( curr == resourceText )
 			{
-				if ( curr.getText( ).trim( ).equals( ReportPlugin.getDefault( )
+				String text = curr.getText( ).trim( );
+				if ( text.equals( ReportPlugin.getDefault( )
 						.getDefaultResourcePreference( ) ) )
 				{
 					curr.setText( DEFAULT_RESOURCE_FOLDER_DISPLAY );
+				}
+				else
+				{
+					File file = new File( text );
+					if ( !file.isAbsolute( ) )
+					{
+						curr.setText( processString( text ) );
+					}
 				}
 			}
 

@@ -783,6 +783,8 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 			ModuleHandle model = provider.getReportModuleHandle( getEditorInput( ),
 					true );
 			SessionHandleAdapter.getInstance( ).setReportDesignHandle( model );
+			UIUtil.processSessionResourceFolder( getEditorInput( ), 
+					UIUtil.getProjectFromInput( getEditorInput( ) ), model );
 
 			SessionHandleAdapter.getInstance( )
 					.getMediator( model )

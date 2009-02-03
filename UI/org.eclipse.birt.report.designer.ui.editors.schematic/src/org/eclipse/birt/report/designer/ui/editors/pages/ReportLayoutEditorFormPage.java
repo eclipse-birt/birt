@@ -311,6 +311,9 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 
 		SessionHandleAdapter.getInstance( )
 				.setReportDesignHandle( getProvider( ).getReportModuleHandle( getEditorInput( ) ) );
+		
+		UIUtil.processSessionResourceFolder( getEditorInput( ), 
+				UIUtil.getProjectFromInput( getEditorInput( ) ), getModel() );
 
 	}
 

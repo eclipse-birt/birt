@@ -113,6 +113,7 @@ public class FileReportProvider implements IReportProvider
 					model = SessionHandleAdapter.getInstance( ).init( fileName,
 							stream,
 							properties );
+					//model.setResourceFolder( ReportPlugin.getDefault( ).getResourceFolder( UIUtil.getCurrentProject( ),  model) );
 				}
 				catch ( DesignFileException e )
 				{
@@ -129,21 +130,7 @@ public class FileReportProvider implements IReportProvider
 
 	private String getProjectFolder( IEditorInput input )
 	{
-		Object fileAdapter = input.getAdapter( IFile.class );
-		IFile file = null;
-		if ( fileAdapter != null )
-			file = (IFile) fileAdapter;
-		if ( file != null && file.getProject( ) != null )
-		{
-			return file.getProject( ).getLocation( ).toOSString( );
-		}
-		if ( input instanceof IPathEditorInput )
-		{
-			File fileSystemFile = ( (IPathEditorInput) input ).getPath( )
-					.toFile( );
-			return fileSystemFile.getParent( );
-		}
-		return null;
+		return UIUtil.getProjectFolder( input );
 	}
 
 	/*

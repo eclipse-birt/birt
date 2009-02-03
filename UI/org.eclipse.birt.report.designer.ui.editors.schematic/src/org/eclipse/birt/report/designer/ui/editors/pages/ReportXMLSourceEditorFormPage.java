@@ -105,6 +105,9 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 					true );
 			SessionHandleAdapter.getInstance( ).setReportDesignHandle( model );
 			
+			UIUtil.processSessionResourceFolder( getEditorInput( ), 
+					UIUtil.getProjectFromInput( getEditorInput( ) ), model );
+			
 			UIUtil.doFinishSava( getModel( ) );
 		}
 	}

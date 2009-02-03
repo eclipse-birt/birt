@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -51,6 +52,8 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.core.runtime.content.IContentTypeManager;
+import org.eclipse.core.variables.IStringVariableManager;
+import org.eclipse.core.variables.VariablesPlugin;
 import org.eclipse.gef.ui.views.palette.PaletteView;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -1286,37 +1289,75 @@ public class ReportPlugin extends AbstractUIPlugin
 		return false;
 	}
 
+	/**
+	 * @param project
+	 * @return
+	 */
 	public String getResourceFolder( IProject project )
 	{
-		SessionHandleAdapter.getInstance( )
-				.getSessionHandle( )
-				.setBirtResourcePath( ReportPlugin.getDefault( )
-						.getResourcePreference( project ) );
-
-		SessionHandleAdapter.getInstance( )
-				.getSessionHandle( )
-				.setResourceFolder( ReportPlugin.getDefault( )
-						.getResourcePreference( project ) );
-
-		String resourceFolder = SessionHandleAdapter.getInstance( )
-				.getSessionHandle( )
-				.getResourceFolder( );
+		return getResourceFolder( project, SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) );
+	}
+	
+	/**
+	 * @param project
+	 * @param module
+	 * @return
+	 */
+	public String getResourceFolder( IProject project,  ModuleHandle module)
+	{
+		return getResourceFolder(project, module == null?"":module.getResourceFolder( ));
+	}
+	
+	/**
+	 * @param project
+	 * @param parentPath
+	 * @return
+	 */
+	public String getResourceFolder( IProject project,  String parentPath )
+	{
+		String resourceFolder = ReportPlugin.getDefault( )
+				.getResourcePreference( project );
 
 		if ( resourceFolder == null || resourceFolder.equals( "" ) ) //$NON-NLS-1$
 		{
-			ModuleHandle module = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( );
-
-			if ( module != null && module.getResourceFolder( ) != null )
-			{
-				resourceFolder = module.getResourceFolder( );
-			}
-			else if ( project != null )
-			{
-				resourceFolder = project.getLocation( ).toOSString( );
-			}
+			resourceFolder = parentPath;
 		}
 
+		if (resourceFolder == null)
+		{
+			resourceFolder = "";//$NON-NLS-1$
+		}
+			
+		String str = resourceFolder;
+		try
+		{
+			IStringVariableManager mgr = VariablesPlugin.getDefault( )
+					.getStringVariableManager( );
+			str = mgr.performStringSubstitution( resourceFolder );
+		}
+		catch ( CoreException e )
+		{
+			str = resourceFolder;
+		}
+
+		resourceFolder = str;
+		File file = new File( resourceFolder );
+
+		if ( !file.isAbsolute( ) )
+		{
+			if ( project != null )
+			{
+				 resourceFolder = project.getLocation( ).append( resourceFolder).toOSString( );
+			}
+			else
+			{
+				if (!resourceFolder.startsWith( File.separator ))
+				{
+					resourceFolder = File.separator + resourceFolder;
+				}
+				resourceFolder = parentPath + resourceFolder;
+			}
+		}
 		return resourceFolder;
 	}
 

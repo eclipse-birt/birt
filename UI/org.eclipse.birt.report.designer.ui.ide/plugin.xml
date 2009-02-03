@@ -196,6 +196,16 @@
             	type="org.eclipse.core.resources.IProject">
       		</adapter>
    		</adaptable>
+     <adaptable
+           class="org.eclipse.birt.report.designer.ui.preferences.ResourceConfigurationBlock">
+        <adapter
+              class="org.eclipse.birt.report.designer.internal.ui.ide.adapters.ResourcePageHelperProvider"
+              id="org.eclipse.birt.report.designer.ui.ide.ResourceConfigurationBlock"
+              priority="3"
+              singleton="true"
+              type="org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider">
+        </adapter>
+     </adaptable>
    </extension>
    
 	<extension point="org.eclipse.ui.popupMenus"> 

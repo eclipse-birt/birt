@@ -28,7 +28,9 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
+import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
@@ -47,7 +49,7 @@ import org.eclipse.ui.PlatformUI;
  * </p>
  * 
  */
-public class ImageEditPart extends ReportElementEditPart
+public class ImageEditPart extends ReportElementEditPart implements IResourceEditPart
 {
 
 	private static final String IMG_TRANS_MSG = Messages.getString( "ImageEditPart.trans.editImage" ); //$NON-NLS-1$
@@ -205,6 +207,18 @@ public class ImageEditPart extends ReportElementEditPart
 		else
 		{
 			stack.rollback( );
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.IResourceEditPart#refreshResource()
+	 */
+	public void refreshResource( )
+	{
+		String imageSource = ((ImageHandle)getImageAdapter( ).getHandle( )).getSource( );
+		if ( DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equalsIgnoreCase( imageSource ) )
+		{
+			refreshFigure( );
 		}
 	}
 }

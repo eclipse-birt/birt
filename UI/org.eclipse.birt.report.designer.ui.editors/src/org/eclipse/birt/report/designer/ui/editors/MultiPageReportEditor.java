@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.preference.IPreferenceChangeListener;
+import org.eclipse.birt.core.preference.IPreferences;
+import org.eclipse.birt.core.preference.PreferenceChangeEvent;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.outline.ScriptObjectNode;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
@@ -26,6 +29,8 @@ import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.LibraryProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportMultiBookPage;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.IResourceEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ImageEditPart;
 import org.eclipse.birt.report.designer.internal.ui.extension.EditorContributorManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.FormPageDef;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
@@ -38,6 +43,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewe
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeListener;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
@@ -48,9 +54,10 @@ import org.eclipse.birt.report.model.api.IVersionInfo;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
-import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.ui.views.palette.PalettePage;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -76,7 +83,6 @@ import org.eclipse.ui.forms.editor.IFormPage;
 import org.eclipse.ui.part.IPageBookViewPage;
 import org.eclipse.ui.part.MultiPageSelectionProvider;
 import org.eclipse.ui.part.PageBookView;
-import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
@@ -125,6 +131,26 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	private boolean needReset = false ;
 	private IWorkbenchPart fActivePart;
 	private boolean isClose = false;
+	
+	private IPreferences prefs;
+	IPreferenceChangeListener preferenceChangeListener = new IPreferenceChangeListener()
+	{
+		public void preferenceChange( PreferenceChangeEvent event )
+		{
+			if ( event.getKey( ).equals( PreferenceChangeEvent.SPECIALTODEFAULT )
+					|| ReportPlugin.RESOURCE_PREFERENCE.equals( event.getKey( ) ) )
+			{
+				SessionHandleAdapter.getInstance( )
+					.getSessionHandle( )
+						.setBirtResourcePath( ReportPlugin.getDefault( ).getResourcePreference( ) );
+				
+				UIUtil.processSessionResourceFolder( getEditorInput( ), 
+						UIUtil.getProjectFromInput( getEditorInput( ) ), getModel() );
+				
+				refreshGraphicalEditor();
+			}
+		}
+	};
 	
 	private IWindowListener windowListener = new IWindowListener()
 	{
@@ -314,6 +340,12 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 		// suport the mediator
 		ReportMediator.addGlobalColleague( this );
+		
+		IProject project = UIUtil.getProjectFromInput( input );
+		prefs = PreferenceFactory.getInstance( )
+			.getPreferences( ReportPlugin.getDefault( ),
+					project );
+		prefs.addPreferenceChangeListener( preferenceChangeListener );
 	}
 
 	protected IReportProvider getProvider( )
@@ -991,6 +1023,18 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 				SessionHandleAdapter.getInstance( )
 						.setReportDesignHandle( getModel( ) );
+				String str = SessionHandleAdapter.getInstance( ).getSessionHandle( )
+					.getResourceFolder();
+				UIUtil.processSessionResourceFolder( getEditorInput( ), 
+						UIUtil.getProjectFromInput( getEditorInput( ) ), getModel() );
+				
+				if (str != SessionHandleAdapter.getInstance( ).getSessionHandle( )
+						.getResourceFolder() && getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette)
+				{
+					EditPart root = ((GraphicalEditorWithFlyoutPalette)getActivePageInstance( )).getGraphicalViewer( ).getRootEditPart( );
+					refreshGraphicalEditor( );
+				}
+				
 			}
 
 			if ( //getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette
@@ -1050,6 +1094,20 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		// {
 		// getModel( ).setResourceFolder( getProjectFolder( ) );
 		// }
+	}
+	
+	private void refreshResourceEditPart(EditPart parent)
+	{
+		if (parent instanceof IResourceEditPart)
+		{
+			((IResourceEditPart)parent).refreshResource( );
+		}
+		List list = parent.getChildren( );
+		for (int i=0; i<list.size(); i++)
+		{
+			EditPart part = (EditPart)list.get( i );
+			refreshResourceEditPart( part );
+		}
 	}
 	
 	private boolean isExistModelFile()
@@ -1284,6 +1342,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		}
 		
 		PlatformUI.getWorkbench().removeWindowListener( windowListener);
+		if (prefs != null)
+		{
+			prefs.removePreferenceChangeListener( preferenceChangeListener );
+		}
 		super.dispose( );
 	}
 
@@ -1401,6 +1463,32 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		return null;
 	}
 
+	private void refreshGraphicalEditor()
+	{
+		for (int i=0; i<pages.size( ); i++)
+		{
+			Object page = pages.get( i );
+			if ( page instanceof IFormPage )
+			{
+				
+				if (isGraphicalEditor(page))
+				{
+					if (((GraphicalEditorWithFlyoutPalette)page).getGraphicalViewer( ) != null)
+					{
+						EditPart root = ((GraphicalEditorWithFlyoutPalette)page).getGraphicalViewer( ).getRootEditPart( );
+						refreshResourceEditPart( root );
+					}
+				}
+			}
+		}
+	}
+	
+	private boolean isGraphicalEditor(Object obj)
+	{
+		return obj instanceof GraphicalEditorWithFlyoutPalette;
+		//return LayoutEditor_ID.equals( id ) || LayoutMasterPage_ID.equals( id );
+	}
+	
 	protected void setActivePage( int pageIndex )
 	{
 		super.setActivePage( pageIndex );

@@ -140,6 +140,9 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor
 		SessionHandleAdapter.getInstance( ).setReportDesignHandle(
 				getProvider( ).getReportModuleHandle( getEditorInput( ) ) );
 
+		
+		UIUtil.processSessionResourceFolder( getEditorInput( ), 
+				UIUtil.getProjectFromInput( getEditorInput( ) ), getModel() );
 	}
 
 	/*

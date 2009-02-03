@@ -97,6 +97,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -1675,20 +1676,7 @@ public class UIUtil
 			IEditorInput input = editor.getEditorInput( );
 			if ( input != null )
 			{
-				Object fileAdapter = input.getAdapter( IFile.class );
-				IFile file = null;
-				if ( fileAdapter != null )
-					file = (IFile) fileAdapter;
-				if ( file != null && file.getProject( ) != null )
-				{
-					return file.getProject( ).getLocation( ).toOSString( );
-				}
-				if ( input instanceof IPathEditorInput )
-				{
-					File fileSystemFile = ( (IPathEditorInput) input ).getPath( )
-							.toFile( );
-					return fileSystemFile.getParent( );
-				}
+				return getProjectFolder( input );
 			}
 		}
 		return null;
@@ -2012,7 +2000,7 @@ public class UIUtil
 	{
 		return new Shell( SWT.SHELL_TRIM | Window.getDefaultOrientation( ) );
 	}
-	
+
 	public static void refreshCurrentEditorMarkers( )
 	{
 		FormEditor editor = UIUtil.getActiveReportEditor( );
@@ -2027,8 +2015,7 @@ public class UIUtil
 			}
 		}
 	}
-	
-	
+
 	public static final String CONFIRM_PARAM_DELETE_TITLE = Messages.getString( "DefaultNodeProvider.ParameterGroup.ConfirmTitle" ); //$NON-NLS-1$
 
 	public static final String CONFIRM_PARAM_DELETE_MESSAGE = Messages.getString( "DefaultNodeProvider.ParameterGroup.ConfirmMessage" ); //$NON-NLS-1$
@@ -2039,11 +2026,11 @@ public class UIUtil
 
 	public static final String DLG_REFERENCE_FOUND_TITLE = Messages.getString( "DefaultNodeProvider.Tree.Reference" ); //$NON-NLS-1$
 
-	
+    
 	/**
-	 * Test if the passed object can be delete.
-	 * This method will check whether the deleted elements are referenced by others, 
-	 * if is, a confirm dialog will popup.
+	 * Test if the passed object can be delete. This method will check whether
+	 * the deleted elements are referenced by others, if is, a confirm dialog
+	 * will popup.
 	 * 
 	 * From DeleteHandler.
 	 * 
@@ -2078,7 +2065,7 @@ public class UIUtil
 		}
 		else if ( object instanceof EditPart )
 		{
-			return canDelete( ((EditPart)object).getModel() );
+			return canDelete( ( (EditPart) object ).getModel( ) );
 		}
 		else if ( object instanceof DesignElementHandle )
 		{
@@ -2164,4 +2151,101 @@ public class UIUtil
 		return cubeQueryUtil.isValidDimensionName( name );
 	}
 
+	/**Gets the project folder from the input
+	 * @param input
+	 * @return
+	 */
+	public static String getProjectFolder( IEditorInput input )
+	{
+		Object fileAdapter = input.getAdapter( IFile.class );
+		IFile file = null;
+		if ( fileAdapter != null )
+			file = (IFile) fileAdapter;
+		if ( file != null && file.getProject( ) != null )
+		{
+			return file.getProject( ).getLocation( ).toOSString( );
+		}
+		if ( input instanceof IPathEditorInput )
+		{
+			File fileSystemFile = ( (IPathEditorInput) input ).getPath( )
+					.toFile( );
+			return fileSystemFile.getParent( );
+		}
+		return null;
+	}
+
+	/**Sets the session the resource folder.
+	 * @param input
+	 * @param project
+	 * @param handle
+	 */
+	public static void processSessionResourceFolder( IEditorInput input,
+			IProject project, ModuleHandle handle )
+	{
+		String resourceFolder = "";//$NON-NLS-1$
+
+		if ( input != null )
+		{
+			resourceFolder = getProjectFolder( input );
+		}
+
+		if (project == null)
+		{
+			project = getProjectFromInput( input );
+		}
+		
+		if ( StringUtil.isBlank( resourceFolder ) )
+		{
+			if ( project != null )
+			{
+				resourceFolder = project.getLocation( ).toOSString( );
+			}
+		}
+
+		if ( StringUtil.isBlank( resourceFolder ) )
+		{
+			if ( handle != null )
+			{
+				resourceFolder = handle.getResourceFolder( );
+			}
+		}
+
+		resourceFolder = ReportPlugin.getDefault( ).getResourceFolder( project,
+				resourceFolder );
+
+		SessionHandleAdapter.getInstance( )
+				.getSessionHandle( )
+				.setResourceFolder( resourceFolder );
+	}
+	
+	/**Gets the project from the input
+	 * @param input
+	 * @return
+	 */
+	public static IProject getProjectFromInput(IEditorInput input)
+	{
+		IProject retValue = null;
+		if (input == null)
+		{
+			retValue = getCurrentProject( );
+		}
+		else
+		{
+			Object fileAdapter = input.getAdapter( IFile.class );
+			IFile file = null;
+			if ( fileAdapter != null )
+				file = (IFile) fileAdapter;
+			if ( file != null )
+			{
+				retValue = file.getProject( );
+			}
+		}
+		
+		if (retValue == null)
+		{
+			retValue = getCurrentProject( );
+		}
+		
+		return retValue;
+	}
 }
