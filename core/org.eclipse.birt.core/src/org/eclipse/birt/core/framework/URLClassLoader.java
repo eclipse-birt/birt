@@ -328,7 +328,7 @@ public class URLClassLoader extends java.net.URLClassLoader
 
 		private String getFilePath( URL url )
 		{
-			String path = url.getFile( ).replace( '/', '\\' );
+			String path = url.getFile( );
 			try
 			{
 				return URLDecoder.decode( path, "utf-8" );
