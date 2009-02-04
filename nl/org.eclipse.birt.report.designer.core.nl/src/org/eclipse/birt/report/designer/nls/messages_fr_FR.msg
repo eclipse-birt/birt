@@ -3862,6 +3862,7 @@ WizardTemplateChoicePage.title.SimpleListing=Listes simples
 WizardTemplateChoicePage.label.rtlBiDiOrientation=Droite à gauche
 WizardTemplateChoicePage.label.ltrBiDiOrientation=Gauche à droite
 WizardTemplateChoicePage.label.chooseBiDiDirection=Orientation de l'état :
+WizardTemplateChoicePage.RootDisplayName=Standard
 #bidi_hcg end
 ###########################################################
 #XMLSourcePage properties
