@@ -305,7 +305,7 @@ public class ScriptContext
 		catch ( Throwable ex )
 		{
 			throw new CoreException( ResourceConstants.JAVASCRIPT_COMMON_ERROR,
-					new Object[]{source, ex.getMessage( )} );
+					new Object[]{source, ex.getMessage( )}, ex );
 		}
 	}
 
