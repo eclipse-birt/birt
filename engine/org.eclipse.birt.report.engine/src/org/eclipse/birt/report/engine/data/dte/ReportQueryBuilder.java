@@ -348,6 +348,7 @@ public class ReportQueryBuilder
 					}
 				}
 				registerQueryToHandle( design, queries );
+				resolveQueryReference( design, queries );
 				return null;
 			}
 		}
