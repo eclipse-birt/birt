@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,14 +32,24 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.ImageCanvas;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.util.ImageManager;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -53,10 +64,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.List;
-import org.eclipse.swt.widgets.Listener;
+import org.eclipse.ui.ISharedImages;
 import org.osgi.framework.Bundle;
 
 /**
@@ -80,7 +89,7 @@ public class WizardTemplateChoicePage extends WizardPage
 			".ico", //$NON-NLS-1$
 			".svg" //$NON-NLS-1$
 	};
-	
+
 	private static final String MESSAGE_DESCRIPTION = Messages.getString( "WizardTemplateChoicePage.label.Description" ); //$NON-NLS-1$
 
 	private static final String MESSAGE_PREVIEW = Messages.getString( "WizardTemplateChoicePage.label.Preview" ); //$NON-NLS-1$
@@ -102,10 +111,12 @@ public class WizardTemplateChoicePage extends WizardPage
 	private Label directionLabel;
 	private Combo directionCombo;
 	boolean isLTRDirection = ReportPlugin.getDefault( ).getLTRReportDirection( );
+	private int predefinedCount;
+	private ExtensionTemplateListProvider provider = new ExtensionTemplateListProvider( );
 	// bidi_hcg end
 
 	private boolean isModified = false;
-	
+
 	public void setLTRDirection( boolean isLTRDirection )
 	{
 		if ( !isModified )
@@ -121,44 +132,16 @@ public class WizardTemplateChoicePage extends WizardPage
 
 	protected java.util.List templates = new ArrayList( );
 
-	protected int selectedIndex;
+	// protected int selectedIndex;
 
 	protected Map imageMap;
 
 	private Composite previewPane;
 
-	private List templateList;
+	private TreeViewer templateList;
 
-//	public class TemplateType
-//	{
-//
-//		public static final int BLANK_REPORT = 0;
-//
-//		public static final int SIMPLE_LISTING = 1;
-//
-//		public static final int GROUPED_LISTING = 2;
-//
-//		public static final int CHART_LISTING = 3;
-//
-//		public static final int CROSSTAB = 4;
-//
-//		public static final int MAILING_LABELS = 5;
-//
-//		public static final int FREE_FORMAT = 6;
-//
-//		public static final int GROUPED_LISTING_HEADING_OUTSIDE = 7;
-//
-//		public static final int DUALCHART_LISTING = 8;
-//
-//		public static final int LETTER = 9;
-//
-//		public static final int SIDEBYSIDE_CHART_LISTING = 10;
-//
-//		public static final int DUAL_COLUMN_CHART_LISTING = 11;
-//
-//		public static final int DASHBOARD_REPORT = 12;
-//
-//	}
+	private static final Object TreeRoot = new Object( );
+	private static final String RootDisplayName = Messages.getString( "WizardTemplateChoicePage.RootDisplayName" ); //$NON-NLS-1$
 
 	/**
 	 * @param pageName
@@ -282,41 +265,15 @@ public class WizardTemplateChoicePage extends WizardPage
 		GridData data = new GridData( GridData.BEGINNING );
 		previewLabel.setLayoutData( data );
 
-		templateList = new List( composite, SWT.BORDER | SWT.H_SCROLL );
+		templateList = new TreeViewer( composite, SWT.BORDER | SWT.SINGLE );
 
-		int predefinedCount = templates.size( );
+		predefinedCount = templates.size( );
 
 		createCustomTemplateList( );
 
-		for ( int i = 0; i < templates.size( ); i++ )
-		{
-			if ( templates.get( i ) == null )
-			{
-				continue;
-			}
-			if ( i < predefinedCount )
-			{
-				String displayName = ( (ReportDesignHandle) templates.get( i ) ).getDisplayName( );
-				if ( displayName != null )
-				{
-					templateList.add( Messages.getString( displayName ) );
-				}
-				else
-				// == null
-				{
-					templateList.add( Messages.getString( ( (ReportDesignHandle) templates.get( i ) ).getFileName( ) ) );
-				}
-			}
-			else
-			{
-				templateList.add( ( (ReportDesignHandle) templates.get( i ) ).getDisplayName( ) );
-			}
-
-		}
-
 		data = new GridData( GridData.BEGINNING | GridData.FILL_VERTICAL );
-		data.widthHint = 200;
-		templateList.setLayoutData( data );
+		data.widthHint = 220;
+		templateList.getTree( ).setLayoutData( data );
 
 		previewPane = new Composite( composite, 0 );
 		data = new GridData( GridData.FILL_HORIZONTAL | GridData.FILL_VERTICAL );
@@ -378,16 +335,19 @@ public class WizardTemplateChoicePage extends WizardPage
 
 		// bidi_hcg end
 		hookListeners( );
-		if ( templateList.getItemCount( ) > 0 )
+
+		initTreeViewer( );
+
+		if ( templates.size( ) > 0 )
 		{
-			templateList.select( 0 );
+			templateList.setSelection( new StructuredSelection( templates.get( 0 ) ) );
 			setPageComplete( true );
 		}
 		else
 		{
 			setPageComplete( false );
 		}
-		templateListener.handleEvent( new Event( ) );
+		// templateListener.selectionChanged( null );
 
 		setControl( composite );
 
@@ -485,193 +445,203 @@ public class WizardTemplateChoicePage extends WizardPage
 
 	private void hookListeners( )
 	{
-		templateList.addListener( SWT.Selection, templateListener );
+
+		// templateList.addListener( SWT.Selection, templateListener );
 	}
 
-	private Listener templateListener = new Listener( ) {
+	private ISelectionChangedListener templateListener = new ISelectionChangedListener( ) {
 
-		public void handleEvent( Event event )
+		public void selectionChanged( SelectionChangedEvent event )
 		{
-			// change description/image
-			selectedIndex = templateList.getSelectionIndex( );
-			if ( selectedIndex < 0 )
+			ReportDesignHandle handle = getSelectionHandle( );
+			processSelectionReportDesignHandle( handle );
+
+		}
+	};
+
+	private void processSelectionReportDesignHandle( ReportDesignHandle handle )
+	{
+		if ( handle == null )
+		{
+			previewCanvas.clear( );
+			description.setText( "" ); //$NON-NLS-1$
+			chkBox.setSelection( false );
+			chkBox.setEnabled( false );
+			setPageComplete( false );
+			directionCombo.setEnabled( false );
+			return;
+		}
+		directionCombo.setEnabled( true );
+		String ReprotDescription = handle.getDescription( );
+		if ( ReprotDescription != null
+				&& ReprotDescription.trim( ).length( ) != 0 )
+		{
+			if ( isPredifinedTemplate( handle.getFileName( ) ) )
 			{
-				return;
-			}
-			ReportDesignHandle handle = (ReportDesignHandle) templates.get( selectedIndex );
-			String ReprotDescription = handle.getDescription( );
-			if ( ReprotDescription != null
-					&& ReprotDescription.trim( ).length( ) != 0 )
-			{
-				if ( isPredifinedTemplate( handle.getFileName( ) ) )
-				{
-					description.setText( Messages.getString( ReprotDescription ) );
-				}
-				else
-				{
-					description.setText( ReprotDescription );
-				}
+				description.setText( Messages.getString( ReprotDescription ) );
 			}
 			else
 			{
-				description.setText( "" ); //$NON-NLS-1$
+				description.setText( ReprotDescription );
 			}
+		}
+		else
+		{
+			description.setText( "" ); //$NON-NLS-1$
+		}
 
-			// we need to relayout if the new text has different number of lines
-			previewPane.layout( );
+		// we need to relayout if the new text has different number of lines
+		previewPane.layout( );
 
-			String key = handle.getIconFile( );
-			if ( key != null
-					&& key.trim( ).length( ) != 0
-					&& checkExtensions( key ) == false )
+		String key = handle.getIconFile( );
+		if ( key != null
+				&& key.trim( ).length( ) != 0
+				&& checkExtensions( key ) == false )
+		{
+			key = null;
+		}
+		Object img = null;
+
+		if ( handle.getThumbnail( ) != null
+				&& handle.getThumbnail( ).length != 0 )
+		{
+			byte[] thumbnailData = handle.getThumbnail( );
+			ByteArrayInputStream inputStream = new ByteArrayInputStream( thumbnailData );
+			if ( thumbnailImage != null )
 			{
-				key = null;
+				thumbnailImage.dispose( );
+				thumbnailImage = null;
 			}
-			Object img = null;
+			thumbnailImage = new Image( null, inputStream );
 
-			if ( handle.getThumbnail( ) != null
-					&& handle.getThumbnail( ).length != 0 )
+			previewCanvas.clear( );
+			previewCanvas.loadImage( thumbnailImage );
+		}
+		else if ( ( key != null ) && ( !"".equals( key.trim( ) ) ) ) //$NON-NLS-1$
+		{
+			URL url = getPreviewImageURL( handle.getFileName( ), key );
+
+			if ( url != null )
 			{
-				byte[] thumbnailData = handle.getThumbnail( );
-				ByteArrayInputStream inputStream = new ByteArrayInputStream( thumbnailData );
-				if ( thumbnailImage != null )
+				try
 				{
-					thumbnailImage.dispose( );
-					thumbnailImage = null;
+					key = FileLocator.resolve( url ).getPath( );
 				}
-				thumbnailImage = new Image( null, inputStream );
+				catch ( IOException e )
+				{
+					logger.log( Level.SEVERE, e.getMessage( ), e );
+				}
+				img = imageMap.get( key );
 
-				previewCanvas.clear( );
-				previewCanvas.loadImage( thumbnailImage );
-			}
-			else if ( ( key != null ) && ( !"".equals( key.trim( ) ) ) ) //$NON-NLS-1$
-			{
-				URL url = getPreviewImageURL( handle.getFileName( ), key );
-
-				if ( url != null )
+				if ( img == null )
 				{
 					try
 					{
-						key = FileLocator.resolve( url ).getPath( );
+						url = new URL( "file://" + key ); //$NON-NLS-1$
+						img = ImageManager.getInstance( ).loadImage( url );
 					}
 					catch ( IOException e )
 					{
 						logger.log( Level.SEVERE, e.getMessage( ), e );
 					}
-					img = imageMap.get( key );
-
-					if ( img == null )
+					if ( img != null )
 					{
-						try
-						{
-							url = new URL( "file://" + key ); //$NON-NLS-1$
-							img = ImageManager.getInstance( ).loadImage( url );
-						}
-						catch ( IOException e )
-						{
-							logger.log( Level.SEVERE, e.getMessage( ), e );
-						}
-						if ( img != null )
-						{
-							imageMap.put( key, img );
-						}
-
+						imageMap.put( key, img );
 					}
 
-					previewCanvas.clear( );
-					previewCanvas.loadImage( ( (Image) img ) );
-					// previewCanvas.showOriginal( );
-
 				}
-				else
-				{
-					key = null;
-				}
-
-			}
-
-			if ( ( handle.getThumbnail( ) == null || handle.getThumbnail( ).length == 0 )
-					&& key == null )
-			{
-				if ( thumbnailImage != null )
-				{
-					thumbnailImage.dispose( );
-					thumbnailImage = null;
-				}
-
-				Rectangle rect = previewCanvas.getBounds( );
-
-				thumbnailImage = new Image( null, rect.width, rect.height );
-
-				ReportGraphicsViewPainter painter = new ReportGraphicsViewPainter( handle );
-
-				painter.paint( thumbnailImage,
-						previewCanvas.getDisplay( ),
-						rect );
-
-				painter.dispose( );
 
 				previewCanvas.clear( );
-				previewCanvas.loadImage( thumbnailImage );
-			}
+				previewCanvas.loadImage( ( (Image) img ) );
+				// previewCanvas.showOriginal( );
 
-			if ( handle.getCheatSheet( ) != null
-					&& handle.getCheatSheet( ).trim( ).length( ) != 0 )
-			{
-				chkBox.setEnabled( !( handle.getCheatSheet( ).equals( "" ) || handle.getCheatSheet( ) //$NON-NLS-1$
-						.equals( "org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ) ) ); //$NON-NLS-1$
-				// if ( handle.getCheatSheet( )
-				// .equals(
-				// "org.eclipse.birt.report.designer.ui.cheatsheet.firstreport"
-				// ) )
-				// {
-				// chkBox.setSelection( true );
-				// }
-				chkBox.setSelection( true );
 			}
 			else
 			{
-				chkBox.setSelection( false );
-				chkBox.setEnabled( false );
+				key = null;
 			}
 
 		}
-	};
+
+		if ( ( handle.getThumbnail( ) == null || handle.getThumbnail( ).length == 0 )
+				&& key == null )
+		{
+			if ( thumbnailImage != null )
+			{
+				thumbnailImage.dispose( );
+				thumbnailImage = null;
+			}
+
+			Rectangle rect = previewCanvas.getBounds( );
+
+			thumbnailImage = new Image( null, rect.width, rect.height );
+
+			ReportGraphicsViewPainter painter = new ReportGraphicsViewPainter( handle );
+
+			painter.paint( thumbnailImage, previewCanvas.getDisplay( ), rect );
+
+			painter.dispose( );
+
+			previewCanvas.clear( );
+			previewCanvas.loadImage( thumbnailImage );
+		}
+
+		if ( handle.getCheatSheet( ) != null
+				&& handle.getCheatSheet( ).trim( ).length( ) != 0 )
+		{
+			chkBox.setEnabled( !( handle.getCheatSheet( ).equals( "" ) || handle.getCheatSheet( ) //$NON-NLS-1$
+					.equals( "org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ) ) ); //$NON-NLS-1$
+			// if ( handle.getCheatSheet( )
+			// .equals(
+			// "org.eclipse.birt.report.designer.ui.cheatsheet.firstreport"
+			// ) )
+			// {
+			// chkBox.setSelection( true );
+			// }
+			chkBox.setSelection( true );
+		}
+		else
+		{
+			chkBox.setSelection( false );
+			chkBox.setEnabled( false );
+		}
+		setPageComplete( true );
+	}
 
 	/**
 	 * @return Returns the templates of selected item.
 	 */
 	public ReportDesignHandle getTemplate( )
 	{
-		if ( selectedIndex < 0 )
-		{
-			return null;
-		}
-		return (ReportDesignHandle) templates.get( selectedIndex );
+		return getSelectionHandle( );
 	}
 
-//	/**
-//	 * @return Returns the blank report template.
-//	 */
-//	public ReportDesignHandle getBlankTemplate( )
-//	{
-//		if ( templates.size( ) == 0 )
-//		{
-//			return null;
-//		}
-//		return (ReportDesignHandle) templates.get( 0 );
-//	}
+	// /**
+	// * @return Returns the blank report template.
+	// */
+	// public ReportDesignHandle getBlankTemplate( )
+	// {
+	// if ( templates.size( ) == 0 )
+	// {
+	// return null;
+	// }
+	// return (ReportDesignHandle) templates.get( 0 );
+	// }
 
 	/**
 	 * @return true if show CheatSheets is checked.
 	 */
 	public boolean getShowCheatSheet( )
 	{
-		if ( ( (ReportDesignHandle) templates.get( selectedIndex ) ).getCheatSheet( ) != null
-				&& ( (ReportDesignHandle) templates.get( selectedIndex ) ).getCheatSheet( )
-						.equals( "org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ) ) //$NON-NLS-1$
+		ReportDesignHandle handle = getSelectionHandle( );
+		if ( handle != null )
 		{
-			return true;
+			if ( handle.getCheatSheet( ) != null
+					&& handle.getCheatSheet( )
+							.equals( "org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ) ) //$NON-NLS-1$
+			{
+				return true;
+			}
 		}
 		return chkBox.getSelection( );
 	}
@@ -832,6 +802,171 @@ public class WizardTemplateChoicePage extends WizardPage
 	{
 		return isLTRDirection;
 	}
+
 	// bidi_hcg end
 
+	private void initTreeViewer( )
+	{
+		TemplateListProvider treeProvider = new TemplateListProvider( );
+		templateList.setLabelProvider( treeProvider );
+		templateList.setContentProvider( treeProvider );
+		templateList.addSelectionChangedListener( templateListener );
+
+		Object[] objs = provider.getRootElements( );
+		Object[] roots = new Object[1 + objs.length];
+		roots[0] = TreeRoot;
+
+		System.arraycopy( objs, 0, roots, 1, objs.length );
+		templateList.setInput( roots );
+
+		templateList.expandAll( );
+	}
+
+	private ReportDesignHandle getSelectionHandle( )
+	{
+		IStructuredSelection selection = (IStructuredSelection) templateList.getSelection( );
+		List list = selection.toList( );
+		if ( list.size( ) != 1 )
+		{
+			return null;
+		}
+
+		Object data = list.get( 0 );
+		if ( data instanceof ReportDesignHandle )
+		{
+			return (ReportDesignHandle) data;
+		}
+		ReportDesignHandle handle = provider.getReportDesignHandle( data );
+
+		return handle;
+	}
+
+	private class TemplateListProvider implements
+			ILabelProvider,
+			ITreeContentProvider
+	{
+
+		public Image getImage( Object element )
+		{
+			if ( element instanceof ReportDesignHandle )
+			{
+				return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_TEMPLATE_FILE );
+			}
+			else if ( element == TreeRoot )
+			{
+				return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJ_FOLDER );
+			}
+			Image image = provider.getImage( element );
+			return image;
+		}
+
+		public String getText( Object element )
+		{
+			String displayName = null;
+			if ( element instanceof ReportDesignHandle )
+			{
+				if ( templates.contains( element ) )
+				{
+					int index = templates.indexOf( element );
+
+					if ( index + 1 <= predefinedCount )
+					{
+						displayName = ( (ReportDesignHandle) element ).getDisplayName( );
+						if ( displayName != null )
+						{
+							displayName = Messages.getString( displayName );
+						}
+						else
+						// == null
+						{
+							displayName = Messages.getString( ( (ReportDesignHandle) element ).getFileName( ) );
+						}
+					}
+					else
+					{
+						displayName = ( ( (ReportDesignHandle) element ).getDisplayName( ) );
+					}
+				}
+				else
+				{
+					displayName = ( ( (ReportDesignHandle) element ).getDisplayName( ) );
+				}
+				return displayName;
+			}
+			else if ( element == TreeRoot )
+			{
+				return RootDisplayName;
+			}
+
+			displayName = provider.getText( element );
+			if ( displayName == null )
+			{
+				displayName = element.toString( );
+			}
+			return displayName;
+		}
+
+		public void addListener( ILabelProviderListener listener )
+		{
+			// do nothing
+
+		}
+
+		public void dispose( )
+		{
+			// do nothing
+
+		}
+
+		public boolean isLabelProperty( Object element, String property )
+		{
+			return false;
+		}
+
+		public void removeListener( ILabelProviderListener listener )
+		{
+
+		}
+
+		public Object[] getChildren( Object parentElement )
+		{
+			if ( parentElement instanceof Object[] )
+			{
+				return (Object[]) parentElement;
+			}
+			else if ( parentElement == TreeRoot )
+			{
+				return templates.toArray( );
+			}
+			Object[] objs = provider.getChildren( parentElement );
+			if ( objs == null )
+			{
+				objs = new Object[0];
+			}
+			return objs;
+		}
+
+		public Object getParent( Object element )
+		{
+			return null;
+		}
+
+		public boolean hasChildren( Object element )
+		{
+			return getChildren( element ).length != 0;
+		}
+
+		public Object[] getElements( Object inputElement )
+		{
+			return getChildren( inputElement );
+		}
+
+		public void inputChanged( Viewer viewer, Object oldInput,
+				Object newInput )
+		{
+			// do nothing
+
+		}
+
+	}
 }
