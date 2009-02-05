@@ -167,7 +167,7 @@ AttributeView.toolbar.tooltip.EditingToggleAction.ClearMsg=ƒ[ƒJƒ‹ƒvƒƒpƒeƒB‚ğƒ
 AttributeView.toolbar.tooltip.EditingToggleAction.EnableEditingMsg=ƒvƒƒpƒeƒB‚Ì•ÒW‚ğ—LŒø‚É‚µ‚Ü‚·B
 AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=‚±‚Ì‘€ì‚ÍAƒ[ƒJƒ‹—v‘f‚É‚Ís‚¦‚Ü‚¹‚ñB
 AttributeView.view.message.Emptypage= ‚±‚ÌƒŒƒ|[ƒgƒfƒUƒCƒ“‚Ì {3} ‚ÌƒvƒƒpƒeƒB‚ğ•ÒW‚·‚é‚É‚ÍAƒvƒƒpƒeƒBƒGƒfƒBƒ^‚Ìƒc[ƒ‹ƒo[‚É‚ ‚éƒ{ƒ^ƒ“‚ğƒNƒŠƒbƒN‚µ‚Ä‚­‚¾‚³‚¢B
-AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=ƒvƒƒpƒeƒB‚Ì•œŒ³
+AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=Restore Properties from the original library item
 AttributeView.defaultText.noAttributeView = ƒvƒƒpƒeƒBƒGƒfƒBƒ^‚Íg—p‚Å‚«‚Ü‚¹‚ñB
 ###########################################################
 #BackGroundPreferencePage properties
@@ -178,11 +178,13 @@ BackGroundPreferencePage.displayname.Title=”wŒi
 #BasAttributePage properties
 
 BasAttributePage.Label.Attributes=ƒvƒƒpƒeƒB :
+BaseAttributePage.CommandStack.ResetStyle.Message=Restore to Default Style
 
 ###########################################################
 #BaseInsertMenuAction properties
-
 BaseInsertMenuAction.stackMsg.insertElement=—v‘f‚Ì‘}“ü
+
+
 
 ###########################################################
 #BasePaletteFactory properties
@@ -4201,6 +4203,8 @@ BIRTGotoMarker.Error.Message=ƒŒƒ|[ƒg—v‘f‚Í‘¶İ‚µ‚Ü‚¹‚ñB
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=ƒvƒƒpƒeƒB‚ª‚ ‚è‚Ü‚¹‚ñB
+TabbedPropertyTitle.Button.Default.Text=ƒfƒtƒHƒ‹ƒg
+TabbedPropertyTitle.Button.Default.TooltipText=Restore style properties of current page to default setting
 
 
 ###########################################################

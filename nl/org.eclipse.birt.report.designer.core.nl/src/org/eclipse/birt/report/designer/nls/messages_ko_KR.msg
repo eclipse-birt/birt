@@ -167,7 +167,7 @@ AttributeView.toolbar.tooltip.EditingToggleAction.ClearMsg=로컬 속성을 지웁니다.
 AttributeView.toolbar.tooltip.EditingToggleAction.EnableEditingMsg=속성 편집을 사용합니다.
 AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=로컬 요소에 이 작업을 사용할 수 없습니다.
 AttributeView.view.message.Emptypage= 이 {0}이(가) 라이브러리 {2}의 {1}에서 확장됩니다. 이 보고서 디자인에서 이 {3}의 속성을 수정하려면, 속성 편집기의 도구 모음에서 사용 단추를 누르십시오.
-AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=속성 복원
+AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=Restore Properties from the original library item
 AttributeView.defaultText.noAttributeView = 속성 편집기를 사용할 수 없습니다.
 ###########################################################
 #BackGroundPreferencePage properties
@@ -178,11 +178,13 @@ BackGroundPreferencePage.displayname.Title=배경
 #BasAttributePage properties
 
 BasAttributePage.Label.Attributes=속성:
+BaseAttributePage.CommandStack.ResetStyle.Message=Restore to Default Style
 
 ###########################################################
 #BaseInsertMenuAction properties
-
 BaseInsertMenuAction.stackMsg.insertElement=요소 삽입
+
+
 
 ###########################################################
 #BasePaletteFactory properties
@@ -4201,6 +4203,8 @@ BIRTGotoMarker.Error.Message=보고서 요소가 없습니다.
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=속성은 사용할 수 없습니다.
+TabbedPropertyTitle.Button.Default.Text=기본값
+TabbedPropertyTitle.Button.Default.TooltipText=Restore style properties of current page to default setting
 
 
 ###########################################################

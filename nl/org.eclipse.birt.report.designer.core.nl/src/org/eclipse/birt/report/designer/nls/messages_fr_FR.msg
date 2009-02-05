@@ -167,7 +167,7 @@ AttributeView.toolbar.tooltip.EditingToggleAction.ClearMsg=Effacer les propriété
 AttributeView.toolbar.tooltip.EditingToggleAction.EnableEditingMsg=Activer la modification des propriétés.
 AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=Cette action n'est pas disponible pour les éléments locaux.
 AttributeView.view.message.Emptypage= {0} s''étend à partir de {1} dans la bibliothèque {2}. Pour modifier les propriétés de {3} dans ce modèle d''état, cliquez sur le bouton Activer dans la barre d''outils de l''Editeur de propriétés.
-AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=Restaurer les propriétés
+AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=Restore Properties from the original library item
 AttributeView.defaultText.noAttributeView = L'éditeur de propriétés n'est pas disponible.
 ###########################################################
 #BackGroundPreferencePage properties
@@ -178,11 +178,13 @@ BackGroundPreferencePage.displayname.Title=Arrière-plan
 #BasAttributePage properties
 
 BasAttributePage.Label.Attributes=Propriétés :
+BaseAttributePage.CommandStack.ResetStyle.Message=Restore to Default Style
 
 ###########################################################
 #BaseInsertMenuAction properties
-
 BaseInsertMenuAction.stackMsg.insertElement=Insérer un élément
+
+
 
 ###########################################################
 #BasePaletteFactory properties
@@ -4201,6 +4203,8 @@ BIRTGotoMarker.Error.Message=L'élément d'état n'existe pas.
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=Les propriétés ne sont pas disponibles.
+TabbedPropertyTitle.Button.Default.Text=Par défaut
+TabbedPropertyTitle.Button.Default.TooltipText=Restore style properties of current page to default setting
 
 
 ###########################################################

@@ -167,7 +167,7 @@ AttributeView.toolbar.tooltip.EditingToggleAction.ClearMsg=清除本地属性。
 AttributeView.toolbar.tooltip.EditingToggleAction.EnableEditingMsg=启用属性编辑。
 AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=此操作不适用于本地元素。
 AttributeView.view.message.Emptypage= 此 {0} 扩展自库 {2} 中的 {1}。要在此报表设计中修改 {3} 的属性，请单击“属性编辑器”工具栏中的“启用”按钮。
-AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=还原属性
+AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=Restore Properties from the original library item
 AttributeView.defaultText.noAttributeView = 属性编辑器不可用。
 ###########################################################
 #BackGroundPreferencePage properties
@@ -178,11 +178,13 @@ BackGroundPreferencePage.displayname.Title=背景
 #BasAttributePage properties
 
 BasAttributePage.Label.Attributes=属性:
+BaseAttributePage.CommandStack.ResetStyle.Message=Restore to Default Style
 
 ###########################################################
 #BaseInsertMenuAction properties
-
 BaseInsertMenuAction.stackMsg.insertElement=插入元素
+
+
 
 ###########################################################
 #BasePaletteFactory properties
@@ -4201,6 +4203,8 @@ BIRTGotoMarker.Error.Message=报表元素不存在。
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=属性不可用。
+TabbedPropertyTitle.Button.Default.Text=默认值
+TabbedPropertyTitle.Button.Default.TooltipText=Restore style properties of current page to default setting
 
 
 ###########################################################

@@ -167,7 +167,7 @@ AttributeView.toolbar.tooltip.EditingToggleAction.ClearMsg=Borrar propiedades lo
 AttributeView.toolbar.tooltip.EditingToggleAction.EnableEditingMsg=Activar la edición de las propiedades.
 AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=Esta acción no se encuentra disponible para elementos locales.
 AttributeView.view.message.Emptypage= Este valor {0} se extiende desde el valor {1} en la librería {2}. Para modificar las propiedades del valor {3} en este diseño de informe, haga clic en el botón Activar de la barra de herramientas Editor de propiedades.
-AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=Restaurar propiedades
+AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=Restore Properties from the original library item
 AttributeView.defaultText.noAttributeView = El editor de propiedades no está disponible.
 ###########################################################
 #BackGroundPreferencePage properties
@@ -178,11 +178,13 @@ BackGroundPreferencePage.displayname.Title=Fondo
 #BasAttributePage properties
 
 BasAttributePage.Label.Attributes=Propiedades:
+BaseAttributePage.CommandStack.ResetStyle.Message=Restore to Default Style
 
 ###########################################################
 #BaseInsertMenuAction properties
-
 BaseInsertMenuAction.stackMsg.insertElement=Insertar elemento
+
+
 
 ###########################################################
 #BasePaletteFactory properties
@@ -4201,6 +4203,8 @@ BIRTGotoMarker.Error.Message=El elemento de informe no existe.
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=Las propiedades no están disponibles
+TabbedPropertyTitle.Button.Default.Text=Predeterminado
+TabbedPropertyTitle.Button.Default.TooltipText=Restore style properties of current page to default setting
 
 
 ###########################################################

@@ -167,7 +167,7 @@ AttributeView.toolbar.tooltip.EditingToggleAction.ClearMsg=Löschen Sie die lokal
 AttributeView.toolbar.tooltip.EditingToggleAction.EnableEditingMsg=Aktivieren Sie das Bearbeiten der Eigenschaften.
 AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=Diese Aktion ist für lokale Elemente nicht verfügbar.
 AttributeView.view.message.Emptypage= {0} ist eine Erweiterung von {1} in Bibliothek {2}. Um die Eigenschaften von {3} in diesem Berichtdesign zu bearbeiten, klicken Sie auf die Schaltfläche 'Bearbeiten' in der Symbolleiste des Eigenschaftseditors.
-AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=Eigenschaften wiederherstellen
+AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=Restore Properties from the original library item
 AttributeView.defaultText.noAttributeView = Der Eigenschaftseditor ist nicht verfügbar.
 ###########################################################
 #BackGroundPreferencePage properties
@@ -178,11 +178,13 @@ BackGroundPreferencePage.displayname.Title=Hintergrund
 #BasAttributePage properties
 
 BasAttributePage.Label.Attributes=Eigenschaften:
+BaseAttributePage.CommandStack.ResetStyle.Message=Restore to Default Style
 
 ###########################################################
 #BaseInsertMenuAction properties
-
 BaseInsertMenuAction.stackMsg.insertElement=Element einfügen
+
+
 
 ###########################################################
 #BasePaletteFactory properties
@@ -4201,6 +4203,8 @@ BIRTGotoMarker.Error.Message=Das Berichtelement ist nicht vorhanden.
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=Eigenschaften sind nicht verfügbar.
+TabbedPropertyTitle.Button.Default.Text=Standard
+TabbedPropertyTitle.Button.Default.TooltipText=Restore style properties of current page to default setting
 
 
 ###########################################################
