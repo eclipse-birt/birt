@@ -1,6 +1,6 @@
 !*************** REPORT ENGINE ***********
-plugin@org.eclipse.birt.core=v20090204a,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core
-plugin@org.eclipse.birt.report.engine=v20090204,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine
+plugin@org.eclipse.birt.core=v20090205,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core
+plugin@org.eclipse.birt.report.engine=v20090205,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine
 plugin@org.eclipse.birt.report.engine.emitter.html=v20090202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.html
 plugin@org.eclipse.birt.report.engine.emitter.pdf=v20090202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.pdf
 plugin@org.eclipse.birt.report.engine.fonts=v20090202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.fonts
