@@ -197,7 +197,11 @@ class ConcreteImageLayout extends Layout
 	{
 		super( context, parentContext, content );
 		this.imageObject = imageObject;
-		fitToContainer = ( ( ImageItemDesign ) content.getGenerateBy( ) ).isFitToContainer( );				
+		ImageItemDesign imageDesign = ( ImageItemDesign )content.getGenerateBy( );
+		if ( null != imageDesign )
+		{
+			fitToContainer = imageDesign.isFitToContainer( );	
+		}
 	}
 
 	/**
