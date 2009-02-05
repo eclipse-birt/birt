@@ -82,8 +82,8 @@
       <plugin id="org.eclipse.birt.chart.ui"/>
       <plugin id="org.eclipse.birt.chart.ui.extension"/>
       <plugin id="org.eclipse.birt.core"/>
-      <plugin id="org.eclipse.birt.core.ui"/>
       <plugin id="org.eclipse.birt.core.script.function"/>
+      <plugin id="org.eclipse.birt.core.ui"/>
       <plugin id="org.eclipse.birt.cshelp"/>
       <plugin id="org.eclipse.birt.data"/>
       <plugin id="org.eclipse.birt.data.aggregation"/>
@@ -150,6 +150,7 @@
       <plugin id="org.eclipse.core.runtime.compatibility.registry" fragment="true"/>
       <plugin id="org.eclipse.core.variables"/>
       <plugin id="org.eclipse.datatools.connectivity"/>
+      <plugin id="org.eclipse.datatools.connectivity.db.generic"/>
       <plugin id="org.eclipse.datatools.connectivity.oda"/>
       <plugin id="org.eclipse.datatools.connectivity.oda.consumer"/>
       <plugin id="org.eclipse.datatools.connectivity.oda.design"/>
@@ -166,7 +167,6 @@
       <plugin id="org.eclipse.datatools.help"/>
       <plugin id="org.eclipse.datatools.modelbase.dbdefinition"/>
       <plugin id="org.eclipse.datatools.modelbase.sql"/>
-      <plugin id="org.eclipse.datatools.connectivity.db.generic"/>
       <plugin id="org.eclipse.draw2d"/>
       <plugin id="org.eclipse.emf.common"/>
       <plugin id="org.eclipse.emf.ecore"/>
@@ -218,9 +218,8 @@
       <plugin id="org.eclipse.update.core.linux"/>
       <plugin id="org.eclipse.update.core.win32" fragment="true"/>
       <plugin id="org.eclipse.update.ui"/>
-      <plugin id="org.mortbay.jetty"/>
-      <plugin id="org.mortbay.jetty.util"/>
       <plugin id="org.mortbay.jetty.server"/>
+      <plugin id="org.mortbay.jetty.util"/>
       <plugin id="org.mozilla.rhino"/>
       <plugin id="org.w3c.css.sac"/>
       <plugin id="org.w3c.dom.smil"/>
