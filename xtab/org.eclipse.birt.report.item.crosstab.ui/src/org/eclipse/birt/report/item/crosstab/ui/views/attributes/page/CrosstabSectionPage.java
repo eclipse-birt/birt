@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes.page;
 
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PageSectionId;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ResetAttributePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
@@ -33,7 +33,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author Administrator
  * 
  */
-public class CrosstabSectionPage extends AttributePage
+public class CrosstabSectionPage extends ResetAttributePage
 {
 
 	private SimpleComboSection masterSection;
@@ -41,7 +41,8 @@ public class CrosstabSectionPage extends AttributePage
 	private ComboSection beforeSection;
 	private ComboSection insideSection;
 	private ComboSection afterSection;
-//	private PageLayoutComboSection pageLayoutComboSection;
+
+	// private PageLayoutComboSection pageLayoutComboSection;
 
 	public void buildUI( Composite parent )
 	{
@@ -50,18 +51,20 @@ public class CrosstabSectionPage extends AttributePage
 
 		// Defines providers.
 
-		IDescriptorProvider beforeProvider = new ComboPropertyDescriptorProvider( StyleHandle.PAGE_BREAK_BEFORE_PROP,
+		ComboPropertyDescriptorProvider beforeProvider = new ComboPropertyDescriptorProvider( StyleHandle.PAGE_BREAK_BEFORE_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		beforeProvider.enableReset( true );
 
 		IDescriptorProvider masterProvider = new SimpleComboPropertyDescriptorProvider( StyleHandle.MASTER_PAGE_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
 
-		IDescriptorProvider afterProvider = new ComboPropertyDescriptorProvider( StyleHandle.PAGE_BREAK_AFTER_PROP,
+		ComboPropertyDescriptorProvider afterProvider = new ComboPropertyDescriptorProvider( StyleHandle.PAGE_BREAK_AFTER_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		afterProvider.enableReset( true );
 
-		IDescriptorProvider insideProvider = new ComboPropertyDescriptorProvider( StyleHandle.PAGE_BREAK_INSIDE_PROP,
+		ComboPropertyDescriptorProvider insideProvider = new ComboPropertyDescriptorProvider( StyleHandle.PAGE_BREAK_INSIDE_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
-
+		insideProvider.enableReset( true );
 
 		// Defines sections.
 
@@ -79,7 +82,6 @@ public class CrosstabSectionPage extends AttributePage
 				true );
 		sepSection = new SeperatorSection( container, SWT.HORIZONTAL );
 
-
 		beforeSection.setProvider( beforeProvider );
 		masterSection.setProvider( masterProvider );
 		afterSection.setProvider( afterProvider );
@@ -91,7 +93,7 @@ public class CrosstabSectionPage extends AttributePage
 		masterSection.setWidth( 200 );
 		afterSection.setWidth( 200 );
 		insideSection.setWidth( 200 );
-//		repeatColumnHeaderSection.setWidth( 200 );
+		// repeatColumnHeaderSection.setWidth( 200 );
 
 		// Sets layout num.
 
@@ -99,28 +101,32 @@ public class CrosstabSectionPage extends AttributePage
 		afterSection.setLayoutNum( 3 );
 		insideSection.setLayoutNum( 5 );
 		masterSection.setLayoutNum( 2 );
-		
-		// Sets fill grid num.		
+
+		// Sets fill grid num.
 		afterSection.setGridPlaceholder( 1, true );
 		insideSection.setGridPlaceholder( 3, true );
 
 		// Adds sections into container page.
 
-//		PageLayoutPropertyDescriptorProvider pageLayoutProvider = new PageLayoutPropertyDescriptorProvider( ICrosstabReportItemConstants.PAGE_LAYOUT_PROP,
-//				ReportDesignConstants.EXTENDED_ITEM );
-//		pageLayoutComboSection = new PageLayoutComboSection( pageLayoutProvider.getDisplayName( ),
-//				container,
-//				true );
-//		pageLayoutComboSection.setProvider( pageLayoutProvider );
-//		pageLayoutComboSection.setWidth( 200 );
-//		pageLayoutComboSection.setGridPlaceholder( 3, true );
+		// PageLayoutPropertyDescriptorProvider pageLayoutProvider = new
+		// PageLayoutPropertyDescriptorProvider(
+		// ICrosstabReportItemConstants.PAGE_LAYOUT_PROP,
+		// ReportDesignConstants.EXTENDED_ITEM );
+		// pageLayoutComboSection = new PageLayoutComboSection(
+		// pageLayoutProvider.getDisplayName( ),
+		// container,
+		// true );
+		// pageLayoutComboSection.setProvider( pageLayoutProvider );
+		// pageLayoutComboSection.setWidth( 200 );
+		// pageLayoutComboSection.setGridPlaceholder( 3, true );
 
-		addSection( PageSectionId.SECION_PAGE_BREAK_BEFORE, beforeSection ); 
-		addSection( PageSectionId.SECION_PAGE_BREAK_AFTER, afterSection ); 
-		addSection( PageSectionId.SECION_PAGE_BREAK_INSIDE, insideSection ); 
-		addSection( PageSectionId.SECION_SEPERATOR, sepSection ); 
-		addSection( PageSectionId.SECION_MASTER_PAGE, masterSection ); 
-//		addSection( CrosstabPageSectionId.PAGE_LAYOUT, pageLayoutComboSection );
+		addSection( PageSectionId.SECION_PAGE_BREAK_BEFORE, beforeSection );
+		addSection( PageSectionId.SECION_PAGE_BREAK_AFTER, afterSection );
+		addSection( PageSectionId.SECION_PAGE_BREAK_INSIDE, insideSection );
+		addSection( PageSectionId.SECION_SEPERATOR, sepSection );
+		addSection( PageSectionId.SECION_MASTER_PAGE, masterSection );
+		// addSection( CrosstabPageSectionId.PAGE_LAYOUT, pageLayoutComboSection
+		// );
 
 		createSections( );
 		layoutSections( );
@@ -141,7 +147,7 @@ public class CrosstabSectionPage extends AttributePage
 				&& isElementInMasterPage( (DesignElementHandle) DEUtil.getInputFirstElement( input ) ) )
 		{
 			masterSection.setVisible( false );
-//			sepSection.setVisible( false );
+			// sepSection.setVisible( false );
 			beforeSection.getLabelControl( ).setEnabled( false );
 			beforeSection.getComboControl( ).getControl( ).setEnabled( false );
 			afterSection.getLabelControl( ).setEnabled( false );

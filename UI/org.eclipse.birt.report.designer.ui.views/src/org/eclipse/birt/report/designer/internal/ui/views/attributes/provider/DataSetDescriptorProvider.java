@@ -18,7 +18,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 
-public class DataSetDescriptorProvider implements IDescriptorProvider
+public class DataSetDescriptorProvider extends AbstractDescriptorProvider
 {
 
 	public String getDisplayName( )

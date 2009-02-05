@@ -44,6 +44,7 @@ public interface IPropertyDescriptor
 	void load( );
 
 	void save( Object obj ) throws SemanticException;
+
 	/**
 	 * Set DE model List instance
 	 * 
@@ -51,4 +52,6 @@ public interface IPropertyDescriptor
 	 *            The model List to set.
 	 */
 	void setInput( Object handle );
+
+	void reset( );
 }

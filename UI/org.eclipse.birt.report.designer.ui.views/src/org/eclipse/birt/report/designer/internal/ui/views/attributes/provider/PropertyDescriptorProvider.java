@@ -11,7 +11,7 @@ import org.eclipse.birt.report.model.api.GroupPropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 
-public class PropertyDescriptorProvider implements IDescriptorProvider
+public class PropertyDescriptorProvider extends AbstractDescriptorProvider
 {
 
 	protected String property;

@@ -1,3 +1,4 @@
+
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.TabbedPropertyTitle;
@@ -14,11 +15,11 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-
 public class BorderSection extends Section
 {
 
-	public BorderSection( String labelText, Composite parent, boolean isFormStyle )
+	public BorderSection( String labelText, Composite parent,
+			boolean isFormStyle )
 	{
 		super( labelText, parent, isFormStyle );
 		// TODO Auto-generated constructor stub
@@ -88,7 +89,7 @@ public class BorderSection extends Section
 		}
 		return title;
 	}
-	
+
 	public BorderPropertyDescriptor getBorderControl( )
 	{
 		return border;
@@ -175,7 +176,9 @@ public class BorderSection extends Section
 				gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns;
 				gd.grabExcessHorizontalSpace = true;
 				gd.horizontalAlignment = SWT.FILL;
-			}else {
+			}
+			else
+			{
 				gd = (GridData) displayLabel.getLayoutData( );
 				gd.verticalAlignment = SWT.BEGINNING;
 			}
@@ -193,8 +196,14 @@ public class BorderSection extends Section
 
 	public void load( )
 	{
-		if(border!=null && !border.getControl( ).isDisposed( ))border.load( );
+		if ( border != null && !border.getControl( ).isDisposed( ) )
+			border.load( );
+	}
 
+	public void reset( )
+	{
+		if ( border != null && !border.getControl( ).isDisposed( ) )
+			border.reset( );
 	}
 
 	IDescriptorProvider styleProvider;
@@ -210,7 +219,7 @@ public class BorderSection extends Section
 		if ( border != null )
 			border.setStyleProvider( provider );
 	}
-	
+
 	IDescriptorProvider colorProvider;
 
 	public IDescriptorProvider getColorProvider( )
@@ -224,8 +233,9 @@ public class BorderSection extends Section
 		if ( border != null )
 			border.setColorProvider( provider );
 	}
-	
+
 	IDescriptorProvider widthProvider;
+
 	public IDescriptorProvider getWidthProvider( )
 	{
 		return widthProvider;
@@ -237,20 +247,21 @@ public class BorderSection extends Section
 		if ( border != null )
 			border.setWidthProvider( provider );
 	}
-	
+
 	BorderToggleDescriptorProvider[] toggleProviders;
+
 	public BorderToggleDescriptorProvider[] getToggleProviders( )
 	{
 		return toggleProviders;
 	}
 
-	public void setToggleProviders( BorderToggleDescriptorProvider[] toggleProviders )
+	public void setToggleProviders(
+			BorderToggleDescriptorProvider[] toggleProviders )
 	{
 		this.toggleProviders = toggleProviders;
 		if ( border != null )
 			border.setToggleProviders( toggleProviders );
 	}
-	
 
 	private int height = -1;
 	private int width = -1;

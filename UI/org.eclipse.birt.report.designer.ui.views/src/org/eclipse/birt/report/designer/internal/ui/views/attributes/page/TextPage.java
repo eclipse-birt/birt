@@ -53,17 +53,21 @@ public class TextPage extends GeneralPage
 		IDescriptorProvider styleProvider = new SimpleComboPropertyDescriptorProvider( ReportItemHandle.STYLE_PROP,
 				ReportDesignConstants.REPORT_ITEM );
 
-		IDescriptorProvider fontFamilyProvider = new ComboPropertyDescriptorProvider( StyleHandle.FONT_FAMILY_PROP,
+		ComboPropertyDescriptorProvider fontFamilyProvider = new ComboPropertyDescriptorProvider( StyleHandle.FONT_FAMILY_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		fontFamilyProvider.enableReset( true );
 
-		IDescriptorProvider fontSizeProvider = new FontSizePropertyDescriptorProvider( StyleHandle.FONT_SIZE_PROP,
+		FontSizePropertyDescriptorProvider fontSizeProvider = new FontSizePropertyDescriptorProvider( StyleHandle.FONT_SIZE_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		fontSizeProvider.enableReset( true );
 
-		IDescriptorProvider colorProvider = new ColorPropertyDescriptorProvider( StyleHandle.COLOR_PROP,
+		ColorPropertyDescriptorProvider colorProvider = new ColorPropertyDescriptorProvider( StyleHandle.COLOR_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		colorProvider.enableReset( true );
 
-		IDescriptorProvider bgColorProvider = new ColorPropertyDescriptorProvider( StyleHandle.BACKGROUND_COLOR_PROP,
+		ColorPropertyDescriptorProvider bgColorProvider = new ColorPropertyDescriptorProvider( StyleHandle.BACKGROUND_COLOR_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		bgColorProvider.enableReset( true );
 
 		IDescriptorProvider[] fontStyleProviders = createFontStyleProviders( );
 
@@ -180,7 +184,7 @@ public class TextPage extends GeneralPage
 	 */
 	private IDescriptorProvider[] createFontStyleProviders( )
 	{
-		return new IDescriptorProvider[]{
+		PropertyDescriptorProvider[] providers = new PropertyDescriptorProvider[]{
 				// Creates providers with StyleHandle.FONT_WEIGHT_PROP,
 				// StyleHandle.FONT_STYLE_PROP, StyleHandle.TEXT_UNDERLINE_PROP,
 				// StyleHandle.TEXT_LINE_THROUGH_PROP and
@@ -202,5 +206,13 @@ public class TextPage extends GeneralPage
 						ReportDesignConstants.STYLE_ELEMENT )
 		// bidi_hcg
 		};
+
+		for ( int i = 0; i < providers.length; i++ )
+		{
+			if ( providers[i] instanceof PropertyDescriptorProvider )
+				( (PropertyDescriptorProvider) providers[i] ).enableReset( true );
+		}
+
+		return providers;
 	}
 }

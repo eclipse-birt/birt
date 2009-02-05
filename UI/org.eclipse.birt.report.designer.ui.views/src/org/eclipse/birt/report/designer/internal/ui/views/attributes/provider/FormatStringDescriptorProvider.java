@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
-public class FormatStringDescriptorProvider implements IDescriptorProvider
+public class FormatStringDescriptorProvider extends AbstractDescriptorProvider
 {
 
 	public static final String PRESERVE_WHITE_SPACES = Messages.getString( "FormatStringPage.Label.PreserveWhiteSpaces" ); //$NON-NLS-1$

@@ -77,7 +77,16 @@ public class FontStyleSection extends Section
 
 	public void load( )
 	{
-		if(fontStyle!=null && !fontStyle.getControl( ).isDisposed( ))fontStyle.load( );
+		if ( fontStyle != null && !fontStyle.getControl( ).isDisposed( ) )
+			fontStyle.load( );
+	}
+
+	public void reset( )
+	{
+		if ( fontStyle != null && !fontStyle.getControl( ).isDisposed( ) )
+		{
+			fontStyle.reset( );
+		}
 	}
 
 	public void setInput( Object input )

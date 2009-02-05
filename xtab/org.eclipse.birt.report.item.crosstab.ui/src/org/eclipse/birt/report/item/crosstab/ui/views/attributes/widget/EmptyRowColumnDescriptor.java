@@ -226,4 +226,18 @@ public class EmptyRowColumnDescriptor implements IPropertyDescriptor
 		return provider;
 	}
 
+	public void reset( )
+	{
+		if ( provider != null && provider.canReset( ) )
+		{
+			try
+			{
+				provider.reset( );
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+			}
+		}
+	}
 }

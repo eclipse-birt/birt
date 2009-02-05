@@ -10,7 +10,8 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
-public class LibraryDescriptorProvider implements ITextDescriptorProvider
+public class LibraryDescriptorProvider extends AbstractDescriptorProvider implements
+		ITextDescriptorProvider
 {
 
 	private Object input;

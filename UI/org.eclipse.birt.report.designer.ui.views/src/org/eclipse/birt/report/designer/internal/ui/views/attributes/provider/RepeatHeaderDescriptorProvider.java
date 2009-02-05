@@ -1,12 +1,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
-public class RepeatHeaderDescriptorProvider implements IDescriptorProvider
+public class RepeatHeaderDescriptorProvider extends AbstractDescriptorProvider
 {
 
 	public String getDisplayName( )
@@ -24,7 +25,7 @@ public class RepeatHeaderDescriptorProvider implements IDescriptorProvider
 			return new Boolean( listingHandle.repeatHeader( ) ).toString( );
 
 		}
-		return "false"; //$NON-NLS-1$
+		return Boolean.FALSE.toString( ); //$NON-NLS-1$
 	}
 
 	public void save( Object value ) throws SemanticException
@@ -35,12 +36,13 @@ public class RepeatHeaderDescriptorProvider implements IDescriptorProvider
 			ListingHandle listingHandle = (ListingHandle) DEUtil.getInputFirstElement( input );
 			try
 			{
-				listingHandle.setRepeatHeader( Boolean.valueOf( value.toString( ) ).booleanValue( ) );
+				listingHandle.setProperty( ListingHandle.REPEAT_HEADER_PROP,
+						value );
 			}
 			catch ( SemanticException e )
 			{
+				ExceptionHandler.handle( e );
 			}
-			
 
 		}
 	}
@@ -52,7 +54,5 @@ public class RepeatHeaderDescriptorProvider implements IDescriptorProvider
 		this.input = input;
 
 	}
-	
-
 
 }

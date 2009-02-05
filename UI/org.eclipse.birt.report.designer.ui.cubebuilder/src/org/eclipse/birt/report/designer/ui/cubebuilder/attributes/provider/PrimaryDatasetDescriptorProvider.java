@@ -11,6 +11,7 @@
  
 package org.eclipse.birt.report.designer.ui.cubebuilder.attributes.provider;
 
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ITextDescriptorProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -18,7 +19,8 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 
-public class PrimaryDatasetDescriptorProvider implements
+public class PrimaryDatasetDescriptorProvider extends
+		AbstractDescriptorProvider implements
 		ITextDescriptorProvider
 {
 

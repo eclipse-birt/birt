@@ -27,16 +27,17 @@ import org.eclipse.swt.widgets.Composite;
  * The Font attribute page of DE element.
  * 
  */
-public class FontPage extends AttributePage
+public class FontPage extends ResetAttributePage
 {
 
-	public void buildUI( Composite parent  )
+	public void buildUI( Composite parent )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 6 ,15) );
+		container.setLayout( WidgetUtil.createGridLayout( 6, 15 ) );
 
 		ComboPropertyDescriptorProvider fontFamilyProvider = new ComboPropertyDescriptorProvider( StyleHandle.FONT_FAMILY_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		fontFamilyProvider.enableReset( true );
 		ComboSection fontFamilySection = new ComboSection( fontFamilyProvider.getDisplayName( ),
 				container,
 				true );
@@ -47,6 +48,7 @@ public class FontPage extends AttributePage
 
 		FontSizePropertyDescriptorProvider fontSizeProvider = new FontSizePropertyDescriptorProvider( StyleHandle.FONT_SIZE_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		fontSizeProvider.enableReset( true );
 		FontSizeSection fontSizeSection = new FontSizeSection( fontSizeProvider.getDisplayName( ),
 				container,
 				true );
@@ -58,10 +60,13 @@ public class FontPage extends AttributePage
 
 		ColorPropertyDescriptorProvider colorProvider = new ColorPropertyDescriptorProvider( StyleHandle.COLOR_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		colorProvider.enableReset( true );
 		ColorSection colorSection = new ColorSection( colorProvider.getDisplayName( ),
 				container,
 				true );
 		colorSection.setProvider( colorProvider );
+		colorSection.setWidth( 200 );
+		colorSection.setLayoutNum( 2 );
 		colorSection.setGridPlaceholder( 4, true );
 		addSection( PageSectionId.FONT_COLOR, colorSection );
 
@@ -77,6 +82,7 @@ public class FontPage extends AttributePage
 		{
 			providers[i] = new FontStylePropertyDescriptorProvider( textStyles[i],
 					ReportDesignConstants.STYLE_ELEMENT );
+			providers[i].enableReset( true );
 		}
 		TogglesSection fontStyleSection = new TogglesSection( container );
 		fontStyleSection.setProviders( providers );

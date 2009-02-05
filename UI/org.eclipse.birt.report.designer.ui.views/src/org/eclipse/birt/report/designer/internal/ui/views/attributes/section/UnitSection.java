@@ -85,7 +85,14 @@ public class UnitSection extends Section
 	{
 		if ( unit != null && !unit.getControl( ).isDisposed( ) )
 			unit.load( );
+	}
 
+	public void reset( )
+	{
+		if ( unit != null && !unit.getControl( ).isDisposed( ) )
+		{
+			unit.reset( );
+		}
 	}
 
 	IDescriptorProvider provider;

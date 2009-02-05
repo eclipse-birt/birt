@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
-public class OutputPropertyDescriptorProvider implements IDescriptorProvider
+public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 {
 
 	private boolean updateHideRule( DesignElementHandle element, String format,

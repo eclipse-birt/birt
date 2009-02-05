@@ -4,8 +4,10 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.IPropertyDescriptor;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.swt.widgets.Control;
 
 public abstract class PropertyDescriptor implements IPropertyDescriptor
@@ -74,8 +76,8 @@ public abstract class PropertyDescriptor implements IPropertyDescriptor
 	 */
 
 	/*
-	 * public void load( ) { String value = descriptorProvider.load( ).toString( );
-	 * if ( value != null ) refresh( value ); }
+	 * public void load( ) { String value = descriptorProvider.load( ).toString(
+	 * ); if ( value != null ) refresh( value ); }
 	 */
 
 	public void setInput( Object handle )
@@ -111,5 +113,20 @@ public abstract class PropertyDescriptor implements IPropertyDescriptor
 	public IDescriptorProvider getDescriptorProvider( )
 	{
 		return descriptorProvider;
+	}
+
+	public void reset( )
+	{
+		if ( descriptorProvider != null && descriptorProvider.canReset( ) )
+		{
+			try
+			{
+				descriptorProvider.reset( );
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+			}
+		}
 	}
 }

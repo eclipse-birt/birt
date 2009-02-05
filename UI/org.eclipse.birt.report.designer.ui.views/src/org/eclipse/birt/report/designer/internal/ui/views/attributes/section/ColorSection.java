@@ -83,8 +83,16 @@ public class ColorSection extends Section
 
 	public void load( )
 	{
-		if(color!=null && !color.getControl( ).isDisposed( ))color.load( );
+		if ( color != null && !color.getControl( ).isDisposed( ) )
+			color.load( );
+	}
 
+	public void reset( )
+	{
+		if ( color != null && !color.getControl( ).isDisposed( ) )
+		{
+			color.reset( );
+		}
 	}
 
 	IDescriptorProvider provider;

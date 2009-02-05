@@ -333,13 +333,15 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 				else if ( designElement instanceof GroupHandle )
 				{
 					reportElement = (ReportItemHandle) ( (GroupHandle) designElement ).getContainer( );
-				}else
+				}
+				else
 				{
 					reportElement = designElement;
 				}
-				if(reportElement == null) break;
+				if ( reportElement == null )
+					break;
 			}
-			
+
 			if ( reportElement instanceof ReportItemHandle )
 			{
 				builder.setReportElement( (ReportItemHandle) reportElement );
@@ -416,11 +418,13 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 			else if ( designElement instanceof GroupHandle )
 			{
 				reportElement = (ReportItemHandle) ( (GroupHandle) designElement ).getContainer( );
-			}else
+			}
+			else
 			{
 				reportElement = designElement;
 			}
-			if(reportElement == null) break;
+			if ( reportElement == null )
+				break;
 		}
 		if ( reportElement instanceof ReportItemHandle )
 		{
@@ -641,4 +645,21 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		return ""; //$NON-NLS-1$
 	}
 
+	private boolean canReset = false;
+
+	public boolean canReset( )
+	{
+		return canReset;
+	}
+
+	public void enableReset( boolean canReset )
+	{
+		this.canReset = canReset;
+	}
+
+	public void reset( ) throws SemanticException
+	{
+		if ( canReset( ) )
+			save( null );
+	}
 }

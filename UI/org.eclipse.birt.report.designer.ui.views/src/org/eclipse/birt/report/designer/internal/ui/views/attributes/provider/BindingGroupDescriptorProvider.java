@@ -31,7 +31,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 
-public class BindingGroupDescriptorProvider implements IDescriptorProvider
+public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 {
 
 	public String getDisplayName( )

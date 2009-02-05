@@ -21,12 +21,13 @@ import org.eclipse.swt.widgets.Composite;
  * 
  * @author Zhipeng Zhang
  */
-public class ItemMarginPage extends AttributePage
+public class ItemMarginPage extends ResetAttributePage
 {
-	public void buildUI( Composite parent  )
+
+	public void buildUI( Composite parent )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 5 ,15) );
+		container.setLayout( WidgetUtil.createGridLayout( 5, 15 ) );
 
 		String[] padProperties = {
 				StyleHandle.MARGIN_TOP_PROP,
@@ -45,12 +46,13 @@ public class ItemMarginPage extends AttributePage
 		{
 			MarignPropertyDescriptorProvider provider = new MarignPropertyDescriptorProvider( padProperties[i],
 					ReportDesignConstants.STYLE_ELEMENT );
+			provider.enableReset( true );
 			MarignSection marginSection = new MarignSection( provider.getDisplayName( ),
 					container,
 					true );
 			marginSection.setProvider( provider );
 			marginSection.setGridPlaceholder( 3, true );
-//			marginSection.setWidth( 400 );
+			// marginSection.setWidth( 400 );
 			addSection( padIDs[i], marginSection );
 		}
 		createSections( );

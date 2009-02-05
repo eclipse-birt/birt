@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * The borders attribute page of DE element.
  */
-public class BordersPage extends AttributePage
+public class BordersPage extends ResetAttributePage
 {
 
 	private static final String[] styles = {
@@ -112,6 +112,10 @@ public class BordersPage extends AttributePage
 		BorderWidthDescriptorProvider widthProvider = new BorderWidthDescriptorProvider( );
 		borderSection.setWidthProvider( widthProvider );
 
+		for ( int i = 0; i < providers.length; i++ )
+		{
+			providers[i].enableReset( true );
+		}
 		borderSection.setToggleProviders( providers );
 
 		addSection( PageSectionId.BORDERS_BORDER_STYLE, borderSection );
@@ -124,9 +128,7 @@ public class BordersPage extends AttributePage
 	{
 		return border != null
 				&& border.getBorderControl( ) != null
-				&& !border.getBorderControl( )
-						.getControl( )
-						.isDisposed( );
+				&& !border.getBorderControl( ).getControl( ).isDisposed( );
 	}
 
 	public void postElementEvent( )

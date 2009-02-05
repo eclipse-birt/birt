@@ -16,7 +16,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Co
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ElementIdDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FontSizePropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FontStylePropertyDescriptorProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.PropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SimpleComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
@@ -66,6 +65,7 @@ public class LabelPage extends GeneralPage
 
 		ComboPropertyDescriptorProvider fontFamilyProvider = new ComboPropertyDescriptorProvider( StyleHandle.FONT_FAMILY_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		fontFamilyProvider.enableReset( true );
 		ComboSection fontFamilySection = new ComboSection( fontFamilyProvider.getDisplayName( ),
 				container,
 				true );
@@ -76,6 +76,7 @@ public class LabelPage extends GeneralPage
 
 		FontSizePropertyDescriptorProvider fontSizeProvider = new FontSizePropertyDescriptorProvider( StyleHandle.FONT_SIZE_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		fontSizeProvider.enableReset( true );
 		FontSizeSection fontSizeSection = new FontSizeSection( fontSizeProvider.getDisplayName( ),
 				container,
 				true );
@@ -87,6 +88,7 @@ public class LabelPage extends GeneralPage
 
 		ColorPropertyDescriptorProvider colorProvider = new ColorPropertyDescriptorProvider( StyleHandle.COLOR_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		colorProvider.enableReset( true );
 		ColorSection colorSection = new ColorSection( colorProvider.getDisplayName( ),
 				container,
 				true );
@@ -97,6 +99,7 @@ public class LabelPage extends GeneralPage
 
 		ColorPropertyDescriptorProvider bgColorProvider = new ColorPropertyDescriptorProvider( StyleHandle.BACKGROUND_COLOR_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		bgColorProvider.enableReset( true );
 		ColorSection bgColorSection = new ColorSection( bgColorProvider.getDisplayName( ),
 				container,
 				true );
@@ -113,14 +116,16 @@ public class LabelPage extends GeneralPage
 				StyleHandle.TEXT_LINE_THROUGH_PROP,
 		};
 
-		IDescriptorProvider[] providers = new IDescriptorProvider[5];
+		PropertyDescriptorProvider[] providers = new PropertyDescriptorProvider[5];
 		for ( int i = 0; i < textStyles.length; i++ )
 		{
 			providers[i] = new FontStylePropertyDescriptorProvider( textStyles[i],
 					ReportDesignConstants.STYLE_ELEMENT );
+			providers[i].enableReset( true );
 		}
 		providers[4] = new PropertyDescriptorProvider( StyleHandle.TEXT_ALIGN_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		providers[4].enableReset( true );
 		FontStyleSection fontStyleSection = new FontStyleSection( container,
 				true,
 				true );

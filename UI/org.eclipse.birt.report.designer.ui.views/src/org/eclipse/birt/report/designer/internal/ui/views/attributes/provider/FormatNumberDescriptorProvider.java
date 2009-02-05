@@ -26,7 +26,7 @@ import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.util.Currency;
 import com.ibm.icu.util.ULocale;
 
-public class FormatNumberDescriptorProvider implements IDescriptorProvider
+public class FormatNumberDescriptorProvider extends AbstractDescriptorProvider
 {
 
 	public String getDisplayName( )

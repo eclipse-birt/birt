@@ -9,7 +9,7 @@ import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
-public abstract class BorderDescriptorProvider implements IDescriptorProvider
+public abstract class BorderDescriptorProvider extends AbstractDescriptorProvider
 {
 
 	protected Object input;

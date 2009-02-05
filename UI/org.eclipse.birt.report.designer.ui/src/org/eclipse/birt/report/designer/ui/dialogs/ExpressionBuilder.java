@@ -274,7 +274,9 @@ public class ExpressionBuilder extends TitleAreaDialog
 				{
 					messageLine.getParent( ).setVisible( true );
 					String message = provider.getDisplayText( table.getSelection( )[0].getData( ) );
-					message = message.replaceAll( "&", "&&" ); //$NON-NLS-1$//$NON-NLS-2$
+					message = message.replaceAll( "&", "&amp;" ); //$NON-NLS-1$//$NON-NLS-2$
+					message = message.replaceAll( "<", "&lt;" );
+					message = message.replaceAll( ">", "&gt;" );
 					messageLine.setText( "<form><p> <b>" //$NON-NLS-1$
 							+ Messages.getString( "ExpressionBuilder.Label.Hint" ) //$NON-NLS-1$
 							+ "</b>: " //$NON-NLS-1$

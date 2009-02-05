@@ -6,7 +6,8 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
-public class DescriptionDescriptorProvider implements ITextDescriptorProvider
+public class DescriptionDescriptorProvider extends AbstractDescriptorProvider implements
+		ITextDescriptorProvider
 {
 
 	public boolean isReadOnly( )

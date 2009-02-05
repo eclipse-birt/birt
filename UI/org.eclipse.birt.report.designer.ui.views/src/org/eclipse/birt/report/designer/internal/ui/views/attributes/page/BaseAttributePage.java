@@ -13,15 +13,18 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import java.util.HashMap;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.Tab;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.TabbedPropertyList;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.TabbedPropertyTitle;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.TabbedPropertyList.ListElement;
 import org.eclipse.birt.report.designer.internal.ui.util.SortMap;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormWidgetFactory;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.ICategoryPage;
 import org.eclipse.birt.report.designer.ui.views.attributes.TabPage;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProvider;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ControlAdapter;
@@ -59,7 +62,7 @@ public class BaseAttributePage extends TabPage
 	 * The Last Selected index in the list of categories
 	 */
 	private static int s_lastSelectedIndex = 0;
-	
+
 	private static String s_lastSelectedKey = null;
 
 	/**
@@ -78,15 +81,15 @@ public class BaseAttributePage extends TabPage
 
 	private TabbedPropertyTitle title;
 
-
 	/**
 	 * Creates UI control.
 	 * 
 	 */
 	Composite container;
+
 	public void buildUI( Composite parent )
 	{
-		container = new Composite(parent,SWT.NONE);
+		container = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
@@ -112,10 +115,30 @@ public class BaseAttributePage extends TabPage
 
 			}
 		} );
-		setCategoryProvider(categoryProvider);
-		title = new TabbedPropertyTitle( container, FormWidgetFactory.getInstance( ) );
+		setCategoryProvider( categoryProvider );
+		title = new TabbedPropertyTitle( container,
+				FormWidgetFactory.getInstance( ) );
 		title.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		sComposite = new ScrolledComposite( container, SWT.H_SCROLL | SWT.V_SCROLL );
+		title.addListener( SWT.SELECTED, new Listener( ) {
+
+			public void handleEvent( Event event )
+			{
+				if ( currentPage != null
+						&& currentPage instanceof ResetAttributePage )
+				{
+					CommandStack stack = SessionHandleAdapter.getInstance( )
+							.getCommandStack( );
+					stack.startTrans( Messages.getString( "BaseAttributePage.CommandStack.ResetStyle.Message" ) ); //$NON-NLS-1$
+
+					( (ResetAttributePage) currentPage ).reset( );
+
+					stack.commit( );
+				}
+			}
+		} );
+
+		sComposite = new ScrolledComposite( container, SWT.H_SCROLL
+				| SWT.V_SCROLL );
 		sComposite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		sComposite.setExpandHorizontal( true );
 		sComposite.setExpandVertical( true );
@@ -126,6 +149,7 @@ public class BaseAttributePage extends TabPage
 				computeSize( );
 			}
 		} );
+
 		infoPane = new Composite( sComposite, SWT.NONE );
 		sComposite.setContent( infoPane );
 		layout = new GridLayout( );
@@ -162,6 +186,8 @@ public class BaseAttributePage extends TabPage
 		{
 			return;
 		}
+		title.showResetButton( page instanceof ResetAttributePage
+				&& ( (ResetAttributePage) page ).canReset( ) );
 		showPage( page );
 	}
 
@@ -183,23 +209,26 @@ public class BaseAttributePage extends TabPage
 
 	protected void selectStickyCategory( )
 	{
-		if ( s_lastSelectedKey != null ||  s_lastSelectedIndex != -1)
+		if ( s_lastSelectedKey != null || s_lastSelectedIndex != -1 )
 		{
-			categoryList.setSelection( s_lastSelectedKey,s_lastSelectedIndex );
+			categoryList.setSelection( s_lastSelectedKey, s_lastSelectedIndex );
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.attributes.component.TabPage#setInput(java.util.List)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.attributes.component.TabPage#setInput
+	 * (java.util.List)
 	 */
 	public void setInput( Object input )
 	{
 		this.input = input;
 	}
-	
-	public void refresh(){
+
+	public void refresh( )
+	{
 		selectStickyCategory( );
 		processListSelected( );
 	}
@@ -217,11 +246,12 @@ public class BaseAttributePage extends TabPage
 		{
 			return;
 		}
-		if(categoryList == null)return;
+		if ( categoryList == null )
+			return;
 		ICategoryPage[] pages = categoryProvider.getCategories( );
 		if ( pages.length != 0 )
 		{
-			SortMap categoryLabels = new SortMap();
+			SortMap categoryLabels = new SortMap( );
 			for ( int i = 0; i < pages.length; i++ )
 			{
 				Tab tab = new Tab( );
@@ -231,7 +261,7 @@ public class BaseAttributePage extends TabPage
 			categoryList.setElements( categoryLabels );
 			if ( categoryList.getTabList( ).length > 0 )
 			{
-				categoryList.setSelection( null,0 );
+				categoryList.setSelection( null, 0 );
 			}
 		}
 	}
@@ -258,8 +288,6 @@ public class BaseAttributePage extends TabPage
 		return page;
 	}
 
-	
-
 	public void dispose( )
 	{
 		container.dispose( );
@@ -269,6 +297,5 @@ public class BaseAttributePage extends TabPage
 	{
 		return container;
 	}
-
 
 }

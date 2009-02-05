@@ -10,9 +10,9 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
-public class TemplateDescriptorProvider implements IResourceKeyDescriptorProvider
+public class TemplateDescriptorProvider extends AbstractDescriptorProvider implements
+		IResourceKeyDescriptorProvider
 {
-
 
 	public String getBaseName( )
 	{
@@ -51,7 +51,7 @@ public class TemplateDescriptorProvider implements IResourceKeyDescriptorProvide
 	public Object load( )
 	{
 		String key = ""; //$NON-NLS-1$
-		if (DEUtil.getInputSize( input ) == 1
+		if ( DEUtil.getInputSize( input ) == 1
 				&& DEUtil.getInputFirstElement( input ) instanceof TemplateReportItemHandle )
 		{
 			TemplateReportItemHandle handle = (TemplateReportItemHandle) DEUtil.getInputFirstElement( input );
@@ -63,16 +63,19 @@ public class TemplateDescriptorProvider implements IResourceKeyDescriptorProvide
 
 	public void save( Object value ) throws SemanticException
 	{
-		if (value!=null && DEUtil.getInputSize( input ) == 1
+		if ( value != null
+				&& DEUtil.getInputSize( input ) == 1
 				&& DEUtil.getInputFirstElement( input ) instanceof TemplateReportItemHandle )
 		{
 			TemplateReportItemHandle handle = (TemplateReportItemHandle) DEUtil.getInputFirstElement( input );
-			if(handle!=null)handle.setDescriptionKey( value.toString( ) );
+			if ( handle != null )
+				handle.setDescriptionKey( value.toString( ) );
 		}
-		
+
 	}
 
 	private Object input;
+
 	public void setInput( Object input )
 	{
 		this.input = input;

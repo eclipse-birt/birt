@@ -4,6 +4,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IToggleDescriptorProvider;
@@ -151,6 +152,30 @@ public class FontStylePropertyDescriptor extends PropertyDescriptor
 	{
 		if ( composite != null )
 			composite.setVisible( isVisible );
+	}
+
+	public void reset( )
+	{
+		for ( int i = 0; i < toggles.length; i++ )
+		{
+			try
+			{
+				toggles[i].save( null );
+
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+			}
+		}
+		try
+		{
+			fontAlign.save( null );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
 	}
 
 }

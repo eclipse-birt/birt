@@ -15,7 +15,8 @@ public interface PreviewPropertyDescriptorProvider extends IDescriptorProvider
 
 	public LabelProvider getLabelProvider( );
 
-	public IStructuredContentProvider getContentProvider( IModelEventProcessor processor);
+	public IStructuredContentProvider getContentProvider(
+			IModelEventProcessor processor );
 
 	public String getColumnText( Object element, int columnIndex );
 

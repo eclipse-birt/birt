@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractDescriptorProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
@@ -29,7 +29,7 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.swt.widgets.Control;
 
-public class EmptyRowColumnProvider implements IDescriptorProvider
+public class EmptyRowColumnProvider extends AbstractDescriptorProvider
 {
 
 	private static final String EMPTY_COLUMN_TEXT = Messages.getString( "EmptyRowColumnProvider.ColumnView.Button.Text" );

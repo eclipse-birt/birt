@@ -545,4 +545,21 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 		return ( (MapRuleHandle) handle ).getDisplay( );
 	}
 
+	private boolean canReset = false;
+
+	public boolean canReset( )
+	{
+		return canReset;
+	}
+
+	public void enableReset( boolean canReset )
+	{
+		this.canReset = canReset;
+	}
+
+	public void reset( ) throws SemanticException
+	{
+		if ( canReset( ) )
+			save( null );
+	}
 }

@@ -3,8 +3,8 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.DescriptorToolkit;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.ComboPropertyDescriptor;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.DescriptorToolkit;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.GridData;
@@ -158,7 +158,16 @@ public class ComboSection extends Section
 
 	public void load( )
 	{
-		if(combo!=null && !combo.getControl( ).isDisposed( ))combo.load( );
+		if ( combo != null && !combo.getControl( ).isDisposed( ) )
+			combo.load( );
+	}
+
+	public void reset( )
+	{
+		if ( combo != null && !combo.getControl( ).isDisposed( ) )
+		{
+			combo.reset( );
+		}
 	}
 
 	public void setHidden( boolean isHidden )

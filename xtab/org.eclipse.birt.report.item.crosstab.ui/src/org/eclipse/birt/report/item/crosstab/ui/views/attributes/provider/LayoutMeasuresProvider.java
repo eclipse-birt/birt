@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractDescriptorProvider;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
@@ -27,7 +27,8 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
  * @author Administrator
  * 
  */
-public class LayoutMeasuresProvider implements IDescriptorProvider {
+public class LayoutMeasuresProvider extends AbstractDescriptorProvider
+{
 
 	protected Object input;
 	protected CrosstabReportItemHandle crosstabHandle;

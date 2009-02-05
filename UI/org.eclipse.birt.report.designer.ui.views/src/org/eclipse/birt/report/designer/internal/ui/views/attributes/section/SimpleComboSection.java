@@ -161,7 +161,16 @@ public class SimpleComboSection extends Section
 
 	public void load( )
 	{
-		if(simpleCombo!=null && !simpleCombo.getControl( ).isDisposed( ))simpleCombo.load( );
+		if ( simpleCombo != null && !simpleCombo.getControl( ).isDisposed( ) )
+			simpleCombo.load( );
+	}
+
+	public void reset( )
+	{
+		if ( simpleCombo != null && !simpleCombo.getControl( ).isDisposed( ) )
+		{
+			simpleCombo.reset( );
+		}
 	}
 
 	public void setHidden( boolean isHidden )

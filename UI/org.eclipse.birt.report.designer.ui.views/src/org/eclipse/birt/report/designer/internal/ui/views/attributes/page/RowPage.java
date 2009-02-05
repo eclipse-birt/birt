@@ -45,11 +45,13 @@ public class RowPage extends GeneralFontPage
 		IDescriptorProvider heightProvider = new UnitPropertyDescriptorProvider( RowHandle.HEIGHT_PROP,
 				ReportDesignConstants.ROW_ELEMENT );
 
-		IDescriptorProvider backgroundProvider = new ColorPropertyDescriptorProvider( StyleHandle.BACKGROUND_COLOR_PROP,
+		ColorPropertyDescriptorProvider backgroundProvider = new ColorPropertyDescriptorProvider( StyleHandle.BACKGROUND_COLOR_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		backgroundProvider.enableReset( true );
 
-		IDescriptorProvider vAlignProvider = new ComboPropertyDescriptorProvider( StyleHandle.VERTICAL_ALIGN_PROP,
+		ComboPropertyDescriptorProvider vAlignProvider = new ComboPropertyDescriptorProvider( StyleHandle.VERTICAL_ALIGN_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		vAlignProvider.enableReset( true );
 
 		IDescriptorProvider styleProvider = new SimpleComboPropertyDescriptorProvider( ReportItemHandle.STYLE_PROP,
 				ReportDesignConstants.ROW_ELEMENT );

@@ -37,21 +37,23 @@ import org.eclipse.swt.widgets.Composite;
 public class ColumnPage extends GeneralFontPage
 {
 
-	public void buildUI( Composite parent  )
+	public void buildUI( Composite parent )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 6 ,15) );
+		container.setLayout( WidgetUtil.createGridLayout( 6, 15 ) );
 
 		// Defines providers.
 
 		IDescriptorProvider widthProvider = new UnitPropertyDescriptorProvider( ColumnHandle.WIDTH_PROP,
 				ReportDesignConstants.COLUMN_ELEMENT );
 
-		IDescriptorProvider backgroundProvider = new ColorPropertyDescriptorProvider( StyleHandle.BACKGROUND_COLOR_PROP,
+		ColorPropertyDescriptorProvider backgroundProvider = new ColorPropertyDescriptorProvider( StyleHandle.BACKGROUND_COLOR_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		backgroundProvider.enableReset( true );
 
-		IDescriptorProvider vAlignProvider = new ComboPropertyDescriptorProvider( StyleHandle.VERTICAL_ALIGN_PROP,
+		ComboPropertyDescriptorProvider vAlignProvider = new ComboPropertyDescriptorProvider( StyleHandle.VERTICAL_ALIGN_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		vAlignProvider.enableReset( true );
 
 		IDescriptorProvider styleProvider = new SimpleComboPropertyDescriptorProvider( ReportItemHandle.STYLE_PROP,
 				ReportDesignConstants.COLUMN_ELEMENT );
@@ -73,13 +75,15 @@ public class ColumnPage extends GeneralFontPage
 				container,
 				true );
 
-		Section seperatorSection = new SeperatorSection( container, SWT.HORIZONTAL );
+		Section seperatorSection = new SeperatorSection( container,
+				SWT.HORIZONTAL );
 
 		SimpleComboSection styleSection = new SimpleComboSection( styleProvider.getDisplayName( ),
 				container,
 				true );
 
-		CheckSection suppressDuplicatesSection = new CheckSection( container, true );
+		CheckSection suppressDuplicatesSection = new CheckSection( container,
+				true );
 
 		// Sets providers.
 
@@ -118,7 +122,8 @@ public class ColumnPage extends GeneralFontPage
 		addSection( PageSectionId.COLUMN_BACKGROUND_COLOR, backgroundSection ); //$NON-NLS-1$
 		addSection( PageSectionId.COLUMN_VERTICAL_ALIGN, vAlignSection ); //$NON-NLS-1$
 		addSection( PageSectionId.COLUMN_STYLE, styleSection ); //$NON-NLS-1$
-		addSection( PageSectionId.COLUMN_SUPPRESS_DUPLICATES, suppressDuplicatesSection ); //$NON-NLS-1$
+		addSection( PageSectionId.COLUMN_SUPPRESS_DUPLICATES,
+				suppressDuplicatesSection ); //$NON-NLS-1$
 		addSection( PageSectionId.COLUMN_SEPERATOR, seperatorSection ); //$NON-NLS-1$
 
 		addFontsSection( );

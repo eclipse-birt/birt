@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2008 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
@@ -15,11 +25,15 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-public abstract class AbstractFormHandleProvider extends
-		AbstractDescriptorProvider implements IFormProvider
+/**
+ * 
+ */
+
+public abstract class AbstractSortingFormHandleProvider extends
+		AbstractDescriptorProvider implements ISortingFormProvider
 {
 
-	protected static Logger logger = Logger.getLogger( AbstractFormHandleProvider.class.getName( ) );
+	protected static Logger logger = Logger.getLogger( AbstractSortingFormHandleProvider.class.getName( ) );
 
 	protected Object input;
 
@@ -84,24 +98,6 @@ public abstract class AbstractFormHandleProvider extends
 		}
 	}
 
-	public void transModify( Object data, String property, Object value )
-			throws Exception
-	{
-
-		CommandStack stack = getActionStack( );
-		stack.startTrans( Messages.getString( "FormPage.Menu.ModifyProperty" ) ); //$NON-NLS-1$
-		try
-		{
-			modify( data, property, value );
-			stack.commit( );
-		}
-		catch ( Exception e )
-		{
-			stack.rollback( );
-			throw new Exception( e );
-		}
-	}
-
 	protected CommandStack getActionStack( )
 	{
 		return SessionHandleAdapter.getInstance( ).getCommandStack( );
@@ -135,8 +131,8 @@ public abstract class AbstractFormHandleProvider extends
 		 */
 		public Object[] getElements( Object inputElement )
 		{
-			assert provider instanceof AbstractFormHandleProvider;
-			Object[] elements = ( (AbstractFormHandleProvider) provider ).getElements( inputElement );
+			assert provider instanceof AbstractSortingFormHandleProvider;
+			Object[] elements = ( (AbstractSortingFormHandleProvider) provider ).getElements( inputElement );
 			registerEventManager( );
 			deRegisterEventManager( );
 			return elements;
@@ -149,10 +145,10 @@ public abstract class AbstractFormHandleProvider extends
 		 */
 		public void dispose( )
 		{
-			if ( !( ( (IFormProvider) provider ) instanceof GroupHandleProvider ) )
+			if ( !( ( (ISortingFormProvider) provider ) instanceof GroupHandleProvider ) )
 				return;
 
-			Object[] elements = ( (IFormProvider) provider ).getElements( input );
+			Object[] elements = ( (ISortingFormProvider) provider ).getElements( input );
 
 			if ( elements == null )
 			{
@@ -216,18 +212,9 @@ public abstract class AbstractFormHandleProvider extends
 		return true;
 	}
 
-	public boolean isUpEnable( )
-	{
-		return true;
-	}
-
-	public boolean isDownEnable( )
-	{
-		return true;
-	}
-
 	public boolean needRebuilded( NotificationEvent event )
 	{
 		return false;
 	}
+
 }

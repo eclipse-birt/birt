@@ -171,6 +171,14 @@ public class TextSection extends Section
 			textField.load( );
 	}
 
+	public void reset( )
+	{
+		if ( textField != null && !textField.getControl( ).isDisposed( ) )
+		{
+			textField.reset( );
+		}
+	}
+
 	IDescriptorProvider provider;
 
 	public IDescriptorProvider getProvider( )

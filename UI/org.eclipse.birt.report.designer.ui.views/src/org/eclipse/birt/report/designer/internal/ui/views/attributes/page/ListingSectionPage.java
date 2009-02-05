@@ -34,30 +34,31 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * The section attribute page of DE Listing element.
  */
-public class ListingSectionPage extends AttributePage
+public class ListingSectionPage extends ResetAttributePage
 {
 
 	private Button repeatHeaderButton;
 
-	public void buildUI( Composite parent  )
+	public void buildUI( Composite parent )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 6 ,15) );
+		container.setLayout( WidgetUtil.createGridLayout( 6, 15 ) );
 
 		ComboPropertyDescriptorProvider breakBeforeProvider = new ComboPropertyDescriptorProvider( StyleHandle.PAGE_BREAK_BEFORE_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		breakBeforeProvider.enableReset( true );
 		ComboSection breakBeforeSection = new ComboSection( breakBeforeProvider.getDisplayName( ),
 				container,
 				true );
 		breakBeforeSection.setProvider( breakBeforeProvider );
 		breakBeforeSection.setLayoutNum( 2 );
 		breakBeforeSection.setWidth( 200 );
-		addSection( PageSectionId.LISTING_SECTION_BREAK_BEFORE, breakBeforeSection );
-
-		
+		addSection( PageSectionId.LISTING_SECTION_BREAK_BEFORE,
+				breakBeforeSection );
 
 		ComboPropertyDescriptorProvider breakAfterProvider = new ComboPropertyDescriptorProvider( StyleHandle.PAGE_BREAK_AFTER_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		breakAfterProvider.enableReset( true );
 		ComboSection breakAfterSection = new ComboSection( breakAfterProvider.getDisplayName( ),
 				container,
 				true );
@@ -65,20 +66,24 @@ public class ListingSectionPage extends AttributePage
 		breakAfterSection.setLayoutNum( 4 );
 		breakAfterSection.setGridPlaceholder( 2, true );
 		breakAfterSection.setWidth( 200 );
-		addSection( PageSectionId.LISTING_SECTION_BREAK_AFTER, breakAfterSection );
-		
+		addSection( PageSectionId.LISTING_SECTION_BREAK_AFTER,
+				breakAfterSection );
+
 		ComboPropertyDescriptorProvider breakInsideProvider = new ComboPropertyDescriptorProvider( StyleHandle.PAGE_BREAK_INSIDE_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		breakInsideProvider.enableReset( true );
 		ComboSection breakInsideSection = new ComboSection( breakInsideProvider.getDisplayName( ),
 				container,
 				true );
 		breakInsideSection.setProvider( breakInsideProvider );
 		breakInsideSection.setLayoutNum( 2 );
 		breakInsideSection.setWidth( 200 );
-		addSection( PageSectionId.LISTING_SECTION_BREAK_INSIDE, breakInsideSection );
-		
+		addSection( PageSectionId.LISTING_SECTION_BREAK_INSIDE,
+				breakInsideSection );
+
 		TextPropertyDescriptorProvider internalProvider = new TextPropertyDescriptorProvider( ListingHandle.PAGE_BREAK_INTERVAL_PROP,
 				ReportDesignConstants.LISTING_ITEM );
+		internalProvider.enableReset( true );
 		TextSection intervalSection = new TextSection( internalProvider.getDisplayName( ),
 				container,
 				true );
@@ -87,11 +92,11 @@ public class ListingSectionPage extends AttributePage
 		intervalSection.setGridPlaceholder( 2, true );
 		intervalSection.setWidth( 200 );
 		addSection( PageSectionId.LISTING_SECTION_INTERVAL, intervalSection );
-		
 
-		SeperatorSection seperator = new SeperatorSection( container, SWT.HORIZONTAL );
+		SeperatorSection seperator = new SeperatorSection( container,
+				SWT.HORIZONTAL );
 		addSection( PageSectionId.LISTING_SECTION_SEPERATOR, seperator );
-		
+
 		SimpleComboPropertyDescriptorProvider masterPageProvider = new SimpleComboPropertyDescriptorProvider( StyleHandle.MASTER_PAGE_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
 		SimpleComboSection masterPageSection = new SimpleComboSection( masterPageProvider.getDisplayName( ),
@@ -100,7 +105,8 @@ public class ListingSectionPage extends AttributePage
 		masterPageSection.setProvider( masterPageProvider );
 		masterPageSection.setLayoutNum( 2 );
 		masterPageSection.setWidth( 200 );
-		addSection( PageSectionId.LISTING_SECTION_MASTER_PAGE, masterPageSection );
+		addSection( PageSectionId.LISTING_SECTION_MASTER_PAGE,
+				masterPageSection );
 		/*
 		 * 
 		 * String[] properties = { StyleHandle.PAGE_BREAK_BEFORE_PROP,
@@ -113,14 +119,12 @@ public class ListingSectionPage extends AttributePage
 		 * if(properties[i].equals( StyleHandle.PAGE_BREAK_BEFORE_PROP )) {
 		 * WidgetUtil.buildGridControl( container, propertiesMap,
 		 * ReportDesignConstants.STYLE_ELEMENT, StyleHandle.MASTER_PAGE_PROP, 1,
-		 * 200 ); WidgetUtil.createGridPlaceholder( container, 1, true ); }else {
-		 * WidgetUtil.createGridPlaceholder( container, 3, true ); } }
-		 * 
-		 * 
+		 * 200 ); WidgetUtil.createGridPlaceholder( container, 1, true ); }else
+		 * { WidgetUtil.createGridPlaceholder( container, 3, true ); } }
 		 */
 		/*
-		 * WidgetUtil.createHorizontalLine( container, 5 ); repeatHeaderButton = new
-		 * Button( container, SWT.CHECK ); GridData gd = new GridData();
+		 * WidgetUtil.createHorizontalLine( container, 5 ); repeatHeaderButton =
+		 * new Button( container, SWT.CHECK ); GridData gd = new GridData();
 		 * gd.horizontalSpan = 2; repeatHeaderButton.setLayoutData(gd);
 		 * repeatHeaderButton.setText(
 		 * Messages.getString("ListingSectionPage.RepeatHeader") );
@@ -143,15 +147,14 @@ public class ListingSectionPage extends AttributePage
 		// ListingHandle.PAGE_BREAK_INTERVAL_PROP,
 		// 1,
 		// true );
-		
-
 		RepeatHeaderDescriptorProvider repeatHeaderProvider = new RepeatHeaderDescriptorProvider( );
 		CheckSection repeatHeaderSection = new CheckSection( container, true );
 		repeatHeaderSection.setProvider( repeatHeaderProvider );
 		repeatHeaderSection.setLayoutNum( 4 );
 		repeatHeaderSection.setGridPlaceholder( 2, true );
 		repeatHeaderSection.setWidth( 200 );
-		addSection( PageSectionId.LISTING_SECTION_REPEAT_HEADER, repeatHeaderSection );
+		addSection( PageSectionId.LISTING_SECTION_REPEAT_HEADER,
+				repeatHeaderSection );
 
 		createSections( );
 		layoutSections( );
@@ -177,7 +180,8 @@ public class ListingSectionPage extends AttributePage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage#refreshValues(java.util.Set)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * AttributePage#refreshValues(java.util.Set)
 	 */
 	protected void refreshValues( Set propertiesSet )
 	{

@@ -66,6 +66,7 @@ public class ListPage extends GeneralPage
 
 		ColorPropertyDescriptorProvider colorProvider = new ColorPropertyDescriptorProvider( StyleHandle.BACKGROUND_COLOR_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		colorProvider.enableReset( true );
 		ColorSection colorSection = new ColorSection( colorProvider.getDisplayName( ),
 				container,
 				true );

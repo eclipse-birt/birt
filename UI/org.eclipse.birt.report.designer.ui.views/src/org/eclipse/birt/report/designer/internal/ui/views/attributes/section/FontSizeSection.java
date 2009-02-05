@@ -53,8 +53,7 @@ public class FontSizeSection extends Section
 		return fontSize;
 	}
 
-	protected FontSizePropertyDescriptor getFontSizeControl(
-			Composite parent )
+	protected FontSizePropertyDescriptor getFontSizeControl( Composite parent )
 	{
 		if ( fontSize == null )
 		{
@@ -160,7 +159,16 @@ public class FontSizeSection extends Section
 
 	public void load( )
 	{
-		if(fontSize!=null && !fontSize.getControl( ).isDisposed( ))fontSize.load( );
+		if ( fontSize != null && !fontSize.getControl( ).isDisposed( ) )
+			fontSize.load( );
+	}
+
+	public void reset( )
+	{
+		if ( fontSize != null && !fontSize.getControl( ).isDisposed( ) )
+		{
+			fontSize.reset( );
+		}
 	}
 
 	public void setHidden( boolean isHidden )

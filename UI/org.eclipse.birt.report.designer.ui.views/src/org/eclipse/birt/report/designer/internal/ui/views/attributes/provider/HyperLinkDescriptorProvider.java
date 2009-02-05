@@ -15,7 +15,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.PlatformUI;
 
-public class HyperLinkDescriptorProvider implements ITextDescriptorProvider
+public class HyperLinkDescriptorProvider extends AbstractDescriptorProvider
 {
 
 	private static final String LABEL_LINK_TO = Messages.getString( "HyperLinkPage.Label.LnikTo" ); //$NON-NLS-1$

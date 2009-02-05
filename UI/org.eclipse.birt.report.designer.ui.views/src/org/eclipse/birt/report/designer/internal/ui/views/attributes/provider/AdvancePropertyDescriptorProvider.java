@@ -39,7 +39,7 @@ import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelP
  * 
  * 
  */
-public class AdvancePropertyDescriptorProvider implements IDescriptorProvider
+public class AdvancePropertyDescriptorProvider extends AbstractDescriptorProvider
 {
 
 	public String getDisplayName( )
@@ -266,11 +266,12 @@ class AdvancedPropertyValueLabelProvider extends ColumnLabelProvider implements
 					}
 					else
 					{
-//						GroupPropertyHandleProvider handle = GroupPropertyHandleProvider.getInstance( );
-//						if(handle.isDimensionProperty(propertyHandle))
-//						{
-//							
-//						}
+						// GroupPropertyHandleProvider handle =
+						// GroupPropertyHandleProvider.getInstance( );
+						// if(handle.isDimensionProperty(propertyHandle))
+						// {
+						//							
+						// }
 						value = propertyHandle.getDisplayValue( );
 					}
 				}

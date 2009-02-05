@@ -24,13 +24,14 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Fon
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 
-public abstract class GeneralFontPage extends AttributePage
+public abstract class GeneralFontPage extends ResetAttributePage
 {
 
 	protected void addFontsSection( )
 	{
 		ComboPropertyDescriptorProvider fontFamilyProvider = new ComboPropertyDescriptorProvider( StyleHandle.FONT_FAMILY_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		fontFamilyProvider.enableReset( true );
 		ComboSection fontFamilySection = new ComboSection( fontFamilyProvider.getDisplayName( ),
 				container,
 				true );
@@ -41,6 +42,7 @@ public abstract class GeneralFontPage extends AttributePage
 
 		FontSizePropertyDescriptorProvider fontSizeProvider = new FontSizePropertyDescriptorProvider( StyleHandle.FONT_SIZE_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		fontSizeProvider.enableReset( true );
 		FontSizeSection fontSizeSection = new FontSizeSection( fontSizeProvider.getDisplayName( ),
 				container,
 				true );
@@ -49,9 +51,10 @@ public abstract class GeneralFontPage extends AttributePage
 		fontSizeSection.setWidth( 200 );
 		fontSizeSection.setGridPlaceholder( 2, true );
 		addSection( PageSectionId.FONT_SIZE, fontSizeSection );
-		
+
 		ColorPropertyDescriptorProvider colorProvider = new ColorPropertyDescriptorProvider( StyleHandle.COLOR_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		colorProvider.enableReset( true );
 		ColorSection colorSection = new ColorSection( colorProvider.getDisplayName( ),
 				container,
 				true );
@@ -60,9 +63,8 @@ public abstract class GeneralFontPage extends AttributePage
 		colorSection.setWidth( 200 );
 		addSection( PageSectionId.FONT_COLOR, colorSection );
 
-		
-		
 		IDescriptorProvider[] fontStyleProviders = createFontStyleProviders( );
+
 		FontStyleSection fontStyleSection = new FontStyleSection( container,
 				true,
 				false );
@@ -70,12 +72,12 @@ public abstract class GeneralFontPage extends AttributePage
 		fontStyleSection.setLayoutNum( 4 );
 		fontStyleSection.setGridPlaceholder( 1, true );
 		addSection( PageSectionId.FONT_STYLE, fontStyleSection );
-		
+
 	}
 
 	private IDescriptorProvider[] createFontStyleProviders( )
 	{
-		return new IDescriptorProvider[]{
+		IDescriptorProvider[] providers = new IDescriptorProvider[]{
 
 				new FontStylePropertyDescriptorProvider( StyleHandle.FONT_WEIGHT_PROP,
 						ReportDesignConstants.STYLE_ELEMENT ),
@@ -92,5 +94,13 @@ public abstract class GeneralFontPage extends AttributePage
 				new PropertyDescriptorProvider( StyleHandle.TEXT_ALIGN_PROP,
 						ReportDesignConstants.STYLE_ELEMENT )
 		};
+
+		for ( int i = 0; i < providers.length; i++ )
+		{
+			if ( providers[i] instanceof PropertyDescriptorProvider )
+				( (PropertyDescriptorProvider) providers[i] ).enableReset( true );
+		}
+
+		return providers;
 	}
 }

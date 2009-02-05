@@ -15,7 +15,8 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.jface.window.Window;
 
-public class ReferenceDescriptorProvider implements ITextDescriptorProvider
+public class ReferenceDescriptorProvider extends AbstractDescriptorProvider implements
+		ITextDescriptorProvider
 {
 
 	public boolean isReadOnly( )

@@ -8,7 +8,8 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.osgi.util.TextProcessor;
 
-public class PathDescriptorProvider implements ITextDescriptorProvider
+public class PathDescriptorProvider extends AbstractDescriptorProvider implements
+		ITextDescriptorProvider
 {
 
 	private Object input;

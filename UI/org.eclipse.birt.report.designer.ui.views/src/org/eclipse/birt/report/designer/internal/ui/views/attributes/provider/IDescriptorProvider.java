@@ -13,4 +13,8 @@ public interface IDescriptorProvider
 	void setInput( Object input );
 
 	String getDisplayName( );
+
+	boolean canReset( );
+
+	void reset( ) throws SemanticException;
 }

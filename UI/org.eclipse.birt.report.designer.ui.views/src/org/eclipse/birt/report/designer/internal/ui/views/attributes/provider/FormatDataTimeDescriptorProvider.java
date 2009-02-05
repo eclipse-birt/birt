@@ -26,7 +26,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
-public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
+public class FormatDataTimeDescriptorProvider extends AbstractDescriptorProvider
 {
 
 	public String getDisplayName( )

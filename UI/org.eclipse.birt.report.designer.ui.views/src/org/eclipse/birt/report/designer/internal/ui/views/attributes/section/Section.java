@@ -239,4 +239,9 @@ public abstract class Section
 
 	public abstract void setVisible( boolean isVisable );
 
+	public void reset( )
+	{
+
+	}
+
 }

@@ -29,7 +29,7 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * The section attribute page of DE element.
  */
-public class SectionPage extends AttributePage
+public class SectionPage extends ResetAttributePage
 {
 
 	private SimpleComboSection masterSection;
@@ -42,17 +42,20 @@ public class SectionPage extends AttributePage
 
 		// Defines providers.
 
-		IDescriptorProvider beforeProvider = new ComboPropertyDescriptorProvider( StyleHandle.PAGE_BREAK_BEFORE_PROP,
+		ComboPropertyDescriptorProvider beforeProvider = new ComboPropertyDescriptorProvider( StyleHandle.PAGE_BREAK_BEFORE_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		beforeProvider.enableReset( true );
 
 		IDescriptorProvider masterProvider = new SimpleComboPropertyDescriptorProvider( StyleHandle.MASTER_PAGE_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
 
-		IDescriptorProvider afterProvider = new ComboPropertyDescriptorProvider( StyleHandle.PAGE_BREAK_AFTER_PROP,
+		ComboPropertyDescriptorProvider afterProvider = new ComboPropertyDescriptorProvider( StyleHandle.PAGE_BREAK_AFTER_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		afterProvider.enableReset( true );
 		
-		IDescriptorProvider insideProvider = new ComboPropertyDescriptorProvider( StyleHandle.PAGE_BREAK_INSIDE_PROP,
+		ComboPropertyDescriptorProvider insideProvider = new ComboPropertyDescriptorProvider( StyleHandle.PAGE_BREAK_INSIDE_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		insideProvider.enableReset( true );
 
 		// Defines sections.
 

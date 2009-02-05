@@ -6,7 +6,8 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
-public class ElementIdDescriptorProvider implements ITextDescriptorProvider
+public class ElementIdDescriptorProvider extends AbstractDescriptorProvider implements
+		ITextDescriptorProvider
 {
 
 	public boolean isReadOnly( )
@@ -16,7 +17,7 @@ public class ElementIdDescriptorProvider implements ITextDescriptorProvider
 
 	public String getDisplayName( )
 	{
-		return Messages.getString("ElementIdDescriptorProvider.Display.Element.ID"); //$NON-NLS-1$
+		return Messages.getString( "ElementIdDescriptorProvider.Display.Element.ID" ); //$NON-NLS-1$
 	}
 
 	public Object load( )
