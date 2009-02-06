@@ -22,8 +22,8 @@
    	<Function
           desc="Searches for target in the string source and returns the index of first occurrence of pattern. &#xa;Search starts at position start. All index values are 0-based.&#xa;If start is omitted, a value of 0 is assumed. String search is case sensitive."
           name="indexOf">
-   		<Argument name="source"></Argument>
    		<Argument name="target"></Argument>
+   		<Argument name="source"></Argument>
    		<Argument isOptional="true" name="start"></Argument>
    		<DataType value="%dataType.Integer"></DataType></Function>
    	<Function
