@@ -1167,6 +1167,7 @@ public class JdbcDriverManagerDialog extends TrayDialog
      */
 	protected void cancelPressed( )
 	{
+		JdbcToolKit.discardAddedInDrivers( );
 		super.cancelPressed( );
 	}
 
@@ -1229,6 +1230,7 @@ public class JdbcDriverManagerDialog extends TrayDialog
 				info = (JDBCDriverInformation) drivers.get( i );
 				try
 				{
+					manager.updateStatusForRegister( info.getDriverClassName( ) );
 					manager.loadAndRegisterDriver( info.getDriverClassName( ),
 							null );
 					manager.updateStatus( info.getDriverClassName( ) );

@@ -62,6 +62,7 @@ public class JDBCDriverManager
     public static final String JDBC_PASSWORD_PROP_NAME = "password"; //$NON-NLS-1$
     public static final String DRIVER_REGISTERED = "registered";
     public static final String DRIVER_DEREGISTERED = "deregistered";
+    public static final String DRIVER_RELOAD = "registerAfterDeregistered";
 
     // Driver classes that we have registered with JDBC DriverManager
 	private  HashMap registeredDrivers = new HashMap();
@@ -761,6 +762,19 @@ public class JDBCDriverManager
 	}
 	
 	/**
+	 * Update the status of the the driver class to be loaded
+	 * 
+	 * @param className
+	 */
+	public void updateStatusForRegister( String className )
+	{
+		if ( isDeregistered( className ) )
+		{
+			registeredDrivers.put( className, DRIVER_RELOAD );
+		}
+	}
+	
+	/**
 	 * Check whether the driver class name is deregistered
 	 * 
 	 * @param String className
@@ -784,7 +798,9 @@ public class JDBCDriverManager
 					null,
 					className );
 		}
-		else if ( this.registeredDrivers.containsKey( className ) )
+		else if ( this.registeredDrivers.containsKey( className )
+				&& ( this.registeredDrivers.get( className ) instanceof String )
+				&& DRIVER_REGISTERED.equalsIgnoreCase( (String) this.registeredDrivers.get( className ) ) )
 		{
 			return;
 		}
