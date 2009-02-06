@@ -14,9 +14,15 @@ package org.eclipse.birt.report.engine.api.impl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.report.engine.api.IResultMetaData;
 
@@ -40,6 +46,11 @@ public class SubqueryResultMetaData implements IResultMetaData
 				String columnName = metaData.getColumnName( index );
 				if ( !names.contains( columnName ) )
 				{
+					if ( tmpQuery != subquery )
+					{
+						if ( columnIsAggregateOn( columnName, tmpQuery ) )
+							continue;
+					}
 					MetaData meta = new MetaData( );
 					meta.columnName = columnName;
 					meta.columnAlias = metaData.getColumnAlias( index );
@@ -61,6 +72,11 @@ public class SubqueryResultMetaData implements IResultMetaData
 			String columnName = metaData.getColumnName( index );
 			if ( !names.contains( columnName ) )
 			{
+				if ( tmpQuery != subquery )
+				{
+					if ( columnIsAggregateOn( columnName, tmpQuery ) )
+						continue;
+				}
 				MetaData meta = new MetaData( );
 				meta.columnName = columnName;
 				meta.columnAlias = metaData.getColumnAlias( index );
@@ -72,6 +88,37 @@ public class SubqueryResultMetaData implements IResultMetaData
 				names.add( columnName );
 			}
 		}
+	}
+	
+	private boolean columnIsAggregateOn( String column,
+			IBaseQueryDefinition query ) throws BirtException
+	{
+		boolean result = false;
+		Map bindings = query.getBindings( );
+		{
+			IBinding binding = (IBinding) bindings.get( column );
+			if ( binding != null )
+			{
+				List aggregates = binding.getAggregatOns( );
+				if ( aggregates != null && aggregates.size( ) > 0 )
+				{
+					result = true;
+				}
+				else
+				{
+					IBaseExpression expr = binding.getExpression( );
+					if ( expr instanceof IScriptExpression )
+					{
+						if ( ExpressionUtil
+								.hasAggregation( ( (IScriptExpression) expr )
+										.getText( ) ) )
+							result = true;
+					}
+				}
+			}
+		}
+
+		return result;
 	}
 
 	public String getColumnAlias( int index ) throws BirtException
