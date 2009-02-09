@@ -20,7 +20,7 @@
    			<DataType value="%dataType.String"></DataType></Argument>
    		<DataType value="%dataType.String"></DataType></Function>
    	<Function
-          desc="Searches for target in the string source and returns the index of first occurrence of pattern. &#xa;Search starts at position start. All index values are 0-based.&#xa;If start is omitted, a value of 0 is assumed. String search is case sensitive."
+          desc="Searches for target in the string source and returns the index of first occurrence of pattern. &#xa;Search starts at position start. All index values are 0-based.&#xa;If start is omitted, a value of 0 is assumed. &#xa;String search is case sensitive."
           name="indexOf">
    		<Argument name="target"></Argument>
    		<Argument name="source"></Argument>
@@ -43,7 +43,7 @@
    			<DataType value="%dataType.Integer"></DataType></Argument>
    		<DataType value="%dataType.String"></DataType></Function>
    	<Function
-          desc="Similar to indexOf function, except that: &amp;#xa;(1) string comparison is case-insensitive &#xa;(2) pattern string can contain wildcard characters: &#xa;* matches any sequence of characters (including empty); ? matches any * matches any sequence of characters (including empty); ? matches any * matches any sequence of characters (including empty); ? matches any single character. "
+          desc="Similar to indexOf function, except that: &#xa;(1) string comparison is case-insensitive &#xa;(2) pattern string can contain wildcard characters: &#xa;* matches any sequence of characters (including empty); &#xa;? matches any single character. "
           name="search">
    		<Argument name="pattern">
    			<DataType value="%dataType.String"></DataType></Argument>
@@ -228,7 +228,7 @@
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
    	<Function
           desc="n1 multiplies n2"
-          name="multiple">
+          name="multiply">
    		<DataType value="%dataType.Number"></DataType>
    		<Argument name="n1">
    			<DataType value="%dataType.Number"></DataType>
@@ -367,79 +367,79 @@
           desc="Return difference in number of years."
           name="diffYear">
    		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="source">
+   		<Argument name="year1">
    			<DataType value="%dataType.DateTime"></DataType>
    		</Argument>
-   		<Argument name="target">
+   		<Argument name="year2">
    			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
    	<Function
           desc="Return difference in number of months."
           name="diffMonth">
    		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="source">
+   		<Argument name="month1">
    			<DataType value="%dataType.DateTime"></DataType>
    		</Argument>
-   		<Argument name="target">
+   		<Argument name="month2">
    			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
    	<Function
           desc="Return difference in number of quarters."
           name="diffQuarter">
    		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="source">
+   		<Argument name="quarter1">
    			<DataType value="%dataType.DateTime"></DataType>
    		</Argument>
-   		<Argument name="target">
+   		<Argument name="quarter2">
    			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
    	<Function
           desc="Return difference in number of weeks."
           name="diffWeek">
    		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="source">
+   		<Argument name="week1">
    			<DataType value="%dataType.DateTime"></DataType>
    		</Argument>
-   		<Argument name="target">
+   		<Argument name="week2">
    			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
    	<Function
           desc="Return difference in number of days"
           name="diffDay">
    		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="source">
+   		<Argument name="day1">
    			<DataType value="%dataType.DateTime"></DataType>
    		</Argument>
-   		<Argument name="target">
+   		<Argument name="day2">
    			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
    	<Function
           desc="Return difference in number of hours."
           name="diffHour">
    		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="source">
+   		<Argument name="hour1">
    			<DataType value="%dataType.DateTime"></DataType>
    		</Argument>
-   		<Argument name="target">
+   		<Argument name="hour2">
    			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
    	<Function
           desc="Return difference in number of minutes."
           name="diffMinute">
    		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="source">
+   		<Argument name="minute1">
    			<DataType value="%dataType.DateTime"></DataType>
    		</Argument>
-   		<Argument name="target">
+   		<Argument name="minute2">
    			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
    	<Function
           desc="Return difference in number of seconds."
           name="diffSecond">
    		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="source">
+   		<Argument name="second1">
    			<DataType value="%dataType.DateTime"></DataType>
    		</Argument>
-   		<Argument name="target">
+   		<Argument name="second2">
    			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
    	<Function
           desc="Add n year(s) to the date"
           name="addYear">
    		<DataType value="%dataType.DateTime"></DataType>
-   		<Argument name="date">
+   		<Argument name="year">
    			<DataType value="%dataType.DateTime"></DataType></Argument>
    		<Argument name="n">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
@@ -447,7 +447,7 @@
           desc="Add n month(s) to the date"
           name="addMonth">
    		<DataType value="%dataType.DateTime"></DataType>
-   		<Argument name="date">
+   		<Argument name="month">
    			<DataType value="%dataType.DateTime"></DataType></Argument>
    		<Argument name="n">
    			<DataType value="%dataType.Number"></DataType></Argument>
@@ -456,7 +456,7 @@
           desc="Add n quarter(s) to the date"
           name="addQuarter">
    		<DataType value="%dataType.DateTime"></DataType>
-   		<Argument name="date">
+   		<Argument name="quarter">
    			<DataType value="%dataType.DateTime"></DataType></Argument>
    		<Argument name="n">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
@@ -464,7 +464,7 @@
           desc="Add n week(s) to the date"
           name="addWeek">
    		<DataType value="%dataType.DateTime"></DataType>
-   		<Argument name="date">
+   		<Argument name="week">
    			<DataType value="%dataType.DateTime"></DataType></Argument>
    		<Argument name="n">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
@@ -472,7 +472,7 @@
           desc="Add n day(s) to the date"
           name="addDay">
    		<DataType value="%dataType.DateTime"></DataType>
-   		<Argument name="date">
+   		<Argument name="day">
    			<DataType value="%dataType.DateTime"></DataType></Argument>
    		<Argument name="n">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
@@ -480,7 +480,7 @@
           desc="Add n hour(s) to the date"
           name="addHour">
    		<DataType value="%dataType.DateTime"></DataType>
-   		<Argument name="date">
+   		<Argument name="hour">
    			<DataType value="%dataType.DateTime"></DataType></Argument>
    		<Argument name="n">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
@@ -488,7 +488,7 @@
           desc="Add n minute(s) to the date"
           name="addMinute">
    		<DataType value="%dataType.DateTime"></DataType>
-   		<Argument name="date">
+   		<Argument name="minute">
    			<DataType value="%dataType.DateTime"></DataType></Argument>
    		<Argument name="n">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
@@ -496,7 +496,7 @@
           desc="Add n second(s) to the date"
           name="addSecond">
    		<DataType value="%dataType.DateTime"></DataType>
-   		<Argument name="date">
+   		<Argument name="second">
    			<DataType value="%dataType.DateTime"></DataType></Argument>
    		<Argument name="n">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
