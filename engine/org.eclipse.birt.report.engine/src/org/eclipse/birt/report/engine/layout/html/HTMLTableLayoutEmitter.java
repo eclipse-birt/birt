@@ -80,6 +80,9 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 	
 	protected int lastRowId = -1;
 	
+	//FIXME need use page hint to resolve this issue.
+	protected boolean firstCell = true;
+	
 	public HTMLTableLayoutEmitter( IContentEmitter emitter,HTMLLayoutContext context  )
 	{
 		this.emitter = emitter;
@@ -549,6 +552,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 
 	public void startRow( IRowContent row )
 	{
+		firstCell = true;
 		if ( cellEmitter != null )
 		{
 			cellEmitter.startRow( row );
@@ -683,8 +687,22 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 				{
 					return;
 				}
-				// TODO: changes the column id and output it.
-				emitter.startCell( layout.getWrappedCellContent( cell ) );
+				ICellContent cc = layout.getWrappedCellContent( cell );
+				if ( firstCell )
+				{
+					if ( cc.getColumn( ) != 0 )
+					{
+						ICellContent newCell = (ICellContent) cc
+								.cloneContent( false );
+						newCell.setParent( cc.getParent( ) );
+						newCell.setColumn( 0 );
+						newCell.setColSpan( cc.getColumn( ) );
+						emitter.startCell( newCell );
+						emitter.endCell( newCell );
+					}
+					// TODO: changes the column id and output it.
+				}
+				emitter.startCell( cc );
 			}
 			else
 			{
@@ -695,6 +713,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 
 	public void endCell( ICellContent cell )
 	{
+		firstCell = false;
 		if ( !isNestTable( ) )
 		{
 			if ( cellEmitter != null )
