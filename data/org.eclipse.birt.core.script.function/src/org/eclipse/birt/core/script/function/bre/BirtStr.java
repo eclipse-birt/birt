@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.core.script.function.bre;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -452,17 +453,78 @@ class BirtStr implements IScriptFunctionExecutor
 			{
 				String subStr = str.substring( start );
 
-				String newStr = pattern.replaceAll( "\\Q?\\E", "." );
-				String finalStr = newStr.replaceAll( "\\Q*\\E", ".*" );
-				Pattern p = Pattern.compile( finalStr );
-				String[] split = p.split( subStr );
-
-				// there is no match otherwise
-				if ( split[0].length( ) != subStr.length( ) )
-					return split[0].length( ) + start;
+				Pattern p = Pattern.compile( toPatternString( pattern ), Pattern.CASE_INSENSITIVE );
+				Matcher matcher = p.matcher( subStr );
+				if( matcher.find( ) )
+					return matcher.start( ) + start;
 
 				return -1;
 			}
+		}
+
+		/**
+		 * Transfers the user-input string to the Pattern regular expression
+		 * 
+		 * @param regex
+		 * @return
+		 */
+		private String toPatternString( String regex )
+		{
+			String pattern = "";
+			boolean preserveFlag = false;
+			for( int i = 0; i < regex.length( ); i++ )
+			{
+				char c = regex.charAt( i );
+				if ( c == '\\' )
+				{
+					pattern = handlePreservedString( preserveFlag, pattern );
+					preserveFlag = false;
+					pattern += c;
+					i++;
+					if ( i < regex.length( ) )
+					{
+						pattern += regex.charAt( i );
+					}
+				}
+				else if ( c == '*' )
+				{
+					pattern = handlePreservedString( preserveFlag, pattern );
+					preserveFlag = false;
+					pattern += ".*";
+				}
+				else if ( c == '?' )
+				{
+					pattern = handlePreservedString( preserveFlag, pattern );
+					preserveFlag = false;
+					pattern += ".";
+				}
+				else
+				{
+					if( preserveFlag )
+					{
+						pattern += c;
+					}
+					else
+					{
+						pattern = pattern + "\\Q" + c;
+						preserveFlag = true;
+					}
+				}
+			}
+			if( preserveFlag )
+			{
+				pattern += "\\E";
+			}
+			return pattern;		
+		}
+		
+		private String handlePreservedString( boolean preserveFlag, String pattern )
+		{
+			if( preserveFlag )
+			{
+				pattern += "\\E";
+			}
+			return pattern;
 		}
 
 		/**

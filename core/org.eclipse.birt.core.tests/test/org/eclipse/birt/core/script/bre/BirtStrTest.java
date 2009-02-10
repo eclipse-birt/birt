@@ -313,7 +313,44 @@ public class BirtStrTest extends TestCase
 				"inline",
 				1,
 				null ) ) , new Integer(3) );
-	}
+
+		assertEquals( ( cx.evaluateString( scope,
+				"BirtStr.search(\"a\\\\*t\",\" I am * test    string\")",
+				"inline",
+				1,
+				null ) ) , new Integer(-1) );
+
+		assertEquals( ( cx.evaluateString( scope,
+				"BirtStr.search(\"\\\\? *\",\" I am * test    string\")",
+				"inline",
+				1,
+				null ) ) , new Integer(-1) );
+
+		assertEquals( ( cx.evaluateString( scope,
+				"BirtStr.search(\"\\\\?\",\" I? am * test    string\")",
+				"inline",
+				1,
+				null ) ) , new Integer(2) );
+
+		assertEquals( ( cx.evaluateString( scope,
+				"BirtStr.search(\"\\\\? *\",\" I? am * test    string\")",
+				"inline",
+				1,
+				null ) ) , new Integer(2) );
+		
+		assertEquals( ( cx.evaluateString( scope,
+				"BirtStr.search(\"? \\\\*\",\"abc *abc *abc\")",
+				"inline",
+				1,
+				null ) ) , new Integer(2) );
+
+		assertEquals( ( cx.evaluateString( scope,
+				"BirtStr.search(\"? \\\\*\",\"abc *abc *abc\", 6)",
+				"inline",
+				1,
+				null ) ) , new Integer(7) );
+
+}
 
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtStr.jsStaticFunction_charLength(String)'
