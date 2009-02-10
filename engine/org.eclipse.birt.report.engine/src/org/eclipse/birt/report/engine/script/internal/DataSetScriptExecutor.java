@@ -157,7 +157,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 		Scriptable scope = (Scriptable) Context.javaToJS( new DataSetInstance( dataSet ),
 				shared);
 		scope.setParentScope( shared );
-		scope.setPrototype( shared );
+		scope.setPrototype( dataSet.getScriptScope( ) );
 		return scope;
 	}
 
