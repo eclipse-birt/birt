@@ -13,7 +13,6 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,6 +59,8 @@ public class CacheResultIterator implements IResultIterator
 
 	private int lastRowIndex = -1;
 	
+	private boolean existCachedFile = true;
+	
 	/**
 	 * 
 	 * @param context
@@ -98,7 +99,7 @@ public class CacheResultIterator implements IResultIterator
 		}
 		catch ( FileNotFoundException e )
 		{
-			throw new DataException( ResourceConstants.OPEN_CACHE_TEMPFILE_ERROR );
+			existCachedFile = false;
 		}
 		catch ( IOException e )
 		{
@@ -321,6 +322,10 @@ public class CacheResultIterator implements IResultIterator
 	 */
 	public Object getValue( String name ) throws BirtException
 	{
+		if( !existCachedFile )
+		{
+			return null;
+		}
 		if( isBeforeFirst( ) )
 		{
 			this.next( );
@@ -366,6 +371,10 @@ public class CacheResultIterator implements IResultIterator
 	 */
 	public boolean next( ) throws BirtException
 	{
+		if( !existCachedFile )
+		{
+			return false;
+		}
 		checkStarted( );
 		if( this.columnValueMap == null )
 			return false;
