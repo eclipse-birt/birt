@@ -285,7 +285,7 @@ ScatterChart.Txt.DisplayName=分布グラフ
 ScatterChart.SubType.Standard=標準分布グラフ
 
 BarChart.Txt.DefaultBarChartTitle=棒グラフのタイトル
-BarChart.Txt.DisplayName=横棒グラフ
+BarChart.Txt.DisplayName=棒グラフ
 BarChart.SubType.Stacked=積み上げ
 BarChart.SubType.PercentStacked=積み上げ (割合)
 BarChart.SubType.Side=並列
