@@ -34,6 +34,13 @@
 	<!--default location for build output, parent to ${buildId}-->
 	<property name="postingDirectory" value="${buildDirectory}" />
 
+        <!--remote sign machine login infomation-->
+        <property name="username.sign" value="" />
+        <property name="password.sign" value="" />
+        <property name="hostname.sign" value="" />
+        <property name="home.dir" value="" />
+        <property name="sign.dir" value="" />
+
 	<target name="main" depends="init">
 		<antcall target="buildBirtThirdPartyFeature"/>
 		<antcall target="buildBirtFeature"/>
@@ -49,21 +56,23 @@
 				<antcall target="BuildChartViewer"/>
 				<antcall target="CreateDistribute"/>
 				<antcall target="buildBirtNLFeature"/>
-				<antcall target="iPortalSetup"/>
 				<antcall target="CreateUpdateSite"/>
 				<antcall target="pushUpdateSiteLocal"/>
+				<antcall target="iPortalSetup"/>
+				
 			</sequential>
 			<sequential>
-			<!--
+				<!--
 				<antcall target="generateJavaCrossReference"/>
 				<antcall target="generateDocumentCheck"/>
 				<antcall target="generateJavaDoc"/>
-			-->
+				-->
 			</sequential>
 		</parallel>
-		<antcall target="runBirtTest"/>
+		
 		<!--
-		<antcall target="runBirtPerformance"/>
+		<antcall target="runBirtTest"/>
+                <antcall target="runBirtPerformance"/>
 		-->
 	</target>
 
@@ -85,8 +94,8 @@
 		</condition>
 		<!--compiler args-->
 		<property name="compilerArg" value="-enableJavadoc -encoding utf-8 -warn:-discouraged,forbidden" />
-		<property name="javacSource" value="1.4" />
-		<property name="javacTarget" value="1.4" />
+		<property name="javacSource" value="1.5" />
+		<property name="javacTarget" value="1.5" />
 		<property name="javacDebugInfo" value="true" />
 		<property name="javacFailOnError" value="false" />
 		<property name="javacVerbose" value="false" />
@@ -100,27 +109,10 @@
 	</target>
 	
 	<target name="buildBirtFeature">
-		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
-			<property name="builder" value="${eclipse.build.configs}/birt" />
-		</ant>
-		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
-			<property name="builder" value="${eclipse.build.configs}/birt" />
-		</ant>
-		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="generate">
-			<property name="builder" value="${eclipse.build.configs}/birt" />
-		</ant>
-		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="process">
-			<property name="builder" value="${eclipse.build.configs}/birt" />
-		</ant>		
-		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="assemble">
-			<property name="builder" value="${eclipse.build.configs}/birt" />
-		</ant>		
-		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="package">
-			<property name="builder" value="${eclipse.build.configs}/birt" />
-		</ant>
-		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="postBuild">
-			<property name="builder" value="${eclipse.build.configs}/birt" />
-		</ant>
+
+                <ant antfile="build.xml" dir="${basedir}">
+                        <property name="component" value="${eclipse.build.configs}/birt" />
+                </ant>
 	</target>
 
 	<target name="CreateDistribute">
@@ -190,6 +182,10 @@
 		<copy tofile="${postingDirectory}/monitor.properties" file="monitor.properties" overwrite="true" />
 		<copy tofile="${postingDirectory}/finalPluginsVersions.properties" file="${buildDirectory}/finalPluginsVersions.properties" overwrite="true" />
 		<copy tofile="${postingDirectory}/finalFeaturesVersions.properties" file="${buildDirectory}/finalFeaturesVersions.properties" overwrite="true" />
+        <!--copy build and update dtp log to output directory-->
+        <copy todir="${postingDirectory}/${buildId}">
+            <fileset dir="." includes="adb.log,updatedtp.log"/>
+        </copy>
 		<!-- Send build ready mail to QA -->
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="InformQA"/>
 	</target>
@@ -199,8 +195,10 @@
 			<property name="OutputDir" value="${postingDirectory}/${buildId}" />
 			<property name="deposit" value="${buildDirectory}/${buildId}" />
 		</ant>
-
-                <!--copy all packages to upload area-->
+                
+        <antcall target="SignUpdateSiteJars"/>
+                     
+        <!--copy all packages to upload area-->
 		<echo message="start copying to download area..."/>
 	        <echo message="from dir: ${postingDirectory}/${buildId}"/>
                 <copy todir="${test.dir}/../../downloads/${package.version}" failonerror="false" overwrite="true">
@@ -212,11 +210,37 @@
 	              <fileset dir="${buildDirectory}" >
                                <include name="directory.txt"/>
 		      </fileset>
+                      <fileset file="monitor.properties"/>
 	       </copy>
 
 	       <antcall target="renamePackage"/>
                <antcall target="sendNotification"/>
-
+	</target>
+        
+    <target name="SignUpdateSiteJars" if="createUpdateSite">
+        <zip destfile="${postingDirectory}/${buildId}/UpdateSite/UpdatesiteJars.zip">
+            <fileset dir="${postingDirectory}/${buildId}/UpdateSite" includes="features/*.jar"/>
+            <fileset dir="${postingDirectory}/${buildId}/UpdateSite">
+		        <include name="plugins/*birt*.jar"/>
+                <include name="plugins/com.lowagie.itext_*.jar"/>
+                <include name="plugins/org.apache.derby.core_*.jar"/>
+                <include name="plugins/org.mozilla.rhino_*.jar"/>
+                <include name="plugins/org.w3c.sac_*.jar"/>
+                <exclude name="plugins/org.eclipse.birt.integration.wtp.ui_*.jar"/>
+                <exclude name="plugins/org.eclipse.birt.chart.integration.wtp.ui_*.jar"/>
+            </fileset>
+            <fileset dir="${eclipse.build.configs}/../../extras" includes="pack.properties"/>
+        </zip>
+        <scp todir="${username.sign}:${password.sign}@${hostname.sign}:${home.dir}" trust="true">
+            <fileset dir="${postingDirectory}/${buildId}/UpdateSite" includes="UpdatesiteJars.zip"/>
+        </scp>
+        <sshexec host="${hostname.sign}" username="${username.sign}" password="${password.sign}" trust="true"
+                    command="cd ${sign.dir};cp ${home.dir}/UpdatesiteJars.zip ./;sign UpdatesiteJars.zip nomail;"/>
+        <sleep minutes="20"/>
+        <scp localtofile="${postingDirectory}/${buildId}/UpdateSite/UpdatesiteJars.sign.zip" trust="true"
+             file="${username.sign}:${password.sign}@${hostname.sign}:${sign.dir}/UpdatesiteJars.zip"/>
+        <unzip src="${postingDirectory}/${buildId}/UpdateSite/UpdatesiteJars.sign.zip" dest="${postingDirectory}/${buildId}/UpdateSite"/>
+        <ant antfile="${eclipse.build.configs}/birt/tools/RepackageWithSignJar.xml"/>
 	</target>
 	
 	<target name="renamePackage">
@@ -278,6 +302,7 @@
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-third-party-${package.version}.bak.zip -d ${updateJarWorkingDir}" />
 		</exec>
+		<!--
 		<copy todir="${updateJarWorkingDir}/eclipse/plugins">
 			<fileset dir="${buildDirectory}/plugins">
 				<include name="org.apache.batik.*.jar"/>
@@ -288,6 +313,7 @@
 				<include name="org.w3c.*.jar"/>
 			</fileset>
 		</copy>
+		-->
 
 		<delete includeemptydirs="true">
 			<fileset dir="${updateJarWorkingDir}/eclipse/features" includes="*.thirdparty*/**" />
