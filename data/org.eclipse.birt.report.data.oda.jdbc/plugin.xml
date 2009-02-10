@@ -37,6 +37,24 @@
                   canInherit="true"
                   name="odaUser"/>
                <property
+                  type="choice"
+                  defaultDisplayName="%datasource.property.autocommit"
+                  canInherit="true"
+                  name="odaAutoCommit">
+         			<choice name="false" value="false" defaultDisplayName="%dataset.connection.autocommit.false"/>
+               		<choice name="true" value="true" defaultDisplayName="%dataset.connection.autocommit.true"/>
+               	</property>
+               <property
+                  type="choice"
+                  defaultDisplayName="%datasource.property.isolationmode"
+                  canInherit="true"
+                  name="odaIsolationMode">
+					<choice name="read-uncommitted" value="1" defaultDisplayName="%dataset.connection.isolationmode.read-uncommitted"/>
+               		<choice name="read-committed" value="2" defaultDisplayName="%dataset.connection.isolationmode.read-committed"/>
+               		<choice name="repeatable-read" value="4" defaultDisplayName="%dataset.connection.isolationmode.repeatable-read"/>
+               		<choice name="serializable" value="8" defaultDisplayName="%dataset.connection.isolationmode.serializable"/>
+                 </property>
+               <property
                      isEncryptable="true"
                      type="string"
                      canInherit="true"
