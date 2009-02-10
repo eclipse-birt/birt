@@ -44,6 +44,9 @@ public class Connection implements IConnection
 	private static final String advancedDataType = "org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet";
 
 	private Map appContext;
+	
+	private boolean autoCommit = false;
+	private int isolationMode = Constants.TRANSCATION_ISOLATION_DEFAULT;
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#isOpen()
 	 */
@@ -127,6 +130,16 @@ public class Connection implements IConnection
 		{
 			String url = connProperties.getProperty( Constants.ODAURL );
 			String jndiName = connProperties.getProperty( Constants.ODAJndiName );
+			
+			String autoCommit = connProperties.getProperty( Constants.CONNECTION_AUTO_COMMIT );
+			if ( autoCommit != null )
+			{
+				this.autoCommit = Boolean.valueOf( autoCommit );
+			}
+
+			String isolationMode = connProperties.getProperty( Constants.CONNECTION_ISOLATION_MODE );
+			this.isolationMode = Constants.getIsolationMode( isolationMode );
+			
 			if ( (url == null || url.length( ) == 0) && (jndiName == null ||
 					jndiName.length() == 0) )
 			{
@@ -180,6 +193,7 @@ public class Connection implements IConnection
 								props,
 								getDriverClassPath( ),
 								this.appContext );
+				populateConnectionProp( );
 			}
 		}
 		catch ( Exception e )
@@ -197,11 +211,23 @@ public class Connection implements IConnection
 								jndiNameUrl,
 								props,
 								getDriverClassPath( ) );
+				
+				populateConnectionProp( );
 			}
 		}
 		catch ( SQLException e )
 		{
 			throw new JDBCException( ResourceConstants.CONN_CANNOT_GET, e );
+		}
+	}
+
+	private void populateConnectionProp( ) throws SQLException
+	{
+		if( jdbcConn!= null )
+		{
+			jdbcConn.setAutoCommit( this.autoCommit );
+			if( this.isolationMode!= Constants.TRANSCATION_ISOLATION_DEFAULT)
+				jdbcConn.setTransactionIsolation( this.isolationMode );
 		}
 	}
 
@@ -413,6 +439,28 @@ public class Connection implements IConnection
 		public static final String ODADriverClass = "odaDriverClass";
 		public static final String ODADataSource = "odaDataSource";
         public static final String ODAJndiName = "odaJndiName";
+		public static final String CONNECTION_AUTO_COMMIT = "odaAutoCommit";
+		public static final String CONNECTION_ISOLATION_MODE = "odaIsolationMode";
+		public static final int TRANSCATION_ISOLATION_DEFAULT = -1;
+		public static final String TRANSACTION_READ_COMMITTED = "read-committed";
+		public static final String TRANSACTION_READ_UNCOMMITTED = "read-uncommitted";
+		public static final String TRANSACTION_REPEATABLE_READ = "repeatable-read";
+		public static final String TRANSACTION_SERIALIZABLE = "serializable";
+		
+		public static int getIsolationMode( String value )
+		{
+			if( value == null )
+				return TRANSCATION_ISOLATION_DEFAULT;
+			if( TRANSACTION_READ_COMMITTED.equals( value ))
+				return java.sql.Connection.TRANSACTION_READ_COMMITTED;
+			if( TRANSACTION_READ_UNCOMMITTED.equals( value ))
+				return java.sql.Connection.TRANSACTION_READ_UNCOMMITTED;
+			if( TRANSACTION_REPEATABLE_READ.equals( value ))
+				return java.sql.Connection.TRANSACTION_REPEATABLE_READ;
+			if( TRANSACTION_SERIALIZABLE.equals( value ))
+				return java.sql.Connection.TRANSACTION_SERIALIZABLE;
+			return Integer.parseInt( value );
+		}
 	}
 
 }
