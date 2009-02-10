@@ -204,12 +204,7 @@ abstract public class ContainerExecutor extends ReportItemExecutor
 						}
 						else
 						{
-							DocumentExtension docExt = (DocumentExtension) leftContent
-									.getExtension( IContent.DOCUMENT_EXTENSION );
-							if ( docExt != null )
-							{
-								nextOffset = docExt.getNext( );
-							}
+							nextOffset = leftOffset;
 						}
 					}
 					doSkipToExecutor( leftId, nextOffset );
