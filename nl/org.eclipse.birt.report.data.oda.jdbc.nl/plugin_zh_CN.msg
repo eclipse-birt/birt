@@ -27,10 +27,17 @@ datasource.property.odaDataSource=数据源
 datasource.property.odaUser=用户名(&N)
 datasource.property.odaPassword=密码(&W)
 datasource.property.odaJndiURL=JNDI URL(&J)
-
+datasource.property.autocommit= &Auto Commit
+datasource.property.isolationmode=&Isolation Mode
 dataset.query.sqltype=SQL 选择查询
 dataset.query.sptype=SQL 存储过程查询
 dataset.property.queryTimeOut=查询超时（秒）(&Q)
+dataset.connection.autocommit.false=false
+dataset.connection.autocommit.true=true
+dataset.connection.isolationmode.read-uncommitted=read-uncommitted
+dataset.connection.isolationmode.read-committed=read-committed
+dataset.connection.isolationmode.repeatable-read=repeatable-read
+dataset.connection.isolationmode.serializable=serializable
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
 #

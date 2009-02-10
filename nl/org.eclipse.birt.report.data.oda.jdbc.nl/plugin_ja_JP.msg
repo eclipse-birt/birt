@@ -27,10 +27,17 @@ datasource.property.odaDataSource=データソース
 datasource.property.odaUser=ユーザ名(&N)
 datasource.property.odaPassword=パスワード(&W)
 datasource.property.odaJndiURL=JNDI URL(&J)
-
+datasource.property.autocommit= &Auto Commit
+datasource.property.isolationmode=&Isolation Mode
 dataset.query.sqltype=SQL Select クエリ
 dataset.query.sptype=SQL ストアドプロシージャのクエリ
 dataset.property.queryTimeOut=クエリのタイムアウト (秒)(&Q)
+dataset.connection.autocommit.false=false
+dataset.connection.autocommit.true=true
+dataset.connection.isolationmode.read-uncommitted=read-uncommitted
+dataset.connection.isolationmode.read-committed=read-committed
+dataset.connection.isolationmode.repeatable-read=repeatable-read
+dataset.connection.isolationmode.serializable=serializable
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
 #
