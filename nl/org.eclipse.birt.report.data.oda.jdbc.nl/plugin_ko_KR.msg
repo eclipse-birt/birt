@@ -27,10 +27,17 @@ datasource.property.odaDataSource=데이터 원본
 datasource.property.odaUser=사용자 이름(&N)
 datasource.property.odaPassword=암호(&W)
 datasource.property.odaJndiURL=&JNDI URL
-
+datasource.property.autocommit= &Auto Commit
+datasource.property.isolationmode=&Isolation Mode
 dataset.query.sqltype=SQL Select 쿼리
 dataset.query.sptype=SQL 저장된 프로시저 쿼리
 dataset.property.queryTimeOut=쿼리 시간 제한(초)(&Q)
+dataset.connection.autocommit.false=false
+dataset.connection.autocommit.true=true
+dataset.connection.isolationmode.read-uncommitted=read-uncommitted
+dataset.connection.isolationmode.read-committed=read-committed
+dataset.connection.isolationmode.repeatable-read=repeatable-read
+dataset.connection.isolationmode.serializable=serializable
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
 #
