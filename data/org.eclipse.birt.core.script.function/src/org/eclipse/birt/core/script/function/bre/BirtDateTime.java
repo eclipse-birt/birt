@@ -490,10 +490,10 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 * 
 	 * @return
 	 */
-	private static Timestamp today( )
+	private static Date today( )
 	{
 		Calendar c = Calendar.getInstance( );
-		return new Timestamp(c.getTimeInMillis( ));
+		return c.getTime( );
 	}
 
 	private class Function_Now extends Function_temp
