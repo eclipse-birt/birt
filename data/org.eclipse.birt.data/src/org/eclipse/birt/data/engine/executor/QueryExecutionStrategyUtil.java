@@ -68,6 +68,11 @@ public final class QueryExecutionStrategyUtil
 		if ( query.getSubqueries( ) != null
 				&& query.getSubqueries( ).size( ) > 0 )
 			return Strategy.Complex;
+		
+		if( !query.usesDetails( ) )
+		{
+			return Strategy.Complex;
+		}
 
 		if ( query.getBindings( ) != null )
 		{
