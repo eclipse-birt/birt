@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.util.filter;
 
+import java.io.IOException;
+
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
@@ -26,4 +28,22 @@ public interface IFacttableRow
 	 * @throws DataException
 	 */
 	public Object getMeasureValue( String measureName ) throws DataException;
+	
+	/**
+	 * 
+	 * @param dimensionName
+	 * @param levelName
+	 * @return
+	 * @throws DataException
+	 */
+	public Object[] getLevelKeyValue( String dimensionName, String levelName ) throws DataException, IOException;
+	
+	/**
+	 * 
+	 * @param dimensionName
+	 * @param levelName
+	 * @return
+	 * @throws DataException
+	 */
+	public Object getLevelAttributeValue( String dimensionName, String levelName, String attributeName ) throws DataException, IOException;
 }

@@ -33,8 +33,8 @@ public interface IDataSet4Aggregation
 	boolean next() throws DataException, IOException;
 	
 	//current row values
-	Object getMeasureValue(int measureIndex) throws IOException;
-	Member getMember(int dimIndex, int levelIndex) throws BirtException, IOException;
+	Object getMeasureValue(int measureIndex) throws DataException, IOException;
+	Member getMember(int dimIndex, int levelIndex) throws DataException, IOException;
 	
 	public static interface MetaInfo
 	{

@@ -200,39 +200,45 @@ public class AggregationExecutor
 	 * @throws BirtException
 	 */
 	private void populateSortedFactRows( StopSign stopSign ) throws IOException,
-			BirtException
+			DataException
 	{
 //		Row4AggregationPopulator aggregationRowPopulator = new Row4AggregationPopulator( dimesionResultIterators,
 //				facttableRowIterator, parameterColIndexs );
 
 		prepareSortedStacks( );
 		int measureCount = dataSet4Aggregation.getMetaInfo( ).getMeasureInfos( ).length;
-
-		while ( dataSet4Aggregation.next( ) && !stopSign.isStopped( ) )
+		try
 		{
-			for ( int i = 0; i < allSortedFactRows.size( ); i++ )
+			while ( dataSet4Aggregation.next( ) && !stopSign.isStopped( ) )
 			{
-				DiskSortedStackWrapper diskSortedStackWrapper = ( (DiskSortedStackWrapper) allSortedFactRows.get( i ) );
-
-				int[] levelIndex = diskSortedStackWrapper.levelIndex;
-
-				Row4Aggregation aggregationRow = new Row4Aggregation( );
-				
-				
-				
-				aggregationRow.setLevelMembers( getLevelMembers( levelIndex ) );
-				if ( aggregationRow.getLevelMembers() == null )
+				for ( int i = 0; i < allSortedFactRows.size( ); i++ )
 				{
-					continue;
+					DiskSortedStackWrapper diskSortedStackWrapper = ( (DiskSortedStackWrapper) allSortedFactRows.get( i ) );
+
+					int[] levelIndex = diskSortedStackWrapper.levelIndex;
+
+					Row4Aggregation aggregationRow = new Row4Aggregation( );
+
+					aggregationRow.setLevelMembers( getLevelMembers( levelIndex ) );
+
+					if ( aggregationRow.getLevelMembers( ) == null )
+					{
+						continue;
+					}
+					aggregationRow.setMeasures( new Object[measureCount] );
+					for ( int j = 0; j < measureCount; j++ )
+					{
+						aggregationRow.getMeasures( )[j] = dataSet4Aggregation.getMeasureValue( j );
+					}
+					aggregationRow.setParameterValues( getParameterValues( ) );
+					diskSortedStackWrapper.diskSortedStack.push( aggregationRow );
+
 				}
-				aggregationRow.setMeasures( new Object[measureCount] );
-				for ( int j = 0; j < measureCount; j++ )
-				{
-					aggregationRow.getMeasures()[j] = dataSet4Aggregation.getMeasureValue( j );
-				}
-				aggregationRow.setParameterValues( getParameterValues( ) );
-				diskSortedStackWrapper.diskSortedStack.push( aggregationRow );
 			}
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
 		}
 	}
 	

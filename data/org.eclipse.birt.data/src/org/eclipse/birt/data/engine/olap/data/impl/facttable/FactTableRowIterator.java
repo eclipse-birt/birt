@@ -528,6 +528,27 @@ class MeasureMap implements IFacttableRow
 		}
 		return null;
 	}
+
+	public Object getLevelValue( String dimensionName, String levelName )
+			throws DataException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Object getLevelAttributeValue( String dimensionName,
+			String levelName, String attribute ) throws DataException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Object[] getLevelKeyValue( String dimensionName, String levelName )
+			throws DataException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
 
 class CubePosFilterHelper

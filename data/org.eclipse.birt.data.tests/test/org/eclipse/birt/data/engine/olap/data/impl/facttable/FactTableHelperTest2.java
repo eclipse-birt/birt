@@ -515,7 +515,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		levelsForFilter = new DimLevel[]{dimLevel31};
 		aggregations[1] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
 		IDataSet4Aggregation dataSet4Aggregation 
-			= DataSet4AggregationFactory.createDataSet4Aggregation( facttableRowIterator, dimesionResultSets );
+			= DataSet4AggregationFactory.createDataSet4Aggregation( facttableRowIterator, dimesionResultSets, null );
 		AggregationExecutor aggregationCalculatorExecutor = 
 			new AggregationExecutor( dataSet4Aggregation,
 					aggregations );
@@ -988,7 +988,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		aggregations[0] = new AggregationDefinition( null, null, funcitons );
 
 		IDataSet4Aggregation dataSet4Aggregation 
-			= DataSet4AggregationFactory.createDataSet4Aggregation( facttableRowIterator, dimesionResultSets );
+			= DataSet4AggregationFactory.createDataSet4Aggregation( facttableRowIterator, dimesionResultSets, null );
 		AggregationExecutor aggregationCalculatorExecutor = 
 				new AggregationExecutor( dataSet4Aggregation,
 						aggregations );
@@ -1125,7 +1125,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		aggregations[0] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
 
 		IDataSet4Aggregation dataSet4Aggregation 
-			= DataSet4AggregationFactory.createDataSet4Aggregation( facttableRowIterator, dimesionResultSets );
+			= DataSet4AggregationFactory.createDataSet4Aggregation( facttableRowIterator, dimesionResultSets, null );
 		AggregationExecutor aggregationCalculatorExecutor = 
 				new AggregationExecutor( dataSet4Aggregation,
 						aggregations );

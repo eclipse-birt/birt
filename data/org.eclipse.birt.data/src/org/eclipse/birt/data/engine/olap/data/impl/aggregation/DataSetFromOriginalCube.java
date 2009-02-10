@@ -21,12 +21,14 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.olap.data.api.IComputedMeasureHelper;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionResultIterator;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.MeasureInfo;
 import org.eclipse.birt.data.engine.olap.data.impl.DimColumn;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator;
+import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
 
 /**
  * The data prepared for aggregation is from cube
@@ -37,15 +39,22 @@ class DataSetFromOriginalCube implements IDataSet4Aggregation
 	IFactTableRowIterator factTableRowIterator;
 	
 	//All the dimensions, dimIndex and levelIndex are got from it
-	IDimensionResultIterator[] dimensionResultIterators;
+	private IDimensionResultIterator[] dimensionResultIterators;
+	
+	private IComputedMeasureHelper computedMeasureHelper;
 
+	private IFacttableRow facttableRow = null; 
+	
 	private int[] positions = null;
 
 	public DataSetFromOriginalCube( IFactTableRowIterator factTableRowIterator,
-			IDimensionResultIterator[] dimensionResultIterators )
+			IDimensionResultIterator[] dimensionResultIterators,
+			IComputedMeasureHelper computedMeasureHelper )
 	{
 		this.dimensionResultIterators = dimensionResultIterators;
 		this.factTableRowIterator = factTableRowIterator;
+		this.computedMeasureHelper = computedMeasureHelper;
+		this.facttableRow = new FacttableRowForComputedMeasure( );
 		this.positions = new int[dimensionResultIterators.length];
 		Arrays.fill( positions, 0 );
 	}
@@ -157,12 +166,41 @@ class DataSetFromOriginalCube implements IDataSet4Aggregation
 
 			public int getMeasureIndex( String measureName )
 			{
-				return factTableRowIterator.getMeasureIndex( measureName );
+				MeasureInfo[] measureInfo = getMeasureInfos( );
+				for ( int i = 0; i < measureInfo.length; i++ )
+				{
+					if( measureName.equals( measureInfo[i].getMeasureName( ) ) )
+					{
+						return i;
+					}
+				}
+				return -1;
 			}
 
 			public MeasureInfo[] getMeasureInfos( )
 			{
-				return factTableRowIterator.getMeasureInfos( );
+				if( computedMeasureHelper!= null && computedMeasureHelper.getAllComputedMeasureInfos( ) != null )
+				{
+					MeasureInfo[] cubeMeasureInfo = factTableRowIterator.getMeasureInfos( );
+					MeasureInfo[] computedMeasureInfo = computedMeasureHelper.getAllComputedMeasureInfos( );
+					
+					MeasureInfo[] result = new MeasureInfo[computedMeasureInfo.length + cubeMeasureInfo.length];
+					System.arraycopy( cubeMeasureInfo,
+							0,
+							result,
+							0,
+							cubeMeasureInfo.length );
+					System.arraycopy( computedMeasureInfo,
+							0,
+							result,
+							cubeMeasureInfo.length,
+							computedMeasureInfo.length );
+					return result;
+				}
+				else
+				{
+					return factTableRowIterator.getMeasureInfos( );
+				}
 			}
 
 		};
@@ -173,20 +211,41 @@ class DataSetFromOriginalCube implements IDataSet4Aggregation
 		return factTableRowIterator.next( );
 	}
 
-	public Object getMeasureValue( int measureIndex )
+	public Object getMeasureValue( int measureIndex ) throws DataException
 	{
-		return factTableRowIterator.getMeasure( measureIndex );
+		if ( measureIndex < factTableRowIterator.getMeasureCount( ) )
+		{
+			return factTableRowIterator.getMeasure( measureIndex );
+		}
+		else if( computedMeasureHelper != null )
+		{
+			Object[] computedMeasure = computedMeasureHelper.computeMeasureValues( facttableRow );
+			if ( computedMeasure != null
+					&& measureIndex < factTableRowIterator.getMeasureCount( ) + computedMeasure.length )
+			{
+				return computedMeasure[measureIndex - factTableRowIterator.getMeasureCount( )];
+			}
+			return null;
+		}
+		return null;
 	}
 
 	public Member getMember( int dimIndex, int levelIndex )
-			throws BirtException, IOException
+			throws DataException, IOException
 	{
 		String dimensionName = dimensionResultIterators[dimIndex].getDimesion( )
 				.getName( );
 		int indexInFact = factTableRowIterator.getDimensionIndex( dimensionName );
-		return getLevelObject( dimIndex,
-				levelIndex,
-				factTableRowIterator.getDimensionPosition( indexInFact ) );
+		try
+		{
+			return getLevelObject( dimIndex,
+					levelIndex,
+					factTableRowIterator.getDimensionPosition( indexInFact ) );
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
+		}
 	}
 
 	/**
@@ -227,6 +286,93 @@ class DataSetFromOriginalCube implements IDataSet4Aggregation
 			{
 				return dimensionResultIterators[dimIndex].getLevelMember( levelIndex );
 			}
+		}
+	}
+	
+	public class FacttableRowForComputedMeasure implements IFacttableRow
+	{
+
+		public Object getLevelAttributeValue( String dimensionName,
+				String levelName, String attributeName ) throws DataException, IOException
+		{
+			int dimensionIndex = getDimensionIndex( dimensionName );
+			if ( dimensionIndex < 0 )
+			{
+				return null;
+			}
+			Member member;
+			try
+			{
+				member = getLevelMember( dimensionIndex, levelName );
+			}
+			catch ( BirtException e )
+			{
+				throw DataException.wrap( e );
+			}
+			
+			int attributeIndex = dimensionResultIterators[dimensionIndex].getLevelAttributeIndex( levelName, attributeName );
+			if( member != null && attributeIndex >= 0 )
+				return member.getAttributes( )[attributeIndex];
+			return null;
+		}
+
+		public Object[] getLevelKeyValue( String dimensionName, String levelName )
+				throws DataException, IOException
+		{
+			Member member;
+			try
+			{
+				member = getLevelMember( dimensionName, levelName );
+			}
+			catch ( BirtException e )
+			{
+				throw DataException.wrap( e );
+			}
+			if( member != null )
+				return member.getKeyValues( );
+			return null;
+		}
+		
+		private Member getLevelMember( String dimensionName, String levelName )
+				throws BirtException, IOException
+		{
+			int dimIndex = getDimensionIndex( dimensionName );
+			return getLevelMember( dimIndex, levelName );
+		}
+
+		private Member getLevelMember( int dimIndex, String levelName )
+				throws BirtException, IOException
+		{
+			int levelIndex = -1;
+			if ( dimIndex >= 0 )
+			{
+				IDimensionResultIterator itr = dimensionResultIterators[dimIndex];
+				levelIndex = itr.getLevelIndex( levelName );
+				if ( levelIndex >= 0 )
+					return getMember( dimIndex, levelIndex );
+			}
+
+			return null;
+		}
+
+		private int getDimensionIndex( String dimensionName )
+		{
+			int dimIndex = -1;
+			for ( int i = 0; i < dimensionResultIterators.length; i++ )
+			{
+				if ( dimensionResultIterators[i].getDimesion( )
+						.getName( )
+						.equals( dimensionName ) )
+				{
+					dimIndex = i;
+				}
+			}
+			return dimIndex;
+		}
+
+		public Object getMeasureValue( String measureName ) throws DataException
+		{
+			return factTableRowIterator.getMeasure( factTableRowIterator.getMeasureIndex( measureName ) );
 		}
 	}
 }

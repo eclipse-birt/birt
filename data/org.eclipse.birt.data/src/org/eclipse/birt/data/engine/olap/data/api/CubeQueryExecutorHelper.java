@@ -476,7 +476,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		FactTableRowIterator factTableRowIterator = new FactTableRowIterator( cube.getFactTable( ),
 				validDimensionName,
 				validDimPosition,
-				computedMeasureHelper,
+				null,
 				stopSign );
 		if ( cubePosFilters != null && !cubePosFilters.isEmpty( ) )
 		{// add fact table filter if it's necessary
@@ -493,8 +493,9 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		}
 		DimensionResultIterator[] dimensionResultIterators = populateDimensionResultIterator( dimPosition, stopSign );
 
-		IDataSet4Aggregation dataSet4Aggregation 
-			= DataSet4AggregationFactory.createDataSet4Aggregation( factTableRowIterator, dimensionResultIterators );
+		IDataSet4Aggregation dataSet4Aggregation = DataSet4AggregationFactory.createDataSet4Aggregation( factTableRowIterator,
+				dimensionResultIterators,
+				computedMeasureHelper );
 		AggregationExecutor aggregationCalculatorExecutor = new AggregationExecutor(dataSet4Aggregation, 
 				aggregations );
 		return aggregationCalculatorExecutor.execute( stopSign );
