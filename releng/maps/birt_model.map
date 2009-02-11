@@ -3,7 +3,7 @@
 plugin@org.eclipse.birt.report.model=r232_20090115,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model
 plugin@org.eclipse.birt.report.model.adapter.oda=r232_20090108,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.adapter.oda
 plugin@org.eclipse.birt.resources=r232_20081030,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.resources
-plugin@org.eclipse.birt.report.viewer=r232_20090122,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.viewer
+plugin@org.eclipse.birt.report.viewer=r232_20090211,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.viewer
 plugin@org.eclipse.birt.integration.wtp.ui=r232_20090122,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.integration.wtp.ui
 plugin@org.eclipse.birt.report.engine.dataextraction=r232_20090122,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.dataextraction
 plugin@org.eclipse.birt.report.engine.dataextraction.csv=r232_20090122,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.dataextraction.csv
