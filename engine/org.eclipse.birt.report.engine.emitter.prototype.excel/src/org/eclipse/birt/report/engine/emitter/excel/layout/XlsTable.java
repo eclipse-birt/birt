@@ -18,9 +18,8 @@ public class XlsTable extends XlsContainer
 			ContainerSizeInfo sizeInfo, XlsContainer parent )
 	{
 		this( entry, sizeInfo, parent );
-		width = Math.min( table.getTableWidth( ), sizeInfo.getWidth() );
-		this.columnWidths = LayoutUtil.getColumnWidth( table, width );
-		this.width = table.getTableWidth( );
+		width = table.getTableWidth( );		
+		columnWidths = table.getColumns( );
 	}
 	
 	public XlsTable( TableInfo table, XlsContainer container )

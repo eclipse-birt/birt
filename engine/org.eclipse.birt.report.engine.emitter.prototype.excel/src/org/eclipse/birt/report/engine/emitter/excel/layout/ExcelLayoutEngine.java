@@ -135,8 +135,7 @@ public class ExcelLayoutEngine
 		ContainerSizeInfo parentSizeInfo = currentContainer.getSizeInfo( );
 		int startCoordinate = parentSizeInfo.getStartCoordinate( );
 		int endCoordinate = parentSizeInfo.getEndCoordinate( );
-		//npos is the start position of each column.
-		
+
 		int[] columnStartCoordinates = calculateColumnCoordinates( table,
 				startCoordinate, endCoordinate );
 

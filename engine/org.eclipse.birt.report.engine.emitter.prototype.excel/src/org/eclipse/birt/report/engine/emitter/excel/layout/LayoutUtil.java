@@ -1,10 +1,6 @@
 
 package org.eclipse.birt.report.engine.emitter.excel.layout;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
@@ -14,51 +10,6 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 
 public class LayoutUtil
 {
-	public static int[] getColumnWidth( TableInfo table, int width )
-	{
-		int[] col = new int[table.getColumnCount( )];
-		int tmp = 0;
-		int nullNumber = 0;
-
-		for ( int i = 0; i < table.getColumnCount( ); i++ )
-		{
-			int colwidth = table.getColumnWidth( i );
-			// record columns which is not set column's width in report design.
-			if ( colwidth == 0 )
-			{
-				nullNumber++;
-				col[i] = -1;
-			}
-			else
-			{
-				col[i] = colwidth;
-				tmp += col[i];
-			}
-		}
-
-		// If columns are not set width, set the average width to them.
-		if ( nullNumber != 0 )
-		{
-			int aveWidth = ( width - tmp ) / nullNumber;
-			tmp = 0;
-
-			for ( int i = 0; i < col.length; i++ )
-			{
-				if ( col[i] == -1 )
-				{
-					col[i] = aveWidth;
-				}
-				tmp += col[i];
-			}
-
-		}
-
-		// Set the left width to the last column.
-		col[col.length - 1] += width - tmp;
-
-		return col;
-	}
-	
 	public static TableInfo createTable(int col, int width)
 	{
 		return new DefaultTableInfo(col, width);
@@ -92,86 +43,72 @@ public class LayoutUtil
 
 	}
 	
-	public static TableInfo createTable(ITableContent table, int width)
+	public static TableInfo createTable( ITableContent table, int width )
 	{		
-		width = getElementWidth(table, width);
+		int tableWidth = getElementWidth( table, width );
 		
-		int colcount = table.getColumnCount( );
-		
-		if ( colcount == 0 )
+		int columnCount = table.getColumnCount( );
+		if ( columnCount == 0 )
 		{
 			return null;
 		}
 		
-		int[] index = new int[colcount];
-		int know = 0;
-		List unmount = new ArrayList();
+		int[] columns = new int[columnCount];
+		int unassignedCount = 0;
+		int totalAssigned = 0;
 		
-		for(int i = 0; i < colcount; i++)
+		for(int i = 0; i < columnCount; i++)
 		{
 			DimensionType value = table.getColumn( i ).getWidth( );  
-			
 			if( value == null)
 			{
-				unmount.add( new Integer(i) );
+				columns[i] = -1;
+				unassignedCount++;
 			}
 			else
 			{				
-				try {
-					index[i] = ExcelUtil.covertDimensionType( value, width ); 
-					know += index[i];
-				}
-				catch(IllegalArgumentException ex)
-				{
-					unmount.add( new Integer(i) );
-				}
+				columns[i] = ExcelUtil.covertDimensionType( value, tableWidth );
+				totalAssigned += columns[i];
 			}	
 		}		
 		
-		int left = width - know;
-		
-		if(left > 0 && unmount.size( ) == 0)
+		int leftWidth = tableWidth - totalAssigned;
+		if ( leftWidth != 0 && unassignedCount == 0 )
 		{
-			index[index.length - 1] = index[index.length - 1] + left; 
-			return new DefaultTableInfo(index);
-		}
-		else if(left < 0 )
-		{
-			return new DefaultTableInfo(split(width, colcount));
-		}
-		else if(left > 0 && unmount.size( ) > 0)
-		{
-			int[] size = split(left, unmount.size());			
-			Iterator iter = unmount.iterator( );
-			int i = 0;
-			
-			while(iter.hasNext( ))
+			for ( int i = 0; i < columnCount; i++ )
 			{
-				int pos = ((Integer) iter.next()).intValue( );
-				index[pos] = size[i];
-				i++;
+				columns[i] = resize( columns[i], totalAssigned, leftWidth );
 			}
-			
-			return new DefaultTableInfo(index);
 		}
-		else 
+		else if ( leftWidth < 0 && unassignedCount > 0 )
 		{
-			return new DefaultTableInfo(index);
-		}	
+			for ( int i = 0; i < columnCount; i++ )
+			{
+				if ( columns[i] == -1 )
+					columns[1] = 0;
+				else
+					columns[i] = resize( columns[i], totalAssigned, leftWidth );
+			}
+		}
+		else if ( leftWidth >= 0 && unassignedCount > 0 )
+		{
+			int per = (int) leftWidth / unassignedCount;
+			int index = 0;
+			for ( int i = 0; i < columns.length; i++ )
+			{
+				if ( columns[i] == -1 )
+				{
+					columns[i] = per;
+					index = i;
+				}
+			}
+			columns[index] = leftWidth - per * ( unassignedCount - 1 );
+		}
+		return new DefaultTableInfo( columns );
 	}
 	
-	public static int[] split(int width, int count)
+	private static int resize( int width, int total, int left )
 	{
-		int[] size = new int[count];		
-		int per = (int) width / count;
-		
-		for(int i = 0; i < count - 1; i++)
-		{
-			size[i] = per;
-		}	
-		
-		size[count - 1] = width - per * (count - 1);
-		
-		return size;
+		return (int) ( width + (float) width / (float) total * left );
 	}
 }
