@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.gef.GraphicalViewer;
@@ -105,6 +106,15 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor
 			{
 				setViewContentsAsMasterPage( );
 				markPageStale( IPageStaleType.NONE );
+				if ( oldModel instanceof ReportDesignHandle )
+				{
+					if ( !( (ReportDesignHandle) getModel( ) ).getBidiOrientation( )
+							.equals( ( (ReportDesignHandle) oldModel ).getBidiOrientation( ) ) )
+					{
+						String newOrientation = ( (ReportDesignHandle) getModel( ) ).getBidiOrientation( );
+						UIUtil.processOrientationChange( newOrientation, getGraphicalViewer() );
+					}
+				}
 			}
 			updateStackActions( );
 

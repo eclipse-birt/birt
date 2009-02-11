@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.Rep
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.layout.AbstractPageFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.MasterPageLayout;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.bidi.BidiUIUtils;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -323,19 +324,7 @@ public class MasterPageEditPart extends AbstractReportEditPart
 			String newOrientation = ( (ReportDesignHandle) info.get(
 					ReportDesignHandle.BIDI_ORIENTATION_PROP ) ).getBidiOrientation( );
 					
-			boolean mirrored = DesignChoiceConstants
-					.BIDI_DIRECTION_RTL.equals( newOrientation );
-
-			this.getViewer( ).flush( );
-				
-			// Apply new orientation to the view.
-			Composite parent = getViewer( ).getControl( ).getParent( );
-			BidiUIUtils.INSTANCE.applyOrientation( parent, mirrored );
-
-			parent.layout( true );
-
-			getViewer( ).setProperty( IReportGraphicConstants
-					.REPORT_BIDIORIENTATION_PROPERTY, newOrientation );
+			UIUtil.processOrientationChange( newOrientation, getViewer( ) );
 
 			invalidate = true;
 		}

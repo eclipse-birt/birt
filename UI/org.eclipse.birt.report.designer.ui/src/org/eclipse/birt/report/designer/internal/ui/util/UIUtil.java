@@ -54,6 +54,7 @@ import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIP
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
+import org.eclipse.birt.report.designer.internal.ui.util.bidi.BidiUIUtils;
 import org.eclipse.birt.report.designer.internal.ui.views.LibrarySaveChangeEvent;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IPreferenceConstants;
@@ -116,6 +117,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
@@ -2247,5 +2249,30 @@ public class UIUtil
 		}
 		
 		return retValue;
+	}
+	
+	/**Process the report design orientation change.
+	 * @param newOrientation
+	 * @param viewer
+	 */
+	public static void processOrientationChange(String newOrientation, EditPartViewer viewer)
+	{
+		if (newOrientation == null || viewer == null)
+		{
+			return;
+		}
+		boolean mirrored = DesignChoiceConstants.BIDI_DIRECTION_RTL.equals( newOrientation );
+
+		viewer.flush( );
+
+		// Apply new orientation to the view.
+		Composite parent = viewer.getControl( )
+				.getParent( );
+		BidiUIUtils.INSTANCE.applyOrientation( parent, mirrored );
+
+		parent.layout( true );
+
+		viewer.setProperty( IReportGraphicConstants.REPORT_BIDIORIENTATION_PROPERTY,
+				newOrientation );
 	}
 }

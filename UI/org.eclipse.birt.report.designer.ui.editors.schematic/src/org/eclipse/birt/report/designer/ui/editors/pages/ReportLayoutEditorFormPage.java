@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.gef.GraphicalViewer;
@@ -60,7 +61,8 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.schematic.layout.AbstractReportGraphicalEditorWithRuler#configureGraphicalViewer()
+	 * @seeorg.eclipse.birt.report.designer.ui.editors.schematic.layout.
+	 * AbstractReportGraphicalEditorWithRuler#configureGraphicalViewer()
 	 */
 	protected void configureGraphicalViewer( )
 	{
@@ -83,7 +85,9 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms.editor.FormEditor)
+	 * @see
+	 * org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms
+	 * .editor.FormEditor)
 	 */
 	public void initialize( FormEditor editor )
 	{
@@ -202,7 +206,9 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	public void createPartControl( Composite parent )
 	{
@@ -214,7 +220,8 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.schematic.layout.AbstractReportGraphicalEditorWithRuler#dispose()
+	 * @seeorg.eclipse.birt.report.designer.ui.editors.schematic.layout.
+	 * AbstractReportGraphicalEditorWithRuler#dispose()
 	 */
 	public void dispose( )
 	{
@@ -234,7 +241,9 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#markPageStale(int)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#markPageStale
+	 * (int)
 	 */
 	public void markPageStale( int type )
 	{
@@ -244,7 +253,9 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#getStaleType()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#getStaleType
+	 * ()
 	 */
 	public int getStaleType( )
 	{
@@ -254,7 +265,9 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#onBroughtToTop(org.eclipse.birt.report.designer.ui.editors.IReportEditorPage)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#onBroughtToTop
+	 * (org.eclipse.birt.report.designer.ui.editors.IReportEditorPage)
 	 */
 	public boolean onBroughtToTop( IReportEditorPage prePage )
 	{
@@ -276,10 +289,22 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 				this.getGraphicalViewer( ).setContents( getModel( ) );
 				hookModelEventManager( getModel( ) );
 				markPageStale( IPageStaleType.NONE );
+				// fix bug 264455, when the bidi property is change, need set
+				// the property again.
+				if ( oldModel instanceof ReportDesignHandle )
+				{
+					if ( !( (ReportDesignHandle) getModel( ) ).getBidiOrientation( )
+							.equals( ( (ReportDesignHandle) oldModel ).getBidiOrientation( ) ) )
+					{
+						String newOrientation = ( (ReportDesignHandle) getModel( ) ).getBidiOrientation( );
+						UIUtil.processOrientationChange( newOrientation,
+								getGraphicalViewer( ) );
+					}
+				}
 			}
 			updateStackActions( );
 		}
-		//reselect the selection
+		// reselect the selection
 		GraphicalViewer view = getGraphicalViewer( );
 
 		if ( view != null )
@@ -311,9 +336,10 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 
 		SessionHandleAdapter.getInstance( )
 				.setReportDesignHandle( getProvider( ).getReportModuleHandle( getEditorInput( ) ) );
-		
-		UIUtil.processSessionResourceFolder( getEditorInput( ), 
-				UIUtil.getProjectFromInput( getEditorInput( ) ), getModel() );
+
+		UIUtil.processSessionResourceFolder( getEditorInput( ),
+				UIUtil.getProjectFromInput( getEditorInput( ) ),
+				getModel( ) );
 
 	}
 
