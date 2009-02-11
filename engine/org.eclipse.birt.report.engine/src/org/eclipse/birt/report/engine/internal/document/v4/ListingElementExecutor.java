@@ -120,7 +120,11 @@ public abstract class ListingElementExecutor extends ContainerExecutor
 	protected void collectExecutables( boolean includeHeader,
 			boolean useCurrentRow ) throws BirtException
 	{
-		IQueryResultSet rset = (IQueryResultSet) rsets[0];
+		IQueryResultSet rset = null;
+		if( rsets != null )
+		{
+			rset = (IQueryResultSet) rsets[0];
+		}
 		currentElement = 0;
 		totalElements = 0;
 		if ( executableElements == null )

@@ -103,6 +103,8 @@ public class MessageConstants
     public static final String  PREPARED_QUERY_NOT_FOUND_ERROR = "Error.PreparedQueryNotFoundError";
     public static final String  INCORRECT_PARENT_RESULSET_ERROR = "Error.IncorrectParentResultSetError";
     public static final String  UNSUPPORTED_QUERY_TYPE_ERROR = "Error.UnsupportedQueryTypeError";
+    public static final String	QUERY_NOT_BUILT_ERROR = "Error.QueryNotBuiltError";
+    
     public static final String  RENDERTASK_NOT_FINISHED_ERROR = "Error.RenderTaskNotFinishedError";
     public static final String  RENDER_OPTION_ERROR = "Error.RenderOptionError";
     public static final String  REPORT_ARCHIVE_ERROR = "Error.ReportArchiveError";

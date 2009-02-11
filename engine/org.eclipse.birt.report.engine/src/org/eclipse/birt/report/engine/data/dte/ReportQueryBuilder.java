@@ -14,9 +14,11 @@ package org.eclipse.birt.report.engine.data.dte;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -245,6 +247,7 @@ public class ReportQueryBuilder
 				for ( int i = 0; i < report.getContentCount( ); i++ )
 					build( null, report.getContent( i ) );
 
+				checkQueries( );
 			}
 		}
 	}
@@ -421,6 +424,30 @@ public class ReportQueryBuilder
 									+ reportItem.getID( ) );
 				}
 			}
+		}
+	}
+	
+	private void checkQueries( )
+	{
+		Set failedIDs = new HashSet( );
+		Iterator<List<ReportItemDesign>> itr = unresolvedQueryReferences
+				.values( ).iterator( );
+		while ( itr.hasNext( ) )
+		{
+			List<ReportItemDesign> list = itr.next( );
+			for ( ReportItemDesign design : list )
+			{
+				failedIDs.add( design.getName( ) != null
+						? design.getName( )
+						: design.getID( ) );
+			}
+		}
+		for ( Object o : failedIDs )
+		{
+			EngineException ex = new EngineException(
+					MessageConstants.QUERY_NOT_BUILT_ERROR, new Object[]{o} );
+			context.addException( ex );
+			logger.log( Level.WARNING, ex.getMessage( ), ex );
 		}
 	}
 
