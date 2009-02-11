@@ -11,3 +11,5 @@ ZAxis=Eje Z
 Plot=Dibujo
 Legend=Leyenda
 Title=Título
+preference.chart.fieldassist=Field Assist
+preference.chart.fieldassist.contentassist=Content Assist

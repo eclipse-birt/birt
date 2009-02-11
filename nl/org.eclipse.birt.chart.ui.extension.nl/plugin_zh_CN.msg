@@ -11,3 +11,5 @@ ZAxis=Z Öá
 Plot=Í¼ĞÎ
 Legend=Í¼Àı
 Title=±êÌâ
+preference.chart.fieldassist=Field Assist
+preference.chart.fieldassist.contentassist=Content Assist

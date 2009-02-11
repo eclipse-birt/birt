@@ -11,3 +11,5 @@ ZAxis=Z축
 Plot=그리기
 Legend=범례
 Title=제목
+preference.chart.fieldassist=Field Assist
+preference.chart.fieldassist.contentassist=Content Assist

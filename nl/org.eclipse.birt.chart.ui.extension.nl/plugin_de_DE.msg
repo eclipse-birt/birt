@@ -11,3 +11,5 @@ ZAxis=Z-Achse
 Plot=Diagramm
 Legend=Legende
 Title=Titel
+preference.chart.fieldassist=Field Assist
+preference.chart.fieldassist.contentassist=Content Assist

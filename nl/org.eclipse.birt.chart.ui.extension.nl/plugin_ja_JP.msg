@@ -11,3 +11,5 @@ ZAxis=Z 軸
 Plot=プロット
 Legend=凡例
 Title=タイトル
+preference.chart.fieldassist=Field Assist
+preference.chart.fieldassist.contentassist=Content Assist
