@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
+import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -109,7 +110,9 @@ public class MeterSeriesAttributeComposite extends Composite implements
 		Composite cmpLeft = new Composite( this, SWT.NONE );
 		GridData gdLeft = new GridData( GridData.FILL_HORIZONTAL );
 		cmpLeft.setLayoutData( gdLeft );
-		cmpLeft.setLayout( new GridLayout( 2, false ) );
+		GridLayout gl = new GridLayout( 2, false );
+		gl.horizontalSpacing = 8;
+		cmpLeft.setLayout( gl );
 
 		Label lblRadius = new Label( cmpLeft, SWT.NONE );
 		GridData gdLBLRadius = new GridData( GridData.HORIZONTAL_ALIGN_END );
@@ -118,6 +121,8 @@ public class MeterSeriesAttributeComposite extends Composite implements
 
 		txtRadius = new LocalizedNumberEditorComposite( cmpLeft, SWT.BORDER
 				| SWT.SINGLE );
+		new TextNumberEditorAssistField( txtRadius.getTextControl( ), null );
+		
 		GridData gdTXTRadius = new GridData( GridData.FILL_HORIZONTAL );
 		if ( series.getDial( ).isSetRadius( ) )
 		{
@@ -143,7 +148,9 @@ public class MeterSeriesAttributeComposite extends Composite implements
 		Composite cmpRight = new Composite( this, SWT.NONE );
 		GridData gdRight = new GridData( GridData.FILL_HORIZONTAL );
 		cmpRight.setLayoutData( gdRight );
-		cmpRight.setLayout( new GridLayout( 2, false ) );
+		gl = new GridLayout( 2, false );
+		gl.horizontalSpacing = 8;
+		cmpRight.setLayout( gl );
 		
 		Label lblStartAngle = new Label( cmpRight, SWT.NONE );
 		GridData gdLBLStartAngle = new GridData( GridData.HORIZONTAL_ALIGN_END );

@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
+import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
@@ -181,6 +182,8 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 
 			txtSeriesThickness = new LocalizedNumberEditorComposite( grpGeneral,
 					SWT.BORDER | SWT.SINGLE );
+			new TextNumberEditorAssistField( txtSeriesThickness.getTextControl( ), null );
+			
 			GridData gdTXTSeriesThickness = new GridData( GridData.FILL_HORIZONTAL );
 			txtSeriesThickness.setLayoutData( gdTXTSeriesThickness );
 			double dblPoints = getChart( ).getSeriesThickness( );

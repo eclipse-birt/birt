@@ -11,13 +11,13 @@
 
 package org.eclipse.birt.chart.ui.plugin;
 
-import org.eclipse.core.runtime.Plugin;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
  * Plugin class for Chart UI Extension
  */
 
-public class ChartUIExtensionPlugin extends Plugin
+public class ChartUIExtensionPlugin extends AbstractUIPlugin
 {
 
 	/**
@@ -25,4 +25,24 @@ public class ChartUIExtensionPlugin extends Plugin
 	 */
 	public static final String ID = "org.eclipse.birt.chart.ui.extension"; //$NON-NLS-1$
 
+	private static ChartUIExtensionPlugin plugin = null;
+	
+	/**
+	 * Constructor.
+	 */
+	public ChartUIExtensionPlugin( )
+	{
+		plugin = this;
+	}
+	
+	/**
+	 * Returns current plugin instance.
+	 * 
+	 * @return
+	 * @since 2.5
+	 */
+	public static AbstractUIPlugin getDefault( )
+	{
+		return plugin;
+	}
 }

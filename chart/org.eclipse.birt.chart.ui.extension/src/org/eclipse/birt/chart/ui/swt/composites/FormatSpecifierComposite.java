@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
@@ -678,6 +679,8 @@ public class FormatSpecifierComposite extends Composite
 
 			txtMultiplier = new LocalizedNumberEditorComposite( this,
 					SWT.BORDER | SWT.SINGLE );
+			new TextNumberEditorAssistField( txtMultiplier.getTextControl( ), null );
+			
 			GridData gdTXTMultiplier = new GridData( GridData.FILL_HORIZONTAL );
 			gdTXTMultiplier.widthHint = 60;
 			txtMultiplier.setLayoutData( gdTXTMultiplier );
@@ -980,6 +983,8 @@ public class FormatSpecifierComposite extends Composite
 
 			txtAdvMultiplier = new LocalizedNumberEditorComposite( this,
 					SWT.BORDER | SWT.SINGLE );
+			new TextNumberEditorAssistField( txtAdvMultiplier.getTextControl( ), null );
+			
 			GridData gdTXTAdvMultiplier = new GridData( GridData.FILL_HORIZONTAL );
 			txtAdvMultiplier.setLayoutData( gdTXTAdvMultiplier );
 			txtAdvMultiplier.addModifyListener( this );

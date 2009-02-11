@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
+import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -94,6 +95,7 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 			GridLayout gridLayout = new GridLayout( 3, false );
 			gridLayout.marginWidth = 0;
 			gridLayout.marginHeight = 0;
+			gridLayout.horizontalSpacing = 8;
 			cmpMinSlice.setLayout( gridLayout );
 			cmpMinSlice.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
@@ -109,6 +111,7 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 
 		txtMinSlice = new LocalizedNumberEditorComposite( cmpMinSlice,
 				SWT.BORDER );
+		new TextNumberEditorAssistField( txtMinSlice.getTextControl( ), null );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			txtMinSlice.setLayoutData( gridData );

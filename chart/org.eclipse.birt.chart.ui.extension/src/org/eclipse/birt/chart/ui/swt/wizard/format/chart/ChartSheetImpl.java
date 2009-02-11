@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.chart;
 
+import java.text.DecimalFormatSymbols;
 import java.util.List;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -31,6 +32,7 @@ import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
+import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
@@ -642,7 +644,9 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		{
 			Composite context = new Composite( parent, SWT.NONE );
 			{
-				context.setLayout( new GridLayout( 3, false ) );
+				GridLayout gl = new GridLayout( 3, false );
+				gl.horizontalSpacing = 8;
+				context.setLayout( gl );
 				context.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			}
 
@@ -669,6 +673,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 			txtRotation = new LocalizedNumberEditorComposite( context,
 					SWT.BORDER | SWT.SINGLE );
+			new RotationEditorAssistField( txtRotation, null );
 			{
 				txtRotation.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 				txtRotation.setValue( getAxisAngle( angleType ) );
@@ -746,6 +751,86 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		}
 	}
 
+	/**
+	 * RotationEditorAssistField
+	 */
+	class RotationEditorAssistField extends TextNumberEditorAssistField
+	{
+
+		/**
+		 * Constructor of the class.
+		 * 
+		 * @param numberEditor
+		 * @param composite
+		 */
+		public RotationEditorAssistField(
+				LocalizedNumberEditorComposite numberEditor, Composite composite )
+		{
+			super( numberEditor.getTextControl( ), composite );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.chart.ui.swt.fieldassist.SmartField#isValid()
+		 */
+		@Override
+		public boolean isValid( )
+		{
+			String contents = getContents( );
+			if ( contents == null || "".equals( contents.trim( ) ) ) //$NON-NLS-1$
+			{
+				return true;
+			}
+
+			char groupingSeparator = DecimalFormatSymbols.getInstance( )
+					.getGroupingSeparator( );
+			int length = contents.length( );
+			for ( int i = 0; i < length; )
+			{
+				char ch = contents.charAt( i++ );
+				if ( !Character.isDigit( ch )
+						&& ch != '.'
+						&& ch != '-'
+						&& ch != '+'
+						&& ch != groupingSeparator )
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @seeorg.eclipse.birt.chart.ui.swt.fieldassist.
+		 * LocalizedNumberEditorAssistField#quickFix()
+		 */
+		public void quickFix( )
+		{
+			String contents = getContents( );
+			StringBuffer numbersOnly = new StringBuffer( );
+			char groupingSeparator = DecimalFormatSymbols.getInstance( )
+					.getGroupingSeparator( );
+			int length = contents.length( );
+			for ( int i = 0; i < length; )
+			{
+				char ch = contents.charAt( i++ );
+				if ( Character.isDigit( ch )
+						|| ch == '.'
+						|| ch == '-'
+						|| ch == '+'
+						|| ch == groupingSeparator )
+				{
+					numbersOnly.append( ch );
+				}
+			}
+			setContents( numbersOnly.toString( ) );
+		}
+	}
+	
 	private void setAxisAngle( int angleType, int angleDegree )
 	{
 		Angle3D angle3D = getAngle3D( );

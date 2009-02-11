@@ -1956,9 +1956,28 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		else
 		{
-			context.addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY, null );
-			context.addPredefinedQuery( ChartUIConstants.QUERY_VALUE, null );
-			context.addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL, null );
+			// Add expressions into predefined query for the content assist
+			// function when user set category/value series/Y optional
+			// expressions on UI.
+			Map<String, ColumnBindingInfo> commons = new LinkedHashMap<String, ColumnBindingInfo>( );
+			for ( int i = 0; i < headers.length; i++ )
+			{
+				commons.put( ExpressionUtil.createJSRowExpression( headers[i].getName( ) ),
+						headers[i] );
+			}
+			Object[][] expressions = new Object[commons.size( )][2];
+			int index = 0;
+			for ( Iterator<Map.Entry<String, ColumnBindingInfo>> iter = commons.entrySet( ).iterator( ); iter.hasNext( ); )
+			{
+				Entry<String, ColumnBindingInfo> entry = (Entry<String, ColumnBindingInfo>) iter.next( );
+				expressions[index][0] = entry.getKey( );
+				expressions[index][1] = entry.getValue( );
+				index++;
+			}
+			
+			context.addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY, expressions );
+			context.addPredefinedQuery( ChartUIConstants.QUERY_VALUE, expressions );
+			context.addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL, expressions );
 		}
 	}
 

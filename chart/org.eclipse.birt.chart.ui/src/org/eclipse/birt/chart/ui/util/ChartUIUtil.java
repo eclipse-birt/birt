@@ -1498,11 +1498,13 @@ public class ChartUIUtil
 	{
 		// If predefined query is found, that means cube bindings is used, so
 		// grouping is unsupported in this case.
-		// TODO 2/4/2008
-		// ? The logic should be changed, because predefined query also can be
-		// found when it is share binding case.
-		return wizardContext.getPredefinedQuery( ChartUIConstants.QUERY_CATEGORY ) == null
-				&& wizardContext.getPredefinedQuery( ChartUIConstants.QUERY_VALUE ) == null;
+		// 
+		// #191701, 2/5/2009, now the predefined query can not be used to indicate if
+		// grouping is supported, since the predefined query has been used to
+		// store available expressions for the content assist on UI, so the
+		// predefined query should not be null. We just need to check the
+		// sharing query case to enable/disable the group.
+		return !wizardContext.getDataServiceProvider( ).checkState( IDataServiceProvider.SHARE_QUERY );
 	}
 
 	private static String checkGroupTypeOnCategory( ChartWizardContext context,

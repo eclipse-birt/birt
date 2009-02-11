@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
+import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -119,6 +120,8 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 			GridLayout gl = new GridLayout( 2, false );
 			gl.marginHeight = 0;
 			gl.marginWidth = 0;
+			gl.marginRight = 4;
+			gl.horizontalSpacing = 8;
 			cmpLegLeft.setLayout( gl );
 			cmpLegLeft.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
 					| GridData.VERTICAL_ALIGN_BEGINNING ) );
@@ -237,6 +240,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 
 		txtWrapping = new LocalizedNumberEditorComposite( cmpLegLeft,
 				SWT.BORDER | SWT.SINGLE );
+		new TextNumberEditorAssistField( txtWrapping.getTextControl( ), null );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			txtWrapping.setLayoutData( gd );

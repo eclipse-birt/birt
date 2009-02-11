@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
+import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -175,6 +176,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 		btnHeight.addSelectionListener( this );
 
 		txtHeight = new LocalizedNumberEditorComposite( leftComp, SWT.BORDER );
+		new TextNumberEditorAssistField( txtHeight.getTextControl( ), null );
 		{
 			txtHeight.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
@@ -190,6 +192,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 		btnWidth.addSelectionListener( this );
 
 		txtWidth = new LocalizedNumberEditorComposite( leftComp, SWT.BORDER );
+		new TextNumberEditorAssistField( txtWidth.getTextControl( ), null );
 		{
 			txtWidth.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			txtWidth.addModifyListener( this );

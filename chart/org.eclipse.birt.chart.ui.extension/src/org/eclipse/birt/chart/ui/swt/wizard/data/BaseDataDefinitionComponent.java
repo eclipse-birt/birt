@@ -27,6 +27,11 @@ import org.eclipse.birt.chart.ui.swt.IQueryExpressionManager;
 import org.eclipse.birt.chart.ui.swt.SimpleTextTransfer;
 import org.eclipse.birt.chart.ui.swt.composites.BaseGroupSortingDialog;
 import org.eclipse.birt.chart.ui.swt.composites.GroupSortingDialog;
+import org.eclipse.birt.chart.ui.swt.fieldassist.CComboAssistField;
+import org.eclipse.birt.chart.ui.swt.fieldassist.CTextContentAdapter;
+import org.eclipse.birt.chart.ui.swt.fieldassist.FieldAssistHelper;
+import org.eclipse.birt.chart.ui.swt.fieldassist.IContentChangeListener;
+import org.eclipse.birt.chart.ui.swt.fieldassist.TextAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
@@ -197,20 +202,48 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		{
 			createAggregationItem( cmpTop );
 		}
-
+		
+		
 		final Object[] predefinedQuery = context.getPredefinedQuery( queryType );
-		if ( predefinedQuery != null )
+		
+		// If current is the sharing query case and predefined queries are not null,
+		// the input field should be a combo component.
+		boolean needComboField = ( context.getDataServiceProvider( )
+				.checkState( IDataServiceProvider.SHARE_QUERY )
+				|| context.getDataServiceProvider( )
+						.checkState( IDataServiceProvider.HAS_CUBE ) )
+				&& predefinedQuery != null;
+		boolean hasContentAssist = predefinedQuery != null;
+		if ( needComboField )
 		{
-			cmbDefinition = new CCombo( cmpTop,
+			// Create a composite to decorate combo field for the content assist function.
+			Composite control = new Composite( cmpTop, SWT.NONE );
+			GridData gd = new GridData( GridData.FILL_BOTH );
+			gd.widthHint = 80;
+			control.setLayoutData( gd );
+			GridLayout gl = new GridLayout( );
+			FieldAssistHelper.getInstance( ).initDecorationMargin( gl );
+			control.setLayout( gl );
+			
+			cmbDefinition = new CCombo( control,
 					context.getDataServiceProvider( )
 							.checkState( IDataServiceProvider.PART_CHART ) ? SWT.READ_ONLY
 							| SWT.BORDER
 							: SWT.BORDER );
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.widthHint = 80;
+			gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.grabExcessHorizontalSpace = true;
 			cmbDefinition.setLayoutData( gd );
-
+			
+			// Initialize content assist.
+			if ( hasContentAssist )
+			{
+				String[] items = getContentItems( predefinedQuery );
+				if ( items != null )
+				{
+					new CComboAssistField( cmbDefinition, null, items );
+				}
+			}
+			
 			if ( predefinedQuery.length > 0 )
 			{
 				populateExprComboItems( predefinedQuery );
@@ -280,7 +313,20 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		}
 		else
 		{
-			txtDefinition = new Text( cmpTop, SWT.BORDER | SWT.SINGLE );
+			Composite control = cmpTop;
+			if ( hasContentAssist )
+			{
+				// Create a composite to decorate text field for the content assist function.
+				control = new Composite( cmpTop, SWT.NONE );
+				GridData gd = new GridData( GridData.FILL_BOTH );
+				gd.widthHint = 80;
+				control.setLayoutData( gd );
+				GridLayout gl = new GridLayout( );
+				FieldAssistHelper.getInstance( ).initDecorationMargin( gl );
+				control.setLayout( gl );
+			}
+			
+			txtDefinition = new Text( control, SWT.BORDER | SWT.SINGLE );
 			GridData gdTXTDefinition = new GridData( GridData.FILL_HORIZONTAL );
 			gdTXTDefinition.widthHint = 80;
 			gdTXTDefinition.grabExcessHorizontalSpace = true;
@@ -293,6 +339,24 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			txtDefinition.addModifyListener( this );
 			txtDefinition.addFocusListener( this );
 			txtDefinition.addKeyListener( this );
+			// Initialize content assist.
+			if ( hasContentAssist )
+			{
+				
+				String[] items = getContentItems( predefinedQuery );
+				if ( items != null )
+				{
+					TextAssistField taf = new TextAssistField( txtDefinition, null, items );
+					((CTextContentAdapter)taf.getContentAdapter( )).addContentChangeListener( new IContentChangeListener(){
+
+						public void contentChanged( Control control,
+								Object newValue, Object oldValue )
+						{
+							isQueryModified = true;
+							saveQuery( );
+						}} );
+				}
+			}
 		}
 
 		// Listener for handling dropping of custom table header
@@ -411,6 +475,38 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		setUITextForSharedBinding( cmbDefinition, query.getDefinition( ) );
 	}
 
+	/**
+	 * Returns available items in predefined query.
+	 * 
+	 * @param predefinedQuery
+	 * @return
+	 */
+	private String[] getContentItems( Object[] predefinedQuery )
+	{
+		if ( predefinedQuery[0] instanceof Object[] )
+		{
+			String[] items = new String[predefinedQuery.length];
+			for ( int i = 0; i < items.length; i++ )
+			{
+				items[i] = (String) ( (Object[]) predefinedQuery[i] )[0];
+			}
+			
+			return items;
+			
+		}
+		else if ( predefinedQuery[0] instanceof String )
+		{
+			String[] items = new String[predefinedQuery.length];
+			for ( int i = 0; i < items.length; i++ )
+			{
+				items[i] = (String) predefinedQuery[i];
+			}
+			return items;
+		}
+		
+		return null;
+	}
+	
 	/**
 	 * Populate expression items for combo.
 	 * 
@@ -754,7 +850,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				( (CCombo) control ).setText( expression );
 			}
 		}
-
 		return true;
 	}
 
@@ -807,7 +902,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				}
 			}
 		}
-		
+
 		if ( !isTableSharedBinding( ) )
 		{
 			setQueryExpression( expression );

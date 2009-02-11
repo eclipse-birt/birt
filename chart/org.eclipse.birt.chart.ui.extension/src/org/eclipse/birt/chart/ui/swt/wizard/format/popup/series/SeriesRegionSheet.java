@@ -29,6 +29,7 @@ import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -218,6 +219,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 
 		txtStartValue = new TextEditorComposite( cmpRangeValue, SWT.BORDER
 				| SWT.SINGLE );
+		new TextNumberEditorAssistField( txtStartValue.getTextControl( ), null );
 		GridData gdTXTStartValue = new GridData( GridData.FILL_HORIZONTAL );
 		gdTXTStartValue.horizontalSpan = 2;
 		txtStartValue.setLayoutData( gdTXTStartValue );
@@ -231,6 +233,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 
 		txtEndValue = new TextEditorComposite( cmpRangeValue, SWT.BORDER
 				| SWT.SINGLE );
+		new TextNumberEditorAssistField( txtEndValue.getTextControl( ), null );
 		GridData gdTXTEndValue = new GridData( GridData.FILL_HORIZONTAL );
 		gdTXTEndValue.horizontalSpan = 2;
 		txtEndValue.setLayoutData( gdTXTEndValue );
@@ -245,6 +248,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 
 		txtInnerRadius = new LocalizedNumberEditorComposite( cmpRangeValue,
 				SWT.BORDER | SWT.SINGLE );
+		new TextNumberEditorAssistField( txtInnerRadius.getTextControl( ), null );
 		GridData gdTXTInnerRadius = new GridData( GridData.FILL_HORIZONTAL );
 		gdTXTInnerRadius.horizontalSpan = 2;
 		txtInnerRadius.setLayoutData( gdTXTInnerRadius );
@@ -258,6 +262,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 
 		txtOuterRadius = new LocalizedNumberEditorComposite( cmpRangeValue,
 				SWT.BORDER | SWT.SINGLE );
+		new TextNumberEditorAssistField( txtOuterRadius.getTextControl( ), null );
 		GridData gdTXTOuterRadius = new GridData( GridData.FILL_HORIZONTAL );
 		gdTXTOuterRadius.horizontalSpan = 2;
 		txtOuterRadius.setLayoutData( gdTXTOuterRadius );

@@ -174,5 +174,26 @@
       <taskWizard
             wizardID="org.eclipse.birt.chart.ui.swt.wizard.ChartWizard"
             tasklist="org.eclipse.birt.chart.ui.swt.wizard.TaskSelectType,org.eclipse.birt.chart.ui.swt.wizard.TaskSelectData,org.eclipse.birt.chart.ui.swt.wizard.TaskFormatChart"/>
-   </extension>   
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="org.eclipse.birt.chart.reportitem.ui.ChartPreferencePage"
+            class="org.eclipse.birt.chart.ui.swt.fieldassist.preferences.FieldAssistPreferencePage"
+            id="org.eclipse.birt.chart.ui.swt.fieldassist.preferences.FieldAssistPreferencePage"
+            name="%preference.chart.fieldassist">
+      </page>
+      <page
+            category="org.eclipse.birt.chart.ui.swt.fieldassist.preferences.FieldAssistPreferencePage"
+            class="org.eclipse.birt.chart.ui.swt.fieldassist.preferences.ContentAssistPreferencePage"
+            id="org.eclipse.birt.chart.ui.swt.fieldassist.preferences.ContentAssistPreferencePage"
+            name="%preference.chart.fieldassist.contentassist">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.eclipse.birt.chart.ui.swt.fieldassist.preferences.FieldAssistPreferenceInitializer">
+      </initializer>
+   </extension>
 </plugin>

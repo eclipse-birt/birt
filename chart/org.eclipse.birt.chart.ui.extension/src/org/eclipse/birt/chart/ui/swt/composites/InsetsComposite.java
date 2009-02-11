@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.swt.SWT;
@@ -125,7 +126,7 @@ public class InsetsComposite extends Composite implements ModifyListener
 		flMain.marginWidth = 0;
 
 		GridLayout glGroup = new GridLayout( );
-		glGroup.horizontalSpacing = 5;
+		glGroup.horizontalSpacing = 8;
 		glGroup.verticalSpacing = 5;
 		glGroup.marginHeight = 4;
 		glGroup.marginWidth = 4;
@@ -146,6 +147,8 @@ public class InsetsComposite extends Composite implements ModifyListener
 		lblTop.setText( Messages.getString( "InsetsComposite.Lbl.Top" ) ); //$NON-NLS-1$
 
 		txtTop = new LocalizedNumberEditorComposite( grpInsets, SWT.BORDER );
+		new TextNumberEditorAssistField( txtTop.getTextControl( ), null );
+		
 		GridData gdTTop = new GridData( GridData.FILL_BOTH );
 		gdTTop.heightHint = 20;
 		gdTTop.widthHint = 45;
@@ -155,7 +158,7 @@ public class InsetsComposite extends Composite implements ModifyListener
 				"Points", sUnits ); //$NON-NLS-1$
 		txtTop.setValue( dblCurrent );
 		txtTop.addModifyListener( this );
-
+		
 		lblLeft = new Label( grpInsets, SWT.NONE );
 		GridData gdLLeft = new GridData( GridData.VERTICAL_ALIGN_CENTER );
 		gdLLeft.heightHint = 20;
@@ -163,6 +166,8 @@ public class InsetsComposite extends Composite implements ModifyListener
 		lblLeft.setText( Messages.getString( "InsetsComposite.Lbl.Left" ) ); //$NON-NLS-1$
 
 		txtLeft = new LocalizedNumberEditorComposite( grpInsets, SWT.BORDER );
+		new TextNumberEditorAssistField( txtLeft.getTextControl( ), null );
+		
 		GridData gdTLeft = new GridData( GridData.FILL_BOTH );
 		gdTLeft.heightHint = 20;
 		gdTLeft.widthHint = 45;
@@ -180,6 +185,8 @@ public class InsetsComposite extends Composite implements ModifyListener
 		lblBottom.setText( Messages.getString( "InsetsComposite.Lbl.Bottom" ) ); //$NON-NLS-1$
 
 		txtBottom = new LocalizedNumberEditorComposite( grpInsets, SWT.BORDER );
+		new TextNumberEditorAssistField( txtBottom.getTextControl( ), null );
+		
 		GridData gdTBottom = new GridData( GridData.FILL_BOTH );
 		gdTBottom.heightHint = 20;
 		gdTBottom.widthHint = 45;
@@ -197,6 +204,8 @@ public class InsetsComposite extends Composite implements ModifyListener
 		lblRight.setText( Messages.getString( "InsetsComposite.Lbl.Right" ) ); //$NON-NLS-1$
 
 		txtRight = new LocalizedNumberEditorComposite( grpInsets, SWT.BORDER );
+		new TextNumberEditorAssistField( txtRight.getTextControl( ), null );
+		
 		GridData gdTRight = new GridData( GridData.FILL_BOTH );
 		gdTRight.heightHint = 20;
 		gdTRight.widthHint = 45;

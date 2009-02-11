@@ -396,4 +396,9 @@ public class LocalizedNumberEditorComposite extends Composite
 			}
 		} );
 	}
+	
+	public Text getTextControl( )
+	{
+		return txtValue;
+	}
 }

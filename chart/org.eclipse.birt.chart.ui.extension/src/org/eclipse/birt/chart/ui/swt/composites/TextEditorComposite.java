@@ -396,4 +396,14 @@ public class TextEditorComposite extends Composite implements
 			}
 		} );
 	}
+	
+	/**
+	 * Returns text control.
+	 * 
+	 * @return
+	 */
+	public Text getTextControl( )
+	{
+		return txtValue;
+	}
 }
