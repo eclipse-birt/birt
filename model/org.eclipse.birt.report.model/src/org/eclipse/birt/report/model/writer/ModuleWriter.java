@@ -2272,7 +2272,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IScalarParameterModel.LABEL_EXPR_PROP );
 		property( obj, IScalarParameterModel.MUCH_MATCH_PROP );
 		property( obj, IScalarParameterModel.FIXED_ORDER_PROP );
-		property( obj, IScalarParameterModel.DEFAULT_VALUE_PROP );
+		writeSimplePropertyList( obj, IScalarParameterModel.DEFAULT_VALUE_PROP );
 		property( obj, IScalarParameterModel.DISTINCT_PROP );
 		property( obj, IScalarParameterModel.SORT_BY_PROP );
 		property( obj, IScalarParameterModel.SORT_BY_COLUMN_PROP );

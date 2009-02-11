@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -158,6 +160,12 @@ public class ScalarParameterParseTest extends BaseTestCase
 		handle2.setPromptText( "new Text" ); //$NON-NLS-1$
 		handle2.setListlimit( 300 );
 
+		ScalarParameterHandle handle3 = (ScalarParameterHandle) params.get( 2 );
+		List<String> valueList = new ArrayList<String>( );
+		valueList.add( "default_value_1" ); //$NON-NLS-1$
+		valueList.add( "default_value_2" ); //$NON-NLS-1$
+		valueList.add( "default_value_3" ); //$NON-NLS-1$
+		handle3.setDefaultValueList( valueList );
 		save( );
 		assertTrue( compareFile( "ScalarParameterParseTest_golden.xml" ) ); //$NON-NLS-1$
 	}
@@ -185,7 +193,10 @@ public class ScalarParameterParseTest extends BaseTestCase
 				handle.getParamType( ) );
 		assertEquals( "the validation test", handle.getValidate( ) ); //$NON-NLS-1$
 		assertFalse( handle.isConcealValue( ) );
-		assertEquals( "State", handle.getDefaultValue( ) ); //$NON-NLS-1$
+		List<String> valueList = handle.getDefaultValueList( );
+		assertEquals( valueList.get( 0 ), handle.getDefaultValue( ) );
+		assertEquals( "value2", valueList.get( 1 ) ); //$NON-NLS-1$
+		assertEquals( "value3", valueList.get( 2 ) ); //$NON-NLS-1$
 
 		assertTrue( handle.isRequired( ) );
 		assertFalse( handle.distinct( ) );

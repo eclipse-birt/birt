@@ -1487,6 +1487,7 @@ public abstract class PropertyDefn
 				case IPropertyType.INTEGER_TYPE :
 				case IPropertyType.EXPRESSION_TYPE :
 				case IPropertyType.ELEMENT_REF_TYPE :
+				case IPropertyType.LITERAL_STRING_TYPE :
 					supportedSubTypes.add( propType );
 					break;
 				default :

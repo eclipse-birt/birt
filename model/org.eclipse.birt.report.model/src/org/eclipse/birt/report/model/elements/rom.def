@@ -1900,7 +1900,7 @@
     <Property detailType="sortDirection" displayNameID="Element.ScalarParameter.sortDirection" name="sortDirection" runtimeSettable="false" since="2.2" type="choice"/>      
     <Property detailType="paramSortValues" displayNameID="Element.ScalarParameter.sortBy" name="sortBy" runtimeSettable="false" since="2.2" type="choice"/>
     <Property displayNameID="Element.ScalarParameter.sortByColumn" name="sortByColumn" runtimeSettable="false" since="2.3" type="expression"/>          
-    <Property displayNameID="Element.ScalarParameter.defaultValue" name="defaultValue" runtimeSettable="false" since="1.0" type="literalString"/>
+    <Property displayNameID="Element.ScalarParameter.defaultValue" name="defaultValue" runtimeSettable="false" since="1.0" subType="literalString" type="list"/>
     <PropertyGroup displayNameID="Element.ScalarParameter.dynamicList">
       <Property detailType="DataSet" displayNameID="Element.ScalarParameter.dynamicList.dataSetName" name="dataSetName" runtimeSettable="false" since="2.0" type="elementRef">
 		<Trigger validator="DataSetNameRequiredValidator"/>

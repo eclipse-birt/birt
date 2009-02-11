@@ -27,7 +27,11 @@
             <property name="sortByColumn">country</property>           
             <expression name="valueExpr">value column</expression>
             <expression name="labelExpr">label column</expression>
-            <expression name="defaultValue">State</expression>
+            <simple-property-list name="defaultValue">
+            	<value>value1</value>
+            	<value>value2</value>
+            	<value>value3</value>
+            </simple-property-list>
             <property name="autoSuggestThreshold">500</property>
             <structure name="format">
                 <property name="category">Unformatted</property>

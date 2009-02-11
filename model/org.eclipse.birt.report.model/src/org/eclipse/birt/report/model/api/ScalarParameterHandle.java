@@ -80,14 +80,9 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * in <code>DesignChoiceConstants</code> can be one of the followings:
 	 * 
 	 * <ul>
-	 * <li><code>PARAM_TYPE_STRING</code>
-	 * <li><code>PARAM_TYPE_FLOAT</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DECIMAL</code>
-	 * <li><code>PARAM_TYPE_INTEGER</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DATETYPE</code>
-	 * <li><code>PARAM_TYPE_BOOLEAN</code>
+	 * <li><code>PARAM_TYPE_STRING</code> <li><code>PARAM_TYPE_FLOAT</code> <li>
+	 * <code>PARAM_TYPE_DECIMAL</code> <li><code>PARAM_TYPE_INTEGER</code> <li>
+	 * <code>PARAM_TYPE_DATETYPE</code> <li><code>PARAM_TYPE_BOOLEAN</code>
 	 * </ul>
 	 * 
 	 * @return the type for the parameter
@@ -107,14 +102,9 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * in <code>DesignChoiceConstants</code> can be one of the followings:
 	 * 
 	 * <ul>
-	 * <li><code>PARAM_TYPE_STRING</code>
-	 * <li><code>PARAM_TYPE_FLOAT</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DECIMAL</code>
-	 * <li><code>PARAM_TYPE_INTEGER</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DATETYPE</code>
-	 * <li><code>PARAM_TYPE_BOOLEAN</code>
+	 * <li><code>PARAM_TYPE_STRING</code> <li><code>PARAM_TYPE_FLOAT</code> <li>
+	 * <code>PARAM_TYPE_DECIMAL</code> <li><code>PARAM_TYPE_INTEGER</code> <li>
+	 * <code>PARAM_TYPE_DATETYPE</code> <li><code>PARAM_TYPE_BOOLEAN</code>
 	 * </ul>
 	 * 
 	 * @param type
@@ -132,15 +122,33 @@ public class ScalarParameterHandle extends ParameterHandle
 	}
 
 	/**
-	 * Returns the default value of the parameter. The default value can be an
-	 * expression, but cannot reference any other parameters.
+	 * Returns the first default value of the parameter. The default value can
+	 * be an expression, but cannot reference any other parameters. The default
+	 * value of this parameter can be a list. This method returns the first
+	 * value if exists.
 	 * 
 	 * @return the default value
+	 * @deprecated since 2.5 replaced by {@link #getDefaultValueList()}
 	 */
 
 	public String getDefaultValue( )
 	{
-		return getStringProperty( DEFAULT_VALUE_PROP );
+		List<String> valueList = getDefaultValueList( );
+		if ( valueList == null || valueList.isEmpty( ) )
+			return null;
+		return valueList.get( 0 );
+	}
+
+	/**
+	 * Returns the default value list of the parameter. Each item in this list
+	 * can be an expression, but cannot reference any other parameters.
+	 * 
+	 * @return the default value
+	 */
+
+	public List<String> getDefaultValueList( )
+	{
+		return getListProperty( DEFAULT_VALUE_PROP );
 	}
 
 	/**
@@ -151,11 +159,28 @@ public class ScalarParameterHandle extends ParameterHandle
 	 *            the default value for the parameter
 	 * @throws SemanticException
 	 *             if the property is locked.
+	 * @deprecated since 2.5 replaced by {@link #setDefaultValueList(List)}
 	 */
 
 	public void setDefaultValue( String defaultValue ) throws SemanticException
 	{
 		setProperty( DEFAULT_VALUE_PROP, defaultValue );
+	}
+
+	/**
+	 * Sets the default value list of the parameter. Each item in the list can
+	 * be an expression, but cannot reference any other parameters.
+	 * 
+	 * @param defaultValueList
+	 *            the default value for the parameter
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setDefaultValueList( List<? extends Object> defaultValueList )
+			throws SemanticException
+	{
+		setProperty( DEFAULT_VALUE_PROP, defaultValueList );
 	}
 
 	/**
@@ -391,14 +416,9 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * constants defined in <code>DesignChoiceConstants</code>:
 	 * 
 	 * <ul>
-	 * <li>PARAM_CONTROL_TEXT_BOX
-	 * <li>PARAM_CONTROL_LIST_BOX
-	 * <li>
-	 * PARAM_CONTROL_COMBOBOX
-	 * <li>PARAM_CONTROL_RADIO_BUTTON
-	 * <li>
-	 * PARAM_CONTROL_CHECK_BOX
-	 * <li>PARAM_CONTROL_AUTO_SUGGEST
+	 * <li>PARAM_CONTROL_TEXT_BOX <li>PARAM_CONTROL_LIST_BOX <li>
+	 * PARAM_CONTROL_COMBOBOX <li>PARAM_CONTROL_RADIO_BUTTON <li>
+	 * PARAM_CONTROL_CHECK_BOX <li>PARAM_CONTROL_AUTO_SUGGEST
 	 * </ul>
 	 * 
 	 * @return the control type for the UI to display the parameter
@@ -416,14 +436,9 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * constants defined in <code>DesignChoiceConstants</code>:
 	 * 
 	 * <ul>
-	 * <li>PARAM_CONTROL_TEXT_BOX
-	 * <li>PARAM_CONTROL_LIST_BOX
-	 * <li>
-	 * PARAM_CONTROL_COMBOBOX
-	 * <li>PARAM_CONTROL_RADIO_BUTTON
-	 * <li>
-	 * PARAM_CONTROL_CHECK_BOX
-	 * <li>PARAM_CONTROL_AUTO_SUGGEST
+	 * <li>PARAM_CONTROL_TEXT_BOX <li>PARAM_CONTROL_LIST_BOX <li>
+	 * PARAM_CONTROL_COMBOBOX <li>PARAM_CONTROL_RADIO_BUTTON <li>
+	 * PARAM_CONTROL_CHECK_BOX <li>PARAM_CONTROL_AUTO_SUGGEST
 	 * </ul>
 	 * 
 	 * @param controlType
@@ -445,10 +460,8 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * constants defined in <code>DesignChoiceConstants</code>:
 	 * 
 	 * <ul>
-	 * <li><code>SCALAR_PARAM_ALIGN_AUTO</code>
-	 * <li><code>
-	 * SCALAR_PARAM_ALIGN_LEFT</code>
-	 * <li><code>SCALAR_PARAM_ALIGN_CENTER</code>
+	 * <li><code>SCALAR_PARAM_ALIGN_AUTO</code> <li><code>
+	 * SCALAR_PARAM_ALIGN_LEFT</code> <li><code>SCALAR_PARAM_ALIGN_CENTER</code>
 	 * <li><code>SCALAR_PARAM_ALIGN_RIGHT</code>
 	 * </ul>
 	 * 
@@ -467,10 +480,8 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * constants defined in <code>DesignChoiceConstants</code>:
 	 * 
 	 * <ul>
-	 * <li><code>SCALAR_PARAM_ALIGN_AUTO</code>
-	 * <li><code>
-	 * SCALAR_PARAM_ALIGN_LEFT</code>
-	 * <li><code>SCALAR_PARAM_ALIGN_CENTER</code>
+	 * <li><code>SCALAR_PARAM_ALIGN_AUTO</code> <li><code>
+	 * SCALAR_PARAM_ALIGN_LEFT</code> <li><code>SCALAR_PARAM_ALIGN_CENTER</code>
 	 * <li><code>SCALAR_PARAM_ALIGN_RIGHT</code>
 	 * </ul>
 	 * 
@@ -732,14 +743,9 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * in <code>DesignChoiceConstants</code> can be one of the followings:
 	 * 
 	 * <ul>
-	 * <li><code>PARAM_TYPE_STRING</code>
-	 * <li><code>PARAM_TYPE_FLOAT</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DECIMAL</code>
-	 * <li><code>PARAM_TYPE_INTEGER</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DATETYPE</code>
-	 * <li><code>PARAM_TYPE_BOOLEAN</code>
+	 * <li><code>PARAM_TYPE_STRING</code> <li><code>PARAM_TYPE_FLOAT</code> <li>
+	 * <code>PARAM_TYPE_DECIMAL</code> <li><code>PARAM_TYPE_INTEGER</code> <li>
+	 * <code>PARAM_TYPE_DATETYPE</code> <li><code>PARAM_TYPE_BOOLEAN</code>
 	 * </ul>
 	 * 
 	 * @return the type for the parameter
@@ -761,14 +767,9 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * in <code>DesignChoiceConstants</code> can be one of the followings:
 	 * 
 	 * <ul>
-	 * <li><code>PARAM_TYPE_STRING</code>
-	 * <li><code>PARAM_TYPE_FLOAT</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DECIMAL</code>
-	 * <li><code>PARAM_TYPE_INTEGER</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DATETYPE</code>
-	 * <li><code>PARAM_TYPE_BOOLEAN</code>
+	 * <li><code>PARAM_TYPE_STRING</code> <li><code>PARAM_TYPE_FLOAT</code> <li>
+	 * <code>PARAM_TYPE_DECIMAL</code> <li><code>PARAM_TYPE_INTEGER</code> <li>
+	 * <code>PARAM_TYPE_DATETYPE</code> <li><code>PARAM_TYPE_BOOLEAN</code>
 	 * </ul>
 	 * 
 	 * @param type
@@ -792,8 +793,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * in <code>DesignChoiceConstants</code> can be one of the followings:
 	 * 
 	 * <ul>
-	 * <li><code>PARAM_VALUE_TYPE_STATIC</code>
-	 * <li><code>
+	 * <li><code>PARAM_VALUE_TYPE_STATIC</code> <li><code>
 	 * PARAM_VALUE_TYPE_DYNAMIC</code>
 	 * </ul>
 	 * 
@@ -815,8 +815,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * followings:
 	 * 
 	 * <ul>
-	 * <li><code>PARAM_TYPE_STATIC</code>
-	 * <li><code>PARAM_TYPE_DYNAMIC</code>
+	 * <li><code>PARAM_TYPE_STATIC</code> <li><code>PARAM_TYPE_DYNAMIC</code>
 	 * </ul>
 	 * 
 	 * @param type
@@ -1082,10 +1081,8 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * can be
 	 * 
 	 * <ul>
-	 * <li>DesignChoiceConstants.SORT_DIRECTION_ASC
-	 * <li>
-	 * DesignChoiceConstants.SORT_DIRECTION_DESC
-	 * <li><code>null</code>
+	 * <li>DesignChoiceConstants.SORT_DIRECTION_ASC <li>
+	 * DesignChoiceConstants.SORT_DIRECTION_DESC <li><code>null</code>
 	 * </ul>
 	 * 
 	 * @param direction
@@ -1104,10 +1101,8 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * can be
 	 * 
 	 * <ul>
-	 * <li>DesignChoiceConstants.SORT_DIRECTION_ASC
-	 * <li>
-	 * DesignChoiceConstants.SORT_DIRECTION_DESC
-	 * <li><code>null</code>
+	 * <li>DesignChoiceConstants.SORT_DIRECTION_ASC <li>
+	 * DesignChoiceConstants.SORT_DIRECTION_DESC <li><code>null</code>
 	 * </ul>
 	 * 
 	 * @return the sort order for parameter values
@@ -1123,8 +1118,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * can be
 	 * 
 	 * <ul>
-	 * <li>DesignChoiceConstants.PARAM_SORT_VALUES_VALUE
-	 * <li>
+	 * <li>DesignChoiceConstants.PARAM_SORT_VALUES_VALUE <li>
 	 * DesignChoiceConstants.PARAM_SORT_VALUES_LABEL
 	 * </ul>
 	 * 
@@ -1144,8 +1138,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * be
 	 * 
 	 * <ul>
-	 * <li>DesignChoiceConstants.PARAM_SORT_VALUES_VALUE
-	 * <li>
+	 * <li>DesignChoiceConstants.PARAM_SORT_VALUES_VALUE <li>
 	 * DesignChoiceConstants.PARAM_SORT_VALUES_LABEL
 	 * </ul>
 	 * 
@@ -1234,10 +1227,8 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * in <code>DesignChoiceConstants</code> can be one of the followings:
 	 * 
 	 * <ul>
-	 * <li><code>SCALAR_PARAM_TYPE_SIMPLE</code>
-	 * <li><code>
-	 * SCALAR_PARAM_TYPE_MULTI_VALUE</code>
-	 * <li><code>SCALAR_PARAM_TYPE_AD_HOC
+	 * <li><code>SCALAR_PARAM_TYPE_SIMPLE</code> <li><code>
+	 * SCALAR_PARAM_TYPE_MULTI_VALUE</code> <li><code>SCALAR_PARAM_TYPE_AD_HOC
 	 * </code>
 	 * </ul>
 	 * 
@@ -1257,10 +1248,8 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * <code>DesignChoiceConstants</code> can be one of the followings:
 	 * 
 	 * <ul>
-	 * <li><code>SCALAR_PARAM_TYPE_SIMPLE</code>
-	 * <li><code>
-	 * SCALAR_PARAM_TYPE_MULTI_VALUE</code>
-	 * <li><code>SCALAR_PARAM_TYPE_AD_HOC
+	 * <li><code>SCALAR_PARAM_TYPE_SIMPLE</code> <li><code>
+	 * SCALAR_PARAM_TYPE_MULTI_VALUE</code> <li><code>SCALAR_PARAM_TYPE_AD_HOC
 	 * </code>
 	 * </ul>
 	 * 

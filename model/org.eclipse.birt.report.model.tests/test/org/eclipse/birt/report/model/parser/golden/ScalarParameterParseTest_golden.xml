@@ -17,7 +17,9 @@
             <expression name="labelExpr">new label column</expression>
             <property name="mustMatch">false</property>
             <property name="fixedOrder">false</property>
-            <property name="defaultValue">new default value</property>
+            <simple-property-list name="defaultValue">
+            	<value>new default value</value>
+            </simple-property-list>
             <property name="distinct">false</property>
             <property name="sortBy">label</property>
             <expression name="sortByColumn">city</expression>
@@ -60,7 +62,11 @@
             <property name="dataSetName">ds1</property>
             <expression name="valueExpr">row["test"]</expression>
             <expression name="labelExpr">test column</expression>
-            <property name="defaultValue">"default value"</property>
+            <simple-property-list name="defaultValue">
+            	<value>default_value_1</value>
+            	<value>default_value_2</value>
+            	<value>default_value_3</value>
+            </simple-property-list>
         </scalar-parameter>
     </parameters>
     <data-sources>
