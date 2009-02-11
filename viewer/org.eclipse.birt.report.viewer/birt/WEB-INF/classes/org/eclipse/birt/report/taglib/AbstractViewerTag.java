@@ -233,9 +233,12 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 			// set parameter display text
 			for ( String displayText : param.getDisplayTexts( ) )
 			{
-				writer
-				.write( "<input type = 'hidden' name=\"" + ParameterAccessor.PREFIX_DISPLAY_TEXT + encParamName + "\" \n" ); //$NON-NLS-1$ //$NON-NLS-2$
-				writer.write( " value=\"" + displayText + "\">\n" ); //$NON-NLS-1$//$NON-NLS-2$				
+				if ( displayText != null )
+				{
+					writer
+					.write( "<input type = 'hidden' name=\"" + ParameterAccessor.PREFIX_DISPLAY_TEXT + encParamName + "\" \n" ); //$NON-NLS-1$ //$NON-NLS-2$
+					writer.write( " value=\"" + displayText + "\">\n" ); //$NON-NLS-1$//$NON-NLS-2$
+				}
 			}
 		}
 
