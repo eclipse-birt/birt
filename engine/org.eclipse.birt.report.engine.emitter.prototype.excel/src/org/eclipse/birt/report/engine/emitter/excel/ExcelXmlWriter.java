@@ -261,9 +261,9 @@ public class ExcelXmlWriter implements IExcelWriter
 				urlAddress = urlAddress.substring( 0, 254 );
 			}
 			writer.attribute( "ss:HRef", urlAddress );
-			writer.attribute( "ss:MergeAcross", colspan );
-			writer.attribute( "ss:MergeDown", rowspan );
 		}
+		writer.attribute( "ss:MergeAcross", colspan );
+		writer.attribute( "ss:MergeDown", rowspan );
 	}
 
 	public void writeDefaultCell( Data d )
@@ -289,7 +289,6 @@ public class ExcelXmlWriter implements IExcelWriter
 		{
 			writeComments(d.hyperLink);
 		}
-
 		endCell( );
 	}
 
