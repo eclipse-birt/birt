@@ -25,6 +25,8 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.type.BarSeries;
+import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.emf.common.util.EList;
@@ -36,7 +38,7 @@ import org.eclipse.emf.common.util.EList;
 public final class StackedSeriesLookup
 {
 
-	private final Hashtable<Axis, ArrayList<StackGroup>> htAxisToStackGroups;
+	private final Hashtable<Axis, List<StackGroup>> htAxisToStackGroups;
 
 	private final Hashtable<Series, StackGroup> htSeriesToStackGroup;
 
@@ -51,14 +53,14 @@ public final class StackedSeriesLookup
 		htSeriesToStackGroup = SecurityUtil.newHashtable( );
 	}
 
-	public final ArrayList<StackGroup> getStackGroups( Axis ax )
+	public final List<StackGroup> getStackGroups( Axis ax )
 	{
 		return htAxisToStackGroups.get( ax );
 	}
 
 	public final int getSeriesCount( Axis ax )
 	{
-		final ArrayList<StackGroup> alSG = htAxisToStackGroups.get( ax );
+		final List<StackGroup> alSG = htAxisToStackGroups.get( ax );
 		if ( alSG == null || alSG.isEmpty( ) )
 		{
 			return 0;
@@ -172,15 +174,11 @@ public final class StackedSeriesLookup
 		final Axis axBase = cwa.getBaseAxes( )[0];
 		final Axis[] axaOrthogonal = cwa.getOrthogonalAxes( axBase, true );
 
-		EList<?> el;
-		List<?> alSeries;
 		int iSeriesCount;
 		StackGroup sg, sgSingle;
 		Series se;
 		boolean bStackedSet;
-		SeriesDefinition sd;
 		int iSharedUnitIndex, iSharedUnitCount, iDataSetCount;
-		ArrayList<StackGroup> alSGCopies;
 		DataSetIterator dsi = null;
 
 		for ( int i = 0; i < axaOrthogonal.length; i++ ) // EACH AXIS
@@ -188,14 +186,13 @@ public final class StackedSeriesLookup
 			iSharedUnitIndex = 0;
 			iSharedUnitCount = 0;
 			sgSingle = null; // RESET PER AXIS
-			el = axaOrthogonal[i].getSeriesDefinitions( );
-			alSGCopies = new ArrayList<StackGroup>( 4 );
+			EList<SeriesDefinition> sdList = axaOrthogonal[i].getSeriesDefinitions( );
+			List<StackGroup> alSGCopies = new ArrayList<StackGroup>( 4 );
 			iSharedUnitCount = 0;
 
-			for ( int j = 0; j < el.size( ); j++ ) // EACH SERIES DEFINITION
+			for ( SeriesDefinition sd : sdList ) // EACH SERIES DEFINITION
 			{
-				sd = (SeriesDefinition) el.get( j );
-				alSeries = sd.getRunTimeSeries( );
+				List<Series> alSeries = sd.getRunTimeSeries( );
 				iSeriesCount = alSeries.size( );
 				if ( iSeriesCount > 1 )
 				{
@@ -204,7 +201,7 @@ public final class StackedSeriesLookup
 
 					for ( int k = 0; k < iSeriesCount; k++ ) // EACH SERIES
 					{
-						se = (Series) alSeries.get( k );
+						se = alSeries.get( k );
 						dsi = new DataSetIterator( se.getDataSet( ) );
 						iDataSetCount = dsi.size( );
 						if ( ssl.iCachedUnitCount == 0 )
@@ -272,17 +269,20 @@ public final class StackedSeriesLookup
 
 										);
 									}
-									sg = new StackGroup( iSharedUnitIndex++ ); // NEW
-									// GROUP
-									// FOR
-									// EACH
-									// UNSTACKED
-									// SERIES
-									alSGCopies.add( sg );
-									iSharedUnitCount++;
-									ssl.htSeriesToStackGroup.put( se, sg );
-									sg.addSeries( se ); // REQUIRE REVERSE
-									// LOOKUP
+									if ( canSideBySide( se ) )
+									{
+										sg = new StackGroup( iSharedUnitIndex++ ); // NEW
+										// GROUP
+										// FOR
+										// EACH
+										// UNSTACKED
+										// SERIES
+										alSGCopies.add( sg );
+										iSharedUnitCount++;
+										ssl.htSeriesToStackGroup.put( se, sg );
+										sg.addSeries( se ); // REQUIRE REVERSE
+										// LOOKUP
+									}
 								}
 							}
 							else
@@ -370,7 +370,7 @@ public final class StackedSeriesLookup
 					// (iSeriesCount
 					// SHOULD BE ONE)
 					{
-						se = (Series) alSeries.get( k );
+						se = alSeries.get( k );
 						dsi = new DataSetIterator( se.getDataSet( ) );
 						iDataSetCount = dsi.size( );
 						if ( ssl.iCachedUnitCount == 0 )
@@ -407,19 +407,22 @@ public final class StackedSeriesLookup
 								}
 								else
 								{
-									sg = new StackGroup( iSharedUnitIndex++ ); // ONE
-									// PER
-									// UNSTACKED
-									// SERIES
-									// (SHARED
-									// INDEX
-									// IS
-									// SET)
-									iSharedUnitCount++;
-									alSGCopies.add( sg );
-									ssl.htSeriesToStackGroup.put( se, sg );
-									sg.addSeries( se ); // REQUIRE REVERSE
-									// LOOKUP
+									if ( canSideBySide( se ) )
+									{
+										sg = new StackGroup( iSharedUnitIndex++ ); // ONE
+										// PER
+										// UNSTACKED
+										// SERIES
+										// (SHARED
+										// INDEX
+										// IS
+										// SET)
+										iSharedUnitCount++;
+										alSGCopies.add( sg );
+										ssl.htSeriesToStackGroup.put( se, sg );
+										sg.addSeries( se ); // REQUIRE REVERSE
+										// LOOKUP
+									}
 								}
 							}
 							else
@@ -453,10 +456,7 @@ public final class StackedSeriesLookup
 			for ( int j = 0; j < alSGCopies.size( ); j++ )
 			{
 				sg = alSGCopies.get( j );
-				// if (sg.getSharedIndex() >= 0)
-				{
-					sg.updateCount( iSharedUnitCount );
-				}
+				sg.updateCount( iSharedUnitCount );
 			}
 
 			ssl.htAxisToStackGroups.put( axaOrthogonal[i], alSGCopies );
@@ -468,5 +468,10 @@ public final class StackedSeriesLookup
 	public final int getUnitCount( )
 	{
 		return iCachedUnitCount;
+	}
+
+	private static boolean canSideBySide( Series se )
+	{
+		return ( se instanceof BarSeries ) || ( se instanceof StockSeries );
 	}
 }

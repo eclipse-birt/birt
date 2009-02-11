@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.computation.withaxes;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
@@ -440,7 +441,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			int iSeriesPerGroup;
 			double dPercentMax = 0, dPercentMin = 0;
 			double dAxisMin = Double.MAX_VALUE, dAxisMax = -Double.MAX_VALUE;
-			ArrayList<StackGroup> alSeriesGroupsPerAxis = ssl.getStackGroups( ax );
+			List<StackGroup> alSeriesGroupsPerAxis = ssl.getStackGroups( ax );
 			ArrayList<Series> alSeriesPerGroup;
 			StackGroup sg;
 			DataSetIterator[] dsi = new DataSetIterator[ssl.getSeriesCount( ax )];
