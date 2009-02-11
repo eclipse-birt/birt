@@ -14,6 +14,7 @@ package org.eclipse.birt.report.taglib;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
@@ -63,7 +64,7 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 	public void __init( )
 	{
 		super.__init( );
-		parameters = new HashMap( );
+		parameters = new LinkedHashMap( );
 	}
 
 	/**
