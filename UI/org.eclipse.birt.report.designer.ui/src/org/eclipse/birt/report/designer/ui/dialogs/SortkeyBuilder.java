@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -289,12 +290,14 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 		{
 			return EMPTY;
 		}
-		String[] values = new String[columnList.size( )];
+		List<String> valueList = new ArrayList<String>();
 		for ( int i = 0; i < columnList.size( ); i++ )
 		{
-			values[i] = ( (ComputedColumnHandle) columnList.get( i ) ).getName( );
+			ComputedColumnHandle columnHandle = ( (ComputedColumnHandle) columnList.get( i ) );
+			if(columnHandle.getAggregateFunction( )==null)
+				valueList.add( columnHandle.getName( ));
 		}
-		return values;
+		return valueList.toArray( new String[valueList.size( )] );
 	}
 
 	public void setHandle( DesignElementHandle handle )
