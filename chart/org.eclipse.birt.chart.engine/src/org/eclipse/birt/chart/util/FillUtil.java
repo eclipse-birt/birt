@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -33,7 +34,7 @@ public class FillUtil
 	 * Returns a darker color.
 	 * 
 	 * @param fill
-	 * @return
+	 * @return darker color
 	 */
 	public static ColorDefinition getDarkerColor( Fill fill )
 	{
@@ -54,7 +55,7 @@ public class FillUtil
 		}
 		if ( fill instanceof MultipleFill )
 		{
-			List fills = ( (MultipleFill) fill ).getFills( );
+			List<Fill> fills = ( (MultipleFill) fill ).getFills( );
 			ColorDefinition cd0 = (ColorDefinition) fills.get( 0 );
 			ColorDefinition cd1 = (ColorDefinition) fills.get( 1 );
 			return getSortedColors( false, cd0, cd1 ).darker( );
@@ -66,7 +67,7 @@ public class FillUtil
 	 * Returns a darker fill.
 	 * 
 	 * @param fill
-	 * @return
+	 * @return darker color or image
 	 */
 	public static Fill getDarkerFill( Fill fill )
 	{
@@ -81,7 +82,7 @@ public class FillUtil
 	 * Returns a brighter color.
 	 * 
 	 * @param fill
-	 * @return
+	 * @return brighter color
 	 */
 	public static ColorDefinition getBrighterColor( Fill fill )
 	{
@@ -102,15 +103,14 @@ public class FillUtil
 		}
 		if ( fill instanceof MultipleFill )
 		{
-			List fills = ( (MultipleFill) fill ).getFills( );
+			List<Fill> fills = ( (MultipleFill) fill ).getFills( );
 			ColorDefinition cd0 = (ColorDefinition) fills.get( 0 );
 			ColorDefinition cd1 = (ColorDefinition) fills.get( 1 );
 			return getSortedColors( true, cd0, cd1 ).brighter( );
 		}
 		return null;
 	}
-	
-	
+
 	public static Fill changeBrightness( Fill fill, double brightness )
 	{
 		if ( fill instanceof ColorDefinition )
@@ -125,13 +125,12 @@ public class FillUtil
 			return fill;
 		}
 	}
-	
-	
+
 	/**
 	 * Returns a brighter fill.
 	 * 
 	 * @param fill
-	 * @return
+	 * @return brighter color or image
 	 */
 	public static Fill getBrighterFill( Fill fill )
 	{
@@ -172,7 +171,7 @@ public class FillUtil
 		}
 		else if ( fill instanceof MultipleFill )
 		{
-			List fills = ( (MultipleFill) fill ).getFills( );
+			List<Fill> fills = ( (MultipleFill) fill ).getFills( );
 			grad = createDefaultGradient( (ColorDefinition) fills.get( 0 ) );
 		}
 		else if ( fill instanceof Gradient )
@@ -193,7 +192,6 @@ public class FillUtil
 		return fill;
 	}
 
-	
 	private static void applyBrightness( ColorDefinition cdf, double brightness )
 	{
 		cdf.set( (int) ( cdf.getRed( ) * brightness ),
@@ -201,10 +199,8 @@ public class FillUtil
 				(int) ( cdf.getBlue( ) * brightness ),
 				cdf.getTransparency( ) );
 	}
-	
-	
-	public static Fill convertFillToGradient3D( Fill fill,
-			boolean bTransposed )
+
+	public static Fill convertFillToGradient3D( Fill fill, boolean bTransposed )
 	{
 		if ( fill instanceof ColorDefinition )
 		{
@@ -228,16 +224,15 @@ public class FillUtil
 		{
 			return convertFillToGradient( fill, bTransposed );
 		}
-		
+
 	}
-	
-	
+
 	/**
 	 * Creates Gradient fill by default.
 	 * 
 	 * @param color
-	 * 		color to create Gradient
-	 * @return
+	 *            color to create Gradient
+	 * @return default gradient
 	 */
 	public static Gradient createDefaultGradient( ColorDefinition color )
 	{
@@ -254,7 +249,7 @@ public class FillUtil
 			ColorDefinition newStartColor = (ColorDefinition) EcoreUtil.copy( color );
 			newStartColor.eAdapters( ).addAll( color.eAdapters( ) );
 			gradient.setStartColor( newStartColor );
-			
+
 			ColorDefinition newColor = (ColorDefinition) EcoreUtil.copy( color );
 			newColor.eAdapters( ).addAll( color.eAdapters( ) );
 
@@ -269,7 +264,7 @@ public class FillUtil
 			ColorDefinition newEndColor = (ColorDefinition) EcoreUtil.copy( color );
 			newEndColor.eAdapters( ).addAll( color.eAdapters( ) );
 			gradient.setEndColor( newEndColor );
-			
+
 			ColorDefinition newColor = (ColorDefinition) EcoreUtil.copy( color );
 			newColor.eAdapters( ).addAll( color.eAdapters( ) );
 
@@ -304,7 +299,7 @@ public class FillUtil
 	 * most commonest case.
 	 * 
 	 * @param src
-	 * @return
+	 * @return fill copy
 	 */
 	public static Fill copyOf( Fill src )
 	{
@@ -316,6 +311,50 @@ public class FillUtil
 		{
 			return (Fill) EcoreUtil.copy( src );
 		}
+	}
+
+	/**
+	 * Returns the fill from palette. If the index is less than the palette
+	 * colors size, simply return the fill. If else, first return brighter fill,
+	 * then darker fill. The color fetching logic is like this: In the first
+	 * round, use the color from palette directly. In the second round, use the
+	 * brighter color of respective one in the first round. In the third round,
+	 * use the darker color of respective one in the first round. In the forth
+	 * round, use the brighter color of respective one in the second round. In
+	 * the fifth round, use the darker color of respective one in the third
+	 * round. ...
+	 * 
+	 * @param elPalette
+	 * @param index
+	 * @since 2.5
+	 * @return fill from palette
+	 */
+	public static Fill getPaletteFill( EList<Fill> elPalette, int index )
+	{
+		final int iPaletteSize = elPalette.size( );
+		Fill fill = elPalette.get( index % iPaletteSize );
+		if ( index < iPaletteSize )
+		{
+			return copyOf( elPalette.get( index % iPaletteSize ) );
+		}
+		int d = index / iPaletteSize;
+		if ( d % 2 == 1 )
+		{
+			Fill brighterFill = getBrighterFill( fill );
+			while ( d / 2 > 0 )
+			{
+				d -= 2;
+				brighterFill = getBrighterFill( brighterFill );
+			}
+			return brighterFill;
+		}
+		Fill darkerFill = getDarkerFill( fill );
+		while ( ( d - 1 ) / 2 > 0 )
+		{
+			d -= 2;
+			darkerFill = getDarkerFill( darkerFill );
+		}
+		return darkerFill;
 	}
 
 }

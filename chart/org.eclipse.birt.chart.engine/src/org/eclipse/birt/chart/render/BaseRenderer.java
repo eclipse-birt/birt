@@ -663,10 +663,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				la.getCaption( ).setValue( lih.getItemText( ) );
 				Series se = lih.getSeries( );
 				LegendItemRenderingHints lirh = (LegendItemRenderingHints) htRenderers.get( se );
-				EList<?> elPaletteEntries = lih.getSeriesDefinition( )
+				EList<Fill> elPaletteEntries = lih.getSeriesDefinition( )
 						.getSeriesPalette( )
 						.getEntries( );
-				int iPaletteCount = elPaletteEntries.size( );
 
 				Label valueLa = null;
 				if ( !bPaletteByCategory && lg.isShowValue( ) )
@@ -681,8 +680,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				}
 
 				// CYCLE THROUGH THE PALETTE
-				Fill fPaletteEntry = (Fill) elPaletteEntries.get( lih.getIndex( )
-						% iPaletteCount );
+				Fill fPaletteEntry = FillUtil.getPaletteFill( elPaletteEntries,
+						lih.getIndex( ) );
 
 				if ( !bVertical )
 				{
@@ -1352,7 +1351,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		{
 			// PROCESS 'SERIES LEVEL' TRIGGERS USING SOURCE='bs'
 			Trigger tg;
-			EList elTriggers = lg.getTriggers( );
+			EList<Trigger> elTriggers = lg.getTriggers( );
 			Location[] loaHotspot = new Location[4];
 
 			// use the complete legend item area as the hotspot
@@ -1376,9 +1375,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				switch ( cm.getInteractivity( ).getLegendBehavior( ).getValue( ) )
 				{
 					case LegendBehaviorType.HIGHLIGHT_SERIE :
-						for ( Iterator itr = elTriggers.iterator( ); itr.hasNext( ); )
+						for ( Iterator<Trigger> itr = elTriggers.iterator( ); itr.hasNext( ); )
 						{
-							tg = (Trigger) itr.next( );
+							tg = itr.next( );
 							if ( tg.getCondition( ) == TriggerCondition.ONCLICK_LITERAL
 									|| tg.getAction( ).getType( ) == ActionType.HIGHLIGHT_LITERAL )
 							{
@@ -1393,9 +1392,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						}
 						break;
 					case LegendBehaviorType.TOGGLE_SERIE_VISIBILITY :
-						for ( Iterator itr = elTriggers.iterator( ); itr.hasNext( ); )
+						for ( Iterator<Trigger> itr = elTriggers.iterator( ); itr.hasNext( ); )
 						{
-							tg = (Trigger) itr.next( );
+							tg = itr.next( );
 							if ( tg.getCondition( ) == TriggerCondition.ONCLICK_LITERAL
 									|| tg.getAction( ).getType( ) == ActionType.TOGGLE_VISIBILITY_LITERAL )
 							{
@@ -1445,7 +1444,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				
 				for ( int t = 0; t < elTriggers.size( ); t++ )
 				{
-					tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
+					tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
 					processTrigger( tg,
 							WrappedStructureSource.createLegendEntry( lg, lih ) );
 					iev.addTrigger( tg );
@@ -1583,7 +1582,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			throws ChartException
 	{
 		final double dScale = getDeviceScale( );
-		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
+		final RectangleRenderEvent rre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 				RectangleRenderEvent.class );
 		rre.updateFrom( p, dScale ); // POINTS => PIXELS
 		ipr.fillRectangle( rre );
@@ -1621,7 +1620,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			{
 				Size sz = pwoa.getCellSize( );
 
-				final LineRenderEvent lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
+				final LineRenderEvent lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 						LineRenderEvent.class );
 				lre.setLineAttributes( ca.getOutline( ) );
 
@@ -1672,7 +1671,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			throws ChartException
 	{
 		final double dScale = getDeviceScale( );
-		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+		final RectangleRenderEvent rre = ( (EventObjectCache) ipr ).getEventObject( oSource,
 				RectangleRenderEvent.class );
 		rre.updateFrom( b, dScale );
 		ipr.fillRectangle( rre );
@@ -1691,7 +1690,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			Object oSource ) throws ChartException
 	{
 		final double dScale = getDeviceScale( );
-		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+		final RectangleRenderEvent rre = ( (EventObjectCache) ipr ).getEventObject( oSource,
 				RectangleRenderEvent.class );
 		rre.updateFrom( b, dScale );
 		try
@@ -1707,7 +1706,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		if ( isInteractivityEnabled( ) )
 		{
 			Trigger tg;
-			EList elTriggers = b.getTriggers( );
+			EList<Trigger> elTriggers = b.getTriggers( );
 			Location[] loaHotspot = new Location[4];
 			Bounds bo = b.getBounds( ).scaledInstance( dScale );
 			double dLeft = bo.getLeft( );
@@ -1721,18 +1720,18 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 			if ( !elTriggers.isEmpty( ) )
 			{
-				final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createChartBlock( b ),
+				final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createChartBlock( b ),
 						InteractionEvent.class );
 				iev.setCursor( b.getCursor( ) );
 				
 				for ( int t = 0; t < elTriggers.size( ); t++ )
 				{
-					tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
+					tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
 					processTrigger( tg, StructureSource.createChartBlock( b ) );
 					iev.addTrigger( tg );
 				}
 
-				final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createChartBlock( b ),
+				final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createChartBlock( b ),
 						PolygonRenderEvent.class );
 				pre.setPoints( loaHotspot );
 				iev.setHotSpot( pre );
@@ -1813,7 +1812,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		if ( isInteractivityEnabled( ) )
 		{
 			Trigger tg;
-			EList elTriggers = b.getTriggers( );
+			EList<Trigger> elTriggers = b.getTriggers( );
 			Location[] loaHotspot = new Location[4];
 			final double dScale = getDeviceScale( );
 			Bounds bo = b.getBounds( ).scaledInstance( dScale );
@@ -1828,18 +1827,18 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 			if ( !elTriggers.isEmpty( ) )
 			{
-				final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createTitle( b ),
+				final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createTitle( b ),
 						InteractionEvent.class );
 				iev.setCursor( b.getCursor( ) );
 				
 				for ( int t = 0; t < elTriggers.size( ); t++ )
 				{
-					tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
+					tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
 					processTrigger( tg, StructureSource.createTitle( b ) );
 					iev.addTrigger( tg );
 				}
 
-				final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createTitle( b ),
+				final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createTitle( b ),
 						PolygonRenderEvent.class );
 				pre.setPoints( loaHotspot );
 				iev.setHotSpot( pre );
@@ -2983,7 +2982,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			{
 				for ( int i = 0; i < ( (MultipleFill) fill ).getFills( ).size( ); i++ )
 				{
-					updateTranslucency( (Fill) ( (MultipleFill) fill ).getFills( )
+					updateTranslucency( ( (MultipleFill) fill ).getFills( )
 							.get( i ),
 							se );
 				}
@@ -3047,7 +3046,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		if ( isInteractivityEnabled( ) && dph != null )
 		{
 			// PROCESS 'SERIES LEVEL' TRIGGERS USING SOURCE='bs'
-			final EList elTriggers = getSeries( ).getTriggers( );
+			final EList<Trigger> elTriggers = getSeries( ).getTriggers( );
 			if ( !elTriggers.isEmpty( ) )
 			{
 				final StructureSource iSource = WrappedStructureSource.createSeriesDataPoint( getSeries( ),
