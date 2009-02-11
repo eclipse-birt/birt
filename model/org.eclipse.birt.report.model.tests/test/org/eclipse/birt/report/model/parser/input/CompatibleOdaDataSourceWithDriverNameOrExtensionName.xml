@@ -6,7 +6,4 @@
             <property name="driverName">jdbc</property>
         </oda-data-source>
     </data-sources>
-    <page-setup>
-        <graphic-master-page name="My Page"/>
-    </page-setup>
 </report>

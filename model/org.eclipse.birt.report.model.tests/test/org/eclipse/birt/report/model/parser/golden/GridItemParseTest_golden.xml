@@ -109,7 +109,6 @@
         </free-form>
         <list name="My List" id="23">
             <property name="dataSet">firstDataSet</property>
-            <property name="pageBreakInterval">50</property>
             <header>
                 <grid name="listHeaderGrid" id="24"/>
             </header>

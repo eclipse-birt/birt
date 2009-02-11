@@ -60,7 +60,4 @@
             </structure>
         </oda-data-set>
     </data-sets>
-    <page-setup>
-        <graphic-master-page name="My Page"/>
-    </page-setup>
 </report>

@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.0.1" id="1">
-    <page-setup>
-        <graphic-master-page name="mypage" id="2"/>
-    </page-setup>
     <styles>
 		<style name="style1">
             <property name="fontSize">larger</property>

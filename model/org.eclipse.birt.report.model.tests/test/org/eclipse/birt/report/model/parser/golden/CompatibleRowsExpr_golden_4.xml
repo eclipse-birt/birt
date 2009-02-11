@@ -26,6 +26,9 @@
             <property name="type">a4</property>
             <property name="orientation">landscape</property>
             <property name="topMargin">15mm</property>
+            <property name="leftMargin">1.25in</property>
+            <property name="bottomMargin">1in</property>
+            <property name="rightMargin">1.25in</property>
         </simple-master-page>
     </page-setup>
     <body>

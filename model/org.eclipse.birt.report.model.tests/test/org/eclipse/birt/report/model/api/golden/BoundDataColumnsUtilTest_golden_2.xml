@@ -17,7 +17,12 @@
         <oda-data-set name="MyDataSet" id="2"/>
     </data-sets>
     <page-setup>
-        <graphic-master-page name="My Page" id="3"/>
+        <graphic-master-page name="My Page" id="3">
+        	<property name="topMargin">1in</property>
+            <property name="leftMargin">1.25in</property>
+            <property name="bottomMargin">1in</property>
+            <property name="rightMargin">1.25in</property>
+        </graphic-master-page>
     </page-setup>
     <body>
         <list name="MyList1" id="5">

@@ -15,7 +15,6 @@
         <table name="table1" id="5">
             <property name="fontWeight">200</property>
             <property name="dataSet">firstDataSet</property>
-            <property name="pageBreakInterval">50</property>
             <group id="6">
                 <property name="groupName">NewTableGroup1</property>
                 <property name="interval">week</property>

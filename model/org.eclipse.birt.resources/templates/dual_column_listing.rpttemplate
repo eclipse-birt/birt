@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.7" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;20051130-1157></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.5.0.v20090122 Build &lt;2.5.0.v20090130-0630></property>
     <property name="units">in</property>
     <html-property name="description">WizardTemplateChoicePage.message.DualColumnListing</html-property>
     <text-property name="displayName">WizardTemplateChoicePage.title.DualColumnListing</text-property>
@@ -24,6 +23,7 @@
             <default>
                 <table name="lefttable" id="353">
                     <property name="width">100%</property>
+                    <property name="pageBreakInterval">50</property>
                     <column id="369"/>
                     <column id="370"/>
                     <column id="371"/>
@@ -67,6 +67,7 @@
             <default>
                 <table id="374">
                     <property name="width">100%</property>
+                    <property name="pageBreakInterval">50</property>
                     <column id="390"/>
                     <column id="391"/>
                     <column id="392"/>
@@ -105,18 +106,14 @@
             </default>
         </template-parameter-definition>
     </template-parameter-definitions>
-	<styles>
+    <styles>
         <style name="report" id="25">
             <property name="fontFamily">"Verdana"</property>
             <property name="fontSize">10pt</property>
         </style>
-	</styles>        
+    </styles>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
-            <property name="topMargin">0.25in</property>
-            <property name="leftMargin">0.25in</property>
-            <property name="bottomMargin">0.25in</property>
-            <property name="rightMargin">0.25in</property>      
             <page-footer>
                 <text id="3">
                     <property name="contentType">html</property>
@@ -147,6 +144,7 @@
         </grid>
         <list name="list" id="9">
             <property name="fontFamily">sans-serif</property>
+            <property name="pageBreakInterval">50</property>
             <group id="10">
                 <property name="groupName">NewListGroup1</property>
                 <property name="interval">none</property>

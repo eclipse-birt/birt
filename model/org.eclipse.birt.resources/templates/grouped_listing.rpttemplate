@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.7" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;20051130-1157></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
     <property name="units">in</property>
     <html-property name="description">WizardTemplateChoicePage.message.GroupedListing</html-property>
     <text-property name="displayName">WizardTemplateChoicePage.title.GroupedListing</text-property>
@@ -25,11 +24,7 @@
         </style>
 	</styles>
     <page-setup>
-        <simple-master-page name="Simple MasterPage" id="2">
-            <property name="topMargin">0.25in</property>
-            <property name="leftMargin">0.25in</property>
-            <property name="bottomMargin">0.25in</property>
-            <property name="rightMargin">0.25in</property>        
+        <simple-master-page name="Simple MasterPage" id="2">        
             <page-footer>
                 <grid id="3">
                     <property name="width">100%</property>
@@ -68,6 +63,7 @@
         </grid>
         <table name="table1" id="13">
             <property name="width">100%</property>
+            <property name="pageBreakInterval">50</property>
             <column id="35">
                 <property name="width">33.3%</property>
             </column>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <property name="refreshRate">30</property>
     <styles>
         <style name="Test Style"/>
@@ -13,8 +12,6 @@
             <property name="leftMargin">1in</property>
             <property name="bottomMargin">2in</property>
             <property name="rightMargin">2in</property>
-			<property name="headerHeight">2.5cm</property>
-			<property name="footerHeight">.5cm</property>
             <property name="backgroundColor">yellow</property>
             <property name="fontSize">12mm</property>
             <property name="color">red</property>
@@ -24,5 +21,6 @@
                 <label/>
             </contents>
         </graphic-master-page>
+        <simple-master-page name="Simple MasterPage"/>
     </page-setup>
 </report>

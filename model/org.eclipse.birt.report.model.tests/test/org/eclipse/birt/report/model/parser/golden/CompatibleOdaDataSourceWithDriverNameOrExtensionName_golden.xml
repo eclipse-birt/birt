@@ -3,7 +3,4 @@
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="myDataSource1" id="2"/>
     </data-sources>
-    <page-setup>
-        <graphic-master-page name="My Page" id="3"/>
-    </page-setup>
 </report>

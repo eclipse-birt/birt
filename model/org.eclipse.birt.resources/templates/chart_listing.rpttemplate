@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.7" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;20050815-0740></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.5.0.v20090122 Build &lt;2.5.0.v20090130-0630></property>
     <property name="units">in</property>
     <html-property name="description">WizardTemplateChoicePage.message.ChartListing</html-property>
     <text-property name="displayName">WizardTemplateChoicePage.title.ChartListing</text-property>
@@ -13,8 +12,6 @@
             <text-property name="description">Double click to edit chart properties</text-property>
             <default>
                 <extended-item extensionName="Chart" id="35">
-                    <property name="height">1.51in</property>
-                    <property name="width">4.447in</property>
                     <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
@@ -462,7 +459,7 @@
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -673,7 +670,7 @@
       </Series>
       <Grouping>
         <Enabled>false</Enabled>
-        <GroupingInterval>2</GroupingInterval>
+        <GroupingInterval>2.0</GroupingInterval>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
@@ -790,22 +787,20 @@
 </model:ChartWithAxes>
 ]]></xml-property>
                     <property name="outputFormat">SVG</property>
+                    <property name="height">1.51in</property>
+                    <property name="width">4.447in</property>
                 </extended-item>
             </default>
         </template-parameter-definition>
     </template-parameter-definitions>
-	<styles>
+    <styles>
         <style name="report" id="33">
             <property name="fontFamily">"Verdana"</property>
             <property name="fontSize">10pt</property>
         </style>
-	</styles>        
+    </styles>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
-            <property name="topMargin">0.25in</property>
-            <property name="leftMargin">0.25in</property>
-            <property name="bottomMargin">0.25in</property>
-            <property name="rightMargin">0.25in</property>        
             <page-footer>
                 <text id="3">
                     <property name="contentType">html</property>
@@ -835,6 +830,7 @@
         </grid>
         <table name="table1" id="9">
             <property name="width">100%</property>
+            <property name="pageBreakInterval">50</property>
             <column id="30">
                 <property name="width">33.3%</property>
             </column>
@@ -852,7 +848,8 @@
                 </row>
             </header>
             <group id="14">
-                 <header>
+                <property name="groupName">NewTableGroup1</property>
+                <header>
                     <row id="15">
                         <cell id="16">
                             <property name="colSpan">3</property>

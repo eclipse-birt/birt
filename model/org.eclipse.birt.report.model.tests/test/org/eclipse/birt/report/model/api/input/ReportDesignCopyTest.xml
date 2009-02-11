@@ -6,10 +6,6 @@
             <property name="namespace">lib</property>
         </structure>
     </list-property>
-    <page-setup>
-        <simple-master-page name="Simple MasterPage" id="2">
-        </simple-master-page>
-    </page-setup>
     <body>
         <label name="NewLabel" id="5" extends="lib.base"/>
         <table name="NewTable" id="6" extends="lib.libTable1"/>

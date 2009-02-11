@@ -20,10 +20,4 @@
             <encrypted-property name="odaPassword" encryptionID="base64">UGFzc3dvcmQ=</encrypted-property>
         </oda-data-source>
     </data-sources>
-    <page-setup>
-        <graphic-master-page name="My Page" id="4">
-            <property name="columns">1</property>
-            <property name="columnSpacing">0.25mm</property>
-        </graphic-master-page>
-    </page-setup>
 </report>

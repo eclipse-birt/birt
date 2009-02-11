@@ -34,7 +34,6 @@ from CLASSICMODELS.CUSTOMERS</property>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <property name="pageBreakInterval">50</property>
             <group id="30">
                 <property name="groupName">group1</property>
                 <expression name="keyExpr">row["CUSTOMERNAME"]</expression>
@@ -54,7 +53,6 @@ from CLASSICMODELS.CUSTOMERS</property>
         </table>
         <list name="myList1" id="28">
             <property name="dataBindingRef">myTable2</property>
-            <property name="pageBreakInterval">50</property>
             <group id="31"/>
         </list>
     </body>

@@ -392,14 +392,14 @@ public class ParserCompatibilityTest extends BaseTestCase
 		save( );
 
 		OdaDataSetHandle setHandle = (OdaDataSetHandle) designHandle
-				.findDataSet( "dataset1" );
+				.findDataSet( "dataset1" ); //$NON-NLS-1$
 
 		// this is not a ROM-defined property. The value is null.
-		assertNull( setHandle.getProperty( "queryScript" ) );
+		assertNull( setHandle.getProperty( "queryScript" ) ); //$NON-NLS-1$
 
 		// user property is supported by ROM. should parse it.
 
-		assertEquals( "1", setHandle.getStringProperty( "tmpVar" ) );
+		assertEquals( "1", setHandle.getStringProperty( "tmpVar" ) ); //$NON-NLS-1$//$NON-NLS-2$
 		assertTrue( compareFile( "WrongExtensionID_golden.xml" ) );//$NON-NLS-1$
 	}
 
@@ -907,5 +907,20 @@ public class ParserCompatibilityTest extends BaseTestCase
 		save( );
 		assertTrue( compareFile( "CompatibleNewHandlerOnEachEventPropTest_golden.xml" ) ); //$NON-NLS-1$
 
+	}
+
+	/**
+	 * Test backward compatibility. If the version is less than 3.2.18, the
+	 * master page margin is set
+	 * left-1.25in,top-1.00in,right-1.25in,bottom-1.00in.
+	 * 
+	 * @throws Exception
+	 */
+	public void testPageMargin( ) throws Exception
+	{
+		openDesign( "CompatiblePageMarginTest.xml" );//$NON-NLS-1$
+
+		save( );
+		assertTrue( compareFile( "CompatiblePageMarginTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 }

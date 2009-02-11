@@ -29,7 +29,6 @@ public class CascadingParameterGroupParserTest extends BaseTestCase
 
 	private final static String INPUT = "CascadingParameterGroupParserTest.xml"; //$NON-NLS-1$
 	private final static String INPUT_SEMANTIC_ERRORS = "CascadingParameterGroupParserTest_1.xml"; //$NON-NLS-1$
-	private final static String OUTPUT = "CascadingParameterParserGroupTest_out.xml"; //$NON-NLS-1$
 	private final static String GOLDEN = "CascadingParameterGroupParserTest_golden.xml"; //$NON-NLS-1$
 
 	/**

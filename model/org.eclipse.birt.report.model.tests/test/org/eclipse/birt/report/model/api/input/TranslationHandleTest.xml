@@ -9,9 +9,4 @@
             <translation locale="en_AU">text en_AU</translation>
         </resource>
     </translations>
-    <page-setup>
-        <graphic-master-page name="My Page">
-            <property name="columnSpacing">0.25mm</property>
-        </graphic-master-page>
-    </page-setup>
 </report>

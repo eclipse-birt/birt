@@ -39,11 +39,4 @@
             </parameters>
         </cascading-parameter-group>
     </parameters>
-    <page-setup>
-        <graphic-master-page name="My Page">
-            <contents>
-                <label/>
-            </contents>
-        </graphic-master-page>
-    </page-setup>
 </report>

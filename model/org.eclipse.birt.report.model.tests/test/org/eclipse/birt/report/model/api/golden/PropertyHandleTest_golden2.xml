@@ -35,9 +35,6 @@
             </row>
         </grid>
     </components>
-    <page-setup>
-        <graphic-master-page name="mypage" id="2"/>
-    </page-setup>
     <body>
         <grid name="Grid1" id="10" extends="baseGrid">
             <property name="style">style1</property>

@@ -54,6 +54,10 @@
     </data-sets>
     <page-setup>
         <simple-master-page name="My simple page" id="9">
+        	<property name="topMargin">1in</property>
+            <property name="leftMargin">1.25in</property>
+            <property name="bottomMargin">1in</property>
+            <property name="rightMargin">1.25in</property>
             <page-header>
                 <grid name="simplemasterpageHeaderGrid" id="10"/>
             </page-header>

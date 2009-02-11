@@ -2176,25 +2176,25 @@
     <PropertyGroup displayNameID="Element.MasterPage.margin">
       <Property displayNameID="Element.MasterPage.topMargin" name="topMargin" since="1.0" type="dimension">
       	<DefaultUnit>in</DefaultUnit>
-        <Default>1</Default>
+        <Default>0.25in</Default>
 	    <Trigger validator="MasterPageSizeValidator"/>
 	    <Trigger validator="MasterPageMultiColumnValidator"/>
       </Property>
       <Property displayNameID="Element.MasterPage.leftMargin" name="leftMargin" since="1.0" type="dimension">
 		<DefaultUnit>in</DefaultUnit>      
-        <Default>1.25</Default>
+        <Default>0.25in</Default>
 	    <Trigger validator="MasterPageSizeValidator"/>
 	    <Trigger validator="MasterPageMultiColumnValidator"/>
       </Property>
       <Property displayNameID="Element.MasterPage.bottomMargin" name="bottomMargin" since="1.0" type="dimension">
 		<DefaultUnit>in</DefaultUnit>      
-        <Default>1</Default>
+        <Default>0.25in</Default>
 	    <Trigger validator="MasterPageSizeValidator"/>
 	    <Trigger validator="MasterPageMultiColumnValidator"/>
       </Property>
       <Property displayNameID="Element.MasterPage.rightMargin" name="rightMargin" since="1.0" type="dimension">
 		<DefaultUnit>in</DefaultUnit>      
-        <Default>1.25</Default>
+        <Default>0.25in</Default>
 	    <Trigger validator="MasterPageSizeValidator"/>
 	    <Trigger validator="MasterPageMultiColumnValidator"/>
       </Property>

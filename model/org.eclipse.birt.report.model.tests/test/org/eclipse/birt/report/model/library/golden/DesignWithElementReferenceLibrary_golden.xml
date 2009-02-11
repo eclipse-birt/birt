@@ -51,7 +51,12 @@
         </style>
     </styles>
     <page-setup>
-        <graphic-master-page name="page1" id="10"/>
+        <graphic-master-page name="page1" id="10">
+        	<property name="topMargin">1in</property>
+            <property name="leftMargin">1.25in</property>
+            <property name="bottomMargin">1in</property>
+            <property name="rightMargin">1.25in</property>
+        </graphic-master-page>
     </page-setup>
     <body>
         <label name="label1" id="11">

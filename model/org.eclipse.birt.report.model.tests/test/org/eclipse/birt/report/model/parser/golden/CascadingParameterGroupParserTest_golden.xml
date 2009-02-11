@@ -39,11 +39,4 @@
             <property name="dataSource">DataSource</property>
         </oda-data-set>
     </data-sets>
-    <page-setup>
-        <graphic-master-page name="My Page" id="8">
-            <contents>
-                <label id="9"/>
-            </contents>
-        </graphic-master-page>
-    </page-setup>
 </report>

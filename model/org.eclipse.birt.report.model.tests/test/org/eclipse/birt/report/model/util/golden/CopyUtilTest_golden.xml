@@ -87,7 +87,6 @@
                 <ref-entry baseId="18" id="18"/>
                 <ref-entry baseId="19" id="19"/>
             </overridden-values>
-            <property name="pageBreakInterval">50</property>
         </table>
         <label name="Body Label1" id="46" extends="new_library.Base Label">
             <text-property name="text">body text</text-property>
@@ -116,7 +115,6 @@
                 <ref-entry baseId="18" id="65"/>
                 <ref-entry baseId="19" id="66"/>
             </overridden-values>
-            <property name="pageBreakInterval">50</property>
         </table>
         <table name="table2" id="67" extends="new_library.NewTable">
             <overridden-values>
@@ -139,7 +137,6 @@
                 <ref-entry baseId="18" id="84"/>
                 <ref-entry baseId="19" id="85"/>
             </overridden-values>
-            <property name="pageBreakInterval">50</property>
         </table>
         <extended-item extensionName="TestingTable" name="testingTable11" extends="new_library.NewExtension Table"
  id="98">

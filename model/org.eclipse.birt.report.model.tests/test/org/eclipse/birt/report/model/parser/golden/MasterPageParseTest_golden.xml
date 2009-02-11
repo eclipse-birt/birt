@@ -21,5 +21,6 @@
                 <label id="4"/>
             </contents>
         </graphic-master-page>
+        <simple-master-page name="Simple MasterPage" id="5"/>
     </page-setup>
 </report>

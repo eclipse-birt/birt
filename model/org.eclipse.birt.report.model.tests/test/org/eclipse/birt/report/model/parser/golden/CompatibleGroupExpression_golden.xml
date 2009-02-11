@@ -32,7 +32,12 @@ from dbo.rpt100
         </oda-data-set>
     </data-sets>
     <page-setup>
-        <simple-master-page name="Simple MasterPage" id="2"/>
+        <simple-master-page name="Simple MasterPage" id="2">
+        	<property name="topMargin">1in</property>
+            <property name="leftMargin">1.25in</property>
+            <property name="bottomMargin">1in</property>
+            <property name="rightMargin">1.25in</property>
+        </simple-master-page>
     </page-setup>
     <body>
         <table id="196">

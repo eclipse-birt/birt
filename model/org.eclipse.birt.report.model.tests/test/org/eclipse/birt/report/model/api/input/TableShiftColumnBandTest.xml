@@ -59,16 +59,6 @@
 from CLASSICMODELS.ORDERS</property>
         </oda-data-set>
     </data-sets>
-    <page-setup>
-        <simple-master-page name="Simple MasterPage" id="2">
-            <page-footer>
-                <text id="3">
-                    <property name="contentType">html</property>
-                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
-                </text>
-            </page-footer>
-        </simple-master-page>
-    </page-setup>
     <body>
         <table name="Table1" id="6">
             <property name="width">100%</property>

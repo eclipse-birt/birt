@@ -35,7 +35,6 @@ from CLASSICMODELS.CUSTOMERS</property>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <property name="pageBreakInterval">50</property>
             <column id="20"/>
             <column id="21"/>
             <column id="22"/>
@@ -83,7 +82,6 @@ from CLASSICMODELS.CUSTOMERS</property>
         </table>
         <table name="myTable2" id="26">
             <property name="dataBindingRef">myTable1</property>
-            <property name="pageBreakInterval">50</property>
             <group id="31"/>
             <group id="27">
                 <property name="groupName">group1</property>
@@ -91,7 +89,6 @@ from CLASSICMODELS.CUSTOMERS</property>
         </table>
         <list name="myList1" id="28">
             <property name="dataBindingRef">myTable2</property>
-            <property name="pageBreakInterval">50</property>
             <group id="32"/>
             <group id="29">
                 <property name="groupName">group1</property>

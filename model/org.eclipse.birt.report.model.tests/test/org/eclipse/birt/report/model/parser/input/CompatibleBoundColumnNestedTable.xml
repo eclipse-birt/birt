@@ -4,12 +4,6 @@
 	<data-sets>
         <oda-data-set name="MyDataSet" />
 	</data-sets>
-    <page-setup>
-        <graphic-master-page name="My Page">
-            <contents>
-            </contents>
-        </graphic-master-page>
-    </page-setup>
     <body>
         <table name ="MyTable1" id="6">
             <property name="width">100%</property>

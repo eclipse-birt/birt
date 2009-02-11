@@ -2,6 +2,10 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
     <page-setup>
         <graphic-master-page name="My Page" id="2">
+        	<property name="topMargin">1in</property>
+            <property name="leftMargin">1.25in</property>
+            <property name="bottomMargin">1in</property>
+            <property name="rightMargin">1.25in</property>
             <property name="columns">1</property>
             <property name="columnSpacing">0.25mm</property>
         </graphic-master-page>

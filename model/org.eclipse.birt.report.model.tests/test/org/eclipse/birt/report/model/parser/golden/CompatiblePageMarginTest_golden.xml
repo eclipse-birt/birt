@@ -2,7 +2,7 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
-        	<property name="topMargin">1in</property>
+            <property name="topMargin">1in</property>
             <property name="leftMargin">1.25in</property>
             <property name="bottomMargin">1in</property>
             <property name="rightMargin">1.25in</property>

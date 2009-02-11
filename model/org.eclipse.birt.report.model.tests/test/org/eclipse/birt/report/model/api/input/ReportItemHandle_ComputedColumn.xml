@@ -18,9 +18,6 @@
             </list-property>
         </scalar-parameter>
     </parameters>
-    <page-setup>
-        <graphic-master-page name="My Page" id="3"/>
-    </page-setup>
 </report>
 
 

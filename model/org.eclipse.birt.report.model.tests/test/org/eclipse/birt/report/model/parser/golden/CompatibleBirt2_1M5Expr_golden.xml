@@ -5,6 +5,10 @@
     </data-sets>
     <page-setup>
         <graphic-master-page name="My Page" id="3">
+        	<property name="topMargin">1in</property>
+            <property name="leftMargin">1.25in</property>
+            <property name="bottomMargin">1in</property>
+            <property name="rightMargin">1.25in</property>
             <contents>
                 <data name="graphicmasterpageData" id="4">
                     <structure name="action">

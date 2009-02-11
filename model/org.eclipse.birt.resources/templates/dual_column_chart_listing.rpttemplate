@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.7" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;20051130-1157></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.5.0.v20090122 Build &lt;2.5.0.v20090130-0630></property>
     <property name="units">in</property>
     <html-property name="description">WizardTemplateChoicePage.message.DualColumnChartListing</html-property>
     <text-property name="displayName">WizardTemplateChoicePage.title.DualColumnChartListing</text-property>
@@ -23,8 +22,6 @@
             <text-property name="description">Double click to edit left hand side chart properties</text-property>
             <default>
                 <extended-item extensionName="Chart" id="283">
-                    <property name="height">117.5pt</property>
-                    <property name="width">202.5pt</property>
                     <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
@@ -472,7 +469,7 @@
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -683,7 +680,7 @@
       </Series>
       <Grouping>
         <Enabled>false</Enabled>
-        <GroupingInterval>2</GroupingInterval>
+        <GroupingInterval>2.0</GroupingInterval>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
@@ -797,8 +794,11 @@
   </Axes>
   <Orientation>Vertical</Orientation>
   <Rotation/>
-</model:ChartWithAxes>]]></xml-property>
+</model:ChartWithAxes>
+]]></xml-property>
                     <property name="outputFormat">SVG</property>
+                    <property name="height">117.5pt</property>
+                    <property name="width">202.5pt</property>
                 </extended-item>
             </default>
         </template-parameter-definition>
@@ -807,8 +807,6 @@
             <text-property name="description">Double click to edit right hand side chart properties</text-property>
             <default>
                 <extended-item extensionName="Chart" id="286">
-                    <property name="height">117.5pt</property>
-                    <property name="width">202.5pt</property>
                     <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
@@ -1256,7 +1254,7 @@
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -1467,7 +1465,7 @@
       </Series>
       <Grouping>
         <Enabled>false</Enabled>
-        <GroupingInterval>2</GroupingInterval>
+        <GroupingInterval>2.0</GroupingInterval>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
@@ -1581,8 +1579,11 @@
   </Axes>
   <Orientation>Vertical</Orientation>
   <Rotation/>
-</model:ChartWithAxes>]]></xml-property>
+</model:ChartWithAxes>
+]]></xml-property>
                     <property name="outputFormat">SVG</property>
+                    <property name="height">117.5pt</property>
+                    <property name="width">202.5pt</property>
                 </extended-item>
             </default>
         </template-parameter-definition>
@@ -1592,6 +1593,7 @@
             <default>
                 <table id="312">
                     <property name="width">100%</property>
+                    <property name="pageBreakInterval">50</property>
                     <column id="330"/>
                     <column id="331"/>
                     <column id="332"/>
@@ -1645,6 +1647,7 @@
             <default>
                 <table id="335">
                     <property name="width">100%</property>
+                    <property name="pageBreakInterval">50</property>
                     <column id="353"/>
                     <column id="354"/>
                     <column id="355"/>
@@ -1695,7 +1698,7 @@
     </template-parameter-definitions>
     <styles>
         <style name="report" id="2">
-		    <property name="fontFamily">"Verdana"</property>
+            <property name="fontFamily">"Verdana"</property>
             <property name="fontSize">10pt</property>
         </style>
         <style name="label" id="3"/>
@@ -1708,10 +1711,6 @@
     </styles>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="10">
-            <property name="topMargin">0.25in</property>
-            <property name="leftMargin">0.25in</property>
-            <property name="bottomMargin">0.25in</property>
-            <property name="rightMargin">0.25in</property>          
             <page-footer>
                 <text id="11">
                     <property name="contentType">html</property>
@@ -1741,7 +1740,9 @@
             </row>
         </grid>
         <list id="17">
+            <property name="pageBreakInterval">50</property>
             <group id="18">
+                <property name="groupName">NewListGroup1</property>
                 <property name="interval">none</property>
                 <property name="sortDirection">asc</property>
                 <header>
@@ -1784,11 +1785,7 @@
                         </row>
                     </grid>
                 </header>
-                <footer>
-                </footer>
             </group>
-            <detail>
-            </detail>
         </list>
     </body>
 </report>

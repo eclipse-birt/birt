@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.parser;
 
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.GraphicMasterPageHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
@@ -64,7 +63,6 @@ public class MasterPageParseTest extends BaseTestCase
 
 	private String fileName = "MasterPageParseTest.xml"; //$NON-NLS-1$
 	private String simpleMasterPageFile = "SimpleMasterPageTest.xml"; //$NON-NLS-1$
-	private String outFileName = "MasterPageParseTest.out"; //$NON-NLS-1$
 	private String goldenFileName = "MasterPageParseTest_golden.xml"; //$NON-NLS-1$
 
 	/*
@@ -87,7 +85,7 @@ public class MasterPageParseTest extends BaseTestCase
 	public void testParser( ) throws Exception
 	{
 		openDesign( fileName );
-		List errors = design.getErrorList( );
+		List<ErrorDetail> errors = design.getErrorList( );
 		assertTrue( errors.isEmpty( ) );
 
 		GraphicMasterPageHandle page = (GraphicMasterPageHandle) designHandle
@@ -112,6 +110,13 @@ public class MasterPageParseTest extends BaseTestCase
 		assertEquals( "1in", page.getLeftMargin( ).getStringValue( ) ); //$NON-NLS-1$
 		assertEquals( "2in", page.getRightMargin( ).getStringValue( ) ); //$NON-NLS-1$
 
+		SimpleMasterPageHandle simplePage = (SimpleMasterPageHandle) designHandle
+				.findMasterPage( "Simple MasterPage" ); //$NON-NLS-1$
+		assertEquals( "0.25in", simplePage.getTopMargin( ).getStringValue( ) ); //$NON-NLS-1$
+		assertEquals( "0.25in", simplePage.getBottomMargin( ).getStringValue( ) ); //$NON-NLS-1$
+		assertEquals( "0.25in", simplePage.getLeftMargin( ).getStringValue( ) ); //$NON-NLS-1$
+		assertEquals( "0.25in", simplePage.getRightMargin( ).getStringValue( ) ); //$NON-NLS-1$
+
 	}
 
 	/**
@@ -134,8 +139,8 @@ public class MasterPageParseTest extends BaseTestCase
 		page.setOrientation( DesignChoiceConstants.PAGE_ORIENTATION_LANDSCAPE );
 		page.setPageType( DesignChoiceConstants.PAGE_SIZE_US_LEGAL );
 
-		save();
-		assertTrue( compareFile( goldenFileName) );
+		save( );
+		assertTrue( compareFile( goldenFileName ) );
 	}
 
 	/**
@@ -158,13 +163,12 @@ public class MasterPageParseTest extends BaseTestCase
 		assertEquals( "New Simple Page", simplePage.getName( ) ); //$NON-NLS-1$
 
 		assertEquals(
-				"2.4cm", ( (DimensionHandle) simplePage.getHeaderHeight( ) ).getValue( ).toString( ) ); //$NON-NLS-1$
+				"2.4cm", simplePage.getHeaderHeight( ).getValue( ).toString( ) ); //$NON-NLS-1$
 		assertEquals(
-				"1.2cm", ( (DimensionHandle) simplePage.getFooterHeight( ) ).getValue( ).toString( ) ); //$NON-NLS-1$
+				"1.2cm", simplePage.getFooterHeight( ).getValue( ).toString( ) ); //$NON-NLS-1$
 
-		save();
-		assertTrue( compareFile(
-				"TestSimpleMasterPage_golden.xml") ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareFile( "TestSimpleMasterPage_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -242,13 +246,13 @@ public class MasterPageParseTest extends BaseTestCase
 		String checkFileName6 = "MasterPageParseTest_6.xml"; //$NON-NLS-1$
 
 		openDesign( checkFileName1 );
-		List errors = design.getErrorList( );
+		List<ErrorDetail> errors = design.getErrorList( );
 
 		int i = 0;
 
 		assertEquals( 1, errors.size( ) );
 
-		ErrorDetail error = ( (ErrorDetail) errors.get( i++ ) );
+		ErrorDetail error = errors.get( i++ );
 		assertEquals( "Second Page", error.getElement( ).getName( ) ); //$NON-NLS-1$
 		assertEquals( SemanticError.DESIGN_EXCEPTION_INVALID_PAGE_SIZE, error
 				.getErrorCode( ) );
@@ -256,7 +260,7 @@ public class MasterPageParseTest extends BaseTestCase
 		openDesign( checkFileName2 );
 		errors = design.getErrorList( );
 		assertEquals( 1, errors.size( ) );
-		error = ( (ErrorDetail) errors.get( 0 ) );
+		error = errors.get( 0 );
 		assertEquals( "Third Page", error.getElement( ).getName( ) ); //$NON-NLS-1$
 		assertEquals( SemanticError.DESIGN_EXCEPTION_INVALID_PAGE_MARGINS,
 				error.getErrorCode( ) );
@@ -264,7 +268,7 @@ public class MasterPageParseTest extends BaseTestCase
 		openDesign( checkFileName3 );
 		errors = design.getErrorList( );
 		assertEquals( 1, errors.size( ) );
-		error = ( (ErrorDetail) errors.get( 0 ) );
+		error = errors.get( 0 );
 		assertEquals( "Forth Page", error.getElement( ).getName( ) ); //$NON-NLS-1$
 		assertEquals( SemanticError.DESIGN_EXCEPTION_INVALID_PAGE_MARGINS,
 				error.getErrorCode( ) );
@@ -272,7 +276,7 @@ public class MasterPageParseTest extends BaseTestCase
 		openDesign( checkFileName4 );
 		errors = design.getErrorList( );
 		assertEquals( 1, errors.size( ) );
-		error = ( (ErrorDetail) errors.get( 0 ) );
+		error = errors.get( 0 );
 		assertEquals( "Fifth Page", error.getElement( ).getName( ) ); //$NON-NLS-1$
 		assertEquals( SemanticError.DESIGN_EXCEPTION_INVALID_MULTI_COLUMN,
 				error.getErrorCode( ) );
@@ -280,7 +284,7 @@ public class MasterPageParseTest extends BaseTestCase
 		openDesign( checkFileName5 );
 		errors = design.getErrorList( );
 		assertEquals( 1, errors.size( ) );
-		error = ( (ErrorDetail) errors.get( 0 ) );
+		error = errors.get( 0 );
 		assertEquals( "Sixth Page", error.getElement( ).getName( ) ); //$NON-NLS-1$
 		assertEquals( SemanticError.DESIGN_EXCEPTION_MISSING_PAGE_SIZE, error
 				.getErrorCode( ) );
@@ -290,7 +294,7 @@ public class MasterPageParseTest extends BaseTestCase
 		printSemanticErrors( );
 		errors = design.getErrorList( );
 		assertEquals( 1, errors.size( ) );
-		error = ( (ErrorDetail) errors.get( 0 ) );
+		error = errors.get( 0 );
 		assertEquals( "My Page", error.getElement( ).getName( ) ); //$NON-NLS-1$
 		assertEquals(
 				SemanticError.DESIGN_EXCEPTION_INVALID_MASTER_PAGE_CONTEXT_CONTAINMENT,

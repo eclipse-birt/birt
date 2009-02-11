@@ -185,9 +185,9 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 		ElementFactory factory = new ElementFactory( designHandle.getModule( ) );
 		MasterPageHandle page = factory.newSimpleMasterPage( "Page1" ); //$NON-NLS-1$
 		assertEquals(
-				"1,25in", page.getDisplayProperty( MasterPageHandle.LEFT_MARGIN_PROP ) ); //$NON-NLS-1$
+				"0,25in", page.getDisplayProperty( MasterPageHandle.LEFT_MARGIN_PROP ) ); //$NON-NLS-1$
 		assertEquals(
-				"1.25in", page.getStringProperty( MasterPageHandle.LEFT_MARGIN_PROP ) ); //$NON-NLS-1$
+				"0.25in", page.getStringProperty( MasterPageHandle.LEFT_MARGIN_PROP ) ); //$NON-NLS-1$
 	}
 
 	/*

@@ -177,7 +177,6 @@
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <property name="pageBreakInterval">50</property>
             <column id="25"/>
             <column id="26"/>
             <column id="27"/>

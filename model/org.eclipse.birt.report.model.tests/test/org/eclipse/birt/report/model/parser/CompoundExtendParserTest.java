@@ -41,9 +41,6 @@ public class CompoundExtendParserTest extends BaseTestCase
 	private final static String INPUT2 = "CompoundExtendParserTest2.xml"; //$NON-NLS-1$
 	private final static String INPUT3 = "CompoundExtendParserTest3.xml"; //$NON-NLS-1$
 
-	private final static String OUTPUT_FILE = "CompoundExtendParserTest_out.xml"; //$NON-NLS-1$
-	private final static String OUTPUT_FILE2 = "CompoundExtendParserTest_out2.xml"; //$NON-NLS-1$
-
 	private final static String GOLDEN_FILE = "CompoundExtendParserTest_golden.xml"; //$NON-NLS-1$
 	private final static String GOLDEN_FILE2 = "CompoundExtendParserTest_golden2.xml"; //$NON-NLS-1$
 
@@ -168,7 +165,7 @@ public class CompoundExtendParserTest extends BaseTestCase
 				.get( 2 );
 
 		// Test override expression-property "name"
-		
+
 		assertEquals( "dataSetRow[\"STUDENT_ID\"]", dataHandle //$NON-NLS-1$
 				.getResultSetExpression( ) );
 
@@ -191,31 +188,31 @@ public class CompoundExtendParserTest extends BaseTestCase
 	public void testSemanticWarning( ) throws Exception
 	{
 		openDesign( INPUT2, ULocale.ENGLISH );
-		List errors = designHandle.getErrorList( );
+		List<ErrorDetail> errors = designHandle.getErrorList( );
 		assertEquals( 4, errors.size( ) );
 
-		ErrorDetail error1 = (ErrorDetail) errors.get( 0 );
+		ErrorDetail error1 = errors.get( 0 );
 		assertEquals(
 				ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN,
 				error1.getErrorCode( ) );
 
-		ErrorDetail error2 = (ErrorDetail) errors.get( 1 );
+		ErrorDetail error2 = errors.get( 1 );
 		assertEquals(
 				ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN,
 				error2.getErrorCode( ) );
 
-		ErrorDetail error3 = (ErrorDetail) errors.get( 2 );
+		ErrorDetail error3 = errors.get( 2 );
 		assertEquals(
 				DesignParserException.DESIGN_EXCEPTION_VIRTUAL_PARENT_NOT_FOUND,
 				error3.getErrorCode( ) );
 
-		ErrorDetail error4 = (ErrorDetail) errors.get( 3 );
+		ErrorDetail error4 = errors.get( 3 );
 		assertEquals(
 				DesignParserException.DESIGN_EXCEPTION_VIRTUAL_PARENT_NOT_FOUND,
 				error4.getErrorCode( ) );
 
-		save();
-		compareFile( GOLDEN_FILE2);
+		save( );
+		compareFile( GOLDEN_FILE2 );
 	}
 
 	/**
@@ -232,21 +229,21 @@ public class CompoundExtendParserTest extends BaseTestCase
 		}
 		catch ( DesignFileException e )
 		{
-			List errors = e.getErrorList( );
+			List<ErrorDetail> errors = e.getErrorList( );
 			assertEquals( 4, errors.size( ) );
 
 			assertEquals(
 					PropertyValueException.DESIGN_EXCEPTION_PROPERTY_CHANGE_FORBIDDEN,
-					( (ErrorDetail) errors.get( 0 ) ).getErrorCode( ) );
+					errors.get( 0 ).getErrorCode( ) );
 			assertEquals(
 					PropertyValueException.DESIGN_EXCEPTION_PROPERTY_CHANGE_FORBIDDEN,
-					( (ErrorDetail) errors.get( 1 ) ).getErrorCode( ) );
+					errors.get( 1 ).getErrorCode( ) );
 			assertEquals(
 					PropertyValueException.DESIGN_EXCEPTION_PROPERTY_CHANGE_FORBIDDEN,
-					( (ErrorDetail) errors.get( 2 ) ).getErrorCode( ) );
+					errors.get( 2 ).getErrorCode( ) );
 			assertEquals(
 					PropertyValueException.DESIGN_EXCEPTION_PROPERTY_CHANGE_FORBIDDEN,
-					( (ErrorDetail) errors.get( 3 ) ).getErrorCode( ) );
+					errors.get( 3 ).getErrorCode( ) );
 		}
 	}
 
@@ -294,7 +291,7 @@ public class CompoundExtendParserTest extends BaseTestCase
 		label1.setName( "new label" ); //$NON-NLS-1$
 		label1.setStyleName( "style1" ); //$NON-NLS-1$
 
-		save();
-		assertTrue( compareFile( GOLDEN_FILE) );
+		save( );
+		assertTrue( compareFile( GOLDEN_FILE ) );
 	}
 }
