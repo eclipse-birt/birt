@@ -90,7 +90,9 @@ public class ExtendedItemState extends ReportItemState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * xml.sax.Attributes)
 	 */
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -125,7 +127,9 @@ public class ExtendedItemState extends ReportItemState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.ReportElementState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.parser.ReportElementState#startElement(
+	 * java.lang.String)
 	 */
 
 	public AbstractParseState startElement( String tagName )
@@ -222,10 +226,11 @@ public class ExtendedItemState extends ReportItemState
 
 		if ( reportItem != null && reportItem instanceof ICompatibleReportItem )
 		{
-			List jsExprs = ( (ICompatibleReportItem) reportItem )
+			List<String> jsExprs = ( (ICompatibleReportItem) reportItem )
 					.getRowExpressions( );
-			Map updatedExprs = BoundDataColumnUtil.handleJavaExpression(
-					jsExprs, element, handler.module, handler.tempValue );
+			Map<String, String> updatedExprs = BoundDataColumnUtil
+					.handleJavaExpression( jsExprs, element, handler.module,
+							handler.tempValue );
 			( (ICompatibleReportItem) reportItem )
 					.updateRowExpressions( updatedExprs );
 		}

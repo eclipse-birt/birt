@@ -117,7 +117,7 @@ public class FilterCondition extends Structure
 	 * The filter value 1 expression.
 	 */
 
-	private List value1;
+	private List<String> value1;
 
 	/**
 	 * The filter value 2 expression.
@@ -191,7 +191,7 @@ public class FilterCondition extends Structure
 		else if ( EXPR_MEMBER.equals( propName ) )
 			expr = (String) value;
 		else if ( VALUE1_MEMBER.equals( propName ) )
-			value1 = (List) value;
+			value1 = (List<String>) value;
 		else if ( VALUE2_MEMBER.equals( propName ) )
 			value2 = (String) value;
 		else if ( FILTER_TARGET_MEMBER.equals( propName ) )
@@ -300,10 +300,10 @@ public class FilterCondition extends Structure
 
 	public String getValue1( )
 	{
-		List valueList = getValue1List( );
+		List<String> valueList = getValue1List( );
 		if ( valueList == null || valueList.isEmpty( ) )
 			return null;
-		return (String) valueList.get( 0 );
+		return valueList.get( 0 );
 	}
 
 	/**
@@ -313,11 +313,12 @@ public class FilterCondition extends Structure
 	 * 
 	 * @return the value1 expression list of this filter condition.
 	 */
-	public List getValue1List( )
+	public List<String> getValue1List( )
 	{
-		List valueList = (List) getProperty( null, VALUE1_MEMBER );
+		List<String> valueList = (List<String>) getProperty( null,
+				VALUE1_MEMBER );
 		if ( valueList == null || valueList.isEmpty( ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		return Collections.unmodifiableList( valueList );
 	}
 
@@ -335,7 +336,7 @@ public class FilterCondition extends Structure
 			setProperty( VALUE1_MEMBER, null );
 			return;
 		}
-		List valueList = new ArrayList( );
+		List<String> valueList = new ArrayList<String>( );
 		valueList.add( value1 );
 		setProperty( VALUE1_MEMBER, valueList );
 	}
@@ -347,7 +348,7 @@ public class FilterCondition extends Structure
 	 *            the value 1 expression list to set
 	 */
 
-	public void setValue1( List value1List )
+	public void setValue1( List<String> value1List )
 	{
 		setProperty( VALUE1_MEMBER, value1List );
 	}

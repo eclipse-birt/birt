@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -35,7 +36,7 @@ public class MethodInfo implements IMethodInfo
 	 * 
 	 */
 
-	private List arguments;
+	private List<IArgumentInfoList> arguments;
 
 	private final Method method;
 
@@ -68,7 +69,7 @@ public class MethodInfo implements IMethodInfo
 	 * @return iterator of argument definition.
 	 */
 
-	public Iterator argumentListIterator( )
+	public Iterator<IArgumentInfoList> argumentListIterator( )
 	{
 		if ( arguments == null )
 			return Collections.EMPTY_LIST.iterator( );
@@ -102,7 +103,9 @@ public class MethodInfo implements IMethodInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName
+	 * ()
 	 */
 
 	public String getDisplayName( )
@@ -113,7 +116,9 @@ public class MethodInfo implements IMethodInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayNameKey()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayNameKey
+	 * ()
 	 */
 
 	public String getDisplayNameKey( )
@@ -124,7 +129,8 @@ public class MethodInfo implements IMethodInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getName()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getName()
 	 */
 
 	public String getName( )
@@ -145,7 +151,8 @@ public class MethodInfo implements IMethodInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.IMethodInfo#getReturnType()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IMethodInfo#getReturnType()
 	 */
 
 	public String getReturnType( )
@@ -156,7 +163,8 @@ public class MethodInfo implements IMethodInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.IMethodInfo#isConstructor()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IMethodInfo#isConstructor()
 	 */
 
 	public boolean isConstructor( )
@@ -191,7 +199,7 @@ public class MethodInfo implements IMethodInfo
 	void addArgumentList( Class[] argumentList )
 	{
 		if ( arguments == null )
-			arguments = new ArrayList( );
+			arguments = new ArrayList<IArgumentInfoList>( );
 
 		ArgumentInfoList argumentInfoList = new ArgumentInfoList( argumentList );
 		arguments.add( argumentInfoList );

@@ -167,11 +167,11 @@ public class PropertyValueValidationUtil
 		assert tmpPropDefn.isList( );
 
 		List<IStructure> retList = new ArrayList<IStructure>( );
-		List list = (List) value;
+		List<IStructure> list = (List<IStructure>) value;
 		IStructureDefn structDefn = tmpPropDefn.getStructDefn( );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
-			IStructure tmpItem = (IStructure) list.get( i );
+			IStructure tmpItem = list.get( i );
 			if ( tmpItem.getDefn( ) != structDefn )
 			{
 				if ( memberDefn != null )

@@ -69,7 +69,7 @@ public abstract class StyleRule extends PropertyStructure
 	 * Expression for the first operand.
 	 */
 
-	protected List value1 = null;
+	protected List<String> value1 = null;
 
 	/**
 	 * Expression for the second operand.
@@ -111,7 +111,7 @@ public abstract class StyleRule extends PropertyStructure
 	public StyleRule( String op, String v1, String v2, String testExpr )
 	{
 		operator = op;
-		value1 = new ArrayList( );
+		value1 = new ArrayList<String>( );
 		value1.add( v1 );
 		value2 = v2;
 		testExpression = testExpr;
@@ -120,7 +120,9 @@ public abstract class StyleRule extends PropertyStructure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.PropertyStructure#getIntrinsicProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.PropertyStructure#getIntrinsicProperty
+	 * (java.lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -138,11 +140,12 @@ public abstract class StyleRule extends PropertyStructure
 
 		return super.getIntrinsicProperty( propName );
 	} /*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.core.PropertyStructure#setIntrinsicProperty(java.lang.String,
-		 *      java.lang.Object)
-		 */
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.PropertyStructure#setIntrinsicProperty
+	 * (java.lang.String, java.lang.Object)
+	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
 	{
@@ -158,12 +161,12 @@ public abstract class StyleRule extends PropertyStructure
 
 			if ( value instanceof List )
 			{
-				value1 = (List) value;
+				value1 = (List<String>) value;
 			}
 			else
 			{
-				value1 = new ArrayList( );
-				value1.add( value );
+				value1 = new ArrayList<String>( );
+				value1.add( (String) value );
 			}
 		}
 		else if ( VALUE2_MEMBER.equals( propName ) )
@@ -243,10 +246,10 @@ public abstract class StyleRule extends PropertyStructure
 
 	public String getValue1( )
 	{
-		List valueList = getValue1List( );
+		List<String> valueList = getValue1List( );
 		if ( valueList == null || valueList.isEmpty( ) )
 			return null;
-		return (String) valueList.get( 0 );
+		return valueList.get( 0 );
 	}
 
 	/**
@@ -256,11 +259,12 @@ public abstract class StyleRule extends PropertyStructure
 	 * 
 	 * @return the value1 expression list.
 	 */
-	public List getValue1List( )
+	public List<String> getValue1List( )
 	{
-		List valueList = (List) getProperty( null, VALUE1_MEMBER );
+		List<String> valueList = (List<String>) getProperty( null,
+				VALUE1_MEMBER );
 		if ( valueList == null || valueList.isEmpty( ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		return Collections.unmodifiableList( valueList );
 	}
 
@@ -278,7 +282,7 @@ public abstract class StyleRule extends PropertyStructure
 			setProperty( VALUE1_MEMBER, null );
 			return;
 		}
-		List valueList = new ArrayList( );
+		List<String> valueList = new ArrayList<String>( );
 		valueList.add( value );
 		setProperty( VALUE1_MEMBER, valueList );
 	}
@@ -290,7 +294,7 @@ public abstract class StyleRule extends PropertyStructure
 	 *            the value 1 expression list to set
 	 */
 
-	public void setValue1( List value1List )
+	public void setValue1( List<String> value1List )
 	{
 		setProperty( VALUE1_MEMBER, value1List );
 	}

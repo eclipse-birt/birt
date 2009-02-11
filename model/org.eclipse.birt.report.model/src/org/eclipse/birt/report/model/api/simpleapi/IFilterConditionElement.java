@@ -114,7 +114,7 @@ public interface IFilterConditionElement extends IDesignElement
 	 * @return the value1 expression list of this filter condition.
 	 */
 
-	public List getValue1List( );
+	public List<String> getValue1List( );
 
 	/**
 	 * Sets the value 1 expression list of this filter condition.
@@ -125,7 +125,7 @@ public interface IFilterConditionElement extends IDesignElement
 	 *             if the instance in the list is not valid
 	 */
 
-	public void setValue1( List value1List ) throws SemanticException;
+	public void setValue1( List<String> value1List ) throws SemanticException;
 
 	/**
 	 * Returns the value 2 expression of this filter condition.

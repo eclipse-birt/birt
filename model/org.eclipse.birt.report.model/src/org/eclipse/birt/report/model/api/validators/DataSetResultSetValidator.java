@@ -78,7 +78,7 @@ public class DataSetResultSetValidator extends AbstractElementValidator
 
 		List<SemanticException> list = new ArrayList<SemanticException>( );
 
-		List<Object> columns = (List) toValidate.getProperty( module,
+		List<Object> columns = (List<Object>) toValidate.getProperty( module,
 				IDataSetModel.RESULT_SET_PROP );
 		if ( columns != null && columns.size( ) == 0 )
 		{

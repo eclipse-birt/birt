@@ -213,13 +213,13 @@ public abstract class BoundColumnsMgr
 
 		if ( reportItem != null && reportItem instanceof ICompatibleReportItem )
 		{
-			List jsExprs = ( (ICompatibleReportItem) reportItem )
+			List<String> jsExprs = ( (ICompatibleReportItem) reportItem )
 					.getRowExpressions( );
 			for ( int i = 0; i < jsExprs.size( ); i++ )
-				handleBoundsForValue( element, module, (String) jsExprs.get( i ) );
+				handleBoundsForValue( element, module, jsExprs.get( i ) );
 
-			Map updatedExprs = BoundDataColumnUtil.handleJavaExpression(
-					jsExprs, element, module, null );
+			Map<String, String> updatedExprs = BoundDataColumnUtil
+					.handleJavaExpression( jsExprs, element, module, null );
 			( (ICompatibleReportItem) reportItem )
 					.updateRowExpressions( updatedExprs );
 		}

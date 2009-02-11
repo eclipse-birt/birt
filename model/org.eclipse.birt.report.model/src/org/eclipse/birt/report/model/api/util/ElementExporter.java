@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.command.GroupElementCommand;
@@ -489,15 +490,15 @@ class ElementExporter
 
 	private void changePropertyBindingID( ReportDesignHandle designToExport )
 	{
-		List propertyBindings = targetLibraryHandle
+		List<PropertyBinding> propertyBindings = targetLibraryHandle
 				.getListProperty( ReportDesignHandle.PROPERTY_BINDINGS_PROP );
 		if ( propertyBindings == null )
 			return;
 
-		Iterator iterator = propertyBindings.iterator( );
+		Iterator<PropertyBinding> iterator = propertyBindings.iterator( );
 		while ( iterator.hasNext( ) )
 		{
-			PropertyBinding struct = (PropertyBinding) iterator.next( );
+			PropertyBinding struct = iterator.next( );
 			long id = struct.getID( ).longValue( );
 			DesignElementHandle tempHandle = designToExport.getElementByID( id );
 
@@ -518,12 +519,12 @@ class ElementExporter
 
 	private void initPropBindingList( ReportDesignHandle designToExport )
 	{
-		List propertyBindings = designToExport
+		List<PropertyBinding> propertyBindings = designToExport
 				.getListProperty( ReportDesignHandle.PROPERTY_BINDINGS_PROP );
 		for ( int i = 0; propertyBindings != null
 				&& i < propertyBindings.size( ); ++i )
 		{
-			PropertyBinding struct = (PropertyBinding) propertyBindings.get( i );
+			PropertyBinding struct = propertyBindings.get( i );
 			long id = struct.getID( ).longValue( );
 			DesignElementHandle tempHandle = designToExport.getElementByID( id );
 			if ( tempHandle != null
@@ -567,15 +568,14 @@ class ElementExporter
 		for ( int i = 0; i < slotCount; i++ )
 		{
 			SlotHandle sourceSlotHandle = designToExport.getSlot( i );
-			Iterator iter = sourceSlotHandle.iterator( );
+			Iterator<DesignElementHandle> iter = sourceSlotHandle.iterator( );
 
 			// First export element which has name.
 
 			List<DesignElementHandle> noNameList = new ArrayList<DesignElementHandle>( );
 			while ( iter.hasNext( ) )
 			{
-				DesignElementHandle contentHandle = (DesignElementHandle) iter
-						.next( );
+				DesignElementHandle contentHandle = iter.next( );
 
 				if ( StringUtil.isBlank( contentHandle.getName( ) ) )
 				{
@@ -592,8 +592,7 @@ class ElementExporter
 			iter = noNameList.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				DesignElementHandle contentHandle = (DesignElementHandle) iter
-						.next( );
+				DesignElementHandle contentHandle = iter.next( );
 				if ( !genDefaultName )
 				{
 					String typeName = contentHandle.getDefn( ).getDisplayName( );
@@ -693,11 +692,10 @@ class ElementExporter
 			SlotHandle sourceSlotHandle = source.getSlot( i );
 			SlotHandle destinationSlotHandle = destination.getSlot( i );
 
-			Iterator iter = sourceSlotHandle.iterator( );
+			Iterator<DesignElementHandle> iter = sourceSlotHandle.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				DesignElementHandle contentHandle = (DesignElementHandle) iter
-						.next( );
+				DesignElementHandle contentHandle = iter.next( );
 
 				DesignElementHandle newContentHandle = duplicateElement(
 						contentHandle, true );
@@ -731,11 +729,12 @@ class ElementExporter
 		}
 
 		// duplicate container properties
-		List props = source.getElement( ).getDefn( ).getContents( );
+		List<IElementPropertyDefn> props = source.getElement( ).getDefn( )
+				.getContents( );
 		for ( int i = 0; i < props.size( ); i++ )
 		{
 
-			IPropertyDefn propDefn = (IPropertyDefn) props.get( i );
+			IPropertyDefn propDefn = props.get( i );
 
 			if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_TYPE )
 				continue;

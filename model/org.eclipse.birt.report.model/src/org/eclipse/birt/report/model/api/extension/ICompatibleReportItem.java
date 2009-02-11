@@ -35,7 +35,7 @@ public interface ICompatibleReportItem
 	 * @return a list containing the possible expressions.
 	 */
 
-	public List getRowExpressions( );
+	public List<String> getRowExpressions( );
 
 	/**
 	 * Updates existed expression with the given expressions. The keys in
@@ -46,7 +46,7 @@ public interface ICompatibleReportItem
 	 *            a map containing the updated expressions.
 	 */
 
-	public void updateRowExpressions( Map newExpressions );
+	public void updateRowExpressions( Map<String, String> newExpressions );
 
 	/**
 	 * Checks the parser compatibilities for this report item and return the

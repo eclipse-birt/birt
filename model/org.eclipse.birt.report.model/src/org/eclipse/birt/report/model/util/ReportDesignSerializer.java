@@ -1188,15 +1188,15 @@ public class ReportDesignSerializer extends ElementVisitor
 			DesignElement newElement )
 	{
 		DesignElementHandle tmpElementHandle = element.getHandle( sourceDesign );
-		List<Object> elementBindings = tmpElementHandle.getPropertyBindings( );
+		List<PropertyBinding> elementBindings = tmpElementHandle
+				.getPropertyBindings( );
 
 		List<PropertyBinding> newList = new ArrayList<PropertyBinding>( );
 		long newID = newElement.getID( );
 
 		for ( int i = 0; i < elementBindings.size( ); i++ )
 		{
-			PropertyBinding propBinding = (PropertyBinding) elementBindings
-					.get( i );
+			PropertyBinding propBinding = elementBindings.get( i );
 
 			// use the copy one instead of the source
 
@@ -1284,7 +1284,7 @@ public class ReportDesignSerializer extends ElementVisitor
 		if ( obj == null )
 			return Collections.emptyList( );
 
-		return (List) obj;
+		return (List<Object>) obj;
 	}
 
 	/**
@@ -1318,7 +1318,7 @@ public class ReportDesignSerializer extends ElementVisitor
 			if ( obj == null )
 				continue;
 
-			List<Object> sourceValueList = (List) obj;
+			List<Object> sourceValueList = (List<Object>) obj;
 
 			for ( int j = 0; j < sourceValueList.size( ); j++ )
 			{
@@ -1363,7 +1363,7 @@ public class ReportDesignSerializer extends ElementVisitor
 		Object obj = source.getProperty( source, propDefn );
 		List<Object> newValues = new ArrayList<Object>( );
 		if ( obj != null )
-			newValues.addAll( (List) obj );
+			newValues.addAll( (List<Object>) obj );
 
 		for ( int i = 0; i < libs.size( ); i++ )
 		{
@@ -1373,7 +1373,7 @@ public class ReportDesignSerializer extends ElementVisitor
 			if ( libObj == null )
 				continue;
 
-			List<Object> libIncludedResourceList = (List) libObj;
+			List<Object> libIncludedResourceList = (List<Object>) libObj;
 
 			for ( int j = 0; j < libIncludedResourceList.size( ); j++ )
 			{
@@ -1920,8 +1920,9 @@ public class ReportDesignSerializer extends ElementVisitor
 		{
 			Cube newCube = iter.next( );
 			Cube srcCube = cubes.get( newCube );
-			List<Object> dimensionConditionList = (List) srcCube.getProperty(
-					sourceDesign, ITabularCubeModel.DIMENSION_CONDITIONS_PROP );
+			List<Object> dimensionConditionList = (List<Object>) srcCube
+					.getProperty( sourceDesign,
+							ITabularCubeModel.DIMENSION_CONDITIONS_PROP );
 			List<Object> newValueList = new ArrayList<Object>( );
 			newCube.setProperty( ITabularCubeModel.DIMENSION_CONDITIONS_PROP,
 					newValueList );
@@ -2508,7 +2509,7 @@ public class ReportDesignSerializer extends ElementVisitor
 	 */
 
 	private DesignElement getTargetContainer( DesignElement sourceElement,
-			DesignElement target, List processedElement )
+			DesignElement target, List<DesignElement> processedElement )
 	{
 		DesignElement sourceContainer = sourceElement.getContainer( );
 		long containerId = sourceContainer.getID( );

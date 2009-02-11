@@ -80,7 +80,7 @@ public class FilterConditionElement extends DesignElement
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#
 	 * getValue1List()
 	 */
-	public List getValue1List( )
+	public List<String> getValue1List( )
 	{
 		return ( (FilterConditionElementHandle) handle ).getValue1List( );
 	}
@@ -181,7 +181,7 @@ public class FilterConditionElement extends DesignElement
 	 * (java.util.List)
 	 */
 
-	public void setValue1( List value1List ) throws SemanticException
+	public void setValue1( List<String> value1List ) throws SemanticException
 	{
 
 		setProperty( IFilterConditionElementModel.VALUE1_PROP, value1List );

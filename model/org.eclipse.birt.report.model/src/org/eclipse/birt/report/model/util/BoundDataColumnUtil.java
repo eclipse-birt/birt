@@ -598,19 +598,20 @@ public class BoundDataColumnUtil
 	 * @return a map containing updated expressions.
 	 */
 
-	public static Map handleJavaExpression( List jsExprs, ExtendedItem element,
-			Module module, Map cachedGroups )
+	public static Map<String, String> handleJavaExpression(
+			List<String> jsExprs, ExtendedItem element, Module module,
+			Map<Object, Object> cachedGroups )
 	{
-		Map retMap = new HashMap( );
+		Map<String, String> retMap = new HashMap<String, String>( );
 
 		if ( jsExprs == null || jsExprs.isEmpty( ) )
 			return retMap;
 
 		for ( int i = 0; i < jsExprs.size( ); i++ )
 		{
-			String jsExpr = (String) jsExprs.get( i );
+			String jsExpr = jsExprs.get( i );
 
-			List newExprs = null;
+			List<IColumnBinding> newExprs = null;
 
 			try
 			{
@@ -629,7 +630,7 @@ public class BoundDataColumnUtil
 
 			for ( int j = 0; j < newExprs.size( ); j++ )
 			{
-				IColumnBinding boundColumn = (IColumnBinding) newExprs.get( j );
+				IColumnBinding boundColumn = newExprs.get( j );
 
 				String columnName = boundColumn.getResultSetColumnName( );
 
