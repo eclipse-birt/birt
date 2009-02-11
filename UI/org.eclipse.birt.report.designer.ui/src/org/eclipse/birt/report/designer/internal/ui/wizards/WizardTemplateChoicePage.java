@@ -914,8 +914,7 @@ public class WizardTemplateChoicePage extends WizardPage
 
 		public void dispose( )
 		{
-			// do nothing
-
+			provider.dispose( );
 		}
 
 		public boolean isLabelProperty( Object element, String property )

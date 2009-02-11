@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Actuate Corporation.
+ * Copyright (c) 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,25 +11,21 @@
 
 package org.eclipse.birt.report.designer.ui.templates;
 
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.ISharedImages;
+
 /**
- * ITemplateProvider
+ * Abstract class for the ITemplateFolder
  */
-public interface ITemplateProvider
+
+public abstract class AbstractTemplateFolder implements ITemplateFolder
 {
-
-	/**Gets the provider ID.
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.ui.templates.ITemplateEntry#getImage()
 	 */
-	String getParentBaseName( );
-
-	/**Gets the entries.
-	 * @return
-	 */
-	ITemplateEntry[] getTemplates( );
-	
-	 /**
-     * Release the resources allocated if applicable.
-     */
-    void release();
-
+	public Image getImage( )
+	{
+		return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJ_FOLDER );
+	}
 }

@@ -37,14 +37,14 @@ public class ExtensionTemplateListProvider implements
 		ITreeContentProvider
 {
 
-	private static ITemplateProvider[] providers;
+	private  ITemplateProvider[] providers;
 	private List<TemplateNode> list = new ArrayList<TemplateNode>( );
 	private Map<String, TemplateNode> map = new HashMap<String, TemplateNode>( );
 
 
 	public ExtensionTemplateListProvider( )
 	{
-		if (providers == null)
+		//if (providers == null)
 		{
 			Object[] objs = getTemplateProviders( );
 			
@@ -214,6 +214,7 @@ public class ExtensionTemplateListProvider implements
 		{
 			return ( (TemplateNode) element ).getImage( );
 		}
+		
 		return null;
 	}
 
@@ -245,9 +246,12 @@ public class ExtensionTemplateListProvider implements
 
 	public void dispose( )
 	{
-		// do nothin
-
-
+		int len = providers.length;
+		for ( int i = 0; i < len; i++ )
+		{
+			ITemplateProvider provider = providers[i];
+			provider.release( );
+		}
 	}
 
 	/* (non-Javadoc)
