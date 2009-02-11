@@ -51,37 +51,43 @@ public class CategoryWrapper extends ScriptableObject
 		for ( int i = 0; i < functions.length; i++ )
 		{
 			final IScriptFunction function = functions[i];
-			this.defineProperty( functions[i].getName( ), new BaseFunction( ) {
-
-				/**
-				 * 
-				 */
-				private static final long serialVersionUID = 1L;
-
-				public Object call( Context cx, Scriptable scope,
-						Scriptable thisObj, java.lang.Object[] args )
-				{
-					Object[] convertedArgs = JavascriptEvalUtil.convertToJavaObjects( args );
-					try
-					{
-						IScriptFunctionContext context = null;
-						Object jsObj = scope.get( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCITON_BEAN_NAME,
-								scope );
-						if ( jsObj != org.mozilla.javascript.UniqueTag.NOT_FOUND )
-						{
-							context = (IScriptFunctionContext) Context.jsToJava( jsObj,
-									IScriptFunctionContext.class );
-						}
-						return function.execute( convertedArgs, context );
-					}
-					catch ( BirtException e )
-					{
-						throw new WrappedException( e );
-					}
-
-				}
-			},0 );
+			if ( "BirtMath".equals( category.getName( ) )
+					&& "multiply".equals( function.getName( ) ) )
+			{
+				defineFunction( "multiple", function );
+			}
+			defineFunction( function.getName( ), function );
 		}
+	}
+
+	@SuppressWarnings("serial")
+	private void defineFunction( String funcName, final IScriptFunction function )
+	{
+		this.defineProperty( funcName, new BaseFunction( ) {
+
+			public Object call( Context cx, Scriptable scope,
+					Scriptable thisObj, java.lang.Object[] args )
+			{
+				Object[] convertedArgs = JavascriptEvalUtil.convertToJavaObjects( args );
+				try
+				{
+					IScriptFunctionContext context = null;
+					Object jsObj = scope.get( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCITON_BEAN_NAME,
+							scope );
+					if ( jsObj != org.mozilla.javascript.UniqueTag.NOT_FOUND )
+					{
+						context = (IScriptFunctionContext) Context.jsToJava( jsObj,
+								IScriptFunctionContext.class );
+					}
+					return function.execute( convertedArgs, context );
+				}
+				catch ( BirtException e )
+				{
+					throw new WrappedException( e );
+				}
+
+			}
+		},0 );
 	}
 	
 	

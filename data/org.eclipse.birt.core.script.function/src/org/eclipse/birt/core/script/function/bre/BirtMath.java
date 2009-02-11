@@ -33,7 +33,8 @@ class BirtMath implements IScriptFunctionExecutor
 			this.executor = new Function_Add();
 		else if( "subtract".equals( functionName ))
 			this.executor = new Function_Subtract( );
-		else if( "multiple".equals( functionName ))
+		else if( "multiple".equals( functionName )
+				||"multiply".equals( functionName ))
 			this.executor = new Function_Multiple( );
 		else if( "divide".equals( functionName ))
 			this.executor = new Function_Divide( );
