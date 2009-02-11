@@ -1158,9 +1158,9 @@ Today's build (BuildId: ${buildId}) is available.
 Build based on:
 ${build.environment}
                 	
-Please download : ${QA.test.dir}\BIRT2.3-download\${buildId}\
+Please download : ${QA.test.dir}\BIRT2.5-download\${buildId}\
 
-NL pack from ${QA.test.dir}\BIRT2.3-download\${buildId}\
+NL pack from ${QA.test.dir}\BIRT2.5-download\${buildId}\
 
 Internal Update Site URL: http://qa-build/UpdateSite/${package.version}
 
@@ -1171,10 +1171,10 @@ Have a nice day!
         </mail>
 		<!-- create download info file -->
 		<echo file="${eclipse.build.configs}/../../download.properties" append="false">
-			allInOne=\\${QA.test.dir}\\BIRT2.3-download\\${buildId}\\birt-report-designer-all-in-one-${package.version}.zip
-			runtime=\\${QA.test.dir}\\BIRT2.3-download\\${buildId}\\birt-runtime-${package.version}.zip
-			rcp=\\${QA.test.dir}\\BIRT2.3-download\\${buildId}\\birt-rcp-report-designer-${package.version}.zip
-			frameworkSDK=\\${QA.test.dir}\\BIRT2.3-download\\${buildId}\\birt-report-framework-sdk-${package.version}.zip
+			allInOne=\\${QA.test.dir}\\BIRT2.5-download\\${buildId}\\birt-report-designer-all-in-one-${package.version}.zip
+			runtime=\\${QA.test.dir}\\BIRT2.5-download\\${buildId}\\birt-runtime-${package.version}.zip
+			rcp=\\${QA.test.dir}\\BIRT2.5-download\\${buildId}\\birt-rcp-report-designer-${package.version}.zip
+			frameworkSDK=\\${QA.test.dir}\\BIRT2.5-download\\${buildId}\\birt-report-framework-sdk-${package.version}.zip
 		</echo>
 		<copy tofile="${postingDirectory}/download.properties" file="${eclipse.build.configs}/../../download.properties" overwrite="true" />
 	</target>
