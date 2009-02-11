@@ -90,11 +90,11 @@ MeasureSubNodeProvider.Aggregation=Áı°è
 
 CrosstabSortingModelProvider.ColumnName.GroupLevel=±×·ì ¼öÁØ
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=¿À·ù
-SortkeyBuilder.DialogTitle.Label.Key=Å°:
+SortkeyBuilder.DialogTitle.Label.Key=&Key:
 CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure=´ë»ó
-CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=±×·ì ¼öÁØ:
+CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=Group &Level:
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=½Ä ºô´õ¸¦ È£ÃâÇÏ·Á¸é ´©¸¨´Ï´Ù.
-SortkeyBuilder.DialogTitle.Label.Direction=¹æÇâ:
+SortkeyBuilder.DialogTitle.Label.Direction=&Direction:
 
 ###########################################################
 #GrossTabPageGenerator properties
@@ -160,8 +160,8 @@ FilterConditionBuilder.DialogTitle.Edit=ÇÊÅÍ Á¶°Ç ÆíÁı
 FilterConditionBuilder.choice.ValueOfThisDataItem=ÀÌ µ¥ÀÌÅÍ Ç×¸ñ °ª
 FilterConditionBuilder.tooltip.ExpBuilder=½Ä ºô´õ¸¦ È£ÃâÇÏ·Á¸é ´©¸¨´Ï´Ù.
 FilterConditionBuilder.text.AND=¹× 
-FilterConditionBuilder.text.Condition=ÇÊÅÍ Á¶°Ç:
-FilterConditionBuilder.text.GroupLevel=±×·ì ¼öÁØ:
+FilterConditionBuilder.text.Condition=Filter &Condition:
+FilterConditionBuilder.text.GroupLevel=Group &Level:
 FilterConditionBuilder.list.item1=°ª
 FilterConditionBuilder.button.edit=ÆíÁı...
 FilterConditionBuilder.button.delete=Á¦°Å
@@ -175,8 +175,8 @@ CrosstabFilterConditionBuilder.DialogMessage.New=ÇÊÅÍ¸¦ Àû¿ëÇÒ ±×·ì ¼öÁØÀ» ¼±ÅÃÇ
 CrosstabFilterConditionBuilder.DialogMessage.Edit=ÇÊÅÍ¸¦ Àû¿ëÇÒ ±×·ì ¼öÁØÀ» ¼±ÅÃÇÑ ´ÙÀ½ ÇÊÅÍ Á¶°ÇÀ» ¼³Á¤ÇÕ´Ï´Ù.
 CrosstabFilterConditionBuilder.label.value=°ª
 CrosstabFilterConditionBuilder.Label.Target=´ë»ó: 
-CrosstabFilterConditionBuilder.Button.GroupLevel=±×·ì ¼öÁØ
-CrosstabFilterConditionBuilder.Button.Measure=ÃøÁ¤
+CrosstabFilterConditionBuilder.Button.GroupLevel=&Group Level
+CrosstabFilterConditionBuilder.Button.Measure=&Measure
 
 FilterbyTree.Bindings.Catogory.Measures=ÃøÁ¤
 FilterbyTree.Bindings.Catogory.Dimension=Â÷¿ø
@@ -235,8 +235,8 @@ CrosstabPageGenerator.List.GrandTotals=ÃÑÇÕ°è
 CrosstabPageGenerator.List.PageBreak=ÆäÀÌÁö ³ª´©±â
 
 PageLayoutPropertyDescriptorProvider.PageLayout=ÆäÀÌÁö ·¹ÀÌ¾Æ¿ô:
-RowPageBreak.RepeatColumnHeader=¿­ ¸Ó¸®±Û ¹İº¹
-ColumnPageBreak.RepeatRowHeader=Çà ¸Ó¸®±Û ¹İº¹
+RowPageBreak.RepeatColumnHeader=Repeat &Column Header
+ColumnPageBreak.RepeatRowHeader=Re&peat Row Header
 
 ###########################################################
 #ExpressionValueCellEditor properties
@@ -249,8 +249,8 @@ CrosstabSortKeyBuilder.Label.SelColumnMemberValue=¿­ ±¸¼º¿ø °ª ¼±ÅÃ
 CrosstabSortKeyBuilder.Label.SelRowMemberValue=Çà ±¸¼º¿ø °ª ¼±ÅÃ
 CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=¿­ ±¸¼º¿ø °ª ¼±ÅÃ
 CrosstabFilterConditionBuilder.Label.SelRowMemberValue=Çà ±¸¼º¿ø °ª ¼±ÅÃ
-CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel=±×·ì ¼öÁØ:
-CrosstabFilterConditionBuilder.DialogTitle.Label.Measure=ÃøÁ¤:
+CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel=Group &Level:
+CrosstabFilterConditionBuilder.DialogTitle.Label.Measure=Mea&sure:
 SelColumnMemberValue.Column.Level=¼öÁØ
 SelColumnMemberValue.Column.Value=°ª
 ChoiceSetFactory.choice.None=¾øÀ½
