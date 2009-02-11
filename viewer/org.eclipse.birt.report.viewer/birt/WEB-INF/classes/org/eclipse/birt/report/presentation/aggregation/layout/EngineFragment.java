@@ -130,7 +130,7 @@ public class EngineFragment extends BirtBaseFragment
 				response.setContentType( "application/octet-stream" ); //$NON-NLS-1$
 				response
 						.setHeader(
-								"Content-Disposition", "attachment; filename=" + fileName ); //$NON-NLS-1$ //$NON-NLS-2$				
+								"Content-Disposition", "attachment; filename=\"" + fileName + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$				
 			}
 			else
 			{
