@@ -30,8 +30,6 @@ import java.awt.event.ComponentListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -40,8 +38,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.ICallBackNotifier;
+import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
@@ -51,6 +49,7 @@ import org.eclipse.birt.chart.model.attribute.CallBackValue;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.framework.PlatformConfig;
 
 /**
  * The selector of interactivity charts in Swing JPanel.
@@ -127,7 +126,9 @@ public final class SwingInteractivityViewer extends JPanel implements
 	SwingInteractivityViewer( )
 	{
 		
-		final PluginSettings ps = PluginSettings.instance( );
+		PlatformConfig config = new PlatformConfig();
+		config.setProperty( "STANDALONE", "true" );  //$NON-NLS-1$//$NON-NLS-2$
+		final PluginSettings ps = PluginSettings.instance( config );
 		try
 		{
 			idr = ps.getDevice( "dv.SWING" );//$NON-NLS-1$
