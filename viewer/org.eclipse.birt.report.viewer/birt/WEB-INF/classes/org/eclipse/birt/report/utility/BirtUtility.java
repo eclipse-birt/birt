@@ -831,7 +831,7 @@ public class BirtUtility
 
 		message += "<br>\n"; //$NON-NLS-1$
 		message += "<pre id=\"error_detail\" style=\"display:none;\" >\n";//$NON-NLS-1$
-		message += getDetailMessage( e );
+		message += ParameterAccessor.htmlEncode( getDetailMessage( e ) );
 		message += "</pre>\n"; //$NON-NLS-1$
 		message += "</div>\n"; //$NON-NLS-1$
 		message += "</body>\n</html>"; //$NON-NLS-1$
