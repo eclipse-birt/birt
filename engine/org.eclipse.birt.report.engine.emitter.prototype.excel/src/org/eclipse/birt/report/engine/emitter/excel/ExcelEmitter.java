@@ -54,16 +54,8 @@ import com.ibm.icu.util.ULocale;
 
 public class ExcelEmitter extends ContentEmitterAdapter
 {
-
-	/**
-	 * 
-	 */
-	private static final String AUTO_GENERATED_BOOKMARK = "auto_generated_bookmark_";
-
-
 	protected static Logger logger = Logger.getLogger( ExcelEmitter.class
 			.getName( ) );
-
 	
 	protected IEmitterServices service = null;
 
@@ -85,7 +77,6 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	private boolean outputInMasterPage = false;
 	protected boolean isRTLSheet = false;
-	private int autoBookmarkIndex = 0;
 	private int sheetIndex = 1;
 	public String getOutputFormat( )
 	{
@@ -451,10 +442,10 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			return null;
 		
 		BookmarkDef bookmark=new BookmarkDef(content.getBookmark( ));
-		if ( !ExcelUtil.isValidBookmarkName( bookmarkName )
-				|| bookmarkName.startsWith( AUTO_GENERATED_BOOKMARK ) )
+		if ( !ExcelUtil.isValidBookmarkName( bookmarkName ) )
 		{
-			bookmark.setGeneratedName( getGenerateBookmark( ) );
+			bookmark.setGeneratedName( engine
+					.getGenerateBookmark( bookmarkName ) );
 		}
 		
 		// !( content.getBookmark( ).startsWith( "__TOC" ) ) )
@@ -462,13 +453,6 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		return bookmark;
 	}
 
-	/**
-	 * @return
-	 */
-	private String getGenerateBookmark( )
-	{
-		return AUTO_GENERATED_BOOKMARK + autoBookmarkIndex++;
-	}
 
 	public String capitalize( String orientation )
 	{

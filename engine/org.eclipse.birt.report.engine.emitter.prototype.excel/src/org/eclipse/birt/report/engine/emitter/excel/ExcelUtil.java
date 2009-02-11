@@ -29,6 +29,7 @@ import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.report.engine.emitter.excel.GroupInfo.Position;
+import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 import com.ibm.icu.text.SimpleDateFormat;
@@ -122,6 +123,10 @@ public class ExcelUtil
 			return false;
 		}
 		if( name.equalsIgnoreCase( "c" ) )
+		{
+			return false;
+		}
+		if ( name.startsWith( ExcelLayoutEngine.AUTO_GENERATED_BOOKMARK ) )
 		{
 			return false;
 		}

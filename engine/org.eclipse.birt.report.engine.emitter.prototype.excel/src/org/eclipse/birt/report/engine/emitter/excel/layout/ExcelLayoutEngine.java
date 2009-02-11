@@ -55,7 +55,10 @@ public class ExcelLayoutEngine
 	
 	private static final double DEFAULT_ROW_HEIGHT = 15;
 	// Excel 2007 can support 1048576 rows and 16384 columns.
-	//TODO: new 4 final static variable and 2 local variable
+	private int autoBookmarkIndex = 0;
+
+	public static final String AUTO_GENERATED_BOOKMARK = "auto_generated_bookmark_";
+
 	public final static int MAX_ROW_OFFICE2007_ = 1048576;
 	
 	public final static int MAX_COL_OFFICE2007 = 16384;
@@ -68,6 +71,8 @@ public class ExcelLayoutEngine
 
 	private int maxCol = MAX_COLUMN_OFFICE2003;
 	
+	private HashMap<String, String> cachedBookmarks = new HashMap<String, String>( );
+
 	private DataCache cache;
 
 	private AxisProcessor axis;
@@ -725,11 +730,40 @@ public class ExcelLayoutEngine
 				{
 					if ( hyperLink.getType( ) == IHyperlinkAction.ACTION_BOOKMARK )
 					{
-						data.setLinkedBookmark( bookmarkList.get( hyperLink
-								.getUrl( ) ) );
+						setLinkedBookmark( data, hyperLink );
 					}
 				}
 			}
+		}
+	}
+
+	/**
+	 * @param data
+	 * @param hyperLink
+	 */
+	private void setLinkedBookmark( SheetData data, HyperlinkDef hyperLink )
+	{
+		String bookmarkName = hyperLink.getUrl( );
+		BookmarkDef linkedBookmark = bookmarkList
+				.get( bookmarkName );
+		if ( linkedBookmark != null )
+		{
+			data.setLinkedBookmark( linkedBookmark );
+		}
+		else
+		{
+			BookmarkDef newBookmark;
+			if ( ExcelUtil.isValidBookmarkName( bookmarkName ) )
+				newBookmark = new BookmarkDef( bookmarkName );
+			else
+			{
+				String generateBookmarkName = getGenerateBookmark( bookmarkName );
+				newBookmark = new BookmarkDef(
+						generateBookmarkName );
+				cachedBookmarks.put( bookmarkName,
+						generateBookmarkName );
+			}
+			data.setLinkedBookmark( newBookmark );
 		}
 	}
 
@@ -835,5 +869,16 @@ public class ExcelLayoutEngine
 	public HashMap<String, BookmarkDef> getAllBookmarks( )
 	{
 		return this.bookmarkList;
+	}
+
+	/**
+	 * @param bookmarkName
+	 * @return generatedBookmarkName
+	 */
+	public String getGenerateBookmark( String bookmarkName )
+	{
+		String generatedName = cachedBookmarks.get( bookmarkName );
+		return generatedName != null ? generatedName : AUTO_GENERATED_BOOKMARK
+				+ autoBookmarkIndex++;
 	}
 }
