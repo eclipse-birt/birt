@@ -20,14 +20,11 @@ import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.CursorType;
-import org.eclipse.birt.chart.model.attribute.Fill;
-import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.ScriptValue;
 import org.eclipse.birt.chart.model.attribute.SeriesValue;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
-import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl;
 import org.eclipse.birt.chart.model.attribute.impl.URLValueImpl;
 import org.eclipse.birt.chart.model.data.Action;
@@ -45,7 +42,6 @@ import org.eclipse.birt.core.ui.swt.custom.TextCombo;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.custom.StyleRange;
@@ -545,7 +541,8 @@ public class TriggerDataComposite extends Composite
 		grpParameters.setText( Messages.getString( "TriggerDataComposite.Lbl.ParameterNames" ) ); //$NON-NLS-1$
 		grpParameters.setVisible( bAdvanced );
 
-		StyledText stParameters = new StyledText( grpParameters, SWT.WRAP );
+		StyledText stParameters = new StyledText( grpParameters, SWT.WRAP
+				| SWT.READ_ONLY );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalIndent = 2;
