@@ -193,38 +193,38 @@ public class ExcelLayoutEngine
 			int startCoordinate,
 			int endCoordinate )
 	{
-		XlsContainer currentContainer = getCurrentContainer( );
+		// XlsContainer currentContainer = getCurrentContainer( );
 		int columnCount = table.getColumnCount( );
 		int[] columnStartCoordinates = new int[ columnCount + 1 ];
-		if ( isRightAligned( currentContainer ) )
-		{
-			columnStartCoordinates[ columnCount ] = endCoordinate;
-			for ( int i = columnCount -  1; i >= 0; i-- )
-			{
-				columnStartCoordinates[i] = columnStartCoordinates[i + 1]
-						- table.getColumnWidth( i );
-			}
-		}
-		else
-		{
+		// if ( isRightAligned( currentContainer ) )
+		// {
+		// columnStartCoordinates[ columnCount ] = endCoordinate;
+		// for ( int i = columnCount - 1; i >= 0; i-- )
+		// {
+		// columnStartCoordinates[i] = columnStartCoordinates[i + 1]
+		// - table.getColumnWidth( i );
+		// }
+		// }
+		// else
+		// {
 			columnStartCoordinates[0] = startCoordinate;
 			for ( int i = 1; i <= columnCount; i++ )
 			{
 				columnStartCoordinates[i] = columnStartCoordinates[i - 1]
 						+ table.getColumnWidth( i - 1 );
 			}
-		}
+		// }
 		return columnStartCoordinates;
 	}
 
-	private boolean isRightAligned( XlsContainer currentContainer )
-	{
-		boolean isRightAligned = false;
-		String align = currentContainer.getStyle( ).getProperty(
-				StyleConstant.H_ALIGN_PROP );
-		isRightAligned = "Right".equalsIgnoreCase( align );
-		return isRightAligned;
-	}
+	// private boolean isRightAligned( XlsContainer currentContainer )
+	// {
+	// boolean isRightAligned = false;
+	// String align = currentContainer.getStyle( ).getProperty(
+	// StyleConstant.H_ALIGN_PROP );
+	// isRightAligned = "Right".equalsIgnoreCase( align );
+	// return isRightAligned;
+	// }
 
 	private int[] inRange( int start, int end, int[] data )
 	{
