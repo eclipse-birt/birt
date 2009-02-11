@@ -1671,10 +1671,10 @@ public class SwingRendererImpl extends DeviceAdapter
 
 		// Get the shape Action for the event
 		ShapedAction sa = getShapedAction( iev );
-		sa.setCursor( iev.getCursor( ) );
-		
+
 		if ( sa != null )
 		{
+			sa.setCursor( iev.getCursor( ) );
 			// Register the triggers in the shape and renderer.
 			registerTriggers( tga, sa );
 		}
