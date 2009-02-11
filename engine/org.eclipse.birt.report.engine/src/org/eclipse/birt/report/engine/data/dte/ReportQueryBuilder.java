@@ -529,7 +529,10 @@ public class ReportQueryBuilder
 			{
 				query = createQuery( image, (IDataQueryDefinition) value );
 			}
-
+			if( query instanceof BaseQueryDefinition )
+			{
+				setUsesDetails( (BaseQueryDefinition)query );
+			}
 			try
 			{
 				if ( image.getImageSource( ) == ImageItemDesign.IMAGE_EXPRESSION )
@@ -584,6 +587,10 @@ public class ReportQueryBuilder
 			else
 			{
 				query = createQuery( label, (IDataQueryDefinition) value );
+			}
+			if( query instanceof BaseQueryDefinition )
+			{
+				setUsesDetails( (BaseQueryDefinition)query );
 			}
 			try
 			{
@@ -838,6 +845,10 @@ public class ReportQueryBuilder
 					}
 				}
 			}
+			if( query instanceof BaseQueryDefinition )
+			{
+				setUsesDetails( (BaseQueryDefinition)query );
+			}
 			try
 			{
 				transformExpressions( text, query );
@@ -947,6 +958,14 @@ public class ReportQueryBuilder
 				baseQuery.setUsesDetails(true);
 			}
 		}
+		
+		private void setUsesDetails( BaseQueryDefinition baseQuery )
+		{
+			if( baseQuery != null && !baseQuery.cacheQueryResults( ) )
+			{
+				baseQuery.setUsesDetails( false );
+			}
+		}
 
 		private void handleListingQuery( ListingDesign design,
 				BaseQueryDefinition query )
@@ -978,6 +997,10 @@ public class ReportQueryBuilder
 			else
 			{
 				query = createQuery( dynamicText, (IDataQueryDefinition) value );
+			}
+			if( query instanceof BaseQueryDefinition )
+			{
+				setUsesDetails( (BaseQueryDefinition)query );
 			}
 			try
 			{
@@ -1014,6 +1037,10 @@ public class ReportQueryBuilder
 			else
 			{
 				query = createQuery( data, (IDataQueryDefinition) value );
+			}
+			if( query instanceof BaseQueryDefinition )
+			{
+				setUsesDetails( (BaseQueryDefinition)query );
 			}
 			try
 			{
