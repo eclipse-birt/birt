@@ -4149,6 +4149,8 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addEEnumLiteral( triggerConditionEEnum,
 				TriggerCondition.ACCESSIBILITY_LITERAL );
 		addEEnumLiteral( triggerConditionEEnum, TriggerCondition.ONLOAD_LITERAL );
+		addEEnumLiteral( triggerConditionEEnum,
+				TriggerCondition.ONRIGHTCLICK_LITERAL );
 
 		initEEnum( triggerFlowEEnum, TriggerFlow.class, "TriggerFlow" ); //$NON-NLS-1$
 		addEEnumLiteral( triggerFlowEEnum, TriggerFlow.CAPTURE_LITERAL );

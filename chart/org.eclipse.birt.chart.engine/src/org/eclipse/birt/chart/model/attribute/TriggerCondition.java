@@ -188,7 +188,15 @@ public enum TriggerCondition implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	ONLOAD_LITERAL(15, "onload", "onload");
+	ONLOAD_LITERAL(15, "onload", "onload"), /**
+	 * The '<em><b>Onrightclick</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #ONRIGHTCLICK
+	 * @generated
+	 * @ordered
+	 */
+	ONRIGHTCLICK_LITERAL(16, "onrightclick", "onrightclick");
 
 	/**
 	 * The '<em><b>Mouse Hover</b></em>' literal value.
@@ -429,6 +437,21 @@ public enum TriggerCondition implements Enumerator {
 	public static final int ONLOAD = 15;
 
 	/**
+	 * The '<em><b>Onrightclick</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Onrightclick</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #ONRIGHTCLICK_LITERAL
+	 * @model name="onrightclick"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int ONRIGHTCLICK = 16;
+
+	/**
 	 * An array of all the '<em><b>Trigger Condition</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -450,6 +473,7 @@ public enum TriggerCondition implements Enumerator {
 			ONKEYUP_LITERAL,
 			ACCESSIBILITY_LITERAL,
 			ONLOAD_LITERAL,
+			ONRIGHTCLICK_LITERAL,
 	};
 
 	/**
@@ -537,6 +561,8 @@ public enum TriggerCondition implements Enumerator {
 				return ACCESSIBILITY_LITERAL;
 			case ONLOAD :
 				return ONLOAD_LITERAL;
+			case ONRIGHTCLICK :
+				return ONRIGHTCLICK_LITERAL;
 		}
 		return null;
 	}

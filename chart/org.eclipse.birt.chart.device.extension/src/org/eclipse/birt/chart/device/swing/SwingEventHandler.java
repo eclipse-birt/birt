@@ -106,7 +106,7 @@ public final class SwingEventHandler
 
 	private final boolean isLeftButton( MouseEvent e )
 	{
-		return ( ( e.getButton( ) & MouseEvent.BUTTON1 ) == MouseEvent.BUTTON1 );
+		return ( e.getButton( ) == MouseEvent.BUTTON1 );
 	}
 
 	private final ShapedAction getShapedActionForConditionPoint( TriggerCondition[] tca, Point p )
@@ -363,15 +363,20 @@ public final class SwingEventHandler
 	 */
 	public void mouseClicked( MouseEvent e )
 	{
-		if ( !isLeftButton( e ) )
+		if ( isLeftButton( e ) )
 		{
-			return;
+			handleAction( new TriggerCondition[]{
+					TriggerCondition.MOUSE_CLICK_LITERAL,
+					TriggerCondition.ONCLICK_LITERAL
+			}, e );
+		}
+		else
+		{
+			handleAction( new TriggerCondition[]{
+				TriggerCondition.ONRIGHTCLICK_LITERAL
+			}, e );
 		}
 
-		handleAction( new TriggerCondition[]{
-				TriggerCondition.MOUSE_CLICK_LITERAL,
-				TriggerCondition.ONCLICK_LITERAL
-		}, e );
 	}
 
 	

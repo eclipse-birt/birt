@@ -1940,7 +1940,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TriggerCondition">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines the allowed values for Trigger conditions (for interactivity with chart). Any new condition needs to be added here to be supported.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;This type defines the allowed values for Trigger&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;conditions (for interactivity with chart). Any new&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;condition needs to be added here to be supported.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="TriggerCondition"/>
@@ -1969,6 +1969,7 @@
     <eLiterals name="onkeyup" value="13"/>
     <eLiterals name="accessibility" value="14"/>
     <eLiterals name="onload" value="15"/>
+    <eLiterals name="onrightclick" value="16"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="TriggerConditionObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

@@ -234,7 +234,7 @@ public class InteractivityCharts
 		ss.setSeriesIdentifier( "Unit Price" ); //$NON-NLS-1$
 		for ( int i = 0; i < ss.getMarkers( ).size( ); i++ )
 		{
-			( (Marker) ss.getMarkers( ).get( i ) ).setType( MarkerType.CIRCLE_LITERAL );
+			ss.getMarkers( ).get( i ).setType( MarkerType.CIRCLE_LITERAL );
 		}
 
 		DataPoint dp = ss.getDataPoint( );
@@ -478,4 +478,97 @@ public class InteractivityCharts
 
 		return cwaBar;
 	}
+
+	protected static final Chart createRCChart( )
+	{
+		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+		cwaBar.setDimension( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL );
+		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
+		cwaBar.getInteractivity( )
+				.setLegendBehavior( LegendBehaviorType.HIGHLIGHT_SERIE_LITERAL );
+		Plot p = cwaBar.getPlot( );
+		p.getClientArea( ).setBackground( ColorDefinitionImpl.create( 255,
+				255,
+				225 ) );
+		cwaBar.getTitle( )
+				.getLabel( )
+				.getCaption( )
+				.setValue( "Right Click \"Items\" to Highlight Seires" ); //$NON-NLS-1$
+		cwaBar.setUnitSpacing( 20 );
+
+		Legend lg = cwaBar.getLegend( );
+		LineAttributes lia = lg.getOutline( );
+		lg.getText( ).getFont( ).setSize( 16 );
+		lia.setStyle( LineStyle.SOLID_LITERAL );
+		lg.getInsets( ).set( 10, 5, 0, 0 );
+		lg.getOutline( ).setVisible( false );
+		lg.setAnchor( Anchor.NORTH_LITERAL );
+		lg.setItemType( LegendItemType.CATEGORIES_LITERAL );
+
+		// X-Axis
+		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
+
+		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
+		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
+		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
+		xAxisPrimary.getTitle( ).setVisible( true );
+
+		// Y-Axis
+		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );
+		yAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
+		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
+		yAxisPrimary.getLabel( ).getCaption( ).getFont( ).setRotation( 90 );
+
+		// Data Set
+		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
+				"Item 1", "Item 2", "Item 3"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		NumberDataSet orthoValues = NumberDataSetImpl.create( new double[]{
+				25, 35, 15
+		} );
+
+		// X-Series
+		Series seCategory = SeriesImpl.create( );
+		seCategory.setDataSet( categoryValues );
+
+		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
+		sdX.getSeriesPalette( ).shift( 0 );
+		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
+		sdX.getSeries( ).add( seCategory );
+
+		// Y-Series
+		BarSeries bs = (BarSeries) BarSeriesImpl.create( );
+		bs.setStacked( true );
+		bs.setDataSet( orthoValues );
+		bs.setRiser( RiserType.TUBE_LITERAL );
+		bs.setSeriesIdentifier( "Highlight" ); //$NON-NLS-1$
+		bs.getLabel( ).setVisible( true );
+		bs.setLabelPosition( Position.INSIDE_LITERAL );
+		bs.getTriggers( )
+				.add( TriggerImpl.create( TriggerCondition.ONRIGHTCLICK_LITERAL,
+						ActionImpl.create( ActionType.HIGHLIGHT_LITERAL,
+								SeriesValueImpl.create( String.valueOf( bs.getSeriesIdentifier( ) ) ) ) ) );
+		lg.getTriggers( )
+				.add( TriggerImpl.create( TriggerCondition.ONRIGHTCLICK_LITERAL,
+						ActionImpl.create( ActionType.HIGHLIGHT_LITERAL,
+								SeriesValueImpl.create( String.valueOf( bs.getSeriesIdentifier( ) ) ) ) ) );
+
+		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
+		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
+		sdY.getSeries( ).add( bs );
+
+		Series bs2 = (Series) EcoreUtil.copy( bs );
+		bs2.setDataSet( NumberDataSetImpl.create( new double[]{
+				35, 30, 10
+		} ) );
+		sdY.getSeries( ).add( bs2 );
+
+		Series bs3 = (Series) EcoreUtil.copy( bs );
+		bs3.setDataSet( NumberDataSetImpl.create( new double[]{
+				20, 10, 30
+		} ) );
+		sdY.getSeries( ).add( bs3 );
+
+		return cwaBar;
+	}
+
 }

@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.factory;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
@@ -174,7 +175,22 @@ public final class RunTimeContext implements Serializable
 	 */
 	public void clearState( )
 	{
-		stateStore.clear( );
+		for ( Iterator<Map.Entry<Object, Object>> iter = stateStore.entrySet( ).iterator( ); iter.hasNext( ); )
+		{
+			Map.Entry<Object, Object> entry = iter.next( );
+			Object key = entry.getKey( );
+			if ( key instanceof StateKey<?> )
+			{
+				if ( (( StateKey<?>) key ).needClear( ) )
+				{
+					iter.remove( );
+				}
+			}
+			else
+			{
+				iter.remove( );
+			}
+		}
 	}
 
 	/**
@@ -665,21 +681,37 @@ public final class RunTimeContext implements Serializable
 	 */
 	public static class StateKey<T>
 	{
-
-		public static <T> StateKey<T> create( )
+		private boolean needClear = true;
+		
+		private StateKey(boolean needClear )
 		{
-			return new StateKey<T>( );
+			this.needClear  = needClear;
+		}
+		
+		/**
+		 * Check if the state should be clear itself after chart rendering.
+		 * 
+		 * @return
+		 */
+		public boolean needClear() 
+		{
+			return needClear;
+		}
+		
+		public static <T> StateKey<T> create( boolean needClear  )
+		{
+			return new StateKey<T>( needClear);
 		}
 
 		/**
 		 * Key to reference if the data of chart is empty.
 		 */
-		public final static StateKey<Boolean> DATA_EMPTY_KEY = StateKey.create( );
+		public final static StateKey<Boolean> DATA_EMPTY_KEY = StateKey.create( false );
 
 		/**
 		 * Key to reference LabelLimiter lookup table.
 		 */
-		public final static StateKey<Map<Label, LabelLimiter>> LABEL_LIMITER_LOOKUP_KEY = StateKey.create( );
+		public final static StateKey<Map<Label, LabelLimiter>> LABEL_LIMITER_LOOKUP_KEY = StateKey.create( false );
 	}
 
 }

@@ -432,6 +432,7 @@ public final class SwingInteractivityViewer extends JPanel implements
 			jcbModels.addItem( "Toggle Visibility" );//$NON-NLS-1$
 			jcbModels.addItem( "URL Redirect" );//$NON-NLS-1$
 			jcbModels.addItem( "Call Back" );//$NON-NLS-1$
+			jcbModels.addItem( "Right Mouse Click" );//$NON-NLS-1$
 
 			jcbModels.setSelectedIndex( 0 );
 			jp.add( jcbModels );
@@ -518,6 +519,9 @@ public final class SwingInteractivityViewer extends JPanel implements
 					break;
 				case 4 :
 					cm = InteractivityCharts.createCBChart( );
+					break;
+				case 5 :
+					cm = InteractivityCharts.createRCChart( );
 					break;
 			}
 

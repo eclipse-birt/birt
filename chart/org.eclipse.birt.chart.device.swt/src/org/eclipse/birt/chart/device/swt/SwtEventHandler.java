@@ -442,17 +442,15 @@ class SwtEventHandler
 	 */
 	public void mouseUp( MouseEvent e )
 	{
-		if ( !isLeftButton( e ) )
-		{
-			return;
-		}
-
 		// FILTER OUT ALL TRIGGERS FOR MOUSE UP/CLICK ONLY
-		TriggerCondition[] tgArray =  new TriggerCondition[]{
+		TriggerCondition[] tgArray = isLeftButton( e ) ? new TriggerCondition[]{
 				TriggerCondition.ONMOUSEUP_LITERAL,
 				TriggerCondition.ONCLICK_LITERAL,
 				TriggerCondition.MOUSE_CLICK_LITERAL,
-		} ;
+		}
+				: new TriggerCondition[]{
+					TriggerCondition.ONRIGHTCLICK_LITERAL
+				};
 
 		handleAction( tgArray, e );
 	}

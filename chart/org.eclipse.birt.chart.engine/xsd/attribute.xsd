@@ -64,7 +64,9 @@ displayed along the axis.  Any new Axis type needs to be added here to be suppor
 	<xsd:simpleType name="TriggerCondition">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">
-			This type defines the allowed values for Trigger conditions (for interactivity with chart). Any new condition needs to be added here to be supported.
+				This type defines the allowed values for Trigger
+				conditions (for interactivity with chart). Any new
+				condition needs to be added here to be supported.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:restriction base="xsd:string">
@@ -78,20 +80,21 @@ displayed along the axis.  Any new Axis type needs to be added here to be suppor
 					<xsd:documentation>deprecated</xsd:documentation>
 				</xsd:annotation>
 			</xsd:enumeration>
-			<xsd:enumeration value="onclick"/>
-			<xsd:enumeration value="ondblclick"/>
-			<xsd:enumeration value="onmousedown"/>
-			<xsd:enumeration value="onmouseup"/>
-			<xsd:enumeration value="onmouseover"/>
-			<xsd:enumeration value="onmousemove"/>
-			<xsd:enumeration value="onmouseout"/>
-			<xsd:enumeration value="onfocus"/>
-			<xsd:enumeration value="onblur"/>
-			<xsd:enumeration value="onkeydown"/>
-			<xsd:enumeration value="onkeypress"/>
-			<xsd:enumeration value="onkeyup"/>
-			<xsd:enumeration value="accessibility"/>
-			<xsd:enumeration value="onload"/>
+			<xsd:enumeration value="onclick" />
+			<xsd:enumeration value="ondblclick" />
+			<xsd:enumeration value="onmousedown" />
+			<xsd:enumeration value="onmouseup" />
+			<xsd:enumeration value="onmouseover" />
+			<xsd:enumeration value="onmousemove" />
+			<xsd:enumeration value="onmouseout" />
+			<xsd:enumeration value="onfocus" />
+			<xsd:enumeration value="onblur" />
+			<xsd:enumeration value="onkeydown" />
+			<xsd:enumeration value="onkeypress" />
+			<xsd:enumeration value="onkeyup" />
+			<xsd:enumeration value="accessibility" />
+			<xsd:enumeration value="onload" />
+			<xsd:enumeration value="onrightclick"></xsd:enumeration>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="TriggerFlow">

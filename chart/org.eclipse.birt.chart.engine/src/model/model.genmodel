@@ -244,6 +244,7 @@
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/onkeyup"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/accessibility"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/onload"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/onrightclick"/>
     </genEnums>
     <genEnums ecoreEnum="org.eclipse.birt.chart.model.attribute.ecore#//TriggerFlow">
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerFlow/Capture"/>
