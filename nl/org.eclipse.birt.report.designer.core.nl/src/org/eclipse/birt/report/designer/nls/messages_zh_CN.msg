@@ -1347,12 +1347,12 @@ Element.Text.content=内容:
 Element.Text.contentID=内容关键字(&K):
 Element.Text.contentType=内容类型(&P):
 Element.TemplateElement.name=名称(&N)
-Element.Toc.Sytle=样式(&S)
+Element.Toc.Sytle=样式(&Y)
 
 ###########################################################
 #EmbeddedImageNodeProvider properties
 
-EmbeddedImageNodeProvider.action.New=新建嵌入图像
+EmbeddedImageNodeProvider.action.New=新建嵌入图像(&M)
 
 ###########################################################
 #EmbeddedImagesNodeProvider properties
@@ -1759,7 +1759,7 @@ GridPageGenerator.List.Visibility=可见性
 ###########################################################
 #GridProvider properties
 
-GridProvider.action.text=插入行
+GridProvider.action.text=插入行(&S)
 
 ###########################################################
 #GroupDialog properties
@@ -1822,13 +1822,13 @@ HighlightHandleProvider.text.Preview=AaBbCcYyZz  (font size =
 HighlightRuleBuilderDialog.choice.ValueOfThisDataItem=此数据项的值
 HighlightRuleBuilderDialog.text.AND=与
 HighlightRuleBuilderDialog.text.Any=任意
-HighlightRuleBuilderDialog.text.BackgroundColor=背景色:
+HighlightRuleBuilderDialog.text.BackgroundColor=&Background Color:
 HighlightRuleBuilderDialog.text.Between=介于
-HighlightRuleBuilderDialog.text.Color=颜色:
+HighlightRuleBuilderDialog.text.Color=颜色(&C):
 HighlightRuleBuilderDialog.text.Default=自动
 HighlightRuleBuilderDialog.text.ET=等于
 HighlightRuleBuilderDialog.text.False=为假
-HighlightRuleBuilderDialog.text.Font=字体:
+HighlightRuleBuilderDialog.text.Font=字体(&F):
 HighlightRuleBuilderDialog.text.GE=大于或等于
 HighlightRuleBuilderDialog.text.GT=大于
 HighlightRuleBuilderDialog.text.LE=小于或等于
@@ -1840,7 +1840,7 @@ HighlightRuleBuilderDialog.text.NotNull=不为 NULL
 HighlightRuleBuilderDialog.text.Null=为 NULL
 HighlightRuleBuilderDialog.text.Preview=预览:
 HighlightRuleBuilderDialog.text.PreviewContent=AaBbCcYyZz
-HighlightRuleBuilderDialog.text.Size=大小:
+HighlightRuleBuilderDialog.text.Size=大小(&Z):
 HighlightRuleBuilderDialog.text.Title=突出显示
 HighlightRuleBuilderDialog.text.True=为真
 HighlightRuleBuilderDialog.tooltip.ExpBuilder=打开表达式生成器
@@ -1848,7 +1848,7 @@ HighlightRuleBuilderDialog.tooltip.Bold=粗体
 HighlightRuleBuilderDialog.tooltip.Italic=斜体
 HighlightRuleBuilderDialog.tooltip.Underline=下划线
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=文本删除线
-HighlightRuleBuilderDialog.text.applyStyle=应用样式:
+HighlightRuleBuilderDialog.text.applyStyle=Apply St&yle:
 HighlightRuleBuilderDialog.displayText.None=无
 HighlightRuleBuilderDialog.text.Description=向 {0} 应用条件格式。请指定条件表达式和格式。\n如果表达式判定为“真”，则将应用格式。
 HighlightRuleBuilderDialog.text.Description.Element.Table=表
@@ -2095,7 +2095,7 @@ InputParameterDialog.ErrorTitle.Error=错误
 ###########################################################
 #InsertAction properties
 
-InsertAction.text=插入元素(&I)
+InsertAction.text=I&nsert Element
 
 ###########################################################
 #InsertColumnAction properties
@@ -2284,7 +2284,7 @@ ListBandControlFigure.tooltip.ListHeader=列表 - 页眉
 ###########################################################
 #ListBandProvider properties
 
-ListBandProvider.action.text=插入组(&I)
+ListBandProvider.action.text=插入组(&N)
 
 ###########################################################
 #ListBandProxy properties
@@ -2363,7 +2363,7 @@ MapPreferencePage.toolTipText.Down=映射规则下移
 
 MapRuleBuilder.DialogTitle.New=新建映射规则
 MapRuleBuilder.DialogTitle.Edit=编辑映射规则
-MapRuleBuilder.Button.ResourceKey=资源关键字:
+MapRuleBuilder.Button.ResourceKey=Resource &Key:
 MapRuleBuilder.Button.Reset=重置(&R)
 
 
@@ -2391,8 +2391,8 @@ SortkeyBuilder.DialogTitle.Edit=编辑排序关键字
 SortkeyBuilder.DialogMessage.New=请填充下列内容以创建排序关键字。
 SortkeyBuilder.DialogMessage.Edit=请编辑下列内容以更新排序关键字。
 SortkeyBuilder.DialogTitle.Label.Prompt=输入用作排序依据的关键字:
-SortkeyBuilder.DialogTitle.Label.Key=关键字:
-SortkeyBuilder.DialogTitle.Label.Direction=方向:
+SortkeyBuilder.DialogTitle.Label.Key=&Key:
+SortkeyBuilder.DialogTitle.Label.Direction=&Direction:
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=打开表达式生成器
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=错误
 
@@ -2696,7 +2696,7 @@ ParameterDialog.Boolean.True=真
 ParameterDialog.Button.ChangeFormat=更改(&G)...
 ParameterDialog.Button.CreateDataSet=新建(&W)...
 ParameterDialog.Button.ImportValue=导入值(&U)...
-ParameterDialog.Button.RemoveDefault=删除默认值
+ParameterDialog.Button.RemoveDefault=Remove Def&ault
 ParameterDialog.Button.SetDefault=设为默认值(&A)
 ParameterDialog.CheckBox.IsRequired=必需(&Q)
 ParameterDialog.CheckBox.DoNotEchoInput=不回显输入内容(&U)
@@ -3006,7 +3006,7 @@ RefreshLibExplorerAction.Text=刷新
 ###########################################################
 #RemoveLibraryAction properties
 
-RemoveLibraryAction.Text=删除库
+RemoveLibraryAction.Text=Remove Li&brary
 RemoveLibraryAction.config.Title=确认库删除
 RemoveLibraryAction.config.Message=是否确实要删除此库?
 
@@ -3072,7 +3072,7 @@ report.designer.ui.preferences.library.export.title=在将设计元素导出到库中时覆盖
 report.designer.ui.preferences.template.openDialogTitle=请为模板选择一个文件夹。
 report.designer.ui.preferences.template.select=选择(&S)...
 report.designer.ui.preferences.template.templatedir=模板
-report.designer.ui.preferences.template.templatefolder= 模板文件夹(&T)
+report.designer.ui.preferences.template.templatefolder=&Template folder
 report.designer.ui.preferences.template.title=请选择模板文件夹。
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=创建报表设计时生成注释(&G) 
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=版权所有 (c) 2008 <<此处是您公司的名称>>
@@ -3201,18 +3201,18 @@ ReportTemplateTransferDropTargetListener.transLabel.createElement=插入元素
 
 ResourceEditDialog.message.AddNote=快速添加”将关键字保存至当前源文件。
 ResourceEditDialog.message.ResourceFile=源文件: 
-ResourceEditDialog.text.Add=添加
+ResourceEditDialog.text.Add=添加(&A)
 ResourceEditDialog.text.AddWarningMsg=不允许空白键。
 ResourceEditDialog.text.AddWarningTitle=Warning
-ResourceEditDialog.text.Delete=删除
-ResourceEditDialog.text.Key=关键字
+ResourceEditDialog.text.Delete=删除(&D)
+ResourceEditDialog.text.Key=&Key
 ResourceEditDialog.text.QuickAdd=快速添加
-ResourceEditDialog.text.Value=值
+ResourceEditDialog.text.Value=&Value
 
 ###########################################################
 #ResourceKeyDescriptor properties
 
-ResourceKeyDescriptor.text.Reset=重置
+ResourceKeyDescriptor.text.Reset=重置(&R)
 ResourceKeyDescriptor.title.SelectKey=选择关键字
 ResourceKeyDescriptor.button.reset.tooltip=重置按键
 ResourceKeyDescriptor.button.browse.tooltip=浏览和选择按键
@@ -3510,7 +3510,7 @@ TableOptionDialog.text.TableDetail=明细数据数(&D):
 TableOptionDialog.text.TableSize=表大小
 TableOptionDialog.title.InsertGrid=插入网格
 TableOptionDialog.title.InsertTable=插入表
-TableOptionDialog.text.DataSet=数据集(&D):
+TableOptionDialog.text.DataSet=Data &Set:
 
 ###########################################################
 #TablePageGenerator properties
@@ -4165,9 +4165,9 @@ ThumbnailBuilder.Button.Text.Browse=浏览(&B)...
 ThumbnailBuilder.FileDialog.Title=选择图像文件
 ThumbnailBuilder.FileDialog.FileNameError.Title=错误
 ThumbnailBuilder.FileDialog.FileNameError.Message=您选择的文件不是图像。
-ThumbnailBuilder.Button.GenerateFromReport=从报表生成
-ThumbnailBuilder.Button.BrowseFromFileSystem=从文件系统浏览
-ThumbnailBuilder.Button.ImportFromResource=从共享资源导入
+ThumbnailBuilder.Button.GenerateFromReport=Ge&nerate from the report
+ThumbnailBuilder.Button.BrowseFromFileSystem=&Browse from file system
+ThumbnailBuilder.Button.ImportFromResource=&Import from shared resources
 ThumbnailBuilder.Image.DefaultName=缩略图
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=警告
 ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=您选择了大图像(大于 1014x768)，可能导致内存不足异常。\n是否继续?

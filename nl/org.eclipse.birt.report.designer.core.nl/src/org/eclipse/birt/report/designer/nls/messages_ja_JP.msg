@@ -1347,12 +1347,12 @@ Element.Text.content=コンテンツ :
 Element.Text.contentID=コンテンツキー(&K) :
 Element.Text.contentType=コンテンツの種類(&P) :
 Element.TemplateElement.name=名前(&N)
-Element.Toc.Sytle=スタイル(&S)
+Element.Toc.Sytle=スタイル(&Y)
 
 ###########################################################
 #EmbeddedImageNodeProvider properties
 
-EmbeddedImageNodeProvider.action.New=新しく埋め込まれたイメージ
+EmbeddedImageNodeProvider.action.New=新しく埋め込まれたイメージ(&M)
 
 ###########################################################
 #EmbeddedImagesNodeProvider properties
@@ -1759,7 +1759,7 @@ GridPageGenerator.List.Visibility=可視性
 ###########################################################
 #GridProvider properties
 
-GridProvider.action.text=行の挿入
+GridProvider.action.text=行の挿入(&S)
 
 ###########################################################
 #GroupDialog properties
@@ -1822,13 +1822,13 @@ HighlightHandleProvider.text.Preview=Aaあぁアァ亜宇  (フォントサイズ :
 HighlightRuleBuilderDialog.choice.ValueOfThisDataItem=このデータ項目の値
 HighlightRuleBuilderDialog.text.AND= ～
 HighlightRuleBuilderDialog.text.Any=次の値のいずれか
-HighlightRuleBuilderDialog.text.BackgroundColor=背景色 :
+HighlightRuleBuilderDialog.text.BackgroundColor=&Background Color:
 HighlightRuleBuilderDialog.text.Between=値に挟まれる
-HighlightRuleBuilderDialog.text.Color=カラー :
+HighlightRuleBuilderDialog.text.Color=カラー(&C) :
 HighlightRuleBuilderDialog.text.Default=自動
 HighlightRuleBuilderDialog.text.ET=次の値に等しい
 HighlightRuleBuilderDialog.text.False=False
-HighlightRuleBuilderDialog.text.Font=フォント名 :
+HighlightRuleBuilderDialog.text.Font=フォント(&F) :
 HighlightRuleBuilderDialog.text.GE=次の値以上
 HighlightRuleBuilderDialog.text.GT=次の値より大きい
 HighlightRuleBuilderDialog.text.LE=次の値以下
@@ -1840,7 +1840,7 @@ HighlightRuleBuilderDialog.text.NotNull=Not Null
 HighlightRuleBuilderDialog.text.Null=Null
 HighlightRuleBuilderDialog.text.Preview=プレビュー :
 HighlightRuleBuilderDialog.text.PreviewContent=Aaあぁアァ亜宇
-HighlightRuleBuilderDialog.text.Size=サイズ :
+HighlightRuleBuilderDialog.text.Size=サイズ(&Z) :
 HighlightRuleBuilderDialog.text.Title=ハイライト
 HighlightRuleBuilderDialog.text.True=True
 HighlightRuleBuilderDialog.tooltip.ExpBuilder=式ビルダを開く
@@ -1848,7 +1848,7 @@ HighlightRuleBuilderDialog.tooltip.Bold=太字
 HighlightRuleBuilderDialog.tooltip.Italic=斜体
 HighlightRuleBuilderDialog.tooltip.Underline=下線
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=テキストの取り消し線
-HighlightRuleBuilderDialog.text.applyStyle=スタイルの適用 :
+HighlightRuleBuilderDialog.text.applyStyle=Apply St&yle:
 HighlightRuleBuilderDialog.displayText.None=なし
 HighlightRuleBuilderDialog.text.Description={0} に条件付き書式を適用します。条件式と書式を指定してください。\n条件式が True と評価されると、書式が適用されます。
 HighlightRuleBuilderDialog.text.Description.Element.Table=テーブル
@@ -2095,7 +2095,7 @@ InputParameterDialog.ErrorTitle.Error=エラー
 ###########################################################
 #InsertAction properties
 
-InsertAction.text=要素の挿入(&I)
+InsertAction.text=I&nsert Element
 
 ###########################################################
 #InsertColumnAction properties
@@ -2284,7 +2284,7 @@ ListBandControlFigure.tooltip.ListHeader=リスト - ヘッダ
 ###########################################################
 #ListBandProvider properties
 
-ListBandProvider.action.text=グループの挿入(&I)
+ListBandProvider.action.text=グループを挿入(&N)
 
 ###########################################################
 #ListBandProxy properties
@@ -2363,7 +2363,7 @@ MapPreferencePage.toolTipText.Down=マップの規則を下に移動
 
 MapRuleBuilder.DialogTitle.New=マップ規則の新規作成
 MapRuleBuilder.DialogTitle.Edit=マップ規則の編集
-MapRuleBuilder.Button.ResourceKey=リソースキー :
+MapRuleBuilder.Button.ResourceKey=Resource &Key:
 MapRuleBuilder.Button.Reset=リセット(&R)
 
 
@@ -2391,8 +2391,8 @@ SortkeyBuilder.DialogTitle.Edit=ソートキーの編集
 SortkeyBuilder.DialogMessage.New=ソートキーを作成するには、次の内容を指定してください。
 SortkeyBuilder.DialogMessage.Edit=ソートキーを更新するには、次の内容を編集してください。
 SortkeyBuilder.DialogTitle.Label.Prompt=ソートキーの入力 :
-SortkeyBuilder.DialogTitle.Label.Key=キー :
-SortkeyBuilder.DialogTitle.Label.Direction=方向 :
+SortkeyBuilder.DialogTitle.Label.Key=&Key:
+SortkeyBuilder.DialogTitle.Label.Direction=&Direction:
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=式ビルダを開く
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=エラー
 
@@ -2696,7 +2696,7 @@ ParameterDialog.Boolean.True=True
 ParameterDialog.Button.ChangeFormat=変更(&G)...
 ParameterDialog.Button.CreateDataSet=新規作成(&W)...
 ParameterDialog.Button.ImportValue=値のインポート(&U)...
-ParameterDialog.Button.RemoveDefault=デフォルトの削除
+ParameterDialog.Button.RemoveDefault=Remove Def&ault
 ParameterDialog.Button.SetDefault=デフォルトに設定(&A)
 ParameterDialog.CheckBox.IsRequired=必須にする(&Q)
 ParameterDialog.CheckBox.DoNotEchoInput=入力値を繰り返さない(&U)
@@ -3006,7 +3006,7 @@ RefreshLibExplorerAction.Text=更新
 ###########################################################
 #RemoveLibraryAction properties
 
-RemoveLibraryAction.Text=ライブラリの削除
+RemoveLibraryAction.Text=Remove Li&brary
 RemoveLibraryAction.config.Title=ライブラリの削除の確認
 RemoveLibraryAction.config.Message=このライブラリを削除しますか ?
 
@@ -3072,7 +3072,7 @@ report.designer.ui.preferences.library.export.title=デザイン要素をライブラリにエ
 report.designer.ui.preferences.template.openDialogTitle=テンプレート用のフォルダを選択してください。
 report.designer.ui.preferences.template.select=選択(&S)...
 report.designer.ui.preferences.template.templatedir=テンプレート
-report.designer.ui.preferences.template.templatefolder= テンプレートフォルダ(&T)
+report.designer.ui.preferences.template.templatefolder=&Template folder
 report.designer.ui.preferences.template.title=テンプレートフォルダを選択してください。
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=レポートデザインの作成時にコメントを生成する(&G) 
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2008 <<ここに会社名を入力>>
@@ -3201,18 +3201,18 @@ ReportTemplateTransferDropTargetListener.transLabel.createElement=要素の挿入
 
 ResourceEditDialog.message.AddNote=[今すぐ追加] では、現在のリソースファイルにキーが保存されます。
 ResourceEditDialog.message.ResourceFile=リソースファイル : 
-ResourceEditDialog.text.Add=追加
+ResourceEditDialog.text.Add=追加(&A)
 ResourceEditDialog.text.AddWarningMsg=キーは空白にできません。
 ResourceEditDialog.text.AddWarningTitle=Warning
-ResourceEditDialog.text.Delete=削除
-ResourceEditDialog.text.Key=キー
+ResourceEditDialog.text.Delete=削除(&D)
+ResourceEditDialog.text.Key=&Key
 ResourceEditDialog.text.QuickAdd=今すぐ追加
-ResourceEditDialog.text.Value=値
+ResourceEditDialog.text.Value=&Value
 
 ###########################################################
 #ResourceKeyDescriptor properties
 
-ResourceKeyDescriptor.text.Reset=リセット
+ResourceKeyDescriptor.text.Reset=リセット(&R)
 ResourceKeyDescriptor.title.SelectKey=キーの選択
 ResourceKeyDescriptor.button.reset.tooltip=キーのリセット
 ResourceKeyDescriptor.button.browse.tooltip=参照してキーを選択
@@ -3510,7 +3510,7 @@ TableOptionDialog.text.TableDetail=表示する詳細の数(&D) :
 TableOptionDialog.text.TableSize=テーブルのサイズ
 TableOptionDialog.title.InsertGrid=グリッドの挿入
 TableOptionDialog.title.InsertTable=テーブルの挿入
-TableOptionDialog.text.DataSet=データセット(&D) :
+TableOptionDialog.text.DataSet=Data &Set:
 
 ###########################################################
 #TablePageGenerator properties
@@ -4165,9 +4165,9 @@ ThumbnailBuilder.Button.Text.Browse=参照(&B)...
 ThumbnailBuilder.FileDialog.Title=イメージファイルの選択
 ThumbnailBuilder.FileDialog.FileNameError.Title=エラー
 ThumbnailBuilder.FileDialog.FileNameError.Message=選択したファイルは、イメージではありません。
-ThumbnailBuilder.Button.GenerateFromReport=レポートから生成
-ThumbnailBuilder.Button.BrowseFromFileSystem=ファイルシステムの参照
-ThumbnailBuilder.Button.ImportFromResource=共有リソースからインポート
+ThumbnailBuilder.Button.GenerateFromReport=Ge&nerate from the report
+ThumbnailBuilder.Button.BrowseFromFileSystem=&Browse from file system
+ThumbnailBuilder.Button.ImportFromResource=&Import from shared resources
 ThumbnailBuilder.Image.DefaultName=サムネイルのイメージ
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=警告
 ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=サイズの大きいイメージ (1014x768 以上) を選択しました。これによりメモリ不足の例外が発生する可能性があります。\n続けますか ?

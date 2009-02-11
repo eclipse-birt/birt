@@ -1347,12 +1347,12 @@ Element.Text.content=Contenu :
 Element.Text.contentID=&Clé de contenu :
 Element.Text.contentType=Ty&pe de contenu :
 Element.TemplateElement.name=&Nom
-Element.Toc.Sytle=&Style
+Element.Toc.Sytle=St&yle
 
 ###########################################################
 #EmbeddedImageNodeProvider properties
 
-EmbeddedImageNodeProvider.action.New=Nouvelle image incorporée
+EmbeddedImageNodeProvider.action.New=Nouvelle image incor&porée
 
 ###########################################################
 #EmbeddedImagesNodeProvider properties
@@ -1759,7 +1759,7 @@ GridPageGenerator.List.Visibility=Visibilité
 ###########################################################
 #GridProvider properties
 
-GridProvider.action.text=Insérer une ligne
+GridProvider.action.text=In&sérer une ligne
 
 ###########################################################
 #GroupDialog properties
@@ -1822,13 +1822,13 @@ HighlightHandleProvider.text.Preview=AaBbCcYyZz (taille de police
 HighlightRuleBuilderDialog.choice.ValueOfThisDataItem=Valeur de l'élément de données
 HighlightRuleBuilderDialog.text.AND=ET
 HighlightRuleBuilderDialog.text.Any=est indifféremment
-HighlightRuleBuilderDialog.text.BackgroundColor=Couleur d'arrière-plan :
+HighlightRuleBuilderDialog.text.BackgroundColor=&Background Color:
 HighlightRuleBuilderDialog.text.Between=Est compris entre
-HighlightRuleBuilderDialog.text.Color=Couleur :
+HighlightRuleBuilderDialog.text.Color=&Couleur :
 HighlightRuleBuilderDialog.text.Default=Auto
 HighlightRuleBuilderDialog.text.ET=est égal à
 HighlightRuleBuilderDialog.text.False=est faux
-HighlightRuleBuilderDialog.text.Font=Police :
+HighlightRuleBuilderDialog.text.Font=&Police :
 HighlightRuleBuilderDialog.text.GE=est supérieur ou égal à
 HighlightRuleBuilderDialog.text.GT=est supérieur à
 HighlightRuleBuilderDialog.text.LE=est inférieur ou égal à
@@ -1840,7 +1840,7 @@ HighlightRuleBuilderDialog.text.NotNull=n'est pas nul
 HighlightRuleBuilderDialog.text.Null=est nul
 HighlightRuleBuilderDialog.text.Preview=Aperçu :
 HighlightRuleBuilderDialog.text.PreviewContent=AaBbCcYyZz
-HighlightRuleBuilderDialog.text.Size=Taille :
+HighlightRuleBuilderDialog.text.Size=&Taille :
 HighlightRuleBuilderDialog.text.Title=Mise en surbrillance
 HighlightRuleBuilderDialog.text.True=est vrai
 HighlightRuleBuilderDialog.tooltip.ExpBuilder=Ouvrir le Générateur d'expression
@@ -1848,7 +1848,7 @@ HighlightRuleBuilderDialog.tooltip.Bold=Gras
 HighlightRuleBuilderDialog.tooltip.Italic=Italique
 HighlightRuleBuilderDialog.tooltip.Underline=Texte souligné
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=Ligne de texte barré
-HighlightRuleBuilderDialog.text.applyStyle=Appliquer un style :
+HighlightRuleBuilderDialog.text.applyStyle=Apply St&yle:
 HighlightRuleBuilderDialog.displayText.None=Aucun
 HighlightRuleBuilderDialog.text.Description=Appliquer un formatage conditionnel dans {0}. Spécifier l'expression conditionnelle et le format.\nLe format sera appliqué si l'expression est True.
 HighlightRuleBuilderDialog.text.Description.Element.Table=table
@@ -2095,7 +2095,7 @@ InputParameterDialog.ErrorTitle.Error=Erreur
 ###########################################################
 #InsertAction properties
 
-InsertAction.text=&Insérer l'élément
+InsertAction.text=I&nsert Element
 
 ###########################################################
 #InsertColumnAction properties
@@ -2284,7 +2284,7 @@ ListBandControlFigure.tooltip.ListHeader=Liste - En-tête
 ###########################################################
 #ListBandProvider properties
 
-ListBandProvider.action.text=&Insérer le groupe
+ListBandProvider.action.text=I&nsérer le groupe
 
 ###########################################################
 #ListBandProxy properties
@@ -2363,7 +2363,7 @@ MapPreferencePage.toolTipText.Down=Déplacer la règle de mappage vers le bas
 
 MapRuleBuilder.DialogTitle.New=Nouvelle règle de mappage
 MapRuleBuilder.DialogTitle.Edit=Modifier la règle de mappage
-MapRuleBuilder.Button.ResourceKey=Clé de ressource :
+MapRuleBuilder.Button.ResourceKey=Resource &Key:
 MapRuleBuilder.Button.Reset=&Réinitialiser
 
 
@@ -2391,8 +2391,8 @@ SortkeyBuilder.DialogTitle.Edit=Modifier clé de tri
 SortkeyBuilder.DialogMessage.New=Renseignez le contenu suivant pour créer une clé de tri.
 SortkeyBuilder.DialogMessage.Edit=Modifiez le contenu suivant pour mettre à jour la clé de tri.
 SortkeyBuilder.DialogTitle.Label.Prompt=Entrez une clé pour le tri :
-SortkeyBuilder.DialogTitle.Label.Key=Clé :
-SortkeyBuilder.DialogTitle.Label.Direction=Direction :
+SortkeyBuilder.DialogTitle.Label.Key=&Key:
+SortkeyBuilder.DialogTitle.Label.Direction=&Direction:
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Ouvrir le Générateur d'expression
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Erreur
 
@@ -2696,7 +2696,7 @@ ParameterDialog.Boolean.True=True
 ParameterDialog.Button.ChangeFormat=&Modifier...
 ParameterDialog.Button.CreateDataSet=&Créer...
 ParameterDialog.Button.ImportValue=Importer des vale&urs...
-ParameterDialog.Button.RemoveDefault=Supprimer la valeur par défaut
+ParameterDialog.Button.RemoveDefault=Remove Def&ault
 ParameterDialog.Button.SetDefault=Définir p&ar défaut
 ParameterDialog.CheckBox.IsRequired=Est re&quis
 ParameterDialog.CheckBox.DoNotEchoInput=Ne pas reprod&uire l'entrée
@@ -3006,7 +3006,7 @@ RefreshLibExplorerAction.Text=Actualiser
 ###########################################################
 #RemoveLibraryAction properties
 
-RemoveLibraryAction.Text=Supprimer la bibliothèque
+RemoveLibraryAction.Text=Remove Li&brary
 RemoveLibraryAction.config.Title=Confirmer la suppression de la bibliothèque
 RemoveLibraryAction.config.Message=Voulez-vous vraiment supprimer cette bibliothèque ?
 
@@ -3072,7 +3072,7 @@ report.designer.ui.preferences.library.export.title=Ecraser l'élément existant l
 report.designer.ui.preferences.template.openDialogTitle=Sélectionnez un dossier pour les modèles.
 report.designer.ui.preferences.template.select=&Sélectionner...
 report.designer.ui.preferences.template.templatedir=modèles
-report.designer.ui.preferences.template.templatefolder= &Dossier modèle
+report.designer.ui.preferences.template.templatefolder=&Template folder
 report.designer.ui.preferences.template.title=Sélectionnez le dossier modèle.
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=&Générer un commentaire lors de la création du modèle d'état 
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2008 <<Nom de votre entreprise>>
@@ -3201,18 +3201,18 @@ ReportTemplateTransferDropTargetListener.transLabel.createElement=Insérer l'élém
 
 ResourceEditDialog.message.AddNote=La fonction Ajout rapide enregistre la clé dans le fichier de ressources en cours.
 ResourceEditDialog.message.ResourceFile=Fichier de ressources : 
-ResourceEditDialog.text.Add=Ajouter
+ResourceEditDialog.text.Add=&Ajouter
 ResourceEditDialog.text.AddWarningMsg=Les clés doivent être renseignées.
 ResourceEditDialog.text.AddWarningTitle=Warning
-ResourceEditDialog.text.Delete=Supprimer
-ResourceEditDialog.text.Key=Key
+ResourceEditDialog.text.Delete=&Supprimer
+ResourceEditDialog.text.Key=&Key
 ResourceEditDialog.text.QuickAdd=Ajout rapide
-ResourceEditDialog.text.Value=Valeur
+ResourceEditDialog.text.Value=&Value
 
 ###########################################################
 #ResourceKeyDescriptor properties
 
-ResourceKeyDescriptor.text.Reset=Réinitialiser
+ResourceKeyDescriptor.text.Reset=&Réinitialiser
 ResourceKeyDescriptor.title.SelectKey=Sélectionner la clé
 ResourceKeyDescriptor.button.reset.tooltip=Réinitialiser la clé
 ResourceKeyDescriptor.button.browse.tooltip=Parcourir et sélectionner une clé
@@ -3510,7 +3510,7 @@ TableOptionDialog.text.TableDetail=Nombre de &détails :
 TableOptionDialog.text.TableSize=Taille de la table
 TableOptionDialog.title.InsertGrid=Insérer une grille
 TableOptionDialog.title.InsertTable=Insérer une table
-TableOptionDialog.text.DataSet=&Jeu de données :
+TableOptionDialog.text.DataSet=Data &Set:
 
 ###########################################################
 #TablePageGenerator properties
@@ -4165,9 +4165,9 @@ ThumbnailBuilder.Button.Text.Browse=& Parcourir...
 ThumbnailBuilder.FileDialog.Title=Sélectionner un fichier image
 ThumbnailBuilder.FileDialog.FileNameError.Title=Erreur
 ThumbnailBuilder.FileDialog.FileNameError.Message=Le fichier sélectionné n'est pas une image.
-ThumbnailBuilder.Button.GenerateFromReport=Générer à partir de l'état
-ThumbnailBuilder.Button.BrowseFromFileSystem=Parcourir depuis le système de fichiers
-ThumbnailBuilder.Button.ImportFromResource=Importer depuis des ressources partagées
+ThumbnailBuilder.Button.GenerateFromReport=Ge&nerate from the report
+ThumbnailBuilder.Button.BrowseFromFileSystem=&Browse from file system
+ThumbnailBuilder.Button.ImportFromResource=&Import from shared resources
 ThumbnailBuilder.Image.DefaultName=Image miniature
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=Avertissement
 ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=Vous avez sélectionné une image volumineuse (supérieure à 1 014 x 768). Ceci peut entraîner la génération d'une exception de type "Mémoire insuffisante".\nSouhaitez-vous continuer ?
