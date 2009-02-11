@@ -90,6 +90,8 @@ Error.ReportDesignNotFoundError = 보고서 문서 {0}에서 보고서 디자인을 찾을 수 없
 Error.PreparedQueryNotFoundError = 준비된 쿼리 {0}을(를) 찾을 수 없습니다.
 Error.IncorrectParentResultSetError = 하위 쿼리에 대한 상위 결과 집합이 잘못되었습니다: {0}.
 Error.UnsupportedQueryTypeError = 지원되지 않는 쿼리 형식 {0}
+Error.QueryNotBuiltError = Fail to build query for element: {0}.
+
 Error.RenderTaskNotFinishedError = 렌더링 작업이 완료되지 않았습니다.
 Error.RenderOptionError = 보고서를 렌더링하려면 렌더링 옵션을 지정해야 합니다.
 Error.ReportArchiveError = 보고서를 실행하는 동안 보고서 보관을 지정하지 않았습니다.

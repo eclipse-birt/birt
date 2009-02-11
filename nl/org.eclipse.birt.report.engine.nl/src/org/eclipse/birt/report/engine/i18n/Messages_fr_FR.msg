@@ -90,6 +90,8 @@ Error.ReportDesignNotFoundError = Impossible de localiser le modèle d'état dans 
 Error.PreparedQueryNotFoundError = Impossible de localiser la requête préparée : {0}.
 Error.IncorrectParentResultSetError = Jeu de résultats parents incorrect pour la sous-requête : {0}.
 Error.UnsupportedQueryTypeError = Type de requête non pris en charge {0}.
+Error.QueryNotBuiltError = Fail to build query for element: {0}.
+
 Error.RenderTaskNotFinishedError = Tâche de rendu non terminée.
 Error.RenderOptionError = Les options de rendu doivent être spécifiées pour rendre un état.
 Error.ReportArchiveError = L'archive d'état n'est pas spécifiée lors de l'exécution d'un état.

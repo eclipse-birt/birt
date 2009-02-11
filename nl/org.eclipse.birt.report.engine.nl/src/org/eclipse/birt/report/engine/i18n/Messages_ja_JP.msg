@@ -90,6 +90,8 @@ Error.ReportDesignNotFoundError = ƒŒƒ|[ƒg•¶‘ {0} ‚ÉƒŒƒ|[ƒgƒfƒUƒCƒ“‚ªŒ©‚Â‚©‚è‚
 Error.PreparedQueryNotFoundError = ‹LqÏ‚İƒNƒGƒŠ {0} ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 Error.IncorrectParentResultSetError = subQuery {0} ‚Ìe‚Ì resultSet ‚ª³‚µ‚­‚ ‚è‚Ü‚¹‚ñB
 Error.UnsupportedQueryTypeError = ƒNƒGƒŠ‚Ìí—Ş {0} ‚ª–³Œø‚Å‚·B
+Error.QueryNotBuiltError = Fail to build query for element: {0}.
+
 Error.RenderTaskNotFinishedError = ƒŒƒ“ƒ_ƒŠƒ“ƒOƒ^ƒXƒN‚ªŠ®—¹‚µ‚Ä‚¢‚Ü‚¹‚ñB
 Error.RenderOptionError = ƒŒƒ|[ƒg‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO‚·‚é‚É‚ÍAƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğw’è‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B
 Error.ReportArchiveError = ƒŒƒ|[ƒgÀs‚ÌƒŒƒ|[ƒgƒA[ƒJƒCƒu‚ªw’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB

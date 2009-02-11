@@ -90,6 +90,8 @@ Error.ReportDesignNotFoundError = 报表文档 {0} 中无法找到报表设计。
 Error.PreparedQueryNotFoundError = 无法找到准备的查询 {0}。
 Error.IncorrectParentResultSetError = 子查询的错误父结果集: {0}。
 Error.UnsupportedQueryTypeError = 不支持的查询类型 {0}。
+Error.QueryNotBuiltError = Fail to build query for element: {0}.
+
 Error.RenderTaskNotFinishedError = 呈现任务未完成。
 Error.RenderOptionError = 必须指定呈现选项才能呈现报表。
 Error.ReportArchiveError = 运行报表时未指定报表存档。
