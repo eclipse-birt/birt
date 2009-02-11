@@ -1105,6 +1105,12 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				}
 				else
 				{
+					if ( paramValue == null
+							&& parameter.getControlType( ) == ParameterDefinition.LIST_BOX
+							&& !parameter.isRequired( ) )
+					{
+						paramValue = ""; //$NON-NLS-1$
+					}
 					parsedParameters.put( paramName, paramValue );
 				}
 			}
