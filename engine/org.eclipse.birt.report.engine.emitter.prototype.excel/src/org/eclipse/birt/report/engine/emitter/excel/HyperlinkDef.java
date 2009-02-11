@@ -16,14 +16,12 @@ public class HyperlinkDef implements Serializable, Cloneable
 {
 	private String url;
 	private int type;
-    private String bookmark;
     private String toolTip;
     
-	public HyperlinkDef( String url, int type, String bookmark ,String toolTip)
+	public HyperlinkDef( String url, int type, String toolTip )
 	{
 		this.url = url;
 		this.type = type;
-		this.bookmark = bookmark;
 		this.toolTip = toolTip;
 	}
 
@@ -32,10 +30,6 @@ public class HyperlinkDef implements Serializable, Cloneable
 		return url;
 	}
     
-	public String getBookmark( ) 
-	{
-		return bookmark;
-	}
 	public int getType( )
 	{
 		return type;

@@ -25,18 +25,27 @@
 package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.birt.report.engine.content.IReportContent;
 
 public interface IExcelWriter
 {
 
-	public void start( IReportContent report ) throws IOException;
+	public void start( IReportContent report, Map<StyleEntry, Integer> styles,
+			HashMap<String, BookmarkDef> bookmarkList ) throws IOException;
 
 	public void end( ) throws IOException;
 
-	public void outputSheet( ) throws IOException;
+	public void startSheet( int[] coordinates ) throws IOException;
 
-	public void outputCacheData( ) throws IOException;
+	public void endSheet( );
+
+	public void startRow( double rowHeight );
+
+	public void endRow( );
+
+	public void outputData( SheetData data ) throws IOException;
 
 }

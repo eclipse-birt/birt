@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.emitter.excel.layout;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -21,6 +22,7 @@ import java.util.Map;
 import java.util.Stack;
 
 import org.eclipse.birt.report.engine.content.IDataContent;
+import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.excel.BlankData;
@@ -54,17 +56,17 @@ public class ExcelLayoutEngine
 	private static final double DEFAULT_ROW_HEIGHT = 15;
 	// Excel 2007 can support 1048576 rows and 16384 columns.
 	//TODO: new 4 final static variable and 2 local variable
-	public final static int OFFICE2007_MAX_ROW=1048576;
+	public final static int MAX_ROW_OFFICE2007_ = 1048576;
 	
-	public final static int OFFICE2007_MAX_COL=16384;
+	public final static int MAX_COL_OFFICE2007 = 16384;
 	
-	public final static int OFFICE2003_MAX_ROW = 65535;
+	public final static int MAX_ROW_OFFICE2003 = 65535;
 	
-	public static int OFFICE2003_MAX_COLUMN = 255;
+	public static int MAX_COLUMN_OFFICE2003 = 255;
 	
-	private int maxRow = OFFICE2003_MAX_ROW;
+	private int maxRow = MAX_ROW_OFFICE2003;
 
-	private int maxCol = OFFICE2003_MAX_COLUMN;
+	private int maxCol = MAX_COLUMN_OFFICE2003;
 	
 	private DataCache cache;
 
@@ -82,6 +84,8 @@ public class ExcelLayoutEngine
 
 	private String messageFlashObjectNotSupported;
 	
+	private HashMap<String, BookmarkDef> bookmarkList = new HashMap<String, BookmarkDef>( );
+
 	public ExcelLayoutEngine( PageDef page, ExcelContext context,
 			ExcelEmitter emitter )
 	{
@@ -115,7 +119,7 @@ public class ExcelLayoutEngine
 	{
 		if ( context.getOfficeVersion( ).equals( "office2007" ) )
 		{
-			maxCol = OFFICE2007_MAX_COL;
+			maxCol = MAX_COL_OFFICE2007;
 		}
 	}
 
@@ -580,9 +584,9 @@ public class ExcelLayoutEngine
 		int col = axis.getColumnIndexByCoordinate( data.getSizeInfo( ).getStartCoordinate( ) );
 		int span = axis.getColumnIndexByCoordinate( data.getSizeInfo( ).getEndCoordinate( ) ) - col;
 		applyTopBorderStyle( data );
-		updataRowIndex( data, container );
 		// FIXME: there is a bug when this data is in middle of a row.
 		outputDataIfBufferIsFull( );
+		updataRowIndex( data, container );
 		addDatatoCache( col, data );
 		SheetData newData = new Data( data );
 		for ( int i = col + 1; i < col + span; i++ )
@@ -648,11 +652,6 @@ public class ExcelLayoutEngine
 	public Map<StyleEntry,Integer> getStyleMap( )
 	{
 		return engine.getStyleIDMap( );
-	}
-
-	public List<BookmarkDef> getBookmarks( )
-	{
-		return cache.getBookmarks( );
 	}
 
 	public int[] getCoordinates( )
@@ -721,6 +720,15 @@ public class ExcelLayoutEngine
 				// Excel Span Starts From 1
 				Span span = new Span( start, scount );
 				data.setSpan( span );
+				HyperlinkDef hyperLink = data.getHyperlinkDef( );
+				if ( hyperLink != null )
+				{
+					if ( hyperLink.getType( ) == IHyperlinkAction.ACTION_BOOKMARK )
+					{
+						data.setLinkedBookmark( bookmarkList.get( hyperLink
+								.getUrl( ) ) );
+					}
+				}
 			}
 		}
 	}
@@ -740,9 +748,6 @@ public class ExcelLayoutEngine
 		engine.removeForeignContainerStyle( );
 	}
 
-	/**
-	 * 
-	 */
 	public void resetContainers( )
 	{
 		for ( XlsContainer container : containers )
@@ -815,5 +820,20 @@ public class ExcelLayoutEngine
 		{
 			throw new UnsupportedOperationException( );
 		}
+	}
+
+	public void cacheBookmarks( int sheetIndex )
+	{
+		List<BookmarkDef> currentSheetBookmarks = cache.getBookmarks( );
+		for ( BookmarkDef book : currentSheetBookmarks )
+		{
+			book.setSheetIndex( sheetIndex );
+			bookmarkList.put( book.getName( ), book );
+		}
+	}
+
+	public HashMap<String, BookmarkDef> getAllBookmarks( )
+	{
+		return this.bookmarkList;
 	}
 }

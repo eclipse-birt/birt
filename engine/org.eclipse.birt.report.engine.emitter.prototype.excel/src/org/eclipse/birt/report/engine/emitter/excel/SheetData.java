@@ -49,16 +49,6 @@ public abstract class SheetData
 		this.txt = txt;
 	}
 
-	public HyperlinkDef getUrl( )
-	{
-		return url;
-	}
-
-	public void setUrl( HyperlinkDef url )
-	{
-		this.url = url;
-	}
-
 	StyleEntry style;
 
 	XlsContainer container;
@@ -75,10 +65,22 @@ public abstract class SheetData
 
 	boolean processed;
 
-	HyperlinkDef url;
+	HyperlinkDef hyperLink;
 	
 	BookmarkDef bookmark;
 	
+	BookmarkDef linkedBookmark;
+
+	public BookmarkDef getLinkedBookmark( )
+	{
+		return linkedBookmark;
+	}
+
+	public void setLinkedBookmark( BookmarkDef linkedBookmark )
+	{
+		this.linkedBookmark = linkedBookmark;
+	}
+
 	int rowIndex;
 
 	public int getRowIndex( )
@@ -181,12 +183,12 @@ public abstract class SheetData
 
 	public HyperlinkDef getHyperlinkDef( )
 	{
-		return url;
+		return hyperLink;
 	}
 
 	public void setHyperlinkDef( HyperlinkDef def )
 	{
-		this.url = def;
+		this.hyperLink = def;
 	}
 
 	public void setSpan( Span span )

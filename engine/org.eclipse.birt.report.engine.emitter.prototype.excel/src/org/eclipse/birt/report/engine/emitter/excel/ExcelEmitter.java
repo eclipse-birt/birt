@@ -86,7 +86,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	private boolean outputInMasterPage = false;
 	protected boolean isRTLSheet = false;
 	private int autoBookmarkIndex = 0;
-
+	private int sheetIndex = 1;
 	public String getOutputFormat( )
 	{
 		return "xls";
@@ -126,6 +126,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 				.getDesign( ).getPageSetup( ).getMasterPage( 0 );
 		engine = new ExcelLayoutEngine( new PageDef( master, style ), context,
 				this );
+		createWriter( );
 	}
 
 	
@@ -341,43 +342,68 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	public void outputSheet( )
 	{
-		if ( writer == null )
-			writer = new ExcelWriter( out, context, isRTLSheet, pageHeader,
-					pageFooter, orientation, engine );
+		engine.cacheBookmarks( sheetIndex );
+		engine.complete( );
 		try
 		{
-			writer.outputSheet( );
+			outputCacheData( );
 		}
 		catch ( IOException e )
 		{
 			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
 		}
+		sheetIndex++;
 	}
-
-
 
 	public void end( IReportContent report )
 	{
 		// Make sure the engine already calculates all data in cache.
+		engine.cacheBookmarks( sheetIndex );
 		engine.complete( );
-		if ( writer == null )
-		{
-			writer = new ExcelWriter( out, context, isRTLSheet, pageHeader,
-					pageFooter, orientation, engine );
-		}
 		try
 		{
-			writer.start( report );
-			writer.outputCacheData( );
+			writer.start( report, engine.getStyleMap( ), engine
+					.getAllBookmarks( ) );
+			outputCacheData( );
 			writer.end( );
 		}
 		catch ( IOException e )
 		{
 			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
 		}
-		
 	}
 
+	protected void createWriter( )
+	{
+		writer = new ExcelWriter( out, context, isRTLSheet,
+				pageHeader, pageFooter, orientation );
+	}
+
+	/**
+	 * @throws IOException
+	 * 
+	 */
+	public void outputCacheData( ) throws IOException
+	{
+		writer.startSheet( engine.getCoordinates( ) );
+		Iterator<RowData> it = engine.getIterator( );
+		while ( it.hasNext( ) )
+		{
+			outputRowData( it.next( ) );
+		}
+		writer.endSheet( );
+	}
+
+	private void outputRowData( RowData rowData ) throws IOException
+	{
+		writer.startRow( rowData.getHeight( ) );
+		SheetData[] data = rowData.getRowdata( );
+		for ( int i = 0; i < data.length; i++ )
+		{
+			writer.outputData( data[i] );
+		}
+		writer.endRow( );
+	}
 
 	public HyperlinkDef parseHyperLink( IContent content )
 	{
@@ -396,7 +422,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			{
 				case IHyperlinkAction.ACTION_BOOKMARK :
 						hyperlink = new HyperlinkDef( bookmark,
-								IHyperlinkAction.ACTION_BOOKMARK, null, tooltip );
+							IHyperlinkAction.ACTION_BOOKMARK, tooltip );
 
 					break;
 				case IHyperlinkAction.ACTION_HYPERLINK :
@@ -404,14 +430,14 @@ public class ExcelEmitter extends ContentEmitterAdapter
 							.getHyperlinkUrl( linkAction, reportRunnable,
 									actionHandler, reportContext );
 					hyperlink = new HyperlinkDef( url,
-							IHyperlinkAction.ACTION_HYPERLINK, null, tooltip );
+							IHyperlinkAction.ACTION_HYPERLINK, tooltip );
 					break;
 				case IHyperlinkAction.ACTION_DRILLTHROUGH :
 					url = org.eclipse.birt.report.engine.layout.emitter.EmitterUtil
 							.getHyperlinkUrl( linkAction, reportRunnable,
 									actionHandler, reportContext );
 					hyperlink = new HyperlinkDef( url,
-							IHyperlinkAction.ACTION_DRILLTHROUGH, null, tooltip );
+							IHyperlinkAction.ACTION_DRILLTHROUGH, tooltip );
 					break;
 			}
 		}
