@@ -11,11 +11,8 @@
 
 package org.eclipse.birt.chart.examples.api.interactivity;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.ICallBackNotifier;
+import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
@@ -24,6 +21,7 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.CallBackValue;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -40,8 +38,8 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * The selector of charts in SWT.
@@ -116,8 +114,9 @@ public final class SwtInteractivityViewer extends Composite implements
 	{
 		super( parent, style );
 	
-		
-		final PluginSettings ps = PluginSettings.instance( );
+		PlatformConfig config = new PlatformConfig( );
+		config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
+		final PluginSettings ps = PluginSettings.instance( config );
 		try
 		{
 			idr = ps.getDevice( "dv.SWT" );//$NON-NLS-1$

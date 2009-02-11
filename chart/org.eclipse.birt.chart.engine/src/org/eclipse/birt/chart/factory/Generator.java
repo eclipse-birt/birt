@@ -1378,7 +1378,10 @@ public final class Generator implements IGenerator
 		idr.after( ); // ANY CLEANUP AFTER THE CHART HAS BEEN RENDERED
 
 		// CLEAN UP THE RENDERING STATES.
-		gcs.getRunTimeContext( ).clearState( );
+		if ( needClearState( idr ) )
+		{
+			gcs.getRunTimeContext( ).clearState( );
+		}
 
 		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.FINISH_RENDERING,
@@ -1387,6 +1390,13 @@ public final class Generator implements IGenerator
 				ScriptHandler.AFTER_RENDERING,
 				gcs,
 				gcs.getRunTimeContext( ).getScriptContext( ) );
+	}
+
+	private boolean needClearState( IDeviceRenderer idr )
+	{
+		String clsName = idr.getClass( ).getName( );
+		return !clsName.equals( "org.eclipse.birt.chart.device.swt.SwtRendererImpl" ) //$NON-NLS-1$
+				&& !clsName.equals( "org.eclipse.birt.chart.device.swing.SwingRendererImpl" ); //$NON-NLS-1$
 	}
 
 	/**

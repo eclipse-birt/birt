@@ -457,7 +457,7 @@ public final class DeferredCache
 	 * @throws ChartException
 	 * @since 2.2.1
 	 */
-	static void flushPlanes( IDeviceRenderer _idr, List planes, Comparator<?> cp )
+	static void flushPlanes( IDeviceRenderer _idr, List planes, Comparator cp )
 			throws ChartException
 	{
 		if ( _idr == null || planes == null )
@@ -520,7 +520,7 @@ public final class DeferredCache
 	 * @since 2.2.1
 	 */
 	static void flushPlaneShadows( IDeviceRenderer _idr, List planeShadows,
-			Comparator<?> cp ) throws ChartException
+			Comparator cp ) throws ChartException
 	{
 		if ( _idr == null || planeShadows == null )
 		{
