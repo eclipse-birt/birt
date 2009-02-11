@@ -162,7 +162,19 @@
    	<Function
           desc="source is not equal to target"
           name="notEqual">
-   		<DataType value="Boolean"></DataType></Function>
+   		<DataType value="Boolean"></DataType>
+            <Argument
+                  name="source">
+               <DataType
+                     value="Any">
+               </DataType>
+            </Argument>
+            <Argument
+                  name="target">
+               <DataType
+                     value="Any">
+               </DataType>
+            </Argument></Function>
    	<Function
           desc="source matches SQL pattern target"
           name="like">
