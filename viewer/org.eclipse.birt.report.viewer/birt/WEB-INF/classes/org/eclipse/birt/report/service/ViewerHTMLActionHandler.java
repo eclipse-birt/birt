@@ -215,7 +215,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 				return buildDataAction( (IDataAction) actionDefn, context );
 			}
 		}
-
+		
 		return null;
 	}
 
@@ -273,19 +273,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			return null;
 
 		// Get Base URL
-		String baseURL = null;
-		Object renderContext = getRenderContext( context );
-		if ( renderContext instanceof HTMLRenderContext )
-		{
-			baseURL = ( (HTMLRenderContext) renderContext ).getBaseURL( );
-		}
-		if ( renderContext instanceof PDFRenderContext )
-		{
-			baseURL = ( (PDFRenderContext) renderContext ).getBaseURL( );
-		}
-
-		if ( baseURL == null )
-			baseURL = IBirtConstants.VIEWER_PREVIEW;;
+		String baseURL = getBaseUrl( context );
 
 		// Get bookmark
 		String bookmark = action.getBookmark( );
@@ -460,16 +448,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		encodePaths = ( encodedPathsString != null && Boolean.valueOf( encodedPathsString ).booleanValue() );
 		
 		// Get Base URL
-		String baseURL = null;
-		Object renderContext = getRenderContext( context );
-		if ( renderContext instanceof HTMLRenderContext )
-		{
-			baseURL = ( (HTMLRenderContext) renderContext ).getBaseURL( );
-		}
-		if ( renderContext instanceof PDFRenderContext )
-		{
-			baseURL = ( (PDFRenderContext) renderContext ).getBaseURL( );
-		}
+		String baseURL = getBaseUrl( context );
 		
 		// replace the servlet pattern using extract
 		baseURL = createBaseURLWithExtractPattern( baseURL );
@@ -533,6 +512,34 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	}
 
 	/**
+	 * Returns the base URL from the report context.
+	 * @param context report context
+	 * @return base URL
+	 */
+	private String getBaseUrl( IReportContext context )
+	{
+		String baseURL = context.getRenderOption( ).getBaseURL( );
+		String servletPath = (String) context.getRenderOption( ).getOption(
+				IBirtConstants.SERVLET_PATH );
+
+		if ( servletPath == null )
+		{
+			servletPath = IBirtConstants.SERVLET_PATH_PREVIEW;
+		}
+
+		if ( baseURL == null )
+		{
+			baseURL = servletPath;
+		}
+		else
+		{
+			baseURL += servletPath;
+		}
+
+		return baseURL;
+	}
+
+	/**
 	 * builds URL for drillthrough action
 	 * 
 	 * @param action
@@ -546,20 +553,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		if ( action == null || context == null )
 			return null;
 
-		String baseURL = null;
-		Object renderContext = getRenderContext( context );
-		if ( renderContext instanceof HTMLRenderContext )
-		{
-			baseURL = ( (HTMLRenderContext) renderContext ).getBaseURL( );
-		}
-		if ( renderContext instanceof PDFRenderContext )
-		{
-			baseURL = ( (PDFRenderContext) renderContext ).getBaseURL( );
-		}
-
-		if ( baseURL == null )
-			baseURL = IBirtConstants.VIEWER_PREVIEW;
-
+		String baseURL = getBaseUrl( context );
 		StringBuffer link = new StringBuffer( );
 		String reportName = getReportName( context, action );
 

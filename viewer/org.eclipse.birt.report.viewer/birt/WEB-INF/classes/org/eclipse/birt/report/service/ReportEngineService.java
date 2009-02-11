@@ -579,14 +579,12 @@ public class ReportEngineService
 		HTMLRenderOption renderOption = new HTMLRenderOption( );		
 		renderOption.setImageDirectory( session.getImageTempFolder() );
 		renderOption.setBaseImageURL( createBaseImageUrl( session, baseURL ) );
-		if ( servletPath != null && servletPath.length( ) > 0 )
+		renderOption.setBaseURL( baseURL );
+		if ( servletPath == null || servletPath.length( ) == 0 )
 		{
-			renderOption.setBaseURL( baseURL + servletPath );
+			servletPath = IBirtConstants.SERVLET_PATH_RUN;
 		}
-		else
-		{
-			renderOption.setBaseURL( baseURL + IBirtConstants.SERVLET_PATH_RUN );
-		}
+		renderOption.setOption( IBirtConstants.SERVLET_PATH, servletPath );			
 		renderOption.setEnableAgentStyleEngine( ParameterAccessor
 				.isAgentStyle( request ) );
 		renderOption.setSupportedImageFormats( svgFlag
@@ -649,14 +647,12 @@ public class ReportEngineService
 		baseURL += request.getContextPath( );
 
 		PDFRenderOption renderOption = new PDFRenderOption( );
-		if ( servletPath != null && servletPath.length( ) > 0 )
+		renderOption.setBaseURL( baseURL );
+		if ( servletPath == null || servletPath.length( ) == 0 )
 		{
-			renderOption.setBaseURL( baseURL + servletPath );
+			servletPath = IBirtConstants.SERVLET_PATH_RUN;
 		}
-		else
-		{
-			renderOption.setBaseURL( baseURL + IBirtConstants.SERVLET_PATH_RUN );
-		}
+		renderOption.setOption( IBirtConstants.SERVLET_PATH, servletPath );			
 		renderOption.setSupportedImageFormats( "PNG;GIF;JPG;BMP" ); //$NON-NLS-1$
 
 		// page overflow setting

@@ -178,4 +178,6 @@ public interface IBirtConstants
 	 * Suffix of report document.
 	 */
 	public static final String SUFFIX_REPORT_DOCUMENT = ".rptdocument"; //$NON-NLS-1$
+	
+	public static final String SERVLET_PATH = "BirtViewerServletPath";
 }
