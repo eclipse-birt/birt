@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.chart;
 
-import java.text.DecimalFormatSymbols;
 import java.util.List;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -60,6 +59,8 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Spinner;
+
+import com.ibm.icu.text.DecimalFormatSymbols;
 
 /**
  * Chart Area subtask

@@ -11,10 +11,11 @@
 
 package org.eclipse.birt.chart.ui.swt.fieldassist;
 
-import java.text.DecimalFormatSymbols;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
+
+import com.ibm.icu.text.DecimalFormatSymbols;
 
 /**
  * The class extends {@link TextAssistField} and processes for numeric value.
