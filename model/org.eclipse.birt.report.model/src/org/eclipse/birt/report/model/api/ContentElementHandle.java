@@ -26,7 +26,6 @@ import org.eclipse.birt.report.model.core.Module;
 public abstract class ContentElementHandle extends DesignElementHandle
 {
 
-
 	/**
 	 * The target report element.
 	 */
@@ -62,7 +61,9 @@ public abstract class ContentElementHandle extends DesignElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#addListener(org.eclipse.birt.report.model.api.core.Listener)
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#addListener(org
+	 * .eclipse.birt.report.model.api.core.Listener)
 	 */
 
 	public final void addListener( Listener obj )
@@ -72,7 +73,9 @@ public abstract class ContentElementHandle extends DesignElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#addUserPropertyDefn(org.eclipse.birt.report.model.api.core.UserPropertyDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#addUserPropertyDefn
+	 * (org.eclipse.birt.report.model.api.core.UserPropertyDefn)
 	 */
 	public final void addUserPropertyDefn( UserPropertyDefn prop )
 			throws UserPropertyException
@@ -82,7 +85,8 @@ public abstract class ContentElementHandle extends DesignElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#isTemplateParameterValue()
+	 * @seeorg.eclipse.birt.report.model.api.DesignElementHandle#
+	 * isTemplateParameterValue()
 	 */
 	public final boolean isTemplateParameterValue( )
 	{
@@ -103,7 +107,9 @@ public abstract class ContentElementHandle extends DesignElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#removeListener(org.eclipse.birt.report.model.api.core.Listener)
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#removeListener(
+	 * org.eclipse.birt.report.model.api.core.Listener)
 	 */
 	public final void removeListener( Listener obj )
 	{
@@ -112,7 +118,9 @@ public abstract class ContentElementHandle extends DesignElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#revertToReportItem()
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#revertToReportItem
+	 * ()
 	 */
 	public final void revertToReportItem( ) throws SemanticException
 	{
@@ -121,7 +129,9 @@ public abstract class ContentElementHandle extends DesignElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#revertToTemplate(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#revertToTemplate
+	 * (java.lang.String)
 	 */
 	public final TemplateElementHandle revertToTemplate( String name )
 			throws SemanticException
@@ -132,7 +142,9 @@ public abstract class ContentElementHandle extends DesignElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#canTransformToTemplate()
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#canTransformToTemplate
+	 * ()
 	 */
 	public final boolean canTransformToTemplate( )
 	{
@@ -142,7 +154,8 @@ public abstract class ContentElementHandle extends DesignElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#clientsIterator()
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#clientsIterator()
 	 */
 
 	public final Iterator clientsIterator( )
@@ -153,7 +166,9 @@ public abstract class ContentElementHandle extends DesignElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#createTemplateElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#createTemplateElement
+	 * (java.lang.String)
 	 */
 
 	public final TemplateElementHandle createTemplateElement( String name )
@@ -165,7 +180,8 @@ public abstract class ContentElementHandle extends DesignElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#derivedIterator()
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#derivedIterator()
 	 */
 
 	public final Iterator derivedIterator( )
@@ -187,7 +203,8 @@ public abstract class ContentElementHandle extends DesignElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getPrivateStyle()
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#getPrivateStyle()
 	 */
 	public final StyleHandle getPrivateStyle( )
 	{
@@ -197,7 +214,8 @@ public abstract class ContentElementHandle extends DesignElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getQualifiedName()
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#getQualifiedName()
 	 */
 
 	public final String getQualifiedName( )
@@ -208,7 +226,8 @@ public abstract class ContentElementHandle extends DesignElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getUserProperties()
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#getUserProperties()
 	 */
 
 	public final List getUserProperties( )
@@ -219,7 +238,8 @@ public abstract class ContentElementHandle extends DesignElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getUserPropertyDefnHandle(java.lang.String)
+	 * @seeorg.eclipse.birt.report.model.api.DesignElementHandle#
+	 * getUserPropertyDefnHandle(java.lang.String)
 	 */
 	public final UserPropertyDefnHandle getUserPropertyDefnHandle(
 			String propName )
@@ -230,7 +250,9 @@ public abstract class ContentElementHandle extends DesignElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#setEventHandlerClass(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#setEventHandlerClass
+	 * (java.lang.String)
 	 */
 	public final void setEventHandlerClass( String expr )
 			throws SemanticException
@@ -241,7 +263,9 @@ public abstract class ContentElementHandle extends DesignElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#setExtends(org.eclipse.birt.report.model.api.DesignElementHandle)
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#setExtends(org.
+	 * eclipse.birt.report.model.api.DesignElementHandle)
 	 */
 	public final void setExtends( DesignElementHandle parent )
 			throws ExtendsException
@@ -252,7 +276,9 @@ public abstract class ContentElementHandle extends DesignElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#setExtendsName(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#setExtendsName(
+	 * java.lang.String)
 	 */
 	public final void setExtendsName( String name ) throws ExtendsException
 	{
@@ -262,18 +288,22 @@ public abstract class ContentElementHandle extends DesignElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#setName(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#setName(java.lang
+	 * .String)
 	 */
 
 	public final void setName( String name ) throws NameException
 	{
 
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getEventHandlerClass()
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#getEventHandlerClass
+	 * ()
 	 */
 
 	public String getEventHandlerClass( )
@@ -294,7 +324,9 @@ public abstract class ContentElementHandle extends DesignElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#setStyle(org.eclipse.birt.report.model.api.SharedStyleHandle)
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#setStyle(org.eclipse
+	 * .birt.report.model.api.SharedStyleHandle)
 	 */
 	public void setStyle( SharedStyleHandle style ) throws StyleException
 	{
@@ -304,7 +336,9 @@ public abstract class ContentElementHandle extends DesignElementHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#setStyleName(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#setStyleName(java
+	 * .lang.String)
 	 */
 	public void setStyleName( String name ) throws StyleException
 	{

@@ -50,8 +50,8 @@ public class DataItemHandle extends ReportItemHandle implements IDataItemModel
 	 * Returns a handle to work with the action property, action is a structure
 	 * that defines a hyperlink.
 	 * 
-	 * @return a handle to the action property, return <code>null</code> if
-	 *         the action has not been set on the data item.
+	 * @return a handle to the action property, return <code>null</code> if the
+	 *         action has not been set on the data item.
 	 * @see ActionHandle
 	 */
 
@@ -72,8 +72,8 @@ public class DataItemHandle extends ReportItemHandle implements IDataItemModel
 	 * @param action
 	 *            new action to be set on the image, it represents a bookmark
 	 *            link, hyperlink, and drill through etc.
-	 * @return a handle to the action property, return <code>null</code> if
-	 *         the action has not been set on the image.
+	 * @return a handle to the action property, return <code>null</code> if the
+	 *         action has not been set on the image.
 	 * 
 	 * @throws SemanticException
 	 *             if member of the action is not valid.
@@ -259,12 +259,11 @@ public class DataItemHandle extends ReportItemHandle implements IDataItemModel
 		if ( columnName == null )
 			return null;
 
-		Iterator columnBindings = columnBindingsIterator( );
+		Iterator<ComputedColumnHandle> columnBindings = columnBindingsIterator( );
 
 		while ( columnBindings.hasNext( ) )
 		{
-			ComputedColumnHandle column = (ComputedColumnHandle) columnBindings
-					.next( );
+			ComputedColumnHandle column = columnBindings.next( );
 			if ( columnName.equals( column.getName( ) ) )
 				return column.getExpression( );
 		}

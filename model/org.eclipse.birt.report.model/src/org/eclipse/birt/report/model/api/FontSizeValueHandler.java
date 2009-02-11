@@ -69,7 +69,7 @@ final class FontSizeValueHandler extends CSSLengthValueHandler
 
 	private DimensionValue getAbsoluteFontSizeValue( )
 	{
-		Stack stack = new Stack( );
+		Stack<String> stack = new Stack<String>( );
 
 		boolean absoluteConstantFound = false;
 
@@ -107,7 +107,7 @@ final class FontSizeValueHandler extends CSSLengthValueHandler
 			if ( defaultValue instanceof DimensionValue )
 				return (DimensionValue) defaultValue;
 
-			stack.push( defaultValue );
+			stack.push( (String) defaultValue );
 		}
 
 		// The stack has at least two items.
@@ -117,10 +117,10 @@ final class FontSizeValueHandler extends CSSLengthValueHandler
 		// Compute the absolute font size constant with the relative ones kept
 		// in stack.
 
-		String absoluteFontSizeConstant = (String) stack.pop( );
+		String absoluteFontSizeConstant = stack.pop( );
 		while ( !stack.isEmpty( ) )
 		{
-			String constant = (String) stack.pop( );
+			String constant = stack.pop( );
 
 			absoluteFontSizeConstant = convertRelativeConstantToAbsolute(
 					constant, absoluteFontSizeConstant );

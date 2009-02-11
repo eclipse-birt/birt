@@ -183,10 +183,10 @@ public class FilterConditionElementHandle extends ContentElementHandle
 
 	public String getValue1( )
 	{
-		List valueList = getValue1List( );
+		List<String> valueList = getValue1List( );
 		if ( valueList == null || valueList.isEmpty( ) )
 			return null;
-		return (String) valueList.get( 0 );
+		return valueList.get( 0 );
 	}
 
 	/**
@@ -196,11 +196,11 @@ public class FilterConditionElementHandle extends ContentElementHandle
 	 * 
 	 * @return the value1 expression list of this filter condition.
 	 */
-	public List getValue1List( )
+	public List<String> getValue1List( )
 	{
-		List valueList = (List) getProperty( VALUE1_PROP );
+		List<String> valueList = (List<String>) getProperty( VALUE1_PROP );
 		if ( valueList == null || valueList.isEmpty( ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		return Collections.unmodifiableList( valueList );
 	}
 
@@ -226,7 +226,7 @@ public class FilterConditionElementHandle extends ContentElementHandle
 	 *             if the instance in the list is not valid
 	 */
 
-	public void setValue1( List value1List ) throws SemanticException
+	public void setValue1( List<String> value1List ) throws SemanticException
 	{
 		setProperty( VALUE1_PROP, value1List );
 	}
@@ -297,7 +297,7 @@ public class FilterConditionElementHandle extends ContentElementHandle
 	 * Gets the member value handle of this filter condition element if it sets.
 	 * Otherwise return null.
 	 * 
-	 * @return
+	 * @return member value handle.
 	 */
 	public MemberValueHandle getMember( )
 	{

@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.api;
 
@@ -17,13 +17,12 @@ import java.util.List;
 
 /**
  * An sorted iterator over the elements in a slot. Each call to
- * <code>getNext( )</code> returns a handle of type
- * {@link DesignElementHandle}. The elements in the list are sorted on the
- * display name of the element.
+ * <code>getNext( )</code> returns a handle of type {@link DesignElementHandle}.
+ * The elements in the list are sorted on the display name of the element.
  * 
  */
 
-public class SortedSlotIterator implements Iterator
+public class SortedSlotIterator implements Iterator<DesignElementHandle>
 {
 
 	/**
@@ -36,7 +35,7 @@ public class SortedSlotIterator implements Iterator
 	 * Internal list for sorted.
 	 */
 
-	protected List list;
+	protected List<DesignElementHandle> list;
 
 	/**
 	 * Current iteration position.
@@ -62,13 +61,13 @@ public class SortedSlotIterator implements Iterator
 	/**
 	 * Sorts the element in this slot according to the display label of each
 	 * element.
-	 *  
+	 * 
 	 */
-	
+
 	private void sort( )
 	{
-		list = new ArrayList( );
-		Iterator it = slotHandle.iterator( );
+		list = new ArrayList<DesignElementHandle>( );
+		Iterator<DesignElementHandle> it = slotHandle.iterator( );
 		while ( it.hasNext( ) )
 		{
 			list.add( it.next( ) );
@@ -82,10 +81,9 @@ public class SortedSlotIterator implements Iterator
 	 * Removes the element at the current iterator position.
 	 */
 	// Implementation of iterator.remove( )
-	
 	public void remove( )
 	{
-		//Not support
+		// Not support
 	}
 
 	// Implementation of iterator.hasNext( )
@@ -101,10 +99,9 @@ public class SortedSlotIterator implements Iterator
 	 * 
 	 * @return a handle to the next content element.
 	 */
-	
+
 	// Implementation of iterator.next( )
-	
-	public Object next( )
+	public DesignElementHandle next( )
 	{
 		return list.get( posn++ );
 	}

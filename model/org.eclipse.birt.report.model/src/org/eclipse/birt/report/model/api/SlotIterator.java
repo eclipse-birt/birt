@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.api;
 
@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
  * 
  */
 
-public class SlotIterator implements Iterator
+public class SlotIterator implements Iterator<DesignElementHandle>
 {
 
 	/**
@@ -53,7 +53,6 @@ public class SlotIterator implements Iterator
 	 * Removes the element at the current iterator position.
 	 */
 	// Implementation of iterator.remove( )
-	
 	public void remove( )
 	{
 		if ( !hasNext( ) )
@@ -85,8 +84,7 @@ public class SlotIterator implements Iterator
 	 * @return a handle to the next content element.
 	 */
 	// Implementation of iterator.next( )
-	
-	public Object next( )
+	public DesignElementHandle next( )
 	{
 		return slotHandle.get( posn++ );
 	}

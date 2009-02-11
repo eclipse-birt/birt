@@ -21,20 +21,19 @@ import org.eclipse.birt.report.model.core.Module;
  * Iterates over the clients of an element. A client is an element that
  * references another specified element. For example, if element B extends
  * element A, then element B is a client of element A. Each call to
- * <code>getNext( )</code> returns a handle of type
- * {@link DesignElementHandle}.
+ * <code>getNext( )</code> returns a handle of type {@link DesignElementHandle}.
  * 
  * @see org.eclipse.birt.report.model.core.ReferenceableElement
  */
 
-class ClientIterator implements Iterator
+class ClientIterator implements Iterator<DesignElementHandle>
 {
 
 	/**
 	 * The cached iterator.
 	 */
 
-	protected Iterator iter;
+	protected Iterator<BackRef> iter;
 
 	/**
 	 * Module.
@@ -108,11 +107,11 @@ class ClientIterator implements Iterator
 	 * @see DesignElementHandle
 	 */
 
-	public Object next( )
+	public DesignElementHandle next( )
 	{
 		if ( iter != null )
 		{
-			BackRef client = (BackRef) iter.next( );
+			BackRef client = iter.next( );
 			return client.getElement( ).getHandle( module );
 		}
 		return null;

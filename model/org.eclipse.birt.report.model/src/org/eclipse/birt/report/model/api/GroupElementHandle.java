@@ -126,7 +126,7 @@ abstract public class GroupElementHandle
 	 *         <code>GroupPropertyHandle</code>
 	 */
 
-	public final Iterator propertyIterator( )
+	public final Iterator<GroupPropertyHandle> propertyIterator( )
 	{
 		return new GroupPropertyIterator( getCommonProperties( ) );
 	}
@@ -142,7 +142,7 @@ abstract public class GroupElementHandle
 	 *         <code>GroupPropertyHandle</code>
 	 */
 
-	abstract public Iterator visiblePropertyIterator( );
+	abstract public Iterator<GroupPropertyHandle> visiblePropertyIterator( );
 
 	/**
 	 * Checks whether a property is visible in the property sheet. The visible
@@ -426,14 +426,14 @@ abstract public class GroupElementHandle
 	 * element.
 	 */
 
-	class GroupPropertyIterator implements Iterator
+	class GroupPropertyIterator implements Iterator<GroupPropertyHandle>
 	{
 
 		/**
 		 * The property iterator to traverse the properties.
 		 */
 
-		Iterator propIterator;
+		Iterator<IElementPropertyDefn> propIterator;
 
 		/**
 		 * Constructs the group property iterator with the common property list.
@@ -441,7 +441,7 @@ abstract public class GroupElementHandle
 		 * @param list
 		 */
 
-		GroupPropertyIterator( List list )
+		GroupPropertyIterator( List<IElementPropertyDefn> list )
 		{
 			propIterator = list.iterator( );
 		}
@@ -459,7 +459,7 @@ abstract public class GroupElementHandle
 			return propIterator.hasNext( );
 		}
 
-		public Object next( )
+		public GroupPropertyHandle next( )
 		{
 			if ( !propIterator.hasNext( ) )
 				return null;

@@ -144,10 +144,10 @@ public abstract class StyleRuleHandle extends StructureHandle
 
 	public String getValue1( )
 	{
-		List valueList = getValue1List( );
+		List<String> valueList = getValue1List( );
 		if ( valueList == null || valueList.isEmpty( ) )
 			return null;
-		return (String) valueList.get( 0 );
+		return valueList.get( 0 );
 	}
 
 	/**
@@ -158,11 +158,11 @@ public abstract class StyleRuleHandle extends StructureHandle
 	 * @return the value1 expression list.
 	 */
 
-	public List getValue1List( )
+	public List<String> getValue1List( )
 	{
-		List valueList = (List) getProperty( StyleRule.VALUE1_MEMBER );
+		List<String> valueList = (List<String>) getProperty( StyleRule.VALUE1_MEMBER );
 		if ( valueList == null || valueList.isEmpty( ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		return Collections.unmodifiableList( valueList );
 	}
 
@@ -187,7 +187,7 @@ public abstract class StyleRuleHandle extends StructureHandle
 	 *             if the instance in the list is not valid
 	 */
 
-	public void setValue1( List value1List ) throws SemanticException
+	public void setValue1( List<String> value1List ) throws SemanticException
 	{
 		setProperty( StyleRule.VALUE1_MEMBER, value1List );
 	}

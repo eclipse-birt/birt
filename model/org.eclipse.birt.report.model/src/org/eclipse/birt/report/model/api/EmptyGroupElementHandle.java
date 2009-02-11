@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -103,9 +104,9 @@ public class EmptyGroupElementHandle extends GroupElementHandle
 	 * ()
 	 */
 
-	public Iterator visiblePropertyIterator( )
+	public Iterator<GroupPropertyHandle> visiblePropertyIterator( )
 	{
-		return new GroupPropertyIterator( Collections.EMPTY_LIST );
+		return new GroupPropertyIterator( new ArrayList<IElementPropertyDefn>( ) );
 	}
 
 	/*

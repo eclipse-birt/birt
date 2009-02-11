@@ -253,10 +253,11 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the handle to the parameter group.
 	 */
 
-	private void addParameters( ArrayList list, ParameterGroupHandle handle )
+	private void addParameters( ArrayList<DesignElementHandle> list,
+			ParameterGroupHandle handle )
 	{
 		SlotHandle h = handle.getParameters( );
-		Iterator it = h.iterator( );
+		Iterator<DesignElementHandle> it = h.iterator( );
 		while ( it.hasNext( ) )
 		{
 			list.add( it.next( ) );
@@ -469,7 +470,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see ConfigVariableHandle
 	 */
 
-	public Iterator configVariablesIterator( )
+	public Iterator<StructureHandle> configVariablesIterator( )
 	{
 		return getFilteredStructureList( CONFIG_VARS_PROP,
 				ConfigVariable.NAME_MEMBER ).iterator( );
@@ -483,7 +484,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see CustomColorHandle
 	 */
 
-	public Iterator customColorsIterator( )
+	public Iterator<StructureHandle> customColorsIterator( )
 	{
 		return getStructureList( COLOR_PALETTE_PROP ).iterator( );
 	}
@@ -586,15 +587,16 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	private int findConfigVariablePos( String name )
 	{
-		List configVars = (List) module.getLocalProperty( module,
-				CONFIG_VARS_PROP );
+		List<ConfigVariable> configVars = (List<ConfigVariable>) module
+				.getLocalProperty( module, CONFIG_VARS_PROP );
 		if ( configVars == null )
 			return -1;
 
 		int i = 0;
-		for ( Iterator iter = configVars.iterator( ); iter.hasNext( ); i++ )
+		for ( Iterator<ConfigVariable> iter = configVars.iterator( ); iter
+				.hasNext( ); i++ )
 		{
-			ConfigVariable var = (ConfigVariable) iter.next( );
+			ConfigVariable var = iter.next( );
 
 			if ( var.getName( ).equals( name ) )
 			{
@@ -784,12 +786,13 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	private int findImagePos( String name )
 	{
-		List images = (List) module.getLocalProperty( module, IMAGES_PROP );
+		List<EmbeddedImage> images = (List<EmbeddedImage>) module
+				.getLocalProperty( module, IMAGES_PROP );
 
 		int i = 0;
-		for ( Iterator iter = images.iterator( ); iter.hasNext( ); i++ )
+		for ( Iterator<EmbeddedImage> iter = images.iterator( ); iter.hasNext( ); i++ )
 		{
-			EmbeddedImage image = (EmbeddedImage) iter.next( );
+			EmbeddedImage image = iter.next( );
 
 			if ( image.getName( ) != null
 					&& image.getName( ).equalsIgnoreCase( name ) )
@@ -1099,10 +1102,10 @@ public abstract class ModuleHandle extends DesignElementHandle
 	{
 		ArrayList<DesignElementHandle> list = new ArrayList<DesignElementHandle>( );
 		SlotHandle slotHandle = getParameters( );
-		Iterator it = slotHandle.iterator( );
+		Iterator<DesignElementHandle> it = slotHandle.iterator( );
 		while ( it.hasNext( ) )
 		{
-			DesignElementHandle h = (DesignElementHandle) it.next( );
+			DesignElementHandle h = it.next( );
 			list.add( h );
 			if ( h instanceof ParameterGroupHandle )
 			{
@@ -2610,7 +2613,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 */
 
 	abstract public void importCssStyles( CssStyleSheetHandle stylesheet,
-			List selectedStyles );
+			List<SharedStyleHandle> selectedStyles );
 
 	/**
 	 * Sets the theme to a report.

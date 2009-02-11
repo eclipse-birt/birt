@@ -277,13 +277,13 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public Iterator includeLibraryScriptsIterator( )
 	{
-		List libList = module.getAllLibraries( );
+		List<Library> libList = module.getAllLibraries( );
 		List includeLibScriptList = new ArrayList( );
 		if ( libList != null )
 		{
 			for ( int i = 0; i < libList.size( ); i++ )
 			{
-				Library lib = (Library) libList.get( i );
+				Library lib = libList.get( i );
 				PropertyHandle propHandle = lib.getHandle( lib )
 						.getPropertyHandle( INCLUDE_SCRIPTS_PROP );
 
@@ -430,14 +430,14 @@ public class ReportDesignHandle extends ModuleHandle
 	 * @return each item is <code>CssStyleSheetHandle</code>
 	 */
 
-	public List getAllCssStyleSheets( )
+	public List<CssStyleSheetHandle> getAllCssStyleSheets( )
 	{
 		ReportDesign design = (ReportDesign) getElement( );
-		List allStyles = new ArrayList( );
-		List csses = design.getCsses( );
+		List<CssStyleSheetHandle> allStyles = new ArrayList<CssStyleSheetHandle>( );
+		List<CssStyleSheet> csses = design.getCsses( );
 		for ( int i = 0; csses != null && i < csses.size( ); ++i )
 		{
-			CssStyleSheet sheet = (CssStyleSheet) csses.get( i );
+			CssStyleSheet sheet = csses.get( i );
 			allStyles.add( sheet.handle( getModule( ) ) );
 		}
 		return allStyles;
@@ -452,7 +452,7 @@ public class ReportDesignHandle extends ModuleHandle
 	 */
 
 	public void importCssStyles( CssStyleSheetHandle stylesheet,
-			List selectedStyles )
+			List<SharedStyleHandle> selectedStyles )
 	{
 		// do nothing now.
 
@@ -461,8 +461,7 @@ public class ReportDesignHandle extends ModuleHandle
 				.getCommandLabel( MessageConstants.IMPORT_CSS_STYLES_MESSAGE ) );
 		for ( int i = 0; i < selectedStyles.size( ); i++ )
 		{
-			SharedStyleHandle style = (SharedStyleHandle) selectedStyles
-					.get( i );
+			SharedStyleHandle style = selectedStyles.get( i );
 			if ( stylesheet.findStyle( style.getName( ) ) != null )
 			{
 				// Copy CssStyle to Style
@@ -658,19 +657,20 @@ public class ReportDesignHandle extends ModuleHandle
 	 * @return All TOCs defined in this module.
 	 */
 
-	public List getAllTocs( )
+	public List<String> getAllTocs( )
 	{
 		List tocs = ( (ReportDesign) module ).collectPropValues( BODY_SLOT,
 				IReportItemModel.TOC_PROP );
 
 		// TODO merge with IGroupElementModel.TOC_PROP.
 
-		List resultList = new ArrayList( );
-		Iterator iterator = tocs.iterator( );
+		List<String> resultList = new ArrayList<String>( );
+		Iterator<TOC> iterator = tocs.iterator( );
 		while ( iterator.hasNext( ) )
 		{
-			TOC toc = (TOC) iterator.next( );
-			resultList.add( toc.getProperty( module, TOC.TOC_EXPRESSION ) );
+			TOC toc = iterator.next( );
+			resultList.add( (String) toc.getProperty( module,
+					TOC.TOC_EXPRESSION ) );
 		}
 		return resultList;
 	}
@@ -683,21 +683,22 @@ public class ReportDesignHandle extends ModuleHandle
 	 *         items is excluded.
 	 */
 
-	public List getReportItemsBasedonTempalates( )
+	public List<DesignElementHandle> getReportItemsBasedonTempalates( )
 	{
-		ArrayList rtnList = new ArrayList( );
-		ArrayList tempList = new ArrayList( );
+		ArrayList<DesignElementHandle> rtnList = new ArrayList<DesignElementHandle>( );
+		ArrayList<DesignElement> tempList = new ArrayList<DesignElement>( );
 
-		List contents = new ContainerContext( getElement( ), BODY_SLOT )
-				.getContents( module );
+		List<DesignElement> contents = new ContainerContext( getElement( ),
+				BODY_SLOT ).getContents( module );
 		contents.addAll( new ContainerContext( getElement( ), PAGE_SLOT )
 				.getContents( module ) );
 
 		findTemplateItemIn( contents.iterator( ), tempList );
 
-		for ( Iterator iter = tempList.iterator( ); iter.hasNext( ); )
+		for ( Iterator<DesignElement> iter = tempList.iterator( ); iter
+				.hasNext( ); )
 		{
-			rtnList.add( ( (DesignElement) iter.next( ) ).getHandle( module ) );
+			rtnList.add( ( iter.next( ) ).getHandle( module ) );
 		}
 
 		return Collections.unmodifiableList( rtnList );
@@ -713,11 +714,12 @@ public class ReportDesignHandle extends ModuleHandle
 	 *            The list to add to.
 	 */
 
-	private void findTemplateItemIn( Iterator contents, List addTo )
+	private void findTemplateItemIn( Iterator<DesignElement> contents,
+			List<DesignElement> addTo )
 	{
 		for ( ; contents.hasNext( ); )
 		{
-			DesignElement e = (DesignElement) contents.next( );
+			DesignElement e = contents.next( );
 			if ( e.isTemplateParameterValue( module ) )
 			{
 				addTo.add( e );

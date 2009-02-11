@@ -17,7 +17,6 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
-import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
 /**
  * CrosstabMemberValueHandle
