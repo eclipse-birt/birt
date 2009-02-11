@@ -559,8 +559,6 @@ BirtUtility.prototype =
 	 */
 	initSessionId : function( url )
 	{
-		url = birtUtility.deleteURLAnchor(url);
-		
 		// remove existing session id from the URL
 		url = birtUtility.deleteURLParameter(url, Constants.PARAM_SESSION_ID);
 		
