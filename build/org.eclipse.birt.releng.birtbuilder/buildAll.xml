@@ -49,21 +49,21 @@
 				<antcall target="BuildChartViewer"/>
 				<antcall target="CreateDistribute"/>
 				<antcall target="buildBirtNLFeature"/>
-				<antcall target="iPortalSetup"/>
 				<antcall target="CreateUpdateSite"/>
 				<antcall target="pushUpdateSiteLocal"/>
+				<antcall target="iPortalSetup"/>
 			</sequential>
 			<sequential>
-			<!--
+			        <!--
 				<antcall target="generateJavaCrossReference"/>
 				<antcall target="generateDocumentCheck"/>
 				<antcall target="generateJavaDoc"/>
-			-->
+			        -->
 			</sequential>
 		</parallel>
 		<antcall target="runBirtTest"/>
 		<!--
-		<antcall target="runBirtPerformance"/>
+                <antcall target="runBirtPerformance"/>
 		-->
 	</target>
 
@@ -71,7 +71,7 @@
 		<ant antfile="build.xml" target="init" />
 		<property file="${buildDirectory}/label.properties" />
 		
-		<condition property="fetchTag" value="HEAD">
+		<condition property="fetchTag" value="BIRT_2_3_2_Branch">
 			<equals arg1="${buildType}" arg2="N" />
 		</condition>
 		<condition property="forceContextQualifier" value="${buildId}">
@@ -85,8 +85,8 @@
 		</condition>
 		<!--compiler args-->
 		<property name="compilerArg" value="-enableJavadoc -encoding utf-8 -warn:-discouraged,forbidden" />
-		<property name="javacSource" value="1.4" />
-		<property name="javacTarget" value="1.4" />
+		<property name="javacSource" value="1.5" />
+		<property name="javacTarget" value="1.5" />
 		<property name="javacDebugInfo" value="true" />
 		<property name="javacFailOnError" value="false" />
 		<property name="javacVerbose" value="false" />
@@ -100,27 +100,10 @@
 	</target>
 	
 	<target name="buildBirtFeature">
-		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
-			<property name="builder" value="${eclipse.build.configs}/birt" />
-		</ant>
-		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
-			<property name="builder" value="${eclipse.build.configs}/birt" />
-		</ant>
-		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="generate">
-			<property name="builder" value="${eclipse.build.configs}/birt" />
-		</ant>
-		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="process">
-			<property name="builder" value="${eclipse.build.configs}/birt" />
-		</ant>		
-		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="assemble">
-			<property name="builder" value="${eclipse.build.configs}/birt" />
-		</ant>		
-		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="package">
-			<property name="builder" value="${eclipse.build.configs}/birt" />
-		</ant>
-		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="postBuild">
-			<property name="builder" value="${eclipse.build.configs}/birt" />
-		</ant>
+
+                <ant antfile="build.xml" dir="${basedir}">
+                        <property name="component" value="${eclipse.build.configs}/birt" />
+                </ant>
 	</target>
 
 	<target name="CreateDistribute">
@@ -190,6 +173,10 @@
 		<copy tofile="${postingDirectory}/monitor.properties" file="monitor.properties" overwrite="true" />
 		<copy tofile="${postingDirectory}/finalPluginsVersions.properties" file="${buildDirectory}/finalPluginsVersions.properties" overwrite="true" />
 		<copy tofile="${postingDirectory}/finalFeaturesVersions.properties" file="${buildDirectory}/finalFeaturesVersions.properties" overwrite="true" />
+                <!--copy build and update dtp log to output directory-->
+                <copy todir="${postingDirectory}/${buildId}">
+                      <fileset dir="." includes="adb.log,updatedtp.log"/>
+                </copy>
 		<!-- Send build ready mail to QA -->
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="InformQA"/>
 	</target>
@@ -199,7 +186,7 @@
 			<property name="OutputDir" value="${postingDirectory}/${buildId}" />
 			<property name="deposit" value="${buildDirectory}/${buildId}" />
 		</ant>
-
+                
                 <!--copy all packages to upload area-->
 		<echo message="start copying to download area..."/>
 	        <echo message="from dir: ${postingDirectory}/${buildId}"/>
@@ -212,13 +199,13 @@
 	              <fileset dir="${buildDirectory}" >
                                <include name="directory.txt"/>
 		      </fileset>
+                      <fileset file="monitor.properties"/>
 	       </copy>
-
+               
 	       <antcall target="renamePackage"/>
                <antcall target="sendNotification"/>
-
 	</target>
-	
+        
 	<target name="renamePackage">
 		<move file="${postingDirectory}/${buildId}/birt-charts-${package.version}.zip"
                     tofile="${postingDirectory}/${buildId}/birt-charts-${package.version}-${build.date}.zip"/>
@@ -278,6 +265,7 @@
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-third-party-${package.version}.bak.zip -d ${updateJarWorkingDir}" />
 		</exec>
+		<!--
 		<copy todir="${updateJarWorkingDir}/eclipse/plugins">
 			<fileset dir="${buildDirectory}/plugins">
 				<include name="org.apache.batik.*.jar"/>
@@ -288,6 +276,7 @@
 				<include name="org.w3c.*.jar"/>
 			</fileset>
 		</copy>
+		-->
 
 		<delete includeemptydirs="true">
 			<fileset dir="${updateJarWorkingDir}/eclipse/features" includes="*.thirdparty*/**" />
@@ -359,10 +348,10 @@
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.w3c.sac}" token="@FEATURE.W3C@"/>
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt}" token="@FEATURE.BIRT@"/>
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.sdk}" token="@FEATURE.BIRT.SDK@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.doc}" token="@FEATURE.BIRT.DOC@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.integration.wtp.sdk}" token="@FEATURE.BIRT.WTP.SDK@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.integration.wtp}" token="@FEATURE.BIRT.WTP@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.integration.wtp}" token="@FEATURE.CHART.WTP@"/>	
+                <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.doc}" token="@FEATURE.BIRT.DOC@"/>
+                <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.integration.wtp.sdk}" token="@FEATURE.BIRT.WTP.SDK@"/>
+                <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.integration.wtp}" token="@FEATURE.CHART.WTP@"/>
+                <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.integration.wtp}" token="@FEATURE.BIRT.WTP@"/>		
 
 		<!-- push update site to output directory -->
 		<mkdir dir="${postingDirectory}/${buildId}/UpdateSite"/>
@@ -463,16 +452,18 @@
 
 	<target name="buildBirtNLFeature">
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
-			<property name="builder" value="${eclipse.build.configs}/birt.nl" />
+			<property name="builder" value="${eclipse.build.configs}/birt.dtp.nl" />
 		</ant>
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
-			<property name="builder" value="${eclipse.build.configs}/birt.nl" />
+			<property name="builder" value="${eclipse.build.configs}/birt.dtp.nl" />
+                        <property name="fetchTag" value="DTP_1_6_2_Branch" />
 		</ant>
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
-			<property name="builder" value="${eclipse.build.configs}/birt.dtp.nl" />
+			<property name="builder" value="${eclipse.build.configs}/birt.nl" />
 		</ant>
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
-			<property name="builder" value="${eclipse.build.configs}/birt.dtp.nl" />
+			<property name="builder" value="${eclipse.build.configs}/birt.nl" />
+                        <property name="fetchTag" value="BIRT_2_3_2_Branch" />
 		</ant>
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="buildLanguagePack" />
 	</target>
