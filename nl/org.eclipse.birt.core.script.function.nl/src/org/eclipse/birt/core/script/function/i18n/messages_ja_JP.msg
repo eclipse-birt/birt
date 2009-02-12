@@ -13,6 +13,6 @@
 #
 # Exception messages for the BIRT Script Function Extension
 
-invalid.function.name=Invalid function name: 
-invalid.number.of.argument=Invalid number of argument for function:
-invalid.type.of.argument=Invalid type of argument for function:
+invalid.function.name=ŠÖ”–¼‚ª–³Œø‚Å‚·B 
+invalid.number.of.argument=ŠÖ”‚É‘Î‚µ‚Äˆø”‚Ì”‚ª–³Œø‚Å‚·B
+invalid.type.of.argument=ŠÖ”‚É‘Î‚µ‚Äˆø”‚ÌŒ^‚ª–³Œø‚Å‚·B

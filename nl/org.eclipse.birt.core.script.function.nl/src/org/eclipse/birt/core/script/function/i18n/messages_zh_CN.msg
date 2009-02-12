@@ -13,6 +13,6 @@
 #
 # Exception messages for the BIRT Script Function Extension
 
-invalid.function.name=Invalid function name: 
-invalid.number.of.argument=Invalid number of argument for function:
-invalid.type.of.argument=Invalid type of argument for function:
+invalid.function.name=无效的函数名称: 
+invalid.number.of.argument=无效的函数参数数:
+invalid.type.of.argument=无效的函数参数类型:
