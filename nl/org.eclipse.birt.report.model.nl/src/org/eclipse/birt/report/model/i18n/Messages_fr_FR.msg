@@ -43,6 +43,7 @@ Property.literalString=Littéral de chaîne
 Property.element=Elément
 Property.structRef=Référence de structure
 Property.contentElement=Elément en tant que valeur de propriété
+Property.locale=Locale
 
 ###########################################################
 # Choice values
@@ -2001,22 +2002,27 @@ Structure.CachedMetaData.resultSet=Colonnes de jeux de résultats
 #19. NumberFormatValue
 Structure.NumberFormatValue.category=Catégorie
 Structure.NumberFormatValue.pattern=Correspondance
+Structure.NumberFormatValue.locale=Locale
 
 #20. StringFormatValue
 Structure.StringFormatValue.category=Catégorie
 Structure.StringFormatValue.pattern=Correspondance
+Structure.StringFormatValue.locale=Locale
 
 #21. DateTimeFormatValue
 Structure.DateTimeFormatValue.category=Catégorie
 Structure.DateTimeFormatValue.pattern=Correspondance
+Structure.DateTimeFormatValue.locale=Locale
 
 #21. DateFormatValue
 Structure.DateFormatValue.category=Catégorie
 Structure.DateFormatValue.pattern=Correspondance
+Structure.DateFormatValue.locale=Locale
 
 #21. TimeFormatValue
 Structure.TimeFormatValue.category=Catégorie
 Structure.TimeFormatValue.pattern=Correspondance
+Structure.TimeFormatValue.locale=Locale
 
 #22. UserMethod
 Structure.UserMethod.name=Nom
@@ -2037,6 +2043,7 @@ Structure.JoinCondition.rightExpression=Expression droite
 #25. ParameterFormatValue
 Structure.ParameterFormatValue.category=Catégorie
 Structure.ParameterFormatValue.pattern=Correspondance
+Structure.ParameterFormatValue.locale=Locale
 
 #26. OdaDesignerState
 Structure.OdaDesignerState.version=Version

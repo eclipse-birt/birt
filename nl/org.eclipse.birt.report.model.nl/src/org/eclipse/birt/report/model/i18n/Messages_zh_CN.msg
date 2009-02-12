@@ -43,6 +43,7 @@ Property.literalString=文字字符串
 Property.element=元素
 Property.structRef=结构引用
 Property.contentElement=元素为属性值
+Property.locale=Locale
 
 ###########################################################
 # Choice values
@@ -2001,22 +2002,27 @@ Structure.CachedMetaData.resultSet=结果集列
 #19. NumberFormatValue
 Structure.NumberFormatValue.category=类别
 Structure.NumberFormatValue.pattern=模式
+Structure.NumberFormatValue.locale=Locale
 
 #20. StringFormatValue
 Structure.StringFormatValue.category=类别
 Structure.StringFormatValue.pattern=模式
+Structure.StringFormatValue.locale=Locale
 
 #21. DateTimeFormatValue
 Structure.DateTimeFormatValue.category=类别
 Structure.DateTimeFormatValue.pattern=模式
+Structure.DateTimeFormatValue.locale=Locale
 
 #21. DateFormatValue
 Structure.DateFormatValue.category=类别
 Structure.DateFormatValue.pattern=模式
+Structure.DateFormatValue.locale=Locale
 
 #21. TimeFormatValue
 Structure.TimeFormatValue.category=类别
 Structure.TimeFormatValue.pattern=模式
+Structure.TimeFormatValue.locale=Locale
 
 #22. UserMethod
 Structure.UserMethod.name=名称
@@ -2037,6 +2043,7 @@ Structure.JoinCondition.rightExpression=右表达式
 #25. ParameterFormatValue
 Structure.ParameterFormatValue.category=类别
 Structure.ParameterFormatValue.pattern=模式
+Structure.ParameterFormatValue.locale=Locale
 
 #26. OdaDesignerState
 Structure.OdaDesignerState.version=版本

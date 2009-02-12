@@ -43,6 +43,7 @@ Property.literalString=리터럴 문자열
 Property.element=요소
 Property.structRef=구조 참조
 Property.contentElement=속성 값 요소
+Property.locale=Locale
 
 ###########################################################
 # Choice values
@@ -2001,22 +2002,27 @@ Structure.CachedMetaData.resultSet=결과 집합 열
 #19. NumberFormatValue
 Structure.NumberFormatValue.category=범주
 Structure.NumberFormatValue.pattern=패턴
+Structure.NumberFormatValue.locale=Locale
 
 #20. StringFormatValue
 Structure.StringFormatValue.category=범주
 Structure.StringFormatValue.pattern=패턴
+Structure.StringFormatValue.locale=Locale
 
 #21. DateTimeFormatValue
 Structure.DateTimeFormatValue.category=범주
 Structure.DateTimeFormatValue.pattern=패턴
+Structure.DateTimeFormatValue.locale=Locale
 
 #21. DateFormatValue
 Structure.DateFormatValue.category=범주
 Structure.DateFormatValue.pattern=패턴
+Structure.DateFormatValue.locale=Locale
 
 #21. TimeFormatValue
 Structure.TimeFormatValue.category=범주
 Structure.TimeFormatValue.pattern=패턴
+Structure.TimeFormatValue.locale=Locale
 
 #22. UserMethod
 Structure.UserMethod.name=이름
@@ -2037,6 +2043,7 @@ Structure.JoinCondition.rightExpression=우변
 #25. ParameterFormatValue
 Structure.ParameterFormatValue.category=범주
 Structure.ParameterFormatValue.pattern=패턴
+Structure.ParameterFormatValue.locale=Locale
 
 #26. OdaDesignerState
 Structure.OdaDesignerState.version=버전
