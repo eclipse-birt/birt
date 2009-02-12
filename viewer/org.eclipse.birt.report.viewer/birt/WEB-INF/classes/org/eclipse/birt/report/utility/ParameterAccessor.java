@@ -24,6 +24,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -2036,12 +2037,12 @@ public class ParameterAccessor
 	public static Set getParameterValues( HttpServletRequest request,
 			String parameterName )
 	{
-		HashSet parameterValues = null;
+		Set parameterValues = null;
 		String[] parameterValuesArray = request.getParameterValues( parameterName );
 
 		if ( parameterValuesArray != null )
 		{
-			parameterValues = new HashSet( );
+			parameterValues = new LinkedHashSet( );
 
 			for ( int i = 0; i < parameterValuesArray.length; i++ )
 			{
