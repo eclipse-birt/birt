@@ -1,3 +1,3 @@
-exception.dataextraction.options.outputstream_required=The OutputStream option is required and can't be null.
-exception.dataextraction.missing_implementation=The output() method must be implemented by the subclass.
-exception.dataextraction.exception_occured=Exception occurred while extracting data.
+exception.dataextraction.options.outputstream_required=OutputStream のオプションは必須のため、NULL にすることができません。
+exception.dataextraction.missing_implementation=output() メソッドは、サブクラスで実装する必要があります。
+exception.dataextraction.exception_occured=データの抽出中に例外が発生しました。

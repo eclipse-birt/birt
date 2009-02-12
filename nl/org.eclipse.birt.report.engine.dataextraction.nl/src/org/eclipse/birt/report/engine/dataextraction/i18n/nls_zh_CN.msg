@@ -1,3 +1,3 @@
-exception.dataextraction.options.outputstream_required=The OutputStream option is required and can't be null.
-exception.dataextraction.missing_implementation=The output() method must be implemented by the subclass.
-exception.dataextraction.exception_occured=Exception occurred while extracting data.
+exception.dataextraction.options.outputstream_required=OutputStream 选项是必需的，不能为空。
+exception.dataextraction.missing_implementation=必须由子类实施 output() 方法。
+exception.dataextraction.exception_occured=提取数据时出现异常。
