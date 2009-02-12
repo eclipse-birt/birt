@@ -34,19 +34,19 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 public class ClassInfo implements IClassInfo
 {
 
-	private final Class<?> clazz;
+	private final Class clazz;
 
 	/**
 	 * The list of method definitions.
 	 */
 
-	private Map<String, IMethodInfo> methods;
+	private Map methods;
 
 	/**
 	 * The list of member definitions.
 	 */
 
-	private Map<String, IMemberInfo> members;
+	private Map members;
 
 	/**
 	 * The constructor definition.
@@ -58,7 +58,7 @@ public class ClassInfo implements IClassInfo
 	 * @param clazz
 	 */
 
-	public ClassInfo( Class<?> clazz )
+	public ClassInfo( Class clazz )
 	{
 		this.clazz = clazz;
 		initialize( );
@@ -66,8 +66,8 @@ public class ClassInfo implements IClassInfo
 
 	private void initialize( )
 	{
-		methods = new LinkedHashMap<String, IMethodInfo>( );
-		members = new LinkedHashMap<String, IMemberInfo>( );
+		methods = new LinkedHashMap( );
+		members = new LinkedHashMap( );
 
 		Method[] classMethods = clazz.getMethods( );
 		for ( int i = 0; i < classMethods.length; i++ )
@@ -75,7 +75,7 @@ public class ClassInfo implements IClassInfo
 			Method classMethod = classMethods[i];
 			String methodName = classMethod.getName( );
 
-			IMethodInfo method = methods.get( methodName );
+			IMethodInfo method = (IMethodInfo) methods.get( methodName );
 			if ( method == null )
 			{
 				method = createMethodInfo( classMethod );
@@ -84,10 +84,10 @@ public class ClassInfo implements IClassInfo
 			}
 		}
 
-		Constructor<?>[] classConstructors = clazz.getConstructors( );
+		Constructor[] classConstructors = clazz.getConstructors( );
 		for ( int i = 0; i < classConstructors.length; i++ )
 		{
-			Constructor<?> classMethod = classConstructors[i];
+			Constructor classMethod = classConstructors[i];
 			if ( constructor == null )
 				constructor = createConstructorInfo( classMethod );
 		}
@@ -105,7 +105,7 @@ public class ClassInfo implements IClassInfo
 
 	/**
 	 * @param classField
-	 * @return the member information.
+	 * @return
 	 */
 
 	protected IMemberInfo createMemberInfo( Field classField )
@@ -115,17 +115,17 @@ public class ClassInfo implements IClassInfo
 
 	/**
 	 * @param classMethod
-	 * @return the constructor information.
+	 * @return
 	 */
 
-	protected IMethodInfo createConstructorInfo( Constructor<?> classMethod )
+	protected IMethodInfo createConstructorInfo( Constructor classMethod )
 	{
 		return new ConstructorInfo( classMethod );
 	}
 
 	/**
 	 * @param classMethod
-	 * @return the method information.
+	 * @return
 	 */
 
 	protected IMethodInfo createMethodInfo( Method classMethod )
@@ -140,12 +140,12 @@ public class ClassInfo implements IClassInfo
 	 * @return a list of method definitions
 	 */
 
-	public List<IMethodInfo> getMethods( )
+	public List getMethods( )
 	{
 		if ( methods != null )
-			return new ArrayList<IMethodInfo>( methods.values( ) );
+			return new ArrayList( methods.values( ) );
 
-		return Collections.emptyList( );
+		return Collections.EMPTY_LIST;
 	}
 
 	/**
@@ -158,14 +158,14 @@ public class ClassInfo implements IClassInfo
 
 	public IMethodInfo getMethod( String name )
 	{
-		return findInfo( methods, name );
+		return (IMethodInfo) findInfo( methods, name );
 	}
 
 	/**
 	 * Finds out the member/method information of a <code>ClassInfo</code>.
 	 * 
 	 * @param objs
-	 *            the collection contains member/method information
+	 *            the colllection contains member/method information
 	 * @param name
 	 *            the name of a member/method
 	 * 
@@ -173,8 +173,7 @@ public class ClassInfo implements IClassInfo
 	 *         corresponding to <code>objs</code>
 	 */
 
-	private static IMethodInfo findInfo( Map<String, IMethodInfo> objs,
-			String name )
+	private static Object findInfo( Map objs, String name )
 	{
 		if ( objs == null || name == null )
 			return null;
@@ -188,10 +187,10 @@ public class ClassInfo implements IClassInfo
 	 * @return the list of member definitions
 	 */
 
-	public List<IMemberInfo> getMembers( )
+	public List getMembers( )
 	{
 		Field[] fields = clazz.getFields( );
-		List<IMemberInfo> retList = new ArrayList<IMemberInfo>( );
+		List retList = new ArrayList( );
 		for ( int i = 0; i < fields.length; i++ )
 		{
 			retList.add( new MemberInfo( fields[i] ) );
@@ -234,8 +233,8 @@ public class ClassInfo implements IClassInfo
 	/**
 	 * Returns whether a class object is native.
 	 * 
-	 * @return <code>true</code> if an object of this class is native, otherwise
-	 *         <code>false</code>
+	 * @return <code>true</code> if an object of this class is native,
+	 *         otherwise <code>false</code>
 	 */
 
 	public boolean isNative( )
@@ -251,8 +250,7 @@ public class ClassInfo implements IClassInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getName()
+	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getName()
 	 */
 
 	public String getName( )
@@ -263,9 +261,7 @@ public class ClassInfo implements IClassInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getToolTipKey
-	 * ()
+	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getToolTipKey()
 	 */
 
 	public String getToolTipKey( )
@@ -276,9 +272,7 @@ public class ClassInfo implements IClassInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName
-	 * ()
+	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName()
 	 */
 	public String getDisplayName( )
 	{
@@ -288,8 +282,7 @@ public class ClassInfo implements IClassInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getToolTip()
+	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getToolTip()
 	 */
 	public String getToolTip( )
 	{

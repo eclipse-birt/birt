@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 public class ArgumentInfo implements IArgumentInfo
 {
 
-	private Class<?> clazz;
+	private Class clazz;
 
 	/**
 	 * Constructor.
@@ -32,7 +32,7 @@ public class ArgumentInfo implements IArgumentInfo
 	 *            the argument type.
 	 */
 
-	protected ArgumentInfo( Class<?> argumentType )
+	protected ArgumentInfo( Class argumentType )
 	{
 		this.clazz = argumentType;
 	}
@@ -43,7 +43,7 @@ public class ArgumentInfo implements IArgumentInfo
 	 * @return the arguement type in class
 	 */
 
-	protected Class<?> getArgumentClass( )
+	protected Class getArgumentClass( )
 	{
 		return clazz;
 	}

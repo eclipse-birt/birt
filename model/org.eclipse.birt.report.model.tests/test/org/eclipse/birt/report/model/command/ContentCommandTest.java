@@ -267,10 +267,9 @@ public class ContentCommandTest extends BaseTestCase
 	 * Tests add functions. Test Case:
 	 * 
 	 * <ul>
-	 * <li>the target container is not a container;
-	 * <li>Trying to add more than one content into a slot when slot can only
-	 * hold one
-	 * <li>the content type is not match with the container
+	 * <li>the target container is not a container; <li>Trying to add more than
+	 * one content into a slot when slot can only hold one <li>the content type
+	 * is not match with the container
 	 * </ul>
 	 * 
 	 * @throws Exception
@@ -709,13 +708,11 @@ public class ContentCommandTest extends BaseTestCase
 	 * Test Case:
 	 * 
 	 * <ul>
-	 * <li>Add three content to the container: A ,B ,C
-	 * <li>Move A to C'position. The expected result in container: B,C,A
-	 * <li>Move C to A's position. The expected result in container: B,A,C
-	 * <li>Move B to A's position.The expected result in container: A,B,C
-	 * <li>Move B to position 5 which is not existed in this container. The
-	 * expected result in container: A,C,B
-	 * <li>
+	 * <li>Add three content to the container: A ,B ,C <li>Move A to C'position.
+	 * The expected result in container: B,C,A <li>Move C to A's position. The
+	 * expected result in container: B,A,C <li>Move B to A's position.The
+	 * expected result in container: A,B,C <li>Move B to position 5 which is not
+	 * existed in this container. The expected result in container: A,C,B <li>
 	 * Test undo and redo
 	 * </ul>
 	 * 
@@ -966,8 +963,8 @@ public class ContentCommandTest extends BaseTestCase
 	 * Tests the move exception case. Test Case:
 	 * 
 	 * <ul>
-	 * <li>The content is the wrong type of the 'toContainer'.
-	 * <li>The toContainer's slot is full.
+	 * <li>The content is the wrong type of the 'toContainer'. <li>The
+	 * toContainer's slot is full.
 	 * </ul>
 	 * 
 	 * 
@@ -1058,10 +1055,10 @@ public class ContentCommandTest extends BaseTestCase
 	 * 
 	 * <ul>
 	 * <li>first, add content into container add container to content. An
-	 * circular content exception here is expected.
-	 * <li>Second, add the container into middContainer, add middContainer into
-	 * content to test if the circular content relationship can be detected.
-	 * <li>An circular exception is expected here.
+	 * circular content exception here is expected. <li>Second, add the
+	 * container into middContainer, add middContainer into content to test if
+	 * the circular content relationship can be detected. <li>An circular
+	 * exception is expected here.
 	 * </ul>
 	 * 
 	 * @throws Exception
@@ -1123,12 +1120,9 @@ public class ContentCommandTest extends BaseTestCase
 	 * Test case:
 	 * 
 	 * <ul>
-	 * <li>Add A into container.
-	 * <li>Set A extends from B, Set C extends from A.
-	 * <li>Set A has style.
-	 * <li>Add A into container.
-	 * <li>Remove A from the container.
-	 * <li>Check the extends reference and style reference on A.
+	 * <li>Add A into container. <li>Set A extends from B, Set C extends from A.
+	 * <li>Set A has style. <li>Add A into container. <li>Remove A from the
+	 * container. <li>Check the extends reference and style reference on A.
 	 * </ul>
 	 * 
 	 * <p>
@@ -1199,8 +1193,7 @@ public class ContentCommandTest extends BaseTestCase
 	 * Test case:
 	 * 
 	 * <ul>
-	 * <li>Drop and detach referenceable element
-	 * <li>Drop referenceable element
+	 * <li>Drop and detach referenceable element <li>Drop referenceable element
 	 * </ul>
 	 * 
 	 * @throws Exception
@@ -1278,8 +1271,7 @@ public class ContentCommandTest extends BaseTestCase
 	 * Test case:
 	 * 
 	 * <ul>
-	 * <li>Drop and unresolve one style
-	 * <li>Drop one style
+	 * <li>Drop and unresolve one style <li>Drop one style
 	 * </ul>
 	 * 
 	 * @throws Exception
@@ -1800,7 +1792,7 @@ public class ContentCommandTest extends BaseTestCase
 		LabelHandle labelHandle = (LabelHandle) designHandle.getElementByID( 7 );
 
 		// originally, only one label refers the style
-		Iterator<DesignElementHandle> iter = styleHandle.clientsIterator( );
+		Iterator<StyleHandle> iter = styleHandle.clientsIterator( );
 		assertEquals( labelHandle, iter.next( ) );
 		assertFalse( iter.hasNext( ) );
 

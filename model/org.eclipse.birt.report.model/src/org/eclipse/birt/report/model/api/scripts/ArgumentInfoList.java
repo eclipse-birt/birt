@@ -31,7 +31,7 @@ public class ArgumentInfoList implements IArgumentInfoList
 	 * The list contains a set of arguments.
 	 */
 
-	private List<IArgumentInfo> arguments = null;
+	private List arguments = null;
 
 	/**
 	 * Constructor.
@@ -40,7 +40,7 @@ public class ArgumentInfoList implements IArgumentInfoList
 	 *            the parameters for the method
 	 */
 
-	protected ArgumentInfoList( Class<?>[] params )
+	protected ArgumentInfoList( Class[] params )
 	{
 		initialize( params );
 
@@ -50,13 +50,13 @@ public class ArgumentInfoList implements IArgumentInfoList
 	 * @param params
 	 */
 
-	private void initialize( Class<?>[] params )
+	private void initialize( Class[] params )
 	{
 		for ( int i = 0; i < params.length; i++ )
 		{
 			ArgumentInfo argument = new ArgumentInfo( params[i] );
 			if ( arguments == null )
-				arguments = new ArrayList<IArgumentInfo>( );
+				arguments = new ArrayList( );
 			arguments.add( argument );
 		}
 	}
@@ -74,10 +74,10 @@ public class ArgumentInfoList implements IArgumentInfoList
 		if ( arguments == null )
 			return null;
 
-		for ( Iterator<IArgumentInfo> iter = arguments.iterator( ); iter
+		for ( Iterator iter = ( (ArrayList) arguments ).iterator( ); iter
 				.hasNext( ); )
 		{
-			IArgumentInfo argument = iter.next( );
+			IArgumentInfo argument = (ArgumentInfo) iter.next( );
 
 			if ( argument.getName( ).equalsIgnoreCase( argumentName ) )
 				return argument;
@@ -93,7 +93,7 @@ public class ArgumentInfoList implements IArgumentInfoList
 	 * @return iterator of argument definition.
 	 */
 
-	public Iterator<IArgumentInfo> argumentsIterator( )
+	public Iterator argumentsIterator( )
 	{
 		if ( arguments == null )
 			return Collections.EMPTY_LIST.iterator( );

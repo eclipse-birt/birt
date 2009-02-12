@@ -233,7 +233,7 @@ public class StructureHandle extends ValueHandle
 	 * @see MemberIterator
 	 */
 
-	public Iterator<MemberHandle> iterator( )
+	public Iterator iterator( )
 	{
 		return new MemberIterator( this );
 	}

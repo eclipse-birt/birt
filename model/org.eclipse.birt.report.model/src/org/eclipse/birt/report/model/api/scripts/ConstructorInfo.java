@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -35,9 +34,9 @@ public class ConstructorInfo implements IMethodInfo
 	 * 
 	 */
 
-	private List<IArgumentInfoList> arguments;
+	private List arguments;
 
-	private final Constructor<?> method;
+	private final Constructor method;
 
 	/**
 	 * Constructor.
@@ -46,7 +45,7 @@ public class ConstructorInfo implements IMethodInfo
 	 *            the method of java class
 	 */
 
-	protected ConstructorInfo( Constructor<?> method )
+	protected ConstructorInfo( Constructor method )
 	{
 		this.method = method;
 
@@ -60,7 +59,7 @@ public class ConstructorInfo implements IMethodInfo
 	 * @return iterator of argument definition.
 	 */
 
-	public Iterator<IArgumentInfoList> argumentListIterator( )
+	public Iterator argumentListIterator( )
 	{
 		return arguments.iterator( );
 	}
@@ -91,9 +90,7 @@ public class ConstructorInfo implements IMethodInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName
-	 * ()
+	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName()
 	 */
 
 	public String getDisplayName( )
@@ -109,8 +106,7 @@ public class ConstructorInfo implements IMethodInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getName()
+	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getName()
 	 */
 
 	public String getName( )
@@ -131,8 +127,7 @@ public class ConstructorInfo implements IMethodInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.IMethodInfo#getReturnType()
+	 * @see org.eclipse.birt.report.model.api.metadata.IMethodInfo#getReturnType()
 	 */
 
 	public String getReturnType( )
@@ -143,8 +138,7 @@ public class ConstructorInfo implements IMethodInfo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.IMethodInfo#isConstructor()
+	 * @see org.eclipse.birt.report.model.api.metadata.IMethodInfo#isConstructor()
 	 */
 
 	public boolean isConstructor( )
@@ -176,10 +170,10 @@ public class ConstructorInfo implements IMethodInfo
 	 * 
 	 */
 
-	void addArgumentList( Class<?>[] argumentList )
+	void addArgumentList( Class[] argumentList )
 	{
 		if ( arguments == null )
-			arguments = new ArrayList<IArgumentInfoList>( );
+			arguments = new ArrayList( );
 
 		ArgumentInfoList argumentInfo = new ArgumentInfoList( argumentList );
 		arguments.add( argumentInfo );

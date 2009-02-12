@@ -133,11 +133,11 @@ public class DataColumnNameValidator extends AbstractElementValidator
 		if ( isInTemplateParameterDefinitionSlot( target ) )
 			return true;
 
-		List<ComputedColumn> columns = null;
+		List columns = null;
 
 		// first find the column binding in the element itself
 		// see bug 205400, find itself.
-		columns = (List<ComputedColumn>) target.getProperty( module,
+		columns = (List) target.getProperty( module,
 				IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 		if ( exists( columns, columnBindingName ) )
 			return true;
@@ -153,7 +153,7 @@ public class DataColumnNameValidator extends AbstractElementValidator
 		{
 			if ( isDataContainer( container ) )
 			{
-				columns = (List<ComputedColumn>) container.getProperty( module,
+				columns = (List) container.getProperty( module,
 						IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 				if ( exists( columns, columnBindingName ) )
 					return true;
@@ -206,8 +206,7 @@ public class DataColumnNameValidator extends AbstractElementValidator
 	 *         Otherwise, <code>false</code>.
 	 */
 
-	private static boolean exists( List<ComputedColumn> columns,
-			String columnName )
+	private static boolean exists( List columns, String columnName )
 	{
 		if ( getColumn( columns, columnName ) == null )
 			return false;
@@ -225,15 +224,14 @@ public class DataColumnNameValidator extends AbstractElementValidator
 	 * @return the bound column
 	 */
 
-	public static ComputedColumn getColumn( List<ComputedColumn> columns,
-			String name )
+	public static ComputedColumn getColumn( List columns, String name )
 	{
 		if ( ( columns == null ) || ( columns.size( ) == 0 ) || name == null )
 			return null;
 
 		for ( int i = 0; i < columns.size( ); i++ )
 		{
-			ComputedColumn column = columns.get( i );
+			ComputedColumn column = (ComputedColumn) columns.get( i );
 			if ( name.equals( column.getName( ) ) )
 				return column;
 		}

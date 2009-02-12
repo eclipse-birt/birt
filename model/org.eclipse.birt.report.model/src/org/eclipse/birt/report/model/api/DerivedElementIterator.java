@@ -26,14 +26,14 @@ import org.eclipse.birt.report.model.core.Module;
  * this element.)
  */
 
-class DerivedElementIterator implements Iterator<DesignElementHandle>
+class DerivedElementIterator implements Iterator
 {
 
 	/**
 	 * The cached iterator.
 	 */
 
-	protected Iterator<DesignElement> iter;
+	protected Iterator iter;
 
 	/**
 	 * The module.
@@ -98,9 +98,9 @@ class DerivedElementIterator implements Iterator<DesignElementHandle>
 	 * @see DesignElementHandle
 	 */
 
-	public DesignElementHandle next( )
+	public Object next( )
 	{
-		DesignElement derived = iter.next( );
+		DesignElement derived = (DesignElement) iter.next( );
 
 		return derived.getHandle( module );
 	}

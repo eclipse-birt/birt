@@ -214,7 +214,7 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 	 * ()
 	 */
 
-	public Iterator<GroupPropertyHandle> visiblePropertyIterator( )
+	public Iterator visiblePropertyIterator( )
 	{
 		List<IElementPropertyDefn> list = getCommonProperties( );
 		final List<IElementPropertyDefn> visibleList = new ArrayList<IElementPropertyDefn>( );
@@ -278,10 +278,11 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 
 		try
 		{
-			Iterator<GroupPropertyHandle> iter = propertyIterator( );
+			Iterator iter = propertyIterator( );
 			while ( iter.hasNext( ) )
 			{
-				GroupPropertyHandle propHandle = iter.next( );
+				GroupPropertyHandle propHandle = (GroupPropertyHandle) iter
+						.next( );
 
 				String propName = propHandle.getPropertyDefn( ).getName( );
 

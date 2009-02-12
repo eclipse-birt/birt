@@ -280,11 +280,11 @@ public class ComputedColumnHandle extends StructureHandle
 
 	public String getAggregateOn( )
 	{
-		List<String> aggres = getAggregateOnList( );
+		List aggres = getAggregateOnList( );
 		if ( aggres == null || aggres.isEmpty( ) )
 			return null;
 
-		return aggres.get( 0 );
+		return (String) aggres.get( 0 );
 	}
 
 	/**
@@ -293,11 +293,11 @@ public class ComputedColumnHandle extends StructureHandle
 	 * @return the list containing levels to be aggregated on
 	 */
 
-	public List<String> getAggregateOnList( )
+	public List getAggregateOnList( )
 	{
-		List<String> aggregateOns = (List<String>) getProperty( ComputedColumn.AGGREGATEON_MEMBER );
+		List aggregateOns = (List) getProperty( ComputedColumn.AGGREGATEON_MEMBER );
 		if ( aggregateOns == null )
-			return Collections.emptyList( );
+			return Collections.EMPTY_LIST;
 
 		return Collections.unmodifiableList( aggregateOns );
 	}

@@ -119,19 +119,19 @@ public class ElementExportUtil
 	 *             if the element to export is not in design file.
 	 */
 
-	public static void exportElements(
-			List<DesignElementHandle> elementsToExport, String libraryFileName,
-			boolean canOverride ) throws DesignFileException,
-			SemanticException, IOException
+	public static void exportElements( List elementsToExport,
+			String libraryFileName, boolean canOverride )
+			throws DesignFileException, SemanticException, IOException
 	{
 		DesignSession session = null;
 
 		// Check the elements to export
 
-		Iterator<DesignElementHandle> iter = elementsToExport.iterator( );
+		Iterator iter = elementsToExport.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			DesignElementHandle elementToExport = iter.next( );
+			DesignElementHandle elementToExport = (DesignElementHandle) iter
+					.next( );
 
 			ElementExporter.checkElementToExport( elementToExport, true );
 			if ( session == null )
@@ -151,7 +151,8 @@ public class ElementExportUtil
 		iter = elementsToExport.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			DesignElementHandle elementToExport = iter.next( );
+			DesignElementHandle elementToExport = (DesignElementHandle) iter
+					.next( );
 
 			exportElement( elementToExport, libraryHandle, canOverride );
 		}
@@ -257,7 +258,7 @@ public class ElementExportUtil
 	 *             if the element to export is not in design file.
 	 */
 
-	public static void exportStructures( List<StructureHandle> structsToExport,
+	public static void exportStructures( List structsToExport,
 			String libraryFileName, boolean canOverride )
 			throws DesignFileException, SemanticException, IOException
 	{
@@ -265,10 +266,10 @@ public class ElementExportUtil
 
 		// Check the structs to export
 
-		Iterator<StructureHandle> iter = structsToExport.iterator( );
+		Iterator iter = structsToExport.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			StructureHandle structToExport = iter.next( );
+			StructureHandle structToExport = (StructureHandle) iter.next( );
 
 			ElementExporter.checkStructureToExport( structToExport, true );
 			if ( session == null )
@@ -290,7 +291,7 @@ public class ElementExportUtil
 		iter = structsToExport.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			StructureHandle structToExport = iter.next( );
+			StructureHandle structToExport = (StructureHandle) iter.next( );
 
 			exportStructure( structToExport, libraryHandle, canOverride );
 		}

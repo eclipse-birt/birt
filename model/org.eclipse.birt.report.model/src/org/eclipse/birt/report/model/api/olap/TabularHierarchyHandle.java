@@ -96,7 +96,7 @@ public class TabularHierarchyHandle extends HierarchyHandle
 	 * @return a list of primary keys if set, otherwise null
 	 */
 
-	public List<String> getPrimaryKeys( )
+	public List getPrimaryKeys( )
 	{
 		return getListProperty( PRIMARY_KEYS_PROP );
 	}

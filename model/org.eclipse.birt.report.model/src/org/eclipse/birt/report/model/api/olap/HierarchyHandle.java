@@ -71,10 +71,10 @@ public abstract class HierarchyHandle extends ReportElementHandle
 			return null;
 
 		LevelHandle found = null;
-		List<LevelHandle> levels = getListProperty( LEVELS_PROP );
+		List levels = getListProperty( LEVELS_PROP );
 		for ( int i = 0; i < levels.size( ); i++ )
 		{
-			LevelHandle tmpLevel = levels.get( i );
+			LevelHandle tmpLevel = (LevelHandle) levels.get( i );
 			if ( levelName.equals( tmpLevel.getName( ) ) )
 			{
 				found = tmpLevel;

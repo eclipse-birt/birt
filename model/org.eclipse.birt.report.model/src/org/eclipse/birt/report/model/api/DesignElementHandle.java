@@ -1410,7 +1410,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * @see UserPropertyDefnHandle
 	 */
 
-	public Iterator<PropertyHandle> getPropertyIterator( )
+	public Iterator getPropertyIterator( )
 	{
 		return new PropertyIterator( this );
 	}
@@ -1450,7 +1450,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *         of type {@link DesignElementHandle}.
 	 */
 
-	public Iterator<DesignElementHandle> derivedIterator( )
+	public Iterator derivedIterator( )
 	{
 		return new DerivedElementIterator( module, this );
 	}
@@ -1465,7 +1465,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *         element that is not <code>ReferenceableElement</code>.
 	 */
 
-	public Iterator<DesignElementHandle> clientsIterator( )
+	public Iterator clientsIterator( )
 	{
 		return new ClientIterator( this );
 	}
@@ -1550,15 +1550,14 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *            the list to sort
 	 */
 
-	public static void doSort( List<DesignElementHandle> list )
+	public static void doSort( List list )
 	{
-		Collections.sort( list, new Comparator<DesignElementHandle>( ) {
+		Collections.sort( list, new Comparator( ) {
 
-			public int compare( DesignElementHandle arg0,
-					DesignElementHandle arg1 )
+			public int compare( Object arg0, Object arg1 )
 			{
-				DesignElementHandle h1 = arg0;
-				DesignElementHandle h2 = arg1;
+				DesignElementHandle h1 = (DesignElementHandle) arg0;
+				DesignElementHandle h2 = (DesignElementHandle) arg1;
 
 				String s1 = h1.getDisplayLabel( );
 				String s2 = h2.getDisplayLabel( );
@@ -1731,11 +1730,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 					PropertyHandle propHandle = targetHandle
 							.getPropertyHandle( propName );
 
-					Iterator<Structure> strcutIter = ( (List<Structure>) value )
-							.iterator( );
+					Iterator strcutIter = ( (List) value ).iterator( );
 					while ( strcutIter.hasNext( ) )
 					{
-						Structure struct = strcutIter.next( );
+						Structure struct = (Structure) strcutIter.next( );
 						propHandle.addItem( struct.copy( ) );
 					}
 				}
@@ -1787,13 +1785,12 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * @see ErrorDetail
 	 */
 
-	public List<ErrorDetail> semanticCheck( )
+	public List semanticCheck( )
 	{
 		// Validate this element.
 
-		List<SemanticException> exceptionList = getElement( ).validate( module );
-		List<ErrorDetail> errorDetailList = ErrorDetail
-				.convertExceptionList( exceptionList );
+		List exceptionList = getElement( ).validate( module );
+		List errorDetailList = ErrorDetail.convertExceptionList( exceptionList );
 
 		return errorDetailList;
 	}
@@ -1940,14 +1937,13 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * @return the semantic error list.
 	 */
 
-	public List<ErrorDetail> getSemanticErrors( )
+	public List getSemanticErrors( )
 	{
-		List<SemanticException> exceptionList = getElement( ).getErrors( );
+		List exceptionList = getElement( ).getErrors( );
 		if ( exceptionList == null )
-			return Collections.emptyList( );
+			return Collections.EMPTY_LIST;
 
-		List<ErrorDetail> errorDetailList = ErrorDetail
-				.convertExceptionList( exceptionList );
+		List errorDetailList = ErrorDetail.convertExceptionList( exceptionList );
 
 		return ErrorDetail.getSemanticErrors( errorDetailList,
 				DesignFileException.DESIGN_EXCEPTION_SEMANTIC_ERROR );
@@ -2209,15 +2205,15 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * @return the property binding list defined for the element
 	 */
 
-	public List<PropertyBinding> getPropertyBindings( )
+	public List getPropertyBindings( )
 	{
-		List<String> nameList = new ArrayList<String>( );
-		List<PropertyBinding> resultList = new ArrayList<PropertyBinding>( );
+		List nameList = new ArrayList( );
+		List resultList = new ArrayList( );
 
 		DesignElement element = getElement( );
 		while ( element != null && element.getRoot( ) != null )
 		{
-			List<PropertyBinding> propBindings = element.getRoot( )
+			List propBindings = element.getRoot( )
 					.getPropertyBindings( element );
 			resultList.addAll( filterPropertyBindingName( propBindings,
 					nameList ) );
@@ -2245,17 +2241,16 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * @return the property binding list.
 	 */
 
-	private List<PropertyBinding> filterPropertyBindingName(
-			List<PropertyBinding> propertyBindings, List<String> nameList )
+	private List filterPropertyBindingName( List propertyBindings, List nameList )
 	{
 		if ( propertyBindings == null )
-			return Collections.emptyList( );
+			return Collections.EMPTY_LIST;
 
-		List<PropertyBinding> resultList = new ArrayList<PropertyBinding>( );
-		Iterator<PropertyBinding> iterator = propertyBindings.iterator( );
+		List resultList = new ArrayList( );
+		Iterator iterator = propertyBindings.iterator( );
 		while ( iterator.hasNext( ) )
 		{
-			PropertyBinding propBinding = iterator.next( );
+			PropertyBinding propBinding = (PropertyBinding) iterator.next( );
 			String name = propBinding.getName( );
 			if ( !nameList.contains( name ) )
 			{
@@ -2485,11 +2480,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *             if the element is not allowed to paste
 	 */
 
-	public List<ErrorDetail> paste( String propName, DesignElementHandle content )
+	public List paste( String propName, DesignElementHandle content )
 			throws SemanticException
 	{
 		if ( content == null )
-			return Collections.emptyList( );
+			return Collections.EMPTY_LIST;
 		add( propName, content );
 		return checkPostPasteErrors( content.getElement( ) );
 	}
@@ -2506,11 +2501,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * @throws SemanticException
 	 *             if the element is not allowed to paste
 	 */
-	public List<ErrorDetail> paste( String propName, IDesignElement content )
+	public List paste( String propName, IDesignElement content )
 			throws SemanticException
 	{
 		if ( content == null )
-			return Collections.emptyList( );
+			return Collections.EMPTY_LIST;
 		add( propName, content.getHandle( getModule( ) ) );
 
 		return checkPostPasteErrors( (DesignElement) content );
@@ -2531,14 +2526,15 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *             if the element is not allowed in the slot
 	 */
 
-	public List<ErrorDetail> paste( String propName,
-			DesignElementHandle content, int newPos ) throws SemanticException
+	public List paste( String propName, DesignElementHandle content, int newPos )
+			throws SemanticException
 	{
 		if ( content == null )
-			return Collections.emptyList( );
+			return Collections.EMPTY_LIST;
 		add( propName, content, newPos );
 
-		return checkPostPasteErrors( content.getElement( ) );
+		return Collections.EMPTY_LIST;
+		// return checkPostPasteErrors( content.getElement( ) );
 	}
 
 	/**
@@ -2556,11 +2552,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *             if the element is not allowed in the property
 	 */
 
-	public List<ErrorDetail> paste( String propName, IDesignElement content,
-			int newPos ) throws SemanticException
+	public List paste( String propName, IDesignElement content, int newPos )
+			throws SemanticException
 	{
 		if ( content == null )
-			return Collections.emptyList( );
+			return Collections.EMPTY_LIST;
 		add( propName, content.getHandle( getModule( ) ), newPos );
 
 		return checkPostPasteErrors( (DesignElement) content );
@@ -2978,7 +2974,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * Gets the factory element handle for this element. The factory element
 	 * handle is to retrieve some factory property value and factory styles.
 	 * 
-	 * @return the factory element handle.
+	 * @return
 	 */
 	public FactoryElementHandle getFactoryElementHandle( )
 	{

@@ -23,10 +23,10 @@ import org.eclipse.birt.report.model.core.Structure;
  * Iterates over the structures within a property or member defined as a list of
  * structures. Each object returned by <code>getNext( )</code> is of type
  * <code>StructureHandle</code>.
- * 
+ *  
  */
 
-class StructureIterator implements Iterator<StructureHandle>
+class StructureIterator implements Iterator
 {
 
 	/**
@@ -101,13 +101,12 @@ class StructureIterator implements Iterator<StructureHandle>
 	 * @see StructureHandle
 	 */
 	// Implementation of iterator.next( )
-	public StructureHandle next( )
+	public Object next( )
 	{
 		if ( !hasNext( ) )
 			return null;
 
-		MemberRef structRef = new CachedMemberRef( valueHandle.getReference( ),
-				index );
+		MemberRef structRef = new CachedMemberRef( valueHandle.getReference( ), index );
 		Structure struct = structRef.getStructure( valueHandle.getModule( ),
 				valueHandle.getElement( ) );
 

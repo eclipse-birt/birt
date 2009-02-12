@@ -60,7 +60,7 @@ public abstract class ReportElementHandle extends DesignElementHandle
 		super( module );
 		assert element != null;
 		this.element = element;
-
+		
 		initializeSlotHandles( );
 		cachePropertyHandles( );
 	}
@@ -182,22 +182,21 @@ public abstract class ReportElementHandle extends DesignElementHandle
 		if ( prop == null )
 			return;
 
-		ArrayList<PropertyMask> masks = (ArrayList<PropertyMask>) getElement( )
-				.getLocalProperty( getModule( ),
-						IDesignElementModel.PROPERTY_MASKS_PROP );
+		ArrayList masks = (ArrayList) getElement( ).getLocalProperty(
+				getModule( ), IDesignElementModel.PROPERTY_MASKS_PROP );
 
 		PropertyMask mask = null;
 
 		if ( masks == null )
 		{
-			masks = new ArrayList<PropertyMask>( );
+			masks = new ArrayList( );
 			getElement( ).setProperty( IDesignElementModel.PROPERTY_MASKS_PROP,
 					masks );
 		}
 
 		for ( int i = 0; i < masks.size( ); i++ )
 		{
-			PropertyMask tmpMask = masks.get( i );
+			PropertyMask tmpMask = (PropertyMask) masks.get( i );
 			if ( propName.equalsIgnoreCase( tmpMask.getName( ) ) )
 			{
 				mask = tmpMask;

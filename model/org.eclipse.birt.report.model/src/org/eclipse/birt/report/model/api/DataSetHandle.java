@@ -855,11 +855,10 @@ public abstract class DataSetHandle extends ReportElementHandle
 			if ( paramName == null )
 				return;
 
-			Iterator<DesignElementHandle> iter = getElementHandle( )
-					.clientsIterator( );
+			Iterator iter = getElementHandle( ).clientsIterator( );
 			while ( iter.hasNext( ) )
 			{
-				DesignElementHandle client = iter.next( );
+				DesignElementHandle client = (DesignElementHandle) iter.next( );
 
 				// Remove bindings from report items
 
@@ -942,11 +941,10 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 		void updateParamBindings( String oldParamName, String newParamName )
 		{
-			Iterator<DesignElementHandle> iter = getElementHandle( )
-					.clientsIterator( );
+			Iterator iter = getElementHandle( ).clientsIterator( );
 			while ( iter.hasNext( ) )
 			{
-				DesignElementHandle client = iter.next( );
+				DesignElementHandle client = (DesignElementHandle) iter.next( );
 
 				// Update parameter name in report items
 

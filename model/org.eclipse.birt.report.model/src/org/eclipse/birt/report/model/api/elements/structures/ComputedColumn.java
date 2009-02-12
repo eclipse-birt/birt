@@ -343,11 +343,11 @@ public class ComputedColumn extends PropertyStructure
 
 	public String getAggregateOn( )
 	{
-		List<String> aggres = getAggregateOnList( );
+		List aggres = getAggregateOnList( );
 		if ( aggres == null || aggres.isEmpty( ) )
 			return null;
 
-		return aggres.get( 0 );
+		return (String) aggres.get( 0 );
 	}
 
 	/**
@@ -356,12 +356,11 @@ public class ComputedColumn extends PropertyStructure
 	 * @return the list containing levels to be aggregated on
 	 */
 
-	public List<String> getAggregateOnList( )
+	public List getAggregateOnList( )
 	{
-		List<String> value = (List<String>) getProperty( null,
-				AGGREGATEON_MEMBER );
+		List value = (List) getProperty( null, AGGREGATEON_MEMBER );
 		if ( value == null )
-			return Collections.emptyList( );
+			return Collections.EMPTY_LIST;
 
 		return value;
 	}
@@ -380,7 +379,7 @@ public class ComputedColumn extends PropertyStructure
 			setProperty( AGGREGATEON_MEMBER, null );
 			return;
 		}
-		List<String> value = new ArrayList<String>( );
+		List value = new ArrayList( );
 		value.add( aggregateOn );
 		setProperty( AGGREGATEON_MEMBER, value );
 	}
@@ -395,10 +394,9 @@ public class ComputedColumn extends PropertyStructure
 
 	public void addAggregateOn( String aggreValue )
 	{
-		List<String> aggregationOn = (List<String>) getProperty( null,
-				AGGREGATEON_MEMBER );
+		List aggregationOn = (List) getProperty( null, AGGREGATEON_MEMBER );
 		if ( aggregationOn == null )
-			aggregationOn = new ArrayList<String>( );
+			aggregationOn = new ArrayList( );
 
 		aggregationOn.add( aggreValue );
 		propValues.put( AGGREGATEON_MEMBER, aggregationOn );
@@ -414,8 +412,7 @@ public class ComputedColumn extends PropertyStructure
 
 	public void removeAggregateOn( String aggreValue )
 	{
-		List<String> aggregationOn = (List<String>) getProperty( null,
-				AGGREGATEON_MEMBER );
+		List aggregationOn = (List) getProperty( null, AGGREGATEON_MEMBER );
 		if ( aggregationOn == null )
 			return;
 
@@ -496,11 +493,10 @@ public class ComputedColumn extends PropertyStructure
 
 	public void addArgument( AggregationArgument argument )
 	{
-		List<AggregationArgument> arguments = (List<AggregationArgument>) getProperty(
-				null, ARGUMENTS_MEMBER );
+		List arguments = (List) getProperty( null, ARGUMENTS_MEMBER );
 		if ( arguments == null )
 		{
-			arguments = new ArrayList<AggregationArgument>( );
+			arguments = new ArrayList( );
 			propValues.put( ARGUMENTS_MEMBER, arguments );
 		}
 
@@ -516,8 +512,7 @@ public class ComputedColumn extends PropertyStructure
 
 	public void removeArgument( AggregationArgument argument )
 	{
-		List<AggregationArgument> arguments = (List<AggregationArgument>) getProperty(
-				null, ARGUMENTS_MEMBER );
+		List arguments = (List) getProperty( null, ARGUMENTS_MEMBER );
 		if ( arguments == null )
 			return;
 

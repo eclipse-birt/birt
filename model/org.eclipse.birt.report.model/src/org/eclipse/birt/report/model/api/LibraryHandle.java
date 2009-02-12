@@ -196,7 +196,7 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 	 */
 
 	public void importCssStyles( CssStyleSheetHandle stylesheet,
-			List<SharedStyleHandle> selectedStyles )
+			List selectedStyles )
 	{
 		String themeName = ( (Module) getElement( ) ).getThemeName( );
 
@@ -271,7 +271,7 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 	 */
 
 	public void importCssStyles( CssStyleSheetHandle stylesheet,
-			List<SharedStyleHandle> selectedStyles, String themeName )
+			List selectedStyles, String themeName )
 	{
 		if ( StringUtil.isBlank( themeName ) )
 			return;
@@ -286,7 +286,8 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 
 		for ( int i = 0; i < selectedStyles.size( ); i++ )
 		{
-			SharedStyleHandle style = selectedStyles.get( i );
+			SharedStyleHandle style = (SharedStyleHandle) selectedStyles
+					.get( i );
 			if ( stylesheet.findStyle( style.getName( ) ) != null )
 			{
 				try

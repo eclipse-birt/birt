@@ -79,14 +79,14 @@ public class GroupPropertyHandle
 
 	public final boolean shareSameValue( )
 	{
-		Iterator<DesignElementHandle> iter = handle.getElements( ).iterator( );
+		Iterator iter = handle.getElements( ).iterator( );
 
 		// List with no content.
 
 		if ( !iter.hasNext( ) )
 			return false;
 
-		DesignElementHandle elemHandle = iter.next( );
+		DesignElementHandle elemHandle = (DesignElementHandle) iter.next( );
 
 		// use the value set on the first element as the base value.
 
@@ -98,7 +98,7 @@ public class GroupPropertyHandle
 
 		while ( iter.hasNext( ) )
 		{
-			elemHandle = iter.next( );
+			elemHandle = (DesignElementHandle) iter.next( );
 			Object value = null;
 			if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 				value = elemHandle.getProperty( propDefn.getName( ) );
@@ -383,8 +383,7 @@ public class GroupPropertyHandle
 		PropertyHandle propHandle = element.getPropertyHandle( propDefn
 				.getName( ) );
 
-		List<DesignElementHandle> retList = propHandle
-				.getReferenceableElementList( );
+		List<DesignElementHandle> retList = propHandle.getReferenceableElementList( );
 
 		return ModelUtil.sortElementsByName( retList );
 	}

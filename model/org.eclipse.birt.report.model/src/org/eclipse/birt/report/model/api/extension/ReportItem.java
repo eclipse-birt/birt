@@ -191,16 +191,13 @@ public class ReportItem
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.extension.IReportItem#getPredefinedStyles
-	 * ()
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#getPredefinedStyles()
 	 */
-	public List<Object> getPredefinedStyles( )
+	public List getPredefinedStyles( )
 	{
-		return Collections.emptyList( );
+		return Collections.EMPTY_LIST;
 	}
 
 	/*
@@ -233,9 +230,9 @@ public class ReportItem
 	 * @seeorg.eclipse.birt.report.model.api.extension.ICompatibleReportItem#
 	 * getRowExpressions()
 	 */
-	public List<String> getRowExpressions( )
+	public List getRowExpressions( )
 	{
-		return Collections.emptyList( );
+		return Collections.EMPTY_LIST;
 	}
 
 	/*
@@ -244,7 +241,7 @@ public class ReportItem
 	 * @seeorg.eclipse.birt.report.model.api.extension.ICompatibleReportItem#
 	 * updateRowExpressions(java.util.Map)
 	 */
-	public void updateRowExpressions( Map<String, String> newExpressions )
+	public void updateRowExpressions( Map newExpressions )
 	{
 		// do nothing by default
 	}

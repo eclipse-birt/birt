@@ -23,7 +23,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
-import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
@@ -62,7 +61,7 @@ public class CompatibilityUtil
 	 */
 
 	public static void updateResultSetinCachedMetaData(
-			DataSetHandle setHandle, List<ResultSetColumn> resultColumns )
+			DataSetHandle setHandle, List resultColumns )
 			throws SemanticException
 	{
 		if ( setHandle == null )
@@ -112,8 +111,8 @@ public class CompatibilityUtil
 	 *             if any structure in the list has invalid values.
 	 */
 
-	public static void addStructures( PropertyHandle propHandle,
-			List<Structure> structures ) throws SemanticException
+	public static void addStructures( PropertyHandle propHandle, List structures )
+			throws SemanticException
 	{
 		if ( structures == null || structures.isEmpty( ) )
 			return;
@@ -127,16 +126,14 @@ public class CompatibilityUtil
 		PropertyValueValidationUtil.validateProperty( element, propDefn
 				.getName( ), structures );
 
-		List<Structure> oldList = (List<Structure>) element
-				.getListProperty( propDefn.getName( ) );
-		List<Structure> newList = null;
+		List oldList = element.getListProperty( propDefn.getName( ) );
+		List newList = null;
 		if ( !propHandle.isLocal( ) )
 		{
 			if ( oldList != null )
-				newList = (List<Structure>) ModelUtil.copyValue( propDefn,
-						oldList );
+				newList = (List) ModelUtil.copyValue( propDefn, oldList );
 			else
-				newList = new ArrayList<Structure>( );
+				newList = new ArrayList( );
 
 			element.getElement( ).setProperty( (ElementPropertyDefn) propDefn,
 					newList );
@@ -159,7 +156,7 @@ public class CompatibilityUtil
 	 */
 
 	public static void addResultSetColumn( DataSetHandle dataSetHandle,
-			List<Structure> columns ) throws SemanticException
+			List columns ) throws SemanticException
 	{
 		if ( dataSetHandle == null )
 			return;

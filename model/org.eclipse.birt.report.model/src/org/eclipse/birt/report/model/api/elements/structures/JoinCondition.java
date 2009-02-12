@@ -452,14 +452,14 @@ public class JoinCondition extends Structure
 			return;
 		}
 
-		List<ElementRefValue> dataSetsReferences = (List<ElementRefValue>) element
-				.getProperty( module, IJointDataSetModel.DATA_SETS_PROP );
+		List dataSetsReferences = (List) element.getProperty( module,
+				IJointDataSetModel.DATA_SETS_PROP );
 		if ( dataSetsReferences != null )
 		{
 			int dataSetIndex;
 			for ( dataSetIndex = 0; dataSetIndex < dataSetsReferences.size( ); dataSetIndex++ )
 			{
-				if ( dataSetsReferences.get( dataSetIndex )
+				if ( ( (ElementRefValue) dataSetsReferences.get( dataSetIndex ) )
 						.getQualifiedReference( ).equals( dataSetName ) )
 				{
 					return;

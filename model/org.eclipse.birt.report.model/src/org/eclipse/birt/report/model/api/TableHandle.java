@@ -194,9 +194,9 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	 * @param columnIndex
 	 *            the column index from 1 to the number of columns in the table
 	 * @param inForce
-	 *            <code>true</code> indicates to paste the column regardless of
-	 *            the different layout of cells. <code>false</code> indicates
-	 *            not.
+	 *            <code>true</code> indicates to paste the column regardless
+	 *            of the different layout of cells. <code>false</code>
+	 *            indicates not.
 	 * @return <code>true</code> indicates the paste operation can be done.
 	 *         Otherwise <code>false</code>.
 	 */
@@ -283,8 +283,8 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	 *            the copied table row
 	 * @param parameters
 	 *            parameters needed by insert operation.
-	 * @return <code>true</code> indicates the insert and paste operation can be
-	 *         done. Otherwise <code>false</code>.
+	 * @return <code>true</code> indicates the insert and paste operation can
+	 *         be done. Otherwise <code>false</code>.
 	 */
 
 	public boolean canInsertAndPasteRow( IDesignElement copiedRow,
@@ -537,8 +537,8 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	}
 
 	/**
-	 * Moves the column from <code>sourceColumn</code> to <code>destIndex</code>
-	 * .
+	 * Moves the column from <code>sourceColumn</code> to
+	 * <code>destIndex</code>.
 	 * 
 	 * @param sourceColumn
 	 *            the source column ranging from 1 to the column number
@@ -704,21 +704,21 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	 * @return a list containing matched filter conditions
 	 */
 
-	public List<FilterConditionHandle> getFilters( int colIndex )
+	public List getFilters( int colIndex )
 	{
 		if ( colIndex < 0 || colIndex >= getColumnCount( ) )
-			return Collections.emptyList( );
+			return Collections.EMPTY_LIST;
 
 		String expr = getResultSetColumn( colIndex );
 		if ( expr == null )
 			return null;
 
-		Iterator<FilterConditionHandle> iter = filtersIterator( );
+		Iterator iter = filtersIterator( );
 
-		List<FilterConditionHandle> retValue = new ArrayList<FilterConditionHandle>( );
+		List retValue = new ArrayList( );
 
 		// check filters in table
-		List<FilterConditionHandle> tempList = checkFilters( iter, expr );
+		List tempList = checkFilters( iter, expr );
 		if ( tempList != null )
 			retValue.addAll( tempList );
 
@@ -736,15 +736,15 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 		return retValue;
 	}
 
-	private List<FilterConditionHandle> checkFilters(
-			Iterator<FilterConditionHandle> iter, String expr )
+	private List checkFilters( Iterator iter, String expr )
 	{
-		List<FilterConditionHandle> retValue = new ArrayList<FilterConditionHandle>( );
+		List retValue = new ArrayList( );
 		while ( iter.hasNext( ) )
 		{
-			FilterConditionHandle condition = iter.next( );
+			FilterConditionHandle condition = (FilterConditionHandle) iter
+					.next( );
 			String curExpr = condition.getExpr( );
-			List<IColumnBinding> cols = null;
+			List cols = null;
 			try
 			{
 				cols = ExpressionUtil.extractColumnExpressions( curExpr, true );
@@ -758,7 +758,8 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 			{
 				for ( int i = 0; i < cols.size( ); i++ )
 				{
-					String tmpExpr = cols.get( i ).getResultSetColumnName( );
+					String tmpExpr = ( (IColumnBinding) cols.get( i ) )
+							.getResultSetColumnName( );
 					if ( expr.equals( tmpExpr ) )
 					{
 						retValue.add( condition );
@@ -791,8 +792,7 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 			if ( detailcell == null )
 				continue;
 
-			Iterator<DesignElementHandle> it = detailcell.getContent( )
-					.iterator( );
+			Iterator it = detailcell.getContent( ).iterator( );
 			while ( it.hasNext( ) )
 			{
 				ReportItemHandle rptItem = (ReportItemHandle) it.next( );

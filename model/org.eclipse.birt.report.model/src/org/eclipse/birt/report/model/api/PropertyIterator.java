@@ -31,7 +31,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * @see PropertyHandle
  */
 
-class PropertyIterator implements Iterator<PropertyHandle>
+class PropertyIterator implements Iterator
 {
 
 	/**
@@ -44,7 +44,7 @@ class PropertyIterator implements Iterator<PropertyHandle>
 	 * Iterator over the underlying list.
 	 */
 
-	protected Iterator<IElementPropertyDefn> iter;
+	protected Iterator iter;
 
 	/**
 	 * Constructs the handle for a group parameters with the given element
@@ -81,7 +81,7 @@ class PropertyIterator implements Iterator<PropertyHandle>
 	 * @see UserPropertyDefnHandle
 	 */
 
-	public PropertyHandle next( )
+	public Object next( )
 	{
 		if ( !iter.hasNext( ) )
 			return null;
