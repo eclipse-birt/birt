@@ -28,6 +28,8 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 	__LABEL_SHOW_TRACE: 'showTraceLabel',
 	__LABEL_HIDE_TRACE: 'hideTraceLabel',
 	
+	_showTraceLabel : null,
+	
 	/**
 	 * Event handler closures.
 	 */
@@ -84,8 +86,11 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 		this.__z_index = 300;
 		
 		// click event on input control
+		this._showTraceLabel = $( this.__LABEL_SHOW_TRACE );
+		this._showTraceLabel.tabIndex = 0;
+		
 		this.__neh_click_input_closure = this.__neh_click_input.bindAsEventListener( this );
-		Event.observe( $( this.__LABEL_SHOW_TRACE ), 'click', this.__neh_click_input_closure, false );				
+		Event.observe( this._showTraceLabel, 'click', this.__neh_click_input_closure, false );				
 		Event.observe( $( this.__LABEL_HIDE_TRACE ), 'click', this.__neh_click_input_closure, false );
 	},	
 	
@@ -121,6 +126,21 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 		}
 	},
 		
+	__bind : function( data )
+	{
+		// call to super
+		AbstractExceptionDialog.prototype.__bind.apply( this, arguments );
+		
+		var label = this._showTraceLabel;
+		// defer
+		setTimeout(function(){
+			// cause any focussed element to lose focus
+			// (ex: opened drop-down lists)
+			label.focus();
+			label.blur();
+		},50);
+	},
+	
 	/**
 	*	Handle clicking on ok.
 	* 
