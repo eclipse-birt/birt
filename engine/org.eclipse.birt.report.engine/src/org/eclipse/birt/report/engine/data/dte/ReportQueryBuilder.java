@@ -556,7 +556,7 @@ public class ReportQueryBuilder
 			{
 				query = createQuery( image, (IDataQueryDefinition) value );
 			}
-			if( query instanceof BaseQueryDefinition )
+			if( query != value && query instanceof BaseQueryDefinition )
 			{
 				setUsesDetails( (BaseQueryDefinition)query );
 			}
@@ -615,7 +615,7 @@ public class ReportQueryBuilder
 			{
 				query = createQuery( label, (IDataQueryDefinition) value );
 			}
-			if( query instanceof BaseQueryDefinition )
+			if( query != value && query instanceof BaseQueryDefinition )
 			{
 				setUsesDetails( (BaseQueryDefinition)query );
 			}
@@ -872,7 +872,7 @@ public class ReportQueryBuilder
 					}
 				}
 			}
-			if( query instanceof BaseQueryDefinition )
+			if( query != value && query instanceof BaseQueryDefinition )
 			{
 				setUsesDetails( (BaseQueryDefinition)query );
 			}
@@ -1025,7 +1025,7 @@ public class ReportQueryBuilder
 			{
 				query = createQuery( dynamicText, (IDataQueryDefinition) value );
 			}
-			if( query instanceof BaseQueryDefinition )
+			if( query != value && query instanceof BaseQueryDefinition )
 			{
 				setUsesDetails( (BaseQueryDefinition)query );
 			}
@@ -1065,7 +1065,7 @@ public class ReportQueryBuilder
 			{
 				query = createQuery( data, (IDataQueryDefinition) value );
 			}
-			if( query instanceof BaseQueryDefinition )
+			if( query != value && query instanceof BaseQueryDefinition )
 			{
 				setUsesDetails( (BaseQueryDefinition)query );
 			}
