@@ -205,7 +205,7 @@ CrosstabGrandTotalDialog.Text.Function=Funktion:
 CrosstabPageBreakProvider.Column.GroupLevel=Gruppenebene
 CrosstabPageBreakProvider.Column.Before=Vor
 CrosstabPageBreakProvider.Column.After=Nach
-CrosstabPageBreakProvider.Column.Interval=Interval
+CrosstabPageBreakProvider.Column.Interval=Intervall
 
 ###########################################################
 # Crosstab RowArea SubTotal

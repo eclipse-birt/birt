@@ -205,7 +205,7 @@ CrosstabGrandTotalDialog.Text.Function=函数:
 CrosstabPageBreakProvider.Column.GroupLevel=组级别
 CrosstabPageBreakProvider.Column.Before=之前
 CrosstabPageBreakProvider.Column.After=之后
-CrosstabPageBreakProvider.Column.Interval=Interval
+CrosstabPageBreakProvider.Column.Interval=间隔
 
 ###########################################################
 # Crosstab RowArea SubTotal
