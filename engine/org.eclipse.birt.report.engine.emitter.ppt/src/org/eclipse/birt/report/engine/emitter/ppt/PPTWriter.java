@@ -458,6 +458,7 @@ public class PPTWriter
 		println( "<v:shape id=3D'" + ( shapeCount ) + "' type=3D'#_x0000_t75'" ); //$NON-NLS-1$ //$NON-NLS-2$
 		if ( link != null )
 		{
+			link = codeLink(link);
 			print("href=3D\"" + link + "\" target=3D\"_parent\"");
 		}
 		println( " style=3D'position:absolute;left:" + x + "pt;top:" + y + "pt;width:" + width + "pt;height:" + height + "pt'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
