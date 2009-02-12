@@ -167,7 +167,7 @@ AttributeView.toolbar.tooltip.EditingToggleAction.ClearMsg=Löschen Sie die lokal
 AttributeView.toolbar.tooltip.EditingToggleAction.EnableEditingMsg=Aktivieren Sie das Bearbeiten der Eigenschaften.
 AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=Diese Aktion ist für lokale Elemente nicht verfügbar.
 AttributeView.view.message.Emptypage= {0} ist eine Erweiterung von {1} in Bibliothek {2}. Um die Eigenschaften von {3} in diesem Berichtdesign zu bearbeiten, klicken Sie auf die Schaltfläche 'Bearbeiten' in der Symbolleiste des Eigenschaftseditors.
-AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=Restore Properties from the original library item
+AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=Eigenschaften von ursprünglichem Objekt aus Bibliothek wiederherstellen 
 AttributeView.defaultText.noAttributeView = Der Eigenschaftseditor ist nicht verfügbar.
 ###########################################################
 #BackGroundPreferencePage properties
@@ -178,7 +178,7 @@ BackGroundPreferencePage.displayname.Title=Hintergrund
 #BasAttributePage properties
 
 BasAttributePage.Label.Attributes=Eigenschaften:
-BaseAttributePage.CommandStack.ResetStyle.Message=Restore to Default Style
+BaseAttributePage.CommandStack.ResetStyle.Message=Standardstil wiederherstellen 
 
 ###########################################################
 #BaseInsertMenuAction properties
@@ -3419,9 +3419,9 @@ SplitAction.actionMsg.splitCells=&Zelle teilen
 ###########################################################
 #StyleBuilder properties
 
-StringVariableSelectionDialog.Dialog.Label=&Variable Description:
-StringVariableSelectionDialog.Dialog.Prompt=&Choose a variable (? = any character, * = any string):
-StringVariableSelectionDialog.Dialog.Title=Select Variable
+StringVariableSelectionDialog.Dialog.Label=&Variablenbeschreibung: 
+StringVariableSelectionDialog.Dialog.Prompt=&Wählen Sie eine Variable (? = beliebiges Zeichen, * = beliebige Zeichenfolge): 
+StringVariableSelectionDialog.Dialog.Title=Variable wählen 
 StyleBuilder.action.Apply=&Anwenden
 SytleBuilder.DialogTitle.New=Neuer Stil
 SytleBuilder.DialogTitle.Edit=Stil bearbeiten
@@ -3947,12 +3947,12 @@ EventHandlerPage.Browse=&Durchsuchen...
 #IDEFileReportProvider
 IDEFileReportProvider.ReadOnlyEncounter.Title=Schreibgeschützte Datei gefunden
 IDEFileReportProvider.ReadOnlyEncounter.Message=Datei ''{0}'' ist schreibgeschützt. Heben Sie den Schreibschutz auf.
-IDEResourcePageHelper.Dialog.Prompt=Choose a directory:
-IDEResourcePageHelper.Dialog.Text=Choose a location relative to the workspace:
-IDEResourcePageHelper.Dialog.Title=Directory Selection
-IDEResourcePageHelper.File.Button=File System...
-IDEResourcePageHelper.Varible.Button=Varia&bles...
-IDEResourcePageHelper.WorkSpace.Button=&Workspace...
+IDEResourcePageHelper.Dialog.Prompt=Wählen Sie ein Verzeichnis: 
+IDEResourcePageHelper.Dialog.Text=Wählen Sie einen Ort relativ zum Arbeitsplatz: 
+IDEResourcePageHelper.Dialog.Title=Verzeichnisauswahl 
+IDEResourcePageHelper.File.Button=Dateisystem... 
+IDEResourcePageHelper.Varible.Button=Varia&blen... 
+IDEResourcePageHelper.WorkSpace.Button=&Arbeitsplatz...
 
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
@@ -4203,8 +4203,8 @@ BIRTGotoMarker.Error.Message=Das Berichtelement ist nicht vorhanden.
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=Eigenschaften sind nicht verfügbar.
-TabbedPropertyTitle.Button.Default.Text=Standard
-TabbedPropertyTitle.Button.Default.TooltipText=Restore style properties of current page to default setting
+TabbedPropertyTitle.Button.Default.Text=Standard 
+TabbedPropertyTitle.Button.Default.TooltipText=Standardstileigenschaften der aktuellen Seite wiederherstellen
 
 
 ###########################################################

@@ -167,7 +167,7 @@ AttributeView.toolbar.tooltip.EditingToggleAction.ClearMsg=清除本地属性。
 AttributeView.toolbar.tooltip.EditingToggleAction.EnableEditingMsg=启用属性编辑。
 AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=此操作不适用于本地元素。
 AttributeView.view.message.Emptypage= 此 {0} 扩展自库 {2} 中的 {1}。要在此报表设计中修改 {3} 的属性，请单击“属性编辑器”工具栏中的“启用”按钮。
-AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=Restore Properties from the original library item
+AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=通过原始库项目还原属性 
 AttributeView.defaultText.noAttributeView = 属性编辑器不可用。
 ###########################################################
 #BackGroundPreferencePage properties
@@ -178,7 +178,7 @@ BackGroundPreferencePage.displayname.Title=背景
 #BasAttributePage properties
 
 BasAttributePage.Label.Attributes=属性:
-BaseAttributePage.CommandStack.ResetStyle.Message=Restore to Default Style
+BaseAttributePage.CommandStack.ResetStyle.Message=还原到默认样式 
 
 ###########################################################
 #BaseInsertMenuAction properties
@@ -3419,9 +3419,9 @@ SplitAction.actionMsg.splitCells=拆分单元格(&S)
 ###########################################################
 #StyleBuilder properties
 
-StringVariableSelectionDialog.Dialog.Label=&Variable Description:
-StringVariableSelectionDialog.Dialog.Prompt=&Choose a variable (? = any character, * = any string):
-StringVariableSelectionDialog.Dialog.Title=Select Variable
+StringVariableSelectionDialog.Dialog.Label=变量描述(&V): 
+StringVariableSelectionDialog.Dialog.Prompt=选择变量(? = 任意字符，* = 任意字符串)(&C): 
+StringVariableSelectionDialog.Dialog.Title=选择变量 
 StyleBuilder.action.Apply=应用(&A)
 SytleBuilder.DialogTitle.New=新建样式
 SytleBuilder.DialogTitle.Edit=编辑样式
@@ -3864,7 +3864,7 @@ WizardTemplateChoicePage.title.SimpleListing=简易列表
 WizardTemplateChoicePage.label.rtlBiDiOrientation=从右到左
 WizardTemplateChoicePage.label.ltrBiDiOrientation=从左到右
 WizardTemplateChoicePage.label.chooseBiDiDirection=报表方向:
-WizardTemplateChoicePage.RootDisplayName=Standard
+WizardTemplateChoicePage.RootDisplayName=标准
 #bidi_hcg end
 ###########################################################
 #XMLSourcePage properties
@@ -3947,12 +3947,12 @@ EventHandlerPage.Browse=浏览(&B)...
 #IDEFileReportProvider
 IDEFileReportProvider.ReadOnlyEncounter.Title=遇到只读文件
 IDEFileReportProvider.ReadOnlyEncounter.Message=文件“{0}”为只读，请首先确保它可以写入。
-IDEResourcePageHelper.Dialog.Prompt=Choose a directory:
-IDEResourcePageHelper.Dialog.Text=Choose a location relative to the workspace:
-IDEResourcePageHelper.Dialog.Title=Directory Selection
-IDEResourcePageHelper.File.Button=File System...
-IDEResourcePageHelper.Varible.Button=Varia&bles...
-IDEResourcePageHelper.WorkSpace.Button=&Workspace...
+IDEResourcePageHelper.Dialog.Prompt=选择目录: 
+IDEResourcePageHelper.Dialog.Text=选择相对于工作区的位置: 
+IDEResourcePageHelper.Dialog.Title=目录选择 
+IDEResourcePageHelper.File.Button=文件系统... 
+IDEResourcePageHelper.Varible.Button=变量(&B)... 
+IDEResourcePageHelper.WorkSpace.Button=工作区(&W)...
 
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
@@ -4203,8 +4203,8 @@ BIRTGotoMarker.Error.Message=报表元素不存在。
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=属性不可用。
-TabbedPropertyTitle.Button.Default.Text=默认值
-TabbedPropertyTitle.Button.Default.TooltipText=Restore style properties of current page to default setting
+TabbedPropertyTitle.Button.Default.Text=默认 
+TabbedPropertyTitle.Button.Default.TooltipText=将当前页的样式属性还原到默认设置
 
 
 ###########################################################

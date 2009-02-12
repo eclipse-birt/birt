@@ -167,7 +167,7 @@ AttributeView.toolbar.tooltip.EditingToggleAction.ClearMsg=Borrar propiedades lo
 AttributeView.toolbar.tooltip.EditingToggleAction.EnableEditingMsg=Activar la edición de las propiedades.
 AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=Esta acción no se encuentra disponible para elementos locales.
 AttributeView.view.message.Emptypage= Este valor {0} se extiende desde el valor {1} en la librería {2}. Para modificar las propiedades del valor {3} en este diseño de informe, haga clic en el botón Activar de la barra de herramientas Editor de propiedades.
-AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=Restore Properties from the original library item
+AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=Restaurar propiedades del elemento de la librería original 
 AttributeView.defaultText.noAttributeView = El editor de propiedades no está disponible.
 ###########################################################
 #BackGroundPreferencePage properties
@@ -178,7 +178,7 @@ BackGroundPreferencePage.displayname.Title=Fondo
 #BasAttributePage properties
 
 BasAttributePage.Label.Attributes=Propiedades:
-BaseAttributePage.CommandStack.ResetStyle.Message=Restore to Default Style
+BaseAttributePage.CommandStack.ResetStyle.Message=Restaurar al estilo predeterminado 
 
 ###########################################################
 #BaseInsertMenuAction properties
@@ -3419,9 +3419,9 @@ SplitAction.actionMsg.splitCells=&Dividir celda
 ###########################################################
 #StyleBuilder properties
 
-StringVariableSelectionDialog.Dialog.Label=&Variable Description:
-StringVariableSelectionDialog.Dialog.Prompt=&Choose a variable (? = any character, * = any string):
-StringVariableSelectionDialog.Dialog.Title=Select Variable
+StringVariableSelectionDialog.Dialog.Label=&Descripción de la variable: 
+StringVariableSelectionDialog.Dialog.Prompt=&Seleccionar una variable (? = cualquier carácter, * = cualquier string): 
+StringVariableSelectionDialog.Dialog.Title=Seleccionar variable 
 StyleBuilder.action.Apply=&Aplicar
 SytleBuilder.DialogTitle.New=Nuevo estilo
 SytleBuilder.DialogTitle.Edit=Editar estilo
@@ -3864,7 +3864,7 @@ WizardTemplateChoicePage.title.SimpleListing=Listado simple
 WizardTemplateChoicePage.label.rtlBiDiOrientation=De derecha a izquierda
 WizardTemplateChoicePage.label.ltrBiDiOrientation=De izquierda a derecha
 WizardTemplateChoicePage.label.chooseBiDiDirection=Orientación del informe:
-WizardTemplateChoicePage.RootDisplayName=Standard
+WizardTemplateChoicePage.RootDisplayName=Estándar
 #bidi_hcg end
 ###########################################################
 #XMLSourcePage properties
@@ -3947,12 +3947,12 @@ EventHandlerPage.Browse=&Examinar...
 #IDEFileReportProvider
 IDEFileReportProvider.ReadOnlyEncounter.Title=Se ha encontrado un archivo de sólo lectura
 IDEFileReportProvider.ReadOnlyEncounter.Message=El archivo ''{0}'' es de sólo lectura, asegúrese primero de que se puede escribir en él.
-IDEResourcePageHelper.Dialog.Prompt=Choose a directory:
-IDEResourcePageHelper.Dialog.Text=Choose a location relative to the workspace:
-IDEResourcePageHelper.Dialog.Title=Directory Selection
-IDEResourcePageHelper.File.Button=File System...
-IDEResourcePageHelper.Varible.Button=Varia&bles...
-IDEResourcePageHelper.WorkSpace.Button=&Workspace...
+IDEResourcePageHelper.Dialog.Prompt=Seleccionar un directorio: 
+IDEResourcePageHelper.Dialog.Text=Seleccione una ubicación relativa al área de trabajo: 
+IDEResourcePageHelper.Dialog.Title=Selección de un directorio 
+IDEResourcePageHelper.File.Button=Sistema de archivos... 
+IDEResourcePageHelper.Varible.Button=&Variables... 
+IDEResourcePageHelper.WorkSpace.Button=Á&rea de trabajo...
 
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
@@ -4203,8 +4203,8 @@ BIRTGotoMarker.Error.Message=El elemento de informe no existe.
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=Las propiedades no están disponibles
-TabbedPropertyTitle.Button.Default.Text=Predeterminado
-TabbedPropertyTitle.Button.Default.TooltipText=Restore style properties of current page to default setting
+TabbedPropertyTitle.Button.Default.Text=Predeterminado 
+TabbedPropertyTitle.Button.Default.TooltipText=Restaurar las propiedades de estilo de la página actual a los parámetros predeterminados
 
 
 ###########################################################

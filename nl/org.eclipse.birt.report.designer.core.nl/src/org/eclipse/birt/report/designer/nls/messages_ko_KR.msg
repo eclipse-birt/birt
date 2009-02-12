@@ -167,7 +167,7 @@ AttributeView.toolbar.tooltip.EditingToggleAction.ClearMsg=로컬 속성을 지웁니다.
 AttributeView.toolbar.tooltip.EditingToggleAction.EnableEditingMsg=속성 편집을 사용합니다.
 AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=로컬 요소에 이 작업을 사용할 수 없습니다.
 AttributeView.view.message.Emptypage= 이 {0}이(가) 라이브러리 {2}의 {1}에서 확장됩니다. 이 보고서 디자인에서 이 {3}의 속성을 수정하려면, 속성 편집기의 도구 모음에서 사용 단추를 누르십시오.
-AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=Restore Properties from the original library item
+AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=원래의 라이브러리 항목에서 속성 복원 
 AttributeView.defaultText.noAttributeView = 속성 편집기를 사용할 수 없습니다.
 ###########################################################
 #BackGroundPreferencePage properties
@@ -178,7 +178,7 @@ BackGroundPreferencePage.displayname.Title=배경
 #BasAttributePage properties
 
 BasAttributePage.Label.Attributes=속성:
-BaseAttributePage.CommandStack.ResetStyle.Message=Restore to Default Style
+BaseAttributePage.CommandStack.ResetStyle.Message=기본 스타일 복원 
 
 ###########################################################
 #BaseInsertMenuAction properties
@@ -3419,9 +3419,9 @@ SplitAction.actionMsg.splitCells=셀 분할(&S)
 ###########################################################
 #StyleBuilder properties
 
-StringVariableSelectionDialog.Dialog.Label=&Variable Description:
-StringVariableSelectionDialog.Dialog.Prompt=&Choose a variable (? = any character, * = any string):
-StringVariableSelectionDialog.Dialog.Title=Select Variable
+StringVariableSelectionDialog.Dialog.Label=변수 설명(&V): 
+StringVariableSelectionDialog.Dialog.Prompt=변수 선택(? = 모든 문자, * = 모든 문자열)(&C): 
+StringVariableSelectionDialog.Dialog.Title=변수 선택 
 StyleBuilder.action.Apply=적용(&A)
 SytleBuilder.DialogTitle.New=새 스타일
 SytleBuilder.DialogTitle.Edit=스타일 편집
@@ -3864,7 +3864,7 @@ WizardTemplateChoicePage.title.SimpleListing=간단한 목록
 WizardTemplateChoicePage.label.rtlBiDiOrientation=오른쪽에서 왼쪽
 WizardTemplateChoicePage.label.ltrBiDiOrientation=왼쪽에서 오른쪽
 WizardTemplateChoicePage.label.chooseBiDiDirection=보고서 방향:
-WizardTemplateChoicePage.RootDisplayName=Standard
+WizardTemplateChoicePage.RootDisplayName=표준
 #bidi_hcg end
 ###########################################################
 #XMLSourcePage properties
@@ -3947,12 +3947,12 @@ EventHandlerPage.Browse=찾아보기(&B)...
 #IDEFileReportProvider
 IDEFileReportProvider.ReadOnlyEncounter.Title=읽기 전용 파일 발생
 IDEFileReportProvider.ReadOnlyEncounter.Message=''{0}'' 파일은 읽기 전용입니다. 먼저 파일에 쓸 수 있는지 확인하십시오.
-IDEResourcePageHelper.Dialog.Prompt=Choose a directory:
-IDEResourcePageHelper.Dialog.Text=Choose a location relative to the workspace:
-IDEResourcePageHelper.Dialog.Title=Directory Selection
-IDEResourcePageHelper.File.Button=File System...
-IDEResourcePageHelper.Varible.Button=Varia&bles...
-IDEResourcePageHelper.WorkSpace.Button=&Workspace...
+IDEResourcePageHelper.Dialog.Prompt=디렉터리 선택: 
+IDEResourcePageHelper.Dialog.Text=작업 영역과 관련된 위치 선택: 
+IDEResourcePageHelper.Dialog.Title=디렉터리 선택 
+IDEResourcePageHelper.File.Button=파일 시스템... 
+IDEResourcePageHelper.Varible.Button=변수(&B)... 
+IDEResourcePageHelper.WorkSpace.Button=작업 영역(&W)...
 
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
@@ -4203,8 +4203,8 @@ BIRTGotoMarker.Error.Message=보고서 요소가 없습니다.
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=속성은 사용할 수 없습니다.
-TabbedPropertyTitle.Button.Default.Text=기본값
-TabbedPropertyTitle.Button.Default.TooltipText=Restore style properties of current page to default setting
+TabbedPropertyTitle.Button.Default.Text=기본값 
+TabbedPropertyTitle.Button.Default.TooltipText=현재 페이지의 스타일 속성을 기본 설정으로 복원합니다.
 
 
 ###########################################################

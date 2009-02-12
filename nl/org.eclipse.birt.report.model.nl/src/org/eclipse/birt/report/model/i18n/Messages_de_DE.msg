@@ -2819,7 +2819,7 @@ Element.Image.onPageBreak=Bei Seitenumbruch
 Element.Image.onPageBreak.toolTip=TBD
 Element.Image.onPageBreak.this=Bildinstanz
 Element.Image.onPageBreak.reportContext=Berichtkontext
-Element.Image.fitToContainer=Fit to container
+Element.Image.fitToContainer=An Container anpassen
   
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=Spalten

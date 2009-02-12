@@ -167,7 +167,7 @@ AttributeView.toolbar.tooltip.EditingToggleAction.ClearMsg=ƒ[ƒJƒ‹ƒvƒƒpƒeƒB‚ğƒ
 AttributeView.toolbar.tooltip.EditingToggleAction.EnableEditingMsg=ƒvƒƒpƒeƒB‚Ì•ÒW‚ğ—LŒø‚É‚µ‚Ü‚·B
 AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=‚±‚Ì‘€ì‚ÍAƒ[ƒJƒ‹—v‘f‚É‚Ís‚¦‚Ü‚¹‚ñB
 AttributeView.view.message.Emptypage= ‚±‚ÌƒŒƒ|[ƒgƒfƒUƒCƒ“‚Ì {3} ‚ÌƒvƒƒpƒeƒB‚ğ•ÒW‚·‚é‚É‚ÍAƒvƒƒpƒeƒBƒGƒfƒBƒ^‚Ìƒc[ƒ‹ƒo[‚É‚ ‚éƒ{ƒ^ƒ“‚ğƒNƒŠƒbƒN‚µ‚Ä‚­‚¾‚³‚¢B
-AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=Restore Properties from the original library item
+AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=Œ³‚Ìƒ‰ƒCƒuƒ‰ƒŠ€–Ú‚©‚çƒvƒƒpƒeƒB‚ğ•œŒ³‚·‚é 
 AttributeView.defaultText.noAttributeView = ƒvƒƒpƒeƒBƒGƒfƒBƒ^‚Íg—p‚Å‚«‚Ü‚¹‚ñB
 ###########################################################
 #BackGroundPreferencePage properties
@@ -178,7 +178,7 @@ BackGroundPreferencePage.displayname.Title=”wŒi
 #BasAttributePage properties
 
 BasAttributePage.Label.Attributes=ƒvƒƒpƒeƒB :
-BaseAttributePage.CommandStack.ResetStyle.Message=Restore to Default Style
+BaseAttributePage.CommandStack.ResetStyle.Message=ƒfƒtƒHƒ‹ƒg‚ÌƒXƒ^ƒCƒ‹‚É–ß‚· 
 
 ###########################################################
 #BaseInsertMenuAction properties
@@ -3419,9 +3419,9 @@ SplitAction.actionMsg.splitCells=ƒZƒ‹‚Ì•ªŠ„(&S)
 ###########################################################
 #StyleBuilder properties
 
-StringVariableSelectionDialog.Dialog.Label=&Variable Description:
-StringVariableSelectionDialog.Dialog.Prompt=&Choose a variable (? = any character, * = any string):
-StringVariableSelectionDialog.Dialog.Title=Select Variable
+StringVariableSelectionDialog.Dialog.Label=•Ï”‚Ìà–¾(&V) : 
+StringVariableSelectionDialog.Dialog.Prompt=•Ï”‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢ (? ‚Í”CˆÓ‚Ì 1 •¶šA* ‚Í”CˆÓ‚Ì•¶š—ñ‚ğ¦‚µ‚Ü‚·)(&C) : 
+StringVariableSelectionDialog.Dialog.Title=•Ï”‚Ì‘I‘ğ 
 StyleBuilder.action.Apply=“K—p(&A)
 SytleBuilder.DialogTitle.New=ƒXƒ^ƒCƒ‹‚ÌV‹Kì¬
 SytleBuilder.DialogTitle.Edit=ƒXƒ^ƒCƒ‹‚Ì•ÒW
@@ -3864,7 +3864,7 @@ WizardTemplateChoicePage.title.SimpleListing=ŠÈˆÕƒŠƒXƒg
 WizardTemplateChoicePage.label.rtlBiDiOrientation=‰E‚©‚ç¶‚Ö
 WizardTemplateChoicePage.label.ltrBiDiOrientation=¶‚©‚ç‰E‚Ö
 WizardTemplateChoicePage.label.chooseBiDiDirection=ƒŒƒ|[ƒg‚ÌŒü‚« :
-WizardTemplateChoicePage.RootDisplayName=Standard
+WizardTemplateChoicePage.RootDisplayName=•W€
 #bidi_hcg end
 ###########################################################
 #XMLSourcePage properties
@@ -3947,12 +3947,12 @@ EventHandlerPage.Browse=QÆ(&B)...
 #IDEFileReportProvider
 IDEFileReportProvider.ReadOnlyEncounter.Title=“Ç‚İæ‚èê—pƒtƒ@ƒCƒ‹
 IDEFileReportProvider.ReadOnlyEncounter.Message=ƒtƒ@ƒCƒ‹ ''{0}'' ‚Í“Ç‚İæ‚èê—p‚Å‚·Bæ‚ÉA‚±‚Ìƒtƒ@ƒCƒ‹‚ğ‘‚«‚İ‰Â”\‚É‚µ‚Ä‚­‚¾‚³‚¢B
-IDEResourcePageHelper.Dialog.Prompt=Choose a directory:
-IDEResourcePageHelper.Dialog.Text=Choose a location relative to the workspace:
-IDEResourcePageHelper.Dialog.Title=Directory Selection
-IDEResourcePageHelper.File.Button=File System...
-IDEResourcePageHelper.Varible.Button=Varia&bles...
-IDEResourcePageHelper.WorkSpace.Button=&Workspace...
+IDEResourcePageHelper.Dialog.Prompt=ƒfƒBƒŒƒNƒgƒŠ‚Ì‘I‘ğ : 
+IDEResourcePageHelper.Dialog.Text=ƒ[ƒNƒXƒy[ƒX‚Ö‚Ì‘Š‘Î“I‚ÈˆÊ’u‚Ì‘I‘ğ : 
+IDEResourcePageHelper.Dialog.Title=ƒfƒBƒŒƒNƒgƒŠ‚Ì‘I‘ğ 
+IDEResourcePageHelper.File.Button=ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€... 
+IDEResourcePageHelper.Varible.Button=•Ï”(&B)... 
+IDEResourcePageHelper.WorkSpace.Button=ƒ[ƒNƒXƒy[ƒX(&W)...
 
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
@@ -4203,8 +4203,8 @@ BIRTGotoMarker.Error.Message=ƒŒƒ|[ƒg—v‘f‚Í‘¶İ‚µ‚Ü‚¹‚ñB
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=ƒvƒƒpƒeƒB‚ª‚ ‚è‚Ü‚¹‚ñB
-TabbedPropertyTitle.Button.Default.Text=ƒfƒtƒHƒ‹ƒg
-TabbedPropertyTitle.Button.Default.TooltipText=Restore style properties of current page to default setting
+TabbedPropertyTitle.Button.Default.Text=ƒfƒtƒHƒ‹ƒg 
+TabbedPropertyTitle.Button.Default.TooltipText=Œ»İ‚Ìƒy[ƒW‚ÌƒXƒ^ƒCƒ‹ƒvƒƒpƒeƒB‚ğƒfƒtƒHƒ‹ƒg‚Ìİ’è‚É–ß‚·
 
 
 ###########################################################

@@ -205,7 +205,7 @@ CrosstabGrandTotalDialog.Text.Function=関数 :
 CrosstabPageBreakProvider.Column.GroupLevel=グループレベル
 CrosstabPageBreakProvider.Column.Before=次の前で改ページ
 CrosstabPageBreakProvider.Column.After=次の後で改ページ
-CrosstabPageBreakProvider.Column.Interval=Interval
+CrosstabPageBreakProvider.Column.Interval=間隔
 
 ###########################################################
 # Crosstab RowArea SubTotal
