@@ -1352,12 +1352,12 @@ Element.Toc.Sytle=スタイル(&Y)
 ###########################################################
 #EmbeddedImageNodeProvider properties
 
-EmbeddedImageNodeProvider.action.New=新しく埋め込まれたイメージ(&M)
+EmbeddedImageNodeProvider.action.New=New Em&bedded Image
 
 ###########################################################
 #EmbeddedImagesNodeProvider properties
 
-EmbeddedImagesNodeProvider.action.New=新しく埋め込まれたイメージ(&M)
+EmbeddedImagesNodeProvider.action.New=New Em&bedded Image
 
 ###########################################################
 #ElementIdDescriptorProvider properties
@@ -2699,7 +2699,7 @@ ParameterDialog.Button.ImportValue=値のインポート(&U)...
 ParameterDialog.Button.RemoveDefault=Remove Def&ault
 ParameterDialog.Button.SetDefault=デフォルトに設定(&A)
 ParameterDialog.CheckBox.IsRequired=必須にする(&Q)
-ParameterDialog.CheckBox.DoNotEchoInput=入力値を繰り返さない(&U)
+ParameterDialog.CheckBox.DoNotEchoInput=Do not ech&o input
 ParameterDialog.CheckBox.Hidden=非表示(&H)
 ParameterDialog.CheckBox.Distinct=値の重複を許可する(&L)
 ParameterDialog.Choice.NoDefault=デフォルト値がありません
@@ -2748,7 +2748,7 @@ ParameterDialog.Label.Null=Null
 ParameterDialog.Label.Preview=書式付きプレビュー
 ParameterDialog.Label.PromptText=プロンプトテキスト(&P) :
 ParameterDialog.Label.SelectDataSet=データセット(&A) :
-ParameterDialog.Label.SortKey=最優先されるキー(&O) :
+ParameterDialog.Label.SortKey=Sort &by:
 ParameterDialog.Label.SortDirection=ソートの方向(&C) :
 ParameterDialog.SelectionDialog.New=選択項目の新規作成
 ParameterDialog.SelectionDialog.Label.DisplayTextKey=表示テキストキー(&K) :

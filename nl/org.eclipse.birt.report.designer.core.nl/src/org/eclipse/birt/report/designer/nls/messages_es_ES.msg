@@ -1352,12 +1352,12 @@ Element.Toc.Sytle=Es&tilo
 ###########################################################
 #EmbeddedImageNodeProvider properties
 
-EmbeddedImageNodeProvider.action.New=Nueva i&magen incrustada
+EmbeddedImageNodeProvider.action.New=New Em&bedded Image
 
 ###########################################################
 #EmbeddedImagesNodeProvider properties
 
-EmbeddedImagesNodeProvider.action.New=Nueva i&magen incrustada
+EmbeddedImagesNodeProvider.action.New=New Em&bedded Image
 
 ###########################################################
 #ElementIdDescriptorProvider properties
@@ -2699,7 +2699,7 @@ ParameterDialog.Button.ImportValue=Importar valor&es...
 ParameterDialog.Button.RemoveDefault=Remove Def&ault
 ParameterDialog.Button.SetDefault=Configurar &como predeterminada
 ParameterDialog.CheckBox.IsRequired=&Es necesario
-ParameterDialog.CheckBox.DoNotEchoInput=No realizar comando e&co de entrada
+ParameterDialog.CheckBox.DoNotEchoInput=Do not ech&o input
 ParameterDialog.CheckBox.Hidden=&Oculto
 ParameterDialog.CheckBox.Distinct=Permitir va&lores duplicados
 ParameterDialog.Choice.NoDefault=Ningún valor predeterminado
@@ -2748,7 +2748,7 @@ ParameterDialog.Label.Null=Nulo
 ParameterDialog.Label.Preview=Vista previa con formato
 ParameterDialog.Label.PromptText=Texto de solicit&ud:
 ParameterDialog.Label.SelectDataSet=Conjunto de &datos:
-ParameterDialog.Label.SortKey=&Ordenar por:
+ParameterDialog.Label.SortKey=Sort &by:
 ParameterDialog.Label.SortDirection=Dire&cción de orden:
 ParameterDialog.SelectionDialog.New=Nueva opción de selección
 ParameterDialog.SelectionDialog.Label.DisplayTextKey=&Visualizar clave de texto:

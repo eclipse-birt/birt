@@ -1352,12 +1352,12 @@ Element.Toc.Sytle=스타일(&Y)
 ###########################################################
 #EmbeddedImageNodeProvider properties
 
-EmbeddedImageNodeProvider.action.New=새 포함 이미지(&M)
+EmbeddedImageNodeProvider.action.New=New Em&bedded Image
 
 ###########################################################
 #EmbeddedImagesNodeProvider properties
 
-EmbeddedImagesNodeProvider.action.New=새 포함 이미지(&M)
+EmbeddedImagesNodeProvider.action.New=New Em&bedded Image
 
 ###########################################################
 #ElementIdDescriptorProvider properties
@@ -2699,7 +2699,7 @@ ParameterDialog.Button.ImportValue=값 가져오기(&U)...
 ParameterDialog.Button.RemoveDefault=Remove Def&ault
 ParameterDialog.Button.SetDefault=기본값으로 설정(&A)
 ParameterDialog.CheckBox.IsRequired=필요(&Q)
-ParameterDialog.CheckBox.DoNotEchoInput=입력에 대해 반향을 제공하지 않음(&U)
+ParameterDialog.CheckBox.DoNotEchoInput=Do not ech&o input
 ParameterDialog.CheckBox.Hidden=숨김(&H)
 ParameterDialog.CheckBox.Distinct=중복 값 허용(&L)
 ParameterDialog.Choice.NoDefault=기본값 없음
@@ -2748,7 +2748,7 @@ ParameterDialog.Label.Null=널(null)
 ParameterDialog.Label.Preview=형식 미리 보기
 ParameterDialog.Label.PromptText=프롬프트 텍스트(&P):
 ParameterDialog.Label.SelectDataSet=데이터 집합(&A):
-ParameterDialog.Label.SortKey=정렬 기준(&O):
+ParameterDialog.Label.SortKey=Sort &by:
 ParameterDialog.Label.SortDirection=정렬 방향(C):
 ParameterDialog.SelectionDialog.New=새 선택 항목
 ParameterDialog.SelectionDialog.Label.DisplayTextKey=표시 텍스트 키(&K):

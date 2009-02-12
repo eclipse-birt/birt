@@ -1352,12 +1352,12 @@ Element.Toc.Sytle=样式(&Y)
 ###########################################################
 #EmbeddedImageNodeProvider properties
 
-EmbeddedImageNodeProvider.action.New=新建嵌入图像(&M)
+EmbeddedImageNodeProvider.action.New=New Em&bedded Image
 
 ###########################################################
 #EmbeddedImagesNodeProvider properties
 
-EmbeddedImagesNodeProvider.action.New=新建嵌入图像(&M)
+EmbeddedImagesNodeProvider.action.New=New Em&bedded Image
 
 ###########################################################
 #ElementIdDescriptorProvider properties
@@ -2699,7 +2699,7 @@ ParameterDialog.Button.ImportValue=导入值(&U)...
 ParameterDialog.Button.RemoveDefault=Remove Def&ault
 ParameterDialog.Button.SetDefault=设为默认值(&A)
 ParameterDialog.CheckBox.IsRequired=必需(&Q)
-ParameterDialog.CheckBox.DoNotEchoInput=不回显输入内容(&U)
+ParameterDialog.CheckBox.DoNotEchoInput=Do not ech&o input
 ParameterDialog.CheckBox.Hidden=隐藏(&H)
 ParameterDialog.CheckBox.Distinct=允许重复值(&L)
 ParameterDialog.Choice.NoDefault=无默认值
@@ -2748,7 +2748,7 @@ ParameterDialog.Label.Null=NULL
 ParameterDialog.Label.Preview=带格式预览
 ParameterDialog.Label.PromptText=提示文本(&P):
 ParameterDialog.Label.SelectDataSet=数据集(&A):
-ParameterDialog.Label.SortKey=排序依据(&O):
+ParameterDialog.Label.SortKey=Sort &by:
 ParameterDialog.Label.SortDirection=排序方向(&C):
 ParameterDialog.SelectionDialog.New=新建选择选项
 ParameterDialog.SelectionDialog.Label.DisplayTextKey=显示文本关键字(&K):
