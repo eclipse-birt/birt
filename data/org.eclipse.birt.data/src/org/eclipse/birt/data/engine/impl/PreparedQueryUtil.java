@@ -191,6 +191,32 @@ class PreparedQueryUtil
 		{
 			validateComputedColumns(dataSet);
 		}
+		validateSorts( queryDefn );
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static void validateSorts( IQueryDefinition queryDefn ) throws DataException
+	{
+		List<ISortDefinition> sorts = queryDefn.getSorts( );
+		if ( sorts != null )
+		{
+			for ( ISortDefinition sd : sorts )
+			{
+				List<String> bindingNames = ExpressionCompilerUtil.extractColumnExpression( sd.getExpression( ), ExpressionUtil.ROW_INDICATOR );
+				if ( bindingNames != null )
+				{
+					for ( String bindingName : bindingNames )
+					{
+						IBinding binding = (IBinding)queryDefn.getBindings( ).get( bindingName );
+						if ( binding.getAggrFunction( ) != null )
+						{
+							//sort key expression can't base on Aggregation
+							throw new DataException( ResourceConstants.SORT_ON_AGGR, bindingName );
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	/**
