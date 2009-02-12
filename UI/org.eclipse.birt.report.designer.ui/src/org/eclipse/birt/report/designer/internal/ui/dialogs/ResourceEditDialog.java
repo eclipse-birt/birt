@@ -501,20 +501,19 @@ public class ResourceEditDialog extends BaseDialog
 		Group gp = new Group( innerParent, SWT.NONE );
 		gp.setText( Messages.getString( "ResourceEditDialog.text.QuickAdd" ) ); //$NON-NLS-1$
 		gp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		gp.setLayout( new GridLayout( 4, false ) );
+		gp.setLayout( new GridLayout( 6, false ) );
 
 		Label lb = new Label( gp, 0 );
 		lb.setText( Messages.getString( "ResourceEditDialog.text.Key" ) ); //$NON-NLS-1$
 
-		lb = new Label( gp, 0 );
-		lb.setText( Messages.getString( "ResourceEditDialog.text.Value" ) ); //$NON-NLS-1$
-
-		lb = new Label( gp, 0 );
-		lb = new Label( gp, 0 );
-
 		keyText = new Text( gp, SWT.BORDER | SWT.SINGLE );
 		keyText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
+		lb = new Label( gp, 0 );
+		lb.setText( Messages.getString( "ResourceEditDialog.text.Value" ) ); //$NON-NLS-1$
+
+		// lb = new Label( gp, 0 );
+		// lb = new Label( gp, 0 );
 		valueText = new Text( gp, SWT.BORDER | SWT.SINGLE );
 		valueText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
