@@ -4,7 +4,7 @@
       label="%featureName"
       version="2.3.2.qualifier"
       provider-name="%providerName"
-      plugin="org.eclipse.birt.integration.wtp.ui"
+      plugin="org.eclipse.birt.report.designer.ui.editor.xml.wtp"
       image="eclipse_update_120.jpg">
 
    <description url="http://www.eclipse.org/birt">
