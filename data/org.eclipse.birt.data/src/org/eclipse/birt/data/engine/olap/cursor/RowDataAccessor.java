@@ -302,48 +302,36 @@ public class RowDataAccessor implements IRowDataAccessor
 	protected Object fetchValueFromMirror( int dimAxisIndex, int sortType )
 			throws OLAPException
 	{
-		if ( this.dimTraverse.dimensionCursorPosition[dimAxisIndex] < 0 ||
-				this.dimTraverse.dimensionCursorPosition[dimAxisIndex] >= edgeDimensRelation.mirrorLength[dimAxisIndex] )
+		if ( this.dimTraverse.dimensionCursorPosition[dimAxisIndex] < 0
+				|| this.dimTraverse.dimensionCursorPosition[dimAxisIndex] >= edgeDimensRelation.mirrorLength[dimAxisIndex] )
 			throw new OLAPException( ResourceConstants.RD_EXPR_RESULT_SET_NOT_START );
 
 		if ( sortType == IDimensionSortDefn.SORT_UNDEFINED )
 		{
-			return this.dimAxis[dimAxisIndex].getDisctinctValue( )
-					.get( this.dimTraverse.dimensionCursorPosition[dimAxisIndex] );
-		}
-		
-		//find the result if there is aggregation sort definition
-		Collection collection = null;
-		try
-		{
-			collection = fetchValueCollectionInEdgeInfo( dimAxisIndex );
-		}
-		catch ( IOException e )
-		{
-		}
+			// find the result if there is aggregation sort definition
+			Collection collection = null;
+			try
+			{
+				collection = fetchValueCollectionInEdgeInfo( dimAxisIndex );
+			}
+			catch ( IOException e )
+			{
+			}
 
-		Vector v = this.dimAxis[dimAxisIndex].getDisctinctValue( );
-		v.removeAll( collection );
-		Iterator iter = collection.iterator( );
+			Vector v = this.dimAxis[dimAxisIndex].getDisctinctValue( );
+			v.removeAll( collection );
+			Iterator iter = collection.iterator( );
 
-		if ( sortType == IDimensionSortDefn.SORT_ASC )
-		{
 			for ( int i = 0, startSize = v.size( ); i < collection.size( ); i++ )
 			{
 				v.insertElementAt( iter.next( ), startSize );
 				startSize++;
 			}
+			return v.get( this.dimTraverse.dimensionCursorPosition[dimAxisIndex] );
 		}
 		else
-		{
-			int index = 0;
-			while ( iter.hasNext( ) )
-			{
-				v.insertElementAt( iter.next( ), index );
-				index++;
-			}
-		}
-		return v.get( this.dimTraverse.dimensionCursorPosition[dimAxisIndex] );
+			return this.dimAxis[dimAxisIndex].getDisctinctValue( )
+					.get( this.dimTraverse.dimensionCursorPosition[dimAxisIndex] );
 	}
 
 	/**

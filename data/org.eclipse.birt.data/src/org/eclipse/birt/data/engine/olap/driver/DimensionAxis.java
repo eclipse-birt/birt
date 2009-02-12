@@ -40,7 +40,7 @@ public class DimensionAxis
 	private int dimAxisIndex, levelIndex;
 	private IRowDataAccessor accessor;
 	private boolean isMirrored = false; 
-	private int aggrSortType = IDimensionSortDefn.SORT_UNDEFINED;
+	private int aggrSortType = IDimensionSortDefn.SORT_ASC;
 	private Vector valueObjects = null;
 
 	/**
@@ -99,7 +99,10 @@ public class DimensionAxis
 		Set valueSet = new HashSet( );
 		if ( aggrSortDefinition != null )
 		{
-			aggrSortType = aggrSortDefinition.getSortDirection( );
+			if ( aggrSortDefinition.getAxisQualifierLevel( ).length == 0 )
+				aggrSortType = aggrSortDefinition.getSortDirection( );
+			else
+				aggrSortType = IDimensionSortDefn.SORT_UNDEFINED;
 		}
 
 		for ( int i = 0; i < this.rs.length( ); i++ )
