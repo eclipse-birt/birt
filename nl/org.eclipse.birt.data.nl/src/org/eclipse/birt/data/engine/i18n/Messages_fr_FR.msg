@@ -110,6 +110,8 @@ data.engine.CompCol.FailRetrieveValueComputedColumn=Echec du calcul de la valeur
 data.engine.ScriptResult.WrongSystemComputedColumn=Echec du calcul de la valeur à partir d'une expression de filtre, de groupe ou de tri.
 data.engine.ComputedColumnCycle=La colonne de calcul "{0}" possède un cycle de dépendance.
 
+data.engine.SortOnAggregation=Exists an invalid Sort whose sort key references an Aggregation "{0}".
+
 data.engine.BadFilterExpr=L''expression de filtre "{0}" n''est pas valide.
 data.engine.BadFilterDefn=La définition de filtre utilisant l''expression "{0}" n''est pas valide.
 
