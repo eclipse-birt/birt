@@ -505,6 +505,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		}
 		catch ( Exception e )
 		{
+			// ignore any exception
 		}
 	}
 

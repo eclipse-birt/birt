@@ -82,6 +82,8 @@ public class ReportPreviewEditor extends EditorPart
 
 	private HashMap<String, String> options;
 
+	private boolean suggestShowParameterPage;
+
 	/**
 	 * Implement this method to save the contents of Report Designer.
 	 * <p>
@@ -258,7 +260,11 @@ public class ReportPreviewEditor extends EditorPart
 				{
 					if ( webapp != null && webapp.useCustomParamHandling( ) )
 					{
+						suggestShowParameterPage = true;
+
 						refresh( );
+
+						suggestShowParameterPage = false;
 					}
 					else
 					{
@@ -536,6 +542,19 @@ public class ReportPreviewEditor extends EditorPart
 			if ( extKey != null && extKey.length( ) > 0 )
 			{
 				this.options.put( WebViewer.APPCONTEXT_EXTENSION_KEY, extKey );
+			}
+			else
+			{
+				this.options.remove( WebViewer.APPCONTEXT_EXTENSION_KEY );
+			}
+
+			if ( suggestShowParameterPage )
+			{
+				this.options.put( WebViewer.SHOW_PARAMETER_PAGE_KEY, "true" ); //$NON-NLS-1$
+			}
+			else
+			{
+				this.options.remove( WebViewer.SHOW_PARAMETER_PAGE_KEY );
 			}
 
 			System.setProperty( IPreviewConstants.MAX_DATASET_ROWS,
