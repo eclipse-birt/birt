@@ -1,9 +1,9 @@
 #Properties file for org.eclipse.birt.core.script.bre
-Bundle-Name.0 = Function Plug-in
+Bundle-Name.0 = Complemento de la función
 dataType.String=String
-dataType.Any=Any
-dataType.DateTime=DateTime
-dataType.Integer=Integer
-dataType.Double=Double
-dataType.Number=Number 
-dataType.DoubleArray=Double[]
+dataType.Any=Cualquiera
+dataType.DateTime=Fecha/Hora
+dataType.Integer=Entero
+dataType.Double=Doble
+dataType.Number=Número 
+dataType.DoubleArray=Doble[]

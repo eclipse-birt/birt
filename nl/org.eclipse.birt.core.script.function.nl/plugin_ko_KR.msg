@@ -1,5 +1,5 @@
 #Properties file for org.eclipse.birt.core.script.bre
-Bundle-Name.0 = Function Plug-in
+Bundle-Name.0 = 함수 플러그인
 dataType.String=String
 dataType.Any=Any
 dataType.DateTime=DateTime
