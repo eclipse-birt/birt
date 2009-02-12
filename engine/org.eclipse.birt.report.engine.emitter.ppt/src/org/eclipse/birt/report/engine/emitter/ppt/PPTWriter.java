@@ -34,7 +34,9 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.net.QuotedPrintableCodec;
 import org.eclipse.birt.report.engine.layout.emitter.util.BackgroundImageLayout;
 import org.eclipse.birt.report.engine.layout.emitter.util.Position;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
@@ -65,6 +67,8 @@ public class PPTWriter
 	// Holds the files' name for each page
 	private Map<Integer, List<String>> fileNamesLists = new TreeMap<Integer, List<String>>( );
 
+	private QuotedPrintableCodec quotedPrintableCodec;
+	
 	public PPTWriter( OutputStream output )
 	{
 		try
@@ -329,6 +333,7 @@ public class PPTWriter
 		}
 		if ( link != null )
 		{
+			link = codeLink( link );
 			println( "<p:onmouseclick  hyperlinktype=3D\"url\" href=3D\""
 					+ link
 					+ "\"/><a href=3D\""
@@ -350,6 +355,23 @@ public class PPTWriter
 		}
 		println( "</span></div>" ); //$NON-NLS-1$
 		println( "</div>" ); //$NON-NLS-1$
+	}
+
+	private String codeLink( String link )
+	{
+		try
+		{
+			if ( quotedPrintableCodec == null )
+			{
+				quotedPrintableCodec = new QuotedPrintableCodec( );
+			}
+			link = quotedPrintableCodec.encode( link );
+		}
+		catch ( EncoderException e )
+		{
+			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
+		}
+		return link;
 	}
 
 	private String getColorString( Color color )
