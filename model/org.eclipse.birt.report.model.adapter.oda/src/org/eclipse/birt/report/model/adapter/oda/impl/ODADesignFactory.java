@@ -39,6 +39,7 @@ import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ResultSets;
 import org.eclipse.datatools.connectivity.oda.design.ScalarValueChoices;
 import org.eclipse.datatools.connectivity.oda.design.ScalarValueDefinition;
+import org.eclipse.datatools.connectivity.oda.design.StaticValues;
 import org.eclipse.datatools.connectivity.oda.design.ValueFormatHints;
 import org.eclipse.datatools.connectivity.oda.design.util.DesignUtil;
 import org.eclipse.emf.ecore.EObject;
@@ -51,7 +52,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createColumnDefinition()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createColumnDefinition()
 	 */
 
 	public ColumnDefinition createColumnDefinition( )
@@ -62,7 +64,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createDataAccessDesign()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createDataAccessDesign()
 	 */
 	public DataAccessDesign createDataAccessDesign( )
 	{
@@ -72,7 +75,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createDataElementAttributes()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createDataElementAttributes()
 	 */
 	public DataElementAttributes createDataElementAttributes( )
 	{
@@ -82,7 +86,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createDataSetDesign()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createDataSetDesign()
 	 */
 	public DataSetDesign createDataSetDesign( )
 	{
@@ -92,7 +97,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createDataSetParameters()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createDataSetParameters()
 	 */
 	public DataSetParameters createDataSetParameters( )
 	{
@@ -102,7 +108,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createDataSetQuery()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createDataSetQuery()
 	 */
 	public DataSetQuery createDataSetQuery( )
 	{
@@ -112,7 +119,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createDataSourceDesign()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createDataSourceDesign()
 	 */
 	public DataSourceDesign createDataSourceDesign( )
 	{
@@ -122,7 +130,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createDesignSessionRequest()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createDesignSessionRequest()
 	 */
 	public DesignSessionRequest createDesignSessionRequest( )
 	{
@@ -132,7 +141,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createOdaDesignSession()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createOdaDesignSession()
 	 */
 	public OdaDesignSession createOdaDesignSession( )
 	{
@@ -142,7 +152,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createParameterDefinition()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createParameterDefinition()
 	 */
 	public ParameterDefinition createParameterDefinition( )
 	{
@@ -152,7 +163,9 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createProperties()
+	 * @see
+	 * org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createProperties
+	 * ()
 	 */
 	public Properties createProperties( )
 	{
@@ -162,7 +175,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createResultSetColumns()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createResultSetColumns()
 	 */
 	public ResultSetColumns createResultSetColumns( )
 	{
@@ -172,7 +186,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createResultSetDefinition()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createResultSetDefinition()
 	 */
 	public ResultSetDefinition createResultSetDefinition( )
 	{
@@ -182,7 +197,9 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createResultSets()
+	 * @see
+	 * org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createResultSets
+	 * ()
 	 */
 	public ResultSets createResultSets( )
 	{
@@ -192,7 +209,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createDataElementUIHints()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createDataElementUIHints()
 	 */
 	public DataElementUIHints createDataElementUIHints( )
 	{
@@ -202,7 +220,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createDesignerState()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createDesignerState()
 	 */
 	public DesignerState createDesignerState( )
 	{
@@ -212,7 +231,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createDesignerStateContent()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createDesignerStateContent()
 	 */
 	public DesignerStateContent createDesignerStateContent( )
 	{
@@ -222,7 +242,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createDynamicValuesQuery()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createDynamicValuesQuery()
 	 */
 	public DynamicValuesQuery createDynamicValuesQuery( )
 	{
@@ -232,7 +253,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createInputElementAttributes()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createInputElementAttributes()
 	 */
 	public InputElementAttributes createInputElementAttributes( )
 	{
@@ -242,7 +264,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createInputElementUIHints()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createInputElementUIHints()
 	 */
 	public InputElementUIHints createInputElementUIHints( )
 	{
@@ -252,7 +275,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createInputParameterAttributes()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createInputParameterAttributes()
 	 */
 	public InputParameterAttributes createInputParameterAttributes( )
 	{
@@ -262,7 +286,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createInputParameterUIHints()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createInputParameterUIHints()
 	 */
 	public InputParameterUIHints createInputParameterUIHints( )
 	{
@@ -272,7 +297,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createOutputElementAttributes()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createOutputElementAttributes()
 	 */
 	public OutputElementAttributes createOutputElementAttributes( )
 	{
@@ -282,7 +308,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createScalarValueChoices()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createScalarValueChoices()
 	 */
 	public ScalarValueChoices createScalarValueChoices( )
 	{
@@ -292,7 +319,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createScalarValueDefinition()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createScalarValueDefinition()
 	 */
 	public ScalarValueDefinition createScalarValueDefinition( )
 	{
@@ -302,7 +330,8 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createValueFormatHints()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createValueFormatHints()
 	 */
 	public ValueFormatHints createValueFormatHints( )
 	{
@@ -312,7 +341,9 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#validateObject(org.eclipse.emf.ecore.EObject)
+	 * @see
+	 * org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#validateObject
+	 * (org.eclipse.emf.ecore.EObject)
 	 */
 
 	public void validateObject( EObject eObject )
@@ -323,11 +354,24 @@ class ODADesignFactory implements IODADesignFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createDesignSessionResponse()
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createDesignSessionResponse()
 	 */
 
 	public DesignSessionResponse createDesignSessionResponse( )
 	{
 		return designFactory.createDesignSessionResponse( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createStaticValues()
+	 */
+	 
+	public StaticValues createStaticValues( )
+	{
+		return designFactory.createStaticValues( );
 	}
 }

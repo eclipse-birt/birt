@@ -37,6 +37,7 @@ import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ResultSets;
 import org.eclipse.datatools.connectivity.oda.design.ScalarValueChoices;
 import org.eclipse.datatools.connectivity.oda.design.ScalarValueDefinition;
+import org.eclipse.datatools.connectivity.oda.design.StaticValues;
 import org.eclipse.datatools.connectivity.oda.design.ValueFormatHints;
 
 /**
@@ -102,4 +103,6 @@ public interface IODADesignFactory
     void validateObject(org.eclipse.emf.ecore.EObject eObject);
     
     DesignSessionResponse createDesignSessionResponse();
+    
+    StaticValues createStaticValues();
 }

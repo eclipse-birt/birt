@@ -50,6 +50,7 @@ import org.eclipse.datatools.connectivity.oda.design.InputPromptControlStyle;
 import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ScalarValueChoices;
 import org.eclipse.datatools.connectivity.oda.design.ScalarValueDefinition;
+import org.eclipse.datatools.connectivity.oda.design.StaticValues;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -378,7 +379,10 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 				return;
 		}
 
-		setParam.setDefaultValue( literalValue );
+		List<String> newValues = new ArrayList<String>( );
+		newValues.add( literalValue );
+
+		setParam.setDefaultValueList( newValues );
 	}
 
 	/**
@@ -634,16 +638,34 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 
 		// update default values.
 
-		String defaultValue = elementAttrs.getDefaultScalarValue( );
-		String cachedDefaultValue = cachedElementAttrs == null
+		StaticValues defaultValues = elementAttrs.getDefaultValues( );
+		StaticValues cachedDefaultValues = cachedElementAttrs == null
 				? null
-				: cachedElementAttrs.getDefaultScalarValue( );
-		if ( !CompareUtil.isEquals( cachedDefaultValue, defaultValue ) )
-		{
-			// only update when the value is not internal value.
+				: cachedElementAttrs.getDefaultValues( );
 
-			if ( !DataSetParameterAdapter.BIRT_JS_EXPR.equals( defaultValue ) )
-				reportParam.setDefaultValue( defaultValue );
+		if ( new EcoreUtil.EqualityHelper( ).equals( cachedDefaultValues,
+				defaultValues ) == false )
+		{
+			List<String> newValues = null;
+
+			if ( defaultValues != null )
+			{
+				newValues = new ArrayList<String>( );
+				List<Object> tmpValues = defaultValues.getValues( );
+
+				for ( int i = 0; i < tmpValues.size( ); i++ )
+				{
+					String tmpValue = (String) tmpValues.get( i );
+
+					// only update when the value is not internal value.
+
+					if ( !DataSetParameterAdapter.BIRT_JS_EXPR
+							.equals( tmpValue ) )
+						newValues.add( tmpValue );
+				}
+			}
+
+			reportParam.setDefaultValueList( newValues );
 		}
 
 		// update isOptional value
@@ -951,7 +973,19 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		if ( inputAttrs == null )
 			inputAttrs = designFactory.createInputElementAttributes( );
 
-		inputAttrs.setDefaultScalarValue( paramHandle.getDefaultValue( ) );
+		StaticValues newValues = null;
+		List<String> tmpValues = paramHandle.getDefaultValueList( );
+		if ( tmpValues != null )
+		{
+			for ( int i = 0; i < tmpValues.size( ); i++ )
+			{
+				if ( newValues == null )
+					newValues = designFactory.createStaticValues( );
+				newValues.add( tmpValues.get( i ) );
+			}
+		}
+		inputAttrs.setDefaultValues( newValues );
+
 		// inputAttrs.setOptional( paramHandle.allowBlank( ) );
 		inputAttrs.setOptional( getReportParamAllowMumble( paramHandle,
 				ALLOW_BLANK_PROP_NAME ) );

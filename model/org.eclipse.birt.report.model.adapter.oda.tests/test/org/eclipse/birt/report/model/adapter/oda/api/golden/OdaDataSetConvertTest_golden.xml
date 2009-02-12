@@ -61,7 +61,9 @@
       </design:attributes>
       <design:inputAttributes>
         <design:elementAttributes>
-          <design:defaultScalarValue>default param value</design:defaultScalarValue>
+          <design:defaultValues>
+            <design:values>default param value</design:values>
+          </design:defaultValues>
           <design:optional>false</design:optional>
         </design:elementAttributes>
       </design:inputAttributes>

@@ -7,19 +7,13 @@
         </structure>
     </list-property>
     <data-sources>
-        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="testSource" id="4"
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="testSource" id="2"
  extends="lib.Data Source"/>
     </data-sources>
     <data-sets>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="testDataSet" id="5">
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="testDataSet" id="3">
             <property name="dataSource">testSource</property>
             <property name="queryText">new query text</property>
         </oda-data-set>
     </data-sets>
-    <page-setup>
-        <graphic-master-page name="My Page" id="3">
-            <property name="columns">1</property>
-            <property name="columnSpacing">0.25mm</property>
-        </graphic-master-page>
-    </page-setup>
 </report>

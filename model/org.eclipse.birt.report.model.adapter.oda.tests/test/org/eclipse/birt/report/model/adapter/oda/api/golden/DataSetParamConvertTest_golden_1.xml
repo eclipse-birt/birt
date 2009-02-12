@@ -11,7 +11,9 @@
       </design:attributes>
       <design:inputAttributes>
         <design:elementAttributes>
-          <design:defaultScalarValue>JS_EXPR</design:defaultScalarValue>
+          <design:defaultValues>
+            <design:values>JS_EXPR</design:values>
+          </design:defaultValues>
           <design:optional>false</design:optional>
         </design:elementAttributes>
       </design:inputAttributes>
@@ -25,7 +27,9 @@
       </design:attributes>
       <design:inputAttributes>
         <design:elementAttributes>
-          <design:defaultScalarValue>JS_EXPR</design:defaultScalarValue>
+          <design:defaultValues>
+            <design:values>JS_EXPR</design:values>
+          </design:defaultValues>
           <design:optional>false</design:optional>
         </design:elementAttributes>
       </design:inputAttributes>
@@ -39,7 +43,9 @@
       </design:attributes>
       <design:inputAttributes>
         <design:elementAttributes>
-          <design:defaultScalarValue>JS_EXPR</design:defaultScalarValue>
+          <design:defaultValues>
+            <design:values>JS_EXPR</design:values>
+          </design:defaultValues>
           <design:optional>false</design:optional>
         </design:elementAttributes>
       </design:inputAttributes>

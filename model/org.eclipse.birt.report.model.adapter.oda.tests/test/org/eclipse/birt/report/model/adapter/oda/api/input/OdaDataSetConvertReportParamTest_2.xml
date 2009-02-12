@@ -160,9 +160,6 @@ from CLASSICMODELS.ORDERS</property>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
     </data-sets>
-    <page-setup>
-        <simple-master-page name="Simple MasterPage" id="2"/>
-    </page-setup>
     <body>
         <extended-item extensionName="Chart" id="327">
             <property name="height">130pt</property>

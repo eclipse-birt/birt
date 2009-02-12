@@ -16,7 +16,9 @@
       </design:attributes>
       <design:inputAttributes>
         <design:elementAttributes>
-          <design:defaultScalarValue>State</design:defaultScalarValue>
+          <design:defaultValues>
+            <design:values>State</design:values>
+          </design:defaultValues>
           <design:optional>false</design:optional>
           <design:masksValue>true</design:masksValue>
           <design:staticValueChoices>
@@ -58,6 +60,16 @@
                       <design:name>odaUser</design:name>
                     </design:nameValue>
                   </design:properties>
+                  <design:properties>
+                    <design:nameValue>
+                      <design:name>odaAutoCommit</design:name>
+                    </design:nameValue>
+                  </design:properties>
+                  <design:properties>
+                    <design:nameValue>
+                      <design:name>odaIsolationMode</design:name>
+                    </design:nameValue>
+                  </design:properties>                  
                   <design:properties>
                     <design:nameValue>
                       <design:name>odaPassword</design:name>
@@ -157,6 +169,16 @@
                   </design:properties>
                   <design:properties>
                     <design:nameValue>
+                      <design:name>odaAutoCommit</design:name>
+                    </design:nameValue>
+                  </design:properties>
+                  <design:properties>
+                    <design:nameValue>
+                      <design:name>odaIsolationMode</design:name>
+                    </design:nameValue>
+                  </design:properties>                  
+                  <design:properties>                  
+                    <design:nameValue>
                       <design:name>odaPassword</design:name>
                     </design:nameValue>
                   </design:properties>
@@ -224,7 +246,9 @@
       </design:attributes>
       <design:inputAttributes>
         <design:elementAttributes>
-          <design:defaultScalarValue>&quot;default value param 3&quot;</design:defaultScalarValue>
+          <design:defaultValues>
+            <design:values>&quot;default value param 3&quot;</design:values>
+          </design:defaultValues>
           <design:optional>false</design:optional>
           <design:masksValue>false</design:masksValue>
           <design:dynamicValueChoices>
@@ -253,6 +277,16 @@
                       <design:name>odaUser</design:name>
                     </design:nameValue>
                   </design:properties>
+                  <design:properties>
+                    <design:nameValue>
+                      <design:name>odaAutoCommit</design:name>
+                    </design:nameValue>
+                  </design:properties>
+                  <design:properties>
+                    <design:nameValue>
+                      <design:name>odaIsolationMode</design:name>
+                    </design:nameValue>
+                  </design:properties>                  
                   <design:properties>
                     <design:nameValue>
                       <design:name>odaPassword</design:name>

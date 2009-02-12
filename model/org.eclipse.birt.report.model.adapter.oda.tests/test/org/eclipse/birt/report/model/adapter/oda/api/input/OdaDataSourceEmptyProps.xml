@@ -5,10 +5,4 @@
         <oda-data-source name="myDataSource1" id="2">
         </oda-data-source>
     </data-sources>
-    <page-setup>
-        <graphic-master-page name="My Page" id="3">
-            <property name="columns">1</property>
-            <property name="columnSpacing">0.25mm</property>
-        </graphic-master-page>
-    </page-setup>
 </report>

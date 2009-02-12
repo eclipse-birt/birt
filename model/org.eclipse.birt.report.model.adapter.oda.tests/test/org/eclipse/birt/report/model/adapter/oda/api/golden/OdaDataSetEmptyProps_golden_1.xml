@@ -61,7 +61,9 @@
       </design:attributes>
       <design:inputAttributes>
         <design:elementAttributes>
-          <design:defaultScalarValue>default param value</design:defaultScalarValue>
+          <design:defaultValues>
+            <design:values>default param value</design:values>
+          </design:defaultValues>
           <design:optional>false</design:optional>
         </design:elementAttributes>
       </design:inputAttributes>
@@ -77,10 +79,4 @@
             <property name="queryTimeOut">new public query time out</property>
         </oda-data-set>
     </data-sets>
-    <page-setup>
-        <graphic-master-page name="My Page" id="4">
-            <property name="columns">1</property>
-            <property name="columnSpacing">0.25mm</property>
-        </graphic-master-page>
-    </page-setup>
 </report>

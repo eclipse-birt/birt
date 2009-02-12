@@ -411,10 +411,4 @@
             <property name="allowNull">true</property>
         </scalar-parameter>
     </parameters>	
-    <page-setup>
-        <graphic-master-page name="My Page">
-            <property name="columns">1</property>
-            <property name="columnSpacing">0.25mm</property>
-        </graphic-master-page>
-    </page-setup>
 </report>
