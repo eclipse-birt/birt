@@ -173,6 +173,11 @@ public class WebViewer
 	public final static String CLOSE_WINDOW_KEY = "CLOSE_WINDOW_KEY"; //$NON-NLS-1$
 
 	/**
+	 * Key to indicate whether show the parameter page
+	 */
+	public final static String SHOW_PARAMETER_PAGE_KEY = "SHOW_PARAMETER_PAGE"; //$NON-NLS-1$ 
+
+	/**
 	 * Key to indicate which appcontext extension is loaded
 	 */
 	public final static String APPCONTEXT_EXTENSION_KEY = "APPCONTEXT_EXTENSION_KEY"; //$NON-NLS-1$
@@ -342,6 +347,7 @@ public class WebViewer
 		Boolean allowPage = (Boolean) params.get( ALLOW_PAGE_KEY );
 		Map<String, String> emitterOptions = (Map<String, String>) params.get( EMITTER_OPTIONS_KEY );
 		String outputDocName = (String) params.get( OUTPUT_DOCUMENT_KEY );
+		String showParameter = (String) params.get( SHOW_PARAMETER_PAGE_KEY );
 
 		// maintain legacy support
 		if ( HTM.equalsIgnoreCase( format ) )
@@ -454,6 +460,12 @@ public class WebViewer
 			{
 				LogUtil.logWarning( e.getLocalizedMessage( ), e );
 			}
+		}
+
+		if ( showParameter != null )
+		{
+			urlParams.put( ParameterAccessor.PARAM_PARAMETER_PAGE,
+					showParameter );
 		}
 
 		if ( emitterOptions != null )
@@ -676,7 +688,15 @@ public class WebViewer
 		}
 		if ( timeZone != null )
 		{
-			params.put( ParameterAccessor.PARAM_TIMEZONE, timeZone );
+			try
+			{
+				params.put( ParameterAccessor.PARAM_TIMEZONE,
+						URLEncoder.encode( timeZone, UTF_8 ) );
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+				LogUtil.logWarning( e.getLocalizedMessage( ), e );
+			}
 		}
 		params.put( ParameterAccessor.PARAM_MASTERPAGE,
 				String.valueOf( bMasterPageContent ) );
