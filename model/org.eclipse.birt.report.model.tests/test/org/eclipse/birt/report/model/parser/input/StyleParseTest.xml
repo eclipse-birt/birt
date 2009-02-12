@@ -253,6 +253,23 @@
         <style name="table-group-header-9">
             <property name="textAlign">center</property>
         </style>
+        <style name="test">
+        	<structure name="dateTimeFormat">
+                <property name="locale">en</property>
+            </structure>
+            <structure name="dateFormat">
+                <property name="locale">en_CA</property>
+            </structure>
+            <structure name="timeFormat">
+                <property name="locale">en_US</property>
+            </structure>
+            <structure name="numberFormat">
+                <property name="locale">fr_FR</property>
+            </structure>
+            <structure name="stringFormat">
+                <property name="locale">ja</property>
+            </structure>
+        </style>
     </styles>
     <components>
         <free-form name="GrandFather Form">

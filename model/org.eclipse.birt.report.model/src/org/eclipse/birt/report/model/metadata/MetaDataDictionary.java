@@ -247,6 +247,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		addPropertyType( new MemberKeyPropertyType( ) );
 		addPropertyType( new ElementPropertyType( ) );
 		addPropertyType( new ContentElementPropertyType( ) );
+		addPropertyType( new ULocalePropertyType( ) );
 	}
 
 	/**

@@ -88,14 +88,15 @@ public class CascadingParameterGroupParserTest extends BaseTestCase
 		groupHandle.setDataSetMode( DesignChoiceConstants.DATA_SET_MODE_SINGLE );
 		groupHandle.setDataSet( designHandle.findDataSet( "ds1" ) ); //$NON-NLS-1$
 		save( );
-		assertTrue( compareFile( GOLDEN) );
+		assertTrue( compareFile( GOLDEN ) );
 	}
 
 	/**
 	 * Returns the parameter group handle given the name of the parameter group.
 	 * 
 	 * @param name
-	 * @return
+	 *            the parameter name.
+	 * @return cascading parameter group handle.
 	 */
 
 	private CascadingParameterGroupHandle getGroupHandle( String name )
@@ -121,15 +122,15 @@ public class CascadingParameterGroupParserTest extends BaseTestCase
 	public void testSemanticErrors( ) throws Exception
 	{
 		openDesign( INPUT_SEMANTIC_ERRORS );
-		List errors = designHandle.getErrorList( );
+		List<ErrorDetail> errors = designHandle.getErrorList( );
 		assertEquals( 2, errors.size( ) );
 
-		ErrorDetail error1 = (ErrorDetail) errors.get( 0 );
+		ErrorDetail error1 = errors.get( 0 );
 		assertEquals(
 				SemanticError.DESIGN_EXCEPTION_INVALID_SCALAR_PARAMETER_TYPE,
 				error1.getErrorCode( ) );
 
-		ErrorDetail error2 = (ErrorDetail) errors.get( 1 );
+		ErrorDetail error2 = errors.get( 1 );
 		assertEquals( SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF,
 				error2.getErrorCode( ) );
 	}

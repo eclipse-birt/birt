@@ -36,6 +36,7 @@
             <structure name="format">
                 <property name="category">Unformatted</property>
                 <property name="pattern">##,###.##</property>
+                <property name="locale">en</property>
             </structure>
             <list-property name="selectionList">
                 <structure>
@@ -62,6 +63,9 @@
             <expression name="valueExpr">row["test"]</expression>
             <expression name="labelExpr">test column</expression>
             <property name="listLimit">100</property>
+            <structure name="format">
+                <property name="locale">  zh  </property>
+            </structure>
         </scalar-parameter>
         <scalar-parameter name="Param 3">
 	    	<text-property name="promptText" key="ResourceKey.Parameter.PromptText">City</text-property>
@@ -73,6 +77,14 @@
             <expression name="labelExpr">test column</expression>
             <property name="listLimit">100</property>
             <property name="defaultValue">"default value"</property>
+            <structure name="format">
+                <property name="locale">   </property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="Param 4">
+        	<structure name="format">
+                <property name="locale"> test  </property>
+            </structure>
         </scalar-parameter>
     </parameters>
     <page-setup>

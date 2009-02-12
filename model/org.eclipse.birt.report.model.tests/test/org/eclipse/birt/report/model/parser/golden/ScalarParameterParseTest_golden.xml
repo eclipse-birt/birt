@@ -28,6 +28,7 @@
             <structure name="format">
                 <property name="category">Custom</property>
                 <property name="pattern">$***,***.**</property>
+                <property name="locale">en_CA</property>
             </structure>
             <list-property name="selectionList">
                 <structure>
@@ -52,6 +53,9 @@
             <property name="listLimit">300</property>
             <property name="controlType">check-box</property>
             <expression name="labelExpr">test column</expression>
+            <structure name="format">
+                <property name="locale">zh</property>
+            </structure>
         </scalar-parameter>
         <scalar-parameter name="Param 3" id="6">
             <property name="valueType">dynamic</property>
@@ -67,6 +71,12 @@
             	<value>default_value_2</value>
             	<value>default_value_3</value>
             </simple-property-list>
+            <structure name="format"/>
+        </scalar-parameter>
+        <scalar-parameter name="Param 4" id="7">
+        	<structure name="format">
+                <property name="locale">test</property>
+            </structure>
         </scalar-parameter>
     </parameters>
     <data-sources>
@@ -78,7 +88,7 @@
         </oda-data-set>
     </data-sets>
     <page-setup>
-        <graphic-master-page name="My Page" id="7">
+        <graphic-master-page name="My Page" id="8">
             <property name="comments">Sample page</property>
             <property name="topMargin">0.95mm</property>
             <property name="leftMargin">0.8mm</property>
@@ -87,7 +97,7 @@
             <property name="columns">1</property>
             <property name="columnSpacing">0.25mm</property>
             <contents>
-                <label id="8">
+                <label id="9">
                     <property name="x">1mm</property>
                     <property name="y">0.5mm</property>
                     <property name="height">0.25mm</property>

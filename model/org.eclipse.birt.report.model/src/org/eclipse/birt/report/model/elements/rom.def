@@ -1154,27 +1154,33 @@
   </Validators>
   <Structure displayNameID="Structure.NumberFormatValue" name="NumberFormatValue" since="1.0">
     <Member detailType="numberFormat" displayNameID="Structure.NumberFormatValue.category" isIntrinsic="true" name="category" since="1.0" type="choice"/>
-    <Member displayNameID="Structure.NumberFormatValue.pattern" isIntrinsic="true" name="pattern" since="1.0" type="string"/>		
+    <Member displayNameID="Structure.NumberFormatValue.pattern" isIntrinsic="true" name="pattern" since="1.0" type="string"/>
+    <Member displayNameID="Structure.NumberFormatValue.locale" isIntrinsic="true" name="locale" since="2.5" type="locale"/>		
   </Structure>  
   <Structure displayNameID="Structure.StringFormatValue" name="StringFormatValue" since="1.0">
     <Member detailType="stringFormat" displayNameID="Structure.StringFormatValue.category" isIntrinsic="true" name="category" since="1.0" type="choice"/>
-    <Member displayNameID="Structure.StringFormatValue.pattern" isIntrinsic="true" name="pattern" since="1.0" type="string"/>		
+    <Member displayNameID="Structure.StringFormatValue.pattern" isIntrinsic="true" name="pattern" since="1.0" type="string"/>
+    <Member displayNameID="Structure.StringFormatValue.locale" isIntrinsic="true" name="locale" since="2.5" type="locale"/>		
   </Structure>  
   <Structure displayNameID="Structure.DateTimeFormatValue" name="DateTimeFormatValue" since="1.0">
     <Member detailType="dateTimeFormat" displayNameID="Structure.DateTimeFormatValue.category" isIntrinsic="true" name="category" since="1.0" type="choice"/>
-    <Member displayNameID="Structure.DateTimeFormatValue.pattern" isIntrinsic="true" name="pattern" since="1.0" type="string"/>		
+    <Member displayNameID="Structure.DateTimeFormatValue.pattern" isIntrinsic="true" name="pattern" since="1.0" type="string"/>	
+    <Member displayNameID="Structure.DateTimeFormatValue.locale" isIntrinsic="true" name="locale" since="2.5" type="locale"/>	
   </Structure> 
   <Structure displayNameID="Structure.DateFormatValue" name="DateFormatValue" since="2.2">
     <Member detailType="dateFormat" displayNameID="Structure.DateFormatValue.category" isIntrinsic="true" name="category" since="2.2" type="choice"/>
-    <Member displayNameID="Structure.DateFormatValue.pattern" isIntrinsic="true" name="pattern" since="2.2" type="string"/>		
+    <Member displayNameID="Structure.DateFormatValue.pattern" isIntrinsic="true" name="pattern" since="2.2" type="string"/>
+    <Member displayNameID="Structure.DateFormatValue.locale" isIntrinsic="true" name="locale" since="2.5" type="locale"/>		
   </Structure>   
   <Structure displayNameID="Structure.TimeFormatValue" name="TimeFormatValue" since="2.2">
     <Member detailType="timeFormat" displayNameID="Structure.TimeFormatValue.category" isIntrinsic="true" name="category" since="2.2" type="choice"/>
-    <Member displayNameID="Structure.TimeFormatValue.pattern" isIntrinsic="true" name="pattern" since="2.2" type="string"/>		
+    <Member displayNameID="Structure.TimeFormatValue.pattern" isIntrinsic="true" name="pattern" since="2.2" type="string"/>
+    <Member displayNameID="Structure.TimeFormatValue.locale" isIntrinsic="true" name="locale" since="2.5" type="locale"/>		
   </Structure>       
   <Structure displayNameID="Structure.ParameterFormatValue" name="ParameterFormatValue" since="2.1">
     <Member displayNameID="Structure.ParameterFormatValue.category" isIntrinsic="true" name="category" since="2.1" type="string"/>
-    <Member displayNameID="Structure.ParameterFormatValue.pattern" isIntrinsic="true" name="pattern" since="2.1" type="string"/>		
+    <Member displayNameID="Structure.ParameterFormatValue.pattern" isIntrinsic="true" name="pattern" since="2.1" type="string"/>
+    <Member displayNameID="Structure.ParameterFormatValue.locale" isIntrinsic="true" name="locale" since="2.5" type="locale"/>		
   </Structure> 
   <Structure displayNameID="Structure.MapRule" name="MapRule" since="1.0">
     <Member detailType="mapOperator" displayNameID="Structure.MapRule.operator" isIntrinsic="true" name="operator" since="1.0" type="choice">

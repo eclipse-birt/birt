@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
@@ -91,7 +92,8 @@ public abstract class MasterPageState extends ReportElementState
 				.getLocalProperty( element.getRoot( ), marginProp );
 		if ( value == null )
 		{
-			DimensionValue dimension = new DimensionValue( marginValue, "in" );//$NON-NLS-1$
+			DimensionValue dimension = new DimensionValue( marginValue,
+					DesignChoiceConstants.UNITS_IN );
 			element.setProperty( marginProp, dimension );
 		}
 	}

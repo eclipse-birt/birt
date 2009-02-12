@@ -19,14 +19,18 @@ import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.DimensionHandle;
+import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.FontHandle;
+import org.eclipse.birt.report.model.api.FormatValueHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TOCHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DateFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.TimeFormatValue;
@@ -50,6 +54,8 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.util.BaseTestCase;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Test cases for style parsing, writing and referring.
@@ -234,7 +240,6 @@ public class StyleParseTest extends BaseTestCase
 {
 
 	String fileName = "StyleParseTest.xml"; //$NON-NLS-1$
-	String outFileName = "StyleParseTest_out.xml"; //$NON-NLS-1$
 	String goldenFileName = "StyleParseTest_golden.xml"; //$NON-NLS-1$
 
 	/*
@@ -413,7 +418,7 @@ public class StyleParseTest extends BaseTestCase
 
 		NameSpace ns = design.getNameHelper( ).getNameSpace(
 				Module.STYLE_NAME_SPACE );
-		assertEquals( 18, ns.getCount( ) );
+		assertEquals( 19, ns.getCount( ) );
 
 		// Predefined style is defined by user.
 		StyleElement predefinedStyle = design.findStyle( "table-detail" ); //$NON-NLS-1$
@@ -427,6 +432,39 @@ public class StyleParseTest extends BaseTestCase
 		assertNotNull( iter.next( ) );
 		assertNotNull( iter.next( ) );
 
+		style = design.findStyle( "test" ); //$NON-NLS-1$
+		StyleHandle styleHandle = (StyleHandle) style.getHandle( design );
+
+		assertEquals( ULocale.ENGLISH, getLocale( styleHandle,
+				IStyleModel.DATE_TIME_FORMAT_PROP ) );
+		assertEquals( ULocale.CANADA, getLocale( styleHandle,
+				IStyleModel.DATE_FORMAT_PROP ) );
+		assertEquals( ULocale.US, getLocale( styleHandle,
+				IStyleModel.TIME_FORMAT_PROP ) );
+		assertEquals( ULocale.FRANCE, getLocale( styleHandle,
+				IStyleModel.NUMBER_FORMAT_PROP ) );
+		assertEquals( ULocale.JAPANESE, getLocale( styleHandle,
+				IStyleModel.STRING_FORMAT_PROP ) );
+
+	}
+
+	/**
+	 * Gets the <code>ULocale<code> according to the input property name.
+	 * 
+	 * @param handle
+	 *            the style handle.
+	 * @param propName
+	 *            the property name
+	 * @return the ulocale
+	 */
+	private ULocale getLocale( StyleHandle handle, String propName )
+	{
+		PropertyHandle propHandle = handle.getPropertyHandle( propName );
+		FormatValue formatValueToSet = (FormatValue) handle
+				.getProperty( propName );
+		FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet
+				.getHandle( propHandle );
+		return formatHandle.getLocale( );
 	}
 
 	/**
@@ -667,7 +705,7 @@ public class StyleParseTest extends BaseTestCase
 				.setNumberFormat( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC );
 
 		style.setTextDirection( DesignChoiceConstants.BIDI_DIRECTION_LTR );
-		
+
 		DataItemHandle label = (DataItemHandle) designHandle
 				.findElement( "my data 2" ); //$NON-NLS-1$
 		style = label.getPrivateStyle( );
@@ -675,8 +713,37 @@ public class StyleParseTest extends BaseTestCase
 		style
 				.setNumberFormatCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY );
 
+		style = designHandle.findStyle( "test" ); //$NON-NLS-1$
+		setLocale( style, IStyleModel.DATE_TIME_FORMAT_PROP, ULocale.CANADA );
+		setLocale( style, IStyleModel.DATE_FORMAT_PROP, ULocale.US );
+		setLocale( style, IStyleModel.TIME_FORMAT_PROP, ULocale.FRANCE );
+		setLocale( style, IStyleModel.NUMBER_FORMAT_PROP, ULocale.JAPANESE );
+		setLocale( style, IStyleModel.STRING_FORMAT_PROP, ULocale.ENGLISH );
+
 		save( );
 		assertTrue( compareFile( goldenFileName ) );
+	}
+
+	/**
+	 * Sets the <code>ULocale</code>.
+	 * 
+	 * @param handle
+	 *            the style handle.
+	 * @param propName
+	 *            the property name.
+	 * @param locale
+	 *            the locale.
+	 * @throws Exception
+	 */
+	private void setLocale( StyleHandle handle, String propName, ULocale locale )
+			throws Exception
+	{
+		PropertyHandle propHandle = handle.getPropertyHandle( propName );
+		FormatValue formatValueToSet = (FormatValue) handle
+				.getProperty( propName );
+		FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet
+				.getHandle( propHandle );
+		formatHandle.setLocale( locale );
 	}
 
 	/**
@@ -1177,7 +1244,7 @@ public class StyleParseTest extends BaseTestCase
 	public void testSemanticError( ) throws Exception
 	{
 		openDesign( "StyleParseTest_2.xml" ); //$NON-NLS-1$
-		List errors = design.getErrorList( );
+		List<ErrorDetail> errors = design.getErrorList( );
 		printSemanticErrors( );
 		assertEquals( 0, errors.size( ) );
 	}
@@ -1202,23 +1269,24 @@ public class StyleParseTest extends BaseTestCase
 	 * Write page break inside since 3.2.8
 	 * 
 	 * @throws Exception
-	 *//*
-
-	public void testWriterPageBreak( ) throws Exception
-	{
-		openDesign( fileName );
-
-		LabelHandle label = (LabelHandle) designHandle.findElement( "label1" ); //$NON-NLS-1$
-		label.setProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP,
-				DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID );
-
-		StyleHandle style = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
-		style.setTextDirection( null );
-		
-		save( );
-		assertTrue( compareFile( "testWriterPageBreak_golden.xml" ) ); //$NON-NLS-1$  
-
-	}*/
+	 */
+	/*
+	 * 
+	 * public void testWriterPageBreak( ) throws Exception { openDesign(
+	 * fileName );
+	 * 
+	 * LabelHandle label = (LabelHandle) designHandle.findElement( "label1" );
+	 * //$NON-NLS-1$ label.setProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP,
+	 * DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID );
+	 * 
+	 * StyleHandle style = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+	 * style.setTextDirection( null );
+	 * 
+	 * save( ); assertTrue( compareFile( "testWriterPageBreak_golden.xml" ) );
+	 * //$NON-NLS-1$
+	 * 
+	 * }
+	 */
 
 	/**
 	 * Tests to open and save the old design file.

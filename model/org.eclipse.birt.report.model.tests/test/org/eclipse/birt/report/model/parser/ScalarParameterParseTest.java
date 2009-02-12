@@ -15,13 +15,19 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.FormatValueHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * The Test Case of scalar parameter parse.
@@ -122,6 +128,15 @@ public class ScalarParameterParseTest extends BaseTestCase
 		handle1.setPattern( "$***,***.**" ); //$NON-NLS-1$
 		assertEquals( "$***,***.**", handle1.getPattern( ) ); //$NON-NLS-1$
 
+		PropertyHandle propHandle = handle1
+				.getPropertyHandle( IScalarParameterModel.FORMAT_PROP );
+		FormatValue formatValueToSet = (FormatValue) handle1
+				.getProperty( IScalarParameterModel.FORMAT_PROP );
+		FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet
+				.getHandle( propHandle );
+
+		formatHandle.setLocale( ULocale.CANADA );
+
 		handle1
 				.setControlType( DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON );
 		assertEquals( DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON, handle1
@@ -179,7 +194,7 @@ public class ScalarParameterParseTest extends BaseTestCase
 	public void testProperties( ) throws Exception
 	{
 		SlotHandle params = designHandle.getSlot( ReportDesign.PARAMETER_SLOT );
-		assertEquals( 3, params.getCount( ) );
+		assertEquals( 4, params.getCount( ) );
 
 		ScalarParameterHandle handle = (ScalarParameterHandle) params.get( 0 );
 
@@ -202,6 +217,8 @@ public class ScalarParameterParseTest extends BaseTestCase
 		assertFalse( handle.distinct( ) );
 
 		assertEquals( "##,###.##", handle.getPattern( ) ); //$NON-NLS-1$
+		assertEquals( ULocale.ENGLISH, getLocale( handle,
+				IScalarParameterModel.FORMAT_PROP ) );
 
 		assertEquals( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX, handle
 				.getControlType( ) );
@@ -256,7 +273,35 @@ public class ScalarParameterParseTest extends BaseTestCase
 
 		handle.setListlimit( 200 );
 		assertEquals( 200, handle.getListlimit( ) );
+		assertEquals( ULocale.CHINESE, getLocale( handle,
+				IScalarParameterModel.FORMAT_PROP ) );
 
+		handle = (ScalarParameterHandle) params.get( 2 );
+		assertNull( getLocale( handle, IScalarParameterModel.FORMAT_PROP ) );
+
+		handle = (ScalarParameterHandle) params.get( 3 );
+		assertEquals( "test", getLocale( handle, //$NON-NLS-1$
+				IScalarParameterModel.FORMAT_PROP ).toString( ) );
+
+	}
+
+	/**
+	 * Gets the <code>ULocale<code> according to the input property name.
+	 * 
+	 * @param handle
+	 *            the handle.
+	 * @param propName
+	 *            the property name
+	 * @return the ulocale
+	 */
+	private ULocale getLocale( ScalarParameterHandle handle, String propName )
+	{
+		PropertyHandle propHandle = handle.getPropertyHandle( propName );
+		FormatValue formatValueToSet = (FormatValue) handle
+				.getProperty( propName );
+		FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet
+				.getHandle( propHandle );
+		return formatHandle.getLocale( );
 	}
 
 	/**

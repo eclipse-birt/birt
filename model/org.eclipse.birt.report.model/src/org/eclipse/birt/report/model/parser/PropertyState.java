@@ -495,7 +495,7 @@ class PropertyState extends AbstractPropertyState
 
 			if ( elementDefn != null )
 			{
-				List privatePropDefns = elementDefn
+				List<String> privatePropDefns = elementDefn
 						.getODAPrivateDriverPropertyNames( );
 				if ( privatePropDefns.contains( name ) )
 				{

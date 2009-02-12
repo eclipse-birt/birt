@@ -118,7 +118,7 @@
                     </structure>
                     <expression name="testExpr">[this]</expression>
                     <simple-property-list name="value1">
-                    	<value>"10"</value>
+                        <value>"10"</value>
                     </simple-property-list>
                     <expression name="value2">"20"</expression>
                 </structure>
@@ -184,7 +184,7 @@
                     <expression name="testExpr">[somefield]</expression>
                     <property name="operator">eq</property>
                     <simple-property-list name="value1">
-                    	<value>"X"</value>
+                        <value>"X"</value>
                     </simple-property-list>
                     <text-property name="display">Closed</text-property>
                 </structure>
@@ -260,20 +260,37 @@
         <style name="table-group-header-9" id="19">
             <property name="textAlign">center</property>
         </style>
+        <style name="test" id="20">
+            <structure name="dateTimeFormat">
+                <property name="locale">en_CA</property>
+            </structure>
+            <structure name="dateFormat">
+                <property name="locale">en_US</property>
+            </structure>
+            <structure name="timeFormat">
+                <property name="locale">fr_FR</property>
+            </structure>
+            <structure name="numberFormat">
+                <property name="locale">ja</property>
+            </structure>
+            <structure name="stringFormat">
+                <property name="locale">en</property>
+            </structure>
+        </style>
     </styles>
     <components>
-        <free-form name="GrandFather Form" id="20">
+        <free-form name="GrandFather Form" id="21">
             <property name="color">red</property>
             <property name="x">999mm</property>
         </free-form>
-        <free-form name="Parent Form" id="21" extends="GrandFather Form">
+        <free-form name="Parent Form" id="22" extends="GrandFather Form">
             <property name="fontSize">x-small</property>
             <property name="x">999mm</property>
         </free-form>
     </components>
     <page-setup>
-        <graphic-master-page name="My Page" id="22">
-        	<property name="topMargin">1in</property>
+        <graphic-master-page name="My Page" id="23">
+            <property name="topMargin">1in</property>
             <property name="leftMargin">1.25in</property>
             <property name="bottomMargin">1in</property>
             <property name="rightMargin">1.25in</property>
@@ -282,22 +299,22 @@
         </graphic-master-page>
     </page-setup>
     <body>
-        <table name="My Table" id="23">
-        	<property name="pageBreakInterval">50</property>
-            <column id="24">
+        <table name="My Table" id="24">
+            <property name="pageBreakInterval">50</property>
+            <column id="25">
                 <property name="width">2.5mm</property>
             </column>
-            <column id="25">
+            <column id="26">
                 <property name="width">1.5mm</property>
             </column>
             <detail>
-                <row id="26">
+                <row id="27">
                     <property name="style">My Style</property>
-                    <cell id="27">
+                    <cell id="28">
                         <property name="column">1</property>
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
-                        <label name="label1" id="28">
+                        <label name="label1" id="29">
                             <property name="x">1.1mm</property>
                             <property name="y">2.2mm</property>
                             <property name="height">3.3mm</property>
@@ -306,12 +323,12 @@
                         </label>
                     </cell>
                 </row>
-                <row id="29">
-                    <cell id="30">
+                <row id="30">
+                    <cell id="31">
                         <property name="column">1</property>
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
-                        <label id="31">
+                        <label id="32">
                             <property name="x">1.1mm</property>
                             <property name="y">2.2mm</property>
                             <property name="height">3.3mm</property>
@@ -322,12 +339,12 @@
                 </row>
             </detail>
             <footer>
-                <row id="32">
-                    <cell id="33">
+                <row id="33">
+                    <cell id="34">
                         <property name="column">1</property>
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
-                        <label id="34">
+                        <label id="35">
                             <property name="x">1.1mm</property>
                             <property name="y">2.2mm</property>
                             <property name="height">3.3mm</property>
@@ -338,9 +355,9 @@
                 </row>
             </footer>
         </table>
-        <free-form name="My First Form" id="35">
+        <free-form name="My First Form" id="36">
             <report-items>
-                <label id="36">
+                <label id="37">
                     <property name="x">1mm</property>
                     <property name="y">2mm</property>
                     <property name="height">3mm</property>
@@ -349,9 +366,9 @@
                 </label>
             </report-items>
         </free-form>
-        <free-form name="My Second Form" id="37">
+        <free-form name="My Second Form" id="38">
             <report-items>
-                <label id="38">
+                <label id="39">
                     <property name="style">My Style</property>
                     <property name="x">1mm</property>
                     <property name="y">2mm</property>
@@ -361,9 +378,9 @@
                 </label>
             </report-items>
         </free-form>
-        <free-form name="My Third Form" id="39">
+        <free-form name="My Third Form" id="40">
             <report-items>
-                <label id="40">
+                <label id="41">
                     <property name="x">1mm</property>
                     <property name="y">2mm</property>
                     <property name="height">3mm</property>
@@ -372,9 +389,9 @@
                 </label>
             </report-items>
         </free-form>
-        <free-form name="My Fourth Form" id="41">
+        <free-form name="My Fourth Form" id="42">
             <report-items>
-                <label id="42">
+                <label id="43">
                     <property name="style">My Style</property>
                     <property name="fontWeight">lighter</property>
                     <property name="x">1mm</property>
@@ -385,9 +402,9 @@
                 </label>
             </report-items>
         </free-form>
-        <free-form name="My Fifth Form" id="43">
+        <free-form name="My Fifth Form" id="44">
             <report-items>
-                <label id="44">
+                <label id="45">
                     <property name="fontWeight">100</property>
                     <property name="x">1mm</property>
                     <property name="y">2mm</property>
@@ -397,25 +414,25 @@
                 </label>
             </report-items>
         </free-form>
-        <free-form name="Child Form" id="45" extends="Parent Form"/>
-        <table name="My Fourth Table" id="46">
-        	<property name="pageBreakInterval">50</property>
-            <column id="47">
+        <free-form name="Child Form" id="46" extends="Parent Form"/>
+        <table name="My Fourth Table" id="47">
+            <property name="pageBreakInterval">50</property>
+            <column id="48">
                 <property name="width">2.5mm</property>
             </column>
-            <column id="48">
+            <column id="49">
                 <property name="width">1.5mm</property>
             </column>
             <header>
-                <row id="49"/>
+                <row id="50"/>
             </header>
             <detail>
-                <row id="50">
-                    <cell id="51">
+                <row id="51">
+                    <cell id="52">
                         <property name="column">1</property>
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
-                        <label id="52">
+                        <label id="53">
                             <property name="x">1.1mm</property>
                             <property name="y">2.2mm</property>
                             <property name="height">3.3mm</property>
@@ -426,21 +443,21 @@
                 </row>
             </detail>
         </table>
-        <table name="My Fifth Table" id="53">
-        	<property name="pageBreakInterval">50</property>
-            <column id="54">
+        <table name="My Fifth Table" id="54">
+            <property name="pageBreakInterval">50</property>
+            <column id="55">
                 <property name="width">2.5mm</property>
             </column>
-            <column id="55">
+            <column id="56">
                 <property name="width">1.5mm</property>
             </column>
             <footer>
-                <row id="56">
-                    <cell id="57">
+                <row id="57">
+                    <cell id="58">
                         <property name="column">1</property>
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
-                        <label id="58">
+                        <label id="59">
                             <property name="x">1.1mm</property>
                             <property name="y">2.2mm</property>
                             <property name="height">3.3mm</property>
@@ -451,47 +468,22 @@
                 </row>
             </footer>
         </table>
-        <table name="My Sixth Table" id="59">
+        <table name="My Sixth Table" id="60">
             <property name="style">Container Style</property>
             <property name="pageBreakInterval">50</property>
-            <column id="60">
-                <property name="width">2.5mm</property>
-            </column>
             <column id="61">
-                <property name="width">1.5mm</property>
-            </column>
-            <header>
-                <row id="62">
-                    <cell id="63">
-                        <property name="column">1</property>
-                        <property name="colSpan">2</property>
-                        <property name="rowSpan">1</property>
-                        <label id="64">
-                            <property name="x">1.1mm</property>
-                            <property name="y">2.2mm</property>
-                            <property name="height">3.3mm</property>
-                            <property name="width">4.4mm</property>
-                            <text-property name="text">Address4</text-property>
-                        </label>
-                    </cell>
-                </row>
-            </header>
-        </table>
-        <table name="My Seventh Table" id="65">
-        	<property name="pageBreakInterval">50</property>
-            <column id="66">
                 <property name="width">2.5mm</property>
             </column>
-            <column id="67">
+            <column id="62">
                 <property name="width">1.5mm</property>
             </column>
             <header>
-                <row id="68">
-                    <cell id="69">
+                <row id="63">
+                    <cell id="64">
                         <property name="column">1</property>
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
-                        <label id="70">
+                        <label id="65">
                             <property name="x">1.1mm</property>
                             <property name="y">2.2mm</property>
                             <property name="height">3.3mm</property>
@@ -502,36 +494,61 @@
                 </row>
             </header>
         </table>
-        <table name="My Eighth Table" id="71">
+        <table name="My Seventh Table" id="66">
+            <property name="pageBreakInterval">50</property>
+            <column id="67">
+                <property name="width">2.5mm</property>
+            </column>
+            <column id="68">
+                <property name="width">1.5mm</property>
+            </column>
+            <header>
+                <row id="69">
+                    <cell id="70">
+                        <property name="column">1</property>
+                        <property name="colSpan">2</property>
+                        <property name="rowSpan">1</property>
+                        <label id="71">
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>
+                            <property name="height">3.3mm</property>
+                            <property name="width">4.4mm</property>
+                            <text-property name="text">Address4</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+        </table>
+        <table name="My Eighth Table" id="72">
             <property name="x">100mm</property>
             <property name="pageBreakInterval">50</property>
-            <column id="72">
+            <column id="73">
                 <property name="width">2.5mm</property>
             </column>
-            <column id="73">
+            <column id="74">
                 <property name="width">1.5mm</property>
             </column>
             <header>
-                <row id="74">
-                    <cell id="75">
+                <row id="75">
+                    <cell id="76">
                         <property name="column">1</property>
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
-                        <table name="My Eighth Inner Table" id="76">
-                        	<property name="pageBreakInterval">50</property>
-                            <column id="77">
+                        <table name="My Eighth Inner Table" id="77">
+                            <property name="pageBreakInterval">50</property>
+                            <column id="78">
                                 <property name="width">2.5mm</property>
                             </column>
-                            <column id="78">
+                            <column id="79">
                                 <property name="width">1.5mm</property>
                             </column>
                             <header>
-                                <row id="79">
-                                    <cell id="80">
+                                <row id="80">
+                                    <cell id="81">
                                         <property name="column">1</property>
                                         <property name="colSpan">2</property>
                                         <property name="rowSpan">1</property>
-                                        <label id="81">
+                                        <label id="82">
                                             <property name="x">1.1mm</property>
                                             <property name="y">2.2mm</property>
                                             <property name="height">3.3mm</property>
@@ -546,23 +563,23 @@
                 </row>
             </header>
         </table>
-        <table name="My Tenth Table" id="82">
+        <table name="My Tenth Table" id="83">
             <property name="style">Container Style</property>
             <property name="pageBreakInterval">50</property>
-            <column id="83">
+            <column id="84">
                 <property name="width">2.5mm</property>
             </column>
-            <column id="84">
+            <column id="85">
                 <property name="width">1.5mm</property>
             </column>
             <header>
-                <row id="85">
+                <row id="86">
                     <property name="style">Empty Style</property>
-                    <cell id="86">
+                    <cell id="87">
                         <property name="column">1</property>
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
-                        <label id="87">
+                        <label id="88">
                             <property name="x">1.1mm</property>
                             <property name="y">2.2mm</property>
                             <property name="height">3.3mm</property>
@@ -573,24 +590,24 @@
                 </row>
             </header>
         </table>
-        <table name="My Ninth Table" id="88">
+        <table name="My Ninth Table" id="89">
             <property name="x">100mm</property>
             <property name="pageBreakInterval">50</property>
-            <column id="89">
+            <column id="90">
                 <property name="width">2.5mm</property>
             </column>
-            <column id="90">
+            <column id="91">
                 <property name="width">1.5mm</property>
             </column>
-            <group id="91">
+            <group id="92">
                 <property name="groupName">NewTableGroup1</property>
                 <header>
-                    <row id="92">
-                        <cell id="93">
+                    <row id="93">
+                        <cell id="94">
                             <property name="column">1</property>
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
-                            <label id="94">
+                            <label id="95">
                                 <property name="x">1.1mm</property>
                                 <property name="y">2.2mm</property>
                                 <property name="height">3.3mm</property>
@@ -601,15 +618,15 @@
                     </row>
                 </header>
             </group>
-            <group id="95">
+            <group id="96">
                 <property name="groupName">NewTableGroup2</property>
                 <header>
-                    <row id="96">
-                        <cell id="97">
+                    <row id="97">
+                        <cell id="98">
                             <property name="column">1</property>
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
-                            <label id="98">
+                            <label id="99">
                                 <property name="x">1.1mm</property>
                                 <property name="y">2.2mm</property>
                                 <property name="height">3.3mm</property>
@@ -620,15 +637,15 @@
                     </row>
                 </header>
             </group>
-            <group id="99">
+            <group id="100">
                 <property name="groupName">NewTableGroup3</property>
                 <header>
-                    <row id="100">
-                        <cell id="101">
+                    <row id="101">
+                        <cell id="102">
                             <property name="column">1</property>
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
-                            <label id="102">
+                            <label id="103">
                                 <property name="x">1.1mm</property>
                                 <property name="y">2.2mm</property>
                                 <property name="height">3.3mm</property>
@@ -639,15 +656,15 @@
                     </row>
                 </header>
             </group>
-            <group id="103">
+            <group id="104">
                 <property name="groupName">NewTableGroup4</property>
                 <header>
-                    <row id="104">
-                        <cell id="105">
+                    <row id="105">
+                        <cell id="106">
                             <property name="column">1</property>
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
-                            <label id="106">
+                            <label id="107">
                                 <property name="x">1.1mm</property>
                                 <property name="y">2.2mm</property>
                                 <property name="height">3.3mm</property>
@@ -658,15 +675,15 @@
                     </row>
                 </header>
             </group>
-            <group id="107">
+            <group id="108">
                 <property name="groupName">NewTableGroup5</property>
                 <header>
-                    <row id="108">
-                        <cell id="109">
+                    <row id="109">
+                        <cell id="110">
                             <property name="column">1</property>
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
-                            <label id="110">
+                            <label id="111">
                                 <property name="x">1.1mm</property>
                                 <property name="y">2.2mm</property>
                                 <property name="height">3.3mm</property>
@@ -677,15 +694,15 @@
                     </row>
                 </header>
             </group>
-            <group id="111">
+            <group id="112">
                 <property name="groupName">NewTableGroup6</property>
                 <header>
-                    <row id="112">
-                        <cell id="113">
+                    <row id="113">
+                        <cell id="114">
                             <property name="column">1</property>
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
-                            <label id="114">
+                            <label id="115">
                                 <property name="x">1.1mm</property>
                                 <property name="y">2.2mm</property>
                                 <property name="height">3.3mm</property>
@@ -696,15 +713,15 @@
                     </row>
                 </header>
             </group>
-            <group id="115">
+            <group id="116">
                 <property name="groupName">NewTableGroup7</property>
                 <header>
-                    <row id="116">
-                        <cell id="117">
+                    <row id="117">
+                        <cell id="118">
                             <property name="column">1</property>
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
-                            <label id="118">
+                            <label id="119">
                                 <property name="x">1.1mm</property>
                                 <property name="y">2.2mm</property>
                                 <property name="height">3.3mm</property>
@@ -715,15 +732,15 @@
                     </row>
                 </header>
             </group>
-            <group id="119">
+            <group id="120">
                 <property name="groupName">NewTableGroup8</property>
                 <header>
-                    <row id="120">
-                        <cell id="121">
+                    <row id="121">
+                        <cell id="122">
                             <property name="column">1</property>
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
-                            <label id="122">
+                            <label id="123">
                                 <property name="x">1.1mm</property>
                                 <property name="y">2.2mm</property>
                                 <property name="height">3.3mm</property>
@@ -734,15 +751,15 @@
                     </row>
                 </header>
             </group>
-            <group id="123">
+            <group id="124">
                 <property name="groupName">NewTableGroup9</property>
                 <header>
-                    <row id="124">
-                        <cell id="125">
+                    <row id="125">
+                        <cell id="126">
                             <property name="column">1</property>
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
-                            <label id="126">
+                            <label id="127">
                                 <property name="x">1.1mm</property>
                                 <property name="y">2.2mm</property>
                                 <property name="height">3.3mm</property>
@@ -753,15 +770,15 @@
                     </row>
                 </header>
             </group>
-            <group id="127">
+            <group id="128">
                 <property name="groupName">NewTableGroup10</property>
                 <header>
-                    <row id="128">
-                        <cell id="129">
+                    <row id="129">
+                        <cell id="130">
                             <property name="column">1</property>
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
-                            <label id="130">
+                            <label id="131">
                                 <property name="x">1.1mm</property>
                                 <property name="y">2.2mm</property>
                                 <property name="height">3.3mm</property>
@@ -773,14 +790,14 @@
                 </header>
             </group>
         </table>
-        <free-form name="My Sixth Form" id="131"/>
-        <data name="my data 1" id="132">
+        <free-form name="My Sixth Form" id="132"/>
+        <data name="my data 1" id="133">
             <structure name="stringFormat">
                 <property name="category">></property>
                 <property name="pattern">></property>
             </structure>
         </data>
-        <data name="my data 2" id="133">
+        <data name="my data 2" id="134">
             <property name="style">My Style</property>
             <structure name="numberFormat">
                 <property name="category">Currency</property>

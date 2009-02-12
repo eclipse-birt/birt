@@ -15,6 +15,8 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.core.MemberRef;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Represents a format value in the style or the highlight rule.
  * 
@@ -99,5 +101,26 @@ public class FormatValueHandle extends StructureHandle
 	public void setPattern( String value )
 	{
 		setPropertySilently( FormatValue.PATTERN_MEMBER, value );
+	}
+
+	/**
+	 * Sets the locale of the format.
+	 * 
+	 * @param locale
+	 *            the locale of the format.
+	 */
+	public void setLocale( ULocale locale ) throws SemanticException
+	{
+		setProperty( FormatValue.LOCALE_MEMBER, locale );
+	}
+
+	/**
+	 * Gets the locale of the format.
+	 * 
+	 * @return the locale of the format.
+	 */
+	public ULocale getLocale( )
+	{
+		return (ULocale) getProperty( FormatValue.LOCALE_MEMBER );
 	}
 }

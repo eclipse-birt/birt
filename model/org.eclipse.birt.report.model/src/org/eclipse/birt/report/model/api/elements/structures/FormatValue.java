@@ -14,6 +14,8 @@ package org.eclipse.birt.report.model.api.elements.structures;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Structure;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * The abstract value for the format of string, data-time and number.
  * 
@@ -35,6 +37,11 @@ public abstract class FormatValue extends Structure
 	public static final String PATTERN_MEMBER = "pattern"; //$NON-NLS-1$
 
 	/**
+	 * Name of the config variable locale member.
+	 */
+	public static final String LOCALE_MEMBER = "locale"; //$NON-NLS-1$
+
+	/**
 	 * The config variable category.
 	 */
 
@@ -46,10 +53,17 @@ public abstract class FormatValue extends Structure
 
 	private String pattern = null;
 
+	/**
+	 * The config variable ulocale.
+	 */
+	private ULocale locale = null;
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
+	 * .lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String memberName )
@@ -58,6 +72,8 @@ public abstract class FormatValue extends Structure
 			return category;
 		if ( PATTERN_MEMBER.equals( memberName ) )
 			return pattern;
+		if ( LOCALE_MEMBER.equals( memberName ) )
+			return locale;
 
 		assert false;
 		return null;
@@ -66,8 +82,9 @@ public abstract class FormatValue extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
+	 * .lang.String, java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String memberName, Object value )
@@ -76,6 +93,8 @@ public abstract class FormatValue extends Structure
 			category = (String) value;
 		else if ( PATTERN_MEMBER.equals( memberName ) )
 			this.pattern = (String) value;
+		else if ( LOCALE_MEMBER.equals( memberName ) )
+			this.locale = (ULocale) value;
 		else
 			assert false;
 	}
@@ -124,6 +143,27 @@ public abstract class FormatValue extends Structure
 	public void setPattern( String value )
 	{
 		setProperty( PATTERN_MEMBER, value );
+	}
+
+	/**
+	 * Gets the ULocale.
+	 * 
+	 * @return the ULocale.
+	 */
+	public ULocale getLocale( )
+	{
+		return (ULocale) getProperty( null, LOCALE_MEMBER );
+	}
+
+	/**
+	 * Sets the ULocale.
+	 * 
+	 * @param value
+	 *            the value of the ULocale.
+	 */
+	public void setLocale( ULocale value )
+	{
+		setProperty( LOCALE_MEMBER, value );
 	}
 
 	/*

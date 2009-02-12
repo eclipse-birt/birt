@@ -175,10 +175,15 @@ public interface IPropertyType
 	public static final int CONTENT_ELEMENT_TYPE = 24;
 
 	/**
+	 * Type code for locale property type.
+	 */
+	public static final int LOCALE_TYPE = 25;
+
+	/**
 	 * Number of types defined.
 	 */
 
-	public static final int TYPE_COUNT = 25;
+	public static final int TYPE_COUNT = 26;
 
 	/**
 	 * Name of the String property type.
@@ -335,7 +340,12 @@ public interface IPropertyType
 	 */
 
 	public static final String CONTENT_ELEMENT_TYPE_NAME = "contentElement"; //$NON-NLS-1$
-	
+
+	/**
+	 * Name of the locale property type.
+	 */
+	public static final String LOCALE_TYPE_NAME = "locale"; //$NON-NLS-1$
+
 	/**
 	 * Returns the localized display name.
 	 * 
