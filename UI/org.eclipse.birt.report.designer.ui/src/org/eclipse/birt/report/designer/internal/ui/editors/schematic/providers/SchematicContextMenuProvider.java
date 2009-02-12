@@ -162,9 +162,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * Constructs a new WorkflowEditorContextMenuProvider instance.
 	 * 
 	 * @param viewer
-	 * 		the edit part view
+	 *            the edit part view
 	 * @param actionRegistry
-	 * 		the actions registry
+	 *            the actions registry
 	 */
 	public SchematicContextMenuProvider( EditPartViewer viewer,
 			ActionRegistry actionRegistry )
@@ -188,7 +188,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * action ID( key ).
 	 * 
 	 * @param actionID
-	 * 		the given atcion ID.
+	 *            the given atcion ID.
 	 * @return The retrieved action item.
 	 */
 	protected IAction getAction( String actionID )
@@ -273,7 +273,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				menuManager.add( action );
 				createInsertElementMenu( menuManager,
 						GEFActionConstants.GROUP_EDIT );
-				createThemeMenu( selectedElements, menuManager, GEFActionConstants.GROUP_REST );
+				createThemeMenu( selectedElements,
+						menuManager,
+						GEFActionConstants.GROUP_REST );
 				action = new ExportToLibraryAction( selectedElements );
 				menuManager.add( action );
 			}
@@ -639,9 +641,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * manager.
 	 * 
 	 * @param menuManager
-	 * 		The menu manager contains the action group.
+	 *            The menu manager contains the action group.
 	 * @param group_name
-	 * 		The action group contains the sub menu.
+	 *            The action group contains the sub menu.
 	 */
 	private void createInsertElementMenu( IMenuManager menuManager,
 			String group_name )
@@ -694,20 +696,14 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 			IElementDefn extension = DEUtil.getMetaDataDictionary( )
 					.getExtension( point.getExtensionName( ) );
-			String displayName = new String( );
-			displayName = extension.getDisplayName( );
 
 			action = getAction( point.getExtensionName( ) );
 			if ( action != null )
 			{
-				if ( displayName.equalsIgnoreCase( "Chart" ) ) //$NON-NLS-1$
-				{
-					action.setText( "&" + displayName ); //$NON-NLS-1$
-				}
-				else
-				{
-					action.setText( displayName );
-				}
+				String menuLabel = (String) point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_MENU_LABEL );
+
+				action.setText( menuLabel == null ? extension.getDisplayName( )
+						: menuLabel );
 
 				String category = (String) point.getAttribute( IExtensionConstants.ATTRIBUTE_PALETTE_CATEGORY );
 
@@ -730,13 +726,15 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		}
 
 		List<IAction> actions = elementSorter.getSortedElements( );
-		
-		Collections.sort( actions, new Comparator<IAction>(){
+
+		Collections.sort( actions, new Comparator<IAction>( ) {
 
 			public int compare( IAction o1, IAction o2 )
 			{
-				return Collator.getInstance( ).compare( o1.getText( ), o2.getText( ) );
-			}} );
+				return Collator.getInstance( ).compare( o1.getText( ),
+						o2.getText( ) );
+			}
+		} );
 
 		for ( Iterator<IAction> itr = actions.iterator( ); itr.hasNext( ); )
 		{
@@ -756,9 +754,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * manager.
 	 * 
 	 * @param menuManager
-	 * 		The menu manager contains the action group.
+	 *            The menu manager contains the action group.
 	 * @param group_name
-	 * 		The action group contains the sub menu.
+	 *            The action group contains the sub menu.
 	 */
 	private void createStyleMenu( IMenuManager menuManager, String group_name )
 	{
@@ -842,20 +840,21 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * manager.
 	 * 
 	 * @param menuManager
-	 * 		The menu manager contains the action group.
+	 *            The menu manager contains the action group.
 	 * @param group_name
-	 * 		The action group contains the sub menu.
+	 *            The action group contains the sub menu.
 	 */
-	private void createThemeMenu( Object selectedObject, IMenuManager menuManager, String group_name )
+	private void createThemeMenu( Object selectedObject,
+			IMenuManager menuManager, String group_name )
 	{
 		MenuManager menu = new MenuManager( Messages.getString( "SchematicContextMenuProvider.Menu.Theme" ) );//$NON-NLS-1$
-		if(selectedObject instanceof LibraryHandle)
+		if ( selectedObject instanceof LibraryHandle )
 		{
-			SlotHandle obj = ((LibraryHandle)selectedObject).getThemes( );
+			SlotHandle obj = ( (LibraryHandle) selectedObject ).getThemes( );
 			menu.add( new InsertAction( obj,
-					Messages.getString( "ThemesNodeProvider.action.New" ) ));
+					Messages.getString( "ThemesNodeProvider.action.New" ) ) );
 		}
-		
+
 		MenuManager subMenu = new MenuManager( Messages.getString( "SchematicContextMenuProvider.menutitle.applythemerule" ) );//$NON-NLS-1$
 		subMenu.add( NoneAction.getInstance( ) );
 		subMenu.addMenuListener( new IMenuListener( ) {
@@ -885,9 +884,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * manager.
 	 * 
 	 * @param menuManager
-	 * 		The menu manager contains the action group.
+	 *            The menu manager contains the action group.
 	 * @param group_name
-	 * 		The action group contains the sub menu.
+	 *            The action group contains the sub menu.
 	 */
 	private void createEditGroupMenu( IMenuManager menuManager,
 			String group_name )
@@ -964,7 +963,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * Gets the current selected object.
 	 * 
 	 * @return The current selected object array. If length is one, return the
-	 * 	first
+	 *         first
 	 */
 	protected Object getSelectedElement( )
 	{
@@ -1111,7 +1110,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * Gets table edit part.
 	 * 
 	 * @return The current selected table edit part, null if no table edit part
-	 * 	is selected.
+	 *         is selected.
 	 */
 	protected List getTableEditParts( )
 	{
@@ -1160,7 +1159,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * Gets list edit parts.
 	 * 
 	 * @return The current selected list edit parts, null if no list edit part
-	 * 	is selected.
+	 *         is selected.
 	 */
 	protected List getListEditParts( )
 	{
@@ -1197,9 +1196,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * manager.
 	 * 
 	 * @param menuManager
-	 * 		The menu manager contains the action group.
+	 *            The menu manager contains the action group.
 	 * @param group_name
-	 * 		The action group contains the sub menu.
+	 *            The action group contains the sub menu.
 	 */
 	private void createDeleteGroupMenus( IMenuManager menuManager,
 			String group_name )
@@ -1301,7 +1300,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * Gets list edit part.
 	 * 
 	 * @return The current selected list edit part, null if no list edit part is
-	 * 	selected.
+	 *         selected.
 	 */
 	protected ListEditPart getListEditPart( )
 	{
@@ -1331,9 +1330,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * manager.
 	 * 
 	 * @param menuManager
-	 * 		The menu manager contains the action group.
+	 *            The menu manager contains the action group.
 	 * @param group_name
-	 * 		The action group contains the sub menu.
+	 *            The action group contains the sub menu.
 	 */
 	private void createInsertGroupHeaderFooter( IMenuManager menuManager,
 			String group_name )

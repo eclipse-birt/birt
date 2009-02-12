@@ -16,9 +16,10 @@
                icon="icons/pal/palette_icon.gif"
                category="Content"/>
       <editor
-               showInMasterPage="false"
-               canResize="true"
-               showInDesigner="true"/>
+              canResize="true"
+              menuLabel="%menu.lable.chart"
+              showInDesigner="true"
+              showInMasterPage="false"/>
       <outline
       		   icon="icons/pal/palette_icon.gif"/>         
     </extension>

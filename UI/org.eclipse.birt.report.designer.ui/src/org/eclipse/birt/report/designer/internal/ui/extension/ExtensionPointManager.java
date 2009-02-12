@@ -339,6 +339,9 @@ public class ExtensionPointManager
 			loadBooleanAttribute( newPoint,
 					element,
 					IExtensionConstants.ATTRIBUTE_EDITOR_CAN_RESIZE );
+			loadStringAttribute( newPoint,
+					element,
+					IExtensionConstants.ATTRIBUTE_EDITOR_MENU_LABEL );
 		}
 		else if ( IExtensionConstants.ELEMENT_OUTLINE.equals( elementName ) )
 		{
@@ -346,6 +349,15 @@ public class ExtensionPointManager
 					element,
 					IExtensionConstants.ATTRIBUTE_KEY_OUTLINE_ICON,
 					true );
+		}
+		else if ( IExtensionConstants.ELEMENT_DESCRIPTION.equals( elementName ) )
+		{
+			String value = element.getValue( );
+			if ( value != null )
+			{
+				newPoint.setAttribute( IExtensionConstants.ATTRIBUTE_KEY_DESCRIPTION,
+						value );
+			}
 		}
 	}
 

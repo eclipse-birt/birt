@@ -274,15 +274,12 @@ public class DesignerActionBarContributor extends
 					ExtendedElementUIPoint point = (ExtendedElementUIPoint) extensionPoints.get( k );
 					IElementDefn extension = DEUtil.getMetaDataDictionary( )
 							.getExtension( point.getExtensionName( ) );
-					String displayName = new String( );
-					displayName = extension.getDisplayName( );
-					if ( displayName.equalsIgnoreCase( "Chart" ) ) //$NON-NLS-1$
-					{
-						displayName = "&" + displayName; //$NON-NLS-1$
-					}
+
+					String menuLabel = (String) point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_MENU_LABEL );
 
 					RegisterAction extAction = new RegisterAction( extension.getName( ),
-							displayName );
+							menuLabel == null ? extension.getDisplayName( )
+									: menuLabel );
 
 					elementSorter.addElement( (String) point.getAttribute( IExtensionConstants.ATTRIBUTE_PALETTE_CATEGORY ),
 							extAction );
@@ -301,13 +298,15 @@ public class DesignerActionBarContributor extends
 			}
 
 			List<RegisterAction> actions = elementSorter.getSortedElements( );
-			
-			Collections.sort( actions, new Comparator<RegisterAction>(){
+
+			Collections.sort( actions, new Comparator<RegisterAction>( ) {
 
 				public int compare( RegisterAction o1, RegisterAction o2 )
 				{
-					return Collator.getInstance( ).compare( o1.displayName, o2.displayName );
-				}} );
+					return Collator.getInstance( ).compare( o1.displayName,
+							o2.displayName );
+				}
+			} );
 
 			insertElementActions = new RegisterAction[insertActions.length
 					+ actions.size( )];
@@ -338,7 +337,8 @@ public class DesignerActionBarContributor extends
 	}
 
 	/*
-	 * @see org.eclipse.gef.ui.actions.ActionBarContributor#declareGlobalActionKeys()
+	 * @see
+	 * org.eclipse.gef.ui.actions.ActionBarContributor#declareGlobalActionKeys()
 	 */
 	protected void declareGlobalActionKeys( )
 	{
@@ -347,7 +347,8 @@ public class DesignerActionBarContributor extends
 	}
 
 	/*
-	 * @see org.eclipse.ui.part.EditorActionBarContributor#contributeToToolBar(IToolBarManager)
+	 * @seeorg.eclipse.ui.part.EditorActionBarContributor#contributeToToolBar(
+	 * IToolBarManager)
 	 */
 	public void contributeToToolBar( IToolBarManager tbm )
 	{
@@ -372,7 +373,9 @@ public class DesignerActionBarContributor extends
 	}
 
 	/*
-	 * @see org.eclipse.ui.part.EditorActionBarContributor#contributeToMenu(IMenuManager)
+	 * @see
+	 * org.eclipse.ui.part.EditorActionBarContributor#contributeToMenu(IMenuManager
+	 * )
 	 */
 	public void contributeToMenu( IMenuManager menubar )
 	{
@@ -516,7 +519,7 @@ public class DesignerActionBarContributor extends
 		// add
 
 		newMenu.add( getAction( AddStyleAction.ID ) );
-		
+
 		newMenu.add( new Separator( ) );
 
 		// edit
@@ -554,7 +557,7 @@ public class DesignerActionBarContributor extends
 			}
 		} );
 		newMenu.add( delStyleMenu );
-		
+
 		newMenu.add( new Separator( ) );
 
 		newMenu.add( getAction( ImportCSSStyleAction.ID ) );

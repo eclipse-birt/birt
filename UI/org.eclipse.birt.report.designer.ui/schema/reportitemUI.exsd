@@ -11,6 +11,11 @@
    </annotation>
 
    <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+      </annotation>
       <complexType>
          <sequence>
             <choice>
@@ -178,6 +183,16 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="menuLabel" type="string">
+            <annotation>
+               <documentation>
+                  An optional text that will be display for menu item if applicable.
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
@@ -195,6 +210,9 @@
 
    <element name="description" type="string">
       <annotation>
+         <appinfo>
+            <meta.element translatable="true"/>
+         </appinfo>
          <documentation>
             an optional subelement whose body contains a short text describing what the UI extension will do
          </documentation>
@@ -238,7 +256,6 @@
          The report item UI extension may implement the interfaces defined in the &lt;i&gt;org.eclipse.birt.report.designer.ui.extensions&lt;/i&gt; package. See the package&apos;s JavaDoc documentation and API interfaces for more information.
       </documentation>
    </annotation>
-
 
    <annotation>
       <appinfo>

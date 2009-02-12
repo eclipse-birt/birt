@@ -235,20 +235,14 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 
 						IElementDefn extension = DEUtil.getMetaDataDictionary( )
 								.getExtension( point.getExtensionName( ) );
-						String displayName = new String( );
-						displayName = extension.getDisplayName( );
 
 						action = getAction( point.getExtensionName( ) );
 						if ( action != null )
 						{
-							if ( displayName.equalsIgnoreCase( "Chart" ) ) //$NON-NLS-1$
-							{
-								action.setText( "&" + displayName ); //$NON-NLS-1$
-							}
-							else
-							{
-								action.setText( displayName );
-							}
+							String menuLabel = (String) point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_MENU_LABEL );
+
+							action.setText( menuLabel == null ? extension.getDisplayName( )
+									: menuLabel );
 
 							String category = (String) point.getAttribute( IExtensionConstants.ATTRIBUTE_PALETTE_CATEGORY );
 
@@ -271,13 +265,15 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 					}
 
 					List<IAction> actions = elementSorter.getSortedElements( );
-					
-					Collections.sort( actions, new Comparator<IAction>(){
+
+					Collections.sort( actions, new Comparator<IAction>( ) {
 
 						public int compare( IAction o1, IAction o2 )
 						{
-							return Collator.getInstance( ).compare( o1.getText( ), o2.getText( ) );
-						}} );
+							return Collator.getInstance( )
+									.compare( o1.getText( ), o2.getText( ) );
+						}
+					} );
 
 					for ( Iterator<IAction> itr = actions.iterator( ); itr.hasNext( ); )
 					{

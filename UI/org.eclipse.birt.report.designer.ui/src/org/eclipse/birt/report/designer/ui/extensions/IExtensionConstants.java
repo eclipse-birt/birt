@@ -33,6 +33,7 @@ public interface IExtensionConstants
 	String ELEMENT_EDITOR = "editor"; //$NON-NLS-1$
 	String ELEMENT_OUTLINE = "outline"; //$NON-NLS-1$
 	String ELEMENT_BUILDER = "builder";//$NON-NLS-1$
+	String ELEMENT_DESCRIPTION = "description"; //$NON-NLS-1$
 	String ELEMENT_PROPERTYEDIT = "propertyPage";//$NON-NLS-1$
 	String ELEMENT_MODEL = "model";//$NON-NLS-1$
 
@@ -49,11 +50,13 @@ public interface IExtensionConstants
 	String ATTRIBUTE_EDITOR_CAN_RESIZE = "canResize"; //$NON-NLS-1$
 	String ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER = "showInDesigner"; //$NON-NLS-1$
 	String ATTRIBUTE_EDITOR_SHOW_IN_MASTERPAGE = "showInMasterPage"; //$NON-NLS-1$
+	String ATTRIBUTE_EDITOR_MENU_LABEL = "menuLabel"; //$NON-NLS-1$
 
 	String ATTRIBUTE_ELEMENT_NAME = "elementName"; //$NON-NLS-1$
 
 	/** Attribute keys */
 	String ATTRIBUTE_KEY_PALETTE_ICON = "paletteIcon"; //$NON-NLS-1$
 	String ATTRIBUTE_KEY_OUTLINE_ICON = "outlineIcon"; //$NON-NLS-1$
+	String ATTRIBUTE_KEY_DESCRIPTION = "description"; //$NON-NLS-1$
 
 }
