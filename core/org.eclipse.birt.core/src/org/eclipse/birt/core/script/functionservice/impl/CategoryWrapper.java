@@ -51,43 +51,42 @@ public class CategoryWrapper extends ScriptableObject
 		for ( int i = 0; i < functions.length; i++ )
 		{
 			final IScriptFunction function = functions[i];
-			if ( "BirtMath".equals( category.getName( ) )
-					&& "multiply".equals( function.getName( ) ) )
-			{
-				defineFunction( "multiple", function );
-			}
-			defineFunction( function.getName( ), function );
-		}
-	}
+			this.defineProperty( functions[i].getName( ), new BaseFunction( ) {
 
-	@SuppressWarnings("serial")
-	private void defineFunction( String funcName, final IScriptFunction function )
-	{
-		this.defineProperty( funcName, new BaseFunction( ) {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
-			public Object call( Context cx, Scriptable scope,
-					Scriptable thisObj, java.lang.Object[] args )
-			{
-				Object[] convertedArgs = JavascriptEvalUtil.convertToJavaObjects( args );
-				try
+				public Object call( Context cx, Scriptable scope,
+						Scriptable thisObj, java.lang.Object[] args )
 				{
-					IScriptFunctionContext context = null;
-					Object jsObj = scope.get( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCITON_BEAN_NAME,
-							scope );
-					if ( jsObj != org.mozilla.javascript.UniqueTag.NOT_FOUND )
+					Object[] convertedArgs = JavascriptEvalUtil.convertToJavaObjects( args );
+					try
 					{
-						context = (IScriptFunctionContext) Context.jsToJava( jsObj,
-								IScriptFunctionContext.class );
+						return function.execute( convertedArgs, getIScriptFunctionContext( scope ) );
 					}
-					return function.execute( convertedArgs, context );
-				}
-				catch ( BirtException e )
-				{
-					throw new WrappedException( e );
+					catch ( BirtException e )
+					{
+						throw new WrappedException( e );
+					}
+
 				}
 
-			}
-		},0 );
+				private IScriptFunctionContext getIScriptFunctionContext( Scriptable scope )
+				{
+					if ( scope == null )
+						return null;
+					Object obj = scope.get( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCITON_BEAN_NAME,
+							scope );
+					if ( obj == org.mozilla.javascript.UniqueTag.NOT_FOUND )
+					{
+						return getIScriptFunctionContext( scope.getParentScope( ) );
+					}
+					return ( IScriptFunctionContext )JavascriptEvalUtil.convertJavascriptValue(obj);
+				}
+			},0 );
+		}
 	}
 	
 	

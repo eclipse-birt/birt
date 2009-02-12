@@ -14,7 +14,9 @@ package org.eclipse.birt.data.engine.api;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
@@ -23,9 +25,11 @@ import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
+import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.PropertySecurity;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 import com.ibm.icu.util.ULocale;
@@ -77,6 +81,7 @@ public class DataEngineContext
 	private IDocArchiveReader reader;
 	private IDocArchiveWriter writer;
 	private ULocale currentLocale;
+	private final Map<String, Object> propertyMap = new HashMap<String, Object>( );
 	
 	/** cacheCount field */
 	private int cacheOption;
@@ -148,7 +153,7 @@ public class DataEngineContext
 			IDocArchiveReader reader, IDocArchiveWriter writer, ClassLoader classLoader )
 			throws BirtException
 	{
-		return new DataEngineContext( mode, scope, reader, writer, classLoader );
+		return new DataEngineContext( mode, scope, reader, writer, classLoader, null );
 	}
 	
 	/**
@@ -179,8 +184,7 @@ public class DataEngineContext
 				context.getSharedScope( ),
 				reader,
 				writer,
-				classLoader );
-		result.scriptContext = context;
+				classLoader, context );
 		return result;
 	}
 	
@@ -192,7 +196,7 @@ public class DataEngineContext
 	 * @throws BirtException
 	 */
 	private DataEngineContext( int mode, Scriptable scope,
-			IDocArchiveReader reader, IDocArchiveWriter writer, ClassLoader classLoader )
+			IDocArchiveReader reader, IDocArchiveWriter writer, ClassLoader classLoader, ScriptContext context )
 			throws BirtException
 	{
 		Object[] params = {
@@ -217,10 +221,11 @@ public class DataEngineContext
 
 		this.classLoader = classLoader;
 		this.mode = mode;
-		this.scope = scope;
+		this.scope = newSubScope( scope, context );
 		this.reader = reader;
 		this.writer = writer;
 		this.cacheOption = CACHE_USE_DEFAULT;
+		this.scriptContext = context;
 		logger.exiting( DataEngineContext.class.getName( ), "DataEngineContext" ); //$NON-NLS-1$
 	}
 
@@ -442,10 +447,36 @@ public class DataEngineContext
 	public void setLocale( Locale locale )
 	{
 		currentLocale = ULocale.forLocale( locale );
+		propertyMap.put( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.LOCALE,
+				currentLocale );
 		DataException.setLocale( currentLocale );
 
 	}
 
+	private Scriptable newSubScope( Scriptable parentAndProtoScope, ScriptContext scriptContext )
+	{
+		if ( parentAndProtoScope == null )
+			return null;
+
+		this.scope = parentAndProtoScope;
+		if ( scope.get( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCITON_BEAN_NAME,
+				scope ) == org.mozilla.javascript.UniqueTag.NOT_FOUND )
+		{
+			IScriptFunctionContext functionContext = new IScriptFunctionContext( ) {
+
+				public Object findProperty( String name )
+				{
+					return propertyMap.get( name );
+				}
+			};
+
+			Object sObj = Context.javaToJS( functionContext, scope );
+			scope.put( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCITON_BEAN_NAME,
+					scope,
+					sObj );
+		}
+		return scope;
+	}
 	/**
 	 * @return The current locale
 	 */
