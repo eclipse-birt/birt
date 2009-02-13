@@ -97,7 +97,7 @@ public class RowDragTracker extends TableDragGuideTracker
 				Dimension size = part.getTableAdapter( ).getSize( );
 				try
 				{
-					part.getTableAdapter( ).setSize( new Dimension(size.width, size.height + height) );
+					part.getTableAdapter( ).setSize( new Dimension(-1, size.height + height) );
 				}
 				catch ( SemanticException e )
 				{
@@ -138,6 +138,7 @@ public class RowDragTracker extends TableDragGuideTracker
 
 			Dimension dm = adp.calculateSize( );
 			dm.height += value;
+			dm.width = -1;
 			try
 			{
 				adp.ajustSize( dm );
