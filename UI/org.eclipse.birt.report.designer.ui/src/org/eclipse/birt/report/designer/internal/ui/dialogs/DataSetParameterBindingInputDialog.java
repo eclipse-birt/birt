@@ -18,7 +18,9 @@ import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -73,8 +75,7 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 	protected boolean initDialog( )
 	{
 		nameLabel.setText( handle.getName( ) );
-		typeLabel.setText( DATA_TYPE_CHOICE_SET.findChoice( handle.getParameterDataType( ) )
-				.getDisplayName( ) );
+		typeLabel.setText( getParameterDataTypeDisplayName( handle.getParameterDataType( ) ) );
 		if ( value == null )
 		{
 			value = ""; //$NON-NLS-1$
@@ -83,13 +84,23 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 		return true;
 	}
 
+	private String getParameterDataTypeDisplayName( String type )
+	{
+		IChoice choice = DATA_TYPE_CHOICE_SET.findChoice( type );
+		if ( choice != null )
+			return choice.getDisplayName( );
+		return DATA_TYPE_CHOICE_SET.findChoice( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING )
+				.getDisplayName( );
+	}
+
 	protected Control createDialogArea( Composite parent )
 	{
 		Composite composite = (Composite) super.createDialogArea( parent );
 		composite.setLayout( new GridLayout( 2, false ) );
-	
-		UIUtil.bindHelp( composite, IHelpContextIds.DATA_SET_PARAMETER_BINDING_DIALOG );
-		
+
+		UIUtil.bindHelp( composite,
+				IHelpContextIds.DATA_SET_PARAMETER_BINDING_DIALOG );
+
 		new Label( composite, SWT.NONE ).setText( LABEL_NAME );
 		nameLabel = new Label( composite, SWT.NONE );
 		nameLabel.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -106,7 +117,7 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 		gd.minimumWidth = 150;
 		valueEditor.setLayoutData( gd );
 		expButton = new Button( valueComposite, SWT.PUSH );
-		UIUtil.setExpressionButtonImage(expButton);
+		UIUtil.setExpressionButtonImage( expButton );
 		expButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -132,6 +143,5 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 	{
 		this.value = value;
 	}
-	
 
 }
