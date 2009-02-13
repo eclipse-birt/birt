@@ -404,7 +404,7 @@ public class ResourceEditDialog extends BaseDialog
 		table.setLayout( tableLayout );
 
 		final TableColumn column1 = new TableColumn( table, SWT.NONE );
-		column1.setText( Messages.getString( "ResourceEditDialog.text.Key" ) ); //$NON-NLS-1$
+		column1.setText( Messages.getString( "ResourceEditDialog.text.Key.TableColumn" ) ); //$NON-NLS-1$
 		column1.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -418,7 +418,7 @@ public class ResourceEditDialog extends BaseDialog
 		} );
 
 		final TableColumn column2 = new TableColumn( table, SWT.NONE );
-		column2.setText( Messages.getString( "ResourceEditDialog.text.Value" ) ); //$NON-NLS-1$
+		column2.setText( Messages.getString( "ResourceEditDialog.text.Value.TableColumn" ) ); //$NON-NLS-1$
 		column2.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
