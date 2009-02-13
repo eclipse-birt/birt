@@ -64,7 +64,15 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 	 */
 	protected Command getCreateCommand( CreateRequest request )
 	{
-		EditPart after = getInsertionReference( request );
+		EditPart after;
+		if (getLocationFromRequest( request ) == null)
+		{
+			after = null;
+		}
+		else
+		{
+			after = getInsertionReference( request );
+		}
 
 		// CreateCommand command ;
 
