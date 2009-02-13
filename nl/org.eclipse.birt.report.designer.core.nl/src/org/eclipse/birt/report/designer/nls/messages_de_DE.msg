@@ -3205,8 +3205,10 @@ ResourceEditDialog.text.Add=&Hinzufügen
 ResourceEditDialog.text.AddWarningMsg=Leere Schlüssel sind nicht zulässig.
 ResourceEditDialog.text.AddWarningTitle=Warning
 ResourceEditDialog.text.Delete=&Löschen
+ResourceEditDialog.text.Key.TableColumn=Key
 ResourceEditDialog.text.Key=&Key
 ResourceEditDialog.text.QuickAdd=Schnelles Hinzufügen
+ResourceEditDialog.text.Value.TableColumn=Wert
 ResourceEditDialog.text.Value=&Value
 
 ###########################################################

@@ -3205,8 +3205,10 @@ ResourceEditDialog.text.Add=추가(&A)
 ResourceEditDialog.text.AddWarningMsg=빈 키는 허용되지 않습니다.
 ResourceEditDialog.text.AddWarningTitle=Warning
 ResourceEditDialog.text.Delete=삭제(&D)
+ResourceEditDialog.text.Key.TableColumn=Key
 ResourceEditDialog.text.Key=&Key
 ResourceEditDialog.text.QuickAdd=빠른 추가
+ResourceEditDialog.text.Value.TableColumn=값
 ResourceEditDialog.text.Value=&Value
 
 ###########################################################

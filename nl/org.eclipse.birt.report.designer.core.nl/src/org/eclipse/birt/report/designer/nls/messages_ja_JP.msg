@@ -3205,8 +3205,10 @@ ResourceEditDialog.text.Add=追加(&A)
 ResourceEditDialog.text.AddWarningMsg=キーは空白にできません。
 ResourceEditDialog.text.AddWarningTitle=Warning
 ResourceEditDialog.text.Delete=削除(&D)
+ResourceEditDialog.text.Key.TableColumn=Key
 ResourceEditDialog.text.Key=&Key
 ResourceEditDialog.text.QuickAdd=今すぐ追加
+ResourceEditDialog.text.Value.TableColumn=値
 ResourceEditDialog.text.Value=&Value
 
 ###########################################################

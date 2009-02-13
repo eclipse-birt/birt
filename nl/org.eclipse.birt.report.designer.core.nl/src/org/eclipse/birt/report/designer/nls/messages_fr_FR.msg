@@ -3205,8 +3205,10 @@ ResourceEditDialog.text.Add=&Ajouter
 ResourceEditDialog.text.AddWarningMsg=Les clés doivent être renseignées.
 ResourceEditDialog.text.AddWarningTitle=Warning
 ResourceEditDialog.text.Delete=&Supprimer
+ResourceEditDialog.text.Key.TableColumn=Key
 ResourceEditDialog.text.Key=&Key
 ResourceEditDialog.text.QuickAdd=Ajout rapide
+ResourceEditDialog.text.Value.TableColumn=Valeur
 ResourceEditDialog.text.Value=&Value
 
 ###########################################################

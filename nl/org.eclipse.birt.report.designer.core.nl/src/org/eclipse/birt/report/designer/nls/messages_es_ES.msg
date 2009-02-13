@@ -3205,8 +3205,10 @@ ResourceEditDialog.text.Add=&Añadir
 ResourceEditDialog.text.AddWarningMsg=No se permiten claves en blanco.
 ResourceEditDialog.text.AddWarningTitle=Warning
 ResourceEditDialog.text.Delete=&Eliminar
+ResourceEditDialog.text.Key.TableColumn=Key
 ResourceEditDialog.text.Key=&Key
 ResourceEditDialog.text.QuickAdd=Añadir rápido
+ResourceEditDialog.text.Value.TableColumn=Valor
 ResourceEditDialog.text.Value=&Value
 
 ###########################################################

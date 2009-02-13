@@ -3205,8 +3205,10 @@ ResourceEditDialog.text.Add=添加(&A)
 ResourceEditDialog.text.AddWarningMsg=不允许空白键。
 ResourceEditDialog.text.AddWarningTitle=Warning
 ResourceEditDialog.text.Delete=删除(&D)
+ResourceEditDialog.text.Key.TableColumn=Key
 ResourceEditDialog.text.Key=&Key
 ResourceEditDialog.text.QuickAdd=快速添加
+ResourceEditDialog.text.Value.TableColumn=值
 ResourceEditDialog.text.Value=&Value
 
 ###########################################################
