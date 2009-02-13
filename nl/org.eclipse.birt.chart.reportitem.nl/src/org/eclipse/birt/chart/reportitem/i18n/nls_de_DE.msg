@@ -55,7 +55,7 @@ ChartImpl.error.DimensionUnitNotSupported=Dimensionseinheit ({0}) wird in Diagra
 # Display names for report model extension 
 ################################################
 
-Element.Chart=Diagramm
+Element.Chart=&Diagramm
 Element.Chart.xmlRepresentation=XML-Modell
 Element.Chart.outputFormat=Ausgabeformat
 Element.Chart.action=Aktion
