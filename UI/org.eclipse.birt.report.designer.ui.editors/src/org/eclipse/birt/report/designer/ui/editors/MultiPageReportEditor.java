@@ -1028,8 +1028,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 				UIUtil.processSessionResourceFolder( getEditorInput( ), 
 						UIUtil.getProjectFromInput( getEditorInput( ) ), getModel() );
 				
-				if (str != SessionHandleAdapter.getInstance( ).getSessionHandle( )
-						.getResourceFolder() && getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette)
+				if (!str.equals( SessionHandleAdapter.getInstance( ).getSessionHandle( )
+						.getResourceFolder()) && getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette)
 				{
 					EditPart root = ((GraphicalEditorWithFlyoutPalette)getActivePageInstance( )).getGraphicalViewer( ).getRootEditPart( );
 					refreshGraphicalEditor( );

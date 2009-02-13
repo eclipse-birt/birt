@@ -46,7 +46,7 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 public class DebugJsEditor extends DecoratedScriptEditor
 {
 
-	private final String SCRIPT_LABEL = "Script:"; //$NON-NLS-1$
+	private static final String SCRIPT_LABEL = "Script:"; //$NON-NLS-1$
 	private Label messageLabel;
 
 	private ScriptOutlinePage outlinePage;
