@@ -55,7 +55,7 @@ ChartImpl.error.DimensionUnitNotSupported=Chart Simple API ‚Å‚ÍƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ì’
 # Display names for report model extension 
 ################################################
 
-Element.Chart=ƒOƒ‰ƒt
+Element.Chart=ƒOƒ‰ƒt(&C)
 Element.Chart.xmlRepresentation=XML ƒ‚ƒfƒ‹
 Element.Chart.outputFormat=o—Í‘®
 Element.Chart.action=Às
