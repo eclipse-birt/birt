@@ -219,6 +219,11 @@ public class NumberFormatter
 
 			if ( this.formatPattern == null )
 			{
+				long longValue = Math.round( num );
+				if( longValue == num )
+				{
+					return Long.toString( longValue );
+				}
 				String result = Double.toString( num );
 				return result.replace( '.', decimalSeparator );
 			}
