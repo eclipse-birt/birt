@@ -481,6 +481,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 
 		if ( container instanceof PageArea )
 		{
+			BorderInfo[] borders = cacheBorderInfo( container );
+			drawBorder( borders );
 			pageGraphic.dispose( );
 		}
 		else

@@ -108,6 +108,7 @@ public abstract class HTMLEmitter
 		// The method getStyle( ) will nevel return a null value;
 		IStyle style = page.getStyle( );
 		AttributeBuilder.buildBackground( styleBuffer, style, reportEmitter );
+		AttributeBuilder.buildBorders( styleBuffer, style );
 	}
 
 	/**

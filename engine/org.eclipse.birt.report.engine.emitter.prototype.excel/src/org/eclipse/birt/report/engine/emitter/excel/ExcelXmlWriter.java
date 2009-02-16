@@ -450,64 +450,62 @@ public class ExcelXmlWriter implements IExcelWriter
 
 		if ( id >= StyleEngine.RESERVE_STYLE_ID )
 		{
-			String direction = style
-			.getProperty( StyleConstant.DIRECTION_PROP ); // bidi_hcg
+			String direction = style.getProperty( StyleConstant.DIRECTION_PROP ); // bidi_hcg
 			String horizontalAlign = style
-			.getProperty( StyleConstant.H_ALIGN_PROP );
+					.getProperty( StyleConstant.H_ALIGN_PROP );
 			String verticalAlign = style
-			.getProperty( StyleConstant.V_ALIGN_PROP );
-			writeAlignment( horizontalAlign, verticalAlign, direction,
-					wrapText );
+					.getProperty( StyleConstant.V_ALIGN_PROP );
+			writeAlignment( horizontalAlign, verticalAlign, direction, wrapText );
 			writer.openTag( "Borders" );
 			String bottomColor = style
-			.getProperty( StyleConstant.BORDER_BOTTOM_COLOR_PROP );
+					.getProperty( StyleConstant.BORDER_BOTTOM_COLOR_PROP );
 			String bottomLineStyle = style
-			.getProperty( StyleConstant.BORDER_BOTTOM_STYLE_PROP );
+					.getProperty( StyleConstant.BORDER_BOTTOM_STYLE_PROP );
 			String bottomWeight = style
-			.getProperty( StyleConstant.BORDER_BOTTOM_WIDTH_PROP );
+					.getProperty( StyleConstant.BORDER_BOTTOM_WIDTH_PROP );
 			writeBorder( "Bottom", bottomLineStyle, bottomWeight, bottomColor );
 
 			String topColor = style
-			.getProperty( StyleConstant.BORDER_TOP_COLOR_PROP );
+					.getProperty( StyleConstant.BORDER_TOP_COLOR_PROP );
 			String topLineStyle = style
-			.getProperty( StyleConstant.BORDER_TOP_STYLE_PROP );
+					.getProperty( StyleConstant.BORDER_TOP_STYLE_PROP );
 			String topWeight = style
-			.getProperty( StyleConstant.BORDER_TOP_WIDTH_PROP );
+					.getProperty( StyleConstant.BORDER_TOP_WIDTH_PROP );
 			writeBorder( "Top", topLineStyle, topWeight, topColor );
 
 			String leftColor = style
-			.getProperty( StyleConstant.BORDER_LEFT_COLOR_PROP );
+					.getProperty( StyleConstant.BORDER_LEFT_COLOR_PROP );
 			String leftLineStyle = style
-			.getProperty( StyleConstant.BORDER_LEFT_STYLE_PROP );
+					.getProperty( StyleConstant.BORDER_LEFT_STYLE_PROP );
 			String leftWeight = style
-			.getProperty( StyleConstant.BORDER_LEFT_WIDTH_PROP );
+					.getProperty( StyleConstant.BORDER_LEFT_WIDTH_PROP );
 			writeBorder( "Left", leftLineStyle, leftWeight, leftColor );
 
 			String rightColor = style
-			.getProperty( StyleConstant.BORDER_RIGHT_COLOR_PROP );
+					.getProperty( StyleConstant.BORDER_RIGHT_COLOR_PROP );
 			String rightLineStyle = style
-			.getProperty( StyleConstant.BORDER_RIGHT_STYLE_PROP );
+					.getProperty( StyleConstant.BORDER_RIGHT_STYLE_PROP );
 			String rightWeight = style
-			.getProperty( StyleConstant.BORDER_RIGHT_WIDTH_PROP );
+					.getProperty( StyleConstant.BORDER_RIGHT_WIDTH_PROP );
 			writeBorder( "Right", rightLineStyle, rightWeight, rightColor );
 			writer.closeTag( "Borders" );
 
 			String fontName = style
-			.getProperty( StyleConstant.FONT_FAMILY_PROP );
+					.getProperty( StyleConstant.FONT_FAMILY_PROP );
 			String size = style.getProperty( StyleConstant.FONT_SIZE_PROP );
 			String fontStyle = style
-			.getProperty( StyleConstant.FONT_STYLE_PROP );
+					.getProperty( StyleConstant.FONT_STYLE_PROP );
 			String fontWeight = style
-			.getProperty( StyleConstant.FONT_WEIGHT_PROP );
+					.getProperty( StyleConstant.FONT_WEIGHT_PROP );
 			String strikeThrough = style
-			.getProperty( StyleConstant.TEXT_LINE_THROUGH_PROP );
+					.getProperty( StyleConstant.TEXT_LINE_THROUGH_PROP );
 			String underline = style
-			.getProperty( StyleConstant.TEXT_UNDERLINE_PROP );
+					.getProperty( StyleConstant.TEXT_UNDERLINE_PROP );
 			String color = style.getProperty( StyleConstant.COLOR_PROP );
 			writeFont( fontName, size, fontWeight, fontStyle, strikeThrough,
 					underline, color );
 			String bgColor = style
-			.getProperty( StyleConstant.BACKGROUND_COLOR_PROP );
+					.getProperty( StyleConstant.BACKGROUND_COLOR_PROP );
 			writeBackGroudColor( bgColor );
 		}
 

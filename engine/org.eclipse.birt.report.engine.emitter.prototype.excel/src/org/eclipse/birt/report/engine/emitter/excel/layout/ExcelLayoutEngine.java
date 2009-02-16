@@ -59,7 +59,7 @@ public class ExcelLayoutEngine
 
 	public static final String AUTO_GENERATED_BOOKMARK = "auto_generated_bookmark_";
 
-	public final static int MAX_ROW_OFFICE2007_ = 1048576;
+	public final static int MAX_ROW_OFFICE2007 = 1048576;
 	
 	public final static int MAX_COL_OFFICE2007 = 16384;
 	
@@ -138,6 +138,12 @@ public class ExcelLayoutEngine
 		return containers;
 	}
 
+	public void setPageStyle( IStyle style )
+	{
+		XlsContainer topContainer = containers.peek( );
+		topContainer.setStyle( StyleBuilder.createStyleEntry( style ) );
+	}
+	
 	public void addTable( TableInfo table, IStyle style )
 	{
 		XlsContainer currentContainer = getCurrentContainer( );
@@ -198,38 +204,16 @@ public class ExcelLayoutEngine
 			int startCoordinate,
 			int endCoordinate )
 	{
-		// XlsContainer currentContainer = getCurrentContainer( );
 		int columnCount = table.getColumnCount( );
 		int[] columnStartCoordinates = new int[ columnCount + 1 ];
-		// if ( isRightAligned( currentContainer ) )
-		// {
-		// columnStartCoordinates[ columnCount ] = endCoordinate;
-		// for ( int i = columnCount - 1; i >= 0; i-- )
-		// {
-		// columnStartCoordinates[i] = columnStartCoordinates[i + 1]
-		// - table.getColumnWidth( i );
-		// }
-		// }
-		// else
-		// {
-			columnStartCoordinates[0] = startCoordinate;
-			for ( int i = 1; i <= columnCount; i++ )
-			{
-				columnStartCoordinates[i] = columnStartCoordinates[i - 1]
-						+ table.getColumnWidth( i - 1 );
-			}
-		// }
+		columnStartCoordinates[0] = startCoordinate;
+		for ( int i = 1; i <= columnCount; i++ )
+		{
+			columnStartCoordinates[i] = columnStartCoordinates[i - 1]
+				+ table.getColumnWidth( i - 1 );
+		}
 		return columnStartCoordinates;
 	}
-
-	// private boolean isRightAligned( XlsContainer currentContainer )
-	// {
-	// boolean isRightAligned = false;
-	// String align = currentContainer.getStyle( ).getProperty(
-	// StyleConstant.H_ALIGN_PROP );
-	// isRightAligned = "Right".equalsIgnoreCase( align );
-	// return isRightAligned;
-	// }
 
 	private int[] inRange( int start, int end, int[] data )
 	{
@@ -415,7 +399,7 @@ public class ExcelLayoutEngine
 			parent.setRowIndex( container.getRowIndex( ) );
 	}
 
-	private void endNormalContainer( )
+	public void endNormalContainer( )
 	{
 		XlsContainer container = getCurrentContainer( );
 		if ( container.isEmpty( ) )
@@ -697,6 +681,7 @@ public class ExcelLayoutEngine
 
 	public void complete( )
 	{
+		endNormalContainer( );
 		Iterator<SheetData[]> iterator = cache.getRowIterator( );
 		while ( iterator.hasNext( ) )
 		{

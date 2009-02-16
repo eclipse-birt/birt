@@ -163,7 +163,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		{
 			contentVisitor.visitChildren( page.getPageHeader( ), null );
 		}
-		
+		engine.setPageStyle( page.getComputedStyle( ) );
 	}
 
 	public void endPage( IPageContent page ) throws BirtException
