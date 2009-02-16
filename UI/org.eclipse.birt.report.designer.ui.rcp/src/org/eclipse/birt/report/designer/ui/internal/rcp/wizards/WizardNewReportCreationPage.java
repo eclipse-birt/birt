@@ -178,6 +178,12 @@ public class WizardNewReportCreationPage extends WizardPage
 			}
 		}
 
+		if ( path.lastSegment( ).equals( suffix ) )
+		{
+			setErrorMessage( Messages.getString( "WizardNewReportCreationPage.Errors.nameEmpty" ) ); //$NON-NLS-1$
+			return false;
+		}
+
 		if ( path.toFile( ).exists( ) )
 		{
 			setErrorMessage( MSG_DUPLICATE_FILE_NAME );

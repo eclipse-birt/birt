@@ -166,6 +166,13 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 				path = getContainerFullPath( ).append( getFileName( ) );
 			}
 		}
+
+		if ( path.lastSegment( ).equals( "." + fileExtension ) )
+		{
+			setErrorMessage( Messages.getString( "WizardNewReportCreationPage.Errors.nameEmpty" ) ); //$NON-NLS-1$
+			return false;
+		}
+		
 		if ( path.toFile( ).exists( ) )
 		{
 			setErrorMessage( MSG_DUPLICATE_FILE_NAME );

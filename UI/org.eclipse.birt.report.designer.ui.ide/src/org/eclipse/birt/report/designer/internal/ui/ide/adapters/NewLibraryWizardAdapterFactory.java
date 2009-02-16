@@ -349,6 +349,10 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 				}
 				else
 					resourcePath = getContainerFullPath( ).append( getFileName( ) );
+				
+				if ( resourcePath.lastSegment( ).equals( "." + fileExtension ) )
+					setErrorMessage( Messages.getString( "WizardNewReportCreationPage.Errors.nameEmpty" ) ); //$NON-NLS-1$
+
 				IWorkspace workspace = ResourcesPlugin.getWorkspace( );
 
 				if ( workspace.getRoot( ).getFolder( resourcePath ).exists( )
@@ -373,6 +377,9 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 				}
 				else
 					resourcePath = getContainerFullPath( ).append( getFileName( ) );
+
+				if ( resourcePath.lastSegment( ).equals( "." + fileExtension ) )
+					setErrorMessage( Messages.getString( "WizardNewReportCreationPage.Errors.nameEmpty" ) ); //$NON-NLS-1$
 
 				IWorkspace workspace = ResourcesPlugin.getWorkspace( );
 				if ( workspace.getRoot( )
