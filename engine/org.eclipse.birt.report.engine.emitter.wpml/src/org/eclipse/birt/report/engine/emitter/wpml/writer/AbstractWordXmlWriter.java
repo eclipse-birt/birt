@@ -231,7 +231,7 @@ public abstract class AbstractWordXmlWriter
 	private void writeTableBorders( IStyle style )
 	{
 		writer.openTag( "w:tblBorders" );
-		writeBorders( style );
+		writeBorders( style, 0, 0, 0, 0 );
 		writer.closeTag( "w:tblBorders" );
 	}
 
@@ -256,28 +256,32 @@ public abstract class AbstractWordXmlWriter
 		writer.closeTag( "w:tblInd" );
 	}
 
-	private void writeBorders( IStyle style )
+	protected void writeBorders( IStyle style, int bottomMargin, int topMargin,
+			int leftMargin, int rightMargin )
 	{
 		String borderStyle = style.getBorderBottomStyle( );
 		if ( hasBorder( borderStyle ) )
 		{
 			writeSingleBorder( BOTTOM, borderStyle, style
 					.getBorderBottomColor( ), style
-					.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) );
+					.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ),
+					bottomMargin );
 		}
 
 		borderStyle = style.getBorderTopStyle( );
 		if ( hasBorder( borderStyle ) )
 		{
 			writeSingleBorder( TOP, borderStyle, style.getBorderTopColor( ),
-					style.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH ) );
+					style.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH ),
+					topMargin );
 		}
 
 		borderStyle = style.getBorderLeftStyle( );
 		if ( hasBorder( borderStyle ) )
 		{
 			writeSingleBorder( LEFT, borderStyle, style.getBorderLeftColor( ),
-					style.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH ) );
+					style.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH ),
+					leftMargin );
 		}
 
 		borderStyle = style.getBorderRightStyle( );
@@ -285,25 +289,36 @@ public abstract class AbstractWordXmlWriter
 		{
 			writeSingleBorder( RIGHT, borderStyle,
 					style.getBorderRightColor( ),
-					style.getProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH ) );
+					style.getProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH ),
+					rightMargin );
 		}
 	}
 
 	private void writeSingleBorder( String type, String borderStyle,
-			String color, CSSValue width )
+			String color, CSSValue width, int margin )
 	{
 		writer.openTag( "w:" + type );
-		writeBorderProperty( borderStyle, color, width );
+		writeBorderProperty( borderStyle, color, width, margin );
 		writer.closeTag( "w:" + type );
 	}
 
-	private void writeBorderProperty( String style, String color, CSSValue width )
+	private void writeBorderProperty( String style, String color,
+			CSSValue width, int margin )
 	{
 		writer.attribute( "w:val", WordUtil.parseBorderStyle( style ) );
 		writer.attribute( "w:sz", WordUtil
 				.parseBorderSize( ( (FloatValue) width ).getFloatValue( ) ) );
-		writer.attribute( "w:space", 0 );
+		writer.attribute( "w:space", validateBorderSpace( margin ) );
 		writer.attribute( "w:color", WordUtil.parseColor( color ) );
+	}
+
+	private int validateBorderSpace( int margin )
+	{
+		// word only accept 0-31 pt
+		int space = (int) WordUtil.twipToPt( margin );
+		if ( space > 31 )
+			space = 31;
+		return space;
 	}
 
 	protected void writeAlign( String align, String direction )
@@ -404,7 +419,7 @@ public abstract class AbstractWordXmlWriter
 			CSSValue borderWidth )
 	{
 		writer.openTag( "w:bdr" );
-		writeBorderProperty( borderStyle, color, borderWidth );
+		writeBorderProperty( borderStyle, color, borderWidth, 0 );
 		writer.closeTag( "w:bdr" );
 	}
 
@@ -765,7 +780,7 @@ public abstract class AbstractWordXmlWriter
 	private void writeCellBorders( IStyle style )
 	{
 		writer.openTag( "w:tcBorders" );
-		writeBorders( style );
+		writeBorders( style, 0, 0, 0, 0 );
 		writer.closeTag( "w:tcBorders" );
 	}
 
@@ -844,7 +859,7 @@ public abstract class AbstractWordXmlWriter
 	private void writeParagraphBorders( IStyle style )
 	{
 		writer.openTag( "w:pBdr" );
-		writeBorders( style );
+		writeBorders( style, 0, 0, 0, 0 );
 		writer.closeTag( "w:pBdr" );
 	}
 

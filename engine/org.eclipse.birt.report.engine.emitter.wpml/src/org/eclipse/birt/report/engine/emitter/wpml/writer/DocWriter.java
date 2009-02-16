@@ -456,4 +456,16 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 	public void writeForeign( IForeignContent foreignContent )
 	{
 	}
+
+	public void writePageBorders( IStyle style, int topMargin,
+			int bottomMargin, int leftMargin, int rightMargin )
+	{
+		// TODO Auto-generated method stub
+		writer.openTag( "w:pgBorders" );
+		writer.attribute( "w:offset-from", "page" );
+		writeBorders( style, topMargin, bottomMargin, leftMargin,
+				rightMargin );
+		writer.closeTag( "w:pgBorders" );
+
+	}
 }

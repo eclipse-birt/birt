@@ -41,6 +41,9 @@ public interface IWordWriter
 			int footerHeight, int topMargin, int bottomMargin, int leftMargin,
 			int rightMargin, String orient );
 
+	void writePageBorders( IStyle style, int topMargin, int bottomMargin,
+			int leftMargin, int rightMargin );
+
 	void startTable( IStyle style, int tableWidth );
 
 	void endTable( );

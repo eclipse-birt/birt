@@ -664,6 +664,8 @@ public abstract class AbstractEmitterImpl
 		wordWriter.writePageProperties( pageHeight, pageWidth, headerHeight,
 				footerHeight, topMargin, bottomMargin, leftMargin, rightMargin,
 				orientation );
+		wordWriter.writePageBorders( previousPage.getComputedStyle( ),
+				topMargin, bottomMargin, leftMargin, rightMargin );
 		wordWriter.endSectionInParagraph( );
 	}
 
@@ -674,6 +676,8 @@ public abstract class AbstractEmitterImpl
 		wordWriter.writePageProperties( pageHeight, pageWidth, headerHeight,
 				footerHeight, topMargin, bottomMargin, leftMargin, rightMargin,
 				orientation );
+		wordWriter.writePageBorders( previousPage.getComputedStyle( ),
+				topMargin, bottomMargin, leftMargin, rightMargin );
 		wordWriter.endSection( );
 	}
 
