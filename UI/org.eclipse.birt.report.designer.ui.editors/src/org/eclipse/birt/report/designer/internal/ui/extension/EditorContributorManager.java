@@ -94,9 +94,9 @@ public class EditorContributorManager implements IExtensionConstants
 		}
 	}
 
-	private HashMap editorContributorMap;
+	private volatile HashMap editorContributorMap;
 
-	private static EditorContributorManager instance = null;
+	private volatile static EditorContributorManager instance = null;
 
 	private EditorContributorManager( )
 	{
@@ -194,7 +194,7 @@ public class EditorContributorManager implements IExtensionConstants
 				for ( int i = 0; i < formPageDefList.size( ); i++ )
 				{
 					FormPageDef formPageDef = (FormPageDef) formPageDefList.get( i );
-					if ( formPageDef != null && formPageDef.equals( pageId ) )
+					if ( formPageDef != null && pageId.equals( formPageDef.id ) )
 					{
 						return i;
 					}
