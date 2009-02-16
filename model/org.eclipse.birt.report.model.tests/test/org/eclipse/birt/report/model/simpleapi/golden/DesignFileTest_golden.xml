@@ -50,7 +50,6 @@
             <property name="y">11.2mm</property>
         </extended-item>
         <table name="my new table" id="11">
-        	<property name="pageBreakInterval">50</property>
 			<list-property name="sort">
                 <structure>
                     <expression name="key">age</expression>

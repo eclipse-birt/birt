@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <property name="refreshRate">30</property>
     <styles>
         <style name="My Style">
@@ -73,8 +73,8 @@
             <property name="display">inline</property>
             <property name="masterPage">My Page</property>
             <property name="pageBreakAfter">auto</property>
-            <property name="pageBreakBefore">avoid</property>
-            <property name="pageBreakInside">inherit</property>
+            <property name="pageBreakBefore">auto</property>
+            <property name="pageBreakInside">auto</property>
             <property name="showIfBlank">true</property>
             <property name="canShrink">true</property>   
             <property name="bidiTextDirection">rtl</property>         
@@ -166,16 +166,8 @@
                     <property name="operator">is-true</property>
                 </structure>
                 <structure>
-					<expression name="testExpr">[this]</expression>		
-                    <property name="operator">false</property>
-                </structure>
-                <structure>
 					<expression name="testExpr">[this]</expression>							
                     <property name="operator">like</property>
-                </structure>
-                <structure>
-					<expression name="testExpr">[this]</expression>							
-                    <property name="operator">any</property>
                 </structure>
             </list-property>
             <expression name="mapTestExpr">[somefield]</expression>
@@ -275,10 +267,6 @@
         <free-form name="GrandFather Form">
             <property name="color">red</property>
             <property name="x">999mm</property>
-        </free-form>
-        <free-form name="Parent Form" extends="GrandFather Form">
-            <property name="fontSize">x-small</property>
-            <property name="x">999mm</property>
             <report-items>
                 <label>
                     <property name="x">1mm</property>
@@ -288,6 +276,10 @@
                     <text-property name="text">Customer Name</text-property>
                 </label>
             </report-items>
+        </free-form>
+        <free-form name="Parent Form" extends="GrandFather Form">
+            <property name="fontSize">x-small</property>
+            <property name="x">999mm</property>
         </free-form>
     </components>
     <page-setup>
@@ -411,17 +403,7 @@
                 </label>
             </report-items>
         </free-form>
-        <free-form name="Child Form" extends="Parent Form">
-            <report-items>
-                <label>
-                    <property name="x">1mm</property>
-                    <property name="y">2mm</property>
-                    <property name="height">3mm</property>
-                    <property name="width">4mm</property>
-                    <text-property name="text">Customer Name</text-property>
-                </label>
-            </report-items>
-        </free-form>
+        <free-form name="Child Form" extends="Parent Form"/>
         <table name="My Fourth Table">
             <column>
                 <property name="width">2.5mm</property>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <styles>
         <style name="My Style"/>
     </styles>
@@ -20,21 +20,12 @@
             <contents>
                 <label>
                     <property name="x">1mm</property>
-                    <property name="y">0.5mm</property>
-                    <property name="height">0.25mm</property>
-                    <property name="width">2mm</property>
-                    <text-property name="text">First Page</text-property>
                 </label>
                 <label>
                     <property name="x">6mm</property>
-                    <property name="y">0.5mm</property>
-                    <property name="height">0.25mm</property>
-                    <property name="width">1mm</property>
-                    <text-property name="text">Today's Date</text-property>
                 </label>
                 <data>
-                    <expression name="valueExpr">[myParam]</expression>
-                    <text-property name="helpText">Shows what parameter was used.</text-property>
+                   <text-property name="helpText">Shows what parameter was used.</text-property>
                 </data>
             </contents>
         </graphic-master-page>
@@ -60,10 +51,6 @@
                     <property name="rowSpan">1</property>
                     <label>
                         <property name="x">1mm</property>
-                        <property name="y">2mm</property>
-                        <property name="height">3mm</property>
-                        <property name="width">4mm</property>
-                        <text-property name="text">Customer Name</text-property>
                     </label>
                 </cell>
                 <cell>
@@ -74,16 +61,9 @@
                     <property name="height">1.5mm</property>
                     <property name="width">2mm</property>
                     <property name="style">My Style</property>
-                    <property name="backgroundColor">red</property>
-                    <property name="borderTopColor">yellow</property>
-                    <property name="borderTopStyle">dotted</property>
-                    <property name="borderTopWidth">2mm</property>
                     <label name="address">
                         <property name="x">1.1mm</property>
                         <property name="y">2.2mm</property>
-                        <property name="height">3.3mm</property>
-                        <property name="width">4.4mm</property>
-                        <text-property name="text">Address</text-property>
                     </label>
                 </cell>
             </row>
@@ -94,10 +74,6 @@
                     <property name="rowSpan">1</property>
                     <label>
                         <property name="x">1.1mm</property>
-                        <property name="y">2.2mm</property>
-                        <property name="height">3.3mm</property>
-                        <property name="width">4.4mm</property>
-                        <text-property name="text">Address</text-property>
                     </label>
                 </cell>
             </row>
@@ -114,9 +90,6 @@
                     <label>
                         <property name="x">1mm</property>
                         <property name="y">2mm</property>
-                        <property name="height">3mm</property>
-                        <property name="width">4mm</property>
-                        <text-property name="text">Customer Name</text-property>
                     </label>
                 </cell>
                 <cell>
@@ -127,16 +100,9 @@
                     <property name="height">1.5mm</property>
                     <property name="width">2mm</property>
                     <property name="style">My Style</property>
-                    <property name="backgroundColor">red</property>
-                    <property name="borderTopColor">yellow</property>
-                    <property name="borderTopStyle">dotted</property>
-                    <property name="borderTopWidth">2mm</property>
                     <label name="address1">
                         <property name="x">1.1mm</property>
                         <property name="y">2.2mm</property>
-                        <property name="height">3.3mm</property>
-                        <property name="width">4.4mm</property>
-                        <text-property name="text">Address</text-property>
                     </label>
                 </cell>
             </row>
@@ -148,9 +114,6 @@
                     <label>
                         <property name="x">1.1mm</property>
                         <property name="y">2.2mm</property>
-                        <property name="height">3.3mm</property>
-                        <property name="width">4.4mm</property>
-                        <text-property name="text">Address</text-property>
                     </label>
                 </cell>
             </row>

@@ -12,12 +12,7 @@
         </style>
     </styles>
     <page-setup>
-        <graphic-master-page name="My Page" id="2">
-        	<property name="topMargin">1in</property>
-            <property name="leftMargin">1.25in</property>
-            <property name="bottomMargin">1in</property>
-            <property name="rightMargin">1.25in</property>
-        </graphic-master-page>
+        <graphic-master-page name="My Page" id="2"/>
     </page-setup>
     <body>
         <table name="table1" id="3" extends="Lib1.libTable1">

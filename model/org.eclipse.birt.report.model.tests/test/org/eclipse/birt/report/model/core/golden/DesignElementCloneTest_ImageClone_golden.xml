@@ -17,10 +17,6 @@
     </styles>
     <page-setup>
         <graphic-master-page name="My Page" id="3">
-        	<property name="topMargin">1in</property>
-            <property name="leftMargin">1.25in</property>
-            <property name="bottomMargin">1in</property>
-            <property name="rightMargin">1.25in</property>
             <property name="style">My Style</property>
             <contents>
                 <label id="4">

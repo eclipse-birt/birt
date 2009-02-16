@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <page-setup>
         <graphic-master-page name="My Page">
             <property name="topMargin">0.95mm</property>
@@ -11,6 +11,7 @@
             <property name="columnSpacing">0.25mm</property>
             <contents>
                 <image name="Image1">
+                	<property name="source">url</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
                     <text-property name="altText">Help Test For Image Item</text-property>
                     <structure name="action">
@@ -21,6 +22,7 @@
                     </structure>
                 </image>
                 <image name="Image2">
+                	<property name="source">url</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
                     <text-property name="altText">Help Test For Image Item</text-property>
                     <structure name="action">
@@ -41,6 +43,7 @@
                     </structure>
                 </image>
                 <image name="Image3">
+                	<property name="source">url</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
                     <text-property name="altText">Help Test For Image Item</text-property>
                     <structure name="action">
@@ -68,6 +71,7 @@
                     </structure>
                 </image>
                 <image name="Image4">
+                	<property name="source">url</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
                     <text-property name="altText">Help Test For Image Item</text-property>
                     <structure name="action">
@@ -76,10 +80,6 @@
                         <expression name="targetBookmark">www.rock.com.cn/haha/index.html/bookmarklink1</expression>
                     </structure>
                 </image>
-                <data>
-                    <expression name="valueExpr">[myParam]</expression>
-                    <text-property name="helpText">Shows what parameter was used.</text-property>
-                </data>
             </contents>
         </graphic-master-page>
     </page-setup>

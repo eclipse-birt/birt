@@ -104,7 +104,6 @@
         </label>
         <list name="My List" id="16">
             <property name="dataSet">firstDataSet</property>
-            <property name="pageBreakInterval">50</property>
             <header>
                 <label name="listHeaderLabel" id="17">
                     <property name="x">1mm</property>
@@ -136,7 +135,6 @@
         <table name="My table" id="20">
             <property name="dataSet">firstDataSet</property>
             <property name="repeatHeader">true</property>
-            <property name="pageBreakInterval">50</property>
             <header>
                 <row id="21">
                     <cell id="22">

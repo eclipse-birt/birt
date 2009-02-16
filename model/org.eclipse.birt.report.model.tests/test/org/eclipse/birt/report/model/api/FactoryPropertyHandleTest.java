@@ -106,7 +106,7 @@ public class FactoryPropertyHandleTest extends BaseTestCase
 
 		// int with extended choice with choice value
 		style.setStringProperty( Style.ORPHANS_PROP,
-				DesignChoiceConstants.ORPHANS_INHERIT ); //$NON-NLS-1$
+				DesignChoiceConstants.ORPHANS_INHERIT );
 
 		property = style.getFactoryPropertyHandle( Style.ORPHANS_PROP );
 		assertEquals( false, property.getBooleanValue( ) );
@@ -115,7 +115,7 @@ public class FactoryPropertyHandleTest extends BaseTestCase
 		assertEquals( 0, property.getFloatValue( ), 1 );
 		assertEquals( new BigDecimal( 0.0 ), property.getNumberValue( ) );
 		assertEquals( DesignChoiceConstants.ORPHANS_INHERIT, property
-				.getStringValue( ) ); //$NON-NLS-1$
+				.getStringValue( ) );
 
 		// int with extended choice with int value
 		style.setStringProperty( Style.ORPHANS_PROP, "19" ); //$NON-NLS-1$

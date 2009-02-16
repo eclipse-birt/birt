@@ -42,7 +42,6 @@
         <table name="My table" id="20">
             <property name="dataSet">firstDataSet</property>
             <property name="repeatHeader">true</property>
-            <property name="pageBreakInterval">50</property>
             <header>
                 <row id="21">
                     <cell id="22">

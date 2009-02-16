@@ -1322,7 +1322,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 	public void testGetVersionNo( ) throws Exception
 	{
-		assertEquals( "3.2.8", designHandle.getVersion( ) ); //$NON-NLS-1$
+		assertEquals( "3.2.18", designHandle.getVersion( ) ); //$NON-NLS-1$
 
 		createDesign( );
 

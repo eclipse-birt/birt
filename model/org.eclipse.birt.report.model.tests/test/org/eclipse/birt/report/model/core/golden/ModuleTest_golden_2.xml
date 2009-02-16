@@ -4,10 +4,6 @@
     <property name="units">in</property>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
-            <property name="topMargin">1in</property>
-            <property name="leftMargin">1.25in</property>
-            <property name="bottomMargin">1in</property>
-            <property name="rightMargin">1.25in</property>
             <page-footer>
                 <text id="3">
                     <property name="contentType">html</property>
@@ -19,7 +15,6 @@
     <body>
         <table id="6">
             <property name="width">100%</property>
-            <property name="pageBreakInterval">50</property>
             <column id="75"/>
             <column id="76"/>
             <column id="77"/>

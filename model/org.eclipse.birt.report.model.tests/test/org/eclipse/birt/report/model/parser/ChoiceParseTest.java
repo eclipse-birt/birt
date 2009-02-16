@@ -89,12 +89,6 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 public class ChoiceParseTest extends BaseTestCase
 {
 
-	/**
-	 * The output file
-	 */
-
-	private static final String OUTPUTFILE = "ChoiceParseTest.out";//$NON-NLS-1$
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -210,8 +204,8 @@ public class ChoiceParseTest extends BaseTestCase
 		label2.getHandle( design ).setProperty( Style.FONT_SIZE_PROP,
 				new DimensionValue( 12.0, DesignChoiceConstants.UNITS_IN ) );
 
-		save();
-		assertTrue( compareFile( "ChoiceParseTest_golden.xml") ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareFile( "ChoiceParseTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -310,10 +304,11 @@ public class ChoiceParseTest extends BaseTestCase
 		assertEquals( DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE,
 				verticalAlign );
 
+		// not valid choice
 		myStyle = design.findStyle( "style1" );//$NON-NLS-1$
 		verticalAlign = (String) myStyle.getLocalProperty( design,
 				IStyleModel.VERTICAL_ALIGN_PROP );
-		assertNull( verticalAlign );
+		assertEquals( "baseline", verticalAlign ); //$NON-NLS-1$
 
 		TableHandle tableHandle = (TableHandle) designHandle.getBody( ).get( 0 );
 		GroupHandle groupHandle = (GroupHandle) tableHandle.getGroups( )
@@ -322,7 +317,7 @@ public class ChoiceParseTest extends BaseTestCase
 		CellHandle cellHandle = (CellHandle) rowHandle.getCells( ).get( 0 );
 		verticalAlign = (String) cellHandle.getElement( ).getLocalProperty(
 				design, IStyleModel.VERTICAL_ALIGN_PROP );
-		assertNull( verticalAlign );
+		assertEquals( "baseline", verticalAlign ); //$NON-NLS-1$
 
 	}
 }

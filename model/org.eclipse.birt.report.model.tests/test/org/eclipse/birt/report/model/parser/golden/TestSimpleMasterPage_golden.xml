@@ -7,10 +7,6 @@
     <page-setup>
         <simple-master-page name="New Simple Page" id="3">
             <property name="orientation">landscape</property>
-            <property name="topMargin">1in</property>
-            <property name="leftMargin">1.25in</property>
-            <property name="bottomMargin">1in</property>
-            <property name="rightMargin">1.25in</property>
             <property name="showHeaderOnFirst">true</property>
             <property name="headerHeight">2.4cm</property>
             <property name="footerHeight">1.2cm</property>

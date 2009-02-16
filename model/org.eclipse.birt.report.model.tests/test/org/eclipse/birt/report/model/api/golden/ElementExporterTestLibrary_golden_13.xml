@@ -4,29 +4,11 @@
         <theme name="defaultTheme" id="2"/>
     </themes>
     <components>
-        <extended-item extensionName="TestingMatrix" name="NewTestingMatrix" id="3">
+        <extended-item extensionName="TestingMatrix" name="test" id="3">
             <property name="test2">22</property>
             <xml-property name="test3"><![CDATA[type=bar,xScale=2,yScale=3,lineStyle=normal]]></xml-property>
             <property name="test5">choice2</property>
             <property name="dataSet">firstDataSet</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">value1</property>
-                    <expression name="expression">dataSetRow["value1"]</expression>
-                </structure>
-                <structure>
-                    <property name="name">value2</property>
-                    <expression name="expression">dataSetRow["value2"]</expression>
-                </structure>
-                <structure>
-                    <property name="name">value3</property>
-                    <expression name="expression">dataSetRow["value3"]</expression>
-                </structure>
-                <structure>
-                    <property name="name">tmpValue</property>
-                    <expression name="expression">dataSetRow["tmpValue"]</expression>
-                </structure>
-            </list-property>
         </extended-item>
     </components>
 </library>

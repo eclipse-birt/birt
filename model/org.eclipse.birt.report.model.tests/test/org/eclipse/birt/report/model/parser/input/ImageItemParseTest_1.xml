@@ -27,17 +27,9 @@
             <contents>
                 <label>
                     <property name="x">1mm</property>
-                    <property name="y">0.5mm</property>
-                    <property name="height">0.25mm</property>
-                    <property name="width">2mm</property>
-                    <text-property name="text">First Page</text-property>
                 </label>
                 <label>
                     <property name="x">6mm</property>
-                    <property name="y">0.5mm</property>
-                    <property name="height">0.25mm</property>
-                    <property name="width">1mm</property>
-                    <text-property name="text">Today's Date</text-property>
                 </label>
                 <image name="Image1">
                     <property name="style">My Style</property>

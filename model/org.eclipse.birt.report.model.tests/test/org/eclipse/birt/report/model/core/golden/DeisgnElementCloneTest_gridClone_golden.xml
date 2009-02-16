@@ -5,22 +5,11 @@
             <property name="type">custom</property>
             <property name="height">11in</property>
             <property name="width">8.5in</property>
-            <property name="orientation">auto</property>
-            <property name="topMargin">1in</property>
-            <property name="leftMargin">1.25in</property>
-            <property name="bottomMargin">1in</property>
-            <property name="rightMargin">1.25in</property>
-            <property name="columns">1</property>
-            <property name="columnSpacing">0.25in</property>
         </graphic-master-page>
     </page-setup>
     <body>
         <free-form name="FreeForm" id="3">
             <property name="comments">Sample Section</property>
-            <text-property name="displayName">The Section</text-property>
-            <structure name="toc">
-            	<expression name="expressionValue">"This Section"</expression>
-            </structure>
             <report-items>
                 <grid name="grid1" id="4">
                     <text-property name="displayName" key="gridKey1">he</text-property>

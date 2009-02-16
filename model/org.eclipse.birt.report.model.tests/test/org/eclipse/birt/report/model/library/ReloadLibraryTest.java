@@ -370,7 +370,7 @@ public class ReloadLibraryTest extends BaseTestCase
 		List fileNames = new ArrayList( );
 		fileNames.add( INPUT_FOLDER + "DesignToReloadLibrary.xml" ); //$NON-NLS-1$
 		fileNames.add( INPUT_FOLDER + "LibraryToReload.xml" ); //$NON-NLS-1$
-		fileNames.add( "/org/eclipse/birt/report/model/api/" + INPUT_FOLDER //$NON-NLS-1$
+		fileNames.add( "/org/eclipse/birt/report/model/library/" + INPUT_FOLDER //$NON-NLS-1$
 				+ "LibraryToReload.xml" ); //$NON-NLS-1$
 
 		sessionHandle = new DesignEngine( new DesignConfig( ) )

@@ -39,9 +39,7 @@
         </structure>
     </list-property>
     <parameters>
-        <scalar-parameter name="para" id="27">
-        	<property name="isRequired">false</property>
-        </scalar-parameter>
+        <scalar-parameter name="para" id="27"/>
     </parameters>
     <data-sources>
         <oda-data-source name="dataSource1" id="28"/>
@@ -107,19 +105,13 @@
         </grid>
         <table name="libTable" id="22">
             <property name="dataSet">dataSet1</property>
-            <property name="pageBreakInterval">50</property>
         </table>
         <table name="libTable1" id="23">
             <property name="dataSet">noExistedDataSet</property>
-            <property name="pageBreakInterval">50</property>
         </table>
     </components>
     <page-setup>
         <graphic-master-page name="My Page" id="32">
-        	<property name="topMargin">1in</property>
-            <property name="leftMargin">1.25in</property>
-            <property name="bottomMargin">1in</property>
-            <property name="rightMargin">1.25in</property>
             <property name="columns">1</property>
         </graphic-master-page>
     </page-setup>

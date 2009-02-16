@@ -291,7 +291,6 @@ public class MasterPageParseTest extends BaseTestCase
 
 		openDesign( checkFileName6 );
 
-		printSemanticErrors( );
 		errors = design.getErrorList( );
 		assertEquals( 1, errors.size( ) );
 		error = errors.get( 0 );

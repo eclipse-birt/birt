@@ -4,10 +4,6 @@
         <simple-master-page name="Simple MasterPage" id="2">
             <property name="type">us-letter</property>
             <property name="orientation">auto</property>
-            <property name="topMargin">1in</property>
-            <property name="leftMargin">1.25in</property>
-            <property name="bottomMargin">1in</property>
-            <property name="rightMargin">1.25in</property>
         </simple-master-page>
     </page-setup>
     <body>

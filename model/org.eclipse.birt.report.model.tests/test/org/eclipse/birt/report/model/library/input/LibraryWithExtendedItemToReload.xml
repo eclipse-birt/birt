@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<library xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.13">
+<library xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.18">
     <property name="createdBy">Whiz-Bang Plus</property>
     <property name="refreshRate">30</property>
     <text-property name="title" key="TITLE_ID">Sample Report</text-property>

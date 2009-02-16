@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" author="W.C. Fields" createdBy="Whiz-Bang Plus" creationDate="2004-06-10 17:28:39" helpGuide="http://company.com/reportHelp.html" isReportlet="false" locale="us-en" modificationDate="2004-06-11 13:14:15" refreshRate="30" units="in">
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.18">
 	<page-setup>
 		<graphic-master-page column-spacing=".25" extends="" height="11" javaClass="page.java" name="My Page" orientation="auto" type="USLetter" />
 	</page-setup>

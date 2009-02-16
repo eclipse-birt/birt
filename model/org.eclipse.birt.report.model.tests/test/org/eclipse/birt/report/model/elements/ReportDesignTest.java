@@ -82,16 +82,15 @@ public class ReportDesignTest extends BaseTestCase
 	 * Test Cases:
 	 * <ul>
 	 * <li>name is required but set name is null</li>
-	 * <li>name is required and set name isn't null ,but namespace contains
-	 * this name</li>
+	 * <li>name is required and set name isn't null ,but namespace contains this
+	 * name</li>
 	 * <li>name is required and set name isn't null ,but namespace doesn't
 	 * contain this name</li>
 	 * </ul>
 	 * Excepted:
 	 * <ul>
 	 * <li>get displayLabel value,value is "New SQL Query Data Set"</li>
-	 * <li>value format is baseName + " " + ++index ,value is "firstDataSet 1"
-	 * </li>
+	 * <li>value format is baseName + " " + ++index ,value is "firstDataSet 1"</li>
 	 * <li>original value "firstDataSet10"</li>
 	 * </ul>
 	 * 
@@ -100,23 +99,23 @@ public class ReportDesignTest extends BaseTestCase
 	 */
 	public void testMakeUniqueName( ) throws DesignFileException
 	{
-		//get design and instance of ElementFactory class
+		// get design and instance of ElementFactory class
 
 		openDesign( fileName, ULocale.ENGLISH );
 		ElementFactory elementFactory = new ElementFactory( design );
 
-		//name is required but set name is null
+		// name is required but set name is null
 
 		DataSetHandle dataSetHandle = elementFactory.newOdaDataSet( null );
 		assertEquals( "NewOdaDataSet", dataSetHandle.getElement( ).getName( ) ); //$NON-NLS-1$
 
-		//name is required and set name isn't null ,but namespace contain this
+		// name is required and set name isn't null ,but namespace contain this
 		// name
 
 		dataSetHandle = elementFactory.newOdaDataSet( "firstDataSet" ); //$NON-NLS-1$
 		assertEquals( "firstDataSet1", dataSetHandle.getElement( ).getName( ) ); //$NON-NLS-1$
 
-		//name is required and set name isn't null ,but namespace doesn't
+		// name is required and set name isn't null ,but namespace doesn't
 		// contain this name
 
 		dataSetHandle = elementFactory.newOdaDataSet( "firstDataSet10" ); //$NON-NLS-1$
@@ -133,7 +132,7 @@ public class ReportDesignTest extends BaseTestCase
 
 	public void testIsFileExist( ) throws Exception
 	{
-		openDesign( "ReportDesignTest.xml" ); //$NON-NLS-1$
+		openDesign( fileName );
 		String base = designHandle.getBase( );
 		assertNull( base );
 

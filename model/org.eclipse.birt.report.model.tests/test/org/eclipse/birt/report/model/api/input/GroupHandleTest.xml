@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <data-sources>
         <oda-data-source name="myDataSource"/>
     </data-sources>
@@ -35,7 +35,7 @@
                 <property name="interval">week</property>
                 <property name="intervalRange">3.0</property>
                 <property name="sortDirection">desc</property>
-		        <property name="groupStart">2004/12/12</property>
+		        <property name="intervalBase">2004/12/12</property>
                 <expression name="keyExpr">[Country]</expression>
                 <method name="onStart"><![CDATA[start]]></method>
                 <method name="onRow"><![CDATA[row]]></method>

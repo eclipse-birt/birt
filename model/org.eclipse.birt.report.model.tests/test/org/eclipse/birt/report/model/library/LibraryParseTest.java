@@ -453,7 +453,7 @@ public class LibraryParseTest extends BaseTestCase
 						.getModule( ) ) ) ) );
 
 		SlotHandle themes = libraryHandle.getThemes( );
-		assertEquals( 3, themes.getCount( ) );
+		assertEquals( 2, themes.getCount( ) );
 
 		ThemeHandle theme = (ThemeHandle) themes.get( 0 );
 		assertEquals( 1, theme.getStyles( ).getCount( ) );

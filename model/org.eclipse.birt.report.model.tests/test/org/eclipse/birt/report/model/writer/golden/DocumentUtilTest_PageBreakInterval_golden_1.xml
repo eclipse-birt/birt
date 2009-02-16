@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
     <body>
-        <list name="NewList" id="25">
-            <property name="pageBreakInterval">50</property>
-        </list>
+        <list name="NewList" id="25"/>
         <list name="NewList1" id="26">
             <property name="pageBreakInterval">60</property>
         </list>

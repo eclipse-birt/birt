@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
     <data-sources>
         <oda-data-source name="myDataSource" id="6"/>
         <oda-data-source name="myDataSource2" id="7"/>
@@ -65,8 +65,7 @@
             <text-property name="displayName">The Section</text-property>
             <property name="style">My Style</property>
             <property name="backgroundColor">red</property>
-            <property name="color">yellow</property> 
-            <expression name="toc">"This Section"</expression>
+            <property name="color">yellow</property>
             <report-items>
                 <!-- wrong extends because of the extension type is not the same -->
         		<extended-item name="right extended item" extensionName="TestingMatrix" extends="parent" id="13">
@@ -113,10 +112,16 @@
             		<property name="paddingLeft">2mm</property>
             		<property name="paddingBottom">4mm</property>
             		<property name="paddingRight">3mm</property>
-            		<property name="dateTimeFormat">:date-time</property>
-            		<property name="numberFormat">number</property>
+            		<structure name="dateTimeFormat">
+                		<property name="pattern">:date-time</property>
+            		</structure>
+            		<structure name="numberFormat">
+                		<property name="pattern">number</property>
+            		</structure>
+            		<structure name="stringFormat">
+                		<property name="pattern">string</property>
+            		</structure>
             		<property name="numberAlign">right</property>
-            		<property name="stringFormat">string</property>
             		<property name="textAlign">right</property>
             		<property name="textIndent">5mm</property>
             		<property name="letterSpacing">normal</property>
@@ -130,8 +135,8 @@
             		<property name="display">inline</property>
             		<property name="masterPage">My Page</property>
             		<property name="pageBreakAfter">auto</property>
-            		<property name="pageBreakBefore">avoid</property>
-            		<property name="pageBreakInside">inherit</property>
+            		<property name="pageBreakBefore">auto</property>
+            		<property name="pageBreakInside">auto</property>
             		<property name="showIfBlank">true</property>
             		<property name="canShrink">true</property>
             		<expression name="highlightTestExpr">[this]</expression>
@@ -162,9 +167,16 @@
                     		<property name="textLineThrough">line-through</property>
                     		<property name="textAlign">right</property>
                     		<property name="textTransform">lowercase</property>
-                    		<property name="dateTimeFormat">yyyy/mm/dd</property>
-                    		<property name="numberFormat">#.00</property>
-                    		<property name="stringFormat">string-format</property>
+                    		<structure name="dateTimeFormat">
+                				<property name="category">Short Date</property>
+                				<property name="pattern">yyyy/mm/dd</property>
+            				</structure>
+            				<structure name="numberFormat">
+                				<property name="pattern">#.00</property>
+            				</structure>
+            				<structure name="stringFormat">
+                				<property name="pattern">string-format</property>
+            				</structure>
                     		<expression name="value1">"10"</expression>
                     		<expression name="value2">"20"</expression>
                 		</structure>

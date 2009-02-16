@@ -366,12 +366,12 @@ public class StyleParseTest extends BaseTestCase
 				"inline", style.getStringProperty( design, Style.DISPLAY_PROP ) ); //$NON-NLS-1$
 		assertEquals(
 				"My Page", style.getStringProperty( design, Style.MASTER_PAGE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"auto", style.getStringProperty( design, Style.PAGE_BREAK_AFTER_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"avoid", style.getStringProperty( design, Style.PAGE_BREAK_BEFORE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"inherit", style.getStringProperty( design, Style.PAGE_BREAK_INSIDE_PROP ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_AUTO, style
+				.getStringProperty( design, Style.PAGE_BREAK_AFTER_PROP ) );
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_BEFORE_AUTO, style
+				.getStringProperty( design, Style.PAGE_BREAK_BEFORE_PROP ) );
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_INSIDE_AUTO, style
+				.getStringProperty( design, Style.PAGE_BREAK_INSIDE_PROP ) );
 		assertEquals(
 				"true", style.getStringProperty( design, Style.SHOW_IF_BLANK_PROP ) ); //$NON-NLS-1$
 		assertEquals(
@@ -1235,21 +1235,6 @@ public class StyleParseTest extends BaseTestCase
 	}
 
 	/**
-	 * Tests the semantic errors of the Style, such as the font-size and width
-	 * are non-negative.
-	 * 
-	 * @throws Exception
-	 */
-
-	public void testSemanticError( ) throws Exception
-	{
-		openDesign( "StyleParseTest_2.xml" ); //$NON-NLS-1$
-		List<ErrorDetail> errors = design.getErrorList( );
-		printSemanticErrors( );
-		assertEquals( 0, errors.size( ) );
-	}
-
-	/**
 	 * Tests getting property from selector.
 	 * 
 	 * @throws Exception
@@ -1264,29 +1249,6 @@ public class StyleParseTest extends BaseTestCase
 		String bkColor = label.getStringProperty( Style.BACKGROUND_COLOR_PROP );
 		assertEquals( "gray", bkColor ); //$NON-NLS-1$
 	}
-
-	/**
-	 * Write page break inside since 3.2.8
-	 * 
-	 * @throws Exception
-	 */
-	/*
-	 * 
-	 * public void testWriterPageBreak( ) throws Exception { openDesign(
-	 * fileName );
-	 * 
-	 * LabelHandle label = (LabelHandle) designHandle.findElement( "label1" );
-	 * //$NON-NLS-1$ label.setProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP,
-	 * DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID );
-	 * 
-	 * StyleHandle style = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
-	 * style.setTextDirection( null );
-	 * 
-	 * save( ); assertTrue( compareFile( "testWriterPageBreak_golden.xml" ) );
-	 * //$NON-NLS-1$
-	 * 
-	 * }
-	 */
 
 	/**
 	 * Tests to open and save the old design file.

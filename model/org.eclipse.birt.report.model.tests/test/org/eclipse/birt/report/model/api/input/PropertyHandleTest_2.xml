@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.0.1" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
     <styles>
 		<style name="style1">
             <property name="fontSize">larger</property>
@@ -25,7 +25,13 @@
                         <text-property name="text">Address</text-property>
                     </label>
                     <data id="12">
-                       <expression name="valueExpr">TO-BE-ADDED</expression>	
+                       <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">TO-BE-ADDED</property>
+                                <expression name="expression">TO-BE-ADDED</expression>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">TO-BE-ADDED</property>	
                     </data>
                 </cell>
             </row>

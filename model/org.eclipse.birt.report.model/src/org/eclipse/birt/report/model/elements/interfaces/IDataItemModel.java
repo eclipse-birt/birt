@@ -44,7 +44,7 @@ public interface IDataItemModel
 	public static final String ACTION_PROP = "action"; //$NON-NLS-1$
 
 	/**
-	 * Name the data column name proeprty.
+	 * Name the data column name property.
 	 */
 
 	public static final String RESULT_SET_COLUMN_PROP = "resultSetColumn"; //$NON-NLS-1$

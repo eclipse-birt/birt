@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
     <data-sources>
         <oda-data-source name="myDataSource"/>
     </data-sources>
@@ -23,27 +23,14 @@
             <property name="leftMargin">0.8mm</property>
             <property name="bottomMargin">0.75mm</property>
             <property name="rightMargin">0.9mm</property>
-            <property name="columns">1</property>
-            <property name="columnSpacing">0.25mm</property>
             <contents>
                 <label>
                     <property name="x">1mm</property>
-                    <property name="y">0.5mm</property>
-                    <property name="height">0.25mm</property>
-                    <property name="width">2mm</property>
-                    <text-property name="text">First Page</text-property>
                 </label>
                 <label>
                     <property name="x">6mm</property>
-                    <property name="y">0.5mm</property>
-                    <property name="height">0.25mm</property>
-                    <property name="width">1mm</property>
-                    <text-property name="text">Today's Date</text-property>
                 </label>
-                <data>
-                    <expression name="valueExpr">[myParam]</expression>
-                    <text-property name="helpText">Shows what parameter was used.</text-property>
-                </data>
+                <data/>
             </contents>
         </graphic-master-page>
     </page-setup>
@@ -54,7 +41,9 @@
             <property name="style">My Style</property>
             <property name="backgroundColor">red</property>
             <property name="dataSet">myDataSet</property>
-            <expression name="toc">"This Section"</expression>
+            <structure name="toc">
+            		<expression name="expressionValue">"This Section"</expression>
+           	</structure>
             <report-items>
                 <label name="StyleLabel">
                     <property name="style">My Style</property>
@@ -133,9 +122,11 @@
 			<property name="eventHandlerClass">birt.js.dataHandler</property>	
             <method name="onRender"><![CDATA[hello, show data on render.]]></method>
 			<method name="onPrepare"><![CDATA[hello, show data on prepare.]]></method>
-            <expression name="valueExpr">Body data value</expression>
+            <expression name="resultSetColumn">Body data value</expression>
             <text-property name="helpText" key="help">data help</text-property>
-			<expression name="toc">2005 Statistics</expression>
+            <structure name="toc">
+            	<expression name="expressionValue">2005 Statistics</expression>
+           	</structure>
 			<property name="cascadeACL">true</property>
 			<property name="ACLExpression">acl expression test</property>
         </data>

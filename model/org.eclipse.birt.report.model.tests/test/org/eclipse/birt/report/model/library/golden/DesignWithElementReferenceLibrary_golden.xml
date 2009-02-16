@@ -51,12 +51,7 @@
         </style>
     </styles>
     <page-setup>
-        <graphic-master-page name="page1" id="10">
-        	<property name="topMargin">1in</property>
-            <property name="leftMargin">1.25in</property>
-            <property name="bottomMargin">1in</property>
-            <property name="rightMargin">1.25in</property>
-        </graphic-master-page>
+        <graphic-master-page name="page1" id="10"/>
     </page-setup>
     <body>
         <label name="label1" id="11">
@@ -72,11 +67,9 @@
         </label>
         <table name="table1" id="14">
             <property name="dataSet">LibA.dataSet1</property>
-            <property name="pageBreakInterval">50</property>
         </table>
         <table name="table2" id="15">
             <property name="dataSet">dataSet2</property>
-            <property name="pageBreakInterval">50</property>
         </table>
         <table name="table3" id="16" extends="LibA.libTable1">
             <overridden-values>
@@ -99,7 +92,6 @@
         </table>
         <table name="table4" id="32">
             <property name="dataSet">dataSet4</property>
-            <property name="pageBreakInterval">50</property>
         </table>
     </body>
     <list-property name="images">

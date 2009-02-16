@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <styles>
         <style name="My Style">
             <list-property name="userProperties">
@@ -40,7 +40,7 @@
                     <text-property name="text">Today's Date</text-property>
                 </label>
                 <data>
-                    <expression name="valueExpr">[myParam]</expression>
+                    <expression name="resultSetColumn">[myParam]</expression>
                     <text-property name="helpText">Shows what parameter was used.</text-property>
                 </data>
             </contents>
@@ -84,7 +84,9 @@
         <free-form>
             <property name="comments">Sample Section</property>
             <property name="displayName">The Section</property>
-            <expression name="toc">"This Section"</expression>
+            <structure name="toc">
+            		<expression name="expressionValue">"This Section"</expression>
+           	</structure>
             <report-items>
                 <label>
                     <property name="x">1mm</property>

@@ -124,7 +124,7 @@ public class OdaDataSourceParseTest extends BaseTestCase
 				.getStringProperty( "odaDriverClass" ) ); //$NON-NLS-1$
 		assertEquals( "URL", dataSourceHandle.getStringProperty( "odaURL" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals( "User", dataSourceHandle.getStringProperty( "odaUser" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals( "Password", dataSourceHandle //$NON-NLS-1$
+		assertEquals( "New Password", dataSourceHandle //$NON-NLS-1$
 				.getStringProperty( "odaPassword" ) ); //$NON-NLS-1$
 
 		assertEquals( "1.1", dataSourceHandle.getDesigerStateVersion( ) ); //$NON-NLS-1$

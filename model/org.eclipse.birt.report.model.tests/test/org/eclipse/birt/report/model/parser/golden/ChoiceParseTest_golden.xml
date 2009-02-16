@@ -34,6 +34,7 @@
             <property name="color">red</property>
             <property name="textLineThrough">line-through</property>
             <property name="textUnderline">underline</property>
+            <property name="verticalAlign">baseline</property>
         </style>
     </styles>
     <page-setup>
@@ -69,7 +70,6 @@
     </page-setup>
     <body>
         <table id="1110">
-        	<property name="pageBreakInterval">50</property>
             <column id="1174"/>
             <group id="1190">
                 <property name="groupName">NewTableGroup1</property>
@@ -77,6 +77,7 @@
                     <row id="1191">
                         <cell id="1192">
                             <property name="drop">detail</property>
+                            <property name="verticalAlign">baseline</property>
                         </cell>
                     </row>
                 </header>

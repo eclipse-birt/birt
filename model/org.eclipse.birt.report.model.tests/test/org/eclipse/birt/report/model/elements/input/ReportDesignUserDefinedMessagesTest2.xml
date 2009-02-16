@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <property name="author">W.C. Fields</property>
     <text-property name="title" key="ResourceKey.ReportDesign.Title">A sample design</text-property>
     <html-property name="description" key="ResourceKey.ReportDesign.Description">Sample report</html-property>

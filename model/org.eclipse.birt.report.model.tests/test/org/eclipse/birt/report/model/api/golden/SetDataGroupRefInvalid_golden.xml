@@ -17,12 +17,7 @@ from CLASSICMODELS.CUSTOMERS</property>
         </oda-data-set>
     </data-sets>
     <page-setup>
-        <simple-master-page name="Simple MasterPage" id="2">
-        	<property name="topMargin">1in</property>
-            <property name="leftMargin">1.25in</property>
-            <property name="bottomMargin">1in</property>
-            <property name="rightMargin">1.25in</property>
-        </simple-master-page>
+        <simple-master-page name="Simple MasterPage" id="2"/>
     </page-setup>
     <body>
         <table name="myTable1" id="7">
@@ -40,7 +35,6 @@ from CLASSICMODELS.CUSTOMERS</property>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <property name="pageBreakInterval">50</property>
             <column id="20"/>
             <column id="21"/>
             <column id="22"/>
@@ -106,7 +100,6 @@ from CLASSICMODELS.CUSTOMERS</property>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <property name="pageBreakInterval">50</property>
             <group id="32">
                 <property name="groupName">group1</property>
                 <expression name="keyExpr">row["CUSTOMERNAME"]</expression>
@@ -147,7 +140,6 @@ from CLASSICMODELS.CUSTOMERS</property>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <property name="pageBreakInterval">50</property>
             <group id="35">
                 <property name="groupName">group1</property>
                 <expression name="keyExpr">row["CUSTOMERNAME"]</expression>

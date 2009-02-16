@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <styles>
         <style name="My Style"/>
     </styles>
@@ -24,7 +24,6 @@
                 <data>
                     <property name="distinct">repeat</property>
                     <property name="distinctReset">foo</property>
-                    <expression name="valueExpr">[price] * [quan]</expression>
                     <text-property name="helpText">This is a data item.</text-property>
                 </data>
             </report-items>

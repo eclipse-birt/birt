@@ -31,7 +31,6 @@
             </property>
             <property name="detail">
                 <table name="testTable" id="6">
-                	<property name="pageBreakInterval">50</property>
                     <group id="15">
                         <property name="groupName">NewTableGroup1</property>
                     </group>

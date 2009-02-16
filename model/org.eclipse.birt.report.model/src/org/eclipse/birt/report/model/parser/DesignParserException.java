@@ -93,6 +93,8 @@ public class DesignParserException extends ModelException implements ErrorCodes
 
 	/**
 	 * An action Drillthrough is missing the "reportName" value.
+	 * 
+	 * @deprecated no such error
 	 */
 
 	public static final String DESIGN_EXCEPTION_ACTION_REPORTNAME_REQUIRED = MessageConstants.DESIGN_PARSER_EXCEPTION_ACTION_REPORTNAME_REQUIRED;
@@ -105,12 +107,14 @@ public class DesignParserException extends ModelException implements ErrorCodes
 
 	/**
 	 * Break the restriction that "occurrence == 1" for a choice type.
+	 * 
+	 * @deprecated no such error
 	 */
 
 	public static final String DESIGN_EXCEPTION_CHOICE_RESTRICTION_VIOLATION = MessageConstants.DESIGN_PARSER_EXCEPTION_CHOICE_RESTRICTION_VIOLATION;
 
 	/**
-	 * User-defined message is missing the "resouece-Key" value.
+	 * User-defined message is missing the "resource-Key" value.
 	 */
 
 	public static final String DESIGN_EXCEPTION_MESSAGE_KEY_REQUIRED = MessageConstants.DESIGN_PARSER_EXCEPTION_MESSAGE_KEY_REQUIRED;
@@ -218,7 +222,7 @@ public class DesignParserException extends ModelException implements ErrorCodes
 	public DesignParserException( String errCode )
 	{
 		super( errCode );
-	}	
+	}
 
 	/**
 	 * Constructs the design parser exception with the file name, the property
@@ -234,13 +238,13 @@ public class DesignParserException extends ModelException implements ErrorCodes
 	{
 		super( errCode, values, null );
 	}
-	
+
 	/**
 	 * Constructs the design parser exception with the error code, the exception
 	 * argument lists and the caused exception.
 	 * 
 	 * @param errCode
-	 * @param values 
+	 * @param values
 	 * @param ex
 	 */
 	public DesignParserException( String errCode, String[] values, Throwable ex )

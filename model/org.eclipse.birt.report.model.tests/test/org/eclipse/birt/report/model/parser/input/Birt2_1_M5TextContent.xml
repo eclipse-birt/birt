@@ -5,12 +5,6 @@
         <oda-data-set name="MyDataSet" id="2">
         </oda-data-set>
     </data-sets>
-    <page-setup>
-        <graphic-master-page name="My Page" id="3">
-            <contents>
-            </contents>
-        </graphic-master-page>
-    </page-setup>
     <body>
 		<text name="myText1" id="4">
             <property name="contentType">html</property>

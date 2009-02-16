@@ -5,55 +5,18 @@
     </page-setup>
     <body>
         <table name="table1" id="3">
-        	<property name="pageBreakInterval">50</property>
             <detail>
                 <row id="4">
                     <cell id="5">
                         <extended-item extensionName="TestingMatrix" name="baseMatrix" id="6">
                             <xml-property name="test3"><![CDATA[type=bar,xScale=0,yScale=0,lineStyle=normal]]></xml-property>
                             <property name="x">1.2mm</property>
-                            <list-property name="boundDataColumns">
-                                <structure>
-                                    <property name="name">value1</property>
-                                    <expression name="expression">dataSetRow["value1"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">value2</property>
-                                    <expression name="expression">dataSetRow["value2"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">value3</property>
-                                    <expression name="expression">dataSetRow["value3"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">tmpValue</property>
-                                    <expression name="expression">dataSetRow["tmpValue"]</expression>
-                                </structure>
-                            </list-property>
                         </extended-item>
                     </cell>
                     <cell id="7">
                         <extended-item extensionName="TestingMatrix" name="baseMatrix1" id="8">
                             <xml-property name="test3"><![CDATA[type=bar,xScale=0,yScale=0,lineStyle=normal]]></xml-property>
                             <property name="x">1.4mm</property>
-                            <list-property name="boundDataColumns">
-                                <structure>
-                                    <property name="name">value1</property>
-                                    <expression name="expression">dataSetRow["value1"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">value2</property>
-                                    <expression name="expression">dataSetRow["value2"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">value3</property>
-                                    <expression name="expression">dataSetRow["value3"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">tmpValue</property>
-                                    <expression name="expression">dataSetRow["tmpValue"]</expression>
-                                </structure>
-                            </list-property>
                         </extended-item>
                     </cell>
                 </row>
@@ -63,24 +26,6 @@
                             <xml-property name="test3"><![CDATA[type=bar,xScale=0,yScale=0,lineStyle=normal]]></xml-property>
                             <property name="hostMatrix">baseMatrix</property>
                             <property name="x">1.3mm</property>
-                            <list-property name="boundDataColumns">
-                                <structure>
-                                    <property name="name">value1</property>
-                                    <expression name="expression">dataSetRow["value1"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">value2</property>
-                                    <expression name="expression">dataSetRow["value2"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">value3</property>
-                                    <expression name="expression">dataSetRow["value3"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">tmpValue</property>
-                                    <expression name="expression">dataSetRow["tmpValue"]</expression>
-                                </structure>
-                            </list-property>
                         </extended-item>
                     </cell>
                     <cell id="12">
@@ -88,79 +33,24 @@
                             <xml-property name="test3"><![CDATA[type=bar,xScale=0,yScale=0,lineStyle=normal]]></xml-property>
                             <property name="hostMatrix">baseMatrix1</property>
                             <property name="x">1.5mm</property>
-                            <list-property name="boundDataColumns">
-                                <structure>
-                                    <property name="name">value1</property>
-                                    <expression name="expression">dataSetRow["value1"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">value2</property>
-                                    <expression name="expression">dataSetRow["value2"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">value3</property>
-                                    <expression name="expression">dataSetRow["value3"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">tmpValue</property>
-                                    <expression name="expression">dataSetRow["tmpValue"]</expression>
-                                </structure>
-                            </list-property>
                         </extended-item>
                     </cell>
                 </row>
             </detail>
         </table>
         <table name="table2" id="14">
-        	<property name="pageBreakInterval">50</property>
             <detail>
                 <row id="15">
                     <cell id="16">
                         <extended-item extensionName="TestingMatrix" name="baseMatrix2" id="17">
                             <xml-property name="test3"><![CDATA[type=bar,xScale=0,yScale=0,lineStyle=normal]]></xml-property>
                             <property name="x">1.2mm</property>
-                            <list-property name="boundDataColumns">
-                                <structure>
-                                    <property name="name">value1</property>
-                                    <expression name="expression">dataSetRow["value1"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">value2</property>
-                                    <expression name="expression">dataSetRow["value2"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">value3</property>
-                                    <expression name="expression">dataSetRow["value3"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">tmpValue</property>
-                                    <expression name="expression">dataSetRow["tmpValue"]</expression>
-                                </structure>
-                            </list-property>
                         </extended-item>
                     </cell>
                     <cell id="18">
                         <extended-item extensionName="TestingMatrix" name="baseMatrix11" id="19">
                             <xml-property name="test3"><![CDATA[type=bar,xScale=0,yScale=0,lineStyle=normal]]></xml-property>
                             <property name="x">1.4mm</property>
-                            <list-property name="boundDataColumns">
-                                <structure>
-                                    <property name="name">value1</property>
-                                    <expression name="expression">dataSetRow["value1"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">value2</property>
-                                    <expression name="expression">dataSetRow["value2"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">value3</property>
-                                    <expression name="expression">dataSetRow["value3"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">tmpValue</property>
-                                    <expression name="expression">dataSetRow["tmpValue"]</expression>
-                                </structure>
-                            </list-property>
                         </extended-item>
                     </cell>
                 </row>
@@ -170,24 +60,6 @@
                             <xml-property name="test3"><![CDATA[type=bar,xScale=0,yScale=0,lineStyle=normal]]></xml-property>
                             <property name="hostMatrix">baseMatrix2</property>
                             <property name="x">1.3mm</property>
-                            <list-property name="boundDataColumns">
-                                <structure>
-                                    <property name="name">value1</property>
-                                    <expression name="expression">dataSetRow["value1"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">value2</property>
-                                    <expression name="expression">dataSetRow["value2"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">value3</property>
-                                    <expression name="expression">dataSetRow["value3"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">tmpValue</property>
-                                    <expression name="expression">dataSetRow["tmpValue"]</expression>
-                                </structure>
-                            </list-property>
                         </extended-item>
                     </cell>
                     <cell id="23">
@@ -195,24 +67,6 @@
                             <xml-property name="test3"><![CDATA[type=bar,xScale=0,yScale=0,lineStyle=normal]]></xml-property>
                             <property name="hostMatrix">baseMatrix11</property>
                             <property name="x">1.5mm</property>
-                            <list-property name="boundDataColumns">
-                                <structure>
-                                    <property name="name">value1</property>
-                                    <expression name="expression">dataSetRow["value1"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">value2</property>
-                                    <expression name="expression">dataSetRow["value2"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">value3</property>
-                                    <expression name="expression">dataSetRow["value3"]</expression>
-                                </structure>
-                                <structure>
-                                    <property name="name">tmpValue</property>
-                                    <expression name="expression">dataSetRow["tmpValue"]</expression>
-                                </structure>
-                            </list-property>
                         </extended-item>
                     </cell>
                 </row>

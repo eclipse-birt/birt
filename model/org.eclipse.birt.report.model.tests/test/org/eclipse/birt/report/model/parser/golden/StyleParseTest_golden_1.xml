@@ -140,10 +140,6 @@
     </components>
     <page-setup>
         <graphic-master-page name="My Page" id="21">
-        	<property name="topMargin">1in</property>
-            <property name="leftMargin">1.25in</property>
-            <property name="bottomMargin">1in</property>
-            <property name="rightMargin">1.25in</property>
             <property name="columns">1</property>
             <property name="columnSpacing">0.25mm</property>
         </graphic-master-page>

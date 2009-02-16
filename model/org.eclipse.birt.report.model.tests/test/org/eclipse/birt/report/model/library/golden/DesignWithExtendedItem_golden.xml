@@ -26,7 +26,6 @@
                 <ref-entry baseId="19" id="19"/>
                 <ref-entry baseId="20" id="20"/>
             </overridden-values>
-            <property name="pageBreakInterval">50</property>
         </table>
     </body>
 </report>

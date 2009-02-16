@@ -34,6 +34,8 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 public class PropertyBindingTest extends BaseTestCase
 {
 
+	private static final String FILE_NAME = "PropertyBindingTest.xml"; //$NON-NLS-1$
+
 	/**
 	 * Tests parser and properties.
 	 * 
@@ -42,7 +44,7 @@ public class PropertyBindingTest extends BaseTestCase
 
 	public void testParser( ) throws Exception
 	{
-		openDesign( "PropertyBindingTest.xml" ); //$NON-NLS-1$
+		openDesign( FILE_NAME );
 		assertNotNull( designHandle );
 
 		testParser( designHandle );
@@ -101,7 +103,7 @@ public class PropertyBindingTest extends BaseTestCase
 
 	public void testWriter( ) throws Exception
 	{
-		openDesign( "PropertyBindingTest.xml" ); //$NON-NLS-1$
+		openDesign( FILE_NAME );
 		assertNotNull( designHandle );
 
 		// add a new table property binding
@@ -193,7 +195,7 @@ public class PropertyBindingTest extends BaseTestCase
 
 	public void testDelect( ) throws Exception
 	{
-		openDesign( "PropertyBindingTest.xml" ); //$NON-NLS-1$
+		openDesign( FILE_NAME );
 		assertNotNull( designHandle );
 
 		LabelHandle label = (LabelHandle) designHandle.getElementByID( 23 );
@@ -217,7 +219,7 @@ public class PropertyBindingTest extends BaseTestCase
 
 	public void testClone( ) throws Exception
 	{
-		openDesign( "PropertyBindingTest.xml" ); //$NON-NLS-1$
+		openDesign( FILE_NAME );
 		assertNotNull( designHandle );
 
 		ReportDesignHandle copyHandle = (ReportDesignHandle) designHandle

@@ -46,7 +46,7 @@ public class AllParserTests
 		test.addTestSuite( LineItemParseTest.class );
 		test.addTestSuite( ListItemParseTest.class );
 		test.addTestSuite( MasterPageParseTest.class );
-		test.addTestSuite( OdaDataSetParserTest.class );
+		test.addTestSuite( OdaDataSetParseTest.class );
 		test.addTestSuite( OdaDataSourceParseTest.class );
 		test.addTestSuite( OdaCubeParseTest.class );
 		test.addTestSuite( ParameterGroupTest.class );

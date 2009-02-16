@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.N20060628-1351 Build &lt;20060628-1537></property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
     <property name="theme">defaultTheme</property>

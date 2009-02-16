@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <property name="refreshRate">30</property>
     <styles>
         <style name="My Style">
-            <expression name="highlightTestExpr">[this]</expression>
             <list-property name="highlightRules">
                 <structure>
+                	<expression name="testExpr">[this]</expression>
                     <property name="operator">eq</property>
                     <property name="isDesignTime">false</property>
                     <property name="backgroundColor">white</property>
@@ -51,6 +51,7 @@
                     <expression name="value2">"20"</expression>
                 </structure>
                 <structure>
+                	<expression name="testExpr">[this]</expression>
                     <property name="operator">eq</property>
                     <property name="fontSize">5pc</property>
                     <property name="fontWeight">bold</property>
@@ -60,15 +61,16 @@
                     <expression name="value2">"1*200"</expression>
                     <property name="style">nonExistedStyle</property>
                 </structure>
-            </list-property>
-            <expression name="mapTestExpr">[somefield]</expression>
+            </list-property>            
             <list-property name="mapRules">
                 <structure>
+                	<expression name="testExpr">[somefield]</expression>
                     <property name="operator">eq</property>
                     <expression name="value1">"X"</expression>
                     <text-property name="display">Closed</text-property>
                 </structure>
                 <structure>
+                	<expression name="testExpr">[somefield]</expression>
                     <property name="operator">is-true</property>
                     <text-property name="display">Open</text-property>
                 </structure>

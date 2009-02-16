@@ -4,10 +4,6 @@
     <page-setup>
         <graphic-master-page name="My Page" id="2">
             <property name="orientation">auto</property>
-            <property name="topMargin">1in</property>
-            <property name="leftMargin">1.25in</property>
-            <property name="bottomMargin">1in</property>
-            <property name="rightMargin">1.25in</property>
             <property name="columns">1</property>
             <contents>
                 <image name="Image1" id="3">

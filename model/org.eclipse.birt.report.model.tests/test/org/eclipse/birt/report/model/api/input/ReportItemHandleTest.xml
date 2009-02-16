@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.0">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <data-sources>
         <oda-data-source name="myDataSource"/>
     </data-sources>
@@ -38,20 +38,11 @@
             <contents>
                 <label>
                     <property name="x">1mm</property>
-                    <property name="y">0.5mm</property>
-                    <property name="height">0.25mm</property>
-                    <property name="width">2mm</property>
-                    <text-property name="text">First Page</text-property>
                 </label>
                 <label>
                     <property name="x">6mm</property>
-                    <property name="y">0.5mm</property>
-                    <property name="height">0.25mm</property>
-                    <property name="width">1mm</property>
-                    <text-property name="text">Today's Date</text-property>
                 </label>
                 <data>
-                    <expression name="valueExpr">[myParam]</expression>
                     <text-property name="helpText">Shows what parameter was used.</text-property>
                 </data>
             </contents>
@@ -64,7 +55,9 @@
             <property name="style">My Style</property>
             <property name="backgroundColor">red</property>
             <property name="dataSet">myDataSet</property>
-            <expression name="toc">"This Section"</expression>
+            <structure name="toc">
+            		<expression name="expressionValue">"This Section"</expression>
+           	</structure>
             <report-items>
                 <label name="StyleLabel">
                     <property name="style">My Style</property>
@@ -121,7 +114,6 @@
                     <property name="format">pdf</property>
                 </structure>
             </list-property>
-            <expression name="valueExpr">Body data value</expression>
             <text-property name="helpText" key="help">data help</text-property>
         </data>
 		<text name="myText">

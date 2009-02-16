@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <list-property name="colorPalette">
         <structure>
             <property name="name">custom blue</property>
@@ -32,23 +32,16 @@
             <contents>
                 <label>
                     <property name="x">1mm</property>
-                    <property name="y">0.5mm</property>
-                    <property name="height">0.25mm</property>
-                    <property name="width">2mm</property>
-                    <text-property name="text">First Page</text-property>
                 </label>
                 <label>
                     <property name="x">6mm</property>
-                    <property name="y">0.5mm</property>
-                    <property name="height">0.25mm</property>
-                    <property name="width">1mm</property>
-                    <text-property name="text">Today's Date</text-property>
                 </label>
                 <image name="Image1">
                     <property name="style">My Style</property>
                     <property name="paddingTop">2mm</property>
                     <property name="size">scale-to-item</property>
                     <property name="scale">0.8</property>
+                    <property name="source">url</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
                     <text-property name="altText" key="help">Help Test For Image Item</text-property>
                     <structure name="action">
@@ -56,6 +49,7 @@
                     </structure>
                 </image>
                 <image name="Image2">
+                	<property name="source">embed</property>
                     <property name="imageName">image2.jpg</property>
                     <text-property name="helpText" key="abc">Image2-Help-Text</text-property>
                     <structure name="action">
@@ -63,6 +57,7 @@
                     </structure>
                 </image>
                 <image name="Image3">
+  					<property name="source">expr</property>
                     <expression name="typeExpr">Type Expression</expression>
                     <expression name="valueExpr">Value Expression</expression>
                     <text-property name="helpText">Help Text</text-property>
@@ -71,6 +66,7 @@
                     </structure>
                 </image>
                 <image name="Image4">
+                	<property name="source">expr</property>
                     <expression name="typeExpr">Type Expression</expression>
                     <expression name="valueExpr">Value Expression</expression>
                 </image>
@@ -79,6 +75,7 @@
     </page-setup>
     <body>
         <image name="Body Image">
+        	<property name="source">embed</property>
             <property name="imageName">bodyImage.jpg</property>
             <property name="fitToContainer">true</property>
             <text-property name="helpText" key="Body Image Key">BodyImage-Help-Text</text-property>

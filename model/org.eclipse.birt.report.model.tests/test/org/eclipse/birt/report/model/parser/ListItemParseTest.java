@@ -16,7 +16,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
-import org.eclipse.birt.report.model.api.GraphicMasterPageHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
@@ -398,7 +397,7 @@ public class ListItemParseTest extends ParserTestCase
 
 		list1 = (ListItem) design.findElement( "My List1" ); //$NON-NLS-1$
 		listHandle = list1.handle( design );
-		assertEquals( 50, listHandle.getPageBreakInterval( ) );
+		assertEquals( 40, listHandle.getPageBreakInterval( ) );
 
 	}
 }

@@ -28,13 +28,6 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <th width="40%">Expected</th>
  * 
  * <tr>
- * <td>{@link #testHandlerError()}</td>
- * <td>test the parse errors in design file, such as the static text and value
- * expression both exsit.</td>
- * <td>The error count is 1</td>
- * </tr>
- * 
- * <tr>
  * <td>{@link #testProperties()}</td>
  * <td>parse the design file and check the related content of text item, such
  * as static text which has CDATA feature, value expr, help text key and so on.
@@ -63,25 +56,6 @@ public class TextItemParseTest extends BaseTestCase
 	{
 		super.setUp( );
 
-	}
-
-	/**
-	 * Test the exceptions parsing the user-defined properties.
-	 */
-
-	public void testHandlerError( )
-	{
-		try
-		{
-			openDesign( "TextItemParseTest_1.xml" ); //$NON-NLS-1$
-		}
-		catch ( DesignFileException e )
-		{
-			assertEquals( 1, e.getErrorList( ).size( ) );
-			assertEquals(
-					DesignParserException.DESIGN_EXCEPTION_CHOICE_RESTRICTION_VIOLATION,
-					( (ErrorDetail) e.getErrorList( ).get( 0 ) ).getErrorCode( ) );
-		}
 	}
 
 	/**

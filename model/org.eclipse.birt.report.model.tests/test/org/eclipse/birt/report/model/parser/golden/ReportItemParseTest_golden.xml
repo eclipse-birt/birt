@@ -22,26 +22,14 @@
             <property name="leftMargin">0.8mm</property>
             <property name="bottomMargin">0.75mm</property>
             <property name="rightMargin">0.9mm</property>
-            <property name="columns">1</property>
-            <property name="columnSpacing">0.25mm</property>
             <contents>
                 <label id="8">
                     <property name="x">1mm</property>
-                    <property name="y">0.5mm</property>
-                    <property name="height">0.25mm</property>
-                    <property name="width">2mm</property>
-                    <text-property name="text">First Page</text-property>
                 </label>
                 <label id="9">
                     <property name="x">6mm</property>
-                    <property name="y">0.5mm</property>
-                    <property name="height">0.25mm</property>
-                    <property name="width">1mm</property>
-                    <text-property name="text">Today's Date</text-property>
                 </label>
-                <data id="10">
-                    <text-property name="helpText">Shows what parameter was used.</text-property>
-                </data>
+                <data id="10"/>
             </contents>
         </graphic-master-page>
     </page-setup>
@@ -82,11 +70,9 @@
         </free-form>
         <list name="my list" id="16">
             <property name="dataSet">myDataSet</property>
-            <property name="pageBreakInterval">50</property>
         </list>
         <label name="bodyLabel" id="17">
             <property name="eventHandlerClass">birt.js.labelHandler</property>
-            <property name="newHandlerOnEachEvent">true</property>
             <property name="fontFamily">"bodyFont"</property>
             <property name="color">yellow</property>
             <property name="x">6mm</property>
@@ -115,7 +101,6 @@
         </label>
         <data name="bodyData" id="18">
             <property name="eventHandlerClass">my new data handler class</property>
-            <property name="newHandlerOnEachEvent">true</property>
             <list-property name="visibility">
                 <structure>
                     <property name="format">all</property>
@@ -138,7 +123,8 @@
             <method name="onCreate"><![CDATA[my new data on create]]></method>
             <method name="onRender"><![CDATA[my new data on render]]></method>
             <expression name="ACLExpression">new acl expression test</expression>
-            <property name="cascadeACL">true</property>            
+            <property name="cascadeACL">true</property>
+            <property name="resultSetColumn">Body data value</property>            
             <text-property name="helpText" key="help">data help</text-property>
         </data>
     </body>

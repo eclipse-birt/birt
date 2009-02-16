@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.3">
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.18">
     <list-property name="includeLibraries">
 		<structure>
 			<property name="fileName">Library_3.xml</property>
@@ -12,24 +12,18 @@
             <parameters>
                 <scalar-parameter name="NewParameter" id="9">
                     <property name="valueType">dynamic</property>
-                    <property name="format">Unformatted:</property>
                     <property name="controlType">list-box</property>
                     <expression name="valueExpr">open_dt</expression>
-                    <property name="allowNull">true</property>
                 </scalar-parameter>
                 <scalar-parameter name="NewParameter1" id="10">
                     <property name="valueType">dynamic</property>
-                    <property name="format">Unformatted</property>
                     <property name="controlType">list-box</property>
                     <expression name="valueExpr">account_id</expression>
-                    <property name="allowNull">true</property>
                 </scalar-parameter>
                 <scalar-parameter name="NewParameter2" id="11">
                     <property name="valueType">dynamic</property>
-                    <property name="format">Unformatted</property>
                     <property name="controlType">list-box</property>
                     <expression name="valueExpr">account_nm</expression>
-                    <property name="allowNull">true</property>
                 </scalar-parameter>
             </parameters>
         </cascading-parameter-group>

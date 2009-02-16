@@ -37,7 +37,6 @@
             </property>
             <property name="detail">
                 <table name="testTable" id="10">
-                    <property name="pageBreakInterval">50</property>
                     <detail>
                         <row id="11">
                             <cell id="12">

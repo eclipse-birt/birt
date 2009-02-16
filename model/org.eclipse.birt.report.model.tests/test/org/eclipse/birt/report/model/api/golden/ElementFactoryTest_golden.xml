@@ -12,32 +12,18 @@
             <parameters>
                 <scalar-parameter name="NewParameter" id="9">
                     <property name="valueType">dynamic</property>
-                    <property name="isRequired">false</property>
                     <property name="controlType">list-box</property>
                     <expression name="valueExpr">open_dt</expression>
-                    <structure name="format">
-                        <property name="category">Unformatted</property>
-                    </structure>
                 </scalar-parameter>
                 <scalar-parameter name="NewParameter1" id="10">
                     <property name="valueType">dynamic</property>
-                    <property name="isRequired">false</property>
                     <property name="controlType">list-box</property>
                     <expression name="valueExpr">account_id</expression>
-                    <structure name="format">
-                        <property name="category">Unformatted</property>
-                        <property name="pattern">Unformatted</property>
-                    </structure>
                 </scalar-parameter>
                 <scalar-parameter name="NewParameter2" id="11">
                     <property name="valueType">dynamic</property>
-                    <property name="isRequired">false</property>
                     <property name="controlType">list-box</property>
                     <expression name="valueExpr">account_nm</expression>
-                    <structure name="format">
-                        <property name="category">Unformatted</property>
-                        <property name="pattern">Unformatted</property>
-                    </structure>
                 </scalar-parameter>
             </parameters>
         </cascading-parameter-group>
@@ -57,11 +43,6 @@
         </cascading-parameter-group>
     </parameters>
     <page-setup>
-        <graphic-master-page name="My Page" id="13">
-        	<property name="topMargin">1in</property>
-        	<property name="leftMargin">1.25in</property>
-        	<property name="bottomMargin">1in</property>
-        	<property name="rightMargin">1.25in</property>
-        </graphic-master-page>
+        <graphic-master-page name="My Page" id="13"/>
     </page-setup>
 </report>

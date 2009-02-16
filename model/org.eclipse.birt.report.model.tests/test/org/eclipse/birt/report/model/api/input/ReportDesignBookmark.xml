@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <page-setup>
         <simple-master-page name="My Page"/>
     </page-setup>
     <body>
         <label name="NewLabel" id="4">
             <expression name="bookmark">bookmark_label</expression>
-            <expression name="toc">Toc_label</expression>
+            <structure name="toc">
+            	<expression name="expressionValue">Toc_label</expression>
+           	</structure>
         </label>
         <table name="NewTable" id="5">
             <property name="width">100%</property>
@@ -28,7 +30,9 @@
                 <expression name="bookmark">"bookmark_group"</expression>
                 <property name="interval">none</property>
                 <property name="sortDirection">asc</property>
-                <expression name="toc">DateTimeSpan.days(2005/01/01, 2006/01/01)</expression>
+                <structure name="toc">
+            		<expression name="expressionValue">DateTimeSpan.days(2005/01/01, 2006/01/01)</expression>
+           		</structure>
                 <header>
                     <row id="23">
                         <cell id="24">
@@ -52,7 +56,9 @@
                     <cell id="11">
                         <text name="NewText" id="21">
                             <expression name="bookmark">bookmark_detail_text</expression>
-                            <expression name="toc">toc_detail_text</expression>
+                            <structure name="toc">
+            					<expression name="expressionValue">toc_detail_text</expression>
+           					</structure>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[text]]></text-property>
                         </text>

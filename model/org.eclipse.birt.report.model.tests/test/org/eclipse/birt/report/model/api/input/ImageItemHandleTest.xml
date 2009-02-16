@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <list-property name="colorPalette">
         <structure>
             <property name="name">myColor</property>
@@ -48,6 +48,7 @@
                     <property name="colSpan">3</property>
                     <property name="rowSpan">1</property>
 					<image name="NewImage" id="225">
+						<property name="source">embed</property>
                         <property name="imageName">A_001.jpg</property>
                     </image>
                 </cell>
@@ -101,6 +102,7 @@
                     <property name="width">10mm</property>
                     <property name="size">scale-to-item</property>
                     <property name="scale">0.8</property>
+                    <property name="source">file</property>
                     <expression name="uri">image2.jpg</expression>
                     <text-property name="altText" key="help">Help Test For Image Item</text-property>
                     <structure name="action">
@@ -108,6 +110,7 @@
                     </structure>
                 </image>
                 <image name="Image3">
+                	<property name="source">expr</property>
                     <expression name="typeExpr">Type Expression</expression>
                     <expression name="valueExpr">Value Expression</expression>
                     <text-property name="helpText">Help Text</text-property>
@@ -117,6 +120,7 @@
                 </image>
                 <image name="Image4"/>
                 <image name="Image5">
+                	<property name="source">file</property>
                     <expression name="uri">image.jpg</expression>
                     <text-property name="helpText" key="abc">Image2-Help-Text</text-property>
                     <structure name="action">
@@ -124,6 +128,7 @@
                     </structure>
                 </image>
                 <image name="Image6">
+                	<property name="source">url</property>
                     <expression name="uri">http://www.company.com/image.jpg</expression>
                     <text-property name="helpText" key="abc">Image2-Help-Text</text-property>
                     <structure name="action">

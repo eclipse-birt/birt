@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <text-property name="title" key="TITLE_ID">Sample Report</text-property>
     <property name="comments">First sample report.</property>
     <translations>
@@ -19,10 +19,6 @@
                     <property name="operator">eq</property>
                     <expression name="value1">"X"</expression>
                     <text-property name="display">Closed</text-property>
-                </structure>
-                <structure>
-                    <property name="operator">true</property>
-                    <text-property name="display">Open</text-property>
                 </structure>
             </list-property>
         </style>
@@ -81,7 +77,6 @@
                     <text-property name="text">Today's Date</text-property>
                 </label>
                 <data>
-                    <expression name="valueExpr">[myParam]</expression>
                     <text-property name="helpText">Shows what parameter was used.</text-property>
                 </data>
             </contents>

@@ -6,17 +6,12 @@
             <property name="height">11mm</property>
             <property name="width">8.5mm</property>
             <property name="orientation">auto</property>
-            <property name="topMargin">1in</property>
-            <property name="leftMargin">1.25in</property>
-            <property name="bottomMargin">1in</property>
-            <property name="rightMargin">1.25in</property>
             <property name="columns">1</property>
             <property name="columnSpacing">0.25mm</property>
         </graphic-master-page>
     </page-setup>
     <body>
         <list name="My list" id="3">
-        	<property name="pageBreakInterval">50</property>
             <list-property name="sort">
                 <structure>
                     <expression name="key">age</expression>
@@ -29,7 +24,6 @@
             </list-property>
         </list>
         <table name="My table" id="4">
-        	<property name="pageBreakInterval">50</property>
             <list-property name="sort">
                 <structure>
                     <expression name="key">age</expression>

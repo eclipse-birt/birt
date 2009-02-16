@@ -4,31 +4,6 @@
 	<data-sets>
         <oda-data-set name="MyDataSet" />
 	</data-sets>
-    <page-setup>
-        <graphic-master-page name="My Page">
-            <contents>
-                <data name="graphicmasterpageData">
-		           <!-- action drill-through case with DtE authorized string defined" -->
-                    <structure name="action">
-                        <property name="targetWindow">Window3</property>
-                        <property name="reportName">Another report</property>
-                        <property name="linkType">drill-through</property>
-                        <expression name="targetBookmark">Total/bookmarks/1.jsp</expression>
-                        <list-property name="paramBindings">
-                            <structure>
-                                <property name="paramName">param1</property>
-                                <expression name="expression">row["param1Value"]</expression>
-                            </structure>
-                            <structure>
-                                <property name="paramName">param2</property>
-                                <expression name="expression">row["param2Value"]</expression>
-                            </structure>
-                        </list-property>
-                    </structure>            
-                </data>
-            </contents>
-        </graphic-master-page>
-    </page-setup>
     <body>
         <list name="myList1">
 			<property name="dataSet">myDataSet</property>

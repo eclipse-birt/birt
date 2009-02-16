@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <property name="createdBy">Eclipse BIRT Designer Version 1.0.0 Build &lt;20050405-1230></property>
     <property name="units">in</property>
     <data-sources>
@@ -24,6 +24,7 @@
             <property name="columnSpacing">0.25in</property>
             <contents>
                <image name="Image1">
+               		<property name="source">embed</property>
                     <property name="paddingTop">2mm</property>
                     <property name="size">scale-to-item</property>
                     <property name="scale">0.8</property>
@@ -37,9 +38,11 @@
     </page-setup>
     <body>
         <image name="Image2">
+        	<property name="source">embed</property>
             <property name="imageName">image one</property>
         </image>
         <image name="Image3">
+        	<property name="source">embed</property>
             <expression name="imageName">image two</expression>
         </image>
     </body>

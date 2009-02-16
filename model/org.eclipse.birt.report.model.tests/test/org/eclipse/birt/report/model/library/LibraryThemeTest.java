@@ -736,7 +736,7 @@ public class LibraryThemeTest extends BaseTestCase
 	 * <ul>
 	 * <li>For the design, directly included libraries have no themes. <code>
 	 * getAllThemes()</code> return 0. <li>For the library, directly included
-	 * libraries have 3 themes. <code>getAllThemes()</code> return 3.
+	 * libraries have 2 themes. <code>getAllThemes()</code> return 2.
 	 * </ul>
 	 * 
 	 * @throws Exception
@@ -753,7 +753,7 @@ public class LibraryThemeTest extends BaseTestCase
 		assertEquals( 0, list.size( ) );
 
 		libraryHandle = designHandle.getLibrary( "CompsiteLib" ); //$NON-NLS-1$
-		assertEquals( 3, libraryHandle.getVisibleThemes(
+		assertEquals( 2, libraryHandle.getVisibleThemes(
 				IAccessControl.DIRECTLY_INCLUDED_LEVEL ).size( ) );
 		assertEquals( 0, libraryHandle.getVisibleThemes(
 				IAccessControl.NATIVE_LEVEL ).size( ) );

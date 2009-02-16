@@ -258,33 +258,6 @@ public class ActionParseTest extends BaseTestCase
 	}
 
 	/**
-	 * Case1: reportName attribute of Drillthrough is required.
-	 * <p>
-	 * Case2: name attribute of Parameter is required.
-	 */
-	public void testException( )
-	{
-		try
-		{
-			openDesign( "actionParser_exception_test.xml" ); //$NON-NLS-1$
-		}
-		catch ( DesignFileException e )
-		{
-			assertEquals( 2, e.getErrorList( ).size( ) );
-
-			int i = 0;
-			assertEquals(
-					DesignParserException.DESIGN_EXCEPTION_CHOICE_RESTRICTION_VIOLATION,
-					( (ErrorDetail) e.getErrorList( ).get( i++ ) )
-							.getErrorCode( ) );
-			assertEquals(
-					DesignParserException.DESIGN_EXCEPTION_ACTION_REPORTNAME_REQUIRED,
-					( (ErrorDetail) e.getErrorList( ).get( i++ ) )
-							.getErrorCode( ) );
-		}
-	}
-
-	/**
 	 * This test writes the design file and compare it with golden file.
 	 * 
 	 * @throws Exception

@@ -138,8 +138,6 @@ public class GridItemHandleTest extends BaseTestCase
 		Cell cell = (Cell) clonedRow.getContentsSlot( ).get( 0 );
 		Object obj = cell.getSlot( 0 ).getContents( ).get( 0 );
 		assertTrue( obj instanceof Label );
-		assertEquals(
-				"Customer Name", ( (Label) obj ).getLocalProperty( null, "text" ) ); //$NON-NLS-1$//$NON-NLS-2$
 		assertNull( clonedRow.getContainer( ) );
 
 		try

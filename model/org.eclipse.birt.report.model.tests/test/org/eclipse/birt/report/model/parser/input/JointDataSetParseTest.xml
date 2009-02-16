@@ -85,12 +85,6 @@
             </list-property>
         </joint-data-set>
     </data-sets>
-    <page-setup>
-        <graphic-master-page name="My Page">
-            <property name="columns">1</property>
-            <property name="columnSpacing">0.25mm</property>
-        </graphic-master-page>
-    </page-setup>
     <body>
         <table name="table1" id="42">
             <property name="dataSet">JointDataSet</property>

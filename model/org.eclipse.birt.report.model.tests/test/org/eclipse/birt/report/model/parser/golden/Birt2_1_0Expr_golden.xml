@@ -44,23 +44,6 @@
             </list-property>
         </oda-data-set>
     </data-sets>
-    <page-setup>
-        <graphic-master-page name="My Page" id="3">
-        	<property name="topMargin">1in</property>
-            <property name="leftMargin">1.25in</property>
-            <property name="bottomMargin">1in</property>
-            <property name="rightMargin">1.25in</property>
-            <contents>
-                <data name="graphicmasterpageData" id="4">
-                    <structure name="action">
-                        <property name="linkType">drill-through</property>
-                        <property name="reportName">Another report</property>
-                        <property name="targetWindow">Window3</property>
-                    </structure>
-                </data>
-            </contents>
-        </graphic-master-page>
-    </page-setup>
     <body>
         <data name="myData1" id="5">
             <structure name="action">

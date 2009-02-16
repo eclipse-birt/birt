@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <styles>
         <style name="My Style">
             <property name="fontFamily">Times</property>
@@ -32,7 +32,9 @@
         <free-form name="freeform">
             <property name="comments">Sample Section</property>
             <text-property name="displayName">The Section</text-property>
-            <expression name="toc">"This Section"</expression>
+            <structure name="toc">
+            		<expression name="expressionValue">"This Section"</expression>
+           	</structure>
             <report-items>
                 <label name="Label Two" extends="Label One">
                     <text-property name="text">Address</text-property>

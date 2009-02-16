@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.16" id="1">
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <property name="includeResource">library2</property>
     <components>
         <label name="NewLabel" id="5">

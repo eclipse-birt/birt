@@ -19,7 +19,6 @@
                     <text-property name="displayName" key="abcde"></text-property>
                 </structure>
             </list-property>
-            <property name="pageBreakInterval">50</property>
             <detail>
                 <label id="4">
                     <property name="x">1mm</property>

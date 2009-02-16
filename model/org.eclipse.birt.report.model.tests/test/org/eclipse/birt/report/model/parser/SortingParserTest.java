@@ -30,7 +30,6 @@ public class SortingParserTest extends BaseTestCase
 
 	private final static String FILE_NAME = "SortingParserTest.xml"; //$NON-NLS-1$
 	private final static String SEMANTIC_CHECK_FILE_NAME = "SortingParserTest_1.xml"; //$NON-NLS-1$
-	private final static String FILE_OUT_NAME = "SortingParserTest.out"; //$NON-NLS-1$
 	private final static String GOLDEN_FILE_NAME = "SortingParserTest_golden.xml"; //$NON-NLS-1$
 
 	/*

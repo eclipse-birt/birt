@@ -78,16 +78,6 @@
                         <expression name="targetBookmark">www.rock.com.cn/haha/index.html/bookmarklink1</expression>
                     </structure>
                 </image>
-                <data id="7">
-                    <list-property name="boundDataColumns">
-                        <structure>
-                            <property name="name">[myParam]</property>
-                            <expression name="expression">[myParam]</expression>
-                        </structure>
-                    </list-property>
-                    <property name="resultSetColumn">[myParam]</property>
-                    <text-property name="helpText">Shows what parameter was used.</text-property>
-                </data>
             </contents>
         </graphic-master-page>
     </page-setup>

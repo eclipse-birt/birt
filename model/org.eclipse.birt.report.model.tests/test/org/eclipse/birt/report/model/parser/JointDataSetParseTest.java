@@ -85,7 +85,6 @@ public class JointDataSetParseTest extends BaseTestCase
 {
 
 	String inputFileName = "JointDataSetParseTest.xml"; //$NON-NLS-1$
-	String outFileName = "JointDataSetParseTest_out.xml"; //$NON-NLS-1$
 	String goldenFileName = "JointDataSetParseTest_golden.xml"; //$NON-NLS-1$
 
 	String validationInputFileName = "JointDataSetParseTest_validation.xml"; //$NON-NLS-1$

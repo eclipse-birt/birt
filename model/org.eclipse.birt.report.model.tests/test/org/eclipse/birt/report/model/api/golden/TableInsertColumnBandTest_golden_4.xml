@@ -5,7 +5,6 @@
     <body>
         <table name="test1" id="4">
             <property name="width">100%</property>
-            <property name="pageBreakInterval">50</property>
             <column id="25"/>
             <column id="26"/>
             <column id="27"/>
@@ -44,7 +43,6 @@
         </table>
         <table name="test2" id="31">
             <property name="dataSet">firstDataSet</property>
-            <property name="pageBreakInterval">50</property>
             <column id="32"/>
             <column id="33"/>
             <column id="34"/>

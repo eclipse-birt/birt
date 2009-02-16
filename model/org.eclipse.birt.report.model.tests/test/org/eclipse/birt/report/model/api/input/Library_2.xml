@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.0" id="1">
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;@BUILD@></property>
     <property name="theme">defaultTheme</property>
     <themes>
@@ -29,6 +29,7 @@
                     <property name="colSpan">3</property>
                     <property name="rowSpan">1</property>
 					<image name="NewImage" id="25">
+						<property name="source">embed</property>
                         <property name="imageName">002.jpg</property>
                     </image>
                 </cell>

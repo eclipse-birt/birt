@@ -8,7 +8,6 @@
     <components>
         <table name="baseTable" id="8">
             <property name="style">style1</property>
-            <property name="pageBreakInterval">50</property>
             <text-property name="caption">Employee Table</text-property>
             <header>
                 <row id="9">
@@ -33,7 +32,6 @@
                 <row id="17">
                     <cell id="18">
                         <table name="innerTable" id="19">
-                        	<property name="pageBreakInterval">50</property>
                             <header>
                                 <row id="20">
                                     <cell id="21">
@@ -66,12 +64,7 @@
         </grid>
     </components>
     <page-setup>
-        <graphic-master-page name="My Page" id="2">
-        	<property name="topMargin">1in</property>
-            <property name="leftMargin">1.25in</property>
-            <property name="bottomMargin">1in</property>
-            <property name="rightMargin">1.25in</property>
-        </graphic-master-page>
+        <graphic-master-page name="My Page" id="2"/>
     </page-setup>
     <body>
         <table name="table1" id="24" extends="baseTable">

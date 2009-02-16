@@ -19,26 +19,11 @@
             <contents>
                 <label id="4">
                     <property name="x">1mm</property>
-                    <property name="y">0.5mm</property>
-                    <property name="height">0.25mm</property>
-                    <property name="width">2mm</property>
-                    <text-property name="text">First Page</text-property>
                 </label>
                 <label id="5">
                     <property name="x">6mm</property>
-                    <property name="y">0.5mm</property>
-                    <property name="height">0.25mm</property>
-                    <property name="width">1mm</property>
-                    <text-property name="text">Today's Date</text-property>
                 </label>
                 <data id="6">
-                    <list-property name="boundDataColumns">
-                        <structure>
-                            <property name="name">[myParam]</property>
-                            <expression name="expression">[myParam]</expression>
-                        </structure>
-                    </list-property>
-                    <property name="resultSetColumn">[myParam]</property>
                     <text-property name="helpText">Shows what parameter was used.</text-property>
                 </data>
             </contents>
@@ -65,10 +50,6 @@
                     <property name="rowSpan">1</property>
                     <label id="12">
                         <property name="x">1mm</property>
-                        <property name="y">2mm</property>
-                        <property name="height">3mm</property>
-                        <property name="width">4mm</property>
-                        <text-property name="text">Customer Name</text-property>
                     </label>
                 </cell>
                 <cell id="13">
@@ -79,16 +60,9 @@
                     <property name="height">1.5mm</property>
                     <property name="width">2mm</property>
                     <property name="style">My Style</property>
-                    <property name="backgroundColor">red</property>
-                    <property name="borderTopColor">yellow</property>
-                    <property name="borderTopStyle">dotted</property>
-                    <property name="borderTopWidth">2mm</property>
                     <label name="address" id="14">
                         <property name="x">1.1mm</property>
                         <property name="y">2.2mm</property>
-                        <property name="height">3.3mm</property>
-                        <property name="width">4.4mm</property>
-                        <text-property name="text">Address</text-property>
                     </label>
                 </cell>
             </row>
@@ -102,10 +76,6 @@
                     <property name="rowSpan">1</property>
                     <label id="29">
                         <property name="x">1mm</property>
-                        <property name="y">2mm</property>
-                        <property name="height">3mm</property>
-                        <property name="width">4mm</property>
-                        <text-property name="text">Customer Name</text-property>
                     </label>
                 </cell>
                 <cell id="30">
@@ -116,16 +86,9 @@
                     <property name="height">1.5mm</property>
                     <property name="width">2mm</property>
                     <property name="style">My Style</property>
-                    <property name="backgroundColor">red</property>
-                    <property name="borderTopColor">yellow</property>
-                    <property name="borderTopStyle">dotted</property>
-                    <property name="borderTopWidth">2mm</property>
                     <label name="address2" id="31">
                         <property name="x">1.1mm</property>
                         <property name="y">2.2mm</property>
-                        <property name="height">3.3mm</property>
-                        <property name="width">4.4mm</property>
-                        <text-property name="text">Address</text-property>
                     </label>
                 </cell>
             </row>
@@ -156,9 +119,6 @@
                     <label id="21">
                         <property name="x">1mm</property>
                         <property name="y">2mm</property>
-                        <property name="height">3mm</property>
-                        <property name="width">4mm</property>
-                        <text-property name="text">Customer Name</text-property>
                     </label>
                 </cell>
                 <cell id="22">
@@ -169,16 +129,9 @@
                     <property name="height">1.5mm</property>
                     <property name="width">2mm</property>
                     <property name="style">My Style</property>
-                    <property name="backgroundColor">red</property>
-                    <property name="borderTopColor">yellow</property>
-                    <property name="borderTopStyle">dotted</property>
-                    <property name="borderTopWidth">2mm</property>
                     <label name="address1" id="23">
                         <property name="x">1.1mm</property>
                         <property name="y">2.2mm</property>
-                        <property name="height">3.3mm</property>
-                        <property name="width">4.4mm</property>
-                        <text-property name="text">Address</text-property>
                     </label>
                 </cell>
             </row>
@@ -190,9 +143,6 @@
                     <label id="26">
                         <property name="x">1.1mm</property>
                         <property name="y">2.2mm</property>
-                        <property name="height">3.3mm</property>
-                        <property name="width">4.4mm</property>
-                        <text-property name="text">Address</text-property>
                     </label>
                 </cell>
             </row>

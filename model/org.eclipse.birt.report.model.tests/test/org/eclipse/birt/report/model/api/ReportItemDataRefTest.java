@@ -482,7 +482,6 @@ public class ReportItemDataRefTest extends BaseTestCase
 		table1.dropAndClear( );
 
 		save( );
-		System.out.println( os );
 		assertTrue( compareFile( "ReportItemDataRefTest_golden_1.xml" ) ); //$NON-NLS-1$
 	}
 }

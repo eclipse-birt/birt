@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <styles>
         <style name="My Style">
             <property name="backgroundColor">yellow</property>
@@ -34,7 +34,13 @@
                     <text-property name="text">Today's Date</text-property>
                 </label>
                 <data>
-                    <expression name="valueExpr">[myParam]</expression>
+                	<list-property name="boundDataColumns">
+                        <structure>
+                            <property name="name">[myParam]</property>
+                            <expression name="expression">[myParam]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="resultSetColumn">[myParam]</property>
                     <text-property name="helpText">Shows what parameter was used.</text-property>
                 </data>
             </contents>

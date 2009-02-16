@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<library xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="1">
+<library xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.18">
     <property name="author">W.C. Fields</property>
     <property name="helpGuide">http://company.com/reportHelp.html</property>
     <property name="createdBy">Whiz-Bang Plus</property>
     <property name="refreshRate">30</property>
     <property name="base">c:\</property>
-    <property name="msgBaseName">old_message</property>
+    <simple-property-list name="includeResource">
+        <value>old_message</value>
+    </simple-property-list>
     <text-property name="title" key="TITLE_ID">Sample Report</text-property>
     <property name="comments">First sample report.</property>
     <html-property name="description" key="DESCRIP_ID">This is a first sample report.</html-property>
@@ -78,9 +80,11 @@
     </page-setup>
     <components>
     	<image name="libImage"  id="24">
+    		<property name="source">embed</property>
         	<expression name="imageName">image1</expression>
        	</image>
 		<image name="libImage1" id="25">
+			<property name="source">embed</property>
         	<expression name="imageName">noExistedImage</expression>
        	</image>		
        	<grid name="libGrid" id="5">
@@ -91,6 +95,7 @@
             <row id="9">
                 <cell id="10">
                     <image name="libChildImage" id="21">
+                    	<property name="source">embed</property>
                         <property name="imageName">image2</property>
                     </image>
                 </cell>

@@ -201,7 +201,8 @@ public class TabularCubeParserTest extends BaseTestCase
 		assertEquals( "column1", level.getColumnName( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER, level
 				.getDataType( ) );
-		assertEquals( "none", level.getInterval( ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.INTERVAL_TYPE_PREFIX, level
+				.getInterval( ) );
 		assertEquals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH, level
 				.getDateTimeLevelType( ) );
 		assertEquals( "mmm", level.getDateTimeFormat( ) ); //$NON-NLS-1$

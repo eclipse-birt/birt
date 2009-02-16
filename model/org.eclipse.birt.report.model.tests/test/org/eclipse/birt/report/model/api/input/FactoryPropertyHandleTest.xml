@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <property name="refreshRate">30</property>
     <styles>
         <style name="My Style">
@@ -39,10 +39,6 @@
             <property name="paddingLeft">2mm</property>
             <property name="paddingBottom">4mm</property>
             <property name="paddingRight">3mm</property>
-            <property name="dateTimeFormat">date-time</property>
-            <property name="numberFormat">number</property>
-            <property name="numberAlign">right</property>
-            <property name="stringFormat">string</property>
             <property name="textAlign">right</property>
             <property name="textIndent">5mm</property>
             <property name="letterSpacing">normal</property>
@@ -56,11 +52,8 @@
             <property name="display">inline</property>
             <property name="masterPage">My Page</property>
             <property name="pageBreakAfter">auto</property>
-            <property name="pageBreakBefore">avoid</property>
-            <property name="pageBreakInside">inherit</property>
             <property name="showIfBlank">true</property>
             <property name="canShrink">true</property>
-            <expression name="highlightTestExpr">[this]</expression>
             <list-property name="highlightRules">
                 <structure>
                     <property name="operator">eq</property>
@@ -88,9 +81,6 @@
                     <property name="textLineThrough">line-through</property>
                     <property name="textAlign">right</property>
                     <property name="textTransform">lowercase</property>
-                    <property name="dateTimeFormat">yyyy/mm/dd</property>
-                    <property name="numberFormat">#.00</property>
-                    <property name="stringFormat">string-format</property>
                     <expression name="value1">"10"</expression>
                     <expression name="value2">"20"</expression>
                 </structure>
@@ -119,18 +109,6 @@
                     <property name="operator">not-between</property>
                 </structure>
                 <structure>
-                    <property name="operator">null</property>
-                </structure>
-                <structure>
-                    <property name="operator">not-null</property>
-                </structure>
-                <structure>
-                    <property name="operator">true</property>
-                </structure>
-                <structure>
-                    <property name="operator">false</property>
-                </structure>
-                <structure>
                     <property name="operator">like</property>
                 </structure>
             </list-property>
@@ -142,15 +120,7 @@
                     <text-property name="display">Closed</text-property>
                 </structure>
                 <structure>
-                    <property name="operator">true</property>
-                    <text-property name="display">Open</text-property>
-                </structure>
-                <structure>
                     <property name="operator">like</property>
-                    <text-property name="display">Unknown</text-property>
-                </structure>
-                <structure>
-                    <property name="operator">not-null</property>
                     <text-property name="display">Unknown</text-property>
                 </structure>
                 <structure>

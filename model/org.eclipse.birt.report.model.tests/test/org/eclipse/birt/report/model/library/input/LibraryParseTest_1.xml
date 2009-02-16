@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<library xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <text-property name="title" key="TITLE_ID">Sample Report</text-property>
     <list-property name="includeScripts">
         <structure/>

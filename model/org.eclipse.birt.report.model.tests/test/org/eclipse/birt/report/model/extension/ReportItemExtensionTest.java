@@ -56,7 +56,6 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
-import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.FreeForm;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -88,9 +87,6 @@ public class ReportItemExtensionTest extends BaseTestCase
 {
 
 	String fileName = "ExtensionTest.xml"; //$NON-NLS-1$
-	String outFileName_1 = "ExtensionTest_out_1.xml"; //$NON-NLS-1$
-	String outFileName_2 = "ExtensionTest_out_2.xml"; //$NON-NLS-1$
-	String outFileName_3 = "ExtensionTest_out_3.xml"; //$NON-NLS-1$
 	String goldenFileName_1 = "ExtensionTest_golden_1.xml"; //$NON-NLS-1$
 	String goldenFileName_2 = "ExtensionTest_golden_2.xml"; //$NON-NLS-1$
 	String goldenFileName_3 = "ExtensionTest_golden_3.xml"; //$NON-NLS-1$
@@ -661,12 +657,12 @@ public class ReportItemExtensionTest extends BaseTestCase
 				"inline", extendedHandle.getStringProperty( Style.DISPLAY_PROP ) ); //$NON-NLS-1$
 		assertEquals(
 				"My Page", extendedHandle.getStringProperty( Style.MASTER_PAGE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"auto", extendedHandle.getStringProperty( Style.PAGE_BREAK_AFTER_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"avoid", extendedHandle.getStringProperty( Style.PAGE_BREAK_BEFORE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"inherit", extendedHandle.getStringProperty( Style.PAGE_BREAK_INSIDE_PROP ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_AUTO,
+				extendedHandle.getStringProperty( Style.PAGE_BREAK_AFTER_PROP ) );
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_BEFORE_AUTO,
+				extendedHandle.getStringProperty( Style.PAGE_BREAK_BEFORE_PROP ) );
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_INSIDE_AUTO,
+				extendedHandle.getStringProperty( Style.PAGE_BREAK_INSIDE_PROP ) );
 		assertEquals(
 				"true", extendedHandle.getStringProperty( Style.SHOW_IF_BLANK_PROP ) ); //$NON-NLS-1$
 		assertEquals(
@@ -885,10 +881,10 @@ public class ReportItemExtensionTest extends BaseTestCase
 				"My Page", groupHandle.getStringProperty( Style.MASTER_PAGE_PROP ) ); //$NON-NLS-1$
 		assertEquals(
 				"auto", groupHandle.getStringProperty( Style.PAGE_BREAK_AFTER_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"avoid", groupHandle.getStringProperty( Style.PAGE_BREAK_BEFORE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"inherit", groupHandle.getStringProperty( Style.PAGE_BREAK_INSIDE_PROP ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_BEFORE_AUTO, groupHandle
+				.getStringProperty( Style.PAGE_BREAK_BEFORE_PROP ) );
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_INSIDE_AUTO, groupHandle
+				.getStringProperty( Style.PAGE_BREAK_INSIDE_PROP ) );
 		assertEquals(
 				"true", groupHandle.getStringProperty( Style.SHOW_IF_BLANK_PROP ) ); //$NON-NLS-1$
 		assertEquals(
@@ -1720,8 +1716,10 @@ public class ReportItemExtensionTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt.report.model.core.DesignElement,
-		 *      org.eclipse.birt.report.model.activity.NotificationEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
+		 * .report.model.core.DesignElement,
+		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
 		public void elementChanged( DesignElementHandle focus,
 				NotificationEvent ev )

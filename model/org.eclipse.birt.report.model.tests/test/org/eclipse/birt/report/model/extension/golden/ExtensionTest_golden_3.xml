@@ -63,9 +63,6 @@
             <property name="style">My Style</property>
             <property name="backgroundColor">red</property>
             <property name="color">yellow</property>
-            <structure name="toc">
-                <expression name="expressionValue">"This Section"</expression>
-            </structure>
             <report-items>
                 <extended-item extensionName="TestingMatrix" name="right extended item" extends="parent"
  id="13">
@@ -105,9 +102,9 @@
                     <property name="wordSpacing">normal</property>
                     <property name="display">inline</property>
                     <property name="masterPage">My Page</property>
-                    <property name="pageBreakBefore">avoid</property>
+                    <property name="pageBreakBefore">auto</property>
                     <property name="pageBreakAfter">auto</property>
-                    <property name="pageBreakInside">inherit</property>
+                    <property name="pageBreakInside">auto</property>
                     <property name="showIfBlank">true</property>
                     <property name="borderTopStyle">dotted</property>
                     <property name="borderTopWidth">thin</property>
@@ -130,16 +127,13 @@
                     <property name="paddingBottom">4mm</property>
                     <property name="paddingRight">3mm</property>
                     <structure name="dateTimeFormat">
-                        <property name="category">Custom</property>
-                        <property name="pattern">date-time</property>
+                        <property name="pattern">:date-time</property>
                     </structure>
                     <structure name="numberFormat">
-                        <property name="category">Custom</property>
                         <property name="pattern">number</property>
                     </structure>
                     <property name="numberAlign">right</property>
                     <structure name="stringFormat">
-                        <property name="category">Custom</property>
                         <property name="pattern">string</property>
                     </structure>
                     <property name="canShrink">true</property>
@@ -189,15 +183,13 @@
                             <property name="borderRightColor">black</property>
                             <property name="backgroundColor">white</property>
                             <structure name="dateTimeFormat">
-                                <property name="category">Custom</property>
+                                <property name="category">Short Date</property>
                                 <property name="pattern">yyyy/mm/dd</property>
                             </structure>
                             <structure name="numberFormat">
-                                <property name="category">Custom</property>
                                 <property name="pattern">#.00</property>
                             </structure>
                             <structure name="stringFormat">
-                                <property name="category">Custom</property>
                                 <property name="pattern">string-format</property>
                             </structure>
                             <property name="fontFamily">"Arial"</property>

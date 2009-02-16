@@ -63,7 +63,6 @@
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <property name="pageBreakInterval">50</property>
             <detail>
                 <template-report-item name="123" id="15">
                     <property name="refTemplateParameter">NewTemplateParameterDefinition1</property>

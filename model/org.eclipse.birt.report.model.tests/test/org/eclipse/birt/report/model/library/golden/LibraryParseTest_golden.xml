@@ -11,7 +11,6 @@
     <text-property name="title" key="New title id">New title</text-property>
     <property name="comments">New comments</property>
     <html-property name="description" key="New description id">New description</html-property>
-    <property name="theme">defaultTheme</property>
     <list-property name="includeScripts">
         <property>script first</property>
         <property>script second</property>
@@ -62,14 +61,9 @@
                 <style name="label" id="7"/>
             </styles>
         </theme>
-        <theme name="defaultTheme" id="8"/>
     </themes>
     <page-setup>
         <graphic-master-page name="My Page" id="2">
-        	<property name="topMargin">1in</property>
-            <property name="leftMargin">1.25in</property>
-            <property name="bottomMargin">1in</property>
-            <property name="rightMargin">1.25in</property>
             <property name="columns">1</property>
         </graphic-master-page>
     </page-setup>

@@ -332,8 +332,6 @@ public class SessionHandleTest extends BaseTestCase
 		}
 		catch ( DesignFileException e )
 		{
-			System.out.println( e );
-
 			assertNull( designHandle );
 			assertEquals( DesignFileException.DESIGN_EXCEPTION_SYNTAX_ERROR, e
 					.getErrorCode( ) );

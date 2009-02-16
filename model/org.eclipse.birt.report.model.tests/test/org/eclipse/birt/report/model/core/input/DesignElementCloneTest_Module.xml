@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.3" id="1">
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.18" id="1">
     <list-property name="includeLibraries">
 		<structure>
 			<property name="fileName">Library_1.xml</property>
@@ -14,8 +14,6 @@
 	<body>
         <free-form name="freeForm" id="3">
             <property name="comments">Sample Section</property>
-            <text-property name="displayName">The Section</text-property>
-            <expression name="toc">"This Section"</expression>
             <report-items>
                 <label name="label" id="4">
                     <text-property name="displayName" key="hello">he</text-property>

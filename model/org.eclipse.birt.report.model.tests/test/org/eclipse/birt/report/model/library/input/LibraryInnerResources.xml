@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.4" id="1">
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <list-property name="scriptLibs">
         <structure>
             <property name="name">inner.jar</property>

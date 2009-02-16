@@ -1,28 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<library xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="1">
+<library xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.18">
    <parameters>
         <cascading-parameter-group name="NewCascadingParameterGroup" id="8">
             <property name="dataSet">Data Set</property>
             <parameters>
                 <scalar-parameter name="country" id="9">
                     <property name="valueType">dynamic</property>
-                    <property name="allowNull">false</property>
-                    <property name="format">Unformatted</property>
                     <property name="controlType">list-box</property>
                     <expression name="valueExpr">row["open_dt"]</expression>
                 </scalar-parameter>
                 <scalar-parameter name="state" id="10">
                     <property name="valueType">dynamic</property>
-                    <property name="allowNull">false</property>
-                    <property name="format">Unformatted</property>
                     <property name="controlType">list-box</property>
                     <expression name="valueExpr">row["account_id"]</expression>
                 </scalar-parameter>
                 <scalar-parameter name="city" id="11">
                     <property name="valueType">dynamic</property>
-                    <property name="allowNull">false</property>
-                    <property name="format">Unformatted</property>
                     <property name="controlType">list-box</property>
                     <expression name="valueExpr">row["account_nm"]</expression>
                 </scalar-parameter>

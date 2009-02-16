@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
 	<data-sets>
         <oda-data-set name="MyDataSet" />
 	</data-sets>
@@ -12,6 +12,7 @@
     </page-setup>
 	<parameters>	
         <scalar-parameter name="MyParam1">
+        	<property name="isRequired">false</property>
             <expression name="labelExpr">row["COLUMN_1"]</expression>
             <property name="allowNull">true</property>
             <list-property name="boundDataColumns">

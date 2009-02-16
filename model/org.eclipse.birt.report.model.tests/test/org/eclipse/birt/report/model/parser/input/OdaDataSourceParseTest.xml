@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <data-sources>
         <oda-data-source name="myDataSource">
             <method name="beforeOpen"><![CDATA[script_beforeopen]]></method>
@@ -8,34 +8,22 @@
             <method name="afterOpen"><![CDATA[script_afteropen]]></method>
             <method name="afterClose"><![CDATA[script_afterclose]]></method>
         </oda-data-source>
-        <oda-data-source name="myDataSource1">
+        <oda-data-source name="myDataSource1" extensionID="org.eclipse.birt.report.data.oda.jdbc">
 	        <structure	name="designerState">
 				<property name="version">1.1</property>
 				<property name="stateContentAsString">content as string</property>
 				<property name="stateContentAsBlob">Y29udGVudCBhcyBibG9i</property>
 			</structure>
-            <list-property name="privateDriverProperties">
+			 <list-property name="privateDriverProperties">
                 <ex-property>
-                    <name>ODA:driver-class</name>
-                    <value>Driver Class</value>
-                </ex-property>
-                <ex-property>
-                    <name>ODA:url</name>
-                    <value>URL</value>
-                </ex-property>
-                <ex-property>
-                    <name>ODA:data-source</name>
+                    <name>odaDataSource</name>
                     <value>Data Source</value>
                 </ex-property>
-                <ex-property>
-                    <name>ODA:user</name>
-                    <value>User</value>
-                </ex-property>
-                <ex-property>
-                    <name>ODA:password</name>
-                    <value>Password</value>
-                </ex-property>
-            </list-property>
+            </list-property>            
+            <property name="odaDriverClass">Driver Class</property>
+            <property name="odaURL">URL</property>
+            <property name="odaUser">User</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">TmV3IFBhc3N3b3Jk</encrypted-property>            
         </oda-data-source>
     </data-sources>
 </report>

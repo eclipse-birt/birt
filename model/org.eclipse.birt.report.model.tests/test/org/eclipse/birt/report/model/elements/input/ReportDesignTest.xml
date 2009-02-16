@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <text-property name="title">Sample Report</text-property>
     <property name="comments">First sample report.</property>
     <html-property name="description">This is a first sample report.</html-property>
@@ -28,7 +28,6 @@
         <free-form name="FreeForm">
             <property name="comments">Sample Section</property>
             <text-property name="displayName">The Section</text-property>
-            <expression name="toc">"This Section"</expression>
             <report-items>
                 <list name="list1">
                     <text-property name="displayName" key="hello">he</text-property>

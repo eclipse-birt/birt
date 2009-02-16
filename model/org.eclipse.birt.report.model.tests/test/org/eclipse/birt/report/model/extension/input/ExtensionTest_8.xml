@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <data-sources>
         <oda-data-source name="myDataSource"/>
         <oda-data-source name="myDataSource2"/>
@@ -42,9 +42,7 @@
             <xml-property name="test3"><![CDATA[type=bar,xScale=2,yScale=3]]></xml-property>
             <property name="test5"><![CDATA[choice2]]></property>
         </extended-item>
-         <extended-item extensionName="TestingBox" >
-          
-        </extended-item>
+         <extended-item extensionName="TestingBox" name="testBox"/>
     </body>
 </report>
    

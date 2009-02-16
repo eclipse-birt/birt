@@ -43,7 +43,6 @@ public class AllApiTests
 		test.addTestSuite( ComplexValueHandleTest.class );
 		test.addTestSuite( ComponentsInGridHandleTest.class );
 		test.addTestSuite( CustomColorHandleTest.class );
-		test.addTestSuite( DataSetHandleTest.class );
 		test.addTestSuite( DefaultSearchFileAlgorithmTest.class );
 		test.addTestSuite( DesignElementHandleTest.class );
 		test.addTestSuite( DesignEngineTest.class );
@@ -89,7 +88,7 @@ public class AllApiTests
 		test.addTestSuite( MultiViewHandleTest.class );
 		test.addTestSuite( ReportDesignCacheTest.class );
 		test.addTestSuite( HighlightRuleHandleTest.class );
-		
+
 		return test;
 	}
 }
