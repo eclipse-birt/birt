@@ -20,6 +20,8 @@ import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
@@ -27,9 +29,12 @@ import org.eclipse.birt.report.engine.ir.PageSetupDesign;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.area.IContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
+import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
+import org.eclipse.birt.report.engine.layout.area.impl.BlockContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.LogicContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
+import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
 
 public class PageLayout extends BlockStackingLayout
@@ -214,7 +219,7 @@ public class PageLayout extends BlockStackingLayout
 		/**
 		 * set position and dimension for root
 		 */
-		ContainerArea pageRoot = new LogicContainerArea( report );
+		ContainerArea pageRoot = (ContainerArea)AreaFactory.createBlockContainer( pageContent );
 
 		rootLeft = getDimensionValue( pageContent.getMarginLeft( ),
 				pageContentWidth );
@@ -251,12 +256,22 @@ public class PageLayout extends BlockStackingLayout
 		int headerHeight = getDimensionValue( pageContent.getHeaderHeight( ),
 				pageRoot.getHeight( ) );
 		int headerWidth = pageRoot.getWidth( );
+		IStyle pageStyle = pageContent.getComputedStyle( );
+		int topBorderWidth = PropertyUtil.getDimensionValue( pageStyle
+				.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH ) );
+		int bottomBorderWidth = PropertyUtil.getDimensionValue( pageStyle
+				.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) );
+		int leftBorderWidth = PropertyUtil.getDimensionValue( pageStyle
+				.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH ) );
+		int rightBorderWidth = PropertyUtil.getDimensionValue( pageStyle
+				.getProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH ) );
+		int horizontalBorderWidth = leftBorderWidth + rightBorderWidth;
 		headerHeight = Math.max( 0, headerHeight );
 		headerHeight = Math.min( pageRoot.getHeight( ), headerHeight );
 		ContainerArea header = new LogicContainerArea( report );
-		header.setHeight( headerHeight );
-		header.setWidth( headerWidth );
-		header.setPosition( 0, 0 );
+		header.setHeight( headerHeight - topBorderWidth );
+		header.setWidth( headerWidth - horizontalBorderWidth );
+		header.setPosition( leftBorderWidth, topBorderWidth );
 		pageRoot.addChild( header );
 		page.setHeader( header );
 
@@ -270,9 +285,9 @@ public class PageLayout extends BlockStackingLayout
 		footerHeight = Math.min( pageRoot.getHeight( ) - headerHeight,
 				footerHeight );
 		ContainerArea footer = new LogicContainerArea( report );
-		footer.setHeight( footerHeight );
-		footer.setWidth( footerWidth );
-		footer.setPosition( 0, pageRoot.getHeight( ) - footerHeight );
+		footer.setHeight( footerHeight - bottomBorderWidth );
+		footer.setWidth( footerWidth - horizontalBorderWidth );
+		footer.setPosition( leftBorderWidth, pageRoot.getHeight( ) - footerHeight - bottomBorderWidth );
 		pageRoot.addChild( footer );
 		page.setFooter( footer );
 
@@ -284,13 +299,13 @@ public class PageLayout extends BlockStackingLayout
 				.getWidth( ) );
 		bodyLeft = Math.max( 0, bodyLeft );
 		bodyLeft = Math.min( pageRoot.getWidth( ), bodyLeft );
-		body.setPosition( bodyLeft, headerHeight );
+		body.setPosition( bodyLeft + leftBorderWidth, headerHeight );
 		int bodyRight = getDimensionValue( pageContent.getRightWidth( ),
 				pageRoot.getWidth( ) );
 		bodyRight = Math.max( 0, bodyRight );
 		bodyRight = Math.min( pageRoot.getWidth( ) - bodyLeft, bodyRight );
 
-		body.setWidth( pageRoot.getWidth( ) - bodyLeft - bodyRight );
+		body.setWidth( pageRoot.getWidth( ) - bodyLeft - bodyRight - horizontalBorderWidth );
 		body.setHeight( pageRoot.getHeight( ) - headerHeight - footerHeight );
 		page.setBody( body );
 		pageRoot.addChild( body );
