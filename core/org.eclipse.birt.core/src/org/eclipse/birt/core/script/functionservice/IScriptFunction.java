@@ -45,6 +45,12 @@ public interface IScriptFunction extends IDescribable, INamedObject, IScriptFunc
 	public boolean allowVarArguments();
 	
 	/**
+	 * Returns whether the function is visible.
+	 * 
+	 */
+	public boolean isVisible( );
+	
+	/**
 	 * 
 	 * @return
 	 */
@@ -55,4 +61,5 @@ public interface IScriptFunction extends IDescribable, INamedObject, IScriptFunc
 	 * @return
 	 */
 	public boolean isConstructor();
+	
 }

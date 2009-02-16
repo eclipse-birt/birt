@@ -68,6 +68,7 @@ public class FunctionProviderImpl implements IFunctionProvider
 	private static final String ATTRIBUTE_ISSTATIC="isStatic";
 	private static final String ATTRIBUTE_ISCONSTRUCTOR="isConstructor";
 	private static final String ATTRIBUTE_LOCATION = "location";
+	private static final String ATTRIBUTE_ISVISIBLE="isVisible";
 	
 	private static final String DEFAULT_CATEGORYNAME = null;
 
@@ -170,23 +171,26 @@ public class FunctionProviderImpl implements IFunctionProvider
 		//populate category map as per extension.
 		for ( int e = 0; e < exts.length; e++ )
 		{
-			IConfigurationElement[] configElems = exts[e].getConfigurationElements( );
-			if ( configElems == null )
-				continue;
-
-			for ( int i = 0; i < configElems.length; i++ )
+			try
 			{
-				//for element Category
-				if ( configElems[i].getName( ).equals( ELEMENT_CATEGORY ) )
-				{
-					Category category = new Category( configElems[i].getAttribute( ATTRIBUTE_NAME ),
-							configElems[i].getAttribute( ATTRIBUTE_DESC ) );
-					categories.put( category.getName( ), category );
+				IConfigurationElement[] configElems = exts[e].getConfigurationElements( );
+				if ( configElems == null )
+					continue;
 
-					IScriptFunctionFactory factory = null;
-					try
+				for ( int i = 0; i < configElems.length; i++ )
+				{
+					boolean isVisible = extractBoolean( configElems[i].getAttribute( ATTRIBUTE_ISVISIBLE ),
+							true );
+					// for element Category
+					if ( configElems[i].getName( ).equals( ELEMENT_CATEGORY ) )
 					{
-						if( configElems[i].getAttribute( ATTRIBUTE_FACTORYCLASS )!= null )
+						Category category = new Category( configElems[i].getAttribute( ATTRIBUTE_NAME ),
+								configElems[i].getAttribute( ATTRIBUTE_DESC ),
+								isVisible );
+						categories.put( category.getName( ), category );
+
+						IScriptFunctionFactory factory = null;
+						if ( configElems[i].getAttribute( ATTRIBUTE_FACTORYCLASS ) != null )
 							factory = (IScriptFunctionFactory) configElems[i].createExecutableExtension( ATTRIBUTE_FACTORYCLASS );
 						IConfigurationElement[] functions = configElems[i].getChildren( ELEMENT_FUNCTION );
 						for ( int j = 0; j < functions.length; j++ )
@@ -194,36 +198,40 @@ public class FunctionProviderImpl implements IFunctionProvider
 							IScriptFunction function = getScriptFunction( category,
 									factory,
 									functions[j] );
-							if( function!= null )
+							if ( function != null )
 								category.addFunction( function );
 						}
-					}
-					catch ( FrameworkException e1 )
-					{
-					}
 
-				}
-				//For element function that are not under certain category. Usually those functions are
-				//defined in .js file
-				else if ( configElems[i].getName( ).equals( ELEMENT_FUNCTION ) )
-				{
-					if ( categories.get( DEFAULT_CATEGORYNAME ) == null )
-					{
-						categories.put( DEFAULT_CATEGORYNAME,
-								new Category( DEFAULT_CATEGORYNAME, null ) );
 					}
-					IScriptFunction function = getScriptFunction( categories.get( DEFAULT_CATEGORYNAME ),
-							null,
-							configElems[i] );
-					if ( function != null )
-						categories.get( DEFAULT_CATEGORYNAME )
-								.addFunction( function );
+					// For element function that are not under certain category.
+					// Usually those functions are
+					// defined in .js file
+					else if ( configElems[i].getName( )
+							.equals( ELEMENT_FUNCTION ) )
+					{
+						if ( categories.get( DEFAULT_CATEGORYNAME ) == null )
+						{
+							categories.put( DEFAULT_CATEGORYNAME,
+									new Category( DEFAULT_CATEGORYNAME,
+											null,
+											isVisible ) );
+						}
+						IScriptFunction function = getScriptFunction( categories.get( DEFAULT_CATEGORYNAME ),
+								null,
+								configElems[i] );
+						if ( function != null )
+							categories.get( DEFAULT_CATEGORYNAME )
+									.addFunction( function );
+					}
+					// Populate the .js script library
+					else if ( configElems[i].getName( ).equals( ELEMENT_JSLIB ) )
+					{
+						populateResources( jsLibs, ".js", configElems[i] );
+					}
 				}
-				//Populate the .js script library
-				else if ( configElems[i].getName( ).equals( ELEMENT_JSLIB ) )
-				{
-					populateResources( jsLibs, ".js", configElems[i] );
-				}
+			}
+			catch ( BirtException ex )
+			{
 			}
 		}
 		return categories;
@@ -294,6 +302,7 @@ public class FunctionProviderImpl implements IFunctionProvider
 			boolean allowVarArgs = extractBoolean( varArgs, false );
 			boolean isConstructor = extractBoolean( function.getAttribute( ATTRIBUTE_ISCONSTRUCTOR ), false);
 			boolean isStatic = extractBoolean( function.getAttribute( ATTRIBUTE_ISSTATIC ), true);
+			boolean isVisible = extractBoolean( function.getAttribute( ATTRIBUTE_ISVISIBLE ), true);
 			String dataType = null;
 			List<IScriptFunctionArgument> arguments = new ArrayList<IScriptFunctionArgument>( );
 			//Populate function return data type info.
@@ -318,7 +327,8 @@ public class FunctionProviderImpl implements IFunctionProvider
 					factory == null ? null : factory.getFunctionExecutor( name ),
 					allowVarArgs,
 					isStatic,
-					isConstructor );
+					isConstructor,
+					isVisible );
 		}
 		catch ( Exception e )
 		{
@@ -326,12 +336,12 @@ public class FunctionProviderImpl implements IFunctionProvider
 		}
 	}
 
-	private static boolean extractBoolean( String varArgs, boolean ifNull )
+	private static boolean extractBoolean( String strValue, boolean ifNull )
 			throws BirtException
 	{
-		boolean allowVarArgs = varArgs == null ? ifNull
-				: DataTypeUtil.toBoolean( varArgs );
-		return allowVarArgs;
+		boolean booleanValue = strValue == null ? ifNull
+				: DataTypeUtil.toBoolean( strValue );
+		return booleanValue;
 	}
 
 	/**

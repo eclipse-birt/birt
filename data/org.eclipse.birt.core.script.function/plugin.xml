@@ -238,6 +238,11 @@
    		</Argument>
    		<Argument name="n2">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
+         <Function
+               desc="n1 multiplies n2. This function is only used for the backward compatibility of the function &quot;multiply&quot;."
+               isVisible="false"
+               name="multiple">
+         </Function>
    	<Function
           desc="n1 multiplies n2"
           name="multiply">
@@ -245,7 +250,9 @@
    		<Argument name="n1">
    			<DataType value="%dataType.Number"></DataType>
    		</Argument>
-   		<Argument name="n2">
+   		<Argument
+           isVisible="false"
+           name="n2">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
    	<Function
           desc="dividend is divided by divisor"

@@ -2,9 +2,9 @@
 <!-- Schema file written by PDE -->
 <schema targetNamespace="org.eclipse.birt.core" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
-      <appinfo>
+      <appInfo>
          <meta.schema plugin="org.eclipse.birt.core" id="ScriptFunctionService" name="ScriptFunctionService"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          This extension point is defined for user to extends the script function supported by BIRT. The script function is used in java script expression in BIRT report design. 
 
@@ -16,9 +16,9 @@ When being referred in expression, the following format prevail: [CategoryName].
 
    <element name="extension">
       <annotation>
-         <appinfo>
+         <appInfo>
             <meta.element />
-         </appinfo>
+         </appInfo>
       </annotation>
       <complexType>
          <sequence minOccurs="0" maxOccurs="unbounded">
@@ -45,9 +45,9 @@ When being referred in expression, the following format prevail: [CategoryName].
                <documentation>
                   
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute translatable="true"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
       </complexType>
@@ -68,9 +68,9 @@ When being referred in expression, the following format prevail: [CategoryName].
                <documentation>
                   The factoryclass provided by user which implements interface org.eclipse.birt.core.script.functionservice.IScriptFunctionFactory.
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute kind="java" basedOn=":org.eclipse.birt.core.script.functionservice.IScriptFunctionFactory"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
          <attribute name="name" type="string" use="required">
@@ -84,6 +84,13 @@ When being referred in expression, the following format prevail: [CategoryName].
             <annotation>
                <documentation>
                   The description of the category.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="isVisible" type="boolean">
+            <annotation>
+               <documentation>
+                  
                </documentation>
             </annotation>
          </attribute>
@@ -133,6 +140,13 @@ When being referred in expression, the following format prevail: [CategoryName].
             <annotation>
                <documentation>
                   Indicate whether this function is a constructor of its category.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="isVisible" type="boolean">
+            <annotation>
+               <documentation>
+                  
                </documentation>
             </annotation>
          </attribute>
@@ -197,27 +211,27 @@ When being referred in expression, the following format prevail: [CategoryName].
                <documentation>
                   The location of a java script resource file.
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute kind="resource"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
       </complexType>
    </element>
 
    <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="since"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          2.3.0
       </documentation>
    </annotation>
 
    <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="examples"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          &lt;plugin&gt;
    &lt;extension
@@ -231,27 +245,27 @@ When being referred in expression, the following format prevail: [CategoryName].
    </annotation>
 
    <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="apiinfo"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          The APIs are defined in &lt;i&gt;org.eclipse.birt.core.script.functionservice&lt;/i&gt;. Please refer to corresponding java doc for details.
       </documentation>
    </annotation>
 
    <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="implementation"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          [Enter information about supplied implementation of this extension point.]
       </documentation>
    </annotation>
 
    <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="copyright"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          Copyright (c) 2004-2008 Actuate Corporation.
 All rights reserved. This program and the accompanying materials are made available under the  terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html

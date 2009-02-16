@@ -24,4 +24,10 @@ import org.eclipse.birt.core.exception.BirtException;
 public interface IScriptFunctionCategory extends IDescribable, INamedObject
 {
 	public IScriptFunction[] getFunctions() throws BirtException;
+	
+	/**
+	 * Returns whether the category is visible.
+	 * 
+	 */
+	public boolean isVisible( );
 }

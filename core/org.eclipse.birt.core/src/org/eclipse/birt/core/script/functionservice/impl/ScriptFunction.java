@@ -34,6 +34,7 @@ public class ScriptFunction implements IScriptFunction
 	private boolean allowVarArguments;
 	private boolean isStatic;
 	private boolean isConstructor;
+	private boolean isVisible;
 	
 	/**
 	 * Constructor.
@@ -56,6 +57,38 @@ public class ScriptFunction implements IScriptFunction
 		this.allowVarArguments = allowVarArguments;
 		this.isStatic = isStatic;
 		this.isConstructor = isConstructor;
+		this.isVisible = true;
+	}
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param name
+	 * @param category
+	 * @param argument
+	 * @param dataType
+	 * @param desc
+	 * @param executor
+	 * @param allowVarArguments
+	 * @param isStatic
+	 * @param isConstructor
+	 * @param isVisible
+	 */
+	public ScriptFunction( String name, IScriptFunctionCategory category,
+			IScriptFunctionArgument[] argument, String dataType, String desc,
+			IScriptFunctionExecutor executor, boolean allowVarArguments,
+			boolean isStatic, boolean isConstructor, boolean isVisible )
+	{
+		this.name = name;
+		this.category = category;
+		this.argument = argument;
+		this.dataType = dataType;
+		this.desc = desc;
+		this.executor = executor;
+		this.allowVarArguments = allowVarArguments;
+		this.isStatic = isStatic;
+		this.isConstructor = isConstructor;
+		this.isVisible = isVisible;
 	}
 	
 	/*
@@ -119,6 +152,15 @@ public class ScriptFunction implements IScriptFunction
 		return this.allowVarArguments;
 	}
 
+	/**
+	 * Returns whether the function is visible.
+	 * 
+	 */
+	public boolean isVisible( )
+	{
+		return this.isVisible;
+	}
+	
 	public boolean isConstructor( )
 	{
 		return this.isConstructor;

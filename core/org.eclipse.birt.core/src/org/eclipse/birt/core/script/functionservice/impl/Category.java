@@ -27,6 +27,7 @@ public class Category implements IScriptFunctionCategory
 	//
 	private String name;
 	private String desc;
+	private boolean isVisible;
 	private List<IScriptFunction> functions;
 	
 	/**
@@ -39,6 +40,21 @@ public class Category implements IScriptFunctionCategory
 	{
 		this.name = name;
 		this.desc = desc;
+		this.isVisible = true;
+		this.functions = new ArrayList<IScriptFunction>();
+	}
+	
+	/**
+	 * Constructor.
+	 * 
+	 * @param name
+	 * @param desc
+	 */
+	public Category( String name, String desc, boolean isVisible )
+	{
+		this.name = name;
+		this.desc = desc;
+		this.isVisible = isVisible;
 		this.functions = new ArrayList<IScriptFunction>();
 	}
 	
@@ -76,5 +92,14 @@ public class Category implements IScriptFunctionCategory
 	public IScriptFunction[] getFunctions( )
 	{
 		return this.functions.toArray( new IScriptFunction[0] );
+	}
+
+	/**
+	 * Returns whether the category is visible.
+	 * 
+	 */
+	public boolean isVisible( )
+	{		
+		return this.isVisible;
 	}
 }
