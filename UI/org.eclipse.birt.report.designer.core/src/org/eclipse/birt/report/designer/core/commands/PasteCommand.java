@@ -39,7 +39,7 @@ import org.eclipse.gef.commands.Command;
 public class PasteCommand extends Command
 {
 
-	protected static Logger logger = Logger.getLogger( PasteCommand.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( PasteCommand.class.getName( ) );
 	/** Null permitted in instance. */
 	private DesignElementHandle sourceHandle;
 

@@ -101,7 +101,7 @@ public class GraphicsViewModelEventProcessor extends AbstractModelEventProcessor
 			{
 				return false;
 			}
-			return bool & ((ContentModelEventInfo)info).getContentActionType( ) == ((ContentModelEventInfo)info).getContentActionType( );
+			return bool && ((ContentModelEventInfo)info).getContentActionType( ) == ((ContentModelEventInfo)info).getContentActionType( );
 		}
 		
 		/**

@@ -242,11 +242,11 @@ public class SessionHandleAdapter
 			}
 			catch ( ContentException e )
 			{
-				new DesignFileException( handle.getFileName( ), e );
+				// ignore
 			}
 			catch ( NameException e )
 			{
-				new DesignFileException( handle.getFileName( ), e );
+				// ignore
 			}
 		}
 	}

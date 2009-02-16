@@ -51,7 +51,7 @@ import org.eclipse.ui.dialogs.SelectionDialog;
 
 public class ClassFinder
 {
-	protected static Logger logger = Logger.getLogger( ClassFinder.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( ClassFinder.class.getName( ) );
 
 	private static final String TASK_START = Messages.getString("ClassFinder.TaskStart"); //$NON-NLS-1$
 	private static final String DIALOG_TITLE = Messages.getString("ClassFinder.DialogTitle"); //$NON-NLS-1$

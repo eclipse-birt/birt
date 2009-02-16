@@ -32,7 +32,7 @@ import org.eclipse.gef.commands.Command;
 public class MoveGuideCommand extends Command
 {
 
-	protected static Logger logger = Logger.getLogger( MoveGuideCommand.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( MoveGuideCommand.class.getName( ) );
 	private int pDelta;
 	private String propertyName;
 

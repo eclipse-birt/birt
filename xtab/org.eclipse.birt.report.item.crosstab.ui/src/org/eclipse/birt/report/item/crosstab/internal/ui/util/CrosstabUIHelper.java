@@ -49,26 +49,26 @@ import org.eclipse.swt.widgets.Display;
  */
 public class CrosstabUIHelper
 {
-	public static String CROSSTAB_LINK_IMAGE = "icons/pal/crosstab-link.gif"; //$NON-NLS-1$
-	public static String CROSSTAB_IMAGE = "icons/pal/crosstab.gif";//$NON-NLS-1$
-	public static String MEASURE_IMAGE = "icons/pal/data.gif";//$NON-NLS-1$
-	public static String COLUMNS_AREA_IMAGE = "icons/pal/column-area.gif";//$NON-NLS-1$
-	public static String ROWS_AREA_IMAGE = "icons/pal/row-area.gif";//$NON-NLS-1$
-	public static String DETAIL_AREA_IMAGE = "icons/pal/detail-area.gif";//$NON-NLS-1$
-	public static String LEVEL_IMAGE = "icons/pal/level.gif";//$NON-NLS-1$
-	public static String CELL_IMAGE = "icons/pal/cell.gif";//$NON-NLS-1$
-	public static String DETAIL_IMAGE = "icons/pal/details.gif";//$NON-NLS-1$
-	public static String HEADER_IMAGE = "icons/pal/header.gif";//$NON-NLS-1$
-	public static String AGGREGATION_IMAGE = "icons/pal/aggregation.gif";//$NON-NLS-1$
-	public static String LEVEL_AGGREGATION = "icons/pal/cell-level-aggregation.gif";//$NON-NLS-1$
-	public static String SHOW_HIDE_LEVEL = "icons/pal/show-hide-level.gif";//$NON-NLS-1$
-	public static String LEVEL_ARROW = "icons/pal/level-arrow.gif";//$NON-NLS-1$
-	public static String COLUMN_GRAND_TOTAL_IMAGE="icons/pal/col-grand-total.gif"; //$NON-NLS-1$
-	public static String ROW_GRAND_TOTAL_IMAGE="icons/pal/row-grand-total.gif"; //$NON-NLS-1$
-	public static String COLUMN_SUB_TOTAL_IMAGE="icons/pal/col-subtotal.gif"; //$NON-NLS-1$
-	public static String ROW_SUB_TOTAL_IMAGE="icons/pal/row-subtotal.gif"; //$NON-NLS-1$
-	public static String OPTIONS_ICON = "icons/pal/options.gif";//$NON-NLS-1$
-	public static String ADD_DERIVED_MEASURE = "icons/pal/derived-measure.gif";//$NON-NLS-1$
+	public static final String CROSSTAB_LINK_IMAGE = "icons/pal/crosstab-link.gif"; //$NON-NLS-1$
+	public static final String CROSSTAB_IMAGE = "icons/pal/crosstab.gif";//$NON-NLS-1$
+	public static final String MEASURE_IMAGE = "icons/pal/data.gif";//$NON-NLS-1$
+	public static final String COLUMNS_AREA_IMAGE = "icons/pal/column-area.gif";//$NON-NLS-1$
+	public static final String ROWS_AREA_IMAGE = "icons/pal/row-area.gif";//$NON-NLS-1$
+	public static final String DETAIL_AREA_IMAGE = "icons/pal/detail-area.gif";//$NON-NLS-1$
+	public static final String LEVEL_IMAGE = "icons/pal/level.gif";//$NON-NLS-1$
+	public static final String CELL_IMAGE = "icons/pal/cell.gif";//$NON-NLS-1$
+	public static final String DETAIL_IMAGE = "icons/pal/details.gif";//$NON-NLS-1$
+	public static final String HEADER_IMAGE = "icons/pal/header.gif";//$NON-NLS-1$
+	public static final String AGGREGATION_IMAGE = "icons/pal/aggregation.gif";//$NON-NLS-1$
+	public static final String LEVEL_AGGREGATION = "icons/pal/cell-level-aggregation.gif";//$NON-NLS-1$
+	public static final String SHOW_HIDE_LEVEL = "icons/pal/show-hide-level.gif";//$NON-NLS-1$
+	public static final String LEVEL_ARROW = "icons/pal/level-arrow.gif";//$NON-NLS-1$
+	public static final String COLUMN_GRAND_TOTAL_IMAGE="icons/pal/col-grand-total.gif"; //$NON-NLS-1$
+	public static final String ROW_GRAND_TOTAL_IMAGE="icons/pal/row-grand-total.gif"; //$NON-NLS-1$
+	public static final String COLUMN_SUB_TOTAL_IMAGE="icons/pal/col-subtotal.gif"; //$NON-NLS-1$
+	public static final String ROW_SUB_TOTAL_IMAGE="icons/pal/row-subtotal.gif"; //$NON-NLS-1$
+	public static final String OPTIONS_ICON = "icons/pal/options.gif";//$NON-NLS-1$
+	public static final String ADD_DERIVED_MEASURE = "icons/pal/derived-measure.gif";//$NON-NLS-1$
 
 	
 	private static Image createImage( String sPluginRelativePath )

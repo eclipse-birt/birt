@@ -169,7 +169,7 @@ public class LibraryDropListener extends DesignerDropListener
 		{
 			bool = true;
 		}
-		return bool & supportList.indexOf( transfer ) >= 0;
+		return bool && supportList.indexOf( transfer ) >= 0;
 	}
 
 	/*

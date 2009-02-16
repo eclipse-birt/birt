@@ -62,7 +62,7 @@ import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 public class CrosstabAdaptUtil
 {
 
-	protected static Logger logger = Logger.getLogger( CrosstabAdaptUtil.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( CrosstabAdaptUtil.class.getName( ) );
 
 	/**
 	 * Gets the row or column count after the handel, now include the current

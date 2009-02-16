@@ -55,12 +55,12 @@ public class DesignerConstants
 	/**
 	 * Map between CSS style font family to system font family
 	 */
-	public static Map familyMap = new HashMap( );
+	public static final Map familyMap = new HashMap( );
 
 	/**
 	 * Map between CSS font to system font
 	 */
-	public static Map fontMap = new HashMap( );
+	public static final Map fontMap = new HashMap( );
 
 	/**
 	 * Static table stores the font families. It provides the font name and the

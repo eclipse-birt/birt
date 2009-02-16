@@ -27,7 +27,7 @@ public class MeasureComboPropertyDescriptorProvider extends
 {
 
 	protected CrosstabReportItemHandle crosstabHandle;
-	protected static Logger logger = Logger.getLogger( MeasureComboPropertyDescriptorProvider.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( MeasureComboPropertyDescriptorProvider.class.getName( ) );
 
 	protected final String TRANS_NAME = Messages.getString( "MeasureComboPropertyDescriptorProvider.TransName" );
 	public MeasureComboPropertyDescriptorProvider( String property,

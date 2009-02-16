@@ -52,7 +52,7 @@ import org.eclipse.ui.part.FileEditorInput;
 public class IDEMultiPageReportEditor extends MultiPageReportEditor
 {
 
-	protected static Logger logger = Logger.getLogger( IDEMultiPageReportEditor.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( IDEMultiPageReportEditor.class.getName( ) );
 
 	/**
 	 * Report element ID marker attribute. It's used to record the report

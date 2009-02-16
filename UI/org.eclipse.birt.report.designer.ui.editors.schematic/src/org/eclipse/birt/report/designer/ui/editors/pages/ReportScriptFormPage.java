@@ -57,7 +57,7 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 public class ReportScriptFormPage extends ReportFormPage
 {
 
-	protected static Logger logger = Logger.getLogger( ReportScriptFormPage.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( ReportScriptFormPage.class.getName( ) );
 
 	private ModelEventManager manager = getModelEventManager( );
 	public static final String ID = MultiPageReportEditor.ScriptForm_ID; //$NON-NLS-1$

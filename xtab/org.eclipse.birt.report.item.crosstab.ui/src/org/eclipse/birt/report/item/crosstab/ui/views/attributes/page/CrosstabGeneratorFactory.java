@@ -30,7 +30,7 @@ import org.eclipse.core.runtime.IAdapterFactory;
 
 public class CrosstabGeneratorFactory implements IAdapterFactory
 {
-	protected static Logger logger = Logger.getLogger( CrosstabGeneratorFactory.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( CrosstabGeneratorFactory.class.getName( ) );
 
 	public Object getAdapter( Object adaptableObject, Class adapterType )
 	{

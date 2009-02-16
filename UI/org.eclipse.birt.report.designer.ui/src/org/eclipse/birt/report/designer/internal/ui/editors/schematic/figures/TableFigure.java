@@ -62,8 +62,8 @@ public class TableFigure extends FreeformViewport implements
 				int hHint )
 		{
 			getContents( ).invalidateTree( );
-			wHint = Math.max( 0, wHint );
-			hHint = Math.max( 0, hHint );
+			//wHint = Math.max( 0, wHint );
+			//hHint = Math.max( 0, hHint );
 
 			return ( (FreeformFigure) getContents( ) ).getFreeformExtent( )
 					.getExpanded( getInsets( ) )

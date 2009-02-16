@@ -50,7 +50,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 public class DeleteCommand extends Command
 {
 
-	protected static Logger logger = Logger.getLogger( DeleteCommand.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( DeleteCommand.class.getName( ) );
 	private Object model = null;
 
 	private ArrayList embeddedImageList = new ArrayList( );

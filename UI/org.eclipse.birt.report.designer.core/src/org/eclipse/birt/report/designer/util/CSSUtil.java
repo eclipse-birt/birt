@@ -63,7 +63,7 @@ public class CSSUtil
 	/**
 	 *  
 	 */
-	public static org.eclipse.swt.graphics.Point dpi = Display.getDefault( )
+	public static final org.eclipse.swt.graphics.Point dpi = Display.getDefault( )
 			.getDPI( );
 
 	/**

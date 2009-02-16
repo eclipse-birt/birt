@@ -60,12 +60,12 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Expression value cell editor
  * 
- * @version $Revision: 1.15 $ $Date: 2008/01/25 08:46:59 $
+ * @version $Revision: 1.16 $ $Date: 2008/04/18 08:57:04 $
  */
 public class ExpressionValueCellEditor extends CellEditor
 {
 
-	protected static Logger logger = Logger.getLogger( ExpressionValueCellEditor.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( ExpressionValueCellEditor.class.getName( ) );
 
 	private static String[] actions = new String[]{
 		Messages.getString( "ExpressionValueCellEditor.selectValueAction" ) //$NON-NLS-1$

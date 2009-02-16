@@ -49,7 +49,7 @@ import org.eclipse.swt.widgets.Table;
 
 public class SubTotalProvider extends AbstractFormHandleProvider
 {
-	protected static Logger logger = Logger.getLogger( SubTotalProvider.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( SubTotalProvider.class.getName( ) );
 
 	private CellEditor[] editors;
 	private String[] columnNames = new String[]{

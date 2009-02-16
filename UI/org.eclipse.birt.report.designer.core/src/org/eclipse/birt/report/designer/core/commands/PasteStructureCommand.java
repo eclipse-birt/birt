@@ -30,7 +30,7 @@ import org.eclipse.gef.commands.Command;
 
 public class PasteStructureCommand extends Command
 {
-	protected static Logger logger = Logger.getLogger( PasteStructureCommand.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( PasteStructureCommand.class.getName( ) );
 	private IStructure copyData;
 	private Object container;
 

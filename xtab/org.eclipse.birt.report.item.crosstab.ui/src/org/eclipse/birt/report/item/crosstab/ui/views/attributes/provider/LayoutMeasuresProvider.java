@@ -32,7 +32,7 @@ public class LayoutMeasuresProvider extends AbstractDescriptorProvider
 
 	protected Object input;
 	protected CrosstabReportItemHandle crosstabHandle;
-	protected static Logger logger = Logger.getLogger( LayoutMeasuresProvider.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( LayoutMeasuresProvider.class.getName( ) );
 
 	/*
 	 * (non-Javadoc)

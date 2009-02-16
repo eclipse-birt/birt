@@ -67,7 +67,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 		IReportLauncherSettings
 {
 
-	protected static Logger logger = Logger.getLogger( ReportAdvancedLauncherTab.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( ReportAdvancedLauncherTab.class.getName( ) );
 	private static final String REPORTPROJECTKID = "org.eclipse.birt.report.designer.ui.reportprojectnature"; //$NON-NLS-1$	
 	private Label fUseListRadio;
 	private CheckboxTreeViewer fPluginTreeViewer;
@@ -252,13 +252,13 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 	 */
 	private void hookListeners( )
 	{
-		SelectionAdapter adapter = new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				useDefaultChanged( );
-			}
-		};
+//		SelectionAdapter adapter = new SelectionAdapter( ) {
+//
+//			public void widgetSelected( SelectionEvent e )
+//			{
+//				useDefaultChanged( );
+//			}
+//		};
 
 		fDefaultsButton.addSelectionListener( new SelectionAdapter( ) {
 
