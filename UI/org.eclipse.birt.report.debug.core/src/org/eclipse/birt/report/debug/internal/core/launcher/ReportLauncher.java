@@ -295,7 +295,7 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 		if ( temp instanceof ScalarParameterHandle )
 		{
 			ScalarParameterHandle handle = (ScalarParameterHandle) temp;
-			String formate = handle.getPattern( );
+			//String formate = handle.getPattern( );
 			String dataType = handle.getDataType( );
 
 			try
