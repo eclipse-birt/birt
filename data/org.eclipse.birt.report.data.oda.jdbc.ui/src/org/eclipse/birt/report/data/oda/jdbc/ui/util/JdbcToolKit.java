@@ -18,6 +18,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.sql.Driver;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -38,6 +39,8 @@ public class JdbcToolKit
 	private static List jdbcDriverInfos = null;
 	// A list kept failure loaded driver files
 	private static List failLoadFileList = null;
+	// A list keep the add-in drivers every time the dialog is open
+	private static List tempAddedInDriverInfos = null;
 
 	// A map from driverClass (String) to JDBCDriverInformation
 	private static HashMap driverNameMap = null;
@@ -55,6 +58,7 @@ public class JdbcToolKit
 		failLoadFileList = null;
 		driverNameMap = null;
 		file2Drivers = null;
+		tempAddedInDriverInfos = null;
 	}
 	 
 	 /**
@@ -84,7 +88,9 @@ public class JdbcToolKit
 					fileList.add( failToLoadFile );
 			}
 		}
-		jdbcDriverInfos.addAll( getJDBCDriverInfoList( fileList ) );
+		List driverInfos = getJDBCDriverInfoList( fileList );
+		jdbcDriverInfos.addAll( driverInfos );
+		tempAddedInDriverInfos.addAll( driverInfos );
 	}
 
 	/**
@@ -107,12 +113,14 @@ public class JdbcToolKit
 				resetPreferences( );
 				JdbcDriverManagerDialog.resetDriverChangedStatus( );
 			}
+			tempAddedInDriverInfos.clear( );
 
 			return getDriverList( );
 		}
 		
 		jdbcDriverInfos = new ArrayList( );
 		failLoadFileList = new ArrayList( );
+		tempAddedInDriverInfos = new ArrayList( );
 		driverNameMap = new HashMap( );
 		file2Drivers = new Hashtable( );
 
@@ -189,17 +197,13 @@ public class JdbcToolKit
 			}
 		}
 	}
-
-	/**
-	 * Get a List of JDBCDriverInformations loaded from the given fileList
-	 * @param fileList the File List
-	 * @param urlClassLoader
-	 * @return List of JDBCDriverInformation
-	 */
-	private static List getJDBCDriverInfoList( List fileList )
+	
+	private static List getJDBCDriverInfoListFromODADir( List fileList )
 	{
 		List driverList = new ArrayList( );
-		File[] allJars = JarFile.getDriverLocation( )
+		List allJars = new ArrayList( );
+		allJars.addAll( fileList );
+		allJars.addAll( Arrays.asList( JarFile.getDriverLocation( )
 				.listFiles( new FileFilter( ) {
 
 					public boolean accept( File fileName )
@@ -215,11 +219,64 @@ public class JdbcToolKit
 						}
 						return false;
 					}
-				} );
-		if( allJars == null || allJars.length == 0 )
+				} ) ) );
+
+		if ( allJars == null || allJars.size( ) == 0 )
 			return driverList;
 		
-		URLClassLoader urlClassLoader = createClassLoader( allJars );
+		URLClassLoader urlClassLoader = createClassLoader( allJars.toArray( ) );
+		for ( int i = 0; i < fileList.size( ); i++ )
+		{
+			String[] resourceNames = getAllResouceNames( (File) fileList.get( i ) );
+			List subDriverList = new ArrayList( );
+			for ( int j = 0; j < resourceNames.length; j++ )
+			{
+				String resourceName = resourceNames[j];
+				if ( resourceName.endsWith( ".class" ) ) //$NON-NLS-1$
+				{
+					resourceName = modifyResourceName( resourceName );
+
+					Class aClass = loadClass( urlClassLoader, resourceName );
+
+					// Do not add it, if it is a Abstract class
+					if ( isImplementedDriver( aClass ) )
+					{
+						JDBCDriverInformation info = JDBCDriverInformation.newInstance( aClass );
+						if ( info != null )
+						{
+							driverList.add( info );
+							subDriverList.add( info );
+						}
+					}
+				}
+			}
+			if ( subDriverList.isEmpty( ) )
+			{
+				if ( !failLoadFileList.contains( fileList.get( i ) ) )
+					failLoadFileList.add( fileList.get( i ) );
+			}
+			else
+			{
+				if ( failLoadFileList.contains( fileList.get( i ) ) )
+					failLoadFileList.remove( fileList.get( i ) );
+			}
+			file2Drivers.put( ( (File) fileList.get( i ) ).getName( ),
+					subDriverList );
+		}
+		return driverList;
+	}
+
+	/**
+	 * Get a List of JDBCDriverInformations loaded from the given fileList
+	 * @param fileList the File List
+	 * @param urlClassLoader
+	 * @return List of JDBCDriverInformation
+	 */
+	private static List getJDBCDriverInfoList( List fileList )
+	{
+		List driverList = new ArrayList( );
+		
+		URLClassLoader urlClassLoader = createClassLoader( fileList.toArray( ) );
 		for ( int i = 0; i < fileList.size( ); i++ )
 		{
 			String[] resourceNames = getAllResouceNames( (File) fileList.get( i ) );
@@ -343,6 +400,20 @@ public class JdbcToolKit
 	}
 	
 	/**
+	 * Discards the temporary add-in drivers list
+	 * 
+	 */
+	public static void discardAddedInDrivers( )
+	{
+		for ( int i = 0; i < tempAddedInDriverInfos.size( ); i++ )
+		{
+			jdbcDriverInfos.remove( tempAddedInDriverInfos.get( i ) );
+		}
+		tempAddedInDriverInfos.clear( );
+	}
+
+	
+	/**
 	 * Search files under "drivers" directory for JDBC drivers. Found drivers are added
 	 * to jdbdDriverInfos as JDBCDriverInformation instances
 	 */
@@ -367,7 +438,7 @@ public class JdbcToolKit
 	 * @param jdbcDriverFiles
 	 * @return
 	 */
-	private static URLClassLoader createClassLoader( File[] jdbcDriverFiles )
+	private static URLClassLoader createClassLoader( Object[] jdbcDriverFiles )
 	{
 		// Create a URL Array for the class loader to use
 		URL[] urlList = new URL[jdbcDriverFiles.length];

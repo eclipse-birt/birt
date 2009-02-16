@@ -229,7 +229,7 @@ public class JdbcDriverManagerDialog extends TrayDialog
 		page.setLayout( layout );
 		page.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		final Table table = new Table( page, SWT.BORDER | SWT.FULL_SELECTION );
+		final Table table = new Table( page, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI );
 
 		GridData data = new GridData( GridData.FILL_BOTH );
 		table.setLayoutData( data );
@@ -336,7 +336,7 @@ public class JdbcDriverManagerDialog extends TrayDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				addJar( );
+				addJars( );
 			}
 		} );
 
@@ -349,7 +349,7 @@ public class JdbcDriverManagerDialog extends TrayDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				restoreJar( );
+				restoreJars( );
 			}
 		} );
 
@@ -362,7 +362,7 @@ public class JdbcDriverManagerDialog extends TrayDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				deleteJar( );
+				deleteJars( );
 			}
 		} );
 
@@ -909,12 +909,22 @@ public class JdbcDriverManagerDialog extends TrayDialog
 	 */
 	private void updateJarButtons( )
 	{
-		restoreButton.setEnabled( jarViewer.getTable( ).getSelectionIndex( ) >= 0
+		int indices[] = jarViewer.getTable( ).getSelectionIndices( );
+		boolean enableRestoreBtn = indices.length > 0;
+		for ( int i = 0; i < indices.length; i++ )
+		{
+			if ( !JarFile.ODA_FILE_NOT_EXIST_TOKEN.equals( jarViewer.getTable( )
+					.getItem( indices[i] )
+					.getText( ) ) )
+			{
+				enableRestoreBtn = false;
+				break;
+			}
+		}
+		restoreButton.setEnabled( enableRestoreBtn
+				&& jarViewer.getTable( ).getSelectionIndex( ) >= 0
 				&& jarViewer.getTable( ).getSelectionIndex( ) < jarViewer.getTable( )
-						.getItemCount( )
-				&& JarFile.ODA_FILE_NOT_EXIST_TOKEN.equals( jarViewer.getTable( )
-						.getItem( jarViewer.getTable( ).getSelectionIndex( ) )
-						.getText( ) ) );
+						.getItemCount( ) );
 
 		deleteButton.setEnabled( jarViewer.getTable( ).getSelectionIndex( ) >= 0
 				&& jarViewer.getTable( ).getSelectionIndex( ) < jarViewer.getTable( )
@@ -950,148 +960,166 @@ public class JdbcDriverManagerDialog extends TrayDialog
 	/**
 	 * actions after add button is click in jarPage
 	 */
-	private void addJar( )
+	private void addJars( )
 	{
 		jarChanged=true;
-		FileDialog dlg = new FileDialog( getShell( ) );
+		FileDialog dlg = new FileDialog( getShell( ), SWT.MULTI );
 		dlg.setFilterExtensions( new String[]{
 			"*.jar", "*.zip" //$NON-NLS-1$, $NON-NLS-2$
 			} );
 
 		if ( dlg.open( ) != null )
 		{
-			String fn = dlg.getFilterPath( )
-					+ File.separator
-					+ dlg.getFileName( );
-
-			if ( jarMap.containsKey( dlg.getFileName( ) )
-					&& !( (JarFile) jarMap.get( dlg.getFileName( ) ) ).getState( )
-							.equals( JarFile.ODA_FILE_NOT_EXIST_TOKEN ) )
+			String jarNames[] = dlg.getFileNames( );
+			String folder = dlg.getFilterPath( ) + File.separator;
+			for( int i = 0; i < jarNames.length; i++ )
 			{
-				// duplicate,can not add a driver
-				MessageDialog.openError( null,
-						JdbcPlugin.getResourceString( "driverManagerDialog.text.DriverError" ),
-						JdbcPlugin.getResourceString( "driverManagerDialog.error.CanNotAddDriver" ) );
-				return;
+				addSingleJar( folder + jarNames[i], jarNames[i] );
 			}
-			
-			JarFile jarInfo = new JarFile( dlg.getFileName( ), fn, "", false );
-			
-			if ( jarsToBeDeleted.containsKey( dlg.getFileName( ) ) )
-			{
-				jarsToBeDeleted.remove( dlg.getFileName( ) );
-			}
-			else
-			{
-				jarsToBeCopied.put( dlg.getFileName( ), jarInfo );
-			}
-			
-			if ( jarsToBeDeletedRuntime.containsKey( dlg.getFileName( ) ) )
-			{
-				jarsToBeDeletedRuntime.remove( dlg.getFileName( ) );
-			}
-			else
-			{
-				jarsToBeCopiedRuntime.put( dlg.getFileName( ), jarInfo );
-			}
-			
-			jarMap.put( dlg.getFileName( ), jarInfo );
-
 			refreshJarViewer( );
 
 			updateJarButtons( );
 		}
 	}
+	
+	private void addSingleJar( String folder, String fileName )
+	{
+		if ( folder == null
+				|| folder.trim( ).length( ) == 0 || fileName == null
+				|| fileName.trim( ).length( ) == 0 )
+		{
+			return;
+		}
 
+		if ( jarMap.containsKey( fileName )
+				&& !JarFile.ODA_FILE_NOT_EXIST_TOKEN.equals( ( (JarFile) jarMap.get( fileName ) ).getState( ) ) )
+		{
+			// duplicate,can not add a driver
+			MessageDialog.openError( null,
+					JdbcPlugin.getResourceString( "driverManagerDialog.text.DriverError" ),
+					JdbcPlugin.getResourceString( "driverManagerDialog.error.CanNotAddDriver" ) );
+			return;
+		}
+		
+		JarFile jarInfo = new JarFile( fileName, folder, "", false );
+		System.out.println( jarInfo.toString( ) );
+		
+		if ( jarsToBeDeleted.containsKey( fileName ) )
+		{
+			jarsToBeDeleted.remove( fileName );
+		}
+		else
+		{
+			jarsToBeCopied.put( fileName, jarInfo );
+		}
+		
+		if ( jarsToBeDeletedRuntime.containsKey( fileName ) )
+		{
+			jarsToBeDeletedRuntime.remove( fileName );
+		}
+		else
+		{
+			jarsToBeCopiedRuntime.put( fileName, jarInfo );
+		}
+		
+		jarMap.put( fileName, jarInfo );
+		
+	}
+
+	private void restoreJars( )
+	{
+		jarChanged=true;
+		
+		TableItem[] restoredItems = jarViewer.getTable( ).getSelection( );
+		int[] indices = jarViewer.getTable( ).getSelectionIndices( );
+		
+		for ( int i = 0; i < restoredItems.length; i++ )
+		{
+			restoreSingleJar( restoredItems[i], indices[i] );
+		}
+		
+		refreshJarViewer( );
+
+		updateJarButtons( );
+	}
+	
 	/**
 	 * actions after restore button is click in jarPage
 	 */
-	private void restoreJar( )
+	private void restoreSingleJar( TableItem item, int index )
 	{
-		jarChanged=true;
-
 		//restore jar.
-		if ( jarViewer.getTable( ).getSelectionIndex( ) >= 0
-				&& jarViewer.getTable( ).getSelectionIndex( ) < jarViewer.getTable( )
-						.getItemCount( ) )
+		if ( index >= 0 && index < jarViewer.getTable( ).getItemCount( ) )
 		{
-			Map.Entry fn = (Map.Entry) jarViewer.getTable( ).getSelection( )[0].getData( );
+			Map.Entry fn = (Map.Entry) jarViewer.getTable( )
+					.getItem( index )
+					.getData( );
+			JarFile jarFile = (JarFile) fn.getValue( );
 
-			( (JarFile) fn.getValue( ) ).setRestored( );
-			jarsToBeCopied.put( ( (JarFile) fn.getValue( ) ).getFileName( ),
-					(JarFile) fn.getValue( ) );
-			jarsToBeCopiedRuntime.put( ( (JarFile) fn.getValue( ) ).getFileName( ),
-					(JarFile) fn.getValue( ) );			
-			
-			( (JarFile) fn.getValue( ) ).checkJarState( );
+			jarFile.setRestored( );
+			jarsToBeCopied.put( jarFile.getFileName( ), jarFile );
+			jarsToBeCopiedRuntime.put( jarFile.getFileName( ), jarFile );
 
-			refreshJarViewer( );
-
-			updateJarButtons( );
+			jarFile.checkJarState( );
 		}
 	}
 
 	/**
 	 * actions after delete button is click in jarPage
 	 */
-	private void deleteJar( )
+	private void deleteJars( )
 	{
-		jarChanged=true;
+		jarChanged = true;
 
-		if ( jarViewer.getTable( ).getSelectionIndex( ) >= 0
-				&& jarViewer.getTable( ).getSelectionIndex( ) < jarViewer.getTable( )
-						.getItemCount( ) )
+		TableItem[] deletedItems = jarViewer.getTable( ).getSelection( );
+		int[] indices = jarViewer.getTable( ).getSelectionIndices( );
+		for ( int i = 0; i < deletedItems.length; i++ )
 		{
-			int idx = jarViewer.getTable( ).getSelectionIndex( );
-
-			Map.Entry fn = (Map.Entry) jarViewer.getTable( ).getSelection( )[0].getData( );
-			JarFile jarFile = (JarFile) fn.getValue( );
-
-			jarFile.setToBeDeleted( true );
-
-			if ( jarsToBeCopied.containsKey( jarFile.getFileName() ) )
-			{
-				jarsToBeCopied.remove( jarFile.getFileName( ) );
-			}
-			// "" and "*" should be put into jarsToBeDeleted
-			// "+" should've been handled already in jarsToBeCopied
-			// "x" should be deleted from the viewer alone
-			else if ( !( jarFile.getState( )
-					.indexOf( JarFile.ODA_FILE_NOT_EXIST_TOKEN ) != -1 ) )
-			{
-				jarsToBeDeleted.put( jarFile.getFileName( ), jarFile );
-			}
-			
-			if ( jarsToBeCopiedRuntime.containsKey( jarFile.getFileName( ) ) )
-			{
-				jarsToBeCopiedRuntime.remove( jarFile.getFileName( ) );
-			}
-			// "" and "*" should be put into jarsToBeDeletedRuntime
-			// "+" should've been handled already in jarsToBeCopied
-			// "x" should be deleted from the viewer alone
-			else if ( !( jarFile.getState( )
-					.indexOf( JarFile.ODA_FILE_NOT_EXIST_TOKEN ) != -1 ) )
-			{
-				jarsToBeDeletedRuntime.put( jarFile.getFileName( ), jarFile );
-			}
-			
-			jarMap.remove( fn.getKey( ) );
-
-			jarViewer.getTable( ).remove( idx );
-
-			jarViewer.refresh( );
-
-			if ( idx >= jarViewer.getTable( ).getItemCount( ) )
-			{
-				idx--;
-			}
-
-			jarViewer.getTable( ).select( idx );
-
-			refreshJarViewer( );
-
-			updateJarButtons( );
+			deleteSingleJar( deletedItems[i], indices[i]-i );
 		}
+		jarViewer.getTable( )
+				.select( jarViewer.getTable( ).getItemCount( ) - 1 );
+
+		refreshJarViewer( );
+
+		updateJarButtons( );
+	}
+
+	private void deleteSingleJar( TableItem item, int index )
+	{
+		Map.Entry fn = (Map.Entry) item.getData( );
+		JarFile jarFile = (JarFile) fn.getValue( );
+		jarFile.setToBeDeleted( true );
+
+		if ( jarsToBeCopied.containsKey( jarFile.getFileName() ) )
+		{
+			jarsToBeCopied.remove( jarFile.getFileName( ) );
+		}
+		// "" and "*" should be put into jarsToBeDeleted
+		// "+" should've been handled already in jarsToBeCopied
+		// "x" should be deleted from the viewer alone
+		else if ( !( jarFile.getState( )
+				.indexOf( JarFile.ODA_FILE_NOT_EXIST_TOKEN ) != -1 ) )
+		{
+			jarsToBeDeleted.put( jarFile.getFileName( ), jarFile );
+		}
+		
+		if ( jarsToBeCopiedRuntime.containsKey( jarFile.getFileName( ) ) )
+		{
+			jarsToBeCopiedRuntime.remove( jarFile.getFileName( ) );
+		}
+		// "" and "*" should be put into jarsToBeDeletedRuntime
+		// "+" should've been handled already in jarsToBeCopied
+		// "x" should be deleted from the viewer alone
+		else if ( !( jarFile.getState( )
+				.indexOf( JarFile.ODA_FILE_NOT_EXIST_TOKEN ) != -1 ) )
+		{
+			jarsToBeDeletedRuntime.put( jarFile.getFileName( ), jarFile );
+		}
+		
+		jarMap.remove( fn.getKey( ) );
+		
+		jarViewer.getTable( ).remove( index );
 	}
 	
 	/**
@@ -1168,6 +1196,7 @@ public class JdbcDriverManagerDialog extends TrayDialog
 	protected void cancelPressed( )
 	{
 		super.cancelPressed( );
+		JdbcToolKit.discardAddedInDrivers( );
 	}
 
 	/*
@@ -1229,9 +1258,11 @@ public class JdbcDriverManagerDialog extends TrayDialog
 				info = (JDBCDriverInformation) drivers.get( i );
 				try
 				{
-					manager.loadAndRegisterDriver( info.getDriverClassName( ),
+					String driverClassName = info.getDriverClassName( );
+					manager.updateStatusForRegister( driverClassName );
+					manager.loadAndRegisterDriver( driverClassName,
 							null );
-					manager.updateStatus( info.getDriverClassName( ) );
+					manager.updateStatus( driverClassName );
 				}
 				catch ( OdaException e )
 				{

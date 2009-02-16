@@ -60,6 +60,7 @@ public class JDBCDriverManager
     public static final String JDBC_PASSWORD_PROP_NAME = "password"; //$NON-NLS-1$
     public static final String DRIVER_REGISTERED = "registered";
     public static final String DRIVER_DEREGISTERED = "deregistered";
+    public static final String DRIVER_RELOAD = "registerAfterDeregistered";
 
     // Driver classes that we have registered with JDBC DriverManager
 	private  HashMap registeredDrivers = new HashMap();
@@ -449,6 +450,14 @@ public class JDBCDriverManager
 		}
 	}
 	
+	public void updateStatusForRegister( String className )
+	{
+		if ( isDeregistered( className ) )
+		{
+			registeredDrivers.put( className, DRIVER_RELOAD );
+		}
+	}
+
 	/**
 	 * The method which test whether the give connection properties can be used
 	 * to create a connection
