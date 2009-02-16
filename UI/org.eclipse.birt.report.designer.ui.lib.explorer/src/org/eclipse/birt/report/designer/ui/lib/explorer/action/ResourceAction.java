@@ -45,7 +45,6 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -802,24 +801,20 @@ public abstract class ResourceAction extends Action
 
 				try
 				{
+					boolean isOK = true;
+
 					for ( File file : files )
 					{
-						remove( file, monitor );
+						isOK &= remove( file, monitor );
 					}
 					fireResourceChanged( new File( ReportPlugin.getDefault( )
 							.getResourceFolder( ) ).getAbsolutePath( ) );
-				}
-				catch ( IOException e )
-				{
-					throw new InvocationTargetException( e );
-				}
-				catch ( PartInitException e )
-				{
-					throw new InvocationTargetException( e );
-				}
-				catch ( CoreException e )
-				{
-					throw new InvocationTargetException( e );
+
+					if ( !isOK )
+					{
+						throw new InvocationTargetException( null,
+								Messages.getString( "ResourceAction.FileRemoveFailure" ) ); //$NON-NLS-1$
+					}
 				}
 				finally
 				{
@@ -887,8 +882,6 @@ public abstract class ResourceAction extends Action
 	 *            the source file
 	 * @param destFile
 	 *            the target file
-	 * @throws IOException
-	 *             if an error occurs.
 	 */
 	private boolean renameFile( File srcFile, File destFile )
 	{
@@ -906,17 +899,12 @@ public abstract class ResourceAction extends Action
 	 * 
 	 * @param file
 	 *            the specified file or folder to remove.
-	 * @throws CoreException
-	 *             if the resource changes are disallowed.
-	 * @throws IOException
-	 *             if an I/O error occurs.
-	 * @throws PartInitException
-	 *             if workbench part cannot be initialized correctly.
+	 * @return <code>true</code> if and only if the specified file is
+	 *         successfully deleted; <code>false</code> otherwise
 	 */
-	protected void remove( File file ) throws CoreException, IOException,
-			PartInitException
+	private boolean remove( File file )
 	{
-		remove( file, null );
+		return remove( file, null );
 	}
 
 	/**
@@ -927,17 +915,13 @@ public abstract class ResourceAction extends Action
 	 * @param monitor
 	 *            the progress monitor to use to display progress and receive
 	 *            requests for cancelation.
-	 * @throws CoreException
-	 *             if the resource changes are disallowed.
-	 * @throws IOException
-	 *             if an I/O error occurs.
-	 * @throws PartInitException
-	 *             if workbench part cannot be initialized correctly.
+	 * @return <code>true</code> if and only if the specified file is
+	 *         successfully deleted; <code>false</code> otherwise
 	 */
-	protected void remove( File file, IProgressMonitor monitor )
-			throws CoreException, IOException, PartInitException
+	private boolean remove( File file, IProgressMonitor monitor )
 	{
 		String[] children = file.list( );
+		boolean isOK = true;
 
 		if ( children != null )
 		{
@@ -945,12 +929,13 @@ public abstract class ResourceAction extends Action
 			{
 				if ( monitor != null && monitor.isCanceled( ) )
 				{
-					return;
+					return isOK;
 				}
-				remove( new File( file.getAbsolutePath( ), child ) );
+				isOK &= remove( new File( file.getAbsolutePath( ), child ) );
 			}
 		}
-		removeFile( file );
+		isOK &= removeFile( file );
+		return isOK;
 	}
 
 	/**
@@ -958,18 +943,17 @@ public abstract class ResourceAction extends Action
 	 * 
 	 * @param file
 	 *            the specified file to remove.
-	 * @throws CoreException
-	 *             if the resource changes are disallowed.
-	 * @throws PartInitException
-	 *             if workbench part cannot be initialized correctly.
+	 * @return <code>true</code> if and only if the specified file is
+	 *         successfully deleted; <code>false</code> otherwise
 	 */
-	private void removeFile( File file ) throws CoreException,
-			PartInitException
+	private boolean removeFile( File file )
 	{
+		boolean isOK = false;
+
 		if ( file != null )
 		{
-			file.delete( );
+			isOK = file.delete( );
 		}
+		return isOK;
 	}
-
 }

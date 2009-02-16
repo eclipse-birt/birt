@@ -352,14 +352,9 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor
 	 */
 	protected IVerticalRuler createVerticalRuler( )
 	{
-		IVerticalRuler ruler = createCompositeRuler( );
+		CompositeRuler ruler = createCompositeRuler( );
 
-		if ( ruler instanceof CompositeRuler )
-		{
-			CompositeRuler compositeRuler = (CompositeRuler) ruler;
-
-			compositeRuler.addDecorator( 0, createLineNumberRulerColumn( ) );
-		}
+		ruler.addDecorator( 0, createLineNumberRulerColumn( ) );
 		return ruler;
 	}
 
