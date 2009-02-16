@@ -36,7 +36,9 @@ public class DesignerConstants
 	private static final String FONT_FAMILY_TIMES_NEW_ROMAN = "Times New Roman"; //$NON-NLS-1$
 
 	public static final String KEY_NEWOBJECT = "newObject"; //$NON-NLS-1$
-
+	
+	public static final String NEWOBJECT_FROM_LIBRARY = "newObject from library"; //$NON-NLS-1$
+	
 	public static final String DIRECT_CREATEITEM = "direct create item"; //$NON-NLS-1$
 	
 	public static final String TABLE_ROW_NUMBER = "rowNumber"; //$NON-NLS-1$

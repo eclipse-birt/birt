@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.ReportDesignHandleAdapter;
@@ -127,6 +128,10 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	 */
 	public void performRequest( Request request )
 	{
+		if (request.getExtendedData( ).get( DesignerConstants.NEWOBJECT_FROM_LIBRARY )!= null)
+		{
+			return ;
+		}
 		if ( RequestConstants.REQ_OPEN.equals( request.getType( ) )
 				|| ReportRequest.CREATE_ELEMENT.equals( request.getType( ) ) )
 		{

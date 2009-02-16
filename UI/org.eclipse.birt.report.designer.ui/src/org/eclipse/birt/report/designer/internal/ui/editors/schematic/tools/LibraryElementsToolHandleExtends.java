@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.runtime.GUIException;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -51,7 +52,9 @@ public class LibraryElementsToolHandleExtends extends AbstractToolHandleExtends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseUp()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.
+	 * AbstractToolHandleExtends#preHandleMouseUp()
 	 */
 	public boolean preHandleMouseUp( )
 	{
@@ -97,14 +100,17 @@ public class LibraryElementsToolHandleExtends extends AbstractToolHandleExtends
 			}
 
 		}
-
+		getRequest( ).getExtendedData( )
+				.put( DesignerConstants.NEWOBJECT_FROM_LIBRARY, Boolean.TRUE );
 		return super.preHandleMouseUp( );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.
+	 * AbstractToolHandleExtends#preHandleMouseDown()
 	 */
 	public boolean preHandleMouseDown( )
 	{

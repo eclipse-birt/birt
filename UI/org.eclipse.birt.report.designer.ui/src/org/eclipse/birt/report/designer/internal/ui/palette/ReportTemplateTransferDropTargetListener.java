@@ -284,9 +284,14 @@ public class ReportTemplateTransferDropTargetListener extends
 					return;
 				}
 
+				Request request = new Request();
+				if (getCreateRequest( ).getExtendedData( ).get( DesignerConstants.NEWOBJECT_FROM_LIBRARY ) != null)
+				{
+					request.getExtendedData( ).put( DesignerConstants.NEWOBJECT_FROM_LIBRARY, getCreateRequest( ).getExtendedData( ).get( DesignerConstants.NEWOBJECT_FROM_LIBRARY ) );
+				}
 				if ( isScalarparameter || isResultSetColumn )
 				{
-					Request request = new Request( ReportRequest.CREATE_SCALARPARAMETER_OR_RESULTSETCOLUMN );
+					request.setType( ReportRequest.CREATE_SCALARPARAMETER_OR_RESULTSETCOLUMN );
 					selectAddedObject( request );
 				}
 				else if ( isEmbeddImage )
@@ -302,11 +307,14 @@ public class ReportTemplateTransferDropTargetListener extends
 					{
 						ExceptionHandler.handle( e );
 					}
-					Request request = new Request( ReportRequest.SELECTION );
+					request.setType( ReportRequest.SELECTION );
 					selectAddedObject( request );
 				}
 				else
-					selectAddedObject( );
+				{
+					request.setType( ReportRequest.CREATE_ELEMENT );
+					selectAddedObject( request );
+				}
 			}
 
 			stack.commit( );
