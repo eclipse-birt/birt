@@ -30,7 +30,7 @@ public class CrosstabCellImpl extends SimpleRowItem implements ICrosstabCell
 	{
 		super( (ExtendedItemHandle) cch.getModelHandle( ) );
 
-		if ( cch != null && cch.getModelHandle( ) != null )
+		if ( cch.getModelHandle( ) != null )
 		{
 			id = cch.getModelHandle( ).getID( );
 		}

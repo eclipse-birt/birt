@@ -49,19 +49,19 @@ public class CrosstabCellInstanceImpl implements ICrosstabCellInstance
 		if ( modelHandle != null )
 		{
 			id = modelHandle.getID( );
-		}
 
-		try
-		{
-			IReportItem item = modelHandle.getReportItem( );
-			if ( item instanceof AggregationCellHandle )
+			try
 			{
-				type = TYPE_AGGREGATION;
+				IReportItem item = modelHandle.getReportItem( );
+				if ( item instanceof AggregationCellHandle )
+				{
+					type = TYPE_AGGREGATION;
+				}
 			}
-		}
-		catch ( ExtendedElementException e )
-		{
-			e.printStackTrace( );
+			catch ( ExtendedElementException e )
+			{
+				e.printStackTrace( );
+			}
 		}
 	}
 

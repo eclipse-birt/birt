@@ -56,7 +56,7 @@ class CrosstabFactoryStyle implements IStyleDeclaration
 				|| BORDER_LEFT_COLOR_PROP.equals( name )
 				|| BORDER_RIGHT_COLOR_PROP.equals( name ) )
 		{
-			return new Integer( ColorUtil.formRGB( 0xcc, 0xcc, 0xcc ) );
+			return Integer.valueOf( ColorUtil.formRGB( 0xcc, 0xcc, 0xcc ) );
 		}
 		return null;
 	}

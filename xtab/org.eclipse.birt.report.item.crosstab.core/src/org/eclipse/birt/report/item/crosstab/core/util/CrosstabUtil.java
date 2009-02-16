@@ -134,8 +134,10 @@ public class CrosstabUtil implements ICrosstabConstants
 	public static boolean canContain( CrosstabReportItemHandle crosstab,
 			DimensionHandle dimension )
 	{
-		if ( crosstab.getModelHandle( ).getExtends( ) != null )
+		if ( crosstab != null
+				&& crosstab.getModelHandle( ).getExtends( ) != null )
 			return false;
+
 		if ( crosstab != null && dimension != null )
 		{
 			CubeHandle currentCube = crosstab.getCube( );
@@ -189,8 +191,10 @@ public class CrosstabUtil implements ICrosstabConstants
 	public static boolean canContain( CrosstabReportItemHandle crosstab,
 			MeasureHandle measure )
 	{
-		if ( crosstab.getModelHandle( ).getExtends( ) != null )
+		if ( crosstab != null
+				&& crosstab.getModelHandle( ).getExtends( ) != null )
 			return false;
+
 		if ( crosstab != null && measure != null )
 		{
 			CubeHandle currentCube = crosstab.getCube( );

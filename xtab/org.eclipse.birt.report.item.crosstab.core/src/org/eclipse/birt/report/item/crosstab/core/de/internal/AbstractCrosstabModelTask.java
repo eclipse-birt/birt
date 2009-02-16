@@ -1197,7 +1197,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 	/**
 	 * AggregationInfo
 	 */
-	class AggregationInfo
+	static class AggregationInfo
 	{
 
 		String rowDimension = null;
