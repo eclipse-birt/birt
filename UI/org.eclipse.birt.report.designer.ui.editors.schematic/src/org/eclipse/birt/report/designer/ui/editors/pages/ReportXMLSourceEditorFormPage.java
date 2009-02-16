@@ -511,6 +511,8 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		SessionHandleAdapter.getInstance( )
 				.getMediator( )
 				.notifyRequest( request );
+		
+		setFocus( );
 		return true;
 	}
 	

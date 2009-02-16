@@ -650,6 +650,8 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		SessionHandleAdapter.getInstance( )
 				.getMediator( getModel( ) )
 				.notifyRequest( request );
+		
+		reportXMLEditor.setFocus( );
 		return true;
 	}
 
