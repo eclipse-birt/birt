@@ -142,7 +142,7 @@ public class CommonDataExtractionOption extends DataExtractionOption
 	 */
 	public void setExportDataType( boolean isExportDataType )
 	{
-		setOption( OUTPUT_EXPORT_DATA_TYPE, new Boolean( isExportDataType ) );
+		setOption( OUTPUT_EXPORT_DATA_TYPE, Boolean.valueOf( isExportDataType ) );
 	}
 
 	/**
@@ -150,7 +150,7 @@ public class CommonDataExtractionOption extends DataExtractionOption
 	 */
 	public void setLocaleNeutralFormat( boolean isLocaleNeutralFormat )
 	{
-		setOption( OUTPUT_LOCALE_NEUTRAL_FORMAT, new Boolean(
+		setOption( OUTPUT_LOCALE_NEUTRAL_FORMAT, Boolean.valueOf(
 				isLocaleNeutralFormat ) );
 	}
 
