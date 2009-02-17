@@ -282,8 +282,8 @@ public class BirtWebProjectWizardConfigurationPage
 		WebArtifactUtil.setContextParamValue( properties,
 				BIRT_DOCUMENT_FOLDER_SETTING, txtDocumentFolder.getText( ) );
 		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_REPORT_ACCESSONLY_SETTING, new String( BLANK_STRING
-						+ btAccessOnly.getSelection( ) ) );
+				BIRT_REPORT_ACCESSONLY_SETTING, BLANK_STRING
+						+ btAccessOnly.getSelection( ) );
 		WebArtifactUtil.setContextParamValue( properties,
 				BIRT_IMAGE_FOLDER_SETTING, txtImageFolder.getText( ) );
 		WebArtifactUtil.setContextParamValue( properties,
@@ -291,8 +291,8 @@ public class BirtWebProjectWizardConfigurationPage
 		WebArtifactUtil.setContextParamValue( properties,
 				BIRT_LOG_FOLDER_SETTING, txtLogFolder.getText( ) );
 		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_OVERWRITE_DOCUMENT_SETTING, new String( BLANK_STRING
-						+ btOverwrite.getSelection( ) ) );
+				BIRT_OVERWRITE_DOCUMENT_SETTING, BLANK_STRING
+						+ btOverwrite.getSelection( ) );
 		WebArtifactUtil.setContextParamValue( properties,
 				BIRT_MAX_ROWS_SETTING, DataUtil.getNumberSetting( txtMaxRows
 						.getText( ) ) );

@@ -207,10 +207,11 @@ public class ImportBirtRuntimeAction extends Action
 		Map map = BirtWizardUtil.initConflictResources( null );
 
 		// clear
-		Iterator it = map.keySet( ).iterator( );
+		Iterator it = map.entrySet( ).iterator( );
 		while ( it.hasNext( ) )
 		{
-			String folder = (String) it.next( );
+			Map.Entry entry = (Map.Entry)it.next( );
+			String folder = (String) entry.getKey( );
 			if ( folder == null )
 				continue;
 
@@ -220,7 +221,7 @@ public class ImportBirtRuntimeAction extends Action
 			if ( tempFolder == null || !tempFolder.exists( ) )
 				continue;
 
-			List files = (List) map.get( folder );
+			List files = (List) entry.getValue( );
 			if ( files == null || files.size( ) <= 0 )
 			{
 				// delete the whole folder
@@ -337,7 +338,7 @@ public class ImportBirtRuntimeAction extends Action
 	 * lib folder.
 	 * 
 	 */
-	private class LibResourceVisitor implements IResourceVisitor
+	private static class LibResourceVisitor implements IResourceVisitor
 	{
 
 		// progress monitor
@@ -390,7 +391,7 @@ public class ImportBirtRuntimeAction extends Action
 	 * Implement IOverwriteQuery for importing process
 	 * 
 	 */
-	private class ImportOverwriteQuery implements IOverwriteQuery
+	private static class ImportOverwriteQuery implements IOverwriteQuery
 	{
 
 		// if all

@@ -336,10 +336,10 @@ public class UIUtil implements IBirtWizardConstants
 			public void widgetSelected( SelectionEvent e )
 			{
 				WebArtifactUtil.setContextParamValue( properties,
-						BIRT_REPORT_ACCESSONLY_SETTING, new String(
+						BIRT_REPORT_ACCESSONLY_SETTING,
 								BLANK_STRING
 										+ ( (Button) e.getSource( ) )
-												.getSelection( ) ) );
+												.getSelection( ) );
 			}
 		} );
 
@@ -370,10 +370,10 @@ public class UIUtil implements IBirtWizardConstants
 			public void widgetSelected( SelectionEvent e )
 			{
 				WebArtifactUtil.setContextParamValue( properties,
-						BIRT_OVERWRITE_DOCUMENT_SETTING, new String(
+						BIRT_OVERWRITE_DOCUMENT_SETTING, 
 								BLANK_STRING
 										+ ( (Button) e.getSource( ) )
-												.getSelection( ) ) );
+												.getSelection( ) );
 			}
 		} );
 
