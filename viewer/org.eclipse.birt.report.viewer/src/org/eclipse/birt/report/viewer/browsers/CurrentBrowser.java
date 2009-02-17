@@ -194,8 +194,8 @@ public class CurrentBrowser implements IBrowser
 	{
 		if ( external )
 		{
-			if ( browserAdapterId != BrowserManager.getInstance( )
-					.getCurrentBrowserID( ) )
+			if ( !browserAdapterId.equals( BrowserManager.getInstance( )
+					.getCurrentBrowserID( ) ) )
 			{
 				newBrowserAdapter = BrowserManager.getInstance( )
 						.createBrowser( true );
@@ -206,8 +206,8 @@ public class CurrentBrowser implements IBrowser
 		}
 		else
 		{
-			if ( browserAdapterId != BrowserManager.getInstance( )
-					.getCurrentInternalBrowserID( ) )
+			if ( !browserAdapterId.equals( BrowserManager.getInstance( )
+					.getCurrentInternalBrowserID( ) ) )
 			{
 				newBrowserAdapter = BrowserManager.getInstance( )
 						.createBrowser( false );

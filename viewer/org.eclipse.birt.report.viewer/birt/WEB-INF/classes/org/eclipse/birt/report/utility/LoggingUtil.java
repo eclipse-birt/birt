@@ -46,13 +46,14 @@ public class LoggingUtil
 	{
 		// configure loggers to enable logging in the given directory
 		for ( 
-				Iterator i = loggers.keySet( ).iterator( ); 
+				Iterator i = loggers.entrySet( ).iterator( ); 
 				i.hasNext();
 				)
 		{
-			String loggerName = (String)i.next();
+			Map.Entry entry = (Map.Entry)i.next( );
+			String loggerName = (String) entry.getKey( );
 			String levelName = 
-				(String)loggers.get( loggerName );
+				(String) entry.getValue( );
 			// set default level
 			Level level = defaultLevel;
 			if ( levelName != null 
@@ -147,11 +148,10 @@ public class LoggingUtil
 		else if ( directoryName.length( ) > 0 )
 			directoryName += System.getProperty( "file.separator" ); //$NON-NLS-1$
 	
-		return new String( 
-				directoryName
+		return 	directoryName
 				+ loggerName
 				+ dateTimeString 
-				+ ".log" ); //$NON-NLS-1$
+				+ ".log"; //$NON-NLS-1$
 	}
 
 }

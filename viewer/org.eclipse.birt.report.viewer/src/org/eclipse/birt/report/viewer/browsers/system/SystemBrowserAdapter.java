@@ -26,9 +26,6 @@ import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
  */
 public class SystemBrowserAdapter implements IBrowser
 {
-
-	String[] cmdarray;
-
 	/**
 	 * Adapter constructor.
 	 */

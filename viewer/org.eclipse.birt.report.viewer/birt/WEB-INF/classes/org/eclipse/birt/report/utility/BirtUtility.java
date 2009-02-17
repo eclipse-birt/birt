@@ -510,11 +510,12 @@ public class BirtUtility
 			}
 		}
 
-		Iterator it = params.keySet( ).iterator( );
+		Iterator it = params.entrySet( ).iterator( );
 		while ( it.hasNext( ) )
 		{
-			String paramName = (String) it.next( );
-			List paramValues = (List) params.get( paramName );
+			Map.Entry entry = (Map.Entry)it.next( );
+			String paramName = (String) entry.getKey( );
+			List paramValues = (List) entry.getValue( );
 
 			// find the parameter
 			ParameterDefinition parameter = bean.findParameterDefinition( paramName );
@@ -1113,18 +1114,18 @@ public class BirtUtility
 		int maxCubeRowLevels = ParameterAccessor.getMaxCubeRowLevels( request );
 		if ( maxCubeRowLevels >= 0 )
 			context.put( DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE,
-					new Integer( maxCubeRowLevels ) );
+					Integer.valueOf( maxCubeRowLevels ) );
 
 		int maxCubeColumnLevels = ParameterAccessor.getMaxCubeColumnLevels( request );
 		if ( maxCubeColumnLevels >= 0 )
 			context.put( DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE,
-					new Integer( maxCubeColumnLevels ) );
+					Integer.valueOf( maxCubeColumnLevels ) );
 
 		// Cube memory size
 		int cubeMemorySize = ParameterAccessor.getCubeMemorySize( request );
 		if ( cubeMemorySize >= 0 )
 			context.put( DataEngine.IN_MEMORY_CUBE_SIZE,
-					new Integer( cubeMemorySize ) );
+					Integer.valueOf( cubeMemorySize ) );
 
 		// add resource path to app context
 		context.put( IBirtConstants.APPCONTEXT_BIRT_RESOURCE_PATH,
@@ -1279,8 +1280,8 @@ public class BirtUtility
 					mt.invoke( null, new Object[]{
 							systemId,
 							message,
-							new Long( elementId ),
-							new Integer( lineNumber )
+							Long.valueOf( elementId ),
+							Integer.valueOf( lineNumber )
 					} );
 			}
 		}

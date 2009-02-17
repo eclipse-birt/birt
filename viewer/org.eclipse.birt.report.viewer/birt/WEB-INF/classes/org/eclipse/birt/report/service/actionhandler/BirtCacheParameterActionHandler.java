@@ -176,11 +176,12 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 		}
 
 		// hanlde parameters
-		Iterator it = params.keySet( ).iterator( );
+		Iterator it = params.entrySet( ).iterator( );
 		while ( it.hasNext( ) )
 		{
-			String paramName = (String) it.next( );
-			List paramValues = (List) params.get( paramName );
+			Map.Entry entry = (Map.Entry)it.next();
+			String paramName = (String) entry.getKey( );
+			List paramValues = (List) entry.getValue( );
 
 			// find the parameter
 			ParameterDefinition parameter = attrBean
@@ -302,7 +303,7 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 			handle.addConfigVariable( exprVar );
 		}
 
-		map.put( paramName, new Boolean( true ) );
+		map.put( paramName, Boolean.valueOf( true ) );
 	}
 
 	/**

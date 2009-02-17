@@ -119,7 +119,7 @@ public class ViewingCache
 			folder = ( prefix + sessionId ) + File.separator;
 			if ( subSessionId != null )
 			{
-				folder += ( subSessionId != null ? subSessionId : "" ) + File.separator; //$NON-NLS-1$
+				folder += subSessionId + File.separator; //$NON-NLS-1$
 			}
 		}
 		else

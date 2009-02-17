@@ -240,7 +240,7 @@ public class DataSet  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
-        _hashCode += new Long(getId()).hashCode();
+        _hashCode += Long.valueOf(getId()).hashCode();
         if (getName() != null) {
             _hashCode += getName().hashCode();
         }

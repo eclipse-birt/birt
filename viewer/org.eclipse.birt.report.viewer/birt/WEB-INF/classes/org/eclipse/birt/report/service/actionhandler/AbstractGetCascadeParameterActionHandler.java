@@ -83,13 +83,14 @@ public abstract class AbstractGetCascadeParameterActionHandler
 			SelectionList[] selectionLists = new SelectionList[cascParamMap
 					.size( )];
 			int i = 0;
-			for ( Iterator it = cascParamMap.keySet( ).iterator( ); it
+			for ( Iterator it = cascParamMap.entrySet( ).iterator( ); it
 					.hasNext( ); )
 			{
+				Map.Entry entry = (Map.Entry)it.next();
 				selectionLists[i] = new SelectionList( );
-				String name = (String) it.next( );
+				String name = (String) entry.getKey( );
 				selectionLists[i].setName( name );
-				List selections = (List) cascParamMap.get( name );
+				List selections = (List) entry.getValue( );
 				SelectItemChoice[] SelectItemChoices = getVectorFromList( selections );
 				selectionLists[i].setSelections( SelectItemChoices );
 				i++;

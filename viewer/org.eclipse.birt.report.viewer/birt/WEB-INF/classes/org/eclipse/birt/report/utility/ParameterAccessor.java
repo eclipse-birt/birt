@@ -1486,11 +1486,6 @@ public class ParameterAccessor
 			webAppLocale = Locale.getDefault( );
 
 		webAppTimeZone = getTimeZoneFromString( context.getInitParameter( INIT_PARAM_TIMEZONE ) );
-		if ( "".equals( webAppTimeZone ) ) //$NON-NLS-1$
-		{
-			// use default
-			webAppTimeZone = null;
-		}
 
 		isWorkingFolderAccessOnly = Boolean.valueOf( context.getInitParameter( INIT_PARAM_WORKING_FOLDER_ACCESS_ONLY ) )
 				.booleanValue( );
@@ -3332,7 +3327,6 @@ public class ParameterAccessor
 	 */
 	public static String getGeneratedReportDocumentName( IContext context )
 	{
-		BaseAttributeBean attrBean = ( (BirtContext) context ).getBean( );
 		IFilenameGenerator gen = ParameterAccessor.getFilenameGenerator( );
 		Map options = ParameterAccessor.makeFilenameGeneratorOptions( context );
 		String baseName = stripFileExtension( (String) options.get( IFilenameGenerator.OPTIONS_REPORT_DESIGN ) );

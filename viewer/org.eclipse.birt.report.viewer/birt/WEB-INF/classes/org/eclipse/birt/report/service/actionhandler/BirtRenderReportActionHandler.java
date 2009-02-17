@@ -58,7 +58,6 @@ public class BirtRenderReportActionHandler extends AbstractBaseActionHandler
 		assert attrBean != null;
 
 		String docName = attrBean.getReportDocumentName( );
-		boolean master = attrBean.isMasterPageContent( );
 
 		InputOptions options = createInputOptions( attrBean, ParameterAccessor
 				.getSVGFlag( context.getRequest( ) ) );

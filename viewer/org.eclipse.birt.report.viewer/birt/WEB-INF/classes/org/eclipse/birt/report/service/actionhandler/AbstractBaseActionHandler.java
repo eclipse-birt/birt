@@ -162,8 +162,8 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 								.getMessage(
 									ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER,
 										new Object[]{
-											new Long( pageNumber ),
-											new Long( totalPageNumber )
+											Long.valueOf( pageNumber ),
+											Long.valueOf( totalPageNumber )
 										}
 									)
 								);
@@ -328,7 +328,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 
 				try
 				{
-					reportId.setRptElementId( new Long( Long.parseLong( id
+					reportId.setRptElementId( Long.valueOf( Long.parseLong( id
 							.substring( secondComma + 1 ) ) ) );
 				}
 				catch ( Exception e )
@@ -503,10 +503,10 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
 		options.setOption( InputOptions.OPT_EMITTER_ID, bean.getEmitterId( ) );
 		options.setOption( InputOptions.OPT_FORMAT, bean.getFormat( ) );
-		options.setOption( InputOptions.OPT_SVG_FLAG, new Boolean( svgFlag ) );
+		options.setOption( InputOptions.OPT_SVG_FLAG, Boolean.valueOf( svgFlag ) );
 		options.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
-				new Boolean( bean.isMasterPageContent( ) ) );
-		options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean( bean
+				Boolean.valueOf( bean.isMasterPageContent( ) ) );
+		options.setOption( InputOptions.OPT_IS_DESIGNER, Boolean.valueOf( bean
 				.isDesigner( ) ) );
 		// TODO: use bean instead of parameter accessor
 		options.setOption( InputOptions.OPT_PAGE_OVERFLOW, ParameterAccessor.getPageOverflow( context.getRequest() ) );

@@ -219,7 +219,7 @@ public class TableLayout  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
-        _hashCode += new Long(getId()).hashCode();
+        _hashCode += Long.valueOf(getId()).hashCode();
         _hashCode += getS_Count();
         _hashCode += getG_Count();
         if (getCH_Row() != null) {

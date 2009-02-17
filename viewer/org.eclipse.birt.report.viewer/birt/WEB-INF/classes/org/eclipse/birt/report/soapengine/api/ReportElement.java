@@ -164,7 +164,7 @@ public class ReportElement  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
-        _hashCode += new Long(getId()).hashCode();
+        _hashCode += Long.valueOf(getId()).hashCode();
         _hashCode += (isVisible() ? Boolean.TRUE : Boolean.FALSE).hashCode();
         if (getName() != null) {
             _hashCode += getName().hashCode();

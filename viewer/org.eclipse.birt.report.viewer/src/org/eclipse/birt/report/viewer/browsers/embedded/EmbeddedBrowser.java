@@ -126,7 +126,7 @@ public class EmbeddedBrowser
 				store.setValue( BROWSER_HEIGTH, Integer.toString( h ) );
 
 				store.setValue( BROWSER_MAXIMIZED,
-						( new Boolean( shell.getMaximized( ) ).toString( ) ) );
+						( Boolean.valueOf( shell.getMaximized( ) ).toString( ) ) );
 			}
 		} );
 

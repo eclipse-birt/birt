@@ -170,7 +170,7 @@ public class ReportTag extends AbstractViewerTag
 					.getSvg( ) ) );
 			options.setOption( InputOptions.OPT_FORMAT, outputFormat );
 			options.setOption( InputOptions.OPT_EMITTER_ID, emitterId );
-			options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean( false ) );
+			options.setOption( InputOptions.OPT_IS_DESIGNER, Boolean.valueOf( false ) );
 			options.setOption( InputOptions.OPT_SERVLET_PATH,
 					IBirtConstants.SERVLET_PATH_PREVIEW );
 			options.setOption( InputOptions.OPT_PAGE_OVERFLOW, viewer.getPageOverflow( ) );
@@ -608,7 +608,7 @@ public class ReportTag extends AbstractViewerTag
 			String documentName = session.getCachedReportDocument( viewer.getReportDesign( ), viewer.getId( ) );
 			List<Exception> errors = ReportEngineService.getInstance( ).runReport( request, runnable,
 					documentName, locale, timeZone, params, displayTexts,
-					new Integer( viewer.getMaxRowsOfRecords( ) ) );
+					Integer.valueOf( viewer.getMaxRowsOfRecords( ) ) );
 			
 			if ( errors != null && !errors.isEmpty() )
 			{
@@ -632,7 +632,7 @@ public class ReportTag extends AbstractViewerTag
 			ReportEngineService.getInstance( ).runAndRenderReport(
 					runnable, out, this.options, params, Boolean.TRUE, null,
 					null, displayTexts, reportTitle,
-					new Integer( viewer.getMaxRowsOfRecords( ) ) );
+					Integer.valueOf( viewer.getMaxRowsOfRecords( ) ) );
 		}
 	}
 

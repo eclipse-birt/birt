@@ -86,8 +86,8 @@ public class Binding  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
-        _hashCode += new Long(getRptElementId()).hashCode();
-        _hashCode += new Long(getDataSetId()).hashCode();
+        _hashCode += Long.valueOf(getRptElementId()).hashCode();
+        _hashCode += Long.valueOf(getDataSetId()).hashCode();
         __hashCodeCalc = false;
         return _hashCode;
     }

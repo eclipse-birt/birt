@@ -195,8 +195,8 @@ public abstract class AbstractGetPageActionHandler
 					.setFaultReason( BirtResources
 							.getMessage( ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER,
 									new Object[] {
-										new Long( __pageNumber ),
-										new Long( __totalPageNumber )
+										Long.valueOf( __pageNumber ),
+										Long.valueOf( __totalPageNumber )
 									}
 							)
 							);							
@@ -342,8 +342,8 @@ public abstract class AbstractGetPageActionHandler
 								.setFaultString( BirtResources
 										.getMessage( ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER,
 												new Object[] { 
-													new Long(pageNumber),
-													new Long(__totalPageNumber )
+													Long.valueOf(pageNumber),
+													Long.valueOf(__totalPageNumber )
 												}
 										)
 									);

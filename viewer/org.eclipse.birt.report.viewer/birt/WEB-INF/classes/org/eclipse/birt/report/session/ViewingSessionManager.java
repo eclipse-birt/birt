@@ -76,7 +76,7 @@ public class ViewingSessionManager implements IViewingSessionManager,
 	 * Wrapper for the IViewingSession interface, to hook the interface's
 	 * methods.
 	 */
-	private class ViewingSessionWrapper implements IViewingSession
+	private static class ViewingSessionWrapper implements IViewingSession
 	{
 
 		private IViewingSession session;

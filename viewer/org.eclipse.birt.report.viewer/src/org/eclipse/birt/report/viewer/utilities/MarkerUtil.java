@@ -85,7 +85,7 @@ public class MarkerUtil
 			if ( elementId > 0 )
 				marker
 						.setAttribute( ELEMENT_ID,
-								new Integer( (int) elementId ) );
+								Integer.valueOf( (int) elementId ) );
 
 			marker.setAttribute( IMarker.SEVERITY, severity );
 			marker.setAttribute( IMarker.PRIORITY, priority );

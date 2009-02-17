@@ -109,7 +109,7 @@ public class ReportEngineService
 	 * 
 	 * @deprecated this is a workaround, to be removed in the future
 	 */
-	public class DummyRemoteException extends RemoteException
+	public static class DummyRemoteException extends RemoteException
 	{
 
 		public DummyRemoteException( Throwable cause )
@@ -963,7 +963,7 @@ public class ReportEngineService
 		runAndRenderTask.setAppContext( context );
 
 		ViewerHTMLActionHandler handler = new ViewerHTMLActionHandler( locale,
-				timeZone, rtl, masterPage, format, new Boolean( svgFlag ),
+				timeZone, rtl, masterPage, format, Boolean.valueOf( svgFlag ),
 				Boolean.toString( isDesigner ) );
 		handler.setPageOverflow( Integer.toString( pageOverflow ) );
 
@@ -1381,10 +1381,10 @@ public class ReportEngineService
 		inputOptions.setOption( InputOptions.OPT_REQUEST, request );
 		inputOptions.setOption( InputOptions.OPT_LOCALE, locale );
 		inputOptions.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
-				new Boolean( masterPage ) );
+				Boolean.valueOf( masterPage ) );
 		inputOptions.setOption( InputOptions.OPT_SVG_FLAG,
-				new Boolean( svgFlag ) );
-		inputOptions.setOption( InputOptions.OPT_RTL, new Boolean( rtl ) );
+				Boolean.valueOf( svgFlag ) );
+		inputOptions.setOption( InputOptions.OPT_RTL, Boolean.valueOf( rtl ) );
 		inputOptions.setOption( InputOptions.OPT_FORMAT, format );
 		inputOptions.setOption( InputOptions.OPT_SERVLET_PATH, iServletPath );
 		renderReport( out, reportDocument, pageNumber, pageRange, inputOptions,
@@ -1571,7 +1571,7 @@ public class ReportEngineService
 		{
 			handler = new ViewerHTMLActionHandler( reportDocument, pageNumber,
 					locale, timeZone, false, rtl, masterPage, format,
-					new Boolean( svgFlag ), Boolean.toString( isDesigner ) );
+					Boolean.valueOf( svgFlag ), Boolean.toString( isDesigner ) );
 		}
 		else
 		{
@@ -1588,10 +1588,10 @@ public class ReportEngineService
 			renderOption.setOption( IHTMLRenderOption.INSTANCE_ID_LIST,
 					activeIds );
 			renderOption.setOption( IHTMLRenderOption.MASTER_PAGE_CONTENT,
-					new Boolean( masterPage ) );
+					Boolean.valueOf( masterPage ) );
 			handler = new ViewerHTMLActionHandler( reportDocument, pageNumber,
 					locale, timeZone, isEmbeddable, rtl, masterPage, format,
-					new Boolean( svgFlag ), Boolean.toString( isDesigner ) );
+					Boolean.valueOf( svgFlag ), Boolean.toString( isDesigner ) );
 			
 			IViewingSession session = ViewingSessionUtil.getSession( request );
 			if ( session == null )
@@ -1737,10 +1737,10 @@ public class ReportEngineService
 		inputOptions.setOption( InputOptions.OPT_REQUEST, request );
 		inputOptions.setOption( InputOptions.OPT_LOCALE, locale );
 		inputOptions.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
-				new Boolean( masterPage ) );
+				Boolean.valueOf( masterPage ) );
 		inputOptions.setOption( InputOptions.OPT_SVG_FLAG,
-				new Boolean( svgFlag ) );
-		inputOptions.setOption( InputOptions.OPT_RTL, new Boolean( rtl ) );
+				Boolean.valueOf( svgFlag ) );
+		inputOptions.setOption( InputOptions.OPT_RTL, Boolean.valueOf( rtl ) );
 		inputOptions.setOption( InputOptions.OPT_FORMAT, format );
 		inputOptions.setOption( InputOptions.OPT_SERVLET_PATH, iServletPath );
 		renderReportlet( out, reportDocument, inputOptions, reportletId,
@@ -1867,7 +1867,7 @@ public class ReportEngineService
 						}
 						columnArray[i].setLabel( label );
 
-						columnArray[i].setVisibility( new Boolean( true ) );
+						columnArray[i].setVisibility( Boolean.valueOf( true ) );
 					}
 					resultSetArray[k].setColumn( columnArray );
 				}
@@ -2031,7 +2031,7 @@ public class ReportEngineService
 		options.put( DataExtractionParameterUtil.PARAM_SEP, Character
 				.toString( sep ) );
 		options.put( DataExtractionParameterUtil.PARAM_EXPORT_DATATYPE,
-				new Boolean( isExportDataType ) );
+				Boolean.valueOf( isExportDataType ) );
 		options.put( DataExtractionParameterUtil.PARAM_EXPORT_ENCODING,
 				encoding );
 		extractDataEx( document,

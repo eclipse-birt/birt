@@ -175,8 +175,8 @@ public abstract class AbstractChangeParameterActionHandler
 								.getMessage(
 									ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER,
 										new Object[]{
-											new Long( pageNumber ),
-											new Long( totalPageNumber )
+											Long.valueOf( pageNumber ),
+											Long.valueOf( totalPageNumber )
 											} 
 									)									
 								);

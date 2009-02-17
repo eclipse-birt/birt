@@ -210,8 +210,11 @@ public class WebViewer
 	 */
 	public static TreeMap<String, String> LocaleTable = null;
 
+	public static Random random = new Random( );
+
 	static
 	{
+
 		// Initialize the locale mapping table
 		LocaleTable = new TreeMap<String, String>( Collator.getInstance( ) );
 		Locale[] locales = Locale.getAvailableLocales( );
@@ -224,14 +227,14 @@ public class WebViewer
 				{
 					if ( locale.getCountry( ).length( ) == 0 )
 					{
-						LocaleTable.put( locale.getDisplayName( ),
-								locale.getLanguage( ) ); //$NON-NLS-1$
+						LocaleTable.put( locale.getDisplayName( ), locale
+								.getLanguage( ) ); //$NON-NLS-1$
 					}
 					else
 					{
-						LocaleTable.put( locale.getDisplayName( ),
-								locale.getLanguage( )
-										+ "_" + locale.getCountry( ) ); //$NON-NLS-1$	
+						LocaleTable.put( locale.getDisplayName( ), locale
+								.getLanguage( )
+								+ "_" + locale.getCountry( ) ); //$NON-NLS-1$	
 					}
 
 				}
@@ -263,7 +266,8 @@ public class WebViewer
 		} );
 	}
 
-	private static IWebAppInfo DEFAULT_WEBAPP = apps.get( ViewerPlugin.WEBAPP_CONTEXT );
+	private static IWebAppInfo DEFAULT_WEBAPP = apps
+			.get( ViewerPlugin.WEBAPP_CONTEXT );
 
 	private static boolean adapterChecked = false;
 
@@ -274,9 +278,8 @@ public class WebViewer
 			return;
 		}
 
-		Object webInfo = Platform.getAdapterManager( )
-				.loadAdapter( ViewerPlugin.getDefault( ),
-						IWebAppInfo.class.getName( ) );
+		Object webInfo = Platform.getAdapterManager( ).loadAdapter(
+				ViewerPlugin.getDefault( ), IWebAppInfo.class.getName( ) );
 
 		if ( webInfo instanceof IWebAppInfo )
 		{
@@ -331,13 +334,7 @@ public class WebViewer
 			Map params )
 	{
 		if ( params == null || params.isEmpty( ) )
-			return createURL( webappName,
-					null,
-					report,
-					null,
-					null,
-					null,
-					null,
+			return createURL( webappName, null, report, null, null, null, null,
 					null );
 
 		String servletName = (String) params.get( SERVLET_NAME_KEY );
@@ -345,7 +342,8 @@ public class WebViewer
 		String emitterid = (String) params.get( EMITTER_ID_KEY );
 		String resourceFolder = (String) params.get( RESOURCE_FOLDER_KEY );
 		Boolean allowPage = (Boolean) params.get( ALLOW_PAGE_KEY );
-		Map<String, String> emitterOptions = (Map<String, String>) params.get( EMITTER_OPTIONS_KEY );
+		Map<String, String> emitterOptions = (Map<String, String>) params
+				.get( EMITTER_OPTIONS_KEY );
 		String outputDocName = (String) params.get( OUTPUT_DOCUMENT_KEY );
 		String showParameter = (String) params.get( SHOW_PARAMETER_PAGE_KEY );
 
@@ -374,7 +372,8 @@ public class WebViewer
 				}
 				else
 				{
-					servletName = allowPage.booleanValue( ) ? VIEWER_FRAMESET
+					servletName = allowPage.booleanValue( )
+							? VIEWER_FRAMESET
 							: VIEWER_PREVIEW;
 				}
 			}
@@ -385,14 +384,12 @@ public class WebViewer
 
 		// max level member setting
 		String maxrowlevels = (String) params.get( MAX_CUBE_ROW_LEVELS_KEY );
-		String maxcolumnlevels = (String) params.get( MAX_CUBE_COLUMN_LEVELS_KEY );
+		String maxcolumnlevels = (String) params
+				.get( MAX_CUBE_COLUMN_LEVELS_KEY );
 
 		// process common parameters
 		Map<String, String> urlParams = prepareCommonURLParams( format,
-				resourceFolder,
-				maxrows,
-				maxrowlevels,
-				maxcolumnlevels );
+				resourceFolder, maxrows, maxrowlevels, maxcolumnlevels );
 
 		// if document mode, append document parameter in URL
 		String documentName = (String) params.get( DOCUMENT_NAME_KEY );
@@ -403,8 +400,8 @@ public class WebViewer
 			{
 				try
 				{
-					String encodedDocumentName = URLEncoder.encode( documentName,
-							UTF_8 );
+					String encodedDocumentName = URLEncoder.encode(
+							documentName, UTF_8 );
 					urlParams.put( ParameterAccessor.PARAM_REPORT_DOCUMENT,
 							encodedDocumentName );
 
@@ -424,15 +421,14 @@ public class WebViewer
 
 		// append appcontext extension name
 		String appContextName = ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getString( APPCONTEXT_EXTENSION_KEY );
+				.getPluginPreferences( ).getString( APPCONTEXT_EXTENSION_KEY );
 
 		if ( !StringUtil.isBlank( appContextName ) )
 		{
 			try
 			{
-				String encodedAppContextName = URLEncoder.encode( appContextName.trim( ),
-						UTF_8 );
+				String encodedAppContextName = URLEncoder.encode(
+						appContextName.trim( ), UTF_8 );
 				urlParams.put( ParameterAccessor.PARAM_APPCONTEXTNAME,
 						encodedAppContextName );
 			}
@@ -444,15 +440,16 @@ public class WebViewer
 
 		if ( !StringUtil.isBlank( emitterid ) )
 		{
-			urlParams.put( ParameterAccessor.PARAM_EMITTER_ID, emitterid.trim( ) );
+			urlParams
+					.put( ParameterAccessor.PARAM_EMITTER_ID, emitterid.trim( ) );
 		}
 
 		if ( !StringUtil.isBlank( outputDocName ) )
 		{
 			try
 			{
-				String encodedOutputDocumentName = URLEncoder.encode( outputDocName,
-						UTF_8 );
+				String encodedOutputDocumentName = URLEncoder.encode(
+						outputDocName, UTF_8 );
 				urlParams.put( ParameterAccessor.PARAM_OUTPUT_DOCUMENT_NAME,
 						encodedOutputDocumentName );
 			}
@@ -497,14 +494,9 @@ public class WebViewer
 			String report, String format, String resourceFolder,
 			String maxrows, String maxrowlevels, String maxcolumnlevels )
 	{
-		return createURL( webappName,
-				servletName,
-				report,
-				prepareCommonURLParams( format,
-						resourceFolder,
-						maxrows,
-						maxrowlevels,
-						maxcolumnlevels ) );
+		return createURL( webappName, servletName, report,
+				prepareCommonURLParams( format, resourceFolder, maxrows,
+						maxrowlevels, maxcolumnlevels ) );
 	}
 
 	private static String createURL( String webappName, String servletName,
@@ -530,8 +522,7 @@ public class WebViewer
 
 		// So far, only report name is encoded as utf-8 format
 		return getBaseURL( webappName ) + servletName + "?" //$NON-NLS-1$
-				+ reportParam
-				+ convertParams( urlParams );
+				+ reportParam + convertParams( urlParams );
 	}
 
 	private static String convertParams( Map<String, String> params )
@@ -560,16 +551,14 @@ public class WebViewer
 			String resourceFolder, String maxrows, String maxrowlevels,
 			String maxcolumnlevels )
 	{
-		String timeZone = ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
+		String timeZone = ViewerPlugin.getDefault( ).getPluginPreferences( )
 				.getString( USER_TIME_ZONE );
 		if ( timeZone != null && "".equals( timeZone ) )
 		{
 			timeZone = null;
 		}
 
-		String locale = ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
+		String locale = ViewerPlugin.getDefault( ).getPluginPreferences( )
 				.getString( USER_LOCALE );
 
 		if ( LocaleTable.containsKey( locale ) )
@@ -596,8 +585,7 @@ public class WebViewer
 			}
 		}
 
-		String svgFlag = ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
+		String svgFlag = ViewerPlugin.getDefault( ).getPluginPreferences( )
 				.getString( SVG_FLAG );
 		boolean bSVGFlag = false;
 
@@ -609,8 +597,7 @@ public class WebViewer
 		// read rtl value from the preferences
 		boolean rtl = false;
 		String bidiOrientation = ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getString( BIDI_ORIENTATION );
+				.getPluginPreferences( ).getString( BIDI_ORIENTATION );
 		if ( bidiOrientation == null )
 		{
 			bidiOrientation = BIDI_ORIENTATION_AUTO;
@@ -635,8 +622,7 @@ public class WebViewer
 		}
 
 		String masterPageContent = ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getString( MASTER_PAGE_CONTENT );
+				.getPluginPreferences( ).getString( MASTER_PAGE_CONTENT );
 		boolean bMasterPageContent = true;
 		if ( "false".equalsIgnoreCase( masterPageContent ) ) //$NON-NLS-1$
 		{
@@ -690,16 +676,16 @@ public class WebViewer
 		{
 			try
 			{
-				params.put( ParameterAccessor.PARAM_TIMEZONE,
-						URLEncoder.encode( timeZone, UTF_8 ) );
+				params.put( ParameterAccessor.PARAM_TIMEZONE, URLEncoder
+						.encode( timeZone, UTF_8 ) );
 			}
 			catch ( UnsupportedEncodingException e )
 			{
 				LogUtil.logWarning( e.getLocalizedMessage( ), e );
 			}
 		}
-		params.put( ParameterAccessor.PARAM_MASTERPAGE,
-				String.valueOf( bMasterPageContent ) );
+		params.put( ParameterAccessor.PARAM_MASTERPAGE, String
+				.valueOf( bMasterPageContent ) );
 		params.put( ParameterAccessor.PARAM_RTL, String.valueOf( rtl ) );
 		if ( !StringUtil.isBlank( maxrows ) )
 		{
@@ -707,8 +693,8 @@ public class WebViewer
 		}
 		if ( !StringUtil.isBlank( maxrowlevels ) )
 		{
-			params.put( ParameterAccessor.PARAM_MAXCUBE_ROWLEVELS,
-					maxrowlevels.trim( ) );
+			params.put( ParameterAccessor.PARAM_MAXCUBE_ROWLEVELS, maxrowlevels
+					.trim( ) );
 		}
 		if ( !StringUtil.isBlank( maxcolumnlevels ) )
 		{
@@ -717,8 +703,8 @@ public class WebViewer
 		}
 		if ( !StringUtil.isBlank( cubeMemorySize ) )
 		{
-			params.put( ParameterAccessor.PARAM_CUBEMEMSIZE,
-					cubeMemorySize.trim( ) );
+			params.put( ParameterAccessor.PARAM_CUBEMEMSIZE, cubeMemorySize
+					.trim( ) );
 		}
 		params.put( ParameterAccessor.PARAM_RESOURCE_FOLDER,
 				encodedResourceFolder );
@@ -746,7 +732,8 @@ public class WebViewer
 			if ( debugMode == null )
 			{
 				// get workspace classpath
-				String classpaths = ViewerClassPathHelper.getWorkspaceClassPath( );
+				String classpaths = ViewerClassPathHelper
+						.getWorkspaceClassPath( );
 
 				URL[] urls = ViewerClassPathHelper.parseURLs( classpaths );
 				if ( reloadableClassLoader == null )
@@ -884,28 +871,22 @@ public class WebViewer
 	public static void display( String webappName, String report,
 			String format, boolean allowPage )
 	{
-		if ( format == null
-				|| format.trim( ).length( ) <= 0
+		if ( format == null || format.trim( ).length( ) <= 0
 				|| HTM.equalsIgnoreCase( format ) )
 			format = HTML;
 
 		String root = null;
 		if ( !HTML.equalsIgnoreCase( format ) )
 		{
-			root = createURL( webappName,
-					VIEWER_PREVIEW,
-					report,
-					format,
-					null,
-					null,
-					null,
-					null );
+			root = createURL( webappName, VIEWER_PREVIEW, report, format, null,
+					null, null, null );
 		}
 		else
 		{
-			root = createURL( webappName, allowPage ? VIEWER_FRAMESET
+			root = createURL( webappName, allowPage
+					? VIEWER_FRAMESET
 					: VIEWER_PREVIEW, report, format, null, null, null, null )
-					+ "&" + new Random( ).nextInt( ); //$NON-NLS-1$
+					+ "&" + random.nextInt( ); //$NON-NLS-1$
 		}
 
 		startWebApp( webappName );
@@ -913,8 +894,8 @@ public class WebViewer
 		try
 		{
 			boolean useExternal = ViewerPlugin.getDefault( )
-					.getPluginPreferences( )
-					.getBoolean( BrowserManager.ALWAYS_EXTERNAL_BROWSER_KEY );
+					.getPluginPreferences( ).getBoolean(
+							BrowserManager.ALWAYS_EXTERNAL_BROWSER_KEY );
 
 			BrowserAccessor.getPreviewBrowser( useExternal ).displayURL( root );
 		}
@@ -940,8 +921,9 @@ public class WebViewer
 		checkAdapter( );
 
 		startWebApp( DEFAULT_WEBAPP.getName( ) );
-		browser.setUrl( createURL( DEFAULT_WEBAPP.getName( ),
-				"run", report, format, null, null, null, null ) + "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		browser
+				.setUrl( createURL( DEFAULT_WEBAPP.getName( ),
+						"run", report, format, null, null, null, null ) + "&" + random.nextInt( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 	}
 
@@ -964,15 +946,9 @@ public class WebViewer
 		checkAdapter( );
 
 		startWebApp( DEFAULT_WEBAPP.getName( ) );
-		browser.setUrl( createURL( DEFAULT_WEBAPP.getName( ),
-				servletName,
-				report,
-				format,
-				null,
-				null,
-				null,
-				null )
-				+ "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$
+		browser.setUrl( createURL( DEFAULT_WEBAPP.getName( ), servletName,
+				report, format, null, null, null, null )
+				+ "&" + random.nextInt( ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -998,7 +974,7 @@ public class WebViewer
 	{
 		startWebApp( webappName );
 		browser.setUrl( createURL( webappName, report, params )
-				+ "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$
+				+ "&" + random.nextInt( ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -1025,12 +1001,12 @@ public class WebViewer
 		{
 
 			boolean useExternal = ViewerPlugin.getDefault( )
-					.getPluginPreferences( )
-					.getBoolean( BrowserManager.ALWAYS_EXTERNAL_BROWSER_KEY );
+					.getPluginPreferences( ).getBoolean(
+							BrowserManager.ALWAYS_EXTERNAL_BROWSER_KEY );
 
-			BrowserAccessor.getPreviewBrowser( useExternal )
-					.displayURL( createURL( webappName, report, params )
-							+ "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$
+			BrowserAccessor.getPreviewBrowser( useExternal ).displayURL(
+					createURL( webappName, report, params )
+							+ "&" + random.nextInt( ) ); //$NON-NLS-1$
 		}
 		catch ( Exception e )
 		{
@@ -1071,7 +1047,8 @@ public class WebViewer
 
 		try
 		{
-			browser.execute( "try { if( birtProgressBar ){ birtProgressBar.cancel(); } } catch(e){}" ); //$NON-NLS-1$
+			browser
+					.execute( "try { if( birtProgressBar ){ birtProgressBar.cancel(); } } catch(e){}" ); //$NON-NLS-1$
 		}
 		catch ( Exception e )
 		{
@@ -1086,8 +1063,7 @@ public class WebViewer
 	public static String getAppContextName( )
 	{
 		String appContextName = ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getString( APPCONTEXT_EXTENSION_KEY );
+				.getPluginPreferences( ).getString( APPCONTEXT_EXTENSION_KEY );
 
 		if ( appContextName != null && appContextName.trim( ).length( ) > 0 )
 		{

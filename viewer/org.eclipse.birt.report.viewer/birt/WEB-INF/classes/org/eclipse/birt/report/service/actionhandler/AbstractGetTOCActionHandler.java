@@ -164,7 +164,7 @@ public abstract class AbstractGetTOCActionHandler
 						.htmlEncode( child.getDisplayName( ) ) );
 				childTOCNodes[i].setBookmark( child.getBookmark( ) );
 				childTOCNodes[i].setStyle( child.getStyle( ) );
-				childTOCNodes[i].setIsLeaf( new Boolean(
+				childTOCNodes[i].setIsLeaf( Boolean.valueOf(
 						child.getChildren( ) == null
 								|| child.getChildren( ).size( ) <= 0 ) );
 			}
