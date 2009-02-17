@@ -35,6 +35,7 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Title=Avertissement
 ###########################################################
 #Cube Builder Dialog properties
 CubeBuilder.Title=Générateur de cube de tableau croisé
+DatasePage.EmptyName.ErrorMessage=The name of Cube is required.
 DatasetPage.Title=Jeu de données
 GroupDialog.Button.DateGroup=Groupe de dates
 GroupDialog.Button.RegularGroup=Groupe normal

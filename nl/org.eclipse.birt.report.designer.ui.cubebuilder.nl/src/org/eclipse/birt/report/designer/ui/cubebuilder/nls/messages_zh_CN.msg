@@ -35,6 +35,7 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Title=警告
 ###########################################################
 #Cube Builder Dialog properties
 CubeBuilder.Title=交叉表多维数据集生成器
+DatasePage.EmptyName.ErrorMessage=The name of Cube is required.
 DatasetPage.Title=数据集
 GroupDialog.Button.DateGroup=日期组
 GroupDialog.Button.RegularGroup=常规组

@@ -35,6 +35,7 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Title=警告
 ###########################################################
 #Cube Builder Dialog properties
 CubeBuilder.Title=クロスタブキューブビルダ
+DatasePage.EmptyName.ErrorMessage=The name of Cube is required.
 DatasetPage.Title=データセット
 GroupDialog.Button.DateGroup=日付グループ
 GroupDialog.Button.RegularGroup=通常グループ
