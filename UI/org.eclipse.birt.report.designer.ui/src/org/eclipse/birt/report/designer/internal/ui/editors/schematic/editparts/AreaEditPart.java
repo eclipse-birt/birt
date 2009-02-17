@@ -21,9 +21,11 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.GraphicalEditPart;
 
 /**
  * Provides support for area edit part.
@@ -128,7 +130,7 @@ public class AreaEditPart extends ReportElementEditPart
 			{
 				DimensionHandle handle = mphandle.getHeaderHeight( );
 
-				rect.height = (int) DEUtil.convertoToPixel( handle );
+				rect.height = getHeight( handle );
 			}
 		}
 		else
@@ -138,7 +140,7 @@ public class AreaEditPart extends ReportElementEditPart
 			{
 				DimensionHandle handle = mphandle.getFooterHeight( );
 
-				rect.height = (int) DEUtil.convertoToPixel( handle );
+				rect.height = getHeight( handle);
 			}
 		}
 
@@ -154,4 +156,12 @@ public class AreaEditPart extends ReportElementEditPart
 		return rect;
 	}
 
+	private int getHeight(DimensionHandle handle)
+	{
+		if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( handle.getUnits( ) ) )
+		{
+			return (int)(((GraphicalEditPart)getParent( )).getFigure( ).getClientArea( ).height*handle.getMeasure( )/100);
+		}
+		return (int) DEUtil.convertoToPixel( handle );
+	}
 }
