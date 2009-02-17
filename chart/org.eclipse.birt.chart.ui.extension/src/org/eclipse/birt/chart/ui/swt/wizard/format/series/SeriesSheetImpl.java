@@ -307,7 +307,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		else if ( getChart( ) instanceof ChartWithoutAxes )
 		{
 			sds = (SeriesDefinition[]) ( ( (SeriesDefinition) ( (ChartWithoutAxes) getChart( ) ).getSeriesDefinitions( )
-					.get( 0 ) ).getSeriesDefinitions( ).toArray( ) );
+					.get( 0 ) ).getSeriesDefinitions( ).toArray( new SeriesDefinition[]{} ) );
 		}
 		return sds;
 	}
@@ -509,9 +509,9 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		{
 			Series newSeries = getNewSeries( typeName, series );
 			ChartAdapter.beginIgnoreNotifications( );
-			SeriesDefinition[] seriesDefns = (SeriesDefinition[]) ChartUIUtil.getOrthogonalSeriesDefinitions( getChart( ),
+			SeriesDefinition[] seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions( getChart( ),
 					axisIndex )
-					.toArray( );
+					.toArray( new SeriesDefinition[]{} );
 			if ( !newSeries.canBeStacked( ) )
 			{
 				for ( int i = 0; i < seriesDefns.length; i++ )

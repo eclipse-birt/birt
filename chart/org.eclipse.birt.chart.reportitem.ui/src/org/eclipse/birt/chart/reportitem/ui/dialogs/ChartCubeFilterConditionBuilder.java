@@ -142,7 +142,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 	protected transient ReportElementHandle currentItem = null;
 
-	protected static String[] EMPTY_ARRAY = new String[]{};
+	protected static final String[] EMPTY_ARRAY = new String[]{};
 
 	protected List<String> columnList;
 
@@ -614,7 +614,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		GridData gdata = new GridData( );
 		gdata.widthHint = 100;
 		expression.setLayoutData( gdata );
-		expression.addListener( SWT.Selection, ComboModify );
+		expression.addListener( SWT.Selection, comboModifyListener );
 		expression.setItems( getDataSetColumns( ) );
 		if ( expression.getItemCount( ) == 0 )
 		{
@@ -681,7 +681,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		{
 			operator.add( OPERATOR[i][0] );
 		}
-		operator.addSelectionListener( OpoertorSelection );
+		operator.addSelectionListener( operatorSelectionListener );
 
 		create2ValueComposite( condition );
 
@@ -1341,7 +1341,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		}
 	};
 
-	protected SelectionListener OpoertorSelection = new SelectionListener( ) {
+	protected SelectionListener operatorSelectionListener = new SelectionListener( ) {
 
 		public void widgetSelected( SelectionEvent e )
 		{
@@ -1401,7 +1401,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		}
 	};
 
-	protected Listener ComboModify = new Listener( ) {
+	protected Listener comboModifyListener = new Listener( ) {
 
 		public void handleEvent( Event e )
 		{

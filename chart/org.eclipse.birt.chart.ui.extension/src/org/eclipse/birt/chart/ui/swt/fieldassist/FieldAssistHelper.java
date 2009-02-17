@@ -330,7 +330,7 @@ public final class FieldAssistHelper
 	{
 		Menu newMenu = new Menu( field.control );
 		MenuItem item = new MenuItem( newMenu, SWT.PUSH );
-		item.setText( FieldAssistMessages.DecorationMenuItem );
+		item.setText( FieldAssistMessages.ssDecorationMenuItem );
 		item.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetSelected( SelectionEvent event )
@@ -463,14 +463,14 @@ public final class FieldAssistHelper
 			// text.
 			FieldDecoration standardDecoration = registry.getFieldDecoration( FieldDecorationRegistry.DEC_CONTENT_PROPOSAL );
 			registry.registerFieldDecoration( DEC_CONTENTASSIST_ID,
-					NLS.bind( FieldAssistMessages.Decorator_ContentAssist,
+					NLS.bind( FieldAssistMessages.ssDecoratorContentAssist,
 							getTriggerKey( ) ),
 					standardDecoration.getImage( ) );
 			dec = registry.getFieldDecoration( DEC_CONTENTASSIST_ID );
 		}
 		else
 		{
-			dec.setDescription( NLS.bind( FieldAssistMessages.Decorator_ContentAssist,
+			dec.setDescription( NLS.bind( FieldAssistMessages.ssDecoratorContentAssist,
 					getTriggerKey( ) ) );
 		}
 		return dec;

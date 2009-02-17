@@ -2035,11 +2035,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		private Object[] getPredefinedExpressionsForSharing(
 				ColumnBindingInfo[] headers )
 		{
-			Map commons = new LinkedHashMap( );
-			Map aggs = new LinkedHashMap( );
-			Map groups = new LinkedHashMap( );
-			Map groupsWithAgg = new LinkedHashMap( );
-			Map groupsWithoutAgg = new LinkedHashMap( );
+			Map<String, ColumnBindingInfo> commons = new LinkedHashMap<String, ColumnBindingInfo> ( );
+			Map<String, ColumnBindingInfo>  aggs = new LinkedHashMap<String, ColumnBindingInfo> ( );
+			Map<String, ColumnBindingInfo>  groups = new LinkedHashMap<String, ColumnBindingInfo> ( );
+			Map<String, ColumnBindingInfo>  groupsWithAgg = new LinkedHashMap<String, ColumnBindingInfo> ( );
+			Map<String, ColumnBindingInfo>  groupsWithoutAgg = new LinkedHashMap<String, ColumnBindingInfo> ( );
 
 			for ( int i = 0; i < headers.length; i++ )
 			{
@@ -2061,17 +2061,17 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				}
 			}
 
-			groupsWithoutAgg = new LinkedHashMap( groups );
-			for ( Iterator iter = groupsWithoutAgg.entrySet( ).iterator( ); iter.hasNext( ); )
+			groupsWithoutAgg = new LinkedHashMap<String, ColumnBindingInfo> ( groups );
+			for ( Iterator<Entry <String, ColumnBindingInfo> > iter = groupsWithoutAgg.entrySet( ).iterator( ); iter.hasNext( ); )
 			{
-				Entry entry = (Entry) iter.next( );
-				String groupName = ( (ColumnBindingInfo) entry.getValue( ) ).getName( );
-				Object[] aggsValues = aggs.values( ).toArray( );
+				Entry<String, ColumnBindingInfo>  entry = iter.next( );
+				String groupName = entry.getValue( ).getName( );
+				ColumnBindingInfo[] aggsValues = aggs.values( ).toArray( new ColumnBindingInfo[]{} );
 
 				// Remove some groups defined aggregate.
 				for ( int j = 0; j < aggs.size( ); j++ )
 				{
-					if ( groupName.equals( ( (ComputedColumnHandle) ( (ColumnBindingInfo) aggsValues[j] ).getObjectHandle( ) ).getAggregateOn( ) ) )
+					if ( groupName.equals( ( (ComputedColumnHandle) aggsValues[j].getObjectHandle( ) ).getAggregateOn( ) ) )
 					{
 						iter.remove( );
 						groupsWithAgg.put( entry.getKey( ), entry.getValue( ) );

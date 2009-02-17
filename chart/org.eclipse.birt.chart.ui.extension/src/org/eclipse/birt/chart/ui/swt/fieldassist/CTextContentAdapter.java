@@ -100,7 +100,7 @@ public class CTextContentAdapter extends TextContentAdapter
 	 */
 	public void removeContentChangeListener( IContentChangeListener listener )
 	{
-		listeners.remove( listeners );
+		listeners.remove( listener );
 	}
 
 	/**

@@ -45,7 +45,7 @@ public class FieldAssistPreferencePage extends FieldEditorPreferencePage impleme
 		super( GRID );
 		setPreferenceStore( ChartUIExtensionPlugin.getDefault( )
 				.getPreferenceStore( ) );
-		setDescription( FieldAssistMessages.Preferences_Description );
+		setDescription( FieldAssistMessages.ssPreferencesDescription );
 	}
 
 	/**
@@ -56,41 +56,41 @@ public class FieldAssistPreferencePage extends FieldEditorPreferencePage impleme
 	public void createFieldEditors( )
 	{
 		addField( new RadioGroupFieldEditor( PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION,
-				FieldAssistMessages.Preferences_DecoratorVert,
+				FieldAssistMessages.ssPreferencesDecoratorVert,
 				1,
 				new String[][]{
 						{
-								FieldAssistMessages.Preferences_DecoratorTop,
+								FieldAssistMessages.ssPreferencesDecoratorTop,
 								PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION_TOP
 						},
 						{
-								FieldAssistMessages.Preferences_DecoratorCenter,
+								FieldAssistMessages.ssPreferencesDecoratorCenter,
 								PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION_CENTER
 						},
 						{
-								FieldAssistMessages.Preferences_DecoratorBottom,
+								FieldAssistMessages.ssPreferencesDecoratorBottom,
 								PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION_BOTTOM
 						}
 				},
 				getFieldEditorParent( ) ) );
 
 		addField( new RadioGroupFieldEditor( PreferenceConstants.PREF_DECORATOR_HORIZONTALLOCATION,
-				FieldAssistMessages.Preferences_DecoratorHorz,
+				FieldAssistMessages.ssPreferencesDecoratorHorz,
 				1,
 				new String[][]{
 						{
-								FieldAssistMessages.Preferences_DecoratorLeft,
+								FieldAssistMessages.ssPreferencesDecoratorLeft,
 								PreferenceConstants.PREF_DECORATOR_HORIZONTALLOCATION_LEFT
 						},
 						{
-								FieldAssistMessages.Preferences_DecoratorRight,
+								FieldAssistMessages.ssPreferencesDecoratorRight,
 								PreferenceConstants.PREF_DECORATOR_HORIZONTALLOCATION_RIGHT
 						}
 				},
 				getFieldEditorParent( ) ) );
 
 		IntegerFieldEditor editor = new IntegerFieldEditor( PreferenceConstants.PREF_DECORATOR_MARGINWIDTH,
-				FieldAssistMessages.Preferences_DecoratorMargin,
+				FieldAssistMessages.ssPreferencesDecoratorMargin,
 				getFieldEditorParent( ) );
 		editor.setValidRange( 0, 10 );
 		addField( editor );

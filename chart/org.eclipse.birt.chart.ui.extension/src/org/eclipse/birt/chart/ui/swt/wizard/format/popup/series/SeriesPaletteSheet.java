@@ -147,9 +147,9 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 
 				for ( int i = 0; i < ChartUIUtil.getOrthogonalAxisNumber( context.getModel( ) ); i++ )
 				{
-					SeriesDefinition[] seriesDefns = ( (SeriesDefinition[]) ChartUIUtil.getOrthogonalSeriesDefinitions( context.getModel( ),
+					SeriesDefinition[] seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions( context.getModel( ),
 							i )
-							.toArray( ) );
+							.toArray( new SeriesDefinition[]{} ) ;
 					TabItem ti = new TabItem( tf, SWT.NONE );
 					ti.setText( "Axis" + ( i + 1 ) ); //$NON-NLS-1$
 					ti.setControl( new PaletteEditorComposite( tf,

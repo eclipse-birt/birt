@@ -48,7 +48,7 @@ public class ContentAssistPreferencePage extends FieldEditorPreferencePage imple
 		super( GRID );
 		setPreferenceStore( ChartUIExtensionPlugin.getDefault( )
 				.getPreferenceStore( ) );
-		setDescription( FieldAssistMessages.Preferences_ContentAssistDescription );
+		setDescription( FieldAssistMessages.ssPreferencesContentAssistDescription );
 	}
 
 	/**
@@ -60,22 +60,22 @@ public class ContentAssistPreferencePage extends FieldEditorPreferencePage imple
 	{
 		CustomKeyRadioGroupFieldEditor rgfe = new CustomKeyRadioGroupFieldEditor( PreferenceConstants.PREF_CONTENTASSISTKEY,
 				PreferenceConstants.PREF_CONTENTASSISTKEYCUSTOMKEY,
-				FieldAssistMessages.Preferences_ContentAssistKey,
+				FieldAssistMessages.ssPreferencesContentAssistKey,
 				new String[][]{
 						{
-								FieldAssistMessages.Preferences_ContentAssistKeyCtlSpace,
+								FieldAssistMessages.ssPreferencesContentAssistKeyCtlSpace,
 								PreferenceConstants.PREF_CONTENTASSISTKEY1
 						},
 						{
-								FieldAssistMessages.Preferences_ContentAssistKeyAsterisk,
+								FieldAssistMessages.ssPreferencesContentAssistKeyAsterisk,
 								PreferenceConstants.PREF_CONTENTASSISTKEY2
 						},
 						{
-								FieldAssistMessages.Preferences_ContentAssistKeyAnyKey,
+								FieldAssistMessages.ssPreferencesContentAssistKeyAnyKey,
 								PreferenceConstants.PREF_CONTENTASSISTKEYAUTO
 						},
 						{
-								FieldAssistMessages.Preferences_ContentAssistKeyCustom,
+								FieldAssistMessages.ssPreferencesContentAssistKeyCustom,
 								PreferenceConstants.PREF_CONTENTASSISTKEYCUSTOM
 						}
 				},
@@ -83,44 +83,44 @@ public class ContentAssistPreferencePage extends FieldEditorPreferencePage imple
 		addField( rgfe );
 
 		IntegerFieldEditor editor = new IntegerFieldEditor( PreferenceConstants.PREF_CONTENTASSISTDELAY,
-				FieldAssistMessages.Preferences_ContentAssistDelay,
+				FieldAssistMessages.ssPreferencesContentAssistDelay,
 				getFieldEditorParent( ) );
 		editor.setValidRange( 0, 10000 );
 		addField( editor );
 
 		addField( new BooleanFieldEditor( PreferenceConstants.PREF_CONTENTASSISTKEY_PROPAGATE,
-				FieldAssistMessages.Preferences_ContentAssistKeyPropagate,
+				FieldAssistMessages.ssPreferencesContentAssistKeyPropagate,
 				getFieldEditorParent( ) ) );
 
 		addField( new RadioGroupFieldEditor( PreferenceConstants.PREF_CONTENTASSISTRESULT,
-				FieldAssistMessages.Preferences_ContentAssistResult,
+				FieldAssistMessages.ssPreferencesContentAssistResult,
 				1,
 				new String[][]{
 						{
-								FieldAssistMessages.Preferences_ContentAssistResultReplace,
+								FieldAssistMessages.ssPreferencesContentAssistResultReplace,
 								PreferenceConstants.PREF_CONTENTASSISTRESULT_REPLACE
 						},
 						{
-								FieldAssistMessages.Preferences_ContentAssistResultInsert,
+								FieldAssistMessages.ssPreferencesContentAssistResultInsert,
 								PreferenceConstants.PREF_CONTENTASSISTRESULT_INSERT
 						}
 				},
 				getFieldEditorParent( ) ) );
 
 		addField( new RadioGroupFieldEditor( PreferenceConstants.PREF_CONTENTASSISTFILTER,
-				FieldAssistMessages.Preferences_ContentAssistFilter,
+				FieldAssistMessages.ssPreferencesContentAssistFilter,
 				1,
 				new String[][]{
 						{
-								FieldAssistMessages.Preferences_ContentAssistFilterCharacter,
+								FieldAssistMessages.ssPreferencesContentAssistFilterCharacter,
 								PreferenceConstants.PREF_CONTENTASSISTFILTER_CHAR
 						},
 						{
-								FieldAssistMessages.Preferences_ContentAssistFilterCumulative,
+								FieldAssistMessages.ssPreferencesContentAssistFilterCumulative,
 								PreferenceConstants.PREF_CONTENTASSISTFILTER_CUMULATIVE
 						},
 						{
-								FieldAssistMessages.Preferences_ContentAssistFilterNone,
+								FieldAssistMessages.ssPreferencesContentAssistFilterNone,
 								PreferenceConstants.PREF_CONTENTASSISTFILTER_NONE
 						}
 				},

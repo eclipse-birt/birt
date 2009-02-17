@@ -55,8 +55,6 @@ public class GradientEditorDialog extends TrayDialog implements
 
 	private FillChooserComposite fccEndColor = null;
 
-	private Button cbCyclic = null;
-
 	private AngleSelectorComposite ascRotation = null;
 
 	private IntegerSpinControl iscRotation = null;
@@ -170,13 +168,6 @@ public class GradientEditorDialog extends TrayDialog implements
 			createRotationPanel( );
 		}
 
-		/*
-		 * cbCyclic = new Button(cmpContent, SWT.CHECK); GridData gdCBCyclic =
-		 * new GridData(GridData.FILL_HORIZONTAL); gdCBCyclic.horizontalSpan =
-		 * 4; cbCyclic.setLayoutData(gdCBCyclic); cbCyclic.setText("Is Cyclic");
-		 * cbCyclic.setSelection(gCurrent.isCyclic());
-		 */
-
 		Group grpPreview = new Group( cmpGeneral, SWT.NONE );
 		GridData gdGRPPreview = new GridData( GridData.FILL_BOTH );
 		gdGRPPreview.horizontalSpan = 2;
@@ -244,10 +235,7 @@ public class GradientEditorDialog extends TrayDialog implements
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
-		if ( e.getSource( ).equals( cbCyclic ) )
-		{
-			gCurrent.setCyclic( cbCyclic.getSelection( ) );
-		}
+
 	}
 
 	/*

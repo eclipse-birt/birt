@@ -102,8 +102,6 @@ public class FontDefinitionDialog extends TrayDialog implements
 
 	private transient Button btnStrikethru = null;
 
-	private transient Button cbWrap = null;
-
 	private transient AngleSelectorComposite ascRotation = null;
 
 	private transient IntegerSpinControl iscRotation = null;
@@ -216,13 +214,6 @@ public class FontDefinitionDialog extends TrayDialog implements
 		}
 
 		createFontStylePanel( );
-
-		// cbWrap = new Button( cmpFormat, SWT.CHECK );
-		// cbWrap.addSelectionListener( this );
-		// cbWrap.setText( Messages.getString( "FontDefinitionDialog.Lbl.Wrap" )
-		// ); //$NON-NLS-1$
-		// cbWrap.setSelection( fdCurrent.isSetWordWrap( )
-		// && fdCurrent.isWordWrap( ) );
 
 		if ( isAlignmentEnabled )
 		{
@@ -706,11 +697,6 @@ public class FontDefinitionDialog extends TrayDialog implements
 			{
 				fdCurrent.unsetStrikethrough( );
 			}
-			updatePreview( );
-		}
-		else if ( oSource.equals( cbWrap ) )
-		{
-			fdCurrent.setWordWrap( cbWrap.getSelection( ) );
 			updatePreview( );
 		}
 		else if ( oSource.equals( cmbFontNames ) )

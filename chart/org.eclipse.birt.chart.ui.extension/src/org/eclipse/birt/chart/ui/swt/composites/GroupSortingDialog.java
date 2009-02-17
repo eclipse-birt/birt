@@ -454,8 +454,6 @@ public class GroupSortingDialog extends TrayDialog
 		if ( cm instanceof ChartWithAxes )
 		{
 			ChartWithAxes cwa = (ChartWithAxes) cm;
-			baseSD = (SeriesDefinition) cwa.getBaseAxes( )[0].getSeriesDefinitions( )
-					.get( 0 );
 
 			orthAxisArray = cwa.getOrthogonalAxes( cwa.getBaseAxes( )[0], true );
 			orthSD = (SeriesDefinition) ( (Axis) orthAxisArray[0] ).getSeriesDefinitions( )
@@ -469,7 +467,7 @@ public class GroupSortingDialog extends TrayDialog
 		}
 
 		String yGroupExpr = null;
-		if ( orthSD.getQuery( ) != null )
+		if ( orthSD != null && orthSD.getQuery( ) != null )
 		{
 			yGroupExpr = orthSD.getQuery( ).getDefinition( );
 		}
