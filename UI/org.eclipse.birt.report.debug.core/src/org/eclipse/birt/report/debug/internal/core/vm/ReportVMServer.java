@@ -14,7 +14,6 @@ package org.eclipse.birt.report.debug.internal.core.vm;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -394,7 +393,7 @@ public class ReportVMServer implements VMConstants, VMListener
 			}
 			else
 			{
-				Long vid = new Long( ++counter );
+				Long vid = Long.valueOf( ++counter );
 				id2val.put( vid, val );
 				val2id.put( val, vid );
 
@@ -438,7 +437,7 @@ public class ReportVMServer implements VMConstants, VMListener
 
 	private synchronized VMVariable[] wrapMembers( long vid )
 	{
-		VMValue val = (VMValue) id2val.get( new Long( vid ) );
+		VMValue val = (VMValue) id2val.get( Long.valueOf( vid ) );
 
 		if ( val != null )
 		{

@@ -219,7 +219,7 @@ public class ReportVMClient extends RMClient implements VMConstants
 
 	public VMStackFrame getStackFrame( int index ) throws VMException
 	{
-		Object rt = sendRequest( OP_GET_STACKFRAME, new Integer( index ) );
+		Object rt = sendRequest( OP_GET_STACKFRAME, Integer.valueOf( index ) );
 
 		if ( rt instanceof VMStackFrame )
 		{
@@ -261,7 +261,7 @@ public class ReportVMClient extends RMClient implements VMConstants
 
 	protected VMVariable[] getMembers( long rid ) throws VMException
 	{
-		Object rt = sendRequest( OP_GET_MEMBERS, new Long( rid ) );
+		Object rt = sendRequest( OP_GET_MEMBERS, Long.valueOf( rid ) );
 
 		if ( rt instanceof VMVariable[] )
 		{

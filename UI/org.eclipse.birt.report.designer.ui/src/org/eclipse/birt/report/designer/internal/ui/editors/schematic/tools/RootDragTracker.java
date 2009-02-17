@@ -429,7 +429,7 @@ public class RootDragTracker extends AbstractTool implements DragTracker
 		}
 	}
 
-	class MarqueeRectangleFigure extends Figure
+	private static class MarqueeRectangleFigure extends Figure
 	{
 
 		private int offset = 0;

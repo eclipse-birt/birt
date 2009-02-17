@@ -273,7 +273,7 @@ public class ReportMultiBookPage extends Page implements
 		}
 	}
 
-	protected class EmptyPage implements IPageBookViewPage
+	protected static class EmptyPage implements IPageBookViewPage
 	{
 
 		private Composite control;

@@ -90,10 +90,10 @@ public abstract class ReportItemtHandleAdapter extends
 	public void setLocation( Point location ) throws SemanticException
 	{
 		getReportItemHandle( ).getX( )
-				.setStringValue( new Integer( location.x ).toString( )
+				.setStringValue( Integer.valueOf( location.x ).toString( )
 						+ DesignChoiceConstants.UNITS_PX );
 		getReportItemHandle( ).getY( )
-				.setStringValue( new Integer( location.y ).toString( )
+				.setStringValue( Integer.valueOf( location.y ).toString( )
 						+ DesignChoiceConstants.UNITS_PX );
 	}
 

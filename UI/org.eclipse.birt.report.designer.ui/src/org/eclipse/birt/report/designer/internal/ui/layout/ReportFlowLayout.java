@@ -76,7 +76,7 @@ public class ReportFlowLayout extends AbstractHintLayout
 	/**
 	 * Holds the necessary information for layout calculations.
 	 */
-	class WorkingData
+	static class WorkingData
 	{
 
 		int rowHeight, rowWidth, rowCount, rowX, rowY, maxWidth, rowPos;

@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.editors.layout;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.rulers.EditorRulerComposite;
 import org.eclipse.birt.report.designer.internal.ui.editors.rulers.EditorRulerProvider;
-import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.gef.rulers.RulerProvider;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
@@ -141,7 +140,7 @@ abstract public class ReportEditorWithRuler extends ReportEditorWithPalette
 		getGraphicalViewer( ).setProperty( RulerProvider.PROPERTY_VERTICAL_RULER,
 				leftRuler );
 		getGraphicalViewer( ).setProperty( RulerProvider.PROPERTY_RULER_VISIBILITY,
-				new Boolean( true ) );
+				Boolean.valueOf( true ) );
 
 	}
 

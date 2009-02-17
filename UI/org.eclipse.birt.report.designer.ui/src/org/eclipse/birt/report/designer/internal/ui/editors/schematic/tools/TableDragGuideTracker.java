@@ -249,7 +249,7 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 		}
 	}
 
-	class MarqueeRectangleFigure extends Figure
+	private static class MarqueeRectangleFigure extends Figure
 	{
 
 		private int offset = 0;

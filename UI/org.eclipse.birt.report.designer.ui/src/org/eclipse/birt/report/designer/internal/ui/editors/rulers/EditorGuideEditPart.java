@@ -387,7 +387,7 @@ public class EditorGuideEditPart extends AbstractGraphicalEditPart
 	public void updateLocationOfFigures( int position )
 	{
 		getRulerEditPart( ).setLayoutConstraint( this, getFigure( ),
-				new Integer( position ) );
+				Integer.valueOf( position ) );
 		Point guideFeedbackLocation = getGuideLineFigure( ).getBounds( )
 				.getLocation( );
 		if ( isHorizontal( ) )

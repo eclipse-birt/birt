@@ -269,15 +269,14 @@ public class TableOptionDialog extends BaseDialog
 		if ( insertTable )
 		{
 			setResult( new Object[]{
-					new Integer(rowCount),
-					new Integer(columnCount),
+					Integer.valueOf(rowCount),
+					Integer.valueOf(columnCount),
 					dataSetCombo.getItem( dataSetCombo.getSelectionIndex( ) )
-							.toString( )
 			} );
 		}
 		else
 			setResult( new Object[]{
-					new Integer(rowCount), new Integer(columnCount)
+					Integer.valueOf(rowCount), Integer.valueOf(columnCount)
 			} );
 
 		if ( chkbox.getSelection( ) )

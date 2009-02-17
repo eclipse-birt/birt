@@ -56,7 +56,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
-import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
@@ -380,7 +379,7 @@ public class JSEditor extends EditorPart implements IColleague
 			if ( Character.isUpperCase( character ) )
 			{
 				upCase++;
-				caps.put( new Integer( i ), new Integer( character ) );
+				caps.put( Integer.valueOf( i ), Integer.valueOf( character ) );
 
 			}
 		}

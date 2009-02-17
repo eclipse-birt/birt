@@ -111,19 +111,19 @@ public abstract class BaseBorder extends AbstractBorder
 
 	static
 	{
-		styleMap.put( STYLE_SOLID, new Integer( LINE_STYLE_SOLID ) );
-		styleMap.put( STYLE_DOTTED, new Integer( LINE_STYLE_DOTTED ) );
-		styleMap.put( STYLE_DASHED, new Integer( LINE_STYLE_DASHED ) );
-		styleMap.put( STYLE_DOUBLE, new Integer( LINE_STYLE_DOUBLE ) );
-		styleMap.put( STYLE_RIDGE, new Integer( LINE_STYLE_RIDGE ) );
-		styleMap.put( STYLE_GROOVE, new Integer( LINE_STYLE_GROOVE ) );
-		styleMap.put( STYLE_INSET, new Integer( LINE_STYLE_INSET ) );
-		styleMap.put( STYLE_OUTSET, new Integer( LINE_STYLE_OUTSET ) );
-		styleMap.put( STYLE_NONO, new Integer( LINE_STYLE_NONE ) );
+		styleMap.put( STYLE_SOLID, Integer.valueOf( LINE_STYLE_SOLID ) );
+		styleMap.put( STYLE_DOTTED, Integer.valueOf( LINE_STYLE_DOTTED ) );
+		styleMap.put( STYLE_DASHED, Integer.valueOf( LINE_STYLE_DASHED ) );
+		styleMap.put( STYLE_DOUBLE, Integer.valueOf( LINE_STYLE_DOUBLE ) );
+		styleMap.put( STYLE_RIDGE, Integer.valueOf( LINE_STYLE_RIDGE ) );
+		styleMap.put( STYLE_GROOVE, Integer.valueOf( LINE_STYLE_GROOVE ) );
+		styleMap.put( STYLE_INSET, Integer.valueOf( LINE_STYLE_INSET ) );
+		styleMap.put( STYLE_OUTSET, Integer.valueOf( LINE_STYLE_OUTSET ) );
+		styleMap.put( STYLE_NONO, Integer.valueOf( LINE_STYLE_NONE ) );
 
-		widthMap.put( DesignChoiceConstants.LINE_WIDTH_THIN, new Integer( 1 ) );
-		widthMap.put( DesignChoiceConstants.LINE_WIDTH_MEDIUM, new Integer( 2 ) );
-		widthMap.put( DesignChoiceConstants.LINE_WIDTH_THICK, new Integer( 3 ) );
+		widthMap.put( DesignChoiceConstants.LINE_WIDTH_THIN, Integer.valueOf( 1 ) );
+		widthMap.put( DesignChoiceConstants.LINE_WIDTH_MEDIUM, Integer.valueOf( 2 ) );
+		widthMap.put( DesignChoiceConstants.LINE_WIDTH_THICK, Integer.valueOf( 3 ) );
 	}
 
 	private static final HashMap<String, Integer> commonCacheWidthMap = new HashMap<String, Integer>( );

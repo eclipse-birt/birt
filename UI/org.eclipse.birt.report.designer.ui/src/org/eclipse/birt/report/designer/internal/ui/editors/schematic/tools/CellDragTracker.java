@@ -504,7 +504,7 @@ public class CellDragTracker extends DragEditPartsTracker implements
 		}
 	}
 
-	class MarqueeRectangleFigure extends Figure
+	private static class MarqueeRectangleFigure extends Figure
 	{
 
 		private int offset = 0;

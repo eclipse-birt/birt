@@ -140,26 +140,26 @@ public class BidiUIUtils
 		try
 		{
 			int osStyle = ( (Integer) GET_WINDOW_LONG.invoke( null,
-					new Object[] { new Integer( control.handle ),
-					new Integer( OS_STYLE_INDEX ) } ) ).intValue( );
+					new Object[] { Integer.valueOf( control.handle ),
+					Integer.valueOf( OS_STYLE_INDEX ) } ) ).intValue( );
 
 			if ( mirrored )
 			{
-				SET_WINDOW_LONG.invoke( null, new Object[] { new Integer( control.handle ),
-						new Integer( OS_STYLE_INDEX ), new Integer( osStyle
+				SET_WINDOW_LONG.invoke( null, new Object[] { Integer.valueOf( control.handle ),
+						Integer.valueOf( OS_STYLE_INDEX ), Integer.valueOf( osStyle
 						| WS_EX_LAYOUTRTL | WS_EX_NOINHERITLAYOUT ) } );
 				swtStyle |= SWT.RIGHT_TO_LEFT | SWT.MIRRORED;
 				STYLE_FIELD.setInt( control, swtStyle );
 			}
 			else
 			{
-				SET_WINDOW_LONG.invoke( null, new Object[] { new Integer( control.handle ),
-						new Integer( OS_STYLE_INDEX ), new Integer( osStyle
+				SET_WINDOW_LONG.invoke( null, new Object[] { Integer.valueOf( control.handle ),
+						Integer.valueOf( OS_STYLE_INDEX ), Integer.valueOf( osStyle
 						& ~WS_EX_LAYOUTRTL ) } );
 				swtStyle |= SWT.LEFT_TO_RIGHT;
 				STYLE_FIELD.setInt( control, swtStyle );
 			}
-			INVALIDATE_RECT.invoke( null, new Object[] { new Integer( control.handle ),
+			INVALIDATE_RECT.invoke( null, new Object[] { Integer.valueOf( control.handle ),
 					null, Boolean.TRUE } );
 		}
 		catch ( SecurityException e )

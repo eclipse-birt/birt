@@ -389,7 +389,7 @@ public abstract class DesignElementHandleAdapter
 				else
 				{
 					// {1cm,1cm}
-					x = new Integer( (int) DEUtil.convertoToPixel( px ) );
+					x = Integer.valueOf( (int) DEUtil.convertoToPixel( px ) );
 				}
 			}
 
@@ -407,7 +407,7 @@ public abstract class DesignElementHandleAdapter
 				else
 				{
 					// {1cm,1cm}
-					y = new Integer( (int) DEUtil.convertoToPixel( py ) );
+					y = Integer.valueOf( (int) DEUtil.convertoToPixel( py ) );
 				}
 			}
 		}

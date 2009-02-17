@@ -829,14 +829,14 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 					cellAdapt.setRowSpan( cellAdapt.getRowSpan( ) + 1 );
 					hasAdjust.add( fillCell );
 				}
-				temp.add( new Integer( i ) );
+				temp.add( Integer.valueOf( i ) );
 			}
 		}
 
 		int copyRowSize = copyChildren.size( );
 		for ( int i = 0; i < copyRowSize; i++ )
 		{
-			if ( temp.contains( new Integer( i ) ) )
+			if ( temp.contains( Integer.valueOf( i ) ) )
 			{
 				( (CellHandle) copyChildren.get( i ) ).drop( );
 			}
@@ -941,13 +941,13 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 					cellAdapt.setColumnSpan( cellAdapt.getColumnSpan( ) + 1 );
 					hasAdjust.add( fillCell );
 				}
-				temp.add( new Integer( i ) );
+				temp.add( Integer.valueOf( i ) );
 			}
 		}
 
 		for ( int i = 0; i < copyRowSize; i++ )
 		{
-			if ( temp.contains( new Integer( i ) ) )
+			if ( temp.contains( Integer.valueOf( i ) ) )
 			{
 				( (CellHandle) copyChildren.get( i ) ).drop( );
 			}
@@ -1259,7 +1259,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		reload( );
 	}
 
-	class ShiftNexRowInfo
+	static class ShiftNexRowInfo
 	{
 
 		protected int index;

@@ -73,7 +73,7 @@ public class ReportLauncherUtils
 		if ( true )
 		// !PDECore.getDefault( ).getModelManager( ).isOSGiRuntime( ) )
 		{
-			list.put( "org.eclipse.core.boot", new Integer( 0 ) ); //$NON-NLS-1$
+			list.put( "org.eclipse.core.boot", Integer.valueOf( 0 ) ); //$NON-NLS-1$
 		}
 		else
 		{
@@ -174,7 +174,7 @@ public class ReportLauncherUtils
 			{
 			}
 		}
-		return new Integer( -1 );
+		return Integer.valueOf( -1 );
 	}
 
 	public static String getPrimaryFeatureId( )

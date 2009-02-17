@@ -74,8 +74,8 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 		tempFolder = covertVariables( configuration.getAttribute( ATTR_TEMP_FOLDER,
 				"" ) ); //$NON-NLS-1$
 
-		useDefaultEngineHome = configuration.getAttribute( ATTR_USE_DEFULT_ENGINE_HOME,
-				true );
+//		useDefaultEngineHome = configuration.getAttribute( ATTR_USE_DEFULT_ENGINE_HOME,
+//				true );
 
 		targetFormat = configuration.getAttribute( ATTR_TARGET_FORMAT,
 				DEFAULT_TARGET_FORMAT );

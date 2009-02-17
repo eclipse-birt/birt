@@ -168,7 +168,7 @@ public class RowTracker extends TableSelectionGuideTracker
 		request.setLocation( getLocation( ) );
 		request.setType( RequestConstants.REQ_OPEN );
 		request.getExtendedData( ).put( DesignerConstants.TABLE_ROW_NUMBER,
-				new Integer( getNumber( ) ) );
+				Integer.valueOf( getNumber( ) ) );
 		if ( getSourceEditPart( ).understandsRequest( request ) )
 		{
 			getSourceEditPart( ).performRequest( request );

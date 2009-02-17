@@ -146,8 +146,8 @@ public class EditorGuide
 		if (position != offset) {
 			int oldValue = position;
 			position = offset;
-			listeners.firePropertyChange(PROPERTY_POSITION, new Integer(oldValue), 
-					new Integer(position));
+			listeners.firePropertyChange(PROPERTY_POSITION, Integer.valueOf(oldValue), 
+					Integer.valueOf(position));
 		}
 	}
 

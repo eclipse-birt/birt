@@ -117,7 +117,7 @@ public class GraphicsViewModelEventProcessor extends AbstractModelEventProcessor
 		 */
 		public void setContentActionType( int contentActionType )
 		{
-			getOtherInfo( ).put(CONTENT_EVENTTYPE ,new Integer(contentActionType));
+			getOtherInfo( ).put(CONTENT_EVENTTYPE ,Integer.valueOf(contentActionType));
 		}
 		
 		public List getChangeContents()

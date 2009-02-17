@@ -218,7 +218,7 @@ public class LibraryDropListener extends DesignerDropListener
 			tool.getTargetRequest( )
 					.getExtendedData( )
 					.put( DesignerConstants.DIRECT_CREATEITEM,
-							new Boolean( true ) );
+							Boolean.valueOf( true ) );
 			tool.performCreation( getLibrartReportEditPart( ) );
 			SetCurrentEditModelCommand command = new SetCurrentEditModelCommand( tool.getNewObjectFromRequest( ),
 					LibraryHandleAdapter.CREATE_ELEMENT );

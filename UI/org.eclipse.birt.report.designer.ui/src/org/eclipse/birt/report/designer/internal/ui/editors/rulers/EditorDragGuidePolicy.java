@@ -298,14 +298,14 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy
 		// add the placeholder guide figure to the ruler
 		getHostFigure( ).getParent( ).add( getDummyGuideFigure( ), 0 );
 		( (GraphicalEditPart) getHost( ).getParent( ) ).setLayoutConstraint(
-				getHost( ), getDummyGuideFigure( ), new Integer(
+				getHost( ), getDummyGuideFigure( ), Integer.valueOf(
 						getGuideEditPart( ).getZoomedPosition( ) ) );
 		getDummyGuideFigure( ).setBounds( getHostFigure( ).getBounds( ) );
 		// add the invisible placeholder line figure to the primary viewer
 		getGuideEditPart( ).getGuideLayer( ).add( getDummyLineFigure( ), 0 );
 		getGuideEditPart( ).getGuideLayer( ).setConstraint(
 				getDummyLineFigure( ),
-				new Boolean( getGuideEditPart( ).isHorizontal( ) ) );
+				Boolean.valueOf( getGuideEditPart( ).isHorizontal( ) ) );
 		//			getDummyLineFigure( ).setBounds(
 		//					getGuideEditPart( ).getGuideLineFigure( ).getBounds( ) );
 		getDummyLineFigure( ).setBounds( getDummyLineFigureBounds( req ) );

@@ -167,7 +167,7 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 	public void setColumnSpan( int colSpan ) throws SemanticException
 	{
 		this.getCellHandle( ).setProperty( CellHandle.COL_SPAN_PROP,
-				new Integer( colSpan ) );
+				Integer.valueOf( colSpan ) );
 	}
 
 	/**
@@ -180,7 +180,7 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 	public void setRowSpan( int rowSpan ) throws SemanticException
 	{
 		this.getCellHandle( ).setProperty( CellHandle.ROW_SPAN_PROP,
-				new Integer( rowSpan ) );
+				Integer.valueOf( rowSpan ) );
 
 	}
 
