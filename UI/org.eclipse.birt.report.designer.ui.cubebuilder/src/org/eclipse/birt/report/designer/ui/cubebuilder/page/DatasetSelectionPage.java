@@ -79,9 +79,11 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 				}
 				catch ( NameException e1 )
 				{
-					builder.setErrorMessage( e1.getMessage( ) );
+					if ( nameText.getText( ).trim( ).length( ) == 0 )
+						builder.setErrorMessage( Messages.getString( "DatasePage.EmptyName.ErrorMessage" ) ); //$NON-NLS-1$
+					else
+						builder.setErrorMessage( e1.getLocalizedMessage( ) );
 				}
-
 			}
 
 		} );
