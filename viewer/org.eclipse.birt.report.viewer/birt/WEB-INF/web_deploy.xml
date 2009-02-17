@@ -8,7 +8,8 @@
 
     <display-name>Eclipse BIRT Report Viewer</display-name>
 
-	<!-- Default locale setting -->
+	<!-- Default locale setting.
+	-->
 	<context-param>
 		<param-name>BIRT_VIEWER_LOCALE</param-name>
 		<param-value>en-US</param-value>
@@ -24,31 +25,40 @@
 		<param-value></param-value>
 	</context-param>
 	
-	<!-- Report resources directory for preview. Default to ${birt home} -->
+	<!--
+		Report resources directory for preview. Defaults to ${birt home}
+	-->
 	<context-param>
 		<param-name>BIRT_VIEWER_WORKING_FOLDER</param-name>
 		<param-value></param-value>
 	</context-param>
 	
-	<!-- The generated document files directory. Default to ${birt home}/documents -->
+	<!--
+		Generated document files directory. Defaults to ${birt home}/documents
+	-->
 	<context-param>
 		<param-name>BIRT_VIEWER_DOCUMENT_FOLDER</param-name>
 		<param-value></param-value>
 	</context-param>
 
-	<!-- If only access the report resources under working folder. Default is true -->
+	<!--
+		Flag whether the report resources can only be accessed under the
+		working folder. Defaults to true
+	-->
 	<context-param>
 		<param-name>WORKING_FOLDER_ACCESS_ONLY</param-name>
 		<param-value>true</param-value>
 	</context-param>
 
-	<!-- Output image/chart directory. Default to ${birt home}/report/images -->
+	<!--
+		Output image/chart directory. Defaults to ${birt home}/report/images
+	-->
 	<context-param>
 		<param-name>BIRT_VIEWER_IMAGE_DIR</param-name>
 		<param-value></param-value>
 	</context-param>
 
-	<!-- Engine log directory. Default to ${birt home}/logs -->
+	<!-- Engine log directory. Defaults to ${birt home}/logs -->
 	<context-param>
 		<param-name>BIRT_VIEWER_LOG_DIR</param-name>
 		<param-value></param-value>
@@ -60,25 +70,31 @@
 		<param-value>WARNING</param-value>
 	</context-param>
 
-	<!-- Directory to store all birt report script libraries (JARs). Default to ${birt home}/scriptlib -->
+	<!--
+		Directory where to store all the birt report script libraries (JARs).
+		Defaults to ${birt home}/scriptlib
+	-->
 	<context-param>
 		<param-name>BIRT_VIEWER_SCRIPTLIB_DIR</param-name>
 		<param-value></param-value>
 	</context-param>
 	
-	<!-- Resource location directory. Default to ${birt home} -->
+	<!-- Resource location directory. Defaults to ${birt home} -->
 	<context-param>
 		<param-name>BIRT_RESOURCE_PATH</param-name>
 		<param-value></param-value>
 	</context-param>
 
-	<!-- Preview report max rows limited. -->
+	<!-- Preview report rows limit. An empty value means no limit. -->
 	<context-param>
 		<param-name>BIRT_VIEWER_MAX_ROWS</param-name>
 		<param-value></param-value>
 	</context-param>
 
-	<!-- Preview report max cube fetch levels limited.(Only support to preview a report design file using preview pattern.) -->
+	<!--
+		Max cube fetch levels limit for report preview (Only used when
+		previewing a report design file using the preview pattern)
+	-->
 	<context-param>
 		<param-name>BIRT_VIEWER_MAX_CUBE_ROWLEVELS</param-name>
 		<param-value></param-value>
@@ -88,37 +104,55 @@
 		<param-value></param-value>
 	</context-param>
 
-	<!-- Memory size(MB) for creating cube. -->
+	<!-- Memory size in MB for creating a cube. -->
 	<context-param>
 		<param-name>BIRT_VIEWER_CUBE_MEMORY_SIZE</param-name>
 		<param-value></param-value>
 	</context-param>
 	
-	<!-- If always overwrite generated document file. For runtime,efalult to true -->
+	<!--
+		Flag whether to always overwrite the generated document file. For
+		designer, defaults to false.
+	-->
 	<context-param>
 		<param-name>BIRT_OVERWRITE_DOCUMENT</param-name>
 		<param-value>true</param-value>
 	</context-param>
 
-	<!-- Define BIRT viewer configuration file -->
+	<!-- Defines the BIRT viewer configuration file -->
 	<context-param>
 		<param-name>BIRT_VIEWER_CONFIG_FILE</param-name>
 		<param-value>WEB-INF/viewer.properties</param-value>
 	</context-param>
 
-	<!-- If turn on the function that supports print on the server side. Default to on. -->
+	<!--
+		Flag whether to allow server-side printing. Possible values are "ON"
+		and "OFF". Defaults to "ON".
+	-->
 	<context-param>
 		<param-name>BIRT_VIEWER_PRINT_SERVERSIDE</param-name>
 		<param-value>ON</param-value>
 	</context-param>
 
-	<!-- If force optimized HTML output. Default to true -->
+	<!--
+		Flag whether to force browser-optimized HTML output. Defaults to true
+	-->
 	<context-param>
 		<param-name>HTML_ENABLE_AGENTSTYLE_ENGINE</param-name>
 		<param-value>true</param-value>
 	</context-param>
 
-	<!-- Viewer Filter.Currently, set request character encoding to UTF-8. -->
+	<!--
+		Filename generator class/factory to use for the exported reports.
+	-->
+	<context-param>
+		<param-name>BIRT_FILENAME_GENERATOR_CLASS</param-name>
+		<param-value>org.eclipse.birt.report.utility.filename.DefaultFilenameGenerator</param-value>
+	</context-param>
+
+	<!--
+		Viewer Filter used to set the request character encoding to UTF-8.
+	-->
 	<filter>
     	<filter-name>ViewerFilter</filter-name>
         <filter-class>org.eclipse.birt.report.filter.ViewerFilter</filter-class>
@@ -142,13 +176,13 @@
 		<listener-class>org.eclipse.birt.report.listener.ViewerHttpSessionListener</listener-class>
 	</listener>
 	
-	<!-- Viewer Servlet, Support SOAP -->	
+	<!-- Viewer Servlet, Supports SOAP -->
 	<servlet>
 		<servlet-name>ViewerServlet</servlet-name>
 		<servlet-class>org.eclipse.birt.report.servlet.ViewerServlet</servlet-class>
 	</servlet>
 
-	<!-- Engine Serlvet -->
+	<!-- Engine Servlet -->
 	<servlet>
 		<servlet-name>EngineServlet</servlet-name>
 		<servlet-class>org.eclipse.birt.report.servlet.BirtEngineServlet</servlet-class>
