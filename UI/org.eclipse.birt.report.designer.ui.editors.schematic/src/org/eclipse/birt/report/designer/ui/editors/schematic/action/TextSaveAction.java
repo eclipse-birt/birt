@@ -32,6 +32,8 @@ public class TextSaveAction extends TextEditorAction
 	{
 		super( Messages.getReportResourceBundle( ), "Editor.Save.", editor ); //$NON-NLS-1$
 		setActionDefinitionId( "org.eclipse.ui.file.save" ); //$NON-NLS-1$
+		//the action key is no longer work, so we set the action text.
+		setText( Messages.getString( "MultiPageReportEditor.SaveButton" ) ); //$NON-NLS-1$
 	}
 
 	@Override
