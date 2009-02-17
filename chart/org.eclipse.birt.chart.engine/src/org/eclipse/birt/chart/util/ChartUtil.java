@@ -1275,13 +1275,13 @@ public class ChartUtil
 		List<Character> specialList = new ArrayList<Character>( );
 		for ( int i = 0; i < specialSymbol.length; i++ )
 		{
-			specialList.add( new Character( specialSymbol[i] ) );
+			specialList.add( Character.valueOf( specialSymbol[i] ) );
 		}
 		
 		StringBuffer sb = new StringBuffer( expr );
 		for ( int i = 0; i < sb.length( ); i++ )
 		{
-			int index = specialList.indexOf( new Character( sb.charAt( i ) ) );
+			int index = specialList.indexOf( Character.valueOf( sb.charAt( i ) ) );
 			if ( index < 0 ) {
 				continue;
 			}

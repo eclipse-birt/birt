@@ -42,7 +42,7 @@ import org.eclipse.birt.chart.util.SecurityUtil;
 public final class DefaultsManager
 {
 
-	private final String sLocation = "charts.ini"; //$NON-NLS-1$
+	private static final String sLocation = "charts.ini"; //$NON-NLS-1$
 
 	private transient Preferences pr = null;
 

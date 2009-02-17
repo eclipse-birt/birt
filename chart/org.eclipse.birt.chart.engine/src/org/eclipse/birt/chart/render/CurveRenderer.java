@@ -44,7 +44,7 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 public final class CurveRenderer
 {
 
-	private final double kError = 0.5d;
+	private static final double kError = 0.5d;
 
 	private int iNumberOfPoints = 0;
 

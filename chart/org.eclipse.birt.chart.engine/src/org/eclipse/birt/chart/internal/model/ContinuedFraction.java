@@ -71,7 +71,7 @@ public class ContinuedFraction
 		do
 		{
 			quotient = start / dividend;
-			integerList.add( new Long( quotient ) );
+			integerList.add( Long.valueOf( quotient ) );
 			oldDividend = dividend;
 			dividend = start % dividend;
 			start = oldDividend;

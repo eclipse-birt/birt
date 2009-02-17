@@ -170,7 +170,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		{
 			// SETUP A TIMER
 			lTimer = System.currentTimeMillis( );
-			htRenderers.put( TIMER, new Long( lTimer ) );
+			htRenderers.put( TIMER, Long.valueOf( lTimer ) );
 
 			// RENDER THE CHART BY WALKING THROUGH THE RECURSIVE BLOCK STRUCTURE
 			Block bl = cm.getBlock( );
@@ -410,11 +410,11 @@ public abstract class AxesRenderer extends BaseRenderer
 		if ( htRenderers.containsKey( TIMER ) )
 		{
 			final Long l = (Long) htRenderers.get( TIMER );
-			htRenderers.put( TIMER, new Long( l.longValue( ) + lTimer ) );
+			htRenderers.put( TIMER, Long.valueOf( l.longValue( ) + lTimer ) );
 		}
 		else
 		{
-			htRenderers.put( TIMER, new Long( lTimer ) );
+			htRenderers.put( TIMER, Long.valueOf( lTimer ) );
 		}
 		if ( bLastInSequence )
 		{
@@ -428,7 +428,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "info.elapsed.render.time", //$NON-NLS-1$
 							new Object[]{
-								new Long( lTimer )
+								Long.valueOf( lTimer )
 							},
 							getRunTimeContext( ).getULocale( ) ) );
 			htRenderers.remove( TIMER );
@@ -455,7 +455,8 @@ public abstract class AxesRenderer extends BaseRenderer
 			{
 				final long l1 = ( (DateTimeDataElement) de1 ).getValue( );
 				final long l2 = ( (DateTimeDataElement) de1 ).getValue( );
-				return ( l1 < l1 ? IConstants.LESS : ( l1 == l2
+				return ( l1 < l2 ? IConstants.LESS
+						: ( l1 == l2
 						? IConstants.EQUAL : IConstants.MORE ) );
 
 			}
@@ -1485,7 +1486,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						ChartException.RENDERING,
 						"exception.cannot.split.major", //$NON-NLS-1$
 						new Object[]{
-							new Integer( iCount )
+							Integer.valueOf( iCount )
 						},
 						Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
 			}

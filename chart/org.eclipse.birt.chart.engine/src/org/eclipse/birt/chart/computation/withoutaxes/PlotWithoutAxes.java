@@ -248,8 +248,8 @@ public final class PlotWithoutAxes
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "exception.data.outofsync", //$NON-NLS-1$
 							new Object[]{
-									new Integer( dsiBaseValues.size( ) ),
-									new Integer( dsiOrthogonalValues.size( ) )
+									Integer.valueOf( dsiBaseValues.size( ) ),
+									Integer.valueOf( dsiOrthogonalValues.size( ) )
 							},
 							rtc.getULocale( ) ) );
 		}

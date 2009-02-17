@@ -1744,8 +1744,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "exception.base.orthogonal.inconsistent.count", //$NON-NLS-1$
 							new Object[]{
-									new Integer( iBaseCount ),
-									new Integer( iOrthogonalCount )
+									Integer.valueOf( iBaseCount ),
+									Integer.valueOf( iOrthogonalCount )
 							},
 							rtc.getULocale( ) ) );
 		}

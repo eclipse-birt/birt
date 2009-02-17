@@ -53,8 +53,8 @@ public final class EmptyWithAxes extends AxesRenderer
 				Messages.getString( "info.render.series", //$NON-NLS-1$
 						new Object[]{
 								getClass( ).getName( ),
-								new Integer( iSeriesIndex + 1 ),
-								new Integer( iSeriesCount )
+								Integer.valueOf( iSeriesIndex + 1 ),
+								Integer.valueOf( iSeriesCount )
 						},
 						getRunTimeContext( ).getULocale( ) ) );
 	}

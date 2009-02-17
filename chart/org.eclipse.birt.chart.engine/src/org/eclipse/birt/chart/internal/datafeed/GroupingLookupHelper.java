@@ -176,7 +176,7 @@ public class GroupingLookupHelper
 			
 			lstAll.add( dataExp );
 			lhmAggExp.put( generateKey( dataExp, aggExp ),
-					new Integer( iLookup++ ) );
+					Integer.valueOf( iLookup++ ) );
 		}
 	}
 
@@ -272,7 +272,7 @@ public class GroupingLookupHelper
 			String key = generateKey( dataExp, aggExp );
 			if ( !lhmAggExp.containsKey( key ) )
 			{
-				lhmAggExp.put( key, new Integer( iLookup++ ) );
+				lhmAggExp.put( key, Integer.valueOf( iLookup++ ) );
 				lstAll.add( dataExp );
 			}
 			return true;

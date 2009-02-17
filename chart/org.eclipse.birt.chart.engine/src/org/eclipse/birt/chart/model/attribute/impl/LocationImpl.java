@@ -416,21 +416,6 @@ public class LocationImpl extends EObjectImpl implements Location
 		setY( getY( ) * dScale );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	public boolean equals( Object obj )
-	{
-		if ( obj instanceof Location )
-		{
-			Location lo = (Location) obj;
-			return getX( ) == lo.getX( ) && getY( ) == lo.getY( );
-		}
-		return super.equals( obj );
-	}
-
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
@@ -450,6 +435,46 @@ public class LocationImpl extends EObjectImpl implements Location
 		lo.xESet = src.isSetX( );
 		lo.yESet = src.isSetY( );
 		return lo;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode( )
+	{
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits( x );
+		result = prime * result + (int) ( temp ^ ( temp >>> 32 ) );
+		temp = Double.doubleToLongBits( y );
+		result = prime * result + (int) ( temp ^ ( temp >>> 32 ) );
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals( Object obj )
+	{
+		if ( this == obj )
+			return true;
+		if ( obj == null )
+			return false;
+		if ( getClass( ) != obj.getClass( ) )
+			return false;
+		LocationImpl other = (LocationImpl) obj;
+		if ( Double.doubleToLongBits( x ) != Double.doubleToLongBits( other.x ) )
+			return false;
+		if ( Double.doubleToLongBits( y ) != Double.doubleToLongBits( other.y ) )
+			return false;
+		return true;
 	}
 
 } // LocationImpl

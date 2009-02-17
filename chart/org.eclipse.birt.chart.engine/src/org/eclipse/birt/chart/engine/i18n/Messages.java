@@ -31,7 +31,7 @@ public final class Messages
 	/**
 	 * Bundle name
 	 */
-	private static final String ENGINE = new String( "org.eclipse.birt.chart.engine.i18n.nls" ); //$NON-NLS-1$
+	private static final String ENGINE = "org.eclipse.birt.chart.engine.i18n.nls"; //$NON-NLS-1$
 
 	private static final ResourceBundle RESOURCE_BUNDLE = UResourceBundle.getBundleInstance( ENGINE,
 			ULocale.getDefault( ),

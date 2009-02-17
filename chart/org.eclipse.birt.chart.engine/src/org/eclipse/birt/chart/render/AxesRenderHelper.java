@@ -240,7 +240,7 @@ public final class AxesRenderHelper
 		renderer.processTrigger( tg, source );
 	}
 
-	final class ComputationContext
+	private final static class ComputationContext
 	{
 
 		// General
@@ -304,7 +304,6 @@ public final class AxesRenderHelper
 
 		ComputationContext context;
 		ITextMetrics itmText;
-		int iDateTimeUnit;
 
 		TextAxisTypeComputation( ComputationContext context )
 		{
@@ -313,8 +312,6 @@ public final class AxesRenderHelper
 
 		public void initialize( ) throws ChartException
 		{
-			iDateTimeUnit = ( sc.getType( ) == IConstants.DATE_TIME ) ? CDateTime.computeUnit( sc.getData( ) )
-					: IConstants.UNDEFINED;
 			itmText = xs.getTextMetrics( la );
 			sc.getData( ).reset( );
 		}

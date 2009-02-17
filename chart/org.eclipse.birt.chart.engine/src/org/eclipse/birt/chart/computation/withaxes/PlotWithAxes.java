@@ -823,8 +823,8 @@ public abstract class PlotWithAxes extends Methods
 		throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( rtc.getULocale( ) )
 				.getString( "exception.combination.axis.label.position" ), //$NON-NLS-1$
 				new Object[]{
-						new Integer( iBaseOrOrthogonal ),
-						new Integer( iOriginalPosition )
+						Integer.valueOf( iBaseOrOrthogonal ),
+						Integer.valueOf( iOriginalPosition )
 				} ) );
 	}
 
@@ -870,8 +870,8 @@ public abstract class PlotWithAxes extends Methods
 		throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( rtc.getULocale( ) )
 				.getString( "exception.combination.axis.tick.style" ), //$NON-NLS-1$
 				new Object[]{
-						new Integer( iBaseOrOrthogonal ),
-						new Integer( iOriginalStyle )
+						Integer.valueOf( iBaseOrOrthogonal ),
+						Integer.valueOf( iOriginalStyle )
 				} ) );
 	}
 

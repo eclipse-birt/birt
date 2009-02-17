@@ -1171,7 +1171,7 @@ public final class Generator implements IGenerator
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "info.compute.elapsed.time.without.axes", //$NON-NLS-1$
 						new Object[]{
-							new Long( System.currentTimeMillis( ) - lTimer )
+							Long.valueOf( System.currentTimeMillis( ) - lTimer )
 						},
 						rtc.getULocale( ) ) );
 
@@ -1239,7 +1239,8 @@ public final class Generator implements IGenerator
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "info.compute.elapsed.time.with.axes", //$NON-NLS-1$
 							new Object[]{
-								new Long( System.currentTimeMillis( ) - lTimer )
+								Long.valueOf( System.currentTimeMillis( )
+										- lTimer )
 							},
 							gcs.getRunTimeContext( ).getULocale( ) ) );
 		}
@@ -1259,7 +1260,8 @@ public final class Generator implements IGenerator
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "info.compute.elapsed.time.without.axes", //$NON-NLS-1$
 							new Object[]{
-								new Long( System.currentTimeMillis( ) - lTimer )
+								Long.valueOf( System.currentTimeMillis( )
+										- lTimer )
 							},
 							gcs.getRunTimeContext( ).getULocale( ) ) );
 		}

@@ -735,12 +735,12 @@ public class PlotWith3DAxes extends PlotWithAxes
 	private void readjustBounds( PWA3DComputeContext context, Bounds adjustedBounds, Bounds bo ) throws ChartException
 	{
 		Rectangle rectl = this.getBoundsOfAllAxisLabels( );
-		rectl.union( this.get3DGraphicBoudingRect( ) );
 		
 		if ( rectl == null )
 		{
 			return;
 		}
+		rectl.union( this.get3DGraphicBoudingRect( ) );
 		
 		double new_top = adjustedBounds.getTop( );
 		double new_height = adjustedBounds.getHeight( );
@@ -1235,8 +1235,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "exception.base.orthogonal.inconsistent.count", //$NON-NLS-1$
 							new Object[]{
-									new Integer( iBaseCount ),
-									new Integer( iOrthogonalCount )
+									Integer.valueOf( iBaseCount ),
+									Integer.valueOf( iOrthogonalCount )
 							},
 							rtc.getULocale( ) ) );
 		}

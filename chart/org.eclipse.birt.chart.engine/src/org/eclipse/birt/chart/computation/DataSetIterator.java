@@ -189,7 +189,7 @@ public final class DataSetIterator implements Iterator
 			throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( )
 					.getString( "exception.process.content.type" ), //$NON-NLS-1$
 					new Object[]{
-							oContent, new Integer( iDataType )
+							oContent, Integer.valueOf( iDataType )
 					} )
 
 			);

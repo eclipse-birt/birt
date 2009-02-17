@@ -24,7 +24,6 @@ import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.datafeed.IResultSetDataSet;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.factory.AbstractGroupedDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.IActionEvaluator;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator;
@@ -68,7 +67,7 @@ public class DataProcessor
 	 * To collect aggregation expressions and queries of each series. 
 	 * 
 	 */
-	class AggregationExpressionHelper
+	private static class AggregationExpressionHelper
 	{
 
 		private List aggregationExpsList = new ArrayList( 3 );
@@ -644,8 +643,8 @@ public class DataProcessor
 									aggExp ),
 							rsw.getSubset( k, triggerExprs, aggExp ) );
 
-					odata[3] = new Integer( rsw.getGroupRowCount( k ) );
-					odata[4] = new Integer( k );
+					odata[3] = Integer.valueOf( rsw.getGroupRowCount( k ) );
+					odata[4] = Integer.valueOf( k );
 					odata[5] = triggerExprs;
 
 					orthogonalDataList.add( odata );
@@ -874,8 +873,8 @@ public class DataProcessor
 										aggExp ),
 								rsw.getSubset( k, triggerExprs, aggExp ) );
 
-						odata[3] = new Integer( rsw.getGroupRowCount( k ) );
-						odata[4] = new Integer( k );
+						odata[3] = Integer.valueOf( rsw.getGroupRowCount( k ) );
+						odata[4] = Integer.valueOf( k );
 						odata[5] = triggerExprs;
 
 						orthogonalDataList.add( odata );

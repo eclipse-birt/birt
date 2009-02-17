@@ -17,6 +17,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -915,7 +916,7 @@ public final class Engine3D implements IConstants
 								yOffset );
 						if ( edge != null )
 						{
-							Integer index = new Integer( j );
+							Integer index = Integer.valueOf( j );
 							if ( sharedEdges.containsKey( index ))
 							{
 								((List)sharedEdges.get( index )).add( edge ) ;
@@ -934,11 +935,11 @@ public final class Engine3D implements IConstants
 		}
 		int offset = 0;
 		// re-insert edge polygons just before the first polygon with the shared edge
-		for ( Iterator iter = sharedEdges.keySet( ).iterator( ); iter.hasNext(); )
+		for ( Iterator iter = sharedEdges.entrySet( ).iterator( ); iter.hasNext( ); )
 		{	
-			Integer position = (Integer)iter.next( );
-			
-			List lines = (List)sharedEdges.get(  position )  ;
+			Map.Entry entry = (Map.Entry) iter.next( );
+			Integer position = (Integer) entry.getKey( );
+			List lines = (List) entry.getValue( );
 			for (Iterator iterList = lines.iterator( ); iterList.hasNext( ); )
 			{
 				rtList.add( position.intValue( ) + offset, iterList.next( )  );

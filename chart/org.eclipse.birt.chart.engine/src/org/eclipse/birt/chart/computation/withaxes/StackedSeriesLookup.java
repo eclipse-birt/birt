@@ -213,8 +213,8 @@ public final class StackedSeriesLookup
 							throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( rtc.getULocale( ) )
 									.getString( "exception.runtime.dataset.count.mismatch" ), //$NON-NLS-1$
 									new Object[]{
-											new Integer( ssl.iCachedUnitCount ),
-											new Integer( iDataSetCount )
+											Integer.valueOf( ssl.iCachedUnitCount ),
+											Integer.valueOf( iDataSetCount )
 									} )
 
 							);
@@ -382,8 +382,8 @@ public final class StackedSeriesLookup
 							throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( rtc.getULocale( ) )
 									.getString( "exception.runtime.dataset.count.mismatch" ), //$NON-NLS-1$
 									new Object[]{
-											new Integer( ssl.iCachedUnitCount ),
-											new Integer( iDataSetCount )
+											Integer.valueOf( ssl.iCachedUnitCount ),
+											Integer.valueOf( iDataSetCount )
 									} )
 
 							);

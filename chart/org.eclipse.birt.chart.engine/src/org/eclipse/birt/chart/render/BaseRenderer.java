@@ -512,11 +512,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		if ( htRenderers.containsKey( TIMER ) )
 		{
 			final Long l = (Long) htRenderers.get( TIMER );
-			htRenderers.put( TIMER, new Long( l.longValue( ) + lTimer ) );
+			htRenderers.put( TIMER, Long.valueOf( l.longValue( ) + lTimer ) );
 		}
 		else
 		{
-			htRenderers.put( TIMER, new Long( lTimer ) );
+			htRenderers.put( TIMER, Long.valueOf( lTimer ) );
 		}
 
 		if ( bLastInSequence )
@@ -535,7 +535,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "info.elapsed.render.time", //$NON-NLS-1$
 							new Object[]{
-								new Long( lTimer )
+								Long.valueOf( lTimer )
 							},
 							rtc.getULocale( ) ) );
 			htRenderers.remove( TIMER );
@@ -2022,7 +2022,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							ChartException.PLUGIN,
 							"exception.illegal.base.runtime.series.count", //$NON-NLS-1$
 							new Object[]{
-								new Integer( alRuntimeSeries.size( ) )
+								Integer.valueOf( alRuntimeSeries.size( ) )
 							},
 							Messages.getResourceBundle( rtc.getULocale( ) ) );
 				}
@@ -2766,8 +2766,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					ChartException.VALIDATION,
 					"exception.base.orthogonal.inconsistent.count", //$NON-NLS-1$
 					new Object[]{
-							new Integer( isrh.getBaseDataSet( ).size( ) ),
-							new Integer( isrh.getOrthogonalDataSet( ).size( ) )
+							Integer.valueOf( isrh.getBaseDataSet( ).size( ) ),
+							Integer.valueOf( isrh.getOrthogonalDataSet( )
+									.size( ) )
 					},
 					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}

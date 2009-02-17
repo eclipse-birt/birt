@@ -16,7 +16,7 @@ package org.eclipse.birt.chart.computation;
  * 
  * @author Actuate Corporation
  */
-public final class BoundingBox
+public final class BoundingBox implements Cloneable
 {
 
 	private double dX, dY;
@@ -33,20 +33,6 @@ public final class BoundingBox
 		dWidth = _dWidth;
 		dHeight = _dHeight;
 		dHotPoint = _dHotPoint;
-	}
-	
-	@Override
-	public boolean equals( Object obj )
-	{
-		if ( obj instanceof BoundingBox )
-		{
-			BoundingBox bb = (BoundingBox) obj;
-			return ( dX == bb.dX
-					&& dY == bb.dY
-					&& dWidth == bb.dWidth
-					&& dHeight == bb.dHeight && dHotPoint == bb.dHotPoint );
-		}
-		return super.equals( obj );
 	}
 	
 	public BoundingBox clone( )
@@ -96,5 +82,57 @@ public final class BoundingBox
 		dWidth *= dScale;
 		dHeight *= dScale;
 		dHotPoint *= dScale;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode( )
+	{
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits( dHeight );
+		result = prime * result + (int) ( temp ^ ( temp >>> 32 ) );
+		temp = Double.doubleToLongBits( dHotPoint );
+		result = prime * result + (int) ( temp ^ ( temp >>> 32 ) );
+		temp = Double.doubleToLongBits( dWidth );
+		result = prime * result + (int) ( temp ^ ( temp >>> 32 ) );
+		temp = Double.doubleToLongBits( dX );
+		result = prime * result + (int) ( temp ^ ( temp >>> 32 ) );
+		temp = Double.doubleToLongBits( dY );
+		result = prime * result + (int) ( temp ^ ( temp >>> 32 ) );
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals( Object obj )
+	{
+		if ( this == obj )
+			return true;
+		if ( obj == null )
+			return false;
+		if ( getClass( ) != obj.getClass( ) )
+			return false;
+		BoundingBox other = (BoundingBox) obj;
+		if ( Double.doubleToLongBits( dHeight ) != Double.doubleToLongBits( other.dHeight ) )
+			return false;
+		if ( Double.doubleToLongBits( dHotPoint ) != Double.doubleToLongBits( other.dHotPoint ) )
+			return false;
+		if ( Double.doubleToLongBits( dWidth ) != Double.doubleToLongBits( other.dWidth ) )
+			return false;
+		if ( Double.doubleToLongBits( dX ) != Double.doubleToLongBits( other.dX ) )
+			return false;
+		if ( Double.doubleToLongBits( dY ) != Double.doubleToLongBits( other.dY ) )
+			return false;
+		return true;
 	}
 }

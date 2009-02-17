@@ -67,7 +67,7 @@ public final class LegendBuilder implements IConstants
 	/**
 	 * inner class for legend data
 	 */
-	private class LegendData
+	private static class LegendData
 	{
 
 		private final IDisplayServer xs;

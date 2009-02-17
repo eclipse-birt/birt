@@ -204,7 +204,7 @@ public final class ResultSetWrapper
 	 * The class is used to sort data by Y grouping sort key.
      * @since BIRT 2.3
 	 */
-	class YGroupingSorter implements Comparator
+	private static class YGroupingSorter implements Comparator
 	{
 
 		private boolean ascending;
@@ -353,8 +353,8 @@ public final class ResultSetWrapper
 				endIndex = iaGroupBreaks[i];
 			}
 			Object[] sortValue = new Object[3];
-			sortValue[0] = new Integer( startIndex );
-			sortValue[1] = new Integer( endIndex );
+			sortValue[0] = Integer.valueOf( startIndex );
+			sortValue[1] = Integer.valueOf( endIndex );
 
 			// Initialize aggregation function.
 			iafa.initialize( );
@@ -452,11 +452,11 @@ public final class ResultSetWrapper
 						Object[] aTuple = (Object[]) workingResultSet.get( j );
 						if ( ( (Boolean) aTuple[i] ).booleanValue( ) )
 						{
-							aTuple[i] = new Integer( 1 );
+							aTuple[i] = Integer.valueOf( 1 );
 						}
 						else
 						{
-							aTuple[i] = new Integer( 0 );
+							aTuple[i] = Integer.valueOf( 0 );
 						}
 					}
 				}
@@ -745,7 +745,7 @@ public final class ResultSetWrapper
 				else
 				{
 					// The value of base column is same, so the j'th row is duplicate row.
-					trashList.add( new Integer( j ) );
+					trashList.add( Integer.valueOf( j ) );
 				}
 
 				for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
@@ -953,7 +953,7 @@ public final class ResultSetWrapper
 				}
 				else
 				{
-					trashList.add( new Integer( j ) );
+					trashList.add( Integer.valueOf( j ) );
 				}
 
 				for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
@@ -1119,7 +1119,7 @@ public final class ResultSetWrapper
 				}
 				else
 				{
-					trashList.add( new Integer( j ) );
+					trashList.add( Integer.valueOf( j ) );
 				}
 
 				for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
@@ -1513,7 +1513,7 @@ public final class ResultSetWrapper
 					oValue = rsd.next( )[0];
 
 					baseValue.add( oValue );
-					idx.add( new Integer( i++ ) );
+					idx.add( Integer.valueOf( i++ ) );
 				}
 			}
 			else
@@ -1534,9 +1534,9 @@ public final class ResultSetWrapper
 						int cprt = compareObjects( oValue, ov );
 						if ( cprt == 0 )
 						{
-							if ( !idx.contains( new Integer( j ) ) )
+							if ( !idx.contains( Integer.valueOf( j ) ) )
 							{
-								idx.add( new Integer( j ) );
+								idx.add( Integer.valueOf( j ) );
 								matched = true;
 								break;
 							}
@@ -1577,7 +1577,7 @@ public final class ResultSetWrapper
 							// if no existing position available, append to the
 							// end.
 							baseValue.add( oValue );
-							idx.add( new Integer( baseValue.size( ) - 1 ) );
+							idx.add( Integer.valueOf( baseValue.size( ) - 1 ) );
 						}
 						else
 						{
@@ -1591,10 +1591,10 @@ public final class ResultSetWrapper
 
 								if ( x >= insertPoint )
 								{
-									idx.set( i, new Integer( x + 1 ) );
+									idx.set( i, Integer.valueOf( x + 1 ) );
 								}
 							}
-							idx.add( new Integer( insertPoint ) );
+							idx.add( Integer.valueOf( insertPoint ) );
 
 							// adjust computed group indices.
 							for ( Iterator itr = idxList.iterator( ); itr.hasNext( ); )
@@ -1606,7 +1606,7 @@ public final class ResultSetWrapper
 
 									if ( x >= insertPoint )
 									{
-										gidx.set( i, new Integer( x + 1 ) );
+										gidx.set( i, Integer.valueOf( x + 1 ) );
 									}
 								}
 							}
@@ -1627,7 +1627,7 @@ public final class ResultSetWrapper
 				int inc = maxLen - lst.size( );
 				for ( int i = 0; i < inc; i++ )
 				{
-					lst.add( new Integer( -1 ) );
+					lst.add( Integer.valueOf( -1 ) );
 				}
 			}
 		}
@@ -1740,7 +1740,7 @@ public final class ResultSetWrapper
 						// Calculate interval range for numeric case, it may be decimal interval.
 						if ( groupInterval == 0 )
 						{
-							alBreaks.add( new Integer( iRowIndex - 1 ) );
+							alBreaks.add( Integer.valueOf( iRowIndex - 1 ) );
 						}
 						else
 						{
@@ -1749,7 +1749,7 @@ public final class ResultSetWrapper
 
 							if ( lastGroupIndex != groupIndex )
 							{
-								alBreaks.add( new Integer( iRowIndex - 1 ) );
+								alBreaks.add( Integer.valueOf( iRowIndex - 1 ) );
 
 							}
 
@@ -1767,11 +1767,11 @@ public final class ResultSetWrapper
 						{
 							int groupingInterval = (int) seriesGrouping.getGroupingInterval( );
 							if ( groupingInterval == 0 ){
-								alBreaks.add( new Integer( iRowIndex - 1 ) );
+								alBreaks.add( Integer.valueOf( iRowIndex - 1 ) );
 							} else {
 								if ((int) Math.floor( Math.abs( diff
 										/ groupingInterval ) ) > 0 ) {
-									alBreaks.add( new Integer( iRowIndex - 1 ) );	
+									alBreaks.add( Integer.valueOf( iRowIndex - 1 ) );
 								}
 							}
 						}
@@ -1780,13 +1780,13 @@ public final class ResultSetWrapper
 					{
 						if ( seriesGrouping.getGroupingUnit( ) == GroupingUnitType.STRING_PREFIX_LITERAL )
 						{
-							alBreaks.add( new Integer( iRowIndex - 1 ) );
+							alBreaks.add( Integer.valueOf( iRowIndex - 1 ) );
 						}
 						else
 						{
 							if ( intervalCount == (int) seriesGrouping.getGroupingInterval( ) )
 							{
-								alBreaks.add( new Integer( iRowIndex - 1 ) );
+								alBreaks.add( Integer.valueOf( iRowIndex - 1 ) );
 								intervalCount = 0;
 							}
 							else
@@ -1814,7 +1814,7 @@ public final class ResultSetWrapper
 				}
 				if ( compareObjects( oPreviousValue, oValue ) != 0 )
 				{
-					alBreaks.add( new Integer( iRowIndex - 1 ) );
+					alBreaks.add( Integer.valueOf( iRowIndex - 1 ) );
 				}
 				oPreviousValue = oValue;
 			}

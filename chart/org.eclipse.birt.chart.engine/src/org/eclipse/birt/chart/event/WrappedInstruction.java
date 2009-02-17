@@ -156,7 +156,7 @@ public final class WrappedInstruction implements IRenderInstruction
 		return Messages.getString( "wrapped.instruction.to.string", //$NON-NLS-1$ 
 				new Object[]{
 						super.toString( ),
-						new Boolean( isModel( ) ),
+						Boolean.valueOf( isModel( ) ),
 						getBounds( )
 				},
 				ULocale.getDefault( ) );
@@ -255,7 +255,7 @@ public final class WrappedInstruction implements IRenderInstruction
 
 		public int compare( Object o1, Object o2 )
 		{
-			return new Long( getZOrder( o1 ) ).compareTo( getZOrder( o2 ) );
+			return Long.valueOf( getZOrder( o1 ) ).compareTo( getZOrder( o2 ) );
 		}
 	}
 

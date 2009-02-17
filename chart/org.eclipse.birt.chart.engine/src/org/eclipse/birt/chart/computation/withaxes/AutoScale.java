@@ -439,8 +439,8 @@ public final class AutoScale extends Methods implements Cloneable
 						iStep--;
 						if ( iStep == 0 )
 						{
-							setStep( new Integer( iaMonthDeltas[iaMonthDeltas.length - 1] ) );
-							oUnit = new Integer( Calendar.MONTH );
+							setStep( Integer.valueOf( iaMonthDeltas[iaMonthDeltas.length - 1] ) );
+							oUnit = Integer.valueOf( Calendar.MONTH );
 						}
 					}
 					else
@@ -468,10 +468,11 @@ public final class AutoScale extends Methods implements Cloneable
 							// TO PREVIOUS
 							// DELTAS ARRAY
 							i = ia.length; // MANIPULATE OFFSET TO END+1
-							oUnit = new Integer( iaCalendarUnits[icu - 1] ); // DOWNGRADE
+							oUnit = Integer.valueOf( iaCalendarUnits[icu - 1] ); // DOWNGRADE
 							// UNIT
 						}
-						setStep( new Integer( ia[i - 1] ) ); // RETURN PREVIOUS
+						setStep( Integer.valueOf( ia[i - 1] ) ); // RETURN
+																	// PREVIOUS
 						// STEP IN DELTAS
 						// ARRAY
 						break;
@@ -588,7 +589,7 @@ public final class AutoScale extends Methods implements Cloneable
 					if ( ia == null ) // HANDLE YEARS SEPARATELY
 					{
 						iStep++; // NO UPPER LIMIT FOR YEARS
-						setStep( new Integer( iStep ) );
+						setStep( Integer.valueOf( iStep ) );
 					}
 					else
 					// HANDLE SECONDS, MINUTES, HOURS, DAYS, MONTHS
@@ -607,15 +608,16 @@ public final class AutoScale extends Methods implements Cloneable
 						{
 							ia = iaCalendarDeltas[icu + 1]; // UPGRADE UNIT TO
 							// NEXT DELTAS ARRAY
-							oUnit = new Integer( iaCalendarUnits[icu + 1] );
+							oUnit = Integer.valueOf( iaCalendarUnits[icu + 1] );
 							if ( ia == null ) // HANDLE YEARS
 							{
-								setStep( new Integer( 1 ) );
+								setStep( Integer.valueOf( 1 ) );
 								return true;
 							}
 							i = -1; // MANIPULATE OFFSET TO START-1
 						}
-						setStep( new Integer( ia[i + 1] ) ); // RETURN NEXT STEP
+						setStep( Integer.valueOf( ia[i + 1] ) ); // RETURN NEXT
+																	// STEP
 						// IN
 						// DELTAS ARRAY
 						break;
@@ -1951,7 +1953,7 @@ public final class AutoScale extends Methods implements Cloneable
 		DataElement oMaximum = scModel.getMax( );
 		final Double oStep = scModel.isSetStep( ) ? new Double( scModel.getStep( ) )
 				: null;
-		final Integer oStepNumber = scModel.isSetStepNumber( ) ? new Integer( scModel.getStepNumber( ) )
+		final Integer oStepNumber = scModel.isSetStepNumber( ) ? Integer.valueOf( scModel.getStepNumber( ) )
 				: null;
 
 		AutoScale sc = null;
@@ -2230,9 +2232,9 @@ public final class AutoScale extends Methods implements Cloneable
 			cdtMaxAxis.clearBelow( iUnit );
 
 			sc = new AutoScale( DATE_TIME, cdtMinAxis, cdtMaxAxis );
-			sc.setStep( new Integer( 1 ) );
+			sc.setStep( Integer.valueOf( 1 ) );
 			sc.oStepNumber = oStepNumber;
-			sc.oUnit = new Integer( iUnit );
+			sc.oUnit = Integer.valueOf( iUnit );
 			sc.iMinUnit = oMinValue.equals( oMaxValue ) ? getUnitId( iUnit )
 					: getMinUnitId( fs, rtc );
 			sc.setDirection( direction );

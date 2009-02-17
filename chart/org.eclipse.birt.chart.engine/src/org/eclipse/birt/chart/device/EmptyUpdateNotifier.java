@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.chart.device;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.eclipse.birt.chart.model.Chart;
 
 /**
@@ -24,7 +21,6 @@ public class EmptyUpdateNotifier implements IUpdateNotifier
 
 	private Chart designModel = null;
 	private Chart runtimeModel = null;
-	private Map contextMap;
 
 	/**
 	 * The constructor.
@@ -36,8 +32,6 @@ public class EmptyUpdateNotifier implements IUpdateNotifier
 	{
 		this.designModel = designModel;
 		this.runtimeModel = runtimeModel;
-
-		contextMap = new HashMap( );
 	}
 
 	/*
