@@ -107,7 +107,7 @@
 			<description>%BIRT_FACET_DESCRIPTION</description>
 		</project-facet>
 		
-		<project-facet-version facet="birt.runtime" version="2.3.0">
+		<project-facet-version facet="birt.runtime" version="2.5.0">
 			<constraint>
 				<and>
 					<requires facet="jst.web" version="[2.3"/>
@@ -118,16 +118,16 @@
 			<group-member id="group.birt.runtime"/>
 		</project-facet-version>
 		
-		<action facet="birt.runtime" version="2.3.0" type="INSTALL" id="birt.runtime.install">
+		<action facet="birt.runtime" version="2.5.0" type="INSTALL" id="birt.runtime.install">
 			<delegate class="org.eclipse.birt.integration.wtp.ui.project.facet.BirtFacetInstallDelegate"/>
 			<config-factory class="org.eclipse.birt.integration.wtp.ui.project.facet.BirtFacetInstallDataModelProvider"/>
 		</action>
 		
-		<event-handler facet="birt.runtime" version="2.3.0" type="RUNTIME_CHANGED">
+		<event-handler facet="birt.runtime" version="2.5.0" type="RUNTIME_CHANGED">
 			<delegate class="org.eclipse.birt.integration.wtp.ui.project.facet.BirtFacetRuntimeChangedDelegate"/>
 		</event-handler>
 		
-		<event-handler facet="birt.runtime" version="2.3.0" type="POST_INSTALL">
+		<event-handler facet="birt.runtime" version="2.5.0" type="POST_INSTALL">
 			<delegate class="org.eclipse.birt.integration.wtp.ui.project.facet.BirtFacetPostInstallDelegate"/>
 		</event-handler>
 		
@@ -149,7 +149,7 @@
 
 	<extension point="org.eclipse.wst.common.project.facet.core.runtimes">
 		<supported>
-			<facet id="birt.runtime" version="2.3.0"/>
+			<facet id="birt.runtime" version="2.5.0"/>
 			<runtime-component any="true"/>
 		</supported>
 	</extension>

@@ -58,7 +58,7 @@ public class BirtFacetPresetFactory implements IPresetFactory
 					.getProjectFacet( "birt.runtime" );
 
 			final IProjectFacetVersion birtFacetVersion = birtFacet
-					.getVersion( "2.3.0" );
+					.getVersion( "2.5.0" );
 
 			facets.add( birtFacetVersion );
 			facets.add( webFacetVersion );
