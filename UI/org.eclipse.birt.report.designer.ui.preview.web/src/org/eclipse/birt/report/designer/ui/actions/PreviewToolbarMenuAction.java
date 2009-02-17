@@ -42,6 +42,7 @@ import org.eclipse.ui.forms.editor.FormEditor;
 public class PreviewToolbarMenuAction implements
 		IWorkbenchWindowPulldownDelegate
 {
+
 	private static Map typeMap = new HashMap( );
 	public static final String TYPE_DOC = "doc"; //$NON-NLS-1$
 	public static final String TYPE_HTML = "html"; //$NON-NLS-1$
@@ -88,7 +89,7 @@ public class PreviewToolbarMenuAction implements
 		ReportEngine engine = new ReportEngine( new EngineConfig( ) );
 		String[] supportedFormats = engine.getSupportedFormats( );
 		java.util.Arrays.sort( supportedFormats );
-		
+
 		Menu menu = new Menu( parent );
 		MenuItem previewWebViewer = new MenuItem( menu, SWT.PUSH );
 		previewWebViewer.setText( "&1 " + Messages.getString( "designer.preview.previewaction.label.webviewer" ) ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -100,7 +101,7 @@ public class PreviewToolbarMenuAction implements
 				preview( TYPE_HTML, true );
 			}
 		} );
-		
+
 		for ( int i = 0; i < supportedFormats.length; i++ )
 		{
 			final String format = supportedFormats[i];
@@ -155,7 +156,7 @@ public class PreviewToolbarMenuAction implements
 		{
 			System.out.println( "Preview action >> Run ..." ); //$NON-NLS-1$
 		}
-		preview( TYPE_HTML, true ); 
+		preview( TYPE_HTML, true );
 	}
 
 	/**
@@ -213,13 +214,13 @@ public class PreviewToolbarMenuAction implements
 		{
 			IContentType[] contentTypes = Platform.getContentTypeManager( )
 					.findContentTypesFor( editor.getEditorInput( ).getName( ) );
-			if ( contentTypes.length > 0
-					&& contentTypes[0] != null
-					&& ( contentTypes[0].getId( )
-							.equals( "org.eclipse.birt.report.designer.ui.editors.reportdesign" ) || contentTypes[0].getId( ) //$NON-NLS-1$
-							.equals( "org.eclipse.birt.report.designer.ui.editors.reporttemplate" ) ) ) //$NON-NLS-1$
+			for ( IContentType type : contentTypes )
 			{
-				return true;
+				if ( type.getId( )
+						.equals( "org.eclipse.birt.report.designer.ui.editors.reportdesign" )
+						|| type.getId( )
+								.equals( "org.eclipse.birt.report.designer.ui.editors.reportdesign" ) )
+					return true;
 			}
 		}
 		return false;

@@ -41,6 +41,7 @@ import org.eclipse.ui.forms.editor.FormEditor;
 public class PreviewCascadingMenuGroup implements
 		IWorkbenchWindowPulldownDelegate2
 {
+
 	private static Map typeMap = new HashMap( );
 	public static final String TYPE_DOC = "doc"; //$NON-NLS-1$
 	public static final String TYPE_HTML = "html"; //$NON-NLS-1$
@@ -208,13 +209,13 @@ public class PreviewCascadingMenuGroup implements
 		{
 			IContentType[] contentTypes = Platform.getContentTypeManager( )
 					.findContentTypesFor( editor.getEditorInput( ).getName( ) );
-			if ( contentTypes.length > 0
-					&& contentTypes[0] != null
-					&& ( contentTypes[0].getId( )
-							.equals( "org.eclipse.birt.report.designer.ui.editors.reportdesign" ) || contentTypes[0].getId( ) //$NON-NLS-1$
-							.equals( "org.eclipse.birt.report.designer.ui.editors.reporttemplate" ) ) ) //$NON-NLS-1$
+			for ( IContentType type : contentTypes )
 			{
-				return true;
+				if ( type.getId( )
+						.equals( "org.eclipse.birt.report.designer.ui.editors.reportdesign" )
+						|| type.getId( )
+								.equals( "org.eclipse.birt.report.designer.ui.editors.reportdesign" ) )
+					return true;
 			}
 		}
 		return false;
