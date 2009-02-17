@@ -383,7 +383,8 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 		writer.close( );
 	}
 
-	public void startHeader( boolean showHeaderOnFirst )
+	public void startHeader( boolean showHeaderOnFirst, int headerHeight,
+			int headerWidth )
 	{
 		writer.openTag( "w:hdr" );
 		if ( showHeaderOnFirst )
@@ -396,21 +397,25 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 		}
 		else
 			writer.attribute( "w:type", "odd" );
+		startHeaderFooterContainer( headerHeight, headerWidth );
 	}
 
 	public void endHeader( )
 	{
+		endHeaderFooterContainer( );
 		writer.closeTag( "w:hdr" );
 	}
 
-	public void startFooter( )
+	public void startFooter( int footerHeight, int footerWidth )
 	{
 		writer.openTag( "w:ftr" );
 		writer.attribute( "w:type", "odd" );
+		startHeaderFooterContainer( footerHeight, footerWidth );
 	}
 
 	public void endFooter( )
 	{
+		endHeaderFooterContainer( );
 		writer.closeTag( "w:ftr" );
 	}
 

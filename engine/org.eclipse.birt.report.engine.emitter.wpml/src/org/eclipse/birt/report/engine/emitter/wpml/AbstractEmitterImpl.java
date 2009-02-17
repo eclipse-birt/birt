@@ -930,13 +930,14 @@ public abstract class AbstractEmitterImpl
 		{
 			SimpleMasterPageDesign master = (SimpleMasterPageDesign) previousPage
 					.getGenerateBy( );
-			wordWriter.startHeader( !master.isShowHeaderOnFirst( ) );
+			wordWriter.startHeader( !master.isShowHeaderOnFirst( ),
+					headerHeight, contentWidth );
 			contentVisitor.visitChildren( previousPage.getPageHeader( ), null );
 			wordWriter.endHeader( );
 		}
 		if ( previousPage.getPageFooter( ) != null )
 		{
-			wordWriter.startFooter( );
+			wordWriter.startFooter( footerHeight, contentWidth );
 			contentVisitor.visitChildren( previousPage.getPageFooter( ), null );
 			wordWriter.endFooter( );
 		}

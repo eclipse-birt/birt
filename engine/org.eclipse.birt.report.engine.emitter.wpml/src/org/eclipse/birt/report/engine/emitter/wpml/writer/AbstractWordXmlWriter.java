@@ -1000,4 +1000,31 @@ public abstract class AbstractWordXmlWriter
 			writeAttrTag( "w:strike", "on" );
 		}
 	}
+
+	protected void startHeaderFooterContainer( int headerHeight, int headerWidth )
+	{
+		writer.openTag( "w:tbl" );
+		writer.openTag( "w:tblPr" );
+		writeTableWidth( headerWidth );
+		writeAttrTag( "w:tblLook", "01E0" );
+		writeTableLayout( );
+		writer.closeTag( "w:tblPr" );
+		writer.openTag( "w:tr" );
+		// write the row height, unit: twips
+		writer.openTag( "w:trPr" );
+		writeAttrTag( "w:trHeight", headerHeight );
+		writer.closeTag( "w:trPr" );
+		writer.openTag( "w:tc" );
+		writer.openTag( "w:tcPr" );
+		writeCellWidth( headerWidth );
+		writer.closeTag( "w:tcPr" );
+	}
+
+	protected void endHeaderFooterContainer( )
+	{
+		insertHiddenParagraph( );
+		writer.closeTag( "w:tc" );
+		writer.closeTag( "w:tr" );
+		writer.closeTag( "w:tbl" );
+	}
 }

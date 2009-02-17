@@ -78,11 +78,12 @@ public interface IWordWriter
 			HyperlinkInfo hyper, IStyle style, InlineFlag inlineFlag,
 			String altText, String uri );
 
-	void startHeader( boolean showHeaderOnFirst ) throws IOException;
+	void startHeader( boolean showHeaderOnFirst, int headerHeight,
+			int headerWidth ) throws IOException;
 
 	void endHeader( );
 
-	void startFooter( ) throws IOException;
+	void startFooter( int footerHeight, int footerWidth ) throws IOException;
 
 	void endFooter( );
 
