@@ -233,7 +233,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		
 		SeriesDefinition sd = ChartUIUtil.getBaseSeriesDefinitions( cm )
 				.get( 0 );
-		Query query = (Query) sd.getDesignTimeSeries( ).getDataDefinition( ).get( 0 );
+		Query query = sd.getDesignTimeSeries( ).getDataDefinition( ).get( 0 );
 		if ( query != null && query.getDefinition( ) != null && !"".equals( query.getDefinition( ) )) //$NON-NLS-1$
 		{
 			exprMap.put( org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix" ) + query.getDefinition( ), query.getDefinition( ) ); //$NON-NLS-1$
@@ -317,7 +317,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 				filter.setProperty( IFilterConditionElementModel.OPERATOR_PROP,
 						DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
 				
-				filter.setExpr( getExpression( expression.getText( ) ) );
+				filter.setExpr( expression.getText( ) );
 
 				if ( valueVisible == 3 )
 				{
@@ -380,7 +380,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 						inputHandle.setValue2( NULL_STRING );
 					}
 				}
-				inputHandle.setExpr( getExpression( expression.getText( ) ) );
+				inputHandle.setExpr( expression.getText( ) );
 			}
 		}
 		catch ( Exception e )
@@ -401,24 +401,25 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		return DEUtil.resolveNull( expr );
 	}
 	
-	private String getDisplayExpression( String expression )
-	{
-		for ( Iterator<Entry<String, String>> iter = fExprMap.entrySet( )
-				.iterator( ); iter.hasNext( ); )
-		{
-			Entry<String, String> entry = iter.next( );
-			if ( expression == null && entry.getValue( ) == null )
-			{
-				return DEUtil.resolveNull( expression );
-			}
-			else if ( expression != null &&
-					expression.equals( entry.getValue( ) ) )
-			{
-				return entry.getKey( );
-			}
-		}
-		return DEUtil.resolveNull( expression );
-	}
+
+	// private String getDisplayExpression( String expression )
+	// {
+	// for ( Iterator<Entry<String, String>> iter = fExprMap.entrySet( )
+	// .iterator( ); iter.hasNext( ); )
+	// {
+	// Entry<String, String> entry = iter.next( );
+	// if ( expression == null && entry.getValue( ) == null )
+	// {
+	// return DEUtil.resolveNull( expression );
+	// }
+	// else if ( expression != null &&
+	// expression.equals( entry.getValue( ) ) )
+	// {
+	// return entry.getKey( );
+	// }
+	// }
+	// return DEUtil.resolveNull( expression );
+	// }
 	
 	public void setReportElement( ReportElementHandle reportItem )
 	{
@@ -629,6 +630,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 					expression.setText( DEUtil.getColumnExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
 				}
 				updateButtons( );
+				expression.setText( getExpression( expression.getText( ) ) );
 			}
 		} );
 		expression.addMouseListener( new MouseAdapter( ) {
@@ -1669,7 +1671,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 	protected void syncViewProperties( )
 	{
 
-		expression.setText( DEUtil.resolveNull( getDisplayExpression( inputHandle.getExpr( ) ) ) );
+		expression.setText( DEUtil.resolveNull( inputHandle.getExpr( ) ) );
 		operator.select( getIndexForOperatorValue( inputHandle.getOperator( ) ) );
 		valueVisible = determineValueVisible( inputHandle.getOperator( ) );
 
