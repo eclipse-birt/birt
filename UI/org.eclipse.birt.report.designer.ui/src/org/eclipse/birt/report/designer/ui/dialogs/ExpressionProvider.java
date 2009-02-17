@@ -568,7 +568,12 @@ public class ExpressionProvider implements ISortableExpressionProvider
 					childrenList.addAll( getClassList( false ) );
 					try
 					{
-						childrenList.addAll( Arrays.asList( FunctionProvider.getCategories( ) ) );
+						IScriptFunctionCategory[] categorys = FunctionProvider.getCategories( );
+						for ( int i = 0; i < categorys.length; i++ )
+						{
+							if ( categorys[i].isVisible( ) )
+								childrenList.add( categorys[i] );
+						}
 					}
 					catch ( BirtException e )
 					{
@@ -618,7 +623,12 @@ public class ExpressionProvider implements ISortableExpressionProvider
 		{
 			try
 			{
-				childrenList.addAll( Arrays.asList( ( (IScriptFunctionCategory) parent ).getFunctions( ) ) );
+				IScriptFunction[] functions = ( (IScriptFunctionCategory) parent ).getFunctions( );
+				for ( int i = 0; i < functions.length; i++ )
+				{
+					if ( functions[i].isVisible( ) )
+						childrenList.add( functions[i] );
+				}
 			}
 			catch ( BirtException e )
 			{
