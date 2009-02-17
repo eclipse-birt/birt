@@ -200,6 +200,13 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage
 			super( parent );
 		}
 
+		@Override
+		public void createPartControl( Composite parent )
+		{
+			super.createPartControl( parent );
+			hideValidateButtonIcon( );
+		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -210,19 +217,6 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage
 			return new ReportDecoratedScriptEditor( getParentEditor( ) );
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.designer.internal.ui.editors.script.JSEditor#createController(org.eclipse.swt.widgets.Composite)
-		 */
-		protected Composite createController( Composite parent )
-		{
-			Composite controller = super.createController( parent );
-
-			hideValidateButtonIcon( );
-			return controller;
-		}
-		
 		public Object getAdapter( Class adapter )
 		{
 			if ( adapter == IReportScriptLocation.class )

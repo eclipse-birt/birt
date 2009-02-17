@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation and others.
+ * Copyright (c) 2004-2009 Actuate Corporation and others.
  * All rights reserved. This program and the accompanying materials 
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -88,7 +88,6 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
@@ -97,13 +96,15 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.text.undo.DocumentUndoEvent;
 import org.eclipse.text.undo.DocumentUndoManagerRegistry;
 import org.eclipse.text.undo.IDocumentUndoListener;
@@ -152,16 +153,30 @@ public class JSEditor extends EditorPart implements IColleague
 
 	private boolean editorUIEnabled = true;
 
-	private Button butReset;
+	/** the tool bar for validation */
+	private ToolBar validateTool = null;
 
-	private Button butValidate;
+	/** the tool button for Reset */
+	private ToolItem butReset = null;
+
+	/** the tool button for Validate */
+	private ToolItem butValidate = null;
+
+	/** the tool button for enable description */
+	private ToolItem butHelp = null;
 
 	/** the icon for validator, default hide */
 	private Label validateIcon = null;
 
-	/** the tool bar pane */
-	private Composite controller = null;
+	/** the main pane */
+	private Composite mainPane = null;
 
+	/** the description pane */
+	private Composite descriptionPane = null;
+
+	/** the script's description about current method. */
+	private Text descriptionText = null;
+	
 	private Label ano;
 
 	private final HashMap selectionMap = new HashMap( );
@@ -517,6 +532,13 @@ public class JSEditor extends EditorPart implements IColleague
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets
+	 * .Composite)
+	 */
 	public void createPartControl( Composite parent )
 	{
 		Composite child = this.initEditorLayout( parent );
@@ -614,6 +636,8 @@ public class JSEditor extends EditorPart implements IColleague
 							String method = cmbItemLastSelected.getName( );
 
 							updateScriptContext( desHandle, method );
+							updateMethodDescription( method );
+							refreshAll( );
 						}
 					}
 				}
@@ -777,18 +801,55 @@ public class JSEditor extends EditorPart implements IColleague
 	private Composite initEditorLayout( Composite parent )
 	{
 		// Create the editor parent composite.
-		Composite mainPane = new Composite( parent, SWT.NONE );
+		mainPane = new Composite( parent, SWT.NONE );
+
 		GridLayout layout = new GridLayout( );
-		layout.verticalSpacing = 0;
+
 		mainPane.setLayout( layout );
 
-		controller = createController( mainPane );
+		createController( mainPane );
+		createDescriptionPane( mainPane );
+
+		Composite editorPane = new Composite( mainPane, SWT.NONE );
+		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL
+				| GridData.FILL_VERTICAL );
+
+		layout = new GridLayout( );
+		layout.verticalSpacing = 0;
+		layout.marginHeight=0;
+		editorPane.setLayout( layout );
+		editorPane.setLayoutData( layoutData );
+		
+		final Composite sep = new Composite( editorPane, SWT.NONE );
+
+		layoutData = new GridData( GridData.FILL_HORIZONTAL );
+		layoutData.heightHint = 1;
+		sep.setLayoutData( layoutData );
+		sep.addPaintListener( new PaintListener( ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse
+			 * .swt.events.PaintEvent)
+			 */
+			public void paintControl( PaintEvent e )
+			{
+				GC gc = e.gc;
+				Rectangle rect = sep.getBounds( );
+				gc.setForeground( ReportColorConstants.DarkGrayForground );
+				gc.drawLine( 0, 0, rect.width, 0 );
+			}
+		} );
 
 		// Create the code editor pane.
-		Composite jsEditorContainer = new Composite( mainPane, SWT.NONE );
-		GridData gdata = new GridData( GridData.FILL_HORIZONTAL
+		Composite jsEditorContainer = new Composite( editorPane, SWT.NONE );
+
+		layoutData = new GridData( GridData.FILL_HORIZONTAL
 				| GridData.FILL_VERTICAL );
-		jsEditorContainer.setLayoutData( gdata );
+
+		jsEditorContainer.setLayoutData( layoutData );
 		jsEditorContainer.setLayout( new FillLayout( ) );
 
 		return jsEditorContainer;
@@ -799,12 +860,13 @@ public class JSEditor extends EditorPart implements IColleague
 	 * 
 	 * @param parent
 	 *            the parent of controller
-	 * @return a tool bar pane
 	 */
-	protected Composite createController( Composite parent )
+	private void createController( Composite parent )
 	{
 		Composite barPane = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( 8, false );
+		layout.verticalSpacing = 0;
+		layout.marginHeight=0;
 		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
 
 		barPane.setLayout( layout );
@@ -813,14 +875,31 @@ public class JSEditor extends EditorPart implements IColleague
 		initScriptLabel( barPane );
 		initComboBoxes( barPane );
 
-		// Creates Reset button
-		butReset = new Button( barPane, SWT.PUSH );
-		butReset.setText( Messages.getString( "JSEditor.Button.Reset" ) ); //$NON-NLS-1$
+		Composite toolPane = new Composite( barPane, SWT.NONE );
+		layout = new GridLayout( 3, false );
+		layout.verticalSpacing=0;
+		layout.marginHeight=0;
+		toolPane.setLayout( layout );
+
 		GridData layoutData = new GridData( );
 		layoutData.horizontalIndent = 6;
-		butReset.setLayoutData( layoutData );
-		butReset.addSelectionListener( new SelectionListener( ) {
+		toolPane.setLayoutData( layoutData );
+		
+		ToolBar toolBar = new ToolBar( toolPane, SWT.FLAT );
 
+		// Creates Reset button
+		butReset = new ToolItem( toolBar, SWT.NONE );
+		butReset.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_SCRIPT_RESET ) );
+		butReset.setToolTipText( Messages.getString( "JSEditor.Button.Reset" ) ); //$NON-NLS-1$
+		butReset.addSelectionListener( new SelectionAdapter( ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse
+			 * .swt.events.SelectionEvent)
+			 */
 			public void widgetSelected( SelectionEvent e )
 			{
 				SourceViewer viewer = getViewer( );
@@ -828,22 +907,41 @@ public class JSEditor extends EditorPart implements IColleague
 				if ( viewer != null )
 				{
 					viewer.getTextWidget( ).setText( "" ); //$NON-NLS-1$
+					refreshAll( );
 					setFocus( );
 				}
 			}
+		} );
 
-			public void widgetDefaultSelected( SelectionEvent e )
+		// Creates Help button
+		butHelp = new ToolItem( toolBar, SWT.CHECK );
+		butHelp.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_SCRIPT_HELP ) );
+		butHelp.setToolTipText( Messages.getString( "JSEditor.Button.Help" ) ); //$NON-NLS-1$
+		butHelp.addSelectionListener( new SelectionAdapter( ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse
+			 * .swt.events.SelectionEvent)
+			 */
+			public void widgetSelected( SelectionEvent e )
 			{
-				widgetSelected( e );
+				refreshAll( );
 			}
 		} );
 
-		// Creates Validate button
-		butValidate = new Button( barPane, SWT.PUSH );
-		butValidate.setText( Messages.getString( "JSEditor.Button.Validate" ) ); //$NON-NLS-1$
+		validateTool = new ToolBar( toolPane, SWT.FLAT );
+
 		layoutData = new GridData( );
-		layoutData.horizontalIndent = 6;
-		butValidate.setLayoutData( layoutData );
+		validateTool.setLayoutData( layoutData );
+		new ToolItem( validateTool, SWT.SEPARATOR );
+
+		// Creates Validate button
+		butValidate = new ToolItem( validateTool, SWT.NONE );
+		butValidate.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_EXPRESSION_VALIDATE ) );
+		butValidate.setToolTipText( Messages.getString( "JSEditor.Button.Validate" ) ); //$NON-NLS-1$
 		butValidate.addSelectionListener( new SelectionAdapter( ) {
 
 			/*
@@ -856,39 +954,69 @@ public class JSEditor extends EditorPart implements IColleague
 			public void widgetSelected( SelectionEvent e )
 			{
 				doValidate( );
+				refreshAll( );
 			}
 		} );
 
 		// Creates Validate icon, default empty.
-		validateIcon = new Label( barPane, SWT.NULL );
+		validateIcon = new Label( toolPane, SWT.NULL );
 
 		Label column = new Label( barPane, SWT.SEPARATOR | SWT.VERTICAL );
 		layoutData = new GridData( );
 		layoutData.heightHint = 20;
-		layoutData.horizontalIndent = 10;
 		column.setLayoutData( layoutData );
 
 		ano = new Label( barPane, 0 );
 		layoutData = new GridData( GridData.FILL_HORIZONTAL
 				| GridData.VERTICAL_ALIGN_CENTER );
 		ano.setLayoutData( layoutData );
+	}
 
-		final Composite sep = new Composite( parent, 0 );
+	/**
+	 * Creates description pane.
+	 * 
+	 * @param parent
+	 *            the parent of controller
+	 */
+	private void createDescriptionPane( Composite parent )
+	{
+		descriptionPane = new Composite( parent, SWT.NONE );
+
+		GridLayout layout = new GridLayout( );
+		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
+
+		layout.verticalSpacing=0;
+		layout.marginHeight=0;
+		descriptionPane.setLayout( layout );
+		descriptionPane.setLayoutData( layoutData );
+
+		final Composite headerLine = new Composite( descriptionPane, SWT.NONE );
+
 		layoutData = new GridData( GridData.FILL_HORIZONTAL );
-		layoutData.heightHint = 1;
-		sep.setLayoutData( layoutData );
-		sep.addPaintListener( new PaintListener( ) {
+		layoutData.heightHint = 3;
+		headerLine.setLayoutData( layoutData );
+		headerLine.addPaintListener( new PaintListener( ) {
 
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse
+			 * .swt.events.PaintEvent)
+			 */
 			public void paintControl( PaintEvent e )
 			{
 				GC gc = e.gc;
-				Rectangle rect = sep.getBounds( );
-				gc.setForeground( ReportColorConstants.DarkGrayForground );
+				Rectangle rect = headerLine.getBounds( );
+				gc.setForeground( ReportColorConstants.DarkShadowLineColor );
 				gc.drawLine( 0, 0, rect.width, 0 );
 			}
 		} );
-
-		return barPane;
+		
+		// Creates the label of script description
+		layoutData = new GridData( GridData.FILL_HORIZONTAL );
+		descriptionText = new Text( descriptionPane, SWT.WRAP | SWT.READ_ONLY );
+		descriptionText.setLayoutData( layoutData );
 	}
 
 	/**
@@ -896,8 +1024,8 @@ public class JSEditor extends EditorPart implements IColleague
 	 */
 	protected void hideValidateButtonIcon( )
 	{
-		hideControl( butValidate );
-		hideControl( validateIcon );
+		hideControl( validateTool );
+		refreshAll( );
 	}
 
 	/**
@@ -908,6 +1036,11 @@ public class JSEditor extends EditorPart implements IColleague
 	 */
 	private void hideControl( Control control )
 	{
+		if ( control == null )
+		{
+			return;
+		}
+
 		Object layoutData = control.getLayoutData( );
 
 		if ( layoutData == null )
@@ -923,6 +1056,69 @@ public class JSEditor extends EditorPart implements IColleague
 			gridData.exclude = true;
 			control.setLayoutData( gridData );
 			control.setVisible( false );
+		}
+	}
+
+	/**
+	 * Shows a control from its parent composite.
+	 * 
+	 * @param control
+	 *            the control to show
+	 */
+	private void showControl( Control control )
+	{
+		if ( control == null )
+		{
+			return;
+		}
+
+		Object layoutData = control.getLayoutData( );
+
+		if ( layoutData == null )
+		{
+			layoutData = new GridData( );
+			control.setLayoutData( layoutData );
+		}
+
+		if ( layoutData instanceof GridData )
+		{
+			GridData gridData = (GridData) layoutData;
+
+			gridData.exclude = false;
+			control.setLayoutData( gridData );
+			control.setVisible( true );
+		}
+	}
+
+	/**
+	 * Refreshes all components in main pane.
+	 */
+	private void refreshAll( )
+	{
+		if ( butHelp != null && !butHelp.getSelection( ) )
+		{
+			hideControl( descriptionPane );
+		}
+		else
+		{
+			showControl( descriptionPane );
+		}
+
+		if ( validateTool == null
+				|| butValidate == null
+				|| !validateTool.isVisible( )
+				|| !butValidate.getEnabled( ) )
+		{
+			hideControl( validateIcon );
+		}
+		else
+		{
+			showControl( validateIcon );
+		}
+
+		if ( mainPane != null )
+		{
+			mainPane.layout( true, true );
 		}
 	}
 
@@ -1369,6 +1565,7 @@ public class JSEditor extends EditorPart implements IColleague
 		{
 			handleSelectionChange( request.getSelectionModelList( ) );
 		}
+		refreshAll( );
 	}
 
 	private void setComboViewerInput( Object model )
@@ -1474,10 +1671,6 @@ public class JSEditor extends EditorPart implements IColleague
 		{
 			validateIcon.setImage( image );
 			validateIcon.setToolTipText( tip );
-			if ( controller != null )
-			{
-				controller.layout( );
-			}
 		}
 	}
 
@@ -1528,6 +1721,61 @@ public class JSEditor extends EditorPart implements IColleague
 
 			setEditorText( desHdl.getStringProperty( name ) );
 		}
+	}
+
+	/**
+	 * Updates the description label with the specified method name.
+	 * 
+	 * @param methodName
+	 *            the method to update.
+	 */
+	private void updateMethodDescription( String methodName )
+	{
+		Object obj = findData( methodName );
+		String description = null;
+
+		if ( obj instanceof IElementPropertyDefn )
+		{
+			IMethodInfo methodInfo = ( (IElementPropertyDefn) obj ).getMethodInfo( );
+
+			if ( methodInfo != null )
+			{
+				description = methodInfo.getToolTip( );
+			}
+		}
+		setDescriptionText( description );
+	}
+
+	/**
+	 * Sets the description with the specified text.
+	 * 
+	 * @param text
+	 *            the text to set.
+	 */
+	private void setDescriptionText( String text )
+	{
+		Font font = descriptionText.getFont( );
+		FontData[] fontData = font.getFontData( );
+		String description;
+
+		if ( text != null && text.length( ) > 0 )
+		{
+			for ( int i = 0; i < fontData.length; i++ )
+			{
+				fontData[i].setStyle( fontData[i].getStyle( ) & ~SWT.ITALIC );
+			}
+			description = text;
+		}
+		else
+		{
+			for ( int i = 0; i < fontData.length; i++ )
+			{
+				fontData[i].setStyle( fontData[i].getStyle( ) | SWT.ITALIC );
+			}
+			description = Messages.getString( "JSEditor.Text.NoDescription" ); //$NON-NLS-1$;
+		}
+		descriptionText.setFont( new Font( font.getDevice( ), fontData ) );
+		descriptionText.setText( description );
 	}
 }
 

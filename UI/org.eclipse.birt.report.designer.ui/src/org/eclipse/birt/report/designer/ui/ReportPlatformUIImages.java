@@ -655,6 +655,14 @@ public class ReportPlatformUIImages
 				+ OBJ16_PATH
 				+ "script_noerror.gif" ); //$NON-NLS-1$
 
+		declareImage( IReportGraphicConstants.ICON_SCRIPT_RESET, ICONS_PATH
+				+ OBJ16_PATH
+				+ "script_reset.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_SCRIPT_HELP, ICONS_PATH
+				+ OBJ16_PATH
+				+ "script_help.gif" ); //$NON-NLS-1$
+
 		// Other icons
 		declareImage( IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS,
 				ICONS_PATH + OTHERS_PATH + "exp-builder-fx-disabled.gif" ); //$NON-NLS-1$

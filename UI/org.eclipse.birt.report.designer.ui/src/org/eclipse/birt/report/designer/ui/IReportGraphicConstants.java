@@ -435,6 +435,10 @@ public interface IReportGraphicConstants
 
 	public final static String ICON_SCRIPT_NOERROR = "Script NoError";//$NON-NLS-1$
 
+	public final static String ICON_SCRIPT_RESET = "Script Reset"; //$NON-NLS-1$
+
+	public final static String ICON_SCRIPT_HELP = "Script Help"; //$NON-NLS-1$
+
 	public static final String ICON_REPORT_PROJECT_OVER = "Report Project Over";//$NON-NLS-1$
 
 	/** The width of the vertical ruler. */
