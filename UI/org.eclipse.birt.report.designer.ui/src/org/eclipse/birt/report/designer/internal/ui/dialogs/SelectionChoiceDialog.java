@@ -125,6 +125,7 @@ public class SelectionChoiceDialog extends BaseDialog
 		new Label( composite, SWT.NONE ).setText( labels[2] );
 		valueEditor = new Text( composite, SWT.BORDER );
 		valueEditor.setLayoutData( gd );
+		valueEditor.setFocus( );
 		new Label( composite, SWT.NONE );
 
 		final Composite noteContainer = new Composite( composite, SWT.NONE );
@@ -245,7 +246,6 @@ public class SelectionChoiceDialog extends BaseDialog
 		}
 		catch ( Exception e )
 		{
-			// TODO Auto-generated catch block
 			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 		if ( resource == null || path == null || !new File( path ).exists( ) )
