@@ -1329,4 +1329,37 @@ Have a nice day!
              <arg value="Y" />
          </java>
 	</target>
+        
+        <target name="NoDiskSpace">
+            <property file="${eclipse.build.configs}/../../config.properties" />
+            <mail mailport="${mail.port}" subject="No enough disk space for build" tolist="${build.engineer}">
+                  <from address="${mail.from}"/>
+                  <replyto address="${replyto.address}"/>
+                  <message>
+Hi All,
+
+   No enough disk space for build, build has been stopped.
+
+   Please clean up disk !
+ 
+                  </message>
+            </mail>
+        </target>
+
+        <target name="DiskSpaceWarning">
+            <property file="${eclipse.build.configs}/../../config.properties" />
+            <mail mailport="${mail.port}" subject="Disk space warning" tolist="${build.engineer}">
+                  <from address="${mail.from}"/>
+                  <replyto address="${replyto.address}"/>
+                  <message>
+Hi All,
+
+   Disk space usage of build server has exceed 95%.
+
+   Please clean up disk !
+
+                  </message>
+            </mail>
+        </target>
+
 </project>
